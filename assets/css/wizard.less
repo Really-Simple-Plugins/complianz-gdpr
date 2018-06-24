@@ -1,0 +1,396 @@
+@brand-primary: #2DAAE1;
+@border-radius: 25px;
+
+@font-face {
+  font-family: Sofia Pro Light;
+  src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
+}
+
+.cmplz-notice {
+  color: red;
+  padding: 5px 10px;
+  margin: 5px 0;
+
+  &:before {
+    font-weight: bold;
+    color: red;
+    font-size: 1em !important;
+    font-family: 'Font Awesome 5 Free';
+    content: "\f06a";
+    margin-right:5px;
+  }
+}
+
+.cmplz-notice-success {
+  color: green;
+  padding: 5px 10px;
+  margin: 5px;
+  &:before {
+    font-weight: bold;
+    color: green;
+    font-size: 1em !important;
+    font-family: 'Font Awesome 5 Free';
+    content: "\f00c";
+    margin-right:5px;
+  }
+}
+
+#cmplz-wizard {
+
+  font-family: Sofia Pro Light;
+  font-variant: small-caps;
+
+
+
+  .field-group {
+    //margin-top: 12px;
+    border-top: 1px solid #e6e6e6;
+    margin-top: 14px;
+    padding-top: 20px;
+  }
+
+  .cmplz-header {
+    background-color: #F1F1F1;
+    .cmplz-wizard-title {
+      font-size: 26px;
+      padding-bottom: 15px;
+    }
+
+    .cmplz-wizard-steps {
+      display: flex;
+      @media screen and (max-width: 640px) {
+        flex-direction: column;
+      }
+
+      .cmplz-step-time {
+        float: left;
+        padding: 9px 5px;
+        color: #fff;
+        font-size: 11px;
+      }
+
+      .cmplz-step-count {
+        span {
+          top: 10px;
+          position: relative;
+        }
+        color: #fff;
+        background-color: @brand-primary;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        width: 35px;
+        height: 35px;
+        display: inline-block;
+      }
+
+      .cmplz-step-title {
+        color: @brand-primary;
+      }
+
+      .cmplz-step {
+
+        color: @brand-primary;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: @border-radius;
+        margin-bottom: 30px;
+        flex-grow: 1;
+        .cmplz-step-count {
+          font-size: 18px;
+        }
+
+        &.active {
+          .cmplz-step-count {
+            color: @brand-primary;
+            background-color: #fff;
+            border-radius: 50%;
+          }
+
+          background-color: #000;
+          text-decoration: none;
+          margin-right: 80px;
+          @media screen and (min-width: 641px) {
+            flex: 0 0 260px;
+          }
+          @media screen and (max-width: 640px) {
+            width: 260px;
+          }
+          .cmplz-step-wrap {
+            background-color: #fff;
+            border: 1px solid @brand-primary;
+            border-radius: @border-radius;
+          }
+        }
+
+        .cmplz-step-wrap {
+          float: left;
+          width: 200px;
+          a {
+            text-decoration: none;
+          }
+        }
+        &.incomplete {
+          .cmplz-step-count {
+            background-color: lighten(@brand-primary, 30%);
+            color:#fff;
+          }
+        }
+      }
+    }
+  }
+
+  /*body */
+  .cmplz-body {
+    clear: both;
+    background-color: white;
+    display: flex;
+    flex-direction: row-reverse;
+    @media screen and (max-width: 640px) {
+      flex-direction: column;
+    }
+
+    .cmplz-section-menu {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      background-color: @brand-primary;
+      color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      margin-left: 30px;
+      flex: 0 0 150px;
+      &.active a {
+        font-size: 1.3em;
+        text-decoration: underline;
+      }
+    }
+    .cmplz-section-content {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 30px;
+    }
+
+    /* Define the styling of the text input fields */
+    label {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    input[type="text"], input[type="email"] {
+      width: 80%;
+      //height: 30px;
+      margin-bottom: 12px;
+      background-color: #F1F1F1;
+    }
+    .validation {
+      /* Show a checkmark when input is valid */
+
+      &:valid {
+        background: url(/../../fontawesome/check.svg);
+        background-size: 17px;
+        background-repeat: no-repeat;
+        background-color: #F1F1F1;
+        background-position: 0.5%;
+        padding-left: 25px;
+      }
+      /* Show a cross when input is invalid */
+      &:invalid {
+        background: url(/../../fontawesome/times.svg);
+        background-size: 17px;
+        background-repeat: no-repeat;
+        background-color: #F1F1F1;
+        background-position: 0.5%;
+        padding-left: 25px;
+      }
+
+
+    }
+    input[type="radio"]:required:invalid + label { color: red; }
+    input[type="checkbox"]:required:invalid + label { color: red; }
+
+    //input[type="radio"]:required:valid + label { color: green; }
+
+
+    textarea {
+      min-height: 150px;
+      min-width: 300px;
+    }
+
+    /* Styling for the previous and next buttons */
+
+    .cmplz-buttons-container {
+      margin-top: 15px;
+      border-top: 2px solid;
+    }
+
+    .cmplz-master-label{
+      margin-top:25px;
+      font-size: 18px;
+    }
+
+    .cmplz-button {
+      span {
+        &:before, &:after {
+
+          font-family: 'Font Awesome 5 Free';
+          color: white;
+          font-weight: bold;
+          font-size: 1.7em !important;
+          position: absolute;
+          top: 22px;
+          pointer-events: none;
+        }
+
+        position: relative;
+        input[type="submit"] {
+          font-family: "Sofia Pro Light", Arial;
+          font-size: 19px;
+          padding-top: 2px;
+          background: @brand-primary;
+          color: white;
+          border: none;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+          box-shadow: none;
+          margin-top: 20px;
+        }
+
+      }
+
+      &.cmplz-next {
+        float: right;
+        input {
+          padding-right: 30px;
+        }
+        span:after {
+          content: "\f105";
+          right: 10px;
+          float: right;
+        }
+      }
+      &.cmplz-save {
+        margin-right: 10px;
+        float: right;
+        input {
+          padding-right: 35px;
+        }
+        span:after {
+          content: "\f0c7";
+          right: 10px;
+          float: right;
+        }
+      }
+      &.cmplz-previous {
+        float: left;
+        text-indent: 0.5em;
+        input {
+          padding-left: 30px;
+        }
+        span:before {
+          content: "\f104";
+          float: left;
+        }
+      }
+    }
+    //Add some styling to the remove, rescan and add new cookie buttons to override the default WordPress button styling
+    .cmplz-remove {
+      margin-bottom: 12px;
+    }
+    .cmplz-rescan {
+      padding: 0px 10px 0px 10px;
+    }
+    .cmplz-add-new-cookie {
+      padding: 0;
+    }
+
+    /* CSS for the sections menu */
+
+    .cmplz-menu-item.active {
+      i {
+        color: black;
+        font-size: 1.35em;
+        float: left;
+      }
+      a {
+        color: #000;
+        font-weight: 900;
+        padding-left: 7px;
+        text-decoration: underline;
+      }
+    }
+    .cmplz-done a {
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+    }
+    .cmplz-to-do a {
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      opacity: 0.6;
+    }
+    //Reset the vertical-align: middle that WordPress applies. The vertical-align middle presses the next and previous icons downwards
+    @media screen and (max-width: 782px) {
+      input {
+        vertical-align: top !important;
+      }
+    }
+  }
+
+  //Override the WordPress radio and checkbox styling
+
+  input[type=radio], input[type=checkbox] {
+    font-size: 14px;
+    border: 1px solid #b4b9be;
+    background: #fff;
+    color: #555;
+    clear: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 0;
+    height: 16px;
+    margin: -4px 4px 0 0;
+    outline: 0;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    width: 16px;
+    min-width: 16px;
+    -webkit-appearance: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    transition: .05s border-color ease-in-out;
+
+  }
+
+  input[type=radio]:checked:before {
+    content: "\2022";
+    text-indent: -9999px;
+    border-radius: 50px;
+    font-size: 24px;
+    width: 6px;
+    height: 6px;
+    margin: 4px;
+    line-height: 16px;
+    background-color: #1e8cbe;
+  }
+
+  input[type=checkbox]:checked:before {
+    float: left;
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    font: 400 21px/1 dashicons;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+  }
+  /*progress bar */
+  #cmplz-scan-progress {
+    width: 100%;
+    .cmplz-progress-bar {
+      height: 15px;
+      background-color: @brand-primary;
+      transition: width 0.5s;
+      -webkit-transition: width 0.5s;
+    }
+  }
+}
