@@ -7,10 +7,23 @@ Requires PHP: 5.6
 Tested up to: 5.0
 Stable tag: 1.0.7
 
-Plugin to make your site GDPR compliant
+Plugin to make your site GDPR compliant with cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
 == Description ==
-With Complianz GDPR Premium you can make your website quickly GDPR compliant
+With Complianz GDPR Premium you can make your website quickly GDPR compliant. Third party cookies are blocked until user accepts the cookie warning.
+Includes a cookie warning, customized cookie policy based on the results of the built in cookie scan. The detected cookies are prefilled with the shipped cookie database.
+
+Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
+
+= Love Complianz GDPR? =
+Consider purchasing the premium version, which includes
+* Geo ip cookie warning: show the cookie warning only to visitors from countries with a cookie law
+* Respects Do Not track settings in users browsers
+* Customized and legally validated privacy statement, disclaimer, processing agreement, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
+* Premium support
+
+[contact](https://www.complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz GDPR is developed by [Complianz BV](https://www.complianz.io).
+
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”

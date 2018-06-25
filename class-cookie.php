@@ -28,10 +28,6 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             if ($this->cookie_warning_required()) {
-                if (cmplz_get_value('use_country')==1) {
-                    require_once(cmplz_path . 'pro-class-geoip.php');
-                    COMPLIANZ()->geoip = new cmplz_geoip();
-                }
                 add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
                 add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
                 add_action('init', array($this, 'set_cookie_policy_id'));
@@ -119,12 +115,13 @@ if (!class_exists("cmplz_cookie")) {
 
         public function show_statistical_cookies_usage_notice($args)
         {
+
             if ($this->uses_google_analytics() || $this->uses_matomo()) {
                 $type = $this->uses_google_analytics() ? __("Google Analytics", 'complianz') : __("Matomo", 'complianz');
                 ?>
                 <div class="cmplz-notice">
                     <?php
-                    printf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type);
+                    printf(__("The aaacookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type);
                     ?>
                 </div>
                 <?php
@@ -736,10 +733,11 @@ if (!class_exists("cmplz_cookie")) {
             return $types;
         }
 
+
         public function store_detected_cookies()
         {
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
-                $found_cookies = $_POST['cookies'];
+                $found_cookies = array_map(function($el){return sanitize_title($el);}, $_POST['cookies']);
                 $found_cookies = array_merge($found_cookies, $_COOKIE);
                 $found_cookies = array_map('sanitize_text_field', $found_cookies);
                 $cookies = array();
