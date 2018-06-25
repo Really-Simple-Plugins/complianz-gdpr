@@ -733,10 +733,11 @@ if (!class_exists("cmplz_cookie")) {
             return $types;
         }
 
+
         public function store_detected_cookies()
         {
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
-                $found_cookies = $_POST['cookies'];
+                $found_cookies = array_map(function($el){return sanitize_title($el);}, $_POST['cookies']);
                 $found_cookies = array_merge($found_cookies, $_COOKIE);
                 $found_cookies = array_map('sanitize_text_field', $found_cookies);
                 $cookies = array();
