@@ -163,7 +163,7 @@ $this->fields = $this->fields + array(
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
                 'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/how-to-configure-google-analytics-gpdr">','</a>'),
+            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">','</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-analytics',
             ),
@@ -184,7 +184,7 @@ $this->fields = $this->fields + array(
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
                 'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/how-to-configure-google-analytics-gpdr">','</a>'),
+            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">','</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-tag-manager',
             ),
@@ -291,7 +291,7 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'compile_statistics' => 'NOT google-analytics,NOT google-tag-manager,NOT no',
             ),
-            'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/adding-scripts">', '</a>'),
+            'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/adding-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -306,7 +306,7 @@ $this->fields = $this->fields + array(
             'label' => __("Other scripts used to activate cookies", "complianz"),
             'help' => __("Paste here all your scripts that activate cookies. Enter the scripts without the script tags", 'complianz'),
             'callback_condition' => array('uses_cookies' => 'yes'),
-            'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/adding-scripts">', '</a>'),
+            'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/adding-scripts/">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -319,12 +319,12 @@ $this->fields = $this->fields + array(
             'default' => '',
             'revoke_consent_onchange' => true,
             'label' => __("URL's from scripts you want to be blocked before the cookie warning is accepted", "complianz"),
-            'callback_condition' => array(
-                'uses_cookies' => 'yes',
-                'uses_social_media' => 'yes',
-                'uses_ad_cookies' => 'yes',
-            ),
-            'comment' => sprintf(__('The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the script source here, comma separated. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/blocking-custom-third-party-scripts">', '</a>'),
+//            'callback_condition' => array(
+//                'uses_cookies' => 'yes',
+//                'uses_social_media' => 'yes',
+//                'uses_ad_cookies' => 'yes',
+//            ),
+            'comment' => sprintf(__('The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the script source here, comma separated. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -337,12 +337,12 @@ $this->fields = $this->fields + array(
             'default' => '',
             'revoke_consent_onchange' => true,
             'label' => __("URL's from iframes you want to be blocked before the cookie warning is accepted", "complianz"),
-            'callback_condition' => array(
-                'uses_cookies' => 'yes',
-                'uses_social_media' => 'yes',
-                'uses_ad_cookies' => 'yes',
-            ),
-            'comment' => sprintf(__('The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the iframe source here, comma separated. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/blocking-custom-third-party-scripts">', '</a>'),
+//            'callback_condition' => array(
+//                'uses_cookies' => 'yes',
+//                'uses_social_media' => 'yes',
+//                'uses_ad_cookies' => 'yes',
+//            ),
+            'comment' => sprintf(__('The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the iframe source here, comma separated. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
