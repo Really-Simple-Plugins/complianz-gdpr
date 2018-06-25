@@ -651,7 +651,9 @@ if (!class_exists("cmplz_document")) {
             //some custom elements
             $html = str_replace("[domain]", get_site_url(), $html);
             $html = str_replace("[cookie_policy_url]", COMPLIANZ()->cookie->get_cookie_statement_page(), $html);
+
             $date = $post_id ? get_the_date('', $post_id) : date(get_option('date_format'), time());
+            $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", $date, $html);
 
             //replace all fields.
@@ -670,6 +672,8 @@ if (!class_exists("cmplz_document")) {
             return $html;
 
         }
+
+
 
         private function get_plain_text_value($fieldname, $post_id, $list_style = true)
         {
