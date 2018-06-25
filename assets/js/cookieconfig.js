@@ -21,7 +21,11 @@ jQuery(document).ready(function ($) {
         $('.cmplz-script').each(function(i, obj) {
             $(this).attr('type', 'text/javascript');
             var src = $(this).attr('src');
-            $.getScript(src, function () {});
+            if (src && src.length) {
+                $.getScript(src, function () {});
+            }
+
+
         });
 
     }

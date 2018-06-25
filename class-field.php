@@ -166,10 +166,6 @@ if (!class_exists("cmplz_field")) {
 
             $fieldvalue = $this->sanitize($fieldvalue, $type);
 
-            //we can only check the requiredness of this field if it's not conditional.
-            //@todo: check the condtion so we can enforce the required field.
-            //if the condition is not met, we skip the required function
-            // if the condition is met, we should check the required feature.
             if (!$this->is_conditional($fieldname) && $required && empty($fieldvalue)) {
                 $this->form_errors[] = $fieldname;
             }
@@ -266,7 +262,7 @@ if (!class_exists("cmplz_field")) {
 
             if ($args['table']) {
                 echo '<tr class="' . $condition_class . '"';
-                echo $condition ? 'data-condition-question="' . $condition_question . '" data-condition-answer="' . $condition_answer . '"' : '';
+                echo $condition ? 'data-condition-question="' . esc_attr(condition_question) . '" data-condition-answer="' . $condition_answer . '"' : '';
                 echo '><th scope="row">';
             } else {
                 echo '<div class="field-group ' . $condition_class . '" ';

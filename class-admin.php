@@ -154,13 +154,10 @@ if (!class_exists("cmplz_admin")) {
             <div class="wrap">
                 <div class="cmplz-wizard-title"><h1><?php _e("Wizard", "complianz") ?></h1></div>
 
-                <?php
-                if (defined('cmplz_free') || COMPLIANZ()->license->license_is_valid()) { ?>
+
                     <?php COMPLIANZ()->wizard->wizard('wizard'); ?>
-                <?php } else {
-                    cmplz_notice(__('Your license needs to be activated to unlock the wizard', 'complianz'));
-                }
-                ?>
+
+
             </div>
             <?php
         }
@@ -209,14 +206,14 @@ if (!class_exists("cmplz_admin")) {
                 $email = sanitize_email($_POST['cmplz_support_email']);
                 $subject = sanitize_text_field($_POST['cmplz_support_subject']);
                 $support_request = wp_kses($_POST['cmplz_support_request']);
-                $license = get_option('cmplz_license_key');
+
                 $user_info = get_userdata(get_current_user_id());
                 $nicename = $user_info->user_nicename;
 
                 $headers[] = "Reply-to: $nicename <$email>"."\r\n";
 
                 $to = "support@complianz.io";
-                $message = "License: $license <br><br>";
+
                 $message .= $support_request."<br><br>";
                 $message .= $nicename;
                 add_filter('wp_mail_content_type', function ($content_type) {
