@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Complianz GDPR
- * Plugin URI: https://www.complianz.io/download/complianz-gdpr
+ * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Plugin to make your website GDPR compliant
  * Version: 1.0.7
  * Text Domain: complianz
@@ -11,7 +11,6 @@
  */
 
 /*
-
     Copyright 2018  Complianz BV  (email : info@complianz.io)
 
     This program is free software; you can redistribute it and/or modify
