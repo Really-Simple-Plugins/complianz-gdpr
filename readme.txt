@@ -5,7 +5,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 1.0.11
+Stable tag: 1.0.12
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
@@ -35,6 +35,9 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 == Frequently Asked Questions ==
 
 == Change log ==
+= 1.0.12 =
+* Fix: scan freezing when URL is loaded http over https.
+
 = 1.0.11 =
 * Fix: missing file
 
