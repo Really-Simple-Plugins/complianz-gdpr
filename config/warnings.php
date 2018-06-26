@@ -20,7 +20,7 @@ $this->warning_types = array(
         'label_error' => __('Plugin changes have been detected.', 'complianz') . " " . sprintf(__('Please review step %s and %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz'), STEP_PLUGINS, STEP_COOKIES),
     ),
     'ga-needs-configuring' => array(
-        'label_ok' => __('Google Analytics is correctly configured.', 'complianz'),
+        'label_ok' => __('No issues with statistics tracking have been detected.', 'complianz'),
         'label_error' => __('Google Analytics is being used, but is not configured in Complianz.', 'complianz'),
     ),
 );
