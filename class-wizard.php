@@ -58,10 +58,10 @@ if (!class_exists("cmplz_wizard")) {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-dataleak') . '">' . __('Dataleak reports', 'complianz') . '</a>';
             }
             if ($this->wizard_completed()) {
-                echo __("Great, the wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", "complianz");
+                echo __("Great, the wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz');
             } else {
                 $link = '<a href="' . admin_url('admin.php?page=cmplz-wizard') . '">';
-                echo sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", "complianz"), $link, "</a>");
+                echo sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz'), $link, "</a>");
             }
         }
 
@@ -101,12 +101,12 @@ if (!class_exists("cmplz_wizard")) {
         public function show_notices()
         {
             if (!is_user_logged_in()) return;
-            if (!current_user_can('manage_privacy_options')) return;
+            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             if (COMPLIANZ()->cookie->cookies_changed()) {
                 ?>
                 <div id="message" class="error fade notice cmplz-wp-notice">
-                    <h2><?php echo __("Changes in cookies detected", "complianz"); ?></h2>
+                    <h2><?php echo __("Changes in cookies detected", 'complianz'); ?></h2>
                 </div>
                 <?php
             }
@@ -118,9 +118,9 @@ if (!class_exists("cmplz_wizard")) {
 
             $page = $this->wizard_type();
             if (!$this->all_required_fields_completed($page)) {
-                _e("Not all required fields are completed yet. Please check the steps to complete all required questions", "complianz");
+                _e("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz');
             } else {
-                printf(__("All steps have been completed. Click %s to complete the configuration. You can come back to change your configuration at any time.", "complianz"), __("Finish", "complianz"));
+                printf(__("All steps have been completed. Click %s to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz'));
             }
 
         }
@@ -135,7 +135,7 @@ if (!class_exists("cmplz_wizard")) {
         {
 
             if (!is_user_logged_in()) return;
-            if (!current_user_can('manage_privacy_options')) return;
+            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             //create a page foreach page that is needed.
             $pages = COMPLIANZ()->config->pages;
@@ -168,6 +168,8 @@ if (!class_exists("cmplz_wizard")) {
                 foreach (COMPLIANZ()->config->pages as $type => $page) {
                     delete_transient("complianz_document_$type");
                 }
+                wp_redirect(admin_url('admin.php?page=complianz'));
+                exit();
             }
         }
 
@@ -232,7 +234,7 @@ if (!class_exists("cmplz_wizard")) {
         public function wizard($page)
         {
             if (!is_user_logged_in()) return;
-            if (!current_user_can('manage_privacy_options')) return;
+            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             $this->initialize($page);
             $section = $this->section();
@@ -458,6 +460,9 @@ if (!class_exists("cmplz_wizard")) {
 
 
         public function get_intro($page, $step, $section){
+            //only show when in action
+            if ($this->wizard_completed()) return;
+
             echo "<p>";
             if (COMPLIANZ()->config->has_sections($page, $step)){
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['intro'])) {
@@ -483,16 +488,16 @@ if (!class_exists("cmplz_wizard")) {
         {
 
             if (isset($_POST['cmplz-save'])) {
-                echo '<div class="cmplz-notice-success">' . __("Changes saved successfully", "complianz") . "</div>";
+                echo '<div class="cmplz-notice-success">' . __("Changes saved successfully", 'complianz') . "</div>";
             }
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id()) {
                     $link_pdf = '<a target="_blank" href="' . get_permalink($this->post_id()) . '">';
-                    echo '<div class="cmplz-notice">' . sprintf(__('You are editing a saved draft of document "%s" (view %spdf%s). You can view existing documents on the %soverview page%s', "complianz"), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
+                    echo '<div class="cmplz-notice">' . sprintf(__('You are editing a saved draft of document "%s" (view %spdf%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
                 } elseif ($this->step() == 1) {
                     delete_option('complianz_options_' . $page);
-                    echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", "complianz"), $link, '</a>') . "</div>";
+                    echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", 'complianz'), $link, '</a>') . "</div>";
                     if ($page=='processing'){
                         $about = __('processing agreements', 'complianz');
                         $link_article = '<a href="https://complianz.io/what-are-processing-agreements">';
@@ -501,7 +506,7 @@ if (!class_exists("cmplz_wizard")) {
                         $link_article = '<a href="https://complianz.io/what-are-dataleak-reports">';
                     }
 
-                    echo '<p >' . sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", "complianz"), $about, $link_article, '</a>') . "</p>";
+                    echo '<p >' . sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz'), $about, $link_article, '</a>') . "</p>";
 
                 }
             }
@@ -518,7 +523,7 @@ if (!class_exists("cmplz_wizard")) {
                 if (($page == 'dataleak') || ($page == 'processing') || !$this->wizard_completed()) {
                     COMPLIANZ()->field->get_fields($page, $step, $section);
                 } else {
-                    _e("The wizard has been completed. To start the wizard again, click 'start over'", "complianz");
+                    _e("The wizard has been completed. To start the wizard again, click 'start over'", 'complianz');
 
                     COMPLIANZ()->admin->get_status_overview();
                 }
@@ -533,7 +538,7 @@ if (!class_exists("cmplz_wizard")) {
                         <div class="cmplz-button cmplz-next">
                                 <span>
                         <input class="button" type="submit" name="cmplz-start"
-                               value="<?php _e("Start over", "complianz") ?>">
+                               value="<?php _e("Start over", 'complianz') ?>">
                                 </span>
                         </div>
 
@@ -544,7 +549,7 @@ if (!class_exists("cmplz_wizard")) {
                             <span>
                             <input class="fa button" type="submit"
                                    name="cmplz-previous"
-                                   value="<?php _e("Previous", "complianz") ?>">
+                                   value="<?php _e("Previous", 'complianz') ?>">
                             </span>
                             </div>
                         <?php } ?>
@@ -553,14 +558,14 @@ if (!class_exists("cmplz_wizard")) {
                             <span>
                                 <input class="fa button" type="submit"
                                        name="cmplz-next"
-                                       value="<?php _e("Next", "complianz") ?>">
+                                       value="<?php _e("Next", 'complianz') ?>">
                             </span>
                             </div>
                         <?php } ?>
 
                         <?php
                         $hide_finish_button = false;
-                        if (($page == 'dataleak') && !$this->dataleak_has_to_be_reported()) {
+                        if (($page == 'dataleak') && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
                             $hide_finish_button = true;
                         }
                         ?>
@@ -568,7 +573,7 @@ if (!class_exists("cmplz_wizard")) {
                             <div class="cmplz-button cmplz-next">
                                 <span>
                                 <input class="button" type="submit" name="cmplz-finish"
-                                       value="<?php _e("Finish", "complianz") ?>">
+                                       value="<?php _e("Finish", 'complianz') ?>">
                                 </span>
                             </div>
                         <?php } ?>
@@ -578,7 +583,7 @@ if (!class_exists("cmplz_wizard")) {
                             <span>
                                 <input class="fa button" type="submit"
                                        name="cmplz-save"
-                                       value="<?php _e("Save", "complianz") ?>">
+                                       value="<?php _e("Save", 'complianz') ?>">
                             </span>
                             </div>
                         <?php } ?>

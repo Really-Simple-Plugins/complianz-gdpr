@@ -13,6 +13,22 @@ if (!class_exists("cmplz_document")) {
                 wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
 
             self::$_this = $this;
+
+            $this->init();
+
+        }
+
+        static function this()
+        {
+
+            return self::$_this;
+        }
+
+        /*
+         * This class is extended with pro functions, so init is called also from the pro extension.
+         * */
+
+        public function init(){
             foreach (COMPLIANZ()->config->pages as $type => $page) {
                 add_shortcode('cmplz-document', array($this, 'load_document'));
             }
@@ -21,22 +37,9 @@ if (!class_exists("cmplz_document")) {
 
             //clear shortcode transients after post update
             add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
-            //add_action('publish_post', array($this, 'post_published_notification'), 10, 2);
-            add_action('admin_init', array($this, 'add_privacy_policy_to_wp_page'));
-            add_filter('wp_get_default_privacy_policy_content', array($this, 'remove_default_wp_content'));
-
-            // Update the cached policy info when the policy page is updated.
-            //add_action( 'cmplz_wp_privacy_policies', array( 'WP_Privacy_Policy_Content', '_policy_page_updated' ) );
-            add_action('cmplz_wp_privacy_policies', array($this, 'wp_privacy_policies'));
-            add_action('admin_head', array($this, 'hide_privacy_policy_intro'));
-
             add_action('cmplz_wizard_add_pages_to_menu',array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
-        }
 
-        static function this()
-        {
-            return self::$_this;
         }
 
         public function wizard_add_pages_to_menu(){
@@ -70,7 +73,7 @@ if (!class_exists("cmplz_document")) {
                 ?>
 
                 <select name="cmplz_assigned_menu[<?php echo $page_id?>]">
-                    <option value=""><?php _e("Select a menu", "complianz");?></option>
+                    <option value=""><?php _e("Select a menu", 'complianz');?></option>
                     <?php foreach($menus as $location => $menu){
                         $selected = ($this->is_assigned_this_menu($page_id, $location)) ? "selected" : "";
                        echo '<option '.$selected.' value="'.$location.'">'.$menu.'</option>';
@@ -178,6 +181,15 @@ if (!class_exists("cmplz_document")) {
             return $pages;
         }
 
+        public function is_public_page($type){
+            if (!isset(COMPLIANZ()->config->pages[$type])) return false;
+
+            if (isset(COMPLIANZ()->config->pages[$type]['public']) && COMPLIANZ()->config->pages[$type]['public']){
+                return true;
+            }
+            return false;
+        }
+
         public function revoke_link($atts = [], $content = null, $tag = '')
         {
 
@@ -195,121 +207,7 @@ if (!class_exists("cmplz_document")) {
 
         }
 
-        public function wp_privacy_policies()
-        {
-            global $wp_version;
-            if (version_compare($wp_version, '4.9.6', '<')) {
-                echo '<p>' . __('As of WordPress 4.9.6, plugins and themes can add their own suggested statements about cookie usage and privacy here. To use this functionality, please upgrade to the latest WordPress version.', 'complianz') . '</p>';
-                return;
-            }
 
-            //to be able to load the privacy statements from plugins, we need to have a page selected.
-            if ($this->page_required("privacy-statement")) {
-                $this->create_page('privacy-statement');
-            }
-
-            if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-                require_once( ABSPATH . 'wp-admin/includes/misc.php' );
-            }
-
-            $data = $this->get_wp_privacy_policy_data();
-
-            $found_policy = false;
-            foreach ($data as $policy) {
-                if (isset($policy['removed'])) continue;
-                if ($policy['plugin_name'] == 'Complianz') continue;
-                $found_policy = true;
-                $s_plugin_name = sanitize_title($policy['plugin_name']);
-                ?>
-                <div class="cmplz-custom-privacy-text-container">
-                    <h2 class="cmplz-custom-privacy-header"><?php echo $s_plugin_name ?></h2>
-                    <p class="cmplz-custom-privacy-text"><?php echo $policy['policy_text'] ?></p>
-                    <button class="button cmplz-add-to-policy" type="button"><?php printf(__('Add "%s" text to privacy policy', 'complianz'), $s_plugin_name) ?></button>
-                </div>
-                <?php
-            }
-
-
-            if (!$this->page_required('privacy-statement')){
-                echo '<p>' . __("You did not choose to create a privacy statement through Complianz GDPR, so you can skip this step.", 'complianz') . '</p>';
-            }
-
-            if (!$found_policy) {
-                echo '<p>' . __('No plugins with suggested statements found.', 'complianz') . '</p>';
-            }
-
-        }
-
-        public function hide_privacy_policy_intro()
-        {
-            ?>
-            <script>
-                jQuery(document).ready(function ($) {
-                    if ($('.privacy-text-box-head').length) {
-                        $('.privacy-text-box-head').html('<h2><?php _e('Introduction', 'complianz')?></h2><p><?php _e('Adjusted intro', 'complianz')?></p>');
-                    }
-
-                });
-
-            </script>
-            <?php
-
-        }
-
-        public function remove_default_wp_content($content)
-        {
-            $update_policy_data = false;
-            $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
-            $checked = get_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content');
-            if ($checked) {
-                foreach ($checked as $key => $data) {
-                    if ($data['plugin_name'] == 'WordPress') {
-                        $update_policy_data = true;
-                        unset($checked[$key]);
-                    }
-                }
-            }
-
-            if ($update_policy_data) {
-                delete_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content');
-                foreach ($checked as $data) {
-                    add_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content', $data);
-                }
-            }
-
-            return '';
-        }
-
-        public function get_wp_privacy_policy_data()
-        {
-            if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-                require_once( ABSPATH . 'wp-admin/includes/misc.php' );
-            }
-            //if there's no privacy policy page yet, create one.  We can always delete it later on.
-            $this->create_page('privacy-statement');
-
-//            $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
-//            $data = get_post_meta($policy_page_id, '_wp_suggested_privacy_policy_content');
-            $data = WP_Privacy_Policy_Content::get_suggested_policy_text();
-
-            return $data;
-        }
-
-
-        public function add_privacy_policy_to_wp_page()
-        {
-
-            if (!function_exists('wp_add_privacy_policy_content')) {
-                return;
-            }
-
-            $html = $this->get_document_html('privacy-statement');
-
-            wp_add_privacy_policy_content(
-                __('Complianz', 'complianz'),
-                wp_kses_post(wpautop($html, false))
-            );
-        }
 
         /*
          * Check if a page is required. If no condition is set, return true.
@@ -384,11 +282,6 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
-
-          Genereate the editor html on a page with the shortcode.
-
-        */
 
         public function get_shortcode($type)
         {
@@ -586,28 +479,36 @@ if (!class_exists("cmplz_document")) {
             $nr = "";
 
             if (isset($element['annex'])) {
-                $nr = __("Annex", "complianz") . " " . $annex . ": ";
+                $nr = __("Annex", 'complianz') . " " . $annex . ": ";
                 if (isset($element['title'])) {
-                    return '<h3><b>' . $nr . $element['title'] . '</b></h3>';
+                    return '<h3><b>' . esc_html($n) . esc_html($element['title']) . '</b></h3>';
                 }
                 if (isset($element['subtitle'])) {
-                    return '<h4><b>' . $nr . $element['subtitle'] . '</b></h4>';
+                    return '<h4><b>' . esc_html($nr) . esc_html($element['subtitle']) . '</b></h4>';
                 }
             }
 
             if (isset($element['title'])) {
                 if (empty($element['title'])) return "";
                 if ($paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph;
-                return '<h3>' . $nr . ' ' . $element['title'] . '</h3>';
+                return '<h3>' . esc_html($nr) . ' ' . esc_html($element['title']) . '</h3>';
             }
 
             if (isset($element['subtitle'])) {
                 if ($paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph . "." . $sub_paragraph . " ";
-                return '<h4><b>' . $nr . $element['subtitle'] . '</b></h4>';
+                return '<h4><b>' . esc_html($nr) . esc_html($element['subtitle']) . '</b></h4>';
             }
 
 
         }
+
+
+        /*
+         * Check if this element should be numbered
+         * if no key is set, default is true
+         *
+         *
+         * */
 
         public function is_numbered_element($element)
         {
@@ -620,13 +521,13 @@ if (!class_exists("cmplz_document")) {
         public function wrap_sub_header($header, $paragraph, $subparagraph)
         {
             if (empty($header)) return "";
-            return '<h4>' . $header . '</h4>';
+            return '<h4>' . esc_html($header) . '</h4>';
         }
 
         public function wrap_content($content)
         {
             if (empty($content)) return "";
-            return '<p>' . $content . '</p>';
+            return '<p>' . esc_html($content) . '</p>';
         }
 
 
@@ -641,20 +542,20 @@ if (!class_exists("cmplz_document")) {
         {
             //replace references
             foreach ($paragraph_id_arr as $id => $paragraph) {
-                $html = str_replace("[article-$id]", sprintf(__('(See paragraph %s)', 'complianz'), $paragraph['main']), $html);
+                $html = str_replace("[article-$id]", sprintf(__('(See paragraph %s)', 'complianz'), esc_html($paragraph['main'])), $html);
             }
 
             foreach ($annex_arr as $id => $annex) {
-                $html = str_replace("[annex-$id]", sprintf(__('(See annex %s)', 'complianz'), $annex), $html);
+                $html = str_replace("[annex-$id]", sprintf(__('(See annex %s)', 'complianz'), esc_html($annex)), $html);
             }
 
             //some custom elements
-            $html = str_replace("[domain]", get_site_url(), $html);
-            $html = str_replace("[cookie_policy_url]", COMPLIANZ()->cookie->get_cookie_statement_page(), $html);
+            $html = str_replace("[domain]", esc_url_raw(get_site_url()), $html);
+            $html = str_replace("[cookie_policy_url]", esc_url_raw(COMPLIANZ()->cookie->get_cookie_statement_page()), $html);
 
             $date = $post_id ? get_the_date('', $post_id) : date(get_option('date_format'), time());
             $date = cmplz_localize_date($date);
-            $html = str_replace("[publish_date]", $date, $html);
+            $html = str_replace("[publish_date]", esc_html($date), $html);
 
             //replace all fields.
             foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {
@@ -694,7 +595,7 @@ if (!class_exists("cmplz_document")) {
                 $labels = "";
                 foreach ($value as $index) {
                     if ($list_style)
-                        $labels .= "<li>" . $options[$index] . '</li>';
+                        $labels .= "<li>" . esc_html($options[$index]) . '</li>';
                     else
                         $labels .= $options[$index] . ', ';
                 }
@@ -702,7 +603,7 @@ if (!class_exists("cmplz_document")) {
                 if ($list_style) {
                     $labels = "<ul>" . $labels . "</ul>";
                 } else {
-                    $labels = rtrim($labels, ', ');
+                    $labels = esc_html(rtrim($labels, ', '));
                     $labels = strrev(implode(strrev(', ' . __('and', 'complianz')), explode(strrev(','), strrev($labels), 2)));
                 }
 

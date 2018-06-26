@@ -21,8 +21,8 @@ $delete_options = array(
     'cmplz_plugins_changed',
     'cmplz_detected_social_media',
     'cmplz_deleted_cookies',
-
 );
+
 delete_all_options($delete_options);
 
 

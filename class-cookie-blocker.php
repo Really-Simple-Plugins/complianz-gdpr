@@ -12,11 +12,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         function __construct()
         {
+
             if (isset(self::$_this))
                 wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'really-simple-ssl'), get_class($this)));
 
             self::$_this = $this;
-            //exclude admin here: for all well built plugins and themes, this should not be necessary.
+
             if (!is_admin()) {
                 $this->remove_cookie_scripts();
             }
@@ -43,7 +44,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
            // if (!cmplz_cookie_warning_required()) return;
 
             /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
-
             if (defined('JSON_REQUEST') && JSON_REQUEST) return;
             if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
 
