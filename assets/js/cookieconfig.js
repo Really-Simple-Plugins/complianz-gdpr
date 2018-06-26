@@ -24,7 +24,9 @@ jQuery(document).ready(function ($) {
             if (src && src.length) {
                 $.getScript(src, function () {});
             }
-
+            if ($(this).text().length && $(this).text().length>40){
+                eval($(this).text());
+            }
 
         });
 

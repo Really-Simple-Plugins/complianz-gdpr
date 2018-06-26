@@ -30,6 +30,7 @@ $this->script_tags = array(
     'sharethis.com',
     'adsbygoogle',
     'googlesyndication',
+    'cdn.livechatinc.com/tracking.js',
 );
 
 $this->iframe_tags = array(

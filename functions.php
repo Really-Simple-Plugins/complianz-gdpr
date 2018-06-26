@@ -6,6 +6,35 @@ function cmplz_uses_google_analytics()
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
 
+//    $delete_options = array(
+//        "complianz_options_wizard",
+//        'complianz_options_cookie_settings',
+//        'complianz_options_dataleak',
+//        'complianz_options_processing',
+//        'complianz_active_policy_id',
+//        'complianz_scan_token',
+//        'cmplz_license_notice_dismissed',
+//        'cmplz_license_key',
+//        'cmplz_license_status',
+//        'cmplz_changed_cookies',
+//        'cmplz_processed_pages_list',
+//        'cmplz_license_notice_dismissed',
+//        'cmplz_processed_pages_list',
+//        'cmplz_detected_cookies',
+//        'cmplz_plugins_changed',
+//        'cmplz_detected_social_media',
+//        'cmplz_deleted_cookies',
+//    );
+//    delete_all_options($delete_options);
+//
+//
+//    function delete_all_options($options) {
+//        foreach ($options as $option_name){
+//            delete_option( $option_name );
+//            delete_site_option( $option_name );
+//        }
+//
+//    }
 
 function cmplz_notice($msg)
 {
@@ -91,22 +120,6 @@ function cmplz_uses_statistics()
 }
 
 
-function cmplz_register_translation($fieldname, $string)
-{
-
-    //polylang
-    if (function_exists("pll_register_string")) {
-        pll_register_string($name, $string);
-    }
-
-    //wpml
-    if (function_exists('icl_register_string')) {
-        icl_register_string('complianz', $fieldname, $string);
-    }
-    do_action('wpml_register_single_string', 'complianz', $fieldname, $string);
-}
-
-
 function cmplz_dnt_enabled()
 {
     return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1);
@@ -131,4 +144,9 @@ function cmplz_localize_date($date){
     $weekday_localized = __($weekday); //woensdag
     $date = str_replace($weekday, $weekday_localized, $date);
     return $date;
+}
+
+function complz_wp_privacy_version(){
+    global $wp_version;
+    return ($wp_version >= '4.9.6');
 }

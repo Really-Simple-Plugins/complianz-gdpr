@@ -61,7 +61,7 @@ if (!class_exists("cmplz_admin")) {
 
         public function plugin_settings_link($links)
         {
-            $settings_link = '<a href="' . admin_url("admin.php?page=complianz") . '">' . __("Settings", "complianz") . '</a>';
+            $settings_link = '<a href="' . admin_url("admin.php?page=complianz") . '">' . __("Settings", 'complianz') . '</a>';
             array_unshift($links, $settings_link);
 
             $faq_link = '<a target="_blank" href="https://complianz.io/support">' . __('Support', 'complianz') . '</a>';
@@ -104,7 +104,7 @@ if (!class_exists("cmplz_admin")) {
         // Register a custom menu page.
         public function register_admin_page()
         {
-            if (!current_user_can('manage_privacy_options')) return;
+            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             $warnings = $this->get_warnings();
             $warning_count = count($warnings);
@@ -152,12 +152,14 @@ if (!class_exists("cmplz_admin")) {
 
             ?>
             <div class="wrap">
-                <div class="cmplz-wizard-title"><h1><?php _e("Wizard", "complianz") ?></h1></div>
+                <div class="cmplz-wizard-title"><h1><?php _e("Wizard", 'complianz') ?></h1></div>
 
-
+                <?php if (defined('cmplz_free') || COMPLIANZ()->license->license_is_valid()) { ?>
                     <?php COMPLIANZ()->wizard->wizard('wizard'); ?>
-
-
+                <?php } else {
+                    cmplz_notice(__('Your license needs to be activated to unlock the wizard', 'complianz'));
+                }
+                ?>
             </div>
             <?php
         }
@@ -179,10 +181,10 @@ if (!class_exists("cmplz_admin")) {
 <?php /*
                     <form method="POST">
                         <?php wp_nonce_field('cmplz_support', 'cmplz_nonce') ?>
-                        <input type="text" name="cmplz_support_subject" ""required placeholder="<?php _e("summarize your issue in a few words", "complianz")?>">
+                        <input type="text" name="cmplz_support_subject" ""required placeholder="<?php _e("summarize your issue in a few words", 'complianz')?>">
                         <input type="email" name="cmplz_support_email" required
                                value="<?php echo get_bloginfo('admin_email') ?>">
-                        <textarea placeholder="<?php _e("Describe your issue", "complianz")?>" name="cmplz_support_request" required></textarea>
+                        <textarea placeholder="<?php _e("Describe your issue", 'complianz')?>" name="cmplz_support_request" required></textarea>
                         <input type="submit" value="<?php _e('Submit ticket', 'complianz')?>">
                     </form>
 
@@ -206,14 +208,14 @@ if (!class_exists("cmplz_admin")) {
                 $email = sanitize_email($_POST['cmplz_support_email']);
                 $subject = sanitize_text_field($_POST['cmplz_support_subject']);
                 $support_request = wp_kses($_POST['cmplz_support_request']);
-
+                $license = get_option('cmplz_license_key');
                 $user_info = get_userdata(get_current_user_id());
                 $nicename = $user_info->user_nicename;
 
                 $headers[] = "Reply-to: $nicename <$email>"."\r\n";
 
                 $to = "support@complianz.io";
-
+                $message = "License: $license <br><br>";
                 $message .= $support_request."<br><br>";
                 $message .= $nicename;
                 add_filter('wp_mail_content_type', function ($content_type) {
@@ -225,9 +227,9 @@ if (!class_exists("cmplz_admin")) {
                 // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
                 remove_filter('wp_mail_content_type', 'set_html_content_type');
                 if ($success){
-                    $this->error_message = __("Something went wrong while submitting the support request", "complianz");
+                    $this->error_message = __("Something went wrong while submitting the support request", 'complianz');
                 } else {
-                    $this->success_message = sprintf(__("Your support request has been received. We will reply shortly. You can track the status of your request at %scomplianz.io%s", "complianz"), '<a href="https://complianz.io/support"', '</a>');
+                    $this->success_message = sprintf(__("Your support request has been received. We will reply shortly. You can track the status of your request at %scomplianz.io%s", 'complianz'), '<a href="https://complianz.io/support"', '</a>');
                 }
 
             }
@@ -237,16 +239,26 @@ if (!class_exists("cmplz_admin")) {
         {
             ?>
             <table>
-
                 <?php
-                if (COMPLIANZ()->cookie->cookie_warning_required() && !COMPLIANZ()->wizard->wizard_completed()) {
-                    $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard has not yet been completed', 'complianz'), 'error');
+                if (COMPLIANZ()->wizard->wizard_completed()) {
+                    if (COMPLIANZ()->cookie->scan_complete()) {
+                        if (COMPLIANZ()->cookie->cookie_warning_required()) {
+                            $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
+                        } else {
+                            $this->get_dashboard_element(__('Your site does not require a cookie warning. No cookie warning has been enabled.', 'complianz'), 'success');
+                        }
+                    } else {
+                        $this->get_dashboard_element(__('The cookie scan is not completed yet', 'complianz'), 'error');
+                    }
+                } else {
+                    $this->get_dashboard_element(__('Complete the wizard to see if you need a cookie warning', 'complianz'), 'error');
                 }
-                if (COMPLIANZ()->cookie->cookie_warning_required() && COMPLIANZ()->wizard->wizard_completed()) {
-                    $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
+
+                if (defined('cmplz_free') && !COMPLIANZ()->document->page_exists('privacy-statement')){
+                    $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz GDPR yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
                 }
-                if (!COMPLIANZ()->cookie->cookie_warning_required()) {
-                    $this->get_dashboard_element(__('Your site does not require a cookie warning. No cookie warning has been enabled.', 'complianz'), 'success');
+                if (!COMPLIANZ()->document->page_exists('cookie-statement')){
+                    $this->get_dashboard_element(sprintf(__('You do not have a cookie policy validated by Complianz GDPR yet.', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
                 }
 
                 $last_cookie_scan = COMPLIANZ()->cookie->get_last_cookie_scan_date();
@@ -272,6 +284,8 @@ if (!class_exists("cmplz_admin")) {
                         $this->get_dashboard_element(sprintf(__('A %s document has been generated', 'complianz'), $link), 'success');
                     }
                 }
+
+
 
 
                 ?>
@@ -307,13 +321,17 @@ if (!class_exists("cmplz_admin")) {
                 }
             </style>
             <div class="wrap cookie-warning">
-                <h1><?php _e("Cookie warning settings", "complianz") ?></h1>
+                <h1><?php _e("Cookie warning settings", 'complianz') ?></h1>
 
                 <?php
-                if (!COMPLIANZ()->cookie->cookie_warning_required()) {
-                    cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz'));
+                if (!COMPLIANZ()->wizard->wizard_completed()){
+                    cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz'));
                 } else {
-                    _e('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz');
+                    if (!COMPLIANZ()->cookie->cookie_warning_required()) {
+                        cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz'));
+                    } else {
+                        _e('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz');
+                    }
                 }
                 ?>
                 <form action="" method="post">
@@ -337,7 +355,7 @@ if (!class_exists("cmplz_admin")) {
         public function show_notices()
         {
             if (!is_user_logged_in()) return;
-            if (!current_user_can('manage_privacy_options')) return;
+            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
         }
 

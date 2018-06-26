@@ -30,7 +30,8 @@ if (!class_exists("cmplz_config")) {
                 'yes' => __('Yes', 'complianz'),
                 'no' => __('No', 'complianz'),
             );
-            $this->premium = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", "complianz"), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+
+            $this->premium = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
 
             define('CMPLZ_MINUTES_PER_QUESTION', 0.6);
             define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.2);
@@ -39,15 +40,17 @@ if (!class_exists("cmplz_config")) {
             define('CMPLZ_DATALEAK_MENU_POSITION', 42);
 
             define('STEP_COMPANY', 1);
+            define('STEP_PLUGINS', 2);
             define('STEP_COOKIES', 2);
             define('STEP_MENU',    3);
             define('STEP_FINISH',  4);
 
-            define('SECTION_COMPANY', 1); //pro: 2
+
 
             require_once(cmplz_path . '/config/known-cookies.php');
             require_once(cmplz_path . '/config/countries.php');
             require_once(cmplz_path . '/config/steps.php');
+            require_once(cmplz_path . '/config/warnings.php');
             require_once(cmplz_path . '/config/cookie-settings.php');
             require_once(cmplz_path . '/config/social-media-markers.php');
 
@@ -141,28 +144,7 @@ if (!class_exists("cmplz_config")) {
         public function init()
         {
             $this->document_elements = apply_filters('cmplz_document_elements', $this->document_elements);
-            $this->warning_types = array(
-                'wizard-incomplete' => array(
-                    'label_ok' => __('The wizard has been completed.', 'complianz'),
-                    'label_error' => __('The wizard is not completed yet.', 'complianz')
-                ),
-                'cookies-changed' => array(
-                    'label_ok' => __('No cookie changes have been detected.', 'complianz'),
-                    'label_error' => __('Cookie changes have been detected.', 'complianz')
-                ),
-                'plugins-changed' => array(
-                    'label_ok' => __('No plugin changes have been detected.', 'complianz'),
-                    'label_error' => __('Plugin changes have been detected.', 'complianz') . " " . __('Please review step 2 and 3 of the wizard for changes in plugin privacy statements and cookies.', 'complianz')
-                ),
-                'ga-needs-configuring' => array(
-                    'label_ok' => __('Google Analytics is correctly configured.', 'complianz'),
-                    'label_error' => __('Google Analytics is being used, but is not configured in Complianz.', 'complianz'),
-                ),
-                'no-ssl' => array(
-                    'label_ok' => __("Great! You're already on SSL!", 'complianz'),
-                    'label_error' => sprintf(__("You don't have SSL on your site yet. Most hosting companies can install SSL for you, which you can quickly enable with %sReally Simple SSL%s", 'complianz'), '<a target="_blank" href="https://wordpress.org/plugins/really-simple-ssl/">', '</a>'),
-                ),
-            );
+
         }
 
 

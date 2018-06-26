@@ -84,16 +84,16 @@ $this->document_elements['cookie-statement'] = array(
         'title' => __('Cookie usage', 'complianz'),
         'content' =>
             '<table><tr><td colspan="3"><b>[label]</b></td></tr>
-                                 <tr><td colspan="3">' . __("Purpose:", "complianz") . ' [purpose]</td></tr>
-                                 <tr><td colspan="3">' . __("Description:", "complianz") . ' [description]</td></tr>
+                                 <tr><td colspan="3">' . __("Purpose:", 'complianz') . ' [purpose]</td></tr>
+                                 <tr><td colspan="3">' . __("Description:", 'complianz') . ' [description]</td></tr>
                                  <tr>
-                                    <td>' . __("Retention period", "complianz") . '</td>
-                                    <td>' . __("Used names", "complianz") . '</td>
-                                    <td>' . __("Sharing", "complianz") . '</td>
+                                    <td>' . __("Retention period", 'complianz') . '</td>
+                                    <td>' . __("Used names", 'complianz') . '</td>
+                                    <td>' . __("Sharing", 'complianz') . '</td>
                                   </tr><tr>
                                      <td>[storage_duration]</td>
                                      <td>[used_names]</td>
-                                     <td>' . sprintf(__("For more information see the privacy policy of %s at %s", "complianz"), '[label]', '[privacy_policy_url]') . '</td>
+                                     <td>' . sprintf(__("For more information see the privacy policy of %s at %s", 'complianz'), '[label]', '[privacy_policy_url]') . '</td>
                                  </tr>
                      </table>',
         'condition' => array(
