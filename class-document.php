@@ -52,8 +52,12 @@ if (!class_exists("cmplz_document")) {
                 return;
             }
 
-            if (!$this->all_pages_in_menu()){
-                cmplz_notice(__("Not all your generated documents have been assigned to a menu yet, you can do this now, or skip this step and do it later.", 'copmlianz'));
+            $pages_not_in_menu = $this->pages_not_in_menu();
+            if ($pages_not_in_menu){
+                $docs = array_map('get_the_title', $pages_not_in_menu);
+                $docs = implode(", ", $docs);
+                cmplz_notice(sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+                                'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz'  ) ), $docs ));
             } else{
                 _e("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz');
             }
@@ -108,12 +112,12 @@ if (!class_exists("cmplz_document")) {
         }
 
         /*
-         * Check if all pages are located in a menu.
+         * Get all pages that are not assigned to any menu
          *
          *
          * */
 
-        public function all_pages_in_menu(){
+        public function pages_not_in_menu(){
             $locations = get_theme_mod('nav_menu_locations');
 
             if (!$locations) return false;
@@ -134,8 +138,10 @@ if (!class_exists("cmplz_document")) {
                     }
                 }
             }
-            if (count($pages)>count($pages_in_menu)) return false;
-            return true;
+            $pages_not_in_menu = array_diff($pages, $pages_in_menu);
+            if (count($pages_not_in_menu)==0) return false;
+
+            return $pages_not_in_menu;
         }
 
         public function get_menu_id_by_location($location){
