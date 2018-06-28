@@ -533,7 +533,7 @@ if (!class_exists("cmplz_document")) {
         public function wrap_content($content)
         {
             if (empty($content)) return "";
-            return '<p>' . esc_html($content) . '</p>';
+            return '<p>' . $content . '</p>';
         }
 
 

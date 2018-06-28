@@ -101,7 +101,7 @@ if (!class_exists("cmplz_wizard")) {
         public function show_notices()
         {
             if (!is_user_logged_in()) return;
-            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             if (COMPLIANZ()->cookie->cookies_changed()) {
                 ?>
@@ -135,7 +135,7 @@ if (!class_exists("cmplz_wizard")) {
         {
 
             if (!is_user_logged_in()) return;
-            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             //create a page foreach page that is needed.
             $pages = COMPLIANZ()->config->pages;
@@ -234,7 +234,7 @@ if (!class_exists("cmplz_wizard")) {
         public function wizard($page)
         {
             if (!is_user_logged_in()) return;
-            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             $this->initialize($page);
             $section = $this->section();

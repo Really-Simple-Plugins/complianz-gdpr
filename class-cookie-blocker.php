@@ -47,6 +47,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             if (defined('JSON_REQUEST') && JSON_REQUEST) return;
             if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
 
+            //do not block cookies during the scan
+            if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
+
             add_action("template_redirect", array($this, "start_buffer"));
             add_action("shutdown", array($this, "end_buffer"), 999);
 
@@ -141,7 +144,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $class = $script->getAttribute('class');
                         if (strpos($class,'cmplz-native')!==FALSE) continue;
 
-                        $script->remove();
+                        $script->parentNode->removeChild($script);
                     } elseif ($key !== false) {
                         $script = apply_filters('cmplz_set_class', $script);
                         //$script->setAttribute("class", "cmplz-script");

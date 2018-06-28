@@ -138,10 +138,11 @@ jQuery(document).ready(function ($) {
 
     jQuery(document).ready(function ($) {
 
-        var cmplz_interval = 500;
+        var cmplz_interval = 1000;
         var progress = complianz_admin.progress;
         var progressBar = $('.cmplz-progress-bar');
         var cookieContainer = $(".detected-cookies");
+        var previous_page;
 
         function checkIframeLoaded() {
             // Get a handle to the iframe element
@@ -152,11 +153,7 @@ jQuery(document).ready(function ($) {
                 cookieContainer.addClass('loader');
             }
             // Check if loading is complete
-            if (iframeDoc.readyState == 'complete') {
-
-                iframe.contentWindow.onload = function () {
-                    //alert("I am loaded");
-                };
+            iframe.onload=function(){
                 // The loading is complete, call the function we want executed once the iframe is loaded
                 if (progress >= 100) return;
 
@@ -174,6 +171,7 @@ jQuery(document).ready(function ($) {
                             progress = parseInt(obj['progress']);
                             var next_page = obj['next_page'];
                             if (progress >= 100) {
+                                progress = 100;
                                 progressBar.css({width: progress + '%'});
                                 $.ajax({
                                     type: "GET",
@@ -193,6 +191,7 @@ jQuery(document).ready(function ($) {
                             } else {
                                 progressBar.css({width: progress + '%'});
                                 console.log("loading " + next_page);
+
                                 $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
                                 window.setTimeout(checkIframeLoaded, cmplz_interval);
