@@ -65,9 +65,6 @@ if (!class_exists("cmplz_cookie")) {
             add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
             add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
 
-            add_action('init', array($this, 'set_page_processed_on_load'));
-            add_action('admin_init', array($this, 'set_page_processed_on_load'));
-
             $this->load();
         }
 
@@ -79,14 +76,6 @@ if (!class_exists("cmplz_cookie")) {
         public function clear_pages_list($post_id, $post_after = false, $post_before = false)
         {
             delete_transient('cmplz_pages_list');
-        }
-
-        public function set_page_processed_on_load(){
-            //do not block cookies during the scan
-//            if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) {
-//                $this->set_page_as_processed($_GET['complianz_scan_token']);
-//            }
-
         }
 
         /*
@@ -762,6 +751,7 @@ if (!class_exists("cmplz_cookie")) {
         public function store_detected_cookies()
         {
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
+
                 $found_cookies = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $_POST['cookies']);
@@ -1010,7 +1000,8 @@ if (!class_exists("cmplz_cookie")) {
              * will be disabled by default, without option to enable them.
              *
              * */
-            $cookie_enabling_scripts = empty(cmplz_get_value('cookie_scripts')) ? false : true;
+            $scripts = cmplz_get_value('cookie_scripts');
+            $cookie_enabling_scripts = empty($scripts) ? false : true;
             if (!is_admin() && cmplz_dnt_enabled() && !$this->cookie_warning_required_stats() && !$cookie_enabling_scripts) {
                 return false;
             }
@@ -1038,8 +1029,10 @@ if (!class_exists("cmplz_cookie")) {
 
         public function third_party_cookies_active()
         {
-            $thirdparty_scripts = empty(cmplz_get_value('thirdparty_scripts')) ? false : true;
-            $thirdparty_iframes = empty(cmplz_get_value('thirdparty_iframes')) ? false : true;
+            $thirdparty_scripts = cmplz_get_value('thirdparty_scripts');
+            $thirdparty_iframes = cmplz_get_value('thirdparty_iframes');
+            $thirdparty_scripts = empty($thirdparty_scripts) ? false : true;
+            $thirdparty_iframes = empty($thirdparty_iframes) ? false : true;
             $ad_cookies = (cmplz_get_value('uses_ad_cookies') === 'yes') ? true : false;
             $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
 

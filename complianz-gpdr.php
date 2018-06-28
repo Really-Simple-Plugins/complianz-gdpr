@@ -3,7 +3,7 @@
  * Plugin Name: Complianz GDPR
  * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Plugin to help you make your site GDPR compliant
- * Version: 1.0.12
+ * Version: 1.0.16
  * Text Domain: complianz
  * Domain Path: /languages
  * Author: RogierLankhorst, Complianz team

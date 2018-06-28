@@ -38,7 +38,6 @@ function cmplz_uses_google_analytics()
 
 function cmplz_notice($msg)
 {
-
     echo '<div class="cmplz-notice">' . $msg . '</div>';
 }
 
@@ -135,7 +134,6 @@ function cmplz_strip_spaces($string){
 
 }
 
-
 function cmplz_localize_date($date){
     $month = date('F', strtotime($date)); //june
     $month_localized = __($month); //juni
@@ -146,7 +144,7 @@ function cmplz_localize_date($date){
     return $date;
 }
 
-function complz_wp_privacy_version(){
+function cmplz_wp_privacy_version(){
     global $wp_version;
     return ($wp_version >= '4.9.6');
 }

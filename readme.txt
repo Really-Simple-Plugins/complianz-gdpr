@@ -4,13 +4,13 @@ Tags: GPDR, AVG, EU, Privacy, Cookie warning, Cookie policy, Cookie scan
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
-Tested up to: 5.0
-Stable tag: 1.0.12
+Tested up to: 4.9.6
+Stable tag: 1.0.16
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR Premium will help you to make your website quickly GDPR compliant. Third party cookies are blocked until user accepts the cookie warning.
+Complianz GDPR will help you to make your website quickly GDPR compliant. Third party cookies are blocked until user accepts the cookie warning.
 Includes a cookie warning, customized cookie policy based on the results of the built in cookie scan. The detected cookies are prefilled with the shipped cookie database.
 
 Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
@@ -18,23 +18,52 @@ Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as w
 = Love Complianz GDPR? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the premium version
 = Premium features =
+* Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
 * Geo ip cookie warning: show the cookie warning only to visitors from countries with a cookie law
 * Respects Do Not track settings in users browsers
-* Customized and legally validated privacy statement, disclaimer, processing agreement, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
+* Multilanguage support for the cookie warning
 * Premium support
 
-[contact](https://www.complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz GDPR is developed by [Complianz BV](https://www.complianz.io).
-
+[Contact](https://www.complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz GDPR is developed by [Complianz BV](https://www.complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”
-* Click “upload”, and select the zip file you downloaded after the purchase.
+* Click “upload”, and select the downloaded zip file.
 * Activate
 * Navigate to “Complianz”, and follow the instructions
 
-== Frequently Asked Questions ==
+== Frequently asked questions ==
+= Knowledgebase =
+Complianz maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
+
+= When do I need a cookie consent banner? =
+When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
+
+= What are functional cookies? =
+Functional cookies are cookies that fall outside the scope of the cookie law. Cookies that are used to track if something is placed in the cart, or if a user is logged in, or anonized, not shared statistics cookies, are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
+
+= What are analytical cookies? =
+Analytical cookies are used to track visitors on the website. How do they browse, how long are they staying, and what are they looking at, e.g. Also demography is part of an analytical cookie. They are essential in measuring the usage of a website and to optimize it. They can be seen as real management instruments.
+
+= What are advertising, marketing or tracking cookies? =
+Advertising, or marketing cookies, are cookies that are being placed for advertising purposes. Advertising cookies can never be placed without consent. These cookies are only being used for advertising purposes.
+
+Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.0.17 =
+* Added < PHP 5.6 warning
+*
+= 1.0.16 =
+* Fix: output escaping of html strings, causing the html to show in plain text.
+
+= 1.0.15 =
+* Fix: cookieblocker removed script in incorrect way, causing a php error
+
+* 1.0.14
+* Tweak: set page as processed before the request is made during scan
+* Fix: pre 4.9.6 version of wp could not show admin pages due to privacy capability not existing
+
 = 1.0.12 =
 * Fix: scan freezing when URL is loaded http over https.
 
@@ -84,21 +113,3 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 3. You can also add scripts yourself. For instance when you are using iframes or other scripts.
 4. You can customize the cookie consent banner's style and layout to your liking.
 5. Here you can see our cookie consent banner in action. This cookie consent banner blocks all cookies until the visitor gives consent.
-
-== Frequently asked questions ==
-= Knowledgebase =
-Complianz maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
-
-= When do I need a cookie consent banner? =
-When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for performance purposes.
-
-= What are functional cookies? =
-Functional cookies are cookies that fall outside the scope of the cookie law. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
-
-= What are analytical cookies? =
-Analytical cookies are used to track visitors on the website. How do they browse, how long are they staying, and what are they looking at, e.g. Also demography is part of an analytical cookie. They are essential in measuring the performance of a website and to optimize it. They can be witnessed as real management instruments.
-
-= What are advertising, marketing or tracking cookies? =
-Advertising, or marketing cookies, are cookies that are being placed for advertising purposes. Advertising cookies can never be placed without consent. These cookies are only being used for advertising purposes.
-
-Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.

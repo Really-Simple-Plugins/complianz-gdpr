@@ -104,7 +104,7 @@ if (!class_exists("cmplz_admin")) {
         // Register a custom menu page.
         public function register_admin_page()
         {
-            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
             $warnings = $this->get_warnings();
             $warning_count = count($warnings);
@@ -355,8 +355,17 @@ if (!class_exists("cmplz_admin")) {
         public function show_notices()
         {
             if (!is_user_logged_in()) return;
-            if (complz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
+            if (version_compare(phpversion(), '5.6', '<')) {
+                ?>
+                <div id="message" class="error fade notice cmplz-wp-notice">
+                    <h2><?php echo __("PHP version problem", "complianz"); ?></h2>
+                <p>
+                    <?php _e("Complianz GDPR requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", "complianz"); ?>
+                </p>
+                </div>
+                <?php
+            }
         }
 
 

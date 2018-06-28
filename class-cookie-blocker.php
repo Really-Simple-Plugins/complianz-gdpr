@@ -144,7 +144,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $class = $script->getAttribute('class');
                         if (strpos($class,'cmplz-native')!==FALSE) continue;
 
-                        $script->remove();
+                        $script->parentNode->removeChild($script);
                     } elseif ($key !== false) {
                         $script = apply_filters('cmplz_set_class', $script);
                         //$script->setAttribute("class", "cmplz-script");
