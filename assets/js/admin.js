@@ -1,13 +1,6 @@
 jQuery(document).ready(function ($) {
     'use strict';
-    $('.cmplz-color-picker').wpColorPicker({
-            change:
-                function (event, ui) {
-                    var container_id = $(event.target).data('hidden-input');
-                    $('#' + container_id).val(ui.color.toString());
-                }
-        }
-    );
+
 
     //validation of checkboxes
     var requiredCheckboxes = $('.cmplz-validate-multicheckbox .is-required:checkbox');

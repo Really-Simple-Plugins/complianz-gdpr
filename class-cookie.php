@@ -39,11 +39,13 @@ if (!class_exists("cmplz_cookie")) {
                 add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
             }
 
+            //cookie script for styling purposes on backend
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+
             add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
             add_action('admin_footer', array($this, 'run_cookie_scan'));
             add_action('wp_ajax_load_detected_cookies', array($this, 'load_detected_cookies'));
             add_action('wp_ajax_get_scan_progress', array($this, 'get_scan_progress'));
-
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
@@ -242,8 +244,10 @@ if (!class_exists("cmplz_cookie")) {
             $this->known_cookie_keys = COMPLIANZ()->config->known_cookie_keys;
         }
 
+
         public function enqueue_assets($hook)
         {
+
             wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
             $cookiesettings = $this->get_cookie_settings();
@@ -260,6 +264,29 @@ if (!class_exists("cmplz_cookie")) {
                     $cookiesettings
                 );
             }
+
+
+        }
+
+        public function enqueue_admin_assets($hook){
+            if (strpos($hook, 'cmplz-cookie-warning') === FALSE) return;
+
+            wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
+            wp_enqueue_style('cmplz-cookie');
+
+            $cookiesettings = $this->get_cookie_settings();
+            $cookiesettings['url'] = admin_url('admin-ajax.php');
+            $cookiesettings['nonce'] = wp_create_nonce('set_cookie');
+            wp_enqueue_script('cmplz-cookie', cmplz_url . "assets/js/cookieconsent.js", array(), cmplz_version, true);
+            wp_localize_script(
+                'cmplz-cookie',
+                'complianz',
+                $cookiesettings
+            );
+
+
+            wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
+
         }
 
         public function get_active_policy_id()
@@ -788,12 +815,12 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (get_option('cmplz_last_cookie_scan')) {
                 $date = date(get_option('date_format'), get_option('cmplz_last_cookie_scan'));
+                $date = cmplz_localize_date($date);
                 $time = date(get_option('time_format'), get_option('cmplz_last_cookie_scan'));
                 $date = sprintf(__("%s at %s", 'complianz'), $date, $time);
             } else {
                 $date = false;
             }
-
             return $date;
         }
 
@@ -914,9 +941,6 @@ if (!class_exists("cmplz_cookie")) {
                 "progress" => $this->get_progress_count(),
                 "next_page" => $next_url,
             );
-
-            _log($output);
-
             $obj = new stdClass();
             $obj = $output;
             echo json_encode($obj);

@@ -35,9 +35,7 @@
   /*progress bar */
 }
 #cmplz-wizard .field-group {
-  border-top: 1px solid #e6e6e6;
-  margin-top: 14px;
-  padding-top: 20px;
+  margin-top: 12px;
 }
 #cmplz-wizard .cmplz-header {
   background-color: #F1F1F1;
@@ -351,4 +349,296 @@
   background-color: #2DAAE1;
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
+}
+button.button.cmplz-continue-button {
+  text-align: -webkit-left;
+  margin-right: 20px;
+  border-radius: 10px;
+  border: 1px solid;
+  font-weight: 900;
+  width: 90px;
+  box-shadow: none;
+}
+@media screen and (max-width: 782px) {
+  button.button.cmplz-continue-button {
+    width: 100px;
+  }
+}
+button.button.cmplz-continue-button .fa-angle-right {
+  font-weight: 900;
+  position: absolute;
+  font-size: 1.8em;
+  margin-left: 5px;
+}
+@media screen and (max-width: 782px) {
+  button.button.cmplz-continue-button .fa-angle-right {
+    margin-top: -6px;
+  }
+}
+#complianz .dashboard .fa-times {
+  color: black;
+}
+#complianz .dashboard .fa-check {
+  color: #2DAAE1;
+}
+.cmplz-dashboard-container {
+  font-family: "Sofia Pro Light", Arial;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+}
+.cmplz-dashboard-container .cmplz-dashboard-header {
+  margin-bottom: -270px;
+  width: 100%;
+  min-height: 220px;
+  background-color: #2DAAE1;
+}
+.cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-top {
+  grid-area: header-top;
+  background-color: white;
+  min-height: 80px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-top .cmplz-premium-cta {
+  width: 150px;
+  float: right;
+  color: #2DAAE1;
+  text-transform: uppercase;
+  display: flex;
+}
+.cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-text {
+  display: flex;
+  align-items: center;
+}
+.cmplz-dashboard-container .cmplz-dashboard-item {
+  width: 450px;
+  margin-top: 10px;
+  border: 2px solid;
+  flex: 0 0 450px;
+  flex-shrink: 1;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas: 'header-top header-top header-top header-top' 'text-completed text-completed text-completed text-completed' 'progress progress support support' 'progress progress documents documents' 'footer footer footer footer';
+  grid-gap: 10px;
+  padding: 10px;
+}
+@media screen and (max-width: 1210px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container {
+    grid-template-areas: 'header-top header-top' 'text-completed text-completed' 'progress progress' 'support support' 'documents documents' 'footer footer' 'footer footer';
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-logo {
+  display: flex;
+  align-items: center;
+  font-size: 2em;
+  font-weight: 900;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-header-text {
+  display: flex;
+  align-items: center;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-completed-text {
+  display: flex;
+  align-items: center;
+  margin-top: 35px;
+  grid-area: text-completed;
+  font-size: 24px;
+  color: white;
+}
+@media screen and (max-width: 720px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-completed-text button {
+    width: 100px;
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-continue-button {
+  margin-left: 15px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text {
+  padding-left: 15px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text .fa-plus {
+  margin-right: 8px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress {
+  grid-area: progress;
+}
+@media screen and (max-width: 1210px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress {
+    margin: 0 auto;
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top {
+  background-color: #F2F2F2;
+  min-height: 170px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text {
+  padding-top: 20px;
+  display: inline-grid;
+  margin-top: 10px;
+  font-size: 20px;
+  max-width: 50%;
+  float: left;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text .cmplz-dashboard-top-text-title {
+  font-weight: 900;
+  font-size: 1.7em;
+  margin-bottom: 20px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text .cmplz-dashboard-top-text-subtitle {
+  color: #2DAAE1;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-continue-wizard-btn {
+  padding-top: 125px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-continue-wizard-btn button {
+  text-align: -webkit-left;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-percentage-complete {
+  margin-top: 20px;
+  float: right;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-steps-table {
+  padding-top: 10px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-steps-table .i.fa.fa-check {
+  color: black;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-steps-table .cmplz-success {
+  color: #2DAAE1;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-steps-table .cmplz-error {
+  color: black;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support {
+  width: 450px;
+  grid-area: support;
+}
+@media screen and (max-width: 1210px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support {
+    margin: 0 auto;
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top {
+  display: flex;
+  align-items: center;
+  min-height: 100px;
+  background-color: #F2F2F2;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-title {
+  font-weight: 900;
+  font-size: 2.5em;
+  padding-bottom: 25px;
+}
+@media screen and (max-width: 720px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-title {
+    padding-bottom: 0px;
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-content {
+  margin-left: 15px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents {
+  grid-area: documents;
+  margin-top: 10px;
+}
+@media screen and (max-width: 1210px) {
+  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents {
+    margin: 0 auto;
+  }
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-top {
+  display: flex;
+  align-items: center;
+  color: white;
+  background-color: black;
+  min-height: 60px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-top .cmplz-documents-title {
+  font-size: 2em;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-upgrade-table .fas {
+  margin-right: 8px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-upgrade-table li {
+  border-bottom: 2px solid;
+  text-indent: 5px;
+  display: flex;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-upgrade-table .fa-plus {
+  color: #2DAAE1;
+  font-size: 1.5em;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-bottom {
+  color: white;
+  background-color: black;
+  min-height: 70px;
+  display: flex;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-bottom .cmplz-premium-cta {
+  display: flex;
+  font-size: 1.5em;
+  align-items: center;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-bottom .cmplz-btn-cta {
+  text-align: left;
+  margin-left: 15px;
+  background-color: #2DAAE1;
+  color: black;
+  float: right;
+  width: 100px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer {
+  grid-area: footer;
+  display: flex;
+  flex-shrink: 1;
+  flex-grow: 1;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer .cmplz-footer-block {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #F2F2F2;
+  min-width: 205px;
+  min-height: 70px;
+  margin: 5px auto;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer .cmplz-footer-block .cmplz-footer-title {
+  max-width: 70%;
+  margin-top: 9px;
+  margin-left: 9px;
+  font-weight: 900;
+  font-size: 1.3em;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer .cmplz-footer-block .cmplz-footer-description {
+  width: 70%;
+  margin-left: 9px;
+  font-size: 0.8em;
+  display: flex;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer .cmplz-footer-block .cmplz-external-btn {
+  text-align: center;
+  border-radius: 7px;
+  color: white;
+  width: 25px;
+  height: 20px;
+  float: right;
+  margin-top: -25%;
+  margin-right: 15px;
+  background-color: #2DAAE1;
+}
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-footer .cmplz-footer-block .cmplz-external-btn .fa-angle-right {
+  font-size: 1.5em;
+  vertical-align: middle;
+  margin-left: 2px;
 }
