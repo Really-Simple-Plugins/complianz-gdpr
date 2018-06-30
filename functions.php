@@ -5,7 +5,7 @@ function cmplz_uses_google_analytics()
 {
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
-
+//
 //    $delete_options = array(
 //        "complianz_options_wizard",
 //        'complianz_options_cookie_settings',

@@ -464,7 +464,8 @@ if (!class_exists("cmplz_document")) {
                     } elseif ($this->insert_element($element, $post_id)) {
                         $html .= $this->wrap_header($element, $paragraph, $sub_paragraph, $annex);
                         if (isset($element['content'])) {
-                            $html .= $this->wrap_content($element['content']);
+                            $list = (isset($element['list']) && $element['list']) ? true : false;
+                            $html .= $this->wrap_content($element['content'], $list);
                         }
                     }
                 }
@@ -502,10 +503,8 @@ if (!class_exists("cmplz_document")) {
 
             if (isset($element['subtitle'])) {
                 if ($paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph . "." . $sub_paragraph . " ";
-                return '<h4><b>' . esc_html($nr) . esc_html($element['subtitle']) . '</b></h4>';
+                return '<h4>' . esc_html($nr) . esc_html($element['subtitle']) . '</h4>';
             }
-
-
         }
 
 
@@ -530,9 +529,12 @@ if (!class_exists("cmplz_document")) {
             return '<h4>' . esc_html($header) . '</h4>';
         }
 
-        public function wrap_content($content)
+        public function wrap_content($content, $list=false)
         {
             if (empty($content)) return "";
+            if ($list){
+                return '<span>' . $content . '</span><br>';
+            }
             return '<p>' . $content . '</p>';
         }
 

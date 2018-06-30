@@ -49,6 +49,10 @@ jQuery(document).ready(function ($) {
         }
 
         window.cookieconsent.initialise({
+            cookie: {
+                name: 'complianz_config',
+                expiryDays: 1
+            },
             "revokeBtn": '<div class="cc-revoke {{classes}}">' + $('input[name=cmplz_revoke]').val() + '</div>',
             "palette": {
                 "popup": {
