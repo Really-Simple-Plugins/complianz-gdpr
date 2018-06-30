@@ -756,11 +756,11 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //we account for the warnings with one step
-            $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;
+            $warnings = (count(COMPLIANZ()->admin->get_warnings(false))!=0) ? true: false;
             $total_fields++;
             if (!$warnings) $completed_fields++;
 
-            $percentage = round(100*($completed_fields/$total_fields) + 0.45);
+            $percentage = round(100 *($completed_fields/$total_fields) + 0.45);
 
             return $percentage;
 

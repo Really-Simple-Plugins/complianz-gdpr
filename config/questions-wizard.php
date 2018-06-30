@@ -112,7 +112,7 @@ $this->fields = $this->fields + array(
             'type' => 'phone',
             'default' => '',
             'label' => __("What is the telephone number your visitors can use to contact you about privacy issues?", 'complianz'),
-            'required' => true,
+            'required' => false,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
     );
@@ -143,6 +143,7 @@ $this->fields = $this->fields + array(
                 'yes-anonymous' => __('Yes, anonymous', 'complianz'),
                 'yes' => __('Yes, and the personal data is available to us.', 'complianz'),
                 'google-analytics' => __('Yes, with Google Analytics', 'complianz'),
+                'matomo' => __('Yes, with Matomo', 'complianz'),
                 'google-tag-manager' => __('Yes, with Google Tag Manager', 'complianz'),
                 'no' => __('No', 'complianz')
             ),
@@ -163,7 +164,7 @@ $this->fields = $this->fields + array(
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
                 'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">','</a>'),
+            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.', 'complianz') . "<br>" . __('If you can check all three options, you might not need a cookie warning on your site.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">', '</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-analytics',
             ),
@@ -184,12 +185,28 @@ $this->fields = $this->fields + array(
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
                 'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz')."<br>".__('If you can check all three options, you might not need a cookie warning on your site.','complianz')."<br>".sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s','complianz'),'<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">','</a>'),
+            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.', 'complianz') . "<br>" . __('If you can check all three options, you might not need a cookie warning on your site.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">', '</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-tag-manager',
             ),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             //'help' => __('If you use the built in method for Google Tag Manager, anonymization of ip numbers is automatically enabled.','complianz'),
+        ),
+
+        'matomo_anonymized' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'page' => 'wizard',
+            'type' => 'select',
+            'revoke_consent_onchange' => true,
+            'default' => '',
+            'label' => __("Do you anonymize ip numbers in Matomo?", 'complianz'),
+            'options' => $this->yes_no,
+            'help' => __('If ip numbers are anoymized, the statistics cookie do not require a cookie warning', 'complianz'),
+            'condition' => array(
+                'compile_statistics' => 'matomo',
+            ),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
         'GTM_code' => array(
@@ -272,7 +289,7 @@ $this->fields = $this->fields + array(
                 'googleplus' => __('Google Plus', 'complianz'),
                 'whatsapp' => __('Whatsapp', 'complianz'),
             ),
-            'condition' =>array('uses_social_media'=> 'yes'),
+            'condition' => array('uses_social_media' => 'yes'),
             'default' => '',
             'label' => __("Select the types of social media you use on the site", 'complianz'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
@@ -283,7 +300,6 @@ $this->fields = $this->fields + array(
             'section' => 3,
             'page' => 'wizard',
             'type' => 'javascript',
-            'optional' => true,
             'default' => '',
             'help' => __('Paste here all your scripts that activate cookies. Enter the scripts without the script tags', 'complianz'),
             'revoke_consent_onchange' => true,
@@ -291,6 +307,7 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'compile_statistics' => 'NOT google-analytics,NOT google-tag-manager,NOT no',
             ),
+            'notice_callback' => 'statistics_script',
             'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/adding-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
@@ -359,7 +376,6 @@ $this->fields = $this->fields + array(
             'callback_condition' => array('uses_cookies' => 'yes'),
             'time' => 5,
         ),
-
 
 
     );

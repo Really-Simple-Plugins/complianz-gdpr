@@ -10,6 +10,26 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 $this->ignore_cookie_list = array('wp-settings', 'redux_blast', 'wordpress_test_cookie');
 
 $this->known_cookie_keys = array(
+    'wpml' => array('functional' => true,
+        'used_names' => array('wpml_browser_redirect_test', '_icl_current_language', '_icl_visitor_lang_js', '_icl_current_admin_language_', ),
+        'unique_used_names' => array('partial_wpml', 'partial__icl_'),
+        'privacy_policy_url' => 'https://wpml.org/documentation/privacy-policy-and-gdpr-compliance/',
+        'label' => __("WPML", 'complianz'),
+        'purpose' => __("", 'complianz'),
+        'storage_duration' => __("", 'complianz'),
+        'description' => __("WPML is a cookie used to provide different languages for an user. Also it checks which language a user is using.", 'complianz'),
+    ),
+
+    'wordPress_metrics' => array('functional' => true,
+        'used_names' => array('tk_lr','tk_or' ),
+        'unique_used_names' => array('tk_lr','tk_or'),
+        'privacy_policy_url' => 'https://wordpress.org/about/privacy/',
+        'label' => __("WordPress.com", 'complianz'),
+        'purpose' => __("", 'complianz'),
+        'storage_duration' => __("", 'complianz'),
+        'description' => __("Collection of internal metrics for user activity, used to improve user experience.", 'complianz'),
+    ),
+
     'wordpress' => array(
         'functional' => true,
         'used_names' => array('_wordpress_'),
@@ -19,6 +39,15 @@ $this->known_cookie_keys = array(
         'purpose' => __("WordPress log in cookie", 'complianz'),
         'storage_duration' => __("30 days", 'complianz'),
         'description' => __("Cookie to keep you logged in.", 'complianz'),
+    ),
+    'clef' => array('functional' => true,
+        'used_names' => array('_clef_state', 'clef_wp_session',),
+        'unique_used_names' => array('partial_clef'),
+        'privacy_policy_url' => 'https://www.getclef.com/legal/privacy-policy/',
+        'label' => __("Clef", 'complianz'),
+        'purpose' => __("", 'complianz'),
+        'storage_duration' => __("", 'complianz'),
+        'description' => __("The Clef cookie provides security measures for your website.", 'complianz'),
     ),
     'googlemaps' => array(
         'functional' => true,
@@ -43,14 +72,15 @@ $this->known_cookie_keys = array(
     'google-analytics' => array(
         'functional' => true,
         'used_names' => array('_ga', '_gid', '_gat'),
-        'unique_used_names' => array('partial_gat_UA','_ga', '_gid', '_gat', 'utma__', '__utmb', '__utmc', 'UTMD__', '__utmv', '__utmz'),
+        'unique_used_names' => array('partial_mixpanel', 'partial_gat_UA', '_ga', '_gid', '_gat', 'partial_utm', '__utmb', '__utmc', 'UTMD__', '__utmv', '__utmz'),
         'privacy_policy_url' => 'https://analytics.google.com',
         'label' => "Google Analytics",
         'purpose' => __("Google Analytics web traffic cookie", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This is a cookie used for analyzing web traffic. Used for optimizing the website and the user experience.", 'complianz'),
     ),
-    'matomo' => array('advertising' => true,
+    'matomo' => array(
+        'functional' => true,
         'used_names' => array('_pk_ref', '_pk_cvar', '_pk_id', '_pk_ses', '_pk_hsr', 'piwik_ignore'),
         'unique_used_names' => array('partial_pk_', '_pk_ref', '_pk_cvar', '_pk_id', '_pk_ses', '_pk_hsr', 'piwik_ignore'),
         'privacy_policy_url' => 'https://matomo.com',
@@ -59,6 +89,7 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This cookie tracks visitors.", 'complianz'),
     ),
+
     'php-session' => array('functional' => true,
         'used_names' => array('PHPSESSID'),
         'unique_used_names' => array('PHPSESSID'),
@@ -115,16 +146,16 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This cookie facilitates a smooth transaction.", 'complianz'),
     ),
-    'facebook' => array('advertising' => false,
+    'facebook' => array('functional' => false,
         'used_names' => array('fbm_', 'actppresence', 'sb', 'csm', 'c_user', 'frstxs', 'datr'),
-        'unique_used_names' => array('fbm_'),
+        'unique_used_names' => array('partial_fbm_'),
         'privacy_policy_url' => 'https://facebook.com',
         'label' => "Facebook",
         'purpose' => __("Facebook advertisements cookie", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This cookie is used to optimize advertisements on Facebook via e.g. remarketing.", 'complianz'),
     ),
-    'criteo' => array('advertising' => false,
+    'criteo' => array('functional' => false,
         'used_names' => array('hid', 'has_js', 'tk', 'uic', 'ect', 'udc', 'dis', 'udi'),
         'unique_used_names' => array('hid', 'has_js', 'tk', 'uic', 'ect', 'udc', 'dis', 'udi'),
         'privacy_policy_url' => 'https://www.criteo.com/privacy/',
@@ -133,7 +164,7 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("Criteo is an online marketing company that marks the visits made by a user to display advertising on other sites. These cookies identify you anonymously, and at no time collect data of a personal nature.", 'complianz'),
     ),
-    'google-ads-optimization' => array('advertising' => false,
+    'google-ads-optimization' => array('functional' => false,
         'used_names' => array('PREF', 'NID', 'id', '_drt_'),
         'unique_used_names' => array('PREF', 'NID', '_drt_'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
@@ -164,16 +195,17 @@ $this->known_cookie_keys = array(
     ),
 
     'livechat' => array('functional' => false,
-        'used_names' => array('__lc.visitor_id'),
-        'unique_used_names' => array('partial__lc.visitor_id"'),
+        'used_names' => array('__lc.visitor_id', 'hide_eye_catcher', 'autoinvite_callback', '__lc.visitor_id', 'lc_invitation_opened', 'lc_window_state', 'lc_sso9818825', '__lc_visitor_id'),
+        'unique_used_names' => array('partial__lc.visitor_id', '_icl_visitor_lang_js', 'partial_lc_'),
         'privacy_policy_url' => 'https://www.livechat.com/privacy/',
         'label' => "Livechat",
         'purpose' => __("Real-time chat cookie", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
-        'description' => __("This cookie is used to chat real-time with customers.", 'complianz'),
+        'description' => __("Live Chat is a chat system which can help users with questions regarding our products and website.", 'complianz'),
     ),
 
-    'doubleclick' => array('advertising' => false,
+
+    'doubleclick' => array('functional' => false,
         'used_names' => array('idIDE', 'test_cookie', 'id', '___gads', '_drt_', 'DSID', 'IDE'),
         'unique_used_names' => array('idIDE', 'DSID'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
@@ -193,7 +225,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed for performance and optimization purposes.", 'complianz'),
     ),
 
-    'google-adwords' => array('advertising' => false,
+    'google-adwords' => array('functional' => false,
         'used_names' => array('NID', 'HSID', 'SSIDAPISID', 'SAPISID', '__ut'),
         'unique_used_names' => array('NID', 'HSID', 'SSIDAPISID', 'SAPISID'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
@@ -233,7 +265,6 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed to get an insight into web analytics.", 'complianz'),
     ),
 
-
     'Adcalls' => array('functional' => false,
         'used_names' => array('acalltracker', 'acalltrackersession'),
         'unique_used_names' => array('acalltracker', 'acalltrackersession'),
@@ -244,7 +275,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed to track where an incoming call is coming from.", 'complianz'),
     ),
 
-    'call-tracking-metrics' => array('advertising' => false,
+    'call-tracking-metrics' => array('functional' => false,
         'used_names' => array('ctm'),
         'unique_used_names' => array('ctm'),
         'privacy_policy_url' => 'https://www.calltrackingmetrics.com/legal/privacy/',
@@ -254,7 +285,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed to track where an incoming call is coming from.", 'complianz'),
     ),
 
-    'tealium' => array('advertising' => false,
+    'tealium' => array('functional' => false,
         'used_names' => array('utag_main'),
         'unique_used_names' => array('utag_main'),
         'privacy_policy_url' => 'https://tealium.com/privacy/',
@@ -264,7 +295,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used to regain visitor information, such as time visited.", 'complianz'),
     ),
 
-    'Adkernel' => array('advertising' => false,
+    'Adkernel' => array('functional' => false,
         'used_names' => array('ADK_EX_15', 'ADKUID'),
         'unique_used_names' => array('ADK_EX_15', 'ADKUID'),
         'privacy_policy_url' => 'https://adkernel.com/privacy-policy/',
@@ -274,7 +305,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed to show advertisements.", 'complianz'),
     ),
 
-    'gigya-com' => array('advertising' => false,
+    'gigya-com' => array('functional' => false,
         'used_names' => array('gig_hasGmid'),
         'unique_used_names' => array('gig_hasGmid'),
         'privacy_policy_url' => 'https://www.gigya.com/privacy-policy/',
@@ -284,7 +315,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used to identify customers.", 'complianz'),
     ),
 
-    'casalemedia-com' => array('advertising' => false,
+    'casalemedia-com' => array('functional' => false,
         'used_names' => array('CMDD', 'CMRUM3', 'CMSC'),
         'unique_used_names' => array('CMDD', 'CMRUM3', 'CMSC'),
         'privacy_policy_url' => 'http://casalemedia.com/privacy/',
@@ -294,7 +325,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used to monitor your web browsing habit and deliver advertisements based on this.", 'complianz'),
     ),
 
-    'demdex-net' => array('advertising' => false,
+    'demdex-net' => array('functional' => false,
         'used_names' => array('dextp'),
         'unique_used_names' => array('dextp'),
         'privacy_policy_url' => 'https://www.adobe.com/privacy/marketing-cloud.html',
@@ -303,7 +334,7 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This cookie is placed to be able to do targeted marketing and online profiling.", 'complianz'),
     ),
-    'everesttech-net' => array('advertising' => false,
+    'everesttech-net' => array('functional' => false,
         'used_names' => array('everest_g_v2', 'everest_session_v2', 'ev_sync_dd'),
         'unique_used_names' => array('everest_g_v2', 'everest_session_v2', 'ev_sync_dd'),
         'privacy_policy_url' => 'https://www.adobe.com/privacy/marketing-cloud.html',
@@ -332,7 +363,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie provides a Zopim chat window, to help you as good as possible.", 'complianz'),
     ),
 
-    'linkedin' => array('advertising' => false,
+    'linkedin' => array('functional' => false,
         'used_names' => array('X-LI-IDC'),
         'unique_used_names' => array('X-LI-IDC'),
         'privacy_policy_url' => 'https://www.linkedin.com/legal/privacy-policy',
@@ -342,7 +373,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed by LinkedIn to be able to share content on LinkedIn.", 'complianz'),
     ),
 
-    'twitter' => array('advertising' => false,
+    'twitter' => array('functional' => false,
         'used_names' => array('metrics_token'),
         'unique_used_names' => array('metrics_token'),
         'privacy_policy_url' => 'https://twitter.com/privacy',
@@ -352,7 +383,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed by Twitter, to be able to share content to Twitter.", 'complianz'),
     ),
 
-    'sharethis' => array('advertising' => false,
+    'sharethis' => array('functional' => false,
         'used_names' => array('__stid', 'uset', '_utmb', '_utmz', '_utmc', '_utma', 'optimizelyPendingLogEvents', 'optimizelyBuckets', 'optimizelySegments', 'optimizelyEndUserId', '__uset', 'stdlxmap', '_stacxiommap', '_stamap', '_stgmap', '_stid', 'UID', 'UIDR'),
         'unique_used_names' => array('__sharethis_cookie_test__'),
         'privacy_policy_url' => 'https://www.sharethis.com/privacy/',
@@ -383,7 +414,7 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is placed by NewRelic and is used for performance purposes.", 'complianz'),
     ),
 
-    'google' => array('advertising' => false,
+    'google' => array('functional' => false,
         'used_names' => array('OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SAPISID', 'CONSENT', 'SNID', 'NID'),
         'unique_used_names' => array('OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SAPISID', 'SNID', 'NID'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
@@ -392,7 +423,7 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This is a cookie placed by Google to optimize advertisements.", 'complianz'),
     ),
-    'slimstat' => array('advertising' => false,
+    'slimstat' => array('functional' => false,
         'used_names' => array('slimstat_tracking_code'),
         'unique_used_names' => array('slimstat_tracking_code'),
         'privacy_policy_url' => 'https://www.wp-slimstat.com/terms-and-conditions/',
@@ -428,4 +459,6 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This cookie is used to test whether cookies can be placed.", 'complianz'),
     ),
+
+
 );
