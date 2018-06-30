@@ -41,7 +41,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         public function remove_cookie_scripts()
         {
-           // if (!cmplz_cookie_warning_required()) return;
+            if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
+
+            if (cmplz_get_value('disable_cookie_block')) return;
 
             /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
             if (defined('JSON_REQUEST') && JSON_REQUEST) return;
@@ -157,13 +159,15 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             foreach ($iframe_tags as $iframe):
                 $src_iframe = $iframe->getAttribute('src');
                 if ($src_iframe):
-                    if ($this->strpos_arr($src_iframe, $known_iframe_tags) !== false):
+                    if ($src_iframe=='youtube.com/embed/'){
+                        $src_iframe = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $src_iframe);
+                        $iframe->setAttribute("src", $src_iframe);
+                    } elseif ($this->strpos_arr($src_iframe, $known_iframe_tags) !== false) {
                         $iframe = apply_filters('cmplz_third_party_iframe', $iframe);
-//                        $iframe->setAttribute("data-src-cmplz", $src_iframe);
                         $iframe->removeAttribute('src');
                         $addclass = ($iframe->hasAttribute('class')) ? $iframe->getAttribute('class') : "";
                         $iframe->setAttribute("class", "cmplz-iframe " . $addclass);
-                    endif;
+                    }
                 endif;
             endforeach;
 

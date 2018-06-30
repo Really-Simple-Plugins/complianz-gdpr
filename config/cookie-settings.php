@@ -115,15 +115,30 @@ $this->fields = $this->fields + array(
             'default' => 'edgeless',
             'table' => true,
         ),
-        'static' => array(
+//        'static' => array(
+//            'page' => 'cookie_settings',
+//            'type' => 'select',
+//            'label' => __("Push down/overlay", 'complianz'),
+//            'options' => array(
+//                'false' => __("Default", 'complianz'),
+//                'true' => __("Push down", 'complianz'),
+//            ),
+//            'default' => 'false',
+//            'table' => true,
+//        ),
+//        'height' => array(
+//            'page' => 'cookie_settings',
+//            'type' => 'number',
+//            'label' => __("Height of banner", 'complianz'),
+//            'default' => '',
+//            'table' => true,
+//        ),
+        'disable_cookie_block' => array(
             'page' => 'cookie_settings',
-            'type' => 'select',
-            'label' => __("Push down/overlay", 'complianz'),
-            'options' => array(
-                'false' => __("Default", 'complianz'),
-                'true' => __("Push down", 'complianz'),
-            ),
+            'type' => 'checkbox',
+            'label' => __("Disable cookie blocker", 'complianz'),
             'default' => 'false',
+            'help' => __('Not recommended. You can disable the brute force blocking of third party scripts if you encounter issues with the website output.','complianz'),
             'table' => true,
         ),
     );

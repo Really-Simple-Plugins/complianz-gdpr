@@ -2,7 +2,7 @@
 
 add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
-//    $value = cmplz_get_value('company_in_eu');
+
     ?><div class="cmplz-notice"><?php
     if (!cmplz_company_in_eu()){
         echo __("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz');
@@ -23,9 +23,32 @@ function cmplz_uses_social_media_notice(){
     }
 }
 
+
+
+add_action('cmplz_notice_purpose_personal_data', 'cmplz_purpose_personal_data');
+function cmplz_purpose_personal_data(){
+    $contact_forms = cmplz_site_uses_contact_forms();
+    if ($contact_forms){
+        ?><div class="cmplz-notice"><?php
+        $social_media = implode(', ', $social_media);
+        printf(__("The scan found contact forms on your site, so you should select the 'contact' option.", 'complianz'), $social_media);
+        ?></div><?php
+    }
+}
+
+
+
+
 add_filter('complianz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
+    if ($fieldname == 'purpose_personaldata') {
+        $contact_forms = cmplz_site_uses_contact_forms();
+        if ($contact_forms) {
+            $value['contact'] = 1;
+        }
+    }
+
     if ($fieldname == 'dpo_or_gdpr') {
         if (!cmplz_company_in_eu()) return 'gdpr_rep';
     }

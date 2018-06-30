@@ -97,6 +97,7 @@ jQuery(document).ready(function ($) {
                 countryCode: country_code,
             },
             "theme": complianz.theme,
+            "static": complianz.static,
             "position": complianz.position,
             "type": "opt-in",
             "content": {

@@ -39,11 +39,13 @@ if (!class_exists("cmplz_cookie")) {
                 add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
             }
 
+            //cookie script for styling purposes on backend
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+
             add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
             add_action('admin_footer', array($this, 'run_cookie_scan'));
             add_action('wp_ajax_load_detected_cookies', array($this, 'load_detected_cookies'));
             add_action('wp_ajax_get_scan_progress', array($this, 'get_scan_progress'));
-
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
@@ -54,6 +56,7 @@ if (!class_exists("cmplz_cookie")) {
             add_action('cmplz_notice_statistics_usage', array($this, 'show_statistics_usage_notice'), 10, 1);
             add_action('cmplz_notice_statistical_cookies_usage', array($this, 'show_statistical_cookies_usage_notice'), 10, 1);
             add_action('cmplz_notice_cookie_usage', array($this, 'show_cookie_usage_notice'), 10, 1);
+            add_action('cmplz_notice_statistics_script', array($this, 'statistics_script_notice'));
 
             add_filter('complianz_default_value', array($this, 'set_default'), 10, 2);
 
@@ -121,16 +124,22 @@ if (!class_exists("cmplz_cookie")) {
 
         public function show_statistical_cookies_usage_notice($args)
         {
-            if ($this->uses_google_analytics() || $this->uses_matomo()) {
-                $type = $this->uses_google_analytics() ? __("Google Analytics", 'complianz') : __("Matomo", 'complianz');
-                ?>
-                <div class="cmplz-notice">
-                    <?php
-                    printf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type);
-                    ?>
-                </div>
-                <?php
+            if ($this->uses_matomo()) {
+                $type = __("Matomo", 'complianz');
+            } elseif ($this->uses_google_analytics()) {
+                $type = __("Google Analytics", 'complianz');
+            } else{
+                return;
             }
+
+            ?>
+            <div class="cmplz-notice">
+                <?php
+                printf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type);
+                ?>
+            </div>
+            <?php
+
         }
 
         public function show_cookie_usage_notice($args)
@@ -156,6 +165,17 @@ if (!class_exists("cmplz_cookie")) {
             }
         }
 
+        public function statistics_script_notice(){
+            $anonimized = (cmplz_get_value('matomo_anonymized') === 'yes') ? true : false;
+            if ($this->uses_matomo()){
+                if ($anonimized) {
+                    cmplz_notice(__("You use Matomo for statistics on your site, with ip numbers anonymized, so it is not necessary to add the script here.", 'complianz'));
+                } else {
+                    cmplz_notice(__("You use Matomo for statistics on your site, but ip numbers are not anonymized, so you should your tracking script here", 'complianz'));
+                }
+            }
+        }
+
         /*
          * Runs when nothing is entered yet
          * */
@@ -169,7 +189,7 @@ if (!class_exists("cmplz_cookie")) {
                 }
 
                 if ($this->uses_matomo()) {
-                    return 'other';
+                    return 'matomo';
                 }
             }
 
@@ -242,8 +262,10 @@ if (!class_exists("cmplz_cookie")) {
             $this->known_cookie_keys = COMPLIANZ()->config->known_cookie_keys;
         }
 
+
         public function enqueue_assets($hook)
         {
+
             wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
             $cookiesettings = $this->get_cookie_settings();
@@ -260,6 +282,30 @@ if (!class_exists("cmplz_cookie")) {
                     $cookiesettings
                 );
             }
+
+
+        }
+
+        public function enqueue_admin_assets($hook)
+        {
+            if (strpos($hook, 'cmplz-cookie-warning') === FALSE) return;
+
+            wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
+            wp_enqueue_style('cmplz-cookie');
+
+            $cookiesettings = $this->get_cookie_settings();
+            $cookiesettings['url'] = admin_url('admin-ajax.php');
+            $cookiesettings['nonce'] = wp_create_nonce('set_cookie');
+            wp_enqueue_script('cmplz-cookie', cmplz_url . "assets/js/cookieconsent.js", array(), cmplz_version, true);
+            wp_localize_script(
+                'cmplz-cookie',
+                'complianz',
+                $cookiesettings
+            );
+
+
+            wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
+
         }
 
         public function get_active_policy_id()
@@ -587,10 +633,11 @@ if (!class_exists("cmplz_cookie")) {
         {
             $social_media = array();
             $social_media_markers = COMPLIANZ()->config->social_media_markers;
-
             foreach ($social_media_markers as $key => $markers) {
                 foreach ($markers as $marker) {
-                    if (strpos($html, $marker) !== FALSE && !in_array($key, $social_media)) $social_media[] = $key;
+                    if (strpos($html, $marker) !== FALSE && !in_array($key, $social_media)) {
+                        $social_media[] = $key;
+                    }
                 }
             }
 
@@ -788,12 +835,12 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (get_option('cmplz_last_cookie_scan')) {
                 $date = date(get_option('date_format'), get_option('cmplz_last_cookie_scan'));
+                $date = cmplz_localize_date($date);
                 $time = date(get_option('time_format'), get_option('cmplz_last_cookie_scan'));
                 $date = sprintf(__("%s at %s", 'complianz'), $date, $time);
             } else {
                 $date = false;
             }
-
             return $date;
         }
 
@@ -914,9 +961,6 @@ if (!class_exists("cmplz_cookie")) {
                 "progress" => $this->get_progress_count(),
                 "next_page" => $next_url,
             );
-
-            _log($output);
-
             $obj = new stdClass();
             $obj = $output;
             echo json_encode($obj);
@@ -971,6 +1015,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function uses_matomo()
         {
+            return true;
             if ($this->site_uses_cookie_of_type('matomo')) return true;
 
             return false;
@@ -1023,7 +1068,6 @@ if (!class_exists("cmplz_cookie")) {
                 return true;
             }
 
-
             return false;
         }
 
@@ -1047,12 +1091,15 @@ if (!class_exists("cmplz_cookie")) {
         {
             $statistics = cmplz_get_value('compile_statistics');
             $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+            $matomo = ($statistics === 'matomo') ? true : false;
             $google_analytics = ($statistics === 'google-analytics') ? true : false;
 
-            $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
-            $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
-            $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
-            $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
+            if ($google_analytics || $tagmanager) {
+                $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+                $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
+                $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
+                $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
+            }
 
             //not anonymous stats.
             if ($statistics === 'yes') {
@@ -1064,6 +1111,9 @@ if (!class_exists("cmplz_cookie")) {
             ) {
                 return true;
             }
+
+
+            if ($matomo &&  (cmplz_get_value('matomo_anonymized') !== 'yes')) return true;
 
             return false;
         }
@@ -1134,10 +1184,11 @@ if (!class_exists("cmplz_cookie")) {
             if ($type == 'key') return $cookie_type;
             $value = isset($this->known_cookie_keys[$cookie_type][$type]) ? $this->known_cookie_keys[$cookie_type][$type] : '';
 
-            if ($type == 'used_names' && !empty($value)) {
-                $detected_cookies = array_keys($this->get_detected_cookies());
-                $value = array_intersect($value, $detected_cookies);
-            }
+            //we set all the registered cookies as used cookies, so below is commented out
+//            if ($type == 'used_names' && !empty($value)) {
+//                $detected_cookies = array_keys($this->get_detected_cookies());
+//                $value = array_intersect($value, $detected_cookies);
+//            }
             if (is_array($value)) $value = implode(', ', $value);
 
             return $value;

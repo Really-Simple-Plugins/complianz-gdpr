@@ -1,13 +1,21 @@
 jQuery(document).ready(function ($) {
     'use strict';
-    $('.cmplz-color-picker').wpColorPicker({
-            change:
-                function (event, ui) {
-                    var container_id = $(event.target).data('hidden-input');
-                    $('#' + container_id).val(ui.color.toString());
-                }
-        }
-    );
+
+    /*
+    * show and hide support form
+    *
+    * */
+    $("#cmplz-support-form.hidden").hide().removeClass("hidden");
+    $(document).on('click', '#cmplz-support-link', function(e){
+        e.preventDefault();
+
+        var form = $('#cmplz-support-form');
+        if (form.is(":visible")){
+            form.slideUp();
+         }else{
+             form.slideDown();
+         }
+    });
 
     //validation of checkboxes
     var requiredCheckboxes = $('.cmplz-validate-multicheckbox .is-required:checkbox');

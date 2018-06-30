@@ -5,7 +5,7 @@ function cmplz_uses_google_analytics()
 {
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
-
+//
 //    $delete_options = array(
 //        "complianz_options_wizard",
 //        'complianz_options_cookie_settings',
@@ -35,11 +35,6 @@ function cmplz_uses_google_analytics()
 //        }
 //
 //    }
-
-function cmplz_notice($msg)
-{
-    echo '<div class="cmplz-notice">' . $msg . '</div>';
-}
 
 function cmplz_revoke_link($text = false)
 {
@@ -77,6 +72,15 @@ function cmplz_company_in_eu()
     }
 
     return false;
+}
+
+function cmplz_notice($msg){
+    if ($msg=='') return;
+    echo '<div class="cmplz-notice">'.$msg.'</div>';
+}
+function cmplz_notice_success($msg){
+    if ($msg=='') return;
+    echo '<div class="cmplz-notice cmplz-success">'.$msg.'</div>';
 }
 
 /*

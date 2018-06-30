@@ -525,7 +525,6 @@ if (!class_exists("cmplz_wizard")) {
                 } else {
                     _e("The wizard has been completed. To start the wizard again, click 'start over'", 'complianz');
 
-                    COMPLIANZ()->admin->get_status_overview();
                 }
                 ?>
 
@@ -708,18 +707,63 @@ if (!class_exists("cmplz_wizard")) {
             return round($time + 0.45);
         }
 
-        public function wizard_percentage_complete($page)
-        {
-            $complete = 0;
-            for ($step = 1; $step < $this->total_steps; $step++) {
-                if ($this->required_fields_completed($page, $step, false)) {
-                    $complete++;
-                }
 
+        public function all_fields_completed(){
+            $total_fields = 0;
+            $completed_fields = 0;
+            $total_steps = $this->total_steps('wizard');
+            for ($i = 1; $i <= $total_steps; $i++) {
+                $fields = COMPLIANZ()->config->fields('wizard', $i, false);
+                foreach ($fields as $fieldname => $field) {
+                    //is field required
+                    $required = isset($field['required']) ? $field['required'] : false;
+                    if (isset($field['condition']) && !COMPLIANZ()->field->condition_applies($field)) $required = false;
+                    if ($required){
+                        $value = cmplz_get_value($fieldname);
+                        $total_fields++;
+                        $empty = empty($value);
+                        if (!$empty){
+                            $completed_fields++;
+                        }
+                    }
+                }
             }
 
-            $percentage = round(100 * ($complete/$this->total_steps));
+            return ($completed_fields==$total_fields);
+        }
+
+        public function wizard_percentage_complete()  //($page)
+        {
+
+            $total_fields = 0;
+            $completed_fields = 0;
+            $total_steps = $this->total_steps('wizard');
+            for ($i = 1; $i <= $total_steps; $i++) {
+                $fields = COMPLIANZ()->config->fields('wizard', $i, false);
+                foreach ($fields as $fieldname => $field) {
+                    //is field required
+                    $required = isset($field['required']) ? $field['required'] : false;
+                    if (isset($field['condition']) && !COMPLIANZ()->field->condition_applies($field)) $required = false;
+                    if ($required){
+                        $value = cmplz_get_value($fieldname);
+                        $total_fields++;
+                        $empty = empty($value);
+                        if (!$empty){
+                            $completed_fields++;
+                        }
+                    }
+                }
+            }
+
+            //we account for the warnings with one step
+            $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;
+            $total_fields++;
+            if (!$warnings) $completed_fields++;
+
+            $percentage = round(100*($completed_fields/$total_fields) + 0.45);
+
             return $percentage;
+
         }
     }
 } //class closure
