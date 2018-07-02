@@ -391,7 +391,7 @@
 //Dashboard
 
 //Button styling
-button.button.cmplz-continue-button {
+.cmplz-continue-button {
   text-align: -webkit-left;
   margin-right: 20px;
   border-radius: 10px;
@@ -406,6 +406,7 @@ button.button.cmplz-continue-button {
     font-weight: 900;
     position: absolute;
     font-size: 1.8em;
+    margin-top: 1px;
     margin-left: 5px;
     @media screen and (max-width: 782px) {
       margin-top: -6px;
@@ -438,6 +439,7 @@ button.button.cmplz-continue-button {
       .cmplz-premium-cta {
         width: 150px;
         float: right;
+        border-color: @brand-primary;
         color: @brand-primary;
         text-transform: uppercase;
         display: flex;
@@ -498,6 +500,9 @@ button.button.cmplz-continue-button {
     padding: 10px;
     .cmplz-dashboard-text {
       padding-left: 15px;
+      li {
+        border-bottom: 1px solid;
+      }
       .fa-plus {
         margin-right: 8px;
       }
@@ -556,6 +561,22 @@ button.button.cmplz-continue-button {
       @media screen and (max-width: 1210px) {
         margin: 0 auto;
       }
+      input[type=text], input[type=email], textarea, input[type=submit] {
+        width: 425px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+      }
+      textarea {
+        min-height: 100px;
+      }
+      input[type=submit] {
+        margin-left: 35%;
+        width: 30%;
+        border: 1px solid;
+        border-radius: 10px;
+        height: 25px;
+        cursor: pointer;
+      }
       grid-area: support;
       .cmplz-support-top {
         display: flex;
@@ -572,6 +593,16 @@ button.button.cmplz-continue-button {
         }
         .cmplz-dashboard-support-content {
           margin-left: 15px;
+          li {
+            border-bottom: 1px solid;
+          }
+          #cmplz-support-form {
+            display: flex;
+            flex-direction: column;
+            margin-right: 15px;
+            margin-bottom: 15px;
+
+          }
         }
       }
     }
@@ -596,8 +627,12 @@ button.button.cmplz-continue-button {
         .fas{
           margin-right: 8px;
         }
+        ul {
+          margin: 5px;
+        }
         li {
           border-bottom: 2px solid;
+          margin-bottom: 5px;
           text-indent: 5px;
           display: flex;
           vertical-align: middle;
@@ -619,6 +654,7 @@ button.button.cmplz-continue-button {
           align-items: center;
         }
         .cmplz-btn-cta {
+          box-shadow: none;
           text-align: left;
           margin-left: 15px;
           background-color: @brand-primary;
@@ -639,20 +675,26 @@ button.button.cmplz-continue-button {
       justify-content: center;
       padding-bottom: 20px;
       .cmplz-footer-block {
+        position: relative;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
         background-color: #F2F2F2;
-        min-width: 205px;
+        width: 205px;
         min-height: 70px;
         //margin-top: 10px;
         margin: 5px auto;
+        a {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+        }
         .cmplz-footer-title {
-          max-width: 70%;
           margin-top: 9px;
           margin-left: 9px;
           font-weight: 900;
           font-size: 1.3em;
+          margin-right: 35px;
         }
         .cmplz-footer-description {
           width: 70%;
@@ -667,8 +709,6 @@ button.button.cmplz-continue-button {
           width: 25px;
           height: 20px;
           float: right;
-          margin-top: -25%;
-          margin-right: 15px;
           background-color: @brand-primary;
           .fa-angle-right {
             font-size: 1.5em;

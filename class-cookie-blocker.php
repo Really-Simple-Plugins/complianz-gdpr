@@ -159,7 +159,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             foreach ($iframe_tags as $iframe):
                 $src_iframe = $iframe->getAttribute('src');
                 if ($src_iframe):
-                    if ($src_iframe=='youtube.com/embed/'){
+                    if (strpos($src_iframe, 'youtube.com/embed/')!==false){
                         $src_iframe = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $src_iframe);
                         $iframe->setAttribute("src", $src_iframe);
                     } elseif ($this->strpos_arr($src_iframe, $known_iframe_tags) !== false) {
