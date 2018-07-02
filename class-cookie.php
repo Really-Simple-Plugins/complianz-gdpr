@@ -1015,7 +1015,6 @@ if (!class_exists("cmplz_cookie")) {
 
         public function uses_matomo()
         {
-            return true;
             if ($this->site_uses_cookie_of_type('matomo')) return true;
 
             return false;

@@ -30,7 +30,7 @@ if (!class_exists("cmplz_admin")) {
             add_action("cmplz_dashboard_second_block", array($this, 'dashboard_second_block'));
 
             //some custom warnings
-            add_filter('cmplz_warnings', array($this, 'filter_warnings'));
+            add_filter('cmplz_warnings_types', array($this, 'filter_warnings'));
 
             add_action('cmplz_tools', array($this, 'dashboard_tools'));
 
@@ -221,7 +221,9 @@ if (!class_exists("cmplz_admin")) {
                     <ul>
                         <?php do_action('cmplz_tools')?>
                         <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a href="https://complianz.io/support">', '</a>'); ?> </li>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("Check out the Complianz %sWordPress plugin page%s", "complianz"), '<a href="https://wordpress.org/plugins/complianz-gdpr/">', '</a>'); ?> </li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
                         <li style="bottom-border: 0px;"><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a href="https://complianz.io/pricing">', '</a>'); ?> </li>
                     </ul>
             </div>
@@ -231,11 +233,9 @@ if (!class_exists("cmplz_admin")) {
 
         public function dashboard_tools(){
             ?>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i>
-                <a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
+            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
             </li>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i>
-                <a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
+            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
             </li>
 
             <?php
@@ -251,9 +251,9 @@ if (!class_exists("cmplz_admin")) {
             <div class="cmplz-upgrade-table">
                 <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
                     <ul style="margin: 5px;">
-                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Complete and up-to-date legal documentation', 'complianz');?></li>
-                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Premium support', 'complianz');?></li>
-                        <li style="border-bottom: 0px;"><i class="fas fa-plus"></i><?php echo __('Updates', 'complianz');?></li>
+                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Privacy Statement, Disclaimer & Processing Agreement', 'complianz');?></li>
+                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Legal Updates, GEO Location & Do Not Track', 'complianz');?></li>
+                        <li style="border-bottom: 0px;"><i class="fas fa-plus"></i><?php echo __('Multiple Languages & Premium Support', 'complianz');?></li>
                     </ul>
                 </table>
             </div>
@@ -379,7 +379,6 @@ if (!class_exists("cmplz_admin")) {
                         <table class="cmplz-steps-table cmplz-dashboard-text">
                             <?php
                             do_action('cmplz_warnings');
-
                             if (COMPLIANZ()->cookie->cookie_warning_required() && !COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
                             }
@@ -407,7 +406,7 @@ if (!class_exists("cmplz_admin")) {
                             }
 
                             $warnings = $this->get_warnings(false);
-                            $warning_types = apply_filters('cmplz_warnings', COMPLIANZ()->config->warning_types);
+                            $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
 
                             foreach ($warning_types as $key => $type) {
                                 if (in_array($key, $warnings)) {
@@ -415,6 +414,10 @@ if (!class_exists("cmplz_admin")) {
                                 } else {
                                     $this->get_dashboard_element($type['label_ok'], 'success');
                                 }
+                            }
+
+                            if (defined('cmplz_free')) {
+                                $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'warning');
                             }
                             ?>
                         </table>

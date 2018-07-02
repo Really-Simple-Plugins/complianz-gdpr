@@ -5,7 +5,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 1.0.16
+Stable tag: 1.1.0
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
@@ -51,6 +51,13 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.1.0 =
+* new dashboard
+* added check if consent checkbox is needed on forms
+* integrated wp erase personal data and wp export data
+* phone numbers not required anymore
+* added a < PHP 5.6 warning
+
 = 1.0.17 =
 * Added < PHP 5.6 warning
 *

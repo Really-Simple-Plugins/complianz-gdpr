@@ -64,7 +64,9 @@ if (!class_exists("cmplz_field")) {
 
                 //remove multiple field
                 if (isset($_POST['cmplz_remove_multiple'])) {
-                    $fieldnames = array_map(function($el){return sanitize_title($el);}, $_POST['cmplz_remove_multiple']);
+                    $fieldnames = array_map(function ($el) {
+                        return sanitize_title($el);
+                    }, $_POST['cmplz_remove_multiple']);
 
                     foreach ($fieldnames as $fieldname => $key) {
 
@@ -73,7 +75,7 @@ if (!class_exists("cmplz_field")) {
 
                         $multiple_field = $this->get_value($fieldname, array());
                         //in case of cookies, store the deleted ones, otherwise
-                        if ($fieldname==='used_cookies'){
+                        if ($fieldname === 'used_cookies') {
 
                             $cookie_key = $multiple_field[$key]['key'];
                             $deleted_cookies = get_option('cmplz_deleted_cookies');
@@ -97,7 +99,7 @@ if (!class_exists("cmplz_field")) {
 
                 //save multiple field
                 if ((isset($_POST['cmplz-save']) || isset($_POST['cmplz-next'])) && isset($_POST['cmplz_multiple'])) {
-                    $fieldnames =  $this->sanitize_array($_POST['cmplz_multiple']);
+                    $fieldnames = $this->sanitize_array($_POST['cmplz_multiple']);
                     $this->save_multiple($fieldnames);
                 }
 
@@ -113,10 +115,11 @@ if (!class_exists("cmplz_field")) {
             }
         }
 
-        public function sanitize_array($array){
+        public function sanitize_array($array)
+        {
             foreach ($array as &$value) {
-                if( !is_array($value) )
-                    $value = sanitize_text_field( $value );
+                if (!is_array($value))
+                    $value = sanitize_text_field($value);
                 else
                     $this->sanitize_array($value);
             }
@@ -201,7 +204,6 @@ if (!class_exists("cmplz_field")) {
         }
 
 
-
         public function add_multiple_field($fieldname, $cookie_type = false)
         {
             $fields = COMPLIANZ()->config->fields();
@@ -210,11 +212,11 @@ if (!class_exists("cmplz_field")) {
             $options = get_option('complianz_options_' . $page);
 
             $multiple_field = $this->get_value($fieldname, array());
-            if ($fieldname === 'used_cookies' && !$cookie_type) $cookie_type = 'custom_'.time();
+            if ($fieldname === 'used_cookies' && !$cookie_type) $cookie_type = 'custom_' . time();
             if (!is_array($multiple_field)) $multiple_field = array($multiple_field);
             if ($cookie_type) {
                 //prevent key from being added twice
-                foreach($multiple_field as $index => $cookie){
+                foreach ($multiple_field as $index => $cookie) {
                     if ($cookie['key'] === $cookie_type) return;
                 }
                 $multiple_field[] = array('key' => $cookie_type);
@@ -354,7 +356,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
-                    placeholder="<?php echo esc_html($args['placeholder'])?>"
+                    placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="text"
                     value="<?php echo esc_html($value) ?>"
                     name="<?php echo esc_html($fieldname) ?>">
@@ -375,7 +377,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
-                    placeholder="<?php echo esc_html($args['placeholder'])?>"
+                    placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="text"
                     pattern="^(http(s)?(:\/\/))?(www\.)?[a-zA-Z0-9-_\.\/]+"
                     value="<?php echo esc_html($value) ?>"
@@ -397,7 +399,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
-                    placeholder="<?php echo esc_html($args['placeholder'])?>"
+                    placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="email"
                     value="<?php echo esc_html($value) ?>"
                     name="<?php echo esc_html($fieldname) ?>">
@@ -418,7 +420,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <input autocomplete="tel" <?php if ($args['required']) echo 'required'; ?>
                    class="validation <?php if ($args['required']) echo 'is-required'; ?>"
-                   placeholder="<?php echo esc_html($args['placeholder'])?>"
+                   placeholder="<?php echo esc_html($args['placeholder']) ?>"
                    type="text" pattern="^[+|-|0-9|(|)]{8,16}$"
                    value="<?php echo esc_html($value) ?>"
                    name="<?php echo esc_html($fieldname) ?>">
@@ -439,7 +441,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
-                    placeholder="<?php echo esc_html($args['placeholder'])?>"
+                    placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="number"
                     value="<?php echo esc_html($value) ?>"
                     name="<?php echo esc_html($fieldname) ?>">
@@ -562,7 +564,7 @@ if (!class_exists("cmplz_field")) {
                 }
             }
 
-            if (!$type || !is_array($args[$type])){
+            if (!$type || !is_array($args[$type])) {
                 return true;
             }
 
@@ -606,8 +608,10 @@ if (!class_exists("cmplz_field")) {
                             }
                         }
                     }
+
                 }
             }
+
             return true;
         }
 
@@ -626,7 +630,8 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_before_label', $args); ?>
             <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
-            <textarea name="<?php echo esc_html($fieldname) ?>" placeholder="<?php echo esc_html($args['placeholder'])?>"><?php echo esc_html($value) ?></textarea>
+            <textarea name="<?php echo esc_html($fieldname) ?>"
+                      placeholder="<?php echo esc_html($args['placeholder']) ?>"><?php echo esc_html($value) ?></textarea>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
@@ -645,7 +650,7 @@ if (!class_exists("cmplz_field")) {
             $settings = array(
                 'media_buttons' => false,
             );
-            wp_editor( $value, $fieldname, $settings );?>
+            wp_editor($value, $fieldname, $settings); ?>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
@@ -673,7 +678,9 @@ if (!class_exists("cmplz_field")) {
                     var textarea = $('textarea[name="<?php echo esc_html($fieldname)?>"]');
                     <?php echo esc_html($fieldname)?>.
                     getSession().on("change", function () {
-                        textarea.val(<?php echo esc_html($fieldname)?>.getSession().getValue());
+                        textarea.val(<?php echo esc_html($fieldname)?>.getSession().getValue()
+                    )
+                        ;
                     });
                 });
             </script>
@@ -903,7 +910,7 @@ if (!class_exists("cmplz_field")) {
                     unset($values[$key]);
                     $new_arr = array();
                     $new_arr[$key] = $cookie;
-                    $values = $new_arr+$values;
+                    $values = $new_arr + $values;
                 }
             }
 
@@ -933,11 +940,11 @@ if (!class_exists("cmplz_field")) {
                     $index++;
                     $value = wp_parse_args($value, $default_index);
                     //first, we try if there's a fieldname.
-                    if (!empty($value['label'])){
+                    if (!empty($value['label'])) {
                         $cookiename = $value['label'];
-                    } elseif(isset(COMPLIANZ()->config->known_cookie_keys[$value['key']])) {
+                    } elseif (isset(COMPLIANZ()->config->known_cookie_keys[$value['key']])) {
                         $cookiename = COMPLIANZ()->config->known_cookie_keys[$value['key']]['label'];
-                    }elseif (!empty($value['key'])){
+                    } elseif (!empty($value['key'])) {
                         $cookiename = $value['key'];
                     } else {
                         $cookiename = __("Not recognized", 'complianz');

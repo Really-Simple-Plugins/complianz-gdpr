@@ -2,6 +2,9 @@
   font-family: Sofia Pro Light;
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
 }
+#cmplz-support-form.hide {
+  display: none !important;
+}
 .cmplz-notice {
   color: red;
   padding: 5px 10px;
