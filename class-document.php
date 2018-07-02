@@ -488,7 +488,7 @@ if (!class_exists("cmplz_document")) {
             if (isset($element['annex'])) {
                 $nr = __("Annex", 'complianz') . " " . $annex . ": ";
                 if (isset($element['title'])) {
-                    return '<h3><b>' . esc_html($n) . esc_html($element['title']) . '</b></h3>';
+                    return '<h3><b>' . esc_html($nr) . esc_html($element['title']) . '</b></h3>';
                 }
                 if (isset($element['subtitle'])) {
                     return '<h4><b>' . esc_html($nr) . esc_html($element['subtitle']) . '</b></h4>';

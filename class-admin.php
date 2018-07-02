@@ -221,7 +221,9 @@ if (!class_exists("cmplz_admin")) {
                     <ul>
                         <?php do_action('cmplz_tools')?>
                         <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a href="https://complianz.io/support">', '</a>'); ?> </li>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("Check out the Complianz %sWordPress plugin page%s", "complianz"), '<a href="https://wordpress.org/plugins/complianz-gdpr/">', '</a>'); ?> </li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
+                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
                         <li style="bottom-border: 0px;"><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a href="https://complianz.io/pricing">', '</a>'); ?> </li>
                     </ul>
             </div>
@@ -231,11 +233,9 @@ if (!class_exists("cmplz_admin")) {
 
         public function dashboard_tools(){
             ?>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i>
-                <a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
+            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
             </li>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i>
-                <a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
+            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
             </li>
 
             <?php

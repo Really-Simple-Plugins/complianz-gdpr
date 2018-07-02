@@ -493,8 +493,8 @@ if (!class_exists("cmplz_wizard")) {
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id()) {
-                    $link_pdf = '<a target="_blank" href="' . get_permalink($this->post_id()) . '">';
-                    echo '<div class="cmplz-notice">' . sprintf(__('You are editing a saved draft of document "%s" (view %spdf%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
+                    $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
+                    echo '<div class="cmplz-notice">' . sprintf(__('You are editing a saved draft of document "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
                 } elseif ($this->step() == 1) {
                     delete_option('complianz_options_' . $page);
                     echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", 'complianz'), $link, '</a>') . "</div>";
@@ -756,11 +756,11 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //we account for the warnings with one step
-            $warnings = (count(COMPLIANZ()->admin->get_warnings(false))!=0) ? true: false;
+            $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;
             $total_fields++;
             if (!$warnings) $completed_fields++;
 
-            $percentage = round(100 *($completed_fields/$total_fields) + 0.45);
+            $percentage = round(100*($completed_fields/$total_fields) + 0.45);
 
             return $percentage;
 
