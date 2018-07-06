@@ -100,6 +100,14 @@ if (!class_exists("cmplz_admin")) {
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
+                if (!COMPLIANZ()->document->page_exists('privacy-statement')){
+                    $warnings[] = 'no-privacy-statement';
+                }
+
+                if (!COMPLIANZ()->document->page_exists('cookie-statement')){
+                    $warnings[] = 'no-cookie-policy';
+                }
+
                 if (!COMPLIANZ()->wizard->wizard_completed()) {
                     $warnings[] = 'wizard-incomplete';
                 }
@@ -119,7 +127,6 @@ if (!class_exists("cmplz_admin")) {
                 if (!is_ssl()) {
                     $warnings[] = 'no-ssl';
                 }
-
                 set_transient('complianz_warnings', $warnings, HOUR_IN_SECONDS);
             }
             return $warnings;
@@ -378,22 +385,16 @@ if (!class_exists("cmplz_admin")) {
                         <table class="cmplz-steps-table cmplz-dashboard-text">
                             <?php
                             do_action('cmplz_warnings');
+
                             if (COMPLIANZ()->cookie->cookie_warning_required() && !COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
+                                $warnings[] = 'wizard-incomplete';
                             }
                             if (COMPLIANZ()->cookie->cookie_warning_required() && COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
                             }
                             if (!COMPLIANZ()->cookie->cookie_warning_required()) {
                                 $this->get_dashboard_element(__('Your site does not require a cookie warning. No cookie warning has been enabled.', 'complianz'), 'success');
-                            }
-
-                            if (defined('cmplz_free') && !COMPLIANZ()->document->page_exists('privacy-statement')){
-                                $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz GDPR yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'warning');
-                            }
-
-                            if (!COMPLIANZ()->document->page_exists('cookie-statement')){
-                                $this->get_dashboard_element(sprintf(__('You do not have a cookie policy validated by Complianz GDPR yet.', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
                             }
 
                             $last_cookie_scan = COMPLIANZ()->cookie->get_last_cookie_scan_date();
@@ -405,11 +406,13 @@ if (!class_exists("cmplz_admin")) {
                             }
 
                             $warnings = $this->get_warnings(false);
+
                             $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
 
                             foreach ($warning_types as $key => $type) {
                                 if (in_array($key, $warnings)) {
-                                    $this->get_dashboard_element($type['label_error'], 'error');
+                                    $key = defined('cmplz_free') && isset($type['label_error_free']) ? 'label_error_free' : 'label_error';
+                                    $this->get_dashboard_element($type[$key], 'error');
                                 } else {
                                     $this->get_dashboard_element($type['label_ok'], 'success');
                                 }

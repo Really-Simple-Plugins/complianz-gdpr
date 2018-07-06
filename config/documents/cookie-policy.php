@@ -33,8 +33,11 @@ $this->document_elements['cookie-statement'] = array(
     ),
     'cookies' => array(
         'title' => __('Cookies', 'complianz'),
+    ),
+
+    'cookies-subtitle' => array(
         'subtitle' => __('Technical or functional cookies', 'complianz'),
-        'content' => __('Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.  <br><br> The following technical and functional cookies are placed:', 'complianz'),
+        'content' => __('Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.', 'complianz'),
     ),
 
     //analytical
@@ -81,9 +84,8 @@ $this->document_elements['cookie-statement'] = array(
     ),
 
     'cookie_names' => array(
-        'title' => __('Cookie usage', 'complianz'),
-        'content' =>
-            '<table><tr><td colspan="3"><b>[label]</b></td></tr>
+        'title' => __('Placed cookies', 'complianz'),
+        'content' => '<table><tr><td colspan="3"><b>[label]</b></td></tr>
                                  <tr><td colspan="3">' . __("Purpose:", 'complianz') . ' [purpose]</td></tr>
                                  <tr><td colspan="3">' . __("Description:", 'complianz') . ' [description]</td></tr>
                                  <tr>

@@ -202,7 +202,7 @@ $this->fields = $this->fields + array(
             'default' => '',
             'label' => __("Do you anonymize ip numbers in Matomo?", 'complianz'),
             'options' => $this->yes_no,
-            'help' => __('If ip numbers are anoymized, the statistics cookie do not require a cookie warning', 'complianz'),
+            'help' => __('If ip numbers are anonymized, the statistics cookie do not require a cookie warning', 'complianz'),
             'condition' => array(
                 'compile_statistics' => 'matomo',
             ),
@@ -356,11 +356,6 @@ $this->fields = $this->fields + array(
             'placeholder' => 'domain.com, domain.org',
             'revoke_consent_onchange' => true,
             'label' => __("URL's from iframes you want to be blocked before the cookie warning is accepted", 'complianz'),
-//            'callback_condition' => array(
-//                'uses_cookies' => 'yes',
-//                'uses_social_media' => 'yes',
-//                'uses_ad_cookies' => 'yes',
-//            ),
             'comment' => sprintf(__('The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the iframe source here, comma separated. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
@@ -369,6 +364,7 @@ $this->fields = $this->fields + array(
             'step' => STEP_COOKIES,
             'section' => 4,
             'page' => 'wizard',
+            'translatable' => true,
             'type' => 'cookies',
             'optional' => true,
             'default' => '',

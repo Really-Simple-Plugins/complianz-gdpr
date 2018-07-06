@@ -44,6 +44,8 @@ function cmplz_revoke_link($text = false)
 
 function cmplz_get_value($fieldname, $post_id = false)
 {
+    if (!isset(COMPLIANZ()->config->fields[$fieldname])) return false;
+
     //if  a post id is passed we retrieve the data from the post
     $page = COMPLIANZ()->config->fields[$fieldname]['page'];
 
@@ -53,9 +55,20 @@ function cmplz_get_value($fieldname, $post_id = false)
         $fields = get_option('complianz_options_' . $page);
         $value = isset($fields[$fieldname]) ? $fields[$fieldname] : '';
     }
-    if (function_exists('icl_translate')) {
-        $value = icl_translate('complianz', $fieldname, $value);
+
+    if (function_exists('icl_translate') || function_exists('pll__')) {
+        $type = COMPLIANZ()->config->fields[$fieldname]['type'];
+        if ($type==='cookies' || $type==='thirdparties'){
+            foreach ($value as $key=>$key_value){
+                if (function_exists('pll__')) $value[$key] = pll__($key_value);
+                if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname."_".$key, $key_value);
+            }
+        } else {
+            if (function_exists('pll__'))  $value = pll__($value);
+            if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+        }
     }
+
     return $value;
 }
 

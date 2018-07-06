@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-01 20:03+0000\n"
-"PO-Revision-Date: 2018-07-01 23:01+0000\n"
-"Last-Translator: Enrique Molina Campos <enriquemolinacampos@outlook.com>\n"
+"PO-Revision-Date: 2018-07-02 12:30+0000\n"
+"Last-Translator: ComplianzTranslations <marc@marblesmarketing.nl>\n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -85,7 +85,7 @@ msgstr "Crear informe de pico de datos"
 #: class-admin.php:225 class-admin.php:226
 #, php-format
 msgid "(%spremium%s)"
-msgstr ""
+msgstr "(%spremium%s)"
 
 #: class-admin.php:226 pro-functions-admin.php:109
 msgid "Create processing agreement"

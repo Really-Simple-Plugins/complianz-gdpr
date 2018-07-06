@@ -16,12 +16,20 @@ if (!class_exists("cmplz_document")) {
 
             $this->init();
 
+
+
         }
 
         static function this()
         {
 
             return self::$_this;
+        }
+
+        public function enqueue_assets()
+        {
+            wp_register_style('cmplz-document', cmplz_url . 'assets/css/document.css', false, cmplz_version);
+            wp_enqueue_style('cmplz-document');
         }
 
         /*
@@ -39,6 +47,7 @@ if (!class_exists("cmplz_document")) {
             add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
             add_action('cmplz_wizard_add_pages_to_menu',array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
+            add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
 
         }
 
@@ -359,7 +368,6 @@ if (!class_exists("cmplz_document")) {
             $atts = shortcode_atts(['type' => false,], $atts, $tag);
             $type = $atts['type'];
             if ($type) {
-
                 echo $this->get_document_html($type);
             }
 
@@ -370,6 +378,11 @@ if (!class_exists("cmplz_document")) {
         public function get_document_html($type, $post_id = false)
         {
             $html = get_transient("complianz_document_$type");
+
+            if ( function_exists('pll__') || function_exists('icl_translate')) {
+                $html = false;
+            }
+
             if (defined('WP_DEBUG') && WP_DEBUG) $html = false;
 
             //do not cache for these types
@@ -478,7 +491,7 @@ if (!class_exists("cmplz_document")) {
                 }
             }
 
-            return $html;
+            return '<div id="cmplz-document">'.$html.'</div>';
         }
 
         public function wrap_header($element, $paragraph, $sub_paragraph, $annex)
@@ -488,10 +501,10 @@ if (!class_exists("cmplz_document")) {
             if (isset($element['annex'])) {
                 $nr = __("Annex", 'complianz') . " " . $annex . ": ";
                 if (isset($element['title'])) {
-                    return '<h3><b>' . esc_html($nr) . esc_html($element['title']) . '</b></h3>';
+                    return '<h3 class="annex">' . esc_html($nr) . esc_html($element['title']) . '</h3>';
                 }
                 if (isset($element['subtitle'])) {
-                    return '<h4><b>' . esc_html($nr) . esc_html($element['subtitle']) . '</b></h4>';
+                    return '<h4 class="annex">' . esc_html($nr) . esc_html($element['subtitle']) . '</h4>';
                 }
             }
 
@@ -653,6 +666,7 @@ if (!class_exists("cmplz_document")) {
             $page_id = get_transient('cmplz_shortcode_' . $type);
 
             if (!$page_id) {
+
                 $pages = get_pages();
                 foreach ($pages as $page) {
                     if (has_shortcode($page->post_content, $shortcode) && strpos($page->post_content, 'type="' . $type)) {

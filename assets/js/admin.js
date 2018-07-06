@@ -6,15 +6,15 @@ jQuery(document).ready(function ($) {
     *
     * */
     $("#cmplz-support-form.hidden").hide().removeClass("hidden");
-    $(document).on('click', '#cmplz-support-link', function(e){
+    $(document).on('click', '#cmplz-support-link', function (e) {
         e.preventDefault();
 
         var form = $('#cmplz-support-form');
-        if (form.is(":visible")){
+        if (form.is(":visible")) {
             form.slideUp();
-         }else{
-             form.slideDown();
-         }
+        } else {
+            form.slideDown();
+        }
     });
 
     //validation of checkboxes
@@ -22,8 +22,8 @@ jQuery(document).ready(function ($) {
     cmplz_validate_checkboxes();
     requiredCheckboxes.change(cmplz_validate_checkboxes);
 
-    function cmplz_validate_checkboxes(){
-        if(requiredCheckboxes.is(':checked')) {
+    function cmplz_validate_checkboxes() {
+        if (requiredCheckboxes.is(':checked')) {
             requiredCheckboxes.prop('required', false)
             requiredCheckboxes.removeClass('is-required');
         } else {
@@ -60,13 +60,13 @@ jQuery(document).ready(function ($) {
 
             //remove required attribute of child, and set a class.
             var input = $(this).find('input[type=checkbox]');
-            if (!input.length){
+            if (!input.length) {
                 input = $(this).find('input');
             }
-            if (!input.length){
+            if (!input.length) {
                 input = $(this).find('textarea');
             }
-            if (!input.length){
+            if (!input.length) {
                 input = $(this).find('select');
             }
 
@@ -84,12 +84,12 @@ jQuery(document).ready(function ($) {
             }
 
             value = get_input_value(question);
-            var conditionMet =false;
+            var conditionMet = false;
             if ($('select[name=' + question + ']').length) {
                 value = Array($('select[name=' + question + ']').val());
             }
 
-            if ($("input[name='" + question + "["+condition_answer+"]"+"']").length && $("input[name='" + question + "["+condition_answer+"]"+"']").is(':checked')) {
+            if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length && $("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
                 conditionMet = true;
                 value = [];
             }
@@ -118,11 +118,6 @@ jQuery(document).ready(function ($) {
     }
 
 
-
-
-
-
-
     /*
     get checkbox values, array proof.
 */
@@ -144,124 +139,120 @@ jQuery(document).ready(function ($) {
     /*cookie scan */
 
 
-    jQuery(document).ready(function ($) {
+    var cmplz_interval = 1000;
+    var progress = complianz_admin.progress;
+    var progressBar = $('.cmplz-progress-bar');
+    var cookieContainer = $(".detected-cookies");
+    var previous_page;
 
-        var cmplz_interval = 1000;
-        var progress = complianz_admin.progress;
-        var progressBar = $('.cmplz-progress-bar');
-        var cookieContainer = $(".detected-cookies");
-        var previous_page;
+    function checkIframeLoaded() {
+        // Get a handle to the iframe element
+        var iframe = document.getElementById('cmplz_cookie_scan_frame');
+        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!cookieContainer.find('.cmplz-loader').length && progress < 100) {
+            cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+            cookieContainer.addClass('loader');
+        }
+        // Check if loading is complete
+        iframe.onload = function () {
+            // The loading is complete, call the function we want executed once the iframe is loaded
+            if (progress >= 100) return;
 
-        function checkIframeLoaded() {
-            // Get a handle to the iframe element
-            var iframe = document.getElementById('cmplz_cookie_scan_frame');
-            var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            if (!cookieContainer.find('.cmplz-loader').length && progress<100){
-                cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-                cookieContainer.addClass('loader');
-            }
-            // Check if loading is complete
-            iframe.onload=function(){
-                // The loading is complete, call the function we want executed once the iframe is loaded
-                if (progress >= 100) return;
+            $.get(
+                complianz_admin.admin_url,
+                {
+                    action: 'get_scan_progress'
+                },
+                function (response) {
+                    var obj;
+                    if (response) {
 
-                $.get(
-                    complianz_admin.admin_url,
-                    {
-                        action: 'get_scan_progress'
-                    },
-                    function (response) {
-                        var obj;
-                        if (response) {
+                        obj = jQuery.parseJSON(response);
 
-                            obj = jQuery.parseJSON(response);
-
-                            progress = parseInt(obj['progress']);
-                            var next_page = obj['next_page'];
-                            if (progress >= 100) {
-                                progress = 100;
-                                progressBar.css({width: progress + '%'});
-                                $.ajax({
-                                    type: "GET",
-                                    url: complianz_admin.admin_url,
-                                    dataType: 'json',
-                                    data: ({
-                                        action: 'load_detected_cookies',
-                                    }),
-                                    success: function (response) {
-                                        if (response.success) {
-                                            $('.detected-cookies').html(response.cookies);
-                                            $('.detected-cookies.loader').removeClass('loader');
-                                        }
+                        progress = parseInt(obj['progress']);
+                        var next_page = obj['next_page'];
+                        if (progress >= 100) {
+                            progress = 100;
+                            progressBar.css({width: progress + '%'});
+                            $.ajax({
+                                type: "GET",
+                                url: complianz_admin.admin_url,
+                                dataType: 'json',
+                                data: ({
+                                    action: 'load_detected_cookies',
+                                }),
+                                success: function (response) {
+                                    if (response.success) {
+                                        $('.detected-cookies').html(response.cookies);
+                                        $('.detected-cookies.loader').removeClass('loader');
                                     }
-                                });
+                                }
+                            });
 
-                            } else {
-                                progressBar.css({width: progress + '%'});
-                                console.log("loading " + next_page);
+                        } else {
+                            progressBar.css({width: progress + '%'});
+                            console.log("loading " + next_page);
 
-                                $("#cmplz_cookie_scan_frame").attr('src', next_page);
+                            $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
-                                window.setTimeout(checkIframeLoaded, cmplz_interval);
-                            }
+                            window.setTimeout(checkIframeLoaded, cmplz_interval);
                         }
                     }
-                );
-                return;
-            }
-
-            // If we are here, it is not loaded. Set things up so we check   the status again
-            window.setTimeout(checkIframeLoaded, cmplz_interval);
+                }
+            );
+            return;
         }
 
-        if ($('#cmplz_cookie_scan_frame').length) {
-            checkIframeLoaded();
-        }
+        // If we are here, it is not loaded. Set things up so we check   the status again
+        window.setTimeout(checkIframeLoaded, cmplz_interval);
+    }
 
-        progressBar.css({width: progress + '%'});
+    if ($('#cmplz_cookie_scan_frame').length) {
+        checkIframeLoaded();
+    }
 
+    progressBar.css({width: progress + '%'});
 
-    });
 
     //custom text for policy
-    $(document).on("click", ".cmplz-add-to-policy", function(){
+    $(document).on("click", ".cmplz-add-to-policy", function () {
         var title = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-custom-privacy-header').html();
         var text = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-custom-privacy-text').html();
 
-        var content = tmce_getContent( 'cmplz_custom_privacy_policy_text' );
-        tmce_setContent( content +'<h3>'+title+'</h3>' + text, 'cmplz_custom_privacy_policy_text' );
+        var content = tmce_getContent('cmplz_custom_privacy_policy_text');
+        tmce_setContent(content + '<h3>' + title + '</h3>' + text, 'cmplz_custom_privacy_policy_text');
     });
 
     function tmce_getContent(editor_id, textarea_id) {
-        if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
-        if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+        if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
+        if (typeof textarea_id == 'undefined') textarea_id = editor_id;
 
-        if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+        if (jQuery('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
             return tinyMCE.get(editor_id).getContent();
-        }else{
-            return jQuery('#'+textarea_id).val();
+        } else {
+            return jQuery('#' + textarea_id).val();
         }
     }
 
     function tmce_setContent(content, editor_id, textarea_id) {
-        if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
-        if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+        if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
+        if (typeof textarea_id == 'undefined') textarea_id = editor_id;
 
-        if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+        if (jQuery('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
             return tinyMCE.get(editor_id).setContent(content);
-        }else{
-            return jQuery('#'+textarea_id).val(content);
+        } else {
+            return jQuery('#' + textarea_id).val(content);
         }
     }
 
     function tmce_focus(editor_id, textarea_id) {
-        if ( typeof editor_id == 'undefined' ) editor_id = wpActiveEditor;
-        if ( typeof textarea_id == 'undefined' ) textarea_id = editor_id;
+        if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
+        if (typeof textarea_id == 'undefined') textarea_id = editor_id;
 
-        if ( jQuery('#wp-'+editor_id+'-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id) ) {
+        if (jQuery('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
             return tinyMCE.get(editor_id).focus();
-        }else{
-            return jQuery('#'+textarea_id).focus();
+        } else {
+            return jQuery('#' + textarea_id).focus();
         }
     }
 

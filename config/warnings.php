@@ -6,6 +6,17 @@ $this->warning_types = array(
         'label_ok' => __('The wizard has been completed.', 'complianz'),
         'label_error' => __('The wizard is not completed yet.', 'complianz')
     ),
+    'no-cookie-policy' => array(
+        'label_ok' => __('Great, you have a cookie policy!', 'complianz'),
+        'label_error' => __('You do not have a cookie policy validated by Complianz GDPR yet.', 'complianz')
+    ),
+
+    'no-privacy-statement' => array(
+        'label_ok' => __('Great, you have a privacy policy!', 'complianz'),
+        'label_error_free' => sprintf(__('You do not have a privacy policy validated by Complianz GDPR yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'),
+        'label_error' => sprintf(__('You do not have a privacy policy yet.', 'complianz'), '<a href="https://complianz.io">', '</a>'),
+    ),
+
     'cookies-changed' => array(
         'label_ok' => __('No cookie changes have been detected.', 'complianz'),
         'label_error' => __('Cookie changes have been detected.', 'complianz') . " " . sprintf(__('Please review step %s of the wizard for changes in cookies.', 'complianz'), STEP_COOKIES),
@@ -22,4 +33,5 @@ $this->warning_types = array(
         'label_ok' => __('No issues with statistics tracking have been detected.', 'complianz'),
         'label_error' => __('Google Analytics is being used, but is not configured in Complianz.', 'complianz'),
     ),
+
 );
