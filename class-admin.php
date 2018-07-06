@@ -127,6 +127,7 @@ if (!class_exists("cmplz_admin")) {
                 if (!is_ssl()) {
                     $warnings[] = 'no-ssl';
                 }
+
                 set_transient('complianz_warnings', $warnings, HOUR_IN_SECONDS);
             }
             return $warnings;
@@ -400,13 +401,11 @@ if (!class_exists("cmplz_admin")) {
                             $last_cookie_scan = COMPLIANZ()->cookie->get_last_cookie_scan_date();
                             if ($last_cookie_scan) {
                                 $this->get_dashboard_element(sprintf(__('Last cookie scan on %s', 'complianz'), $last_cookie_scan), 'success');
-
                             } else {
-                                $this->get_dashboard_element(sprintf(__('No cookie scan yet', 'complianz'), $last_cookie_scan), 'error');
+                                $this->get_dashboard_element(sprintf(__('No cookies detected yet', 'complianz'), $last_cookie_scan), 'error');
                             }
 
                             $warnings = $this->get_warnings(false);
-
                             $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
 
                             foreach ($warning_types as $key => $type) {

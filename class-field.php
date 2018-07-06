@@ -194,7 +194,7 @@ if (!class_exists("cmplz_field")) {
             }
 
             //make translatable
-            if ($type == 'text' || $type == 'textarea') {
+            if ($type == 'text' || $type == 'textarea' || $type == 'editor') {
                 if (isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
                     do_action('cmplz_register_translation', $fieldname, $fieldvalue);
                 }

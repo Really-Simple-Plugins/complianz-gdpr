@@ -1,16 +1,27 @@
+#cmplz-document h2, #cmplz-document h3 {
+    font-size: 22px;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-transform: initial;
+}
 
-#cmplz-document h3{
-        font-size:22px;
-        text-align:left;
-    }
-#cmplz-document h4  {
-        font-size:18px;
-        text-align:left;
-    }
+#cmplz-document h4 {
+    font-size: 18px;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-transform: initial;
+}
 
-#cmplz-document h3.annex, h4.annex{
-        font-weight:bold;
-    }
-#cmplz-document p, #cmplz-document li {
-        font-size:14px
-    }
+#cmplz-document h3.annex, h4.annex {
+    font-weight: bold;
+}
+
+#cmplz-document, #cmplz-document p, #cmplz-document li {
+    font-size: 14px;
+    margin-top: 0;
+}
+
+#cmplz-document table {width:90%}
+#cmplz-document td {width:33.33%}

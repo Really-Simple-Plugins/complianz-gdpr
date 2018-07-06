@@ -161,12 +161,11 @@ jQuery(document).ready(function ($) {
             $.get(
                 complianz_admin.admin_url,
                 {
-                    action: 'get_scan_progress'
+                    action: 'cmplz_get_scan_progress'
                 },
                 function (response) {
                     var obj;
                     if (response) {
-
                         obj = jQuery.parseJSON(response);
 
                         progress = parseInt(obj['progress']);

@@ -130,10 +130,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
             foreach ($script_tags as $script):
                 $src_script = $script->getAttribute('src');
+                $class = $script->getAttribute('class');
+                if (strpos($class,'cmplz-native')!==FALSE) continue;
+
                 if ($src_script):
                     if ($this->strpos_arr($src_script, $known_script_tags) !== false):
                         $script = apply_filters('cmplz_set_class', $script);
-//                        $script->setAttribute("class", "cmplz-script");
                         $script->setAttribute("type", "text/plain");
                         continue;
                     endif;
@@ -143,13 +145,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     //if it's google analytics, and it's not anonymous or from complianz, remove it.
                     if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js'){
                         if (strpos($script->nodeValue, 'anonymizeIp') !== FALSE) continue;
-                        $class = $script->getAttribute('class');
-                        if (strpos($class,'cmplz-native')!==FALSE) continue;
-
                         $script->parentNode->removeChild($script);
                     } elseif ($key !== false) {
                         $script = apply_filters('cmplz_set_class', $script);
-                        //$script->setAttribute("class", "cmplz-script");
                         $script->setAttribute("type", "text/plain");
                     }
                 endif;

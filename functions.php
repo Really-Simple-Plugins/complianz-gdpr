@@ -120,13 +120,6 @@ function cmplz_update_option($page, $fieldname, $value)
     update_option('complianz_options_' . $page, $options);
 }
 
-if (!function_exists('_log')) {
-    function _log($msg)
-    {
-        error_log(print_r($msg, true));
-    }
-}
-
 function cmplz_uses_statistics()
 {
     $stats = cmplz_get_value('compile_statistics');
