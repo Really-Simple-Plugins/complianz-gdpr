@@ -1,10 +1,10 @@
 <?php
 //used to check if social media is used on site
 $this->social_media_markers = array(
-    "linkedin" => array("platform.linkedin.com"),
-    "googleplus" => array("https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
-    "twitter" => array("https://platform.twitter.com"),
-    "facebook" => array("fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
+    "googleplus" => array('addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
+    "twitter" => array('addthis_widget.js', "https://platform.twitter.com"),
+    "facebook" => array('addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('assets.pinterest.com'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "googlemaps" => array('new google.maps.'),

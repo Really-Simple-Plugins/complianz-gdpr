@@ -159,6 +159,13 @@ if (!class_exists("cmplz_field")) {
                 foreach ($saved_fields as $key => $value) {
                     $value = is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
                     $multiple_field[$key] = $value;
+
+                    //make translatable
+                    if ($type==='cookies' || $type==='thirdparties'){
+                        if (is_string($value) && isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
+                            do_action('cmplz_register_translation', $fieldname . "_" . $key, $value);
+                        }
+                    }
                 }
 
                 $options[$fieldname] = $multiple_field;
@@ -490,7 +497,7 @@ if (!class_exists("cmplz_field")) {
             <label for="<?php echo esc_html($fieldname) ?>"><?php echo $args['label'] ?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
-
+            <?php if (!empty($args['options'])) {?>
             <?php foreach ($args['options'] as $option_key => $option_label) {
 
             $sel_key = (isset($value[$option_key]) && $value[$option_key]) ? $option_key : $default_index;
@@ -504,7 +511,10 @@ if (!class_exists("cmplz_field")) {
                     <?php echo esc_html($option_label) ?>
                 </label>
             </div>
-        <?php } ?>
+            <?php } ?>
+        <?php } else {
+                cmplz_notice(__('No options found', 'complianz'));
+        } ?>
 
             <?php do_action('complianz_after_field', $args); ?>
             <?php
@@ -556,6 +566,9 @@ if (!class_exists("cmplz_field")) {
         public
         function condition_applies($args, $type = false)
         {
+            $default_args = $this->default_args;
+            $args = wp_parse_args($args, $default_args);
+
             if (!$type) {
                 if ($args['condition']) {
                     $type = 'condition';
@@ -563,7 +576,6 @@ if (!class_exists("cmplz_field")) {
                     $type = 'callback_condition';
                 }
             }
-
             if (!$type || !is_array($args[$type])) {
                 return true;
             }
@@ -575,17 +587,21 @@ if (!class_exists("cmplz_field")) {
                 if (strpos($c_value_content, ',') !== FALSE) {
                     $c_values = explode(',', $c_value_content);
                 }
+                //if ($c_fieldname=='contact_processing_data_lawfull') _log("lawfull ".$c_value_content);
                 foreach ($c_values as $c_value) {
                     $actual_value = cmplz_get_value($c_fieldname);
                     $fieldtype = $this->get_field_type($c_fieldname);
 
                     if ($fieldtype == 'multicheckbox') {
+                       // _log($c_fieldname);
+
                         if (!is_array($actual_value)) $actual_value = array($actual_value);
                         //get all items that are set to true
                         $actual_value = array_filter($actual_value, function ($item) {
                             return $item == 1;
                         });
                         $actual_value = array_keys($actual_value);
+
                         if (strpos($c_value, 'NOT ') === FALSE) {
                             if (!in_array($c_value, $actual_value)) {
                                 return false;
@@ -617,6 +633,8 @@ if (!class_exists("cmplz_field")) {
 
         public function get_field_type($fieldname)
         {
+            if (!isset(COMPLIANZ()->config->fields[$fieldname])) return false;
+
             return COMPLIANZ()->config->fields[$fieldname]['type'];
         }
 

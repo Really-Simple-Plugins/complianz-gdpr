@@ -37,10 +37,13 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 Complianz maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
 
 = When do I need a cookie consent banner? =
-When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
+Complianz GDPR will determine this automatically. When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
+
+= Do I always need a consent checkbox on contact forms? =
+Usually not. But if the Complianz GDPR premium plugin can determine if you need this. It depends on the type of information you request.
 
 = What are functional cookies? =
-Functional cookies are cookies that fall outside the scope of the cookie law. Cookies that are used to track if something is placed in the cart, or if a user is logged in, or anonized, not shared statistics cookies, are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
+A functional cookie is a cookie which is needed for the technical functioning of the website. Cookies that are used to track if something is placed in the cart, or if a user is logged in are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
 
 = What are analytical cookies? =
 Analytical cookies are used to track visitors on the website. How do they browse, how long are they staying, and what are they looking at, e.g. Also demography is part of an analytical cookie. They are essential in measuring the usage of a website and to optimize it. They can be seen as real management instruments.

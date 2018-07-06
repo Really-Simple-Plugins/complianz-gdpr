@@ -2,6 +2,14 @@
   font-family: Sofia Pro Light;
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
 }
+#cmplz-send-data input[type=text] {
+  width: 100%;
+}
+#cmplz-start-mail,
+#cmplz_close_tb_window {
+  margin-right: 15px;
+  margin-top: 15px;
+}
 #cmplz-support-form.hide {
   display: none !important;
 }
@@ -24,11 +32,20 @@
 .cmplz-notice.cmplz-success:before {
   color: green;
 }
+/*progress bar */
+#cmplz-scan-progress {
+  width: 100%;
+}
+#cmplz-scan-progress .cmplz-progress-bar {
+  height: 15px;
+  background-color: #2DAAE1;
+  transition: width 0.5s;
+  -webkit-transition: width 0.5s;
+}
 #cmplz-wizard {
   font-family: Sofia Pro Light;
   font-variant: small-caps;
   /*body */
-  /*progress bar */
 }
 #cmplz-wizard .field-group {
   margin-top: 12px;
@@ -336,15 +353,6 @@
   font: 400 21px/1 dashicons;
   speak: none;
   -webkit-font-smoothing: antialiased;
-}
-#cmplz-wizard #cmplz-scan-progress {
-  width: 100%;
-}
-#cmplz-wizard #cmplz-scan-progress .cmplz-progress-bar {
-  height: 15px;
-  background-color: #2DAAE1;
-  transition: width 0.5s;
-  -webkit-transition: width 0.5s;
 }
 .cmplz-continue-button {
   text-align: -webkit-left;

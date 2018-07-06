@@ -743,17 +743,19 @@ if (!class_exists("cmplz_wizard")) {
                 foreach ($fields as $fieldname => $field) {
                     //is field required
                     $required = isset($field['required']) ? $field['required'] : false;
-                    if (isset($field['condition']) && !COMPLIANZ()->field->condition_applies($field)) $required = false;
+                    if ((isset($field['condition']) || isset($field['callback_condition'])) && !COMPLIANZ()->field->condition_applies($field)) $required = false;
                     if ($required){
                         $value = cmplz_get_value($fieldname);
                         $total_fields++;
-                        $empty = empty($value);
-                        if (!$empty){
+                        if (!empty($value)){
                             $completed_fields++;
+                        } else{
+                            _log("$fieldname not complete");
                         }
                     }
                 }
             }
+
 
             //we account for the warnings with one step
             $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;
