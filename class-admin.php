@@ -220,11 +220,11 @@ if (!class_exists("cmplz_admin")) {
             <div class="cmplz-dashboard-support-content cmplz-dashboard-text">
                     <ul>
                         <?php do_action('cmplz_tools')?>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a href="https://complianz.io/support">', '</a>'); ?> </li>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
-                        <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
-                        <li style="bottom-border: 0px;"><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a href="https://complianz.io/pricing">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a href="https://complianz.io/support">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
+                        <li><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a href="https://complianz.io/pricing">', '</a>'); ?> </li>
                     </ul>
             </div>
 
@@ -233,9 +233,9 @@ if (!class_exists("cmplz_admin")) {
 
         public function dashboard_tools(){
             ?>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
+            <li><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=export_personal_data')?>"><?php _e("Export personal data", "complianz"); ?></a>
             </li>
-            <li style="border-bottom: 1px solid;"><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
+            <li><i class="fas fa-plus"></i><a href="<?php echo admin_url('tools.php?page=remove_personal_data')?>"><?php _e("Erase personal data", "complianz"); ?></a>
             </li>
 
             <?php
@@ -250,10 +250,10 @@ if (!class_exists("cmplz_admin")) {
             </div>
             <div class="cmplz-upgrade-table">
                 <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
-                    <ul style="margin: 5px;">
-                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Privacy Statement, Disclaimer & Processing Agreement', 'complianz');?></li>
-                        <li><i class="fas fa-plus" style="margin-bottom: 5px;"></i><?php echo __('Legal Updates, GEO Location & Do Not Track', 'complianz');?></li>
-                        <li style="border-bottom: 0px;"><i class="fas fa-plus"></i><?php echo __('Multiple Languages & Premium Support', 'complianz');?></li>
+                    <ul>
+                        <li><i class="fas fa-plus"></i><?php echo __('Privacy Statement, Disclaimer & Processing Agreement', 'complianz');?></li>
+                        <li><i class="fas fa-plus"></i><?php echo __('Legal Updates, GEO Location & Do Not Track', 'complianz');?></li>
+                        <li><i class="fas fa-plus"></i><?php echo __('Multiple Languages & Premium Support', 'complianz');?></li>
                     </ul>
                 </table>
             </div>
@@ -272,34 +272,34 @@ if (!class_exists("cmplz_admin")) {
                 <div class="cmplz-footer-title"><?php echo __('Really Simple SSL', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Trusted by over 1 million WordPress users', 'complianz'); ?></div>
                 <a href="https://really-simple-ssl.com" target="_blank">
-                    <span class="cmplz-external-btn">
+                    <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
-                    </span>
+                    </div>
                 </a>
             </div>
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Feature requests', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Need new features or languages? Let us know!', 'complianz'); ?></div>
                 <a href="https://complianz.io/contact" target="_blank">
-                    <span class="cmplz-external-btn">
+                    <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
-                    </span>
+                    </div>
                 </a>
             </div>
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Tutorials', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Check out our tutorials on complianz.io!', 'complianz'); ?></div>
                 <a href="https://complianz.io/tutorials/" target="_blank">
-                    <span class="cmplz-external-btn">
-                        <i class="fa fa-angle-right"></i></span></a>
+                    <div class="cmplz-external-btn">
+                        <i class="fa fa-angle-right"></i></div></a>
             </div>
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Our blog', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Stay up to date with the latest news', 'complianz'); ?></div>
                 <a href="https://complianz.io/articles" target="_blank">
-                    <span class="cmplz-external-btn">
+                    <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
-                    </span>
+                    </div>
                 </a>
             </div>
 
@@ -326,7 +326,7 @@ if (!class_exists("cmplz_admin")) {
                           <?php printf(__("%s completed.", "complianz"), COMPLIANZ()->wizard->wizard_percentage_complete() . "%") ?>
                          <?php
                          if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                             _e('Complianz GDPR is not configured completely.', 'complianz'); ?>
+                             _e('Your website is not ready for the GDPR yet.', 'complianz'); ?>
                             <div>
                                 <a href="<?php echo admin_url('admin.php?page=cmplz-wizard')?>" class="button cmplz-continue-button">
                                     <?php echo __('Continue', 'complianz'); ?>
@@ -335,7 +335,7 @@ if (!class_exists("cmplz_admin")) {
                             </div>
                              <?php
                          } else {
-                             _e('Great! Complianz GDPR has been configured.', 'complianz');
+                             _e('Well done! Your website is ready for the GDPR.', 'complianz');
                          }
                          ?>
                     </div>
@@ -344,14 +344,13 @@ if (!class_exists("cmplz_admin")) {
                         <div class="cmplz-dashboard-progress-top cmplz-dashboard-text">
                             <div class="cmplz-dashboard-top-text">
                                 <div class="cmplz-dashboard-top-text-title"><?php echo __('Your progress', 'complianz'); ?> </div>
+                                <div class='cmplz-dashboard-top-text-subtitle'>
                                 <?php if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                                    $text = __('Almost ready', 'complianz');
+                                    _e("You're not ready for the GDPR yet.", 'complianz');
                                 } else {
-                                    $text = __('Well done! You are GDPR compliant.', 'complianz');
-                                }
-
-                                echo "<div class='cmplz-dashboard-top-text-subtitle'>" . $text . "</div>";
-                                ?>
+                                    _e('Well done! Your website is ready for the GDPR.', 'complianz');
+                                }?>
+                                </div>
                             </div>
                             <div class="cmplz-percentage-complete green c100 p<?php echo COMPLIANZ()->wizard->wizard_percentage_complete(); ?>">
                                 <span><?php echo COMPLIANZ()->wizard->wizard_percentage_complete(); ?>%</span>
