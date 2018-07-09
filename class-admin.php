@@ -34,12 +34,27 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('cmplz_tools', array($this, 'dashboard_tools'));
 
-
+            add_action('upgrader_process_complete', array($this, 'check_upgrade'), 10, 2);
         }
 
         static function this()
         {
             return self::$_this;
+        }
+
+        public function check_upgrade(){
+            $prev_version = get_option('cmplz-current-version', '1.0.0');
+
+            if (version_compare($prev_version, '1.1.2','<')){
+                //move cookieblock settings to page general settings
+                $default = isset(COMPLIANZ()->config->fields['disable_cookie_block']['default']) ? COMPLIANZ()->config->fields['disable_cookie_block']['default'] : '';
+                $fields = get_option('complianz_options_cookie_settings');
+                $value = isset($fields['disable_cookie_block']) ? $fields['disable_cookie_block'] : $default;
+
+                $general = get_option('complianz_options_settings');
+                $general['disable_cookie_block'] = $value;
+            }
+            update_option('cmplz-current-version', cmplz_version);
         }
 
         public function enqueue_assets($hook)
@@ -174,6 +189,15 @@ if (!class_exists("cmplz_admin")) {
                 array($this, 'cookie_page')
             );
 
+            add_submenu_page(
+                'complianz',
+                __('Settings'),
+                __('Settings'),
+                'manage_options',
+                "cmplz-settings",
+                array($this, 'settings')
+            );
+
             do_action('cmplz_admin_menu');
 
         }
@@ -228,11 +252,11 @@ if (!class_exists("cmplz_admin")) {
             <div class="cmplz-dashboard-support-content cmplz-dashboard-text">
                     <ul>
                         <?php do_action('cmplz_tools')?>
-                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a href="https://complianz.io/support">', '</a>'); ?> </li>
-                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
-                        <li><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
-                        <li><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a href="https://complianz.io">',"</a>"); ?></li>
-                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a href="https://complianz.io/pricing">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("For the most common issues see the Complianz %sknowledge base%s", "complianz"), '<a target="_blank" href="https://complianz.io/support">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Ask your questions on the %sWordPress forum%s", "complianz"), '<a target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr">', '</a>'); ?> </li>
+                        <li><i class="fas fa-plus"></i><?php echo __("Create dataleak report", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a target="_blank" href="https://complianz.io">',"</a>"); ?></li>
+                        <li><i class="fas fa-plus"></i><?php echo __("Create processing agreement", "complianz")." ".sprintf(__('(%spremium%s)',"complianz"),'<a target="_blank" href="https://complianz.io">',"</a>"); ?></li>
+                        <li><i class="fas fa-plus"></i><?php echo sprintf(__("Upgrade to Complianz premium for %spremium support%s", "complianz"), '<a target="_blank" href="https://complianz.io/pricing">', '</a>'); ?> </li>
                     </ul>
             </div>
 
@@ -288,7 +312,7 @@ if (!class_exists("cmplz_admin")) {
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Feature requests', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Need new features or languages? Let us know!', 'complianz'); ?></div>
-                <a href="https://complianz.io/contact" target="_blank">
+                <a href="https://complianz.io/#contact" target="_blank">
                     <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
                     </div>
@@ -371,13 +395,11 @@ if (!class_exists("cmplz_admin")) {
 
                             <div class="cmplz-continue-wizard-btn">
                                 <?php if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) { ?>
-                                    <a href="<?php home_url() . '/wp-admin/admin.php?page=cmplz-wizard' ?>">
                                         <div>
                                             <a href="<?php echo admin_url('admin.php?page=cmplz-wizard')?>" class="button cmplz-continue-button">
                                             <?php echo __('Continue', 'complianz'); ?>
                                                 <i class="fa fa-angle-right"></i></a>
                                         </div>
-                                    </a>
                                 <?php } ?>
                             </div>
 
@@ -418,7 +440,7 @@ if (!class_exists("cmplz_admin")) {
                             }
 
                             if (defined('cmplz_free')) {
-                                $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'warning');
+                                $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>'), 'warning');
                             }
                             ?>
                         </table>
@@ -474,7 +496,7 @@ if (!class_exists("cmplz_admin")) {
                 // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
                 remove_filter('wp_mail_content_type', 'set_html_content_type');
                 if ($success) {
-                    $this->success_message = sprintf(__("Your support request has been received. We will reply shortly. You can track the status of your request at %scomplianz.io%s", "complianz"), '<a href="https://complianz.io/support">', '</a>');
+                    $this->success_message = sprintf(__("Your support request has been received. We will reply shortly. You can track the status of your request at %scomplianz.io%s", "complianz"), '<a target="_blank" href="https://complianz.io/support">', '</a>');
 
                 } else {
                     $this->error_message = __("Something went wrong while submitting the support request", "complianz");
@@ -513,15 +535,34 @@ if (!class_exists("cmplz_admin")) {
 
         }
 
+
+        public function settings()
+        {
+            ?>
+            <div class="wrap cmplz-settings">
+                <h1><?php _e("Settings") ?></h1>
+
+                <form action="" method="post">
+
+                    <table class="form-table">
+                        <?php
+
+                        COMPLIANZ()->field->get_fields('settings');
+
+                        COMPLIANZ()->field->save_button();
+
+                        ?>
+
+                    </table>
+                </form>
+            </div>
+            <?php
+        }
+
+
         public function cookie_page()
         {
             ?>
-            <style>
-                textarea {
-                    width: 450px;
-                    height: 100px;
-                }
-            </style>
             <div class="wrap cookie-warning">
                 <h1><?php _e("Cookie warning settings", 'complianz') ?></h1>
 

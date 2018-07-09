@@ -257,7 +257,7 @@ jQuery(document).ready(function ($) {
 
     //remove alerts
     window.setTimeout(function () {
-        $(".cmplz-notice-success").fadeTo(500, 0).slideUp(500, function () {
+        $(".cmplz-notice.cmplz-success").fadeTo(500, 0).slideUp(500, function () {
             $(this).remove();
         });
     }, 2000);

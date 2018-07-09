@@ -41,6 +41,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         public function remove_cookie_scripts()
         {
+
             if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
 
             if (cmplz_get_value('disable_cookie_block')) return;
@@ -101,7 +102,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             if (ob_get_length()) ob_end_flush();
         }
 
-
         /**
          * Just before the page is sent to the visitor's browser, remove all tracked third party scripts
          *
@@ -124,7 +124,10 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             libxml_use_internal_errors(true);
             $doc = new DOMDocument();
             $doc->encoding = 'utf-8';
-            $doc->loadHTML(mb_convert_encoding($output, 'HTML-ENTITIES', 'UTF-8'));
+            //$output = htmlspecialchars($output);
+            $output = mb_convert_encoding($output, 'HTML-ENTITIES', 'UTF-8');
+            $doc->loadHTML($output);
+
             // get all the script tags
             $script_tags = $doc->getElementsByTagName('script');
 
@@ -172,6 +175,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             // get the HTML string back
             $output = $doc->saveHTML();
             libxml_use_internal_errors(false);
+            //$output = html_entity_decode($output);
 
             $output = str_replace("<body ", '<body data-cmplz=1 ', $output);
             return apply_filters("cmplz_cookie_blocker_output", $output);

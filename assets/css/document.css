@@ -23,5 +23,11 @@
     margin-top: 0;
 }
 
-#cmplz-document table {width:90%}
-#cmplz-document td {width:33.33%}
+#cmplz-document table {
+    width: 100%;
+    margin-bottom: 30px;
+    width:90%
+}
+#cmplz-document td {
+    width:33.33%
+}

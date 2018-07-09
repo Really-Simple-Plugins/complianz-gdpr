@@ -136,7 +136,7 @@ $this->document_elements['cookie-statement'] = array(
                     [country_company]<br>
                     ' . __('Website:', 'complianz') . ' [domain] <br> 
                     ' . __('Email:', 'complianz') . ' [email_company] <br> 
-                    ' . __('Phone:', 'complianz') . ' [telephone_company]',
+                    [telephone_company]',
     ),
 
     'revoke_btn' => array(

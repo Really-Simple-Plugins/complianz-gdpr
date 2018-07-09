@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
     var ccName = false;
+
     $('.cmplz-color-picker').wpColorPicker({
             change:
                 function (event, ui) {
@@ -48,6 +49,18 @@ jQuery(document).ready(function ($) {
             ccName.fadeOut();
         }
 
+        var static = false;
+        var border = $('input[name=cmplz_border_color]').val();
+        var position = $('select[name=cmplz_position]').val();
+        if ($('select[name=cmplz_position]').val() == 'static'){
+            static = true;
+            position = 'top';
+        }
+
+        if ($('select[name=cmplz_theme]').val()=='edgeless'){
+           border = false;
+        }
+
         window.cookieconsent.initialise({
             cookie: {
                 name: 'complianz_config',
@@ -62,12 +75,13 @@ jQuery(document).ready(function ($) {
                 "button": {
                     "background": $('input[name=cmplz_button_background_color]').val(),
                     "text": $('input[name=cmplz_button_text_color]').val(),
+                    "border": border,
                 }
             },
 
             "theme": $('select[name=cmplz_theme]').val(),
-            //"static": $('select[name=cmplz_static]').val(),
-            "position": $('select[name=cmplz_position]').val(),
+            "static": static,
+            "position": position,
             "type": "opt-in",
             "content": {
                 "message": $('textarea[name=cmplz_message]').val(),
@@ -82,6 +96,12 @@ jQuery(document).ready(function ($) {
 
         if ($('select[name=cmplz_position]').val()==='top') {
             $('.cc-window').css({'top': '30px'});
+        }
+
+        //make it float over the wp menu
+        if ($('select[name=cmplz_position]').val() == 'static'){
+            $('.cc-grower').css('z-index', 10);
+            $('.cc-grower').css('position', 'relative');
         }
     }
 

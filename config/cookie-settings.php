@@ -41,6 +41,14 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+        'border_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' => '#fff',
+            'label' => __("Border color", 'complianz'),
+            'table' => true,
+        ),
+
         'cookie_expiry' => array(
             'page' => 'cookie_settings',
             'type' => 'number',
@@ -99,6 +107,7 @@ $this->fields = $this->fields + array(
                 'top' => __("Banner top", 'complianz'),
                 'bottom-left' => __("Floating left", 'complianz'),
                 'bottom-right' => __("Floating right", 'complianz'),
+                'static' => __("Push down", 'complianz'),
             ),
             'default' => 'bottom',
             'table' => true,
@@ -133,12 +142,5 @@ $this->fields = $this->fields + array(
 //            'default' => '',
 //            'table' => true,
 //        ),
-        'disable_cookie_block' => array(
-            'page' => 'cookie_settings',
-            'type' => 'checkbox',
-            'label' => __("Disable cookie blocker", 'complianz'),
-            'default' => 'false',
-            'help' => __('Not recommended. You can disable the brute force blocking of third party scripts if you encounter issues with the website output.','complianz'),
-            'table' => true,
-        ),
+
     );

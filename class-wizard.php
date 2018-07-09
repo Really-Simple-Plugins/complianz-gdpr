@@ -30,9 +30,9 @@ if (!class_exists("cmplz_wizard")) {
             add_action('cmplz_wizard_wizard', array($this, 'wizard_after_last_step'), 10, 1);
 
             //process custom hooks
-//            add_action('admin_init', array($this, 'process_custom_hooks'));
-//
-//            add_action('admin_init', array($this, 'start_wizard'), 10, 1);
+            add_action('admin_init', array($this, 'process_custom_hooks'));
+
+            add_action('admin_init', array($this, 'start_wizard'), 10, 1);
 
             add_action('complianz_before_save_wizard_option', array($this, 'before_save_wizard_option'), 10, 4);
 
@@ -488,7 +488,7 @@ if (!class_exists("cmplz_wizard")) {
         {
 
             if (isset($_POST['cmplz-save'])) {
-                echo '<div class="cmplz-notice-success">' . __("Changes saved successfully", 'complianz') . "</div>";
+                cmplz_notice_success( __("Changes saved successfully", 'complianz') );
             }
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
@@ -523,7 +523,7 @@ if (!class_exists("cmplz_wizard")) {
                 if (($page == 'dataleak') || ($page == 'processing') || !$this->wizard_completed()) {
                     COMPLIANZ()->field->get_fields($page, $step, $section);
                 } else {
-                    _e("The wizard has been completed. To start the wizard again, click 'start over'", 'complianz');
+                    _e("The wizard has been completed. To start the wizard again, click 'Make changes'", 'complianz');
 
                 }
                 ?>
@@ -537,7 +537,7 @@ if (!class_exists("cmplz_wizard")) {
                         <div class="cmplz-button cmplz-next">
                                 <span>
                         <input class="button" type="submit" name="cmplz-start"
-                               value="<?php _e("Start over", 'complianz') ?>">
+                               value="<?php _e("Make changes", 'complianz') ?>">
                                 </span>
                         </div>
 
@@ -567,12 +567,13 @@ if (!class_exists("cmplz_wizard")) {
                         if (($page == 'dataleak') && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
                             $hide_finish_button = true;
                         }
+                        $label = ($page == 'dataleak' || $page == 'processing') ? __("View document", 'complianz') : __("Finish", 'complianz');
                         ?>
                         <?php if (!$hide_finish_button && ($step == $this->total_steps) && $this->all_required_fields_completed($page)) { ?>
                             <div class="cmplz-button cmplz-next">
                                 <span>
                                 <input class="button" type="submit" name="cmplz-finish"
-                                       value="<?php _e("Finish", 'complianz') ?>">
+                                       value="<?php echo $label ?>">
                                 </span>
                             </div>
                         <?php } ?>

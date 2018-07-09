@@ -56,6 +56,8 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 == Change log ==
 = 1.1.2 =
 * Tweak: added css styles for cookie policy
+* Tweak: added push down style to cookie warning
+* Tweak: added Sumo to third party blocked scripts
 * Fix: some bugfixes
 
 = 1.1.1 =
