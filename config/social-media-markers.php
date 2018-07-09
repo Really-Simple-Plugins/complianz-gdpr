@@ -3,8 +3,8 @@
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
     "googleplus" => array('addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
-    "twitter" => array('addthis_widget.js', "https://platform.twitter.com"),
-    "facebook" => array('addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "twitter" => array('sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
+    "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('assets.pinterest.com'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "googlemaps" => array('new google.maps.'),
@@ -24,6 +24,7 @@ $this->script_tags = array(
     'www.google-analytics.com/analytics.js',
     'google-analytics.com/ga.js',
     'new google.maps.',
+    'dataset.sumoSiteId',
     '_getTracker',
     'disqus.com',
     'addthis.com',

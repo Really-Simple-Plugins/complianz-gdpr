@@ -28,8 +28,11 @@ if (!class_exists("cmplz_document")) {
 
         public function enqueue_assets()
         {
-            wp_register_style('cmplz-document', cmplz_url . 'assets/css/document.css', false, cmplz_version);
-            wp_enqueue_style('cmplz-document');
+            $load_css = cmplz_get_value('use_document_css');
+            if ($load_css) {
+                wp_register_style('cmplz-document', cmplz_url . 'assets/css/document.css', false, cmplz_version);
+                wp_enqueue_style('cmplz-document');
+            }
         }
 
         /*
@@ -600,6 +603,9 @@ if (!class_exists("cmplz_document")) {
         private function get_plain_text_value($fieldname, $post_id, $list_style = true)
         {
             $value = cmplz_get_value($fieldname, $post_id);
+
+            $front_end_label = isset(COMPLIANZ()->config->fields[$fieldname]['front-end-label']) ? COMPLIANZ()->config->fields[$fieldname]['front-end-label'] : '';
+
             if (COMPLIANZ()->config->fields[$fieldname]['type'] == 'url') {
                 $value = '<a href="' . $value . '" target="_blank">';
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
@@ -636,6 +642,7 @@ if (!class_exists("cmplz_document")) {
                 }
             }
 
+            if (!empty($value)) $value = $front_end_label.$value;
             return $value;
         }
 

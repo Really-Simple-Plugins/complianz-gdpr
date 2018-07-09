@@ -153,6 +153,7 @@ if (!class_exists("cmplz_field")) {
                 if (!isset($fields[$fieldname])) return;
 
                 $page = $fields[$fieldname]['page'];
+                $type = $fields[$fieldname]['type'];
                 $options = get_option('complianz_options_' . $page);
                 $multiple_field = $this->get_value($fieldname, array());
 
@@ -160,8 +161,8 @@ if (!class_exists("cmplz_field")) {
                     $value = is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
                     $multiple_field[$key] = $value;
 
-                    //make translatable
-                    if ($type==='cookies' || $type==='thirdparties'){
+                    //make cookies and thirdparties translatable
+                    if ($type==='cookies' || $type==='thirdparties' || $type==='editor'){
                         if (is_string($value) && isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
                             do_action('cmplz_register_translation', $fieldname . "_" . $key, $value);
                         }
@@ -934,7 +935,10 @@ if (!class_exists("cmplz_field")) {
 
 
             if (!$this->show_field($args)) return;
+
+
             ?>
+
             <?php do_action('complianz_before_label', $args); ?>
             <label><?php _e("Cookies", 'complianz') ?></label>
             <?php do_action('complianz_after_label', $args); ?>
@@ -969,11 +973,12 @@ if (!class_exists("cmplz_field")) {
                     }
                     ?>
 
-                    <div>
-                        <div>
+                    <div class="cmplz-cookie-field">
+                        <div class="cmplz-cookie-header">
                             <label><?php echo sprintf(__('Information for the cookie "%s"', 'complianz'), $cookiename) ?></label>
                         </div>
                         <div>
+                            <div><label><?php _e('Name', 'complianz')?></label></div>
                             <input type="text"
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][label]"
                                    value="<?php echo esc_html($value['label']) ?>">
@@ -994,7 +999,6 @@ if (!class_exists("cmplz_field")) {
                                     <?php if ($value['functional']) echo "checked" ?>>
                                 <?php _e('This is a functional cookie', 'complianz') ?></label>
                         </div>
-
                         <div>
                             <label>
                                 <input type="hidden"
@@ -1005,7 +1009,7 @@ if (!class_exists("cmplz_field")) {
                                     <?php if ($value['show']) echo "checked" ?>>
                                 <?php _e('Add this cookie to the cookie policy', 'complianz') ?></label>
                         </div>
-
+                        <br>
                         <div>
                             <label><?php _e('Used names', 'complianz') ?></label>
                         </div>
@@ -1046,10 +1050,11 @@ if (!class_exists("cmplz_field")) {
                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][description]"><?php echo esc_html($value['description']) ?></textarea>
                         </div>
 
-                    </div>
+
                     <button class="button cmplz-remove" type="submit"
                             name="cmplz_remove_multiple[<?php echo esc_html($args['fieldname']) ?>]"
                             value="<?php echo esc_html($key) ?>"><?php _e("Remove", 'complianz') ?></button>
+                    </div>
                     <?php
                 }
             }

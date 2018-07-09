@@ -54,6 +54,7 @@ if (!class_exists("cmplz_config")) {
             require_once(cmplz_path . '/config/steps.php');
             require_once(cmplz_path . '/config/warnings.php');
             require_once(cmplz_path . '/config/cookie-settings.php');
+            require_once(cmplz_path . '/config/general-settings.php');
             require_once(cmplz_path . '/config/social-media-markers.php');
 
             require_once(cmplz_path . '/config/questions-wizard.php');

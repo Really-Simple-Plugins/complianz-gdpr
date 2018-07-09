@@ -294,6 +294,7 @@ if (!class_exists("cmplz_cookie")) {
             wp_enqueue_style('cmplz-cookie');
 
             $cookiesettings = $this->get_cookie_settings();
+
             $cookiesettings['url'] = admin_url('admin-ajax.php');
             $cookiesettings['nonce'] = wp_create_nonce('set_cookie');
             wp_enqueue_script('cmplz-cookie', cmplz_url . "assets/js/cookieconsent.js", array(), cmplz_version, true);
@@ -337,6 +338,15 @@ if (!class_exists("cmplz_cookie")) {
                 $value = cmplz_get_value($fieldname);
                 if (empty($value)) $value = $field['default'];
                 $output[$fieldname] = $value;
+            }
+
+            if ($output['position'] == 'static'){
+                $output['static'] = true;
+                $output['position'] = 'top';
+            }
+
+            if ($output['theme'] == 'edgeless'){
+                $output['border_color'] = false;
             }
 
             $output['readmore_url'] = $this->get_cookie_statement_page();

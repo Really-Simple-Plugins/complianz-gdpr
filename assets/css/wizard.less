@@ -5,6 +5,28 @@
   font-family: Sofia Pro Light;
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
 }
+
+.cookie-warning {
+  textarea {
+    width: 450px;
+    height: 100px;
+  }
+}
+.cmplz-comment{
+  font-style:italic;
+}
+
+.cmplz-cookie-field {
+  .cmplz-cookie-header{
+    border-bottom: 2px solid #e3e3e3;
+    margin-bottom: 10px;
+  }
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  background-color: #f5f5f5;
+  margin-bottom: 35px;
+}
+
 #cmplz-send-data{
   input[type=text] {
     width:100%;
@@ -57,7 +79,18 @@
 #cmplz-wizard {
 
   font-family: Sofia Pro Light;
-  font-variant: small-caps;
+
+  h1, h2, h3, h4, .cmplz-menu-item, .cmplz-step-title, .cmplz-button {
+    font-variant: small-caps;
+  }
+
+  p, .cmplz-custom-privacy-text {
+    font-size:15px;
+  }
+
+  label {
+    font-size:14px;
+  }
 
 
 
@@ -188,6 +221,7 @@
 
     /* Define the styling of the text input fields */
     label {
+      //font-variant: small-caps;
       font-weight: bold;
       margin: 10px 0;
     }

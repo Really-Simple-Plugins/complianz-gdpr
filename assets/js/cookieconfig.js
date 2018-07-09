@@ -89,7 +89,8 @@ jQuery(document).ready(function ($) {
                 },
                 "button": {
                     "background": complianz.button_background_color,
-                    "text": complianz.button_text_color
+                    "text": complianz.button_text_color,
+                    "border": complianz.border_color
                 }
             },
             "regionalLaw": true,

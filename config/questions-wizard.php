@@ -111,6 +111,7 @@ $this->fields = $this->fields + array(
             'page' => 'wizard',
             'type' => 'phone',
             'default' => '',
+            'front-end-label' => __('Phone:', 'complianz')." ",
             'label' => __("What is the telephone number your visitors can use to contact you about privacy issues?", 'complianz'),
             'required' => false,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
@@ -295,9 +296,22 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'statistics_script' => array(
+        'used_cookies' => array(
             'step' => STEP_COOKIES,
             'section' => 3,
+            'page' => 'wizard',
+            'translatable' => true,
+            'type' => 'cookies',
+            'optional' => true,
+            'default' => '',
+            'label' => __("Add the used cookies here", 'complianz'),
+            'callback_condition' => array('uses_cookies' => 'yes'),
+            'time' => 5,
+        ),
+
+        'statistics_script' => array(
+            'step' => STEP_COOKIES,
+            'section' => 4,
             'page' => 'wizard',
             'type' => 'javascript',
             'default' => '',
@@ -314,7 +328,7 @@ $this->fields = $this->fields + array(
 
         'cookie_scripts' => array(
             'step' => STEP_COOKIES,
-            'section' => 3,
+            'section' => 4,
             'page' => 'wizard',
             'type' => 'javascript',
             'optional' => true,
@@ -329,7 +343,7 @@ $this->fields = $this->fields + array(
 
         'thirdparty_scripts' => array(
             'step' => STEP_COOKIES,
-            'section' => 3,
+            'section' => 4,
             'page' => 'wizard',
             'type' => 'textarea',
             'optional' => true,
@@ -348,7 +362,7 @@ $this->fields = $this->fields + array(
 
         'thirdparty_iframes' => array(
             'step' => STEP_COOKIES,
-            'section' => 3,
+            'section' => 4,
             'page' => 'wizard',
             'type' => 'textarea',
             'optional' => true,
@@ -360,18 +374,7 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'used_cookies' => array(
-            'step' => STEP_COOKIES,
-            'section' => 4,
-            'page' => 'wizard',
-            'translatable' => true,
-            'type' => 'cookies',
-            'optional' => true,
-            'default' => '',
-            'label' => __("Add the used cookies here", 'complianz'),
-            'callback_condition' => array('uses_cookies' => 'yes'),
-            'time' => 5,
-        ),
+
 
 
     );
