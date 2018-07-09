@@ -30,9 +30,9 @@ if (!class_exists("cmplz_wizard")) {
             add_action('cmplz_wizard_wizard', array($this, 'wizard_after_last_step'), 10, 1);
 
             //process custom hooks
-            add_action('admin_init', array($this, 'process_custom_hooks'));
-
-            add_action('admin_init', array($this, 'start_wizard'), 10, 1);
+//            add_action('admin_init', array($this, 'process_custom_hooks'));
+//
+//            add_action('admin_init', array($this, 'start_wizard'), 10, 1);
 
             add_action('complianz_before_save_wizard_option', array($this, 'before_save_wizard_option'), 10, 4);
 
@@ -749,13 +749,10 @@ if (!class_exists("cmplz_wizard")) {
                         $total_fields++;
                         if (!empty($value)){
                             $completed_fields++;
-                        } else{
-                            _log("$fieldname not complete");
                         }
                     }
                 }
             }
-
 
             //we account for the warnings with one step
             $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;

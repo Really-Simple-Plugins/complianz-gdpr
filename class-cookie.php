@@ -32,20 +32,20 @@ if (!class_exists("cmplz_cookie")) {
                     require_once(cmplz_path . 'pro-class-geoip.php');
                     COMPLIANZ()->geoip = new cmplz_geoip();
                 }
-                add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
                 add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
+                add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
                 add_action('init', array($this, 'set_cookie_policy_id'));
             } else {
                 add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
             }
 
-            //cookie script for styling purposes on backend
+//            //cookie script for styling purposes on backend
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
-
-            add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
             add_action('admin_footer', array($this, 'run_cookie_scan'));
             add_action('wp_ajax_load_detected_cookies', array($this, 'load_detected_cookies'));
-            add_action('wp_ajax_get_scan_progress', array($this, 'get_scan_progress'));
+            add_action('wp_ajax_cmplz_get_scan_progress', array($this, 'get_scan_progress'));
+
+            add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
@@ -303,7 +303,6 @@ if (!class_exists("cmplz_cookie")) {
                 $cookiesettings
             );
 
-
             wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
 
         }
@@ -383,6 +382,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function inline_cookie_script()
         {
+
             ?>
             <script class="cmplz-native">
                 function complianz_enable_cookies() {

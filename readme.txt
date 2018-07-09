@@ -4,7 +4,7 @@ Tags: GPDR, AVG, EU, Privacy, Cookie warning, Cookie policy, Cookie scan
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
-Tested up to: 4.9.6
+Tested up to: 4.9.7
 Stable tag: 1.1.1
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
@@ -40,7 +40,7 @@ Complianz maintains a continuously growing knowledgebase about GDPR on [complian
 Complianz GDPR will determine this automatically. When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
 
 = Do I always need a consent checkbox on contact forms? =
-Usually not. But if the Complianz GDPR premium plugin can determine if you need this. It depends on the type of information you request.
+Not always. The Complianz GDPR premium plugin can determine if you need this, based on your answers. It mainly depends on the type of information you request.
 
 = What are functional cookies? =
 A functional cookie is a cookie which is needed for the technical functioning of the website. Cookies that are used to track if something is placed in the cart, or if a user is logged in are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
@@ -54,6 +54,10 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.1.2 =
+* Tweak: added css styles for cookie policy
+* Fix: some bugfixes
+
 = 1.1.1 =
 * Tweak: updates wizard complete texts
 * Fix: youtube nocookie replace
