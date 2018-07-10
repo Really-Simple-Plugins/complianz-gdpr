@@ -7,7 +7,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
     {
         private static $_this;
         public $script_tags = array();
-        public $script_async_tags = array();
         public $iframe_tags = array();
 
         function __construct()

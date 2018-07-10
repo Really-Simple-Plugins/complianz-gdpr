@@ -574,6 +574,7 @@ if (!class_exists("cmplz_document")) {
             }
 
             //some custom elements
+            $html = str_replace("[cookie_accept_text]", cmplz_get_value('accept'), $html);
             $html = str_replace("[domain]", esc_url_raw(get_site_url()), $html);
             $html = str_replace("[cookie_policy_url]", esc_url_raw(COMPLIANZ()->cookie->get_cookie_statement_page()), $html);
 

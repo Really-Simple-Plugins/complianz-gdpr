@@ -8,8 +8,9 @@ function deleteAllCookies() {
     );
 }
 
-jQuery(document).ready(function ($) {
 
+jQuery(document).ready(function ($) {
+    console.log('running script');
     function complianz_enable_scripts(){
         //iframes
         $('.cmplz-iframe').each(function(i, obj) {
@@ -27,7 +28,6 @@ jQuery(document).ready(function ($) {
             if ($(this).text().length && $(this).text().length>40){
                 eval($(this).text());
             }
-
         });
 
     }
