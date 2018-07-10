@@ -157,3 +157,45 @@ function cmplz_wp_privacy_version(){
     global $wp_version;
     return ($wp_version >= '4.9.6');
 }
+
+/*
+ * Add a class to third party scripts so the acceptance of the cookie warning results in enabling these scripts.
+ * We respect the Do Not Track option (dnt_enabled)
+ *
+ * */
+add_filter('cmplz_set_class', 'cmplz_set_class');
+function cmplz_set_class($script){
+    $script->setAttribute("class", "cmplz-script");
+    return $script;
+}
+
+add_filter('cmplz_third_party_iframe', 'cmplz_third_party_iframe');
+function cmplz_third_party_iframe($iframe){
+    $src_iframe = $iframe->getAttribute('src');
+    $iframe->setAttribute("data-src-cmplz", $src_iframe);
+    return $iframe;
+}
+
+add_filter('cmplz_script_tags', 'cmplz_script_tags');
+function cmplz_script_tags($script_tags){
+    $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
+
+    if (!empty($custom_scripts) && strlen($custom_scripts)>0){
+        $custom_scripts = explode(',', $custom_scripts);
+        $script_tags = array_merge($script_tags ,  $custom_scripts);
+    }
+
+    return $script_tags;
+}
+
+add_filter('cmplz_iframe_tags','cmplz_iframe_tags');
+function cmplz_iframe_tags($iframe_tags){
+    $custom_iframes = cmplz_strip_spaces(cmplz_get_value('thirdparty_iframes'));
+
+    if (!empty($custom_iframes) && strlen($custom_iframes)>0){
+        $custom_iframes = explode(',', $custom_iframes);
+        $iframe_tags = array_merge($iframe_tags ,  $custom_iframes);
+    }
+
+    return $iframe_tags;
+}

@@ -24,7 +24,7 @@ $this->document_elements['cookie-statement'] = array(
     ),
     'consent' => array(
         'title' => __('Consent', 'complianz'),
-        'content' => __('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "agree", you consent to us using all cookies and plug-ins as described in the pop-up and this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'complianz'),
+        'content' => sprintf(__('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'complianz'), '[cookie_accept_text]'),
         'callback_condition' => 'cmplz_cookie_warning_required',
     ),
     'third-party' => array(
