@@ -117,64 +117,79 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             elseif (strpos($output, '<html') > 200):
                 return $output;
             endif;
+
             $known_script_tags = apply_filters('cmplz_script_tags',COMPLIANZ()->config->script_tags);
             $known_iframe_tags = apply_filters('cmplz_iframe_tags',COMPLIANZ()->config->iframe_tags);
 
-            libxml_use_internal_errors(true);
-            $doc = new DOMDocument();
-            $doc->encoding = 'utf-8';
-            //$output = htmlspecialchars($output);
-            $output = mb_convert_encoding($output, 'HTML-ENTITIES', 'UTF-8');
-            $doc->loadHTML($output);
+            $url_pattern = '([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)';
 
-            // get all the script tags
-            $script_tags = $doc->getElementsByTagName('script');
+            /*
+             * Handle iframes from third parties
+             *
+             *
+             * */
 
-            foreach ($script_tags as $script):
-                $src_script = $script->getAttribute('src');
-                $class = $script->getAttribute('class');
-                if (strpos($class,'cmplz-native')!==FALSE) continue;
-
-                if ($src_script):
-                    if ($this->strpos_arr($src_script, $known_script_tags) !== false):
-                        $script = apply_filters('cmplz_set_class', $script);
-                        $script->setAttribute("type", "text/plain");
-                        continue;
-                    endif;
-                endif;
-                if ($script->nodeValue):
-                    $key = $this->strpos_arr($script->nodeValue, $known_script_tags);
-                    //if it's google analytics, and it's not anonymous or from complianz, remove it.
-                    if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js'){
-                        if (strpos($script->nodeValue, 'anonymizeIp') !== FALSE) continue;
-                        $script->parentNode->removeChild($script);
-                    } elseif ($key !== false) {
-                        $script = apply_filters('cmplz_set_class', $script);
-                        $script->setAttribute("type", "text/plain");
+            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
+            if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                foreach($matches[2] as $key => $match){
+                    $total_match = $matches[0][$key];
+                    $iframe_src = $matches[2][$key].$matches[3][$key];
+                    if (strpos($iframe_src, 'youtube.com/embed/')!==false){
+                        $output = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $output);
+                    } elseif ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
+                        $new = $total_match;
+                        $new = apply_filters('cmplz_third_party_iframe', $new, $iframe_src);
+                        $new = $this->remove_src($new);
+                        $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
+                        $output = str_replace($total_match, $new, $output);
                     }
-                endif;
-            endforeach;
-            // get all the iframe tags
-            $iframe_tags = $doc->getElementsByTagName('iframe');
-            foreach ($iframe_tags as $iframe):
-                $src_iframe = $iframe->getAttribute('src');
-                if ($src_iframe):
-                    if (strpos($src_iframe, 'youtube.com/embed/')!==false){
-                        $src_iframe = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $src_iframe);
-                        $iframe->setAttribute("src", $src_iframe);
-                    } elseif ($this->strpos_arr($src_iframe, $known_iframe_tags) !== false) {
-                        $iframe = apply_filters('cmplz_third_party_iframe', $iframe);
-                        $iframe->removeAttribute('src');
-                        $addclass = ($iframe->hasAttribute('class')) ? $iframe->getAttribute('class') : "";
-                        $iframe->setAttribute("class", "cmplz-iframe " . $addclass);
-                    }
-                endif;
-            endforeach;
+                }
+            }
 
-            // get the HTML string back
-            $output = $doc->saveHTML();
-            libxml_use_internal_errors(false);
-            //$output = html_entity_decode($output);
+            /*
+             * Handle scripts from third parties
+             *
+             *
+             * */
+
+            $script_pattern = '/(<script.*?>)(\X*?)<\/script>/i';
+            if (preg_match_all($script_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                foreach($matches[1] as $key => $script_open){
+                    if (strpos($script_open,'cmplz-native')!==FALSE) continue;
+                    $total_match = $matches[0][$key];
+                    $content = $matches[2][$key];
+                    if (!empty($content)) {
+                        $key = $this->strpos_arr($content, $known_script_tags);
+                        //if it's google analytics, and it's not anonymous or from complianz, remove it.
+                        if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js') {
+                            if (strpos($content, 'anonymizeIp') !== FALSE) continue;
+                        }
+                        if ($key !== false) {
+                            $new = $total_match;
+                            $new = apply_filters('cmplz_set_class', $new);
+                            $new = $this->set_javascript_to_plain($new);
+                            $output = str_replace($total_match, $new, $output);
+                        }
+                    }
+
+                    //when script contains src
+                    $script_src_pattern = '/<script [^>]*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
+                    if (preg_match_all($script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER)) {
+
+                        foreach ($src_matches[2] as $src_key => $script_src) {
+
+                            $script_src = $src_matches[1][$src_key].$src_matches[2][$src_key];
+                            if ($this->strpos_arr($script_src, $known_script_tags) !== false){
+                                $new = $total_match;
+                                $new = apply_filters('cmplz_set_class', $new);
+                                $new = $this->set_javascript_to_plain($new);
+
+                                $output = str_replace($total_match, $new, $output);
+                            }
+                        }
+                    }
+                }
+            }
 
             $output = str_replace("<body ", '<body data-cmplz=1 ', $output);
             return apply_filters("cmplz_cookie_blocker_output", $output);
@@ -188,6 +203,25 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 if (($pos = strpos($haystack, $what)) !== false) return $key;
             }
             return false;
+        }
+
+        public function set_javascript_to_plain($script){
+            $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
+            $script = preg_replace($pattern, 'type="text/plain"', $script);
+            return $script;
+        }
+
+        public function remove_src($script){
+            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
+            $script = preg_replace($pattern, '', $script);
+            return $script;
+        }
+
+        public function add_class($html, $el, $class){
+            if (strpos($html,'class' )===false){
+                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+            }
+            return $html;
         }
     }
 }

@@ -30,7 +30,6 @@ $this->script_tags = array(
     'googlesyndication',
     'cdn.livechatinc.com/tracking.js',
     'disqus.com',
-    "console.log",
     'dataset.sumoSiteId',
     'addthis.com',
     'sharethis.com',
