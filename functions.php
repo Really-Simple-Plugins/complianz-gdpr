@@ -160,21 +160,26 @@ function cmplz_wp_privacy_version(){
 
 /*
  * Add a class to third party scripts so the acceptance of the cookie warning results in enabling these scripts.
- * We respect the Do Not Track option (dnt_enabled)
  *
  * */
-add_filter('cmplz_set_class', 'cmplz_set_class');
+add_filter('cmplz_set_class', 'cmplz_set_class', 10, 1);
 function cmplz_set_class($script){
-    $script->setAttribute("class", "cmplz-script");
+    $script = COMPLIANZ()->cookie_blocker->add_class($script, 'script', 'cmplz-script');
+    //$script = str_replace('<script', '<script class="cmplz-script"', $script);
     return $script;
 }
 
-add_filter('cmplz_third_party_iframe', 'cmplz_third_party_iframe');
-function cmplz_third_party_iframe($iframe){
-    $src_iframe = $iframe->getAttribute('src');
-    $iframe->setAttribute("data-src-cmplz", $src_iframe);
+/*
+ * Move the source to a data attribute
+ *
+ * */
+
+add_filter('cmplz_third_party_iframe', 'cmplz_third_party_iframe', 10, 2);
+function cmplz_third_party_iframe($iframe, $src_iframe){
+    $iframe = str_replace('<iframe', '<iframe data-src-cmplz="'.$src_iframe.'"', $iframe);
     return $iframe;
 }
+
 
 add_filter('cmplz_script_tags', 'cmplz_script_tags');
 function cmplz_script_tags($script_tags){
