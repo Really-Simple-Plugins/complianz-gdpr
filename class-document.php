@@ -554,13 +554,11 @@ if (!class_exists("cmplz_document")) {
             return '<p>' . $content . '</p>';
         }
 
-
         /*
          * Replace all fields in the resulting output
          *
          *
          * */
-
 
         private function replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id)
         {

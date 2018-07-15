@@ -187,7 +187,7 @@ $this->known_cookie_keys = array(
 
     'livechat' => array('functional' => false,
         'used_names' => array('__lc.visitor_id', 'hide_eye_catcher', 'autoinvite_callback', '__lc.visitor_id', 'lc_invitation_opened', 'lc_window_state', 'lc_sso9818825', '__lc_visitor_id'),
-        'unique_used_names' => array('wpfront-notification-bar-landingpage', 'partial__lc.visitor_id', '_icl_visitor_lang_js', 'partial_lc_'),
+        'unique_used_names' => array('wpfront-notification-bar-landingpage', 'partial__lc.visitor_id', 'partial_lc_'),
         'privacy_policy_url' => 'https://www.livechat.com/privacy/',
         'label' => "Livechat",
         'purpose' => __("Real-time chat cookie", 'complianz'),
@@ -447,7 +447,7 @@ $this->known_cookie_keys = array(
 
       'wpml' => array('functional' => true,
         'used_names' => array('wpml_browser_redirect_test', '_icl_current_language', '_icl_visitor_lang_js', '_icl_current_admin_language_', ),
-        'unique_used_names' => array('partial_wpml', 'partial__icl_'),
+        'unique_used_names' => array('partial_wpml', 'partial__icl_', '_icl_visitor_lang_js'),
         'privacy_policy_url' => 'https://wpml.org/documentation/privacy-policy-and-gdpr-compliance/',
         'label' => __("WPML", 'complianz'),
         'purpose' => __("", 'complianz'),

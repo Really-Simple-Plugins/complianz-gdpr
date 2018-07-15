@@ -1,17 +1,25 @@
 === Complianz GDPR ===
 Contributors: RogierLankhorst, ComplianzTeam
-Tags: GPDR, AVG, EU, Privacy, Cookie warning, Cookie policy, Cookie scan
+Tags: GPDR, AVG,  Cookie warning, EU, Privacy, Cookie block,Cookie policy, Cookie scan
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.1.3
+Stable tag: 1.1.5
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR will help you to make your website quickly GDPR compliant. Third party cookies are blocked until user accepts the cookie warning.
+Complianz GDPR will help you to make your website quickly GDPR compliant. Third party cookies are blocked until the user accepts the cookie warning.
 Includes a cookie warning, customized cookie policy based on the results of the built in cookie scan. The detected cookies are prefilled with the shipped cookie database.
+
+= Features =
+* Automatically detects if you need a cookie warning
+* Integrated with Google Analytics in a way which makes it not necessary to place a cookie warning for analytics only
+* Periodically scans your site for cookies and social media services
+* Completely blocks third party cookies like Facebook, Google, Twitter
+* Youtube videos are shown without placing cookies
+* Generates a legally validated cookie policy
 
 Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
@@ -54,6 +62,12 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.1.5 =
+* No + one's anymore for cookie changes, this will only be shown in the dashboard
+
+= 1.1.4 =
+* Fix: complete rework of third party cookie blocker, dropped domDocument in favor of regex
+
 = 1.1.3 =
 * Fix: accepting the cookie policy did not properly unblock third party scripts
 * Tweak: use accept text in cookie policy

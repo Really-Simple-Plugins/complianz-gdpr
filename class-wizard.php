@@ -756,7 +756,12 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //we account for the warnings with one step
-            $warnings = (count(COMPLIANZ()->admin->get_warnings())!=0) ? true: false;
+            $warning_count = COMPLIANZ()->admin->get_warnings();
+            if (!COMPLIANZ()->document->page_exists('privacy-statement')){
+                $warning_count++;
+            }
+
+            $warnings = (count($warning_count)!=0) ? true: false;
             $total_fields++;
             if (!$warnings) $completed_fields++;
 
