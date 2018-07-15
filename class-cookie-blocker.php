@@ -195,7 +195,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return apply_filters("cmplz_cookie_blocker_output", $output);
         }
 
-
         public function strpos_arr($haystack, $needle)
         {
             if (!is_array($needle)) $needle = array($needle);
@@ -206,8 +205,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         }
 
         public function set_javascript_to_plain($script){
-            $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
-            $script = preg_replace($pattern, 'type="text/plain"', $script);
+            if (strpos($script, 'type')===false) {
+                $script = str_replace("<script", '<script type="text/plain"', $script);
+            } else {
+                $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
+                $script = preg_replace($pattern, 'type="text/plain"', $script);
+            }
             return $script;
         }
 

@@ -115,10 +115,6 @@ if (!class_exists("cmplz_admin")) {
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
-                if (!COMPLIANZ()->document->page_exists('privacy-statement')){
-                    $warnings[] = 'no-privacy-statement';
-                }
-
                 if (!COMPLIANZ()->document->page_exists('cookie-statement')){
                     $warnings[] = 'no-cookie-policy';
                 }
@@ -127,9 +123,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'wizard-incomplete';
                 }
 
-                if (COMPLIANZ()->cookie->cookies_changed()) {
-                    $warnings[] = 'cookies-changed';
-                }
+//                if (COMPLIANZ()->cookie->cookies_changed()) {
+//                    $warnings[] = 'cookies-changed';
+//                }
 
                 if (COMPLIANZ()->cookie->plugins_updated() || COMPLIANZ()->cookie->plugins_changed()) {
                     $warnings[] = 'plugins-changed';
@@ -169,7 +165,6 @@ if (!class_exists("cmplz_admin")) {
                 cmplz_url . 'assets/images/menu-icon.png',
                 CMPLZ_MAIN_MENU_POSITION
             );
-
 
             add_submenu_page(
                 'complianz',
@@ -427,13 +422,19 @@ if (!class_exists("cmplz_admin")) {
                                 $this->get_dashboard_element(sprintf(__('No cookies detected yet', 'complianz'), $last_cookie_scan), 'error');
                             }
 
+                            if (defined('cmplz_free')){
+                                $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz GDPR yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
+                            } elseif(!COMPLIANZ()->document->page_exists('privacy-statement')){
+                                $this->get_dashboard_element(__('You do not have a privacy policy yet.', 'complianz'), 'error');
+                            } else {
+                                $this->get_dashboard_element(__('Great, you have a privacy policy!', 'complianz'), 'success');
+                            }
+
                             $warnings = $this->get_warnings(false);
                             $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
-
                             foreach ($warning_types as $key => $type) {
                                 if (in_array($key, $warnings)) {
-                                    $key = defined('cmplz_free') && isset($type['label_error_free']) ? 'label_error_free' : 'label_error';
-                                    $this->get_dashboard_element($type[$key], 'error');
+                                    $this->get_dashboard_element($type['label_error'], 'error');
                                 } else {
                                     $this->get_dashboard_element($type['label_ok'], 'success');
                                 }

@@ -575,7 +575,6 @@ if (!class_exists("cmplz_cookie")) {
             //check if anything was changed
             $cookies_from_last_complete_scan = get_option('cmplz_detected_cookies');
 
-
             $changed_count = count(array_diff($cookies, $cookies_from_last_complete_scan));
             if ($changed_count > 0) {
                 $cookie_changes = true;
@@ -988,6 +987,7 @@ if (!class_exists("cmplz_cookie")) {
                 <div id="cmplz-scan-progress">
                     <div class="cmplz-progress-bar"></div>
                 </div>
+                <br>
                 <?php _e("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz') ?>
                 <div class="detected-cookies">
                     <?php
