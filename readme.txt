@@ -10,8 +10,7 @@ Stable tag: 1.1.5
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR will help you to make your website quickly GDPR compliant. Third party cookies are blocked until the user accepts the cookie warning.
-Includes a cookie warning, customized cookie policy based on the results of the built in cookie scan. The detected cookies are prefilled with the shipped cookie database.
+Complianz GDPR will help you to make your website quickly GDPR compliant.
 
 = Features =
 * Automatically detects if you need a cookie warning
@@ -20,6 +19,7 @@ Includes a cookie warning, customized cookie policy based on the results of the 
 * Completely blocks third party cookies like Facebook, Google, Twitter
 * Youtube videos are shown without placing cookies
 * Generates a legally validated cookie policy
+* Detected cookie data is prefilled from the shipped cookie database, which is continually updated
 
 Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 

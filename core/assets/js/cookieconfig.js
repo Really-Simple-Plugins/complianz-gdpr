@@ -8,9 +8,8 @@ function deleteAllCookies() {
     );
 }
 
-
 jQuery(document).ready(function ($) {
-    console.log('running script');
+
     function complianz_enable_scripts(){
         //iframes
         $('.cmplz-iframe').each(function(i, obj) {
@@ -29,33 +28,31 @@ jQuery(document).ready(function ($) {
                 eval($(this).text());
             }
         });
-
     }
 
     var use_country = complianz.use_country;
-    var country_code = '';
-    //if use country is enabled, we check the users's country to see if the cookie warning applies.
-    if (use_country) {
-        $.ajax({
-            type: "GET",
-            url: complianz.url,
-            dataType: 'json',
-            data: ({
-                action: 'get_country_code',
-            }),
-            success: function (response) {
-                if (!response.success) {
-                    use_country = false;
-                } else {
-                    country_code = response.country;
-                }
-                cmplz_cookie_warning();
-            }
-        });
-    } else {
-        cmplz_cookie_warning();
-    }
+    var is_eu = complianz.is_eu;
+    // //if use country is enabled, we check the users's country to see if the cookie warning applies.
+    // if (use_country) {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: complianz.url,
+    //         dataType: 'json',
+    //         data: ({
+    //             action: 'cmplz_is_eu',
+    //         }),
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 is_eu = response.is_eu;
+    //             }
+    //             if (is_eu) cmplz_cookie_warning();
+    //         }
+    //     });
+    // } else {
+    //     cmplz_cookie_warning();
+    // }
 
+    if (!use_country || is_eu) cmplz_cookie_warning();
     function cmplz_cookie_warning(){
         window.cookieconsent.initialise({
 
@@ -93,10 +90,10 @@ jQuery(document).ready(function ($) {
                     "border": complianz.border_color
                 }
             },
-            "regionalLaw": true,
-            "law": {
-                countryCode: country_code,
-            },
+            // "regionalLaw": true,
+            // "law": {
+            //     countryCode: country_code,
+            // },
             "theme": complianz.theme,
             "static": complianz.static,
             "position": complianz.position,

@@ -17,43 +17,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
             self::$_this = $this;
 
-            if (!is_admin()) {
-                $this->remove_cookie_scripts();
-            }
         }
 
         static function this()
         {
             return self::$_this;
-
-        }
-
-        /**
-         *
-         * add action hooks at the start and at the end of the WP process.
-         *
-         * @since  1.0
-         *
-         * @access public
-         *
-         */
-
-        public function remove_cookie_scripts()
-        {
-
-            if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
-
-            if (cmplz_get_value('disable_cookie_block')) return;
-
-            /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
-            if (defined('JSON_REQUEST') && JSON_REQUEST) return;
-            if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
-
-            //do not block cookies during the scan
-            if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
-
-            add_action("template_redirect", array($this, "start_buffer"));
-            add_action("shutdown", array($this, "end_buffer"), 999);
 
         }
 
@@ -118,9 +86,31 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 return $output;
             endif;
 
-            $known_script_tags = apply_filters('cmplz_script_tags',COMPLIANZ()->config->script_tags);
-            $known_iframe_tags = apply_filters('cmplz_iframe_tags',COMPLIANZ()->config->iframe_tags);
+            /*
+             * Get script tags, and add custom user scrripts
+             *
+             * */
 
+            $known_script_tags = COMPLIANZ()->config->script_tags;
+            $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
+            if (!empty($custom_scripts) && strlen($custom_scripts)>0){
+                $custom_scripts = explode(',', $custom_scripts);
+                $known_script_tags = array_merge($known_script_tags ,  $custom_scripts);
+            }
+
+            /*
+             * Get iframe tags, and add custom user iframes
+             *
+             * */
+
+            $known_iframe_tags = COMPLIANZ()->config->iframe_tags;
+            $custom_iframes = cmplz_strip_spaces(cmplz_get_value('thirdparty_iframes'));
+            if (!empty($custom_iframes) && strlen($custom_iframes)>0){
+                $custom_iframes = explode(',', $custom_iframes);
+                $known_iframe_tags = array_merge($known_iframe_tags ,  $custom_iframes);
+            }
+
+            //not meant as a "real" URL pattern, just a loose match for URL type strings.
             $url_pattern = '([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)';
 
             /*
@@ -138,7 +128,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $output = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $output);
                     } elseif ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
-                        $new = apply_filters('cmplz_third_party_iframe', $new, $iframe_src);
+                        $new = str_replace('<iframe', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
                         $new = $this->remove_src($new);
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
                         $output = str_replace($total_match, $new, $output);
@@ -166,7 +156,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         }
                         if ($key !== false) {
                             $new = $total_match;
-                            $new = apply_filters('cmplz_set_class', $new);
+                            $new = $this->add_class($new, 'script', 'cmplz-script');
+
                             $new = $this->set_javascript_to_plain($new);
                             $output = str_replace($total_match, $new, $output);
                         }
@@ -181,7 +172,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             $script_src = $src_matches[1][$src_key].$src_matches[2][$src_key];
                             if ($this->strpos_arr($script_src, $known_script_tags) !== false){
                                 $new = $total_match;
-                                $new = apply_filters('cmplz_set_class', $new);
+                                $new = $this->add_class($new, 'script', 'cmplz-script');
                                 $new = $this->set_javascript_to_plain($new);
 
                                 $output = str_replace($total_match, $new, $output);
@@ -191,11 +182,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 }
             }
 
+            //add a marker so we can recognize if this function is active on the front-end
             $output = str_replace("<body ", '<body data-cmplz=1 ', $output);
-            return apply_filters("cmplz_cookie_blocker_output", $output);
+            return $output;
         }
 
-        public function strpos_arr($haystack, $needle)
+        private function strpos_arr($haystack, $needle)
         {
             if (!is_array($needle)) $needle = array($needle);
             foreach ($needle as $key => $what) {
@@ -204,7 +196,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return false;
         }
 
-        public function set_javascript_to_plain($script){
+        private function set_javascript_to_plain($script){
             if (strpos($script, 'type')===false) {
                 $script = str_replace("<script", '<script type="text/plain"', $script);
             } else {
@@ -214,13 +206,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $script;
         }
 
-        public function remove_src($script){
+        private function remove_src($script){
             $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
             $script = preg_replace($pattern, '', $script);
             return $script;
         }
 
-        public function add_class($html, $el, $class){
+        private function add_class($html, $el, $class){
             if (strpos($html,'class' )===false){
                 $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
             }
