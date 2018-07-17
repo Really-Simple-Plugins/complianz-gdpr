@@ -175,16 +175,25 @@ function cmplz_init_cookie_blocker(){
 
     if (cmplz_get_value('disable_cookie_block')) return;
 
-    /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
-    if (defined('JSON_REQUEST') && JSON_REQUEST) return;
-    if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
+    //do not do any blocking if the policy was detecete
+
+    /* Do not block when visitors are from outside EU, if geoip is enabled */
+    if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && !COMPLIANZ()->geoip->is_eu()) return;
+
+    /* Do not block if the cookie policy is already accepted */
+    if (COMPLIANZ()->cookie->cookie_policy_accepted()) return;
 
     //do not block cookies during the scan
     if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
 
+    /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
+    if (defined('JSON_REQUEST') && JSON_REQUEST) return;
+    if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
+
     add_action("template_redirect", array(COMPLIANZ()->cookie_blocker, "start_buffer"));
     add_action("shutdown", array(COMPLIANZ()->cookie_blocker, "end_buffer"), 999);
 }
+
 
 function cmplz_get_option($name){
     return get_option($name);

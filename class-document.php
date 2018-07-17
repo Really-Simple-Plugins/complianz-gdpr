@@ -34,6 +34,24 @@ if (!class_exists("cmplz_document")) {
             }
         }
 
+        public function revoke_link($atts = [], $content = null, $tag = '')
+        {
+
+            // normalize attribute keys, lowercase
+            $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+            ob_start();
+
+            // override default attributes with user attributes
+            $atts = shortcode_atts(['text' => false,], $atts, $tag);
+
+            echo cmplz_revoke_link($atts['text']);
+
+            return ob_get_clean();
+
+        }
+
+
         /*
          * This class is extended with pro functions, so init is called also from the pro extension.
          * */

@@ -268,10 +268,10 @@ if (!class_exists("cmplz_cookie")) {
 
 
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-            wp_enqueue_script('cmplz-cookie', cmplz_url . "assets/js/cookieconsent$minified.js", array(), cmplz_version, true);
+            wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array(), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
-                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "assets/js/cookieconfig$minified.js", array(), cmplz_version, true);
+                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", array(), cmplz_version, true);
                 wp_localize_script(
                     'cmplz-cookie',
                     'complianz',
@@ -291,14 +291,14 @@ if (!class_exists("cmplz_cookie")) {
 
             $cookiesettings = $this->get_cookie_settings();
 
-            wp_enqueue_script('cmplz-cookie', cmplz_url . "assets/js/cookieconsent.js", array(), cmplz_version, true);
+            wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent.js", array(), cmplz_version, true);
             wp_localize_script(
                 'cmplz-cookie',
                 'complianz',
                 $cookiesettings
             );
 
-            wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
+            wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "core/assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
 
         }
 
@@ -347,11 +347,9 @@ if (!class_exists("cmplz_cookie")) {
 
             $output['url'] = admin_url('admin-ajax.php');
             $output['nonce'] = wp_create_nonce('set_cookie');
-            $output['use_country'] = defined('cmplz_free') ? false : cmplz_get_value('use_country');
+            $output['use_country'] = !class_exists('cmplz_geoip') ? false : COMPLIANZ()->geoip->geoip_enabled();
 
             if ($output['use_country'] == 1) {
-                require_once(cmplz_path . 'php/pro-class-geoip.php');
-                COMPLIANZ()->geoip = new cmplz_geoip();
                 $output['is_eu'] = COMPLIANZ()->geoip->is_eu();
             }
 
@@ -392,6 +390,22 @@ if (!class_exists("cmplz_cookie")) {
             if (isset($_COOKIE['complianz_consent_status']) && ($_COOKIE['complianz_consent_status'] == 'allow')) {
                 setcookie('complianz_policy_id', $this->get_active_policy_id(), time() + (DAY_IN_SECONDS * 30), '/');
             }
+        }
+
+        public function cookie_policy_accepted(){
+
+            //if settings were changed, the cookie policy acceptance should be revoked.
+            $detected_policy_id = isset($_COOKIE['complianz_policy_id']) ? $_COOKIE['complianz_policy_id'] : false;
+            if ($detected_policy_id && ($this->get_active_policy_id() != $detected_policy_id)) {
+                return false;
+            }
+
+            if (isset($_COOKIE['complianz_consent_status']) && $_COOKIE['complianz_consent_status']==='allow') {
+                return true;
+            }
+
+            return false;
+
         }
 
         public function inline_cookie_script()

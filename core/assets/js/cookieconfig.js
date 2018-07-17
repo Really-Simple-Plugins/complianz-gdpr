@@ -32,27 +32,12 @@ jQuery(document).ready(function ($) {
 
     var use_country = complianz.use_country;
     var is_eu = complianz.is_eu;
-    // //if use country is enabled, we check the users's country to see if the cookie warning applies.
-    // if (use_country) {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: complianz.url,
-    //         dataType: 'json',
-    //         data: ({
-    //             action: 'cmplz_is_eu',
-    //         }),
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 is_eu = response.is_eu;
-    //             }
-    //             if (is_eu) cmplz_cookie_warning();
-    //         }
-    //     });
-    // } else {
-    //     cmplz_cookie_warning();
-    // }
+    if (!use_country || is_eu) {
+        cmplz_cookie_warning();
+    } else {
+        complianz_enable_cookies();
+    }
 
-    if (!use_country || is_eu) cmplz_cookie_warning();
     function cmplz_cookie_warning(){
         window.cookieconsent.initialise({
 

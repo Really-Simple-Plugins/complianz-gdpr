@@ -1,8 +1,35 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
 
+if (!class_exists("cmplz_config_free")) {
+    class cmplz_config_free{
+        function __construct()
+        {
+            if (isset(self::$_this))
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+
+            self::$_this = $this;
+        }
+
+        public function filter_fields($fields){
+            return $fields;
+        }
+
+        public function add_dynamic_document_elements($elements, $fields)
+        {
+            return $elements;
+        }
+    }
+}
+
+if(class_exists("cmplz_config_pro")) {
+    class cmplz_config_base extends cmplz_config_pro {}
+} else {
+    class cmplz_config_base extends cmplz_config_free {}
+}
+
 if (!class_exists("cmplz_config")) {
-    class cmplz_config
+    class cmplz_config extends cmplz_config_base
     {
         private static $_this;
         public $fields = array();
@@ -129,3 +156,4 @@ if (!class_exists("cmplz_config")) {
     }
 
 } //class closure
+

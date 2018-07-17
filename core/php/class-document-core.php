@@ -34,23 +34,6 @@ if (!class_exists("cmplz_document_core")) {
             return false;
         }
 
-        public function revoke_link($atts = [], $content = null, $tag = '')
-        {
-
-            // normalize attribute keys, lowercase
-            $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-            ob_start();
-
-            // override default attributes with user attributes
-            $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-            echo cmplz_revoke_link($atts['text']);
-
-            return ob_get_clean();
-
-        }
-
 
         /*
          * Check if a page is required. If no condition is set, return true.
@@ -193,29 +176,6 @@ if (!class_exists("cmplz_document_core")) {
                         $html .= $this->wrap_header($element, $paragraph, $sub_paragraph, $annex);
                         $html .= $this->wrap_content($loop_content);
                     }
-                } elseif ($id === 'wp_privacy_policies') {
-
-                    $policies = $this->get_wp_privacy_policy_data();
-                    $stored_policies = cmplz_get_value('wp_privacy_policies');
-                    $policy_html = "";
-                    $added_by_user = false;
-                    foreach ($policies as $policy) {
-                        if (isset($policy['removed'])) continue;
-                        $s_plugin_name = sanitize_title($policy['plugin_name']);
-                        $added_by_user = (isset($stored_policies[$s_plugin_name]) && $stored_policies[$s_plugin_name] == 'on') ? true : false;
-                        if ($added_by_user) {
-                            $policy_html .= $this->wrap_sub_header($policy['plugin_name'], $paragraph, $sub_paragraph);
-                            $policy_html .= $this->wrap_content($policy['policy_text']);
-                        }
-                    }
-
-                    //if at least one wp policy is added, added by user is true, so add the header as well.
-                    if ($added_by_user) {
-                        $html .= $this->wrap_header($element, $paragraph, $sub_paragraph, $annex);
-                        $html .= $this->wrap_content($element['content']);
-                        $html .= $policy_html;
-                    }
-
                 } elseif ($this->insert_element($element, $post_id)) {
                     $html .= $this->wrap_header($element, $paragraph, $sub_paragraph, $annex);
                     if (isset($element['content'])) {
