@@ -109,15 +109,19 @@ if (!class_exists('COMPLIANZ')) {
             }
 
             require_once(cmplz_path . 'class-cookie.php');
+
             require_once(cmplz_path . 'config/class-config.php');
+            require_once(cmplz_path . 'core/php/class-document-core.php');
+            require_once(cmplz_path . 'core/php/class-cookie-blocker.php');
+
             require_once(cmplz_path . 'class-document.php');
             require_once(cmplz_path . 'functions.php');
-            require_once(cmplz_path . 'class-cookie-blocker.php');
+
         }
 
         private function hooks()
         {
-
+            add_action('init', 'cmplz_init_cookie_blocker');
         }
     }
 }

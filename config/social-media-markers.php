@@ -24,15 +24,14 @@ $this->script_tags = array(
     'www.google-analytics.com/analytics.js',
     'google-analytics.com/ga.js',
     'new google.maps.',
+    'dataset.sumoSiteId',
     '_getTracker',
     'disqus.com',
+    'addthis.com',
+    'sharethis.com',
     'adsbygoogle',
     'googlesyndication',
     'cdn.livechatinc.com/tracking.js',
-    'disqus.com',
-    'dataset.sumoSiteId',
-    'addthis.com',
-    'sharethis.com',
 );
 
 $this->iframe_tags = array(

@@ -34,4 +34,3 @@ $this->steps = array(
             ),
         ),
 );
-$this->steps = apply_filters('cmplz_steps', $this->steps);

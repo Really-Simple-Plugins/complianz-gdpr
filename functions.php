@@ -159,48 +159,50 @@ function cmplz_wp_privacy_version(){
 }
 
 /*
- * Add a class to third party scripts so the acceptance of the cookie warning results in enabling these scripts.
- *
- * */
-add_filter('cmplz_set_class', 'cmplz_set_class', 10, 1);
-function cmplz_set_class($script){
-    $script = COMPLIANZ()->cookie_blocker->add_class($script, 'script', 'cmplz-script');
-    //$script = str_replace('<script', '<script class="cmplz-script"', $script);
-    return $script;
-}
-
-/*
- * Move the source to a data attribute
+ * Check if there is a text entered in the custom privacy policy text
  *
  * */
 
-add_filter('cmplz_third_party_iframe', 'cmplz_third_party_iframe', 10, 2);
-function cmplz_third_party_iframe($iframe, $src_iframe){
-    $iframe = str_replace('<iframe', '<iframe data-src-cmplz="'.$src_iframe.'"', $iframe);
-    return $iframe;
+function has_custom_privacy_policy(){
+    if (empty(cmplz_get_value('custom_privacy_policy_text'))) return false;
+
+    return true;
 }
 
 
-add_filter('cmplz_script_tags', 'cmplz_script_tags');
-function cmplz_script_tags($script_tags){
-    $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
+function cmplz_init_cookie_blocker(){
+    if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
 
-    if (!empty($custom_scripts) && strlen($custom_scripts)>0){
-        $custom_scripts = explode(',', $custom_scripts);
-        $script_tags = array_merge($script_tags ,  $custom_scripts);
-    }
+    if (cmplz_get_value('disable_cookie_block')) return;
 
-    return $script_tags;
+    //do not do any blocking if the policy was detecete
+
+    /* Do not block when visitors are from outside EU, if geoip is enabled */
+    if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && !COMPLIANZ()->geoip->is_eu()) return;
+
+    /* Do not block if the cookie policy is already accepted */
+    if (COMPLIANZ()->cookie->cookie_policy_accepted()) return;
+
+    //do not block cookies during the scan
+    if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
+
+    /* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
+    if (defined('JSON_REQUEST') && JSON_REQUEST) return;
+    if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) return;
+
+    add_action("template_redirect", array(COMPLIANZ()->cookie_blocker, "start_buffer"));
+    add_action("shutdown", array(COMPLIANZ()->cookie_blocker, "end_buffer"), 999);
 }
 
-add_filter('cmplz_iframe_tags','cmplz_iframe_tags');
-function cmplz_iframe_tags($iframe_tags){
-    $custom_iframes = cmplz_strip_spaces(cmplz_get_value('thirdparty_iframes'));
 
-    if (!empty($custom_iframes) && strlen($custom_iframes)>0){
-        $custom_iframes = explode(',', $custom_iframes);
-        $iframe_tags = array_merge($iframe_tags ,  $custom_iframes);
-    }
+function cmplz_get_option($name){
+    return get_option($name);
+}
 
-    return $iframe_tags;
+function cmplz_esc_html($html){
+    return esc_html($html);
+}
+
+function cmplz_esc_url_raw($url){
+    return esc_url_raw($url);
 }

@@ -31,9 +31,9 @@ $this->eu_countries = array(
     "SE"
 );
 
-//$this->cookie_consent_converter = array(
-//    "GB" => "UK",
-//);
+$this->cookie_consent_converter = array(
+    "GB" => "UK",
+);
 
 $this->countries = array
 (
