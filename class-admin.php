@@ -304,6 +304,7 @@ if (!class_exists("cmplz_admin")) {
                     </div>
                 </a>
             </div>
+
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Feature requests', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Need new features or languages? Let us know!', 'complianz'); ?></div>
@@ -313,17 +314,21 @@ if (!class_exists("cmplz_admin")) {
                     </div>
                 </a>
             </div>
+
             <div class="cmplz-footer-block">
-                <div class="cmplz-footer-title"><?php echo __('Tutorials', 'complianz'); ?></div>
-                <div class="cmplz-footer-description"><?php echo __('Check out our tutorials on complianz.io!', 'complianz'); ?></div>
-                <a href="https://complianz.io/tutorials/" target="_blank">
+                <div class="cmplz-footer-title"><?php echo __('Documentation', 'complianz'); ?></div>
+                <div class="cmplz-footer-description"><?php echo __('Check out the docs on complianz.io!', 'complianz'); ?></div>
+                <a href="https://complianz.io/documentation/" target="_blank">
                     <div class="cmplz-external-btn">
-                        <i class="fa fa-angle-right"></i></div></a>
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                </a>
             </div>
+
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Our blog', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Stay up to date with the latest news', 'complianz'); ?></div>
-                <a href="https://complianz.io/articles" target="_blank">
+                <a href="https://complianz.io/blog" target="_blank">
                     <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
                     </div>

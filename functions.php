@@ -5,7 +5,7 @@ function cmplz_uses_google_analytics()
 {
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
-//
+
 //    $delete_options = array(
 //        "complianz_options_wizard",
 //        'complianz_options_cookie_settings',
@@ -23,6 +23,7 @@ function cmplz_uses_google_analytics()
 //        'cmplz_detected_cookies',
 //        'cmplz_plugins_changed',
 //        'cmplz_detected_social_media',
+//        'cmplz_detected_thirdparty_services',
 //        'cmplz_deleted_cookies',
 //    );
 //    delete_all_options($delete_options);
@@ -111,6 +112,15 @@ function cmplz_scan_detected_social_media()
     return $social_media;
 }
 
+function cmplz_scan_detected_thirdparty_services()
+{
+    $thirdparty = get_option('cmplz_detected_thirdparty_services');
+    //nothing scanned yet, or nothing found
+    if (!$thirdparty || (count($thirdparty) == 0)) return false;
+
+    return $thirdparty;
+}
+
 function cmplz_update_option($page, $fieldname, $value)
 {
     $options = get_option('complianz_options_' . $page);
@@ -130,7 +140,14 @@ function cmplz_uses_statistics()
 
 function cmplz_dnt_enabled()
 {
+    if (defined('cmplz_free')) return false;
+
     return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1);
+}
+
+
+function cmplz_uses_only_functional_cookies(){
+    return COMPLIANZ()->cookie->uses_only_functional_cookies();
 }
 
 function cmplz_third_party_cookies_active()
@@ -171,17 +188,20 @@ function has_custom_privacy_policy(){
 
 
 function cmplz_init_cookie_blocker(){
+
+    if (!cmplz_third_party_cookies_active()) return;
+
     if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
 
     if (cmplz_get_value('disable_cookie_block')) return;
 
-    //do not do any blocking if the policy was detecete
-
     /* Do not block when visitors are from outside EU, if geoip is enabled */
-    if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && !COMPLIANZ()->geoip->is_eu()) return;
+    //check cache, as otherwise all users would get the same output, while this is user specific
+    if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && !COMPLIANZ()->geoip->is_eu()) return;
 
     /* Do not block if the cookie policy is already accepted */
-    if (COMPLIANZ()->cookie->cookie_policy_accepted()) return;
+    //check cache, as otherwise all users would get the same output, while this is user specific
+    if (!defined('wp_cache') && COMPLIANZ()->cookie->cookie_policy_accepted()) return;
 
     //do not block cookies during the scan
     if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
@@ -192,6 +212,31 @@ function cmplz_init_cookie_blocker(){
 
     add_action("template_redirect", array(COMPLIANZ()->cookie_blocker, "start_buffer"));
     add_action("shutdown", array(COMPLIANZ()->cookie_blocker, "end_buffer"), 999);
+}
+
+function cmplz_ajax_user_settings(){
+
+    $success = false;
+    $is_eu = false;
+
+    //track a visit
+    if (class_exists('cmplz_statistics')) COMPLIANZ()->statistics->page_view();
+
+    if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled()) {
+        $is_eu = COMPLIANZ()->geoip->is_eu();
+    }
+
+    $do_not_track = defined('cmplz_free') ? false : cmplz_dnt_enabled();
+
+    $response = json_encode(array(
+        'success' => $success,
+        'is_eu' => $is_eu,
+        'do_not_track'   => $do_not_track,
+    ));
+    error_log(print_r($response,true));
+    header("Content-Type: application/json");
+    echo $response;
+    exit;
 }
 
 
@@ -205,4 +250,8 @@ function cmplz_esc_html($html){
 
 function cmplz_esc_url_raw($url){
     return esc_url_raw($url);
+}
+
+function cmplz_is_admin(){
+    return is_admin();
 }

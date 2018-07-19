@@ -6,6 +6,11 @@
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
 }
 
+//prevent a too small editor widht
+html .mceContentBody{
+  max-width: 100% !important;
+}
+
 .cookie-warning {
   textarea {
     width: 450px;
@@ -92,10 +97,10 @@
     font-size:14px;
   }
 
-
-
   .field-group {
-    margin-top: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid #c3c3c3;
   }
 
   .cmplz-header {
@@ -264,6 +269,8 @@
       min-height: 150px;
       min-width: 300px;
     }
+
+
 
     /* Styling for the previous and next buttons */
 

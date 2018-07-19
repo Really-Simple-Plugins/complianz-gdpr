@@ -5,7 +5,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 
 Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
 
@@ -26,6 +26,7 @@ Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as w
 = Love Complianz GDPR? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the premium version
 = Premium features =
+* Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all
 * Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
 * Geo ip cookie warning: show the cookie warning only to visitors from countries with a cookie law
 * Respects Do Not track settings in users browsers
@@ -62,6 +63,11 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.1.6 =
+* Added Google Fonts and ReCaptcha to third party list
+* Tweaked Cookie Policy
+* Added custom CSS option and advanced editing options to cookie banner
+
 = 1.1.5 =
 * No + one's anymore for cookie changes, this will only be shown in the dashboard
 

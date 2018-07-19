@@ -1,10 +1,10 @@
-function deleteAllCookies() {
+function complianz_deleteAllCookies() {
     document.cookie.split(";").forEach(
-        function (c) {
-            if (c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
-                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-            }
+    function (c) {
+        if (c.indexOf('cmplz_id') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         }
+    }
     );
 }
 
@@ -30,17 +30,33 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    var use_country = complianz.use_country;
-    var is_eu = complianz.is_eu;
-    if (!use_country || is_eu) {
-        cmplz_cookie_warning();
-    } else {
-        complianz_enable_cookies();
-    }
+    /*
+    * We use ajax to check the country, otherwise caching could prevent the user specific warning
+    *
+    * */
+
+    $.ajax({
+        type: "GET",
+        url: complianz.url,
+        dataType: 'json',
+        data: ({
+            action: 'cmplz_user_settings'
+        }),
+        success: function (response) {
+            if (!response.do_not_track) {
+                if (response.is_eu) {
+                    console.log('eu');
+                    cmplz_cookie_warning();
+                } else {
+                    console.log('not eu');
+                    complianz_enable_cookies();
+                }
+            }
+        }
+    });
 
     function cmplz_cookie_warning(){
         window.cookieconsent.initialise({
-
             cookie: {
                 name: 'complianz_consent_status',
                 expiryDays: complianz.cookie_expiry
@@ -49,18 +65,20 @@ jQuery(document).ready(function ($) {
                 if (status == 'allow' && this.hasConsented()) {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
+                    complianz_accept();
                 }
             },
             onStatusChange: function (status, chosenBefore) {
                 if (status == 'allow') {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
+                    complianz_accept();
                 } else {
-                    //complianz_disable_cookies();
+                    //complianz_deleteAllCookies();
                 }
             },
             onRevokeChoice: function () {
-                complianz_disable_cookies();
+                complianz_deleteAllCookies();
                 location.reload();
             },
             "revokeBtn": '<div class="cc-revoke {{classes}}">' + complianz.revoke + '</div>',
@@ -75,10 +93,6 @@ jQuery(document).ready(function ($) {
                     "border": complianz.border_color
                 }
             },
-            // "regionalLaw": true,
-            // "law": {
-            //     countryCode: country_code,
-            // },
             "theme": complianz.theme,
             "static": complianz.static,
             "position": complianz.position,
@@ -90,6 +104,17 @@ jQuery(document).ready(function ($) {
                 "link": complianz.readmore,
                 "href": complianz.readmore_url
             }
+        });
+    }
+
+    function complianz_accept(){
+        $.ajax({
+            type: "GET",
+            url: complianz.url,
+            dataType: 'json',
+            data: ({
+                action: 'cmplz_accept'
+            })
         });
     }
 

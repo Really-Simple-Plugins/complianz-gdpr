@@ -59,7 +59,7 @@ $this->fields = $this->fields + array(
 
         'message' => array(
             'page' => 'cookie_settings',
-            'type' => 'textarea',
+            'type' => 'editor',
             'translatable' => true,
             'default' => __("We use cookies to optimize our website and our service.", 'complianz'),
             'label' => __("Cookie message", 'complianz'),
@@ -124,23 +124,13 @@ $this->fields = $this->fields + array(
             'default' => 'edgeless',
             'table' => true,
         ),
-//        'static' => array(
-//            'page' => 'cookie_settings',
-//            'type' => 'select',
-//            'label' => __("Push down/overlay", 'complianz'),
-//            'options' => array(
-//                'false' => __("Default", 'complianz'),
-//                'true' => __("Push down", 'complianz'),
-//            ),
-//            'default' => 'false',
-//            'table' => true,
-//        ),
-//        'height' => array(
-//            'page' => 'cookie_settings',
-//            'type' => 'number',
-//            'label' => __("Height of banner", 'complianz'),
-//            'default' => '',
-//            'table' => true,
-//        ),
+        'custom_css' => array(
+            'page' => 'cookie_settings',
+            'type' => 'css',
+            'label' => __("Custom CSS", 'complianz'),
+            'default' => '.cc-message{} /* styles for the message box */'."\n".'.cc-dismiss{} /* styles for the dismiss button */'."\n".'.cc-allow{} /* styles for the accept button */'."\n".'.cc-window{} /* styles for the popup banner */',
+            'table' => true,
+        ),
+
 
     );

@@ -24,10 +24,29 @@ jQuery(document).ready(function ($) {
         $(".cc-link").html($(this).val());
     });
 
-    $(document).on('keyup', 'textarea[name=cmplz_message]', function () {
-        var link = $(".cc-message").find('a').html();
-        $(".cc-message").html($(this).val() + '<a href="#" class="cc-link">' + link + '</a>');
-    });
+    setTimeout(function () {
+        for (var i = 0; i < tinymce.editors.length; i++) {
+            tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
+
+                var link = $(".cc-message").find('a').html();
+                var editor_id = 'cmplz_message';
+                var textarea_id = 'cmplz_message';
+                if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
+                if (typeof textarea_id == 'undefined') textarea_id = editor_id;
+
+                if (jQuery('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
+                    var content = tinyMCE.get(editor_id).getContent();
+                } else {
+                    var content = jQuery('#' + textarea_id).val();
+                }
+                content = content.replace(/<[\/]{0,1}(p)[^><]*>/ig,"");
+                $(".cc-message").html(content + '<a href="#" class="cc-link">' + link + '</a>');
+                // Update HTML view textarea (that is the one used to send the data to server).
+
+            });
+        }
+    }, 1000);
+
 
     $(document).on('change', 'select[name=cmplz_static]', function () {
         cmplz_cookie_warning();
@@ -40,6 +59,16 @@ jQuery(document).ready(function ($) {
     $(document).on('change', 'select[name=cmplz_theme]', function () {
         cmplz_cookie_warning();
     });
+
+    $(document).on('keyup', '#cmplz_custom_csseditor', function () {
+
+        $("<style>")
+            .prop("type", "text/css")
+            .html($('textarea[name="cmplz_custom_css"]').val()).appendTo("head");
+    });
+
+
+
 
     cmplz_cookie_warning();
 

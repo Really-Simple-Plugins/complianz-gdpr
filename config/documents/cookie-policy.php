@@ -21,6 +21,7 @@ $this->document_elements['cookie-statement'] = array(
     'what-is-a-webbeacon' => array(
         'title' => __('What is a webbeacon?', 'complianz'),
         'content' => __('A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.', 'complianz'),
+        'callback_condition' => 'cmplz_uses_only_functional_cookies',
     ),
     'consent' => array(
         'title' => __('Consent', 'complianz'),
@@ -29,7 +30,8 @@ $this->document_elements['cookie-statement'] = array(
     ),
     'third-party' => array(
         'title' => __('Third parties', 'complianz'),
-        'content' => __('We have made agreements about the use of cookies with other companies that place cookies. However, we cannot guarantee that these third parties handle your personal data in a reliable or secure manner. Parties such as Google are to be considered as independent data controllers within the meaning of the General Data Protection Regulation. We recommend that you read the privacy statements of these companies.', 'complianz')
+        'content' => __('We have made agreements about the use of cookies with other companies that place cookies. However, we cannot guarantee that these third parties handle your personal data in a reliable or secure manner. Parties such as Google are to be considered as independent data controllers within the meaning of the General Data Protection Regulation. We recommend that you read the privacy statements of these companies.', 'complianz'),
+        'callback_condition' => 'cmplz_third_party_cookies_active',
     ),
     'cookies' => array(
         'title' => __('Cookies', 'complianz'),
@@ -117,12 +119,14 @@ $this->document_elements['cookie-statement'] = array(
                 </ul>' .
             __('To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Data Protection Authority).', 'complianz'),
     ),
+
     'enable-disable-removal-cookies' => array(
         'title' => __('Enabling/disabling and deleting cookies', 'complianz'),
-        'content' => __('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser. Or you can indicate your preferences on the following page:  www.youronlinechoices.eu.', 'complianz')
+        'content' => __('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser. Or you can indicate your preferences on the following page:  www.youronlinechoices.eu.', 'complianz'),
     ),
+
     'enable-disable-removal-cookies-2' => array(
-        'content' => __('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'complianz')
+        'content' => __('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'complianz'),
     ),
 
     'contact-details' => array(
