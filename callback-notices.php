@@ -23,6 +23,17 @@ function cmplz_uses_social_media_notice(){
     }
 }
 
+add_action('cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_services_notice');
+function cmplz_uses_thirdparty_services_notice(){
+    $thirdparty = cmplz_scan_detected_thirdparty_services();
+    if ($thirdparty){
+        ?><div class="cmplz-notice"><?php
+        $thirdparty = implode(', ', $thirdparty);
+        printf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz'), $thirdparty);
+        ?></div><?php
+    }
+}
+
 
 
 add_action('cmplz_notice_purpose_personal_data', 'cmplz_purpose_personal_data');
@@ -63,7 +74,9 @@ function cmplz_set_default($value, $fieldname)
 
     if ($fieldname === 'uses_social_media'){
         $social_media = cmplz_scan_detected_social_media();
-        if ($social_media) return 'yes';
+        if ($social_media) {
+            return 'yes';
+        }
     }
 
     if ($fieldname === 'socialmedia_on_site') {
@@ -76,6 +89,25 @@ function cmplz_set_default($value, $fieldname)
             return $current_social_media;
         }
     }
+
+    if ($fieldname === 'uses_thirdparty_services'){
+        $thirdparty = cmplz_scan_detected_thirdparty_services();
+        if ($thirdparty) return 'yes';
+    }
+
+    if ($fieldname === 'thirdparty_services_on_site') {
+        $thirdparty = cmplz_scan_detected_thirdparty_services();
+        if ($thirdparty) {
+            $current_thirdparty = array();
+            foreach ($thirdparty as $key) {
+                $current_thirdparty[$key] = 1;
+            }
+
+            return $current_thirdparty;
+        }
+    }
+
+
 
     return $value;
 }

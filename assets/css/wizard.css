@@ -2,6 +2,9 @@
   font-family: Sofia Pro Light;
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
 }
+html .mceContentBody {
+  max-width: 100% !important;
+}
 .cookie-warning textarea {
   width: 450px;
   height: 100px;
@@ -80,7 +83,9 @@
   font-size: 14px;
 }
 #cmplz-wizard .field-group {
-  margin-top: 12px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid #c3c3c3;
 }
 #cmplz-wizard .cmplz-header {
   background-color: #F1F1F1;

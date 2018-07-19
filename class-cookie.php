@@ -17,7 +17,6 @@ if (!class_exists("cmplz_cookie")) {
 
             self::$_this = $this;
 
-            //hook this function into cron, so it runs once a week, and on init.
 
             $scan_in_progress = isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'));
             if ($scan_in_progress) {
@@ -45,7 +44,7 @@ if (!class_exists("cmplz_cookie")) {
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
-            add_action('upgrader_process_complete', array($this, 'plugins_updating'), 10, 2);
+            //add_action('upgrader_process_complete', array($this, 'plugins_updating'), 10, 2);
 
             add_action('plugins_loaded', array($this, 'rescan'), 11, 2);
 
@@ -98,7 +97,7 @@ if (!class_exists("cmplz_cookie")) {
         }
 
         /*
-         * Conditionally add extra social media cookies to the used cookeis list
+         * Conditionally add extra social media cookies to the used cookies list
          *
          *
          * */
@@ -209,6 +208,7 @@ if (!class_exists("cmplz_cookie")) {
                 delete_option('cmplz_deleted_cookies');
                 delete_transient('cmplz_detected_cookies');
                 update_option('cmplz_detected_social_media', false);
+                update_option('cmplz_detected_thirdparty_services', false);
                 update_option('cmplz_processed_pages_list', array());
             }
         }
@@ -264,8 +264,12 @@ if (!class_exists("cmplz_cookie")) {
 
             wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
-            $cookiesettings = $this->get_cookie_settings();
 
+            $custom_css = cmplz_get_value('custom_css');
+            if (!empty($custom_css)){
+                wp_add_inline_style( 'cmplz-cookie', $custom_css );
+            }
+            $cookiesettings = $this->get_cookie_settings();
 
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array(), cmplz_version, true);
@@ -347,11 +351,6 @@ if (!class_exists("cmplz_cookie")) {
 
             $output['url'] = admin_url('admin-ajax.php');
             $output['nonce'] = wp_create_nonce('set_cookie');
-            $output['use_country'] = !class_exists('cmplz_geoip') ? false : COMPLIANZ()->geoip->geoip_enabled();
-
-            if ($output['use_country'] == 1) {
-                $output['is_eu'] = COMPLIANZ()->geoip->is_eu();
-            }
 
             return $output;
 
@@ -417,11 +416,6 @@ if (!class_exists("cmplz_cookie")) {
                     console.log("enabling cookies");
                     <?php if ($this->cookie_warning_required_stats()) $this->get_statistics_script();?>
                     <?php $this->get_cookie_script();?>
-                }
-
-                function complianz_disable_cookies() {
-                    console.log('disabling cookies');
-                    deleteAllCookies();
                 }
                 <?php
                 //if no cookie warning is needed for the stats specifically, we can move this out of the warning code.
@@ -632,14 +626,22 @@ if (!class_exists("cmplz_cookie")) {
                 //first, get the html of this page.
                 //but we can skip if it's the "clean" page.
                 if (strpos($url, 'complianz_id') !== FALSE || substr($url, strpos($url, 'complianz_id') + 13, 5) !== 'clean') {
+
                     $response = wp_remote_get($url);
                     if (!is_wp_error($response)) {
                         $html = $response['body'];
+
                         $stored_social_media = cmplz_scan_detected_social_media();
                         if (!$stored_social_media) $stored_social_media = array();
                         $social_media = $this->parse_for_social_media($html);
                         $social_media = array_unique(array_merge($stored_social_media, $social_media), SORT_REGULAR);
                         update_option('cmplz_detected_social_media', $social_media);
+
+                        $stored_thirdparty_services = cmplz_scan_detected_thirdparty_services();
+                        if (!$stored_thirdparty_services) $stored_thirdparty_services = array();
+                        $thirdparty = $this->parse_for_thirdparty_services($html);
+                        $thirdparty = array_unique(array_merge($stored_thirdparty_services, $thirdparty), SORT_REGULAR);
+                        update_option('cmplz_detected_thirdparty_services', $thirdparty);
                     }
                 }
 
@@ -669,6 +671,28 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             return $social_media;
+        }
+
+        /*
+         * Check the webpage html output for third party services
+         *
+         *
+         *
+         * */
+
+        private function parse_for_thirdparty_services($html)
+        {
+            $thirdparty = array();
+            $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
+            foreach ($thirdparty_markers as $key => $markers) {
+                foreach ($markers as $marker) {
+                    if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
+                        $thirdparty[] = $key;
+                    }
+                }
+            }
+
+            return $thirdparty;
         }
 
 
@@ -1066,15 +1090,13 @@ if (!class_exists("cmplz_cookie")) {
 
         public function cookie_warning_required()
         {
+
             /*
-             * If Do not track is enabled, the stats do not require a cookie warning, and the user has not added
-             * any cookie enabling scripts, the warning is not needed, as the thirdparty cookies
-             * will be disabled by default, without option to enable them.
-             *
+             * If Do not track is enabled, the warning is not needed anyway.
+             * As this is user specific, skip if cache enabled.
              * */
-            $scripts = cmplz_get_value('cookie_scripts');
-            $cookie_enabling_scripts = empty($scripts) ? false : true;
-            if (!is_admin() && cmplz_dnt_enabled() && !$this->cookie_warning_required_stats() && !$cookie_enabling_scripts) {
+
+            if (!defined('wp_cache') && cmplz_dnt_enabled()){
                 return false;
             }
 
@@ -1088,7 +1110,6 @@ if (!class_exists("cmplz_cookie")) {
             if ($uses_non_functional_cookies) {
                 return true;
             }
-
 
             //does the config of the statistics require a cookie warning?
             if ($this->cookie_warning_required_stats()) {
@@ -1106,8 +1127,9 @@ if (!class_exists("cmplz_cookie")) {
             $thirdparty_iframes = empty($thirdparty_iframes) ? false : true;
             $ad_cookies = (cmplz_get_value('uses_ad_cookies') === 'yes') ? true : false;
             $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
+            $thirdparty_services = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
 
-            if ($thirdparty_scripts || $thirdparty_iframes || $ad_cookies || $social_media) {
+            if ($thirdparty_scripts || $thirdparty_iframes || $ad_cookies || $social_media || $thirdparty_services) {
                 return true;
             }
 
@@ -1158,6 +1180,23 @@ if (!class_exists("cmplz_cookie")) {
                 }
             }
             return false;
+
+            //count cookies that are not functional
+        }
+
+
+        public function uses_only_functional_cookies()
+        {
+            //get all used cookies
+            $used_cookies = cmplz_get_value('used_cookies');
+            if (empty($used_cookies) || !is_array($used_cookies)) return false;
+            foreach ($used_cookies as $cookie) {
+                if (!isset($cookie['functional'])) continue;
+                if ($cookie['functional'] !== 'on') {
+                    return false;
+                }
+            }
+            return true;
 
             //count cookies that are not functional
         }

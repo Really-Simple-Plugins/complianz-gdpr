@@ -32,6 +32,7 @@ if (!class_exists("cmplz_field")) {
             return self::$_this;
         }
 
+
         public function load()
         {
             $this->default_args = array(
@@ -253,6 +254,8 @@ if (!class_exists("cmplz_field")) {
                     return $value;
                 case 'email':
                     return sanitize_email($value);
+                case 'css':
+                    return $value;
                 case 'url':
                     return esc_url_raw($value);
                 case 'number':
@@ -667,7 +670,9 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             $settings = array(
-                'media_buttons' => false,
+               //'media_buttons' => false,
+                'editor_height' => 425, // In pixels, takes precedence and has no default value
+                'textarea_rows' => 20,
             );
             wp_editor($value, $fieldname, $settings); ?>
             <?php do_action('complianz_after_field', $args); ?>
@@ -699,7 +704,38 @@ if (!class_exists("cmplz_field")) {
                     getSession().on("change", function () {
                         textarea.val(<?php echo esc_html($fieldname)?>.getSession().getValue()
                     )
-                        ;
+                    });
+                });
+            </script>
+            <textarea style="display:none" name="<?php echo esc_html($fieldname) ?>"><?php echo $value ?></textarea>
+            <?php
+        }
+
+        public
+        function css($args)
+        {
+            $fieldname = 'cmplz_' . $args['fieldname'];
+            $value = $this->get_value($args['fieldname'], $args['default']);
+            if (!$this->show_field($args)) return;
+            ?>
+
+            <?php do_action('complianz_before_label', $args); ?>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
+            <?php do_action('complianz_after_label', $args); ?>
+            <div id="<?php echo esc_html($fieldname) ?>editor"
+                 style="height: 200px; width: 100%"><?php echo $value ?></div>
+            <?php do_action('complianz_after_field', $args); ?>
+            <script>
+                var <?php echo esc_html($fieldname)?> =
+                ace.edit("<?php echo esc_html($fieldname)?>editor");
+                <?php echo esc_html($fieldname)?>.setTheme("ace/theme/monokai");
+                <?php echo esc_html($fieldname)?>.session.setMode("ace/mode/css");
+                jQuery(document).ready(function ($) {
+                    var textarea = $('textarea[name="<?php echo esc_html($fieldname)?>"]');
+                    <?php echo esc_html($fieldname)?>.
+                    getSession().on("change", function () {
+                        textarea.val(<?php echo esc_html($fieldname)?>.getSession().getValue()
+                    )
                     });
                 });
             </script>
@@ -800,6 +836,9 @@ if (!class_exists("cmplz_field")) {
                         break;
                     case 'javascript':
                         $this->javascript($args);
+                        break;
+                    case 'css':
+                        $this->css($args);
                         break;
                     case 'email':
                         $this->email($args);
