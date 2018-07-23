@@ -21,7 +21,7 @@ $this->steps = array(
                     3 => array('title' => __('Used cookies', 'complianz'),
                         'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz'),
                     ),
-                    4 => array('title' => __('Cookie enabling scripts', 'complianz'),
+                    4 => array('title' => __('Script center', 'complianz'),
                         'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz')
                         ),
                 ),

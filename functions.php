@@ -7,24 +7,24 @@ function cmplz_uses_google_analytics()
 }
 
 //    $delete_options = array(
-//        "complianz_options_wizard",
+//        //"complianz_options_wizard",
 //        'complianz_options_cookie_settings',
-//        'complianz_options_dataleak',
-//        'complianz_options_processing',
-//        'complianz_active_policy_id',
-//        'complianz_scan_token',
-//        'cmplz_license_notice_dismissed',
-//        'cmplz_license_key',
-//        'cmplz_license_status',
-//        'cmplz_changed_cookies',
-//        'cmplz_processed_pages_list',
-//        'cmplz_license_notice_dismissed',
-//        'cmplz_processed_pages_list',
-//        'cmplz_detected_cookies',
-//        'cmplz_plugins_changed',
-//        'cmplz_detected_social_media',
-//        'cmplz_detected_thirdparty_services',
-//        'cmplz_deleted_cookies',
+////        'complianz_options_dataleak',
+////        'complianz_options_processing',
+////        'complianz_active_policy_id',
+////        'complianz_scan_token',
+////        'cmplz_license_notice_dismissed',
+////        'cmplz_license_key',
+////        'cmplz_license_status',
+////        'cmplz_changed_cookies',
+////        'cmplz_processed_pages_list',
+////        'cmplz_license_notice_dismissed',
+////        'cmplz_processed_pages_list',
+////        'cmplz_detected_cookies',
+////        'cmplz_plugins_changed',
+////        'cmplz_detected_social_media',
+////        'cmplz_detected_thirdparty_services',
+////        'cmplz_deleted_cookies',
 //    );
 //    delete_all_options($delete_options);
 //
@@ -46,6 +46,7 @@ function cmplz_revoke_link($text = false)
 function cmplz_get_value($fieldname, $post_id = false)
 {
     if (!isset(COMPLIANZ()->config->fields[$fieldname])) return false;
+
     //if  a post id is passed we retrieve the data from the post
     $page = COMPLIANZ()->config->fields[$fieldname]['page'];
 
@@ -57,16 +58,23 @@ function cmplz_get_value($fieldname, $post_id = false)
         $value = isset($fields[$fieldname]) ? $fields[$fieldname] : $default;
     }
 
+    /*
+     * Translate output
+     *
+     * */
+
     if (function_exists('icl_translate') || function_exists('pll__')) {
-        $type = COMPLIANZ()->config->fields[$fieldname]['type'];
+        $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
         if ($type==='cookies' || $type==='thirdparties'){
             foreach ($value as $key=>$key_value){
                 if (function_exists('pll__')) $value[$key] = pll__($key_value);
                 if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname."_".$key, $key_value);
             }
         } else {
-            if (function_exists('pll__'))  $value = pll__($value);
-            if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+            if (isset(COMPLIANZ()->config->fields[$fieldname]['translatable']) && COMPLIANZ()->config->fields[$fieldname]['translatable']) {
+                if (function_exists('pll__')) $value = pll__($value);
+                if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+            }
         }
     }
     return $value;
@@ -188,7 +196,6 @@ function has_custom_privacy_policy(){
 
 
 function cmplz_init_cookie_blocker(){
-
     if (!cmplz_third_party_cookies_active()) return;
 
     if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
@@ -217,7 +224,7 @@ function cmplz_init_cookie_blocker(){
 function cmplz_ajax_user_settings(){
 
     $success = false;
-    $is_eu = false;
+    $is_eu = true;
 
     //track a visit
     if (class_exists('cmplz_statistics')) COMPLIANZ()->statistics->page_view();
@@ -233,7 +240,6 @@ function cmplz_ajax_user_settings(){
         'is_eu' => $is_eu,
         'do_not_track'   => $do_not_track,
     ));
-    error_log(print_r($response,true));
     header("Content-Type: application/json");
     echo $response;
     exit;
@@ -255,3 +261,20 @@ function cmplz_esc_url_raw($url){
 function cmplz_is_admin(){
     return is_admin();
 }
+
+
+/**
+ * Load the translation files
+ *
+ * @since  1.1.5
+ *
+ * @access public
+ *
+ */
+
+//add_action('init', 'cpmlz_load_translation', 20);
+//function cpmlz_load_translation()
+//{
+//    load_plugin_textdomain('complianz', FALSE, cmplz_path . 'config/languages/');
+//}
+

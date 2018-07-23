@@ -25,7 +25,7 @@ $this->thirdparty_service_markers = array(
 
 //used to block scripts on front-end
 $this->script_tags = array(
-    'https://www.google.com/recaptcha',
+    'google.com/recaptcha',
     'fonts.googleapis.com',
     'platform.twitter.com/widgets.js',
     'apis.google.com/js/plusone.js',

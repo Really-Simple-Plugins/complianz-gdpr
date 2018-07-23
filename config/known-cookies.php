@@ -30,7 +30,7 @@ $this->known_cookie_keys = array(
         'description' => __("Cookie to keep you logged in", 'complianz'),
     ),
     'googlemaps' => array(
-        'functional' => true,
+        'functional' => false,
         'used_names' => array(),
         'unique_used_names' => array(),
         'label' => "Google Maps",
@@ -41,7 +41,7 @@ $this->known_cookie_keys = array(
     ),
 
     'youtube' => array(
-        'functional' => true,
+        'functional' => false,
         'used_names' => array(''),
         'unique_used_names' => array(''),
         'label' => "YouTube",
@@ -51,16 +51,50 @@ $this->known_cookie_keys = array(
         'description' => __("Cookies to track individual users.", 'complianz'),
     ),
 
+    'vimeo' => array(
+        'functional' => false,
+        'used_names' => array(''),
+        'unique_used_names' => array(''),
+        'label' => "Vimeo",
+        'privacy_policy_url' => 'https://vimeo.com',
+        'purpose' => __("Vimeo cookie to track individual users", 'complianz'),
+        'storage_duration' => __("30 days", 'complianz'),
+        'description' => __("Cookies to track individual users.", 'complianz'),
+    ),
+
     'google-analytics' => array(
         'functional' => true,
-        'used_names' => array('_ga', '_gid', '_gat'),
-        'unique_used_names' => array('partial_gat_UA', '_ga', '_gid', '_gat', 'partial_utm', '__utmb', '__utmc', 'UTMD__', '__utmv', '__utmz'),
+        'used_names' => array('_ga', '_gid', '_gat', '_gaexp', '_utm', '__utmc', 'UTMD_', '__utmv', '__utmz'),
+        'unique_used_names' => array('partial_gat_UA', '_ga', '_gaexp', '_gid', '_gat', 'partial_utm', '__utmb', '__utmc', 'UTMD__', '__utmv', '__utmz'),
         'privacy_policy_url' => 'https://analytics.google.com',
         'label' => "Google Analytics",
         'purpose' => __("", 'complianz'),
         'storage_duration' => __("", 'complianz'),
         'description' => __("", 'complianz'),
     ),
+
+    'google-fonts' => array(
+        'functional' => false,
+        'used_names' => array(),
+        'unique_used_names' => array(),
+        'privacy_policy_url' => 'https://fonts.googleapis.com',
+        'label' => "Google Fonts",
+        'purpose' => __("", 'complianz'),
+        'storage_duration' => __("", 'complianz'),
+        'description' => __("", 'complianz'),
+    ),
+
+    'google-recaptcha' => array(
+        'functional' => false,
+        'used_names' => array(),
+        'unique_used_names' => array(),
+        'privacy_policy_url' => 'https://www.google.com/recaptcha/',
+        'label' => "Google Recaptcha",
+        'purpose' => __("", 'complianz'),
+        'storage_duration' => __("", 'complianz'),
+        'description' => __("", 'complianz'),
+    ),
+
     'mixpanel' => array(
         'functional' => true,
         'used_names' => array('mixpanel'),
@@ -101,8 +135,8 @@ $this->known_cookie_keys = array(
         'description' => __("", 'complianz'),
     ),
     'complianz' => array('functional' => true,
-        'used_names' => array('cmplz_id', 'complianz_consent_status', 'complianz_policy_id'),
-        'unique_used_names' => array('cmplz_id', 'cookieconsent_status', 'complianz_consent_status', 'complianz_policy_id'),
+        'used_names' => array('cmplz_id','complianz_config', 'complianz_consent_status', 'complianz_policy_id'),
+        'unique_used_names' => array('complianz_config','cmplz_id', 'cookieconsent_status', 'complianz_consent_status', 'complianz_policy_id'),
         'privacy_policy_url' => 'https://complianz.io',
         'label' => "Complianz",
         'purpose' => __("Remember the cookie warning choice", 'complianz'),

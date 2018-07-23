@@ -53,6 +53,12 @@ function cmplz_purpose_personal_data(){
 add_filter('complianz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
+
+    if ($fieldname == 'popup_background_color' || $fieldname == 'button_text_color') {
+        $brand = cmplz_get_value('brand_color');
+        if (!empty($brand)) return $brand;
+    }
+
     if ($fieldname == 'purpose_personaldata') {
         $contact_forms = cmplz_site_uses_contact_forms();
         if ($contact_forms) {

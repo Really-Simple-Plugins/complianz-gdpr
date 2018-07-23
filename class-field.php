@@ -471,9 +471,10 @@ if (!class_exists("cmplz_field")) {
             ?>
             <?php do_action('complianz_before_label', $args); ?>
 
-            <label for="<?php echo esc_html($fieldname) ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>-label"><?php echo $args['label'] ?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
+
 
             <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value=""/>
 
@@ -481,6 +482,19 @@ if (!class_exists("cmplz_field")) {
                 <?php if ($args['disabled']) echo 'disabled'; ?>
                    class="<?php if ($args['required']) echo 'is-required'; ?>"
                    value="1" <?php checked(1, $value, true) ?> />
+
+
+            <?/*
+
+<!--            <input type="checkbox" id="--><?php //echo esc_html($fieldname) ?><!--" value="1" --><?php //checked(1, $value, true) ?><!-- class="cbx --><?php //if ($args['required']) echo 'is-required'; ?><!--" style="display: none;">-->
+<!--            <label for="--><?php //echo esc_html($fieldname) ?><!--" class="check">-->
+<!--                <svg width="18px" height="18px" viewBox="0 0 18 18">-->
+<!--                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>-->
+<!--                    <polyline points="1 9 7 14 15 4"></polyline>-->
+<!--                </svg>-->
+<!--            </label>-->
+
+        */ ?>
 
             <?php do_action('complianz_after_field', $args); ?>
             <?php
@@ -671,8 +685,8 @@ if (!class_exists("cmplz_field")) {
             <?php
             $settings = array(
                //'media_buttons' => false,
-                'editor_height' => 425, // In pixels, takes precedence and has no default value
-                'textarea_rows' => 20,
+                'editor_height' => 300, // In pixels, takes precedence and has no default value
+                'textarea_rows' => 15,
             );
             wp_editor($value, $fieldname, $settings); ?>
             <?php do_action('complianz_after_field', $args); ?>

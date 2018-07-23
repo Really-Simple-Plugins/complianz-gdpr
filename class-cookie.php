@@ -104,11 +104,21 @@ if (!class_exists("cmplz_cookie")) {
 
         public function update_social_media_cookies()
         {
-
             $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
             if ($social_media) {
                 $social_media_types = cmplz_get_value('socialmedia_on_site');
                 foreach ($social_media_types as $type => $active) {
+                    if ($active == 1) {
+                        COMPLIANZ()->field->add_multiple_field('used_cookies', $type);
+                    }
+                }
+                $this->add_cookies_to_wizard();
+            }
+
+            $thirdparty = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
+            if ($thirdparty) {
+                $thirdparty_types = cmplz_get_value('thirdparty_services_on_site');
+                foreach ($thirdparty_types as $type => $active) {
                     if ($active == 1) {
                         COMPLIANZ()->field->add_multiple_field('used_cookies', $type);
                     }
@@ -928,7 +938,7 @@ if (!class_exists("cmplz_cookie")) {
                     if (strpos($used_cookie_name, 'partial_') !== false) {
                         //a partial match is enough on this type
                         $partial_cookie_name = str_replace('partial_', '', $used_cookie_name);
-                        if (strpos($cookie_name, $partial_cookie_name) !== FALSE) {
+                        if (strpos( $cookie_name, $partial_cookie_name) !== FALSE) {
                             return $cookie['label'];
                         }
                     } elseif ($cookie_name == $used_cookie_name)
@@ -972,20 +982,7 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             if (!$error) {
-                $cookies = $this->get_detected_cookies();
-                if (!$cookies) {
-                    if ($this->scan_complete()) {
-                        $html = __("No cookies detected", 'complianz');
-                    } else {
-                        $html = __("Cookie scan in progress", 'complianz');
-                    }
-                } else {
-                    $html = '';
-                    foreach ($cookies as $key => $value) {
-                        $html .= '<tr><td>' . $key . "</td><td>" . $value . "</td></tr>";
-                    }
-                    $html = '<table>' . $html . "</table>";
-                }
+                $html = $this->get_detected_cookies_table();
             }
 
             $out = array(
@@ -994,6 +991,66 @@ if (!class_exists("cmplz_cookie")) {
             );
 
             die(json_encode($out));
+        }
+
+        public function get_detected_cookies_table(){
+            $html = '';
+
+            $cookies = $this->get_detected_cookies();
+            $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
+            $thirdparty = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
+            if (!$cookies && !$social_media && !$thirdparty) {
+                if ($this->scan_complete()) {
+                    $html = __("No cookies detected", 'complianz');
+                } else {
+                    $html = __("Cookie scan in progress", 'complianz');
+                }
+            } else {
+
+                /*
+                 * Show the cookies from our own domain
+                 * */
+                $html .= '<tr class="group-header"><td colspan="2"><b>' .__('Cookies on your own domain','complianz'). "</b></td></tr>";
+                $cookies = $this->get_detected_cookies();
+                if ($cookies) {
+                    foreach ($cookies as $key => $value) {
+                        $html .= '<tr><td>' . $key . "</td><td>" . $value . "</td></tr>";
+                    }
+                } else {
+                    $html .= '<tr><td></td><td>---</td></tr>';
+                }
+                /*
+                 * Show the social media which are placing cookies
+                 * */
+                $html .= '<tr class="group-header"><td colspan="2"><b>' .__('Social media','complianz').  "</b></td></tr>";
+                if ($social_media) {
+                    $social_media_types = cmplz_get_value('socialmedia_on_site');
+                    foreach ($social_media_types as $type => $active) {
+                        if ($active == 1) {
+                            $known_cookie = isset($this->known_cookie_keys[$type]) ? $this->known_cookie_keys[$type] : __("Origin unknown", 'complianz');
+                            $html .= '<tr><td></td><td>' . $known_cookie['label'] . "</td></tr>";                        }
+                    }
+                } else {
+                    $html .= '<tr><td></td><td>---</td></tr>';
+                }
+                /*
+                 * Show the third party services which are placing cookies
+                 * */
+                $html .= '<tr class="group-header"><td colspan="2"><b>' .__('Third party services','complianz').  "</b></td></tr>";
+                if ($thirdparty) {
+                    $thirdparty_types = cmplz_get_value('thirdparty_services_on_site');
+                    foreach ($thirdparty_types as $type => $active) {
+                        if ($active == 1) {
+                            $known_cookie = isset($this->known_cookie_keys[$type]) ? $this->known_cookie_keys[$type] : __("Origin unknown", 'complianz');
+                            $html .= '<tr><td></td><td>' . $known_cookie['label'] . "</td></tr>";
+                        }
+                    }
+                } else {
+                    $html .= '<tr><td></td><td>---</td></tr>';
+                }
+            }
+            $html = '<table>' . $html . "</table>";
+            return $html;
         }
 
         public function get_progress_count()
@@ -1032,16 +1089,7 @@ if (!class_exists("cmplz_cookie")) {
                 <br>
                 <?php _e("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz') ?>
                 <div class="detected-cookies">
-                    <?php
-                    $cookies = $this->get_detected_cookies();
-                    if ($cookies) {
-                        $html = '';
-                        foreach ($cookies as $key => $value) {
-                            $html .= '<tr><td>' . $key . "</td><td>" . $value . "</td></tr>";
-                        }
-                        echo "<table>" . $html . "</table>";
-                    }
-                    ?>
+                    <?php echo $this->get_detected_cookies_table();?>
                 </div>
                 <input type="submit" class="button cmplz-rescan"
                        value="<?php _e('Re-scan', 'complianz') ?>" name="rescan">
@@ -1094,9 +1142,12 @@ if (!class_exists("cmplz_cookie")) {
             /*
              * If Do not track is enabled, the warning is not needed anyway.
              * As this is user specific, skip if cache enabled.
+             *
+             * If the admin has DNT enabled, this check should be skipped as well.
+             *
              * */
 
-            if (!defined('wp_cache') && cmplz_dnt_enabled()){
+            if (!is_admin() && !defined('wp_cache') && cmplz_dnt_enabled()){
                 return false;
             }
 

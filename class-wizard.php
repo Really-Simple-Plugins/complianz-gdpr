@@ -115,8 +115,8 @@ if (!class_exists("cmplz_wizard")) {
 
         public function wizard_last_step_callback()
         {
-
             $page = $this->wizard_type();
+
             if (!$this->all_required_fields_completed($page)) {
                 _e("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz');
             } else {
@@ -204,6 +204,20 @@ if (!class_exists("cmplz_wizard")) {
             $field = $fields[$fieldname];
             if (($fieldvalue != $prev_value) && isset($field['revoke_consent_onchange']) && $field['revoke_consent_onchange']) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
+            }
+
+            //when the brand color is saved, update the cookie settings
+            //only if nothing entered yet.
+
+            if ($fieldname == 'brand_color'){
+                $cookie_settings = get_option('complianz_options_cookie_settings' );
+                error_log(print_r($cookie_settings, true));
+                if (!isset($cookie_settings['popup_background_color']) || empty($cookie_settings['popup_background_color'])){
+                    error_log("updating brand color");
+                    cmplz_update_option('cookie_settings', 'popup_background_color', $fieldvalue);
+                    cmplz_update_option('cookie_settings', 'button_text_color', $fieldvalue);
+                }
+
             }
         }
 
@@ -368,21 +382,31 @@ if (!class_exists("cmplz_wizard")) {
         {
             //get all required fields for this section, and check if they're filled in
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
+//            error_log("check reqired fields completed");
+//            error_log(print_r($fields,true));
+            //error_log("check $page, $step, $section");
             foreach ($fields as $fieldname => $args) {
+                //serror_log("loop $fieldname");
                 $default_args = COMPLIANZ()->field->default_args;
                 $args = wp_parse_args($args, $default_args);
                 if ($args['required']) {
                     //if a condition exists, only check for this field if the condition applies.
                     if (isset($args['condition']) && !COMPLIANZ()->field->condition_applies($args)) {
+                        //error_log("condition does not apply");
                         continue;
                     }
                     $value = COMPLIANZ()->field->get_value($fieldname);
                     if (empty($value)) {
+                        //error_log("$page is not complete");
                         return false;
+                    } else {
+                        //error_log("$fieldname is complete");
                     }
                 }
 
             }
+
+            //error_log("$page is complete");
             return true;
         }
 
@@ -421,8 +445,10 @@ if (!class_exists("cmplz_wizard")) {
         {
             for ($step = 1; $step <= $this->total_steps; $step++) {
                 if (COMPLIANZ()->config->has_sections($page, $step)) {
+                    error_log("has sections $page $step");
                     for ($section = 1; $section <= $this->total_sections($page, $step); $section++) {
                         if (!$this->required_fields_completed($page, $step, $section)) {
+                            error_log("not completed $page $step $section");
                             return false;
                         }
                     }
@@ -453,6 +479,10 @@ if (!class_exists("cmplz_wizard")) {
                 //sanitize
                 $types = array('wizard', 'processing', 'dataleak');
                 if (!in_array($wizard_type, $types)) $wizard_type = 'wizard';
+            } else {
+                if (isset($_GET['page'])) {
+                    $wizard_type = str_replace('cmplz-', '',$_GET['page']);
+                }
             }
             return $wizard_type;
         }
