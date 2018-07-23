@@ -111,24 +111,31 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
 
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
-            $url_pattern = '([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)';
+            $url_pattern = '([\w.,@?^=%&:\/~+#!-]*?)';
 
             /*
              * Handle iframes from third parties
              *
              *
              * */
-
             $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
+            $iframe_pattern_src = '/<(iframe)[^>].*?src=[\'"]\K(http:\/\/|https:\/\/|\/\/)'.$url_pattern.'(?=[\'"].*?>)/i';
             if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[2] as $key => $match){
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if (strpos($iframe_src, 'youtube.com/embed/')!==false){
+                        error_log("matched youtube");
+                        error_log($output);
                         $output = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $output);
+                        error_log($output);
+
                     } elseif ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
-                        $new = str_replace('<iframe', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
+                        //remove src
+                        $new = preg_replace($iframe_pattern_src, '',$new);
+                        $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
+                        error_log($new);
                         $new = $this->remove_src($new);
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
                         $output = str_replace($total_match, $new, $output);

@@ -116,6 +116,18 @@ $this->fields = $this->fields + array(
             'required' => false,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
+
+        'brand_color' => array(
+            'step' => STEP_COMPANY,
+            'section' => 2,
+            'page' => 'wizard',
+            'type' => 'colorpicker',
+            'default' => '',
+            'label' => __("What is the brand color on your website?", 'complianz'),
+            'help' => __("This color is used to setup your cookie warning, if you need one", 'complianz'),
+            'required' => true,
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
     );
 
 $this->fields = $this->fields + array(
@@ -324,6 +336,7 @@ $this->fields = $this->fields + array(
                 "googlemaps" => __('Google Maps', 'complianz'),
                 "vimeo" => __('Vimeo', 'complianz'),
                 "youtube" => __('Youtube','complianz'),
+//                "other" => __('Other','complianz'),
             ),
             'default' => '',
             'condition' => array('uses_thirdparty_services' => 'yes'),

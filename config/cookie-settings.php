@@ -11,51 +11,6 @@ $this->fields = $this->fields + array(
             'disabled' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),
-        'popup_background_color' => array(
-            'page' => 'cookie_settings',
-            'type' => 'colorpicker',
-            'default' => '#37a8de',
-            'label' => __("Popup background color", 'complianz'),
-            'table' => true,
-
-        ),
-        'popup_text_color' => array(
-            'page' => 'cookie_settings',
-            'type' => 'colorpicker',
-            'default' => '#fff',
-            'label' => __("Popup text color", 'complianz'),
-            'table' => true,
-        ),
-        'button_background_color' => array(
-            'page' => 'cookie_settings',
-            'type' => 'colorpicker',
-            'default' => '#fff',
-            'label' => __("Button background color", 'complianz'),
-            'table' => true,
-        ),
-        'button_text_color' => array(
-            'page' => 'cookie_settings',
-            'type' => 'colorpicker',
-            'default' => '#37a8de',
-            'label' => __("Button text color", 'complianz'),
-            'table' => true,
-        ),
-
-        'border_color' => array(
-            'page' => 'cookie_settings',
-            'type' => 'colorpicker',
-            'default' => '#fff',
-            'label' => __("Border color", 'complianz'),
-            'table' => true,
-        ),
-
-        'cookie_expiry' => array(
-            'page' => 'cookie_settings',
-            'type' => 'number',
-            'default' => 30,
-            'label' => __("Cookie warning expiration in days", 'complianz'),
-            'table' => true,
-        ),
 
         'message' => array(
             'page' => 'cookie_settings',
@@ -124,6 +79,54 @@ $this->fields = $this->fields + array(
             'default' => 'edgeless',
             'table' => true,
         ),
+
+        'popup_background_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' =>  '#37a8de',
+            'label' => __("Popup background color", 'complianz'),
+            'table' => true,
+
+        ),
+        'popup_text_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' => '#fff',
+            'label' => __("Popup text color", 'complianz'),
+            'table' => true,
+        ),
+        'button_background_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' => '#fff',
+            'label' => __("Button background color", 'complianz'),
+            'table' => true,
+        ),
+        'button_text_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' => '#37a8de',
+            'label' => __("Button text color", 'complianz'),
+            'table' => true,
+        ),
+
+        'border_color' => array(
+            'page' => 'cookie_settings',
+            'type' => 'colorpicker',
+            'default' => '#fff',
+            'label' => __("Border color", 'complianz'),
+            'table' => true,
+        ),
+
+        'cookie_expiry' => array(
+            'page' => 'cookie_settings',
+            'type' => 'number',
+            'default' => 30,
+            'label' => __("Cookie warning expiration in days", 'complianz'),
+            'table' => true,
+        ),
+
+
         'custom_css' => array(
             'page' => 'cookie_settings',
             'type' => 'css',
@@ -132,5 +135,12 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+//        'height' => array(
+//            'page' => 'cookie_settings',
+//            'type' => 'number',
+//            'label' => __("Height of banner", 'complianz'),
+//            'default' => '',
+//            'table' => true,
+//        ),
 
     );
