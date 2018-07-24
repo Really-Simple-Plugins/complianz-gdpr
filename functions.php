@@ -66,9 +66,11 @@ function cmplz_get_value($fieldname, $post_id = false)
     if (function_exists('icl_translate') || function_exists('pll__')) {
         $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
         if ($type==='cookies' || $type==='thirdparties'){
-            foreach ($value as $key=>$key_value){
-                if (function_exists('pll__')) $value[$key] = pll__($key_value);
-                if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname."_".$key, $key_value);
+            if (is_array($value)) {
+                foreach ($value as $key => $key_value) {
+                    if (function_exists('pll__')) $value[$key] = pll__($key_value);
+                    if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
+                }
             }
         } else {
             if (isset(COMPLIANZ()->config->fields[$fieldname]['translatable']) && COMPLIANZ()->config->fields[$fieldname]['translatable']) {
