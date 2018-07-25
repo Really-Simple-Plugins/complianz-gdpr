@@ -28,6 +28,8 @@
     margin-bottom: 30px;
     width:90%
 }
-#cmplz-document td {
+
+#cmplz-document table td {
+    text-align: left;
     width:33.33%
 }
