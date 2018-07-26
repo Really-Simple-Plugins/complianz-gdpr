@@ -1,3 +1,30 @@
+#complete_wizard_first_notice {
+  position: fixed;
+  /* Sit on top of the page content */
+  width: 100%;
+  /* Full width (cover the whole page) */
+  height: 100%;
+  /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Black background with opacity */
+  z-index: 99;
+}
+#complete_wizard_first_notice p {
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  position: relative;
+  /* height: 100px; */
+  top: 150px;
+  padding: 30px;
+  width: 300px;
+  text-align: center;
+  margin: auto;
+}
 @font-face {
   font-family: Sofia Pro Light;
   src: url("../../assets/fonts/sofiapro-light.otf") format("opentype");
@@ -461,13 +488,8 @@ html .mceContentBody {
   border-radius: 10px;
   border: 1px solid;
   font-weight: 900;
-  width: 90px;
+  padding-right: 30px !important;
   box-shadow: none;
-}
-@media screen and (max-width: 782px) {
-  .cmplz-continue-button {
-    width: 100px;
-  }
 }
 .cmplz-continue-button .fa-angle-right {
   font-weight: 900;
