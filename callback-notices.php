@@ -62,7 +62,7 @@ function cmplz_set_default($value, $fieldname)
     if ($fieldname == 'purpose_personaldata') {
         $contact_forms = cmplz_site_uses_contact_forms();
         if ($contact_forms) {
-            $value['contact'] = 1;
+            if (isset($value['contact'])) $value['contact'] = 1;
         }
     }
 

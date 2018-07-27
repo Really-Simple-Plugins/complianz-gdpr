@@ -121,7 +121,7 @@ $this->fields = $this->fields + array(
         'cookie_expiry' => array(
             'page' => 'cookie_settings',
             'type' => 'number',
-            'default' => 30,
+            'default' => 365,
             'label' => __("Cookie warning expiration in days", 'complianz'),
             'table' => true,
         ),

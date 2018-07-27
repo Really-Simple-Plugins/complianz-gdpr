@@ -24,8 +24,13 @@ $this->warning_types = array(
         'label_error' => __('Plugin changes have been detected.', 'complianz') . " " . sprintf(__('Please review step %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz'), CMPLZ_REVIEW_STEPS),
     ),
     'ga-needs-configuring' => array(
-        'label_ok' => __('No issues with statistics tracking have been detected.', 'complianz'),
         'label_error' => __('Google Analytics is being used, but is not configured in Complianz.', 'complianz'),
+    ),
+    'gtm-needs-configuring' => array(
+        'label_error' => __('Google Tagmanager is being used, but is not configured in Complianz.', 'complianz'),
+    ),
+    'matomo-needs-configuring' => array(
+        'label_error' => __('Matomo is being used, but is not configured in Complianz.', 'complianz'),
     ),
 
 );

@@ -160,6 +160,7 @@ if (!class_exists("cmplz_wizard")) {
                 }
 
                 $this->set_wizard_completed();
+                update_option('cmplz_wizard_completed_once', true);
                 COMPLIANZ()->cookie->reset_plugins_changed();
                 COMPLIANZ()->cookie->reset_cookies_changed();
                 COMPLIANZ()->cookie->reset_plugins_updated();
@@ -279,7 +280,6 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             ?>
-
 
             <div id="cmplz-wizard">
                 <div class="cmplz-header">
@@ -786,12 +786,12 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //we account for the warnings with one step
-            $warning_count = COMPLIANZ()->admin->get_warnings();
+            $warning_count = count(COMPLIANZ()->admin->get_warnings());
             if (!COMPLIANZ()->document->page_exists('privacy-statement')){
                 $warning_count++;
             }
 
-            $warnings = (count($warning_count)!=0) ? true: false;
+            $warnings = ($warning_count!=0) ? true: false;
             $total_fields++;
             if (!$warnings) $completed_fields++;
 

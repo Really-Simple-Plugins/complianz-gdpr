@@ -125,7 +125,7 @@ $this->fields = $this->fields + array(
             'default' => '',
             'label' => __("What is the brand color on your website?", 'complianz'),
             'help' => __("This color is used to setup your cookie warning, if you need one", 'complianz'),
-            'required' => true,
+            'required' => false,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
     );
@@ -246,6 +246,33 @@ $this->fields = $this->fields + array(
             'label' => __("Enter your Analytics UA code", 'complianz'),
             'condition' => array('compile_statistics' => 'google-analytics'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'matomo_site_id' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'page' => 'wizard',
+            'type' => 'number',
+            'default' => '',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter your Matomo site ID", 'complianz'),
+            'condition' => array('compile_statistics' => 'matomo'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'matomo_url' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'page' => 'wizard',
+            'type' => 'url',
+            'placeholder' => 'https://domain.com/stats',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter the URL of Matomo", 'complianz'),
+            'condition' => array('compile_statistics' => 'matomo'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("e.g. https://domain.com/stats", 'complianz'),
         ),
 
         'uses_cookies' => array(
