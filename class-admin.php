@@ -135,6 +135,14 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'ga-needs-configuring';
                 }
 
+                if (COMPLIANZ()->cookie->uses_google_tagmanager() && !COMPLIANZ()->cookie->tagmanager_configured()) {
+                    $warnings[] = 'gtm-needs-configuring';
+                }
+
+                if (COMPLIANZ()->cookie->uses_matomo() && !COMPLIANZ()->cookie->matomo_configured()) {
+                    $warnings[] = 'matomo-needs-configuring';
+                }
+
                 if (!is_ssl()) {
                     $warnings[] = 'no-ssl';
                 }
@@ -217,16 +225,15 @@ if (!class_exists("cmplz_admin")) {
 
         public function main_page()
         {
-
             ?>
             <div class="wrap" id="complianz">
                 <div class="dashboard">
                     <?php $this->get_status_overview() ?>
                     <?php
 
-
                     if ($this->error_message != "") echo $this->error_message;
                     if ($this->success_message != "") echo $this->success_message;
+
                     ?>
 
                 </div>
@@ -342,8 +349,25 @@ if (!class_exists("cmplz_admin")) {
         public function get_status_overview()
         {
 
-            ?>
+
+?>
+
             <div class="cmplz-dashboard-container">
+
+                <?php
+                //show an overlay when the wizard is not completed at least once yet
+                if (!get_option('cmplz_wizard_completed_once')){?>
+                    <div id="complete_wizard_first_notice">
+                        <p>
+                            <?php _e("You haven't completed the wizard yet. You should run the wizard at least once to get valid results in the dashboard.",'complianz')?>
+                            <a class="button cmplz-continue-button" href="<?php echo admin_url('admin.php?page=cmplz-wizard')?>">
+                                <?php _e('Start wizard','complianz')?>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </p>
+                    </div>
+                <?php } ?>
+
                 <div class="cmplz-dashboard-header">
                     <div class="cmplz-header-top">
                     </div>
@@ -439,9 +463,9 @@ if (!class_exists("cmplz_admin")) {
                             $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
                             foreach ($warning_types as $key => $type) {
                                 if (in_array($key, $warnings)) {
-                                    $this->get_dashboard_element($type['label_error'], 'error');
+                                    if (isset($type['label_error'])) $this->get_dashboard_element($type['label_error'], 'error');
                                 } else {
-                                    $this->get_dashboard_element($type['label_ok'], 'success');
+                                    if (isset($type['label_ok'])) $this->get_dashboard_element($type['label_ok'], 'success');
                                 }
                             }
 

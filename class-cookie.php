@@ -26,12 +26,14 @@ if (!class_exists("cmplz_cookie")) {
                 add_action('admin_init', array($this, 'track_cookie_changes'));
             }
 
-            if ($this->cookie_warning_required()) {
-                add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
-                add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
-                add_action('init', array($this, 'set_cookie_policy_id'));
-            } else {
-                add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
+            if (!is_admin()) {
+                if ($this->cookie_warning_required()) {
+                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
+                    add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+                    add_action('init', array($this, 'set_cookie_policy_id'));
+                } else {
+                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
+                }
             }
 
 //            //cookie script for styling purposes on backend
@@ -437,7 +439,7 @@ if (!class_exists("cmplz_cookie")) {
         public function inline_cookie_script_no_warning()
         {
             ?>
-            <script>
+            <script type='text/javascript' class="cmplz-native">
                 <?php $this->get_statistics_script();?>
                 <?php $this->get_cookie_script();?>
             </script>
@@ -474,6 +476,21 @@ if (!class_exists("cmplz_cookie")) {
                 ga('send', 'pageview', {
                 'anonymizeIp': true
                 });
+                <?php
+            } elseif($statistics==='matomo'){
+                $matomo_url = trailingslashit(cmplz_get_value('matomo_url'));
+                $site_id = cmplz_get_value('matomo_site_id');
+                ?>
+                    var _paq = _paq || [];
+                    _paq.push(['trackPageView']);
+                    _paq.push(['enableLinkTracking']);
+                    (function() {
+                        var u="<?php echo $matomo_url?>";
+                        _paq.push(['setTrackerUrl', u+'piwik.php']);
+                        _paq.push(['setSiteId', '<?php echo $site_id?>']);
+                        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+                    })();
                 <?php
             } else {
                 echo cmplz_get_value('statistics_script');
@@ -1105,18 +1122,34 @@ if (!class_exists("cmplz_cookie")) {
          *
          * */
 
-
         public function uses_google_analytics()
         {
-            if ($this->site_uses_cookie_of_type('google-analytics')) return true;
+            $statistics = cmplz_get_value('compile_statistics');
+            if ($statistics === 'google-analytics') {
+                return true;
+            }
+
+            return false;
+        }
+
+        public function uses_google_tagmanager()
+        {
+
+            $statistics = cmplz_get_value('compile_statistics');
+
+            if ($statistics === 'google-tag-manager') {
+                return true;
+            }
 
             return false;
         }
 
         public function uses_matomo()
         {
-            if ($this->site_uses_cookie_of_type('matomo')) return true;
-
+            $statistics = cmplz_get_value('compile_statistics');
+            if ($statistics === 'matomo') {
+                return true;
+            }
             return false;
         }
 
@@ -1125,6 +1158,23 @@ if (!class_exists("cmplz_cookie")) {
         {
             $UA_code = COMPLIANZ()->field->get_value('UA_code');
             if (!empty($UA_code)) return true;
+
+            return false;
+        }
+
+        public function tagmanager_configured()
+        {
+            $GTM_code = COMPLIANZ()->field->get_value('GTM_code');
+            if (!empty($GTM_code)) return true;
+
+            return false;
+        }
+
+        public function matomo_configured()
+        {
+            $matomo_url = COMPLIANZ()->field->get_value('matomo_url');
+            $site_id = COMPLIANZ()->field->get_value('matomo_site_id');
+            if (!empty($matomo_url) && !empty($site_id)) return true;
 
             return false;
         }

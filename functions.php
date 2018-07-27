@@ -7,6 +7,8 @@ function cmplz_uses_google_analytics()
 }
 
 //    $delete_options = array(
+//        "cmplz_wizard_completed_once",
+//        "cmplz_wizard_completed     ",
 //        "complianz_options_wizard",
 //        'complianz_options_cookie_settings',
 //        'complianz_options_dataleak',
@@ -186,7 +188,7 @@ function cmplz_wp_privacy_version(){
 }
 
 /*
- * Check if there is a text entered in the custom privacy policy text
+ * callback for privacy document Check if there is a text entered in the custom privacy policy text
  *
  * */
 
@@ -196,9 +198,93 @@ function has_custom_privacy_policy(){
     return true;
 }
 
+/*
+ * callback for privacy policy document, check if google is allowed to share data with other services
+ *
+ * */
+
+function cmplz_statistics_no_sharing_allowed(){
+    $statistics = cmplz_get_value('compile_statistics');
+    $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+    $google_analytics = ($statistics === 'google-analytics') ? true : false;
+
+    if ($google_analytics || $tagmanager) {
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
+        if ($no_sharing) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //only applies to google
+    return false;
+}
+
+/*
+ * callback for privacy policy document. Check if ip addresses are stored.
+ *
+ * */
+
+function cmplz_no_ip_addresses(){
+    $statistics = cmplz_get_value('compile_statistics');
+    $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+    $matomo = ($statistics === 'matomo') ? true : false;
+    $google_analytics = ($statistics === 'google-analytics') ? true : false;
+
+    //not anonymous stats.
+    if ($statistics === 'yes') {
+        return false;
+    }
+
+    if ($google_analytics || $tagmanager) {
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
+        if ($ip_anonymous) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if ($matomo){
+        if (cmplz_get_value('matomo_anonymized') === 'yes'){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+
+    return true;
+}
+
+function cmplz_accepted_processing_agreement()
+{
+    $statistics = cmplz_get_value('compile_statistics');
+    $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+    $google_analytics = ($statistics === 'google-analytics') ? true : false;
+
+    if ($google_analytics || $tagmanager) {
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
+        if ($accepted_google_data_processing_agreement) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //only applies to google
+    return false;
+}
 
 function cmplz_init_cookie_blocker(){
     if (!cmplz_third_party_cookies_active()) return;
+
+    //don't fire on the back-end
+    if (is_admin()) return;
 
     if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
 

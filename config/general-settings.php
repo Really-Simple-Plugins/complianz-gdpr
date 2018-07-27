@@ -18,4 +18,15 @@ $this->fields = $this->fields + array(
             'help' => __('Not recommended. You can disable the brute force blocking of third party scripts if you encounter issues with styling on your front-end.','complianz'),
             'table' => true,
         ),
+
+        'custom_document_css' => array(
+            'page' => 'settings',
+            'type' => 'css',
+            'label' => __("Custom document CSS", 'complianz'),
+            'default' => '#cmplz-document h2 {} /* titles in plugin text suggestions */'."\n".'#cmplz-document h3 {} /* titles in complianz documents */'."\n".'#cmplz-document h4 {} /* subtitles */'."\n".'#cmplz-document h3.annex{} /* titles in annexes */'."\n".'#cmplz-document h4.annex{} /* subtitles in annexes */'."\n".'#cmplz-document, #cmplz-document p, #cmplz-document li {} /* text */'."\n".'#cmplz-document table {} /* table styles */'."\n".'#cmplz-document td {} /* row styles */',
+            'help' => __('Add your own custom document css here','complianz'),
+            'table' => true,
+        ),
     );
+
+

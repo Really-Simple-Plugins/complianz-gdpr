@@ -4,6 +4,7 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit();
 }
 $delete_options = array(
+    "cmplz_wizard_completed_once",
     "complianz_options_wizard",
     'complianz_options_cookie_settings',
     'complianz_options_dataleak',
@@ -21,16 +22,23 @@ $delete_options = array(
     'cmplz_plugins_changed',
     'cmplz_detected_social_media',
     'cmplz_deleted_cookies',
+    'cmplz_db_version',
+    'cmplz_detected_thirdparty_services',
+
+
 );
-
 delete_all_options($delete_options);
-
 
 function delete_all_options($options) {
     foreach ($options as $option_name){
         delete_option( $option_name );
         delete_site_option( $option_name );
     }
-
 }
+
+global $wpdb;
+$sql = "DROP TABLE IF EXISTS cmplz_statistics";
+$wpdb->query($sql);
+
+
 

@@ -302,6 +302,11 @@ if (!class_exists("cmplz_document")) {
                 } else {
                     $html = $this->get_document_html($type);
                 }
+                $custom_css = cmplz_get_value('custom_document_css');
+                if (!empty($custom_css)){
+                    $custom_css = '<style>'.$custom_css.'</style>';
+                    $html = $custom_css.$html;
+                }
                 echo $html;
             }
 
