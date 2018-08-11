@@ -34,7 +34,7 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('cmplz_tools', array($this, 'dashboard_tools'));
 
-            add_action('upgrader_process_complete', array($this, 'check_upgrade'), 10, 2);
+            add_action('admin_init', array($this, 'check_upgrade'), 10, 2);
         }
 
         static function this()
