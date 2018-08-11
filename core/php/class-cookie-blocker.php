@@ -156,7 +156,10 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $total_match = $matches[0][$key];
                     $content = $matches[2][$key];
                     if (!empty($content)) {
+                        if (strpos($content, 'avia_preview')!==false) continue;
+
                         $key = $this->strpos_arr($content, $known_script_tags);
+
                         //if it's google analytics, and it's not anonymous or from complianz, remove it.
                         if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js') {
                             if (strpos($content, 'anonymizeIp') !== FALSE) continue;
