@@ -444,14 +444,14 @@ if (!class_exists("cmplz_admin")) {
                             <?php
                             do_action('cmplz_warnings');
 
-                            if (COMPLIANZ()->cookie->cookie_warning_required() && !COMPLIANZ()->wizard->wizard_completed()) {
+                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && !COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
                                 $warnings[] = 'wizard-incomplete';
                             }
-                            if (COMPLIANZ()->cookie->cookie_warning_required() && COMPLIANZ()->wizard->wizard_completed()) {
+                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
                             }
-                            if (!COMPLIANZ()->cookie->cookie_warning_required()) {
+                            if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                                 $this->get_dashboard_element(__('Your site does not require a cookie warning. No cookie warning has been enabled.', 'complianz'), 'success');
                             }
 
@@ -611,7 +611,7 @@ if (!class_exists("cmplz_admin")) {
                 if (!COMPLIANZ()->wizard->wizard_completed()) {
                     cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz'));
                 } else {
-                    if (!COMPLIANZ()->cookie->cookie_warning_required()) {
+                    if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                         cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz'));
                     } else {
                         _e('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz');

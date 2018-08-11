@@ -153,7 +153,7 @@ if (!class_exists("cmplz_wizard")) {
             if (isset($_POST['cmplz-finish'])) {
 
                 //check if cookie warning should be enabled
-                if (COMPLIANZ()->cookie->cookie_warning_required()) {
+                if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', true);
                 } else {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);

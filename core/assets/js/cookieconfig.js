@@ -19,9 +19,9 @@ jQuery(document).ready(function ($) {
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function(i, obj) {
-
             var src = $(this).attr('src');
             if (src && src.length) {
+                $(this).attr('type', 'text/javascript');
                 $.getScript(src, function () {});
             }else if ($(this).text().length){
                 $('<script>')
