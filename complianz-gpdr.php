@@ -3,7 +3,7 @@
  * Plugin Name: Complianz GDPR
  * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Plugin to help you make your site GDPR compliant
- * Version: 1.1.9
+ * Version: 1.1.10
  * Text Domain: complianz
  * Domain Path: /config/languages
  * Author: RogierLankhorst, Complianz team
@@ -124,6 +124,24 @@ if (!class_exists('COMPLIANZ')) {
             add_action('init', 'cmplz_init_cookie_blocker');
             add_action('wp_ajax_nopriv_cmplz_user_settings', 'cmplz_ajax_user_settings');
             add_action('wp_ajax_cmplz_user_settings', 'cmplz_ajax_user_settings');
+            add_action('wp_ajax_nopriv_cmplz_accept', array($this,  'ajax_accept'));
+            add_action('wp_ajax_cmplz_accept', array($this, 'ajax_accept'));
+        }
+
+        /*
+         * placeholder function for the accept script
+         * @todo: remove this function from the cookieconfig code.
+         * to do this, the free and premium scripts should be split
+         *
+         * */
+
+        public function ajax_accept(){
+            $response = json_encode(array(
+                'success' => true,
+            ));
+            header("Content-Type: application/json");
+            echo $response;
+            exit;
         }
     }
 }
