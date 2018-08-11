@@ -65,6 +65,8 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 == Change log ==
 = 1.1.10 =
 * Fix: call to non existing function from cookie config acceptance function
+* Fix: moved cookie policy change date to separate variable
+* Tweak: improved security of cookie enabling script
 
 = 1.1.9 =
 * Fix: empty contact key in saving data

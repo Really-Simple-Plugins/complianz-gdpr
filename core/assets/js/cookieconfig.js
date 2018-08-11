@@ -19,13 +19,16 @@ jQuery(document).ready(function ($) {
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function(i, obj) {
-            $(this).attr('type', 'text/javascript');
+
             var src = $(this).attr('src');
             if (src && src.length) {
                 $.getScript(src, function () {});
-            }
-            if ($(this).text().length && $(this).text().length>40){
-                eval($(this).text());
+            }else if ($(this).text().length){
+                $('<script>')
+                    .attr('type', 'text/javascript')
+                    .text($(this).text())
+                    .appendTo($(this).parent());
+                $(this).remove();
             }
         });
     }

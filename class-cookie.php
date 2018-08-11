@@ -940,6 +940,10 @@ if (!class_exists("cmplz_cookie")) {
             return update_option('cmplz_changed_cookies', -1);
         }
 
+        public function update_cookie_policy_date(){
+            update_option('cmplz_publish_date', date(get_option('date_format'), time() ));
+        }
+
         /*
          * Get a label/description based on a list of known cookie keys.
          *

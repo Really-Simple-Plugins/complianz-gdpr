@@ -54,6 +54,16 @@ if (!class_exists("cmplz_admin")) {
                 $general = get_option('complianz_options_settings');
                 $general['disable_cookie_block'] = $value;
             }
+
+            //as of 1.1.10, publish date is stored in variable.
+            if (version_compare($prev_version, '1.1.10','<')) {
+                $date = get_option('cmplz_publish_date');
+                if (empty($date)) {
+                    COMPLIANZ()->cookie->update_cookie_policy_date();
+                }
+            }
+
+
             update_option('cmplz-current-version', cmplz_version);
         }
 
@@ -356,7 +366,8 @@ if (!class_exists("cmplz_admin")) {
 
                 <?php
                 //show an overlay when the wizard is not completed at least once yet
-                if (!get_option('cmplz_wizard_completed_once')){?>
+
+                if (!COMPLIANZ()->wizard->wizard_completed() && !get_option('cmplz_wizard_completed_once')){?>
                     <div id="complete_wizard_first_notice">
                         <p>
                             <?php _e("You haven't completed the wizard yet. You should run the wizard at least once to get valid results in the dashboard.",'complianz')?>

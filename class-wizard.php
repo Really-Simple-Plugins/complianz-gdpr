@@ -200,6 +200,9 @@ if (!class_exists("cmplz_wizard")) {
             //we can check here if certain things have been updated,
             COMPLIANZ()->cookie->reset_cookies_changed();
 
+            //save last changed date.
+            COMPLIANZ()->cookie->update_cookie_policy_date();
+
             //if the fieldname is from the "revoke cookie consent on change" list, change the policy if it's changed
             $fields = COMPLIANZ()->config->fields;
             $field = $fields[$fieldname];
