@@ -153,7 +153,7 @@ if (!class_exists("cmplz_wizard")) {
             if (isset($_POST['cmplz-finish'])) {
 
                 //check if cookie warning should be enabled
-                if (COMPLIANZ()->cookie->cookie_warning_required()) {
+                if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', true);
                 } else {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
@@ -197,11 +197,15 @@ if (!class_exists("cmplz_wizard")) {
 
         public function before_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type)
         {
+            //only run when changes have been made
+            if ($fieldvalue === $prev_value) return;
+
             //we can check here if certain things have been updated,
             COMPLIANZ()->cookie->reset_cookies_changed();
 
             //save last changed date.
             COMPLIANZ()->cookie->update_cookie_policy_date();
+
 
             //if the fieldname is from the "revoke cookie consent on change" list, change the policy if it's changed
             $fields = COMPLIANZ()->config->fields;
@@ -215,13 +219,10 @@ if (!class_exists("cmplz_wizard")) {
 
             if ($fieldname == 'brand_color'){
                 $cookie_settings = get_option('complianz_options_cookie_settings' );
-                error_log(print_r($cookie_settings, true));
                 if (!isset($cookie_settings['popup_background_color']) || empty($cookie_settings['popup_background_color'])){
-                    error_log("updating brand color");
                     cmplz_update_option('cookie_settings', 'popup_background_color', $fieldvalue);
                     cmplz_update_option('cookie_settings', 'button_text_color', $fieldvalue);
                 }
-
             }
         }
 

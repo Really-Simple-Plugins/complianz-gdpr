@@ -27,7 +27,7 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             if (!is_admin()) {
-                if ($this->cookie_warning_required()) {
+                if ($this->user_needs_cookie_warning()) {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
                     add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
                     add_action('init', array($this, 'set_cookie_policy_id'));
@@ -1192,7 +1192,10 @@ if (!class_exists("cmplz_cookie")) {
 
         public function cookie_warning_required()
         {
+            return $this->user_needs_cookie_warning();
+        }
 
+        public function user_needs_cookie_warning(){
             /*
              * If Do not track is enabled, the warning is not needed anyway.
              * As this is user specific, skip if cache enabled.
@@ -1204,6 +1207,16 @@ if (!class_exists("cmplz_cookie")) {
             if (!is_admin() && !defined('wp_cache') && cmplz_dnt_enabled()){
                 return false;
             }
+
+            if ($this->site_needs_cookie_warning()){
+                return true;
+            }
+
+            return false;
+        }
+
+        public function site_needs_cookie_warning()
+        {
 
             //non functional cookies? we need a cookie warning
             if ($this->third_party_cookies_active()) {

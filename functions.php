@@ -84,9 +84,9 @@ function cmplz_get_value($fieldname, $post_id = false)
     return $value;
 }
 
-function cmplz_cookie_warning_required()
+function cmplz_user_needs_cookie_warning()
 {
-    return COMPLIANZ()->cookie->cookie_warning_required();
+    return COMPLIANZ()->cookie->user_needs_cookie_warning();
 }
 
 function cmplz_company_in_eu()
@@ -192,8 +192,9 @@ function cmplz_wp_privacy_version(){
  *
  * */
 
-function has_custom_privacy_policy(){
-    if (empty(cmplz_get_value('custom_privacy_policy_text'))) return false;
+function cmplz_has_custom_privacy_policy(){
+    $policy = cmplz_get_value('custom_privacy_policy_text');
+    if (empty($policy)) return false;
 
     return true;
 }
