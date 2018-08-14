@@ -623,7 +623,9 @@ if (!class_exists("cmplz_cookie")) {
             update_option('cmplz_detected_cookies', $cookies);
 
             //store the date
-            update_option('cmplz_last_cookie_scan', time());
+            $timezone_offset = get_option('gmt_offset');
+            $time = time() + (60*60*$timezone_offset);
+            update_option('cmplz_last_cookie_scan', $time);
 
             if ($cookie_changes) {
                 update_option('cmplz_cookies_times_changed', 0);
