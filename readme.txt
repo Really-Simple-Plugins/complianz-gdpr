@@ -33,7 +33,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Multilanguage support for the cookie warning
 * Premium support
 
-[Contact](https://www.complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz GDPR is developed by [Complianz BV](https://www.complianz.io).
+[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz GDPR is developed by [Complianz BV](https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”
