@@ -325,7 +325,7 @@ if (!class_exists("cmplz_admin")) {
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Feature requests', 'complianz'); ?></div>
                 <div class="cmplz-footer-description"><?php echo __('Need new features or languages? Let us know!', 'complianz'); ?></div>
-                <a href="https://complianz.io/#contact" target="_blank">
+                <a href="https://complianz.io/contact" target="_blank">
                     <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>
                     </div>
