@@ -7,10 +7,10 @@ Requires PHP: 5.6
 Tested up to: 4.9.7
 Stable tag: 1.1.11
 
-Privacy Suite to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
+Privacy Suite to support you in your efforts to make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR is a privacy suite which will help you to make your website GDPR compliant.
+Complianz GDPR is a privacy suite which aims to support you in your efforts to make your site GDPR compliant
 
 = Features =
 * Automatically detects if you need a cookie warning
@@ -20,7 +20,7 @@ Complianz GDPR is a privacy suite which will help you to make your website GDPR 
 * Youtube videos are shown without placing cookies
 * Generates a legally validated cookie policy
 * Detected cookie data is prefilled from the shipped cookie database, which is continually updated
-* Built for the coming E-privacy law
+* We closely follow the latest developments in the E-Privacy legislation
 * Integrates seamlessly with Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads
 * Integrated with WordPress privacy features
 
@@ -67,6 +67,9 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.1.11 =
+* Adjusted readme as not to claim GDPR compliancy, as per WordPress regulations. 
+
 = 1.1.10 =
 * Fix: cookie scan time showed UTC time instead of local time
 * Fix: call to non existing function from cookie config acceptance function
