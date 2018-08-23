@@ -1,16 +1,16 @@
 === Complianz GDPR ===
 Contributors: RogierLankhorst, ComplianzTeam
-Tags: GPDR, AVG,  Cookie warning, EU, Privacy, Cookie block,Cookie policy, Cookie scan
+Tags: GPDR, AVG, E-Privacy, Cookie warning, EU, Privacy, Cookie block, Cookie policy, Cookie scan
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 
-Plugin to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks third thirdparty cookies from all major third party services.
+Privacy Suite to help you make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR will help you to make your website quickly GDPR compliant.
+Complianz GDPR is a privacy suite which will help you to make your website GDPR compliant.
 
 = Features =
 * Automatically detects if you need a cookie warning
@@ -20,11 +20,15 @@ Complianz GDPR will help you to make your website quickly GDPR compliant.
 * Youtube videos are shown without placing cookies
 * Generates a legally validated cookie policy
 * Detected cookie data is prefilled from the shipped cookie database, which is continually updated
+* Built for the coming E-privacy law
+* Integrates seamlessly with Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads
+* Integrated with WordPress privacy features
 
 Complianz GDPR is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
 = Love Complianz GDPR? =
-If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the premium version
+If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing)
+
 = Premium features =
 * Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all
 * Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
@@ -64,6 +68,7 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 
 == Change log ==
 = 1.1.10 =
+* Fix: cookie scan time showed UTC time instead of local time
 * Fix: call to non existing function from cookie config acceptance function
 * Fix: moved cookie policy change date to separate variable
 * Tweak: improved security of cookie enabling script
