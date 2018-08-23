@@ -49,7 +49,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 = Knowledgebase =
 Complianz maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
 
-= Am I gdpr compliant =
+= Am I GDPR compliant with this plugin? =
 If you want to make sure, please contact us for a review of your site on complianz.io.
 
 = When do I need a cookie consent banner? =
