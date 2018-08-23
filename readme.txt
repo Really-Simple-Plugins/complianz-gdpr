@@ -49,8 +49,8 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 = Knowledgebase =
 Complianz maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
 
-= Am I GDPR compliant with this plugin? =
-If you want to make sure, please contact us for a review of your site on complianz.io.
+= Is my website GDPR compliant with this plugin? =
+If you want you can purchase a review of your site on https://complianz.io.
 
 = When do I need a cookie consent banner? =
 Complianz GDPR will determine this automatically. When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
