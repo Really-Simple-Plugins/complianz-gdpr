@@ -87,15 +87,16 @@ $this->document_elements['cookie-statement'] = array(
 
     'cookie_names' => array(
         'title' => __('Placed cookies', 'complianz'),
-        'content' => '<table><tr><td colspan="3"><b>[label]</b></td></tr>
-                                 <tr><td colspan="3">' . __("Purpose:", 'complianz') . ' [purpose]</td></tr>
-                                 <tr><td colspan="3">' . __("Description:", 'complianz') . ' [description]</td></tr>
+        'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
+                                 <tr><td colspan="2">' .
+                                    __("Purpose:", 'complianz') . ' [purpose]<br>'.
+                                    __("Retention period:", 'complianz'). ' [storage_duration]<br>'.
+                                    __("Description:", 'complianz') . ' [description]'.
+                                 '</td></tr>
                                  <tr>
-                                    <td>' . __("Retention period", 'complianz') . '</td>
                                     <td>' . __("Used names", 'complianz') . '</td>
                                     <td>' . __("Sharing", 'complianz') . '</td>
                                   </tr><tr>
-                                     <td>[storage_duration]</td>
                                      <td>[used_names]</td>
                                      <td>' . sprintf(__("For more information see the privacy policy of %s at %s", 'complianz'), '[label]', '[privacy_policy_url]') . '</td>
                                  </tr>

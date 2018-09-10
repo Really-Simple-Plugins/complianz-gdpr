@@ -47,16 +47,19 @@ function cmplz_revoke_link($text = false)
 
 function cmplz_get_value($fieldname, $post_id = false)
 {
-    if (!isset(COMPLIANZ()->config->fields[$fieldname])) return false;
+    //we allow for one random character at the end, for the cookie variationid
+    $original_fieldname = isset(COMPLIANZ()->config->fields[substr($fieldname, 0, -1)]) ? substr($fieldname, 0, -1) : $fieldname;
+
+    if (!isset(COMPLIANZ()->config->fields[$original_fieldname])) return false;
 
     //if  a post id is passed we retrieve the data from the post
-    $page = COMPLIANZ()->config->fields[$fieldname]['page'];
+    $page = COMPLIANZ()->config->fields[$original_fieldname]['page'];
 
     if ($post_id && ($page !== 'wizard')) {
         $value = get_post_meta($post_id, $fieldname, true);
     } else {
         $fields = get_option('complianz_options_' . $page);
-        $default = isset(COMPLIANZ()->config->fields[$fieldname]['default']) ? COMPLIANZ()->config->fields[$fieldname]['default'] : '';
+        $default = isset(COMPLIANZ()->config->fields[$original_fieldname]['default']) ? COMPLIANZ()->config->fields[$original_fieldname]['default'] : '';
         $value = isset($fields[$fieldname]) ? $fields[$fieldname] : $default;
     }
 
@@ -66,7 +69,7 @@ function cmplz_get_value($fieldname, $post_id = false)
      * */
 
     if (function_exists('icl_translate') || function_exists('pll__')) {
-        $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
+        $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
         if ($type==='cookies' || $type==='thirdparties'){
             if (is_array($value)) {
                 foreach ($value as $key => $key_value) {
@@ -75,7 +78,7 @@ function cmplz_get_value($fieldname, $post_id = false)
                 }
             }
         } else {
-            if (isset(COMPLIANZ()->config->fields[$fieldname]['translatable']) && COMPLIANZ()->config->fields[$fieldname]['translatable']) {
+            if (isset(COMPLIANZ()->config->fields[$original_fieldname]['translatable']) && COMPLIANZ()->config->fields[$original_fieldname]['translatable']) {
                 if (function_exists('pll__')) $value = pll__($value);
                 if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
             }
@@ -138,7 +141,7 @@ function cmplz_update_option($page, $fieldname, $value)
     $options = get_option('complianz_options_' . $page);
 
     $options[$fieldname] = $value;
-    update_option('complianz_options_' . $page, $options);
+    if (!empty($options)) update_option('complianz_options_' . $page, $options);
 }
 
 function cmplz_uses_statistics()
@@ -147,14 +150,6 @@ function cmplz_uses_statistics()
     if ($stats !== 'no') return true;
 
     return false;
-}
-
-
-function cmplz_dnt_enabled()
-{
-    if (defined('cmplz_free')) return false;
-
-    return (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1);
 }
 
 
@@ -311,8 +306,6 @@ function cmplz_init_cookie_blocker(){
 }
 
 function cmplz_ajax_user_settings(){
-
-    $success = false;
     $is_eu = true;
 
     //track a visit
@@ -322,18 +315,15 @@ function cmplz_ajax_user_settings(){
         $is_eu = COMPLIANZ()->geoip->is_eu();
     }
 
-    $do_not_track = defined('cmplz_free') ? false : cmplz_dnt_enabled();
-
     $response = json_encode(array(
-        'success' => $success,
+        'success' => true,
         'is_eu' => $is_eu,
-        'do_not_track'   => $do_not_track,
+        'do_not_track'   => apply_filters('cmplz_dnt_enabled', false),
     ));
     header("Content-Type: application/json");
     echo $response;
     exit;
 }
-
 
 function cmplz_get_option($name){
     return get_option($name);
@@ -351,7 +341,6 @@ function cmplz_is_admin(){
     return is_admin();
 }
 
-
 /**
  * Load the translation files
  *
@@ -367,3 +356,6 @@ function cmplz_is_admin(){
 //    load_plugin_textdomain('complianz', FALSE, cmplz_path . 'config/languages/');
 //}
 
+function cmplz_get_cookie_categories_text(){
+    return get_option('cmplz_cookies_categories_text', __('Third party cookies', 'complianz'));
+}

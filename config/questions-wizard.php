@@ -233,6 +233,7 @@ $this->fields = $this->fields + array(
             'label' => __("Enter your Google Tagmanager code", 'complianz'),
             'condition' => array('compile_statistics' => 'google-tag-manager'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.", 'complianz'),
         ),
 
         'UA_code' => array(
@@ -246,6 +247,7 @@ $this->fields = $this->fields + array(
             'label' => __("Enter your Analytics UA code", 'complianz'),
             'condition' => array('compile_statistics' => 'google-analytics'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("For the Google Analytics UA code, log on and click Admin and copy the UA code below Tracking-ID.", 'complianz'),
         ),
 
         'matomo_site_id' => array(
@@ -473,5 +475,3 @@ $this->fields = $this->fields + array(
             'label' => '',
         ),
     );
-
-

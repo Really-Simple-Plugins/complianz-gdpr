@@ -21,6 +21,7 @@ $this->thirdparty_service_markers = array(
     "google-fonts" => array('fonts.googleapis.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
+    "hotjar" => array('static.hotjar.com'),
 );
 
 //used to block scripts on front-end
@@ -37,6 +38,7 @@ $this->script_tags = array(
     'www.google-analytics.com/analytics.js',
     'google-analytics.com/ga.js',
     'new google.maps.',
+    'static.hotjar.com',
     'dataset.sumoSiteId',
     '_getTracker',
     'disqus.com',
@@ -45,6 +47,7 @@ $this->script_tags = array(
     'adsbygoogle',
     'googlesyndication',
     'cdn.livechatinc.com/tracking.js',
+    'googleads.g.doubleclick.net ',
 );
 
 $this->iframe_tags = array(
@@ -55,4 +58,5 @@ $this->iframe_tags = array(
     'www.google.com/maps/embed',
     'player.vimeo.com',
     'disqus.com',
+    'platform.twitter.com/widgets.js',
 );

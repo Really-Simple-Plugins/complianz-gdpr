@@ -274,6 +274,7 @@ if (!class_exists("cmplz_document_core")) {
 
             //replace all fields.
             foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {
+
                 if (strpos($html, "[$fieldname]") !== FALSE) {
                     $html = str_replace("[$fieldname]", $this->get_plain_text_value($fieldname, $post_id), $html);
                     //when there's a closing shortcode it's always a link
@@ -289,6 +290,29 @@ if (!class_exists("cmplz_document_core")) {
 
         }
 
+        private function obfuscate_email($email)
+        {
+            $alwaysEncode = array('.', ':', '@');
+
+            $result = '';
+
+            // Encode string using oct and hex character codes
+            for ($i = 0; $i < strlen($email); $i++) {
+                // Encode 25% of characters including several that always should be encoded
+                if (in_array($email[$i], $alwaysEncode) || mt_rand(1, 100) < 25) {
+                    if (mt_rand(0, 1)) {
+                        $result .= '&#' . ord($email[$i]) . ';';
+                    } else {
+                        $result .= '&#x' . dechex(ord($email[$i])) . ';';
+                    }
+                } else {
+                    $result .= $email[$i];
+                }
+            }
+
+            return $result;
+        }
+
 
         private function get_plain_text_value($fieldname, $post_id, $list_style = true)
         {
@@ -298,6 +322,8 @@ if (!class_exists("cmplz_document_core")) {
 
             if (COMPLIANZ()->config->fields[$fieldname]['type'] == 'url') {
                 $value = '<a href="' . $value . '" target="_blank">';
+            } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'email') {
+                $value = $this->obfuscate_email($value);
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';

@@ -27,7 +27,7 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             if (!is_admin()) {
-                if ($this->user_needs_cookie_warning()) {
+                if ($this->site_needs_cookie_warning()) {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
                     add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
                     add_action('init', array($this, 'set_cookie_policy_id'));
@@ -35,6 +35,7 @@ if (!class_exists("cmplz_cookie")) {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
                 }
             }
+
 
 //            //cookie script for styling purposes on backend
             add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
@@ -64,6 +65,8 @@ if (!class_exists("cmplz_cookie")) {
             add_action('cmplz_wizard_wizard', array($this, 'update_social_media_cookies'), 10, 1);
             add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
             add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
+
+            add_action('admin_init', array($this, 'cache_cookie_categories_text'));
 
             $this->load();
         }
@@ -217,7 +220,7 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (isset($_POST['rescan'])) {
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
-                delete_option('cmplz_deleted_cookies');
+                //delete_option('cmplz_deleted_cookies');
                 delete_transient('cmplz_detected_cookies');
                 update_option('cmplz_detected_social_media', false);
                 update_option('cmplz_detected_thirdparty_services', false);
@@ -270,20 +273,23 @@ if (!class_exists("cmplz_cookie")) {
             $this->known_cookie_keys = COMPLIANZ()->config->known_cookie_keys;
         }
 
-
         public function enqueue_assets($hook)
         {
+            $user_variation_id = apply_filters('cmplz_user_variation_id', '');
+            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
 
-            wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
+            wp_register_style('cmplz-cookie', cmplz_url . "assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
 
-            $custom_css = cmplz_get_value('custom_css');
-            if (!empty($custom_css)){
-                wp_add_inline_style( 'cmplz-cookie', $custom_css );
+            if (cmplz_get_value('use_custom_cookie_css'.$user_variation_id)) {
+                $custom_css = $this->sanitize_custom_css(cmplz_get_value('custom_css' . $user_variation_id));
+                if (!empty($custom_css)) {
+                    wp_add_inline_style('cmplz-cookie', $custom_css);
+                }
             }
-            $cookiesettings = $this->get_cookie_settings();
+            $cookiesettings = $this->get_cookie_settings($user_variation_id);
 
-            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array(), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
@@ -294,18 +300,37 @@ if (!class_exists("cmplz_cookie")) {
                     $cookiesettings
                 );
             }
-
-
         }
+
+        public function ab_testing_enabled(){
+            return cmplz_get_value('a_b_testing');
+        }
+
+        /*
+         *
+         *
+         * Here we add scripts and styles for the wysywig editor on the backend
+         *
+         * */
 
         public function enqueue_admin_assets($hook)
         {
             if (strpos($hook, 'cmplz-cookie-warning') === FALSE) return;
-
-            wp_register_style('cmplz-cookie', cmplz_url . 'assets/css/cookieconsent.min.css', "", cmplz_version);
+            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+            wp_register_style('cmplz-cookie', cmplz_url . "assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
 
-            $cookiesettings = $this->get_cookie_settings();
+            $variation_id = $this->variation_id();
+
+            if (cmplz_get_value('use_custom_cookie_css'.$variation_id)) {
+                $custom_css = $this->sanitize_custom_css(cmplz_get_value('custom_css' . $variation_id));
+                ('sanitized css'.$custom_css);
+                if (!empty($custom_css)) {
+                    wp_add_inline_style('cmplz-cookie', $custom_css);
+                }
+            }
+
+            $cookiesettings = $this->get_cookie_settings($variation_id);
 
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent.js", array(), cmplz_version, true);
             wp_localize_script(
@@ -316,6 +341,13 @@ if (!class_exists("cmplz_cookie")) {
 
             wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "core/assets/js/cookieconfig-styling.js", array(), cmplz_version, true);
 
+        }
+
+        public function sanitize_custom_css($css){
+            $css = preg_replace('/\/\*(.|\s)*?\*\//i', '', $css);
+            $css = str_replace(array('.cc-message{}', '.cc-dismiss{}', '.cc-allow{}', '.cc-window{}'), '', $css);
+            $css = trim($css);
+            return $css;
         }
 
         public function get_active_policy_id()
@@ -334,48 +366,115 @@ if (!class_exists("cmplz_cookie")) {
             update_option('complianz_active_policy_id', $policy_id);
         }
 
+        public function variation_id(){
+            $variation_id = '';
+            if (isset($_GET['variation_id'])) {
+                $variation_id = intval($_GET['variation_id']) == 0 ? '' : intval($_GET['variation_id']);
+            }
+            return $variation_id;
+        }
+
+
         /*
          * Make sure we only have the front-end settings for the output
          *
          * */
 
-        public function get_cookie_settings()
+        public function get_cookie_settings($variation_id = '')
         {
             $output = array();
+            $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
 
-            $fields = COMPLIANZ()->config->fields('cookie_settings');
             foreach ($fields as $fieldname => $field) {
                 $value = cmplz_get_value($fieldname);
                 if (empty($value)) $value = $field['default'];
-                $output[$fieldname] = $value;
+                $output[str_replace($variation_id, '', $fieldname)] = $value;
+            }
+            $output['static'] = false;
+            $output['categories'] = '';
+            switch ($output['position']){
+                case 'static':
+                    $output['static'] = true;
+                    $output['position'] = 'top';
+                    break;
+                case 'edgeless':
+                    $output['border_color'] = false;
+                    break;
             }
 
-            if ($output['position'] == 'static'){
-                $output['static'] = true;
-                $output['position'] = 'top';
-            }
+            $output['type'] = 'opt-in';
+            $output['layout'] = 'basic';
 
-            if ($output['theme'] == 'edgeless'){
-                $output['border_color'] = false;
+            if ($output['use_categories']){
+                $checkbox_all = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="18px" height="18px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
+                $checkbox_functional = str_replace(array('type', 'cmplz_all'), array('checked disabled type','cmplz_functional'), $checkbox_all);
+
+                $checkbox_stats = $this->cookie_warning_required_stats() ? '<label>'.str_replace('cmplz_all', 'cmplz_stats', $checkbox_all).$output['category_stats'].'</label>' : '';
+                $output['categories'] = '<label>'.$checkbox_functional.$output['category_functional'].'</label>'.$checkbox_stats.'<label>'.$checkbox_all.$output['category_all'].'</label>';
+
+                $output['dismiss'] = $output['save_preferences'];
+                $output['type'] = 'categories';
+                $output['layout'] = 'categories-layout';
+                $output['revoke'] = $output['view_preferences'];
+                unset($output['view_preferences']);
             }
 
             $output['readmore_url'] = $this->get_cookie_statement_page();
-
             $output['url'] = admin_url('admin-ajax.php');
             $output['nonce'] = wp_create_nonce('set_cookie');
+            $output['variation'] = $variation_id;
+
+            unset($output['a_b_testing']);
+            unset($output['a_b_testing_duration']);
+            unset($output['custom_css']);
+            unset($output['use_custom_cookie_css']);
+            unset($output['variation']);
+
+            $output = apply_filters('cmplz_cookie_settings', $output);
 
             return $output;
-
         }
+
+
 
         public function get_cookie_statement_page()
         {
             $url = "#";
-            $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement');
+            $page_id = get_transient('cmplz_cookie_policy_id');
+            if (!$page_id){
+                $page_id = apply_filters('cmplz_cookie_policy_page_id',COMPLIANZ()->document->get_shortcode_page_id('cookie-statement'));
+                set_transient('cmplz_cookie_policy_id', $page_id, DAY_IN_SECONDS);
+            }
+
             if ($page_id) {
                 $url = get_permalink($page_id);
             }
+
             return $url;
+        }
+
+        /*
+         * As we need this text before the classes are instantiated, we cache it.
+         *
+         * */
+
+        public function cache_cookie_categories_text(){
+            update_option('cmplz_cookies_categories_text', $this->get_cookie_categories_text());
+        }
+
+        public function get_cookie_categories_text(){
+            $categories = array();
+            if (cmplz_get_value('uses_ad_cookies') === 'yes') $categories[] = __('marketing','complianz');
+            if ($this->third_party_cookies_active()) $categories[] = __('third party services','complianz');
+            if (cmplz_get_value('uses_social_media') === 'yes') $categories[] = __('social media','complianz');
+
+            //nothing found yet? check for non functional cookies in general
+            if (empty($categories) && $this->uses_non_functional_cookies()) {
+                $categories[] = __('user preferences','complianz');
+            }
+
+            $str = implode(', ',$categories);
+            return sprintf(__('Cookies for %s', 'complianz'), $str);
         }
 
         private function domain()
@@ -1189,13 +1288,13 @@ if (!class_exists("cmplz_cookie")) {
          *      Warning is required when
          *          - cookies are used, or
          *          - stats are used, and data are shared, and ip not anonymous
-         *
+         *      @deprecated
          * */
 
-        public function cookie_warning_required()
-        {
-            return $this->user_needs_cookie_warning();
-        }
+//        public function cookie_warning_required()
+//        {
+//            return $this->user_needs_cookie_warning();
+//        }
 
         public function user_needs_cookie_warning(){
             /*
@@ -1206,7 +1305,7 @@ if (!class_exists("cmplz_cookie")) {
              *
              * */
 
-            if (!is_admin() && !defined('wp_cache') && cmplz_dnt_enabled()){
+            if (!is_admin() && !defined('wp_cache') && apply_filters('cmplz_dnt_enabled', false)){
                 return false;
             }
 
@@ -1401,13 +1500,7 @@ if (!class_exists("cmplz_cookie")) {
 
 
                 if (is_array($key_arr) && !in_array($cookie_type, $key_arr)) {
-                    //add fieldc if not deleted previously
-
-                    $deleted_cookies = get_option('cmplz_deleted_cookies');
-
-                    if ((!$deleted_cookies || !in_array($cookie_type, $deleted_cookies)) && strpos($cookie_type, 'wordpress_') === false) {
-                        COMPLIANZ()->field->add_multiple_field('used_cookies', $cookie_type);
-                    }
+                    COMPLIANZ()->field->add_multiple_field('used_cookies', $cookie_type);
                 }
             }
 

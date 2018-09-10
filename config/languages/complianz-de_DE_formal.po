@@ -5,8 +5,8 @@ msgstr ""
 "POT-Creation-Date: 2018-09-08 07:08+0000\n"
 "PO-Revision-Date: 2018-09-08 07:09+0000\n"
 "Last-Translator: Rogier Lankhorst <rogier@really-simple-ssl.com>\n"
-"Language-Team: German\n"
-"Language: de_DE\n"
+"Language-Team: German (Formal)\n"
+"Language: de_DE_formal\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,11 +34,11 @@ msgstr ""
 
 #: pro-class-form.php:76
 msgid "(Gravity Forms)"
-msgstr "(Gravity Forms)"
+msgstr ""
 
 #: pro-class-form.php:90
 msgid "(Contact form 7)"
-msgstr "(Contact form 7)"
+msgstr ""
 
 #: pro-class-form.php:116 config/cookie-settings.php:141
 msgid "Accept"
