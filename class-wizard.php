@@ -27,7 +27,7 @@ if (!class_exists("cmplz_wizard")) {
             add_action('cmplz_wizard_last_step', array($this, 'wizard_last_step_callback'), 10, 1);
 
             //link action to custom hook
-            add_action('cmplz_wizard_wizard', array($this, 'wizard_after_last_step'), 10, 1);
+            add_action('cmplz_wizard_wizard', array($this, 'wizard_after_step'), 10, 1);
 
             //process custom hooks
             add_action('admin_init', array($this, 'process_custom_hooks'));
@@ -39,8 +39,6 @@ if (!class_exists("cmplz_wizard")) {
             //dataleaks:
 
             add_action('cmplz_is_wizard_completed', array($this, 'is_wizard_completed_callback'));
-
-
         }
 
         static function this()
@@ -131,7 +129,7 @@ if (!class_exists("cmplz_wizard")) {
          *
          * */
 
-        public function wizard_after_last_step()
+        public function wizard_after_step()
         {
 
             if (!is_user_logged_in()) return;
@@ -149,6 +147,13 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
+            //if the plugins page is reviewed, we can reset the privacy policy suggestions from WordPress.
+            if (($this->step('wizard') == STEP_PLUGINS) && COMPLIANZ()->document->page_required('privacy-statement')){
+                $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
+                WP_Privacy_Policy_Content::_policy_page_updated($policy_page_id);
+                //check again, to update the cache.
+                WP_Privacy_Policy_Content::text_change_check();
+            }
 
             if (isset($_POST['cmplz-finish'])) {
 
@@ -386,9 +391,7 @@ if (!class_exists("cmplz_wizard")) {
         {
             //get all required fields for this section, and check if they're filled in
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
-//            error_log("check reqired fields completed");
-//            error_log(print_r($fields,true));
-            //error_log("check $page, $step, $section");
+
             foreach ($fields as $fieldname => $args) {
                 //serror_log("loop $fieldname");
                 $default_args = COMPLIANZ()->field->default_args;
@@ -403,8 +406,6 @@ if (!class_exists("cmplz_wizard")) {
                     if (empty($value)) {
                         //error_log("$page is not complete");
                         return false;
-                    } else {
-                        //error_log("$fieldname is complete");
                     }
                 }
 
@@ -789,11 +790,13 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            //we account for the warnings with one step
+            //we account for the privacy statement with increase of warnings
             $warning_count = count(COMPLIANZ()->admin->get_warnings());
             if (!COMPLIANZ()->document->page_exists('privacy-statement')){
                 $warning_count++;
             }
+
+            $warning_count = apply_filters('cmplz_warning_count', $warning_count);
 
             $warnings = ($warning_count!=0) ? true: false;
             $total_fields++;

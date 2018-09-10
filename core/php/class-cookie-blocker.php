@@ -125,17 +125,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if (strpos($iframe_src, 'youtube.com/embed/')!==false){
-                        error_log("matched youtube");
-                        error_log($output);
                         $output = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $output);
-                        error_log($output);
-
                     } elseif ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
                         //remove src
                         $new = preg_replace($iframe_pattern_src, '',$new);
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
-                        error_log($new);
                         $new = $this->remove_src($new);
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
                         $output = str_replace($total_match, $new, $output);
@@ -162,7 +157,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         //if it's google analytics, and it's not anonymous or from complianz, remove it.
                         if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js') {
-                            if (strpos($content, 'anonymizeIp') !== FALSE) continue;
+                            if (strpos($content, 'anonymizeIp') !== FALSE) {
+                                continue;
+                            }
                         }
                         if ($key !== false) {
                             $new = $total_match;
@@ -207,10 +204,15 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         }
 
         private function set_javascript_to_plain($script){
+
             if (strpos($script, 'type')===false) {
                 $script = str_replace("<script", '<script type="text/plain"', $script);
             } else {
                 $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
+
+                //make possible to override
+                $pattern = apply_filters('cmplz_script_type_pattern', $pattern);
+
                 $script = preg_replace($pattern, 'type="text/plain"', $script);
             }
             return $script;
@@ -228,6 +230,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
             return $html;
         }
+
     }
 }
 

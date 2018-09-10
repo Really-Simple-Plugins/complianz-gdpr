@@ -43,7 +43,8 @@ if (!class_exists("cmplz_config")) {
         public $countries;
         public $social_media_markers, $script_tags, $iframe_tags;
         public $eu_countries;
-        public $premium;
+        public $premium_geo_ip;
+        public $premium_ab_testing;
 
         function __construct()
         {
@@ -58,7 +59,8 @@ if (!class_exists("cmplz_config")) {
                 'no' => __('No', 'complianz'),
             );
 
-            $this->premium = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_geoip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
 
             define('CMPLZ_MINUTES_PER_QUESTION', 0.6);
             define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.2);

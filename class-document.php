@@ -120,7 +120,6 @@ if (!class_exists("cmplz_document")) {
             }
             echo "</table>";
 
-
         }
 
         public function assign_documents_to_menu()
@@ -159,7 +158,6 @@ if (!class_exists("cmplz_document")) {
 
             $pages = $this->get_required_pages();
             $pages_in_menu = array();
-
 
             foreach ($locations as $location => $menu_id) {
                 if (has_nav_menu($location)) {

@@ -5,12 +5,12 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.1.11
+Stable tag: 1.2.0
 
-Complianz GDPR privacy suite aiming to support you in your efforts to make your site GDPR compliant with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
+Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 == Description ==
-Complianz GDPR privacy suite aiming to support you in your efforts to make your site GDPR compliant
+Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 = Features =
 * Automatically detects if you need a cookie warning
@@ -33,6 +33,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 = Premium features =
 * Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all
+* A/B testing: which banner has the best conversion ratio?
 * Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the Dutch law firm ICTRecht Groningen
 * Geo ip cookie warning: show the cookie warning only to visitors from countries with a cookie law
 * Respects Do Not track settings in users browsers
@@ -72,6 +73,19 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.2.0 =
+* Fix: deleted cookies were added again on the next scan
+* Tweak: script center added below menu for fast editing
+* Tweak: Added new banner position: centered
+* Tweak: Added categories in cookies
+* Tweak: Added new template: minimal
+
+= 1.1.14 =
+* Readme.txt adjustment
+
+= 1.1.12 =
+* Added extra notice about user responsibility regarding GDPR compliancy
+
 = 1.1.11 =
 * Adjusted readme as not to claim GDPR compliancy, as per WordPress regulations.
 

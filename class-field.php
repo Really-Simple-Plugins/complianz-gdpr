@@ -11,6 +11,7 @@ if (!class_exists("cmplz_field")) {
         public $fields;
         public $default_args;
         public $form_errors = array();
+        private $variation_id = '';
 
         function __construct()
         {
@@ -33,6 +34,12 @@ if (!class_exists("cmplz_field")) {
         }
 
 
+        public function set_variation_id($id){
+            $this->variation_id = $id;
+
+        }
+
+
         public function load()
         {
             $this->default_args = array(
@@ -49,6 +56,7 @@ if (!class_exists("cmplz_field")) {
                 'notice_callback' => false,
                 'optional' => false,
                 'disabled' => false,
+                'has_variations' => false,
             );
 
 
@@ -80,15 +88,16 @@ if (!class_exists("cmplz_field")) {
 
                             $cookie_key = $multiple_field[$key]['key'];
                             $deleted_cookies = get_option('cmplz_deleted_cookies');
+
                             if (!is_array($deleted_cookies)) $deleted_cookies = array();
                             if (!in_array($cookie_key, $deleted_cookies)) $deleted_cookies[] = $cookie_key;
+
                             update_option('cmplz_deleted_cookies', $deleted_cookies);
                         }
                         unset($multiple_field[$key]);
 
-
                         $options[$fieldname] = $multiple_field;
-                        update_option('complianz_options_' . $page, $options);
+                        if (!empty($options)) update_option('complianz_options_' . $page, $options);
                     }
                 }
 
@@ -171,45 +180,50 @@ if (!class_exists("cmplz_field")) {
                 }
 
                 $options[$fieldname] = $multiple_field;
-                update_option('complianz_options_' . $page, $options);
+                if (!empty($options)) update_option('complianz_options_' . $page, $options);
             }
         }
 
 
         public function save_field($fieldname, $fieldvalue)
         {
-
             $fields = COMPLIANZ()->config->fields();
             $fieldname = str_replace("cmplz_", '', $fieldname);
 
-            //do not save callback fields
-            if (isset($fields[$fieldname]['callback'])) return;
+            $variation_id = COMPLIANZ()->cookie->variation_id();
+            $variation_id = (!isset($fields[str_replace($variation_id, '', $fieldname)]['has_variations']) || !$fields[str_replace($variation_id, '', $fieldname)]['has_variations']) ? '' : COMPLIANZ()->cookie->variation_id();
 
-            $type = $fields[$fieldname]['type'];
-            $page = $fields[$fieldname]['page'];
-            $required = isset($fields[$fieldname]['required']) ? $fields[$fieldname]['required'] : false;
+            $original_fieldname = str_replace($variation_id, '', $fieldname);
+            $variation_fieldname = $original_fieldname.$variation_id;
+
+            //do not save callback fields
+            if (isset($fields[$original_fieldname]['callback'])) return;
+
+            $type = $fields[$original_fieldname]['type'];
+            $page = $fields[$original_fieldname]['page'];
+            $required = isset($fields[$original_fieldname]['required']) ? $fields[$original_fieldname]['required'] : false;
 
             $fieldvalue = $this->sanitize($fieldvalue, $type);
 
-            if (!$this->is_conditional($fieldname) && $required && empty($fieldvalue)) {
-                $this->form_errors[] = $fieldname;
+            if (!$this->is_conditional($original_fieldname) && $required && empty($fieldvalue)) {
+                $this->form_errors[] = $original_fieldname;
             }
 
             //make translatable
             if ($type == 'text' || $type == 'textarea' || $type == 'editor') {
-                if (isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
-                    do_action('cmplz_register_translation', $fieldname, $fieldvalue);
+                if (isset($fields[$original_fieldname]['translatable']) && $fields[$original_fieldname]['translatable']) {
+                    do_action('cmplz_register_translation', $variation_fieldname, $fieldvalue);
                 }
             }
 
             $options = get_option('complianz_options_' . $page);
+            $prev_value = isset($options[$variation_fieldname]) ? $options[$variation_fieldname] : false;
 
-            $prev_value = isset($options[$fieldname]) ? $options[$fieldname] : false;
+            do_action("complianz_before_save_" . $page . "_option", $variation_fieldname, $fieldvalue, $prev_value, $type);
+            $options[$variation_fieldname] = $fieldvalue;
 
-            do_action("complianz_before_save_" . $page . "_option", $fieldname, $fieldvalue, $prev_value, $type);
-            $options[$fieldname] = $fieldvalue;
+            if (!empty($options)) update_option('complianz_options_' . $page, $options);
 
-            update_option('complianz_options_' . $page, $options);
         }
 
 
@@ -223,11 +237,25 @@ if (!class_exists("cmplz_field")) {
             $multiple_field = $this->get_value($fieldname, array());
             if ($fieldname === 'used_cookies' && !$cookie_type) $cookie_type = 'custom_' . time();
             if (!is_array($multiple_field)) $multiple_field = array($multiple_field);
+
+
             if ($cookie_type) {
                 //prevent key from being added twice
                 foreach ($multiple_field as $index => $cookie) {
                     if ($cookie['key'] === $cookie_type) return;
                 }
+
+                //don't add field if it was deleted previously
+                $deleted_cookies = get_option('cmplz_deleted_cookies');
+                if (($deleted_cookies && in_array($cookie_type, $deleted_cookies))) {
+                    return;
+                }
+
+                //don't add default wordpress cookies
+                if (strpos($cookie_type, 'wordpress_') === false) {
+                    return;
+                }
+
                 $multiple_field[] = array('key' => $cookie_type);
             } else {
                 $multiple_field[] = array();
@@ -235,7 +263,7 @@ if (!class_exists("cmplz_field")) {
 
             $options[$fieldname] = $multiple_field;
 
-            update_option('complianz_options_' . $page, $options);
+            if (!empty($options)) update_option('complianz_options_' . $page, $options);
         }
 
         public function sanitize($value, $type)
@@ -271,7 +299,18 @@ if (!class_exists("cmplz_field")) {
         private
         function filter_complianz_fields($fieldname)
         {
-            return (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)]));
+
+            $fieldnames = array();
+            $fieldnames[] = $fieldname;
+            //we also check if removing the last character results in a valid fieldname, for variation purposes in the cookie settings.
+            $fieldnames[] = substr($fieldname, 0, -1);
+            foreach ($fieldnames as $fieldname){
+                if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public
@@ -292,7 +331,7 @@ if (!class_exists("cmplz_field")) {
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="' . $condition_class . '"';
+                echo '<tr class="cmplz-settings ' . $condition_class . '"';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
@@ -358,6 +397,8 @@ if (!class_exists("cmplz_field")) {
         function text($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
             ?>
@@ -392,7 +433,7 @@ if (!class_exists("cmplz_field")) {
                     type="text"
                     pattern="^(http(s)?(:\/\/))?(www\.)?[a-zA-Z0-9-_\.\/]+"
                     value="<?php echo esc_html($value) ?>"
-                    name="<?php echo esc_html($fieldname) ?>">
+                    name="<?php echo esc_html($fieldname)?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
@@ -413,7 +454,7 @@ if (!class_exists("cmplz_field")) {
                     placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="email"
                     value="<?php echo esc_html($value) ?>"
-                    name="<?php echo esc_html($fieldname) ?>">
+                    name="<?php echo esc_html($fieldname)?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
@@ -465,6 +506,8 @@ if (!class_exists("cmplz_field")) {
         function checkbox($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
 
             if (!$this->show_field($args)) return;
@@ -475,26 +518,15 @@ if (!class_exists("cmplz_field")) {
 
             <?php do_action('complianz_after_label', $args); ?>
 
-
+            <label class="cmplz-switch">
             <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value=""/>
 
             <input name="<?php echo esc_html($fieldname) ?>" size="40" type="checkbox"
                 <?php if ($args['disabled']) echo 'disabled'; ?>
                    class="<?php if ($args['required']) echo 'is-required'; ?>"
                    value="1" <?php checked(1, $value, true) ?> />
-
-
-            <?/*
-
-<!--            <input type="checkbox" id="--><?php //echo esc_html($fieldname) ?><!--" value="1" --><?php //checked(1, $value, true) ?><!-- class="cbx --><?php //if ($args['required']) echo 'is-required'; ?><!--" style="display: none;">-->
-<!--            <label for="--><?php //echo esc_html($fieldname) ?><!--" class="check">-->
-<!--                <svg width="18px" height="18px" viewBox="0 0 18 18">-->
-<!--                    <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>-->
-<!--                    <polyline points="1 9 7 14 15 4"></polyline>-->
-<!--                </svg>-->
-<!--            </label>-->
-
-        */ ?>
+            <span class="cmplz-slider cmplz-round"></span>
+            </label>
 
             <?php do_action('complianz_after_field', $args); ?>
             <?php
@@ -660,6 +692,8 @@ if (!class_exists("cmplz_field")) {
         function textarea($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
             ?>
@@ -676,6 +710,8 @@ if (!class_exists("cmplz_field")) {
         function editor($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
             ?>
@@ -729,6 +765,8 @@ if (!class_exists("cmplz_field")) {
         function css($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
             ?>
@@ -762,6 +800,8 @@ if (!class_exists("cmplz_field")) {
         function colorpicker($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
 
@@ -895,7 +935,10 @@ if (!class_exists("cmplz_field")) {
         public
         function select($args)
         {
+
             $fieldname = 'cmplz_' . $args['fieldname'];
+            if ($args['has_variations']) $fieldname .= $this->variation_id;
+
             $value = $this->get_value($args['fieldname'], $args['default']);
             if (!$this->show_field($args)) return;
 
@@ -1199,9 +1242,13 @@ if (!class_exists("cmplz_field")) {
         public
         function get_value($fieldname, $default = '')
         {
+
             $fields = COMPLIANZ()->config->fields();
             $page = $fields[$fieldname]['page'];
             $options = get_option('complianz_options_' . $page);
+
+            //allow for cookie warning variations
+            if (isset($fields[$fieldname]['has_variations']) && $fields[$fieldname]['has_variations']) $fieldname .= $this->variation_id;
 
             $value = isset($options[$fieldname]) ? $options[$fieldname] : apply_filters('complianz_default_value', $default, $fieldname);
             return $value;
