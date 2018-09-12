@@ -267,8 +267,8 @@ if (!class_exists("cmplz_admin")) {
         {
             ?>
 
-            <div class="cmplz-support-top cmplz-dashboard-text">
-                <div class="cmplz-dashboard-support-title"> <?php echo __('Tools', 'complianz'); ?> </div>
+            <div class="cmplz-header-top cmplz-dashboard-text">
+                <div class="cmplz-dashboard-title"> <?php echo __('Tools', 'complianz'); ?> </div>
             </div>
             <?php
             ?>
@@ -313,8 +313,8 @@ if (!class_exists("cmplz_admin")) {
         public function dashboard_third_block()
         {
             ?>
-            <div class="cmplz-documents-top cmplz-dashboard-text">
-                <div class="cmplz-documents-title"> <?php echo __('Upgrade to premium', 'complianz'); ?> </div>
+            <div class="cmplz-header-top cmplz-dashboard-text free">
+                <div class="cmplz-dashboard-title"> <?php echo __('Upgrade to premium', 'complianz'); ?> </div>
             </div>
             <div class="cmplz-upgrade-table">
                 <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
@@ -439,7 +439,7 @@ if (!class_exists("cmplz_admin")) {
                     <div class="cmplz-dashboard-progress cmplz-dashboard-item">
                         <div class="cmplz-dashboard-progress-top cmplz-dashboard-text">
                             <div class="cmplz-dashboard-top-text">
-                                <div class="cmplz-dashboard-top-text-title"><?php echo __('Your progress', 'complianz'); ?> </div>
+                                <div class="cmplz-dashboard-title"><?php echo __('Your progress', 'complianz'); ?> </div>
                                 <div class='cmplz-dashboard-top-text-subtitle'>
                                     <?php if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
                                         _e("You're not ready for the GDPR yet.", 'complianz');

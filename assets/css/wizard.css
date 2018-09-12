@@ -486,7 +486,8 @@ html .mceContentBody {
   -webkit-font-smoothing: antialiased;
 }
 a.cmplz.button,
-button.cmplz.button {
+button.cmplz.button,
+input.cmplz.button {
   margin-left: 15px;
   box-shadow: 0 0 0 #fff;
   background-color: #2DAAE1;
@@ -496,12 +497,14 @@ button.cmplz.button {
   padding-top: 2px;
 }
 a.cmplz.button:hover,
-button.cmplz.button:hover {
+button.cmplz.button:hover,
+input.cmplz.button:hover {
   background-color: #5abce7;
   color: white;
 }
 a.cmplz.button .fa-angle-right,
-button.cmplz.button .fa-angle-right {
+button.cmplz.button .fa-angle-right,
+input.cmplz.button .fa-angle-right {
   font-weight: 900;
   position: absolute;
   font-size: 1.8em;
@@ -514,6 +517,31 @@ button.cmplz.button .fa-angle-right {
 #complianz .dashboard .fa-check {
   color: #2DAAE1;
 }
+/* building our new structured css here */
+.cmplz-dashboard-container .cmplz-dashboard-title {
+  font-weight: 900;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+@media screen and (max-width: 720px) {
+  .cmplz-dashboard-container .cmplz-dashboard-title {
+    padding-bottom: 0px;
+  }
+}
+.cmplz-header-top {
+  grid-area: header-top;
+  background-color: #F2F2F2;
+  min-height: 60px;
+  padding-top: 25px;
+}
+.cmplz-header-top .cmplz-premium-cta {
+  width: 150px;
+  float: right;
+  border-color: #2DAAE1;
+  color: #2DAAE1;
+  text-transform: uppercase;
+  display: flex;
+}
 .cmplz-dashboard-container {
   font-family: "Sofia Pro Light", Arial;
   background-color: white;
@@ -525,19 +553,6 @@ button.cmplz.button .fa-angle-right {
   width: 100%;
   min-height: 220px;
   background-color: #2DAAE1;
-}
-.cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-top {
-  grid-area: header-top;
-  background-color: white;
-  min-height: 80px;
-}
-.cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-top .cmplz-premium-cta {
-  width: 150px;
-  float: right;
-  border-color: #2DAAE1;
-  color: #2DAAE1;
-  text-transform: uppercase;
-  display: flex;
 }
 .cmplz-dashboard-container .cmplz-dashboard-header .cmplz-header-text {
   display: flex;
@@ -607,6 +622,11 @@ button.cmplz.button .fa-angle-right {
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text .fa-plus {
   margin-right: 8px;
 }
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text.free {
+  background-color: #000;
+  color: #fff;
+  min-height: 40px;
+}
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress {
   grid-area: progress;
 }
@@ -656,6 +676,9 @@ button.cmplz.button .fa-angle-right {
   width: 450px;
   grid-area: support;
 }
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support #cmplz-support-form {
+  margin-bottom: 15px;
+}
 @media screen and (max-width: 1210px) {
   .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support {
     margin: 0 auto;
@@ -673,41 +696,7 @@ button.cmplz.button .fa-angle-right {
   min-height: 100px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support input[type=submit] {
-  margin-left: 35%;
-  width: 30%;
-  border: 1px solid;
-  border-radius: 10px;
-  height: 25px;
-  cursor: pointer;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top {
-  display: flex;
-  align-items: center;
-  min-height: 60px;
-  padding-top: 25px;
-  background-color: #F2F2F2;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-title {
-  font-weight: 900;
-  font-size: 2.5em;
-  padding-bottom: 25px;
-}
-@media screen and (max-width: 720px) {
-  .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-title {
-    padding-bottom: 0px;
-  }
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-content {
-  margin-left: 15px;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-content li {
-  border-bottom: 1px solid;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-content #cmplz-support-form {
-  display: flex;
-  flex-direction: column;
-  margin-right: 15px;
-  margin-bottom: 15px;
+  margin: auto;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents {
   grid-area: documents;
@@ -718,15 +707,8 @@ button.cmplz.button .fa-angle-right {
     margin: 0 auto;
   }
 }
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-top {
-  display: flex;
-  align-items: center;
-  color: white;
-  background-color: black;
-  min-height: 60px;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-documents-top .cmplz-documents-title {
-  font-size: 2em;
+.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-upgrade-table {
+  padding-bottom: 15px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-documents .cmplz-upgrade-table .fas {
   margin-right: 8px;

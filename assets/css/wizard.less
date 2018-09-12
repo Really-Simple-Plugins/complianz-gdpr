@@ -552,7 +552,7 @@ html .mceContentBody {
 //Dashboard
 
 //Button styling
-a.cmplz.button, button.cmplz.button {
+a.cmplz.button, button.cmplz.button, input.cmplz.button {
   margin-left:15px;
   box-shadow: 0 0 0 #fff;
   background-color: @brand-primary;
@@ -574,30 +574,6 @@ a.cmplz.button, button.cmplz.button {
   }
 }
 
-//.cmplz-continue-button {
-//margin-left: 15px;
-//  text-align: -webkit-left;
-//  margin-right: 20px;
-//  border-radius: 10px;
-//  border: 1px solid;
-//  font-weight: 900;
-//  padding-right:30px !important;
-//  box-shadow: none;
-//  //@media screen and (max-width: 782px) {
-//  //  width: 100px;
-//  //}
-//  .fa-angle-right {
-//    font-weight: 900;
-//    position: absolute;
-//    font-size: 1.8em;
-//    margin-top: 1px;
-//    margin-left: 5px;
-//    @media screen and (max-width: 782px) {
-//      margin-top: -6px;
-//    }
-//  }
-//}
-
 //Icon override
 #complianz .dashboard .fa-times {
   color: black;
@@ -605,6 +581,36 @@ a.cmplz.button, button.cmplz.button {
 
 #complianz .dashboard .fa-check {
   color: @brand-primary;
+}
+
+/* building our new structured css here */
+
+.cmplz-dashboard-container {
+  .cmplz-dashboard-title {
+    font-weight: 900;
+    font-size: 30px;
+    margin-bottom: 20px;
+    @media screen and (max-width: 720px) {
+      padding-bottom: 0px;
+    }
+
+  }
+}
+
+
+.cmplz-header-top {
+  grid-area: header-top;
+  background-color: #F2F2F2;
+  min-height: 60px;
+  padding-top: 25px;
+  .cmplz-premium-cta {
+    width: 150px;
+    float: right;
+    border-color: @brand-primary;
+    color: @brand-primary;
+    text-transform: uppercase;
+    display: flex;
+  }
 }
 
 .cmplz-dashboard-container {
@@ -617,19 +623,7 @@ a.cmplz.button, button.cmplz.button {
     width: 100%;
     min-height: 220px;
     background-color: @brand-primary;
-    .cmplz-header-top {
-      grid-area: header-top;
-      background-color: white;
-      min-height: 80px;
-      .cmplz-premium-cta {
-        width: 150px;
-        float: right;
-        border-color: @brand-primary;
-        color: @brand-primary;
-        text-transform: uppercase;
-        display: flex;
-      }
-    }
+
     .cmplz-header-text {
       display: flex;
       align-items: center;
@@ -688,7 +682,6 @@ a.cmplz.button, button.cmplz.button {
     grid-gap: 10px;
     padding: 10px;
     .cmplz-dashboard-text {
-
       color: black;
       font-weight: 900;
       padding-left: 15px;
@@ -699,7 +692,14 @@ a.cmplz.button, button.cmplz.button {
       .fa-plus {
         margin-right: 8px;
       }
+
+      &.free {
+        background-color: #000;
+        color: #fff;
+        min-height:40px;
+      }
     }
+
     .cmplz-dashboard-progress {
       @media screen and (max-width: 1210px) {
         margin: 0 auto;
@@ -715,11 +715,6 @@ a.cmplz.button, button.cmplz.button {
           font-size: 20px;
           max-width: 50%;
           float: left;
-          //.cmplz-dashboard-top-text-title {
-          //  font-weight: 900;
-          //  font-size: 1.7em;
-          //  margin-bottom: 20px;
-          //}
           .cmplz-dashboard-top-text-subtitle {
             color: @brand-primary;
           }
@@ -749,8 +744,10 @@ a.cmplz.button, button.cmplz.button {
       }
     }
 
-
     .cmplz-dashboard-support {
+      #cmplz-support-form {
+        margin-bottom: 15px;
+      }
       width: 450px;
       @media screen and (max-width: 1210px) {
         margin: 0 auto;
@@ -764,42 +761,9 @@ a.cmplz.button, button.cmplz.button {
         min-height: 100px;
       }
       input[type=submit] {
-        margin-left: 35%;
-        width: 30%;
-        border: 1px solid;
-        border-radius: 10px;
-        height: 25px;
-        cursor: pointer;
+        margin:auto;
       }
       grid-area: support;
-      .cmplz-support-top {
-        display: flex;
-        align-items: center;
-        min-height: 60px;
-        padding-top:25px;
-        background-color: #F2F2F2;
-        .cmplz-dashboard-support-title {
-          font-weight: 900;
-          font-size: 2.5em;
-          padding-bottom: 25px;
-          @media screen and (max-width: 720px) {
-            padding-bottom: 0px;
-          }
-        }
-        .cmplz-dashboard-support-content {
-          margin-left: 15px;
-          li {
-            border-bottom: 1px solid;
-          }
-          #cmplz-support-form {
-            display: flex;
-            flex-direction: column;
-            margin-right: 15px;
-            margin-bottom: 15px;
-
-          }
-        }
-      }
     }
 
     .cmplz-dashboard-documents {
@@ -808,17 +772,9 @@ a.cmplz.button, button.cmplz.button {
       }
       grid-area: documents;
       margin-top: 10px;
-      .cmplz-documents-top {
-        display: flex;
-        align-items: center;
-        color: white;
-        background-color: black;
-        min-height: 60px;
-        .cmplz-documents-title {
-          font-size: 2em;
-        }
-      }
+
       .cmplz-upgrade-table {
+        padding-bottom:15px;
         .fas{
           margin-right: 8px;
         }
