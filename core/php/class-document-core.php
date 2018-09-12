@@ -179,8 +179,7 @@ if (!class_exists("cmplz_document_core")) {
                 } elseif ($this->insert_element($element, $post_id)) {
                     $html .= $this->wrap_header($element, $paragraph, $sub_paragraph, $annex);
                     if (isset($element['content'])) {
-                        $list = (isset($element['list']) && $element['list']) ? true : false;
-                        $html .= $this->wrap_content($element['content'], $list);
+                        $html .= $this->wrap_content($element['content'], $element);
                     }
                 }
             }
@@ -189,6 +188,8 @@ if (!class_exists("cmplz_document_core")) {
 
             return '<div id="cmplz-document">' . $html . '</div>';
         }
+
+
 
         public function wrap_header($element, $paragraph, $sub_paragraph, $annex)
         {
@@ -199,7 +200,7 @@ if (!class_exists("cmplz_document_core")) {
                     return '<h3 class="annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['title']) . '</h3>';
                 }
                 if (isset($element['subtitle'])) {
-                    return '<h4 class="annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</h4>';
+                    return '<div class="subtitle annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
                 }
             }
 
@@ -211,7 +212,7 @@ if (!class_exists("cmplz_document_core")) {
 
             if (isset($element['subtitle'])) {
                 if ($paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph . "." . $sub_paragraph . " ";
-                return '<h4>' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</h4>';
+                return '<div class="subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
             }
         }
 
@@ -234,16 +235,21 @@ if (!class_exists("cmplz_document_core")) {
         public function wrap_sub_header($header, $paragraph, $subparagraph)
         {
             if (empty($header)) return "";
-            return '<h4>' . cmplz_esc_html($header) . '</h4>';
+            return '<b>' . cmplz_esc_html($header) . '</b><br>';
         }
 
-        public function wrap_content($content, $list = false)
+        public function wrap_content($content, $element = false)
         {
             if (empty($content)) return "";
-            if ($list) {
+
+            $list = (isset($element['list']) && $element['list']) ? true : false;
+            //loop content
+            if (!$element || $list) {
                 return '<span>' . $content . '</span><br>';
             }
-            return '<p>' . $content . '</p>';
+            $p = (!isset($element['p']) || $element['p']) ? true : $element['p'];
+            $el = $p ? 'p' : 'span';
+            return "<$el>" . $content . "</$el>";
         }
 
         /*

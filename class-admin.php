@@ -332,12 +332,10 @@ if (!class_exists("cmplz_admin")) {
                 </table>
             </div>
             <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-premium-cta"> <?php echo __('Discover all premium benefits', 'complianz'); ?> <a
-                            href="https://complianz.io" target="_blank">
-                        <div>
-                            <button class="button cmplz-continue-button cmplz-btn-cta"><?php echo __('Read more', 'complianz'); ?>
-                                <i class="fa fa-angle-right"></i></button>
-                        </div>
+                <div class="cmplz-premium-cta"> <?php echo __('Discover all premium benefits', 'complianz'); ?>
+                    <a class="button cmplz"
+                       href="https://complianz.io" target="_blank"><?php echo __('Read more', 'complianz'); ?>
+                        <i class="fa fa-angle-right"></i>
                     </a>
                 </div>
             </div>
@@ -431,15 +429,7 @@ if (!class_exists("cmplz_admin")) {
                             <?php printf(__("%s completed.", "complianz"), COMPLIANZ()->wizard->wizard_percentage_complete() . "%") ?>
                             <?php
                             if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                                _e('Your website is not ready for the GDPR yet.', 'complianz'); ?>
-                                <div>
-                                    <a href="<?php echo admin_url('admin.php?page=cmplz-wizard') ?>"
-                                       class="button cmplz-continue-button">
-                                        <?php echo __('Continue', 'complianz'); ?>
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
-                                </div>
-                                <?php
+                                _e('Your website is not ready for the GDPR yet.', 'complianz');
                             } else {
                                 _e('Well done! Your website is ready for the GDPR.', 'complianz');
                             }
@@ -471,7 +461,7 @@ if (!class_exists("cmplz_admin")) {
                                 <?php if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) { ?>
                                     <div>
                                         <a href="<?php echo admin_url('admin.php?page=cmplz-wizard') ?>"
-                                           class="button cmplz-continue-button">
+                                           class="button cmplz cmplz-continue-button">
                                             <?php echo __('Continue', 'complianz'); ?>
                                             <i class="fa fa-angle-right"></i></a>
                                     </div>
@@ -482,7 +472,6 @@ if (!class_exists("cmplz_admin")) {
                         </div>
                         <table class="cmplz-steps-table cmplz-dashboard-text">
                             <?php
-                            do_action('cmplz_warnings');
 
                             if (COMPLIANZ()->cookie->site_needs_cookie_warning() && !COMPLIANZ()->wizard->wizard_completed()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
@@ -650,14 +639,14 @@ if (!class_exists("cmplz_admin")) {
 
                     <table class="form-table">
                         <tr>
-                        <th></th>
-                        <td><?php
+                            <th></th>
+                            <td><?php
 
-                        COMPLIANZ()->field->get_fields('wizard', STEP_COOKIES, 4);
+                                COMPLIANZ()->field->get_fields('wizard', STEP_COOKIES, 4);
 
-                        ?>
-                        </td>
-                    </tr>
+                                ?>
+                            </td>
+                        </tr>
                         <tr><th></th><td><?php COMPLIANZ()->field->save_button();?></td></tr>
                     </table>
                 </form>

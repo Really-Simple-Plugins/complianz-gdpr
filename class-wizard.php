@@ -300,7 +300,7 @@ if (!class_exists("cmplz_wizard")) {
                             if ($this->post_id()) $url = add_query_arg(array('post_id' => $this->post_id()), $url);
                             $step_completed = $this->required_fields_completed($page, $i, false) ? 'complete' : 'incomplete';
                             ?>
-                            <div class="cmplz-step <?php if ($active) echo 'active' ?> <?php echo $step_completed ?>">
+                            <div class="cmplz-step <?php echo ($active) ? 'active' : "not-active";?> <?php echo $step_completed ?>">
                                 <div class="cmplz-step-wrap">
                                     <a href="<?php echo $url ?>">
                                         <span class="cmplz-step-count"><span><?php echo $i ?></span></span>
