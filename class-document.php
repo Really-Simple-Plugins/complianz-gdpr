@@ -27,9 +27,10 @@ if (!class_exists("cmplz_document")) {
 
         public function enqueue_assets()
         {
+            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
             $load_css = cmplz_get_value('use_document_css');
             if ($load_css) {
-                wp_register_style('cmplz-document', cmplz_url . 'assets/css/document.css', false, cmplz_version);
+                wp_register_style('cmplz-document', cmplz_url . "assets/css/document$min.css", false, cmplz_version);
                 wp_enqueue_style('cmplz-document');
             }
         }
@@ -300,10 +301,13 @@ if (!class_exists("cmplz_document")) {
                 } else {
                     $html = $this->get_document_html($type);
                 }
-                $custom_css = cmplz_get_value('custom_document_css');
-                if (!empty($custom_css)){
-                    $custom_css = '<style>'.$custom_css.'</style>';
-                    $html = $custom_css.$html;
+
+                if (cmplz_get_value('use_custom_document_css')) {
+                    $custom_css = cmplz_get_value('custom_document_css');
+                    if (!empty($custom_css)) {
+                        $custom_css = '<style>' . $custom_css . '</style>';
+                        $html = $custom_css . $html;
+                    }
                 }
                 echo $html;
             }

@@ -1,9 +1,17 @@
+#cmplz-document {
+    max-width:580px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 #cmplz-document h2, #cmplz-document h3 {
     font-size: 22px;
     text-align: left;
     margin-top: 15px;
-    margin-bottom: 5px;
     text-transform: initial;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c6c6c6;
+    margin-bottom: 10px;
 }
 
 #cmplz-document h4 {
@@ -16,6 +24,11 @@
 
 #cmplz-document h3.annex, h4.annex {
     font-weight: bold;
+}
+
+#cmplz-document span h3 {
+    font-size:14px;
+    border-bottom:0;
 }
 
 #cmplz-document, #cmplz-document p, #cmplz-document li {
@@ -33,3 +46,9 @@
     text-align: left;
     width:33.33%
 }
+
+#cmplz-document .subtitle {
+    font-weight:bold;
+    margin-top:10px;
+}
+

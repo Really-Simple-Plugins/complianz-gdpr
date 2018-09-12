@@ -246,6 +246,9 @@ html .mceContentBody {
   border: 1px solid #2DAAE1;
   border-radius: 25px;
 }
+#cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step.not-active .cmplz-step-wrap a:hover .cmplz-step-count {
+  background-color: #5abce7;
+}
 #cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step .cmplz-step-wrap {
   float: left;
   width: 200px;
@@ -265,6 +268,9 @@ html .mceContentBody {
   /* Define the styling of the text input fields */
   /* Styling for the previous and next buttons */
   /* CSS for the sections menu */
+}
+#cmplz-wizard .cmplz-body button.button {
+  margin-bottom: 15px;
 }
 @media screen and (max-width: 640px) {
   #cmplz-wizard .cmplz-body {
@@ -346,23 +352,24 @@ html .mceContentBody {
   font-family: 'Font Awesome 5 Free';
   color: white;
   font-weight: bold;
-  font-size: 1.7em !important;
+  font-size: 1.4em !important;
   position: absolute;
   top: 22px;
   pointer-events: none;
 }
 #cmplz-wizard .cmplz-body .cmplz-button span input[type="submit"] {
   font-family: "Sofia Pro Light", Arial;
-  font-size: 19px;
+  font-size: 16px;
+  padding-top: 2px;
   text-transform: lowercase;
   background: #2DAAE1;
   color: white;
   border: none;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
   box-shadow: none;
   margin-top: 20px;
+}
+#cmplz-wizard .cmplz-body .cmplz-button span input[type="submit"]:hover {
+  background-color: #5abce7;
 }
 #cmplz-wizard .cmplz-body .cmplz-button.cmplz-next {
   float: right;
@@ -379,7 +386,8 @@ html .mceContentBody {
   margin-right: 10px;
   float: right;
 }
-#cmplz-wizard .cmplz-body .cmplz-button.cmplz-save input {
+#cmplz-wizard .cmplz-body .cmplz-button.cmplz-save input[type=submit] {
+  background-color: #c6c6c6;
   padding-right: 35px;
 }
 #cmplz-wizard .cmplz-body .cmplz-button.cmplz-save span:after {
@@ -391,7 +399,8 @@ html .mceContentBody {
   float: left;
   text-indent: 0.5em;
 }
-#cmplz-wizard .cmplz-body .cmplz-button.cmplz-previous input {
+#cmplz-wizard .cmplz-body .cmplz-button.cmplz-previous input[type=submit] {
+  background-color: #c6c6c6;
   padding-left: 30px;
 }
 #cmplz-wizard .cmplz-body .cmplz-button.cmplz-previous span:before {
@@ -476,26 +485,28 @@ html .mceContentBody {
   speak: none;
   -webkit-font-smoothing: antialiased;
 }
-.cmplz-continue-button {
-  text-align: -webkit-left;
-  margin-right: 20px;
-  border-radius: 10px;
-  border: 1px solid;
-  font-weight: 900;
-  padding-right: 30px !important;
-  box-shadow: none;
+a.cmplz.button,
+button.cmplz.button {
+  margin-left: 15px;
+  box-shadow: 0 0 0 #fff;
+  background-color: #2DAAE1;
+  color: #fff;
+  padding-right: 20px;
+  border: 0;
+  padding-top: 2px;
 }
-.cmplz-continue-button .fa-angle-right {
+a.cmplz.button:hover,
+button.cmplz.button:hover {
+  background-color: #5abce7;
+  color: white;
+}
+a.cmplz.button .fa-angle-right,
+button.cmplz.button .fa-angle-right {
   font-weight: 900;
   position: absolute;
   font-size: 1.8em;
   margin-top: 1px;
   margin-left: 5px;
-}
-@media screen and (max-width: 782px) {
-  .cmplz-continue-button .fa-angle-right {
-    margin-top: -6px;
-  }
 }
 #complianz .dashboard .fa-times {
   color: black;
@@ -533,6 +544,7 @@ html .mceContentBody {
   align-items: center;
 }
 .cmplz-dashboard-container .cmplz-dashboard-item {
+  background-color: #fff;
   width: 450px;
   margin-top: 10px;
   border: 2px solid;
@@ -542,6 +554,11 @@ html .mceContentBody {
   -moz-border-radius: 5px;
   border-radius: 5px;
   overflow: hidden;
+}
+.cmplz-dashboard-container .cmplz-dashboard-item .cmplz-top h1 {
+  font-weight: 900;
+  font-size: 2.5em;
+  padding: 25px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container {
   margin: 0 auto;
@@ -578,11 +595,11 @@ html .mceContentBody {
     width: 100px;
   }
 }
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-continue-button {
-  margin-left: 15px;
-}
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text {
+  color: black;
+  font-weight: 900;
   padding-left: 15px;
+  padding-right: 15px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-text li {
   border-bottom: 1px solid;
@@ -609,11 +626,6 @@ html .mceContentBody {
   font-size: 20px;
   max-width: 50%;
   float: left;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text .cmplz-dashboard-top-text-title {
-  font-weight: 900;
-  font-size: 1.7em;
-  margin-bottom: 20px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text .cmplz-dashboard-top-text-subtitle {
   color: #2DAAE1;
@@ -671,7 +683,8 @@ html .mceContentBody {
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top {
   display: flex;
   align-items: center;
-  min-height: 100px;
+  min-height: 60px;
+  padding-top: 25px;
   background-color: #F2F2F2;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support .cmplz-support-top .cmplz-dashboard-support-title {

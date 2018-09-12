@@ -22,11 +22,8 @@ if (!class_exists("cmplz_config_free")) {
     }
 }
 
-if(class_exists("cmplz_config_pro")) {
-    class cmplz_config_base extends cmplz_config_pro {}
-} else {
-    class cmplz_config_base extends cmplz_config_free {}
-}
+class cmplz_config_base extends cmplz_config_free {}
+
 
 if (!class_exists("cmplz_config")) {
     class cmplz_config extends cmplz_config_base

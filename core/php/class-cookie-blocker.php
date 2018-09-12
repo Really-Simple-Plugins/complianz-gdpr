@@ -196,6 +196,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         private function strpos_arr($haystack, $needle)
         {
+            if (empty($haystack)) return false;
+
             if (!is_array($needle)) $needle = array($needle);
             foreach ($needle as $key => $what) {
                 if (($pos = strpos($haystack, $what)) !== false) return $key;
