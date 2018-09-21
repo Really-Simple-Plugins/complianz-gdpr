@@ -2,6 +2,9 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->warning_types = array(
+    'complianz-gdpr-feature-update' => array(
+        'label_error' => __('The Complianz GDPR plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz'),
+    ),
     'wizard-incomplete' => array(
         'label_ok' => __('The wizard has been completed.', 'complianz'),
         'label_error' => __('The wizard is not completed yet.', 'complianz')

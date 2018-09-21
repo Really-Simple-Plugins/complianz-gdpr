@@ -27,11 +27,14 @@ if (!class_exists("cmplz_document")) {
 
         public function enqueue_assets()
         {
-            $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-            $load_css = cmplz_get_value('use_document_css');
-            if ($load_css) {
-                wp_register_style('cmplz-document', cmplz_url . "assets/css/document$min.css", false, cmplz_version);
-                wp_enqueue_style('cmplz-document');
+
+            if ($this->is_shortcode_page()) {
+                $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+                $load_css = cmplz_get_value('use_document_css');
+                if ($load_css) {
+                    wp_register_style('cmplz-document', cmplz_url . "assets/css/document$min.css", false, cmplz_version);
+                    wp_enqueue_style('cmplz-document');
+                }
             }
         }
 
@@ -339,8 +342,9 @@ if (!class_exists("cmplz_document")) {
           checks if the current page contains the shortcode.
         */
 
-        public function is_shortcode_page($shortcode)
+        public function is_shortcode_page()
         {
+            $shortcode = 'cmplz-document';
             global $post;
             if ($post) {
                 if (has_shortcode($post->post_content, $shortcode)) return true;

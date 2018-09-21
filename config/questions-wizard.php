@@ -175,14 +175,13 @@ $this->fields = $this->fields + array(
             'options' => array(
                 'accepted' => __('I have accepted the Google data processing amendment', 'complianz'),
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
-                'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
+                'ip-addresses-blocked' => __('Always block acquiring of IP addresses', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.', 'complianz') . "<br>" . __('If you can check all three options, you might not need a cookie warning on your site.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">', '</a>'),
+            'comment' => __('If you do not check to always block acquiring IP addresses, the ip addresses will get acquired as soon as the user accepts statistics or higher.', 'complianz') . "<br>" . __('If you can check all three options, you might not need a cookie warning on your site.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">', '</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-analytics',
             ),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
-            //'help' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.','complianz'),
         ),
 
         'compile_statistics_more_info_tag_manager' => array(
@@ -198,7 +197,7 @@ $this->fields = $this->fields + array(
                 'no-sharing' => __('Google is not allowed to use this data for other Google services', 'complianz'),
                 'ip-addresses-blocked' => __('Acquiring IP-addresses is blocked.', 'complianz'),
             ),
-            'comment' => __('If you use the built in method for Google Analytics, anonymization of ip numbers is automatically enabled.', 'complianz') . "<br>" . __('If you can check all three options, you might not need a cookie warning on your site.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Google analytics, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-google-analytics-for-gdpr/">', '</a>'),
+            'comment' => __('With Tag Manager you can configure the selective firing of cookies in the Tag Manager dashboard.', 'complianz') . "<br>" . sprintf(__('For detailed instructions how to configure Tag Manager, please check this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/how-to-configure-tag-manager-for-gdpr/">', '</a>'),
             'condition' => array(
                 'compile_statistics' => 'google-tag-manager',
             ),

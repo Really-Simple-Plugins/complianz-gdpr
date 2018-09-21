@@ -193,8 +193,8 @@ if (!class_exists("cmplz_field")) {
             $fields = COMPLIANZ()->config->fields();
             $fieldname = str_replace("cmplz_", '', $fieldname);
 
-            $variation_id = COMPLIANZ()->cookie->variation_id();
-            $variation_id = (!isset($fields[str_replace($variation_id, '', $fieldname)]['has_variations']) || !$fields[str_replace($variation_id, '', $fieldname)]['has_variations']) ? '' : COMPLIANZ()->cookie->variation_id();
+            $variation_id = COMPLIANZ()->cookie->selected_variation_id();
+            $variation_id = (!isset($fields[str_replace($variation_id, '', $fieldname)]['has_variations']) || !$fields[str_replace($variation_id, '', $fieldname)]['has_variations']) ? '' : COMPLIANZ()->cookie->selected_variation_id();
 
             $original_fieldname = str_replace($variation_id, '', $fieldname);
             $variation_fieldname = $original_fieldname.$variation_id;
@@ -908,6 +908,9 @@ if (!class_exists("cmplz_field")) {
                     case 'thirdparties':
                         $this->thirdparties($args);
                         break;
+                    case 'processors':
+                        $this->processors($args);
+                        break;
                     case 'number':
                         $this->number($args);
                         break;
@@ -1170,7 +1173,7 @@ if (!class_exists("cmplz_field")) {
         }
 
         public
-        function thirdparties($args)
+        function processors($args)
         {
             $processing_agreements = COMPLIANZ()->processing->processing_agreements();
             $values = $this->get_value($args['fieldname']);
@@ -1180,8 +1183,8 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_before_label', $args); ?>
             <label><?php echo $args["label"] ?></label>
             <?php do_action('complianz_after_label', $args); ?>
-            <button class="button" type="submit" class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
-                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new thirdparty", 'complianz') ?></button>
+            <button class="button" type="submit" class="cmplz-add-new-processor" name="cmplz_add_multiple"
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new processor", 'complianz') ?></button>
             <br><br>
             <?php
             if ($values) {
@@ -1200,7 +1203,7 @@ if (!class_exists("cmplz_field")) {
                     ?>
                     <div>
                         <div>
-                            <label><?php _e("What is the name of the third party with whom you share the data?", 'complianz') ?></label>
+                            <label><?php _e("What is the name of the processor with whom you share the data?", 'complianz') ?></label>
                         </div>
                         <div>
                             <input type="text"
@@ -1208,7 +1211,7 @@ if (!class_exists("cmplz_field")) {
                                    value="<?php echo esc_html($value['name']) ?>">
                         </div>
                         <div>
-                            <label><?php printf(__('Select the processing agreement you made with this third pary, or %screate one%s', 'complianz'), $create_processing_agreement_link,'</a>') ?></label>
+                            <label><?php printf(__('Select the processing agreement you made with this processor, or %screate one%s', 'complianz'), $create_processing_agreement_link,'</a>') ?></label>
                         </div>
                         <div>
                             <label>
@@ -1220,8 +1223,85 @@ if (!class_exists("cmplz_field")) {
                                         echo '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
                                     }
                                     ?></select>
-                        <br><br>
+                                <br><br>
                         </div>
+                        <div>
+                            <label><?php _e('Processor country', 'complianz') ?></label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][country]"
+                                   value="<?php echo esc_html($value['country']) ?>">
+                        </div>
+
+
+                        <div>
+                            <label><?php _e('Purpose', 'complianz') ?></label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][purpose]"
+                                   value="<?php echo esc_html($value['purpose']) ?>">
+                        </div>
+                        <div>
+                            <label><?php _e('What type of data is shared', 'complianz') ?></label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][data]"
+                                   value="<?php echo esc_html($value['data']) ?>">
+                        </div>
+
+
+                    </div>
+                    <button class="button cmplz-remove" type="submit"
+                            name="cmplz_remove_multiple[<?php echo esc_html($args['fieldname']) ?>]"
+                            value="<?php echo esc_html($key) ?>"><?php _e("Remove", 'complianz') ?></button>
+                    <?php
+                }
+            }
+            ?>
+            <?php do_action('complianz_after_field', $args); ?>
+            <?php
+
+        }
+
+        public
+        function thirdparties($args)
+        {
+            $values = $this->get_value($args['fieldname']);
+            if (!is_array($values)) $values = array();
+            if (!$this->show_field($args)) return;
+            ?>
+            <?php do_action('complianz_before_label', $args); ?>
+            <label><?php echo $args["label"] ?></label>
+            <?php do_action('complianz_after_label', $args); ?>
+            <button class="button" type="submit" class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new thirdparty", 'complianz') ?></button>
+            <br><br>
+            <?php
+            if ($values) {
+                foreach ($values as $key => $value) {
+                    $default_index = array(
+                        'name' => '',
+                        'country' => '',
+                        'purpose' => '',
+                        'data' => '',
+                    );
+
+                    $value = wp_parse_args($value, $default_index);
+
+                    ?>
+                    <div>
+                        <div>
+                            <label><?php _e("What is the name of the third party with whom you share the data?", 'complianz') ?></label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][name]"
+                                   value="<?php echo esc_html($value['name']) ?>">
+                        </div>
+
                         <div>
                             <label><?php _e('Third party country', 'complianz') ?></label>
                         </div>

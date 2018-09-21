@@ -13,9 +13,12 @@ function complianz_deleteAllCookies() {
 jQuery(document).ready(function ($) {
     var ccStatus;
     var ccName;
+    var ccStatsEnabled = false;
 
     function complianz_enable_scripts(){
         console.log('enable all scripts');
+        if (!ccStatsEnabled) complianz_enable_stats();
+
         //iframes
         $('.cmplz-iframe').each(function(i, obj) {
             var src = $(this).data('src-cmplz');
@@ -43,12 +46,15 @@ jQuery(document).ready(function ($) {
         $('.cmplz-stats').each(function(i, obj) {
             if ($(this).text().length){
                 var str = $(this).text();
+                // str = str.replace("anonymizeIp': true", "anonymizeIp': false");
+                //if it's analytics.js, add remove anonymize ip
                 $('<script>')
                     .attr('type', 'text/javascript')
                     .text(str)
                     .appendTo($(this).parent());
                 $(this).remove();
             }
+            ccStatsEnabled = true;
         });
     }
 

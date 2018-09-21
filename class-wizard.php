@@ -155,8 +155,10 @@ if (!class_exists("cmplz_wizard")) {
                 WP_Privacy_Policy_Content::text_change_check();
             }
 
-            if (isset($_POST['cmplz-finish'])) {
+            COMPLIANZ()->admin->reset_complianz_plugin_has_new_features();
 
+            if (isset($_POST['cmplz-finish'])) {
+                $this->set_wizard_completed();
                 //check if cookie warning should be enabled
                 if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', true);
@@ -164,7 +166,7 @@ if (!class_exists("cmplz_wizard")) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
                 }
 
-                $this->set_wizard_completed();
+
                 update_option('cmplz_wizard_completed_once', true);
                 COMPLIANZ()->cookie->reset_plugins_changed();
                 COMPLIANZ()->cookie->reset_cookies_changed();

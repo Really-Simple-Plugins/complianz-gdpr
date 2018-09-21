@@ -60,7 +60,7 @@ if (!class_exists("cmplz_admin")) {
             }
 
             //as of 1.1.10, publish date is stored in variable.
-            if (version_compare($prev_version, '1.1.10', '<')) {
+            if (version_compare($prev_version, '1.2.0', '<')) {
                 $date = get_option('cmplz_publish_date');
                 if (empty($date)) {
                     COMPLIANZ()->cookie->update_cookie_policy_date();
@@ -72,9 +72,24 @@ if (!class_exists("cmplz_admin")) {
             if (!get_option('cmplz_cookie_policy_url')){
                 COMPLIANZ()->cookie->set_cookie_statement_page();
             }
+            if (CMPLZ_LEGAL_VERSION > get_option('cmplz_legal_version',0)){
+
+                update_option('cmplz_plugin_new_features', true);
+                //update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
+            }
 
 
             update_option('cmplz-current-version', cmplz_version);
+        }
+
+
+
+        public function complianz_plugin_has_new_features(){
+            return get_option('cmplz_plugin_new_features');
+        }
+
+        public function reset_complianz_plugin_has_new_features(){
+            return update_option('cmplz_plugin_new_features', false);
         }
 
         public function enqueue_assets($hook)
@@ -163,6 +178,10 @@ if (!class_exists("cmplz_admin")) {
 
                 if (!is_ssl()) {
                     $warnings[] = 'no-ssl';
+                }
+
+                if ($this->complianz_plugin_has_new_features()) {
+                    $warnings[] = 'complianz-gdpr-feature-update';
                 }
 
                 $warnings = apply_filters('cmplz_warnings', $warnings);
@@ -681,7 +700,7 @@ if (!class_exists("cmplz_admin")) {
                 }
                 ?>
                 <?php //some fields for the cookies categories ?>
-                <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo COMPLIANZ()->cookie->cookie_warning_required_stats()?>">
+                <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
 
 
                 <form id='cookie-settings' action="" method="post">
