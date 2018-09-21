@@ -57,6 +57,7 @@ if (!class_exists("cmplz_field")) {
                 'optional' => false,
                 'disabled' => false,
                 'has_variations' => false,
+                'hidden' => false,
             );
 
 
@@ -130,6 +131,7 @@ if (!class_exists("cmplz_field")) {
             foreach ($array as &$value) {
                 if (!is_array($value))
                     $value = sanitize_text_field($value);
+                    //if ($value === 'on') $value = true;
                 else
                     $this->sanitize_array($value);
             }
@@ -158,6 +160,7 @@ if (!class_exists("cmplz_field")) {
 
         public function save_multiple($fieldnames)
         {
+
             $fields = COMPLIANZ()->config->fields();
             foreach ($fieldnames as $fieldname => $saved_fields) {
                 if (!isset($fields[$fieldname])) return;
@@ -218,7 +221,6 @@ if (!class_exists("cmplz_field")) {
 
             $options = get_option('complianz_options_' . $page);
             $prev_value = isset($options[$variation_fieldname]) ? $options[$variation_fieldname] : false;
-
             do_action("complianz_before_save_" . $page . "_option", $variation_fieldname, $fieldvalue, $prev_value, $type);
             $options[$variation_fieldname] = $fieldvalue;
 
@@ -238,11 +240,12 @@ if (!class_exists("cmplz_field")) {
             if ($fieldname === 'used_cookies' && !$cookie_type) $cookie_type = 'custom_' . time();
             if (!is_array($multiple_field)) $multiple_field = array($multiple_field);
 
-
             if ($cookie_type) {
                 //prevent key from being added twice
                 foreach ($multiple_field as $index => $cookie) {
-                    if ($cookie['key'] === $cookie_type) return;
+                    if ($cookie['key'] === $cookie_type) {
+                        return;
+                    }
                 }
 
                 //don't add field if it was deleted previously
@@ -252,7 +255,7 @@ if (!class_exists("cmplz_field")) {
                 }
 
                 //don't add default wordpress cookies
-                if (strpos($cookie_type, 'wordpress_') === false) {
+                if (strpos($cookie_type, 'wordpress_') !== false) {
                     return;
                 }
 
@@ -328,14 +331,16 @@ if (!class_exists("cmplz_field")) {
             }
             $condition_class = $condition ? 'condition-check' : '';
 
+            $hidden_class =  ($args['hidden']) ? 'hidden' : '';
+
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="cmplz-settings ' . $condition_class . '"';
+                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class).' '. esc_attr($condition_class) . '"';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
-                echo '<div class="field-group ' . esc_attr($condition_class) . '" ';
+                echo '<div class="field-group ' .  esc_attr($hidden_class).' '. esc_attr($condition_class) . '" ';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><div class="cmplz-label">';
             }
@@ -1018,17 +1023,17 @@ if (!class_exists("cmplz_field")) {
         {
             $values = $this->get_value($args['fieldname']);
             //move "complianz" cookie to the top.
-
-            foreach ($values as $key => $cookie) {
-                if ($cookie['key'] === 'complianz') {
-                    $temp = $values[$key];
-                    unset($values[$key]);
-                    $new_arr = array();
-                    $new_arr[$key] = $cookie;
-                    $values = $new_arr + $values;
+            if (!empty($values)) {
+                foreach ($values as $key => $cookie) {
+                    if ($cookie['key'] === 'complianz') {
+                        $temp = $values[$key];
+                        unset($values[$key]);
+                        $new_arr = array();
+                        $new_arr[$key] = $cookie;
+                        $values = $new_arr + $values;
+                    }
                 }
             }
-
 
             if (!$this->show_field($args)) return;
 
@@ -1167,6 +1172,7 @@ if (!class_exists("cmplz_field")) {
         public
         function thirdparties($args)
         {
+            $processing_agreements = COMPLIANZ()->processing->processing_agreements();
             $values = $this->get_value($args['fieldname']);
             if (!is_array($values)) $values = array();
             if (!$this->show_field($args)) return;
@@ -1185,9 +1191,12 @@ if (!class_exists("cmplz_field")) {
                         'country' => '',
                         'purpose' => '',
                         'data' => '',
+                        'processing_agreement'=> 0,
                     );
 
                     $value = wp_parse_args($value, $default_index);
+                    $create_processing_agreement_link = '<a href="'.admin_url('edit.php?post_type=cmplz-processing&page=cmplz-processing').'">';
+
                     ?>
                     <div>
                         <div>
@@ -1197,6 +1206,21 @@ if (!class_exists("cmplz_field")) {
                             <input type="text"
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][name]"
                                    value="<?php echo esc_html($value['name']) ?>">
+                        </div>
+                        <div>
+                            <label><?php printf(__('Select the processing agreement you made with this third pary, or %screate one%s', 'complianz'), $create_processing_agreement_link,'</a>') ?></label>
+                        </div>
+                        <div>
+                            <label>
+                                <select name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][processing_agreement]">
+                                    <option value="0"><?php _e('No agreement selected','complianz')?></option>
+                                    <option value="-1" <?php if (floatval(($value['processing_agreement'])==-1)) echo 'selected'?>><?php _e('A processing agreement outside Complianz GDPR','complianz')?></option>
+                                    <?php foreach($processing_agreements as $id => $title){
+                                        $selected = (intval($value['processing_agreement'])==$id) ? 'selected' : '';
+                                        echo '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
+                                    }
+                                    ?></select>
+                        <br><br>
                         </div>
                         <div>
                             <label><?php _e('Third party country', 'complianz') ?></label>
@@ -1224,6 +1248,7 @@ if (!class_exists("cmplz_field")) {
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][data]"
                                    value="<?php echo esc_html($value['data']) ?>">
                         </div>
+
 
                     </div>
                     <button class="button cmplz-remove" type="submit"

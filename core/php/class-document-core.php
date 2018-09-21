@@ -272,7 +272,7 @@ if (!class_exists("cmplz_document_core")) {
             //some custom elements
             $html = str_replace("[cookie_accept_text]", cmplz_get_value('accept'), $html);
             $html = str_replace("[domain]", cmplz_esc_url_raw(get_site_url()), $html);
-            $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(COMPLIANZ()->cookie->get_cookie_statement_page()), $html);
+            $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(get_option('cmplz_cookie_policy_url')), $html);
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);

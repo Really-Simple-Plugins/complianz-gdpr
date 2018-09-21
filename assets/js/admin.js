@@ -272,4 +272,26 @@ jQuery(document).ready(function ($) {
         });
     }, 2000);
 
+
+    //statistics, handle graphs visibility
+
+
+    var cmplz_visible_stat = '#bar_pct_show_non_eu_container';
+    $(document).on('change', 'select[name=eu]', function(){
+
+        $(cmplz_visible_stat).hide();
+        var eu = $('select[name=eu]').val();
+        var type = $('select[name=stats_type]').val();
+        cmplz_visible_stat = '#bar_'+type+'_'+eu+'_container';
+        $(cmplz_visible_stat).fadeIn();
+    });
+
+    $(document).on('change', 'select[name=stats_type]', function(){
+        $(cmplz_visible_stat).hide();
+        var eu = $('select[name=eu]').val();
+        var type = $('select[name=stats_type]').val();
+        cmplz_visible_stat = '#bar_'+type+'_'+eu+'_container';
+        $(cmplz_visible_stat).fadeIn();
+    });
+
 });

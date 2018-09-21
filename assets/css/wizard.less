@@ -7,14 +7,13 @@
 */
 
 .cmplz-switch {
+  input {
+    display: none;
+  }
   position: relative;
   display: inline-block;
   width: 40px;
   height: 21px;
-}
-
-.cmplz-switch input {
-  display: none;
 }
 
 .cmplz-slider {
@@ -27,42 +26,46 @@
   background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
+  &:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  &.cmplz-round {
+    border-radius: 20px;
+  }
+  &.cmplz-round:before {
+    border-radius: 50%;
+  }
 }
 
-.cmplz-slider:before {
-  position: absolute;
-  content: "";
-  height: 15px;
-  width: 15px;
-  left: 4px;
-  bottom: 3px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
 
 input:checked + .cmplz-slider {
-  background-color: #2196F3;
+  background-color: @brand-primary;
+  &:before{
+    -webkit-transform: translateX(17px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
+  }
+}
+
+input:disabled + .cmplz-slider {
+  background-color: lighten(@brand-primary, 30%);
+  &:before{
+    //background-color:#c6c6c6;
+  }
 }
 
 input:focus + .cmplz-slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px @brand-primary;
 }
 
-input:checked + .cmplz-slider:before {
-  -webkit-transform: translateX(17px);
-  -ms-transform: translateX(17px);
-  transform: translateX(17px);
-}
-
-/* Rounded sliders */
-.cmplz-slider.cmplz-round {
-  border-radius: 20px;
-}
-
-.cmplz-slider.cmplz-round:before {
-  border-radius: 50%;
-}
 
 #complete_wizard_first_notice {
   position: fixed; /* Sit on top of the page content */
@@ -379,6 +382,7 @@ html .mceContentBody {
 
     .cmplz-buttons-container {
       margin-top: 15px;
+      padding-top:15px;
       border-top: 2px solid;
     }
 
@@ -388,15 +392,44 @@ html .mceContentBody {
     }
 
     .cmplz-button {
-      span {
-        &:before, &:after {
+      //span {
+      &.cmplz-save {
 
+        margin-right: 10px;
+        float: right;
+        input[type=submit] {
+          background-color: @gray;
+          border-color:@gray;
+          //padding-right: 35px;
+        }
+        //span:after {
+        //  content: "\f0c7";
+        //  right: 10px;
+        //  float: right;
+        //}
+      }
+      &.cmplz-previous {
+        float: left;
+        text-indent: 0.5em;
+        input[type=submit] {
+          background-color: @gray;
+          border-color:@gray;
+          //padding-left: 30px;
+        }
+        //span:before {
+        //  content: "\f104";
+        //  float: left;
+        //}
+      }
+        &:before, &:after {
+          display: none;
           font-family: 'Font Awesome 5 Free';
           color: white;
           font-weight: bold;
-          font-size: 1.4em !important;
+          font-size: 18px !important;
           position: absolute;
-          top: 22px;
+          top: 0;
+          padding-top: 2px;
           pointer-events: none;
         }
 
@@ -404,56 +437,32 @@ html .mceContentBody {
         input[type="submit"] {
           font-family: "Sofia Pro Light", Arial;
           font-size: 16px;
-          padding-top: 2px;
           text-transform: lowercase;
-          background: @brand-primary;
+          background-color: @brand-primary;
           color: white;
-          border: none;
+          //border: none;
           box-shadow: none;
-          margin-top: 20px;
+          height: 28px;
+          border-color:@brand-primary;
           &:hover {
             background-color: lighten(@brand-primary, 10%);
+            border-color:lighten(@brand-primary, 10%);
           }
         }
-      }
+      //}
 
       &.cmplz-next {
         float: right;
         input {
-          padding-right: 30px;
+          //padding-right: 30px;
         }
-        span:after {
-          content: "\f105";
-          right: 10px;
-          float: right;
-        }
+        //span:after {
+        //  content: "\f105";
+        //  right: 10px;
+        //  float: right;
+        //}
       }
-      &.cmplz-save {
 
-        margin-right: 10px;
-        float: right;
-        input[type=submit] {
-          background-color: @gray;
-          padding-right: 35px;
-        }
-        span:after {
-          content: "\f0c7";
-          right: 10px;
-          float: right;
-        }
-      }
-      &.cmplz-previous {
-        float: left;
-        text-indent: 0.5em;
-        input[type=submit] {
-          background-color: @gray;
-          padding-left: 30px;
-        }
-        span:before {
-          content: "\f104";
-          float: left;
-        }
-      }
     }
     //Add some styling to the remove, rescan and add new cookie buttons to override the default WordPress button styling
     .cmplz-remove {

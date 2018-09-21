@@ -136,7 +136,7 @@ $this->known_cookie_keys = array(
         'description' => __("", 'complianz'),
     ),
     'complianz' => array('functional' => true,
-        'used_names' => array('cmplz_id','complianz_config', 'complianz_consent_status', 'complianz_policy_id'),
+        'used_names' => array('cmplz_stats', 'cmplz_id','complianz_config', 'complianz_consent_status', 'complianz_policy_id'),
         'unique_used_names' => array('complianz_config','cmplz_id', 'cookieconsent_status', 'complianz_consent_status', 'complianz_policy_id'),
         'privacy_policy_url' => 'https://complianz.io/privacy-statement/',
         'label' => "Complianz",

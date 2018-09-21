@@ -356,6 +356,3 @@ function cmplz_is_admin(){
 //    load_plugin_textdomain('complianz', FALSE, cmplz_path . 'config/languages/');
 //}
 
-function cmplz_get_cookie_categories_text(){
-    return get_option('cmplz_cookies_categories_text', __('Third party cookies', 'complianz'));
-}

@@ -27,7 +27,7 @@ if (!class_exists("cmplz_document")) {
 
         public function enqueue_assets()
         {
-            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+            $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
             $load_css = cmplz_get_value('use_document_css');
             if ($load_css) {
                 wp_register_style('cmplz-document', cmplz_url . "assets/css/document$min.css", false, cmplz_version);
@@ -238,6 +238,10 @@ if (!class_exists("cmplz_document")) {
 
             if ($type == 'privacy-statement') {
                 update_option('wp_page_for_privacy_policy', $page_id);
+            }
+
+            if ($type == 'cookie-statement') {
+                COMPLIANZ()->cookie->set_cookie_statement_page();
             }
 
         }
