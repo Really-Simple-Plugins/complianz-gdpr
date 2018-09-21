@@ -13,7 +13,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         {
 
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'really-simple-ssl'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
 
             self::$_this = $this;
 

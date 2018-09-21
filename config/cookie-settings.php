@@ -132,10 +132,6 @@ $this->fields = $this->fields + array(
             'comment' => __("It depends on your settings if this category is necessary, so it will conditionally show", 'complianz'),
             'table' => true,
             'has_variations' => true,
-//            'callback_condition' =>array(
-//                'fire_scripts_in_tagmanager' => 'no',
-//                'compile_statistics'=> 'NOT google-tag-manager'
-//            ),
             'condition' => array('use_categories' => true),
         ),
         'accept' => array(
@@ -177,7 +173,6 @@ $this->fields = $this->fields + array(
             'comment' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz'),
             'help' => __('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz'),
             'table' => true,
-            //'callback_condition' =>array('fire_scripts_in_tagmanager' => 'no'),
             'has_variations' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),
@@ -186,7 +181,7 @@ $this->fields = $this->fields + array(
             'page' => 'cookie_settings',
             'type' => 'textarea',
             'label' => __("Custom Tag Manager categories", 'complianz'),
-            'comment' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz'),
+            'comment' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz')."<br><br>".cmplz_tagmanager_conditional_helptext()." ".sprintf(__('Read more about how to configure categories in this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/configure-categories-tag-manager">', '</a>'),
             'table' => true,
             'has_variations' => true,
             'placeholder' => __('First category, Second category', 'complianz'),

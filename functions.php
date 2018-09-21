@@ -39,48 +39,85 @@ function cmplz_uses_google_analytics()
 //
 //    }
 
+
+/*
+ * This overrides the enabled setting for use_categories, based on the tagmanager settings
+ * When tagmanager is enabled, use of TM cats is obligatory
+ *
+ *
+ * */
+
+add_filter('cmplz_fields', 'cmplz_fields_filter', 10, 1);
+function cmplz_fields_filter($fields){
+
+    $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+    $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+    if ($uses_tagmanager && $tm_fires_scripts) $fields['use_categories']['hidden'] = true;
+
+    return $fields;
+}
+
+
+function cmplz_tagmanager_conditional_helptext(){
+    if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()){
+        $text = __("Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.","complianz");
+    } else {
+        $text = __("Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.","complianz");
+    }
+
+    return $text;
+}
+
 function cmplz_revoke_link($text = false)
 {
     $text = $text ? $text : __('Revoke cookie consent', 'complianz');
     return '<a href="#" class="cc-revoke-custom">' . $text . '</a>';
 }
 
-function cmplz_get_value($fieldname, $post_id = false)
+
+/*
+ * For usage very early in the execution order, use the $page option. This bypasses the class usage.
+ *
+ *
+ * */
+
+function cmplz_get_value($fieldname, $post_id = false, $page = false)
 {
     //we allow for one random character at the end, for the cookie variationid
     $original_fieldname = isset(COMPLIANZ()->config->fields[substr($fieldname, 0, -1)]) ? substr($fieldname, 0, -1) : $fieldname;
 
-    if (!isset(COMPLIANZ()->config->fields[$original_fieldname])) return false;
+    if (!$page && !isset(COMPLIANZ()->config->fields[$original_fieldname])) return false;
 
     //if  a post id is passed we retrieve the data from the post
-    $page = COMPLIANZ()->config->fields[$original_fieldname]['page'];
-
+    if (!$page) $page = COMPLIANZ()->config->fields[$original_fieldname]['page'];
     if ($post_id && ($page !== 'wizard')) {
         $value = get_post_meta($post_id, $fieldname, true);
     } else {
         $fields = get_option('complianz_options_' . $page);
-        $default = isset(COMPLIANZ()->config->fields[$original_fieldname]['default']) ? COMPLIANZ()->config->fields[$original_fieldname]['default'] : '';
+        $default = ($page && isset(COMPLIANZ()->config->fields[$original_fieldname]['default'])) ? COMPLIANZ()->config->fields[$original_fieldname]['default'] : '';
         $value = isset($fields[$fieldname]) ? $fields[$fieldname] : $default;
     }
 
     /*
      * Translate output
+     * No translate option for the $page option
      *
      * */
-
-    if (function_exists('icl_translate') || function_exists('pll__')) {
-        $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
-        if ($type==='cookies' || $type==='thirdparties'){
-            if (is_array($value)) {
-                foreach ($value as $key => $key_value) {
-                    if (function_exists('pll__')) $value[$key] = pll__($key_value);
-                    if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
+    if (!$page) {
+        if (function_exists('icl_translate') || function_exists('pll__')) {
+            $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
+            if ($type === 'cookies' || $type === 'thirdparties') {
+                if (is_array($value)) {
+                    foreach ($value as $key => $key_value) {
+                        if (function_exists('pll__')) $value[$key] = pll__($key_value);
+                        if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
+                    }
                 }
-            }
-        } else {
-            if (isset(COMPLIANZ()->config->fields[$original_fieldname]['translatable']) && COMPLIANZ()->config->fields[$original_fieldname]['translatable']) {
-                if (function_exists('pll__')) $value = pll__($value);
-                if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+            } else {
+                if (isset(COMPLIANZ()->config->fields[$original_fieldname]['translatable']) && COMPLIANZ()->config->fields[$original_fieldname]['translatable']) {
+                    if (function_exists('pll__')) $value = pll__($value);
+                    if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+                }
             }
         }
     }
@@ -200,12 +237,18 @@ function cmplz_has_custom_privacy_policy(){
  * */
 
 function cmplz_statistics_no_sharing_allowed(){
-    $statistics = cmplz_get_value('compile_statistics');
+
+
+    $fields = get_option('complianz_options_wizard', false, 'wizard');
+    $value = isset($fields['compile_statistics']) ? $fields['compile_statistics'] : false;
+
+    $statistics = cmplz_get_value('compile_statistics', false, 'wizard');
     $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
     $google_analytics = ($statistics === 'google-analytics') ? true : false;
 
     if ($google_analytics || $tagmanager) {
-        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info', false, 'wizard') : cmplz_get_value('compile_statistics_more_info_tag_manager', false, 'wizard');
+
         $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
         if ($no_sharing) {
             return true;
@@ -224,7 +267,7 @@ function cmplz_statistics_no_sharing_allowed(){
  * */
 
 function cmplz_no_ip_addresses(){
-    $statistics = cmplz_get_value('compile_statistics');
+    $statistics = cmplz_get_value('compile_statistics',false, 'wizard');
     $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
     $matomo = ($statistics === 'matomo') ? true : false;
     $google_analytics = ($statistics === 'google-analytics') ? true : false;
@@ -235,7 +278,7 @@ function cmplz_no_ip_addresses(){
     }
 
     if ($google_analytics || $tagmanager) {
-        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info', false, 'wizard') : cmplz_get_value('compile_statistics_more_info_tag_manager', false, 'wizard');
         $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
         if ($ip_anonymous) {
             return true;
@@ -245,7 +288,7 @@ function cmplz_no_ip_addresses(){
     }
 
     if ($matomo){
-        if (cmplz_get_value('matomo_anonymized') === 'yes'){
+        if (cmplz_get_value('matomo_anonymized', false, 'wizard') === 'yes'){
             return true;
         } else{
             return false;
@@ -258,12 +301,12 @@ function cmplz_no_ip_addresses(){
 
 function cmplz_accepted_processing_agreement()
 {
-    $statistics = cmplz_get_value('compile_statistics');
+    $statistics = cmplz_get_value('compile_statistics', false, 'wizard');
     $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
     $google_analytics = ($statistics === 'google-analytics') ? true : false;
 
     if ($google_analytics || $tagmanager) {
-        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info',false, 'wizard') : cmplz_get_value('compile_statistics_more_info_tag_manager', false, 'wizard');
         $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
         if ($accepted_google_data_processing_agreement) {
             return true;

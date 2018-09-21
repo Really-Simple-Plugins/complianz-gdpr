@@ -70,14 +70,20 @@ if (!class_exists("cmplz_document_core")) {
 
                     $type = $fields[$question]['type'];
                     $value = cmplz_get_value($question, $post_id);
+                    $invert = false;
+
+                    if (strpos($condition_answer, 'NOT ')!==FALSE) {
+                        $condition_answer = str_replace('NOT ', '', $condition_answer);
+                        $invert = true;
+                    }
 
                     if ($type == 'multicheckbox') {
                         if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
-                            return false;
+                            return $invert? true: false;
                         }
                     } else {
                         if ($value != $condition_answer) {
-                            return false;
+                            return $invert? true: false;
                         }
                     }
 
@@ -245,7 +251,7 @@ if (!class_exists("cmplz_document_core")) {
             $list = (isset($element['list']) && $element['list']) ? true : false;
             //loop content
             if (!$element || $list) {
-                return '<span>' . $content . '</span><br>';
+                return '<span>' . $content . '</span>';
             }
             $p = (!isset($element['p']) || $element['p']) ? true : $element['p'];
             $el = $p ? 'p' : 'span';

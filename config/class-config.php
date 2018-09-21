@@ -71,6 +71,8 @@ if (!class_exists("cmplz_config")) {
             define('STEP_MENU',    3);
             define('STEP_FINISH',  4);
 
+            define('CMPLZ_LEGAL_VERSION', '1.1');
+
             $steps = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
             define('CMPLZ_REVIEW_STEPS', $steps);
 
