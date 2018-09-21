@@ -66,9 +66,8 @@ if (!class_exists("cmplz_cookie")) {
             add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
             add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
 
-            add_action('admin_init', array($this, 'cache_cookie_categories_text'));
-
             $this->load();
+
         }
 
         static function this()
@@ -382,99 +381,108 @@ if (!class_exists("cmplz_cookie")) {
 
         public function get_cookie_settings($variation_id = '')
         {
-            $output = array();
-            $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
+            //cleared on saving in class field
+            $output = get_transient('cmplz_cookie_settings_cache_'.$variation_id);
+            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output) {
+                $output = array();
 
-            foreach ($fields as $fieldname => $field) {
-                $value = cmplz_get_value($fieldname);
-                if (empty($value)) $value = $field['default'];
-                $output[str_replace($variation_id, '', $fieldname)] = $value;
+                $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
+
+                foreach ($fields as $fieldname => $field) {
+                    $value = cmplz_get_value($fieldname);
+                    if (empty($value)) $value = $field['default'];
+                    $output[str_replace($variation_id, '', $fieldname)] = $value;
+                }
+                $output['static'] = false;
+                $output['categories'] = '';
+                switch ($output['position']) {
+                    case 'static':
+                        $output['static'] = true;
+                        $output['position'] = 'top';
+                        break;
+                    case 'edgeless':
+                        $output['border_color'] = false;
+                        break;
+                }
+
+                $output['type'] = 'opt-in';
+                $output['layout'] = 'basic';
+
+                /*
+                 *
+                 * This is for the category style popups
+                 *
+                 *
+                 * */
+
+                if ($output['use_categories']) {
+                    $checkbox_all = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="18px" height="18px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
+                    $checkbox_functional = str_replace(array('type', 'cmplz_all'), array('checked disabled type', 'cmplz_functional'), $checkbox_all);
+                    $output['categories'] = '<label>' . $checkbox_functional . $output['category_functional'] . '</label>';
+
+                    if ($this->tagmamanager_fires_scripts()) {
+                        $tm_categories = $output['tagmanager_categories'];
+                        $output['tm_categories'] = true;
+                        $categories = explode(',', $tm_categories);
+                        $output['cat_num'] = count($categories);
+                        foreach ($categories as $i => $category) {
+                            if (empty($category)) continue;
+                            $checkbox_category = str_replace('cmplz_all', 'cmplz_' . $i, $checkbox_all);
+                            $output['categories'] .= '<label>' . $checkbox_category . trim($category) . '</label>';
+                        }
+                        $output['categories'] .= '<label>' . $checkbox_all . $output['category_all'] . '</label>';
+                    } else {
+
+                        $output['categories'] .= $this->cookie_warning_required_stats() ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . $output['category_stats'] . '</label>' : '';
+                        $output['categories'] .= '<label>' . $checkbox_all . $output['category_all'] . '</label>';
+                    }
+
+                    //$output['dismiss'] = $output['save_preferences'];
+                    $output['type'] = 'categories';
+                    $output['layout'] = 'categories-layout';
+                    $output['revoke'] = $output['view_preferences'];
+                    unset($output['view_preferences']);
+                    unset($output['dismiss']);
+                    unset($output['accept']);
+                }
+
+                $output['readmore_url'] = get_option('cmplz_cookie_policy_url');
+                $output['url'] = admin_url('admin-ajax.php');
+                $output['nonce'] = wp_create_nonce('set_cookie');
+                $output['variation'] = $variation_id;
+
+                /*
+                 * Cleanup
+                 *
+                 * */
+
+                unset($output['a_b_testing']);
+                unset($output['a_b_testing_duration']);
+                unset($output['custom_css']);
+                unset($output['use_custom_cookie_css']);
+                unset($output['variation']);
+                unset($output['tagmanager_categories']);
+
+                $output = apply_filters('cmplz_cookie_settings', $output);
+                set_transient('cmplz_cookie_settings_cache', $output, DAY_IN_SECONDS);
             }
-            $output['static'] = false;
-            $output['categories'] = '';
-            switch ($output['position']){
-                case 'static':
-                    $output['static'] = true;
-                    $output['position'] = 'top';
-                    break;
-                case 'edgeless':
-                    $output['border_color'] = false;
-                    break;
-            }
-
-            $output['type'] = 'opt-in';
-            $output['layout'] = 'basic';
-
-            if ($output['use_categories']){
-                $checkbox_all = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="18px" height="18px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
-                $checkbox_functional = str_replace(array('type', 'cmplz_all'), array('checked disabled type','cmplz_functional'), $checkbox_all);
-
-                $checkbox_stats = $this->cookie_warning_required_stats() ? '<label>'.str_replace('cmplz_all', 'cmplz_stats', $checkbox_all).$output['category_stats'].'</label>' : '';
-                $output['categories'] = '<label>'.$checkbox_functional.$output['category_functional'].'</label>'.$checkbox_stats.'<label>'.$checkbox_all.$output['category_all'].'</label>';
-
-                $output['dismiss'] = $output['save_preferences'];
-                $output['type'] = 'categories';
-                $output['layout'] = 'categories-layout';
-                $output['revoke'] = $output['view_preferences'];
-                unset($output['view_preferences']);
-            }
-
-            $output['readmore_url'] = $this->get_cookie_statement_page();
-            $output['url'] = admin_url('admin-ajax.php');
-            $output['nonce'] = wp_create_nonce('set_cookie');
-            $output['variation'] = $variation_id;
-
-            unset($output['a_b_testing']);
-            unset($output['a_b_testing_duration']);
-            unset($output['custom_css']);
-            unset($output['use_custom_cookie_css']);
-            unset($output['variation']);
-
-            $output = apply_filters('cmplz_cookie_settings', $output);
 
             return $output;
         }
 
 
 
-        public function get_cookie_statement_page()
+        public function set_cookie_statement_page()
         {
             $url = "#";
-            $page_id = get_transient('cmplz_cookie_policy_id');
-            if (!$page_id){
-                $page_id = apply_filters('cmplz_cookie_policy_page_id',COMPLIANZ()->document->get_shortcode_page_id('cookie-statement'));
-                set_transient('cmplz_cookie_policy_id', $page_id, DAY_IN_SECONDS);
-            }
 
+            $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement');
             if ($page_id) {
                 $url = get_permalink($page_id);
+                update_option('cmplz_cookie_policy_url', $url);
             }
 
             return $url;
-        }
-
-        /*
-         * As we need this text before the classes are instantiated, we cache it.
-         *
-         * */
-
-        public function cache_cookie_categories_text(){
-            update_option('cmplz_cookies_categories_text', $this->get_cookie_categories_text());
-        }
-
-        public function get_cookie_categories_text(){
-            $categories = array();
-            if (cmplz_get_value('uses_ad_cookies') === 'yes') $categories[] = __('marketing','complianz');
-            if ($this->third_party_cookies_active()) $categories[] = __('third party services','complianz');
-            if (cmplz_get_value('uses_social_media') === 'yes') $categories[] = __('social media','complianz');
-
-            //nothing found yet? check for non functional cookies in general
-            if (empty($categories) && $this->uses_non_functional_cookies()) {
-                $categories[] = __('user preferences','complianz');
-            }
-
-            $str = implode(', ',$categories);
-            return sprintf(__('Cookies for %s', 'complianz'), $str);
         }
 
         private function domain()
@@ -538,7 +546,7 @@ if (!class_exists("cmplz_cookie")) {
         public function inline_cookie_script_no_warning()
         {
             ?>
-            <script type='text/javascript' class="cmplz-native">
+            <script type='text/javascript' class="cmplz-native cmplz-stats">
                 <?php $this->get_statistics_script();?>
                 <?php $this->get_cookie_script();?>
             </script>
@@ -1038,7 +1046,8 @@ if (!class_exists("cmplz_cookie")) {
 
         public function reset_cookies_changed()
         {
-            return update_option('cmplz_changed_cookies', -1);
+            delete_transient('cmplz_cookie_settings_cache');
+            update_option('cmplz_changed_cookies', -1);
         }
 
         public function update_cookie_policy_date(){
@@ -1180,6 +1189,7 @@ if (!class_exists("cmplz_cookie")) {
             $done = $this->get_processed_pages_list();
             $total = COMPLIANZ()->cookie->get_pages_list();
             $progress = 100 * (count($done) / count($total));
+            if ($progress>100) $progress = 100;
             return $progress;
         }
 
@@ -1335,6 +1345,9 @@ if (!class_exists("cmplz_cookie")) {
                 return true;
             }
 
+
+
+
             return false;
         }
 
@@ -1387,8 +1400,33 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
+
+        /*
+         * Check if Google Tag Manager is configured to fire scripts, managed remotely
+         *
+         *
+         * */
+
+        public function tagmamanager_fires_scripts(){
+
+            if (!$this->uses_google_tagmanager()) return false;
+
+            $tm_fires_scripts = (cmplz_get_value('fire_scripts_in_tagmanager')==='yes') ? TRUE : FALSE;
+
+            return $tm_fires_scripts;
+        }
+
+        /*
+         *
+         * Check if the site uses non functional cookies
+         *
+         *
+         * */
+
         public function uses_non_functional_cookies()
         {
+            if ($this->tagmamanager_fires_scripts()) return true;
+
             //get all used cookies
             $used_cookies = cmplz_get_value('used_cookies');
             if (empty($used_cookies) || !is_array($used_cookies)) return false;

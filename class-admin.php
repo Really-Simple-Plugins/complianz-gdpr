@@ -68,6 +68,12 @@ if (!class_exists("cmplz_admin")) {
             }
 
 
+            //mainly for upgrading, on create it's set as well.
+            if (!get_option('cmplz_cookie_policy_url')){
+                COMPLIANZ()->cookie->set_cookie_statement_page();
+            }
+
+
             update_option('cmplz-current-version', cmplz_version);
         }
 
@@ -122,8 +128,10 @@ if (!class_exists("cmplz_admin")) {
             return $warnings;
         }
 
+
         public function get_warnings($cache = true)
         {
+
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {

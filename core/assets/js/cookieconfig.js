@@ -3,8 +3,7 @@
 function complianz_deleteAllCookies() {
     document.cookie.split(";").forEach(
     function (c) {
-
-        if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_id') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
+        if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
             document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         }
     }
@@ -12,8 +11,11 @@ function complianz_deleteAllCookies() {
 }
 
 jQuery(document).ready(function ($) {
+    var ccStatus;
+    var ccName;
 
     function complianz_enable_scripts(){
+        console.log('enable all scripts');
         //iframes
         $('.cmplz-iframe').each(function(i, obj) {
             var src = $(this).data('src-cmplz');
@@ -37,17 +39,31 @@ jQuery(document).ready(function ($) {
     }
 
     function complianz_enable_stats(){
-        $('.cmplz-script').each(function(i, obj) {
+        console.log('enable stats');
+        $('.cmplz-stats').each(function(i, obj) {
             if ($(this).text().length){
                 var str = $(this).text();
-                if(str.indexOf('analytics.js') !== -1 || str.indexOf('ga.js') !== -1) {
-                    $('<script>')
-                        .attr('type', 'text/javascript')
-                        .text(str)
-                        .appendTo($(this).parent());
-                    $(this).remove();
-                }
+                $('<script>')
+                    .attr('type', 'text/javascript')
+                    .text(str)
+                    .appendTo($(this).parent());
+                $(this).remove();
             }
+        });
+    }
+
+
+    /*
+    * Fire an event in Tag Manager
+    *
+    *
+    * */
+
+    function cmplzRunTmEvent(event){
+        console.log('fire '+event);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': event
         });
     }
 
@@ -56,15 +72,14 @@ jQuery(document).ready(function ($) {
     *
     * */
 
-    var user_data = [];
+    var cmplz_user_data = [];
     //check if it's already stored
     if (typeof(Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
-        user_data = JSON.parse(sessionStorage.cmplz_user_data);
+        cmplz_user_data = JSON.parse(sessionStorage.cmplz_user_data);
     }
 
     //if not, reload
-    if (user_data.length==0) {
-        console.log('reloading data');
+    if (cmplz_user_data.length===0) {
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -73,13 +88,13 @@ jQuery(document).ready(function ($) {
                 action: 'cmplz_user_settings'
             }),
             success: function (response) {
-                user_data = response;
-                sessionStorage.cmplz_user_data = JSON.stringify(user_data);
-                conditionally_show_warning(user_data);
+                cmplz_user_data = response;
+                sessionStorage.cmplz_user_data = JSON.stringify(cmplz_user_data);
+                conditionally_show_warning(cmplz_user_data);
             }
         });
     } else {
-        conditionally_show_warning(user_data);
+        conditionally_show_warning(cmplz_user_data);
     }
 
     function conditionally_show_warning(user){
@@ -90,12 +105,17 @@ jQuery(document).ready(function ($) {
             } else {
                 console.log('not eu');
                 complianz_enable_cookies();
+                complianz_enable_scripts();
+                //cookie blocker is default enabled, so all scripts need to be enabled.
             }
         }
-    }
 
-    var ccStatus;
-    var ccName;
+        //for Non eu visitors, and DNT users, we just track the no-warning option
+        if (user.do_not_track || !user.is_eu) {
+            complianz_track_status('no-warning');
+        }
+
+    }
 
     function cmplz_cookie_warning(){
         window.cookieconsent.initialise({
@@ -104,36 +124,36 @@ jQuery(document).ready(function ($) {
                 expiryDays: complianz.cookie_expiry
             },
             onInitialise: function (status) {
+                console.log('init');
+                //runs only when dismissed or accepted
                 ccStatus = status;
                 if (status === 'allow' && this.hasConsented()) {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
-                    complianz_accept();
                 }
-                if (cmplzGetCookie('cmplz_stats')==='allow'){
-                    complianz_enable_stats();
-                }
+
             },
             onStatusChange: function (status, chosenBefore) {
                 ccStatus = status;
+                console.log('status change '+ status)
+                //track here only for non categorie style, the default one is tracked on save.
+                if (!complianz.use_categories) {
+                    complianz_track_status();
+                }
+
                 if (status === 'allow') {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
-                    complianz_accept();
-                } else if (ccStatus != status) {
-                    if (complianz.use_categories) {
-                        complianz_deleteAllCookies();
-                        location.reload();
-                    }
                 }
             },
             onRevokeChoice: function () {
                 if (!complianz.use_categories && ccStatus==='allow') {
-                    complianz_deleteAllCookies();
-                    location.reload();
+                    //complianz_deleteAllCookies();
+                    complianz_track_status();
+                    //location.reload();
                 }
             },
-            "revokeBtn": '<div class="cc-revoke cc-bottom {{classes}}">' + complianz.revoke + '</div>',
+             "revokeBtn": '<div class="cc-revoke cc-bottom {{classes}}">' + complianz.revoke + '</div>',
             "palette": {
                 "popup": {
                     "background": complianz.popup_background_color,
@@ -171,56 +191,69 @@ jQuery(document).ready(function ($) {
             }
         }, function (popup) {
             ccName = popup;
-            if ($('#cmplz_all').length) {
-                if (ccStatus === 'allow') $('#cmplz_all').prop('checked', true);
-                if ($('#cmplz_stats').length && cmplzGetCookie('cmplz_stats')==='allow') $('#cmplz_stats').prop('checked', true);
+            //this function always runs
+            console.log('popup');
+            console.log(ccStatus);
+            if (cmplzUsesCategories()) {
+                //handle category checkboxes
+                cmplzSetCategoryCheckboxes();
+
+                //some styles
+                if (complianz.tm_categories) {
+                    for (var i = 0; i < complianz.cat_num; i++) {
+                        $('#cmplz_' + i + ':checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
+                    }
+                }
+
                 $('#cmplz_functional:checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
                 $('#cmplz_all:checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
                 $('.cc-save').css({"border-color" : complianz.border_color ,"background-color": complianz.button_background_color, "color" : complianz.button_text_color});
                 $('.cc-check svg').css({"stroke": complianz.popup_text_color});
+
+
+                cmplzFireCategories();
+
             }
         });
     }
 
+    /*
+    * Save the preferences after user has changed the settings in the popup
+    *
+    *
+    * */
+
     $(document).on('click', '.cc-save', function(){
-        var statsAllowed = cmplzGetCookie('cmplz_stats');
-        var newStatsAllowed = $('#cmplz_stats').is(":checked");
-        var allAllowed = ccStatus;
-        var newAllAllowed = $('#cmplz_all').is(":checked");
+        //dismiss the banner after saving, so it won't show on next page load
+        ccName.setStatus(cookieconsent.status.dismiss);
 
-        if (newStatsAllowed) {
-            cmplzSetCookie('cmplz_stats', 'allow', complianz.cookie_expiry);
-            complianz_enable_stats();
+        //save AND run
+        if (cmplzUsesCategories()) {
+            cmplzSaveCategories();
+            cmplzFireCategories();
         } else {
-            cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
+            console.log('no categories used');
         }
 
-        if (newAllAllowed) {
-            console.log('set allow');
-            ccName.setStatus(cookieconsent.status.allow);
-        } else {
-            //if we are currently allowed, we should now reload.
-            ccName.setStatus(cookieconsent.status.dismiss);
-        }
+        //track status on saving of settings.
+        complianz_track_status();
 
-        //reload if we changed from all to stats, or from stats to functional
-        if ((statsAllowed && !newStatsAllowed) || (allAllowed && !newAllAllowed) ){
-            complianz_deleteAllCookies();
-            location.reload();
-        }
         ccName.close();
         $('.cc-revoke').fadeIn();
 
     });
 
-    function complianz_accept(){
-        console.log('tracking accepting cookies');
+    function complianz_track_status(status){
+        status = typeof status !== 'undefined' ? status : false;
+
+        if (!status) status = cmplzGetHighestAcceptance();
         $.ajax({
             type: "GET",
             url: complianz.url,
             dataType: 'json',
             data: ({
-                action: 'cmplz_accept'
+                action: 'cmplz_accept',
+                status: status
             })
         });
     }
@@ -228,12 +261,14 @@ jQuery(document).ready(function ($) {
     //optional method to revoke cookie acceptance from a custom link
     $(document).on('click', '.cc-revoke-custom', function(){$('.cc-revoke').click();});
 
-    function cmplzSetCookie(cname,cvalue,exdays) {
-        console.log('set cookie to '+cvalue);
-        var d = new Date(); //Create an date object
-        d.setTime(d.getTime() + (exdays*1000*60*60*24)); //Set the time to exdays from the current date in milliseconds. 1000 milliseonds = 1 second
-        var expires = "expires=" + d.toGMTString(); //Compose the expirartion date
-        window.document.cookie = cname+"="+cvalue+"; "+expires;//Set the cookie with value and the expiration date
+    function cmplzSetCookie(name, value,days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            var expires = "; expires="+date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name+"="+value+expires+"; path=/";
     }
 
     function cmplzGetCookie(cname) {
@@ -250,5 +285,142 @@ jQuery(document).ready(function ($) {
 
         //If we get to this point, that means the cookie wasn't find in the look, we return an empty string.
         return "";
+    }
+
+
+    function cmplzGetHighestAcceptance(){
+
+        //if all is selected, it's automatically the highest
+        if (cmplzUsesCategories()){
+
+            if (cmplzGetCookie('cmplz_all')==='allow'){
+                return 'all';
+            }
+
+            if (complianz.tm_categories){
+                for (var i = complianz.cat_num-1; i >= 0; i--) {
+                    if (cmplzGetCookie('cmplz_event_'+i)==='allow'){
+                        return 'cmplz_event_'+i;
+                    }
+                }
+            }
+
+            if (cmplzGetCookie('cmplz_stats')==='allow'){
+                return 'stats';
+            }
+
+        } else {
+            var status = cmplzGetCookie('complianz_consent_status');
+            if (status === 'allow') {
+                return 'all';
+            }
+        }
+
+        if (status === 'dismiss') {
+            return 'functional';
+        }
+
+        return 'no-choice';
+    }
+
+    function cmplzFireCategories(all){
+        all = typeof all !== 'undefined' ? all : false;
+
+        //always functional
+        if (complianz.tm_categories) {
+            cmplzRunTmEvent('cmplz_event_functional');
+        }
+
+        //using TM categories
+        if (complianz.tm_categories){
+            for (var i = 0; i < complianz.cat_num; i++) {
+                if (all || $('#cmplz_'+i).is(":checked")){
+                    cmplzRunTmEvent('cmplz_event_'+i);
+                }
+            }
+        }
+
+        //statistics acceptance
+        if ($('#cmplz_stats').length){
+            if (all || $('#cmplz_stats').is(":checked")) {
+                complianz_enable_stats();
+            }
+        }
+
+        //marketing cookies acceptance
+        if ($('#cmplz_all').length){
+            if (all || $('#cmplz_all').is(":checked")) {
+                if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
+                complianz_enable_cookies();
+                complianz_enable_scripts();
+            }
+        }
+    }
+
+
+    /*
+    * save category preferences
+    *
+    * */
+
+    function cmplzSaveCategories(){
+
+        //using TM categories
+        if (complianz.tm_categories){
+            for (var i = 0; i < complianz.cat_num; i++) {
+                if ($('#cmplz_'+i).is(":checked")){
+                    cmplzSetCookie('cmplz_event_'+i, 'allow', complianz.cookie_expiry);
+                } else {
+                    console.log('set event_'+i+' denied');
+                    cmplzSetCookie('cmplz_event_'+i, 'deny', complianz.cookie_expiry);
+                }
+            }
+        }
+
+        //statistics acceptance
+        if ($('#cmplz_stats').length){
+            if ($('#cmplz_stats').is(":checked")) {
+                cmplzSetCookie('cmplz_stats', 'allow', complianz.cookie_expiry);
+            } else {
+                cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
+            }
+        }
+
+        //marketing cookies acceptance
+        if ($('#cmplz_all').length){
+            if ($('#cmplz_all').is(":checked")) {
+                cmplzSetCookie('cmplz_all', 'allow', complianz.cookie_expiry);
+            } else {
+                cmplzSetCookie('cmplz_all', 'deny', complianz.cookie_expiry);
+            }
+        }
+    }
+
+
+    /*
+    * Enable the checkbox for each category which was enabled
+    *
+    *
+    * */
+
+    function cmplzSetCategoryCheckboxes(){
+        //tag manager
+        if (complianz.tm_categories) {
+            for (var i = 0; i < complianz.cat_num; i++) {
+                if (cmplzGetCookie('cmplz_event_' + i)==='allow') $('#cmplz_' + i).prop('checked', true);
+            }
+        }
+
+        if (cmplzGetCookie('cmplz_all')==='allow') $('#cmplz_all').prop('checked', true);
+        if (cmplzGetCookie('cmplz_stats')==='allow') $('#cmplz_stats').prop('checked', true);
+    }
+
+    /*
+    * check if categories are used
+    *
+    * */
+    function cmplzUsesCategories(){
+        var cats =  $('#cmplz_functional').length;
+        return cats;
     }
 });

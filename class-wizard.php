@@ -202,6 +202,29 @@ if (!class_exists("cmplz_wizard")) {
 
         public function before_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type)
         {
+
+            /* if tag manager fires scripts, cats should be enabled for each variation. */
+            $enable_categories = false;
+            if (($fieldname == 'fire_scripts_in_tagmanager' && $fieldvalue==='yes') ){
+                $enable_categories = true;
+            }
+
+            //when ab testing is enabled, cats should be enabled for each variation.
+            if (($fieldname == 'a_b_testing' && $fieldvalue===true && $prev_value==false) ){
+                $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+                $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+                if ($uses_tagmanager && $tm_fires_scripts) {
+                    $enable_categories = true;
+                }
+            }
+
+            if ($enable_categories){
+                $variations = apply_filters('cmplz_get_variations', array(''));
+                foreach ($variations as $variation_id) {
+                    cmplz_update_option('cookie_settings', 'use_categories' . $variation_id, true);
+                }
+            }
+
             //only run when changes have been made
             if ($fieldvalue === $prev_value) return;
 
@@ -210,7 +233,6 @@ if (!class_exists("cmplz_wizard")) {
 
             //save last changed date.
             COMPLIANZ()->cookie->update_cookie_policy_date();
-
 
             //if the fieldname is from the "revoke cookie consent on change" list, change the policy if it's changed
             $fields = COMPLIANZ()->config->fields;
@@ -221,14 +243,15 @@ if (!class_exists("cmplz_wizard")) {
 
             //when the brand color is saved, update the cookie settings
             //only if nothing entered yet.
-
-            if ($fieldname == 'brand_color'){
+            if ($fieldname == 'brand_color' && !empty($fieldvalue)){
                 $cookie_settings = get_option('complianz_options_cookie_settings' );
                 if (!isset($cookie_settings['popup_background_color']) || empty($cookie_settings['popup_background_color'])){
                     cmplz_update_option('cookie_settings', 'popup_background_color', $fieldvalue);
                     cmplz_update_option('cookie_settings', 'button_text_color', $fieldvalue);
                 }
             }
+
+
         }
 
         public function get_next_not_empty_step($page, $step)
@@ -393,25 +416,21 @@ if (!class_exists("cmplz_wizard")) {
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
 
             foreach ($fields as $fieldname => $args) {
-                //serror_log("loop $fieldname");
                 $default_args = COMPLIANZ()->field->default_args;
                 $args = wp_parse_args($args, $default_args);
                 if ($args['required']) {
                     //if a condition exists, only check for this field if the condition applies.
                     if (isset($args['condition']) && !COMPLIANZ()->field->condition_applies($args)) {
-                        //error_log("condition does not apply");
                         continue;
                     }
                     $value = COMPLIANZ()->field->get_value($fieldname);
                     if (empty($value)) {
-                        //error_log("$page is not complete");
                         return false;
                     }
                 }
 
             }
 
-            //error_log("$page is complete");
             return true;
         }
 
@@ -450,10 +469,8 @@ if (!class_exists("cmplz_wizard")) {
         {
             for ($step = 1; $step <= $this->total_steps; $step++) {
                 if (COMPLIANZ()->config->has_sections($page, $step)) {
-                    error_log("has sections $page $step");
                     for ($section = 1; $section <= $this->total_sections($page, $step); $section++) {
                         if (!$this->required_fields_completed($page, $step, $section)) {
-                            error_log("not completed $page $step $section");
                             return false;
                         }
                     }
@@ -529,10 +546,10 @@ if (!class_exists("cmplz_wizard")) {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id()) {
                     $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
-                    echo '<div class="cmplz-notice">' . sprintf(__('You are editing a saved draft of document "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
+                    echo '<div class="cmplz-notice">' . sprintf(__('A draft of this document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
                 } elseif ($this->step() == 1) {
                     delete_option('complianz_options_' . $page);
-                    echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", 'complianz'), $link, '</a>') . "</div>";
+                    //echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", 'complianz'), $link, '</a>') . "</div>";
                     if ($page=='processing'){
                         $about = __('processing agreements', 'complianz');
                         $link_article = '<a href="https://complianz.io/what-are-processing-agreements">';
@@ -570,30 +587,30 @@ if (!class_exists("cmplz_wizard")) {
 
                     <?php if ($page == 'wizard' && $this->wizard_completed()) { ?>
                         <div class="cmplz-button cmplz-next">
-                                <span>
+
                         <input class="button" type="submit" name="cmplz-start"
                                value="<?php _e("Make changes", 'complianz') ?>">
-                                </span>
+
                         </div>
 
                     <?php } else { ?>
 
                         <?php if ($step > 1 || $section > 1) { ?>
                             <div class="cmplz-button cmplz-previous icon">
-                            <span>
+
                             <input class="fa button" type="submit"
                                    name="cmplz-previous"
                                    value="<?php _e("Previous", 'complianz') ?>">
-                            </span>
+
                             </div>
                         <?php } ?>
                         <?php if ($step < $this->total_steps) { ?>
                             <div class="cmplz-button cmplz-next">
-                            <span>
+
                                 <input class="fa button" type="submit"
                                        name="cmplz-next"
                                        value="<?php _e("Next", 'complianz') ?>">
-                            </span>
+
                             </div>
                         <?php } ?>
 
@@ -606,20 +623,20 @@ if (!class_exists("cmplz_wizard")) {
                         ?>
                         <?php if (!$hide_finish_button && ($step == $this->total_steps) && $this->all_required_fields_completed($page)) { ?>
                             <div class="cmplz-button cmplz-next">
-                                <span>
+
                                 <input class="button" type="submit" name="cmplz-finish"
                                        value="<?php echo $label ?>">
-                                </span>
+
                             </div>
                         <?php } ?>
 
                         <?php if (($step > 1 || $page == 'wizard') && ($step < $this->total_steps) && !$hide_finish_button && ($page != "wizard" || !$this->wizard_completed())) { ?>
                             <div class="cmplz-button cmplz-save">
-                            <span>
+
                                 <input class="fa button" type="submit"
                                        name="cmplz-save"
                                        value="<?php _e("Save", 'complianz') ?>">
-                            </span>
+
                             </div>
                         <?php } ?>
 
