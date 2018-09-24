@@ -83,8 +83,8 @@ function cmplz_revoke_link($text = false)
 
 function cmplz_get_value($fieldname, $post_id = false, $page = false)
 {
-    //we allow for one random character at the end, for the cookie variationid
-    $original_fieldname = isset(COMPLIANZ()->config->fields[substr($fieldname, 0, -1)]) ? substr($fieldname, 0, -1) : $fieldname;
+    //we strip the number at the end, in case of the cookie variationid
+    $original_fieldname = cmplz_strip_variation_id_from_string($fieldname);
 
     if (!$page && !isset(COMPLIANZ()->config->fields[$original_fieldname])) return false;
 
@@ -122,6 +122,14 @@ function cmplz_get_value($fieldname, $post_id = false, $page = false)
         }
     }
     return $value;
+}
+
+function cmplz_strip_variation_id_from_string($string){
+    $matches = array();
+    if (preg_match('#(\d+)$#', $string, $matches)) {
+        return str_replace($matches[1], '', $string);
+    }
+    return $string;
 }
 
 function cmplz_user_needs_cookie_warning()

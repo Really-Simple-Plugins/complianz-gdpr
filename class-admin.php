@@ -75,7 +75,7 @@ if (!class_exists("cmplz_admin")) {
             if (CMPLZ_LEGAL_VERSION > get_option('cmplz_legal_version',0)){
 
                 update_option('cmplz_plugin_new_features', true);
-                //update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
+                update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
             }
 
 
@@ -137,7 +137,7 @@ if (!class_exists("cmplz_admin")) {
         public function filter_warnings($warnings)
         {
 
-            if (!COMPLIANZ()->wizard->wizard_completed() && COMPLIANZ()->wizard->all_fields_completed()) {
+            if (!COMPLIANZ()->wizard->wizard_completed_once() && COMPLIANZ()->wizard->all_fields_completed()) {
                 $warnings['wizard-incomplete']['label_error'] = __('All fields have been completed, but you have not clicked the finish button yet.', 'complianz');
             }
             return $warnings;
@@ -156,7 +156,7 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'no-cookie-policy';
                 }
 
-                if (!COMPLIANZ()->wizard->wizard_completed()) {
+                if (!COMPLIANZ()->wizard->wizard_completed_once()) {
                     $warnings[] = 'wizard-incomplete';
                 }
 
@@ -428,7 +428,7 @@ if (!class_exists("cmplz_admin")) {
                 <?php
                 //show an overlay when the wizard is not completed at least once yet
 
-                if (!COMPLIANZ()->wizard->wizard_completed() && !get_option('cmplz_wizard_completed_once')) {
+                if (!COMPLIANZ()->wizard->wizard_completed_once()) {
                     ?>
                     <div id="complete_wizard_first_notice">
                         <p>
@@ -500,12 +500,12 @@ if (!class_exists("cmplz_admin")) {
                         <table class="cmplz-steps-table cmplz-dashboard-text">
                             <?php
 
-                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && !COMPLIANZ()->wizard->wizard_completed()) {
+                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && !COMPLIANZ()->wizard->wizard_completed_once()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
                                 $warnings[] = 'wizard-incomplete';
                             }
 
-                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && COMPLIANZ()->wizard->wizard_completed()) {
+                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && COMPLIANZ()->wizard->wizard_completed_once()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
                             }
                             if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
@@ -689,7 +689,7 @@ if (!class_exists("cmplz_admin")) {
                 <h1><?php _e("Cookie warning settings", 'complianz') ?></h1>
 
                 <?php
-                if (!COMPLIANZ()->wizard->wizard_completed()) {
+                if (!COMPLIANZ()->wizard->wizard_completed_once()) {
                     cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz'));
                 } else {
                     if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {

@@ -1,6 +1,6 @@
 === Complianz GDPR ===
 Contributors: RogierLankhorst, ComplianzTeam
-Tags: GPDR, AVG, E-Privacy, eprivacy, Cookie warning, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
+Tags: GPDR, AVG, E-Privacy, eprivacy, Cookie warning, Cookie categories, categories, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
@@ -75,9 +75,11 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 == Change log ==
 = 1.2.0 =
 * Fix: deleted cookies were added again on the next scan
+* Tweak: when cookie database is updated, empty fields get populated from the new data
 * Tweak: script center added below menu for fast editing
 * Tweak: Added new banner position: centered
 * Tweak: Added categories in cookies
+* Tweak: Added category/cookie execution management from Tag Manager
 * Tweak: Added new template: minimal
 
 = 1.1.14 =

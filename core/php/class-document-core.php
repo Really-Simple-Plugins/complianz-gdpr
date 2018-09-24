@@ -160,20 +160,24 @@ if (!class_exists("cmplz_document_core")) {
                     $loop_content = '';
                     if (!empty($values)) {
                         foreach ($values as $value) {
+
                             //line specific for cookies, to hide or show conditionally
-                            if (isset($value['show']) && $value['show'] !== 'on') continue;
+                            if ($fieldname==='used_cookies' && isset($value['show']) && $value['show'] !== 'on') continue;
+
+                            //prevent showing empty cookie entries
+                            if ($fieldname==='used_cookies' && (!isset($value['label']) || $value['label'] == '')) continue;
 
                             if (!is_array($value)) $value = array($value);
                             $fieldnames = array_keys($value);
                             if (count($fieldnames) == 1 && $fieldnames[0] == 'key') continue;
 
                             $loop_section = $element['content'];
-                            foreach ($fieldnames as $fieldname) {
+                            foreach ($fieldnames as $c_fieldname) {
 
-                                $field_value = (isset($value[$fieldname])) ? $value[$fieldname] : '';
+                                $field_value = (isset($value[$c_fieldname])) ? $value[$c_fieldname] : '';
 
                                 if (!empty($field_value) && is_array($field_value)) $field_value = implode(', ', $field_value);
-                                $loop_section = str_replace('[' . $fieldname . ']', $field_value, $loop_section);
+                                $loop_section = str_replace('[' . $c_fieldname . ']', $field_value, $loop_section);
                             }
 
                             $loop_content .= $loop_section;
