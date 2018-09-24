@@ -806,6 +806,7 @@ if (!class_exists("cmplz_cookie")) {
                         $stored_social_media = cmplz_scan_detected_social_media();
                         if (!$stored_social_media) $stored_social_media = array();
                         $social_media = $this->parse_for_social_media($html);
+
                         $social_media = array_unique(array_merge($stored_social_media, $social_media), SORT_REGULAR);
                         update_option('cmplz_detected_social_media', $social_media);
 
@@ -1166,8 +1167,8 @@ if (!class_exists("cmplz_cookie")) {
             $html = '';
 
             $cookies = $this->get_detected_cookies();
-            $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
-            $thirdparty = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
+            $social_media = cmplz_scan_detected_social_media();
+            $thirdparty = cmplz_scan_detected_thirdparty_services();
             if (!$cookies && !$social_media && !$thirdparty) {
                 if ($this->scan_complete()) {
                     $html = __("No cookies detected", 'complianz');
@@ -1192,16 +1193,13 @@ if (!class_exists("cmplz_cookie")) {
                  * Show the social media which are placing cookies
                  * */
                 $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Social media', 'complianz') . "</b></td></tr>";
-                if ($social_media) {
-                    $social_media_types = cmplz_get_value('socialmedia_on_site');
-                    foreach ($social_media_types as $type => $active) {
-
-                        if ($active == 1) {
-                            if (isset($this->known_cookie_keys[$type])) {
-                                $known_cookie = $this->known_cookie_keys[$type];
-                                $html .= '<tr><td></td><td>' . $known_cookie['label'] . "</td></tr>";
-                            }
+                if (count($social_media)>0) {
+                    foreach ($social_media as $key => $type) {
+                        if (isset($this->known_cookie_keys[$type])) {
+                            $known_cookie = $this->known_cookie_keys[$type];
+                            $html .= '<tr><td>'.implode(', ',$known_cookie['used_names']).'</td><td>' . $known_cookie['label'] . "</td></tr>";
                         }
+
                     }
                 } else {
                     $html .= '<tr><td></td><td>---</td></tr>';
@@ -1211,13 +1209,10 @@ if (!class_exists("cmplz_cookie")) {
                  * */
                 $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Third party services', 'complianz') . "</b></td></tr>";
                 if ($thirdparty) {
-                    $thirdparty_types = cmplz_get_value('thirdparty_services_on_site');
-                    foreach ($thirdparty_types as $type => $active) {
-                        if ($active == 1) {
-                            if (isset($this->known_cookie_keys[$type])) {
-                                $known_cookie = $this->known_cookie_keys[$type];
-                                $html .= '<tr><td></td><td>' . $known_cookie['label'] . "</td></tr>";
-                            }
+                    foreach ($thirdparty as $key => $type) {
+                        if (isset($this->known_cookie_keys[$type])) {
+                            $known_cookie = $this->known_cookie_keys[$type];
+                            $html .= '<tr><td>'.implode(', ', $known_cookie['used_names']).'</td><td>' . $known_cookie['label'] . "</td></tr>";
                         }
                     }
                 } else {
