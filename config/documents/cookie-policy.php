@@ -98,7 +98,7 @@ $this->document_elements['cookie-statement'] = array(
                                     <td>' . __("Sharing", 'complianz') . '</td>
                                   </tr><tr>
                                      <td>[used_names]</td>
-                                     <td>' . sprintf(__("For more information see the privacy policy of %s at %s", 'complianz'), '[label]', '[privacy_policy_url]') . '</td>
+                                     <td>[privacy_policy_url]</td>
                                  </tr>
                      </table>',
         'condition' => array(
