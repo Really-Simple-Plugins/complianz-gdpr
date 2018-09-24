@@ -1029,7 +1029,6 @@ if (!class_exists("cmplz_field")) {
             if (!empty($values)) {
                 foreach ($values as $key => $cookie) {
                     if ($cookie['key'] === 'complianz') {
-                        $temp = $values[$key];
                         unset($values[$key]);
                         $new_arr = array();
                         $new_arr[$key] = $cookie;
@@ -1049,27 +1048,22 @@ if (!class_exists("cmplz_field")) {
 
             <?php
             if ($values) {
-                $index = 0;
                 foreach ($values as $key => $value) {
+
                     $value_key = (isset($value['key'])) ? $value['key'] : false;
-                    $default_index = array(
-                        'label' => COMPLIANZ()->cookie->get_default_value('label', $value_key),
-                        'used_names' => COMPLIANZ()->cookie->get_default_value('used_names', $value_key),
-                        'purpose' => COMPLIANZ()->cookie->get_default_value('purpose', $value_key),
-                        'privacy_policy_url' => COMPLIANZ()->cookie->get_default_value('privacy_policy_url', $value_key),
-                        'storage_duration' => COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key),
-                        'description' => COMPLIANZ()->cookie->get_default_value('description', $value_key),
-                        'key' => COMPLIANZ()->cookie->get_default_value('key', $value_key),
-                        'functional' => COMPLIANZ()->cookie->get_default_value('functional', $value_key),
-                        'show' => COMPLIANZ()->cookie->get_default_value('show', $value_key),
-                    );
-                    $index++;
-                    $value = wp_parse_args($value, $default_index);
+                    $value['label'] = empty($value['label']) ? COMPLIANZ()->cookie->get_default_value('label', $value_key) : $value['label'];
+                    $value['used_names'] = empty($value['used_names']) ? COMPLIANZ()->cookie->get_default_value('used_names', $value_key) : $value['used_names'];
+                    $value['purpose'] =empty($value['purpose']) ? COMPLIANZ()->cookie->get_default_value('purpose', $value_key) : $value['purpose'];
+                    $value['privacy_policy_url'] = empty($value['privacy_policy_url']) ? COMPLIANZ()->cookie->get_default_value('privacy_policy_url', $value_key) : $value['privacy_policy_url'];
+                    $value['storage_duration'] = empty($value['storage_duration']) ? COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key) : $value['storage_duration'];
+                    $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
+                    $value['functional'] = empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
+                    $value['show'] = empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('v', $value_key) : $value['show'];
+
+                    //$value = wp_parse_args($value, $default_index);
                     //first, we try if there's a fieldname.
                     if (!empty($value['label'])) {
                         $cookiename = $value['label'];
-                    } elseif (isset(COMPLIANZ()->config->known_cookie_keys[$value['key']])) {
-                        $cookiename = COMPLIANZ()->config->known_cookie_keys[$value['key']]['label'];
                     } elseif (!empty($value['key'])) {
                         $cookiename = $value['key'];
                     } else {
