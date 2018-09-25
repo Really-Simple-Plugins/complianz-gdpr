@@ -16,7 +16,6 @@ jQuery(document).ready(function ($) {
     var ccStatsEnabled = false;
 
     function complianz_enable_scripts(){
-        console.log('enable all scripts');
         if (!ccStatsEnabled) complianz_enable_stats();
 
         //iframes
@@ -42,7 +41,6 @@ jQuery(document).ready(function ($) {
     }
 
     function complianz_enable_stats(){
-        console.log('enable stats');
         $('.cmplz-stats').each(function(i, obj) {
             if ($(this).text().length){
                 var str = $(this).text();
@@ -104,6 +102,18 @@ jQuery(document).ready(function ($) {
     }
 
     function conditionally_show_warning(user){
+        //for Non eu visitors, and DNT users, we just track the no-warning option
+        if (user.do_not_track || !user.is_eu) {
+            complianz_track_status('no-warning');
+        } else {
+            //if no status was saved before, we do it noW
+            if (cmplzGetCookie('cmplz_choice')!=='set') {
+                complianz_track_status('no-choice');
+                cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
+            }
+        }
+
+
         if (!user.do_not_track) {
             if (user.is_eu) {
                 console.log('eu');
@@ -116,11 +126,6 @@ jQuery(document).ready(function ($) {
             }
         }
 
-        //for Non eu visitors, and DNT users, we just track the no-warning option
-        if (user.do_not_track || !user.is_eu) {
-            complianz_track_status('no-warning');
-        }
-
     }
 
     function cmplz_cookie_warning(){
@@ -130,7 +135,6 @@ jQuery(document).ready(function ($) {
                 expiryDays: complianz.cookie_expiry
             },
             onInitialise: function (status) {
-                console.log('init');
                 //runs only when dismissed or accepted
                 ccStatus = status;
                 if (status === 'allow' && this.hasConsented()) {
@@ -141,7 +145,6 @@ jQuery(document).ready(function ($) {
             },
             onStatusChange: function (status, chosenBefore) {
                 ccStatus = status;
-                console.log('status change '+ status)
                 //track here only for non categorie style, the default one is tracked on save.
                 if (!complianz.use_categories) {
                     complianz_track_status();
@@ -198,8 +201,6 @@ jQuery(document).ready(function ($) {
         }, function (popup) {
             ccName = popup;
             //this function always runs
-            console.log('popup');
-            console.log(ccStatus);
             if (cmplzUsesCategories()) {
                 //handle category checkboxes
                 cmplzSetCategoryCheckboxes();
@@ -237,8 +238,6 @@ jQuery(document).ready(function ($) {
         if (cmplzUsesCategories()) {
             cmplzSaveCategories();
             cmplzFireCategories();
-        } else {
-            console.log('no categories used');
         }
 
         //track status on saving of settings.
@@ -377,7 +376,6 @@ jQuery(document).ready(function ($) {
                 if ($('#cmplz_'+i).is(":checked")){
                     cmplzSetCookie('cmplz_event_'+i, 'allow', complianz.cookie_expiry);
                 } else {
-                    console.log('set event_'+i+' denied');
                     cmplzSetCookie('cmplz_event_'+i, 'deny', complianz.cookie_expiry);
                 }
             }

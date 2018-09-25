@@ -3,7 +3,7 @@
  * Plugin Name: Complianz GDPR
  * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy
- * Version: 1.2.0
+ * Version: 1.2.1
  * Text Domain: complianz
  * Domain Path: /config/languages
  * Author: RogierLankhorst, Complianz team
