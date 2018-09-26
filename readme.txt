@@ -73,6 +73,9 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.2.3 =
+* Fix: revoke button showed too large because of changes for the center template
+
 = 1.2.2 =
 * Fix: when no social media was found, this could result in an error on showing the scan results
 

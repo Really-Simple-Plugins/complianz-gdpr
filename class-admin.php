@@ -106,10 +106,10 @@ if (!class_exists("cmplz_admin")) {
             wp_enqueue_style('cmplz');
 
             wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('cmplz-ace', cmplz_url . "assets/ace/ace.js", array(), cmplz_version, false);
+            wp_enqueue_script('cmplz-ace', cmplz_url . "assets/ace/ace.js", array('jquery'), cmplz_version, false);
 
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-            wp_enqueue_script('cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array('wp-color-picker'), cmplz_version, true);
+            wp_enqueue_script('cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array('wp-color-picker', 'jquery'), cmplz_version, true);
 
             $progress = COMPLIANZ()->cookie->get_progress_count();
             wp_localize_script(
