@@ -224,7 +224,7 @@ jQuery(document).ready(function ($) {
                 name: 'complianz_config',
                 expiryDays: 1
             },
-            "revokeBtn": '<div class="cc-revoke cc-bottom {{classes}}">' + ccRevokeText + '</div>',
+            "revokeBtn": '<div class="cc-revoke {{classes}}">' + ccRevokeText + '</div>',
             "palette": {
                 "popup": {
                     "background": $('input[name=cmplz_popup_background_color' + variation_id + ']').val(),

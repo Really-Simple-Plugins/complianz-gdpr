@@ -162,7 +162,7 @@ jQuery(document).ready(function ($) {
                     //location.reload();
                 }
             },
-             "revokeBtn": '<div class="cc-revoke cc-bottom {{classes}}">' + complianz.revoke + '</div>',
+             "revokeBtn": '<div class="cc-revoke {{classes}}">' + complianz.revoke + '</div>',
             "palette": {
                 "popup": {
                     "background": complianz.popup_background_color,

@@ -5,7 +5,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.2.1
+Stable tag: 1.2.3
 
 Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
@@ -73,6 +73,9 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.2.2 =
+* Fix: when no social media was found, this could result in an error on showing the scan results
+
 = 1.2.1 =
 * Tweak: show social media and third party services from actual detected list, not from wizard.
 
