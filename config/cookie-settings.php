@@ -156,6 +156,16 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
             'condition' => array('use_categories' => false),
         ),
+        'hide_revoke' => array(
+            'page' => 'cookie_settings',
+            'type' => 'checkbox',
+            'translatable' => true,
+            'default' => false,
+            'label' => __("Hide revoke button", 'complianz'),
+            'table' => true,
+            'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
+            'has_variations' => true,
+        ),
         'readmore' => array(
             'page' => 'cookie_settings',
             'type' => 'text',

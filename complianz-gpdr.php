@@ -124,18 +124,11 @@ if (!class_exists('COMPLIANZ')) {
             add_action('init', 'cmplz_init_cookie_blocker');
             add_action('wp_ajax_nopriv_cmplz_user_settings', 'cmplz_ajax_user_settings');
             add_action('wp_ajax_cmplz_user_settings', 'cmplz_ajax_user_settings');
-            add_action('wp_ajax_nopriv_cmplz_accept', array($this,  'ajax_accept'));
-            add_action('wp_ajax_cmplz_accept', array($this, 'ajax_accept'));
+            add_action('wp_ajax_nopriv_cmplz_track_status', 'cmplz_ajax_track_status');
+            add_action('wp_ajax_cmplz_track_status',  'cmplz_ajax_track_status');
         }
 
-        /*
-         * placeholder function for the accept script
-         * @todo: remove this function from the cookieconfig code.
-         * to do this, the free and premium scripts should be split
-         *
-         * */
-
-        public function ajax_accept(){
+        public function cmplz_ajax_track_status(){
             $response = json_encode(array(
                 'success' => true,
             ));
