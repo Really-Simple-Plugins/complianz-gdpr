@@ -58,6 +58,19 @@ function cmplz_fields_filter($fields){
 }
 
 
+function cmplz_get_template($file){
+
+    $file = trailingslashit(cmplz_path) .'templates/' . $file;
+    $theme_file = trailingslashit(get_stylesheet_directory()) . dirname(cmplz_path) .  $file;
+
+    if (file_exists($theme_file)) {
+        $file = $theme_file;
+    }
+    $contents = file_get_contents($file);
+    return $contents;
+}
+
+
 function cmplz_tagmanager_conditional_helptext(){
     if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()){
         $text = __("Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.","complianz");
@@ -168,6 +181,8 @@ function cmplz_scan_detected_social_media()
 
     //nothing scanned yet, or nothing found
     if (!$social_media || (count($social_media) == 0)) return false;
+    error_log("detected");
+    error_log(print_r($social_media, true));
 
     return $social_media;
 }
@@ -358,9 +373,6 @@ function cmplz_init_cookie_blocker(){
 
 function cmplz_ajax_user_settings(){
     $is_eu = true;
-
-    //track a visit
-    if (class_exists('cmplz_statistics')) COMPLIANZ()->statistics->page_view();
 
     if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled()) {
         $is_eu = COMPLIANZ()->geoip->is_eu();

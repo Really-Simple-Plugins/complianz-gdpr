@@ -1,6 +1,7 @@
 'use strict';
 
 function complianz_deleteAllCookies() {
+    console.log('clearing all cookies on own domain');
     document.cookie.split(";").forEach(
     function (c) {
         if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
@@ -109,10 +110,8 @@ jQuery(document).ready(function ($) {
             //if no status was saved before, we do it noW
             if (cmplzGetCookie('cmplz_choice')!=='set') {
                 complianz_track_status('no-choice');
-                cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
             }
         }
-
 
         if (!user.do_not_track) {
             if (user.is_eu) {
@@ -141,12 +140,11 @@ jQuery(document).ready(function ($) {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
                 }
-
             },
             onStatusChange: function (status, chosenBefore) {
                 ccStatus = status;
-                //track here only for non categorie style, the default one is tracked on save.
-                if (!complianz.use_categories) {
+                //track here only for non category style, the default one is tracked on save.
+                if (!cmplzUsesCategories()) {
                     complianz_track_status();
                 }
 
@@ -156,14 +154,14 @@ jQuery(document).ready(function ($) {
                 }
             },
             onRevokeChoice: function () {
-                if (!complianz.use_categories && ccStatus==='allow') {
-                    //complianz_deleteAllCookies();
+                if (!cmplzUsesCategories() && ccStatus==='allow') {
+                    complianz_deleteAllCookies();
                     complianz_track_status();
                     //location.reload();
                 }
             },
-             "revokeBtn": '<div class="cc-revoke {{classes}}">' + complianz.revoke + '</div>',
-            "palette": {
+             "revokeBtn": '<div class="cc-revoke ' + complianz.hide_revoke + ' {{classes}}">' + complianz.revoke + '</div>',
+             "palette": {
                 "popup": {
                     "background": complianz.popup_background_color,
                     "text": complianz.popup_text_color
@@ -243,6 +241,10 @@ jQuery(document).ready(function ($) {
         //track status on saving of settings.
         complianz_track_status();
 
+        if (cmplzGetHighestAcceptance()==='no-choice' || cmplzGetHighestAcceptance() === 'functional'){
+            complianz_deleteAllCookies();
+        }
+
         ccName.close();
         $('.cc-revoke').fadeIn();
 
@@ -251,13 +253,17 @@ jQuery(document).ready(function ($) {
     function complianz_track_status(status){
         status = typeof status !== 'undefined' ? status : false;
 
+        //keep track of the fact that the status was saved at least once, for the no choice status
+        cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
+
         if (!status) status = cmplzGetHighestAcceptance();
+
         $.ajax({
             type: "GET",
             url: complianz.url,
             dataType: 'json',
             data: ({
-                action: 'cmplz_accept',
+                action: 'cmplz_track_status',
                 status: status
             })
         });
@@ -296,6 +302,7 @@ jQuery(document).ready(function ($) {
     function cmplzGetHighestAcceptance(){
 
         //if all is selected, it's automatically the highest
+        var status = cmplzGetCookie('complianz_consent_status');
         if (cmplzUsesCategories()){
 
             if (cmplzGetCookie('cmplz_all')==='allow'){
@@ -315,7 +322,8 @@ jQuery(document).ready(function ($) {
             }
 
         } else {
-            var status = cmplzGetCookie('complianz_consent_status');
+
+
             if (status === 'allow') {
                 return 'all';
             }
@@ -424,7 +432,6 @@ jQuery(document).ready(function ($) {
     *
     * */
     function cmplzUsesCategories(){
-        var cats =  $('#cmplz_functional').length;
-        return cats;
+        return $('#cmplz_functional').length!==0;
     }
 });

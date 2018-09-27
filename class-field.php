@@ -1058,6 +1058,7 @@ if (!class_exists("cmplz_field")) {
                     $value['storage_duration'] = empty($value['storage_duration']) ? COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key) : $value['storage_duration'];
                     $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
                     $value['functional'] = empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
+                    $value['key'] = empty($value['key']) ? COMPLIANZ()->cookie->get_default_value('key', $value_key) : $value['key'];
                     $value['show'] = empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('v', $value_key) : $value['show'];
 
                     //$value = wp_parse_args($value, $default_index);

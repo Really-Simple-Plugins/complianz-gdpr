@@ -131,6 +131,10 @@ jQuery(document).ready(function ($) {
         cmplz_cookie_warning();
     });
 
+    $(document).on('change', 'input[name=cmplz_hide_revoke' + variation_id + ']', function () {
+        cmplz_cookie_warning();
+    });
+
     $(document).on('change', 'input[name=cmplz_use_tagmanager_categories' + variation_id + ']', function () {
         cmplz_cookie_warning();
     });
@@ -147,6 +151,12 @@ jQuery(document).ready(function ($) {
         }
 
         var ccCategories = $('input[name=cmplz_use_categories' + variation_id + ']').is(':checked');
+        var ccHideRevoke = $('input[name=cmplz_hide_revoke' + variation_id + ']').is(':checked');
+        if (ccHideRevoke) {
+            ccHideRevoke = 'cc-hidden';
+        } else {
+            ccHideRevoke = '';
+        }
         var ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
         var ccMessage = $('textarea[name=cmplz_message' + variation_id + ']').val();
         var ccAllow = $('input[name=cmplz_accept' + variation_id + ']').val();
@@ -224,7 +234,7 @@ jQuery(document).ready(function ($) {
                 name: 'complianz_config',
                 expiryDays: 1
             },
-            "revokeBtn": '<div class="cc-revoke {{classes}}">' + ccRevokeText + '</div>',
+            "revokeBtn": '<div class="cc-revoke ' + ccHideRevoke + ' {{classes}}">' + ccRevokeText + '</div>',
             "palette": {
                 "popup": {
                     "background": $('input[name=cmplz_popup_background_color' + variation_id + ']').val(),
