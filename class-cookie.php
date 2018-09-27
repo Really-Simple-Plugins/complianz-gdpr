@@ -612,7 +612,7 @@ if (!class_exists("cmplz_cookie")) {
         {
             $statistics = cmplz_get_value('compile_statistics');
             if ($statistics === 'google-tag-manager') {
-                $script = cmplz_get_template('google-analytics.js');
+                $script = cmplz_get_template('google-tag-manager.js');
                 $script = str_replace('[GTM_CODE]', cmplz_get_value("GTM_code"), $script);
             } elseif ($statistics === 'google-analytics') {
                 $anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
