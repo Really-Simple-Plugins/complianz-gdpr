@@ -1,5 +1,6 @@
 === Complianz GDPR ===
 Contributors: RogierLankhorst, ComplianzTeam
+Donate link: https://paypal.me/complianz
 Tags: GPDR, AVG, E-Privacy, eprivacy, Cookie warning, Cookie categories, categories, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
 Requires at least: 4.6
 License: GPL2
