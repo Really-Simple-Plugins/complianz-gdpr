@@ -3,7 +3,7 @@
  * Plugin Name: Complianz GDPR
  * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy
- * Version: 1.2.3
+ * Version: 1.2.4
  * Text Domain: complianz
  * Domain Path: /config/languages
  * Author: RogierLankhorst, Complianz team
@@ -54,6 +54,8 @@ if (!class_exists('COMPLIANZ')) {
                     self::$instance->includes();
 
                     self::$instance->config = new cmplz_config();
+                    self::$instance->integrations = new cmplz_integrations();
+
                     if (is_admin()) {
                         self::$instance->admin = new cmplz_admin();
                         self::$instance->field = new cmplz_field();
@@ -109,6 +111,7 @@ if (!class_exists('COMPLIANZ')) {
             }
 
             require_once(cmplz_path . 'class-cookie.php');
+            require_once(cmplz_path . 'integrations.php');
 
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-document-core.php');

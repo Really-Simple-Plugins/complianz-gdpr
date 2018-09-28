@@ -50,7 +50,7 @@ function cmplz_purpose_personal_data(){
 
 
 
-add_filter('complianz_default_value', 'cmplz_set_default', 10, 2);
+add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
 

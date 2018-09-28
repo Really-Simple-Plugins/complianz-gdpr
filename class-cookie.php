@@ -54,12 +54,12 @@ if (!class_exists("cmplz_cookie")) {
 
             add_action('plugins_loaded', array($this, 'rescan'), 11, 2);
 
-            add_action('cmplz_notice_statistics_usage', array($this, 'show_statistics_usage_notice'), 10, 1);
+            add_action('cmplz_notice_compile_statistics', array($this, 'show_compile_statistics_notice'), 10, 1);
             add_action('cmplz_notice_statistical_cookies_usage', array($this, 'show_statistical_cookies_usage_notice'), 10, 1);
-            add_action('cmplz_notice_cookie_usage', array($this, 'show_cookie_usage_notice'), 10, 1);
+            add_action('cmplz_notice_uses_cookies', array($this, 'show_cookie_usage_notice'), 10, 1);
             add_action('cmplz_notice_statistics_script', array($this, 'statistics_script_notice'));
 
-            add_filter('complianz_default_value', array($this, 'set_default'), 10, 2);
+            add_filter('cmplz_default_value', array($this, 'set_default'), 10, 2);
 
             //callback from settings
             add_action('cmplz_cookie_scan', array($this, 'scan_progress'), 10, 1);
@@ -98,10 +98,12 @@ if (!class_exists("cmplz_cookie")) {
          *
          * */
 
-        public function show_statistics_usage_notice($args)
+        public function show_compile_statistics_notice($args)
         {
-            if ($this->uses_google_analytics() || $this->uses_matomo()) {
-                $type = $this->uses_google_analytics() ? __("Google Analytics", 'complianz') : __("Matomo", 'complianz');
+            if ($this->site_uses_cookie_of_type('google-analytics') || $this->site_uses_cookie_of_type('matomo')) {
+
+                $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz') : __("Matomo", 'complianz');
+
                 ?>
                 <div class="cmplz-notice">
                     <?php
@@ -145,9 +147,9 @@ if (!class_exists("cmplz_cookie")) {
 
         public function show_statistical_cookies_usage_notice($args)
         {
-            if ($this->uses_matomo()) {
+            if ($this->site_uses_cookie_of_type('matomo')) {
                 $type = __("Matomo", 'complianz');
-            } elseif ($this->uses_google_analytics()) {
+            } elseif ($this->site_uses_cookie_of_type('google-analytics') ) {
                 $type = __("Google Analytics", 'complianz');
             } else {
                 return;
@@ -206,11 +208,11 @@ if (!class_exists("cmplz_cookie")) {
         {
 
             if ($fieldname == 'compile_statistics') {
-                if ($this->uses_google_analytics()) {
+                if ($this->site_uses_cookie_of_type('google-analytics')) {
                     return 'google-analytics';
                 }
 
-                if ($this->uses_matomo()) {
+                if ($this->site_uses_cookie_of_type('matomo')) {
                     return 'matomo';
                 }
             }
@@ -612,7 +614,7 @@ if (!class_exists("cmplz_cookie")) {
         {
             $statistics = cmplz_get_value('compile_statistics');
             if ($statistics === 'google-tag-manager') {
-                $script = cmplz_get_template('google-analytics.js');
+                $script = cmplz_get_template('google-tag-manager.js');
                 $script = str_replace('[GTM_CODE]', cmplz_get_value("GTM_code"), $script);
             } elseif ($statistics === 'google-analytics') {
                 $anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";

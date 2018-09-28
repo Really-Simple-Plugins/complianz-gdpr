@@ -92,8 +92,15 @@ if (!class_exists("cmplz_document_core")) {
             }
 
             if (isset($element['callback_condition'])) {
+                $invert = false;
                 $func = $element['callback_condition'];
+                if (strpos($func, 'NOT ')!== FALSE){
+                    $invert = true;
+                    $func = str_replace('NOT ', '', $func);
+                }
+
                 $show_field = $func();
+                if ($invert) $show_field = !$show_field;
                 if (!$show_field) return false;
             }
             return true;
@@ -281,6 +288,8 @@ if (!class_exists("cmplz_document_core")) {
 
             //some custom elements
             $html = str_replace("[cookie_accept_text]", cmplz_get_value('accept'), $html);
+            $html = str_replace("[cookie_save_preferences_text]", cmplz_get_value('save_preferences'), $html);
+
             $html = str_replace("[domain]", cmplz_esc_url_raw(get_site_url()), $html);
             $html = str_replace("[privacy_policy_url]", '<a href="'.cmplz_esc_url_raw(get_permalink(get_option('wp_page_for_privacy_policy'))).'">'.__('Privacy policy','complianz').'</a>', $html);
             $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(get_option('cookie_policy_url')), $html);

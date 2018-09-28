@@ -150,6 +150,27 @@ function cmplz_user_needs_cookie_warning()
     return COMPLIANZ()->cookie->user_needs_cookie_warning();
 }
 
+/*
+ *
+ * */
+
+function cmplz_user_needs_cookie_warning_cats(){
+    if (cmplz_user_needs_cookie_warning() && cmplz_get_value('use_categories')) {
+        return true;
+    }
+
+    return false;
+}
+
+function cmplz_user_needs_cookie_warning_no_cats(){
+    if (cmplz_user_needs_cookie_warning() && !cmplz_get_value('use_categories')) {
+        return true;
+    }
+
+    return false;
+}
+
+
 function cmplz_company_in_eu()
 {
     $country_code = cmplz_get_value('country_company');

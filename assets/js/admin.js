@@ -275,7 +275,6 @@ jQuery(document).ready(function ($) {
 
     //statistics, handle graphs visibility
 
-
     var cmplz_visible_stat = '#bar_pct_show_non_eu_container';
     $(document).on('change', 'select[name=eu]', function(){
 
@@ -288,7 +287,8 @@ jQuery(document).ready(function ($) {
 
     $(document).on('change', 'select[name=stats_type]', function(){
         $(cmplz_visible_stat).hide();
-        var eu = $('select[name=eu]').val();
+        var eu = 'show_non_eu';
+        if ($('select[name=eu]').length) eu = $('select[name=eu]').val();
         var type = $('select[name=stats_type]').val();
         cmplz_visible_stat = '#bar_'+type+'_'+eu+'_container';
         $(cmplz_visible_stat).fadeIn();

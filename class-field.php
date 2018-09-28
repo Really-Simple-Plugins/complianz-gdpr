@@ -53,7 +53,6 @@ if (!class_exists("cmplz_field")) {
                 'condition' => false,
                 'callback' => false,
                 'placeholder' => '',
-                'notice_callback' => false,
                 'optional' => false,
                 'disabled' => false,
                 'has_variations' => false,
@@ -380,9 +379,8 @@ if (!class_exists("cmplz_field")) {
                 echo '</div><div class="cmplz-field">';
             }
 
-            if ($args['notice_callback']) {
-                do_action('cmplz_notice_' . $args['notice_callback'], $args);
-            }
+            do_action('cmplz_notice_' . $args['fieldname'], $args);
+
         }
 
         public
@@ -1059,7 +1057,7 @@ if (!class_exists("cmplz_field")) {
                     $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
                     $value['functional'] = empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
                     $value['key'] = empty($value['key']) ? COMPLIANZ()->cookie->get_default_value('key', $value_key) : $value['key'];
-                    $value['show'] = empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('v', $value_key) : $value['show'];
+                    $value['show'] = empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('show', $value_key) : $value['show'];
 
                     //$value = wp_parse_args($value, $default_index);
                     //first, we try if there's a fieldname.
@@ -1350,7 +1348,8 @@ if (!class_exists("cmplz_field")) {
             //allow for cookie warning variations
             if (isset($fields[$fieldname]['has_variations']) && $fields[$fieldname]['has_variations']) $fieldname .= $this->variation_id;
 
-            $value = isset($options[$fieldname]) ? $options[$fieldname] : apply_filters('complianz_default_value', $default, $fieldname);
+            //if no value isset, pass a default
+            $value = isset($options[$fieldname]) ? $options[$fieldname] : apply_filters('cmplz_default_value', $default, $fieldname);
             return $value;
         }
 
