@@ -142,13 +142,11 @@ if (!class_exists("cmplz_wizard")) {
 
                 if (COMPLIANZ()->document->page_required($page)) {
                     COMPLIANZ()->document->create_page($type);
-                } else {
-                    //COMPLIANZ()->document->delete_page($type);
                 }
             }
 
             //if the plugins page is reviewed, we can reset the privacy policy suggestions from WordPress.
-            if (($this->step('wizard') == STEP_PLUGINS) && COMPLIANZ()->document->page_required('privacy-statement')){
+            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && COMPLIANZ()->document->page_required('privacy-statement')){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
                 WP_Privacy_Policy_Content::_policy_page_updated($policy_page_id);
                 //check again, to update the cache.
@@ -268,7 +266,6 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_section($page, $step, $section)
         {
-            $start_with = $section;
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
                 $section++;
                 if ($section >= 20) return false;
