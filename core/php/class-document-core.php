@@ -66,6 +66,7 @@ if (!class_exists("cmplz_document_core")) {
 
                 foreach ($element['condition'] as $question => $condition_answer) {
                     if ($condition_answer == 'loop') continue;
+
                     if (!isset($fields[$question]['type'])) return false;
 
                     $type = $fields[$question]['type'];
@@ -79,14 +80,15 @@ if (!class_exists("cmplz_document_core")) {
 
                     if ($type == 'multicheckbox') {
                         if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
-                            return $invert? true: false;
+                            $condition_met = false;
+                        } else {
+                            $condition_met =true;
                         }
-                    } else {
-                        if ($value != $condition_answer) {
-                            return $invert? true: false;
-                        }
-                    }
 
+                    } else {
+                        $condition_met = ($value == $condition_answer);
+                    }
+                    return $invert ? !$condition_met : $condition_met;
                 }
 
             }

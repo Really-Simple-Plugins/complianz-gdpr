@@ -63,7 +63,7 @@ $this->document_elements['cookie-statement'] = array(
     //ads
     'cookies-ads-yes' => array(
         'subtitle' => __('Advertising cookies', 'complianz'),
-        'content' => sprintf(__('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same add more than once for example.', 'complianz'), '[domain]'),
+        'content' => sprintf(__('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', 'complianz'), '[domain]'),
         'condition' => array('uses_ad_cookies' => 'yes'),
     ),
 

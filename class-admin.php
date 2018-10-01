@@ -325,15 +325,17 @@ if (!class_exists("cmplz_admin")) {
 
         public function dashboard_tools()
         {
-            ?>
-            <li><i class="fas fa-plus"></i><a
-                        href="<?php echo admin_url('tools.php?page=export_personal_data') ?>"><?php _e("Export personal data", "complianz"); ?></a>
-            </li>
-            <li><i class="fas fa-plus"></i><a
-                        href="<?php echo admin_url('tools.php?page=remove_personal_data') ?>"><?php _e("Erase personal data", "complianz"); ?></a>
-            </li>
+            if (cmplz_wp_privacy_version()) {
+                ?>
+                <li><i class="fas fa-plus"></i><a
+                            href="<?php echo admin_url('tools.php?page=export_personal_data') ?>"><?php _e("Export personal data", "complianz"); ?></a>
+                </li>
+                <li><i class="fas fa-plus"></i><a
+                            href="<?php echo admin_url('tools.php?page=remove_personal_data') ?>"><?php _e("Erase personal data", "complianz"); ?></a>
+                </li>
 
-            <?php
+                <?php
+            }
         }
 
 
