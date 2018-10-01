@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 4.9.7
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 
 Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
@@ -74,6 +74,9 @@ Advertising, or marketing cookies, are cookies that are being placed for adverti
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 
 == Change log ==
+= 1.2.5 =
+* Fix: typo in cookie policy:  add vs ad
+
 = 1.2.4 =
 * Tweak: added monsterinsights integration
 * Tweak: added a hide revoke button option in the settings
@@ -81,6 +84,7 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 * Fix: cookie policy text was not 100% matched when the categories option was selected for the banner.
 * Fix: tracking of statistics added new user when the status was not changed.
 * Fix: center revoke button not in same style as other revoke buttons
+* Fix: Privacy Policy did not show the correct paragraph on sharing with other parties
 
 = 1.2.3 =
 * Fix: revoke button showed too large because of changes for the center template
