@@ -15,6 +15,8 @@ jQuery(document).ready(function ($) {
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
+    var ccType;
+    var ccDismiss;
 
     function complianz_enable_scripts(){
         if (!ccStatsEnabled) complianz_enable_stats();
@@ -83,8 +85,8 @@ jQuery(document).ready(function ($) {
         cmplz_user_data = JSON.parse(sessionStorage.cmplz_user_data);
     }
 
-    //if not, reload
-    if (cmplz_user_data.length===0) {
+    //if not, reload. As region is new, we also check for this feature, so we know which version of data we use.
+    if (cmplz_user_data.length===0 || (typeof cmplz_user_data.region === 'undefined')) {
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -95,30 +97,43 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 cmplz_user_data = response;
                 sessionStorage.cmplz_user_data = JSON.stringify(cmplz_user_data);
-                conditionally_show_warning(cmplz_user_data);
+                conditionally_show_warning();
             }
         });
     } else {
-        conditionally_show_warning(cmplz_user_data);
+        conditionally_show_warning();
     }
 
-    function conditionally_show_warning(user){
+    function conditionally_show_warning(){
+        //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
+        complianz = cmplzMergeObject(complianz, cmplz_user_data);
+        cmplzCheckCookiePolicyID();
+
+        ccType = complianz.type;
+        ccDismiss = complianz.dismiss;
         //for Non eu visitors, and DNT users, we just track the no-warning option
-        if (user.do_not_track || !user.is_eu) {
+        if (cmplz_user_data.do_not_track || (cmplz_user_data.region!=='eu')) {
             complianz_track_status('no-warning');
         } else {
-            //if no status was saved before, we do it noW
+            //if no status was saved before, we do it now
             if (cmplzGetCookie('cmplz_choice')!=='set') {
                 complianz_track_status('no-choice');
             }
         }
 
-        if (!user.do_not_track) {
-            if (user.is_eu) {
+        if (!cmplz_user_data.do_not_track) {
+            if (cmplz_user_data.region==='eu') {
                 console.log('eu');
                 cmplz_cookie_warning();
+            }else if (cmplz_user_data.region==='us') {
+                console.log('us, informational warning');
+                ccType = 'info';
+                ccDismiss = complianz.accept_informational;
+                cmplz_cookie_warning();
+                complianz_enable_cookies();
+                complianz_enable_scripts();
             } else {
-                console.log('not eu');
+                console.log('other region, no cookie warning');
                 complianz_enable_cookies();
                 complianz_enable_scripts();
                 //cookie blocker is default enabled, so all scripts need to be enabled.
@@ -128,6 +143,9 @@ jQuery(document).ready(function ($) {
     }
 
     function cmplz_cookie_warning(){
+        //apply custom css
+        if (complianz.use_custom_cookie_css) $('<style>').prop("type", "text/css").html(complianz.custom_css).appendTo("head");
+
         window.cookieconsent.initialise({
             cookie: {
                 name: 'complianz_consent_status',
@@ -149,6 +167,7 @@ jQuery(document).ready(function ($) {
                 }
 
                 if (status === 'allow') {
+                    cmplzSetAcceptedCookiePolicyID();
                     complianz_enable_cookies();
                     complianz_enable_scripts();
                 }
@@ -175,7 +194,7 @@ jQuery(document).ready(function ($) {
             "theme": complianz.theme,
             "static": complianz.static,
             "position": complianz.position,
-            "type" : complianz.type,
+            "type" : ccType,
             "layout": complianz.layout,
             "layouts": {
                 'categories-layout': '{{messagelink}}{{categories-checkboxes}}{{compliance}}',
@@ -191,7 +210,7 @@ jQuery(document).ready(function ($) {
             "content": {
                 "save_preferences" : complianz.save_preferences,
                 "message": complianz.message,
-                "dismiss": complianz.dismiss,
+                "dismiss": ccDismiss,
                 "allow": complianz.accept,
                 "link": complianz.readmore,
                 "href": complianz.readmore_url
@@ -214,7 +233,6 @@ jQuery(document).ready(function ($) {
                 $('#cmplz_all:checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
                 $('.cc-save').css({"border-color" : complianz.border_color ,"background-color": complianz.button_background_color, "color" : complianz.button_text_color});
                 $('.cc-check svg').css({"stroke": complianz.popup_text_color});
-
 
                 cmplzFireCategories();
 
@@ -243,6 +261,8 @@ jQuery(document).ready(function ($) {
 
         if (cmplzGetHighestAcceptance()==='no-choice' || cmplzGetHighestAcceptance() === 'functional'){
             complianz_deleteAllCookies();
+        } else {
+            cmplzSetAcceptedCookiePolicyID();
         }
 
         ccName.close();
@@ -434,4 +454,42 @@ jQuery(document).ready(function ($) {
     function cmplzUsesCategories(){
         return $('#cmplz_functional').length!==0;
     }
+
+    function cmplzMergeObject(target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var key in source) {
+                if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    }
+
+
+    /*
+     * If current cookie policy has changed, reset cookie consent
+     *
+     * */
+
+    function cmplzCheckCookiePolicyID() {
+        var user_policy_id = cmplzGetCookie('complianz_policy_id');
+        if (user_policy_id && (complianz.current_policy_id != user_policy_id)) {
+            console.log('reset cookie consent, policy changed');
+            cmplzSetCookie("complianz_consent_status", "", 0);
+        }
+    }
+
+    /*
+    *
+    * If a policy is accepted, save this in the user policy id
+    *
+    * */
+
+    function cmplzSetAcceptedCookiePolicyID(){
+        cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
+
+    }
+
 });

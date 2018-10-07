@@ -82,6 +82,9 @@ $this->fields = $this->fields + array(
             'help' => __('When a users clicks this button, the message is dismissed, without activating all cookies. This can be described as a "dismiss" button or as an "activate functional cookies" only button.','complianz'),
             'has_variations' => true,
             'condition' => array('use_categories' => false),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'save_preferences' => array(
             'page' => 'cookie_settings',
@@ -92,6 +95,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'view_preferences' => array(
             'page' => 'cookie_settings',
@@ -102,6 +108,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'category_functional' => array(
             'page' => 'cookie_settings',
@@ -112,6 +121,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'category_all' => array(
             'page' => 'cookie_settings',
@@ -122,6 +134,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'category_stats' => array(
             'page' => 'cookie_settings',
@@ -133,6 +148,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'accept' => array(
             'page' => 'cookie_settings',
@@ -144,6 +162,22 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => false),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
+        ),
+        'accept_informational' => array(
+            'page' => 'cookie_settings',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Accept", 'complianz'),
+            'comment' => __('This text is shown in informational cookie banner, which is used for US visitors.', 'complianz'),
+            'label' => __("Accept, US cookie warning", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
         ),
         'revoke' => array(
             'page' => 'cookie_settings',
@@ -155,13 +189,16 @@ $this->fields = $this->fields + array(
             'help'  => __('The text that appears on the revoke button, which shows when a choice has been made in the cookie warning.','complianz'),
             'has_variations' => true,
             'condition' => array('use_categories' => false),
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
         'hide_revoke' => array(
             'page' => 'cookie_settings',
             'type' => 'checkbox',
             'translatable' => true,
             'default' => false,
-            'label' => __("Hide revoke button", 'complianz'),
+            'label' => __("Hide settings button", 'complianz'),
             'table' => true,
             'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
             'has_variations' => true,

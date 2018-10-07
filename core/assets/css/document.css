@@ -1,0 +1,126 @@
+#cmplz-document {
+    max-width:580px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Buttons styles */
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*honeypot */
+#cmplz-document .dnsmpd-firstname{
+    display:none !important;
+}
+#cmplz-document .alert {
+    padding: 7px;
+    color: white;
+    margin:10px 0;
+}
+#cmplz-document .alert.error {
+    background-color: #f44336;
+}
+
+#cmplz-document .alert.success {
+    background-color: green;
+}
+
+#cmplz-document .close {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#cmplz-document .close:hover {
+    color: black;
+}
+
+
+#cmplz-document a.cc-revoke-custom {
+    margin-right: 1em; /* remove this while use*/
+    margin-bottom: 1em; /* remove this while use*/
+    display: inline-block;
+    outline: none;
+    *zoom: 1;
+    text-align: center;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 300;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.01);
+    border-radius: 3px;
+    font-size: 0.9375em;
+    padding: 0.5375em 1.375em;
+    cursor: pointer;
+    color:#fff;
+    background-color:#4682B4;
+    border-color: #4682B4;
+}
+
+
+#cmplz-document a.cc-revoke-custom:hover {
+    background: #fff;
+    color: #4682B4;
+    border-color: #4682B4;
+}
+
+
+#cmplz-document h2, #cmplz-document h3 {
+    font-size: 22px;
+    text-align: left;
+    margin-top: 15px;
+    text-transform: initial;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c6c6c6;
+    margin-bottom: 10px;
+}
+
+#cmplz-document h4 {
+    font-size: 18px;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-transform: initial;
+}
+
+#cmplz-document h3.annex, h4.annex {
+    font-weight: bold;
+}
+
+#cmplz-document span h3 {
+    font-size:14px;
+    border-bottom:0;
+}
+
+#cmplz-document, #cmplz-document p, #cmplz-document li {
+    font-size: 14px;
+    margin-top: 0;
+}
+
+#cmplz-document table {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+#cmplz-document table td {
+    text-align: left;
+    width:33.33%
+}
+
+#cmplz-document .subtitle {
+    font-weight:bold;
+    margin-top:10px;
+}
+

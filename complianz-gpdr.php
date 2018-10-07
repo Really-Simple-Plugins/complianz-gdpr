@@ -55,6 +55,8 @@ if (!class_exists('COMPLIANZ')) {
 
                     self::$instance->config = new cmplz_config();
                     self::$instance->integrations = new cmplz_integrations();
+                    self::$instance->company = new cmplz_company();
+                    if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
 
                     if (is_admin()) {
                         self::$instance->admin = new cmplz_admin();
@@ -64,7 +66,9 @@ if (!class_exists('COMPLIANZ')) {
 
                     self::$instance->geoip = '';
                     self::$instance->cookie = new cmplz_cookie();
+
                     self::$instance->document = new cmplz_document();
+
 
                     if (cmplz_third_party_cookies_active()) {
                         self::$instance->cookie_blocker = new cmplz_cookie_blocker();
@@ -112,6 +116,8 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'class-cookie.php');
             require_once(cmplz_path . 'integrations.php');
+            require_once(cmplz_path . 'class-company.php');
+            require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
 
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-document-core.php');

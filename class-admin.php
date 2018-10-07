@@ -96,20 +96,20 @@ if (!class_exists("cmplz_admin")) {
         {
             if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
-            wp_register_style('cmplz-circle', cmplz_url . 'assets/css/circle.css', array(), cmplz_version);
+            wp_register_style('cmplz-circle', cmplz_url . 'core/assets/css/circle.css', array(), cmplz_version);
             wp_enqueue_style('cmplz-circle');
 
-            wp_register_style('cmplz-fontawesome', cmplz_url . 'assets/fontawesome/fontawesome-all.css', "", cmplz_version);
+            wp_register_style('cmplz-fontawesome', cmplz_url . 'core/assets/fontawesome/fontawesome-all.css', "", cmplz_version);
             wp_enqueue_style('cmplz-fontawesome');
 
-            wp_register_style('cmplz', trailingslashit(cmplz_url) . 'assets/css/style.css', "", cmplz_version);
+            wp_register_style('cmplz', trailingslashit(cmplz_url) . 'core/assets/css/style.css', "", cmplz_version);
             wp_enqueue_style('cmplz');
 
             wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('cmplz-ace', cmplz_url . "assets/ace/ace.js", array(), cmplz_version, false);
+            wp_enqueue_script('cmplz-ace', cmplz_url . "core/assets/ace/ace.js", array(), cmplz_version, false);
 
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-            wp_enqueue_script('cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array('jquery', 'wp-color-picker'), cmplz_version, true);
+            wp_enqueue_script('cmplz-admin', cmplz_url . "core/assets/js/admin$minified.js", array('jquery', 'wp-color-picker'), cmplz_version, true);
 
             $progress = COMPLIANZ()->cookie->get_progress_count();
             wp_localize_script(
@@ -209,7 +209,7 @@ if (!class_exists("cmplz_admin")) {
                 'manage_options',
                 'complianz',
                 array($this, 'main_page'),
-                cmplz_url . 'assets/images/menu-icon.png',
+                cmplz_url . 'core/assets/images/menu-icon.png',
                 CMPLZ_MAIN_MENU_POSITION
             );
 
@@ -450,7 +450,7 @@ if (!class_exists("cmplz_admin")) {
                 </div>
                 <div class="cmplz-dashboard-content-container">
                     <div class="cmplz-logo">
-                        <img src="<?php echo cmplz_url . 'assets/images/cmplz-logo.png' ?>"> <?php echo apply_filters('cmplz_logo_extension', __('Free', 'complianz')) ?>
+                        <img src="<?php echo cmplz_url . 'core/assets/images/cmplz-logo.png' ?>"> <?php echo apply_filters('cmplz_logo_extension', __('Free', 'complianz')) ?>
                     </div>
                     <div class="cmplz-completed-text">
                         <div class="cmplz-header-text">
@@ -704,9 +704,20 @@ if (!class_exists("cmplz_admin")) {
                 <?php //some fields for the cookies categories ?>
                 <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
 
-
                 <form id='cookie-settings' action="" method="post">
-
+                    <?php if (cmplz_multiple_regions()){?>
+                    <div id="cmplz-region-slider">
+                        <label class="switch">
+                            <input type="checkbox" <?php echo (cmplz_company_in_eu()) ? "checked": ""?> id="cmplz-region-mode">
+                            <div class="slider round">
+                                <span class="eu"><?php _e("EU", "complianz")?></span>
+                                <span class="us"><?php _e("US", "complianz")?></span>
+                            </div>
+                        </label>
+                    </div>
+                    <?php } else { ?>
+                        <input type="hidden" class="hidden" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
+                   <?php }?>
                     <table class="form-table">
 
                         <?php

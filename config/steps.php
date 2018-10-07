@@ -7,6 +7,15 @@ $this->steps = array(
             STEP_COMPANY => array(
                 "title" => __("General", 'complianz'),
                 'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
+                'sections' => array(
+                    2 => array('title' => __('Company information', 'complianz'),
+                        'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
+                    ),
+                    4 => array('title' => __('Purpose', 'complianz'),
+                        //'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz' ),
+                    ),
+
+                ),
             ),
 
             STEP_COOKIES => array("title" => __("Cookies", 'complianz'),

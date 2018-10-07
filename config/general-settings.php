@@ -39,6 +39,43 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+        'notification_from_email' => array(
+            'page' => 'settings',
+            'type' => 'email',
+            'label' => __("Notification sender email address", 'complianz'),
+            'default' => false,
+            'help' => __('When emails are sent, you can choose the sender email address here. Please note that it should have this website = domain as sender domain, otherwise the server might block the email from being sent.','complianz'),
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
+        'notification_email_subject' => array(
+            'page' => 'settings',
+            'type' => 'text',
+            'label' => __("Notification email subject", 'complianz'),
+            'default' => __('Your request has been processed','complianz'),
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
+        'notification_email_content' => array(
+            'page' => 'settings',
+            'type' => 'wysiwyg',
+            'label' => __("Notification email content", 'complianz'),
+            'default' => __('Hi {name}','complianz')."<br><br>".__('Your request has been processed successfully.','complianz')."<br><br>"._x('Regards,','email signature','complianz').'<br><br>{blogname}',
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
 
     );
 

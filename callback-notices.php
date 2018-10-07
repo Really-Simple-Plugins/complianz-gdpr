@@ -3,23 +3,20 @@
 add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
 
-    ?><div class="cmplz-notice"><?php
     if (!cmplz_company_in_eu()){
-        echo __("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz');
+        cmplz_notice(__("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz'));
     } else {
-        echo __("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz');
+        cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz'));
     }
-    ?></div><?php
+
 }
 
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');
 function cmplz_uses_social_media_notice(){
     $social_media = cmplz_scan_detected_social_media();
     if ($social_media){
-        ?><div class="cmplz-notice"><?php
         $social_media = implode(', ', $social_media);
-        printf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz'), $social_media);
-        ?></div><?php
+        cmplz_notice(sprintf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz'), $social_media));
     }
 }
 
@@ -27,32 +24,39 @@ add_action('cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_servi
 function cmplz_uses_thirdparty_services_notice(){
     $thirdparty = cmplz_scan_detected_thirdparty_services();
     if ($thirdparty){
-        ?><div class="cmplz-notice"><?php
         $thirdparty = implode(', ', $thirdparty);
-        printf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz'), $thirdparty);
-        ?></div><?php
+        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz'), $thirdparty));
     }
 }
 
+add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
+function cmplz_purpose_personaldata_notice(){
+    if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()){
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option that you sell data to third parties", 'complianz'));
+    }
+}
 
 
 add_action('cmplz_notice_purpose_personal_data', 'cmplz_purpose_personal_data');
 function cmplz_purpose_personal_data(){
     $contact_forms = cmplz_site_uses_contact_forms();
     if ($contact_forms){
-        ?><div class="cmplz-notice"><?php
         $social_media = implode(', ', $social_media);
-        printf(__("The scan found contact forms on your site, so you should select the 'contact' option.", 'complianz'), $social_media);
-        ?></div><?php
+        cmplz_notice(sprintf(__("The scan found contact forms on your site, so you should select the 'contact' option.", 'complianz'), $social_media));
     }
 }
-
-
 
 
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
+    if ($fieldname == 'purpose_personaldata') {
+        if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+            $value['selling-data-thirdparty'] = 1;
+            return $value;
+        }
+    }
+
 
     if ($fieldname == 'popup_background_color' || $fieldname == 'button_text_color') {
         $brand = cmplz_get_value('brand_color');
@@ -63,6 +67,7 @@ function cmplz_set_default($value, $fieldname)
         $contact_forms = cmplz_site_uses_contact_forms();
         if ($contact_forms) {
             if (isset($value['contact'])) $value['contact'] = 1;
+            return $value;
         }
     }
 

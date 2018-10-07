@@ -301,15 +301,10 @@ if (!class_exists("cmplz_field")) {
         private
         function filter_complianz_fields($fieldname)
         {
+            $fieldname = cmplz_strip_variation_id_from_string($fieldname);
 
-            $fieldnames = array();
-            $fieldnames[] = $fieldname;
-            //we also check if removing the last character results in a valid fieldname, for variation purposes in the cookie settings.
-            $fieldnames[] = substr($fieldname, 0, -1);
-            foreach ($fieldnames as $fieldname){
-                if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
-                    return true;
-                }
+            if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
+                return true;
             }
 
             return false;
@@ -1170,6 +1165,11 @@ if (!class_exists("cmplz_field")) {
         {
             $processing_agreements = COMPLIANZ()->processing->processing_agreements();
             $values = $this->get_value($args['fieldname']);
+            $is_eu = false;
+            if (isset($args['callback_condition']['regions']) && $args['callback_condition']['regions'] == 'eu'){
+                $is_eu = true;
+            }
+
             if (!is_array($values)) $values = array();
             if (!$this->show_field($args)) return;
             ?>
@@ -1218,6 +1218,7 @@ if (!class_exists("cmplz_field")) {
                                     ?></select>
                                 <br><br>
                         </div>
+                        <?php if ($is_eu) {?>
                         <div>
                             <label><?php _e('Processor country', 'complianz') ?></label>
                         </div>
@@ -1226,7 +1227,6 @@ if (!class_exists("cmplz_field")) {
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][country]"
                                    value="<?php echo esc_html($value['country']) ?>">
                         </div>
-
 
                         <div>
                             <label><?php _e('Purpose', 'complianz') ?></label>
@@ -1244,7 +1244,7 @@ if (!class_exists("cmplz_field")) {
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][data]"
                                    value="<?php echo esc_html($value['data']) ?>">
                         </div>
-
+                        <?php } ?>
 
                     </div>
                     <button class="button cmplz-remove" type="submit"

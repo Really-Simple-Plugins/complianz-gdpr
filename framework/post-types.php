@@ -18,7 +18,7 @@ function cmplz_create_post_type()
             ),
 
             //'menu_icon' => 'dashicons-hammer',
-            'menu_icon' => cmplz_url."assets/images/processing.png", //https://developer.wordpress.org/resource/dashicons/#editor-code
+            'menu_icon' => cmplz_url."core/assets/images/processing.png", //https://developer.wordpress.org/resource/dashicons/#editor-code
             'menu_position' => CMPLZ_PROCESSING_MENU_POSITION,
             'rewrite' => array(
                 'slug' => 'processing-agreement',
@@ -60,7 +60,7 @@ function cmplz_create_post_type()
             ),
 
             //'menu_icon' => 'dashicons-hammer',
-            'menu_icon' => cmplz_url."assets/images/dataleak.png",
+            'menu_icon' => cmplz_url."core/assets/images/dataleak.png",
             'menu_position' => CMPLZ_DATALEAK_MENU_POSITION,
             'rewrite' => array(
                 'slug' => 'processing-agreement',

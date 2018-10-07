@@ -50,6 +50,9 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_accept' + variation_id + ']', function () {
         $(".cc-allow").html($(this).val());
     });
+    $(document).on('keyup', 'input[name=cmplz_accept_informational' + variation_id + ']', function () {
+        $(".cc-dismiss").html($(this).val());
+    });
     $(document).on('keyup', 'input[name=cmplz_revoke' + variation_id + ']', function () {
         $(".cc-revoke").html($(this).val());
     });
@@ -112,6 +115,10 @@ jQuery(document).ready(function ($) {
         cmplz_apply_style();
     });
 
+    $(document).on('change', '#cmplz-region-mode', function () {
+        cmplz_cookie_warning();
+    });
+
     $(document).on('change', 'input[name=cmplz_use_custom_cookie_css' + variation_id + ']', function () {
         var checked = $('input[name=cmplz_use_custom_cookie_css' + variation_id + ']').is(':checked');
         if (checked){
@@ -144,10 +151,20 @@ jQuery(document).ready(function ($) {
     cmplz_cookie_warning();
 
     function cmplz_cookie_warning() {
+        var ccRegion;
+        var ccDismiss;
 
         if (ccName) {
             ccName.fadeOut();
             ccName.destroy();
+        }
+        if ($('#cmplz-region-mode').is(':checked')){
+            ccRegion = 'eu';
+            ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
+        } else {
+            ccRegion = 'us';
+            console.log($('input[name=cmplz_accept_informational' + variation_id + ']').val());
+            ccDismiss = $('input[name=cmplz_accept_informational' + variation_id + ']').val();
         }
 
         var ccCategories = $('input[name=cmplz_use_categories' + variation_id + ']').is(':checked');
@@ -157,7 +174,7 @@ jQuery(document).ready(function ($) {
         } else {
             ccHideRevoke = '';
         }
-        var ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
+
         var ccMessage = $('textarea[name=cmplz_message' + variation_id + ']').val();
         var ccAllow = $('input[name=cmplz_accept' + variation_id + ']').val();
         var ccLink = $('input[name=cmplz_readmore' + variation_id + ']').val();
@@ -165,6 +182,9 @@ jQuery(document).ready(function ($) {
         var ccBorder = $('input[name=cmplz_border_color' + variation_id + ']').val();
         var ccPosition = $('select[name=cmplz_position' + variation_id + ']').val();
         var ccType = 'opt-in';
+
+        if (ccRegion==='us') ccType = 'info';
+
         var ccTheme = $('select[name=cmplz_theme' + variation_id + ']').val();
         var ccLayout = 'basic';
         var ccPopupTextColor = $('input[name=cmplz_popup_text_color' + variation_id + ']').val();

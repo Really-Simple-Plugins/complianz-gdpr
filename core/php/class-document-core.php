@@ -37,7 +37,7 @@ if (!class_exists("cmplz_document_core")) {
 
         /*
          * Check if a page is required. If no condition is set, return true.
-         *
+         * condition is "AND", all conditions need to be met.
          * */
 
         public function page_required($page)
@@ -45,32 +45,13 @@ if (!class_exists("cmplz_document_core")) {
             if (!isset($page['condition'])) return true;
 
             if (isset($page['condition'])) {
-                $conditions = $page['condition'];
-                $condition_answer = reset($conditions);
-                $condition_question = key($conditions);
-                if (COMPLIANZ()->field->get_value($condition_question) == $condition_answer) {
-                    return true;
-                }
-            }
-
-            return false;
-
-        }
-
-
-        public function insert_element($element, $post_id)
-        {
-
-            if (isset($element['condition'])) {
                 $fields = COMPLIANZ()->config->fields();
+                $conditions = $page['condition'];
+                $condition_met = true;
+                foreach ($conditions as $condition_question => $condition_answer){
 
-                foreach ($element['condition'] as $question => $condition_answer) {
-                    if ($condition_answer == 'loop') continue;
-
-                    if (!isset($fields[$question]['type'])) return false;
-
-                    $type = $fields[$question]['type'];
-                    $value = cmplz_get_value($question, $post_id);
+                    $type = $fields[$condition_question]['type'];
+                    $value = cmplz_get_value($condition_question);
                     $invert = false;
 
                     if (strpos($condition_answer, 'NOT ')!==FALSE) {
@@ -88,8 +69,56 @@ if (!class_exists("cmplz_document_core")) {
                     } else {
                         $condition_met = ($value == $condition_answer);
                     }
-                    return $invert ? !$condition_met : $condition_met;
+
                 }
+                return $invert ? !$condition_met : $condition_met;
+
+            }
+
+            return false;
+
+        }
+
+
+        /*
+         * Check if an element should be inserted. AND implementation s
+         *
+         *
+         * */
+
+        public function insert_element($element, $post_id)
+        {
+
+            if (isset($element['condition'])) {
+                $fields = COMPLIANZ()->config->fields();
+                $condition_met = true;
+                $invert = false;
+                foreach ($element['condition'] as $question => $condition_answer) {
+                    if ($condition_answer == 'loop') continue;
+
+                    if (!isset($fields[$question]['type'])) return false;
+
+                    $type = $fields[$question]['type'];
+                    $value = cmplz_get_value($question, $post_id);
+
+
+                    if (strpos($condition_answer, 'NOT ')!==FALSE) {
+                        $condition_answer = str_replace('NOT ', '', $condition_answer);
+                        $invert = true;
+                    }
+
+                    if ($type == 'multicheckbox') {
+                        if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
+                            $condition_met = false;
+                        } else {
+                            $condition_met = $condition_met && true;
+                        }
+
+                    } else {
+                        $condition_met = $condition_met && ($value == $condition_answer);
+                    }
+                }
+                return $invert ? !$condition_met : $condition_met;
 
             }
 
@@ -129,7 +158,7 @@ if (!class_exists("cmplz_document_core")) {
 
         public function get_document_html($type, $post_id = false)
         {
-            if (!isset(COMPLIANZ()->config->document_elements[$type])) return "";
+            if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz'),$type);
 
             $elements = COMPLIANZ()->config->document_elements[$type];
 
@@ -292,9 +321,9 @@ if (!class_exists("cmplz_document_core")) {
             $html = str_replace("[cookie_accept_text]", cmplz_get_value('accept'), $html);
             $html = str_replace("[cookie_save_preferences_text]", cmplz_get_value('save_preferences'), $html);
 
-            $html = str_replace("[domain]", cmplz_esc_url_raw(get_site_url()), $html);
+            $html = str_replace("[domain]", '<a href="'.cmplz_esc_url_raw(get_site_url()).'">'.cmplz_esc_url_raw(get_site_url()).'</a>', $html);
             $html = str_replace("[privacy_policy_url]", '<a href="'.cmplz_esc_url_raw(get_permalink(get_option('wp_page_for_privacy_policy'))).'">'.__('Privacy policy','complianz').'</a>', $html);
-            $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(get_option('cookie_policy_url')), $html);
+            $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(get_option('cmplz_cookie_policy_url')), $html);
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);
@@ -352,6 +381,7 @@ if (!class_exists("cmplz_document_core")) {
                 $value = '<a href="' . $value . '" target="_blank">';
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'email') {
                 $value = $this->obfuscate_email($value);
+                error_log($value);
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';
@@ -370,6 +400,7 @@ if (!class_exists("cmplz_document_core")) {
                     else
                         $labels .= $options[$index] . ', ';
                 }
+                //if (empty($labels)) $labels = __('None','complianz');
 
                 if ($list_style) {
                     $labels = "<ul>" . $labels . "</ul>";

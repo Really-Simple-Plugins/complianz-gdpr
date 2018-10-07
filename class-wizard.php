@@ -11,7 +11,7 @@ if (!class_exists("cmplz_wizard")) {
         public $cookies = array();
         public $known_wizard_keys;
         public $total_steps;
-        public $total_sections;
+        public $last_section;
         public $page_url;
 
         function __construct()
@@ -74,7 +74,7 @@ if (!class_exists("cmplz_wizard")) {
         public function initialize($page)
         {
             $this->total_steps = $this->total_steps($page);
-            $this->total_sections = $this->total_sections($page, $this->step());
+            $this->last_section = $this->last_section($page, $this->step());
             $this->page_url = admin_url('admin.php?page=cmplz-' . $page);
             //if a post id was passed, we copy the contents of that page to the wizard settings.
             if (isset($_GET['post_id'])) {
@@ -135,11 +135,13 @@ if (!class_exists("cmplz_wizard")) {
             if (!is_user_logged_in()) return;
             if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
+            //clear document cache
+            COMPLIANZ()->document->clear_shortcode_transients();
+
             //create a page foreach page that is needed.
             $pages = COMPLIANZ()->config->pages;
             foreach ($pages as $type => $page) {
                 if (!$page['public']) continue;
-
                 if (COMPLIANZ()->document->page_required($page)) {
                     COMPLIANZ()->document->create_page($type);
                 }
@@ -169,10 +171,6 @@ if (!class_exists("cmplz_wizard")) {
                 COMPLIANZ()->cookie->reset_cookies_changed();
                 COMPLIANZ()->cookie->reset_plugins_updated();
 
-                //clear document cache
-                foreach (COMPLIANZ()->config->pages as $type => $page) {
-                    delete_transient("complianz_document_$type");
-                }
                 wp_redirect(admin_url('admin.php?page=complianz'));
                 exit();
             }
@@ -266,6 +264,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_section($page, $step, $section)
         {
+
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
                 $section++;
                 if ($section >= 20) return false;
@@ -286,10 +285,11 @@ if (!class_exists("cmplz_wizard")) {
             $step = $this->step();
 
             if (isset($_POST['cmplz-next']) && !COMPLIANZ()->field->has_errors()) {
-                if (COMPLIANZ()->config->has_sections($page, $step) && ($section < $this->total_sections)) {
+                if (COMPLIANZ()->config->has_sections($page, $step) && ($section < $this->last_section)) {
                     $section = $section + 1;
                 } else {
                     $step++;
+                    $section = $this->first_section($page, $step);
                 }
             }
 
@@ -298,6 +298,7 @@ if (!class_exists("cmplz_wizard")) {
                     $section--;
                 } else {
                     $step--;
+                    $section = $this->last_section($page, $step);
                 }
             }
 
@@ -345,7 +346,7 @@ if (!class_exists("cmplz_wizard")) {
 
                             <?php
 
-                            for ($i = 1; $i <= $this->total_sections($page, $step); $i++) {
+                            for ($i = $this->first_section($page, $step); $i <= $this->last_section($page, $step); $i++) {
                                 if (!$this->section_exists($page, $step, $i)) {
                                     continue;
                                 }
@@ -392,7 +393,7 @@ if (!class_exists("cmplz_wizard")) {
 
             if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
-            wp_register_style('cmplz-wizard', cmplz_url . 'assets/css/wizard.css', false, cmplz_version);
+            wp_register_style('cmplz-wizard', cmplz_url . 'core/assets/css/wizard.css', false, cmplz_version);
             wp_enqueue_style('cmplz-wizard');
 
         }
@@ -433,29 +434,6 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-//        public function count_fields($page, $step, $section)
-//        {
-//            //get all required fields for this section, and check if they're filled in
-//            $fields = COMPLIANZ()->config->fields($page, $step, $section);
-//            foreach ($fields as $fieldname => $args) {
-//                $default_args = COMPLIANZ()->field->default_args;
-//                $args = wp_parse_args($args, $default_args);
-//                if ($args['required']) {
-//                    //if a condition exists, only check for this field if the condition applies.
-//                    if (isset($args['condition']) && !COMPLIANZ()->field->condition_applies($args)) {
-//                        continue;
-//                    }
-//                    $value = COMPLIANZ()->field->get_value($fieldname);
-//
-//                    if (empty($value)) {
-//                        return false;
-//                    }
-//                }
-//
-//            }
-//            return true;
-//        }
-
 
         /*
          * Check if all required fields are filled
@@ -467,7 +445,7 @@ if (!class_exists("cmplz_wizard")) {
         {
             for ($step = 1; $step <= $this->total_steps; $step++) {
                 if (COMPLIANZ()->config->has_sections($page, $step)) {
-                    for ($section = 1; $section <= $this->total_sections($page, $step); $section++) {
+                    for ($section = $this->first_section($page, $step); $section <= $this->last_section($page, $step); $section++) {
                         if (!$this->required_fields_completed($page, $step, $section)) {
                             return false;
                         }
@@ -714,8 +692,8 @@ if (!class_exists("cmplz_wizard")) {
                 $section = intval($_POST['section']);
             }
 
-            if ($section > $this->total_sections) {
-                $section = $this->total_sections;
+            if ($section > $this->last_section) {
+                $section = $this->last_section;
             }
 
             if ($section <= 1) $section = 1;
@@ -730,11 +708,23 @@ if (!class_exists("cmplz_wizard")) {
 
         }
 
-        public function total_sections($page, $step)
-        {
-            if (!isset(COMPLIANZ()->config->steps[$page][$step]["sections"])) return 0;
 
-            return count(COMPLIANZ()->config->steps[$page][$step]["sections"]);
+        public function last_section($page, $step)
+        {
+            if (!isset(COMPLIANZ()->config->steps[$page][$step]["sections"])) return 1;
+
+            $array = COMPLIANZ()->config->steps[$page][$step]["sections"];
+            return max(array_keys($array));
+
+        }
+
+        public function first_section($page, $step)
+        {
+            if (!isset(COMPLIANZ()->config->steps[$page][$step]["sections"])) return 1;
+
+            $arr = COMPLIANZ()->config->steps[$page][$step]["sections"];
+            $first_key = key($arr);
+            return $first_key;
         }
 
 
@@ -749,7 +739,7 @@ if (!class_exists("cmplz_wizard")) {
                 //if we're on a step with sections, we should add the sections that still need to be done.
                 if (($step == $i) && COMPLIANZ()->config->has_sections($page, $step)) {
 
-                    for ($s = $this->total_sections($page, $i); $s >= $section; $s--) {
+                    for ($s = $this->last_section($page, $i); $s >= $section; $s--) {
                         $subsub = 0;
                         $section_fields = COMPLIANZ()->config->fields($page, $step, $s);
                         foreach ($section_fields as $section_fieldname => $section_field) {

@@ -66,10 +66,17 @@ function cmplz_get_template($file){
     if (file_exists($theme_file)) {
         $file = $theme_file;
     }
-    $contents = file_get_contents($file);
+
+    if (strpos($file, '.php')!==FALSE){
+        ob_start();
+        require $file;
+        $contents = ob_get_clean();
+    } else {
+        $contents = file_get_contents($file);
+    }
+
     return $contents;
 }
-
 
 function cmplz_tagmanager_conditional_helptext(){
     if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()){
@@ -87,6 +94,24 @@ function cmplz_revoke_link($text = false)
     return '<a href="#" class="cc-revoke-custom">' . $text . '</a>';
 }
 
+function cmplz_do_not_sell_personal_data_form(){
+
+    $html = cmplz_get_template('do-not-sell-my-personal-data-form.php');
+
+    return $html;
+}
+
+function cmplz_sells_personal_data(){
+    return COMPLIANZ()->company->sells_personal_data();
+}
+
+function cmplz_sold_data_12months(){
+    return COMPLIANZ()->company->sold_data_12months();
+}
+
+function cmplz_disclosed_data_12months(){
+    return COMPLIANZ()->company->disclosed_data_12months();
+}
 
 /*
  * For usage very early in the execution order, use the $page option. This bypasses the class usage.
@@ -137,6 +162,8 @@ function cmplz_get_value($fieldname, $post_id = false, $page = false)
     return $value;
 }
 
+
+
 function cmplz_strip_variation_id_from_string($string){
     $matches = array();
     if (preg_match('#(\d+)$#', $string, $matches)) {
@@ -174,12 +201,50 @@ function cmplz_user_needs_cookie_warning_no_cats(){
 function cmplz_company_in_eu()
 {
     $country_code = cmplz_get_value('country_company');
-    if (in_array($country_code, COMPLIANZ()->config->eu_countries)) {
+    $in_eu = (cmplz_get_region_for_country($country_code)==='eu');
+    return $in_eu;
+}
+
+function cmplz_has_region($code){
+
+    $regions = cmplz_get_value('regions', false, 'wizard');
+
+    //radio buttons
+    if (!is_array($regions) && $regions === $code) return true;
+
+    //multicheckbox
+    if (is_array($regions) && isset($regions[$code]) && !empty($regions[$code])) {
         return true;
+    }
+    return false;
+}
+
+function cmplz_multiple_regions(){
+
+    $regions = cmplz_get_value('regions', false, 'wizard');
+    $count = 0;
+    if (is_array($regions)) {
+        foreach ($regions as $key => $value) {
+            if ($value == 1) $count++;
+        }
+    }
+
+    return ($count>1);
+
+}
+
+
+function cmplz_get_region_for_country($country_code)
+{
+    $regions = COMPLIANZ()->config->regions;
+    foreach($regions as $key => $countries){
+        if (in_array($country_code, $countries)) return $key;
     }
 
     return false;
 }
+
+
 
 function cmplz_notice($msg){
     if ($msg=='') return;
@@ -202,9 +267,6 @@ function cmplz_scan_detected_social_media()
 
     //nothing scanned yet, or nothing found
     if (!$social_media || (count($social_media) == 0)) return false;
-    error_log("detected");
-    error_log(print_r($social_media, true));
-
     return $social_media;
 }
 
@@ -375,11 +437,11 @@ function cmplz_init_cookie_blocker(){
 
     /* Do not block when visitors are from outside EU, if geoip is enabled */
     //check cache, as otherwise all users would get the same output, while this is user specific
-    if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && !COMPLIANZ()->geoip->is_eu()) return;
+    if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && (COMPLIANZ()->geoip->region()!=='eu')) return;
 
     /* Do not block if the cookie policy is already accepted */
     //check cache, as otherwise all users would get the same output, while this is user specific
-    if (!defined('wp_cache') && COMPLIANZ()->cookie->cookie_policy_accepted()) return;
+    //removed: this might cause issues when cached, but not in wp
 
     //do not block cookies during the scan
     if (isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'))) return;
@@ -392,18 +454,21 @@ function cmplz_init_cookie_blocker(){
     add_action("shutdown", array(COMPLIANZ()->cookie_blocker, "end_buffer"), 999);
 }
 
+
+/*
+ * By default, the region which is returned is the region as selected in the wizard settings.
+ *
+ *
+ * */
+
 function cmplz_ajax_user_settings(){
-    $is_eu = true;
 
-    if (class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled()) {
-        $is_eu = COMPLIANZ()->geoip->is_eu();
-    }
+    $data = apply_filters('cmplz_user_data', array());
+    $data['version'] = cmplz_version;
+    $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_single_region());
+    $data['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);
 
-    $response = json_encode(array(
-        'success' => true,
-        'is_eu' => $is_eu,
-        'do_not_track'   => apply_filters('cmplz_dnt_enabled', false),
-    ));
+    $response = json_encode($data);
     header("Content-Type: application/json");
     echo $response;
     exit;
@@ -424,6 +489,8 @@ function cmplz_esc_url_raw($url){
 function cmplz_is_admin(){
     return is_admin();
 }
+
+
 
 /**
  * Load the translation files
