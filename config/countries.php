@@ -34,6 +34,11 @@ $this->eu_countries = array(
 $this->regions['eu'] = $this->eu_countries;
 $this->regions['us'] = array('us');
 
+$this->regions_labels = array(
+    'us' => __('US', 'complianz'),
+    'eu' => __('EU', 'complianz'),
+);
+
 $this->cookie_consent_converter = array(
     "GB" => "UK",
 );

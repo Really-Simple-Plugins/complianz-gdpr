@@ -293,14 +293,13 @@ if (!class_exists("cmplz_cookie")) {
 
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
-
             $cookiesettings = $this->get_cookie_settings($user_variation_id);
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
                 wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", array('jquery'), cmplz_version, true);
                 wp_localize_script(
-                    'cmplz-cookie',
+                    'cmplz-cookie-config',
                     'complianz',
                     $cookiesettings
                 );
@@ -419,7 +418,7 @@ if (!class_exists("cmplz_cookie")) {
                 $output['layout'] = 'basic';
 
                 //if user has selected only one region, we use the selected one.
-                $output['single-region'] = cmplz_multiple_regions() ? false : COMPLIANZ()->company->get_single_region();
+                $output['single-region'] = cmplz_multiple_regions() ? false : COMPLIANZ()->company->get_default_region();
 
                 /*
                  *
@@ -458,7 +457,8 @@ if (!class_exists("cmplz_cookie")) {
                     unset($output['accept']);
                 }
 
-                $output['readmore_url'] = get_option('cmplz_cookie_policy_url');
+                $output['readmore_url'] = get_option('cmplz_url_cookie-statement');
+                $output['readmore_url_us'] = get_option('cmplz_url_cookie-statement-us');
                 $output['nonce'] = wp_create_nonce('set_cookie');
                 $output['url'] = admin_url('admin-ajax.php');
                 $output['current_policy_id'] = $this->get_active_policy_id();
@@ -477,20 +477,6 @@ if (!class_exists("cmplz_cookie")) {
             }
 
             return $output;
-        }
-
-
-        public function set_cookie_statement_page()
-        {
-            $url = "#";
-
-            $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement');
-            if ($page_id) {
-                $url = get_permalink($page_id);
-                update_option('cmplz_cookie_policy_url', $url);
-            }
-
-            return $url;
         }
 
         private function domain()
@@ -847,12 +833,17 @@ if (!class_exists("cmplz_cookie")) {
         {
             $pages = get_transient('cmplz_pages_list');
             if (!$pages) {
-                $post_types = 'page';
                 $args = array(
-                    'post_type' => $post_types,
+                    'post_type' => 'page',
                 );
-
                 $posts = get_posts($args);
+
+                //also add some post post types
+                $args = array(
+                    'post_type' => 'post',
+                    'posts_per_page' => 5,
+                );
+                $posts = $posts + get_posts($args);
 
                 //first page to clean up cookies
                 $pages[] = 'clean';
@@ -1040,7 +1031,11 @@ if (!class_exists("cmplz_cookie")) {
 
         public function update_cookie_policy_date()
         {
-            update_option('cmplz_publish_date', date(get_option('date_format'), time()));
+            $date = date(get_option('date_format'), time());
+            update_option('cmplz_publish_date', $date);
+
+            //also reset the email notification, so it will get sent next year.
+            update_option('cmplz_update_legal_documents_mail_sent', false);
         }
 
         /*

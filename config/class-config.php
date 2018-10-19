@@ -14,6 +14,7 @@ if (!class_exists("cmplz_config")) {
         public $yes_no;
         public $known_cookie_keys;
         public $ignore_cookie_list;
+        public $regions_labels;
         public $countries;
         public $regions;
         public $social_media_markers, $script_tags, $iframe_tags;

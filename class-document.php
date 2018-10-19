@@ -36,7 +36,88 @@ if (!class_exists("cmplz_document")) {
                     wp_enqueue_style('cmplz-document');
                 }
             }
+
         }
+
+
+        /*
+          * Get the region for a post id, based on the post type.
+          *
+          * */
+
+        public function get_region($post_id = false){
+
+            if ($post_id) {
+                $term = wp_get_post_terms($post_id,'cmplz-region');
+                if (is_wp_error($term)) return false;
+
+                if (isset($term[0])) return $term[0]->slug;
+
+                return false;
+            }
+
+            $regions = cmplz_get_regions();
+
+            if (isset($_GET['page'])){
+                $page = sanitize_title($_GET['page']);
+                foreach($regions as $region => $label){
+                    if (strpos($page, '-'.$region)!==false){
+                        return $region;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        public function set_region($post_id, $region=false){
+            if (!$region) $region = $this->get_region();
+
+            $term = get_term_by('slug', $region,'cmplz-region');
+            if (!$term) {
+                wp_insert_term(COMPLIANZ()->config->regions_labels[$region], 'cmplz-region',array(
+                    'slug' => $region,
+                ));
+                $term = get_term_by('slug', $region,'cmplz-region');
+            }
+
+            if (empty($term)) return;
+
+            $term_id = $term->term_id;
+
+            wp_set_object_terms( $post_id, array($term_id), 'cmplz-region' );
+        }
+
+
+        /*
+         * Check if legal documents should be updated, and send mail to admin if so
+         *
+         *
+         * */
+
+        public function cron_check_last_updated_status(){
+
+            if ($this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
+                update_option('cmplz_update_legal_documents_mail_sent', true);
+                $to = get_option('admin_email');
+
+                $headers = array();
+                if (empty($subject)) $subject = sprintf(_x('Your legal documents on %s need to be updated.','Subject in notification email', 'complianz'), home_url());
+
+                $message = sprintf(_x('Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.', 'Email message in notification email', 'complianz'), home_url());
+
+                add_filter('wp_mail_content_type', function ($content_type) {
+                    return 'text/html';
+                });
+
+                wp_mail($to, $subject, $message, $headers);
+
+                // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+                remove_filter('wp_mail_content_type', 'set_html_content_type');
+            }
+        }
+
 
         public function revoke_link($atts = [], $content = null, $tag = '')
         {
@@ -68,6 +149,7 @@ if (!class_exists("cmplz_document")) {
 
             //clear shortcode transients after post update
             add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
+            add_action('save_post', array($this, 'set_page_url_on_save_post'), 10, 1);
             add_action('cmplz_wizard_add_pages_to_menu', array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
@@ -165,6 +247,7 @@ if (!class_exists("cmplz_document")) {
             }
         }
 
+
         /*
          * Get all pages that are not assigned to any menu
          *
@@ -255,9 +338,15 @@ if (!class_exists("cmplz_document")) {
 
             do_action('cmplz_create_page', $page_id, $type);
 
-            if ($type == 'cookie-statement') {
-                COMPLIANZ()->cookie->set_cookie_statement_page();
-            }
+//            if ($type == 'cookie-statement') {
+//                COMPLIANZ()->cookie->set_cookie_statement_page();
+//            }
+//
+//            if ($type == 'cookie-statement-us') {
+//                COMPLIANZ()->cookie->set_cookie_statement_us_page();
+//            }
+
+            $this->set_page_url($page_id, $type);
 
         }
 
@@ -282,6 +371,19 @@ if (!class_exists("cmplz_document")) {
             return 'cmplz-document type="' . $type . '"';
         }
 
+        public function get_document_type($post_id){
+
+            $pattern = '/cmplz-document type="(.*?)"/i';
+            $post = get_post($post_id);
+
+            $content = $post->post_content;
+            if (preg_match_all($pattern, $content, $matches, PREG_PATTERN_ORDER)) {
+                if (isset($matches[1][0])) return $matches[1][0];
+            }
+
+            return false;
+        }
+
 
         public function get_required_pages()
         {
@@ -291,7 +393,7 @@ if (!class_exists("cmplz_document")) {
             foreach ($required_pages as $type => $page) {
                 if (!$page['public']) continue;
 
-                if (COMPLIANZ()->document->page_required($page)) {
+                if ($this->page_required($page)) {
                     $pages[] = $this->get_shortcode_page_id($type);
                 }
             }
@@ -357,14 +459,18 @@ if (!class_exists("cmplz_document")) {
           checks if the current page contains the shortcode.
         */
 
-        public function is_shortcode_page()
+        public function is_shortcode_page($post_id = false)
         {
             $shortcode = 'cmplz-document';
-            global $post;
+            if ($post_id){
+                $post = get_post($post_id);
+            } else {
+                global $post;
+            }
+
             if ($post) {
                 if (has_shortcode($post->post_content, $shortcode)) return true;
             }
-
             return false;
         }
 
@@ -415,6 +521,41 @@ if (!class_exists("cmplz_document")) {
                     delete_transient("complianz_document_$type");
                 }
 
+            }
+        }
+
+
+        /*
+         * @hooked save_post
+         *
+         * updates the stored cmplz url for this post.
+         *
+         *
+         * */
+
+        public function set_page_url_on_save_post($post_id){
+            if ($this->is_shortcode_page($post_id)) {
+                $type = $this->get_document_type($post_id);
+                $this->set_page_url($post_id, $type);
+            }
+        }
+
+
+        public function get_page_url($type){
+            return get_option('cmplz_url_'.$type);
+        }
+
+        /*
+         *
+         * updates the stored cmplz url for a post
+         *
+         * */
+
+        public function set_page_url($post_id, $type){
+            $pages = COMPLIANZ()->config->pages;
+            if (isset($pages[$type])){
+                $url = get_permalink($post_id);
+                update_option('cmplz_url_'.$type, $url);
             }
         }
 

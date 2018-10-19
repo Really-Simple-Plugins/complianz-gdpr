@@ -8,7 +8,7 @@ $this->fields = $this->fields + array(
             'label' => __("Use document CSS", 'complianz'),
             'table' => true,
             'default' => true,
-            'help' => __("Disable if you don't want the default Complianz GDPR document CSS to load",'complianz'),
+            'help' => __("Disable if you don't want the default Complianz Privacy Suite document CSS to load",'complianz'),
         ),
 
         'use_custom_document_css' => array(
@@ -44,7 +44,7 @@ $this->fields = $this->fields + array(
             'type' => 'email',
             'label' => __("Notification sender email address", 'complianz'),
             'default' => false,
-            'help' => __('When emails are sent, you can choose the sender email address here. Please note that it should have this website = domain as sender domain, otherwise the server might block the email from being sent.','complianz'),
+            'help' => __("When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.",'complianz'),
             'table' => true,
             'callback_condition' => array(
                 //'regions' => 'us',

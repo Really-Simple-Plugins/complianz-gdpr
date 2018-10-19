@@ -2,6 +2,19 @@
 @border-radius: 25px;
 @gray: #c6c6c6;
 
+.cmplz-dataleaks {
+  border: 1px solid grey;
+  padding: 15px;
+  background-color: lightgrey;
+  border-radius: 4px;
+  font-size: 16px;
+  ul {
+    list-style-type: disc;
+    margin-left:22px;
+  }
+  margin-bottom:30px;
+}
+
 
 #cmplz-region-slider {
   text-align:center;
@@ -384,6 +397,9 @@ html .mceContentBody {
 
   /*body */
   .cmplz-body {
+
+
+
     button.button {
       margin-bottom: 15px;
     }
@@ -451,12 +467,35 @@ html .mceContentBody {
       }
 
     }
-    input[type="radio"]:required:invalid + label {
-      color: red;
+
+    //input[type="radio"]:required:invalid + label {
+    //  color: red;
+    //}
+    //input[type="checkbox"]:required:invalid + label, input[type="checkbox"].is-required + label {
+    //  color: red;
+    //}
+
+
+    .invalid-multicheckbox, .invalid-radio{
+      background: url(/../../fontawesome/times.svg);
+      background-size: 17px;
+      background-repeat: no-repeat;
+      background-position: 4px -2px;
+      margin-left: -25px;
+      padding-left:25px;
     }
-    input[type="checkbox"]:required:invalid + label {
-      color: red;
+
+    .valid-multicheckbox, .valid-radio{
+      background: url(/../../fontawesome/check.svg);
+      background-size: 17px;
+      background-repeat: no-repeat;
+      background-position: 4px -2px;
+      margin-left: -25px;
+      padding-left:25px;
+
     }
+
+
 
     //input[type="radio"]:required:valid + label { color: green; }
 

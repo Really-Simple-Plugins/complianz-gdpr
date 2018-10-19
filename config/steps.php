@@ -8,10 +8,13 @@ $this->steps = array(
                 "title" => __("General", 'complianz'),
                 'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
                 'sections' => array(
-                    2 => array('title' => __('Company information', 'complianz'),
+                    2 => array('title' => __('Visitors', 'complianz'),
+                        'intro' => _x('To determine the what laws apply, we need to know where your website visitors are coming from.', 'intro company info', 'complianz'),
+                    ),
+                    3 => array('title' => __('Company information', 'complianz'),
                         'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
                     ),
-                    4 => array('title' => __('Purpose', 'complianz'),
+                    5 => array('title' => __('Purpose', 'complianz'),
                         //'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz' ),
                     ),
 
@@ -22,7 +25,7 @@ $this->steps = array(
                 //'intro' => _x('explanatory text', 'intro cookies', 'complianz'),
                 'sections' => array(
                     1 => array('title' => __('Cookie scan', 'complianz'),
-                            'intro' => _x('If you have an adblocker enabled, please disable it to get the best results.', 'intro scan', 'complianz'),
+                        'intro' => _x('If you have an adblocker enabled, please disable it to get the best results.', 'intro scan', 'complianz'),
                     ),
                     2 => array('title' => __('Cookie usage', 'complianz'),
                         //'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz'),
@@ -32,12 +35,12 @@ $this->steps = array(
                     ),
                     4 => array('title' => __('Script center', 'complianz'),
                         'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz')
-                        ),
+                    ),
                 ),
             ),
             STEP_MENU => array("title" => __("Menu", 'complianz'),
                 //'intro' => _x("Your generated documents should be placed in one of your website's menu's. To do this, select the menu you want your pages to show, or skip this step.", 'intro finish', 'complianz'),
-                ),
+            ),
             STEP_FINISH => array("title" => __("Finish", 'complianz'),
                 //'intro' => _x('explanatory text', 'intro finish', 'complianz'),),
             ),

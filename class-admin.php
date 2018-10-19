@@ -38,6 +38,7 @@ if (!class_exists("cmplz_admin")) {
             add_action('cmplz_tools', array($this, 'dashboard_tools'));
 
             add_action('admin_init', array($this, 'check_upgrade'), 10, 2);
+
         }
 
         static function this()
@@ -67,16 +68,30 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
+            if (version_compare($prev_version, '2.0.0', '<')) {
+                //add category eu existing dataleaks and processing agreements.
+                $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
+                foreach ($posts as $post){
+                    if (!COMPLIANZ()->document->get_region($post->ID)){
+                        COMPLIANZ()->document->set_region($post->ID, 'eu');
+                    }
+                }
 
-            //mainly for upgrading, on create it's set as well.
-            if (!get_option('cmplz_cookie_policy_url')){
-                COMPLIANZ()->cookie->set_cookie_statement_page();
+                $pages = COMPLIANZ()->config->pages;
+                foreach ($pages as $type => $page) {
+                    if ($page['public'] == true){
+                        $post_id = COMPLIANZ()->document->get_shortcode_page_id($type);
+                        if ($post_id) COMPLIANZ()->document->set_page_url($post_id, $type);
+                    }
+                }
             }
-            if (CMPLZ_LEGAL_VERSION > get_option('cmplz_legal_version',0)){
 
+            if (CMPLZ_LEGAL_VERSION > get_option('cmplz_legal_version',0)){
                 update_option('cmplz_plugin_new_features', true);
                 update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
             }
+
+
 
 
             update_option('cmplz-current-version', cmplz_version);
@@ -152,8 +167,12 @@ if (!class_exists("cmplz_admin")) {
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
-                if (!COMPLIANZ()->document->page_exists('cookie-statement')) {
+                if (cmplz_has_region('eu') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
                     $warnings[] = 'no-cookie-policy';
+                }
+
+                if (cmplz_has_region('us') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
+                    $warnings[] = 'no-cookie-policy-us';
                 }
 
                 if (!COMPLIANZ()->wizard->wizard_completed_once()) {
@@ -554,7 +573,7 @@ if (!class_exists("cmplz_admin")) {
         }
 
         public function dashboard_elements(){
-            $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz GDPR yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
+            $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz Privacy Suite yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
 
             $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>'), 'warning');
 
@@ -751,7 +770,7 @@ if (!class_exists("cmplz_admin")) {
                 <div id="message" class="error fade notice cmplz-wp-notice">
                     <h2><?php echo __("PHP version problem", "complianz"); ?></h2>
                     <p>
-                        <?php _e("Complianz GDPR requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", "complianz"); ?>
+                        <?php _e("Complianz Privacy Suite requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", "complianz"); ?>
                     </p>
                 </div>
                 <?php

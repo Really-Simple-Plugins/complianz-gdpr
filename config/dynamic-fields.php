@@ -26,14 +26,14 @@ function cmplz_filter_fields($fields)
                         $key . '_data_purpose_us' => array(
                             'master_label' => __("Purpose:", 'complianz') . " " . $label,
                             'step' => 1,
-                            'section' => 6,
+                            'section' => 7,
                             'page' => 'wizard',
                             'type' => 'multicheckbox',
                             'default' => '',
                             'label' => __("What data do you collect for this purpose?", 'complianz'),
                             'required' => true,
                             'callback_condition' => array(
-                                //'privacy-statement' => 'yes',
+                                'privacy-statement' => 'yes',
                                 'purpose_personaldata' => $key
                             ),
 

@@ -47,6 +47,9 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_dismiss' + variation_id + ']', function () {
         $(".cc-dismiss").html($(this).val());
     });
+    $(document).on('keyup', 'input[name=cmplz_decline' + variation_id + ']', function () {
+        $(".cc-deny").html($(this).val());
+    });
     $(document).on('keyup', 'input[name=cmplz_accept' + variation_id + ']', function () {
         $(".cc-allow").html($(this).val());
     });
@@ -167,6 +170,8 @@ jQuery(document).ready(function ($) {
             ccDismiss = $('input[name=cmplz_accept_informational' + variation_id + ']').val();
         }
 
+        var ccDecline = $('input[name=cmplz_decline' + variation_id + ']').val();
+
         var ccCategories = $('input[name=cmplz_use_categories' + variation_id + ']').is(':checked');
         var ccHideRevoke = $('input[name=cmplz_hide_revoke' + variation_id + ']').is(':checked');
         if (ccHideRevoke) {
@@ -183,7 +188,10 @@ jQuery(document).ready(function ($) {
         var ccPosition = $('select[name=cmplz_position' + variation_id + ']').val();
         var ccType = 'opt-in';
 
-        if (ccRegion==='us') ccType = 'info';
+        if (ccRegion==='us') {
+            ccType = 'opt-out';
+            ccCategories = false;
+        }
 
         var ccTheme = $('select[name=cmplz_theme' + variation_id + ']').val();
         var ccLayout = 'basic';
@@ -285,6 +293,7 @@ jQuery(document).ready(function ($) {
                 "save_preferences" : ccSavePreferences,
                 "message": ccMessage,
                 "dismiss": ccDismiss,
+                "deny": ccDecline,
                 "allow": ccAllow,
                 "link": ccLink,
                 "href": '#',

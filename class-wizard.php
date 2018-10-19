@@ -49,14 +49,8 @@ if (!class_exists("cmplz_wizard")) {
 
         public function is_wizard_completed_callback()
         {
-            if (isset($_GET['page']) && ($_GET['page'] == 'cmplz-processing')) {
-                $link = '<a href="' . admin_url('edit.php?post_type=cmplz-processing') . '">' . __('Processing agreements', 'complianz') . '</a>';
-            }
-            if (isset($_GET['page']) && ($_GET['page'] == 'cmplz-dataleak')) {
-                $link = '<a href="' . admin_url('edit.php?post_type=cmplz-dataleak') . '">' . __('Dataleak reports', 'complianz') . '</a>';
-            }
             if ($this->wizard_completed_once()) {
-                echo __("Great, the wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz');
+                echo __("Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz');
             } else {
                 $link = '<a href="' . admin_url('admin.php?page=cmplz-wizard') . '">';
                 echo sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz'), $link, "</a>");
@@ -274,6 +268,29 @@ if (!class_exists("cmplz_wizard")) {
             return $section;
         }
 
+        public function get_previous_not_empty_step($page, $step)
+        {
+            if (!COMPLIANZ()->field->step_has_fields($page, $step)) {
+                if ($step<=1) return $step;
+                $step--;
+                $step = $this->get_previous_not_empty_step($page, $step);
+            }
+
+            return $step;
+        }
+
+        public function get_previous_not_empty_section($page, $step, $section)
+        {
+
+            if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
+                $section--;
+                if ($section < 1) return false;
+                $section = $this->get_previous_not_empty_section($page, $step, $section);
+            }
+
+            return $section;
+        }
+
 
         public function wizard($page)
         {
@@ -284,30 +301,33 @@ if (!class_exists("cmplz_wizard")) {
             $section = $this->section();
             $step = $this->step();
 
-            if (isset($_POST['cmplz-next']) && !COMPLIANZ()->field->has_errors()) {
+            if ($this->section_is_empty($page, $step, $section) || (isset($_POST['cmplz-next']) && !COMPLIANZ()->field->has_errors())) {
                 if (COMPLIANZ()->config->has_sections($page, $step) && ($section < $this->last_section)) {
                     $section = $section + 1;
                 } else {
                     $step++;
                     $section = $this->first_section($page, $step);
                 }
+
+                $step = $this->get_next_not_empty_step($page, $step);
+                $section = $this->get_next_not_empty_section($page, $step, $section);
+                //if the last section is also empty, it will return false, so we need to skip the step too.
+                if (!$section) {
+                    $step = $this->get_next_not_empty_step($page, $step + 1);
+                    $section = 1;
+                }
             }
 
             if (isset($_POST['cmplz-previous'])) {
-                if (COMPLIANZ()->config->has_sections($page, $step) && $section > 1) {
+                if (COMPLIANZ()->config->has_sections($page, $step) && $section > $this->first_section($page, $step)) {
                     $section--;
                 } else {
                     $step--;
                     $section = $this->last_section($page, $step);
                 }
-            }
 
-            $step = $this->get_next_not_empty_step($page, $step);
-            $section = $this->get_next_not_empty_section($page, $step, $section);
-            //if the last section is also empty, it will return false, so we need to skip the step too.
-            if (!$section) {
-                $step = $this->get_next_not_empty_step($page, $step + 1);
-                $section = 1;
+                $step = $this->get_previous_not_empty_step($page, $step);
+                $section = $this->get_previous_not_empty_section($page, $step, $section);
             }
 
             ?>
@@ -347,7 +367,7 @@ if (!class_exists("cmplz_wizard")) {
                             <?php
 
                             for ($i = $this->first_section($page, $step); $i <= $this->last_section($page, $step); $i++) {
-                                if (!$this->section_exists($page, $step, $i)) {
+                                if ($this->section_is_empty($page, $step, $i)) {
                                     continue;
                                 }
                                 $section_compare = $this->get_next_not_empty_section($page, $step, $i);
@@ -379,13 +399,13 @@ if (!class_exists("cmplz_wizard")) {
          *
          * */
 
-        public function section_exists($page, $step, $section)
+        public function section_is_empty($page, $step, $section)
         {
             $section_compare = $this->get_next_not_empty_section($page, $step, $section);
-            if ($section < $section_compare) {
-                return false;
+            if ($section != $section_compare) {
+                return true;
             }
-            return true;
+            return false;
         }
 
         public function enqueue_assets($hook)
@@ -518,15 +538,16 @@ if (!class_exists("cmplz_wizard")) {
             if (isset($_POST['cmplz-save'])) {
                 cmplz_notice_success( __("Changes saved successfully", 'complianz') );
             }
+
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
-                if ($this->post_id()) {
+                if ($this->post_id() && $step == 2 && (!$section || $section==1)) {
                     $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
-                    echo '<div class="cmplz-notice">' . sprintf(__('A draft of this document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') . "</div>";
-                } elseif ($this->step() == 1) {
+                    cmplz_notice_success(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') );
+                } elseif ($step == 1) {
                     delete_option('complianz_options_' . $page);
-                    //echo '<div class="cmplz-notice">' . sprintf(__("You are about to create a new document. To edit existing documents, view the %soverview page%s", 'complianz'), $link, '</a>') . "</div>";
-                    if ($page=='processing'){
+
+                    if (strpos($page, 'processing')!==FALSE){
                         $about = __('processing agreements', 'complianz');
                         $link_article = '<a href="https://complianz.io/what-are-processing-agreements">';
                     } else{
@@ -564,8 +585,8 @@ if (!class_exists("cmplz_wizard")) {
                     <?php if ($page == 'wizard' && $this->wizard_closed()) { ?>
                         <div class="cmplz-button cmplz-next">
 
-                        <input class="button" type="submit" name="cmplz-start"
-                               value="<?php _e("Edit", 'complianz') ?>">
+                            <input class="button" type="submit" name="cmplz-start"
+                                   value="<?php _e("Edit", 'complianz') ?>">
 
                         </div>
 
@@ -574,9 +595,9 @@ if (!class_exists("cmplz_wizard")) {
                         <?php if ($step > 1 || $section > 1) { ?>
                             <div class="cmplz-button cmplz-previous icon">
 
-                            <input class="fa button" type="submit"
-                                   name="cmplz-previous"
-                                   value="<?php _e("Previous", 'complianz') ?>">
+                                <input class="fa button" type="submit"
+                                       name="cmplz-previous"
+                                       value="<?php _e("Previous", 'complianz') ?>">
 
                             </div>
                         <?php } ?>
@@ -592,10 +613,11 @@ if (!class_exists("cmplz_wizard")) {
 
                         <?php
                         $hide_finish_button = false;
-                        if (($page == 'dataleak') && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
-                            $hide_finish_button = true;
+                        if (strpos($page,'dataleak-')!==FALSE && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
+                           $hide_finish_button = true;
                         }
-                        $label = ($page == 'dataleak' || $page == 'processing') ? __("View document", 'complianz') : __("Finish", 'complianz');
+
+                        $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz') : __("Finish", 'complianz');
                         ?>
                         <?php if (!$hide_finish_button && ($step == $this->total_steps) && $this->all_required_fields_completed($page)) { ?>
                             <div class="cmplz-button cmplz-next">
@@ -630,6 +652,19 @@ if (!class_exists("cmplz_wizard")) {
             </form>
             <?php
         }
+
+        public function get_page($post_id=false){
+            if ($post_id) {
+                $region = COMPLIANZ()->document->get_region($post_id);
+                $post_type = get_post_type($post_id);
+                $page = str_replace('cmplz-','',$post_type).'-'.$region;
+            }
+            if (isset($_GET['page'])) {
+                $page = str_replace('cmplz-', '', sanitize_title($_GET['page']));
+            }
+            return $page;
+        }
+
 
         public function wizard_completed_once(){
             return get_option('cmplz_wizard_completed_once');

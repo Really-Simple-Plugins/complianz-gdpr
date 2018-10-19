@@ -1,3 +1,15 @@
+.cmplz-dataleaks {
+  border: 1px solid grey;
+  padding: 15px;
+  background-color: lightgrey;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.cmplz-dataleaks ul {
+  list-style-type: disc;
+  margin-left: 22px;
+}
 #cmplz-region-slider {
   text-align: center;
   /*------ ADDED CSS ---------*/
@@ -401,11 +413,23 @@ html .mceContentBody {
   background-position: 0.5%;
   padding-left: 25px;
 }
-#cmplz-wizard .cmplz-body input[type="radio"]:required:invalid + label {
-  color: red;
+#cmplz-wizard .cmplz-body .invalid-multicheckbox,
+#cmplz-wizard .cmplz-body .invalid-radio {
+  background: url(../fontawesome/times.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: 4px -2px;
+  margin-left: -25px;
+  padding-left: 25px;
 }
-#cmplz-wizard .cmplz-body input[type="checkbox"]:required:invalid + label {
-  color: red;
+#cmplz-wizard .cmplz-body .valid-multicheckbox,
+#cmplz-wizard .cmplz-body .valid-radio {
+  background: url(../fontawesome/check.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: 4px -2px;
+  margin-left: -25px;
+  padding-left: 25px;
 }
 #cmplz-wizard .cmplz-body textarea {
   min-height: 150px;

@@ -34,6 +34,25 @@ if (!class_exists("cmplz_document_core")) {
             return false;
         }
 
+        /*
+         * period in seconds
+         *
+         * */
+        public function not_updated_in($period){
+
+            //if the wizard is never completed, we don't want any update warnings.
+            if (!get_option('cmplz_wizard_completed_once')) {
+                return false;
+            }
+
+            $date = strtotime(get_option('cmplz_publish_date'));
+
+            $time_passed =  time() - $date;
+            if ($time_passed>$period) return true;
+
+            return false;
+
+        }
 
         /*
          * Check if a page is required. If no condition is set, return true.
@@ -232,7 +251,7 @@ if (!class_exists("cmplz_document_core")) {
                 }
             }
 
-            $html = $this->replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id);
+            $html = $this->replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type);
 
             return '<div id="cmplz-document">' . $html . '</div>';
         }
@@ -306,7 +325,7 @@ if (!class_exists("cmplz_document_core")) {
          *
          * */
 
-        private function replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id)
+        private function replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type)
         {
             //replace references
             foreach ($paragraph_id_arr as $id => $paragraph) {
@@ -322,8 +341,16 @@ if (!class_exists("cmplz_document_core")) {
             $html = str_replace("[cookie_save_preferences_text]", cmplz_get_value('save_preferences'), $html);
 
             $html = str_replace("[domain]", '<a href="'.cmplz_esc_url_raw(get_site_url()).'">'.cmplz_esc_url_raw(get_site_url()).'</a>', $html);
-            $html = str_replace("[privacy_policy_url]", '<a href="'.cmplz_esc_url_raw(get_permalink(get_option('wp_page_for_privacy_policy'))).'">'.__('Privacy policy','complianz').'</a>', $html);
-            $html = str_replace("[cookie_policy_url]", cmplz_esc_url_raw(get_option('cmplz_cookie_policy_url')), $html);
+
+            $pages = COMPLIANZ()->config->pages;
+            //get the region for which this document is meant, default and eu result in empty.
+
+            $region = !isset($pages[$type]['condition']['regions']) || ($pages[$type]['condition']['regions']==='eu') ? false : '-'.$pages[$type]['condition']['regions'];
+            $html = str_replace("[cookie-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_cookie-statement'.$region)), $html);
+            $html = str_replace("[privacy-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement'.$region)), $html);
+            $html = str_replace("[privacy-statement-children-us-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement-children-us')), $html);
+
+
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);
@@ -381,7 +408,6 @@ if (!class_exists("cmplz_document_core")) {
                 $value = '<a href="' . $value . '" target="_blank">';
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'email') {
                 $value = $this->obfuscate_email($value);
-                error_log($value);
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';

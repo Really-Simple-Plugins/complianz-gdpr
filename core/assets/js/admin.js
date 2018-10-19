@@ -4,10 +4,10 @@ jQuery(document).ready(function ($) {
     //colorpicker in the wizard
     $('.cmplz-color-picker').wpColorPicker({
             change:
-            function (event, ui) {
-                var container_id = $(event.target).data('hidden-input');
-                $('#' + container_id).val(ui.color.toString());
-            }
+                function (event, ui) {
+                    var container_id = $(event.target).data('hidden-input');
+                    $('#' + container_id).val(ui.color.toString());
+                }
         }
     );
 
@@ -15,6 +15,7 @@ jQuery(document).ready(function ($) {
     * show and hide support form
     *
     * */
+
     $("#cmplz-support-form.hidden").hide().removeClass("hidden");
     $(document).on('click', '#cmplz-support-link', function (e) {
         e.preventDefault();
@@ -33,13 +34,76 @@ jQuery(document).ready(function ($) {
     requiredCheckboxes.change(cmplz_validate_checkboxes);
 
     function cmplz_validate_checkboxes() {
-        if (requiredCheckboxes.is(':checked')) {
-            requiredCheckboxes.prop('required', false)
-            requiredCheckboxes.removeClass('is-required');
-        } else {
-            requiredCheckboxes.prop('required', true)
-            requiredCheckboxes.addClass('is-required');
-        }
+
+        $('.cmplz-validate-multicheckbox').each(function (i) {
+            var set_required = [];
+            var all_unchecked = true;
+
+            $(this).find(':checkbox').each(function (i) {
+
+                set_required.push($(this));
+
+                if ($(this).is(':checked')) {
+                    all_unchecked = false;
+                }
+            });
+            var container = $(this).closest('.field-group').find('.cmplz-label');
+            if (all_unchecked) {
+                container.removeClass('valid-multicheckbox');
+                container.addClass('invalid-multicheckbox');
+                $.each(set_required, function (index, item) {
+                    item.prop('required', true);
+                    item.addClass('is-required');
+                });
+
+            } else {
+                container.removeClass('invalid-multicheckbox');
+                container.addClass('valid-multicheckbox');
+                $.each(set_required, function (index, item) {
+                    item.prop('required', false);
+                    item.removeClass('is-required');
+                });
+            }
+
+        });
+
+
+        //now apply the required.
+
+        check_conditions();
+    }
+
+
+    //validation of checkboxes
+    var requiredRadios = $('input:radio').attr('required',true);
+    cmplz_validate_radios();
+    requiredRadios.click(cmplz_validate_radios);
+    //$(document).on('click','input:radio:required', cmplz_validate_radios );
+    function cmplz_validate_radios() {
+        $('.cmplz-validate-radio').each(function (i) {
+            var set_required = [];
+            var all_unchecked = true;
+
+            $(this).find('input:radio').each(function (i) {
+                set_required.push($(this));
+                if ($(this).is(':checked')) {
+                    all_unchecked = false;
+                }
+            });
+            var container = $(this).closest('.field-group').find('.cmplz-label');
+            if (all_unchecked) {
+                container.removeClass('valid-radio');
+                container.addClass('invalid-radio');
+            } else {
+                container.removeClass('invalid-radio');
+                container.addClass('valid-radio');
+            }
+
+        });
+
+
+        //now apply the required.
+
         check_conditions();
     }
 
@@ -63,6 +127,7 @@ jQuery(document).ready(function ($) {
 
         $(".condition-check").each(function (e) {
             var question = 'cmplz_' + $(this).data("condition-question");
+            var condition_type = 'AND';
 
             if (question == undefined) return;
 
@@ -86,43 +151,60 @@ jQuery(document).ready(function ($) {
 
             //cast into string
             condition_answer += "";
-            if (condition_answer.indexOf('NOT ') != -1) {
+
+            if (condition_answer.indexOf('NOT ') !== -1) {
                 condition_answer = condition_answer.replace('NOT ', '');
                 showIfConditionMet = false;
             } else {
                 showIfConditionMet = true;
             }
-
-            value = get_input_value(question);
-            var conditionMet = false;
-            if ($('select[name=' + question + ']').length) {
-                value = Array($('select[name=' + question + ']').val());
-            }
-
-            if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length && $("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
-                conditionMet = true;
-                value = [];
-            }
-
-            if (showIfConditionMet) {
-                //check if the index of the value is the condition, or, if the value is the condition
-                if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
-                    $(this).removeClass("hidden");
-                    //remove required attribute of child, and set a class.
-                    if (input.hasClass('is-required')) input.prop('required', true);
-                } else {
-                    $(this).addClass("hidden");
-                    if (input.hasClass('is-required')) input.prop('required', false);
-                }
+            var condition_answers = [];
+            if (condition_answer.indexOf(' OR ') !== -1) {
+                condition_answers = condition_answer.split(' OR ');
+                condition_type = 'OR';
             } else {
-                if ((value != condition_answer)) {
-                    $(this).removeClass("hidden");
-                    if (input.hasClass('is-required')) input.prop('required', true);
-                } else {
-                    $(this).addClass("hidden");
-                    if (input.hasClass('is-required')) input.prop('required', false);
-                }
+                condition_answers = [condition_answer];
             }
+
+            var container = $(this);
+            var conditionMet = false;
+            condition_answers.forEach(function (condition_answer) {
+                value = get_input_value(question);
+
+                if ($('select[name=' + question + ']').length) {
+                    value = Array($('select[name=' + question + ']').val());
+                }
+
+                if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length && $("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
+                    conditionMet = true;
+                    value = [];
+                }
+
+                if (showIfConditionMet) {
+                    //check if the index of the value is the condition, or, if the value is the condition
+                    if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
+                        container.removeClass("hidden");
+                        //remove required attribute of child, and set a class.
+                        if (input.hasClass('is-required')) input.prop('required', true);
+                        //prevent further checks if it's an or statement
+                        if (condition_type === 'OR') conditionMet = true;
+
+                    } else {
+                        container.addClass("hidden");
+                        if (input.hasClass('is-required')) input.prop('required', false);
+                        //prevent further checks if it's an or statement
+                        if (condition_type === 'OR') return;
+                    }
+                } else {
+                    if ((value !== condition_answer)) {
+                        container.removeClass("hidden");
+                        if (input.hasClass('is-required')) input.prop('required', true);
+                    } else {
+                        container.addClass("hidden");
+                        if (input.hasClass('is-required')) input.prop('required', false);
+                    }
+                }
+            });
 
         });
     }
@@ -275,22 +357,22 @@ jQuery(document).ready(function ($) {
 
     //statistics, handle graphs visibility
 
-    var cmplz_visible_stat = '#bar_pct_show_non_eu_container';
-    $(document).on('change', 'select[name=eu]', function(){
+    var cmplz_visible_stat = '#bar_pct_show_no_banner_container';
+    $(document).on('change', 'select[name=eu]', function () {
 
         $(cmplz_visible_stat).hide();
         var eu = $('select[name=eu]').val();
         var type = $('select[name=stats_type]').val();
-        cmplz_visible_stat = '#bar_'+type+'_'+eu+'_container';
+        cmplz_visible_stat = '#bar_' + type + '_' + eu + '_container';
         $(cmplz_visible_stat).fadeIn();
     });
 
-    $(document).on('change', 'select[name=stats_type]', function(){
+    $(document).on('change', 'select[name=stats_type]', function () {
         $(cmplz_visible_stat).hide();
-        var eu = 'show_non_eu';
+        var eu = 'show_no_banner';
         if ($('select[name=eu]').length) eu = $('select[name=eu]').val();
         var type = $('select[name=stats_type]').val();
-        cmplz_visible_stat = '#bar_'+type+'_'+eu+'_container';
+        cmplz_visible_stat = '#bar_' + type + '_' + eu + '_container';
         $(cmplz_visible_stat).fadeIn();
     });
 

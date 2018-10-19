@@ -99,7 +99,6 @@ if (!class_exists("cmplz_DNSMPD")) {
         public function send_dnsmpd_request()
         {
 
-            error_log(print_r($_POST,true));
             //check honeypot
             $error = false;
             if (isset($_POST['firstname']) && !empty($_POST['firstname'])) {
@@ -165,12 +164,16 @@ if (!class_exists("cmplz_DNSMPD")) {
         public function enqueue_assets($hook)
         {
             if (!cmplz_has_region('us') || !COMPLIANZ()->company->sells_personal_data()) return;
-            if (!COMPLIANZ()->document->get_shortcode_page_id('cookie-statement-us')) return;
+            $dnsmpd_page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement-us');
+            if (!$dnsmpd_page_id) return;
 
-            wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/dnsmpd.js", array('jquery'), cmplz_version, true);
+            global $post;
+            if ($post && $post->ID != $dnsmpd_page_id) return;
+
+            wp_enqueue_script('cmplz-dnsmpd', cmplz_url . "DNSMPD/dnsmpd.js", array('jquery'), cmplz_version, true);
             wp_localize_script(
                 'cmplz-dnsmpd',
-                'cmplz-dnsmpd',
+                'cmplz_dnsmpd',
                 array(
                     'url' => admin_url('admin-ajax.php'),
                 )

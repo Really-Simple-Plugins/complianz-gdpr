@@ -41,9 +41,10 @@ $this->fields = $this->fields + array(
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
+
         'organisation_name' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -54,7 +55,7 @@ $this->fields = $this->fields + array(
         ),
         'address_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -64,7 +65,7 @@ $this->fields = $this->fields + array(
         ),
         'postalcode_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -74,7 +75,7 @@ $this->fields = $this->fields + array(
         ),
         'city_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -85,7 +86,7 @@ $this->fields = $this->fields + array(
 
         'country_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'select',
             'options' => $this->countries,
@@ -97,7 +98,7 @@ $this->fields = $this->fields + array(
         ),
         'email_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'email',
             'default' => '',
@@ -107,7 +108,7 @@ $this->fields = $this->fields + array(
         ),
         'telephone_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'phone',
             'default' => '',
@@ -119,7 +120,7 @@ $this->fields = $this->fields + array(
 
         'brand_color' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'colorpicker',
             'default' => '',
@@ -129,27 +130,11 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        // Purpose
-        'purpose_personaldata' => array(
-            'step' => STEP_COMPANY,
-            'section' => 4,
-            'page' => 'wizard',
-            'type' => 'multicheckbox',
-            'default' => '',
-            'label' => __("Indicate for what purpose personal data is processed via your website:", 'complianz'),
-            'help' => __("Also think about future work you will be carrying out. Regarding topic Personalized products, these are products which depend on the visitors behavior. E.g. advertisements based on pages visited.", 'complianz'),
-            'required' => true,
-            'options' => $this->purposes,
-            'callback_notice' => 'purpose_personal_data',
-//            'callback_condition' => array(
-//                'privacy-statement' => 'yes',
-//            ),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-        ),
+
     );
 
 $this->fields = $this->fields + array(
-// Cookie policy
+        // Cookie policy
         'cookie_scan' => array(
             'step' => STEP_COOKIES,
             'section' => 1,
@@ -234,7 +219,7 @@ $this->fields = $this->fields + array(
                 'compile_statistics' => 'google-tag-manager',
             ),
             'label' => __("Tag Manager fires scripts which place cookies", 'complianz'),
-            'comment' => __('If you use Tag Manager to fire scripts on your site, Complianz GDPR will automatically enable categories.', 'complianz'),
+            'comment' => __('If you use Tag Manager to fire scripts on your site, Complianz Privacy Suite will automatically enable categories.', 'complianz'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 

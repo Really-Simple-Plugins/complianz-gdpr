@@ -15,8 +15,6 @@ jQuery(document).ready(function ($) {
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
-    var ccType;
-    var ccDismiss;
 
     function complianz_enable_scripts(){
         if (!ccStatsEnabled) complianz_enable_stats();
@@ -86,7 +84,7 @@ jQuery(document).ready(function ($) {
     }
 
     //if not, reload. As region is new, we also check for this feature, so we know which version of data we use.
-    if (cmplz_user_data.length===0 || (typeof cmplz_user_data.region === 'undefined')) {
+    if (cmplz_user_data.length===0 || (typeof cmplz_user_data.version !== complianz.version)) {
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -109,10 +107,8 @@ jQuery(document).ready(function ($) {
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
         cmplzCheckCookiePolicyID();
 
-        ccType = complianz.type;
-        ccDismiss = complianz.dismiss;
-        //for Non eu visitors, and DNT users, we just track the no-warning option
-        if (cmplz_user_data.do_not_track || (cmplz_user_data.region!=='eu')) {
+        //for Non eu/us visitors, and DNT users, we just track the no-warning option
+        if (cmplz_user_data.do_not_track || (cmplz_user_data.region!=='eu' && cmplz_user_data.region!=='us')) {
             complianz_track_status('no-warning');
         } else {
             //if no status was saved before, we do it now
@@ -123,15 +119,16 @@ jQuery(document).ready(function ($) {
 
         if (!cmplz_user_data.do_not_track) {
             if (cmplz_user_data.region==='eu') {
-                console.log('eu');
+                console.log('eu, opt-in');
                 cmplz_cookie_warning();
-            }else if (cmplz_user_data.region==='us') {
-                console.log('us, informational warning');
-                ccType = 'info';
-                ccDismiss = complianz.accept_informational;
+            } else if (cmplz_user_data.region==='us') {
+                console.log('us, opt-out');
+                complianz.type = 'opt-out';
+                complianz.use_categories = false;
+                complianz.layout = 'basic';
+                complianz.readmore_url = complianz.readmore_url_us;
+                complianz.dismiss = complianz.accept_informational;
                 cmplz_cookie_warning();
-                complianz_enable_cookies();
-                complianz_enable_scripts();
             } else {
                 console.log('other region, no cookie warning');
                 complianz_enable_cookies();
@@ -154,26 +151,33 @@ jQuery(document).ready(function ($) {
             onInitialise: function (status) {
                 //runs only when dismissed or accepted
                 ccStatus = status;
-                if (status === 'allow' && this.hasConsented()) {
+                if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region==='us')) {
                     complianz_enable_cookies();
                     complianz_enable_scripts();
                 }
+
             },
             onStatusChange: function (status, chosenBefore) {
+
                 ccStatus = status;
                 //track here only for non category style, the default one is tracked on save.
-                if (!cmplzUsesCategories()) {
+                if (!complianz.use_categories) {
                     complianz_track_status();
                 }
 
-                if (status === 'allow') {
+                if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region==='us') ) {
                     cmplzSetAcceptedCookiePolicyID();
                     complianz_enable_cookies();
                     complianz_enable_scripts();
                 }
+
+                if (status === 'deny' && cmplz_user_data.region==='us') {
+                    complianz_deleteAllCookies();
+                    complianz_track_status();
+                }
             },
             onRevokeChoice: function () {
-                if (!cmplzUsesCategories() && ccStatus==='allow') {
+                if (!complianz.use_categories && ccStatus==='allow') {
                     complianz_deleteAllCookies();
                     complianz_track_status();
                     //location.reload();
@@ -194,7 +198,7 @@ jQuery(document).ready(function ($) {
             "theme": complianz.theme,
             "static": complianz.static,
             "position": complianz.position,
-            "type" : ccType,
+            "type" : complianz.type,
             "layout": complianz.layout,
             "layouts": {
                 'categories-layout': '{{messagelink}}{{categories-checkboxes}}{{compliance}}',
@@ -209,8 +213,9 @@ jQuery(document).ready(function ($) {
             },
             "content": {
                 "save_preferences" : complianz.save_preferences,
+                "deny": complianz.decline,
                 "message": complianz.message,
-                "dismiss": ccDismiss,
+                "dismiss": complianz.dismiss,
                 "allow": complianz.accept,
                 "link": complianz.readmore,
                 "href": complianz.readmore_url
@@ -218,7 +223,7 @@ jQuery(document).ready(function ($) {
         }, function (popup) {
             ccName = popup;
             //this function always runs
-            if (cmplzUsesCategories()) {
+            if (complianz.use_categories) {
                 //handle category checkboxes
                 cmplzSetCategoryCheckboxes();
 
@@ -237,6 +242,12 @@ jQuery(document).ready(function ($) {
                 cmplzFireCategories();
 
             }
+
+            /* We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice */
+            if (cmplz_user_data.region==='us' && cmplzGetCookie('complianz_consent_status')!=='deny') {
+                complianz_enable_cookies();
+                complianz_enable_scripts();
+            }
         });
     }
 
@@ -251,7 +262,7 @@ jQuery(document).ready(function ($) {
         ccName.setStatus(cookieconsent.status.dismiss);
 
         //save AND run
-        if (cmplzUsesCategories()) {
+        if (complianz.use_categories) {
             cmplzSaveCategories();
             cmplzFireCategories();
         }
@@ -284,7 +295,8 @@ jQuery(document).ready(function ($) {
             dataType: 'json',
             data: ({
                 action: 'cmplz_track_status',
-                status: status
+                status: status,
+                region: cmplz_user_data.region
             })
         });
     }
@@ -323,7 +335,7 @@ jQuery(document).ready(function ($) {
 
         //if all is selected, it's automatically the highest
         var status = cmplzGetCookie('complianz_consent_status');
-        if (cmplzUsesCategories()){
+        if (complianz.use_categories){
 
             if (cmplzGetCookie('cmplz_all')==='allow'){
                 return 'all';
@@ -342,9 +354,7 @@ jQuery(document).ready(function ($) {
             }
 
         } else {
-
-
-            if (status === 'allow') {
+            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region==='us')) {
                 return 'all';
             }
         }
@@ -447,14 +457,6 @@ jQuery(document).ready(function ($) {
         if (cmplzGetCookie('cmplz_stats')==='allow') $('#cmplz_stats').prop('checked', true);
     }
 
-    /*
-    * check if categories are used
-    *
-    * */
-    function cmplzUsesCategories(){
-        return $('#cmplz_functional').length!==0;
-    }
-
     function cmplzMergeObject(target) {
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i];
@@ -476,7 +478,6 @@ jQuery(document).ready(function ($) {
     function cmplzCheckCookiePolicyID() {
         var user_policy_id = cmplzGetCookie('complianz_policy_id');
         if (user_policy_id && (complianz.current_policy_id != user_policy_id)) {
-            console.log('reset cookie consent, policy changed');
             cmplzSetCookie("complianz_consent_status", "", 0);
         }
     }

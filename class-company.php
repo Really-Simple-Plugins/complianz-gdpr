@@ -31,14 +31,23 @@ if (!class_exists("cmplz_company")) {
             return false;
         }
 
+        public function get_default_region(){
+            $company_region_code = $this->get_company_region_code();
+            $default_region = cmplz_has_region($company_region_code) ? $company_region_code : false;
+            return $default_region ? $default_region : CMPLZ_DEFAULT_REGION;
+        }
 
+        /*
+         * Get the company region code. The EU is a region, as is the US
+         *
+         *
+         * */
 
-
-        public function get_single_region(){
-            $regions = cmplz_get_value('regions', false, 'wizard');
-
-            //only if radio
-            if (!is_array($regions) && !empty($regions)) return $regions;
+        public function get_company_region_code()
+        {
+            $country_code = cmplz_get_value('country_company');
+            $region = cmplz_get_region_for_country($country_code);
+            if ($region) return $region;
 
             return CMPLZ_DEFAULT_REGION;
         }
@@ -49,7 +58,6 @@ if (!class_exists("cmplz_company")) {
             if (!$this->sells_personal_data()) return false;
 
             $cats = cmplz_get_value('data_sold_us');
-            error_log(print_r($cats,true));
             foreach($cats as $cat => $value){
                 if ($value==1) return true;
             }
@@ -60,7 +68,6 @@ if (!class_exists("cmplz_company")) {
 
         public function disclosed_data_12months(){
             $cats = cmplz_get_value('data_disclosed_us');
-            error_log(print_r($cats,true));
             foreach($cats as $cat => $value){
                 if ($value==1) return true;
             }

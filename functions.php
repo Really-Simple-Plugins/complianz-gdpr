@@ -144,7 +144,7 @@ function cmplz_get_value($fieldname, $post_id = false, $page = false)
     if (!$page) {
         if (function_exists('icl_translate') || function_exists('pll__')) {
             $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
-            if ($type === 'cookies' || $type === 'thirdparties') {
+            if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
                 if (is_array($value)) {
                     foreach ($value as $key => $key_value) {
                         if (function_exists('pll__')) $value[$key] = pll__($key_value);
@@ -205,31 +205,40 @@ function cmplz_company_in_eu()
     return $in_eu;
 }
 
+/*
+ * Check if this company has this region selected.
+ *
+ *
+ * */
+
 function cmplz_has_region($code){
-
-    $regions = cmplz_get_value('regions', false, 'wizard');
-
-    //radio buttons
-    if (!is_array($regions) && $regions === $code) return true;
-
-    //multicheckbox
-    if (is_array($regions) && isset($regions[$code]) && !empty($regions[$code])) {
-        return true;
-    }
+    $regions = cmplz_get_regions(false);
+    if (isset($regions[$code])) return true;
     return false;
 }
 
-function cmplz_multiple_regions(){
-
+function cmplz_get_regions($labels = true){
     $regions = cmplz_get_value('regions', false, 'wizard');
-    $count = 0;
-    if (is_array($regions)) {
-        foreach ($regions as $key => $value) {
-            if ($value == 1) $count++;
+
+    if (!is_array($regions) && !empty($regions)) $regions = array($regions => 1);
+    $output = array();
+    if (!empty($regions)) {
+        foreach ($regions as $region => $enabled) {
+            if (!$enabled) continue;
+            $label = $labels && isset(COMPLIANZ()->config->regions_labels[$region]) ? COMPLIANZ()->config->regions_labels[$region] : '';
+            $output[$region] = $label;
         }
     }
 
-    return ($count>1);
+    return $output;
+}
+
+function cmplz_multiple_regions(){
+    //if geo ip is not enabled, return false anyway
+    if (!cmplz_get_value('use_country', false, 'cookie_settings')) return false;
+
+    $regions = cmplz_get_regions();
+    return count($regions)>1;
 
 }
 
@@ -435,9 +444,9 @@ function cmplz_init_cookie_blocker(){
 
     if (cmplz_get_value('disable_cookie_block')) return;
 
-    /* Do not block when visitors are from outside EU, if geoip is enabled */
+    /* Do not block when visitors are from outside EU or US, if geoip is enabled */
     //check cache, as otherwise all users would get the same output, while this is user specific
-    if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && (COMPLIANZ()->geoip->region()!=='eu')) return;
+    if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && (COMPLIANZ()->geoip->region()!=='eu') && (COMPLIANZ()->geoip->region()!=='us')) return;
 
     /* Do not block if the cookie policy is already accepted */
     //check cache, as otherwise all users would get the same output, while this is user specific
@@ -465,10 +474,25 @@ function cmplz_ajax_user_settings(){
 
     $data = apply_filters('cmplz_user_data', array());
     $data['version'] = cmplz_version;
-    $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_single_region());
+    $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
     $data['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);
 
     $response = json_encode($data);
+    header("Content-Type: application/json");
+    echo $response;
+    exit;
+}
+
+
+add_action('wp_ajax_nopriv_cmplz_track_status', 'cmplz_ajax_track_status');
+add_action('wp_ajax_cmplz_track_status', 'cmplz_ajax_track_status');
+function cmplz_ajax_track_status(){
+
+    do_action('cmplz_track_status');
+
+    $response = json_encode(array(
+        'success' => true,
+    ));
     header("Content-Type: application/json");
     echo $response;
     exit;
@@ -489,21 +513,3 @@ function cmplz_esc_url_raw($url){
 function cmplz_is_admin(){
     return is_admin();
 }
-
-
-
-/**
- * Load the translation files
- *
- * @since  1.1.5
- *
- * @access public
- *
- */
-
-//add_action('init', 'cpmlz_load_translation', 20);
-//function cpmlz_load_translation()
-//{
-//    load_plugin_textdomain('complianz', FALSE, cmplz_path . 'config/languages/');
-//}
-

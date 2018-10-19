@@ -1,4 +1,7 @@
 <?php
+defined('ABSPATH') or die("you do not have acces to this page!");
+
+
 
 add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
@@ -36,15 +39,24 @@ function cmplz_purpose_personaldata_notice(){
     }
 }
 
+add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');
+function cmplz_data_disclosed_us(){
 
-add_action('cmplz_notice_purpose_personal_data', 'cmplz_purpose_personal_data');
-function cmplz_purpose_personal_data(){
-    $contact_forms = cmplz_site_uses_contact_forms();
-    if ($contact_forms){
-        $social_media = implode(', ', $social_media);
-        cmplz_notice(sprintf(__("The scan found contact forms on your site, so you should select the 'contact' option.", 'complianz'), $social_media));
+    if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option 'Internet activity...'", 'complianz'));
     }
+
 }
+
+add_action('cmplz_notice_data_sold_us', 'cmplz_data_sold_us');
+function cmplz_data_sold_us(){
+
+    if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option 'Internet activity...'", 'complianz'));
+    }
+
+}
+
 
 
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
@@ -118,7 +130,12 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
-
+    if ($fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us'){
+        if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+            $value['internet'] = 1;
+            return $value;
+        }
+    }
 
     return $value;
 }
