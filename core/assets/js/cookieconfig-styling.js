@@ -50,8 +50,14 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_accept' + variation_id + ']', function () {
         $(".cc-allow").html($(this).val());
     });
+    $(document).on('keyup', 'input[name=cmplz_accept_informational' + variation_id + ']', function () {
+        $(".cc-dismiss").html($(this).val());
+    });
     $(document).on('keyup', 'input[name=cmplz_revoke' + variation_id + ']', function () {
         $(".cc-revoke").html($(this).val());
+    });
+    $(document).on('keyup', 'input[name=cmplz_readmore_privacy' + variation_id + ']', function () {
+        $(".cc-link.privacy-policy").html($(this).val());
     });
     $(document).on('keyup', 'input[name=cmplz_view_preferences' + variation_id + ']', function () {
         $(".cc-revoke").html($(this).val());
@@ -66,7 +72,10 @@ jQuery(document).ready(function ($) {
         $(".cc-all").html($(this).val());
     });
     $(document).on('keyup', 'input[name=cmplz_readmore' + variation_id + ']', function () {
-        $(".cc-link").html($(this).val());
+        $(".cc-link.cookie-policy").html($(this).val());
+    });
+    $(document).on('keyup', 'input[name=cmplz_readmore_us' + variation_id + ']', function () {
+        $(".cc-link.cookie-policy").html($(this).val());
     });
 
     $(document).on('keyup', 'textarea[name=cmplz_tagmanager_categories' + variation_id + ']', function () {
@@ -88,7 +97,7 @@ jQuery(document).ready(function ($) {
                     var content = jQuery('#' + textarea_id).val();
                 }
                 content = content.replace(/<[\/]{0,1}(p)[^><]*>/ig, "");
-                $(".cc-message").html(content + '<a href="#" class="cc-link">' + link + '</a>');
+                $(".cc-message").html(content + '<a href="#" class="cc-link cookie-policy">' + link + '</a>');
                 // Update HTML view textarea (that is the one used to send the data to server).
             });
         }
@@ -110,6 +119,11 @@ jQuery(document).ready(function ($) {
 
     $(document).on('keyup', '#cmplz_custom_css' + variation_id + 'editor', function () {
         cmplz_apply_style();
+    });
+
+    $(document).on('change', '#cmplz-region-mode', function () {
+        console.log('change region');
+        cmplz_cookie_warning();
     });
 
     $(document).on('change', 'input[name=cmplz_use_custom_cookie_css' + variation_id + ']', function () {
@@ -144,12 +158,23 @@ jQuery(document).ready(function ($) {
     cmplz_cookie_warning();
 
     function cmplz_cookie_warning() {
+        var ccRegion;
+        var ccDismiss;
 
         if (ccName) {
             ccName.fadeOut();
             ccName.destroy();
         }
 
+        if ($('#cmplz-region-mode').is(':checked')){
+            console.log("regino EU");
+            ccRegion = 'eu';
+            ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
+        } else {
+            console.log("region US");
+            ccRegion = 'us';
+            ccDismiss = $('input[name=cmplz_accept_informational' + variation_id + ']').val();
+        }
         var ccCategories = $('input[name=cmplz_use_categories' + variation_id + ']').is(':checked');
         var ccHideRevoke = $('input[name=cmplz_hide_revoke' + variation_id + ']').is(':checked');
         if (ccHideRevoke) {
@@ -157,7 +182,7 @@ jQuery(document).ready(function ($) {
         } else {
             ccHideRevoke = '';
         }
-        var ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
+
         var ccMessage = $('textarea[name=cmplz_message' + variation_id + ']').val();
         var ccAllow = $('input[name=cmplz_accept' + variation_id + ']').val();
         var ccLink = $('input[name=cmplz_readmore' + variation_id + ']').val();
@@ -165,6 +190,17 @@ jQuery(document).ready(function ($) {
         var ccBorder = $('input[name=cmplz_border_color' + variation_id + ']').val();
         var ccPosition = $('select[name=cmplz_position' + variation_id + ']').val();
         var ccType = 'opt-in';
+        var ccPrivacyLink = '';
+
+        if (ccRegion==='us') {
+            ccLink = $('input[name=cmplz_readmore_us' + variation_id + ']').val();
+            ccType = 'opt-out';
+            ccCategories = false;
+            ccPrivacyLink = ',&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy' + variation_id + ']').val() + '</a>';
+        }
+
+
+
         var ccTheme = $('select[name=cmplz_theme' + variation_id + ']').val();
         var ccLayout = 'basic';
         var ccPopupTextColor = $('input[name=cmplz_popup_text_color' + variation_id + ']').val();
@@ -177,6 +213,7 @@ jQuery(document).ready(function ($) {
         var ccCheckboxes='';
         var ccCategoryFunctional = '';
         var ccCategoryAll = '';
+
 
 
         if (ccCategories) {
@@ -194,14 +231,14 @@ jQuery(document).ready(function ($) {
             //minimum
             var ccCheckboxFunctional = ccCheckboxBase.replace('type', 'checked disabled type');
             ccCheckboxFunctional = ccCheckboxFunctional.replace(/cmplz_all/g, 'cmplz_functional');
-            ccCheckboxes = '<label>' + ccCheckboxFunctional + '<span class="cc-functional">{{categoryfunctional}}</span></label>';
+            ccCheckboxes = '<label>' + ccCheckboxFunctional + '<span class="cc-functional cc-category">{{categoryfunctional}}</span></label>';
 
             ccType = 'categories';
             ccLayout = 'categories-layout';
 
             ccRevokeText =ccViewPreferences;
             if (ccHasStatsCategory){
-                ccCheckboxes += '<label>' + ccCheckboxBase + '<span class="cc-stats">'+ccCategoryStats+'</span></label>';
+                ccCheckboxes += '<label>' + ccCheckboxBase.replace(/cmplz_all/g, 'cmplz_stats') + '<span class="cc-stats cc-category">'+ccCategoryStats+'</span></label>';
             }
 
             if (ccUseTagManagerCategories){
@@ -209,13 +246,13 @@ jQuery(document).ready(function ($) {
                 tmCatsKV.forEach(function(category, i) {
                     if (category.length > 0) {
                         var tmp = ccCheckboxBase.replace(/cmplz_all/g, 'cmplz_' + i);
-                        ccCheckboxes += '<label>' + tmp + '<span class="cc-tm">' + category.trim() + '</span></label>';
+                        ccCheckboxes += '<label>' + tmp + '<span class="cc-tm cc-category">' + category.trim() + '</span></label>';
                     }
                 });
-                ccCheckboxes += '<label>' + ccCheckboxBase + '<span class="cc-all">{{categoryall}}</span></label>';
+                ccCheckboxes += '<label>' + ccCheckboxBase + '<span class="cc-all cc-category">{{categoryall}}</span></label>';
 
             } else {
-                ccCheckboxes += '<label>' + ccCheckboxBase + '<span class="cc-all">{{categoryall}}</span></label>';
+                ccCheckboxes += '<label>' + ccCheckboxBase + '<span class="cc-all cc-category">{{categoryall}}</span></label>';
             }
         }
 
@@ -253,6 +290,7 @@ jQuery(document).ready(function ($) {
             "elements": {
                 "categories-checkboxes": ccCheckboxes,
                 "save": '<a aria-label="save cookies" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
+                "messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="learn more about cookies" tabindex="0" class="cc-link cookie-policy" href="{{href}}" target="_blank">{{link}}</a>' + ccPrivacyLink + '</span>',
             },
             "type": ccType,
             "compliance": {
@@ -265,6 +303,7 @@ jQuery(document).ready(function ($) {
                 "save_preferences" : ccSavePreferences,
                 "message": ccMessage,
                 "dismiss": ccDismiss,
+                "deny": '',
                 "allow": ccAllow,
                 "link": ccLink,
                 "href": '#',

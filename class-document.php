@@ -32,11 +32,92 @@ if (!class_exists("cmplz_document")) {
                 $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
                 $load_css = cmplz_get_value('use_document_css');
                 if ($load_css) {
-                    wp_register_style('cmplz-document', cmplz_url . "assets/css/document$min.css", false, cmplz_version);
+                    wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);
                     wp_enqueue_style('cmplz-document');
                 }
             }
+
         }
+
+
+        /*
+          * Get the region for a post id, based on the post type.
+          *
+          * */
+
+        public function get_region($post_id = false){
+
+            if ($post_id) {
+                $term = wp_get_post_terms($post_id,'cmplz-region');
+                if (is_wp_error($term)) return false;
+
+                if (isset($term[0])) return $term[0]->slug;
+
+                return false;
+            }
+
+            $regions = cmplz_get_regions();
+
+            if (isset($_GET['page'])){
+                $page = sanitize_title($_GET['page']);
+                foreach($regions as $region => $label){
+                    if (strpos($page, '-'.$region)!==false){
+                        return $region;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        public function set_region($post_id, $region=false){
+            if (!$region) $region = $this->get_region();
+
+            $term = get_term_by('slug', $region,'cmplz-region');
+            if (!$term) {
+                wp_insert_term(COMPLIANZ()->config->regions[$region]['label'], 'cmplz-region',array(
+                    'slug' => $region,
+                ));
+                $term = get_term_by('slug', $region,'cmplz-region');
+            }
+
+            if (empty($term)) return;
+
+            $term_id = $term->term_id;
+
+            wp_set_object_terms( $post_id, array($term_id), 'cmplz-region' );
+        }
+
+
+        /*
+         * Check if legal documents should be updated, and send mail to admin if so
+         *
+         *
+         * */
+
+        public function cron_check_last_updated_status(){
+
+            if ($this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
+                update_option('cmplz_update_legal_documents_mail_sent', true);
+                $to = get_option('admin_email');
+
+                $headers = array();
+                if (empty($subject)) $subject = sprintf(_x('Your legal documents on %s need to be updated.','Subject in notification email', 'complianz'), home_url());
+
+                $message = sprintf(_x('Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.', 'Email message in notification email', 'complianz'), home_url());
+
+                add_filter('wp_mail_content_type', function ($content_type) {
+                    return 'text/html';
+                });
+
+                wp_mail($to, $subject, $message, $headers);
+
+                // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+                remove_filter('wp_mail_content_type', 'set_html_content_type');
+            }
+        }
+
 
         public function revoke_link($atts = [], $content = null, $tag = '')
         {
@@ -62,17 +143,33 @@ if (!class_exists("cmplz_document")) {
 
         public function init()
         {
-            foreach (COMPLIANZ()->config->pages as $type => $page) {
-                add_shortcode('cmplz-document', array($this, 'load_document'));
-            }
-
+            add_shortcode('cmplz-document', array($this, 'load_document'));
             add_shortcode('cmplz-revoke-link', array($this, 'revoke_link'));
+            add_shortcode('cmplz-do-not-sell-personal-data-form', array($this, 'do_not_sell_personal_data_form'));
 
             //clear shortcode transients after post update
             add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
+            add_action('save_post', array($this, 'set_page_url_on_save_post'), 10, 1);
             add_action('cmplz_wizard_add_pages_to_menu', array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+
+        }
+
+        public function do_not_sell_personal_data_form($atts = [], $content = null, $tag = '')
+        {
+
+            // normalize attribute keys, lowercase
+            $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+            ob_start();
+
+            // override default attributes with user attributes
+            $atts = shortcode_atts(['text' => false,], $atts, $tag);
+
+            echo cmplz_do_not_sell_personal_data_form();
+
+            return ob_get_clean();
 
         }
 
@@ -89,6 +186,10 @@ if (!class_exists("cmplz_document")) {
 
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
+                if (COMPLIANZ()->company->sells_personal_data()){
+                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Data" page clearly visible on your homepage.', 'complianz'));
+                }
+
                 $docs = array_map('get_the_title', $pages_not_in_menu);
                 $docs = implode(", ", $docs);
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
@@ -145,6 +246,7 @@ if (!class_exists("cmplz_document")) {
                 }
             }
         }
+
 
         /*
          * Get all pages that are not assigned to any menu
@@ -213,7 +315,7 @@ if (!class_exists("cmplz_document")) {
 
         public function create_page($type)
         {
-            $pages = $page_titles = COMPLIANZ()->config->pages;
+            $pages = COMPLIANZ()->config->pages;
 
             if (!isset($pages[$type])) return false;
 
@@ -234,18 +336,17 @@ if (!class_exists("cmplz_document")) {
                 $page_id = wp_insert_post($page);
             }
 
-            /*
-             * Set default privacy page for WP
-             *
-             * */
+            do_action('cmplz_create_page', $page_id, $type);
 
-            if ($type == 'privacy-statement') {
-                update_option('wp_page_for_privacy_policy', $page_id);
-            }
+//            if ($type == 'cookie-statement') {
+//                COMPLIANZ()->cookie->set_cookie_statement_page();
+//            }
+//
+//            if ($type == 'cookie-statement-us') {
+//                COMPLIANZ()->cookie->set_cookie_statement_us_page();
+//            }
 
-            if ($type == 'cookie-statement') {
-                COMPLIANZ()->cookie->set_cookie_statement_page();
-            }
+            $this->set_page_url($page_id, $type);
 
         }
 
@@ -270,6 +371,19 @@ if (!class_exists("cmplz_document")) {
             return 'cmplz-document type="' . $type . '"';
         }
 
+        public function get_document_type($post_id){
+
+            $pattern = '/cmplz-document type="(.*?)"/i';
+            $post = get_post($post_id);
+
+            $content = $post->post_content;
+            if (preg_match_all($pattern, $content, $matches, PREG_PATTERN_ORDER)) {
+                if (isset($matches[1][0])) return $matches[1][0];
+            }
+
+            return false;
+        }
+
 
         public function get_required_pages()
         {
@@ -279,7 +393,7 @@ if (!class_exists("cmplz_document")) {
             foreach ($required_pages as $type => $page) {
                 if (!$page['public']) continue;
 
-                if (COMPLIANZ()->document->page_required($page)) {
+                if ($this->page_required($page)) {
                     $pages[] = $this->get_shortcode_page_id($type);
                 }
             }
@@ -291,6 +405,7 @@ if (!class_exists("cmplz_document")) {
 
         public function load_document($atts = [], $content = null, $tag = '')
         {
+
             // normalize attribute keys, lowercase
             $atts = array_change_key_case((array)$atts, CASE_LOWER);
 
@@ -300,22 +415,17 @@ if (!class_exists("cmplz_document")) {
             $atts = shortcode_atts(['type' => false,], $atts, $tag);
             $type = $atts['type'];
             if ($type) {
-                $html = get_transient("complianz_document_$type");
 
-                if ($this->use_cache($type)) {
-                    if (!$html) $html = $this->get_document_html($type);
-                    set_transient("complianz_document_$type", $html, WEEK_IN_SECONDS);
-                } else {
-                    $html = $this->get_document_html($type);
-                }
+                $html = $this->get_document_html($type);
 
+                //basic color style for revoke button
+                $background_color = cmplz_get_value('brand_color');
+                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}#cmplz-document a.cc-revoke-custom:hover {color: ".$background_color.";border-color: ".$background_color.";}";
                 if (cmplz_get_value('use_custom_document_css')) {
-                    $custom_css = cmplz_get_value('custom_document_css');
-                    if (!empty($custom_css)) {
-                        $custom_css = '<style>' . $custom_css . '</style>';
-                        $html = $custom_css . $html;
-                    }
+                    $custom_css .= cmplz_get_value('custom_document_css');
                 }
+                $custom_css = '<style>' . $custom_css . '</style>';
+                $html = $custom_css . $html;
                 echo $html;
             }
 
@@ -324,6 +434,8 @@ if (!class_exists("cmplz_document")) {
 
         private function use_cache($type)
         {
+
+            //do not cache on multilanguage environments
             if (function_exists('pll__') || function_exists('icl_translate')) {
                 return false;
             }
@@ -342,14 +454,18 @@ if (!class_exists("cmplz_document")) {
           checks if the current page contains the shortcode.
         */
 
-        public function is_shortcode_page()
+        public function is_shortcode_page($post_id = false)
         {
             $shortcode = 'cmplz-document';
-            global $post;
+            if ($post_id){
+                $post = get_post($post_id);
+            } else {
+                global $post;
+            }
+
             if ($post) {
                 if (has_shortcode($post->post_content, $shortcode)) return true;
             }
-
             return false;
         }
 
@@ -361,14 +477,13 @@ if (!class_exists("cmplz_document")) {
         {
             $shortcode = 'cmplz-document';
 
-            delete_transient('cmplz_shortcode_' . $type);
             $page_id = get_transient('cmplz_shortcode_' . $type);
 
             if (!$page_id) {
-
                 $pages = get_pages();
                 foreach ($pages as $page) {
-                    if (has_shortcode($page->post_content, $shortcode) && strpos($page->post_content, 'type="' . $type)) {
+
+                    if (has_shortcode($page->post_content, $shortcode) && strpos($page->post_content, 'type="' . $type.'"')!==FALSE) {
                         set_transient('cmplz_shortcode_' . $type, $page->ID, DAY_IN_SECONDS);
                         return $page->ID;
                     }
@@ -385,11 +500,57 @@ if (!class_exists("cmplz_document")) {
          *
          * clear shortcode transients after page update */
 
-        public function clear_shortcode_transients($post_id, $post = false)
+        public function clear_shortcode_transients($post_id=false, $post = false)
         {
             $pages = COMPLIANZ()->config->pages;
             foreach ($pages as $type => $page) {
-                delete_transient('cmplz_shortcode_' . $type);
+                //if a post id is passed, this is from the save post hook. We only clear the transient for this specific post id.
+                if ($post_id) {
+                    if (get_transient('cmplz_shortcode_' . $type)==$post_id){
+                        delete_transient('cmplz_shortcode_' . $type);
+                        delete_transient("complianz_document_$type");
+                    }
+
+                } else {
+                    delete_transient('cmplz_shortcode_' . $type);
+                    delete_transient("complianz_document_$type");
+                }
+
+            }
+        }
+
+
+        /*
+         * @hooked save_post
+         *
+         * updates the stored cmplz url for this post.
+         *
+         *
+         * */
+
+        public function set_page_url_on_save_post($post_id){
+            if ($this->is_shortcode_page($post_id)) {
+                $type = $this->get_document_type($post_id);
+                $this->set_page_url($post_id, $type);
+            }
+        }
+
+
+        public function get_page_url($type){
+            return get_option('cmplz_url_'.$type);
+        }
+
+        /*
+         *
+         * updates the stored cmplz url for a post
+         *
+         * */
+
+        public function set_page_url($post_id, $type){
+            $pages = COMPLIANZ()->config->pages;
+            if (isset($pages[$type])){
+                $url = get_permalink($post_id);
+                update_option('cmplz_url_'.$type, $url);
             }
         }
 

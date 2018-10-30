@@ -31,6 +31,22 @@ $this->eu_countries = array(
     "SE"
 );
 
+$this->regions = array(
+    'us' => array(
+        'label' => __('US', 'complianz'),
+        'countries' => array('us'),
+        'law' => __("CaCPA", 'complianz'),
+    ),
+
+    'eu' => array(
+        'label' => __('EU', 'complianz'),
+        'countries' => $this->eu_countries,
+        'law' => __("GDPR", 'complianz'),
+    )
+);
+
+
+
 $this->cookie_consent_converter = array(
     "GB" => "UK",
 );
@@ -283,5 +299,3 @@ $this->countries = array
     'ZM' => __('Zambia', 'complianz'),
     'ZW' => __('Zimbabwe', 'complianz'),
 );
-
-?>

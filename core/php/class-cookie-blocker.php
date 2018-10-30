@@ -124,9 +124,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 foreach($matches[2] as $key => $match){
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
-                    if (strpos($iframe_src, 'youtube.com/embed/')!==false){
-                        $output = str_replace('youtube.com/embed/', 'youtube-nocookie.com/embed/', $output);
-                    } elseif ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
+                    if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
                         //remove src
                         $new = preg_replace($iframe_pattern_src, '',$new);

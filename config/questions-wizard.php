@@ -7,7 +7,6 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * callback roept action cmplz_$page_$callback aan
  * required: verplicht veld.
  * help: helptext die achter het veld getoond wordt.
- * notice_callback: roept functie aan die iets in de notice stopt, functie die hooked aan cmplz_notice_{notice_callback}
 
 
                 "fieldname" => '',
@@ -20,30 +19,32 @@ defined('ABSPATH') or die("you do not have acces to this page!");
                 'condition' => false,
                 'callback' => false,
                 'placeholder' => '',
-                'notice_callback' => false,
                 'optional' => false,
 
 * */
 
 // MY COMPANY SECTION
 $this->fields = $this->fields + array(
-
-//        'privacy-statement-page' => array(
-//            'step' => 1,
-//            'section' => 1,
-//            'page' => 'wizard',
-//            'type' => 'select',
-//            'label' => __("Select your privacy statement page", 'complianz'),
-//            'options' => $this->get_pages_options(),
-//            'required' => true,
-//            'condition' => array('privacy-statement' => 'no'),
-//            'time' => CMPLZ_MINUTES_PER_QUESTION,
-//        ),
-
+        'regions' => array(
+            'step' => STEP_COMPANY,
+            'section' => 2,
+            'page' => 'wizard',
+            'default' => 'eu',
+            'type' => 'radio',
+            'options' => array(
+                'eu' => __('European Union (GDPR)',"complianz"),
+                'us' => __('United States',"complianz"),
+            ),
+            'label' => __("From which region(s) do you receive visitors on your website?", 'complianz'),
+            'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz'),
+            'comment' => sprintf(__("If you want to target customers from several regions, you might consider the %spremium%s version, which offers this capability.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>'),
+            'required' => true,
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
 
         'organisation_name' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -54,7 +55,7 @@ $this->fields = $this->fields + array(
         ),
         'address_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -64,7 +65,7 @@ $this->fields = $this->fields + array(
         ),
         'postalcode_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -74,7 +75,7 @@ $this->fields = $this->fields + array(
         ),
         'city_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
@@ -85,7 +86,7 @@ $this->fields = $this->fields + array(
 
         'country_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'select',
             'options' => $this->countries,
@@ -97,7 +98,7 @@ $this->fields = $this->fields + array(
         ),
         'email_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'email',
             'default' => '',
@@ -107,7 +108,7 @@ $this->fields = $this->fields + array(
         ),
         'telephone_company' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'phone',
             'default' => '',
@@ -119,7 +120,7 @@ $this->fields = $this->fields + array(
 
         'brand_color' => array(
             'step' => STEP_COMPANY,
-            'section' => 2,
+            'section' => 3,
             'page' => 'wizard',
             'type' => 'colorpicker',
             'default' => '',
@@ -128,10 +129,28 @@ $this->fields = $this->fields + array(
             'required' => false,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
+
+        // Purpose
+        'purpose_personaldata' => array(
+            'step' => STEP_COMPANY,
+            'section' => 5,
+            'page' => 'wizard',
+            'type' => 'multicheckbox',
+            'default' => '',
+            'label' => __("Indicate for what purpose personal data is processed via your website:", 'complianz'),
+            'help' => __("Also think about future work you will be carrying out. Regarding topic Personalized products, these are products which depend on the visitors behavior. E.g. advertisements based on pages visited.", 'complianz'),
+            'required' => true,
+            'options' => $this->purposes,
+            'callback_notice' => 'purpose_personal_data',
+//            'callback_condition' => array(
+//                'privacy-statement' => 'yes',
+//            ),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
     );
 
 $this->fields = $this->fields + array(
-// Cookie policy
+        // Cookie policy
         'cookie_scan' => array(
             'step' => STEP_COOKIES,
             'section' => 1,
@@ -160,7 +179,6 @@ $this->fields = $this->fields + array(
                 'google-tag-manager' => __('Yes, with Google Tag Manager', 'complianz'),
                 'no' => __('No', 'complianz')
             ),
-            'notice_callback' => 'statistics_usage',
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -217,7 +235,7 @@ $this->fields = $this->fields + array(
                 'compile_statistics' => 'google-tag-manager',
             ),
             'label' => __("Tag Manager fires scripts which place cookies", 'complianz'),
-            'comment' => __('If you use Tag Manager to fire scripts on your site, Complianz GDPR will automatically enable categories.', 'complianz'),
+            'comment' => __('If you use Tag Manager to fire scripts on your site, Complianz Privacy Suite will automatically enable categories.', 'complianz'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -301,7 +319,6 @@ $this->fields = $this->fields + array(
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'label' => __("This website uses cookies or similiar techniques.", 'complianz'),
-            'notice_callback' => 'cookie_usage',
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -325,7 +342,6 @@ $this->fields = $this->fields + array(
             'page' => 'wizard',
             'type' => 'radio',
             'required' => true,
-            'notice_callback' => 'uses_social_media',
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'default' => '',
@@ -359,7 +375,6 @@ $this->fields = $this->fields + array(
             'page' => 'wizard',
             'type' => 'radio',
             'required' => true,
-            'notice_callback' => 'uses_thirdparty_services',
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'default' => '',
@@ -413,7 +428,6 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'compile_statistics' => 'NOT google-analytics,NOT google-tag-manager,NOT no',
             ),
-            'notice_callback' => 'statistics_script',
             'comment' => sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/adding-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),

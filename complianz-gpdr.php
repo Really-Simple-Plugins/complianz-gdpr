@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Complianz GDPR
+ * Plugin Name: Complianz Privacy Suite (GDPR/CaCPA)
  * Plugin URI: https://www.complianz.io/complianz-gdpr
- * Description: Complianz GDPR privacy suite with a conditional cookie warning and customized cookie policy
- * Version: 1.2.5
+ * Description: Complianz Privacy Suite (GDPR/CaCPA) suite with a conditional cookie warning and customized cookie policy
+ * Version: 2.0.0
  * Text Domain: complianz
  * Domain Path: /config/languages
  * Author: RogierLankhorst, Complianz team
@@ -55,6 +55,8 @@ if (!class_exists('COMPLIANZ')) {
 
                     self::$instance->config = new cmplz_config();
                     self::$instance->integrations = new cmplz_integrations();
+                    self::$instance->company = new cmplz_company();
+                    if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
 
                     if (is_admin()) {
                         self::$instance->admin = new cmplz_admin();
@@ -64,7 +66,9 @@ if (!class_exists('COMPLIANZ')) {
 
                     self::$instance->geoip = '';
                     self::$instance->cookie = new cmplz_cookie();
+
                     self::$instance->document = new cmplz_document();
+
 
                     if (cmplz_third_party_cookies_active()) {
                         self::$instance->cookie_blocker = new cmplz_cookie_blocker();
@@ -110,8 +114,12 @@ if (!class_exists('COMPLIANZ')) {
                 require_once(cmplz_path . 'callback-notices.php');
             }
 
+            require_once(cmplz_path . 'cron/cron.php');
+
             require_once(cmplz_path . 'class-cookie.php');
             require_once(cmplz_path . 'integrations.php');
+            require_once(cmplz_path . 'class-company.php');
+            require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
 
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-document-core.php');
@@ -125,19 +133,6 @@ if (!class_exists('COMPLIANZ')) {
         private function hooks()
         {
             add_action('init', 'cmplz_init_cookie_blocker');
-            add_action('wp_ajax_nopriv_cmplz_user_settings', 'cmplz_ajax_user_settings');
-            add_action('wp_ajax_cmplz_user_settings', 'cmplz_ajax_user_settings');
-            add_action('wp_ajax_nopriv_cmplz_track_status', 'cmplz_ajax_track_status');
-            add_action('wp_ajax_cmplz_track_status',  'cmplz_ajax_track_status');
-        }
-
-        public function cmplz_ajax_track_status(){
-            $response = json_encode(array(
-                'success' => true,
-            ));
-            header("Content-Type: application/json");
-            echo $response;
-            exit;
         }
     }
 }
@@ -148,4 +143,12 @@ if (!function_exists('COMPLIANZ')) {
     }
 
     add_action( 'plugins_loaded', 'COMPLIANZ', 9 );
+}
+
+register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp');
+if (!function_exists('cmplz_set_activation_time_stamp')) {
+    function cmplz_set_activation_time_stamp($networkwide)
+    {
+        update_option('cmplz_activation_time', time());
+    }
 }

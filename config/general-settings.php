@@ -8,7 +8,7 @@ $this->fields = $this->fields + array(
             'label' => __("Use document CSS", 'complianz'),
             'table' => true,
             'default' => true,
-            'help' => __("Disable if you don't want the default Complianz GDPR document CSS to load",'complianz'),
+            'help' => __("Disable if you don't want the default Complianz Privacy Suite document CSS to load",'complianz'),
         ),
 
         'use_custom_document_css' => array(
@@ -37,6 +37,64 @@ $this->fields = $this->fields + array(
             'default' => false,
             'help' => __('Not recommended. You can disable the brute force blocking of third party scripts if you encounter issues with styling on your front-end.','complianz'),
             'table' => true,
+        ),
+
+        'notification_from_email' => array(
+            'page' => 'settings',
+            'type' => 'email',
+            'label' => __("Notification sender email address", 'complianz'),
+            'default' => false,
+            'help' => __("When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.",'complianz'),
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
+        'notification_email_subject' => array(
+            'page' => 'settings',
+            'type' => 'text',
+            'label' => __("Notification email subject", 'complianz'),
+            'default' => __('Your request has been processed','complianz'),
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
+        'notification_email_content' => array(
+            'page' => 'settings',
+            'type' => 'wysiwyg',
+            'label' => __("Notification email content", 'complianz'),
+            'default' => __('Hi {name}','complianz')."<br><br>".__('Your request has been processed successfully.','complianz')."<br><br>"._x('Regards,','email signature','complianz').'<br><br>{blogname}',
+            'table' => true,
+            'callback_condition' => array(
+                //'regions' => 'us',
+                'purpose_personaldata' => 'selling-data-thirdparty',
+            ),
+        ),
+
+        'export_settings' => array(
+            'page' => 'settings',
+            'disabled' =>true,
+            'type' => 'button',
+            'action' => 'cmplz_export_settings',
+            'post_get' => 'get',
+            'label' => __("Export settings", 'complianz'),
+            'table' => true,
+            'comment' => __('If you want to export your settings, please check out the premium version', 'complianz'),
+        ),
+
+        'import_settings' => array(
+            'page' => 'settings',
+            'disabled' => true,
+            'type' => 'upload',
+            'action' => 'cmplz_import_settings',
+            'label' => __("Import settings", 'complianz'),
+            'table' => true,
+            'comment' => __('If you want to import your settings, please check out the premium version', 'complianz'),
         ),
 
 

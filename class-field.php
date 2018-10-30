@@ -57,6 +57,7 @@ if (!class_exists("cmplz_field")) {
                 'disabled' => false,
                 'has_variations' => false,
                 'hidden' => false,
+                'region' => false,
             );
 
 
@@ -122,6 +123,9 @@ if (!class_exists("cmplz_field")) {
 
                 //we're assuming the page is the same for all fields here, as it's all on the same page (or should be)
 
+                //clear the cookie settings cache.
+                $variation_id = COMPLIANZ()->cookie->selected_variation_id();
+                delete_transient('cmplz_cookie_settings_cache_' . $variation_id);
             }
         }
 
@@ -189,6 +193,8 @@ if (!class_exists("cmplz_field")) {
 
         public function save_field($fieldname, $fieldvalue)
         {
+            if (!current_user_can('manage_options')) return;
+
             $fields = COMPLIANZ()->config->fields();
             $fieldname = str_replace("cmplz_", '', $fieldname);
 
@@ -301,15 +307,10 @@ if (!class_exists("cmplz_field")) {
         private
         function filter_complianz_fields($fieldname)
         {
+            $fieldname = cmplz_strip_variation_id_from_string($fieldname);
 
-            $fieldnames = array();
-            $fieldnames[] = $fieldname;
-            //we also check if removing the last character results in a valid fieldname, for variation purposes in the cookie settings.
-            $fieldnames[] = substr($fieldname, 0, -1);
-            foreach ($fieldnames as $fieldname){
-                if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
-                    return true;
-                }
+            if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
+                return true;
             }
 
             return false;
@@ -551,11 +552,12 @@ if (!class_exists("cmplz_field")) {
 
             <?php do_action('complianz_after_label', $args); ?>
             <?php if (!empty($args['options'])) {?>
+            <div class="<?php if ($args['required']) echo 'cmplz-validate-multicheckbox'?>">
             <?php foreach ($args['options'] as $option_key => $option_label) {
 
             $sel_key = (isset($value[$option_key]) && $value[$option_key]) ? $option_key : $default_index;
             ?>
-            <div class="cmplz-validate-multicheckbox">
+            <div>
                 <input name="<?php echo esc_html($fieldname) ?>[<?php echo $option_key ?>]" type="hidden" value=""/>
                 <input class="<?php if ($args['required']) echo 'is-required'; ?>"
                        name="<?php echo esc_html($fieldname) ?>[<?php echo $option_key ?>]" size="40" type="checkbox"
@@ -565,6 +567,7 @@ if (!class_exists("cmplz_field")) {
                 </label>
             </div>
             <?php } ?>
+            </div>
         <?php } else {
                 cmplz_notice(__('No options found', 'complianz'));
         } ?>
@@ -588,7 +591,7 @@ if (!class_exists("cmplz_field")) {
             <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
-
+            <div class="cmplz-validate-radio">
             <?php
             if (!empty($options)) {
                 foreach ($options as $option_value => $option_label) {
@@ -605,6 +608,7 @@ if (!class_exists("cmplz_field")) {
                 <?php }
             }
             ?>
+            </div>
 
             <?php do_action('complianz_after_field', $args); ?>
             <?php
@@ -864,6 +868,12 @@ if (!class_exists("cmplz_field")) {
                     case 'text':
                         $this->text($args);
                         break;
+                    case 'button':
+                        $this->button($args);
+                        break;
+                    case 'upload':
+                        $this->upload($args);
+                        break;
                     case 'url':
                         $this->url($args);
                         break;
@@ -918,6 +928,9 @@ if (!class_exists("cmplz_field")) {
                     case 'editor':
                         $this->editor($args);
                         break;
+                    case 'label':
+                        $this->label($args);
+                        break;
                 }
             }
 
@@ -934,8 +947,12 @@ if (!class_exists("cmplz_field")) {
         function notice($args)
         {
             if (!$this->show_field($args)) return;
-            cmplz_notice($args['label']);
 
+
+            do_action('complianz_before_label', $args);
+            cmplz_notice($args['label']);
+            do_action('complianz_after_label', $args);
+            do_action('complianz_after_field', $args);
         }
 
         public
@@ -959,6 +976,62 @@ if (!class_exists("cmplz_field")) {
                 <?php } ?>
             </select>
 
+            <?php do_action('complianz_after_field', $args); ?>
+            <?php
+        }
+
+        public
+        function label($args)
+        {
+
+            $fieldname = 'cmplz_' . $args['fieldname'];
+            if (!$this->show_field($args)) return;
+
+            ?>
+            <?php do_action('complianz_before_label', $args); ?>
+            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?></label>
+            <?php do_action('complianz_after_label', $args); ?>
+
+            <?php do_action('complianz_after_field', $args); ?>
+            <?php
+        }
+
+        public
+        function button($args)
+        {
+
+            $fieldname = 'cmplz_' . $args['fieldname'];
+            if (!$this->show_field($args)) return;
+
+            ?>
+            <?php do_action('complianz_before_label', $args); ?>
+            <label><?php echo esc_html($args['label']) ?></label>
+            <?php do_action('complianz_after_label', $args); ?>
+            <?php if ($args['post_get']==='get'){ ?>
+                <a href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
+            <?php } else { ?>
+                <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="cmplz-<?php echo $args['action']?>"
+                       value="<?php echo esc_html($args['label']) ?>">
+            <?php }  ?>
+
+            <?php do_action('complianz_after_field', $args); ?>
+            <?php
+        }
+
+        public
+        function upload($args)
+        {
+            if (!$this->show_field($args)) return;
+
+            ?>
+            <?php do_action('complianz_before_label', $args); ?>
+            <label><?php echo esc_html($args['label']) ?></label>
+            <?php do_action('complianz_after_label', $args); ?>
+
+            <input type="file" type="submit" name="cmplz-upload-file"
+                   value="<?php echo esc_html($args['label']) ?>">
+            <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
+                   value="<?php _e('Start', 'complianz') ?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
@@ -1170,14 +1243,16 @@ if (!class_exists("cmplz_field")) {
         {
             $processing_agreements = COMPLIANZ()->processing->processing_agreements();
             $values = $this->get_value($args['fieldname']);
+            $region = $args['region'];
+
             if (!is_array($values)) $values = array();
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo $args["label"] ?></label>
+            <label><?php echo $args["label"]." ".__('list', 'complianz') ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <button class="button" type="submit" class="cmplz-add-new-processor" name="cmplz_add_multiple"
-                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new processor", 'complianz') ?></button>
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php printf(__("Add new %s", 'complianz'),$args['label']) ?></button>
             <br><br>
             <?php
             if ($values) {
@@ -1191,12 +1266,13 @@ if (!class_exists("cmplz_field")) {
                     );
 
                     $value = wp_parse_args($value, $default_index);
-                    $create_processing_agreement_link = '<a href="'.admin_url('edit.php?post_type=cmplz-processing&page=cmplz-processing').'">';
+                    $region = $args['region'];
+                    $create_processing_agreement_link = '<a href="'.admin_url("edit.php?post_type=cmplz-processing&page=cmplz-processing-$region").'">';
 
                     ?>
                     <div>
                         <div>
-                            <label><?php _e("What is the name of the processor with whom you share the data?", 'complianz') ?></label>
+                            <label><?php printf(__("What is the name of the %s with whom you share the data?", 'complianz'),$args['label']) ?></label>
                         </div>
                         <div>
                             <input type="text"
@@ -1204,13 +1280,13 @@ if (!class_exists("cmplz_field")) {
                                    value="<?php echo esc_html($value['name']) ?>">
                         </div>
                         <div>
-                            <label><?php printf(__('Select the processing agreement you made with this processor, or %screate one%s', 'complianz'), $create_processing_agreement_link,'</a>') ?></label>
+                            <label><?php printf(__('Select the processing agreement you made with this %s, or %screate one%s', 'complianz'), $args['label'],$create_processing_agreement_link,'</a>') ?></label>
                         </div>
                         <div>
                             <label>
                                 <select name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][processing_agreement]">
                                     <option value="0"><?php _e('No agreement selected','complianz')?></option>
-                                    <option value="-1" <?php if (floatval(($value['processing_agreement'])==-1)) echo 'selected'?>><?php _e('A processing agreement outside Complianz GDPR','complianz')?></option>
+                                    <option value="-1" <?php if (floatval(($value['processing_agreement'])==-1)) echo 'selected'?>><?php _e('A processing agreement outside Complianz Privacy Suite','complianz')?></option>
                                     <?php foreach($processing_agreements as $id => $title){
                                         $selected = (intval($value['processing_agreement'])==$id) ? 'selected' : '';
                                         echo '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
@@ -1219,14 +1295,13 @@ if (!class_exists("cmplz_field")) {
                                 <br><br>
                         </div>
                         <div>
-                            <label><?php _e('Processor country', 'complianz') ?></label>
+                            <label><?php printf(__('%s country', 'complianz'),$args['label']) ?></label>
                         </div>
                         <div>
                             <input type="text"
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][country]"
                                    value="<?php echo esc_html($value['country']) ?>">
                         </div>
-
 
                         <div>
                             <label><?php _e('Purpose', 'complianz') ?></label>
@@ -1236,6 +1311,7 @@ if (!class_exists("cmplz_field")) {
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][purpose]"
                                    value="<?php echo esc_html($value['purpose']) ?>">
                         </div>
+                        <?php if ($region==='eu') {?>
                         <div>
                             <label><?php _e('What type of data is shared', 'complianz') ?></label>
                         </div>
@@ -1244,7 +1320,7 @@ if (!class_exists("cmplz_field")) {
                                    name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][data]"
                                    value="<?php echo esc_html($value['data']) ?>">
                         </div>
-
+                        <?php }?>
 
                     </div>
                     <button class="button cmplz-remove" type="submit"
@@ -1350,6 +1426,7 @@ if (!class_exists("cmplz_field")) {
 
             //if no value isset, pass a default
             $value = isset($options[$fieldname]) ? $options[$fieldname] : apply_filters('cmplz_default_value', $default, $fieldname);
+
             return $value;
         }
 

@@ -6,7 +6,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * if match should be made on partial of cookiename only, prefix with "partial_"
  *
  * */
-$this->ignore_cookie_list = array('wp-settings', 'redux_blast', 'wordpress_test_cookie');
+$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie');
 
 $this->known_cookie_keys = array(
 
@@ -25,7 +25,7 @@ $this->known_cookie_keys = array(
         'used_names' => array('_wordpress_'),
         'unique_used_names' => array('partial_wordpress_'),
         'label' => "WordPress",
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'purpose' => __("WordPress log in cookie", 'complianz'),
         'storage_duration' => __("30 days", 'complianz'),
         'description' => __("Cookie to keep you logged in", 'complianz'),
@@ -120,7 +120,7 @@ $this->known_cookie_keys = array(
     'php-session' => array('functional' => true,
         'used_names' => array('PHPSESSID'),
         'unique_used_names' => array('PHPSESSID'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => "PHP Session ID",
         'purpose' => __("Storing user data across pages for functional purposes", 'complianz'),
         'storage_duration' => __("Store data for users to use in the web application", 'complianz'),
@@ -138,7 +138,7 @@ $this->known_cookie_keys = array(
     'complianz' => array('functional' => true,
         'used_names' => array('cmplz_event_xxx','cmplz_stats', 'cmplz_id','complianz_config', 'complianz_consent_status', 'complianz_policy_id'),
         'unique_used_names' => array('partial_cmplz_', 'complianz_config','cmplz_id', 'cookieconsent_status', 'complianz_consent_status', 'complianz_policy_id'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => "Complianz",
         'purpose' => __("Remember the cookie warning choice", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
@@ -167,7 +167,7 @@ $this->known_cookie_keys = array(
     'aelia_currency' => array('functional' => true,
         'used_names' => array('aelia_cs_selected_currency'),
         'unique_used_names' => array('aelia_cs_selected_currency'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => "Currency preference",
         'purpose' => __("Currency selection storage", 'complianz'),
         'storage_duration' => __("1 year", 'complianz'),
@@ -477,7 +477,7 @@ $this->known_cookie_keys = array(
       'wpml' => array('functional' => true,
         'used_names' => array('wpml_browser_redirect_test', '_icl_current_language', '_icl_visitor_lang_js', '_icl_current_admin_language_', ),
         'unique_used_names' => array('partial_wpml', 'partial__icl_', '_icl_visitor_lang_js'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => __("WPML", 'complianz'),
         'purpose' => __("", 'complianz'),
         'storage_duration' => __("", 'complianz'),
@@ -499,7 +499,7 @@ $this->known_cookie_keys = array(
         'functional' => true,
         'used_names' => array('wfvt_3883187383', 'wordfence_verifiedHuman'),
         'unique_used_names' => array('partial_wfvt_','wordfence_verifiedHuman'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => __("WordFence", 'complianz'),
         'purpose' => __("", 'complianz'),
         'storage_duration' => __("", 'complianz'),
@@ -592,7 +592,7 @@ $this->known_cookie_keys = array(
         'functional' => true,
         'used_names' => array('edd_remove_from_cart_nonce'),
         'unique_used_names' => array('edd_remove_from_cart_nonce'),
-        'privacy_policy_url' => '[privacy_policy_url]',
+        'privacy_policy_url' => '[privacy-statement-url]',
         'label' => __("Remove item from cart", 'complianz'),
         'purpose' => __("This cookie makes it possible to remove an article from your cart.", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
