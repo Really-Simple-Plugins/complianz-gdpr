@@ -146,7 +146,9 @@ if (!function_exists('COMPLIANZ')) {
 }
 
 register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp');
-function cmplz_set_activation_time_stamp($networkwide)
-{
-    update_option('cmplz_activation_time', time());
+if (!function_exists('cmplz_set_activation_time_stamp')) {
+    function cmplz_set_activation_time_stamp($networkwide)
+    {
+        update_option('cmplz_activation_time', time());
+    }
 }

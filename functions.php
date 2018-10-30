@@ -6,38 +6,39 @@ function cmplz_uses_google_analytics()
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
 
-//    $delete_options = array(
-//        "cmplz_wizard_completed_once",
-//        "cmplz_wizard_completed     ",
-//        "complianz_options_wizard",
-//        'complianz_options_cookie_settings',
-//        'complianz_options_dataleak',
-//        'complianz_options_processing',
-//        'complianz_active_policy_id',
-//        'complianz_scan_token',
-//        'cmplz_license_notice_dismissed',
-//        'cmplz_license_key',
-//        'cmplz_license_status',
-//        'cmplz_changed_cookies',
-//        'cmplz_processed_pages_list',
-//        'cmplz_license_notice_dismissed',
-//        'cmplz_processed_pages_list',
-//        'cmplz_detected_cookies',
-//        'cmplz_plugins_changed',
-//        'cmplz_detected_social_media',
-//        'cmplz_detected_thirdparty_services',
-//        'cmplz_deleted_cookies',
-//    );
-//    delete_all_options($delete_options);
-//
-//
-//    function delete_all_options($options) {
-//        foreach ($options as $option_name){
-//            delete_option( $option_name );
-//            delete_site_option( $option_name );
-//        }
-//
-//    }
+//$delete_options = array(
+//    "cmplz_wizard_completed_once",
+//    'complianz_options_settings',
+//    'complianz_options_wizard',
+//    'complianz_options_cookie_settings',
+//    'complianz_options_dataleak',
+//    'complianz_options_processing',
+//    'complianz_active_policy_id',
+//    'complianz_scan_token',
+//    'cmplz_license_notice_dismissed',
+//    'cmplz_license_key',
+//    'cmplz_license_status',
+//    'cmplz_changed_cookies',
+//    'cmplz_processed_pages_list',
+//    'cmplz_license_notice_dismissed',
+//    'cmplz_processed_pages_list',
+//    'cmplz_detected_cookies',
+//    'cmplz_plugins_changed',
+//    'cmplz_detected_social_media',
+//    'cmplz_detected_thirdparty_services',
+//    'cmplz_deleted_cookies',
+//);
+//delete_all_options($delete_options);
+
+
+function delete_all_options($options)
+{
+    foreach ($options as $option_name) {
+        delete_option($option_name);
+        delete_site_option($option_name);
+    }
+
+}
 
 
 /*
@@ -91,7 +92,8 @@ function cmplz_tagmanager_conditional_helptext(){
 function cmplz_revoke_link($text = false)
 {
     $text = $text ? $text : __('Revoke cookie consent', 'complianz');
-    return '<a href="#" class="cc-revoke-custom">' . $text . '</a>';
+    $html = '<a href="#" class="cc-revoke-custom">' . $text . '</a><span class="cmplz-status-accepted">'.sprintf(__('Current status: %s', 'complianz'),__("Accepted",'complianz')).'</span><span class="cmplz-status-denied">'.sprintf(__('Current status: %s', 'complianz'),__("Denied",'complianz')).'</span>';
+    return apply_filters('cmplz_revoke_link', $html);
 }
 
 function cmplz_do_not_sell_personal_data_form(){
@@ -172,25 +174,17 @@ function cmplz_strip_variation_id_from_string($string){
     return $string;
 }
 
-function cmplz_user_needs_cookie_warning()
+function cmplz_eu_site_needs_cookie_warning()
 {
-    return COMPLIANZ()->cookie->user_needs_cookie_warning();
+    return COMPLIANZ()->cookie->site_needs_cookie_warning('eu');
 }
 
 /*
  *
  * */
 
-function cmplz_user_needs_cookie_warning_cats(){
-    if (cmplz_user_needs_cookie_warning() && cmplz_get_value('use_categories')) {
-        return true;
-    }
-
-    return false;
-}
-
-function cmplz_user_needs_cookie_warning_no_cats(){
-    if (cmplz_user_needs_cookie_warning() && !cmplz_get_value('use_categories')) {
+function cmplz_eu_site_needs_cookie_warning_cats(){
+    if (cmplz_eu_site_needs_cookie_warning() && cmplz_get_value('use_categories')) {
         return true;
     }
 
@@ -225,7 +219,7 @@ function cmplz_get_regions($labels = true){
     if (!empty($regions)) {
         foreach ($regions as $region => $enabled) {
             if (!$enabled) continue;
-            $label = $labels && isset(COMPLIANZ()->config->regions_labels[$region]) ? COMPLIANZ()->config->regions_labels[$region] : '';
+            $label = $labels && isset(COMPLIANZ()->config->regions[$region]) ? COMPLIANZ()->config->regions[$region]['label'] : '';
             $output[$region] = $label;
         }
     }
@@ -246,8 +240,9 @@ function cmplz_multiple_regions(){
 function cmplz_get_region_for_country($country_code)
 {
     $regions = COMPLIANZ()->config->regions;
-    foreach($regions as $key => $countries){
-        if (in_array($country_code, $countries)) return $key;
+
+    foreach($regions as $region_code => $region){
+        if (in_array($country_code, $region['countries'])) return $region_code;
     }
 
     return false;
@@ -483,7 +478,6 @@ function cmplz_ajax_user_settings(){
     exit;
 }
 
-
 add_action('wp_ajax_nopriv_cmplz_track_status', 'cmplz_ajax_track_status');
 add_action('wp_ajax_cmplz_track_status', 'cmplz_ajax_track_status');
 function cmplz_ajax_track_status(){
@@ -496,6 +490,25 @@ function cmplz_ajax_track_status(){
     header("Content-Type: application/json");
     echo $response;
     exit;
+}
+
+/*
+ * Get string of supported laws
+ *
+ * */
+
+function cmplz_supported_laws(){
+    $regions = cmplz_get_value('regions');
+
+    error_log($regions);
+    if (!is_array($regions)) $regions = array($regions);
+    $arr = array();
+    foreach($regions as $region){
+        error_log($region);
+        $arr[] = COMPLIANZ()->config->regions[$region]['law'];
+    }
+
+    return implode('/', $arr);
 }
 
 function cmplz_get_option($name){
@@ -513,3 +526,5 @@ function cmplz_esc_url_raw($url){
 function cmplz_is_admin(){
     return is_admin();
 }
+
+

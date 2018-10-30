@@ -76,6 +76,27 @@ $this->fields = $this->fields + array(
             ),
         ),
 
+        'export_settings' => array(
+            'page' => 'settings',
+            'disabled' =>true,
+            'type' => 'button',
+            'action' => 'cmplz_export_settings',
+            'post_get' => 'get',
+            'label' => __("Export settings", 'complianz'),
+            'table' => true,
+            'comment' => __('If you want to export your settings, please check out the premium version', 'complianz'),
+        ),
+
+        'import_settings' => array(
+            'page' => 'settings',
+            'disabled' => true,
+            'type' => 'upload',
+            'action' => 'cmplz_import_settings',
+            'label' => __("Import settings", 'complianz'),
+            'table' => true,
+            'comment' => __('If you want to import your settings, please check out the premium version', 'complianz'),
+        ),
+
 
     );
 

@@ -7,7 +7,7 @@ $this->warning_types = array(
     ),
     'wizard-incomplete' => array(
         'label_ok' => __('The wizard has been completed.', 'complianz'),
-        'label_error' => __('The wizard is not completed yet.', 'complianz')
+        'label_error' => __('Not all fields have been entered, or you have not clicked the "finish" button yet.', 'complianz')
     ),
     'no-cookie-policy' => array(
         'label_ok' => sprintf(__('Great, you have a %scookie policy%s!', 'complianz'), '<a href="'.get_option('cmplz_url_cookie-statement').'">', '</a>'),
@@ -28,7 +28,7 @@ $this->warning_types = array(
     ),
     'plugins-changed' => array(
         'label_ok' => __('No plugin changes have been detected.', 'complianz'),
-        'label_error' => __('Plugin changes have been detected.', 'complianz') . " " . sprintf(__('Please review step %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz'), CMPLZ_REVIEW_STEPS),
+        'label_error' => __('Plugin changes have been detected.', 'complianz') . " " . sprintf(__('Please review step %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz'), $this->steps_to_review_on_changes),
     ),
     'ga-needs-configuring' => array(
         'label_error' => __('Google Analytics is being used, but is not configured in Complianz.', 'complianz'),

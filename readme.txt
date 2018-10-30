@@ -1,24 +1,26 @@
 === Complianz Privacy Suite (GDPR/CaCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, Cookie warning, Cookie categories, categories, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
+Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, COPPA, Cookie warning, Cookie Consent, Cookie categories, categories, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
 Stable tag: 2.0.0
 
-Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
+Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan. Now ready for CaCPA & COPPA.
 
 == Description ==
 Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 = Features =
+* New: Ready for CaCPA
 * Automatically detects if you need a cookie warning
-* Integrated with Google Analytics in a way which makes it not necessary to place a cookie warning for analytics only
+* Anonymizes IP-addresses for Google Analytics if needed.
 * Periodically scans your site for cookies and social media services
-* Completely blocks third party cookies like Facebook, Google, Twitter
-* Generates a legally validated cookie policy
+* Blocks third party cookies like Facebook, Google, Twitter
+* Blocks iFrames, like YouTube embedded video’s.
+* Generate your own legally validated cookie policy
 * Detected cookie data is prefilled from the shipped cookie database, which is continually updated
 * We closely follow the latest developments in the E-Privacy legislation
 * Integrates seamlessly with Monsterinsights, Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads
@@ -29,18 +31,21 @@ Important! Complianz Privacy Suite can help you meet compliance requirements, bu
 Complianz Privacy Suite is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
 = Love Complianz Privacy Suite? =
-If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing)
+If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 = Premium features =
 * Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all
-* A/B testing: which banner has the best conversion ratio?
-* Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen
-* Geo ip cookie warning: show the cookie warning only to visitors from countries with a cookie law
+* A/B testing: which banner has the best conversion ratio? Choose the best one and create an amazing user experience.
+* Documents: Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen
+* Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct banner based on IP location, but only if a banner is needed.
+* CaCPA Consent and Policies
+* COPPA ready with Children's Privacy Policy
 * Respects Do Not track settings in users browsers
 * Multilanguage support for the cookie warning
 * Premium support
+* Premium Updates
 
-[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite is developed by [Complianz BV](https://complianz.io).
+[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite (GDPR/CaCPA) is developed by [Complianz BV](https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”

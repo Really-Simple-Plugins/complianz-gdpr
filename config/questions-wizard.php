@@ -29,7 +29,7 @@ $this->fields = $this->fields + array(
             'step' => STEP_COMPANY,
             'section' => 2,
             'page' => 'wizard',
-            'default' => 'yes',
+            'default' => 'eu',
             'type' => 'radio',
             'options' => array(
                 'eu' => __('European Union (GDPR)',"complianz"),
@@ -130,7 +130,23 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-
+        // Purpose
+        'purpose_personaldata' => array(
+            'step' => STEP_COMPANY,
+            'section' => 5,
+            'page' => 'wizard',
+            'type' => 'multicheckbox',
+            'default' => '',
+            'label' => __("Indicate for what purpose personal data is processed via your website:", 'complianz'),
+            'help' => __("Also think about future work you will be carrying out. Regarding topic Personalized products, these are products which depend on the visitors behavior. E.g. advertisements based on pages visited.", 'complianz'),
+            'required' => true,
+            'options' => $this->purposes,
+            'callback_notice' => 'purpose_personal_data',
+//            'callback_condition' => array(
+//                'privacy-statement' => 'yes',
+//            ),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
     );
 
 $this->fields = $this->fields + array(

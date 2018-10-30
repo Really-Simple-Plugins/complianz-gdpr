@@ -39,11 +39,25 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('admin_init', array($this, 'check_upgrade'), 10, 2);
 
+            add_action('cmplz_show_message', array($this,'show_message'));
+
         }
 
         static function this()
         {
             return self::$_this;
+        }
+
+        public function show_message(){
+            if (!empty($this->error_message)){
+                cmplz_notice($this->error_message);
+                $this->error_message = "";
+            }
+
+            if (!empty($this->success_message)){
+                cmplz_notice_success($this->success_message);
+                $this->success_message = "";
+            }
         }
 
         public function check_upgrade()
@@ -68,7 +82,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            if (version_compare($prev_version, '2.0.0', '<')) {
+            if (version_compare($prev_version, '2.5', '<')) {
                 //add category eu existing dataleaks and processing agreements.
                 $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
                 foreach ($posts as $post){
@@ -90,9 +104,6 @@ if (!class_exists("cmplz_admin")) {
                 update_option('cmplz_plugin_new_features', true);
                 update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
             }
-
-
-
 
             update_option('cmplz-current-version', cmplz_version);
         }
@@ -152,7 +163,7 @@ if (!class_exists("cmplz_admin")) {
         public function filter_warnings($warnings)
         {
 
-            if (!COMPLIANZ()->wizard->wizard_completed_once() && COMPLIANZ()->wizard->all_fields_completed()) {
+            if (!COMPLIANZ()->wizard->wizard_completed_once() && COMPLIANZ()->wizard->all_required_fields_completed('wizard')) {
                 $warnings['wizard-incomplete']['label_error'] = __('All fields have been completed, but you have not clicked the finish button yet.', 'complianz');
             }
             return $warnings;
@@ -175,7 +186,7 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'no-cookie-policy-us';
                 }
 
-                if (!COMPLIANZ()->wizard->wizard_completed_once()) {
+                if (!COMPLIANZ()->wizard->wizard_completed_once() || !COMPLIANZ()->wizard->all_required_fields_completed('wizard')) {
                     $warnings[] = 'wizard-incomplete';
                 }
 
@@ -240,7 +251,6 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz-wizard',
                 array($this, 'wizard_page')
             );
-
             add_submenu_page(
                 'complianz',
                 __('Cookie warning', 'complianz'),
@@ -477,9 +487,9 @@ if (!class_exists("cmplz_admin")) {
                             <?php printf(__("%s completed.", "complianz"), COMPLIANZ()->wizard->wizard_percentage_complete() . "%") ?>
                             <?php
                             if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                                _e('Your website is not ready for the GDPR yet.', 'complianz');
+                                printf(__('Your website is not ready for the %s yet.', 'complianz'),cmplz_supported_laws());
                             } else {
-                                _e('Well done! Your website is ready for the GDPR.', 'complianz');
+                                printf(__('Well done! Your website is ready for the %s.', 'complianz'),cmplz_supported_laws());
                             }
                             ?>
                         </div>
@@ -490,10 +500,10 @@ if (!class_exists("cmplz_admin")) {
                                 <div class="cmplz-dashboard-title"><?php echo __('Your progress', 'complianz'); ?> </div>
                                 <div class='cmplz-dashboard-top-text-subtitle'>
                                     <?php if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                                        _e("You're not ready for the GDPR yet.", 'complianz');
+                                        printf(__('Your website is not ready for the %s yet.', 'complianz'),cmplz_supported_laws());
                                     } else {
-                                        _e('Well done! Your website is ready for the GDPR.', 'complianz');
-                                    } ?>
+                                        printf(__('Well done! Your website is ready for the %s.', 'complianz'),cmplz_supported_laws());
+                                        } ?>
                                 </div>
                             </div>
                             <div class="cmplz-percentage-complete green c100 p<?php echo COMPLIANZ()->wizard->wizard_percentage_complete(); ?>">
@@ -659,8 +669,9 @@ if (!class_exists("cmplz_admin")) {
             ?>
             <div class="wrap cmplz-settings">
                 <h1><?php _e("Settings") ?></h1>
+                <?php do_action('cmplz_show_message')?>
+                <form action="" method="post" enctype="multipart/form-data">
 
-                <form action="" method="post">
 
                     <table class="form-table">
                         <?php
@@ -735,7 +746,7 @@ if (!class_exists("cmplz_admin")) {
                         </label>
                     </div>
                     <?php } else { ?>
-                        <input type="hidden" class="hidden" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
+                        <input type="checkbox" style="display:none" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
                    <?php }?>
                     <table class="form-table">
 

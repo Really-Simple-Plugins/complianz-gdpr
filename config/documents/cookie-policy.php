@@ -21,17 +21,17 @@ $this->document_elements['cookie-statement'] = array(
     'what-is-a-webbeacon' => array(
         'title' => _x('What is a webbeacon?', 'Legal document cookie policy:paragraph title', 'complianz'),
         'content' => _x('A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.', 'Legal document cookie policy', 'complianz'),
-        'callback_condition' => 'cmplz_uses_only_functional_cookies',
+        'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
     'consent' => array(
         'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz'),
         'content' => sprintf(_x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'Legal document cookie policy', 'complianz'), '[cookie_accept_text]'),
-        'callback_condition' => 'NOT cmplz_user_needs_cookie_warning_cats',
+        'callback_condition' => 'NOT cmplz_eu_site_needs_cookie_warning_cats',
     ),
     'consent_cats' => array(
         'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz'),
         'content' => sprintf(_x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'Legal document cookie policy', 'complianz'), '[cookie_save_preferences_text]'),
-        'callback_condition' => 'cmplz_user_needs_cookie_warning_cats',
+        'callback_condition' => 'cmplz_eu_site_needs_cookie_warning_cats',
     ),
     'third-party' => array(
         'title' => _x('Third parties', 'Legal document cookie policy:paragraph title', 'complianz'),
@@ -151,7 +151,7 @@ $this->document_elements['cookie-statement'] = array(
 
     'revoke_btn' => array(
         'content' => cmplz_revoke_link(),
-        'callback_condition' => 'cmplz_user_needs_cookie_warning',
+        'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
     ),
 
 );

@@ -29,16 +29,13 @@ jQuery(document).ready(function ($) {
     });
 
     //validation of checkboxes
-    var requiredCheckboxes = $('.cmplz-validate-multicheckbox .is-required:checkbox');
     cmplz_validate_checkboxes();
-    requiredCheckboxes.change(cmplz_validate_checkboxes);
+    $('.cmplz-validate-multicheckbox .is-required:checkbox').change(cmplz_validate_checkboxes);
 
     function cmplz_validate_checkboxes() {
-
         $('.cmplz-validate-multicheckbox').each(function (i) {
             var set_required = [];
             var all_unchecked = true;
-
             $(this).find(':checkbox').each(function (i) {
 
                 set_required.push($(this));
@@ -75,9 +72,8 @@ jQuery(document).ready(function ($) {
 
 
     //validation of checkboxes
-    var requiredRadios = $('input:radio').attr('required',true);
     cmplz_validate_radios();
-    requiredRadios.click(cmplz_validate_radios);
+    $('input:radio').attr('required',true).click(cmplz_validate_radios);
     //$(document).on('click','input:radio:required', cmplz_validate_radios );
     function cmplz_validate_radios() {
         $('.cmplz-validate-radio').each(function (i) {
@@ -175,14 +171,21 @@ jQuery(document).ready(function ($) {
                     value = Array($('select[name=' + question + ']').val());
                 }
 
-                if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length && $("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
-                    conditionMet = true;
-                    value = [];
+                if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length){
+                    if ($("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
+                        conditionMet = true;
+                        value = [];
+                    } else {
+                        conditionMet = false;
+                        value = [];
+                    }
                 }
 
                 if (showIfConditionMet) {
+
                     //check if the index of the value is the condition, or, if the value is the condition
                     if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
+
                         container.removeClass("hidden");
                         //remove required attribute of child, and set a class.
                         if (input.hasClass('is-required')) input.prop('required', true);
@@ -196,12 +199,14 @@ jQuery(document).ready(function ($) {
                         if (condition_type === 'OR') return;
                     }
                 } else {
-                    if ((value !== condition_answer)) {
-                        container.removeClass("hidden");
-                        if (input.hasClass('is-required')) input.prop('required', true);
-                    } else {
+
+                    if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
                         container.addClass("hidden");
                         if (input.hasClass('is-required')) input.prop('required', false);
+
+                    } else {
+                        container.removeClass("hidden");
+                        if (input.hasClass('is-required')) input.prop('required', true);
                     }
                 }
             });
@@ -282,7 +287,6 @@ jQuery(document).ready(function ($) {
 
                         } else {
                             progressBar.css({width: progress + '%'});
-                            console.log("loading " + next_page);
 
                             $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
@@ -357,23 +361,47 @@ jQuery(document).ready(function ($) {
 
     //statistics, handle graphs visibility
 
-    var cmplz_visible_stat = '#bar_pct_show_no_banner_container';
-    $(document).on('change', 'select[name=eu]', function () {
+    var cmplz_visible_stat = '#bar_pct_all_container';
+    $(cmplz_visible_stat).show();
+    $(document).on('change', 'select[name=cmplz_region]', function () {
 
         $(cmplz_visible_stat).hide();
-        var eu = $('select[name=eu]').val();
+        var region = $('select[name=cmplz_region]').val();
         var type = $('select[name=stats_type]').val();
-        cmplz_visible_stat = '#bar_' + type + '_' + eu + '_container';
+        cmplz_visible_stat = '#bar_' + type + '_' + region + '_container';
         $(cmplz_visible_stat).fadeIn();
     });
 
     $(document).on('change', 'select[name=stats_type]', function () {
         $(cmplz_visible_stat).hide();
-        var eu = 'show_no_banner';
-        if ($('select[name=eu]').length) eu = $('select[name=eu]').val();
+        var region = 'eu';
+        if ($('select[name=cmplz_region]').length) region = $('select[name=cmplz_region]').val();
         var type = $('select[name=stats_type]').val();
-        cmplz_visible_stat = '#bar_' + type + '_' + eu + '_container';
+        cmplz_visible_stat = '#bar_' + type + '_' + region + '_container';
         $(cmplz_visible_stat).fadeIn();
+    });
+
+    /*
+    * report unknown cookies
+    *
+    * */
+
+    $(document).on('click', '#cmplz-report-unknown-cookies', function(){
+        $.ajax({
+            type: "POST",
+            url: complianz_admin.admin_url,
+            dataType: 'json',
+            data: ({
+                action: 'cmplz_report_unknown_cookies',
+            }),
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    $('#cmplz-report-unknown-cookies').hide();
+                    $('#cmplz-report-confirmation').show();
+                }
+            }
+        });
     });
 
 });

@@ -1,3 +1,7 @@
+#cmplz-document .cmplz-status-accepted, #cmplz-document .cmplz-status-denied{
+    display:none;
+}
+
 #cmplz-document {
     max-width:580px;
     text-align: justify;
@@ -123,6 +127,11 @@ button::-moz-focus-inner {
     font-weight:bold;
     content: counter(list, lower-alpha) ") ";
     counter-increment: list
+}
+
+#cmplz-document ul {
+    list-style: disc;
+    margin-left: 15px;
 }
 
 #cmplz-document ol.alphabetic ol {

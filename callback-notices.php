@@ -35,7 +35,7 @@ function cmplz_uses_thirdparty_services_notice(){
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
 function cmplz_purpose_personaldata_notice(){
     if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()){
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option that you sell data to third parties", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. This means you should at least select the option that you sell data to third parties", 'complianz'));
     }
 }
 
@@ -43,7 +43,7 @@ add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');
 function cmplz_data_disclosed_us(){
 
     if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option 'Internet activity...'", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz'));
     }
 
 }
@@ -52,7 +52,7 @@ add_action('cmplz_notice_data_sold_us', 'cmplz_data_sold_us');
 function cmplz_data_sold_us(){
 
     if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site, which means you should at least select the option 'Internet activity...'", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz'));
     }
 
 }

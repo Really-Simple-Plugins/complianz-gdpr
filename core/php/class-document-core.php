@@ -148,7 +148,6 @@ if (!class_exists("cmplz_document_core")) {
                     $invert = true;
                     $func = str_replace('NOT ', '', $func);
                 }
-
                 $show_field = $func();
                 if ($invert) $show_field = !$show_field;
                 if (!$show_field) return false;
@@ -177,6 +176,7 @@ if (!class_exists("cmplz_document_core")) {
 
         public function get_document_html($type, $post_id = false)
         {
+
             if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz'),$type);
 
             $elements = COMPLIANZ()->config->document_elements[$type];
@@ -252,8 +252,9 @@ if (!class_exists("cmplz_document_core")) {
             }
 
             $html = $this->replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type);
+            $html = '<div id="cmplz-document">' . $html . '</div>';
 
-            return '<div id="cmplz-document">' . $html . '</div>';
+            return apply_filters('cmplz_document_html', $html, $type, $post_id);
         }
 
 

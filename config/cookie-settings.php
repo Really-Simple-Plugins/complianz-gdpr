@@ -86,20 +86,7 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
-        'decline' => array(
-            'page' => 'cookie_settings',
-            'type' => 'text',
-            'translatable' => true,
-            'default' => __("Decline", 'complianz'),
-            'label' => __("Decline cookies text (US)", 'complianz'),
-            'table' => true,
-            'help' => __('When a users clicks this button, the message is dismissed, without blocking cookies from then on.','complianz'),
-            'has_variations' => true,
-            'condition' => array('use_categories' => false),
-            'callback_condition' => array(
-                'regions' => 'us',
-            ),
-        ),
+
         'save_preferences' => array(
             'page' => 'cookie_settings',
             'type' => 'text',
@@ -207,6 +194,7 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
+
         'hide_revoke' => array(
             'page' => 'cookie_settings',
             'type' => 'checkbox',
@@ -217,14 +205,44 @@ $this->fields = $this->fields + array(
             'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
             'has_variations' => true,
         ),
+
         'readmore' => array(
             'page' => 'cookie_settings',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Read more", 'complianz'),
-            'label' => __("Read more text", 'complianz'),
+            'label' => __("Text on link to cookie policy", 'complianz'),
             'table' => true,
             'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
+        ),
+
+        'readmore_us' => array(
+            'page' => 'cookie_settings',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Do Not Sell My Personal Data page", 'complianz'),
+            'label' => __("Text on link to do not sell my personal data page", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+        'readmore_privacy' => array(
+            'page' => 'cookie_settings',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Privacy Policy", 'complianz'),
+            'label' => __("Text on link to Privacy Policy", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
         ),
 
         'use_categories' => array(
@@ -236,6 +254,9 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+            'callback_condition' => array(
+                'regions' => 'eu',
+            ),
         ),
 
         'tagmanager_categories' => array(
@@ -318,7 +339,7 @@ $this->fields = $this->fields + array(
             'page' => 'cookie_settings',
             'type' => 'css',
             'label' => __("Custom CSS", 'complianz'),
-            'default' => '.cc-message{} /* styles for the message box */'."\n".'.cc-dismiss{} /* styles for the dismiss button */'."\n".'.cc-allow{} /* styles for the accept button */'."\n".'.cc-window{} /* styles for the popup banner */',
+            'default' => '.cc-message{} /* styles for the message box */'."\n".'.cc-dismiss{} /* styles for the dismiss button */'."\n".'.cc-allow{} /* styles for the accept button */'."\n".'.cc-window{} /* styles for the popup banner */'."\n".'.cc-window .cc-category{} /* styles for categories*/'."\n".'.cc-window .cc-check{} /* styles for the checkboxes with categories */',
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_custom_cookie_css' => true),

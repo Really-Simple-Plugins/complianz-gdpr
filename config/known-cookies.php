@@ -6,7 +6,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * if match should be made on partial of cookiename only, prefix with "partial_"
  *
  * */
-$this->ignore_cookie_list = array('wp-settings', 'redux_blast', 'wordpress_test_cookie');
+$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie');
 
 $this->known_cookie_keys = array(
 

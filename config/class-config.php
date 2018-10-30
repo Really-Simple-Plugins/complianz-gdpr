@@ -21,6 +21,8 @@ if (!class_exists("cmplz_config")) {
         public $eu_countries;
         public $premium_geo_ip;
         public $premium_ab_testing;
+        public $collected_info_children;
+        public $steps_to_review_on_changes;
 
         function __construct()
         {
@@ -50,6 +52,8 @@ if (!class_exists("cmplz_config")) {
             define('STEP_MENU',    3);
             define('STEP_FINISH',  4);
 
+            $this->steps_to_review_on_changes = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
+
             //default region code
             define('CMPLZ_DEFAULT_REGION',  'us');
 
@@ -63,9 +67,6 @@ if (!class_exists("cmplz_config")) {
 
             /*statistics*/
             define('CMPLZ_AB_TESTING_DURATION', 30); //Days
-
-            $steps = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
-            define('CMPLZ_REVIEW_STEPS', $steps);
 
             $this->init_arrays();
 

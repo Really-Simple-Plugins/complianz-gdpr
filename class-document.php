@@ -76,7 +76,7 @@ if (!class_exists("cmplz_document")) {
 
             $term = get_term_by('slug', $region,'cmplz-region');
             if (!$term) {
-                wp_insert_term(COMPLIANZ()->config->regions_labels[$region], 'cmplz-region',array(
+                wp_insert_term(COMPLIANZ()->config->regions[$region]['label'], 'cmplz-region',array(
                     'slug' => $region,
                 ));
                 $term = get_term_by('slug', $region,'cmplz-region');
@@ -405,6 +405,7 @@ if (!class_exists("cmplz_document")) {
 
         public function load_document($atts = [], $content = null, $tag = '')
         {
+
             // normalize attribute keys, lowercase
             $atts = array_change_key_case((array)$atts, CASE_LOWER);
 
@@ -414,14 +415,8 @@ if (!class_exists("cmplz_document")) {
             $atts = shortcode_atts(['type' => false,], $atts, $tag);
             $type = $atts['type'];
             if ($type) {
-                $html = get_transient("complianz_document_$type");
 
-                if ($this->use_cache($type)) {
-                    if (!$html) $html = $this->get_document_html($type);
-                    set_transient("complianz_document_$type", $html, WEEK_IN_SECONDS);
-                } else {
-                    $html = $this->get_document_html($type);
-                }
+                $html = $this->get_document_html($type);
 
                 //basic color style for revoke button
                 $background_color = cmplz_get_value('brand_color');

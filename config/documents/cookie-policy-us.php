@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->document_elements['cookie-statement-us'] = array(
     array(
-        'content' => '<i>' . sprintf('This cookie statement was last updated on %s', '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf("This 'Do Not Sell My Personal Information' page was last updated on %s", '[publish_date]') . '</i>',
     ),
     array(
         'title' => 'Introduction',
@@ -30,17 +30,16 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'title' => 'What is a webbeacon?',
         'content' => 'A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.',
-        'callback_condition' => 'cmplz_uses_only_functional_cookies',
+        'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
     array(
         'title' => 'Consent',
         'content' => 'When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',
-        'callback_condition' => 'NOT cmplz_user_needs_cookie_warning_cats',
     ),
     array(
         'content' => cmplz_revoke_link(),
-        'callback_condition' => 'cmplz_user_needs_cookie_warning',
     ),
+
     array(
         'content' =>'You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.',
     ),
@@ -78,7 +77,7 @@ $this->document_elements['cookie-statement-us'] = array(
     ),
 
     array(
-        'content' => 'Because these cookies are marked as tracking cookies, we ask your permission to place these.',
+        'content' => 'You can object to the tracking by these cookies by clicking the "Revoke cookie consent" button.',
         'condition' => array('uses_ad_cookies' => 'yes'),
     ),
 
@@ -132,12 +131,10 @@ $this->document_elements['cookie-statement-us'] = array(
         'content' =>
             'You have the following rights with respect to your personal data:' .
             '<ul>
-                    <li>You have the right to know why your personal data is needed, what will happen to it, and how long it will be retained for.</li>
-                    <li>Right of access: You have the right to access your personal data that is known to us.</li>
-                    <li>Right to rectification: you have the right to supplement, correct, have deleted or blocked your personal data whenever you wish.</li>
-                    <li>If you give us your consent to process your data, you have the right to revoke that consent and to have your personal data deleted.</li>
-                    <li>Right to transfer your data: you have the right to request all your personal data from the controller and transfer it in its entirety to another controller.</li>
-                    <li>Right to object: you may object to the processing of your data. We comply with this, unless there are justified grounds for processing.</li>
+                    <li>you may submit a request for access to the data we process about you;</li>
+                    <li>you may object to the processing;</li>
+                    <li>you may request an overview, in a commonly used format, of the data we process about you;</li>
+                    <li>you may request correction or deletion of the data if it is incorrect or not or no longer relevant, or to ask to restrict the processing of the data.</li>
                 </ul>' .
             'To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you.',
     ),
