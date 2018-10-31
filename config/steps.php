@@ -28,7 +28,7 @@ $this->steps = array(
                 //'intro' => _x('explanatory text', 'intro cookies', 'complianz'),
                 'sections' => array(
                     1 => array('title' => __('Cookie scan', 'complianz'),
-                        'intro' => _x('If you have an adblocker enabled, please disable it to get the best results.', 'intro scan', 'complianz'),
+                        'intro' => _x('The cookie scan will request several pages on your site to check if cookies are placed, and will check the html of your site for known third party scripts.', 'intro scan', 'complianz'),
                     ),
                     2 => array('title' => __('Cookie usage', 'complianz'),
                         //'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz'),

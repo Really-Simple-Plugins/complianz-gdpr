@@ -63,6 +63,7 @@ if (!class_exists("cmplz_cookie")) {
 
             //callback from settings
             add_action('cmplz_cookie_scan', array($this, 'scan_progress'), 10, 1);
+            add_action('cmplz_report_unknown_cookies', array($this, 'report_unknown_cookies_callback'));
 
             //clear pages list on page changes.
             add_action('cmplz_wizard_wizard', array($this, 'update_social_media_cookies'), 10, 1);
@@ -320,6 +321,11 @@ if (!class_exists("cmplz_cookie")) {
 
         public function enqueue_admin_assets($hook)
         {
+            //script to check for ad blockers
+            if (isset($_GET['page']) && $_GET['page']=='cmplz-wizard') {
+                wp_enqueue_script('cmplz-ad-checker', cmplz_url . "core/assets/js/ads.js", array('jquery', 'cmplz-admin'), cmplz_version, true);
+            }
+
             if (strpos($hook, 'cmplz-cookie-warning') === FALSE) return;
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
@@ -637,6 +643,7 @@ if (!class_exists("cmplz_cookie")) {
                     <?php } ?>
 
                     if (cmplz_function_exists('complianz_enable_cookies')) complianz_enable_cookies();
+
                     var cookies = get_cookies_array();
                     $.post(
                         '<?php echo admin_url('admin-ajax.php')?>',
@@ -837,15 +844,18 @@ if (!class_exists("cmplz_cookie")) {
             if (!$pages) {
                 $args = array(
                     'post_type' => 'page',
+                    'posts_per_page' => 40,
                 );
-                $posts = get_posts($args);
+                $posts_page = get_posts($args);
 
                 //also add some post post types
                 $args = array(
                     'post_type' => 'post',
                     'posts_per_page' => 5,
                 );
-                $posts = $posts + get_posts($args);
+                $posts_post = get_posts($args);
+
+                $posts = array_merge($posts_page , $posts_post);
 
                 //first page to clean up cookies
                 $pages[] = 'clean';
@@ -1102,6 +1112,7 @@ if (!class_exists("cmplz_cookie")) {
          * */
 
         public function has_unknown_cookies(){
+
             $cookies = $this->get_detected_cookies();
             foreach ($cookies as $key => $label){
                 if ($this->is_unknown_cookie($key) && !$this->is_reported($key)){
@@ -1119,15 +1130,10 @@ if (!class_exists("cmplz_cookie")) {
             $email = $user_info->user_email;
 
             $headers[] = "Reply-to: $nicename <$email>" . "\r\n";
-            $from_name = get_bloginfo('name');
 
             add_filter('wp_mail_content_type', function ($content_type) {
                 return 'text/html';
             });
-
-            if (!empty($from_email)) {
-                $headers[] = 'From: ' . $from_name . ' <' . $from_email . '>' . "\r\n";
-            }
 
             //make list of not recognized cookies
             $cookies = array_keys($this->get_detected_cookies());
@@ -1139,36 +1145,38 @@ if (!class_exists("cmplz_cookie")) {
                 }
             }
 
-            //store these unknown cookies as having been reported
-            $reported_cookies = get_option('cmplz_reported_cookies');
-            foreach ($unknown_cookies as $key){
-                if (!in_array($key, $reported_cookies)) $reported_cookies[] = $key;
+            if (count($unknown_cookies)!=0) {
+
+                //store these unknown cookies as having been reported
+                $reported_cookies = get_option('cmplz_reported_cookies');
+                if (!is_array($reported_cookies)) $reported_cookies = array();
+                foreach ($unknown_cookies as $key) {
+                    if (!in_array($key, $reported_cookies)) $reported_cookies[] = $key;
+                }
+                update_option('cmplz_reported_cookies', $reported_cookies);
+
+                //create message
+                $plugins = get_option('active_plugins');
+
+                //get entered cookie descriptions:
+                foreach ($unknown_cookies as $key) {
+                    $cookie_id = $this->get_cookie_id($key);
+                    $used_cookie_index = array_search($cookie_id, array_column($used_cookies, 'key'));
+                    $label = !empty($used_cookie_index) && isset($used_cookies[$used_cookie_index]['label']) ? $used_cookies[$used_cookie_index]['label'] : "";
+                    $desc = !empty($used_cookie_index) && isset($used_cookies[$used_cookie_index]['description']) ? $used_cookies[$used_cookie_index]['description'] : "";
+                    $unknown_cookies_description[] = $key . " / label: " . $label . " / description : " . $desc . "";
+                }
+
+                $message = "Unknown cookies reported on " . home_url() . "<br>";
+                $message .= "Uknown cookies:<br>" . implode('<br>', $unknown_cookies_description) . "<br><br>";
+                $message .= "Active plugins:<br>";
+                $message .= implode('<br>', $plugins);
+
+                wp_mail("info@complianz.io", "Unknown cookie report from " . home_url(), $message, $headers);
+
+                // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+                remove_filter('wp_mail_content_type', 'set_html_content_type');
             }
-            update_option('cmplz_reported_cookies', $reported_cookies);
-
-            //create message
-            $plugins = get_option('active_plugins');
-
-            //get entered cookie descriptions:
-            foreach($unknown_cookies as $key){
-                $cookie_id = $this->get_cookie_id($key);
-                $used_cookie_index = array_search($cookie_id, array_column($used_cookies, 'key'));
-                $label = !empty($used_cookie_index) && isset($used_cookies[$used_cookie_index]['label']) ? $used_cookies[$used_cookie_index]['label'] : "";
-                $desc = !empty($used_cookie_index) && isset($used_cookies[$used_cookie_index]['description']) ? $used_cookies[$used_cookie_index]['description'] : "";
-                $unknown_cookies_description[] = $key . " / label: ".$label. " / description : ".$desc."";
-            }
-
-            $message = "Unknown cookies reported on ".home_url()."<br>";
-            $message .= "Uknown cookies:<br>".implode('<br>', $unknown_cookies_description)."<br><br>";
-            $message .= "Active plugins:<br>";
-            $message .= implode('<br>', $plugins);
-
-
-            if (wp_mail("info@complianz.io", "Unknown cookie report from ".home_url(), $message, $headers) === false) $success = false;
-
-            // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
-            remove_filter('wp_mail_content_type', 'set_html_content_type');
-
             $data = array('success' => true);
             $response = json_encode($data);
             header("Content-Type: application/json");
@@ -1178,6 +1186,7 @@ if (!class_exists("cmplz_cookie")) {
         }
 
         private function is_reported($key){
+            delete_option('cmplz_reported_cookies');
             $reported_cookies = get_option('cmplz_reported_cookies');
 
             if (is_array($reported_cookies) && in_array($key, $reported_cookies)) return true;
@@ -1312,7 +1321,6 @@ if (!class_exists("cmplz_cookie")) {
         public function get_scan_progress()
         {
             $next_url = $this->get_next_page_url();
-
             $output = array(
                 "progress" => $this->get_progress_count(),
                 "next_page" => $next_url,
@@ -1328,6 +1336,15 @@ if (!class_exists("cmplz_cookie")) {
         {
             ?>
             <div class="field-group">
+                <?php
+                if (cmplz_dnt_enabled()) {
+                    cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.","complianz"));
+                }
+                ?>
+
+                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"))?></div>
+                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"))?></div>
+
                 <div class="cmplz-label">
                     <label for="scan_progress"><?php _e("Cookie scan", 'complianz') ?></label>
                 </div>
@@ -1341,14 +1358,28 @@ if (!class_exists("cmplz_cookie")) {
                 </div>
                 <input type="submit" class="button cmplz-rescan"
                        value="<?php _e('Re-scan', 'complianz') ?>" name="rescan">
-                <?php if ($this->has_unknown_cookies()){?>
-                    <button id="cmplz-report-unknown-cookies" type="button" class="button"><?php _e("Report all unknown cookies", 'complianz')?></button>
-                    <span id="cmplz-report-confirmation" style="display:none"><?php _e('Thank you, your report has been received successfully', 'complianz')?></span>
-                <?php }?>
 
             </div>
 
             <?php
+        }
+
+
+
+        public function report_unknown_cookies_callback($args){
+            if ($this->has_unknown_cookies()) {
+                do_action('complianz_before_label', $args); ?>
+                <label for=""><?php echo esc_html($args['label']) ?></label>
+                <?php do_action('complianz_after_label', $args); ?>
+
+                <button id="cmplz-report-unknown-cookies" type="button"
+                        class="button"><?php _e("Report all unknown cookies", 'complianz') ?></button>
+                <span id="cmplz-report-confirmation"
+                      style="display:none"><?php cmplz_notice_success(__('Thank you, your report has been received successfully', 'complianz'), false) ?></span>
+                <?php
+                do_action('complianz_after_label', $args);
+                do_action('complianz_after_field', $args);
+            }
         }
 
 

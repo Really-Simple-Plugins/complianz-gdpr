@@ -162,6 +162,7 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
+
         'compile_statistics' => array(
             'step' => STEP_COOKIES,
             'section' => 2,
@@ -401,6 +402,17 @@ $this->fields = $this->fields + array(
             'condition' => array('uses_thirdparty_services' => 'yes'),
             'label' => __("Select the types of third party services you use on your site.", 'complianz'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'report_unknown_cookies' => array(
+            'step' => STEP_COOKIES,
+            'section' => 3,
+            'page' => 'wizard',
+            'type' => 'radio',
+            'label' => __("Unknown cookies detected", 'complianz'),
+            'callback' => 'report_unknown_cookies',
+            'comment' => __('The scan detected cookies which are not listed in the cookie database. You can help us improve the database by reporting these cookies. If you know what a currently unrecognized cookie is for, please add this to the descriptions below, so we can process that information as well.','complianz'),
+            'time' => 0,
         ),
 
         'used_cookies' => array(

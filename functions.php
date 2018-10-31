@@ -6,6 +6,7 @@ function cmplz_uses_google_analytics()
     return COMPLIANZ()->cookie->uses_google_analytics();
 }
 
+//
 //$delete_options = array(
 //    "cmplz_wizard_completed_once",
 //    'complianz_options_settings',
@@ -27,6 +28,7 @@ function cmplz_uses_google_analytics()
 //    'cmplz_detected_social_media',
 //    'cmplz_detected_thirdparty_services',
 //    'cmplz_deleted_cookies',
+//      'cmplz_reported_cookies',
 //);
 //delete_all_options($delete_options);
 
@@ -248,15 +250,15 @@ function cmplz_get_region_for_country($country_code)
     return false;
 }
 
-
-
 function cmplz_notice($msg){
     if ($msg=='') return;
     echo '<div class="cmplz-notice">'.$msg.'</div>';
 }
-function cmplz_notice_success($msg){
+
+function cmplz_notice_success($msg, $hide=true){
     if ($msg=='') return;
-    echo '<div class="cmplz-notice cmplz-success">'.$msg.'</div>';
+    $hide_class = $hide ? "cmplz-hide" : "";
+    echo '<div class="cmplz-notice cmplz-success '.$hide_class.'">'.$msg.'</div>';
 }
 
 /*
@@ -498,16 +500,17 @@ function cmplz_ajax_track_status(){
  * */
 
 function cmplz_supported_laws(){
-    $regions = cmplz_get_value('regions');
+    $regions = cmplz_get_regions();
 
-    error_log($regions);
-    if (!is_array($regions)) $regions = array($regions);
     $arr = array();
-    foreach($regions as $region){
-        error_log($region);
+    foreach($regions as $region => $enabled){
+        //fallback
+        //if (!isset(COMPLIANZ()->config->regions[$region])) return __("GDPR", 'complianz');
+
         $arr[] = COMPLIANZ()->config->regions[$region]['law'];
     }
 
+    if (count($arr)==0) return __('(select a region)','complianz');
     return implode('/', $arr);
 }
 
