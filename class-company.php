@@ -68,8 +68,10 @@ if (!class_exists("cmplz_company")) {
 
         public function disclosed_data_12months(){
             $cats = cmplz_get_value('data_disclosed_us');
-            foreach($cats as $cat => $value){
-                if ($value==1) return true;
+            if (!empty($cats)) {
+                foreach ($cats as $cat => $value) {
+                    if ($value == 1) return true;
+                }
             }
 
             return false;

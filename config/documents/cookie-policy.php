@@ -3,12 +3,12 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->document_elements['cookie-statement'] = array(
     'last-updated' => array(
-        'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s', 'Legal document cookie policy', 'complianz'), '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s and applies to citizens of the European Union.', 'Legal document cookie policy', 'complianz'), '[publish_date]') . '</i>',
     ),
     'introduction' => array(
 
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz'),
-        'content' => sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz'), '[domain]', '[article-cookie_names]'),
+        'content' => _x('This cookie policy applies to European Union citizens only.', 'Legal document cookie policy', 'complianz').'&nbsp;'.sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz'), '[domain]', '[article-cookie_names]'),
     ),
     'what-are-cookies' => array(
         'title' => _x('What are cookies', 'Legal document cookie policy:paragraph title', 'complianz'),

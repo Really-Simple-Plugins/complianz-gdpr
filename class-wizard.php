@@ -148,6 +148,9 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             COMPLIANZ()->admin->reset_complianz_plugin_has_new_features();
+            COMPLIANZ()->cookie->reset_plugins_changed();
+            COMPLIANZ()->cookie->reset_cookies_changed();
+            COMPLIANZ()->cookie->reset_plugins_updated();
 
             if (isset($_POST['cmplz-finish'])) {
                 $this->set_wizard_completed_once();
@@ -158,9 +161,7 @@ if (!class_exists("cmplz_wizard")) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
                 }
 
-                COMPLIANZ()->cookie->reset_plugins_changed();
-                COMPLIANZ()->cookie->reset_cookies_changed();
-                COMPLIANZ()->cookie->reset_plugins_updated();
+
 
                 wp_redirect(admin_url('admin.php?page=complianz'));
                 exit();
@@ -272,13 +273,57 @@ if (!class_exists("cmplz_wizard")) {
             return $section;
         }
 
+        /*
+         * Lock the wizard for further use while it's being edited by the current user.
+         *
+         *
+         * */
+
+        public function lock_wizard(){
+            $user_id = get_current_user_id();
+            set_transient('cmplz_wizard_locked_by_user', $user_id, apply_filters("cmplz_wizard_lock_time", 2 * MINUTE_IN_SECONDS));
+        }
+
+
+        /*
+         * Check if the wizard is locked by another user
+         *
+         *
+         * */
+
+        public function wizard_is_locked(){
+            $user_id = get_current_user_id();
+            $lock_user_id = $this->get_lock_user();
+            if ($lock_user_id && $lock_user_id!=$user_id) return true;
+
+            return false;
+        }
+
+        public function get_lock_user(){
+            return get_transient('cmplz_wizard_locked_by_user');
+        }
+
 
         public function wizard($page)
         {
             if (!is_user_logged_in()) return;
+
             if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
+            if ($this->wizard_is_locked()) {
+                $user_id = $this->get_lock_user();
+                $user = get_user_by("id", $user_id);
+                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename));
+                $lock_time = apply_filters("cmplz_wizard_lock_time", 2 * MINUTE_IN_SECONDS)/60;
+                printf(__("If this users stops editing, the lock will expire after %s minutes.","complianz"),$lock_time);
+                return;
+            }
+            //lock the wizard for other users.
+            $this->lock_wizard();
+
+
             $this->initialize($page);
+
             $section = $this->section();
             $step = $this->step();
 
@@ -490,7 +535,6 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_intro($page, $step, $section){
             //only show when in action
-
             echo "<p>";
             if (COMPLIANZ()->config->has_sections($page, $step)){
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['intro'])) {

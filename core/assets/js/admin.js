@@ -234,9 +234,7 @@ jQuery(document).ready(function ($) {
 
 
     /*cookie scan */
-
-
-    var cmplz_interval = 1000;
+    var cmplz_interval = 4000;
     var progress = complianz_admin.progress;
     var progressBar = $('.cmplz-progress-bar');
     var cookieContainer = $(".detected-cookies");
@@ -298,7 +296,7 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        // If we are here, it is not loaded. Set things up so we check   the status again
+        // If we are here, it is not loaded. Set things up so we check the status again
         window.setTimeout(checkIframeLoaded, cmplz_interval);
     }
 
@@ -353,7 +351,7 @@ jQuery(document).ready(function ($) {
 
     //remove alerts
     window.setTimeout(function () {
-        $(".cmplz-notice.cmplz-success").fadeTo(500, 0).slideUp(500, function () {
+        $(".cmplz-notice.cmplz-hide").fadeTo(500, 0).slideUp(500, function () {
             $(this).remove();
         });
     }, 2000);
@@ -403,5 +401,32 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+
+    /*
+    * Check for anonymous window, adblocker
+    *
+    * */
+
+    function cmplz_check_cookie_blocking_services() {
+        if ($('#cmplz_anonymous_window_warning').length) {
+            var fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+            if (!fs) {
+                return;
+            }
+            fs(window.TEMPORARY, 100, function (fs) {
+            }, function (err) {
+                $('#cmplz_anonymous_window_warning').show();
+            });
+        }
+
+        if ($('#cmplz_adblock_warning').length) {
+            if (window.canRunAds === undefined) {
+                // adblocker detected, show fallback
+                $("#cmplz_adblock_warning").show();
+            }
+        }
+    }
+    cmplz_check_cookie_blocking_services();
 
 });

@@ -59,6 +59,8 @@ function cmplz_data_sold_us(){
 
 
 
+
+
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
