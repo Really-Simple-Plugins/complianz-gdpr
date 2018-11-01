@@ -1337,7 +1337,7 @@ if (!class_exists("cmplz_cookie")) {
             ?>
             <div class="field-group">
                 <?php
-                if (cmplz_dnt_enabled()) {
+                if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
                     cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.","complianz"));
                 }
                 ?>
@@ -1352,7 +1352,7 @@ if (!class_exists("cmplz_cookie")) {
                     <div class="cmplz-progress-bar"></div>
                 </div>
                 <br>
-                <?php _e("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz') ?>
+                <?php echo __("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz')." ".__("Third party scripts will get detected if they're listed in the third party list.", 'complianz') ?>
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>

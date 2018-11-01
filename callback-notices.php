@@ -2,7 +2,6 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 
-
 add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
 
@@ -11,7 +10,6 @@ function cmplz_dpo_or_gdpr(){
     } else {
         cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz'));
     }
-
 }
 
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');
@@ -20,6 +18,14 @@ function cmplz_uses_social_media_notice(){
     if ($social_media){
         $social_media = implode(', ', $social_media);
         cmplz_notice(sprintf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz'), $social_media));
+    }
+}
+
+add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata');
+function cmplz_purpose_personaldata(){
+    $contact_forms = cmplz_site_uses_contact_forms();
+    if ($contact_forms){
+        cmplz_notice(__('The scan found forms on your site, which means answer should probably include "contact".', 'complianz'));
     }
 }
 

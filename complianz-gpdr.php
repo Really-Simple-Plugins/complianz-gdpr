@@ -31,6 +31,7 @@
 defined('ABSPATH') or die("you do not have access to this page!");
 
 define('cmplz_free', true);
+require_once(plugin_dir_path(__FILE__) . 'functions.php');
 if (!class_exists('COMPLIANZ')) {
     class COMPLIANZ
     {
@@ -109,6 +110,7 @@ if (!class_exists('COMPLIANZ')) {
         {
             if (is_admin()) {
                 require_once(cmplz_path . 'class-admin.php');
+                require_once(cmplz_path . 'class-review.php');
                 require_once(cmplz_path . 'class-field.php');
                 require_once(cmplz_path . 'class-wizard.php');
                 require_once(cmplz_path . 'callback-notices.php');
@@ -124,15 +126,17 @@ if (!class_exists('COMPLIANZ')) {
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'core/php/class-cookie-blocker.php');
-
             require_once(cmplz_path . 'class-document.php');
-            require_once(cmplz_path . 'functions.php');
+            require_once(cmplz_path . 'class-form.php');
+
 
         }
 
         private function hooks()
         {
             add_action('init', 'cmplz_init_cookie_blocker');
+            add_action('wp_ajax_nopriv_cmplz_user_settings', 'cmplz_ajax_user_settings');
+            add_action('wp_ajax_cmplz_user_settings', 'cmplz_ajax_user_settings');
         }
     }
 }

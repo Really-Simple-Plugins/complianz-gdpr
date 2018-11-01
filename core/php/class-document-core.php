@@ -62,7 +62,6 @@ if (!class_exists("cmplz_document_core")) {
         public function page_required($page)
         {
             if (!isset($page['condition'])) return true;
-
             if (isset($page['condition'])) {
                 $fields = COMPLIANZ()->config->fields();
                 $conditions = $page['condition'];
@@ -72,7 +71,6 @@ if (!class_exists("cmplz_document_core")) {
                     $type = $fields[$condition_question]['type'];
                     $value = cmplz_get_value($condition_question);
                     $invert = false;
-
                     if (strpos($condition_answer, 'NOT ')!==FALSE) {
                         $condition_answer = str_replace('NOT ', '', $condition_answer);
                         $invert = true;
@@ -89,11 +87,16 @@ if (!class_exists("cmplz_document_core")) {
                         $condition_met = ($value == $condition_answer);
                     }
 
+                    //if one condition is not met, we break with this condition, so it will return false.
+                    if (!$condition_met) {
+                        break;
+                    }
+
                 }
+
                 return $invert ? !$condition_met : $condition_met;
 
             }
-
             return false;
 
         }
@@ -258,7 +261,6 @@ if (!class_exists("cmplz_document_core")) {
         }
 
 
-
         public function wrap_header($element, $paragraph, $sub_paragraph, $annex)
         {
             $nr = "";
@@ -361,6 +363,7 @@ if (!class_exists("cmplz_document_core")) {
             foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {
 
                 if (strpos($html, "[$fieldname]") !== FALSE) {
+
                     $html = str_replace("[$fieldname]", $this->get_plain_text_value($fieldname, $post_id), $html);
                     //when there's a closing shortcode it's always a link
                     $html = str_replace("[/$fieldname]", "</a>", $html);
@@ -403,7 +406,8 @@ if (!class_exists("cmplz_document_core")) {
         {
             $value = cmplz_get_value($fieldname, $post_id);
 
-            $front_end_label = isset(COMPLIANZ()->config->fields[$fieldname]['front-end-label']) ? COMPLIANZ()->config->fields[$fieldname]['front-end-label'] : '';
+            $front_end_label = isset(COMPLIANZ()->config->fields[$fieldname]['document_label']) ? COMPLIANZ()->config->fields[$fieldname]['document_label'] : false;
+
 
             if (COMPLIANZ()->config->fields[$fieldname]['type'] == 'url') {
                 $value = '<a href="' . $value . '" target="_blank">';
@@ -444,7 +448,7 @@ if (!class_exists("cmplz_document_core")) {
                 }
             }
 
-            if (!empty($value)) $value = $front_end_label . $value;
+            if ($front_end_label && !empty($value)) $value = $front_end_label . $value."<br>";
             return $value;
         }
 

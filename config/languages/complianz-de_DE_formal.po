@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 18:45+0000\n"
-"PO-Revision-Date: 2018-10-26 18:46+0000\n"
+"POT-Creation-Date: 2018-10-30 12:30+0000\n"
+"PO-Revision-Date: 2018-10-30 12:30+0000\n"
 "Last-Translator: Rogier Lankhorst <rogier@really-simple-ssl.com>\n"
 "Language-Team: German (Formal)\n"
 "Language: de_DE_formal\n"
@@ -351,33 +351,37 @@ msgstr[1] ""
 msgid "Select a menu"
 msgstr "Wählen Sie ein Menü"
 
-#: functions.php:84
+#: functions.php:86
 msgid ""
 "Based on your Analytics configuration you should fire Analytics as a "
 "functional cookie on event cmplz_event_functional."
 msgstr ""
 
-#: functions.php:86
+#: functions.php:88
 msgid ""
 "Based on your Analytics configuration you should fire Analytics as a non-"
 "functional cookie with a category of your choice, for example cmplz_event_0."
 msgstr ""
 
-#: functions.php:94
+#: functions.php:96
 msgid "Revoke cookie consent"
 msgstr "Cookie-Einwilligung widerrufen"
 
-#: functions.php:95
+#: functions.php:97
 #, php-format
 msgid "Current status: %s"
 msgstr ""
 
-#: functions.php:95
+#: functions.php:97
 msgid "Accepted"
 msgstr ""
 
-#: functions.php:95
+#: functions.php:97
 msgid "Denied"
+msgstr ""
+
+#: functions.php:513
+msgid "(select a region)"
 msgstr ""
 
 #: class-review.php:39
@@ -481,7 +485,7 @@ msgstr "Wählen Sie eine Option"
 msgid "Start"
 msgstr ""
 
-#: class-field.php:1048 class-wizard.php:598
+#: class-field.php:1048 class-wizard.php:642
 msgid "Save"
 msgstr "Speichern"
 
@@ -495,8 +499,8 @@ msgstr "Neue hinzufügen"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: class-field.php:1084 class-field.php:1226 class-field.php:1328
-#: class-field.php:1405
+#: class-field.php:1084 class-field.php:1226 class-field.php:1330
+#: class-field.php:1407
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -534,7 +538,7 @@ msgstr "Verwendete Namen"
 msgid "Privacy policy URL"
 msgstr "Datenschutzerklärung URL"
 
-#: class-field.php:1200 class-field.php:1307 class-field.php:1385
+#: class-field.php:1200 class-field.php:1309 class-field.php:1387
 #: config/steps.php:18 config/pro/steps.php:30
 msgid "Purpose"
 msgstr "Zweck"
@@ -547,64 +551,64 @@ msgstr "Bewahrungsfrist"
 msgid "Add new cookie"
 msgstr "Neues Cookie hinzufügen"
 
-#: class-field.php:1252
+#: class-field.php:1255
 msgid "list"
 msgstr ""
 
-#: class-field.php:1255
+#: class-field.php:1258
 #, php-format
 msgid "Add new %s"
 msgstr ""
 
-#: class-field.php:1275
+#: class-field.php:1277
 #, php-format
 msgid "What is the name of the %s with whom you share the data?"
 msgstr ""
 
-#: class-field.php:1283
+#: class-field.php:1285
 #, php-format
 msgid ""
 "Select the processing agreement you made with this %s, or %screate one%s"
 msgstr ""
 
-#: class-field.php:1288
+#: class-field.php:1290
 msgid "No agreement selected"
 msgstr ""
 
-#: class-field.php:1289
+#: class-field.php:1291
 msgid "A processing agreement outside Complianz Privacy Suite"
 msgstr ""
 
-#: class-field.php:1298
+#: class-field.php:1300
 #, php-format
 msgid "%s country"
 msgstr ""
 
-#: class-field.php:1316 class-field.php:1393
+#: class-field.php:1318 class-field.php:1395
 msgid "What type of data is shared"
 msgstr "Welche Art von Daten werden gemeinsam genutzt?"
 
-#: class-field.php:1349
+#: class-field.php:1351
 msgid "Add new thirdparty"
 msgstr "Neue Drittpartei hinzufügen"
 
-#: class-field.php:1366
+#: class-field.php:1368
 msgid "What is the name of the third party with whom you share the data?"
 msgstr "Wie lautet der Name des Dritten, mit dem Sie die Daten teilen?"
 
-#: class-field.php:1375
+#: class-field.php:1377
 msgid "Third party country"
 msgstr "Drittland"
 
-#: class-cookie.php:104
+#: class-cookie.php:105
 msgid "Google Analytics or Tag Manager"
 msgstr ""
 
-#: class-cookie.php:104 class-cookie.php:150
+#: class-cookie.php:105 class-cookie.php:151
 msgid "Matomo"
 msgstr "Matomo"
 
-#: class-cookie.php:109
+#: class-cookie.php:110
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -613,12 +617,12 @@ msgstr ""
 "Der Cookie-Scan hat %s-Cookies auf Ihrer Website erkannt, was bedeutet, dass "
 "die Antwort auf diese Frage %s sein sollte."
 
-#: class-cookie.php:152
+#: class-cookie.php:153
 msgid "Google Analytics"
 msgstr ""
 "Google Analytics\n"
 
-#: class-cookie.php:160
+#: class-cookie.php:161
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -627,7 +631,7 @@ msgstr ""
 "Der Cookie-Scan hat %s Cookies auf Ihrer Website erkannt, was bedeutet, dass "
 "die Antwort auf diese Frage JA sein sollte."
 
-#: class-cookie.php:176
+#: class-cookie.php:177
 #, php-format
 msgid ""
 "The cookie scan detected %s types of cookies on your site: %s, which means "
@@ -636,7 +640,7 @@ msgstr ""
 "Der Cookie-Scan erkannte %s Arten von Cookies auf Ihrer Website: %s, was "
 "bedeutet, dass die Antwort auf diese Frage Ja lauten sollte."
 
-#: class-cookie.php:183
+#: class-cookie.php:184
 msgid ""
 "Statistical cookies and PHP session cookie aside, the cookie scan detected "
 "no cookies on your site which means the answer to this question can be "
@@ -646,7 +650,7 @@ msgstr ""
 "Scan keine Cookies auf Ihrer Website erkannt, was bedeutet, dass die Antwort "
 "auf diese Frage mit Nein beantwortet werden kann."
 
-#: class-cookie.php:195
+#: class-cookie.php:196
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized, so "
 "it is not necessary to add the script here."
@@ -654,7 +658,7 @@ msgstr ""
 "Sie verwenden Matomo für Statistiken auf Ihrer Website, mit anonymisierten "
 "IP-Nummern, so dass es nicht notwendig ist, das Skript hier hinzuzufügen."
 
-#: class-cookie.php:197
+#: class-cookie.php:198
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized, so you should your tracking script here"
@@ -662,40 +666,58 @@ msgstr ""
 "Sie verwenden Matomo für Statistiken auf Ihrer Website, aber die IP-Nummern "
 "sind nicht anonymisiert."
 
-#: class-cookie.php:1007
+#: class-cookie.php:1017
 #, php-format
 msgid "%s at %s"
 msgstr "%s auf der Position %s"
 
-#: class-cookie.php:1049
+#: class-cookie.php:1059
 msgid "Origin unknown"
 msgstr "Herkunft unbekannt"
 
-#: class-cookie.php:1120
+#: class-cookie.php:1254
 msgid "No cookies detected"
 msgstr "Keine Cookies erkannt"
 
-#: class-cookie.php:1122
+#: class-cookie.php:1256
 msgid "Cookie scan in progress"
 msgstr "Cookie-Scan läuft"
 
-#: class-cookie.php:1129
+#: class-cookie.php:1263
 msgid "Cookies on your own domain"
 msgstr ""
 
-#: class-cookie.php:1141
+#: class-cookie.php:1277
 msgid "Social media"
 msgstr ""
 
-#: class-cookie.php:1156
+#: class-cookie.php:1292
 msgid "Third party services"
 msgstr ""
 
-#: class-cookie.php:1201 config/steps.php:30 config/questions-wizard.php:160
+#: class-cookie.php:1341
+msgid ""
+"You have Do Not Track enabled. This will prevent most cookies from being "
+"placed. Please run the scan with Do Not Track disabled."
+msgstr ""
+
+#: class-cookie.php:1345
+msgid ""
+"You are using an ad blocker. This will prevent most cookies from being "
+"placed. Please run the scan without an adblocker enabled."
+msgstr ""
+
+#: class-cookie.php:1346
+msgid ""
+"You are using an anonymous window. This will prevent most cookies from being "
+"placed. Please run the scan in a normal browser window."
+msgstr ""
+
+#: class-cookie.php:1349 config/steps.php:30 config/questions-wizard.php:160
 msgid "Cookie scan"
 msgstr "Cookie-Scan"
 
-#: class-cookie.php:1207
+#: class-cookie.php:1355
 msgid ""
 "Cookies as detected by the automatic cookie scan. Please note that only "
 "cookies set on your own domain are detected by this scan."
@@ -703,9 +725,17 @@ msgstr ""
 "Cookies, die vom automatischen Cookie-Scan erkannt werden. Bitte beachten "
 "Sie, dass nur Cookies auf Ihrer eigenen Domain erkannt werden."
 
-#: class-cookie.php:1212
+#: class-cookie.php:1360
 msgid "Re-scan"
 msgstr "Erneutes Scannen"
+
+#: class-cookie.php:1362
+msgid "Report all unknown cookies"
+msgstr ""
+
+#: class-cookie.php:1363
+msgid "Thank you, your report has been received successfully"
+msgstr ""
 
 #: class-wizard.php:51
 msgid ""
@@ -749,37 +779,47 @@ msgstr ""
 "Alle Schritte sind abgeschlossen. Klicken Sie auf %s, um die Konfiguration "
 "abzuschließen. Sie können Ihre Konfiguration jederzeit wieder ändern."
 
-#: class-wizard.php:113 class-wizard.php:584 config/steps.php:49
+#: class-wizard.php:113 class-wizard.php:628 config/steps.php:49
 #: config/pro/steps.php:86 config/pro/steps.php:99 config/pro/steps.php:112
 #: config/pro/steps.php:126
 msgid "Finish"
 msgstr "Fertigstellen"
 
-#: class-wizard.php:334
+#: class-wizard.php:316
+#, php-format
+msgid "The wizard is currently being edited by %s"
+msgstr ""
+
+#: class-wizard.php:318
+#, php-format
+msgid "If this users stops editing, the lock will expire after %s minutes."
+msgstr ""
+
+#: class-wizard.php:379
 #, php-format
 msgid "%s min"
 msgstr "%s Minuten"
 
-#: class-wizard.php:519
+#: class-wizard.php:563
 msgid "Changes saved successfully"
 msgstr "Änderungen erfolgreich gespeichert"
 
-#: class-wizard.php:526
+#: class-wizard.php:570
 #, php-format
 msgid ""
 "This document has been saved as \"%s\" (%sview%s). You can view existing "
 "documents on the %soverview page%s"
 msgstr ""
 
-#: class-wizard.php:531
+#: class-wizard.php:575
 msgid "processing agreements"
 msgstr "Verarbeitung de Verträge"
 
-#: class-wizard.php:534
+#: class-wizard.php:578
 msgid "dataleak reports"
 msgstr "Datenleck Reportagen"
 
-#: class-wizard.php:538
+#: class-wizard.php:582
 #, php-format
 msgid ""
 "To learn what %s are and what you need them for, please read this  "
@@ -788,19 +828,19 @@ msgstr ""
 "Um zu erfahren, was %s sind und wofür Sie sie brauchen, lesen Sie bitte "
 "diesen %sarticle%s."
 
-#: class-wizard.php:565
+#: class-wizard.php:609
 msgid "Previous"
 msgstr "Vorherige"
 
-#: class-wizard.php:574
+#: class-wizard.php:618
 msgid "Next"
 msgstr "Nächste"
 
-#: class-wizard.php:584 pro/class-processing.php:160
+#: class-wizard.php:628 pro/class-processing.php:160
 msgid "View document"
 msgstr ""
 
-#: class-wizard.php:608
+#: class-wizard.php:652
 msgid "Close"
 msgstr ""
 
@@ -1665,7 +1705,9 @@ msgstr "Firmeninformationen"
 #: config/steps.php:31
 msgctxt "intro scan"
 msgid ""
-"If you have an adblocker enabled, please disable it to get the best results."
+"The cookie scan will request several pages on your site to check if cookies "
+"are placed, and will check the html of your site for known third party "
+"scripts."
 msgstr ""
 
 #: config/steps.php:33
@@ -2802,7 +2844,7 @@ msgstr ""
 msgid "Functional cookies text"
 msgstr ""
 
-#: config/cookie-settings.php:133 pro/class-statistics.php:663
+#: config/cookie-settings.php:133 pro/class-statistics.php:675
 msgid "Marketing"
 msgstr ""
 
@@ -2810,9 +2852,9 @@ msgstr ""
 msgid "Accept all cookies text"
 msgstr ""
 
-#: config/cookie-settings.php:146 pro/class-statistics.php:321
-#: pro/class-statistics.php:322 pro/class-statistics.php:665
-#: pro/class-statistics.php:712
+#: config/cookie-settings.php:146 pro/class-statistics.php:322
+#: pro/class-statistics.php:323 pro/class-statistics.php:677
+#: pro/class-statistics.php:725
 msgid "Statistics"
 msgstr "Statistiken"
 
@@ -3610,21 +3652,21 @@ msgstr ""
 msgid "license data error"
 msgstr "Lizenzdatenfehler"
 
-#: pro/class-statistics.php:78 pro/class-statistics.php:728
+#: pro/class-statistics.php:78 pro/class-statistics.php:742
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/class-statistics.php:79 pro/class-statistics.php:729
+#: pro/class-statistics.php:79 pro/class-statistics.php:743
 #, php-format
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/class-statistics.php:81 pro/class-statistics.php:731
+#: pro/class-statistics.php:81 pro/class-statistics.php:745
 #, php-format
 msgid ""
 "A/B tracking is still in progress, in approximately %s and %s the "
@@ -3647,23 +3689,23 @@ msgstr ""
 msgid "Reset statistics"
 msgstr ""
 
-#: pro/class-statistics.php:534
+#: pro/class-statistics.php:546
 msgid "New variation"
 msgstr ""
 
-#: pro/class-statistics.php:659
+#: pro/class-statistics.php:671
 msgid "No choice"
 msgstr ""
 
-#: pro/class-statistics.php:661
+#: pro/class-statistics.php:673
 msgid "No warning"
 msgstr ""
 
-#: pro/class-statistics.php:667
+#: pro/class-statistics.php:679
 msgid "Functional"
 msgstr ""
 
-#: pro/class-statistics.php:715
+#: pro/class-statistics.php:728
 msgid ""
 "The conversion graph shows the ratio for the different choices users have. "
 "When a user has made a choice, this will be counted as either a converted "
@@ -3671,54 +3713,51 @@ msgid ""
 "the \"No choice\" category."
 msgstr ""
 
-#: pro/class-statistics.php:718
+#: pro/class-statistics.php:732
+#, php-format
 msgid ""
-"As you have enabled geoip, there is also a category \"Non EU visitors\". "
-"Users from outside the EU do not get to see a cookie warning at all."
+"As you have enabled geoip, there are several regions in which a banner is "
+"shown, in different ways. In regions apart from %s no banner is shown at all."
 msgstr ""
 
-#: pro/class-statistics.php:759
+#: pro/class-statistics.php:774
 msgid "(best performer)"
 msgstr ""
 
-#: pro/class-statistics.php:776
-msgid "Include visitors without cookie banner"
+#: pro/class-statistics.php:793 pro/framework/post-types.php:136
+msgid "All regions"
 msgstr ""
 
-#: pro/class-statistics.php:777
-msgid "Exclude visitors without cookie banner"
-msgstr ""
-
-#: pro/class-statistics.php:782
+#: pro/class-statistics.php:801
 msgid "Percentage"
 msgstr ""
 
-#: pro/class-statistics.php:783
+#: pro/class-statistics.php:802
 msgid "Count"
 msgstr ""
 
-#: pro/class-statistics.php:811
+#: pro/class-statistics.php:848
 #, php-format
 msgid "%s is your best performing cookie banner."
 msgstr ""
 
-#: pro/class-statistics.php:815
+#: pro/class-statistics.php:852
 msgid ""
 "Because this variation was determined to get the best results, this cookie "
 "warning was enabled as your default cookie warning"
 msgstr ""
 
-#: pro/class-statistics.php:821
+#: pro/class-statistics.php:858
 #, php-format
 msgid "Number of times converted to marketing level: %s out of %s"
 msgstr ""
 
-#: pro/class-statistics.php:824
+#: pro/class-statistics.php:861
 #, php-format
 msgid "Percentage converted: %s"
 msgstr ""
 
-#: pro/class-statistics.php:863
+#: pro/class-statistics.php:902
 msgid "There is not enough data yet to show a graph."
 msgstr ""
 
@@ -4706,9 +4745,10 @@ msgid ""
 msgstr ""
 
 #: config/pro/dynamic-fields.php:47
+#, php-format
 msgid ""
 "To be able to select multiple countries, you should enable Geo IP in the "
-"cookie settings"
+"%scookie settings%s"
 msgstr ""
 
 #: config/pro/dynamic-fields.php:67
@@ -4881,11 +4921,11 @@ msgid "For help on how to answer these questions, please see this %sarticle%s"
 msgstr ""
 
 #: config/pro-documents/documents.php:6
-msgid "Privacy statement"
-msgstr "Datenschutzerklärung"
+msgid "Privacy statement (EU)"
+msgstr ""
 
 #: config/pro-documents/documents.php:15
-msgid "Privacy statement US"
+msgid "Privacy statement (US)"
 msgstr ""
 
 #: config/pro-documents/documents.php:23
@@ -5088,12 +5128,19 @@ msgstr ""
 #: config/documents/cookie-policy.php:6
 #, php-format
 msgctxt "Legal document cookie policy"
-msgid "This cookie statement was last updated on %s"
+msgid ""
+"This cookie statement was last updated on %s and applies to citizens of the "
+"European Union."
 msgstr ""
 
 #: config/documents/cookie-policy.php:10
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Introduction"
+msgstr ""
+
+#: config/documents/cookie-policy.php:11
+msgctxt "Legal document cookie policy"
+msgid "This cookie policy applies to European Union citizens only."
 msgstr ""
 
 #: config/documents/cookie-policy.php:11
@@ -5317,7 +5364,7 @@ msgid "Sharing"
 msgstr ""
 
 #: config/documents/cookie-policy.php:106
-#: config/documents/cookie-policy-us.php:116
+#: config/documents/cookie-policy-us.php:115
 msgid "Privacy policy"
 msgstr ""
 
@@ -5484,10 +5531,6 @@ msgstr "Datenleck übergeordnete Kategorie"
 
 #: pro/framework/post-types.php:92 pro/framework/post-types.php:182
 msgid "Region"
-msgstr ""
-
-#: pro/framework/post-types.php:136
-msgid "All regions"
 msgstr ""
 
 #: pro/framework/post-types.php:217 pro/framework/post-types.php:218
@@ -6277,7 +6320,9 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:6
 #, php-format
 msgctxt "Legal document privacy policy"
-msgid "This privacy statement was last updated on %s."
+msgid ""
+"This privacy statement was last updated on %s and applies to citizens of the "
+"European Union."
 msgstr ""
 
 #: config/pro-documents/EU/privacy-policy.php:11
