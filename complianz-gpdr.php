@@ -60,6 +60,7 @@ if (!class_exists('COMPLIANZ')) {
                     if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
 
                     if (is_admin()) {
+                        self::$instance->review = new cmplz_review();
                         self::$instance->admin = new cmplz_admin();
                         self::$instance->field = new cmplz_field();
                         self::$instance->wizard = new cmplz_wizard();
@@ -108,6 +109,10 @@ if (!class_exists('COMPLIANZ')) {
 
         private function includes()
         {
+            require_once(cmplz_path . 'core/php/class-document-core.php');
+            require_once(cmplz_path . 'class-document.php');
+            require_once(cmplz_path . 'class-form.php');
+
             if (is_admin()) {
                 require_once(cmplz_path . 'class-admin.php');
                 require_once(cmplz_path . 'class-review.php');
@@ -117,18 +122,14 @@ if (!class_exists('COMPLIANZ')) {
             }
 
             require_once(cmplz_path . 'cron/cron.php');
-
             require_once(cmplz_path . 'class-cookie.php');
             require_once(cmplz_path . 'integrations.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
+            require_once(cmplz_path . 'integrations.php');
 
             require_once(cmplz_path . 'config/class-config.php');
-            require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'core/php/class-cookie-blocker.php');
-            require_once(cmplz_path . 'class-document.php');
-            require_once(cmplz_path . 'class-form.php');
-
 
         }
 

@@ -2,6 +2,7 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 
+
 add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
 
@@ -10,6 +11,7 @@ function cmplz_dpo_or_gdpr(){
     } else {
         cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz'));
     }
+
 }
 
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');

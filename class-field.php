@@ -1008,7 +1008,7 @@ if (!class_exists("cmplz_field")) {
             <label><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
-                <a href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
+                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
             <?php } else { ?>
                 <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="cmplz-<?php echo $args['action']?>"
                        value="<?php echo esc_html($args['label']) ?>">
@@ -1189,7 +1189,7 @@ if (!class_exists("cmplz_field")) {
                                    value="<?php echo esc_html($value['used_names']) ?>">
                         </div>
                         <div>
-                            <label><?php _e('Privacy policy URL', 'complianz') ?></label>
+                            <label><?php _e('Privacy statement URL', 'complianz') ?></label>
                         </div>
                         <div>
                             <input type="text"

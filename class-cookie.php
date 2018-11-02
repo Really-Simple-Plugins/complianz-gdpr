@@ -579,7 +579,7 @@ if (!class_exists("cmplz_cookie")) {
             } else {
                 $script = cmplz_get_value('statistics_script');
             }
-            //$script = apply_filters('cmplz_statistics_script_filter', $script);
+
             echo $script;
         }
 
@@ -1342,8 +1342,8 @@ if (!class_exists("cmplz_cookie")) {
                 }
                 ?>
 
-                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"))?></div>
-                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"))?></div>
+                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"), 'warning')?></div>
+                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"), 'warning')?></div>
 
                 <div class="cmplz-label">
                     <label for="scan_progress"><?php _e("Cookie scan", 'complianz') ?></label>
@@ -1375,7 +1375,7 @@ if (!class_exists("cmplz_cookie")) {
                 <button id="cmplz-report-unknown-cookies" type="button"
                         class="button"><?php _e("Report all unknown cookies", 'complianz') ?></button>
                 <span id="cmplz-report-confirmation"
-                      style="display:none"><?php cmplz_notice_success(__('Thank you, your report has been received successfully', 'complianz'), false) ?></span>
+                      style="display:none"><?php cmplz_notice(__('Thank you, your report has been received successfully', 'complianz'), 'success') ?></span>
                 <?php
                 do_action('complianz_after_label', $args);
                 do_action('complianz_after_field', $args);

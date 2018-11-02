@@ -5,6 +5,7 @@ function cmplz_consent_box_required_on_form()
 {
     $contact = cmplz_forms_used_on_sites();
     $permission_needed = (cmplz_get_value('contact_processing_data_lawfull') === '1') ? true : false;
+
     return ($contact && $permission_needed);
 }
 
@@ -42,7 +43,7 @@ if (!class_exists("cmplz_form")) {
 
             self::$_this = $this;
             add_action('cmplz_wizard_wizard', array($this, 'maybe_add_consent_checkbox'), 10, 4);
-            $this->label_no_link = __('To submit this form, you need to accept our privacy policy','complianz');
+            $this->label_no_link = __('To submit this form, you need to accept our privacy statement','complianz');
 
         }
 
@@ -156,7 +157,7 @@ if (!class_exists("cmplz_form")) {
 
 
             $warning = 'acceptance_as_validation: on';
-            $this->label = sprintf(__('To submit this form, you need to accept our %sprivacy policy%s','complianz'),'<a href="'.COMPLIANZ()->document->get_permalink('privacy-statement').'">', '</a>');
+            $this->label = sprintf(__('To submit this form, you need to accept our %sprivacy statement%s','complianz'),'<a href="'.COMPLIANZ()->document->get_permalink('privacy-statement').'">', '</a>');
 
             $tag = "\n".'[acceptance cmplz-acceptance]'.$this->label.'[/acceptance]'."\n\n";
 

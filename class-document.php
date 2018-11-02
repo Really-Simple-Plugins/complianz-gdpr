@@ -98,7 +98,7 @@ if (!class_exists("cmplz_document")) {
 
         public function cron_check_last_updated_status(){
 
-            if ($this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
+            if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
                 update_option('cmplz_update_legal_documents_mail_sent', true);
                 $to = get_option('admin_email');
 
@@ -187,7 +187,7 @@ if (!class_exists("cmplz_document")) {
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
                 if (COMPLIANZ()->company->sells_personal_data()){
-                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Data" page clearly visible on your homepage.', 'complianz'));
+                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Information" page clearly visible on your homepage.', 'complianz'));
                 }
 
                 $docs = array_map('get_the_title', $pages_not_in_menu);

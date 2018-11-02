@@ -61,8 +61,11 @@ if (!class_exists("cmplz_document_core")) {
 
         public function page_required($page)
         {
-            if (!isset($page['condition'])) return true;
+            if (!is_array($page)) $page = COMPLIANZ()->config->pages[$page];
+
+            if (!isset($page['condition'])) return false;
             if (isset($page['condition'])) {
+
                 $fields = COMPLIANZ()->config->fields();
                 $conditions = $page['condition'];
                 $condition_met = true;

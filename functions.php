@@ -303,20 +303,17 @@ if (!function_exists('cmplz_get_region_for_country')) {
 
 if (!function_exists('cmplz_notice')) {
 
-    function cmplz_notice($msg)
+    function cmplz_notice($msg, $type='cmplz-notice', $hide = false, $echo=true)
     {
         if ($msg == '') return;
-        echo '<div class="cmplz-notice">' . $msg . '</div>';
-    }
-}
 
-if (!function_exists('cmplz_notice_success')) {
-
-    function cmplz_notice_success($msg, $hide = true)
-    {
-        if ($msg == '') return;
         $hide_class = $hide ? "cmplz-hide" : "";
-        echo '<div class="cmplz-notice cmplz-success ' . $hide_class . '">' . $msg . '</div>';
+        $html = '<div class="cmplz-notice '.$type.' ' . $hide_class . '">' . $msg . '</div>';
+        if ($echo) {
+            echo $html;
+        } else {
+            return $html;
+        }
     }
 }
 
@@ -420,7 +417,7 @@ if (!function_exists('cmplz_wp_privacy_version')) {
 }
 
 /*
- * callback for privacy document Check if there is a text entered in the custom privacy policy text
+ * callback for privacy document Check if there is a text entered in the custom privacy statement text
  *
  * */
 if (!function_exists('cmplz_has_custom_privacy_policy')) {
@@ -434,7 +431,7 @@ if (!function_exists('cmplz_has_custom_privacy_policy')) {
 }
 
 /*
- * callback for privacy policy document, check if google is allowed to share data with other services
+ * callback for privacy statement document, check if google is allowed to share data with other services
  *
  * */
 if (!function_exists('cmplz_statistics_no_sharing_allowed')) {
@@ -465,7 +462,7 @@ if (!function_exists('cmplz_statistics_no_sharing_allowed')) {
 }
 
 /*
- * callback for privacy policy document. Check if ip addresses are stored.
+ * callback for privacy statement document. Check if ip addresses are stored.
  *
  * */
 if (!function_exists('cmplz_no_ip_addresses')) {
@@ -658,7 +655,7 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
 
 
 /*
- * For all legal documents for the US, privacy policy, dataleaks or processing agreements, the language should always be en_US
+ * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
  *
  * */
 
@@ -731,5 +728,17 @@ if (!function_exists('cmplz_add_query_arg')) {
             }
 
         }
+    }
+}
+
+
+if (!function_exists('cmplz_array_filter_multidimensional')) {
+    function cmplz_array_filter_multidimensional($array, $filter_key, $filter_value)
+    {
+        $new = array_filter($array, function ($var) use ($filter_value, $filter_key) {
+            return isset($var[$filter_key]) ? ($var[$filter_key] == $filter_value) : false;
+        });
+
+        return $new;
     }
 }

@@ -15,6 +15,8 @@ if (!class_exists("cmplz_config")) {
         public $known_cookie_keys;
         public $ignore_cookie_list;
         public $countries;
+        public $purposes;
+        public $details_per_purpose_us;
         public $regions;
         public $social_media_markers, $script_tags, $iframe_tags;
         public $eu_countries;
@@ -63,9 +65,9 @@ if (!class_exists("cmplz_config")) {
 
             define('STEP_COMPANY', 1);
             define('STEP_PLUGINS', 2);
-            define('STEP_COOKIES', 3); //free: 2
-            define('STEP_MENU',    4); //free: 3
-            define('STEP_FINISH',  5); //free: 4
+            define('STEP_COOKIES', 2);
+            define('STEP_MENU',    3);
+            define('STEP_FINISH',  4);
 
             $this->steps_to_review_on_changes = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
 
@@ -75,7 +77,6 @@ if (!class_exists("cmplz_config")) {
 
             require_once(cmplz_path . '/config/known-cookies.php');
             require_once(cmplz_path . '/config/steps.php');
-
 
 
             require_once(cmplz_path . '/config/warnings.php');
@@ -90,31 +91,6 @@ if (!class_exists("cmplz_config")) {
             require_once(cmplz_path . '/config/documents/documents.php');
             require_once(cmplz_path . '/config/documents/cookie-policy.php');
             require_once(cmplz_path . '/config/documents/cookie-policy-us.php');
-
-
-            /* pro files */
-            require_once(cmplz_path . '/config/pro/steps.php');
-
-            require_once(cmplz_path . '/config/pro/warnings.php');
-            require_once(cmplz_path . '/config/pro/questions-wizard.php');
-            require_once(cmplz_path . '/config/pro/EU/questions-dataleak.php');
-            require_once(cmplz_path . '/config/pro/US/questions-dataleak.php');
-            require_once(cmplz_path . '/config/pro/EU/questions-processing.php');
-            require_once(cmplz_path . '/config/pro/US/questions-processing.php');
-            require_once(cmplz_path . '/config/pro/dynamic-fields.php');
-            require_once(cmplz_path . '/config/pro/dynamic-document-elements.php');
-
-            require_once(cmplz_path . '/config/pro-documents/US/dataleak-report.php');
-            require_once(cmplz_path . '/config/pro-documents/US/privacy-policy.php');
-            require_once(cmplz_path . '/config/pro-documents/US/processing-agreement.php');
-            require_once(cmplz_path . '/config/pro-documents/US/privacy-policy-children.php');
-
-            require_once(cmplz_path . '/config/pro-documents/documents.php');
-            require_once(cmplz_path . '/config/pro-documents/disclaimer.php');
-
-            require_once(cmplz_path . '/config/pro-documents/EU/privacy-policy.php');
-            require_once(cmplz_path . '/config/pro-documents/EU/processing-agreement.php');
-            require_once(cmplz_path . '/config/pro-documents/EU/dataleak-report.php');
 
 
             $this->init();
@@ -212,13 +188,15 @@ if (!class_exists("cmplz_config")) {
 
         public function fields($page = false, $step = false, $section = false, $variant_id = '')
         {
+
             $output = array();
             $has_sections = $this->has_sections($page, $step);
 
-            //$this->fields = $this->filter_fields($this->fields);
-            $this->fields = apply_filters('cmplz_fields', $this->fields);
-            foreach ($this->fields as $fieldname => $field) {
-                if ($page && ($field['page'] != $page)) continue;
+            $fields = $this->fields;
+            if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'page', $page);
+
+            foreach ($fields as $fieldname => $field) {
+                //if ($page && ($field['page'] != $page)) continue;
 
                 if ($step) {
                     if ($has_sections && $section && isset($field['section'])) {
@@ -226,13 +204,14 @@ if (!class_exists("cmplz_config")) {
                     } else {
                         if (($field['step'] == $step)) $output[$fieldname] = $field;
                     }
-                } else {
+                }
+                if (!$step) {
                     //the variant id is only used for cookies, which does not use steps or sections, so it's only applied here.
                     $field_variant_id = (!isset($field['has_variations']) || !$field['has_variations']) ? '' : $variant_id;
-                    $output[$fieldname.$field_variant_id] = $field;
+                    $output[$fieldname . $field_variant_id] = $field;
                 }
-            }
 
+            }
 
             return $output;
         }
@@ -249,7 +228,7 @@ if (!class_exists("cmplz_config")) {
 
         public function init()
         {
-            //$this->document_elements = $this->add_dynamic_document_elements($this->document_elements, $this->fields());
+            $this->fields = apply_filters('cmplz_fields', $this->fields);
             $this->document_elements = apply_filters('cmplz_document_elements', $this->document_elements, $this->fields());
 
 

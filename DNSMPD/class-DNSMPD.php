@@ -35,8 +35,8 @@ if (!class_exists("cmplz_DNSMPD")) {
 
             add_submenu_page(
                 'complianz',
-                __('DNSMPD', 'complianz'),
-                __('DNSMPD', 'complianz'),
+                __('DNSMPI', 'complianz'),
+                __('DNSMPI', 'complianz'),
                 'manage_options',
                 'cmplz_dnsmpd',
                 array($this, 'removed_users_overview')
