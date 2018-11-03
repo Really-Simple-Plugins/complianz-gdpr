@@ -731,7 +731,6 @@ if (!function_exists('cmplz_add_query_arg')) {
     }
 }
 
-
 if (!function_exists('cmplz_array_filter_multidimensional')) {
     function cmplz_array_filter_multidimensional($array, $filter_key, $filter_value)
     {

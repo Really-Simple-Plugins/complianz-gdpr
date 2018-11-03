@@ -604,14 +604,14 @@ if (!class_exists("cmplz_admin")) {
                             $labels = implode('/',$labels);
 
                             $add = '';
-//                            if (defined('cmplz_free')) {
-//                                if ($selected_region==='us') {
-//                                    $add = sprintf(__("To enable EU, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
-//                                } else {
-//                                    $add = sprintf(__("To enable US, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
-//
-//                                }
-//                            }
+                            //                            if (defined('cmplz_free')) {
+                            //                                if ($selected_region==='us') {
+                            //                                    $add = sprintf(__("To enable EU, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
+                            //                                } else {
+                            //                                    $add = sprintf(__("To enable US, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
+                            //
+                            //                                }
+                            //                            }
                             $this->get_dashboard_element(sprintf(__('Your site is configured for the %s.', 'complianz')." ".$add, $labels), 'success');
 
 
@@ -721,7 +721,7 @@ if (!class_exists("cmplz_admin")) {
                 case 'warning':
                     $icon = 'fa-exclamation-circle';
                     break;
-                    
+
             }
 
             $type = ($type == 'success') ? 'success' : 'error';
@@ -773,6 +773,12 @@ if (!class_exists("cmplz_admin")) {
                 <form action="" method="post" class="cmplz-body">
 
                     <table class="form-table">
+                        <tr><th></th><td>                <?php
+                                cmplz_notice(_x("The script center should be used to add and block third-party scripts and iFrames before consent, for example Hotjar and embedded video’s.", 'intro script center', 'complianz'));
+                                if (COMPLIANZ()->cookie->uses_google_tagmanager()) {
+                                    cmplz_notice(__('Because you are using Google Tag Manager you can only add iFrames, as shown below.', 'complianz'), 'warning');
+                                }
+                                ?></td></tr>
                         <tr>
                             <th></th>
                             <td><?php
@@ -812,18 +818,18 @@ if (!class_exists("cmplz_admin")) {
 
                 <form id='cookie-settings' action="" method="post">
                     <?php if (cmplz_multiple_regions()){?>
-                    <div id="cmplz-region-slider">
-                        <label class="switch">
-                            <input type="checkbox" <?php echo (cmplz_company_in_eu()) ? "checked": ""?> id="cmplz-region-mode">
-                            <div class="slider round">
-                                <span class="eu"><?php _e("EU", "complianz")?></span>
-                                <span class="us"><?php _e("US", "complianz")?></span>
-                            </div>
-                        </label>
-                    </div>
+                        <div id="cmplz-region-slider">
+                            <label class="switch">
+                                <input type="checkbox" <?php echo (cmplz_company_in_eu()) ? "checked": ""?> id="cmplz-region-mode">
+                                <div class="slider round">
+                                    <span class="eu"><?php _e("EU", "complianz")?></span>
+                                    <span class="us"><?php _e("US", "complianz")?></span>
+                                </div>
+                            </label>
+                        </div>
                     <?php } else { ?>
                         <input type="checkbox" style="display:none" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
-                   <?php }?>
+                    <?php }?>
                     <table class="form-table">
 
                         <?php

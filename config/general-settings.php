@@ -84,7 +84,7 @@ $this->fields = $this->fields + array(
             'post_get' => 'get',
             'label' => __("Export settings", 'complianz'),
             'table' => true,
-            'comment' => __('If you want to export your settings, please check out the premium version', 'complianz'),
+            'comment' => sprintf(__('If you want to export your settings, please check out the %spremium version%s', 'complianz'), '<a target="_blank" href="https://complianz.io">', "</a>"),
         ),
 
         'import_settings' => array(
@@ -94,7 +94,7 @@ $this->fields = $this->fields + array(
             'action' => 'cmplz_import_settings',
             'label' => __("Import settings", 'complianz'),
             'table' => true,
-            'comment' => __('If you want to import your settings, please check out the premium version', 'complianz'),
+            'comment' => sprintf(__('If you want to import your settings, please check out the %spremium version%s', 'complianz'), '<a target="_blank" href="https://complianz.io">', "</a>"),
         ),
 
 

@@ -113,12 +113,13 @@ if (!class_exists("cmplz_wizard")) {
             if (!$this->all_required_fields_completed($page)) {
                 cmplz_notice(__("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz'), 'warning');
             } else {
+                cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", "complianz")."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz')));
+
                 if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
-                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the %scookie warning settings%s to customize it.", 'complianz'), $link_open, "</a>"));
-
+                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the %scookie warning settings%s to customize it.", 'complianz'), $link_open, "</a>"),'warning');
                 }
-                cmplz_notice(sprintf(__("All steps have been completed. Click %s to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz')));
+
             }
 
         }
@@ -471,7 +472,7 @@ if (!class_exists("cmplz_wizard")) {
             $fields = cmplz_array_filter_multidimensional($fields, 'required', true);
             foreach ($fields as $fieldname => $args) {
                 //if a condition exists, only check for this field if the condition applies.
-                if (isset($args['condition']) && !COMPLIANZ()->field->condition_applies($args)) {
+                if (isset($args['condition']) || isset($args['callback_condition']) && !COMPLIANZ()->field->condition_applies($args)) {
                     continue;
                 }
                 $value = COMPLIANZ()->field->get_value($fieldname);

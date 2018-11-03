@@ -644,13 +644,13 @@ if (!class_exists("cmplz_field")) {
                 if (strpos($c_value_content, ',') !== FALSE) {
                     $c_values = explode(',', $c_value_content);
                 }
-                //if ($c_fieldname=='contact_processing_data_lawfull') _log("lawfull ".$c_value_content);
+
                 foreach ($c_values as $c_value) {
                     $actual_value = cmplz_get_value($c_fieldname);
+
                     $fieldtype = $this->get_field_type($c_fieldname);
 
                     if ($fieldtype == 'multicheckbox') {
-                       // _log($c_fieldname);
 
                         if (!is_array($actual_value)) $actual_value = array($actual_value);
                         //get all items that are set to true
@@ -671,6 +671,7 @@ if (!class_exists("cmplz_field")) {
                         }
                     } else {
                         if (strpos($c_value, 'NOT ') === FALSE) {
+
                             if ($c_value !== $actual_value) {
                                 return false;
                             }
@@ -684,7 +685,6 @@ if (!class_exists("cmplz_field")) {
 
                 }
             }
-
             return true;
         }
 

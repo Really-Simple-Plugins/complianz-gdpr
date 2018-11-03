@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-30 12:30+0000\n"
-"PO-Revision-Date: 2018-10-30 12:30+0000\n"
+"POT-Creation-Date: 2018-10-31 14:48+0000\n"
+"PO-Revision-Date: 2018-10-31 14:49+0000\n"
 "Last-Translator: Rogier Lankhorst <rogier@really-simple-ssl.com>\n"
 "Language-Team: French (France)\n"
 "Language: fr_FR\n"
@@ -608,15 +608,15 @@ msgstr "Quel est le nom du tiers avec lequel vous partagez les données ?"
 msgid "Third party country"
 msgstr "Pays des tiers"
 
-#: class-cookie.php:105
+#: class-cookie.php:106
 msgid "Google Analytics or Tag Manager"
 msgstr ""
 
-#: class-cookie.php:105 class-cookie.php:151
+#: class-cookie.php:106 class-cookie.php:152
 msgid "Matomo"
 msgstr "Matomo"
 
-#: class-cookie.php:110
+#: class-cookie.php:111
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -625,11 +625,11 @@ msgstr ""
 "L'analyse des cookies a détecté %s cookies sur votre site, ce qui signifie "
 "que la réponse à cette question doit être %s."
 
-#: class-cookie.php:153
+#: class-cookie.php:154
 msgid "Google Analytics"
 msgstr "Google Analytics"
 
-#: class-cookie.php:161
+#: class-cookie.php:162
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -638,7 +638,7 @@ msgstr ""
 "L'analyse des cookies a détecté %s cookies sur votre site, ce qui signifie "
 "que la réponse à cette question doit être OUI."
 
-#: class-cookie.php:177
+#: class-cookie.php:178
 #, php-format
 msgid ""
 "The cookie scan detected %s types of cookies on your site: %s, which means "
@@ -647,7 +647,7 @@ msgstr ""
 "L'analyse des cookies a détecté %s types de cookies sur votre site : %s, ce "
 "qui signifie que la réponse à cette question doit être Oui."
 
-#: class-cookie.php:184
+#: class-cookie.php:185
 msgid ""
 "Statistical cookies and PHP session cookie aside, the cookie scan detected "
 "no cookies on your site which means the answer to this question can be "
@@ -658,7 +658,7 @@ msgstr ""
 "réponse à cette question peut être considérée comme Non."
 
 # Bad English wording
-#: class-cookie.php:196
+#: class-cookie.php:197
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized, so "
 "it is not necessary to add the script here."
@@ -667,7 +667,7 @@ msgstr ""
 "IP anonymisées, il n'est donc pas nécessaire d'ajouter le script ici."
 
 # Bad English wording
-#: class-cookie.php:198
+#: class-cookie.php:199
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized, so you should your tracking script here"
@@ -675,12 +675,12 @@ msgstr ""
 "Vous utilisez Matomo pour les statistiques de votre site, mais les adresses "
 "IP ne sont pas anonymisées, vous devez donc avoir votre script de suivi ici"
 
-#: class-cookie.php:1017
+#: class-cookie.php:1018
 #, php-format
 msgid "%s at %s"
 msgstr "%s at %s"
 
-#: class-cookie.php:1059
+#: class-cookie.php:1060
 msgid "Origin unknown"
 msgstr "Origine inconnue"
 
@@ -739,11 +739,11 @@ msgstr ""
 msgid "Re-scan"
 msgstr "Nouveau scan"
 
-#: class-cookie.php:1362
+#: class-cookie.php:1376
 msgid "Report all unknown cookies"
 msgstr ""
 
-#: class-cookie.php:1363
+#: class-cookie.php:1378
 msgid "Thank you, your report has been received successfully"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Oui"
 
-#: config/class-config.php:36 config/questions-wizard.php:180
+#: config/class-config.php:36 config/questions-wizard.php:181
 #: config/pro/questions-wizard.php:264 config/pro/questions-wizard.php:319
 msgid "No"
 msgstr "Non"
@@ -1148,6 +1148,12 @@ msgstr ""
 #: config/known-cookies.php:587 config/known-cookies.php:598
 #: config/known-cookies.php:608 config/known-cookies.php:618
 #: config/known-cookies.php:628 config/known-cookies.php:638
+#: config/known-cookies.php:648 config/known-cookies.php:658
+#: config/known-cookies.php:668 config/known-cookies.php:678
+#: config/known-cookies.php:688 config/known-cookies.php:698
+#: config/known-cookies.php:708 config/known-cookies.php:718
+#: config/known-cookies.php:728 config/known-cookies.php:738
+#: config/known-cookies.php:748
 msgid "365 days"
 msgstr "365 jours"
 
@@ -1247,7 +1253,7 @@ msgstr ""
 "Google suit les utilisateurs sur toutes les plates-formes pour cibler les "
 "utilisateurs avec des publicités hautement personnalisées."
 
-#: config/known-cookies.php:221 config/questions-wizard.php:362
+#: config/known-cookies.php:221 config/questions-wizard.php:363
 #: config/pro/questions-wizard.php:76
 msgid "Google Plus"
 msgstr "Google Plus"
@@ -1386,7 +1392,7 @@ msgstr "Zopim"
 msgid "to identify trusted webtraffic"
 msgstr "d'identifier le trafic Web de confiance"
 
-#: config/known-cookies.php:411 config/questions-wizard.php:361
+#: config/known-cookies.php:411 config/questions-wizard.php:362
 #: config/pro/questions-wizard.php:75
 msgid "Linkedin"
 msgstr "Linkedin"
@@ -1395,7 +1401,7 @@ msgstr "Linkedin"
 msgid "Linkedin places cookies to track users"
 msgstr "Linkedin place des cookies pour tracker les utilisateurs"
 
-#: config/known-cookies.php:421 config/questions-wizard.php:360
+#: config/known-cookies.php:421 config/questions-wizard.php:361
 #: config/pro/questions-wizard.php:74
 msgid "Twitter"
 msgstr "Twitter"
@@ -1631,6 +1637,101 @@ msgid ""
 "These cookies are used to keep track of newsletter sign ups and client "
 "emails at checkout, Mailchimp utilises cookies to store information captured "
 "from user input for remarketing purpose."
+msgstr ""
+
+#: config/known-cookies.php:646 config/known-cookies.php:656
+#: config/known-cookies.php:666 config/known-cookies.php:676
+msgid "Clicky"
+msgstr ""
+
+#: config/known-cookies.php:647 config/known-cookies.php:649
+msgid "This cookie is used to identify new or unique visitors."
+msgstr ""
+
+#: config/known-cookies.php:657 config/known-cookies.php:659
+msgid ""
+"This cookie is used to track visitors, keep track of sessions and recognize "
+"visitors."
+msgstr ""
+
+#: config/known-cookies.php:667 config/known-cookies.php:669
+msgid "This cookie is used by FullStory to track sessions."
+msgstr ""
+
+#: config/known-cookies.php:677 config/known-cookies.php:679
+msgid ""
+"This cookie is used by Quantcast to segmentate audiences and do targeted "
+"advertising."
+msgstr ""
+
+#: config/known-cookies.php:686
+msgid "Metorik"
+msgstr ""
+
+#: config/known-cookies.php:687 config/known-cookies.php:689
+msgid ""
+"This cookie is used to deliver a shopping cart and make it work, and also "
+"takes care of product statistics."
+msgstr ""
+
+#: config/known-cookies.php:696
+msgid "WP-Engine"
+msgstr ""
+
+#: config/known-cookies.php:697 config/known-cookies.php:699
+msgid "This cookie is used to analyse the website."
+msgstr ""
+
+#: config/known-cookies.php:706
+msgid "XSRF-TOKEN"
+msgstr ""
+
+#: config/known-cookies.php:707 config/known-cookies.php:709
+msgid ""
+"This cookie is written to help with site security in preventing Cross-Site "
+"Request Forgery attacks."
+msgstr ""
+
+#: config/known-cookies.php:716
+msgid "WooCommerce"
+msgstr ""
+
+#: config/known-cookies.php:717 config/known-cookies.php:719
+msgid "This cookie is placed to keep track of sales, shopping cart items."
+msgstr ""
+
+#: config/known-cookies.php:726
+msgid "WPForms"
+msgstr ""
+
+#: config/known-cookies.php:727 config/known-cookies.php:729
+msgid "This cookie is placed to place contact forms and follow submissions."
+msgstr ""
+
+#: config/known-cookies.php:736
+msgid "Beeketing"
+msgstr ""
+
+#: config/known-cookies.php:737
+msgid ""
+"Beeketing uses cookies to enhance our users' and customers' experience on "
+"the internet."
+msgstr ""
+
+#: config/known-cookies.php:739
+msgid ""
+"TBeeketing uses cookies to enhance our users' and customers' experience on "
+"the internet."
+msgstr ""
+
+#: config/known-cookies.php:746
+msgid "WPSmush"
+msgstr ""
+
+#: config/known-cookies.php:747 config/known-cookies.php:749
+msgid ""
+"WPSmush uses cookies to compromize images to be able to have lower loading "
+"time."
 msgstr ""
 
 #: config/warnings.php:6
@@ -3282,57 +3383,57 @@ msgstr ""
 "comportement des visiteurs. Par exemple, les publicités basées sur les pages "
 "visitées."
 
-#: config/questions-wizard.php:173
+#: config/questions-wizard.php:174
 msgid "Do you compile statistics of your website?"
 msgstr "Compilez-vous les statistiques de votre site Web ?"
 
-#: config/questions-wizard.php:175
+#: config/questions-wizard.php:176
 msgid "Yes, anonymous"
 msgstr "Oui, anonyme"
 
-#: config/questions-wizard.php:176
+#: config/questions-wizard.php:177
 msgid "Yes, and the personal data is available to us."
 msgstr "Oui, et les données personnelles sont à notre disposition."
 
-#: config/questions-wizard.php:177
+#: config/questions-wizard.php:178
 msgid "Yes, with Google Analytics"
 msgstr "Oui, avec Google Analytics"
 
-#: config/questions-wizard.php:178
+#: config/questions-wizard.php:179
 msgid "Yes, with Matomo"
 msgstr "Oui, avec Matomo"
 
-#: config/questions-wizard.php:179
+#: config/questions-wizard.php:180
 msgid "Yes, with Google Tag Manager"
 msgstr "Oui, avec Google Tag Manager"
 
-#: config/questions-wizard.php:192 config/questions-wizard.php:212
+#: config/questions-wizard.php:193 config/questions-wizard.php:213
 msgid "Regarding the previous question, can you give more information?"
 msgstr ""
 "En ce qui concerne la question précédente, pouvez-vous donner plus "
 "d'informations ?"
 
-#: config/questions-wizard.php:194 config/questions-wizard.php:214
+#: config/questions-wizard.php:195 config/questions-wizard.php:215
 msgid "I have accepted the Google data processing amendment"
 msgstr "J'ai accepté la modification de traitement de données de Google"
 
-#: config/questions-wizard.php:195 config/questions-wizard.php:215
+#: config/questions-wizard.php:196 config/questions-wizard.php:216
 msgid "Google is not allowed to use this data for other Google services"
 msgstr ""
 "Google n'est pas autorisé à utiliser ces données pour d'autres services "
 "Google"
 
-#: config/questions-wizard.php:196
+#: config/questions-wizard.php:197
 msgid "Always block acquiring of IP addresses"
 msgstr ""
 
-#: config/questions-wizard.php:198
+#: config/questions-wizard.php:199
 msgid ""
 "If you do not check to always block acquiring IP addresses, the ip addresses "
 "will get acquired as soon as the user accepts statistics or higher."
 msgstr ""
 
-#: config/questions-wizard.php:198
+#: config/questions-wizard.php:199
 msgid ""
 "If you can check all three options, you might not need a cookie warning on "
 "your site."
@@ -3340,7 +3441,7 @@ msgstr ""
 "Si vous pouvez vérifier les trois options, vous n'aurez peut-être pas besoin "
 "d'un avertissement de cookie sur votre site."
 
-#: config/questions-wizard.php:198
+#: config/questions-wizard.php:199
 #, php-format
 msgid ""
 "For detailed instructions how to configure Google analytics, please check "
@@ -3349,38 +3450,38 @@ msgstr ""
 "Pour obtenir des instructions détaillées sur la configuration de Google "
 "Analytics, veuillez vérifier cet %sarticle%s"
 
-#: config/questions-wizard.php:216
+#: config/questions-wizard.php:217
 msgid "Acquiring IP-addresses is blocked."
 msgstr "L'acquisition d'adresses IP est bloquée."
 
-#: config/questions-wizard.php:218
+#: config/questions-wizard.php:219
 msgid ""
 "With Tag Manager you can configure the selective firing of cookies in the "
 "Tag Manager dashboard."
 msgstr ""
 
-#: config/questions-wizard.php:218
+#: config/questions-wizard.php:219
 #, php-format
 msgid ""
 "For detailed instructions how to configure Tag Manager, please check this "
 "%sarticle%s"
 msgstr ""
 
-#: config/questions-wizard.php:237
+#: config/questions-wizard.php:238
 msgid "Tag Manager fires scripts which place cookies"
 msgstr "Tag Manager lance des scripts qui placent des cookies"
 
-#: config/questions-wizard.php:238
+#: config/questions-wizard.php:239
 msgid ""
 "If you use Tag Manager to fire scripts on your site, Complianz Privacy Suite "
 "will automatically enable categories."
 msgstr ""
 
-#: config/questions-wizard.php:249
+#: config/questions-wizard.php:250
 msgid "Do you anonymize ip numbers in Matomo?"
 msgstr "Est-ce que vous anonymisez les adresses IP dans Matomo ?"
 
-#: config/questions-wizard.php:251
+#: config/questions-wizard.php:252
 msgid ""
 "If ip numbers are anonymized, the statistics cookie do not require a cookie "
 "warning"
@@ -3388,11 +3489,11 @@ msgstr ""
 "Si les adresses IP sont anonymisées, le cookie de statistiques ne nécessite "
 "pas d'avertissement de cookie"
 
-#: config/questions-wizard.php:266
+#: config/questions-wizard.php:267
 msgid "Enter your Google Tagmanager code"
 msgstr "Entrez votre code Google Tagmanager"
 
-#: config/questions-wizard.php:269
+#: config/questions-wizard.php:270
 msgid ""
 "For the Google Tag Manager code, log on. Then, you will immediatly see "
 "Container codes. The one next to your website name is the code you will need "
@@ -3402,11 +3503,11 @@ msgstr ""
 "immédiatement les codes des conteneurs. Celui qui se trouve à côté du nom de "
 "votre site Web est le code que vous devrez entrer ici, l'ID du conteneur."
 
-#: config/questions-wizard.php:280
+#: config/questions-wizard.php:281
 msgid "Enter your Analytics UA code"
 msgstr "Entrez votre code Analytics UA"
 
-#: config/questions-wizard.php:283
+#: config/questions-wizard.php:284
 msgid ""
 "For the Google Analytics UA code, log on and click Admin and copy the UA "
 "code below Tracking-ID."
@@ -3414,32 +3515,32 @@ msgstr ""
 "Pour le code UA de Google Analytics, connectez-vous et cliquez sur Admin et "
 "copiez le code UA sous Tracking-ID."
 
-#: config/questions-wizard.php:294
+#: config/questions-wizard.php:295
 msgid "Enter your Matomo site ID"
 msgstr "Entrez votre ID de compte Matomo"
 
-#: config/questions-wizard.php:307
+#: config/questions-wizard.php:308
 msgid "Enter the URL of Matomo"
 msgstr "Entrez l'URL de Matomo"
 
-#: config/questions-wizard.php:310
+#: config/questions-wizard.php:311
 msgid "e.g. https://domain.com/stats"
 msgstr "p. ex. https://domain.com/stats"
 
-#: config/questions-wizard.php:321
+#: config/questions-wizard.php:322
 msgid "This website uses cookies or similiar techniques."
 msgstr "Ce site utilise des cookies ou des techniques similaires."
 
-#: config/questions-wizard.php:334
+#: config/questions-wizard.php:335
 msgid "Does your website use cookies for advertising?"
 msgstr "Est-ce que votre site utilise des cookies pour la publicité ?"
 
-#: config/questions-wizard.php:348
+#: config/questions-wizard.php:349
 msgid "Does your website use social media buttons or widgets?"
 msgstr ""
 "Votre site Web utilise-t-il des boutons ou des widgets de médias sociaux ?"
 
-#: config/questions-wizard.php:349
+#: config/questions-wizard.php:350
 msgid ""
 "e.g. Facebook, Twitter, LinkedIn sharing buttons or widgets. These usually "
 "place cookies"
@@ -3447,63 +3548,75 @@ msgstr ""
 "par exemple. boutons ou widgets de partage Facebook, Twitter, LinkedIn. Ceux-"
 "ci placent généralement des cookies"
 
-#: config/questions-wizard.php:359 config/pro/questions-wizard.php:73
+#: config/questions-wizard.php:360 config/pro/questions-wizard.php:73
 msgid "Facebook"
 msgstr "Facebook"
 
-#: config/questions-wizard.php:363 config/pro/questions-wizard.php:77
+#: config/questions-wizard.php:364 config/pro/questions-wizard.php:77
 msgid "Whatsapp"
 msgstr "WhatsApp"
 
-#: config/questions-wizard.php:364
+#: config/questions-wizard.php:365
 msgid "Other"
 msgstr "Autre"
 
-#: config/questions-wizard.php:368
+#: config/questions-wizard.php:369
 msgid "Select the types of social media you use on the site"
 msgstr "Sélectionnez les types de médias sociaux que vous utilisez sur le site"
 
-#: config/questions-wizard.php:381
+#: config/questions-wizard.php:382
 msgid "Does your website use third party services?"
 msgstr "Votre site Web utilise-t-il des services de tiers ?"
 
-#: config/questions-wizard.php:382
+#: config/questions-wizard.php:383
 msgid ""
 "e.g. services like Google Fonts, Maps or recaptcha usually place cookies"
 msgstr ""
 "p.e, des services comme Google Fonts, Maps ou recaptcha placent généralement "
 "des cookies."
 
-#: config/questions-wizard.php:393
+#: config/questions-wizard.php:394
 msgid "Google fonts"
 msgstr "polices de google"
 
-#: config/questions-wizard.php:394
+#: config/questions-wizard.php:395
 msgid "Google Recaptcha"
 msgstr "Google Récapitulatif"
 
-#: config/questions-wizard.php:395
+#: config/questions-wizard.php:396
 msgid "Google Maps"
 msgstr "Cartes Google"
 
-#: config/questions-wizard.php:396
+#: config/questions-wizard.php:397
 msgid "Vimeo"
 msgstr "Vimeo"
 
-#: config/questions-wizard.php:397
+#: config/questions-wizard.php:398
 msgid "Youtube"
 msgstr "Youtube"
 
-#: config/questions-wizard.php:402
+#: config/questions-wizard.php:403
 msgid "Select the types of third party services you use on your site."
 msgstr ""
 "Sélectionnez les types de services tiers que vous utilisez sur votre site."
 
+#: config/questions-wizard.php:412
+msgid "Unknown cookies detected"
+msgstr ""
+
 #: config/questions-wizard.php:414
+msgid ""
+"The scan detected cookies which are not listed in the cookie database. You "
+"can help us improve the database by reporting these cookies. If you know "
+"what a currently unrecognized cookie is for, please add this to the "
+"descriptions below, so we can process that information as well."
+msgstr ""
+
+#: config/questions-wizard.php:426
 msgid "Add the used cookies here"
 msgstr "Ajouter les cookies utilisés ici"
 
-#: config/questions-wizard.php:425 config/questions-wizard.php:444
+#: config/questions-wizard.php:437 config/questions-wizard.php:456
 msgid ""
 "Paste here all your scripts that activate cookies. Enter the scripts without "
 "the script tags"
@@ -3511,11 +3624,11 @@ msgstr ""
 "Collez ici tous vos scripts qui activent les cookies. Entrez les scripts "
 "sans les balises de script"
 
-#: config/questions-wizard.php:427
+#: config/questions-wizard.php:439
 msgid "Statistics script"
 msgstr "Script de statistiques"
 
-#: config/questions-wizard.php:431 config/questions-wizard.php:449
+#: config/questions-wizard.php:443 config/questions-wizard.php:461
 #, php-format
 msgid ""
 "To be able to activate cookies when a user accepts the cookie policy, the "
@@ -3528,11 +3641,11 @@ msgstr ""
 "sans balises <script> </ script>. Pour plus d'informations à ce sujet, "
 "veuillez lire %scet%s article"
 
-#: config/questions-wizard.php:443
+#: config/questions-wizard.php:455
 msgid "Other scripts used to activate cookies"
 msgstr "Autres scripts utilisés pour activer les cookies"
 
-#: config/questions-wizard.php:462
+#: config/questions-wizard.php:474
 msgid ""
 "URL's from scripts you want to be blocked before the cookie warning is "
 "accepted"
@@ -3540,7 +3653,7 @@ msgstr ""
 "URL des scripts que vous souhaitez bloquer avant que l'avertissement de "
 "cookie ne soit accepté"
 
-#: config/questions-wizard.php:471
+#: config/questions-wizard.php:483
 #, php-format
 msgid ""
 "The most common third party cookies are blocked automatically. If you want "
@@ -3552,7 +3665,7 @@ msgstr ""
 "séparées par des virgules. Pour plus d'informations à ce sujet, veuillez "
 "lire %scet%s article"
 
-#: config/questions-wizard.php:484
+#: config/questions-wizard.php:496
 msgid ""
 "URL's from iframes you want to be blocked before the cookie warning is "
 "accepted"
@@ -3560,7 +3673,7 @@ msgstr ""
 "URL des iframes que vous voulez bloquer avant que l'avertissement de cookie "
 "ne soit accepté"
 
-#: config/questions-wizard.php:485
+#: config/questions-wizard.php:497
 #, php-format
 msgid ""
 "The most common third party cookies are blocked automatically. If you want "
@@ -3597,7 +3710,7 @@ msgid "Delete"
 msgstr "supprimer"
 
 #: DNSMPD/class-DNSMPD-table.php:149 DNSMPD/csv.php:53
-#: pro/framework/post-types.php:318
+#: pro/framework/post-types.php:319
 msgid "Email"
 msgstr "E-mail"
 
@@ -3882,7 +3995,7 @@ msgstr "Pourcentage de converties : %s"
 msgid "There is not enough data yet to show a graph."
 msgstr "Il n'y a pas encore assez de données pour montrer un graphique."
 
-#: pro/class-document.php:53
+#: pro/class-document.php:51
 msgid ""
 "As of WordPress 4.9.6, plugins and themes can add their own suggested "
 "statements about cookie usage and privacy here. To use this functionality, "
@@ -3894,28 +4007,20 @@ msgstr ""
 "WordPress."
 
 # to be checked in the context
-#: pro/class-document.php:78
+#: pro/class-document.php:76
 #, php-format
 msgid "Add \"%s\" text to privacy policy"
 msgstr "Ajouter texte \"% s \" à la politique de confidentialité"
 
-#: pro/class-document.php:85
+#: pro/class-document.php:83
 msgid ""
 "You did not choose to create a privacy statement through Complianz Privacy "
 "Suite, so you can skip this step."
 msgstr ""
 
-#: pro/class-document.php:89
+#: pro/class-document.php:87
 msgid "No plugins with suggested statements found."
 msgstr "Aucun plugin avec des déclarations suggérées n'a été trouvé."
-
-#: pro/class-document.php:100
-msgid "Introduction"
-msgstr "Introduction"
-
-#: pro/class-document.php:100
-msgid "Adjusted intro"
-msgstr "Intro ajustée"
 
 #: pro/class-processing.php:139
 #, php-format
@@ -5706,25 +5811,25 @@ msgctxt "Column title in custom post type overview"
 msgid "Download"
 msgstr ""
 
-#: pro/framework/post-types.php:265
+#: pro/framework/post-types.php:266
 msgctxt "Column header in posts overview"
 msgid "Email sent"
 msgstr ""
 
-#: pro/framework/post-types.php:312
+#: pro/framework/post-types.php:313
 msgid "Document contents"
 msgstr "Contenu du document"
 
 # TBC within context : Téléchargement ?
-#: pro/framework/post-types.php:323
+#: pro/framework/post-types.php:324
 msgid "Download"
 msgstr "Télécharger"
 
-#: pro/framework/post-types.php:340
+#: pro/framework/post-types.php:341
 msgid "Download PDF"
 msgstr "Télécharger le fichier PDF"
 
-#: pro/framework/post-types.php:351
+#: pro/framework/post-types.php:352
 msgid "Edit document"
 msgstr "Modifier le document"
 

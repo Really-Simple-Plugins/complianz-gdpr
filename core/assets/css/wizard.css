@@ -1,3 +1,6 @@
+.cmplz-toggle-plugin-policy {
+  cursor: pointer;
+}
 #cmplz-region-slider {
   text-align: center;
   /*------ ADDED CSS ---------*/
@@ -188,12 +191,19 @@ html .mceContentBody {
   display: none !important;
 }
 .cmplz-notice {
+  font-size: 13px!important;
   border-radius: .25rem;
   padding: 10px 15px;
   margin: 10px 0;
   background-color: #d9edf7;
   border: 1px solid #bcdff1;
   color: #31708f;
+}
+.cmplz-notice h1 {
+  font-size: 16px;
+}
+.cmplz-notice p {
+  font-size: 13px!important;
 }
 .cmplz-notice.success {
   background-color: #dff0d8;
@@ -388,6 +398,10 @@ html .mceContentBody {
 #cmplz-wizard .cmplz-body .cmplz-region-indicator img {
   margin-top: -23px;
   float: right;
+}
+#cmplz-wizard .cmplz-body .cmplz-region-indicator img {
+  width: 50px;
+  height: 30px;
 }
 #cmplz-wizard .cmplz-body label {
   font-weight: bold;
@@ -610,6 +624,7 @@ input.cmplz.button .fa-angle-right {
 }
 /* building our new structured css here */
 .cmplz-dashboard-container .cmplz-dashboard-title {
+  padding-top: 22px;
   font-weight: 900;
   font-size: 30px;
   margin-bottom: 20px;
@@ -743,11 +758,9 @@ input.cmplz.button .fa-angle-right {
   min-height: 170px;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text {
-  padding-top: 20px;
   display: inline-grid;
-  margin-top: 10px;
   font-size: 20px;
-  max-width: 50%;
+  max-width: 60%;
   float: left;
 }
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-progress .cmplz-dashboard-progress-top .cmplz-dashboard-top-text .cmplz-dashboard-top-text-subtitle {

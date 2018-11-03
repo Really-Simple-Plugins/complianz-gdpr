@@ -2,6 +2,9 @@
 @border-radius: 25px;
 @gray: #c6c6c6;
 
+.cmplz-toggle-plugin-policy{
+  cursor:pointer;
+}
 
 #cmplz-region-slider {
   text-align:center;
@@ -227,6 +230,13 @@ html .mceContentBody {
 }
 
 .cmplz-notice {
+  h1 {
+    font-size:16px;
+  }
+  font-size: 13px!important;
+  p {
+    font-size: 13px!important;
+  }
   border-radius: .25rem;
   padding: 10px 15px;
   margin:10px 0;
@@ -433,6 +443,10 @@ html .mceContentBody {
       span, img{
         margin-top: -23px;
         float:right;
+      }
+      img {
+        width: 50px;
+        height: 30px;
       }
       float:right;
     }
@@ -726,6 +740,7 @@ a.cmplz.button, button.cmplz.button, input.cmplz.button {
 
 .cmplz-dashboard-container {
   .cmplz-dashboard-title {
+    padding-top:22px;
     font-weight: 900;
     font-size: 30px;
     margin-bottom: 20px;
@@ -859,11 +874,9 @@ a.cmplz.button, button.cmplz.button, input.cmplz.button {
         background-color: #F2F2F2;
         min-height: 170px;
         .cmplz-dashboard-top-text {
-          padding-top: 20px;
           display: inline-grid;
-          margin-top: 10px;
           font-size: 20px;
-          max-width: 50%;
+          max-width: 60%;
           float: left;
           .cmplz-dashboard-top-text-subtitle {
             color: @brand-primary;
