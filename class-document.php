@@ -195,7 +195,7 @@ if (!class_exists("cmplz_document")) {
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
                     'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz')), $docs));
             } else {
-                _e("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz');
+                cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz'), 'warning');
             }
             $menus = array();
             //search in menus for the current post

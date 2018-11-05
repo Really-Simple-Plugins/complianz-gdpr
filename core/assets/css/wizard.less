@@ -205,18 +205,15 @@ html .mceContentBody {
 
 .cmplz-cookie-field {
   .cmplz-cookie-header {
-    border-bottom: 2px solid #e3e3e3;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #b6b7b8;
+    margin-bottom: 25px;
   }
-  border: 1px solid #e3e3e3;
-  padding: 10px;
-  background-color: #f5f5f5;
-  margin-bottom: 35px;
+
 }
 
 #cmplz-send-data {
   input[type=text] {
-    width: 100%;
+    width: 60%;
   }
 }
 
@@ -280,6 +277,18 @@ html .mceContentBody {
     font-variant: small-caps;
   }
 
+  .cmplz-panel {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border: 1px solid #d6d8db;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:10px;
+  }
+
+  .cmplz-custom-privacy-text-container{
+
+  }
   p, .cmplz-custom-privacy-text {
     font-size: 15px;
   }
@@ -298,7 +307,10 @@ html .mceContentBody {
   .field-group {
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #c3c3c3;
+    border-top: 1px solid #c3c3c3;
+    &.first {
+      border-top:0;
+    }
   }
 
   .cmplz-header {
@@ -448,7 +460,7 @@ html .mceContentBody {
         width: 50px;
         height: 30px;
       }
-      float:right;
+      //float:right;
     }
 
     /* Define the styling of the text input fields */
@@ -959,21 +971,11 @@ a.cmplz.button, button.cmplz.button, input.cmplz.button {
         color: white;
         background-color: black;
         min-height: 70px;
-        display: flex;
-        .cmplz-premium-cta {
-          display: flex;
-          font-size: 1.5em;
-          align-items: center;
+        font-size: 14px;
+        div {
+          margin-bottom:10px;
         }
-        .cmplz-btn-cta {
-          box-shadow: none;
-          text-align: left;
-          margin-left: 15px;
-          background-color: @brand-primary;
-          color: black;
-          float: right;
-          width: 100px;
-        }
+        //display: flex;
       }
     }
 

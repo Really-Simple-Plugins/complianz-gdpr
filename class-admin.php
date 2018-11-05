@@ -32,9 +32,6 @@ if (!class_exists("cmplz_admin")) {
             add_action("cmplz_documents_footer", array($this, 'documents_footer'));
             add_action("cmplz_documents", array($this, 'documents'));
 
-            //some dashboard elements
-            add_action('cmplz_dashboard_elements_error', array($this, 'dashboard_elements'));
-
             //some custom warnings
             add_filter('cmplz_warnings_types', array($this, 'filter_warnings'));
 
@@ -44,6 +41,9 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('cmplz_show_message', array($this,'show_message'));
 
+            add_action('admin_init', array($this, 'process_reset_action'),10, 1);
+
+
         }
 
         static function this()
@@ -51,6 +51,60 @@ if (!class_exists("cmplz_admin")) {
             return self::$_this;
 
 
+        }
+
+
+        public function process_reset_action(){
+
+            if (!isset($_POST['cmplz_reset_settings'])) return;
+
+            if (!current_user_can('manage_options')) return;
+
+            if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
+
+            $options = array(
+                'cmplz_activation_time',
+                'cmplz_review_notice_shown',
+                "cmplz_wizard_completed_once",
+                'complianz_options_settings',
+                'complianz_options_wizard',
+                'complianz_options_cookie_settings',
+                'complianz_options_dataleak',
+                'complianz_options_processing',
+                'complianz_active_policy_id',
+                'complianz_scan_token',
+                'cmplz_license_notice_dismissed',
+                'cmplz_license_key',
+                'cmplz_license_status',
+                'cmplz_changed_cookies',
+                'cmplz_processed_pages_list',
+                'cmplz_license_notice_dismissed',
+                'cmplz_processed_pages_list',
+                'cmplz_detected_cookies',
+                'cmplz_plugins_changed',
+                'cmplz_detected_social_media',
+                'cmplz_detected_thirdparty_services',
+                'cmplz_deleted_cookies',
+                'cmplz_reported_cookies',
+            );
+
+            foreach ($options as $option_name) {
+                delete_option($option_name);
+                delete_site_option($option_name);
+            }
+
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'cmplz_statistics';
+            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            }
+
+            $table_name = $wpdb->prefix . 'cmplz_variations';
+            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            }
+
+            $this->success_message = __('Data successfully cleared', 'complianz');
         }
 
         public function show_message(){
@@ -180,13 +234,15 @@ if (!class_exists("cmplz_admin")) {
         }
 
 
-        public function get_warnings($cache = true)
+        public function get_warnings($cache = true, $plus_ones_only=false)
         {
 
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
+
+                if (!$plus_ones_only) $warnings[] = 'no-dnt';
 
                 if (cmplz_has_region('eu') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
                     $warnings[] = 'no-cookie-policy';
@@ -217,7 +273,7 @@ if (!class_exists("cmplz_admin")) {
                 }
 
                 if (!is_ssl()) {
-                    $warnings[] = 'no-ssl';
+                    //$warnings[] = 'no-ssl';
                 }
 
                 if ($this->complianz_plugin_has_new_features()) {
@@ -236,7 +292,7 @@ if (!class_exists("cmplz_admin")) {
         {
             if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
-            $warnings = $this->get_warnings();
+            $warnings = $this->get_warnings(true, true);
             $warning_count = count($warnings);
             $warning_title = esc_attr(sprintf('%d plugin warnings', $warning_count));
             $menu_label = sprintf(__('Complianz %s', 'complianz'), "<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>" . number_format_i18n($warning_count) . "</span></span>");
@@ -435,12 +491,21 @@ if (!class_exists("cmplz_admin")) {
         public function documents_footer(){
             ?>
             <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-premium-cta"> <?php echo __('Discover all premium benefits', 'complianz'); ?>
-                    <a class="button cmplz"
-                       href="https://complianz.io" target="_blank"><?php echo __('Read more', 'complianz'); ?>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+                <div class="cmplz-dashboard-title"><?php _e("Check out premium","complianz")?></div>
+                <div>
+                    <?php _e("Like Complianz Privacy Suite? Then you'll like the premium plugin even more! With: ", 'complianz'); ?>
+                    <?php _e('A/B testing','complianz')?> -
+                    <?php _e('Statistics','complianz')?> -
+                    <?php _e('Multple regions','complianz')?> -
+                    <?php _e('More legal documents','complianz')?> -
+                    <?php _e('Premium support','complianz')?> -
+                    <?php _e('& more!','complianz')?>
                 </div>
+                <a class="button cmplz"
+                   href="https://complianz.io/pricing" target="_blank"><?php echo __('Discover premium', 'complianz'); ?>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+
             </div>
             <?php
         }
@@ -599,20 +664,9 @@ if (!class_exists("cmplz_admin")) {
                             $regions = cmplz_get_regions();
                             foreach($regions as $region => $label){
                                 $labels[] = COMPLIANZ()->config->regions[$region]['label'];
-                                $selected_region = $region;
                             }
                             $labels = implode('/',$labels);
-
-                            $add = '';
-                            //                            if (defined('cmplz_free')) {
-                            //                                if ($selected_region==='us') {
-                            //                                    $add = sprintf(__("To enable EU, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
-                            //                                } else {
-                            //                                    $add = sprintf(__("To enable US, %sgo premium%s", 'complianz'), '<a href="https://complianz.io">', '</a>');
-                            //
-                            //                                }
-                            //                            }
-                            $this->get_dashboard_element(sprintf(__('Your site is configured for the %s.', 'complianz')." ".$add, $labels), 'success');
+                            $this->get_dashboard_element(sprintf(__('Your site is configured for the %s.', 'complianz'), $labels), 'success');
 
 
 
@@ -657,12 +711,7 @@ if (!class_exists("cmplz_admin")) {
             <?php
         }
 
-        public function dashboard_elements(){
 
-            $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>'), 'warning');
-            $this->task_count++;
-
-        }
 
         public function process_support_request()
         {

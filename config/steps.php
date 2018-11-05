@@ -9,7 +9,7 @@ $this->steps = array(
                 "title" => __("General", 'complianz'),
                 'intro' => '<h1>'.__("Hi there!", 'complianz').'</h1><p>'.
                     _x('Welcome to the Complianz Privacy Suite Wizard.','intro first step', 'complianz').'</p><p>'.
-                    _x('We have tried to make our Wizard as simple and fast as possible, but you might think it is a bit much or maybe even boring. Although these questions are all necessary, if there’s any way you think we can make it more fun, please let us know!','intro first step', 'complianz').'<br>'.
+                    sprintf(_x('We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!','intro first step', 'complianz'),'<a target="_blank" href="https://complianz.io/contact">', '</a>').'<br>'.
                     _x('The answers in the first step of the wizard are needed to configure your documents and consent banner specifically to your needs.','intro first step', 'complianz').'</p><p>'.
                     _x('Please note that you can always save and finish the wizard later (if you need a break), use our documentation for additional information or log a support ticket if you need our assistance.', 'intro first step', 'complianz').'</p>',
 
@@ -21,7 +21,7 @@ $this->steps = array(
                         'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
                     ),
                     5 => array(
-                        'region' => 'us',
+                        'law' => 'us',
                         'title' => __('Purpose', 'complianz'),
                         //'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz' ),
                     ),
@@ -55,7 +55,7 @@ $this->steps = array(
                 "title" => __("Menu", 'complianz'),
                 'intro' =>
                             '<h1>'._x("Get ready to finish your configuration.", 'intro menu', 'complianz').'</h1>'.
-                            '<p>'._x("Your documents have been generated. You are able to add them to your menu directly or do it manually after the wizard is finished. Visit Pages to find your legal documents, after finishing the wizard.", 'intro menu', 'complianz').'</p>',
+                            '<p>'._x("Your documents have been generated. You can add them to your menu directly or do it manually after the wizard is finished.", 'intro menu', 'complianz').'</p>',
 
                 ),
             STEP_FINISH => array("title" => __("Finish", 'complianz'),

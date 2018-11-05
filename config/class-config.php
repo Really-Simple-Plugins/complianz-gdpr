@@ -93,7 +93,8 @@ if (!class_exists("cmplz_config")) {
             require_once(cmplz_path . '/config/documents/cookie-policy-us.php');
 
 
-            $this->init();
+            add_action('plugins_loaded', array($this,'init'), 10);
+
         }
 
         static function this()
@@ -190,16 +191,14 @@ if (!class_exists("cmplz_config")) {
         {
 
             $output = array();
-            $has_sections = $this->has_sections($page, $step);
+
 
             $fields = $this->fields;
             if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'page', $page);
 
             foreach ($fields as $fieldname => $field) {
-                //if ($page && ($field['page'] != $page)) continue;
-
                 if ($step) {
-                    if ($has_sections && $section && isset($field['section'])) {
+                    if ($this->has_sections($page, $step) && $section && isset($field['section'])) {
                         if (($field['step'] == $step) && ($field['section'] == $section)) $output[$fieldname] = $field;
                     } else {
                         if (($field['step'] == $step)) $output[$fieldname] = $field;

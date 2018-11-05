@@ -34,6 +34,7 @@ if (!class_exists("cmplz_wizard")) {
             add_action('admin_init', array($this, 'process_custom_hooks'));
 
             add_action('complianz_before_save_wizard_option', array($this, 'before_save_wizard_option'), 10, 4);
+            add_action('complianz_after_save_wizard_option', array($this, 'after_save_wizard_option'), 10, 4);
 
             //dataleaks:
 
@@ -152,7 +153,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
-            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && COMPLIANZ()->document->page_required('privacy-statement')){
+            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && (COMPLIANZ()->document->page_required('privacy-statement') || COMPLIANZ()->document->page_required('privacy-statement-us'))){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
                 WP_Privacy_Policy_Content::_policy_page_updated($policy_page_id);
                 //check again, to update the cache.
@@ -163,6 +164,10 @@ if (!class_exists("cmplz_wizard")) {
             COMPLIANZ()->cookie->reset_plugins_changed();
             COMPLIANZ()->cookie->reset_cookies_changed();
             COMPLIANZ()->cookie->reset_plugins_updated();
+
+//            if ($this->step('wizard')===$this->total_steps('wizard')){
+//                error_log("we are on last step");
+//            }
 
             if (isset($_POST['cmplz-finish'])) {
                 $this->set_wizard_completed_once();
@@ -237,6 +242,19 @@ if (!class_exists("cmplz_wizard")) {
 
         }
 
+
+        /*
+         * Handle some custom options after saving the wizard options
+         *
+         *
+         * */
+
+        public function after_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type){
+            if ($fieldname==='children-safe-harbor' && cmplz_get_value('targets-children')==='no'){
+                cmplz_update_option('wizard', 'children-safe-harbor', 'no');
+            }
+        }
+
         public function get_next_not_empty_step($page, $step)
         {
             if (!COMPLIANZ()->field->step_has_fields($page, $step)) {
@@ -250,10 +268,9 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_section($page, $step, $section)
         {
-
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
                 $section++;
-                if ($section >= 20) return false;
+                if ($section > $this->total_sections($page, $step)) return false;
                 $section = $this->get_next_not_empty_section($page, $step, $section);
             }
 
@@ -545,6 +562,11 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
+        /*
+         * Get a notice style header with an intro above a step or section
+         *
+         *
+         * */
 
         public function get_intro($page, $step, $section){
             //only show when in action
@@ -561,6 +583,13 @@ if (!class_exists("cmplz_wizard")) {
             if (strlen($intro)>0) $intro = '<div class="cmplz-wizard-intro">'.cmplz_notice($intro, 'cmplz-notice',false,false).'</div>';
             return $intro;
         }
+
+
+        /*
+         * Retrieves the region to which this step applies
+         *
+         *
+         * */
 
         public function get_section_region($page, $step, $section){
             //only show when in action
@@ -579,6 +608,31 @@ if (!class_exists("cmplz_wizard")) {
 
 
         /*
+         * Retrieves the law to which this step applies
+         *
+         * In some cases, like the COPPA, a step can apply to a different law than the default region's law.
+         *
+         *
+         * */
+
+        public function get_section_law($page, $step, $section, $region){
+
+            //default: law based on region
+            $law = COMPLIANZ()->config->regions[$region]['law'];
+            if (COMPLIANZ()->config->has_sections($page, $step)){
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'])) {
+                    $law = COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'];
+                }
+            } else {
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['law'])) {
+                    $law = COMPLIANZ()->config->steps[$page][$step]['law'];
+                }
+            }
+            return $law;
+        }
+
+
+        /*
          * Get content of wizard for a page/step/section combination
          *
          *
@@ -589,8 +643,7 @@ if (!class_exists("cmplz_wizard")) {
         {
             $region = $this->get_section_region($page, $step, $section);
             if ($region){
-                $law = COMPLIANZ()->config->regions[$region]['law'];
-
+                $law = $this->get_section_law($page, $step, $section, $region);
                 ?>
                 <div class="cmplz-region-indicator">
                     <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
@@ -767,10 +820,14 @@ if (!class_exists("cmplz_wizard")) {
 
         public function total_steps($page)
         {
-            if ($page && isset($this->total_steps[$page])) return $this->total_steps[$page];
-            $this->total_steps[$page] = count(COMPLIANZ()->config->steps[$page]);
-            return $this->total_steps[$page];
+            return count(COMPLIANZ()->config->steps[$page]);
+        }
 
+        public function total_sections($page, $step)
+        {
+            if (!isset(COMPLIANZ()->config->steps[$page][$step]['sections'])) return 0;
+
+            return count(COMPLIANZ()->config->steps[$page][$step]['sections']);
         }
 
 
@@ -864,15 +921,18 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            //we account for the privacy statement with increase of warnings
-            $warning_count = count(COMPLIANZ()->admin->get_warnings());
-            if (!COMPLIANZ()->document->page_exists('privacy-statement')){
-                $warning_count++;
-            }
+            $total_warnings = count(COMPLIANZ()->config->warning_types);
+            $remaining_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings());
+            $completed_fields += $total_warnings;
+            $total_fields += $remaining_warnings;
 
-            $warnings = ($warning_count!=0) ? true: false;
-            $total_fields++;
-            if (!$warnings) $completed_fields++;
+            foreach (COMPLIANZ()->config->pages as $type => $page) {
+                if (!COMPLIANZ()->document->page_required($page)) continue;
+                if (COMPLIANZ()->document->page_exists($type)) {
+                    $completed_fields++;
+                }
+                $total_fields++;
+            }
 
             $percentage = round(100*($completed_fields/$total_fields) + 0.45);
 
@@ -880,8 +940,6 @@ if (!class_exists("cmplz_wizard")) {
             return $percentage;
 
         }
-
-
 
     }
 

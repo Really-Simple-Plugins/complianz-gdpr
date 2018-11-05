@@ -6,6 +6,11 @@ $this->warning_types = array(
         'type' => 'general',
         'label_error' => __('The Complianz Privacy Suite plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz'),
     ),
+    'no-dnt' => array(
+        'type' => 'general',
+        'label_ok' => __('The wizard has been completed.', 'complianz'),
+        'label_error' => sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>')
+    ),
     'wizard-incomplete' => array(
         'type' => 'general',
         'label_ok' => __('The wizard has been completed.', 'complianz'),

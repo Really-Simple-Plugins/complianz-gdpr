@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-03 16:22+0000\n"
+"POT-Creation-Date: 2018-11-03 22:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -273,43 +273,49 @@ msgstr ""
 #: class-admin.php:777
 msgctxt "intro script center"
 msgid ""
-"Advanced users only. Only if you have scripts which are not supported by the "
-"default functionality should you need this step."
+"The script center should be used to add and block third-party scripts and "
+"iFrames before consent, for example Hotjar and embedded video’s."
 msgstr ""
 
-#: class-admin.php:801
+#: class-admin.php:779
+msgid ""
+"Because you are using Google Tag Manager you can only add iFrames, as shown "
+"below."
+msgstr ""
+
+#: class-admin.php:803
 msgid "Cookie warning settings"
 msgstr ""
 
-#: class-admin.php:805
+#: class-admin.php:807
 msgid "Please complete the wizard to check if you need a cookie warning."
 msgstr ""
 
-#: class-admin.php:808
+#: class-admin.php:810
 msgid ""
 "Your website does not require a cookie warning, so these settings do not "
 "apply."
 msgstr ""
 
-#: class-admin.php:810
+#: class-admin.php:812
 msgid ""
 "Your website requires a cookie warning, these settings will determine how "
 "the popup will look."
 msgstr ""
 
-#: class-admin.php:823 config/countries.php:42
+#: class-admin.php:825 config/countries.php:42
 msgid "EU"
 msgstr ""
 
-#: class-admin.php:824 config/countries.php:36
+#: class-admin.php:826 config/countries.php:36
 msgid "US"
 msgstr ""
 
-#: class-admin.php:862
+#: class-admin.php:864
 msgid "PHP version problem"
 msgstr ""
 
-#: class-admin.php:864
+#: class-admin.php:866
 msgid ""
 "Complianz Privacy Suite requires at least PHP version 5.6. Please upgrade "
 "your PHP version before continuing."
@@ -482,7 +488,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: class-field.php:1048 class-wizard.php:682
+#: class-field.php:1048 class-wizard.php:683
 msgid "Save"
 msgstr ""
 
@@ -501,7 +507,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: class-field.php:1117 config/steps.php:28
+#: class-field.php:1117 config/steps.php:33
 msgid "Cookies"
 msgstr ""
 
@@ -535,7 +541,7 @@ msgid "Privacy statement URL"
 msgstr ""
 
 #: class-field.php:1200 class-field.php:1309 class-field.php:1387
-#: config/steps.php:20 config/pro/steps.php:31
+#: config/steps.php:25 config/pro/steps.php:36
 msgid "Purpose"
 msgstr ""
 
@@ -695,7 +701,7 @@ msgid ""
 "placed. Please run the scan in a normal browser window."
 msgstr ""
 
-#: class-cookie.php:1349 config/steps.php:32 config/questions-wizard.php:160
+#: class-cookie.php:1349 config/steps.php:37 config/questions-wizard.php:160
 msgid "Cookie scan"
 msgstr ""
 
@@ -749,85 +755,89 @@ msgid ""
 "complete all required questions"
 msgstr ""
 
-#: class-wizard.php:118
+#: class-wizard.php:116
+msgid "All steps have been completed."
+msgstr ""
+
+#: class-wizard.php:116
+#, php-format
+msgid ""
+"Click '%s' to complete the configuration. You can come back to change your "
+"configuration at any time."
+msgstr ""
+
+#: class-wizard.php:116 class-wizard.php:669 config/steps.php:61
+#: config/pro/steps.php:104 config/pro/steps.php:117 config/pro/steps.php:130
+#: config/pro/steps.php:144
+msgid "Finish"
+msgstr ""
+
+#: class-wizard.php:120
 #, php-format
 msgid ""
 "Your site needs a cookie warning. The cookie warning has been configured "
 "with default settings. Check the %scookie warning settings%s to customize it."
 msgstr ""
 
-#: class-wizard.php:121
-#, php-format
-msgid ""
-"All steps have been completed. Click %s to complete the configuration. You "
-"can come back to change your configuration at any time."
-msgstr ""
-
-#: class-wizard.php:121 class-wizard.php:668 config/steps.php:51
-#: config/pro/steps.php:98 config/pro/steps.php:111 config/pro/steps.php:124
-#: config/pro/steps.php:138
-msgid "Finish"
-msgstr ""
-
-#: class-wizard.php:325
+#: class-wizard.php:326
 #, php-format
 msgid "The wizard is currently being edited by %s"
 msgstr ""
 
-#: class-wizard.php:327
+#: class-wizard.php:328
 #, php-format
 msgid "If this users stops editing, the lock will expire after %s minutes."
 msgstr ""
 
-#: class-wizard.php:388
+#: class-wizard.php:389
 #, php-format
 msgid "%s min"
 msgstr ""
 
-#: class-wizard.php:596
+#: class-wizard.php:597
 #, php-format
 msgid "This section is needed to comply with the %s"
 msgstr ""
 
-#: class-wizard.php:603
+#: class-wizard.php:604
 msgid "Changes saved successfully"
 msgstr ""
 
-#: class-wizard.php:610
+#: class-wizard.php:611
 #, php-format
 msgid ""
 "This document has been saved as \"%s\" (%sview%s). You can view existing "
 "documents on the %soverview page%s"
 msgstr ""
 
-#: class-wizard.php:615
+#: class-wizard.php:616
 msgid "processing agreements"
 msgstr ""
 
-#: class-wizard.php:618
+#: class-wizard.php:619
 msgid "dataleak reports"
 msgstr ""
 
-#: class-wizard.php:622
+#: class-wizard.php:623
 #, php-format
 msgid ""
 "To learn what %s are and what you need them for, please read this  "
 "%sarticle%s"
 msgstr ""
 
-#: class-wizard.php:649
+#: class-wizard.php:650
 msgid "Previous"
 msgstr ""
 
-#: class-wizard.php:658
+#: class-wizard.php:659
 msgid "Next"
 msgstr ""
 
-#: class-wizard.php:668 pro/class-processing.php:142
+#: class-wizard.php:669 pro/class-processing.php:142
 msgid "View document"
 msgstr ""
 
-#: class-wizard.php:692
+#: class-wizard.php:693
 msgid "Close"
 msgstr ""
 
@@ -1623,48 +1633,86 @@ msgstr ""
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/steps.php:9 config/pro/steps.php:6 config/pro/steps.php:89
-#: config/pro/steps.php:102 config/pro/steps.php:116 config/pro/steps.php:129
+#: config/steps.php:9 config/pro/steps.php:6 config/pro/steps.php:95
+#: config/pro/steps.php:108 config/pro/steps.php:122 config/pro/steps.php:135
 msgid "General"
 msgstr ""
 
-#: config/steps.php:10 config/steps.php:16 config/pro/steps.php:21
-msgctxt "intro company info"
-msgid "We need some company information to be able to generate your documents."
+#: config/steps.php:10 config/pro/steps.php:11
+msgid "Hi there!"
 msgstr ""
 
-#: config/steps.php:12 config/pro/steps.php:15
+#: config/steps.php:11 config/pro/steps.php:12
+msgctxt "intro first step"
+msgid "Welcome to the Complianz Privacy Suite Wizard."
+msgstr ""
+
+#: config/steps.php:12 config/pro/steps.php:13
+msgctxt "intro first step"
+msgid ""
+"We have tried to make our Wizard as simple and fast as possible, but you "
+"might think it is a bit much or maybe even boring. Although these questions "
+"are all necessary, if there’s any way you think we can make it more fun, "
+"please let us know!"
+msgstr ""
+
+#: config/steps.php:13 config/pro/steps.php:14
+msgctxt "intro first step"
+msgid ""
+"The answers in the first step of the wizard are needed to configure your "
+"documents and consent banner specifically to your needs."
+msgstr ""
+
+#: config/steps.php:14 config/pro/steps.php:15
+msgctxt "intro first step"
+msgid ""
+"Please note that you can always save and finish the wizard later (if you "
+"need a break), use our documentation for additional information or log a "
+"support ticket if you need our assistance."
+msgstr ""
+
+#: config/steps.php:17 config/pro/steps.php:20
 msgid "Visitors"
 msgstr ""
 
-#: config/steps.php:13 config/pro/steps.php:16
+#: config/steps.php:18 config/pro/steps.php:21
 msgctxt "intro company info"
 msgid ""
 "To determine what laws apply, we need to know where your website visitors "
 "are coming from."
 msgstr ""
 
-#: config/steps.php:15 config/pro/steps.php:20
+#: config/steps.php:20 config/pro/steps.php:25
 msgid "Company information"
 msgstr ""
 
-#: config/steps.php:33
-msgctxt "intro scan"
-msgid ""
-"The cookie scan will request several pages on your site to check if cookies "
-"are placed, and will check the html of your site for known third party "
-"scripts."
-msgstr ""
-
-#: config/steps.php:35
-msgid "Cookie usage"
-msgstr ""
-
-#: config/steps.php:38
-msgid "Used cookies"
+#: config/steps.php:21 config/pro/steps.php:26
+msgctxt "intro company info"
+msgid "We need some company information to be able to generate your documents."
 msgstr ""
 
 #: config/steps.php:39
+msgctxt "intro scan"
+msgid "Almost there. Let’s have a look at your cookies."
+msgstr ""
+
+#: config/steps.php:40
+msgctxt "intro scan"
+msgid ""
+"The cookie scan will request several pages on your site to check if cookies "
+"are placed and will check the html of your site for known third party "
+"scripts. The cookie scan will be recurring weekly to keep you up-to-date!"
+msgstr ""
+
+#: config/steps.php:42
+msgid "Cookie usage"
+msgstr ""
+
+#: config/steps.php:45
+msgid "Used cookies"
+msgstr ""
+
+#: config/steps.php:46
 msgctxt "intro used cookies"
 msgid ""
 "With the automatic cookie scan most first party cookies should be detected. "
@@ -1672,8 +1720,21 @@ msgid ""
 "detailed information, or add cookies which are still missing."
 msgstr ""
 
-#: config/steps.php:48
+#: config/steps.php:55
 msgid "Menu"
+msgstr ""
+
+#: config/steps.php:57
+msgctxt "intro menu"
+msgid "Get ready to finish your configuration."
+msgstr ""
+
+#: config/steps.php:58
+msgctxt "intro menu"
+msgid ""
+"Your documents have been generated. You are able to add them to your menu "
+"directly or do it manually after the wizard is finished. Visit Pages to find "
+"your legal documents, after finishing the wizard."
 msgstr ""
 
 #: config/countries.php:38
@@ -3999,126 +4060,125 @@ msgid ""
 "We determine the retention period according to fixed objective criteria: %s"
 msgstr ""
 
-#: config/pro/steps.php:11
-msgctxt "intro on documents"
-msgid ""
-"In this first step you can decide which documents we will generate for you."
-msgstr ""
-
-#: config/pro/steps.php:26
+#: config/pro/steps.php:31
 msgid "Data protection officer"
 msgstr ""
 
-#: config/pro/steps.php:37
+#: config/pro/steps.php:42
 msgid "Details per purpose - EU"
 msgstr ""
 
-#: config/pro/steps.php:43
+#: config/pro/steps.php:48
 msgid "Details per purpose - US"
 msgstr ""
 
-#: config/pro/steps.php:49
+#: config/pro/steps.php:54
 msgid "Sharing of data - EU"
 msgstr ""
 
-#: config/pro/steps.php:50 config/pro/steps.php:55
+#: config/pro/steps.php:55 config/pro/steps.php:60
 msgctxt "intro third parties"
 msgid ""
 "In this section, we need you to fill in information about third parties and "
 "processors you’re working with."
 msgstr ""
 
-#: config/pro/steps.php:54
+#: config/pro/steps.php:59
 msgid "Sharing of data - US"
 msgstr ""
 
-#: config/pro/steps.php:58
+#: config/pro/steps.php:63
 msgid "Security & Consent"
 msgstr ""
 
-#: config/pro/steps.php:63
+#: config/pro/steps.php:68
 msgid "Financial incentives"
 msgstr ""
 
-#: config/pro/steps.php:68
+#: config/pro/steps.php:73
 msgid "Children"
 msgstr ""
 
-#: config/pro/steps.php:73
+#: config/pro/steps.php:78
 msgid "Children: data processing purposes"
 msgstr ""
 
-#: config/pro/steps.php:76 config/pro-documents/documents.php:32
+#: config/pro/steps.php:81 config/pro-documents/documents.php:32
 msgid "Disclaimer"
 msgstr ""
 
-#: config/pro/steps.php:77
+#: config/pro/steps.php:82
 msgctxt "intro disclaimer"
 msgid "Answers you will give below will be used to generate your disclaimer."
 msgstr ""
 
-#: config/pro/steps.php:82
+#: config/pro/steps.php:87
 msgid "Plugins"
 msgstr ""
 
-#: config/pro/steps.php:83
+#: config/pro/steps.php:88
+msgctxt "intro plugins"
+msgid "Next!"
+msgstr ""
+
+#: config/pro/steps.php:89
 msgctxt "intro plugins"
 msgid ""
-"Plugins and themes can add their own suggested privacy statements here. You "
+"Plugins and themes can add their own suggested privacy paragraphs here. You "
 "can choose to add these to your privacy statement."
 msgstr ""
 
-#: config/pro/steps.php:84
+#: config/pro/steps.php:90
 msgctxt "intro plugins"
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: config/pro/steps.php:85
+#: config/pro/steps.php:91
 msgctxt "intro plugins"
 msgid ""
-"You can also use the editor to add custom text to your privacy statement, in "
-"case you need this."
+"You can also use the editor to add custom text to your privacy statement if "
+"you like."
 msgstr ""
 
-#: config/pro/steps.php:90 config/pro/steps.php:103
+#: config/pro/steps.php:96 config/pro/steps.php:109
 msgid "Processing"
 msgstr ""
 
-#: config/pro/steps.php:92 config/pro/steps.php:105
+#: config/pro/steps.php:98 config/pro/steps.php:111
 msgid "Data"
 msgstr ""
 
-#: config/pro/steps.php:93 config/pro/steps.php:106
+#: config/pro/steps.php:99 config/pro/steps.php:112
 msgid "Handling of requests"
 msgstr ""
 
-#: config/pro/steps.php:94 config/pro/steps.php:107
+#: config/pro/steps.php:100 config/pro/steps.php:113
 msgid "Right of audit"
 msgstr ""
 
-#: config/pro/steps.php:97 config/pro/steps.php:110
+#: config/pro/steps.php:103 config/pro/steps.php:116
 msgid "Data breach"
 msgstr ""
 
-#: config/pro/steps.php:118 config/pro/steps.php:131
+#: config/pro/steps.php:124 config/pro/steps.php:137
 msgid "Necessity"
 msgstr ""
 
-#: config/pro/steps.php:120 config/pro/steps.php:133
+#: config/pro/steps.php:126 config/pro/steps.php:139
 msgid "Incident"
 msgstr ""
 
-#: config/pro/steps.php:121 config/pro/steps.php:134
+#: config/pro/steps.php:127 config/pro/steps.php:140
 msgid "Description of incident"
 msgstr ""
 
-#: config/pro/steps.php:123 config/pro/steps.php:136
+#: config/pro/steps.php:129 config/pro/steps.php:142
 msgid "Options"
 msgstr ""
 
-#: config/pro/steps.php:137
+#: config/pro/steps.php:143
 msgid "Details"
 msgstr ""
 

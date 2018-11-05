@@ -246,8 +246,8 @@ $this->known_cookie_keys = array(
     ),
 
     'livechat' => array('functional' => false,
-        'used_names' => array('autoinvite_callback','__lc.visitor_id', 'hide_eye_catcher', 'autoinvite_callback', '__lc.visitor_id', 'lc_invitation_opened', 'lc_window_state', 'lc_sso9818825', '__lc_visitor_id'),
-        'unique_used_names' => array('autoinvite_callback','wpfront-notification-bar-landingpage', 'partial__lc.visitor_id', 'partial_lc_'),
+        'used_names' => array('hide_eye_catcher','autoinvite_callback','__lc.visitor_id', 'hide_eye_catcher', 'autoinvite_callback', '__lc.visitor_id', 'lc_invitation_opened', 'lc_window_state', 'lc_sso9818825', '__lc_visitor_id'),
+        'unique_used_names' => array('hide_eye_catcher','autoinvite_callback','wpfront-notification-bar-landingpage', 'partial__lc.visitor_id', 'partial_lc_'),
         'privacy_policy_url' => 'https://www.livechat.com/privacy/',
         'label' => "Livechat",
         'purpose' => __("Real-time chat cookie", 'complianz'),

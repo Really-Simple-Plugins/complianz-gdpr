@@ -6,21 +6,14 @@ jQuery(document).ready(function ($) {
 
         var policy = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-custom-privacy-text');
         var policy_toggle = $(this).closest('.cmplz-custom-privacy-text-container').find('i');
-        var policy_expl = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-privacy-toggle-expl');
-
-
 
         if (policy.is(':hidden')){
             policy_toggle.removeClass('fa-chevron-down');
             policy_toggle.addClass('fa-chevron-up');
-            policy_expl.hide()
-
             policy.slideDown("slow");
 
         } else {
-            policy.slideUp( 'normal',function(){
-                policy_expl.show();
-            });
+            policy.slideUp( 'normal');
             policy_toggle.removeClass('fa-chevron-up');
             policy_toggle.addClass('fa-chevron-down');
         }

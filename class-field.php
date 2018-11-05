@@ -58,6 +58,9 @@ if (!class_exists("cmplz_field")) {
                 'has_variations' => false,
                 'hidden' => false,
                 'region' => false,
+                'media' => true,
+                'first' => false,
+                'warn' => false,
             );
 
 
@@ -231,6 +234,9 @@ if (!class_exists("cmplz_field")) {
 
             if (!empty($options)) update_option('complianz_options_' . $page, $options);
 
+            do_action("complianz_after_save_" . $page . "_option", $variation_fieldname, $fieldvalue, $prev_value, $type);
+
+
         }
 
 
@@ -332,15 +338,16 @@ if (!class_exists("cmplz_field")) {
             $condition_class = $condition ? 'condition-check' : '';
 
             $hidden_class =  ($args['hidden']) ? 'hidden' : '';
+            $first_class =  ($args['first']) ? 'first' : '';
 
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class).' '. esc_attr($condition_class) . '"';
+                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class.' '.$condition_class) . '"';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
-                echo '<div class="field-group ' .  esc_attr($hidden_class).' '. esc_attr($condition_class) . '" ';
+                echo '<div class="field-group ' .  esc_attr($hidden_class.''.$first_class.' '.$condition_class) . '" ';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><div class="cmplz-label">';
             }
@@ -713,10 +720,17 @@ if (!class_exists("cmplz_field")) {
             <?php
         }
 
+        /*
+         * Show field with editor
+         *
+         *
+         * */
+
         public
         function editor($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            $media = $args['media'] ? true : false;
             if ($args['has_variations']) $fieldname .= $this->variation_id;
 
             $value = $this->get_value($args['fieldname'], $args['default']);
@@ -727,7 +741,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             $settings = array(
-               //'media_buttons' => false,
+                'media_buttons' => $media,
                 'editor_height' => 300, // In pixels, takes precedence and has no default value
                 'textarea_rows' => 15,
             );
@@ -831,6 +845,7 @@ if (!class_exists("cmplz_field")) {
         public
         function step_has_fields($page, $step = false, $section = false)
         {
+
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
             foreach ($fields as $fieldname => $args) {
                 $default_args = $this->default_args;
@@ -854,7 +869,10 @@ if (!class_exists("cmplz_field")) {
         function get_fields($page, $step = false, $section = false)
         {
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
+            $i = 0;
             foreach ($fields as $fieldname => $args) {
+                if ($i === 0) $args['first']=true;
+                $i++;
                 $default_args = $this->default_args;
                 $args = wp_parse_args($args, $default_args);
 
@@ -1010,7 +1028,7 @@ if (!class_exists("cmplz_field")) {
             <?php if ($args['post_get']==='get'){ ?>
                 <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
             <?php } else { ?>
-                <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="cmplz-<?php echo $args['action']?>"
+                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
                        value="<?php echo esc_html($args['label']) ?>">
             <?php }  ?>
 
@@ -1143,7 +1161,7 @@ if (!class_exists("cmplz_field")) {
                     }
                     ?>
 
-                    <div class="cmplz-cookie-field">
+                    <div class="cmplz-cookie-field cmplz-panel">
                         <div class="cmplz-cookie-header">
                             <label><?php echo sprintf(__('Information for the cookie "%s"', 'complianz'), $cookiename) ?></label>
                         </div>

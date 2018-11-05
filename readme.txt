@@ -1,7 +1,7 @@
 === Complianz Privacy Suite (GDPR/CaCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, COPPA, Cookie warning, Cookie Consent, Cookie categories, categories, EU, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
+Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, COPPA, Cookie warning, Cookie Consent, Cookie categories, categories, EU, European Union, US, United States, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
@@ -55,7 +55,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 == Frequently asked questions ==
 = Knowledgebase =
-Complianz Privacy Suite (GDPR/CaCPA) maintains a continuously growing knowledgebase about GDPR on [complianz.io](https://complianz.io)
+Complianz Privacy Suite (GDPR/CaCPA) maintains a continuously growing knowledgebase about GDPR, CaCPA and COPPA on [complianz.io](https://complianz.io)
 
 = Is my website GDPR compliant with this plugin? =
 We cannot guarantee GDPR compliancy for your website.
@@ -227,8 +227,9 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 == Upgrade notice ==
 
 == Screenshots ==
-1. After installing, please answer the questions in our wizard. This will configure the cookie policy to your organization.
-2. After the questions. Please start the website scan. The scan checks the cookies you are using on your website and places these in the cookie policy. You can adjust these afterwards.
-3. You can also add scripts yourself. For instance when you are using iframes or other scripts.
-4. You can customize the cookie consent banner's style and layout to your liking.
-5. Here you can see our cookie consent banner in action. This cookie consent banner blocks all cookies until the visitor gives consent.
+1. Dashboard for quick overview over your status, and quick access to privacy features.
+2. The scan checks the cookies you are using on your website and places these in the cookie policy. You can adjust these afterwards.
+3. Wysiwyg cookie banner editor: you can customize the cookie consent banner's style and layout to your liking
+4. Script center to add or block scripts depending on users cookie acceptance.
+5. General settings page
+6. An example of a cookie banner, hovering over the generated cookie policy.

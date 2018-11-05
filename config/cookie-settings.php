@@ -269,7 +269,8 @@ $this->fields = $this->fields + array(
             'placeholder' => __('First category, Second category', 'complianz'),
             'callback_condition' =>array(
                 'fire_scripts_in_tagmanager' => 'yes',
-                'compile_statistics' => 'google-tag-manager'
+                'compile_statistics' => 'google-tag-manager',
+                'regions' => 'eu',
             ),
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),

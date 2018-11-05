@@ -97,6 +97,17 @@ $this->fields = $this->fields + array(
             'comment' => sprintf(__('If you want to import your settings, please check out the %spremium version%s', 'complianz'), '<a target="_blank" href="https://complianz.io">', "</a>"),
         ),
 
+        'reset_settings' => array(
+            'warn' => __('Are you sure? This will remove all Complianz Privacy Suite data.','complianz'),
+            'page' => 'settings',
+            'type' => 'button',
+            'action' => 'cmplz_reset_settings',
+            'post_get' => 'post',
+            'label' => __("Reset settings", 'complianz'),
+            'table' => true,
+            'help' => __('This will reset all settings to defaults. All data in the Complianz Privacy Suite will be deleted', 'complianz'),
+        ),
+
 
     );
 
