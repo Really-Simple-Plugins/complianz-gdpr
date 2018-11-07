@@ -421,7 +421,6 @@ $this->fields = $this->fields + array(
             'page' => 'wizard',
             'translatable' => true,
             'type' => 'cookies',
-            'optional' => true,
             'default' => '',
             'label' => __("Add the used cookies here", 'complianz'),
             'callback_condition' => array('uses_cookies' => 'yes'),

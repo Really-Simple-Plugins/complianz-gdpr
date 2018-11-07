@@ -1335,7 +1335,7 @@ if (!class_exists("cmplz_cookie")) {
         public function scan_progress()
         {
             ?>
-            <div class="field-group">
+            <div class="field-group first">
                 <?php
                 if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
                     cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.","complianz"));

@@ -165,11 +165,8 @@ if (!class_exists("cmplz_wizard")) {
             COMPLIANZ()->cookie->reset_cookies_changed();
             COMPLIANZ()->cookie->reset_plugins_updated();
 
-//            if ($this->step('wizard')===$this->total_steps('wizard')){
-//                error_log("we are on last step");
-//            }
-
-            if (isset($_POST['cmplz-finish'])) {
+            //when clicking to the last page, or clicking finish, run the finish sequence.
+            if (isset($_POST['cmplz-finish']) || (isset($_POST["step"]) && $_POST['step']==STEP_MENU && isset($_POST['cmplz-next']))){
                 $this->set_wizard_completed_once();
                 //check if cookie warning should be enabled
                 if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
@@ -177,7 +174,10 @@ if (!class_exists("cmplz_wizard")) {
                 } else {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
                 }
+            }
 
+            //after clicking finish, redirect to dashboard.
+            if (isset($_POST['cmplz-finish'])) {
                 wp_redirect(admin_url('admin.php?page=complianz'));
                 exit();
             }
@@ -228,6 +228,7 @@ if (!class_exists("cmplz_wizard")) {
             if (($fieldvalue != $prev_value) && isset($field['revoke_consent_onchange']) && $field['revoke_consent_onchange']) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
             }
+
 
             //when the brand color is saved, update the cookie settings
             //only if nothing entered yet.
@@ -340,9 +341,10 @@ if (!class_exists("cmplz_wizard")) {
             if ($this->wizard_is_locked()) {
                 $user_id = $this->get_lock_user();
                 $user = get_user_by("id", $user_id);
-                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename));
                 $lock_time = apply_filters("cmplz_wizard_lock_time", 2 * MINUTE_IN_SECONDS)/60;
-                printf(__("If this users stops editing, the lock will expire after %s minutes.","complianz"),$lock_time);
+
+                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename).'<br>'.sprintf(__("If this user stops editing, the lock will expire after %s minutes.","complianz"),$lock_time),'warning');
+
                 return;
             }
             //lock the wizard for other users.
@@ -580,7 +582,7 @@ if (!class_exists("cmplz_wizard")) {
                     $intro .= COMPLIANZ()->config->steps[$page][$step]['intro'];
                 }
             }
-            if (strlen($intro)>0) $intro = '<div class="cmplz-wizard-intro">'.cmplz_notice($intro, 'cmplz-notice',false,false).'</div>';
+            if (strlen($intro)>0) $intro = '<div class="cmplz-wizard-intro">'.cmplz_notice($intro, 'notice',false,false).'</div>';
             return $intro;
         }
 
@@ -686,9 +688,7 @@ if (!class_exists("cmplz_wizard")) {
                     <input type="hidden" value="<?php echo $this->post_id() ?>" name="post_id">
                 <?php } ?>
 
-                <?php
-                    COMPLIANZ()->field->get_fields($page, $step, $section);
-                ?>
+                <?php COMPLIANZ()->field->get_fields($page, $step, $section); ?>
 
                 <input type="hidden" value="<?php echo $step ?>" name="step">
                 <input type="hidden" value="<?php echo $section ?>" name="section">
@@ -735,15 +735,6 @@ if (!class_exists("cmplz_wizard")) {
                                        name="cmplz-save"
                                        value="<?php _e("Save", 'complianz') ?>">
 
-                            </div>
-                        <?php } ?>
-
-                        <?php if ($page == 'wizard' && $step < $this->total_steps($page)) { ?>
-                            <div class="cmplz-button cmplz-save">
-
-                                <input class="fa button" type="submit"
-                                       name="cmplz-finish"
-                                       value="<?php _e("Close", 'complianz') ?>">
                             </div>
                         <?php } ?>
 
@@ -922,9 +913,10 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             $total_warnings = count(COMPLIANZ()->config->warning_types);
-            $remaining_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings());
-            $completed_fields += $total_warnings;
-            $total_fields += $remaining_warnings;
+            $completed_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings());
+
+            $completed_fields += $completed_warnings;
+            $total_fields += $total_warnings;
 
             foreach (COMPLIANZ()->config->pages as $type => $page) {
                 if (!COMPLIANZ()->document->page_required($page)) continue;

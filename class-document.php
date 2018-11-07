@@ -175,6 +175,13 @@ if (!class_exists("cmplz_document")) {
 
         public function wizard_add_pages_to_menu()
         {
+
+            //this function is used as of 4.9.0
+            if (!function_exists('wp_get_nav_menu_name')) {
+                cmplz_notice(__('Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.', 'complianz'),'warning');
+                return;
+            }
+
             //get list of menus
             $locations = get_theme_mod('nav_menu_locations');
 
@@ -338,17 +345,9 @@ if (!class_exists("cmplz_document")) {
 
             do_action('cmplz_create_page', $page_id, $type);
 
-//            if ($type == 'cookie-statement') {
-//                COMPLIANZ()->cookie->set_cookie_statement_page();
-//            }
-//
-//            if ($type == 'cookie-statement-us') {
-//                COMPLIANZ()->cookie->set_cookie_statement_us_page();
-//            }
-
             $this->set_page_url($page_id, $type);
-
         }
+
 
         public function delete_page($type)
         {

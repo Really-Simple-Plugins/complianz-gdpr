@@ -128,15 +128,16 @@ $this->document_elements['cookie-statement-us'] = array(
 
     array(
         'title' => 'Your rights with respect to personal data',
+        'p'=> false,
         'content' =>
-            'You have the following rights with respect to your personal data:' .
+            '<p>You have the following rights with respect to your personal data:</p>' .
             '<ul>
-                    <li>you may submit a request for access to the data we process about you;</li>
-                    <li>you may object to the processing;</li>
-                    <li>you may request an overview, in a commonly used format, of the data we process about you;</li>
-                    <li>you may request correction or deletion of the data if it is incorrect or not or no longer relevant, or to ask to restrict the processing of the data.</li>
-                </ul>' .
-            'To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you.',
+                <li>you may submit a request for access to the data we process about you;</li>
+                <li>you may object to the processing;</li>
+                <li>you may request an overview, in a commonly used format, of the data we process about you;</li>
+                <li>you may request correction or deletion of the data if it is incorrect or not or no longer relevant, or to ask to restrict the processing of the data.</li>
+            </ul>' .
+            '<p>To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you.</p>',
     ),
 
     array(

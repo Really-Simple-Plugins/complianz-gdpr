@@ -273,7 +273,7 @@ if (!class_exists("cmplz_admin")) {
                 }
 
                 if (!is_ssl()) {
-                    //$warnings[] = 'no-ssl';
+                  //  $warnings[] = 'no-ssl';
                 }
 
                 if ($this->complianz_plugin_has_new_features()) {
@@ -491,12 +491,12 @@ if (!class_exists("cmplz_admin")) {
         public function documents_footer(){
             ?>
             <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-dashboard-title"><?php _e("Check out premium","complianz")?></div>
+                <div class="cmplz-dashboard-title"><?php _e("Like Complianz Privacy Suite?","complianz")?></div>
                 <div>
-                    <?php _e("Like Complianz Privacy Suite? Then you'll like the premium plugin even more! With: ", 'complianz'); ?>
+                    <?php _e("Then you'll like the premium plugin even more! With: ", 'complianz'); ?>
                     <?php _e('A/B testing','complianz')?> -
                     <?php _e('Statistics','complianz')?> -
-                    <?php _e('Multple regions','complianz')?> -
+                    <?php _e('Multiple regions','complianz')?> -
                     <?php _e('More legal documents','complianz')?> -
                     <?php _e('Premium support','complianz')?> -
                     <?php _e('& more!','complianz')?>
@@ -823,7 +823,7 @@ if (!class_exists("cmplz_admin")) {
 
                     <table class="form-table">
                         <tr><th></th><td>                <?php
-                                cmplz_notice(_x("The script center should be used to add and block third-party scripts and iFrames before consent, for example Hotjar and embedded video’s.", 'intro script center', 'complianz'));
+                                cmplz_notice(_x("The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s.", 'intro script center', 'complianz'));
                                 if (COMPLIANZ()->cookie->uses_google_tagmanager()) {
                                     cmplz_notice(__('Because you are using Google Tag Manager you can only add iFrames, as shown below.', 'complianz'), 'warning');
                                 }
@@ -866,25 +866,52 @@ if (!class_exists("cmplz_admin")) {
                 <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
 
                 <form id='cookie-settings' action="" method="post">
-                    <?php if (cmplz_multiple_regions()){?>
-                        <div id="cmplz-region-slider">
-                            <label class="switch">
-                                <input type="checkbox" <?php echo (cmplz_company_in_eu()) ? "checked": ""?> id="cmplz-region-mode">
-                                <div class="slider round">
-                                    <span class="eu"><?php _e("EU", "complianz")?></span>
-                                    <span class="us"><?php _e("US", "complianz")?></span>
-                                </div>
-                            </label>
+                    <?php
+
+                    $regions = cmplz_get_regions();
+                    if (cmplz_multiple_regions()){
+                        $single_region = COMPLIANZ()->company->get_default_region();
+                     } else {
+                        $single_region = $regions;
+                        reset($single_region);
+                        $single_region = key($single_region);
+                     }?>
+                    <script>
+                        var ccRegion='<?php echo $single_region?>';
+                    </script>
+                        <?php do_action('cmplz_a_b_testing_section');?>
+
+                        <div class="cmplz-tab">
+                            <button class="cmplz-tablinks active" type="button" data-tab="general"><?php _e("General", "complianz")?></button>
+                            <?php foreach ($regions as $region_code=>$label){?>
+                                <button class="cmplz-tablinks region-link" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
+                            <?php }?>
                         </div>
-                    <?php } else { ?>
-                        <input type="checkbox" style="display:none" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
-                    <?php }?>
-                    <table class="form-table">
+
+                        <!-- Tab content -->
+                        <div id="general" class="cmplz-tabcontent active">
+                            <h3><?php _e("General", "complianz")?></h3>
+                            <p>
+                                <table class="form-table">
+                                <?php do_action('cmplz_cookie_variation_name_input')?>
+                                <?php COMPLIANZ()->field->get_fields('cookie_settings', 'general');?>
+                                </table>
+                            </p>
+                        </div>
+
+                        <?php foreach ($regions as $region_code=>$label){?>
+                            <div id="<?php echo $region_code?>" class="cmplz-tabcontent region">
+                                <h3><?php echo $label?></h3>
+                                <p>
+                                <table class="form-table">
+                                    <?php COMPLIANZ()->field->get_fields('cookie_settings', $region_code);?>
+                                </table>
+                                </p>
+                            </div>
+                        <?php }?>
 
                         <?php
-                        do_action('cmplz_a_b_testing_section');
 
-                        COMPLIANZ()->field->get_fields('cookie_settings');
 
                         //now clear the variation again.
                         COMPLIANZ()->field->set_variation_id('');

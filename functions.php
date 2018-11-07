@@ -270,17 +270,71 @@ if (!function_exists('cmplz_get_region_for_country')) {
 
 if (!function_exists('cmplz_notice')) {
 
-    function cmplz_notice($msg, $type='cmplz-notice', $hide = false, $echo=true)
+    function cmplz_notice($msg, $type='notice', $hide = false, $echo=true)
     {
         if ($msg == '') return;
 
         $hide_class = $hide ? "cmplz-hide" : "";
-        $html = '<div class="cmplz-notice '.$type.' ' . $hide_class . '">' . $msg . '</div>';
+        $html = '<div class="cmplz-panel cmplz-'.$type.' ' . $hide_class . '">' . $msg . '</div>';
         if ($echo) {
             echo $html;
         } else {
             return $html;
         }
+    }
+}
+
+if (!function_exists('cmplz_panel')) {
+
+    function cmplz_panel($title, $html, $custom_btn='', $validate=false)
+    {
+        if ($title=='') return;
+
+        $slide = ($html == '') ? false : true;
+        $validate_icon = $validate ? '<span class="cmplz-multiple-field-validation"><i class="fa fa-times"></i></span>' : '';
+
+        ?>
+        <div class="cmplz-panel cmplz-slide-panel">
+            <div class="cmplz-panel-title">
+
+                <span class="cmplz-panel-toggle">
+                    <i class="fa fa-caret-right"></i>
+                    <span class="cmplz-title"><?php echo $title?></span>
+                 </span>
+
+                <span><?php echo $custom_btn?></span>
+                <?php echo $validate_icon?>
+            </div>
+                <div class="cmplz-panel-content">
+                <?php echo $html?>
+                </div>
+        </div>
+        <?php
+
+    }
+}
+
+if (!function_exists('cmplz_list_item')) {
+
+    function cmplz_list_item($title, $link, $btn, $selected)
+    {
+        if ($title=='') return;
+        $selected = $selected ? "selected" : '';
+        ?>
+        <div class="cmplz-panel cmplz-link-panel <?php echo $selected?>">
+            <div class="cmplz-panel-title">
+                <a href="<?php echo $link?>">
+                <span class="cmplz-panel-toggle">
+                    <i class="fa fa-edit"></i>
+                    <span class="cmplz-title"><?php echo $title?></span>
+
+                 </span>
+                </a>
+                <?php echo $btn?>
+            </div>
+        </div>
+        <?php
+
     }
 }
 
