@@ -6,7 +6,6 @@ $this->document_elements['cookie-statement'] = array(
         'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s and applies to citizens of the European Union.', 'Legal document cookie policy', 'complianz'), '[publish_date]') . '</i>',
     ),
     'introduction' => array(
-
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz'),
         'content' => _x('This cookie policy applies to European Union citizens only.', 'Legal document cookie policy', 'complianz').'&nbsp;'.sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz'), '[domain]', '[article-cookie_names]'),
     ),
@@ -103,7 +102,7 @@ $this->document_elements['cookie-statement'] = array(
                                     <td>' . _x("Sharing", 'Legal document cookie policy', 'complianz') . '</td>
                                   </tr><tr>
                                      <td>[used_names]</td>
-                                     <td><a href="[privacy-statement-url]">'.__('Privacy policy','complianz').'</a></td>
+                                     <td><a href="[privacy-statement-url]">'.__('Privacy statement','complianz').'</a></td>
                                  </tr>
                      </table>',
         'condition' => array(
@@ -114,7 +113,10 @@ $this->document_elements['cookie-statement'] = array(
     'your-rights' => array(
         'title' => _x('Your rights with respect to personal data', 'Legal document cookie policy:paragraph title', 'complianz'),
         'content' =>
-            _x('You have the following rights with respect to your personal data:', 'Legal document cookie policy', 'complianz') .
+            _x('You have the following rights with respect to your personal data:', 'Legal document cookie policy', 'complianz'),
+    ),
+    'your-rights-2' => array(
+        'content' =>
             '<ul>
                     <li>' . _x('You have the right to know why your personal data is needed, what will happen to it, and how long it will be retained for.', 'Legal document cookie policy', 'complianz') . '</li>
                     <li>' . _x('Right of access: You have the right to access your personal data that is known to us.', 'Legal document cookie policy', 'complianz') . '</li>
@@ -122,7 +124,10 @@ $this->document_elements['cookie-statement'] = array(
                     <li>' . _x('If you give us your consent to process your data, you have the right to revoke that consent and to have your personal data deleted.', 'Legal document cookie policy', 'complianz') . '</li>
                     <li>' . _x('Right to transfer your data: you have the right to request all your personal data from the controller and transfer it in its entirety to another controller.', 'Legal document cookie policy', 'complianz') . '</li>
                     <li>' . _x('Right to object: you may object to the processing of your data. We comply with this, unless there are justified grounds for processing.', 'Legal document cookie policy', 'complianz') . '</li>
-                </ul>' .
+                </ul>',
+    ),
+    'your-rights-3' => array(
+        'content' =>
             _x('To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Data Protection Authority).', 'Legal document cookie policy', 'complianz'),
     ),
 

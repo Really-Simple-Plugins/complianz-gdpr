@@ -1,6 +1,43 @@
 jQuery(document).ready(function ($) {
     'use strict';
 
+    //tabs
+    $(document).on('click', '.cmplz-tablinks', function(){
+        $(".cmplz-tablinks").removeClass('active');
+        $(this).addClass('active');
+        $(".cmplz-tabcontent").removeClass('active');
+        $("#"+$(this).data('tab')).addClass('active');
+    });
+
+    //remove alerts
+    window.setTimeout(function () {
+        $(".cmplz-hide").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 2000);
+
+    /*
+    *
+    * open and close panels
+    * */
+    $(document).on('click', '.cmplz-panel-toggle', function(){
+        var content = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-content');
+        var icon_toggle = $(this).closest('.cmplz-slide-panel').find('i');
+        //close all open panels
+
+        if (content.is(':hidden')){
+            icon_toggle.removeClass('fa-caret-right');
+            icon_toggle.addClass('fa-caret-down');
+            content.slideDown("fast");
+
+        } else {
+            content.slideUp( 'fast');
+            icon_toggle.removeClass('fa-caret-down');
+            icon_toggle.addClass('fa-caret-right');
+        }
+    });
+
+
     //colorpicker in the wizard
     $('.cmplz-color-picker').wpColorPicker({
             change:
@@ -26,6 +63,46 @@ jQuery(document).ready(function ($) {
         } else {
             form.slideDown();
         }
+    });
+
+    /*
+    *
+    * On multiple fields, we check if all input type=text and textareas are filled
+    *
+    * */
+
+    function cmplz_validate_multiple() {
+        $('.multiple-field').each(function(){
+
+            var completed=true;
+            $(this).find('input[type=text]').each(function () {
+               if ($(this).val()===''){
+                   completed = false;
+               }
+            });
+
+            $(this).find('textarea').each(function () {
+                if ($(this).val()===''){
+                    completed = false;
+                }
+            });
+
+            var icon = $(this).closest('.cmplz-panel').find('.cmplz-multiple-field-validation i');
+            if (completed){
+                icon.removeClass('fa-times');
+                icon.addClass('fa-check');
+            } else {
+                icon.addClass('fa-times');
+                icon.removeClass('fa-check');
+            }
+        });
+    }
+    cmplz_validate_multiple()
+    $(document).on('keyup', '.multiple-field input[type=text]', function () {
+        cmplz_validate_multiple();
+    });
+    $(document).on('keyup', '.multiple-field textarea', function () {
+        cmplz_validate_multiple();
     });
 
     //validation of checkboxes
@@ -309,11 +386,12 @@ jQuery(document).ready(function ($) {
 
     //custom text for policy
     $(document).on("click", ".cmplz-add-to-policy", function () {
-        var title = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-custom-privacy-header').html();
-        var text = $(this).closest('.cmplz-custom-privacy-text-container').find('.cmplz-custom-privacy-text').html();
+        var title = $(this).closest('.cmplz-slide-panel').find('.cmplz-title').html();
+        var text = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-content').html();
 
         var content = tmce_getContent('cmplz_custom_privacy_policy_text');
         tmce_setContent(content + '<h3>' + title + '</h3>' + text, 'cmplz_custom_privacy_policy_text');
+        $(this).remove();
     });
 
     function tmce_getContent(editor_id, textarea_id) {
@@ -348,13 +426,6 @@ jQuery(document).ready(function ($) {
             return jQuery('#' + textarea_id).focus();
         }
     }
-
-    //remove alerts
-    window.setTimeout(function () {
-        $(".cmplz-notice.cmplz-hide").fadeTo(500, 0).slideUp(500, function () {
-            $(this).remove();
-        });
-    }, 2000);
 
 
     //statistics, handle graphs visibility

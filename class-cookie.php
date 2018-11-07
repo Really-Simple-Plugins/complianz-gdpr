@@ -579,7 +579,7 @@ if (!class_exists("cmplz_cookie")) {
             } else {
                 $script = cmplz_get_value('statistics_script');
             }
-            //$script = apply_filters('cmplz_statistics_script_filter', $script);
+
             echo $script;
         }
 
@@ -1335,15 +1335,15 @@ if (!class_exists("cmplz_cookie")) {
         public function scan_progress()
         {
             ?>
-            <div class="field-group">
+            <div class="field-group first">
                 <?php
-                if (cmplz_dnt_enabled()) {
+                if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
                     cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.","complianz"));
                 }
                 ?>
 
-                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"))?></div>
-                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"))?></div>
+                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"), 'warning')?></div>
+                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"), 'warning')?></div>
 
                 <div class="cmplz-label">
                     <label for="scan_progress"><?php _e("Cookie scan", 'complianz') ?></label>
@@ -1352,7 +1352,7 @@ if (!class_exists("cmplz_cookie")) {
                     <div class="cmplz-progress-bar"></div>
                 </div>
                 <br>
-                <?php _e("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz') ?>
+                <?php echo __("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz')." ".__("Third party scripts will get detected if they're listed in the third party list.", 'complianz') ?>
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>
@@ -1375,7 +1375,7 @@ if (!class_exists("cmplz_cookie")) {
                 <button id="cmplz-report-unknown-cookies" type="button"
                         class="button"><?php _e("Report all unknown cookies", 'complianz') ?></button>
                 <span id="cmplz-report-confirmation"
-                      style="display:none"><?php cmplz_notice_success(__('Thank you, your report has been received successfully', 'complianz'), false) ?></span>
+                      style="display:none"><?php cmplz_notice(__('Thank you, your report has been received successfully', 'complianz'), 'success') ?></span>
                 <?php
                 do_action('complianz_after_label', $args);
                 do_action('complianz_after_field', $args);

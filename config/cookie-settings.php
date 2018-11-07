@@ -3,10 +3,11 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->fields = $this->fields + array(
         'use_country' => array(
+            'step' => 'general',
             'page' => 'cookie_settings',
             'type' => 'checkbox',
             'label' => __("Use geolocation", 'complianz'),
-            'comment' => $this->premium_geo_ip.__('If enabled, the cookie warning will not show for countries without a cookie law.','complianz'),
+            'comment' => $this->premium_geo_ip.__('If enabled, the cookie warning will not show for countries without a cookie law, and will adjust the warning type depending on supported privacy laws','complianz'),
             'table' => true,
             'disabled' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
@@ -14,6 +15,7 @@ $this->fields = $this->fields + array(
 
         'a_b_testing' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'checkbox',
             'label' => __("Enable A/B testing", 'complianz'),
             'comment' => $this->premium_ab_testing.__('If enabled, the plugin will track which cookie warning has the best conversion rate.','complianz'),
@@ -24,6 +26,7 @@ $this->fields = $this->fields + array(
 
         'a_b_testing_duration' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'number',
             'label' => __("Duration in days of the A/B testing period", 'complianz'),
             'table' => true,
@@ -33,6 +36,7 @@ $this->fields = $this->fields + array(
         ),
 
         'position' => array(
+            'step' => 'general',
             'page' => 'cookie_settings',
             'type' => 'select',
             'label' => __("Popup position", 'complianz'),
@@ -50,6 +54,7 @@ $this->fields = $this->fields + array(
         ),
         'theme' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'select',
             'label' => __("Style", 'complianz'),
             'options' => array(
@@ -64,6 +69,7 @@ $this->fields = $this->fields + array(
         ),
 
         'message' => array(
+            'step' => 'general',
             'page' => 'cookie_settings',
             'type' => 'editor',
             'translatable' => true,
@@ -73,11 +79,12 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
         'dismiss' => array(
+            'step' => 'eu',
             'page' => 'cookie_settings',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Functional only", 'complianz'),
-            'label' => __("Functional cookies text (EU)", 'complianz'),
+            'label' => __("Functional cookies text", 'complianz'),
             'table' => true,
             'help' => __('When a users clicks this button, the message is dismissed, without activating all cookies. This can be described as a "dismiss" button or as an "activate functional cookies" only button.','complianz'),
             'has_variations' => true,
@@ -89,6 +96,7 @@ $this->fields = $this->fields + array(
 
         'save_preferences' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Save preferences", 'complianz'),
@@ -102,6 +110,7 @@ $this->fields = $this->fields + array(
         ),
         'view_preferences' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("View preferences", 'complianz'),
@@ -115,6 +124,7 @@ $this->fields = $this->fields + array(
         ),
         'category_functional' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Functional cookies", 'complianz'),
@@ -128,6 +138,7 @@ $this->fields = $this->fields + array(
         ),
         'category_all' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Marketing", 'complianz'),
@@ -141,6 +152,7 @@ $this->fields = $this->fields + array(
         ),
         'category_stats' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Statistics", 'complianz'),
@@ -155,11 +167,12 @@ $this->fields = $this->fields + array(
         ),
         'accept' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("All cookies", 'complianz'),
             'comment' => __('This text is shown in the button which accepts all cookies. These are generally marketing related cookies, so you could also name it "Marketing"', 'complianz'),
-            'label' => __("Accept all cookies text (EU)", 'complianz'),
+            'label' => __("Accept all cookies text", 'complianz'),
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => false),
@@ -167,21 +180,10 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
-        'accept_informational' => array(
-            'page' => 'cookie_settings',
-            'type' => 'text',
-            'translatable' => true,
-            'default' => __("Accept", 'complianz'),
-            'comment' => __('This text is shown in informational cookie banner, which is used for US visitors.', 'complianz'),
-            'label' => __("Accept (US)", 'complianz'),
-            'table' => true,
-            'has_variations' => true,
-            'callback_condition' => array(
-                'regions' => 'us',
-            ),
-        ),
+
         'revoke' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Settings", 'complianz'),
@@ -195,19 +197,9 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-        'hide_revoke' => array(
-            'page' => 'cookie_settings',
-            'type' => 'checkbox',
-            'translatable' => true,
-            'default' => false,
-            'label' => __("Hide settings button", 'complianz'),
-            'table' => true,
-            'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
-            'has_variations' => true,
-        ),
-
         'readmore' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Read more", 'complianz'),
@@ -219,34 +211,9 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-        'readmore_us' => array(
-            'page' => 'cookie_settings',
-            'type' => 'text',
-            'translatable' => true,
-            'default' => __("Do Not Sell My Personal Data page", 'complianz'),
-            'label' => __("Text on link to do not sell my personal data page", 'complianz'),
-            'table' => true,
-            'has_variations' => true,
-            'callback_condition' => array(
-                'regions' => 'us',
-            ),
-        ),
-
-        'readmore_privacy' => array(
-            'page' => 'cookie_settings',
-            'type' => 'text',
-            'translatable' => true,
-            'default' => __("Privacy Policy", 'complianz'),
-            'label' => __("Text on link to Privacy Policy", 'complianz'),
-            'table' => true,
-            'has_variations' => true,
-            'callback_condition' => array(
-                'regions' => 'us',
-            ),
-        ),
-
         'use_categories' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'checkbox',
             'label' => __("Use categories", 'complianz'),
             'comment' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz'),
@@ -261,6 +228,7 @@ $this->fields = $this->fields + array(
 
         'tagmanager_categories' => array(
             'page' => 'cookie_settings',
+            'step' => 'eu',
             'type' => 'textarea',
             'label' => __("Custom Tag Manager categories", 'complianz'),
             'comment' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz')."<br><br>".cmplz_tagmanager_conditional_helptext()." ".sprintf(__('Read more about how to configure categories in this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/configure-categories-tag-manager">', '</a>'),
@@ -269,13 +237,77 @@ $this->fields = $this->fields + array(
             'placeholder' => __('First category, Second category', 'complianz'),
             'callback_condition' =>array(
                 'fire_scripts_in_tagmanager' => 'yes',
-                'compile_statistics' => 'google-tag-manager'
+                'compile_statistics' => 'google-tag-manager',
+                'regions' => 'eu',
             ),
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),
 
+        'hide_revoke' => array(
+            'page' => 'cookie_settings',
+            'step' => 'general',
+            'type' => 'checkbox',
+            'translatable' => true,
+            'default' => false,
+            'label' => __("Hide settings button", 'complianz'),
+            'table' => true,
+            'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
+            'has_variations' => true,
+        ),
+
+        /*
+         *
+         * US settings
+         *
+         * */
+
+        'accept_informational' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Accept", 'complianz'),
+            'label' => __("Accept", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+        'readmore_us' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Do Not Sell My Personal Information page", 'complianz'),
+            'label' => __("Text on link to do not sell my personal information page", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+        'readmore_privacy' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Privacy statement", 'complianz'),
+            'label' => __("Text on link to privacy statement", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+
+
         'popup_background_color' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'colorpicker',
             'default' =>  '#37a8de',
             'label' => __("Popup background color", 'complianz'),
@@ -285,6 +317,7 @@ $this->fields = $this->fields + array(
 
         'popup_text_color' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
             'label' => __("Popup text color", 'complianz'),
@@ -293,6 +326,7 @@ $this->fields = $this->fields + array(
         ),
         'button_background_color' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
             'label' => __("Button background color", 'complianz'),
@@ -301,6 +335,7 @@ $this->fields = $this->fields + array(
         ),
         'button_text_color' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#37a8de',
             'label' => __("Button text color", 'complianz'),
@@ -310,6 +345,7 @@ $this->fields = $this->fields + array(
 
         'border_color' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
             'label' => __("Border color", 'complianz'),
@@ -319,6 +355,7 @@ $this->fields = $this->fields + array(
 
         'cookie_expiry' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'number',
             'default' => 365,
             'label' => __("Cookie warning expiration in days", 'complianz'),
@@ -328,6 +365,7 @@ $this->fields = $this->fields + array(
 
         'use_custom_cookie_css' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'checkbox',
             'label' => __("Use Custom CSS", 'complianz'),
             'default' => false,
@@ -337,6 +375,7 @@ $this->fields = $this->fields + array(
 
         'custom_css' => array(
             'page' => 'cookie_settings',
+            'step' => 'general',
             'type' => 'css',
             'label' => __("Custom CSS", 'complianz'),
             'default' => '.cc-message{} /* styles for the message box */'."\n".'.cc-dismiss{} /* styles for the dismiss button */'."\n".'.cc-allow{} /* styles for the accept button */'."\n".'.cc-window{} /* styles for the popup banner */'."\n".'.cc-window .cc-category{} /* styles for categories*/'."\n".'.cc-window .cc-check{} /* styles for the checkboxes with categories */',
@@ -344,13 +383,5 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
             'condition' => array('use_custom_cookie_css' => true),
         ),
-
-//        'height' => array(
-//            'page' => 'cookie_settings',
-//            'type' => 'number',
-//            'label' => __("Height of banner", 'complianz'),
-//            'default' => '',
-//            'table' => true,
-//        ),
 
     );

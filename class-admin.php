@@ -9,6 +9,7 @@ if (!class_exists("cmplz_admin")) {
         private static $_this;
         public $error_message = "";
         public $success_message = "";
+        public $task_count=0;
 
         function __construct()
         {
@@ -17,7 +18,7 @@ if (!class_exists("cmplz_admin")) {
 
             self::$_this = $this;
             add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
-            add_action('admin_menu', array($this, 'register_admin_page'));
+            add_action('admin_menu', array($this, 'register_admin_page'), 20);
             add_action('admin_notices', array($this, 'show_notices'), 10);
             add_action('admin_init', array($this, 'process_support_request'));
 
@@ -28,9 +29,8 @@ if (!class_exists("cmplz_admin")) {
             add_action("cmplz_dashboard_third_block", array($this, 'dashboard_third_block'));
             add_action("cmplz_dashboard_footer", array($this, 'dashboard_footer'));
             add_action("cmplz_dashboard_second_block", array($this, 'dashboard_second_block'));
-
-            //some dashboard elements
-            add_action('cmplz_dashboard_elements', array($this, 'dashboard_elements'));
+            add_action("cmplz_documents_footer", array($this, 'documents_footer'));
+            add_action("cmplz_documents", array($this, 'documents'));
 
             //some custom warnings
             add_filter('cmplz_warnings_types', array($this, 'filter_warnings'));
@@ -41,21 +41,80 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('cmplz_show_message', array($this,'show_message'));
 
+            add_action('admin_init', array($this, 'process_reset_action'),10, 1);
+
+
         }
 
         static function this()
         {
             return self::$_this;
+
+
+        }
+
+
+        public function process_reset_action(){
+
+            if (!isset($_POST['cmplz_reset_settings'])) return;
+
+            if (!current_user_can('manage_options')) return;
+
+            if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
+
+            $options = array(
+                'cmplz_activation_time',
+                'cmplz_review_notice_shown',
+                "cmplz_wizard_completed_once",
+                'complianz_options_settings',
+                'complianz_options_wizard',
+                'complianz_options_cookie_settings',
+                'complianz_options_dataleak',
+                'complianz_options_processing',
+                'complianz_active_policy_id',
+                'complianz_scan_token',
+                'cmplz_license_notice_dismissed',
+                'cmplz_license_key',
+                'cmplz_license_status',
+                'cmplz_changed_cookies',
+                'cmplz_processed_pages_list',
+                'cmplz_license_notice_dismissed',
+                'cmplz_processed_pages_list',
+                'cmplz_detected_cookies',
+                'cmplz_plugins_changed',
+                'cmplz_detected_social_media',
+                'cmplz_detected_thirdparty_services',
+                'cmplz_deleted_cookies',
+                'cmplz_reported_cookies',
+            );
+
+            foreach ($options as $option_name) {
+                delete_option($option_name);
+                delete_site_option($option_name);
+            }
+
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'cmplz_statistics';
+            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            }
+
+            $table_name = $wpdb->prefix . 'cmplz_variations';
+            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            }
+
+            $this->success_message = __('Data successfully cleared', 'complianz');
         }
 
         public function show_message(){
             if (!empty($this->error_message)){
-                cmplz_notice($this->error_message);
+                cmplz_notice($this->error_message, 'warning');
                 $this->error_message = "";
             }
 
             if (!empty($this->success_message)){
-                cmplz_notice_success($this->success_message);
+                cmplz_notice($this->success_message, 'success', true);
                 $this->success_message = "";
             }
         }
@@ -82,7 +141,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            if (version_compare($prev_version, '2.5', '<')) {
+            if (version_compare($prev_version, '2.0', '<')) {
                 //add category eu existing dataleaks and processing agreements.
                 $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
                 foreach ($posts as $post){
@@ -99,6 +158,11 @@ if (!class_exists("cmplz_admin")) {
                     }
                 }
             }
+
+            /*
+             * If the legal documents have changed, we notify the user of this.
+             *
+             * */
 
             if (CMPLZ_LEGAL_VERSION > get_option('cmplz_legal_version',0)){
                 update_option('cmplz_plugin_new_features', true);
@@ -170,7 +234,7 @@ if (!class_exists("cmplz_admin")) {
         }
 
 
-        public function get_warnings($cache = true)
+        public function get_warnings($cache = true, $plus_ones_only=false)
         {
 
             $warnings = $cache ? get_transient('complianz_warnings') : false;
@@ -178,11 +242,13 @@ if (!class_exists("cmplz_admin")) {
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
+                if (!$plus_ones_only) $warnings[] = 'no-dnt';
+
                 if (cmplz_has_region('eu') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
                     $warnings[] = 'no-cookie-policy';
                 }
 
-                if (cmplz_has_region('us') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
+                if (cmplz_has_region('us') && !COMPLIANZ()->document->page_exists('cookie-statement-us')) {
                     $warnings[] = 'no-cookie-policy-us';
                 }
 
@@ -207,7 +273,7 @@ if (!class_exists("cmplz_admin")) {
                 }
 
                 if (!is_ssl()) {
-                    $warnings[] = 'no-ssl';
+                  //  $warnings[] = 'no-ssl';
                 }
 
                 if ($this->complianz_plugin_has_new_features()) {
@@ -226,7 +292,7 @@ if (!class_exists("cmplz_admin")) {
         {
             if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
-            $warnings = $this->get_warnings();
+            $warnings = $this->get_warnings(true, true);
             $warning_count = count($warnings);
             $warning_title = esc_attr(sprintf('%d plugin warnings', $warning_count));
             $menu_label = sprintf(__('Complianz %s', 'complianz'), "<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>" . number_format_i18n($warning_count) . "</span></span>");
@@ -242,7 +308,14 @@ if (!class_exists("cmplz_admin")) {
                 cmplz_url . 'core/assets/images/menu-icon.png',
                 CMPLZ_MAIN_MENU_POSITION
             );
-
+            add_submenu_page(
+                'complianz',
+                __('Dashboard', 'complianz'),
+                __('Dashboard', 'complianz'),
+                'manage_options',
+                'complianz',
+                array($this, 'main_page')
+            );
             add_submenu_page(
                 'complianz',
                 __('Wizard', 'complianz'),
@@ -293,7 +366,7 @@ if (!class_exists("cmplz_admin")) {
                 <?php if (apply_filters('cmplz_show_wizard_page', true)) { ?>
                     <?php COMPLIANZ()->wizard->wizard('wizard'); ?>
                 <?php } else {
-                    cmplz_notice(__('Your license needs to be activated to unlock the wizard', 'complianz'));
+                    cmplz_notice(__('Your license needs to be activated to unlock the wizard', 'complianz'), 'warning');
                 }
                 ?>
             </div>
@@ -368,36 +441,72 @@ if (!class_exists("cmplz_admin")) {
         }
 
 
-        public function dashboard_third_block()
+
+        function dashboard_third_block()
         {
             ?>
-            <div class="cmplz-header-top cmplz-dashboard-text free">
-                <div class="cmplz-dashboard-title"> <?php echo __('Upgrade to premium', 'complianz'); ?> </div>
+            <div class="cmplz-header-top cmplz-dashboard-text pro">
+                <div class="cmplz-dashboard-title"> <?php echo __('Documents', 'complianz'); ?> </div>
             </div>
-            <div class="cmplz-upgrade-table">
-                <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
-                    <ul>
-                        <li>
-                            <i class="fas fa-plus"></i><?php echo __('Privacy Statement, Disclaimer & Processing Agreement', 'complianz'); ?>
-                        </li>
-                        <li>
-                            <i class="fas fa-plus"></i><?php echo __('Legal Updates, GEO Location & Do Not Track', 'complianz'); ?>
-                        </li>
-                        <li>
-                            <i class="fas fa-plus"></i><?php echo __('Multiple Languages & Premium Support', 'complianz'); ?>
-                        </li>
-                    </ul>
-                </table>
-            </div>
-            <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-premium-cta"> <?php echo __('Discover all premium benefits', 'complianz'); ?>
-                    <a class="button cmplz"
-                       href="https://complianz.io" target="_blank"><?php echo __('Read more', 'complianz'); ?>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </div>
-            </div>
+            <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
+                <?php
+                foreach (COMPLIANZ()->config->pages as $type => $page) {
 
+                    if (COMPLIANZ()->document->page_exists($type)) {
+                        $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
+                        COMPLIANZ()->admin->get_dashboard_element($link, 'success');
+                    } elseif (COMPLIANZ()->document->page_required($page)){
+                        COMPLIANZ()->admin->get_dashboard_element(sprintf(__("You should create a %s"),$page['title']), 'error');
+                    }
+                }
+
+                $warnings = COMPLIANZ()->admin->get_warnings(false);
+                $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
+
+                foreach ($warning_types as $key => $type) {
+                    if ($type['type'] === 'general') continue;
+                    if (isset($type['region']) && !cmplz_has_region($type['region'])) continue;
+                    if (in_array($key, $warnings)) {
+                        if (isset($type['label_error'])) COMPLIANZ()->admin->get_dashboard_element($type['label_error'], 'error');
+                    } else {
+                        if (isset($type['label_ok'])) COMPLIANZ()->admin->get_dashboard_element($type['label_ok'], 'success');
+                    }
+                }
+                do_action('cmplz_documents');
+                ?>
+            </table>
+            <?php do_action('cmplz_documents_footer');
+
+        }
+
+
+        public function documents(){
+            $regions = cmplz_get_regions();
+            foreach($regions as $region => $label) {
+                $region = COMPLIANZ()->config->regions[$region]['law'];
+                $this->get_dashboard_element(sprintf(__('Privacy Statement (%s) - (%spremium%s)', 'complianz'), $region, '<a href="https://complianz.io">', '</a>'), 'error');
+            }
+        }
+
+        public function documents_footer(){
+            ?>
+            <div class="cmplz-documents-bottom cmplz-dashboard-text">
+                <div class="cmplz-dashboard-title"><?php _e("Like Complianz Privacy Suite?","complianz")?></div>
+                <div>
+                    <?php _e("Then you'll like the premium plugin even more! With: ", 'complianz'); ?>
+                    <?php _e('A/B testing','complianz')?> -
+                    <?php _e('Statistics','complianz')?> -
+                    <?php _e('Multiple regions','complianz')?> -
+                    <?php _e('More legal documents','complianz')?> -
+                    <?php _e('Premium support','complianz')?> -
+                    <?php _e('& more!','complianz')?>
+                </div>
+                <a class="button cmplz"
+                   href="https://complianz.io/pricing" target="_blank"><?php echo __('Discover premium', 'complianz'); ?>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+
+            </div>
             <?php
         }
 
@@ -484,14 +593,7 @@ if (!class_exists("cmplz_admin")) {
                     <div class="cmplz-completed-text">
                         <div class="cmplz-header-text">
 
-                            <?php printf(__("%s completed.", "complianz"), COMPLIANZ()->wizard->wizard_percentage_complete() . "%") ?>
-                            <?php
-                            if (COMPLIANZ()->wizard->wizard_percentage_complete() < 100) {
-                                printf(__('Your website is not ready for the %s yet.', 'complianz'),cmplz_supported_laws());
-                            } else {
-                                printf(__('Well done! Your website is ready for the %s.', 'complianz'),cmplz_supported_laws());
-                            }
-                            ?>
+
                         </div>
                     </div>
                     <div class="cmplz-dashboard-progress cmplz-dashboard-item">
@@ -503,7 +605,7 @@ if (!class_exists("cmplz_admin")) {
                                         printf(__('Your website is not ready for the %s yet.', 'complianz'),cmplz_supported_laws());
                                     } else {
                                         printf(__('Well done! Your website is ready for the %s.', 'complianz'),cmplz_supported_laws());
-                                        } ?>
+                                    } ?>
                                 </div>
                             </div>
                             <div class="cmplz-percentage-complete green c100 p<?php echo COMPLIANZ()->wizard->wizard_percentage_complete(); ?>">
@@ -529,12 +631,47 @@ if (!class_exists("cmplz_admin")) {
 
                         </div>
                         <table class="cmplz-steps-table cmplz-dashboard-text">
+                            <tr><td></td><td><div class="cmplz-dashboard-info"><?php _e('Tasks','complianz')?></div></td></tr>
                             <?php
 
-                            if (COMPLIANZ()->cookie->site_needs_cookie_warning() && !COMPLIANZ()->wizard->wizard_completed_once()) {
-                                $this->get_dashboard_element(__('Your site requires a cookie warning, but the wizard is not completed yet', 'complianz'), 'error');
-                                $warnings[] = 'wizard-incomplete';
+                            $last_cookie_scan = COMPLIANZ()->cookie->get_last_cookie_scan_date();
+                            if (!$last_cookie_scan) {
+                                $this->task_count++;
+                                $this->get_dashboard_element(sprintf(__('No cookies detected yet', 'complianz'), $last_cookie_scan), 'error');
                             }
+
+                            do_action('cmplz_dashboard_elements_error');
+
+                            $warnings = $this->get_warnings(false);
+                            $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
+
+                            foreach ($warning_types as $key => $type) {
+                                if ($type['type'] === 'document') continue;
+                                if (isset($type['region']) && !cmplz_has_region($type['region'])) continue;
+                                if (in_array($key, $warnings)) {
+                                    if (isset($type['label_error'])) $this->get_dashboard_element($type['label_error'], 'error');
+                                }
+                            }
+                            $warning_count = $this->task_count + count($warnings);
+                            if ($warning_count==0){
+                                $this->get_dashboard_element(__("Nothing on your to do list", 'complianz'), 'success');
+                            }
+                            ?>
+                            <tr><td></td><td><div class="cmplz-dashboard-info"><?php _e('System status','complianz')?></div></td></tr>
+
+                            <?php
+
+                            $regions = cmplz_get_regions();
+                            foreach($regions as $region => $label){
+                                $labels[] = COMPLIANZ()->config->regions[$region]['label'];
+                            }
+                            $labels = implode('/',$labels);
+                            $this->get_dashboard_element(sprintf(__('Your site is configured for the %s.', 'complianz'), $labels), 'success');
+
+
+
+
+                            do_action('cmplz_dashboard_elements_success');
 
                             if (COMPLIANZ()->cookie->site_needs_cookie_warning() && COMPLIANZ()->wizard->wizard_completed_once()) {
                                 $this->get_dashboard_element(__('Your site requires a cookie warning, which has been enabled', 'complianz'), 'success');
@@ -542,28 +679,20 @@ if (!class_exists("cmplz_admin")) {
                             if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                                 $this->get_dashboard_element(__('Your site does not require a cookie warning. No cookie warning has been enabled.', 'complianz'), 'success');
                             }
-
-                            $last_cookie_scan = COMPLIANZ()->cookie->get_last_cookie_scan_date();
                             if ($last_cookie_scan) {
                                 $this->get_dashboard_element(sprintf(__('Last cookie scan on %s', 'complianz'), $last_cookie_scan), 'success');
-                            } else {
-                                $this->get_dashboard_element(sprintf(__('No cookies detected yet', 'complianz'), $last_cookie_scan), 'error');
                             }
 
-                            do_action('cmplz_dashboard_elements');
-
-                            $warnings = $this->get_warnings(false);
-                            $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
-
                             foreach ($warning_types as $key => $type) {
-                                if (in_array($key, $warnings)) {
-                                    if (isset($type['label_error'])) $this->get_dashboard_element($type['label_error'], 'error');
-                                } else {
+                                if ($type['type'] === 'document') continue;
+                                if (isset($type['region']) && !cmplz_has_region($type['region'])) continue;
+                                if (!in_array($key, $warnings)) {
                                     if (isset($type['label_ok'])) $this->get_dashboard_element($type['label_ok'], 'success');
                                 }
                             }
 
                             ?>
+
                         </table>
                     </div>
 
@@ -582,12 +711,7 @@ if (!class_exists("cmplz_admin")) {
             <?php
         }
 
-        public function dashboard_elements(){
-            $this->get_dashboard_element(sprintf(__('You do not have a privacy policy validated by Complianz Privacy Suite yet. Upgrade to %spremium%s to generate a custom privacy policy', 'complianz'), '<a href="https://complianz.io">', '</a>'), 'error');
 
-            $this->get_dashboard_element(sprintf(__('The browser setting Do No Track is not respected yet. Upgrade to %spremium%s to make your site DNT compliant', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>'), 'warning');
-
-        }
 
         public function process_support_request()
         {
@@ -646,6 +770,7 @@ if (!class_exists("cmplz_admin")) {
                 case 'warning':
                     $icon = 'fa-exclamation-circle';
                     break;
+
             }
 
             $type = ($type == 'success') ? 'success' : 'error';
@@ -697,6 +822,12 @@ if (!class_exists("cmplz_admin")) {
                 <form action="" method="post" class="cmplz-body">
 
                     <table class="form-table">
+                        <tr><th></th><td>                <?php
+                                cmplz_notice(_x("The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s.", 'intro script center', 'complianz'));
+                                if (COMPLIANZ()->cookie->uses_google_tagmanager()) {
+                                    cmplz_notice(__('Because you are using Google Tag Manager you can only add iFrames, as shown below.', 'complianz'), 'warning');
+                                }
+                                ?></td></tr>
                         <tr>
                             <th></th>
                             <td><?php
@@ -722,12 +853,12 @@ if (!class_exists("cmplz_admin")) {
 
                 <?php
                 if (!COMPLIANZ()->wizard->wizard_completed_once()) {
-                    cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz'));
+                    cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz'), 'warning');
                 } else {
                     if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
                         cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz'));
                     } else {
-                        _e('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz');
+                        cmplz_notice(__('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz'));
                     }
                 }
                 ?>
@@ -735,25 +866,52 @@ if (!class_exists("cmplz_admin")) {
                 <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
 
                 <form id='cookie-settings' action="" method="post">
-                    <?php if (cmplz_multiple_regions()){?>
-                    <div id="cmplz-region-slider">
-                        <label class="switch">
-                            <input type="checkbox" <?php echo (cmplz_company_in_eu()) ? "checked": ""?> id="cmplz-region-mode">
-                            <div class="slider round">
-                                <span class="eu"><?php _e("EU", "complianz")?></span>
-                                <span class="us"><?php _e("US", "complianz")?></span>
+                    <?php
+
+                    $regions = cmplz_get_regions();
+                    if (cmplz_multiple_regions()){
+                        $single_region = COMPLIANZ()->company->get_default_region();
+                     } else {
+                        $single_region = $regions;
+                        reset($single_region);
+                        $single_region = key($single_region);
+                     }?>
+                    <script>
+                        var ccRegion='<?php echo $single_region?>';
+                    </script>
+                        <?php do_action('cmplz_a_b_testing_section');?>
+
+                        <div class="cmplz-tab">
+                            <button class="cmplz-tablinks active" type="button" data-tab="general"><?php _e("General", "complianz")?></button>
+                            <?php foreach ($regions as $region_code=>$label){?>
+                                <button class="cmplz-tablinks region-link" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
+                            <?php }?>
+                        </div>
+
+                        <!-- Tab content -->
+                        <div id="general" class="cmplz-tabcontent active">
+                            <h3><?php _e("General", "complianz")?></h3>
+                            <p>
+                                <table class="form-table">
+                                <?php do_action('cmplz_cookie_variation_name_input')?>
+                                <?php COMPLIANZ()->field->get_fields('cookie_settings', 'general');?>
+                                </table>
+                            </p>
+                        </div>
+
+                        <?php foreach ($regions as $region_code=>$label){?>
+                            <div id="<?php echo $region_code?>" class="cmplz-tabcontent region">
+                                <h3><?php echo $label?></h3>
+                                <p>
+                                <table class="form-table">
+                                    <?php COMPLIANZ()->field->get_fields('cookie_settings', $region_code);?>
+                                </table>
+                                </p>
                             </div>
-                        </label>
-                    </div>
-                    <?php } else { ?>
-                        <input type="checkbox" style="display:none" <?php echo (cmplz_has_region('eu')) ? "checked": ""?> id="cmplz-region-mode">
-                   <?php }?>
-                    <table class="form-table">
+                        <?php }?>
 
                         <?php
-                        do_action('cmplz_a_b_testing_section');
 
-                        COMPLIANZ()->field->get_fields('cookie_settings');
 
                         //now clear the variation again.
                         COMPLIANZ()->field->set_variation_id('');

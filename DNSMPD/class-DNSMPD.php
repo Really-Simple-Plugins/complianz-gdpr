@@ -35,8 +35,8 @@ if (!class_exists("cmplz_DNSMPD")) {
 
             add_submenu_page(
                 'complianz',
-                __('DNSMPD', 'complianz'),
-                __('DNSMPD', 'complianz'),
+                __('DNSMPI', 'complianz'),
+                __('DNSMPI', 'complianz'),
                 'manage_options',
                 'cmplz_dnsmpd',
                 array($this, 'removed_users_overview')
@@ -52,7 +52,7 @@ if (!class_exists("cmplz_DNSMPD")) {
             $customers_table->prepare_items();
             ?>
             <div class="wrap">
-                <h1><?php _e( 'Do Not Sell My Personal Data requests', 'complianz' ); ?></h1>
+                <h1><?php _e( 'Do Not Sell My Personal Information requests', 'complianz' ); ?></h1>
                 <?php //do_action( 'edd_customers_table_top' ); ?>
                 <a href="<?php echo esc_url_raw(cmplz_url."DNSMPD/csv.php?nonce=".wp_create_nonce('cmplz_csv_nonce'))?>" target="_blank" class="button button-primary">Export</a>
                 <form id="cmplz-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=cmplz_dnsmpd' ); ?>">

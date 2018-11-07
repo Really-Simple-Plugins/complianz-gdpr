@@ -23,6 +23,14 @@ function cmplz_uses_social_media_notice(){
     }
 }
 
+add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata');
+function cmplz_purpose_personaldata(){
+    $contact_forms = cmplz_site_uses_contact_forms();
+    if ($contact_forms){
+        cmplz_notice(__('The scan found forms on your site, which means answer should probably include "contact".', 'complianz'));
+    }
+}
+
 add_action('cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_services_notice');
 function cmplz_uses_thirdparty_services_notice(){
     $thirdparty = cmplz_scan_detected_thirdparty_services();
@@ -66,6 +74,8 @@ function cmplz_set_default($value, $fieldname)
 {
     if ($fieldname == 'purpose_personaldata') {
         if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+            //possibly not an array yet, when it's empty
+            if (!is_array($value)) $value = array();
             $value['selling-data-thirdparty'] = 1;
             return $value;
         }
@@ -80,7 +90,9 @@ function cmplz_set_default($value, $fieldname)
     if ($fieldname == 'purpose_personaldata') {
         $contact_forms = cmplz_site_uses_contact_forms();
         if ($contact_forms) {
-            if (isset($value['contact'])) $value['contact'] = 1;
+            //possibly not an array yet, when it's empty
+            if (!is_array($value)) $value = array();
+            $value['contact'] = 1;
             return $value;
         }
     }
@@ -134,6 +146,8 @@ function cmplz_set_default($value, $fieldname)
 
     if ($fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us'){
         if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+            //possibly not an array yet.
+            if (!is_array($value)) $value = array();
             $value['internet'] = 1;
             return $value;
         }

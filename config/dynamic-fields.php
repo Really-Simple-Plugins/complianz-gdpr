@@ -9,18 +9,9 @@ function cmplz_filter_fields($fields)
      *
      * */
 
-    $options = get_option('complianz_options_wizard');
-    $purposes = isset($options['purpose_personaldata']) ? $options['purpose_personaldata'] : array();
-
-
     if (cmplz_has_region('us')) {
+        foreach (COMPLIANZ()->config->purposes as $key => $label) {
 
-        foreach ($purposes as $key => $value) {
-            if ($value != 1) continue;
-
-            if (!isset($fields['purpose_personaldata']['options'][$key])) continue;
-
-            $label = $fields['purpose_personaldata']['options'][$key];
             if (!empty(COMPLIANZ()->config->details_per_purpose_us)) {
                 $fields = $fields + array(
                         $key . '_data_purpose_us' => array(

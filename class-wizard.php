@@ -10,9 +10,10 @@ if (!class_exists("cmplz_wizard")) {
         public $position;
         public $cookies = array();
         public $known_wizard_keys;
-        public $total_steps;
+        public $total_steps=FALSE;
         public $last_section;
         public $page_url;
+        public $percentage_complete=FALSE;
 
         function __construct()
         {
@@ -33,10 +34,14 @@ if (!class_exists("cmplz_wizard")) {
             add_action('admin_init', array($this, 'process_custom_hooks'));
 
             add_action('complianz_before_save_wizard_option', array($this, 'before_save_wizard_option'), 10, 4);
+            add_action('complianz_after_save_wizard_option', array($this, 'after_save_wizard_option'), 10, 4);
 
             //dataleaks:
 
             add_action('cmplz_is_wizard_completed', array($this, 'is_wizard_completed_callback'));
+
+
+
         }
 
         static function this()
@@ -65,7 +70,6 @@ if (!class_exists("cmplz_wizard")) {
 
         public function initialize($page)
         {
-            $this->total_steps = $this->total_steps($page);
             $this->last_section = $this->last_section($page, $this->step());
             $this->page_url = admin_url('admin.php?page=cmplz-' . $page);
             //if a post id was passed, we copy the contents of that page to the wizard settings.
@@ -108,12 +112,20 @@ if (!class_exists("cmplz_wizard")) {
             $page = $this->wizard_type();
 
             if (!$this->all_required_fields_completed($page)) {
-                _e("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz');
+                cmplz_notice(__("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz'), 'warning');
             } else {
-                printf(__("All steps have been completed. Click %s to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz'));
+                cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", "complianz")."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz')));
+
+                if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
+                    $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
+                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the %scookie warning settings%s to customize it.", 'complianz'), $link_open, "</a>"),'warning');
+                }
+
             }
 
         }
+
+
 
 
         /*
@@ -132,6 +144,7 @@ if (!class_exists("cmplz_wizard")) {
 
             //create a page foreach page that is needed.
             $pages = COMPLIANZ()->config->pages;
+
             foreach ($pages as $type => $page) {
                 if (!$page['public']) continue;
                 if (COMPLIANZ()->document->page_required($page)) {
@@ -139,8 +152,8 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            //if the plugins page is reviewed, we can reset the privacy policy suggestions from WordPress.
-            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && COMPLIANZ()->document->page_required('privacy-statement')){
+            //if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
+            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && (COMPLIANZ()->document->page_required('privacy-statement') || COMPLIANZ()->document->page_required('privacy-statement-us'))){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
                 WP_Privacy_Policy_Content::_policy_page_updated($policy_page_id);
                 //check again, to update the cache.
@@ -152,7 +165,8 @@ if (!class_exists("cmplz_wizard")) {
             COMPLIANZ()->cookie->reset_cookies_changed();
             COMPLIANZ()->cookie->reset_plugins_updated();
 
-            if (isset($_POST['cmplz-finish'])) {
+            //when clicking to the last page, or clicking finish, run the finish sequence.
+            if (isset($_POST['cmplz-finish']) || (isset($_POST["step"]) && $_POST['step']==STEP_MENU && isset($_POST['cmplz-next']))){
                 $this->set_wizard_completed_once();
                 //check if cookie warning should be enabled
                 if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
@@ -160,9 +174,10 @@ if (!class_exists("cmplz_wizard")) {
                 } else {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
                 }
+            }
 
-
-
+            //after clicking finish, redirect to dashboard.
+            if (isset($_POST['cmplz-finish'])) {
                 wp_redirect(admin_url('admin.php?page=complianz'));
                 exit();
             }
@@ -214,6 +229,7 @@ if (!class_exists("cmplz_wizard")) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
             }
 
+
             //when the brand color is saved, update the cookie settings
             //only if nothing entered yet.
             if ($fieldname == 'brand_color' && !empty($fieldvalue)){
@@ -225,6 +241,19 @@ if (!class_exists("cmplz_wizard")) {
             }
 
 
+        }
+
+
+        /*
+         * Handle some custom options after saving the wizard options
+         *
+         *
+         * */
+
+        public function after_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type){
+            if ($fieldname==='children-safe-harbor' && cmplz_get_value('targets-children')==='no'){
+                cmplz_update_option('wizard', 'children-safe-harbor', 'no');
+            }
         }
 
         public function get_next_not_empty_step($page, $step)
@@ -240,10 +269,9 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_section($page, $step, $section)
         {
-
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
                 $section++;
-                if ($section >= 20) return false;
+                if ($section > $this->total_sections($page, $step)) return false;
                 $section = $this->get_next_not_empty_section($page, $step, $section);
             }
 
@@ -313,9 +341,10 @@ if (!class_exists("cmplz_wizard")) {
             if ($this->wizard_is_locked()) {
                 $user_id = $this->get_lock_user();
                 $user = get_user_by("id", $user_id);
-                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename));
                 $lock_time = apply_filters("cmplz_wizard_lock_time", 2 * MINUTE_IN_SECONDS)/60;
-                printf(__("If this users stops editing, the lock will expire after %s minutes.","complianz"),$lock_time);
+
+                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename).'<br>'.sprintf(__("If this user stops editing, the lock will expire after %s minutes.","complianz"),$lock_time),'warning');
+
                 return;
             }
             //lock the wizard for other users.
@@ -362,7 +391,7 @@ if (!class_exists("cmplz_wizard")) {
                 <div class="cmplz-header">
 
                     <div class="cmplz-wizard-steps">
-                        <?php for ($i = 1; $i <= $this->total_steps; $i++) {
+                        <?php for ($i = 1; $i <= $this->total_steps($page); $i++) {
                             $active = ($i == $step) ? true : false;
                             $url = add_query_arg(array('step' => $i), $this->page_url);
                             if ($this->post_id()) $url = add_query_arg(array('post_id' => $this->post_id()), $url);
@@ -436,12 +465,10 @@ if (!class_exists("cmplz_wizard")) {
 
         public function enqueue_assets($hook)
         {
-
             if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
             wp_register_style('cmplz-wizard', cmplz_url . 'core/assets/css/wizard.css', false, cmplz_version);
             wp_enqueue_style('cmplz-wizard');
-
         }
 
 
@@ -460,18 +487,16 @@ if (!class_exists("cmplz_wizard")) {
             //get all required fields for this section, and check if they're filled in
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
 
+            //get
+            $fields = cmplz_array_filter_multidimensional($fields, 'required', true);
             foreach ($fields as $fieldname => $args) {
-                $default_args = COMPLIANZ()->field->default_args;
-                $args = wp_parse_args($args, $default_args);
-                if ($args['required']) {
-                    //if a condition exists, only check for this field if the condition applies.
-                    if (isset($args['condition']) && !COMPLIANZ()->field->condition_applies($args)) {
-                        continue;
-                    }
-                    $value = COMPLIANZ()->field->get_value($fieldname);
-                    if (empty($value)) {
-                        return false;
-                    }
+                //if a condition exists, only check for this field if the condition applies.
+                if (isset($args['condition']) || isset($args['callback_condition']) && !COMPLIANZ()->field->condition_applies($args)) {
+                    continue;
+                }
+                $value = COMPLIANZ()->field->get_value($fieldname);
+                if (empty($value)) {
+                    return false;
                 }
 
             }
@@ -505,6 +530,13 @@ if (!class_exists("cmplz_wizard")) {
             return true;
         }
 
+        /*
+         *
+         * Get the current selected post id for documents
+         *
+         *
+         * */
+
         public function post_id()
         {
             $post_id = false;
@@ -532,25 +564,78 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
+        /*
+         * Get a notice style header with an intro above a step or section
+         *
+         *
+         * */
 
         public function get_intro($page, $step, $section){
             //only show when in action
-            echo "<p>";
+            $intro='';
             if (COMPLIANZ()->config->has_sections($page, $step)){
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['intro'])) {
-                    echo COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['intro'];
+                    $intro .= COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['intro'];
                 }
             } else {
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['intro'])) {
-                    echo COMPLIANZ()->config->steps[$page][$step]['intro'];
+                    $intro .= COMPLIANZ()->config->steps[$page][$step]['intro'];
                 }
             }
-            echo '</p>';
+            if (strlen($intro)>0) $intro = '<div class="cmplz-wizard-intro">'.cmplz_notice($intro, 'notice',false,false).'</div>';
+            return $intro;
         }
 
 
         /*
-         * Get content of wizard
+         * Retrieves the region to which this step applies
+         *
+         *
+         * */
+
+        public function get_section_region($page, $step, $section){
+            //only show when in action
+
+            if (COMPLIANZ()->config->has_sections($page, $step)){
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['region'])) {
+                    return COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['region'];
+                }
+            } else {
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['region'])) {
+                    return COMPLIANZ()->config->steps[$page][$step]['region'];
+                }
+            }
+            return false;
+        }
+
+
+        /*
+         * Retrieves the law to which this step applies
+         *
+         * In some cases, like the COPPA, a step can apply to a different law than the default region's law.
+         *
+         *
+         * */
+
+        public function get_section_law($page, $step, $section, $region){
+
+            //default: law based on region
+            $law = COMPLIANZ()->config->regions[$region]['law'];
+            if (COMPLIANZ()->config->has_sections($page, $step)){
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'])) {
+                    $law = COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'];
+                }
+            } else {
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['law'])) {
+                    $law = COMPLIANZ()->config->steps[$page][$step]['law'];
+                }
+            }
+            return $law;
+        }
+
+
+        /*
+         * Get content of wizard for a page/step/section combination
          *
          *
          * */
@@ -558,16 +643,27 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_content($page, $step, $section = false)
         {
+            $region = $this->get_section_region($page, $step, $section);
+            if ($region){
+                $law = $this->get_section_law($page, $step, $section, $region);
+                ?>
+                <div class="cmplz-region-indicator">
+                    <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
+                    <span><?php printf(__('This section is needed to comply with the %s','complianz'),$law);?></span>
+                </div>
+
+                <?php
+            }
 
             if (isset($_POST['cmplz-save'])) {
-                cmplz_notice_success( __("Changes saved successfully", 'complianz') );
+                cmplz_notice( __("Changes saved successfully", 'complianz') , 'success', true);
             }
 
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id() && $step == 2 && (!$section || $section==1)) {
                     $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
-                    cmplz_notice_success(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') );
+                    cmplz_notice(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') , 'success', false);
                 } elseif ($step == 1) {
                     delete_option('complianz_options_' . $page);
 
@@ -585,16 +681,14 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             ?>
-            <?php $this->get_intro($page, $step, $section)?>
+            <?php echo $this->get_intro($page, $step, $section)?>
             <form action="<?php echo $this->page_url ?>" method="POST">
                 <input type="hidden" value="<?php echo $page ?>" name="wizard_type">
                 <?php if ($this->post_id()) { ?>
                     <input type="hidden" value="<?php echo $this->post_id() ?>" name="post_id">
                 <?php } ?>
 
-                <?php
-                    COMPLIANZ()->field->get_fields($page, $step, $section);
-                ?>
+                <?php COMPLIANZ()->field->get_fields($page, $step, $section); ?>
 
                 <input type="hidden" value="<?php echo $step ?>" name="step">
                 <input type="hidden" value="<?php echo $section ?>" name="section">
@@ -610,7 +704,7 @@ if (!class_exists("cmplz_wizard")) {
 
                             </div>
                         <?php } ?>
-                        <?php if ($step < $this->total_steps) { ?>
+                        <?php if ($step < $this->total_steps($page)) { ?>
                             <div class="cmplz-button cmplz-next">
 
                                 <input class="fa button" type="submit"
@@ -627,29 +721,20 @@ if (!class_exists("cmplz_wizard")) {
                         }
                         $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz') : __("Finish", 'complianz');
                         ?>
-                        <?php if (!$hide_finish_button && ($step == $this->total_steps) && $this->all_required_fields_completed($page)) { ?>
+                        <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) { ?>
                             <div class="cmplz-button cmplz-next">
                                 <input class="button" type="submit" name="cmplz-finish"
                                        value="<?php echo $label ?>">
                             </div>
                         <?php } ?>
 
-                        <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps) { ?>
+                        <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) { ?>
                             <div class="cmplz-button cmplz-save">
 
                                 <input class="fa button" type="submit"
                                        name="cmplz-save"
                                        value="<?php _e("Save", 'complianz') ?>">
 
-                            </div>
-                        <?php } ?>
-
-                        <?php if ($page == 'wizard' && $step < $this->total_steps) { ?>
-                            <div class="cmplz-button cmplz-save">
-
-                                <input class="fa button" type="submit"
-                                       name="cmplz-finish"
-                                       value="<?php _e("Close", 'complianz') ?>">
                             </div>
                         <?php } ?>
 
@@ -683,7 +768,9 @@ if (!class_exists("cmplz_wizard")) {
         public function step($page = false)
         {
             $step = 1;
-            $total_steps = $page ? $this->total_steps($page) : $this->total_steps;
+            if (!$page) $page = $this->wizard_type();
+
+            $total_steps = $this->total_steps($page);
 
             if (isset($_GET["step"])) {
                 $step = intval($_GET['step']);
@@ -724,9 +811,14 @@ if (!class_exists("cmplz_wizard")) {
 
         public function total_steps($page)
         {
-
             return count(COMPLIANZ()->config->steps[$page]);
+        }
 
+        public function total_sections($page, $step)
+        {
+            if (!isset(COMPLIANZ()->config->steps[$page][$step]['sections'])) return 0;
+
+            return count(COMPLIANZ()->config->steps[$page][$step]['sections']);
         }
 
 
@@ -751,6 +843,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function remaining_time($page, $step, $section = false)
         {
+
             //get remaining steps including this one
             $time = 0;
             $total_steps = $this->total_steps($page);
@@ -786,39 +879,25 @@ if (!class_exists("cmplz_wizard")) {
             return round($time + 0.45);
         }
 
+        /*
+         *
+         * Check which percentage of the wizard is completed
+         *
+         *
+         * @return int
+         * */
 
-//        public function all_fields_completed(){
-//            $total_fields = 0;
-//            $completed_fields = 0;
-//            $total_steps = $this->total_steps('wizard');
-//            for ($i = 1; $i <= $total_steps; $i++) {
-//                $fields = COMPLIANZ()->config->fields('wizard', $i, false);
-//                foreach ($fields as $fieldname => $field) {
-//                    //is field required
-//                    $required = isset($field['required']) ? $field['required'] : false;
-//                    if (isset($field['condition']) && !COMPLIANZ()->field->condition_applies($field)) $required = false;
-//                    if ($required){
-//                        $value = cmplz_get_value($fieldname);
-//                        $total_fields++;
-//                        $empty = empty($value);
-//                        if (!$empty){
-//                            $completed_fields++;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            return ($completed_fields==$total_fields);
-//        }
 
         public function wizard_percentage_complete()  //($page)
         {
-
+            //store to make sure it only runs once.
+            if ($this->percentage_complete!==false) return $this->percentage_complete;
             $total_fields = 0;
             $completed_fields = 0;
             $total_steps = $this->total_steps('wizard');
             for ($i = 1; $i <= $total_steps; $i++) {
                 $fields = COMPLIANZ()->config->fields('wizard', $i, false);
+
                 foreach ($fields as $fieldname => $field) {
                     //is field required
                     $required = isset($field['required']) ? $field['required'] : false;
@@ -833,25 +912,26 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            //we account for the privacy statement with increase of warnings
-            $warning_count = count(COMPLIANZ()->admin->get_warnings());
-            if (!COMPLIANZ()->document->page_exists('privacy-statement')){
-                $warning_count++;
+            $total_warnings = count(COMPLIANZ()->config->warning_types);
+            $completed_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings());
+
+            $completed_fields += $completed_warnings;
+            $total_fields += $total_warnings;
+
+            foreach (COMPLIANZ()->config->pages as $type => $page) {
+                if (!COMPLIANZ()->document->page_required($page)) continue;
+                if (COMPLIANZ()->document->page_exists($type)) {
+                    $completed_fields++;
+                }
+                $total_fields++;
             }
-
-            $warning_count = apply_filters('cmplz_warning_count', $warning_count);
-
-            $warnings = ($warning_count!=0) ? true: false;
-            $total_fields++;
-            if (!$warnings) $completed_fields++;
 
             $percentage = round(100*($completed_fields/$total_fields) + 0.45);
 
+            $this->percentage_complete = $percentage;
             return $percentage;
 
         }
-
-
 
     }
 

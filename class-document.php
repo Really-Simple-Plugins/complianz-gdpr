@@ -98,7 +98,7 @@ if (!class_exists("cmplz_document")) {
 
         public function cron_check_last_updated_status(){
 
-            if ($this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
+            if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
                 update_option('cmplz_update_legal_documents_mail_sent', true);
                 $to = get_option('admin_email');
 
@@ -175,6 +175,13 @@ if (!class_exists("cmplz_document")) {
 
         public function wizard_add_pages_to_menu()
         {
+
+            //this function is used as of 4.9.0
+            if (!function_exists('wp_get_nav_menu_name')) {
+                cmplz_notice(__('Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.', 'complianz'),'warning');
+                return;
+            }
+
             //get list of menus
             $locations = get_theme_mod('nav_menu_locations');
 
@@ -187,7 +194,7 @@ if (!class_exists("cmplz_document")) {
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
                 if (COMPLIANZ()->company->sells_personal_data()){
-                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Data" page clearly visible on your homepage.', 'complianz'));
+                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Information" page clearly visible on your homepage.', 'complianz'));
                 }
 
                 $docs = array_map('get_the_title', $pages_not_in_menu);
@@ -195,7 +202,7 @@ if (!class_exists("cmplz_document")) {
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
                     'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz')), $docs));
             } else {
-                _e("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz');
+                cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz'), 'warning');
             }
             $menus = array();
             //search in menus for the current post
@@ -338,17 +345,9 @@ if (!class_exists("cmplz_document")) {
 
             do_action('cmplz_create_page', $page_id, $type);
 
-//            if ($type == 'cookie-statement') {
-//                COMPLIANZ()->cookie->set_cookie_statement_page();
-//            }
-//
-//            if ($type == 'cookie-statement-us') {
-//                COMPLIANZ()->cookie->set_cookie_statement_us_page();
-//            }
-
             $this->set_page_url($page_id, $type);
-
         }
+
 
         public function delete_page($type)
         {

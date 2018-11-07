@@ -58,6 +58,9 @@ if (!class_exists("cmplz_field")) {
                 'has_variations' => false,
                 'hidden' => false,
                 'region' => false,
+                'media' => true,
+                'first' => false,
+                'warn' => false,
             );
 
 
@@ -231,6 +234,9 @@ if (!class_exists("cmplz_field")) {
 
             if (!empty($options)) update_option('complianz_options_' . $page, $options);
 
+            do_action("complianz_after_save_" . $page . "_option", $variation_fieldname, $fieldvalue, $prev_value, $type);
+
+
         }
 
 
@@ -332,15 +338,16 @@ if (!class_exists("cmplz_field")) {
             $condition_class = $condition ? 'condition-check' : '';
 
             $hidden_class =  ($args['hidden']) ? 'hidden' : '';
+            $first_class =  ($args['first']) ? 'first' : '';
 
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class).' '. esc_attr($condition_class) . '"';
+                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class.' '.$condition_class) . '"';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
-                echo '<div class="field-group ' .  esc_attr($hidden_class).' '. esc_attr($condition_class) . '" ';
+                echo '<div class="field-group ' .  esc_attr($hidden_class.''.$first_class.' '.$condition_class) . '" ';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><div class="cmplz-label">';
             }
@@ -644,13 +651,13 @@ if (!class_exists("cmplz_field")) {
                 if (strpos($c_value_content, ',') !== FALSE) {
                     $c_values = explode(',', $c_value_content);
                 }
-                //if ($c_fieldname=='contact_processing_data_lawfull') _log("lawfull ".$c_value_content);
+
                 foreach ($c_values as $c_value) {
                     $actual_value = cmplz_get_value($c_fieldname);
+
                     $fieldtype = $this->get_field_type($c_fieldname);
 
                     if ($fieldtype == 'multicheckbox') {
-                       // _log($c_fieldname);
 
                         if (!is_array($actual_value)) $actual_value = array($actual_value);
                         //get all items that are set to true
@@ -671,6 +678,7 @@ if (!class_exists("cmplz_field")) {
                         }
                     } else {
                         if (strpos($c_value, 'NOT ') === FALSE) {
+
                             if ($c_value !== $actual_value) {
                                 return false;
                             }
@@ -684,7 +692,6 @@ if (!class_exists("cmplz_field")) {
 
                 }
             }
-
             return true;
         }
 
@@ -713,10 +720,18 @@ if (!class_exists("cmplz_field")) {
             <?php
         }
 
+        /*
+         * Show field with editor
+         *
+         *
+         * */
+
         public
         function editor($args)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
+            $args['first'] = true;
+            $media = $args['media'] ? true : false;
             if ($args['has_variations']) $fieldname .= $this->variation_id;
 
             $value = $this->get_value($args['fieldname'], $args['default']);
@@ -727,7 +742,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             $settings = array(
-               //'media_buttons' => false,
+                'media_buttons' => $media,
                 'editor_height' => 300, // In pixels, takes precedence and has no default value
                 'textarea_rows' => 15,
             );
@@ -831,6 +846,7 @@ if (!class_exists("cmplz_field")) {
         public
         function step_has_fields($page, $step = false, $section = false)
         {
+
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
             foreach ($fields as $fieldname => $args) {
                 $default_args = $this->default_args;
@@ -854,7 +870,10 @@ if (!class_exists("cmplz_field")) {
         function get_fields($page, $step = false, $section = false)
         {
             $fields = COMPLIANZ()->config->fields($page, $step, $section);
+            $i = 0;
             foreach ($fields as $fieldname => $args) {
+                if ($i === 0) $args['first']=true;
+                $i++;
                 $default_args = $this->default_args;
                 $args = wp_parse_args($args, $default_args);
 
@@ -1008,9 +1027,9 @@ if (!class_exists("cmplz_field")) {
             <label><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
-                <a href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
+                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
             <?php } else { ?>
-                <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="cmplz-<?php echo $args['action']?>"
+                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
                        value="<?php echo esc_html($args['label']) ?>">
             <?php }  ?>
 
@@ -1110,7 +1129,7 @@ if (!class_exists("cmplz_field")) {
 
             if (!$this->show_field($args)) return;
 
-
+            $args['first'] =true;
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
@@ -1141,20 +1160,22 @@ if (!class_exists("cmplz_field")) {
                     } else {
                         $cookiename = __("Not recognized", 'complianz');
                     }
-                    ?>
+                    $functional_checked = $value['functional'] ? 'checked' : '';
+                    $show_checked = $value['show'] ? 'checked' : '';
 
-                    <div class="cmplz-cookie-field">
-                        <div class="cmplz-cookie-header">
-                            <label><?php echo sprintf(__('Information for the cookie "%s"', 'complianz'), $cookiename) ?></label>
-                        </div>
+
+                    //cmplz_panel($s_plugin_name.$add_btn, $html);
+                    $html = '
+
+                    <div class="cmplz-cookie-field multiple-field">
                         <div>
-                            <div><label><?php _e('Name', 'complianz')?></label></div>
+                            <div><label>'. __('Name', 'complianz').'</label></div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][label]"
-                                   value="<?php echo esc_html($value['label']) ?>">
+                                   name="cmplz_multiple['.esc_html($args['fieldname']) .']['. $key .'][label]"
+                                   value="'. esc_html($value['label']) .'">
                             <input type="hidden"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][key]"
-                                   value="<?php echo esc_html($value['key']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][key]"
+                                   value="'. esc_html($value['key']) .'">
                         </div>
                         <div>
 
@@ -1162,74 +1183,74 @@ if (!class_exists("cmplz_field")) {
                         <div>
                             <label>
                                 <input type="hidden"
-                                       name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][functional]"
+                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][functional]"
                                        value="">
                                 <input type="checkbox"
-                                       name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][functional]"
-                                    <?php if ($value['functional']) echo "checked" ?>>
-                                <?php _e('This is a functional cookie', 'complianz') ?></label>
+                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][functional]"
+                                    '.$functional_checked .'>
+                                '. __('This is a functional cookie', 'complianz') .'</label>
                         </div>
                         <div>
                             <label>
                                 <input type="hidden"
-                                       name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][show]"
+                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][show]"
                                        value="">
                                 <input type="checkbox"
-                                       name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo $key ?>][show]"
-                                    <?php if ($value['show']) echo "checked" ?>>
-                                <?php _e('Add this cookie to the cookie policy', 'complianz') ?></label>
+                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][show]"
+                                    '. $show_checked .'>
+                                '. __('Add this cookie to the cookie policy', 'complianz') .'</label>
                         </div>
                         <br>
                         <div>
-                            <label><?php _e('Used names', 'complianz') ?></label>
+                            <label>'. __('Used names', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][used_names]"
-                                   value="<?php echo esc_html($value['used_names']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][used_names]"
+                                   value="'. esc_html($value['used_names']) .'">
                         </div>
                         <div>
-                            <label><?php _e('Privacy policy URL', 'complianz') ?></label>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][privacy_policy_url]"
-                                   value="<?php echo esc_html($value['privacy_policy_url']) ?>">
-                        </div>
-                        <div>
-                            <label><?php _e('Purpose', 'complianz') ?></label>
+                            <label>'. __('Privacy statement URL', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][purpose]"
-                                   value="<?php echo esc_html($value['purpose']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][privacy_policy_url]"
+                                   value="'. esc_html($value['privacy_policy_url']) .'">
                         </div>
                         <div>
-                            <label><?php _e('Retention period', 'complianz') ?></label>
+                            <label>'. __('Purpose', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][storage_duration]"
-                                   value="<?php echo esc_html($value['storage_duration']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][purpose]"
+                                   value="'. esc_html($value['purpose']) .'">
                         </div>
                         <div>
-                            <label><?php _e('Description', 'complianz') ?></label>
+                            <label>'. __('Retention period', 'complianz') .'</label>
+                        </div>
+                        <div>
+                            <input type="text"
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][storage_duration]"
+                                   value="'. esc_html($value['storage_duration']) .'">
+                        </div>
+                        <div>
+                            <label>'. __('Description', 'complianz') .'</label>
                         </div>
                         <div>
                         <textarea class="cmplz_multiple"
-                                  name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][description]"><?php echo esc_html($value['description']) ?></textarea>
+                                  name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][description]">'. esc_html($value['description']) .'</textarea>
                         </div>
 
+                        <input class="button" type="submit" name="cmplz-save" value="'.__('Save','complianz').'">
+                        <button class="button cmplz-remove" type="submit"
+                            name="cmplz_remove_multiple['. esc_html($args['fieldname']) .']"
+                            value="'. esc_html($key) .'">'. __("Remove", 'complianz') .'</button>
+                    </div>';
+                    cmplz_panel(sprintf(__('Cookie "%s"', 'complianz'), $cookiename), $html, '',true);
 
-                    <button class="button cmplz-remove" type="submit"
-                            name="cmplz_remove_multiple[<?php echo esc_html($args['fieldname']) ?>]"
-                            value="<?php echo esc_html($key) ?>"><?php _e("Remove", 'complianz') ?></button>
-                    </div>
-                    <?php
                 }
             }
             ?>
-            <br><br>
             <button class="button" type="submit" class="cmplz-add-new-cookie" name="cmplz_add_multiple"
                     value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new cookie", 'complianz') ?></button>
 
@@ -1254,9 +1275,6 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_before_label', $args); ?>
             <label><?php echo $args["label"]." ".__('list', 'complianz') ?></label>
             <?php do_action('complianz_after_label', $args); ?>
-            <button class="button" type="submit" class="cmplz-add-new-processor" name="cmplz_add_multiple"
-                    value="<?php echo esc_html($fieldname) ?>"><?php printf(__("Add new %s", 'complianz'),$args['label']) ?></button>
-            <br><br>
             <?php
             if ($values) {
                 foreach ($values as $key => $value) {
@@ -1269,69 +1287,80 @@ if (!class_exists("cmplz_field")) {
                     );
 
                     $value = wp_parse_args($value, $default_index);
-                    $create_processing_agreement_link = '<a href="'.admin_url("edit.php?post_type=cmplz-processing&page=cmplz-processing-$region").'">';
+                    $create_processing_agreement_link = '<a href="'.admin_url("admin.php?page=cmplz-processing-$region").'">';
 
-                    ?>
-                    <div>
+                    $processing_agreement_outside_c = floatval(($value['processing_agreement'])==-1) ? 'selected' : '';
+                    $html='<div class="multiple-field">
                         <div>
-                            <label><?php printf(__("What is the name of the %s with whom you share the data?", 'complianz'),$args['label']) ?></label>
+                            <label>'. sprintf(__("Name of the %s with whom you share the data", 'complianz'),$args['label']) .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($fieldname) ?>][<?php echo esc_html($key) ?>][name]"
-                                   value="<?php echo esc_html($value['name']) ?>">
+                                   name="cmplz_multiple['. esc_html($fieldname) .']['. esc_html($key) .'][name]"
+                                   value="'. esc_html($value['name']) .'">
                         </div>
                         <div>
-                            <label><?php printf(__('Select the processing agreement you made with this %s, or %screate one%s', 'complianz'), $args['label'],$create_processing_agreement_link,'</a>') ?></label>
+                            <label>'.sprintf(__('Select the processing agreement you made with this %s, or %screate one%s', 'complianz'), $args['label'],$create_processing_agreement_link,'</a>') .'</label>
                         </div>
                         <div>
                             <label>
-                                <select name="cmplz_multiple[<?php echo esc_html($fieldname) ?>][<?php echo esc_html($key) ?>][processing_agreement]">
-                                    <option value="0"><?php _e('No agreement selected','complianz')?></option>
-                                    <option value="-1" <?php if (floatval(($value['processing_agreement'])==-1)) echo 'selected'?>><?php _e('A processing agreement outside Complianz Privacy Suite','complianz')?></option>
-                                    <?php foreach($processing_agreements as $id => $title){
+                                <select name="cmplz_multiple['. esc_html($fieldname) .']['. esc_html($key) .'][processing_agreement]">
+                                    <option value="0">'.__('No agreement selected','complianz').'</option>
+                                    <option value="-1" '.$processing_agreement_outside_c.'>'.__('A processing agreement outside Complianz Privacy Suite','complianz').'</option>';
+                                    foreach($processing_agreements as $id => $title){
                                         $selected = (intval($value['processing_agreement'])==$id) ? 'selected' : '';
-                                        echo '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
+                                        $html .= '<option value="'.$id.'" '.$selected.'>'.$title.'</option>';
                                     }
-                                    ?></select>
+                                    $html .= '</select>
                                 <br><br>
                         </div>
                         <div>
-                            <label><?php printf(__('%s country', 'complianz'),$args['label']) ?></label>
+                            <label>'.sprintf(__('%s country', 'complianz'),$args['label']) .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($fieldname) ?>][<?php echo esc_html($key) ?>][country]"
-                                   value="<?php echo esc_html($value['country']) ?>">
+                                   name="cmplz_multiple['. esc_html($fieldname) .']['. esc_html($key) .'][country]"
+                                   value="'. esc_html($value['country']) .'">
                         </div>
 
                         <div>
-                            <label><?php _e('Purpose', 'complianz') ?></label>
+                            <label>'.__('Purpose', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($fieldname) ?>][<?php echo esc_html($key) ?>][purpose]"
-                                   value="<?php echo esc_html($value['purpose']) ?>">
-                        </div>
-                        <?php if ($region==='eu') {?>
+                                   name="cmplz_multiple['. esc_html($fieldname) .']['. esc_html($key) .'][purpose]"
+                                   value="'. esc_html($value['purpose']) .'">
+                        </div>';
+                        if ($region==='eu') {
+                        $html .= '
                         <div>
-                            <label><?php _e('What type of data is shared', 'complianz') ?></label>
+                            <label>'.__('What type of data is shared', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($fieldname) ?>][<?php echo esc_html($key) ?>][data]"
-                                   value="<?php echo esc_html($value['data']) ?>">
-                        </div>
-                        <?php }?>
+                                   name="cmplz_multiple['. esc_html($fieldname) .']['. esc_html($key) .'][data]"
+                                   value="'. esc_html($value['data']) .'">
+                        </div>';
 
-                    </div>
-                    <button class="button cmplz-remove" type="submit"
-                            name="cmplz_remove_multiple[<?php echo esc_html($fieldname) ?>]"
-                            value="<?php echo esc_html($key) ?>"><?php _e("Remove", 'complianz') ?></button>
+                        }
+                    $html.='<input class="button" type="submit" name="cmplz-save" value="'.__('Save','complianz').'">
+                            <button class="button cmplz-remove" type="submit"
+                            name="cmplz_remove_multiple['. esc_html($fieldname) .']"
+                            value="'. esc_html($key) .'">'.__("Remove", 'complianz') .'</button>';
+
+                    $html .='</div>';
+
+                    $title = esc_html($value['name']);
+                    if ($title=='') $title = __('New entry','complianz');
+                    cmplz_panel($title, $html, '', true);
+                    ?>
+
                     <?php
                 }
             }
             ?>
+            <button class="button" type="submit" class="cmplz-add-new-processor" name="cmplz_add_multiple"
+                    value="<?php echo esc_html($fieldname) ?>"><?php printf(__("Add new %s", 'complianz'),$args['label']) ?></button>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
 
@@ -1347,9 +1376,6 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_before_label', $args); ?>
             <label><?php echo $args["label"] ?></label>
             <?php do_action('complianz_after_label', $args); ?>
-            <button class="button" type="submit" class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
-                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new thirdparty", 'complianz') ?></button>
-            <br><br>
             <?php
             if ($values) {
                 foreach ($values as $key => $value) {
@@ -1362,53 +1388,59 @@ if (!class_exists("cmplz_field")) {
 
                     $value = wp_parse_args($value, $default_index);
 
-                    ?>
-                    <div>
+                    $html = '
+                    <div class="multiple-field">
                         <div>
-                            <label><?php _e("What is the name of the third party with whom you share the data?", 'complianz') ?></label>
+                            <label>'.__('Name of the third party with whom you share the data', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][name]"
-                                   value="<?php echo esc_html($value['name']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][name]"
+                                   value="'. esc_html($value['name']) .'">
                         </div>
 
                         <div>
-                            <label><?php _e('Third party country', 'complianz') ?></label>
+                            <label>'.__('Third party country', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][country]"
-                                   value="<?php echo esc_html($value['country']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][country]"
+                                   value="'. esc_html($value['country']) .'">
                         </div>
 
 
                         <div>
-                            <label><?php _e('Purpose', 'complianz') ?></label>
+                            <label>'.__('Purpose', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][purpose]"
-                                   value="<?php echo esc_html($value['purpose']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][purpose]"
+                                   value="'. esc_html($value['purpose']) .'">
                         </div>
                         <div>
-                            <label><?php _e('What type of data is shared', 'complianz') ?></label>
+                            <label>'.__('What type of data is shared', 'complianz') .'</label>
                         </div>
                         <div>
                             <input type="text"
-                                   name="cmplz_multiple[<?php echo esc_html($args['fieldname']) ?>][<?php echo esc_html($key) ?>][data]"
-                                   value="<?php echo esc_html($value['data']) ?>">
+                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][data]"
+                                   value="'. esc_html($value['data']) .'">
                         </div>
 
 
                     </div>
+                    <input class="button" type="submit" name="cmplz-save" value="'.__('Save','complianz').'">
                     <button class="button cmplz-remove" type="submit"
-                            name="cmplz_remove_multiple[<?php echo esc_html($args['fieldname']) ?>]"
-                            value="<?php echo esc_html($key) ?>"><?php _e("Remove", 'complianz') ?></button>
-                    <?php
+                            name="cmplz_remove_multiple['. esc_html($args['fieldname']) .']"
+                            value="'. esc_html($key) .'">'.__("Remove", 'complianz') .'</button>';
+
+                    $title = esc_html($value['name']);
+                    if ($title=='') $title = sprintf(__('New entry','complianz'));
+                    cmplz_panel($title, $html, '', true);
                 }
             }
             ?>
+            <button class="button" type="submit" class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new thirdparty", 'complianz') ?></button>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
 

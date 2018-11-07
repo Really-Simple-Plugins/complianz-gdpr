@@ -1,3 +1,39 @@
+/*
+Tabs
+*/
+.cmplz-tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.cmplz-tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+.cmplz-tab button:hover {
+  background-color: #ddd;
+}
+.cmplz-tab button.active {
+  background-color: #2daee1;
+  color: #fff;
+}
+/* Style the tab content */
+.cmplz-tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+.cmplz-tabcontent.active {
+  display: block;
+}
 table .cmplz-cookie-variations {
   margin-bottom: 20px;
 }

@@ -13,6 +13,7 @@ $delete_options = array(
     'complianz_options_wizard',
     'complianz_options_cookie_settings',
     'complianz_active_policy_id',
+    'cmplz_reported_cookies',
     'complianz_scan_token',
     'cmplz_license_key',
     'cmplz_license_status',
