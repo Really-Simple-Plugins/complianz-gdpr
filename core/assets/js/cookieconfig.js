@@ -131,7 +131,7 @@ jQuery(document).ready(function ($) {
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_us;
                 complianz.dismiss = complianz.accept_informational;
-                ccPrivacyLink = ',&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' + complianz.privacy_url + '">' + complianz.readmore_privacy + '</a>';
+                ccPrivacyLink = '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' + complianz.privacy_url + '">' + complianz.readmore_privacy + '</a>';
                 cmplz_cookie_warning();
             } else {
                 console.log('other region, no cookie warning');

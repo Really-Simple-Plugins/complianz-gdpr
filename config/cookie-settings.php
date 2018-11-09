@@ -252,6 +252,7 @@ $this->fields = $this->fields + array(
             'label' => __("Hide settings button", 'complianz'),
             'table' => true,
             'help'  => __('If you want to hide the revoke button, enable this check box. The revoke button will normally show after making a choice.','complianz'),
+            'comment'  => __('If you hide this button, you should at least leave the option to revoke consent on your cookie policy or Do Not Sell My Personal Information page','complianz'),
             'has_variations' => true,
         ),
 

@@ -195,7 +195,7 @@ jQuery(document).ready(function ($) {
             ccLink = $('input[name=cmplz_readmore_us' + variation_id + ']').val();
             ccType = 'opt-out';
             ccCategories = false;
-            ccPrivacyLink = ',&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy' + variation_id + ']').val() + '</a>';
+            ccPrivacyLink = '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy' + variation_id + ']').val() + '</a>';
         }
 
         var ccTheme = $('select[name=cmplz_theme' + variation_id + ']').val();

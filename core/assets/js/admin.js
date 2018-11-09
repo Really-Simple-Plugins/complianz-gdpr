@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
     * */
     $(document).on('click', '.cmplz-panel-toggle', function(){
         var content = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-content');
-        var icon_toggle = $(this).closest('.cmplz-slide-panel').find('i');
+        var icon_toggle = $(this).closest('.cmplz-slide-panel').find('i.toggle');
         //close all open panels
 
         if (content.is(':hidden')){

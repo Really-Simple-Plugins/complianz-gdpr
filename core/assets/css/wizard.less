@@ -6,7 +6,9 @@
   float:right;
   margin-top: -5px!important;
 }
-
+.cmplz-panel-link{
+  text-decoration:none;
+}
 .cmplz-panel {
 
   .cmplz-multiple-field-validation {
@@ -19,7 +21,6 @@
       padding-left:10px;
     }
     .cmplz-panel-title{
-      a {text-decoration: none;}
       cursor: pointer;
       i {
         margin-right:5px;
@@ -29,9 +30,10 @@
 
   }
   &.cmplz-link-panel{
-    &.selected{
-      background-color:#2daee1;
-      a {color:#fff}
+    &.selected, &:hover{
+      //background-color:#2daee1;
+      //a {color:#fff}
+      box-shadow:0 5px 5px rgba(0, 0, 0, 0.2), 0 3px 5px rgba(0, 0, 0, 0.13);
     }
   }
   .cmplz-panel-content {

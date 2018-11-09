@@ -80,9 +80,7 @@ if (!class_exists("cmplz_integrations")) {
 
         public function compile_statistics_notice(){
             if ($this->monsterinsights()){
-                ?><div class="cmplz-notice"><?php
-                _e("You use Monsterinsights, so the answer to this question should be Google Analytics", 'complianz');
-                ?></div><?php
+                cmplz_notice(__("You use Monsterinsights, so the answer to this question should be Google Analytics", 'complianz'));
             }
         }
 
@@ -121,9 +119,9 @@ if (!class_exists("cmplz_integrations")) {
         public function compile_statistics_more_info_notice()
         {
             if ($this->monsterinsights()){
-                ?><div class="cmplz-notice"><?php
-                _e("You use Monsterinsights: if you enable the anonymize ip option, please make sure that you have enabled it in Monsterinsights", 'complianz');
-                ?></div><?php
+
+                cmplz_notice(__("You use Monsterinsights: if you enable the anonymize ip option, please make sure that you have enabled it in Monsterinsights", 'complianz'));
+
             }
         }
 

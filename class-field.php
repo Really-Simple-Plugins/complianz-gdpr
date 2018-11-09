@@ -159,6 +159,7 @@ if (!class_exists("cmplz_field")) {
         {
             $fields = COMPLIANZ()->config->fields();
             if (isset($fields[$fieldname]['type']) && ($fields[$fieldname]['type'] == 'thirdparties')) return true;
+            if (isset($fields[$fieldname]['type']) && ($fields[$fieldname]['type'] == 'processors')) return true;
 
             return false;
         }
@@ -166,9 +167,9 @@ if (!class_exists("cmplz_field")) {
 
         public function save_multiple($fieldnames)
         {
-
             $fields = COMPLIANZ()->config->fields();
             foreach ($fieldnames as $fieldname => $saved_fields) {
+
                 if (!isset($fields[$fieldname])) return;
 
                 $page = $fields[$fieldname]['page'];
@@ -176,12 +177,15 @@ if (!class_exists("cmplz_field")) {
                 $options = get_option('complianz_options_' . $page);
                 $multiple_field = $this->get_value($fieldname, array());
 
+
                 foreach ($saved_fields as $key => $value) {
                     $value = is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
+                    //store the fact that this value was saved from the back-end, so should not get overwritten.
+                    $value['saved_by_user'] = TRUE;
                     $multiple_field[$key] = $value;
 
                     //make cookies and thirdparties translatable
-                    if ($type==='cookies' || $type==='thirdparties' || $type==='editor'){
+                    if ($type==='cookies' || $type==='thirdparties' || $type==='processors' || $type==='editor'){
                         if (is_string($value) && isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
                             do_action('cmplz_register_translation', $fieldname . "_" . $key, $value);
                         }
@@ -1139,17 +1143,22 @@ if (!class_exists("cmplz_field")) {
             <?php
             if ($values) {
                 foreach ($values as $key => $value) {
-
                     $value_key = (isset($value['key'])) ? $value['key'] : false;
                     $value['label'] = empty($value['label']) ? COMPLIANZ()->cookie->get_default_value('label', $value_key) : $value['label'];
                     $value['used_names'] = empty($value['used_names']) ? COMPLIANZ()->cookie->get_default_value('used_names', $value_key) : $value['used_names'];
-                    $value['purpose'] =empty($value['purpose']) ? COMPLIANZ()->cookie->get_default_value('purpose', $value_key) : $value['purpose'];
+                    $value['purpose'] = empty($value['purpose']) ? COMPLIANZ()->cookie->get_default_value('purpose', $value_key) : $value['purpose'];
                     $value['privacy_policy_url'] = empty($value['privacy_policy_url']) ? COMPLIANZ()->cookie->get_default_value('privacy_policy_url', $value_key) : $value['privacy_policy_url'];
                     $value['storage_duration'] = empty($value['storage_duration']) ? COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key) : $value['storage_duration'];
                     $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
-                    $value['functional'] = empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
                     $value['key'] = empty($value['key']) ? COMPLIANZ()->cookie->get_default_value('key', $value_key) : $value['key'];
-                    $value['show'] = empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('show', $value_key) : $value['show'];
+
+                    /*
+                     * Because checkboxes can be saved with an empty value, we should not override these when empty
+                     *
+                     * */
+                    $saved_by_user = (isset($value['saved_by_user']) && $value['saved_by_user']) ? true : false;
+                    $value['functional'] = !$saved_by_user && empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
+                    $value['show'] = !$saved_by_user && empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('show', $value_key) : $value['show'];
 
                     //$value = wp_parse_args($value, $default_index);
                     //first, we try if there's a fieldname.
@@ -1160,6 +1169,7 @@ if (!class_exists("cmplz_field")) {
                     } else {
                         $cookiename = __("Not recognized", 'complianz');
                     }
+
                     $functional_checked = $value['functional'] ? 'checked' : '';
                     $show_checked = $value['show'] ? 'checked' : '';
 
@@ -1246,7 +1256,14 @@ if (!class_exists("cmplz_field")) {
                             name="cmplz_remove_multiple['. esc_html($args['fieldname']) .']"
                             value="'. esc_html($key) .'">'. __("Remove", 'complianz') .'</button>
                     </div>';
-                    cmplz_panel(sprintf(__('Cookie "%s"', 'complianz'), $cookiename), $html, '',true);
+
+                    $icons = '';
+
+                    $icons .= ($value['functional']) ? '<i class="fa fa-code"></i>' : '<i class="fa fa-fw"></i>';
+                    $icons .= ($value['show']) ? '<i class="fa fa-file"></i>' : '<i class="fa fa-fw"></i>';
+                    $icons = '<span style="float:right">'.$icons.'</span>';
+
+                    cmplz_panel(sprintf(__('Cookie "%s"', 'complianz'), $cookiename), $html, $icons,true);
 
                 }
             }

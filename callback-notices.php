@@ -65,6 +65,15 @@ function cmplz_data_sold_us(){
 
 }
 
+add_action('cmplz_notice_no_cookies_used', 'cmplz_notice_no_cookies_used');
+function cmplz_notice_no_cookies_used(){
+
+    if (cmplz_get_value('uses_cookies')!=='yes') {
+        cmplz_notice(__("You have indicated your site does not use cookies. If you're sure about this, you can skip this step", 'complianz'),'warning');
+    }
+
+}
+
 
 
 
