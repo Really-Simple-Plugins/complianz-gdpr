@@ -451,12 +451,20 @@ if (!class_exists("cmplz_admin")) {
             <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
                 <?php
                 foreach (COMPLIANZ()->config->pages as $type => $page) {
+                    //get region of this page , and maybe add it to the title
+                    $img = '<img width="20px" height="20px" src="'.cmplz_url.'/core/assets/images/s.png">';
+
+                    if (isset($page['condition']['regions'])) {
+                        $region = $page['condition']['regions'];
+                        $img = '<img width="20px" src="'.cmplz_url.'/core/assets/images/'.$region.'.png">';
+                    }
 
                     if (COMPLIANZ()->document->page_exists($type)) {
+
                         $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
-                        COMPLIANZ()->admin->get_dashboard_element($link, 'success');
+                        COMPLIANZ()->admin->get_dashboard_element($link, 'success',$img);
                     } elseif (COMPLIANZ()->document->page_required($page)){
-                        COMPLIANZ()->admin->get_dashboard_element(sprintf(__("You should create a %s"),$page['title']), 'error');
+                        COMPLIANZ()->admin->get_dashboard_element(sprintf(__("You should create a %s"),$page['title'],$img), 'error');
                     }
                 }
 
@@ -757,7 +765,7 @@ if (!class_exists("cmplz_admin")) {
             }
         }
 
-        public function get_dashboard_element($content, $type = 'error')
+        public function get_dashboard_element($content, $type = 'error', $img='')
         {
             $icon = "";
             switch ($type) {
@@ -778,7 +786,8 @@ if (!class_exists("cmplz_admin")) {
             ?>
             <tr class="<?php echo "cmplz-" . $type ?>">
                 <td><i class="fa <?php echo $icon ?>"></i></td>
-                <td><?php echo $content ?></td>
+                <td style="width:100%"><?php echo $content ?></td>
+                <td><?php echo $img?></td>
             </tr>
             <?php
         }

@@ -105,13 +105,8 @@ if (!class_exists("cmplz_cookie")) {
 
                 $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz') : __("Matomo", 'complianz');
 
-                ?>
-                <div class="cmplz-notice">
-                    <?php
-                    printf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz'), $type, $type);
-                    ?>
-                </div>
-                <?php
+                    cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz'), $type, $type));
+
             }
         }
 
@@ -156,13 +151,7 @@ if (!class_exists("cmplz_cookie")) {
                 return;
             }
 
-            ?>
-            <div class="cmplz-notice">
-                <?php
-                printf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type);
-                ?>
-            </div>
-            <?php
+            cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type));
 
         }
 
@@ -172,20 +161,12 @@ if (!class_exists("cmplz_cookie")) {
             if (count($cookie_types) > 0) {
                 $count = count($cookie_types);
                 $cookie_types = implode(', ', $cookie_types);
-                ?>
-                <div class="cmplz-notice">
-                    <?php
-                    printf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz'), $count, $cookie_types);
-                    ?>
-                </div>
-                <?php
-            } else { ?>
-                <div class="cmplz-notice">
-                    <?php
-                    _e("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz');
-                    ?>
-                </div>
-                <?php
+
+                cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz'), $count, $cookie_types));
+
+            } else {
+                cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz'));
+
             }
         }
 
@@ -748,7 +729,6 @@ if (!class_exists("cmplz_cookie")) {
                     $response = wp_remote_get($url);
                     if (!is_wp_error($response)) {
                         $html = $response['body'];
-
                         $stored_social_media = cmplz_scan_detected_social_media();
                         if (!$stored_social_media) $stored_social_media = array();
                         $social_media = $this->parse_for_social_media($html);
@@ -804,13 +784,14 @@ if (!class_exists("cmplz_cookie")) {
             $thirdparty = array();
             $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
             foreach ($thirdparty_markers as $key => $markers) {
+
                 foreach ($markers as $marker) {
+
                     if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
                         $thirdparty[] = $key;
                     }
                 }
             }
-
             return $thirdparty;
         }
 
@@ -1461,7 +1442,7 @@ if (!class_exists("cmplz_cookie")) {
         public function site_needs_cookie_warning($region=false)
         {
             /*
-             * for us, a cookie warning is always required
+             * for the US, a cookie warning is always required
              * if a region other than US is passed, we check the region's requirements
              * if US is passed, we always need a banner.
              *
@@ -1505,8 +1486,10 @@ if (!class_exists("cmplz_cookie")) {
             $thirdparty_iframes = cmplz_get_value('thirdparty_iframes');
             $thirdparty_scripts = empty($thirdparty_scripts) ? false : true;
             $thirdparty_iframes = empty($thirdparty_iframes) ? false : true;
+
             $ad_cookies = (cmplz_get_value('uses_ad_cookies') === 'yes') ? true : false;
             $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
+
             $thirdparty_services = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
 
             if ($thirdparty_scripts || $thirdparty_iframes || $ad_cookies || $social_media || $thirdparty_services) {
@@ -1597,7 +1580,8 @@ if (!class_exists("cmplz_cookie")) {
         {
             if ($this->tagmamanager_fires_scripts()) return true;
 
-            if ($this->third_party_cookies_active()) return true;
+            //third party cookies are not always non-functional, like vimeo (?).
+            //if ($this->third_party_cookies_active()) return true;
 
             //get all used cookies
             $used_cookies = cmplz_get_value('used_cookies');

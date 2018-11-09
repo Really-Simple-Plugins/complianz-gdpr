@@ -35,7 +35,7 @@ $this->fields = $this->fields + array(
                 'eu' => __('European Union (GDPR)',"complianz"),
                 'us' => __('United States',"complianz"),
             ),
-            'label' => __("From which region(s) do you receive visitors on your website?", 'complianz'),
+            'label' => __("Which region(s) do you target with your website?", 'complianz'),
             'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz'),
             'comment' => sprintf(__("If you want to target customers from several regions, you might consider the %spremium%s version, which offers this capability.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>'),
             'required' => true,
@@ -404,6 +404,15 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
+        'no_cookies_used'=> array(
+            'step' => STEP_COOKIES,
+            'section' => 3,
+            'page' => 'wizard',
+            'type' => 'callback',
+            'callback' => 'notice_no_cookies_used',
+            'time' => 0,
+        ),
+
         'report_unknown_cookies' => array(
             'step' => STEP_COOKIES,
             'section' => 3,
@@ -412,6 +421,7 @@ $this->fields = $this->fields + array(
             'label' => __("Unknown cookies detected", 'complianz'),
             'callback' => 'report_unknown_cookies',
             'comment' => __('The scan detected cookies which are not listed in the cookie database. You can help us improve the database by reporting these cookies. If you know what a currently unrecognized cookie is for, please add this to the descriptions below, so we can process that information as well.','complianz'),
+            'callback_condition' => array('uses_cookies' => 'yes'),
             'time' => 0,
         ),
 

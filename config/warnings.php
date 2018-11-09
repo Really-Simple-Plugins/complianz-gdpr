@@ -8,7 +8,7 @@ $this->warning_types = array(
     ),
     'no-dnt' => array(
         'type' => 'general',
-        'label_ok' => __('The wizard has been completed.', 'complianz'),
+        'label_ok' => __('Do Not Track is respected.', 'complianz'),
         'label_error' => sprintf(__('The browser setting Do Not Track is not respected yet - (%spremium%s)', 'complianz'), '<a  target="_blank" href="https://complianz.io">', '</a>')
     ),
     'wizard-incomplete' => array(

@@ -11,7 +11,7 @@ $this->steps = array(
                     _x('Welcome to the Complianz Privacy Suite Wizard.','intro first step', 'complianz').'</p><p>'.
                     sprintf(_x('We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!','intro first step', 'complianz'),'<a target="_blank" href="https://complianz.io/contact">', '</a>').'<br>'.
                     _x('The answers in the first step of the wizard are needed to configure your documents and consent banner specifically to your needs.','intro first step', 'complianz').'</p><p>'.
-                    _x('Please note that you can always save and finish the wizard later (if you need a break), use our documentation for additional information or log a support ticket if you need our assistance.', 'intro first step', 'complianz').'</p>',
+                    _x('Please note that you can always save and finish the wizard later (if you need a break), use our %sdocumentation%s for additional information or log a support ticket if you need our assistance.', 'intro first step', 'complianz').'</p>',
 
                 'sections' => array(
                     2 => array('title' => __('Visitors', 'complianz'),
@@ -43,7 +43,9 @@ $this->steps = array(
                         //'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz'),
                     ),
                     3 => array('title' => __('Used cookies', 'complianz'),
-                        'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz'),
+                        'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz').
+                        '<br>'.sprintf(_x("In a cookie entry %s means it's marked as a functional cookie, %s means it will be shown in the cookie policy on your website.", 'intro used cookies', 'complianz'),'<i class="fa fa-code"></i>','<i class="fa fa-file"></i>'),
+
                     ),
 //                    4 => array('title' => __('Script center', 'complianz'),
 //                        'intro' => _x('Advanced users only. Only if you have scripts which are not supported by the default functionality should you need this step.', 'intro cookie usage', 'complianz')

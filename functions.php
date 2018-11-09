@@ -298,12 +298,13 @@ if (!function_exists('cmplz_panel')) {
             <div class="cmplz-panel-title">
 
                 <span class="cmplz-panel-toggle">
-                    <i class="fa fa-caret-right"></i>
+                    <i class="toggle fa fa-caret-right"></i>
                     <span class="cmplz-title"><?php echo $title?></span>
                  </span>
 
-                <span><?php echo $custom_btn?></span>
+
                 <?php echo $validate_icon?>
+                <span><?php echo $custom_btn?></span>
             </div>
                 <div class="cmplz-panel-content">
                 <?php echo $html?>
@@ -321,18 +322,20 @@ if (!function_exists('cmplz_list_item')) {
         if ($title=='') return;
         $selected = $selected ? "selected" : '';
         ?>
+        <a class = "cmplz-panel-link" href="<?php echo $link?>">
         <div class="cmplz-panel cmplz-link-panel <?php echo $selected?>">
             <div class="cmplz-panel-title">
-                <a href="<?php echo $link?>">
+
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
                     <span class="cmplz-title"><?php echo $title?></span>
 
                  </span>
-                </a>
+
                 <?php echo $btn?>
             </div>
         </div>
+        </a>
         <?php
 
     }
