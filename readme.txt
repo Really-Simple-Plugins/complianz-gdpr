@@ -8,23 +8,23 @@ Requires PHP: 5.6
 Tested up to: 5.0
 Stable tag: 2.0.0
 
-Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan. Now ready for CaCPA & COPPA.
+Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
 == Description ==
 Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
 = Features =
-* New: Ready for CaCPA
-* Automatically detects if you need a cookie warning
+* New: Ready for CaCPA.
+* Automatically detects if you need a cookie warning.
 * Anonymizes IP-addresses for Google Analytics if needed.
-* Periodically scans your site for cookies and social media services
-* Blocks third party cookies like Facebook, Google, Twitter
+* Periodically scans your site for cookies and social media services.
+* Blocks third party cookies like Facebook, Google, Twitter.
 * Blocks iFrames, like YouTube embedded video’s.
-* Generate your own legally validated cookie policy
-* Detected cookie data is prefilled from the shipped cookie database, which is continually updated
-* We closely follow the latest developments in the E-Privacy legislation
-* Integrates seamlessly with Monsterinsights, Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads
-* Integrated with WordPress privacy features
+* Generate your own legally validated cookie policy.
+* Detected cookie data is prefilled from the shipped cookie database, which is continually updated.
+* We closely follow the latest developments in the E-Privacy legislation.
+* Integrates seamlessly with Monsterinsights, Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads.
+* Integrated with WordPress privacy features.
 
 IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 
@@ -34,35 +34,37 @@ Complianz Privacy Suite is on [GitHub](https://github.com/rlankhorst/complianz-g
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 = Premium features =
-* Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all
+* Select both US and EU as target region
+* Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all.
 * A/B testing: which banner has the best conversion ratio? Choose the best one and create an amazing user experience.
-* Documents: Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen
+* Documents: Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct banner based on IP location, but only if a banner is needed.
-* CaCPA Consent and Policies
-* COPPA ready with Children's Privacy Policy
-* Respects Do Not track settings in users browsers
-* Multilanguage support for the cookie warning
-* Premium support
-* Premium Updates
+* CaCPA Consent and Policies.
+* COPPA ready with Children's Privacy Policy.
+* Respects Do Not track settings in users browsers.
+* Multilanguage support for the cookie warning.
+* Premium support.
+* Premium Updates.
 
 [Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite (GDPR/CaCPA) is developed by [Complianz BV](https://complianz.io).
 
 = Installation =
-* Go to “plugins” in your Wordpress Dashboard, and click “add new”
+* Go to “plugins” in your Wordpress Dashboard, and click “add new”.
 * Click “upload”, and select the downloaded zip file.
-* Activate
-* Navigate to “Complianz”, and follow the instructions
+* Activate.
+* Navigate to “Complianz”, and follow the instructions.
 
 == Frequently asked questions ==
 = Knowledgebase =
 Complianz Privacy Suite (GDPR/CaCPA) maintains a continuously growing knowledgebase about GDPR, CaCPA and COPPA on [complianz.io](https://complianz.io)
 
-= Is my website GDPR compliant with this plugin? =
-We cannot guarantee GDPR compliancy for your website.
+= Is my website GDPR, COPPA & CaCPA compliant with this plugin? =
+We cannot guarantee GDPR/COPPA/CaCPA compliancy for your website.
 
 = When do I need a cookie consent banner? =
-Complianz Privacy Suite will determine this automatically. When you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
+Complianz Privacy Suite will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
 
+Regarding CaCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
 Not always. The Complianz Privacy Suite premium plugin can determine if you need this, based on your answers. It mainly depends on the type of information you request.
 
@@ -76,6 +78,15 @@ Analytical cookies are used to track visitors on the website. How do they browse
 Advertising, or marketing cookies, are cookies that are being placed for advertising purposes. Advertising cookies can never be placed without consent. These cookies are only being used for advertising purposes.
 
 Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
+
+= What is the GDPR? =
+The GDPR is a regulation within the EU law on privacy and data protection for any citizen within the EU and European Economic Area. It aims primarily on giving control to individuals over their personal data. The GDPR also addresses the export of personal data outside the EU.
+
+= What is the CaCPA? =
+The CaCPA (Californian Privacy Act) is a law set up by the Californian government. The law is adjudged to be one of the toughest and farthest-reaching consumer privacy laws in the US. It is mostly focused on giving insights on what personal data business gather and how to protect and control these personal data.
+
+= What is COPPA? =
+The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
 
 == Change log ==
 = 2.0.0 =
