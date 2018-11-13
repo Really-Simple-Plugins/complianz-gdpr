@@ -382,11 +382,11 @@ if (!class_exists("cmplz_cookie")) {
                 $output = array();
 
                 $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
-
+                $allowed_html = cmplz_allowed_html();
                 foreach ($fields as $fieldname => $field) {
                     $value = cmplz_get_value($fieldname);
                     if (empty($value)) $value = $field['default'];
-                    $output[str_replace($variation_id, '', $fieldname)] = $value;
+                    $output[str_replace($variation_id, '', $fieldname)] = wp_kses($value, $allowed_html);
                 }
                 $output['static'] = false;
                 $output['categories'] = '';
@@ -673,6 +673,8 @@ if (!class_exists("cmplz_cookie")) {
 
         public function track_cookie_changes()
         {
+            if (!current_user_can('manage_options')) return;
+
             $cookie_changes = false;
             //only run if all pages are scanned.
             if (!$this->scan_complete()) return;
@@ -709,6 +711,9 @@ if (!class_exists("cmplz_cookie")) {
 
         public function run_cookie_scan()
         {
+            if (!current_user_can('manage_options')) return;
+
+
             //if the cookie list cache is cleared, empty the processed page list so the scan starts again.
             if (!get_transient('cmplz_detected_cookies')) {
                 update_option('cmplz_processed_pages_list', array());
@@ -798,6 +803,9 @@ if (!class_exists("cmplz_cookie")) {
 
         private function get_next_page_url()
         {
+            if (!current_user_can('manage_options')) return;
+
+
             $token = time();
             update_option('complianz_scan_token', $token);
             $pages = $this->pages_to_process();
@@ -858,6 +866,15 @@ if (!class_exists("cmplz_cookie")) {
             return $pages;
         }
 
+        /*
+         * Check if the scan is complete
+         *
+         * @param void
+         *
+         * @return bool
+         *
+         * */
+
 
         public function scan_complete()
         {
@@ -880,6 +897,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function set_page_as_processed($id)
         {
+            if (!current_user_can('manage_options')) return;
 
             if ($id !== 'home' && $id !== 'clean' && !is_numeric($id)) {
                 return;
@@ -956,6 +974,9 @@ if (!class_exists("cmplz_cookie")) {
 
         public function store_detected_cookies()
         {
+            if (!current_user_can('manage_options')) return;
+
+
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
                 $found_cookies = array_map(function ($el) {
@@ -1104,6 +1125,9 @@ if (!class_exists("cmplz_cookie")) {
         }
 
         public function ajax_report_unknown_cookies(){
+            if (!current_user_can('manage_options')) return;
+
+
             //send mail
             $headers = array();
             $user_info = get_userdata(get_current_user_id());

@@ -58,8 +58,10 @@ if (!class_exists("cmplz_company")) {
             if (!$this->sells_personal_data()) return false;
 
             $cats = cmplz_get_value('data_sold_us');
-            foreach($cats as $cat => $value){
-                if ($value==1) return true;
+            if (!empty($cats)) {
+                foreach ($cats as $cat => $value) {
+                    if ($value == 1) return true;
+                }
             }
 
             return false;

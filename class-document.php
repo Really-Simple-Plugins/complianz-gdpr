@@ -91,6 +91,19 @@ if (!class_exists("cmplz_document")) {
 
 
         /*
+         * Check if legal documents should be updated
+         *
+         *
+         * */
+
+        public function documents_need_updating(){
+            if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12)){
+                return true;
+            }
+            return false;
+        }
+
+        /*
          * Check if legal documents should be updated, and send mail to admin if so
          *
          *
@@ -98,7 +111,7 @@ if (!class_exists("cmplz_document")) {
 
         public function cron_check_last_updated_status(){
 
-            if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12) && !get_option('cmplz_update_legal_documents_mail_sent')){
+            if ($this->documents_need_updating() && !get_option('cmplz_update_legal_documents_mail_sent')){
                 update_option('cmplz_update_legal_documents_mail_sent', true);
                 $to = get_option('admin_email');
 
@@ -236,6 +249,8 @@ if (!class_exists("cmplz_document")) {
 
         public function assign_documents_to_menu()
         {
+            if (!current_user_can('manage_options')) return;
+
             if (isset($_POST['cmplz_assigned_menu'])) {
                 foreach ($_POST['cmplz_assigned_menu'] as $page_id => $location) {
                     if (empty($location)) continue;
@@ -322,6 +337,8 @@ if (!class_exists("cmplz_document")) {
 
         public function create_page($type)
         {
+            if (!current_user_can('manage_options')) return;
+
             $pages = COMPLIANZ()->config->pages;
 
             if (!isset($pages[$type])) return false;
@@ -351,6 +368,8 @@ if (!class_exists("cmplz_document")) {
 
         public function delete_page($type)
         {
+            if (!current_user_can('manage_options')) return;
+
             $page_id = $this->get_shortcode_page_id($type);
             if ($page_id) {
                 wp_delete_post($page_id, false);
@@ -546,6 +565,8 @@ if (!class_exists("cmplz_document")) {
          * */
 
         public function set_page_url($post_id, $type){
+            if (!current_user_can('manage_options')) return;
+
             $pages = COMPLIANZ()->config->pages;
             if (isset($pages[$type])){
                 $url = get_permalink($post_id);

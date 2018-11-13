@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 15:44+0000\n"
-"PO-Revision-Date: 2018-11-08 16:22+0000\n"
+"POT-Creation-Date: 2018-11-09 14:14+0000\n"
+"PO-Revision-Date: 2018-11-10 11:56+0000\n"
 "Last-Translator: Vertaal Bureau <leon@complianz.io>\n"
 "Language-Team: Nederlands\n"
 "Language: nl_NL\n"
@@ -1004,7 +1004,7 @@ msgid "Yes"
 msgstr "Ja"
 
 #: config/class-config.php:38 config/questions-wizard.php:181
-#: config/pro/questions-wizard.php:265 config/pro/questions-wizard.php:320
+#: config/pro/questions-wizard.php:265 config/pro/questions-wizard.php:322
 msgid "No"
 msgstr "Nee"
 
@@ -2058,6 +2058,14 @@ msgstr "Google Tag Manager wordt gebruikt, maar is niet ingesteld"
 #: config/warnings.php:45
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr "Matomo wordt gebruikt, maar is niet geconfigureerd in de wizard"
+
+#: config/warnings.php:49
+msgid ""
+"Your documents have not been updated in the past 12 months. Run the wizard "
+"to check your settings."
+msgstr ""
+"Je documenten zijn de laatste 12 maanden niet geüpdatet. Loop de wizard door "
+"om je instellingen na te kijken. "
 
 #: config/steps.php:10 config/pro/steps.php:11
 msgid "Hi there!"
@@ -4844,7 +4852,7 @@ msgstr ""
 "Dit bepaalt of je vragen moet beantwoorden met betrekking tot de "
 "privacyverklaring."
 
-#: config/pro/questions-wizard.php:47 config/pro/questions-wizard.php:805
+#: config/pro/questions-wizard.php:47 config/pro/questions-wizard.php:807
 msgid "Do you want to add a disclaimer on your site?"
 msgstr "Wil je een disclaimer toevoegen aan de site?"
 
@@ -4953,16 +4961,35 @@ msgstr ""
 "Beperkt: alleen verwerkers die noodzakelijk zijn voor het uitvoeren van mijn "
 "dienst"
 
-#: config/pro/questions-wizard.php:268 config/pro/questions-wizard.php:323
+#: config/pro/questions-wizard.php:268 config/pro/questions-wizard.php:325
 msgid "Do you share personal data with other parties?"
 msgstr "Deel je persoonlijke gegevens met andere partijen?"
 
-#: config/pro/questions-wizard.php:287
+#: config/pro/questions-wizard.php:271
+msgid ""
+"Within the GDPR a ‘processor’ means a natural or legal person, public "
+"authority, agency or other body which processes personal data on behalf of "
+"the controller."
+msgstr ""
+"Binnen de GDPR wordt onder een 'verwerker' verstaan een natuurlijke persoon "
+"of rechtspersoon, een overheidsinstantie, een agentschap of een andere "
+"instantie die persoonsgegevens namens de voor de verwerking "
+"verantwoordelijke verwerkt."
+
+#: config/pro/questions-wizard.php:271
+msgid ""
+"A third party is every other entity which receives personal data, but does "
+"not fall within the definition of a processor"
+msgstr ""
+"Een derde is elke andere entiteit die persoonlijke gegevens ontvangt, maar "
+"valt niet onder de definitie van een Verwerker"
+
+#: config/pro/questions-wizard.php:289
 #: config/pro/EU/questions-processing.php:270
 msgid "Processor"
 msgstr "Verwerker"
 
-#: config/pro/questions-wizard.php:288
+#: config/pro/questions-wizard.php:290
 msgid ""
 "If you share data with processors, add a \"processor\" for each one, and add "
 "the details of the data you share."
@@ -4970,11 +4997,11 @@ msgstr ""
 "Voeg een verwerker toe voor elk verwerker waar je gegevens mee deelt, en vul "
 "de gegevens in."
 
-#: config/pro/questions-wizard.php:304
+#: config/pro/questions-wizard.php:306
 msgid "Third party details"
 msgstr "Gegevens van een derde partij"
 
-#: config/pro/questions-wizard.php:305
+#: config/pro/questions-wizard.php:307
 msgid ""
 "If you share data with third parties, add a \"third party\" for each one, "
 "and add the details of the data you share."
@@ -4982,11 +5009,11 @@ msgstr ""
 "Als je gegevens met derden deelt, voeg dan voor elke partij een \"derde "
 "partij\" toe en voeg de details van de gegevens die je deelt toe."
 
-#: config/pro/questions-wizard.php:319
+#: config/pro/questions-wizard.php:321
 msgid "Yes, both to service providers and other third parties."
 msgstr "Ja, voor dienstverleners en andere derde partijen."
 
-#: config/pro/questions-wizard.php:321
+#: config/pro/questions-wizard.php:323
 msgid ""
 "Limited: only with service providers that are necessary for the fulfillment "
 "of my service"
@@ -4994,7 +5021,7 @@ msgstr ""
 "Beperkt: alleen bij dienstverleners die nodig zijn voor de uitvoering van "
 "mijn dienst"
 
-#: config/pro/questions-wizard.php:326
+#: config/pro/questions-wizard.php:328
 msgid ""
 "A Service provider is a legal entity that processes information on behalf of "
 "a business and to which the business discloses a consumer's personal "
@@ -5005,12 +5032,20 @@ msgstr ""
 "een consument bekendmaakt voor zakelijke doeleinden op grond van een "
 "schriftelijk contract."
 
-#: config/pro/questions-wizard.php:343
+#: config/pro/questions-wizard.php:328
+msgid ""
+"A third party is every other entity which receives personal data, but does "
+"not fall within the definition of a Service Provider"
+msgstr ""
+"Een derde is elke andere entiteit die persoonlijke gegevens ontvangt, maar "
+"valt niet onder de definitie van een Dienstverlener"
+
+#: config/pro/questions-wizard.php:345
 #: config/pro/US/questions-processing.php:274
 msgid "Service Provider"
 msgstr "Dienstverlener"
 
-#: config/pro/questions-wizard.php:344
+#: config/pro/questions-wizard.php:346
 msgid ""
 "If you share data with service providers, add a \"Service Provider\" for "
 "each one, and add the details of the data you share."
@@ -5019,7 +5054,7 @@ msgstr ""
 "dienstverlener een 'dienstverlener' toe en voegt u de details toe van de "
 "gegevens die u deelt."
 
-#: config/pro/questions-wizard.php:353
+#: config/pro/questions-wizard.php:355
 msgid ""
 "Select which categories of personal data you have disclosed for a business "
 "purpose in the past 12 months"
@@ -5027,7 +5062,7 @@ msgstr ""
 "Selecteer de categorieën persoonsgegevens die je in de afgelopen 12 maanden "
 "voor zakelijke doeleinden hebt vrijgegeven"
 
-#: config/pro/questions-wizard.php:370
+#: config/pro/questions-wizard.php:372
 msgid ""
 "Select which categories of personal data you have sold to third parties in "
 "the past 12 months"
@@ -5035,14 +5070,14 @@ msgstr ""
 "Selecteer de categorieën persoonsgegevens die je in de afgelopen 12 maanden "
 "aan derden hebt verkocht"
 
-#: config/pro/questions-wizard.php:393
+#: config/pro/questions-wizard.php:395
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 "Voor gedetecteerde formulieren kan je kiezen om een \"consent box\" toe te "
 "voegen."
 
-#: config/pro/questions-wizard.php:400 config/pro/questions-wizard.php:418
+#: config/pro/questions-wizard.php:402 config/pro/questions-wizard.php:420
 msgid ""
 "You have answered that you use webforms on your site and need to ask "
 "permission. You can do this with a consent box."
@@ -5051,72 +5086,72 @@ msgstr ""
 "toestemming zult vragen aan de betrokkene.  Je kunt dit doen door middel van "
 "een checkbox in je formulier."
 
-#: config/pro/questions-wizard.php:411
+#: config/pro/questions-wizard.php:413
 msgid "Do you have consent boxes on all webforms?"
 msgstr ""
 "Heb je een consent box op je webformulieren, zodat gebruikers toestemming "
 "kunnen verlenen?"
 
-#: config/pro/questions-wizard.php:419
+#: config/pro/questions-wizard.php:421
 #, php-format
 msgid "See this %sarticle%s for instructions how to do this."
 msgstr "Lees dit %sartikel%s voor instructies hoe je dit kan doen."
 
-#: config/pro/questions-wizard.php:429
+#: config/pro/questions-wizard.php:431
 msgid "How do you secure personal data acquired on your website?"
 msgstr ""
 "Hoe beveilig je persoonlijke gegevens die je via de website hebt verkregen?"
 
-#: config/pro/questions-wizard.php:431
+#: config/pro/questions-wizard.php:433
 msgid "We give a general explanation about security in the privacy statement"
 msgstr "We geven een algemene uitleg over veiligheid in de privacyverklaring"
 
-#: config/pro/questions-wizard.php:432
+#: config/pro/questions-wizard.php:434
 msgid "We will list our security measures"
 msgstr "We zullen een lijst van onze veiligheidsmaatregelen opsommen"
 
-#: config/pro/questions-wizard.php:444
+#: config/pro/questions-wizard.php:446
 msgid "Which security measures did you take?"
 msgstr "Welke veiligheidsmaatregelen heb je genomen?"
 
-#: config/pro/questions-wizard.php:446
+#: config/pro/questions-wizard.php:448
 msgid "Username and Password"
 msgstr "Gebruikersnaam en wachtwoord"
 
-#: config/pro/questions-wizard.php:447
+#: config/pro/questions-wizard.php:449
 #: config/pro/EU/questions-processing.php:192
 #: config/pro/US/questions-processing.php:192
 msgid "DNSSEC"
 msgstr "DNSSEC"
 
-#: config/pro/questions-wizard.php:448
+#: config/pro/questions-wizard.php:450
 #: config/pro/EU/questions-processing.php:193
 #: config/pro/US/questions-processing.php:193
 msgid "TLS / SSL"
 msgstr "TLS / SSL"
 
-#: config/pro/questions-wizard.php:449
+#: config/pro/questions-wizard.php:451
 #: config/pro/EU/questions-processing.php:194
 #: config/pro/US/questions-processing.php:194
 msgid "DKIM, SPF en DMARC"
 msgstr "DKIM, SPF en DMARC"
 
-#: config/pro/questions-wizard.php:450
+#: config/pro/questions-wizard.php:452
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 "Fysieke veiligheidsmaatregelen van systemen die persoonsgegevens bevatten."
 
-#: config/pro/questions-wizard.php:451
+#: config/pro/questions-wizard.php:453
 #: config/pro/EU/questions-processing.php:195
 #: config/pro/US/questions-processing.php:195
 msgid "Security software"
 msgstr "Beveiligingssoftware"
 
-#: config/pro/questions-wizard.php:452
+#: config/pro/questions-wizard.php:454
 msgid "ISO27001/27002 certified"
 msgstr "ISO27001/27002-gecertificeerd"
 
-#: config/pro/questions-wizard.php:465
+#: config/pro/questions-wizard.php:467
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
@@ -5126,16 +5161,16 @@ msgstr ""
 "vergoeding, voor het verzamelen van persoonlijke informatie, de verkoop van "
 "persoonlijke informatie of het verwijderen van persoonlijke informatie?"
 
-#: config/pro/questions-wizard.php:477
+#: config/pro/questions-wizard.php:479
 msgid "https://your-terms-page.com"
 msgstr "https://your-terms-page.com"
 
-#: config/pro/questions-wizard.php:482
+#: config/pro/questions-wizard.php:484
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 "Voer de URL in van de voorwaarden & condities-pagina voor de incentives"
 
-#: config/pro/questions-wizard.php:489
+#: config/pro/questions-wizard.php:491
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
@@ -5143,7 +5178,7 @@ msgstr ""
 "Houd er rekening mee dat de consument expliciet moet instemmen met deze "
 "voorwaarden en dat de consument deze toestemming moet kunnen intrekken."
 
-#: config/pro/questions-wizard.php:499
+#: config/pro/questions-wizard.php:501
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
@@ -5151,7 +5186,7 @@ msgstr ""
 "Is de website ontworpen om kinderen aan te trekken en/of is het je intentie "
 "om persoonlijke gegevens te verzamelen van kinderen jonger dan 13 jaar?"
 
-#: config/pro/questions-wizard.php:515
+#: config/pro/questions-wizard.php:517
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
@@ -5159,34 +5194,34 @@ msgstr ""
 "Hoe verkrijg je verifieerbare ouderlijke toestemming voor het verzamelen, "
 "gebruiken of vrijgeven van persoonlijke informatie van kinderen?"
 
-#: config/pro/questions-wizard.php:517
+#: config/pro/questions-wizard.php:519
 msgid "We seek a parent or guardian's consent by email"
 msgstr "We vragen de toestemming van een ouder of voogd per e-mail"
 
-#: config/pro/questions-wizard.php:518
+#: config/pro/questions-wizard.php:520
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 "We streven naar een hoog niveau van toestemming door te vragen om een "
 "creditcardverificatie"
 
-#: config/pro/questions-wizard.php:519
+#: config/pro/questions-wizard.php:521
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr "We gebruiken telefoon of videochat om met de ouder of voogd te praten"
 
-#: config/pro/questions-wizard.php:536
+#: config/pro/questions-wizard.php:538
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 "Is de website opgenomen in een COPPA Safe Harbor certificeringsprogramma?"
 
-#: config/pro/questions-wizard.php:555
+#: config/pro/questions-wizard.php:557
 msgid "What is the name of the program?"
 msgstr "Wat is de naam van het programma?"
 
-#: config/pro/questions-wizard.php:574
+#: config/pro/questions-wizard.php:576
 msgid "What is the URL of the program?"
 msgstr "Wat is de URL van het programma?"
 
-#: config/pro/questions-wizard.php:593
+#: config/pro/questions-wizard.php:595
 #, php-format
 msgid ""
 "Your have indicated your website is not included in a COPPA Safe Harbor "
@@ -5197,7 +5232,7 @@ msgstr ""
 "certificeringsprogramma. We raden je aan %sPRIVO%s te bekijken omdat je "
 "website gericht is op kinderen."
 
-#: config/pro/questions-wizard.php:611
+#: config/pro/questions-wizard.php:613
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
@@ -5205,127 +5240,127 @@ msgstr ""
 "Voor welke potentiële activiteiten op de website verzamel je persoonlijke "
 "informatie van een kind?"
 
-#: config/pro/questions-wizard.php:613
+#: config/pro/questions-wizard.php:615
 msgid "Registration"
 msgstr "Registratie"
 
-#: config/pro/questions-wizard.php:614
+#: config/pro/questions-wizard.php:616
 msgid "Content created by a child and publicly shared"
 msgstr "Inhoud gemaakt door een kind en openbaar gedeeld"
 
-#: config/pro/questions-wizard.php:615
+#: config/pro/questions-wizard.php:617
 msgid "Chat/messageboard"
 msgstr "Chat/berichtenbord"
 
-#: config/pro/questions-wizard.php:616
+#: config/pro/questions-wizard.php:618
 msgid "Email contact"
 msgstr "Email verstuurd"
 
-#: config/pro/questions-wizard.php:633
+#: config/pro/questions-wizard.php:635
 msgid "Information collected for registration "
 msgstr "Informatie verzameld voor registratie"
 
-#: config/pro/questions-wizard.php:653
+#: config/pro/questions-wizard.php:655
 msgid "Information collected for content created by a child"
 msgstr "Verzamelde informatie voor inhoud die door een kind is gemaakt"
 
-#: config/pro/questions-wizard.php:673
+#: config/pro/questions-wizard.php:675
 msgid "Information collected for chat/messageboard"
 msgstr "Informatie verzameld voor chat/messageboard"
 
-#: config/pro/questions-wizard.php:693
+#: config/pro/questions-wizard.php:695
 msgid "Information collected for email contact"
 msgstr "Informatie verzameld voor e-mailcontact"
 
-#: config/pro/questions-wizard.php:715
+#: config/pro/questions-wizard.php:717
 msgid "Which themes would you like to include in your disclaimer?"
 msgstr "Welke thema's wil je opnemen in de disclaimer?"
 
-#: config/pro/questions-wizard.php:717
+#: config/pro/questions-wizard.php:719
 msgid "Liability"
 msgstr "Aansprakelijkheid"
 
-#: config/pro/questions-wizard.php:718
+#: config/pro/questions-wizard.php:720
 msgid "Reference to terms of use"
 msgstr "Verwijzing naar Algemene voorwaarden"
 
-#: config/pro/questions-wizard.php:719
+#: config/pro/questions-wizard.php:721
 msgid "How you will answer inquiries"
 msgstr "Wijze waarop je gaat antwoorden op (AVG) verzoeken"
 
-#: config/pro/questions-wizard.php:720
+#: config/pro/questions-wizard.php:722
 msgid "Privacy and reference to the privacy statement"
 msgstr "Privacy en verwijzing naar de privacyverklaring"
 
-#: config/pro/questions-wizard.php:721
+#: config/pro/questions-wizard.php:723
 msgid "Not liable when security is breached"
 msgstr "Niet aansprakelijk bij verbroken beveiliging"
 
-#: config/pro/questions-wizard.php:722
+#: config/pro/questions-wizard.php:724
 msgid "Not liable for third party content"
 msgstr "Niet aansprakelijk voor inhoud van derden"
 
-#: config/pro/questions-wizard.php:723
+#: config/pro/questions-wizard.php:725
 msgid "Accessibility of the website for the disabled"
 msgstr "Toegankelijkheid van de website voor mindervaliden"
 
-#: config/pro/questions-wizard.php:735
+#: config/pro/questions-wizard.php:737
 msgid "What is the URL of the Terms of Use?"
 msgstr "Wat is de URL van de Algemene Voorwaarden?"
 
-#: config/pro/questions-wizard.php:748
+#: config/pro/questions-wizard.php:750
 msgid "Is your website built according to WCAG 2.0 level AA guidelines?"
 msgstr "Is de website gebouwd volgens WCAG 2.0 niveau AA richtlijnen?"
 
-#: config/pro/questions-wizard.php:763
+#: config/pro/questions-wizard.php:765
 msgid "Who made the content of the website?"
 msgstr "Wie heeft de inhoud van de website gemaakt?"
 
-#: config/pro/questions-wizard.php:765
+#: config/pro/questions-wizard.php:767
 msgid "The content is being developed by ourselves"
 msgstr "De inhoud wordt door onszelf ontwikkeld"
 
-#: config/pro/questions-wizard.php:766
+#: config/pro/questions-wizard.php:768
 msgid "The content is being developed or posted by third parties"
 msgstr "De inhoud wordt ontwikkeld of gepost door derden"
 
-#: config/pro/questions-wizard.php:767
+#: config/pro/questions-wizard.php:769
 msgid "The content is being developed by ourselves and other parties"
 msgstr "De inhoud wordt ontwikkeld door onszelf en andere partijen"
 
-#: config/pro/questions-wizard.php:781
+#: config/pro/questions-wizard.php:783
 msgid "What do you want to do with any intellectual property claims?"
 msgstr "Wat wil je doen met eventuele intellectuele eigendomsclaims?"
 
-#: config/pro/questions-wizard.php:783
+#: config/pro/questions-wizard.php:785
 msgid "All rights reserved"
 msgstr "Alle rechten voorbehouden"
 
-#: config/pro/questions-wizard.php:784
+#: config/pro/questions-wizard.php:786
 msgid "No rights reserved"
 msgstr "Geen rechten voorbehouden"
 
-#: config/pro/questions-wizard.php:785
+#: config/pro/questions-wizard.php:787
 msgid "Creative Commons - Attribution"
 msgstr "Creative Commons-Naamsvermelding"
 
-#: config/pro/questions-wizard.php:786
+#: config/pro/questions-wizard.php:788
 msgid "Creative Commons - Share a like"
 msgstr "Creative Commons-Naamsvermelding-Gelijkdelen"
 
-#: config/pro/questions-wizard.php:787
+#: config/pro/questions-wizard.php:789
 msgid "Creative Commons - No derivatives"
 msgstr "Creative Commons-Naamsvermelding-GeenAfgeleideWerken"
 
-#: config/pro/questions-wizard.php:788
+#: config/pro/questions-wizard.php:790
 msgid "Creative Commons - Noncommercial"
 msgstr "Creative Commons-Naamsvermelding-Niet commercieel"
 
-#: config/pro/questions-wizard.php:789
+#: config/pro/questions-wizard.php:791
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr "Creative Commons-Naamsvermelding-GelijkDelen-Niet commercieel"
 
-#: config/pro/questions-wizard.php:793
+#: config/pro/questions-wizard.php:795
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
@@ -7218,8 +7253,8 @@ msgid ""
 "we first request your explicit consent to process your personal data in "
 "cases requiring your consent;"
 msgstr ""
-"wij jou eerst vragen om uitdrukkelijke toestemming om jouw persoonsgegevens "
-"te verwerken in gevallen waarin jouw toestemming is vereist;"
+"wij u eerst vragen om uitdrukkelijke toestemming om uw persoonsgegevens te "
+"verwerken in gevallen waarin uw toestemming is vereist;"
 
 #: config/pro-documents/EU/privacy-policy.php:16
 msgctxt "Legal document privacy statement"
@@ -7227,7 +7262,7 @@ msgid ""
 "we take appropriate security measures to protect your personal data and also "
 "require this from parties that process personal data on our behalf;"
 msgstr ""
-"wij passende beveiligingsmaatregelen nemen om jouw persoonsgegevens te "
+"wij passende beveiligingsmaatregelen nemen om uw persoonsgegevens te "
 "beschermen en dat ook eisen van partijen die in onze opdracht "
 "persoonsgegevens verwerken;"
 
@@ -7237,8 +7272,8 @@ msgid ""
 "we respect your right to to access your personal data or have it corrected "
 "or deleted, at your request."
 msgstr ""
-"wij jouw recht respecteren om jouw persoonsgegevens op jouw aanvraag ter "
-"inzage te bieden, te corrigeren of te verwijderen."
+"wij uw recht respecteren om uw persoonsgegevens op uw aanvraag ter inzage te "
+"bieden, te corrigeren of te verwijderen."
 
 #: config/pro-documents/EU/privacy-policy.php:19
 msgctxt "Legal document privacy statement"
@@ -7391,7 +7426,7 @@ msgstr ""
 "Deze privacyverklaring is niet van toepassing op websites van derden die "
 "door middel van links met onze website zijn verbonden. Wij kunnen niet "
 "garanderen dat deze derden op een betrouwbare of veilige manier met uw "
-"persoonsgegevens omgaan. Wij raden je aan de privacyverklaring van deze "
+"persoonsgegevens omgaan. Wij raden u aan de privacyverklaring van deze "
 "websites te lezen alvorens van deze websites gebruik te maken."
 
 #: config/pro-documents/EU/privacy-policy.php:129
@@ -7409,8 +7444,8 @@ msgid ""
 msgstr ""
 "Wij behouden ons het recht voor om wijzigingen aan te brengen in deze "
 "privacyverklaring. Het verdient aanbeveling om deze privacyverklaring "
-"geregeld te raadplegen, zodat je van deze wijzigingen op de hoogte bent. "
-"Bovendien zullen wij je waar mogelijk ook actief op de hoogte brengen."
+"geregeld te raadplegen, zodat u van deze wijzigingen op de hoogte bent. "
+"Bovendien zullen wij u waar mogelijk ook actief op de hoogte brengen."
 
 #: config/pro-documents/EU/privacy-policy.php:133
 msgctxt "Legal document privacy statement"

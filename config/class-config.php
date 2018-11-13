@@ -43,14 +43,12 @@ if (!class_exists("cmplz_config")) {
 
             define('CMPLZ_MINUTES_PER_QUESTION', 0.33);
             define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.1);
-            define('CMPLZ_MAIN_MENU_POSITION', 40);
-            define('CMPLZ_PROCESSING_MENU_POSITION', 41);
-            define('CMPLZ_DATALEAK_MENU_POSITION', 42);
-
-
+            if (!defined('CMPLZ_MAIN_MENU_POSITION')) define('CMPLZ_MAIN_MENU_POSITION', 40);
+            if (!defined('CMPLZ_PROCESSING_MENU_POSITION')) define('CMPLZ_PROCESSING_MENU_POSITION', 41);
+            if (!defined('CMPLZ_DATALEAK_MENU_POSITION')) define('CMPLZ_DATALEAK_MENU_POSITION', 42);
 
             //default region code
-            define('CMPLZ_DEFAULT_REGION',  'us');
+            if (!defined('CMPLZ_DEFAULT_REGION')) define('CMPLZ_DEFAULT_REGION',  'us');
 
             /*
              * The legal version is only updated when document contents or the questions leading to it are changed
@@ -61,7 +59,7 @@ if (!class_exists("cmplz_config")) {
             define('CMPLZ_LEGAL_VERSION', '2');
 
             /*statistics*/
-            define('CMPLZ_AB_TESTING_DURATION', 30); //Days
+            if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days
 
             define('STEP_COMPANY', 1);
             define('STEP_PLUGINS', 2);

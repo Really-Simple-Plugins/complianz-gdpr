@@ -262,7 +262,8 @@ if (!class_exists("cmplz_document_core")) {
             }
 
             $html = $this->replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type);
-            $html = '<div id="cmplz-document">' . $html . '</div>';
+            $allowed_html = cmplz_allowed_html();
+            $html = '<div id="cmplz-document">' . wp_kses($html, $allowed_html) . '</div>';
 
             return apply_filters('cmplz_document_html', $html, $type, $post_id);
         }

@@ -31,6 +31,8 @@ if (!class_exists("cmplz_DNSMPD")) {
 
         public function admin_menu()
         {
+            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+
             if (!cmplz_has_region('us') || !COMPLIANZ()->company->sells_personal_data()) return;
 
             add_submenu_page(
@@ -70,20 +72,21 @@ if (!class_exists("cmplz_DNSMPD")) {
 
         public function get_users($args){
             global $wpdb;
-            $sql = "SELECT * from " . $wpdb->prefix . "cmplz_dnsmpd";
+            $sql = "SELECT * from {$wpdb->prefix}cmplz_dnsmpd";
 
             if (isset($args['email']) && !empty($args['email']) && is_email($args['email'])) {
-                $sql .= " WHERE email like '%".$args['email']."%'";
+                $sql = $wpdb->prepare($sql. " WHERE email like %s", "%" . $wpdb->esc_like($args['email']) . "%");
             }
             if (isset($args['name']) && !empty($args['name'])) {
-                $sql .= " WHERE email like '%".$args['name']."%'";
+                $sql = $wpdb->prepare($sql. " WHERE name like %s", "%" . $wpdb->esc_like($args['name']) . "%");
+
             }
-            $sql .= ' ORDER BY '.$args['orderby']." ".$args['order'];
+            $sql .= " ORDER BY ".sanitize_title($args['orderby'])." ".sanitize_title($args['order']);
 
             if (isset($args['number'])){
                 $sql .= " LIMIT ".intval($args['number'])." OFFSET ".intval($args["offset"]);
-            }
 
+            }
 
             $users = $wpdb->get_results($sql);
             return $users;
@@ -126,7 +129,7 @@ if (!class_exists("cmplz_DNSMPD")) {
                 $name = sanitize_text_field($_POST['name']);
                 //check if this email address is already registered:
                 global $wpdb;
-                $count = $wpdb->get_var("SELECT count(*) from " . $wpdb->prefix . "cmplz_dnsmpd WHERE email = '$email'");
+                $count = $wpdb->get_var($wpdb->prepare("SELECT count(*) from {$wpdb->prefix}cmplz_dnsmpd WHERE email = '%s'",$email));
                 if ($count==0) {
                     $wpdb->insert($wpdb->prefix . 'cmplz_dnsmpd',
                         array(
@@ -152,6 +155,8 @@ if (!class_exists("cmplz_DNSMPD")) {
         }
 
         public function process_delete(){
+            if (!current_user_can('manage_options')) return;
+
             if (isset($_GET['page']) && ($_GET['page'] == 'cmplz_dnsmpd') && isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
                 global $wpdb;
                 $wpdb->delete($wpdb->prefix.'cmplz_dnsmpd', array('ID' => intval($_GET['id'])));

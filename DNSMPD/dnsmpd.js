@@ -1,5 +1,8 @@
 jQuery(document).ready(function ($) {
     'use strict';
+    $(document).on('click', '.cmplz-dnsmpd .close',function(){
+        $(this).parent().hide();
+    });
     $(document).on('click', '#cmplz-dnsmpd-submit', function(){
         var email = $('#cmplz_dnsmpd_email').val();
         var name = $('#cmplz_dnsmpd_name').val();

@@ -44,5 +44,8 @@ $this->warning_types = array(
         'type' => 'general',
         'label_error' => __('Matomo is being used, but is not configured in Complianz.', 'complianz'),
     ),
-
+    'docs-need-updating' => array(
+        'type'=> 'general',
+        'label_error' => __('Your documents have not been updated in the past 12 months. Run the wizard to check your settings.','complianz'),
+    )
 );

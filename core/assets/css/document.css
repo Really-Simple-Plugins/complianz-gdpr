@@ -21,7 +21,8 @@ button::-moz-focus-inner {
 
 /*honeypot */
 #cmplz-document .dnsmpd-firstname{
-    display:none !important;
+    position:absolute !important;
+    left:-5000px !important;
 }
 #cmplz-document .alert {
     padding: 7px;
