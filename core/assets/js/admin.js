@@ -311,11 +311,15 @@ jQuery(document).ready(function ($) {
 
 
     /*cookie scan */
-    var cmplz_interval = 4000;
+    var cmplz_interval = 10000;
     var progress = complianz_admin.progress;
     var progressBar = $('.cmplz-progress-bar');
     var cookieContainer = $(".detected-cookies");
     var previous_page;
+
+    if ($("#cmplz-scan-progress").length){
+        cmplz_interval = 3000;
+    }
 
     function checkIframeLoaded() {
         // Get a handle to the iframe element

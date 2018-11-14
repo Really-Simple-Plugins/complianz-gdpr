@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 15:44+0000\n"
-"PO-Revision-Date: 2018-11-08 15:45+0000\n"
-"Last-Translator: Rogier Lankhorst <rogier@really-simple-ssl.com>\n"
+"POT-Creation-Date: 2018-11-13 07:43+0000\n"
+"PO-Revision-Date: 2018-11-14 16:38+0000\n"
+"Last-Translator: Translator Complianz <tyusel@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: class-admin.php:107
 msgid "Data successfully cleared"
-msgstr ""
+msgstr "Daten erfolgreich gereinigt"
 
 #: class-admin.php:218 config/cookie-settings.php:189
 msgid "Settings"
@@ -68,157 +68,157 @@ msgstr ""
 "Alle Felder sind ausgefüllt, aber Sie haben noch nicht auf die Schaltfläche "
 "Fertig stellen geklickt."
 
-#: class-admin.php:298
+#: class-admin.php:302
 #, php-format
 msgid "Complianz %s"
 msgstr "Complianz %s"
 
 #. Name of the plugin
-#: class-admin.php:303
+#: class-admin.php:307
 msgid "Complianz"
 msgstr "Complianz"
 
-#: class-admin.php:313 class-admin.php:314
+#: class-admin.php:317 class-admin.php:318
 msgid "Dashboard"
-msgstr ""
+msgstr "Übersichtsseite"
 
-#: class-admin.php:321 class-admin.php:322 class-admin.php:364
+#: class-admin.php:325 class-admin.php:326 class-admin.php:368
 msgid "Wizard"
 msgstr "Assistent"
 
-#: class-admin.php:329 class-admin.php:330
+#: class-admin.php:333 class-admin.php:334
 msgid "Cookie warning"
 msgstr "Cookie-Warnung"
 
-#: class-admin.php:338 class-admin.php:339
+#: class-admin.php:342 class-admin.php:343
 msgid "Script center"
 msgstr "Skript-Center"
 
-#: class-admin.php:369 pro/class-processing.php:125 pro/class-dataleak.php:291
+#: class-admin.php:373 pro/class-processing.php:124 pro/class-dataleak.php:293
 msgid "Your license needs to be activated to unlock the wizard"
 msgstr "Ihre Lizenz muss aktiviert sein, um den Assistenten freizuschalten."
 
-#: class-admin.php:400 pro/filters-actions.php:96
+#: class-admin.php:404 pro/filters-actions.php:94
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: class-admin.php:408
+#: class-admin.php:412
 #, php-format
 msgid "For the most common issues see the Complianz %sknowledge base%s"
 msgstr "Für die häufigsten Probleme siehe Complianz %sknowledge base%s"
 
-#: class-admin.php:411
+#: class-admin.php:415
 #, php-format
 msgid "Ask your questions on the %sWordPress forum%s"
 msgstr "Stellen Sie Ihre Fragen im %sWordPress-Forum%s"
 
-#: class-admin.php:414
+#: class-admin.php:418
 msgid "Create dataleak report"
 msgstr "Datenleck-Bericht erstellen"
 
-#: class-admin.php:414 class-admin.php:417
+#: class-admin.php:418 class-admin.php:421
 #, php-format
 msgid "(%spremium%s)"
 msgstr ""
 "(%Prämium%s)\n"
 
-#: class-admin.php:417
+#: class-admin.php:421
 msgid "Create processing agreement"
 msgstr "Bearbeitungsvereinbarung anlegen"
 
-#: class-admin.php:420
+#: class-admin.php:424
 #, php-format
 msgid "Upgrade to Complianz premium for %spremium support%s"
 msgstr "Upgrade auf Complianz-Prämie für %spremium-Support%s"
 
-#: class-admin.php:433
+#: class-admin.php:437
 msgid "Export personal data"
 msgstr "Persönliche Daten exportieren"
 
-#: class-admin.php:436
+#: class-admin.php:440
 msgid "Erase personal data"
 msgstr "Persönliche Daten löschen"
 
-#: class-admin.php:449 config/pro/steps.php:10
+#: class-admin.php:453 config/pro/steps.php:10
 msgid "Documents"
 msgstr "Dokumente"
 
-#: class-admin.php:495
+#: class-admin.php:499
 #, php-format
 msgid "Privacy Statement (%s) - (%spremium%s)"
-msgstr ""
+msgstr "Datenschutzerklärung (%s) - (%sPremium%s)"
 
-#: class-admin.php:502
+#: class-admin.php:506
 msgid "Like Complianz Privacy Suite?"
-msgstr ""
+msgstr "Mögen Sie Compilanz Privacy Suite?"
 
-#: class-admin.php:504
+#: class-admin.php:508
 msgid "Then you'll like the premium plugin even more! With: "
 msgstr ""
 
-#: class-admin.php:505
+#: class-admin.php:509
 msgid "A/B testing"
-msgstr ""
+msgstr "überprüfe A/B"
 
-#: class-admin.php:506 config/cookie-settings.php:158
+#: class-admin.php:510 config/cookie-settings.php:158
 #: pro/class-statistics.php:320 pro/class-statistics.php:321
-#: pro/class-statistics.php:675 pro/class-statistics.php:723
+#: pro/class-statistics.php:669 pro/class-statistics.php:717
 msgid "Statistics"
 msgstr "Statistiken"
 
-#: class-admin.php:507
+#: class-admin.php:511
 msgid "Multiple regions"
-msgstr ""
+msgstr "Mehrere Regionen"
 
-#: class-admin.php:508
+#: class-admin.php:512
 msgid "More legal documents"
-msgstr ""
-
-#: class-admin.php:509
-msgid "Premium support"
-msgstr ""
-
-#: class-admin.php:510
-msgid "& more!"
-msgstr ""
+msgstr "Mehr Rechtsdokumente"
 
 #: class-admin.php:513
-msgid "Discover premium"
-msgstr ""
+msgid "Premium support"
+msgstr "Premium Support"
 
-#: class-admin.php:525
+#: class-admin.php:514
+msgid "& more!"
+msgstr "& mehr!"
+
+#: class-admin.php:517
+msgid "Discover premium"
+msgstr "Entdecke Premium"
+
+#: class-admin.php:529
 msgid "Really Simple SSL"
 msgstr "Sehr einfache SSL"
 
-#: class-admin.php:526
+#: class-admin.php:530
 msgid "Trusted by over 1 million WordPress users"
 msgstr "Vertrauen von über 1 Million WordPress-Anwendern"
 
-#: class-admin.php:535
+#: class-admin.php:539
 msgid "Feature requests"
 msgstr "Funktionsanfragen"
 
-#: class-admin.php:536
+#: class-admin.php:540
 msgid "Need new features or languages? Let us know!"
 msgstr "Benötigen Sie neue Funktionen oder Sprachen? Lassen Sie es uns wissen!"
 
-#: class-admin.php:545
+#: class-admin.php:549
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: class-admin.php:546
+#: class-admin.php:550
 msgid "Check out the docs on complianz.io!"
 msgstr "Schauen Sie sich die Dokumente auf complianz.io! an."
 
-#: class-admin.php:555
+#: class-admin.php:559
 msgid "Our blog"
 msgstr "Unser Blog"
 
-#: class-admin.php:556
+#: class-admin.php:560
 msgid "Stay up to date with the latest news"
 msgstr "Bleiben Sie auf dem Laufenden mit den neuesten Nachrichten."
 
-#: class-admin.php:583
+#: class-admin.php:587
 msgid ""
 "You haven't completed the wizard yet. You should run the wizard at least "
 "once to get valid results in the dashboard."
@@ -227,58 +227,58 @@ msgstr ""
 "Assistenten mindestens einmal ausführen, um gültige Ergebnisse im Dashboard "
 "zu erhalten."
 
-#: class-admin.php:586
+#: class-admin.php:590
 msgid "Start wizard"
 msgstr "Start-Assistent"
 
-#: class-admin.php:599
+#: class-admin.php:603
 msgid "Free"
 msgstr "Kostenlos"
 
-#: class-admin.php:610
+#: class-admin.php:614
 msgid "Your progress"
 msgstr "Ihr Fortschritt"
 
-#: class-admin.php:613
+#: class-admin.php:617
 #, php-format
 msgid "Your website is not ready for the %s yet."
 msgstr ""
 
-#: class-admin.php:615
+#: class-admin.php:619
 #, php-format
 msgid "Well done! Your website is ready for the %s."
 msgstr ""
 
-#: class-admin.php:633
+#: class-admin.php:637
 msgid "Continue"
 msgstr "Weiter"
 
-#: class-admin.php:642
+#: class-admin.php:646
 msgid "Tasks"
-msgstr ""
+msgstr "Aufgaben"
 
-#: class-admin.php:648
+#: class-admin.php:652
 msgid "No cookies detected yet"
 msgstr "Noch keine Cookies erkannt"
 
-#: class-admin.php:665
+#: class-admin.php:669
 msgid "Nothing on your to do list"
-msgstr ""
+msgstr "Nichts auf Ihrer ToDo-Liste"
 
-#: class-admin.php:668
+#: class-admin.php:672
 msgid "System status"
-msgstr ""
+msgstr "System Status"
 
-#: class-admin.php:677
+#: class-admin.php:681
 #, php-format
 msgid "Your site is configured for the %s."
 msgstr ""
 
-#: class-admin.php:685
+#: class-admin.php:689
 msgid "Your site requires a cookie warning, which has been enabled"
 msgstr "Ihre Website benötigt eine Cookie-Warnung, die aktiviert wurde."
 
-#: class-admin.php:688
+#: class-admin.php:692
 msgid ""
 "Your site does not require a cookie warning. No cookie warning has been "
 "enabled."
@@ -286,16 +286,16 @@ msgstr ""
 "Ihre Website benötigt keine Cookie-Warnung. Es wurde keine Cookie-Warnung "
 "aktiviert."
 
-#: class-admin.php:691
+#: class-admin.php:695
 #, php-format
 msgid "Last cookie scan on %s"
 msgstr "Letzter Cookie-Scan am %s"
 
-#: class-admin.php:728
+#: class-admin.php:732
 msgid "Email address not valid"
 msgstr "E-Mail Adresse nicht gültig"
 
-#: class-admin.php:759
+#: class-admin.php:763
 #, php-format
 msgid ""
 "Your support request has been received. We will reply shortly. You can track "
@@ -304,11 +304,11 @@ msgstr ""
 "Ihre Support-Anfrage ist eingegangen. Wir werden Ihnen in Kürze antworten. "
 "Sie können den Status Ihrer Anfrage unter %scomplianz.io%s verfolgen."
 
-#: class-admin.php:762
+#: class-admin.php:766
 msgid "Something went wrong while submitting the support request"
 msgstr "Beim Absenden der Supportanfrage ist etwas schief gelaufen."
 
-#: class-admin.php:835
+#: class-admin.php:839
 msgctxt "intro script center"
 msgid ""
 "The script center should be used to add and block third-party scripts and "
@@ -316,23 +316,25 @@ msgid ""
 "Hotjar and embedded video’s."
 msgstr ""
 
-#: class-admin.php:837
+#: class-admin.php:841
 msgid ""
 "Because you are using Google Tag Manager you can only add iFrames, as shown "
 "below."
 msgstr ""
+"Da Sie den Google Tag Manager verwenden können sie nur iFrames hinzufügen, "
+"wie unten beschrieben."
 
-#: class-admin.php:861
+#: class-admin.php:865
 msgid "Cookie warning settings"
 msgstr "Cookie-Warneinstellungen"
 
-#: class-admin.php:865
+#: class-admin.php:869
 msgid "Please complete the wizard to check if you need a cookie warning."
 msgstr ""
 "Bitte vervollständigen Sie den Assistenten, um zu prüfen, ob Sie eine Cookie-"
 "Warnung benötigen."
 
-#: class-admin.php:868
+#: class-admin.php:872
 msgid ""
 "Your website does not require a cookie warning, so these settings do not "
 "apply."
@@ -340,7 +342,7 @@ msgstr ""
 "Ihre Website benötigt keine Cookie-Warnung, daher gelten diese Einstellungen "
 "nicht."
 
-#: class-admin.php:870
+#: class-admin.php:874
 msgid ""
 "Your website requires a cookie warning, these settings will determine how "
 "the popup will look."
@@ -348,29 +350,31 @@ msgstr ""
 "Ihre Website benötigt eine Cookie-Warnung, diese Einstellungen bestimmen, "
 "wie das Popup aussehen wird."
 
-#: class-admin.php:894 class-admin.php:902 config/steps.php:9
-#: config/pro/steps.php:6 config/pro/steps.php:96 config/pro/steps.php:109
-#: config/pro/steps.php:123 config/pro/steps.php:136
+#: class-admin.php:898 class-admin.php:906 config/steps.php:9
+#: config/pro/steps.php:6 config/pro/steps.php:97 config/pro/steps.php:124
+#: config/pro/steps.php:149 config/pro/steps.php:171
 msgid "General"
 msgstr "Allgemein"
 
-#: class-admin.php:949
+#: class-admin.php:953
 msgid "PHP version problem"
 msgstr "Problem mit der PHP-Version"
 
-#: class-admin.php:951
+#: class-admin.php:955
 msgid ""
 "Complianz Privacy Suite requires at least PHP version 5.6. Please upgrade "
 "your PHP version before continuing."
 msgstr ""
+"Complianz Privacy Suite benötigt mindestens PHP-Version 5.6. Bitte upgraden "
+"Sie Ihre PHP-Version bevor Sie fortfahren."
 
-#: class-document.php:106
+#: class-document.php:119
 #, php-format
 msgctxt "Subject in notification email"
 msgid "Your legal documents on %s need to be updated."
 msgstr ""
 
-#: class-document.php:108
+#: class-document.php:121
 #, php-format
 msgctxt "Email message in notification email"
 msgid ""
@@ -378,21 +382,21 @@ msgid ""
 "and run the wizard to check if everything is up to date."
 msgstr ""
 
-#: class-document.php:181
+#: class-document.php:194
 msgid ""
 "Your WordPress version does not support the functions needed for this step. "
 "You can upgrade to the latest WordPress version, or add the pages manually "
 "to a menu."
 msgstr ""
 
-#: class-document.php:197
+#: class-document.php:210
 msgid ""
 "You sell personal data from your customers. This means you are required to "
 "put the \"Do Not Sell My Personal Information\" page clearly visible on your "
 "homepage."
 msgstr ""
 
-#: class-document.php:202
+#: class-document.php:215
 #, php-format
 msgid ""
 "The generated document %s has not been assigned to a menu yet, you can do "
@@ -407,7 +411,7 @@ msgstr[1] ""
 "Die generierten Dokumente %s sind noch keinem Menü zugeordnet, Sie können "
 "dies jetzt tun oder diesen Schritt überspringen und später ausführen."
 
-#: class-document.php:223
+#: class-document.php:236
 msgid "Select a menu"
 msgstr "Wählen Sie ein Menü"
 
@@ -416,12 +420,17 @@ msgid ""
 "Based on your Analytics configuration you should fire Analytics as a "
 "functional cookie on event cmplz_event_functional."
 msgstr ""
+"Basierend auf Ihrer Analytics Konfiguration sollten Sie Analytics als "
+"funktionales Cookie aus dem Ereignis cmplz_event_functional entfernen."
 
 #: functions.php:64
 msgid ""
 "Based on your Analytics configuration you should fire Analytics as a non-"
 "functional cookie with a category of your choice, for example cmplz_event_0."
 msgstr ""
+"Basierend auf Ihrer Analytics Konfiguration sollten Sie Analytics als Non-"
+"funktionales Cookie aus einer Kategorie Ihrer Wahl entfernen, zum Beispiel "
+"cmplz_event_0."
 
 #: functions.php:74
 msgid "Revoke cookie consent"
@@ -430,19 +439,19 @@ msgstr "Cookie-Einwilligung widerrufen"
 #: functions.php:75
 #, php-format
 msgid "Current status: %s"
-msgstr ""
+msgstr "Momentaner Status: %s"
 
 #: functions.php:75
 msgid "Accepted"
-msgstr ""
+msgstr "akzeptiert"
 
 #: functions.php:75
 msgid "Denied"
-msgstr ""
+msgstr "Verweigert"
 
 #: functions.php:637
 msgid "(select a region)"
-msgstr ""
+msgstr "(wähle eine Region)"
 
 #: class-review.php:39
 #, php-format
@@ -452,26 +461,31 @@ msgid ""
 "spread the word. We greatly appreciate it! If you have any questions or "
 "feedback, leave us a %smessage%s."
 msgstr ""
+"Hallo, Sie benutzen Complianz Privacy Suite nun bereits einen Monat, "
+"fantastisch! Wenn Sie einen Moment Zeit haben erwägen Sie eine Kritik auf "
+"WordPress.org zu hinterlassen um die Nachricht zu verbreiten. Wir wissen "
+"dies sehr zu schätzen! Wenn Sie uns irgendwelche Fragen oder Rückmeldungen "
+"zusenden möchten, hinterlassen Sie eine %smessage%s"
 
 #: class-review.php:43
 msgid "Leave a review"
-msgstr ""
+msgstr "Hinterlassen Sie eine Kritik"
 
 #: class-review.php:46
 msgid "Maybe later"
-msgstr ""
+msgstr "Vieleicht später"
 
 #: class-review.php:49
 msgid "No thanks"
-msgstr ""
+msgstr "Nein, danke"
 
-#: integrations.php:84
+#: integrations.php:83
 msgid ""
 "You use Monsterinsights, so the answer to this question should be Google "
 "Analytics"
 msgstr ""
 
-#: integrations.php:125
+#: integrations.php:123
 msgid ""
 "You use Monsterinsights: if you enable the anonymize ip option, please make "
 "sure that you have enabled it in Monsterinsights"
@@ -522,6 +536,9 @@ msgid ""
 "The cookie scan detected non-functional cookies on your site. This means you "
 "should at least select the option that you sell data to third parties"
 msgstr ""
+"Der Cookie-Scan hat nonfunktionale Cookies auf Ihrer Seite festgestellt. "
+"Dies bedeutet, dass Sie zumindest die Option, dass Sie Daten an "
+"Drittparteien verkaufen, auswählen sollten"
 
 #: callback-notices.php:54 callback-notices.php:63
 msgid ""
@@ -529,6 +546,9 @@ msgid ""
 "cookies were also used in the past 12 months, you should at least select the "
 "option 'Internet activity...'"
 msgstr ""
+"Der Cookie-Scan hat nonfunktionale Cookies auf Ihrer Seite festgestellt. "
+"Wenn diese Cookies ebenfalls in den vergangenen 12 Monaten verwendet wurden "
+"sollten Sie zumindest die Option 'Internetaktivität...' auswählen"
 
 #: callback-notices.php:72
 msgid ""
@@ -536,159 +556,161 @@ msgid ""
 " you can skip this step"
 msgstr ""
 
-#: class-field.php:376
+#: class-field.php:382
 msgid "This field is required. Please complete the question before continuing"
 msgstr ""
 "Dieses Feld muss ausgefüllt werden. Bitte füllen Sie die Frage aus, bevor "
 "Sie fortfahren."
 
-#: class-field.php:386
+#: class-field.php:392
 msgid "(Optional)"
 msgstr ""
 "(Optionell)\n"
 
-#: class-field.php:583
+#: class-field.php:589
 msgid "No options found"
 msgstr "Keine Optionen gefunden"
 
-#: class-field.php:996
+#: class-field.php:1002
 msgid "Choose an option"
 msgstr "Wählen Sie eine Option"
 
-#: class-field.php:1057
+#: class-field.php:1062
 msgid "Start"
-msgstr ""
+msgstr "Anfang"
 
-#: class-field.php:1071 class-field.php:1254 class-field.php:1363
-#: class-field.php:1448 class-wizard.php:736
+#: class-field.php:1076 class-field.php:1259 class-field.php:1368
+#: class-field.php:1453 class-wizard.php:736
 msgid "Save"
 msgstr "Speichern"
 
-#: class-field.php:1088 pro/framework/post-types.php:115
-#: pro/framework/post-types.php:116 pro/framework/post-types.php:155
-#: pro/framework/post-types.php:156
+#: class-field.php:1093 pro/framework/post-types.php:120
+#: pro/framework/post-types.php:121 pro/framework/post-types.php:160
+#: pro/framework/post-types.php:161
 msgid "Add new"
 msgstr "Neue hinzufügen"
 
-#: class-field.php:1097 class-field.php:1247
+#: class-field.php:1102 class-field.php:1252
 msgid "Description"
 msgstr "Beschreibung"
 
-#: class-field.php:1107 class-field.php:1257 class-field.php:1366
-#: class-field.php:1451
+#: class-field.php:1112 class-field.php:1262 class-field.php:1371
+#: class-field.php:1456
 msgid "Remove"
 msgstr "Entfernen"
 
-#: class-field.php:1140 config/steps.php:33
+#: class-field.php:1145 config/steps.php:33
 msgid "Cookies"
 msgstr "Cookies"
 
-#: class-field.php:1170
+#: class-field.php:1175
 msgid "Not recognized"
 msgstr "Nicht erkannt"
 
-#: class-field.php:1182 DNSMPD/class-DNSMPD-table.php:148 DNSMPD/csv.php:53
+#: class-field.php:1187 DNSMPD/class-DNSMPD-table.php:148 DNSMPD/csv.php:53
 msgid "Name"
 msgstr "Name"
 
-#: class-field.php:1201
+#: class-field.php:1206
 msgid "This is a functional cookie"
 msgstr "Dies ist ein funktionierendes Cookie"
 
-#: class-field.php:1211
+#: class-field.php:1216
 msgid "Add this cookie to the cookie policy"
 msgstr ""
 "Dieses Cookie der Cookie-Richtlinie hinzufügen\n"
 
-#: class-field.php:1215
+#: class-field.php:1220
 msgid "Used names"
 msgstr "Verwendete Namen"
 
-#: class-field.php:1223
+#: class-field.php:1228
 msgid "Privacy statement URL"
-msgstr ""
+msgstr "URL der Datenschutzerklärung"
 
-#: class-field.php:1231 class-field.php:1344 class-field.php:1430
+#: class-field.php:1236 class-field.php:1349 class-field.php:1435
 #: config/steps.php:25 config/pro/steps.php:36
 msgid "Purpose"
 msgstr "Zweck"
 
-#: class-field.php:1239 config/pro/dynamic-document-elements.php:92
+#: class-field.php:1244 config/pro/dynamic-document-elements.php:92
 msgid "Retention period"
 msgstr "Bewahrungsfrist"
 
-#: class-field.php:1266
+#: class-field.php:1271
 #, php-format
 msgid "Cookie \"%s\""
-msgstr ""
+msgstr "Cookie \"%s\""
 
-#: class-field.php:1272
+#: class-field.php:1277
 msgid "Add new cookie"
 msgstr "Neues Cookie hinzufügen"
 
-#: class-field.php:1293
+#: class-field.php:1298
 msgid "list"
-msgstr ""
+msgstr "Liste"
 
-#: class-field.php:1312
+#: class-field.php:1317
 #, php-format
 msgid "Name of the %s with whom you share the data"
-msgstr ""
+msgstr "Name der %s mit denen Sie Daten teilen"
 
-#: class-field.php:1320
+#: class-field.php:1325
 #, php-format
 msgid ""
 "Select the processing agreement you made with this %s, or %screate one%s"
 msgstr ""
+"Wählen Sie die Datenschutzvereinbarung die Sie mit %s erstellt haben, oder "
+"%serstellen Sie eine%s"
 
-#: class-field.php:1325
+#: class-field.php:1330
 msgid "No agreement selected"
 msgstr "Keine Vereinbarung ausgewählt"
 
-#: class-field.php:1326
+#: class-field.php:1331
 msgid "A processing agreement outside Complianz Privacy Suite"
-msgstr ""
+msgstr "Ein Verarbeitungsvereinbarung außerhalb Compilanz Privacy Suite"
 
-#: class-field.php:1335
+#: class-field.php:1340
 #, php-format
 msgid "%s country"
-msgstr ""
+msgstr "%s Land"
 
-#: class-field.php:1354 class-field.php:1438
+#: class-field.php:1359 class-field.php:1443
 msgid "What type of data is shared"
 msgstr "Welche Art von Daten werden gemeinsam genutzt?"
 
-#: class-field.php:1371 class-field.php:1454
+#: class-field.php:1376 class-field.php:1459
 msgid "New entry"
-msgstr ""
+msgstr "Neuer Eintrag"
 
-#: class-field.php:1380 pro/framework/post-types.php:50
-#: pro/framework/post-types.php:52
+#: class-field.php:1385 pro/framework/post-types.php:52
+#: pro/framework/post-types.php:54
 #, php-format
 msgid "Add new %s"
-msgstr ""
+msgstr "Neue %s hinzufügen"
 
-#: class-field.php:1411
+#: class-field.php:1416
 msgid "Name of the third party with whom you share the data"
-msgstr ""
+msgstr "Name der Drittparteien mit denen Sie Daten teilen"
 
-#: class-field.php:1420
+#: class-field.php:1425
 msgid "Third party country"
 msgstr "Drittland"
 
-#: class-field.php:1460
+#: class-field.php:1465
 msgid "Add new thirdparty"
 msgstr "Neue Drittpartei hinzufügen"
 
 #: class-cookie.php:106
 msgid "Google Analytics or Tag Manager"
-msgstr ""
+msgstr "Google Analytics oder Tag Manager"
 
-#: class-cookie.php:106 class-cookie.php:152
+#: class-cookie.php:106 class-cookie.php:147
 msgid "Matomo"
 msgstr "Matomo"
 
-#: class-cookie.php:111
+#: class-cookie.php:108
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -697,12 +719,12 @@ msgstr ""
 "Der Cookie-Scan hat %s-Cookies auf Ihrer Website erkannt, was bedeutet, dass "
 "die Antwort auf diese Frage %s sein sollte."
 
-#: class-cookie.php:154
+#: class-cookie.php:149
 msgid "Google Analytics"
 msgstr ""
 "Google Analytics\n"
 
-#: class-cookie.php:162
+#: class-cookie.php:154
 #, php-format
 msgid ""
 "The cookie scan detected %s cookies on your site, which means the answer to "
@@ -711,7 +733,7 @@ msgstr ""
 "Der Cookie-Scan hat %s Cookies auf Ihrer Website erkannt, was bedeutet, dass "
 "die Antwort auf diese Frage JA sein sollte."
 
-#: class-cookie.php:178
+#: class-cookie.php:165
 #, php-format
 msgid ""
 "The cookie scan detected %s types of cookies on your site: %s, which means "
@@ -720,7 +742,7 @@ msgstr ""
 "Der Cookie-Scan erkannte %s Arten von Cookies auf Ihrer Website: %s, was "
 "bedeutet, dass die Antwort auf diese Frage Ja lauten sollte."
 
-#: class-cookie.php:185
+#: class-cookie.php:168
 msgid ""
 "Statistical cookies and PHP session cookie aside, the cookie scan detected "
 "no cookies on your site which means the answer to this question can be "
@@ -730,7 +752,7 @@ msgstr ""
 "Scan keine Cookies auf Ihrer Website erkannt, was bedeutet, dass die Antwort "
 "auf diese Frage mit Nein beantwortet werden kann."
 
-#: class-cookie.php:197
+#: class-cookie.php:178
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized, so "
 "it is not necessary to add the script here."
@@ -738,7 +760,7 @@ msgstr ""
 "Sie verwenden Matomo für Statistiken auf Ihrer Website, mit anonymisierten "
 "IP-Nummern, so dass es nicht notwendig ist, das Skript hier hinzuzufügen."
 
-#: class-cookie.php:199
+#: class-cookie.php:180
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized, so you should your tracking script here"
@@ -755,49 +777,49 @@ msgstr "%s auf der Position %s"
 msgid "Origin unknown"
 msgstr "Herkunft unbekannt"
 
-#: class-cookie.php:1256
+#: class-cookie.php:1259
 msgid "No cookies detected"
 msgstr "Keine Cookies erkannt"
 
-#: class-cookie.php:1258
+#: class-cookie.php:1261
 msgid "Cookie scan in progress"
 msgstr "Cookie-Scan läuft"
 
-#: class-cookie.php:1265
+#: class-cookie.php:1268
 msgid "Cookies on your own domain"
 msgstr "Cookies auf Ihrer eigenen Domain"
 
-#: class-cookie.php:1279
+#: class-cookie.php:1282
 msgid "Social media"
 msgstr "Soziale Medien"
 
-#: class-cookie.php:1294
+#: class-cookie.php:1297
 msgid "Third party services"
 msgstr "Dienstleistungen von Drittanbietern"
 
-#: class-cookie.php:1343
+#: class-cookie.php:1346
 msgid ""
 "You have Do Not Track enabled. This will prevent most cookies from being "
 "placed. Please run the scan with Do Not Track disabled."
 msgstr ""
 
-#: class-cookie.php:1347
+#: class-cookie.php:1350
 msgid ""
 "You are using an ad blocker. This will prevent most cookies from being "
 "placed. Please run the scan without an adblocker enabled."
 msgstr ""
 
-#: class-cookie.php:1348
+#: class-cookie.php:1351
 msgid ""
 "You are using an anonymous window. This will prevent most cookies from being "
 "placed. Please run the scan in a normal browser window."
 msgstr ""
 
-#: class-cookie.php:1351 config/steps.php:37 config/questions-wizard.php:160
+#: class-cookie.php:1354 config/steps.php:37 config/questions-wizard.php:160
 msgid "Cookie scan"
 msgstr "Cookie-Scan"
 
-#: class-cookie.php:1357
+#: class-cookie.php:1360
 msgid ""
 "Cookies as detected by the automatic cookie scan. Please note that only "
 "cookies set on your own domain are detected by this scan."
@@ -805,23 +827,23 @@ msgstr ""
 "Cookies, die vom automatischen Cookie-Scan erkannt werden. Bitte beachten "
 "Sie, dass nur Cookies auf Ihrer eigenen Domain erkannt werden."
 
-#: class-cookie.php:1357
+#: class-cookie.php:1360
 msgid ""
 "Third party scripts will get detected if they're listed in the third party "
 "list."
 msgstr ""
 
-#: class-cookie.php:1362
+#: class-cookie.php:1365
 msgid "Re-scan"
 msgstr "Erneutes Scannen"
 
-#: class-cookie.php:1378
+#: class-cookie.php:1381
 msgid "Report all unknown cookies"
-msgstr ""
+msgstr "Melde alle unbekannten Cookies"
 
-#: class-cookie.php:1380
+#: class-cookie.php:1383
 msgid "Thank you, your report has been received successfully"
-msgstr ""
+msgstr "Danke, ihre Benachrichtigung wurde erfolgreich empfangen"
 
 #: class-wizard.php:56
 msgid ""
@@ -829,6 +851,9 @@ msgid ""
 "in the system, and you can continue with the next question. This will start "
 "a new, empty document."
 msgstr ""
+"Großartig, der -Assistent ist fertiggestellt. Dies bedeutet, dass die "
+"allgemeinen Daten bereits im System sind und Sie mit der nächsten Frage "
+"fortfahren können. Dies wird ein neues, leeres Dokument beginnen."
 
 #: class-wizard.php:59
 #, php-format
@@ -848,7 +873,7 @@ msgstr ""
 msgid "Changes in cookies detected"
 msgstr "Änderungen in Cookies erkannt"
 
-#: class-wizard.php:115 pro/class-processing.php:140
+#: class-wizard.php:115 pro/class-processing.php:139
 msgid ""
 "Not all required fields are completed yet. Please check the steps to "
 "complete all required questions"
@@ -858,7 +883,7 @@ msgstr ""
 
 #: class-wizard.php:117
 msgid "All steps have been completed."
-msgstr ""
+msgstr "Alle Schritte wurden ausgeführt."
 
 #: class-wizard.php:117
 #, php-format
@@ -866,10 +891,12 @@ msgid ""
 "Click '%s' to complete the configuration. You can come back to change your "
 "configuration at any time."
 msgstr ""
+"Klicken Sie auf '%s', um die Konfiguration abzuschließen, Sie können "
+"jederzeit zurückkehren, um die Einstellungen zu verändern."
 
 #: class-wizard.php:117 class-wizard.php:722 config/steps.php:63
-#: config/pro/steps.php:105 config/pro/steps.php:118 config/pro/steps.php:131
-#: config/pro/steps.php:145
+#: config/pro/steps.php:117 config/pro/steps.php:142 config/pro/steps.php:164
+#: config/pro/steps.php:194
 msgid "Finish"
 msgstr "Fertigstellen"
 
@@ -889,6 +916,8 @@ msgstr ""
 #, php-format
 msgid "If this user stops editing, the lock will expire after %s minutes."
 msgstr ""
+"Wenn dieser Benutzer die Bearbeitung einstellt wird die Sperre nach %s "
+"Minute(n) aufgehoben."
 
 #: class-wizard.php:408
 #, php-format
@@ -936,7 +965,7 @@ msgstr "Vorherige"
 msgid "Next"
 msgstr "Nächste"
 
-#: class-wizard.php:722 pro/class-processing.php:142
+#: class-wizard.php:722 pro/class-processing.php:141
 msgid "View document"
 msgstr "Dokument anzeigen"
 
@@ -945,7 +974,7 @@ msgid "Yes"
 msgstr "Ja"
 
 #: config/class-config.php:38 config/questions-wizard.php:181
-#: config/pro/questions-wizard.php:265 config/pro/questions-wizard.php:320
+#: config/pro/questions-wizard.php:265 config/pro/questions-wizard.php:322
 msgid "No"
 msgstr "Nein"
 
@@ -966,23 +995,23 @@ msgstr ""
 "Wenn Sie a/b-Tests durchführen möchten, um zu verfolgen, welches Banner die "
 "höchste Akzeptanzrate erhält, dann wählen Sie %sget premium%s."
 
-#: config/class-config.php:154
+#: config/class-config.php:152
 msgid "Contact - Through phone,  mail, e-mail and/or webforms"
 msgstr "Kontakt - Über Telefon, Post, E-Mail und/oder Webformulare"
 
-#: config/class-config.php:155
+#: config/class-config.php:153
 msgid "Payments"
 msgstr "Zahlungen"
 
-#: config/class-config.php:156
+#: config/class-config.php:154
 msgid "Registering an account"
 msgstr "Registrierung eines Kontos"
 
-#: config/class-config.php:157
+#: config/class-config.php:155
 msgid "Newsletters"
 msgstr "Rundschreiben"
 
-#: config/class-config.php:158
+#: config/class-config.php:156
 msgid ""
 "To support services or products that your customer wants to buy or have "
 "purchased"
@@ -990,170 +1019,190 @@ msgstr ""
 "Zur Unterstützung von Dienstleistungen oder Produkten, die Ihr Kunde kaufen "
 "möchte oder gekauft hat"
 
-#: config/class-config.php:159
+#: config/class-config.php:157
 msgid "To be able to comply with legal obligations"
 msgstr "Um den gesetzlichen Verpflichtungen nachkommen zu können."
 
-#: config/class-config.php:160
+#: config/class-config.php:158
 msgid "Compiling and analyzing statistics for website improvement."
 msgstr "Erstellung und Analyse von Statistiken zur Verbesserung der Website."
 
-#: config/class-config.php:161
+#: config/class-config.php:159
 msgid "To be able to offer personalized products and services."
 msgstr "Um personalisierte Produkte und Dienstleistungen anbieten zu können."
 
-#: config/class-config.php:165
+#: config/class-config.php:163
 msgid "To sell data to third parties"
 msgstr ""
 
-#: config/class-config.php:168
+#: config/class-config.php:166
 msgid "A first and last name"
-msgstr ""
+msgstr "Ein Vor- und Nachname"
 
-#: config/class-config.php:169
+#: config/class-config.php:167
 msgid "Accountname or alias"
-msgstr ""
+msgstr "Name oder Pseudonym des Kontos"
 
-#: config/class-config.php:170
+#: config/class-config.php:168
 msgid ""
 "A home or other physical address, including street name and name of a city "
 "or town"
 msgstr ""
+"Ein Heim oder andere physische Adresse, einschließlich Straßenname und Name "
+"der Stadt/Ort"
+
+#: config/class-config.php:169
+msgid "An e-mail address"
+msgstr "Eine E-Mail Adresse"
+
+#: config/class-config.php:170
+msgid "A telephone number"
+msgstr "Eine Telefonnummer"
 
 #: config/class-config.php:171
-msgid "An e-mail address"
-msgstr ""
+msgid "A social security number"
+msgstr "Eine Sozialversicherungsnummer"
 
 #: config/class-config.php:172
-msgid "A telephone number"
-msgstr ""
-
-#: config/class-config.php:173
-msgid "A social security number"
-msgstr ""
-
-#: config/class-config.php:174
 msgid ""
 "Any other identifier that permits the physical or online contacting of a "
 "specific individual"
 msgstr ""
+"Jede andere Kennung welche die physische- oder Online-Kontaktaufnahme zu "
+"einem spezifischen Individuum erlaubt"
+
+#: config/class-config.php:173
+msgid "IP adres"
+msgstr "IP Adresse"
+
+#: config/class-config.php:174
+msgid "A signature"
+msgstr "Eine Unterschrift"
 
 #: config/class-config.php:175
-msgid "IP adres"
-msgstr ""
+msgid "Physical characteristics or description"
+msgstr "Physische Charakteristika oder Beschreibung"
 
 #: config/class-config.php:176
-msgid "A signature"
-msgstr ""
+msgid "Passport number"
+msgstr "Ausweisnummer"
 
 #: config/class-config.php:177
-msgid "Physical characteristics or description"
-msgstr ""
+msgid "Driver's license"
+msgstr "Führerschein"
 
 #: config/class-config.php:178
-msgid "Passport number"
-msgstr ""
+msgid "State identification card number"
+msgstr "Personalausweisnummer"
 
 #: config/class-config.php:179
-msgid "Driver's license"
-msgstr ""
+msgid "Insurance policy number"
+msgstr "Krankenversicherungsnummer"
 
 #: config/class-config.php:180
-msgid "State identification card number"
-msgstr ""
+msgid "Education information"
+msgstr "Ausbildungsinformationen"
 
 #: config/class-config.php:181
-msgid "Insurance policy number"
-msgstr ""
+msgid "Professional or employment-related information"
+msgstr "Beschäftigungs- oder Angestelltenbezogene Informationen"
 
 #: config/class-config.php:182
-msgid "Education information"
-msgstr ""
+msgid "Employment history"
+msgstr "Personalverlauf"
 
 #: config/class-config.php:183
-msgid "Professional or employment-related information"
-msgstr ""
+msgid "Bank account number"
+msgstr "Kontonummer"
 
 #: config/class-config.php:184
-msgid "Employment history"
-msgstr ""
-
-#: config/class-config.php:185
-msgid "Bank account number"
-msgstr ""
-
-#: config/class-config.php:186
 msgid "Financial information such as bank account number or credit card number"
 msgstr ""
+"Finanzielle Informationen wie beispielsweise Konto- oder Kreditkartennummer"
+
+#: config/class-config.php:185
+msgid "Medical information"
+msgstr "Medizinische Informationen"
+
+#: config/class-config.php:186
+msgid "Health insurance information"
+msgstr "Informationen zur Krankenversicherung"
 
 #: config/class-config.php:187
-msgid "Medical information"
-msgstr ""
-
-#: config/class-config.php:188
-msgid "Health insurance information"
-msgstr ""
-
-#: config/class-config.php:189
 msgid ""
 "Commercial information, including records of personal property, products or "
 "services purchased, obtained, or considered"
 msgstr ""
+"Kommerzielle Informationen, einschließlich Aufzeichnungen von persönlichem "
+"Eigentum sowie von erworbenen, erlangten oder berücksichtigten Produkten "
+"oder Dienstleistungen"
 
-#: config/class-config.php:190
+#: config/class-config.php:188
 msgid "Biometric information"
-msgstr ""
+msgstr "Biometrische Informationen"
 
-#: config/class-config.php:191
+#: config/class-config.php:189
 msgid ""
 "Internet activity information, including, but not limited to, browsing "
 "history, search history, and information regarding a consumer's interaction "
 "with an Internet Web site, application, or advertisement."
 msgstr ""
+"Informationen über Internetaktivitäten, einschließlich, aber nicht "
+"ausschließlich, Browserverlauf, Suchverlauf und Informationen über die "
+"Interaktionen des Kunden mit einer Internetseite, einem Programm oder einer "
+"Werbung."
 
-#: config/class-config.php:192
+#: config/class-config.php:190
 msgid "Geolocation data"
-msgstr ""
+msgstr "Geolokalisierungsdaten"
 
-#: config/class-config.php:193
+#: config/class-config.php:191
 msgid "Audio, electronic, visual, thermal, olfactory, or simular information"
 msgstr ""
+"Akustische, elektronische, visuelle, thermische, olfaktorische oder "
+"simulierte Information"
 
-#: config/class-config.php:198
+#: config/class-config.php:196
 msgid "a first and last name"
-msgstr ""
+msgstr "ein Vor- und Nachname"
 
-#: config/class-config.php:199
+#: config/class-config.php:197
 msgid ""
 "a home or other physical address including street name and name of a city or "
 "town"
 msgstr ""
+"ein Heim oder andere physische Adresse einschließlich Straßenname und Name "
+"der Stadt/Ort"
+
+#: config/class-config.php:198
+msgid "an email adress from the child"
+msgstr "eine E-Mail Adresse des Kindes"
+
+#: config/class-config.php:199
+msgid "an email adress from the parent or guardian"
+msgstr "eine E-Mail Adresse der Eltern od. des Erziehungsberechtigten"
 
 #: config/class-config.php:200
-msgid "an email adress from the child"
-msgstr ""
+msgid "a telephone number"
+msgstr "eine Telefonnummer"
 
 #: config/class-config.php:201
-msgid "an email adress from the parent or guardian"
-msgstr ""
+msgid "a Social Security number"
+msgstr "eine Sozialversicherungsnummer"
 
 #: config/class-config.php:202
-msgid "a telephone number"
-msgstr ""
-
-#: config/class-config.php:203
-msgid "a Social Security number"
-msgstr ""
-
-#: config/class-config.php:204
 msgid "an identifier that permits the physical or online contacting of a child"
 msgstr ""
+"eine Kennung welche die physische- oder Online-Kontaktaufnahme zu einem Kind "
+"gestattet"
 
-#: config/class-config.php:205
+#: config/class-config.php:203
 msgid ""
 "other information concerning the child or the parents, combined with an "
 "identifier as described above."
 msgstr ""
+"Andere Informationen Kinder oder Eltern betreffend, kombiniert mit einer wie "
+"oben beschriebenen Markierung."
 
 #: config/known-cookies.php:20
 msgid ""
@@ -1256,7 +1305,7 @@ msgstr "Speichern von Benutzerdaten über Seiten hinweg für funktionale Zwecke"
 
 #: config/known-cookies.php:126
 msgid "Store data for users to use in the web application"
-msgstr ""
+msgstr "Speichere Daten, die Benutzer in Internetanwendungen benutzen können"
 
 #: config/known-cookies.php:127
 msgid ""
@@ -1275,11 +1324,11 @@ msgstr "Streifenzahlungs-Gateway"
 
 #: config/known-cookies.php:134
 msgid "Fraud prevention"
-msgstr ""
+msgstr "Betrugsvorsorge"
 
 #: config/known-cookies.php:136
 msgid "Stripe uses cookies to prevent fraud"
-msgstr ""
+msgstr "Stripe verwendet Cookies um Betrug vorzubeugen"
 
 #: config/known-cookies.php:143
 msgid "Remember the cookie warning choice"
@@ -1287,7 +1336,7 @@ msgstr "Erinnern Sie sich an die Auswahl der Cookie-Warnung"
 
 #: config/known-cookies.php:145
 msgid "Complianz stores the user preferences for the cookie warning banner"
-msgstr ""
+msgstr "Compilanz speichert die Nutzervorlieben für Cookie-Warnungsbanner"
 
 #: config/known-cookies.php:162 config/known-cookies.php:402
 msgid "Security"
@@ -1312,11 +1361,11 @@ msgstr ""
 
 #: config/known-cookies.php:172
 msgid "Currency selection storage"
-msgstr ""
+msgstr "Momentan gewählter Speicher"
 
 #: config/known-cookies.php:174
 msgid "Store user preference for the selected currency"
-msgstr ""
+msgstr "Speichere Benutzervorlieben für die gewählte Währung"
 
 #: config/known-cookies.php:191 config/known-cookies.php:211
 msgid "Personalised advertisements"
@@ -1582,7 +1631,7 @@ msgstr "Sumo"
 
 #: config/known-cookies.php:524
 msgid "Offer sharing options in a website"
-msgstr ""
+msgstr "Teilen-Optionen auf der Internetseite anbieten"
 
 #: config/known-cookies.php:526
 msgid ""
@@ -1597,7 +1646,7 @@ msgstr ""
 
 #: config/known-cookies.php:532
 msgid "GA - Dashboard"
-msgstr ""
+msgstr "GA - Übersichtsseite"
 
 #: config/known-cookies.php:533
 msgid "This cookie tracks visitor behavior, visited pages etc. "
@@ -1612,7 +1661,7 @@ msgstr ""
 
 #: config/known-cookies.php:542
 msgid "Site Origin"
-msgstr ""
+msgstr "Seitenherkunft"
 
 #: config/known-cookies.php:543
 msgid ""
@@ -1627,7 +1676,7 @@ msgstr ""
 
 #: config/known-cookies.php:552
 msgid "Page ID"
-msgstr ""
+msgstr "Seiten-ID"
 
 #: config/known-cookies.php:553
 msgid "This cookie makes it possible to label several pages. "
@@ -1640,7 +1689,7 @@ msgstr ""
 
 #: config/known-cookies.php:563 config/known-cookies.php:574
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: config/known-cookies.php:564
 msgid "This cookie makes it possible to preview several pages for admins. "
@@ -1664,7 +1713,7 @@ msgstr ""
 
 #: config/known-cookies.php:585
 msgid "Customize"
-msgstr ""
+msgstr "Anpassen"
 
 #: config/known-cookies.php:586
 msgid ""
@@ -1680,7 +1729,7 @@ msgstr ""
 
 #: config/known-cookies.php:596
 msgid "Remove item from cart"
-msgstr ""
+msgstr "Entferne Artikel aus dem Warenkorb"
 
 #: config/known-cookies.php:597 config/known-cookies.php:599
 msgid "This cookie makes it possible to remove an article from your cart."
@@ -1696,7 +1745,7 @@ msgstr ""
 
 #: config/known-cookies.php:616
 msgid "1P Google"
-msgstr ""
+msgstr "1P Google"
 
 #: config/known-cookies.php:617 config/known-cookies.php:619
 msgid ""
@@ -1706,7 +1755,7 @@ msgstr ""
 
 #: config/known-cookies.php:626
 msgid "MailMunch"
-msgstr ""
+msgstr "MailMunch"
 
 #: config/known-cookies.php:627 config/known-cookies.php:629
 msgid ""
@@ -1716,7 +1765,7 @@ msgstr ""
 
 #: config/known-cookies.php:636
 msgid "MailChimp"
-msgstr ""
+msgstr "MailChimp"
 
 #: config/known-cookies.php:637
 msgid "This cookie is used to keep track of newsletter sign ups."
@@ -1732,7 +1781,7 @@ msgstr ""
 #: config/known-cookies.php:646 config/known-cookies.php:656
 #: config/known-cookies.php:666 config/known-cookies.php:676
 msgid "Clicky"
-msgstr ""
+msgstr "Clicky"
 
 #: config/known-cookies.php:647 config/known-cookies.php:649
 msgid "This cookie is used to identify new or unique visitors."
@@ -1756,7 +1805,7 @@ msgstr ""
 
 #: config/known-cookies.php:686
 msgid "Metorik"
-msgstr ""
+msgstr "Metorik"
 
 #: config/known-cookies.php:687 config/known-cookies.php:689
 msgid ""
@@ -1800,19 +1849,23 @@ msgstr ""
 
 #: config/known-cookies.php:736
 msgid "Beeketing"
-msgstr ""
+msgstr "Beeketing"
 
 #: config/known-cookies.php:737
 msgid ""
 "Beeketing uses cookies to enhance our users' and customers' experience on "
 "the internet."
 msgstr ""
+"Beeketing verwendet Cookies, um die Erfahrung unserer Benutzer und Kunden im "
+"Internet zu verbessern."
 
 #: config/known-cookies.php:739
 msgid ""
 "TBeeketing uses cookies to enhance our users' and customers' experience on "
 "the internet."
 msgstr ""
+"TBeeketing verwendet Cookies um die Erfahrungen der Benutzer und Kunden im "
+"Internet zu verbessen."
 
 #: config/known-cookies.php:746
 msgid "WPSmush"
@@ -1826,17 +1879,19 @@ msgstr ""
 
 #: config/known-cookies.php:756
 msgid "CookieBot"
-msgstr ""
+msgstr "CookieBot"
 
 #: config/known-cookies.php:757 config/known-cookies.php:759
 msgid ""
 "CookieBot uses cookies to be able to set up a cookie banner and block & "
 "place cookies."
 msgstr ""
+"CookieBot verwendet Cookies um in der Lage zu sein Cookiebanner zu erstellen "
+"sowie Cookies zu blockieren & zu platzieren."
 
 #: config/known-cookies.php:766
 msgid "Pop Up Maker"
-msgstr ""
+msgstr "PopUp Ersteller"
 
 #: config/known-cookies.php:767 config/known-cookies.php:769
 msgid ""
@@ -1849,15 +1904,20 @@ msgid ""
 "The Complianz Privacy Suite plugin has new features. Please check the wizard "
 "to see if all your settings are still up to date."
 msgstr ""
+"Das Compilanz Privacy Suite Plugin hat neue Funktionen. Bitte prüfen Sie den "
+"Assistenten um festzustellen ob alle Ihre Einstellungen auf dem neusten "
+"Stand sind."
 
 #: config/warnings.php:11
 msgid "Do Not Track is respected."
-msgstr ""
+msgstr "\"Nicht verfolgen\" wird beachtet"
 
 #: config/warnings.php:12
 #, php-format
 msgid "The browser setting Do Not Track is not respected yet - (%spremium%s)"
 msgstr ""
+"Die Browsereinstellung \"Nicht verfolgen\" wird noch nicht beachtet - "
+"(%sPremium%s)"
 
 #: config/warnings.php:16
 msgid "The wizard has been completed."
@@ -1868,6 +1928,8 @@ msgid ""
 "Not all fields have been entered, or you have not clicked the \"finish\" "
 "button yet."
 msgstr ""
+"Nicht alle Felder wurden bearbeitet, oder Sie haben die \"Abschließen\" "
+"Schaltfläche noch nicht betätigt."
 
 #: config/warnings.php:21
 msgid "No cookie changes have been detected."
@@ -1928,9 +1990,15 @@ msgstr ""
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr "Matomo wird verwendet, ist aber in Complianz nicht konfiguriert."
 
+#: config/warnings.php:49
+msgid ""
+"Your documents have not been updated in the past 12 months. Run the wizard "
+"to check your settings."
+msgstr ""
+
 #: config/steps.php:10 config/pro/steps.php:11
 msgid "Hi there!"
-msgstr ""
+msgstr "Hallo!"
 
 #: config/steps.php:11 config/pro/steps.php:12
 msgctxt "intro first step"
@@ -1952,6 +2020,8 @@ msgid ""
 "The answers in the first step of the wizard are needed to configure your "
 "documents and consent banner specifically to your needs."
 msgstr ""
+"Die Antworten des ersten Schritts des Assistenten werden benötigt um Ihre "
+"Dokumente und Zustimmungsbanner speziell auf Sie zurechtzuschneiden."
 
 #: config/steps.php:14
 #, php-format
@@ -1961,6 +2031,10 @@ msgid ""
 "need a break), use our %sdocumentation%s for additional information or log a "
 "support ticket if you need our assistance."
 msgstr ""
+"Bitte beachten Sie, dass Sie jederzeit speichern und den Assistenten später "
+"fertigstellen können (falls Sie eine Pause benötigen), nutzen Sie unsere "
+"%sDokumentation%s für zusätzliche Informationen oder senden Sie ein Support "
+"Ticket falls Sie unsere Unterstützung benötigen."
 
 #: config/steps.php:17 config/pro/steps.php:20
 msgid "Visitors"
@@ -1988,6 +2062,7 @@ msgstr ""
 msgctxt "intro scan"
 msgid "Almost there. Let’s have a look at your cookies."
 msgstr ""
+"Fast geschafft! Lassen Sie uns nun einen Blick auf Ihre Cookies werfen."
 
 #: config/steps.php:40
 msgctxt "intro scan"
@@ -1996,6 +2071,10 @@ msgid ""
 "are placed and will check the html of your site for known third party "
 "scripts. The cookie scan will be recurring weekly to keep you up-to-date!"
 msgstr ""
+"Der Cookie-Scan wird verschiedene Seiten ihrer Seite anfordern um zu prüfen "
+"ob Cookies platziert sind und wird die html Ihrer Seite auf bekannte Scripts "
+"Drittanbieter absuchen. Der Cookie-Scan wird wöchentlich durchgeführt werden "
+"um Sie auf dem neusten Stand zu halten!"
 
 #: config/steps.php:42
 msgid "Cookie usage"
@@ -2024,6 +2103,9 @@ msgid ""
 "In a cookie entry %s means it's marked as a functional cookie, %s means it "
 "will be shown in the cookie policy on your website."
 msgstr ""
+"In einem Cookie-Eintrag bedeutet %s, dass es als funktionales Cookie makiert "
+"ist, außerdem bedeutet %s, dass es im Cookie-Regelwerk auf Ihrer "
+"Internetseite erscheint."
 
 #: config/steps.php:57
 msgid "Menu"
@@ -2032,7 +2114,7 @@ msgstr "Menü"
 #: config/steps.php:59
 msgctxt "intro menu"
 msgid "Get ready to finish your configuration."
-msgstr ""
+msgstr "Bereiten Sie sich auf den Abschluss der Konfiguration vor."
 
 #: config/steps.php:60
 msgctxt "intro menu"
@@ -2047,15 +2129,15 @@ msgstr ""
 
 #: config/countries.php:38
 msgid "CaCPA"
-msgstr ""
+msgstr "CaCPA"
 
 #: config/countries.php:42
 msgid "EU"
-msgstr ""
+msgstr "EU"
 
 #: config/countries.php:44
 msgid "GDPR"
-msgstr ""
+msgstr "GDPR"
 
 #: config/countries.php:56
 msgid "Afghanistan"
@@ -3046,6 +3128,9 @@ msgid ""
 "If enabled, the cookie warning will not show for countries without a cookie "
 "law, and will adjust the warning type depending on supported privacy laws"
 msgstr ""
+"Wenn aktiviert wird die Cookie-Warnung nicht in Ländern ohne Cookie-Gesetze "
+"erscheinen, und wird abhänig von unterstützten Datenschutzgesetzen "
+"abgeändert werden."
 
 #: config/cookie-settings.php:20 config/pro/dynamic-fields.php:34
 msgid "Enable A/B testing"
@@ -3210,7 +3295,7 @@ msgstr "Mehr lesen"
 
 #: config/cookie-settings.php:206
 msgid "Text on link to cookie policy"
-msgstr ""
+msgstr "Text des Links zu den Cookie-Richtlinien"
 
 #: config/cookie-settings.php:218
 msgid "Use categories"
@@ -3253,6 +3338,7 @@ msgstr ""
 #, php-format
 msgid "Read more about how to configure categories in this %sarticle%s"
 msgstr ""
+"Lesen Sie mehr über das Konfigurieren von Kategorien in diesem %sArtikel%s"
 
 #: config/cookie-settings.php:237
 msgid "First category, Second category"
@@ -3260,36 +3346,45 @@ msgstr "Erste Kategorie, Zweite Kategorie"
 
 #: config/cookie-settings.php:252
 msgid "Hide settings button"
-msgstr ""
+msgstr "Einstellungen ausblenden-Schaltfläche"
 
 #: config/cookie-settings.php:254
 msgid ""
 "If you want to hide the revoke button, enable this check box. The revoke "
 "button will normally show after making a choice."
 msgstr ""
+"Wenn Sie die Widerrufs-Schaltfläche ausblenden möchten, makieren sie dieses "
+"Kontrollkästchen. Die Widerrufs-Schaltfläche wird normalerweise erscheinen "
+"nachdem Sie eine Entscheidung getroffen haben."
 
 #: config/cookie-settings.php:255
 msgid ""
 "If you hide this button, you should at least leave the option to revoke "
 "consent on your cookie policy or Do Not Sell My Personal Information page"
 msgstr ""
+"Wenn Sie diese Schaltfläche ausblenden sollten sie zumindest die Option zum "
+"Widerrufen Ihrer Zustimmung betreffend Ihrer Cookie-Richtlinien oder Ihrer "
+"\"\"Meine persönlichen Informationen nicht verkaufen\"-Seite angezeigt "
+"lassen."
 
 #: config/cookie-settings.php:284
 msgid "Do Not Sell My Personal Information page"
-msgstr ""
+msgstr "\"Meine persönlichen Informationen nicht verkaufen\"-Seite"
 
 #: config/cookie-settings.php:285
 msgid "Text on link to do not sell my personal information page"
 msgstr ""
+"Text des Links zur \"Verkaufen Sie meine persönlichen Informationen nicht\"-"
+"Informationsseite"
 
 #: config/cookie-settings.php:298 config/documents/cookie-policy.php:105
 #: config/documents/cookie-policy-us.php:115
 msgid "Privacy statement"
-msgstr ""
+msgstr "Datenschutzerklärung"
 
 #: config/cookie-settings.php:299
 msgid "Text on link to privacy statement"
-msgstr ""
+msgstr "Text des Links zur Datenschutzerklärung"
 
 #: config/cookie-settings.php:314
 msgid "Popup background color"
@@ -3332,6 +3427,8 @@ msgid ""
 "Disable if you don't want the default Complianz Privacy Suite document CSS "
 "to load"
 msgstr ""
+"Deaktivieren, wenn Sie nicht möchten, dass das voreingestellte Compilanz "
+"Privacy Suite Dokument CSS geladen wird"
 
 #: config/general-settings.php:17
 msgid "Add custom document CSS"
@@ -3366,7 +3463,7 @@ msgstr ""
 
 #: config/general-settings.php:45
 msgid "Notification sender email address"
-msgstr ""
+msgstr "E-Mail Adresse des Benachrichtigungssenders"
 
 #: config/general-settings.php:47
 msgid ""
@@ -3377,7 +3474,7 @@ msgstr ""
 
 #: config/general-settings.php:58
 msgid "Notification email subject"
-msgstr ""
+msgstr "Thema der Benachrichtigungs-E-Mail"
 
 #: config/general-settings.php:59
 msgid "Your request has been processed"
@@ -3385,11 +3482,11 @@ msgstr ""
 
 #: config/general-settings.php:70
 msgid "Notification email content"
-msgstr ""
+msgstr "Inhalt der Benachrichtigungs-E-Mail"
 
 #: config/general-settings.php:71
 msgid "Hi {name}"
-msgstr ""
+msgstr "Hallo {name}"
 
 #: config/general-settings.php:71
 msgid "Your request has been processed successfully."
@@ -3398,35 +3495,40 @@ msgstr ""
 #: config/general-settings.php:71
 msgctxt "email signature"
 msgid "Regards,"
-msgstr ""
+msgstr "Grüße,"
 
 #: config/general-settings.php:85 config/pro/dynamic-fields.php:67
 msgid "Export settings"
-msgstr ""
+msgstr "Export-Einstellungen"
 
 #: config/general-settings.php:87
 #, php-format
 msgid ""
 "If you want to export your settings, please check out the %spremium version%s"
 msgstr ""
+"Wenn Sie Ihre Einstellungen exportieren möchten, informieren Sie sich bitte "
+"über die %sPremium Version%s"
 
 #: config/general-settings.php:95 config/pro/dynamic-fields.php:76
 msgid "Import settings"
-msgstr ""
+msgstr "Einstellungen importieren"
 
 #: config/general-settings.php:97
 #, php-format
 msgid ""
 "If you want to import your settings, please check out the %spremium version%s"
 msgstr ""
+"Wenn Sie Ihre Einstellungen importieren möchten, informieren Sie sich bitte "
+"über die %sPremium Version%s"
 
 #: config/general-settings.php:101
 msgid "Are you sure? This will remove all Complianz Privacy Suite data."
 msgstr ""
+"Sind Sie sicher? Dies wird alle Daten der Compilanz Privacy Suite entfernen."
 
 #: config/general-settings.php:106
 msgid "Reset settings"
-msgstr ""
+msgstr "Einstellungen zurücksetzen"
 
 #: config/general-settings.php:108
 msgid ""
@@ -3436,7 +3538,7 @@ msgstr ""
 
 #: config/questions-wizard.php:35
 msgid "European Union (GDPR)"
-msgstr ""
+msgstr "Europäische Union (Datenschutz-Grundverordnung)"
 
 #: config/questions-wizard.php:38
 msgid "Which region(s) do you target with your website?"
@@ -3454,6 +3556,8 @@ msgid ""
 "If you want to target customers from several regions, you might consider the "
 "%spremium%s version, which offers this capability."
 msgstr ""
+"Wenn Sie auf Kunden aus verschiedenen Regionen abzielen sollten Sie die "
+"%sPremium%s Version in Betracht ziehen, welche über diese Fähigkeit verfügt."
 
 #: config/questions-wizard.php:51
 msgid "What is the name of your organization?"
@@ -3569,13 +3673,16 @@ msgstr ""
 
 #: config/questions-wizard.php:197
 msgid "Always block acquiring of IP addresses"
-msgstr ""
+msgstr "Blockiere die Beschaffung der IP-Adresse dauerhaft"
 
 #: config/questions-wizard.php:199
 msgid ""
 "If you do not check to always block acquiring IP addresses, the ip addresses "
 "will get acquired as soon as the user accepts statistics or higher."
 msgstr ""
+"Wenn Sie das grundsätzliche Beschaffung von IP Adressen nicht ausgewählt "
+"haben, werden die IP Adressen beschafft sobald der Benutzer Statistiken oder "
+"höheren zugestimmt hat."
 
 #: config/questions-wizard.php:199
 msgid ""
@@ -3610,6 +3717,8 @@ msgid ""
 "For detailed instructions how to configure Tag Manager, please check this "
 "%sarticle%s"
 msgstr ""
+"Für detailierte Information über das Konfigurieren des Tag Managers besuchen "
+"Sie bitte diesen %article%s"
 
 #: config/questions-wizard.php:238
 msgid "Tag Manager fires scripts which place cookies"
@@ -3620,6 +3729,8 @@ msgid ""
 "If you use Tag Manager to fire scripts on your site, Complianz Privacy Suite "
 "will automatically enable categories."
 msgstr ""
+"Wenn sie den Tag Manger benutzen um Scripts auf Ihrer Seite zu entfernen "
+"wird Compilanz Privacy Suite automatisch Kategorien aktivieren."
 
 #: config/questions-wizard.php:250
 msgid "Do you anonymize ip numbers in Matomo?"
@@ -3850,131 +3961,134 @@ msgstr ""
 msgid "Unnamed user"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:135 pro/class-statistics.php:121
+#: DNSMPD/class-DNSMPD-table.php:135 pro/class-statistics.php:116
 msgid "Delete"
 msgstr "Löschen Sie"
 
 #: DNSMPD/class-DNSMPD-table.php:149 DNSMPD/csv.php:53
-#: pro/framework/post-types.php:395
+#: pro/framework/post-types.php:410
 msgid "Email"
 msgstr "E-Mail"
 
-#: DNSMPD/class-DNSMPD.php:38 DNSMPD/class-DNSMPD.php:39
+#: DNSMPD/class-DNSMPD.php:40 DNSMPD/class-DNSMPD.php:41
 msgid "DNSMPI"
-msgstr ""
+msgstr "DNSMPI"
 
-#: DNSMPD/class-DNSMPD.php:55
+#: DNSMPD/class-DNSMPD.php:57
 msgid "Do Not Sell My Personal Information requests"
-msgstr ""
+msgstr "\"Meine persönlichen Informationen nicht verkaufen\"-Anfragen"
 
-#: DNSMPD/class-DNSMPD.php:60
+#: DNSMPD/class-DNSMPD.php:62
 msgid "Search Customers"
-msgstr ""
+msgstr "Suche Kunden"
 
-#: DNSMPD/class-DNSMPD.php:106
+#: DNSMPD/class-DNSMPD.php:109
 msgid "Sorry, it looks like you're a bot"
-msgstr ""
+msgstr "Entschuldigung, es scheint Sie sind ein Roboter"
 
-#: DNSMPD/class-DNSMPD.php:111
+#: DNSMPD/class-DNSMPD.php:114
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Bitte geben Sie eine gültige E-Mail Adresse ein."
 
-#: DNSMPD/class-DNSMPD.php:116
+#: DNSMPD/class-DNSMPD.php:119
 msgid "Please enter your name"
-msgstr ""
+msgstr "Bitte geben Sie Ihren Namen ein"
 
-#: DNSMPD/class-DNSMPD.php:121
+#: DNSMPD/class-DNSMPD.php:124
 msgid "That's a long name you got there. Please try to shorten the name."
 msgstr ""
+"Das ist ein langer Name den Sie da haben. Bitte versuchen Sie ihn abzukürzen."
 
-#: DNSMPD/class-DNSMPD.php:139
+#: DNSMPD/class-DNSMPD.php:142
 msgid "Your request has been processed successfully!"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:141
+#: DNSMPD/class-DNSMPD.php:144
 msgid "Your email address was already registered!"
 msgstr ""
 
-#: pro/class-licensing.php:49 pro/class-licensing.php:50
-#: pro/class-licensing.php:141
+#: pro/class-licensing.php:51 pro/class-licensing.php:52
+#: pro/class-licensing.php:143
 msgid "License"
 msgstr "Lizenz"
 
-#: pro/class-licensing.php:66
+#: pro/class-licensing.php:68
 msgid ""
 "You haven't activated your Complianz Privacy Suite premium license yet. To "
 "get all future updates, enter your license on the settings page."
 msgstr ""
 
-#: pro/class-licensing.php:67
+#: pro/class-licensing.php:69
 #, php-format
 msgid "Go to the %ssettings page%s or %spurchase a license%s"
 msgstr "Gehen Sie zur Seite %Einstellungen%s oder %kaufen Sie eine Lizenz%s"
 
-#: pro/class-licensing.php:146
+#: pro/class-licensing.php:148
 msgid "a 5 sites or unlimited sites license"
-msgstr ""
+msgstr "eine 5-Seiten- oder eine unbeschränkte Lizenz"
 
-#: pro/class-licensing.php:146
+#: pro/class-licensing.php:148
 msgid "an unlimited sites license"
-msgstr ""
+msgstr "eine unlimitierte Seiten-Lizenz"
 
-#: pro/class-licensing.php:149
+#: pro/class-licensing.php:151
 #, php-format
 msgid ""
 "You have 0 activations left on your %s sites license. If you need more "
 "activations you can upgrade your current license to %s on your %saccount%s"
 msgstr ""
 
-#: pro/class-licensing.php:157
+#: pro/class-licensing.php:159
 msgid "Your license is valid, but not activated on this site"
 msgstr "Ihre Lizenz ist gültig, aber auf dieser Seite nicht aktiviert."
 
-#: pro/class-licensing.php:159
+#: pro/class-licensing.php:161
 msgid "Your license does not seem to be valid. Please check your license key"
 msgstr ""
 "Ihre Lizenz scheint nicht gültig zu sein. Bitte überprüfen Sie Ihren "
 "Lizenzschlüssel"
 
-#: pro/class-licensing.php:163
+#: pro/class-licensing.php:165
 #, php-format
 msgid "Your license is valid, and expires on: %s"
 msgstr "Ihre Lizenz ist gültig und läuft ab: %s"
 
-#: pro/class-licensing.php:165
+#: pro/class-licensing.php:167
 msgid "Enter your license here so you keep receiving updates and support."
 msgstr ""
 "Geben Sie hier Ihre Lizenz ein, damit Sie weiterhin Updates und Support "
 "erhalten."
 
-#: pro/class-licensing.php:178
+#: pro/class-licensing.php:180
 msgid "License Key"
 msgstr "Lizenzschlüssel"
 
-#: pro/class-licensing.php:212
+#: pro/class-licensing.php:214
 #, php-format
 msgid ""
 "Complianz Privacy Suite includes GeoLite2 data created by MaxMind, available "
 "from %shttp://www.maxmind.com%s"
 msgstr ""
+"Complianz Privacy Suite schließt Daten von GeoLite2, kreiert von MaxMind, "
+"verfügbar auf %shttp://www.maxmind.com%s, ein"
 
-#: pro/class-licensing.php:223
+#: pro/class-licensing.php:225
 msgid "This is not a valid license"
 msgstr "Dies ist keine gültige Lizenz."
 
-#: pro/class-licensing.php:228
+#: pro/class-licensing.php:230
 #, php-format
 msgid "Your license is expired. Please renew your license at %scomplianz.io%s"
 msgstr ""
 "Ihre Lizenz ist abgelaufen. Bitte erneuern Sie Ihre Lizenz bei %scomplianz."
 "io%s."
 
-#: pro/class-licensing.php:231
+#: pro/class-licensing.php:233
 #, php-format
 msgid "Your license has been revoked. Please contact %ssupport%s"
 msgstr "Ihre Lizenz wurde entzogen. Bitte kontaktieren Sie %ssupport%s"
 
-#: pro/class-licensing.php:234
+#: pro/class-licensing.php:236
 #, php-format
 msgid ""
 "Your license could not be found in the database. Please contact %ssupport%s"
@@ -3982,15 +4096,15 @@ msgstr ""
 "Ihre Lizenz konnte nicht in der Datenbank gefunden werden. Bitte "
 "kontaktieren Sie %ssupport%s"
 
-#: pro/class-licensing.php:238
+#: pro/class-licensing.php:240
 msgid "Your license has not yet been activated for this domain."
 msgstr "Ihre Lizenz ist für diese Domain noch nicht aktiviert."
 
-#: pro/class-licensing.php:241
+#: pro/class-licensing.php:243
 msgid "Your license key appears to be invalid."
 msgstr "Ihr Lizenzschlüssel scheint ungültig zu sein."
 
-#: pro/class-licensing.php:244
+#: pro/class-licensing.php:246
 #, php-format
 msgid ""
 "You have no activations left on your license. Please upgrade your license at "
@@ -3999,39 +4113,41 @@ msgstr ""
 "Sie haben keine Aktivierungen mehr auf Ihrer Lizenz. Bitte aktualisieren Sie "
 "Ihre Lizenz unter %scomplianz.io%s"
 
-#: pro/class-licensing.php:251
+#: pro/class-licensing.php:253
 msgid "Your license is valid, but has not yet been activated for this domain."
 msgstr "Ihre Lizenz ist gültig, aber noch nicht für diese Domain aktiviert."
 
-#: pro/class-licensing.php:256
+#: pro/class-licensing.php:258
 msgid ""
 "For a multisite environment you need the Complianz Privacy Suite multisite "
 "plugin"
 msgstr ""
+"Für eine mehrseitige Umgebung benötigen Sie das \"Compilanz Privacy Suite "
+"multiste plugin\""
 
-#: pro/class-licensing.php:260
+#: pro/class-licensing.php:262
 msgid "license data error"
 msgstr "Lizenzdatenfehler"
 
-#: pro/class-statistics.php:51
+#: pro/class-statistics.php:48
 msgid "Cookie variation name"
-msgstr ""
+msgstr "Name der Cookie-Varianten"
 
-#: pro/class-statistics.php:91 pro/class-statistics.php:742
+#: pro/class-statistics.php:86 pro/class-statistics.php:736
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] "%s Tag"
 msgstr[1] "%s Tage"
 
-#: pro/class-statistics.php:92 pro/class-statistics.php:743
+#: pro/class-statistics.php:87 pro/class-statistics.php:737
 #, php-format
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] "%s Stunde"
 msgstr[1] "%s Stunden"
 
-#: pro/class-statistics.php:94 pro/class-statistics.php:745
+#: pro/class-statistics.php:89 pro/class-statistics.php:739
 #, php-format
 msgid ""
 "A/B tracking is still in progress, in approximately %s and %s the "
@@ -4040,43 +4156,43 @@ msgstr ""
 "Das A/B-Tracking ist noch im Gange, in ca. %s und %s aktiviert die Anwendung "
 "automatisch das leistungsstärkste Banner."
 
-#: pro/class-statistics.php:99
+#: pro/class-statistics.php:94
 msgid "Cookie warning variations"
 msgstr "Abweichungen bei der Cookie-Warnung"
 
-#: pro/class-statistics.php:105
+#: pro/class-statistics.php:100
 msgid "Add variation"
 msgstr "Hinzufügen von Variationen"
 
-#: pro/class-statistics.php:107
+#: pro/class-statistics.php:102
 msgid "Reset statistics"
 msgstr "Statistik zurücksetzen"
 
-#: pro/class-statistics.php:116
+#: pro/class-statistics.php:111
 msgid "(best performing banner)"
 msgstr "(Banner mit der besten Leistung)"
 
-#: pro/class-statistics.php:544
+#: pro/class-statistics.php:534
 msgid "New variation"
 msgstr "Neue Variante"
 
-#: pro/class-statistics.php:669
+#: pro/class-statistics.php:663
 msgid "No choice"
 msgstr "Keine Wahl"
 
-#: pro/class-statistics.php:671
+#: pro/class-statistics.php:665
 msgid "No warning"
 msgstr "Keine Warnung"
 
-#: pro/class-statistics.php:673
+#: pro/class-statistics.php:667
 msgid "Full consent"
-msgstr ""
+msgstr "volle Zustimmung"
 
-#: pro/class-statistics.php:677
+#: pro/class-statistics.php:671
 msgid "Functional"
 msgstr "Funktional"
 
-#: pro/class-statistics.php:726
+#: pro/class-statistics.php:720
 msgid ""
 "The conversion graph shows the ratio for the different choices users have. "
 "When a user has made a choice, this will be counted as either a converted "
@@ -4089,30 +4205,33 @@ msgstr ""
 "konvertierter Benutzer gezählt. Wird keine Wahl getroffen, wird der Benutzer "
 "in der Kategorie \"Keine Wahl\" aufgeführt."
 
-#: pro/class-statistics.php:730
+#: pro/class-statistics.php:724
 #, php-format
 msgid ""
 "As you have enabled geoip, there are several regions in which a banner is "
 "shown, in different ways. In regions apart from %s no banner is shown at all."
 msgstr ""
+"Da Sie geoip aktiviert haben werden in verschiedenen Regionen "
+"verschiedenartige Banner angezeigt. In Regionen außerhalb von %s werden "
+"keine Banner angezeigt."
 
-#: pro/class-statistics.php:774 pro/class-statistics.php:843
+#: pro/class-statistics.php:768 pro/class-statistics.php:837
 msgid "(best performer)"
 msgstr "(beste Leistung)"
 
-#: pro/class-statistics.php:793 pro/framework/post-types.php:244
+#: pro/class-statistics.php:787 pro/framework/post-types.php:249
 msgid "All regions"
-msgstr ""
+msgstr "Alle Regionen"
 
-#: pro/class-statistics.php:801
+#: pro/class-statistics.php:795
 msgid "Percentage"
 msgstr "Prozentsatz"
 
-#: pro/class-statistics.php:802
+#: pro/class-statistics.php:796
 msgid "Count"
 msgstr "Anzahl"
 
-#: pro/class-statistics.php:847
+#: pro/class-statistics.php:841
 msgid ""
 "Because this variation was determined to get the best results, this cookie "
 "warning was enabled as your default cookie warning"
@@ -4120,17 +4239,17 @@ msgstr ""
 "Da diese Abweichung festgestellt wurde, um die besten Ergebnisse zu erzielen,"
 " wurde diese Cookie-Warnung als Ihre Standard-Cookiewarnung aktiviert."
 
-#: pro/class-statistics.php:861
+#: pro/class-statistics.php:855
 #, php-format
 msgid "Number of times converted to full consent: %s out of %s"
-msgstr ""
+msgstr "Anzahl der Umsetzungen in voller Zustimmung: %s von %s"
 
-#: pro/class-statistics.php:864
+#: pro/class-statistics.php:858
 #, php-format
 msgid "Percentage converted: %s"
 msgstr "Umgerechneter Prozentsatz: %s"
 
-#: pro/class-statistics.php:906
+#: pro/class-statistics.php:900
 msgid "There is not enough data yet to show a graph."
 msgstr ""
 "Es sind noch nicht genügend Daten vorhanden, um ein Diagramm anzuzeigen."
@@ -4150,10 +4269,13 @@ msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
+"Bitte beachten Sie, dass Sie diese Texte für Ihre Internetseite entsprechend "
+"bearbeiten sollten: Die Texte sollen allgemein nicht wie sie sind kopiert "
+"werden."
 
 #: pro/class-document.php:69
 msgid "Add to privacy statement"
-msgstr ""
+msgstr "Ergänzung der Datenschutzerklärung"
 
 #: pro/class-document.php:76
 msgid ""
@@ -4165,13 +4287,17 @@ msgstr ""
 msgid "No plugins with suggested statements found."
 msgstr "Keine Plugins mit vorgeschlagenen Anweisungen gefunden."
 
-#: pro/class-processing.php:121
+#: pro/functions.php:65
+msgid "Great! Complianz Privacy Suite premium has been activated."
+msgstr "Großartig! Complianz Privacy Suite Premium wurde aktiviert."
+
+#: pro/class-processing.php:120
 #, php-format
 msgctxt "Title on page"
 msgid "Processing agreement (%s)"
-msgstr ""
+msgstr "Verarbeitungsvereinbarung (%s)"
 
-#: pro/class-processing.php:142
+#: pro/class-processing.php:141
 #, php-format
 msgid ""
 "All steps have been completed. Click %s to complete the configuration and "
@@ -4182,7 +4308,7 @@ msgstr ""
 "abzuschließen und eine Bearbeitungsvereinbarung zu erstellen. Sie können "
 "Ihre Konfiguration jederzeit wieder ändern."
 
-#: pro/class-processing.php:159
+#: pro/class-processing.php:158
 #, php-format
 msgid "Processing agreement %s"
 msgstr "Verarbeitung des Vertrages %s"
@@ -4191,19 +4317,19 @@ msgstr "Verarbeitung des Vertrages %s"
 msgid "Email sending complete"
 msgstr "E-Mail-Versand komplett"
 
-#: pro/class-dataleak.php:150 pro/class-dataleak.php:416
+#: pro/class-dataleak.php:152 pro/class-dataleak.php:418
 msgid "Notification of dataleak"
 msgstr "Benachrichtigung über Dataleak"
 
-#: pro/class-dataleak.php:199 pro/class-dataleak.php:222
+#: pro/class-dataleak.php:201 pro/class-dataleak.php:224
 msgid "No security incident has occurred."
 msgstr "Es ist kein Sicherheitsvorfall aufgetreten."
 
-#: pro/class-dataleak.php:202
+#: pro/class-dataleak.php:204
 msgid "Please report this incident to the data protection authority."
 msgstr "Bitte melden Sie diesen Vorfall der Datenschutzbehörde."
 
-#: pro/class-dataleak.php:205
+#: pro/class-dataleak.php:207
 msgid ""
 "Because breached data presents a high risk to involved persons, you should "
 "also report this incident to those involved."
@@ -4211,105 +4337,110 @@ msgstr ""
 "Da verletzte Daten ein hohes Risiko für die betroffenen Personen darstellen, "
 "sollten Sie diesen Vorfall auch den Beteiligten melden."
 
-#: pro/class-dataleak.php:206 pro/class-dataleak.php:226
+#: pro/class-dataleak.php:208 pro/class-dataleak.php:228
 msgid "You can use the generated report to inform those involved."
 msgstr "Mit dem generierten Bericht können Sie die Beteiligten informieren."
 
-#: pro/class-dataleak.php:207
+#: pro/class-dataleak.php:209
 msgid "Click view document to save and view this report."
 msgstr ""
 "Klicken Sie auf Dokument anzeigen, um diesen Bericht zu speichern und "
 "anzuzeigen."
 
-#: pro/class-dataleak.php:209
+#: pro/class-dataleak.php:211
 msgid "It is not necessary to inform those involved."
 msgstr "Es ist nicht notwendig, die Beteiligten zu informieren."
 
-#: pro/class-dataleak.php:213 pro/class-dataleak.php:236
+#: pro/class-dataleak.php:215 pro/class-dataleak.php:238
 msgid "The security incident does not have to be reported"
 msgstr "Das sicherheitsrelevante Ereignis muss nicht gemeldet werden."
 
-#: pro/class-dataleak.php:225
+#: pro/class-dataleak.php:227
 msgid "You should report this incident to those involved."
-msgstr ""
-
-#: pro/class-dataleak.php:231
-msgid ""
-"The databreach concerns California residents, which means the databreach has "
-"to be reported to the Attorney General."
 msgstr ""
 
 #: pro/class-dataleak.php:233
 msgid ""
+"The databreach concerns California residents, which means the databreach has "
+"to be reported to the Attorney General."
+msgstr ""
+"Der Datenbruch betrifft californische Einwohner, was bedeutet, dass der "
+"Datenbruch dem Generalstaatsanwalt gemeldet werden muss."
+
+#: pro/class-dataleak.php:235
+msgid ""
 "Considering the scale of the databreach, it is recommended to get legal "
 "counsel regarding this databreach."
 msgstr ""
+"Angesichts des Ausmaßes der Verletzung der Datensicherheit ist es empfohlen, "
+"sich rechtliche Beratung betreffend dieser Verletzung der Datensicherheit zu "
+"besorgen."
 
-#: pro/class-dataleak.php:287
+#: pro/class-dataleak.php:289
 #, php-format
 msgid "Dataleak (%s)"
-msgstr ""
+msgstr "Datenleck (%s)"
 
-#: pro/class-dataleak.php:358
+#: pro/class-dataleak.php:360
 #, php-format
 msgid "Dataleak %s"
 msgstr "Datenleck %s"
 
-#: pro/class-dataleak.php:402
+#: pro/class-dataleak.php:404
 msgid "Email your users"
 msgstr "E-Mail an Ihre Benutzer"
 
-#: pro/class-dataleak.php:405
+#: pro/class-dataleak.php:407
 msgid "Inform your users about a dataleak"
 msgstr "Informieren Sie Ihre Benutzer über ein Dataleak."
 
-#: pro/class-dataleak.php:406
+#: pro/class-dataleak.php:408
 msgid "You can send the notification of a datateak to your website users."
 msgstr ""
 "Sie können die Benachrichtigung über ein Datateak an Ihre Website-Benutzer "
 "senden."
 
-#: pro/class-dataleak.php:409 pro/class-dataleak.php:410
+#: pro/class-dataleak.php:411 pro/class-dataleak.php:412
 msgid "Sender name"
 msgstr "Absendername"
 
-#: pro/class-dataleak.php:414 pro/class-dataleak.php:415
+#: pro/class-dataleak.php:416 pro/class-dataleak.php:417
 msgid "Email subject"
 msgstr "Betreff der E-Mail"
 
-#: pro/class-dataleak.php:423
+#: pro/class-dataleak.php:425
 msgid "Start sending"
 msgstr "Beginnen Sie mit dem Senden"
 
-#: pro/class-dataleak.php:426
+#: pro/class-dataleak.php:428
 msgid "Pause sending"
 msgstr "Senden unterbrechen"
 
-#: pro/class-dataleak.php:431
+#: pro/class-dataleak.php:433
 msgid "You already have sent this notification to your users."
 msgstr "Sie haben diese Benachrichtigung bereits an Ihre Benutzer gesendet."
 
-#: pro/pdf.php:127
+#: pro/pdf.php:131
 msgctxt "Title of PDF"
 msgid "Processing agreement"
 msgstr "Verarbeitungsvertrag"
 
-#: pro/pdf.php:129
+#: pro/pdf.php:133
 msgctxt "Title of PDF"
 msgid "Dataleak report"
 msgstr "Datenleck Reportage"
 
-#: pro/pdf.php:134
+#: pro/pdf.php:138
 #, php-format
 msgid "%s Processing agreement %s %s %s"
 msgstr "%s Bearbeitung der Vereinbarung%s %s %s "
 
-#: pro/pdf.php:136
+#: pro/pdf.php:140
 #, php-format
 msgid "%s Dataleak report %s %s %s"
 msgstr "%s Datenleck Meldung %s %s %s"
 
-#: pro/filters-actions.php:47
+#: pro/filters-actions.php:45
 msgid ""
 "You haven't enabled the privacy statement, so we can't determine if you need "
 "consent checkboxes"
@@ -4317,53 +4448,49 @@ msgstr ""
 "Sie haben die Datenschutzerklärung nicht aktiviert, so dass wir nicht "
 "feststellen können, ob Sie Einwilligungs-Checkboxen benötigen."
 
-#: pro/filters-actions.php:61
+#: pro/filters-actions.php:59
 msgid "Your contact forms do not require a consent checkbox"
 msgstr "Ihre Kontaktformulare benötigen keine Einverständniserklärung."
 
-#: pro/filters-actions.php:64
+#: pro/filters-actions.php:62
 msgid "You have indicated no contact forms are used on the website"
 msgstr ""
 "Sie haben angegeben, dass keine Kontaktformulare auf der Website verwendet "
 "werden."
 
-#: pro/filters-actions.php:112
+#: pro/filters-actions.php:110
 #, php-format
 msgid "Create dataleak report (%s)"
-msgstr ""
+msgstr "Erstelle Datenverlust-Report (%s)"
 
-#: pro/filters-actions.php:115
+#: pro/filters-actions.php:113
 #, php-format
 msgid "Create processing agreement (%s)"
-msgstr ""
+msgstr "Erstelle Verarbeitungsvereinbarung (%s)"
 
-#: pro/filters-actions.php:119
+#: pro/filters-actions.php:117
 msgid "Need help? Quickly submit your support ticket"
 msgstr "Brauchen Sie Hilfe? Schnelles Einreichen des Support-Tickets"
 
-#: pro/filters-actions.php:125
+#: pro/filters-actions.php:123
 msgid "Summarize your issue in a few words"
 msgstr "Fassen Sie Ihr Problem in wenigen Worten zusammen"
 
-#: pro/filters-actions.php:127
+#: pro/filters-actions.php:125
 msgid "Your email address"
 msgstr "Ihre E-Mail Adresse"
 
-#: pro/filters-actions.php:131
+#: pro/filters-actions.php:129
 msgid "Describe your issue"
 msgstr "Beschreiben Sie Ihr Problem"
 
-#: pro/filters-actions.php:134
+#: pro/filters-actions.php:132
 msgid "Submit ticket"
 msgstr "Ticket einreichen"
 
-#: pro/filters-actions.php:149
+#: pro/filters-actions.php:147
 msgid "Premium"
 msgstr "Premium"
-
-#: pro/functions-admin.php:67
-msgid "Great! Complianz Privacy Suite premium has been activated."
-msgstr ""
 
 #: pro/class-export.php:70
 msgid "You can only import one file at once"
@@ -4375,27 +4502,27 @@ msgstr ""
 
 #: pro/class-export.php:83
 msgid "Empty dataset"
-msgstr ""
+msgstr "Leeres Datenset"
 
 #: pro/class-export.php:89 pro/class-export.php:96 pro/class-export.php:105
 msgid "Data integrity check failed"
-msgstr ""
+msgstr "Datenintigritäts-Test gescheitert"
 
 #: pro/class-export.php:116
 msgid "Imports completed successfully"
-msgstr ""
+msgstr "Import erfolgreich abgeschlossen"
 
-#: templates/do-not-sell-my-personal-data-form.php:13
+#: templates/do-not-sell-my-personal-data-form.php:12
 msgid "Your name"
 msgstr ""
 
-#: templates/do-not-sell-my-personal-data-form.php:14
+#: templates/do-not-sell-my-personal-data-form.php:13
 msgid "email@email.com"
-msgstr ""
+msgstr "E-Mail@E-Mail.com"
 
-#: templates/do-not-sell-my-personal-data-form.php:15
+#: templates/do-not-sell-my-personal-data-form.php:14
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: config/pro/warnings.php:8
 msgid "You should add a consent checkbox to your contact forms."
@@ -4421,6 +4548,8 @@ msgstr "Bitte überprüfen Sie Schritt %s des Assistenten."
 #: config/pro/warnings.php:17
 msgid "Processing agreement with all processors and/or Service Providers."
 msgstr ""
+"Verarbeitungsvereinbarung mit allen Vererbeitern und/oder "
+"Servicedienstleistern."
 
 #: config/pro/warnings.php:18
 #, php-format
@@ -4432,6 +4561,7 @@ msgstr ""
 #: config/pro/warnings.php:23
 msgid "The privacy statement was updated within the past 12 months."
 msgstr ""
+"Die Datenschutzerklärung wurde innerhalb der letzen 12 Monate aktualisiert."
 
 #: config/pro/warnings.php:24
 msgid ""
@@ -4512,6 +4642,10 @@ msgid ""
 "need a break), use our %sdocumentation%s for additional information or log a "
 "%ssupport ticket%s if you need our assistance."
 msgstr ""
+"Bitte beachten Sie, dass Sie jederzeit speichern und den Assistenten später "
+"fertigstellen können (falls Sie eine Pause benötigen), nutzen Sie unsere "
+"%sDokumentation%s für zusätzliche Informationen oder senden Sie ein "
+"%sSupport Ticket%s falls Sie unsere Unterstützung benötigen."
 
 #: config/pro/steps.php:31
 msgid "Data protection officer"
@@ -4519,15 +4653,15 @@ msgstr "Datenschutzbeauftragter"
 
 #: config/pro/steps.php:42
 msgid "Details per purpose - EU"
-msgstr ""
+msgstr "Nähere Informationen des Zwecks - EU"
 
 #: config/pro/steps.php:48
 msgid "Details per purpose - US"
-msgstr ""
+msgstr "Nähere Informationen des Zwecks - US"
 
 #: config/pro/steps.php:54
 msgid "Sharing of data - EU"
-msgstr ""
+msgstr "Weitergabe von Daten - EU"
 
 #: config/pro/steps.php:55 config/pro/steps.php:60
 msgctxt "intro third parties"
@@ -4535,10 +4669,12 @@ msgid ""
 "In this section, we need you to fill in information about third parties and "
 "processors you’re working with."
 msgstr ""
+"In diesem Abschnitt möchten wir, dass Sie Informationen über Drittparteien "
+"und Verarbeiter, mit denen Sie arbeiten, eintragen."
 
 #: config/pro/steps.php:59
 msgid "Sharing of data - US"
-msgstr ""
+msgstr "Weitergabe von Daten - US"
 
 #: config/pro/steps.php:63
 msgid "Security & Consent"
@@ -4546,15 +4682,15 @@ msgstr "Sicherheit & Zustimmung"
 
 #: config/pro/steps.php:68
 msgid "Financial incentives"
-msgstr ""
+msgstr "finanzielle Förderung"
 
 #: config/pro/steps.php:74
 msgid "Children"
-msgstr ""
+msgstr "Kinder"
 
 #: config/pro/steps.php:80
 msgid "Children: data processing purposes"
-msgstr ""
+msgstr "Kinder: Datenverarbeitungszwecke"
 
 #: config/pro/steps.php:83 config/pro-documents/documents.php:32
 msgid "Disclaimer"
@@ -4574,7 +4710,7 @@ msgstr "Plugins"
 #: config/pro/steps.php:90
 msgctxt "intro plugins"
 msgid "Next!"
-msgstr ""
+msgstr "Nächstes!"
 
 #: config/pro/steps.php:91
 msgctxt "intro plugins"
@@ -4582,6 +4718,9 @@ msgid ""
 "Plugins and themes can add their own suggested privacy paragraphs here. You "
 "can choose to add these to your privacy statement."
 msgstr ""
+"Plugins und Themen können ihre eigenen empfohlenen Datenschutzabsätze hier "
+"hinzufügen. Sie können wählen ob Sie diese ihrer eigenenen "
+"Datenschutzerklärung hinzufügen möchten."
 
 #: config/pro/steps.php:92
 msgctxt "intro plugins"
@@ -4590,45 +4729,45 @@ msgid ""
 "you like."
 msgstr ""
 
-#: config/pro/steps.php:97 config/pro/steps.php:110
+#: config/pro/steps.php:101 config/pro/steps.php:126
 msgid "Processing"
 msgstr "In Bearbeitung"
 
-#: config/pro/steps.php:99 config/pro/steps.php:112
+#: config/pro/steps.php:103 config/pro/steps.php:128
 msgid "Data"
 msgstr "Daten"
 
-#: config/pro/steps.php:100 config/pro/steps.php:113
+#: config/pro/steps.php:106 config/pro/steps.php:131
 msgid "Handling of requests"
 msgstr "Bearbeitung von Anfragen"
 
-#: config/pro/steps.php:101 config/pro/steps.php:114
+#: config/pro/steps.php:109 config/pro/steps.php:134
 msgid "Right of audit"
 msgstr "Prüfungsrecht"
 
-#: config/pro/steps.php:104 config/pro/steps.php:117
+#: config/pro/steps.php:114 config/pro/steps.php:139
 msgid "Data breach"
 msgstr "Datenschutzverletzung"
 
-#: config/pro/steps.php:125 config/pro/steps.php:138
+#: config/pro/steps.php:152 config/pro/steps.php:174
 msgid "Necessity"
 msgstr "Notwendigkeit"
 
-#: config/pro/steps.php:127 config/pro/steps.php:140
+#: config/pro/steps.php:154 config/pro/steps.php:177
 msgid "Incident"
 msgstr "Vorfall"
 
-#: config/pro/steps.php:128 config/pro/steps.php:141
+#: config/pro/steps.php:157 config/pro/steps.php:181
 msgid "Description of incident"
 msgstr "Beschreibung des Vorfalls"
 
-#: config/pro/steps.php:130 config/pro/steps.php:143
+#: config/pro/steps.php:161 config/pro/steps.php:186
 msgid "Options"
 msgstr "Optionen"
 
-#: config/pro/steps.php:144
+#: config/pro/steps.php:190
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: config/pro/questions-wizard.php:33
 msgid "Do you want to add a privacy statement on your site?"
@@ -4642,7 +4781,7 @@ msgstr ""
 "Dies bestimmt, ob Sie Fragen zu Ihrer Datenschutzerklärung beantworten "
 "müssen."
 
-#: config/pro/questions-wizard.php:47 config/pro/questions-wizard.php:805
+#: config/pro/questions-wizard.php:47 config/pro/questions-wizard.php:808
 msgid "Do you want to add a disclaimer on your site?"
 msgstr "Möchten Sie einen Haftungsausschluss auf Ihrer Website einfügen?"
 
@@ -4655,7 +4794,7 @@ msgstr ""
 
 #: config/pro/questions-wizard.php:60
 msgid "Do you have visitors from california?"
-msgstr ""
+msgstr "Haben Sie Besucher aus Californien?"
 
 #: config/pro/questions-wizard.php:61
 msgid "There are some rules which only apply to California."
@@ -4671,12 +4810,16 @@ msgstr ""
 msgid ""
 "Enter a toll free phone number for the submission of information requests"
 msgstr ""
+"Geben Sie eine gebührenfreie Telefonnummer für die Übermittlung von "
+"Informationsanfragen an"
 
 #: config/pro/questions-wizard.php:97
 msgid ""
 "For US based companies, it is required to provide a toll free phone number "
 "for inquiries."
 msgstr ""
+"Für Firmen aus den Vereinigten Staaten ist es vonnöten eine gebührenfreie "
+"Telefonnummer für Befragungen zur Verfügung zu stellen."
 
 #: config/pro/questions-wizard.php:108
 msgid "Do you use e.g. an automated CRM or Google Analytics/Adwords?"
@@ -4747,26 +4890,45 @@ msgstr ""
 "Eingeschränkt: nur mit Prozessoren, die für die Erfüllung meines Dienstes "
 "notwendig sind"
 
-#: config/pro/questions-wizard.php:268 config/pro/questions-wizard.php:323
+#: config/pro/questions-wizard.php:268 config/pro/questions-wizard.php:325
 msgid "Do you share personal data with other parties?"
 msgstr "Geben Sie personenbezogene Daten an Dritte weiter?"
 
-#: config/pro/questions-wizard.php:287
+#: config/pro/questions-wizard.php:271
+msgid ""
+"Within the GDPR a ‘processor’ means a natural or legal person, public "
+"authority, agency or other body which processes personal data on behalf of "
+"the controller."
+msgstr ""
+
+#: config/pro/questions-wizard.php:271
+msgid ""
+"A third party is every other entity which receives personal data, but does "
+"not fall within the definition of a processor"
+msgstr ""
+"Ein Drittanbieter ist jede weitere Entität, welche persönliche Daten "
+"enthällt, jedoch nicht unter die Definition eines Verarbeitungsunternehmens "
+"fällt."
+
+#: config/pro/questions-wizard.php:289
 #: config/pro/EU/questions-processing.php:270
 msgid "Processor"
 msgstr "Prozessor"
 
-#: config/pro/questions-wizard.php:288
+#: config/pro/questions-wizard.php:290
 msgid ""
 "If you share data with processors, add a \"processor\" for each one, and add "
 "the details of the data you share."
 msgstr ""
+"Wenn Sie daten mit Verarbeitern teilen, legen Sie für jeden einen "
+"\"Verarbeiter\" an und fügen sie Details über die Daten, welche Sie teilen, "
+"hinzu."
 
-#: config/pro/questions-wizard.php:304
+#: config/pro/questions-wizard.php:306
 msgid "Third party details"
 msgstr "Angaben Dritter"
 
-#: config/pro/questions-wizard.php:305
+#: config/pro/questions-wizard.php:307
 msgid ""
 "If you share data with third parties, add a \"third party\" for each one, "
 "and add the details of the data you share."
@@ -4774,54 +4936,75 @@ msgstr ""
 "Wenn Sie Daten mit Dritten teilen, fügen Sie für jeden einen \"Dritten\" "
 "hinzu und fügen Sie die Details der von Ihnen freigegebenen Daten hinzu."
 
-#: config/pro/questions-wizard.php:319
+#: config/pro/questions-wizard.php:321
 msgid "Yes, both to service providers and other third parties."
 msgstr ""
 
-#: config/pro/questions-wizard.php:321
+#: config/pro/questions-wizard.php:323
 msgid ""
 "Limited: only with service providers that are necessary for the fulfillment "
 "of my service"
 msgstr ""
+"Beschränkt: nur für Servicedienstleister die für die Erfüllung meiner "
+"Dienste benötigt werden"
 
-#: config/pro/questions-wizard.php:326
+#: config/pro/questions-wizard.php:328
 msgid ""
 "A Service provider is a legal entity that processes information on behalf of "
 "a business and to which the business discloses a consumer's personal "
 "information for a business purpose pursuant to a written contract."
 msgstr ""
+"Ein Serviceanbieter ist eine rechtliche Entität, die Informationen im "
+"Auftrag eines Unternehmens verarbeitet und dem das Unternehmen persönliche "
+"Informationen des Kunden einem schriftlichen Vertrag gemäß offenlegt."
 
-#: config/pro/questions-wizard.php:343
+#: config/pro/questions-wizard.php:328
+msgid ""
+"A third party is every other entity which receives personal data, but does "
+"not fall within the definition of a Service Provider"
+msgstr ""
+"Ein Drittanbieter ist jede weitere Entität, welche persönliche Daten "
+"enthällt, jedoch nicht unter die Definition eines Servicedienstleisters "
+"fällt."
+
+#: config/pro/questions-wizard.php:345
 #: config/pro/US/questions-processing.php:274
 msgid "Service Provider"
-msgstr ""
+msgstr "Serviceanbieter"
 
-#: config/pro/questions-wizard.php:344
+#: config/pro/questions-wizard.php:346
 msgid ""
 "If you share data with service providers, add a \"Service Provider\" for "
 "each one, and add the details of the data you share."
 msgstr ""
+"Wenn Sie daten mit Servicedienstleistern teilen, legen Sie für jeden einen "
+"\"Servicedienstleister\" an und fügen sie Details über die Daten, welche Sie "
+"teilen, hinzu."
 
-#: config/pro/questions-wizard.php:353
+#: config/pro/questions-wizard.php:355
 msgid ""
 "Select which categories of personal data you have disclosed for a business "
 "purpose in the past 12 months"
 msgstr ""
+"Wählen Sie die Kategorien der persönlichen Daten, die Sie aus geschäftlichen "
+"Gründen in den letzen 12 Monaten offengelegt haben"
 
-#: config/pro/questions-wizard.php:370
+#: config/pro/questions-wizard.php:372
 msgid ""
 "Select which categories of personal data you have sold to third parties in "
 "the past 12 months"
 msgstr ""
+"Wählen Sie die Kategorien der persönlichen Daten, die Sie in den letzen 12 "
+"Monaten an Drittparteien verkauft haben"
 
-#: config/pro/questions-wizard.php:393
+#: config/pro/questions-wizard.php:395
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 "Für Formulare, die auf Ihrer Website erkannt werden, können Sie ein "
 "Kontrollkästchen für die Zustimmung hinzufügen."
 
-#: config/pro/questions-wizard.php:400 config/pro/questions-wizard.php:418
+#: config/pro/questions-wizard.php:402 config/pro/questions-wizard.php:420
 msgid ""
 "You have answered that you use webforms on your site and need to ask "
 "permission. You can do this with a consent box."
@@ -4829,130 +5012,142 @@ msgstr ""
 "Sie haben geantwortet, dass Sie Webformulare auf Ihrer Website verwenden und "
 "um Erlaubnis bitten müssen. Sie können dies mit einem Zustimmungsfeld tun."
 
-#: config/pro/questions-wizard.php:411
+#: config/pro/questions-wizard.php:413
 msgid "Do you have consent boxes on all webforms?"
 msgstr "Haben Sie Zustimmungsfelder auf allen Webformularen?"
 
-#: config/pro/questions-wizard.php:419
+#: config/pro/questions-wizard.php:421
 #, php-format
 msgid "See this %sarticle%s for instructions how to do this."
 msgstr "Siehe dieses %sarticle%s für Anweisungen, wie man das macht."
 
-#: config/pro/questions-wizard.php:429
+#: config/pro/questions-wizard.php:431
 msgid "How do you secure personal data acquired on your website?"
 msgstr ""
 "Wie sichern Sie die auf Ihrer Website erfassten personenbezogenen Daten?"
 
-#: config/pro/questions-wizard.php:431
+#: config/pro/questions-wizard.php:433
 msgid "We give a general explanation about security in the privacy statement"
 msgstr ""
 "Wir geben eine allgemeine Erklärung zur Sicherheit in der "
 "Datenschutzerklärung ab"
 
-#: config/pro/questions-wizard.php:432
+#: config/pro/questions-wizard.php:434
 msgid "We will list our security measures"
 msgstr "Wir werden unsere Sicherheitsmaßnahmen auflisten."
 
-#: config/pro/questions-wizard.php:444
+#: config/pro/questions-wizard.php:446
 msgid "Which security measures did you take?"
 msgstr "Welche Sicherheitsmaßnahmen haben Sie ergriffen?"
 
-#: config/pro/questions-wizard.php:446
+#: config/pro/questions-wizard.php:448
 msgid "Username and Password"
 msgstr "Benutzername und Passwort"
 
-#: config/pro/questions-wizard.php:447
+#: config/pro/questions-wizard.php:449
 #: config/pro/EU/questions-processing.php:192
 #: config/pro/US/questions-processing.php:192
 msgid "DNSSEC"
 msgstr "DNSSEC"
 
-#: config/pro/questions-wizard.php:448
+#: config/pro/questions-wizard.php:450
 #: config/pro/EU/questions-processing.php:193
 #: config/pro/US/questions-processing.php:193
 msgid "TLS / SSL"
 msgstr "TLS / SSL"
 
-#: config/pro/questions-wizard.php:449
+#: config/pro/questions-wizard.php:451
 #: config/pro/EU/questions-processing.php:194
 #: config/pro/US/questions-processing.php:194
 msgid "DKIM, SPF en DMARC"
 msgstr "DKIM, SPF und DMARC"
 
-#: config/pro/questions-wizard.php:450
+#: config/pro/questions-wizard.php:452
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 "Physische Sicherheitsmaßnahmen von Systemen, die personenbezogene Daten "
 "enthalten."
 
-#: config/pro/questions-wizard.php:451
+#: config/pro/questions-wizard.php:453
 #: config/pro/EU/questions-processing.php:195
 #: config/pro/US/questions-processing.php:195
 msgid "Security software"
 msgstr "Sicherheitssoftware"
 
-#: config/pro/questions-wizard.php:452
+#: config/pro/questions-wizard.php:454
 msgid "ISO27001/27002 certified"
 msgstr "ISO27001/27002 zertifiziert"
 
-#: config/pro/questions-wizard.php:465
+#: config/pro/questions-wizard.php:467
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
+"Bieten Sie finanzielle Förderungen, inklusive Zahlungen an Kunden als "
+"Kompensation, für das Sammeln von persönlichen Informationen, den Verkauf "
+"von persönlichen Informationen, oder der Löschung von persönlichen "
+"Informationen?"
 
-#: config/pro/questions-wizard.php:477
+#: config/pro/questions-wizard.php:479
 msgid "https://your-terms-page.com"
-msgstr ""
+msgstr "https://Ihre-Regelwerk-Seite.com"
 
-#: config/pro/questions-wizard.php:482
+#: config/pro/questions-wizard.php:484
 msgid "Enter the URL of the terms & conditions page for the incentives"
-msgstr ""
+msgstr "Geben Sie eine URL der Regeln & Konditionen für die Förderungen an"
 
-#: config/pro/questions-wizard.php:489
+#: config/pro/questions-wizard.php:491
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
+"Bitte beachten Sie, dass der Kunde explizit diesen Bedingungen zustimmen "
+"muss, und dass der Kunde in der Lage sein muss seine Zustimmung zu "
+"widerrufen."
 
-#: config/pro/questions-wizard.php:499
+#: config/pro/questions-wizard.php:501
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
+"Ist Ihre Internetseite gestaltet um Kinder anzuziehen und/oder ist es Ihre "
+"Absicht persönliche Daten von Kindern unter 13 Jahren zu sammeln?"
 
-#: config/pro/questions-wizard.php:515
+#: config/pro/questions-wizard.php:517
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
+"Wie erlagen Sie verifizierbare elterliche Zustimmung für die Sammlung, "
+"Verwendung oder Veröffentlichung persönlicher Informationen von Kindern?"
 
-#: config/pro/questions-wizard.php:517
+#: config/pro/questions-wizard.php:519
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: config/pro/questions-wizard.php:518
+#: config/pro/questions-wizard.php:520
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: config/pro/questions-wizard.php:519
+#: config/pro/questions-wizard.php:521
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: config/pro/questions-wizard.php:536
+#: config/pro/questions-wizard.php:538
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
+"Ist Ihre Internetseite Teil des COPPA Safe Harbor Certification Program?"
 
-#: config/pro/questions-wizard.php:555
+#: config/pro/questions-wizard.php:557
 msgid "What is the name of the program?"
 msgstr ""
 
-#: config/pro/questions-wizard.php:574
+#: config/pro/questions-wizard.php:576
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: config/pro/questions-wizard.php:593
+#: config/pro/questions-wizard.php:595
 #, php-format
 msgid ""
 "Your have indicated your website is not included in a COPPA Safe Harbor "
@@ -4960,133 +5155,141 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: config/pro/questions-wizard.php:611
+#: config/pro/questions-wizard.php:613
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
-
-#: config/pro/questions-wizard.php:613
-msgid "Registration"
-msgstr ""
-
-#: config/pro/questions-wizard.php:614
-msgid "Content created by a child and publicly shared"
-msgstr ""
+"Über welche potentiellen Aktivitäten auf Ihrer Website sammeln Sie "
+"persönliche Informationen von Kindern?"
 
 #: config/pro/questions-wizard.php:615
-msgid "Chat/messageboard"
-msgstr ""
+msgid "Registration"
+msgstr "Registrierung"
 
 #: config/pro/questions-wizard.php:616
+msgid "Content created by a child and publicly shared"
+msgstr "Von einem Kind erstellte und veröffentlichte Inhalte"
+
+#: config/pro/questions-wizard.php:617
+msgid "Chat/messageboard"
+msgstr "Chat/Forum"
+
+#: config/pro/questions-wizard.php:618
 msgid "Email contact"
-msgstr ""
+msgstr "E-Mail Kontaktadresse"
 
-#: config/pro/questions-wizard.php:633
+#: config/pro/questions-wizard.php:635
 msgid "Information collected for registration "
-msgstr ""
+msgstr "Für Registrierung gesammelte Informationen"
 
-#: config/pro/questions-wizard.php:653
+#: config/pro/questions-wizard.php:655
 msgid "Information collected for content created by a child"
-msgstr ""
+msgstr "Für von Kindern erstellte Inhalte gesammelte Informationen"
 
-#: config/pro/questions-wizard.php:673
+#: config/pro/questions-wizard.php:675
 msgid "Information collected for chat/messageboard"
-msgstr ""
+msgstr "Für Chat/Forum gesammelte Informationen"
 
-#: config/pro/questions-wizard.php:693
+#: config/pro/questions-wizard.php:695
 msgid "Information collected for email contact"
-msgstr ""
+msgstr "Für E-Mail Kontakt gesammelte Informationen"
 
-#: config/pro/questions-wizard.php:715
+#: config/pro/questions-wizard.php:717
 msgid "Which themes would you like to include in your disclaimer?"
 msgstr "Welche Themen möchten Sie in Ihren Haftungsausschluss aufnehmen?"
 
-#: config/pro/questions-wizard.php:717
+#: config/pro/questions-wizard.php:719
 msgid "Liability"
 msgstr "Haftung"
 
-#: config/pro/questions-wizard.php:718
+#: config/pro/questions-wizard.php:720
 msgid "Reference to terms of use"
 msgstr "Hinweis zu den Nutzungsbedingungen"
 
-#: config/pro/questions-wizard.php:719
+#: config/pro/questions-wizard.php:721
 msgid "How you will answer inquiries"
 msgstr "Wie Sie Anfragen beantworten werden"
 
-#: config/pro/questions-wizard.php:720
+#: config/pro/questions-wizard.php:722
 msgid "Privacy and reference to the privacy statement"
 msgstr "Datenschutz und Hinweis auf die Datenschutzerklärung"
 
-#: config/pro/questions-wizard.php:721
+#: config/pro/questions-wizard.php:723
 msgid "Not liable when security is breached"
 msgstr "Keine Haftung bei Sicherheitsverletzungen"
 
-#: config/pro/questions-wizard.php:722
+#: config/pro/questions-wizard.php:724
 msgid "Not liable for third party content"
 msgstr "Keine Haftung für fremde Inhalte"
 
-#: config/pro/questions-wizard.php:723
+#: config/pro/questions-wizard.php:725
 msgid "Accessibility of the website for the disabled"
 msgstr "Zugänglichkeit der Website für Behinderte"
 
-#: config/pro/questions-wizard.php:735
+#: config/pro/questions-wizard.php:737
 msgid "What is the URL of the Terms of Use?"
 msgstr "Wie lautet die URL der Nutzungsbedingungen?"
 
-#: config/pro/questions-wizard.php:748
+#: config/pro/questions-wizard.php:750
 msgid "Is your website built according to WCAG 2.0 level AA guidelines?"
 msgstr "Ist Ihre Website nach WCAG 2.0 Level AA Richtlinien aufgebaut?"
 
-#: config/pro/questions-wizard.php:763
+#: config/pro/questions-wizard.php:765
 msgid "Who made the content of the website?"
 msgstr "Wer hat den Inhalt der Website erstellt?"
 
-#: config/pro/questions-wizard.php:765
+#: config/pro/questions-wizard.php:767
 msgid "The content is being developed by ourselves"
 msgstr "Die Inhalte werden von uns selbst entwickelt."
 
-#: config/pro/questions-wizard.php:766
+#: config/pro/questions-wizard.php:768
 msgid "The content is being developed or posted by third parties"
 msgstr "Die Inhalte werden von Dritten entwickelt oder eingestellt."
 
-#: config/pro/questions-wizard.php:767
+#: config/pro/questions-wizard.php:769
 msgid "The content is being developed by ourselves and other parties"
 msgstr "Die Inhalte werden von uns und anderen entwickelt."
 
-#: config/pro/questions-wizard.php:781
+#: config/pro/questions-wizard.php:783
 msgid "What do you want to do with any intellectual property claims?"
 msgstr "Was wollen Sie mit irgendwelchen geistigen Eigentumsansprüchen machen?"
 
-#: config/pro/questions-wizard.php:783
+#: config/pro/questions-wizard.php:785
 msgid "All rights reserved"
 msgstr "Alle Rechte vorbehalten"
 
-#: config/pro/questions-wizard.php:784
+#: config/pro/questions-wizard.php:786
 msgid "No rights reserved"
 msgstr "Keine Rechte vorbehalten"
 
-#: config/pro/questions-wizard.php:785
+#: config/pro/questions-wizard.php:787
 msgid "Creative Commons - Attribution"
 msgstr "Kreative Gemeingüter - Attribution"
 
-#: config/pro/questions-wizard.php:786
+#: config/pro/questions-wizard.php:788
 msgid "Creative Commons - Share a like"
 msgstr "Kreative Gemeingüter - Teilen Sie ein Like"
 
-#: config/pro/questions-wizard.php:787
+#: config/pro/questions-wizard.php:789
 msgid "Creative Commons - No derivatives"
 msgstr "Kreative Gemeingüter - Keine Derivate"
 
-#: config/pro/questions-wizard.php:788
+#: config/pro/questions-wizard.php:790
 msgid "Creative Commons - Noncommercial"
 msgstr "Kreative Gemeingüter - Nichtkommerziell"
 
-#: config/pro/questions-wizard.php:789
+#: config/pro/questions-wizard.php:791
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr "Kreative Gemeingüter - Teilen Sie ein Like, nicht-kommerziell"
 
 #: config/pro/questions-wizard.php:793
+#, php-format
+msgid "For more information on this subject, please read this %sarticle%s"
+msgstr ""
+"Für mehr Informationen zu diesem Thema lesen Sie bitte diesen %sArtikel%s"
+
+#: config/pro/questions-wizard.php:796
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
@@ -5189,7 +5392,7 @@ msgstr "Andere:"
 
 #: config/pro/dynamic-fields.php:134
 msgid "Specify the type of data you collect"
-msgstr ""
+msgstr "Spezifizieren Sie die Art der Daten die sie sammeln"
 
 #: config/pro/dynamic-fields.php:147
 msgid "How long will you retain data for this specific purpose?"
@@ -5276,15 +5479,15 @@ msgstr ""
 
 #: config/pro-documents/documents.php:6
 msgid "Privacy statement (EU)"
-msgstr ""
+msgstr "Datenschutzerklärung (EU)"
 
 #: config/pro-documents/documents.php:15
 msgid "Privacy statement (US)"
-msgstr ""
+msgstr "Datenschutzerklärung (US)"
 
 #: config/pro-documents/documents.php:23
 msgid "Privacy Statement for Children"
-msgstr ""
+msgstr "Datenschutzerklärung für Kinder"
 
 #: config/pro-documents/documents.php:37 config/pro-documents/documents.php:41
 msgctxt "Title on processing agreement page"
@@ -5292,7 +5495,7 @@ msgid "Processing agreement"
 msgstr "Vertrag wird verarbeitet"
 
 #: config/pro-documents/documents.php:45 config/pro-documents/documents.php:49
-#: pro/framework/post-types.php:157
+#: pro/framework/post-types.php:162
 msgid "Dataleak"
 msgstr "Datenleck"
 
@@ -5306,6 +5509,12 @@ msgid ""
 "you read the information. We will then look at this as soon as possible. "
 "Please send your response by email to: [email_company]."
 msgstr ""
+"%s ist dazu verpflichtet, diese Internetseite aktuell und akkurat zu halten. "
+"Sollten Sie dennoch auf irgendetwas stoßen, dass veraltet oder inkorrekt ist,"
+" würden wir es schätzen, wenn Sie es uns wissen lassen. Bitte weisen Sie "
+"darauf hin wo auf der Seite Sie die Information gelesen haben. Wir werden "
+"uns dann so schnell wie möglich darum kümmern. Bitte senden Sie Ihre "
+"Rückmeldung an: [email_company]."
 
 #: config/pro-documents/disclaimer.php:10
 #, php-format
@@ -5338,6 +5547,11 @@ msgid ""
 "complex requests, we will let you know within 1 month if we need a maximum "
 "of 3 months."
 msgstr ""
+"Über E-Mail oder mittels eines Internetfomular versendete Antworten und "
+"Datenschutzanfragen werden in gleicher Weise wie Briefe behandelt. Dies "
+"bedeutet, dass Sie spätestens innerhalb eines Monats mit eine Antwort von "
+"uns rechnen können. Im Falle umfangreicher Anfragen werden wir Sie innerhalb "
+"eines Monats wissen lassen ob wir ein Maximum von drei Monaten benötigen."
 
 #: config/pro-documents/disclaimer.php:28
 msgctxt "Legal document disclaimer"
@@ -5346,6 +5560,9 @@ msgid ""
 "request for information will only be used in accordance with our privacy "
 "statement."
 msgstr ""
+"Jegliche persönliche Information welche Sie uns innerhalb des Kontexts Ihrer "
+"Antwort oder Ihrem Antrag zur Verfügung stellen wird ausschließlich gemäß "
+"unserer Datenschutzerklärung genutzt."
 
 #: config/pro-documents/disclaimer.php:34
 #, php-format
@@ -5358,6 +5575,13 @@ msgid ""
 "whatsoever, direct and/or indirect, suffered by a user of the website, which "
 "arises as a result of the unlawful use of its systems by a third party."
 msgstr ""
+"%s wird jede angemessene Maßnahme ergreifen um sein System gegen jede Form "
+"unrechtmäßiger Nutzung zu schützen. %s wird geeignete Technologien und "
+"organisatorische Maßnahmen zu diesem Zweck, unter anderem unter "
+"Berücksichtigung  des aktuellen Standes der Technik, einführen. Es ist "
+"jedoch nicht verantwortlich für direkte und/oder indirekte Verluste "
+"jeglicher Art, welche bei einem Benutzer der Internetseite auftreten, die "
+"der unrechtmäßigen Nutzung des Systems von Drittanbietern entspringt."
 
 #: config/pro-documents/disclaimer.php:40
 #, php-format
@@ -5368,6 +5592,11 @@ msgid ""
 "by third parties shall be subject to the applicable terms and conditions of "
 "those third parties."
 msgstr ""
+"%s übernimmt keine Verantwortung für den Inhalt von Websites, zu denen oder "
+"von denen ein Hyperlink oder eine anderer Verweis führt. Produkte oder "
+"Serviceleistungen, die von Drittanbieten angeboten werden, werden nach "
+"entsprechenden Bedingungen und Konditionen jener Drittanbieter behandelt "
+"werden."
 
 #: config/pro-documents/disclaimer.php:46
 msgctxt "Legal document disclaimer"
@@ -5376,6 +5605,9 @@ msgid ""
 "website and to continuously improve it. Including for people who use special "
 "software due to a disability."
 msgstr ""
+"Unsere Angestellten unternehmen alle Anstrengungen um Zugriff auf unsere "
+"Internetseite zu garantieren und ständig zu verbessern. Ebenso für Personen "
+"die aufgrund einer Behinderung spezielle Software verwenden."
 
 #: config/pro-documents/disclaimer.php:53
 msgctxt "Legal document disclaimer"
@@ -5392,6 +5624,8 @@ msgctxt "Legal document disclaimer"
 msgid ""
 "All intellectual property rights to content on this website are vested in %s."
 msgstr ""
+"Jegliches intellektuelle Eigentumsrecht an Inhalten auf dieser Internetseite "
+"ist im Besitz von %s."
 
 #: config/pro-documents/disclaimer.php:66
 #, php-format
@@ -5401,6 +5635,9 @@ msgid ""
 "third parties who have placed the content themselves or from whom %s has "
 "obtained a user licence."
 msgstr ""
+"Jegliches intellektuelle Eigentumsrecht an Inhalten auf dieser Internetseite "
+"ist im Besitz von Drittanbietern, welche diese Inhalte selbst platziert "
+"haben, oder von denen %s über eine Endnutzer-Lizenzvereinbarung verfügt."
 
 #: config/pro-documents/disclaimer.php:72
 #, php-format
@@ -5410,6 +5647,10 @@ msgid ""
 "or in third parties who have placed the content themselves or from whom %s "
 "has obtained a user licence."
 msgstr ""
+"Jegliches intellektuelle Eigentumsrecht an Inhalten auf dieser Internetseite "
+"ist im Besitz von %s oder von Drittanbietern, welche diese Inhalte selbst "
+"platziert haben, oder von denen %s über eine Endnutzer-Lizenzvereinbarung "
+"verfügt."
 
 #: config/pro-documents/disclaimer.php:79
 #, php-format
@@ -5420,6 +5661,10 @@ msgid ""
 "stipulated in regulations of mandatory law (such as the right to quote), "
 "unless specific content dictates otherwise."
 msgstr ""
+"Das Kopieren, Verbreiten oder jegliche andere Nutzung dieses Materials ist "
+"ohne die schriftliche Erlaubniss von %s nicht gestattet, sofern in geltendem "
+"Gesetz nicht anders vereinbart oder ausgenommen (wie etwa das Recht zu "
+"zitieren), solang der spezifische Inhalt nichts anderes vorschreibt."
 
 #: config/pro-documents/disclaimer.php:85
 #, php-format
@@ -5428,6 +5673,8 @@ msgid ""
 "Copying, distributing and any other use of these materials is permitted "
 "without the written permission of %s."
 msgstr ""
+"Das Kopieren, Vervielfältigen und andere Benutzung dieses Materials ist ohne "
+"schriftliche Genehmigung von %s erlaubt."
 
 #: config/pro-documents/disclaimer.php:91
 msgctxt "Legal document disclaimer"
@@ -5435,6 +5682,8 @@ msgid ""
 "The content on this website is available under a Creative Commons "
 "Attribution 3.0 Netherlands Licence unless specified otherwise."
 msgstr ""
+"Der Inhalt dieser Internetseite ist gemäß einer Creative Commons Attribution "
+"3.0 Netherlands Licence verfügbar, sofern nicht anders spezifiziert."
 
 #: config/pro-documents/disclaimer.php:97
 msgctxt "Legal document disclaimer"
@@ -5442,6 +5691,8 @@ msgid ""
 "The content on this website is available under a Creative Commons "
 "Attribution-Share Alike Licence, unless specified otherwise."
 msgstr ""
+"Der Inhalt dieser Internetseite ist gemäß einer Creative Commons Attribution "
+"Share Alike Licence verfügbar, sofern nicht anders spezifiziert."
 
 #: config/pro-documents/disclaimer.php:103
 msgctxt "Legal document disclaimer"
@@ -5449,6 +5700,8 @@ msgid ""
 "The content on this website is available under a Creative Commons "
 "Attribution No Derivative Works Licence, unless specified otherwise."
 msgstr ""
+"Der Inhalt dieser Internetseite ist gemäß einer Creative Commons Attribution "
+"No Derivative Works Licence verfügbar, sofern nicht anders spezifiziert."
 
 #: config/pro-documents/disclaimer.php:109
 msgctxt "Legal document disclaimer"
@@ -5456,6 +5709,8 @@ msgid ""
 "The content on this website is available under a Creative Commons "
 "Attribution Non-Commercial Licence, unless specified otherwise."
 msgstr ""
+"Der Inhalt dieser Internetseite ist gemäß einer Creative Commons Attribution "
+"Non-Commercial Licence verfügbar, sofern nicht anders spezifiziert."
 
 #: config/pro-documents/disclaimer.php:115
 msgctxt "Legal document disclaimer"
@@ -5463,6 +5718,9 @@ msgid ""
 "The content on this website is available under a Creative Commons "
 "Attribution Share Alike Non-Commercial Licence, unless specified otherwise."
 msgstr ""
+"Der Inhalt dieser Internetseite ist gemäß einer Creative Commons Attribution "
+"Share Alike Non-Commercial Licence verfügbar, sofern nicht anders "
+"spezifiziert."
 
 #: config/pro-documents/disclaimer.php:122
 msgctxt "Legal document disclaimer"
@@ -5470,6 +5728,8 @@ msgid ""
 "If you have any questions or problems with the accessibility of the website, "
 "please do not hesitate to contact us."
 msgstr ""
+"Wenn Sie Fragen oder Probleme mit der Verfügbarkeit der Internetseite haben, "
+"zögern sie nicht uns zu kontaktieren."
 
 #: config/documents/documents.php:6
 msgid "Cookie policy"
@@ -5477,7 +5737,7 @@ msgstr "Cookie-Richtlinie"
 
 #: config/documents/documents.php:13
 msgid "Do Not Sell My Personal Information"
-msgstr ""
+msgstr "\"Meine persönlichen Informationen nicht verkaufen\""
 
 #: config/documents/cookie-policy.php:6
 #, php-format
@@ -5490,7 +5750,7 @@ msgstr ""
 #: config/documents/cookie-policy.php:9
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Introduction"
-msgstr ""
+msgstr "Einführung"
 
 #: config/documents/cookie-policy.php:10
 msgctxt "Legal document cookie policy"
@@ -5506,6 +5766,12 @@ msgid ""
 "\"cookies\"). Cookies are also placed by third parties we have engaged. In "
 "the document below we inform you about the use of cookies on our website."
 msgstr ""
+"Unsere Internetseite, %s (im folgenden: \"Die Internetseite\") verwendet "
+"Cookies und ähnliche Technologien (der Einfachheit halber werden all diese "
+"unter \"Cookies\" zusammengefasst). Cookies werden außerdem von uns "
+"beauftragten Drittparteien platziert. In dem unten stehendem Dokument "
+"informieren wir Sie über die Verwendung von Cookies auf unserer "
+"Internetseite."
 
 #: config/documents/cookie-policy.php:13
 msgctxt "Legal document cookie policy:paragraph title"
@@ -5521,6 +5787,11 @@ msgid ""
 "servers or to the servers of the relevant third parties during a subsequent "
 "visit."
 msgstr ""
+"Ein Cookie ist eine einfache kleine Datei, die gemeinsam mit den Seiten "
+"einer Internetadresse versendet und vom Webbrowser auf dem PC oder einem "
+"anderen Gerät gespeichert werden können. Die darin gespeicherten "
+"Informationen können während folgender Besuche zu unseren oder den Servern "
+"relevanter Drittanbieter gesendet werden."
 
 #: config/documents/cookie-policy.php:17
 msgctxt "Legal document cookie policy:paragraph title"
@@ -5534,6 +5805,9 @@ msgid ""
 "function properly and interactively. This code is executed on our server or "
 "on your device."
 msgstr ""
+"Ein Script ist ein Stück Programmcode, das benutzt wird um unserer "
+"Internetseite Funktionalität und Interaktivität zu ermöglichen. Dieser Code "
+"wird auf unseren Servern oder auf Ihrem Gerät ausgeführt."
 
 #: config/documents/cookie-policy.php:21
 msgctxt "Legal document cookie policy:paragraph title"
@@ -5547,11 +5821,15 @@ msgid ""
 "on a website that is used to monitor traffic on a website. In order to do "
 "this, various data about you is stored using web beacons."
 msgstr ""
+"Ein Web-Beacon (auch Pixel-Tag genannt) ist ein kleines unsichtbares "
+"Textfragment oder Bild auf einer Internetseite, das benutzt wird um den "
+"Verkehr auf der Internetseite zu überwachen. Um dies zu ermöglichen werden "
+"diverse Daten von Ihnen mittels Web-Beacons gespeichert."
 
 #: config/documents/cookie-policy.php:26 config/documents/cookie-policy.php:31
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Consent"
-msgstr ""
+msgstr "Zustimmung"
 
 #: config/documents/cookie-policy.php:27
 #, php-format
@@ -5595,12 +5873,12 @@ msgstr ""
 #: config/documents/cookie-policy.php:41
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
 #: config/documents/cookie-policy.php:45
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Technical or functional cookies"
-msgstr ""
+msgstr "Technische oder funktionelle Cookies"
 
 #: config/documents/cookie-policy.php:46
 msgctxt "Legal document cookie policy"
@@ -5612,11 +5890,18 @@ msgid ""
 "example, the items remain in your shopping cart until you have paid. We may "
 "place these cookies without your consent."
 msgstr ""
+"Einige Cookies stellen sicher, dass Teile unserer Internetseite richtig "
+"funktionieren und das Ihre Nutzervorlieben bekannt bleiben. Durch das "
+"Platzieren funktionaler Cookies machen wir es Ihnen einfacher unsere "
+"Internetseite zu besuchen. Auf diese Weise müssen Sie bei Besuchen unserer "
+"Website nicht wiederholt die gleichen Informationen eingeben, oder Ihre "
+"Gegenstände bleiben beispielsweise in Ihrem Warenkorb bis Sie bezahlt haben. "
+"Wir können diese Cookies ohne Ihr Einverständnis platzieren."
 
 #: config/documents/cookie-policy.php:51 config/documents/cookie-policy.php:57
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Analytical cookies"
-msgstr ""
+msgstr "Analysecookies"
 
 #: config/documents/cookie-policy.php:52
 msgctxt "Legal document cookie policy"
@@ -5634,7 +5919,7 @@ msgstr ""
 #: config/documents/cookie-policy.php:64 config/documents/cookie-policy.php:75
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Advertising cookies"
-msgstr ""
+msgstr "Werbecookies"
 
 #: config/documents/cookie-policy.php:65
 #, php-format
@@ -5647,6 +5932,13 @@ msgid ""
 "visitor are linked to a unique ID, so you do not see the same ad more than "
 "once for example."
 msgstr ""
+"Auf dieser Internetseite benutzen wir Werbecookies, die uns ermöglichen "
+"Werbugn für Sie zu personalisieren, und wir (sowie Drittparteien) bekommen "
+"Einsicht in Kampagnenresultate. This geschieht anhand der Profile, die wir "
+"aufgrund Ihres Klick- und Surfverhaltens auf und außerhalb von &s angelegt "
+"haben. Mit diesen Cookies sind Sie als Seitenbesucher an eine einzigartige "
+"ID gebunden, sodass Sie zum Beispiel die selbe Werbung nicht mehrfach "
+"angezeigt bekommen."
 
 #: config/documents/cookie-policy.php:70
 msgctxt "Legal document cookie policy"
@@ -5654,6 +5946,8 @@ msgid ""
 "Because these cookies are marked as tracking cookies, we ask your permission "
 "to place these."
 msgstr ""
+"Da diese Cookies als Verfolgungs-Cookie markiert ist benötigen wir Ihre "
+"Zustimmung um diese zu platzieren."
 
 #: config/documents/cookie-policy.php:76
 msgctxt "Legal document cookie policy"
@@ -5663,7 +5957,7 @@ msgstr ""
 #: config/documents/cookie-policy.php:82 config/documents/cookie-policy.php:87
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Social media buttons"
-msgstr ""
+msgstr "Schaltflächen sozialer Medien"
 
 #: config/documents/cookie-policy.php:83
 msgctxt "Legal document cookie policy"
@@ -5671,6 +5965,8 @@ msgid ""
 "On our website we do not use social media buttons to promote web pages or "
 "share them on social networks."
 msgstr ""
+"Auf unserer Internetseite nutzen wir keine Social-Media-Buttons um "
+"Internetseiten zu bewerten oder in sozialen Netzwerken zu teilen."
 
 #: config/documents/cookie-policy.php:88
 #, php-format
@@ -5686,26 +5982,37 @@ msgid ""
 "using these cookies. The data that is retrieved is anonymized as much as "
 "possible. %s are located in the United States."
 msgstr ""
+"Auf unserer Internetseite haben wir Schaltflächen für %s um Internetseiten "
+"zu bewerten (z.B. \"like\", \"pin\") oder auf sozialen Netzwerken wie %s zu "
+"teilen (z.B. \"tweet\"). Diese Schaltflächen arbeiten mit Codeteilen, die "
+"von %s selbst stammen. Dieser Code platziert Cookies. Diese Social-Media-"
+"Buttons können außerdem gewisse Informationen speichern und verarbeiten, "
+"sodass Ihnen personalisierte Werbung angezeigt werden kann. Bitte lesen Sie "
+"die Datenschutzerklärungen dieser sozialen Netzwerke (welche ständig "
+"aktualisiert werden) um nachzulesen was mit Ihren (persönlichen) Daten "
+"geschieht die mittels dieser Cookies verarbeitet werden. Diese Daten werden "
+"so anonymisiert wie möglich erhoben. %s hat seinen Sitz in den Vereinigten "
+"Staaten."
 
 #: config/documents/cookie-policy.php:93
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Placed cookies"
-msgstr ""
+msgstr "Platzierte Cookies"
 
 #: config/documents/cookie-policy.php:96
 msgctxt "Legal document cookie policy"
 msgid "Purpose:"
-msgstr ""
+msgstr "Zweck:"
 
 #: config/documents/cookie-policy.php:97
 msgctxt "Legal document cookie policy"
 msgid "Retention period:"
-msgstr ""
+msgstr "Aufbewahrungsfrist:"
 
 #: config/documents/cookie-policy.php:98
 msgctxt "Legal document cookie policy"
 msgid "Description:"
-msgstr ""
+msgstr "Beschreibung:"
 
 #: config/documents/cookie-policy.php:101
 msgctxt "Legal document cookie policy"
@@ -5715,7 +6022,7 @@ msgstr ""
 #: config/documents/cookie-policy.php:102
 msgctxt "Legal document cookie policy"
 msgid "Sharing"
-msgstr ""
+msgstr "Weitergabe"
 
 #: config/documents/cookie-policy.php:114
 msgctxt "Legal document cookie policy:paragraph title"
@@ -5740,6 +6047,8 @@ msgid ""
 "Right of access: You have the right to access your personal data that is "
 "known to us."
 msgstr ""
+"Zugriffsrecht: Sie haben das Recht ihre uns bekannten persönliche Daten "
+"einzusehn."
 
 #: config/documents/cookie-policy.php:123
 msgctxt "Legal document cookie policy"
@@ -5747,6 +6056,9 @@ msgid ""
 "Right to rectification: you have the right to supplement, correct, have "
 "deleted or blocked your personal data whenever you wish."
 msgstr ""
+"Recht auf Berichtigung: Sie haben das Recht wann immer Sie wünschen Ihre "
+"persönlichen Daten ergänzen, korrigieren sowie gelöscht oder blockiert "
+"bekommen."
 
 #: config/documents/cookie-policy.php:124
 msgctxt "Legal document cookie policy"
@@ -5754,6 +6066,9 @@ msgid ""
 "If you give us your consent to process your data, you have the right to "
 "revoke that consent and to have your personal data deleted."
 msgstr ""
+"Wenn Sie uns ihr Einverständnis zur Verarbeitung Ihrer Daten gegeben haben, "
+"haben Sie das Recht dieses Einverständnis zu widerrufen und Ihre "
+"persönlichen Daten löschen zu lassen."
 
 #: config/documents/cookie-policy.php:125
 msgctxt "Legal document cookie policy"
@@ -5762,6 +6077,9 @@ msgid ""
 "data from the controller and transfer it in its entirety to another "
 "controller."
 msgstr ""
+"Recht auf Datentransfer Ihrer Daten: Sie haben das Recht, alle Ihre "
+"persönlichen Daten von einem Kontrolleur anzufordern und in ihrer Gesamtheit "
+"zu einem anderen Kontrolleur zu transferieren."
 
 #: config/documents/cookie-policy.php:126
 msgctxt "Legal document cookie policy"
@@ -5769,6 +6087,9 @@ msgid ""
 "Right to object: you may object to the processing of your data. We comply "
 "with this, unless there are justified grounds for processing."
 msgstr ""
+"Widerspruchsrecht: Sie können der Verarbeitung Ihrer Daten widersprechen. "
+"Wir entsprechen dem, es sei denn es gibt berechtigte Gründe für die "
+"Verarbeitung."
 
 #: config/documents/cookie-policy.php:131
 msgctxt "Legal document cookie policy"
@@ -5783,7 +6104,7 @@ msgstr ""
 #: config/documents/cookie-policy.php:135
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Enabling/disabling and deleting cookies"
-msgstr ""
+msgstr "Aktivierung/Deaktivierung und Löschen von Cookies"
 
 #: config/documents/cookie-policy.php:136
 msgctxt "Legal document cookie policy"
@@ -5804,11 +6125,15 @@ msgid ""
 "disabled. If you do delete the cookies in your browser, they will be placed "
 "again after your consent when you visit our websites again."
 msgstr ""
+"Bitte nehmen Sie zur Kentniss, dass unsere Internetseite möglicherweise "
+"nicht richtig funktioniert wenn alle Cookies deaktiviert sind. Wenn Sie die "
+"Cookies in ihrem Browser löschen werden diese neuplatziert wenn Sie unsere "
+"Internetseite erneut besuchen."
 
 #: config/documents/cookie-policy.php:144
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Contact details"
-msgstr ""
+msgstr "Kontaktdaten"
 
 #: config/documents/cookie-policy.php:145
 msgctxt "Legal document cookie policy"
@@ -5816,6 +6141,8 @@ msgid ""
 "For questions and/or comments about our cookie policy and this statement, "
 "please contact us by using the following contact details:"
 msgstr ""
+"Für Fragen und/oder Kommentare über unsere Cookie-Richtlinien und diese "
+"Aussage kontaktieren Sie uns bitte mittels der folgenden Kontaktdaten:"
 
 #: config/documents/cookie-policy.php:152
 msgctxt "Legal document cookie policy"
@@ -5825,115 +6152,118 @@ msgstr ""
 #: config/documents/cookie-policy.php:153
 msgctxt "Legal document cookie policy"
 msgid "Email:"
-msgstr ""
+msgstr "E-Mail:"
 
 #: core/php/class-document-core.php:190
 #, php-format
 msgid "No %s document was found"
-msgstr ""
+msgstr "Kein %s Dokument wurde gefunden"
 
-#: core/php/class-document-core.php:275
+#: core/php/class-document-core.php:276
 msgid "Annex"
 msgstr "Anhang"
 
-#: core/php/class-document-core.php:342
+#: core/php/class-document-core.php:343
 #, php-format
 msgid "(See paragraph %s)"
 msgstr "(Siehe Paragraph %s)"
 
-#: core/php/class-document-core.php:346
+#: core/php/class-document-core.php:347
 #, php-format
 msgid "(See annex %s)"
 msgstr ""
 "(Siehe Anlage %s)\n"
 
-#: core/php/class-document-core.php:447
+#: core/php/class-document-core.php:448
 msgid "and"
 msgstr "und"
 
-#: pro/framework/post-types.php:23
+#: pro/framework/post-types.php:25
 msgctxt "Name of post type in menu"
 msgid "Processing agreements"
-msgstr ""
+msgstr "Verarbeitungsvereinbarungen"
 
-#: pro/framework/post-types.php:23 pro/framework/post-types.php:113
+#: pro/framework/post-types.php:25 pro/framework/post-types.php:118
 msgctxt "Name of post type"
 msgid "Processing agreements"
 msgstr "Verarbeitungsvertrag"
 
-#: pro/framework/post-types.php:24
+#: pro/framework/post-types.php:26
 msgctxt "Name of post type in menu"
 msgid "Dataleak reports"
-msgstr ""
+msgstr "Berichte des Datenlecks"
 
-#: pro/framework/post-types.php:24
+#: pro/framework/post-types.php:26
 msgctxt "Name of post type"
 msgid "Dataleak reports"
-msgstr ""
+msgstr "Berichte des Datenlecks"
 
-#: pro/framework/post-types.php:67 pro/framework/post-types.php:68
-#: pro/framework/post-types.php:76 pro/framework/post-types.php:77
+#: pro/framework/post-types.php:72 pro/framework/post-types.php:73
+#: pro/framework/post-types.php:81 pro/framework/post-types.php:82
 #, php-format
 msgid "Add new (%s)"
-msgstr ""
+msgstr "Neue (%s) hinzufügen"
 
-#: pro/framework/post-types.php:114
+#: pro/framework/post-types.php:119
 #, php-format
 msgctxt "Singular name of post type"
 msgid "Processing agreement (%s)"
-msgstr ""
+msgstr "Verarbeitungsvereinbarung (%s)"
 
-#: pro/framework/post-types.php:117
+#: pro/framework/post-types.php:122
 msgid "Processing agreement"
 msgstr "Verarbeitung des Vertrages"
 
-#: pro/framework/post-types.php:118
+#: pro/framework/post-types.php:123
 msgid "Processing agreement parent item"
 msgstr "Übergeordneter Artikel der Vereinbarung wird verarbeitet"
 
-#: pro/framework/post-types.php:154
+#: pro/framework/post-types.php:159
 msgid "Dataleaks"
 msgstr "Datenlecks"
 
-#: pro/framework/post-types.php:158
+#: pro/framework/post-types.php:163
 msgid "Dataleak parent item"
 msgstr "Datenleck übergeordnete Kategorie"
 
-#: pro/framework/post-types.php:200 pro/framework/post-types.php:290
+#: pro/framework/post-types.php:205 pro/framework/post-types.php:295
+#: pro/framework/post-types.php:404
 msgid "Region"
-msgstr ""
+msgstr "Region"
 
-#: pro/framework/post-types.php:317
+#: pro/framework/post-types.php:328
 msgctxt "Column title in custom post type overview"
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
-#: pro/framework/post-types.php:342
+#: pro/framework/post-types.php:353
 msgctxt "Column header in posts overview"
 msgid "Email sent"
-msgstr ""
+msgstr "E-Mail versendet"
 
-#: pro/framework/post-types.php:389
+#: pro/framework/post-types.php:400
 msgid "Document contents"
 msgstr "Inhalt des Dokuments"
 
-#: pro/framework/post-types.php:400
+#: pro/framework/post-types.php:415
 msgid "Download"
 msgstr "Herunterladen"
 
-#: pro/framework/post-types.php:417
+#: pro/framework/post-types.php:432
 msgid "Download PDF"
 msgstr "PDF herunterladen"
 
-#: pro/framework/post-types.php:430
+#: pro/framework/post-types.php:452
 msgid "Edit document"
 msgstr "Dokument bearbeiten"
 
-#: pro/framework/post-types.php:434
+#: pro/framework/post-types.php:456
 msgid ""
 "Because you have disabled the region connected to this document, editing is "
 "currently not possbile."
 msgstr ""
+"Da Sie die mit diesem Dokument verbundene Region deaktiviert haben ist die "
+"Bearbeitung zur Zeit nicht möglich."
 
 #: config/pro/EU/questions-dataleak.php:20
 #: config/pro/US/questions-dataleak.php:20
@@ -6338,22 +6668,28 @@ msgid ""
 "Immediately (without unreasonable delay) after the leak has become known to "
 "the processor. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung) nachdem das Leck dem "
+"Verarbeiter bekannt ist."
 
 #: config/pro/EU/questions-processing.php:286
 msgid ""
 "Immediately (without unreasonable delay), within 24 hours after the leak has "
 "become know to the processor. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung), innerhalb von 24 Stunden "
+"nachdem das Leck dem Verarbeiter bekannt ist."
 
 #: config/pro/EU/questions-processing.php:287
 msgid ""
 "Immediately (without unreasonable delay), within 36 hours after the leak has "
 "become know to the processor. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung), innerhalb von 36 Stunden "
+"nachdem das Leck dem Verarbeiter bekannt ist."
 
 #: config/pro/EU/questions-processing.php:297
-msgid "Do you want to maximize liability?"
-msgstr ""
+msgid "Do you want to limit liability?"
+msgstr "Wollen Sie die Haftung begrenzen?"
 
 #: config/pro/EU/questions-processing.php:307
 #: config/pro/EU/questions-processing.php:329
@@ -6405,12 +6741,17 @@ msgid ""
 "Encrypted personal data is lost, and it cannot be excluded that unauthorized "
 "persons have access to the encryption key or password."
 msgstr ""
+"Verschlüsselte Daten sind verloren, und es kann nicht ausgeschlossen werden, "
+"dass unauthorisierte Personen Zugriff auf das verschlüsselte Passwort bzw. "
+"den Schlüssel haben."
 
 #: config/pro/US/questions-dataleak.php:37
 msgid ""
 "It can not be excluded that unauthorized persons have gained access to "
 "unencrypted personal data"
 msgstr ""
+"Es kann nicht ausgeschlossen werden, dass unauthorisierte Personen Zugriff "
+"auf unverschlüsselte persönliche Daten erlangt haben"
 
 #: config/pro/US/questions-dataleak.php:48
 msgid ""
@@ -6419,12 +6760,19 @@ msgid ""
 "after selecting this option), when either the name or the data elements are "
 "not encrypted"
 msgstr ""
+"Der Vorname, oder die Initialen sowie der Nachname, einer Person in "
+"Verbindung mit einem oder mehreren Datenelementen (wie in der nächsten Frage "
+"nach Auswahl dieser Option dargestellt), wenn entweder der Name oder die "
+"Datenelemente nicht verschlüsselt sind"
 
 #: config/pro/US/questions-dataleak.php:49
 msgid ""
 "A user name or email address, in combination with a password or security "
 "question and answer that would permit access to an online account."
 msgstr ""
+"Ein Benutzername oder eine E-Mail Adresse, die in Kombination mit einem "
+"Passwort oder einer Sicherheitsfrage den Zugriff auf einen Benutzerkonto "
+"ermöglicht."
 
 #: config/pro/US/questions-dataleak.php:53
 msgid "What information was involved?"
@@ -6432,11 +6780,11 @@ msgstr ""
 
 #: config/pro/US/questions-dataleak.php:67
 msgid "Social security number."
-msgstr ""
+msgstr "Sozialversicherungsnummer"
 
 #: config/pro/US/questions-dataleak.php:68
 msgid "Driver’s license number or identification card number."
-msgstr ""
+msgstr "Führerschein- oder Personalausweisnummer"
 
 #: config/pro/US/questions-dataleak.php:69
 msgid ""
@@ -6444,38 +6792,46 @@ msgid ""
 "required security code, access code, or password that would permit access to "
 "an individual’s financial account."
 msgstr ""
+"Kontonummer oder Kredit-/Bankkartennummer, in Verbindung mit einem "
+"benötigtem Sicherheitscode, Zugriffscode oder Passwort, welche Zugriff auf "
+"individuelle Bankkonten ermöglicht."
 
 #: config/pro/US/questions-dataleak.php:70
 msgid "Medical information."
-msgstr ""
+msgstr "Medizinische Informationen."
 
 #: config/pro/US/questions-dataleak.php:71
 msgid "Health insurance information."
-msgstr ""
+msgstr "Informationen zur Krankenversicherung."
 
 #: config/pro/US/questions-dataleak.php:72
 msgid ""
 "Information or data collected through the use or operation of an automated "
 "license plate recognition system"
 msgstr ""
+"Durch die Verwendung von automatischen Nummernschilder-Erkennungssystemen "
+"gesammelte Informationen oder Daten"
 
 #: config/pro/US/questions-dataleak.php:80
 msgid "Data elements involved in the security breach:"
-msgstr ""
+msgstr "In den Sicherheitsbruch involvierte Datenelemente:"
 
 #: config/pro/US/questions-dataleak.php:131
 msgid ""
 "Please enter the toll-free telephone number and adresses of the major credit "
 "reporting agencies:"
 msgstr ""
+"Bitte geben Sie eine gebührenfreie Telefonnummer und die Adresse der "
+"wichtigsten Kreditauskunfteien ein:"
 
 #: config/pro/US/questions-dataleak.php:150
 msgid "Does the security breach affect a large number (500 or more) of people?"
 msgstr ""
+"Betrifft der Sicherheitsbruch eine große Menge (500 oder mehr) Menschen?"
 
 #: config/pro/US/questions-dataleak.php:167
 msgid "Does the databreach affect California residents?"
-msgstr ""
+msgstr "Betrifft der Datenbruch californische Einwohner?"
 
 #: config/pro/US/questions-dataleak.php:256
 msgid ""
@@ -6497,14 +6853,18 @@ msgstr ""
 #: config/pro/US/questions-processing.php:22
 msgid "Describe briefly what activities your Service Provider will perform."
 msgstr ""
+"Beschreiben Sie kurz welche Aktivitäten Ihr Servicedienstleister durchführen "
+"wird."
 
 #: config/pro/US/questions-processing.php:106
 msgid "Do you allow data to be processed outside the United States?"
 msgstr ""
+"Erlauben Sie die Verarbeitung von Daten außerhalb der Vereinigten Staaten?"
 
 #: config/pro/US/questions-processing.php:108
 msgid "No, processing outside the United States is not allowed. "
 msgstr ""
+"Nein, Verarbeitung außerhalb der Vereinigten Staaten ist nicht gestattet."
 
 #: config/pro/US/questions-processing.php:122
 msgid "What is the name of the Service Provider?"
@@ -6515,6 +6875,8 @@ msgid ""
 "I will deal with requests from those involved, The Service Provider will "
 "forward everything to me. "
 msgstr ""
+"Ich werde mich um Anfragen der Involvierten kümmern. Der "
+"Servicedienstleister wird alles an mich weiterleiten."
 
 #: config/pro/US/questions-processing.php:138
 msgid ""
@@ -6536,7 +6898,7 @@ msgstr ""
 
 #: config/pro/US/questions-processing.php:225
 msgid "An audit is not necessary"
-msgstr ""
+msgstr "Eine Überprüfung ist nicht notwendig"
 
 #: config/pro/US/questions-processing.php:257
 msgid ""
@@ -6554,48 +6916,56 @@ msgstr ""
 msgid ""
 "How quickly should the Data Controller be informed of a security breach?"
 msgstr ""
+"Wie schnell sollte der Daten Kontrolleur über einen Sicherheitsbruch "
+"informiert werden?"
 
 #: config/pro/US/questions-processing.php:289
 msgid ""
 "Immediately (without unreasonable delay) after the security breach has "
 "become known to the Service Provider. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung) nachdem der Sicherheitsbruch "
+"dem Servicedienstleister bekannt ist."
 
 #: config/pro/US/questions-processing.php:290
 msgid ""
 "Immediately (without unreasonable delay), within 24 hours after the security "
 "breach has become know to the Service Provider. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung), innerhalb von 24 Stunden "
+"nachdem der Sicherheitsbruch dem Servicedienstleister bekannt ist."
 
 #: config/pro/US/questions-processing.php:291
 msgid ""
 "Immediately (without unreasonable delay), within 36 hours after the security "
 "breach has become know to the Service Provider. "
 msgstr ""
+"Unmittelbar (ohne Unangemessene Verzögerung), innerhalb von 36 Stunden "
+"nachdem der Sicherheitsbruch dem Servicedienstleister bekannt ist."
 
 #: config/pro/US/questions-processing.php:312
-msgid "Do you want to maximize the liability of the Service Provider?"
-msgstr ""
+msgid "Do you want to limit the liability of the Service Provider?"
+msgstr "Wollen Sie die Haftung des Servicedienstleisters begrenzen?"
 
 #: config/pro/US/questions-processing.php:334
 msgid "Should the Service Provider take out liability insurance?"
-msgstr ""
+msgstr "Sollte der Dienstleister eine Haftpflichtversicherung abschließen?"
 
 #: config/pro-documents/EU/dataleak-report.php:5
 #, php-format
 msgctxt "Legal document dataleak"
 msgid "Date: %s"
-msgstr ""
+msgstr "Datum: %s"
 
 #: config/pro-documents/EU/dataleak-report.php:8
 msgctxt "Legal document dataleak"
 msgid "RE: Information regarding personal data breaches"
-msgstr ""
+msgstr "RE: Informationen den persönliche Daten-Bruch betreffend"
 
 #: config/pro-documents/EU/dataleak-report.php:11
 msgctxt "Legal document dataleak"
 msgid "Dear Sir/Madam,"
-msgstr ""
+msgstr "Sehr geehrte Damen und Herren,"
 
 #: config/pro-documents/EU/dataleak-report.php:14
 msgctxt "Legal document dataleak"
@@ -6610,6 +6980,8 @@ msgid ""
 "In that incident, personal data was lost and there is no current back-up "
 "copy of that personal data."
 msgstr ""
+"Aufgrund dieses Vorfalls gingen persönliche Daten verloren und es existiert "
+"keine aktuelle Sicherung dieser Daten."
 
 #: config/pro-documents/EU/dataleak-report.php:23
 msgctxt "Legal document dataleak"
@@ -6617,6 +6989,9 @@ msgid ""
 "As a result of that incident, we cannot rule out the possibility that "
 "unauthorised persons have had access to your personal data. "
 msgstr ""
+"Als Ergebnis dieses Vorfalls können wir die Möglichkeit nicht ausschließen, "
+"dass unauthorisierte Personen Zugriff auf Ihre persönlichen Daten gehabt "
+"haben."
 
 #: config/pro-documents/EU/dataleak-report.php:29
 msgctxt "Legal document dataleak"
@@ -6630,22 +7005,24 @@ msgstr ""
 #: config/pro-documents/EU/dataleak-report.php:35
 msgctxt "Legal document dataleak"
 msgid "Explanation of the nature of the breach:"
-msgstr ""
+msgstr "Beschreibung der Natur des Bruchs:"
 
 #: config/pro-documents/EU/dataleak-report.php:40
 msgctxt "Legal document dataleak"
 msgid "Possible consequences:"
-msgstr ""
+msgstr "Mögliche Konsequenzen:"
 
 #: config/pro-documents/EU/dataleak-report.php:45
 msgctxt "Legal document dataleak"
 msgid "Measures we have taken:"
-msgstr ""
+msgstr "Von uns getroffene Maßnahmen:"
 
 #: config/pro-documents/EU/dataleak-report.php:50
 msgctxt "Legal document dataleak"
 msgid "Measures a person involved can take to minimise damage:"
 msgstr ""
+"Maßnahmen, die eine betroffene Person treffen kann um den Schaden zu "
+"minimieren:"
 
 #: config/pro-documents/EU/dataleak-report.php:55
 msgctxt "Legal document dataleak"
@@ -6658,6 +7035,14 @@ msgid ""
 "the possible consequences of this breach. We would like to apologise for any "
 "inconvenience you have experienced to date. "
 msgstr ""
+"Trotz der Maßnahmen, welche wir in die Wege geleitet haben, könnte der "
+"Sicherheitsbruch nachteilige Auswirkungen auf Ihre Privatsphäre haben. Um "
+"diese soweit möglich zu beschränken, empfehlen wir Ihnen eine Reihe von "
+"Maßnahmen. Wir hoffen, dass diese Nachricht Sie mit genügend Informationen "
+"über den Sicherheitsvorfall und dessen Konsequenzen versorgt hat, Wir "
+"arbeiten permanent an der Verbesserung unserer Sicherheit sowie an "
+"Gegenmaßnahmen diesen Vorfall betreffend. Wir möchten uns für sämtliche "
+"Unannehmlichkeiten entschuldigen, die Sie bisher erlitten haben."
 
 #: config/pro-documents/EU/dataleak-report.php:58
 #, php-format
@@ -6666,11 +7051,13 @@ msgid ""
 "If you would like more information about the data breach, please send a "
 "message to %s"
 msgstr ""
+"Wenn Sie mehr Informationen über den Datenbruch möchten, senden Sie bitte "
+"eine Nachricht an %s"
 
 #: config/pro-documents/EU/dataleak-report.php:61
 msgctxt "Legal document dataleak"
 msgid "Kind regards, "
-msgstr ""
+msgstr "Mit freundlichen Grüßen,"
 
 #: config/pro-documents/EU/dataleak-report.php:68
 msgctxt "Legal document dataleak"
@@ -6680,12 +7067,12 @@ msgstr ""
 #: config/pro-documents/EU/dataleak-report.php:69
 msgctxt "Legal document dataleak"
 msgid "Email:"
-msgstr ""
+msgstr "E-Mail:"
 
 #: config/pro-documents/EU/dataleak-report.php:70
 msgctxt "Legal document dataleak"
 msgid "Phone:"
-msgstr ""
+msgstr "Telefon:"
 
 #: config/pro-documents/EU/privacy-policy.php:6
 #, php-format
@@ -6704,6 +7091,10 @@ msgid ""
 "processing we comply with the requirements of privacy legislation. That "
 "means, among other things, that:"
 msgstr ""
+"In dieser Datenschutzerklärung erklären wir was wir mit den Daten, die wir "
+"über Sie via %s gesammelt haben, tun. Wir empfehlen Ihnen, dieses Dokument "
+"sorgfältig zu lesen. Während unserer Verarbeitung entsprechen wir den "
+"gesetzlichen Anforderungen. Dies bedeutet unter anderem:"
 
 #: config/pro-documents/EU/privacy-policy.php:13
 msgctxt "Legal document privacy statement"
@@ -6746,13 +7137,15 @@ msgid ""
 "If you have any questions, or want to know exactly what data we keep of you, "
 "please contact us."
 msgstr ""
+"Wenn Sie Fragen haben oder wissen möchten welche persönlichen Daten wir über "
+"Sie haben, kontaktieren Sie uns bitte."
 
 #: config/pro-documents/EU/privacy-policy.php:24
 #: config/pro-documents/EU/privacy-policy.php:63
 #: config/pro-documents/EU/privacy-policy.php:70
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Sharing with other parties"
-msgstr ""
+msgstr "Weitergabe an andere Parteien"
 
 #: config/pro-documents/EU/privacy-policy.php:25
 msgctxt "Legal document privacy statement"
@@ -6766,25 +7159,25 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:50
 msgctxt "Legal document privacy statement"
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: config/pro-documents/EU/privacy-policy.php:35
 #: config/pro-documents/EU/privacy-policy.php:51
 msgctxt "Legal document privacy statement"
 msgid "Country:"
-msgstr ""
+msgstr "Land:"
 
 #: config/pro-documents/EU/privacy-policy.php:36
 #: config/pro-documents/EU/privacy-policy.php:52
 msgctxt "Legal document privacy statement"
 msgid "Purpose:"
-msgstr ""
+msgstr "Zweck:"
 
 #: config/pro-documents/EU/privacy-policy.php:37
 #: config/pro-documents/EU/privacy-policy.php:53
 msgctxt "Legal document privacy statement"
 msgid "Data:"
-msgstr ""
+msgstr "Daten:"
 
 #: config/pro-documents/EU/privacy-policy.php:64
 msgctxt "Legal document privacy statement"
@@ -6801,7 +7194,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:77
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
 #: config/pro-documents/EU/privacy-policy.php:78
 #, php-format
@@ -6810,11 +7203,13 @@ msgid ""
 "Our website uses cookies. For more information about cookies, please refer "
 "to our %sCookie Statement%s."
 msgstr ""
+"Unsere Internetseite benutzt Cookies. Für mehr Informationen über Cookies "
+"sehen Sie bitte unter unseren %sCookie-Richtlinien%s nach."
 
 #: config/pro-documents/EU/privacy-policy.php:84
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: config/pro-documents/EU/privacy-policy.php:85
 msgctxt "Legal document privacy statement"
@@ -6832,16 +7227,17 @@ msgstr ""
 msgctxt "Legal document privacy statement"
 msgid "Google may not use the data for any other Google services."
 msgstr ""
+"Google darf die Daten ausschließlich für andere Google-Dienste verwenden."
 
 #: config/pro-documents/EU/privacy-policy.php:103
 msgctxt "Legal document privacy statement"
 msgid "The inclusion of full IP addresses is blocked by us."
-msgstr ""
+msgstr "Die Einbeziehung der vollständigen IP-Adresse ist von uns blockiert."
 
 #: config/pro-documents/EU/privacy-policy.php:109
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Security"
-msgstr ""
+msgstr "Sicherheit"
 
 #: config/pro-documents/EU/privacy-policy.php:110
 msgctxt "Legal document privacy statement"
@@ -6875,7 +7271,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:129
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Amendments to this privacy statement"
-msgstr ""
+msgstr "Ergänzungen zu dieser Datenschutzerklärung"
 
 #: config/pro-documents/EU/privacy-policy.php:130
 msgctxt "Legal document privacy statement"
@@ -6889,7 +7285,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:133
 msgctxt "Legal document privacy statement"
 msgid "Accessing and modifying your data"
-msgstr ""
+msgstr "Zugriff und Bearbeitung Ihrer Daten"
 
 #: config/pro-documents/EU/privacy-policy.php:136
 msgctxt "Legal document privacy statement"
@@ -6898,6 +7294,9 @@ msgid ""
 "you, please contact us. You can contact us by using the information below. "
 "You have the following rights:"
 msgstr ""
+"Wenn Sie Fragen haben oder wissen möchten welche persönlichen Daten wir über "
+"Sie haben, kontaktieren Sie uns bitte. Sie können uns mittels der unten "
+"stehenden Informationen erreichen. Sie haben die folgenden Rechte:"
 
 #: config/pro-documents/EU/privacy-policy.php:138
 msgctxt "Legal document privacy statement"
@@ -6912,6 +7311,8 @@ msgid ""
 "Right of access: You have the right to access your personal data that is "
 "known to us."
 msgstr ""
+"Zugriffsrecht: Sie haben das Recht ihre uns bekannten persönliche Daten "
+"einzusehn."
 
 #: config/pro-documents/EU/privacy-policy.php:140
 msgctxt "Legal document privacy statement"
@@ -6919,6 +7320,9 @@ msgid ""
 "Right to rectification: you have the right to supplement, correct, have "
 "deleted or blocked your personal data whenever you wish."
 msgstr ""
+"Recht auf Berichtigung: Sie haben das Recht wann immer Sie wünschen Ihre "
+"persönlichen Daten ergänzen, korrigieren sowie gelöscht oder blockiert "
+"bekommen."
 
 #: config/pro-documents/EU/privacy-policy.php:141
 msgctxt "Legal document privacy statement"
@@ -6926,6 +7330,9 @@ msgid ""
 "If you give us your consent to process your data, you have the right to "
 "revoke that consent and to have your personal data deleted."
 msgstr ""
+"Wenn Sie uns ihr Einverständnis zur Verarbeitung Ihrer Daten gegeben haben, "
+"haben Sie das Recht dieses Einverständnis zu widerrufen und Ihre "
+"persönlichen Daten löschen zu lassen."
 
 #: config/pro-documents/EU/privacy-policy.php:142
 msgctxt "Legal document privacy statement"
@@ -6934,6 +7341,9 @@ msgid ""
 "data from the controller and transfer it in its entirety to another "
 "controller."
 msgstr ""
+"Recht auf Datentransfer Ihrer Daten: Sie haben das Recht, alle Ihre "
+"persönlichen Daten von einem Kontrolleur anzufordern und in ihrer Gesamtheit "
+"zu einem anderen Kontrolleur zu transferieren."
 
 #: config/pro-documents/EU/privacy-policy.php:143
 msgctxt "Legal document privacy statement"
@@ -6941,6 +7351,9 @@ msgid ""
 "Right to object: you may object to the processing of your data. We comply "
 "with this, unless there are justified grounds for processing."
 msgstr ""
+"Widerspruchsrecht: Sie können der Verarbeitung Ihrer Daten widersprechen. "
+"Wir entsprechen dem, es sei denn es gibt berechtigte Gründe für die "
+"Verarbeitung."
 
 #: config/pro-documents/EU/privacy-policy.php:145
 msgctxt "Legal document privacy statement"
@@ -6948,11 +7361,14 @@ msgid ""
 "Please make sure to always clearly state who you are, so that we can be "
 "certain that we do not modify or delete any data of the wrong person."
 msgstr ""
+"Bitte stellen Sie sicher, dass Sie immer klar angeben wer Sie sind, sodass "
+"wir sicher sein können nicht die Daten der falschen Person zu bearbeiten "
+"oder zu löschen."
 
 #: config/pro-documents/EU/privacy-policy.php:150
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Automated decision-making"
-msgstr ""
+msgstr "automatisierte Entscheidungsfindung"
 
 #: config/pro-documents/EU/privacy-policy.php:151
 msgctxt "Legal document privacy statement"
@@ -6965,7 +7381,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:156
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Submitting a complaint"
-msgstr ""
+msgstr "Eine Beschwerde übermitteln"
 
 #: config/pro-documents/EU/privacy-policy.php:157
 msgctxt "Legal document privacy statement"
@@ -6974,11 +7390,14 @@ msgid ""
 "the processing of your personal data, you have the right to submit a "
 "complaint to the Data Protection Authority."
 msgstr ""
+"Wenn Sie nicht zufrieden mit der Art und Weise sind, in der wir (Ihre "
+"Beschwerde über) die Verarbeitung ihrer persönlichen Daten handhaben, haben "
+"Sie das Recht eine Beschwerde an die Datenschutzbehörde zu richten."
 
 #: config/pro-documents/EU/privacy-policy.php:161
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Data Protection Officer"
-msgstr ""
+msgstr "Datenschutzbeauftragter"
 
 #: config/pro-documents/EU/privacy-policy.php:162
 #, php-format
@@ -6989,11 +7408,15 @@ msgid ""
 "respect to this privacy statement or for the Data Protection Officer, you "
 "may contact %s, via %s or by telephone on %s."
 msgstr ""
+"Unser Datenschutzbeauftragter ist bei der Datenschutzbehörde eines EU-"
+"Mitgliedsstaates eingetragen. Wenn Sie Fragen oder Anfragen betreffend "
+"dieser Datenschutzerklärung oder an den Datenschutzbeauftragten haben, "
+"können Sie %s kontaktieren, mittels %s oder telefonisch unter %s."
 
 #: config/pro-documents/EU/privacy-policy.php:166
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Contact details"
-msgstr ""
+msgstr "Kontaktdaten"
 
 #: config/pro-documents/EU/privacy-policy.php:171
 msgctxt "Legal document privacy statement"
@@ -7003,7 +7426,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:172
 msgctxt "Legal document privacy statement"
 msgid "Email:"
-msgstr ""
+msgstr "E-Mail:"
 
 #: config/pro-documents/EU/privacy-policy.php:177
 #, php-format
@@ -7017,7 +7440,7 @@ msgstr ""
 #: config/pro-documents/EU/privacy-policy.php:183
 msgctxt "Legal document privacy statement"
 msgid "Annex"
-msgstr ""
+msgstr "Anhang"
 
 #: config/pro-documents/EU/processing-agreement.php:5
 msgctxt "Legal document processing agreement"
@@ -7027,22 +7450,22 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:9
 msgctxt "Legal document processing agreement"
 msgid "hereinafter referred to as: Controller"
-msgstr ""
+msgstr "nachfolgend gemeinhin bezeichnet als: Kontrolleur"
 
 #: config/pro-documents/EU/processing-agreement.php:12
 msgctxt "Legal document processing agreement"
 msgid "and"
-msgstr ""
+msgstr "und"
 
 #: config/pro-documents/EU/processing-agreement.php:18
 msgctxt "Legal document processing agreement"
 msgid "hereinafter referred to as: Processor"
-msgstr ""
+msgstr "nachfolgend gemeinhin bezeichnet als: Verarbeiter"
 
 #: config/pro-documents/EU/processing-agreement.php:21
 msgctxt "Legal document processing agreement"
 msgid "hereinafter jointly referred to as: Parties; "
-msgstr ""
+msgstr "nachfolgend gemeinhin bezeichnet als: Gruppen;"
 
 #: config/pro-documents/EU/processing-agreement.php:24
 msgctxt "Legal document processing agreement"
@@ -7057,6 +7480,10 @@ msgid ""
 "for the Processing of Personal Data and the Contractor as the Processor, "
 "pursuant to Article 4 (7) and (8) of the Regulation;"
 msgstr ""
+"Soweit der Auftragnehmer im Auftrag des Kunden personenbezogene Daten im "
+"Rahmen der Vereinbarung verarbeitet, fungiert der Kunde als Kontrolleur für "
+"die Verarbeitung der persönlichen Daten und der Auftragnehmer als "
+"Verarbeiter, gemäß Artikel 4 (7) und (8) der Verordnung;"
 
 #: config/pro-documents/EU/processing-agreement.php:28
 msgctxt "Legal document processing agreement"
@@ -7065,16 +7492,19 @@ msgid ""
 "28 paragraph 3 of the Regulation, wish to record their agreements on the "
 "Processing of Personal Data."
 msgstr ""
+"Die Parteien dieser Datenverarbeitungsvereinbarung im Sinne von Artikel 28 "
+"Paragraph 3 der Verordnung, möchten ihre Zustimmungen zur Verarbeitung von "
+"persönlichen Daten aufzeichnen."
 
 #: config/pro-documents/EU/processing-agreement.php:32
 msgctxt "Legal document processing agreement"
 msgid "Agree as follows:"
-msgstr ""
+msgstr "Folgendes wird vereinbart:"
 
 #: config/pro-documents/EU/processing-agreement.php:35
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Definitions"
-msgstr ""
+msgstr "Definitionen"
 
 #: config/pro-documents/EU/processing-agreement.php:36
 msgctxt "Legal document processing agreement"
@@ -7082,22 +7512,24 @@ msgid ""
 "The following terms used in this Data Processing Agreement shall have the "
 "meaning hereby assigned to them:"
 msgstr ""
+"Die folgenden Bedingungen, die in dieser Datenverarbeitungsvereinbarung "
+"anwendung finden, haben die ihnen zugewiesene Bedeutung:"
 
 #: config/pro-documents/EU/processing-agreement.php:39
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Data Subject"
-msgstr ""
+msgstr "personenbezogene Daten"
 
 #: config/pro-documents/EU/processing-agreement.php:40
 msgctxt "Legal document processing agreement"
 msgid "The person to whom Personal Data relates"
-msgstr ""
+msgstr "Die den persönlichen Daten zugehörige Person"
 
 #: config/pro-documents/EU/processing-agreement.php:43
 #: config/pro-documents/EU/processing-agreement.php:249
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Personal Data Breach"
-msgstr ""
+msgstr "persönliche Daten-Bruch"
 
 #: config/pro-documents/EU/processing-agreement.php:44
 msgctxt "Legal document processing agreement"
@@ -7106,22 +7538,26 @@ msgid ""
 "destruction, loss, alteration or unauthorised disclosure or access to "
 "personal data transmitted, stored or otherwise processed."
 msgstr ""
+"Ein Sicherheitsbruch, der versehentlich oder unrechtmäßig in der Zerstörung, "
+"Verlust, Veränderung oder unauthorisierten Offenlegung von oder Zugriff auf "
+"persönliche Daten übermittelt, speichert oder anderweitig verarbeitet "
+"resultiert."
 
 #: config/pro-documents/EU/processing-agreement.php:47
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Agreement"
-msgstr ""
+msgstr "Vereinbarung"
 
 #: config/pro-documents/EU/processing-agreement.php:48
 msgctxt "Legal document processing agreement"
 msgid "The agreement between the Controller and the Processor."
-msgstr ""
+msgstr "Die Vereinbarung zwischen dem Kontrolleur und dem Verarbeiter."
 
 #: config/pro-documents/EU/processing-agreement.php:51
 #: config/pro-documents/EU/processing-agreement.php:410
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Personal Data"
-msgstr ""
+msgstr "Persönliche Daten"
 
 #: config/pro-documents/EU/processing-agreement.php:52
 msgctxt "Legal document processing agreement"
@@ -7130,11 +7566,14 @@ msgid ""
 "that the Processor processes on behalf of the Controller within the scope of "
 "the Agreement."
 msgstr ""
+"Jegliche Information eine identifizierte oder identifizierbare natürliche "
+"Person betreffend, welche der Verarbeiter im Auftrag des Kontrolleurs "
+"innerhalb im Rahmen der Vereinbarung verarbeitet."
 
 #: config/pro-documents/EU/processing-agreement.php:55
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Regulation"
-msgstr ""
+msgstr "Verordnung"
 
 #: config/pro-documents/EU/processing-agreement.php:56
 msgctxt "Legal document processing agreement"
@@ -7144,11 +7583,15 @@ msgid ""
 "processing of personal data and on the free movement of such data, and "
 "repealing Directive 95/46/EC (GDPR)."
 msgstr ""
+"Verordnung (EU) 2016/679 vom 27. April 2016 des Europäischen Parlaments und "
+"des Rates zum Schutz natürlicher Personen in Bezug auf die Verarbeitung "
+"persönlicher Daten und der freien Weitergabe solcher Daten, und zur "
+"Aufhebung der Richtlinie 95/46/EG (GDPR)."
 
 #: config/pro-documents/EU/processing-agreement.php:59
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Data Processing Agreement"
-msgstr ""
+msgstr "Datenverarbeitungsvereinbarung"
 
 #: config/pro-documents/EU/processing-agreement.php:60
 msgctxt "Legal document processing agreement"
@@ -7158,7 +7601,7 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:63
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Processing"
-msgstr ""
+msgstr "Verarbeitung"
 
 #: config/pro-documents/EU/processing-agreement.php:64
 msgctxt "Legal document processing agreement"
@@ -7170,11 +7613,18 @@ msgid ""
 "of transmission, disseminating or otherwise making available, aligning or "
 "combining, restriction, erasure or destruction. "
 msgstr ""
+"Jeder Vorgang oder jede Reihe von Vorgängen, die sich auf persönliche Daten "
+"innerhalb des Rahmens der Vereinbarung bezieht, ausgeführt von "
+"automatisierten oder anderen Prozessen wie das Sammeln, Aufzeichnen, "
+"Organisieren, Strukturieren, Speichern, Adaptieren oder Verändern, "
+"Wiederherstellen, Abfragen, Verwenden oder Offenlegen durch Übermittlung, "
+"Verbreitung oder auf andere Weise zugänglich gemacht, Justieren oder "
+"Kombinieren, Beschränken, Löschung oder Zerstörung."
 
 #: config/pro-documents/EU/processing-agreement.php:68
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Subject of this Data Processing Agreement "
-msgstr ""
+msgstr "Thema dieser Datenverarbeitungsvereinbarung"
 
 #: config/pro-documents/EU/processing-agreement.php:72
 msgctxt "Legal document processing agreement"
@@ -7189,6 +7639,8 @@ msgid ""
 "The nature and the purpose of the Processing, the type of Personal Data, and "
 "the categories of Data Subjects are set out in Annex 1. "
 msgstr ""
+"Die Natur und der Zweck der Verarbeitung, die Art der persönlichen Daten und "
+"die Erfassungskategorien sind in Anhang 1 festgelegt."
 
 #: config/pro-documents/EU/processing-agreement.php:80
 msgctxt "Legal document processing agreement"
@@ -7198,6 +7650,10 @@ msgid ""
 "requirements of the Regulation and the protection of the rights of the Data "
 "Subject is guaranteed."
 msgstr ""
+"Der Verarbeiter garantiert die Einführung von angemessenen technischen und "
+"organisatorischen Maßnahmen, sodass die Verarbeitung den Anforderungen der "
+"Verordnung entspricht und der Schutz der Rechte der betroffenen Personen "
+"garantiert ist."
 
 #: config/pro-documents/EU/processing-agreement.php:84
 msgctxt "Legal document processing agreement"
@@ -7205,6 +7661,8 @@ msgid ""
 "The Processor guarantees compliance with the requirements of applicable "
 "legislation and regulations relating to the processing of Personal Data. "
 msgstr ""
+"Der Verarbeiter garantiert die Einhaltung der Anforderungen geltender "
+"Gesetze und Vorschriften in Bezug auf die Verarbeitung persönlicher Daten."
 
 #: config/pro-documents/EU/processing-agreement.php:88
 msgctxt "Legal document processing agreement"
@@ -7212,11 +7670,13 @@ msgid ""
 "The personal data to be processed on the instructions of the Controller "
 "shall remain the property of the Controller."
 msgstr ""
+"Die persönlichen Daten, die auf Anweisung des Kontrolleurs verarbeitet "
+"werden, bleiben Eigentum des Kontrolleurs."
 
 #: config/pro-documents/EU/processing-agreement.php:92
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Entry into force and duration"
-msgstr ""
+msgstr "Inkrafttreten und Dauer"
 
 #: config/pro-documents/EU/processing-agreement.php:96
 msgctxt "Legal document processing agreement"
@@ -7237,16 +7697,20 @@ msgstr ""
 msgctxt "Legal document processing agreement"
 msgid "Neither Party may terminate this Data Processing Agreement prematurely."
 msgstr ""
+"Keine der Parteien darf die Datenverarbeitungsvereinbarung vorzeitig "
+"aufkündigen."
 
 #: config/pro-documents/EU/processing-agreement.php:108
 msgctxt "Legal document processing agreement"
 msgid "Parties may only amend this Agreement by mutual consent."
 msgstr ""
+"Parteien können diese Vereinbarung nur in beidseitigem Einverständnis "
+"abändern."
 
 #: config/pro-documents/EU/processing-agreement.php:113
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Scope of Processing Authority of the Processor"
-msgstr ""
+msgstr "Geltungsbereich der Verarbeitungsbehörde des Verarbeiters"
 
 #: config/pro-documents/EU/processing-agreement.php:117
 msgctxt "Legal document processing agreement"
@@ -7264,6 +7728,10 @@ msgid ""
 "shall inform the Controller thereof prior to the Processing, unless a "
 "statutory regulation prohibits such notification."
 msgstr ""
+"Wenn nach Meinung des Verarbeiters eine Anweisung wie im ersten Absatz "
+"erläutert im Konflikt mit einer gesetzlichen Regelung zum Datenschutz steht, "
+"sollte sie dem Kontrolleur über diese vor der Verarbeitung informieren, "
+"solange keine gesetzliche Regelung eine solche Benachrichtigung verhindert."
 
 #: config/pro-documents/EU/processing-agreement.php:124
 msgctxt "Legal document processing agreement"
@@ -7272,6 +7740,9 @@ msgid ""
 "statutory provision, it shall inform the Controller without delay and, if "
 "possible, prior to providing the data."
 msgstr ""
+"Sollte der Verarbeiter persönliche Daten aufgrund gesetzlicher Vorschriften "
+"zur Verfügung stellen müssen muss er den Kontrolleur ohne Verzögerung, und "
+"falls möglich vor der Übermittlung, informieren."
 
 #: config/pro-documents/EU/processing-agreement.php:128
 msgctxt "Legal document processing agreement"
@@ -7279,11 +7750,13 @@ msgid ""
 "The Processor has no control over the purpose and means of Processing of "
 "Personal Data."
 msgstr ""
+"Der Verarbeiter hat keine Kontrolle über Zweck und Bedeutung der "
+"Verarbeitung persönlicher Daten."
 
 #: config/pro-documents/EU/processing-agreement.php:131
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Security of the Processing"
-msgstr ""
+msgstr "Sicherheit der Verarbeitung"
 
 #: config/pro-documents/EU/processing-agreement.php:135
 msgctxt "Legal document processing agreement"
@@ -7342,6 +7815,12 @@ msgid ""
 "implement additional measures with respect to the security of the Personal "
 "Data."
 msgstr ""
+"Parteien erkennen an, dass die Sicherstellung eines angemessenen Maß an "
+"Sicherheit jederzeit die Einrichtung zusätzlicher Sicherheitsmaßnahmen "
+"benötigen kann. Der Verarbeiter muss ein dem Risiko angemessenes Maß an "
+"Sicherheit sicherstellen. Falls und soweit der Kontrolleur dies explizit "
+"schriftlich verlangt muss der Verarbeiter zusätzliche Maßnahmen in Bezug auf "
+"die Sicherheit der persönlichen Daten einrichten."
 
 #: config/pro-documents/EU/processing-agreement.php:174
 msgctxt "Legal document processing agreement"
@@ -7378,7 +7857,7 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:197
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Duty of Confidentiality of Personnel of the Processor"
-msgstr ""
+msgstr "Vertraulichkeitspflicht des Personals des Verarbeiters"
 
 #: config/pro-documents/EU/processing-agreement.php:198
 #: config/pro-documents/EU/processing-agreement.php:215
@@ -7394,6 +7873,10 @@ msgid ""
 "it has been converted into such a form that it cannot be traced to data "
 "subjects."
 msgstr ""
+"Die persönlichen Daten sind von vertraulicher Natur. Der Verarbeiter darf "
+"diese Daten für keine anderen Zwecke als für diese verwenden, für den sie "
+"erhoben worden sind, auch wenn sie derart abgewandelt wurden dass sie nicht "
+"zu der betreffenden Person zurückverfolgt werden können."
 
 #: config/pro-documents/EU/processing-agreement.php:206
 msgctxt "Legal document processing agreement"
@@ -7403,6 +7886,10 @@ msgid ""
 "only be disclosed to those employees and/or third parties who must "
 "necessarily take cognisance of the Personal Data."
 msgstr ""
+"Auf Anfrage des Kontrolleurs wird der Verarbeiter aufzeigen, dass sein "
+"Personal sich zur Verschwiegenheit verpflichtet hat. Die persönlichen Daten "
+"werden nur jenen Angestellten und/oder Drittanbieten dargelegt, die "
+"notwendigerweise Kenntniss der persönlichen Daten benötigen."
 
 #: config/pro-documents/EU/processing-agreement.php:210
 msgctxt "Legal document processing agreement"
@@ -7417,7 +7904,7 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:214
 msgctxt "Legal document processing agreement"
 msgid "Sub-processor"
-msgstr ""
+msgstr "Sub-Verarbeiter"
 
 #: config/pro-documents/EU/processing-agreement.php:219
 msgctxt "Legal document processing agreement"
@@ -7435,6 +7922,9 @@ msgid ""
 "writing, at least the same obligations as those agreed between the "
 "Controller and the Processor."
 msgstr ""
+"Auf alle Fälle muss der Verarbeiter schriftlich sicherstellen, dass diese "
+"Drittparteien mindestens den selben Verpflichtungen unterliegen wie jene, "
+"die zwischen dem Kontrolleur und dem Verarbeiter vereinbart sind."
 
 #: config/pro-documents/EU/processing-agreement.php:227
 msgctxt "Legal document processing agreement"
@@ -7444,11 +7934,15 @@ msgid ""
 "event of errors by these third parties it shall be liable as if it were at "
 "fault."
 msgstr ""
+"Der Verarbeiter ist für die Einhaltung der aus der "
+"Datenverarbeitungsvereinbarung entstehenden Verpflichtungen für die "
+"Drittparteien verantwortlich und ist im Falle von Fehlern dieser "
+"Drittparteien verantwortlich als ob es der eigene wäre."
 
 #: config/pro-documents/EU/processing-agreement.php:232
 msgctxt "Legal document processing agreement"
 msgid "Assistance on account of the rights of the Data Subject"
-msgstr ""
+msgstr "Unterstützung aufgrund der Rechte der betroffenen Person"
 
 #: config/pro-documents/EU/processing-agreement.php:236
 msgctxt "Legal document processing agreement"
@@ -7458,6 +7952,10 @@ msgid ""
 "Controller, and the Controller shall further handle the request. The "
 "Processor may inform the data subject accordingly. "
 msgstr ""
+"Im Falle, dass eine betroffene Person eine Rechtsanfrage an den Verarbeiter "
+"richtet, soll der Verarbeiter diese Anfrage an den Kontrolleur weiterleiten, "
+"welcher diese Anfrage weiter behandelt. Der Verarbeiter sollte die "
+"betroffende Person entsprechend informieren."
 
 #: config/pro-documents/EU/processing-agreement.php:240
 msgctxt "Legal document processing agreement"
@@ -7474,6 +7972,8 @@ msgid ""
 "The Processor may charge the additional costs it incurs in this respect to "
 "the Controller."
 msgstr ""
+"Der Verarbeiter kann zusätzliche Kosten die ihm in diesem Zusammenhang "
+"entstehen an den Kontrolleur weiterleiten."
 
 #: config/pro-documents/EU/processing-agreement.php:253
 msgctxt "Legal document processing agreement"
@@ -7503,11 +8003,13 @@ msgctxt "Legal document processing agreement"
 msgid ""
 "Information that must at least be provided by the Processor shall include:"
 msgstr ""
+"Informationen, die vom Verarbeiter mindestens angegeben werden müssen, "
+"umfassen:"
 
 #: config/pro-documents/EU/processing-agreement.php:272
 msgctxt "Legal document processing agreement"
 msgid "Likely consequences of the Personal Data Breach"
-msgstr ""
+msgstr "Mögliche Konsequenzen des persönliche Daten-Bruchs"
 
 #: config/pro-documents/EU/processing-agreement.php:273
 msgctxt "Legal document processing agreement"
@@ -7516,6 +8018,9 @@ msgid ""
 "Data Breach, including, where appropriate, measures to mitigate its possible "
 "adverse effects."
 msgstr ""
+"Geplante oder eingeführte Maßnahmen des Verarbeiters in Bezug auf den "
+"persönliche Daten-Bruch, einschließlich, falls erforderlich, Maßnahmen um "
+"mögliche nachteilige Effekte zu entschärfen."
 
 #: config/pro-documents/EU/processing-agreement.php:278
 msgctxt "Legal document processing agreement"
@@ -7531,6 +8036,8 @@ msgid ""
 "Each party shall bear their own costs relating to the report to the "
 "competent supervisory authority and the Data Subject. "
 msgstr ""
+"Jede Gruppe soll ihre eigenen Kosten in Bezug auf den Bericht an die "
+"zuständige Aufsichtsbehörde sowie auf personenbezogene Daten tragen."
 
 #: config/pro-documents/EU/processing-agreement.php:286
 msgctxt "Legal document processing agreement"
@@ -7541,11 +8048,17 @@ msgid ""
 "request, the Processor shall provide the Controller with access to this "
 "information."
 msgstr ""
+"In Übereinstimmung mit Artikel 33, Paragraph 5 der Datenschutz-"
+"Grundverordnung, muss der Verarbeiter alle Datenbrüche dokumentieren, "
+"inklusive der den persönlichen Daten betreffende Bruch zugehörigen Fakten, "
+"seiner Konsequenzen und der vorgenommenen korrigierenden Maßnahmen. Auf "
+"Anfrage hin muss der Verarbeiter dem Kontrolleur Zugang zu diesen "
+"Informationen ermöglichen."
 
 #: config/pro-documents/EU/processing-agreement.php:291
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Returning Personal Data"
-msgstr ""
+msgstr "Persönliche Daten zurückführen"
 
 #: config/pro-documents/EU/processing-agreement.php:296
 msgctxt "Legal document processing agreement"
@@ -7555,11 +8068,15 @@ msgid ""
 "for the erasure of all Personal Data. The Processor shall remove all copies, "
 "except where otherwise provided by law."
 msgstr ""
+"Nach Ablauf der Zustimmung wird der Verarbeiter, im Ermessen des "
+"Kontrolleurs, eine Rückführung aller persönlichen Daten zum Kontrolleur oder "
+"eine Löschung aller persönlichen Daten veranlassen. Der Verarbeiter wird "
+"alle Kopien entfernen, unter Beachtung gesetzlich geregelter Ausnahmen."
 
 #: config/pro-documents/EU/processing-agreement.php:299
 msgctxt "Legal document processing agreement"
 msgid "Obligation to disclose information and audit"
-msgstr ""
+msgstr "Informations- und Prüfungspflicht"
 
 #: config/pro-documents/EU/processing-agreement.php:303
 msgctxt "Legal document processing agreement"
@@ -7571,6 +8088,13 @@ msgid ""
 "forward reasonable arguments to justify an audit initiated by the Controller."
 " "
 msgstr ""
+"Der Kontrolleur hat das Recht Prüfungen durchzuführen, um die Einhaltung "
+"aller Punkte der Datenverarbeitungsvereinbarung und allem damit in "
+"Zusammenhang stehendem zu bestätigen. Diese Prüfung darf nur durchgeführt "
+"werden nachdem der Kontrolleur vergleichbare Prüfungsberichte vom "
+"Verarbeiter angefordert hat, diese geprüft hat und angemessene Argumente "
+"vorbringen kann um eine solche vom Kontrolleur initiierte Prüfung zu "
+"rechtfertigen."
 
 #: config/pro-documents/EU/processing-agreement.php:308
 msgid ""
@@ -7600,6 +8124,12 @@ msgid ""
 "Controller shall communicate the audit to the Processor in advance, with due "
 "observance of a minimum period of two weeks. "
 msgstr ""
+"Eine solche Prüfung ist gerechtfertigt, wenn änliche dem Verarbeiter "
+"vorliegende Prüfungsberichte inkonklusiv under unzureichend konklusiv in "
+"Bezug auf die Übereinstimmung des Verarbeiters mit der "
+"Datenverarbeitungsvereinbarung sind. Der Kontrolleur muss diese Prüfung "
+"unter gebührender Beachtung einer Mindestfrist von zwei Wochen im Voraus "
+"ankündigen."
 
 #: config/pro-documents/EU/processing-agreement.php:318
 msgctxt "Legal document processing agreement"
@@ -7608,6 +8138,9 @@ msgid ""
 "abuse. The Controller shall communicate the audit to the Processor in "
 "advance, with due observance of a minimum period of two weeks. "
 msgstr ""
+"Eine solche Prüfung ist im Falle eines konkreten Verdachts auf Missbrauch "
+"gerechtfertigt. Der Kontrolleur muss diese Prüfung unter gebührender "
+"Beachtung einer Mindestfrist von zwei Wochen im Voraus ankündigen."
 
 #: config/pro-documents/EU/processing-agreement.php:323
 msgctxt "Legal document processing agreement"
@@ -7617,6 +8150,10 @@ msgid ""
 "the audit to the Processor in advance, with due observance of a minimum "
 "period of two weeks"
 msgstr ""
+"Eine solche Prüfung kann vierteljährlich durchgeführt werden, im Falle eines "
+"konkreten Verdachts auf Missbrauch auch öfter. Der Kontrolleur muss diese "
+"Prüfung unter gebührender Beachtung einer Mindestfrist von zwei Wochen im "
+"Voraus ankündigen."
 
 #: config/pro-documents/EU/processing-agreement.php:333
 msgctxt "Legal document processing agreement"
@@ -7624,6 +8161,8 @@ msgid ""
 "The findings in respect of the audit carried out shall be implemented by the "
 "Processor as soon as possible."
 msgstr ""
+"Die Resultate in Bezug auf die ausgeführte Prüfung müssen vom Verarbeiter so "
+"schnell wie möglich umgesetzt werden."
 
 #: config/pro-documents/EU/processing-agreement.php:338
 msgctxt "Legal document processing agreement"
@@ -7632,6 +8171,9 @@ msgid ""
 "joint consultation and, depending on the assessment, implemented (or not) by "
 "either Party or jointly by both Parties."
 msgstr ""
+"Die Ergebnisse der durchgeführten Prüfung werden in Zusammenarbeit der "
+"Parteien bewertet und, abhänig von der Bewertung, entweder durch eine der "
+"Parteien oder durch beide (nicht) eingeführt."
 
 #: config/pro-documents/EU/processing-agreement.php:343
 msgctxt "Legal document processing agreement"
@@ -7639,6 +8181,8 @@ msgid ""
 "The costs of the audit as described in paragraph 1 shall be borne by the "
 "Data Controller. "
 msgstr ""
+"Die Kosten der Prüfung, wie in Paragraph 1 beschrieben, werden dem "
+"Datenkontrolleur zur Last gelegt."
 
 #: config/pro-documents/EU/processing-agreement.php:348
 msgctxt "Legal document processing agreement"
@@ -7646,6 +8190,8 @@ msgid ""
 "The costs of the audit as described in paragraph 1 shall be borne by the "
 "Processor"
 msgstr ""
+"Die Kosten der Prüfung, wie in Paragraph 1 beschrieben, werden dem "
+"Verarbeiter zur Last gelegt."
 
 #: config/pro-documents/EU/processing-agreement.php:353
 msgctxt "Legal document processing agreement"
@@ -7655,11 +8201,15 @@ msgid ""
 "from the Data Processing Agreement. Otherwise, the costs shall be borne by "
 "the Controller."
 msgstr ""
+"Die Kosten der Prüfung, wie in Paragraph 1 beschrieben, werden dem "
+"Verarbeiter im Falle von nicht-trivialen Verletzungen der "
+"Verantwortlichkeiten, die aus der Datenverarbeitungsvereinbarung entstehen, "
+"zur Last gelegt. Ansonsten trägt der Kontrolleur die Kosten."
 
 #: config/pro-documents/EU/processing-agreement.php:359
 msgctxt "Legal document processing agreement"
 msgid "Other Terms and Conditions"
-msgstr ""
+msgstr "Andere Regeln und Bestimmungen"
 
 #: config/pro-documents/EU/processing-agreement.php:364
 msgctxt "Legal document processing agreement"
@@ -7674,7 +8224,7 @@ msgstr ""
 #, php-format
 msgctxt "Legal document processing agreement"
 msgid "The liability of the Processor shall never exceed %s per year."
-msgstr ""
+msgstr "Die Haftung des Verarbeiters darf niemals %s pro Jahr überschreiten."
 
 #: config/pro-documents/EU/processing-agreement.php:369
 msgctxt "Legal document processing agreement"
@@ -7683,6 +8233,10 @@ msgid ""
 "the damage is the result of intent or deliberate recklessness on the part of "
 "the Service Provider or its management."
 msgstr ""
+"Die in diesem Artikel beschriebenen Einschränkungen kommen nicht zur "
+"Anwendung, falls und insofern der aus Vorsatz oder vorsätzlicher "
+"Rücksichtslosigkeit entstehende Schaden Ergebnis seitens des "
+"Servicedienstleisters oder seiner Verwaltung ist."
 
 #: config/pro-documents/EU/processing-agreement.php:377
 #, php-format
@@ -7692,6 +8246,10 @@ msgid ""
 "to have adequate insurance cover in place for liability in accordance with "
 "this article. The insurance policy should at least cover %s"
 msgstr ""
+"Während der Datenverarbeitungsvereinbarung sollte der Verarbeiter eine "
+"adequate Versicherungssumme für Haftungsangelegenheiten gesichert haben und "
+"weiterhin sicher stellen, gemäß dieses Artikels. Die Versicherungspolice "
+"sollte mindestens %s abdecken."
 
 #: config/pro-documents/EU/processing-agreement.php:383
 msgctxt "Legal document processing agreement"
@@ -7700,26 +8258,30 @@ msgid ""
 "the damage is the result of intent or deliberate recklessness on the part of "
 "the Processor or its management."
 msgstr ""
+"Die in diesem Artikel beschriebenen Einschränkungen kommen nicht zur "
+"Anwendung, falls und insofern der aus Vorsatz oder vorsätzlicher "
+"Rücksichtslosigkeit entstehende Schaden Ergebnis seitens des Verarbeiters "
+"oder seiner Verwaltung ist."
 
 #: config/pro-documents/EU/processing-agreement.php:389
 msgctxt "Legal document processing agreement"
 msgid "The insurance shall cover:"
-msgstr ""
+msgstr "Die Versicherung umfasst:"
 
 #: config/pro-documents/EU/processing-agreement.php:394
 msgctxt "Legal document processing agreement"
 msgid "The insurance conditions may be viewed upon request."
-msgstr ""
+msgstr "Die Versicherungsbedingungen können auf Anfrage eingesehen werden."
 
 #: config/pro-documents/EU/processing-agreement.php:399
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "The Processing of Personal Data"
-msgstr ""
+msgstr "Die Verarbeitung persönlicher Daten"
 
 #: config/pro-documents/EU/processing-agreement.php:404
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Purpose of the processing"
-msgstr ""
+msgstr "Zweck der Verarbeitung"
 
 #: config/pro-documents/EU/processing-agreement.php:411
 #, php-format
@@ -7734,7 +8296,7 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:422
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Data subject categories"
-msgstr ""
+msgstr "Kategorien personenbezogener Daten"
 
 #: config/pro-documents/EU/processing-agreement.php:417
 #, php-format
@@ -7743,6 +8305,8 @@ msgid ""
 "Personal data of the following groups of persons shall be processed:<br>"
 "%s<br>%s"
 msgstr ""
+"Persönliche Daten der follgenden Personengruppen sollen verarbeitet werden:"
+"<br>%s<br>%s"
 
 #: config/pro-documents/EU/processing-agreement.php:423
 msgctxt "Legal document processing agreement"
@@ -7752,11 +8316,15 @@ msgid ""
 "shall indemnify the Processor against any defects and claims resulting from "
 "an incorrect representation by the Controller."
 msgstr ""
+"Der Kontrolleur muss sicherstellen, dass die in diesem Anhang 1 beschrebenen "
+"Zwecke, persönlichen Daten und Erfassungskategorien vollständig und richtig "
+"sind und muss den Verarbeiter für Mängel und Anprüche, die aus einer "
+"falschen Darstellung des Kontrolleurs entstehen, entschädigen."
 
 #: config/pro-documents/EU/processing-agreement.php:428
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Security measures "
-msgstr ""
+msgstr "Sicherheitsmaßnahmen"
 
 #: config/pro-documents/EU/processing-agreement.php:429
 msgctxt "Legal document processing agreement"
@@ -7769,7 +8337,7 @@ msgstr ""
 #: config/pro-documents/EU/processing-agreement.php:436
 msgctxt "Legal document processing agreemen:paragraph title"
 msgid "Engagement of third parties and/or sub-processors"
-msgstr ""
+msgstr "Beschäftigung von Drittanbietern und/oder Sub-Verarbeiter"
 
 #: config/pro-documents/EU/processing-agreement.php:437
 msgctxt "Legal document processing agreement"
@@ -7777,6 +8345,8 @@ msgid ""
 "The Controller has given the Processor permission to engage the following "
 "third parties and/or sub-processor(s):"
 msgstr ""
+"Der Kontrolleur hat dem Verarbeiter die Genehmigung erteilt die folgenden "
+"Drittparteien und/oder Sub-Verarbeiter zu beschäftigen:"
 
 #: config/pro-documents/US/processing-agreement.php:333
 #, php-format
@@ -7786,14 +8356,19 @@ msgid ""
 "continue to have adequate insurance cover in place for liability in "
 "accordance with this article. The insurance policy should at least cover %s"
 msgstr ""
+"Während der Datenverarbeitungsvereinbarung sollte der Servicedienstleister "
+"eine adequate Versicherungssumme für Haftungsangelegenheiten gesichert haben "
+"und weiterhin sicher stellen, gemäß dieses Artikels. Die Versicherungspolice "
+"sollte mindestens %s abdecken."
 
 #. Name of the plugin
 msgid "Complianz Privacy Suite (GDPR/CaCPA) premium"
-msgstr ""
+msgstr "Compilanz Privacy Suite (GDPR/CaCPA) Premium"
 
 #. Description of the plugin
 msgid "Plugin to help you make your website GDPR/CaCPa compliant"
 msgstr ""
+"Plugin um Ihnen zu helfen ihne Internetseite GDPR/CaCPa-konform zu gestalten"
 
 #. URI of the plugin
 msgid "https://complianz.io/download/complianz-gdpr-premium"

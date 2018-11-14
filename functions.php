@@ -259,7 +259,6 @@ if (!function_exists('cmplz_get_region_for_country')) {
     function cmplz_get_region_for_country($country_code)
     {
         $regions = COMPLIANZ()->config->regions;
-
         foreach ($regions as $region_code => $region) {
             if (in_array($country_code, $region['countries'])) return $region_code;
         }
@@ -581,8 +580,8 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 /*
  * By default, the region which is returned is the region as selected in the wizard settings.
  *
- *
  * */
+
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
@@ -620,6 +619,7 @@ if (!function_exists('cmplz_ajax_track_status')) {
  * Get string of supported laws
  *
  * */
+
 if (!function_exists('cmplz_supported_laws')) {
 
     function cmplz_supported_laws()
@@ -762,5 +762,84 @@ if (!function_exists('cmplz_array_filter_multidimensional')) {
         });
 
         return $new;
+    }
+}
+
+if (!function_exists('cmplz_allowed_html')){
+    function cmplz_allowed_html() {
+
+        $allowed_tags = array(
+            'a' => array(
+                'class' => array(),
+                'href'  => array(),
+                'rel'   => array(),
+                'title' => array(),
+                'target' => array(),
+            ),
+            'b' => array(),
+            'br' => array(),
+            'blockquote' => array(
+                'cite'  => array(),
+            ),
+            'div' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'h1' => array(
+
+            ),
+            'h2' => array(),
+            'h3' => array(),
+            'h4' => array(),
+            'h5' => array(),
+            'h6' => array(),
+            'i' => array(),
+            'input' => array(
+                'type' =>array(),
+                'class'=>array(),
+                'id'=>array(),
+                'required' => array(),
+                'value' => array(),
+                'placeholder'=>array(),
+            ),
+            'img' => array(
+                'alt'    => array(),
+                'class'  => array(),
+                'height' => array(),
+                'src'    => array(),
+                'width'  => array(),
+            ),
+            'label' => array(),
+            'li' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'ol' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'p' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'span' => array(
+                'class' => array(),
+                'title' => array(),
+                'id' => array(),
+            ),
+            'strong' => array(),
+            'table' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'tr' => array(),
+            'td' => array('colspan' =>array()),
+            'ul' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+        );
+
+        return apply_filters("cmplz_allowed_html",$allowed_tags);
     }
 }

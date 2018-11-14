@@ -272,8 +272,12 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'matomo-needs-configuring';
                 }
 
+                if (COMPLIANZ()->document->documents_need_updating()){
+                    $warnings[] = 'docs-need-updating';
+                }
+
                 if (!is_ssl()) {
-                  //  $warnings[] = 'no-ssl';
+                    $warnings[] = 'no-ssl';
                 }
 
                 if ($this->complianz_plugin_has_new_features()) {
@@ -452,11 +456,11 @@ if (!class_exists("cmplz_admin")) {
                 <?php
                 foreach (COMPLIANZ()->config->pages as $type => $page) {
                     //get region of this page , and maybe add it to the title
-                    $img = '<img width="20px" height="20px" src="'.cmplz_url.'/core/assets/images/s.png">';
+                    $img = '<img width="25px" height="5px" src="'.cmplz_url.'/core/assets/images/s.png">';
 
                     if (isset($page['condition']['regions'])) {
                         $region = $page['condition']['regions'];
-                        $img = '<img width="20px" src="'.cmplz_url.'/core/assets/images/'.$region.'.png">';
+                        $img = '<img width="25px" src="'.cmplz_url.'/core/assets/images/'.$region.'.png">';
                     }
 
                     if (COMPLIANZ()->document->page_exists($type)) {
@@ -670,6 +674,7 @@ if (!class_exists("cmplz_admin")) {
                             <?php
 
                             $regions = cmplz_get_regions();
+                            $labels = array();
                             foreach($regions as $region => $label){
                                 $labels[] = COMPLIANZ()->config->regions[$region]['label'];
                             }

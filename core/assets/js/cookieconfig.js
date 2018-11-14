@@ -1,7 +1,6 @@
 'use strict';
 
 function complianz_deleteAllCookies() {
-    console.log('clearing all cookies on own domain');
     document.cookie.split(";").forEach(
         function (c) {
             if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
@@ -331,17 +330,13 @@ jQuery(document).ready(function ($) {
     cmplzUpdateStatusCustomLink();
     function cmplzUpdateStatusCustomLink() {
         if ($('.cc-revoke-custom').length) {
-            console.log('revoke button found');
             if (cmplz_user_data.region === 'us') {
-                console.log('us region revoke btn');
                 var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
                 var denied = $('#cmplz-document').find('.cmplz-status-denied');
                 if (cmplzGetCookie('complianz_consent_status') === 'deny') {
-                    console.log('status deny');
                     accepted.hide();
                     denied.show();
                 } else {
-                    console.log('status accept');
                     accepted.show();
                     denied.hide();
                 }

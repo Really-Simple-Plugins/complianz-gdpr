@@ -69,6 +69,8 @@ if (!class_exists("cmplz_field")) {
         public function process_save()
         {
 
+            if (!current_user_can('manage_options')) return;
+
             if (isset($_POST['complianz_nonce'])) {
                 //check nonce
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
@@ -167,6 +169,8 @@ if (!class_exists("cmplz_field")) {
 
         public function save_multiple($fieldnames)
         {
+            if (!current_user_can('manage_options')) return;
+
             $fields = COMPLIANZ()->config->fields();
             foreach ($fieldnames as $fieldname => $saved_fields) {
 
@@ -246,6 +250,8 @@ if (!class_exists("cmplz_field")) {
 
         public function add_multiple_field($fieldname, $cookie_type = false)
         {
+            if (!current_user_can('manage_options')) return;
+
             $fields = COMPLIANZ()->config->fields();
 
             $page = $fields[$fieldname]['page'];
@@ -1022,7 +1028,6 @@ if (!class_exists("cmplz_field")) {
         public
         function button($args)
         {
-
             $fieldname = 'cmplz_' . $args['fieldname'];
             if (!$this->show_field($args)) return;
 
@@ -1031,9 +1036,9 @@ if (!class_exists("cmplz_field")) {
             <label><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
-                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
+                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
             <?php } else { ?>
-                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
+                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                        value="<?php echo esc_html($args['label']) ?>">
             <?php }  ?>
 
@@ -1053,7 +1058,7 @@ if (!class_exists("cmplz_field")) {
 
             <input type="file" type="submit" name="cmplz-upload-file"
                    value="<?php echo esc_html($args['label']) ?>">
-            <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
+            <input <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                    value="<?php _e('Start', 'complianz') ?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php
