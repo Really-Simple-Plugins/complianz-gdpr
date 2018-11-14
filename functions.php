@@ -259,7 +259,6 @@ if (!function_exists('cmplz_get_region_for_country')) {
     function cmplz_get_region_for_country($country_code)
     {
         $regions = COMPLIANZ()->config->regions;
-
         foreach ($regions as $region_code => $region) {
             if (in_array($country_code, $region['countries'])) return $region_code;
         }
@@ -581,8 +580,8 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 /*
  * By default, the region which is returned is the region as selected in the wizard settings.
  *
- *
  * */
+
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
@@ -620,6 +619,7 @@ if (!function_exists('cmplz_ajax_track_status')) {
  * Get string of supported laws
  *
  * */
+
 if (!function_exists('cmplz_supported_laws')) {
 
     function cmplz_supported_laws()
@@ -777,12 +777,12 @@ if (!function_exists('cmplz_allowed_html')){
                 'target' => array(),
             ),
             'b' => array(),
+            'br' => array(),
             'blockquote' => array(
                 'cite'  => array(),
             ),
             'div' => array(
                 'class' => array(),
-                'title' => array(),
                 'id' => array(),
             ),
             'h1' => array(
@@ -828,6 +828,12 @@ if (!function_exists('cmplz_allowed_html')){
                 'id' => array(),
             ),
             'strong' => array(),
+            'table' => array(
+                'class' => array(),
+                'id' => array(),
+            ),
+            'tr' => array(),
+            'td' => array('colspan' =>array()),
             'ul' => array(
                 'class' => array(),
                 'id' => array(),

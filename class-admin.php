@@ -674,6 +674,7 @@ if (!class_exists("cmplz_admin")) {
                             <?php
 
                             $regions = cmplz_get_regions();
+                            $labels = array();
                             foreach($regions as $region => $label){
                                 $labels[] = COMPLIANZ()->config->regions[$region]['label'];
                             }

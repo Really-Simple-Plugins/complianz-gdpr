@@ -54,8 +54,8 @@ button::-moz-focus-inner {
 
 
 #cmplz-document a.cc-revoke-custom {
-    margin-right: 1em; /* remove this while use*/
-    margin-bottom: 1em; /* remove this while use*/
+    margin-right: 1em;
+    margin-bottom: 1em;
     display: inline-block;
     outline: none;
     *zoom: 1;
@@ -80,9 +80,9 @@ button::-moz-focus-inner {
 
 
 #cmplz-document a.cc-revoke-custom:hover {
-    background: #fff;
-    color: #4682B4;
-    border-color: #4682B4;
+    background-color: #396a93;
+    color: #fff;
+    border-color: #396a93;
 }
 
 

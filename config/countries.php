@@ -34,7 +34,7 @@ $this->eu_countries = array(
 $this->regions = array(
     'us' => array(
         'label' => __('US', 'complianz'),
-        'countries' => array('us'),
+        'countries' => array('US'),
         'law' => __("CaCPA", 'complianz'),
     ),
 

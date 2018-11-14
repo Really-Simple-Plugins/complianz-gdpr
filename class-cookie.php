@@ -18,7 +18,6 @@ if (!class_exists("cmplz_cookie")) {
 
             self::$_this = $this;
 
-
             $scan_in_progress = isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'));
             if ($scan_in_progress) {
                 add_action('init', array($this, 'maybe_clear_cookies'), 10, 2);
@@ -713,6 +712,9 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (!current_user_can('manage_options')) return;
 
+            if (isset($_GET['complianz_scan_token'])) {
+                return;
+            }
 
             //if the cookie list cache is cleared, empty the processed page list so the scan starts again.
             if (!get_transient('cmplz_detected_cookies')) {
@@ -833,7 +835,7 @@ if (!class_exists("cmplz_cookie")) {
             if (!$pages) {
                 $args = array(
                     'post_type' => 'page',
-                    'posts_per_page' => 40,
+                    'posts_per_page' => 30,
                 );
                 $posts_page = get_posts($args);
 
@@ -910,6 +912,13 @@ if (!class_exists("cmplz_cookie")) {
             }
         }
 
+        /**
+         * Get list of detected cookies
+         * @return array|mixed
+         *
+         *
+         */
+
         public function get_detected_cookies()
         {
             $cookies = get_option('cmplz_detected_cookies');
@@ -930,10 +939,13 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        /*
+        /**
          * This function gets the cookies by types, so we only get one type per set of cookies.
          *
-         * */
+         * @param bool $count_statistics
+         * @param bool $count_php_session
+         * @return array detected cookie types
+         */
 
         public function get_detected_cookie_types($count_statistics = false, $count_php_session = false)
         {
@@ -974,8 +986,8 @@ if (!class_exists("cmplz_cookie")) {
 
         public function store_detected_cookies()
         {
-            if (!current_user_can('manage_options')) return;
 
+            if (!current_user_can('manage_options')) return;
 
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
@@ -1051,9 +1063,12 @@ if (!class_exists("cmplz_cookie")) {
             update_option('cmplz_update_legal_documents_mail_sent', false);
         }
 
-        /*
+        /**
          * Get a label/description based on a list of known cookie keys.
+         * @param string $cookie_name
+         * @return string $label
          *
+         * @since 1.0.0
          *
          * */
 
@@ -1325,6 +1340,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function get_scan_progress()
         {
+
             $next_url = $this->get_next_page_url();
             $output = array(
                 "progress" => $this->get_progress_count(),

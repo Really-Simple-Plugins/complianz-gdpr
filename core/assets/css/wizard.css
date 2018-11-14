@@ -628,7 +628,6 @@ html .mceContentBody {
 a.cmplz.button,
 button.cmplz.button,
 input.cmplz.button {
-  margin-left: 15px;
   box-shadow: 0 0 0 #fff;
   background-color: #2DAAE1;
   color: #fff;

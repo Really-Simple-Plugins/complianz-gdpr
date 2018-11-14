@@ -1,6 +1,5 @@
 <?php
 //firstname is honeypot
-
 ?>
 <div class="cmplz-dnsmpd alert">
     <span class="close">&times;</span>

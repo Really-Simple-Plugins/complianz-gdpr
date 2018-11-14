@@ -270,9 +270,10 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
+        /**
          * Get all pages that are not assigned to any menu
-         *
+         * @return array|bool
+         * @since 1.2
          *
          * */
 
@@ -303,6 +304,13 @@ if (!class_exists("cmplz_document")) {
             return $pages_not_in_menu;
         }
 
+        /**
+         * Get menu id by location
+         *
+         * @param string $location
+         * @return bool|int
+         */
+
         public function get_menu_id_by_location($location)
         {
             $theme_locations = get_nav_menu_locations();
@@ -310,6 +318,16 @@ if (!class_exists("cmplz_document")) {
             if (!$menu_obj) return false;
             return $menu_obj->term_id;
         }
+
+        /**
+         *
+         * Check if a page is assigned to a menu location
+         * @since 1.2
+         * @param int $page_id
+         * @param string $location
+         * @return bool
+         *
+         */
 
         public function is_assigned_this_menu($page_id, $location)
         {
@@ -334,6 +352,12 @@ if (!class_exists("cmplz_document")) {
             return false;
         }
 
+        /**
+         * Create a page of certain type in wordpress
+         * @since 1.0
+         * @param $type
+         * @return void
+         */
 
         public function create_page($type)
         {
@@ -365,6 +389,11 @@ if (!class_exists("cmplz_document")) {
             $this->set_page_url($page_id, $type);
         }
 
+        /**
+         * Delete a page of a type
+         * @param $type string
+         *
+         */
 
         public function delete_page($type)
         {
@@ -376,6 +405,15 @@ if (!class_exists("cmplz_document")) {
             }
         }
 
+
+        /**
+         *
+         * Check if page of certain type exists
+         * @param $type string
+         * @return bool
+         *
+         */
+
         public function page_exists($type)
         {
             if ($this->get_shortcode_page_id($type)) return true;
@@ -384,10 +422,31 @@ if (!class_exists("cmplz_document")) {
         }
 
 
+        /**
+         *
+         * get the shortcode for a page type
+         *
+         * @param string $type
+         * @return string $shortcode
+         *
+         *
+         */
+
+
         public function get_shortcode($type)
         {
             return 'cmplz-document type="' . $type . '"';
         }
+
+
+        /**
+         *
+         * Get type of document
+         * @param int $post_id
+         * @return bool
+         *
+         *
+         */
 
         public function get_document_type($post_id){
 
@@ -401,6 +460,14 @@ if (!class_exists("cmplz_document")) {
 
             return false;
         }
+
+        /**
+         * Get list of required pages for current setup
+         *
+         * @return array $pages
+         *
+         *
+         */
 
 
         public function get_required_pages()
@@ -419,7 +486,44 @@ if (!class_exists("cmplz_document")) {
         }
 
 
+        /**
+         * Lightens/darkens a given colour (hex format), returning the altered colour in hex format.7
+         * @param string $hex Colour as hexadecimal (with or without hash);
+         * @percent float $percent Decimal ( 0.2 = lighten by 20%(), -0.4 = darken by 40%() )
+         * @return string Lightened/Darkend colour as hexadecimal (with hash);
+         */
 
+        function color_luminance( $hex, $percent ) {
+            if (empty($hex)) return $hex;
+            // validate hex string
+            $hex = preg_replace( '/[^0-9a-f]/i', '', $hex );
+            $new_hex = '#';
+
+            if ( strlen( $hex ) < 6 ) {
+                $hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2] + $hex[2];
+            }
+
+            // convert to decimal and change luminosity
+            for ($i = 0; $i < 3; $i++) {
+                $dec = hexdec( substr( $hex, $i*2, 2 ) );
+                $dec = min( max( 0, $dec + $dec * $percent ), 255 );
+                $new_hex .= str_pad( dechex( $dec ) , 2, 0, STR_PAD_LEFT );
+            }
+
+            return $new_hex;
+        }
+
+
+        /**
+         * loads document content on shortcode call
+         *
+         * @param array $atts
+         * @param null $content
+         * @param string $tag
+         * @return string $html
+         *
+         *
+         */
 
         public function load_document($atts = [], $content = null, $tag = '')
         {
@@ -438,7 +542,10 @@ if (!class_exists("cmplz_document")) {
 
                 //basic color style for revoke button
                 $background_color = cmplz_get_value('brand_color');
-                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}#cmplz-document a.cc-revoke-custom:hover {color: ".$background_color.";border-color: ".$background_color.";}";
+                //if (empty($background_color)) $background_color = cmplz_get_value('popup_background_color');
+                $light_background_color = $this->color_luminance($background_color, -0.2);
+                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
+                $custom_css .="#cmplz-document a.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
                 if (cmplz_get_value('use_custom_document_css')) {
                     $custom_css .= cmplz_get_value('custom_document_css');
                 }
@@ -468,9 +575,12 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
-          checks if the current page contains the shortcode.
-        */
+        /**
+         * checks if the current page contains the shortcode.
+         * @param int $post_id
+         * @return boolean
+         * @since 1.0
+         */
 
         public function is_shortcode_page($post_id = false)
         {
@@ -487,9 +597,12 @@ if (!class_exists("cmplz_document")) {
             return false;
         }
 
-        /*
-          gets the  page that contains the shortcode.
-        */
+        /**
+         * gets the  page that contains the shortcode.
+         * @param string $type
+         * @return int $page_id
+         * @since 1.0
+         */
 
         public function get_shortcode_page_id($type)
         {
@@ -513,10 +626,14 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
+        /**
+         * clear shortcode transients after page update
+         * @param int $post_id
+         * @hooked save_post which is why the $post param is passed without being used.
          *
-         *
-         * clear shortcode transients after page update */
+         * @return void
+         */
+
 
         public function clear_shortcode_transients($post_id=false, $post = false)
         {
@@ -538,11 +655,12 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
-         * @hooked save_post
+        /**
          *
          * updates the stored cmplz url for this post.
-         *
+         * @param int $post_id
+         * @hooked save_post
+         * @return void
          *
          * */
 
@@ -553,14 +671,24 @@ if (!class_exists("cmplz_document")) {
             }
         }
 
+        /**
+         *
+         * get the URl of a specific page type
+         * @param string $type cookie-policy, privacy-statement, etc
+         * @return mixed|void
+         *
+         *
+         */
 
         public function get_page_url($type){
             return get_option('cmplz_url_'.$type);
         }
 
-        /*
+        /**
          *
          * updates the stored cmplz url for a post
+         * @param int $post_id, string $type
+         * @return void
          *
          * */
 

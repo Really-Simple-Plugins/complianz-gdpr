@@ -1028,7 +1028,6 @@ if (!class_exists("cmplz_field")) {
         public
         function button($args)
         {
-
             $fieldname = 'cmplz_' . $args['fieldname'];
             if (!$this->show_field($args)) return;
 
@@ -1037,9 +1036,9 @@ if (!class_exists("cmplz_field")) {
             <label><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
-                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button button-primary"><?php echo esc_html($args['label']) ?></a>
+                <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
             <?php } else { ?>
-                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
+                <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                        value="<?php echo esc_html($args['label']) ?>">
             <?php }  ?>
 
@@ -1059,7 +1058,7 @@ if (!class_exists("cmplz_field")) {
 
             <input type="file" type="submit" name="cmplz-upload-file"
                    value="<?php echo esc_html($args['label']) ?>">
-            <input <?if ($args['disabled']) echo "disabled"?> class="button button-primary" type="submit" name="<?php echo $args['action']?>"
+            <input <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                    value="<?php _e('Start', 'complianz') ?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php

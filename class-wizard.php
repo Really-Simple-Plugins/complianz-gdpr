@@ -649,7 +649,7 @@ if (!class_exists("cmplz_wizard")) {
                 ?>
                 <div class="cmplz-region-indicator">
                     <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
-                    <span><?php printf(__('This section is needed to comply with the %s','complianz'),$law);?></span>
+                    <span><?php if ($this->wizard_type()==='wizard') printf(__('This section is needed to comply with the %s','complianz'),$law);?></span>
                 </div>
 
                 <?php
