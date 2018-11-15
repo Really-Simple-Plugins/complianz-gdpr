@@ -258,6 +258,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_step($page, $step)
         {
+
             if (!COMPLIANZ()->field->step_has_fields($page, $step)) {
                 if ($step>=$this->total_steps($page)) return $step;
                 $step++;
@@ -270,11 +271,19 @@ if (!class_exists("cmplz_wizard")) {
         public function get_next_not_empty_section($page, $step, $section)
         {
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
+                $n=array_keys(COMPLIANZ()->config->steps[$page][$step]['sections']); //<---- Grab all the keys of your actual array and put in another array
+
+                $count=array_search($section,$n); //<--- Returns the position of the offset from this array using search
+                $new_arr=array_slice(COMPLIANZ()->config->steps[$page][$step]['sections'],0,$count+1,true);//<--- Slice it with the 0 index as start and position+1 as the length parameter.
+
                 $section++;
-                if ($section > $this->total_sections($page, $step)) return false;
+
+                if ($count && (count($new_arr)+1 > $this->total_sections($page, $step))) {
+                    return false;
+                }
+
                 $section = $this->get_next_not_empty_section($page, $step, $section);
             }
-
             return $section;
         }
 
@@ -367,6 +376,7 @@ if (!class_exists("cmplz_wizard")) {
                 $step = $this->get_next_not_empty_step($page, $step);
                 $section = $this->get_next_not_empty_section($page, $step, $section);
                 //if the last section is also empty, it will return false, so we need to skip the step too.
+
                 if (!$section) {
                     $step = $this->get_next_not_empty_step($page, $step + 1);
                     $section = 1;

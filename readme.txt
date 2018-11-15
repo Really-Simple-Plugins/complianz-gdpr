@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.0.0
+Stable tag: 2.0.2
 
 Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
@@ -89,6 +89,12 @@ The CaCPA (Californian Privacy Act) is a law set up by the Californian governmen
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
 
 == Change log ==
+= 2.0.2 =
+Fix: section count missing the "purpose" section
+
+= 2.0.1 =
+* Fix: due to commit issue missing file
+
 = 2.0.0 =
 * Tested up to WP 5.0
 * Tweak: updated Geo IP database to latest

@@ -232,7 +232,10 @@ if (!class_exists("cmplz_cookie")) {
         public function plugin_changes($plugin, $network_activation)
         {
             update_option('cmplz_plugins_changed', 1);
-            delete_transient('cmplz_detected_cookies');
+
+            //we don't delete this transient, but just reschedule it. Otherwise the scan would start right away, wich might cause a memory overload.
+            $detected_cookies = get_transient('cmplz_detected_cookies');
+            set_transient('cmplz_detected_cookies', $detected_cookies, HOUR_IN_SECONDS);
         }
 
 
@@ -835,7 +838,7 @@ if (!class_exists("cmplz_cookie")) {
             if (!$pages) {
                 $args = array(
                     'post_type' => 'page',
-                    'posts_per_page' => 30,
+                    'posts_per_page' => 5,
                 );
                 $posts_page = get_posts($args);
 
