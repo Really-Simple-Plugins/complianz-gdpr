@@ -585,7 +585,6 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
-
         $data = apply_filters('cmplz_user_data', array());
         $data['version'] = cmplz_version;
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
@@ -598,12 +597,18 @@ if (!function_exists('cmplz_ajax_user_settings')) {
     }
 }
 
+/*
+ *
+ * Track the status selected by the user, for statistics.
+ *
+ *
+ * */
+
 add_action('wp_ajax_nopriv_cmplz_track_status', 'cmplz_ajax_track_status');
 add_action('wp_ajax_cmplz_track_status', 'cmplz_ajax_track_status');
 if (!function_exists('cmplz_ajax_track_status')) {
     function cmplz_ajax_track_status()
     {
-
         do_action('cmplz_track_status');
 
         $response = json_encode(array(
