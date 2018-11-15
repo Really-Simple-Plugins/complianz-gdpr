@@ -31,10 +31,33 @@ if (!class_exists("cmplz_company")) {
             return false;
         }
 
+        /**
+         * Get the default region based on region settings
+         *
+         * @return string
+         */
+
         public function get_default_region(){
+            //check default region
             $company_region_code = $this->get_company_region_code();
-            $default_region = cmplz_has_region($company_region_code) ? $company_region_code : false;
-            return $default_region ? $default_region : CMPLZ_DEFAULT_REGION;
+            $regions = cmplz_get_regions();
+
+            if (is_array($regions)) {
+                $region_code = "";
+                foreach($regions as $region_code => $label){
+                    //if we have several regions, get the one this company is located in
+                    if ($company_region_code === $region_code) return $region_code;
+                }
+
+                //if no match was found, return the last region.
+                return $region_code;
+            }
+
+            //fallback one: company location
+            if (!empty($company_region_code)) return $company_region_code;
+
+            //fallback if no array was returned.
+            return CMPLZ_DEFAULT_REGION;
         }
 
         /*
