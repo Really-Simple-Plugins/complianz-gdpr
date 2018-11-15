@@ -1288,8 +1288,8 @@ if (!class_exists("cmplz_cookie")) {
                 if ($cookies) {
                     foreach ($cookies as $key => $value) {
                         $html .= '<tr>';
-                        $html .= '<td>' . $key . "</td><td>" . $value . '</td><td>';
-                        $html .= '</td></tr>';
+                        $html .= '<td>' . $key . "</td><td>" . $value . '</td>';
+                        $html .= '</tr>';
                     }
                 } else {
                     $html .= '<tr><td></td><td>---</td></tr>';
@@ -1324,7 +1324,7 @@ if (!class_exists("cmplz_cookie")) {
                     $html .= '<tr><td></td><td>---</td></tr>';
                 }
             }
-            $html = '<table>' . $html . "</table>";
+            $html = '<table style="width:100%">' . $html . "</table>";
             return $html;
         }
 
