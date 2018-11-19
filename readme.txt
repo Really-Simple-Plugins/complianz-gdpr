@@ -90,6 +90,7 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 
 == Change log ==
 = 2.0.2 =
+Tweak: first reported cookies added to the cookie database
 Fix: section count missing the "purpose" section
 
 = 2.0.1 =
