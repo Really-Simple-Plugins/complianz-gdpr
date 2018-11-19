@@ -301,6 +301,7 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
             'callback_condition' => array(
                 'regions' => 'us',
+                'privacy-statement' => 'yes',
             ),
         ),
 
