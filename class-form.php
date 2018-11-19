@@ -24,7 +24,7 @@ function cmplz_forms_used_on_sites()
 function cmplz_site_uses_contact_forms()
 {
 
-    if (count(get_option('cmplz_detected_forms')) > 0) return true;
+    if (get_option('cmplz_detected_forms') && is_array(get_option('cmplz_detected_forms')) && count(get_option('cmplz_detected_forms')) > 0) return true;
 
     return false;
 }

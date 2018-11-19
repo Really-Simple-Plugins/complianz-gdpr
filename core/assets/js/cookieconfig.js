@@ -427,19 +427,15 @@ jQuery(document).ready(function ($) {
         }
 
         //statistics acceptance
-        if ($('#cmplz_stats').length) {
-            if (all || $('#cmplz_stats').is(":checked")) {
-                complianz_enable_stats();
-            }
+        if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
+            complianz_enable_stats();
         }
 
         //marketing cookies acceptance
-        if ($('#cmplz_all').length) {
-            if (all || $('#cmplz_all').is(":checked")) {
-                if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
-                complianz_enable_cookies();
-                complianz_enable_scripts();
-            }
+        if (all || ($('#cmplz_all').length && $('#cmplz_all').is(":checked")) ) {
+            if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
+            complianz_enable_cookies();
+            complianz_enable_scripts();
         }
     }
 

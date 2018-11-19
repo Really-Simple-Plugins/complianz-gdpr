@@ -110,6 +110,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 $known_iframe_tags = array_merge($known_iframe_tags ,  $custom_iframes);
             }
 
+            /*
+             * Handle youtube
+             *
+             * */
+            //$this->set_youtube_placeholder($html);
+
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             $url_pattern = '([\w.,@?^=%&:\/~+#!-]*?)';
 
@@ -192,6 +198,40 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $output;
         }
 
+        /*
+         * replace youtube video with a placeholder image
+         *
+         *
+         * */
+
+        private function set_youtube_placeholder($html){
+            /*
+             * <iframe src="https://www.youtube.com/embed/Ct36QXZ_Y-4" width="966" height="543" frameborder="0" allowfullscreen="allowfullscreen"></iframe>*/
+
+            //find youtube iframe string with regex
+            $iframe_str = '';
+
+            //find youtube url with regex (after embed)
+            $video_url = '';
+
+            //get placeholder from url
+            $placeholder_url = "https://img.youtube.com/vi/$video_url/0.jpg";
+
+            //create image html
+            $img = '<img class="cmplz-placeholder" src="'.$placeholder_url.'" data-video="'.$video_url.'">';
+
+            //replace iframe with placeholder
+            $html = str_replace($iframe_str, $img, $html);
+
+            //replace with image
+
+//
+//                    var video = '<iframe src="'+ $(this).attr('data-video') +'"></iframe>';
+//                    $(this).replaceWith(video);
+//                });
+            return $html;
+        }
+
         private function strpos_arr($haystack, $needle)
         {
             if (empty($haystack)) return false;
@@ -225,8 +265,10 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         }
 
         private function add_class($html, $el, $class){
-            if (strpos($html,'class' )===false){
+            if (strpos($html,'class="' )===false){
                 $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+            } else {
+                $html = str_replace('<'.$el.' class="', '<'.$el.' class="'.$class.' ', $html);
             }
             return $html;
         }

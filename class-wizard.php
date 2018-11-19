@@ -126,8 +126,6 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-
-
         /*
          * Process completion of setup
          *
@@ -190,6 +188,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function before_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type)
         {
+            update_option('cmplz_documents_update_date', time());
 
             /* if tag manager fires scripts, cats should be enabled for each variation. */
             $enable_categories = false;
@@ -258,7 +257,6 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_next_not_empty_step($page, $step)
         {
-
             if (!COMPLIANZ()->field->step_has_fields($page, $step)) {
                 if ($step>=$this->total_steps($page)) return $step;
                 $step++;
@@ -271,14 +269,21 @@ if (!class_exists("cmplz_wizard")) {
         public function get_next_not_empty_section($page, $step, $section)
         {
             if (!COMPLIANZ()->field->step_has_fields($page, $step, $section)) {
-                $n=array_keys(COMPLIANZ()->config->steps[$page][$step]['sections']); //<---- Grab all the keys of your actual array and put in another array
+                //some keys are missing, so we need to count the actual number of keys.
+                if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'])) {
+                    $n = array_keys(COMPLIANZ()->config->steps[$page][$step]['sections']); //<---- Grab all the keys of your actual array and put in another array
+                    $count = array_search($section, $n); //<--- Returns the position of the offset from this array using search
 
-                $count=array_search($section,$n); //<--- Returns the position of the offset from this array using search
-                $new_arr=array_slice(COMPLIANZ()->config->steps[$page][$step]['sections'],0,$count+1,true);//<--- Slice it with the 0 index as start and position+1 as the length parameter.
+                    //this is the actual list up to section key.
+                    $new_arr = array_slice(COMPLIANZ()->config->steps[$page][$step]['sections'], 0, $count + 1, true);//<--- Slice it with the 0 index as start and position+1 as the length parameter.
+                    $section_count = count($new_arr)+1;
+                } else {
+                    $section_count = $section+1;
+                }
 
                 $section++;
 
-                if ($count && (count($new_arr)+1 > $this->total_sections($page, $step))) {
+                if ($section_count > $this->total_sections($page, $step)) {
                     return false;
                 }
 
@@ -376,7 +381,6 @@ if (!class_exists("cmplz_wizard")) {
                 $step = $this->get_next_not_empty_step($page, $step);
                 $section = $this->get_next_not_empty_section($page, $step, $section);
                 //if the last section is also empty, it will return false, so we need to skip the step too.
-
                 if (!$section) {
                     $step = $this->get_next_not_empty_step($page, $step + 1);
                     $section = 1;
@@ -561,10 +565,6 @@ if (!class_exists("cmplz_wizard")) {
             $wizard_type = 'wizard';
             if (isset($_POST['wizard_type']) || isset($_POST['wizard_type'])) {
                 $wizard_type = isset($_POST['wizard_type']) ? $_POST['wizard_type'] : $_GET['wizard_type'];
-
-                //sanitize
-                $types = array('wizard', 'processing', 'dataleak');
-                if (!in_array($wizard_type, $types)) $wizard_type = 'wizard';
             } else {
                 if (isset($_GET['page'])) {
                     $wizard_type = str_replace('cmplz-', '',$_GET['page']);
@@ -656,9 +656,11 @@ if (!class_exists("cmplz_wizard")) {
             $region = $this->get_section_region($page, $step, $section);
             if ($region){
                 $law = $this->get_section_law($page, $step, $section, $region);
+
                 ?>
                 <div class="cmplz-region-indicator">
                     <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
+
                     <span><?php if ($this->wizard_type()==='wizard') printf(__('This section is needed to comply with the %s','complianz'),$law);?></span>
                 </div>
 

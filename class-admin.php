@@ -159,6 +159,22 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
+            //set a default region if this is an upgrade:
+            if ($prev_version && version_compare($prev_version, '2.0.1', '<')) {
+                $regions = cmplz_get_value('regions');
+                if (empty($regions)) {
+                    if (defined('cmplz_free')) cmplz_update_option('wizard', 'regions', 'eu');
+                    $country =  cmplz_get_value('use_country');
+                    if (defined('cmplz_premium')) {
+                        if ($country){
+                            cmplz_update_option('wizard', 'regions', array('eu'));
+                        } else {
+                            cmplz_update_option('wizard', 'regions', 'eu');
+                        }
+                    }
+                }
+            }
+
             /*
              * If the legal documents have changed, we notify the user of this.
              *
