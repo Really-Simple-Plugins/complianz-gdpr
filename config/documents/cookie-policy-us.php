@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->document_elements['cookie-statement-us'] = array(
     array(
-        'content' => '<i>' . sprintf("This 'Do Not Sell My Personal Information' page was last updated on %s and applies to citizens of the United States. ", '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf("This 'Do Not Sell My Personal Information' page was last changed on %s, last checked on %s and applies to citizens of the United States. ", '[publish_date]', '[checked_date]') . '</i>',
     ),
     array(
         'title' => 'Introduction',

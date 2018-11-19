@@ -126,8 +126,6 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-
-
         /*
          * Process completion of setup
          *
@@ -190,6 +188,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function before_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type)
         {
+            update_option('cmplz_documents_update_date', time());
 
             /* if tag manager fires scripts, cats should be enabled for each variation. */
             $enable_categories = false;

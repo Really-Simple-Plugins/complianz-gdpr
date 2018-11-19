@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
-if (!function_exists('cmplz_uses_google_analytics')) {
 
+if (!function_exists('cmplz_uses_google_analytics')) {
     function cmplz_uses_google_analytics()
     {
         return COMPLIANZ()->cookie->uses_google_analytics();
@@ -585,6 +585,7 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
+
         $data = apply_filters('cmplz_user_data', array());
         $data['version'] = cmplz_version;
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
