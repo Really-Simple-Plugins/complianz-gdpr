@@ -447,7 +447,7 @@ if (!class_exists("cmplz_cookie")) {
 
                 $output['readmore_url'] = get_option('cmplz_url_cookie-statement');
                 $output['readmore_url_us'] = get_option('cmplz_url_cookie-statement-us');
-                $output['privacy_link'] = empty(get_option('cmplz_url_privacy-statement-us')) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . get_option('cmplz_url_privacy-statement-us') . '">' . $output['readmore_privacy'] . '</a>' : '';
+                $output['privacy_link'] = !empty(get_option('cmplz_url_privacy-statement-us')) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . get_option('cmplz_url_privacy-statement-us') . '">' . $output['readmore_privacy'] . '</a>' : '';
 
                 $output['nonce'] = wp_create_nonce('set_cookie');
                 $output['url'] = admin_url('admin-ajax.php');
