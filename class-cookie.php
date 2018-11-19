@@ -1107,6 +1107,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function is_unknown_cookie($cookie_name)
         {
+
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
@@ -1132,7 +1133,6 @@ if (!class_exists("cmplz_cookie")) {
          * */
 
         public function has_unknown_cookies(){
-
             $cookies = $this->get_detected_cookies();
             foreach ($cookies as $key => $label){
                 if ($this->is_unknown_cookie($key) && !$this->is_reported($key)){

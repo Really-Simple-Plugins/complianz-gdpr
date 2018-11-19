@@ -23,6 +23,11 @@ if (!class_exists("cmplz_review")) {
                         add_action('admin_notices', array($this, 'show_leave_review_notice'));
                         add_action('admin_print_footer_scripts', array($this, 'insert_dismiss_review'));
                 }
+
+                //set a time for users who didn't have it set yet.
+                if (!get_option('cmplz_activation_time')){
+                    update_option('cmplz_activation_time', time());
+                }
             }
 
         }

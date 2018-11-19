@@ -39,13 +39,13 @@ if (!class_exists("cmplz_document_core")) {
          *
          * */
         public function not_updated_in($period){
-
             //if the wizard is never completed, we don't want any update warnings.
             if (!get_option('cmplz_wizard_completed_once')) {
                 return false;
             }
 
-            $date = strtotime(get_option('cmplz_publish_date'));
+            $date = get_option('cmplz_documents_update_date');
+            if (!$date) return false;
 
             $time_passed =  time() - $date;
             if ($time_passed>$period) return true;
@@ -366,6 +366,10 @@ if (!class_exists("cmplz_document_core")) {
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", cmplz_esc_html($date), $html);
+
+            $checked_date = date(get_option('date_format'), get_option('cmplz_documents_update_date'));
+            $checked_date = cmplz_localize_date($checked_date);
+            $html = str_replace("[checked_date]", cmplz_esc_html($checked_date), $html);
 
             //replace all fields.
             foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {

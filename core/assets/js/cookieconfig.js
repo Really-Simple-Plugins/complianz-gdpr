@@ -105,6 +105,7 @@ jQuery(document).ready(function ($) {
 
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
+        //the IDE will give a warning about the complianz var here, but it's inserted by wordpress
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
         cmplzCheckCookiePolicyID();
 
@@ -136,6 +137,7 @@ jQuery(document).ready(function ($) {
                 console.log('other region, no cookie warning');
                 complianz_enable_cookies();
                 complianz_enable_scripts();
+                if (complianz.use_categories) cmplzFireCategories(true);
                 //cookie blocker is default enabled, so all scripts need to be enabled.
             }
         }
@@ -425,19 +427,15 @@ jQuery(document).ready(function ($) {
         }
 
         //statistics acceptance
-        if ($('#cmplz_stats').length) {
-            if (all || $('#cmplz_stats').is(":checked")) {
-                complianz_enable_stats();
-            }
+        if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
+            complianz_enable_stats();
         }
 
         //marketing cookies acceptance
-        if ($('#cmplz_all').length) {
-            if (all || $('#cmplz_all').is(":checked")) {
-                if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
-                complianz_enable_cookies();
-                complianz_enable_scripts();
-            }
+        if (all || ($('#cmplz_all').length && $('#cmplz_all').is(":checked")) ) {
+            if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
+            complianz_enable_cookies();
+            complianz_enable_scripts();
         }
     }
 
@@ -498,9 +496,10 @@ jQuery(document).ready(function ($) {
         if (cmplzGetCookie('cmplz_stats') === 'allow') $('#cmplz_stats').prop('checked', true);
     }
 
-    function cmplzMergeObject(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i];
+    function cmplzMergeObject(target, userdata) {
+        for (var i = 1; i < userdata.length; i++) {
+            var source = userdata;
+
             for (var key in source) {
                 if (source.hasOwnProperty(key)) {
                     target[key] = source[key];

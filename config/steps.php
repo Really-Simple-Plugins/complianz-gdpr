@@ -21,6 +21,7 @@ $this->steps = array(
                         'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
                     ),
                     5 => array(
+                        'law' => 'us',
                         'title' => __('Purpose', 'complianz'),
                         //'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz' ),
                     ),
