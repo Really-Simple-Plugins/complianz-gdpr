@@ -105,6 +105,7 @@ jQuery(document).ready(function ($) {
 
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
+        //the IDE will give a warning about the complianz var here, but it's inserted by wordpress
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
         cmplzCheckCookiePolicyID();
 
@@ -130,12 +131,13 @@ jQuery(document).ready(function ($) {
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_us;
                 complianz.dismiss = complianz.accept_informational;
-                ccPrivacyLink = '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' + complianz.privacy_url + '">' + complianz.readmore_privacy + '</a>';
+                 ccPrivacyLink= complianz.privacy_link;
                 cmplz_cookie_warning();
             } else {
                 console.log('other region, no cookie warning');
                 complianz_enable_cookies();
                 complianz_enable_scripts();
+                if (complianz.use_categories) cmplzFireCategories(true);
                 //cookie blocker is default enabled, so all scripts need to be enabled.
             }
         }
@@ -498,9 +500,10 @@ jQuery(document).ready(function ($) {
         if (cmplzGetCookie('cmplz_stats') === 'allow') $('#cmplz_stats').prop('checked', true);
     }
 
-    function cmplzMergeObject(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i];
+    function cmplzMergeObject(target, userdata) {
+        for (var i = 1; i < userdata.length; i++) {
+            var source = userdata;
+
             for (var key in source) {
                 if (source.hasOwnProperty(key)) {
                     target[key] = source[key];

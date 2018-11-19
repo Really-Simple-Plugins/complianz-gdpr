@@ -447,7 +447,7 @@ if (!class_exists("cmplz_cookie")) {
 
                 $output['readmore_url'] = get_option('cmplz_url_cookie-statement');
                 $output['readmore_url_us'] = get_option('cmplz_url_cookie-statement-us');
-                $output['privacy_url'] = get_option('cmplz_url_privacy-statement-us');
+                $output['privacy_link'] = empty(get_option('cmplz_url_privacy-statement-us')) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . get_option('cmplz_url_privacy-statement-us') . '">' . $output['readmore_privacy'] . '</a>' : '';
 
                 $output['nonce'] = wp_create_nonce('set_cookie');
                 $output['url'] = admin_url('admin-ajax.php');
@@ -1107,6 +1107,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function is_unknown_cookie($cookie_name)
         {
+
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
@@ -1132,7 +1133,6 @@ if (!class_exists("cmplz_cookie")) {
          * */
 
         public function has_unknown_cookies(){
-
             $cookies = $this->get_detected_cookies();
             foreach ($cookies as $key => $label){
                 if ($this->is_unknown_cookie($key) && !$this->is_reported($key)){
@@ -1288,8 +1288,8 @@ if (!class_exists("cmplz_cookie")) {
                 if ($cookies) {
                     foreach ($cookies as $key => $value) {
                         $html .= '<tr>';
-                        $html .= '<td>' . $key . "</td><td>" . $value . '</td><td>';
-                        $html .= '</td></tr>';
+                        $html .= '<td>' . $key . "</td><td>" . $value . '</td>';
+                        $html .= '</tr>';
                     }
                 } else {
                     $html .= '<tr><td></td><td>---</td></tr>';
@@ -1324,7 +1324,7 @@ if (!class_exists("cmplz_cookie")) {
                     $html .= '<tr><td></td><td>---</td></tr>';
                 }
             }
-            $html = '<table>' . $html . "</table>";
+            $html = '<table style="width:100%">' . $html . "</table>";
             return $html;
         }
 
