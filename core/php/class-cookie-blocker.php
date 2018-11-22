@@ -264,11 +264,21 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $script;
         }
 
+
+        /*
+         *
+
+         *
+         * */
+
         private function add_class($html, $el, $class){
-            if (strpos($html,'class="' )===false){
-                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+
+            preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
+
+            if ($matches) {
+                $html = preg_replace('/<script[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html);
             } else {
-                $html = str_replace('<'.$el.' class="', '<'.$el.' class="'.$class.' ', $html);
+                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
             }
             return $html;
         }

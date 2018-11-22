@@ -3,6 +3,7 @@
 if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit();
 }
+
 $delete_options = array(
     "cmplz_legal_version",
     "cmplz_plugin_new_features",
@@ -34,7 +35,8 @@ $delete_options = array(
     'cmplz_license_expires',
     'cmplz_license_notice_dismissed',
 );
-delete_all_options($delete_options);
+
+if (!defined('cmplz_premium') && !defined('cmplz_premium_multisite')) delete_all_options($delete_options);
 
 function delete_all_options($options) {
     foreach ($options as $option_name){
