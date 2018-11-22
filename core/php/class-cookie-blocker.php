@@ -267,7 +267,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         /*
          *
-
          *
          * */
 
@@ -276,9 +275,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
 
             if ($matches) {
-                $html = preg_replace('/<script[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html);
+                $html = preg_replace('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html, 1);
             } else {
-                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+                $pos = strpos($html, "<$el");
+                if ($pos !== false) {
+                    $html = substr_replace($html, '<'.$el.' class="'.$class.'"', $pos, strlen("<$el"));
+                }
             }
             return $html;
         }
