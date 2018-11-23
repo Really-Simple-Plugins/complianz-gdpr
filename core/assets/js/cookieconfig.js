@@ -10,7 +10,9 @@ function complianz_deleteAllCookies() {
     );
 }
 
+
 jQuery(document).ready(function ($) {
+
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
@@ -40,6 +42,16 @@ jQuery(document).ready(function ($) {
                 $(this).remove();
             }
         });
+
+        //fire an event so custom scripts can hook into this.
+        var event = new CustomEvent("cmplzEnableScripts");
+        document.dispatchEvent(event);
+            //example implementation of the event:
+            //     document.addEventListener("cmplzEnableScripts", cmplzAddIframeDiv, false);
+            //     function cmplzAddIframeDiv(e) {
+            //         console.log('run enable scripts event');
+            //     }
+
     }
 
     function complianz_enable_stats() {
@@ -56,6 +68,10 @@ jQuery(document).ready(function ($) {
             }
             ccStatsEnabled = true;
         });
+
+        //fire an event so custom scripts can hook into this.
+        var event = new CustomEvent("cmplzEnableStats");
+        document.dispatchEvent(event);
     }
 
 
@@ -85,7 +101,7 @@ jQuery(document).ready(function ($) {
     }
 
     //if not, reload. As region is new, we also check for this feature, so we know which version of data we use.
-    if (cmplz_user_data.length === 0 || (typeof cmplz_user_data.version !== complianz.version)) {
+    if (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version)) {
         $.ajax({
             type: "GET",
             url: complianz.url,

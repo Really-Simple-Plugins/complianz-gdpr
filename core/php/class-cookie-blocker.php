@@ -245,16 +245,16 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         private function set_javascript_to_plain($script){
 
-            if (strpos($script, 'type')===false) {
-                $script = str_replace("<script", '<script type="text/plain"', $script);
+            preg_match('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', $script, $matches);
+            if ($matches) {
+                $script = preg_replace('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', 'type="text/plain"', $script, 1);
             } else {
-                $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
-
-                //make possible to override
-                $pattern = apply_filters('cmplz_script_type_pattern', $pattern);
-
-                $script = preg_replace($pattern, 'type="text/plain"', $script);
+                $pos = strpos($script, "<script");
+                if ($pos !== false) {
+                    $script = substr_replace($script, '<script type="text/plain"', $pos, strlen("<script"));
+                }
             }
+
             return $script;
         }
 
@@ -264,11 +264,23 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $script;
         }
 
+
+        /*
+         *
+         *
+         * */
+
         private function add_class($html, $el, $class){
-            if (strpos($html,'class="' )===false){
-                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+
+            preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
+
+            if ($matches) {
+                $html = preg_replace('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html, 1);
             } else {
-                $html = str_replace('<'.$el.' class="', '<'.$el.' class="'.$class.' ', $html);
+                $pos = strpos($html, "<$el");
+                if ($pos !== false) {
+                    $html = substr_replace($html, '<'.$el.' class="'.$class.'"', $pos, strlen("<$el"));
+                }
             }
             return $html;
         }
