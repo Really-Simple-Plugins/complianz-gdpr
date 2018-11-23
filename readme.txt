@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.0.5s
+Stable tag: 2.0.5
 
 Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
@@ -90,6 +90,7 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 
 == Change log ==
 = 2.0.5 =
+* Tweak: ajax call for user data only on first visit
 * Fix: Cookie blocker inserting class within escaped strings.
 
 = 2.0.4 =

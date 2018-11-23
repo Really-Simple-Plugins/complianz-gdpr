@@ -390,6 +390,7 @@ if (!class_exists("cmplz_cookie")) {
                     if (empty($value)) $value = $field['default'];
                     $output[str_replace($variation_id, '', $fieldname)] = wp_kses($value, $allowed_html);
                 }
+                $output['version'] = cmplz_version;
                 $output['static'] = false;
                 $output['categories'] = '';
                 switch ($output['position']) {

@@ -45,12 +45,16 @@ $this->script_tags = array(
     'addthis.com',
     'sharethis.com',
     'adsbygoogle',
-    'googlesyndication',
     'cdn.livechatinc.com/tracking.js',
     'googleads.g.doubleclick.net',
+    'advads_tracking_ads',
+    'advanced_ads',
+    'googletagmanager.com/gtag/js',
 );
 
 $this->iframe_tags = array(
+    'googleads',
+    'doubleclick',
     'youtube.com',
     'platform.twitter.com',
 	'facebook.com/plugins',
