@@ -207,7 +207,7 @@ if (!class_exists("cmplz_document")) {
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
                 if (COMPLIANZ()->company->sells_personal_data()){
-                    cmplz_notice(__('You sell personal data from your customers. This means you are required to put the "Do Not Sell My Personal Information" page clearly visible on your homepage.', 'complianz'));
+                    cmplz_notice(sprintf(__('You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.', 'complianz'), cmplz_us_cookie_statement_title()));
                 }
 
                 $docs = array_map('get_the_title', $pages_not_in_menu);
@@ -577,7 +577,7 @@ if (!class_exists("cmplz_document")) {
 
         /**
          * checks if the current page contains the shortcode.
-         * @param int $post_id
+         * @param int|bool $post_id
          * @return boolean
          * @since 1.0
          */
@@ -628,7 +628,8 @@ if (!class_exists("cmplz_document")) {
 
         /**
          * clear shortcode transients after page update
-         * @param int $post_id
+         * @param int|bool $post_id
+         * @param object|bool $post
          * @hooked save_post which is why the $post param is passed without being used.
          *
          * @return void
@@ -675,12 +676,15 @@ if (!class_exists("cmplz_document")) {
          *
          * get the URl of a specific page type
          * @param string $type cookie-policy, privacy-statement, etc
-         * @return mixed|void
+         * @return string
          *
          *
          */
 
         public function get_page_url($type){
+            if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_option('privacy-statement')!=='yes'){
+                return cmplz_get_value('custom_privacy_statement_url');
+            }
             return get_option('cmplz_url_'.$type);
         }
 

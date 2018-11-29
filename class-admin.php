@@ -86,6 +86,9 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz_detected_thirdparty_services',
                 'cmplz_deleted_cookies',
                 'cmplz_reported_cookies',
+                'cmplz_geo_ip_file',
+                'cmplz_geoip_import_error',
+                'cmplz_last_update_geoip',
             );
 
             foreach ($options as $option_name) {
@@ -141,7 +144,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            if (version_compare($prev_version, '2.0', '<')) {
+            if (version_compare($prev_version, '2.0.6', '<')) {
                 //add category eu existing dataleaks and processing agreements.
                 $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
                 foreach ($posts as $post){
@@ -173,6 +176,11 @@ if (!class_exists("cmplz_admin")) {
                         }
                     }
                 }
+            }
+
+            //make sure the maxmind db is downloaded on upgrade
+            if ($prev_version && version_compare($prev_version, '2.0.2', '<')) {
+                update_option('cmplz_import_geoip_on_activation', true);
             }
 
             /*
@@ -963,9 +971,12 @@ if (!class_exists("cmplz_admin")) {
         {
             if (!is_user_logged_in()) return;
 
+            $screen = get_current_screen();
+            if ( $screen->parent_base === 'edit' ) return;
+
             if (version_compare(phpversion(), '5.6', '<')) {
-                ?>
                 // php version isn't high enough
+                ?>
                 <div id="message" class="error fade notice cmplz-wp-notice">
                     <h2><?php echo __("PHP version problem", "complianz"); ?></h2>
                     <p>

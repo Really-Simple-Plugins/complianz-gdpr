@@ -849,3 +849,73 @@ if (!function_exists('cmplz_allowed_html')){
         return apply_filters("cmplz_allowed_html",$allowed_tags);
     }
 }
+
+/**
+ * Load the translation files
+ *
+ *
+ */
+if (!function_exists('cmplz_load_translation')) {
+    add_action('admin_init', 'cmplz_load_translation', 20);
+    function cmplz_load_translation()
+    {
+        load_plugin_textdomain('complianz', FALSE, dirname(plugin_basename(__FILE__)) . '/config/languages/');
+    }
+}
+
+
+if (!function_exists('cmplz_placeholder_image')){
+    function cmplz_placeholder_image(){
+        return apply_filters('cmplz_placeholder_image', cmplz_url.'core/assets/images/placeholder.png');
+    }
+}
+
+
+
+if (!function_exists('cmplz_us_cookie_statement_title')){
+    /**
+     * US Cookie policy can have two different titles depending on the Californian targeting
+     * @return string $title
+     * @since 2.0.6
+     */
+
+    function cmplz_us_cookie_statement_title($california=false){
+        if (!$california) $california = cmplz_get_value('california');
+        if ($california === 'yes'){
+            $title = "Do Not Sell My Personal Information";
+        } else {
+            $title = "Cookie Statement (US)";
+        }
+
+        return apply_filters('cmplz_us_cookie_statement_title', $title);
+    }
+}
+
+
+if (!function_exists('cmplz_update_cookie_policy_title')) {
+    /**
+     * Adjust the cookie policy title according to the california setting
+     * @param string $fieldvalue
+     * $return void
+     */
+    function cmplz_update_cookie_policy_title($fieldvalue)
+    {
+        //get page id of US cookie policy
+        $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement-us');
+        $title = cmplz_us_cookie_statement_title($fieldvalue);
+        $post = array(
+            'ID' => intval($page_id),
+            'post_title'   => $title,
+            'post_name' => sanitize_title($title),
+        );
+        wp_update_post($post);
+
+        cmplz_update_option('cookie_settings', 'readmore_us', $title);
+    }
+}
+
+if (!function_exists('cmplz_targets_california')){
+    function cmplz_targets_california(){
+        return cmplz_get_value('california')==='yes';
+    }
+}

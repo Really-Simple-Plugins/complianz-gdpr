@@ -295,6 +295,9 @@ if (!class_exists("cmplz_document_core")) {
         }
 
 
+
+
+
         /*
          * Check if this element should be numbered
          * if no key is set, default is true
@@ -358,10 +361,17 @@ if (!class_exists("cmplz_document_core")) {
 
             $region = !isset($pages[$type]['condition']['regions']) || ($pages[$type]['condition']['regions']==='eu') ? false : '-'.$pages[$type]['condition']['regions'];
             $html = str_replace("[cookie-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_cookie-statement'.$region)), $html);
-            $html = str_replace("[privacy-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement'.$region)), $html);
-            $html = str_replace("[privacy-statement-children-us-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement-children-us')), $html);
+            error_log($this->get_page_url('privacy-statement'.$region));
 
+            $html = str_replace("[privacy_policy_url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement'.$region)), $html);
 
+            //backward compability
+            $html = str_replace("[privacy-statement-url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement'.$region)), $html);
+            $html = str_replace("[privacy-statement-children-us-url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement-children-us')), $html);
+
+            //us can have two types of titles
+            $cookie_policy_title = esc_html(cmplz_us_cookie_statement_title());
+            $html = str_replace('[cookie-statement-us-title]', $cookie_policy_title, $html);
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);

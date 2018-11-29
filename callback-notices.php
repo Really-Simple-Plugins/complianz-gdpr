@@ -164,4 +164,3 @@ function cmplz_set_default($value, $fieldname)
 
     return $value;
 }
-

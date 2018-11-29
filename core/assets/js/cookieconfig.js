@@ -27,13 +27,27 @@ jQuery(document).ready(function ($) {
             $(this).attr('src', src);
         });
 
+        //images
+        $('.cmplz-img').each(function (i, obj) {
+            var src = $(this).data('src-cmplz');
+            $(this).attr('src', src);
+        });
+
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function (i, obj) {
             var src = $(this).attr('src');
             if (src && src.length) {
-                $(this).attr('type', 'text/javascript');
-                $.getScript(src, function () {
-                });
+                if (typeof $(this).data('post_scribe_id') !== 'undefined') {
+                    var psID = '#'+$(this).data('post_scribe_id');
+                    $(psID).html('');
+                    $(function() {
+                        postscribe(psID, '<script src='+src+'></script>');
+                    });
+                } else {
+                    $(this).attr('type', 'text/javascript');
+                    $.getScript(src, function () {
+                    });
+                }
             } else if ($(this).text().length) {
                 $('<script>')
                     .attr('type', 'text/javascript')
@@ -46,7 +60,7 @@ jQuery(document).ready(function ($) {
         //fire an event so custom scripts can hook into this.
         var event = new CustomEvent("cmplzEnableScripts");
         document.dispatchEvent(event);
-            //example implementation of the event:
+            //     example implementation of the event:
             //     document.addEventListener("cmplzEnableScripts", cmplzAddIframeDiv, false);
             //     function cmplzAddIframeDiv(e) {
             //         console.log('run enable scripts event');

@@ -10,7 +10,7 @@ $this->pages = array(
         ),
     ),
     'cookie-statement-us' => array(
-        'title' => __("Do Not Sell My Personal Information", 'complianz'),
+        'title' => cmplz_us_cookie_statement_title(),
         'public' => true,
         'condition' => array(
             'regions' => 'us',
