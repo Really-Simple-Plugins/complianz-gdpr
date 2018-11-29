@@ -3,7 +3,6 @@
 if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit();
 }
-
 $delete_options = array(
     "cmplz_legal_version",
     "cmplz_plugin_new_features",
@@ -34,8 +33,10 @@ $delete_options = array(
     'cmplz_deactivated',
     'cmplz_license_expires',
     'cmplz_license_notice_dismissed',
+    'cmplz_geo_ip_file',
+    'cmplz_geoip_import_error',
+    'cmplz_last_update_geoip',
 );
-
 if (!defined('cmplz_premium') && !defined('cmplz_premium_multisite')) delete_all_options($delete_options);
 
 function delete_all_options($options) {

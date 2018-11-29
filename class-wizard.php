@@ -164,7 +164,7 @@ if (!class_exists("cmplz_wizard")) {
             COMPLIANZ()->cookie->reset_plugins_updated();
 
             //when clicking to the last page, or clicking finish, run the finish sequence.
-            if (isset($_POST['cmplz-finish']) || (isset($_POST["step"]) && $_POST['step']==STEP_MENU && isset($_POST['cmplz-next']))){
+            if (isset($_POST['cmplz-cookie-settings']) || isset($_POST['cmplz-finish']) || (isset($_POST["step"]) && $_POST['step']==STEP_MENU && isset($_POST['cmplz-next']))){
                 $this->set_wizard_completed_once();
                 //check if cookie warning should be enabled
                 if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
@@ -174,9 +174,16 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
+
+
             //after clicking finish, redirect to dashboard.
             if (isset($_POST['cmplz-finish'])) {
                 wp_redirect(admin_url('admin.php?page=complianz'));
+                exit();
+            }
+
+            if (isset($_POST['cmplz-cookie-settings'])) {
+                wp_redirect(admin_url('admin.php?page=cmplz-cookie-warning'));
                 exit();
             }
         }
@@ -228,6 +235,15 @@ if (!class_exists("cmplz_wizard")) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
             }
 
+            /*
+             * if the targeting of california is changed, we rewrite the corresponding page title and slug.
+            */
+
+            if ($fieldname == 'california'){
+                add_action( 'shutdown', function() use ( $fieldvalue ) {cmplz_update_cookie_policy_title($fieldvalue );}, 12);
+                do_action('cmplz_update_us_cookie_policy_title', $fieldvalue);
+            }
+
 
             //when the brand color is saved, update the cookie settings
             //only if nothing entered yet.
@@ -241,6 +257,8 @@ if (!class_exists("cmplz_wizard")) {
 
 
         }
+
+
 
 
         /*
@@ -733,11 +751,21 @@ if (!class_exists("cmplz_wizard")) {
                         }
                         $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz') : __("Finish", 'complianz');
                         ?>
-                        <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) { ?>
-                            <div class="cmplz-button cmplz-next">
-                                <input class="button" type="submit" name="cmplz-finish"
-                                       value="<?php echo $label ?>">
-                            </div>
+                        <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) {
+
+                            if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){ ?>
+                                <div class="cmplz-button cmplz-next">
+                                    <input class="button" type="submit" name="cmplz-cookie-settings"
+                                           value="<?php _e("Finish and check cookie banner settings", 'complianz') ?>">
+                                </div>
+                            <?php } else { ?>
+                                <div class="cmplz-button cmplz-next">
+                                    <input class="button" type="submit" name="cmplz-finish"
+                                           value="<?php echo $label ?>">
+                                </div>
+                            <?php }
+                            ?>
+
                         <?php } ?>
 
                         <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) { ?>

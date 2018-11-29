@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->document_elements['cookie-statement'] = array(
     'last-updated' => array(
-        'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s and applies to citizens of the European Union.', 'Legal document cookie policy', 'complianz'), '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s and applies to citizens of the European Economic Area.', 'Legal document cookie policy', 'complianz'), '[publish_date]') . '</i>',
     ),
     'introduction' => array(
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz'),
@@ -102,7 +102,7 @@ $this->document_elements['cookie-statement'] = array(
                                     <td>' . _x("Sharing", 'Legal document cookie policy', 'complianz') . '</td>
                                   </tr><tr>
                                      <td>[used_names]</td>
-                                     <td><a href="[privacy-statement-url]">'.__('Privacy statement','complianz').'</a></td>
+                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz').'</a></td>
                                  </tr>
                      </table>',
         'condition' => array(

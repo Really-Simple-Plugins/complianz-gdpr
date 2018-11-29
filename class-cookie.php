@@ -274,14 +274,15 @@ if (!class_exists("cmplz_cookie")) {
         {
             $user_variation_id = $this->user_cookie_variation;
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
             $cookiesettings = $this->get_cookie_settings($user_variation_id);
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
+            wp_enqueue_script('cmplz-postscribe', cmplz_url . "core/assets/js/postscribe.min.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
-                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", array('jquery'), cmplz_version, true);
+
+                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", array('jquery', 'cmplz-postscribe'), cmplz_version, true);
                 wp_localize_script(
                     'cmplz-cookie-config',
                     'complianz',
@@ -811,7 +812,6 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (!current_user_can('manage_options')) return;
 
-
             $token = time();
             update_option('complianz_scan_token', $token);
             $pages = $this->pages_to_process();
@@ -839,7 +839,7 @@ if (!class_exists("cmplz_cookie")) {
             if (!$pages) {
                 $args = array(
                     'post_type' => 'page',
-                    'posts_per_page' => 5,
+                    'posts_per_page' => 10,
                 );
                 $posts_page = get_posts($args);
 

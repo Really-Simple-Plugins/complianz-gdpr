@@ -650,6 +650,7 @@ if (!class_exists("cmplz_field")) {
                     $type = 'callback_condition';
                 }
             }
+
             if (!$type || !is_array($args[$type])) {
                 return true;
             }
@@ -699,7 +700,6 @@ if (!class_exists("cmplz_field")) {
                             }
                         }
                     }
-
                 }
             }
             return true;

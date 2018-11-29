@@ -44,7 +44,12 @@ $this->steps = array(
                     ),
                     3 => array('title' => __('Used cookies', 'complianz'),
                         'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz').
-                        '<br>'.sprintf(_x("In a cookie entry %s means it's marked as a functional cookie, %s means it will be shown in the cookie policy on your website.", 'intro used cookies', 'complianz'),'<i class="fa fa-code"></i>','<i class="fa fa-file"></i>'),
+                        '<p>'._x("The following icons are used in the list:", 'intro used cookies', 'complianz').
+                        '<br>'.sprintf(_x("%s Marked as a functional cookie",'intro used cookies', "complianz"), '<i class="fa fa-code"></i>').
+                        '<br>'.sprintf(_x("%s The cookie will be listed on the website.", 'intro used cookies', 'complianz'),'<i class="fa fa-file"></i>').
+                        '<br>'.sprintf(_x("%s Alle fields are completed", 'intro used cookies', 'complianz'),'<i class="fa fa-check"></i>').
+                        '<br>'.sprintf(_x("%s Missing fields", 'intro used cookies', 'complianz'),'<i class="fa fa-times"></i>').'</p>',
+
 
                     ),
 //                    4 => array('title' => __('Script center', 'complianz'),
