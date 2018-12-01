@@ -39,10 +39,12 @@ jQuery(document).ready(function ($) {
             if (src && src.length) {
                 if (typeof $(this).data('post_scribe_id') !== 'undefined') {
                     var psID = '#'+$(this).data('post_scribe_id');
-                    $(psID).html('');
-                    $(function() {
-                        postscribe(psID, '<script src='+src+'></script>');
-                    });
+                    if ($(psID).length) {
+                        $(psID).html('');
+                        $(function () {
+                            postscribe(psID, '<script src=' + src + '></script>');
+                        });
+                    }
                 } else {
                     $(this).attr('type', 'text/javascript');
                     $.getScript(src, function () {

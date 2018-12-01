@@ -278,11 +278,14 @@ if (!class_exists("cmplz_cookie")) {
             wp_enqueue_style('cmplz-cookie');
             $cookiesettings = $this->get_cookie_settings($user_variation_id);
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
-            wp_enqueue_script('cmplz-postscribe', cmplz_url . "core/assets/js/postscribe.min.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
-
-                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", array('jquery', 'cmplz-postscribe'), cmplz_version, true);
+                $deps = array('jquery');
+                if (cmplz_has_async_documentwrite_scripts()) {
+                    $deps[] = 'cmplz-postscribe';
+                    wp_enqueue_script('cmplz-postscribe', cmplz_url . "core/assets/js/postscribe.min.js", array('jquery'), cmplz_version, true);
+                }
+                wp_enqueue_script('cmplz-cookie-config', cmplz_url . "core/assets/js/cookieconfig$minified.js", $deps, cmplz_version, true);
                 wp_localize_script(
                     'cmplz-cookie-config',
                     'complianz',
@@ -625,21 +628,38 @@ if (!class_exists("cmplz_cookie")) {
                     <?php if ($id === 'clean') {?>
                     //deleteAllCookies();
                     var cookies = [];
+                    var lstorage = [];
                     <?php } ?>
 
                     if (cmplz_function_exists('complianz_enable_cookies')) complianz_enable_cookies();
 
                     var cookies = get_cookies_array();
+                    var lstorage = get_localstorage_array();
+
                     $.post(
                         '<?php echo admin_url('admin-ajax.php')?>',
                         {
                             action: 'store_detected_cookies',
                             cookies: cookies,
+                            lstorage: lstorage,
                             token: '<?php echo $token;?>',
                             complianz_id: '<?php echo $id?>',
                         },
                     );
 
+                    function get_localstorage_array() {
+                        var lstorage = {};
+                        for (i = 0; i < localStorage.length; i++) {
+
+                            lstorage[localStorage.key(i)] = localStorage.key(i);
+                        }
+                        for (i = 0; i < sessionStorage.length; i++) {
+                            lstorage[sessionStorage.key(i)] = sessionStorage.key(i);
+                        }
+
+
+                        return lstorage;
+                    }
 
                     function get_cookies_array() {
                         var cookies = {};
@@ -992,13 +1012,16 @@ if (!class_exists("cmplz_cookie")) {
         {
 
             if (!current_user_can('manage_options')) return;
-
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
                 $found_cookies = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $_POST['cookies']);
-                $found_cookies = array_merge($found_cookies, $_COOKIE);
+                $found_storage = array_map(function ($el) {
+                    return sanitize_title($el);
+                }, $_POST['lstorage']);
+
+                $found_cookies = array_merge($found_cookies, $_COOKIE, $found_storage);
                 $found_cookies = array_map('sanitize_text_field', $found_cookies);
                 $cookies = array();
 
@@ -1082,14 +1105,7 @@ if (!class_exists("cmplz_cookie")) {
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
-                    if (strpos($used_cookie_name, 'partial_') !== false) {
-                        //a partial match is enough on this type
-                        $partial_cookie_name = str_replace('partial_', '', $used_cookie_name);
-                        if (strpos($cookie_name, $partial_cookie_name) !== FALSE) {
-                            return $cookie['label'];
-                        }
-                    } elseif ($cookie_name == $used_cookie_name)
-                        return $cookie['label'];
+                    if ($this->match($cookie_name, $used_cookie_name)) return $cookie['label'];
                 }
 
             }
@@ -1097,12 +1113,56 @@ if (!class_exists("cmplz_cookie")) {
             return $label;
         }
 
-
-
-
-        /*
-         * Checks if the cookie is listed in our database
+        /**
+         * Check if the passed cookiename matches the passed test cookiename
          *
+         * @param string $compare_cookie_name cookiename to compare with
+         * @param string $test cookiename to test for
+         * @return bool
+         *
+         * @since 2.0.5
+         */
+
+
+        public function match($test, $compare_cookie_name){
+
+            //check if the string "partial" is in the comparison cookie name
+            if (strpos($compare_cookie_name, 'partial') !== false) {
+                //check if it has an underscore before or after the partial. If so, take it into account
+                if (strpos($compare_cookie_name, '_partial') !== false) $partial = '_partial';
+                if (strpos($compare_cookie_name, 'partial_') !== false) $partial = 'partial_';
+                if (strpos($compare_cookie_name, '_partial_') !== false) $partial = '_partial_';
+
+                //get the substring before or after the partial
+                $str1 = substr($compare_cookie_name, 0, strpos($compare_cookie_name, $partial));
+                $str2 = substr($compare_cookie_name, strpos($compare_cookie_name, $partial)+strlen($partial));
+                //a partial match is enough on this type
+                if (empty($str1)){
+                    if (strpos($test, $str2) !== FALSE) {
+                        return true;
+                    }
+                } elseif (empty($str2)){
+                    if (strpos($test, $str1) !== FALSE) {
+                        return true;
+                    }
+                } else {
+                    if (strpos($test, $str1) !== FALSE && strpos($test, $str1) !== FALSE) {
+                        return true;
+                    }
+                }
+
+            } elseif ($compare_cookie_name === $test) {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        /**
+         * Checks if the cookie an unknown cookie, not listed in our database
+         * @oaram $cookie_name
+         * @return bool
          *
          * */
 
@@ -1112,14 +1172,7 @@ if (!class_exists("cmplz_cookie")) {
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
-                    if (strpos($used_cookie_name, 'partial_') !== false) {
-                        //a partial match is enough on this type
-                        $partial_cookie_name = str_replace('partial_', '', $used_cookie_name);
-                        if (strpos($cookie_name, $partial_cookie_name) !== FALSE) {
-                            return false;
-                        }
-                    } elseif ($cookie_name == $used_cookie_name)
-                        return false;
+                    if ($this->match($cookie_name, $used_cookie_name)) return false;
                 }
 
             }
@@ -1229,16 +1282,7 @@ if (!class_exists("cmplz_cookie")) {
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
-                    if ($cookie_name === $used_cookie_name) {
-                        return $id;
-                    }
-                    if (strpos($used_cookie_name, 'partial_') !== false) {
-                        //a partial match is enough on this type
-                        $partial_cookie_name = str_replace('partial_', '', $used_cookie_name);
-                        if (strpos($cookie_name, $partial_cookie_name) !== FALSE) {
-                            return $id;
-                        }
-                    }
+                    if ($this->match($cookie_name, $used_cookie_name)) return $id;
                 }
             }
 
