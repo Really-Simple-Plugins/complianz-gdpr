@@ -47,7 +47,7 @@ $this->steps = array(
                         '<p>'._x("The following icons are used in the list:", 'intro used cookies', 'complianz').
                         '<br>'.sprintf(_x("%s Marked as a functional cookie",'intro used cookies', "complianz"), '<i class="fa fa-code"></i>').
                         '<br>'.sprintf(_x("%s The cookie will be listed on the website.", 'intro used cookies', 'complianz'),'<i class="fa fa-file"></i>').
-                        '<br>'.sprintf(_x("%s Alle fields are completed", 'intro used cookies', 'complianz'),'<i class="fa fa-check"></i>').
+                        '<br>'.sprintf(_x("%s All fields are completed", 'intro used cookies', 'complianz'),'<i class="fa fa-check"></i>').
                         '<br>'.sprintf(_x("%s Missing fields", 'intro used cookies', 'complianz'),'<i class="fa fa-times"></i>').'</p>',
 
 
