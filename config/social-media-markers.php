@@ -90,6 +90,10 @@ $this->iframe_tags = array(
     'videopress.com/embed',
 );
 
+/*
+ * images with a URl in this list will get blocked, if the cmplz_has_async_documentwrite_scripts() function returns true.
+ * */
+
 $this->image_tags = array(
     'cdninstagram.com',
 );

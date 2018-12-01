@@ -92,6 +92,10 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 = 2.0.6 =
 * Tweak: added some new cookies to the database
 * Tweak: changed site_url into home_url in the documents output
+* Tweak: add support for blocking of instagram cookies
+* Fix: third party privacy statements not inserted in cookie policy
+* Tweak: less strict policies for websites who do not target California
+* Fix: privacy policy URL's not showing in cookie policy
 
 = 2.0.5 =
 * Tweak: ajax call for user data only on first visit

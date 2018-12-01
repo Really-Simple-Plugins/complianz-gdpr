@@ -518,7 +518,6 @@ if (!function_exists('cmplz_no_ip_addresses')) {
             }
         }
 
-
         return true;
     }
 }
@@ -585,7 +584,6 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
-
         $data = apply_filters('cmplz_user_data', array());
         $data['version'] = cmplz_version;
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
@@ -687,32 +685,26 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
  * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
  *
  * */
-
 add_filter('locale', 'cmplz_set_plugin_language', 9, 1);
 if (!function_exists('cmplz_set_plugin_language')) {
     function cmplz_set_plugin_language($locale)
     {
-        $domain = 'complianz';
-        global $post;
-        if ($domain === 'complianz') {
-            $post_id = false;
-            if (isset($_GET['post'])) $post_id = $_GET['post'];
-            if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
-            $region = (isset($_GET['region'])) ? $_GET['region'] : false;
+        $post_id = false;
+        if (isset($_GET['post'])) $post_id = $_GET['post'];
+        if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
+        $region = (isset($_GET['region'])) ? $_GET['region'] : false;
 
-            if ($post_id && $region) {
-                $post_type = get_post_type($post_id);
+        if ($post_id && $region) {
+            $post_type = get_post_type($post_id);
 
-                if ($region === 'us' && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
-                    $locale = 'en_US';
-                }
-            }
-
-            $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
-            if ($cmplz_lang == 'en') {
+            if ($region === 'us' && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
                 $locale = 'en_US';
             }
+        }
 
+        $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
+        if ($cmplz_lang == 'en') {
+            $locale = 'en_US';
         }
 
         return $locale;
@@ -751,7 +743,8 @@ if (!function_exists('cmplz_add_query_arg')) {
                 }
 
                 if (strpos($type, '-us') !== FALSE) {
-                    wp_redirect(home_url(add_query_arg('clang', 'en', $wp->request)));
+                    //remove lang property, add our own.
+                    wp_redirect(home_url(add_query_arg('clang', 'en', remove_query_arg('lang', $wp->request))));
                     exit;
                 }
             }
@@ -855,11 +848,12 @@ if (!function_exists('cmplz_allowed_html')){
  *
  *
  */
+
 if (!function_exists('cmplz_load_translation')) {
-    add_action('admin_init', 'cmplz_load_translation', 20);
+    add_action('init', 'cmplz_load_translation', 20);
     function cmplz_load_translation()
     {
-        load_plugin_textdomain('complianz', FALSE, dirname(plugin_basename(__FILE__)) . '/config/languages/');
+        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/languages/');
     }
 }
 
@@ -917,5 +911,14 @@ if (!function_exists('cmplz_update_cookie_policy_title')) {
 if (!function_exists('cmplz_targets_california')){
     function cmplz_targets_california(){
         return cmplz_get_value('california')==='yes';
+    }
+}
+
+if (!function_exists('cmplz_has_async_documentwrite_scripts')){
+    function cmplz_has_async_documentwrite_scripts(){
+        $social_media = cmplz_get_value('socialmedia_on_site');
+        if (isset($social_media['instagram']) && $social_media['instagram']==1) return true;
+
+        return false;
     }
 }

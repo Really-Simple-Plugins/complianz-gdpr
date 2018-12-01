@@ -752,8 +752,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WooCommerce' => array('functional' => true,
-        'used_names' => array('wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
-        'unique_used_names' => array('wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'used_names' => array('wc_cart_hash_xxxxxx','wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'unique_used_names' => array('wc_partial_', 'wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("WooCommerce", 'complianz'),
         'purpose' => __("This cookie is placed to keep track of sales, shopping cart items.", 'complianz'),

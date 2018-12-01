@@ -149,21 +149,22 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              *
              * */
-
-            $known_image_tags = COMPLIANZ()->config->image_tags;
-            $img_pattern = '/<(img)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
-            if (preg_match_all($img_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
-                foreach($matches[2] as $key => $match){
-                    $total_match = $matches[0][$key];
-                    $img_src = $matches[2][$key].$matches[3][$key];
-                    if ($this->strpos_arr($img_src, $known_image_tags) !== false) {
-                        $new = $total_match;
-                        //remove src
-                       // $new = preg_replace($img_pattern_src, '',$new);
-                        $new = str_replace('<img ', '<img data-src-cmplz="'.$img_src.'"', $new);
-                        $new = $this->replace_src($new, cmplz_placeholder_image());
-                        $new = $this->add_class($new, 'img', 'cmplz-img');
-                        $output = str_replace($total_match, $new, $output);
+            if (cmplz_has_async_documentwrite_scripts()) {
+                $known_image_tags = COMPLIANZ()->config->image_tags;
+                $img_pattern = '/<(img)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern . '[\'"].*?>/i';
+                if (preg_match_all($img_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                    foreach ($matches[2] as $key => $match) {
+                        $total_match = $matches[0][$key];
+                        $img_src = $matches[2][$key] . $matches[3][$key];
+                        if ($this->strpos_arr($img_src, $known_image_tags) !== false) {
+                            $new = $total_match;
+                            //remove src
+                            // $new = preg_replace($img_pattern_src, '',$new);
+                            $new = str_replace('<img ', '<img data-src-cmplz="' . $img_src . '"', $new);
+                            $new = $this->replace_src($new, cmplz_placeholder_image());
+                            $new = $this->add_class($new, 'img', 'cmplz-img');
+                            $output = str_replace($total_match, $new, $output);
+                        }
                     }
                 }
             }
@@ -219,7 +220,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                                 if ($this->strpos_arr($found, $async_list)){
                                     $index ++;
                                     $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
-                                    $new .= '<div id="cmplz-ps-'.$index.'">'.apply_filters('cmplz_blocked_content_text', __('Please accept cookies to view the content of this element','complianz')).'</div>';
+                                    if (cmplz_has_async_documentwrite_scripts()) {
+                                        $new .= '<div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder_image() . '"></div>';
+                                    }
                                 }
 
                                 $output = str_replace($total_match, $new, $output);
