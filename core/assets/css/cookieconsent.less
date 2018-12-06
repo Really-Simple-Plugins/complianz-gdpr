@@ -1,4 +1,24 @@
 @import "cookieconsent.core.less";
+
+.cmplz-blocked-content-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  .cmplz-blocked-content-notice{
+    cursor:pointer;
+    position:absolute;
+    width:50%;
+    font-size: 14px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    color:#fff;
+    text-align:center;
+  }
+}
+
+
 //because the US banner requires two links, we have a comma after the link, which is ugly with padding
 .cc-link {
   padding-right: 0;
@@ -162,4 +182,3 @@
   }
 
 }
-

@@ -68,6 +68,7 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'privacy-statement' => 'NOT yes',
             ),
+            'comment' => sprintf(__("%sComplianz Privacy Suite Premium%s includes an integrated custom privacy policy", 'complianz'),'<a target="blank" href="https://complianz.io/pricing">','</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -92,6 +93,7 @@ $this->fields = $this->fields + array(
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
+
         'postalcode_company' => array(
             'step' => STEP_COMPANY,
             'section' => 3,

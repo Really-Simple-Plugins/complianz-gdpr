@@ -858,9 +858,40 @@ if (!function_exists('cmplz_load_translation')) {
 }
 
 
-if (!function_exists('cmplz_placeholder_image')){
-    function cmplz_placeholder_image(){
-        return apply_filters('cmplz_placeholder_image', cmplz_url.'core/assets/images/placeholder.png');
+if (!function_exists('cmplz_placeholder')){
+    function cmplz_placeholder($type='image', $src=''){
+
+        if ($type==='iframe'){
+            if (strpos($src, 'youtube')!==FALSE) $type = 'youtube';
+            if (strpos($src, 'vimeo')!==FALSE) {
+                $type = 'vimeo';
+            }
+        }
+
+        //default value
+        $new_src = cmplz_url.'core/assets/images/placeholder.png';
+
+        switch ($type) {
+            case 'youtube':
+                $src = str_replace('https://www.youtube.com/embed/', '', $src);
+                $new_src ="https://img.youtube.com/vi/$src/0.jpg";
+                break;
+            case 'vimeo':
+                $vimeo_pattern = '/https:\/\/player\.vimeo\.com\/video\/([0-9].*)(\?)/i';
+                if (preg_match($vimeo_pattern, $src, $matches)) {
+                    $vimeo_id = $matches[1];
+                    $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));
+                    $new_src = $vimeo_images->video->thumbnail_large;
+                }
+                break;
+            case 'iframe':
+            case 'image':
+            case 'div':
+            default:
+                $new_src = cmplz_url.'core/assets/images/placeholder.png';
+        }
+
+        return apply_filters('cmplz_placeholder', $new_src, $type, $src);
     }
 }
 
