@@ -873,11 +873,14 @@ if (!function_exists('cmplz_placeholder')){
 
         switch ($type) {
             case 'youtube':
-                $src = str_replace('https://www.youtube.com/embed/', '', $src);
-                $new_src ="https://img.youtube.com/vi/$src/0.jpg";
+                $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
+                if (preg_match($youtube_pattern, $src, $matches)) {
+                    $youtube_id = $matches[1];
+                    $new_src ="https://img.youtube.com/vi/$youtube_id/0.jpg";
+                }
                 break;
             case 'vimeo':
-                $vimeo_pattern = '/https:\/\/player\.vimeo\.com\/video\/([0-9].*)(\?)/i';
+                $vimeo_pattern = '/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i';
                 if (preg_match($vimeo_pattern, $src, $matches)) {
                     $vimeo_id = $matches[1];
                     $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));

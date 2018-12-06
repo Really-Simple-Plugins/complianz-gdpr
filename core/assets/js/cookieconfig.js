@@ -68,11 +68,11 @@ jQuery(document).ready(function ($) {
         //fire an event so custom scripts can hook into this.
         var event = new CustomEvent("cmplzEnableScripts");
         document.dispatchEvent(event);
-            //     example implementation of the event:
-            //     document.addEventListener("cmplzEnableScripts", cmplzAddIframeDiv, false);
-            //     function cmplzAddIframeDiv(e) {
-            //         console.log('run enable scripts event');
-            //     }
+        //     example implementation of the event:
+        //     document.addEventListener("cmplzEnableScripts", cmplzAddIframeDiv, false);
+        //     function cmplzAddIframeDiv(e) {
+        //         console.log('run enable scripts event');
+        //     }
 
     }
 
@@ -164,6 +164,7 @@ jQuery(document).ready(function ($) {
             } else if (cmplz_user_data.region === 'us') {
                 console.log('us, opt-out');
                 complianz.type = 'opt-out';
+                // complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_us;
@@ -201,7 +202,7 @@ jQuery(document).ready(function ($) {
             onInitialise: function (status) {
                 //runs only when dismissed or accepted
                 ccStatus = status;
-                if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region === 'us')) {
+                if (status === 'allow') {
                     if (complianz.use_categories) {
                         cmplzFireCategories(true);
                     } else {
@@ -259,6 +260,7 @@ jQuery(document).ready(function ($) {
             "layout": complianz.layout,
             "layouts": {
                 'categories-layout': '{{messagelink}}{{categories-checkboxes}}{{compliance}}',
+                'compliance': '{{messagelink}}{{compliance}}',
             },
             "compliance": {
                 'categories': '<div class="cc-compliance cc-highlight">{{save}}</div>',
@@ -281,7 +283,7 @@ jQuery(document).ready(function ($) {
             ccName = popup;
             //this function always runs
             if (cmplz_user_data.region !== 'us' && complianz.use_categories) {
-                //handle category checkboxes
+                //make sure the checkboxes show the correct settings
                 cmplzSyncCategoryCheckboxes();
 
                 //some styles
@@ -300,7 +302,7 @@ jQuery(document).ready(function ($) {
                 });
                 $('.cc-check svg').css({"stroke": complianz.popup_text_color});
 
-                cmplzFireCategories();
+                //cmplzFireCategories();
 
             }
 

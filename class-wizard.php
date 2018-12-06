@@ -97,6 +97,9 @@ if (!class_exists("cmplz_wizard")) {
             if (!is_user_logged_in()) return;
             if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
 
+            $screen = get_current_screen();
+            if ( $screen->parent_base === 'edit' ) return;
+
             if (COMPLIANZ()->cookie->cookies_changed()) {
                 ?>
                 <div id="message" class="error fade notice cmplz-wp-notice">

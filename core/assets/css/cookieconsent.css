@@ -276,6 +276,9 @@
 .cc-floating.cc-theme-edgeless .cc-btn + .cc-btn {
   margin-left: 0;
 }
+.cc-deny {
+  display: none;
+}
 .cmplz-blocked-content-container {
   display: flex;
   justify-content: center;

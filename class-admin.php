@@ -86,9 +86,6 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz_detected_thirdparty_services',
                 'cmplz_deleted_cookies',
                 'cmplz_reported_cookies',
-                'cmplz_geo_ip_file',
-                'cmplz_geoip_import_error',
-                'cmplz_last_update_geoip',
             );
 
             foreach ($options as $option_name) {
@@ -179,7 +176,7 @@ if (!class_exists("cmplz_admin")) {
             }
 
             //make sure the maxmind db is downloaded on upgrade
-            if ($prev_version && version_compare($prev_version, '2.0.2', '<')) {
+            if ($prev_version && version_compare($prev_version, '2.0.2', '<') && cmplz_get_value('use_country')) {
                 update_option('cmplz_import_geoip_on_activation', true);
             }
 
@@ -693,6 +690,7 @@ if (!class_exists("cmplz_admin")) {
                                         $warning_count--;
                                         continue;
                                     }
+
                                     $this->get_dashboard_element($type['label_error'], 'error');
                                 }
                             }
@@ -917,56 +915,56 @@ if (!class_exists("cmplz_admin")) {
                     $regions = cmplz_get_regions();
                     if (cmplz_multiple_regions()){
                         $single_region = COMPLIANZ()->company->get_default_region();
-                     } else {
+                    } else {
                         $single_region = $regions;
                         reset($single_region);
                         $single_region = key($single_region);
-                     }?>
+                    }?>
                     <script>
                         var ccRegion='<?php echo $single_region?>';
                     </script>
-                        <?php do_action('cmplz_a_b_testing_section');?>
+                    <?php do_action('cmplz_a_b_testing_section');?>
 
-                        <div class="cmplz-tab">
-                            <button class="cmplz-tablinks active" type="button" data-tab="general"><?php _e("General", "complianz")?></button>
-                            <?php foreach ($regions as $region_code=>$label){?>
-                                <button class="cmplz-tablinks region-link" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
-                            <?php }?>
-                        </div>
+                    <div class="cmplz-tab">
+                        <button class="cmplz-tablinks active" type="button" data-tab="general"><?php _e("General", "complianz")?></button>
+                        <?php foreach ($regions as $region_code=>$label){?>
+                            <button class="cmplz-tablinks region-link" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
+                        <?php }?>
+                    </div>
 
-                        <!-- Tab content -->
-                        <div id="general" class="cmplz-tabcontent active">
-                            <h3><?php _e("General", "complianz")?></h3>
+                    <!-- Tab content -->
+                    <div id="general" class="cmplz-tabcontent active">
+                        <h3><?php _e("General", "complianz")?></h3>
+                        <p>
+                        <table class="form-table">
+                            <?php do_action('cmplz_cookie_variation_name_input')?>
+                            <?php COMPLIANZ()->field->get_fields('cookie_settings', 'general');?>
+                        </table>
+                        </p>
+                    </div>
+
+                    <?php foreach ($regions as $region_code=>$label){?>
+                        <div id="<?php echo $region_code?>" class="cmplz-tabcontent region">
+                            <h3><?php echo $label?></h3>
                             <p>
-                                <table class="form-table">
-                                <?php do_action('cmplz_cookie_variation_name_input')?>
-                                <?php COMPLIANZ()->field->get_fields('cookie_settings', 'general');?>
-                                </table>
+                            <table class="form-table">
+                                <?php COMPLIANZ()->field->get_fields('cookie_settings', $region_code);?>
+                            </table>
                             </p>
                         </div>
+                    <?php }?>
 
-                        <?php foreach ($regions as $region_code=>$label){?>
-                            <div id="<?php echo $region_code?>" class="cmplz-tabcontent region">
-                                <h3><?php echo $label?></h3>
-                                <p>
-                                <table class="form-table">
-                                    <?php COMPLIANZ()->field->get_fields('cookie_settings', $region_code);?>
-                                </table>
-                                </p>
-                            </div>
-                        <?php }?>
-
-                        <?php
+                    <?php
 
 
-                        //now clear the variation again.
-                        COMPLIANZ()->field->set_variation_id('');
+                    //now clear the variation again.
+                    COMPLIANZ()->field->set_variation_id('');
 
-                        COMPLIANZ()->field->save_button();
+                    COMPLIANZ()->field->save_button();
 
 
 
-                        ?>
+                    ?>
 
                     </table>
                 </form>
@@ -979,12 +977,9 @@ if (!class_exists("cmplz_admin")) {
         {
             if (!is_user_logged_in()) return;
 
-            $screen = get_current_screen();
-            if ( $screen->parent_base === 'edit' ) return;
-
             if (version_compare(phpversion(), '5.6', '<')) {
-                // php version isn't high enough
                 ?>
+                // php version isn't high enough
                 <div id="message" class="error fade notice cmplz-wp-notice">
                     <h2><?php echo __("PHP version problem", "complianz"); ?></h2>
                     <p>
