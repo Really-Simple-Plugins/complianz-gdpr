@@ -260,7 +260,6 @@ if (!class_exists("cmplz_admin")) {
 
         public function get_warnings($cache = true, $plus_ones_only=false)
         {
-
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {
@@ -680,16 +679,25 @@ if (!class_exists("cmplz_admin")) {
 
                             $warnings = $this->get_warnings(false);
                             $warning_types = apply_filters('cmplz_warnings_types', COMPLIANZ()->config->warning_types);
+                            $warning_count = $this->task_count + count($warnings);
 
                             foreach ($warning_types as $key => $type) {
-                                if ($type['type'] === 'document') continue;
-                                if (isset($type['region']) && !cmplz_has_region($type['region'])) continue;
-                                if (in_array($key, $warnings)) {
-                                    if (isset($type['label_error'])) $this->get_dashboard_element($type['label_error'], 'error');
+
+                                if (in_array($key, $warnings) && isset($type['label_error'])) {
+                                    if ($type['type'] === 'document') {
+                                        $warning_count--;
+                                        continue;
+                                    }
+
+                                    if (isset($type['region']) && !cmplz_has_region($type['region'])) {
+                                        $warning_count--;
+                                        continue;
+                                    }
+                                    $this->get_dashboard_element($type['label_error'], 'error');
                                 }
                             }
-                            $warning_count = $this->task_count + count($warnings);
-                            if ($warning_count==0){
+
+                            if ($warning_count<=0){
                                 $this->get_dashboard_element(__("Nothing on your to do list", 'complianz'), 'success');
                             }
                             ?>

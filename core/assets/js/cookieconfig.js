@@ -164,18 +164,20 @@ jQuery(document).ready(function ($) {
             } else if (cmplz_user_data.region === 'us') {
                 console.log('us, opt-out');
                 complianz.type = 'opt-out';
-                complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_us;
                 complianz.dismiss = complianz.accept_informational;
-                 ccPrivacyLink= complianz.privacy_link;
+                ccPrivacyLink= complianz.privacy_link;
                 cmplz_cookie_warning();
             } else {
                 console.log('other region, no cookie warning');
-                complianz_enable_cookies();
-                complianz_enable_scripts();
-                if (complianz.use_categories) cmplzFireCategories(true);
+                if (complianz.use_categories) {
+                    cmplzFireCategories(true);
+                } else {
+                    complianz_enable_cookies();
+                    complianz_enable_scripts();
+                }
                 //cookie blocker is default enabled, so all scripts need to be enabled.
             }
         }
@@ -200,8 +202,12 @@ jQuery(document).ready(function ($) {
                 //runs only when dismissed or accepted
                 ccStatus = status;
                 if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region === 'us')) {
-                    complianz_enable_cookies();
-                    complianz_enable_scripts();
+                    if (complianz.use_categories) {
+                        cmplzFireCategories(true);
+                    } else {
+                        complianz_enable_cookies();
+                        complianz_enable_scripts();
+                    }
                 }
             },
             onStatusChange: function (status, chosenBefore) {
@@ -214,8 +220,12 @@ jQuery(document).ready(function ($) {
 
                 if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region === 'us')) {
                     cmplzSetAcceptedCookiePolicyID();
-                    complianz_enable_cookies();
-                    complianz_enable_scripts();
+                    if (complianz.use_categories) {
+                        cmplzFireCategories(true);
+                    } else {
+                        complianz_enable_cookies();
+                        complianz_enable_scripts();
+                    }
                 }
 
                 if (status === 'deny' && cmplz_user_data.region === 'us') {
@@ -270,8 +280,8 @@ jQuery(document).ready(function ($) {
         }, function (popup) {
             ccName = popup;
             //this function always runs
-            if (complianz.use_categories) {
-                //make sure the checkboxes show the correct settings
+            if (cmplz_user_data.region !== 'us' && complianz.use_categories) {
+                //handle category checkboxes
                 cmplzSyncCategoryCheckboxes();
 
                 //some styles
@@ -296,8 +306,12 @@ jQuery(document).ready(function ($) {
 
             /* We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice */
             if (cmplz_user_data.region === 'us' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
-                complianz_enable_cookies();
-                complianz_enable_scripts();
+                if (complianz.use_categories) {
+                    cmplzFireCategories(true);
+                } else {
+                    complianz_enable_cookies();
+                    complianz_enable_scripts();
+                }
             }
         });
     }
