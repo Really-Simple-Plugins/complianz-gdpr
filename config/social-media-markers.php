@@ -16,7 +16,6 @@ $this->social_media_markers = array(
     "instagram" => array('instawidget.net/js/instawidget.js'),
 );
 
-
 /*
  * Scripts with this string in the content get blocked.
  *

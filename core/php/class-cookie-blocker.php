@@ -111,11 +111,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 $known_iframe_tags = array_merge($known_iframe_tags ,  $custom_iframes);
             }
 
-            /*
-             * Handle youtube
-             *
-             * */
-            //$this->set_youtube_placeholder($html);
+
 
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             //edit: instagram uses ;width, so we need to allow ; as well.
@@ -127,18 +123,18 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
+            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?><\/iframe>/i';
             if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[2] as $key => $match){
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
-                        //remove src
-                        //$new = preg_replace($iframe_pattern_src, '',$new);
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
-                        $new = $this->replace_src($new, cmplz_placeholder_image());
+                        $new = $this->replace_src($new, '');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div>'.$new.'</div>';
+
                         $output = str_replace($total_match, $new, $output);
                     }
                 }
@@ -161,7 +157,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             //remove src
                             // $new = preg_replace($img_pattern_src, '',$new);
                             $new = str_replace('<img ', '<img data-src-cmplz="' . $img_src . '"', $new);
-                            $new = $this->replace_src($new, cmplz_placeholder_image());
+                            $new = $this->replace_src($new, cmplz_placeholder('image', $img_src));
                             $new = $this->add_class($new, 'img', 'cmplz-img');
                             $output = str_replace($total_match, $new, $output);
                         }
@@ -221,7 +217,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                                     $index ++;
                                     $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
                                     if (cmplz_has_async_documentwrite_scripts()) {
-                                        $new .= '<div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder_image() . '"></div>';
+                                        $new .= '<div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder('div') . '"></div>';
                                     }
                                 }
 
@@ -237,39 +233,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $output;
         }
 
-        /*
-         * replace youtube video with a placeholder image
-         *
-         *
-         * */
 
-        private function set_youtube_placeholder($html){
-            /*
-             * <iframe src="https://www.youtube.com/embed/Ct36QXZ_Y-4" width="966" height="543" frameborder="0" allowfullscreen="allowfullscreen"></iframe>*/
-
-            //find youtube iframe string with regex
-            $iframe_str = '';
-
-            //find youtube url with regex (after embed)
-            $video_url = '';
-
-            //get placeholder from url
-            $placeholder_url = "https://img.youtube.com/vi/$video_url/0.jpg";
-
-            //create image html
-            $img = '<img class="cmplz-placeholder" src="'.$placeholder_url.'" data-video="'.$video_url.'">';
-
-            //replace iframe with placeholder
-            $html = str_replace($iframe_str, $img, $html);
-
-            //replace with image
-
-//
-//                    var video = '<iframe src="'+ $(this).attr('data-video') +'"></iframe>';
-//                    $(this).replaceWith(video);
-//                });
-            return $html;
-        }
 
         /**
          * check if there is a partial match between a keys of the array and the haystack
