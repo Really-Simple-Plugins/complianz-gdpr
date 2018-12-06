@@ -6,7 +6,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * if match should be made on partial of cookiename only, prefix with "partial_"
  *
  * */
-$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie', 'auto_saved_sql');
+$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie');
 
 $this->known_cookie_keys = array(
 
@@ -237,8 +237,8 @@ $this->known_cookie_keys = array(
     ),
 
     'google' => array('functional' => false,
-        'used_names' => array('PREF', 'NID', 'id', '_drt_', 'HSID', 'SSIDAPISID', 'SAPISID', '__ut','OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SNID','CONSENT'),
-        'unique_used_names' => array('PREF', 'NID', '_drt_', 'HSID', 'SSIDAPISID', 'SAPISID', '__ut','OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SNID','CONSENT'),
+        'used_names' => array('PREF', 'NID', 'id', '_drt_', 'HSID', 'SSIDAPISID', 'SAPISID', '__ut','OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SNID','CONSENT', '_gat_gtag_UA_xxxxxx'),
+        'unique_used_names' => array('PREF', 'NID', '_drt_', 'HSID', 'SSIDAPISID', 'SAPISID', '__ut','OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SNID','CONSENT', '_gat_gtag_UA_partial'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
         'label' => __("Google Ads Optimization", 'complianz'),
         'purpose' => __("Personalised advertisements", 'complianz'),
@@ -752,8 +752,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WooCommerce' => array('functional' => true,
-        'used_names' => array('wc_cart_hash_xxxxxx','wpwoocommerce_session_xxxxxx', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
-        'unique_used_names' => array('wc_partial_', 'wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'used_names' => array('wpwoocommerce_session_xxxxxx', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'unique_used_names' => array('wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("WooCommerce", 'complianz'),
         'purpose' => __("This cookie is placed to keep track of sales, shopping cart items.", 'complianz'),
@@ -1025,4 +1025,72 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("This is a cookie that stores users' login status and what the role of the current user is.", 'complianz'),
     ),
+    'OptInMonster' => array(
+        'functional' => false,
+        'used_names' => array('_omappvp', '_omappvs'),
+        'unique_used_names' => array('_omappvp', '_omappvs'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("OptInMonster", 'complianz'),
+        'purpose' => __("This cookie determines whether a visitor is a returning visitor or a new one.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie determines whether a visitor is a returning visitor or a new one.", 'complianz'),
+    ),
+    'Force.com' => array(
+        'functional' => false,
+        'used_names' => array('BrowserId'),
+        'unique_used_names' => array('BrowserId'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("Force.com", 'complianz'),
+        'purpose' => __("This cookie registers an unique ID used to identify type of device used when returning to the website.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie registers an unique ID used to identify type of device used when returning to the website.", 'complianz'),
+    ),
+    'CallRail' => array('functional' => false,
+        'used_names' => array('calltrk_landing', 'calltrk_referrer','calltrk_session_id_xxxxxx'),
+        'unique_used_names' => array('calltrk_landing', 'calltrk_referrer','calltrk_session_id_partial'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("CallRail", 'complianz'),
+        'purpose' => __("This cookie tracks the last website visited prior to landing on our website.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie tracks the last website visited prior to landing on our website.", 'complianz'),
+    ),
+    'Alexa' => array('functional' => false,
+        'used_names' => array('__asc', '__auc'),
+        'unique_used_names' => array('__asc', '__auc'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("Alexa", 'complianz'),
+        'purpose' => __("This cookie is used to track and report information to the Alexa analytics service.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie is used to track and report information to the Alexa analytics service.", 'complianz'),
+    ),
+
+    'Crazy_Egg' => array('functional' => false,
+        'used_names' => array('_ceir', '_ceg.s', '_ceg.u', '_ceg_s', '_ceg_u'),
+        'unique_used_names' => array('_ceir', '_ceg.s', '_ceg.u', '_ceg_s', '_ceg_u'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("Crazy_Egg", 'complianz'),
+        'purpose' => __("This cookie is providing web analytics that tracks how visitors interact with pages on a site.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie is providing web analytics that tracks how visitors interact with pages on a site.", 'complianz'),
+    ),
+    'AdRoll' => array('functional' => false,
+        'used_names' => array('__adroll_fpc'),
+        'unique_used_names' => array('__adroll_fpc'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("AdRoll", 'complianz'),
+        'purpose' => __("This cookie is used to track visitors and show advertisements later, based on browsing behavior.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie is used to track visitors and show advertisements later, based on browsing behavior.", 'complianz'),
+    ),
+    'Shopify' => array('functional' => true,
+        'used_names' => array('_shopify_y', '_shopify_sa_t', '_shopify_sa_p', '_shopify_s', '_shopify_fs', '_orig_referrer'),
+        'unique_used_names' => array('_shopify_y', '_shopify_sa_t', '_shopify_sa_p', '_shopify_s', '_shopify_fs', '_orig_referrer'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => __("Shopify", 'complianz'),
+        'purpose' => __("This cookie is used be able to deliver webshop functionalities to the website. You can place items in your cart, pay, choose payment methods, etc.", 'complianz'),
+        'storage_duration' => __("365 days", 'complianz'),
+        'description' => __("This cookie is used be able to deliver webshop functionalities to the website. You can place items in your cart, pay, choose payment methods, etc.", 'complianz'),
+    ),
+
+
 );
