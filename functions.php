@@ -876,7 +876,7 @@ if (!function_exists('cmplz_placeholder')){
                 $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
                 if (preg_match($youtube_pattern, $src, $matches)) {
                     $youtube_id = $matches[1];
-                    $new_src ="https://img.youtube.com/vi/$youtube_id/0.jpg";
+                    $new_src ="https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
                 }
                 break;
             case 'vimeo':
