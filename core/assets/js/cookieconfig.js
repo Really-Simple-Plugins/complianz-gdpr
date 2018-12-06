@@ -23,8 +23,8 @@ jQuery(document).ready(function ($) {
 
         //remove accept cookie notice overlay
         $('.cmplz-blocked-content-notice').each(function(){
+            $(this).parent().css('background-image','');
             $(this).remove();
-            $(this).parent().css('backgroun')
         });
 
         //iframes
@@ -446,10 +446,8 @@ jQuery(document).ready(function ($) {
         cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
         if (complianz.use_categories) {
             cmplzSaveCategoriesSelection();
-
             //save selection doesn't fire scripts.
-            complianz_enable_cookies();
-            complianz_enable_scripts();
+            cmplzFireCategories(true);
         } else {
             cmplzAcceptCookies();
         }
