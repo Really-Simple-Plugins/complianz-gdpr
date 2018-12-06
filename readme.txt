@@ -1,12 +1,12 @@
 === Complianz Privacy Suite (GDPR/CaCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, COPPA, Cookie warning, Cookie Consent, Cookie categories, categories, EU, European Union, US, United States, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
+Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, DSVGO, CCPA, Cookie warning, Cookie Consent, Cookie categories, categories, EU, European Union, US, United States, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.0.4
+Stable tag: 2.0.7
 
 Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
@@ -89,6 +89,22 @@ The CaCPA (Californian Privacy Act) is a law set up by the Californian governmen
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
 
 == Change log ==
+= 2.0.7 =
+* Tweak: support youtube and vimeo placeholders
+
+= 2.0.6 =
+* Tweak: added some new cookies to the database
+* Tweak: changed site_url into home_url in the documents output
+* Tweak: dropped pattern restriction on phonenumbers, as there are too many local differences.
+* Tweak: add support for blocking of instagram cookies
+* Fix: third party privacy statements not inserted in cookie policy
+* Tweak: less strict policies for websites who do not target California
+* Fix: privacy policy URL's not showing in cookie policy
+
+= 2.0.5 =
+* Tweak: ajax call for user data only on first visit
+* Fix: Cookie blocker inserting class within escaped strings.
+
 = 2.0.4 =
 * Fix: Tag manager events not firing outside selected regions
 * Tweak: set default region after upgrade from pre-2.0 version

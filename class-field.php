@@ -494,7 +494,7 @@ if (!class_exists("cmplz_field")) {
             <input autocomplete="tel" <?php if ($args['required']) echo 'required'; ?>
                    class="validation <?php if ($args['required']) echo 'is-required'; ?>"
                    placeholder="<?php echo esc_html($args['placeholder']) ?>"
-                   type="text" pattern="^[+|-|0-9|(|)]{8,16}$"
+                   type="text"
                    value="<?php echo esc_html($value) ?>"
                    name="<?php echo esc_html($fieldname) ?>">
             <?php do_action('complianz_after_field', $args); ?>
@@ -650,6 +650,7 @@ if (!class_exists("cmplz_field")) {
                     $type = 'callback_condition';
                 }
             }
+
             if (!$type || !is_array($args[$type])) {
                 return true;
             }
@@ -699,7 +700,6 @@ if (!class_exists("cmplz_field")) {
                             }
                         }
                     }
-
                 }
             }
             return true;

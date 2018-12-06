@@ -518,7 +518,6 @@ if (!function_exists('cmplz_no_ip_addresses')) {
             }
         }
 
-
         return true;
     }
 }
@@ -585,7 +584,6 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
-
         $data = apply_filters('cmplz_user_data', array());
         $data['version'] = cmplz_version;
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
@@ -687,32 +685,26 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
  * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
  *
  * */
-
 add_filter('locale', 'cmplz_set_plugin_language', 9, 1);
 if (!function_exists('cmplz_set_plugin_language')) {
     function cmplz_set_plugin_language($locale)
     {
-        $domain = 'complianz';
-        global $post;
-        if ($domain === 'complianz') {
-            $post_id = false;
-            if (isset($_GET['post'])) $post_id = $_GET['post'];
-            if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
-            $region = (isset($_GET['region'])) ? $_GET['region'] : false;
+        $post_id = false;
+        if (isset($_GET['post'])) $post_id = $_GET['post'];
+        if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
+        $region = (isset($_GET['region'])) ? $_GET['region'] : false;
 
-            if ($post_id && $region) {
-                $post_type = get_post_type($post_id);
+        if ($post_id && $region) {
+            $post_type = get_post_type($post_id);
 
-                if ($region === 'us' && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
-                    $locale = 'en_US';
-                }
-            }
-
-            $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
-            if ($cmplz_lang == 'en') {
+            if ($region === 'us' && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
                 $locale = 'en_US';
             }
+        }
 
+        $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
+        if ($cmplz_lang == 'en') {
+            $locale = 'en_US';
         }
 
         return $locale;
@@ -751,7 +743,8 @@ if (!function_exists('cmplz_add_query_arg')) {
                 }
 
                 if (strpos($type, '-us') !== FALSE) {
-                    wp_redirect(home_url(add_query_arg('clang', 'en', $wp->request)));
+                    //remove lang property, add our own.
+                    wp_redirect(home_url(add_query_arg('clang', 'en', remove_query_arg('lang', $wp->request))));
                     exit;
                 }
             }
@@ -847,5 +840,116 @@ if (!function_exists('cmplz_allowed_html')){
         );
 
         return apply_filters("cmplz_allowed_html",$allowed_tags);
+    }
+}
+
+/**
+ * Load the translation files
+ *
+ *
+ */
+
+if (!function_exists('cmplz_load_translation')) {
+    add_action('init', 'cmplz_load_translation', 20);
+    function cmplz_load_translation()
+    {
+        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/languages/');
+    }
+}
+
+
+if (!function_exists('cmplz_placeholder')){
+    function cmplz_placeholder($type='image', $src=''){
+
+        if ($type==='iframe'){
+            if (strpos($src, 'youtube')!==FALSE) $type = 'youtube';
+            if (strpos($src, 'vimeo')!==FALSE) {
+                $type = 'vimeo';
+            }
+        }
+
+        //default value
+        $new_src = cmplz_url.'core/assets/images/placeholder.png';
+
+        switch ($type) {
+            case 'youtube':
+                $src = str_replace('https://www.youtube.com/embed/', '', $src);
+                $new_src ="https://img.youtube.com/vi/$src/0.jpg";
+                break;
+            case 'vimeo':
+                $vimeo_pattern = '/https:\/\/player\.vimeo\.com\/video\/([0-9].*)(\?)/i';
+                if (preg_match($vimeo_pattern, $src, $matches)) {
+                    $vimeo_id = $matches[1];
+                    $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));
+                    $new_src = $vimeo_images->video->thumbnail_large;
+                }
+                break;
+            case 'iframe':
+            case 'image':
+            case 'div':
+            default:
+                $new_src = cmplz_url.'core/assets/images/placeholder.png';
+        }
+
+        return apply_filters('cmplz_placeholder', $new_src, $type, $src);
+    }
+}
+
+
+
+if (!function_exists('cmplz_us_cookie_statement_title')){
+    /**
+     * US Cookie policy can have two different titles depending on the Californian targeting
+     * @return string $title
+     * @since 2.0.6
+     */
+
+    function cmplz_us_cookie_statement_title($california=false){
+        if (!$california) $california = cmplz_get_value('california');
+        if ($california === 'yes'){
+            $title = "Do Not Sell My Personal Information";
+        } else {
+            $title = "Cookie Statement (US)";
+        }
+
+        return apply_filters('cmplz_us_cookie_statement_title', $title);
+    }
+}
+
+
+if (!function_exists('cmplz_update_cookie_policy_title')) {
+    /**
+     * Adjust the cookie policy title according to the california setting
+     * @param string $fieldvalue
+     * $return void
+     */
+    function cmplz_update_cookie_policy_title($fieldvalue)
+    {
+        //get page id of US cookie policy
+        $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement-us');
+        $title = cmplz_us_cookie_statement_title($fieldvalue);
+        $post = array(
+            'ID' => intval($page_id),
+            'post_title'   => $title,
+            'post_name' => sanitize_title($title),
+        );
+        wp_update_post($post);
+
+        cmplz_update_option('cookie_settings', 'readmore_us', $title);
+    }
+}
+
+if (!function_exists('cmplz_targets_california')){
+    function cmplz_targets_california(){
+        return cmplz_get_value('california')==='yes';
+    }
+}
+
+if (!function_exists('cmplz_has_async_documentwrite_scripts')){
+    function cmplz_has_async_documentwrite_scripts(){
+        $social_media = cmplz_get_value('socialmedia_on_site');
+        if (isset($social_media['instagram']) && $social_media['instagram']==1) return true;
+
+        return false;
     }
 }

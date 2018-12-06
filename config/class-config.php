@@ -18,7 +18,7 @@ if (!class_exists("cmplz_config")) {
         public $purposes;
         public $details_per_purpose_us;
         public $regions;
-        public $social_media_markers, $script_tags, $iframe_tags;
+        public $social_media_markers, $script_tags, $iframe_tags, $async_list, $image_tags;
         public $eu_countries;
         public $premium_geo_ip;
         public $premium_ab_testing;
@@ -56,7 +56,7 @@ if (!class_exists("cmplz_config")) {
              * 2: introduction of US privacy questions
              *
              * */
-            define('CMPLZ_LEGAL_VERSION', '2');
+            define('CMPLZ_LEGAL_VERSION', '3');
 
             /*statistics*/
             if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days

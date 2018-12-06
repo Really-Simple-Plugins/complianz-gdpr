@@ -13,7 +13,13 @@ $this->social_media_markers = array(
     "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('assets.pinterest.com'),
     "disqus" => array('disqus.com'),
+    "instagram" => array('instawidget.net/js/instawidget.js'),
 );
+
+/*
+ * Scripts with this string in the content get blocked.
+ *
+ * */
 
 $this->thirdparty_service_markers = array(
     "googlemaps" => array('new google.maps.'),
@@ -21,10 +27,15 @@ $this->thirdparty_service_markers = array(
     "google-fonts" => array('fonts.googleapis.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
+    "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
+    "dailymotion" => array('dailymotion.com/embed/video/'),
     "hotjar" => array('static.hotjar.com'),
 );
 
-//used to block scripts on front-end
+/*
+ * Scripts with this string in the source get blocked.
+ *
+ * */
 $this->script_tags = array(
     'google.com/recaptcha',
     'fonts.googleapis.com',
@@ -45,12 +56,27 @@ $this->script_tags = array(
     'addthis.com',
     'sharethis.com',
     'adsbygoogle',
-    'googlesyndication',
     'cdn.livechatinc.com/tracking.js',
     'googleads.g.doubleclick.net',
+    'advads_tracking_ads',
+    'advanced_ads',
+    'googletagmanager.com/gtag/js',
+    'instawidget.net/js/instawidget.js',
+    'videopress.com/videopress-iframe.js',
+);
+
+/*
+ * Scripts in this list are loaded with post scribe.js
+ *
+ * */
+
+$this->async_list = array(
+    'instawidget.net/js/instawidget.js',
 );
 
 $this->iframe_tags = array(
+    'googleads',
+    'doubleclick',
     'youtube.com',
     'platform.twitter.com',
 	'facebook.com/plugins',
@@ -59,4 +85,15 @@ $this->iframe_tags = array(
     'player.vimeo.com',
     'disqus.com',
     'platform.twitter.com/widgets.js',
+    'dailymotion.com/embed/video/',
+    'videopress.com/embed',
 );
+
+/*
+ * images with a URl in this list will get blocked, if the cmplz_has_async_documentwrite_scripts() function returns true.
+ * */
+
+$this->image_tags = array(
+    'cdninstagram.com',
+);
+

@@ -17,6 +17,9 @@ $this->document_elements['cookie-statement-us'] = array(
         'p' => false,
         'content' => "We also use the website to collect and sell your personal information. In the document below we explain which data we have sold in the last 12 months, and we give you the possibility to opt-out.",
         'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(
@@ -78,7 +81,9 @@ $this->document_elements['cookie-statement-us'] = array(
 
     array(
         'content' => 'You can object to the tracking by these cookies by clicking the "Revoke cookie consent" button.',
-        'condition' => array('uses_ad_cookies' => 'yes'),
+        'condition' => array(
+            'uses_ad_cookies' => 'yes',
+        ),
     ),
 
     array(
@@ -112,7 +117,7 @@ $this->document_elements['cookie-statement-us'] = array(
                                     <td>Sharing</td>
                                   </tr><tr>
                                      <td>[used_names]</td>
-                                     <td><a href="[privacy-statement-url]">'.__('Privacy statement','complianz').'</a></td>
+                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz').'</a></td>
                                  </tr>
                      </table>',
         'condition' => array(
@@ -153,28 +158,43 @@ $this->document_elements['cookie-statement-us'] = array(
         'title' => 'Selling data to third parties',
         'content' => 'The following categories of data are sold to third parties',
         'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(
         'content' => '[selling-data-thirdparty_data_purpose_us]',
         'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(
         'title' => 'Selling data to third parties',
         'content' => 'We do not sell data to third parties',
         'callback_condition' => 'NOT cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(
         'subtitle' => 'Object to selling of personal data to third parties',
         'content' => 'You can object to our selling of your personal data by entering your email address and name here. We will then remove your data from the databases we sell to third parties.',
         'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(
         'content' => cmplz_do_not_sell_personal_data_form(),
         'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
     ),
 
     array(

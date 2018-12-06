@@ -183,7 +183,6 @@ if (!class_exists("cmplz_document_core")) {
             return false;
         }
 
-
         public function get_document_html($type, $post_id = false)
         {
 
@@ -244,6 +243,7 @@ if (!class_exists("cmplz_document_core")) {
                                 $field_value = (isset($value[$c_fieldname])) ? $value[$c_fieldname] : '';
 
                                 if (!empty($field_value) && is_array($field_value)) $field_value = implode(', ', $field_value);
+
                                 $loop_section = str_replace('[' . $c_fieldname . ']', $field_value, $loop_section);
                             }
 
@@ -267,6 +267,9 @@ if (!class_exists("cmplz_document_core")) {
 
             return apply_filters('cmplz_document_html', $html, $type, $post_id);
         }
+
+
+
 
 
         public function wrap_header($element, $paragraph, $sub_paragraph, $annex)
@@ -293,6 +296,9 @@ if (!class_exists("cmplz_document_core")) {
                 return '<div class="subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
             }
         }
+
+
+
 
 
         /*
@@ -351,17 +357,23 @@ if (!class_exists("cmplz_document_core")) {
             $html = str_replace("[cookie_accept_text]", cmplz_get_value('accept'), $html);
             $html = str_replace("[cookie_save_preferences_text]", cmplz_get_value('save_preferences'), $html);
 
-            $html = str_replace("[domain]", '<a href="'.cmplz_esc_url_raw(get_site_url()).'">'.cmplz_esc_url_raw(get_site_url()).'</a>', $html);
+            $html = str_replace("[domain]", '<a href="'.cmplz_esc_url_raw(get_home_url()).'">'.cmplz_esc_url_raw(get_home_url()).'</a>', $html);
 
             $pages = COMPLIANZ()->config->pages;
             //get the region for which this document is meant, default and eu result in empty.
 
             $region = !isset($pages[$type]['condition']['regions']) || ($pages[$type]['condition']['regions']==='eu') ? false : '-'.$pages[$type]['condition']['regions'];
             $html = str_replace("[cookie-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_cookie-statement'.$region)), $html);
-            $html = str_replace("[privacy-statement-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement'.$region)), $html);
-            $html = str_replace("[privacy-statement-children-us-url]", cmplz_esc_url_raw(get_option('cmplz_url_privacy-statement-children-us')), $html);
 
+            $html = str_replace("[privacy_policy_url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement'.$region)), $html);
 
+            //backward compability
+            $html = str_replace("[privacy-statement-url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement'.$region)), $html);
+            $html = str_replace("[privacy-statement-children-us-url]", cmplz_esc_url_raw($this->get_page_url('privacy-statement-children-us')), $html);
+
+            //us can have two types of titles
+            $cookie_policy_title = esc_html(cmplz_us_cookie_statement_title());
+            $html = str_replace('[cookie-statement-us-title]', $cookie_policy_title, $html);
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
             $date = cmplz_localize_date($date);

@@ -92,6 +92,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * */
 
             $known_script_tags = COMPLIANZ()->config->script_tags;
+            $async_list = COMPLIANZ()->config->async_list;
             $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
             if (!empty($custom_scripts) && strlen($custom_scripts)>0){
                 $custom_scripts = explode(',', $custom_scripts);
@@ -110,34 +111,56 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 $known_iframe_tags = array_merge($known_iframe_tags ,  $custom_iframes);
             }
 
-            /*
-             * Handle youtube
-             *
-             * */
-            //$this->set_youtube_placeholder($html);
+
 
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
-            $url_pattern = '([\w.,@?^=%&:\/~+#!-]*?)';
+            //edit: instagram uses ;width, so we need to allow ; as well.
+            $url_pattern = '([\w.,;@?^=%&:\/~+#!-]*?)';
 
             /*
              * Handle iframes from third parties
              *
              *
              * */
-            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>/i';
-            $iframe_pattern_src = '/<(iframe)[^>].*?src=[\'"]\K(http:\/\/|https:\/\/|\/\/)'.$url_pattern.'(?=[\'"].*?>)/i';
+
+            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?><\/iframe>/i';
             if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[2] as $key => $match){
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
-                        //remove src
-                        $new = preg_replace($iframe_pattern_src, '',$new);
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
-                        $new = $this->remove_src($new);
+                        $new = $this->replace_src($new, '');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div>'.$new.'</div>';
+
                         $output = str_replace($total_match, $new, $output);
+                    }
+                }
+            }
+
+            /*
+             * Handle images from third parties
+             *
+             *
+             * */
+            if (cmplz_has_async_documentwrite_scripts()) {
+                $known_image_tags = COMPLIANZ()->config->image_tags;
+                $img_pattern = '/<(img)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern . '[\'"].*?>/i';
+                if (preg_match_all($img_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                    foreach ($matches[2] as $key => $match) {
+                        $total_match = $matches[0][$key];
+                        $img_src = $matches[2][$key] . $matches[3][$key];
+                        if ($this->strpos_arr($img_src, $known_image_tags) !== false) {
+                            $new = $total_match;
+                            //remove src
+                            // $new = preg_replace($img_pattern_src, '',$new);
+                            $new = str_replace('<img ', '<img data-src-cmplz="' . $img_src . '"', $new);
+                            $new = $this->replace_src($new, cmplz_placeholder('image', $img_src));
+                            $new = $this->add_class($new, 'img', 'cmplz-img');
+                            $output = str_replace($total_match, $new, $output);
+                        }
                     }
                 }
             }
@@ -149,23 +172,26 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * */
 
             $script_pattern = '/(<script.*?>)(\X*?)<\/script>/i';
+            $index = 0;
             if (preg_match_all($script_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[1] as $key => $script_open){
+
+                    //we don't block scripts with the cmplz-native class
                     if (strpos($script_open,'cmplz-native')!==FALSE) continue;
                     $total_match = $matches[0][$key];
                     $content = $matches[2][$key];
+
+                    //if there is inline script here, it has some content
                     if (!empty($content)) {
                         if (strpos($content, 'avia_preview')!==false) continue;
-
-                        $key = $this->strpos_arr($content, $known_script_tags);
-
+                        $found = $this->strpos_arr($content, $known_script_tags);
                         //if it's google analytics, and it's not anonymous or from complianz, remove it.
-                        if ($known_script_tags[$key] == 'www.google-analytics.com/analytics.js' || $known_script_tags[$key] == 'google-analytics.com/ga.js') {
+                        if ($found === 'www.google-analytics.com/analytics.js' || $found === 'google-analytics.com/ga.js') {
                             if (strpos($content, 'anonymizeIp') !== FALSE) {
                                 continue;
                             }
                         }
-                        if ($key !== false) {
+                        if ($found !== false) {
                             $new = $total_match;
                             $new = $this->add_class($new, 'script', 'cmplz-script');
 
@@ -181,10 +207,19 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         foreach ($src_matches[2] as $src_key => $script_src) {
 
                             $script_src = $src_matches[1][$src_key].$src_matches[2][$src_key];
-                            if ($this->strpos_arr($script_src, $known_script_tags) !== false){
+                            $found = $this->strpos_arr($script_src, $known_script_tags);
+                            if ($found !== false){
                                 $new = $total_match;
                                 $new = $this->add_class($new, 'script', 'cmplz-script');
                                 $new = $this->set_javascript_to_plain($new);
+
+                                if ($this->strpos_arr($found, $async_list)){
+                                    $index ++;
+                                    $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
+                                    if (cmplz_has_async_documentwrite_scripts()) {
+                                        $new .= '<div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder('div') . '"></div>';
+                                    }
+                                }
 
                                 $output = str_replace($total_match, $new, $output);
                             }
@@ -198,63 +233,44 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $output;
         }
 
-        /*
-         * replace youtube video with a placeholder image
+
+
+        /**
+         * check if there is a partial match between a keys of the array and the haystack
+         * We cannot use array_search, as this would not allow partial matches.
          *
-         *
-         * */
-
-        private function set_youtube_placeholder($html){
-            /*
-             * <iframe src="https://www.youtube.com/embed/Ct36QXZ_Y-4" width="966" height="543" frameborder="0" allowfullscreen="allowfullscreen"></iframe>*/
-
-            //find youtube iframe string with regex
-            $iframe_str = '';
-
-            //find youtube url with regex (after embed)
-            $video_url = '';
-
-            //get placeholder from url
-            $placeholder_url = "https://img.youtube.com/vi/$video_url/0.jpg";
-
-            //create image html
-            $img = '<img class="cmplz-placeholder" src="'.$placeholder_url.'" data-video="'.$video_url.'">';
-
-            //replace iframe with placeholder
-            $html = str_replace($iframe_str, $img, $html);
-
-            //replace with image
-
-//
-//                    var video = '<iframe src="'+ $(this).attr('data-video') +'"></iframe>';
-//                    $(this).replaceWith(video);
-//                });
-            return $html;
-        }
+         * @param string $haystack
+         * @param array $needle
+         * @return bool|string
+         */
 
         private function strpos_arr($haystack, $needle)
         {
+
+
             if (empty($haystack)) return false;
 
             if (!is_array($needle)) $needle = array($needle);
+
             foreach ($needle as $key => $what) {
-                if (($pos = strpos($haystack, $what)) !== false) return $key;
+                $search = (is_numeric($key)) ? $what : $key;
+                if (($pos = strpos($haystack, $search)) !== false) return $search;
             }
             return false;
         }
 
         private function set_javascript_to_plain($script){
 
-            if (strpos($script, 'type')===false) {
-                $script = str_replace("<script", '<script type="text/plain"', $script);
+            preg_match('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', $script, $matches);
+            if ($matches) {
+                $script = preg_replace('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', 'type="text/plain"', $script, 1);
             } else {
-                $pattern = '/type=[\'|\"]text\/javascript[\'|\"]/i';
-
-                //make possible to override
-                $pattern = apply_filters('cmplz_script_type_pattern', $pattern);
-
-                $script = preg_replace($pattern, 'type="text/plain"', $script);
+                $pos = strpos($script, "<script");
+                if ($pos !== false) {
+                    $script = substr_replace($script, '<script type="text/plain"', $pos, strlen("<script"));
+                }
             }
+
             return $script;
         }
 
@@ -264,12 +280,64 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $script;
         }
 
+        /**
+         * replace the src attribute with a placeholder of choice
+         *
+         * @param string $script
+         * @param string $new_src
+         * @return string
+         */
+
+        private function replace_src($script, $new_src){
+            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
+            $new_src = 'src="'.$new_src.'"';
+
+            $script = preg_replace($pattern, $new_src, $script);
+            return $script;
+        }
+
+
+        /**
+         * Add a class to an HTML element
+         *
+         * @param $html
+         * @param $el
+         * @param $class
+         * @return string
+         */
+
         private function add_class($html, $el, $class){
-            if (strpos($html,'class="' )===false){
-                $html = str_replace("<$el", '<'.$el.' class="'.$class.'"', $html);
+
+            preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
+
+            if ($matches) {
+                $html = preg_replace('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html, 1);
             } else {
-                $html = str_replace('<'.$el.' class="', '<'.$el.' class="'.$class.' ', $html);
+                $pos = strpos($html, "<$el");
+                if ($pos !== false) {
+                    $html = substr_replace($html, '<'.$el.' class="'.$class.'"', $pos, strlen("<$el"));
+                }
             }
+            return $html;
+        }
+
+        /**
+         * Add a data attribute to an html element
+         *
+         * @param string $html
+         * @param string $el
+         * @param string $id
+         * @param string $content
+         * @return string $html
+         */
+
+        private function add_data($html, $el, $id, $content){
+
+            $pos = strpos($html, "<$el");
+            if ($pos !== false) {
+                $html = substr_replace($html, '<'.$el.' data-'.$id.'="'.$content.'"', $pos, strlen("<$el"));
+            }
+
             return $html;
         }
 

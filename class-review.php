@@ -17,7 +17,7 @@ if (!class_exists("cmplz_review")) {
             self::$_this = $this;
             //show review notice, only to free users
             if (!defined("cmplz_premium") && !is_multisite()) {
-                if (!get_option('cmplz_review_notice_shown') && get_option('cmplz_activation_time') && get_option('cmplz_activation_time') < strtotime("-1 month")){
+               if (!get_option('cmplz_review_notice_shown') && get_option('cmplz_activation_time') && get_option('cmplz_activation_time') < strtotime("-1 month")){
                         add_action('wp_ajax_dismiss_review_notice', array($this, 'dismiss_review_notice_callback'));
 
                         add_action('admin_notices', array($this, 'show_leave_review_notice'));
@@ -39,6 +39,13 @@ if (!class_exists("cmplz_review")) {
 
         public function show_leave_review_notice()
         {
+            /*
+             * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
+             *
+             * */
+            $screen = get_current_screen();
+            if ( $screen->parent_base === 'edit' ) return;
+
                 ?>
                 <div id="message" class="updated fade notice is-dismissible cmplz-review">
                     <p><?php printf(__('Hi, you have been using Complianz Privacy Suite for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
