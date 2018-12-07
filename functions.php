@@ -543,13 +543,14 @@ if (!function_exists('cmplz_accepted_processing_agreement')) {
         return false;
     }
 }
+
 if (!function_exists('cmplz_init_cookie_blocker')) {
     function cmplz_init_cookie_blocker()
     {
         if (!cmplz_third_party_cookies_active()) return;
 
         //don't fire on the back-end
-        if (is_admin()) return;
+        if (wp_doing_ajax() || is_admin() || is_preview() || cmplz_is_pagebuilder_preview()) return;
 
         if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
 
@@ -573,6 +574,25 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
         add_action("template_redirect", array(COMPLIANZ()->cookie_blocker, "start_buffer"));
         add_action("shutdown", array(COMPLIANZ()->cookie_blocker, "end_buffer"), 999);
     }
+}
+
+/**
+ *
+ * Check if we are currently in preview mode from one of the known page builders
+ *
+ * @return bool
+ * @since 2.0.7
+ *
+ */
+
+function cmplz_is_pagebuilder_preview(){
+
+    if (isset($_GET['et_pb_preview']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])){
+        return true;
+    } else {
+        return false;
+    }
+
 }
 
 

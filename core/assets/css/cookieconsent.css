@@ -287,6 +287,7 @@
   background-size: 100%;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+  top: 100px;
   cursor: pointer;
   position: absolute;
   width: 50%;
