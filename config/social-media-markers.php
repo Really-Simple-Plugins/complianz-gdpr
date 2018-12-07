@@ -78,6 +78,8 @@ $this->iframe_tags = array(
     'googleads',
     'doubleclick',
     'youtube.com',
+    'youtube-nocookie.com',
+    'youtu.be',
     'platform.twitter.com',
 	'facebook.com/plugins',
     'apis.google.com',

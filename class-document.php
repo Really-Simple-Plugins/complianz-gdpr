@@ -682,7 +682,7 @@ if (!class_exists("cmplz_document")) {
          */
 
         public function get_page_url($type){
-            if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_option('privacy-statement')!=='yes'){
+            if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
                 return cmplz_get_value('custom_privacy_statement_url');
             }
             return get_option('cmplz_url_'.$type);

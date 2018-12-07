@@ -112,7 +112,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
 
 
-
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             //edit: instagram uses ;width, so we need to allow ; as well.
             $url_pattern = '([\w.,;@?^=%&:\/~+#!-]*?)';
@@ -130,7 +129,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
-                        $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'"', $new);
+                        $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
                         $new = $this->replace_src($new, '');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
                         $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div>'.$new.'</div>';
@@ -217,7 +216,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                                     $index ++;
                                     $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
                                     if (cmplz_has_async_documentwrite_scripts()) {
-                                        $new .= '<div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder('div') . '"></div>';
+                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
                                     }
                                 }
 
@@ -289,9 +288,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          */
 
         private function replace_src($script, $new_src){
-            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
+            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-;]*[\w@?^=%&\/~+#-;]?)[\'"]/i';
             $new_src = 'src="'.$new_src.'"';
-
+            preg_match($pattern, $script, $matches);
             $script = preg_replace($pattern, $new_src, $script);
             return $script;
         }

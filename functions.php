@@ -876,7 +876,20 @@ if (!function_exists('cmplz_placeholder')){
                 $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
                 if (preg_match($youtube_pattern, $src, $matches)) {
                     $youtube_id = $matches[1];
-                    $new_src ="https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
+                    /*
+                     * The highest resolution of youtube thumbnail is the maxres, but it does not
+                     * always exist. In that case, we take the hq thumb
+                     * To lower the number of file exists checks, we cache the result.
+                     *
+                     * */
+                    $new_src = get_transient("cmplz_youtube_image_$youtube_id");
+                    if (!$new_src){
+                        $new_src ="https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
+                        if (!cmplz_remote_file_exists($new_src)){
+                            $new_src ="https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
+                        }
+                        set_transient("cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS);
+                    }
                 }
                 break;
             case 'vimeo':
@@ -955,4 +968,28 @@ if (!function_exists('cmplz_has_async_documentwrite_scripts')){
 
         return false;
     }
+}
+
+if (!function_exists('cmplz_remote_file_exists')){
+    function cmplz_remote_file_exists($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+        if($result !== FALSE)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

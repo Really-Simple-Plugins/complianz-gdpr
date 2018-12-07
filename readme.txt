@@ -91,6 +91,7 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 == Change log ==
 = 2.0.7 =
 * Tweak: support youtube and vimeo placeholders
+* Tweak: uninstall not removing all data. This can be done explicitly in the settings as of now.
 
 = 2.0.6 =
 * Tweak: added some new cookies to the database
