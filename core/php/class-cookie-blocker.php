@@ -139,30 +139,30 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 }
             }
 
-            /*
-             * Handle images from third parties
-             *
-             *
-             * */
-            if (cmplz_has_async_documentwrite_scripts()) {
-                $known_image_tags = COMPLIANZ()->config->image_tags;
-                $img_pattern = '/<(img)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern . '[\'"].*?>/i';
-                if (preg_match_all($img_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
-                    foreach ($matches[2] as $key => $match) {
-                        $total_match = $matches[0][$key];
-                        $img_src = $matches[2][$key] . $matches[3][$key];
-                        if ($this->strpos_arr($img_src, $known_image_tags) !== false) {
-                            $new = $total_match;
-                            //remove src
-                            // $new = preg_replace($img_pattern_src, '',$new);
-                            $new = str_replace('<img ', '<img data-src-cmplz="' . $img_src . '"', $new);
-                            $new = $this->replace_src($new, cmplz_placeholder('image', $img_src));
-                            $new = $this->add_class($new, 'img', 'cmplz-img');
-                            $output = str_replace($total_match, $new, $output);
-                        }
-                    }
-                }
-            }
+//            /*
+//             * Handle images from third parties
+//             * currently deactivate, awaiting research if this type of direct instagram images insert is actually used.
+//             *
+//             * */
+//            if (cmplz_has_async_documentwrite_scripts()) {
+//                $known_image_tags = COMPLIANZ()->config->image_tags;
+/*                $img_pattern = '/<(img)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern . '[\'"].*?>/i';*/
+//                if (preg_match_all($img_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+//                    foreach ($matches[2] as $key => $match) {
+//                        $total_match = $matches[0][$key];
+//                        $img_src = $matches[2][$key] . $matches[3][$key];
+//                        if ($this->strpos_arr($img_src, $known_image_tags) !== false) {
+//                            $new = $total_match;
+//                            //remove src
+//                            // $new = preg_replace($img_pattern_src, '',$new);
+//                            $new = str_replace('<img ', '<img data-src-cmplz="' . $img_src . '"', $new);
+//                            $new = $this->replace_src($new, cmplz_placeholder('image', $img_src));
+//                            $new = $this->add_class($new, 'img', 'cmplz-img');
+//                            $output = str_replace($total_match, $new, $output);
+//                        }
+//                    }
+//                }
+//            }
 
             /*
              * Handle scripts from third parties
