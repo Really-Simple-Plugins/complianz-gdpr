@@ -141,7 +141,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            if (version_compare($prev_version, '2.0.6', '<')) {
+            if (version_compare($prev_version, '2.0', '<')) {
                 //add category eu existing dataleaks and processing agreements.
                 $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
                 foreach ($posts as $post){
@@ -173,11 +173,6 @@ if (!class_exists("cmplz_admin")) {
                         }
                     }
                 }
-            }
-
-            //make sure the maxmind db is downloaded on upgrade
-            if ($prev_version && version_compare($prev_version, '2.0.2', '<') && cmplz_get_value('use_country')) {
-                update_option('cmplz_import_geoip_on_activation', true);
             }
 
             /*

@@ -6,7 +6,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * if match should be made on partial of cookiename only, prefix with "partial_"
  *
  * */
-$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie');
+$this->ignore_cookie_list = array('wp-saving-post', 'wp-settings', 'redux_blast', 'wordpress_test_cookie', 'auto_saved_sql');
 
 $this->known_cookie_keys = array(
 
@@ -752,8 +752,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WooCommerce' => array('functional' => true,
-        'used_names' => array('wpwoocommerce_session_xxxxxx', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
-        'unique_used_names' => array('wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'used_names' => array('wc_cart_hash_xxxxxx','wpwoocommerce_session_xxxxxx', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
+        'unique_used_names' => array('wc_partial_', 'wpwoocommerce_session_partial_', 'woocommerce_recently_viewed', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_b9b4acba601b59ea5524bc3d8671ed71'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("WooCommerce", 'complianz'),
         'purpose' => __("This cookie is placed to keep track of sales, shopping cart items.", 'complianz'),
@@ -994,25 +994,25 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array('wpglobus-language-old', 'wpglobus-language'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("WP Globus", 'complianz'),
-        'purpose' => __("This is a cookie which makes it able to view multiple languages on the website. ", 'complianz'),
+        'purpose' => __("This is a cookie which makes it possible to view multiple languages on the website. ", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
-        'description' => __("This is a cookie which makes it able to view multiple languages on the website.", 'complianz'),
+        'description' => __("This is a cookie which makes it possible to view multiple languages on the website.", 'complianz'),
     ),
     'Paid_Membership_Pro' => array('functional' => true,
         'used_names' => array('pmpro_visit'),
         'unique_used_names' => array('pmpro_visit'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("Paid Membership Pro", 'complianz'),
-        'purpose' => __("This is a cookie makes it able to subscribe to certain services with recurring payments. ", 'complianz'),
+        'purpose' => __("This is a cookie makes it possible to subscribe to certain services with recurring payments. ", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
-        'description' => __("This is a cookie makes it able to subscribe to certain services with recurring payments.", 'complianz'),
+        'description' => __("This is a cookie makes it possible to subscribe to certain services with recurring payments.", 'complianz'),
     ),
     'Active_Campaign' => array('marketing' => true,
         'used_names' => array('ac_enable_tracking'),
         'unique_used_names' => array('ac_enable_tracking'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => __("Active Campaign", 'complianz'),
-        'purpose' => __("This is a cookie makes it able to subscribe to certain services with recurring payments. ", 'complianz'),
+        'purpose' => __("This is a cookie makes it possible to subscribe to certain services with recurring payments. ", 'complianz'),
         'storage_duration' => __("365 days", 'complianz'),
         'description' => __("ActiveCampaign stores the data collected on its servers which is used to personalize our communication, improve interaction, provide statistics on website usage, and improve our products, services and offers.", 'complianz'),
     ),
