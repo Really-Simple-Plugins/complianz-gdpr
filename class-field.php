@@ -128,9 +128,12 @@ if (!class_exists("cmplz_field")) {
 
                 //we're assuming the page is the same for all fields here, as it's all on the same page (or should be)
 
-                //clear the cookie settings cache.
+                //clear the cookie settings cache for each locale
                 $variation_id = COMPLIANZ()->cookie->selected_variation_id();
-                delete_transient('cmplz_cookie_settings_cache_' . $variation_id);
+                $locales = get_option('cmplz_supported_locales');
+                foreach ($locales as $locale) {
+                    delete_transient('cmplz_cookie_settings_cache_' . $locale . $variation_id);
+                }
             }
         }
 
