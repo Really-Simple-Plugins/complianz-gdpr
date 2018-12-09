@@ -25,6 +25,7 @@ Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and custo
 * We closely follow the latest developments in the E-Privacy legislation.
 * Integrates seamlessly with Monsterinsights, Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads.
 * Integrated with WordPress privacy features.
+* ClassicPress compatible
 
 IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 
