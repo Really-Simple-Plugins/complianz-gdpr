@@ -8,7 +8,6 @@ if (!function_exists('cmplz_uses_google_analytics')) {
     }
 }
 
-
 /*
  * This overrides the enabled setting for use_categories, based on the tagmanager settings
  * When tagmanager is enabled, use of TM cats is obligatory
@@ -138,27 +137,28 @@ if (!function_exists('cmplz_get_value')) {
 
         /*
          * Translate output
-         * No translate option for the $page option
          *
          * */
-        if (!$page) {
-            if (function_exists('icl_translate') || function_exists('pll__')) {
-                $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
-                if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
-                    if (is_array($value)) {
-                        foreach ($value as $key => $key_value) {
-                            if (function_exists('pll__')) $value[$key] = pll__($key_value);
-                            if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
-                        }
+
+        if (function_exists('icl_translate') || function_exists('pll__')) {
+            $type = isset(COMPLIANZ()->config->fields[$original_fieldname]['type']) ? COMPLIANZ()->config->fields[$original_fieldname]['type'] : false;
+            if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
+                if (is_array($value)) {
+                    foreach ($value as $key => $key_value) {
+                        if (function_exists('pll__')) $value[$key] = pll__($key_value);
+                        if (function_exists('icl_translate')) $value[$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
                     }
-                } else {
-                    if (isset(COMPLIANZ()->config->fields[$original_fieldname]['translatable']) && COMPLIANZ()->config->fields[$original_fieldname]['translatable']) {
-                        if (function_exists('pll__')) $value = pll__($value);
-                        if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+                }
+            } else {
+                if (isset(COMPLIANZ()->config->fields[$original_fieldname]['translatable']) && COMPLIANZ()->config->fields[$original_fieldname]['translatable']) {
+                    if (function_exists('pll__')) {
+                        $value = pll__($value);
                     }
+                    if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
                 }
             }
         }
+
         return $value;
     }
 }
@@ -584,17 +584,18 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
  * @since 2.0.7
  *
  */
+if (!function_exists('cmplz_is_pagebuilder_preview')) {
+    function cmplz_is_pagebuilder_preview()
+    {
 
-function cmplz_is_pagebuilder_preview(){
+        if (isset($_GET['et_pb_preview']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
+            return true;
+        } else {
+            return false;
+        }
 
-    if (isset($_GET['et_pb_preview']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])){
-        return true;
-    } else {
-        return false;
     }
-
 }
-
 
 /*
  * By default, the region which is returned is the region as selected in the wizard settings.

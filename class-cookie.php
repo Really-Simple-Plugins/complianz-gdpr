@@ -383,8 +383,16 @@ if (!class_exists("cmplz_cookie")) {
         public function get_cookie_settings($variation_id = '')
         {
             //cleared on saving in class field
-            $output = get_transient('cmplz_cookie_settings_cache_' . $variation_id);
-            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output) {
+            //get localized transient
+            $locale = get_locale();
+            $output = get_transient('cmplz_cookie_settings_cache_'.$locale . $variation_id);
+            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output ) {
+
+                //store this locale for when we need to clear this cache.
+                $locales = get_option('cmplz_supported_locales');
+                if (!is_array($locales)) $locales = array();
+                if (!in_array($locale, $locales)) $locales[] = $locale;
+                update_option('cmplz_supported_locales', $locales);
                 $output = array();
 
                 $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
@@ -470,7 +478,8 @@ if (!class_exists("cmplz_cookie")) {
                 unset($output['a_b_testing']);
 
                 $output = apply_filters('cmplz_cookie_settings', $output);
-                set_transient('cmplz_cookie_settings_cache', $output, DAY_IN_SECONDS);
+
+                set_transient('cmplz_cookie_settings_cache_'.$locale . $variation_id, $output, DAY_IN_SECONDS);
             }
 
             return $output;
