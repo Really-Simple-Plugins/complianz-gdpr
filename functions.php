@@ -268,7 +268,13 @@ if (!function_exists('cmplz_get_region_for_country')) {
 }
 
 if (!function_exists('cmplz_notice')) {
-
+    /**
+     * @param string $msg
+     * @param string $type notice | warning | success
+     * @param bool $hide
+     * @param bool $echo
+     * @return string|void
+     */
     function cmplz_notice($msg, $type='notice', $hide = false, $echo=true)
     {
         if ($msg == '') return;

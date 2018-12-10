@@ -443,18 +443,6 @@ $this->fields = $this->fields + array(
             'time' => 0,
         ),
 
-        'report_unknown_cookies' => array(
-            'step' => STEP_COOKIES,
-            'section' => 3,
-            'page' => 'wizard',
-            'type' => 'radio',
-            'label' => __("Unknown cookies detected", 'complianz'),
-            'callback' => 'report_unknown_cookies',
-            'comment' => __('The scan detected cookies which are not listed in the cookie database. You can help us improve the database by reporting these cookies. If you know what a currently unrecognized cookie is for, please add this to the descriptions below, so we can process that information as well.','complianz'),
-            'callback_condition' => array('uses_cookies' => 'yes'),
-            'time' => 0,
-        ),
-
         'used_cookies' => array(
             'step' => STEP_COOKIES,
             'section' => 3,
@@ -465,6 +453,18 @@ $this->fields = $this->fields + array(
             'label' => __("Add the used cookies here", 'complianz'),
             'callback_condition' => array('uses_cookies' => 'yes'),
             'time' => 5,
+        ),
+
+        'report_unknown_cookies' => array(
+            'step' => STEP_COOKIES,
+            'section' => 3,
+            'page' => 'wizard',
+            'type' => 'radio',
+            'label' => __("Unknown cookies detected", 'complianz'),
+            'callback' => 'report_unknown_cookies',
+            'comment' => __('The scan detected cookies which are not listed in the cookie database. You can help us improve the database by reporting these cookies. If you know what a currently unrecognized cookie is for, please add this to the descriptions below, so we can process that information as well.','complianz'),
+            'callback_condition' => array('uses_cookies' => 'yes'),
+            'time' => 0,
         ),
 
         'statistics_script' => array(
