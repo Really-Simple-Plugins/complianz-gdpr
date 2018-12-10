@@ -40,8 +40,6 @@ if (!class_exists("cmplz_wizard")) {
 
             add_action('cmplz_is_wizard_completed', array($this, 'is_wizard_completed_callback'));
 
-
-
         }
 
         static function this()
@@ -53,10 +51,10 @@ if (!class_exists("cmplz_wizard")) {
         public function is_wizard_completed_callback()
         {
             if ($this->wizard_completed_once()) {
-                echo __("Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz');
+                cmplz_notice(__("Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz'));
             } else {
                 $link = '<a href="' . admin_url('admin.php?page=cmplz-wizard') . '">';
-                echo sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz'), $link, "</a>");
+                cmplz_notice(sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz'), $link, "</a>"),'warning');
             }
         }
 
@@ -121,7 +119,7 @@ if (!class_exists("cmplz_wizard")) {
 
                 if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
-                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the %scookie warning settings%s to customize it.", 'complianz'), $link_open, "</a>"),'warning');
+                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz'), $link_open, "</a>"),'warning');
                 }
 
             }
@@ -708,7 +706,7 @@ if (!class_exists("cmplz_wizard")) {
                         $link_article = '<a href="https://complianz.io/what-are-dataleak-reports">';
                     }
 
-                    echo '<p >' . sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz'), $about, $link_article, '</a>') . "</p>";
+                    cmplz_notice(sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz'), $about, $link_article, '</a>') );
 
                 }
             }
@@ -755,8 +753,10 @@ if (!class_exists("cmplz_wizard")) {
                         $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz') : __("Finish", 'complianz');
                         ?>
                         <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) {
-
-                            if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){ ?>
+                            /*
+                             * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
+                             * */
+                            if ($page == 'wizard' && ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us'))){ ?>
                                 <div class="cmplz-button cmplz-next">
                                     <input class="button" type="submit" name="cmplz-cookie-settings"
                                            value="<?php _e("Finish and check cookie banner settings", 'complianz') ?>">
