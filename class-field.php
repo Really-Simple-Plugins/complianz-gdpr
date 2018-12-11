@@ -561,6 +561,16 @@ if (!class_exists("cmplz_field")) {
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
             $value = $this->get_value($args['fieldname']);
+
+            //if no value at all has been set, assign a default value
+            $has_selection = false;
+            foreach ($value as $key=>$index){
+                if ($index==1) {
+                    $has_selection = true;
+                    break;
+                }
+            }
+
             $default_index = $args['default'];
 
             if (!$this->show_field($args)) return;
@@ -574,8 +584,12 @@ if (!class_exists("cmplz_field")) {
             <?php if (!empty($args['options'])) {?>
             <div class="<?php if ($args['required']) echo 'cmplz-validate-multicheckbox'?>">
             <?php foreach ($args['options'] as $option_key => $option_label) {
-
-            $sel_key = (isset($value[$option_key]) && $value[$option_key]) ? $option_key : $default_index;
+                $sel_key = false;
+                if (!$has_selection) {
+                    $sel_key = $default_index;
+                } elseif(isset($value[$option_key]) && $value[$option_key]){
+                    $sel_key = $option_key;
+                }
             ?>
             <div>
                 <input name="<?php echo esc_html($fieldname) ?>[<?php echo $option_key ?>]" type="hidden" value=""/>
@@ -1485,7 +1499,6 @@ if (!class_exists("cmplz_field")) {
 
             //if no value isset, pass a default
             $value = isset($options[$fieldname]) ? $options[$fieldname] : apply_filters('cmplz_default_value', $default, $fieldname);
-
             return $value;
         }
 

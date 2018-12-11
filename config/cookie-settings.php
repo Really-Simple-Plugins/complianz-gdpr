@@ -52,6 +52,7 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
         ),
+
         'theme' => array(
             'page' => 'cookie_settings',
             'step' => 'general',
@@ -78,6 +79,20 @@ $this->fields = $this->fields + array(
             'table' => true,
             'has_variations' => true,
         ),
+
+        'revoke' => array(
+            'page' => 'cookie_settings',
+            'step' => 'general',
+            'type' => 'text',
+            'translatable' => true,
+            'default' => __("Settings", 'complianz'),
+            'label' => __("Settings text", 'complianz'),
+            'table' => true,
+            'help'  => __('The text that appears on the revoke button, which shows when a choice has been made in the cookie warning.','complianz'),
+            'has_variations' => true,
+            'condition' => array('use_categories' => false),
+        ),
+
         'dismiss' => array(
             'step' => 'eu',
             'page' => 'cookie_settings',
@@ -181,21 +196,7 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-        'revoke' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
-            'type' => 'text',
-            'translatable' => true,
-            'default' => __("Settings", 'complianz'),
-            'label' => __("Settings text", 'complianz'),
-            'table' => true,
-            'help'  => __('The text that appears on the revoke button, which shows when a choice has been made in the cookie warning.','complianz'),
-            'has_variations' => true,
-            'condition' => array('use_categories' => false),
-            'callback_condition' => array(
-                'regions' => 'eu',
-            ),
-        ),
+
 
         'readmore' => array(
             'page' => 'cookie_settings',
