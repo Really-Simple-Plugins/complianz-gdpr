@@ -683,7 +683,8 @@ if (!class_exists("cmplz_document")) {
 
         public function get_page_url($type){
             if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
-                return cmplz_get_value('custom_privacy_statement_url');
+                $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
+                return get_permalink($policy_page_id);
             }
             return get_option('cmplz_url_'.$type);
         }

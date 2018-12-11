@@ -13,6 +13,8 @@ Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized 
 == Description ==
 Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
 
+IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
+
 = Features =
 * New: Ready for CaCPA.
 * Automatically detects if you need a cookie warning.
@@ -27,7 +29,7 @@ Complianz Privacy Suite (GDPR/CaCPA) with a conditional cookie warning and custo
 * Integrated with WordPress privacy features.
 * ClassicPress compatible
 
-IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
+
 
 Complianz Privacy Suite is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
@@ -35,7 +37,7 @@ Complianz Privacy Suite is on [GitHub](https://github.com/rlankhorst/complianz-g
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 = Premium features =
-* Select both US and EU as target region
+* Select both US and EU as target region.
 * Cookie statistics: see how many visitors accept, decline, or do not need a cookie warning at all.
 * A/B testing: which banner has the best conversion ratio? Choose the best one and create an amazing user experience.
 * Documents: Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen.
@@ -93,6 +95,8 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 = 2.0.7 =
 * Tweak: support youtube and vimeo placeholders
 * Tweak: uninstall not removing all data. This can be done explicitly in the settings as of now.
+* Tweak: added new cookies
+* Tweak: declared ClassicPress compatibility
 
 = 2.0.6 =
 * Tweak: added some new cookies to the database

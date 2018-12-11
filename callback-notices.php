@@ -75,6 +75,22 @@ function cmplz_notice_no_cookies_used(){
 }
 
 
+/*
+ * For the cookie page and the US banner we need a link to the privacy policy.
+ * In free, and in premium when the privacy statement is not enabled, we choose the WP privacy page. If it is not set, the user needs to create one.
+ *
+ *
+ * */
+
+add_action('cmplz_notice_missing_privacy_page', 'cmplz_notice_missing_privacy_page');
+function cmplz_notice_missing_privacy_page(){
+
+    if (cmplz_get_value('privacy-statement')!=='yes' && !get_option('wp_page_for_privacy_policy')) {
+        cmplz_notice(sprintf(__("You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s", 'complianz'),'<a href="'.admin_url('privacy.php').'">','</a>'),'warning');
+    }
+
+}
+
 
 
 

@@ -457,10 +457,9 @@ if (!class_exists("cmplz_cookie")) {
                     unset($output['dismiss']);
                     unset($output['accept']);
                 }
-
-                $output['readmore_url'] = get_option('cmplz_url_cookie-statement');
-                $output['readmore_url_us'] = get_option('cmplz_url_cookie-statement-us');
-                $privacy_link = empty(get_option('cmplz_url_privacy-statement-us')) ? cmplz_get_value('custom_privacy_statement_url') : get_option('cmplz_url_privacy-statement-us');
+                $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
+                $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
+                $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement-us');// empty(get_option('cmplz_url_privacy-statement-us')) ? $fallback_privacy_link : get_option('cmplz_url_privacy-statement-us');
                 $output['privacy_link'] = !empty($privacy_link) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
 
                 $output['nonce'] = wp_create_nonce('set_cookie');
