@@ -356,7 +356,7 @@ if (!class_exists("cmplz_field")) {
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="cmplz-settings ' . esc_attr($hidden_class.' '.$condition_class) . '"';
+                echo '<tr class="cmplz-settings field-group' . esc_attr($hidden_class.' '.$condition_class) . '"';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
@@ -1561,7 +1561,7 @@ if (!class_exists("cmplz_field")) {
         {
             $output='';
             if (isset($args['help']) ) {
-                $output = '<a href="#" class=" cmplz-open-modal">'.__('Info', 'complianz').'</a>';
+                $output = '<a href="#" class="button cmplz-open-modal"><i class="fa fa-question"></i></a>';
             }
             return $output;
         }
