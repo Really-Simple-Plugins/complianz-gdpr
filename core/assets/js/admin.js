@@ -64,10 +64,12 @@ jQuery(document).ready(function ($) {
         field.css('width','60%');
 
         //force the div height
-        var height  = field.height();
-        if (help_modal.height()>height) height = help_modal.height();
-        height+=20;
-        help_modal.parent().height(height);
+        if (!field_group.hasClass('cmplz-settings')) {
+            var height = field.height();
+            if (help_modal.height() > height) height = help_modal.height();
+            height += 20;
+            help_modal.parent().height(height);
+        }
 
         help_modal.show();
     });
