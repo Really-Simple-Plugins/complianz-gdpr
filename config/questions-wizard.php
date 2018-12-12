@@ -88,8 +88,7 @@ $this->fields = $this->fields + array(
             'page' => 'wizard',
             'type' => 'text',
             'default' => '',
-            'label' => __("What is the name of your organization?", 'complianz'),
-            'help' => __("The name of your head organisation.", 'complianz'),
+            'label' => __("Who is the owner of the website (person or company)?", 'complianz'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
@@ -294,60 +293,7 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'GTM_code' => array(
-            'step' => STEP_COOKIES,
-            'section' => 2,
-            'page' => 'wizard',
-            'type' => 'text',
-            'default' => '',
-            'required' => true,
-            'revoke_consent_onchange' => true,
-            'label' => __("Enter your Google Tagmanager code", 'complianz'),
-            'condition' => array('compile_statistics' => 'google-tag-manager'),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'help' =>__("For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.", 'complianz'),
-        ),
 
-        'UA_code' => array(
-            'step' => STEP_COOKIES,
-            'section' => 2,
-            'page' => 'wizard',
-            'type' => 'text',
-            'default' => '',
-            'required' => true,
-            'revoke_consent_onchange' => true,
-            'label' => __("Enter your Analytics UA code", 'complianz'),
-            'condition' => array('compile_statistics' => 'google-analytics'),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'help' =>__("For the Google Analytics UA code, log on and click Admin and copy the UA code below Tracking-ID.", 'complianz'),
-        ),
-
-        'matomo_site_id' => array(
-            'step' => STEP_COOKIES,
-            'section' => 2,
-            'page' => 'wizard',
-            'type' => 'number',
-            'default' => '',
-            'required' => true,
-            'revoke_consent_onchange' => true,
-            'label' => __("Enter your Matomo site ID", 'complianz'),
-            'condition' => array('compile_statistics' => 'matomo'),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-        ),
-
-        'matomo_url' => array(
-            'step' => STEP_COOKIES,
-            'section' => 2,
-            'page' => 'wizard',
-            'type' => 'url',
-            'placeholder' => 'https://domain.com/stats',
-            'required' => true,
-            'revoke_consent_onchange' => true,
-            'label' => __("Enter the URL of Matomo", 'complianz'),
-            'condition' => array('compile_statistics' => 'matomo'),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'help' =>__("e.g. https://domain.com/stats", 'complianz'),
-        ),
 
         'uses_cookies' => array(
             'step' => STEP_COOKIES,
@@ -477,9 +423,81 @@ $this->fields = $this->fields + array(
             'time' => 0,
         ),
 
-        'statistics_script' => array(
+        'configuration_by_complianz' => array(
             'step' => STEP_COOKIES,
             'section' => 4,
+            'page' => 'wizard',
+            'type' => 'select',
+            'default' => 'yes',
+            'label' => __("Do you want Complianz Privacy Suite to configure your statistics?", 'complianz'),
+            'options' => $this->yes_no,
+            'help' => __("It's recommended to let Complianz Privacy Suite handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so", 'complianz'),
+            'callback_condition' => 'cmplz_manual_stats_config_possible',
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'GTM_code' => array(
+            'step' => STEP_COOKIES,
+            'section' => 4,
+            'page' => 'wizard',
+            'type' => 'text',
+            'default' => '',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter your Google Tagmanager code", 'complianz'),
+            'callback_condition' => array('compile_statistics' => 'google-tag-manager'),
+            'condition' => array('configuration_by_complianz' => 'yes'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.", 'complianz'),
+        ),
+
+        'UA_code' => array(
+            'step' => STEP_COOKIES,
+            'section' => 4,
+            'page' => 'wizard',
+            'type' => 'text',
+            'default' => '',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter your Analytics UA code", 'complianz'),
+            'callback_condition' => array('compile_statistics' => 'google-analytics'),
+            'condition' => array('configuration_by_complianz' => 'yes'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("For the Google Analytics UA code, log on and click Admin and copy the UA code below Tracking-ID.", 'complianz'),
+        ),
+
+        'matomo_site_id' => array(
+            'step' => STEP_COOKIES,
+            'section' => 4,
+            'page' => 'wizard',
+            'type' => 'number',
+            'default' => '',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter your Matomo site ID", 'complianz'),
+            'condition' => array('configuration_by_complianz' => 'yes'),
+            'callback_condition' => array('compile_statistics' => 'matomo'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'matomo_url' => array(
+            'step' => STEP_COOKIES,
+            'section' => 4,
+            'page' => 'wizard',
+            'type' => 'url',
+            'placeholder' => 'https://domain.com/stats',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'label' => __("Enter the URL of Matomo", 'complianz'),
+            'callback_condition' => array('compile_statistics' => 'matomo'),
+            'condition' => array('configuration_by_complianz' => 'yes'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' =>__("e.g. https://domain.com/stats", 'complianz'),
+        ),
+
+        'statistics_script' => array(
+            'step' => STEP_COOKIES,
+            'section' => 5,
             'page' => 'wizard',
             'type' => 'javascript',
             'default' => '',
@@ -495,7 +513,7 @@ $this->fields = $this->fields + array(
 
         'cookie_scripts' => array(
             'step' => STEP_COOKIES,
-            'section' => 4,
+            'section' => 5,
             'page' => 'wizard',
             'type' => 'javascript',
             'optional' => true,
@@ -513,7 +531,7 @@ $this->fields = $this->fields + array(
 
         'thirdparty_scripts' => array(
             'step' => STEP_COOKIES,
-            'section' => 4,
+            'section' => 5,
             'page' => 'wizard',
             'type' => 'textarea',
             'optional' => true,
@@ -521,11 +539,6 @@ $this->fields = $this->fields + array(
             'revoke_consent_onchange' => true,
             'placeholder' => 'domain.com, domain.org',
             'label' => __("URL's from scripts you want to be blocked before the cookie warning is accepted", 'complianz'),
-//            'callback_condition' => array(
-//                'uses_cookies' => 'yes',
-//                'uses_social_media' => 'yes',
-//                'uses_ad_cookies' => 'yes',
-//            ),
             'callback_condition' => array(
                 'compile_statistics' => 'NOT google-tag-manager',
             ),
@@ -535,7 +548,7 @@ $this->fields = $this->fields + array(
 
         'thirdparty_iframes' => array(
             'step' => STEP_COOKIES,
-            'section' => 4,
+            'section' => 5,
             'page' => 'wizard',
             'type' => 'textarea',
             'optional' => true,

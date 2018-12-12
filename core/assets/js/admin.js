@@ -37,6 +37,41 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    /*
+    * help modals
+    * */
+    $(document).on('click', '.cmplz-open-modal', function(e){
+
+        e.preventDefault();
+        var field_group = $(this).closest('.field-group');
+        var field = field_group.find('.cmplz-field');
+        var help_modal = field_group.find('.cmplz-help-modal');
+
+        //close all other modals.
+
+        $('.cmplz-field').each(function(){
+            $(this).css('float','none');
+            $(this).css('width','100%');
+        });
+
+        $('.cmplz-help-modal').each(function(){
+            $(this).hide();
+
+            //reset parent div height
+            $(this).parent().height(0);
+        });
+        field.css('float','left');
+        field.css('width','60%');
+
+        //force the div height
+        var height  = field.height();
+        if (help_modal.height()>height) height = help_modal.height();
+        height+=20;
+        help_modal.parent().height(height);
+
+        help_modal.show();
+    });
+
 
     //colorpicker in the wizard
     $('.cmplz-color-picker').wpColorPicker({

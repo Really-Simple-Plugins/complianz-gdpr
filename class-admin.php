@@ -217,6 +217,7 @@ if (!class_exists("cmplz_admin")) {
             wp_enqueue_style('cmplz');
 
             wp_enqueue_style('wp-color-picker');
+
             wp_enqueue_script('cmplz-ace', cmplz_url . "core/assets/ace/ace.js", array(), cmplz_version, false);
 
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
@@ -876,7 +877,7 @@ if (!class_exists("cmplz_admin")) {
                             <th></th>
                             <td><?php
 
-                                COMPLIANZ()->field->get_fields('wizard', STEP_COOKIES, 4);
+                                COMPLIANZ()->field->get_fields('wizard', STEP_COOKIES, 5);
 
                                 ?>
                             </td>
