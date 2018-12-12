@@ -17,8 +17,8 @@ $this->steps = array(
                     2 => array('title' => __('Visitors', 'complianz'),
                         'intro' => _x('To determine what laws apply, we need to know where your website visitors are coming from.', 'intro company info', 'complianz'),
                     ),
-                    3 => array('title' => __('Company information', 'complianz'),
-                        'intro' => _x('We need some company information to be able to generate your documents.', 'intro company info', 'complianz'),
+                    3 => array('title' => __('Website information', 'complianz'),
+                        'intro' => _x('We need some information to be able to generate your documents.', 'intro company info', 'complianz'),
                     ),
                     5 => array(
                         'law' => 'us',
@@ -42,6 +42,7 @@ $this->steps = array(
                     2 => array('title' => __('Cookie usage', 'complianz'),
                         //'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz'),
                     ),
+
                     3 => array('title' => __('Used cookies', 'complianz'),
                         'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz').
                         '<p>'._x("The following icons are used in the list:", 'intro used cookies', 'complianz').
@@ -52,9 +53,10 @@ $this->steps = array(
 
 
                     ),
-//                    4 => array('title' => __('Script center', 'complianz'),
-//                        'intro' => _x('Advanced users only. Only if you have scripts which are not supported by the default functionality should you need this step.', 'intro cookie usage', 'complianz')
-//                    ),
+                    4 => array('title' => __('Statistics', 'complianz'),
+                        'intro' => _x('If you add the ID for your statistics tool here, Complianz Privacy Suite will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'),
+                    ),
+
                 ),
             ),
             STEP_MENU => array(

@@ -67,6 +67,28 @@ if (!function_exists('cmplz_tagmanager_conditional_helptext')) {
     }
 }
 
+if (!function_exists('cmplz_manual_stats_config_possible')) {
+
+    /**
+     * Checks if the statistics are configured so no consent is need for statistics
+     *
+     * @return bool
+     */
+
+    function cmplz_manual_stats_config_possible()
+    {
+        $stats = cmplz_get_value('compile_statistics');
+        if ($stats ==='matomo' && cmplz_no_ip_addresses()) return true;
+
+        if ($stats==='google-analytics' || $stats === 'google-tag-manager'){
+            if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 if (!function_exists('cmplz_revoke_link')) {
     function cmplz_revoke_link($text = false)
     {

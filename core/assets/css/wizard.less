@@ -2,6 +2,24 @@
 @border-radius: 25px;
 @gray: #c6c6c6;
 
+.cmplz-help-modal {
+  display:none;
+  padding:15px 30px;
+  margin-left:62%;
+  //margin-top:-20px;
+  border-radius: .25rem;
+  background-color: #d9edf7;
+  border-color: #bcdff1;
+  color: #31708f;
+  text-align: left;
+  -webkit-box-shadow:0 5px 10px #303030;
+  -moz-box-shadow:0 5px 10px #303030;
+  box-shadow:0 2px 10px #303030;
+}
+.cmplz-open-modal{
+  margin-top:3px !important;
+}
+
 .cmplz_delete_variation{
   float:right;
   margin-top: -5px!important;
@@ -246,6 +264,7 @@ input:focus + .cmplz-slider {
   background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
   z-index: 99;
   p {
+    border-radius:10px;
     font-size: 16px;
     background-color: white;
     color: black;
@@ -337,12 +356,14 @@ html .mceContentBody {
   }
 
   .field-group {
+    position:relative;
     padding-top: 20px;
     padding-bottom: 20px;
     border-top: 1px solid #c3c3c3;
     &.first {
       border-top:0;
     }
+
   }
 
   .cmplz-header {

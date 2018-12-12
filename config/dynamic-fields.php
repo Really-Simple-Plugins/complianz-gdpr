@@ -40,6 +40,19 @@ function cmplz_filter_fields($fields)
 
     }
 
+    /*
+     * If it's not possible to configure the stats manually, because the three conditions are not met (anonymized ip, etc)
+     * we unset the condition that makes these dependent of the manual config selection
+     *
+     * */
+
+    if (!cmplz_manual_stats_config_possible()){
+        unset($fields['GTM_code']['condition']);
+        unset($fields['UA_code']['condition']);
+        unset($fields['matomo_site_id']['condition']);
+        unset($fields['matomo_url']['condition']);
+    }
+
     return $fields;
 
 }

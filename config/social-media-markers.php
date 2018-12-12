@@ -13,7 +13,7 @@ $this->social_media_markers = array(
     "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('assets.pinterest.com'),
     "disqus" => array('disqus.com'),
-    "instagram" => array('instawidget.net/js/instawidget.js'),
+    "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com'),
 );
 
 /*

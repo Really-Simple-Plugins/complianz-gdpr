@@ -408,11 +408,11 @@ if (!class_exists("cmplz_field")) {
         function after_field($args)
         {
             $this->get_comment($args);
-            $this->get_help_tip($args);
+            echo $this->get_help_tip_btn($args);
             if ($args['table']) {
-                echo '</td></tr>';
+                echo '</td><td>'.$this->get_help_tip($args).'</td></tr>';
             } else {
-                echo '</div></div>';
+                echo '</div>'.$this->get_help_tip($args).'</div>';
             }
         }
 
@@ -561,6 +561,7 @@ if (!class_exists("cmplz_field")) {
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
             $value = $this->get_value($args['fieldname']);
+            if (!is_array($value)) $value = array();
 
             //if no value at all has been set, assign a default value
             $has_selection = false;
@@ -651,7 +652,8 @@ if (!class_exists("cmplz_field")) {
         public
         function show_field($args)
         {
-            return ($this->condition_applies($args, 'callback_condition'));
+            $show = ($this->condition_applies($args, 'callback_condition'));
+            return $show;
         }
 
         public
@@ -668,8 +670,26 @@ if (!class_exists("cmplz_field")) {
                 }
             }
 
-            if (!$type || !is_array($args[$type])) {
+            if (!$type || !$args[$type]) {
                 return true;
+            }
+
+            //function callbacks
+            if (!is_array($args[$type]) && !empty($args[$type])){
+                $invert = false;
+                $func = $args[$type];
+
+                if (strpos($func, 'NOT ')!== FALSE){
+                    $invert = true;
+                    $func = str_replace('NOT ', '', $func);
+                }
+                $show_field = $func();
+                if ($invert) $show_field = !$show_field;
+                if ($show_field) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             $condition = $args[$type];
@@ -1502,6 +1522,13 @@ if (!class_exists("cmplz_field")) {
             return $value;
         }
 
+        /**
+         * Checks if a fieldname exists in the complianz field list.
+         *
+         * @param string $fieldname
+         * @return bool
+         */
+
         public
         function sanitize_fieldname($fieldname)
         {
@@ -1511,16 +1538,6 @@ if (!class_exists("cmplz_field")) {
             return false;
         }
 
-        public
-        function get_help_tip($args)
-        {
-            if (!isset($args['help'])) return;
-            ?>
-            <span class="cmplz-tooltip-right tooltip-right" data-cmplz-tooltip="<?php echo $args['help'] ?>">
-              <span class="dashicons dashicons-editor-help"></span>
-            </span>
-            <?php
-        }
 
         public
         function get_comment($args)
@@ -1529,6 +1546,41 @@ if (!class_exists("cmplz_field")) {
             ?>
             <div class="cmplz-comment"><?php echo $args['comment'] ?></div>
             <?php
+        }
+
+        /**
+         *
+         * returns the button with which a user can open the help modal
+         *
+         * @param array $args
+         * @return string
+         */
+
+        public
+        function get_help_tip_btn($args)
+        {
+            $output='';
+            if (isset($args['help']) ) {
+                $output = '<a href="#" class=" cmplz-open-modal">'.__('Info', 'complianz').'</a>';
+            }
+            return $output;
+        }
+
+        /**
+         * returns the modal help window
+         *
+         * @param array $args
+         * @return string
+         */
+
+        public
+        function get_help_tip($args)
+        {
+            $output='';
+            if (isset($args['help'])) {
+                $output = '<div><div class="cmplz-help-modal ">'.$args['help'].'</div></div>';
+            }
+            return $output;
         }
 
 

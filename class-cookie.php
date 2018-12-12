@@ -105,7 +105,6 @@ if (!class_exists("cmplz_cookie")) {
                 $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz') : __("Matomo", 'complianz');
 
                     cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz'), $type, $type));
-
             }
         }
 
@@ -560,6 +559,8 @@ if (!class_exists("cmplz_cookie")) {
 
         public function get_statistics_script()
         {
+            if (cmplz_get_value('configuration_by_complianz')==='no') return;
+
             $statistics = cmplz_get_value('compile_statistics');
             if ($statistics === 'google-tag-manager') {
                 $script = cmplz_get_template('google-tag-manager.js');
