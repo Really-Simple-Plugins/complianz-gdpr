@@ -54,7 +54,6 @@ $this->steps = array(
 
                     ),
                     4 => array('title' => __('Statistics', 'complianz'),
-                        'intro' => _x('If you add the ID for your statistics tool here, Complianz Privacy Suite will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'),
                     ),
 
                 ),

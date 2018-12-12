@@ -1,7 +1,12 @@
+div.field-group .cmplz-help-modal {
+  margin-left: 62%;
+}
+tr.field-group .cmplz-help-modal {
+  margin-top: -20px;
+}
 .cmplz-help-modal {
   display: none;
   padding: 15px 30px;
-  margin-left: 62%;
   border-radius: .25rem;
   background-color: #d9edf7;
   border-color: #bcdff1;
@@ -11,8 +16,11 @@
   -moz-box-shadow: 0 5px 10px #303030;
   box-shadow: 0 2px 10px #303030;
 }
-.cmplz-open-modal {
-  margin-top: 3px !important;
+a.button.cmplz-open-modal {
+  font-size: 9px;
+  line-height: 13px;
+  height: 19px;
+  padding: 3px 5px;
 }
 .cmplz_delete_variation {
   float: right;

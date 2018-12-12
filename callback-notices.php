@@ -53,7 +53,6 @@ function cmplz_data_disclosed_us(){
     if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
         cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz'));
     }
-
 }
 
 add_action('cmplz_notice_data_sold_us', 'cmplz_data_sold_us');
@@ -71,6 +70,26 @@ function cmplz_notice_no_cookies_used(){
     if (cmplz_get_value('uses_cookies')!=='yes') {
         cmplz_notice(__("You have indicated your site does not use cookies. If you're sure about this, you can skip this step", 'complianz'),'warning');
     }
+
+}
+
+add_action('cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional');
+add_action('cmplz_notice_UA_code', 'cmplz_notice_stats_non_functional');
+add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');
+
+function cmplz_notice_stats_non_functional(){
+    if (!cmplz_manual_stats_config_possible()) {
+        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz Privacy Suite", 'complianz'),'warning');
+    } else {
+        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz Privacy Suite will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'));
+    }
+}
+
+add_action('cmplz_notice_statistics_script', 'cmplz_notice_statistics_script');
+function cmplz_notice_statistics_script(){
+
+        cmplz_notice( __('You have indicated you use a statistics tool which tracks personal data. You can insert this script here so it only fires if the user consents to this.', 'intro cookie usage', 'complianz'));
+
 
 }
 

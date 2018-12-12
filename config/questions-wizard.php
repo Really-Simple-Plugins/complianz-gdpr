@@ -497,7 +497,7 @@ $this->fields = $this->fields + array(
 
         'statistics_script' => array(
             'step' => STEP_COOKIES,
-            'section' => 5,
+            'section' => 4,
             'page' => 'wizard',
             'type' => 'javascript',
             'default' => '',
