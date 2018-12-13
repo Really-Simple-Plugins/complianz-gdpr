@@ -255,15 +255,25 @@ if (!class_exists("cmplz_admin")) {
             return $warnings;
         }
 
+        /**
+         * get a list of applicable warnings.
+         * @param bool $cache
+         * @param bool $plus_ones_only
+         * @param array $ignore_warnings
+         * @return array
+         */
 
-        public function get_warnings($cache = true, $plus_ones_only=false)
+
+        public function get_warnings($cache = true, $plus_ones_only=false, $ignore_warnings=array())
         {
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
-                if (!$plus_ones_only) $warnings[] = 'no-dnt';
+                if (!$plus_ones_only) {
+                    if (cmplz_get_value('respect_dnt')!=='yes') $warnings[] = 'no-dnt';
+                }
 
                 if (cmplz_has_region('eu') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
                     $warnings[] = 'no-cookie-policy';
@@ -297,9 +307,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'docs-need-updating';
                 }
 
-                if (!is_ssl()) {
-                    $warnings[] = 'no-ssl';
-                }
+//                if (!is_ssl()) {
+//                    $warnings[] = 'no-ssl';
+//                }
 
                 if ($this->complianz_plugin_has_new_features()) {
                     $warnings[] = 'complianz-gdpr-feature-update';
@@ -309,6 +319,8 @@ if (!class_exists("cmplz_admin")) {
 
                 set_transient('complianz_warnings', $warnings, HOUR_IN_SECONDS);
             }
+
+            $warnings = array_diff($warnings, $ignore_warnings);
             return $warnings;
         }
 
