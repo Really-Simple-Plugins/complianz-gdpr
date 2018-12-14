@@ -475,10 +475,12 @@ if (!class_exists("cmplz_cookie")) {
                 unset($output['use_country']);
                 unset($output['a_b_testing']);
 
-                $output = apply_filters('cmplz_cookie_settings', $output);
+
 
                 set_transient('cmplz_cookie_settings_cache_'.$locale . $variation_id, $output, DAY_IN_SECONDS);
             }
+
+            $output = apply_filters('cmplz_cookie_settings', $output);
 
             return $output;
         }

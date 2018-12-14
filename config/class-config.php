@@ -115,6 +115,20 @@ if (!class_exists("cmplz_config")) {
 
         }
 
+
+        /**
+         * Create a generic read more text with link for help texts.
+         * @param string $url
+         * @param bool $add_space
+         * @return string
+         */
+
+        public function read_more($url, $add_space=true){
+            $html = sprintf(__("For more information on this subject, please read this %sarticle%s", "complianz"), '<a target="_blank" href="'.$url.'">','</a>');
+            if ($add_space) $html = '&nbsp;'.$html;
+            return $html;
+        }
+
         public function get_step_by_id($id) {
 
             $steps = $this->steps['wizard'];

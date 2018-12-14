@@ -307,9 +307,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'docs-need-updating';
                 }
 
-//                if (!is_ssl()) {
-//                    $warnings[] = 'no-ssl';
-//                }
+                if (!is_ssl()) {
+                    $warnings[] = 'no-ssl';
+                }
 
                 if ($this->complianz_plugin_has_new_features()) {
                     $warnings[] = 'complianz-gdpr-feature-update';
@@ -473,6 +473,12 @@ if (!class_exists("cmplz_admin")) {
                             href="<?php echo admin_url('tools.php?page=remove_personal_data') ?>"><?php _e("Erase personal data", "complianz"); ?></a>
                 </li>
 
+                <?php
+            }
+            if ( class_exists( 'WooCommerce' ) ) {
+                ?>
+                <li><i class="fas fa-plus"></i><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=account') ?>"><?php _e("Manage shop privacy", "complianz"); ?></a>
+                </li>
                 <?php
             }
         }
