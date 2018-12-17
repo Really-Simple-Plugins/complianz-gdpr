@@ -285,6 +285,7 @@
   align-items: center;
   background-repeat: no-repeat;
   background-size: 100%;
+  height: inherit;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
   top: 100px;

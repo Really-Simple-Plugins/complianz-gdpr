@@ -196,8 +196,6 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-
-
         'readmore' => array(
             'page' => 'cookie_settings',
             'step' => 'eu',
@@ -217,8 +215,7 @@ $this->fields = $this->fields + array(
             'step' => 'eu',
             'type' => 'checkbox',
             'label' => __("Use categories", 'complianz'),
-            'help' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz'),
-            'help' => __('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz'),
+            'help' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz').' '.__('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz'),
             'table' => true,
             'has_variations' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
@@ -302,7 +299,6 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
             'callback_condition' => array(
                 'regions' => 'us',
-                'privacy-statement' => 'yes',
             ),
         ),
 
