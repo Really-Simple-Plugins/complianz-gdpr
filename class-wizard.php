@@ -956,7 +956,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             $total_warnings = count(COMPLIANZ()->config->warning_types);
-            $completed_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings());
+            $completed_warnings = $total_warnings - count(COMPLIANZ()->admin->get_warnings(false, false, array('no-dnt')));
 
             $completed_fields += $completed_warnings;
             $total_fields += $total_warnings;

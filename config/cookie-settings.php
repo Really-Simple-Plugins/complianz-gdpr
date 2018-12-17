@@ -172,7 +172,7 @@ $this->fields = $this->fields + array(
             'translatable' => true,
             'default' => __("Statistics", 'complianz'),
             'label' => __("Statistics cookies text", 'complianz'),
-            'comment' => __("It depends on your settings if this category is necessary, so it will conditionally show", 'complianz'),
+            'help' => __("It depends on your settings if this category is necessary, so it will conditionally show", 'complianz'),
             'table' => true,
             'has_variations' => true,
             'condition' => array('use_categories' => true),
@@ -186,7 +186,7 @@ $this->fields = $this->fields + array(
             'type' => 'text',
             'translatable' => true,
             'default' => __("All cookies", 'complianz'),
-            'comment' => __('This text is shown in the button which accepts all cookies. These are generally marketing related cookies, so you could also name it "Marketing"', 'complianz'),
+            'help' => __('This text is shown in the button which accepts all cookies. These are generally marketing related cookies, so you could also name it "Marketing"', 'complianz'),
             'label' => __("Accept all cookies text", 'complianz'),
             'table' => true,
             'has_variations' => true,
@@ -195,8 +195,6 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
-
-
 
         'readmore' => array(
             'page' => 'cookie_settings',
@@ -217,8 +215,7 @@ $this->fields = $this->fields + array(
             'step' => 'eu',
             'type' => 'checkbox',
             'label' => __("Use categories", 'complianz'),
-            'comment' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz'),
-            'help' => __('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz'),
+            'help' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz').' '.__('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz'),
             'table' => true,
             'has_variations' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
@@ -232,7 +229,7 @@ $this->fields = $this->fields + array(
             'step' => 'eu',
             'type' => 'textarea',
             'label' => __("Custom Tag Manager categories", 'complianz'),
-            'comment' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz')."<br><br>".cmplz_tagmanager_conditional_helptext()." ".sprintf(__('Read more about how to configure categories in this %sarticle%s', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/configure-categories-tag-manager">', '</a>'),
+            'help' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz')."<br><br>".cmplz_tagmanager_conditional_helptext().$this->read_more('https://complianz.io/configure-categories-tag-manager'),
             'table' => true,
             'has_variations' => true,
             'placeholder' => __('First category, Second category', 'complianz'),
@@ -302,7 +299,6 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
             'callback_condition' => array(
                 'regions' => 'us',
-                'privacy-statement' => 'yes',
             ),
         ),
 

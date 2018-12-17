@@ -255,15 +255,25 @@ if (!class_exists("cmplz_admin")) {
             return $warnings;
         }
 
+        /**
+         * get a list of applicable warnings.
+         * @param bool $cache
+         * @param bool $plus_ones_only
+         * @param array $ignore_warnings
+         * @return array
+         */
 
-        public function get_warnings($cache = true, $plus_ones_only=false)
+
+        public function get_warnings($cache = true, $plus_ones_only=false, $ignore_warnings=array())
         {
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {
                 $warnings = array();
 
-                if (!$plus_ones_only) $warnings[] = 'no-dnt';
+                if (!$plus_ones_only) {
+                    if (cmplz_get_value('respect_dnt')!=='yes') $warnings[] = 'no-dnt';
+                }
 
                 if (cmplz_has_region('eu') && !COMPLIANZ()->document->page_exists('cookie-statement')) {
                     $warnings[] = 'no-cookie-policy';
@@ -309,6 +319,8 @@ if (!class_exists("cmplz_admin")) {
 
                 set_transient('complianz_warnings', $warnings, HOUR_IN_SECONDS);
             }
+
+            $warnings = array_diff($warnings, $ignore_warnings);
             return $warnings;
         }
 
@@ -461,6 +473,12 @@ if (!class_exists("cmplz_admin")) {
                             href="<?php echo admin_url('tools.php?page=remove_personal_data') ?>"><?php _e("Erase personal data", "complianz"); ?></a>
                 </li>
 
+                <?php
+            }
+            if ( class_exists( 'WooCommerce' ) ) {
+                ?>
+                <li><i class="fas fa-plus"></i><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=account') ?>"><?php _e("Manage shop privacy", "complianz"); ?></a>
+                </li>
                 <?php
             }
         }

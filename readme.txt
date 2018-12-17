@@ -95,6 +95,7 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 = 2.0.8 =
 * Tweak: allow users to keep their own, custom statistics tracking
 * Fix: Revoke button text not defined with US only setup
+* Tweak: Do No Track is not used in the percentage calculation anymore
 * Tweak: new modal tooltips
 
 = 2.0.7 =
