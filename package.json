@@ -1,0 +1,14 @@
+{
+  "name": "complianz-gdpr-premium",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cgb-scripts start",
+    "build": "cgb-scripts build",
+    "eject": "cgb-scripts eject"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cgb-scripts": "^1.13.0"
+  }
+}

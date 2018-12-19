@@ -28,7 +28,7 @@ if (!class_exists("cmplz_document")) {
         public function enqueue_assets()
         {
 
-            if ($this->is_shortcode_page()) {
+            if ($this->is_complianz_page()) {
                 $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
                 $load_css = cmplz_get_value('use_document_css');
                 if ($load_css) {
@@ -149,14 +149,23 @@ if (!class_exists("cmplz_document")) {
 
         }
 
-
         /*
          * This class is extended with pro functions, so init is called also from the pro extension.
          * */
 
         public function init()
         {
+            //this shortcode is also available as gutenberg block
             add_shortcode('cmplz-document', array($this, 'load_document'));
+
+            /*
+             * @todo add a gutenberg block for the revoke link and DNSMPD form
+             *
+             * These shortcodes are setup in a disconnected way, so this shortcode is not necessary: it's only used for user customizations
+             * The gutenberg blocks will be calling the endpoint functions directly, in which case these shortcodes will become deprecated.
+             *
+             * */
+
             add_shortcode('cmplz-revoke-link', array($this, 'revoke_link'));
             add_shortcode('cmplz-do-not-sell-personal-data-form', array($this, 'do_not_sell_personal_data_form'));
 
@@ -168,6 +177,17 @@ if (!class_exists("cmplz_document")) {
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
 
         }
+
+        /**
+         * Render shortcode for DNSMPI form
+         *
+         * @hooked shortcode hook
+         * @param array $atts
+         * @param null $content
+         * @param string $tag
+         * @return false|string
+         * @since 2.0
+         */
 
         public function do_not_sell_personal_data_form($atts = [], $content = null, $tag = '')
         {
@@ -185,6 +205,15 @@ if (!class_exists("cmplz_document")) {
             return ob_get_clean();
 
         }
+
+        /**
+         *
+         * Show form to enable user to add pages to a menu
+         *
+         * @hooked field callback wizard_add_pages_to_menu
+         * @since 1.0
+         *
+         */
 
         public function wizard_add_pages_to_menu()
         {
@@ -224,7 +253,7 @@ if (!class_exists("cmplz_document")) {
                     $menus[$location] = wp_get_nav_menu_name($location);
                 }
             }
-            $pages = $this->get_required_pages();
+            $pages = $this->get_created_pages();
             echo '<table>';
             foreach ($pages as $page_id) {
                 echo "<tr><td>";
@@ -246,6 +275,13 @@ if (!class_exists("cmplz_document")) {
             echo "</table>";
 
         }
+
+        /**
+         * Handle the submit of a form which assigns documents to a menu
+         *
+         * @hooked admin_init
+         *
+         */
 
         public function assign_documents_to_menu()
         {
@@ -285,7 +321,7 @@ if (!class_exists("cmplz_document")) {
 
             //search in menus for the current post
 
-            $pages = $this->get_required_pages();
+            $pages = $this->get_created_pages();
             $pages_in_menu = array();
 
             foreach ($locations as $location => $menu_id) {
@@ -373,10 +409,11 @@ if (!class_exists("cmplz_document")) {
 
                 $page = $pages[$type];
 
+
                 $page = array(
                     'post_title' => $page['title'],
                     'post_type' => "page",
-                    'post_content' => '[' . $this->get_shortcode($type) . ']',
+                    'post_content' => $this->get_shortcode($type),
                     'post_status' => 'publish',
                 );
 
@@ -398,6 +435,7 @@ if (!class_exists("cmplz_document")) {
         public function delete_page($type)
         {
             if (!current_user_can('manage_options')) return;
+
 
             $page_id = $this->get_shortcode_page_id($type);
             if ($page_id) {
@@ -424,7 +462,7 @@ if (!class_exists("cmplz_document")) {
 
         /**
          *
-         * get the shortcode for a page type
+         * get the shortcode or block for a page type
          *
          * @param string $type
          * @return string $shortcode
@@ -435,7 +473,12 @@ if (!class_exists("cmplz_document")) {
 
         public function get_shortcode($type)
         {
-            return 'cmplz-document type="' . $type . '"';
+            if (cmplz_uses_gutenberg()){
+                $page = COMPLIANZ()->config->pages[$type];
+                return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.'"} /-->';
+            } else {
+                return '[cmplz-document type="' . $type . '"]';
+            }
         }
 
 
@@ -462,7 +505,7 @@ if (!class_exists("cmplz_document")) {
         }
 
         /**
-         * Get list of required pages for current setup
+         * Get list of all created pages for current setup
          *
          * @return array $pages
          *
@@ -470,7 +513,7 @@ if (!class_exists("cmplz_document")) {
          */
 
 
-        public function get_required_pages()
+        public function get_created_pages()
         {
             $required_pages = COMPLIANZ()->config->pages;
             $pages = array();
@@ -483,6 +526,30 @@ if (!class_exists("cmplz_document")) {
                 }
             }
             return $pages;
+        }
+
+
+
+        /**
+         * Get list of all required pages for current setup
+         *
+         * @return array $pages
+         *
+         *
+         */
+
+        public function get_required_pages()
+        {
+            //create a page foreach page that is needed.
+            $pages = COMPLIANZ()->config->pages;
+            $required = array();
+            foreach ($pages as $type => $page) {
+                if (!$page['public']) continue;
+                if ($this->page_required($page)) {
+                    $required[$type] = $page;
+                }
+            }
+            return $required;
         }
 
 
@@ -539,18 +606,6 @@ if (!class_exists("cmplz_document")) {
             if ($type) {
 
                 $html = $this->get_document_html($type);
-
-                //basic color style for revoke button
-                $background_color = cmplz_get_value('brand_color');
-                //if (empty($background_color)) $background_color = cmplz_get_value('popup_background_color');
-                $light_background_color = $this->color_luminance($background_color, -0.2);
-                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
-                $custom_css .="#cmplz-document a.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
-                if (cmplz_get_value('use_custom_document_css')) {
-                    $custom_css .= cmplz_get_value('custom_document_css');
-                }
-                $custom_css = '<style>' . $custom_css . '</style>';
-                $html = $custom_css . $html;
                 echo $html;
             }
 
@@ -582,9 +637,11 @@ if (!class_exists("cmplz_document")) {
          * @since 1.0
          */
 
-        public function is_shortcode_page($post_id = false)
+        public function is_complianz_page($post_id = false)
         {
             $shortcode = 'cmplz-document';
+            $block = 'complianz/document';
+
             if ($post_id){
                 $post = get_post($post_id);
             } else {
@@ -592,13 +649,14 @@ if (!class_exists("cmplz_document")) {
             }
 
             if ($post) {
+                if (cmplz_uses_gutenberg() && has_block($block, $post)) return true;
                 if (has_shortcode($post->post_content, $shortcode)) return true;
             }
             return false;
         }
 
         /**
-         * gets the  page that contains the shortcode.
+         * gets the  page that contains the shortcode or the gutenberg block
          * @param string $type
          * @return int $page_id
          * @since 1.0
@@ -607,12 +665,32 @@ if (!class_exists("cmplz_document")) {
         public function get_shortcode_page_id($type)
         {
             $shortcode = 'cmplz-document';
-
+            $block = 'complianz/document';
             $page_id = get_transient('cmplz_shortcode_' . $type);
 
             if (!$page_id) {
                 $pages = get_pages();
                 foreach ($pages as $page) {
+                    /*
+                     * Gutenberg block check
+                     *
+                     * */
+                    if (cmplz_uses_gutenberg() && has_block($block, $page)){
+                        //check if block contains property
+                        $html =  $page->post_content;
+
+                        if (preg_match('/"selectedDocument":"(.*?)"/i', $html, $matches)) {
+                            if ($matches[1]===$type) {
+                                set_transient('cmplz_shortcode_' . $type, $page->ID, DAY_IN_SECONDS);
+                                return $page->ID;
+                            }
+                        }
+                    }
+
+                    /*
+                     * Classic shortcode check
+                     *
+                     * */
 
                     if (has_shortcode($page->post_content, $shortcode) && strpos($page->post_content, 'type="' . $type.'"')!==FALSE) {
                         set_transient('cmplz_shortcode_' . $type, $page->ID, DAY_IN_SECONDS);
@@ -666,7 +744,7 @@ if (!class_exists("cmplz_document")) {
          * */
 
         public function set_page_url_on_save_post($post_id){
-            if ($this->is_shortcode_page($post_id)) {
+            if ($this->is_complianz_page($post_id)) {
                 $type = $this->get_document_type($post_id);
                 $this->set_page_url($post_id, $type);
             }

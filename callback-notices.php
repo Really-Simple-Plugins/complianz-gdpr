@@ -103,8 +103,8 @@ function cmplz_notice_statistics_script(){
 
 add_action('cmplz_notice_missing_privacy_page', 'cmplz_notice_missing_privacy_page');
 function cmplz_notice_missing_privacy_page(){
-
-    if (cmplz_get_value('privacy-statement')!=='yes' && !get_option('wp_page_for_privacy_policy')) {
+    $privacy_policy_exists = get_option('wp_page_for_privacy_policy') && get_post(get_option('wp_page_for_privacy_policy')) && get_post_status(get_option('wp_page_for_privacy_policy'))==='publish';
+    if ((defined('cmplz_free') || cmplz_get_value('privacy-statement')!=='yes') && !$privacy_policy_exists) {
         cmplz_notice(sprintf(__("You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s", 'complianz'),'<a href="'.admin_url('privacy.php').'">','</a>'),'warning');
     }
 

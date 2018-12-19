@@ -51,7 +51,6 @@ if (!class_exists("cmplz_document_core")) {
             if ($time_passed>$period) return true;
 
             return false;
-
         }
 
         /*
@@ -67,7 +66,12 @@ if (!class_exists("cmplz_document_core")) {
                 $page = COMPLIANZ()->config->pages[$page];
             }
 
-            if (!isset($page['condition'])) return false;
+            //if it's not public, it's not required
+            if (isset($page['public']) && $page['public']==false) return false;
+
+            //if there's no condition, we set it as required
+            if (!isset($page['condition'])) return true;
+
             if (isset($page['condition'])) {
 
                 $fields = COMPLIANZ()->config->fields();
@@ -265,6 +269,26 @@ if (!class_exists("cmplz_document_core")) {
             $allowed_html = cmplz_allowed_html();
             $html = '<div id="cmplz-document">' . wp_kses($html, $allowed_html) . '</div>';
 
+            /*
+             * Get custom CSS
+             *
+             * */
+
+            //basic color style for revoke button
+            $background_color = cmplz_get_value('brand_color');
+            //if (empty($background_color)) $background_color = cmplz_get_value('popup_background_color');
+            $light_background_color = $this->color_luminance($background_color, -0.2);
+            $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
+            $custom_css .="#cmplz-document a.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
+
+            if (cmplz_get_value('use_custom_document_css')) {
+                $custom_css .= cmplz_get_value('custom_document_css');
+            }
+
+            $custom_css = apply_filters('cmplz_custom_document_css', $custom_css, $type, $post_id);
+            $custom_css = '<style>' . $custom_css . '</style>';
+            $html = $custom_css . $html;
+
             return apply_filters('cmplz_document_html', $html, $type, $post_id);
         }
 
@@ -293,7 +317,7 @@ if (!class_exists("cmplz_document_core")) {
 
             if (isset($element['subtitle'])) {
                 if ($paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph . "." . $sub_paragraph . " ";
-                return '<div class="subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
+                return '<div class="cmplz-subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
             }
         }
 

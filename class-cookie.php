@@ -26,8 +26,6 @@ if (!class_exists("cmplz_cookie")) {
                 add_action('admin_init', array($this, 'track_cookie_changes'));
             }
 
-            //add_action('init', array($this, 'load_user_cookie_variation'));
-
             if (!is_admin()) {
                 if ($this->site_needs_cookie_warning()) {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
@@ -540,6 +538,8 @@ if (!class_exists("cmplz_cookie")) {
             <?php
 
         }
+
+
 
         public function inline_cookie_script_no_warning()
         {

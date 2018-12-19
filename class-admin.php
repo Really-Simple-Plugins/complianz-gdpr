@@ -505,9 +505,9 @@ if (!class_exists("cmplz_admin")) {
                     if (COMPLIANZ()->document->page_exists($type)) {
 
                         $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
-                        COMPLIANZ()->admin->get_dashboard_element($link, 'success',$img);
+                        $this->get_dashboard_element($link, 'success',$img);
                     } elseif (COMPLIANZ()->document->page_required($page)){
-                        COMPLIANZ()->admin->get_dashboard_element(sprintf(__("You should create a %s"),$page['title'],$img), 'error');
+                        $this->get_dashboard_element(sprintf(__("You should create a %s"),$page['title'],$img), 'error');
                     }
                 }
 

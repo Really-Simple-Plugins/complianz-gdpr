@@ -7,7 +7,7 @@ tr.field-group .cmplz-help-modal {
 .cmplz-help-modal {
   display: none;
   padding: 15px 30px;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   background-color: #d9edf7;
   border-color: #bcdff1;
   color: #31708f;
@@ -35,7 +35,7 @@ a.button.cmplz-open-modal {
   background-color: #e2e3e5;
   border: 1px solid #d6d8db;
   padding: 10px 15px;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   margin: 10px 0;
 }
 .cmplz-panel .cmplz-multiple-field-validation {
@@ -120,8 +120,8 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #2DAAE1;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 #cmplz-region-slider .slider:before {
   position: absolute;
@@ -131,8 +131,8 @@ a.button.cmplz-open-modal {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 #cmplz-region-slider input:checked + .slider {
   background-color: black;
@@ -190,8 +190,8 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 .cmplz-slider:before {
   position: absolute;
@@ -201,8 +201,8 @@ a.button.cmplz-open-modal {
   left: 4px;
   bottom: 3px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 .cmplz-slider.cmplz-round {
   border-radius: 20px;
