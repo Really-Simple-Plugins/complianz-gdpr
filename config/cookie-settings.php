@@ -302,8 +302,6 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-
-
         'popup_background_color' => array(
             'page' => 'cookie_settings',
             'step' => 'general',

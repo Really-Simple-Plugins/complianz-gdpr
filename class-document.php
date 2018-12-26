@@ -688,6 +688,7 @@ if (!class_exists("cmplz_document")) {
                     }
 
                     /*
+                     * If nothing found, or if not Gutenberg, check for shortcodes.
                      * Classic shortcode check
                      *
                      * */

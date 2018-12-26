@@ -110,7 +110,23 @@ function cmplz_notice_missing_privacy_page(){
 
 }
 
+/*
+ * Google Recaptcha is hard to integrate in a GDPR compliant manner, because the scripts will be deactivated.
+ * A spammer only has to decline cookies, which prevents the recaptcha from blocking spam.
+ *
+ * */
 
+add_action('cmplz_notice_thirdparty_services_on_site', 'cmplz_notice_thirdparty_services_on_site');
+function cmplz_notice_thirdparty_services_on_site(){
+
+        //only applies to opt-in
+        if (!cmplz_has_region('eu')) return;
+
+        $thirdparty = cmplz_scan_detected_thirdparty_services();
+        if (is_array($thirdparty) && in_array('google-recaptcha', $thirdparty)) {
+            cmplz_notice(__("The scan detected Google Recaptcha on your site. As the Recaptcha script will be blocked by default, it is recommended to use a honeypot spam protection instead.", 'complianz'),'warning');
+        }
+}
 
 
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);

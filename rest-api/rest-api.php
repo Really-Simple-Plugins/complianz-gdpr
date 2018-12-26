@@ -30,6 +30,5 @@ function cmplz_documents_api(WP_REST_Request $request)
                 );
         }
     }
-
     return $output;
 }

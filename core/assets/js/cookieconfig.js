@@ -34,9 +34,12 @@
             //make sure it doesn't run twice
             if (ccAllEnabled) return;
 
+            //enable integrations
+            cmplzIntegrationsConsent();
+
             //remove accept cookie notice overlay
-            $('.cmplz-blocked-content-notice').each(function(){
-                $(this).parent().css('background-image','');
+            $('.cmplz-blocked-content-notice').each(function () {
+                $(this).parent().css('background-image', '');
                 $(this).remove();
             });
 
@@ -46,18 +49,19 @@
                 $(this).attr('src', src);
             });
 
-            //images
-            $('.cmplz-img').each(function (i, obj) {
-                var src = $(this).data('src-cmplz');
-                $(this).attr('src', src);
-            });
+            //for instagram, currently not implemented, as instagram is already blocked by .js file
+            // //images
+            // $('.cmplz-img').each(function (i, obj) {
+            //     var src = $(this).data('src-cmplz');
+            //     $(this).attr('src', src);
+            // });
 
             //scripts: set "cmplz-script classes to type="text/javascript"
             $('.cmplz-script').each(function (i, obj) {
                 var src = $(this).attr('src');
                 if (src && src.length) {
                     if (typeof $(this).data('post_scribe_id') !== 'undefined') {
-                        var psID = '#'+$(this).data('post_scribe_id');
+                        var psID = '#' + $(this).data('post_scribe_id');
                         if ($(psID).length) {
                             $(psID).html('');
                             $(function () {
@@ -132,7 +136,7 @@
 
         var cmplz_user_data = [];
         //check if it's already stored
-        if (typeof(Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
+        if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
             cmplz_user_data = JSON.parse(sessionStorage.cmplz_user_data);
         }
 
@@ -159,14 +163,21 @@
             //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
             //the IDE will give a warning about the complianz var here, but it's inserted by wordpress
             complianz = cmplzMergeObject(complianz, cmplz_user_data);
+
+            cmplzIntegrationsInit();
+
             cmplzCheckCookiePolicyID();
 
-            //for Non eu/us visitors, and DNT users, we just track the no-warning option
-            if (cmplz_user_data.do_not_track || (cmplz_user_data.region !== 'eu' && cmplz_user_data.region !== 'us')) {
-                complianz_track_status('no-warning');
-            } else {
-                //if no status was saved before, we do it now
-                if (cmplzGetCookie('cmplz_choice') !== 'set') {
+            //if no status was saved before, we do it now
+            if (cmplzGetCookie('cmplz_choice') !== 'set') {
+                //for Non eu/us visitors, and DNT users, we just track the no-warning option
+                if (cmplz_user_data.do_not_track || (cmplz_user_data.region !== 'eu' && cmplz_user_data.region !== 'us')) {
+                    complianz_track_status('no-warning');
+                } else if (cmplz_user_data.region === 'us') {
+                    //for US visitors are opt out, so consent by default
+                    complianz_track_status('all');
+                } else {
+                    //all others (eu): no choice yet.
                     complianz_track_status('no-choice');
                 }
             }
@@ -646,6 +657,35 @@
 
         function cmplzSetAcceptedCookiePolicyID() {
             cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
+
+        }
+
+        /*
+        * For supported integrations, initialize the not consented state
+        *
+        * */
+
+        function cmplzIntegrationsInit(){
+            cmplzIntegrationsRevoke();
+        }
+
+        /*
+        * For supported integrations, revoke consent
+        *
+        * */
+        function cmplzIntegrationsRevoke(){
+            //compatiblity with https://wordpress.org/plugins/wp-donottrack/
+            cmplzSetCookie('dont_track_me', '1', complianz.cookie_expiry);
+        }
+
+        /*
+        * For supported integrations, revoke consent
+        *
+        * */
+
+        function cmplzIntegrationsConsent(){
+            //compatiblity with https://wordpress.org/plugins/wp-donottrack/
+            cmplzSetCookie('dont_track_me', '0', complianz.cookie_expiry);
 
         }
 

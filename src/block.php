@@ -3,6 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+/*
+ * production: npn run build
+ * dev: npm start
+ * translation: wp i18n make-pot . config/languages/complianz.pot --exclude="pro-assets, core/assets"
+ *
+ * */
 
 /**
  * Enqueue Gutenberg block assets for both frontend + backend.
@@ -52,9 +58,13 @@ function cmplz_editor_assets() { // phpcs:ignore
             'site_url' => site_url(),
         )
     );
+    //https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
+    //wp package install git@github.com:wp-cli/i18n-command.git
+    //wp i18n make-pot . config/languages/complianz-json.pot --include="src"
+    //wp i18n make-json . config/languages/complianz-json.pot config/languages/
+    wp_set_script_translations( 'cmplz-block', 'complianz' , cmplz_path . 'config/languages');
 
 	// Styles.
-    // Styles.
     wp_enqueue_style(
         'cmplz-block', // Handle.
         cmplz_url . "core/assets/css/document.min.css", array( 'wp-edit-blocks' ), cmplz_version
@@ -84,3 +94,4 @@ function cmplz_render_document_block($attributes, $content)
 register_block_type('complianz/document', array(
     'render_callback' => 'cmplz_render_document_block',
 ));
+

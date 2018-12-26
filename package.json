@@ -8,7 +8,9 @@
     "eject": "cgb-scripts eject"
   },
   "dependencies": {
+    "@wordpress/i18n": "^3.1.0",
     "axios": "^0.18.0",
-    "cgb-scripts": "^1.13.0"
+    "cgb-scripts": "^1.13.0",
+    "po2json": "^1.0.0-alpha"
   }
 }

@@ -694,6 +694,12 @@ if (!class_exists("cmplz_field")) {
 
             $condition = $args[$type];
 
+            //if we're checking the condition, but there's also a callback condition, check that one as well.
+            //but only if it's an array. Otherwise it's a func.
+            if ($type==='condition' && isset($args['callback_condition']) && is_array($args['callback_condition'])) {
+                $condition += $args['callback_condition'];
+            }
+
             foreach ($condition as $c_fieldname => $c_value_content) {
                 $c_values = array($c_value_content);
                 if (strpos($c_value_content, ',') !== FALSE) {
@@ -739,6 +745,7 @@ if (!class_exists("cmplz_field")) {
                     }
                 }
             }
+
             return true;
         }
 
