@@ -9,6 +9,7 @@ $this->pages = array(
             'regions' => 'eu',
         ),
     ),
+
     'cookie-statement-us' => array(
         'title' => cmplz_us_cookie_statement_title(),
         'public' => true,

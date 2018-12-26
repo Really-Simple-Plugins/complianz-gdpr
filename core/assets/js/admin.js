@@ -17,7 +17,6 @@ jQuery(document).ready(function ($) {
     }, 2000);
 
     /*
-    *
     * open and close panels
     * */
     $(document).on('click', '.cmplz-panel-toggle', function(){

@@ -486,7 +486,7 @@ $this->fields = $this->fields + array(
             'revoke_consent_onchange' => true,
             'label' => __("Statistics script", 'complianz'),
             'callback_condition' => array(
-                'compile_statistics' => 'NOT google-analytics,NOT google-tag-manager,NOT no',
+                'compile_statistics' => 'NOT google-analytics,NOT matomo,NOT google-tag-manager,NOT no',
             ),
             'help' => __('Paste here all your scripts that activate cookies. Enter the scripts without the script tags', 'complianz').'.&nbsp;'.sprintf(__('To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article', 'complianz'), '<a target="_blank" href="https://complianz.io/articles/adding-scripts">', '</a>'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
