@@ -38,6 +38,7 @@ $this->thirdparty_service_markers = array(
  * */
 $this->script_tags = array(
     'google.com/recaptcha',
+    'grecaptcha',
     'fonts.googleapis.com',
     'platform.twitter.com/widgets.js',
     'apis.google.com/js/plusone.js',
@@ -63,6 +64,7 @@ $this->script_tags = array(
     'googletagmanager.com/gtag/js',
     'instawidget.net/js/instawidget.js',
     'videopress.com/videopress-iframe.js',
+    'plugins/instagram-feed/js/sb-instagram.min.js',
 );
 
 /*

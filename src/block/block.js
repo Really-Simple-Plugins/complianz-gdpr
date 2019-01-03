@@ -102,7 +102,7 @@ const iconEl =
             let id = 'document-title';
 
             if (!this.props.attributes.hasDocuments){
-                output = __('No documents found. Please finish the Complianz Privacy Suite to generate documents', 'complianz');
+                output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz');
                 id = 'no-documents';
             }
 

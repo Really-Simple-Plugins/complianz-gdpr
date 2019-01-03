@@ -28,8 +28,8 @@ if (!class_exists("cmplz_cookie")) {
 
             if (!is_admin()) {
                 if ($this->site_needs_cookie_warning()) {
-                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 10, 2);
-                    add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 9999);
+                    add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'), 99999);
                 } else {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
                 }
@@ -904,12 +904,12 @@ if (!class_exists("cmplz_cookie")) {
             return $pages;
         }
 
-        /*
+        /**
          * Check if the scan is complete
          *
          * @param void
-         *
          * @return bool
+         * @since 1.0
          *
          * */
 
@@ -923,6 +923,15 @@ if (!class_exists("cmplz_cookie")) {
             return false;
         }
 
+        /**
+         *
+         * Get list of pages that still have to be processed
+         *
+         * @param void
+         * @return array $pages
+         * @since 1.0
+         */
+
         private function pages_to_process()
         {
             $pages_list = COMPLIANZ()->cookie->get_pages_list();
@@ -932,6 +941,13 @@ if (!class_exists("cmplz_cookie")) {
             $pages = array_diff($pages_list, $processed_pages_list);
             return $pages;
         }
+
+        /**
+         * Set a page as being processed
+         * @param $id
+         * @return void
+         * @since 1.0
+         */
 
         public function set_page_as_processed($id)
         {
@@ -950,8 +966,9 @@ if (!class_exists("cmplz_cookie")) {
 
         /**
          * Get list of detected cookies
-         * @return array|mixed
-         *
+         * @param void
+         * @return array $cookies
+         * @since 1.0
          *
          */
 
