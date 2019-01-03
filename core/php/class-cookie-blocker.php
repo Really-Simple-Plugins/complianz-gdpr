@@ -98,6 +98,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 $custom_scripts = explode(',', $custom_scripts);
                 $known_script_tags = array_merge($known_script_tags ,  $custom_scripts);
             }
+            $known_script_tags = apply_filters('cmplz_known_script_tags', $known_script_tags);
+
 
             /*
              * Get iframe tags, and add custom user iframes
@@ -110,6 +112,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 $custom_iframes = explode(',', $custom_iframes);
                 $known_iframe_tags = array_merge($known_iframe_tags ,  $custom_iframes);
             }
+            $known_iframe_tags = apply_filters('cmplz_known_iframe_tags', $known_iframe_tags);
 
 
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
