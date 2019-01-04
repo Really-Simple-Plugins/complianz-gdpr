@@ -123,6 +123,7 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
+
         'view_preferences' => array(
             'page' => 'cookie_settings',
             'step' => 'eu',
@@ -259,6 +260,50 @@ $this->fields = $this->fields + array(
          * US settings
          *
          * */
+
+        'dismiss_on_scroll' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'checkbox',
+            'label' => __("Dismiss on scroll", 'complianz'),
+            'help' => __('When dismiss on scroll is enabled, the cookie warning will be dismissed as soon as the user scrolls.','complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+        'dismiss_on_timeout' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'checkbox',
+            'label' => __("Dismiss on timeout", 'complianz'),
+            'help' => __('When dismiss on time out is enabled, the cookie warning will be dismissed after 10 seconds, or the time you choose below.','complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
+
+        'dismiss_timeout' => array(
+            'page' => 'cookie_settings',
+            'step' => 'us',
+            'type' => 'number',
+            'label' => __("Timeout in seconds", 'complianz'),
+            'table' => true,
+            'has_variations' => true,
+            'default' => 10, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+            'condition' => array(
+                'dismiss_on_timeout' => true,
+            ),
+            'callback_condition' => array(
+                'regions' => 'us',
+            ),
+        ),
 
         'accept_informational' => array(
             'page' => 'cookie_settings',

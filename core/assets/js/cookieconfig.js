@@ -32,6 +32,7 @@ jQuery(document).ready(function ($) {
     var ccStatsEnabled = false;
     var ccAllEnabled = false;
     var ccPrivacyLink = '';
+    var waitingScripts = [];
 
     function complianz_enable_scripts() {
 
@@ -77,15 +78,24 @@ jQuery(document).ready(function ($) {
                     }
                 } else {
                     $(this).attr('type', 'text/javascript');
-                    $.getScript(src, function () {
+                    $.getScript(src).done(function(script, textStatus) {
+                        //check if we have waiting scripts
+                        for (var key in waitingScripts){
+                            if (waitingScripts.hasOwnProperty(key)) {
+                                //if the key is part of the src string, we run the waiting script. E.g. recaptcha as key
+                                if (src.indexOf(key)!==-1){
+                                    cmplzRunInlineScript(waitingScripts[key]);
+                                }
+                            }
+                        }
                     });
                 }
             } else if ($(this).text().length) {
-                $('<script>')
-                    .attr('type', 'text/javascript')
-                    .text($(this).text())
-                    .appendTo($(this).parent());
-                $(this).remove();
+                if ($(this).text().indexOf('grecaptcha')!==-1){
+                    waitingScripts['recaptcha'] = $(this);
+                } else {
+                    cmplzRunInlineScript($(this));
+                }
             }
         });
 
@@ -94,6 +104,14 @@ jQuery(document).ready(function ($) {
         document.dispatchEvent(event);
 
         ccAllEnabled = true;
+    }
+
+    function cmplzRunInlineScript(script){
+        $('<script>')
+            .attr('type', 'text/javascript')
+            .text(script.text())
+            .appendTo(script.parent());
+        script.remove();
     }
 
     function complianz_enable_stats() {
@@ -187,6 +205,11 @@ jQuery(document).ready(function ($) {
 
         if (!cmplz_user_data.do_not_track) {
             if (cmplz_user_data.region === 'eu') {
+
+                //disable auto dismiss
+                complianz.dismiss_on_scroll = false;
+                complianz.dismiss_on_timeout = false;
+                console.log(complianz.dismiss_on_timeout);
                 console.log('eu, opt-in');
                 cmplz_cookie_warning();
             } else if (cmplz_user_data.region === 'us') {
@@ -235,6 +258,14 @@ jQuery(document).ready(function ($) {
                 }
             },
             onStatusChange: function (status, chosenBefore) {
+                //US cookie banner can be dismissed on scroll or on timeout.
+                //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
+                if ((complianz.dismiss_on_scroll || complianz.dismiss_on_timeout) && (status==='dismiss' || status==='allow')) {
+                    cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
+                    ccName.close();
+                    $('.cc-revoke').fadeIn();
+                }
+
                 /*
                 * This runs when the status is changed
                 * When status = allow, it's accepted, and we want to run all scripts.
@@ -245,9 +276,12 @@ jQuery(document).ready(function ($) {
                 if (!complianz.use_categories) {
                     complianz_track_status();
                 }
+
                 if (status === 'allow') {
                     cmplzAcceptAllCookies();
                 }
+
+
 
                 if (status === 'deny' && cmplz_user_data.region === 'us') {
                     cmplzRevoke();
@@ -262,6 +296,9 @@ jQuery(document).ready(function ($) {
                     //location.reload();
                 }
             },
+            "dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
+            "dismissOnScroll" : parseInt(complianz.dismiss_on_scroll),
+            "dismissOnWindowClick":true,
             "revokeBtn": '<div class="cc-revoke ' + complianz.hide_revoke + ' {{classes}}">' + complianz.revoke + '</div>',
             "palette": {
                 "popup": {
