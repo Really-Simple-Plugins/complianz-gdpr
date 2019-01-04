@@ -1,7 +1,7 @@
 === Complianz Privacy Suite (GDPR/CaCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, AVG, E-Privacy, eprivacy, CaCPA, DSVGO, CCPA, Cookie, Cookies, Cookie warning, Cookie Consent, Cookie categories, categories, EU, European Union, US, United States, Privacy, Cookie block, Cookie policy, Cookie scan, cookie, cookie law, analytics, ads, adsense, tagmanager ,facebook, social, youtube
+Tags: GDPR, CaCPA, DSVGO, CCPA, Cookie law
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
@@ -11,7 +11,8 @@ Stable tag: 2.1.0
 Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
 == Description ==
-Complianz Privacy Suite for GDPR, CaCPA, DSVGO, with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan. Blocks thirdparty cookies from all major third party services.
+Complianz Privacy Suite for GDPR, CCPA, DSVGO, AVG and more with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan.
+Blocks thirdparty cookies from all major third party services and social services like Google Analytics, Adsense, TagManager, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors or European Union (EU) visitors.
 
 IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 

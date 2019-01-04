@@ -416,6 +416,9 @@ if (!class_exists("cmplz_cookie")) {
                 $output['type'] = 'opt-in';
                 $output['layout'] = 'basic';
 
+                $output['dismiss_on_scroll'] = $output['dismiss_on_scroll'] ? 400 : false;
+                $output['dismiss_on_timeout'] = $output['dismiss_on_timeout'] ? 1000 * $output['dismiss_timeout'] : false;
+
                 //if user has selected only one region, we use the selected one.
                 $output['single-region'] = cmplz_multiple_regions() ? false : COMPLIANZ()->company->get_default_region();
 

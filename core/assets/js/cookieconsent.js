@@ -904,10 +904,10 @@
 
     function applyAutoDismiss() {
       var setStatus = this.setStatus.bind(this);
-
       var delay = this.options.dismissOnTimeout;
       if (typeof delay == 'number' && delay >= 0) {
         this.dismissTimeout = window.setTimeout(function() {
+
           setStatus(cc.status.dismiss);
         }, Math.floor(delay));
       }

@@ -78,6 +78,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          *
          */
 
+
         public function replace_tags($output)
         {
             if (strpos($output, '<html') === false):
@@ -118,6 +119,26 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             //edit: instagram uses ;width, so we need to allow ; as well.
             $url_pattern = '([\w.,;@?^=%&:\/~+#!-]*?)';
+
+            /*
+             * Handle scripts loaded with dns prefetch
+             *
+             *
+             * */
+
+            $prefetch_pattern = '/<link rel=[\'|"]dns-prefetch[\'|"] href=[\'|"].*?(\X*?)[\'|"].*?>/i';
+            $index = 0;
+            if (preg_match_all($prefetch_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                foreach($matches[1] as $key => $prefetch_url){
+                    $total_match = $matches[0][$key];
+
+                    if ($this->strpos_arr($prefetch_url, $known_script_tags) !== false) {
+                        $new = $this->replace_href($total_match);
+                        $output = str_replace($total_match, $new, $output);
+                    }
+
+                }
+            }
 
             /*
              * Handle iframes from third parties
@@ -298,6 +319,16 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             return $script;
         }
 
+        /**
+         * replace the href attribute with a data-href attribute
+         *
+         * @param string $link
+         * @return string
+         */
+
+        private function replace_href($link){
+            return str_replace('href=', 'href="#" data-href=', $link);
+        }
 
         /**
          * Add a class to an HTML element
