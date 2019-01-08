@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Complianz Privacy Suite
+ * Plugin Name: Complianz Privacy Suite (GDPR/CacPa)
  * Plugin URI: https://www.complianz.io/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
  * Version: 2.1.1

@@ -1,4 +1,4 @@
-=== Complianz Privacy Suite ===
+=== Complianz Privacy Suite (GDPR/CacPa) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie Law, Compliance, Cookie notice, Consent
