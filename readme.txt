@@ -1,23 +1,24 @@
-=== Complianz Privacy Suite (GDPR/CaCPA) ===
+=== Complianz Privacy Suite (GDPR/CacPa) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, CaCPA, DSVGO, CCPA, Cookie law
+Tags: GDPR, Cookie Law, Compliance, Cookie notice, Consent
+
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 
-Complianz Privacy Suite (GDPR/CaCPA) with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
+Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
 == Description ==
-Complianz Privacy Suite for GDPR, CCPA, DSVGO, AVG and more with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan.
+Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG and more with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan.
 Blocks thirdparty cookies from all major third party services and social services like Google Analytics, Adsense, TagManager, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors or European Union (EU) visitors.
 
 IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 
 = Features =
-* New: Ready for CaCPA.
+* New: Ready for CaCPA/CCPA.
 * Automatically detects if you need a cookie warning.
 * Anonymizes IP-addresses for Google Analytics if needed.
 * Periodically scans your site for cookies and social media services.
@@ -59,7 +60,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 == Frequently asked questions ==
 = Knowledgebase =
-Complianz Privacy Suite (GDPR/CaCPA) maintains a continuously growing knowledgebase about GDPR, CaCPA and COPPA on [complianz.io](https://complianz.io)
+Complianz Privacy Suite maintains a continuously growing knowledgebase about GDPR, CaCPA and COPPA on [complianz.io](https://complianz.io)
 
 = Is my website GDPR, COPPA & CaCPA compliant with this plugin? =
 We cannot guarantee GDPR/COPPA/CaCPA compliancy for your website.
@@ -91,7 +92,17 @@ The CaCPA (Californian Privacy Act) is a law set up by the Californian governmen
 = What is COPPA? =
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
 
+= Can I create a cookie wall with this plugin? =
+With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
+
 == Change log ==
+= 2.1.1 =
+* Fix: allow reinitialisation of recaptcha v3 in Contact Form 7
+* Tweak: prevent dns prefetch for blocked URL's
+* Tweak: option to dismiss on scroll or dismiss on timeout
+* Tweak: option to share more details on the automated processing
+* Tweak: added secure flag to cookie set function when url is https
+
 = 2.1.0 =
 * Tweak: Gutenberg blocks from Complianz Privacy Suite
 
