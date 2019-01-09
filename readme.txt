@@ -1,7 +1,7 @@
 === Complianz Privacy Suite (GDPR/CCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
-Tags: GDPR, Cookie Law, Compliance, Cookie notice, Consent
+Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
 
 Requires at least: 4.6
 License: GPL2
