@@ -164,3 +164,17 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
         update_option('cmplz_activation_time', time());
     }
 }
+
+/**
+ * Load the translation files
+ * For the free this is different from the premium, as we only want to load languages that are not on the repository
+ *
+ */
+
+if (!function_exists('cmplz_load_translation')) {
+    add_action('init', 'cmplz_load_translation', 20);
+    function cmplz_load_translation()
+    {
+        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/languages/');
+    }
+}
