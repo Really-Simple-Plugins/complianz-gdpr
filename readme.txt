@@ -1,4 +1,4 @@
-=== Complianz Privacy Suite (GDPR/CacPa) ===
+=== Complianz Privacy Suite (GDPR/CCPA) ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie Law, Compliance, Cookie notice, Consent
@@ -9,17 +9,17 @@ Requires PHP: 5.6
 Tested up to: 5.0
 Stable tag: 2.1.1
 
-Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a Cookie Consentbanner and customized Cookie Policy based on the results of the built in Cookie Scan.
+Complianz Privacy Suite for GDPR, CCPA, DSVGO, AVG with a Cookie Consent banner and customized Cookie Policy based on the results of the built in Cookie Scan.
 
 == Description ==
-Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG and more with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan.
+Complianz Privacy Suite for GDPR, CCPA, DSVGO, AVG and more with a conditional cookie warning and customized cookie policy based on the results of the built in cookie scan.
 Blocks thirdparty cookies from all major third party services and social services like Google Analytics, Adsense, TagManager, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors or European Union (EU) visitors.
 
 IMPORTANT! Complianz Privacy Suite can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 
 = Features =
 * New: Ready for CaCPA/CCPA.
-* Automatically detects if you need a cookie warning.
+* Automatically detects if you need a cookie notice.
 * Anonymizes IP-addresses for Google Analytics if needed.
 * Periodically scans your site for cookies and social media services.
 * Blocks third party cookies like Facebook, Google, Twitter.
@@ -43,14 +43,14 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * A/B testing: which banner has the best conversion ratio? Choose the best one and create an amazing user experience.
 * Documents: Customized and legally validated privacy statement, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct banner based on IP location, but only if a banner is needed.
-* CaCPA Consent and Policies.
+* CCPA Consent and Policies.
 * COPPA ready with Children's Privacy Policy.
 * Respects Do Not track settings in users browsers.
 * Multilanguage support for the cookie warning.
 * Premium support.
 * Premium Updates.
 
-[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite (GDPR/CaCPA) is developed by [Complianz BV](https://complianz.io).
+[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite (GDPR/CCPA) is developed by [Complianz BV](https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”.
@@ -60,15 +60,15 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 == Frequently asked questions ==
 = Knowledgebase =
-Complianz Privacy Suite maintains a continuously growing knowledgebase about GDPR, CaCPA and COPPA on [complianz.io](https://complianz.io)
+Complianz Privacy Suite maintains a continuously growing knowledgebase about GDPR, CCPA and COPPA on [complianz.io](https://complianz.io)
 
-= Is my website GDPR, COPPA & CaCPA compliant with this plugin? =
-We cannot guarantee GDPR/COPPA/CaCPA compliancy for your website.
+= Is my website GDPR, COPPA & CCPA compliant with this plugin? =
+We cannot guarantee GDPR/COPPA/CCPA compliancy for your website.
 
 = When do I need a cookie consent banner? =
 Complianz Privacy Suite will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes.
 
-Regarding CaCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
+Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
 Not always. The Complianz Privacy Suite premium plugin can determine if you need this, based on your answers. It mainly depends on the type of information you request.
 
@@ -86,8 +86,8 @@ Our plugin decides whether a cookie consent banner has to be shown. So you shoul
 = What is the GDPR? =
 The GDPR is a regulation within the EU law on privacy and data protection for any citizen within the EU and European Economic Area. It aims primarily on giving control to individuals over their personal data. The GDPR also addresses the export of personal data outside the EU.
 
-= What is the CaCPA? =
-The CaCPA (Californian Privacy Act) is a law set up by the Californian government. The law is adjudged to be one of the toughest and farthest-reaching consumer privacy laws in the US. It is mostly focused on giving insights on what personal data business gather and how to protect and control these personal data.
+= What is the CCPA? =
+The CCPA (Californian Privacy Act) is a law set up by the Californian government. The law is adjudged to be one of the toughest and farthest-reaching consumer privacy laws in the US. It is mostly focused on giving insights on what personal data business gather and how to protect and control these personal data.
 
 = What is COPPA? =
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
@@ -157,7 +157,7 @@ Tweak: first reported cookies added to the cookie database
 * Tweak: improvements in visual feedback on validation
 * Tweak: user interface design
 * Feature: reporting of unrecognized cookies
-* Feature: CaCPA support
+* Feature: CCPA support
 * Feature: Do Not Sell My Personal Information page
 * Feature: Do Not Sell My Personal Information opt out form & dashboard
 * Feature: US dedicated cookie warning

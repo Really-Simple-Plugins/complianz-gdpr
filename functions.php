@@ -902,7 +902,7 @@ if (!function_exists('cmplz_load_translation')) {
     add_action('init', 'cmplz_load_translation', 20);
     function cmplz_load_translation()
     {
-        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/languages/');
+        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/pro-languages/');
     }
 }
 

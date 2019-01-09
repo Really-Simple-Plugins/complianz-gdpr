@@ -36,11 +36,12 @@ $this->thirdparty_service_markers = array(
  * Scripts with this string in the source get blocked.
  *
  * */
+
 $this->script_tags = array(
     'google.com/recaptcha',
     'grecaptcha',
     'fonts.googleapis.com',
-    'platform.twitter.com/widgets.js',
+    'platform.twitter.com',
     'apis.google.com/js/plusone.js',
     'apis.google.com/js/platform.js',
     'connect.facebook.net',
