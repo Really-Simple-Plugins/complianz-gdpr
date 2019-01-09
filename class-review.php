@@ -48,7 +48,7 @@ if (!class_exists("cmplz_review")) {
 
                 ?>
                 <div id="message" class="updated fade notice is-dismissible cmplz-review">
-                    <p><?php printf(__('Hi, you have been using Complianz Privacy Suite for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
+                    <p><?php printf(__('Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
                     <i>- Rogier</i>
                     <ul style="margin-left: 30px; list-style: square;">
                         <li><p style="margin-top: -5px;"><a target="_blank"

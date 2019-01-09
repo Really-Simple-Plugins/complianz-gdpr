@@ -1426,6 +1426,4 @@ $this->known_cookie_keys = array(
                'description' => __("This cookie is used a default theme of One.com. It makes it easier for the website owner to make a website and develiver a good usability.", 'complianz'),
            ),
 
-
-
 );

@@ -892,20 +892,6 @@ if (!function_exists('cmplz_allowed_html')){
     }
 }
 
-/**
- * Load the translation files
- *
- *
- */
-
-if (!function_exists('cmplz_load_translation')) {
-    add_action('init', 'cmplz_load_translation', 20);
-    function cmplz_load_translation()
-    {
-        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/pro-languages/');
-    }
-}
-
 
 if (!function_exists('cmplz_placeholder')){
     function cmplz_placeholder($type='image', $src=''){

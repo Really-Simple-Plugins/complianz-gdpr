@@ -8,7 +8,7 @@ $this->fields = $this->fields + array(
             'label' => __("Use document CSS", 'complianz'),
             'table' => true,
             'default' => true,
-            'help' => __("Disable if you don't want the default Complianz Privacy Suite document CSS to load",'complianz'),
+            'help' => __("Disable if you don't want the default Complianz document CSS to load",'complianz'),
         ),
 
         'use_custom_document_css' => array(
@@ -98,14 +98,14 @@ $this->fields = $this->fields + array(
         ),
 
         'reset_settings' => array(
-            'warn' => __('Are you sure? This will remove all Complianz Privacy Suite data.','complianz'),
+            'warn' => __('Are you sure? This will remove all Complianz data.','complianz'),
             'page' => 'settings',
             'type' => 'button',
             'action' => 'cmplz_reset_settings',
             'post_get' => 'post',
             'label' => __("Reset settings", 'complianz'),
             'table' => true,
-            'help' => __('This will reset all settings to defaults. All data in the Complianz Privacy Suite will be deleted', 'complianz'),
+            'help' => __('This will reset all settings to defaults. All data in the Complianz plugin will be deleted', 'complianz'),
         ),
 
 

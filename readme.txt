@@ -1,4 +1,4 @@
-=== Complianz Privacy Suite (GDPR/CCPA) ===
+=== Complianz | GDPR Cookie Consent ===
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
@@ -50,7 +50,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Premium support.
 * Premium Updates.
 
-[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz Privacy Suite (GDPR/CCPA) is developed by [Complianz BV](https://complianz.io).
+[Contact](https://complianz.io/contact/) us if you have any questions, issues, or suggestions. Complianz | GDPR Cookie Consent is developed by [Complianz BV](https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”.

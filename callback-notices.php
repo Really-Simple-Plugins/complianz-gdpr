@@ -79,9 +79,9 @@ add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');
 
 function cmplz_notice_stats_non_functional(){
     if (!cmplz_manual_stats_config_possible()) {
-        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz Privacy Suite", 'complianz'),'warning');
+        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz", 'complianz'),'warning');
     } else {
-        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz Privacy Suite will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'));
+        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'));
     }
 }
 
