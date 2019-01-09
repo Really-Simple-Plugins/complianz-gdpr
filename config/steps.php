@@ -8,7 +8,7 @@ $this->steps = array(
                 "id" => "company",
                 "title" => __("General", 'complianz'),
                 'intro' => '<h1>'.__("Hi there!", 'complianz').'</h1><p>'.
-                    _x('Welcome to the Complianz Privacy Suite Wizard.','intro first step', 'complianz').'</p><p>'.
+                    _x('Welcome to the Complianz wizard.','intro first step', 'complianz').'</p><p>'.
                     sprintf(_x('We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!','intro first step', 'complianz'),'<a target="_blank" href="https://complianz.io/contact">', '</a>').'<br>'.
                     _x('The answers in the first step of the wizard are needed to configure your documents and consent banner specifically to your needs.','intro first step', 'complianz').'</p><p>'.
                     _x('Please note that you can always save and finish the wizard later (if you need a break), use our %sdocumentation%s for additional information or log a support ticket if you need our assistance.', 'intro first step', 'complianz').'</p>',

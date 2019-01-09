@@ -542,7 +542,7 @@ if (!class_exists("cmplz_admin")) {
         public function documents_footer(){
             ?>
             <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-dashboard-title"><?php _e("Like Complianz Privacy Suite?","complianz")?></div>
+                <div class="cmplz-dashboard-title"><?php _e("Like Complianz | GDPR cookie consent?","complianz")?></div>
                 <div>
                     <?php _e("Then you'll like the premium plugin even more! With: ", 'complianz'); ?>
                     <?php _e('A/B testing','complianz')?> -
@@ -1002,7 +1002,7 @@ if (!class_exists("cmplz_admin")) {
                 <div id="message" class="error fade notice cmplz-wp-notice">
                     <h2><?php echo __("PHP version problem", "complianz"); ?></h2>
                     <p>
-                        <?php _e("Complianz Privacy Suite requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", "complianz"); ?>
+                        <?php _e("Complianz requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", "complianz"); ?>
                     </p>
                 </div>
                 <?php

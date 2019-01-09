@@ -4,7 +4,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 $this->warning_types = array(
     'complianz-gdpr-feature-update' => array(
         'type' => 'general',
-        'label_error' => __('The Complianz Privacy Suite plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz'),
+        'label_error' => __('The Complianz plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz'),
     ),
     'no-dnt' => array(
         'type' => 'general',
