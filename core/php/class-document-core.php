@@ -10,7 +10,7 @@ if (!class_exists("cmplz_document_core")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -190,7 +190,7 @@ if (!class_exists("cmplz_document_core")) {
         public function get_document_html($type, $post_id = false)
         {
 
-            if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz'),$type);
+            if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz-gdpr'),$type);
 
             $elements = COMPLIANZ()->config->document_elements[$type];
 
@@ -300,7 +300,7 @@ if (!class_exists("cmplz_document_core")) {
         {
             $nr = "";
             if (isset($element['annex'])) {
-                $nr = __("Annex", 'complianz') . " " . $annex . ": ";
+                $nr = __("Annex", 'complianz-gdpr') . " " . $annex . ": ";
                 if (isset($element['title'])) {
                     return '<h3 class="annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['title']) . '</h3>';
                 }
@@ -370,11 +370,11 @@ if (!class_exists("cmplz_document_core")) {
         {
             //replace references
             foreach ($paragraph_id_arr as $id => $paragraph) {
-                $html = str_replace("[article-$id]", sprintf(__('(See paragraph %s)', 'complianz'), cmplz_esc_html($paragraph['main'])), $html);
+                $html = str_replace("[article-$id]", sprintf(__('(See paragraph %s)', 'complianz-gdpr'), cmplz_esc_html($paragraph['main'])), $html);
             }
 
             foreach ($annex_arr as $id => $annex) {
-                $html = str_replace("[annex-$id]", sprintf(__('(See annex %s)', 'complianz'), cmplz_esc_html($annex)), $html);
+                $html = str_replace("[annex-$id]", sprintf(__('(See annex %s)', 'complianz-gdpr'), cmplz_esc_html($annex)), $html);
             }
 
             //some custom elements
@@ -479,13 +479,13 @@ if (!class_exists("cmplz_document_core")) {
                     else
                         $labels .= $options[$index] . ', ';
                 }
-                //if (empty($labels)) $labels = __('None','complianz');
+                //if (empty($labels)) $labels = __('None','complianz-gdpr');
 
                 if ($list_style) {
                     $labels = "<ul>" . $labels . "</ul>";
                 } else {
                     $labels = cmplz_esc_html(rtrim($labels, ', '));
-                    $labels = strrev(implode(strrev(', ' . __('and', 'complianz')), explode(strrev(','), strrev($labels), 2)));
+                    $labels = strrev(implode(strrev(', ' . __('and', 'complianz-gdpr')), explode(strrev(','), strrev($labels), 2)));
                 }
 
                 $value = $labels;

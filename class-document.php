@@ -10,7 +10,7 @@ if (!class_exists("cmplz_document")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -116,9 +116,9 @@ if (!class_exists("cmplz_document")) {
                 $to = get_option('admin_email');
 
                 $headers = array();
-                if (empty($subject)) $subject = sprintf(_x('Your legal documents on %s need to be updated.','Subject in notification email', 'complianz'), home_url());
+                if (empty($subject)) $subject = sprintf(_x('Your legal documents on %s need to be updated.','Subject in notification email', 'complianz-gdpr'), home_url());
 
-                $message = sprintf(_x('Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.', 'Email message in notification email', 'complianz'), home_url());
+                $message = sprintf(_x('Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.', 'Email message in notification email', 'complianz-gdpr'), home_url());
 
                 add_filter('wp_mail_content_type', function ($content_type) {
                     return 'text/html';
@@ -220,7 +220,7 @@ if (!class_exists("cmplz_document")) {
 
             //this function is used as of 4.9.0
             if (!function_exists('wp_get_nav_menu_name')) {
-                cmplz_notice(__('Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.', 'complianz'),'warning');
+                cmplz_notice(__('Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.', 'complianz-gdpr'),'warning');
                 return;
             }
 
@@ -236,13 +236,13 @@ if (!class_exists("cmplz_document")) {
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
                 if (COMPLIANZ()->company->sells_personal_data()){
-                    cmplz_notice(sprintf(__('You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.', 'complianz'), cmplz_us_cookie_statement_title()));
+                    cmplz_notice(sprintf(__('You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.', 'complianz-gdpr'), cmplz_us_cookie_statement_title()));
                 }
 
                 $docs = array_map('get_the_title', $pages_not_in_menu);
                 $docs = implode(", ", $docs);
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
-                    'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz')), $docs));
+                    'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz-gdpr')), $docs));
             } else {
                 cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz'), 'warning');
             }
@@ -262,7 +262,7 @@ if (!class_exists("cmplz_document")) {
                 ?>
 
                 <select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
-                    <option value=""><?php _e("Select a menu", 'complianz'); ?></option>
+                    <option value=""><?php _e("Select a menu", 'complianz-gdpr'); ?></option>
                     <?php foreach ($menus as $location => $menu) {
                         $selected = ($this->is_assigned_this_menu($page_id, $location)) ? "selected" : "";
                         echo '<option ' . $selected . ' value="' . $location . '">' . $menu . '</option>';

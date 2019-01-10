@@ -9,7 +9,7 @@ if (!class_exists("cmplz_integrations")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -80,7 +80,7 @@ if (!class_exists("cmplz_integrations")) {
 
         public function compile_statistics_notice(){
             if ($this->monsterinsights()){
-                cmplz_notice(__("You use Monsterinsights, so the answer to this question should be Google Analytics", 'complianz'));
+                cmplz_notice(__("You use Monsterinsights, so the answer to this question should be Google Analytics", 'complianz-gdpr'));
             }
         }
 
@@ -120,7 +120,7 @@ if (!class_exists("cmplz_integrations")) {
         {
             if ($this->monsterinsights()){
 
-                cmplz_notice(__("You use Monsterinsights: if you enable the anonymize ip option, please make sure that you have enabled it in Monsterinsights", 'complianz'));
+                cmplz_notice(__("You use Monsterinsights: if you enable the anonymize ip option, please make sure that you have enabled it in Monsterinsights", 'complianz-gdpr'));
 
             }
         }

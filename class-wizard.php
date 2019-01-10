@@ -18,7 +18,7 @@ if (!class_exists("cmplz_wizard")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -51,10 +51,10 @@ if (!class_exists("cmplz_wizard")) {
         public function is_wizard_completed_callback()
         {
             if ($this->wizard_completed_once()) {
-                cmplz_notice(__("Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz'));
+                cmplz_notice(__("Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.", 'complianz-gdpr'));
             } else {
                 $link = '<a href="' . admin_url('admin.php?page=cmplz-wizard') . '">';
-                cmplz_notice(sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz'), $link, "</a>"),'warning');
+                cmplz_notice(sprintf(__("The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.", 'complianz-gdpr'), $link, "</a>"),'warning');
             }
         }
 
@@ -101,7 +101,7 @@ if (!class_exists("cmplz_wizard")) {
             if (COMPLIANZ()->cookie->cookies_changed()) {
                 ?>
                 <div id="message" class="error fade notice cmplz-wp-notice">
-                    <h2><?php echo __("Changes in cookies detected", 'complianz'); ?></h2>
+                    <h2><?php echo __("Changes in cookies detected", 'complianz-gdpr'); ?></h2>
                 </div>
                 <?php
             }
@@ -113,13 +113,13 @@ if (!class_exists("cmplz_wizard")) {
             $page = $this->wizard_type();
 
             if (!$this->all_required_fields_completed($page)) {
-                cmplz_notice(__("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz'), 'warning');
+                cmplz_notice(__("Not all required fields are completed yet. Please check the steps to complete all required questions", 'complianz-gdpr'), 'warning');
             } else {
-                cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", "complianz")."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz'), __("Finish", 'complianz')));
+                cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
                 if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
-                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz'), $link_open, "</a>"),'warning');
+                    cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
                 }
 
             }
@@ -376,7 +376,7 @@ if (!class_exists("cmplz_wizard")) {
                 $user = get_user_by("id", $user_id);
                 $lock_time = apply_filters("cmplz_wizard_lock_time", 2 * MINUTE_IN_SECONDS)/60;
 
-                cmplz_notice(sprintf(__("The wizard is currently being edited by %s","complianz"),$user->user_nicename).'<br>'.sprintf(__("If this user stops editing, the lock will expire after %s minutes.","complianz"),$lock_time),'warning');
+                cmplz_notice(sprintf(__("The wizard is currently being edited by %s",'complianz-gdpr'),$user->user_nicename).'<br>'.sprintf(__("If this user stops editing, the lock will expire after %s minutes.",'complianz-gdpr'),$lock_time),'warning');
 
                 return;
             }
@@ -438,7 +438,7 @@ if (!class_exists("cmplz_wizard")) {
                                     </a>
                                 </div>
                                 <?php if ($active) { ?>
-                                    <div class="cmplz-step-time"><?php printf(__('%s min', 'complianz'), $this->remaining_time($page, $step, $section)) ?></div>
+                                    <div class="cmplz-step-time"><?php printf(__('%s min', 'complianz-gdpr'), $this->remaining_time($page, $step, $section)) ?></div>
                                 <?php } ?>
                             </div>
                         <?php } ?>
@@ -498,7 +498,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function enqueue_assets($hook)
         {
-            if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
+            if ((strpos($hook, 'complianz-gdpr') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
             wp_register_style('cmplz-wizard', cmplz_url . 'core/assets/css/wizard.css', false, cmplz_version);
             wp_enqueue_style('cmplz-wizard');
@@ -680,33 +680,33 @@ if (!class_exists("cmplz_wizard")) {
                 <div class="cmplz-region-indicator">
                     <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
 
-                    <span><?php if ($this->wizard_type()==='wizard') printf(__('This section is needed to comply with the %s','complianz'),$law);?></span>
+                    <span><?php if ($this->wizard_type()==='wizard') printf(__('This section is needed to comply with the %s','complianz-gdpr'),$law);?></span>
                 </div>
 
                 <?php
             }
 
             if (isset($_POST['cmplz-save'])) {
-                cmplz_notice( __("Changes saved successfully", 'complianz') , 'success', true);
+                cmplz_notice( __("Changes saved successfully", 'complianz-gdpr') , 'success', true);
             }
 
             if ($page != 'wizard') {
                 $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id() && $step == 2 && (!$section || $section==1)) {
                     $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
-                    cmplz_notice(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') , 'success', false);
+                    cmplz_notice(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz-gdpr'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') , 'success', false);
                 } elseif ($step == 1) {
                     delete_option('complianz_options_' . $page);
 
                     if (strpos($page, 'processing')!==FALSE){
-                        $about = __('processing agreements', 'complianz');
+                        $about = __('processing agreements', 'complianz-gdpr');
                         $link_article = '<a href="https://complianz.io/what-are-processing-agreements">';
                     } else{
-                        $about = __('dataleak reports', 'complianz');
+                        $about = __('dataleak reports', 'complianz-gdpr');
                         $link_article = '<a href="https://complianz.io/what-are-dataleak-reports">';
                     }
 
-                    cmplz_notice(sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz'), $about, $link_article, '</a>') );
+                    cmplz_notice(sprintf(__("To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz-gdpr'), $about, $link_article, '</a>') );
 
                 }
             }
@@ -731,7 +731,7 @@ if (!class_exists("cmplz_wizard")) {
 
                                 <input class="fa button" type="submit"
                                        name="cmplz-previous"
-                                       value="<?php _e("Previous", 'complianz') ?>">
+                                       value="<?php _e("Previous", 'complianz-gdpr') ?>">
 
                             </div>
                         <?php } ?>
@@ -740,7 +740,7 @@ if (!class_exists("cmplz_wizard")) {
 
                                 <input class="fa button" type="submit"
                                        name="cmplz-next"
-                                       value="<?php _e("Next", 'complianz') ?>">
+                                       value="<?php _e("Next", 'complianz-gdpr') ?>">
 
                             </div>
                         <?php } ?>
@@ -750,7 +750,7 @@ if (!class_exists("cmplz_wizard")) {
                         if (strpos($page,'dataleak')!==false && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
                             $hide_finish_button = true;
                         }
-                        $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz') : __("Finish", 'complianz');
+                        $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz-gdpr') : __("Finish", 'complianz-gdpr');
                         ?>
                         <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) {
                             /*
@@ -759,7 +759,7 @@ if (!class_exists("cmplz_wizard")) {
                             if ($page == 'wizard' && ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us'))){ ?>
                                 <div class="cmplz-button cmplz-next">
                                     <input class="button" type="submit" name="cmplz-cookie-settings"
-                                           value="<?php _e("Finish and check cookie banner settings", 'complianz') ?>">
+                                           value="<?php _e("Finish and check cookie banner settings", 'complianz-gdpr') ?>">
                                 </div>
                             <?php } else { ?>
                                 <div class="cmplz-button cmplz-next">
@@ -776,7 +776,7 @@ if (!class_exists("cmplz_wizard")) {
 
                                 <input class="fa button" type="submit"
                                        name="cmplz-save"
-                                       value="<?php _e("Save", 'complianz') ?>">
+                                       value="<?php _e("Save", 'complianz-gdpr') ?>">
 
                             </div>
                         <?php } ?>

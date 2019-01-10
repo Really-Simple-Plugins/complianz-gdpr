@@ -42,7 +42,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * The Privacy Suite for WordPress:
 * Select both US and EU as target region with conditional consent and cookie notice.
 * Consent Statistics: see how many visitors accept, decline, or do not need a cookie notice at all.
-* A/B Testing: which cookie banner has the best conversion ratio? Run tests and measure what works best for your site. 
+* A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 * Legal Documents: Customized and legally validated privacy statement, cookie policy, disclaimer, processing agreements, dataleak reporting tools, created by the law firm ICTRecht Groningen.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct banner based on IP location, but only if a banner is needed.
 * CCPA Consent and Policies.
@@ -90,12 +90,12 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 == Change log ==
 
 = 2.1.1 =
+* Fix: changed text domain to make compatible with WordPress. If you have custom translations, please rename the files from 'complianz-en_US.po' to 'complianz-gdpr-en_US.po'
 * Fix: allow reinitialisation of recaptcha v3 in Contact Form 7
 * Tweak: prevent dns prefetch for blocked URL's
 * Tweak: option to dismiss on scroll or dismiss on timeout
 * Tweak: option to share more details on the automated processing
 * Tweak: added secure flag to cookie set function when url is https
-
 
 = 2.1.0 =
 * Tweak: Gutenberg blocks from Complianz Privacy Suite

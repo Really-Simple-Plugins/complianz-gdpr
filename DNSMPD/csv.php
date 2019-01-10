@@ -50,7 +50,7 @@ function export_array(){
     $users = COMPLIANZ()->DNSMPD->get_users(array('orderby'=>'ID', 'order' => 'DESC'));
 
     $output = array();
-    $output[] = array(__("Name", "complianz"), __("Email","complianz"));
+    $output[] = array(__("Name", 'complianz-gdpr'), __("Email",'complianz-gdpr'));
     foreach ($users as  $user) {
             $output[] = array($user->name, $user->email);
     }

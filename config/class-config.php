@@ -28,18 +28,18 @@ if (!class_exists("cmplz_config")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
             //common options type
             $this->yes_no = array(
-                'yes' => __('Yes', 'complianz'),
-                'no' => __('No', 'complianz'),
+                'yes' => __('Yes', 'complianz-gdpr'),
+                'no' => __('No', 'complianz-gdpr'),
             );
 
-            $this->premium_geo_ip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
-            $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_geo_ip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
 
             define('CMPLZ_MINUTES_PER_QUESTION', 0.33);
             define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.1);
@@ -124,7 +124,7 @@ if (!class_exists("cmplz_config")) {
          */
 
         public function read_more($url, $add_space=true){
-            $html = sprintf(__("For more information on this subject, please read this %sarticle%s", "complianz"), '<a target="_blank" href="'.$url.'">','</a>');
+            $html = sprintf(__("For more information on this subject, please read this %sarticle%s", 'complianz-gdpr'), '<a target="_blank" href="'.$url.'">','</a>');
             if ($add_space) $html = '&nbsp;'.$html;
             return $html;
         }
@@ -141,58 +141,58 @@ if (!class_exists("cmplz_config")) {
         public function init_arrays(){
 
             $this->purposes = array(
-                'contact' => __('Contact - Through phone,  mail, e-mail and/or webforms', 'complianz'),
-                'payments' => __('Payments', 'complianz'),
-                'register-account' => __('Registering an account', 'complianz'),
-                'newsletters' => __('Newsletters', 'complianz'),
-                'support-services' => __('To support services or products that your customer wants to buy or have purchased', 'complianz'),
-                'legal-obligations' => __('To be able to comply with legal obligations', 'complianz'),
-                'statistics' => __('Compiling and analyzing statistics for website improvement.', 'complianz'),
-                'offer-personalized-products' => __('To be able to offer personalized products and services.', 'complianz'),
+                'contact' => __('Contact - Through phone,  mail, e-mail and/or webforms', 'complianz-gdpr'),
+                'payments' => __('Payments', 'complianz-gdpr'),
+                'register-account' => __('Registering an account', 'complianz-gdpr'),
+                'newsletters' => __('Newsletters', 'complianz-gdpr'),
+                'support-services' => __('To support services or products that your customer wants to buy or have purchased', 'complianz-gdpr'),
+                'legal-obligations' => __('To be able to comply with legal obligations', 'complianz-gdpr'),
+                'statistics' => __('Compiling and analyzing statistics for website improvement.', 'complianz-gdpr'),
+                'offer-personalized-products' => __('To be able to offer personalized products and services.', 'complianz-gdpr'),
             );
 
             if (cmplz_has_region('us')) {
-                $this->purposes['selling-data-thirdparty'] = __('To sell data to third parties', 'complianz');
+                $this->purposes['selling-data-thirdparty'] = __('To sell data to third parties', 'complianz-gdpr');
             }
             $this->details_per_purpose_us = array(
-                'first-lastname' => __('A first and last name', 'complianz'),
-                'accountname-alias' => __('Accountname or alias', 'complianz'),
-                'address' => __('A home or other physical address, including street name and name of a city or town', 'complianz'),
-                'email' => __('An e-mail address', 'complianz'),
-                'phone' => __('A telephone number', 'complianz'),
-                'social-security' => __('A social security number', 'complianz'),
-                'any-other' => __('Any other identifier that permits the physical or online contacting of a specific individual', 'complianz'),
-                'ip' => __('IP adres', 'complianz'),
-                'signature' => __('A signature', 'complianz'),
-                'physical-characteristic' => __('Physical characteristics or description', 'complianz'),
-                'passport' => __('Passport number', 'complianz'),
-                'drivers-license' => __("Driver's license", 'complianz'),
-                'state-id' => __('State identification card number', 'complianz'),
-                'insurance-policy' => __('Insurance policy number', 'complianz'),
-                'education' => __('Education information', 'complianz'),
-                'employment' => __('Professional or employment-related information', 'complianz'),
-                'employment-history' => __('Employment history', 'complianz'),
-                'bank-account' => __('Bank account number', 'complianz'),
-                'financial-information' => __('Financial information such as bank account number of credit card number', 'complianz'),
-                'medical' => __('Medical information', 'complianz'),
-                'health-insurcance' => __('Health insurance information', 'complianz'),
-                'commercial' => __('Commercial information, including records of personal property, products or services purchased, obtained, or considered', 'complianz'),
-                'biometric' => __('Biometric information', 'complianz'),
-                'internet' => __("Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.", 'complianz'),
-                'geo' => __('Geolocation data', 'complianz'),
-                'audio' => __('Audio, electronic, visual, thermal, olfactory, or simular information', 'complianz'),
+                'first-lastname' => __('A first and last name', 'complianz-gdpr'),
+                'accountname-alias' => __('Accountname or alias', 'complianz-gdpr'),
+                'address' => __('A home or other physical address, including street name and name of a city or town', 'complianz-gdpr'),
+                'email' => __('An e-mail address', 'complianz-gdpr'),
+                'phone' => __('A telephone number', 'complianz-gdpr'),
+                'social-security' => __('A social security number', 'complianz-gdpr'),
+                'any-other' => __('Any other identifier that permits the physical or online contacting of a specific individual', 'complianz-gdpr'),
+                'ip' => __('IP adres', 'complianz-gdpr'),
+                'signature' => __('A signature', 'complianz-gdpr'),
+                'physical-characteristic' => __('Physical characteristics or description', 'complianz-gdpr'),
+                'passport' => __('Passport number', 'complianz-gdpr'),
+                'drivers-license' => __("Driver's license", 'complianz-gdpr'),
+                'state-id' => __('State identification card number', 'complianz-gdpr'),
+                'insurance-policy' => __('Insurance policy number', 'complianz-gdpr'),
+                'education' => __('Education information', 'complianz-gdpr'),
+                'employment' => __('Professional or employment-related information', 'complianz-gdpr'),
+                'employment-history' => __('Employment history', 'complianz-gdpr'),
+                'bank-account' => __('Bank account number', 'complianz-gdpr'),
+                'financial-information' => __('Financial information such as bank account number of credit card number', 'complianz-gdpr'),
+                'medical' => __('Medical information', 'complianz-gdpr'),
+                'health-insurcance' => __('Health insurance information', 'complianz-gdpr'),
+                'commercial' => __('Commercial information, including records of personal property, products or services purchased, obtained, or considered', 'complianz-gdpr'),
+                'biometric' => __('Biometric information', 'complianz-gdpr'),
+                'internet' => __("Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.", 'complianz-gdpr'),
+                'geo' => __('Geolocation data', 'complianz-gdpr'),
+                'audio' => __('Audio, electronic, visual, thermal, olfactory, or simular information', 'complianz-gdpr'),
             );
 
 
             $this->collected_info_children = array(
-                'name' => __('a first and last name','complianz'),
-                'address' => __('a home or other physical address including street name and name of a city or town','complianz'),
-                'email-child' => __('an email adress from the child','complianz'),
-                'email-parent' => __('an email adress from the parent or guardian','complianz'),
-                'phone' => __('a telephone number','complianz'),
-                'social-security-nr' => __('a Social Security number','complianz'),
-                'identifier-online' => __('an identifier that permits the physical or online contacting of a child','complianz'),
-                'other' => __('other information concerning the child or the parents, combined with an identifier as described above.','complianz'),
+                'name' => __('a first and last name','complianz-gdpr'),
+                'address' => __('a home or other physical address including street name and name of a city or town','complianz-gdpr'),
+                'email-child' => __('an email adress from the child','complianz-gdpr'),
+                'email-parent' => __('an email adress from the parent or guardian','complianz-gdpr'),
+                'phone' => __('a telephone number','complianz-gdpr'),
+                'social-security-nr' => __('a Social Security number','complianz-gdpr'),
+                'identifier-online' => __('an identifier that permits the physical or online contacting of a child','complianz-gdpr'),
+                'other' => __('other information concerning the child or the parents, combined with an identifier as described above.','complianz-gdpr'),
             );
 
 

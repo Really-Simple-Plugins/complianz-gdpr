@@ -117,7 +117,7 @@ $this->document_elements['cookie-statement-us'] = array(
                                     <td>Sharing</td>
                                   </tr><tr>
                                      <td>[used_names]</td>
-                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz').'</a></td>
+                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz-gdpr').'</a></td>
                                  </tr>
                      </table>',
         'condition' => array(

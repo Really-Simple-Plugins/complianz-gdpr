@@ -97,21 +97,21 @@ const iconEl =
         render() {
             const { className, attributes: {} = {} } = this.props;
 
-            let options = [{value: 0, label: __('Select a document', 'complianz')}];
-            let output = __('Loading...', 'complianz');
+            let options = [{value: 0, label: __('Select a document', 'complianz-gdpr')}];
+            let output = __('Loading...', 'complianz-gdpr');
             let id = 'document-title';
 
             if (!this.props.attributes.hasDocuments){
-                output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz');
+                output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz-gdpr');
                 id = 'no-documents';
             }
 
             //build options
             if (this.state.documents.length > 0) {
                 if (!this.props.isSelected){
-                    output = __('Click this block to show the options', 'complianz');
+                    output = __('Click this block to show the options', 'complianz-gdpr');
                 } else {
-                    output = __('Select a document type from the dropdownlist', 'complianz');
+                    output = __('Select a document type from the dropdownlist', 'complianz-gdpr');
                 }
                 this.state.documents.forEach((document) => {
                     options.push({value: document.id, label: document.title});
@@ -127,7 +127,7 @@ const iconEl =
             return [
                 !!this.props.isSelected && (
                     <InspectorControls key='inspector'>
-                        <SelectControl onChange={this.onChangeSelectDocument} value={this.props.attributes.selectedDocument} label={__('Select a document', 'complianz')}
+                        <SelectControl onChange={this.onChangeSelectDocument} value={this.props.attributes.selectedDocument} label={__('Select a document', 'complianz-gdpr')}
                                        options={options}/>
                     </InspectorControls>
                 ),
@@ -154,13 +154,13 @@ const iconEl =
 
 
     registerBlockType('complianz/document', {
-        title: __('Legal document - Complianz', 'complianz'), // Block title.
+        title: __('Legal document - Complianz', 'complianz-gdpr'), // Block title.
         icon: iconEl, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: 'widgets',
         keywords: [
-            __('privacy statement', 'complianz'),
-            __('cookie statement', 'complianz'),
-            __('disclaimer', 'complianz'),
+            __('privacy statement', 'complianz-gdpr'),
+            __('cookie statement', 'complianz-gdpr'),
+            __('disclaimer', 'complianz-gdpr'),
         ],
         //className: 'cmplz-document',
         attributes: {

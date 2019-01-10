@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Complianz | GDPR Cookie Consent
- * Plugin URI: https://www.complianz.io/complianz-gdpr
+ * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
  * Version: 2.1.1
- * Text Domain: complianz
+ * Text Domain: complianz-gdpr
  * Domain Path: /config/languages
  * Author: RogierLankhorst, Complianz team
  * Author URI: https://www.complianz.io
@@ -175,6 +175,6 @@ if (!function_exists('cmplz_load_translation')) {
     add_action('init', 'cmplz_load_translation', 20);
     function cmplz_load_translation()
     {
-        load_plugin_textdomain('complianz', FALSE, cmplz_path . '/config/languages/');
+        load_plugin_textdomain('complianz-gdpr', FALSE, cmplz_path . '/config/languages/');
     }
 }

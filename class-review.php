@@ -12,7 +12,7 @@ if (!class_exists("cmplz_review")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
             //show review notice, only to free users
@@ -48,17 +48,17 @@ if (!class_exists("cmplz_review")) {
 
                 ?>
                 <div id="message" class="updated fade notice is-dismissible cmplz-review">
-                    <p><?php printf(__('Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
+                    <p><?php printf(__('Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz-gdpr'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
                     <i>- Rogier</i>
                     <ul style="margin-left: 30px; list-style: square;">
                         <li><p style="margin-top: -5px;"><a target="_blank"
-                                                            href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e('Leave a review', 'complianz'); ?></a>
+                                                            href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e('Leave a review', 'complianz-gdpr'); ?></a>
                             </p></li>
                         <li><p style="margin-top: -5px;"><a href="#"
-                                                            id="maybe-later"><?php _e('Maybe later', 'complianz'); ?></a>
+                                                            id="maybe-later"><?php _e('Maybe later', 'complianz-gdpr'); ?></a>
                             </p></li>
                         <li><p style="margin-top: -5px;"><a href="#"
-                                                            class="review-dismiss"><?php _e('No thanks', 'complianz'); ?></a>
+                                                            class="review-dismiss"><?php _e('No thanks', 'complianz-gdpr'); ?></a>
                             </p></li>
                     </ul>
                 </div>

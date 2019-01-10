@@ -15,13 +15,13 @@ function cmplz_filter_fields($fields)
             if (!empty(COMPLIANZ()->config->details_per_purpose_us)) {
                 $fields = $fields + array(
                         $key . '_data_purpose_us' => array(
-                            'master_label' => __("Purpose:", 'complianz') . " " . $label,
+                            'master_label' => __("Purpose:", 'complianz-gdpr') . " " . $label,
                             'step' => 1,
                             'section' => 7,
                             'page' => 'wizard',
                             'type' => 'multicheckbox',
                             'default' => '',
-                            'label' => __("What data do you collect for this purpose?", 'complianz'),
+                            'label' => __("What data do you collect for this purpose?", 'complianz-gdpr'),
                             'required' => true,
                             'callback_condition' => array(
                                 'privacy-statement' => 'yes',
