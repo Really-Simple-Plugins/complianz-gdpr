@@ -59,8 +59,8 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 
         // Set parent defaults
         parent::__construct( array(
-            'singular' => __( 'User', 'complianz' ),
-            'plural'   => __( 'Users', 'complianz' ),
+            'singular' => __( 'User', 'complianz-gdpr'),
+            'plural'   => __( 'Users', 'complianz-gdpr'),
             'ajax'     => false,
         ) );
 
@@ -130,9 +130,9 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 
     public function column_name( $item ) {
         $name        = '#' . $item['ID'] . ' ';
-        $name       .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user','complianz' ) . '</em>';
+        $name       .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user','complianz-gdpr') . '</em>';
         $actions     = array(
-            'delete' => '<a href="' . admin_url( 'admin.php?page=cmplz_dnsmpd&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'complianz' ) . '</a>'
+            'delete' => '<a href="' . admin_url( 'admin.php?page=cmplz_dnsmpd&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'complianz-gdpr') . '</a>'
         );
         return $name  . $this->row_actions( $actions );
     }
@@ -145,8 +145,8 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
      */
     public function get_columns() {
         $columns = array(
-            'name'          => __( 'Name', 'complianz' ),
-            'email'         => __( 'Email', 'complianz' ),
+            'name'          => __( 'Name', 'complianz-gdpr'),
+            'email'         => __( 'Email', 'complianz-gdpr'),
         );
 
         return apply_filters( 'cmplz_report_customer_columns', $columns );

@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages = array(
     'cookie-statement' => array(
-        'title' => __("Cookie policy", 'complianz'),
+        'title' => __("Cookie policy", 'complianz-gdpr'),
         'public' => true,
         'condition' => array(
             'regions' => 'eu',

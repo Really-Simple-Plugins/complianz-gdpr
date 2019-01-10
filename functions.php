@@ -58,9 +58,9 @@ if (!function_exists('cmplz_tagmanager_conditional_helptext')) {
     function cmplz_tagmanager_conditional_helptext()
     {
         if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()) {
-            $text = __("Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.", "complianz");
+            $text = __("Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.", 'complianz-gdpr');
         } else {
-            $text = __("Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.", "complianz");
+            $text = __("Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.", 'complianz-gdpr');
         }
 
         return $text;
@@ -92,8 +92,8 @@ if (!function_exists('cmplz_manual_stats_config_possible')) {
 if (!function_exists('cmplz_revoke_link')) {
     function cmplz_revoke_link($text = false)
     {
-        $text = $text ? $text : __('Revoke cookie consent', 'complianz');
-        $html = '<a href="#" class="cc-revoke-custom">' . $text . '</a><span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz'), __("Accepted", 'complianz')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz'), __("Denied", 'complianz')) . '</span>';
+        $text = $text ? $text : __('Revoke cookie consent', 'complianz-gdpr');
+        $html = '<a href="#" class="cc-revoke-custom">' . $text . '</a><span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Accepted", 'complianz-gdpr')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Denied", 'complianz-gdpr')) . '</span>';
         return apply_filters('cmplz_revoke_link', $html);
     }
 }
@@ -682,12 +682,12 @@ if (!function_exists('cmplz_supported_laws')) {
         $arr = array();
         foreach ($regions as $region => $enabled) {
             //fallback
-            //if (!isset(COMPLIANZ()->config->regions[$region])) return __("GDPR", 'complianz');
+            //if (!isset(COMPLIANZ()->config->regions[$region])) return __("GDPR", 'complianz-gdpr');
 
             $arr[] = COMPLIANZ()->config->regions[$region]['law'];
         }
 
-        if (count($arr) == 0) return __('(select a region)', 'complianz');
+        if (count($arr) == 0) return __('(select a region)', 'complianz-gdpr');
         return implode('/', $arr);
     }
 }

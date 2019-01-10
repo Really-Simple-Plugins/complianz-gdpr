@@ -13,7 +13,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         {
 
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -155,7 +155,7 @@ error_log($total_match);
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
                         $new = $this->replace_src($new, '');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
-                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div>'.$new.'</div>';
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
                     }
@@ -239,7 +239,7 @@ error_log($total_match);
                                     $index ++;
                                     $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
                                     if (cmplz_has_async_documentwrite_scripts()) {
-                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
+                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
                                     }
                                 }
 

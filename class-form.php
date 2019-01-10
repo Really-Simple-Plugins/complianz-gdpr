@@ -39,11 +39,11 @@ if (!class_exists("cmplz_form")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
             add_action('cmplz_wizard_wizard', array($this, 'maybe_add_consent_checkbox'), 10, 4);
-            $this->label_no_link = __('To submit this form, you need to accept our privacy statement','complianz');
+            $this->label_no_link = __('To submit this form, you need to accept our privacy statement','complianz-gdpr');
 
         }
 
@@ -102,7 +102,7 @@ if (!class_exists("cmplz_form")) {
             $forms = GFAPI::get_forms();
             $forms = wp_list_pluck($forms, "title","id");
             foreach($forms as $id => $title){
-                $forms['gf_'.$id] = $title." ".__('(Gravity Forms)','complianz');
+                $forms['gf_'.$id] = $title." ".__('(Gravity Forms)','complianz-gdpr');
                 unset($forms[$id]);
             }
 
@@ -116,7 +116,7 @@ if (!class_exists("cmplz_form")) {
             $forms = get_posts(array('post_type' => 'wpcf7_contact_form'));
             $forms = wp_list_pluck($forms, "post_title","ID");
             foreach($forms as $id => $title){
-                $forms['cf7_'.$id] = $title." ".__('(Contact form 7)','complianz');
+                $forms['cf7_'.$id] = $title." ".__('(Contact form 7)','complianz-gdpr');
                 unset($forms[$id]);
             }
             return $forms;
@@ -142,7 +142,7 @@ if (!class_exists("cmplz_form")) {
                 $consent_box->inputName = 'complianz_consent';
                 $consent_box->id = $new_field_id;
                 $consent_box->isRequired = true;
-                $consent_box->choices = array(array('text' => __('Accept', 'complianz'), 'value' => 'Accept', 'isSelected' => false));
+                $consent_box->choices = array(array('text' => __('Accept', 'complianz-gdpr'), 'value' => 'Accept', 'isSelected' => false));
                 $consent_box->inputs = array();
                 $consent_box->conditionalLogic = false;
                 $form['fields'][] = $consent_box;
@@ -157,7 +157,7 @@ if (!class_exists("cmplz_form")) {
 
 
             $warning = 'acceptance_as_validation: on';
-            $this->label = sprintf(__('To submit this form, you need to accept our %sprivacy statement%s','complianz'),'<a href="'.COMPLIANZ()->document->get_permalink('privacy-statement').'">', '</a>');
+            $this->label = sprintf(__('To submit this form, you need to accept our %sprivacy statement%s','complianz-gdpr'),'<a href="'.COMPLIANZ()->document->get_permalink('privacy-statement').'">', '</a>');
 
             $tag = "\n".'[acceptance cmplz-acceptance]'.$this->label.'[/acceptance]'."\n\n";
 

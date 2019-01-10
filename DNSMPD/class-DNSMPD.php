@@ -10,7 +10,7 @@ if (!class_exists("cmplz_DNSMPD")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
@@ -37,8 +37,8 @@ if (!class_exists("cmplz_DNSMPD")) {
 
             add_submenu_page(
                 'complianz',
-                __('DNSMPI', 'complianz'),
-                __('DNSMPI', 'complianz'),
+                __('DNSMPI', 'complianz-gdpr'),
+                __('DNSMPI', 'complianz-gdpr'),
                 'manage_options',
                 'cmplz_dnsmpd',
                 array($this, 'removed_users_overview')
@@ -54,12 +54,12 @@ if (!class_exists("cmplz_DNSMPD")) {
             $customers_table->prepare_items();
             ?>
             <div class="wrap">
-                <h1><?php _e( 'Do Not Sell My Personal Information requests', 'complianz' ); ?></h1>
+                <h1><?php _e( 'Do Not Sell My Personal Information requests', 'complianz-gdpr'); ?></h1>
                 <?php //do_action( 'edd_customers_table_top' ); ?>
                 <a href="<?php echo esc_url_raw(cmplz_url."DNSMPD/csv.php?nonce=".wp_create_nonce('cmplz_csv_nonce'))?>" target="_blank" class="button button-primary">Export</a>
                 <form id="cmplz-dnsmpd-filter" method="get" action="<?php echo admin_url( 'admin.php?page=cmplz_dnsmpd' ); ?>">
                     <?php
-                    $customers_table->search_box( __( 'Search Customers', 'complianz' ), 'cmplz_dnsmpd' );
+                    $customers_table->search_box( __( 'Search Customers', 'complianz-gdpr'), 'cmplz_dnsmpd' );
                     $customers_table->display();
                     ?>
                     <input type="hidden" name="page" value="cmplz_dnsmpd" />
@@ -106,22 +106,22 @@ if (!class_exists("cmplz_DNSMPD")) {
             $error = false;
             if (isset($_POST['firstname']) && !empty($_POST['firstname'])) {
                 $error = true;
-                $message = __("Sorry, it looks like you're a bot", "complianz");
+                $message = __("Sorry, it looks like you're a bot", 'complianz-gdpr');
             }
 
             if (!isset($_POST['email']) || !is_email($_POST['email']) ) {
                 $error = true;
-                $message = __("Please enter a valid email address.", "complianz");
+                $message = __("Please enter a valid email address.", 'complianz-gdpr');
             }
 
             if (!isset($_POST['name']) || strlen($_POST['name'])==0 ) {
                 $error = true;
-                $message = __("Please enter your name", "complianz");
+                $message = __("Please enter your name", 'complianz-gdpr');
             }
 
             if (!isset($_POST['name']) || strlen($_POST['name'])>100 ) {
                 $error = true;
-                $message = __("That's a long name you got there. Please try to shorten the name.", "complianz");
+                $message = __("That's a long name you got there. Please try to shorten the name.", 'complianz-gdpr');
             }
 
             if (!$error) {
@@ -139,9 +139,9 @@ if (!class_exists("cmplz_DNSMPD")) {
                         )
                     );
                     $this->send_confirmation_mail($email, $name);
-                    $message = __("Your request has been processed successfully!", "complianz");
+                    $message = __("Your request has been processed successfully!", 'complianz-gdpr');
                 } else {
-                    $message = __("Your email address was already registered!", "complianz");
+                    $message = __("Your email address was already registered!", 'complianz-gdpr');
                 }
             }
 

@@ -7,9 +7,9 @@ add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
 function cmplz_dpo_or_gdpr(){
 
     if (!cmplz_company_in_eu()){
-        cmplz_notice(__("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz'));
+        cmplz_notice(__("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz-gdpr'));
     } else {
-        cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz'));
+        cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz-gdpr'));
     }
 
 }
@@ -19,7 +19,7 @@ function cmplz_uses_social_media_notice(){
     $social_media = cmplz_scan_detected_social_media();
     if ($social_media){
         $social_media = implode(', ', $social_media);
-        cmplz_notice(sprintf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz'), $social_media));
+        cmplz_notice(sprintf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $social_media));
     }
 }
 
@@ -27,7 +27,7 @@ add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata');
 function cmplz_purpose_personaldata(){
     $contact_forms = cmplz_site_uses_contact_forms();
     if ($contact_forms){
-        cmplz_notice(__('The scan found forms on your site, which means answer should probably include "contact".', 'complianz'));
+        cmplz_notice(__('The scan found forms on your site, which means answer should probably include "contact".', 'complianz-gdpr'));
     }
 }
 
@@ -36,14 +36,14 @@ function cmplz_uses_thirdparty_services_notice(){
     $thirdparty = cmplz_scan_detected_thirdparty_services();
     if ($thirdparty){
         $thirdparty = implode(', ', $thirdparty);
-        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz'), $thirdparty));
+        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $thirdparty));
     }
 }
 
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
 function cmplz_purpose_personaldata_notice(){
     if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()){
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. According to the CaCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. According to the CaCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz-gdpr'));
     }
 }
 
@@ -51,7 +51,7 @@ add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');
 function cmplz_data_disclosed_us(){
 
     if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr'));
     }
 }
 
@@ -59,7 +59,7 @@ add_action('cmplz_notice_data_sold_us', 'cmplz_data_sold_us');
 function cmplz_data_sold_us(){
 
     if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr'));
     }
 
 }
@@ -68,7 +68,7 @@ add_action('cmplz_notice_no_cookies_used', 'cmplz_notice_no_cookies_used');
 function cmplz_notice_no_cookies_used(){
 
     if (cmplz_get_value('uses_cookies')!=='yes') {
-        cmplz_notice(__("You have indicated your site does not use cookies. If you're sure about this, you can skip this step", 'complianz'),'warning');
+        cmplz_notice(__("You have indicated your site does not use cookies. If you're sure about this, you can skip this step", 'complianz-gdpr'),'warning');
     }
 
 }
@@ -79,16 +79,16 @@ add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');
 
 function cmplz_notice_stats_non_functional(){
     if (!cmplz_manual_stats_config_possible()) {
-        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz", 'complianz'),'warning');
+        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz", 'complianz-gdpr'),'warning');
     } else {
-        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz'));
+        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz-gdpr'));
     }
 }
 
 add_action('cmplz_notice_statistics_script', 'cmplz_notice_statistics_script');
 function cmplz_notice_statistics_script(){
 
-        cmplz_notice( __('You have indicated you use a statistics tool which tracks personal data. You can insert this script here so it only fires if the user consents to this.', 'intro cookie usage', 'complianz'));
+        cmplz_notice( __('You have indicated you use a statistics tool which tracks personal data. You can insert this script here so it only fires if the user consents to this.', 'intro cookie usage', 'complianz-gdpr'));
 
 
 }
@@ -105,7 +105,7 @@ add_action('cmplz_notice_missing_privacy_page', 'cmplz_notice_missing_privacy_pa
 function cmplz_notice_missing_privacy_page(){
     $privacy_policy_exists = get_option('wp_page_for_privacy_policy') && get_post(get_option('wp_page_for_privacy_policy')) && get_post_status(get_option('wp_page_for_privacy_policy'))==='publish';
     if ((defined('cmplz_free') || cmplz_get_value('privacy-statement')!=='yes') && !$privacy_policy_exists) {
-        cmplz_notice(sprintf(__("You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s", 'complianz'),'<a href="'.admin_url('privacy.php').'">','</a>'),'warning');
+        cmplz_notice(sprintf(__("You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s", 'complianz-gdpr'),'<a href="'.admin_url('privacy.php').'">','</a>'),'warning');
     }
 
 }
@@ -124,7 +124,7 @@ function cmplz_notice_thirdparty_services_on_site(){
 
         $thirdparty = cmplz_scan_detected_thirdparty_services();
         if (is_array($thirdparty) && in_array('google-recaptcha', $thirdparty)) {
-            cmplz_notice(__("The scan detected Google Recaptcha on your site. As the Recaptcha script will be blocked by default, it is recommended to use a honeypot spam protection instead.", 'complianz'),'warning');
+            cmplz_notice(__("The scan detected Google Recaptcha on your site. As the Recaptcha script will be blocked by default, it is recommended to use a honeypot spam protection instead.", 'complianz-gdpr'),'warning');
         }
 }
 

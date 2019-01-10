@@ -14,7 +14,7 @@ if (!class_exists("cmplz_cookie")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz'), get_class($this)));
+                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
 
@@ -100,9 +100,9 @@ if (!class_exists("cmplz_cookie")) {
         {
             if ($this->site_uses_cookie_of_type('google-analytics') || $this->site_uses_cookie_of_type('matomo')) {
 
-                $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz') : __("Matomo", 'complianz');
+                $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz-gdpr') : __("Matomo", 'complianz-gdpr');
 
-                    cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz'), $type, $type));
+                    cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz-gdpr'), $type, $type));
             }
         }
 
@@ -140,14 +140,14 @@ if (!class_exists("cmplz_cookie")) {
         public function show_statistical_cookies_usage_notice($args)
         {
             if ($this->site_uses_cookie_of_type('matomo')) {
-                $type = __("Matomo", 'complianz');
+                $type = __("Matomo", 'complianz-gdpr');
             } elseif ($this->site_uses_cookie_of_type('google-analytics') ) {
-                $type = __("Google Analytics", 'complianz');
+                $type = __("Google Analytics", 'complianz-gdpr');
             } else {
                 return;
             }
 
-            cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz'), $type));
+            cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be YES.", 'complianz-gdpr'), $type));
 
         }
 
@@ -158,10 +158,10 @@ if (!class_exists("cmplz_cookie")) {
                 $count = count($cookie_types);
                 $cookie_types = implode(', ', $cookie_types);
 
-                cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz'), $count, $cookie_types));
+                cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookie_types));
 
             } else {
-                cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz'));
+                cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
 
             }
         }
@@ -171,9 +171,9 @@ if (!class_exists("cmplz_cookie")) {
             $anonimized = (cmplz_get_value('matomo_anonymized') === 'yes') ? true : false;
             if ($this->uses_matomo()) {
                 if ($anonimized) {
-                    cmplz_notice(__("You use Matomo for statistics on your site, with ip numbers anonymized, so it is not necessary to add the script here.", 'complianz'));
+                    cmplz_notice(__("You use Matomo for statistics on your site, with ip numbers anonymized, so it is not necessary to add the script here.", 'complianz-gdpr'));
                 } else {
-                    cmplz_notice(__("You use Matomo for statistics on your site, but ip numbers are not anonymized, so you should your tracking script here", 'complianz'));
+                    cmplz_notice(__("You use Matomo for statistics on your site, but ip numbers are not anonymized, so you should your tracking script here", 'complianz-gdpr'));
                 }
             }
         }
@@ -603,7 +603,7 @@ if (!class_exists("cmplz_cookie")) {
                     foreach ($cookies as $cookie) {
                         $parts = explode('=', $cookie);
                         $name = trim($parts[0]);
-                        if (strpos($name, 'complianz') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
+                        if (strpos($name, 'complianz-gdpr') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
 
                             setcookie($name, '', time() - 1000);
                             setcookie($name, '', time() - 1000, '/');
@@ -1088,7 +1088,7 @@ if (!class_exists("cmplz_cookie")) {
                 $date = date(get_option('date_format'), get_option('cmplz_last_cookie_scan'));
                 $date = cmplz_localize_date($date);
                 $time = date(get_option('time_format'), get_option('cmplz_last_cookie_scan'));
-                $date = sprintf(__("%s at %s", 'complianz'), $date, $time);
+                $date = sprintf(__("%s at %s", 'complianz-gdpr'), $date, $time);
             } else {
                 $date = false;
             }
@@ -1133,7 +1133,7 @@ if (!class_exists("cmplz_cookie")) {
 
         public function get_cookie_description($cookie_name)
         {
-            $label = __("Origin unknown", 'complianz');
+            $label = __("Origin unknown", 'complianz-gdpr');
             foreach ($this->known_cookie_keys as $id => $cookie) {
                 $used_cookie_names = $cookie['unique_used_names'];
                 foreach ($used_cookie_names as $used_cookie_name) {
@@ -1351,16 +1351,16 @@ if (!class_exists("cmplz_cookie")) {
             $thirdparty = cmplz_scan_detected_thirdparty_services();
             if (!$cookies && !$social_media && !$thirdparty) {
                 if ($this->scan_complete()) {
-                    $html = __("No cookies detected", 'complianz');
+                    $html = __("No cookies detected", 'complianz-gdpr');
                 } else {
-                    $html = __("Cookie scan in progress", 'complianz');
+                    $html = __("Cookie scan in progress", 'complianz-gdpr');
                 }
             } else {
 
                 /*
                  * Show the cookies from our own domain
                  * */
-                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Cookies on your own domain', 'complianz') . "</b></td></tr>";
+                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Cookies on your own domain', 'complianz-gdpr') . "</b></td></tr>";
                 $cookies = $this->get_detected_cookies();
                 if ($cookies) {
                     foreach ($cookies as $key => $value) {
@@ -1374,7 +1374,7 @@ if (!class_exists("cmplz_cookie")) {
                 /*
                  * Show the social media which are placing cookies
                  * */
-                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Social media', 'complianz') . "</b></td></tr>";
+                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Social media', 'complianz-gdpr') . "</b></td></tr>";
                 if ($social_media && count($social_media)>0) {
                     foreach ($social_media as $key => $type) {
                         if (isset($this->known_cookie_keys[$type])) {
@@ -1389,7 +1389,7 @@ if (!class_exists("cmplz_cookie")) {
                 /*
                  * Show the third party services which are placing cookies
                  * */
-                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Third party services', 'complianz') . "</b></td></tr>";
+                $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Third party services', 'complianz-gdpr') . "</b></td></tr>";
                 if ($thirdparty && count($thirdparty)>0) {
                     foreach ($thirdparty as $key => $type) {
                         if (isset($this->known_cookie_keys[$type])) {
@@ -1439,26 +1439,26 @@ if (!class_exists("cmplz_cookie")) {
             <div class="field-group first">
                 <?php
                 if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
-                    cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.","complianz"));
+                    cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.",'complianz-gdpr'));
                 }
                 ?>
 
-                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.","complianz"), 'warning')?></div>
-                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.","complianz"), 'warning')?></div>
+                <div id="cmplz_adblock_warning" style="display:none"><?php cmplz_notice(__("You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.",'complianz-gdpr'), 'warning')?></div>
+                <div id="cmplz_anonymous_window_warning" style="display:none"><?php cmplz_notice(__("You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.",'complianz-gdpr'), 'warning')?></div>
 
                 <div class="cmplz-label">
-                    <label for="scan_progress"><?php _e("Cookie scan", 'complianz') ?></label>
+                    <label for="scan_progress"><?php _e("Cookie scan", 'complianz-gdpr') ?></label>
                 </div>
                 <div id="cmplz-scan-progress">
                     <div class="cmplz-progress-bar"></div>
                 </div>
                 <br>
-                <?php echo __("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz')." ".__("Third party scripts will get detected if they're listed in the third party list.", 'complianz') ?>
+                <?php echo __("Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.", 'complianz-gdpr')." ".__("Third party scripts will get detected if they're listed in the third party list.", 'complianz-gdpr') ?>
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>
                 <input type="submit" class="button cmplz-rescan"
-                       value="<?php _e('Re-scan', 'complianz') ?>" name="rescan">
+                       value="<?php _e('Re-scan', 'complianz-gdpr') ?>" name="rescan">
 
             </div>
 
@@ -1474,9 +1474,9 @@ if (!class_exists("cmplz_cookie")) {
                 <?php do_action('complianz_after_label', $args); ?>
 
                 <button id="cmplz-report-unknown-cookies" type="button"
-                        class="button"><?php _e("Report all unknown cookies", 'complianz') ?></button>
+                        class="button"><?php _e("Report all unknown cookies", 'complianz-gdpr') ?></button>
                 <span id="cmplz-report-confirmation"
-                      style="display:none"><?php cmplz_notice(__('Thank you, your report has been received successfully', 'complianz'), 'success') ?></span>
+                      style="display:none"><?php cmplz_notice(__('Thank you, your report has been received successfully', 'complianz-gdpr'), 'success') ?></span>
                 <?php
                 do_action('complianz_after_label', $args);
                 do_action('complianz_after_field', $args);
