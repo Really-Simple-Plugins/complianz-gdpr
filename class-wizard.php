@@ -498,7 +498,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function enqueue_assets($hook)
         {
-            if ((strpos($hook, 'complianz-gdpr') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
+            if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
             wp_register_style('cmplz-wizard', cmplz_url . 'core/assets/css/wizard.css', false, cmplz_version);
             wp_enqueue_style('cmplz-wizard');

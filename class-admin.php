@@ -121,8 +121,8 @@ if (!class_exists("cmplz_admin")) {
 
         public function check_upgrade()
         {
-            $prev_version = get_option('cmplz-current-version', '1.0.0');
-
+            //when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
+            $prev_version = substr(get_option('cmplz-current-version', '1.0.0'),0, 5);
             if (version_compare($prev_version, '1.1.2', '<')) {
                 //move cookieblock settings to page general settings
                 $default = isset(COMPLIANZ()->config->fields['disable_cookie_block']['default']) ? COMPLIANZ()->config->fields['disable_cookie_block']['default'] : '';
@@ -141,15 +141,8 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
+            //give all documents a region
             if (version_compare($prev_version, '2.0.6', '<')) {
-                //add category eu existing dataleaks and processing agreements.
-                $posts = get_posts(array('post_type' => array('cmplz-dataleak', 'cmplz-processing'), 'post_status'=> array('publish', 'pending', 'draft', 'auto-draft'), 'posts_per_page'=>-1));
-                foreach ($posts as $post){
-                    if (!COMPLIANZ()->document->get_region($post->ID)){
-                        COMPLIANZ()->document->set_region($post->ID, 'eu');
-                    }
-                }
-
                 $pages = COMPLIANZ()->config->pages;
                 foreach ($pages as $type => $page) {
                     if ($page['public'] == true){
@@ -164,20 +157,7 @@ if (!class_exists("cmplz_admin")) {
                 $regions = cmplz_get_value('regions');
                 if (empty($regions)) {
                     if (defined('cmplz_free')) cmplz_update_option('wizard', 'regions', 'eu');
-                    $country =  cmplz_get_value('use_country');
-                    if (defined('cmplz_premium')) {
-                        if ($country){
-                            cmplz_update_option('wizard', 'regions', array('eu'));
-                        } else {
-                            cmplz_update_option('wizard', 'regions', 'eu');
-                        }
-                    }
                 }
-            }
-
-            //make sure the maxmind db is downloaded on upgrade
-            if ($prev_version && version_compare($prev_version, '2.0.2', '<') && cmplz_get_value('use_country')) {
-                update_option('cmplz_import_geoip_on_activation', true);
             }
 
             /*
@@ -189,6 +169,8 @@ if (!class_exists("cmplz_admin")) {
                 update_option('cmplz_plugin_new_features', true);
                 update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
             }
+
+            do_action('cmplz_upgrade', $prev_version);
 
             update_option('cmplz-current-version', cmplz_version);
         }
@@ -205,7 +187,7 @@ if (!class_exists("cmplz_admin")) {
 
         public function enqueue_assets($hook)
         {
-            if ((strpos($hook, 'complianz-gdpr') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
+            if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
             wp_register_style('cmplz-circle', cmplz_url . 'core/assets/css/circle.css', array(), cmplz_version);
             wp_enqueue_style('cmplz-circle');

@@ -90,7 +90,6 @@ function cmplz_notice_statistics_script(){
 
         cmplz_notice( __('You have indicated you use a statistics tool which tracks personal data. You can insert this script here so it only fires if the user consents to this.', 'intro cookie usage', 'complianz-gdpr'));
 
-
 }
 
 

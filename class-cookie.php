@@ -603,7 +603,7 @@ if (!class_exists("cmplz_cookie")) {
                     foreach ($cookies as $cookie) {
                         $parts = explode('=', $cookie);
                         $name = trim($parts[0]);
-                        if (strpos($name, 'complianz-gdpr') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
+                        if (strpos($name, 'complianz') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
 
                             setcookie($name, '', time() - 1000);
                             setcookie($name, '', time() - 1000, '/');
