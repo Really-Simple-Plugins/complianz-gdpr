@@ -2,7 +2,6 @@
 Contributors: RogierLankhorst, ComplianzTeam
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
-
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
