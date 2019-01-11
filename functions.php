@@ -78,9 +78,9 @@ if (!function_exists('cmplz_manual_stats_config_possible')) {
     function cmplz_manual_stats_config_possible()
     {
         $stats = cmplz_get_value('compile_statistics');
-        if ($stats ==='matomo' && cmplz_no_ip_addresses()) return true;
+        if ($stats === 'matomo' && cmplz_no_ip_addresses()) return true;
 
-        if ($stats==='google-analytics' || $stats === 'google-tag-manager'){
+        if ($stats === 'google-analytics' || $stats === 'google-tag-manager') {
             if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()) {
                 return true;
             }
@@ -297,12 +297,12 @@ if (!function_exists('cmplz_notice')) {
      * @param bool $echo
      * @return string|void
      */
-    function cmplz_notice($msg, $type='notice', $hide = false, $echo=true)
+    function cmplz_notice($msg, $type = 'notice', $hide = false, $echo = true)
     {
         if ($msg == '') return;
 
         $hide_class = $hide ? "cmplz-hide" : "";
-        $html = '<div class="cmplz-panel cmplz-'.$type.' ' . $hide_class . '">' . $msg . '</div>';
+        $html = '<div class="cmplz-panel cmplz-' . $type . ' ' . $hide_class . '">' . $msg . '</div>';
         if ($echo) {
             echo $html;
         } else {
@@ -313,9 +313,9 @@ if (!function_exists('cmplz_notice')) {
 
 if (!function_exists('cmplz_panel')) {
 
-    function cmplz_panel($title, $html, $custom_btn='', $validate=false)
+    function cmplz_panel($title, $html, $custom_btn = '', $validate = false)
     {
-        if ($title=='') return;
+        if ($title == '') return;
 
         $slide = ($html == '') ? false : true;
         $validate_icon = $validate ? '<span class="cmplz-multiple-field-validation"><i class="fa fa-times"></i></span>' : '';
@@ -326,16 +326,16 @@ if (!function_exists('cmplz_panel')) {
 
                 <span class="cmplz-panel-toggle">
                     <i class="toggle fa fa-caret-right"></i>
-                    <span class="cmplz-title"><?php echo $title?></span>
+                    <span class="cmplz-title"><?php echo $title ?></span>
                  </span>
 
 
-                <?php echo $validate_icon?>
-                <span><?php echo $custom_btn?></span>
+                <?php echo $validate_icon ?>
+                <span><?php echo $custom_btn ?></span>
             </div>
-                <div class="cmplz-panel-content">
-                <?php echo $html?>
-                </div>
+            <div class="cmplz-panel-content">
+                <?php echo $html ?>
+            </div>
         </div>
         <?php
 
@@ -346,22 +346,22 @@ if (!function_exists('cmplz_list_item')) {
 
     function cmplz_list_item($title, $link, $btn, $selected)
     {
-        if ($title=='') return;
+        if ($title == '') return;
         $selected = $selected ? "selected" : '';
         ?>
-        <a class = "cmplz-panel-link" href="<?php echo $link?>">
-        <div class="cmplz-panel cmplz-link-panel <?php echo $selected?>">
-            <div class="cmplz-panel-title">
+        <a class="cmplz-panel-link" href="<?php echo $link ?>">
+            <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
+                <div class="cmplz-panel-title">
 
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
-                    <span class="cmplz-title"><?php echo $title?></span>
+                    <span class="cmplz-title"><?php echo $title ?></span>
 
                  </span>
 
-                <?php echo $btn?>
+                    <?php echo $btn ?>
+                </div>
             </div>
-        </div>
         </a>
         <?php
 
@@ -813,29 +813,28 @@ if (!function_exists('cmplz_array_filter_multidimensional')) {
     }
 }
 
-if (!function_exists('cmplz_allowed_html')){
-    function cmplz_allowed_html() {
+if (!function_exists('cmplz_allowed_html')) {
+    function cmplz_allowed_html()
+    {
 
         $allowed_tags = array(
             'a' => array(
                 'class' => array(),
-                'href'  => array(),
-                'rel'   => array(),
+                'href' => array(),
+                'rel' => array(),
                 'title' => array(),
                 'target' => array(),
             ),
             'b' => array(),
             'br' => array(),
             'blockquote' => array(
-                'cite'  => array(),
+                'cite' => array(),
             ),
             'div' => array(
                 'class' => array(),
                 'id' => array(),
             ),
-            'h1' => array(
-
-            ),
+            'h1' => array(),
             'h2' => array(),
             'h3' => array(),
             'h4' => array(),
@@ -843,19 +842,19 @@ if (!function_exists('cmplz_allowed_html')){
             'h6' => array(),
             'i' => array(),
             'input' => array(
-                'type' =>array(),
-                'class'=>array(),
-                'id'=>array(),
+                'type' => array(),
+                'class' => array(),
+                'id' => array(),
                 'required' => array(),
                 'value' => array(),
-                'placeholder'=>array(),
+                'placeholder' => array(),
             ),
             'img' => array(
-                'alt'    => array(),
-                'class'  => array(),
+                'alt' => array(),
+                'class' => array(),
                 'height' => array(),
-                'src'    => array(),
-                'width'  => array(),
+                'src' => array(),
+                'width' => array(),
             ),
             'label' => array(),
             'li' => array(
@@ -881,30 +880,31 @@ if (!function_exists('cmplz_allowed_html')){
                 'id' => array(),
             ),
             'tr' => array(),
-            'td' => array('colspan' =>array()),
+            'td' => array('colspan' => array()),
             'ul' => array(
                 'class' => array(),
                 'id' => array(),
             ),
         );
 
-        return apply_filters("cmplz_allowed_html",$allowed_tags);
+        return apply_filters("cmplz_allowed_html", $allowed_tags);
     }
 }
 
 
-if (!function_exists('cmplz_placeholder')){
-    function cmplz_placeholder($type='image', $src=''){
+if (!function_exists('cmplz_placeholder')) {
+    function cmplz_placeholder($type = 'image', $src = '')
+    {
 
-        if ($type==='iframe'){
-            if (strpos($src, 'youtube')!==FALSE) $type = 'youtube';
-            if (strpos($src, 'vimeo')!==FALSE) {
+        if ($type === 'iframe') {
+            if (strpos($src, 'youtube') !== FALSE) $type = 'youtube';
+            if (strpos($src, 'vimeo') !== FALSE) {
                 $type = 'vimeo';
             }
         }
 
         //default value
-        $new_src = cmplz_url.'core/assets/images/placeholder.png';
+        $new_src = cmplz_url . 'core/assets/images/placeholder.png';
 
         switch ($type) {
             case 'youtube':
@@ -918,10 +918,10 @@ if (!function_exists('cmplz_placeholder')){
                      *
                      * */
                     $new_src = get_transient("cmplz_youtube_image_$youtube_id");
-                    if (!$new_src){
-                        $new_src ="https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
-                        if (!cmplz_remote_file_exists($new_src)){
-                            $new_src ="https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
+                    if (!$new_src) {
+                        $new_src = "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
+                        if (!cmplz_remote_file_exists($new_src)) {
+                            $new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
                         }
                         set_transient("cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS);
                     }
@@ -939,7 +939,7 @@ if (!function_exists('cmplz_placeholder')){
             case 'image':
             case 'div':
             default:
-                $new_src = cmplz_url.'core/assets/images/placeholder.png';
+                $new_src = cmplz_url . 'core/assets/images/placeholder.png';
         }
 
         return apply_filters('cmplz_placeholder', $new_src, $type, $src);
@@ -947,17 +947,17 @@ if (!function_exists('cmplz_placeholder')){
 }
 
 
-
-if (!function_exists('cmplz_us_cookie_statement_title')){
+if (!function_exists('cmplz_us_cookie_statement_title')) {
     /**
      * US Cookie policy can have two different titles depending on the Californian targeting
      * @return string $title
      * @since 2.0.6
      */
 
-    function cmplz_us_cookie_statement_title($california=false){
+    function cmplz_us_cookie_statement_title($california = false)
+    {
         if (!$california) $california = cmplz_get_value('california');
-        if ($california === 'yes'){
+        if ($california === 'yes') {
             $title = "Do Not Sell My Personal Information";
         } else {
             $title = "Cookie Statement (US)";
@@ -981,7 +981,7 @@ if (!function_exists('cmplz_update_cookie_policy_title')) {
         $title = cmplz_us_cookie_statement_title($fieldvalue);
         $post = array(
             'ID' => intval($page_id),
-            'post_title'   => $title,
+            'post_title' => $title,
             'post_name' => sanitize_title($title),
         );
         wp_update_post($post);
@@ -990,26 +990,28 @@ if (!function_exists('cmplz_update_cookie_policy_title')) {
     }
 }
 
-if (!function_exists('cmplz_targets_california')){
-    function cmplz_targets_california(){
-        return cmplz_get_value('california')==='yes';
+if (!function_exists('cmplz_targets_california')) {
+    function cmplz_targets_california()
+    {
+        return cmplz_get_value('california') === 'yes';
     }
 }
 
-if (!function_exists('cmplz_has_async_documentwrite_scripts')){
-    function cmplz_has_async_documentwrite_scripts(){
+if (!function_exists('cmplz_has_async_documentwrite_scripts')) {
+    function cmplz_has_async_documentwrite_scripts()
+    {
         $social_media = cmplz_get_value('socialmedia_on_site');
-        if (isset($social_media['instagram']) && $social_media['instagram']==1) return true;
+        if (isset($social_media['instagram']) && $social_media['instagram'] == 1) return true;
 
         return false;
     }
 }
 
-if (!function_exists('cmplz_remote_file_exists')){
+if (!function_exists('cmplz_remote_file_exists')) {
     function cmplz_remote_file_exists($url)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         // don't download content
         curl_setopt($ch, CURLOPT_NOBODY, 1);
         curl_setopt($ch, CURLOPT_FAILONERROR, 1);
@@ -1017,20 +1019,18 @@ if (!function_exists('cmplz_remote_file_exists')){
 
         $result = curl_exec($ch);
         curl_close($ch);
-        if($result !== FALSE)
-        {
+        if ($result !== FALSE) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
 }
 
-if (!function_exists('cmplz_uses_gutenberg')){
-    function cmplz_uses_gutenberg(){
+if (!function_exists('cmplz_uses_gutenberg')) {
+    function cmplz_uses_gutenberg()
+    {
 
         if (function_exists('has_block') && !class_exists('Classic_Editor')) {
             return true;
