@@ -162,7 +162,7 @@ if (!class_exists("cmplz_config")) {
                 'phone' => __('A telephone number', 'complianz-gdpr'),
                 'social-security' => __('A social security number', 'complianz-gdpr'),
                 'any-other' => __('Any other identifier that permits the physical or online contacting of a specific individual', 'complianz-gdpr'),
-                'ip' => __('IP adres', 'complianz-gdpr'),
+                'ip' => __('IP address', 'complianz-gdpr'),
                 'signature' => __('A signature', 'complianz-gdpr'),
                 'physical-characteristic' => __('Physical characteristics or description', 'complianz-gdpr'),
                 'passport' => __('Passport number', 'complianz-gdpr'),
