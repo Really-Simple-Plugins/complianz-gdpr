@@ -30,7 +30,7 @@ $this->warning_types = array(
     'plugins-changed' => array(
         'type' => 'general',
         'label_ok' => __('No plugin changes have been detected.', 'complianz-gdpr'),
-        'label_error' => __('Plugin changes have been detected.', 'complianz-gdpr') . " " . sprintf(__('Please review step %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz-gdpr'), $this->steps_to_review_on_changes),
+        'label_error' => __('Plugin changes have been detected.', 'complianz-gdpr') . " " . sprintf(__('Please review step %s of the wizard for changes in plugin privacy statements and cookies.', 'complianz-gdpr'), $this->steps_to_review_on_changes()),
     ),
     'ga-needs-configuring' => array(
         'type' => 'general',

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /*
  * production: npn run build
  * dev: npm start
- * translation: wp i18n make-pot . config/languages/complianz.pot --exclude="pro-assets, core/assets"
+ * translation: wp i18n make-pot . config/languages/complianz.pot --exclude="pro/assets, core/assets"
  *
  * */
 
