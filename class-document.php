@@ -29,7 +29,7 @@ if (!class_exists("cmplz_document")) {
         {
 
             if ($this->is_complianz_page()) {
-                $min = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+                $min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
                 $load_css = cmplz_get_value('use_document_css');
                 if ($load_css) {
                     wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);
@@ -225,10 +225,11 @@ if (!class_exists("cmplz_document")) {
             }
 
             //get list of menus
-            $locations = get_theme_mod('nav_menu_locations');
+
+            $menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id');
 
             $link = '<a href="' . admin_url('nav-menus.php') . '">';
-            if (!$locations) {
+            if (empty($menus)) {
                 cmplz_notice(sprintf(__("No menus were found. Skip this step, or %screate a menu%s first."), $link, '</a>'));
                 return;
             }
@@ -242,17 +243,12 @@ if (!class_exists("cmplz_document")) {
                 $docs = array_map('get_the_title', $pages_not_in_menu);
                 $docs = implode(", ", $docs);
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
-                    'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz-gdpr')), $docs));
+                    'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz-gdpr')), $docs), 'warning');
             } else {
                 cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz'), 'warning');
             }
-            $menus = array();
-            //search in menus for the current post
-            foreach ($locations as $location => $menu_id) {
-                if (has_nav_menu($location)) {
-                    $menus[$location] = wp_get_nav_menu_name($location);
-                }
-            }
+
+
             $pages = $this->get_created_pages();
             echo '<table>';
             foreach ($pages as $page_id) {
@@ -263,9 +259,9 @@ if (!class_exists("cmplz_document")) {
 
                 <select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
                     <option value=""><?php _e("Select a menu", 'complianz-gdpr'); ?></option>
-                    <?php foreach ($menus as $location => $menu) {
-                        $selected = ($this->is_assigned_this_menu($page_id, $location)) ? "selected" : "";
-                        echo '<option ' . $selected . ' value="' . $location . '">' . $menu . '</option>';
+                    <?php foreach ($menus as $menu_id => $menu) {
+                        $selected = ($this->is_assigned_this_menu($page_id, $menu_id)) ? "selected" : "";
+                        echo '<option ' . $selected . ' value="' . $menu_id . '">' . $menu . '</option>';
                     } ?>
 
                 </select>
@@ -288,12 +284,12 @@ if (!class_exists("cmplz_document")) {
             if (!current_user_can('manage_options')) return;
 
             if (isset($_POST['cmplz_assigned_menu'])) {
-                foreach ($_POST['cmplz_assigned_menu'] as $page_id => $location) {
-                    if (empty($location)) continue;
-                    if ($this->is_assigned_this_menu($page_id, $location)) continue;
+                foreach ($_POST['cmplz_assigned_menu'] as $page_id => $menu_id) {
+                    if (empty($menu_id)) continue;
+                    if ($this->is_assigned_this_menu($page_id, $menu_id)) continue;
 
                     $page = get_post($page_id);
-                    $menu_id = $this->get_menu_id_by_location($location);
+
                     wp_update_nav_menu_item($menu_id, 0, array(
                         'menu-item-title' => get_the_title($page),
                         'menu-item-object-id' => $page->ID,
@@ -315,24 +311,20 @@ if (!class_exists("cmplz_document")) {
 
         public function pages_not_in_menu()
         {
-            $locations = get_theme_mod('nav_menu_locations');
-
-            if (!$locations) return false;
-
             //search in menus for the current post
-
+            $menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id');
             $pages = $this->get_created_pages();
             $pages_in_menu = array();
 
-            foreach ($locations as $location => $menu_id) {
-                if (has_nav_menu($location)) {
-                    $menu_items = wp_get_nav_menu_items($menu_id);
-                    foreach ($menu_items as $post) {
-                        if (in_array($post->object_id, $pages)) {
-                            $pages_in_menu[] = $post->object_id;
-                        }
+            foreach ($menus as $menu_id => $title) {
+
+                $menu_items = wp_get_nav_menu_items($menu_id);
+                foreach ($menu_items as $post) {
+                    if (in_array($post->object_id, $pages)) {
+                        $pages_in_menu[] = $post->object_id;
                     }
                 }
+
             }
             $pages_not_in_menu = array_diff($pages, $pages_in_menu);
             if (count($pages_not_in_menu) == 0) return false;
@@ -340,52 +332,22 @@ if (!class_exists("cmplz_document")) {
             return $pages_not_in_menu;
         }
 
-        /**
-         * Get menu id by location
-         *
-         * @param string $location
-         * @return bool|int
-         */
-
-        public function get_menu_id_by_location($location)
-        {
-            $theme_locations = get_nav_menu_locations();
-            $menu_obj = get_term($theme_locations[$location], 'nav_menu');
-            if (!$menu_obj) return false;
-            return $menu_obj->term_id;
-        }
 
         /**
          *
-         * Check if a page is assigned to a menu location
+         * Check if a page is assigned to a menu
          * @since 1.2
          * @param int $page_id
-         * @param string $location
+         * @param int $menu_id
          * @return bool
          *
          */
 
-        public function is_assigned_this_menu($page_id, $location)
+        public function is_assigned_this_menu($page_id, $menu_id)
         {
-            $locations = get_theme_mod('nav_menu_locations');
+            $menu_items = wp_list_pluck(wp_get_nav_menu_items($menu_id),'object_id');
+            return (in_array($page_id, $menu_items));
 
-            if (!$locations) return false;
-
-            foreach ($locations as $location_key => $menu_id) {
-                if ($location_key !== $location) continue;
-                if (has_nav_menu($location_key)) {
-
-                    if (has_nav_menu($location_key)) {
-                        $menu_items = wp_get_nav_menu_items($menu_id);
-
-                        foreach ($menu_items as $post) {
-                            if ($post->object_id == $page_id) return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
         }
 
         /**

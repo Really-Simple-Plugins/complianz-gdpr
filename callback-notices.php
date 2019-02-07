@@ -94,7 +94,7 @@ function cmplz_notice_statistics_script(){
 
 
 /*
- * For the cookie page and the US banner we need a link to the privacy policy.
+ * For the cookie page and the US banner we need a link to the privacy statement.
  * In free, and in premium when the privacy statement is not enabled, we choose the WP privacy page. If it is not set, the user needs to create one.
  *
  *

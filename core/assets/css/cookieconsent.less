@@ -20,16 +20,14 @@
     background-color: rgba(0,0,0,0.5); /* Black background with opacity */
     color:#fff;
     text-align:center;
+    /*make sure the container is on top of the iframe */
+    z-index: 99999;
   }
 }
 
 //because the US banner requires two links, we have a comma after the link, which is ugly with padding
 .cc-link {
   padding-right: 0;
-}
-.cc-banner .cc-btn:last-child,
-.cc-theme-classic .cc-btn:last-child {
-  min-width: 140px
 }
 
 @media screen and (max-width: 768px) {

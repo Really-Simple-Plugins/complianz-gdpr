@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.1.1
+Stable tag: 2.1.3
 
 Complianz | GDPR Cookie Consent includes GDPR, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
@@ -87,6 +87,24 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 2.1.3 =
+* Tweak: Purpose description for EU not needed in all situations
+* Tweak: Split US and EU cookie banner text, to be configured separately
+* Tweak: created a setting to configure blocked content text
+* Tweak: Changed check on WP_DEBUG to SCRIPT_DEBUG for scripts
+* Tweak: added placeholder to blocked iframes to prevent reloading to homepage
+* Fix: In US cookie policy, "we ask consent for statistics" is removed
+* Fix: In EU cookie policy, "we ask consent for statistics" is shown conditionally, based on anonymization settings of the statistics tool
+* Tweak: added upgrade links
+* Fix: empty localstorage and cookie array causing an warning
+* Tweak: close button on modal help windows
+* Fix: when choosing to configure your statistics yourself instead of matomo/analytics/tagmanager, a warning kept showing in the dashboard.
+* Tweak: accept button not fitting in banner when using a very long decline text
+* Fix: for paragraphs with both a field condition and a callback condition, the code did not enforce both conditions
+* Fix: clang redirect to en locale not adjusted for Gutenberg block recognition
+
+2.1.2
+* Fix: extra line break in readme causing readme not to get parsed correctly
 
 = 2.1.1 =
 * Fix: changed text domain to make compatible with WordPress. If you have custom translations, please rename the files from 'complianz-en_US.po' to 'complianz-gdpr-en_US.po'

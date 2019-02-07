@@ -49,8 +49,18 @@ $this->document_elements['cookie-statement'] = array(
     //analytical
     'cookies-analytical' => array(
         'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website. We ask your permission to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_uses_statistics',
+    ),
+
+    array(
+        'content' => _x('We ask your permission to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'callback_condition' => 'cmplz_cookie_warning_required_stats',
+    ),
+
+    array(
+        'content' => _x('Because statistics are being tracked anonymously, no permission is asked for to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
     ),
 
     'cookies-analytical-no' => array(
@@ -83,6 +93,9 @@ $this->document_elements['cookie-statement'] = array(
         'content' => _x('On our website we do not use social media buttons to promote web pages or share them on social networks.', 'Legal document cookie policy', 'complianz-gdpr'),
         'condition' => array('uses_social_media' => 'no'),
     ),
+
+
+
     'social-media-yes' => array(
         'subtitle' => _x('Social media buttons', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => sprintf(_x('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you. Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible. %s are located in the United States.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),

@@ -1049,9 +1049,13 @@ if (!class_exists("cmplz_cookie")) {
                 $found_cookies = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $_POST['cookies']);
+                if (!is_array($found_cookies)) $found_cookies = array();
+
                 $found_storage = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $_POST['lstorage']);
+                if (!is_array($found_storage)) $found_storage = array();
+
 
                 $found_cookies = array_merge($found_cookies, $_COOKIE, $found_storage);
                 $found_cookies = array_map('sanitize_text_field', $found_cookies);
@@ -1524,6 +1528,9 @@ if (!class_exists("cmplz_cookie")) {
 
         public function analytics_configured()
         {
+            //if the user has chosen to configure it himself, we consider it to be configured.
+            if (cmplz_get_value('configuration_by_complianz')==='no') return true;
+
             $UA_code = COMPLIANZ()->field->get_value('UA_code');
             if (!empty($UA_code)) return true;
 
@@ -1532,6 +1539,8 @@ if (!class_exists("cmplz_cookie")) {
 
         public function tagmanager_configured()
         {
+            //if the user has chosen to configure it himself, we consider it to be configured.
+            if (cmplz_get_value('configuration_by_complianz')==='no') return true;
             $GTM_code = COMPLIANZ()->field->get_value('GTM_code');
             if (!empty($GTM_code)) return true;
 
@@ -1540,6 +1549,9 @@ if (!class_exists("cmplz_cookie")) {
 
         public function matomo_configured()
         {
+            //if the user has chosen to configure it himself, we consider it to be configured.
+            if (cmplz_get_value('configuration_by_complianz')==='no') return true;
+
             $matomo_url = COMPLIANZ()->field->get_value('matomo_url');
             $site_id = COMPLIANZ()->field->get_value('matomo_site_id');
             if (!empty($matomo_url) && !empty($site_id)) return true;

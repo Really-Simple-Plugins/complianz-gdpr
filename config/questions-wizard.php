@@ -25,6 +25,48 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 // MY COMPANY SECTION
 $this->fields = $this->fields + array(
+        'cookie-policy' => array(
+            'step' => STEP_COMPANY,
+            'section' => 1,
+            'page' => 'wizard',
+            'default' => 'yes',
+            'type' => 'radio',
+            'options' => $this->yes_no,
+            'disabled' => true,
+            'label' => __("A cookie policy will be added automatically to your site", 'complianz-gdpr'),
+            'required' => false,
+            'help' => __('A cookie policy is default enabled on your site. This option is just to make the generation of this document explicit.'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'privacy-statement' => array(
+            'step' => STEP_COMPANY,
+            'section' => 1,
+            'disabled' => true,
+            'page' => 'wizard',
+            'type' => 'radio',
+            'default' => 'no',
+            'label' => __("Do you want to add a privacy statement on your site?", 'complianz-gdpr'),
+            'options' => $this->yes_no,
+            'comment' => $this->premium_privacypolicy,
+            'required' => false,
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'disclaimer' => array(
+            'step' => STEP_COMPANY,
+            'section' => 1,
+            'page' => 'wizard',
+            'default' => 'no',
+            'disabled' => true,
+            'type' => 'radio',
+            'options' => $this->yes_no,
+            'label' => __("Do you want to add a disclaimer on your site?", 'complianz-gdpr'),
+            'comment' => $this->premium_disclaimer,
+            'required' => false,
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
         'notice_missing_privacy_page'=> array(
             'step' => STEP_COMPANY,
             'section' => 3,
@@ -45,7 +87,7 @@ $this->fields = $this->fields + array(
             ),
             'label' => __("Which region(s) do you target with your website?", 'complianz-gdpr'),
             'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz-gdpr'),
-            'comment' => sprintf(__("If you want to target customers from several regions, you might consider the %spremium%s version, which offers this capability.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
+            'comment' => sprintf(__("If you want to target customers from several regions, consider upgrading to the %spremium version%s, which offers a full featured Privacy Suite for both regions.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
@@ -163,6 +205,7 @@ $this->fields = $this->fields + array(
             'help' => __("Also consider future purposes. Regarding personalized products: these are products and/or services which are personalized based on visitor's behavior. E.g. advertisements based on pages visited.", 'complianz-gdpr'),
             'required' => true,
             'options' => $this->purposes,
+            'callback_condition' => array('regions' => 'us'),
             'callback_notice' => 'purpose_personal_data',
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),

@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->document_elements['cookie-statement-us'] = array(
     array(
-        'content' => '<i>' . sprintf("This 'Do Not Sell My Personal Information' page was last changed on %s, last checked on %s and applies to citizens of the United States. ", '[publish_date]', '[checked_date]') . '</i>',
+        'content' => '<i>' . sprintf("This page was last changed on %s, last checked on %s and applies to citizens of the United States. ", '[publish_date]', '[checked_date]') . '</i>',
     ),
     array(
         'title' => 'Introduction',
@@ -62,7 +62,7 @@ $this->document_elements['cookie-statement-us'] = array(
     //analytical
     array(
         'subtitle' => 'Analytical cookies',
-        'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website. We ask your permission to place analytical cookies.',
+        'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.',
         'callback_condition' => 'cmplz_uses_statistics',
     ),
 
@@ -174,7 +174,7 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'title' => 'Selling data to third parties',
         'content' => 'We do not sell data to third parties',
-        'callback_condition' => 'NOT cmplz_sells_personal_data',
+//        'callback_condition' => 'NOT cmplz_sells_personal_data',
         'condition' => array(
             'california' => 'yes',
         ),

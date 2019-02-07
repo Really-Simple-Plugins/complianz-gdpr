@@ -22,7 +22,10 @@ if (!class_exists("cmplz_config")) {
         public $eu_countries;
         public $premium_geo_ip;
         public $premium_ab_testing;
+        public $premium_privacypolicy;
+        public $premium_disclaimer;
         public $collected_info_children;
+        public $steps_to_review_on_changes;
 
         function __construct()
         {
@@ -37,13 +40,16 @@ if (!class_exists("cmplz_config")) {
                 'no' => __('No', 'complianz-gdpr'),
             );
 
+            $this->steps_to_review_on_changes = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
             $this->premium_geo_ip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
             $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_privacypolicy = sprintf(__("A comprehensive, legally validated privacy statement is part of the %spremium%s plugin.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_disclaimer = sprintf(__("A comprehensive, legally validated disclaimer is part of the %spremium%s plugin.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
 
             /* config files */
             require_once(cmplz_path . '/config/countries.php');
             require_once(cmplz_path . '/config/purpose.php');
-            require_once(cmplz_path . '/config/known-cookies.php');
+            require_once(cmplz_path . '/config/cookie-database.php');
             require_once(cmplz_path . '/config/steps.php');
             require_once(cmplz_path . '/config/warnings.php');
             require_once(cmplz_path . '/config/cookie-settings.php');
@@ -85,10 +91,6 @@ if (!class_exists("cmplz_config")) {
         static function this()
         {
             return self::$_this;
-        }
-
-        public function steps_to_review_on_changes(){
-            return (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
         }
 
 

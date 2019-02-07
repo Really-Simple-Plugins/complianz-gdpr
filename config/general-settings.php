@@ -39,6 +39,15 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+        'blocked_content_text' => array(
+            'page' => 'settings',
+            'type' => 'text',
+            'label' => __("Blocked content text", 'complianz-gdpr'),
+            'default' => _x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),
+            'help' => __('The blocked content text appears when for example a Youtube video is embeded. Because Youtube places cookie which require consent, the video will be blocked initially, with an explanatory text.','complianz-gdpr'),
+            'table' => true,
+        ),
+
         'notification_from_email' => array(
             'page' => 'settings',
             'type' => 'email',

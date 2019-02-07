@@ -26,6 +26,7 @@ if (!class_exists("cmplz_company")) {
         {
             $purposes = cmplz_get_value('purpose_personaldata');
             if (isset($purposes['selling-data-thirdparty']) && $purposes['selling-data-thirdparty']) {
+
                 return true;
             }
             return false;

@@ -14,6 +14,16 @@ $this->steps = array(
                     _x('Please note that you can always save and finish the wizard later (if you need a break), use our %sdocumentation%s for additional information or log a support ticket if you need our assistance.', 'intro first step', 'complianz-gdpr').'</p>',
 
                 'sections' => array(
+                    1 => array(
+                        'id' => 'general',
+                        'title' => __('Documents', 'complianz-gdpr'),
+                        'intro' => '<h1>'.__("Hi there!", 'complianz-gdpr').'</h1><p>'.
+                            _x('Welcome to the Complianz Privacy Suite Wizard.','intro first step', 'complianz-gdpr').'</p><p>'.
+                            sprintf(_x('We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!','intro first step', 'complianz-gdpr'),'<a target="_blank" href="https://complianz.io/contact">', '</a>').'<br>'.
+                            _x('The answers in the first step of the wizard are needed to configure your documents and consent banner specifically to your needs.','intro first step', 'complianz-gdpr').'</p><p>'.
+                            sprintf(_x('Please note that you can always save and finish the wizard later (if you need a break), use our %sdocumentation%s for additional information or log a %ssupport ticket%s if you need our assistance.', 'intro first step', 'complianz-gdpr'),'<a target="_blank" href="https://complianz.io/documentation">', '</a>','<a target="_blank" href="https://complianz.io/support">', '</a>').'</p>',
+
+                    ),
                     2 => array('title' => __('Visitors', 'complianz-gdpr'),
                         'intro' => _x('To determine what laws apply, we need to know where your website visitors are coming from.', 'intro company info', 'complianz-gdpr'),
                     ),

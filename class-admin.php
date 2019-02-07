@@ -159,6 +159,16 @@ if (!class_exists("cmplz_admin")) {
             }
 
             /*
+             * Set the value of the US cookie banner message on upgrade
+             * copy message text to message_us
+             * */
+            if (version_compare($prev_version, '2.1.2', '<')) {
+                $settings = get_option('complianz_options_cookie_settings');
+                $settings['message_us'] = $settings['message'];
+                update_option('complianz_options_cookie_settings', $settings);
+            }
+
+            /*
              * If the legal documents have changed, we notify the user of this.
              *
              * */
@@ -214,14 +224,26 @@ if (!class_exists("cmplz_admin")) {
             );
         }
 
+        /**
+         * Add custom link to plugins overview page
+         * @hooked plugin_action_links_$plugin
+         * @param array $links
+         * @return array $links
+         */
 
         public function plugin_settings_link($links)
         {
             $settings_link = '<a href="' . admin_url("admin.php?page=complianz") . '">' . __("Settings", 'complianz-gdpr') . '</a>';
             array_unshift($links, $settings_link);
 
-            $faq_link = '<a target="_blank" href="https://complianz.io/support">' . __('Support', 'complianz-gdpr') . '</a>';
+            $support_link = defined('cmplz_free') ? "https://wordpress.org/support/plugin/complianz-gdpr" : "https://complianz.io/support";
+            $faq_link = '<a target="_blank" href="'.$support_link.'">' . __('Support', 'complianz-gdpr') . '</a>';
             array_unshift($links, $faq_link);
+
+            if (!defined('cmplz_premium')) {
+                $upgrade_link = '<a style="color:#2DAAE1;font-weight:bold" target="_blank" href="https://complianz.io/pricing">' . __('Upgrade to premium', 'complianz-gdpr') . '</a>';
+                array_unshift($links, $upgrade_link);
+            }
 
             return $links;
         }
@@ -367,6 +389,18 @@ if (!class_exists("cmplz_admin")) {
                 "cmplz-settings",
                 array($this, 'settings')
             );
+
+            if (defined('cmplz_free') && cmplz_free){
+                global $submenu;
+                $class = 'cmplz-submenu';
+                $submenu['complianz'][] = array(__('Upgrade to premium','complianz-gdpr'), 'manage_options', 'https://complianz.io/pricing');
+                if (isset($submenu['complianz'][5])) {
+                    if (!empty($submenu['complianz'][5][4])) // Append if css class exists
+                        $submenu['complianz'][5][4] .= ' ' . $class;
+                    else
+                        $submenu['complianz'][5][4] = $class;
+                }
+            }
 
             do_action('cmplz_admin_menu');
 
@@ -546,7 +580,7 @@ if (!class_exists("cmplz_admin")) {
             ?>
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Really Simple SSL', 'complianz-gdpr'); ?></div>
-                <div class="cmplz-footer-description"><?php echo __('Trusted by over 1 million WordPress users', 'complianz-gdpr'); ?></div>
+                <div class="cmplz-footer-description"><?php echo __('Trusted by over 2 million WordPress users', 'complianz-gdpr'); ?></div>
                 <a href="https://really-simple-ssl.com" target="_blank">
                     <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>

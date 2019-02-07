@@ -122,6 +122,32 @@ if (!class_exists("cmplz_document_core")) {
         public function insert_element($element, $post_id)
         {
 
+            if ($this->callback_condition_applies($element) && $this->condition_applies($element, $post_id)) return true;
+
+            return false;
+
+        }
+
+        public function callback_condition_applies($element){
+
+            if (isset($element['callback_condition'])) {
+                $invert = false;
+                $func = $element['callback_condition'];
+                if (strpos($func, 'NOT ')!== FALSE){
+                    $invert = true;
+                    $func = str_replace('NOT ', '', $func);
+                }
+
+                if (!function_exists($func)) return true;
+                $show_field = $func();
+                if ($invert) $show_field = !$show_field;
+                if (!$show_field) return false;
+            }
+            return true;
+        }
+
+
+        public function condition_applies($element, $post_id){
             if (isset($element['condition'])) {
                 $fields = COMPLIANZ()->config->fields();
                 $condition_met = true;
@@ -154,26 +180,14 @@ if (!class_exists("cmplz_document_core")) {
                 return $invert ? !$condition_met : $condition_met;
 
             }
-
-            if (isset($element['callback_condition'])) {
-                $invert = false;
-                $func = $element['callback_condition'];
-                if (strpos($func, 'NOT ')!== FALSE){
-                    $invert = true;
-                    $func = str_replace('NOT ', '', $func);
-                }
-                $show_field = $func();
-                if ($invert) $show_field = !$show_field;
-                if (!$show_field) return false;
-            }
             return true;
         }
 
 
-        /*
+        /**
          * Check if this element should loop through dynamic multiple values
-         *
-         *
+         * @param array $element
+         * @return bool
          * */
 
         public function is_loop_element($element)
@@ -186,6 +200,14 @@ if (!class_exists("cmplz_document_core")) {
 
             return false;
         }
+
+        /**
+         * Build a legal document by type
+         *
+         * @param string $type
+         * @param bool|int $post_id
+         * @return string
+         */
 
         public function get_document_html($type, $post_id = false)
         {

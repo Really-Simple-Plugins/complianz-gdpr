@@ -31,6 +31,8 @@ $this->eu_countries = array(
     "SE"
 );
 
+
+
 $this->regions = array(
     'us' => array(
         'label' => __('US', 'complianz-gdpr'),
@@ -50,6 +52,8 @@ $this->regions = array(
 $this->cookie_consent_converter = array(
     "GB" => "UK",
 );
+
+
 
 $this->countries = array
 (
