@@ -22,6 +22,8 @@ if (!class_exists("cmplz_config")) {
         public $eu_countries;
         public $premium_geo_ip;
         public $premium_ab_testing;
+        public $premium_privacypolicy;
+        public $premium_disclaimer;
         public $collected_info_children;
         public $steps_to_review_on_changes;
 
@@ -38,61 +40,52 @@ if (!class_exists("cmplz_config")) {
                 'no' => __('No', 'complianz-gdpr'),
             );
 
+            $this->steps_to_review_on_changes = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
             $this->premium_geo_ip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
             $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_privacypolicy = sprintf(__("A comprehensive, legally validated privacy statement is part of the %spremium%s plugin.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
+            $this->premium_disclaimer = sprintf(__("A comprehensive, legally validated disclaimer is part of the %spremium%s plugin.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
 
-            define('CMPLZ_MINUTES_PER_QUESTION', 0.33);
-            define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.1);
-            if (!defined('CMPLZ_MAIN_MENU_POSITION')) define('CMPLZ_MAIN_MENU_POSITION', 40);
-            if (!defined('CMPLZ_PROCESSING_MENU_POSITION')) define('CMPLZ_PROCESSING_MENU_POSITION', 41);
-            if (!defined('CMPLZ_DATALEAK_MENU_POSITION')) define('CMPLZ_DATALEAK_MENU_POSITION', 42);
-
-            //default region code
-            if (!defined('CMPLZ_DEFAULT_REGION')) define('CMPLZ_DEFAULT_REGION',  'us');
-
-            /*
-             * The legal version is only updated when document contents or the questions leading to it are changed
-             * 1: start version
-             * 2: introduction of US privacy questions
-             *
-             * */
-            define('CMPLZ_LEGAL_VERSION', '3');
-
-            /*statistics*/
-            if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days
-
-            define('STEP_COMPANY', 1);
-            define('STEP_PLUGINS', 2);
-            define('STEP_COOKIES', 2);
-            define('STEP_MENU',    3);
-            define('STEP_FINISH',  4);
-
-            $this->steps_to_review_on_changes = (STEP_PLUGINS==STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS.", ".STEP_COOKIES;
-
-
+            /* config files */
             require_once(cmplz_path . '/config/countries.php');
-            $this->init_arrays();
-
-            require_once(cmplz_path . '/config/known-cookies.php');
+            require_once(cmplz_path . '/config/purpose.php');
+            require_once(cmplz_path . '/config/cookie-database.php');
             require_once(cmplz_path . '/config/steps.php');
-
-
             require_once(cmplz_path . '/config/warnings.php');
             require_once(cmplz_path . '/config/cookie-settings.php');
             require_once(cmplz_path . '/config/general-settings.php');
             require_once(cmplz_path . '/config/social-media-markers.php');
-
             require_once(cmplz_path . '/config/questions-wizard.php');
             require_once(cmplz_path . '/config/dynamic-fields.php');
             require_once(cmplz_path . '/config/dynamic-document-elements.php');
-
             require_once(cmplz_path . '/config/documents/documents.php');
             require_once(cmplz_path . '/config/documents/cookie-policy.php');
             require_once(cmplz_path . '/config/documents/cookie-policy-us.php');
 
+            if (file_exists(cmplz_path . '/pro/config/')) {
+                require_once(cmplz_path . '/pro/config/steps.php');
+                require_once(cmplz_path . '/pro/config/warnings.php');
+                require_once(cmplz_path . '/pro/config/questions-wizard.php');
+                require_once(cmplz_path . '/pro/config/EU/questions-dataleak.php');
+                require_once(cmplz_path . '/pro/config/US/questions-dataleak.php');
+                require_once(cmplz_path . '/pro/config/EU/questions-processing.php');
+                require_once(cmplz_path . '/pro/config/US/questions-processing.php');
+                require_once(cmplz_path . '/pro/config/dynamic-fields.php');
+                require_once(cmplz_path . '/pro/config/dynamic-document-elements.php');
+                require_once(cmplz_path . '/pro/config/documents/US/dataleak-report.php');
+                require_once(cmplz_path . '/pro/config/documents/US/privacy-policy.php');
+                require_once(cmplz_path . '/pro/config/documents/US/processing-agreement.php');
+                require_once(cmplz_path . '/pro/config/documents/US/privacy-policy-children.php');
+                require_once(cmplz_path . '/pro/config/documents/documents.php');
+                require_once(cmplz_path . '/pro/config/documents/disclaimer.php');
+                require_once(cmplz_path . '/pro/config/documents/EU/privacy-policy.php');
+                require_once(cmplz_path . '/pro/config/documents/EU/processing-agreement.php');
+                require_once(cmplz_path . '/pro/config/documents/EU/dataleak-report.php');
+            }
 
             add_action('plugins_loaded', array($this,'init'), 10);
 
+            //$this->init();
         }
 
         static function this()
@@ -107,12 +100,17 @@ if (!class_exists("cmplz_config")) {
             foreach ($steps as $step){
                 if (!isset($step['sections'])) continue;
                 $sections = $step['sections'];
-                foreach($sections as $key => $section){
-                    if (isset($section['id']) && $section['id']===$id) return $key;
-                }
-
+                //because the step arrays start with one instead of 0, we increase with one
+                return array_search($id, array_column($sections, 'id'))+1;
             }
 
+        }
+
+        public function get_step_by_id($id) {
+
+            $steps = $this->steps['wizard'];
+            //because the step arrays start with one instead of 0, we increase with one
+            return array_search($id, array_column($steps, 'id'))+1;
         }
 
 
@@ -129,97 +127,27 @@ if (!class_exists("cmplz_config")) {
             return $html;
         }
 
-        public function get_step_by_id($id) {
-
-            $steps = $this->steps['wizard'];
-            foreach($steps as $key => $step){
-                if (isset($step['id']) && $step['id']===$id) return $key;
-            }
-
-        }
-
-        public function init_arrays(){
-
-            $this->purposes = array(
-                'contact' => __('Contact - Through phone,  mail, e-mail and/or webforms', 'complianz-gdpr'),
-                'payments' => __('Payments', 'complianz-gdpr'),
-                'register-account' => __('Registering an account', 'complianz-gdpr'),
-                'newsletters' => __('Newsletters', 'complianz-gdpr'),
-                'support-services' => __('To support services or products that your customer wants to buy or have purchased', 'complianz-gdpr'),
-                'legal-obligations' => __('To be able to comply with legal obligations', 'complianz-gdpr'),
-                'statistics' => __('Compiling and analyzing statistics for website improvement.', 'complianz-gdpr'),
-                'offer-personalized-products' => __('To be able to offer personalized products and services.', 'complianz-gdpr'),
-            );
-
-            if (cmplz_has_region('us')) {
-                $this->purposes['selling-data-thirdparty'] = __('To sell data to third parties', 'complianz-gdpr');
-            }
-            $this->details_per_purpose_us = array(
-                'first-lastname' => __('A first and last name', 'complianz-gdpr'),
-                'accountname-alias' => __('Accountname or alias', 'complianz-gdpr'),
-                'address' => __('A home or other physical address, including street name and name of a city or town', 'complianz-gdpr'),
-                'email' => __('An e-mail address', 'complianz-gdpr'),
-                'phone' => __('A telephone number', 'complianz-gdpr'),
-                'social-security' => __('A social security number', 'complianz-gdpr'),
-                'any-other' => __('Any other identifier that permits the physical or online contacting of a specific individual', 'complianz-gdpr'),
-                'ip' => __('IP adres', 'complianz-gdpr'),
-                'signature' => __('A signature', 'complianz-gdpr'),
-                'physical-characteristic' => __('Physical characteristics or description', 'complianz-gdpr'),
-                'passport' => __('Passport number', 'complianz-gdpr'),
-                'drivers-license' => __("Driver's license", 'complianz-gdpr'),
-                'state-id' => __('State identification card number', 'complianz-gdpr'),
-                'insurance-policy' => __('Insurance policy number', 'complianz-gdpr'),
-                'education' => __('Education information', 'complianz-gdpr'),
-                'employment' => __('Professional or employment-related information', 'complianz-gdpr'),
-                'employment-history' => __('Employment history', 'complianz-gdpr'),
-                'bank-account' => __('Bank account number', 'complianz-gdpr'),
-                'financial-information' => __('Financial information such as bank account number of credit card number', 'complianz-gdpr'),
-                'medical' => __('Medical information', 'complianz-gdpr'),
-                'health-insurcance' => __('Health insurance information', 'complianz-gdpr'),
-                'commercial' => __('Commercial information, including records of personal property, products or services purchased, obtained, or considered', 'complianz-gdpr'),
-                'biometric' => __('Biometric information', 'complianz-gdpr'),
-                'internet' => __("Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.", 'complianz-gdpr'),
-                'geo' => __('Geolocation data', 'complianz-gdpr'),
-                'audio' => __('Audio, electronic, visual, thermal, olfactory, or simular information', 'complianz-gdpr'),
-            );
-
-
-            $this->collected_info_children = array(
-                'name' => __('a first and last name','complianz-gdpr'),
-                'address' => __('a home or other physical address including street name and name of a city or town','complianz-gdpr'),
-                'email-child' => __('an email adress from the child','complianz-gdpr'),
-                'email-parent' => __('an email adress from the parent or guardian','complianz-gdpr'),
-                'phone' => __('a telephone number','complianz-gdpr'),
-                'social-security-nr' => __('a Social Security number','complianz-gdpr'),
-                'identifier-online' => __('an identifier that permits the physical or online contacting of a child','complianz-gdpr'),
-                'other' => __('other information concerning the child or the parents, combined with an identifier as described above.','complianz-gdpr'),
-            );
-
-
-        }
 
 
         public function fields($page = false, $step = false, $section = false, $variant_id = '')
         {
 
             $output = array();
-
-
             $fields = $this->fields;
             if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'page', $page);
 
             foreach ($fields as $fieldname => $field) {
                 if ($step) {
-                    if ($this->has_sections($page, $step) && $section && isset($field['section'])) {
+                    if ($section && isset($field['section'])) {
                         if (($field['step'] == $step) && ($field['section'] == $section)) $output[$fieldname] = $field;
                     } else {
                         if (($field['step'] == $step)) $output[$fieldname] = $field;
                     }
                 }
                 if (!$step) {
-                    //the variant id is only used for cookies, which does not use steps or sections, so it's only applied here.
-                    $field_variant_id = (!isset($field['has_variations']) || !$field['has_variations']) ? '' : $variant_id;
-                    $output[$fieldname . $field_variant_id] = $field;
+                        //the variant id is only used for cookies, which does not use steps or sections, so it's only applied here.
+                        $field_variant_id = (!isset($field['has_variations']) || !$field['has_variations']) ? '' : $variant_id;
+                        $output[$fieldname . $field_variant_id] = $field;
                 }
 
             }
@@ -229,7 +157,6 @@ if (!class_exists("cmplz_config")) {
 
         public function has_sections($page, $step)
         {
-
             if (isset($this->steps[$page][$step]["sections"])) {
                 return true;
             }
@@ -238,11 +165,11 @@ if (!class_exists("cmplz_config")) {
         }
 
         public function init()
+
         {
             $this->fields = apply_filters('cmplz_fields', $this->fields);
+
             $this->document_elements = apply_filters('cmplz_document_elements', $this->document_elements, $this->fields());
-
-
         }
 
 

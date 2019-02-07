@@ -6,7 +6,9 @@ jQuery(document).ready(function ($) {
         $("#cookie-settings").submit();
     });
 
-    $(document).on('click', '.cmplz_delete_variation', function () {
+    $(document).on('click', '.cmplz_delete_variation', function (e) {
+
+        e.preventDefault();
         var btn = $(this);
         var delete_variation_id = btn.data('id');
         $.ajax({
@@ -20,7 +22,8 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     btn.closest('.cmplz-panel').remove();
-                    if (delete_variation_id == variation_id) {
+                    if (parseInt(delete_variation_id) === parseInt(variation_id)) {
+                        console.log('removing');
                         $('.cmplz-tabcontent').each(function () {
                             $(this).remove();
                         });
@@ -32,6 +35,8 @@ jQuery(document).ready(function ($) {
         });
 
     });
+
+
     var ccName;
 
     $('.cmplz-color-picker').wpColorPicker({
@@ -85,8 +90,11 @@ jQuery(document).ready(function ($) {
     setTimeout(function () {
         for (var i = 0; i < tinymce.editors.length; i++) {
             tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
+                var region = '';
+                if (ccRegion !== 'eu') region = '_'+ccRegion;
+
                 var link = $(".cc-message").find('a').html();
-                var editor_id = 'cmplz_message' + variation_id;
+                var editor_id = 'cmplz_message'+region + variation_id;
                 var textarea_id = 'cmplz_message' + variation_id;
                 if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
                 if (typeof textarea_id == 'undefined') textarea_id = editor_id;
@@ -154,10 +162,7 @@ jQuery(document).ready(function ($) {
         cmplz_cookie_warning();
     });
 
-
-
     cmplz_cookie_warning();
-
     function cmplz_cookie_warning() {
 
         var ccDismiss;
@@ -166,12 +171,10 @@ jQuery(document).ready(function ($) {
             ccName.fadeOut();
             ccName.destroy();
         }
-        console.log(ccRegion);
+
         if (ccRegion === 'eu'){
-            console.log("regino EU");
             ccDismiss = $('input[name=cmplz_dismiss' + variation_id + ']').val();
         } else {
-            console.log("region US");
             ccDismiss = $('input[name=cmplz_accept_informational' + variation_id + ']').val();
         }
         var ccCategories = $('input[name=cmplz_use_categories' + variation_id + ']').is(':checked');
@@ -182,7 +185,9 @@ jQuery(document).ready(function ($) {
             ccHideRevoke = '';
         }
 
-        var ccMessage = $('textarea[name=cmplz_message' + variation_id + ']').val();
+        var varMsgRegion = '';
+        if (ccRegion !== 'eu') varMsgRegion = '_'+ccRegion;
+        var ccMessage = $('textarea[name=cmplz_message'+ varMsgRegion + variation_id + ']').val();
         var ccAllow = $('input[name=cmplz_accept' + variation_id + ']').val();
         var ccLink = $('input[name=cmplz_readmore' + variation_id + ']').val();
         var ccStatic = false;

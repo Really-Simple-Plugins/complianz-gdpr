@@ -73,6 +73,10 @@ jQuery(document).ready(function ($) {
         help_modal.show();
     });
 
+    $(document).on('click', '.cmplz-help-modal span', function(e){
+        $(this).closest('.cmplz-help-modal').hide();
+    });
+
 
     //colorpicker in the wizard
     $('.cmplz-color-picker').wpColorPicker({

@@ -1,6 +1,23 @@
 @brand-primary: #2DAAE1;
 @border-radius: 25px;
 @gray: #c6c6c6;
+
+/*
+    Complianz submenu in wp admin
+*/
+
+.wp-submenu {
+.cmplz-submenu a{
+    font-weight:bold;
+    color:@brand-primary !important;
+  }
+}
+
+.wp-editor-wrap iframe {
+  height:initial !important;
+}
+
+
 div.field-group .cmplz-help-modal{
   margin-left:62%;
 }
@@ -9,6 +26,10 @@ tr.field-group .cmplz-help-modal{
 }
 
 .cmplz-help-modal {
+  span {
+    float: right;
+    cursor: pointer;
+  }
   display:none;
   padding:15px 30px;
   border-radius: .25rem;
@@ -16,9 +37,9 @@ tr.field-group .cmplz-help-modal{
   border-color: #bcdff1;
   color: #31708f;
   text-align: left;
-  -webkit-box-shadow:0 5px 10px #303030;
-  -moz-box-shadow:0 5px 10px #303030;
-  box-shadow:0 2px 10px #303030;
+  -webkit-box-shadow:2px 2px 3px #b4b9be;
+  -moz-box-shadow:2px 2px 3px #b4b9be;
+  box-shadow:2px 2px 3px #b4b9be;
 }
 a.button.cmplz-open-modal{
   font-size: 9px;
@@ -33,6 +54,8 @@ a.button.cmplz-open-modal{
 }
 .cmplz-panel-link{
   text-decoration:none;
+  display: inline-block;
+  width: 80%;
 }
 .cmplz-panel {
 
@@ -726,8 +749,10 @@ html .mceContentBody {
   }
 
   //Override the WordPress radio and checkbox styling
-
   input[type=radio], input[type=checkbox] {
+    &:disabled {
+      border:0;
+    }
     font-size: 14px;
     border: 1px solid #b4b9be;
     background: #fff;

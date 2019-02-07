@@ -100,8 +100,10 @@ jQuery(document).ready(function ($) {
         });
 
         //fire an event so custom scripts can hook into this.
-        var event = new CustomEvent("cmplzEnableScripts");
-        document.dispatchEvent(event);
+        if (!cmplzIsIE()) {
+            var event = new CustomEvent("cmplzEnableScripts");
+            document.dispatchEvent(event);
+        }
 
         ccAllEnabled = true;
     }
@@ -131,8 +133,10 @@ jQuery(document).ready(function ($) {
         });
 
         //fire an event so custom scripts can hook into this.
-        var event = new CustomEvent("cmplzEnableStats");
-        document.dispatchEvent(event);
+        if (!cmplzIsIE()) {
+            var event = new CustomEvent("cmplzEnableStats");
+            document.dispatchEvent(event);
+        }
     }
 
 
@@ -205,21 +209,20 @@ jQuery(document).ready(function ($) {
 
         if (!cmplz_user_data.do_not_track) {
             if (cmplz_user_data.region === 'eu') {
-
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
-                console.log(complianz.dismiss_on_timeout);
-                console.log('eu, opt-in');
+                console.log('EU, opt-in');
                 cmplz_cookie_warning();
             } else if (cmplz_user_data.region === 'us') {
-                console.log('us, opt-out');
+                console.log('US, opt-out');
                 complianz.type = 'opt-out';
                 // complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_us;
                 complianz.dismiss = complianz.accept_informational;
+                complianz.message = complianz.message_us;
                 ccPrivacyLink= complianz.privacy_link;
                 cmplz_cookie_warning();
             } else {
@@ -756,6 +759,30 @@ jQuery(document).ready(function ($) {
 
         //we run it after the deletion of cookies, as there are cookies to be set.
         cmplzIntegrationsRevoke();
+    }
+
+    /*
+    *
+    * Check if browser is IE <=11, which doesn't support the customEvent
+    * */
+
+    function cmplzIsIE() {
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0) {
+            // IE 10 or older => return version number
+            return true;
+        }
+
+        var trident = ua.indexOf('Trident/');
+        if (trident > 0) {
+            // IE 11 => return version number
+            return true;
+        }
+
+        return false;
     }
 
 });

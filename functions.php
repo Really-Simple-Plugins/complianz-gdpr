@@ -349,20 +349,19 @@ if (!function_exists('cmplz_list_item')) {
         if ($title == '') return;
         $selected = $selected ? "selected" : '';
         ?>
-        <a class="cmplz-panel-link" href="<?php echo $link ?>">
+
             <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
                 <div class="cmplz-panel-title">
-
+                    <a class="cmplz-panel-link" href="<?php echo $link ?>">
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
                     <span class="cmplz-title"><?php echo $title ?></span>
-
                  </span>
+                    </a>
 
                     <?php echo $btn ?>
                 </div>
             </div>
-        </a>
         <?php
 
     }
@@ -519,14 +518,20 @@ if (!function_exists('cmplz_no_ip_addresses')) {
     function cmplz_no_ip_addresses()
     {
         $statistics = cmplz_get_value('compile_statistics', false, 'wizard');
-        $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
-        $matomo = ($statistics === 'matomo') ? true : false;
-        $google_analytics = ($statistics === 'google-analytics') ? true : false;
+
+        //anonymous stats.
+        if ($statistics === 'yes-anonymous') {
+            return true;
+        }
 
         //not anonymous stats.
         if ($statistics === 'yes') {
             return false;
         }
+
+        $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+        $matomo = ($statistics === 'matomo') ? true : false;
+        $google_analytics = ($statistics === 'google-analytics') ? true : false;
 
         if ($google_analytics || $tagmanager) {
             $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info', false, 'wizard') : cmplz_get_value('compile_statistics_more_info_tag_manager', false, 'wizard');
@@ -547,6 +552,13 @@ if (!function_exists('cmplz_no_ip_addresses')) {
         }
 
         return true;
+    }
+}
+
+if (!function_exists('cmplz_cookie_warning_required_stats')) {
+    function cmplz_cookie_warning_required_stats()
+    {
+        return COMPLIANZ()->cookie->cookie_warning_required_stats();
     }
 }
 
@@ -786,8 +798,10 @@ if (!function_exists('cmplz_add_query_arg')) {
 
             if ($post && property_exists($post, 'post_content')) {
                 $pattern = '/cmplz-document type="(.*?)"/i';
-
+                $pattern_gutenberg = '/<!-- wp:complianz\/document {"title":".*?","selectedDocument":"(.*?)"} \/-->/i';
                 if (preg_match_all($pattern, $post->post_content, $matches, PREG_PATTERN_ORDER)) {
+                    if (isset($matches[1][0])) $type = $matches[1][0];
+                } elseif(preg_match_all($pattern_gutenberg, $post->post_content, $matches, PREG_PATTERN_ORDER)) {
                     if (isset($matches[1][0])) $type = $matches[1][0];
                 }
 

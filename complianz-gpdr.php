@@ -3,9 +3,9 @@
  * Plugin Name: Complianz | GDPR Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 2.1.1
+ * Version: 2.1.3
  * Text Domain: complianz-gdpr
- * Domain Path: /config/languages
+ * Domain Path: /languages
  * Author: RogierLankhorst, Complianz team
  * Author URI: https://www.complianz.io
  */
@@ -98,17 +98,43 @@ if (!class_exists('COMPLIANZ')) {
         {
             require_once(ABSPATH . 'wp-admin/includes/plugin.php');
             $plugin_data = get_plugin_data(__FILE__);
+            define('CMPLZ_MINUTES_PER_QUESTION', 0.33);
+            define('CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.1);
+            define('CMPLZ_MAIN_MENU_POSITION', 40);
+            define('CMPLZ_PROCESSING_MENU_POSITION', 41);
+            define('CMPLZ_DATALEAK_MENU_POSITION', 42);
+
+            //default region code
+            if (!defined('CMPLZ_DEFAULT_REGION')) define('CMPLZ_DEFAULT_REGION',  'us');
+
+            /*
+             * The legal version is only updated when document contents or the questions leading to it are changed
+             * 1: start version
+             * 2: introduction of US privacy questions
+             *
+             * */
+            define('CMPLZ_LEGAL_VERSION', '3');
+
+            /*statistics*/
+            if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days
+
+            define('STEP_COMPANY', 1);
+            define('STEP_PLUGINS', 2);
+            define('STEP_COOKIES', 2);
+            define('STEP_MENU',    3);
+            define('STEP_FINISH',  4);
 
             define('cmplz_url', plugin_dir_url(__FILE__));
             define('cmplz_path', plugin_dir_path(__FILE__));
             define('cmplz_plugin', plugin_basename(__FILE__));
-            $debug = (defined('WP_DEBUG') && WP_DEBUG) ? time() : '';
+            $debug = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? time() : '';
             define('cmplz_version', $plugin_data['Version'] . $debug);
             define('cmplz_plugin_file', __FILE__);
         }
 
         private function includes()
         {
+
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
             require_once(cmplz_path . 'class-form.php');

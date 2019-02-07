@@ -69,17 +69,6 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
 
-        'message' => array(
-            'step' => 'general',
-            'page' => 'cookie_settings',
-            'type' => 'editor',
-            'translatable' => true,
-            'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
-            'label' => __("Cookie message", 'complianz-gdpr'),
-            'table' => true,
-            'has_variations' => true,
-        ),
-
         'revoke' => array(
             'page' => 'cookie_settings',
             'step' => 'general',
@@ -195,6 +184,17 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'regions' => 'eu',
             ),
+        ),
+
+        'message' => array(
+            'step' => 'eu',
+            'page' => 'cookie_settings',
+            'type' => 'editor',
+            'translatable' => true,
+            'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
+            'label' => __("Cookie message", 'complianz-gdpr'),
+            'table' => true,
+            'has_variations' => true,
         ),
 
         'readmore' => array(
@@ -317,6 +317,17 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'regions' => 'us',
             ),
+        ),
+
+        'message_us' => array(
+            'step' => 'us',
+            'page' => 'cookie_settings',
+            'type' => 'editor',
+            'translatable' => true,
+            'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
+            'label' => __("Cookie message", 'complianz-gdpr'),
+            'table' => true,
+            'has_variations' => true,
         ),
 
         'readmore_us' => array(

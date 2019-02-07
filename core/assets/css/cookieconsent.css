@@ -298,13 +298,11 @@
   /* Black background with opacity */
   color: #fff;
   text-align: center;
+  /*make sure the container is on top of the iframe */
+  z-index: 99999;
 }
 .cc-link {
   padding-right: 0;
-}
-.cc-banner .cc-btn:last-child,
-.cc-theme-classic .cc-btn:last-child {
-  min-width: 140px;
 }
 @media screen and (max-width: 768px) {
   .cc-revoke {

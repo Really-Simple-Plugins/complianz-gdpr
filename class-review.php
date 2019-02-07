@@ -39,6 +39,7 @@ if (!class_exists("cmplz_review")) {
 
         public function show_leave_review_notice()
         {
+
             /*
              * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
              *

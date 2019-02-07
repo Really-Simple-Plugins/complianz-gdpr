@@ -8,6 +8,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         private static $_this;
         public $script_tags = array();
         public $iframe_tags = array();
+        private $placeholder = cmplz_url.'/core/assets/images/s.png';
+
 
         function __construct()
         {
@@ -93,7 +95,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * */
 
             $known_script_tags = COMPLIANZ()->config->script_tags;
-            $async_list = COMPLIANZ()->config->async_list;
             $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
             if (!empty($custom_scripts) && strlen($custom_scripts)>0){
                 $custom_scripts = explode(',', $custom_scripts);
@@ -101,6 +102,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
             $known_script_tags = apply_filters('cmplz_known_script_tags', $known_script_tags);
 
+            /*
+             * Get async list tags
+             *
+             * */
+
+            $async_list = apply_filters('cmplz_known_async_tags', COMPLIANZ()->config->async_list);
 
             /*
              * Get iframe tags, and add custom user iframes
@@ -152,9 +159,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
-                        $new = $this->replace_src($new, '');
+                        $new = $this->replace_src($new, $this->placeholder);
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
-                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr')).'</div>'.$new.'</div>';
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
                     }
@@ -238,7 +245,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                                     $index ++;
                                     $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
                                     if (cmplz_has_async_documentwrite_scripts()) {
-                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',_x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
+                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
                                     }
                                 }
 
