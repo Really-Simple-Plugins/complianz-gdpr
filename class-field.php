@@ -632,7 +632,8 @@ if (!class_exists("cmplz_field")) {
                     if ($args['disabled']) echo '<input type="hidden" value="'.$args['default'].'" name="'.$fieldname.'">';
                     foreach ($options as $option_value => $option_label) {
                         ?>
-                        <input <?if ($args['disabled']) echo "disabled"?> <?php if ($args['required']) echo 'required'; ?>
+                        <input <?php if ($args['disabled']) echo "disabled"?>
+                                <?php if ($args['required']) echo "required"; ?>
                                 type="radio"
                                 id="<?php echo esc_html($fieldname) ?>"
                                 name="<?php echo esc_html($fieldname) ?>"
@@ -1070,6 +1071,13 @@ if (!class_exists("cmplz_field")) {
             <?php
         }
 
+        /**
+         *
+         * Button/Action field
+         * @param $args
+         * @echo string $html
+         */
+
         public
         function button($args)
         {
@@ -1081,15 +1089,22 @@ if (!class_exists("cmplz_field")) {
             <label><?php echo esc_html($args['label']) ?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
-            <a <?if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
+            <a <?php if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
         <?php } else { ?>
-            <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
+            <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?php if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                                                                                                                                              value="<?php echo esc_html($args['label']) ?>">
         <?php }  ?>
 
             <?php do_action('complianz_after_field', $args); ?>
             <?php
         }
+
+        /**
+         * Upload field
+         * @param $args
+         *
+         * @echo string $html
+         */
 
         public
         function upload($args)
@@ -1103,7 +1118,7 @@ if (!class_exists("cmplz_field")) {
 
             <input type="file" type="submit" name="cmplz-upload-file"
                    value="<?php echo esc_html($args['label']) ?>">
-            <input <?if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
+            <input <?php if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                                                               value="<?php _e('Start', 'complianz-gdpr') ?>">
             <?php do_action('complianz_after_field', $args); ?>
             <?php
