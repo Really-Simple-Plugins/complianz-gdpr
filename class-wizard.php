@@ -152,7 +152,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
-            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && (COMPLIANZ()->document->page_required('privacy-statement') || COMPLIANZ()->document->page_required('privacy-statement-us'))){
+            if (cmplz_wp_privacy_version() && ($this->step('wizard') == STEP_PLUGINS) && cmplz_get_value('privacy-statement')==='yes'){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
                 WP_Privacy_Policy_Content::_policy_page_updated($policy_page_id);
                 //check again, to update the cache.

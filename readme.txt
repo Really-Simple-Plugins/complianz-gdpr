@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.0
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 
 Complianz | GDPR Cookie Consent includes GDPR, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
@@ -28,7 +28,6 @@ IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirem
 * Integrates seamlessly with Monsterinsights, Gravity Forms, Contact Form 7, Woocommerce, Easy Digital Downloads and other popular 	plugins
 * Integrated with WordPress Privacy features.
 * Gutenberg blocks enabled
-* ClassicPress compatible
 * !New: Ready for CCPA. (US Privacy Law)
 
 Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
@@ -87,6 +86,9 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 2.1.4 =
+* Fix: incorrect PHP opening causing input fields malform on some setups
+
 = 2.1.3 =
 * Tweak: Purpose description for EU not needed in all situations
 * Tweak: Split US and EU cookie banner text, to be configured separately
