@@ -1091,7 +1091,7 @@ if (!class_exists("cmplz_field")) {
             <?php if ($args['post_get']==='get'){ ?>
             <a <?php if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
         <?php } else { ?>
-            <input <?if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?php if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
+            <input <?php if ($args['warn']) echo 'onclick="return confirm(\''.$args['warn'].'\');"'?> <?php if ($args['disabled']) echo "disabled"?> class="button" type="submit" name="<?php echo $args['action']?>"
                                                                                                                                              value="<?php echo esc_html($args['label']) ?>">
         <?php }  ?>
 
