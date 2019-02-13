@@ -163,6 +163,8 @@ if (!class_exists("cmplz_form")) {
 
             $contact_form = wpcf7_contact_form( $form_id );
 
+            if (!$contact_form) return;
+
             $properties = $contact_form->get_properties();
 
             //check if it's already there
