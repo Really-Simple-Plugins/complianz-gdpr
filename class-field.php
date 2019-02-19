@@ -130,7 +130,7 @@ if (!class_exists("cmplz_field")) {
 
                 //clear the cookie settings cache for each locale
                 $variation_id = COMPLIANZ()->cookie->selected_variation_id();
-                $locales = get_option('cmplz_supported_locales');
+                $locales = get_option('cmplz_supported_locales', array());
                 foreach ($locales as $locale) {
                     delete_transient('cmplz_cookie_settings_cache_' . $locale . $variation_id);
                 }
