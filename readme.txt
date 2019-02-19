@@ -5,7 +5,7 @@ Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
-Tested up to: 5.0
+Tested up to: 5.1
 Stable tag: 2.1.4
 
 Complianz | GDPR Cookie Consent includes GDPR, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
