@@ -81,6 +81,7 @@ if (!class_exists("cmplz_document_core")) {
 
                     $type = $fields[$condition_question]['type'];
                     $value = cmplz_get_value($condition_question);
+
                     $invert = false;
                     if (strpos($condition_answer, 'NOT ')!==FALSE) {
                         $condition_answer = str_replace('NOT ', '', $condition_answer);
@@ -88,6 +89,7 @@ if (!class_exists("cmplz_document_core")) {
                     }
 
                     if ($type == 'multicheckbox') {
+
                         if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
                             $condition_met = false;
                         } else {
@@ -105,8 +107,9 @@ if (!class_exists("cmplz_document_core")) {
 
                 }
 
-                return $invert ? !$condition_met : $condition_met;
+                $condition_met = $invert ? !$condition_met : $condition_met;
 
+                return $condition_met;
             }
             return false;
 
@@ -211,7 +214,6 @@ if (!class_exists("cmplz_document_core")) {
 
         public function get_document_html($type, $post_id = false)
         {
-
             if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz-gdpr'),$type);
 
             $elements = COMPLIANZ()->config->document_elements[$type];

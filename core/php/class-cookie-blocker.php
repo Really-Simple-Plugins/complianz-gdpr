@@ -1,5 +1,4 @@
 <?php
-/*100% match*/
 defined('ABSPATH') or die("you do not have access to this page!");
 
 if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
@@ -8,8 +7,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         private static $_this;
         public $script_tags = array();
         public $iframe_tags = array();
-        private $placeholder = cmplz_url.'/core/assets/images/s.png';
-
 
         function __construct()
         {
@@ -157,11 +154,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
+                        $placeholder = cmplz_placeholder('iframe', $iframe_src);
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
-                        $new = $this->replace_src($new, $this->placeholder);
+                        $new = $this->replace_src($new, $placeholder);
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
-                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.cmplz_placeholder('iframe', $iframe_src).');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
                     }
@@ -318,7 +316,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         private function replace_src($script, $new_src){
             $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-;]*[\w@?^=%&\/~+#-;]?)[\'"]/i';
-            $new_src = 'src="'.$new_src.'"';
+            $new_src = ' src="'.$new_src.'" ';
             preg_match($pattern, $script, $matches);
             $script = preg_replace($pattern, $new_src, $script);
             return $script;
