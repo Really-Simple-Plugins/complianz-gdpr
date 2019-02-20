@@ -7,6 +7,7 @@ jQuery(document).ready(function ($) {
         $(this).addClass('active');
         $(".cmplz-tabcontent").removeClass('active');
         $("#"+$(this).data('tab')).addClass('active');
+        $('input[name=cmplz_active_tab]').val($(this).data('tab'));
     });
 
     //remove alerts
@@ -69,12 +70,14 @@ jQuery(document).ready(function ($) {
             height += 20;
             help_modal.parent().height(height);
         }
+        help_modal.fadeIn();
 
-        help_modal.show();
+
+
     });
 
     $(document).on('click', '.cmplz-help-modal span', function(e){
-        $(this).closest('.cmplz-help-modal').hide();
+        $(this).closest('.cmplz-help-modal').fadeOut();
     });
 
 
