@@ -55,14 +55,12 @@ jQuery(document).ready(function ($) {
         $('.cmplz-iframe').each(function (i, obj) {
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
-        });
 
-        //for instagram, currently deprecated, as instagram is already blocked by .js file
-        // //images
-        // $('.cmplz-img').each(function (i, obj) {
-        //     var src = $(this).data('src-cmplz');
-        //     $(this).attr('src', src);
-        // });
+            //fitvids needs to be reinitialized, if it is used.
+            if (jQuery.fn.fitVids) {
+                $(this).parent().fitVids();
+            }
+        });
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function (i, obj) {
@@ -283,8 +281,6 @@ jQuery(document).ready(function ($) {
                 if (status === 'allow') {
                     cmplzAcceptAllCookies();
                 }
-
-
 
                 if (status === 'deny' && cmplz_user_data.region === 'us') {
                     cmplzRevoke();
