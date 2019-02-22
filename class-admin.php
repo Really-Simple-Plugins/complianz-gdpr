@@ -17,7 +17,6 @@ if (!class_exists("cmplz_admin")) {
             self::$_this = $this;
             add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
             add_action('admin_menu', array($this, 'register_admin_page'), 20);
-            add_action('admin_notices', array($this, 'show_notices'), 10);
             add_action('admin_init', array($this, 'process_support_request'));
 
             $plugin = cmplz_plugin;
@@ -944,7 +943,7 @@ if (!class_exists("cmplz_admin")) {
 
                 <form id='cookie-settings' action="" method="post">
                     <?php
-
+                    $active_tab = isset($_POST['cmplz_active_tab']) ? sanitize_title($_POST['cmplz_active_tab']) : 'general';
                     $regions = cmplz_get_regions();
                     if (cmplz_multiple_regions()){
                         $single_region = COMPLIANZ()->company->get_default_region();
@@ -953,20 +952,21 @@ if (!class_exists("cmplz_admin")) {
                         reset($single_region);
                         $single_region = key($single_region);
                     }?>
+                    <input type="hidden" name="cmplz_active_tab" value="<?php echo $active_tab?>">
                     <script>
                         var ccRegion='<?php echo $single_region?>';
                     </script>
                     <?php do_action('cmplz_a_b_testing_section');?>
 
                     <div class="cmplz-tab">
-                        <button class="cmplz-tablinks active" type="button" data-tab="general"><?php _e("General", 'complianz-gdpr')?></button>
+                        <button class="cmplz-tablinks <?php if ($active_tab==='general') echo "active"?>" type="button" data-tab="general"><?php _e("General", 'complianz-gdpr')?></button>
                         <?php foreach ($regions as $region_code=>$label){?>
-                            <button class="cmplz-tablinks region-link" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
+                            <button class="cmplz-tablinks region-link <?php if ($active_tab===$region_code) echo "active"?>" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
                         <?php }?>
                     </div>
 
                     <!-- Tab content -->
-                    <div id="general" class="cmplz-tabcontent active">
+                    <div id="general" class="cmplz-tabcontent <?php if ($active_tab==='general') echo "active"?>">
                         <h3><?php _e("General", 'complianz-gdpr')?></h3>
                         <p>
                         <table class="form-table">
@@ -977,7 +977,7 @@ if (!class_exists("cmplz_admin")) {
                     </div>
 
                     <?php foreach ($regions as $region_code=>$label){?>
-                        <div id="<?php echo $region_code?>" class="cmplz-tabcontent region">
+                        <div id="<?php echo $region_code?>" class="cmplz-tabcontent region <?php if ($active_tab===$region_code) echo "active"?>">
                             <h3><?php echo $label?></h3>
                             <p>
                             <table class="form-table">
@@ -1003,24 +1003,6 @@ if (!class_exists("cmplz_admin")) {
                 </form>
             </div>
             <?php
-        }
-
-
-        public function show_notices()
-        {
-            if (!is_user_logged_in()) return;
-
-            if (version_compare(phpversion(), '5.6', '<')) {
-                ?>
-                // php version isn't high enough
-                <div id="message" class="error fade notice cmplz-wp-notice">
-                    <h2><?php echo __("PHP version problem", 'complianz-gdpr'); ?></h2>
-                    <p>
-                        <?php _e("Complianz requires at least PHP version 5.6. Please upgrade your PHP version before continuing.", 'complianz-gdpr'); ?>
-                    </p>
-                </div>
-                <?php
-            }
         }
 
 

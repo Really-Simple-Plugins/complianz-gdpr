@@ -59,7 +59,7 @@ $this->document_elements['cookie-statement'] = array(
     ),
 
     array(
-        'content' => _x('Because statistics are being tracked anonymously, no permission is asked for to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
     ),
 

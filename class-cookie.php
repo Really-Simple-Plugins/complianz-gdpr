@@ -213,10 +213,12 @@ if (!class_exists("cmplz_cookie")) {
             if (isset($_POST['rescan'])) {
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
                 //delete_option('cmplz_deleted_cookies');
+
                 delete_transient('cmplz_detected_cookies');
                 update_option('cmplz_detected_social_media', false);
                 update_option('cmplz_detected_thirdparty_services', false);
-                update_option('cmplz_processed_pages_list', array());
+                $this->reset_pages_list();
+
             }
         }
 
@@ -402,14 +404,15 @@ if (!class_exists("cmplz_cookie")) {
                 $output['version'] = cmplz_version;
                 $output['static'] = false;
                 $output['categories'] = '';
-                switch ($output['position']) {
-                    case 'static':
-                        $output['static'] = true;
-                        $output['position'] = 'top';
-                        break;
-                    case 'edgeless':
-                        $output['border_color'] = false;
-                        break;
+
+                if ($output['position']=='static') {
+                    $output['static'] = true;
+                    $output['position'] = 'top';
+                }
+
+                //When theme is edgeless, don't set border color
+                if ($output['theme']==='edgeless'){
+                    $output['border_color'] = false;
                 }
 
                 $output['hide_revoke'] = $output['hide_revoke'] ? 'cc-hidden' : '';
@@ -758,7 +761,7 @@ if (!class_exists("cmplz_cookie")) {
 
             //if the cookie list cache is cleared, empty the processed page list so the scan starts again.
             if (!get_transient('cmplz_detected_cookies')) {
-                update_option('cmplz_processed_pages_list', array());
+                $this->reset_pages_list();
             }
 
             if (!$this->scan_complete()) {
@@ -850,10 +853,10 @@ if (!class_exists("cmplz_cookie")) {
             $token = time();
             update_option('complianz_scan_token', $token);
             $pages = $this->pages_to_process();
-
             if (count($pages) == 0) return false;
 
             $id_to_process = reset($pages);
+            error_log("next to process $id_to_process");
             $this->set_page_as_processed($id_to_process);
             $url = (($id_to_process === 'home') || ($id_to_process === 'clean')) ? site_url() : get_permalink($id_to_process);
             $url = add_query_arg(array("complianz_scan_token" => $token, 'complianz_id' => $id_to_process), $url);
@@ -862,41 +865,82 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        /*
+        /**
          *
-         * Get list of page id's
+         * Get list of page id's that we want to process this set of scan requests, which weren't included in the scan before
          *
+         * @since 1.0
+         * @return array $pages
          * */
 
-        public function get_pages_list()
+        public function get_pages_list_single_run()
         {
-            $pages = get_transient('cmplz_pages_list');
-            if (!$pages) {
+            $posts = get_transient('cmplz_pages_list');
+            if (!$posts) {
                 $args = array(
-                    'post_type' => 'page',
-                    'posts_per_page' => 10,
+                    'public'   => true,
                 );
-                $posts_page = get_posts($args);
+                $post_types = get_post_types( $args);
+                $posts = array();
+                foreach ($post_types as $post_type){
+                    $args = array(
+                        'post_type' => $post_type,
+                        'posts_per_page' => 5,
+                        'meta_query' => array(
+                            array(
+                                'key' => '_cmplz_scanned_post',
+                                'compare' => 'NOT EXISTS'
+                            ),
+                        )
+                    );
+                    $new_posts = get_posts($args);
+                    $posts = array_merge($posts , $new_posts);
+                }
 
-                //also add some post post types
-                $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 5,
-                );
-                $posts_post = get_posts($args);
+                if (count($posts)==0){
+                    /*
+                     * If we didn't find any posts, we reset the post meta that tracks if all posts have been scanned.
+                     * This way we will find some posts on the next scan attempt
+                     * */
+                    if (!function_exists('delete_post_meta_by_key')) {
+                        require_once ABSPATH . WPINC . '/post.php';
+                    }
+                    delete_post_meta_by_key('_cmplz_scanned_post');
 
-                $posts = array_merge($posts_page , $posts_post);
+                    //now we need to reset the scanned pages list too
+                    $this->reset_pages_list();
+                } else {
+                    $posts = wp_list_pluck($posts, 'ID');
+                    foreach ($posts as $post_id){
+                        update_post_meta($post_id, '_cmplz_scanned_post', true);
+                    }
+                }
 
-                //first page to clean up cookies
-                $pages[] = 'clean';
-                $pages = array();
-                $wp_pages = (!empty($posts)) ? wp_list_pluck($posts, 'ID') : array();
-                $pages = array_merge($pages, $wp_pages);
-                $pages[] = 'home';
-                set_transient('cmplz_pages_list', $pages, DAY_IN_SECONDS);
+                $posts[]='home';
+                set_transient('cmplz_pages_list', $posts, WEEK_IN_SECONDS);
             }
-            return $pages;
+            return $posts;
         }
+
+        /**
+         * Reset the list of pages
+         *
+         * @return void
+         *
+         * @since 2.1.5
+         */
+
+        public function reset_pages_list(){
+            delete_transient('cmplz_pages_list');
+            update_option('cmplz_processed_pages_list', array());
+        }
+
+
+        /**
+         * Get list of pages that were processed before
+         *
+         * @return array $pages
+         */
 
         public function get_processed_pages_list()
         {
@@ -937,11 +981,11 @@ if (!class_exists("cmplz_cookie")) {
 
         private function pages_to_process()
         {
-            $pages_list = COMPLIANZ()->cookie->get_pages_list();
-
+            $pages_list = COMPLIANZ()->cookie->get_pages_list_single_run();
             $processed_pages_list = $this->get_processed_pages_list();
 
             $pages = array_diff($pages_list, $processed_pages_list);
+
             return $pages;
         }
 
@@ -1042,7 +1086,6 @@ if (!class_exists("cmplz_cookie")) {
 
         public function store_detected_cookies()
         {
-
             if (!current_user_can('manage_options')) return;
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
@@ -1416,7 +1459,7 @@ if (!class_exists("cmplz_cookie")) {
         public function get_progress_count()
         {
             $done = $this->get_processed_pages_list();
-            $total = COMPLIANZ()->cookie->get_pages_list();
+            $total = COMPLIANZ()->cookie->get_pages_list_single_run();
             $progress = 100 * (count($done) / count($total));
             if ($progress > 100) $progress = 100;
             return $progress;

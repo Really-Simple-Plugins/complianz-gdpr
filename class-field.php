@@ -134,6 +134,7 @@ if (!class_exists("cmplz_field")) {
                 foreach ($locales as $locale) {
                     delete_transient('cmplz_cookie_settings_cache_' . $locale . $variation_id);
                 }
+
             }
         }
 

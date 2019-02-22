@@ -354,6 +354,12 @@
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
+label.cc-check {
+  display: inline-block;
+}
+.cc-window label {
+  color: inherit;
+}
 .cc-check,
 .cc-check svg {
   transform: translate3d(0, 0, 0);

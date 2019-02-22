@@ -23,7 +23,10 @@ if (!function_exists('cmplz_fields_filter')) {
 
         $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
         $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
-        if ($uses_tagmanager && $tm_fires_scripts) $fields['use_categories']['hidden'] = true;
+        if ($uses_tagmanager && $tm_fires_scripts) {
+            $fields['use_categories']['help'] = __('Because you have selected Tag Manager and Tag Manager fires scripts, categories are required','complianz-gdpr');
+            $fields['use_categories']['disabled'] = true;
+        }
 
         return $fields;
     }

@@ -16,7 +16,6 @@ if (!class_exists("cmplz_document")) {
 
             $this->init();
 
-
         }
 
         static function this()
