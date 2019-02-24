@@ -54,10 +54,11 @@ jQuery(document).ready(function ($) {
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
             var src = $(this).data('src-cmplz');
+            console.log(src);
             $(this).attr('src', src);
 
             //fitvids needs to be reinitialized, if it is used.
-            if (jQuery.fn.fitVids) {
+            if (jQuery.fn.fitVids && (src.indexOf('youtube') !== -1 || src.indexOf('vimeo') !== -1)) {
                 $(this).parent().fitVids();
             }
         });

@@ -923,7 +923,7 @@ if (!function_exists('cmplz_placeholder')) {
         }
 
         //default value
-        $new_src = cmplz_url . 'core/assets/images/placeholder.png';
+        $new_src = cmplz_url . 'core/assets/images/placeholder.jpg';
 
         switch ($type) {
             case 'youtube':
@@ -958,7 +958,7 @@ if (!function_exists('cmplz_placeholder')) {
             case 'image':
             case 'div':
             default:
-                $new_src = cmplz_url . 'core/assets/images/placeholder.png';
+                $new_src = cmplz_url . 'core/assets/images/placeholder.jpg';
         }
 
         return apply_filters('cmplz_placeholder', $new_src, $type, $src);
