@@ -86,6 +86,20 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 2.1.5 =
+* Tweak: WP Forms integration
+* Fix: empty locales array for cookie cache could cause PHP warning
+* Tweak: when Tag Manager is selected, categories is enabled. To make this more explicit help text is added and the button disabled.
+* Tweak: when saving settings in the cookie warning settings, we now maintain the region selection state
+* Fix: several css styling issues for the center theme with categories: color inheritance of label, display
+* Fix: css styling for border with edgeless theme
+* Tweak: prevent activation for PHP <5.6 and WP < 4.6
+* Tweak: use span element instead of div element in blocked iframe wrappers, to prevent p elements to close automatically
+* Fix: when user states no cookies are used, even if the scan detects them, no cookie banner will be shown, as per the user's wishes.
+* Fix: FitVids compatibility for fluid video display
+* Tweak: regex did not recognize google maps URL because of exclamation mark usage
+* Tweak: higher quality placeholder image
+
 = 2.1.4 =
 * Fix: incorrect PHP opening causing input fields malform on some setups
 
