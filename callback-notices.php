@@ -92,6 +92,27 @@ function cmplz_notice_statistics_script(){
 
 }
 
+/*
+ * Suggest answer for the uses cookies question
+ *
+ * */
+
+add_action('cmplz_notice_uses_cookies', 'cmplz_show_cookie_usage_notice');
+function cmplz_show_cookie_usage_notice()
+{
+    $cookie_types = COMPLIANZ()->cookie->get_detected_cookie_types(true, true);
+    if (count($cookie_types) > 0) {
+        $count = count($cookie_types);
+        $cookie_types = implode(', ', $cookie_types);
+
+        cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookie_types), 'warning');
+
+    } else {
+        cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
+
+    }
+}
+
 
 /*
  * For the cookie page and the US banner we need a link to the privacy statement.
@@ -109,24 +130,6 @@ function cmplz_notice_missing_privacy_page(){
 
 }
 
-/*
- * Google Recaptcha is hard to integrate in a GDPR compliant manner, because the scripts will be deactivated.
- * A spammer only has to decline cookies, which prevents the recaptcha from blocking spam.
- *
- * */
-
-add_action('cmplz_notice_thirdparty_services_on_site', 'cmplz_notice_thirdparty_services_on_site');
-function cmplz_notice_thirdparty_services_on_site(){
-
-        //only applies to opt-in
-        if (!cmplz_has_region('eu')) return;
-
-        $thirdparty = cmplz_scan_detected_thirdparty_services();
-        if (is_array($thirdparty) && in_array('google-recaptcha', $thirdparty)) {
-            cmplz_notice(__("The scan detected Google Recaptcha on your site. As the Recaptcha script will be blocked by default, it is recommended to use a honeypot spam protection instead.", 'complianz-gdpr'),'warning');
-        }
-}
-
 
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
@@ -140,6 +143,16 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
+    /*
+     * When cookies are detected, the user should select yes on this questino
+     *
+     * */
+
+    if ($fieldname === 'uses_cookies') {
+        if (!empty(COMPLIANZ()->cookie->get_detected_cookies())) {
+            return 'yes';
+        }
+    }
 
     if ($fieldname == 'popup_background_color' || $fieldname == 'button_text_color') {
         $brand = cmplz_get_value('brand_color');
