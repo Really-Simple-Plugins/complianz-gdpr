@@ -1602,7 +1602,7 @@ if (!class_exists("cmplz_field")) {
         {
             $output='';
             if (isset($args['help'])) {
-                $output = '<div><div class="cmplz-help-modal "><span><i class="fa fa-times"></i></span>'.$args['help'].'</div></div>';
+                $output = '<div><div class="cmplz-help-modal "><span><i class="fa fa-times"></i></span>'.wp_kses_post($args['help']).'</div></div>';
             }
             return $output;
         }
