@@ -34,6 +34,35 @@ jQuery(document).ready(function ($) {
     var ccPrivacyLink = '';
     var waitingScripts = [];
 
+    /*
+    * Set height of blocked content div to video aspect ratio's
+    *
+    * */
+
+    setBlockedContentContainerAspectRatio();
+    function setBlockedContentContainerAspectRatio() {
+        $('.cmplz-video').each(function() {
+            var w = $(this).width();
+            var h = 3 * (w / 4);
+            $(this).height(h);
+        });
+    }
+
+    $(window).bind('resize', function(e){
+        //window.resizeEvt;
+        $(window).resize(function(){
+            clearTimeout(window.resizeEvt);
+            window.resizeEvt = setTimeout(function(){
+                setBlockedContentContainerAspectRatio();
+            }, 100);
+        });
+    });
+
+    /*
+    * Enable scripts that were blocked
+    *
+    * */
+
     function complianz_enable_scripts() {
 
         //check if the stats were already running
