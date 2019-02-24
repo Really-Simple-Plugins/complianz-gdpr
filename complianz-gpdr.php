@@ -34,20 +34,25 @@ define('cmplz_free', true);
 
 /**
  * Checks if the plugin can safely be activated, at least php 5.6 and wp 4.6
+ * @since 2.1.5
  */
-function cmplz_activation_check() {
-    if ( version_compare(PHP_VERSION, '5.6', '<')  ) {
-        deactivate_plugins( plugin_basename( __FILE__ ) );
-        wp_die( __( 'Complianz GDPR cannot be activated. The plugin requires PHP 5.6 or higher', 'complianz-gdpr' ) );
-    }
+if (!function_exists('cmplz_activation_check')) {
+    function cmplz_activation_check()
+    {
+        if (version_compare(PHP_VERSION, '5.6', '<')) {
+            deactivate_plugins(plugin_basename(__FILE__));
+            wp_die(__('Complianz GDPR cannot be activated. The plugin requires PHP 5.6 or higher', 'complianz-gdpr'));
+        }
 
-    global $wp_version;
-    if ( version_compare($wp_version, '4.6', '<')  ) {
-        deactivate_plugins( plugin_basename( __FILE__ ) );
-        wp_die( __( 'Complianz GDPR cannot be activated. The plugin requires WordPress 4.6 or higher', 'complianz-gdpr' ) );
+        global $wp_version;
+        if (version_compare($wp_version, '4.6', '<')) {
+            deactivate_plugins(plugin_basename(__FILE__));
+            wp_die(__('Complianz GDPR cannot be activated. The plugin requires WordPress 4.6 or higher', 'complianz-gdpr'));
+        }
     }
 }
 register_activation_hook( __FILE__, 'cmplz_activation_check' );
+
 
 require_once(plugin_dir_path(__FILE__) . 'functions.php');
 if (!class_exists('COMPLIANZ')) {
