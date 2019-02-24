@@ -4,10 +4,10 @@ add_filter('cmplz_fields', 'cmplz_filter_fields', 10, 1);
 function cmplz_filter_fields($fields)
 {
 
-    /*
-     * Add dynamic purposes
-     *
-     * */
+        /*
+         * Add dynamic purposes
+         *
+         * */
 
     if (cmplz_has_region('us')) {
         foreach (COMPLIANZ()->config->purposes as $key => $label) {

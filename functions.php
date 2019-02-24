@@ -590,6 +590,7 @@ if (!function_exists('cmplz_accepted_processing_agreement')) {
 if (!function_exists('cmplz_init_cookie_blocker')) {
     function cmplz_init_cookie_blocker()
     {
+
         if (!cmplz_third_party_cookies_active()) return;
 
         //don't fire on the back-end
@@ -601,7 +602,8 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 
         /* Do not block when visitors are from outside EU or US, if geoip is enabled */
         //check cache, as otherwise all users would get the same output, while this is user specific
-        if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && (COMPLIANZ()->geoip->region() !== 'eu') && (COMPLIANZ()->geoip->region() !== 'us')) return;
+        //@todo better check for any caching plugin, as this check does not work with wp rocket for example.
+        //if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ()->geoip->geoip_enabled() && (COMPLIANZ()->geoip->region() !== 'eu') && (COMPLIANZ()->geoip->region() !== 'us')) return;
 
         /* Do not block if the cookie policy is already accepted */
         //check cache, as otherwise all users would get the same output, while this is user specific

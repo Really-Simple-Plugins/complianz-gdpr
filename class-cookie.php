@@ -53,7 +53,6 @@ if (!class_exists("cmplz_cookie")) {
 
             add_action('cmplz_notice_compile_statistics', array($this, 'show_compile_statistics_notice'), 10, 1);
             add_action('cmplz_notice_statistical_cookies_usage', array($this, 'show_statistical_cookies_usage_notice'), 10, 1);
-            add_action('cmplz_notice_uses_cookies', array($this, 'show_cookie_usage_notice'), 10, 1);
             add_action('cmplz_notice_statistics_script', array($this, 'statistics_script_notice'));
 
             add_filter('cmplz_default_value', array($this, 'set_default'), 10, 2);
@@ -151,21 +150,6 @@ if (!class_exists("cmplz_cookie")) {
 
         }
 
-        public function show_cookie_usage_notice($args)
-        {
-            $cookie_types = $this->get_detected_cookie_types(true, true);
-            if (count($cookie_types) > 0) {
-                $count = count($cookie_types);
-                $cookie_types = implode(', ', $cookie_types);
-
-                cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookie_types));
-
-            } else {
-                cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
-
-            }
-        }
-
         public function statistics_script_notice()
         {
             $anonimized = (cmplz_get_value('matomo_anonymized') === 'yes') ? true : false;
@@ -232,7 +216,7 @@ if (!class_exists("cmplz_cookie")) {
         {
             update_option('cmplz_plugins_changed', 1);
 
-            //we don't delete this transient, but just reschedule it. Otherwise the scan would start right away, wich might cause a memory overload.
+            //we don't delete this transient, but just reschedule it. Otherwise the scan would start right away, which might cause a memory overload.
             $detected_cookies = get_transient('cmplz_detected_cookies');
             set_transient('cmplz_detected_cookies', $detected_cookies, HOUR_IN_SECONDS);
         }
@@ -1616,6 +1600,11 @@ if (!class_exists("cmplz_cookie")) {
 
         public function site_needs_cookie_warning($region=false)
         {
+
+            if (cmplz_get_value('uses_cookies') !== 'yes') {
+                return false;
+            }
+
             /*
              * for the US, a cookie warning is always required
              * if a region other than US is passed, we check the region's requirements
@@ -1657,6 +1646,11 @@ if (!class_exists("cmplz_cookie")) {
 
         public function third_party_cookies_active()
         {
+            //if user states no cookies are used, we simply return false.
+            if (cmplz_get_value('uses_cookies') !== 'yes') {
+                return false;
+            }
+
             $thirdparty_scripts = cmplz_get_value('thirdparty_scripts');
             $thirdparty_iframes = cmplz_get_value('thirdparty_iframes');
             $thirdparty_scripts = empty($thirdparty_scripts) ? false : true;

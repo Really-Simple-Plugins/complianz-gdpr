@@ -157,9 +157,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $placeholder = cmplz_placeholder('iframe', $iframe_src);
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
-                        $new = $this->replace_src($new, cmplz_url . 'core/assets/images/placeholder.png');
+                        $new = $this->replace_src($new, cmplz_url . 'core/assets/images/s.png');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
-                        $new = '<span class="cmplz-blocked-content-container" style="background-image: url('.$placeholder.');"><span class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</span>'.$new.'</span>';
+                        $new = '<div class="cmplz-blocked-content-container" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
 
@@ -291,7 +291,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          */
 
         private function replace_src($script, $new_src){
-            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-;]*[\w@?^=%&\/~+#-;]?)[\'"]/i';
+            $pattern = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
             $new_src = ' src="'.$new_src.'" ';
             preg_match($pattern, $script, $matches);
             $script = preg_replace($pattern, $new_src, $script);
