@@ -93,6 +93,8 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Improvement: higher quality placeholder image
 * Improvement: when Tag Manager is selected, categories is enabled. To make this more explicit help text is added and the button disabled.
 * Improvement: when saving settings in the cookie warning settings, we now maintain the region selection state
+* Improvement: download video placeholders to own site to make sure Youtube and vimeo cannot track the users
+* Improvement: placeholder img aspect ratio is used to resize the placeholder container div
 * Fix: several css styling issues for the center theme with categories: color inheritance of label, display
 * Fix: css styling for border with edgeless theme
 * Fix: when user states no cookies are used, even if the scan detects them, no cookie banner will be shown, as per the user's wishes.
