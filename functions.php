@@ -912,6 +912,15 @@ if (!function_exists('cmplz_allowed_html')) {
 
 
 if (!function_exists('cmplz_placeholder')) {
+    /**
+     * Get placeholder for any type of blocked content
+     *
+     * @param string $type
+     * @param string $src
+     * @return string url
+     *
+     * @since 2.1.0
+     */
     function cmplz_placeholder($type = 'image', $src = '')
     {
 
@@ -923,7 +932,7 @@ if (!function_exists('cmplz_placeholder')) {
         }
 
         //default value
-        $new_src = cmplz_url . 'core/assets/images/placeholder.jpg';
+        $new_src = cmplz_default_placeholder();
 
         switch ($type) {
             case 'youtube':
@@ -942,6 +951,8 @@ if (!function_exists('cmplz_placeholder')) {
                         if (!cmplz_remote_file_exists($new_src)) {
                             $new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
                         }
+                        $new_src = cmplz_download_to_site($new_src, $type.$youtube_id);
+
                         set_transient("cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS);
                     }
                 }
@@ -950,18 +961,93 @@ if (!function_exists('cmplz_placeholder')) {
                 $vimeo_pattern = '/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i';
                 if (preg_match($vimeo_pattern, $src, $matches)) {
                     $vimeo_id = $matches[1];
-                    $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));
-                    $new_src = $vimeo_images->video->thumbnail_large;
+                    $new_src = get_transient("cmplz_vimeo_image_$vimeo_id");
+                    if (!$new_src) {
+                        $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));
+                        $new_src = $vimeo_images->video->thumbnail_large;
+                        $new_src = cmplz_download_to_site($new_src, $type.$vimeo_id);
+                        set_transient("cmplz_vimeo_image_$vimeo_id", $new_src, WEEK_IN_SECONDS);
+                    }
                 }
                 break;
             case 'iframe':
             case 'image':
             case 'div':
             default:
-                $new_src = cmplz_url . 'core/assets/images/placeholder.jpg';
+                $new_src = cmplz_default_placeholder();
         }
 
         return apply_filters('cmplz_placeholder', $new_src, $type, $src);
+    }
+}
+
+if (!function_exists('cmplz_download_to_site')){
+    /**
+     * Download a placeholder from youtube or video to this website
+     * @param string $src
+     * @param bool|string $id
+     * @return string url
+     *
+     * @since 2.1.5
+     */
+    function cmplz_download_to_site($src, $id=false){
+        if (!$id) $id = time();
+
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        $uploads = wp_upload_dir();
+        $upload_dir = $uploads['basedir'];
+
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir);
+        }
+
+        if (!file_exists($upload_dir . "/complianz")) {
+            mkdir($upload_dir . "/complianz");
+        }
+
+        if (!file_exists($upload_dir . "/complianz/placeholders")) {
+            mkdir($upload_dir . "/complianz/placeholders");
+        }
+
+        //set the path
+        $file = $upload_dir . "/complianz/placeholders/".$id."-".basename($src);
+
+        //set the url
+        $new_src = $uploads['baseurl'] . "/complianz/placeholders/".$id."-".basename($src);
+
+        //download file
+        $tmpfile = download_url($src, $timeout = 25);
+
+        //check for errors
+        if (is_wp_error($tmpfile)){
+            $new_src = cmplz_default_placeholder();
+        } else {
+            //remove current file
+            if (file_exists($file)) unlink($file);
+            error_log($file);
+
+            //in case the server prevents deletion, we check it again.
+            if (!file_exists($file)) copy($tmpfile, $file);
+        }
+
+        unlink($tmpfile); // must unlink afterwards
+
+        if (!file_exists($file))return cmplz_default_placeholder();
+
+        return $new_src;
+    }
+}
+
+
+
+if (!function_exists('cmplz_default_placeholder')){
+    /**
+     * Return the default placeholder image
+     * @return string placeholder
+     * @since 2.1.5
+     */
+    function cmplz_default_placeholder(){
+        return apply_filters('cmplz_default_placeholder', cmplz_url . 'core/assets/images/placeholder.jpg');
     }
 }
 
