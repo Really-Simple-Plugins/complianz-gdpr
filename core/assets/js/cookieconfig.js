@@ -35,21 +35,37 @@ jQuery(document).ready(function ($) {
     var waitingScripts = [];
 
     /*
-    * Set height of blocked content div to video aspect ratio's
+    * Set height of blocked content div to placeholder img aspect ratio's
     *
     * */
 
     setBlockedContentContainerAspectRatio();
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
-            var w = $(this).width();
-            var h = 3 * (w / 4);
-            $(this).height(h);
+
+            var blockedContentContainer = $(this);
+            var src = $(this).css('background-image');
+            src = src.replace('url(','').replace(')','').replace(/\"/gi, "");
+
+            var img = new Image();
+            img.addEventListener("load", function(){
+                var imgWidth = this.naturalWidth;
+                var imgHeight = this.naturalHeight;
+
+                //prevent division by zero.
+                if (imgWidth===0) imgWidth=1;
+                var w = blockedContentContainer.width();
+                var h = imgHeight * (w / imgWidth);
+                blockedContentContainer.height(h);
+            });
+            img.src = src;
+
         });
     }
 
     /*
     * Keep window aspect ratio in sync when window resizes
+    * To lower the number of times this code is executed, it is done with a timeout.
     *
     * */
 
