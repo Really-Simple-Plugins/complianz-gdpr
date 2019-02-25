@@ -926,9 +926,8 @@ if (!function_exists('cmplz_placeholder')) {
 
         if ($type === 'iframe') {
             if (strpos($src, 'youtube') !== FALSE) $type = 'youtube';
-            if (strpos($src, 'vimeo') !== FALSE) {
-                $type = 'vimeo';
-            }
+            if (strpos($src, 'vimeo') !== FALSE) $type = 'vimeo';
+            if (strpos($src, 'dailymotion') !== FALSE) $type = 'dailymotion';
         }
 
         //default value
@@ -970,6 +969,26 @@ if (!function_exists('cmplz_placeholder')) {
                     }
                 }
                 break;
+            case 'dailymotion':
+                if (preg_match('/dailymotion\.com\/(embed\/video)\/([^_]+)[^#]*\?|dailymotion\.com\/(embed\/video|video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?|(dai\.ly\/([^_]+))!/i', $src, $matches)) {
+                    if (isset($matches[6])) {
+                        $daily_motion_id = $matches[6];
+                    }elseif (isset($matches[4])) {
+                        $daily_motion_id = $matches[4];
+                    }else{
+                        $daily_motion_id = $matches[2];
+                    }
+                    $new_src = get_transient("cmplz_vimeo_image_$daily_motion_id");
+                    if (!$new_src) {
+                        $thumbnail_large_url='https://api.dailymotion.com/video/'.$daily_motion_id.'?fields=thumbnail_large_url'; //pass thumbnail_large_url, thumbnail_medium_url, thumbnail_small_url for different sizes
+                        $json_thumbnail = file_get_contents($thumbnail_large_url);
+                        $arr_dailymotion = json_decode($json_thumbnail, TRUE);
+                        $new_src = $arr_dailymotion['thumbnail_large_url'];
+                        $new_src = cmplz_download_to_site($new_src, $type.$daily_motion_id);
+                        set_transient("cmplz_vimeo_image_$daily_motion_id", $new_src, WEEK_IN_SECONDS);
+                    }
+                }
+                break;
             case 'iframe':
             case 'image':
             case 'div':
@@ -980,6 +999,8 @@ if (!function_exists('cmplz_placeholder')) {
         return apply_filters('cmplz_placeholder', $new_src, $type, $src);
     }
 }
+
+
 
 if (!function_exists('cmplz_download_to_site')){
     /**
