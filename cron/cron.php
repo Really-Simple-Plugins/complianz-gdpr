@@ -19,8 +19,13 @@ function cmplz_schedule_cron() {
             wp_schedule_event( time(), 'cmplz_daily', 'cmplz_every_day_hook' );
         }
 
+        if ( ! wp_next_scheduled('cmplz_every_month_hook') ) {
+            wp_schedule_event( time(), 'cmplz_monthly', 'cmplz_every_month_hook' );
+        }
+
         //link function to this custom cron hook
         add_action( 'cmplz_every_week_hook', array(COMPLIANZ()->document, 'cron_check_last_updated_status'));
+        add_action( 'cmplz_every_month_hook', 'cmplz_cron_clean_placeholders');
 
         if (defined('cmplz_premium')) {
             add_action( 'cmplz_every_day_hook', array(COMPLIANZ()->statistics, 'cron_maybe_enable_best_performer'));
@@ -28,16 +33,20 @@ function cmplz_schedule_cron() {
         }
 
     } else {
-
+        add_action( 'init', 'cmplz_cron_clean_placeholders');
         add_action( 'init', array(COMPLIANZ()->document, 'cron_check_last_updated_status'), 100);
         if (defined('cmplz_premium')) add_action( 'init', array(COMPLIANZ()->statistics, 'cron_maybe_enable_best_performer'));
+        if (defined('cmplz_premium')) add_action( 'init', array(COMPLIANZ()->geoip, 'cron_check_geo_ip_db'));
 
     }
 }
 
 add_filter( 'cron_schedules', 'cmplz_filter_cron_schedules' );
 function cmplz_filter_cron_schedules( $schedules ) {
-
+    $schedules['cmplz_monthly'] = array(
+        'interval' => MONTH_IN_SECONDS,
+        'display'  => __( 'Once every month' )
+    );
     $schedules['cmplz_weekly'] = array(
         'interval' => WEEK_IN_SECONDS,
         'display'  => __( 'Once every week' )
@@ -55,7 +64,14 @@ register_deactivation_hook( __FILE__, 'cmplz_clear_scheduled_hooks' );
 function cmplz_clear_scheduled_hooks(){
     wp_clear_scheduled_hook( 'cmplz_every_week_hook' );
     wp_clear_scheduled_hook( 'cmplz_every_day_hook' );
+}
 
+function cmplz_cron_clean_placeholders(){
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    $uploads = wp_upload_dir();
+    $dirname =  $uploads['basedir'] . "/complianz/placeholders";
+
+    array_map('unlink', glob("$dirname/*.*"));
 }
 
 

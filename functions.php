@@ -945,7 +945,7 @@ if (!function_exists('cmplz_placeholder')) {
                      *
                      * */
                     $new_src = get_transient("cmplz_youtube_image_$youtube_id");
-                    if (!$new_src) {
+                    if (!$new_src || !file_exists($new_src)) {
                         $new_src = "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
                         if (!cmplz_remote_file_exists($new_src)) {
                             $new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
@@ -961,7 +961,7 @@ if (!function_exists('cmplz_placeholder')) {
                 if (preg_match($vimeo_pattern, $src, $matches)) {
                     $vimeo_id = $matches[1];
                     $new_src = get_transient("cmplz_vimeo_image_$vimeo_id");
-                    if (!$new_src) {
+                    if (!$new_src || !file_exists($new_src)) {
                         $vimeo_images = simplexml_load_string(file_get_contents("http://vimeo.com/api/v2/video/$vimeo_id.xml"));
                         $new_src = $vimeo_images->video->thumbnail_large;
                         $new_src = cmplz_download_to_site($new_src, $type.$vimeo_id);
@@ -978,14 +978,14 @@ if (!function_exists('cmplz_placeholder')) {
                     }else{
                         $daily_motion_id = $matches[2];
                     }
-                    $new_src = get_transient("cmplz_vimeo_image_$daily_motion_id");
-                    if (!$new_src) {
-                        $thumbnail_large_url='https://api.dailymotion.com/video/'.$daily_motion_id.'?fields=thumbnail_large_url'; //pass thumbnail_large_url, thumbnail_medium_url, thumbnail_small_url for different sizes
+                    $new_src = get_transient("cmplz_dailymotion_image_$daily_motion_id");
+                    if (!$new_src || !file_exists($new_src)) {
+                        $thumbnail_large_url='https://api.dailymotion.com/video/'.$daily_motion_id.'?fields=thumbnail_1080_url'; //pass thumbnail_large_url, thumbnail_medium_url, thumbnail_small_url for different sizes
                         $json_thumbnail = file_get_contents($thumbnail_large_url);
                         $arr_dailymotion = json_decode($json_thumbnail, TRUE);
                         $new_src = $arr_dailymotion['thumbnail_large_url'];
                         $new_src = cmplz_download_to_site($new_src, $type.$daily_motion_id);
-                        set_transient("cmplz_vimeo_image_$daily_motion_id", $new_src, WEEK_IN_SECONDS);
+                        set_transient("cmplz_dailymotion_image_$daily_motion_id", $new_src, WEEK_IN_SECONDS);
                     }
                 }
                 break;
@@ -1045,7 +1045,6 @@ if (!function_exists('cmplz_download_to_site')){
         } else {
             //remove current file
             if (file_exists($file)) unlink($file);
-            error_log($file);
 
             //in case the server prevents deletion, we check it again.
             if (!file_exists($file)) copy($tmpfile, $file);
@@ -1053,7 +1052,7 @@ if (!function_exists('cmplz_download_to_site')){
 
         unlink($tmpfile); // must unlink afterwards
 
-        if (!file_exists($file))return cmplz_default_placeholder();
+        if (!file_exists($file)) return cmplz_default_placeholder();
 
         return $new_src;
     }

@@ -159,7 +159,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
                         $new = $this->replace_src($new, cmplz_url . 'core/assets/images/s.png');
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe');
-                        $video_class =  (strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : '';
+                        $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : '';
                         $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
