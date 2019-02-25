@@ -48,6 +48,11 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    /*
+    * Keep window aspect ratio in sync when window resizes
+    *
+    * */
+
     $(window).bind('resize', function(e){
         //window.resizeEvt;
         $(window).resize(function(){
@@ -83,11 +88,10 @@ jQuery(document).ready(function ($) {
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
             var src = $(this).data('src-cmplz');
-            console.log(src);
             $(this).attr('src', src);
 
             //fitvids needs to be reinitialized, if it is used.
-            if (jQuery.fn.fitVids && (src.indexOf('youtube') !== -1 || src.indexOf('vimeo') !== -1)) {
+            if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
                 $(this).parent().fitVids();
             }
         });
