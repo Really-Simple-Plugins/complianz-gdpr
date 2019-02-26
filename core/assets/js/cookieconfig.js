@@ -101,6 +101,11 @@ jQuery(document).ready(function ($) {
             $(this).remove();
         });
 
+        //reset video height adjustments
+        $('.cmplz-video').each(function (i, obj) {
+            $(this).height('inherit');
+        }
+
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
             var src = $(this).data('src-cmplz');
@@ -108,7 +113,6 @@ jQuery(document).ready(function ($) {
 
             //fitvids needs to be reinitialized, if it is used.
             if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
-                $(this).parent().height('inherit');
                 $(this).parent().fitVids();
             }
         });
