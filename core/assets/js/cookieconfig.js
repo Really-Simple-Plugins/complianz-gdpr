@@ -104,7 +104,7 @@ jQuery(document).ready(function ($) {
         //reset video height adjustments
         $('.cmplz-video').each(function (i, obj) {
             $(this).height('inherit');
-        }
+        });
 
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
