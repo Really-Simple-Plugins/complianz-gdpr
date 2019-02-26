@@ -286,10 +286,12 @@
   background-repeat: no-repeat;
   background-size: 100%;
   height: inherit;
+  position: relative;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
   cursor: pointer;
   position: absolute;
+  top: 50px;
   width: 50%;
   max-width: 200px;
   font-size: 14px;
