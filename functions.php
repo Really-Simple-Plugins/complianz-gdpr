@@ -983,7 +983,7 @@ if (!function_exists('cmplz_placeholder')) {
                         $thumbnail_large_url='https://api.dailymotion.com/video/'.$daily_motion_id.'?fields=thumbnail_1080_url'; //pass thumbnail_large_url, thumbnail_medium_url, thumbnail_small_url for different sizes
                         $json_thumbnail = file_get_contents($thumbnail_large_url);
                         $arr_dailymotion = json_decode($json_thumbnail, TRUE);
-                        $new_src = $arr_dailymotion['thumbnail_large_url'];
+                        $new_src = $arr_dailymotion['thumbnail_1080_url'];
                         $new_src = cmplz_download_to_site($new_src, $type.$daily_motion_id);
                         set_transient("cmplz_dailymotion_image_$daily_motion_id", $new_src, WEEK_IN_SECONDS);
                     }

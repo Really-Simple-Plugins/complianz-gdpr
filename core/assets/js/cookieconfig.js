@@ -108,6 +108,7 @@ jQuery(document).ready(function ($) {
 
             //fitvids needs to be reinitialized, if it is used.
             if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
+                $(this).parent().height('inherit');
                 $(this).parent().fitVids();
             }
         });
