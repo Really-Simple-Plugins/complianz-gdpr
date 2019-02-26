@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Complianz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-01 13:20+0000\n"
-"PO-Revision-Date: 2019-02-04 13:40+0000\n"
-"Last-Translator: Vertaal Bureau <leon@complianz.io>\n"
-"Language-Team: Dutch\n"
+"POT-Creation-Date: 2019-02-07 08:43+0000\n"
+"PO-Revision-Date: 2019-02-24 13:30+0000\n"
+"Last-Translator: Aert <aert@abrahamendeleeuw.nl>\n"
+"Language-Team: Nederlands\n"
 "Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr "Privacyverklaring (%s) - (%spremium%s)"
 
 #: class-admin.php:559
 msgid "Like Complianz | GDPR cookie consent?"
-msgstr ""
+msgstr "Fan van Complianz Privacy Suite?"
 
 #: class-admin.php:561
 msgid "Then you'll like the premium plugin even more! With: "
@@ -560,6 +560,11 @@ msgid ""
 "or sell personal data by any means. When a website uses non-functional "
 "cookies, it is collecting personal data."
 msgstr ""
+"De cookiescan heeft niet-functionele cookies op je site gedetecteerd. "
+"Volgens de CCPA wordt u geacht persoonlijke gegevens te 'verkopen' (to "
+"'Sell') als u op enige wijze persoonlijke gegevens verzamelt, deelt of "
+"verkoopt. Wanneer een website niet-functionele cookies gebruikt, spreken we "
+"over het verzamelen van persoonlijke gegevens."
 
 #: callback-notices.php:54 callback-notices.php:62
 msgid ""
@@ -585,6 +590,10 @@ msgid ""
 "cookie banner. To enable Complianz to handle the statistics, you should "
 "remove your current statistics tracking, and configure it in Complianz"
 msgstr ""
+"Je hebt opties geselecteerd die er op wijzen dat voor het bijhouden van uw "
+"statistieken een cookiebanner nodig is. Om Complianz in staat te stellen de "
+"statistieken te verwerken, dient u uw huidige statistieken-code te "
+"verwijderen en in Complianz te configureren."
 
 #: callback-notices.php:107
 #, php-format
@@ -605,6 +614,9 @@ msgid ""
 "will be blocked by default, it is recommended to use a honeypot spam "
 "protection instead."
 msgstr ""
+"De scan detecteerde Google ReCaptcha op uw site. Omdat het Recaptcha script "
+"standaard wordt geblokkeerd, is het aan te raden om in plaats daarvan een "
+"honeypot spambeveiliging te gebruiken."
 
 #: class-field.php:385
 msgid "This field is required. Please complete the question before continuing"
@@ -1705,6 +1717,9 @@ msgid ""
 "products on the website. Also shows realtime sales, countdown clock for "
 "auctions and more."
 msgstr ""
+"Dit cookie wordt gebruikt door Beeketing en wordt gebruikt om meer voordelen "
+"van de producten op de website te tonen. Het laat ook realtime verkoop, een "
+"aftelklok voor veilingen en meer zien."
 
 #: config/known-cookies.php:789 config/known-cookies.php:791
 msgid ""
@@ -2127,6 +2142,8 @@ msgid ""
 "This cookie is used by Bleeper Live Chat and shows you a Live Chat, to help "
 "you during your stay on the website."
 msgstr ""
+"Dit cookie wordt gebruikt door Bleeper Live Chat, om u te helpen tijdens uw "
+"verblijf op de website."
 
 #: config/known-cookies.php:1307
 msgid ""
@@ -2200,18 +2217,24 @@ msgstr ""
 #: config/known-cookies.php:1395 config/known-cookies.php:1397
 msgid "This cookie is used by MaxButtons to optimize buttons on the website."
 msgstr ""
+"Dit cookie wordt gebruikt door MaxButtons om knoppen op de website te "
+"optimaliseren."
 
 #: config/known-cookies.php:1405 config/known-cookies.php:1407
 msgid ""
 "This cookie is used by Bloom and shows different features to gain e-mail opt-"
 "ins on the website."
 msgstr ""
+"Dit cookie wordt gebruikt door Bloom, welke verschillende functies toont om "
+"e-mail opt-ins te krijgen op de website."
 
 #: config/known-cookies.php:1415 config/known-cookies.php:1417
 msgid ""
 "This cookie is used a default theme of One.com. It makes it easier for the "
 "website owner to make a website and develiver a good usability."
 msgstr ""
+"Dit cookie wordt standaard gebruikt door een website-thema van One.com. Het "
+"maakt het voor de website-eigenaar gemakkelijker om een website te maken."
 
 #: config/known-cookies.php:1425 config/known-cookies.php:1427
 msgid ""
@@ -2224,6 +2247,8 @@ msgid ""
 "Amazon Pay is a service provided by Amazon, which makes it able to pay by "
 "Amazon Pay on this website."
 msgstr ""
+"Amazon Pay is een dienst van Amazon, die het mogelijk maakt om op deze "
+"website betalingen met Amazon Pay te voldoen"
 
 #: config/known-cookies.php:1446
 msgid ""
@@ -2231,6 +2256,9 @@ msgid ""
 "the end-user to fill in ReCaptcha's. Therefor, it optimizes user experience "
 "as well. "
 msgstr ""
+"CleanTalk Spam Protect is een dienst die helpt spam te bestrijden zonder dat "
+"de eindgebruiker ReCaptcha's hoeft in te vullen. Hierdoor wordt ook de "
+"gebruikerservaring geoptimaliseerd."
 
 #: config/known-cookies.php:1448
 msgid ""
@@ -2238,6 +2266,9 @@ msgid ""
 "the end-user to fill in ReCaptcha's. Therefor, it optimizes user experience "
 "as well."
 msgstr ""
+"CleanTalk Spam Protect is een dienst die helpt spam te bestrijden zonder dat "
+"de eindgebruiker ReCaptcha's hoeft in te vullen. Hierdoor wordt ook de "
+"gebruikerservaring geoptimaliseerd."
 
 #: config/known-cookies.php:1456 config/known-cookies.php:1458
 msgid ""
@@ -2251,6 +2282,8 @@ msgid ""
 "Uncode is a WordPress theme which is necessary for this website to deliver "
 "the best user experience. "
 msgstr ""
+"Uncode is een WordPress thema dat noodzakelijk is voor deze website om de "
+"beste gebruikerservaring te leveren. "
 
 #: config/known-cookies.php:1476
 msgid ""
@@ -2291,12 +2324,16 @@ msgid ""
 "CP Blocks makes it possible for the website admin to customize aspects on "
 "the website so the user experience will be better."
 msgstr ""
+"CP Blocks maakt het voor de websitebeheerder mogelijk om aspecten op de "
+"website aan te passen zodat de gebruikerservaring beter wordt."
 
 #: config/warnings.php:7
 msgid ""
 "The Complianz plugin has new features. Please check the wizard to see if all "
 "your settings are still up to date."
 msgstr ""
+"De Complianz plugin heeft nieuwe functies. Controleer de wizard om te zien "
+"of al uw instellingen nog steeds actueel zijn."
 
 #: config/warnings.php:11
 msgid "Do Not Track is respected."
@@ -2391,7 +2428,7 @@ msgstr "Hallo!"
 #: config/steps.php:11
 msgctxt "intro first step"
 msgid "Welcome to the Complianz wizard."
-msgstr ""
+msgstr "Welkom in de Complianz wizard."
 
 #: config/steps.php:12 config/steps.php:22 pro/config/steps.php:13
 #, php-format
@@ -3792,6 +3829,8 @@ msgid ""
 "When dismiss on scroll is enabled, the cookie warning will be dismissed as "
 "soon as the user scrolls."
 msgstr ""
+"Wanneer de functie \"Verbergen na scrollen\" is ingeschakeld, wordt de "
+"cookiewaarschuwing verwijderd zodra de gebruiker doorbladert."
 
 #: config/cookie-settings.php:282
 msgid "Dismiss on timeout"
@@ -3802,10 +3841,12 @@ msgid ""
 "When dismiss on time out is enabled, the cookie warning will be dismissed "
 "after 10 seconds, or the time you choose below."
 msgstr ""
+"Wanneer 'verbergen na timeout' is ingeschakeld wordt de cookiemelding na 10 "
+"seconden, of de tijd die u hieronder kiest, uitgeschakeld."
 
 #: config/cookie-settings.php:296
 msgid "Timeout in seconds"
-msgstr ""
+msgstr "Time-out in seconden"
 
 #: config/cookie-settings.php:339
 msgid "Text on link to the US cookie statement"
@@ -3905,6 +3946,9 @@ msgid ""
 " Because Youtube places cookie which require consent, the video will be "
 "blocked initially, with an explanatory text."
 msgstr ""
+"De geblokkeerde content-tekst verschijnt wanneer bijvoorbeeld een Youtube-"
+"video is ingesloten. Omdat Youtube een cookie plaatst waarvoor toestemming "
+"nodig is, wordt de video eerst geblokkeerd, met een verklarende tekst."
 
 #: config/general-settings.php:54
 msgid "Notification sender email address"
@@ -3980,6 +4024,8 @@ msgid ""
 "This will reset all settings to defaults. All data in the Complianz plugin "
 "will be deleted"
 msgstr ""
+"Hiermee worden alle instellingen teruggezet naar de standaardinstellingen. "
+"Alle gegevens in de Complianz-plugin worden gewist."
 
 #: config/questions-wizard.php:36
 msgid "A cookie policy will be added automatically to your site"
@@ -4012,11 +4058,13 @@ msgstr ""
 #: config/questions-wizard.php:90
 #, php-format
 msgid ""
-"If you want to target customers from several regions, you might consider the "
-"%spremium%s version, which offers this capability."
+"If you want to target customers from several regions, consider upgrading to "
+"the %spremium version%s, which offers a full featured Privacy Suite for both "
+"regions."
 msgstr ""
-"Als je klanten uit verschillende regio's wilt targeten, kun je %sComplianz "
-"Premium%s overwegen."
+"Als u zich wilt richten op klanten uit verschillende regio's, overweeg dan "
+"te upgraden naar %spremium%s, die een volledige Privacy Suite voor beide "
+"regio's biedt."
 
 #: config/questions-wizard.php:103
 msgid "Do you target visitors from california?"
@@ -4322,6 +4370,11 @@ msgid ""
 "or not. But if you have set it up yourself and don't want to change this, "
 "you can choose to do so"
 msgstr ""
+"Het is aan te raden om Complianz het statistieken-script te laten verwerken. "
+"Op deze manier kan de plugin detecteren of de plugin al dan niet in de "
+"toestemmingscode van de cookie moet worden gekoppeld. Maar als u het zelf "
+"hebt ingesteld en dit niet wilt veranderen, kunt u ervoor kiezen om dit te "
+"doen"
 
 #: config/questions-wizard.php:472
 msgid "Enter your Google Tagmanager code"
@@ -5440,20 +5493,23 @@ msgid ""
 "We use analytical cookies to optimize the website experience for our users. "
 "With these analytical cookies we get insights in the usage of our website."
 msgstr ""
+"Wij gebruiken analytische cookies om de website ervaring voor onze "
+"gebruikers te optimaliseren. Met deze analytische cookies krijgen we inzicht "
+"in het gebruik van onze website."
 
 #: config/documents/cookie-policy.php:57
 msgctxt "Legal document cookie policy"
 msgid "We ask your permission to place analytical cookies."
-msgstr ""
+msgstr "Wij vragen uw toestemming om analytische cookies te plaatsen."
 
 #: config/documents/cookie-policy.php:62
 msgctxt "Legal document cookie policy"
 msgid ""
-"Because statistics are being tracked anonymously, no permission is asked for "
-"to place analytical cookies."
+"Because statistics are being tracked anonymously, no permission is asked to "
+"place analytical cookies."
 msgstr ""
-"Omdat statistieken geanonimiseerd worden verzameld, wordt er geen "
-"toestemming gevraagd om analytische cookies te plaatsen. "
+"Omdat statistieken anoniem worden verzameld wordt er geen toestemming "
+"gevraagd voor het plaatsen analytische cookies."
 
 #: config/documents/cookie-policy.php:68
 msgctxt "Legal document cookie policy"
@@ -5997,6 +6053,8 @@ msgid ""
 "Specify what kind of decisions these are, what the consequences are, and "
 "what (in general terms) the logic behind these decisions is."
 msgstr ""
+"Geef aan wat voor soort beslissingen dit zijn, wat de gevolgen zijn en wat "
+"(in algemene zin) de logica achter deze beslissingen is."
 
 #: pro/config/questions-wizard.php:101
 msgid "Does the following apply to you?"
@@ -9256,7 +9314,7 @@ msgstr "Complianz Privacy Suite (GDPR/CCPA) premium"
 
 #. Description of the plugin
 msgid "Plugin to help you make your website GDPR/CCPa compliant"
-msgstr ""
+msgstr "Plugin die je helpt te voldoen aan de AVG en CCPA"
 
 #. URI of the plugin
 msgid "https://complianz.io/download/complianz-gdpr-premium"
