@@ -534,6 +534,7 @@ if (!class_exists("cmplz_field")) {
             if ($args['has_variations']) $fieldname .= $this->variation_id;
 
             $value = $this->get_value($args['fieldname'], $args['default']);
+            $placeholder_value = ($args['disabled'] && $value) ? $value : 0;
 
             if (!$this->show_field($args)) return;
             ?>
@@ -544,7 +545,7 @@ if (!class_exists("cmplz_field")) {
             <?php do_action('complianz_after_label', $args); ?>
 
             <label class="cmplz-switch">
-                <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value=""/>
+                <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value="<?php echo $placeholder_value?>"/>
 
                 <input name="<?php echo esc_html($fieldname) ?>" size="40" type="checkbox"
                     <?php if ($args['disabled']) echo 'disabled'; ?>
