@@ -33,9 +33,8 @@ tr.field-group .cmplz-help-modal {
 a.button.cmplz-open-modal {
   font-size: 9px;
   line-height: 13px;
-  height: 15px;
-  padding: 1px 3px;
-  margin-left: 10px;
+  height: 19px;
+  padding: 3px 5px;
 }
 .cmplz_delete_variation {
   float: right;
