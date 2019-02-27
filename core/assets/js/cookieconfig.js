@@ -101,20 +101,20 @@ jQuery(document).ready(function ($) {
             $(this).remove();
         });
 
-        //reset video height adjustments
+        //some video specific actions
         $('.cmplz-video').each(function (i, obj) {
+            //reset video height adjustments
             $(this).height('inherit');
+            //fitvids needs to be reinitialized, if it is used.
+            if (jQuery.fn.fitVids) {
+                $(this).fitVids();
+            }
         });
 
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
-
-            //fitvids needs to be reinitialized, if it is used.
-            if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
-                $(this).parent().fitVids();
-            }
         });
 
         //scripts: set "cmplz-script classes to type="text/javascript"

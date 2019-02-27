@@ -13,7 +13,7 @@ $this->social_media_markers = array(
     "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('assets.pinterest.com'),
     "disqus" => array('disqus.com'),
-    "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com'),
+    "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
 );
 
 /*
@@ -66,6 +66,7 @@ $this->script_tags = array(
     'instawidget.net/js/instawidget.js',
     'videopress.com/videopress-iframe.js',
     'plugins/instagram-feed/js/sb-instagram.min.js',
+    'www.instagram.com/embed.js',
 );
 
 /*
@@ -92,6 +93,7 @@ $this->iframe_tags = array(
     'platform.twitter.com/widgets.js',
     'dailymotion.com/embed/video/',
     'videopress.com/embed',
+    'instagram.com',
 );
 
 /*

@@ -8,10 +8,10 @@ Requires PHP: 5.6
 Tested up to: 5.1
 Stable tag: 2.1.5
 
-Complianz | GDPR Cookie Consent includes GDPR, RGPD, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
+Complianz | GDPR Cookie Consent supports GDPR, RGPD, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 == Description ==
-Complianz | GDPR Cookie Consent includes GDPR, CCPA, DSVGO, AVG and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built in Cookie Scan. Blocking 3rd Party Cookies from all major 3rd Party services and social services like Google Analytics, Adsense, TagManager, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors or European Union (EU) visitors.
+Complianz | GDPR Cookie Consent supports GDPR, CCPA, DSVGO, AVG and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built in Cookie Scan. Blocking 3rd Party Cookies from all major 3rd Party services and social services like Google Analytics, Adsense, TagManager, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors or European Union (EU) visitors.
 
 IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but you as user must ensure that all requirements are met.
 

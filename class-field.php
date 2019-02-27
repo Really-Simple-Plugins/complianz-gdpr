@@ -392,9 +392,9 @@ if (!class_exists("cmplz_field")) {
         public
         function after_label($args)
         {
-            if ($args['optional']) {
-                echo '<span class="cmplz-optional">' . __("(Optional)", 'complianz-gdpr') . '</span>';
-            }
+//            if ($args['optional']) {
+//                echo '<span class="cmplz-optional">' . __("(Optional)", 'complianz-gdpr') . '</span>';
+//            }
             if ($args['table']) {
                 echo '</th><td>';
             } else {
@@ -409,7 +409,7 @@ if (!class_exists("cmplz_field")) {
         function after_field($args)
         {
             $this->get_comment($args);
-            echo $this->get_help_tip_btn($args);
+
             if ($args['table']) {
                 echo '</td><td>'.$this->get_help_tip($args).'</td></tr>';
             } else {
@@ -429,7 +429,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
@@ -450,7 +450,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
@@ -472,7 +472,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
@@ -493,7 +493,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input autocomplete="tel" <?php if ($args['required']) echo 'required'; ?>
                    class="validation <?php if ($args['required']) echo 'is-required'; ?>"
@@ -514,7 +514,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input <?php if ($args['required']) echo 'required'; ?>
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
@@ -534,17 +534,18 @@ if (!class_exists("cmplz_field")) {
             if ($args['has_variations']) $fieldname .= $this->variation_id;
 
             $value = $this->get_value($args['fieldname'], $args['default']);
+            $placeholder_value = ($args['disabled'] && $value) ? $value : 0;
 
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
 
-            <label for="<?php echo esc_html($fieldname) ?>-label"><?php echo $args['label'] ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>-label"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
 
             <label class="cmplz-switch">
-                <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value=""/>
+                <input name="<?php echo esc_html($fieldname) ?>" type="hidden" value="<?php echo $placeholder_value?>"/>
 
                 <input name="<?php echo esc_html($fieldname) ?>" size="40" type="checkbox"
                     <?php if ($args['disabled']) echo 'disabled'; ?>
@@ -580,7 +581,7 @@ if (!class_exists("cmplz_field")) {
             ?>
             <?php do_action('complianz_before_label', $args); ?>
 
-            <label for="<?php echo esc_html($fieldname) ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
             <?php if (!empty($args['options'])) {?>
@@ -624,7 +625,7 @@ if (!class_exists("cmplz_field")) {
             ?>
             <?php do_action('complianz_before_label', $args); ?>
 
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
             <div class="cmplz-validate-radio">
@@ -769,7 +770,7 @@ if (!class_exists("cmplz_field")) {
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <textarea name="<?php echo esc_html($fieldname) ?>"
                       placeholder="<?php echo esc_html($args['placeholder']) ?>"><?php echo esc_html($value) ?></textarea>
@@ -795,7 +796,7 @@ if (!class_exists("cmplz_field")) {
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             $settings = array(
@@ -817,7 +818,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <div id="<?php echo esc_html($fieldname) ?>editor"
                  style="height: 200px; width: 100%"><?php echo $value ?></div>
@@ -851,7 +852,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <div id="<?php echo esc_html($fieldname) ?>editor"
                  style="height: 200px; width: 100%"><?php echo $value ?></div>
@@ -887,7 +888,7 @@ if (!class_exists("cmplz_field")) {
 
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <input type="hidden" name="<?php echo esc_html($fieldname) ?>" id="<?php echo esc_html($fieldname) ?>"
                    value="<?php echo esc_html($value) ?>" class="cmplz-color-picker-hidden">
@@ -1043,7 +1044,7 @@ if (!class_exists("cmplz_field")) {
 
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <select <?php if ($args['required']) echo 'required'; ?> name="<?php echo esc_html($fieldname) ?>">
                 <option value=""><?php _e("Choose an option", 'complianz-gdpr') ?></option>
@@ -1065,7 +1066,7 @@ if (!class_exists("cmplz_field")) {
 
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?></label>
+            <label for="<?php echo esc_html($fieldname) ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
 
             <?php do_action('complianz_after_field', $args); ?>
@@ -1087,7 +1088,7 @@ if (!class_exists("cmplz_field")) {
 
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo esc_html($args['label']) ?></label>
+            <label><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php if ($args['post_get']==='get'){ ?>
             <a <?php if ($args['disabled']) echo "disabled"?> href="<?php echo $args['disabled'] ? "#" : admin_url('admin.php?page=cmplz-settings&action='.$args['action'])?>" class="button"><?php echo esc_html($args['label']) ?></a>
@@ -1114,7 +1115,7 @@ if (!class_exists("cmplz_field")) {
 
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo esc_html($args['label']) ?></label>
+            <label><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
 
             <input type="file" type="submit" name="cmplz-upload-file"
@@ -1148,7 +1149,7 @@ if (!class_exists("cmplz_field")) {
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo esc_html($args['label']) ?></label>
+            <label><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <button class="button" type="submit" name="cmplz_add_multiple"
                     value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new", 'complianz-gdpr') ?></button>
@@ -1203,7 +1204,7 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php _e("Cookies", 'complianz-gdpr') ?></label>
+            <label><?php _e("Cookies", 'complianz-gdpr') ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
 
             <?php
@@ -1356,7 +1357,7 @@ if (!class_exists("cmplz_field")) {
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo $args["label"]." ".__('list', 'complianz-gdpr') ?></label>
+            <label><?php echo $args["label"]." ".__('list', 'complianz-gdpr') ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             if ($values) {
@@ -1457,7 +1458,7 @@ if (!class_exists("cmplz_field")) {
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php echo $args["label"] ?></label>
+            <label><?php echo $args["label"] ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <?php
             if ($values) {
