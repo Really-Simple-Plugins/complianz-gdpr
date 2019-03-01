@@ -46,10 +46,14 @@ jQuery(document).ready(function ($) {
         $('.cmplz-video').each(function() {
 
             //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
-            console.log($(this).parent().css('padding-top'));
             if (parseInt($(this).parent().css('padding-top').replace('px',''))>100) {
                 resetParentPadding = true;
                 $(this).parent().css('padding-top', '10px');
+            }
+
+            if (parseInt($(this).parent().parent().css('padding-top').replace('px',''))>100) {
+                resetParentPadding = true;
+                $(this).parent().parent().css('padding-top', '10px');
             }
 
             var blockedContentContainer = $(this);
