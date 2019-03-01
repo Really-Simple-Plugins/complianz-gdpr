@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.1
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 
 Complianz | GDPR Cookie Consent supports GDPR, RGPD, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
