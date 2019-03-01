@@ -45,7 +45,7 @@ jQuery(document).ready(function ($) {
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
 
-            //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
+            // //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
             if (parseInt($(this).parent().css('padding-top').replace('px',''))>100) {
                 resetParentPadding = true;
                 $(this).parent().css('padding-top', '10px');
@@ -69,7 +69,11 @@ jQuery(document).ready(function ($) {
                 if (imgWidth===0) imgWidth=1;
                 var w = blockedContentContainer.width();
                 var h = imgHeight * (w / imgWidth);
-                blockedContentContainer.height(h);
+                if (resetParentPadding) {
+                    blockedContentContainer.css('padding-top', h);
+                } else {
+                    blockedContentContainer.height(h);
+                }
             });
             img.src = src;
 
@@ -114,10 +118,11 @@ jQuery(document).ready(function ($) {
             $(this).remove();
         });
 
-        //some video specific actions
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
-            if (!resetParentPadding) {
+            if (resetParentPadding) {
+                $(this).css('padding-top', '');
+            }else{
                 $(this).height('inherit');
             }
         });
@@ -688,7 +693,7 @@ jQuery(document).ready(function ($) {
     }
 
     /*
-    * Fire the categories events which have been accepted. 
+    * Fire the categories events which have been accepted.
     * Fires Tag Manager events.
     *
     * */
