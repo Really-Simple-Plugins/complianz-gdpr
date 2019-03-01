@@ -69,11 +69,11 @@ jQuery(document).ready(function ($) {
                 if (imgWidth===0) imgWidth=1;
                 var w = blockedContentContainer.width();
                 var h = imgHeight * (w / imgWidth);
-                if (resetParentPadding) {
-                    blockedContentContainer.css('padding-top', h);
-                } else {
-                    blockedContentContainer.height(h);
-                }
+                // if (resetParentPadding) {
+                //     blockedContentContainer.css('padding-top', h);
+                // } else {
+                blockedContentContainer.height(h);
+                // }
             });
             img.src = src;
 
@@ -120,9 +120,7 @@ jQuery(document).ready(function ($) {
 
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
-            if (resetParentPadding) {
-                $(this).css('padding-top', '');
-            }else{
+            if (!resetParentPadding) {
                 $(this).height('inherit');
             }
         });
