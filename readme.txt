@@ -101,6 +101,9 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Fix: FitVids compatibility for fluid video display
 * Fix: empty locales array for cookie cache could cause PHP warning
 
+= 2.1.5 =
+* Fix: z-index of blocked content container too high, making it float over the banner
+
 = 2.1.4 =
 * Fix: incorrect PHP opening causing input fields malform on some setups
 

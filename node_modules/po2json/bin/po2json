@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var po2json = require('../'),
+	fs = require('fs'),
+  version = require('../package.json').version;
+
+require("commander")
+  .version(version)
+  .arguments('<input> <output>')
+  .option('-p --pretty', 'pretty-print JSON')
+  .option('-F --fuzzy', 'include fuzzy messages')
+  .option('-f --format [format]', 'output format [raw, jed, jedold, mf]', 'raw')
+  .option('-M --full-mf', 'return full messageformat output (instead of only translations)')
+  .option('-d --domain [domain]', 'domain')
+  .option('--fallback-to-msgid', 'use msgid if translation is missing (nplurals must match)')
+  .action(function (input, output, options) {
+    options.stringify = true;
+    var result = po2json.parseFileSync(input, options),
+        stream = fs.createWriteStream(output, {});
+
+    stream.write(result);
+  })
+  .parse(process.argv);
