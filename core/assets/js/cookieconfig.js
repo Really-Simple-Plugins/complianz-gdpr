@@ -34,14 +34,23 @@ jQuery(document).ready(function ($) {
     var ccPrivacyLink = '';
     var waitingScripts = [];
 
+
     /*
     * Set height of blocked content div to placeholder img aspect ratio's
     *
     * */
 
+    var resetParentPadding = false;
     setBlockedContentContainerAspectRatio();
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
+
+            //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
+            console.log($(this).parent().css('padding-top'));
+            if (parseInt($(this).parent().css('padding-top').replace('px',''))>100) {
+                resetParentPadding = true;
+                $(this).parent().css('padding-top', '10px');
+            }
 
             var blockedContentContainer = $(this);
             var src = $(this).css('background-image');
@@ -104,7 +113,9 @@ jQuery(document).ready(function ($) {
         //some video specific actions
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
-            $(this).height('inherit');
+            if (!resetParentPadding) {
+                $(this).height('inherit');
+            }
         });
 
         //iframes
@@ -112,7 +123,7 @@ jQuery(document).ready(function ($) {
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
 
-            //fitvids needs to be reinitialized, if it is used.
+            // //fitvids needs to be reinitialized, if it is used.
             if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
                 $(this).parent().fitVids();
             }
