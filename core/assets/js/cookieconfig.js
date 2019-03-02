@@ -166,9 +166,7 @@ jQuery(document).ready(function ($) {
 
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
-            if(!resetPadding) {
-                $(this).height('inherit');
-            }
+            $(this).height('inherit');
         });
 
         //iframes
