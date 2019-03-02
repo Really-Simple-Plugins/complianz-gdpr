@@ -34,26 +34,68 @@ jQuery(document).ready(function ($) {
     var ccPrivacyLink = '';
     var waitingScripts = [];
 
+    /**
+     * Get actual css style from an element
+     * @param el
+     * @param property
+     * @returns {string}
+     */
+
+    function getActualCSS(el, property) {
+        var domNode = el[0];
+
+        var parent = domNode.parentNode;
+        if(parent) {
+            var originalDisplay = parent.style.display;
+            parent.style.display = 'none';
+        }
+        var computedStyles = getComputedStyle(domNode);
+        var result = computedStyles[property];
+
+
+        if(parent) {
+            parent.style.display = originalDisplay;
+        }
+
+        return result;
+    }
+
+    /**
+     * Checks if this padding is 56%, which is a padding to make video's responsive
+     * @param padding
+     * @returns {boolean}
+     */
+
+    function isVideoPadding(padding){
+        //video padding contains %.
+        if (padding.indexOf('%')===-1) return false;
+
+        //video padding is about 56%.
+        return (parseInt(padding.replace('%',''))===56);
+    }
 
     /*
     * Set height of blocked content div to placeholder img aspect ratio's
     *
     * */
-
-    var resetParentPadding = false;
+    var resetPadding = false;
     setBlockedContentContainerAspectRatio();
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
 
             // //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
-            if (parseInt($(this).parent().css('padding-top').replace('px',''))>100) {
-                resetParentPadding = true;
-                $(this).parent().css('padding-top', '10px');
+            var grandParent = $(this).parent().parent();
+            var gpPadding = getActualCSS(grandParent, 'paddingTop');
+            if (isVideoPadding(gpPadding)) {
+                resetPadding = gpPadding;
+                grandParent.css('padding-top', '0');
             }
 
-            if (parseInt($(this).parent().parent().css('padding-top').replace('px',''))>100) {
-                resetParentPadding = true;
-                $(this).parent().parent().css('padding-top', '10px');
+            var parent = $(this).parent();
+            var pPadding = getActualCSS(parent, 'paddingTop');
+            if (isVideoPadding(gpPadding)) {
+                resetPadding = pPadding;
+                parent.css('padding-top', '0');
             }
 
             var blockedContentContainer = $(this);
@@ -69,11 +111,11 @@ jQuery(document).ready(function ($) {
                 if (imgWidth===0) imgWidth=1;
                 var w = blockedContentContainer.width();
                 var h = imgHeight * (w / imgWidth);
-                // if (resetParentPadding) {
-                //     blockedContentContainer.css('padding-top', h);
-                // } else {
-                blockedContentContainer.height(h);
-                // }
+                if (resetPadding) {
+                    blockedContentContainer.css('padding-top', resetPadding);
+                } else {
+                    blockedContentContainer.height(h);
+                }
             });
             img.src = src;
 
@@ -120,7 +162,7 @@ jQuery(document).ready(function ($) {
 
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
-            if (!resetParentPadding) {
+            if(!resetPadding) {
                 $(this).height('inherit');
             }
         });
