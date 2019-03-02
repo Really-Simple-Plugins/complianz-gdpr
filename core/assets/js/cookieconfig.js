@@ -82,46 +82,49 @@ jQuery(document).ready(function ($) {
     * Set height of blocked content div to placeholder img aspect ratio's
     *
     * */
-    var resetPadding = false;
     setBlockedContentContainerAspectRatio();
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
+            var resetPadding = false;
 
             // //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
             var grandParent = $(this).parent().parent();
             var gpPadding = getActualCSS(grandParent, 'paddingTop');
-            if (isVideoPadding(gpPadding)) {
+
+            if (isVideoPadding(gpPadding) && grandParent.children().length==1) {
                 resetPadding = gpPadding;
                 grandParent.css('padding-top', '10px');
             }
 
             var parent = $(this).parent();
             var pPadding = getActualCSS(parent, 'paddingTop');
-            if (isVideoPadding(pPadding)) {
+            if (isVideoPadding(pPadding) && parent.children().length) {
                 if (!resetPadding) resetPadding = pPadding;
                 parent.css('padding-top', '10px');
             }
 
             var blockedContentContainer = $(this);
             var src = $(this).css('background-image');
-            src = src.replace('url(','').replace(')','').replace(/\"/gi, "");
+            if (src.length) {
+                src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 
-            var img = new Image();
-            img.addEventListener("load", function(){
-                var imgWidth = this.naturalWidth;
-                var imgHeight = this.naturalHeight;
+                var img = new Image();
+                img.addEventListener("load", function () {
+                    var imgWidth = this.naturalWidth;
+                    var imgHeight = this.naturalHeight;
 
-                //prevent division by zero.
-                if (imgWidth===0) imgWidth=1;
-                var w = blockedContentContainer.width();
-                var h = imgHeight * (w / imgWidth);
-                if (resetPadding) {
-                    blockedContentContainer.css('padding-top', resetPadding);
-                } else {
-                    blockedContentContainer.height(h);
-                }
-            });
-            img.src = src;
+                    //prevent division by zero.
+                    if (imgWidth === 0) imgWidth = 1;
+                    var w = blockedContentContainer.width();
+                    var h = imgHeight * (w / imgWidth);
+                    if (resetPadding) {
+                        blockedContentContainer.css('padding-top', resetPadding);
+                    } else {
+                        blockedContentContainer.height(h);
+                    }
+                });
+                img.src = src;
+            }
 
         });
     }
@@ -167,6 +170,7 @@ jQuery(document).ready(function ($) {
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments
             $(this).height('inherit');
+
         });
 
         //iframes
