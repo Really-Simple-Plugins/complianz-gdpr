@@ -71,7 +71,11 @@ jQuery(document).ready(function ($) {
         if (padding.indexOf('%')===-1) return false;
 
         //video padding is about 56%.
-        return (parseInt(padding.replace('%',''))===56);
+        if (parseInt(padding.replace('%',''))===56){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -88,14 +92,14 @@ jQuery(document).ready(function ($) {
             var gpPadding = getActualCSS(grandParent, 'paddingTop');
             if (isVideoPadding(gpPadding)) {
                 resetPadding = gpPadding;
-                grandParent.css('padding-top', '0');
+                grandParent.css('padding-top', '10px');
             }
 
             var parent = $(this).parent();
             var pPadding = getActualCSS(parent, 'paddingTop');
-            if (isVideoPadding(gpPadding)) {
-                resetPadding = pPadding;
-                parent.css('padding-top', '0');
+            if (isVideoPadding(pPadding)) {
+                if (!resetPadding) resetPadding = pPadding;
+                parent.css('padding-top', '10px');
             }
 
             var blockedContentContainer = $(this);
