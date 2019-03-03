@@ -87,7 +87,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 2.1.6 =
-* Fix: some more responsive video adjustments
+* Fix: responsive video adjustments
 * Fix: z index for blocked content text too high, causing it to float over the banner
 
 = 2.1.5 =
