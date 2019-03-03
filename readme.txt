@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.1
-Stable tag: 2.1.6
+Stable tag: 2.1.7
 
 Complianz | GDPR Cookie Consent supports GDPR, RGPD, CCPA, DSVGO, AVG with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
@@ -86,8 +86,11 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 2.1.7 =
+* Fix: typo in block.php cause Gutenberg to fail
+
 = 2.1.6 =
-* Fix: some more responsive video adjustments
+* Fix: responsive video adjustments
 * Fix: z index for blocked content text too high, causing it to float over the banner
 
 = 2.1.5 =
