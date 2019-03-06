@@ -104,7 +104,10 @@ jQuery(document).ready(function ($) {
                 parent.css('padding-top', '10px');
             }
 
+            //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
+                resetPadding = '56%';
+                console.log(resetPadding);
                 parent.addClass('cmplz-clear-padding');
             }
 
@@ -124,11 +127,10 @@ jQuery(document).ready(function ($) {
                     if (resetPadding && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
                         blockedContentContainer.css('padding-top', resetPadding);
                     } else {
-
                         blockedContentContainer.height(h);
                     }
                 });
-                img.src = src;
+                if (src && src.length) img.src = src;
             }
 
         });
@@ -177,9 +179,9 @@ jQuery(document).ready(function ($) {
             if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) $(this).height('inherit');
         });
 
-        //clear up removed padding
+        //clear up removed padding for gutenberg
         $('.cmplz-clear-padding').each(function (i, obj) {
-            $(this).removeClass('cmplz-clear-padding');
+            //$(this).removeClass('cmplz-clear-padding');
         });
 
         //iframes
