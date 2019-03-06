@@ -279,6 +279,12 @@
 .cc-deny {
   display: none;
 }
+.cmplz-clear-padding {
+  padding-top: 10px !important;
+}
+.cmplz-clear-padding:before {
+  padding-top: 0 !important;
+}
 .cmplz-blocked-content-container {
   display: flex;
   justify-content: center;

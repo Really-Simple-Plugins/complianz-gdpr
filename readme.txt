@@ -86,6 +86,9 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 2.1.8 =
+* Tweak: improved Elementor compatibility
+
 = 2.1.7 =
 * Fix: typo in block.php cause Gutenberg to fail
 
