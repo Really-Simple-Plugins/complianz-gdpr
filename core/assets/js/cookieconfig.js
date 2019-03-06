@@ -85,10 +85,11 @@ jQuery(document).ready(function ($) {
     setBlockedContentContainerAspectRatio();
     function setBlockedContentContainerAspectRatio() {
         $('.cmplz-video').each(function() {
+            var blockedContentContainer = $(this);
             var resetPadding = false;
 
             // //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
-            var grandParent = $(this).parent().parent();
+            var grandParent = blockedContentContainer.parent().parent();
             var gpPadding = getActualCSS(grandParent, 'paddingTop');
 
             if (isVideoPadding(gpPadding) && grandParent.children().length==1) {
@@ -96,15 +97,14 @@ jQuery(document).ready(function ($) {
                 grandParent.css('padding-top', '10px');
             }
 
-            var parent = $(this).parent();
+            var parent = blockedContentContainer.parent();
             var pPadding = getActualCSS(parent, 'paddingTop');
             if (isVideoPadding(pPadding) && parent.children().length) {
                 if (!resetPadding) resetPadding = pPadding;
                 parent.css('padding-top', '10px');
             }
 
-            var blockedContentContainer = $(this);
-            var src = $(this).css('background-image');
+            var src = blockedContentContainer.css('background-image');
             if (src.length) {
                 src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 
@@ -117,7 +117,7 @@ jQuery(document).ready(function ($) {
                     if (imgWidth === 0) imgWidth = 1;
                     var w = blockedContentContainer.width();
                     var h = imgHeight * (w / imgWidth);
-                    if (resetPadding) {
+                    if (resetPadding && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
                         blockedContentContainer.css('padding-top', resetPadding);
                     } else {
                         blockedContentContainer.height(h);
@@ -168,9 +168,8 @@ jQuery(document).ready(function ($) {
         });
 
         $('.cmplz-video').each(function (i, obj) {
-            //reset video height adjustments
-            $(this).height('inherit');
-
+            //reset video height adjustments, but not for elementor
+            if (!$(this).parent().hasClass('elementor-wrapper')) $(this).height('inherit');
         });
 
         //iframes

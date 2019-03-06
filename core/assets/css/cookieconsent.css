@@ -288,6 +288,9 @@
   height: inherit;
   position: relative;
 }
+.cmplz-blocked-content-container.cmplz-video .cmplz-iframe-styles {
+  background-color: transparent;
+}
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
   cursor: pointer;
   position: absolute;
