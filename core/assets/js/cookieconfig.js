@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
 
             if (isVideoPadding(gpPadding) && grandParent.children().length===1) {
                 resetPadding = gpPadding;
-                gpPadding.css('padding-top', '10px');
+                grandParent.css('padding-top', '10px');
             }
 
             var parent = blockedContentContainer.parent();
@@ -106,8 +106,7 @@ jQuery(document).ready(function ($) {
 
             //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
-                resetPadding = '56%';
-                console.log(resetPadding);
+                resetPadding = '56.25%';
                 parent.addClass('cmplz-clear-padding');
             }
 
@@ -177,11 +176,6 @@ jQuery(document).ready(function ($) {
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments, but not for elementor
             if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) $(this).height('inherit');
-        });
-
-        //clear up removed padding for gutenberg
-        $('.cmplz-clear-padding').each(function (i, obj) {
-            //$(this).removeClass('cmplz-clear-padding');
         });
 
         //iframes
