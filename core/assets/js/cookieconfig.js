@@ -174,6 +174,7 @@ jQuery(document).ready(function ($) {
 
         //iframes
         $('.cmplz-iframe').each(function (i, obj) {
+            $(this).removeClass('cmplz-iframe-styles');
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
 
