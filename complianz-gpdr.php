@@ -175,6 +175,7 @@ if (!class_exists('COMPLIANZ')) {
                 require_once(cmplz_path . 'class-field.php');
                 require_once(cmplz_path . 'class-wizard.php');
                 require_once(cmplz_path . 'callback-notices.php');
+                require_once(cmplz_path . 'cookiebanner/cookiebanner.php');
             }
 
             require_once(cmplz_path . 'cron/cron.php');
