@@ -2,8 +2,50 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->fields = $this->fields + array(
+        'use_country' => array(
+            'step' => 'general',
+            'source' => 'settings',
+            'type' => 'checkbox',
+            'label' => __("Use geolocation", 'complianz-gdpr'),
+            'comment' => $this->premium_geo_ip.__('If enabled, the cookie warning will not show for countries without a cookie law, and will adjust the warning type depending on supported privacy laws','complianz-gdpr'),
+            'table' => true,
+            'disabled' => true,
+            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+        ),
+
+        'a_b_testing' => array(
+            'source' => 'settings',
+            'step' => 'general',
+            'type' => 'checkbox',
+            'label' => __("Enable A/B testing", 'complianz-gdpr'),
+            'comment' => $this->premium_ab_testing.__('If enabled, the plugin will track which cookie warning has the best conversion rate.','complianz-gdpr'),
+            'table' => true,
+            'disabled' => true,
+            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+        ),
+
+        'a_b_testing_duration' => array(
+            'source' => 'settings',
+            'step' => 'general',
+            'type' => 'number',
+            'label' => __("Duration in days of the A/B testing period", 'complianz-gdpr'),
+            'table' => true,
+            'disabled' => true,
+            'condition' => array('a_b_testing' => true),
+            'default' => 30, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+        ),
+
+        'cookie_expiry' => array(
+            'source' => 'settings',
+            'step' => 'general',
+            'type' => 'number',
+            'default' => 365,
+            'label' => __("Cookie warning expiration in days", 'complianz-gdpr'),
+            'table' => true,
+        ),
+
         'use_document_css' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'checkbox',
             'label' => __("Use document CSS", 'complianz-gdpr'),
             'table' => true,
@@ -12,7 +54,7 @@ $this->fields = $this->fields + array(
         ),
 
         'use_custom_document_css' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'checkbox',
             'label' => __("Add custom document CSS", 'complianz-gdpr'),
             'table' => true,
@@ -21,7 +63,7 @@ $this->fields = $this->fields + array(
         ),
 
         'custom_document_css' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'css',
             'label' => __("Custom document CSS", 'complianz-gdpr'),
             'default' => '#cmplz-document h3 {} /* titles in complianz documents */'."\n".'#cmplz-document .subtitle {} /* subtitles */'."\n".'#cmplz-document h3.annex{} /* titles in annexes */'."\n".'#cmplz-document .subtitle.annex{} /* subtitles in annexes */'."\n".'#cmplz-document, #cmplz-document p, #cmplz-document span, #cmplz-document li {} /* text */'."\n".'#cmplz-document table {} /* table styles */'."\n".'#cmplz-document td {} /* row styles */',
@@ -31,7 +73,7 @@ $this->fields = $this->fields + array(
         ),
 
         'disable_cookie_block' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'checkbox',
             'label' => __("Disable cookie blocker", 'complianz-gdpr'),
             'default' => false,
@@ -40,7 +82,7 @@ $this->fields = $this->fields + array(
         ),
 
         'blocked_content_text' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'text',
             'label' => __("Blocked content text", 'complianz-gdpr'),
             'default' => _x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),
@@ -49,7 +91,7 @@ $this->fields = $this->fields + array(
         ),
 
         'notification_from_email' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'email',
             'label' => __("Notification sender email address", 'complianz-gdpr'),
             'default' => false,
@@ -62,7 +104,7 @@ $this->fields = $this->fields + array(
         ),
 
         'notification_email_subject' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'text',
             'label' => __("Notification email subject", 'complianz-gdpr'),
             'default' => __('Your request has been processed','complianz-gdpr'),
@@ -74,7 +116,7 @@ $this->fields = $this->fields + array(
         ),
 
         'notification_email_content' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'wysiwyg',
             'label' => __("Notification email content", 'complianz-gdpr'),
             'default' => __('Hi {name}','complianz-gdpr')."<br><br>".__('Your request has been processed successfully.','complianz-gdpr')."<br><br>"._x('Regards,','email signature','complianz-gdpr').'<br><br>{blogname}',
@@ -86,7 +128,7 @@ $this->fields = $this->fields + array(
         ),
 
         'export_settings' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'disabled' =>true,
             'type' => 'button',
             'action' => 'cmplz_export_settings',
@@ -97,7 +139,7 @@ $this->fields = $this->fields + array(
         ),
 
         'import_settings' => array(
-            'page' => 'settings',
+            'source' => 'settings',
             'disabled' => true,
             'type' => 'upload',
             'action' => 'cmplz_import_settings',
@@ -108,7 +150,7 @@ $this->fields = $this->fields + array(
 
         'reset_settings' => array(
             'warn' => __('Are you sure? This will remove all Complianz data.','complianz-gdpr'),
-            'page' => 'settings',
+            'source' => 'settings',
             'type' => 'button',
             'action' => 'cmplz_reset_settings',
             'post_get' => 'post',

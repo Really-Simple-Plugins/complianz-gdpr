@@ -134,7 +134,7 @@ if (!class_exists("cmplz_config")) {
 
             $output = array();
             $fields = $this->fields;
-            if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'page', $page);
+            if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'source', $page);
 
             foreach ($fields as $fieldname => $field) {
                 if ($step) {

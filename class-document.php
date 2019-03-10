@@ -38,6 +38,30 @@ if (!class_exists("cmplz_document")) {
 
         }
 
+        /**
+         * Add some text to the privacy policy suggested texts in free.
+         */
+
+        public function add_privacy_info()
+        {
+            if (!function_exists('wp_add_privacy_policy_content')) {
+                return;
+            }
+
+            //only necessary for free, as premium will generate the privacy policy
+            if (!defined('cmplz_free')) return;
+
+            $content = sprintf(
+                __("Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your privacy policy. The used cookies (all functional) will be automatically added to your cookie policy. You can find our privacy policy %shere%s.", 'complianz-gdpr'),
+                '<a href="https://complianz.io/privacy-statement/" target="_blank">', '</a>'
+            );
+
+            wp_add_privacy_policy_content(
+                'Complianz | GDPR Cookie Consent',
+                wp_kses_post(wpautop($content, false))
+            );
+        }
+
 
         /*
           * Get the region for a post id, based on the post type.
@@ -174,6 +198,9 @@ if (!class_exists("cmplz_document")) {
             add_action('cmplz_wizard_add_pages_to_menu', array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+
+            add_action('admin_init', array($this, 'add_privacy_info'));
+
 
         }
 

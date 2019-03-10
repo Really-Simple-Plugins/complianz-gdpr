@@ -1,4 +1,10 @@
 /*
+   statistics
+*/
+.cmplz-bestperformericon {
+  width: 12px;
+}
+/*
     Complianz submenu in wp admin
 */
 .wp-submenu .cmplz-submenu a {
@@ -37,7 +43,7 @@ a.button.cmplz-open-modal {
   padding: 1px 3px;
   margin-left: 10px;
 }
-.cmplz_delete_variation {
+.cmplz_delete_banner {
   float: right;
   margin-top: -5px !important;
 }

@@ -763,8 +763,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WPForms' => array('functional' => true,
-        'used_names' => array('_wpfuuid'),
-        'unique_used_names' => array('_wpfuuid'),
+        'used_names' => array('_wpfuuid', 'wpforms_field_group_payment'),
+        'unique_used_names' => array('_wpfuuid', 'wpforms_field_group_payment'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "WPForms",
         'purpose' => __("This cookie is placed to place contact forms and follow submissions.", 'complianz-gdpr'),
@@ -773,8 +773,8 @@ $this->known_cookie_keys = array(
     ),
 
     'Beeketing' => array('functional' => true,
-        'used_names' => array('_beeketing_cart_token', 'beeketing_show_review_request', 'beeketing_show_cross_sell', 'bk_show_tab_freeApps', 'bk_abtest_last_changed_time', 'bk_identify', 'bk_cart', 'bk_gs', 'bk_gs_time', 'beeketing_show_first_time', 'beeketing_activated_plugin', 'beeketing_hide_review_request', 'beeketing_cart_fragments_init'),
-        'unique_used_names' => array('_beeketing_cart_token', 'beeketing_show_review_request', 'beeketing_show_cross_sell', 'bk_show_tab_freeApps', 'bk_abtest_last_changed_time', 'bk_identify', 'bk_cart', 'bk_gs', 'bk_gs_time', 'beeketing_show_first_time', 'beeketing_activated_plugin', 'beeketing_hide_review_request', 'beeketing_cart_fragments_init'),
+        'used_names' => array('_beeketing_cart_token', 'beeketing_show_review_request', 'beeketing_show_cross_sell', 'bk_show_tab_freeApps', 'bk_abtest_last_changed_time', 'bk_identify', 'bk_cart', 'bk_gs', 'bk_gs_time', 'beeketing_show_first_time', 'beeketing_activated_plugin', 'beeketing_hide_review_request', 'beeketing_cart_fragments_init', 'beeketing_hide_setup_notice'),
+        'unique_used_names' => array('_beeketing_cart_token', 'beeketing_show_review_request', 'beeketing_show_cross_sell', 'bk_show_tab_freeApps', 'bk_abtest_last_changed_time', 'bk_identify', 'bk_cart', 'bk_gs', 'bk_gs_time', 'beeketing_show_first_time', 'beeketing_activated_plugin', 'beeketing_hide_review_request', 'beeketing_cart_fragments_init', 'beeketing_hide_setup_notice'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "Beeketing",
         'purpose' => __("Beeketing uses cookies to enhance our users' and customers' experience on the internet.", 'complianz-gdpr'),
@@ -1202,8 +1202,8 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used by Loggly, which is tool that helps Github users to resolve coding errors on the website.", 'complianz-gdpr'),
     ),
     'Google_Adsense' => array('marketing' => true,
-        'used_names' => array('google_experiment_mod'),
-        'unique_used_names' => array('google_experiment_mod'),
+        'used_names' => array('google_experiment_mod', 'google_experiment_mod3'),
+        'unique_used_names' => array('google_experiment_mod', 'google_experiment_mod3'),
         'privacy_policy_url' => 'https://policies.google.com/technologies/ads?hl=en',
         'label' => "Google Adsense",
         'purpose' => __("This cookie is used by Google Adsense, to show you advertisements based on browsing behavior. ", 'complianz-gdpr'),
@@ -1580,6 +1580,26 @@ $this->known_cookie_keys = array(
         'description' => __("With this cookie we are able to deliver a function on our website: We can edit your activity posts and replies.", 'complianz-gdpr'),
     ),
 
+    'WordPress Caching' => array('functional' => true,
+        'used_names' => array('wpSGCacheBypass'),
+        'unique_used_names' => array('wpSGCacheBypass'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => "WordPress Caching",
+        'purpose' => __("With this cookie WordPress, the Content Management System, is able to remember certain settings on the website for the next visit.", 'complianz-gdpr'),
+        'storage_duration' => __("365 days", 'complianz-gdpr'),
+        'description' => __("With this cookie WordPress, the Content Management System, is able to remember certain settings on the website for the next visit.", 'complianz-gdpr'),
+    ),
+
+    'WP Touch' => array('functional' => true,
+        'used_names' => array('wptouch_customizer_mode'),
+        'unique_used_names' => array('wptouch_customizer_mode'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => "WP Touch",
+        'purpose' => __("With this cookie we are able to make a mobile version of our website to deliver the best functionalities to our users.", 'complianz-gdpr'),
+        'storage_duration' => __("365 days", 'complianz-gdpr'),
+        'description' => __("With this cookie we are able to make a mobile version of our website to deliver the best functionalities to our users.", 'complianz-gdpr'),
+    ),
+
     'Cookie_Acceptation' => array('functional' => true,
         'used_names' => array('_cmpQcif3pcsupported '),
         'unique_used_names' => array('_cmpQcif3pcsupported '),
@@ -1610,7 +1630,8 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used for implementing the European Cookie Law and is obligatory to protect our customers' data.", 'complianz-gdpr'),
     ),
 
-    'AIT_Themes' => array('functional' => true,
+    'AIT_Themes' => array(
+        'functional' => true,
         'used_names' => array('AitShortcodesGenerator', 'ait-admin-theme-options-page', 'aitToggleUnsortables'),
         'unique_used_names' => array('AitShortcodesGenerator', 'ait-admin-theme-options-page', 'aitToggleUnsortables'),
         'privacy_policy_url' => '[privacy_policy_url]',
@@ -1618,5 +1639,6 @@ $this->known_cookie_keys = array(
         'purpose' => __("This cookie is used by our main theme: AIT Theme. It is necessary for us to place these cookies to deliver the best experience on our website. Think of search results refinery, a faster and better looking website and reviews.", 'complianz-gdpr'),
         'storage_duration' => __("365 days", 'complianz-gdpr'),
         'description' => __("This cookie is used by our main theme: AIT Theme. It is necessary for us to place these cookies to deliver the best experience on our website. Think of search results refinery, a faster and better looking website and reviews.", 'complianz-gdpr'),
+
     ),
 );

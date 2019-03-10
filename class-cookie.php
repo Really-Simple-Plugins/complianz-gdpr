@@ -84,11 +84,6 @@ if (!class_exists("cmplz_cookie")) {
             delete_transient('cmplz_pages_list');
         }
 
-//        public function load_user_cookie_variation()
-//        {
-//            $this->user_cookie_variation = apply_filters('cmplz_user_variation_id', '');
-//        }
-
         /*
          * Show a notice regarding the statistics usage
          *
@@ -255,11 +250,12 @@ if (!class_exists("cmplz_cookie")) {
 
         public function enqueue_assets($hook)
         {
-            $user_variation_id = $this->user_cookie_variation;
             $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
-            $cookiesettings = $this->get_cookie_settings($user_variation_id);
+
+            $cookiesettings = $this->get_cookie_settings(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
@@ -277,9 +273,14 @@ if (!class_exists("cmplz_cookie")) {
             }
         }
 
+        /**
+         * Check if AB testing is enabled
+         * @return bool $enabled
+         */
+
         public function ab_testing_enabled()
         {
-            return cmplz_get_value('a_b_testing');
+            return apply_filters('cmplz_ab_testing_enabled', false);
         }
 
         /*
@@ -296,40 +297,7 @@ if (!class_exists("cmplz_cookie")) {
                 wp_enqueue_script('cmplz-ad-checker', cmplz_url . "core/assets/js/ads.js", array('jquery', 'cmplz-admin'), cmplz_version, true);
             }
 
-            if (strpos($hook, 'cmplz-cookie-warning') === FALSE) return;
-            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
-            wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
-            wp_enqueue_style('cmplz-cookie');
 
-            $variation_id = $this->selected_variation_id();
-
-            if (cmplz_get_value('use_custom_cookie_css' . $variation_id)) {
-                $custom_css = $this->sanitize_custom_css(cmplz_get_value('custom_css' . $variation_id));
-                ('sanitized css' . $custom_css);
-                if (!empty($custom_css)) {
-                    wp_add_inline_style('cmplz-cookie', $custom_css);
-                }
-            }
-
-            $cookiesettings = $this->get_cookie_settings($variation_id);
-
-            wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent.js", array('jquery'), cmplz_version, true);
-            wp_localize_script(
-                'cmplz-cookie',
-                'complianz',
-                $cookiesettings
-            );
-
-            wp_enqueue_script('cmplz-cookie-config-styling', cmplz_url . "core/assets/js/cookieconfig-styling.js", array('jquery'), cmplz_version, true);
-
-        }
-
-        public function sanitize_custom_css($css)
-        {
-            $css = preg_replace('/\/\*(.|\s)*?\*\//i', '', $css);
-            $css = str_replace(array('.cc-message{}', '.cc-dismiss{}', '.cc-allow{}', '.cc-window{}'), '', $css);
-            $css = trim($css);
-            return $css;
         }
 
         public function get_active_policy_id()
@@ -338,6 +306,12 @@ if (!class_exists("cmplz_cookie")) {
             $policy_id = $policy_id ? $policy_id : 1;
             return $policy_id;
         }
+
+        /**
+         * Upgrade the activate policy id with one
+         * The active policy id is used to track if the user has consented to the latest policy changes.
+         * If changes were made, the policy is increased, and user should consent again.
+         */
 
         public function upgrade_active_policy_id()
         {
@@ -348,136 +322,25 @@ if (!class_exists("cmplz_cookie")) {
             update_option('complianz_active_policy_id', $policy_id);
         }
 
-        public function selected_variation_id()
-        {
-            $variation_id = '';
-            if (isset($_GET['variation_id'])) {
-                $variation_id = intval($_GET['variation_id']) == 0 ? '' : intval($_GET['variation_id']);
-            }
-            return $variation_id;
-        }
 
-
-        /*
+        /**
          * Make sure we only have the front-end settings for the output
          *
          * */
 
-        public function get_cookie_settings($variation_id = '')
+        public function get_cookie_settings($banner_id = '')
         {
-            //cleared on saving in class field
+            //cleared on saving in cookiebanner object
             //get localized transient
-            $locale = get_locale();
-            $output = get_transient('cmplz_cookie_settings_cache_'.$locale . $variation_id);
+            $output = get_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id);
+
             if ((defined('WP_DEBUG') && WP_DEBUG) || !$output ) {
-
-                //store this locale for when we need to clear this cache.
-                $locales = get_option('cmplz_supported_locales');
-                if (!is_array($locales)) $locales = array();
-                if (!in_array($locale, $locales)) $locales[] = $locale;
-                update_option('cmplz_supported_locales', $locales);
-                $output = array();
-
-                $fields = COMPLIANZ()->config->fields('cookie_settings', false, false, $variation_id);
-                $allowed_html = cmplz_allowed_html();
-                foreach ($fields as $fieldname => $field) {
-                    $value = cmplz_get_value($fieldname);
-                    if (empty($value)) $value = $field['default'];
-                    $output[str_replace($variation_id, '', $fieldname)] = wp_kses($value, $allowed_html);
-                }
-                $output['version'] = cmplz_version;
-                $output['static'] = false;
-                $output['categories'] = '';
-
-                if ($output['position']=='static') {
-                    $output['static'] = true;
-                    $output['position'] = 'top';
-                }
-
-                //When theme is edgeless, don't set border color
-                if ($output['theme']==='edgeless'){
-                    $output['border_color'] = false;
-                }
-
-                $output['hide_revoke'] = $output['hide_revoke'] ? 'cc-hidden' : '';
-                $output['type'] = 'opt-in';
-                $output['layout'] = 'basic';
-
-                $output['dismiss_on_scroll'] = $output['dismiss_on_scroll'] ? 400 : false;
-                $output['dismiss_on_timeout'] = $output['dismiss_on_timeout'] ? 1000 * $output['dismiss_timeout'] : false;
-
-                //if user has selected only one region, we use the selected one.
-                $output['single-region'] = cmplz_multiple_regions() ? false : COMPLIANZ()->company->get_default_region();
-
-                /*
-                 *
-                 * This is for the category style popups
-                 *
-                 *
-                 * */
-
-                if ($output['use_categories']) {
-                    $checkbox_all = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="18px" height="18px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
-                    $checkbox_functional = str_replace(array('type', 'cmplz_all'), array('checked disabled type', 'cmplz_functional'), $checkbox_all);
-                    $output['categories'] = '<label>' . $checkbox_functional . '<span class="cc-category">'.$output['category_functional'] . '</span></label>';
-
-                    if ($this->tagmamanager_fires_scripts()) {
-                        $tm_categories = $output['tagmanager_categories'];
-                        $output['tm_categories'] = true;
-                        $categories = explode(',', $tm_categories);
-                        $output['cat_num'] = count($categories);
-                        foreach ($categories as $i => $category) {
-                            if (empty($category)) continue;
-                            $checkbox_category = str_replace('cmplz_all', 'cmplz_' . $i, $checkbox_all);
-                            $output['categories'] .= '<label>' . $checkbox_category . '<span class="cc-category">'.trim($category) . '</span></label>';
-                        }
-                        $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'.$output['category_all'] . '</span></label>';
-                    } else {
-                        $output['categories'] .= ($this->cookie_warning_required_stats()) ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . '<span class="cc-category">'. $output['category_stats'] . '</span></label>' : '';
-                        $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'. $output['category_all'] . '</span></label>';
-                    }
-
-                    $output['type'] = 'categories';
-                    $output['layout'] = 'categories-layout';
-                    $output['revoke'] = $output['view_preferences'];
-                    unset($output['view_preferences']);
-                    unset($output['dismiss']);
-                    unset($output['accept']);
-                }
-                $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
-                $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
-                $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement-us');// empty(get_option('cmplz_url_privacy-statement-us')) ? $fallback_privacy_link : get_option('cmplz_url_privacy-statement-us');
-                $output['privacy_link'] = !empty($privacy_link) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
-
-                $output['nonce'] = wp_create_nonce('set_cookie');
-                $output['url'] = admin_url('admin-ajax.php');
-                $output['current_policy_id'] = $this->get_active_policy_id();
-
-                /*
-                 * Cleanup
-                 *
-                 * */
-
-                unset($output['a_b_testing_duration']);
-                unset($output['tagmanager_categories']);
-                unset($output['use_country']);
-                unset($output['a_b_testing']);
-
-
-
-                set_transient('cmplz_cookie_settings_cache_'.$locale . $variation_id, $output, DAY_IN_SECONDS);
+                $banner = new CMPLZ_COOKIEBANNER($banner_id);
+                $output = $banner->get_settings_array();
+                set_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id, $output, DAY_IN_SECONDS);
             }
 
-            $output = apply_filters('cmplz_cookie_settings', $output);
-
-            return $output;
-        }
-
-        private function domain()
-        {
-            $url = site_url();
-            $parse = parse_url($url);
-            return $parse['host'];
+            return apply_filters('cmplz_cookie_settings', $output);
         }
 
 
@@ -840,7 +703,7 @@ if (!class_exists("cmplz_cookie")) {
             if (count($pages) == 0) return false;
 
             $id_to_process = reset($pages);
-            //error_log("next to process $id_to_process");
+//            error_log("next to process $id_to_process");
             $this->set_page_as_processed($id_to_process);
             $url = (($id_to_process === 'home') || ($id_to_process === 'clean')) ? site_url() : get_permalink($id_to_process);
             $url = add_query_arg(array("complianz_scan_token" => $token, 'complianz_id' => $id_to_process), $url);
@@ -1867,6 +1730,106 @@ if (!class_exists("cmplz_cookie")) {
                 }
             }
 
+        }
+
+        /**
+         * Removes legacy (pre 2.1.7) cookie settings. Settings have been moved to separate database table and object
+         * @param $variation_id
+         *
+         */
+
+        public function migrate_legacy_cookie_settings($variation_id=''){
+            //the variation without ID is the default one.
+            $cookie_settings = get_option('complianz_options_cookie_settings');
+            $banner = new CMPLZ_COOKIEBANNER();
+            $banner->title = COMPLIANZ()->statistics->get_variation_nicename($variation_id);
+            $banner->default = ($variation_id === '') ? true : false;
+
+            if (isset($cookie_settings['position'])) $banner->position = $cookie_settings['position'.$variation_id];
+            if (isset($cookie_settings['theme'])) $banner->theme = $cookie_settings['theme'.$variation_id];
+            if (isset($cookie_settings['revoke'])) $banner->revoke = $cookie_settings['revoke'.$variation_id];
+            if (isset($cookie_settings['dismiss'])) $banner->dismiss = $cookie_settings['dismiss'.$variation_id];
+            if (isset($cookie_settings['save_preferences'])) $banner->save_preferences = $cookie_settings['save_preferences'.$variation_id];
+            if (isset($cookie_settings['view_preferences'])) $banner->view_preferences = $cookie_settings['view_preferences'.$variation_id];
+            if (isset($cookie_settings['category_functional'])) $banner->category_functional = $cookie_settings['category_functional'.$variation_id];
+            if (isset($cookie_settings['category_all'])) $banner->category_all = $cookie_settings['category_all'.$variation_id];
+            if (isset($cookie_settings['category_stats'])) $banner->category_stats = $cookie_settings['category_stats'.$variation_id];
+            if (isset($cookie_settings['accept'])) $banner->accept = $cookie_settings['accept'.$variation_id];
+            if (isset($cookie_settings['message'])) $banner->message_optin = $cookie_settings['message'.$variation_id];
+            if (isset($cookie_settings['readmore'])) $banner->readmore_optin = $cookie_settings['readmore'.$variation_id];
+            if (isset($cookie_settings['use_categories'])) $banner->use_categories = $cookie_settings['use_categories'.$variation_id];
+            if (isset($cookie_settings['tagmanager_categories'])) $banner->tagmanager_categories = $cookie_settings['tagmanager_categories'.$variation_id];
+            if (isset($cookie_settings['hide_revoke'])) $banner->hide_revoke = $cookie_settings['hide_revoke'.$variation_id];
+            if (isset($cookie_settings['dismiss_on_scroll'])) $banner->dismiss_on_scroll = $cookie_settings['dismiss_on_scroll'.$variation_id];
+            if (isset($cookie_settings['dismiss_on_timeout'])) $banner->dismiss_on_timeout = $cookie_settings['dismiss_on_timeout'.$variation_id];
+            if (isset($cookie_settings['dismiss_timeout'])) $banner->dismiss_timeout = $cookie_settings['dismiss_timeout'.$variation_id];
+            if (isset($cookie_settings['accept_informational'])) $banner->accept_informational = $cookie_settings['accept_informational'.$variation_id];
+            if (isset($cookie_settings['message_us'])) $banner->message_optout = $cookie_settings['message_us'.$variation_id];
+            if (isset($cookie_settings['readmore_us'])) $banner->readmore_optout = $cookie_settings['readmore_us'.$variation_id];
+            if (isset($cookie_settings['readmore_privacy'])) $banner->readmore_privacy = $cookie_settings['readmore_privacy'.$variation_id];
+            if (isset($cookie_settings['popup_background_color'])) $banner->popup_background_color = $cookie_settings['popup_background_color'.$variation_id];
+            if (isset($cookie_settings['popup_text_color'])) $banner->popup_text_color = $cookie_settings['popup_text_color'.$variation_id];
+            if (isset($cookie_settings['button_background_color'])) $banner->button_background_color = $cookie_settings['button_background_color'.$variation_id];
+            if (isset($cookie_settings['button_text_color'])) $banner->button_text_color = $cookie_settings['button_text_color'.$variation_id];
+            if (isset($cookie_settings['border_color'])) $banner->border_color = $cookie_settings['border_color'.$variation_id];
+            if (isset($cookie_settings['cookie_expiry'])) $banner->cookie_expiry = $cookie_settings['cookie_expiry'.$variation_id];
+            if (isset($cookie_settings['use_custom_cookie_css'])) $banner->use_custom_cookie_css = $cookie_settings['use_custom_cookie_css'.$variation_id];
+            if (isset($cookie_settings['custom_css'])) $banner->custom_css = $cookie_settings['custom_css'.$variation_id];
+
+            $banner->save();
+
+            global $wpdb;
+            //update the banner id in the statistics table
+            $wpdb->update($wpdb->prefix . 'cmplz_statistics',
+                array('cookiebanner_id' => $banner->id),
+                array('variation' => $variation_id)
+            );
+
+            //update the regions to consenttypes
+            $wpdb->update($wpdb->prefix . 'cmplz_statistics',
+                array('consenttype' => 'optin'),
+                array('region' => 'eu')
+            );
+
+            $wpdb->update($wpdb->prefix . 'cmplz_statistics',
+                array('consenttype' => 'optout'),
+                array('region' => 'us')
+            );
+
+            //remove data
+            unset($cookie_settings['position'.$variation_id]);
+            unset($cookie_settings['title'.$variation_id]);
+            unset($cookie_settings['theme'.$variation_id]);
+            unset($cookie_settings['revoke'.$variation_id]);
+            unset($cookie_settings['dismiss'.$variation_id]);
+            unset($cookie_settings['save_preferences'.$variation_id]);
+            unset($cookie_settings['view_preferences'.$variation_id]);
+            unset($cookie_settings['category_functional'.$variation_id]);
+            unset($cookie_settings['category_all'.$variation_id]);
+            unset($cookie_settings['category_stats'.$variation_id]);
+            unset($cookie_settings['accept'.$variation_id]);
+            unset($cookie_settings['message'.$variation_id]);
+            unset($cookie_settings['readmore'.$variation_id]);
+            unset($cookie_settings['use_categories'.$variation_id]);
+            unset($cookie_settings['tagmanager_categories'.$variation_id]);
+            unset($cookie_settings['hide_revoke'.$variation_id]);
+            unset($cookie_settings['dismiss_on_scroll'.$variation_id]);
+            unset($cookie_settings['dismiss_on_timeout'.$variation_id]);
+            unset($cookie_settings['dismiss_timeout'.$variation_id]);
+            unset($cookie_settings['accept_informational'.$variation_id]);
+            unset($cookie_settings['message_us'.$variation_id]);
+            unset($cookie_settings['readmore_us'.$variation_id]);
+            unset($cookie_settings['readmore_privacy'.$variation_id]);
+            unset($cookie_settings['popup_background_color'.$variation_id]);
+            unset($cookie_settings['popup_text_color'.$variation_id]);
+            unset($cookie_settings['button_text_color'.$variation_id]);
+            unset($cookie_settings['button_background_color'.$variation_id]);
+            unset($cookie_settings['border_color'.$variation_id]);
+            unset($cookie_settings['use_custom_cookie_css'.$variation_id]);
+            unset($cookie_settings['custom_css'.$variation_id]);
+
+
+            update_option('complianz_options_cookie_settings', $cookie_settings);
         }
 
 

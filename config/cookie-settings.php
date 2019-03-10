@@ -2,42 +2,21 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->fields = $this->fields + array(
-        'use_country' => array(
-            'step' => 'general',
-            'page' => 'cookie_settings',
-            'type' => 'checkbox',
-            'label' => __("Use geolocation", 'complianz-gdpr'),
-            'comment' => $this->premium_geo_ip.__('If enabled, the cookie warning will not show for countries without a cookie law, and will adjust the warning type depending on supported privacy laws','complianz-gdpr'),
-            'table' => true,
-            'disabled' => true,
-            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
-        ),
 
-        'a_b_testing' => array(
-            'page' => 'cookie_settings',
-            'step' => 'general',
-            'type' => 'checkbox',
-            'label' => __("Enable A/B testing", 'complianz-gdpr'),
-            'comment' => $this->premium_ab_testing.__('If enabled, the plugin will track which cookie warning has the best conversion rate.','complianz-gdpr'),
-            'table' => true,
-            'disabled' => true,
-            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
-        ),
+    'title' => array(
+        'step' => 'general',
+        'source' => 'CMPLZ_COOKIEBANNER',
+        'type' => 'text',
+        'label' => __("Cookie banner title", 'complianz-gdpr'),
+        'placeholder' => __('Descriptive title of the cookiebanner'),
+        'table' => true,
+        'has_variations' => true,
+        'help' => __('For internal use only','complianz-gdpr'),
+    ),
 
-        'a_b_testing_duration' => array(
-            'page' => 'cookie_settings',
+     'position' => array(
             'step' => 'general',
-            'type' => 'number',
-            'label' => __("Duration in days of the A/B testing period", 'complianz-gdpr'),
-            'table' => true,
-            'disabled' => true,
-            'condition' => array('a_b_testing' => true),
-            'default' => 30, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
-        ),
-
-        'position' => array(
-            'step' => 'general',
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'select',
             'label' => __("Popup position", 'complianz-gdpr'),
             'options' => array(
@@ -54,7 +33,7 @@ $this->fields = $this->fields + array(
         ),
 
         'theme' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'select',
             'label' => __("Style", 'complianz-gdpr'),
@@ -70,7 +49,7 @@ $this->fields = $this->fields + array(
         ),
 
         'revoke' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'text',
             'translatable' => true,
@@ -83,8 +62,8 @@ $this->fields = $this->fields + array(
         ),
 
         'dismiss' => array(
-            'step' => 'eu',
-            'page' => 'cookie_settings',
+            'step' => 'optin',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Functional only", 'complianz-gdpr'),
@@ -99,8 +78,8 @@ $this->fields = $this->fields + array(
         ),
 
         'save_preferences' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Save preferences", 'complianz-gdpr'),
@@ -114,8 +93,8 @@ $this->fields = $this->fields + array(
         ),
 
         'view_preferences' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("View preferences", 'complianz-gdpr'),
@@ -128,8 +107,8 @@ $this->fields = $this->fields + array(
             ),
         ),
         'category_functional' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Functional cookies", 'complianz-gdpr'),
@@ -142,8 +121,8 @@ $this->fields = $this->fields + array(
             ),
         ),
         'category_all' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Marketing", 'complianz-gdpr'),
@@ -156,8 +135,8 @@ $this->fields = $this->fields + array(
             ),
         ),
         'category_stats' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Statistics", 'complianz-gdpr'),
@@ -170,9 +149,10 @@ $this->fields = $this->fields + array(
                 'regions' => 'eu',
             ),
         ),
+
         'accept' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("All cookies", 'complianz-gdpr'),
@@ -186,9 +166,9 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-        'message' => array(
-            'step' => 'eu',
-            'page' => 'cookie_settings',
+        'message_optin' => array(
+            'step' => 'optin',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'editor',
             'translatable' => true,
             'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
@@ -197,9 +177,9 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
 
-        'readmore' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+        'readmore_optin' => array(
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Read more", 'complianz-gdpr'),
@@ -212,8 +192,8 @@ $this->fields = $this->fields + array(
         ),
 
         'use_categories' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'checkbox',
             'label' => __("Use categories", 'complianz-gdpr'),
             'help' => __('With categories, you can let users choose which category of cookies they want to accept.','complianz-gdpr').' '.__('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.','complianz-gdpr'),
@@ -226,8 +206,8 @@ $this->fields = $this->fields + array(
         ),
 
         'tagmanager_categories' => array(
-            'page' => 'cookie_settings',
-            'step' => 'eu',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optin',
             'type' => 'textarea',
             'label' => __("Custom Tag Manager categories", 'complianz-gdpr'),
             'help' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all','complianz-gdpr')."<br><br>".cmplz_tagmanager_conditional_helptext().$this->read_more('https://complianz.io/configure-categories-tag-manager'),
@@ -243,7 +223,7 @@ $this->fields = $this->fields + array(
         ),
 
         'hide_revoke' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'checkbox',
             'translatable' => true,
@@ -262,8 +242,8 @@ $this->fields = $this->fields + array(
          * */
 
         'dismiss_on_scroll' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'checkbox',
             'label' => __("Dismiss on scroll", 'complianz-gdpr'),
             'help' => __('When dismiss on scroll is enabled, the cookie warning will be dismissed as soon as the user scrolls.','complianz-gdpr'),
@@ -276,8 +256,8 @@ $this->fields = $this->fields + array(
         ),
 
         'dismiss_on_timeout' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'checkbox',
             'label' => __("Dismiss on timeout", 'complianz-gdpr'),
             'help' => __('When dismiss on time out is enabled, the cookie warning will be dismissed after 10 seconds, or the time you choose below.','complianz-gdpr'),
@@ -290,8 +270,8 @@ $this->fields = $this->fields + array(
         ),
 
         'dismiss_timeout' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'number',
             'label' => __("Timeout in seconds", 'complianz-gdpr'),
             'table' => true,
@@ -306,8 +286,8 @@ $this->fields = $this->fields + array(
         ),
 
         'accept_informational' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Accept", 'complianz-gdpr'),
@@ -319,9 +299,9 @@ $this->fields = $this->fields + array(
             ),
         ),
 
-        'message_us' => array(
-            'step' => 'us',
-            'page' => 'cookie_settings',
+        'message_optout' => array(
+            'step' => 'optout',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'editor',
             'translatable' => true,
             'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
@@ -330,9 +310,9 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
 
-        'readmore_us' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+        'readmore_optout' => array(
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'text',
             'translatable' => true,
             'default' => cmplz_us_cookie_statement_title(),
@@ -345,8 +325,8 @@ $this->fields = $this->fields + array(
         ),
 
         'readmore_privacy' => array(
-            'page' => 'cookie_settings',
-            'step' => 'us',
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optout',
             'type' => 'text',
             'translatable' => true,
             'default' => __("Privacy statement", 'complianz-gdpr'),
@@ -359,7 +339,7 @@ $this->fields = $this->fields + array(
         ),
 
         'popup_background_color' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
             'default' =>  '#37a8de',
@@ -369,7 +349,7 @@ $this->fields = $this->fields + array(
         ),
 
         'popup_text_color' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
@@ -378,7 +358,7 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
         'button_background_color' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
@@ -387,7 +367,7 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
         'button_text_color' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#37a8de',
@@ -397,7 +377,7 @@ $this->fields = $this->fields + array(
         ),
 
         'border_color' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
             'default' => '#fff',
@@ -406,18 +386,8 @@ $this->fields = $this->fields + array(
             'has_variations' => true,
         ),
 
-        'cookie_expiry' => array(
-            'page' => 'cookie_settings',
-            'step' => 'general',
-            'type' => 'number',
-            'default' => 365,
-            'label' => __("Cookie warning expiration in days", 'complianz-gdpr'),
-            'table' => true,
-            'has_variations' => true,
-        ),
-
         'use_custom_cookie_css' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'checkbox',
             'label' => __("Use Custom CSS", 'complianz-gdpr'),
@@ -427,7 +397,7 @@ $this->fields = $this->fields + array(
         ),
 
         'custom_css' => array(
-            'page' => 'cookie_settings',
+            'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'css',
             'label' => __("Custom CSS", 'complianz-gdpr'),

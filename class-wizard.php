@@ -92,8 +92,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function show_notices()
         {
-            if (!is_user_logged_in()) return;
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             $screen = get_current_screen();
             if ( $screen->parent_base === 'edit' ) return;
@@ -135,8 +134,7 @@ if (!class_exists("cmplz_wizard")) {
         public function wizard_after_step()
         {
 
-            if (!is_user_logged_in()) return;
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             //clear document cache
             COMPLIANZ()->document->clear_shortcode_transients();
@@ -198,7 +196,7 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
-            /* if tag manager fires scripts, cats should be enabled for each variation. */
+            /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
             $enable_categories = false;
             if (($fieldname == 'fire_scripts_in_tagmanager' && $fieldvalue==='yes') ){
                 $enable_categories = true;
@@ -214,9 +212,11 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if ($enable_categories){
-                $variations = apply_filters('cmplz_get_variations', array(''));
-                foreach ($variations as $variation_id) {
-                    cmplz_update_option('cookie_settings', 'use_categories' . $variation_id, true);
+                $banners = apply_filters('cmplz_get_banners', array(''));
+                foreach ($banners as $banner_id) {
+                    $banner = new CMPLZ_COOKIEBANNER($banner_id);
+                    $banner->use_categories = true;
+                    $banner->save();
                 }
             }
 
@@ -367,9 +367,8 @@ if (!class_exists("cmplz_wizard")) {
 
         public function wizard($page)
         {
-            if (!is_user_logged_in()) return;
 
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             if ($this->wizard_is_locked()) {
                 $user_id = $this->get_lock_user();

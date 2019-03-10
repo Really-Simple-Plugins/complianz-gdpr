@@ -31,7 +31,7 @@ if (!class_exists("cmplz_DNSMPD")) {
 
         public function admin_menu()
         {
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             if (!cmplz_has_region('us') || !COMPLIANZ()->company->sells_personal_data()) return;
 

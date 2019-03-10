@@ -1,11 +1,11 @@
 'use strict';
 
 /*
-* EU:
+* Opt in (e.g. EU):
 * default all scripts disabled.
 * cookie banner
 *
-* US:
+* Opt out (e.g. US):
 * default all scripts enabled
 * information cookie banner
 *
@@ -106,6 +106,7 @@ jQuery(document).ready(function ($) {
 
             //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
+                //gutenberg icw fitvids should not use reset padding.
                 if (!jQuery.fn.fitVids) resetPadding = '56.25%';
                 parent.addClass('cmplz-clear-padding');
             }
@@ -292,7 +293,7 @@ jQuery(document).ready(function ($) {
         cmplz_user_data = JSON.parse(sessionStorage.cmplz_user_data);
     }
 
-    //if not, reload. As region is new, we also check for this feature, so we know which version of data we use.
+    //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
     if (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version)) {
         $.ajax({
             type: "GET",
@@ -322,11 +323,11 @@ jQuery(document).ready(function ($) {
 
         //if no status was saved before, we do it now
         if (cmplzGetCookie('cmplz_choice') !== 'set') {
-            //for Non eu/us visitors, and DNT users, we just track the no-warning option
-            if (cmplz_user_data.do_not_track || (cmplz_user_data.region !== 'eu' && cmplz_user_data.region !== 'us')) {
+            //for Non optin/optout visitors, and DNT users, we just track the no-warning option
+            if (cmplz_user_data.do_not_track || (cmplz_user_data.consenttype !== 'optin' && cmplz_user_data.consenttype !== 'optout')) {
                 complianz_track_status('no-warning');
-            } else if (cmplz_user_data.region === 'us') {
-                //for US visitors are opt out, so consent by default
+            } else if (cmplz_user_data.consenttype === 'optout') {
+                //for opt out visitors, so consent by default
                 complianz_track_status('all');
             } else {
                 //all others (eu): no choice yet.
@@ -335,26 +336,28 @@ jQuery(document).ready(function ($) {
         }
 
         if (!cmplz_user_data.do_not_track) {
-            if (cmplz_user_data.region === 'eu') {
+            if (cmplz_user_data.consenttype === 'optin') {
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
-                console.log('EU, opt-in');
+                complianz.readmore = complianz.readmore_optin;
+                complianz.message = complianz.message_optin;
+                console.log('opt-in');
                 cmplz_cookie_warning();
-            } else if (cmplz_user_data.region === 'us') {
-                console.log('US, opt-out');
+            } else if (cmplz_user_data.consenttype === 'optout') {
+                console.log('opt out');
                 complianz.type = 'opt-out';
                 // complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
-                complianz.readmore = complianz.readmore_us;
+                complianz.readmore = complianz.readmore_optout;
                 complianz.dismiss = complianz.accept_informational;
-                complianz.message = complianz.message_us;
+                complianz.message = complianz.message_optout;
                 ccPrivacyLink= complianz.privacy_link;
                 cmplz_cookie_warning();
             } else {
-                console.log('other region, no cookie warning');
-                //on other regions, all scripts are enabled by default.
+                console.log('other consenttype, no cookie warning');
+                //on other consenttypes, all scripts are enabled by default.
                 cmplzAcceptAllCookies();
             }
         }
@@ -388,7 +391,7 @@ jQuery(document).ready(function ($) {
                 }
             },
             onStatusChange: function (status, chosenBefore) {
-                //US cookie banner can be dismissed on scroll or on timeout.
+                //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
                 if ((complianz.dismiss_on_scroll || complianz.dismiss_on_timeout) && (status==='dismiss' || status==='allow')) {
                     cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
@@ -411,7 +414,7 @@ jQuery(document).ready(function ($) {
                     cmplzAcceptAllCookies();
                 }
 
-                if (status === 'deny' && cmplz_user_data.region === 'us') {
+                if (status === 'deny' && cmplz_user_data.consenttype === 'optout') {
                     cmplzRevoke();
                     complianz_track_status();
                 }
@@ -470,10 +473,10 @@ jQuery(document).ready(function ($) {
             //this code always runs
 
             /*
-            * If this is not the EU, and is running categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
+            * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *
             * */
-            if (cmplz_user_data.region !== 'us' && complianz.use_categories) {
+            if (cmplz_user_data.consenttype !== 'optout' && complianz.use_categories) {
                 //make sure the checkboxes show the correct settings
                 cmplzSyncCategoryCheckboxes();
 
@@ -499,11 +502,11 @@ jQuery(document).ready(function ($) {
 
             /* We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
             *
-            * If this is the US, and cookies have not been denied, we run all cookies.
+            * If this is opt out, and cookies have not been denied, we run all cookies.
             *
             *
             * */
-            if (cmplz_user_data.region === 'us' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
+            if (cmplz_user_data.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
                 cmplzAcceptAllCookies();
             }
         });
@@ -598,7 +601,6 @@ jQuery(document).ready(function ($) {
         cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
 
         if (!status) status = cmplzGetHighestAcceptance();
-
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -606,7 +608,7 @@ jQuery(document).ready(function ($) {
             data: ({
                 action: 'cmplz_track_status',
                 status: status,
-                region: cmplz_user_data.region
+                consenttype: cmplz_user_data.consenttype
             })
         });
     }
@@ -617,7 +619,7 @@ jQuery(document).ready(function ($) {
 
     */
     $(document).on('click', '.cc-revoke-custom', function () {
-        if (cmplz_user_data.region === 'eu') {
+        if (cmplz_user_data.consenttype === 'optin') {
             $('.cc-revoke').click();
         } else {
             //if it's already denied, show the accept option again.
@@ -661,7 +663,7 @@ jQuery(document).ready(function ($) {
     cmplzUpdateStatusCustomLink();
     function cmplzUpdateStatusCustomLink() {
         if ($('.cc-revoke-custom').length) {
-            if (cmplz_user_data.region === 'us') {
+            if (cmplz_user_data.consenttype === 'optout') {
                 var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
                 var denied = $('#cmplz-document').find('.cmplz-status-denied');
                 if (cmplzGetCookie('complianz_consent_status') === 'deny') {
@@ -676,13 +678,11 @@ jQuery(document).ready(function ($) {
     }
 
     function cmplzSetCookie(name, value, days) {
-        var expires = "";
         var secure = ";secure";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = ";expires=" + date.toGMTString();
-        }
+
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = ";expires=" + date.toGMTString();
 
         if (window.location.protocol !== "https:") secure = '';
 
@@ -733,7 +733,7 @@ jQuery(document).ready(function ($) {
             }
 
         } else {
-            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region === 'us')) {
+            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.consenttype === 'optout')) {
                 return 'all';
             }
         }
@@ -799,6 +799,11 @@ jQuery(document).ready(function ($) {
         if (cmplzGetCookie('cmplz_all') === 'allow') $('#cmplz_all').prop('checked', true);
         if (cmplzGetCookie('cmplz_stats') === 'allow') $('#cmplz_stats').prop('checked', true);
     }
+
+    /*
+    * Merge two objects
+    *
+    * */
 
     function cmplzMergeObject(target, userdata) {
         for (var i = 1; i < userdata.length; i++) {
