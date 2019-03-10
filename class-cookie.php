@@ -1740,9 +1740,15 @@ if (!class_exists("cmplz_cookie")) {
 
         public function migrate_legacy_cookie_settings($variation_id=''){
             //the variation without ID is the default one.
+
+            //check if there is already a default item.
+            global $wpdb;
+            $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.default=true");
+            if ($variation_id=='' && count($cookiebanners)>=1) return;
+
             $cookie_settings = get_option('complianz_options_cookie_settings');
             $banner = new CMPLZ_COOKIEBANNER();
-            $banner->title = COMPLIANZ()->statistics->get_variation_nicename($variation_id);
+            $banner->title = $variation_id=='' ? __('Default Cookie Banner', 'complianz-gdpr') :COMPLIANZ()->statistics->get_variation_nicename($variation_id);
             $banner->default = ($variation_id === '') ? true : false;
 
             if (isset($cookie_settings['position'])) $banner->position = $cookie_settings['position'.$variation_id];

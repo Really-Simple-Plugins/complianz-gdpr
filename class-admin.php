@@ -412,6 +412,8 @@ if (!class_exists("cmplz_admin")) {
                 array($this, 'settings')
             );
 
+            do_action('cmplz_admin_menu');
+
             if (defined('cmplz_free') && cmplz_free){
                 global $submenu;
                 $class = 'cmplz-submenu';
@@ -424,7 +426,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            do_action('cmplz_admin_menu');
+
 
         }
 

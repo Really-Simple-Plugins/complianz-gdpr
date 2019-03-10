@@ -12,6 +12,14 @@ function cmplz_check_minimum_one_banner(){
     }
 }
 
+add_action('admin_init', 'cmplz_redirect_to_cookiebanner');
+function cmplz_redirect_to_cookiebanner(){
+    //on cookiebanner page?
+    if (!isset($_GET['page']) || $_GET['page']!='cmplz-cookiebanner') return;
+    if (!apply_filters('cmplz_show_cookiebanner_list_view', false) && !isset($_GET['id'])) {
+        wp_redirect(add_query_arg('id', cmplz_get_default_banner_id(), admin_url('admin.php?page=cmplz-cookiebanner')));
+    }
+}
 
 add_action('cmplz_admin_menu', 'cmplz_cookiebanner_admin_menu');
 function cmplz_cookiebanner_admin_menu()
@@ -73,8 +81,6 @@ function cmplz_cookiebanner_overview(){
 
     if (!cmplz_user_can_manage()) return;
 
-    $id = false;
-
     /*
      * Reset the statistics
      * */
@@ -82,7 +88,7 @@ function cmplz_cookiebanner_overview(){
         COMPLIANZ()->statistics->init_statistics();
     }
 
-
+    $id = false;
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
     }

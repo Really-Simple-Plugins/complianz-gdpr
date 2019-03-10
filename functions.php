@@ -350,18 +350,18 @@ if (!function_exists('cmplz_list_item')) {
         $selected = $selected ? "selected" : '';
         ?>
 
-            <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
-                <div class="cmplz-panel-title">
-                    <a class="cmplz-panel-link" href="<?php echo $link ?>">
+        <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
+            <div class="cmplz-panel-title">
+                <a class="cmplz-panel-link" href="<?php echo $link ?>">
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
                     <span class="cmplz-title"><?php echo $title ?></span>
                  </span>
-                    </a>
+                </a>
 
-                    <?php echo $btn ?>
-                </div>
+                <?php echo $btn ?>
             </div>
+        </div>
         <?php
 
     }
@@ -1197,6 +1197,18 @@ if (!function_exists('cmplz_get_used_consenttypes')) {
     }
 }
 
+if (!function_exists('cmplz_uses_optin')){
+    function cmplz_uses_optin(){
+        return (in_array('optin', cmplz_get_used_consenttypes()));
+    }
+}
+
+if (!function_exists('cmplz_uses_optout')){
+    function cmplz_uses_optout(){
+        return (in_array('optout', cmplz_get_used_consenttypes()));
+    }
+}
+
 if (!function_exists('cmplz_consenttype_nicename')) {
     /**
      * Get nice name for consenttype
@@ -1266,7 +1278,7 @@ if (!function_exists('cmplz_user_can_manage')){
 if (!function_exists('cmplz_get_cookiebanners')) {
 
     /**
-     * Get array of banner objects
+     * Get array of cookiebanner objects
      * @param array $args
      * @return array
      */
@@ -1284,13 +1296,12 @@ if (!function_exists('cmplz_get_cookiebanners')) {
         }
 
         if (isset($args['default']) && $args['default']==TRUE){
-            $sql = 'AND cdb.default = true';
+            $sql = 'AND cdb.default = true LIMIT 1';
         }
         if (isset($args['default']) && $args['default']===FALSE){
             $sql = 'AND cdb.default = false';
         }
         $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql");
-
 
         return $cookiebanners;
     }

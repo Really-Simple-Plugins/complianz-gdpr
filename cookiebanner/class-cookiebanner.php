@@ -404,7 +404,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $stats = array();
             foreach ($consenttypes as $consenttype => $label) {
                 foreach ($statuses as $status) {
-                    $count = COMPLIANZ()->statistics->get_count($status, $consenttype, $this->id);
+                    $count = $this->get_count($status, $consenttype);
                     $stats[$consenttype][$status] = $count;
                 }
             }
@@ -441,9 +441,9 @@ if (!class_exists("cmplz_cookiebanner")) {
         {
 
             //get all categories
-
             $statuses = array();
-            if (COMPLIANZ()->geoip->geoip_enabled()) $statuses[] = 'no-choice';
+            if (cmplz_get_value('use_country')) $statuses[] = 'no-choice';
+
             if (!$exclude_no_warning) $statuses[] = 'no-warning';
             $statuses[] = 'functional';
 
@@ -526,7 +526,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $total = 0;
                 $all = 0;
                 foreach ($statuses as $status) {
-                    $count = COMPLIANZ()->statistics->get_count($status, $filter_consenttype, $this->id);
+                    $count = $this->get_count($status, $filter_consenttype);
 
                     $total += $count;
                     if ($status === 'all') $all = $count;
@@ -538,6 +538,33 @@ if (!class_exists("cmplz_cookiebanner")) {
                 return $score;
             }
             return $score;
+        }
+
+        /**
+         * Get the count for this status and consenttype.
+         * @param $status
+         * @param string $region
+         * @param string $variation_id
+         * @return int $count
+         */
+
+        public function get_count($status, $consenttype)
+        {
+            global $wpdb;
+            $status = sanitize_title($status);
+            $consenttype_sql = " AND consenttype='$consenttype'";
+
+            if ($consenttype === 'all') {
+                $consenttypes = cmplz_get_used_consenttypes();
+                $consenttype_sql = " AND (consenttype='" . implode("' OR consenttype='", $consenttypes) . "')";
+            }
+
+            $sql = $wpdb->prepare("SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s " . $consenttype_sql, $status);
+            if (COMPLIANZ()->cookie->ab_testing_enabled()) {
+                $sql = $wpdb->prepare($sql . " AND cookiebanner_id=%s", $this->id);
+            }
+            $count = $wpdb->get_var($sql);
+            return $count;
         }
 
         public function report_conversion_total_count($statistics)

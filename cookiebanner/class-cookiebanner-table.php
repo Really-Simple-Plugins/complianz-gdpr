@@ -73,8 +73,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
         ) );
 
         //if ab testing is not enabled, show only the default.
-        $this->show_default_only = !COMPLIANZ()->cookie->ab_testing_enabled();
-
+        $this->show_default_only = apply_filters('cmplz_default_only', true);
 
     }
 
@@ -167,13 +166,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
     public function column_name( $item ) {
         $name       = ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed cookie banner','complianz-gdpr') . '</em>';
-        if (COMPLIANZ()->statistics->best_performer_enabled()) {
-            $name .= '<br>'.__('Because this variation was determined to get the best results, this cookie warning was enabled as your default cookie warning', 'complianz-gdpr');
-        }
-
-        if (COMPLIANZ()->statistics->best_performer_enabled()) {
-            $name .= '<br>'.__('Because this variation was determined to get the best results, this cookie warning was enabled as your default cookie warning', 'complianz-gdpr');
-        }
+        $name = apply_filters('cmplz_cookiebanner_name', $name);
 
         $actions     = array(
             'edit' => '<a href="' . admin_url( 'admin.php?page=cmplz-cookiebanner&id=' . $item['ID'] ) . '">' . __( 'Edit', 'complianz-gdpr') . '</a>',
@@ -201,10 +194,13 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
             $columns['default-banner'] = __('Default', 'complianz-gdpr');
         }
 
-        $consenttypes = cmplz_get_used_consenttypes();
-        foreach ($consenttypes as $consenttype) {
-            $columns[$consenttype] = cmplz_consenttype_nicename($consenttype).' '.__('conversion', 'complianz-gdpr');
+        if (class_exists('cmplz_statistics')) {
+            $consenttypes = cmplz_get_used_consenttypes();
+            foreach ($consenttypes as $consenttype) {
+                $columns[$consenttype] = cmplz_consenttype_nicename($consenttype) . ' ' . __('conversion', 'complianz-gdpr');
+            }
         }
+
         if (!$this->show_default_only) {
             $columns['archive'] = __('Archive', 'complianz-gdpr');
         }
