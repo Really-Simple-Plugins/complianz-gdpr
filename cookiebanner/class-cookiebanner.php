@@ -106,6 +106,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         public $category_all_x;
         public $category_stats_x;
         public $accept_x;
+        public $dismiss_x;
         public $revoke_x;
         public $message_optin_x;
         public $readmore_optin_x;
@@ -228,7 +229,8 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->category_all_x = $this->translate($this->category_all,'category_all');
                 $this->category_stats_x = $this->translate($this->category_stats,'category_stats');
                 $this->accept_x = $this->translate($this->accept,'accept');
-                $this->revoke_x = $this->translate($this->revoke,'accept');
+                $this->revoke_x = $this->translate($this->revoke,'revoke');
+                $this->dismiss_x = $this->translate($this->dismiss,'dismiss');
                 $this->message_optin_x = $this->translate($this->message_optin,'message_optin');
                 $this->readmore_optin_x = $this->translate($this->readmore_optin,'readmore_optin');
                 $this->tagmanager_categories_x = $this->translate($this->tagmanager_categories,'tagmanager_categories');
@@ -600,6 +602,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['use_categories'] = $this->use_categories;
             $output['accept'] = $this->accept_x;
             $output['revoke'] = $this->revoke_x;
+            $output['dismiss'] = $this->dismiss_x;
 
             $output['dismiss_on_scroll'] = $this->dismiss_on_scroll;
             $output['dismiss_on_timeout'] = $this->dismiss_on_timeout;
@@ -686,7 +689,6 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['nonce'] = wp_create_nonce('set_cookie');
             $output['url'] = admin_url('admin-ajax.php');
             $output['current_policy_id'] = COMPLIANZ()->cookie->get_active_policy_id();
-
             return $output;
 
         }
