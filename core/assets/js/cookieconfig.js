@@ -106,6 +106,7 @@ jQuery(document).ready(function ($) {
 
             //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
+                //gutenberg icw fitvids should not use reset padding.
                 if (!jQuery.fn.fitVids) resetPadding = '56.25%';
                 parent.addClass('cmplz-clear-padding');
             }
@@ -676,13 +677,11 @@ jQuery(document).ready(function ($) {
     }
 
     function cmplzSetCookie(name, value, days) {
-        var expires = "";
         var secure = ";secure";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = ";expires=" + date.toGMTString();
-        }
+
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = ";expires=" + date.toGMTString();
 
         if (window.location.protocol !== "https:") secure = '';
 

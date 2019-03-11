@@ -899,6 +899,7 @@ if (!function_exists('cmplz_allowed_html')) {
                 'id' => array(),
             ),
             'tr' => array(),
+            'style' => array(),
             'td' => array('colspan' => array()),
             'ul' => array(
                 'class' => array(),

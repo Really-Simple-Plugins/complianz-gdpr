@@ -38,12 +38,14 @@
     },
 
     setCookie: function(name, value, expiryDays, domain, path) {
-      var exdate = new Date();
-      exdate.setDate(exdate.getDate() + (expiryDays || 365));
+      var date = new Date();
+      date.setTime(date.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
+      // var exdate = new Date();
+      // exdate.setDate(exdate.getDate() + (expiryDays || 365));
 
       var cookie = [
         name + '=' + value,
-        'expires=' + exdate.toUTCString(),
+        'expires=' + date.toGMTString(),
         'path=' + (path || '/')
       ];
 
