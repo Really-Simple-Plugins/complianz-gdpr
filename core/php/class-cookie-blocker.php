@@ -161,7 +161,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         //an iframes-styles class is added so we can reset styles from the theme, and release them after consent
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles');
-                        $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : '';
+                        $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : 'cmplz-no-video';
                         $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
 
                         $output = str_replace($total_match, $new, $output);
