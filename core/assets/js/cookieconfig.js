@@ -187,7 +187,8 @@ jQuery(document).ready(function ($) {
             $(this).attr('src', src);
 
             // //fitvids needs to be reinitialized, if it is used.
-            if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
+            //we trigger not on blocked content which is not video. Excluding prevents issues with additional divs.
+            if (jQuery.fn.fitVids && !$(this).parent().hasClass('cmplz-no-video')) {
                 $(this).parent().fitVids();
             }
         });
