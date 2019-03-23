@@ -189,6 +189,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         //an iframes-styles class is added so we can reset styles from the theme, and release them after consent
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles');
+
                         if (!cmplz_get_value('dont_use_placeholders')) {
                             //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
                             $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : 'cmplz-no-video';
@@ -222,7 +223,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         if (strpos($content, 'avia_preview')!==false) continue;
                         $found = $this->strpos_arr($content, $known_script_tags);
                         //if it's google analytics, and it's not anonymous or from complianz, remove it.
-                        if ($found === 'www.google-analytics.com/analytics.js' || $found === 'google-analytics.com/ga.js') {
+                        if ($found === 'googletagmanager.com/gtag/js' || $found === 'www.google-analytics.com/analytics.js' || $found === 'google-analytics.com/ga.js') {
                             if (strpos($content, 'anonymizeIp') !== FALSE) {
                                 continue;
                             }

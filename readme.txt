@@ -98,7 +98,8 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Improvement: limit ajax requests to a/b testing and multiple regions
 
 = 2.1.8 =
-* Tweak: improved Elementor compatibility
+* Tweak: improve escaping of css in document html output
+* Tweak: improved Elementor and Gutenberg compatibility for youtube video activation after consent is given
 
 = 2.1.7 =
 * Fix: typo in block.php cause Gutenberg to fail
