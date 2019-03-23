@@ -223,7 +223,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         if (strpos($content, 'avia_preview')!==false) continue;
                         $found = $this->strpos_arr($content, $known_script_tags);
                         //if it's google analytics, and it's not anonymous or from complianz, remove it.
-                        if ($found === 'googletagmanager.com/gtag/js' || $found === 'www.google-analytics.com/analytics.js' || $found === 'google-analytics.com/ga.js') {
+                        if ($found === 'www.google-analytics.com/analytics.js' || $found === 'google-analytics.com/ga.js') {
                             if (strpos($content, 'anonymizeIp') !== FALSE) {
                                 continue;
                             }
