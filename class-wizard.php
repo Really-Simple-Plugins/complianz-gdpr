@@ -117,7 +117,7 @@ if (!class_exists("cmplz_wizard")) {
                 cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
                 if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
-                    $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
+                    $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookiebanner').'">';
                     cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
                 }
 
@@ -182,7 +182,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if (isset($_POST['cmplz-cookie-settings'])) {
-                wp_redirect(admin_url('admin.php?page=cmplz-cookie-warning'));
+                wp_redirect(admin_url('admin.php?page=cmplz-cookiebanner'));
                 exit();
             }
         }
@@ -213,8 +213,8 @@ if (!class_exists("cmplz_wizard")) {
 
             if ($enable_categories){
                 $banners = apply_filters('cmplz_get_banners', array(''));
-                foreach ($banners as $banner_id) {
-                    $banner = new CMPLZ_COOKIEBANNER($banner_id);
+                foreach ($banners as $banner) {
+                    $banner = new CMPLZ_COOKIEBANNER($banner->ID);
                     $banner->use_categories = true;
                     $banner->save();
                 }

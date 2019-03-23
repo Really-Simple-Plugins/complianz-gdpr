@@ -76,7 +76,13 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'subtitle' => 'Advertising cookies',
         'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
-        'condition' => array('uses_ad_cookies' => 'yes'),
+        'condition' => array('uses_ad_cookies_personalized' => 'yes'),
+    ),
+
+    array(
+        'subtitle' => 'Advertising cookies', 'Legal document cookie policy:paragraph title',
+        'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
+        'condition' => array('uses_ad_cookies_personalized' => 'no'),
     ),
 
     array(
@@ -98,9 +104,15 @@ $this->document_elements['cookie-statement-us'] = array(
         'content' => 'On our website we do not use social media buttons to promote web pages or share them on social networks.',
         'condition' => array('uses_social_media' => 'no'),
     ),
+
     array(
         'subtitle' => 'Social media buttons',
-        'content' => sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you. Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible. %s are located in the United States.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'content' => sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'condition' => array('uses_social_media' => 'yes'),
+    ),
+
+    array(
+        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  count(cmplz_get_value('socialmedia_on_site',false,'wizard')), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 

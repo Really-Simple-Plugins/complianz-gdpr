@@ -24,7 +24,6 @@ $this->social_media_markers = array(
 $this->thirdparty_service_markers = array(
     "googlemaps" => array('new google.maps.'),
     "vimeo" => array('player.vimeo.com'),
-    "google-fonts" => array('fonts.googleapis.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
@@ -40,7 +39,6 @@ $this->thirdparty_service_markers = array(
 $this->script_tags = array(
     'google.com/recaptcha',
     'grecaptcha',
-    'fonts.googleapis.com',
     'platform.twitter.com',
     'apis.google.com/js/plusone.js',
     'apis.google.com/js/platform.js',
@@ -67,6 +65,13 @@ $this->script_tags = array(
     'videopress.com/videopress-iframe.js',
     'plugins/instagram-feed/js/sb-instagram.min.js',
     'www.instagram.com/embed.js',
+);
+
+/*
+ * Style strings (google fonts have been removed in favor of plugin recommendation)
+ * */
+
+$this->style_tags = array(
 );
 
 /*

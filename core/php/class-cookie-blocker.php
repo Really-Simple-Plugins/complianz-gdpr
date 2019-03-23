@@ -87,6 +87,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             endif;
 
             /*
+             * Get style tags
+             *
+             * */
+
+            $known_style_tags = apply_filters('cmplz_known_style_tags', COMPLIANZ()->config->style_tags);
+
+
+            /*
              * Get script tags, and add custom user scrripts
              *
              * */
@@ -143,6 +151,24 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
 
             /*
+             * Handle styles (e.g. google fonts)
+             * fonts.google.com has currently been removed in favor of plugin recommendation
+             *
+             * */
+            $style_pattern = '/<link rel=[\'|"]stylesheet[\'|"].*?href=[\'|"](\X*?)[\'|"].*?>/i';
+            if (preg_match_all($style_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                foreach($matches[1] as $key => $style_url){
+                    $total_match = $matches[0][$key];
+                    if ($this->strpos_arr($style_url, $known_style_tags) !== false) {
+                        $new = $this->replace_href($total_match);
+                        $new = $this->add_class($new, 'link', 'cmplz-style-element');
+                        $output = str_replace($total_match, $new, $output);
+                    }
+
+                }
+            }
+
+            /*
              * Handle iframes from third parties
              *
              *
@@ -155,14 +181,19 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $placeholder = cmplz_placeholder('iframe', $iframe_src);
+                        $fallback_placeholder =  cmplz_get_value('dont_use_placeholders') ? cmplz_url . 'core/assets/images/placeholder.html' : cmplz_url . 'core/assets/images/s.png';
+                        $fallback_placeholder = apply_filters('cmplz_fallback_placeholder',$fallback_placeholder);
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
-                        $new = $this->replace_src($new, cmplz_url . 'core/assets/images/s.png');
+                        $new = $this->replace_src($new, $fallback_placeholder);
 
                         //an iframes-styles class is added so we can reset styles from the theme, and release them after consent
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles');
-                        $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : '';
-                        $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
+                        if (!cmplz_get_value('dont_use_placeholders')) {
+                            //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
+                            $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : 'cmplz-no-video';
+                            $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
+                        }
 
                         $output = str_replace($total_match, $new, $output);
 

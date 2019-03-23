@@ -281,15 +281,15 @@ if (!class_exists("cmplz_cookiebanner")) {
 
         public function save()
         {
-            if (!current_user_can('manage_options')) return false;
+            if (!current_user_can('manage_options')) return;
 
             if (!$this->id) {
                 $this->add();
             }
+            if (!is_array($this->statistics)) $this->statistics = array();
             $statistics = serialize($this->statistics);
             $update_array = array(
                 'position' => sanitize_title($this->position),
-                'default' => boolval($this->default),
                 'archived' => boolval($this->archived),
                 'title' => sanitize_text_field($this->title),
                 'theme' => sanitize_title($this->theme),
@@ -319,15 +319,26 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'button_text_color' => sanitize_hex_color($this->button_text_color),
                 'border_color' => sanitize_hex_color($this->border_color),
                 'use_custom_cookie_css' => boolval($this->use_custom_cookie_css),
-                'custom_css' => $this->custom_css,
                 'statistics' => $statistics,
             );
+
+            if ($this->use_custom_cookie_css){
+                $update_array['custom_css']=sanitize_text_field($this->custom_css);
+            }
 
             global $wpdb;
             $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
                 $update_array,
                 array('ID' => $this->id)
             );
+
+            //get database value for "default"
+            $db_default = $wpdb->get_var($wpdb->prepare("select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s", $this->id));
+            if ($this->default && !$db_default){
+                $this->enable_default();
+            } elseif(!$this->default && $db_default) {
+                $this->remove_default();
+            }
 
             //clear the cookie settings cache for each locale
             $locales = get_option('cmplz_supported_locales', array());
@@ -372,7 +383,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             }
 
             if (!$error) {
-                $this->remove_default();
+                if ($this->default) $this->remove_default();
 
                 $wpdb->delete($wpdb->prefix . 'cmplz_cookiebanners', array(
                     'ID' => $this->id,
@@ -415,7 +426,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $this->save();
 
-            $this->remove_default();
+            if ($this->default) $this->remove_default();
         }
 
         /**
@@ -475,22 +486,48 @@ if (!class_exists("cmplz_cookiebanner")) {
             if (current_user_can('manage_options')) {
 
                 global $wpdb;
-                if ($this->default) {
-
-                    //first, set one  of the other banners random to default.
-                    $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false LIMIT 1");
-                    if (!empty($cookiebanners)) {
-                        $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
-                            array('default' => true),
-                            array('ID' => $cookiebanners[0]->ID)
-                        );
-                    }
-
-                    //now set this one to not default and save
-                    $this->default = false;
-                    $this->save();
+                //first, set one  of the other banners random to default.
+                $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false and cb.archived=false LIMIT 1");
+                if (!empty($cookiebanners)) {
+                    $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
+                        array('default' => true),
+                        array('ID' => $cookiebanners[0]->ID)
+                    );
                 }
+
+                //now set this one to not default and save
+                $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
+                    array('default' => false),
+                    array('ID' => $this->id)
+                );
+
             }
+        }
+
+        /**
+         * Check if current banner is not default, and if so disable the current default
+         */
+
+        public function enable_default(){
+            if (current_user_can('manage_options')) {
+
+                global $wpdb;
+                //first set the current default to false
+                $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true LIMIT 1");
+                if (!empty($cookiebanners)) {
+                    $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
+                        array('default' => false),
+                        array('ID' => $cookiebanners[0]->ID)
+                    );
+                }
+
+                //now set this one to default
+                $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
+                    array('default' => true),
+                    array('ID' => $this->id)
+                );
+            }
+
         }
 
         /**
@@ -595,6 +632,11 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $output = array();
             $output['static'] = false;
+            $output['version'] = cmplz_version;
+            $output['a_b_testing'] = cmplz_ab_testing_enabled();
+            $output['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);
+            $output['consenttype'] = COMPLIANZ()->company->get_default_consenttype();
+            $output['multiple_regions'] = cmplz_multiple_regions();
             $output['categories'] = '';
             $output['position'] = $this->position;
             $output['title'] = $this->title;
@@ -638,11 +680,6 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['dismiss_on_scroll'] = $output['dismiss_on_scroll'] ? 400 : false;
             $output['dismiss_on_timeout'] = $output['dismiss_on_timeout'] ? 1000 * $output['dismiss_timeout'] : false;
 
-            //if user has selected only one region, we use the selected one.
-            $output['single-region'] = cmplz_multiple_regions() ? false : COMPLIANZ()->company->get_default_consenttype();
-
-
-
             if ($output['use_categories']) {
 
                 /*
@@ -668,13 +705,13 @@ if (!class_exists("cmplz_cookiebanner")) {
                     $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'.$this->category_all_x . '</span></label>';
                     $output['cat_num'] = count($categories);
                 } else {
-                    $output['categories'] .= (COMPLIANZ()->cookie->cookie_warning_required_stats()) ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . '<span class="cc-category">'. $$this->category_stats_x . '</span></label>' : '';
+                    $output['categories'] .= (COMPLIANZ()->cookie->cookie_warning_required_stats()) ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . '<span class="cc-category">'. $this->category_stats_x . '</span></label>' : '';
                     $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'. $this->category_all_x . '</span></label>';
                 }
 
                 $output['type'] = 'categories';
                 $output['layout'] = 'categories-layout';
-                $output['revoke'] = $output['view_preferences'];
+                $output['revoke'] = $this->view_preferences_x;
             } else {
                 $output['view_preferences'] = $this->view_preferences_x;
                 $output['accept'] = $this->accept_x;

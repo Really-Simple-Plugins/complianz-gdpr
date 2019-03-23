@@ -28,7 +28,7 @@ if (!class_exists("cmplz_document")) {
         {
 
             if ($this->is_complianz_page()) {
-                $min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
+                $min = (defined('WP_SCRIPT_DEBUG') && WP_SCRIPT_DEBUG) ? '' : '.min';
                 $load_css = cmplz_get_value('use_document_css');
                 if ($load_css) {
                     wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);
@@ -568,6 +568,19 @@ if (!class_exists("cmplz_document")) {
             return $new_hex;
         }
 
+        /**
+         * Verify if $type is an existing document type
+         * @param string $type
+         * @return bool
+         */
+
+        public function sanitize_document_type($type){
+            $types = array_keys(COMPLIANZ()->config->document_elements);
+            if (in_array($type, $types)) return $type;
+
+            return false;
+        }
+
 
         /**
          * loads document content on shortcode call
@@ -582,7 +595,6 @@ if (!class_exists("cmplz_document")) {
 
         public function load_document($atts = [], $content = null, $tag = '')
         {
-
             // normalize attribute keys, lowercase
             $atts = array_change_key_case((array)$atts, CASE_LOWER);
 
@@ -590,11 +602,12 @@ if (!class_exists("cmplz_document")) {
 
             // override default attributes with user attributes
             $atts = shortcode_atts(['type' => false,], $atts, $tag);
-            $type = $atts['type'];
-            if ($type) {
+            $type = $this->sanitize_document_type($atts['type']);
 
+            if ($type) {
                 $html = $this->get_document_html($type);
-                echo $html;
+                $allowed_html = cmplz_allowed_html();
+                echo '<div id="cmplz-document">' . wp_kses($html, $allowed_html) . '</div>';;
             }
 
             return ob_get_clean();

@@ -21,7 +21,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
      * @var int
      * @since 1.5
      */
-    public $per_page = 5;
+    public $per_page = 50;
 
     /**
      * Number of customers found

@@ -177,7 +177,7 @@ if (!class_exists("cmplz_admin")) {
              * Migrate use_country and a_b_testing to general settings
              *
              * */
-            if (version_compare($prev_version, '2.1.8', '<')) {
+            if (version_compare($prev_version, '3.0.0', '<')) {
                 $cookie_settings = get_option('complianz_options_cookie_settings');
                 $general_settings = get_option('complianz_options_settings');
 
@@ -204,6 +204,25 @@ if (!class_exists("cmplz_admin")) {
             if (version_compare($prev_version, '3.0.0', '<')) {
                 COMPLIANZ()->cookie->migrate_legacy_cookie_settings();
             }
+
+            /*
+             * Merge adress data into one field for more flexibility
+             * */
+
+            if (version_compare($prev_version, '3.0.0', '<')) {
+                //get adress data
+                $wizard_settings = get_option('complianz_options_wizard');
+
+                $adress = isset($wizard_settings['address_company']) ? $wizard_settings['address_company'] : '';
+                $zip = isset($wizard_settings['postalcode_company']) ? $wizard_settings['postalcode_company'] : '';
+                $city = isset($wizard_settings['city_company']) ? $wizard_settings['city_company'] : '';
+                $new_adress = $adress . "\n" . $zip . ' ' .$city;
+                $wizard_settings['address_company'] = $new_adress;
+                unset($wizard_settings['postalcode_company']);
+                unset($wizard_settings['city_company']);
+                update_option('complianz_options_wizard', $wizard_settings);
+            }
+
 
 
             do_action('cmplz_upgrade', $prev_version);

@@ -47,7 +47,6 @@ if (!class_exists("cmplz_cookie")) {
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
-            //add_action('upgrader_process_complete', array($this, 'plugins_updating'), 10, 2);
 
             add_action('plugins_loaded', array($this, 'rescan'), 11, 2);
 
@@ -65,7 +64,6 @@ if (!class_exists("cmplz_cookie")) {
             add_action('cmplz_wizard_wizard', array($this, 'update_social_media_cookies'), 10, 1);
             add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
             add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
-
 
             add_action('cmplz_statistics_script', array($this, 'get_statistics_script'),10);
 
@@ -201,7 +199,7 @@ if (!class_exists("cmplz_cookie")) {
             }
         }
 
-        /*
+        /**
          * On activation or deactivation of plugins, we clear the cookie list so it will be scanned anew.
          *
          *
@@ -283,9 +281,7 @@ if (!class_exists("cmplz_cookie")) {
             return apply_filters('cmplz_ab_testing_enabled', false);
         }
 
-        /*
-         *
-         *
+        /**
          * Here we add scripts and styles for the wysywig editor on the backend
          *
          * */
@@ -344,7 +340,7 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        /*
+        /**
          * The classes that are passed to the statistics script determine if these are executed immediately or not.
          *
          *
@@ -359,6 +355,10 @@ if (!class_exists("cmplz_cookie")) {
 
             return $classes;
         }
+
+        /**
+         * Print inline cookie enabling scripts and statistics scripts
+         */
 
         public function inline_cookie_script()
         {
@@ -381,7 +381,6 @@ if (!class_exists("cmplz_cookie")) {
                     <?php
                     if (!$this->tagmamanager_fires_scripts() && $this->cookie_warning_required_stats() && !$this->uses_google_analytics()) {
                         do_action('cmplz_statistics_script');
-
                     }
                     $this->get_cookie_script();
                     ?>
@@ -405,7 +404,7 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        /*
+        /**
          *
          * @hooked cmplz_statistics_script
          *
@@ -419,22 +418,26 @@ if (!class_exists("cmplz_cookie")) {
             $statistics = cmplz_get_value('compile_statistics');
             if ($statistics === 'google-tag-manager') {
                 $script = cmplz_get_template('google-tag-manager.js');
-                $script = str_replace('[GTM_CODE]', cmplz_get_value("GTM_code"), $script);
+                $script = str_replace('{GTM_code}', esc_attr(cmplz_get_value("GTM_code")), $script);
             } elseif ($statistics === 'google-analytics') {
                 $anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
                 $script = cmplz_get_template('google-analytics.js');
-                $script = str_replace('[UA_CODE]', cmplz_get_value("UA_code"), $script);
-                $script = str_replace('[ANONYMIZE_IP]', $anonymize_ip, $script);
+                $script = str_replace('{UA_code}', esc_attr(cmplz_get_value("UA_code")), $script);
+                $script = str_replace('{anonymize_ip}', esc_attr($anonymize_ip), $script);
             } elseif ($statistics === 'matomo') {
                 $script = cmplz_get_template('matomo.js');
-                $script = str_replace('[SITE_ID]', cmplz_get_value('matomo_site_id'), $script);
-                $script = str_replace('[MATOMO_URL]', trailingslashit(cmplz_get_value('matomo_url')), $script);
+                $script = str_replace('{site_id}]', esc_attr(cmplz_get_value('matomo_site_id')), $script);
+                $script = str_replace('{matomo_url}', esc_url_raw(trailingslashit(cmplz_get_value('matomo_url'))), $script);
             } else {
                 $script = cmplz_get_value('statistics_script');
             }
 
-            echo $script;
+            echo ($script);
         }
+
+        /**
+         * Retrieve scripts that place cookies, as user inserted on the back-end.
+         */
 
         private function get_cookie_script()
         {
@@ -465,96 +468,25 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-
-
-        /*
+        /**
          * Get all cookies, and post back to site with ajax.
-         * This script is only inserted when a valid token is passed.
+         * This script is only inserted when a valid token is passed, so will never run for other visitors than the site admin
          *
          * */
-
 
         public function test_cookies()
         {
             if ($this->scan_complete()) return;
+
             $token = sanitize_title($_GET['complianz_scan_token']);
             $id = sanitize_title($_GET['complianz_id']);
-            //https://stackoverflow.com/questions/4919918/get-all-cookies-of-my-site
+            $admin_url = admin_url('admin-ajax.php');
 
+            $javascript = cmplz_get_template('test-cookies.js');
+            $javascript = str_replace(array('{admin_url}', '{token}', '{id}'), array(esc_url_raw($admin_url), esc_attr($token), esc_attr($id)), $javascript);
             ?>
-
             <script>
-                <?php
-                //force enable cookies to make sure the tool gets all of them.
-                //as this script is only inserted when loaded by the scan, this does no harm.
-                ?>
-
-                jQuery(document).ready(function ($) {
-                    <?php if ($id === 'clean') {?>
-                    //deleteAllCookies();
-                    var cookies = [];
-                    var lstorage = [];
-                    <?php } ?>
-
-                    if (cmplz_function_exists('complianz_enable_cookies')) complianz_enable_cookies();
-
-                    var cookies = get_cookies_array();
-                    var lstorage = get_localstorage_array();
-
-                    $.post(
-                        '<?php echo admin_url('admin-ajax.php')?>',
-                        {
-                            action: 'store_detected_cookies',
-                            cookies: cookies,
-                            lstorage: lstorage,
-                            token: '<?php echo $token;?>',
-                            complianz_id: '<?php echo $id?>',
-                        },
-                    );
-
-                    function get_localstorage_array() {
-                        var lstorage = {};
-                        for (i = 0; i < localStorage.length; i++) {
-
-                            lstorage[localStorage.key(i)] = localStorage.key(i);
-                        }
-                        for (i = 0; i < sessionStorage.length; i++) {
-                            lstorage[sessionStorage.key(i)] = sessionStorage.key(i);
-                        }
-
-
-                        return lstorage;
-                    }
-
-                    function get_cookies_array() {
-                        var cookies = {};
-                        if (document.cookie && document.cookie != '') {
-                            var split = document.cookie.split(';');
-                            for (var i = 0; i < split.length; i++) {
-                                var name_value = split[i].split("=");
-                                name_value[0] = name_value[0].replace(/^ /, '');
-                                cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
-                            }
-                        }
-
-                        return cookies;
-
-                    }
-                });
-
-                function cmplz_function_exists(function_name) {
-                    if (typeof function_name == 'string') {
-                        return (typeof window[function_name] == 'function');
-                    } else {
-                        return (function_name instanceof Function);
-                    }
-                }
-
-                function deleteAllCookies() {
-                    document.cookie.split(";").forEach(function (c) {
-                        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-                    });
-                }
+                <?php echo $javascript;?>
             </script>
 
             <?php
@@ -936,14 +868,16 @@ if (!class_exists("cmplz_cookie")) {
             if (!current_user_can('manage_options')) return;
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
+                $post_cookies = is_array($_POST['cookies']) ? $_POST['cookies'] : array();
                 $found_cookies = array_map(function ($el) {
                     return sanitize_title($el);
-                }, $_POST['cookies']);
+                }, $post_cookies);
                 if (!is_array($found_cookies)) $found_cookies = array();
 
+                $post_storage = is_array($_POST['lstorage']) ? $_POST['lstorage'] : array();
                 $found_storage = array_map(function ($el) {
                     return sanitize_title($el);
-                }, $_POST['lstorage']);
+                }, $post_storage);
                 if (!is_array($found_storage)) $found_storage = array();
 
 
@@ -1739,52 +1673,59 @@ if (!class_exists("cmplz_cookie")) {
          */
 
         public function migrate_legacy_cookie_settings($variation_id=''){
-            //the variation without ID is the default one.
-
             //check if there is already a default item.
             global $wpdb;
             $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.default=true");
             if ($variation_id=='' && count($cookiebanners)>=1) return;
 
+
+            //the variation without ID is the default one.
             $cookie_settings = get_option('complianz_options_cookie_settings');
             $banner = new CMPLZ_COOKIEBANNER();
             $banner->title = $variation_id=='' ? __('Default Cookie Banner', 'complianz-gdpr') :COMPLIANZ()->statistics->get_variation_nicename($variation_id);
             $banner->default = ($variation_id === '') ? true : false;
 
-            if (isset($cookie_settings['position'])) $banner->position = $cookie_settings['position'.$variation_id];
-            if (isset($cookie_settings['theme'])) $banner->theme = $cookie_settings['theme'.$variation_id];
-            if (isset($cookie_settings['revoke'])) $banner->revoke = $cookie_settings['revoke'.$variation_id];
-            if (isset($cookie_settings['dismiss'])) $banner->dismiss = $cookie_settings['dismiss'.$variation_id];
-            if (isset($cookie_settings['save_preferences'])) $banner->save_preferences = $cookie_settings['save_preferences'.$variation_id];
-            if (isset($cookie_settings['view_preferences'])) $banner->view_preferences = $cookie_settings['view_preferences'.$variation_id];
-            if (isset($cookie_settings['category_functional'])) $banner->category_functional = $cookie_settings['category_functional'.$variation_id];
-            if (isset($cookie_settings['category_all'])) $banner->category_all = $cookie_settings['category_all'.$variation_id];
-            if (isset($cookie_settings['category_stats'])) $banner->category_stats = $cookie_settings['category_stats'.$variation_id];
-            if (isset($cookie_settings['accept'])) $banner->accept = $cookie_settings['accept'.$variation_id];
-            if (isset($cookie_settings['message'])) $banner->message_optin = $cookie_settings['message'.$variation_id];
-            if (isset($cookie_settings['readmore'])) $banner->readmore_optin = $cookie_settings['readmore'.$variation_id];
-            if (isset($cookie_settings['use_categories'])) $banner->use_categories = $cookie_settings['use_categories'.$variation_id];
-            if (isset($cookie_settings['tagmanager_categories'])) $banner->tagmanager_categories = $cookie_settings['tagmanager_categories'.$variation_id];
-            if (isset($cookie_settings['hide_revoke'])) $banner->hide_revoke = $cookie_settings['hide_revoke'.$variation_id];
-            if (isset($cookie_settings['dismiss_on_scroll'])) $banner->dismiss_on_scroll = $cookie_settings['dismiss_on_scroll'.$variation_id];
-            if (isset($cookie_settings['dismiss_on_timeout'])) $banner->dismiss_on_timeout = $cookie_settings['dismiss_on_timeout'.$variation_id];
-            if (isset($cookie_settings['dismiss_timeout'])) $banner->dismiss_timeout = $cookie_settings['dismiss_timeout'.$variation_id];
-            if (isset($cookie_settings['accept_informational'])) $banner->accept_informational = $cookie_settings['accept_informational'.$variation_id];
-            if (isset($cookie_settings['message_us'])) $banner->message_optout = $cookie_settings['message_us'.$variation_id];
-            if (isset($cookie_settings['readmore_us'])) $banner->readmore_optout = $cookie_settings['readmore_us'.$variation_id];
-            if (isset($cookie_settings['readmore_privacy'])) $banner->readmore_privacy = $cookie_settings['readmore_privacy'.$variation_id];
-            if (isset($cookie_settings['popup_background_color'])) $banner->popup_background_color = $cookie_settings['popup_background_color'.$variation_id];
-            if (isset($cookie_settings['popup_text_color'])) $banner->popup_text_color = $cookie_settings['popup_text_color'.$variation_id];
-            if (isset($cookie_settings['button_background_color'])) $banner->button_background_color = $cookie_settings['button_background_color'.$variation_id];
-            if (isset($cookie_settings['button_text_color'])) $banner->button_text_color = $cookie_settings['button_text_color'.$variation_id];
-            if (isset($cookie_settings['border_color'])) $banner->border_color = $cookie_settings['border_color'.$variation_id];
-            if (isset($cookie_settings['cookie_expiry'])) $banner->cookie_expiry = $cookie_settings['cookie_expiry'.$variation_id];
-            if (isset($cookie_settings['use_custom_cookie_css'])) $banner->use_custom_cookie_css = $cookie_settings['use_custom_cookie_css'.$variation_id];
-            if (isset($cookie_settings['custom_css'])) $banner->custom_css = $cookie_settings['custom_css'.$variation_id];
+            if (isset($cookie_settings['position'.$variation_id])) $banner->position = $cookie_settings['position'.$variation_id];
+            if (isset($cookie_settings['theme'.$variation_id])) $banner->theme = $cookie_settings['theme'.$variation_id];
+            if (isset($cookie_settings['revoke'.$variation_id])) $banner->revoke = $cookie_settings['revoke'.$variation_id];
+            if (isset($cookie_settings['dismiss'.$variation_id])) $banner->dismiss = $cookie_settings['dismiss'.$variation_id];
+            if (isset($cookie_settings['save_preferences'.$variation_id])) $banner->save_preferences = $cookie_settings['save_preferences'.$variation_id];
+            if (isset($cookie_settings['view_preferences'.$variation_id])) $banner->view_preferences = $cookie_settings['view_preferences'.$variation_id];
+            if (isset($cookie_settings['category_functional'.$variation_id])) $banner->category_functional = $cookie_settings['category_functional'.$variation_id];
+            if (isset($cookie_settings['category_all'.$variation_id])) $banner->category_all = $cookie_settings['category_all'.$variation_id];
+            if (isset($cookie_settings['category_stats'.$variation_id])) $banner->category_stats = $cookie_settings['category_stats'.$variation_id];
+            if (isset($cookie_settings['accept'.$variation_id])) $banner->accept = $cookie_settings['accept'.$variation_id];
+            if (isset($cookie_settings['message'.$variation_id])) $banner->message_optin = $cookie_settings['message'.$variation_id];
+            if (isset($cookie_settings['readmore'.$variation_id])) $banner->readmore_optin = $cookie_settings['readmore'.$variation_id];
+            if (isset($cookie_settings['use_categories'.$variation_id])) $banner->use_categories = $cookie_settings['use_categories'.$variation_id];
+            if (isset($cookie_settings['tagmanager_categories'.$variation_id])) $banner->tagmanager_categories = $cookie_settings['tagmanager_categories'.$variation_id];
+            if (isset($cookie_settings['hide_revoke'.$variation_id])) $banner->hide_revoke = $cookie_settings['hide_revoke'.$variation_id];
+            if (isset($cookie_settings['dismiss_on_scroll'.$variation_id])) $banner->dismiss_on_scroll = $cookie_settings['dismiss_on_scroll'.$variation_id];
+            if (isset($cookie_settings['dismiss_on_timeout'.$variation_id])) $banner->dismiss_on_timeout = $cookie_settings['dismiss_on_timeout'.$variation_id];
+            if (isset($cookie_settings['dismiss_timeout'.$variation_id])) $banner->dismiss_timeout = $cookie_settings['dismiss_timeout'.$variation_id];
+            if (isset($cookie_settings['accept_informational'.$variation_id])) $banner->accept_informational = $cookie_settings['accept_informational'.$variation_id];
+            if (isset($cookie_settings['message_us'.$variation_id])) $banner->message_optout = $cookie_settings['message_us'.$variation_id];
+            if (isset($cookie_settings['readmore_us'.$variation_id])) $banner->readmore_optout = $cookie_settings['readmore_us'.$variation_id];
+            if (isset($cookie_settings['readmore_privacy'.$variation_id])) $banner->readmore_privacy = $cookie_settings['readmore_privacy'.$variation_id];
+            if (isset($cookie_settings['popup_background_color'.$variation_id])) $banner->popup_background_color = $cookie_settings['popup_background_color'.$variation_id];
+            if (isset($cookie_settings['popup_text_color'.$variation_id])) $banner->popup_text_color = $cookie_settings['popup_text_color'.$variation_id];
+            if (isset($cookie_settings['button_background_color'.$variation_id])) $banner->button_background_color = $cookie_settings['button_background_color'.$variation_id];
+            if (isset($cookie_settings['button_text_color'.$variation_id])) $banner->button_text_color = $cookie_settings['button_text_color'.$variation_id];
+            if (isset($cookie_settings['border_color'.$variation_id])) $banner->border_color = $cookie_settings['border_color'.$variation_id];
+            if (isset($cookie_settings['cookie_expiry'.$variation_id])) $banner->cookie_expiry = $cookie_settings['cookie_expiry'.$variation_id];
+            if (isset($cookie_settings['use_custom_cookie_css'.$variation_id])) $banner->use_custom_cookie_css = $cookie_settings['use_custom_cookie_css'.$variation_id];
+            if (isset($cookie_settings['custom_css'.$variation_id])) $banner->custom_css = $cookie_settings['custom_css'.$variation_id];
 
             $banner->save();
 
             global $wpdb;
+            //set the variation as having been migrated, to prevent doubles
+            //update the banner id in the statistics table
+            $wpdb->update($wpdb->prefix . 'cmplz_variations',
+                array('title' => 'migrated'),
+                array('ID' => $variation_id)
+            );
+
             //update the banner id in the statistics table
             $wpdb->update($wpdb->prefix . 'cmplz_statistics',
                 array('cookiebanner_id' => $banner->id),
@@ -1802,8 +1743,9 @@ if (!class_exists("cmplz_cookie")) {
                 array('region' => 'us')
             );
 
-            //remove data
+            //remove old data
             unset($cookie_settings['position'.$variation_id]);
+            unset($cookie_settings['cookie_expiry'.$variation_id]);
             unset($cookie_settings['title'.$variation_id]);
             unset($cookie_settings['theme'.$variation_id]);
             unset($cookie_settings['revoke'.$variation_id]);
@@ -1834,8 +1776,7 @@ if (!class_exists("cmplz_cookie")) {
             unset($cookie_settings['use_custom_cookie_css'.$variation_id]);
             unset($cookie_settings['custom_css'.$variation_id]);
 
-
-            update_option('complianz_options_cookie_settings', $cookie_settings);
+            if (is_array($cookie_settings)) update_option('complianz_options_cookie_settings', $cookie_settings);
         }
 
 

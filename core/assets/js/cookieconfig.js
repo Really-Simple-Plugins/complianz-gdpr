@@ -176,7 +176,15 @@ jQuery(document).ready(function ($) {
 
         $('.cmplz-video').each(function (i, obj) {
             //reset video height adjustments, but not for elementor
-            if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) $(this).height('inherit');
+            if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) {
+                $(this).height('inherit');
+            }
+        });
+
+        //styles
+        $('.cmplz-style-element').each(function (i, obj) {
+            var src = $(this).data('href');
+            $('head').append('<link rel="stylesheet" type="text/css" href="'+src+'">');
         });
 
         //iframes
@@ -186,8 +194,9 @@ jQuery(document).ready(function ($) {
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
 
-            // //fitvids needs to be reinitialized, if it is used.
-            if (jQuery.fn.fitVids && $(this).parent().hasClass('cmplz-video')) {
+            //fitvids needs to be reinitialized, if it is used.
+            //we trigger not on blocked content which is not video. Excluding prevents issues with additional divs.
+            if (jQuery.fn.fitVids && !$(this).parent().hasClass('cmplz-no-video')) {
                 $(this).parent().fitVids();
             }
         });
@@ -283,7 +292,7 @@ jQuery(document).ready(function ($) {
     }
 
     /*
-    * We use ajax to check the country, otherwise caching could prevent the user specific warning
+    * We use ajax to check the consenttype based on region, otherwise caching could prevent the user specific warning
     *
     * */
 
@@ -294,7 +303,8 @@ jQuery(document).ready(function ($) {
     }
 
     //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-    if (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version)) {
+    if (complianz.multiple_regions && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version))) {
+        console.log('reload');
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -314,9 +324,8 @@ jQuery(document).ready(function ($) {
 
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
-        //the IDE will give a warning about the complianz var here, but it's inserted by wordpress
-        complianz = cmplzMergeObject(complianz, cmplz_user_data);
-
+        //objects are merge so user_data will override data in complianz object
+        complianz = cmplzMergeObject(cmplz_user_data, complianz);
         cmplzIntegrationsInit();
 
         cmplzCheckCookiePolicyID();
@@ -347,7 +356,6 @@ jQuery(document).ready(function ($) {
             } else if (cmplz_user_data.consenttype === 'optout') {
                 console.log('opt out');
                 complianz.type = 'opt-out';
-                // complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_optout;
@@ -417,6 +425,7 @@ jQuery(document).ready(function ($) {
                 if (status === 'deny' && cmplz_user_data.consenttype === 'optout') {
                     cmplzRevoke();
                     complianz_track_status();
+                    location.reload();
                 }
             },
             onRevokeChoice: function () {
@@ -424,7 +433,7 @@ jQuery(document).ready(function ($) {
                 if (!complianz.use_categories && ccStatus === 'allow') {
                     cmplzRevoke();
                     complianz_track_status();
-                    //location.reload();
+                    location.reload();
                 }
             },
             "dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
@@ -547,6 +556,17 @@ jQuery(document).ready(function ($) {
         //dismiss the banner after saving, so it won't show on next page load
         ccName.setStatus('dismiss');
 
+        //check if status is changed from 'allow' to 'revoked'
+        var reload = false;
+        if ($('#cmplz_all').length) {
+            if ($('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') !== 'allow')) {
+                reload = true;
+            }
+            if (!$('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') === 'allow')) {
+                reload = true;
+            }
+        }
+
         //save the categories
 
         //using TM categories
@@ -591,10 +611,14 @@ jQuery(document).ready(function ($) {
 
         ccName.close();
         $('.cc-revoke').fadeIn();
+
+        if (reload) location.reload();
     }
 
 
     function complianz_track_status(status) {
+        if (!complianz.a_b_testing) return;
+
         status = typeof status !== 'undefined' ? status : false;
 
         //keep track of the fact that the status was saved at least once, for the no choice status

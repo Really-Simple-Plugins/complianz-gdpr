@@ -33,6 +33,43 @@ if (!class_exists("cmplz_company")) {
         }
 
         /**
+         * Get the default region based on region settings
+         *  - if we have one region selected, return this
+         *  - if we have more than one, try to get the one this company is based in
+         *  - if nothing found, return company region
+         *
+         * @return string region
+         */
+
+        public function get_default_region(){
+            //check default region
+            $company_region_code = $this->get_company_region_code();
+            $regions = cmplz_get_regions();
+            $region = false;
+
+            if (is_array($regions)) {
+                $multiple_regions = count($regions)>1;
+                foreach($regions as $region_code => $label){
+
+                    //if we have one region, just return the first result
+                    if (!$multiple_regions) return $region_code;
+
+                    //if we have several regions, get the one this company is located in
+                    if ($company_region_code === $region_code) $region = $region_code;
+                }
+            }
+
+            //fallback one: company location
+            if (!$region && !empty($company_region_code)) $region = $company_region_code;
+
+            //fallback if no array was returned.
+            if (!$region) $region = CMPLZ_DEFAULT_REGION;
+
+            return $region;
+        }
+
+
+        /**
          * Get the default consenttype based on region settings
          *
          * @return string consenttype
@@ -40,22 +77,7 @@ if (!class_exists("cmplz_company")) {
 
         public function get_default_consenttype(){
             //check default region
-            $company_region_code = $this->get_company_region_code();
-            $regions = cmplz_get_regions();
-            $region = false;
-
-            if (is_array($regions)) {
-                foreach($regions as $region_code => $label){
-                    //if we have several regions, get the one this company is located in
-                    if ($company_region_code === $region_code) $region = $region_code;
-                }
-            }
-
-            //fallback one: company location
-            if (!empty($company_region_code)) $region = $company_region_code;
-
-            //fallback if no array was returned.
-            if (!$region) $region = CMPLZ_DEFAULT_REGION;
+            $region = $this->get_default_region();
             return cmplz_get_consenttype_for_region($region);
         }
 

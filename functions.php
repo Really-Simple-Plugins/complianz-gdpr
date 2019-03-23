@@ -350,18 +350,18 @@ if (!function_exists('cmplz_list_item')) {
         $selected = $selected ? "selected" : '';
         ?>
 
-        <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
-            <div class="cmplz-panel-title">
-                <a class="cmplz-panel-link" href="<?php echo $link ?>">
+            <div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
+                <div class="cmplz-panel-title">
+                    <a class="cmplz-panel-link" href="<?php echo $link ?>">
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
                     <span class="cmplz-title"><?php echo $title ?></span>
                  </span>
-                </a>
+                    </a>
 
-                <?php echo $btn ?>
+                    <?php echo $btn ?>
+                </div>
             </div>
-        </div>
         <?php
 
     }
@@ -647,9 +647,7 @@ if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
         $data = apply_filters('cmplz_user_data', array());
-        $data['version'] = cmplz_version;
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
-        $data['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);
 
         $response = json_encode($data);
         header("Content-Type: application/json");
@@ -895,6 +893,7 @@ if (!function_exists('cmplz_allowed_html')) {
                 'id' => array(),
             ),
             'tr' => array(),
+            'style' => array(),
             'td' => array('colspan' => array()),
             'ul' => array(
                 'class' => array(),
@@ -1189,6 +1188,7 @@ if (!function_exists('cmplz_get_used_consenttypes')) {
             $consent_types[] = COMPLIANZ()->config->regions[$region]['type'];
         }
 
+
         //remove duplicates
         $consent_types = array_unique($consent_types);
 
@@ -1209,6 +1209,13 @@ if (!function_exists('cmplz_uses_optout')){
     }
 }
 
+if (!function_exists('cmplz_ab_testing_enabled')){
+    function cmplz_ab_testing_enabled(){
+        return COMPLIANZ()->cookie->ab_testing_enabled();
+    }
+}
+
+
 if (!function_exists('cmplz_consenttype_nicename')) {
     /**
      * Get nice name for consenttype
@@ -1221,9 +1228,9 @@ if (!function_exists('cmplz_consenttype_nicename')) {
                 return __('Opt in','complianz-gdpr');
             case 'optout':
                 return __('Opt out', 'complianz-gdp');
+            default :
+                return __('All consent types', 'complianz-gdp');
         }
-
-        return '';
 
     }
 }
@@ -1278,7 +1285,7 @@ if (!function_exists('cmplz_user_can_manage')){
 if (!function_exists('cmplz_get_cookiebanners')) {
 
     /**
-     * Get array of cookiebanner objects
+     * Get array of banner objects
      * @param array $args
      * @return array
      */
@@ -1302,6 +1309,7 @@ if (!function_exists('cmplz_get_cookiebanners')) {
             $sql = 'AND cdb.default = false';
         }
         $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql");
+
 
         return $cookiebanners;
     }

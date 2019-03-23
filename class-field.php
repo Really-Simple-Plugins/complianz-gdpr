@@ -20,10 +20,13 @@ if (!class_exists("cmplz_field")) {
             self::$_this = $this;
 
             add_action('plugins_loaded', array($this, 'process_save'), 10);
+            add_action('cmplz_register_translation', array($this, 'register_translation'), 10, 2);
+
             add_action('complianz_before_label', array($this, 'before_label'), 10, 1);
             add_action('complianz_before_label', array($this, 'show_errors'), 10, 1);
             add_action('complianz_after_label', array($this, 'after_label'), 10, 1);
             add_action('complianz_after_field', array($this, 'after_field'), 10, 1);
+
             $this->load();
         }
 
@@ -32,6 +35,27 @@ if (!class_exists("cmplz_field")) {
             return self::$_this;
         }
 
+
+
+        /**
+         * Register each string in supported string translation tools
+         *
+         */
+
+        public function register_translation($fieldname, $string)
+        {
+            //polylang
+            if (function_exists("pll_register_string")) {
+                pll_register_string($fieldname, $string, 'complianz');
+            }
+
+            //wpml
+            if (function_exists('icl_register_string')) {
+                icl_register_string('complianz', $fieldname, $string);
+            }
+
+            do_action('wpml_register_single_string', 'complianz', $fieldname, $string);
+        }
 
 
         public function load()
@@ -245,8 +269,6 @@ if (!class_exists("cmplz_field")) {
             if (!empty($options)) update_option('complianz_options_' . $page, $options);
 
             do_action("complianz_after_save_" . $page . "_option", $fieldname, $fieldvalue, $prev_value, $type);
-
-
         }
 
 
