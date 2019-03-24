@@ -268,7 +268,7 @@ if (!function_exists('cmplz_multiple_regions')) {
     function cmplz_multiple_regions()
     {
         //if geo ip is not enabled, return false anyway
-        if (!cmplz_get_value('use_country', false, 'settings')) return false;
+        if (!cmplz_geoip_enabled()) return false;
 
         $regions = cmplz_get_regions();
         return count($regions) > 1;
@@ -367,7 +367,7 @@ if (!function_exists('cmplz_list_item')) {
     }
 }
 
-/*
+/**
  * Check if the scan detected social media on the site.
  *
  *
@@ -465,7 +465,7 @@ if (!function_exists('cmplz_wp_privacy_version')) {
     }
 }
 
-/*
+/**
  * callback for privacy document Check if there is a text entered in the custom privacy statement text
  *
  * */
@@ -479,7 +479,7 @@ if (!function_exists('cmplz_has_custom_privacy_policy')) {
     }
 }
 
-/*
+/**
  * callback for privacy statement document, check if google is allowed to share data with other services
  *
  * */
@@ -510,7 +510,7 @@ if (!function_exists('cmplz_statistics_no_sharing_allowed')) {
     }
 }
 
-/*
+/**
  * callback for privacy statement document. Check if ip addresses are stored.
  *
  * */
@@ -646,6 +646,7 @@ if (!function_exists('cmplz_is_pagebuilder_preview')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
+
         $data = apply_filters('cmplz_user_data', array());
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
 
@@ -653,6 +654,12 @@ if (!function_exists('cmplz_ajax_user_settings')) {
         header("Content-Type: application/json");
         echo $response;
         exit;
+    }
+}
+
+if (!function_exists('cmplz_geoip_enabled')){
+    function cmplz_geoip_enabled(){
+        return apply_filters('cmplz_geoip_enabled', false);
     }
 }
 

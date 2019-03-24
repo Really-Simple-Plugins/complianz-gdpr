@@ -303,8 +303,7 @@ jQuery(document).ready(function ($) {
     }
 
     //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-    if (complianz.multiple_regions && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version))) {
-        console.log('reload');
+    if (complianz.geoip && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version))) {
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -325,7 +324,8 @@ jQuery(document).ready(function ($) {
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
         //objects are merge so user_data will override data in complianz object
-        complianz = cmplzMergeObject(cmplz_user_data, complianz);
+        complianz = cmplzMergeObject( complianz, cmplz_user_data);
+
         cmplzIntegrationsInit();
 
         cmplzCheckCookiePolicyID();
@@ -829,17 +829,19 @@ jQuery(document).ready(function ($) {
     *
     * */
 
-    function cmplzMergeObject(target, userdata) {
-        for (var i = 1; i < userdata.length; i++) {
-            var source = userdata;
+    function cmplzMergeObject(userdata, ajax_data) {
 
-            for (var key in source) {
-                if (source.hasOwnProperty(key)) {
-                    target[key] = source[key];
-                }
-            }
+        var output = [];
+
+        for (var key in userdata) {
+            output[key] = userdata[key];
         }
-        return target;
+
+        for (var key in ajax_data) {
+            output[key] = ajax_data[key];
+        }
+
+        return output;
     }
 
 
@@ -855,7 +857,7 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    /*
+    /**
     *
     * If a policy is accepted, save this in the user policy id
     *
@@ -866,7 +868,7 @@ jQuery(document).ready(function ($) {
 
     }
 
-    /*
+    /**
     * For supported integrations, initialize the not consented state
     *
     * */
@@ -875,7 +877,7 @@ jQuery(document).ready(function ($) {
         cmplzIntegrationsRevoke();
     }
 
-    /*
+    /**
     * For supported integrations, revoke consent
     *
     * */

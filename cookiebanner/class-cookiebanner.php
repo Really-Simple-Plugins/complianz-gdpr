@@ -636,7 +636,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['a_b_testing'] = cmplz_ab_testing_enabled();
             $output['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);
             $output['consenttype'] = COMPLIANZ()->company->get_default_consenttype();
-            $output['multiple_regions'] = cmplz_multiple_regions();
+            $output['geoip'] = cmplz_geoip_enabled();
             $output['categories'] = '';
             $output['position'] = $this->position;
             $output['title'] = $this->title;

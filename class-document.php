@@ -28,7 +28,7 @@ if (!class_exists("cmplz_document")) {
         {
 
             if ($this->is_complianz_page()) {
-                $min = (defined('WP_SCRIPT_DEBUG') && WP_SCRIPT_DEBUG) ? '' : '.min';
+                $min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
                 $load_css = cmplz_get_value('use_document_css');
                 if ($load_css) {
                     wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);

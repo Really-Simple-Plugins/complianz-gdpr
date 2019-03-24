@@ -81,13 +81,28 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+        'dont_use_placeholders' => array(
+            'source' => 'settings',
+            'type' => 'checkbox',
+            'table' => true,
+            'label' => __("Disable placeholder insertion", 'complianz-gdpr'),
+            'default' => false,
+            'help' => __("If you experience styling issues with video's or iframes you can disable the placeholder insertion, which in some themes can conflict with theme styling.",'complianz-gdpr'),
+            'condition' => array(
+                'disable_cookie_block' => false,
+            )
+        ),
+
         'blocked_content_text' => array(
             'source' => 'settings',
             'type' => 'text',
+            'table' => true,
             'label' => __("Blocked content text", 'complianz-gdpr'),
             'default' => _x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),
-            'help' => __('The blocked content text appears when for example a Youtube video is embeded. Because Youtube places cookie which require consent, the video will be blocked initially, with an explanatory text.','complianz-gdpr'),
-            'table' => true,
+            'help' => __('The blocked content text appears when for example a Youtube video is embedded. Because Youtube places cookie which require consent, the video will be blocked initially, with an explanatory text.','complianz-gdpr'),
+            'condition' => array(
+                'disable_cookie_block' => false,
+            )
         ),
 
         'notification_from_email' => array(
