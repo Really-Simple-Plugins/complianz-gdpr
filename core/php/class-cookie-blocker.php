@@ -190,7 +190,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles');
                         if (!cmplz_get_value('dont_use_placeholders')) {
                             //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
-                            $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? 'cmplz-video' : 'cmplz-no-video';
+                            $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? apply_filters('cmplz_video_class','cmplz-video') : apply_filters('cmplz_video_class','cmplz-no-video');
                             $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
                         }
 
