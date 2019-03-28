@@ -104,7 +104,7 @@ jQuery(document).ready(function ($) {
                 if (!resetPadding) resetPadding = pPadding;
                 parent.css('padding-top', '0');
             }
-            
+
             //check bottom padding. Some themes use bottom padding for responsiveness
             var pPaddingBottom = getActualCSS(parent, 'paddingBottom');
             if (isVideoPadding(pPaddingBottom) && parent.children().length) {
@@ -115,7 +115,7 @@ jQuery(document).ready(function ($) {
             //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
                 //gutenberg icw fitvids should not use reset padding.
-                if (!jQuery.fn.fitVids) resetPadding = '56.25%';
+                //if (!jQuery.fn.fitVids) resetPadding = '56.25%';
                 parent.addClass('cmplz-clear-padding');
             }
 
@@ -336,7 +336,6 @@ jQuery(document).ready(function ($) {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
         //objects are merge so user_data will override data in complianz object
         complianz = cmplzMergeObject( complianz, cmplz_user_data);
-
         cmplzIntegrationsInit();
 
         cmplzCheckCookiePolicyID();
@@ -355,8 +354,8 @@ jQuery(document).ready(function ($) {
             }
         }
 
-        if (!cmplz_user_data.do_not_track) {
-            if (cmplz_user_data.consenttype === 'optin') {
+        if (!complianz.do_not_track) {
+            if (complianz.consenttype === 'optin') {
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
@@ -364,7 +363,7 @@ jQuery(document).ready(function ($) {
                 complianz.message = complianz.message_optin;
                 console.log('opt-in');
                 cmplz_cookie_warning();
-            } else if (cmplz_user_data.consenttype === 'optout') {
+            } else if (complianz.consenttype === 'optout') {
                 console.log('opt out');
                 complianz.type = 'opt-out';
                 complianz.layout = 'basic';
@@ -869,10 +868,10 @@ jQuery(document).ready(function ($) {
     }
 
     /**
-    *
-    * If a policy is accepted, save this in the user policy id
-    *
-    * */
+     *
+     * If a policy is accepted, save this in the user policy id
+     *
+     * */
 
     function cmplzSetAcceptedCookiePolicyID() {
         cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
@@ -880,18 +879,18 @@ jQuery(document).ready(function ($) {
     }
 
     /**
-    * For supported integrations, initialize the not consented state
-    *
-    * */
+     * For supported integrations, initialize the not consented state
+     *
+     * */
 
     function cmplzIntegrationsInit(){
         cmplzIntegrationsRevoke();
     }
 
     /**
-    * For supported integrations, revoke consent
-    *
-    * */
+     * For supported integrations, revoke consent
+     *
+     * */
     function cmplzIntegrationsRevoke(){
         //compatiblity with https://wordpress.org/plugins/wp-donottrack/
         cmplzSetCookie('dont_track_me', '1', complianz.cookie_expiry);
