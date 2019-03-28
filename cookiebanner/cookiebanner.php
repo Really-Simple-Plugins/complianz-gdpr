@@ -131,7 +131,7 @@ function cmplz_cookiebanner_overview(){
         </script>
 
         <div class="wrap cookie-warning">
-        <h1><?php _e("Cookie warning settings", 'complianz-gdpr') ?>
+        <h1><?php _e("Cookie banner settings", 'complianz-gdpr') ?>
             <?php do_action('cmplz_after_cookiebanner_title'); ?>
         </h1>
             <?php

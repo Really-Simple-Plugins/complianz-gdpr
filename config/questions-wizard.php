@@ -298,8 +298,6 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-
-
         'uses_cookies' => array(
             'step' => STEP_COOKIES,
             'section' => 2,

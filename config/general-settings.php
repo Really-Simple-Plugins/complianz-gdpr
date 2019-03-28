@@ -40,7 +40,7 @@ $this->fields = $this->fields + array(
             'step' => 'general',
             'type' => 'number',
             'default' => 365,
-            'label' => __("Cookie warning expiration in days", 'complianz-gdpr'),
+            'label' => __("Cookie banner expiration in days", 'complianz-gdpr'),
             'table' => true,
         ),
 

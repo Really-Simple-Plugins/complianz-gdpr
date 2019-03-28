@@ -8,10 +8,10 @@
 
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
-    "googleplus" => array('addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
-    "twitter" => array('sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
-    "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
-    "pinterest" => array('assets.pinterest.com'),
+    "googleplus" => array('super-socializer','addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
+    "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
+    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "pinterest" => array('super-socializer','assets.pinterest.com'),
     "disqus" => array('disqus.com'),
     "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
 );
@@ -37,6 +37,8 @@ $this->thirdparty_service_markers = array(
  * */
 
 $this->script_tags = array(
+    'super-socializer', //super socializer
+    'theChampFBKey',   //super socializer
     'google.com/recaptcha',
     'grecaptcha',
     'platform.twitter.com',
