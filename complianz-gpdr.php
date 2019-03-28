@@ -136,7 +136,7 @@ if (!class_exists('COMPLIANZ')) {
              * 2: introduction of US privacy questions
              *
              * */
-            define('CMPLZ_LEGAL_VERSION', '3');
+            define('CMPLZ_LEGAL_VERSION', '4');
 
             /*statistics*/
             if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days

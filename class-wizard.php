@@ -213,10 +213,12 @@ if (!class_exists("cmplz_wizard")) {
 
             if ($enable_categories){
                 $banners = apply_filters('cmplz_get_banners', array(''));
-                foreach ($banners as $banner) {
-                    $banner = new CMPLZ_COOKIEBANNER($banner->ID);
-                    $banner->use_categories = true;
-                    $banner->save();
+                if (!empty($banners)) {
+                    foreach ($banners as $banner) {
+                        $banner = new CMPLZ_COOKIEBANNER($banner->ID);
+                        $banner->use_categories = true;
+                        $banner->save();
+                    }
                 }
             }
 
