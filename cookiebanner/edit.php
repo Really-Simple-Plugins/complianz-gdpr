@@ -64,10 +64,9 @@
             </div>
         <?php }?>
 
-       <div style="text-align:center">
+       <div class="cmplz-cookiebanner-save-button">
            <button class="button button-primary" type="submit"><?php _e('Save', 'complianz-gdpr')?></button>
        </div>
 
-
-    </form>s
+    </form>
 </div>

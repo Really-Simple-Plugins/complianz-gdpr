@@ -115,7 +115,7 @@ jQuery(document).ready(function ($) {
             //gutenberg
             if (parent.hasClass('wp-block-embed__wrapper')) {
                 //gutenberg icw fitvids should not use reset padding.
-                //if (!jQuery.fn.fitVids) resetPadding = '56.25%';
+                //if (!jQuery.fn.fitVids)  resetPadding = '56.25%';
                 parent.addClass('cmplz-clear-padding');
             }
 

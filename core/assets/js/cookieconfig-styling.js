@@ -178,6 +178,12 @@ jQuery(document).ready(function ($) {
         var ccCheckboxes='';
         var ccCategoryFunctional = '';
         var ccCategoryAll = '';
+        console.log(ccPosition);
+        if (ccPosition==='bottom-left'){
+            $('.cmplz-cookiebanner-save-button').css({"textAlign": "right"});
+        } else {
+            $('.cmplz-cookiebanner-save-button').css({"textAlign": "left"});
+        }
 
         if (ccCategories) {
             var ccUseTagManagerCategories = $('textarea[name=cmplz_tagmanager_categories]').length;
