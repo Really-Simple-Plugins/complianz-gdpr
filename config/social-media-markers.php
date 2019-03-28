@@ -17,7 +17,7 @@ $this->social_media_markers = array(
 );
 
 /*
- * Scripts with this string in the content get blocked.
+ * Scripts with this string in the content get listed in the third party list.
  *
  * */
 

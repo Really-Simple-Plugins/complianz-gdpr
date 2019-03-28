@@ -87,6 +87,7 @@ jQuery(document).ready(function ($) {
         $('.cmplz-video').each(function() {
             var blockedContentContainer = $(this);
             var resetPadding = false;
+            var resetPaddingBottom = false;
 
             //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
             var grandParent = blockedContentContainer.parent().parent();
@@ -94,14 +95,21 @@ jQuery(document).ready(function ($) {
 
             if (isVideoPadding(gpPadding) && grandParent.children().length===1) {
                 resetPadding = gpPadding;
-                grandParent.css('padding-top', '10px');
+                grandParent.css('padding-top', '0');
             }
 
             var parent = blockedContentContainer.parent();
             var pPadding = getActualCSS(parent, 'paddingTop');
             if (isVideoPadding(pPadding) && parent.children().length) {
                 if (!resetPadding) resetPadding = pPadding;
-                parent.css('padding-top', '10px');
+                parent.css('padding-top', '0');
+            }
+            
+            //check bottom padding. Some themes use bottom padding for responsiveness
+            var pPaddingBottom = getActualCSS(parent, 'paddingBottom');
+            if (isVideoPadding(pPaddingBottom) && parent.children().length) {
+                if (!resetPaddingBottom) resetPaddingBottom = pPaddingBottom;
+                parent.css('padding-bottom', '0');
             }
 
             //gutenberg
@@ -125,10 +133,13 @@ jQuery(document).ready(function ($) {
                     var w = blockedContentContainer.width();
                     var h = imgHeight * (w / imgWidth);
                     if (resetPadding && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
-                        blockedContentContainer.css('padding-top', resetPadding);
+                        //blockedContentContainer.css('padding-top', resetPadding);
+                    } else if (resetPaddingBottom && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
+                        blockedContentContainer.css('padding-bottom', resetPaddingBottom);
                     } else {
                         blockedContentContainer.height(h);
                     }
+
                 });
                 if (src && src.length) img.src = src;
             }
