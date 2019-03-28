@@ -517,6 +517,10 @@ html .mceContentBody {
   background-position: 0.5%;
   padding-left: 25px;
 }
+#cmplz-wizard .cmplz-body textarea.validation:invalid,
+#cmplz-wizard .cmplz-body textarea.validation:valid {
+  background-position: 0.5% 1.5%;
+}
 #cmplz-wizard .cmplz-body .invalid-multicheckbox,
 #cmplz-wizard .cmplz-body .invalid-radio {
   background: url(../fontawesome/times.svg);

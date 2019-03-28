@@ -788,6 +788,8 @@ if (!class_exists("cmplz_field")) {
             <label for="<?php echo $args['fieldname'] ?>"><?php echo esc_html($args['label']) ?><?php echo $this->get_help_tip_btn($args);?></label>
             <?php do_action('complianz_after_label', $args); ?>
             <textarea name="<?php echo esc_html($fieldname) ?>"
+                      <?php if ($args['required']) echo 'required'; ?>
+                        class="validation <?php if ($args['required']) echo 'is-required'; ?>"
                       placeholder="<?php echo esc_html($args['placeholder']) ?>"><?php echo esc_html($value) ?></textarea>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
