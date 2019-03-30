@@ -519,6 +519,9 @@ if (!class_exists("cmplz_document_core")) {
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';
+            } elseif(COMPLIANZ()->config->fields[$fieldname]['type'] == 'textarea'){
+                //preserve linebreaks
+                $value = nl2br($value);
             } elseif (is_array($value)) {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 //array('3' => 1 );

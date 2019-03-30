@@ -217,7 +217,6 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'content' => '[organisation_name]<br>
                     [address_company]<br>
-                    [postalcode_company] [city_company]<br>
                     [country_company]<br>
                     Website: [domain] <br>
                     Email: [email_company] <br>

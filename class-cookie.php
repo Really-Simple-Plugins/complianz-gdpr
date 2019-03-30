@@ -426,7 +426,7 @@ if (!class_exists("cmplz_cookie")) {
                 $script = str_replace('{anonymize_ip}', esc_attr($anonymize_ip), $script);
             } elseif ($statistics === 'matomo') {
                 $script = cmplz_get_template('matomo.js');
-                $script = str_replace('{site_id}]', esc_attr(cmplz_get_value('matomo_site_id')), $script);
+                $script = str_replace('{site_id}', esc_attr(cmplz_get_value('matomo_site_id')), $script);
                 $script = str_replace('{matomo_url}', esc_url_raw(trailingslashit(cmplz_get_value('matomo_url'))), $script);
             } else {
                 $script = cmplz_get_value('statistics_script');

@@ -169,7 +169,6 @@ $this->document_elements['cookie-statement'] = array(
     'contact-details-2' => array(
         'content' => '[organisation_name]<br>
                     [address_company]<br>
-                    [postalcode_company] [city_company]<br>
                     [country_company]<br>
                     ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' [domain] <br>
                     ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' [email_company] <br>

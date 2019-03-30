@@ -337,6 +337,7 @@ if (!class_exists("cmplz_field")) {
                 case 'number':
                     return intval($value);
                 case 'editor':
+                case 'textarea':
                     return wp_kses_post($value);
             }
             return sanitize_text_field($value);
