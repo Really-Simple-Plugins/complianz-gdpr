@@ -1,8 +1,3 @@
-<?php
-
-
-?>
-
 <div class="wrap">
 
     <form id='cookie-settings' action="" method="post">
@@ -17,15 +12,19 @@
         $active_tab = isset($_POST['cmplz_active_tab']) ? sanitize_title($_POST['cmplz_active_tab']) : 'general';
         $consent_types = cmplz_get_used_consenttypes();
         $regions = cmplz_get_regions();
-
-        if (cmplz_multiple_regions()){
-            $single_consenttype = COMPLIANZ()->company->get_default_consenttype();
-
+        if (isset($_POST["cmplz_active_tab"])) {
+            $single_consenttype = sanitize_title($_POST["cmplz_active_tab"]);
         } else {
-            $single_region = $regions;
-            reset($single_region);
-            $single_region = key($single_region);
-            $single_consenttype = cmplz_get_consenttype_for_region($single_region);
+
+            if (cmplz_multiple_regions()) {
+                $single_consenttype = COMPLIANZ()->company->get_default_consenttype();
+
+            } else {
+                $single_region = $regions;
+                reset($single_region);
+                $single_region = key($single_region);
+                $single_consenttype = cmplz_get_consenttype_for_region($single_region);
+            }
         }?>
         <input type="hidden" name="cmplz_active_tab" value="<?php echo $active_tab?>">
         <script>

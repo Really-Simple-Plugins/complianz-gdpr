@@ -48,7 +48,7 @@ function cmplz_install_cookiebanner_table()
             `button_text_color` varchar(255) NOT NULL,
             `border_color` varchar(255) NOT NULL,
             `use_custom_cookie_css` varchar(255) NOT NULL,
-            `custom_css` varchar(255) NOT NULL,
+            `custom_css` text NOT NULL,
             `statistics` text NOT NULL,
               PRIMARY KEY  (ID)
             ) $charset_collate;";
@@ -220,7 +220,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->button_text_color = !empty($cookiebanner->button_text_color ) ? $cookiebanner->button_text_color : $this->get_default('button_text_color');
                 $this->border_color = !empty($cookiebanner->border_color ) ? $cookiebanner->border_color : $this->get_default('border_color');
                 $this->use_custom_cookie_css = !empty($cookiebanner->use_custom_cookie_css ) ? $cookiebanner->use_custom_cookie_css : $this->get_default('use_custom_cookie_css');
-                $this->custom_css = !empty($cookiebanner->custom_css ) ? $cookiebanner->custom_css : $this->get_default('custom_css');
+                $this->custom_css = !empty($cookiebanner->custom_css ) ? htmlspecialchars_decode($cookiebanner->custom_css) : $this->get_default('custom_css');
 
                 //translated fields
                 $this->save_preferences_x = $this->translate($this->save_preferences, 'save_preferences');
@@ -323,7 +323,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             );
 
             if ($this->use_custom_cookie_css){
-                $update_array['custom_css']=sanitize_text_field($this->custom_css);
+                $update_array['custom_css']=htmlspecialchars($this->custom_css);
             }
 
             global $wpdb;
@@ -660,8 +660,10 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['readmore_optin'] = $this->readmore_optin_x;
             $output['accept_informational'] = $this->accept_informational_x;
             $output['message_optout'] = $this->message_optout_x;
+            $output['message_optin'] = $this->message_optin_x;
             $output['readmore_optout'] = $this->readmore_optout_x;
             $output['readmore_privacy'] = $this->readmore_privacy_x;
+            $output['view_preferences'] = $this->view_preferences_x;
 
             if ($output['position']=='static') {
                 $output['static'] = true;
@@ -713,9 +715,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $output['layout'] = 'categories-layout';
                 $output['revoke'] = $this->view_preferences_x;
             } else {
-                $output['view_preferences'] = $this->view_preferences_x;
                 $output['accept'] = $this->accept_x;
-                $output['message_optin'] = $this->message_optin_x;
             }
 
             $output['version'] = cmplz_version;

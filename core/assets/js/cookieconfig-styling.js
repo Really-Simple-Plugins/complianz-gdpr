@@ -101,18 +101,20 @@ jQuery(document).ready(function ($) {
     });
 
     $(document).on('change', 'input[name=cmplz_use_custom_cookie_css]', function () {
+        cmplz_apply_style();
+    });
+
+    cmplz_apply_style();
+    function cmplz_apply_style(){
         var checked = $('input[name=cmplz_use_custom_cookie_css]').is(':checked');
         if (checked){
-            cmplz_apply_style();
+            $('<style id="cmplz-cookie-inline-css">')
+                .prop("type", "text/css")
+                .html($('textarea[name="cmplz_custom_css"]').val()).appendTo("head");
         } else {
             $("#cmplz-cookie-inline-css").remove();
         }
-    });
 
-    function cmplz_apply_style(){
-        $('<style id="cmplz-cookie-inline-css">')
-            .prop("type", "text/css")
-            .html($('textarea[name="cmplz_custom_css"]').val()).appendTo("head");
     }
 
     $(document).on('change', 'input[name=cmplz_use_categories]', function () {
