@@ -251,12 +251,26 @@ if (!class_exists("cmplz_cookiebanner")) {
          */
 
         private function translate($value, $fieldname){
-
             if (function_exists('pll__')) $value = pll__($value);
 
             if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
 
             return $value;
+
+        }
+
+        private function register_translation($string, $fieldname){
+            //polylang
+            if (function_exists("pll_register_string")) {
+                pll_register_string($fieldname, $string, 'complianz');
+            }
+
+            //wpml
+            if (function_exists('icl_register_string')) {
+                icl_register_string('complianz', $fieldname, $string);
+            }
+
+            do_action('wpml_register_single_string', 'complianz', $fieldname, $string);
 
         }
 
@@ -286,6 +300,24 @@ if (!class_exists("cmplz_cookiebanner")) {
             if (!$this->id) {
                 $this->add();
             }
+
+            //register translations fields
+            $this->register_translation($this->save_preferences, 'save_preferences');
+            $this->register_translation($this->view_preferences,'view_preferences');
+            $this->register_translation($this->category_functional,'category_functional');
+            $this->register_translation($this->category_all,'category_all');
+            $this->register_translation($this->category_stats,'category_stats');
+            $this->register_translation($this->accept,'accept');
+            $this->register_translation($this->revoke,'revoke');
+            $this->register_translation($this->dismiss,'dismiss');
+            $this->register_translation($this->message_optin,'message_optin');
+            $this->register_translation($this->readmore_optin,'readmore_optin');
+            $this->register_translation($this->tagmanager_categories,'tagmanager_categories');
+            $this->register_translation($this->accept_informational,'accept_informational');
+            $this->register_translation($this->message_optout,'message_optout');
+            $this->register_translation($this->readmore_optout,'readmore_optout');
+            $this->register_translation($this->readmore_privacy,'readmore_privacy');
+
             if (!is_array($this->statistics)) $this->statistics = array();
             $statistics = serialize($this->statistics);
             $update_array = array(
