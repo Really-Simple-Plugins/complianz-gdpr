@@ -33,93 +33,51 @@ jQuery(document).ready(function ($) {
     var ccAllEnabled = false;
     var ccPrivacyLink = '';
     var waitingScripts = [];
+    var placeholderClassIndex = 0;
 
     /**
-     * Get actual css style from an element
-     * @param el
-     * @param property
-     * @returns {string}
-     */
-
-    function getActualCSS(el, property) {
-        var domNode = el[0];
-
-        var parent = domNode.parentNode;
-        if(parent) {
-            var originalDisplay = parent.style.display;
-            parent.style.display = 'none';
-        }
-        var computedStyles = getComputedStyle(domNode);
-        var result = computedStyles[property];
-
-
-        if(parent) {
-            parent.style.display = originalDisplay;
-        }
-
-        return result;
-    }
-
-    /**
-     * Checks if this padding is 56%, which is a padding to make video's responsive
-     * @param padding
-     * @returns {boolean}
-     */
-
-    function isVideoPadding(padding){
-        //video padding contains %.
-        if (padding.indexOf('%')===-1) return false;
-
-        //video padding is about 56%.
-        if (parseInt(padding.replace('%',''))===56){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /*
-    * Set height of blocked content div to placeholder img aspect ratio's
+    * Set placeholder image as background on the parent div, set notice, and handle height.
     *
     * */
-    setBlockedContentContainerAspectRatio();
-    function setBlockedContentContainerAspectRatio() {
-        $('.cmplz-video').each(function() {
-            var blockedContentContainer = $(this);
-            var resetPadding = false;
-            var resetPaddingBottom = false;
 
-            //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
-            var grandParent = blockedContentContainer.parent().parent();
-            var gpPadding = getActualCSS(grandParent, 'paddingTop');
+    setBlockedContentContainer();
+    function setBlockedContentContainer() {
+        $('.cmplz-iframe').each(function() {
+            //we set the first parent div as container with placeholder image
+            var blockedContentContainer = $(this).parent();
+            placeholderClassIndex++;
+            blockedContentContainer.addClass('cmplz-placeholder-' + placeholderClassIndex);
+            blockedContentContainer.addClass('cmplz-blocked-content-container');
+            blockedContentContainer.data('placeholderClassIndex', placeholderClassIndex);
+            var placeholderText = $(this).data('placeholder-text');
 
-            if (isVideoPadding(gpPadding) && grandParent.children().length===1) {
-                resetPadding = gpPadding;
-                grandParent.css('padding-top', '0');
+            //insert placeholder text
+            blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">'+placeholderText+'</div>');
+
+            //handle image size for video
+            var src = $(this).data('placeholder-image');
+            if (src.length) {
+                src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+                $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {background-image: url(' + src + ');}</style>');
+                setBlockedContentContainerAspectRatio();
             }
 
-            var parent = blockedContentContainer.parent();
-            var pPadding = getActualCSS(parent, 'paddingTop');
-            if (isVideoPadding(pPadding) && parent.children().length) {
-                if (!resetPadding) resetPadding = pPadding;
-                parent.css('padding-top', '0');
-            }
+        });
+    }
 
-            //check bottom padding. Some themes use bottom padding for responsiveness
-            var pPaddingBottom = getActualCSS(parent, 'paddingBottom');
-            if (isVideoPadding(pPaddingBottom) && parent.children().length) {
-                if (!resetPaddingBottom) resetPaddingBottom = pPaddingBottom;
-                parent.css('padding-bottom', '0');
-            }
+    /**
+    * Set the height of an image relative to the width, depending on the image widht/height aspect ratio.
+    *
+    *
+    * */
 
-            //gutenberg
-            if (parent.hasClass('wp-block-embed__wrapper')) {
-                //gutenberg icw fitvids should not use reset padding.
-                //if (!jQuery.fn.fitVids)  resetPadding = '56.25%';
-                parent.addClass('cmplz-clear-padding');
-            }
+    function setBlockedContentContainerAspectRatio(){
+        $('.cmplz-iframe').each(function() {
+            //we set the first parent div as container with placeholder image
+            var blockedContentContainer = $(this).parent();
 
-            var src = blockedContentContainer.css('background-image');
+            //handle image size for video
+            var src = $(this).data('placeholder-image');
             if (src.length) {
                 src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 
@@ -132,14 +90,12 @@ jQuery(document).ready(function ($) {
                     if (imgWidth === 0) imgWidth = 1;
                     var w = blockedContentContainer.width();
                     var h = imgHeight * (w / imgWidth);
-                    if (resetPadding && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
-                        //blockedContentContainer.css('padding-top', resetPadding);
-                    } else if (resetPaddingBottom && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
-                        blockedContentContainer.css('padding-bottom', resetPaddingBottom);
-                    } else {
-                        blockedContentContainer.height(h);
-                    }
 
+                    var heightCSS = '';
+                    if (src.indexOf('placeholder.jpg')===-1) heightCSS = 'height:' + h + 'px;';
+
+                    var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+                    $('head').append('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
                 });
                 if (src && src.length) img.src = src;
             }
@@ -147,7 +103,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    /*
+    /**
     * Keep window aspect ratio in sync when window resizes
     * To lower the number of times this code is executed, it is done with a timeout.
     *
@@ -163,7 +119,7 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    /*
+    /**
     * Enable scripts that were blocked
     *
     * */
@@ -179,37 +135,30 @@ jQuery(document).ready(function ($) {
         //enable integrations
         cmplzIntegrationsConsent();
 
-        //remove accept cookie notice overlay
-        $('.cmplz-blocked-content-notice').each(function () {
-            $(this).parent().css('background-image', '');
-            $(this).remove();
-        });
-
-        $('.cmplz-video').each(function (i, obj) {
-            //reset video height adjustments, but not for elementor
-            if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) {
-                $(this).height('inherit');
-            }
-        });
-
         //styles
         $('.cmplz-style-element').each(function (i, obj) {
             var src = $(this).data('href');
             $('head').append('<link rel="stylesheet" type="text/css" href="'+src+'">');
         });
 
-        //iframes
-        $('.cmplz-iframe').each(function (i, obj) {
+        //remove accept cookie notice overlay
+        $('.cmplz-blocked-content-notice').each(function () {
+            $(this).remove();
+        });
 
+        //iframes and video's
+        $('.cmplz-iframe').each(function (i, obj) {
+            //we get the closest, not the parent, because a script could have inserted a div in the meantime.
+            var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
             $(this).removeClass('cmplz-iframe-styles');
+
+            //activate the video.
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
-
-            //fitvids needs to be reinitialized, if it is used.
-            //we trigger not on blocked content which is not video. Excluding prevents issues with additional divs.
-            if (jQuery.fn.fitVids && !$(this).parent().hasClass('cmplz-no-video')) {
-                $(this).parent().fitVids();
-            }
         });
 
         //scripts: set "cmplz-script classes to type="text/javascript"
@@ -288,7 +237,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    /*
+    /**
     * Fire an event in Tag Manager
     *
     *
@@ -302,7 +251,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    /*
+    /**
     * We use ajax to check the consenttype based on region, otherwise caching could prevent the user specific warning
     *
     * */
@@ -531,7 +480,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    /*
+    /**
     * Save the preferences after user has changed the settings in the popup
     *
     *
@@ -541,7 +490,7 @@ jQuery(document).ready(function ($) {
         cmplzSaveCategoriesSelection();
     });
 
-    /*
+    /**
     * Accept all cookies for this user.
     *
     * */
@@ -557,7 +506,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    /*
+    /**
     * Save the current selected categories, and dismiss the banner
     *
     * */
@@ -565,7 +514,6 @@ jQuery(document).ready(function ($) {
     function cmplzSaveCategoriesSelection(){
         //dismiss the banner after saving, so it won't show on next page load
         ccName.setStatus('dismiss');
-
         //check if status is changed from 'allow' to 'revoked'
         var reload = false;
         if ($('#cmplz_all').length) {

@@ -294,7 +294,10 @@
   height: inherit;
   position: relative;
 }
-.cmplz-blocked-content-container.cmplz-video .cmplz-iframe-styles {
+.cmplz-blocked-content-container .cmplz-video.cmplz-hidden {
+  visibility: hidden;
+}
+.cmplz-blocked-content-container .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {

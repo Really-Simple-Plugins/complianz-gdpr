@@ -87,8 +87,11 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 3.0.0 =
+* Fix: moved linkedin from script blocked list to async loaded list
 * Fix: default region is now one of the selected regions in the wizard.
 * Fix: when localstorage is empty, empty array could cause PHP error during cookie scan
+* Improvement: completely rewritten video blocking and placeholder code, which should reduce possible issues
+* Improvement: extended support for different types of IP detection on servers
 * Improvement: moved string translation support for polylang and WPML to core
 * Improvement: Added option to disable adding placeholder HTML to video's
 * Improvement: Added plural for Social Media statement in Cookie Policy
@@ -359,6 +362,7 @@ Tweak: first reported cookies added to the cookie database
 = 1.0.0 =
 
 == Upgrade notice ==
+* Please backup before upgrading.
 
 == Screenshots ==
 1. Dashboard for quick overview over your status, and quick access to privacy features.

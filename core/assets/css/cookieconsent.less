@@ -9,12 +9,15 @@
   }
 }
 .cmplz-blocked-content-container{
-  //prevent theme's from hiding the placeholder image with a background color
-  &.cmplz-video {
-    .cmplz-iframe-styles {
-      background-color:transparent;
-    }
+  //hide placeholder video
+  .cmplz-video.cmplz-hidden{
+    visibility: hidden;
   }
+  //prevent theme's from hiding the placeholder image with a background color
+  .cmplz-video.cmplz-iframe-styles {
+    background-color:transparent;
+  }
+
   display: flex;
   justify-content: center;
   align-items: center;

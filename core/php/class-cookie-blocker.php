@@ -180,19 +180,26 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
                         $placeholder = cmplz_placeholder('iframe', $iframe_src);
-                        $fallback_placeholder =  cmplz_get_value('dont_use_placeholders') ? cmplz_url . 'core/assets/images/placeholder.html' : cmplz_url . 'core/assets/images/s.png';
-                        $fallback_placeholder = apply_filters('cmplz_fallback_placeholder',$fallback_placeholder);
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
-                        $new = $this->replace_src($new, $fallback_placeholder);
-
                         //an iframes-styles class is added so we can reset styles from the theme, and release them after consent
-                        $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles');
+
+                        //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
+                        if ($this->is_video($iframe_src)){
+                            $video_class = apply_filters('cmplz_video_class','cmplz-video cmplz-hidden');
+                            $source_placeholder =  cmplz_url . 'core/assets/video/placeholder.mp4';
+                        } else {
+                            $video_class = apply_filters('cmplz_video_class', 'cmplz-no-video');
+                            $source_placeholder =  cmplz_get_value('dont_use_placeholders') ? cmplz_url . 'core/assets/images/placeholder.html' : cmplz_url . 'core/assets/images/s.png';
+                        }
+                        $new = $this->add_class($new, 'iframe', 'cmplz-iframe cmplz-iframe-styles '.$video_class);
+
+                        $source_placeholder = apply_filters('cmplz_source_placeholder',$source_placeholder);
+                        $new = $this->replace_src($new, $source_placeholder);
 
                         if (!cmplz_get_value('dont_use_placeholders')) {
-                            //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
-                            $video_class =  (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false) ? apply_filters('cmplz_video_class','cmplz-video') : apply_filters('cmplz_video_class','cmplz-no-video');
-                            $new = '<div class="cmplz-blocked-content-container '.$video_class.'" style="background-image: url('.$placeholder.');"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div>'.$new.'</div>';
+                            $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
+                            $new = $this->add_data($new, 'iframe','placeholder-text', apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')));
                         }
 
                         $output = str_replace($total_match, $new, $output);
@@ -353,7 +360,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          */
 
         private function add_class($html, $el, $class){
-
+            $class = esc_attr($class);
             preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
 
             if ($matches) {
@@ -378,6 +385,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          */
 
         private function add_data($html, $el, $id, $content){
+            $content = esc_attr($content);
+            $id = esc_attr($id);
 
             $pos = strpos($html, "<$el");
             if ($pos !== false) {
@@ -385,6 +394,20 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
 
             return $html;
+        }
+
+        /**
+         * Check if this iframe source is a video
+         * @param $iframe_src
+         * @return bool
+         */
+
+        private function is_video($iframe_src){
+           if (strpos($iframe_src, 'dailymotion')!==false || strpos($iframe_src, 'youtube')!==false || strpos($iframe_src, 'vimeo')!==false){
+               return true;
+           }
+
+           return false;
         }
 
     }
