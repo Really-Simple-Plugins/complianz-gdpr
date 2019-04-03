@@ -49,16 +49,13 @@ $this->document_elements['cookie-statement'] = array(
     //analytical
     'cookies-analytical' => array(
         'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.', 'Legal document cookie policy', 'complianz-gdpr'),
-        'callback_condition' => 'cmplz_uses_statistics',
-    ),
-
-    array(
-        'content' => _x('We ask your permission to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.', 'Legal document cookie policy', 'complianz-gdpr')
+            .'&nbsp;'._x('We ask your permission to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_cookie_warning_required_stats',
     ),
 
     array(
+        'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
     ),
@@ -73,7 +70,13 @@ $this->document_elements['cookie-statement'] = array(
     'cookies-ads-yes' => array(
         'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => sprintf(_x('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
-        'condition' => array('uses_ad_cookies' => 'yes'),
+        'condition' => array('uses_ad_cookies_personalized' => 'yes'),
+    ),
+
+    'cookies-ads-yes-no-tracking' => array(
+        'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+        'content' => sprintf(_x('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
+        'condition' => array('uses_ad_cookies_personalized' => 'no'),
     ),
 
     'advertising-cookies-yes-2' => array(
@@ -94,11 +97,14 @@ $this->document_elements['cookie-statement'] = array(
         'condition' => array('uses_social_media' => 'no'),
     ),
 
-
-
     'social-media-yes' => array(
         'subtitle' => _x('Social media buttons', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => sprintf(_x('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you. Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible. %s are located in the United States.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'content' => sprintf(_x('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'condition' => array('uses_social_media' => 'yes'),
+    ),
+
+    'social-media-yes2' => array(
+        'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr').' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  count(cmplz_get_value('socialmedia_on_site',false,'wizard')), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
@@ -160,7 +166,6 @@ $this->document_elements['cookie-statement'] = array(
     'contact-details-2' => array(
         'content' => '[organisation_name]<br>
                     [address_company]<br>
-                    [postalcode_company] [city_company]<br>
                     [country_company]<br>
                     ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' [domain] <br>
                     ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' [email_company] <br>

@@ -291,6 +291,7 @@ if (!class_exists("cmplz_document_core")) {
 
             $html = $this->replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type);
 
+
             /*
              * Get custom CSS
              *
@@ -352,7 +353,7 @@ if (!class_exists("cmplz_document_core")) {
 
 
 
-        /*
+        /**
          * Check if this element should be numbered
          * if no key is set, default is true
          *
@@ -366,6 +367,14 @@ if (!class_exists("cmplz_document_core")) {
 
             return $element['numbering'];
         }
+
+        /**
+         * Wrap subheader in html
+         * @param $header
+         * @param $paragraph
+         * @param $subparagraph
+         * @return string $html
+         */
 
         public function wrap_sub_header($header, $paragraph, $subparagraph)
         {
@@ -387,11 +396,15 @@ if (!class_exists("cmplz_document_core")) {
             return "<$el>" . $content . "</$el>";
         }
 
-        /*
+        /**
          * Replace all fields in the resulting output
-         *
-         *
-         * */
+         * @param $html
+         * @param $paragraph_id_arr
+         * @param $annex_arr
+         * @param $post_id
+         * @param $type
+         * @return string $html
+         */
 
         private function replace_fields($html, $paragraph_id_arr, $annex_arr, $post_id, $type)
         {
@@ -453,6 +466,12 @@ if (!class_exists("cmplz_document_core")) {
 
         }
 
+        /**
+         * obfuscate the email address
+         * @param $email
+         * @return string
+         */
+
         private function obfuscate_email($email)
         {
             $alwaysEncode = array('.', ':', '@');
@@ -476,6 +495,15 @@ if (!class_exists("cmplz_document_core")) {
             return $result;
         }
 
+        /**
+         *
+         * Get the plain text value of an option
+         * @param $fieldname
+         * @param $post_id
+         * @param bool $list_style
+         * @return array|mixed|string
+         */
+
 
         private function get_plain_text_value($fieldname, $post_id, $list_style = true)
         {
@@ -491,6 +519,9 @@ if (!class_exists("cmplz_document_core")) {
             } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';
+            } elseif(COMPLIANZ()->config->fields[$fieldname]['type'] == 'textarea'){
+                //preserve linebreaks
+                $value = nl2br($value);
             } elseif (is_array($value)) {
                 $options = COMPLIANZ()->config->fields[$fieldname]['options'];
                 //array('3' => 1 );
@@ -512,7 +543,7 @@ if (!class_exists("cmplz_document_core")) {
                     $labels = "<ul>" . $labels . "</ul>";
                 } else {
                     $labels = cmplz_esc_html(rtrim($labels, ', '));
-                    $labels = strrev(implode(strrev(', ' . __('and', 'complianz-gdpr')), explode(strrev(','), strrev($labels), 2)));
+                    $labels = strrev(implode(strrev(' ' . __('and', 'complianz-gdpr')), explode(strrev(','), strrev($labels), 2)));
                 }
 
                 $value = $labels;

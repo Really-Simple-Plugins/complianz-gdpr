@@ -31,19 +31,19 @@ $this->eu_countries = array(
     "SE"
 );
 
-
-
 $this->regions = array(
     'us' => array(
         'label' => __('US', 'complianz-gdpr'),
         'countries' => array('US'),
         'law' => __("CaCPA", 'complianz-gdpr'),
+        'type' => 'optout',
     ),
 
     'eu' => array(
         'label' => __('EU', 'complianz-gdpr'),
         'countries' => $this->eu_countries,
         'law' => __("GDPR", 'complianz-gdpr'),
+        'type' => 'optin',
     )
 );
 

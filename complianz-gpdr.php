@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 2.1.8
+ * Version: 3.0.0
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
  * Author: RogierLankhorst, Complianz team
@@ -136,7 +136,7 @@ if (!class_exists('COMPLIANZ')) {
              * 2: introduction of US privacy questions
              *
              * */
-            define('CMPLZ_LEGAL_VERSION', '3');
+            define('CMPLZ_LEGAL_VERSION', '4');
 
             /*statistics*/
             if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days
@@ -175,6 +175,7 @@ if (!class_exists('COMPLIANZ')) {
                 require_once(cmplz_path . 'class-field.php');
                 require_once(cmplz_path . 'class-wizard.php');
                 require_once(cmplz_path . 'callback-notices.php');
+                require_once(cmplz_path . 'cookiebanner/cookiebanner.php');
             }
 
             require_once(cmplz_path . 'cron/cron.php');
@@ -183,6 +184,8 @@ if (!class_exists('COMPLIANZ')) {
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
             require_once(cmplz_path . 'integrations.php');
+            require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
+
 
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-cookie-blocker.php');

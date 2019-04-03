@@ -8,23 +8,22 @@
 
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
-    "googleplus" => array('addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
-    "twitter" => array('sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
-    "facebook" => array('sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
-    "pinterest" => array('assets.pinterest.com'),
+    "googleplus" => array('super-socializer','addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
+    "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
+    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "pinterest" => array('super-socializer','assets.pinterest.com'),
     "disqus" => array('disqus.com'),
     "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
 );
 
 /*
- * Scripts with this string in the content get blocked.
+ * Scripts with this string in the content get listed in the third party list.
  *
  * */
 
 $this->thirdparty_service_markers = array(
     "googlemaps" => array('new google.maps.'),
     "vimeo" => array('player.vimeo.com'),
-    "google-fonts" => array('fonts.googleapis.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
@@ -38,14 +37,14 @@ $this->thirdparty_service_markers = array(
  * */
 
 $this->script_tags = array(
+    'super-socializer', //super socializer
+    'theChampFBKey',   //super socializer
     'google.com/recaptcha',
     'grecaptcha',
-    'fonts.googleapis.com',
     'platform.twitter.com',
     'apis.google.com/js/plusone.js',
     'apis.google.com/js/platform.js',
     'connect.facebook.net',
-    'platform.linkedin.com',
     'assets.pinterest.com',
     'www.youtube.com/iframe_api',
     'www.google-analytics.com/analytics.js',
@@ -70,12 +69,20 @@ $this->script_tags = array(
 );
 
 /*
+ * Style strings (google fonts have been removed in favor of plugin recommendation)
+ * */
+
+$this->style_tags = array(
+);
+
+/*
  * Scripts in this list are loaded with post scribe.js
  *
  * */
 
 $this->async_list = array(
     'instawidget.net/js/instawidget.js',
+    'platform.linkedin.com',
 );
 
 $this->iframe_tags = array(

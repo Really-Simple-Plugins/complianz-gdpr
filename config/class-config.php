@@ -18,7 +18,7 @@ if (!class_exists("cmplz_config")) {
         public $purposes;
         public $details_per_purpose_us;
         public $regions;
-        public $social_media_markers, $script_tags, $iframe_tags, $async_list, $image_tags;
+        public $social_media_markers, $script_tags, $style_tags, $iframe_tags, $async_list, $image_tags;
         public $eu_countries;
         public $premium_geo_ip;
         public $premium_ab_testing;
@@ -127,14 +127,12 @@ if (!class_exists("cmplz_config")) {
             return $html;
         }
 
-
-
-        public function fields($page = false, $step = false, $section = false, $variant_id = '')
+        public function fields($page = false, $step = false, $section = false)
         {
 
             $output = array();
             $fields = $this->fields;
-            if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'page', $page);
+            if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'source', $page);
 
             foreach ($fields as $fieldname => $field) {
                 if ($step) {
@@ -145,9 +143,7 @@ if (!class_exists("cmplz_config")) {
                     }
                 }
                 if (!$step) {
-                        //the variant id is only used for cookies, which does not use steps or sections, so it's only applied here.
-                        $field_variant_id = (!isset($field['has_variations']) || !$field['has_variations']) ? '' : $variant_id;
-                        $output[$fieldname . $field_variant_id] = $field;
+                    $output[$fieldname] = $field;
                 }
 
             }

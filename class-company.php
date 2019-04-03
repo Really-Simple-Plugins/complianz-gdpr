@@ -34,36 +34,56 @@ if (!class_exists("cmplz_company")) {
 
         /**
          * Get the default region based on region settings
+         *  - if we have one region selected, return this
+         *  - if we have more than one, try to get the one this company is based in
+         *  - if nothing found, return company region
          *
-         * @return string
+         * @return string region
          */
 
         public function get_default_region(){
             //check default region
             $company_region_code = $this->get_company_region_code();
             $regions = cmplz_get_regions();
+            $region = false;
 
             if (is_array($regions)) {
-                $region_code = "";
+                $multiple_regions = count($regions)>1;
                 foreach($regions as $region_code => $label){
-                    //if we have several regions, get the one this company is located in
-                    if ($company_region_code === $region_code) return $region_code;
-                }
 
-                //if no match was found, return the last region.
-                return $region_code;
+                    //if we have one region, just return the first result
+                    if (!$multiple_regions) return $region_code;
+
+                    //if we have several regions, get the one this company is located in
+                    if ($company_region_code === $region_code) $region = $region_code;
+                }
             }
 
             //fallback one: company location
-            if (!empty($company_region_code)) return $company_region_code;
+            if (!$region && !empty($company_region_code)) $region = $company_region_code;
 
             //fallback if no array was returned.
-            return CMPLZ_DEFAULT_REGION;
+            if (!$region) $region = CMPLZ_DEFAULT_REGION;
+
+            return $region;
         }
 
-        /*
-         * Get the company region code. The EU is a region, as is the US
+
+        /**
+         * Get the default consenttype based on region settings
          *
+         * @return string consenttype
+         */
+
+        public function get_default_consenttype(){
+            //check default region
+            $region = $this->get_default_region();
+            return cmplz_get_consenttype_for_region($region);
+        }
+
+        /**
+         * Get the company region code. The EU is a region, as is the US
+         * @return string region_code
          *
          * */
 

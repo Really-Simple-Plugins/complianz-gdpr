@@ -1,11 +1,11 @@
 'use strict';
 
 /*
-* EU:
+* Opt in (e.g. EU):
 * default all scripts disabled.
 * cookie banner
 *
-* US:
+* Opt out (e.g. US):
 * default all scripts enabled
 * information cookie banner
 *
@@ -33,85 +33,51 @@ jQuery(document).ready(function ($) {
     var ccAllEnabled = false;
     var ccPrivacyLink = '';
     var waitingScripts = [];
+    var placeholderClassIndex = 0;
 
     /**
-     * Get actual css style from an element
-     * @param el
-     * @param property
-     * @returns {string}
-     */
-
-    function getActualCSS(el, property) {
-        var domNode = el[0];
-
-        var parent = domNode.parentNode;
-        if(parent) {
-            var originalDisplay = parent.style.display;
-            parent.style.display = 'none';
-        }
-        var computedStyles = getComputedStyle(domNode);
-        var result = computedStyles[property];
-
-
-        if(parent) {
-            parent.style.display = originalDisplay;
-        }
-
-        return result;
-    }
-
-    /**
-     * Checks if this padding is 56%, which is a padding to make video's responsive
-     * @param padding
-     * @returns {boolean}
-     */
-
-    function isVideoPadding(padding){
-        //video padding contains %.
-        if (padding.indexOf('%')===-1) return false;
-
-        //video padding is about 56%.
-        if (parseInt(padding.replace('%',''))===56){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /*
-    * Set height of blocked content div to placeholder img aspect ratio's
+    * Set placeholder image as background on the parent div, set notice, and handle height.
     *
     * */
-    setBlockedContentContainerAspectRatio();
-    function setBlockedContentContainerAspectRatio() {
-        $('.cmplz-video').each(function() {
-            var blockedContentContainer = $(this);
-            var resetPadding = false;
 
-            //in some theme's, we have a wrapper div with a padding for the video responsiveness. We need to temporarily disalbe this
-            var grandParent = blockedContentContainer.parent().parent();
-            var gpPadding = getActualCSS(grandParent, 'paddingTop');
+    setBlockedContentContainer();
+    function setBlockedContentContainer() {
+        $('.cmplz-iframe').each(function() {
+            //we set the first parent div as container with placeholder image
+            var blockedContentContainer = $(this).parent();
+            placeholderClassIndex++;
+            blockedContentContainer.addClass('cmplz-placeholder-' + placeholderClassIndex);
+            blockedContentContainer.addClass('cmplz-blocked-content-container');
+            blockedContentContainer.data('placeholderClassIndex', placeholderClassIndex);
+            var placeholderText = $(this).data('placeholder-text');
 
-            if (isVideoPadding(gpPadding) && grandParent.children().length===1) {
-                resetPadding = gpPadding;
-                grandParent.css('padding-top', '10px');
+            //insert placeholder text
+            blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">'+placeholderText+'</div>');
+
+            //handle image size for video
+            var src = $(this).data('placeholder-image');
+            if (src.length) {
+                src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+                $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {background-image: url(' + src + ');}</style>');
+                setBlockedContentContainerAspectRatio();
             }
 
-            var parent = blockedContentContainer.parent();
-            var pPadding = getActualCSS(parent, 'paddingTop');
-            if (isVideoPadding(pPadding) && parent.children().length) {
-                if (!resetPadding) resetPadding = pPadding;
-                parent.css('padding-top', '10px');
-            }
+        });
+    }
 
-            //gutenberg
-            if (parent.hasClass('wp-block-embed__wrapper')) {
-                //gutenberg icw fitvids should not use reset padding.
-                if (!jQuery.fn.fitVids) resetPadding = '56.25%';
-                parent.addClass('cmplz-clear-padding');
-            }
+    /**
+    * Set the height of an image relative to the width, depending on the image widht/height aspect ratio.
+    *
+    *
+    * */
 
-            var src = blockedContentContainer.css('background-image');
+    function setBlockedContentContainerAspectRatio(){
+        $('.cmplz-iframe').each(function() {
+            //we set the first parent div as container with placeholder image
+            var blockedContentContainer = $(this).parent();
+
+            //handle image size for video
+            var src = $(this).data('placeholder-image');
             if (src.length) {
                 src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 
@@ -124,11 +90,12 @@ jQuery(document).ready(function ($) {
                     if (imgWidth === 0) imgWidth = 1;
                     var w = blockedContentContainer.width();
                     var h = imgHeight * (w / imgWidth);
-                    if (resetPadding && !blockedContentContainer.parent().hasClass('elementor-text-editor')) {
-                        blockedContentContainer.css('padding-top', resetPadding);
-                    } else {
-                        blockedContentContainer.height(h);
-                    }
+
+                    var heightCSS = '';
+                    if (src.indexOf('placeholder.jpg')===-1) heightCSS = 'height:' + h + 'px;';
+
+                    var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+                    $('head').append('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
                 });
                 if (src && src.length) img.src = src;
             }
@@ -136,7 +103,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    /*
+    /**
     * Keep window aspect ratio in sync when window resizes
     * To lower the number of times this code is executed, it is done with a timeout.
     *
@@ -152,7 +119,7 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    /*
+    /**
     * Enable scripts that were blocked
     *
     * */
@@ -168,29 +135,30 @@ jQuery(document).ready(function ($) {
         //enable integrations
         cmplzIntegrationsConsent();
 
+        //styles
+        $('.cmplz-style-element').each(function (i, obj) {
+            var src = $(this).data('href');
+            $('head').append('<link rel="stylesheet" type="text/css" href="'+src+'">');
+        });
+
         //remove accept cookie notice overlay
         $('.cmplz-blocked-content-notice').each(function () {
-            $(this).parent().css('background-image', '');
             $(this).remove();
         });
 
-        $('.cmplz-video').each(function (i, obj) {
-            //reset video height adjustments, but not for elementor
-            if (!$(this).parent().hasClass('elementor-wrapper') && !$(this).parent().hasClass('wp-block-embed__wrapper')) $(this).height('inherit');
-        });
-
-        //iframes
+        //iframes and video's
         $('.cmplz-iframe').each(function (i, obj) {
-
+            //we get the closest, not the parent, because a script could have inserted a div in the meantime.
+            var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
             $(this).removeClass('cmplz-iframe-styles');
+
+            //activate the video.
             var src = $(this).data('src-cmplz');
             $(this).attr('src', src);
-
-            // //fitvids needs to be reinitialized, if it is used.
-            //we trigger not on blocked content which is not video. Excluding prevents issues with additional divs.
-            if (jQuery.fn.fitVids && !$(this).parent().hasClass('cmplz-no-video')) {
-                $(this).parent().fitVids();
-            }
         });
 
         //scripts: set "cmplz-script classes to type="text/javascript"
@@ -269,7 +237,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    /*
+    /**
     * Fire an event in Tag Manager
     *
     *
@@ -283,8 +251,8 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    /*
-    * We use ajax to check the country, otherwise caching could prevent the user specific warning
+    /**
+    * We use ajax to check the consenttype based on region, otherwise caching could prevent the user specific warning
     *
     * */
 
@@ -294,8 +262,8 @@ jQuery(document).ready(function ($) {
         cmplz_user_data = JSON.parse(sessionStorage.cmplz_user_data);
     }
 
-    //if not, reload. As region is new, we also check for this feature, so we know which version of data we use.
-    if (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version)) {
+    //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
+    if (complianz.geoip && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version))) {
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -315,20 +283,19 @@ jQuery(document).ready(function ($) {
 
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
-        //the IDE will give a warning about the complianz var here, but it's inserted by wordpress
-        complianz = cmplzMergeObject(complianz, cmplz_user_data);
-
+        //objects are merge so user_data will override data in complianz object
+        complianz = cmplzMergeObject( complianz, cmplz_user_data);
         cmplzIntegrationsInit();
 
         cmplzCheckCookiePolicyID();
 
         //if no status was saved before, we do it now
         if (cmplzGetCookie('cmplz_choice') !== 'set') {
-            //for Non eu/us visitors, and DNT users, we just track the no-warning option
-            if (cmplz_user_data.do_not_track || (cmplz_user_data.region !== 'eu' && cmplz_user_data.region !== 'us')) {
+            //for Non optin/optout visitors, and DNT users, we just track the no-warning option
+            if (cmplz_user_data.do_not_track || (cmplz_user_data.consenttype !== 'optin' && cmplz_user_data.consenttype !== 'optout')) {
                 complianz_track_status('no-warning');
-            } else if (cmplz_user_data.region === 'us') {
-                //for US visitors are opt out, so consent by default
+            } else if (cmplz_user_data.consenttype === 'optout') {
+                //for opt out visitors, so consent by default
                 complianz_track_status('all');
             } else {
                 //all others (eu): no choice yet.
@@ -336,27 +303,28 @@ jQuery(document).ready(function ($) {
             }
         }
 
-        if (!cmplz_user_data.do_not_track) {
-            if (cmplz_user_data.region === 'eu') {
+        if (!complianz.do_not_track) {
+            if (complianz.consenttype === 'optin') {
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
-                console.log('EU, opt-in');
+                complianz.readmore = complianz.readmore_optin;
+                complianz.message = complianz.message_optin;
+                console.log('opt-in');
                 cmplz_cookie_warning();
-            } else if (cmplz_user_data.region === 'us') {
-                console.log('US, opt-out');
+            } else if (complianz.consenttype === 'optout') {
+                console.log('opt out');
                 complianz.type = 'opt-out';
-                // complianz.use_categories = false;
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
-                complianz.readmore = complianz.readmore_us;
+                complianz.readmore = complianz.readmore_optout;
                 complianz.dismiss = complianz.accept_informational;
-                complianz.message = complianz.message_us;
+                complianz.message = complianz.message_optout;
                 ccPrivacyLink= complianz.privacy_link;
                 cmplz_cookie_warning();
             } else {
-                console.log('other region, no cookie warning');
-                //on other regions, all scripts are enabled by default.
+                console.log('other consenttype, no cookie warning');
+                //on other consenttypes, all scripts are enabled by default.
                 cmplzAcceptAllCookies();
             }
         }
@@ -390,7 +358,7 @@ jQuery(document).ready(function ($) {
                 }
             },
             onStatusChange: function (status, chosenBefore) {
-                //US cookie banner can be dismissed on scroll or on timeout.
+                //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
                 if ((complianz.dismiss_on_scroll || complianz.dismiss_on_timeout) && (status==='dismiss' || status==='allow')) {
                     cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
@@ -413,9 +381,10 @@ jQuery(document).ready(function ($) {
                     cmplzAcceptAllCookies();
                 }
 
-                if (status === 'deny' && cmplz_user_data.region === 'us') {
+                if (status === 'deny' && cmplz_user_data.consenttype === 'optout') {
                     cmplzRevoke();
                     complianz_track_status();
+                    location.reload();
                 }
             },
             onRevokeChoice: function () {
@@ -423,7 +392,7 @@ jQuery(document).ready(function ($) {
                 if (!complianz.use_categories && ccStatus === 'allow') {
                     cmplzRevoke();
                     complianz_track_status();
-                    //location.reload();
+                    location.reload();
                 }
             },
             "dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
@@ -472,10 +441,10 @@ jQuery(document).ready(function ($) {
             //this code always runs
 
             /*
-            * If this is not the EU, and is running categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
+            * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *
             * */
-            if (cmplz_user_data.region !== 'us' && complianz.use_categories) {
+            if (cmplz_user_data.consenttype !== 'optout' && complianz.use_categories) {
                 //make sure the checkboxes show the correct settings
                 cmplzSyncCategoryCheckboxes();
 
@@ -501,17 +470,17 @@ jQuery(document).ready(function ($) {
 
             /* We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
             *
-            * If this is the US, and cookies have not been denied, we run all cookies.
+            * If this is opt out, and cookies have not been denied, we run all cookies.
             *
             *
             * */
-            if (cmplz_user_data.region === 'us' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
+            if (cmplz_user_data.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
                 cmplzAcceptAllCookies();
             }
         });
     }
 
-    /*
+    /**
     * Save the preferences after user has changed the settings in the popup
     *
     *
@@ -521,7 +490,7 @@ jQuery(document).ready(function ($) {
         cmplzSaveCategoriesSelection();
     });
 
-    /*
+    /**
     * Accept all cookies for this user.
     *
     * */
@@ -537,7 +506,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    /*
+    /**
     * Save the current selected categories, and dismiss the banner
     *
     * */
@@ -545,6 +514,16 @@ jQuery(document).ready(function ($) {
     function cmplzSaveCategoriesSelection(){
         //dismiss the banner after saving, so it won't show on next page load
         ccName.setStatus('dismiss');
+        //check if status is changed from 'allow' to 'revoked'
+        var reload = false;
+        if ($('#cmplz_all').length) {
+            if ($('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') !== 'allow')) {
+                reload = true;
+            }
+            if (!$('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') === 'allow')) {
+                reload = true;
+            }
+        }
 
         //save the categories
 
@@ -590,17 +569,20 @@ jQuery(document).ready(function ($) {
 
         ccName.close();
         $('.cc-revoke').fadeIn();
+
+        if (reload) location.reload();
     }
 
 
     function complianz_track_status(status) {
+        if (!complianz.a_b_testing) return;
+
         status = typeof status !== 'undefined' ? status : false;
 
         //keep track of the fact that the status was saved at least once, for the no choice status
         cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
 
         if (!status) status = cmplzGetHighestAcceptance();
-
         $.ajax({
             type: "GET",
             url: complianz.url,
@@ -608,7 +590,7 @@ jQuery(document).ready(function ($) {
             data: ({
                 action: 'cmplz_track_status',
                 status: status,
-                region: cmplz_user_data.region
+                consenttype: cmplz_user_data.consenttype
             })
         });
     }
@@ -619,7 +601,7 @@ jQuery(document).ready(function ($) {
 
     */
     $(document).on('click', '.cc-revoke-custom', function () {
-        if (cmplz_user_data.region === 'eu') {
+        if (cmplz_user_data.consenttype === 'optin') {
             $('.cc-revoke').click();
         } else {
             //if it's already denied, show the accept option again.
@@ -663,7 +645,7 @@ jQuery(document).ready(function ($) {
     cmplzUpdateStatusCustomLink();
     function cmplzUpdateStatusCustomLink() {
         if ($('.cc-revoke-custom').length) {
-            if (cmplz_user_data.region === 'us') {
+            if (cmplz_user_data.consenttype === 'optout') {
                 var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
                 var denied = $('#cmplz-document').find('.cmplz-status-denied');
                 if (cmplzGetCookie('complianz_consent_status') === 'deny') {
@@ -733,7 +715,7 @@ jQuery(document).ready(function ($) {
             }
 
         } else {
-            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.region === 'us')) {
+            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.consenttype === 'optout')) {
                 return 'all';
             }
         }
@@ -800,17 +782,24 @@ jQuery(document).ready(function ($) {
         if (cmplzGetCookie('cmplz_stats') === 'allow') $('#cmplz_stats').prop('checked', true);
     }
 
-    function cmplzMergeObject(target, userdata) {
-        for (var i = 1; i < userdata.length; i++) {
-            var source = userdata;
+    /*
+    * Merge two objects
+    *
+    * */
 
-            for (var key in source) {
-                if (source.hasOwnProperty(key)) {
-                    target[key] = source[key];
-                }
-            }
+    function cmplzMergeObject(userdata, ajax_data) {
+
+        var output = [];
+
+        for (var key in userdata) {
+            output[key] = userdata[key];
         }
-        return target;
+
+        for (var key in ajax_data) {
+            output[key] = ajax_data[key];
+        }
+
+        return output;
     }
 
 
@@ -826,30 +815,30 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    /*
-    *
-    * If a policy is accepted, save this in the user policy id
-    *
-    * */
+    /**
+     *
+     * If a policy is accepted, save this in the user policy id
+     *
+     * */
 
     function cmplzSetAcceptedCookiePolicyID() {
         cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
 
     }
 
-    /*
-    * For supported integrations, initialize the not consented state
-    *
-    * */
+    /**
+     * For supported integrations, initialize the not consented state
+     *
+     * */
 
     function cmplzIntegrationsInit(){
         cmplzIntegrationsRevoke();
     }
 
-    /*
-    * For supported integrations, revoke consent
-    *
-    * */
+    /**
+     * For supported integrations, revoke consent
+     *
+     * */
     function cmplzIntegrationsRevoke(){
         //compatiblity with https://wordpress.org/plugins/wp-donottrack/
         cmplzSetCookie('dont_track_me', '1', complianz.cookie_expiry);

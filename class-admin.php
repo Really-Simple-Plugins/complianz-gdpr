@@ -96,11 +96,6 @@ if (!class_exists("cmplz_admin")) {
                 $wpdb->query("TRUNCATE TABLE '$table_name'");
             }
 
-            $table_name = $wpdb->prefix . 'cmplz_variations';
-            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-                $wpdb->query("TRUNCATE TABLE '$table_name'");
-            }
-
             $this->success_message = __('Data successfully cleared', 'complianz-gdpr');
         }
 
@@ -176,6 +171,59 @@ if (!class_exists("cmplz_admin")) {
                 update_option('cmplz_plugin_new_features', true);
                 update_option('cmplz_legal_version', CMPLZ_LEGAL_VERSION);
             }
+
+
+            /*
+             * Migrate use_country and a_b_testing to general settings
+             *
+             * */
+            if (version_compare($prev_version, '3.0.0', '<')) {
+                $cookie_settings = get_option('complianz_options_cookie_settings');
+                $general_settings = get_option('complianz_options_settings');
+
+                if (isset($cookie_settings['use_country'])) $general_settings['use_country'] = $cookie_settings['use_country'];
+                if (isset($cookie_settings['a_b_testing'])) $general_settings['a_b_testing'] = $cookie_settings['a_b_testing'];
+                if (isset($cookie_settings['a_b_testing_duration'])) $general_settings['a_b_testing_duration'] = $cookie_settings['a_b_testing_duration'];
+                if (isset($cookie_settings['cookie_expiry'])) $general_settings['cookie_expiry'] = $cookie_settings['cookie_expiry'];
+
+                unset($cookie_settings['use_country']);
+                unset($cookie_settings['a_b_testing']);
+                unset($cookie_settings['a_b_testing_duration']);
+                unset($cookie_settings['cookie_expiry']);
+
+                update_option('complianz_options_settings', $general_settings);
+                update_option('complianz_options_cookie_settings', $cookie_settings);
+            }
+
+
+            /*
+             * Upgrade to new cookie banner database table
+             *
+             * */
+
+            if (version_compare($prev_version, '3.0.0', '<')) {
+                COMPLIANZ()->cookie->migrate_legacy_cookie_settings();
+            }
+
+            /*
+             * Merge adress data into one field for more flexibility
+             * */
+
+            if (version_compare($prev_version, '3.0.0', '<')) {
+                //get adress data
+                $wizard_settings = get_option('complianz_options_wizard');
+
+                $adress = isset($wizard_settings['address_company']) ? $wizard_settings['address_company'] : '';
+                $zip = isset($wizard_settings['postalcode_company']) ? $wizard_settings['postalcode_company'] : '';
+                $city = isset($wizard_settings['city_company']) ? $wizard_settings['city_company'] : '';
+                $new_adress = $adress . "\n" . $zip . ' ' .$city;
+                $wizard_settings['address_company'] = $new_adress;
+                unset($wizard_settings['postalcode_company']);
+                unset($wizard_settings['city_company']);
+                update_option('complianz_options_wizard', $wizard_settings);
+            }
+
+
 
             do_action('cmplz_upgrade', $prev_version);
 
@@ -328,7 +376,7 @@ if (!class_exists("cmplz_admin")) {
         // Register a custom menu page.
         public function register_admin_page()
         {
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             $warnings = $this->get_warnings(true, true);
             $warning_count = count($warnings);
@@ -346,6 +394,7 @@ if (!class_exists("cmplz_admin")) {
                 cmplz_url . 'core/assets/images/menu-icon.png',
                 CMPLZ_MAIN_MENU_POSITION
             );
+
             add_submenu_page(
                 'complianz',
                 __('Dashboard', 'complianz-gdpr'),
@@ -354,6 +403,7 @@ if (!class_exists("cmplz_admin")) {
                 'complianz',
                 array($this, 'main_page')
             );
+
             add_submenu_page(
                 'complianz',
                 __('Wizard', 'complianz-gdpr'),
@@ -361,14 +411,6 @@ if (!class_exists("cmplz_admin")) {
                 'manage_options',
                 'cmplz-wizard',
                 array($this, 'wizard_page')
-            );
-            add_submenu_page(
-                'complianz',
-                __('Cookie warning', 'complianz-gdpr'),
-                __('Cookie warning', 'complianz-gdpr'),
-                'manage_options',
-                "cmplz-cookie-warning",
-                array($this, 'cookie_page')
             );
 
             add_submenu_page(
@@ -389,6 +431,8 @@ if (!class_exists("cmplz_admin")) {
                 array($this, 'settings')
             );
 
+            do_action('cmplz_admin_menu');
+
             if (defined('cmplz_free') && cmplz_free){
                 global $submenu;
                 $class = 'cmplz-submenu';
@@ -401,7 +445,7 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            do_action('cmplz_admin_menu');
+
 
         }
 
@@ -623,8 +667,6 @@ if (!class_exists("cmplz_admin")) {
 
         public function get_status_overview()
         {
-
-
             ?>
 
             <div class="cmplz-dashboard-container">
@@ -859,10 +901,8 @@ if (!class_exists("cmplz_admin")) {
             <?php
         }
 
-        public function ctb_section_text()
-        {
 
-        }
+
 
 
         public function settings()
@@ -888,6 +928,12 @@ if (!class_exists("cmplz_admin")) {
             </div>
             <?php
         }
+
+
+        /**
+         * Show the script center page
+         *
+         */
 
         public function script_center()
         {
@@ -921,90 +967,10 @@ if (!class_exists("cmplz_admin")) {
         }
 
 
-        public function cookie_page()
-        {
-            ?>
-            <div class="wrap cookie-warning">
-                <h1><?php _e("Cookie warning settings", 'complianz-gdpr') ?></h1>
-
-                <?php
-                if (!COMPLIANZ()->wizard->wizard_completed_once()) {
-                    cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz-gdpr'), 'warning');
-                } else {
-                    if (!COMPLIANZ()->cookie->site_needs_cookie_warning()) {
-                        cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz-gdpr'));
-                    } else {
-                        cmplz_notice(__('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz-gdpr'));
-                    }
-                }
-                ?>
-                <?php //some fields for the cookies categories ?>
-                <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
-
-                <form id='cookie-settings' action="" method="post">
-                    <?php
-                    $active_tab = isset($_POST['cmplz_active_tab']) ? sanitize_title($_POST['cmplz_active_tab']) : 'general';
-                    $regions = cmplz_get_regions();
-                    if (cmplz_multiple_regions()){
-                        $single_region = COMPLIANZ()->company->get_default_region();
-                    } else {
-                        $single_region = $regions;
-                        reset($single_region);
-                        $single_region = key($single_region);
-                    }?>
-                    <input type="hidden" name="cmplz_active_tab" value="<?php echo $active_tab?>">
-                    <script>
-                        var ccRegion='<?php echo $single_region?>';
-                    </script>
-                    <?php do_action('cmplz_a_b_testing_section');?>
-
-                    <div class="cmplz-tab">
-                        <button class="cmplz-tablinks <?php if ($active_tab==='general') echo "active"?>" type="button" data-tab="general"><?php _e("General", 'complianz-gdpr')?></button>
-                        <?php foreach ($regions as $region_code=>$label){?>
-                            <button class="cmplz-tablinks region-link <?php if ($active_tab===$region_code) echo "active"?>" type="button" data-tab="<?php echo $region_code?>"><?php echo $label?></button>
-                        <?php }?>
-                    </div>
-
-                    <!-- Tab content -->
-                    <div id="general" class="cmplz-tabcontent <?php if ($active_tab==='general') echo "active"?>">
-                        <h3><?php _e("General", 'complianz-gdpr')?></h3>
-                        <p>
-                        <table class="form-table">
-                            <?php do_action('cmplz_cookie_variation_name_input')?>
-                            <?php COMPLIANZ()->field->get_fields('cookie_settings', 'general');?>
-                        </table>
-                        </p>
-                    </div>
-
-                    <?php foreach ($regions as $region_code=>$label){?>
-                        <div id="<?php echo $region_code?>" class="cmplz-tabcontent region <?php if ($active_tab===$region_code) echo "active"?>">
-                            <h3><?php echo $label?></h3>
-                            <p>
-                            <table class="form-table">
-                                <?php COMPLIANZ()->field->get_fields('cookie_settings', $region_code);?>
-                            </table>
-                            </p>
-                        </div>
-                    <?php }?>
-
-                    <?php
-
-
-                    //now clear the variation again.
-                    COMPLIANZ()->field->set_variation_id('');
-
-                    COMPLIANZ()->field->save_button();
-
-
-
-                    ?>
-
-                    </table>
-                </form>
-            </div>
-            <?php
-        }
-
+        /**
+         * Get the html output for a help tip
+         * @param $str
+         */
 
         public function get_help_tip($str)
         {

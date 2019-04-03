@@ -92,8 +92,7 @@ if (!class_exists("cmplz_wizard")) {
 
         public function show_notices()
         {
-            if (!is_user_logged_in()) return;
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             $screen = get_current_screen();
             if ( $screen->parent_base === 'edit' ) return;
@@ -118,7 +117,7 @@ if (!class_exists("cmplz_wizard")) {
                 cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
                 if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
-                    $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookie-warning').'">';
+                    $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookiebanner').'">';
                     cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
                 }
 
@@ -135,8 +134,7 @@ if (!class_exists("cmplz_wizard")) {
         public function wizard_after_step()
         {
 
-            if (!is_user_logged_in()) return;
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             //clear document cache
             COMPLIANZ()->document->clear_shortcode_transients();
@@ -184,7 +182,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if (isset($_POST['cmplz-cookie-settings'])) {
-                wp_redirect(admin_url('admin.php?page=cmplz-cookie-warning'));
+                wp_redirect(admin_url('admin.php?page=cmplz-cookiebanner'));
                 exit();
             }
         }
@@ -198,7 +196,7 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
-            /* if tag manager fires scripts, cats should be enabled for each variation. */
+            /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
             $enable_categories = false;
             if (($fieldname == 'fire_scripts_in_tagmanager' && $fieldvalue==='yes') ){
                 $enable_categories = true;
@@ -214,9 +212,13 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if ($enable_categories){
-                $variations = apply_filters('cmplz_get_variations', array(''));
-                foreach ($variations as $variation_id) {
-                    cmplz_update_option('cookie_settings', 'use_categories' . $variation_id, true);
+                $banners = apply_filters('cmplz_get_banners', array(''));
+                if (!empty($banners)) {
+                    foreach ($banners as $banner) {
+                        $banner = new CMPLZ_COOKIEBANNER($banner->ID);
+                        $banner->use_categories = true;
+                        $banner->save();
+                    }
                 }
             }
 
@@ -367,9 +369,8 @@ if (!class_exists("cmplz_wizard")) {
 
         public function wizard($page)
         {
-            if (!is_user_logged_in()) return;
 
-            if (cmplz_wp_privacy_version() && !current_user_can('manage_privacy_options')) return;
+            if (!cmplz_user_can_manage()) return;
 
             if ($this->wizard_is_locked()) {
                 $user_id = $this->get_lock_user();

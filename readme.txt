@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.1
-Stable tag: 2.1.8
+Stable tag: 3.0.0
 
 Complianz | GDPR Cookie Consent supports GDPR, RGPD, CCPA, DSVGO, AVG, RGPD with Cookie Consent, Cookie Notice and a customized Cookie Policy based on the results of the built-in Cookie Scan.
 
@@ -86,6 +86,20 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 3.0.0 =
+* Fix: moved linkedin from script blocked list to async loaded list
+* Fix: default region is now one of the selected regions in the wizard.
+* Fix: when localstorage is empty, empty array could cause PHP error during cookie scan
+* Improvement: completely rewritten video blocking and placeholder code, which should reduce possible issues
+* Improvement: extended support for different types of IP detection on servers
+* Improvement: moved string translation support for polylang and WPML to core
+* Improvement: Added option to disable adding placeholder HTML to video's
+* Improvement: Added plural for Social Media statement in Cookie Policy
+* Improvement: Added exception for Non Personalized Ads in advertisement section in Wizard and in Cookie Policy
+* Improvement: Added escaping to outputted javascript, all scripts moved to templates
+* Improvement: Moved cookie banner settings to separate table and object
+* Improvement: limit ajax requests to a/b testing and multiple regions
+
 = 2.1.8 =
 * Tweak: improve escaping of css in document html output
 * Tweak: improved Elementor and Gutenberg compatibility for youtube video activation after consent is given
@@ -348,6 +362,7 @@ Tweak: first reported cookies added to the cookie database
 = 1.0.0 =
 
 == Upgrade notice ==
+* Please backup before upgrading.
 
 == Screenshots ==
 1. Dashboard for quick overview over your status, and quick access to privacy features.
