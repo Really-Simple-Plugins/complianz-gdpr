@@ -45,7 +45,6 @@ $this->script_tags = array(
     'apis.google.com/js/plusone.js',
     'apis.google.com/js/platform.js',
     'connect.facebook.net',
-    'platform.linkedin.com',
     'assets.pinterest.com',
     'www.youtube.com/iframe_api',
     'www.google-analytics.com/analytics.js',
@@ -83,6 +82,7 @@ $this->style_tags = array(
 
 $this->async_list = array(
     'instawidget.net/js/instawidget.js',
+    'platform.linkedin.com',
 );
 
 $this->iframe_tags = array(
