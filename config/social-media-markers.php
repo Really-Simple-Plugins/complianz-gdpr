@@ -8,7 +8,6 @@
 
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
-    "googleplus" => array('super-socializer','addthis_widget.js', "https://apis.google.com", 'apis.google.com/js/plusone.js', 'apis.google.com/js/platform.js'),
     "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
     "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('super-socializer','assets.pinterest.com'),
@@ -42,7 +41,6 @@ $this->script_tags = array(
     'google.com/recaptcha',
     'grecaptcha',
     'platform.twitter.com',
-    'apis.google.com/js/plusone.js',
     'apis.google.com/js/platform.js',
     'connect.facebook.net',
     'assets.pinterest.com',

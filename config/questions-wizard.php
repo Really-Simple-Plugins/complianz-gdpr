@@ -362,7 +362,6 @@ $this->fields = $this->fields + array(
                 'facebook' => __('Facebook', 'complianz-gdpr'),
                 'twitter' => __('Twitter', 'complianz-gdpr'),
                 'linkedin' => __('Linkedin', 'complianz-gdpr'),
-                'googleplus' => __('Google Plus', 'complianz-gdpr'),
                 'whatsapp' => __('Whatsapp', 'complianz-gdpr'),
                 'instagram' => __('Instagram', 'complianz-gdpr'),
                 'other' => __('Other', 'complianz-gdpr'),

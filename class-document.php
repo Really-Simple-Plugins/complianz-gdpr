@@ -780,6 +780,9 @@ if (!class_exists("cmplz_document")) {
         public function set_page_url($post_id, $type){
             if (!current_user_can('manage_options')) return;
 
+            if (wp_is_post_autosave( $post_id )) return;
+            if (wp_is_post_revision( $post_id )) return;
+
             $pages = COMPLIANZ()->config->pages;
             if (isset($pages[$type])){
                 $url = get_permalink($post_id);

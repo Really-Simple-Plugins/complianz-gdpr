@@ -30,16 +30,16 @@ function cmplz_install_cookiebanner_table()
             `category_all` varchar(255) NOT NULL,
             `category_stats` varchar(255) NOT NULL,
             `accept` varchar(255) NOT NULL,
-            `message_optin` varchar(255) NOT NULL,
+            `message_optin` text NOT NULL,
             `readmore_optin` varchar(255) NOT NULL,
             `use_categories` int(11) NOT NULL,
-            `tagmanager_categories` varchar(255) NOT NULL,
+            `tagmanager_categories` text NOT NULL,
             `hide_revoke` int(11) NOT NULL,
             `dismiss_on_scroll` int(11) NOT NULL,
             `dismiss_on_timeout` int(11) NOT NULL,
             `dismiss_timeout` varchar(255) NOT NULL,
             `accept_informational` varchar(255) NOT NULL,
-            `message_optout` varchar(255) NOT NULL,
+            `message_optout` text NOT NULL,
             `readmore_optout` varchar(255) NOT NULL,
             `readmore_privacy` varchar(255) NOT NULL,
             `popup_background_color` varchar(255) NOT NULL,
@@ -161,16 +161,17 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             if (!current_user_can('manage_options')) return false;
 
-            if (!isset($post['cmplz_nonce'])) return;
+            if (!isset($post['cmplz_nonce'])) return false;
 
             //check nonce
-            if (!isset($post['cmplz_nonce']) || !wp_verify_nonce($post['cmplz_nonce'], 'complianz_save_cookiebanner')) return;
+            if (!isset($post['cmplz_nonce']) || !wp_verify_nonce($post['cmplz_nonce'], 'complianz_save_cookiebanner')) return false;
 
             foreach ($this as $property => $value)  {
                 if (isset($post['cmplz_'.$property])){
                     $this->{$property} = $post['cmplz_'.$property];
                 }
             }
+
             $this->save();
         }
 
@@ -359,7 +360,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             }
 
             global $wpdb;
-            $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
+            $updated = $wpdb->update($wpdb->prefix . 'cmplz_cookiebanners',
                 $update_array,
                 array('ID' => $this->id)
             );
@@ -754,7 +755,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
             $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
             $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement-us');// empty(get_option('cmplz_url_privacy-statement-us')) ? $fallback_privacy_link : get_option('cmplz_url_privacy-statement-us');
-            $output['privacy_link'] = !empty($privacy_link) ? '&nbsp;-&nbsp;<a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
+            $output['privacy_link'] = !empty($privacy_link) ? '<span class="cc-link cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
             $output['nonce'] = wp_create_nonce('set_cookie');
             $output['url'] = admin_url('admin-ajax.php');
             $output['current_policy_id'] = COMPLIANZ()->cookie->get_active_policy_id();
