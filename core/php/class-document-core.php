@@ -73,22 +73,17 @@ if (!class_exists("cmplz_document_core")) {
             if (!isset($page['condition'])) return true;
 
             if (isset($page['condition'])) {
-
-                $fields = COMPLIANZ()->config->fields();
                 $conditions = $page['condition'];
                 $condition_met = true;
                 foreach ($conditions as $condition_question => $condition_answer){
-
-                    $type = $fields[$condition_question]['type'];
                     $value = cmplz_get_value($condition_question);
-
                     $invert = false;
                     if (strpos($condition_answer, 'NOT ')!==FALSE) {
                         $condition_answer = str_replace('NOT ', '', $condition_answer);
                         $invert = true;
                     }
 
-                    if ($type == 'multicheckbox') {
+                    if (is_array($value)) {
 
                         if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
                             $condition_met = false;
