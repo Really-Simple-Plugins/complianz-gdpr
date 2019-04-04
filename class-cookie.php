@@ -656,9 +656,10 @@ if (!class_exists("cmplz_cookie")) {
             $posts = get_transient('cmplz_pages_list');
             if (!$posts) {
                 $args = array(
-                    'public'   => true,
+                    'public'  => true,
                 );
                 $post_types = get_post_types( $args);
+                unset($post_types['elementor_font']);
                 $posts = array();
                 foreach ($post_types as $post_type){
                     $args = array(
