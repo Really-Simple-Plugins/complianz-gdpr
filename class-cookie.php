@@ -423,7 +423,7 @@ if (!class_exists("cmplz_cookie")) {
                 $anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
                 $script = cmplz_get_template('google-analytics.js');
                 $script = str_replace('{UA_code}', esc_attr(cmplz_get_value("UA_code")), $script);
-                $script = str_replace('{anonymize_ip}', esc_attr($anonymize_ip), $script);
+                $script = str_replace('{anonymize_ip}', $anonymize_ip, $script);
             } elseif ($statistics === 'matomo') {
                 $script = cmplz_get_template('matomo.js');
                 $script = str_replace('{site_id}', esc_attr(cmplz_get_value('matomo_site_id')), $script);
@@ -1111,7 +1111,7 @@ if (!class_exists("cmplz_cookie")) {
                 $message .= "Active plugins:<br>";
                 $message .= implode('<br>', $plugins);
 
-                wp_mail("info@complianz.io", "Unknown cookie report from " . home_url(), $message, $headers);
+                wp_mail("support@complianz.io", "Unknown cookie report from " . home_url(), $message, $headers);
 
                 // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
                 remove_filter('wp_mail_content_type', 'set_html_content_type');
