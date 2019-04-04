@@ -1199,6 +1199,7 @@ if (!class_exists("cmplz_field")) {
         function cookies($args)
         {
             $values = $this->get_value($args['fieldname']);
+
             //move "complianz" cookie to the top.
             if (!empty($values)) {
                 foreach ($values as $key => $cookie) {

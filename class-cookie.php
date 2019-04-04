@@ -643,6 +643,8 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
+
+
         /**
          *
          * Get list of page id's that we want to process this set of scan requests, which weren't included in the scan before
@@ -1233,8 +1235,43 @@ if (!class_exists("cmplz_cookie")) {
             return $html;
         }
 
+        /**
+         * Check if there's a cookie which is not completed
+         * @return bool
+         */
 
 
+        public function has_empty_cookie_descriptions(){
+
+            $values = cmplz_get_value('used_cookies');
+            if (is_array($values)) {
+                foreach ($values as $key => $value) {
+                    $value_key = (isset($value['key'])) ? $value['key'] : false;
+                    $value['label'] = empty($value['label']) ? COMPLIANZ()->cookie->get_default_value('label', $value_key) : $value['label'];
+                    $value['used_names'] = empty($value['used_names']) ? COMPLIANZ()->cookie->get_default_value('used_names', $value_key) : $value['used_names'];
+                    $value['purpose'] = empty($value['purpose']) ? COMPLIANZ()->cookie->get_default_value('purpose', $value_key) : $value['purpose'];
+                    $value['privacy_policy_url'] = empty($value['privacy_policy_url']) ? COMPLIANZ()->cookie->get_default_value('privacy_policy_url', $value_key) : $value['privacy_policy_url'];
+                    $value['storage_duration'] = empty($value['storage_duration']) ? COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key) : $value['storage_duration'];
+                    $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
+                    $value['key'] = empty($value['key']) ? COMPLIANZ()->cookie->get_default_value('key', $value_key) : $value['key'];
+
+                    $empty = ( empty($value['label'])
+                            || empty($value['used_names'])
+                            || empty($value['purpose'])
+                            || empty($value['privacy_policy_url'])
+                            || empty($value['storage_duration'])
+                            || empty($value['description'])
+                    );
+                    $saved_by_user = (isset($value['saved_by_user']) && $value['saved_by_user']) ? true : false;
+                    $show_on_policy = !$saved_by_user && empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('show', $value_key) : $value['show'];
+
+                    if ($show_on_policy && $empty) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
 
         public function get_progress_count()

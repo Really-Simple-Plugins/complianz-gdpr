@@ -87,6 +87,8 @@ if (!class_exists('COMPLIANZ')) {
                         self::$instance->admin = new cmplz_admin();
                         self::$instance->field = new cmplz_field();
                         self::$instance->wizard = new cmplz_wizard();
+                        self::$instance->export_settings = new cmplz_export_settings();
+
                     }
 
                     self::$instance->geoip = '';
@@ -178,6 +180,7 @@ if (!class_exists('COMPLIANZ')) {
                 require_once(cmplz_path . 'cookiebanner/cookiebanner.php');
             }
 
+            require_once(cmplz_path . 'class-export.php');
             require_once(cmplz_path . 'cron/cron.php');
             require_once(cmplz_path . 'class-cookie.php');
             require_once(cmplz_path . 'integrations.php');
