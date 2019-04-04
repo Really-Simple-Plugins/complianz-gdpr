@@ -635,7 +635,6 @@ if (!class_exists("cmplz_cookie")) {
             if (count($pages) == 0) return false;
 
             $id_to_process = reset($pages);
-//            error_log("next to process $id_to_process");
             $this->set_page_as_processed($id_to_process);
             $url = (($id_to_process === 'home') || ($id_to_process === 'clean')) ? site_url() : get_permalink($id_to_process);
             $url = add_query_arg(array("complianz_scan_token" => $token, 'complianz_id' => $id_to_process), $url);

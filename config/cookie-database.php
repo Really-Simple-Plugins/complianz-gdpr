@@ -247,17 +247,6 @@ $this->known_cookie_keys = array(
         'description' => __("Google tracks users across platforms to target users with highly personalised ads", 'complianz-gdpr'),
     ),
 
-    'googleplus' => array(
-        'functional' => false,
-        'used_names' => array('OGPC', 'SID', 'HSID', 'SSID', 'APISID', 'SAPISID', 'CONSENT', 'SNID', 'NID'),
-        'unique_used_names' => array(),
-        'privacy_policy_url' => 'https://myaccount.google.com/privacy',
-        'label' => "Google Plus",
-        'purpose' => __("The Google Plus cookie tracks visitors’ browsing behavior for ad purposes and timeline optimization. It also provides the possibility to share information.", 'complianz-gdpr'),
-        'storage_duration' => __("1 year", 'complianz-gdpr'),
-        'description' => __("Google Plus is a social network website that runs on Google technology. More than 500 million users are registered for this channel, which makes it the second largest social network website. Registered users can share information such as links, images and videos with friends.", 'complianz-gdpr'),
-    ),
-
     'cloudflare' => array('functional' => false,
         'used_names' => array('__cfduid', '_sm_au_c'),
         'unique_used_names' => array('__cfduid', '_sm_au_c'),
