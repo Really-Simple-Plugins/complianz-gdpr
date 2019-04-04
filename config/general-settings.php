@@ -144,14 +144,15 @@ $this->fields = $this->fields + array(
 
         'export_settings' => array(
             'source' => 'settings',
-            'disabled' =>true,
+            'disabled' =>false,
             'type' => 'button',
             'action' => 'cmplz_export_settings',
             'post_get' => 'get',
             'label' => __("Export settings", 'complianz-gdpr'),
             'table' => true,
-            'comment' => sprintf(__('If you want to export your settings, please check out the %spremium version%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io">', "</a>"),
+            'comment' =>  __('You can use this to export your settings to another site', 'complianz-gdpr'),
         ),
+
 
         'import_settings' => array(
             'source' => 'settings',

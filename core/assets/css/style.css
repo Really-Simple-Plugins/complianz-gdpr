@@ -34,6 +34,11 @@ Tabs
 .cmplz-tabcontent.active {
   display: block;
 }
+.cmplz-settings input[name="cmplz_reset_settings"] {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
 table .cmplz-cookie-variations {
   margin-bottom: 20px;
 }

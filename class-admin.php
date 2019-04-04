@@ -96,6 +96,13 @@ if (!class_exists("cmplz_admin")) {
                 $wpdb->query("TRUNCATE TABLE '$table_name'");
             }
 
+            $banners = cmplz_get_cookiebanners(array('status' => 'all'));
+            foreach ($banners as $banner) {
+                $banner = new CMPLZ_COOKIEBANNER($banner->ID);
+                $banner->delete(true);
+            }
+
+
             $this->success_message = __('Data successfully cleared', 'complianz-gdpr');
         }
 
@@ -350,6 +357,10 @@ if (!class_exists("cmplz_admin")) {
 
                 if (COMPLIANZ()->cookie->uses_matomo() && !COMPLIANZ()->cookie->matomo_configured()) {
                     $warnings[] = 'matomo-needs-configuring';
+                }
+
+                if (COMPLIANZ()->cookie->has_empty_cookie_descriptions()) {
+                    $warnings[] = 'cookies-incomplete';
                 }
 
                 if (COMPLIANZ()->document->documents_need_updating()){

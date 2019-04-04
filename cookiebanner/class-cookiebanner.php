@@ -402,7 +402,7 @@ if (!class_exists("cmplz_cookiebanner")) {
          * @return bool $success
          */
 
-        public function delete()
+        public function delete($force=false)
         {
             if (!current_user_can('manage_options')) return false;
 
@@ -411,7 +411,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             //do not delete the last one.
             $count = $wpdb->get_var("select count(*) as count from {$wpdb->prefix}cmplz_cookiebanners");
-            if ($count == 1) {
+            if ($count == 1 && !$force) {
                 $error = true;
             }
 

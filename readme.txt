@@ -87,9 +87,15 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 3.0.0 =
+* Fix: removed google plus integration, as it's discontinued
+* Fix: prevent saving from document URL's on autosave and revisions
 * Fix: moved linkedin from script blocked list to async loaded list
 * Fix: default region is now one of the selected regions in the wizard.
 * Fix: when localstorage is empty, empty array could cause PHP error during cookie scan
+* Fix: excluded elementor_font post_type from scan
+* Improvement: added warning when a cookie is not completely filled out
+* Improvement: added export feature to free version
+* Improvement: completely rewritten video blocking and placeholder code, which should reduce possible issues
 * Improvement: completely rewritten video blocking and placeholder code, which should reduce possible issues
 * Improvement: extended support for different types of IP detection on servers
 * Improvement: moved string translation support for polylang and WPML to core
