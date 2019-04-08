@@ -202,7 +202,41 @@ if (!class_exists("cmplz_document")) {
             add_action('admin_init', array($this, 'add_privacy_info'));
 
 
+            add_filter('cmplz_document_email', array($this, 'obfuscate_email'));
+
+
         }
+
+
+        /**
+         * obfuscate the email address
+         * @param $email
+         * @return string
+         */
+
+        public function obfuscate_email($email)
+        {
+            $alwaysEncode = array('.', ':', '@');
+
+            $result = '';
+
+            // Encode string using oct and hex character codes
+            for ($i = 0; $i < strlen($email); $i++) {
+                // Encode 25% of characters including several that always should be encoded
+                if (in_array($email[$i], $alwaysEncode) || mt_rand(1, 100) < 25) {
+                    if (mt_rand(0, 1)) {
+                        $result .= '&#' . ord($email[$i]) . ';';
+                    } else {
+                        $result .= '&#x' . dechex(ord($email[$i])) . ';';
+                    }
+                } else {
+                    $result .= $email[$i];
+                }
+            }
+
+            return $result;
+        }
+
 
         /**
          * Render shortcode for DNSMPI form

@@ -310,6 +310,55 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
+        'uses_wordpress_comments' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'source' => 'wizard',
+            'type' => 'radio',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'options' => $this->yes_no,
+            'default' => '',
+            'label' => __("Does your website use wordpress comments?", 'complianz-gdpr'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'block_wordpress_comment_cookies' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'source' => 'wizard',
+            'type' => 'radio',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'options' => $this->yes_no,
+            'default' => 'yes',
+            'label' => __("Do you want to prevent WordPress from setting comment cookies?", 'complianz-gdpr'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' => __("If you enable this, you don't need a consent checkbox for the comment form. The consent box will not be shown.", 'complianz-gdpr'),
+            'condition' => array(
+                'uses_wordpress_comments' => 'yes',
+                'regions' => 'eu'
+            ),
+        ),
+
+        'block_wordpress_comment_ip_storage' => array(
+            'step' => STEP_COOKIES,
+            'section' => 2,
+            'source' => 'wizard',
+            'type' => 'radio',
+            'required' => true,
+            'revoke_consent_onchange' => true,
+            'options' => $this->yes_no,
+            'default' => 'yes',
+            'label' => __("Do you want to prevent WordPress from storing the customer IP address?", 'complianz-gdpr'),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+            'help' => __("If you enable this, you don't need to request permission for the storage of the IP address to be compliant.", 'complianz-gdpr'),
+            'condition' => array(
+                'uses_wordpress_comments' => 'yes',
+                'regions' => 'eu'
+            ),
+        ),
+
         'uses_ad_cookies' => array(
             'step' => STEP_COOKIES,
             'section' => 2,

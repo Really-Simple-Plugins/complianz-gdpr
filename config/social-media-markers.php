@@ -17,17 +17,25 @@ $this->social_media_markers = array(
 
 /*
  * Scripts with this string in the content get listed in the third party list.
- *
+ * Also used in cmplz_placeholder()
  * */
 
 $this->thirdparty_service_markers = array(
-    "googlemaps" => array('new google.maps.'),
+    "googlemaps" => array('new google.maps.', 'google.com/maps'),
     "vimeo" => array('player.vimeo.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
     "dailymotion" => array('dailymotion.com/embed/video/'),
     "hotjar" => array('static.hotjar.com'),
+);
+
+/*
+ * placeholders, not iframes
+ * */
+
+$this->placeholder_markers = array(
+    'facebook' => "fb-page",
 );
 
 /*
@@ -92,7 +100,7 @@ $this->iframe_tags = array(
     'platform.twitter.com',
 	'facebook.com/plugins',
     'apis.google.com',
-    'www.google.com/maps/embed',
+    'google.com/maps/embed',
     'player.vimeo.com',
     'disqus.com',
     'platform.twitter.com/widgets.js',
