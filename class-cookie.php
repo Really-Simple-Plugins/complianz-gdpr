@@ -586,17 +586,19 @@ if (!class_exists("cmplz_cookie")) {
          *
          * */
 
-        private function parse_for_social_media($html)
+        public function parse_for_social_media($html, $single_key=false)
         {
             $social_media = array();
             $social_media_markers = COMPLIANZ()->config->social_media_markers;
             foreach ($social_media_markers as $key => $markers) {
                 foreach ($markers as $marker) {
                     if (strpos($html, $marker) !== FALSE && !in_array($key, $social_media)) {
+                        if ($single_key) return $key;
                         $social_media[] = $key;
                     }
                 }
             }
+            if ($single_key) return false;
 
             return $social_media;
         }
@@ -608,7 +610,7 @@ if (!class_exists("cmplz_cookie")) {
          *
          * */
 
-        private function parse_for_thirdparty_services($html)
+        public function parse_for_thirdparty_services($html, $single_key=false)
         {
             $thirdparty = array();
             $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
@@ -617,10 +619,13 @@ if (!class_exists("cmplz_cookie")) {
                 foreach ($markers as $marker) {
 
                     if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
+                        if ($single_key) return $key;
                         $thirdparty[] = $key;
                     }
                 }
             }
+            if ($single_key) return false;
+
             return $thirdparty;
         }
 

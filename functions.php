@@ -923,17 +923,20 @@ if (!function_exists('cmplz_placeholder')) {
      *
      * @since 2.1.0
      */
-    function cmplz_placeholder($type = 'image', $src = '')
+    function cmplz_placeholder($type = false, $src = '')
     {
-
         if ($type === 'iframe') {
             if (strpos($src, 'youtube') !== FALSE) $type = 'youtube';
             if (strpos($src, 'vimeo') !== FALSE) $type = 'vimeo';
             if (strpos($src, 'dailymotion') !== FALSE) $type = 'dailymotion';
         }
 
-        //default value
-        $new_src = cmplz_default_placeholder();
+        if (!$type) {
+            $type = COMPLIANZ()->cookie->parse_for_social_media($src, true);
+            if (!$type) {
+                $type = COMPLIANZ()->cookie->parse_for_thirdparty_services($src, true);
+            }
+        }
 
         switch ($type) {
             case 'youtube':
@@ -991,11 +994,14 @@ if (!function_exists('cmplz_placeholder')) {
                     }
                 }
                 break;
+            case 'googlemaps':
+            case 'facebook':
+            case 'twitter':
             case 'iframe':
             case 'image':
             case 'div':
             default:
-                $new_src = cmplz_default_placeholder();
+                $new_src = cmplz_default_placeholder($type);
         }
 
         return apply_filters('cmplz_placeholder', $new_src, $type, $src);
@@ -1068,8 +1074,24 @@ if (!function_exists('cmplz_default_placeholder')){
      * @return string placeholder
      * @since 2.1.5
      */
-    function cmplz_default_placeholder(){
-        return apply_filters('cmplz_default_placeholder', cmplz_url . 'core/assets/images/placeholder.jpg');
+    function cmplz_default_placeholder($type = ''){
+
+        $img = "placeholder.jpg";
+
+        //check if this type exists as placeholder
+        if (!empty($type) && file_exists(cmplz_path . "core/assets/images/placeholder-$type.jpg")){
+            $img = "placeholder-$type.jpg";
+        }
+
+        $img_url = cmplz_url . 'core/assets/images/' . $img;
+
+        //check for image in themedir/complianz-gpdr-premium
+        $theme_img = trailingslashit(get_stylesheet_directory()) . dirname(cmplz_path) . $img;
+        if (file_exists($theme_img)) {
+            $img_url = trailingslashit(get_stylesheet_directory_uri()) . dirname(cmplz_path) . $img;
+        }
+
+        return apply_filters('cmplz_default_placeholder', $img_url);
     }
 }
 

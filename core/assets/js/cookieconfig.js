@@ -26,7 +26,7 @@
 
 * */
 
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function($) {
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
@@ -39,9 +39,11 @@ jQuery(document).ready(function ($) {
     * Set placeholder image as background on the parent div, set notice, and handle height.
     *
     * */
+    
 
     setBlockedContentContainer();
     function setBlockedContentContainer() {
+
         $('.cmplz-iframe').each(function() {
             //we set the first parent div as container with placeholder image
             var blockedContentContainer = $(this).parent();
@@ -155,6 +157,9 @@ jQuery(document).ready(function ($) {
             blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
             blockedContentContainer.removeClass('cmplz-blocked-content-container');
             $(this).removeClass('cmplz-iframe-styles');
+
+			//in some cases the videowrap gets added to the iframe
+			$( this ).removeClass( 'video-wrap');
 
             //activate the video.
             var src = $(this).data('src-cmplz');

@@ -37,8 +37,6 @@ if (!class_exists("cmplz_integrations")) {
         }
 
 
-
-
         /*
          * Check if Google Analytics by monsterinsights is active
          *
@@ -96,17 +94,36 @@ if (!class_exists("cmplz_integrations")) {
 
 
 
-        /*
+        /**
          * Remove stuff which is not necessary anymore
          *
          * */
 
         public function remove_actions(){
             if ($this->monsterinsights()) {
-                remove_action('cmplz_notice_compile_statistics', array(COMPLIANZ()->cookie, 'show_compile_statistics_notice'), 10, 1);
+                remove_action('cmplz_notice_compile_statistics', array(COMPLIANZ()->cookie, 'show_compile_statistics_notice'), 10);
             }
+
+            if (cmplz_get_value('block_wordpress_comment_ip_storage')==='yes'){
+                add_filter( 'pre_comment_user_ip', array($this, 'wpb_remove_commentsip'));
+            }
+
+            if (cmplz_get_value('block_wordpress_comment_cookies')==='yes'){
+                remove_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10);
+            }
+
         }
 
+        /**
+         * Helper function to disable storing of comments ip
+         * @hooked remove_actions
+         * @param $comment_author_ip
+         * @return string
+         */
+
+        public function wpb_remove_commentsip( $comment_author_ip ) {
+            return '';
+        }
 
 
         /*

@@ -179,7 +179,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     $total_match = $matches[0][$key];
                     $iframe_src = $matches[2][$key].$matches[3][$key];
                     if ($this->strpos_arr($iframe_src, $known_iframe_tags) !== false) {
-                        $placeholder = cmplz_placeholder('iframe', $iframe_src);
+                        $placeholder = cmplz_placeholder(false, $iframe_src);
                         $new = $total_match;
                         $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$iframe_src.'" ', $new);
                         //an iframes-styles class is added so we can reset styles from the theme, and release them after consent
@@ -187,7 +187,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
                         if ($this->is_video($iframe_src)){
                             $video_class = apply_filters('cmplz_video_class','cmplz-video cmplz-hidden');
-                            $source_placeholder =  cmplz_url . 'core/assets/video/placeholder.mp4';
+                            $source_placeholder =  cmplz_url . 'core/assets/video/youtube-placeholder.mp4';
                         } else {
                             $video_class = apply_filters('cmplz_video_class', 'cmplz-no-video');
                             $source_placeholder =  cmplz_get_value('dont_use_placeholders') ? cmplz_url . 'core/assets/images/placeholder.html' : cmplz_url . 'core/assets/images/s.png';
@@ -207,6 +207,29 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                     }
                 }
             }
+
+            /*
+             * set non iframe placeholders
+             *
+             *
+             * */
+
+//            $placeholder_markers = COMPLIANZ()->config->placeholder_markers;
+//            foreach($placeholder_markers as $type => $marker){
+/*                $placeholder_pattern = '/<(div).*?class=[\'"](.*?'.$marker.'.*?)[\'"].*?>/i';*/
+//                if (preg_match_all($placeholder_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+//                    $html_match = $matches[0][0];
+//                    foreach($matches[2] as $key => $match) {
+//
+//                        $placeholder = cmplz_placeholder($type, $marker);
+//                        $new_html = $this->add_data($html_match, 'div', 'placeholder-image', $placeholder);
+//                        $output = str_replace($html_match, $new_html, $output);
+//                        $output = str_replace($marker, $marker." cmplz-div-placeholder", $output);
+//                    }
+//
+//                }
+//            }
+
 
             /*
              * Handle scripts from third parties
