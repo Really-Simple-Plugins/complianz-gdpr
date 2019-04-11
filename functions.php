@@ -1009,7 +1009,6 @@ if (!function_exists('cmplz_placeholder')) {
 }
 
 
-
 if (!function_exists('cmplz_download_to_site')){
     /**
      * Download a placeholder from youtube or video to this website
@@ -1058,7 +1057,7 @@ if (!function_exists('cmplz_download_to_site')){
             if (!file_exists($file)) copy($tmpfile, $file);
         }
 
-        unlink($tmpfile); // must unlink afterwards
+        if (file_exists($tmpfile)) unlink($tmpfile); // must unlink afterwards
 
         if (!file_exists($file)) return cmplz_default_placeholder();
 

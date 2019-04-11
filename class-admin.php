@@ -140,17 +140,6 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
-            //give all documents a region
-            if (version_compare($prev_version, '2.0.6', '<')) {
-                $pages = COMPLIANZ()->config->pages;
-                foreach ($pages as $type => $page) {
-                    if ($page['public'] == true){
-                        $post_id = COMPLIANZ()->document->get_shortcode_page_id($type);
-                        if ($post_id) COMPLIANZ()->document->set_page_url($post_id, $type);
-                    }
-                }
-            }
-
             //set a default region if this is an upgrade:
             if ($prev_version && version_compare($prev_version, '2.0.1', '<')) {
                 $regions = cmplz_get_value('regions');
