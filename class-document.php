@@ -194,7 +194,6 @@ if (!class_exists("cmplz_document")) {
 
             //clear shortcode transients after post update
             add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
-            add_action('save_post', array($this, 'set_page_url_on_save_post'), 10, 1);
             add_action('cmplz_wizard_add_pages_to_menu', array($this, 'wizard_add_pages_to_menu'), 10, 1);
             add_action('admin_init', array($this, 'assign_documents_to_menu'));
             add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
@@ -445,7 +444,6 @@ if (!class_exists("cmplz_document")) {
 
             do_action('cmplz_create_page', $page_id, $type);
 
-            $this->set_page_url($page_id, $type);
         }
 
         /**
@@ -716,7 +714,7 @@ if (!class_exists("cmplz_document")) {
 
                         if (preg_match('/"selectedDocument":"(.*?)"/i', $html, $matches)) {
                             if ($matches[1]===$type) {
-                                set_transient('cmplz_shortcode_' . $type, $page->ID, DAY_IN_SECONDS);
+                                set_transient('cmplz_shortcode_' . $type, $page->ID, HOUR_IN_SECONDS);
                                 return $page->ID;
                             }
                         }
@@ -729,7 +727,7 @@ if (!class_exists("cmplz_document")) {
                      * */
 
                     if (has_shortcode($page->post_content, $shortcode) && strpos($page->post_content, 'type="' . $type.'"')!==FALSE) {
-                        set_transient('cmplz_shortcode_' . $type, $page->ID, DAY_IN_SECONDS);
+                        set_transient('cmplz_shortcode_' . $type, $page->ID, HOUR_IN_SECONDS);
                         return $page->ID;
                     }
                 }
@@ -769,23 +767,6 @@ if (!class_exists("cmplz_document")) {
             }
         }
 
-
-        /**
-         *
-         * updates the stored cmplz url for this post.
-         * @param int $post_id
-         * @hooked save_post
-         * @return void
-         *
-         * */
-
-        public function set_page_url_on_save_post($post_id){
-            if ($this->is_complianz_page($post_id)) {
-                $type = $this->get_document_type($post_id);
-                $this->set_page_url($post_id, $type);
-            }
-        }
-
         /**
          *
          * get the URl of a specific page type
@@ -798,30 +779,16 @@ if (!class_exists("cmplz_document")) {
         public function get_page_url($type){
             if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
-                return get_permalink($policy_page_id);
+            } else {
+                $policy_page_id = get_option('cmplz_document_id_'.$type);
             }
-            return get_option('cmplz_url_'.$type);
-        }
 
-        /**
-         *
-         * updates the stored cmplz url for a post
-         * @param int $post_id, string $type
-         * @return void
-         *
-         * */
-
-        public function set_page_url($post_id, $type){
-            if (!current_user_can('manage_options')) return;
-
-            if (wp_is_post_autosave( $post_id )) return;
-            if (wp_is_post_revision( $post_id )) return;
-
-            $pages = COMPLIANZ()->config->pages;
-            if (isset($pages[$type])){
-                $url = get_permalink($post_id);
-                update_option('cmplz_url_'.$type, $url);
+            if (!$policy_page_id){
+                $policy_page_id = $this->get_shortcode_page_id($type);
+                update_option('cmplz_document_id_'.$type, $policy_page_id);
             }
+
+            return get_permalink($policy_page_id);
         }
 
 

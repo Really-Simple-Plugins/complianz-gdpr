@@ -328,13 +328,13 @@ if (!class_exists("cmplz_cookie")) {
         {
             //cleared on saving in cookiebanner object
             //get localized transient
-            $output = get_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id);
+            //$output = get_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id);
 
-            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output ) {
+//            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output ) {
                 $banner = new CMPLZ_COOKIEBANNER($banner_id);
                 $output = $banner->get_settings_array();
-                set_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id, $output, DAY_IN_SECONDS);
-            }
+                //set_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id, $output, HOUR_IN_SECONDS);
+//            }
 
             return apply_filters('cmplz_cookie_settings', $output);
         }
@@ -703,7 +703,7 @@ if (!class_exists("cmplz_cookie")) {
                 }
 
                 $posts[]='home';
-                set_transient('cmplz_pages_list', $posts, WEEK_IN_SECONDS);
+                set_transient('cmplz_pages_list', $posts, HOUR_IN_SECONDS);
             }
             return $posts;
         }
