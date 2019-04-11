@@ -353,7 +353,8 @@
   text-align: center;
 }
 .cc-window.cc-theme-minimal .cc-btn.cc-allow,
-.cc-window.cc-theme-minimal .cc-btn.cc-save {
+.cc-window.cc-theme-minimal .cc-btn.cc-save,
+.cc-window.cc-theme-minimal .cc-btn.cc-dismiss {
   border-radius: 5px;
   border-width: 1px;
 }
@@ -458,3 +459,4 @@ label.cc-check {
   transition: all 0.2s linear;
   transition-delay: 0.15s;
 }
+/*# sourceMappingURL=cookieconsent.css.map */

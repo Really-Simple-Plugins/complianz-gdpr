@@ -34,12 +34,24 @@ jQuery(document).ready(function($) {
     var ccPrivacyLink = '';
     var waitingScripts = [];
     var placeholderClassIndex = 0;
+    var curClass = '';
+
+    /**
+     *
+     */
+
+    function setStatusAsBodyClass(status){
+        var ccBody = $('body');
+        ccBody.removeClass(curClass);
+        ccBody.addClass('cmplz-status-'+status);
+        curClass = 'cmplz-status-' + status;
+    }
 
     /**
     * Set placeholder image as background on the parent div, set notice, and handle height.
     *
     * */
-    
+
 
     setBlockedContentContainer();
     function setBlockedContentContainer() {
@@ -310,6 +322,7 @@ jQuery(document).ready(function($) {
 
         if (!complianz.do_not_track) {
             if (complianz.consenttype === 'optin') {
+                setStatusAsBodyClass('deny');
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
@@ -319,6 +332,7 @@ jQuery(document).ready(function($) {
                 cmplz_cookie_warning();
             } else if (complianz.consenttype === 'optout') {
                 console.log('opt out');
+                setStatusAsBodyClass('allow');
                 complianz.type = 'opt-out';
                 complianz.layout = 'basic';
                 complianz.readmore_url = complianz.readmore_url_us;
@@ -332,6 +346,8 @@ jQuery(document).ready(function($) {
                 //on other consenttypes, all scripts are enabled by default.
                 cmplzAcceptAllCookies();
             }
+        } else {
+            setStatusAsBodyClass('deny');
         }
 
     }
@@ -501,6 +517,7 @@ jQuery(document).ready(function($) {
     * */
 
     function cmplzAcceptAllCookies(){
+        setStatusAsBodyClass('allow');
         cmplzSetAcceptedCookiePolicyID();
         if (complianz.use_categories) {
             cmplzFireCategories(true);
@@ -580,14 +597,16 @@ jQuery(document).ready(function($) {
 
 
     function complianz_track_status(status) {
-        if (!complianz.a_b_testing) return;
-
         status = typeof status !== 'undefined' ? status : false;
+        if (!status) status = cmplzGetHighestAcceptance();
+
+        if (status) setStatusAsBodyClass(status);
+
+        if (!complianz.a_b_testing) return;
 
         //keep track of the fact that the status was saved at least once, for the no choice status
         cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
 
-        if (!status) status = cmplzGetHighestAcceptance();
         $.ajax({
             type: "GET",
             url: complianz.url,

@@ -666,7 +666,15 @@ if (!class_exists("cmplz_cookie")) {
                     'public'  => true,
                 );
                 $post_types = get_post_types( $args);
+
                 unset($post_types['elementor_font']);
+                unset($post_types['attachment']);
+                unset($post_types['revision']);
+                unset($post_types['nav_menu_item']);
+                unset($post_types['custom_css']);
+                unset($post_types['customize_changeset']);
+                unset($post_types['user_request']);
+
                 $posts = array();
                 foreach ($post_types as $post_type){
                     $args = array(
