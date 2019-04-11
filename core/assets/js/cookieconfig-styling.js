@@ -60,7 +60,7 @@ jQuery(document).ready(function ($) {
 
                 var content;
                 var link = $(".cc-message").find('a').html();
-                var editor_id = 'cmplz_message_'+ccConsentType;
+                var editor_id = 'cmplz_message_' + ccConsentType;
                 var textarea_id = 'cmplz_message';
                 if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
                 if (typeof textarea_id == 'undefined') textarea_id = editor_id;
@@ -75,7 +75,8 @@ jQuery(document).ready(function ($) {
                 // Update HTML view textarea (that is the one used to send the data to server).
             });
         }
-    }, 1000);
+
+    }, 1500);
 
     $(document).on('change', 'select[name=cmplz_static]', function () {
         cmplz_cookie_warning();
