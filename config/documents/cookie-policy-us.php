@@ -112,7 +112,7 @@ $this->document_elements['cookie-statement-us'] = array(
     ),
 
     array(
-        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  count(cmplz_get_value('socialmedia_on_site',false,'wizard')), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
