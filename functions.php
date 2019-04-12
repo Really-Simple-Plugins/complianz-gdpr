@@ -925,7 +925,7 @@ if (!function_exists('cmplz_placeholder')) {
      */
     function cmplz_placeholder($type = false, $src = '')
     {
-        if ($type === 'iframe') {
+        if (!$type) {
             if (strpos($src, 'youtube') !== FALSE) $type = 'youtube';
             if (strpos($src, 'vimeo') !== FALSE) $type = 'vimeo';
             if (strpos($src, 'dailymotion') !== FALSE) $type = 'dailymotion';
@@ -937,7 +937,7 @@ if (!function_exists('cmplz_placeholder')) {
                 $type = COMPLIANZ()->cookie->parse_for_thirdparty_services($src, true);
             }
         }
-
+        
         switch ($type) {
             case 'youtube':
                 $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
@@ -1008,6 +1008,21 @@ if (!function_exists('cmplz_placeholder')) {
     }
 }
 
+if (!function_exists('cmplz_count_socialmedia')){
+    /**
+     * count the number of social media used on the site
+     * @return int
+     */
+    function cmplz_count_socialmedia(){
+        $sm = cmplz_get_value('socialmedia_on_site',false,'wizard');
+        if (!$sm) return 0;
+        if (!is_array($sm)) {
+            return 1;
+        } else {
+            return count($sm);
+        }
+    }
+}
 
 if (!function_exists('cmplz_download_to_site')){
     /**
