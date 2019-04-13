@@ -38,20 +38,23 @@
     },
 
     setCookie: function(name, value, expiryDays, domain, path) {
-      var date = new Date();
-      date.setTime(date.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
-      // var exdate = new Date();
-      // exdate.setDate(exdate.getDate() + (expiryDays || 365));
+      var secure = "secure";
+      var exdate = new Date();
+      exdate.setDate(exdate.getDate() + (expiryDays || 365));
+
+      if (window.location.protocol !== "https:") secure = '';
 
       var cookie = [
         name + '=' + value,
-        'expires=' + date.toGMTString(),
-        'path=' + (path || '/')
+        'expires=' + exdate.toGMTString(),
+        'path=' + (path || '/'),
+        'secure=' + secure
       ];
 
       if (domain) {
         cookie.push('domain=' + domain);
       }
+
       document.cookie = cookie.join(';');
     },
 
