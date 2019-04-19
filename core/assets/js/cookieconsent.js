@@ -38,18 +38,18 @@
     },
 
     setCookie: function(name, value, expiryDays, domain, path) {
-      var secure = "secure";
       var exdate = new Date();
       exdate.setDate(exdate.getDate() + (expiryDays || 365));
-
-      if (window.location.protocol !== "https:") secure = '';
 
       var cookie = [
         name + '=' + value,
         'expires=' + exdate.toGMTString(),
-        'path=' + (path || '/'),
-        'secure=' + secure
+        'path=' + (path || '/')
       ];
+
+      if (window.location.protocol === "https:") {
+        cookie.push('secure=secure');
+      }
 
       if (domain) {
         cookie.push('domain=' + domain);

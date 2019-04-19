@@ -62,8 +62,8 @@ if (!class_exists("cmplz_cookie")) {
 
             //clear pages list on page changes.
             add_action('cmplz_wizard_wizard', array($this, 'update_social_media_cookies'), 10, 1);
-            add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
-            add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
+            //add_action('delete_post', array($this, 'clear_pages_list'), 10, 1);
+            //add_action('wp_insert_post', array($this, 'clear_pages_list'), 10, 3);
 
             add_action('cmplz_statistics_script', array($this, 'get_statistics_script'),10);
 
@@ -326,17 +326,10 @@ if (!class_exists("cmplz_cookie")) {
 
         public function get_cookie_settings($banner_id = '')
         {
-            //cleared on saving in cookiebanner object
-            //get localized transient
-            //$output = get_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id);
 
-//            if ((defined('WP_DEBUG') && WP_DEBUG) || !$output ) {
-                $banner = new CMPLZ_COOKIEBANNER($banner_id);
-                $output = $banner->get_settings_array();
-                //set_transient('cmplz_cookie_settings_cache_'.get_locale() . $banner_id, $output, HOUR_IN_SECONDS);
-//            }
-
-            return apply_filters('cmplz_cookie_settings', $output);
+            $banner = new CMPLZ_COOKIEBANNER($banner_id);
+            $output = $banner->get_settings_array();
+            return $output = apply_filters('cmplz_cookie_settings', $output);
         }
 
 
@@ -534,6 +527,8 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (!current_user_can('manage_options')) return;
 
+            if (defined('CMPLZ_DO_NOT_SCAN') && CMPLZ_DO_NOT_SCAN) return;
+
             if (isset($_GET['complianz_scan_token'])) {
                 return;
             }
@@ -579,12 +574,12 @@ if (!class_exists("cmplz_cookie")) {
             }
         }
 
-        /*
+        /**
          * Check the webpage html output for social media markers.
-         *
-         *
-         *
-         * */
+         * @param string $html
+         * @param bool $single_key
+         * @return array|bool|string $social_media_key
+         */
 
         public function parse_for_social_media($html, $single_key=false)
         {
@@ -711,7 +706,7 @@ if (!class_exists("cmplz_cookie")) {
                 }
 
                 $posts[]='home';
-                set_transient('cmplz_pages_list', $posts, HOUR_IN_SECONDS);
+                set_transient('cmplz_pages_list', $posts, WEEK_IN_SECONDS);
             }
             return $posts;
         }
@@ -883,13 +878,13 @@ if (!class_exists("cmplz_cookie")) {
             if (!current_user_can('manage_options')) return;
             if (isset($_POST['token']) && (sanitize_title($_POST['token']) == get_option('complianz_scan_token'))) {
 
-                $post_cookies = is_array($_POST['cookies']) ? $_POST['cookies'] : array();
+                $post_cookies = isset($_POST['cookies']) && is_array($_POST['cookies']) ? $_POST['cookies'] : array();
                 $found_cookies = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $post_cookies);
                 if (!is_array($found_cookies)) $found_cookies = array();
 
-                $post_storage = is_array($_POST['lstorage']) ? $_POST['lstorage'] : array();
+                $post_storage = isset($_POST['lstorage']) && is_array($_POST['lstorage']) ? $_POST['lstorage'] : array();
                 $found_storage = array_map(function ($el) {
                     return sanitize_title($el);
                 }, $post_storage);

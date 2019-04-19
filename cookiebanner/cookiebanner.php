@@ -1,15 +1,37 @@
 <?php
+/**
+ * When A/B testing is enabled, we should increase all banner versions to flush the users cache
+ */
+
+function cmplz_update_banner_version_all_banners(){
+    $banners  = cmplz_get_cookiebanners( );
+    if ( $banners ) {
+        foreach ( $banners as $banner_item ) {
+            $banner = new CMPLZ_COOKIEBANNER($banner_item->ID);
+            $banner->banner_version++;
+            $banner->save();
+        }
+    }
+}
+
 add_action('admin_init', 'cmplz_check_minimum_one_banner');
 function cmplz_check_minimum_one_banner(){
     if (!cmplz_user_can_manage()) return;
 
     //make sure there's at least one banner
-    global $wpdb;
-    $cookiebanners = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookiebanners");
+    $cookiebanners = cmplz_get_cookiebanners();
     if (count($cookiebanners)<1){
         $banner = new CMPLZ_COOKIEBANNER();
         $banner->save();
     }
+
+    //if we have one (active) banner, but it's not default, make it default
+    $cookiebanners = cmplz_get_cookiebanners();
+    if (count($cookiebanners) == 1 && !$cookiebanners[0]->default) {
+        $banner = new CMPLZ_COOKIEBANNER($cookiebanners[0]->ID);
+        $banner->enable_default();
+    }
+
 }
 
 add_action('admin_init', 'cmplz_redirect_to_cookiebanner');

@@ -700,7 +700,9 @@ if (!function_exists('cmplz_supported_laws')) {
         $arr = array();
         foreach ($regions as $region => $enabled) {
             //fallback
-            //if (!isset(COMPLIANZ()->config->regions[$region])) return __("GDPR", 'complianz-gdpr');
+            if (!isset(COMPLIANZ()->config->regions[$region]['law'])) {
+                break;
+            }
 
             $arr[] = COMPLIANZ()->config->regions[$region]['law'];
         }
@@ -925,8 +927,10 @@ if (!function_exists('cmplz_placeholder')) {
      */
     function cmplz_placeholder($type = false, $src = '')
     {
+        //@todo: remove this part, as the next check should make this redundant
         if (!$type) {
             if (strpos($src, 'youtube') !== FALSE) $type = 'youtube';
+            if (strpos($src, 'facebook') !== FALSE) $type = 'facebook';
             if (strpos($src, 'vimeo') !== FALSE) $type = 'vimeo';
             if (strpos($src, 'dailymotion') !== FALSE) $type = 'dailymotion';
         }
@@ -937,7 +941,7 @@ if (!function_exists('cmplz_placeholder')) {
                 $type = COMPLIANZ()->cookie->parse_for_thirdparty_services($src, true);
             }
         }
-        
+
         switch ($type) {
             case 'youtube':
                 $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
@@ -1288,6 +1292,11 @@ if (!function_exists('cmplz_get_consenttype_for_region')) {
      */
     function cmplz_get_consenttype_for_region($region)
     {
+        //fallback
+        if (!isset(COMPLIANZ()->config->regions[$region]['type'])) {
+            return 'optin';
+        }
+
         return COMPLIANZ()->config->regions[$region]['type'];
     }
 }

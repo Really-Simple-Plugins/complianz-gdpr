@@ -17,6 +17,7 @@ function cmplz_install_cookiebanner_table()
         $table_name = $wpdb->prefix . 'cmplz_cookiebanners';
         $sql = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,
+             `banner_version` int(11) NOT NULL,
              `default` int(11) NOT NULL,
              `archived` int(11) NOT NULL,
              `title` varchar(255) NOT NULL,
@@ -62,6 +63,7 @@ if (!class_exists("cmplz_cookiebanner")) {
     class CMPLZ_COOKIEBANNER
     {
         public $id = false;
+        public $banner_version = 0;
         public $title;
         public $default = false;
         public $archived = false;
@@ -190,6 +192,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             if (isset($cookiebanners[0])) {
                 $cookiebanner = $cookiebanners[0];
+                $this->banner_version = $cookiebanner->banner_version;
                 $this->title = $cookiebanner->title;
                 $this->default = $cookiebanner->default;
                 $this->archived = $cookiebanner->archived;
@@ -302,6 +305,8 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->add();
             }
 
+            $this->banner_version++;
+
             //register translations fields
             $this->register_translation($this->save_preferences, 'save_preferences');
             $this->register_translation($this->view_preferences,'view_preferences');
@@ -323,6 +328,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $statistics = serialize($this->statistics);
             $update_array = array(
                 'position' => sanitize_title($this->position),
+                'banner_version' => intval($this->banner_version),
                 'archived' => boolval($this->archived),
                 'title' => sanitize_text_field($this->title),
                 'theme' => sanitize_title($this->theme),
@@ -371,12 +377,6 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->enable_default();
             } elseif(!$this->default && $db_default) {
                 $this->remove_default();
-            }
-
-            //clear the cookie settings cache for each locale
-            $locales = get_option('cmplz_supported_locales', array());
-            foreach ($locales as $locale) {
-                delete_transient('cmplz_cookie_settings_cache_' . $locale . $this->id);
             }
 
         }
@@ -656,15 +656,10 @@ if (!class_exists("cmplz_cookiebanner")) {
          * @return array
          */
         public function get_settings_array(){
-            //store this locale for when we need to clear this cache.
-            $locales = get_option('cmplz_supported_locales');
-            $locale = get_locale();
-            if (!is_array($locales)) $locales = array();
-            if (!in_array($locale, $locales)) $locales[] = $locale;
-            update_option('cmplz_supported_locales', $locales);
 
             $output = array();
             $output['static'] = false;
+            $output['banner_version'] = $this->banner_version;
             $output['version'] = cmplz_version;
             $output['a_b_testing'] = cmplz_ab_testing_enabled();
             $output['do_not_track'] = apply_filters('cmplz_dnt_enabled', false);

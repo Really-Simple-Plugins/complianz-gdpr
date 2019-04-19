@@ -449,6 +449,7 @@ $this->fields = $this->fields + array(
                 "youtube" => __('Youtube','complianz-gdpr'),
                 "videopress" => __('Videopress', 'complianz-gdpr'),
                 "dailymotion" => __('Dailymotion', 'complianz-gdpr'),
+                "soundcloud" => __('Soundcloud', 'complianz-gdpr'),
             ),
             'default' => '',
             'condition' => array('uses_thirdparty_services' => 'yes'),

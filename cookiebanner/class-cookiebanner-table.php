@@ -120,7 +120,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
      * @return string Name of the primary column.
      */
     protected function get_primary_column_name() {
-        return 'name';
+        return __('name','complianz-gdpr');
     }
 
     /**
@@ -173,7 +173,8 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
             'delete' => '<a class="cmplz-delete-banner" data-id="'.$item['ID'].'" href="#">' . __( 'Delete', 'complianz-gdpr') . '</a>'
         );
 
-        if ($this->show_default_only) unset($actions['delete']);
+        $banner_count = count(cmplz_get_cookiebanners());
+        if ($this->show_default_only || $banner_count==1) unset($actions['delete']);
         return $name  . $this->row_actions( $actions );
     }
 
@@ -299,7 +300,6 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
         $this->args = $args;
         $banners  = cmplz_get_cookiebanners( $args );
-
         if ( $banners ) {
 
             foreach ( $banners as $banner ) {
