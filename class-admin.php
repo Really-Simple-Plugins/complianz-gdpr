@@ -780,6 +780,7 @@ if (!class_exists("cmplz_admin")) {
                             $regions = cmplz_get_regions();
                             $labels = array();
                             foreach($regions as $region => $label){
+                                if (!isset(COMPLIANZ()->config->regions[$region]['label'])) continue;
                                 $labels[] = COMPLIANZ()->config->regions[$region]['label'];
                             }
                             $labels = implode('/',$labels);

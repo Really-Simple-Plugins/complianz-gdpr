@@ -1,4 +1,10 @@
 /*
+    Hide nags from other plugins
+*/
+.notice:not(.really-simple-plugins) {
+  display: none;
+}
+/*
 Tabs
 */
 .cmplz-tab {
@@ -308,3 +314,4 @@ table .cmplz-cookie-variations tr td button {
     -webkit-transform: scaleY(1);
   }
 }
+/*# sourceMappingURL=style.css.map */

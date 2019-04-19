@@ -8,7 +8,7 @@
 
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
-    "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "https://platform.twitter.com"),
+    "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "platform.twitter.com"),
     "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
     "pinterest" => array('super-socializer','assets.pinterest.com'),
     "disqus" => array('disqus.com'),
@@ -21,13 +21,15 @@ $this->social_media_markers = array(
  * */
 
 $this->thirdparty_service_markers = array(
-    "googlemaps" => array('new google.maps.', 'google.com/maps'),
+    "googlemaps" => array('new google.maps.', 'google.com/maps', 'maps.google.com'),
+    "soundcloud" => array('w.soundcloud.com/player'),
     "vimeo" => array('player.vimeo.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
     "youtube" => array('www.youtube.com/iframe_api'),
     "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
     "dailymotion" => array('dailymotion.com/embed/video/'),
     "hotjar" => array('static.hotjar.com'),
+    "spotify" => array('open.spotify.com/embed'),
 );
 
 /*
@@ -39,7 +41,7 @@ $this->placeholder_markers = array(
 );
 
 /*
- * Scripts with this string in the source get blocked.
+ * Scripts with this string in the source or in the content of the script tags get blocked.
  *
  * */
 
@@ -48,6 +50,7 @@ $this->script_tags = array(
     'theChampFBKey',   //super socializer
     'google.com/recaptcha',
     'grecaptcha',
+    'recaptcha.js',
     'platform.twitter.com',
     'apis.google.com/js/platform.js',
     'connect.facebook.net',
@@ -92,7 +95,10 @@ $this->async_list = array(
 );
 
 $this->iframe_tags = array(
+    'open.spotify.com/embed',
+    'soundcloud.com/player',
     'googleads',
+    'maps.google.com',
     'doubleclick',
     'youtube.com',
     'youtube-nocookie.com',

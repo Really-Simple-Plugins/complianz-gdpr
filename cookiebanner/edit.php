@@ -12,7 +12,7 @@
         $active_tab = isset($_POST['cmplz_active_tab']) ? sanitize_title($_POST['cmplz_active_tab']) : 'general';
         $consent_types = cmplz_get_used_consenttypes();
         $regions = cmplz_get_regions();
-        if (isset($_POST["cmplz_active_tab"])) {
+        if (isset($_POST["cmplz_active_tab"]) && $_POST["cmplz_active_tab"]!=='general') {
             $single_consenttype = sanitize_title($_POST["cmplz_active_tab"]);
         } else {
 
@@ -20,6 +20,7 @@
                 $single_consenttype = COMPLIANZ()->company->get_default_consenttype();
 
             } else {
+
                 $single_region = $regions;
                 reset($single_region);
                 $single_region = key($single_region);
