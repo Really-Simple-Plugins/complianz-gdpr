@@ -187,7 +187,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         //we insert no-video class so the script can activate on div not being video, preventing issues with additional divs.
                         if ($this->is_video($iframe_src)){
                             $video_class = apply_filters('cmplz_video_class','cmplz-video cmplz-hidden');
-                            $source_placeholder =  cmplz_url . 'core/assets/video/youtube-placeholder.mp4';
+                            //we add a variable behind the placeholder, so other scripts which randomly add a variable with & won't cause a 404.
+                            $source_placeholder =  cmplz_url . 'core/assets/video/youtube-placeholder.mp4?cmplz=1';
                         } else {
                             $video_class = apply_filters('cmplz_video_class', 'cmplz-no-video');
                             $source_placeholder =  cmplz_get_value('dont_use_placeholders') ? cmplz_url . 'core/assets/images/placeholder.html' : cmplz_url . 'core/assets/images/s.png';

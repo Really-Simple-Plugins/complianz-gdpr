@@ -176,7 +176,11 @@ jQuery(document).ready(function($) {
 
             //activate the video.
             var src = $(this).data('src-cmplz');
+            //check if there's an autoplay value we need to pass on
+            var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
+            if (autoplay==='1') src = src+'&autoplay=1';
             $(this).attr('src', src);
+
         });
 
         //scripts: set "cmplz-script classes to type="text/javascript"
@@ -651,7 +655,7 @@ jQuery(document).ready(function($) {
                 complianz_track_status('all');
             } else {
                 cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
-                complianz_track_status();
+                complianz_track_status('functional');
                 ccName.close();
 
                 $('.cc-revoke').fadeIn();
@@ -943,5 +947,19 @@ jQuery(document).ready(function($) {
 
         return false;
     }
+
+    function cmplzGetUrlParameter(sPageURL, sParam) {
+        var sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
 
 });
