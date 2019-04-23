@@ -65,7 +65,10 @@ $this->script_tags = array(
     'disqus.com',
     'addthis.com',
     'sharethis.com',
-    'google_ad_client',
+    'google_ad_client', //google adsense
+    'pagead/js/adsbygoogle.js', //google adsense
+    'doubleclick.net', //google adsense
+    'googlesyndication.com/pagead/js/adsbygoogle.js', //google adsense
     'cdn.livechatinc.com/tracking.js',
     'googleads.g.doubleclick.net',
     'advads_tracking_ads',
