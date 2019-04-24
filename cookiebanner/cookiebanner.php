@@ -1,4 +1,5 @@
 <?php
+
 /**
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache
  */
@@ -74,7 +75,11 @@ function cmplz_delete_cookiebanner(){
     }
 }
 
-add_action('admin_init', 'cmplz_cookiebanner_form_submit');
+/**
+ * This function is hooked to the plugins_loaded, prio 10 hook, as otherwise there is some escaping we don't want.
+ * @todo fix the escaping
+ */
+add_action('plugins_loaded', 'cmplz_cookiebanner_form_submit', 10);
 function cmplz_cookiebanner_form_submit()
 {
     if (!cmplz_user_can_manage()) return;
@@ -215,7 +220,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets($hook){
         }
     }
 
-    $cookiesettings = COMPLIANZ()->cookie->get_cookie_settings($cookiebanner_id);
+    $cookiesettings = COMPLIANZ()->cookie->get_cookiebanner_settings($cookiebanner_id);
 
     wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent.js", array('jquery', 'cmplz-admin'), cmplz_version, true);
     wp_localize_script(

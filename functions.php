@@ -1097,9 +1097,9 @@ if (!function_exists('cmplz_default_placeholder')){
         $img = "placeholder.jpg";
 
         //check if this type exists as placeholder
-        if (!empty($type) && file_exists(cmplz_path . "core/assets/images/placeholder-$type.jpg")){
-            $img = "placeholder-$type.jpg";
-        }
+//        if (!empty($type) && file_exists(cmplz_path . "core/assets/images/placeholder-$type.jpg")){
+//            $img = "placeholder-$type.jpg";
+//        }
 
         $img_url = cmplz_url . 'core/assets/images/' . $img;
 

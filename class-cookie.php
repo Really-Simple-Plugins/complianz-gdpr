@@ -252,7 +252,7 @@ if (!class_exists("cmplz_cookie")) {
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');
 
-            $cookiesettings = $this->get_cookie_settings(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+            $cookiesettings = $this->get_cookiebanner_settings(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
 
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
 
@@ -324,12 +324,15 @@ if (!class_exists("cmplz_cookie")) {
          *
          * */
 
-        public function get_cookie_settings($banner_id = '')
+        public function get_cookiebanner_settings($banner_id)
         {
-
             $banner = new CMPLZ_COOKIEBANNER($banner_id);
             $output = $banner->get_settings_array();
-            return $output = apply_filters('cmplz_cookie_settings', $output);
+
+            //deprecated filter
+            $output = apply_filters('cmplz_cookie_settings', $output);
+
+            return apply_filters('cmplz_cookiebanner_settings', $output);
         }
 
 
