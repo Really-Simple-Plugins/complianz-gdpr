@@ -138,16 +138,16 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $prefetch_pattern = '/<link rel=[\'|"]dns-prefetch[\'|"] href=[\'|"](\X*?)[\'|"].*?>/i';
-            if (preg_match_all($prefetch_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
-                foreach($matches[1] as $key => $prefetch_url){
-                    $total_match = $matches[0][$key];
-                    if ($this->strpos_arr($prefetch_url, $known_script_tags) !== false) {
-                        $new = $this->replace_href($total_match);
-                        $output = str_replace($total_match, $new, $output);
-                    }
-                }
-            }
+/*            $prefetch_pattern = '/<link rel=[\'|"]dns-prefetch[\'|"] href=[\'|"](\X*?)[\'|"].*?>/i';*/
+//            if (preg_match_all($prefetch_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+//                foreach($matches[1] as $key => $prefetch_url){
+//                    $total_match = $matches[0][$key];
+//                    if ($this->strpos_arr($prefetch_url, $known_script_tags) !== false) {
+//                        $new = $this->replace_href($total_match);
+//                        $output = str_replace($total_match, $new, $output);
+//                    }
+//                }
+//            }
 
             /*
              * Handle styles (e.g. google fonts)

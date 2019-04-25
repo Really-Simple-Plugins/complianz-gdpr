@@ -493,12 +493,26 @@ if (!class_exists("cmplz_document")) {
 
         public function get_shortcode($type)
         {
-            if (cmplz_uses_gutenberg()){
+            if (cmplz_uses_gutenberg() && !$this->uses_elementor()){
                 $page = COMPLIANZ()->config->pages[$type];
                 return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.'"} /-->';
             } else {
                 return '[cmplz-document type="' . $type . '"]';
             }
+        }
+
+        /**
+         * Check if this site uses Elementor
+         * When Elementor is used, the classic shortcode should be used, even when on Gutenberg
+         *
+         * @return bool $uses_elementor
+         */
+
+
+        public function uses_elementor(){
+            if (defined('ELEMENTOR_VERSION')) return true;
+
+            return false;
         }
 
 
