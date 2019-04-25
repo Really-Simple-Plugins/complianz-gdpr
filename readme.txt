@@ -98,11 +98,13 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Fix: when localstorage is empty, empty array could cause PHP error during cookie scan
 * Fix: excluded elementor_font post_type from scan
 * Fix: hyperlink in disclaimer (Dutch)
-* Improvement: added warning when a cookie is not completely filled out
-* Improvement: added export feature to free version
-* Improvement: completely rewritten video blocking and placeholder code, which should reduce possible issues
-* Improvement: extended support for different types of IP detection on servers e.g. Cloudflare.
-* Improvement: moved string translation support for polylang and WPML to core
+* Fix: As elementor uses the classic shortcodes in Gutenberg, an exception should be made for Elementor when inserting default pages
+* Improvement: Hide nag notices from other plugins on Complianz pages.
+* Improvement: Added export feature
+* Improvement: Completely rewritten video blocking and placeholder code, which should reduce possible issues
+* Improvement: Added HappyForms integration to enable recaptcha initialization.
+* Improvement: Extended support for different types of IP detection on servers e.g. Cloudflare.
+* Improvement: Moved string translation support for polylang and WPML to core
 * Improvement: Added option to disable adding placeholder HTML to video's
 * Improvement: Added plural for Social Media statement in Cookie Policy
 * Improvement: Added exception for Non Personalized Ads in advertisement section in Wizard and in Cookie Policy
@@ -114,7 +116,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Improvement: Full compatibility with Newspaper and Adsense
 * Improvement: Blocking IP Adresses for comment section. (option)
 * Improvement: Variable cookie scan for high traffic websites to minimize server capacity.
-* Update: New UI for cookie banner settings.
+* Improvement: New UI for cookie banner settings.
 
 = 2.1.8 =
 * Tweak: improve escaping of css in document html output
