@@ -19,6 +19,10 @@ if (!class_exists("cmplz_integrations")) {
             add_action('cmplz_notice_compile_statistics_more_info', array($this, 'compile_statistics_more_info_notice'));
             add_action('cmplz_notice_compile_statistics', array($this, 'compile_statistics_notice'));
             add_action('admin_init', array($this, 'remove_actions'));
+
+
+//            add_action( 'wp_enqueue_scripts', array($this,'remove_jetpack_responsive_video' ), 99);
+
             $this->integrate();
 
         }
@@ -28,11 +32,27 @@ if (!class_exists("cmplz_integrations")) {
             return self::$_this;
         }
 
+        public function remove_jetpack_responsive_video() {
+
+            wp_dequeue_style( 'jetpack-responsive-videos-style' );
+            wp_dequeue_script( 'responsive-videos' );
+
+        }
 
         public function maybe_remove_scripts_others(){
             if ($this->monsterinsights()) {
                 remove_action('wp_head', 'monsterinsights_tracking_script', 6);
                 remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie, 'get_statistics_script'),10);
+            }
+
+            /*
+             *
+             * JetPack breaks the video rendering from Complianz. 
+             *
+             * */
+
+            if (defined('JETPACK__VERSION')) {
+                remove_action('after_setup_theme', 'jetpack_responsive_videos_init', 99);
             }
         }
 
