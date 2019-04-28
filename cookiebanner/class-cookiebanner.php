@@ -5,7 +5,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  * Install cookiebanner table
  * */
 
-add_action('admin_init', 'cmplz_install_cookiebanner_table');
+add_action('plugins_loaded', 'cmplz_install_cookiebanner_table', 10);
 function cmplz_install_cookiebanner_table()
 {
     if (get_option('cmplz_cbdb_version') != cmplz_version) {
