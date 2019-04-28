@@ -51,9 +51,9 @@ if (!class_exists("cmplz_integrations")) {
              *
              * */
 
-            if (defined('JETPACK__VERSION')) {
-                remove_action('after_setup_theme', 'jetpack_responsive_videos_init', 99);
-            }
+//            if (defined('JETPACK__VERSION')) {
+//                remove_action('after_setup_theme', 'jetpack_responsive_videos_init', 99);
+//            }
         }
 
 
