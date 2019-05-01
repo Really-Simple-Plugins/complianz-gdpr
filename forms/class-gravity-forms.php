@@ -29,24 +29,38 @@ defined('ABSPATH') or die("you do not have acces to this page!");
             $form = GFAPI::get_form($form_id);
             $new_field_id = 1;
             $complianz_field_exists = false;
-
             foreach ($form['fields'] as $field) {
                 $field_id = $field->id;
                 if ($field_id > $new_field_id) $new_field_id = $field_id;
-                if ($field->inputName == 'complianz_consent') {
+                if ($field->adminLabel == 'complianz_consent') {
                     $complianz_field_exists = true;
                 };
             }
             $new_field_id++;
 
             if (!$complianz_field_exists) {
+                $inputs = array(
+                    array(
+                        'id'    => $new_field_id.'.1',
+                        'label' => __('Accept', 'complianz-gdpr'),
+                    ),
+                );
+                $choices = array(
+                    array(
+                        'text'       => __('Accept', 'complianz-gdpr'),
+                        'value'      => __('Accept', 'complianz-gdpr'),
+                        'isSelected' => false,
+                    ),
+                );
+
                 $consent_box = new GF_Field_Checkbox();
                 $consent_box->label = COMPLIANZ()->form->label_no_link;
-                $consent_box->inputName = 'complianz_consent';
+                $consent_box->adminLabel = 'complianz_consent';
                 $consent_box->id = $new_field_id;
+                $consent_box->description = '<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement') . '">'.__("Privacy statement","complianz-gdpr").'</a>';
                 $consent_box->isRequired = true;
-                $consent_box->choices = array(array('text' => __('Accept', 'complianz-gdpr'), 'value' => 'Accept', 'isSelected' => false));
-                $consent_box->inputs = array();
+                $consent_box->choices = $choices;
+                $consent_box->inputs = $inputs;
                 $consent_box->conditionalLogic = false;
                 $form['fields'][] = $consent_box;
 
