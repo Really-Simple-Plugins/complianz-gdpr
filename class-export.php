@@ -28,17 +28,16 @@ if (!class_exists("cmplz_export_settings")) {
             if (!current_user_can('manage_options')) return;
 
             if (isset($_GET['action']) && $_GET['action']==='cmplz_export_settings'){
-                $cookie_settings = get_option('complianz_options_cookie_settings');
+                $settings = get_option('complianz_options_settings');
                 $wizard = get_option('complianz_options_wizard');
                 unset($wizard['used_cookies']);
 
                 //disable a/b testing
-                $cookie_settings['a_b_testing'] = false;
+                $settings['a_b_testing'] = false;
 
                 $json = json_encode(array(
                     'settings' => get_option('complianz_options_settings'),
                     'wizard' => $wizard,
-                    'cookie_settings' => $cookie_settings,
                     'banners' => cmplz_get_cookiebanners(),
                 ));
 
