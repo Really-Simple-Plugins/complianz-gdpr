@@ -493,6 +493,7 @@ if (!class_exists("cmplz_document")) {
 
         public function get_shortcode($type)
         {
+            //even if on gutenberg, with elementor we have to use classic shortcodes.
             if (cmplz_uses_gutenberg() && !$this->uses_elementor()){
                 $page = COMPLIANZ()->config->pages[$type];
                 return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.'"} /-->';
@@ -507,7 +508,6 @@ if (!class_exists("cmplz_document")) {
          *
          * @return bool $uses_elementor
          */
-
 
         public function uses_elementor(){
             if (defined('ELEMENTOR_VERSION')) return true;

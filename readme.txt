@@ -5,8 +5,8 @@ Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
-Tested up to: 5.1
-Stable tag: 3.0.0
+Tested up to: 5.2
+Stable tag: 3.0.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -90,6 +90,17 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 3.0.2 =
+* Fix: Gravity forms checkbox not generated correctly
+* Fix: Brand color not updating in cookiebanner
+* Fix: US Cookie policy not showing correct purposes
+* Fix: Incomplete cookie causing not reaching 100% without notice
+* Fix: Enabling TM categories
+* Fix: Elementor forcing lineheight of 0 in embeds
+
+= 3.0.1 =
+* Fix: hook for DB upgrade moved to an earlier one.
+
 = 3.0.0 =
 * Fix: removed Google Plus integration, as it's discontinued
 * Fix: prevent saving from document URL's on autosave and revisions

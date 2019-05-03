@@ -186,7 +186,7 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'title' => 'Selling data to third parties',
         'content' => 'We do not sell data to third parties',
-//        'callback_condition' => 'NOT cmplz_sells_personal_data',
+        'callback_condition' => 'NOT cmplz_sells_personal_data',
         'condition' => array(
             'california' => 'yes',
         ),

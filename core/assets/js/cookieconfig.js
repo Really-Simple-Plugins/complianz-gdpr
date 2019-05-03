@@ -201,7 +201,6 @@ jQuery(document).ready(function($) {
                         }
                     } else {
                         $(this).attr('type', 'text/javascript');
-                        console.log('executing '+src);
                         $.getScript(src).done(function (script, textStatus) {
                             //check if we have waiting scripts
                             for (var key in waitingInlineScripts) {

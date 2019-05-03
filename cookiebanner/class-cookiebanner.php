@@ -8,7 +8,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 add_action('plugins_loaded', 'cmplz_install_cookiebanner_table', 10);
 function cmplz_install_cookiebanner_table()
 {
-    if (get_option('cmplz_cbdb_version') != cmplz_version) {
+    if (get_option('cmplz_cbdb_version') !== cmplz_version) {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
         global $wpdb;

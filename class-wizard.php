@@ -212,7 +212,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if ($enable_categories){
-                $banners = apply_filters('cmplz_get_banners', array(''));
+                $banners = cmplz_get_cookiebanners();
                 if (!empty($banners)) {
                     foreach ($banners as $banner) {
                         $banner = new CMPLZ_COOKIEBANNER($banner->ID);
@@ -247,22 +247,21 @@ if (!class_exists("cmplz_wizard")) {
                 do_action('cmplz_update_us_cookie_policy_title', $fieldvalue);
             }
 
-
             //when the brand color is saved, update the cookie settings
-            //only if nothing entered yet.
+            //only if same as default color.
             if ($fieldname == 'brand_color' && !empty($fieldvalue)){
-                $cookie_settings = get_option('complianz_options_cookie_settings' );
-                if (!isset($cookie_settings['popup_background_color']) || empty($cookie_settings['popup_background_color'])){
-                    cmplz_update_option('cookie_settings', 'popup_background_color', $fieldvalue);
-                    cmplz_update_option('cookie_settings', 'button_text_color', $fieldvalue);
+                $default_cookiebanner_id = cmplz_get_default_banner_id();
+                $banner = new CMPLZ_COOKIEBANNER($default_cookiebanner_id);
+                $default_color = COMPLIANZ()->config->fields['popup_background_color']['default'];
+                if ($banner->popup_background_color === $default_color){
+                    $banner->popup_background_color = $fieldvalue;
+                    $banner->button_text_color = $fieldvalue;
+                    $banner->save();
                 }
             }
 
 
         }
-
-
-
 
         /*
          * Handle some custom options after saving the wizard options

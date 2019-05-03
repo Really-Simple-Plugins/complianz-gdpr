@@ -65,7 +65,6 @@ if (!class_exists("cmplz_admin")) {
                 "cmplz_wizard_completed_once",
                 'complianz_options_settings',
                 'complianz_options_wizard',
-                'complianz_options_cookie_settings',
                 'complianz_options_dataleak',
                 'complianz_options_processing',
                 'complianz_active_policy_id',
@@ -92,8 +91,8 @@ if (!class_exists("cmplz_admin")) {
 
             global $wpdb;
             $table_name = $wpdb->prefix . 'cmplz_statistics';
-            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            if($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'",$table_name)) != $table_name) {
+                $wpdb->query($wpdb->prepare("TRUNCATE TABLE '%s'", $table_name));
             }
 
             $banners = cmplz_get_cookiebanners(array('status' => 'all'));
@@ -122,15 +121,6 @@ if (!class_exists("cmplz_admin")) {
         {
             //when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
             $prev_version = substr(get_option('cmplz-current-version', '1.0.0'),0, 5);
-            if (version_compare($prev_version, '1.1.2', '<')) {
-                //move cookieblock settings to page general settings
-                $default = isset(COMPLIANZ()->config->fields['disable_cookie_block']['default']) ? COMPLIANZ()->config->fields['disable_cookie_block']['default'] : '';
-                $fields = get_option('complianz_options_cookie_settings');
-                $value = isset($fields['disable_cookie_block']) ? $fields['disable_cookie_block'] : $default;
-
-                $general = get_option('complianz_options_settings');
-                $general['disable_cookie_block'] = $value;
-            }
 
             //as of 1.1.10, publish date is stored in variable.
             if (version_compare($prev_version, '1.2.0', '<')) {
@@ -253,7 +243,7 @@ if (!class_exists("cmplz_admin")) {
 
             wp_enqueue_script('cmplz-ace', cmplz_url . "core/assets/ace/ace.js", array(), cmplz_version, false);
 
-            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+            $minified = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
             wp_enqueue_script('cmplz-admin', cmplz_url . "core/assets/js/admin$minified.js", array('jquery', 'wp-color-picker'), cmplz_version, true);
 
             $progress = COMPLIANZ()->cookie->get_progress_count();
@@ -348,9 +338,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'matomo-needs-configuring';
                 }
 
-                if (COMPLIANZ()->cookie->has_empty_cookie_descriptions()) {
-                    $warnings[] = 'cookies-incomplete';
-                }
+//                if (COMPLIANZ()->cookie->has_empty_cookie_descriptions()) {
+//                    $warnings[] = 'cookies-incomplete';
+//                }
 
                 if (COMPLIANZ()->document->documents_need_updating()){
                     $warnings[] = 'docs-need-updating';
