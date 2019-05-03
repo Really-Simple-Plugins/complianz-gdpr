@@ -92,8 +92,8 @@ if (!class_exists("cmplz_admin")) {
 
             global $wpdb;
             $table_name = $wpdb->prefix . 'cmplz_statistics';
-            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-                $wpdb->query("TRUNCATE TABLE '$table_name'");
+            if($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'",$table_name)) != $table_name) {
+                $wpdb->query($wpdb->prepare("TRUNCATE TABLE '%s'", $table_name));
             }
 
             $banners = cmplz_get_cookiebanners(array('status' => 'all'));
@@ -253,7 +253,7 @@ if (!class_exists("cmplz_admin")) {
 
             wp_enqueue_script('cmplz-ace', cmplz_url . "core/assets/ace/ace.js", array(), cmplz_version, false);
 
-            $minified = (defined('WP_DEBUG') && WP_DEBUG) ? '' : '.min';
+            $minified = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
             wp_enqueue_script('cmplz-admin', cmplz_url . "core/assets/js/admin$minified.js", array('jquery', 'wp-color-picker'), cmplz_version, true);
 
             $progress = COMPLIANZ()->cookie->get_progress_count();

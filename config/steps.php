@@ -35,6 +35,12 @@ $this->steps = array(
                         'title' => __('Purpose', 'complianz-gdpr'),
                         //'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz-gdpr'),
                     ),
+                    7 => array(
+                        'region' => 'us',
+                        'id' => 'details_per_purpose_us',
+                        'title' => __('Details per purpose - US', 'complianz-gdpr'),
+                        //'intro' => _x( 'In this section details regarding the purpose of processing personal data is asked.', 'intro details per purpose', 'complianz-gdpr'),
+                    ),
 
                 ),
             ),

@@ -75,10 +75,10 @@ if (!class_exists("cmplz_DNSMPD")) {
             $sql = "SELECT * from {$wpdb->prefix}cmplz_dnsmpd";
 
             if (isset($args['email']) && !empty($args['email']) && is_email($args['email'])) {
-                $sql = $wpdb->prepare($sql. " WHERE email like %s", "%" . $wpdb->esc_like($args['email']) . "%");
+                $sql = $wpdb->prepare( "%s WHERE email like %s", $sql, "%" . $wpdb->esc_like($args['email']) . "%");
             }
             if (isset($args['name']) && !empty($args['name'])) {
-                $sql = $wpdb->prepare($sql. " WHERE name like %s", "%" . $wpdb->esc_like($args['name']) . "%");
+                $sql = $wpdb->prepare( "%s WHERE name like %s", $sql, "%" . $wpdb->esc_like($args['name']) . "%");
 
             }
             $sql .= " ORDER BY ".sanitize_title($args['orderby'])." ".sanitize_title($args['order']);

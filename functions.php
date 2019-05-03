@@ -646,10 +646,12 @@ if (!function_exists('cmplz_is_pagebuilder_preview')) {
 if (!function_exists('cmplz_ajax_user_settings')) {
     function cmplz_ajax_user_settings()
     {
-
         $data = apply_filters('cmplz_user_data', array());
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
-
+        $data['version'] = cmplz_version;
+        $banner_id = cmplz_get_default_banner_id();
+        $banner = new CMPLZ_COOKIEBANNER($banner_id);
+        $data['banner_version'] = $banner->banner_version;
         $response = json_encode($data);
         header("Content-Type: application/json");
         echo $response;

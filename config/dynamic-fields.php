@@ -24,7 +24,6 @@ function cmplz_filter_fields($fields)
                             'label' => __("What data do you collect for this purpose?", 'complianz-gdpr'),
                             'required' => true,
                             'callback_condition' => array(
-                                'privacy-statement' => 'yes',
                                 'purpose_personaldata' => $key
                             ),
 
