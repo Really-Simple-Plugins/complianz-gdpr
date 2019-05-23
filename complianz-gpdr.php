@@ -97,7 +97,7 @@ if (!class_exists('COMPLIANZ')) {
                     self::$instance->document = new cmplz_document();
 
 
-                    if (cmplz_third_party_cookies_active()) {
+                    if (cmplz_third_party_cookies_active() || cmplz_cookie_warning_required_stats()) {
                         self::$instance->cookie_blocker = new cmplz_cookie_blocker();
                     }
 

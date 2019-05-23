@@ -99,6 +99,9 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Fix: If page is deleted, stored cookiepage url could be empty
 * Fix: When switching settings for advertising cookies, output might show both advertising and non-advertising paragraph
 * Fix: No cookie banner mention in cookie policy when no banner is needed
+* Fix: Cookie blocker was not activated when only statistics required a cookie warning
+* Fix: selecting no thirdparty services or cookies could lead to double activation of statistics
+* Fix: Selecting US as target region in some cases did not fire the default consent which is allowed for US privacy regulations
 
 = 3.0.2 =
 * Fix: Gravity forms checkbox not generated correctly
