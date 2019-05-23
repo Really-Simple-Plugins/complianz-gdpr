@@ -804,7 +804,7 @@ if (!function_exists('cmplz_add_query_arg')) {
             $locale = get_locale();
 
             //if the locale is english, don't add any query args.
-            if (strpos($locale, 'en-') !== false) return;
+            if (strpos($locale, 'en') !== false) return;
 
             if ($post && property_exists($post, 'post_content')) {
                 $pattern = '/cmplz-document type="(.*?)"/i';
@@ -1078,7 +1078,7 @@ if (!function_exists('cmplz_download_to_site')){
             if (!file_exists($file)) copy($tmpfile, $file);
         }
 
-        if (file_exists($tmpfile)) unlink($tmpfile); // must unlink afterwards
+        if (is_string($tmpfile) && file_exists($tmpfile)) unlink($tmpfile); // must unlink afterwards
 
         if (!file_exists($file)) return cmplz_default_placeholder();
 

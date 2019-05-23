@@ -126,20 +126,28 @@ if (!class_exists("cmplz_document_core")) {
 
         }
 
+        /**
+         * @param $element
+         * @return bool
+         */
+
         public function callback_condition_applies($element){
 
             if (isset($element['callback_condition'])) {
-                $invert = false;
-                $func = $element['callback_condition'];
-                if (strpos($func, 'NOT ')!== FALSE){
-                    $invert = true;
-                    $func = str_replace('NOT ', '', $func);
-                }
+                $conditions = is_array($element['callback_condition']) ?  $element['callback_condition'] : array($element['callback_condition']);
+                foreach ($conditions as $func) {
+                    $invert = false;
+                    if (strpos($func, 'NOT ') !== FALSE) {
+                        $invert = true;
+                        $func = str_replace('NOT ', '', $func);
+                    }
 
-                if (!function_exists($func)) return true;
-                $show_field = $func();
-                if ($invert) $show_field = !$show_field;
-                if (!$show_field) return false;
+                    if (!function_exists($func)) break;
+
+                    $show_field = $func();
+                    if ($invert) $show_field = !$show_field;
+                    if (!$show_field) return false;
+                }
             }
             return true;
         }
@@ -498,6 +506,9 @@ if (!class_exists("cmplz_document_core")) {
                 //array (1, 4, 6)
                 $labels = "";
                 foreach ($value as $index) {
+                    //trying to fix strange issue where index is not set
+                    if (!isset($options[$index])) continue;
+
                     if ($list_style)
                         $labels .= "<li>" . cmplz_esc_html($options[$index]) . '</li>';
                     else

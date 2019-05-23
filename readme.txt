@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -90,6 +90,16 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 3.0.3 =
+* Fix: add href to accept button on cookie banner
+* Improvement: [cmplz-accept-cookies text="accept cookies"] shortcode
+* Fix: Cookie policy advertising and analytical cookies settings fix
+* Fix: Not saving unchecked checkbox custom document css
+* Fix: Privacy statement for eu notice when using US only
+* Fix: If page is deleted, stored cookiepage url could be empty
+* Fix: When switching settings for advertising cookies, output might show both advertising and non-advertising paragraph
+* Fix: No cookie banner mention in cookie policy when no banner is needed
+
 = 3.0.2 =
 * Fix: Gravity forms checkbox not generated correctly
 * Fix: Brand color not updating in cookiebanner

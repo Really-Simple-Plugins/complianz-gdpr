@@ -465,7 +465,9 @@ jQuery(document).ready(function($) {
                 'categories': '<div class="cc-compliance cc-highlight">{{save}}</div>',
             },
             "elements": {
-                "save": '<a aria-label="save cookies" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
+                "dismiss": '<a aria-label="dismiss cookie message" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
+                "allow": '<a aria-label="allow cookies" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
+                "save": '<a aria-label="save cookies" href="#" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
                 "categories-checkboxes": complianz.categories,
                 "messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="learn more about cookies" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + ccPrivacyLink + '</span>',
             },
@@ -663,8 +665,8 @@ jQuery(document).ready(function($) {
         }
     });
 
-    /*
-            Accept cookies by clicking any other link cookie acceptance from a custom link
+    /**
+     *       Accept cookies by clicking any other link cookie acceptance from a custom link
      */
 
     $(document).on('click', '.cmplz-accept-cookies', function () {

@@ -236,6 +236,7 @@ if (!class_exists("cmplz_field")) {
 
         public function save_field($fieldname, $fieldvalue)
         {
+
             if (!current_user_can('manage_options')) return;
 
             $fields = COMPLIANZ()->config->fields();
@@ -552,7 +553,6 @@ if (!class_exists("cmplz_field")) {
 
             $value = $this->get_value($args['fieldname'], $args['default']);
             $placeholder_value = ($args['disabled'] && $value) ? $value : 0;
-
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
@@ -1570,7 +1570,7 @@ if (!class_exists("cmplz_field")) {
             }
 
             //if no value isset, pass a default
-            $value = $value ? $value : apply_filters('cmplz_default_value', $default, $fieldname);
+            $value = ($value!==false) ? $value : apply_filters('cmplz_default_value', $default, $fieldname);
             return $value;
         }
 
