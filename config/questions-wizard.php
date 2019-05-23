@@ -370,7 +370,6 @@ $this->fields = $this->fields + array(
             'default' => '',
             'label' => __("Does your website use cookies for advertising?", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'condition' => array('uses_cookies' => 'yes'),
         ),
 
         'uses_ad_cookies_personalized' => array(

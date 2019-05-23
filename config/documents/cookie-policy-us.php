@@ -64,6 +64,7 @@ $this->document_elements['cookie-statement-us'] = array(
         'subtitle' => 'Analytical cookies',
         'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.',
         'callback_condition' => 'cmplz_uses_statistics',
+        'condition' => array('compile_statistics' => 'yes'),
     ),
 
     array(
@@ -76,13 +77,19 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'subtitle' => 'Advertising cookies',
         'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
-        'condition' => array('uses_ad_cookies_personalized' => 'yes'),
+        'condition' => array(
+            'uses_ad_cookies' => 'yes',
+            'uses_ad_cookies_personalized' => 'yes'
+        ),
     ),
 
     array(
         'subtitle' => 'Advertising cookies', 'Legal document cookie policy:paragraph title',
         'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
-        'condition' => array('uses_ad_cookies_personalized' => 'no'),
+        'condition' => array(
+            'uses_ad_cookies' => 'yes',
+            'uses_ad_cookies_personalized' => 'yes'
+        ),
     ),
 
     array(

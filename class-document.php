@@ -169,6 +169,33 @@ if (!class_exists("cmplz_document")) {
             echo cmplz_revoke_link($atts['text']);
 
             return ob_get_clean();
+        }
+
+        /**
+         * Display an accept hyperlink
+         *
+         * @param array $atts
+         * @param null $content
+         * @param string $tag
+         * @return string
+         */
+
+        public function accept_link($atts = [], $content = null, $tag = '')
+        {
+
+            // normalize attribute keys, lowercase
+            $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+            ob_start();
+
+            // override default attributes with user attributes
+            $atts = shortcode_atts(['text' => false,], $atts, $tag);
+
+            $accept_text = $atts['text'] ? $atts['text'] : apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text'));
+            $html = '<div class="cmplz-blocked-content-notice cmplz-accept-cookies"><a href="#">'.$accept_text.'</a></div>';
+            echo $html;
+
+            return ob_get_clean();
 
         }
 
@@ -190,6 +217,7 @@ if (!class_exists("cmplz_document")) {
              * */
 
             add_shortcode('cmplz-revoke-link', array($this, 'revoke_link'));
+            add_shortcode('cmplz-accept-link', array($this, 'accept_link'));
             add_shortcode('cmplz-do-not-sell-personal-data-form', array($this, 'do_not_sell_personal_data_form'));
 
             //clear shortcode transients after post update
@@ -797,7 +825,7 @@ if (!class_exists("cmplz_document")) {
                 $policy_page_id = get_option('cmplz_document_id_'.$type);
             }
 
-            if (!$policy_page_id){
+            if (!$policy_page_id || !get_permalink($policy_page_id)){
                 $policy_page_id = $this->get_shortcode_page_id($type);
                 update_option('cmplz_document_id_'.$type, $policy_page_id);
             }
