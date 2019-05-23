@@ -329,9 +329,9 @@ jQuery(document).ready(function($) {
         //if no status was saved before, we do it now
         if (cmplzGetCookie('cmplz_choice') !== 'set') {
             //for Non optin/optout visitors, and DNT users, we just track the no-warning option
-            if (cmplz_user_data.do_not_track || (cmplz_user_data.consenttype !== 'optin' && cmplz_user_data.consenttype !== 'optout')) {
+            if (complianz.do_not_track || (complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout')) {
                 complianz_track_status('no-warning');
-            } else if (cmplz_user_data.consenttype === 'optout') {
+            } else if (complianz.consenttype === 'optout') {
                 //for opt out visitors, so consent by default
                 complianz_track_status('all');
             } else {
@@ -423,7 +423,7 @@ jQuery(document).ready(function($) {
                     cmplzAcceptAllCookies();
                 }
 
-                if (status === 'deny' && cmplz_user_data.consenttype === 'optout') {
+                if (status === 'deny' && complianz.consenttype === 'optout') {
                     cmplzRevoke();
                     complianz_track_status();
                     location.reload();
@@ -488,7 +488,7 @@ jQuery(document).ready(function($) {
             * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *
             * */
-            if (cmplz_user_data.consenttype !== 'optout' && complianz.use_categories) {
+            if (complianz.consenttype !== 'optout' && complianz.use_categories) {
                 //make sure the checkboxes show the correct settings
                 cmplzSyncCategoryCheckboxes();
 
@@ -518,7 +518,7 @@ jQuery(document).ready(function($) {
             *
             *
             * */
-            if (cmplz_user_data.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
+            if (complianz.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
                 cmplzAcceptAllCookies();
             }
         });
@@ -636,7 +636,7 @@ jQuery(document).ready(function($) {
             data: ({
                 action: 'cmplz_track_status',
                 status: status,
-                consenttype: cmplz_user_data.consenttype
+                consenttype: complianz.consenttype
             })
         });
     }
@@ -647,7 +647,7 @@ jQuery(document).ready(function($) {
 
     */
     $(document).on('click', '.cc-revoke-custom', function () {
-        if (cmplz_user_data.consenttype === 'optin') {
+        if (complianz.consenttype === 'optin') {
             $('.cc-revoke').click();
         } else {
             //if it's already denied, show the accept option again.
@@ -694,7 +694,7 @@ jQuery(document).ready(function($) {
     cmplzUpdateStatusCustomLink();
     function cmplzUpdateStatusCustomLink() {
         if ($('.cc-revoke-custom').length) {
-            if (cmplz_user_data.consenttype === 'optout') {
+            if (complianz.consenttype === 'optout') {
                 var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
                 var denied = $('#cmplz-document').find('.cmplz-status-denied');
                 if (cmplzGetCookie('complianz_consent_status') === 'deny') {
@@ -765,7 +765,7 @@ jQuery(document).ready(function($) {
             }
 
         } else {
-            if (status === 'allow' || (status === 'dismiss' && cmplz_user_data.consenttype === 'optout')) {
+            if (status === 'allow' || (status === 'dismiss' && complianz.consenttype === 'optout')) {
                 return 'all';
             }
         }
