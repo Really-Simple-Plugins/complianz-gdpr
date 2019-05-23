@@ -185,6 +185,9 @@ jQuery(document).ready(function($) {
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function (i, obj) {
+            //do not run stats scripts yet. We leave that to the dedicated stats function cmplz_enable_stats()
+            if ($(this).hasClass('cmplz-stats')) return true;
+
             var src = $(this).attr('src');
 
             if (src && src.length) {
@@ -253,7 +256,7 @@ jQuery(document).ready(function($) {
 
     function complianz_enable_stats() {
         console.log('fire stats');
-        $('.cmplz-stats').each(function (i, obj) {
+        $('.cmplz-script.cmplz-stats').each(function (i, obj) {
             if ($(this).text().length) {
                 var str = $(this).text();
                 // str = str.replace("anonymizeIp': true", "anonymizeIp': false");
