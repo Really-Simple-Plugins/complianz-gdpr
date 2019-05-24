@@ -284,12 +284,16 @@ jQuery(document).ready(function($) {
     *
     * */
 
+    var cmplzFiredEvents = [];
     function cmplzRunTmEvent(event) {
-        console.log('fire ' + event);
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': event
-        });
+        if (cmplzFiredEvents.indexOf(event)===-1) {
+            console.log('fire ' + event);
+            cmplzFiredEvents.push(event);
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': event
+            });
+        }
     }
 
     /**
