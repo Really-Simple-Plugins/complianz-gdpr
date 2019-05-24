@@ -90,8 +90,6 @@ jQuery(document).ready(function ($) {
         cmplz_cookie_warning();
     });
 
-
-
     $(document).on('keyup', '#cmplz_custom_csseditor', function () {
         cmplz_apply_style();
     });

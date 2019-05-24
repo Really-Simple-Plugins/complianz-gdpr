@@ -37,9 +37,9 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array(),
         'label' => "Google Maps",
         'privacy_policy_url' => 'https://myaccount.google.com/privacy',
-        'purpose' => __("Google Maps cookie", 'complianz-gdpr'),
+        'purpose' => __("Display maps on our website", 'complianz-gdpr'),
         'storage_duration' => __("30 days", 'complianz-gdpr'),
-        'description' => __("Google Maps cookies to track individual users.", 'complianz-gdpr'),
+        'description' => __("We have embedded Google Maps on our website. Our website connects to the Google Maps API to display these maps. The Google Maps API requests your IP address.", 'complianz-gdpr'),
     ),
 
     'youtube' => array(
@@ -101,9 +101,9 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array('tcb_google_fonts'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
         'label' => "Google Fonts",
-        'purpose' => __("", 'complianz-gdpr'),
-        'storage_duration' => __("", 'complianz-gdpr'),
-        'description' => __("", 'complianz-gdpr'),
+        'purpose' => __("Display of fonts on our website", 'complianz-gdpr'),
+        'storage_duration' => __("365 days", 'complianz-gdpr'),
+        'description' => __("We use the Google Fonts API to display fonts on our website. The Google fonts API requests your IP address when visiting our website.", 'complianz-gdpr'),
     ),
 
     'google-recaptcha' => array(
@@ -1280,8 +1280,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WP_Do_Not_Track' => array('functional' => true,
-        'used_names' => array('wp-donottrack_feed'),
-        'unique_used_names' => array('wp-donottrack_feed'),
+        'used_names' => array('wp-donottrack_feed', 'dont_track_me'),
+        'unique_used_names' => array('wp-donottrack_feed', 'dont_track_me'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "WP Do Not Track",
         'purpose' => __("This cookie is used to stop plugins and themes from adding 3rd party tracking code and cookies. ", 'complianz-gdpr'),
@@ -1630,4 +1630,16 @@ $this->known_cookie_keys = array(
         'description' => __("This cookie is used by our main theme: AIT Theme. It is necessary for us to place these cookies to deliver the best experience on our website. Think of search results refinery, a faster and better looking website and reviews.", 'complianz-gdpr'),
 
     ),
+
+    'dont_track_me' => array(
+        'functional' => true,
+        'used_names' => array('dont_track_me'),
+        'unique_used_names' => array('dont_track_me'),
+        'privacy_policy_url' => '[privacy_policy_url]',
+        'label' => "Do not track",
+        'purpose' => __("Stores cookie consent", 'complianz-gdpr'),
+        'storage_duration' => __("365 days", 'complianz-gdpr'),
+        'description' => __("This cookie is placed whenever we detect a 'do not track me' signal from your browser and prevents tracking cookies from being placed.", 'complianz-gdpr'),
+    ),
+   
 );

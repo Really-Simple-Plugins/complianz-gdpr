@@ -1481,7 +1481,7 @@ if (!class_exists("cmplz_cookie")) {
             return false;
         }
 
-        /*
+        /**
          * Check if the site has third party cookies active
          *
          * @@since 1.0
@@ -1513,7 +1513,7 @@ if (!class_exists("cmplz_cookie")) {
             return false;
         }
 
-        /*
+        /**
          * Check if the site needs a cookie banner considering statistics only
          *
          * @@since 1.0
