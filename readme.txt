@@ -92,7 +92,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 == Change log ==
 = 3.0.3 =
 * Fix: add href to accept button on cookie banner
-* Improvement: [cmplz-accept-cookies text="accept cookies"] shortcode
+* Improvement: [cmplz-accept-link text="accept cookies"] shortcode
 * Fix: Cookie policy advertising and analytical cookies settings fix
 * Fix: Not saving unchecked checkbox custom document css
 * Fix: Privacy statement for eu notice when using US only

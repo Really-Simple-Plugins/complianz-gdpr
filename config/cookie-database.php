@@ -1280,8 +1280,8 @@ $this->known_cookie_keys = array(
     ),
 
     'WP_Do_Not_Track' => array('functional' => true,
-        'used_names' => array('wp-donottrack_feed'),
-        'unique_used_names' => array('wp-donottrack_feed'),
+        'used_names' => array('wp-donottrack_feed', 'dont_track_me'),
+        'unique_used_names' => array('wp-donottrack_feed', 'dont_track_me'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "WP Do Not Track",
         'purpose' => __("This cookie is used to stop plugins and themes from adding 3rd party tracking code and cookies. ", 'complianz-gdpr'),

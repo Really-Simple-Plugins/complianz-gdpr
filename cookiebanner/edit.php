@@ -9,6 +9,19 @@
         <?php //some fields for the cookies categories ?>
         <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
         <?php
+        /**
+        * If Tag manager fires categories, enable use categories by default
+        */
+
+        if (cmplz_get_value('fire_scripts_in_tagmanager')==='yes') {
+        ?>
+        <script>
+            jQuery(document).ready(function ($) {
+                $('input:checkbox[name=cmplz_use_categories]').prop("checked", true);
+            });
+        </script>
+        <?php
+        }
         $active_tab = isset($_POST['cmplz_active_tab']) ? sanitize_title($_POST['cmplz_active_tab']) : 'general';
         $consent_types = cmplz_get_used_consenttypes();
         $regions = cmplz_get_regions();
@@ -18,9 +31,7 @@
 
             if (cmplz_multiple_regions()) {
                 $single_consenttype = COMPLIANZ()->company->get_default_consenttype();
-
             } else {
-
                 $single_region = $regions;
                 reset($single_region);
                 $single_region = key($single_region);
