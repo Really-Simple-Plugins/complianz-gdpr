@@ -324,6 +324,13 @@ if (!class_exists("cmplz_cookiebanner")) {
             $this->register_translation($this->readmore_optout,'readmore_optout');
             $this->register_translation($this->readmore_privacy,'readmore_privacy');
 
+            /**
+             * If Tag manager fires categories, enable use categories by default
+             */
+            if ((cmplz_get_value('fire_scripts_in_tagmanager')==='yes') ){
+                $this->use_categories = true;
+            }
+
             if (!is_array($this->statistics)) $this->statistics = array();
             $statistics = serialize($this->statistics);
             $update_array = array(
