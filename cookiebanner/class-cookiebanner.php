@@ -424,7 +424,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
                 //clear all statistics regarding this banner
                 $wpdb->delete($wpdb->prefix . 'cmplz_statistics', array(
-                    'variation' => $this->id,
+                    'cookiebanner_id' => $this->id,
                 ));
             }
 
