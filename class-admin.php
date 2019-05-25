@@ -192,11 +192,11 @@ if (!class_exists("cmplz_admin")) {
             }
 
             /*
-             * Merge adress data into one field for more flexibility
+             * Merge address data into one field for more flexibility
              * */
 
             if (version_compare($prev_version, '3.0.0', '<')) {
-                //get adress data
+                //get address data
                 $wizard_settings = get_option('complianz_options_wizard');
 
                 $adress = isset($wizard_settings['address_company']) ? $wizard_settings['address_company'] : '';
