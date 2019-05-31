@@ -753,6 +753,8 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $output['accept'] = $this->accept_x;
             }
 
+            $output['cookie_expiry'] = cmplz_get_value('cookie_expiry');
+
             $output['version'] = cmplz_version;
             $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
             $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
