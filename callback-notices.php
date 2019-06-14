@@ -43,7 +43,7 @@ function cmplz_uses_thirdparty_services_notice(){
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
 function cmplz_purpose_personaldata_notice(){
     if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()){
-        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. According to the CaCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz-gdpr'));
+        cmplz_notice(__("The cookie scan detected non-functional cookies on your site. According to the CCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz-gdpr'));
     }
 }
 

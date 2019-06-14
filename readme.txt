@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -54,6 +54,8 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
+Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/) and [Zip Recipes](https://wordpress.org/plugins/zip-recipes/).
+
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR Cookie Consent is developed by [Complianz BV] (https://complianz.io).
 
 = Installation =
@@ -90,6 +92,15 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+== Change log ==
+= 3.0.5 =
+* Fix: saving when saved data is not an array
+* Fix: prevent force category for Tag Manager after switching back to GA
+* Improvement: allow for Youtube video series URL
+* Fix: several improvements for US documents
+* Improvement: when marketing level category is selected, statistics category should not get consent
+* Improvement: not scrolling to top when accepting
+
 = 3.0.4 =
 * Fix: expiry days not passed to cookie banner
 
