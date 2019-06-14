@@ -120,10 +120,10 @@ if (!class_exists("cmplz_admin")) {
         public function check_upgrade()
         {
             //when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
-            $prev_version = substr(get_option('cmplz-current-version', '1.0.0'),0, 5);
+            $prev_version = substr(get_option('cmplz-current-version', false),0, 5);
 
             //as of 1.1.10, publish date is stored in variable.
-            if (version_compare($prev_version, '1.2.0', '<')) {
+            if ($prev_version && version_compare($prev_version, '1.2.0', '<')) {
                 $date = get_option('cmplz_publish_date');
                 if (empty($date)) {
                     COMPLIANZ()->cookie->update_cookie_policy_date();
@@ -142,7 +142,8 @@ if (!class_exists("cmplz_admin")) {
              * Set the value of the US cookie banner message on upgrade
              * copy message text to message_us
              * */
-            if (version_compare($prev_version, '2.1.2', '<')) {
+
+            if ($prev_version && version_compare($prev_version, '2.1.2', '<')) {
                 $settings = get_option('complianz_options_cookie_settings');
                 $settings['message_us'] = $settings['message'];
                 update_option('complianz_options_cookie_settings', $settings);
@@ -163,7 +164,7 @@ if (!class_exists("cmplz_admin")) {
              * Migrate use_country and a_b_testing to general settings
              *
              * */
-            if (version_compare($prev_version, '3.0.0', '<')) {
+            if ($prev_version && version_compare($prev_version, '3.0.0', '<')) {
                 $cookie_settings = get_option('complianz_options_cookie_settings');
                 $general_settings = get_option('complianz_options_settings');
 
@@ -187,7 +188,7 @@ if (!class_exists("cmplz_admin")) {
              *
              * */
 
-            if (version_compare($prev_version, '3.0.0', '<')) {
+            if ($prev_version && version_compare($prev_version, '3.0.0', '<')) {
                 COMPLIANZ()->cookie->migrate_legacy_cookie_settings();
             }
 
@@ -195,7 +196,7 @@ if (!class_exists("cmplz_admin")) {
              * Merge address data into one field for more flexibility
              * */
 
-            if (version_compare($prev_version, '3.0.0', '<')) {
+            if ($prev_version && version_compare($prev_version, '3.0.0', '<')) {
                 //get address data
                 $wizard_settings = get_option('complianz_options_wizard');
 

@@ -946,7 +946,7 @@ if (!function_exists('cmplz_placeholder')) {
 
         switch ($type) {
             case 'youtube':
-                $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/i';
+                $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)([^#\&\?]*).*/i';
                 if (preg_match($youtube_pattern, $src, $matches)) {
                     $youtube_id = $matches[1];
                     /*

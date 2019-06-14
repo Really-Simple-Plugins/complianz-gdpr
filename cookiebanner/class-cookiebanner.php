@@ -327,7 +327,9 @@ if (!class_exists("cmplz_cookiebanner")) {
             /**
              * If Tag manager fires categories, enable use categories by default
              */
-            if ((cmplz_get_value('fire_scripts_in_tagmanager')==='yes') ){
+            $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+            $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+            if ($uses_tagmanager && $tm_fires_scripts) {
                 $this->use_categories = true;
             }
 
@@ -752,9 +754,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             } else {
                 $output['accept'] = $this->accept_x;
             }
-
             $output['cookie_expiry'] = cmplz_get_value('cookie_expiry');
-
             $output['version'] = cmplz_version;
             $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
             $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');

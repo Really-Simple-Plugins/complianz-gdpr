@@ -263,6 +263,7 @@ if (!class_exists("cmplz_field")) {
             }
 
             $options = get_option('complianz_options_' . $page);
+            if (!is_array($options)) $options = array();
             $prev_value = isset($options[$fieldname]) ? $options[$fieldname] : false;
             do_action("complianz_before_save_" . $page . "_option", $fieldname, $fieldvalue, $prev_value, $type);
             $options[$fieldname] = $fieldvalue;

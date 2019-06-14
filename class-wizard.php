@@ -196,16 +196,17 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
-            /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
             $enable_categories = false;
-            if (($fieldname == 'fire_scripts_in_tagmanager' && $fieldvalue==='yes') ){
+            $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+            $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+
+            /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
+            if ($uses_tagmanager && $tm_fires_scripts) {
                 $enable_categories = true;
             }
 
-            //when ab testing is enabled, cats should be enabled for each variation.
+            //when ab testing is just enabled icw TM, cats should be enabled for each banner.
             if (($fieldname == 'a_b_testing' && $fieldvalue===true && $prev_value==false) ){
-                $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
-                $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
                 if ($uses_tagmanager && $tm_fires_scripts) {
                     $enable_categories = true;
                 }

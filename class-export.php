@@ -36,7 +36,7 @@ if (!class_exists("cmplz_export_settings")) {
                 $settings['a_b_testing'] = false;
 
                 $json = json_encode(array(
-                    'settings' => get_option('complianz_options_settings'),
+                    'settings' => $settings,
                     'wizard' => $wizard,
                     'banners' => cmplz_get_cookiebanners(),
                 ));

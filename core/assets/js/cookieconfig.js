@@ -38,6 +38,14 @@ jQuery(document).ready(function($) {
     var curClass = '';
 
     /**
+     * prevent scroll to top behaviour because of missing href tag
+     */
+
+    $(document).on('click','.cc-btn', function(e){
+        e.preventDefault();
+    });
+
+    /**
      *
      */
 
@@ -141,8 +149,10 @@ jQuery(document).ready(function($) {
 
     function complianz_enable_scripts() {
 
-        //check if the stats were already running
-        if (!ccStatsEnabled) complianz_enable_stats();
+        //check if the stats were already running. Don't enable in case of categories, as it should be handled by cmplzFireCategories
+        if (!complianz.use_categories && !ccStatsEnabled) {
+            complianz_enable_stats();
+        }
 
         //make sure it doesn't run twice
         if (ccAllEnabled) return;
@@ -185,6 +195,7 @@ jQuery(document).ready(function($) {
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         $('.cmplz-script').each(function (i, obj) {
+
             //do not run stats scripts yet. We leave that to the dedicated stats function cmplz_enable_stats()
             if ($(this).hasClass('cmplz-stats')) return true;
 
@@ -569,9 +580,7 @@ jQuery(document).ready(function($) {
         //check if status is changed from 'allow' to 'revoked'
         var reload = false;
         if ($('#cmplz_all').length) {
-            if ($('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') !== 'allow')) {
-                reload = true;
-            }
+            //'all' checkbox is not checked, and previous value was allow. reload.
             if (!$('#cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') === 'allow')) {
                 reload = true;
             }
@@ -784,7 +793,7 @@ jQuery(document).ready(function($) {
         return 'no-choice';
     }
 
-    /*
+    /**
     * Fire the categories events which have been accepted.
     * Fires Tag Manager events.
     *
@@ -807,7 +816,7 @@ jQuery(document).ready(function($) {
         }
 
         //statistics acceptance
-        if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
+        if ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked")) {
             complianz_enable_stats();
         }
 
