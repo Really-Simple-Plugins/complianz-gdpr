@@ -5,7 +5,7 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 global $wpdb;
-$sql = "DROP TABLE IF EXISTS $wpdb->prefix}cmplz_statistics";
+$sql = "DROP TABLE IF EXISTS {$wpdb->prefix}cmplz_statistics";
 $wpdb->query($sql);
 
 
