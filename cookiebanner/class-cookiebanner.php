@@ -685,11 +685,11 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $output['dismiss_on_scroll'] = $this->dismiss_on_scroll;
             $output['dismiss_on_timeout'] = $this->dismiss_on_timeout;
-            $output['dismiss_timeout'] = $this->dismiss_timeout;;
-            $output['popup_background_color'] = $this->popup_background_color;;
-            $output['popup_text_color'] =  $this->popup_text_color;;
-            $output['button_background_color'] = $this->button_background_color;;
-            $output['button_text_color'] = $this->button_text_color;;
+            $output['dismiss_timeout'] = $this->dismiss_timeout;
+            $output['popup_background_color'] = $this->popup_background_color;
+            $output['popup_text_color'] =  $this->popup_text_color;
+            $output['button_background_color'] = $this->button_background_color;
+            $output['button_text_color'] = $this->button_text_color;
             $output['border_color'] = $this->border_color;
             $output['use_custom_cookie_css'] = $this->use_custom_cookie_css;
             $output['custom_css'] = $this->sanitize_custom_css($this->custom_css);

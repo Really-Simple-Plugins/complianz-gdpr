@@ -234,11 +234,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
             /*
              * Handle scripts from third parties
-             *
+             * Exclude ld+json
              *
              * */
 
-            $script_pattern = '/(?<=.)<script((?!text\/ld\+json).)*?\>(\X*?)<\/script>/i';
+            $script_pattern = '/(?<=)<script((?!text\/ld\+json)[^>])*?\>(\X*?)<\/script>/i';
 
             $index = 0;
 

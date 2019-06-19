@@ -70,7 +70,7 @@ $this->script_tags = array(
     'google_ad_client', //google adsense
     'pagead/js/adsbygoogle.js', //google adsense
     'doubleclick.net', //google adsense
-    'googlesyndication.com/pagead/js/adsbygoogle.js', //google adsense
+    'googlesyndication.com', //google adsense
     'cdn.livechatinc.com/tracking.js',
     'googleads.g.doubleclick.net',
     'advads_tracking_ads',
