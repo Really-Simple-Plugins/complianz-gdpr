@@ -759,7 +759,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
             $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
             $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement-us');
-            $output['privacy_link'] = !empty($privacy_link) ? '<span class="cc-link cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
+            $output['privacy_link'] = !empty($privacy_link) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
             $output['nonce'] = wp_create_nonce('set_cookie');
             $output['url'] = admin_url('admin-ajax.php');
             $output['current_policy_id'] = COMPLIANZ()->cookie->get_active_policy_id();
