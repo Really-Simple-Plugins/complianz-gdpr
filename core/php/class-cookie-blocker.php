@@ -238,7 +238,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $script_pattern = '/.*<script((?!text\/ld\+json).)*>([\s\S]*)<\/script>/i';
+            $script_pattern = '/.*<script((?!text\/ld\+json).)*?\>(\X*?)<\/script>/i';
 
             $index = 0;
 
