@@ -40,11 +40,11 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 = Premium features =
 
-* The Privacy Suite for WordPress:
+The Privacy Suite for WordPress:
 * Select both US and EU as target region with conditional Consent and Cookie Banners.
 * Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
 * A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
-* All Legal Documents: Customized and legally validated privacy statements (EU & US), cookie policy (EU & US), disclaimer, processing agreements (EU & US) , dataleak reporting tools, created and updated by a decicated law firm
+* All Legal Documents: Customized and legally validated privacy statements (EU & US), cookie policy (EU & US), disclaimer, processing agreements (EU & US) , dataleak reporting tools, created and updated by a dedicated law firm
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
 * CCPA Consent and Legal documents.
 * COPPA ready with Children's Privacy Policy.
@@ -100,6 +100,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Fix: several improvements for US documents
 * Improvement: when marketing level category is selected, statistics category should not get consent
 * Improvement: not scrolling to top when accepting
+* Improvement: CSS classes for Cookie Notice
 
 = 3.0.4 =
 * Fix: expiry days not passed to cookie banner
