@@ -685,11 +685,11 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $output['dismiss_on_scroll'] = $this->dismiss_on_scroll;
             $output['dismiss_on_timeout'] = $this->dismiss_on_timeout;
-            $output['dismiss_timeout'] = $this->dismiss_timeout;;
-            $output['popup_background_color'] = $this->popup_background_color;;
-            $output['popup_text_color'] =  $this->popup_text_color;;
-            $output['button_background_color'] = $this->button_background_color;;
-            $output['button_text_color'] = $this->button_text_color;;
+            $output['dismiss_timeout'] = $this->dismiss_timeout;
+            $output['popup_background_color'] = $this->popup_background_color;
+            $output['popup_text_color'] =  $this->popup_text_color;
+            $output['button_background_color'] = $this->button_background_color;
+            $output['button_text_color'] = $this->button_text_color;
             $output['border_color'] = $this->border_color;
             $output['use_custom_cookie_css'] = $this->use_custom_cookie_css;
             $output['custom_css'] = $this->sanitize_custom_css($this->custom_css);
@@ -759,7 +759,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $output['readmore_url'] = COMPLIANZ()->document->get_page_url('cookie-statement');
             $output['readmore_url_us'] = COMPLIANZ()->document->get_page_url('cookie-statement-us');
             $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement-us');
-            $output['privacy_link'] = !empty($privacy_link) ? '<span class="cc-link cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
+            $output['privacy_link'] = !empty($privacy_link) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $output['readmore_privacy'] . '</a>' : '';
             $output['nonce'] = wp_create_nonce('set_cookie');
             $output['url'] = admin_url('admin-ajax.php');
             $output['current_policy_id'] = COMPLIANZ()->cookie->get_active_policy_id();

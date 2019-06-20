@@ -1,4 +1,11 @@
 /*
+    show edit buttons in WP table class
+
+*/
+.wrap.cookie-warning .row-actions {
+  left: 0;
+}
+/*
     Hide nags from other plugins
 */
 .notice:not(.really-simple-plugins) {

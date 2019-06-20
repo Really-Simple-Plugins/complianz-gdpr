@@ -164,7 +164,7 @@ jQuery(document).ready(function ($) {
             ccType = 'opt-out';
             ccCategories = false;
             if ($('input[name=cmplz_readmore_privacy]').length)
-                ccPrivacyLink = '<span class="cc-link cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy]').val() + '</a>';
+                ccPrivacyLink = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy]').val() + '</a>';
         }
 
         var ccTheme = $('select[name=cmplz_theme]').val();

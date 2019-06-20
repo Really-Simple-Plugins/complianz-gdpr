@@ -100,6 +100,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Fix: several improvements for US documents
 * Improvement: when marketing level category is selected, statistics category should not get consent
 * Improvement: not scrolling to top when accepting
+* Fix: table remove on plugin deletion
 * Improvement: CSS classes for Cookie Notice
 
 = 3.0.4 =
