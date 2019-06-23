@@ -242,7 +242,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             $index = 0;
             if (preg_match_all($script_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[1] as $key => $script_open){
-                    error_log($script_open);
                     //we don't block scripts with the cmplz-native class
                     if (strpos($script_open,'cmplz-native')!==FALSE) continue;
                     //exclude ld+json
