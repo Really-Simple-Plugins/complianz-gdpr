@@ -6,7 +6,7 @@ Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -92,7 +92,9 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
-== Change log ==
+= 3.0.6 =
+* Fix: new regex did not exclude cmplz-native scripts from cookie blocker
+
 = 3.0.5 =
 * Fix: saving when saved data is not an array
 * Fix: prevent force category for Tag Manager after switching back to GA
