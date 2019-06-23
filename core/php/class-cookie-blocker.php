@@ -234,18 +234,19 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
             /*
              * Handle scripts from third parties
-             * Exclude ld+json
+             *
              *
              * */
 
-            $script_pattern = '/(?<=)<script((?!text\/ld\+json)[^>])*?\>(\X*?)<\/script>/i';
-
+            $script_pattern = '/(<script.*?>)(\X*?)<\/script>/i';
             $index = 0;
-
             if (preg_match_all($script_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[1] as $key => $script_open){
+                    error_log($script_open);
                     //we don't block scripts with the cmplz-native class
                     if (strpos($script_open,'cmplz-native')!==FALSE) continue;
+                    //exclude ld+json
+                    if (strpos($script_open,'application/ld+json')!==FALSE) continue;
                     $total_match = $matches[0][$key];
                     $content = $matches[2][$key];
 
