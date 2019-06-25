@@ -60,7 +60,7 @@ $this->script_tags = array(
     'www.google-analytics.com/analytics.js',
     'google-analytics.com/ga.js',
     'new google.maps.',
-    'maps.googleapis.com',
+    //'maps.googleapis.com',
     'static.hotjar.com',
     'dataset.sumoSiteId',
     '_getTracker',
