@@ -125,6 +125,7 @@ $this->document_elements['cookie-statement'] = array(
 
     'cookie_names' => array(
         'title' => _x('Placed cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+        'p' => false,
         'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
                                  <tr><td colspan="2">' .
                                     _x("Purpose:", 'Legal document cookie policy', 'complianz-gdpr') . ' [purpose]<br>'.
@@ -150,6 +151,7 @@ $this->document_elements['cookie-statement'] = array(
             _x('You have the following rights with respect to your personal data:', 'Legal document cookie policy', 'complianz-gdpr'),
     ),
     'your-rights-2' => array(
+        'p' => false,
         'content' =>
             '<ul>
                     <li>' . _x('You have the right to know why your personal data is needed, what will happen to it, and how long it will be retained for.', 'Legal document cookie policy', 'complianz-gdpr') . '</li>

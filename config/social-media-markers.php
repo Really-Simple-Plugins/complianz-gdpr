@@ -30,6 +30,7 @@ $this->thirdparty_service_markers = array(
     "dailymotion" => array('dailymotion.com/embed/video/'),
     "hotjar" => array('static.hotjar.com'),
     "spotify" => array('open.spotify.com/embed'),
+    "google-fonts" => array('fonts.googleapis.com'),
 );
 
 /*

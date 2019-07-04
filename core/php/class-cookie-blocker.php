@@ -127,10 +127,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             }
             $known_iframe_tags = apply_filters('cmplz_known_iframe_tags', $known_iframe_tags);
 
-
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             //edit: instagram uses ;width, so we need to allow ; as well.
-            $url_pattern = '([\w.,;@?^=%&:\/~+#!-]*?)';
+            $url_pattern = '([\w.,;@?^=%&:\/~+#!\-*]*?)';
 
             /*
              * Handle scripts loaded with dns prefetch
@@ -173,7 +172,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?><\/iframe>/i';
+            $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>.*?<\/iframe>/i';
             if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach($matches[2] as $key => $match){
                     $total_match = $matches[0][$key];
@@ -314,8 +313,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         private function strpos_arr($haystack, $needle)
         {
-
-
             if (empty($haystack)) return false;
 
             if (!is_array($needle)) $needle = array($needle);
@@ -328,10 +325,10 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         }
 
         private function set_javascript_to_plain($script){
-
-            preg_match('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', $script, $matches);
+            $pattern = '/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*>)/i';
+            preg_match($pattern, $script, $matches);
             if ($matches) {
-                $script = preg_replace('/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*">)/i', 'type="text/plain"', $script, 1);
+                $script = preg_replace($pattern, 'type="text/plain"', $script, 1);
             } else {
                 $pos = strpos($script, "<script");
                 if ($pos !== false) {
