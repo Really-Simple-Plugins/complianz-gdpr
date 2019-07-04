@@ -125,6 +125,7 @@ $this->document_elements['cookie-statement-us'] = array(
 
     'cookie_names' => array(
         'title' => 'Placed cookies',
+        'p' => false,
         'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
                                  <tr><td colspan="2">
                                     Purpose: [purpose]<br>

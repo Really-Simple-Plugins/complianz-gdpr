@@ -186,7 +186,6 @@ $this->fields = $this->fields + array(
             'required' => true,
             'options' => $this->purposes,
             'callback_condition' => array('regions' => 'us'),
-            'callback_notice' => 'purpose_personal_data',
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
     );
@@ -441,7 +440,7 @@ $this->fields = $this->fields + array(
             'source' => 'wizard',
             'type' => 'multicheckbox',
             'options' => array(
-                'google-fonts' => __('Google fonts', 'complianz-gdpr'),
+                'google-fonts' => __('Google Fonts', 'complianz-gdpr'),
                 'google-recaptcha' => __('Google Recaptcha', 'complianz-gdpr'),
                 "googlemaps" => __('Google Maps', 'complianz-gdpr'),
                 "vimeo" => __('Vimeo', 'complianz-gdpr'),

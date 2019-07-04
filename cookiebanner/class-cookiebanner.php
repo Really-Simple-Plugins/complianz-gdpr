@@ -730,7 +730,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
                 $checkbox_all = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="18px" height="18px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
                 $checkbox_functional = str_replace(array('type', 'cmplz_all'), array('checked disabled type', 'cmplz_functional'), $checkbox_all);
-                $output['categories'] = '<label>' . $checkbox_functional . '<span class="cc-category">'.$this->category_functional_x . '</span></label>';
+                $output['categories'] = '<label>' . $checkbox_functional . '<span class="cc-category" style="color:'.$this->popup_text_color.'">'.$this->category_functional_x . '</span></label>';
 
                 if (COMPLIANZ()->cookie->tagmamanager_fires_scripts()) {
                     $output['tm_categories'] = true;
@@ -739,13 +739,13 @@ if (!class_exists("cmplz_cookiebanner")) {
                     foreach ($categories as $i => $category) {
                         if (empty($category)) continue;
                         $checkbox_category = str_replace('cmplz_all', 'cmplz_' . $i, $checkbox_all);
-                        $output['categories'] .= '<label>' . $checkbox_category . '<span class="cc-category">'.trim($category) . '</span></label>';
+                        $output['categories'] .= '<label>' . $checkbox_category . '<span class="cc-category" style="color:'.$this->popup_text_color.'">'.trim($category) . '</span></label>';
                     }
-                    $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'.$this->category_all_x . '</span></label>';
+                    $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category" style="color:'.$this->popup_text_color.'">'.$this->category_all_x . '</span></label>';
                     $output['cat_num'] = count($categories);
                 } else {
-                    $output['categories'] .= (COMPLIANZ()->cookie->cookie_warning_required_stats()) ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . '<span class="cc-category">'. $this->category_stats_x . '</span></label>' : '';
-                    $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category">'. $this->category_all_x . '</span></label>';
+                    $output['categories'] .= (COMPLIANZ()->cookie->cookie_warning_required_stats()) ? '<label>' . str_replace('cmplz_all', 'cmplz_stats', $checkbox_all) . '<span class="cc-category" style="color:'.$this->popup_text_color.'">'. $this->category_stats_x . '</span></label>' : '';
+                    $output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category" style="color:'.$this->popup_text_color.'">'. $this->category_all_x . '</span></label>';
                 }
 
                 $output['type'] = 'categories';

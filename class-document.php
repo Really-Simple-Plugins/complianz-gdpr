@@ -34,8 +34,36 @@ if (!class_exists("cmplz_document")) {
                     wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);
                     wp_enqueue_style('cmplz-document');
                 }
+
+                add_action('wp_head', array($this, 'inline_styles'), 100);
             }
 
+        }
+
+        /**
+         * Get custom CSS for documents
+         *
+         * */
+
+        public function inline_styles(){
+
+            //basic color style for revoke button
+            $custom_css='';
+            $background_color = cmplz_get_value('brand_color');
+            if (!empty($background_color) ){
+                $light_background_color = $this->color_luminance($background_color, -0.2);
+                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
+                $custom_css .= "#cmplz-document a.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
+            }
+
+            if (cmplz_get_value('use_custom_document_css')) {
+                $custom_css .= cmplz_get_value('custom_document_css');
+            }
+
+            $custom_css = apply_filters('cmplz_custom_document_css', $custom_css);
+            if (empty($custom_css)) return;
+
+            echo '<style>' . $custom_css . '</style>';
         }
 
         /**
