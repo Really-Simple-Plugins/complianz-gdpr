@@ -226,6 +226,11 @@ if (!class_exists("cmplz_wizard")) {
             //only run when changes have been made
             if ($fieldvalue === $prev_value) return;
 
+            //when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
+            if ($fieldname==='privacy-statement' || $fieldname==='regions' || $fieldname === 'cookie-policy-type'){
+                cmplz_update_banner_version_all_banners();
+            }
+
             //we can check here if certain things have been updated,
             COMPLIANZ()->cookie->reset_cookies_changed();
 

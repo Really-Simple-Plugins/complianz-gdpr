@@ -18,7 +18,8 @@ if (!class_exists("cmplz_integrations")) {
             add_filter('cmplz_default_value', array($this, 'set_default'), 20, 2);
             add_action('cmplz_notice_compile_statistics_more_info', array($this, 'compile_statistics_more_info_notice'));
             add_action('cmplz_notice_compile_statistics', array($this, 'compile_statistics_notice'));
-            add_action('admin_init', array($this, 'remove_actions'));
+            add_action('init', array($this, 'remove_actions'));
+            add_action('init', array($this, 'maybe_disable_wordpress_personaldata_storage'));
 
             //add_action( 'wp_print_styles', array($this, 'remove_jetpack_responsive_video'), 100 );
 
@@ -125,12 +126,18 @@ if (!class_exists("cmplz_integrations")) {
                 remove_action('cmplz_notice_compile_statistics', array(COMPLIANZ()->cookie, 'show_compile_statistics_notice'), 10);
             }
 
-            if (cmplz_get_value('block_wordpress_comment_ip_storage')==='yes'){
-                add_filter( 'pre_comment_user_ip', array($this, 'wpb_remove_commentsip'));
-            }
+        }
 
-            if (cmplz_get_value('block_wordpress_comment_cookies')==='yes'){
+        /**
+         * If disabled in the wizard, the consent checkbox is disabled, and personal data is not stored.
+         */
+
+        public function maybe_disable_wordpress_personaldata_storage(){
+
+            if (cmplz_get_value('uses_wordpress_comments')==='yes' && cmplz_get_value('block_wordpress_comment_cookies')==='yes'){
+                add_filter( 'pre_comment_user_ip', array($this, 'remove_commentsip'));
                 remove_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10);
+                add_filter('comment_form_default_fields', array($this, 'comment_form_hide_cookies_consent'));
             }
 
         }
@@ -142,8 +149,20 @@ if (!class_exists("cmplz_integrations")) {
          * @return string
          */
 
-        public function wpb_remove_commentsip( $comment_author_ip ) {
+        public function remove_commentsip( $comment_author_ip ) {
             return '';
+        }
+
+        /**
+         * Remove the WP consent checkbox for comment fields
+         * @param $fields
+         * @return mixed
+         */
+
+
+        public function comment_form_hide_cookies_consent( $fields ) {
+            unset( $fields['cookies'] );
+            return $fields;
         }
 
 

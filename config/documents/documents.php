@@ -7,6 +7,7 @@ $this->pages = array(
         'public' => true,
         'condition' => array(
             'regions' => 'eu',
+            'cookie-policy-type' => 'default',
         ),
     ),
 
@@ -15,6 +16,7 @@ $this->pages = array(
         'public' => true,
         'condition' => array(
             'regions' => 'us',
+            'cookie-policy-type' => 'default',
         ),
     ),
 );
