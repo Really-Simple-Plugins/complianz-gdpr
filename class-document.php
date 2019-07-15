@@ -469,7 +469,7 @@ if (!class_exists("cmplz_document")) {
          * Create a page of certain type in wordpress
          * @since 1.0
          * @param $type
-         * @return void
+         * @return int page_id
          */
 
         public function create_page($type)
@@ -499,6 +499,8 @@ if (!class_exists("cmplz_document")) {
             }
 
             do_action('cmplz_create_page', $page_id, $type);
+
+            return $page_id;
 
         }
 
@@ -804,6 +806,8 @@ if (!class_exists("cmplz_document")) {
             } else {
                 return $page_id;
             }
+
+
             return false;
         }
 
@@ -846,15 +850,23 @@ if (!class_exists("cmplz_document")) {
          *
          */
 
-        public function get_page_url($type){
+        public function get_page_url($type, $region){
+
+            $region = ($region == 'eu' || !$region) ? '' : '-' . $region;
+
             if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
             } else {
                 $policy_page_id = get_option('cmplz_document_id_'.$type);
             }
 
+
             if (!$policy_page_id || !get_permalink($policy_page_id)){
                 $policy_page_id = $this->get_shortcode_page_id($type);
+
+                if (!$policy_page_id) {
+                    $policy_page_id = $this->create_page($type.$region);
+                }
                 update_option('cmplz_document_id_'.$type, $policy_page_id);
             }
 

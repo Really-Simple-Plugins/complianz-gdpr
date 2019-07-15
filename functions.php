@@ -1136,6 +1136,23 @@ if (!function_exists('cmplz_us_cookie_statement_title')) {
     }
 }
 
+if (!function_exists('cmplz_get_cookie_policy_url')){
+
+    /**
+     * Get url to cookie policy
+     * @param string $region
+     * @return string URL
+     */
+    function cmplz_get_cookie_policy_url($region='eu')
+    {
+        if (cmplz_get_value('cookie-policy-type') === 'custom') {
+            return strlen(cmplz_get_value('custom-cookie-policy-url')) == 0 ? '#' : esc_url_raw(cmplz_get_value('custom-cookie-policy-url'));
+        } else {
+            return COMPLIANZ()->document->get_page_url('cookie-statement' , $region);
+        }
+    }
+}
+
 
 if (!function_exists('cmplz_update_cookie_policy_title')) {
     /**

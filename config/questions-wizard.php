@@ -25,17 +25,36 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 // MY COMPANY SECTION
 $this->fields = $this->fields + array(
-        'cookie-policy' => array(
+        'cookie-policy-type' => array(
             'step' => STEP_COMPANY,
             'section' => 1,
             'source' => 'wizard',
             'default' => 'yes',
-            'type' => 'radio',
-            'options' => $this->yes_no,
-            'disabled' => true,
-            'label' => __("A cookie policy will be added automatically to your site", 'complianz-gdpr'),
-            'required' => false,
-            'help' => __('A cookie policy is default enabled on your site. This option is just to make the generation of this document explicit.'),
+            'type' => 'select',
+            'options' => array(
+                'default' => __("Auto generated cookie policy", 'complianz-gdpr'),
+                'custom' => __("Custom cookie policy", 'complianz-gdpr'),
+            ),
+            'label' => __("Select if you want to use the auto generated cookie policy or your own", 'complianz-gdpr'),
+            'required' => true,
+            'help' => __('Complianz will generate the cookie policy based on your cookies and the answers in the wizard, but you can also create your own, custom document.',"complianz-gdpr"),
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'custom-cookie-policy-url' => array(
+            'step' => STEP_COMPANY,
+            'section' => 1,
+            'source' => 'wizard',
+            'type' => 'url',
+            'options' => array(
+                'default' => __("Auto generated cookie policy", 'complianz-gdpr'),
+                'custom' => __("Custom cookie policy", 'complianz-gdpr'),
+            ),
+            'condition' => array(
+                'cookie-policy-type' => 'custom',
+            ),
+            'label' => __("Enter the URL to your custom cookie policy", 'complianz-gdpr'),
+            'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -331,27 +350,9 @@ $this->fields = $this->fields + array(
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'default' => 'yes',
-            'label' => __("Do you want to prevent WordPress from setting comment cookies?", 'complianz-gdpr'),
+            'label' => __("Disable storage of personal data by WP comments function and consent checkbox", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'help' => __("If you enable this, you don't need a consent checkbox for the comment form. The consent box will not be shown.", 'complianz-gdpr'),
-            'condition' => array(
-                'uses_wordpress_comments' => 'yes',
-                'regions' => 'eu'
-            ),
-        ),
-
-        'block_wordpress_comment_ip_storage' => array(
-            'step' => STEP_COOKIES,
-            'section' => 2,
-            'source' => 'wizard',
-            'type' => 'radio',
-            'required' => true,
-            'revoke_consent_onchange' => true,
-            'options' => $this->yes_no,
-            'default' => 'yes',
-            'label' => __("Do you want to prevent WordPress from storing the customer IP address?", 'complianz-gdpr'),
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-            'help' => __("If you enable this, you don't need to request permission for the storage of the IP address to be compliant.", 'complianz-gdpr'),
+            'help' => __("If you enable this, WordPress will not store personal data with comments and you won't need a consent checkbox for the comment form. The consent box will not be displayed.", 'complianz-gdpr'),
             'condition' => array(
                 'uses_wordpress_comments' => 'yes',
                 'regions' => 'eu'

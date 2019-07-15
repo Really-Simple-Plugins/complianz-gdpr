@@ -408,14 +408,14 @@ if (!class_exists("cmplz_document_core")) {
             $pages = COMPLIANZ()->config->pages;
             //get the region for which this document is meant, default and eu result in empty.
 
-            $region = !isset($pages[$type]['condition']['regions']) || ($pages[$type]['condition']['regions']==='eu') ? false : '-'.$pages[$type]['condition']['regions'];
-            $html = str_replace("[cookie-statement-url]", $this->get_page_url('cookie-statement'.$region), $html);
+            $region = isset($pages[$type]['condition']['regions']) ? ($pages[$type]['condition']['regions']) : false;
+            $html = str_replace("[cookie-statement-url]", cmplz_get_cookie_policy_url($region), $html);
 
-            $html = str_replace("[privacy_policy_url]", $this->get_page_url('privacy-statement'.$region), $html);
+            $html = str_replace("[privacy_policy_url]", $this->get_page_url('privacy-statement',$region), $html);
 
             //backward compability
-            $html = str_replace("[privacy-statement-url]", $this->get_page_url('privacy-statement'.$region), $html);
-            $html = str_replace("[privacy-statement-children-us-url]", $this->get_page_url('privacy-statement-children-us'), $html);
+            $html = str_replace("[privacy-statement-url]", $this->get_page_url('privacy-statement',$region), $html);
+            $html = str_replace("[privacy-statement-children-us-url]", $this->get_page_url('privacy-statement-children','us'), $html);
 
             //us can have two types of titles
             $cookie_policy_title = esc_html(cmplz_us_cookie_statement_title());
