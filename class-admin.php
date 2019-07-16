@@ -210,7 +210,15 @@ if (!class_exists("cmplz_admin")) {
                 update_option('complianz_options_wizard', $wizard_settings);
             }
 
+            /*
+             * set new cookie policy url option to correct default state
+             * */
 
+            if ($prev_version && version_compare($prev_version, '3.0.8', '<')) {
+                $wizard_settings = get_option('complianz_options_wizard');
+                $wizard_settings['cookie-policy-type'] = 'default';
+                update_option('complianz_options_wizard', $wizard_settings);
+            }
 
             do_action('cmplz_upgrade', $prev_version);
 
