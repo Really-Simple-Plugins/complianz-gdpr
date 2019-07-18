@@ -39,8 +39,6 @@ Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 = Premium features =
-
-The Privacy Suite for WordPress:
 * Select both US and EU as target region with conditional Consent and Cookie Banners.
 * Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
 * A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
@@ -92,6 +90,7 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+
 = 3.0.8 =
 * Improvement: add option to configure your own cookie policy URL
 * Fix: creating legal document page when none is available after region switch
@@ -100,9 +99,7 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 * Improvement: recommended action on Google Fonts
 * Fix: Pass font color to cc-category class
 * Fix: allow for content in iframes tags in regex pattern
-* Fix: A/B tracking still in progress notice when only one banner left
 * Fix: hide comment checkbox when WP personal data storage for comments is disabled
-* Fix: hide security measures question when privacy policy not selected
 
 = 3.0.7 =
 * Tweak: remove blocking of custom Google implementations, as it is not yet possible to reactivate them

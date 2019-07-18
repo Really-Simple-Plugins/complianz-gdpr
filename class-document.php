@@ -52,8 +52,8 @@ if (!class_exists("cmplz_document")) {
             $background_color = cmplz_get_value('brand_color');
             if (!empty($background_color) ){
                 $light_background_color = $this->color_luminance($background_color, -0.2);
-                $custom_css = "#cmplz-document a.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
-                $custom_css .= "#cmplz-document a.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
+                $custom_css = "#cmplz-document button.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
+                $custom_css .= "#cmplz-document button.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
             }
 
             if (cmplz_get_value('use_custom_document_css')) {
@@ -857,22 +857,20 @@ if (!class_exists("cmplz_document")) {
             if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
                 $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
             } else {
-                $policy_page_id = get_option('cmplz_document_id_'.$type);
+                $policy_page_id = get_option('cmplz_document_id_'.$type.$region);
             }
 
-
-            if (!$policy_page_id || !get_permalink($policy_page_id)){
-                $policy_page_id = $this->get_shortcode_page_id($type);
+            if ((get_post_status($policy_page_id) !== 'publish') || !$policy_page_id || !get_permalink($policy_page_id)){
+                $policy_page_id = $this->get_shortcode_page_id($type.$region);
 
                 if (!$policy_page_id) {
                     $policy_page_id = $this->create_page($type.$region);
                 }
-                update_option('cmplz_document_id_'.$type, $policy_page_id);
+                update_option('cmplz_document_id_'.$type.$region, $policy_page_id);
             }
 
             return get_permalink($policy_page_id);
         }
-
 
     }
 } //class closure
