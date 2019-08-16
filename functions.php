@@ -96,7 +96,7 @@ if (!function_exists('cmplz_revoke_link')) {
     function cmplz_revoke_link($text = false)
     {
         $text = $text ? $text : __('Revoke cookie consent', 'complianz-gdpr');
-        $html = '<a href="#" class="cc-revoke-custom">' . $text . '</a><span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Accepted", 'complianz-gdpr')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Denied", 'complianz-gdpr')) . '</span>';
+        $html = '<button class="cc-revoke-custom">' . $text . '</button>&nbsp;<span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Accepted", 'complianz-gdpr')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Denied", 'complianz-gdpr')) . '</span>';
         return apply_filters('cmplz_revoke_link', $html);
     }
 }
@@ -629,8 +629,7 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_is_pagebuilder_preview')) {
     function cmplz_is_pagebuilder_preview()
     {
-
-        if (isset($_GET['et_pb_preview']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
+        if (isset($_GET['fb-edit']) || isset($_GET['et_pb_preview']) || isset($_GET['et_fb']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
             return true;
         } else {
             return false;
@@ -843,6 +842,13 @@ if (!function_exists('cmplz_allowed_html')) {
 
         $allowed_tags = array(
             'a' => array(
+                'class' => array(),
+                'href' => array(),
+                'rel' => array(),
+                'title' => array(),
+                'target' => array(),
+            ),
+            'button' => array(
                 'class' => array(),
                 'href' => array(),
                 'rel' => array(),
@@ -1148,7 +1154,7 @@ if (!function_exists('cmplz_get_cookie_policy_url')){
         if (cmplz_get_value('cookie-policy-type') === 'custom') {
             return strlen(cmplz_get_value('custom-cookie-policy-url')) == 0 ? '#' : esc_url_raw(cmplz_get_value('custom-cookie-policy-url'));
         } else {
-            return COMPLIANZ()->document->get_page_url('cookie-statement' , $region);
+            return COMPLIANZ()->document->get_page_url('cookie-statement', $region);
         }
     }
 }
@@ -1291,11 +1297,11 @@ if (!function_exists('cmplz_consenttype_nicename')) {
     function cmplz_consenttype_nicename($consenttype){
         switch ($consenttype) {
             case 'optin':
-                return __('Opt in','complianz-gdpr');
+                return __('Opt in settings','complianz-gdpr');
             case 'optout':
-                return __('Opt out', 'complianz-gdp');
+                return __('Opt out settings', 'complianz-gdp');
             default :
-                return __('All consent types', 'complianz-gdp');
+                return __('All consent types', 'complianz-gdpr');
         }
 
     }

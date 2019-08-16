@@ -17,16 +17,17 @@
 
 /*
     //to hook into the event that fires when the scripts are enabled, use script like this:
-
-    document.addEventListener("cmplzEnableScripts", cmplzAddIframeDiv, false);
-    function cmplzAddIframeDiv(e) {
+    $(document).on("cmplzEnableScripts", myScriptHandler);
+    function myScriptHandler(consentLevel) {
         //your code here
-        console.log('run enable scripts event');
+        console.log('run enable scripts event ' +consentLevel);
     }
 
 * */
 
+
 jQuery(document).ready(function($) {
+
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
@@ -249,10 +250,10 @@ jQuery(document).ready(function($) {
         });
 
         //fire an event so custom scripts can hook into this.
-        if (!cmplzIsIE()) {
-            var event = new CustomEvent("cmplzEnableScripts");
-            document.dispatchEvent(event);
-        }
+        $.event.trigger({
+            type: "cmplzEnableScripts",
+            consentLevel: "all"
+        });
 
         ccAllEnabled = true;
     }
@@ -282,10 +283,10 @@ jQuery(document).ready(function($) {
         });
 
         //fire an event so custom scripts can hook into this.
-        if (!cmplzIsIE()) {
-            var event = new CustomEvent("cmplzEnableStats");
-            document.dispatchEvent(event);
-        }
+        $.event.trigger({
+            type: "cmplzEnableScripts",
+            consentLevel: "statistics"
+        });
     }
 
 
@@ -339,10 +340,15 @@ jQuery(document).ready(function($) {
 
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
-        //objects are merge so user_data will override data in complianz object
+        //objects are merged so user_data will override data in complianz object
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
         cmplzIntegrationsInit();
         cmplzCheckCookiePolicyID();
+
+        $.event.trigger({
+            type: "cmplzCookieBannerData",
+            data: complianz
+        });
 
         //if no status was saved before, we do it now
         if (cmplzGetCookie('cmplz_choice') !== 'set') {
@@ -939,30 +945,6 @@ jQuery(document).ready(function($) {
 
         //we run it after the deletion of cookies, as there are cookies to be set.
         cmplzIntegrationsRevoke();
-    }
-
-    /*
-    *
-    * Check if browser is IE <=11, which doesn't support the customEvent
-    * */
-
-    function cmplzIsIE() {
-
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE ");
-
-        if (msie > 0) {
-            // IE 10 or older => return version number
-            return true;
-        }
-
-        var trident = ua.indexOf('Trident/');
-        if (trident > 0) {
-            // IE 11 => return version number
-            return true;
-        }
-
-        return false;
     }
 
     function cmplzGetUrlParameter(sPageURL, sParam) {

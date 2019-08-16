@@ -20,7 +20,7 @@ if (!class_exists("cmplz_cookie")) {
 
             $scan_in_progress = isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'));
             if ($scan_in_progress) {
-                add_action('init', array($this, 'maybe_clear_cookies'), 10, 2);
+                //add_action('init', array($this, 'maybe_clear_cookies'), 10, 2);
                 add_action('wp_print_footer_scripts', array($this, 'test_cookies'), 10, 2);
             } else {
                 add_action('admin_init', array($this, 'track_cookie_changes'));
@@ -441,26 +441,39 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        public function maybe_clear_cookies()
-        {
-            if ($this->scan_complete()) return;
-            $id = sanitize_title($_GET['complianz_id']);
-            //the first run should clean up the cookies.
-            if ($id === 'clean') {
-                if (isset($_SERVER['HTTP_COOKIE'])) {
-                    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-                    foreach ($cookies as $cookie) {
-                        $parts = explode('=', $cookie);
-                        $name = trim($parts[0]);
-                        if (strpos($name, 'complianz') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
+//        public function maybe_clear_cookies()
+//        {
+//            if ($this->scan_complete()) return;
+//            $id = sanitize_title($_GET['complianz_id']);
+//            //the first run should clean up the cookies.
+//            if ($id === 'clean') {
+//                if (isset($_SERVER['HTTP_COOKIE'])) {
+//                    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+//                    foreach ($cookies as $cookie) {
+//                        $parts = explode('=', $cookie);
+//                        $name = trim($parts[0]);
+//                        if (strpos($name, 'complianz') === FALSE && strpos($name, 'wordpress') === FALSE && strpos($name, 'wp-') === FALSE) {
+//
+//                            setcookie($name, '', time() - 1000, '/', $this->get_domain(), true, true);
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
 
-                            setcookie($name, '', time() - 1000);
-                            setcookie($name, '', time() - 1000, '/');
-                        }
+        /**
+         *
+         * Get the domain from the current site url
+         * @return bool|string $domain
+         */
 
-                    }
-                }
-            }
+        public function get_domain(){
+            $url = site_url();
+            $parse = parse_url($url);
+            if (!isset($parse['host'])) return false;
+
+            return $parse['host'];
         }
 
 
@@ -550,8 +563,7 @@ if (!class_exists("cmplz_cookie")) {
                 $url = $this->get_next_page_url();
                 if (!$url) return;
                 //first, get the html of this page.
-                //but we can skip if it's the "clean" page.
-                if (strpos($url, 'complianz_id') !== FALSE || substr($url, strpos($url, 'complianz_id') + 13, 5) !== 'clean') {
+                if (strpos($url, 'complianz_id') !== FALSE) {
 
                     $response = wp_remote_get($url);
                     if (!is_wp_error($response)) {
@@ -639,7 +651,7 @@ if (!class_exists("cmplz_cookie")) {
 
             $id_to_process = reset($pages);
             $this->set_page_as_processed($id_to_process);
-            $url = (($id_to_process === 'home') || ($id_to_process === 'clean')) ? site_url() : get_permalink($id_to_process);
+            $url = ($id_to_process === 'home') ? site_url() : get_permalink($id_to_process);
             $url = add_query_arg(array("complianz_scan_token" => $token, 'complianz_id' => $id_to_process), $url);
             if (is_ssl()) $url = str_replace("http://", "https://", $url);
             return $url;
@@ -792,7 +804,7 @@ if (!class_exists("cmplz_cookie")) {
         {
             if (!current_user_can('manage_options')) return;
 
-            if ($id !== 'home' && $id !== 'clean' && !is_numeric($id)) {
+            if ($id !== 'home' && !is_numeric($id)) {
                 return;
             }
 
@@ -1601,6 +1613,8 @@ if (!class_exists("cmplz_cookie")) {
             $used_cookies = cmplz_get_value('used_cookies');
             if (empty($used_cookies) || !is_array($used_cookies)) return false;
             foreach ($used_cookies as $cookie) {
+                if ($cookie === 'google-analytics') continue;
+                if ($cookie === 'matomo') continue;
                 if (!isset($cookie['functional'])) continue;
                 if ($cookie['functional'] !== 'on') {
                     return true;

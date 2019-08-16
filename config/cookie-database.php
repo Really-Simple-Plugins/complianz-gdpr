@@ -19,6 +19,16 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("", 'complianz-gdpr'),
         'description' => __("Collection of internal metrics for user activity, used to improve user experience.", 'complianz-gdpr'),
     ),
+    'paypal' => array(
+        'functional' => false,
+        'used_names' => array('paypal'),
+        'unique_used_names' => array('x-pp-_partial', 'pypf'),
+        'privacy_policy_url' => 'https://www.paypal.com/nl/webapps/mpp/ua/privacy-full',
+        'label' => "PayPal",
+        'purpose' => __("Processing payments", 'complianz-gdpr'),
+        'storage_duration' => __("Session", 'complianz-gdpr'),
+        'description' => __("We use PayPal to process secure payments.", 'complianz-gdpr'),
+    ),
 
     'wordpress' => array(
         'functional' => true,
@@ -85,7 +95,7 @@ $this->known_cookie_keys = array(
     ),
 
     'google-analytics' => array(
-        'functional' => true,
+        'functional' => false,
         'used_names' => array('_ga', '_gid', '_gat', '_gaexp', '_utm', '__utmc', 'UTMD_', '__utmv', '__utmz', '_gat_gtag_UA_ID', 'gadwp_wg_default_view', 'gadwp_wg_default_swmetric', 'gadwp_wg_default_metric', 'gadwp_wg_default_dimension', 'gadwp_ir_default_dimension', 'gadwp_ir_default_swmetric', 'gadwp_ir_default_metric'),
         'unique_used_names' => array('partial_gat_UA', '_ga', '_gaexp', '_gid', '_gat', 'partial_utm', '__utmb', '__utmc', 'UTMD__', '__utmv', '__utmz', '_gat_gtag_UA_ID', 'gadwp_wg_default_view', 'gadwp_wg_default_swmetric', 'gadwp_wg_default_metric', 'gadwp_wg_default_dimension', 'gadwp_ir_default_dimension', 'gadwp_ir_default_swmetric', 'gadwp_ir_default_metric'),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
@@ -127,6 +137,7 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("", 'complianz-gdpr'),
         'description' => __("", 'complianz-gdpr'),
     ),
+
     'matomo' => array(
         'functional' => true,
         'used_names' => array('_pk_ref', '_pk_cvar', '_pk_id', '_pk_ses', '_pk_hsr', 'piwik_ignore', 'PIWIK_SESSID'),
@@ -855,9 +866,9 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array('tl_conversion', 'tl-conv-partial_'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "Thrive Leads",
-        'purpose' => __("This plugin assists website owners in getting more conversions via e-mail marketing.", 'complianz-gdpr'),
+        'purpose' => __("This plugin assists website owners in getting more conversions via email marketing.", 'complianz-gdpr'),
         'storage_duration' => __("365 days", 'complianz-gdpr'),
-        'description' => __("This plugin assists website owners in getting more conversions via e-mail marketing.", 'complianz-gdpr'),
+        'description' => __("This plugin assists website owners in getting more conversions via email marketing.", 'complianz-gdpr'),
     ),
 
     'Contact_Form_plugin' => array('functional' => true,
@@ -1382,9 +1393,9 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array('mb-col-preview'),
         'privacy_policy_url' => '[privacy_policy_url]',
         'label' => "Bloom",
-        'purpose' => __("This cookie is used by Bloom and shows different features to gain e-mail opt-ins on the website.", 'complianz-gdpr'),
+        'purpose' => __("This cookie is used by Bloom and shows different features to gain email opt-ins on the website.", 'complianz-gdpr'),
         'storage_duration' => __("365 days", 'complianz-gdpr'),
-        'description' => __("This cookie is used by Bloom and shows different features to gain e-mail opt-ins on the website.", 'complianz-gdpr'),
+        'description' => __("This cookie is used by Bloom and shows different features to gain email opt-ins on the website.", 'complianz-gdpr'),
     ),
 
     'One.com' => array('functional' => true,

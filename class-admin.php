@@ -622,7 +622,7 @@ if (!class_exists("cmplz_admin")) {
             ?>
             <div class="cmplz-footer-block">
                 <div class="cmplz-footer-title"><?php echo __('Really Simple SSL', 'complianz-gdpr'); ?></div>
-                <div class="cmplz-footer-description"><?php echo __('Trusted by over 2 million WordPress users', 'complianz-gdpr'); ?></div>
+                <div class="cmplz-footer-description"><?php echo __('Trusted by over 3 million WordPress users', 'complianz-gdpr'); ?></div>
                 <a href="https://really-simple-ssl.com" target="_blank">
                     <div class="cmplz-external-btn">
                         <i class="fa fa-angle-right"></i>

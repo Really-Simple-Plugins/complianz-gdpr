@@ -89,6 +89,11 @@ function cmplz_notice_no_cookies_used(){
 
 }
 
+add_action('cmplz_notice_uses_ad_cookies_personalized', 'cmplz_notice_personalized_ads_based_on_consent');
+function cmplz_notice_personalized_ads_based_on_consent(){
+    cmplz_notice(__("With Tag Manager, you can also configure your (personalized) advertising based on consent.", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/setting-up-consent-based-advertising/'));
+}
+
 add_action('cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional');
 add_action('cmplz_notice_UA_code', 'cmplz_notice_stats_non_functional');
 add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');

@@ -49,7 +49,7 @@ if (!class_exists("cmplz_document")) {
 
             //basic color style for revoke button
             $custom_css='';
-            $background_color = cmplz_get_value('brand_color');
+            $background_color = sanitize_hex_color(cmplz_get_value('brand_color'));
             if (!empty($background_color) ){
                 $light_background_color = $this->color_luminance($background_color, -0.2);
                 $custom_css = "#cmplz-document button.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
@@ -288,7 +288,6 @@ if (!class_exists("cmplz_document")) {
                     $result .= $email[$i];
                 }
             }
-
             return $result;
         }
 
@@ -851,6 +850,7 @@ if (!class_exists("cmplz_document")) {
          */
 
         public function get_page_url($type, $region){
+            if (!cmplz_has_region($region)) return '';
 
             $region = ($region == 'eu' || !$region) ? '' : '-' . $region;
 
@@ -868,6 +868,9 @@ if (!class_exists("cmplz_document")) {
                 }
                 update_option('cmplz_document_id_'.$type.$region, $policy_page_id);
             }
+
+            //get correct translated id
+            $policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', TRUE , substr(get_locale(),0,2) );
 
             return get_permalink($policy_page_id);
         }

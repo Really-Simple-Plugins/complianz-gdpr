@@ -31,6 +31,7 @@ $this->thirdparty_service_markers = array(
     "hotjar" => array('static.hotjar.com'),
     "spotify" => array('open.spotify.com/embed'),
     "google-fonts" => array('fonts.googleapis.com'),
+    "paypal" => array('www.paypal.com/tagmanager/pptm.js', 'www.paypalobjects.com/api/checkout.js'),
 );
 
 /*
@@ -81,6 +82,8 @@ $this->script_tags = array(
     'videopress.com/videopress-iframe.js',
     'plugins/instagram-feed/js/sb-instagram.min.js',
     'www.instagram.com/embed.js',
+    'www.paypal.com/tagmanager/pptm.js',
+    'www.paypalobjects.com/api/checkout.js',
 );
 
 /*
