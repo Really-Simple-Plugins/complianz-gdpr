@@ -1,7 +1,7 @@
 === Complianz | GDPR Cookie Consent ===
 Contributors: RogierLankhorst, Complianz
 Donate link: https://paypal.me/complianz
-Tags: GDPR, Cookie, Cookie Notice, Consent, Compliance
+Tags: GDPR, Cookie, Cookie Notice, Consent, CCPA
 Requires at least: 4.6
 License: GPL2
 Requires PHP: 5.6
