@@ -25,7 +25,6 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
         public function add_consent_checkbox($form_id)
         {
-
             $form_id = str_replace('cf7_', '', $form_id);
 
             $warning = 'acceptance_as_validation: on';
@@ -37,6 +36,8 @@ defined('ABSPATH') or die("you do not have acces to this page!");
             if (!$contact_form) return;
 
             $properties = $contact_form->get_properties();
+            $title = $contact_form->title();
+            $locale = $contact_form->locale();
 
             //check if it's already there
             if (strpos($properties['form'], '[acceptance') === false) {
@@ -50,7 +51,12 @@ defined('ABSPATH') or die("you do not have acces to this page!");
             //replace [submit
             $args = array(
                 'id' => $form_id,
+                'title' => $title,
+                'locale' => $locale,
                 'form' => $properties['form'],
+                'mail' => $properties['mail'],
+                'mail_2' => $properties['mail_2'],
+                'messages' => $properties['messages'],
                 'additional_settings' => $properties['additional_settings'],
             );
             wpcf7_save_contact_form($args);

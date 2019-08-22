@@ -165,7 +165,8 @@ $this->fields = $this->fields + array(
             'source' => 'wizard',
             'type' => 'email',
             'default' => '',
-            'label' => __("What is the e-mail address your visitors can use to contact you about privacy issues?", 'complianz-gdpr'),
+            'help' => __("The email address will be obfuscated on the front-end to prevent spidering.", 'complianz-gdpr'),
+            'label' => __("What is the email address your visitors can use to contact you about privacy issues?", 'complianz-gdpr'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
@@ -384,8 +385,12 @@ $this->fields = $this->fields + array(
             'label' => __("Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             'help' => __("If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.", 'complianz-gdpr'),
-            'condition' => array('uses_ad_cookies' => 'yes'),
+            'condition' => array(
+                'uses_ad_cookies' => 'yes'
+            ),
         ),
+
+
 
         'uses_social_media' => array(
             'step' => STEP_COOKIES,
@@ -449,6 +454,7 @@ $this->fields = $this->fields + array(
                 "videopress" => __('Videopress', 'complianz-gdpr'),
                 "dailymotion" => __('Dailymotion', 'complianz-gdpr'),
                 "soundcloud" => __('Soundcloud', 'complianz-gdpr'),
+                "paypal" => __('PayPal', 'complianz-gdpr'),
             ),
             'default' => '',
             'condition' => array('uses_thirdparty_services' => 'yes'),
