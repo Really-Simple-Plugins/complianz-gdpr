@@ -23,6 +23,9 @@ if (!class_exists("cmplz_integrations")) {
 
             //add_action( 'wp_print_styles', array($this, 'remove_jetpack_responsive_video'), 100 );
 
+
+            add_filter('wpgmza_gdpr_notice_html', array($this, 'wp_google_maps_replace_gdpr_notice'));
+
             $this->integrate();
 
         }
@@ -32,11 +35,6 @@ if (!class_exists("cmplz_integrations")) {
             return self::$_this;
         }
 
-//        public function remove_jetpack_responsive_video() {
-//            if (defined('JETPACK__VERSION')) {
-//                wp_dequeue_style('twentysixteen-jetpack');
-//            }
-//        }
 
         public function maybe_remove_scripts_others(){
             /*
@@ -46,24 +44,38 @@ if (!class_exists("cmplz_integrations")) {
                 remove_action('wp_head', 'monsterinsights_tracking_script', 6);
                 remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie, 'get_statistics_script'),10);
             }
-
-            /*
-             *
-             * JetPack breaks the video rendering from Complianz.
-             *
-             * */
-
-//            if (defined('JETPACK__VERSION')) {
-//                remove_action('after_setup_theme', 'jetpack_responsive_videos_init', 99);
-//            }
         }
 
+
+        /**
+         * replace the wp google maps gdpr notice with our own, nice looking one.
+         * @param $html
+         * @return string
+         */
+
+        public function wp_google_maps_replace_gdpr_notice($html){
+            $img = cmplz_default_placeholder('googlemaps');
+            $msg = '<div style="text-align:center;margin-bottom:15px">'.__('To enable Google Maps cookies, please click "I Agree"',"complianz-gdpr").'</div>';
+            return apply_filters('cmplz_wp_google_maps_html', '<img src="'.$img.'" style="margin-bottom:15px">'.$msg);
+        }
+
+        public function wp_google_maps(){
+            if (defined("WPGMZA_VERSION")) return true;
+
+            return false;
+        }
+
+        public function wp_donottrack(){
+            if (function_exists('wp_donottrack_config')){
+                return true;
+            }
+            return false;
+        }
 
         /*
          * Check if Google Analytics by monsterinsights is active
          *
          * */
-
 
         public function monsterinsights(){
 
@@ -73,9 +85,22 @@ if (!class_exists("cmplz_integrations")) {
             return false;
         }
 
-
-
         public function integrate(){
+
+            if ($this->wp_google_maps() ){
+                if (is_admin() && current_user_can('manage_options')) {
+                    $settings = json_decode(get_option('wpgmza_global_settings'));
+
+                    $settings->wpgmza_gdpr_require_consent_before_load = 'on';
+                    update_option('wpgmza_global_settings', json_encode($settings));
+                }
+
+                add_filter('cmplz_set_cookies_on_consent', array($this, 'wp_google_maps_add_cookie'));
+            }
+
+            if ($this->wp_donottrack()) {
+                add_filter('cmplz_set_cookies_on_consent', array($this,  'wp_donottrack_add_cookie'));
+            }
 
             if ($this->monsterinsights())
             {
@@ -84,6 +109,24 @@ if (!class_exists("cmplz_integrations")) {
             }
 
         }
+
+
+
+        public function wp_donottrack_add_cookie($cookies){
+
+            $cookies['dont_track_me'] = array( '0','1');
+
+            return $cookies;
+        }
+
+        public function wp_google_maps_add_cookie($cookies){
+
+            $cookies['wpgmza-api-consent-given'] = array( '1','');
+
+            return $cookies;
+
+        }
+
 
 
         /*

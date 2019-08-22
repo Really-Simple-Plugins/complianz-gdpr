@@ -169,7 +169,7 @@ $this->document_elements['cookie-statement'] = array(
 
     'enable-disable-removal-cookies' => array(
         'title' => _x('Enabling/disabling and deleting cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser. Or you can indicate your preferences on the following page:  www.youronlinechoices.eu.',  'Legal document cookie policy','complianz-gdpr'),
+        'content' => _x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',  'Legal document cookie policy','complianz-gdpr'),
     ),
 
     'enable-disable-removal-cookies-2' => array(
