@@ -21,7 +21,7 @@ $this->social_media_markers = array(
  * */
 
 $this->thirdparty_service_markers = array(
-    "googlemaps" => array('new google.maps.', 'google.com/maps', 'maps.google.com'),
+    "googlemaps" => array('new google.maps.', 'google.com/maps', 'maps.google.com', 'wp-google-maps'),
     "soundcloud" => array('w.soundcloud.com/player'),
     "vimeo" => array('player.vimeo.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
@@ -63,6 +63,12 @@ $this->script_tags = array(
     'google-analytics.com/ga.js',
     'new google.maps.',
     //'maps.googleapis.com',
+    'gmw.map.min.js',
+    'new GMW_Map',
+    'wpgmaps.js',
+    'gmw.js',
+    //'wp-google-maps.min.js',
+//    'wpgmza_rectangle_data_array',
     'static.hotjar.com',
     'dataset.sumoSiteId',
     '_getTracker',
@@ -129,6 +135,6 @@ $this->iframe_tags = array(
  * */
 
 $this->image_tags = array(
-    'cdninstagram.com',
+    'maps.googleapis.com/maps/api/staticmap',
 );
 

@@ -668,6 +668,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $output = array();
             $output['static'] = false;
+            $output['set_cookies'] = apply_filters('cmplz_set_cookies_on_consent',array());//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
             $output['banner_version'] = $this->banner_version;
             $output['version'] = cmplz_version;
             $output['a_b_testing'] = cmplz_ab_testing_enabled();

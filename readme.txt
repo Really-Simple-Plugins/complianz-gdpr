@@ -91,15 +91,21 @@ With some custom css this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 3.0.10 =
-* Fix: on saving of settings, when Contact Form 7 is integrated using consent box, mail settings are reset
 * Fix: Avia front end pagebuilder getting blocked by cookie blocker
 * Fix: Lawfull => lawful
 * Improvement: added custom jquery event to hook into cookie consent events
 * Fix: set Google Analytics as not functional
+* Fix: duplicate advertising cookies settings in US cookie policy
 * Improvement: added PayPal cookies
 * Improvement: added cc-revoke example
 * Improvement: added helptext to explain email addresses are ofuscated
 * Improvement: sanitizing of hex color in custom css
+* Improvement: WP Google Maps integration
+* Improvement: moved do not track me integration to filterable array
+* Improvement: prevent policies from being generated when not activated in settings
+* Improvement: pixelyoursite plugin support
+* Improvement: notifications when cookie blocker is enabled, to make sure users understand the implications
+* Improvement: dropped youronlinechoices as suggested service
 
 = 3.0.8 =
 * Improvement: add option to configure your own cookie policy URL

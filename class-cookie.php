@@ -253,7 +253,6 @@ if (!class_exists("cmplz_cookie")) {
             wp_enqueue_style('cmplz-cookie');
 
             $cookiesettings = $this->get_cookiebanner_settings(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
-
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {

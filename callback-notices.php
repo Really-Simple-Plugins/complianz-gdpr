@@ -49,18 +49,35 @@ function cmplz_purpose_personaldata_notice(){
 
 add_action('cmplz_notice_thirdparty_services_on_site', 'cmplz_google_fonts_recommendation');
 function cmplz_google_fonts_recommendation(){
-    $google_fonts = false;
-    $thirdparty = cmplz_scan_detected_thirdparty_services();
 
-    if ($thirdparty) {
-        foreach ($thirdparty as $key) {
-            if ($key==='google-fonts') $google_fonts = true;
+    if (!cmplz_has_region('eu')) return;
+
+    $thirdparties = cmplz_get_value('thirdparty_services_on_site');
+    if ($thirdparties) {
+        foreach ($thirdparties as $thirdparty=>$key) {
+            if ($key!=1) continue;
+            if ($thirdparty==='google-fonts') {
+                cmplz_notice(sprintf(__("Your site uses Google Fonts. For the GDPR, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">','</a>'));
+
+            }
+            if ($thirdparty==='google-recaptcha' && cmplz_get_value('disable_cookie_block')!=1) {
+                cmplz_notice(sprintf(__("Your site uses Google Recaptcha. To be compliant with the GDPR, recaptcha will be blocked until cookies are accepted. Please read %sthis article%s for more information", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/google-recaptcha-and-the-gdpr-a-possible-conflict/">','</a>'),'warning');
+            }
         }
     }
 
-    if ($google_fonts){
-        cmplz_notice(sprintf(__("Your site uses Google Fonts. For the GDPR, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">','</a>'));
-    }
+}
+
+add_action('cmplz_notice_used_cookies', 'cmplz_used_cookies_notice');
+function cmplz_used_cookies_notice(){
+
+    if (cmplz_uses_only_functional_cookies()) return;
+
+    //not relevant if cookie blocker is disabled
+    if (cmplz_get_value('disable_cookie_block')==1) return;
+
+    cmplz_notice(sprintf(__("Because your site uses third party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, please try disabling the cookie blocker in the %ssettings%s", 'complianz-gdpr'), '<a href="'.admin_url('admin.php?page=cmplz-settings').'">','</a>'),'warning');
+
 }
 
 add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');

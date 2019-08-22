@@ -941,6 +941,7 @@ if (!function_exists('cmplz_placeholder')) {
             if (strpos($src, 'facebook') !== FALSE) $type = 'facebook';
             if (strpos($src, 'vimeo') !== FALSE) $type = 'vimeo';
             if (strpos($src, 'dailymotion') !== FALSE) $type = 'dailymotion';
+            if (strpos($src, 'maps.googleapis') !== FALSE) $type = 'googlemaps';
         }
 
         if (!$type) {
@@ -951,6 +952,17 @@ if (!function_exists('cmplz_placeholder')) {
         }
 
         switch ($type) {
+            case 'googlemaps':
+                $key_pattern = '/key=(.*?)&/i';
+                if (preg_match($key_pattern, $src, $matches)) {
+                    $id = $matches[1];
+                    $new_src = get_transient('cmplz_googlemaps_image_'.sanitize_title($id));
+                    if (!$new_src || !file_exists($new_src)){
+                        $new_src = cmplz_download_to_site(html_entity_decode($src), sanitize_title($id), false);
+                        set_transient('cmplz_googlemaps_image_'.sanitize_title($id), $new_src, MONTH_IN_SECONDS);
+                    }
+                }
+                break;
             case 'youtube':
                 $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)([^#\&\?]*).*/i';
                 if (preg_match($youtube_pattern, $src, $matches)) {
@@ -1006,7 +1018,6 @@ if (!function_exists('cmplz_placeholder')) {
                     }
                 }
                 break;
-            case 'googlemaps':
             case 'facebook':
             case 'twitter':
             case 'iframe':
@@ -1041,11 +1052,16 @@ if (!function_exists('cmplz_download_to_site')){
      * Download a placeholder from youtube or video to this website
      * @param string $src
      * @param bool|string $id
+     * @param bool $use_filename //some filenames are too long to use.
      * @return string url
+     *
      *
      * @since 2.1.5
      */
-    function cmplz_download_to_site($src, $id=false){
+    function cmplz_download_to_site($src, $id=false, $use_filename=true){
+        if (strpos($src, "https://")===FALSE && strpos($src, "http://")===FALSE){
+            $src = str_replace('//', 'https://', $src);
+        }
         if (!$id) $id = time();
 
         require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -1065,10 +1081,11 @@ if (!function_exists('cmplz_download_to_site')){
         }
 
         //set the path
-        $file = $upload_dir . "/complianz/placeholders/".$id."-".basename($src);
+        $filename = $use_filename ? "-".basename($src) : '.jpg';
+        $file = $upload_dir . "/complianz/placeholders/".$id.$filename;
 
         //set the url
-        $new_src = $uploads['baseurl'] . "/complianz/placeholders/".$id."-".basename($src);
+        $new_src = $uploads['baseurl'] . "/complianz/placeholders/".$id.$filename;
 
         //download file
         $tmpfile = download_url($src, $timeout = 25);
@@ -1105,9 +1122,9 @@ if (!function_exists('cmplz_default_placeholder')){
         $img = "placeholder.jpg";
 
         //check if this type exists as placeholder
-//        if (!empty($type) && file_exists(cmplz_path . "core/assets/images/placeholder-$type.jpg")){
-//            $img = "placeholder-$type.jpg";
-//        }
+        if (!empty($type) && file_exists(cmplz_path . "core/assets/images/placeholder-$type.jpg")){
+            $img = "placeholder-$type.jpg";
+        }
 
         $img_url = cmplz_url . 'core/assets/images/' . $img;
 

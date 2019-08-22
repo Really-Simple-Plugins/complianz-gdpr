@@ -864,7 +864,9 @@ if (!class_exists("cmplz_document")) {
                 $policy_page_id = $this->get_shortcode_page_id($type.$region);
 
                 if (!$policy_page_id) {
-                    $policy_page_id = $this->create_page($type.$region);
+                    if (COMPLIANZ()->document->page_required($type.$region)) {
+                        $policy_page_id = $this->create_page($type.$region);
+                    }
                 }
                 update_option('cmplz_document_id_'.$type.$region, $policy_page_id);
             }

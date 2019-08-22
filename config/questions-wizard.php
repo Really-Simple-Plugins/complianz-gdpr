@@ -417,7 +417,6 @@ $this->fields = $this->fields + array(
                 'linkedin' => __('Linkedin', 'complianz-gdpr'),
                 'whatsapp' => __('Whatsapp', 'complianz-gdpr'),
                 'instagram' => __('Instagram', 'complianz-gdpr'),
-                'other' => __('Other', 'complianz-gdpr'),
             ),
             'condition' => array('uses_social_media' => 'yes'),
             'default' => '',

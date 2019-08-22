@@ -76,11 +76,11 @@ jQuery(document).ready(function($) {
             var placeholderText = $(this).data('placeholder-text');
 
             //insert placeholder text
-            blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">'+placeholderText+'</div>');
+            if (typeof placeholderText !== 'undefined' )blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">'+placeholderText+'</div>');
 
             //handle image size for video
             var src = $(this).data('placeholder-image');
-            if (src.length) {
+            if (typeof src !== 'undefined' && src.length) {
                 src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
                 $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {background-image: url(' + src + ');}</style>');
                 setBlockedContentContainerAspectRatio();
@@ -187,6 +187,7 @@ jQuery(document).ready(function($) {
 
             //activate the video.
             var src = $(this).data('src-cmplz');
+            console.log(src);
             //check if there's an autoplay value we need to pass on
             var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
             if (autoplay==='1') src = src+'&autoplay=1';
@@ -895,7 +896,6 @@ jQuery(document).ready(function($) {
 
     function cmplzSetAcceptedCookiePolicyID() {
         cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
-
     }
 
     /**
@@ -912,18 +912,28 @@ jQuery(document).ready(function($) {
      *
      * */
     function cmplzIntegrationsRevoke(){
-        //compatiblity with https://wordpress.org/plugins/wp-donottrack/
-        cmplzSetCookie('dont_track_me', '1', complianz.cookie_expiry);
+        var cookiesToSet = complianz.set_cookies;
+        //check if we have waiting scripts
+        for (var key in cookiesToSet) {
+            if (cookiesToSet.hasOwnProperty(key)) {
+                cmplzSetCookie(key, cookiesToSet[key][1], 0);
+            }
+        }
     }
 
-    /*
+    /**
     * For supported integrations, revoke consent
     *
     * */
 
     function cmplzIntegrationsConsent(){
-        //compatiblity with https://wordpress.org/plugins/wp-donottrack/
-        cmplzSetCookie('dont_track_me', '0', complianz.cookie_expiry);
+        var cookiesToSet = complianz.set_cookies;
+        //check if we have waiting scripts
+        for (var key in cookiesToSet) {
+            if (cookiesToSet.hasOwnProperty(key)) {
+                cmplzSetCookie(key, cookiesToSet[key][0], complianz.cookie_expiry);
+            }
+        }
 
     }
 

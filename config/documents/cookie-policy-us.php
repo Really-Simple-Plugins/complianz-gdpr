@@ -88,7 +88,7 @@ $this->document_elements['cookie-statement-us'] = array(
         'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
-            'uses_ad_cookies_personalized' => 'yes'
+            'uses_ad_cookies_personalized' => 'no'
         ),
     ),
 

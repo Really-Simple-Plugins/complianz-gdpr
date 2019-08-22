@@ -148,6 +148,37 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 //                }
 //            }
 
+
+            /*
+             * Handle images from third party services, e.g. google maps
+             *
+             *
+             * */
+
+            $image_tags = COMPLIANZ()->config->image_tags;
+            $image_tags = apply_filters('cmplz_image_tags', $image_tags);
+            $image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/i';
+            if (preg_match_all($image_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
+                foreach($matches[1] as $key => $image_url){
+                    $total_match = $matches[0][$key];
+                    if ($this->strpos_arr($image_url, $image_tags) !== false) {
+                        $placeholder = cmplz_placeholder(false, $image_url);
+
+                        $new = $total_match;
+                        $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$image_url.'" ', $new);
+                        $new = $this->add_class($new, 'img', 'cmplz-iframe cmplz-iframe-styles '.apply_filters('cmplz_video_class', 'cmplz-no-video'));
+
+                        $new = $this->replace_src($new, apply_filters('cmplz_source_placeholder',$placeholder));
+
+                        if (!cmplz_get_value('dont_use_placeholders')) {
+                            $new = $this->add_data($new, 'img', 'placeholder-text', apply_filters('cmplz_accept_cookies_blocked_content', cmplz_get_value('blocked_content_text')));
+                        }
+                        $output = str_replace($total_match, $new, $output);
+                    }
+                }
+            }
+
+
             /*
              * Handle styles (e.g. google fonts)
              * fonts.google.com has currently been removed in favor of plugin recommendation
