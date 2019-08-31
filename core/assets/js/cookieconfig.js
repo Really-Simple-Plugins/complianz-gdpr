@@ -509,6 +509,9 @@ jQuery(document).ready(function($) {
             ccName = popup;
             //this code always runs
 
+            //wrap the window, so we can add additional css
+            $( ".cc-window" ).wrap( "<div class='cmplz-window-wrap'></div>" );
+
             /*
             * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *

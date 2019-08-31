@@ -125,8 +125,9 @@ if (!class_exists("cmplz_admin")) {
         public function check_upgrade()
         {
             //when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
-            $prev_version = substr(get_option('cmplz-current-version', false),0, 5);
-
+            $prev_version = get_option('cmplz-current-version', false);
+//            if (defined("SCRIPT_DEBUG") && SCRIPT_DEBUG) $prev_version = substr($prev_version,0, 5);
+//
             //as of 1.1.10, publish date is stored in variable.
             if ($prev_version && version_compare($prev_version, '1.2.0', '<')) {
                 $date = get_option('cmplz_publish_date');

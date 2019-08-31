@@ -2,11 +2,11 @@
 Contributors: RogierLankhorst, Complianz
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, Consent, CCPA
-Requires at least: 4.6
+Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.0.10
+Stable tag: 3.0.11
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -27,7 +27,7 @@ IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirem
 * Blocks iFrames, like YouTube/Vimeo embedded video’s and Social iFrames, with placeholders!
 * Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
 * We closely follow the latest developments in the ePrivacy legislation and other legislations.
-* Integrates seamlessly with Gutenberg, Elementor, Cornerstone, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Cornerstone, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 * Gutenberg Blocks enabled.
@@ -90,6 +90,9 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom css this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported.
 
 == Change log ==
+= 3.0.11 =
+* Fix: version stripping second digit for upgrade check
+
 = 3.0.10 =
 * Fix: Avia front-end pagebuilder getting blocked by cookie blocker
 * Fix: Lawfull => lawful
