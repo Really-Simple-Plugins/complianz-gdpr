@@ -39,7 +39,8 @@
 
     setCookie: function(name, value, expiryDays, domain, path) {
       var exdate = new Date();
-      exdate.setDate(exdate.getDate() + (expiryDays || 365));
+      exdate.setTime(exdate.getTime() + ((expiryDays || 365) * 24 * 60 * 60 * 1000));
+      // exdate.setDate(exdate.getDate() + (expiryDays || 365));
 
       var cookie = [
         name + '=' + value,
