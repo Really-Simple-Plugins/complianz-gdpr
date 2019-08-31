@@ -414,6 +414,10 @@ jQuery(document).ready(function($) {
             onInitialise: function (status) {
                 //runs only when dismissed or accepted
                 ccStatus = status;
+
+                //remove the banner wrap class to dismiss cookie wall styling
+                $('.cmplz-banner-wrap').removeClass('cmplz-banner-wrap');
+
                 /*
                 * This runs when the banner is dismissed or accepted.
                 * When status = allow, it's accepted, and we want to run all scripts.
@@ -424,6 +428,9 @@ jQuery(document).ready(function($) {
                 }
             },
             onStatusChange: function (status, chosenBefore) {
+                //remove the banner wrap class to dismiss cookie wall styling
+                $('.cmplz-banner-wrap').removeClass('cmplz-banner-wrap');
+
                 //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
                 if ((complianz.dismiss_on_scroll || complianz.dismiss_on_timeout) && (status==='dismiss' || status==='allow')) {
