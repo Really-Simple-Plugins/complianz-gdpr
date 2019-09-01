@@ -18,16 +18,18 @@
 /*
     //to hook into the event that fires when the scripts are enabled, use script like this:
     $(document).on("cmplzEnableScripts", myScriptHandler);
-    function myScriptHandler(consentLevel) {
+    function myScriptHandler(consentData) {
         //your code here
-        console.log('run enable scripts event ' +consentLevel);
+        console.log(consentData.consentLevel);
+        if (consentData.consentLevel==='all'){
+            //do something with level all
+        }
     }
 
 * */
 
 
 jQuery(document).ready(function($) {
-
     var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
@@ -412,11 +414,9 @@ jQuery(document).ready(function($) {
                 expiryDays: complianz.cookie_expiry
             },
             onInitialise: function (status) {
+
                 //runs only when dismissed or accepted
                 ccStatus = status;
-
-                //remove the banner wrap class to dismiss cookie wall styling
-                $('.cmplz-banner-wrap').removeClass('cmplz-banner-wrap');
 
                 /*
                 * This runs when the banner is dismissed or accepted.
@@ -426,10 +426,11 @@ jQuery(document).ready(function($) {
                 if (status === 'allow') {
                     cmplzAcceptAllCookies();
                 }
+
             },
             onStatusChange: function (status, chosenBefore) {
                 //remove the banner wrap class to dismiss cookie wall styling
-                $('.cmplz-banner-wrap').removeClass('cmplz-banner-wrap');
+                $('.cmplz-soft-cookiewall').removeClass('cmplz-soft-cookiewall');
 
                 //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
@@ -514,11 +515,13 @@ jQuery(document).ready(function($) {
             }
         }, function (popup) {
             ccName = popup;
+
             //this code always runs
 
-            //wrap the window, so we can add additional css
-            $( ".cc-window" ).wrap( "<div class='cmplz-banner-wrap'></div>" );
-
+            //soft cookie wall
+            if (ccStatus!=='allow' && ccStatus!=='dismiss'){
+                if (complianz.soft_cookiewall) $( ".cc-window" ).wrap("<div class='cmplz-soft-cookiewall'></div>" );
+            }
             /*
             * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *
@@ -980,5 +983,8 @@ jQuery(document).ready(function($) {
             }
         }
     };
+
+
+
 
 });

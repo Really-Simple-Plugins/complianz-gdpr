@@ -56,6 +56,16 @@ $this->fields = $this->fields + array(
             'table' => true,
         ),
 
+        'soft_cookiewall' => array(
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'general',
+            'type' => 'checkbox',
+            'default' => false,
+            'label' => __("Show as soft cookie wall", 'complianz-gdpr'),
+            'table' => true,
+            'help' => __('You can grey out the rest of the website, which makes it look like a cookie all, but it is dismissable: a soft cookie wall. This is not visible in preview, as it would prevent editing the options.', 'complianz-gdpr'),
+        ),
+
         'revoke' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',

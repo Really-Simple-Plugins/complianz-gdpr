@@ -165,7 +165,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $placeholder = cmplz_placeholder(false, $image_url);
 
                         $new = $total_match;
-                        $new = str_replace('<iframe ', '<iframe data-src-cmplz="'.$image_url.'" ', $new);
+                        //$new = str_replace('<img ', '<img data-src-cmplz="'.$image_url.'" ', $new);
                         $new = $this->add_class($new, 'img', 'cmplz-iframe cmplz-iframe-styles '.apply_filters('cmplz_video_class', 'cmplz-no-video'));
 
                         $new = $this->replace_src($new, apply_filters('cmplz_source_placeholder',$placeholder));

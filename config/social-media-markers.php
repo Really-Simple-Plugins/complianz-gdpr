@@ -9,7 +9,7 @@
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
     "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "platform.twitter.com", 'twitter-widgets.js'),
-    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins','pixel-caffeine'),
     "pinterest" => array('super-socializer','assets.pinterest.com'),
     "disqus" => array('disqus.com'),
     "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
@@ -50,6 +50,7 @@ $this->placeholder_markers = array(
 $this->script_tags = array(
     'super-socializer', //super socializer
     'theChampFBKey',   //super socializer
+    'pixel-caffeine/build/frontend.js', //pixel caffeine
     'google.com/recaptcha',
     'grecaptcha',
     'recaptcha.js',
@@ -64,11 +65,13 @@ $this->script_tags = array(
     'new google.maps.',
     //'maps.googleapis.com',
     'gmw.map.min.js',
-    'new GMW_Map',
-    'wpgmaps.js',
     'gmw.js',
-    //'wp-google-maps.min.js',
-//    'wpgmza_rectangle_data_array',
+    'new GMW_Map',
+//WP Google Maps, should not be blocked as we use it's integrated GDPR feature
+//    'wpgmaps.js',
+//    'wpgmza_rectangle_data_array'
+//    'wp-google-maps.min.js',
+
     'static.hotjar.com',
     'dataset.sumoSiteId',
     '_getTracker',

@@ -124,6 +124,10 @@ jQuery(document).ready(function ($) {
         cmplz_cookie_warning();
     });
 
+    $(document).on('change', 'input[name=cmplz_soft_cookiewall]', function () {
+        cmplz_cookie_warning();
+    });
+
     $(document).on('change', 'input[name=cmplz_use_tagmanager_categories]', function () {
         cmplz_cookie_warning();
     });
@@ -145,6 +149,7 @@ jQuery(document).ready(function ($) {
         }
         var ccCategories = $('input[name=cmplz_use_categories]').is(':checked');
         var ccHideRevoke = $('input[name=cmplz_hide_revoke]').is(':checked');
+
         if (ccHideRevoke) {
             ccHideRevoke = 'cc-hidden';
         } else {
@@ -179,7 +184,6 @@ jQuery(document).ready(function ($) {
         var ccCheckboxes='';
         var ccCategoryFunctional = '';
         var ccCategoryAll = '';
-        console.log(ccPosition);
         if (ccPosition==='bottom-left'){
             $('.cmplz-cookiebanner-save-button').css({"textAlign": "right"});
         } else {
@@ -284,6 +288,11 @@ jQuery(document).ready(function ($) {
             }
         }, function (popup) {
             ccName = popup;
+            var ccSoftCookieWall = $('input[name=cmplz_soft_cookiewall]').is(':checked');
+            if (ccSoftCookieWall){
+                //disabled, because it prevents editing options
+                //$(".cc-window").wrap("<div class='cmplz-soft-cookiewall preview'></div>" );
+            }
             ccName.open();
             if ($('#cmplz_functional').length) {
                 if (ccStatus === 'allow') $('#cmplz_all').prop('checked', true);
