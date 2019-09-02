@@ -36,6 +36,7 @@ function cmplz_install_cookiebanner_table()
             `use_categories` int(11) NOT NULL,
             `tagmanager_categories` text NOT NULL,
             `hide_revoke` int(11) NOT NULL,
+            `soft_cookiewall` int(11) NOT NULL,
             `dismiss_on_scroll` int(11) NOT NULL,
             `dismiss_on_timeout` int(11) NOT NULL,
             `dismiss_timeout` varchar(255) NOT NULL,
@@ -98,6 +99,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
         public $use_categories;
         public $hide_revoke;
+        public $soft_cookiewall;
         public $dismiss_on_scroll;
         public $dismiss_on_timeout;
         public $dismiss_timeout;
@@ -211,6 +213,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->use_categories = !empty($cookiebanner->use_categories ) ? $cookiebanner->use_categories : $this->get_default('use_categories');
                 $this->tagmanager_categories = !empty($cookiebanner->tagmanager_categories ) ? $cookiebanner->tagmanager_categories : $this->get_default('tagmanager_categories');
                 $this->hide_revoke = !empty($cookiebanner->hide_revoke ) ? $cookiebanner->hide_revoke : $this->get_default('hide_revoke');
+                $this->soft_cookiewall = !empty($cookiebanner->soft_cookiewall ) ? $cookiebanner->soft_cookiewall : $this->get_default('soft_cookiewall');
                 $this->dismiss_on_scroll = !empty($cookiebanner->dismiss_on_scroll ) ? $cookiebanner->dismiss_on_scroll : $this->get_default('dismiss_on_scroll');
                 $this->dismiss_on_timeout = !empty($cookiebanner->dismiss_on_timeout ) ? $cookiebanner->dismiss_on_timeout : $this->get_default('dismiss_on_timeout');
                 $this->dismiss_timeout = !empty($cookiebanner->dismiss_timeout ) ? $cookiebanner->dismiss_timeout : $this->get_default('dismiss_timeout');
@@ -354,6 +357,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'use_categories' => sanitize_text_field($this->use_categories),
                 'tagmanager_categories' => sanitize_text_field($this->tagmanager_categories),
                 'hide_revoke' => sanitize_title($this->hide_revoke),
+                'soft_cookiewall' => sanitize_title($this->soft_cookiewall),
                 'dismiss_on_scroll' => boolval($this->dismiss_on_scroll),
                 'dismiss_on_timeout' => boolval($this->dismiss_on_timeout),
                 'dismiss_timeout' => intval($this->dismiss_timeout),
@@ -714,6 +718,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             }
 
             $output['hide_revoke'] = $this->hide_revoke ? 'cc-hidden' : '';
+            $output['soft_cookiewall'] = $this->soft_cookiewall;
             $output['type'] = 'opt-in';
             $output['layout'] = 'basic';
 
