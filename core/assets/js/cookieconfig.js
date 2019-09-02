@@ -37,8 +37,10 @@ jQuery(document).ready(function($) {
     var ccPrivacyLink = '';
     var waitingInlineScripts = [];
     var waitingScripts = [];
+    var executedScripts = [];
     var placeholderClassIndex = 0;
     var curClass = '';
+
 
     /**
      * prevent scroll to top behaviour because of missing href tag
@@ -64,18 +66,25 @@ jQuery(document).ready(function($) {
     *
     * */
 
-
     setBlockedContentContainer();
     function setBlockedContentContainer() {
 
-        $('.cmplz-iframe').each(function() {
-            //we set the first parent div as container with placeholder image
-            var blockedContentContainer = $(this).parent();
+        $('.cmplz-placeholder-element').each(function() {
+            //we set this element as container with placeholder image
+            if ($(this).hasClass('cmplz-iframe')){
+                var blockedContentContainer = $(this).parent();
+            } else {
+                var blockedContentContainer = $(this);
+            }
+
+            //if the blocked content container class is already added, exit
+            if (blockedContentContainer.hasClass('cmplz-blocked-content-container')) return;
+
             placeholderClassIndex++;
             blockedContentContainer.addClass('cmplz-placeholder-' + placeholderClassIndex);
             blockedContentContainer.addClass('cmplz-blocked-content-container');
             blockedContentContainer.data('placeholderClassIndex', placeholderClassIndex);
-            var placeholderText = $(this).data('placeholder-text');
+            var placeholderText = complianz.placeholdertext;
 
             //insert placeholder text
             if (typeof placeholderText !== 'undefined' )blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">'+placeholderText+'</div>');
@@ -84,8 +93,8 @@ jQuery(document).ready(function($) {
             var src = $(this).data('placeholder-image');
             if (typeof src !== 'undefined' && src.length) {
                 src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
-                $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {background-image: url(' + src + ');}</style>');
-                setBlockedContentContainerAspectRatio();
+                $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {background-image: url(' + src + ') !important;}</style>');
+                setBlockedContentContainerAspectRatio($(this), src, placeholderClassIndex);
             }
 
         });
@@ -97,36 +106,35 @@ jQuery(document).ready(function($) {
     *
     * */
 
-    function setBlockedContentContainerAspectRatio(){
-        $('.cmplz-iframe').each(function() {
-            //we set the first parent div as container with placeholder image
-            var blockedContentContainer = $(this).parent();
+    function setBlockedContentContainerAspectRatio(container, src, placeholderClassIndex){
 
-            //handle image size for video
-            var src = $(this).data('placeholder-image');
-            if (src.length) {
-                src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+        if (typeof container === 'undefined') return;
 
-                var img = new Image();
-                img.addEventListener("load", function () {
-                    var imgWidth = this.naturalWidth;
-                    var imgHeight = this.naturalHeight;
+        //we set the first parent div as container with placeholder image
+        var blockedContentContainer = container.parent();
 
-                    //prevent division by zero.
-                    if (imgWidth === 0) imgWidth = 1;
-                    var w = blockedContentContainer.width();
-                    var h = imgHeight * (w / imgWidth);
+        //handle image size for video
+        var img = new Image();
+        img.addEventListener("load", function () {
+            var imgWidth = this.naturalWidth;
+            var imgHeight = this.naturalHeight;
 
-                    var heightCSS = '';
-                    if (src.indexOf('placeholder.jpg')===-1) heightCSS = 'height:' + h + 'px;';
+            //prevent division by zero.
+            if (imgWidth === 0) imgWidth = 1;
+            var w = blockedContentContainer.width();
+            var h = imgHeight * (w / imgWidth);
 
-                    var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-                    $('head').append('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
-                });
-                if (src && src.length) img.src = src;
+            var heightCSS = '';
+            if (src.indexOf('placeholder.jpg')===-1) {
+                heightCSS = 'height:' + h + 'px;';
             }
-
+            
+            var cssIndex = placeholderClassIndex;//blockedContentContainer.data('placeholderClassIndex');
+            console.log(cssIndex);
+            console.log('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
+            $('head').append('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
         });
+        img.src = src;
     }
 
     /**
@@ -140,7 +148,7 @@ jQuery(document).ready(function($) {
         $(window).resize(function(){
             clearTimeout(window.resizeEvt);
             window.resizeEvt = setTimeout(function(){
-                setBlockedContentContainerAspectRatio();
+                setBlockedContentContainer();
             }, 100);
         });
     });
@@ -189,7 +197,6 @@ jQuery(document).ready(function($) {
 
             //activate the video.
             var src = $(this).data('src-cmplz');
-            console.log(src);
             //check if there's an autoplay value we need to pass on
             var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
             if (autoplay==='1') src = src+'&autoplay=1';
@@ -197,60 +204,108 @@ jQuery(document).ready(function($) {
 
         });
 
+        //other services, no iframe, with placeholders
+        $('.cmplz-placeholder-element').each(function (i, obj) {
+            var blockedContentContainer = $(this);
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
+            $(this).removeClass('cmplz-placeholder-element');
+
+            //in some cases the videowrap gets added to the iframe
+            $( this ).removeClass( 'video-wrap');
+
+            //activate the video.
+            var src = $(this).data('src-cmplz');
+            $(this).attr('src', src);
+        });
+
+        //first, create list of waiting scripts
+        var scriptElements = $('.cmplz-script');
+        scriptElements.each(function (i, obj) {
+            var waitfor = $(this).data('waitfor');
+            var src = $(this).attr('src');
+
+            if (src && src.length) {
+                if (typeof (waitfor) !== "undefined" ){
+                    waitingScripts[waitfor] = src;
+                }
+            } else if ($(this).text().length) {
+                if (typeof (waitfor) !== "undefined"){
+                    waitingInlineScripts[waitfor] = $(this);
+                }
+            }
+        });
+
         //scripts: set "cmplz-script classes to type="text/javascript"
-        $('.cmplz-script').each(function (i, obj) {
+        scriptElements.each(function (i, obj) {
 
             //do not run stats scripts yet. We leave that to the dedicated stats function cmplz_enable_stats()
             if ($(this).hasClass('cmplz-stats')) return true;
 
             var src = $(this).attr('src');
-
             if (src && src.length) {
-                if (src.indexOf('recaptcha.js')!==-1){
-                    waitingScripts['recaptcha'] = src;
-                } else {
-                    if (typeof $(this).data('post_scribe_id') !== 'undefined') {
-                        var psID = '#' + $(this).data('post_scribe_id');
-                        if ($(psID).length) {
-                            $(psID).html('');
-                            $(function () {
-                                postscribe(psID, '<script src=' + src + '></script>');
-                            });
-                        }
-                    } else {
-                        $(this).attr('type', 'text/javascript');
-                        $.getScript(src).done(function (script, textStatus) {
-                            //check if we have waiting scripts
-                            for (var key in waitingInlineScripts) {
-                                if (waitingInlineScripts.hasOwnProperty(key)) {
-                                    //if the key is part of the src string, we run the waiting script. E.g. recaptcha as key
-                                    if (src.indexOf(key) !== -1) {
-                                        cmplzRunInlineScript(waitingInlineScripts[key]);
-                                    }
-                                }
-                            }
+                $(this).attr('type', 'text/javascript');
 
-                            for (var key in waitingScripts) {
-                                if (waitingScripts.hasOwnProperty(key)) {
-                                    //if the key is part of the src string, we run the waiting script. E.g. recaptcha as key
-                                    if (src.indexOf(key) !== -1) {
-                                        $.getScript(waitingScripts[key]).done(function(script, textStatus){
-                                            if ($('.happyforms-form').length) $('.happyforms-form' ).happyForm();
-                                        });
-                                    }
-                                }
-                            }
+                //check if this src or txt is in a waiting script. If so, skip.
+                if (cmplzIsWaitingScript(waitingScripts, src)) {
+                    return;
+                }
+
+                if (typeof $(this).data('post_scribe_id') !== 'undefined') {
+                    var psID = '#' + $(this).data('post_scribe_id');
+                    if ($(psID).length) {
+                        $(psID).html('');
+                        $(function () {
+                            postscribe(psID, '<script src=' + src + '></script>');
                         });
                     }
-                }
-            } else if ($(this).text().length) {
-                if ($(this).text().indexOf('grecaptcha')!==-1){
-                    waitingInlineScripts['recaptcha'] = $(this);
                 } else {
-                    cmplzRunInlineScript($(this));
+                    $.getScript( src )
+                        .done(function( s, Status ) {
+                            //check if we have waiting scripts
+                            var waitingScript = cmplzGetWaitingScript(waitingScripts, src);
+                            if (waitingScript){
+                                $.getScript(waitingScript).done(function(script, textStatus){
+                                    cmplzRunAfterAllScripts();
+                                }).fail(function( jqxhr, settings, exception ) {
+                                    console.warn( "Something went wrong"+exception );
+                                });
+                            }
+
+                            var waitingInlineScript = cmplzGetWaitingScript(waitingInlineScripts, src);
+                            if (waitingInlineScript){
+                                cmplzRunInlineScript(waitingInlineScript);
+                            }
+
+                            //maybe all scripts are already done
+                            cmplzRunAfterAllScripts();
+                        })
+                        .fail(function( jqxhr, settings, exception ) {
+                            console.warn( "Something went wrong "+exception );
+                        });
                 }
+
+            } else if ($(this).text().length) {
+                //check if this src or txt is in a waiting script. If so, skip.
+                if (cmplzIsWaitingScript(waitingInlineScripts, $(this).text())) {
+                    return;
+                }
+                cmplzRunInlineScript($(this));
+                //get scripts that are waiting for this inline script
+                var waitingScript = cmplzGetWaitingScript(WaitingScripts, $(this).text());
+                $.getScript( waitingScript )
+                    .done(function( s, Status ) {
+                        //maybe all scripts are already done
+                        cmplzRunAfterAllScripts();
+                    })
+                    .fail(function( jqxhr, settings, exception ) {
+                        console.warn( "Something went wrong "+exception );
+                    });
             }
         });
+
 
         //fire an event so custom scripts can hook into this.
         $.event.trigger({
@@ -261,6 +316,66 @@ jQuery(document).ready(function($) {
         ccAllEnabled = true;
     }
 
+    /**
+     * check if the passed source has a waiting script that should be executed, and return it if so.
+     * @param waitingScripts
+     * @param src
+     * @returns {*}
+     */
+
+    function cmplzGetWaitingScript(waitingScripts, src){
+        for (var waitfor in waitingScripts) {
+            var waitingScript;//recaptcha/api.js, waitfor="gregaptcha"
+
+            if (waitingScripts.hasOwnProperty(waitfor)) {
+                waitingScript = waitingScripts[waitfor];
+                if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
+
+                if (src.indexOf(waitingScript) !== -1) {
+
+                    var output = waitingScripts[waitfor];
+                    delete waitingScripts[waitfor];
+
+                    return output;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the passed src or script is waiting for another script and should not execute
+     * @param waitingScripts
+     * @param srcOrScript
+     */
+
+    function cmplzIsWaitingScript(waitingScripts, srcOrScript) {
+        for (var waitfor in waitingScripts) {
+            if (waitingScripts.hasOwnProperty(waitfor)) {
+                var waitingScript = waitingScripts[waitfor];
+                if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
+                if (srcOrScript.indexOf(waitingScript)!==-1 || waitingScript.indexOf(srcOrScript)!==-1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function cmplzRunAfterAllScripts(){
+        if (waitingInlineScripts.length===0 && waitingScripts.length===0 ) {
+            //custom re-initialization after stuff is activated
+            if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
+            // $(document.window).trigger('load');
+        }
+    }
+
+    /**
+     * run inline script
+     * @param script
+     */
+
     function cmplzRunInlineScript(script){
         $('<script>')
             .attr('type', 'text/javascript')
@@ -270,7 +385,7 @@ jQuery(document).ready(function($) {
     }
 
     function complianz_enable_stats() {
-        console.log('fire stats');
+        console.log('fire statistics');
         $('.cmplz-script.cmplz-stats').each(function (i, obj) {
             if ($(this).text().length) {
                 var str = $(this).text();
@@ -399,7 +514,7 @@ jQuery(document).ready(function($) {
 
     }
 
-    /*
+    /**
     * Run the actual cookie warning
     *
     * */
@@ -950,7 +1065,7 @@ jQuery(document).ready(function($) {
 
     }
 
-    /*
+    /**
     *  Revoke consent
     *
     *
@@ -982,9 +1097,14 @@ jQuery(document).ready(function($) {
                 return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
             }
         }
-    };
+    }
 
-
-
+    function cmplzInArray(needle, haystack) {
+        var length = haystack.length;
+        for(var i = 0; i < length; i++) {
+            if(haystack[i].indexOf(needle) !== -1) return true;
+        }
+        return false;
+    }
 
 });

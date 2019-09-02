@@ -384,6 +384,10 @@ if (!class_exists("cmplz_cookiebanner")) {
                 array('ID' => $this->id)
             );
 
+            if ($updated === 0){
+                update_option('cmplz_generate_new_cookiepolicy_snapshot',true);
+            }
+
             //get database value for "default"
             $db_default = $wpdb->get_var($wpdb->prepare("select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s", $this->id));
             if ($this->default && !$db_default){

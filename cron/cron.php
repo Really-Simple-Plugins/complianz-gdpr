@@ -27,6 +27,8 @@ function cmplz_schedule_cron() {
         add_action( 'cmplz_every_week_hook', array(COMPLIANZ()->document, 'cron_check_last_updated_status'));
         add_action( 'cmplz_every_month_hook', 'cmplz_cron_clean_placeholders');
 
+        add_action( 'cmplz_every_day_hook', array(COMPLIANZ()->document, 'generate_cookie_policy_snapshot'));
+
         if (defined('cmplz_premium')) {
             add_action( 'cmplz_every_day_hook', array(COMPLIANZ()->statistics, 'cron_maybe_enable_best_performer'));
             add_action( 'cmplz_every_day_hook', array(COMPLIANZ()->geoip, 'cron_check_geo_ip_db'));
@@ -34,6 +36,8 @@ function cmplz_schedule_cron() {
 
     } else {
         add_action( 'init', 'cmplz_cron_clean_placeholders');
+        add_action( 'init', array(COMPLIANZ()->document, 'generate_cookie_policy_snapshot'));
+
         add_action( 'init', array(COMPLIANZ()->document, 'cron_check_last_updated_status'), 100);
         if (defined('cmplz_premium')) add_action( 'init', array(COMPLIANZ()->statistics, 'cron_maybe_enable_best_performer'));
         if (defined('cmplz_premium')) add_action( 'init', array(COMPLIANZ()->geoip, 'cron_check_geo_ip_db'));

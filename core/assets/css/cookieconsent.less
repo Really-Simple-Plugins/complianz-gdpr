@@ -1,4 +1,19 @@
 @import "cookieconsent.core.less";
+/*
+  to get the instagram placeholders to display the contents nicely, we apply some styling.
+*/
+
+.instagram-media.cmplz-placeholder-element>div{
+  max-width:100%;
+}
+.twitter-tweet.cmplz-blocked-content-container {
+  padding:10px 40px;
+}
+
+//add some margin for facebook
+.cmplz-placeholder-element>blockquote.fb-xfbml-parse-ignore {
+  margin: 0 20px;
+}
 .cmplz-soft-cookiewall{
   position: fixed;
   width: 100%;
@@ -9,8 +24,10 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 99;
+  &.preview {
+    // z-index:initial;
+  }
 }
-
 .cc-deny {
   display:none;
 }
@@ -21,6 +38,10 @@
   }
 }
 .cmplz-blocked-content-container{
+  iframe {
+    max-height: 100%;
+  }
+  div div {display:none}
   //hide placeholder video
   .cmplz-video.cmplz-hidden{
     visibility: hidden;
@@ -30,16 +51,22 @@
     background-color:transparent;
   }
 
+
+  background: #FFF;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  background-repeat: no-repeat;
-  background-size: 100%;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   height: inherit;
   position:relative;
   .cmplz-blocked-content-notice{
     cursor:pointer;
-    position:absolute;
+    position:absolute !important;
     top:50px;
     width:50%;
     max-width: 200px;

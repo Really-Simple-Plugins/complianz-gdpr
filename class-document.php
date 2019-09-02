@@ -850,6 +850,7 @@ if (!class_exists("cmplz_document")) {
          */
 
         public function get_page_url($type, $region){
+
             if (!cmplz_has_region($region)) return '';
 
             $region = ($region == 'eu' || !$region) ? '' : '-' . $region;
@@ -877,5 +878,168 @@ if (!class_exists("cmplz_document")) {
             return get_permalink($policy_page_id);
         }
 
+        /**
+         * Generate the cookie policy snapshot
+         */
+
+        public function generate_cookie_policy_snapshot(){
+            if (!get_option('cmplz_generate_new_cookiepolicy_snapshot')) return;
+
+            $regions = cmplz_get_regions();
+            foreach($regions as $region => $label){
+                $region = ($region==='eu') ? '' : "-$region";
+                $banner_id = cmplz_get_default_banner_id();
+                $banner = new CMPLZ_COOKIEBANNER($banner_id);
+                $settings = $banner->get_settings_array();
+                $settings['privacy_link_us '] = COMPLIANZ()->document->get_page_url('privacy-statement','us');
+                $settings_html='';
+                $skip = array('static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
+                foreach($settings as $key => $value) {
+                    if (in_array($key, $skip)) continue;
+
+                    $settings_html .= '<li>'.$key.' => '.esc_html($value).'</li>';
+                }
+                $settings_html = '<div><h1>'.__('Cookie consent settings','complianz-gdpr').'</h1><ul>'.($settings_html).'</ul></div>';
+                $intro =
+                    '<h1>'. __("Proof of Consent","complianz-gdpr").'</h1>
+                     <p>'.sprintf(__("This document was generated to show efforts made to comply with privacy legislation.
+                            This document will contain the cookie policy and the cookie consent settings to proof consent
+                            for the time and region specified below. For more information about this document, please go
+                            to %shttps://complianz.io/consent%s.","complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent">',"</a>").'</p>';
+
+                COMPLIANZ()->document->generate_pdf('cookie-statement'.$region, false, true, $intro, $settings_html);
+            }
+            update_option('cmplz_generate_new_cookiepolicy_snapshot',false);
+        }
+
+        /**
+         * Function to generate a pdf file, either saving to file, or echo to browser
+         * @param $page
+         * @param $post_id
+         * @param $save_to_file
+         * @param $append //if we want to add addition html
+         * @throws \Mpdf\MpdfException
+         */
+
+        public function generate_pdf($page, $post_id=false, $save_to_file=false, $intro='', $append=''){
+            if ( !defined( 'DOING_CRON' ) ) {
+                if (!is_user_logged_in()) {
+                    die("invalid command");
+                }
+
+                if (!current_user_can('manage_options')) {
+                    die("invalid command");
+                }
+            }
+
+            $uploads = wp_upload_dir();
+            $upload_dir = $uploads['basedir'];
+
+            $pages = COMPLIANZ()->config->pages;
+
+            $title = $pages[$page]['title'];
+            $region = $pages[$page]['condition']['regions'];
+            $document_html = $intro.COMPLIANZ()->document->get_document_html($page, $post_id).$append;
+            $load_css = cmplz_get_value('use_document_css');
+            $css = '';
+            if ($load_css) {
+                $css = file_get_contents (cmplz_path . "core/assets/css/document.css");
+            }
+            $html = '
+                    <style>
+                    '.$css.'
+                    body {
+                      font-family: sans;
+                      margin-top:100px;
+                    }
+                    h2 {
+                        font-size:12pt;
+                    }
+                    
+                    h3 {
+                        font-size:12pt;
+                    }
+                    
+                    h4 {
+                        font-size:10pt;
+                        font-weight: bold;
+                    }
+                    .center {
+                      text-align:center;
+                    }
+                    
+                    
+                    
+                    </style>
+                    
+                    <body >
+                    <h4 class="center">' . $title . '</h4>
+                    ' . $document_html . '
+                    </body>';
+
+//==============================================================
+//==============================================================
+//==============================================================
+
+            require cmplz_path . '/core/assets/vendor/autoload.php';
+
+            //generate a token when it's not there, otherwise use the existing one.
+            if (get_option('cmplz_pdf_dir_token')) {
+                $token = get_option('cmplz_pdf_dir_token');
+            } else {
+                $token = time();
+                update_option('cmplz_pdf_dir_token', $token);
+            }
+
+            if (!file_exists($upload_dir . '/complianz')){
+                mkdir($upload_dir . '/complianz');
+            }
+            if (!file_exists($upload_dir . '/complianz/tmp')){
+                mkdir($upload_dir . '/complianz/tmp');
+            }
+            if (!file_exists($upload_dir . '/complianz/snapshots')){
+                mkdir($upload_dir . '/complianz/snapshots');
+            }
+            $save_dir = $upload_dir . '/complianz/snapshots/';
+            $temp_dir = $upload_dir . '/complianz/tmp/' . $token;
+            if (!file_exists($temp_dir)){
+                mkdir($temp_dir);
+            }
+            $mpdf = new Mpdf\Mpdf(array(
+                'setAutoTopMargin' => 'stretch',
+                'autoMarginPadding' => 5,
+                'tempDir' => $temp_dir,
+                'margin_left' => 20,
+                'margin_right' => 20,
+                'margin_top' => 30,
+                'margin_bottom' => 30,
+                'margin_header' => 30,
+                'margin_footer' => 10,
+            ));
+
+            $mpdf->SetDisplayMode('fullpage');
+            $mpdf->SetTitle($title);
+
+            $img = '';//'<img class="center" src="" width="150px">';
+            $date = date_i18n( get_option( 'date_format' ), time()  );
+
+            $mpdf->SetHTMLHeader($img);
+            $footer_text = sprintf("%s $title $date", get_bloginfo('name'));
+
+            $mpdf->SetFooter($footer_text);
+            $mpdf->WriteHTML($html);
+
+            // Save the pages to a file
+            if ($save_to_file){
+                $file_title = $save_dir.get_bloginfo('name').'-' .$region. "-snapshot-" . sanitize_title($date);
+            } else{
+                $file_title = get_bloginfo('name') . "-export-" . sanitize_title($date);
+            }
+
+            $output_mode = $save_to_file ? 'F' : 'I';
+
+            $mpdf->Output($file_title . ".pdf", $output_mode);
+
+        }
     }
 } //class closure
