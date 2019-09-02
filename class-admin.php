@@ -125,7 +125,8 @@ if (!class_exists("cmplz_admin")) {
         public function check_upgrade()
         {
             //when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
-            $prev_version = substr(get_option('cmplz-current-version', false),0, 5);
+            $prev_version = get_option('cmplz-current-version', false);
+//            if (defined("SCRIPT_DEBUG") && SCRIPT_DEBUG) $prev_version = substr($prev_version,0, 5);
 
             //as of 1.1.10, publish date is stored in variable.
             if ($prev_version && version_compare($prev_version, '1.2.0', '<')) {
@@ -433,6 +434,15 @@ if (!class_exists("cmplz_admin")) {
                 'manage_options',
                 "cmplz-settings",
                 array($this, 'settings')
+            );
+
+            add_submenu_page(
+                'complianz',
+                __('Proof of consent', 'complianz-gdpr'),
+                __('Proof of consent', 'complianz-gdpr'),
+                'manage_options',
+                "cmplz-proof-of-consent",
+                array(COMPLIANZ()->cookie, 'cookie_statement_snapshots')
             );
 
             do_action('cmplz_admin_menu');

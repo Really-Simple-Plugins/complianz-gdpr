@@ -44,6 +44,7 @@ if (!class_exists("cmplz_cookie")) {
 
             add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
             add_action('wp_ajax_cmplz_report_unknown_cookies', array($this, 'ajax_report_unknown_cookies'));
+            add_action('wp_ajax_cmplz_delete_snapshot', array($this, 'ajax_delete_snapshot'));
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
@@ -97,6 +98,82 @@ if (!class_exists("cmplz_cookie")) {
                     cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz-gdpr'), $type, $type));
             }
         }
+
+        public function ajax_delete_snapshot(){
+
+            if (!cmplz_user_can_manage()) return;
+
+            if (isset($_POST['snapshot_id'])) {
+                $uploads = wp_upload_dir();
+                $upload_dir = $uploads['basedir'];
+                $path = $upload_dir . '/complianz/snapshots/';
+                $success = unlink($path.sanitize_text_field($_POST['snapshot_id']));
+                $response = json_encode(array(
+                    'success' => true,
+                ));
+                header("Content-Type: application/json");
+                echo $response;
+                exit;
+            }
+        }
+
+        public function cookie_statement_snapshots(){
+
+            include(dirname(__FILE__) . '/class-cookiestatement-snapshot-table.php');
+
+            $customers_table = new cmplz_CookieStatement_Snapshots_Table();
+            $customers_table->prepare_items();
+
+            ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    $(document).on('click', '.cmplz-delete-snapshot', function (e) {
+
+                        e.preventDefault();
+                        var btn = $(this);
+                        btn.closest('tr').css('background-color', 'red');
+                        var delete_snapshot_id = btn.data('id');
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo admin_url('admin-ajax.php')?>',
+                            dataType: 'json',
+                            data: ({
+                                action: 'cmplz_delete_snapshot',
+                                snapshot_id: delete_snapshot_id
+                            }),
+                            success: function (response) {
+                                if (response.success) {
+                                    btn.closest('tr').remove();
+                                }
+                            }
+                        });
+
+                    });
+                });
+            </script>
+
+            <div class="wrap cookie-snapshot">
+                <h1><?php _e("Proof of consent", 'complianz-gdpr') ?></h1>
+                <p>
+                    <?php
+                    $link_open = '<a href="https://complianz.io/user-consent-registration/" target="_blank">';
+                    printf(__("When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under \"Proof of Consent\" with the latest changes. If there's any concern if you're website was ready for GDPR at a point of time, you can use Complianz' Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. The document will be generated when you finish the wizard for the first time and subsequent significant changes will add a new document. For more information read our article about %suser consent registration%s.", 'complianz-gdpr'), $link_open, '</a>') ?>
+                </p>
+                <form id="cmplz-cookiestatement-snapshot-filter" method="get"
+                      action="">
+
+                    <?php
+                    $customers_table->search_box(__('Filter', 'complianz-gdpr'), 'cmplz-cookiesnapshot');
+                    $customers_table->display();
+                    ?>
+                    <input type="hidden" name="page" value="cmplz-proof-of-consent"/>
+
+                </form>
+                <?php  do_action('cmplz_after_cookiesnapshot_list'); ?>
+            </div>
+            <?php
+        }
+
 
         /*
          * Conditionally add extra social media cookies to the used cookies list
@@ -253,6 +330,9 @@ if (!class_exists("cmplz_cookie")) {
             wp_enqueue_style('cmplz-cookie');
 
             $cookiesettings = $this->get_cookiebanner_settings(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+
+            $cookiesettings['placeholdertext'] = cmplz_get_value('blocked_content_text');
+
             wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent$minified.js", array('jquery'), cmplz_version, true);
 
             if (!isset($_GET['complianz_scan_token'])) {
@@ -612,19 +692,20 @@ if (!class_exists("cmplz_cookie")) {
             return $social_media;
         }
 
-        /*
-         * Check the webpage html output for third party services
-         *
-         *
+        /**
+         * Check a string for third party services
+         * @param string $html
+         * @param bool $single_key //return a single string instead of array
+         * @return array|string $thirdparty
          *
          * */
 
         public function parse_for_thirdparty_services($html, $single_key=false)
         {
+
             $thirdparty = array();
             $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
             foreach ($thirdparty_markers as $key => $markers) {
-
                 foreach ($markers as $marker) {
 
                     if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
@@ -1443,12 +1524,12 @@ if (!class_exists("cmplz_cookie")) {
         }
 
 
-        /*
+        /**
          * Check if the site needs a cookie banner. Pass a region to check cookie banner requirement for a specific region
          *
          * @@since 1.2
          *
-         * @param string $region
+         * @param string|bool $region
          *
          * @return bool
          * */
@@ -1461,6 +1542,9 @@ if (!class_exists("cmplz_cookie")) {
                 return false;
             }
 
+            //if we do not target this region, we don't show a banner for that region
+            if ($region && !cmplz_has_region($region)) return false;
+
             /*
              * for the US, a cookie warning is always required
              * if a region other than US is passed, we check the region's requirements
@@ -1468,7 +1552,7 @@ if (!class_exists("cmplz_cookie")) {
              *
              */
 
-            if ((!$region || $region==='us') && cmplz_has_region('us')){
+            if ($region==='us'){
                 return true;
             }
 
@@ -1487,7 +1571,6 @@ if (!class_exists("cmplz_cookie")) {
             if ($this->cookie_warning_required_stats()) {
                 return true;
             }
-
 
             return false;
         }
@@ -1534,6 +1617,20 @@ if (!class_exists("cmplz_cookie")) {
 
         public function cookie_warning_required_stats()
         {
+
+            $eu = cmplz_has_region('eu');
+            $uk = cmplz_has_region('uk');
+
+            if (cmplz_get_value('uses_cookies') !== 'yes') {
+                return false;
+            }
+
+            //uk requires cookie warning for stats
+            if ($uk) return true;
+
+            //us only, no cookie warning required for stats
+            if (!$eu & !$uk) return false;
+
             $statistics = cmplz_get_value('compile_statistics');
             $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
             $matomo = ($statistics === 'matomo') ? true : false;

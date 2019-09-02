@@ -57,11 +57,11 @@ function cmplz_google_fonts_recommendation(){
         foreach ($thirdparties as $thirdparty=>$key) {
             if ($key!=1) continue;
             if ($thirdparty==='google-fonts') {
-                cmplz_notice(sprintf(__("Your site uses Google Fonts. For the GDPR, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">','</a>'));
+                cmplz_notice(sprintf(__("Your site uses Google Fonts. For best privacy compliance, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">','</a>'));
 
             }
             if ($thirdparty==='google-recaptcha' && cmplz_get_value('disable_cookie_block')!=1) {
-                cmplz_notice(sprintf(__("Your site uses Google Recaptcha. To be compliant with the GDPR, recaptcha will be blocked until cookies are accepted. Please read %sthis article%s for more information", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/google-recaptcha-and-the-gdpr-a-possible-conflict/">','</a>'),'warning');
+                cmplz_notice(sprintf(__("Your site uses Google Recaptcha. For privacy compliance, recaptcha will be blocked until cookies are accepted. Please read %sthis article%s for more information", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/google-recaptcha-and-the-gdpr-a-possible-conflict/">','</a>'),'warning');
             }
         }
     }

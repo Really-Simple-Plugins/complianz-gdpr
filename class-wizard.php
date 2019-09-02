@@ -116,7 +116,8 @@ if (!class_exists("cmplz_wizard")) {
             } else {
                 cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
-                if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
+                if (COMPLIANZ()->cookie->site_needs_cookie_warning()){
+                //if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookiebanner').'">';
                     cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
                 }
@@ -188,7 +189,7 @@ if (!class_exists("cmplz_wizard")) {
         }
 
         /*
-         * Do stuff after a page from the wizard is saved.
+         * Do stuff before a page from the wizard is saved.
          *
          * */
 
@@ -242,6 +243,9 @@ if (!class_exists("cmplz_wizard")) {
             $field = $fields[$fieldname];
             if (($fieldvalue != $prev_value) && isset($field['revoke_consent_onchange']) && $field['revoke_consent_onchange']) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
+                update_option('cmplz_generate_new_cookiepolicy_snapshot',true);
+
+
             }
 
             /*

@@ -9,7 +9,7 @@
 $this->social_media_markers = array(
     "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
     "twitter" => array('super-socializer','sumoSiteId','addthis_widget.js', "platform.twitter.com", 'twitter-widgets.js'),
-    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins'),
+    "facebook" => array('super-socializer','sumoSiteId','addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins','pixel-caffeine'),
     "pinterest" => array('super-socializer','assets.pinterest.com'),
     "disqus" => array('disqus.com'),
     "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
@@ -25,7 +25,7 @@ $this->thirdparty_service_markers = array(
     "soundcloud" => array('w.soundcloud.com/player'),
     "vimeo" => array('player.vimeo.com'),
     "google-recaptcha" => array('google.com/recaptcha'),
-    "youtube" => array('www.youtube.com/iframe_api'),
+    "youtube" => array('youtube.com'),
     "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
     "dailymotion" => array('dailymotion.com/embed/video/'),
     "hotjar" => array('static.hotjar.com'),
@@ -33,13 +33,26 @@ $this->thirdparty_service_markers = array(
     "google-fonts" => array('fonts.googleapis.com'),
     "paypal" => array('www.paypal.com/tagmanager/pptm.js', 'www.paypalobjects.com/api/checkout.js'),
 );
+/*
+
+ * Some scripts need to be loaded in specific order
+ * key: script or part of script to wait for
+ * value: script or part of script that should wait
+ * */
+
+$this->dependencies = array(
+    "gmw.map.min.js"=>'new GMW_Map',
+    'recaptcha/api.js'=>'grecaptcha',
+);
 
 /*
  * placeholders, not iframes
  * */
 
 $this->placeholder_markers = array(
-    'facebook' => "fb-page",
+    'facebook' => array("fb-page", "fb-post"),
+    'instagram' => 'instagram-media',
+    'twitter' => 'twitter-tweet',
 );
 
 /*
@@ -50,9 +63,11 @@ $this->placeholder_markers = array(
 $this->script_tags = array(
     'super-socializer', //super socializer
     'theChampFBKey',   //super socializer
+    'pixel-caffeine/build/frontend.js', //pixel caffeine
     'google.com/recaptcha',
     'grecaptcha',
     'recaptcha.js',
+    'recaptcha/api.js',
     'platform.twitter.com',
     'twitter-widgets.js',
     'apis.google.com/js/platform.js',
@@ -62,13 +77,15 @@ $this->script_tags = array(
     'www.google-analytics.com/analytics.js',
     'google-analytics.com/ga.js',
     'new google.maps.',
-    //'maps.googleapis.com',
+    'maps.googleapis.com',
     'gmw.map.min.js',
-    'new GMW_Map',
-    'wpgmaps.js',
     'gmw.js',
-    //'wp-google-maps.min.js',
-//    'wpgmza_rectangle_data_array',
+    'new GMW_Map',
+//WP Google Maps, should not be blocked as we use it's integrated GDPR feature
+//    'wpgmaps.js',
+//    'wpgmza_rectangle_data_array'
+//    'wp-google-maps.min.js',
+
     'static.hotjar.com',
     'dataset.sumoSiteId',
     '_getTracker',
@@ -87,6 +104,8 @@ $this->script_tags = array(
     'instawidget.net/js/instawidget.js',
     'videopress.com/videopress-iframe.js',
     'plugins/instagram-feed/js/sb-instagram.min.js',
+    'instagram.com/embed.js',
+    'instagram.com',
     'www.instagram.com/embed.js',
     'www.paypal.com/tagmanager/pptm.js',
     'www.paypalobjects.com/api/checkout.js',
