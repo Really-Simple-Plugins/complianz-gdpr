@@ -129,10 +129,7 @@ jQuery(document).ready(function($) {
                 heightCSS = 'height:' + h + 'px;';
             }
             
-            var cssIndex = placeholderClassIndex;//blockedContentContainer.data('placeholderClassIndex');
-            console.log(cssIndex);
-            console.log('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
-            $('head').append('<style>.cmplz-placeholder-' + cssIndex + ' {'+heightCSS+'}</style>');
+            $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {'+heightCSS+'}</style>');
         });
         img.src = src;
     }
@@ -529,9 +526,12 @@ jQuery(document).ready(function($) {
                 expiryDays: complianz.cookie_expiry
             },
             onInitialise: function (status) {
-
                 //runs only when dismissed or accepted
                 ccStatus = status;
+
+                if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
+                    $('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
+                }
 
                 /*
                 * This runs when the banner is dismissed or accepted.
@@ -545,7 +545,9 @@ jQuery(document).ready(function($) {
             },
             onStatusChange: function (status, chosenBefore) {
                 //remove the banner wrap class to dismiss cookie wall styling
-                $('.cmplz-soft-cookiewall').removeClass('cmplz-soft-cookiewall');
+                if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
+                    $('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
+                }
 
                 //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
@@ -578,6 +580,10 @@ jQuery(document).ready(function($) {
                 }
             },
             onRevokeChoice: function () {
+                if (complianz.soft_cookiewall) {
+                    $('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
+                }
+
                 //when the revoke button is clicked, the status is still 'allow'
                 if (!complianz.use_categories && ccStatus === 'allow') {
                     cmplzRevoke();
@@ -630,13 +636,13 @@ jQuery(document).ready(function($) {
             }
         }, function (popup) {
             ccName = popup;
-
             //this code always runs
-
             //soft cookie wall
-            if (ccStatus!=='allow' && ccStatus!=='dismiss'){
-                if (complianz.soft_cookiewall) $( ".cc-window" ).wrap("<div class='cmplz-soft-cookiewall'></div>" );
+            if (complianz.soft_cookiewall) $( ".cc-window" ).wrap('<div id="cc-banner-wrap"></div>' );
+            if (complianz.soft_cookiewall && (ccStatus == undefined)) {
+                $('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
             }
+
             /*
             * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *

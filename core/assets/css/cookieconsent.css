@@ -299,6 +299,9 @@
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 99;
 }
+.cmplz-document .cmplz-soft-cookiewall {
+  background-color: transparent;
+}
 .cc-deny {
   display: none;
 }

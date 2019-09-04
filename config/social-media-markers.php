@@ -41,7 +41,7 @@ $this->thirdparty_service_markers = array(
  * */
 
 $this->dependencies = array(
-    "gmw.map.min.js"=>'new GMW_Map',
+//    "gmw.map.min.js"=>'new GMW_Map', //GEO my WP
     'recaptcha/api.js'=>'grecaptcha',
 );
 
@@ -78,9 +78,9 @@ $this->script_tags = array(
     'google-analytics.com/ga.js',
     'new google.maps.',
     'maps.googleapis.com',
-    'gmw.map.min.js',
-    'gmw.js',
-    'new GMW_Map',
+//    'gmw.map.min.js', //GEO my WP does not integrate very well.
+//    'gmw.js', //GEO my WP
+//    'new GMW_Map', // GEO my WP
 //WP Google Maps, should not be blocked as we use it's integrated GDPR feature
 //    'wpgmaps.js',
 //    'wpgmza_rectangle_data_array'

@@ -45,6 +45,7 @@ if (!class_exists("cmplz_cookie")) {
             add_action('wp_ajax_store_detected_cookies', array($this, 'store_detected_cookies'));
             add_action('wp_ajax_cmplz_report_unknown_cookies', array($this, 'ajax_report_unknown_cookies'));
             add_action('wp_ajax_cmplz_delete_snapshot', array($this, 'ajax_delete_snapshot'));
+            add_action('admin_init', array($this, 'force_snapshot_generation'));
 
             add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
@@ -96,6 +97,19 @@ if (!class_exists("cmplz_cookie")) {
                 $type = $this->site_uses_cookie_of_type('google-analytics') ? __("Google Analytics or Tag Manager", 'complianz-gdpr') : __("Matomo", 'complianz-gdpr');
 
                     cmplz_notice(sprintf(__("The cookie scan detected %s cookies on your site, which means the answer to this question should be %s.", 'complianz-gdpr'), $type, $type));
+            }
+        }
+
+        /**
+         * Forces generation of a snapshot for today, triggered by the button
+         *
+         */
+
+        public function force_snapshot_generation(){
+            if (!cmplz_user_can_manage()) return;
+
+            if (isset($_POST["cmplz_generate_snapshot"]) && isset($_POST["cmplz_nonce"]) && wp_verify_nonce($_POST['cmplz_nonce'],'cmplz_generate_snapshot')){
+                COMPLIANZ()->document->generate_cookie_policy_snapshot($force=true);
             }
         }
 
@@ -152,13 +166,23 @@ if (!class_exists("cmplz_cookie")) {
                 });
             </script>
 
-            <div class="wrap cookie-snapshot">
+            <div id="cookie-policy-snapshots" class="wrap cookie-snapshot">
                 <h1><?php _e("Proof of consent", 'complianz-gdpr') ?></h1>
                 <p>
                     <?php
                     $link_open = '<a href="https://complianz.io/user-consent-registration/" target="_blank">';
-                    printf(__("When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under \"Proof of Consent\" with the latest changes. If there's any concern if you're website was ready for GDPR at a point of time, you can use Complianz' Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. The document will be generated when you finish the wizard for the first time and subsequent significant changes will add a new document. For more information read our article about %suser consent registration%s.", 'complianz-gdpr'), $link_open, '</a>') ?>
+                    cmplz_notice(sprintf(__("When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under \"Proof of Consent\" with the latest changes. If there's any concern if you're website was ready for GDPR at a point of time, you can use Complianz' Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. The document will be generated when you finish the wizard for the first time and subsequent significant changes will add a new document. For more information read our article about %suser consent registration%s.", 'complianz-gdpr'), $link_open, '</a>')) ?>
                 </p>
+                <?php
+                if (isset($_POST['cmplz_generate_snapshot'])){
+                    cmplz_notice(__("Proof of consent updated!", "complianz-gdpr"), 'success', true);
+                }
+                ?>
+
+                <form id="cmplz-cookiestatement-snapshot-generate" method="POST" action="">
+                    <?php echo wp_nonce_field('cmplz_generate_snapshot','cmplz_nonce');?>
+                    <input type="submit" class="button button-primary" name="cmplz_generate_snapshot" value="<?php _e("Generate now","complianz-gdpr")?>"/>
+                </form>
                 <form id="cmplz-cookiestatement-snapshot-filter" method="get"
                       action="">
 
@@ -171,11 +195,12 @@ if (!class_exists("cmplz_cookie")) {
                 </form>
                 <?php  do_action('cmplz_after_cookiesnapshot_list'); ?>
             </div>
+
             <?php
         }
 
 
-        /*
+        /**
          * Conditionally add extra social media cookies to the used cookies list
          *
          *

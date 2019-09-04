@@ -407,7 +407,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         private function sanitize_custom_css($css)
         {
             $css = preg_replace('/\/\*(.|\s)*?\*\//i', '', $css);
-            $css = str_replace(array('.cc-message{}', '.cc-revoke{}', '.cc-dismiss{}', '.cc-allow{}', '.cc-window{}'), '', $css);
+            $css = str_replace(array('.cmplz-soft-cookiewall{}','.cc-window .cc-check{}','.cc-category{}','.cc-message{}', '.cc-revoke{}', '.cc-dismiss{}', '.cc-allow{}', '.cc-window{}'), '', $css);
             $css = trim($css);
             return $css;
         }
