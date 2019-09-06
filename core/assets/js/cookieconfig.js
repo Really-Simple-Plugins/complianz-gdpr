@@ -30,7 +30,6 @@
 
 
 jQuery(document).ready(function($) {
-    var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
     var ccAllEnabled = false;
