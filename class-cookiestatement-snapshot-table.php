@@ -129,9 +129,11 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
      * @return string Column Name
      */
     public function column_default( $item, $column_name ) {
-        $value='test';
 
-
+        $date = date(get_option('date_format'), $item['time']);
+        $date = cmplz_localize_date($date);
+        $time = date(get_option('time_format'), $item['time']);
+        $value= $date." ".$time;
         return apply_filters( 'cmplz_cookiestatement_snapshots_column_' . $column_name, $value, $item['file'] );
     }
 
@@ -160,6 +162,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
     public function get_columns() {
         $columns = array(
             'name'          => __( 'File', 'complianz-gdpr'),
+            'time'          => __( 'Created', 'complianz-gdpr'),
         );
 
         return apply_filters( 'cmplz_cookie_snapshots_columns', $columns );
@@ -295,6 +298,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
                         if (empty($args['search']) || strpos($file, $args['search'])!==FALSE) {
                             $filelist[filemtime($file)]["path"] = $file;
                             $filelist[filemtime($file)]["file"] = basename($file);
+                            $filelist[filemtime($file)]["time"] = filemtime($file);
                         }
                     }
                 }

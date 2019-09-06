@@ -63,7 +63,7 @@ $this->fields = $this->fields + array(
             'default' => false,
             'label' => __("Show as soft cookie wall", 'complianz-gdpr'),
             'table' => true,
-            'help' => __('You can grey out the rest of the website, which makes it look like a cookie all, but it is dismissable: a soft cookie wall. This is not visible in preview, as it would prevent editing the options.', 'complianz-gdpr'),
+            'help' => sprintf(__("You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. This is not visible in preview, as it would prevent editing the options. Read more about the soft cookie wall in this %sarticle%s.", 'complianz-gdpr'), '<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">',"</a>"),
         ),
 
         'revoke' => array(
@@ -360,7 +360,7 @@ $this->fields = $this->fields + array(
             'step' => 'general',
             'type' => 'css',
             'label' => __("Custom CSS", 'complianz-gdpr'),
-            'default' => '.cc-message{} /* styles for the message box */' . "\n" . '.cc-dismiss{} /* styles for the dismiss button */' . "\n" . '.cc-allow{} /* styles for the accept button */' . "\n" . '.cc-window{} /* styles for the popup banner */' . "\n" . '.cc-window .cc-category{} /* styles for categories*/' . "\n" . '.cc-window .cc-check{} /* styles for the checkboxes with categories */' . "\n" . '.cc-revoke{} /* styles for the revoke / settings popup */' ,
+            'default' => '.cc-message{} /* styles for the message box */' . "\n" . '.cc-dismiss{} /* styles for the dismiss button */' . "\n" . '.cc-allow{} /* styles for the accept button */' . "\n" . '.cc-window{} /* styles for the popup banner */' . "\n" . '.cc-window .cc-category{} /* styles for categories*/' . "\n" . '.cc-window .cc-check{} /* styles for the checkboxes with categories */' . "\n" . '.cc-revoke{} /* styles for the revoke / settings popup */'. "\n" . '.cmplz-soft-cookiewall{} /* styles for the soft cookie wall / settings popup */' ,
             'table' => true,
             'condition' => array('use_custom_cookie_css' => true),
         ),

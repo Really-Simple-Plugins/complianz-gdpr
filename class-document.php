@@ -259,9 +259,23 @@ if (!class_exists("cmplz_document")) {
 
             add_filter('cmplz_document_email', array($this, 'obfuscate_email'));
 
+            add_filter( 'body_class', array($this, 'add_body_class_for_complianz_documents') );
 
         }
 
+
+        /**
+         * add a class to the body telling the page it's a complianz doc. We use this for the soft cookie wall
+         * @param $classes
+         * @return array
+         */
+        public function add_body_class_for_complianz_documents($classes){
+            global $post;
+            if ($post && $this->is_complianz_page($post->ID)) {
+                $classes[] = 'cmplz-document';
+            }
+            return $classes;
+        }
 
         /**
          * obfuscate the email address
@@ -701,6 +715,8 @@ if (!class_exists("cmplz_document")) {
             // normalize attribute keys, lowercase
             $atts = array_change_key_case((array)$atts, CASE_LOWER);
 
+
+
             ob_start();
 
             // override default attributes with user attributes
@@ -882,8 +898,8 @@ if (!class_exists("cmplz_document")) {
          * Generate the cookie policy snapshot
          */
 
-        public function generate_cookie_policy_snapshot(){
-            if (!get_option('cmplz_generate_new_cookiepolicy_snapshot')) return;
+        public function generate_cookie_policy_snapshot($force=false){
+            if (!$force && !get_option('cmplz_generate_new_cookiepolicy_snapshot')) return;
 
             $regions = cmplz_get_regions();
             foreach($regions as $region => $label){
@@ -1031,7 +1047,7 @@ if (!class_exists("cmplz_document")) {
 
             // Save the pages to a file
             if ($save_to_file){
-                $file_title = $save_dir.get_bloginfo('name').'-' .$region. "-snapshot-" . sanitize_title($date);
+                $file_title = $save_dir.get_bloginfo('name').'-' .$region. "-proof-of-consent-" . sanitize_title($date);
             } else{
                 $file_title = get_bloginfo('name') . "-export-" . sanitize_title($date);
             }

@@ -631,11 +631,13 @@ if (!function_exists('cmplz_init_cookie_blocker')) {
 if (!function_exists('cmplz_is_pagebuilder_preview')) {
     function cmplz_is_pagebuilder_preview()
     {
-        if (isset($_GET['fb-edit']) || isset($_GET['et_pb_preview']) || isset($_GET['et_fb']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
-            return true;
-        } else {
-            return false;
+        $preview = false;
+        global $wp_customize;
+        if (isset( $wp_customize ) || isset($_GET['fb-edit']) || isset($_GET['et_pb_preview']) || isset($_GET['et_fb']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
+            $preview = true;
         }
+
+        return apply_filters('cmplz_is_preview', $preview);
     }
 }
 
