@@ -171,7 +171,7 @@ if (!class_exists("cmplz_cookie")) {
                 <p>
                     <?php
                     $link_open = '<a href="https://complianz.io/user-consent-registration/" target="_blank">';
-                    cmplz_notice(sprintf(__("When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under \"Proof of Consent\" with the latest changes. If there's any concern if you're website was ready for GDPR at a point of time, you can use Complianz' Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. The document will be generated when you finish the wizard for the first time and subsequent significant changes will add a new document. For more information read our article about %suser consent registration%s.", 'complianz-gdpr'), $link_open, '</a>')) ?>
+                    cmplz_notice(sprintf(__('When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under "Proof of Consent" with the latest changes. If there is any concern if your website was ready for GDPR at a point of time, you can use the Complianz Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. On a daily basis, the document will be generated if the plugin has detected significant changes. For more information read our article about %suser consent registration%s.', 'complianz-gdpr'), $link_open, '</a>')) ?>
                 </p>
                 <?php
                 if (isset($_POST['cmplz_generate_snapshot'])){
