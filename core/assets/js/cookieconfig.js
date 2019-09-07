@@ -30,6 +30,7 @@
 
 
 jQuery(document).ready(function($) {
+    var ccStatus;
     var ccName;
     var ccStatsEnabled = false;
     var ccAllEnabled = false;
@@ -290,7 +291,7 @@ jQuery(document).ready(function($) {
                 }
                 cmplzRunInlineScript($(this));
                 //get scripts that are waiting for this inline script
-                var waitingScript = cmplzGetWaitingScript(WaitingScripts, $(this).text());
+                var waitingScript = cmplzGetWaitingScript(waitingScripts, $(this).text());
                 $.getScript( waitingScript )
                     .done(function( s, Status ) {
                         //maybe all scripts are already done
