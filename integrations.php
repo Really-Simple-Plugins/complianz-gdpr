@@ -28,7 +28,10 @@ if (!class_exists("cmplz_integrations")) {
             add_filter('cmplz_fields', array($this, 'filter_fields'));
             add_filter('cmplz_warnings', array($this, 'filter_warnings'));
 
+
+
             $this->integrate();
+
 
         }
 
@@ -81,7 +84,7 @@ if (!class_exists("cmplz_integrations")) {
 
         public function monsterinsights(){
 
-            if (defined( 'MONSTERINSIGHTS_VERSION' )){
+            if (function_exists('MonsterInsights')){
                 return true;
             }
             return false;
