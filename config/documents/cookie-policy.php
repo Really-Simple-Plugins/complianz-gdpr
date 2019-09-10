@@ -15,7 +15,7 @@ $this->document_elements['cookie-statement'] = array(
     ),
     'what-are-scripts' => array(
         'title' => _x('What are scripts?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr'),
     ),
     'what-is-a-webbeacon' => array(
         'title' => _x('What is a webbeacon?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
