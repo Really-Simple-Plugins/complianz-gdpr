@@ -1556,6 +1556,9 @@ if (!class_exists("cmplz_field")) {
         function get_value($fieldname, $default = '')
         {
             $fields = COMPLIANZ()->config->fields();
+
+            if (!isset($fields[$fieldname])) return false;
+
             $source = $fields[$fieldname]['source'];
             if (strpos($source, 'CMPLZ')!==FALSE && class_exists($source)){
                 $id = false;

@@ -26,9 +26,12 @@ if (!class_exists("cmplz_integrations")) {
 
             add_filter('wpgmza_gdpr_notice_html', array($this, 'wp_google_maps_replace_gdpr_notice'));
             add_filter('cmplz_fields', array($this, 'filter_fields'));
+            add_filter('cmplz_warnings', array($this, 'filter_warnings'));
+
 
 
             $this->integrate();
+
 
         }
 
@@ -81,7 +84,7 @@ if (!class_exists("cmplz_integrations")) {
 
         public function monsterinsights(){
 
-            if (defined( 'MONSTERINSIGHTS_VERSION' )){
+            if (function_exists('MonsterInsights')){
                 return true;
             }
             return false;
@@ -185,6 +188,13 @@ if (!class_exists("cmplz_integrations")) {
                 unset($fields['UA_code']);
             }
             return $fields;
+        }
+
+        public function filter_warnings($warnings){
+            if ($this->monsterinsights()){
+                unset($warnings['ga-needs-configuring']);
+            }
+            return $warnings;
         }
 
         /**

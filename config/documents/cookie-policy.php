@@ -15,7 +15,7 @@ $this->document_elements['cookie-statement'] = array(
     ),
     'what-are-scripts' => array(
         'title' => _x('What are scripts?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr'),
     ),
     'what-is-a-webbeacon' => array(
         'title' => _x('What is a webbeacon?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -58,14 +58,14 @@ $this->document_elements['cookie-statement'] = array(
         'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.', 'Legal document cookie policy', 'complianz-gdpr')
             .'&nbsp;'._x('We ask your permission to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_cookie_warning_required_stats',
-        'condition' => array('compile_statistics' => 'yes'),
+        'condition' => array('compile_statistics' => 'NOT no'),
     ),
 
     array(
         'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.', 'Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
-        'condition' => array('compile_statistics' => 'yes'),
+        'condition' => array('compile_statistics' => 'NOT no'),
 
     ),
 

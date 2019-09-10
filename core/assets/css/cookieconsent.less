@@ -42,6 +42,7 @@
   }
 }
 .cmplz-blocked-content-container{
+
   iframe {
     max-height: 100%;
   }
@@ -68,6 +69,11 @@
   background-size: cover !important;
   height: inherit;
   position:relative;
+  //Geo My WP integration
+  &.gmw-map-cover{
+    max-height: 100%;
+    position: absolute;
+  }
   .cmplz-blocked-content-notice{
     cursor:pointer;
     position:absolute !important;

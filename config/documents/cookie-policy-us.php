@@ -28,7 +28,7 @@ $this->document_elements['cookie-statement-us'] = array(
     ),
     array(
         'title' => 'What are scripts?',
-        'content' => 'A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
+        'content' => 'A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
     ),
     array(
         'title' => 'What is a webbeacon?',
