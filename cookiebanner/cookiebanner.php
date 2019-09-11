@@ -51,8 +51,8 @@ function cmplz_cookiebanner_admin_menu()
 
     add_submenu_page(
         'complianz',
-        __('Cookie Banner', 'complianz-gdpr'),
-        __('Cookie Banner', 'complianz-gdpr'),
+        __('Cookie banner', 'complianz-gdpr'),
+        __('Cookie banner', 'complianz-gdpr'),
         'manage_options',
         'cmplz-cookiebanner',
         'cmplz_cookiebanner_overview'

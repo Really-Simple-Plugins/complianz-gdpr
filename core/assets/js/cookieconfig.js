@@ -199,6 +199,11 @@ jQuery(document).ready(function($) {
             if (autoplay==='1') src = src+'&autoplay=1';
             $(this).attr('src', src);
 
+            //fitvids integration, a.o. Beaverbuilder
+            if ( typeof $(this).parent().fitVids == 'function' ) {
+                $(this).parent().fitVids();
+            }
+
         });
 
         //other services, no iframe, with placeholders

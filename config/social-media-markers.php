@@ -40,6 +40,12 @@ $this->thirdparty_service_markers = array(
  * value: script or part of script that should wait
  * */
 
+    //add_filter('cmplz_dependencies', 'my_dependency');
+    //function my_dependency($deps){
+    //    $deps['wait-for-this-script'] = 'script-that-should-wait';
+    //    return $deps;
+    //}
+
 $this->dependencies = array(
     'recaptcha/api.js'=>'grecaptcha',
 );
