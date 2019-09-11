@@ -1874,7 +1874,7 @@ if (!class_exists("cmplz_cookie")) {
                 $banner = new CMPLZ_COOKIEBANNER();
             }
 
-            $banner->title = $variation_id=='' ? __('Default Cookie Banner', 'complianz-gdpr') :COMPLIANZ()->statistics->get_variation_nicename($variation_id);
+            $banner->title = $variation_id=='' ? __('Default Cookie banner', 'complianz-gdpr') :COMPLIANZ()->statistics->get_variation_nicename($variation_id);
             $banner->default = ($variation_id === '') ? true : false;
 
             if (isset($cookie_settings['position'.$variation_id])) $banner->position = $cookie_settings['position'.$variation_id];

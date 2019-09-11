@@ -113,6 +113,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             $dependencies = COMPLIANZ()->config->dependencies;
             $dependencies = apply_filters('cmplz_dependencies', $dependencies);
 
+
             /*
              * Get async list tags
              *
