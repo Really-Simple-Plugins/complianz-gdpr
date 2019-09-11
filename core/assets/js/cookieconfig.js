@@ -272,7 +272,7 @@ jQuery(document).ready(function($) {
                                 $.getScript(waitingScript).done(function(script, textStatus){
                                     cmplzRunAfterAllScripts();
                                 }).fail(function( jqxhr, settings, exception ) {
-                                    console.warn( "Something went wrong"+exception );
+                                    console.warn( "Something went wrong "+exception );
                                 });
                             }
 
@@ -369,7 +369,14 @@ jQuery(document).ready(function($) {
         if (waitingInlineScripts.length===0 && waitingScripts.length===0 ) {
             //custom re-initialization after stuff is activated
             if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
-            // $(document.window).trigger('load');
+
+            //Divi
+             // var map_container = $('.et_pb_map_container');
+             // if (map_container.length) {
+             //     var map = map_container.children('.et_pb_map')
+             //     console.log('init');
+             //     google.maps.event.trigger(map[0], 'resize');
+             // }
         }
     }
 

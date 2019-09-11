@@ -210,7 +210,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-
             $iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'.$url_pattern.'[\'"].*?>.*?<\/iframe>/i';
             if (preg_match_all($iframe_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                 foreach ($matches[0] as $key => $total_match) {
@@ -230,12 +229,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             $video_class = apply_filters('cmplz_video_class', 'cmplz-no-video');
                             $source_placeholder =  cmplz_url . 'core/assets/images/placeholder.html';
                         }
-                        $new = $this->add_class($new, 'iframe', "cmplz-iframe cmplz-iframe-styles cmplz-placeholder-element $video_class ");
 
                         $source_placeholder = apply_filters('cmplz_source_placeholder',$source_placeholder);
                         $new = $this->replace_src($new, $source_placeholder);
 
-                        if (!cmplz_get_value('dont_use_placeholders')) {
+                        if (!cmplz_get_value('dont_use_placeholders') && strpos($iframe_src,'like.php')===false) {
+                            $new = $this->add_class($new, 'iframe', "cmplz-iframe cmplz-iframe-styles cmplz-placeholder-element $video_class ");
+
                             $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
                             //make sure there is a parent element which contains this time only, to attach the placeholder to
                             if (!$this->is_video($iframe_src) && !$this->no_div($iframe_src)) $new = '<div>'.$new.'</div>';
