@@ -232,10 +232,10 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         $source_placeholder = apply_filters('cmplz_source_placeholder',$source_placeholder);
                         $new = $this->replace_src($new, $source_placeholder);
+                        $new = $this->add_class($new, 'iframe', "cmplz-iframe cmplz-iframe-styles $video_class ");
 
                         if (!cmplz_get_value('dont_use_placeholders') && strpos($iframe_src,'like.php')===false) {
-                            $new = $this->add_class($new, 'iframe', "cmplz-iframe cmplz-iframe-styles cmplz-placeholder-element $video_class ");
-
+                            $new = $this->add_class($new, 'iframe', " cmplz-placeholder-element ");
                             $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
                             //make sure there is a parent element which contains this time only, to attach the placeholder to
                             if (!$this->is_video($iframe_src) && !$this->no_div($iframe_src)) $new = '<div>'.$new.'</div>';
@@ -433,10 +433,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         private function add_class($html, $el, $class){
             $class = esc_attr($class);
-            preg_match('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', $html, $matches);
-
+            preg_match('/<'.$el.'[^\>]*[^\>\S]+\K(class=")/i', $html, $matches);
             if ($matches) {
-                $html = preg_replace('/<'.$el.'[^>].*?\K(class=")(?=.*">)/i', 'class="'.$class.' ', $html, 1);
+                $html = preg_replace('/<'.$el.'[^\>]*[^\>\S]+\K(class=")/i', 'class="'.$class.' ', $html, 1);
             } else {
                 $pos = strpos($html, "<$el");
                 if ($pos !== false) {
