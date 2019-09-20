@@ -726,7 +726,7 @@ if (!class_exists("cmplz_document")) {
             if ($type) {
                 $html = $this->get_document_html($type);
                 $allowed_html = cmplz_allowed_html();
-                echo '<div id="cmplz-document">' . wp_kses($html, $allowed_html) . '</div>';;
+                echo wp_kses($html, $allowed_html);
             }
 
             return ob_get_clean();
@@ -1007,9 +1007,14 @@ if (!class_exists("cmplz_document")) {
                 update_option('cmplz_pdf_dir_token', $token);
             }
 
+            if (!is_writable($upload_dir)){
+                die($upload_dir." directory not writable");
+            }
+
             if (!file_exists($upload_dir . '/complianz')){
                 mkdir($upload_dir . '/complianz');
             }
+
             if (!file_exists($upload_dir . '/complianz/tmp')){
                 mkdir($upload_dir . '/complianz/tmp');
             }

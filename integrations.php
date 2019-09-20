@@ -192,7 +192,9 @@ if (!class_exists("cmplz_integrations")) {
 
         public function filter_warnings($warnings){
             if ($this->monsterinsights()){
-                unset($warnings['ga-needs-configuring']);
+                if (($key = array_search('ga-needs-configuring', $warnings)) !== false) {
+                    unset($warnings[$key]);
+                }
             }
             return $warnings;
         }

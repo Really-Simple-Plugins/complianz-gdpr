@@ -68,6 +68,7 @@ $this->placeholder_markers = array(
  * */
 
 $this->script_tags = array(
+    'document.tidioChatCode', //tidio chat plugin
     'super-socializer', //super socializer
     'theChampFBKey',   //super socializer
     'pixel-caffeine/build/frontend.js', //pixel caffeine
