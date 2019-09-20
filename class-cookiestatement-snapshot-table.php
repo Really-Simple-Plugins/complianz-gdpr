@@ -261,7 +261,8 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 
         $this->items = $this->reports_data();
 
-        $this->total = count($this->get_cookie_snapshot_list());
+        $list = $this->get_cookie_snapshot_list();
+        $this->total = is_array($list) ? count($list) : 0;
 
         // Add condition to be sure we don't divide by zero.
         // If $this->per_page is 0, then set total pages to 1.
