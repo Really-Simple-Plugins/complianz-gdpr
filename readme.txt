@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -92,6 +92,10 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility. 
 
 == Change log ==
+= 3.1.2 =
+* Fix: remove superfluous title on proof of consent
+* Fix: Contact Form 7 recaptcha dependency not fired in correct order
+
 = 3.1.1 =
 * Fix: document wrapped in double div
 * Fix: PHP warning caused by empty list of proof of consent documents
