@@ -333,7 +333,7 @@ jQuery(document).ready(function($) {
                 waitingScript = waitingScripts[waitfor];
                 if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
 
-                if (src.indexOf(waitingScript) !== -1) {
+                if (src.indexOf(waitfor) !== -1) {
 
                     var output = waitingScripts[waitfor];
                     delete waitingScripts[waitfor];
