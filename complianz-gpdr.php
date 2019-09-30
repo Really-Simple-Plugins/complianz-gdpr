@@ -185,7 +185,6 @@ if (!class_exists('COMPLIANZ')) {
             require_once(cmplz_path . 'integrations/integrations.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
-            require_once(cmplz_path . 'integrations.php');
             require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
 
 
