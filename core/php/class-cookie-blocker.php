@@ -254,7 +254,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
             if (!cmplz_get_value('dont_use_placeholders')) {
-                $placeholder_markers = COMPLIANZ()->config->placeholder_markers;
+                $placeholder_markers = apply_filters('cmplz_placeholder_markers', COMPLIANZ()->config->placeholder_markers);
                 foreach ($placeholder_markers as $type => $markers) {
                     if (!is_array($markers)) $markers = array($markers);
                     foreach ($markers as $marker) {
@@ -353,7 +353,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 
         /**
-         * check if there is a partial match between a keys of the array and the haystack
+         * check if there is a partial match between a key of the array and the haystack
          * We cannot use array_search, as this would not allow partial matches.
          *
          * @param string $haystack

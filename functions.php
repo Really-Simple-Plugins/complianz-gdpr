@@ -140,7 +140,7 @@ if (!function_exists('cmplz_disclosed_data_12months')) {
  * */
 if (!function_exists('cmplz_get_value')) {
 
-    function cmplz_get_value($fieldname, $post_id = false, $page = false)
+    function cmplz_get_value($fieldname, $post_id = false, $page = false, $use_default=true)
     {
 
         if (!$page && !isset(COMPLIANZ()->config->fields[$fieldname])) return false;
@@ -152,7 +152,7 @@ if (!function_exists('cmplz_get_value')) {
         } else {
             $fields = get_option('complianz_options_' . $page);
 
-            $default = ($page && isset(COMPLIANZ()->config->fields[$fieldname]['default'])) ? COMPLIANZ()->config->fields[$fieldname]['default'] : '';
+            $default = ($use_default && $page && isset(COMPLIANZ()->config->fields[$fieldname]['default'])) ? COMPLIANZ()->config->fields[$fieldname]['default'] : '';
             $value = isset($fields[$fieldname]) ? $fields[$fieldname] : $default;
 
         }
@@ -218,13 +218,12 @@ if (!function_exists('cmplz_eu_site_needs_cookie_warning_cats')) {
     }
 }
 
-if (!function_exists('cmplz_company_in_eu')) {
+if (!function_exists('cmplz_company_located_in_region')) {
 
-    function cmplz_company_in_eu()
+    function cmplz_company_located_in_region($region)
     {
         $country_code = cmplz_get_value('country_company');
-        $in_eu = (cmplz_get_region_for_country($country_code) === 'eu');
-        return $in_eu;
+        return (cmplz_get_region_for_country($country_code) === $region);
     }
 }
 
@@ -238,7 +237,9 @@ if (!function_exists('cmplz_has_region')) {
     function cmplz_has_region($code)
     {
         $regions = cmplz_get_regions(false);
-        if (isset($regions[$code])) return true;
+        if (isset($regions[$code])) {
+            return true;
+        }
         return false;
     }
 }
@@ -651,6 +652,8 @@ if (!function_exists('cmplz_ajax_user_settings')) {
     {
         $data = apply_filters('cmplz_user_data', array());
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
+        $data['forceEnableStats'] = apply_filters('cmplz_user_force_enable_stats', false);
+
         $data['version'] = cmplz_version;
         $banner_id = cmplz_get_default_banner_id();
         $banner = new CMPLZ_COOKIEBANNER($banner_id);
@@ -1158,7 +1161,7 @@ if (!function_exists('cmplz_us_cookie_statement_title')) {
         if ($california === 'yes') {
             $title = "Do Not Sell My Personal Information";
         } else {
-            $title = "Cookie Statement (US)";
+            $title = "Cookie Policy (US)";
         }
 
         return apply_filters('cmplz_us_cookie_statement_title', $title);

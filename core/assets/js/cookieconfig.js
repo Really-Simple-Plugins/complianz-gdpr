@@ -243,7 +243,7 @@ jQuery(document).ready(function($) {
         //scripts: set "cmplz-script classes to type="text/javascript"
         scriptElements.each(function (i, obj) {
 
-            //do not run stats scripts yet. We leave that to the dedicated stats function cmplz_enable_stats()
+            //do not run stats scripts yet. We leave that to the dedicated stats function complianz_enable_stats()
             if ($(this).hasClass('cmplz-stats')) return true;
 
             var src = $(this).attr('src');
@@ -333,7 +333,7 @@ jQuery(document).ready(function($) {
                 waitingScript = waitingScripts[waitfor];
                 if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
 
-                if (src.indexOf(waitfor) !== -1) {
+                if (src.indexOf(waitingScript) !== -1) {
 
                     var output = waitingScripts[waitfor];
                     delete waitingScripts[waitfor];
@@ -494,6 +494,12 @@ jQuery(document).ready(function($) {
         if (!complianz.do_not_track) {
             if (complianz.consenttype === 'optin') {
                 setStatusAsBodyClass('deny');
+                //if this website also targets UK, stats are blocked by default but can be enabled in the eu before consent
+                //but only if EU does not require consent.
+                if (complianz.forceEnableStats){
+                    complianz.categories = cmplzRemoveStatisticsCategory(complianz.categories);
+                    complianz_enable_stats();
+                }
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
@@ -679,9 +685,9 @@ jQuery(document).ready(function($) {
                 });
                 $('.cc-check svg').css({"stroke": complianz.popup_text_color});
 
-                cmplzFireCategories();
-
             }
+
+            cmplzFireCategories();
 
             /* We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
             *
@@ -719,6 +725,17 @@ jQuery(document).ready(function($) {
             complianz_enable_cookies();
             complianz_enable_scripts();
         }
+    }
+
+
+
+    function cmplzRemoveStatisticsCategory(categories){
+        if (complianz.use_categories && complianz.forceEnableStats) {
+            return categories.replace(/(.*)(<label><input type="checkbox" id="cmplz_stats".*?<\/label>.*?><\/label>)(.*)/g, function (a, b, c, d) {
+                return b + d;
+            });
+        }
+        return categories;
     }
 
 
@@ -838,8 +855,8 @@ jQuery(document).ready(function($) {
      *       Accept cookies by clicking any other link cookie acceptance from a custom link
      */
 
-    $(document).on('click', '.cmplz-accept-cookies', function () {
-
+    $(document).on('click', '.cmplz-accept-cookies', function (event) {
+        event.preventDefault();
         if (complianz.use_categories) {
             //set to highest level
             cmplzSetCookie('cmplz_all', 'allow', complianz.cookie_expiry);
@@ -955,9 +972,9 @@ jQuery(document).ready(function($) {
     function cmplzFireCategories(all) {
         all = typeof all !== 'undefined' ? all : false;
         //always functional
-        if (complianz.tm_categories) {
+        //if (complianz.tm_categories) {
             cmplzRunTmEvent('cmplz_event_functional');
-        }
+        //}
 
         //using TM categories
         if (complianz.tm_categories) {
@@ -975,7 +992,7 @@ jQuery(document).ready(function($) {
 
         //marketing cookies acceptance
         if (all || ($('#cmplz_all').length && $('#cmplz_all').is(":checked")) ) {
-            if (complianz.tm_categories) cmplzRunTmEvent('cmplz_event_all');
+            cmplzRunTmEvent('cmplz_event_all');
             complianz_enable_cookies();
             complianz_enable_scripts();
         }
@@ -1020,6 +1037,7 @@ jQuery(document).ready(function($) {
 
         return output;
     }
+
 
 
     /*

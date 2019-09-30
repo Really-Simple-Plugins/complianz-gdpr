@@ -951,6 +951,8 @@ if (!class_exists("cmplz_document")) {
             $uploads = wp_upload_dir();
             $upload_dir = $uploads['basedir'];
 
+
+
             $pages = COMPLIANZ()->config->pages;
 
             $title = $pages[$page]['title'];
@@ -1014,7 +1016,6 @@ if (!class_exists("cmplz_document")) {
             if (!file_exists($upload_dir . '/complianz')){
                 mkdir($upload_dir . '/complianz');
             }
-
             if (!file_exists($upload_dir . '/complianz/tmp')){
                 mkdir($upload_dir . '/complianz/tmp');
             }

@@ -548,17 +548,17 @@ if (!class_exists("cmplz_field")) {
 
 
         public
-        function checkbox($args)
+        function checkbox($args, $force_value=false)
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
 
-            $value = $this->get_value($args['fieldname'], $args['default']);
+            $value = $force_value ? $force_value : $this->get_value($args['fieldname'], $args['default']);
             $placeholder_value = ($args['disabled'] && $value) ? $value : 0;
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
 
-            <label for="<?php echo esc_html($fieldname) ?>-label"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
+            <label class="<?php if ($args['disabled']) echo 'cmplz-disabled'; ?>" for="<?php echo esc_html($fieldname) ?>-label"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn($args);?></label>
 
             <?php do_action('complianz_after_label', $args); ?>
 
@@ -723,18 +723,27 @@ if (!class_exists("cmplz_field")) {
             }
 
             foreach ($condition as $c_fieldname => $c_value_content) {
-                $c_values = array($c_value_content);
-                if (strpos($c_value_content, ',') !== FALSE) {
+
+                $c_values = $c_value_content;
+                //the possible multiple values are separated with comma instead of an array, so we can add NOT.
+                if (!is_array($c_value_content) && strpos($c_value_content, ',') !== FALSE) {
                     $c_values = explode(',', $c_value_content);
                 }
+                $c_values = is_array($c_values) ? $c_values : array($c_values);
 
                 foreach ($c_values as $c_value) {
                     $actual_value = cmplz_get_value($c_fieldname);
 
                     $fieldtype = $this->get_field_type($c_fieldname);
 
-                    if ($fieldtype == 'multicheckbox') {
+                    if (strpos($c_value, 'NOT ') === FALSE) {
+                        $invert=false;
+                    } else {
+                        $invert=true;
+                        $c_value = str_replace("NOT ", "", $c_value);
+                    }
 
+                    if ($fieldtype == 'multicheckbox') {
                         if (!is_array($actual_value)) $actual_value = array($actual_value);
                         //get all items that are set to true
                         $actual_value = array_filter($actual_value, function ($item) {
@@ -742,32 +751,25 @@ if (!class_exists("cmplz_field")) {
                         });
                         $actual_value = array_keys($actual_value);
 
-                        if (strpos($c_value, 'NOT ') === FALSE) {
-                            if (!in_array($c_value, $actual_value)) {
-                                return false;
-                            }
-                        } else {
-                            $c_value = str_replace("NOT ", "", $c_value);
-                            if (in_array($c_value, $actual_value)) {
-                                return false;
+                        if (!is_array($actual_value)) $actual_value = array($actual_value);
+                        $match = false;
+                        foreach ($c_values as $check_each_value){
+                            if (in_array($check_each_value, $actual_value)) {
+                                $match = true;
                             }
                         }
-                    } else {
-                        if (strpos($c_value, 'NOT ') === FALSE) {
 
-                            if ($c_value !== $actual_value) {
-                                return false;
-                            }
-                        } else {
-                            $c_value = str_replace("NOT ", "", $c_value);
-                            if ($c_value === $actual_value) {
-                                return false;
-                            }
-                        }
+                    } else {
+                        //when the actual value is an array, it is enough when just one matches.
+                        //to be able to return false, for no match at all, we check all items, then return false if none matched
+                        //this way we can preserve the AND property of this function
+                        $match = ($c_value === $actual_value || in_array($actual_value, $c_values)) ;
+
                     }
+                    if ($invert) $match = !$match;
+                    if (!$match) return false;
                 }
             }
-
             return true;
         }
 
@@ -941,9 +943,10 @@ if (!class_exists("cmplz_field")) {
         }
 
         public
-        function get_fields($source, $step = false, $section = false)
+        function get_fields($source, $step = false, $section = false, $get_by_fieldname=false)
         {
-            $fields = COMPLIANZ()->config->fields($source, $step, $section);
+            $fields = COMPLIANZ()->config->fields($source, $step, $section, $get_by_fieldname);
+
             $i = 0;
             foreach ($fields as $fieldname => $args) {
                 if ($i === 0) $args['first']=true;

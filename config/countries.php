@@ -29,7 +29,6 @@ $this->eu_countries = array(
     "SI",
     "ES",
     "CZ",
-    "GB",
     "VL",
     "SE"
 );
@@ -41,11 +40,16 @@ $this->regions = array(
         'law' => __("CCPA", 'complianz-gdpr'),
         'type' => 'optout',
     ),
-
     'eu' => array(
         'label' => __('EU', 'complianz-gdpr'),
         'countries' => $this->eu_countries,
         'law' => __("GDPR", 'complianz-gdpr'),
+        'type' => 'optin',
+    ),
+    'uk' => array(
+        'label' => __('UK', 'complianz-gdpr'),
+        'countries' => array('GB'),
+        'law' => __("UK-GDPR", 'complianz-gdpr'),
         'type' => 'optin',
     )
 );

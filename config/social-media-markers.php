@@ -1,5 +1,31 @@
 <?php
 //used to check if social media is used on site
+
+$this->thirdparty_services = array(
+    'google-fonts' => 'Google Fonts',
+    'google-recaptcha' => 'Google reCAPTCHA',
+    "googlemaps" => 'Google Maps',
+    "vimeo" => 'Vimeo',
+    "youtube" => 'YouTube',
+    "videopress" => 'VideoPress',
+    "dailymotion" => 'Dailymotion',
+    "soundcloud" => 'SoundCloud',
+    "paypal" => 'PayPal',
+    "spotify" => 'Spotify',
+    "hotjar" => 'Hotjar',
+    "disqus" => 'Disqus',
+    "addthis" => 'AddThis',
+    "sharethis" => 'ShareThis',
+    "livechat" => 'LiveChat',
+);
+
+$this->thirdparty_socialmedia = array(
+    'facebook' => __('Facebook', 'complianz-gdpr'),
+    'twitter' => __('Twitter', 'complianz-gdpr'),
+    'linkedin' => __('LinkedIn', 'complianz-gdpr'),
+    'whatsapp' => __('WhatsApp', 'complianz-gdpr'),
+    'instagram' => __('Instagram', 'complianz-gdpr'),
+);
 /*
  * This is also used for the callback function to tell the user he/she uses social media
  * Based on this the cookie warning is enabled.
@@ -32,7 +58,13 @@ $this->thirdparty_service_markers = array(
     "spotify" => array('open.spotify.com/embed'),
     "google-fonts" => array('fonts.googleapis.com'),
     "paypal" => array('www.paypal.com/tagmanager/pptm.js', 'www.paypalobjects.com/api/checkout.js'),
+    "disqus" => array('disqus.com'),
+    "addthis" => array('addthis.com'),
+    "sharethis" => array('sharethis.com'),
+    "livechat" => array('cdn.livechatinc.com/tracking.js'),
 );
+
+
 /*
 
  * Some scripts need to be loaded in specific order
@@ -46,21 +78,13 @@ $this->thirdparty_service_markers = array(
     //    return $deps;
     //}
 
-$this->dependencies = array(
-    'recaptcha/api.js'=>'grecaptcha',
-);
+$this->dependencies = array();
 
-/*
- * placeholders, not iframes
+/**
+ * placeholders for not iframes
  * */
 
-$this->placeholder_markers = array(
-    'facebook' => array("fb-page", "fb-post"),
-    'instagram' => 'instagram-media',
-    'twitter' => 'twitter-tweet',
-    'googlemaps'=> 'gmw-map-cover',
-
-);
+$this->placeholder_markers = array();
 
 /*
  * Scripts with this string in the source or in the content of the script tags get blocked.
@@ -68,101 +92,29 @@ $this->placeholder_markers = array(
  * */
 
 $this->script_tags = array(
-    'document.tidioChatCode', //tidio chat plugin
-    'super-socializer', //super socializer
-    'theChampFBKey',   //super socializer
-    'pixel-caffeine/build/frontend.js', //pixel caffeine
-    'google.com/recaptcha',
-    'grecaptcha',
-    'recaptcha.js',
-    'recaptcha/api.js',
-    'platform.twitter.com',
-    'twitter-widgets.js',
     'apis.google.com/js/platform.js',
-    'connect.facebook.net',
-    'assets.pinterest.com',
-    'www.youtube.com/iframe_api',
-    'www.google-analytics.com/analytics.js',
-    'google-analytics.com/ga.js',
-    'new google.maps.',
-    //'maps.googleapis.com',
-    'gmw.core.min.js',
-    'gmw.map.min.js', //GEO my WP does not integrate very well.
-    'gmw.js', //GEO my WP
-    'new GMW_Map', // GEO my WP
-//WP Google Maps, should not be blocked as we use it's integrated GDPR feature
-//    'wpgmaps.js',
-//    'wpgmza_rectangle_data_array'
-//    'wp-google-maps.min.js',
-
-    'static.hotjar.com',
-    'dataset.sumoSiteId',
-    '_getTracker',
-    'disqus.com',
-    'addthis.com',
-    'sharethis.com',
-    'google_ad_client', //google adsense
-    'pagead/js/adsbygoogle.js', //google adsense
-    'doubleclick.net', //google adsense
-    'googlesyndication.com', //google adsense
-    'cdn.livechatinc.com/tracking.js',
-    'googleads.g.doubleclick.net',
-    'advads_tracking_ads',
-    'advanced_ads',
-    'googletagmanager.com/gtag/js',
-    'instawidget.net/js/instawidget.js',
-    'videopress.com/videopress-iframe.js',
-    'plugins/instagram-feed/js/sb-instagram.min.js',
-    'instagram.com/embed.js',
-    'instagram.com',
-    'www.instagram.com/embed.js',
-    'www.paypal.com/tagmanager/pptm.js',
-    'www.paypalobjects.com/api/checkout.js',
+    'dataset.sumoSiteId',//plugin
+    '_getTracker',//what's this from
 );
 
-/*
+/**
  * Style strings (google fonts have been removed in favor of plugin recommendation)
  * */
 
-$this->style_tags = array(
-);
+$this->style_tags = array();
 
-/*
+/**
  * Scripts in this list are loaded with post scribe.js
  *
  * */
 
-$this->async_list = array(
-    'instawidget.net/js/instawidget.js',
-    'platform.linkedin.com',
-);
+$this->async_list = array();
 
-$this->iframe_tags = array(
-    'open.spotify.com/embed',
-    'soundcloud.com/player',
-    'googleads',
-    'maps.google.com',
-    'doubleclick',
-    'youtube.com',
-    'youtube-nocookie.com',
-    'youtu.be',
-    'platform.twitter.com',
-	'facebook.com/plugins',
-    'apis.google.com',
-    'google.com/maps/embed',
-    'player.vimeo.com',
-    'disqus.com',
-    'platform.twitter.com/widgets.js',
-    'dailymotion.com/embed/video/',
-    'videopress.com/embed',
-    'instagram.com',
-);
+$this->iframe_tags = array('apis.google.com',);
 
-/*
- * images with a URl in this list will get blocked, if the cmplz_has_async_documentwrite_scripts() function returns true.
+/**
+ * images with a URl in this list will get blocked
  * */
 
-$this->image_tags = array(
-    'maps.googleapis.com/maps/api/staticmap',
-);
+$this->image_tags = array();
 

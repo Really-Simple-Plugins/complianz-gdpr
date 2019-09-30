@@ -117,7 +117,8 @@ if (!class_exists("cmplz_wizard")) {
                 cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
                 if (COMPLIANZ()->cookie->site_needs_cookie_warning()){
-                //if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
+                    //if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
+
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookiebanner').'">';
                     cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
                 }
@@ -457,6 +458,14 @@ if (!class_exists("cmplz_wizard")) {
 
                 <div class="cmplz-body">
                     <div class="cmplz-section-content">
+                        <h1><?php
+                            if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['title'])) {
+                                $title = COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['title'];
+                                $regions = $this->get_section_regions($page, $step, $section);
+                                $title .= $regions ? ' - ' . implode(' | ', $regions) : '';
+                                echo $title;
+                            }
+                            ?></h1>
                         <?php $this->get_content($page, $step, $section); ?>
                     </div>
                     <?php if (COMPLIANZ()->config->has_sections($page, $step)) { ?>
@@ -480,7 +489,12 @@ if (!class_exists("cmplz_wizard")) {
                                 ?>
                                 <div class="cmplz-menu-item <?php echo ($this->required_fields_completed($page, $step, $i)) ? "cmplz-done" : "cmplz-to-do"; ?><?php if ($active) echo " active"; ?>">
                                     <i class="fa fa-<?php echo $icon ?>"></i>
-                                    <a href="<?php echo $url ?>"><?php echo COMPLIANZ()->config->steps[$page][$step]['sections'][$i]['title'] ?></a>
+                                    <a href="<?php echo $url ?>"><?php
+                                        $title = COMPLIANZ()->config->steps[$page][$step]['sections'][$i]['title'];
+                                        $regions = $this->get_section_regions($page, $step, $i);
+                                        $title .= $regions ? ' - '.implode(' | ', $regions) : '';
+                                        echo $title;
+                                        ?></a>
                                 </div>
                             <?php } ?>
                         </div>
@@ -626,54 +640,41 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-        /*
+        /**
          * Retrieves the region to which this step applies
          *
          *
          * */
 
-        public function get_section_region($page, $step, $section){
+        public function get_section_regions($page, $step, $section){
             //only show when in action
+            $regions = false;
 
             if (COMPLIANZ()->config->has_sections($page, $step)){
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['region'])) {
-                    return COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['region'];
+                    $regions = COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['region'];
                 }
             } else {
                 if (isset(COMPLIANZ()->config->steps[$page][$step]['region'])) {
-                    return COMPLIANZ()->config->steps[$page][$step]['region'];
+                    $regions = COMPLIANZ()->config->steps[$page][$step]['region'];
                 }
             }
-            return false;
+
+            if ($regions) {
+                if (!is_array($regions)) $regions = array($regions);
+
+                foreach ($regions as $index => $region) {
+                    if (!cmplz_has_region($region)) unset($regions[$index]);
+                }
+                if (count($regions)==0) $regions = false;
+
+            }
+
+            return $regions;
         }
 
 
-        /*
-         * Retrieves the law to which this step applies
-         *
-         * In some cases, like the COPPA, a step can apply to a different law than the default region's law.
-         *
-         *
-         * */
-
-        public function get_section_law($page, $step, $section, $region){
-
-            //default: law based on region
-            $law = COMPLIANZ()->config->regions[$region]['law'];
-            if (COMPLIANZ()->config->has_sections($page, $step)){
-                if (isset(COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'])) {
-                    $law = COMPLIANZ()->config->steps[$page][$step]['sections'][$section]['law'];
-                }
-            } else {
-                if (isset(COMPLIANZ()->config->steps[$page][$step]['law'])) {
-                    $law = COMPLIANZ()->config->steps[$page][$step]['law'];
-                }
-            }
-            return $law;
-        }
-
-
-        /*
+        /**
          * Get content of wizard for a page/step/section combination
          *
          *
@@ -682,18 +683,15 @@ if (!class_exists("cmplz_wizard")) {
 
         public function get_content($page, $step, $section = false)
         {
-            $region = $this->get_section_region($page, $step, $section);
-            if ($region){
-                $law = $this->get_section_law($page, $step, $section, $region);
+            $regions = $this->get_section_regions($page, $step, $section);
 
-                ?>
-                <div class="cmplz-region-indicator">
+            if ($regions){
+                ?><div class="cmplz-region-indicator"><?php
+                foreach($regions as $region) {?>
                     <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
+                <?php }
+                ?></div><?php
 
-                    <span><?php if ($this->wizard_type()==='wizard') printf(__('This section is needed to comply with the %s','complianz-gdpr'),$law);?></span>
-                </div>
-
-                <?php
             }
 
             if (isset($_POST['cmplz-save'])) {
@@ -729,67 +727,68 @@ if (!class_exists("cmplz_wizard")) {
                     <input type="hidden" value="<?php echo $this->post_id() ?>" name="post_id">
                 <?php } ?>
 
-                <?php COMPLIANZ()->field->get_fields($page, $step, $section); ?>
+                <?php
+                COMPLIANZ()->field->get_fields($page, $step, $section); ?>
 
                 <input type="hidden" value="<?php echo $step ?>" name="step">
                 <input type="hidden" value="<?php echo $section ?>" name="section">
                 <?php wp_nonce_field('complianz_save', 'complianz_nonce'); ?>
                 <div class="cmplz-buttons-container">
 
-                        <?php if ($step > 1 || $section > 1) { ?>
-                            <div class="cmplz-button cmplz-previous icon">
+                    <?php if ($step > 1 || $section > 1) { ?>
+                        <div class="cmplz-button cmplz-previous icon">
 
-                                <input class="fa button" type="submit"
-                                       name="cmplz-previous"
-                                       value="<?php _e("Previous", 'complianz-gdpr') ?>">
+                            <input class="fa button" type="submit"
+                                   name="cmplz-previous"
+                                   value="<?php _e("Previous", 'complianz-gdpr') ?>">
 
-                            </div>
-                        <?php } ?>
-                        <?php if ($step < $this->total_steps($page)) { ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($step < $this->total_steps($page)) { ?>
+                        <div class="cmplz-button cmplz-next">
+
+                            <input class="fa button" type="submit"
+                                   name="cmplz-next"
+                                   value="<?php _e("Next", 'complianz-gdpr') ?>">
+
+                        </div>
+                    <?php } ?>
+
+                    <?php
+                    $hide_finish_button = false;
+                    if (strpos($page,'dataleak')!==false && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
+                        $hide_finish_button = true;
+                    }
+                    $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz-gdpr') : __("Finish", 'complianz-gdpr');
+                    ?>
+                    <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) {
+                        /*
+                         * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
+                         * */
+                        if ($page == 'wizard' && ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us'))){ ?>
                             <div class="cmplz-button cmplz-next">
-
-                                <input class="fa button" type="submit"
-                                       name="cmplz-next"
-                                       value="<?php _e("Next", 'complianz-gdpr') ?>">
-
+                                <input class="button" type="submit" name="cmplz-cookie-settings"
+                                       value="<?php _e("Finish and check cookie banner settings", 'complianz-gdpr') ?>">
                             </div>
-                        <?php } ?>
-
-                        <?php
-                        $hide_finish_button = false;
-                        if (strpos($page,'dataleak')!==false && !COMPLIANZ()->dataleak->dataleak_has_to_be_reported()) {
-                            $hide_finish_button = true;
-                        }
-                        $label = (strpos($page,'dataleak')!==FALSE || strpos($page,'processing')!==FALSE) ? __("View document", 'complianz-gdpr') : __("Finish", 'complianz-gdpr');
+                        <?php } else { ?>
+                            <div class="cmplz-button cmplz-next">
+                                <input class="button" type="submit" name="cmplz-finish"
+                                       value="<?php echo $label ?>">
+                            </div>
+                        <?php }
                         ?>
-                        <?php if (!$hide_finish_button && ($step == $this->total_steps($page)) && $this->all_required_fields_completed($page)) {
-                            /*
-                             * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
-                             * */
-                            if ($page == 'wizard' && ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us'))){ ?>
-                                <div class="cmplz-button cmplz-next">
-                                    <input class="button" type="submit" name="cmplz-cookie-settings"
-                                           value="<?php _e("Finish and check cookie banner settings", 'complianz-gdpr') ?>">
-                                </div>
-                            <?php } else { ?>
-                                <div class="cmplz-button cmplz-next">
-                                    <input class="button" type="submit" name="cmplz-finish"
-                                           value="<?php echo $label ?>">
-                                </div>
-                            <?php }
-                            ?>
 
-                        <?php } ?>
+                    <?php } ?>
 
-                        <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) { ?>
-                            <div class="cmplz-button cmplz-save">
+                    <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) { ?>
+                        <div class="cmplz-button cmplz-save">
 
-                                <input class="fa button" type="submit"
-                                       name="cmplz-save"
-                                       value="<?php _e("Save", 'complianz-gdpr') ?>">
+                            <input class="fa button" type="submit"
+                                   name="cmplz-save"
+                                   value="<?php _e("Save", 'complianz-gdpr') ?>">
 
-                            </div>
-                        <?php } ?>
+                        </div>
+                    <?php } ?>
 
                 </div>
             </form>
@@ -861,6 +860,12 @@ if (!class_exists("cmplz_wizard")) {
 
             return $section;
         }
+
+        /**
+         * Get total number of steps for a page
+         * @param $page
+         * @return int
+         */
 
         public function total_steps($page)
         {

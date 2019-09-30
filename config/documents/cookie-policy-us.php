@@ -168,10 +168,16 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'title' => 'Enabling/disabling and deleting cookies',
         'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
-    ),  
-
+    ),
     array(
         'title' => 'Selling data to third parties',
+        'callback_condition' => 'cmplz_sells_personal_data',
+        'condition' => array(
+            'california' => 'yes',
+        ),
+    ),
+    array(
+        'subtitle' => 'Categories of data',
         'content' => 'The following categories of data are sold to third parties',
         'callback_condition' => 'cmplz_sells_personal_data',
         'condition' => array(
