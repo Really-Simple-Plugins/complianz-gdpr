@@ -6,11 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-<<<<<<< Updated upstream
-Stable tag: 3.1.1
-=======
 Stable tag: 3.2.0
->>>>>>> Stashed changes
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
