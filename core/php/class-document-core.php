@@ -218,9 +218,7 @@ if (!class_exists("cmplz_document_core")) {
         public function get_document_html($type, $post_id = false)
         {
             if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz-gdpr'),$type);
-
             $elements = COMPLIANZ()->config->document_elements[$type];
-
             $html = "";
             $paragraph = 0;
             $sub_paragraph = 0;

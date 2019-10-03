@@ -1,16 +1,11 @@
 <?php
-
-//deprecated, but here to prevent breaking script when core file not updated yet
-class cmplz_integrations{};
-
 defined('ABSPATH') or die("you do not have acces to this page!");
 require_once('forms.php');
-
 global $cmplz_integrations_list;
 $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     //user registration plugin
     'user-registration' => array(
-        'constant_or_function' => 'UR_VERSION',
+        'constant_or_function' => 'UR',
         'label' => 'User Registration',
     ),
     'contact-form-7' => array(
@@ -72,7 +67,12 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'instagram-feed' => array(
         'constant_or_function' => 'SBIVER',
         'label' => 'Instagram Feed',
+    ),
 
+    //Sumo
+    'sumo' => array(
+        'constant_or_function' => 'SUMOME__PLUGIN_DIR',
+        'label' => 'Sumo – Boost Conversion and Sales',
     ),
 
     //WP Forms
@@ -80,7 +80,6 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'constant_or_function' => 'wpforms',
         'label' => 'WP Forms',
         'condition' => array('privacy-statement' => 'yes'),
-
     ),
 
     //Gravity Forms
@@ -108,8 +107,7 @@ function cmplz_integrations(){
 
     global $cmplz_integrations_list;
     foreach($cmplz_integrations_list as $plugin => $details){
-        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function'])) && (cmplz_get_value($plugin)==1)){
-
+        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function'])) && (cmplz_get_value($plugin, false, 'integrations')==1)){
             $file = apply_filters('cmplz_integration_path', cmplz_path."integrations/plugins/$plugin.php", $plugin);
             if (file_exists($file)){
                 require_once($file);

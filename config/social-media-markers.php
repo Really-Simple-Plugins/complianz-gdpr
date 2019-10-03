@@ -65,19 +65,23 @@ $this->thirdparty_service_markers = array(
 );
 
 
-/*
-
+/**
  * Some scripts need to be loaded in specific order
  * key: script or part of script to wait for
  * value: script or part of script that should wait
  * */
 
-    //add_filter('cmplz_dependencies', 'my_dependency');
-    //function my_dependency($deps){
-    //    $deps['wait-for-this-script'] = 'script-that-should-wait';
-    //    return $deps;
-    //}
+/**
+    example:
 
+
+    add_filter('cmplz_dependencies', 'my_dependency');
+    function my_dependency($deps){
+        $deps['wait-for-this-script'] = 'script-that-should-wait';
+        return $deps;
+    }
+
+ */
 $this->dependencies = array();
 
 /**
@@ -86,16 +90,12 @@ $this->dependencies = array();
 
 $this->placeholder_markers = array();
 
-/*
+/**
  * Scripts with this string in the source or in the content of the script tags get blocked.
  *
  * */
 
-$this->script_tags = array(
-    'apis.google.com/js/platform.js',
-    'dataset.sumoSiteId',//plugin
-    '_getTracker',//what's this from
-);
+$this->script_tags = array();
 
 /**
  * Style strings (google fonts have been removed in favor of plugin recommendation)
@@ -110,7 +110,7 @@ $this->style_tags = array();
 
 $this->async_list = array();
 
-$this->iframe_tags = array('apis.google.com',);
+$this->iframe_tags = array();
 
 /**
  * images with a URl in this list will get blocked

@@ -11,6 +11,7 @@ function cmplz_user_registration_script($tags){
 
     if ( 'yes' == $recaptcha_enabled ) {
         $tags[] = 'user-registration.min.js';
+        $tags[] = 'user-registration.js';
     }
 
     return $tags;

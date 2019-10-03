@@ -369,14 +369,6 @@ jQuery(document).ready(function($) {
         if (waitingInlineScripts.length===0 && waitingScripts.length===0 ) {
             //custom re-initialization after stuff is activated
             if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
-
-            //Divi
-             // var map_container = $('.et_pb_map_container');
-             // if (map_container.length) {
-             //     var map = map_container.children('.et_pb_map')
-             //     console.log('init');
-             //     google.maps.event.trigger(map[0], 'resize');
-             // }
         }
     }
 
@@ -698,6 +690,12 @@ jQuery(document).ready(function($) {
             if (complianz.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
                 cmplzAcceptAllCookies();
             }
+
+            //fire an event so custom scripts can hook into this.
+            $.event.trigger({
+                type: "cmplzCookieWarningLoaded",
+                consentType: complianz.consenttype
+            });
         });
     }
 
@@ -711,21 +709,7 @@ jQuery(document).ready(function($) {
         cmplzSaveCategoriesSelection();
     });
 
-    /**
-    * Accept all cookies for this user.
-    *
-    * */
 
-    function cmplzAcceptAllCookies(){
-        setStatusAsBodyClass('allow');
-        cmplzSetAcceptedCookiePolicyID();
-        if (complianz.use_categories) {
-            cmplzFireCategories(true);
-        } else {
-            complianz_enable_cookies();
-            complianz_enable_scripts();
-        }
-    }
 
 
 
@@ -964,6 +948,23 @@ jQuery(document).ready(function($) {
     }
 
     /**
+     * Accept all cookies for this user.
+     *
+     * */
+
+    function cmplzAcceptAllCookies(){
+        setStatusAsBodyClass('allow');
+        cmplzSetAcceptedCookiePolicyID();
+        // if (complianz.use_categories) {
+            cmplzFireCategories(true);
+        // } else {
+        //     complianz_enable_cookies();
+        //     complianz_enable_scripts();
+        // }
+    }
+
+
+    /**
     * Fire the categories events which have been accepted.
     * Fires Tag Manager events.
     *
@@ -972,9 +973,7 @@ jQuery(document).ready(function($) {
     function cmplzFireCategories(all) {
         all = typeof all !== 'undefined' ? all : false;
         //always functional
-        //if (complianz.tm_categories) {
-            cmplzRunTmEvent('cmplz_event_functional');
-        //}
+        cmplzRunTmEvent('cmplz_event_functional');
 
         //using TM categories
         if (complianz.tm_categories) {
@@ -983,10 +982,7 @@ jQuery(document).ready(function($) {
                     cmplzRunTmEvent('cmplz_event_' + i);
                 }
             }
-        }
-
-        //statistics acceptance
-        if ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked")) {
+        }else if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
             complianz_enable_stats();
         }
 

@@ -142,8 +142,13 @@ function cmplz_show_cookie_usage_notice()
 add_action('cmplz_notice_use_categories', 'cmplz_show_use_categories_notice');
 function cmplz_show_use_categories_notice()
 {
-    if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
-        cmplz_notice(__("Categories are recommended for your statistics configuration", 'complianz-gdpr'), 'warning');
+    $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+    $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+    if ($uses_tagmanager && $tm_fires_scripts) {
+        cmplz_notice(__('If you want to specify the categories used by Tag Manager, you need to enable categories.','complianz-gdpr'), 'warning');
+
+    } elseif (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+        cmplz_notice(__("Categories are mandatory for your statistics configuration", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/statistics-as-mandatory-category'), 'warning');
     }
 }
 
@@ -177,6 +182,12 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
+//    if ($fieldname === 'use_categories') {
+//        if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+//            return 1;
+//        }
+//    }
+
     /*
      * When cookies are detected, the user should select yes on this questino
      *
@@ -185,11 +196,6 @@ function cmplz_set_default($value, $fieldname)
     if ($fieldname === 'uses_cookies') {
         if (!empty(COMPLIANZ()->cookie->get_detected_cookies())) {
             return 'yes';
-        }
-    }
-    if ($fieldname === 'use_categories') {
-        if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
-            return 1;
         }
     }
 

@@ -330,11 +330,11 @@ if (!class_exists("cmplz_cookiebanner")) {
             /**
              * If Tag manager fires categories, enable use categories by default
              */
-            $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
-            $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
-            if ($uses_tagmanager && $tm_fires_scripts) {
-                $this->use_categories = true;
-            }
+//            $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+//            $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+//            if ($uses_tagmanager && $tm_fires_scripts) {
+//                $this->use_categories = true;
+//            }
 
             if (!is_array($this->statistics)) $this->statistics = array();
             $statistics = serialize($this->statistics);

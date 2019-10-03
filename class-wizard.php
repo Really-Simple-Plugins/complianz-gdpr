@@ -198,12 +198,15 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
+            //only run when changes have been made
+            if ($fieldvalue === $prev_value) return;
+
             $enable_categories = false;
             $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
             $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
 
             /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
-            if ($uses_tagmanager && $tm_fires_scripts) {
+            if (($fieldname ==='fire_scripts_in_tagmanager') && $uses_tagmanager && $tm_fires_scripts) {
                 $enable_categories = true;
             }
 
@@ -225,8 +228,7 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            //only run when changes have been made
-            if ($fieldvalue === $prev_value) return;
+
 
             //when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
             if ($fieldname==='privacy-statement' || $fieldname==='regions' || $fieldname === 'cookie-policy-type'){
@@ -245,8 +247,6 @@ if (!class_exists("cmplz_wizard")) {
             if (($fieldvalue != $prev_value) && isset($field['revoke_consent_onchange']) && $field['revoke_consent_onchange']) {
                 COMPLIANZ()->cookie->upgrade_active_policy_id();
                 update_option('cmplz_generate_new_cookiepolicy_snapshot',true);
-
-
             }
 
             /*
@@ -283,6 +283,26 @@ if (!class_exists("cmplz_wizard")) {
         public function after_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type){
             if ($fieldname==='children-safe-harbor' && cmplz_get_value('targets-children')==='no'){
                 cmplz_update_option('wizard', 'children-safe-harbor', 'no');
+            }
+
+            if ($fieldvalue === $prev_value) return;
+
+            $enable_categories=false;
+            if ($fieldname === 'compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info') {
+                if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+                    $enable_categories = true;
+                }
+            }
+
+            if ($enable_categories){
+                $banners = cmplz_get_cookiebanners();
+                if (!empty($banners)) {
+                    foreach ($banners as $banner) {
+                        $banner = new CMPLZ_COOKIEBANNER($banner->ID);
+                        $banner->use_categories = true;
+                        $banner->save();
+                    }
+                }
             }
         }
 
@@ -669,6 +689,7 @@ if (!class_exists("cmplz_wizard")) {
                 if (count($regions)==0) $regions = false;
 
             }
+            if ($regions) $regions = array_map('strtoupper', $regions);
 
             return $regions;
         }
@@ -688,7 +709,7 @@ if (!class_exists("cmplz_wizard")) {
             if ($regions){
                 ?><div class="cmplz-region-indicator"><?php
                 foreach($regions as $region) {?>
-                    <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo $region?>.png">
+                    <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo strtolower($region)?>.png">
                 <?php }
                 ?></div><?php
 

@@ -17,7 +17,6 @@ if (!class_exists("cmplz_admin")) {
             self::$_this = $this;
             add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
             add_action('admin_menu', array($this, 'register_admin_page'), 20);
-            add_action('admin_init', array($this, 'process_support_request'));
 
             $plugin = cmplz_plugin;
             add_filter("plugin_action_links_$plugin", array($this, 'plugin_settings_link'));
@@ -570,6 +569,7 @@ if (!class_exists("cmplz_admin")) {
             <table class="cmplz-dashboard-documents-table cmplz-dashboard-text">
                 <?php
                 foreach (COMPLIANZ()->config->pages as $type => $page) {
+
                     //get region of this page , and maybe add it to the title
                     $img = '<img width="25px" height="5px" src="' . cmplz_url . '/core/assets/images/s.png">';
 
@@ -577,11 +577,15 @@ if (!class_exists("cmplz_admin")) {
                         $region = $page['condition']['regions'];
                         $img = '<img width="25px" src="' . cmplz_url . '/core/assets/images/' . $region . '.png">';
                     }
+                    $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
 
                     if (COMPLIANZ()->document->page_exists($type)) {
+                        if (!COMPLIANZ()->document->page_required($page)) {
+                            $this->get_dashboard_element(sprintf(__("Obsolete page, you can delete %s"), $link, $img), 'error');
+                        } else {
+                            $this->get_dashboard_element($link, 'success', $img);
+                        }
 
-                        $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
-                        $this->get_dashboard_element($link, 'success', $img);
                     } elseif (COMPLIANZ()->document->page_required($page)) {
                         $this->get_dashboard_element(sprintf(__("You should create a %s"), $page['title'], $img), 'error');
                     }
@@ -859,51 +863,6 @@ if (!class_exists("cmplz_admin")) {
             <?php
         }
 
-
-        public function process_support_request()
-        {
-            if (isset($_POST['cmplz_support_request']) && isset($_POST['cmplz_support_email'])) {
-                if (!is_email($_POST['cmplz_support_email'])) {
-                    $this->error_message = __('Email address not valid', 'complianz-gdpr');
-                    return;
-                }
-
-                if (!wp_verify_nonce($_POST['cmplz_nonce'], 'cmplz_support')) return;
-
-                $email = sanitize_email($_POST['cmplz_support_email']);
-                $subject = sanitize_text_field($_POST['cmplz_support_subject']);
-
-                $allowed_tags = wp_kses_allowed_html('post');
-                $support_request = wp_kses($_POST['cmplz_support_request'], $allowed_tags);
-
-                $license = get_option('cmplz_license_key');
-                $user_info = get_userdata(get_current_user_id());
-                $nicename = $user_info->user_nicename;
-
-                $headers[] = "Reply-to: $nicename <$email>" . "\r\n";
-
-                $to = "support@complianz.io";
-                $message = "License: $license <br><br>";
-                $message .= $support_request . "<br><br>";
-                $message .= $nicename;
-                add_filter('wp_mail_content_type', function ($content_type) {
-                    return 'text/html';
-                });
-
-                $success = wp_mail($to, $subject, $message, $headers);
-
-                // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
-                remove_filter('wp_mail_content_type', 'set_html_content_type');
-                if ($success) {
-                    $this->success_message = sprintf(__("Your support request has been received. We will reply shortly. You can track the status of your request at %scomplianz.io%s", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/support">', '</a>');
-
-                } else {
-                    $this->error_message = __("Something went wrong while submitting the support request", 'complianz-gdpr');
-
-                }
-            }
-        }
-
         public function get_dashboard_element($content, $type = 'error', $img = '')
         {
             $icon = "";
@@ -1005,20 +964,39 @@ if (!class_exists("cmplz_admin")) {
                     <div id="services" class="cmplz-tabcontent <?php echo $active_tab==='services'? 'active' : ''?>">
                         <form action="" method="post" class="cmplz-body">
                         <table class="form-table">
-                            <tr><th></th><td>
-                                    <?php cmplz_notice(__('Services which are currently enabled will be blocked by Complianz on the front-end of your website until the user has given consent.', 'complianz-gdpr'));  ?>
+                                <tr><th></th><td>
+                                    <?php
+
+                                    $thirdparty_active = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
+                                    $socialmedia_active = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
+                                    if (!$thirdparty_active || !$socialmedia_active){
+                                        $not_used = '';
+                                        if (!$thirdparty_active && !$socialmedia_active) $not_used = __('Third party services and social media','complianz-gdpr');
+                                        if ($thirdparty_active && !$socialmedia_active) $not_used = __('Social media','complianz-gdpr');
+                                        if (!$thirdparty_active && $socialmedia_active) $not_used = __('Third party services','complianz-gdpr');
+                                        $link = '<a href="'.add_query_arg(array('page'=>'cmplz-wizard', 'step'=>STEP_COOKIES, 'section'=>4), admin_url('admin.php')).'">';
+                                        cmplz_notice(sprintf(__('%s are marked as not being used on your website in the %swizard%s.', 'complianz-gdpr'),$not_used,$link,'</a>'), 'warning');
+                                    }
+
+                                    if ($thirdparty_active || $socialmedia_active){
+                                        cmplz_notice(__('Services which are currently enabled will be blocked by Complianz on the front-end of your website until the user has given consent.', 'complianz-gdpr'));
+                                    }
+
+                                    ?>
                                     <input type="hidden" name="cmplz_save_integrations_type" value="services">
                                 </td></tr>
                                 <?php
 
 
+
+                                if ($thirdparty_active) {
                                     $thirdparty_services = COMPLIANZ()->config->thirdparty_services;
                                     unset($thirdparty_services['google-fonts']);
                                     $active_services = cmplz_get_value('thirdparty_services_on_site');
-                                    foreach($thirdparty_services as $service => $label){
-                                        $active = (isset($active_services[$service]) && $active_services[$service]==1) ? true : false;
+                                    foreach ($thirdparty_services as $service => $label) {
+                                        $active = (isset($active_services[$service]) && $active_services[$service] == 1) ? true : false;
                                         $args = array(
-                                                'first' => false,
+                                            'first' => false,
                                             "fieldname" => $service,
                                             "type" => 'text',
                                             "required" => false,
@@ -1031,10 +1009,12 @@ if (!class_exists("cmplz_admin")) {
 
                                         COMPLIANZ()->field->checkbox($args, $active);
                                     }
+                                }
+                                if ($socialmedia_active) {
                                     $socialmedia = COMPLIANZ()->config->thirdparty_socialmedia;
                                     $active_socialmedia = cmplz_get_value('socialmedia_on_site');
-                                    foreach($socialmedia as $service => $label){
-                                        $active = (isset($active_socialmedia[$service]) && $active_socialmedia[$service]==1) ? true : false;
+                                    foreach ($socialmedia as $service => $label) {
+                                        $active = (isset($active_socialmedia[$service]) && $active_socialmedia[$service] == 1) ? true : false;
 
                                         $args = array(
                                             'first' => false,
@@ -1050,6 +1030,7 @@ if (!class_exists("cmplz_admin")) {
 
                                         COMPLIANZ()->field->checkbox($args, $active);
                                     }
+                                }
 
                                     ?>
                         </table>
@@ -1067,7 +1048,7 @@ if (!class_exists("cmplz_admin")) {
                             <tr>
                                 <th></th>
                                 <td><?php
-                                    cmplz_notice(__('Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/integrating-plugins'));
+                                    cmplz_notice(__('Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/developers-guide-for-third-party-integrations'));
                                     $fields = COMPLIANZ()->config->fields('integrations');
                                     if (count($fields)==0){
                                         cmplz_notice(__('No active plugins detected in the integrations list.', 'complianz-gdpr'), 'warning');

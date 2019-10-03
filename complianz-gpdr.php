@@ -136,7 +136,9 @@ if (!class_exists('COMPLIANZ')) {
              * The legal version is only updated when document contents or the questions leading to it are changed
              * 1: start version
              * 2: introduction of US privacy questions
-             *
+             * 3: new questions
+             * 4: new questions
+             * 5: UK as seperate region
              * */
             define('CMPLZ_LEGAL_VERSION', '4');
 

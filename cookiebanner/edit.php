@@ -17,7 +17,7 @@
         ?>
         <script>
             jQuery(document).ready(function ($) {
-                $('input:checkbox[name=cmplz_use_categories]').prop("checked", true);
+                //$('input:checkbox[name=cmplz_use_categories]').prop("checked", true);
             });
         </script>
         <?php

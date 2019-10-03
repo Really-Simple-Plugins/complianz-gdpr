@@ -65,19 +65,3 @@ function cmplz_wp_google_maps_placeholder($tags){
     return $tags;
 }
 add_filter('cmplz_placeholder_markers', 'cmplz_wp_google_maps_placeholder');
-
-
-/**
- * We need to unset this item, as we use the plugin's built in feature for this
- * Note: it's currently not implemented (this string) so this is to make sure we don't forget it when it's added.
- */
-
-add_filter('cmplz_known_script_tags', 'cmplz_wp_google_maps_script');
-function cmplz_wp_google_maps_script($tags){
-
-    if (($key = array_search('maps.googleapis.com', $tags)) !== false) {
-        unset($tags[$key]);
-    }
-    return $tags;
-}
-

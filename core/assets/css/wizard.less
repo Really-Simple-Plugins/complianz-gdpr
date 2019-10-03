@@ -22,7 +22,7 @@
   }
 
   input:checked:disabled + .cmplz-slider {
-    background-color: lighten(@brand-primary, 35%);
+    background-color: lighten(@brand-primary, 25%);
     &:before{
       //background-color:#c6c6c6;
     }
@@ -67,13 +67,12 @@ tr.field-group .cmplz-help-modal{
   border-color: @brand-primary;
   text-align: left;
 }
-a
-{
+.cmplz-help-modal a {
   color: #333;
 }
 a:active,a:hover
 {
-  color: #000;
+  color: #333;
 }
 a.button.cmplz-open-modal{
   font-size: 9px;
@@ -411,11 +410,6 @@ html .mceContentBody {
   margin-top: 15px;
 }
 
-#cmplz-support-form.hide {
-  display: none !important; //override flex
-}
-
-
 
 /*progress bar */
 #cmplz-scan-progress {
@@ -502,9 +496,7 @@ html .mceContentBody {
         top: 2px;
         position: relative;
       }
-      .cmplz-step-title:active {
-        color: white;
-      }
+
 
       .cmplz-step {
 
@@ -518,6 +510,9 @@ html .mceContentBody {
           font-size: 18px;
         }
         &.active {
+          .cmplz-step-title {
+            color: white;
+          }
           .cmplz-step-count {
             color: #fff;
             background-color: @brand-primary;
@@ -606,10 +601,7 @@ html .mceContentBody {
       margin-left: 30px;
     }
     .cmplz-region-indicator {
-      margin-bottom:30px;
-      margin-top: 20px;
       height:0;
-      width:100%;
       span{
         padding-top:7px;
         padding-right:10px;
@@ -1102,9 +1094,7 @@ a.cmplz.button, button.cmplz.button, input.cmplz.button {
     }
 
     .cmplz-dashboard-support {
-      #cmplz-support-form {
-        margin-bottom: 15px;
-      }
+
       width: 450px;
       @media screen and (max-width: 1210px) {
         margin: 0 auto;

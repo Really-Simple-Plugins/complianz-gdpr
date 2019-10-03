@@ -411,7 +411,7 @@ $this->fields = $this->fields + array(
             'options' => $this->yes_no,
             'default' => '',
             'label' => __("Does your website use third party services?", 'complianz-gdpr'),
-            'help' => __("e.g. services like Google Fonts, Maps or recaptcha usually place cookies", 'complianz-gdpr'),
+            'help' => __("e.g. services like Google Fonts, Maps or recaptcha usually place cookies.", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -425,6 +425,7 @@ $this->fields = $this->fields + array(
             'default' => '',
             'condition' => array('uses_thirdparty_services' => 'yes'),
             'label' => __("Select the types of third party services you use on your site.", 'complianz-gdpr'),
+            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given.", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -437,8 +438,8 @@ $this->fields = $this->fields + array(
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'default' => '',
-            'label' => __("Is Hotjar configured in a privacy friendly way?", 'complianz-gdpr'),
-            'help' => __("You can configure Hotjar privacy friendly, if you do this, no consent is required for Hotjar.", 'complianz-gdpr').$this->read_more('https://complianz.io/configuring-hotjar-for-gdpr/'),
+            'label' => __("Is Hotjar configured in a privacy-friendly way?", 'complianz-gdpr'),
+            'help' => __("You can configure Hotjar privacy-friendly, if you do this, no consent is required for Hotjar.", 'complianz-gdpr').$this->read_more('https://complianz.io/configuring-hotjar-for-gdpr/'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             'condition' => array('thirdparty_services_on_site' => 'hotjar'),
         ),
@@ -466,6 +467,7 @@ $this->fields = $this->fields + array(
             'condition' => array('uses_social_media' => 'yes'),
             'default' => '',
             'label' => __("Select the types of social media you use on the site", 'complianz-gdpr'),
+            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given.", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 

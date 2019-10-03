@@ -11,3 +11,9 @@ function cmplz_geo_my_wp_script($tags){
 
     return $tags;
 }
+
+add_filter('cmplz_known_iframe_tags', 'cmplz_geo_my_wp_iframetags');
+function cmplz_geo_my_wp_iframetags($tags){
+    $tags[] =  'apis.google.com';
+    return $tags;
+}

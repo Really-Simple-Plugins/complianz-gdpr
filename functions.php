@@ -24,8 +24,7 @@ if (!function_exists('cmplz_fields_filter')) {
         $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
         $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
         if ($uses_tagmanager && $tm_fires_scripts) {
-            $fields['use_categories']['help'] = __('Because you have selected Tag Manager and Tag Manager fires scripts, categories are required','complianz-gdpr');
-            $fields['use_categories']['disabled'] = true;
+            //$fields['use_categories']['disabled'] = true;
         }
 
         return $fields;
@@ -634,7 +633,7 @@ if (!function_exists('cmplz_is_pagebuilder_preview')) {
     {
         $preview = false;
         global $wp_customize;
-        if (isset( $wp_customize ) || isset($_GET['fb-edit']) || isset($_GET['et_pb_preview']) || isset($_GET['et_fb']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder'])) {
+        if (isset( $wp_customize ) || isset($_GET['fb-edit']) || isset($_GET['et_pb_preview']) || isset($_GET['et_fb']) || isset($_GET['elementor-preview']) || isset($_GET['fl_builder']) || isset($_GET['tve'])) {
             $preview = true;
         }
 
@@ -762,10 +761,11 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
  * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
  *
  * */
-add_filter('locale', 'cmplz_set_plugin_language', 9, 1);
+add_filter('locale', 'cmplz_set_plugin_language', 19, 1);
 if (!function_exists('cmplz_set_plugin_language')) {
     function cmplz_set_plugin_language($locale)
     {
+        return 'en_US';
         $post_id = false;
         if (isset($_GET['post'])) $post_id = $_GET['post'];
         if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
@@ -778,12 +778,10 @@ if (!function_exists('cmplz_set_plugin_language')) {
                 $locale = 'en_US';
             }
         }
-
-        $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
-        if ($cmplz_lang == 'en') {
+        if (isset($_GET['clang']) && $_GET['clang'] === 'en') {
             $locale = 'en_US';
-        }
 
+        }
         return $locale;
     }
 }

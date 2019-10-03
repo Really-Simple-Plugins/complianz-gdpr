@@ -181,14 +181,13 @@ if (!class_exists("cmplz_config")) {
         }
 
         public function init()
-
         {
-            $is_complianz_document_page = COMPLIANZ()->document->is_complianz_page();
-            if ($is_complianz_document_page || (is_admin() && isset($_GET['page']) && strpos($_GET['page'],'cmplz')!==FALSE)){
+
+            if (!is_admin() || (is_admin() && isset($_GET['page']) && strpos($_GET['page'],'cmplz')!==FALSE)){
                 $this->fields = apply_filters('cmplz_fields', $this->fields);
             }
 
-            if ($is_complianz_document_page) {
+            if (!is_admin()) {
                 $this->document_elements = apply_filters('cmplz_document_elements', $this->document_elements, $this->fields());
             }
         }

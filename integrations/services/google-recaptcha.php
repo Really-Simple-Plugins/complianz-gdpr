@@ -8,6 +8,9 @@ function cmplz_recaptcha_script($tags){
     $tags[] = 'grecaptcha'; //contact form 7
     $tags[] = 'recaptcha.js';
     $tags[] = 'recaptcha/api.js';
+    $tags[] =  'apis.google.com/js/platform.js';
+
 
     return $tags;
 }
+

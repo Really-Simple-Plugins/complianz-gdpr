@@ -14,7 +14,7 @@
   font-style: italic;
 }
 .cmplz-scriptcenter input:checked:disabled + .cmplz-slider {
-  background-color: #d4f0fd;
+  background-color: #a3e0fb;
 }
 /*
     Complianz submenu in wp admin
@@ -45,12 +45,12 @@ tr.field-group .cmplz-help-modal {
   float: right;
   cursor: pointer;
 }
-a {
+.cmplz-help-modal a {
   color: #333;
 }
 a:active,
 a:hover {
-  color: #000;
+  color: #333;
 }
 a.button.cmplz-open-modal {
   font-size: 9px;
@@ -335,9 +335,6 @@ html .mceContentBody {
   margin-right: 15px;
   margin-top: 15px;
 }
-#cmplz-support-form.hide {
-  display: none !important;
-}
 /*progress bar */
 #cmplz-scan-progress {
   width: 100%;
@@ -445,10 +442,6 @@ html .mceContentBody {
   top: 2px;
   position: relative;
 }
-#cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step-title:active,
-#cookie-policy-snapshots .cmplz-header .cmplz-wizard-steps .cmplz-step-title:active {
-  color: white;
-}
 #cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step,
 #cookie-policy-snapshots .cmplz-header .cmplz-wizard-steps .cmplz-step {
   color: #29b6f6;
@@ -467,6 +460,10 @@ html .mceContentBody {
   background-color: #000;
   text-decoration: none;
   margin-right: 80px;
+}
+#cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step.active .cmplz-step-title,
+#cookie-policy-snapshots .cmplz-header .cmplz-wizard-steps .cmplz-step.active .cmplz-step-title {
+  color: white;
 }
 #cmplz-wizard .cmplz-header .cmplz-wizard-steps .cmplz-step.active .cmplz-step-count,
 #cookie-policy-snapshots .cmplz-header .cmplz-wizard-steps .cmplz-step.active .cmplz-step-count {
@@ -562,10 +559,7 @@ html .mceContentBody {
 }
 #cmplz-wizard .cmplz-body .cmplz-region-indicator,
 #cookie-policy-snapshots .cmplz-body .cmplz-region-indicator {
-  margin-bottom: 30px;
-  margin-top: 20px;
   height: 0;
-  width: 100%;
 }
 #cmplz-wizard .cmplz-body .cmplz-region-indicator span,
 #cookie-policy-snapshots .cmplz-body .cmplz-region-indicator span {
@@ -1028,9 +1022,6 @@ input.cmplz.button .fa-angle-right {
 .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support {
   width: 450px;
   grid-area: support;
-}
-.cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support #cmplz-support-form {
-  margin-bottom: 15px;
 }
 @media screen and (max-width: 1210px) {
   .cmplz-dashboard-container .cmplz-dashboard-content-container .cmplz-dashboard-support {
