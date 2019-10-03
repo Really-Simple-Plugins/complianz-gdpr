@@ -78,7 +78,6 @@ if (!class_exists('COMPLIANZ')) {
                     self::$instance->includes();
 
                     self::$instance->config = new cmplz_config();
-                    self::$instance->integrations = new cmplz_integrations();
                     self::$instance->company = new cmplz_company();
                     if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
 
