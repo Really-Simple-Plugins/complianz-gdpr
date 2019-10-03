@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.1.1
+Stable tag: 3.2.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, AVG, ePrivacy, DSVGO, CCPA and COPPA. 
 
@@ -29,7 +29,7 @@ IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirem
 * Blocks iFrames, like YouTube/Vimeo embedded video’s and Social iFrames, with placeholders!
 * Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
 * We closely follow the latest developments in the ePrivacy legislation and other legislations.
-* Integrates seamlessly with Gutenberg, Elementor, Divi, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Divi, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 * Gutenberg Blocks enabled.

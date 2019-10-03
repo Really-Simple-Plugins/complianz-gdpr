@@ -26,7 +26,7 @@ if (!class_exists("cmplz_cookie")) {
                 add_action('admin_init', array($this, 'track_cookie_changes'));
             }
 
-            if (!is_admin()) {
+            if (!is_admin() && get_option('cmplz_wizard_completed_once')) {
                 if ($this->site_needs_cookie_warning()) {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 9999);
                     add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'), 99999);
@@ -1562,7 +1562,6 @@ if (!class_exists("cmplz_cookie")) {
 
         public function site_needs_cookie_warning($region=false)
         {
-
             if (cmplz_get_value('uses_cookies') !== 'yes') {
                 return false;
             }
@@ -1577,7 +1576,9 @@ if (!class_exists("cmplz_cookie")) {
              *
              */
 
-            if ($region==='us'){
+            if ($region && !cmplz_has_region($region)) return false;
+
+            if ((!$region || $region==='us') && cmplz_has_region('us')){
                 return true;
             }
 
@@ -1634,17 +1635,24 @@ if (!class_exists("cmplz_cookie")) {
 
         /**
          * Check if the site needs a cookie banner considering statistics only
-         *
+         * @param $region bool|string
          * @@since 1.0
          *
          * @return bool
          * */
 
-        public function cookie_warning_required_stats()
+        public function cookie_warning_required_stats($region=false)
         {
 
-            $eu = cmplz_has_region('eu');
-            $uk = cmplz_has_region('uk');
+            if ($region){
+                $eu = false;
+                $uk = false;
+                if ($region==='uk') $uk = true;
+                if ($region==='eu') $eu = true;
+            } else {
+                $eu = cmplz_has_region('eu');
+                $uk = cmplz_has_region('uk');
+            }
 
             if (cmplz_get_value('uses_cookies') !== 'yes') {
                 return false;
@@ -1657,6 +1665,14 @@ if (!class_exists("cmplz_cookie")) {
             if (!$eu & !$uk) return false;
 
             $statistics = cmplz_get_value('compile_statistics');
+
+            //uk requires cookie warning for stats
+            if ($uk && $statistics !== 'no') return true;
+
+            //us only, no cookie warning required for stats
+            //but for us a cookie warning is required anyway
+            if (!$eu & !$uk) return false;
+
             $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
             $matomo = ($statistics === 'matomo') ? true : false;
             $google_analytics = ($statistics === 'google-analytics') ? true : false;
