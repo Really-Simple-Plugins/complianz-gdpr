@@ -163,6 +163,7 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
+            require_once(cmplz_path . 'integrations/integrations.php');
 
             /* Gutenberg block */
             if (cmplz_uses_gutenberg()) {
@@ -183,7 +184,6 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'cron/cron.php');
             require_once(cmplz_path . 'class-cookie.php');
-            require_once(cmplz_path . 'integrations/integrations.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
             require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
