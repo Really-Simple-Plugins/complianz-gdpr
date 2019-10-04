@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 3.1.2
+ * Version: 3.2.0
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
  * Author: RogierLankhorst, complianz
@@ -78,7 +78,6 @@ if (!class_exists('COMPLIANZ')) {
                     self::$instance->includes();
 
                     self::$instance->config = new cmplz_config();
-                    self::$instance->integrations = new cmplz_integrations();
                     self::$instance->company = new cmplz_company();
                     if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
 
@@ -136,7 +135,9 @@ if (!class_exists('COMPLIANZ')) {
              * The legal version is only updated when document contents or the questions leading to it are changed
              * 1: start version
              * 2: introduction of US privacy questions
-             *
+             * 3: new questions
+             * 4: new questions
+             * 5: UK as seperate region
              * */
             define('CMPLZ_LEGAL_VERSION', '4');
 
@@ -162,7 +163,7 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
-            require_once(cmplz_path . 'class-form.php');
+            require_once(cmplz_path . 'integrations/integrations.php');
 
             /* Gutenberg block */
             if (cmplz_uses_gutenberg()) {
@@ -183,10 +184,8 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'cron/cron.php');
             require_once(cmplz_path . 'class-cookie.php');
-            require_once(cmplz_path . 'integrations.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
-            require_once(cmplz_path . 'integrations.php');
             require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
 
 

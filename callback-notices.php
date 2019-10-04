@@ -2,18 +2,6 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 
-
-add_action('cmplz_notice_dpo_or_gdpr', 'cmplz_dpo_or_gdpr');
-function cmplz_dpo_or_gdpr(){
-
-    if (!cmplz_company_in_eu()){
-        cmplz_notice(__("Your company is located outside the EU, so should appoint a GDPR representative in the EU.", 'complianz-gdpr'));
-    } else {
-        cmplz_notice(__("Your company is located in the EU, so you do not need to appoint a GDPR representative in the EU.", 'complianz-gdpr'));
-    }
-
-}
-
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');
 function cmplz_uses_social_media_notice(){
     $social_media = cmplz_scan_detected_social_media();
@@ -100,7 +88,7 @@ function cmplz_data_sold_us(){
 add_action('cmplz_notice_no_cookies_used', 'cmplz_notice_no_cookies_used');
 function cmplz_notice_no_cookies_used(){
 
-    if (cmplz_get_value('uses_cookies')!=='yes') {
+    if (cmplz_get_value('uses_cookies')==='no') {
         cmplz_notice(__("You have indicated your site does not use cookies. If you're sure about this, you can skip this step", 'complianz-gdpr'),'warning');
     }
 
@@ -151,6 +139,19 @@ function cmplz_show_cookie_usage_notice()
     }
 }
 
+add_action('cmplz_notice_use_categories', 'cmplz_show_use_categories_notice');
+function cmplz_show_use_categories_notice()
+{
+    $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+    $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+    if ($uses_tagmanager && $tm_fires_scripts) {
+        cmplz_notice(__('If you want to specify the categories used by Tag Manager, you need to enable categories.','complianz-gdpr'), 'warning');
+
+    } elseif (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+        cmplz_notice(__("Categories are mandatory for your statistics configuration", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/statistics-as-mandatory-category'), 'warning');
+    }
+}
+
 
 /*
  * For the cookie page and the US banner we need a link to the privacy statement.
@@ -181,6 +182,12 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
+//    if ($fieldname === 'use_categories') {
+//        if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+//            return 1;
+//        }
+//    }
+
     /*
      * When cookies are detected, the user should select yes on this questino
      *
@@ -208,7 +215,13 @@ function cmplz_set_default($value, $fieldname)
     }
 
     if ($fieldname == 'dpo_or_gdpr') {
-        if (!cmplz_company_in_eu()) return 'gdpr_rep';
+        if (!cmplz_company_located_in_region('eu')) return 'gdpr_rep';
+    }
+
+    if ($fieldname == 'dpo_or_uk_gdpr') {
+        if (!cmplz_company_located_in_region('uk')) {
+            return 'uk_gdpr_rep';
+        }
     }
 
     if ($fieldname == 'country_company') {

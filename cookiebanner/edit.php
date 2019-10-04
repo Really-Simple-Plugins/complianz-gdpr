@@ -17,7 +17,7 @@
         ?>
         <script>
             jQuery(document).ready(function ($) {
-                $('input:checkbox[name=cmplz_use_categories]').prop("checked", true);
+                //$('input:checkbox[name=cmplz_use_categories]').prop("checked", true);
             });
         </script>
         <?php
@@ -57,7 +57,8 @@
             <h3><?php _e("General", 'complianz-gdpr')?></h3>
             <p>
             <table class="form-table">
-                <?php COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', 'general');?>
+                <?php
+                COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', 'general');?>
             </table>
             </p>
         </div>
@@ -69,7 +70,8 @@
                 <h3><?php echo get_regions_for_consent_type($consent_type);?></h3>
                 <p>
                 <table class="form-table">
-                    <?php COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', $consent_type);?>
+                    <?php
+                    COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', $consent_type);?>
                 </table>
                 </p>
             </div>

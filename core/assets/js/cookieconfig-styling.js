@@ -117,6 +117,7 @@ jQuery(document).ready(function ($) {
     }
 
     $(document).on('change', 'input[name=cmplz_use_categories]', function () {
+
         cmplz_cookie_warning();
     });
 
@@ -148,6 +149,17 @@ jQuery(document).ready(function ($) {
             ccDismiss = $('input[name=cmplz_accept_informational]').val();
         }
         var ccCategories = $('input[name=cmplz_use_categories]').is(':checked');
+        if ($('textarea[name=cmplz_tagmanager_categories]').length) {
+            if (ccCategories) {
+                $("textarea[name=cmplz_tagmanager_categories]").closest('.field-group').show();
+                $("input[name=cmplz_category_stats]").closest('.field-group').hide();
+            } else {
+                $("textarea[name=cmplz_tagmanager_categories]").closest('.field-group').hide();
+                $("input[name=cmplz_category_stats]").closest('.field-group').show();
+
+            }
+        }
+
         var ccHideRevoke = $('input[name=cmplz_hide_revoke]').is(':checked');
 
         if (ccHideRevoke) {

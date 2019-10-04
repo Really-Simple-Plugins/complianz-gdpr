@@ -75,7 +75,8 @@ if (!class_exists("cmplz_document_core")) {
                 $conditions = $page['condition'];
                 $condition_met = true;
                 foreach ($conditions as $condition_question => $condition_answer){
-                    $value = cmplz_get_value($condition_question);
+
+                    $value = cmplz_get_value($condition_question, false, false, $use_default=false);
                     $invert = false;
                     if (strpos($condition_answer, 'NOT ')!==FALSE) {
                         $condition_answer = str_replace('NOT ', '', $condition_answer);
@@ -217,9 +218,7 @@ if (!class_exists("cmplz_document_core")) {
         public function get_document_html($type, $post_id = false)
         {
             if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz-gdpr'),$type);
-
             $elements = COMPLIANZ()->config->document_elements[$type];
-
             $html = "";
             $paragraph = 0;
             $sub_paragraph = 0;
@@ -428,6 +427,17 @@ if (!class_exists("cmplz_document_core")) {
             $checked_date = date(get_option('date_format'), get_option('cmplz_documents_update_date'));
             $checked_date = cmplz_localize_date($checked_date);
             $html = str_replace("[checked_date]", cmplz_esc_html($checked_date), $html);
+
+            //because the phonenumber is not required, we need to allow for an empty phonenr, making a dynamic string necessary.
+            $contact_dpo = cmplz_get_value('email_dpo');
+            $phone_dpo = cmplz_get_value('phone_dpo');
+            if (strlen($phone_dpo)!==0) $contact_dpo .= " ".sprintf(_x("or by telephone on %s",'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',"complianz-gdpr"), $phone_dpo);
+            $html = str_replace("[email_dpo]", $contact_dpo, $html);
+
+            $contact_dpo_uk = cmplz_get_value('email_dpo_uk');
+            $phone_dpo_uk = cmplz_get_value('phone_dpo_uk');
+            if (strlen($phone_dpo)!==0) $contact_dpo_uk .= " ".sprintf(_x("or by telephone on %s",'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',"complianz-gdpr"), $phone_dpo_uk);
+            $html = str_replace("[email_dpo_uk]", $contact_dpo_uk, $html);
 
             //replace all fields.
             foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {
