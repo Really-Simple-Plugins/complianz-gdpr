@@ -967,6 +967,8 @@ if (!class_exists("cmplz_document")) {
             if ($load_css) {
                 $css = file_get_contents (cmplz_path . "core/assets/css/document.css");
             }
+            $title_html = $save_to_file ? '' : '<h4 class="center">' . $title . '</h4>';
+
             $html = '
                     <style>
                     '.$css.'
@@ -995,7 +997,7 @@ if (!class_exists("cmplz_document")) {
                     </style>
                     
                     <body >
-                    <h4 class="center">' . $title . '</h4>
+                    ' . $title_html . '
                     ' . $document_html . '
                     </body>';
 

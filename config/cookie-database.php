@@ -118,13 +118,13 @@ $this->known_cookie_keys = array(
 
     'google-recaptcha' => array(
         'functional' => false,
-        'used_names' => array(),
+        'used_names' => array('API Call'),
         'unique_used_names' => array(),
         'privacy_policy_url' => 'https://policies.google.com/privacy',
         'label' => "Google Recaptcha",
-        'purpose' => __("", 'complianz-gdpr'),
-        'storage_duration' => __("", 'complianz-gdpr'),
-        'description' => __("", 'complianz-gdpr'),
+        'purpose' => __("reCaptcha will check if the website visitor is human, not a bot", 'complianz-gdpr'),
+        'storage_duration' => __("2 Weeks", 'complianz-gdpr'),
+        'description' => __("Actively monitors user actions across the entire property and returns a score which represents the probability if it is a human or a bot.", 'complianz-gdpr'),
     ),
 
     'mixpanel' => array(
@@ -270,7 +270,7 @@ $this->known_cookie_keys = array(
 
     'whatsapp' => array(
         'functional' => false,
-        'used_names' => array(''),
+        'used_names' => array('tok'),
         'unique_used_names' => array(''),
         'privacy_policy_url' => 'https://www.whatsapp.com/legal/#privacy-policy',
         'label' => "Whatsapp",
@@ -322,7 +322,7 @@ $this->known_cookie_keys = array(
     'hotjar' => array('functional' => false,
         'used_names' => array('_hjUserId', '_hjIncludedInSample', '_hjMinimizedTestersWidgets', '_hjClosedSurveyInvites', '_hjDonePolls', '_hjMinimizedPolls', '_hjDoneTestersWidgets'),
         'unique_used_names' => array('_hjUserId', '_hjIncludedInSample', '_hjMinimizedTestersWidgets', '_hjClosedSurveyInvites', '_hjDonePolls', '_hjMinimizedPolls', '_hjDoneTestersWidgets'),
-        'privacy_policy_url' => '',
+        'privacy_policy_url' => 'https://www.hotjar.com/legal/policies/privacy',
         'label' => "Hotjar",
         'purpose' => __("Performance", 'complianz-gdpr'),
         'storage_duration' => __("session", 'complianz-gdpr'),
@@ -453,9 +453,9 @@ $this->known_cookie_keys = array(
         'unique_used_names' => array('X-LI-IDC'),
         'privacy_policy_url' => 'https://www.linkedin.com/legal/privacy-policy',
         'label' => "Linkedin",
-        'purpose' => __("Linkedin places cookies to track users", 'complianz-gdpr'),
-        'storage_duration' => __("", 'complianz-gdpr'),
-        'description' => __("", 'complianz-gdpr'),
+        'purpose' => __("Tracking purposes", 'complianz-gdpr'),
+        'storage_duration' => __("6 months", 'complianz-gdpr'),
+        'description' => __("LinkedIn tracks users to target them with personalised ads", 'complianz-gdpr'),
     ),
 
     'twitter' => array('functional' => false,
@@ -1642,6 +1642,42 @@ $this->known_cookie_keys = array(
 
     ),
 
+    'soundcloud' => array(
+        'functional' => false,
+        'used_names' => array('sclocale', 'sc_anonymous_id'),
+        'unique_used_names' => array('sclocale', 'sc_anonymous_id'),
+        'privacy_policy_url' => 'https://soundcloud.com/pages/privacy',
+        'label' => "SoundCloud",
+        'purpose' => __("Tracking individual users.", 'complianz-gdpr'),
+        'storage_duration' => __("365 days", 'complianz-gdpr'),
+        'description' => __("These cookies are set to further personalize content on the SoundCloud platform and their partners plaforms.", 'complianz-gdpr'),
+
+    ),
+
+    'spotify' => array(
+        'functional' => false,
+        'used_names' => array('sp_*'),
+        'unique_used_names' => array('spAnalytics_id'),
+        'privacy_policy_url' => 'https://www.spotify.com/nl/legal/cookies-policy/',
+        'label' => "Spotify",
+        'purpose' => __("Tracking individual users.", 'complianz-gdpr'),
+        'storage_duration' => __("30 days", 'complianz-gdpr'),
+        'description' => __("These cookies are set to further personalize content on the Sporify platform and their partners plaforms.", 'complianz-gdpr'),
+
+    ),
+
+    'disqus' => array(
+        'functional' => false,
+        'used_names' => array('disqus_unique','disqusauth', 'disqusauths', '_jid', 'sessionid'),
+        'unique_used_names' => array('disqus_unique','disqusauth', 'disqusauths'),
+        'privacy_policy_url' => 'https://help.disqus.com/en/articles/1717103-disqus-privacy-policy',
+        'label' => "Disqus",
+        'purpose' => __("Tracking individual users.", 'complianz-gdpr'),
+        'storage_duration' => __("30 days", 'complianz-gdpr'),
+        'description' => __("These cookies are set to authenticate users on the Disqus platform and personalize advertising on their partners plaforms.", 'complianz-gdpr'),
+
+    ),
+
     'dont_track_me' => array(
         'functional' => true,
         'used_names' => array('dont_track_me'),
@@ -1652,5 +1688,5 @@ $this->known_cookie_keys = array(
         'storage_duration' => __("365 days", 'complianz-gdpr'),
         'description' => __("This cookie is placed whenever we detect a 'do not track me' signal from your browser and prevents tracking cookies from being placed.", 'complianz-gdpr'),
     ),
-   
+
 );

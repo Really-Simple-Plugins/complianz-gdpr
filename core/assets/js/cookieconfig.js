@@ -333,6 +333,10 @@ jQuery(document).ready(function($) {
                 waitingScript = waitingScripts[waitfor];
                 if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
                 if (src.indexOf(waitfor) !== -1) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                     var output = waitingScripts[waitfor];
                     delete waitingScripts[waitfor];
 
