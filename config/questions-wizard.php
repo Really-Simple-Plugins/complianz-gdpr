@@ -107,7 +107,7 @@ $this->fields = $this->fields + array(
             ),
             'label' => __("Which region(s) do you target with your website?", 'complianz-gdpr'),
             'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz-gdpr'),
-            'comment' => sprintf(__("If you want to target customers from several regions, consider upgrading to the %spremium version%s, which offers a full featured Privacy Suite for both regions.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
+            'comment' => sprintf(__("If you want to target customers from several regions, consider upgrading to the %spremium version%s, which allows to select several or all regions simultaneously.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
