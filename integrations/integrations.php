@@ -126,7 +126,7 @@ function cmplz_integrations(){
 
     foreach($services as $service){
         if (cmplz_uses_thirdparty($service)){
-            if (file_exists(cmplz_path."services/$service.php")) {
+            if (file_exists(cmplz_path."integrations/services/$service.php")) {
                 require_once("services/$service.php");
             }
         }
@@ -137,7 +137,7 @@ function cmplz_integrations(){
 
     foreach($services as $service){
         if (cmplz_uses_thirdparty($service)){
-            if (file_exists(cmplz_path."services/$service.php")) {
+            if (file_exists(cmplz_path."integrations/services/$service.php")) {
                 require_once("services/$service.php");
             }
         }
@@ -174,7 +174,9 @@ function cmplz_uses_thirdparty($name){
     $thirdparty = (cmplz_get_value('uses_thirdparty_services') === 'yes') ? true : false;
     if ($thirdparty) {
         $thirdparty_types = cmplz_get_value('thirdparty_services_on_site');
-        if (isset($thirdparty_types[$name]) && $thirdparty_types[$name] == 1) return true;
+        if (isset($thirdparty_types[$name]) && $thirdparty_types[$name] == 1) {
+            return true;
+        }
     }
 
     $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;

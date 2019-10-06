@@ -425,7 +425,7 @@ $this->fields = $this->fields + array(
             'default' => '',
             'condition' => array('uses_thirdparty_services' => 'yes'),
             'label' => __("Select the types of third party services you use on your site.", 'complianz-gdpr'),
-            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given.", 'complianz-gdpr'),
+            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
@@ -467,7 +467,7 @@ $this->fields = $this->fields + array(
             'condition' => array('uses_social_media' => 'yes'),
             'default' => '',
             'label' => __("Select the types of social media you use on the site", 'complianz-gdpr'),
-            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given.", 'complianz-gdpr'),
+            'help' => __("Checking services here will add the associated cookies to your cookie policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out)", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 

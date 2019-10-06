@@ -979,7 +979,7 @@ if (!class_exists("cmplz_admin")) {
                                     }
 
                                     if ($thirdparty_active || $socialmedia_active){
-                                        cmplz_notice(__('Services which are currently enabled will be blocked by Complianz on the front-end of your website until the user has given consent.', 'complianz-gdpr'));
+                                        cmplz_notice(__('Services which are currently enabled will be blocked by Complianz on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out).', 'complianz-gdpr'));
                                     }
 
                                     ?>
