@@ -98,6 +98,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 3.2.0 =
+* Improvement: added shortcodes to document list on dashboard page
+* Improvement: do not activate cookie banner before wizard has completed
+* Improvement: added banner loaded jquery hook
 * Improvement: The United Kingdom is now a separate region with specific cookie consent management
 * Improvement: Script center is now embedded under 'Integrations'. A more flexible approach to blocking and enabling scripts, plugins and services
 * Tweak: Tag Manager does not require a categorical approach of cookies

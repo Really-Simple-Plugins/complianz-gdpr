@@ -30,8 +30,11 @@ add_filter('cmplz_form_types', 'cmplz_contactform7_form_types');
 
 add_filter('cmplz_dependencies', 'cmplz_contactform7_dependencies');
 function cmplz_contactform7_dependencies($tags){
+    $service = WPCF7_RECAPTCHA::get_instance();
 
-    $tags['recaptcha/api.js']='grecaptcha';
+    if ( $service->is_active() ) {
+        $tags['recaptcha/api.js']='grecaptcha';
+    }
 
     return $tags;
 }
