@@ -92,6 +92,23 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility. 
 
 == Change log ==
+<<<<<<< Updated upstream
+=======
+= 3.2.0 =
+* Improvement: added shortcodes to document list on dashboard page
+* Improvement: do not activate cookie banner before wizard has completed
+* Improvement: added banner loaded jquery hook
+* Improvement: The United Kingdom is now a separate region with specific cookie consent management
+* Improvement: Script center is now embedded under 'Integrations'. A more flexible approach to blocking and enabling scripts, plugins and services
+* Tweak: Tag Manager does not require a categorical approach of cookies
+* Tweak: Feedback in dashboard has been improved when changing regions
+* Tweak: Stylesheet updates
+
+= 3.1.2 =
+* Fix: remove superfluous title on proof of consent
+* Fix: Contact Form 7 recaptcha dependency not fired in correct order
+
+>>>>>>> Stashed changes
 = 3.1.1 =
 * Fix: document wrapped in double div
 * Fix: PHP warning caused by empty list of proof of consent documents

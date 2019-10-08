@@ -297,14 +297,16 @@ jQuery(document).ready(function($) {
                 cmplzRunInlineScript($(this));
                 //get scripts that are waiting for this inline script
                 var waitingScript = cmplzGetWaitingScript(waitingScripts, $(this).text());
-                $.getScript( waitingScript )
-                    .done(function( s, Status ) {
-                        //maybe all scripts are already done
-                        cmplzRunAfterAllScripts();
-                    })
-                    .fail(function( jqxhr, settings, exception ) {
-                        console.warn( "Something went wrong "+exception );
-                    });
+                if (waitingScript!==false) {
+                    $.getScript(waitingScript)
+                        .done(function (s, Status) {
+                            //maybe all scripts are already done
+                            cmplzRunAfterAllScripts();
+                        })
+                        .fail(function (jqxhr, settings, exception) {
+                            console.warn("Something went wrong " + exception);
+                        });
+                }
             }
         });
 
@@ -333,6 +335,7 @@ jQuery(document).ready(function($) {
                 waitingScript = waitingScripts[waitfor];
                 if (typeof waitingScript !== 'string') waitingScript = waitingScript.text();
                 if (src.indexOf(waitfor) !== -1) {
+
                     var output = waitingScripts[waitfor];
                     delete waitingScripts[waitfor];
 

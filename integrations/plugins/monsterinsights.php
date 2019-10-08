@@ -41,7 +41,9 @@ add_filter('monsterinsights_tracking_analytics_script_attributes', 'cmplz_monste
 
 function cmplz_monsterinsights_compile_statistics_notice()
 {
-    cmplz_notice(__("You use Monsterinsights, so the answer to this question should be Google Analytics", 'complianz-gdpr'));
+    if (cmplz_no_ip_addresses()) {
+        cmplz_notice(__("You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.", 'complianz-gdpr'));
+    }
 
 }
 
@@ -103,6 +105,23 @@ function cmplz_monsterinsights_filter_warnings($warnings)
     return $warnings;
 }
 add_filter('cmplz_warnings', 'cmplz_monsterinsights_filter_warnings');
+
+/**
+ * Make sure Monsterinsights returns true for anonymize IP's when this option is selected in the wizard
+ * @param $value
+ * @param $key
+ * @param $default
+ * @return bool
+ */
+function cmplz_monsterinsights_force_setting($value, $key, $default ){
+    if ($key==='anonymize_ips'){
+        if (cmplz_no_ip_addresses()){
+            return true;
+        }
+    }
+    return $value;
+}
+add_filter( 'monsterinsights_get_option', 'cmplz_monsterinsights_force_setting');
 
 
 
