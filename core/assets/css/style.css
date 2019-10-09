@@ -8,6 +8,7 @@
 /*
     Hide nags from other plugins
 */
+.error:not(.really-simple-plugins),
 .notice:not(.really-simple-plugins) {
   display: none;
 }

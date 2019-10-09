@@ -113,15 +113,30 @@ add_filter('cmplz_warnings', 'cmplz_monsterinsights_filter_warnings');
  * @param $default
  * @return bool
  */
-function cmplz_monsterinsights_force_setting($value, $key, $default ){
-    if ($key==='anonymize_ips'){
-        if (cmplz_no_ip_addresses()){
-            return true;
-        }
+function cmplz_monsterinsights_force_anonymize_ips($value, $key, $default ){
+    if (cmplz_no_ip_addresses()){
+        return true;
     }
     return $value;
 }
-add_filter( 'monsterinsights_get_option', 'cmplz_monsterinsights_force_setting');
+add_filter( 'monsterinsights_get_option_anonymize_ips', 'cmplz_monsterinsights_force_anonymize_ips', 30, 3);
+
+/**
+ * Make sure Monsterinsights returns false for third party sharing when this option is selected in the wizard
+ * @param $value
+ * @param $key
+ * @param $default
+ * @return bool
+ */
+function cmplz_monsterinsights_force_demographics($value, $key, $default ){
+
+    if (cmplz_statistics_no_sharing_allowed()){
+        return false;
+     }
+
+    return $value;
+}
+add_filter( 'monsterinsights_get_option_demographics', 'cmplz_monsterinsights_force_demographics', 30, 3);
 
 
 

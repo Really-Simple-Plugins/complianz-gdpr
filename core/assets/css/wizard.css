@@ -16,6 +16,45 @@
 .cmplz-scriptcenter input:checked:disabled + .cmplz-slider {
   background-color: #a3e0fb;
 }
+.cmplz-selectable {
+  background-color: #f2f2f2;
+  -webkit-touch-callout: all;
+  /* iOS Safari */
+  -webkit-user-select: all;
+  /* Safari */
+  -khtml-user-select: all;
+  /* Konqueror HTML */
+  -moz-user-select: all;
+  /* Firefox */
+  -ms-user-select: all;
+  /* Internet Explorer/Edge */
+  user-select: all;
+  /* Chrome and Opera */
+}
+.cmplz-shortcode {
+  display: none;
+  bottom: 0;
+  position: absolute;
+}
+.cmplz-second-column-docs {
+  width: 100%;
+  position: relative;
+}
+.cmplz-last-column-docs {
+  position: relative;
+  white-space: nowrap;
+}
+.cmplz-last-column-docs img {
+  float: right;
+}
+.cmplz-last-column-docs .cmplz-open-shortcode {
+  cursor: pointer;
+  position: absolute;
+  right: 35px;
+}
+.cmplz-last-column-docs .cmplz-open-shortcode svg:hover {
+  background-color: #f2f2f2;
+}
 /*
     Complianz submenu in wp admin
 */

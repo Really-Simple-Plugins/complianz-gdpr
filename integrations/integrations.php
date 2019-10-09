@@ -4,6 +4,10 @@ require_once('forms.php');
 global $cmplz_integrations_list;
 $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     //user registration plugin
+    'addtoany' => array(
+        'constant_or_function' => 'A2A_SHARE_SAVE_init',
+        'label' => 'Add To Any',
+    ),
     'user-registration' => array(
         'constant_or_function' => 'UR',
         'label' => 'User Registration',
@@ -97,12 +101,14 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
 require_once('fields.php');
 
 /**
- * Wordpress
+ * Wordpress, include always
  */
 require_once('wordpress/wordpress.php');
 
+/**
+ * code loaded without privileges to allow integrations between plugins and services, when enabled.
+ */
 
-add_action('plugins_loaded', 'cmplz_integrations', 20);
 function cmplz_integrations(){
 
     global $cmplz_integrations_list;
@@ -163,6 +169,8 @@ function cmplz_integrations(){
     }
 
 }
+add_action('plugins_loaded', 'cmplz_integrations', 20);
+
 
 /**
  * Check if a third party is used on this site
@@ -188,7 +196,10 @@ function cmplz_uses_thirdparty($name){
     return false;
 }
 
-add_action('admin_init','process_integrations_services_save');
+/**
+ * Handle saving of integrations services
+ */
+
 function process_integrations_services_save(){
     if (!current_user_can('manage_options')) return;
 
@@ -224,3 +235,4 @@ function process_integrations_services_save(){
     }
 
 }
+add_action('admin_init','process_integrations_services_save');

@@ -578,11 +578,13 @@ if (!class_exists("cmplz_admin")) {
                         $img = '<img width="25px" src="' . cmplz_url . '/core/assets/images/' . $region . '.png">';
                     }
                     $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
-
+                    $shortcode = COMPLIANZ()->document->get_shortcode($type, $force_classic = true);
+                    $link .= '<div class="cmplz-selectable cmplz-shortcode">'.$shortcode.'</div>';
                     if (COMPLIANZ()->document->page_exists($type)) {
                         if (!COMPLIANZ()->document->page_required($page)) {
                             $this->get_dashboard_element(sprintf(__("Obsolete page, you can delete %s"), $link, $img), 'error');
                         } else {
+                            $img = '<span class="cmplz-open-shortcode"><svg width="20" height="20" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="M8.5,21.4l1.9,0.5l5.2-19.3l-1.9-0.5L8.5,21.4z M3,19h4v-2H5V7h2V5H3V19z M17,5v2h2v10h-2v2h4V5H17z"></path></svg></span>'.$img;
                             $this->get_dashboard_element($link, 'success', $img);
                         }
 
@@ -884,8 +886,8 @@ if (!class_exists("cmplz_admin")) {
             ?>
             <tr class="<?php echo "cmplz-" . $type ?>">
                 <td><i class="fa <?php echo $icon ?>"></i></td>
-                <td style="width:100%"><?php echo $content ?></td>
-                <td><?php echo $img ?></td>
+                <td class="cmplz-second-column-docs"><?php echo $content ?></td>
+                <td class="cmplz-last-column-docs"><?php echo $img ?></td>
             </tr>
             <?php
         }
