@@ -476,7 +476,7 @@ if (!class_exists("cmplz_field")) {
                     class="validation <?php if ($args['required']) echo 'is-required'; ?>"
                     placeholder="<?php echo esc_html($args['placeholder']) ?>"
                     type="text"
-                    pattern="^(http(s)?(:\/\/))?(www\.)?[a-zA-Z0-9-_\.\/]+"
+                    pattern="^(http(s)?(:\/\/))?(www\.)?[#a-zA-Z0-9-_\.\/]+"
                     value="<?php echo esc_html($value) ?>"
                     name="<?php echo esc_html($fieldname)?>">
             <?php do_action('complianz_after_field', $args); ?>

@@ -28,6 +28,10 @@ function cmplz_contactform7_form_types($formtypes){
 add_filter('cmplz_form_types', 'cmplz_contactform7_form_types');
 
 
+/**
+ * Conditionally add the dependency from the CF 7 inline script to the .js file
+ */
+
 add_filter('cmplz_dependencies', 'cmplz_contactform7_dependencies');
 function cmplz_contactform7_dependencies($tags){
     $service = WPCF7_RECAPTCHA::get_instance();
@@ -38,6 +42,13 @@ function cmplz_contactform7_dependencies($tags){
 
     return $tags;
 }
+
+
+/**
+ * Get list of CF7 contact forms
+ * @param $input_forms
+ * @return mixed
+ */
 
 function cmplz_contactform7_get_plugin_forms($input_forms)
 {

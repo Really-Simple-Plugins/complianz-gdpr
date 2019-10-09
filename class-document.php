@@ -556,16 +556,17 @@ if (!class_exists("cmplz_document")) {
          * get the shortcode or block for a page type
          *
          * @param string $type
+         * @param bool $force_classic
          * @return string $shortcode
          *
          *
          */
 
 
-        public function get_shortcode($type)
+        public function get_shortcode($type, $force_classic=false)
         {
             //even if on gutenberg, with elementor we have to use classic shortcodes.
-            if (cmplz_uses_gutenberg() && !$this->uses_elementor()){
+            if (!$force_classic && cmplz_uses_gutenberg() && !$this->uses_elementor()){
                 $page = COMPLIANZ()->config->pages[$type];
                 return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.'"} /-->';
             } else {

@@ -37,7 +37,6 @@ jQuery(document).ready(function($) {
     var ccPrivacyLink = '';
     var waitingInlineScripts = [];
     var waitingScripts = [];
-    var executedScripts = [];
     var placeholderClassIndex = 0;
     var curClass = '';
 
@@ -385,6 +384,10 @@ jQuery(document).ready(function($) {
             .appendTo(script.parent());
         script.remove();
     }
+
+    /**
+     * Enable statistics scripts, scripts marked with the cmplz-stats class
+     */
 
     function complianz_enable_stats() {
         console.log('fire statistics');

@@ -489,9 +489,6 @@ if (!function_exists('cmplz_statistics_no_sharing_allowed')) {
     function cmplz_statistics_no_sharing_allowed()
     {
 
-        $fields = get_option('complianz_options_wizard', false, 'wizard');
-        $value = isset($fields['compile_statistics']) ? $fields['compile_statistics'] : false;
-
         $statistics = cmplz_get_value('compile_statistics', false, 'wizard');
         $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
         $google_analytics = ($statistics === 'google-analytics') ? true : false;
