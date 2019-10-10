@@ -762,7 +762,6 @@ add_filter('locale', 'cmplz_set_plugin_language', 19, 1);
 if (!function_exists('cmplz_set_plugin_language')) {
     function cmplz_set_plugin_language($locale)
     {
-        return 'en_US';
         $post_id = false;
         if (isset($_GET['post'])) $post_id = $_GET['post'];
         if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
