@@ -64,7 +64,7 @@ function cmplz_used_cookies_notice(){
     //not relevant if cookie blocker is disabled
     if (cmplz_get_value('disable_cookie_block')==1) return;
 
-    cmplz_notice(sprintf(__("Because your site uses third party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, please try disabling the cookie blocker in the %ssettings%s", 'complianz-gdpr'), '<a href="'.admin_url('admin.php?page=cmplz-settings').'">','</a>'),'warning');
+    cmplz_notice(sprintf(__("Because your site uses third party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s", 'complianz-gdpr'), '<a href="'.admin_url('admin.php?page=cmplz-script-center').'">','</a>', '<a href="'.admin_url('admin.php?page=cmplz-settings').'">','</a>'),'warning');
 
 }
 

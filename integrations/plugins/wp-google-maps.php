@@ -28,11 +28,18 @@ add_filter('wpgmza_gdpr_notice_html', 'cmplz_wp_google_maps_replace_gdpr_notice'
  * @param $settings
  * @return mixed
  */
-function cmplz_wp_google_maps_settings( $settings ) {
-    $settings->wpgmza_gdpr_require_consent_before_load = 'on';
-    return $settings;
+function cmplz_wp_google_maps_settings()
+{
+    if (is_admin() && current_user_can('manage_options')) {
+        $settings = json_decode(get_option('wpgmza_global_settings'));
+
+        if ($settings->wpgmza_gdpr_require_consent_before_load === 'on') return;
+
+        $settings->wpgmza_gdpr_require_consent_before_load = 'on';
+        update_option('wpgmza_global_settings', json_encode($settings));
+    }
 }
-add_filter( 'option_wpgmza_global_settings', 'cmplz_wp_google_maps_settings' );
+add_action('admin_init','cmplz_wp_google_maps_settings');
 
 
 /**

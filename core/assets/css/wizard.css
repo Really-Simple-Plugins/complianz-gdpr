@@ -47,10 +47,14 @@
 .cmplz-last-column-docs img {
   float: right;
 }
+.cmplz-last-column-docs .cmplz-document-sync {
+  position: absolute;
+  right: 35px;
+}
 .cmplz-last-column-docs .cmplz-open-shortcode {
   cursor: pointer;
   position: absolute;
-  right: 35px;
+  right: 50px;
 }
 .cmplz-last-column-docs .cmplz-open-shortcode svg:hover {
   background-color: #f2f2f2;

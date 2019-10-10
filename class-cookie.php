@@ -350,6 +350,11 @@ if (!class_exists("cmplz_cookie")) {
 
         public function enqueue_assets($hook)
         {
+            //enqueue if not available yet
+            if ( ! wp_script_is( 'jquery', 'enqueued' )) {
+                wp_enqueue_script( 'jquery' );
+            }
+
             $minified = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
             wp_register_style('cmplz-cookie', cmplz_url . "core/assets/css/cookieconsent$minified.css", "", cmplz_version);
             wp_enqueue_style('cmplz-cookie');

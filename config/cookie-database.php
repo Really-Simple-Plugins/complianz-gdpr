@@ -1662,7 +1662,7 @@ $this->known_cookie_keys = array(
         'label' => "Spotify",
         'purpose' => __("Tracking individual users.", 'complianz-gdpr'),
         'storage_duration' => __("30 days", 'complianz-gdpr'),
-        'description' => __("These cookies are set to further personalize content on the Sporify platform and their partners plaforms.", 'complianz-gdpr'),
+        'description' => __("These cookies are set to further personalize content on the Spotify platform and their partners plaforms.", 'complianz-gdpr'),
 
     ),
 
