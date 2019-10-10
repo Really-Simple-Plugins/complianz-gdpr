@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 3.2.0
+Stable tag: 3.2.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA, COPPA, PECR and more.
 
@@ -97,6 +97,12 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility. 
 
 == Change log ==
+= 3.2.2 =
+* Improvement: unlink and customize the legal documents
+
+= 3.2.1 =
+* Fix: language forcing en_US
+
 = 3.2.0 =
 * Improvement: added shortcodes to document list on dashboard page
 * Improvement: do not activate cookie banner before wizard has completed

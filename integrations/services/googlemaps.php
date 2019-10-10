@@ -16,7 +16,7 @@ function cmplz_googlemaps_script($tags){
 add_filter('cmplz_known_iframe_tags', 'cmplz_googlemaps_iframetags');
 function cmplz_googlemaps_iframetags($tags){
     $tags[] = 'maps.google.com';
-    $tags[] =  'google.com/maps/embed';
+    $tags[] =  'google.com/maps';
     $tags[] =  'apis.google.com';
 
     return $tags;

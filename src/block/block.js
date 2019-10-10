@@ -14,6 +14,7 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { InspectorControls } = wp.editor;
 const { SelectControl } = wp.components;
+const { RichText } = wp.editor;
 const { Component } = wp.element;
 const el = wp.element.createElement;
 
@@ -32,10 +33,12 @@ const iconEl =
 
     class selectDocument extends Component {
         // Method for setting the initial state.
-        static getInitialState(selectedDocument) {
+        static getInitialState(attributes) {
             return {
                 documents: [],
-                selectedDocument: selectedDocument,
+                selectedDocument: attributes.selectedDocument,
+                customDocument: attributes.customDocument,
+                documentSyncStatus : attributes.documentSyncStatus,
                 document: {},
                 hasDocuments: true,
             };
@@ -46,13 +49,15 @@ const iconEl =
         constructor() {
             super(...arguments);
             // Maybe we have a previously selected document. Try to load it.
-            this.state = this.constructor.getInitialState(this.props.attributes.selectedDocument);
+            this.state = this.constructor.getInitialState(this.props.attributes);
 
             // Bind so we can use 'this' inside the method.
             this.getDocuments = this.getDocuments.bind(this);
             this.getDocuments();
 
             this.onChangeSelectDocument = this.onChangeSelectDocument.bind(this);
+            this.onChangeSelectDocumentSyncStatus = this.onChangeSelectDocumentSyncStatus.bind(this);
+            this.onChangeCustomDocument = this.onChangeCustomDocument.bind(this);
         }
 
         getDocuments(args = {}) {
@@ -94,12 +99,55 @@ const iconEl =
 
         }
 
+        onChangeCustomDocument(value){
+            this.setState({customDocument: value});
+
+            // Set the attributes
+            this.props.setAttributes({
+                customDocument: value,
+            });
+        }
+
+        onChangeSelectDocumentSyncStatus(value){
+
+
+            this.setState({documentSyncStatus: value});
+
+            // Set the attributes
+            this.props.setAttributes({
+                documentSyncStatus: value,
+            });
+
+            if (value==='sync'){
+                //when sync is turned back on, we reset the customDocument data
+                let output = this.state.document.content;
+
+                this.setState({customDocument: output});
+
+                // Set the attributes
+                this.props.setAttributes({
+                    customDocument: output,
+                });
+
+            }
+
+
+
+        }
+
+
+
         render() {
             const { className, attributes: {} = {} } = this.props;
 
             let options = [{value: 0, label: __('Select a document', 'complianz-gdpr')}];
             let output = __('Loading...', 'complianz-gdpr');
             let id = 'document-title';
+            let documentSyncStatus = 'sync';
+            let document_status_options = [
+                {value: 'sync', label: __('Synchronize document with Complianz', 'complianz-gdpr')},
+                {value: 'unlink', label: __('Edit document and stop synchronization', 'complianz-gdpr')},
+            ];
 
             if (!this.props.attributes.hasDocuments){
                 output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz-gdpr');
@@ -122,17 +170,57 @@ const iconEl =
             if (this.props.attributes.selectedDocument!==0 && this.state.document && this.state.document.hasOwnProperty('title')) {
                 output = this.state.document.content;
                 id = this.props.attributes.selectedDocument;
+                documentSyncStatus = this.props.attributes.documentSyncStatus;
             }
 
-            return [
-                !!this.props.isSelected && (
-                    <InspectorControls key='inspector'>
-                        <SelectControl onChange={this.onChangeSelectDocument} value={this.props.attributes.selectedDocument} label={__('Select a document', 'complianz-gdpr')}
-                                       options={options}/>
-                    </InspectorControls>
-                ),
-                <div key={id} className={className} dangerouslySetInnerHTML={ { __html: output } }></div>
-            ]
+            let customDocument = output;
+            if (this.props.attributes.customDocument.length>0){
+                customDocument = this.props.attributes.customDocument;
+            }
+            if (documentSyncStatus==='sync') {
+                return [
+                    !!this.props.isSelected && (
+                        <InspectorControls key='inspector'>
+                            <SelectControl onChange={this.onChangeSelectDocument}
+                                           value={this.props.attributes.selectedDocument}
+                                           label={__('Select a document', 'complianz-gdpr')}
+                                           options={options}/>
+
+                            <SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
+                                           value={this.props.attributes.documentSyncStatus}
+                                           label={__('Document sync status', 'complianz-gdpr')}
+                                           options={document_status_options}/>
+
+                        </InspectorControls>
+                    ),
+
+                    <div key={id} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
+                ]
+            } else {
+                return [
+                    !!this.props.isSelected && (
+                        <InspectorControls key='inspector'>
+                            <SelectControl onChange={this.onChangeSelectDocument}
+                                           value={this.props.attributes.selectedDocument}
+                                           label={__('Select a document', 'complianz-gdpr')}
+                                           options={options}/>
+
+                            <SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
+                                           value={this.props.attributes.documentSyncStatus}
+                                           label={__('Document sync status', 'complianz-gdpr')}
+                                           options={document_status_options}/>
+
+                        </InspectorControls>
+                    ),
+
+                    <RichText
+                        className={className}
+                        value={customDocument}
+                        autoFocus
+                        onChange={this.onChangeCustomDocument}
+                    />
+                ]
+            }
         }
 
     }
@@ -164,6 +252,14 @@ const iconEl =
         ],
         //className: 'cmplz-document',
         attributes: {
+            documentSyncStatus: {
+                type: 'string',
+                default: 'sync'
+            },
+            customDocument: {
+                type: 'string',
+                default: ''
+            },
             hasDocuments: {
                 type: 'string',
                 default: 'false',

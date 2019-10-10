@@ -584,7 +584,15 @@ if (!class_exists("cmplz_admin")) {
                         if (!COMPLIANZ()->document->page_required($page)) {
                             $this->get_dashboard_element(sprintf(__("Obsolete page, you can delete %s"), $link, $img), 'error');
                         } else {
-                            $img = '<span class="cmplz-open-shortcode"><svg width="20" height="20" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="M8.5,21.4l1.9,0.5l5.2-19.3l-1.9-0.5L8.5,21.4z M3,19h4v-2H5V7h2V5H3V19z M17,5v2h2v10h-2v2h4V5H17z"></path></svg></span>'.$img;
+                            $sync_status = COMPLIANZ()->document->syncStatus(COMPLIANZ()->document->get_shortcode_page_id($type));
+                            $shortcode_icon = '';
+                            if ($sync_status==='sync'){
+                                $sync_icon = '<i class="fa fa-sync"></i>';
+                                $shortcode_icon = '<span class="cmplz-open-shortcode"><svg width="20" height="20" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="M8.5,21.4l1.9,0.5l5.2-19.3l-1.9-0.5L8.5,21.4z M3,19h4v-2H5V7h2V5H3V19z M17,5v2h2v10h-2v2h4V5H17z"></path></svg></span>';
+                            } else {
+                                $sync_icon = '<i class="fa fa-sync " style="color:red"></i>';
+                            }
+                            $img = $shortcode_icon.'<span class="cmplz-document-sync">'.$sync_icon.'</span>'.$img;
                             $this->get_dashboard_element($link, 'success', $img);
                         }
 
