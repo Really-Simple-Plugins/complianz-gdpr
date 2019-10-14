@@ -786,7 +786,7 @@ if (!class_exists("cmplz_wizard")) {
                         /*
                          * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
                          * */
-                        if ($page == 'wizard' && ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us'))){ ?>
+                        if ($page == 'wizard' && COMPLIANZ()->cookie->site_needs_cookie_warning()){ ?>
                             <div class="cmplz-button cmplz-next">
                                 <input class="button" type="submit" name="cmplz-cookie-settings"
                                        value="<?php _e("Finish and check cookie banner settings", 'complianz-gdpr') ?>">
