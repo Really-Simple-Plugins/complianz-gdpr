@@ -96,9 +96,8 @@ if (!class_exists("cmplz_config")) {
                 require_once(cmplz_path . '/pro/config/documents/UK/privacy-policy-children.php');
             }
 
-            add_action('plugins_loaded', array($this,'init'), 10);
-
-            //$this->init();
+            //after loading integrations on 10
+            add_action('plugins_loaded', array($this,'init'), 15);
         }
 
         static function this()

@@ -16,3 +16,30 @@ function cmplz_youtube_iframetags($tags){
 
     return $tags;
 }
+
+
+function cmplz_youtube_placeholder($new_src, $src){
+    $youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)([^#\&\?]*).*/i';
+    if (preg_match($youtube_pattern, $src, $matches)) {
+        $youtube_id = $matches[1];
+        /*
+         * The highest resolution of youtube thumbnail is the maxres, but it does not
+         * always exist. In that case, we take the hq thumb
+         * To lower the number of file exists checks, we cache the result.
+         *
+         * */
+        $new_src = get_transient("cmplz_youtube_image_$youtube_id");
+        if (!$new_src || !file_exists($new_src)) {
+            $new_src = "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
+            if (!cmplz_remote_file_exists($new_src)) {
+                $new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
+            }
+            $new_src = cmplz_download_to_site($new_src, 'youtube'.$youtube_id);
+
+            set_transient("cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS);
+        }
+    }
+    return $new_src;
+}
+add_filter('cmplz_placeholder_youtube', 'cmplz_youtube_placeholder', 10, 2);
+

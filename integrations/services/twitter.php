@@ -11,10 +11,10 @@ function cmplz_twitter_script($tags){
 
 
 add_filter('cmplz_placeholder_markers', 'cmplz_twitter_placeholders');
-function cmplz_twitter_placeholders($placeholders){
+function cmplz_twitter_placeholders($tags){
     $tags['twitter'] =  'twitter-tweet';
 
-    return $placeholders;
+    return $tags;
 }
 
 add_filter('cmplz_known_iframe_tags', 'cmplz_twitter_iframetags');

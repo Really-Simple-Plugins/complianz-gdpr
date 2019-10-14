@@ -107,4 +107,18 @@ function cmplz_contactform7_add_consent_checkbox($form_id)
 add_action("cmplz_add_consent_box_contact-form-7", 'cmplz_contactform7_add_consent_checkbox');
 
 
+/**
+ * Add services to the list of detected items, so it will get set as default, and will be added to the notice about it
+ * @param $services
+ * @return array
+ */
+function cmplz_contactform7_detected_services($services){
+    $recaptcha = WPCF7_RECAPTCHA::get_instance();
 
+    if ( $recaptcha->is_active() && !in_array('google-recaptcha', $services)) {
+        $services[] = 'google-recaptcha';
+    }
+
+    return $services;
+}
+add_filter('cmplz_detected_services','cmplz_contactform7_detected_services' );

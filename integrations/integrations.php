@@ -8,6 +8,10 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'constant_or_function' => 'A2A_SHARE_SAVE_init',
         'label' => 'Add To Any',
     ),
+    'pixelyoursite' => array(
+        'constant_or_function' => 'PYS_FREE_VERSION',
+        'label' => 'PixelYourSite',
+    ),
     'user-registration' => array(
         'constant_or_function' => 'UR',
         'label' => 'User Registration',
@@ -37,13 +41,19 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'geo-my-wp' => array(
         'constant_or_function' => 'GMW_VERSION',
         'label' => 'Geo My WP',
+    ),
+
+    //WP Google Maps widget
+    'wp-google-maps-widget' => array(
+        'constant_or_function' => 'GMW_PLUGIN_DIR',
+        'label' => 'Maps Widget for Google Maps',
 
     ),
+
     //WP Do Not Track
     'wp-donottrack' => array(
         'constant_or_function' => 'wp_donottrack_config',
         'label' => 'WP Do Not Track',
-
     ),
 
     //Pixel Caffeine
@@ -73,6 +83,7 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'label' => 'Instagram Feed',
     ),
 
+
     //Sumo
     'sumo' => array(
         'constant_or_function' => 'SUMOME__PLUGIN_DIR',
@@ -83,7 +94,26 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'wpforms' => array(
         'constant_or_function' => 'wpforms',
         'label' => 'WP Forms',
-        'condition' => array('privacy-statement' => 'yes'),
+        'callback_condition' => array(
+            'privacy-statement' => 'yes',
+            'regions' => array('eu','uk'),
+        ),
+    ),
+
+    'beehive' => array(
+        'constant_or_function' => 'BEEHIVE_PRO',
+        'label' => 'Beehive',
+    ),
+
+    'forminator' => array(
+        'constant_or_function' => 'FORMINATOR_VERSION',
+        'label' => 'Forminator',
+        'early_load' => 'forminator-addon-registration.php',
+        'callback_condition' => array(
+            'privacy-statement' => 'yes',
+            'regions' => array('eu','uk'),
+        ),
+
     ),
 
     //Gravity Forms
@@ -94,6 +124,7 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
                 'privacy-statement' => 'yes',
                 'regions' => 'eu',
             ),
+
         ),
 ));
 
@@ -105,6 +136,22 @@ require_once('fields.php');
  */
 require_once('wordpress/wordpress.php');
 
+
+foreach ($cmplz_integrations_list as $plugin => $details) {
+
+    if (!isset($details['early_load'])) continue;
+    if (!file_exists(WP_PLUGIN_DIR."/".$plugin."/".$plugin.".php")) continue;
+
+    $early_load = $details['early_load'];
+    $file = apply_filters('cmplz_early_load_path', cmplz_path . "integrations/plugins/$early_load", $details);
+
+    if (file_exists($file)) {
+        require_once($file);
+    } else {
+        error_log("searched for $plugin integration at $file, but did not find it");
+    }
+}
+
 /**
  * code loaded without privileges to allow integrations between plugins and services, when enabled.
  */
@@ -112,8 +159,14 @@ require_once('wordpress/wordpress.php');
 function cmplz_integrations(){
 
     global $cmplz_integrations_list;
+
+    $fields = get_option('complianz_options_integrations');
+
     foreach($cmplz_integrations_list as $plugin => $details){
-        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function'])) && (cmplz_get_value($plugin, false, 'integrations')==1)){
+        //because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
+        $enabled = isset($fields[$plugin]) ? $fields[$plugin] : true;
+
+        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function'])) && $enabled){
             $file = apply_filters('cmplz_integration_path', cmplz_path."integrations/plugins/$plugin.php", $plugin);
             if (file_exists($file)){
                 require_once($file);
@@ -169,7 +222,7 @@ function cmplz_integrations(){
     }
 
 }
-add_action('plugins_loaded', 'cmplz_integrations', 20);
+add_action('plugins_loaded', 'cmplz_integrations', 10);
 
 
 /**

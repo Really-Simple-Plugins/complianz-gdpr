@@ -10,7 +10,7 @@
 */
 .error:not(.really-simple-plugins),
 .notice:not(.really-simple-plugins) {
-  display: none;
+  display: none !important;
 }
 /*
 Tabs

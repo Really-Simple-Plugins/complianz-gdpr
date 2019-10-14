@@ -20,12 +20,20 @@ $this->thirdparty_services = array(
 );
 
 $this->thirdparty_socialmedia = array(
-    'facebook' => __('Facebook', 'complianz-gdpr'),
-    'twitter' => __('Twitter', 'complianz-gdpr'),
-    'linkedin' => __('LinkedIn', 'complianz-gdpr'),
-    'whatsapp' => __('WhatsApp', 'complianz-gdpr'),
-    'instagram' => __('Instagram', 'complianz-gdpr'),
+    'facebook' => 'Facebook',
+    'twitter' => 'Twitter',
+    'linkedin' => 'LinkedIn',
+    'whatsapp' => 'WhatsApp',
+    'instagram' => 'Instagram',
+    'disqus' => 'Disqus',
 );
+
+$this->stats = array(
+    'google-analytics' => 'Google Analytics',
+    'google-tag-manager' => 'Tag Manager',
+    'matomo' => 'Matomo',
+);
+
 /*
  * This is also used for the callback function to tell the user he/she uses social media
  * Based on this the cookie warning is enabled.
@@ -62,6 +70,12 @@ $this->thirdparty_service_markers = array(
     "addthis" => array('addthis.com'),
     "sharethis" => array('sharethis.com'),
     "livechat" => array('cdn.livechatinc.com/tracking.js'),
+);
+
+$this->stats_markers = array(
+    'google-analytics' => array('google-analytics.com/ga.js', 'www.google-analytics.com/analytics.js'),
+    'google-tag-manager' => array('googletagmanager.com/gtag/js', 'gtm.js'),
+    'matomo' => array('piwik.js'),
 );
 
 

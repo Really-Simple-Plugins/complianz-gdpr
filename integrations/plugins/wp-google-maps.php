@@ -68,3 +68,17 @@ function cmplz_wp_google_maps_placeholder($tags){
     return $tags;
 }
 add_filter('cmplz_placeholder_markers', 'cmplz_wp_google_maps_placeholder');
+
+
+/**
+ * Add services to the list of detected items, so it will get set as default, and will be added to the notice about it
+ * @param $services
+ * @return array
+ */
+function cmplz_wp_google_maps_detected_services($services){
+    if (!in_array('googlemaps', $services)){
+        $services[] = 'googlemaps';
+    }
+    return $services;
+}
+add_filter('cmplz_detected_services','cmplz_wp_google_maps_detected_services' );

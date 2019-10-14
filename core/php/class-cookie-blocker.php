@@ -178,6 +178,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $new = $this->replace_src($new, apply_filters('cmplz_source_placeholder',$placeholder));
 
                         if (!cmplz_get_value('dont_use_placeholders')) {
+                            $new = $this->add_class($new, 'img', " cmplz-placeholder-element ");
+
                             $new = $this->add_data($new, 'img', 'placeholder-text', apply_filters('cmplz_accept_cookies_blocked_content', cmplz_get_value('blocked_content_text')));
                         }
                         $output = str_replace($total_match, $new, $output);
@@ -297,7 +299,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         if ($found !== false) {
                             $new = $total_match;
-                            $new = $this->add_class($new, 'script', 'cmplz-script');
+                            $new = $this->add_class($new, 'script', apply_filters('cmplz_script_class','cmplz-script', $total_match, $found));
                             $new = $this->set_javascript_to_plain($new);
 
                             $waitfor = $this->strpos_arr($content, $dependencies);
@@ -319,7 +321,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             $found = $this->strpos_arr($script_src, $known_script_tags);
                             if ($found !== false){
                                 $new = $total_match;
-                                $new = $this->add_class($new, 'script', 'cmplz-script');
+                                $new = $this->add_class($new, 'script', apply_filters('cmplz_script_class','cmplz-script', $total_match, $found));
                                 $new = $this->set_javascript_to_plain($new);
 
                                 if ($this->strpos_arr($found, $async_list)){

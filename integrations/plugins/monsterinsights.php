@@ -1,5 +1,10 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
+
+/**
+ * Set analytics as suggested stats tool in the wizard
+ */
+
 add_filter('cmplz_default_value', 'cmplz_monsterinsights_set_default', 20, 2);
 function cmplz_monsterinsights_set_default($value, $fieldname)
 {
@@ -10,19 +15,26 @@ function cmplz_monsterinsights_set_default($value, $fieldname)
     return $value;
 }
 
-
 /**
- * If any of the integrated plugins is used, show a notice here.
- *
+ * Remove stuff which is not necessary anymore
  *
  * */
 
-add_action('cmplz_notice_compile_statistics_more_info', 'cmplz_monsterinsights_compile_statistics_more_info_notice');
-function cmplz_monsterinsights_compile_statistics_more_info_notice()
+function cmplz_monsterinsights_remove_actions()
 {
-    cmplz_notice(__("You use Monsterinsights: if you enable the anonymize ip option, please make sure that you have enabled it in Monsterinsights", 'complianz-gdpr'));
+    remove_action('cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10);
 }
+add_action('init', 'cmplz_monsterinsights_remove_actions');
 
+/**
+ * Add notice to tell a user to choose Analytics
+ * @param $args
+ */
+function cmplz_monsterinsights_show_compile_statistics_notice($args)
+{
+    cmplz_notice(__("You use MonsterInsights, which means the answer to this question should be Google Analytics.", 'complianz-gdpr'));
+}
+add_action('cmplz_notice_compile_statistics', 'cmplz_monsterinsights_show_compile_statistics_notice', 10, 1);
 
 /**
  * Add conditional classes to the monsterinsights statistics script
@@ -35,7 +47,6 @@ function cmplz_monsterinsights_add_monsterinsights_attributes($attr)
     $attr['class'] = implode(' ', $classes);
     return $attr;
 }
-
 add_filter('monsterinsights_tracking_analytics_script_attributes', 'cmplz_monsterinsights_add_monsterinsights_attributes', 10, 1);
 
 
@@ -45,9 +56,11 @@ function cmplz_monsterinsights_compile_statistics_notice()
         cmplz_notice(__("You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.", 'complianz-gdpr'));
     }
 
+    if (cmplz_statistics_no_sharing_allowed()) {
+        cmplz_notice(__("You have selected you do not share data with third party networks. Demographics is now disabled in MonsterInsights.", 'complianz-gdpr'));
+    }
 }
-
-add_action('cmplz_notice_compile_statistics', 'cmplz_monsterinsights_compile_statistics_notice');
+add_action('cmplz_notice_compile_statistics_more_info', 'cmplz_monsterinsights_compile_statistics_notice');
 
 /**
  * We remove some actions to integrate fully
@@ -68,17 +81,7 @@ add_action('after_setup_theme', 'cmplz_monsterinsights_remove_scripts_others');
 add_action('cmplz_before_statistics_script', 'monsterinsights_tracking_script', 10, 1);
 
 
-/**
- * Remove stuff which is not necessary anymore
- *
- * */
 
-function cmplz_monsterinsights_remove_actions()
-{
-    remove_action('cmplz_notice_compile_statistics', array(COMPLIANZ()->cookie, 'show_compile_statistics_notice'), 10);
-}
-
-add_action('init', 'cmplz_monsterinsights_remove_actions');
 
 /**
  * Hide the stats configuration options when monsterinsights is enabled.
@@ -96,6 +99,11 @@ function cmplz_monsterinsights_filter_fields($fields)
 
 add_filter('cmplz_fields', 'cmplz_monsterinsights_filter_fields');
 
+/**
+ * Make sure there's no warning about configuring GA anymore
+ * @param $warnings
+ * @return mixed
+ */
 
 function cmplz_monsterinsights_filter_warnings($warnings)
 {
