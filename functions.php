@@ -675,8 +675,6 @@ if (!function_exists('cmplz_ajax_user_settings')) {
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
         $data['forceEnableStats'] = apply_filters('cmplz_user_force_enable_stats', false);
-        //remove this to prevent merge conflicts in the javascript
-        unset($data["set_cookies"]);
         $data['version'] = cmplz_version;
         $banner_id = cmplz_get_default_banner_id();
         $banner = new CMPLZ_COOKIEBANNER($banner_id);
