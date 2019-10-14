@@ -19,7 +19,7 @@ if (!class_exists("cmplz_field")) {
 
             self::$_this = $this;
 
-            add_action('plugins_loaded', array($this, 'process_save'), 10);
+            add_action('plugins_loaded', array($this, 'process_save'), 20);
             add_action('cmplz_register_translation', array($this, 'register_translation'), 10, 2);
 
             add_action('complianz_before_label', array($this, 'before_label'), 10, 1);

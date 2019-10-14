@@ -5,7 +5,7 @@ add_filter('cmplz_known_script_tags', 'cmplz_tidio_live_chat_script');
 function cmplz_tidio_live_chat_script($tags){
 
     $tags[] = 'document.tidioChatCode';
-    $tags[] = '//code.tidio.co/';
+    $tags[] = 'code.tidio.co';
 
     return $tags;
 }

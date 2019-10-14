@@ -2,6 +2,19 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 
+add_action('cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10, 1);
+function cmplz_show_compile_statistics_notice($args)
+{
+    $stats = cmplz_scan_detected_stats();
+    if ($stats) {
+        $type = reset($stats);
+        $type = COMPLIANZ()->config->stats[$type];
+
+        cmplz_notice(sprintf(__("The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr'), $type, $type));
+    }
+
+}
+
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');
 function cmplz_uses_social_media_notice(){
     $social_media = cmplz_scan_detected_social_media();
@@ -27,6 +40,7 @@ function cmplz_uses_thirdparty_services_notice(){
         cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $thirdparty));
     }
 }
+
 
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
 function cmplz_purpose_personaldata_notice(){
@@ -173,6 +187,17 @@ function cmplz_notice_missing_privacy_page(){
 add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
+
+
+
+    if ($fieldname == 'compile_statistics') {
+        $stats = cmplz_scan_detected_stats();
+        if ($stats) {
+            return reset($stats);
+        }
+    }
+
+
     if ($fieldname == 'purpose_personaldata') {
         if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()) {
             //possibly not an array yet, when it's empty

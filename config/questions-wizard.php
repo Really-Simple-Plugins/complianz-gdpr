@@ -529,7 +529,7 @@ $this->fields = $this->fields + array(
             'help' => __("If you enable this, WordPress will not store personal data with comments and you won't need a consent checkbox for the comment form. The consent box will not be displayed.", 'complianz-gdpr'),
             'condition' => array(
                 'uses_wordpress_comments' => 'yes',
-                'regions' => 'eu'
+                'regions' => array('eu','uk'),
             ),
         ),
 

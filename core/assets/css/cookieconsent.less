@@ -60,7 +60,6 @@
     background-color:transparent;
   }
 
-
   background: #FFF;
   border: 0;
   border-radius: 3px;
@@ -94,6 +93,15 @@
     /*We need some lineheight, for example Elementor will force a lineheight of 0*/
     line-height: 23px;
   }
+  &.forminator-g-recaptcha, &.recaptcha-invisible{
+    @media only screen and (max-width: 400px) {
+      height:100px !important;
+    }
+    .cmplz-blocked-content-notice {
+      top: 2px;
+    }
+  }
+
 }
 
 //because the US banner requires two links, we have a comma after the link, which is ugly with padding

@@ -31,7 +31,7 @@ IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirem
 * Placeholders for blocked iFrames. Still images from videos and individual placeholders per service.
 * Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
 * We closely follow the latest developments in the ePrivacy legislation and other legislation.
-* Integrates seamlessly with Gutenberg, Elementor, Divi, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 * Gutenberg Blocks enabled.
@@ -98,7 +98,11 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 3.2.2 =
-* Improvement: unlink and customize the legal documents
+* Improvement: added option to unlink and customize the legal documents
+* Improvement: structure improvements to integrations code
+* Fix: UK Cookie Policy URL not added to cookie notice
+* Improvement: added integration for GEO My WP members list
+* Improvement: added Forminator integration
 
 = 3.2.1 =
 * Fix: language forcing en_US

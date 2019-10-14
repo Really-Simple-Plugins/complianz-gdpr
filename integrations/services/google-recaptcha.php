@@ -14,3 +14,17 @@ function cmplz_recaptcha_script($tags){
     return $tags;
 }
 
+
+add_filter('cmplz_known_iframe_tags', 'cmplz_recaptcha_iframetags');
+function cmplz_recaptcha_iframetags($tags){
+    $tags[] = 'google.com/recaptcha/';
+
+    return $tags;
+}
+
+add_filter('cmplz_placeholder_markers', 'cmplz_recaptcha_placeholders');
+function cmplz_recaptcha_placeholders($tags){
+    $tags['google-recaptcha'][] =  'recaptcha-invisible';
+
+    return $tags;
+}

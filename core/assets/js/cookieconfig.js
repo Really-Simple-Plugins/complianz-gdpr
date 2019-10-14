@@ -467,6 +467,7 @@ jQuery(document).ready(function($) {
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
         cmplzIntegrationsInit();
         cmplzCheckCookiePolicyID();
+        complianz.readmore_url = complianz.readmore_url[complianz.region];
 
         $.event.trigger({
             type: "cmplzCookieBannerData",
@@ -496,6 +497,7 @@ jQuery(document).ready(function($) {
                     complianz.categories = cmplzRemoveStatisticsCategory(complianz.categories);
                     complianz_enable_stats();
                 }
+
                 //disable auto dismiss
                 complianz.dismiss_on_scroll = false;
                 complianz.dismiss_on_timeout = false;
@@ -508,7 +510,6 @@ jQuery(document).ready(function($) {
                 setStatusAsBodyClass('allow');
                 complianz.type = 'opt-out';
                 complianz.layout = 'basic';
-                complianz.readmore_url = complianz.readmore_url_us;
                 complianz.readmore = complianz.readmore_optout;
                 complianz.dismiss = complianz.accept_informational;
                 complianz.message = complianz.message_optout;
@@ -714,8 +715,11 @@ jQuery(document).ready(function($) {
     });
 
 
-
-
+    /**
+     * For UK, cats are always needed. If this user is EU, and does not need consent for stats, we can remove the stats category
+     * @param categories
+     * @returns {*}
+     */
 
     function cmplzRemoveStatisticsCategory(categories){
         if (complianz.use_categories && complianz.forceEnableStats) {
@@ -1000,7 +1004,7 @@ jQuery(document).ready(function($) {
 
 
 
-    /*
+    /**
     * Enable the checkbox for each category which was enabled
     *
     *
@@ -1018,7 +1022,7 @@ jQuery(document).ready(function($) {
         if (cmplzGetCookie('cmplz_stats') === 'allow') $('#cmplz_stats').prop('checked', true);
     }
 
-    /*
+    /**
     * Merge two objects
     *
     * */

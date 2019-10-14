@@ -202,7 +202,7 @@ $this->fields = $this->fields + array(
             'callback_condition' => array(
                 'fire_scripts_in_tagmanager' => 'yes',
                 'compile_statistics' => 'google-tag-manager',
-                'regions' => 'eu',
+                'regions' => array('eu','uk'),
             ),
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),
