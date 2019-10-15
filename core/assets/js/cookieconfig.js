@@ -464,10 +464,7 @@ jQuery(document).ready(function($) {
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
         //objects are merged so user_data will override data in complianz object
-        console.log(complianz);
-        console.log(cmplz_user_data);
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
-        console.log(complianz);
         cmplzIntegrationsInit();
         cmplzCheckCookiePolicyID();
         complianz.readmore_url = complianz.readmore_url[complianz.region];
@@ -1102,7 +1099,6 @@ jQuery(document).ready(function($) {
         //check if we have waiting scripts
         for (var key in cookiesToSet) {
             if (cookiesToSet.hasOwnProperty(key)) {
-                console.log("set cookie "+cookiesToSet[key][1]);
                 cmplzSetCookie(key, cookiesToSet[key][0], complianz.cookie_expiry);
             }
         }

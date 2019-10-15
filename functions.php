@@ -676,6 +676,10 @@ if (!function_exists('cmplz_ajax_user_settings')) {
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
         $data['forceEnableStats'] = apply_filters('cmplz_user_force_enable_stats', false);
         $data['version'] = cmplz_version;
+        //We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
+        //@todo: move this to the inline script  generation
+        //and move all generic, not banner specific data away from the banner.
+        unset($data["set_cookies"]);
         $banner_id = cmplz_get_default_banner_id();
         $banner = new CMPLZ_COOKIEBANNER($banner_id);
         $data['banner_version'] = $banner->banner_version;
