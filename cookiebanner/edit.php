@@ -46,7 +46,6 @@
         <div class="cmplz-tab">
             <button class="cmplz-tablinks <?php if ($active_tab==='general') echo "active"?>" type="button" data-tab="general"><?php _e("General", 'complianz-gdpr')?></button>
             <?php foreach ($consent_types as $consent_type){
-                $label = get_regions_for_consent_type($consent_type);
                 ?>
                 <button class="cmplz-tablinks region-link <?php if ($active_tab===$consent_type) echo "active"?>" type="button" data-tab="<?php echo $consent_type?>"><?php echo cmplz_consenttype_nicename($consent_type)?></button>
             <?php }?>

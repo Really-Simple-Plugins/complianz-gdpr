@@ -1215,7 +1215,7 @@ if (!function_exists('get_regions_for_consent_type')) {
     function get_regions_for_consent_type($consenttype){
         $regions = array();
         foreach (COMPLIANZ()->config->regions as $region_id => $region){
-            if ($region['type']===$consenttype) return $regions[] = $region['label'];
+            if ($region['type']===$consenttype) $regions[] = $region['label'];
         }
         return implode(', ', $regions);
     }
