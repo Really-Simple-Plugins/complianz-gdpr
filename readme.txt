@@ -11,7 +11,7 @@ Stable tag: 3.2.2
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA, COPPA, PECR and more.
 
 == Description ==
-Complianz | GDPR Cookie Consent supports GDPR, ePrivacy, CCPA, DSVGO, AVG, RGPD, and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan. Blocking 3rd Party Cookies from all major 3rd Party services like Google Analytics, Matomo, Adsense, Facebook, Youtube, Instagram, Vimeo and more. You can configure for US (United States) visitors, European Union (EU) visitors or UK (The United Kingdom) visitors, with Cookie Notice, Cookie Consent and Legal Documents.
+Complianz | GDPR Cookie Consent supports GDPR, ePrivacy and CCPA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan. Blocking 3rd Party Cookies from all major 3rd Party services. You can configure for United States, European Union or United Kingdom visitors.
 
 IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
