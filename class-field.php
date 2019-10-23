@@ -222,8 +222,10 @@ if (!class_exists("cmplz_field")) {
 
                     //make cookies and thirdparties translatable
                     if ($type==='cookies' || $type==='thirdparties' || $type==='processors' || $type==='editor'){
-                        if (is_string($value) && isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
-                            do_action('cmplz_register_translation', $fieldname . "_" . $key, $value);
+                        if (isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
+                            foreach($value as $value_key => $field_value){
+                                do_action('cmplz_register_translation', $fieldname . "_" . $value_key, $field_value);
+                            }
                         }
                     }
                 }

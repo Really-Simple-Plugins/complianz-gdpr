@@ -5,7 +5,7 @@ Tags: GDPR, Cookie, Cookie Notice, Consent, CCPA
 Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: 3.2.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA, COPPA, PECR and more.
