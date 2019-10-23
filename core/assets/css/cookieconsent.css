@@ -426,6 +426,7 @@
 }
 label.cc-check {
   display: inline-block;
+  padding-bottom: 4px;
 }
 .cc-window label {
   color: inherit;

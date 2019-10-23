@@ -39,6 +39,7 @@ jQuery(document).ready(function($) {
     var waitingScripts = [];
     var placeholderClassIndex = 0;
     var curClass = '';
+    var cmplzAllScriptsHookFired = false;
 
 
     /**
@@ -241,7 +242,6 @@ jQuery(document).ready(function($) {
 
         //scripts: set "cmplz-script classes to type="text/javascript"
         scriptElements.each(function (i, obj) {
-
             //do not run stats scripts yet. We leave that to the dedicated stats function complianz_enable_stats()
             if ($(this).hasClass('cmplz-stats')) return true;
 
@@ -307,6 +307,8 @@ jQuery(document).ready(function($) {
                         });
                 }
             }
+
+
         });
 
 
@@ -315,6 +317,11 @@ jQuery(document).ready(function($) {
             type: "cmplzEnableScripts",
             consentLevel: "all"
         });
+
+        //if there are no blockable scripts at all, we still want to provide a hook
+        //in most cases, this script fires too early, and won't run yet. In that
+        //case it's run from the script activation callbacks.
+        cmplzRunAfterAllScripts();
 
         ccAllEnabled = true;
     }
@@ -366,9 +373,13 @@ jQuery(document).ready(function($) {
     }
 
     function cmplzRunAfterAllScripts(){
-        if (waitingInlineScripts.length===0 && waitingScripts.length===0 ) {
-            //custom re-initialization after stuff is activated
-            if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
+        if (!cmplzAllScriptsHookFired && waitingInlineScripts.length===0 && waitingScripts.length===0 ) {
+            //hook
+            //fire an event so custom scripts can hook into this.
+            $.event.trigger({
+                type: "cmplzRunAfterAllScripts"
+            });
+            cmplzAllScriptsHookFired=true;
         }
     }
 

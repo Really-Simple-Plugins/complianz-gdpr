@@ -116,7 +116,12 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
 
     ),
 
-    //Gravity Forms
+    'happyforms' => array(
+        'constant_or_function' => 'HAPPYFORMS_VERSION',
+        'label' => 'Happy Forms',
+    ),
+
+
     'gravity-forms' => array(
         'constant_or_function' => 'GF_MIN_WP_VERSION',
         'label' => 'Gravity Forms',

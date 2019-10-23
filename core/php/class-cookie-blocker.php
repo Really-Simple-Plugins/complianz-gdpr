@@ -229,7 +229,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             $source_placeholder =  cmplz_url . 'core/assets/video/youtube-placeholder.mp4?cmplz=1';
                         } else {
                             $video_class = apply_filters('cmplz_video_class', 'cmplz-no-video');
-                            $source_placeholder =  cmplz_url . 'core/assets/images/placeholder.html';
+                            $source_placeholder =  'about:blank';
                         }
 
                         $source_placeholder = apply_filters('cmplz_source_placeholder',$source_placeholder);
