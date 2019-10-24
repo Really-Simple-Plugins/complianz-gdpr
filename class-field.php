@@ -224,7 +224,7 @@ if (!class_exists("cmplz_field")) {
                     if ($type==='cookies' || $type==='thirdparties' || $type==='processors' || $type==='editor'){
                         if (isset($fields[$fieldname]['translatable']) && $fields[$fieldname]['translatable']) {
                             foreach($value as $value_key => $field_value){
-                                do_action('cmplz_register_translation', $fieldname . "_" . $value_key, $field_value);
+                                do_action('cmplz_register_translation', $key.'_'.$fieldname . "_" . $value_key, $field_value);
                             }
                         }
                     }
