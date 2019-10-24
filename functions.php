@@ -160,28 +160,27 @@ if (!function_exists('cmplz_get_value')) {
          *
          * */
 
-        if (function_exists('icl_translate') || function_exists('pll__')) {
-            $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
-            if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
-                if (is_array($value)) {
-                    //this is a cookie array for example ($item = cookie("name"=>"_ga")
-                    foreach ($value as $item_key => $item) {
-                        //contains the values of an item
-                        foreach ($item as $key => $key_value) {
-                            if (function_exists('pll__')) $value[$key] = pll__($key_value);
-                            if (function_exists('icl_translate')) $value[$item_key][$key] = icl_translate('complianz', $fieldname . "_" . $key, $key_value);
-                        }
+        $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
+        if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
+            if (is_array($value)) {
+                //this is a cookie array for example ($item = cookie("name"=>"_ga")
+                foreach ($value as $item_key => $item) {
+                    //contains the values of an item
+                    foreach ($item as $key => $key_value) {
+                        if (function_exists('pll__')) $value[$item_key][$key] = pll__($item_key.'_'.$fieldname . "_" . $key);
+                        if (function_exists('icl_translate')) $value[$item_key][$key] = icl_translate('complianz', $item_key.'_'.$fieldname . "_" . $key, $key_value);
                     }
-                }
-            } else {
-                if (isset(COMPLIANZ()->config->fields[$fieldname]['translatable']) && COMPLIANZ()->config->fields[$fieldname]['translatable']) {
-                    if (function_exists('pll__')) {
-                        $value = pll__($value);
-                    }
-                    if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
                 }
             }
+        } else {
+            if (isset(COMPLIANZ()->config->fields[$fieldname]['translatable']) && COMPLIANZ()->config->fields[$fieldname]['translatable']) {
+                if (function_exists('pll__')) {
+                    $value = pll__($value);
+                }
+                if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+            }
         }
+
 
         return $value;
     }
