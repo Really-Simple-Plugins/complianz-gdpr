@@ -8,10 +8,10 @@ Requires PHP: 5.6
 Tested up to: 5.3
 Stable tag: 3.2.3
 
-Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA, COPPA, PECR and more.
+Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA and PECR.
 
 == Description ==
-Complianz | GDPR Cookie Consent supports GDPR, ePrivacy and CCPA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan. Blocking 3rd Party Cookies from all major 3rd Party services. You can configure for United States, European Union or United Kingdom visitors.
+Complianz | GDPR Cookie Consent supports GDPR, ePrivacy and CCPA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan. Blocks cookies from all major 3rd Party services. You can configure for United States, European Union or United Kingdom visitors.
 
 IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
