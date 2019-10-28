@@ -72,7 +72,7 @@ Check out other plugins developed by Really Simple Plugins as well: [Really Simp
 Complianz maintains a continuously growing knowledgebase about GDPR, CCPA and COPPA on [complianz.io](https://complianz.io)
 
 = Is my website GDPR, COPPA, CCPA, DSVGO, AVG, UK-GDPR, PECR compliant with this plugin? =
-We cannot guarantee GDPR/COPPA/CCPA/UK-GDPR/PECT compliance for your website.
+We cannot guarantee GDPR/COPPA/CCPA/UK-GDPR/PECR compliance for your website.
 = When do I need a Cookie Notice? =
 Complianz | GDPR Cookie Consent will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes. For the United Kingdom explicit consent for statistics is required, even when IP addresses have been anonymized.
 Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
