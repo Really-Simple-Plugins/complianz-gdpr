@@ -13,8 +13,6 @@ Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard a
 == Description ==
 Complianz is a GDPR Cookie Consent plugin that supports GDPR, ePrivacy, CCPA and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
-IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
-
 == Features ==
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
 * Banner Templates include: 'Soft' Cookie Wall - Accept/Dismiss - Category Based Consent.
@@ -26,18 +24,21 @@ IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirem
 * Proof of Consent; user consent registration that respects the data minimization guideline.
 * Implementation of Google Tag Manager, Google Analytics, Matomo etc.
 * Automatically anonymizes IP-addresses for Google Analytics if needed.
-* Blocks 3rd party cookies like Facebook, Instagram, AdSense, Recaptcha, Twitter and more.
-* Blocks iFrames, like YouTube/Vimeo embedded videos and Social iFrames.
-* Placeholders for blocked iFrames. Still images from videos and individual placeholders per service.
+* Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter and more.
+* Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
+* Placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
 * Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
 * We closely follow the latest developments in the ePrivacy legislation and other legislation.
 * Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 * Gutenberg Blocks enabled.
-* Ready for GDPR, AVG, DSVGO, CNIL, PECR, UK DPA, UK GDPR, CCPA & COPPA among others.
+* Ready for GDPR, AVG, DSVGO, CNIL, PECR, UK DPA, UK GDPR, CCPA & COPPA.
+* Choose from which region your visitors are coming: European Union, United Kingdom or United States
 
 Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
+
+IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
 = Love Complianz? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
