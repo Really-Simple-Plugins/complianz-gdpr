@@ -37,7 +37,6 @@ Complianz is a GDPR Cookie Consent plugin that supports GDPR, ePrivacy, CCPA and
 * Ready for GDPR, AVG, DSVGO, CNIL, PECR, UK DPA, UK GDPR, CCPA & COPPA.
 * We closely follow the latest developments in the ePrivacy legislation and other legislation world-wide.
 
-
 Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
 IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
