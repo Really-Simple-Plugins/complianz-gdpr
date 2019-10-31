@@ -118,6 +118,8 @@ if (!class_exists('COMPLIANZ')) {
 
         private function setup_constants()
         {
+            define('CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/');
+
             require_once(ABSPATH . 'wp-admin/includes/plugin.php');
             $plugin_data = get_plugin_data(__FILE__);
             define('CMPLZ_MINUTES_PER_QUESTION', 0.33);
