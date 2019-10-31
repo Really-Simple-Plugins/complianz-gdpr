@@ -295,6 +295,12 @@ a.button.cmplz-open-modal {
   border-radius: 0px;
   margin: 0px 0;
 }
+.cmplz-panel.cmplz-toggle-disabled {
+  color: #aca5a5;
+}
+.cmplz-panel.cmplz-toggle-active .cmplz-panel-title {
+  cursor: pointer;
+}
 .cmplz-panel .cmplz-field > div {
   margin: 10px 0;
 }
@@ -312,7 +318,6 @@ a.button.cmplz-open-modal {
 }
 .cmplz-panel.cmplz-slide-panel .cmplz-panel-title,
 .cmplz-panel.cmplz-link-panel .cmplz-panel-title {
-  cursor: pointer;
   padding: 10px 15px 8px 0;
 }
 .cmplz-panel.cmplz-slide-panel .cmplz-panel-title i,

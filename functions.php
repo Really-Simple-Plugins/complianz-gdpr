@@ -328,7 +328,7 @@ if (!function_exists('cmplz_panel')) {
         $slide = ($html == '') ? false : true;
 
         $output = '
-        <div class="cmplz-panel cmplz-slide-panel">
+        <div class="cmplz-panel cmplz-slide-panel cmplz-toggle-active">
             <div class="cmplz-panel-title">
 
                 <span class="cmplz-panel-toggle">
@@ -1089,7 +1089,7 @@ if (!function_exists('cmplz_used_cookies')){
         $cookies_row = cmplz_get_template('cookiepolicy_cookies_row.php');
 
         $language = substr(get_locale(),0,2);
-        $cookies = COMPLIANZ()->cookie_admin->get_cookies_by_service(array('language' => $language, 'showOnPolicy' => true, 'hideEmpty'=>true));
+        $cookies = COMPLIANZ()->cookie_admin->get_cookies_by_service(array('language' => $language, 'showOnPolicy' => true, 'hideEmpty'=>true, 'ignored' => false));
         $servicesHTML = '';
         foreach($cookies as $serviceID => $serviceData){
             $has_empty_cookies = false;

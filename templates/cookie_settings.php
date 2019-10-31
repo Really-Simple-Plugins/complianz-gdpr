@@ -1,5 +1,5 @@
 
-<div class="cmplz-cookie-field cmplz-field" data-cookie_id="{cookie_id}">
+<div class="cmplz-cookie-field cmplz-field {ignored}" data-cookie_id="{cookie_id}">
     <div class="{disabledClass}">
         <div><label><?php _e('Name', 'complianz-gdpr')?></label></div>
 

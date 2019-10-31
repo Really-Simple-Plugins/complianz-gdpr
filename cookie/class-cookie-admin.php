@@ -200,7 +200,7 @@ if (!class_exists("cmplz_cookie_admin")) {
          * @param $tmpl
          * @param $name
          * @param $language
-         * @return string|void
+         * @return string
          */
 
         public function get_cookie_list_item_html($tmpl, $name, $language){
@@ -247,8 +247,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $tmpl);
 
             $icons = '';
-            $status = $cookie->complete ? 'success' : 'error';
-
+            $status = $cookie->complete||$cookie->ignored ? 'success' : 'error';
             $icons .= $this->get_icon(array(
                 'status' => $status,
                 'icon_success' => 'check',
@@ -271,7 +270,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 'desc_error' => __("This cookie is not synchronized with cookiedatabase.org","complianz-gdpr"),
                 'desc_disabled' => __("Synchronization with cookiedatabase.org is not enabled for this cookie","complianz-gdpr"),
             ) );
-            $status = $cookie->showOnPolicy ? 'success' : 'disabled';
+            $status = $cookie->showOnPolicy && !$cookie->ignored ? 'success' : 'disabled';
 
             $icons .= $this->get_icon(array(
                 'status' => $status,
@@ -293,8 +292,12 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             $notice =  ($cookie->old) ? cmplz_notice(__('This cookie has not been found in the scan for three months. Please check if you are still using this cookie', 'complianz-gdpr'),'warning',false,false) : '';
             $cookie_html = $notice.$cookie_html;
+            $ignored = ($cookie->ignored) ? ' <i>'.__('(Administrator cookie, will be ignored)', 'complianz-gdpr').'</i>' : '';
+            $html = cmplz_panel(sprintf(__('Cookie "%s"%s', 'complianz-gdpr'), $cookie->name, $ignored), $cookie_html, $icons, false, false);
 
-            return cmplz_panel(sprintf(__('Cookie "%s"', 'complianz-gdpr'), $cookie->name), $cookie_html, $icons, false, false);
+            if ($cookie->ignored) $html = str_replace(array('cmplz-toggle-active'), array('cmplz-toggle-disabled'), $html);
+
+            return $html;
         }
 
         /**
@@ -584,7 +587,7 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function maybe_sync_cookies(){
-            //get all cookies with sync on, ignored false
+            //get all cookies with sync on
             //we need all cookies, translated ones as well, as we will be syncing each language separately
             $error = false;
             $languages = $this->get_supported_languages();
@@ -611,7 +614,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                     }
                 }
             }
-
             //if no syncable cookies are found, exit.
             if ($count_all==0) $error = true;
 
@@ -1898,7 +1900,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_cookies($settings = array()){
             global $wpdb;
             $defaults = array(
-                'ignored' => false,
+                'ignored' => 'all',
                 'new' => false,
                 'language' => false,
                 'isPersonalData' => 'all',
@@ -1909,7 +1911,6 @@ if (!class_exists("cmplz_cookie_admin")) {
             $settings = wp_parse_args($settings, $defaults);
 
             $sql = ' 1=1 ';
-            $sql .= ' AND ignored = '. $this->bool_string($settings['ignored']);
 
             if ($settings['isPersonalData']!=='all') {
                 $sql .= ' AND isPersonalData = ' . $this->bool_string($settings['isPersonalData']);
@@ -1917,6 +1918,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             if ($settings['showOnPolicy']!=='all') {
                 $sql .= ' AND showOnPolicy = ' . $this->bool_string($settings['showOnPolicy']);
+            }
+
+            if ($settings['ignored']!=='all') {
+                $sql .= ' AND ignored = ' . $this->bool_string($settings['ignored']);
             }
 
             if (!$settings['language']){
@@ -1939,7 +1944,6 @@ if (!class_exists("cmplz_cookie_admin")) {
             if ($settings['lastUpdatedDate']){
                 $sql .= $wpdb->prepare(' AND lastUpdatedDate < %s', intval($settings['lastUpdatedDate']));
             }
-
             $cookies = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookies where ".$sql);
 
             //make sure service data is added
@@ -2232,7 +2236,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function has_empty_cookie_descriptions(){
 
-            $cookies = COMPLIANZ()->cookie_admin->get_cookies(array('showOnPolicy'=>true));
+            $cookies = COMPLIANZ()->cookie_admin->get_cookies(array('showOnPolicy'=>true, 'ignored' => false));
             if (is_array($cookies)) {
                 foreach ($cookies as $cookie_name) {
                     $cookie = new CMPLZ_COOKIE($cookie_name);
@@ -2339,6 +2343,21 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         public function sync_progress(){
+            $has_updatable_cookies = false;
+            $disabled = '';
+            $explanation='';
+            $languages = $this->get_supported_languages();
+            $one_week_ago = strtotime("-1 week");
+            foreach($languages as $language) {
+                $args = array('sync' => true, 'language' => $language);
+                if (!defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
+                $cookies = $this->get_cookies($args);
+                if (count($cookies)>0) $has_updatable_cookies = true;
+            }
+            if (!$has_updatable_cookies){
+                $disabled = "disabled";
+                $explanation = cmplz_notice(__('Synchronization disabled: There are no new cookies, or cookies synced longer that a week ago.','complianz-gdpr'), 'warning', false, false);
+            }
             ?>
             <div class="field-group first">
                 <div class="cmplz-label">
@@ -2349,8 +2368,10 @@ if (!class_exists("cmplz_cookie_admin")) {
                 </div>
                 <div id="cmplz-sync-loader"></div>
                 <br>
-                <input type="submit" class="button cmplz-resync"
+
+                <input type="submit" <?php echo $disabled?> class="button cmplz-resync"
                        value="<?php _e('Re-sync', 'complianz-gdpr') ?>" name="resync">
+                <?php echo $explanation?>
             </div>
             <?php
         }
@@ -2442,12 +2463,13 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function site_needs_cookie_warning($region=false)
         {
+
             if (cmplz_get_value('uses_cookies') !== 'yes') {
-                return false;
+                return apply_filters('cmplz_site_needs_cookiewarning', false);
             }
 
             //if we do not target this region, we don't show a banner for that region
-            if ($region && !cmplz_has_region($region)) return false;
+            if ($region && !cmplz_has_region($region)) return apply_filters('cmplz_site_needs_cookiewarning', false);
 
             /*
              * for the US, a cookie warning is always required
@@ -2456,29 +2478,29 @@ if (!class_exists("cmplz_cookie_admin")) {
              *
              */
 
-            if ($region && !cmplz_has_region($region)) return false;
+            if ($region && !cmplz_has_region($region)) return apply_filters('cmplz_site_needs_cookiewarning', false);
 
             if ((!$region || $region==='us') && cmplz_has_region('us')){
-                return true;
+                return apply_filters('cmplz_site_needs_cookiewarning', true);
             }
 
             //non functional cookies? we need a cookie warning
             if ($this->third_party_cookies_active()) {
-                return true;
+                return apply_filters('cmplz_site_needs_cookiewarning', true);
             }
 
             //non functional cookies? we need a cookie warning
             $uses_non_functional_cookies = $this->uses_non_functional_cookies();
             if ($uses_non_functional_cookies) {
-                return true;
+                return apply_filters('cmplz_site_needs_cookiewarning', false);
             }
 
             //does the config of the statistics require a cookie warning?
             if ($this->cookie_warning_required_stats()) {
-                return true;
+                return apply_filters('cmplz_site_needs_cookiewarning', false);
             }
 
-            return false;
+            return apply_filters('cmplz_site_needs_cookiewarning', false);
         }
 
         /**
@@ -2511,6 +2533,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             $args = array(
                 'isTranslationFrom' => false,
+                'ignored' => false,
             );
             $cookies = $this->get_cookies($args);
             if (!empty($cookies)) {
@@ -2643,6 +2666,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //get all used cookies
             $args = array(
                 'isTranslationFrom' => false,
+                'ignored' => false,
             );
             $cookies = $this->get_cookies($args);
             if (empty($cookies)) return false;
@@ -2682,6 +2706,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         {
             $args = array(
                 'isTranslationFrom' => false,
+                'ignored' => false,
             );
             $cookies = $this->get_cookies($args);
             if (!empty($cookies)) {

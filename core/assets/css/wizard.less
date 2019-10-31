@@ -330,6 +330,15 @@ a.button.cmplz-open-modal{
 
 }
 .cmplz-panel {
+  &.cmplz-toggle-disabled{
+    color:#aca5a5;
+  }
+
+  &.cmplz-toggle-active{
+    .cmplz-panel-title{
+      cursor: pointer;
+    }
+  }
   .cmplz-field>div{
     margin:10px 0;
   }
@@ -343,7 +352,6 @@ a.button.cmplz-open-modal{
       padding-left:10px;
     }
     .cmplz-panel-title{
-      cursor: pointer;
       i {
         margin-right:5px;
       }

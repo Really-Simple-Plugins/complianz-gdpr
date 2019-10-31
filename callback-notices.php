@@ -164,6 +164,7 @@ function cmplz_show_cookie_usage_notice()
 {
     $args = array(
         'isTranslationFrom' => false,
+        'ignored' => false,
     );
     $cookies = COMPLIANZ()->cookie_admin->get_cookies($args);
     if (count($cookies) > 0) {
@@ -233,6 +234,7 @@ function cmplz_set_default($value, $fieldname)
     if ($fieldname == 'uses_cookies') {
         $args = array(
             'isTranslationFrom' => false,
+            'ignored' => false,
         );
         $cookie_types = COMPLIANZ()->cookie_admin->get_cookies($args);
         if (count($cookie_types) > 0) {

@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
     /*
     * open and close panels
     * */
-    $(document).on('click', '.cmplz-panel-toggle', function(){
+    $(document).on('click', '.cmplz-toggle-active .cmplz-panel-toggle', function(){
         var content = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-content');
         var icon_toggle = $(this).closest('.cmplz-slide-panel').find('i.toggle');
         //close all open panels

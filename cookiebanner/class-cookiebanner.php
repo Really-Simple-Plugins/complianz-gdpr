@@ -35,6 +35,7 @@ function cmplz_install_cookiebanner_table()
             `readmore_optin` varchar(255) NOT NULL,
             `use_categories` int(11) NOT NULL,
             `tagmanager_categories` text NOT NULL,
+            `use_categories_optinstats` int(11) NOT NULL,
             `hide_revoke` int(11) NOT NULL,
             `soft_cookiewall` int(11) NOT NULL,
             `dismiss_on_scroll` int(11) NOT NULL,
