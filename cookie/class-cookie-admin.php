@@ -2232,7 +2232,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function has_empty_cookie_descriptions(){
 
-            $cookies = COMPLIANZ()->cookie_admin->get_cookies(array('showOnPolicy'=>true));
+            $cookies = $this->get_cookies(array('showOnPolicy'=>true));
             if (is_array($cookies)) {
                 foreach ($cookies as $cookie_name) {
                     $cookie = new CMPLZ_COOKIE($cookie_name);

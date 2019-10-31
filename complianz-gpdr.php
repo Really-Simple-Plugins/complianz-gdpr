@@ -89,10 +89,8 @@ if (!class_exists('COMPLIANZ')) {
                         self::$instance->export_settings = new cmplz_export_settings();
 
                     }
-
+                    self::$instance->cookie_admin = new cmplz_cookie_admin();
                     self::$instance->geoip = '';
-                    self::$instance->cookie = new cmplz_cookie();
-
                     self::$instance->document = new cmplz_document();
 
 
@@ -163,6 +161,8 @@ if (!class_exists('COMPLIANZ')) {
 
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
+            require_once(cmplz_path . 'cookie/class-cookie.php');
+            require_once(cmplz_path . 'cookie/class-service.php');
             require_once(cmplz_path . 'integrations/integrations.php');
 
             /* Gutenberg block */
@@ -183,11 +183,10 @@ if (!class_exists('COMPLIANZ')) {
             }
 
             require_once(cmplz_path . 'cron/cron.php');
-            require_once(cmplz_path . 'class-cookie.php');
+            require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
+            require_once(cmplz_path . 'cookie/class-cookie-admin.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
-            require_once(cmplz_path . 'cookiebanner/class-cookiebanner.php');
-
 
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-cookie-blocker.php');
