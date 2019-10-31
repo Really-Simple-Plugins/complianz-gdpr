@@ -59,7 +59,7 @@ function cmplz_forminator_add_consent_checkbox($form_id)
             "required" => true,
             'cols' => '12',
             'validation' => '',
-            'gdpr_description' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement') . '">', '</a>'),
+            'gdpr_description' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement',true) . '">', '</a>'),
             'field_label' => __('Privacy',"complianz-gdpr"),
             'description' => '',
             'validation_text' => '',

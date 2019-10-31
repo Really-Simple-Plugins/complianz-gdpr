@@ -144,7 +144,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
              * After the best performer is enabled, we should not check the best performing variation anymore: these data will not be valid, as settings will be cleared.
              *
              * */
-            if ((COMPLIANZ()->statistics->best_performer_enabled() || (COMPLIANZ()->cookie->ab_testing_enabled()) && COMPLIANZ()->statistics->best_performing_cookiebanner() === $item['ID'])) {
+            if ((COMPLIANZ()->statistics->best_performer_enabled() || (COMPLIANZ()->cookie_admin->ab_testing_enabled()) && COMPLIANZ()->statistics->best_performing_cookiebanner() === $item['ID'])) {
                 $value = '<img class="cmplz-bestperformericon" src="'.cmplz_url.'core/assets/fontawesome/check.svg'.'">';
             }
         } elseif($column_name==='default-banner'){

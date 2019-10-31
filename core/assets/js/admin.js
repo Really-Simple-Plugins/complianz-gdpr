@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
     'use strict';
-
     //tabs
     $(document).on('click', '.cmplz-tablinks', function(){
         $(".cmplz-tablinks").removeClass('active');
@@ -393,7 +392,7 @@ jQuery(document).ready(function ($) {
 
                         } else {
                             progressBar.css({width: progress + '%'});
-
+console.log('loading for cookie scan: '+next_page);
                             $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
                             window.setTimeout(checkIframeLoaded, cmplz_interval);
@@ -413,6 +412,48 @@ jQuery(document).ready(function ($) {
     }
 
     progressBar.css({width: progress + '%'});
+
+    /*Cookie Database sync*/
+    var syncProgress = 0;
+    var syncProgressBar = $('.cmplz-sync-progress-bar');
+    if ($('#cmplz-sync-progress').length) {
+        var syncProgress = complianz_admin.syncProgress;
+        if (syncProgress<100) {
+            syncProgressBar.css({width: syncProgress + '%'});
+            syncCookieDatabase();
+        }
+    }
+
+    var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+    function syncCookieDatabase() {
+        //hide cookies during sync
+
+        $('#cmplz-sync-loader').html(loader);
+
+        $.get(
+            complianz_admin.admin_url,
+            {
+                action: 'cmplz_run_sync'
+            },
+            function (response) {
+                var obj;
+                if (response) {
+                    obj = jQuery.parseJSON(response);
+
+                    syncProgress = parseInt(obj['progress']);
+                    if (syncProgress >= 100) {
+                        syncProgress = 100;
+                        $('#cmplz-sync-loader').html('');
+                        loadListItem();
+                        syncProgressBar.css({width: syncProgress + '%'});
+                    } else {
+                        syncProgressBar.css({width: syncProgress + '%'});
+                        window.setTimeout(syncCookieDatabase, 500);
+                    }
+                }
+            }
+        );
+    }
 
 
     //custom text for policy
@@ -481,23 +522,263 @@ jQuery(document).ready(function ($) {
         $(cmplz_visible_stat).fadeIn();
     });
 
-    /*
-    * report unknown cookies
+    /**
+     * Keep personal data checkbox in sync with entry field
+     */
+
+    $(document).on('change', '.cmplz_isPersonalData', function(){
+        cmplz_personalDataFieldVisibility($(this));
+    });
+    function cmplz_personalDataFieldVisibility(obj){
+        var container = obj.closest('.cmplz-field');
+        if (obj.is(":checked")) {
+            container.find('.cmplz_collectedPersonalData').parent().show();
+        } else {
+            container.find('.cmplz_collectedPersonalData').parent().hide();
+        }
+    }
+
+    /**
+     * Keep thirdparty checkbox in sync with privacy policy url field
+     */
+
+    $(document).on('change', '.cmplz_thirdParty', function(){
+        cmplz_privacyStatementUrlFieldVisibility($(this));
+    });
+    function cmplz_privacyStatementUrlFieldVisibility(obj){
+        var container = obj.closest('.cmplz-field');
+        if (obj.is(":checked")) {
+            container.find('.cmplz_privacyStatementURL').parent().show();
+        } else {
+            container.find('.cmplz_privacyStatementURL').parent().hide();
+        }
+    }
+
+    /**
+     * Keep sync button in sync with disabled state for both cookies and services
+     */
+    $(document).on('change', '.cmplz_sync', function(){
+
+        var container = $(this).closest('.cmplz-field');
+        var disabled = false;
+        if ($(this).is(":checked")) disabled=true;
+        container.find(':input').each(function () {
+            if ($(this).attr('name')==='cmplz_remove_item' || $(this).attr('name')==='cmplz-save-item' || $(this).attr('name')==='cmplz_showOnPolicy' || $(this).attr('name')==='cmplz_sync') return;
+            $(this).prop('disabled', disabled);
+            if (disabled){
+                $(this).closest('div').addClass('cmplz-disabled');
+
+            } else{
+                $(this).closest('div').removeClass('cmplz-disabled');
+
+            }
+        });
+    });
+
+    /**
+     * Keep sync icon in syn.
+     */
+
+    $(document).on('change', '.cmplz_sync', function(){
+        var container = $(this).closest('.cmplz-panel');
+
+        if ($(this).is(":checked")) {
+            container.find('.fa-sync-alt').removeClass('cmplz-disabled');
+        } else {
+            container.find('.fa-sync-alt').addClass('cmplz-disabled');
+        }
+    });
+
+    /**
+     * Keep show on policy icon in sync
+     */
+
+    $(document).on('change', '.cmplz_showOnPolicy', function(){
+        var container = $(this).closest('.cmplz-panel');
+
+        if ($(this).is(":checked")) {
+            container.find('.fa-file').removeClass('cmplz-error');
+        } else {
+            container.find('.fa-file').addClass('cmplz-error');
+        }
+    });
+
+
+
+    $(document).on('keyup', '.cmplz-panel input', function(){
+        cmplzCheckIfCookieIsComplete($(this));
+    });
+    $(document).on('change', '.cmplz-panel select', function(){
+        cmplzCheckIfCookieIsComplete($(this));
+    });
+
+    function cmplzCheckIfCookieIsComplete(obj){
+        var isComplete = true;
+        var container = obj.closest('.cmplz-panel');
+        container.find(':input').each(function () {
+            if (!$(this).is(':checkbox') && !$(this).is(':hidden') && $(this).prop("type")!=='button'){
+                if ($(this).prop('nodeName')!=='SELECT' && $(this).val().length > 0) {
+                    //text is complete
+                } else if($(this).prop('nodeName')==='SELECT' && $(this).val()!=0){
+                    //select is complete
+                } else {
+                    isComplete = false;
+                }
+            }
+        });
+
+        if (isComplete){
+            var icon = container.find('.fa.fa-times');
+            icon.removeClass('cmplz-error');
+            icon.addClass('cmplz-success');
+            icon.addClass('fa-check');
+            icon.removeClass('fa-times');
+
+
+        } else {
+            var icon = container.find('.fa.fa-check');
+            icon.addClass('cmplz-error');
+            icon.removeClass('cmplz-success');
+            icon.addClass('fa-times');
+            icon.removeClass('fa-check');
+
+
+        }
+    }
+
+
+    /**
+     * handle language switch for cookies
+     *
+     **/
+
+    if ($('#cmplz_language').length) {
+        var syncProgress = complianz_admin.syncProgress;
+        if (syncProgress==100) loadListItem();
+
+
+        $(document).on('change', '#cmplz_language', function () {
+            loadListItem();
+        });
+    }
+
+    //select2 dropdown
+    if ($('.cmplz-select2').length) {
+        cmplzInitSelect2()
+    }
+
+    function cmplzInitSelect2() {
+        $('.cmplz-select2').select2({
+            tags: true,
+            width:'400px',
+        });
+
+        $('.cmplz-select2-no-additions').select2({
+            width:'400px',
+        });
+    }
+
+
+
+    function loadListItem(){
+
+        var language = $('#cmplz_language').val();
+
+        var type = $('#cmplz_language').data('type');
+        $.ajax({
+            type: "GET",
+            url: complianz_admin.admin_url,
+            dataType: 'json',
+            data: ({
+                language: language,
+                action: 'cmplz_get_list',
+                type: type,
+            }),
+            success: function (response) {
+                if (response.success) {
+                    $('.cmplz-list-container').html(response.html);
+
+                    $('.cmplz_isPersonalData').each(function(){
+                        cmplz_personalDataFieldVisibility($(this));
+                    });
+
+                    $('.cmplz_thirdParty').each(function(){
+                        cmplz_privacyStatementUrlFieldVisibility($(this));
+                    });
+
+                    cmplzInitSelect2();
+                }
+            }
+        });
+    }
+
+    /**
+    * add, Save and delete cookies
     *
     * */
 
-    $(document).on('click', '#cmplz-report-unknown-cookies', function(){
+    $(document).on('click', '.cmplz-edit-item', function(){
+        var template = $('.cmplz-settings-template').html();
+        var alertSuccess = $('#cmplz_action_success');
+        var action = $(this).data('action');
+        var btn = $(this);
+        var type = btn.data('type');
+        var container = $(this).closest('.cmplz-'+type+'-field');
+        var panel = $(this).closest('.cmplz-panel.cmplz-slide-panel');
+        var language = $('#cmplz_language').val();
+        var btnHtml = btn.html();
+        btn.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+        var item_id = container.data(type+'_id');
+        var data = {};
+        container.find(':input').each(function () {
+            if ($(this).attr('type')==='button') return;
+
+            if ($(this).attr('type')==='checkbox') {
+                data[$(this).attr('name')] = $(this).is(":checked");
+            } else {
+                data[$(this).attr('name')] = $(this).val();
+            }
+        });
+
+
         $.ajax({
             type: "POST",
             url: complianz_admin.admin_url,
             dataType: 'json',
             data: ({
-                action: 'cmplz_report_unknown_cookies',
+                item_id : item_id,
+                type : type,
+                data : JSON.stringify(data),
+                cmplz_action : action,
+                language:language,
+                action: 'cmplz_edit_item',
             }),
             success: function (response) {
                 if (response.success) {
-                    $('#cmplz-report-unknown-cookies').hide();
-                    $('#cmplz-report-confirmation').show();
+                    if (action==='delete'){
+                        panel.remove();
+                    }
+                    if (action==='add'){
+                        var html = response.html;
+                        var list_container = $('.cmplz-field>div.cmplz-list-container');
+                        var noservice = $('.cmplz-service-divider.no-service');
+                        if (noservice.length){
+                            noservice.after(html);
+                        } else {
+                            html = response.divider + html;
+                            list_container.append(html);
+                        }
+                    }
+                    if (action==='save'){
+                        alertSuccess.show(100, function(){
+                            alertSuccess.delay(1000).hide();
+                        });
+                    }
+
+                    btn.html(btnHtml);
+                    cmplzInitSelect2();
+
                 }
             }
         });
@@ -511,6 +792,7 @@ jQuery(document).ready(function ($) {
     $(document).on('click', '.cmplz-open-shortcode', function(){
         $(this).closest('.cmplz-success').find('.cmplz-shortcode').toggle();
     });
+
 
 
     /*

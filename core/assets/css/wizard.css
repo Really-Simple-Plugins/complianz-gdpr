@@ -1,3 +1,6 @@
+.cmplz-hidden {
+  display: none;
+}
 /*
    statistics
 */
@@ -30,6 +33,162 @@
   /* Internet Explorer/Edge */
   user-select: all;
   /* Chrome and Opera */
+}
+.fa.cmplz-tooltip-icon.cmplz-success {
+  color: #666;
+}
+.fa.cmplz-tooltip-icon.cmplz-success.fa-check {
+  color: #61ce70;
+}
+.fa.cmplz-tooltip-icon.cmplz-error {
+  color: #d81414;
+}
+.fa.cmplz-tooltip-icon.cmplz-disabled {
+  color: #ababab;
+}
+/* START TOOLTIP STYLES */
+[cmplz-tooltip] {
+  position: relative;
+  /* opinion 1 */
+}
+/* Applies to all tooltips */
+[cmplz-tooltip]::before,
+[cmplz-tooltip]::after {
+  text-transform: none;
+  /* opinion 2 */
+  font-size: 1em;
+  /* opinion 3 */
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  display: none;
+  opacity: 0;
+}
+[cmplz-tooltip]::before {
+  content: '';
+  border: 5px solid transparent;
+  /* opinion 4 */
+  z-index: 1001;
+  /* absurdity 1 */
+}
+[cmplz-tooltip]::after {
+  content: attr(cmplz-tooltip);
+  /* magic! */
+  /* most of the rest of this is opinion */
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  /*
+    Let the content set the size of the tooltips
+    but this will also keep them from being obnoxious
+    */
+  min-width: 3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1ch 1.5ch;
+  border-radius: 0.3ch;
+  box-shadow: 0 1em 2em -0.5em rgba(0, 0, 0, 0.35);
+  background: #333;
+  color: #fff;
+  z-index: 1000;
+  /* absurdity 2 */
+}
+/* Make the tooltips respond to hover */
+[cmplz-tooltip]:hover::before,
+[cmplz-tooltip]:hover::after {
+  display: block;
+}
+/* don't show empty tooltips */
+[cmplz-tooltip='']::before,
+[cmplz-tooltip='']::after {
+  display: none !important;
+}
+/* FLOW: UP */
+[cmplz-tooltip]:not([flow])::before,
+[cmplz-tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: #333;
+}
+[cmplz-tooltip]:not([flow])::after,
+[cmplz-tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+[cmplz-tooltip]:not([flow])::before,
+[cmplz-tooltip]:not([flow])::after,
+[cmplz-tooltip][flow^="up"]::before,
+[cmplz-tooltip][flow^="up"]::after {
+  left: 50%;
+  transform: translate(-50%, -0.5em);
+}
+/* FLOW: DOWN */
+[cmplz-tooltip][flow^="down"]::before {
+  top: 100%;
+  border-top-width: 0;
+  border-bottom-color: #333;
+}
+[cmplz-tooltip][flow^="down"]::after {
+  top: calc(100% + 5px);
+}
+[cmplz-tooltip][flow^="down"]::before,
+[cmplz-tooltip][flow^="down"]::after {
+  left: 50%;
+  transform: translate(-50%, 0.5em);
+}
+/* FLOW: LEFT */
+[cmplz-tooltip][flow^="left"]::before {
+  top: 50%;
+  border-right-width: 0;
+  border-left-color: #333;
+  left: calc(0em - 5px);
+  transform: translate(-0.5em, -50%);
+}
+[cmplz-tooltip][flow^="left"]::after {
+  top: 50%;
+  right: calc(100% + 5px);
+  transform: translate(-0.5em, -50%);
+}
+/* FLOW: RIGHT */
+[cmplz-tooltip][flow^="right"]::before {
+  top: 50%;
+  border-left-width: 0;
+  border-right-color: #333;
+  right: calc(0em - 5px);
+  transform: translate(0.5em, -50%);
+}
+[cmplz-tooltip][flow^="right"]::after {
+  top: 50%;
+  left: calc(100% + 5px);
+  transform: translate(0.5em, -50%);
+}
+/* KEYFRAMES */
+@keyframes tooltips-vert {
+  to {
+    opacity: 0.9;
+    transform: translate(-50%, 0);
+  }
+}
+@keyframes tooltips-horz {
+  to {
+    opacity: 0.9;
+    transform: translate(0, -50%);
+  }
+}
+/* FX All The Things */
+[cmplz-tooltip]:not([flow]):hover::before,
+[cmplz-tooltip]:not([flow]):hover::after,
+[cmplz-tooltip][flow^="up"]:hover::before,
+[cmplz-tooltip][flow^="up"]:hover::after,
+[cmplz-tooltip][flow^="down"]:hover::before,
+[cmplz-tooltip][flow^="down"]:hover::after {
+  animation: tooltips-vert 300ms ease-out forwards;
+}
+[cmplz-tooltip][flow^="left"]:hover::before,
+[cmplz-tooltip][flow^="left"]:hover::after,
+[cmplz-tooltip][flow^="right"]:hover::before,
+[cmplz-tooltip][flow^="right"]:hover::after {
+  animation: tooltips-horz 300ms ease-out forwards;
 }
 .cmplz-shortcode {
   display: none;
@@ -99,6 +258,7 @@ a.button.cmplz-open-modal {
   font-size: 9px;
   line-height: 13px;
   height: 15px;
+  min-height: 15px;
   padding: 1px 3px;
   margin-left: 10px;
 }
@@ -111,6 +271,21 @@ a.button.cmplz-open-modal {
   display: inline-block;
   width: 80%;
 }
+.cmplz-list-container .cmplz-cookie-field > div {
+  margin-top: 8px;
+}
+.cmplz-list-container .cmplz-disabled label,
+.cmplz-list-container .cmplz-disabled span {
+  color: #ababab !important;
+}
+.cmplz-list-container input[type="checkbox"]:disabled {
+  border: 1px solid blue;
+}
+.cmplz-list-container .cmplz-service-divider {
+  font-size: 19px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
 .cmplz-panel {
   font-size: 13px!important;
   color: #383d41;
@@ -119,6 +294,9 @@ a.button.cmplz-open-modal {
   padding: 10px 15px;
   border-radius: 0px;
   margin: 0px 0;
+}
+.cmplz-panel .cmplz-field > div {
+  margin: 10px 0;
 }
 .cmplz-panel .cmplz-multiple-field-validation {
   float: right;
@@ -379,11 +557,15 @@ html .mceContentBody {
   margin-top: 15px;
 }
 /*progress bar */
-#cmplz-scan-progress {
+#cmplz-scan-progress,
+#cmplz-sync-progress {
   width: 100%;
   background-color: #f2f2f2;
 }
-#cmplz-scan-progress .cmplz-progress-bar {
+#cmplz-scan-progress .cmplz-progress-bar,
+#cmplz-sync-progress .cmplz-progress-bar,
+#cmplz-scan-progress .cmplz-sync-progress-bar,
+#cmplz-sync-progress .cmplz-sync-progress-bar {
   height: 25px;
   background-color: #29b6f6;
   transition: width 0.5s;
@@ -432,6 +614,10 @@ html .mceContentBody {
 #cmplz-wizard .field-group.first,
 #cookie-policy-snapshots .field-group.first {
   border-top: 0;
+}
+#cmplz-wizard .field-group .cmplz-field,
+#cookie-policy-snapshots .field-group .cmplz-field {
+  margin-top: 5px;
 }
 #cmplz-wizard .field-group .cmplz-label label,
 #cookie-policy-snapshots .field-group .cmplz-label label {
@@ -633,7 +819,6 @@ html .mceContentBody {
 #cmplz-wizard .cmplz-body input[type="email"],
 #cookie-policy-snapshots .cmplz-body input[type="email"] {
   width: 80%;
-  margin-bottom: 12px;
   background-color: #F1F1F1;
 }
 #cmplz-wizard .cmplz-body .validation,
@@ -726,10 +911,15 @@ html .mceContentBody {
 }
 #cmplz-wizard .cmplz-body .cmplz-button.cmplz-previous input[type=submit],
 #cookie-policy-snapshots .cmplz-body .cmplz-button.cmplz-previous input[type=submit] {
+  cursor: pointer;
   background-color: #c6c6c6;
   border-color: #c6c6c6;
   border-radius: 50px;
   font-size: 14px;
+}
+#cmplz-wizard .cmplz-body .cmplz-button.cmplz-previous input[type=submit]:focus,
+#cookie-policy-snapshots .cmplz-body .cmplz-button.cmplz-previous input[type=submit]:focus {
+  outline: none;
 }
 #cmplz-wizard .cmplz-body .cmplz-button:before,
 #cookie-policy-snapshots .cmplz-body .cmplz-button:before,
@@ -747,6 +937,7 @@ html .mceContentBody {
 }
 #cmplz-wizard .cmplz-body .cmplz-button input[type="submit"],
 #cookie-policy-snapshots .cmplz-body .cmplz-button input[type="submit"] {
+  cursor: pointer;
   font-family: "Roboto, sans-serif", Arial;
   font-size: 14px;
   text-transform: lowercase;
@@ -756,6 +947,10 @@ html .mceContentBody {
   box-shadow: none;
   height: 28px;
   border-color: #29b6f6;
+}
+#cmplz-wizard .cmplz-body .cmplz-button input[type="submit"]:focus,
+#cookie-policy-snapshots .cmplz-body .cmplz-button input[type="submit"]:focus {
+  outline: none;
 }
 #cmplz-wizard .cmplz-body .cmplz-button input[type="submit"]:hover,
 #cookie-policy-snapshots .cmplz-body .cmplz-button input[type="submit"]:hover {
@@ -858,7 +1053,6 @@ html .mceContentBody {
   float: left;
   display: inline-block;
   vertical-align: middle;
-  width: 16px;
   font: 400 21px/1 dashicons;
   speak: none;
   -webkit-font-smoothing: antialiased;

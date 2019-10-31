@@ -15,6 +15,7 @@ function cmplz_addtoany_script($tags){
  * @return array
  */
 function cmplz_addtoany_detected_social_media($social_media){
+
     if (!in_array('facebook', $social_media)){
         $social_media[] = 'facebook';
     }
@@ -24,6 +25,7 @@ function cmplz_addtoany_detected_social_media($social_media){
     if (!in_array('pinterest', $social_media)){
         $social_media[] = 'pinterest';
     }
+
     return $social_media;
 }
 add_filter('cmplz_detected_social_media','cmplz_addtoany_detected_social_media' );

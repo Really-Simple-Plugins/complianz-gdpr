@@ -373,7 +373,6 @@ if (!class_exists("cmplz_field")) {
                 $condition_question = key($args['condition']);
             }
             $condition_class = $condition ? 'condition-check' : '';
-
             $hidden_class =  ($args['hidden']) ? 'hidden' : '';
             $first_class =  ($args['first']) ? 'first' : '';
 
@@ -990,6 +989,9 @@ if (!class_exists("cmplz_field")) {
                     case 'cookies':
                         $this->cookies($args);
                         break;
+                    case 'services':
+                        $this->services($args);
+                        break;
                     case 'multiple':
                         $this->multiple($args);
                         break;
@@ -1204,163 +1206,96 @@ if (!class_exists("cmplz_field")) {
         public
         function cookies($args)
         {
-            $values = $this->get_value($args['fieldname']);
-
-            //move "complianz" cookie to the top.
-            if (!empty($values)) {
-                foreach ($values as $key => $cookie) {
-                    if ($cookie['key'] === 'complianz-gdpr') {
-                        unset($values[$key]);
-                        $new_arr = array();
-                        $new_arr[$key] = $cookie;
-                        $values = $new_arr + $values;
-                    }
-                }
-            }
+            $default_language = substr(get_locale(), 0,2);
 
             if (!$this->show_field($args)) return;
 
-            $args['first'] =true;
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-            <label><?php _e("Cookies", 'complianz-gdpr') ?><?php echo $this->get_help_tip_btn($args);?></label>
+            <div id="cmplz_action_success" class="cmplz-hidden">
+                <?php echo cmplz_notice(__('Settings saved', 'complianz-gdpr'), 'success')?>
+            </div>
+
             <?php do_action('complianz_after_label', $args); ?>
-
             <?php
-            if ($values) {
-                foreach ($values as $key => $value) {
-                    $value_key = (isset($value['key'])) ? $value['key'] : false;
-                    $value['label'] = empty($value['label']) ? COMPLIANZ()->cookie->get_default_value('label', $value_key) : $value['label'];
-                    $value['used_names'] = empty($value['used_names']) ? COMPLIANZ()->cookie->get_default_value('used_names', $value_key) : $value['used_names'];
-                    $value['purpose'] = empty($value['purpose']) ? COMPLIANZ()->cookie->get_default_value('purpose', $value_key) : $value['purpose'];
-                    $value['privacy_policy_url'] = empty($value['privacy_policy_url']) ? COMPLIANZ()->cookie->get_default_value('privacy_policy_url', $value_key) : $value['privacy_policy_url'];
-                    $value['storage_duration'] = empty($value['storage_duration']) ? COMPLIANZ()->cookie->get_default_value('storage_duration', $value_key) : $value['storage_duration'];
-                    $value['description']= empty($value['description']) ? COMPLIANZ()->cookie->get_default_value('description', $value_key) : $value['description'];
-                    $value['key'] = empty($value['key']) ? COMPLIANZ()->cookie->get_default_value('key', $value_key) : $value['key'];
+            $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
+            $count = COMPLIANZ()->cookie_admin->get_supported_languages(true);
 
-                    /*
-                     * Because checkboxes can be saved with an empty value, we should not override these when empty
-                     *
-                     * */
-                    $saved_by_user = (isset($value['saved_by_user']) && $value['saved_by_user']) ? true : false;
-                    $value['functional'] = !$saved_by_user && empty($value['functional']) ? COMPLIANZ()->cookie->get_default_value('functional', $value_key) : $value['functional'];
-                    $value['show'] = !$saved_by_user && empty($value['show']) ? COMPLIANZ()->cookie->get_default_value('show', $value_key) : $value['show'];
-
-                    //$value = wp_parse_args($value, $default_index);
-                    //first, we try if there's a fieldname.
-                    if (!empty($value['label'])) {
-                        $cookiename = $value['label'];
-                    } elseif (!empty($value['key'])) {
-                        $cookiename = $value['key'];
-                    } else {
-                        $cookiename = __("Not recognized", 'complianz-gdpr');
-                    }
-
-                    $functional_checked = $value['functional'] ? 'checked' : '';
-                    $show_checked = $value['show'] ? 'checked' : '';
-
-
-                    //cmplz_panel($s_plugin_name.$add_btn, $html);
-                    $html = '
-
-                    <div class="cmplz-cookie-field multiple-field">
-                        <div>
-                            <div><label>'. __('Name', 'complianz-gdpr').'</label></div>
-                            <input type="text"
-                                   name="cmplz_multiple['.esc_html($args['fieldname']) .']['. $key .'][label]"
-                                   value="'. esc_html($value['label']) .'">
-                            <input type="hidden"
-                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][key]"
-                                   value="'. esc_html($value['key']) .'">
-                        </div>
-                        <div>
-
-                        </div>
-                        <div>
-                            <label>
-                                <input type="hidden"
-                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][functional]"
-                                       value="">
-                                <input type="checkbox"
-                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][functional]"
-                                    '.$functional_checked .'>
-                                '. __('This is a functional cookie', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                            <label>
-                                <input type="hidden"
-                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][show]"
-                                       value="">
-                                <input type="checkbox"
-                                       name="cmplz_multiple['. esc_html($args['fieldname']) .']['. $key .'][show]"
-                                    '. $show_checked .'>
-                                '. __('Add this cookie to the cookie policy', 'complianz-gdpr') .'</label>
-                        </div>
-                        <br>
-                        <div>
-                            <label>'. __('Used names', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][used_names]"
-                                   value="'. esc_html($value['used_names']) .'">
-                        </div>
-                        <div>
-                            <label>'. __('Privacy statement URL', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][privacy_policy_url]"
-                                   value="'. esc_html($value['privacy_policy_url']) .'">
-                        </div>
-                        <div>
-                            <label>'. __('Purpose', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][purpose]"
-                                   value="'. esc_html($value['purpose']) .'">
-                        </div>
-                        <div>
-                            <label>'. __('Retention period', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][storage_duration]"
-                                   value="'. esc_html($value['storage_duration']) .'">
-                        </div>
-                        <div>
-                            <label>'. __('Description', 'complianz-gdpr') .'</label>
-                        </div>
-                        <div>
-                        <textarea class="cmplz_multiple"
-                                  name="cmplz_multiple['. esc_html($args['fieldname']) .']['. esc_html($key) .'][description]">'. esc_html($value['description']) .'</textarea>
-                        </div>
-
-                        <input class="button" type="submit" name="cmplz-save" value="'.__('Save','complianz-gdpr').'">
-                        <button class="button cmplz-remove" type="submit"
-                            name="cmplz_remove_multiple['. esc_html($args['fieldname']) .']"
-                            value="'. esc_html($key) .'">'. __("Remove", 'complianz-gdpr') .'</button>
-                    </div>';
-
-                    $icons = '';
-
-                    $icons .= ($value['functional']) ? '<i class="fa fa-code"></i>' : '<i class="fa fa-fw"></i>';
-                    $icons .= ($value['show']) ? '<i class="fa fa-file"></i>' : '<i class="fa fa-fw"></i>';
-                    $icons = '<span style="float:right">'.$icons.'</span>';
-
-                    cmplz_panel(sprintf(__('Cookie "%s"', 'complianz-gdpr'), $cookiename), $html, $icons,true);
-
-                }
+            if ($count>1) {
+                ?>
+                <select id="cmplz_language" data-type="cookie">
+                    <?php
+                    foreach ($languages as $language) {
+                        ?>
+                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>><?php echo $language ?></option>
+                    <?php } ?>
+                </select>
+                <?php
+            } else {
+                ?>
+                <input type="hidden" id="cmplz_language" data-type="cookie" value="<?php echo reset($languages)?>">
+                <?php
             }
+
+
             ?>
-            <button class="button" type="submit" class="cmplz-add-new-cookie" name="cmplz_add_multiple"
+            <div class="cmplz-list-container"><div class="cmplz-skeleton"></div></div>
+            <button type="button" class="button cmplz-edit-item" name="cmplz_add_item" data-type='cookie' data-action="add"
                     value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new cookie", 'complianz-gdpr') ?></button>
 
             <?php do_action('complianz_after_field', $args); ?>
-            <?php
 
+            <?php
+        }
+
+
+
+        public
+        function services($args)
+        {
+            $default_language = substr(get_locale(), 0,2);
+
+            if (!$this->show_field($args)) return;
+
+            ?>
+
+            <?php do_action('complianz_before_label', $args); ?>
+<!--            <label>--><?php //_e("Services", 'complianz-gdpr') ?><!----><?php //echo $this->get_help_tip_btn($args);?><!--</label>-->
+            <div id="cmplz_action_success" class="cmplz-hidden">
+                <?php echo cmplz_notice(__('Settings saved', 'complianz-gdpr'), 'success')?>
+            </div>
+            <?php do_action('complianz_after_label', $args); ?>
+            <?php
+            $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
+            $count = COMPLIANZ()->cookie_admin->get_supported_languages(true);
+
+            if ($count>1) {
+                ?>
+                <select id="cmplz_language" data-type="service">
+                    <?php
+                    foreach ($languages as $language) {
+                        ?>
+                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>><?php echo $language ?></option>
+                    <?php } ?>
+                </select>
+                <?php
+            }else {
+                ?>
+                <input type="hidden" id="cmplz_language" data-type="service" value="<?php echo reset($languages)?>">
+                <?php
+            }
+
+
+            ?>
+            <div class="cmplz-list-container"><div class="cmplz-skeleton"></div></div>
+
+            <button type="button" class="button cmplz-edit-item" name="cmplz_add_item" data-type='service' data-action="add"
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new service", 'complianz-gdpr') ?></button>
+
+            <?php do_action('complianz_after_field', $args); ?>
+
+            <?php
         }
 
         public
@@ -1456,7 +1391,7 @@ if (!class_exists("cmplz_field")) {
 
                     $title = esc_html($value['name']);
                     if ($title=='') $title = __('New entry','complianz-gdpr');
-                    cmplz_panel($title, $html, '', true);
+                    cmplz_panel($title, $html);
                     ?>
 
                     <?php
@@ -1539,7 +1474,7 @@ if (!class_exists("cmplz_field")) {
 
                     $title = esc_html($value['name']);
                     if ($title=='') $title = sprintf(__('New entry','complianz-gdpr'));
-                    cmplz_panel($title, $html, '', true);
+                    cmplz_panel($title, $html);
                 }
             }
             ?>

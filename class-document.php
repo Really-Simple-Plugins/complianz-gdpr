@@ -24,6 +24,43 @@ if (!class_exists("cmplz_document")) {
             return self::$_this;
         }
 
+
+        /**
+         * If a document is loaded with the autoredirect parameter, we redirect automatically
+         */
+        public function maybe_autoredirect()
+        {
+            //if the autoredirect parameter is used, we look for the region of the passed type, and if necessary redirect to the redirect region
+            if (isset($_GET['cmplz_region_redirect']) && isset($_GET['region'])) {
+                //get region from current page.
+                global $post;
+                if (!$post) return;
+
+                $type = false;
+                if (preg_match($this->get_shortcode_pattern("gutenberg"), $post->post_content, $matches)) {
+                    $type = $matches[1];
+                } elseif (preg_match($this->get_shortcode_pattern("classic"), $post->post_content, $matches)) {
+                    $type = $matches[1];
+                }
+
+                if (!isset(COMPLIANZ()->config->pages[$type])) return;
+
+                $document = COMPLIANZ()->config->pages[$type];
+                $new_region = sanitize_title($_GET['region']);
+                if (array_key_exists($new_region, cmplz_get_regions()) && isset($document['condition']['regions']) && $document['condition']['regions'] !== $new_region) {
+                    //get the URL of the new document
+                    $doc_region = $document['condition']['regions'];
+                    $core_type = str_replace('-' . $doc_region, '', $type);
+                    $new_region = ($new_region === 'eu') ? '' : '-' . $new_region;
+                    $final_type = $core_type . $new_region;
+                    $new_url = COMPLIANZ()->document->get_permalink($final_type);
+                    wp_redirect($new_url);
+                    exit;
+                }
+            }
+
+        }
+
         public function enqueue_assets()
         {
 
@@ -265,6 +302,9 @@ if (!class_exists("cmplz_document")) {
             add_action('add_meta_boxes', array($this, 'add_meta_box'));
             add_action('save_post', array($this, 'save_metabox_data'));
 
+            add_action('wp', array($this, 'maybe_autoredirect'));
+
+
 
         }
 
@@ -353,11 +393,11 @@ if (!class_exists("cmplz_document")) {
             if ($sync==='unlink') {
                 //get shortcode from page
                 $shortcode = false;
-                if (preg_match('/<!-- wp:complianz\/document {.*?"selectedDocument":"(.*?)"} \/-->/i', $post->post_content, $matches)) {
 
+                if (preg_match($this->get_shortcode_pattern("gutenberg"), $post->post_content, $matches)) {
                     $shortcode  = $matches[0];
                     $type  = $matches[1];
-                } elseif (preg_match('/\[cmplz-document type="(.*?)".*?\]/i', $post->post_content, $matches)) {
+                } elseif (preg_match($this->get_shortcode_pattern("classic"), $post->post_content, $matches)) {
                     $shortcode  = $matches[0];
                     $type  = $matches[1];
                 }
@@ -499,7 +539,7 @@ if (!class_exists("cmplz_document")) {
                 cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
                     'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz-gdpr')), $docs), 'warning');
             } else {
-                cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'copmlianz'), 'warning');
+                cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'complianz-gdpr'), 'warning');
             }
 
 
@@ -697,6 +737,17 @@ if (!class_exists("cmplz_document")) {
                 return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.'"} /-->';
             } else {
                 return '[cmplz-document type="' . $type . '"]';
+            }
+        }
+
+
+        public function get_shortcode_pattern($type="classic")
+        {
+            //even if on gutenberg, with elementor we have to use classic shortcodes.
+            if ($type==='classic'){
+                return '/\[cmplz\-document.*?type="(.*?)".*?]/i';
+            } else {
+                return '/<!-- wp:complianz\/document {.*?"selectedDocument":"(.*?)"} \/-->/i';
             }
         }
 
@@ -1207,4 +1258,8 @@ if (!class_exists("cmplz_document")) {
 
         }
     }
+
+
+
+
 } //class closure

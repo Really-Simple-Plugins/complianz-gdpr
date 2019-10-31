@@ -7,7 +7,7 @@
             <input type="hidden" value="1" name="cmplz_add_new">
         <?php } ?>
         <?php //some fields for the cookies categories ?>
-        <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie->cookie_warning_required_stats())?>">
+        <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie_admin->cookie_warning_required_stats())?>">
         <?php
         /**
         * If Tag manager fires categories, enable use categories by default

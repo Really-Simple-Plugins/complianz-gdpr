@@ -43,7 +43,7 @@ add_action('cmplz_notice_compile_statistics', 'cmplz_monsterinsights_show_compil
 
 function cmplz_monsterinsights_add_monsterinsights_attributes($attr)
 {
-    $classes = COMPLIANZ()->cookie->get_statistics_script_classes();
+    $classes = COMPLIANZ()->cookie_admin->get_statistics_script_classes();
     $attr['class'] = implode(' ', $classes);
     return $attr;
 }

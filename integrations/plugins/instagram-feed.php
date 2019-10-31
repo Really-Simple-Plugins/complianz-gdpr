@@ -18,7 +18,6 @@ function cmplz_instagram_feed_detected_social_media($social_media){
     if (!in_array('instagram', $social_media)){
         $social_media[] = 'instagram';
     }
-
     return $social_media;
 }
 add_filter('cmplz_detected_social_media','cmplz_instagram_feed_detected_social_media' );

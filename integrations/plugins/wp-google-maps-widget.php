@@ -13,9 +13,11 @@ function cmplz_wp_google_maps_widget_script($tags){
  * @return array
  */
 function cmplz_wp_google_maps_widget_detected_services($services){
-    if (!in_array('googlemaps', $services)){
-        $services[] = 'googlemaps';
+    if (!in_array('google-maps', $services)){
+        $services[] = 'google-maps';
     }
     return $services;
 }
 add_filter('cmplz_detected_services','cmplz_wp_google_maps_widget_detected_services' );
+
+

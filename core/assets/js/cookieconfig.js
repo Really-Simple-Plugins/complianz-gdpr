@@ -1137,17 +1137,19 @@ jQuery(document).ready(function($) {
     }
 
     function cmplzGetUrlParameter(sPageURL, sParam) {
-        var sURLVariables = sPageURL.split('&'),
+        var queryString = sPageURL.split('?');
+        if (queryString.length==1) return false;
+
+        var sURLVariables = queryString[1].split('&'),
             sParameterName,
             i;
-
         for (i = 0; i < sURLVariables.length; i++) {
             sParameterName = sURLVariables[i].split('=');
-
             if (sParameterName[0] === sParam) {
                 return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
             }
         }
+        return false;
     }
 
     function cmplzInArray(needle, haystack) {
@@ -1157,5 +1159,18 @@ jQuery(document).ready(function($) {
         }
         return false;
     }
+
+
+    /**
+     * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
+     */
+    function cmplzMaybeAutoRedirect(){
+        var redirect = cmplzGetUrlParameter(window.location.href,'cmplz_region_redirect');
+        var region = cmplzGetUrlParameter(window.location.href,'region');
+        if (redirect && !region){
+            window.location.href = window.location.href+'&region='+complianz.region;
+        }
+    }
+    cmplzMaybeAutoRedirect();
 
 });

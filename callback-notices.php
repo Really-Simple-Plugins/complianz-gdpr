@@ -1,6 +1,28 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
 
+add_action('cmplz_notice_compile_statistics', 'cmplz_compile_statistics');
+function cmplz_compile_statistics(){
+
+    if (get_option('cmplz_detected_stats_type') || get_option('cmplz_detected_stats_data')){
+        cmplz_notice(__("This field has been pre-filled based on the scan results.", 'complianz-gdpr'));
+    }
+}
+
+add_action('cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional');
+add_action('cmplz_notice_UA_code', 'cmplz_notice_stats_non_functional');
+add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');
+function cmplz_notice_stats_non_functional(){
+    if (!cmplz_manual_stats_config_possible()) {
+        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz", 'complianz-gdpr'),'warning');
+    } else {
+        if (get_option('cmplz_detected_stats_type') || get_option('cmplz_detected_stats_data')){
+            cmplz_notice(__("This field has been pre-filled based on the scan results.", 'complianz-gdpr')."&nbsp;".__("Please make sure you remove your current implementation to prevent double statistics tracking.", 'complianz-gdpr'));
+        } else{
+            cmplz_notice( __('If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz-gdpr'));
+        }
+    }
+}
 
 add_action('cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10, 1);
 function cmplz_show_compile_statistics_notice($args)
@@ -15,14 +37,21 @@ function cmplz_show_compile_statistics_notice($args)
 
 }
 
+
+
 add_action('cmplz_notice_uses_social_media', 'cmplz_uses_social_media_notice');
 function cmplz_uses_social_media_notice(){
     $social_media = cmplz_scan_detected_social_media();
     if ($social_media){
+        foreach ($social_media as $key => $social_medium){
+            $social_media[$key] = COMPLIANZ()->config->thirdparty_socialmedia[$social_medium];
+        }
         $social_media = implode(', ', $social_media);
         cmplz_notice(sprintf(__("The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $social_media));
     }
 }
+
+
 
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata');
 function cmplz_purpose_personaldata(){
@@ -34,17 +63,20 @@ function cmplz_purpose_personaldata(){
 
 add_action('cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_services_notice');
 function cmplz_uses_thirdparty_services_notice(){
-    $thirdparty = cmplz_scan_detected_thirdparty_services();
-    if ($thirdparty){
-        $thirdparty = implode(', ', $thirdparty);
-        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $thirdparty));
+    $thirdparties = cmplz_scan_detected_thirdparty_services();
+    if ($thirdparties){
+        foreach ($thirdparties as $key => $thirdparty){
+            $thirdparties[$key] = COMPLIANZ()->config->thirdparty_services[$thirdparty];
+        }
+        $thirdparties = implode(', ', $thirdparties);
+        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $thirdparties));
     }
 }
 
 
 add_action('cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice');
 function cmplz_purpose_personaldata_notice(){
-    if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()){
+    if (cmplz_has_region('us') && COMPLIANZ()->cookie_admin->uses_non_functional_cookies()){
         cmplz_notice(__("The cookie scan detected non-functional cookies on your site. According to the CCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz-gdpr'));
     }
 }
@@ -85,7 +117,7 @@ function cmplz_used_cookies_notice(){
 add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');
 function cmplz_data_disclosed_us(){
 
-    if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+    if (COMPLIANZ()->cookie_admin->uses_non_functional_cookies()) {
         cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr'));
     }
 }
@@ -93,7 +125,7 @@ function cmplz_data_disclosed_us(){
 add_action('cmplz_notice_data_sold_us', 'cmplz_data_sold_us');
 function cmplz_data_sold_us(){
 
-    if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+    if (COMPLIANZ()->cookie_admin->uses_non_functional_cookies()) {
         cmplz_notice(__("The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr'));
     }
 
@@ -113,17 +145,7 @@ function cmplz_notice_personalized_ads_based_on_consent(){
     cmplz_notice(__("With Tag Manager, you can also configure your (personalized) advertising based on consent.", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/setting-up-consent-based-advertising/'));
 }
 
-add_action('cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional');
-add_action('cmplz_notice_UA_code', 'cmplz_notice_stats_non_functional');
-add_action('cmplz_notice_matomo_site_id', 'cmplz_notice_stats_non_functional');
 
-function cmplz_notice_stats_non_functional(){
-    if (!cmplz_manual_stats_config_possible()) {
-        cmplz_notice(__("You have selected options which indicate your statistics tracking needs a cookie banner. To enable Complianz to handle the statistics, you should remove your current statistics tracking, and configure it in Complianz", 'complianz-gdpr'),'warning');
-    } else {
-        cmplz_notice( __('If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz-gdpr'));
-    }
-}
 
 add_action('cmplz_notice_statistics_script', 'cmplz_notice_statistics_script');
 function cmplz_notice_statistics_script(){
@@ -140,16 +162,15 @@ function cmplz_notice_statistics_script(){
 add_action('cmplz_notice_uses_cookies', 'cmplz_show_cookie_usage_notice');
 function cmplz_show_cookie_usage_notice()
 {
-    $cookie_types = COMPLIANZ()->cookie->get_detected_cookie_types(true, true);
-    if (count($cookie_types) > 0) {
-        $count = count($cookie_types);
-        $cookie_types = implode(', ', $cookie_types);
-
-        cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site: %s, which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookie_types), 'warning');
-
+    $args = array(
+        'isTranslationFrom' => false,
+    );
+    $cookies = COMPLIANZ()->cookie_admin->get_cookies($args);
+    if (count($cookies) > 0) {
+        $count = count($cookies);
+        cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookies), 'warning');
     } else {
-        cmplz_notice(__("Statistical cookies and PHP session cookie aside, the cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
-
+        cmplz_notice(__("The cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
     }
 }
 
@@ -161,7 +182,7 @@ function cmplz_show_use_categories_notice()
     if ($uses_tagmanager && $tm_fires_scripts) {
         cmplz_notice(__('If you want to specify the categories used by Tag Manager, you need to enable categories.','complianz-gdpr'), 'warning');
 
-    } elseif (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
         cmplz_notice(__("Categories are mandatory for your statistics configuration", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/statistics-as-mandatory-category'), 'warning');
     }
 }
@@ -188,8 +209,6 @@ add_filter('cmplz_default_value', 'cmplz_set_default', 10, 2);
 function cmplz_set_default($value, $fieldname)
 {
 
-
-
     if ($fieldname == 'compile_statistics') {
         $stats = cmplz_scan_detected_stats();
         if ($stats) {
@@ -197,9 +216,8 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
-
     if ($fieldname == 'purpose_personaldata') {
-        if (cmplz_has_region('us') && COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+        if (cmplz_has_region('us') && COMPLIANZ()->cookie_admin->uses_non_functional_cookies()) {
             //possibly not an array yet, when it's empty
             if (!is_array($value)) $value = array();
             $value['selling-data-thirdparty'] = 1;
@@ -207,20 +225,20 @@ function cmplz_set_default($value, $fieldname)
         }
     }
 
-//    if ($fieldname === 'use_categories') {
-//        if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
-//            return 1;
-//        }
-//    }
-
     /*
      * When cookies are detected, the user should select yes on this questino
      *
      * */
 
-    if ($fieldname === 'uses_cookies') {
-        if (!empty(COMPLIANZ()->cookie->get_detected_cookies())) {
+    if ($fieldname == 'uses_cookies') {
+        $args = array(
+            'isTranslationFrom' => false,
+        );
+        $cookie_types = COMPLIANZ()->cookie_admin->get_cookies($args);
+        if (count($cookie_types) > 0) {
             return 'yes';
+        } else {
+            return 'no';
         }
     }
 
@@ -279,7 +297,6 @@ function cmplz_set_default($value, $fieldname)
         $thirdparty = cmplz_scan_detected_thirdparty_services();
         if ($thirdparty) return 'yes';
     }
-
     if ($fieldname === 'thirdparty_services_on_site') {
         $thirdparty = cmplz_scan_detected_thirdparty_services();
         if ($thirdparty) {
@@ -287,13 +304,12 @@ function cmplz_set_default($value, $fieldname)
             foreach ($thirdparty as $key) {
                 $current_thirdparty[$key] = 1;
             }
-
             return $current_thirdparty;
         }
     }
 
     if ($fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us'){
-        if (COMPLIANZ()->cookie->uses_non_functional_cookies()) {
+        if (COMPLIANZ()->cookie_admin->uses_non_functional_cookies()) {
             //possibly not an array yet.
             if (!is_array($value)) $value = array();
             $value['internet'] = 1;

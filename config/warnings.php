@@ -48,8 +48,12 @@ $this->warning_types = array(
         'type'=> 'general',
         'label_error' => __('Your documents have not been updated in the past 12 months. Run the wizard to check your settings.','complianz-gdpr'),
     ),
-//    'cookies-incomplete' => array(
-//        'type'=> 'general',
-//        'label_error' => __('You have cookies with incomplete descriptions.', 'complianz-gdpr') . " " . sprintf(__('Please review the %scookies%s in the wizard to complete the missing fields.', 'complianz-gdpr'), '<a href="'.add_query_arg(array('page'=>'cmplz-wizard', 'step'=>STEP_COOKIES,'section'=>3),admin_url('admin.php')).'">','</a>'),
-//    )
+    'cookies-incomplete' => array(
+        'type'=> 'general',
+        'label_error' => __('You have cookies with incomplete descriptions.', 'complianz-gdpr') . " " . sprintf(__('Please review the %scookies%s in the wizard to complete the missing fields.', 'complianz-gdpr'), '<a href="'.add_query_arg(array('page'=>'cmplz-wizard', 'step'=>STEP_COOKIES,'section'=>5),admin_url('admin.php')).'">','</a>'),
+    ),
+    'double-stats' => array(
+        'type'=> 'general',
+        'label_error' => __('You have a duplicate implemenation of your statistics tool on your site.', 'complianz-gdpr'),
+    )
 );

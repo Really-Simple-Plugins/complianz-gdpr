@@ -97,7 +97,7 @@ if (!class_exists("cmplz_wizard")) {
             $screen = get_current_screen();
             if ( $screen->parent_base === 'edit' ) return;
 
-            if (COMPLIANZ()->cookie->cookies_changed()) {
+            if (COMPLIANZ()->cookie_admin->cookies_changed()) {
                 ?>
                 <div id="message" class="error fade notice cmplz-wp-notice">
                     <h2><?php echo __("Changes in cookies detected", 'complianz-gdpr'); ?></h2>
@@ -116,8 +116,7 @@ if (!class_exists("cmplz_wizard")) {
             } else {
                 cmplz_notice(sprintf('<h1>'.__("All steps have been completed.", 'complianz-gdpr')."</h1>".__("Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr'), __("Finish", 'complianz-gdpr')));
 
-                if (COMPLIANZ()->cookie->site_needs_cookie_warning()){
-                    //if ((cmplz_has_region('eu') && cmplz_eu_site_needs_cookie_warning()) || cmplz_has_region('us')){
+                if (COMPLIANZ()->cookie_admin->site_needs_cookie_warning()){
 
                     $link_open = '<a href="'.admin_url('admin.php?page=cmplz-cookiebanner').'">';
                     cmplz_notice(sprintf(__("Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.", 'complianz-gdpr'), $link_open, "</a>"),'warning');
@@ -160,15 +159,15 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             COMPLIANZ()->admin->reset_complianz_plugin_has_new_features();
-            COMPLIANZ()->cookie->reset_plugins_changed();
-            COMPLIANZ()->cookie->reset_cookies_changed();
-            COMPLIANZ()->cookie->reset_plugins_updated();
+            COMPLIANZ()->cookie_admin->reset_plugins_changed();
+            COMPLIANZ()->cookie_admin->reset_cookies_changed();
+            COMPLIANZ()->cookie_admin->reset_plugins_updated();
 
             //when clicking to the last page, or clicking finish, run the finish sequence.
             if (isset($_POST['cmplz-cookie-settings']) || isset($_POST['cmplz-finish']) || (isset($_POST["step"]) && $_POST['step']==STEP_MENU && isset($_POST['cmplz-next']))){
                 $this->set_wizard_completed_once();
                 //check if cookie warning should be enabled
-                if (COMPLIANZ()->cookie->site_needs_cookie_warning()) {
+                if (COMPLIANZ()->cookie_admin->site_needs_cookie_warning()) {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', true);
                 } else {
                     cmplz_update_option('cookie_settings', 'cookie_warning_enabled', false);
@@ -198,8 +197,10 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
+
             //only run when changes have been made
             if ($fieldvalue === $prev_value) return;
+
 
             $enable_categories = false;
             $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
@@ -230,22 +231,23 @@ if (!class_exists("cmplz_wizard")) {
 
 
 
+
             //when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
             if ($fieldname==='privacy-statement' || $fieldname==='regions' || $fieldname === 'cookie-policy-type'){
                 cmplz_update_banner_version_all_banners();
             }
 
             //we can check here if certain things have been updated,
-            COMPLIANZ()->cookie->reset_cookies_changed();
+            COMPLIANZ()->cookie_admin->reset_cookies_changed();
 
             //save last changed date.
-            COMPLIANZ()->cookie->update_cookie_policy_date();
+            COMPLIANZ()->cookie_admin->update_cookie_policy_date();
 
             //if the fieldname is from the "revoke cookie consent on change" list, change the policy if it's changed
             $fields = COMPLIANZ()->config->fields;
             $field = $fields[$fieldname];
             if (($fieldvalue != $prev_value) && isset($field['revoke_consent_onchange']) && $field['revoke_consent_onchange']) {
-                COMPLIANZ()->cookie->upgrade_active_policy_id();
+                COMPLIANZ()->cookie_admin->upgrade_active_policy_id();
                 update_option('cmplz_generate_new_cookiepolicy_snapshot',true);
             }
 
@@ -271,6 +273,10 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
+            if ($fieldname==='configuration_by_complianz' || $fieldname==='GTM_code' || $fieldname==='matomo_url' ||$fieldname==='matomo_site_id'||$fieldname==='UA_code'){
+                delete_option('cmplz_detected_stats_data');
+                delete_option('cmplz_detected_stats_type');
+            }
 
         }
 
@@ -287,9 +293,49 @@ if (!class_exists("cmplz_wizard")) {
 
             if ($fieldvalue === $prev_value) return;
 
+            //keep services in sync
+            if ($fieldname==='socialmedia_on_site' || $fieldname === 'thirdparty_services_on_site') {
+                COMPLIANZ()->cookie_admin->update_services();
+            }
+
+            //update google analytics service depending on anonymization choices
+            if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info') {
+                $selected_stat_service = cmplz_get_value('compile_statistics');
+                if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
+
+                    $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
+                    $converted_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+                    foreach ($languages as $language) {
+                        $serviceID = false;
+                        //try to find existing analytics or tag manager service
+                        $services = COMPLIANZ()->cookie_admin->get_services(array('language' => $language));
+
+                        foreach ($services as $service) {
+
+                            if (stripos($service->name, $converted_name) !== false) {
+                                $serviceID = $service->ID;
+                                break;
+                            }
+                        }
+
+                        if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
+                            if (stripos($converted_name, 'Anonymous') === false) $converted_name .= ' Anonymous';
+                        }
+
+                        $service = new CMPLZ_SERVICE($serviceID, $language);
+                        if ($serviceID) {
+                            $service->sync = true;
+                            $service->showOnPolicy = true;
+                        }
+                        $service->name = $converted_name;
+                        $service->save();
+                    }
+                }
+            }
+
             $enable_categories=false;
             if ($fieldname === 'compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info') {
-                if (COMPLIANZ()->cookie->cookie_warning_required_stats()) {
+                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
                     $enable_categories = true;
                 }
             }
@@ -302,6 +348,7 @@ if (!class_exists("cmplz_wizard")) {
                         $banner->use_categories = true;
                         $banner->save();
                     }
+
                 }
             }
         }
@@ -759,7 +806,7 @@ if (!class_exists("cmplz_wizard")) {
                     <?php if ($step > 1 || $section > 1) { ?>
                         <div class="cmplz-button cmplz-previous icon">
 
-                            <input class="fa button" type="submit"
+                            <input class="" type="submit"
                                    name="cmplz-previous"
                                    value="<?php _e("Previous", 'complianz-gdpr') ?>">
 
@@ -768,7 +815,7 @@ if (!class_exists("cmplz_wizard")) {
                     <?php if ($step < $this->total_steps($page)) { ?>
                         <div class="cmplz-button cmplz-next">
 
-                            <input class="fa button" type="submit"
+                            <input class="fa " type="submit"
                                    name="cmplz-next"
                                    value="<?php _e("Next", 'complianz-gdpr') ?>">
 
@@ -786,14 +833,14 @@ if (!class_exists("cmplz_wizard")) {
                         /*
                          * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
                          * */
-                        if ($page == 'wizard' && COMPLIANZ()->cookie->site_needs_cookie_warning()){ ?>
+                        if ($page == 'wizard' && COMPLIANZ()->cookie_admin->site_needs_cookie_warning()){ ?>
                             <div class="cmplz-button cmplz-next">
-                                <input class="button" type="submit" name="cmplz-cookie-settings"
+                                <input class="" type="submit" name="cmplz-cookie-settings"
                                        value="<?php _e("Finish and check cookie banner settings", 'complianz-gdpr') ?>">
                             </div>
                         <?php } else { ?>
                             <div class="cmplz-button cmplz-next">
-                                <input class="button" type="submit" name="cmplz-finish"
+                                <input class="" type="submit" name="cmplz-finish"
                                        value="<?php echo $label ?>">
                             </div>
                         <?php }
@@ -801,16 +848,18 @@ if (!class_exists("cmplz_wizard")) {
 
                     <?php } ?>
 
-                    <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) { ?>
-                        <div class="cmplz-button cmplz-save">
+                        <?php if (($step > 1 || $page == 'wizard') && $step < $this->total_steps($page)) {
+                            if ($step != STEP_COOKIES || ($section != 5 && $section!= 6)){
+                            ?>
 
-                            <input class="fa button" type="submit"
+                            <div class="cmplz-button cmplz-save">
+                                <input class="fa " type="submit"
                                    name="cmplz-save"
                                    value="<?php _e("Save", 'complianz-gdpr') ?>">
 
-                        </div>
-                    <?php } ?>
-
+                            </div>
+                        <?php }
+                        } ?>
                 </div>
             </form>
             <?php
