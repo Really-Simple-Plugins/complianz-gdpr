@@ -130,12 +130,9 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
             if ($updateAllLanguages){
                 //keep all translations in sync
-                //get parent, if this is not the parent
-                $isTranslationFrom = $this->isTranslationFrom ? $this->isTranslationFrom : $this->ID;
-
-                $serviceParent = new CMPLZ_SERVICE($isTranslationFrom);
-                $translationIDS = $serviceParent->get_translations();
+                $translationIDS = $this->get_translations();
                 foreach ($translationIDS as $translationID){
+                    if ($this->ID = $translationID) continue;
                     $translation = new CMPLZ_COOKIE($translationID);
                     $translation->name = $this->name;
                     $translation->sync = $this->sync;

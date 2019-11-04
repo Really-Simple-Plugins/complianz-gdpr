@@ -422,6 +422,8 @@ if (!class_exists("cmplz_document_core")) {
             $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", cmplz_esc_html($date), $html);
 
+            $html = str_replace("[sync_date]", cmplz_esc_html(COMPLIANZ()->cookie_admin->get_last_cookie_sync_date()), $html);
+
             $checked_date = date(get_option('date_format'), get_option('cmplz_documents_update_date'));
             $checked_date = cmplz_localize_date($checked_date);
             $html = str_replace("[checked_date]", cmplz_esc_html($checked_date), $html);

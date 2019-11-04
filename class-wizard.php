@@ -299,7 +299,7 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //update google analytics service depending on anonymization choices
-            if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info') {
+            if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager' || $fieldname === 'regions') {
                 $selected_stat_service = cmplz_get_value('compile_statistics');
                 if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
 
@@ -320,6 +320,8 @@ if (!class_exists("cmplz_wizard")) {
 
                         if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
                             if (stripos($converted_name, 'Anonymous') === false) $converted_name .= ' Anonymous';
+                        } else {
+                            if (stripos($converted_name, 'Anonymous') !== false) $converted_name = str_replace(' Anonymous', '',$converted_name);
                         }
 
                         $service = new CMPLZ_SERVICE($serviceID, $language);

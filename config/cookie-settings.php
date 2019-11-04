@@ -107,11 +107,10 @@ $this->fields = $this->fields + array(
             'step' => 'optin',
             'type' => 'text',
             'default' => __("View preferences", 'complianz-gdpr'),
-            'label' => __("View preferences text", 'complianz-gdpr'),
+            'label' => __("Settings text", 'complianz-gdpr'),
             'table' => true,
             'condition' => array('use_categories' => true),
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
         'category_functional' => array(
             'source' => 'CMPLZ_COOKIEBANNER',

@@ -121,6 +121,11 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'label' => 'Happy Forms',
     ),
 
+    'so-widgets-bundle' => array(
+        'constant_or_function' => 'SOW_BUNDLE_VERSION',
+        'label' => 'SiteOrigin Widgets Bundle',
+    ),
+
 
     'gravity-forms' => array(
         'constant_or_function' => 'GF_MIN_WP_VERSION',
