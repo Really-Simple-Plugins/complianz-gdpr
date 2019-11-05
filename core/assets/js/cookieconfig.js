@@ -41,7 +41,6 @@ jQuery(document).ready(function($) {
     var curClass = '';
     var cmplzAllScriptsHookFired = false;
 
-
     /**
      * prevent scroll to top behaviour because of missing href tag
      */
@@ -62,11 +61,10 @@ jQuery(document).ready(function($) {
     }
 
     /**
-    * Set placeholder image as background on the parent div, set notice, and handle height.
-    *
-    * */
+     * Set placeholder image as background on the parent div, set notice, and handle height.
+     *
+     * */
 
-    setBlockedContentContainer();
     function setBlockedContentContainer() {
 
         $('.cmplz-placeholder-element').each(function() {
@@ -475,7 +473,23 @@ jQuery(document).ready(function($) {
     function conditionally_show_warning() {
         //merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
         //objects are merged so user_data will override data in complianz object
+
         complianz = cmplzMergeObject(complianz, cmplz_user_data);
+        setBlockedContentContainer();
+        //uk has it's own use_category setting
+
+        if (complianz.consenttype === 'optinstats') {
+            complianz.use_categories = complianz.use_categories_optinstats;
+            //use the optin mechanisms
+            complianz.consenttype = 'optin';
+        }
+
+        if (complianz.use_categories){
+            complianz.type = 'categories';
+            complianz.layout = 'categories-layout';
+            complianz.revoke = complianz.view_preferences;
+        }
+
         cmplzIntegrationsInit();
         cmplzCheckCookiePolicyID();
         complianz.readmore_url = complianz.readmore_url[complianz.region];
@@ -502,6 +516,7 @@ jQuery(document).ready(function($) {
         if (!complianz.do_not_track) {
             if (complianz.consenttype === 'optin') {
                 setStatusAsBodyClass('deny');
+
                 //if this website also targets UK, stats are blocked by default but can be enabled in the eu before consent
                 //but only if EU does not require consent.
                 if (complianz.forceEnableStats){
@@ -536,6 +551,7 @@ jQuery(document).ready(function($) {
         }
 
     }
+
 
     /**
     * Run the actual cookie warning
@@ -574,6 +590,8 @@ jQuery(document).ready(function($) {
                 if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
                     $('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
                 }
+
+                cmplzUpdateStatusCustomLink();
 
                 //opt out cookie banner can be dismissed on scroll or on timeout.
                 //As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
@@ -673,6 +691,7 @@ jQuery(document).ready(function($) {
             * If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
             *
             * */
+
             if (complianz.consenttype !== 'optout' && complianz.use_categories) {
                 //make sure the checkboxes show the correct settings
                 cmplzSyncCategoryCheckboxes();
@@ -850,8 +869,9 @@ jQuery(document).ready(function($) {
 
                 $('.cc-revoke').fadeIn();
             }
-            cmplzUpdateStatusCustomLink();
+
         }
+        cmplzUpdateStatusCustomLink();
     });
 
     /**
@@ -883,15 +903,23 @@ jQuery(document).ready(function($) {
     cmplzUpdateStatusCustomLink();
     function cmplzUpdateStatusCustomLink() {
         if ($('.cc-revoke-custom').length) {
+            var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
+            var denied = $('#cmplz-document').find('.cmplz-status-denied');
             if (complianz.consenttype === 'optout') {
-                var accepted = $('#cmplz-document').find('.cmplz-status-accepted');
-                var denied = $('#cmplz-document').find('.cmplz-status-denied');
                 if (cmplzGetCookie('complianz_consent_status') === 'deny') {
                     accepted.hide();
                     denied.show();
                 } else {
                     accepted.show();
                     denied.hide();
+                }
+            } else {
+                if (cmplzGetCookie('complianz_consent_status') === 'allow') {
+                    accepted.show();
+                    denied.hide();
+                } else {
+                    accepted.hide();
+                    denied.show();
                 }
             }
         }
@@ -974,12 +1002,7 @@ jQuery(document).ready(function($) {
     function cmplzAcceptAllCookies(){
         setStatusAsBodyClass('allow');
         cmplzSetAcceptedCookiePolicyID();
-        // if (complianz.use_categories) {
-            cmplzFireCategories(true);
-        // } else {
-        //     complianz_enable_cookies();
-        //     complianz_enable_scripts();
-        // }
+        cmplzFireCategories(true);
     }
 
 
@@ -1042,12 +1065,17 @@ jQuery(document).ready(function($) {
 
         var output = [];
 
-        for (var key in userdata) {
-            output[key] = userdata[key];
+        //first, we fill the important data.
+        for (key in ajax_data) {
+            if (ajax_data.hasOwnProperty(key)) output[key] = ajax_data[key];
         }
 
-        for (var key in ajax_data) {
-            output[key] = ajax_data[key];
+        //conditionally add static data
+        for (var key in userdata) {
+            //only add if not in ajax_data
+            if (!ajax_data.hasOwnProperty(key) || typeof ajax_data[key] === 'undefined') {
+                if (userdata.hasOwnProperty(key)) output[key] = userdata[key];
+            }
         }
 
         return output;
@@ -1137,17 +1165,19 @@ jQuery(document).ready(function($) {
     }
 
     function cmplzGetUrlParameter(sPageURL, sParam) {
-        var sURLVariables = sPageURL.split('&'),
+        var queryString = sPageURL.split('?');
+        if (queryString.length==1) return false;
+
+        var sURLVariables = queryString[1].split('&'),
             sParameterName,
             i;
-
         for (i = 0; i < sURLVariables.length; i++) {
             sParameterName = sURLVariables[i].split('=');
-
             if (sParameterName[0] === sParam) {
                 return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
             }
         }
+        return false;
     }
 
     function cmplzInArray(needle, haystack) {
@@ -1157,5 +1187,18 @@ jQuery(document).ready(function($) {
         }
         return false;
     }
+
+
+    /**
+     * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
+     */
+    function cmplzMaybeAutoRedirect(){
+        var redirect = cmplzGetUrlParameter(window.location.href,'cmplz_region_redirect');
+        var region = cmplzGetUrlParameter(window.location.href,'region');
+        if (redirect && !region){
+            window.location.href = window.location.href+'&region='+complianz.region;
+        }
+    }
+    cmplzMaybeAutoRedirect();
 
 });

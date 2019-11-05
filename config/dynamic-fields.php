@@ -16,7 +16,7 @@ function cmplz_filter_fields($fields)
                 $fields = $fields + array(
                         $key . '_data_purpose_us' => array(
                             'master_label' => __("Purpose:", 'complianz-gdpr') . " " . $label,
-                            'step' => 1,
+                            'step' => STEP_COMPANY,
                             'section' => 7,
                             'source' => 'wizard',
                             'type' => 'multicheckbox',

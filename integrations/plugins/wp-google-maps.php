@@ -16,7 +16,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  */
 
 function cmplz_wp_google_maps_replace_gdpr_notice($html){
-    $img = cmplz_default_placeholder('googlemaps');
+    $img = cmplz_default_placeholder('google-maps');
     $msg = '<div style="text-align:center;margin-bottom:15px">'.__('To enable Google Maps cookies, please click "I Agree"',"complianz-gdpr").'</div>';
     return apply_filters('cmplz_wp_google_maps_html', '<img src="'.$img.'" style="margin-bottom:15px">'.$msg);
 }
@@ -63,7 +63,7 @@ add_filter('cmplz_set_cookies_on_consent',  'cmplz_wp_google_maps_add_cookie');
  */
 function cmplz_wp_google_maps_placeholder($tags){
 
-    $tags['googlemaps'] = 'gmw-map-cover';
+    $tags['google-maps'] = 'gmw-map-cover';
 
     return $tags;
 }
@@ -76,9 +76,9 @@ add_filter('cmplz_placeholder_markers', 'cmplz_wp_google_maps_placeholder');
  * @return array
  */
 function cmplz_wp_google_maps_detected_services($services){
-    if (!in_array('googlemaps', $services)){
-        $services[] = 'googlemaps';
+
+    if (!in_array('google-maps', $services)){
+        $services[] = 'google-maps';
     }
-    return $services;
-}
+    return $services;}
 add_filter('cmplz_detected_services','cmplz_wp_google_maps_detected_services' );

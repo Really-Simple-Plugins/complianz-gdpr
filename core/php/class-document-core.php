@@ -218,6 +218,7 @@ if (!class_exists("cmplz_document_core")) {
         public function get_document_html($type, $post_id = false)
         {
             if (!isset(COMPLIANZ()->config->document_elements[$type])) return sprintf(__('No %s document was found','complianz-gdpr'),$type);
+
             $elements = COMPLIANZ()->config->document_elements[$type];
             $html = "";
             $paragraph = 0;
@@ -248,19 +249,12 @@ if (!class_exists("cmplz_document_core")) {
                         $annex_arr[$id] = $annex;
                     }
                 }
-
                 if ($this->is_loop_element($element) && $this->insert_element($element, $post_id)) {
                     $fieldname = key($element['condition']);
                     $values = cmplz_get_value($fieldname, $post_id);
                     $loop_content = '';
                     if (!empty($values)) {
                         foreach ($values as $value) {
-
-                            //line specific for cookies, to hide or show conditionally
-                            if ($fieldname==='used_cookies' && isset($value['show']) && $value['show'] !== 'on') continue;
-
-                            //prevent showing empty cookie entries
-                            if ($fieldname==='used_cookies' && (!isset($value['label']) || $value['label'] == '')) continue;
 
                             if (!is_array($value)) $value = array($value);
                             $fieldnames = array_keys($value);
@@ -270,7 +264,6 @@ if (!class_exists("cmplz_document_core")) {
                             foreach ($fieldnames as $c_fieldname) {
 
                                 $field_value = (isset($value[$c_fieldname])) ? $value[$c_fieldname] : '';
-
                                 if (!empty($field_value) && is_array($field_value)) $field_value = implode(', ', $field_value);
 
                                 $loop_section = str_replace('[' . $c_fieldname . ']', $field_value, $loop_section);
@@ -287,6 +280,11 @@ if (!class_exists("cmplz_document_core")) {
                     if (isset($element['content'])) {
                         $html .= $this->wrap_content($element['content'], $element);
                     }
+                }
+
+                if (isset($element['callback']) && function_exists($element['callback'])){
+                    $func = $element['callback'];
+                    $html .= $func();
                 }
             }
 
@@ -424,6 +422,8 @@ if (!class_exists("cmplz_document_core")) {
             $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", cmplz_esc_html($date), $html);
 
+            $html = str_replace("[sync_date]", cmplz_esc_html(COMPLIANZ()->cookie_admin->get_last_cookie_sync_date()), $html);
+
             $checked_date = date(get_option('date_format'), get_option('cmplz_documents_update_date'));
             $checked_date = cmplz_localize_date($checked_date);
             $html = str_replace("[checked_date]", cmplz_esc_html($checked_date), $html);
@@ -523,6 +523,9 @@ if (!class_exists("cmplz_document_core")) {
             if ($front_end_label && !empty($value)) $value = $front_end_label . $value."<br>";
             return $value;
         }
+
+
+
 
     }
 } //class closure

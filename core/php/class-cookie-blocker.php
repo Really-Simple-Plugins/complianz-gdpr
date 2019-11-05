@@ -260,7 +260,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 foreach ($placeholder_markers as $type => $markers) {
                     if (!is_array($markers)) $markers = array($markers);
                     foreach ($markers as $marker) {
-                        $placeholder_pattern = '/<(div|blockquote|twitter-widget)[^>]*?class=[\'"]([^>]*?' . $marker . '.*?)[\'"].*?>/i';
+                        $placeholder_pattern = '/<(section|div|blockquote|twitter-widget)[^>]*?class=[\'"]([^>]*?' . $marker . '.*?)[\'"].*?>/i';
                         if (preg_match_all($placeholder_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                             foreach ($matches[0] as $key => $html_match) {
                                 $el = $matches[1][$key];

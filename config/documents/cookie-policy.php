@@ -123,25 +123,32 @@ $this->document_elements['cookie-statement'] = array(
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
+//    'cookie_names' => array(
+//        'title' => _x('Placed cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+//        'content' => '<table><tr><td colspan="2"><b>[name]</b></td></tr>
+//                                 <tr><td colspan="2">' .
+//                                    _x("Purpose:", 'Legal document cookie policy', 'complianz-gdpr') . ' [purpose]<br>'.
+//                                    _x("Retention period:", 'Legal document cookie policy', 'complianz-gdpr'). ' [storage_duration]<br>'.
+//                                    _x("Description:", 'Legal document cookie policy', 'complianz-gdpr') . ' [description]'.
+//                                 '</td></tr>
+//                                 <tr>
+//                                    <td>' . _x("Used names", 'Legal document cookie policy', 'complianz-gdpr') . '</td>
+//                                    <td>' . _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') . '</td>
+//                                  </tr><tr>
+//                                     <td>[used_names]</td>
+//                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz-gdpr').'</a></td>
+//                                 </tr>
+//                     </table>',
+//        'condition' => array(
+//            'used_cookies' => 'loop',
+//        ),
+//    ),
+
     'cookie_names' => array(
         'title' => _x('Placed cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'p' => false,
-        'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
-                                 <tr><td colspan="2">' .
-                                    _x("Purpose:", 'Legal document cookie policy', 'complianz-gdpr') . ' [purpose]<br>'.
-                                    _x("Retention period:", 'Legal document cookie policy', 'complianz-gdpr'). ' [storage_duration]<br>'.
-                                    _x("Description:", 'Legal document cookie policy', 'complianz-gdpr') . ' [description]'.
-                                 '</td></tr>
-                                 <tr>
-                                    <td>' . _x("Used names", 'Legal document cookie policy', 'complianz-gdpr') . '</td>
-                                    <td>' . _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') . '</td>
-                                  </tr><tr>
-                                     <td>[used_names]</td>
-                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz-gdpr').'</a></td>
-                                 </tr>
-                     </table>',
+        'callback' => 'cmplz_used_cookies',
         'condition' => array(
-            'used_cookies' => 'loop',
+            'uses_cookies' => 'yes',
         ),
     ),
 
@@ -193,5 +200,10 @@ $this->document_elements['cookie-statement'] = array(
         'content' => cmplz_revoke_link(),
         'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
     ),
+
+    'last-sync' => array(
+        'content' => sprintf(_x('This cookie policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
+    ),
+
 
 );

@@ -19,6 +19,7 @@ function cmplz_pixelcaffeine_detected_social_media($social_media){
     if (!in_array('facebook', $social_media)){
         $social_media[] = 'facebook';
     }
+
     return $social_media;
 }
 add_filter('cmplz_detected_social_media','cmplz_pixelcaffeine_detected_social_media' );

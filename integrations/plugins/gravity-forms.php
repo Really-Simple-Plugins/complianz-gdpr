@@ -57,7 +57,7 @@ function cmplz_gravityforms_add_consent_checkbox($form_id)
         $consent_box->label = $label;
         $consent_box->adminLabel = 'complianz_consent';
         $consent_box->id = $new_field_id;
-        $consent_box->description = '<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement') . '">' . __("Privacy statement", "complianz-gdpr") . '</a>';
+        $consent_box->description = '<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement',true) . '">' . __("Privacy statement", "complianz-gdpr") . '</a>';
         $consent_box->isRequired = true;
         $consent_box->choices = $choices;
         $consent_box->inputs = $inputs;

@@ -26,8 +26,8 @@ function cmplz_geo_my_wp_iframetags($tags){
  * @return array
  */
 function cmplz_geo_my_wp_detected_services($services){
-    if (!in_array('googlemaps', $services)){
-        $services[] = 'googlemaps';
+    if (!in_array('google-maps', $services)){
+        $services[] = 'google-maps';
     }
     return $services;
 }
@@ -44,7 +44,7 @@ function cmplz_geo_my_wp_dependencies($tags){
 
 add_filter('cmplz_placeholder_markers', 'cmplz_geo_my_wp_placeholders');
 function cmplz_geo_my_wp_placeholders($tags){
-    $tags['googlemaps'] =  'gmw-map-cover';
+    $tags['google-maps'] =  'gmw-map-cover';
 
     return $tags;
 }

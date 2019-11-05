@@ -121,6 +121,11 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'label' => 'Happy Forms',
     ),
 
+    'so-widgets-bundle' => array(
+        'constant_or_function' => 'SOW_BUNDLE_VERSION',
+        'label' => 'SiteOrigin Widgets Bundle',
+    ),
+
 
     'gravity-forms' => array(
         'constant_or_function' => 'GF_MIN_WP_VERSION',
@@ -272,6 +277,8 @@ function process_integrations_services_save(){
         foreach($thirdparty_services as $service => $label){
             if (isset($_POST['cmplz_'.$service]) && $_POST['cmplz_'.$service]==1){
                 $active_services[$service]=1;
+                $service_obj = new CMPLZ_SERVICE();
+                $service_obj->add($label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'utility');
             }else {
                 $active_services[$service]=0;
             }
@@ -284,6 +291,8 @@ function process_integrations_services_save(){
         foreach($socialmedia as $service => $label){
             if (isset($_POST['cmplz_'.$service]) && $_POST['cmplz_'.$service]==1){
                 $active_socialmedia[$service]=1;
+                $service_obj = new CMPLZ_SERVICE();
+                $service_obj->add($label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'social');
             } else {
                 $active_socialmedia[$service]=0;
             }

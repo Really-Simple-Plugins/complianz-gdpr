@@ -3172,7 +3172,7 @@ readers do not read off random characters that represent icons */
   position: static;
   width: auto; }
 @font-face {
-  font-family: 'Font Awesome 5 Brands', serif;
+  font-family: 'Font Awesome 5 Brands', serif !important;
   font-style: normal;
   font-weight: normal;
   src: url("../webfonts/fa-brands-400.eot");

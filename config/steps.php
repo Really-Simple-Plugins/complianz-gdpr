@@ -59,16 +59,11 @@ $this->steps = array(
                     ),
 
                     5 => array('title' => __('Used cookies', 'complianz-gdpr'),
-                        'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz-gdpr').
-                        '<p>'._x("The following icons are used in the list:", 'intro used cookies', 'complianz-gdpr').
-                        '<br>'.sprintf(_x("%s Marked as a functional cookie",'intro used cookies', 'complianz-gdpr'), '<i class="fa fa-code"></i>').
-                        '<br>'.sprintf(_x("%s The cookie will be listed on the website.", 'intro used cookies', 'complianz-gdpr'),'<i class="fa fa-file"></i>').
-                        '<br>'.sprintf(_x("%s All fields are completed", 'intro used cookies', 'complianz-gdpr'),'<i class="fa fa-check"></i>').
-                        '<br>'.sprintf(_x("%s Missing fields", 'intro used cookies', 'complianz-gdpr'),'<i class="fa fa-times"></i>').'</p>',
-
-
+                        'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz-gdpr')
                     ),
-
+                    6 => array('title' => __('Used services', 'complianz-gdpr'),
+                        'intro' => _x('The services that were found in the scan, and added by you in the cookies overview, can be managed here.', 'intro used cookies', 'complianz-gdpr')
+                    ),
 
                 ),
             ),
