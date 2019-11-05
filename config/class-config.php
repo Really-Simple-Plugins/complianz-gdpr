@@ -37,6 +37,7 @@ if (!class_exists("cmplz_config")) {
             'whatsapp' => 'WhatsApp',
             'instagram' => 'Instagram',
             'disqus' => 'Disqus',
+            'pinterest' => 'Pinterest',
         );
 
         public $stats = array(
@@ -280,7 +281,6 @@ if (!class_exists("cmplz_config")) {
             $fields = $this->fields;
             if ($page) $fields = cmplz_array_filter_multidimensional($this->fields, 'source', $page);
 
-
             foreach ($fields as $fieldname => $field) {
                 if ($get_by_fieldname) {
                 }
@@ -288,9 +288,9 @@ if (!class_exists("cmplz_config")) {
 
                 if ($step) {
                     if ($section && isset($field['section'])) {
-                        if (($field['step'] == $step) && ($field['section'] == $section)) $output[$fieldname] = $field;
+                        if (($field['step'] == $step || (is_array($field['step']) && in_array($step, $field['step']))) && ($field['section'] == $section)) $output[$fieldname] = $field;
                     } else {
-                        if (($field['step'] == $step)) $output[$fieldname] = $field;
+                        if (($field['step'] == $step) || (is_array($field['step']) && in_array($step, $field['step']))) $output[$fieldname] = $field;
                     }
                 }
                 if (!$step) {

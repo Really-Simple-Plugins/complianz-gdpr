@@ -219,6 +219,9 @@ jQuery(document).ready(function ($) {
         check_conditions();
     });
 
+
+    $(document).on("cmplzRenderConditions", check_conditions);
+
     /*conditional fields*/
     function check_conditions() {
         var value;
@@ -318,17 +321,17 @@ jQuery(document).ready(function ($) {
     }
 
 
-    /*
-    get checkbox values, array proof.
-*/
+    /**
+        get checkbox values, array proof.
+    */
 
     function get_input_value(fieldName) {
 
-        if ($('input[name^=' + fieldName + ']').attr('type') == 'text') {
+        if ($('input[name=' + fieldName + ']').attr('type') == 'text') {
             return $('input[name^=' + fieldName + ']').val();
         } else {
             var checked_boxes = [];
-            $('input[name^=' + fieldName + ']:checked').each(function () {
+            $('input[name=' + fieldName + ']:checked').each(function () {
                 checked_boxes[checked_boxes.length] = $(this).val();
             });
             return checked_boxes;

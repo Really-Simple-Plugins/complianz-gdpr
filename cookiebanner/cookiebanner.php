@@ -94,7 +94,6 @@ function cmplz_cookiebanner_form_submit()
         $id = intval($_GET['id']);
         $banner = new CMPLZ_COOKIEBANNER($id);
     }
-
     $banner->process_form($_POST);
 
     if (isset($_POST['cmplz_add_new'])) {

@@ -183,7 +183,20 @@ function cmplz_show_use_categories_notice()
     if ($uses_tagmanager && $tm_fires_scripts) {
         cmplz_notice(__('If you want to specify the categories used by Tag Manager, you need to enable categories.','complianz-gdpr'), 'warning');
 
-    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
+    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats('eu')) {
+        cmplz_notice(__("Categories are mandatory for your statistics configuration", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/statistics-as-mandatory-category'), 'warning');
+    }
+}
+
+add_action('cmplz_notice_use_categories_optinstats', 'cmplz_show_use_categories_optinstats_notice');
+function cmplz_show_use_categories_optinstats_notice()
+{
+    $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
+    $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
+    if ($uses_tagmanager && $tm_fires_scripts) {
+        cmplz_notice(__('If you want to specify the categories used by Tag Manager, you need to enable categories.','complianz-gdpr'), 'warning');
+
+    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats('uk')) {
         cmplz_notice(__("Categories are mandatory for your statistics configuration", 'complianz-gdpr').COMPLIANZ()->config->read_more('https://complianz.io/statistics-as-mandatory-category'), 'warning');
     }
 }

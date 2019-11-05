@@ -74,11 +74,13 @@ $this->fields = $this->fields + array(
             'label' => __("Settings text", 'complianz-gdpr'),
             'table' => true,
             'help' => __('The text that appears on the revoke button, which shows when a choice has been made in the cookie warning.', 'complianz-gdpr'),
-            'condition' => array('use_categories' => false),
+            'condition' => array(
+                'use_categories'=>false,
+            )
         ),
 
         'dismiss' => array(
-            'step' => 'optin',
+            'step' => array('optin','optinstats'),
             'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'text',
             'default' => __("Functional only", 'complianz-gdpr'),
@@ -87,24 +89,24 @@ $this->fields = $this->fields + array(
             'help' => __('When a users clicks this button, the message is dismissed, without activating all cookies. This can be described as a "dismiss" button or as an "activate functional cookies" only button.', 'complianz-gdpr'),
             'condition' => array('use_categories' => false),
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
 
         'save_preferences' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+            'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("Save preferences", 'complianz-gdpr'),
             'label' => __("Save settings text", 'complianz-gdpr'),
             'table' => true,
-            'condition' => array('use_categories' => true),
+            'condition' => array(
+                'use_categories' => true
+            ),
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
 
         'view_preferences' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+             'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("View preferences", 'complianz-gdpr'),
             'label' => __("Settings text", 'complianz-gdpr'),
@@ -114,29 +116,29 @@ $this->fields = $this->fields + array(
         ),
         'category_functional' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+             'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("Functional cookies", 'complianz-gdpr'),
             'label' => __("Functional cookies text", 'complianz-gdpr'),
             'table' => true,
             'condition' => array('use_categories' => true),
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
+
         'category_all' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+             'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("Marketing", 'complianz-gdpr'),
             'label' => __("Accept all cookies text", 'complianz-gdpr'),
             'table' => true,
             'condition' => array('use_categories' => true),
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
+
         'category_stats' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+             'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("Statistics", 'complianz-gdpr'),
             'label' => __("Statistics cookies text", 'complianz-gdpr'),
@@ -148,7 +150,7 @@ $this->fields = $this->fields + array(
 
         'accept' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+            'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("All cookies", 'complianz-gdpr'),
             'help' => __('This text is shown in the button which accepts all cookies. These are generally marketing related cookies, so you could also name it "Marketing"', 'complianz-gdpr'),
@@ -159,7 +161,7 @@ $this->fields = $this->fields + array(
         ),
 
         'message_optin' => array(
-            'step' => 'optin',
+            'step' => array('optin','optinstats'),
             'source' => 'CMPLZ_COOKIEBANNER',
             'type' => 'editor',
             'default' => __("We use cookies to optimize our website and our service.", 'complianz-gdpr'),
@@ -169,13 +171,12 @@ $this->fields = $this->fields + array(
 
         'readmore_optin' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+            'step' => array('optin','optinstats'),
             'type' => 'text',
             'default' => __("Read more", 'complianz-gdpr'),
             'label' => __("Text on link to cookie policy", 'complianz-gdpr'),
             'table' => true,
             'callback_condition' => 'cmplz_uses_optin',
-
         ),
 
         'use_categories' => array(
@@ -187,12 +188,23 @@ $this->fields = $this->fields + array(
             'table' => true,
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
             'callback_condition' => 'cmplz_uses_optin',
+        ),
 
+        'use_categories_optinstats' => array(
+            'source' => 'CMPLZ_COOKIEBANNER',
+            'step' => 'optinstats',
+            'type' => 'checkbox',
+            'label' => __("Use categories", 'complianz-gdpr'),
+            'help' => __('With categories, you can let users choose which category of cookies they want to accept.', 'complianz-gdpr') . ' ' . __('Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.', 'complianz-gdpr'),
+            'table' => true,
+            'condition' => array('show_always' => true),
+            'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+            'callback_condition' => 'cmplz_uses_optin',
         ),
 
         'tagmanager_categories' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
-            'step' => 'optin',
+             'step' => array('optin','optinstats'),
             'type' => 'textarea',
             'label' => __("Custom Tag Manager categories", 'complianz-gdpr'),
             'help' => __('Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all', 'complianz-gdpr') . "<br><br>" . cmplz_tagmanager_conditional_helptext() . $this->read_more('https://complianz.io/configure-categories-tag-manager'),
@@ -203,6 +215,7 @@ $this->fields = $this->fields + array(
                 'compile_statistics' => 'google-tag-manager',
                 'regions' => array('eu','uk'),
             ),
+            'condition' => array('use_categories' => true),
             'default' => false, //setting this to true will set it always to true, as the get_cookie settings will see an empty value
         ),
 

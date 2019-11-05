@@ -685,8 +685,9 @@ if (!function_exists('cmplz_ajax_user_settings')) {
         $data = apply_filters('cmplz_user_data', array());
         $data['consenttype'] = apply_filters('cmplz_user_consenttype', COMPLIANZ()->company->get_default_consenttype());
         $data['region'] = apply_filters('cmplz_user_region', COMPLIANZ()->company->get_default_region());
-        $data['forceEnableStats'] = apply_filters('cmplz_user_force_enable_stats', false);
         $data['version'] = cmplz_version;
+        $data['forceEnableStats'] = apply_filters('cmplz_user_force_enable_stats', false);
+
         //We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
         //@todo: move this to the inline script  generation
         //and move all generic, not banner specific data away from the banner.
@@ -855,7 +856,7 @@ if (!function_exists('cmplz_add_query_arg')) {
                     if (isset($matches[1][0])) $type = $matches[1][0];
                 }
 
-                if (strpos($type, '-us') !== FALSE) {
+                if (strpos($type, '-us') !== FALSE || strpos($type, '-uk') !== FALSE) {
                     //remove lang property, add our own.
                     wp_redirect(home_url(add_query_arg('clang', 'en', remove_query_arg('lang', $wp->request))));
                     exit;
@@ -1340,10 +1341,17 @@ if (!function_exists('cmplz_get_used_consenttypes')) {
 }
 
 if (!function_exists('cmplz_uses_optin')){
+
+    /**
+     * Check if the site uses one of the optin types
+     * @return bool
+     */
     function cmplz_uses_optin(){
-        return (in_array('optin', cmplz_get_used_consenttypes()));
+        return (in_array('optin', cmplz_get_used_consenttypes()) || in_array('optinstats', cmplz_get_used_consenttypes()));
     }
 }
+
+
 
 if (!function_exists('cmplz_uses_optout')){
     function cmplz_uses_optout(){
@@ -1366,10 +1374,12 @@ if (!function_exists('cmplz_consenttype_nicename')) {
      */
     function cmplz_consenttype_nicename($consenttype){
         switch ($consenttype) {
+            case 'optinstats':
+                return __('Opt-in settings (UK)','complianz-gdpr');
             case 'optin':
-                return __('Opt in settings','complianz-gdpr');
+                return __('Opt-in settings','complianz-gdpr');
             case 'optout':
-                return __('Opt out settings', 'complianz-gdpr');
+                return __('Opt-out settings', 'complianz-gdpr');
             default :
                 return __('All consent types', 'complianz-gdpr');
         }

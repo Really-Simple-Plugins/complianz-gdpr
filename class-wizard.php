@@ -335,19 +335,23 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-            $enable_categories=false;
-            if ($fieldname === 'compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info') {
-                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
-                    $enable_categories = true;
+            $enable_categories_uk=$enable_categories_eu=false;
+            if ($fieldname === 'compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager') {
+                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats('eu')) {
+                    $enable_categories_eu = true;
+                }
+                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats('uk')) {
+                    $enable_categories_uk = true;
                 }
             }
 
-            if ($enable_categories){
+            if ($enable_categories_eu || $enable_categories_uk){
                 $banners = cmplz_get_cookiebanners();
                 if (!empty($banners)) {
                     foreach ($banners as $banner) {
                         $banner = new CMPLZ_COOKIEBANNER($banner->ID);
-                        $banner->use_categories = true;
+                        if ($enable_categories_uk) $banner->use_categories_optinstats = true;
+                        if ($enable_categories_eu) $banner->use_categories_optinstats = true;
                         $banner->save();
                     }
 

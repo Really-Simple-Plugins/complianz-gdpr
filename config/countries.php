@@ -50,7 +50,7 @@ $this->regions = array(
         'label' => __('UK', 'complianz-gdpr'),
         'countries' => array('GB'),
         'law' => __("UK-GDPR", 'complianz-gdpr'),
-        'type' => 'optin',
+        'type' => 'optinstats',
     )
 );
 

@@ -362,7 +362,6 @@ if (!class_exists("cmplz_field")) {
         public
         function before_label($args)
         {
-
             $condition = false;
             $condition_question = '';
             $condition_answer = '';
@@ -379,11 +378,11 @@ if (!class_exists("cmplz_field")) {
             $this->get_master_label($args);
 
             if ($args['table']) {
-                echo '<tr class="cmplz-settings field-group' . esc_attr($hidden_class.' '.$condition_class) . '"';
+                echo '<tr class="cmplz-settings field-group ' . esc_attr('cmplz-'.$args['fieldname'].' cmplz-'.$args['type'].' '.$hidden_class.' '.$condition_class) . ' "';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
-                echo '<div class="field-group ' .  esc_attr($hidden_class.''.$first_class.' '.$condition_class) . '" ';
+                echo '<div class="field-group ' .  esc_attr($args['fieldname'].' '.$args['type'].' '.$hidden_class.' '.$first_class.' '.$condition_class) . '" ';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><div class="cmplz-label">';
             }
@@ -807,13 +806,14 @@ if (!class_exists("cmplz_field")) {
          * */
 
         public
-        function editor($args)
+        function editor($args, $step='')
         {
             $fieldname = 'cmplz_' . $args['fieldname'];
             $args['first'] = true;
             $media = $args['media'] ? true : false;
 
             $value = $this->get_value($args['fieldname'], $args['default']);
+
             if (!$this->show_field($args)) return;
             ?>
             <?php do_action('complianz_before_label', $args); ?>
@@ -946,7 +946,10 @@ if (!class_exists("cmplz_field")) {
         public
         function get_fields($source, $step = false, $section = false, $get_by_fieldname=false)
         {
+
             $fields = COMPLIANZ()->config->fields($source, $step, $section, $get_by_fieldname);
+
+
 
             $i = 0;
             foreach ($fields as $fieldname => $args) {
@@ -954,6 +957,8 @@ if (!class_exists("cmplz_field")) {
                 $i++;
                 $default_args = $this->default_args;
                 $args = wp_parse_args($args, $default_args);
+
+
 
                 $type = ($args['callback']) ? 'callback' : $args['type'];
                 $args['fieldname'] = $fieldname;
@@ -1026,7 +1031,7 @@ if (!class_exists("cmplz_field")) {
                         $this->notice($args);
                         break;
                     case 'editor':
-                        $this->editor($args);
+                        $this->editor($args, $step);
                         break;
                     case 'label':
                         $this->label($args);

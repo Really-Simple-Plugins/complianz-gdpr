@@ -264,6 +264,21 @@ if (!class_exists("cmplz_admin")) {
                 }
             }
 
+            /**
+             * upgrade existing eu and uk settings to separate uk optinstats
+             */
+
+            if ($prev_version && version_compare($prev_version, '4.0.0', '<')) {
+                if (cmplz_has_region('eu') && cmplz_has_region('uk')){
+                    $banners = cmplz_get_cookiebanners();
+                    foreach ($banners as $banner) {
+                        $banner = new CMPLZ_COOKIEBANNER($banner->ID);
+                        $banner->use_categories_optinstats = $banner->use_categories;
+                        $banner->save();
+                    }
+                }
+            }
+
             do_action('cmplz_upgrade', $prev_version);
 
             update_option('cmplz-current-version', cmplz_version);
