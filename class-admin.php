@@ -268,7 +268,7 @@ if (!class_exists("cmplz_admin")) {
              * upgrade existing eu and uk settings to separate uk optinstats
              */
 
-            if ($prev_version && version_compare($prev_version, '4.0.0', '<')) {
+            if ($prev_version && version_compare($prev_version, '4.0.1', '<')) {
                 if (cmplz_has_region('eu') && cmplz_has_region('uk')){
                     $banners = cmplz_get_cookiebanners();
                     foreach ($banners as $banner) {
@@ -277,6 +277,8 @@ if (!class_exists("cmplz_admin")) {
                         $banner->save();
                     }
                 }
+
+                update_option('cmplz_run_cdb_sync_once',true);
             }
 
             do_action('cmplz_upgrade', $prev_version);

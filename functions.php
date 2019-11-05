@@ -165,12 +165,15 @@ if (!function_exists('cmplz_get_value')) {
         $type = isset(COMPLIANZ()->config->fields[$fieldname]['type']) ? COMPLIANZ()->config->fields[$fieldname]['type'] : false;
         if ($type === 'cookies' || $type === 'thirdparties' || $type === 'processors') {
             if (is_array($value)) {
+
                 //this is for example a cookie array, like ($item = cookie("name"=>"_ga")
+
                 foreach ($value as $item_key => $item) {
                     //contains the values of an item
                     foreach ($item as $key => $key_value) {
                         if (function_exists('pll__')) $value[$item_key][$key] = pll__($item_key.'_'.$fieldname . "_" . $key);
                         if (function_exists('icl_translate')) $value[$item_key][$key] = icl_translate('complianz', $item_key.'_'.$fieldname . "_" . $key, $key_value);
+
                         $value[$item_key][$key] = apply_filters( 'wpml_translate_single_string',  $key_value, 'complianz', $item_key.'_'.$fieldname . "_" . $key );
                     }
                 }
@@ -181,6 +184,7 @@ if (!function_exists('cmplz_get_value')) {
                     $value = pll__($value);
                 }
                 if (function_exists('icl_translate')) $value = icl_translate('complianz', $fieldname, $value);
+
                 $value = apply_filters( 'wpml_translate_single_string',  $value, 'complianz', $fieldname );
             }
         }
@@ -1090,7 +1094,14 @@ if (!function_exists('cmplz_used_cookies')){
         $cookies_row = cmplz_get_template('cookiepolicy_cookies_row.php');
 
         $language = substr(get_locale(),0,2);
-        $cookies = COMPLIANZ()->cookie_admin->get_cookies_by_service(array('language' => $language, 'showOnPolicy' => true, 'hideEmpty'=>true, 'ignored' => false));
+
+        $args = array('language' => $language, 'showOnPolicy' => true, 'hideEmpty'=>true,'ignored' => false);
+        if (cmplz_get_value('wp_admin_access_users')==='yes') {
+            $args['isMembersOnly'] = 'all';
+        }
+
+        $cookies = COMPLIANZ()->cookie_admin->get_cookies_by_service($args);
+      
         $servicesHTML = '';
         foreach($cookies as $serviceID => $serviceData){
             $has_empty_cookies = false;

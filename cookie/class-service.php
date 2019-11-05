@@ -9,7 +9,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
         private $thirdParty;
         private $sync;
         private $synced;
-        private $showOnPolicy;
         private $privacyStatementURL;
         private $isTranslationFrom;
         private $lastUpdatedDate;
@@ -267,7 +266,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
             //if no ID is found, insert in the database
             if (!$this->ID){
                 $this->sync = true;
-                $this->showOnPolicy = true;
                 $this->category = $category;
                 $this->save();
             }
@@ -285,7 +283,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 $translated_service = new CMPLZ_SERVICE($name, $language);
                 if (!$translated_service->ID) {
                     $translated_service->sync = true;
-                    $translated_service->showOnPolicy = true;
                 }
                 $translated_service->category = $category;
                 $translated_service->isTranslationFrom = $parent_ID;

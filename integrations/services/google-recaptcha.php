@@ -24,7 +24,7 @@ function cmplz_recaptcha_iframetags($tags){
 
 add_filter('cmplz_placeholder_markers', 'cmplz_recaptcha_placeholders');
 function cmplz_recaptcha_placeholders($tags){
-    $tags['google-recaptcha'][] =  'recaptcha-invisible';
-
+    $tags['google-recaptcha'][] =  'recaptcha-invisible'; //forminator
+    $tags['google-recaptcha'][] =  'g-recaptcha'; //ultimate member
     return $tags;
 }
