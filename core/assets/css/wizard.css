@@ -298,7 +298,7 @@ a.button.cmplz-open-modal {
 .cmplz-panel.cmplz-toggle-disabled {
   color: #aca5a5;
 }
-.cmplz-panel.cmplz-toggle-active .cmplz-panel-title {
+.cmplz-panel .cmplz-panel-title {
   cursor: pointer;
 }
 .cmplz-panel .cmplz-field > div {

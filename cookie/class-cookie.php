@@ -56,6 +56,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
          */
         private $showOnPolicy = true;
         private $isPersonalData;
+        private $isMembersOnly;
         private $languages;
         private $language;
 
@@ -232,6 +233,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 $this->cookieFunction = $cookie->cookieFunction;
                 $this->purpose = $cookie->purpose;
                 $this->isPersonalData = $cookie->isPersonalData;
+                $this->isMembersOnly = $cookie->isMembersOnly;
                 $this->collectedPersonalData = $cookie->collectedPersonalData;
                 $this->unique = $cookie->unique_cookie;
                 $this->isTranslationFrom = $cookie->isTranslationFrom;
@@ -300,6 +302,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 'cookieFunction' => sanitize_text_field($this->cookieFunction),
                 'purpose' => sanitize_text_field($this->purpose),
                 'isPersonalData' => boolval($this->isPersonalData),
+                'isMembersOnly' => boolval($this->isMembersOnly),
                 'collectedPersonalData' => sanitize_text_field($this->collectedPersonalData),
                 'sync' => boolval($this->sync),
                 'ignored' => boolval($this->ignored),
@@ -478,6 +481,7 @@ function cmplz_install_cookie_table()
             `language` varchar(6) NOT NULL,
             `isTranslationFrom` int(11) NOT NULL,
             `isPersonalData` int(11) NOT NULL,
+            `isMembersOnly` int(11) NOT NULL,
             `showOnPolicy` int(11) NOT NULL,
             `lastUpdatedDate` int(11) NOT NULL,
             `lastAddDate` int(11) NOT NULL,

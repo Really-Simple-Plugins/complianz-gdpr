@@ -819,6 +819,7 @@ jQuery(document).ready(function($) {
         } else {
             cmplzSetAcceptedCookiePolicyID();
         }
+        cmplzUpdateStatusCustomLink();
 
         ccName.close();
         $('.cc-revoke').fadeIn();
@@ -914,7 +915,7 @@ jQuery(document).ready(function($) {
                     denied.hide();
                 }
             } else {
-                if (cmplzGetCookie('complianz_consent_status') === 'allow') {
+                if (cmplzGetHighestAcceptance() === 'all') {
                     accepted.show();
                     denied.hide();
                 } else {
@@ -1080,7 +1081,6 @@ jQuery(document).ready(function($) {
 
         return output;
     }
-
 
 
     /*

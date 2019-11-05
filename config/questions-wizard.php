@@ -183,6 +183,19 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
+        'wp_admin_access_users' => array(
+            'step' => STEP_COMPANY,
+            'section' => 3,
+            'source' => 'wizard',
+            'type' => 'radio',
+            'default' => 'no',
+            'label' => __("Do you have users with access to the wp-admin part of your website, the user profile section of a forum, for example?", 'complianz-gdpr'),
+            'help' => __("If so, the scan will be extended with the login URL so it can pick up cookies for the login page. ", 'complianz-gdpr'),
+            'required' => false,
+            'options' => $this->yes_no,
+            'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
         'brand_color' => array(
             'step' => STEP_COMPANY,
             'section' => 3,

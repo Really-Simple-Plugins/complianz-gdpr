@@ -361,14 +361,22 @@
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
 }
+.cmplz-blocked-content-container.forminator-g-recaptcha,
+.cmplz-blocked-content-container.recaptcha-invisible,
+.cmplz-blocked-content-container.g-recaptcha {
+  max-width: initial !important;
+  height: 70px !important;
+}
 @media only screen and (max-width: 400px) {
   .cmplz-blocked-content-container.forminator-g-recaptcha,
-  .cmplz-blocked-content-container.recaptcha-invisible {
+  .cmplz-blocked-content-container.recaptcha-invisible,
+  .cmplz-blocked-content-container.g-recaptcha {
     height: 100px !important;
   }
 }
 .cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice,
-.cmplz-blocked-content-container.recaptcha-invisible .cmplz-blocked-content-notice {
+.cmplz-blocked-content-container.recaptcha-invisible .cmplz-blocked-content-notice,
+.cmplz-blocked-content-container.g-recaptcha .cmplz-blocked-content-notice {
   top: 2px;
 }
 .cc-link {
