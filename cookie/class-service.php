@@ -50,6 +50,18 @@ if (!class_exists("CMPLZ_SERVICE")) {
             return $this;
         }
 
+        /**
+         * retrieve list of cookies with this service
+         * @return array() $cookies
+         */
+
+        public function get_cookies(){
+            if (!$this->ID) return array();
+            global $wpdb;
+            $cookies = $wpdb->get_results($wpdb->prepare("select * from {$wpdb->prefix}cmplz_cookies where serviceID = %s ", $this->ID));
+            return $cookies;
+        }
+
 
         /**
          * Retrieve the service data from the table
@@ -152,6 +164,12 @@ if (!class_exists("CMPLZ_SERVICE")) {
             if (!current_user_can('manage_options')) return;
             if (!$this->ID) return;
 
+            //get all related cookies, and delete them.
+            $cookies = $this->get_cookies();
+            foreach ($cookies as $service_cookie){
+                $cookie = new CMPLZ_COOKIE($service_cookie->ID);
+                $cookie->delete();
+            }
 
             $this->drop_from_wizard($this->name);
             $translations = $this->get_translations();
@@ -194,13 +212,17 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
             $slug = $this->get_service_slug($service);
             $wizard_settings = get_option('complianz_options_wizard');
-            if (!isset($wizard_settings['thirdparty_services_on_site'][$slug]) || $wizard_settings['thirdparty_services_on_site'][$slug]!=1){
+            $registered_services = COMPLIANZ()->config->thirdparty_services;
+
+            if (isset($registered_services[$slug]) && (!isset($wizard_settings['thirdparty_services_on_site'][$slug]) || $wizard_settings['thirdparty_services_on_site'][$slug]!=1)){
                 $wizard_settings['thirdparty_services_on_site'][$slug]=1;
                 update_option('complianz_options_wizard', $wizard_settings);
             }
 
-            if (!isset($wizard_settings['socialmedia_on_site'][$slug]) || $wizard_settings['socialmedia_on_site'][$slug]!=1){
-                $wizard_settings['thirdparty_services_on_site'][$slug]=1;
+            $registered_social = COMPLIANZ()->config->thirdparty_socialmedia;
+
+            if (isset($registered_social[$slug]) && (!isset($wizard_settings['socialmedia_on_site'][$slug]) || $wizard_settings['socialmedia_on_site'][$slug]!=1)){
+                $wizard_settings['socialmedia_on_site'][$slug]=1;
                 update_option('complianz_options_wizard', $wizard_settings);
             }
         }
