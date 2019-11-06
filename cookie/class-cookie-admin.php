@@ -663,11 +663,16 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 //cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
                 //on updates it will still match.
-                $result = $result->data;
+                if (!isset($result->data)) {
+                    $error = true;
+                } else {
+                    $result =   $result->data;
+                }
 
-                //first, add "en" as base cookie, and get ID
-                if (!isset($result->en)) $error = true;
             }
+
+            //first, add "en" as base cookie, and get ID
+            if (!isset($result->en)) $error = true;
 
             if (!$error) {
                 $cookies = $result->en;
@@ -730,11 +735,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                     }
                 }
-
+                $this->update_sync_date();
+                update_option('cmplz_sync_cookies_complete', true);
             }
 
-            $this->update_sync_date();
-            update_option('cmplz_sync_cookies_complete', true);
 
 
         }
@@ -1031,6 +1035,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function update_services()
         {
+
+
             $social_media = (cmplz_get_value('uses_social_media') === 'yes') ? true : false;
             if ($social_media) {
                 $social_media_types = cmplz_get_value('socialmedia_on_site');
@@ -1040,6 +1046,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         //add for all languages
                         $service_name = $thirdparty_services = COMPLIANZ()->config->thirdparty_socialmedia[$slug];
                         $service->add($service_name, $this->get_supported_languages(), false, 'social');
+                    } else {
+                        $service = new CMPLZ_SERVICE($slug);
+                        $service->delete();
                     }
                 }
             }
@@ -1053,6 +1062,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         //add for all languages
                         $service_name = $thirdparty_services = COMPLIANZ()->config->thirdparty_services[$slug];
                         $service->add($service_name, $this->get_supported_languages(), false, 'service');
+                    } else {
+                        $service = new CMPLZ_SERVICE($slug);
+                        $service->delete();
                     }
                 }
             }
@@ -2331,7 +2343,10 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function run_sync_on_update(){
-            if (get_option('cmplz_run_cdb_sync_once')){
+            //make sure this is only attempted max 3 times.
+            $attempts = get_option('cmplz_sync_attempts', 0);
+
+            if ($attempts<3 && get_option('cmplz_run_cdb_sync_once')){
                 $progress = $this->get_sync_progress();
                 if ($progress<50){
                     $this->maybe_sync_cookies();
@@ -2340,6 +2355,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                 if ($progress>=50 && $progress<100) {
                     $this->maybe_sync_services();
                 }
+                $attempts = $attempts+1;
+                update_option('cmplz_sync_attempts',$attempts);
             }
         }
 

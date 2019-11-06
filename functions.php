@@ -412,7 +412,7 @@ if (!function_exists('cmplz_scan_detected_thirdparty_services')) {
         $thirdparty = get_option('cmplz_detected_thirdparty_services', array());
         if (!is_array($thirdparty)) $thirdparty = array($thirdparty);
         $thirdparty = array_filter($thirdparty);
-        $thirdparty = apply_filters('cmplz_detected_services', $thirdparty);
+        $thirdparty = apply_filters('c', $thirdparty);
 
         //nothing scanned yet, or nothing found
         if (!$thirdparty || (count($thirdparty) == 0)) $thirdparty = false;
