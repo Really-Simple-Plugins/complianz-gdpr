@@ -2332,7 +2332,14 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function run_sync_on_update(){
             if (get_option('cmplz_run_cdb_sync_once')){
-                $this->run_sync($ajax = false);
+                $progress = $this->get_sync_progress();
+                if ($progress<50){
+                    $this->maybe_sync_cookies();
+                }
+
+                if ($progress>=50 && $progress<100) {
+                    $this->maybe_sync_services();
+                }
             }
         }
 
@@ -2341,7 +2348,7 @@ if (!class_exists("cmplz_cookie_admin")) {
          * @param bool $ajax
          */
 
-        public function run_sync($ajax=true){
+        public function run_sync(){
             $progress = $this->get_sync_progress();
             if ($progress<50){
                 $this->maybe_sync_cookies();
@@ -2355,12 +2362,11 @@ if (!class_exists("cmplz_cookie_admin")) {
                 "progress" => $progress,
             );
 
-            if ($ajax) {
-                $obj = new stdClass();
-                $obj = $output;
-                echo json_encode($obj);
-                wp_die();
-            }
+            $obj = new stdClass();
+            $obj = $output;
+            echo json_encode($obj);
+            wp_die();
+
         }
 
 
