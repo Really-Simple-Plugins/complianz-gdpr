@@ -1816,9 +1816,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         update_post_meta($post_id, '_cmplz_scanned_post', true);
                     }
                 }
-                if (cmplz_get_value('wp_admin_access_users')==='yes'){
-                    $posts[]='admin';
-                }
+
                 $posts[]='home';
                 if (cmplz_get_value('wp_admin_access_users')==='yes'){
                     $posts[]='loginpage';
