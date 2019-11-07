@@ -618,7 +618,7 @@ console.log('loading for cookie scan: '+next_page);
     function cmplzCheckIfCookieIsComplete(obj){
         var isComplete = true;
         var container = obj.closest('.cmplz-panel');
-        container.find(':input').each(function () {
+        container.find(':input:not(.cmplz_cookieFunction)').each(function () {
             if (!$(this).is(':checkbox') && !$(this).is(':hidden') && $(this).prop("type")!=='button'){
                 if ($(this).prop('nodeName')!=='SELECT' && $(this).val().length > 0) {
                     //text is complete

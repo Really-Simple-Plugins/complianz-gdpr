@@ -630,8 +630,10 @@ if (!class_exists("cmplz_cookie_admin")) {
                 }
             }
             //if no syncable cookies are found, exit.
-            if ($count_all==0) $error = true;
-
+            if ($count_all==0) {
+                update_option('cmplz_sync_cookies_complete', true);
+                $error = true;
+            }
 //            //create json to request data from CDB
             if (!$error) {
                 //add the plugins list to the data
@@ -702,6 +704,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $isTranslationFrom[$cookie->name] = $cookie->ID;
                     }
 
+
                 }
 
                 foreach ($result as $language => $cookies) {
@@ -738,11 +741,11 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                     }
                 }
+
                 $this->update_sync_date();
-                update_option('cmplz_sync_cookies_complete', true);
             }
 
-
+            update_option('cmplz_sync_cookies_complete', true);
 
         }
 
@@ -762,6 +765,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             $args = array('sync'=>true);
             if (!defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
             $services = $this->get_services($args);
+
             $services = wp_list_pluck($services, 'name');
 
             //if no syncable services found, exit.
@@ -812,40 +816,41 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $result = $result->data;
                 //first, add en as base cookie, and get ID
 
-                if (!isset($result->en)) $error = true;
+
             }
 
             if (!$error) {
+                if (isset($result->en)) {
+                    $services = $result->en;
+                    $isTranslationFrom = array();
+                    foreach ($services as $original_service_name => $service_and_cookies) {
+                        if (!isset($service_and_cookies->service)) continue;
 
-                $services = $result->en;
-                $isTranslationFrom = array();
-                foreach ($services as $original_service_name => $service_and_cookies) {
-                    if (!isset($service_and_cookies->service)) continue;
+                        $service_object = $service_and_cookies->service;
 
-                    $service_object = $service_and_cookies->service;
+                        //sync service data
+                        if (!isset($service_object->name)) {
+                            continue;
+                        }
 
-                    //sync service data
-                    if (!isset($service_object->name)) {
-                        continue;
-                    }
+                        $service = new CMPLZ_SERVICE($original_service_name, 'en');
+                        $service->name = $service_object->name;
+                        $service->privacyStatementURL = $service_object->privacyStatementURL;
+                        $service->thirdParty = $service_object->thirdParty;
+                        $service->serviceType = $service_object->serviceType;
 
-                    $service = new CMPLZ_SERVICE($original_service_name, 'en');
-                    $service->name = $service_object->name;
-                    $service->privacyStatementURL = $service_object->privacyStatementURL;
-                    $service->thirdParty = $service_object->thirdParty;
-                    $service->serviceType = $service_object->serviceType;
+                        $service->save();
+                        $isTranslationFrom[$service->name] = $service->ID;
 
-                    $service->save();
-                    $isTranslationFrom[$service->name] = $service->ID;
+                        //get the cookies only if it's third party service. Otherwise, just sync the service itself.
+                        if ($service->thirdParty && isset($service_and_cookies->cookies)) {
+                            $cookies = $service_and_cookies->cookies;
+                            if (!is_array($cookies)) continue;
 
-                    //get the cookies only if it's third party service. Otherwise, just sync the service itself.
-                    if ($service->thirdParty && isset($service_and_cookies->cookies)) {
-                        $cookies = $service_and_cookies->cookies;
-                        if (!is_array($cookies)) continue;
-
-                        foreach ($cookies as $cookie_name) {
-                            $cookie = new CMPLZ_COOKIE($cookie_name, 'en', $service->name);
-                            $cookie->add($cookie_name, $this->get_supported_languages(), false, $service->name);
+                            foreach ($cookies as $cookie_name) {
+                                $cookie = new CMPLZ_COOKIE($cookie_name, 'en', $service->name);
+                                $cookie->add($cookie_name, $this->get_supported_languages(), false, $service->name);
+                            }
                         }
                     }
                 }
@@ -865,6 +870,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
                         $service->thirdParty = $service_object->thirdParty;
                         $service->serviceType = $service_object->serviceType;
+                        $cookie->lastUpdatedDate = time();
 
                         //when there's no en service, create one.
                         if (!isset($isTranslationFrom[$service->name])) {
@@ -882,9 +888,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 //after adding the cookies, do one more cookies sync
                 $this->maybe_sync_cookies();
+                $this->update_sync_date();
+
 
             }
-            $this->update_sync_date();
             update_option('cmplz_sync_services_complete', true);
         }
 
@@ -1925,6 +1932,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function get_cookies_by_service($settings = array()){
             $cookies = COMPLIANZ()->cookie_admin->get_cookies($settings);
+
             $grouped_by_service = array();
             $topServiceID = 0;
             foreach($cookies as $cookie){
@@ -2172,12 +2180,11 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_last_cookie_sync_date()
         {
             $last_sync_date = get_option('cmplz_last_cookie_sync');
-            if (!$last_sync_date) $last_sync_date = __('(not synced yet)','complianz-gdpr');
             if ($last_sync_date) {
                 $date = date(get_option('date_format'), $last_sync_date);
                 $date = cmplz_localize_date($date);
             } else {
-                $date = false;
+                $date = __('(not synced yet)','complianz-gdpr');
             }
             return $date;
         }

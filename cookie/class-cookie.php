@@ -255,7 +255,6 @@ if (!class_exists("CMPLZ_COOKIE")) {
                  && strlen($this->purpose)!=0
                 && strlen($this->retention)!=0
                 && strlen($this->service)!=0
-                && strlen($this->cookieFunction)!=0
             );
 
         }
