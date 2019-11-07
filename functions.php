@@ -1112,7 +1112,7 @@ if (!function_exists('cmplz_used_cookies')){
                 $cookieHTML .= $purpose."<br>";
 
                 foreach ($service_cookies as $cookie){
-                    $has_empty_cookies = $has_empty_cookies || strlen($cookie->retention)==0 || strlen($cookie->cookieFunction)==0;
+                    $has_empty_cookies = $has_empty_cookies || strlen($cookie->retention)==0;
                     $cookieHTML .= str_replace(array('{name}','{retention}', '{cookieFunction}'), array($cookie->name,$cookie->retention, ucfirst($cookie->cookieFunction)), $cookies_row);
                 }
             }

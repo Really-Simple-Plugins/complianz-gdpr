@@ -1228,12 +1228,17 @@ if (!class_exists("cmplz_field")) {
             $count = COMPLIANZ()->cookie_admin->get_supported_languages(true);
 
             if ($count>1) {
+
                 ?>
+                <b><?php _e("Selected language","complianz-gdpr");?></b>
                 <select id="cmplz_language" data-type="cookie">
                     <?php
                     foreach ($languages as $language) {
                         ?>
-                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>><?php echo $language ?></option>
+                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>>
+                            <?php
+                                echo strtoupper($language)  ;
+                             ?></option>
                     <?php } ?>
                 </select>
                 <?php
@@ -1266,7 +1271,6 @@ if (!class_exists("cmplz_field")) {
             ?>
 
             <?php do_action('complianz_before_label', $args); ?>
-<!--            <label>--><?php //_e("Services", 'complianz-gdpr') ?><!----><?php //echo $this->get_help_tip_btn($args);?><!--</label>-->
             <div id="cmplz_action_success" class="cmplz-hidden">
                 <?php echo cmplz_notice(__('Settings saved', 'complianz-gdpr'), 'success')?>
             </div>
@@ -1277,11 +1281,12 @@ if (!class_exists("cmplz_field")) {
 
             if ($count>1) {
                 ?>
+                <b><?php _e("Selected language","complianz-gdpr");?>    </b>
                 <select id="cmplz_language" data-type="service">
                     <?php
                     foreach ($languages as $language) {
                         ?>
-                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>><?php echo $language ?></option>
+                        <option value="<?php echo $language ?>" <?php if ($default_language === $language) echo "selected" ?>><?php echo strtoupper($language) ?></option>
                     <?php } ?>
                 </select>
                 <?php

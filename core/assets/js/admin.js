@@ -659,8 +659,8 @@ console.log('loading for cookie scan: '+next_page);
         var syncProgress = complianz_admin.syncProgress;
         if (syncProgress==100) loadListItem();
 
-
         $(document).on('change', '#cmplz_language', function () {
+            $('.cmplz-list-container').html('<div class="cmplz-skeleton"></div>');
             loadListItem();
         });
     }

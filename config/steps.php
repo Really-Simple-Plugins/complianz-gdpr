@@ -59,10 +59,10 @@ $this->steps = array(
                     ),
 
                     5 => array('title' => __('Used cookies', 'complianz-gdpr'),
-                        'intro' => _x('With the automatic cookie scan most first party cookies should be detected. Below you can choose if it needs to be shown on the cookie policy, add more detailed information, or add cookies which are still missing.', 'intro used cookies', 'complianz-gdpr')
+                        'intro' => sprintf(_x('With the automatic cookie scan, most first-party cookies should be detected. These cookies will be synchronized with cookiedatabase.org to get the latest information and complete descriptions. Descriptions are by default synchronized with cookiedatabase.org to keep your cookie policy up-to-date. To manually edit the cookie, either disable synchronization in your dashboard or make a contribution to cookiedatabase.org. <br>Cookies that are not complete will be moderated by cookiedatabase.org to be synchronized as soon as possible. To know more about cookiedatabase.org and cookie descriptions, please read %sthis article%s.', 'intro used cookies', 'complianz-gdpr'),'<a href="https://complianz.io/our-cookiedatabase-a-new-initiative/">','</a>')
                     ),
                     6 => array('title' => __('Used services', 'complianz-gdpr'),
-                        'intro' => _x('The services that were found in the scan, and added by you in the cookies overview, can be managed here.', 'intro used cookies', 'complianz-gdpr')
+                        'intro' => _x('Below services use cookies on your website to add functionality. You can use cookiedatabase.org to synchronize information or edit the service if needed. Unknown services will be moderated and added by cookiedatabase.org as soon as possible.', 'intro used cookies', 'complianz-gdpr')
                     ),
 
                 ),
