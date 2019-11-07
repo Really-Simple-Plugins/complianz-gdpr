@@ -62,7 +62,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
             return $cookies;
         }
 
-
         /**
          * Retrieve the service data from the table
          * @param $parent //if it should be the parent itme
