@@ -271,6 +271,10 @@ a.button.cmplz-open-modal {
   display: inline-block;
   width: 80%;
 }
+#cmplz_language {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
 .cmplz-list-container .cmplz-cookie-field > div {
   margin-top: 8px;
 }

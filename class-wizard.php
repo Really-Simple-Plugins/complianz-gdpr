@@ -302,36 +302,30 @@ if (!class_exists("cmplz_wizard")) {
             if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager' || $fieldname === 'regions') {
                 $selected_stat_service = cmplz_get_value('compile_statistics');
                 if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
+                    $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+                    $service = new CMPLZ_SERVICE($service_name);
 
-                    $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
-                    $converted_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
-                    foreach ($languages as $language) {
-                        $serviceID = false;
-                        //try to find existing analytics or tag manager service
-                        $services = COMPLIANZ()->cookie_admin->get_services(array('language' => $language));
-
-                        foreach ($services as $service) {
-
-                            if (stripos($service->name, $converted_name) !== false) {
-                                $serviceID = $service->ID;
-                                break;
-                            }
-                        }
-
-                        if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
-                            if (stripos($converted_name, 'Anonymous') === false) $converted_name .= ' Anonymous';
-                        } else {
-                            if (stripos($converted_name, 'Anonymous') !== false) $converted_name = str_replace(' Anonymous', '',$converted_name);
-                        }
-
-                        $service = new CMPLZ_SERVICE($serviceID, $language);
-                        if ($serviceID) {
-                            $service->sync = true;
-                            $service->showOnPolicy = true;
-                        }
-                        $service->name = $converted_name;
-                        $service->save();
+                    $change_service = false;
+                    $new_service = $service->name;
+                    if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'Anonymous') === false) {
+                        $change_service = true;
+                        $new_service = $new_service.' Anonymous';
+                    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'Anonymous') !== false) {
+                        $change_service = true;
+                        $new_service = str_replace(' Anonymous', '',$new_service);
                     }
+
+                    if ($change_service || !$service->ID){
+                        //will delete service and all related cookies
+                        if ($service->ID) $service->delete();
+
+                        //Add new service
+                        $service = new CMPLZ_SERVICE();
+                        $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+                    }
+
+                } else {
+                    //drop stats services?
                 }
             }
 

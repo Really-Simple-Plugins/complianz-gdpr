@@ -1107,12 +1107,12 @@ if (!function_exists('cmplz_used_cookies')){
             $has_empty_cookies = false;
 
             $service = new CMPLZ_SERVICE($serviceID, substr(get_locale(),0,2));
+            $cookieHTML = "";
             foreach($serviceData as $purpose => $service_cookies){
-
-                $cookieHTML = $purpose."<br>";
+                $cookieHTML .= $purpose."<br>";
 
                 foreach ($service_cookies as $cookie){
-                    $has_empty_cookies = $has_empty_cookies || strlen($cookie->retention)==0 || strlen($cookie->cookieFunction)==0;
+                    $has_empty_cookies = $has_empty_cookies || strlen($cookie->retention)==0;
                     $cookieHTML .= str_replace(array('{name}','{retention}', '{cookieFunction}'), array($cookie->name,$cookie->retention, ucfirst($cookie->cookieFunction)), $cookies_row);
                 }
             }
