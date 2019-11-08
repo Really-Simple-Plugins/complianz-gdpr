@@ -120,7 +120,7 @@ $this->fields = $this->fields + array(
             'type' => 'radio',
             'options' => $this->yes_no,
             'condition' => array('regions' => 'us'),
-            'label' => __("Do you target visitors from california?", 'complianz-gdpr'),
+            'label' => __("Do you target visitors from California?", 'complianz-gdpr'),
             'help' => __("There are some rules which only apply to California.", 'complianz-gdpr'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,

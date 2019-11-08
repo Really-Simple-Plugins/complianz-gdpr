@@ -1484,7 +1484,7 @@ if (!class_exists("cmplz_field")) {
             }
             ?>
             <button class="button" type="submit" class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
-                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new thirdparty", 'complianz-gdpr') ?></button>
+                    value="<?php echo esc_html($args['fieldname']) ?>"><?php _e("Add new third-party", 'complianz-gdpr') ?></button>
             <?php do_action('complianz_after_field', $args); ?>
             <?php
 

@@ -49,7 +49,6 @@ $this->steps = array(
                 'sections' => array(
                     1 => array('title' => __('Cookie scan', 'complianz-gdpr'),
                         'intro' =>
-                            '<h1>'._x('Almost there. Let’s have a look at your cookies.', 'intro scan', 'complianz-gdpr').'</h1>'.
                             '<p>'._x('The cookie scan will request several pages on your site to check if cookies are placed and will check the html of your site for known third party scripts. The cookie scan will be recurring weekly to keep you up-to-date!', 'intro scan', 'complianz-gdpr').'</p>',
                     ),
                     2 => array('title' => __('Statistics', 'complianz-gdpr'),),
