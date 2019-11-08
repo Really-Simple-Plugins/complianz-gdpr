@@ -62,7 +62,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
             return $cookies;
         }
 
-
         /**
          * Retrieve the service data from the table
          * @param $parent //if it should be the parent itme
@@ -121,7 +120,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 'language' => cmplz_sanitize_language($this->language),
                 'category' => sanitize_text_field($this->category),
                 'isTranslationFrom' => sanitize_text_field($this->isTranslationFrom),
-                'lastUpdatedDate' => time(),
+                'lastUpdatedDate' => intval($this->lastUpdatedDate),
             );
 
             global $wpdb;
