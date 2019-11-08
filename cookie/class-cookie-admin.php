@@ -829,17 +829,14 @@ if (!class_exists("cmplz_cookie_admin")) {
                         if (!isset($service_object->name)) {
                             continue;
                         }
-                      
                         $service = new CMPLZ_SERVICE($original_service_name, 'en');
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
                         $service->thirdParty = $service_object->thirdParty;
                         $service->serviceType = $service_object->serviceType;
-
 	                    $service->lastUpdatedDate = time();
 
 	                    $service->save();
-
                         $isTranslationFrom[$service->name] = $service->ID;
 
                         //get the cookies only if it's third party service. Otherwise, just sync the service itself.
@@ -870,7 +867,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
                         $service->thirdParty = $service_object->thirdParty;
                         $service->serviceType = $service_object->serviceType;
-                        $cookie->lastUpdatedDate = time();
+	                    $service->lastUpdatedDate = time();
 
                         //when there's no en service, create one.
                         if (!isset($isTranslationFrom[$service->name])) {
