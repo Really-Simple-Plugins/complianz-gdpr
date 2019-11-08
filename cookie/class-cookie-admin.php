@@ -756,7 +756,6 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function maybe_sync_services()
         {
             if (!wp_doing_cron() && !current_user_can('manage_options')) return;
-
             /**
              * get cookies by service name
              */
@@ -807,7 +806,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 curl_close($ch);
             }
 
-
             if (!$error) {
                 $result = json_decode($result);
 
@@ -815,7 +813,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 //on updates it will still match.
                 $result = $result->data;
                 //first, add en as base cookie, and get ID
-
 
             }
 
@@ -832,14 +829,17 @@ if (!class_exists("cmplz_cookie_admin")) {
                         if (!isset($service_object->name)) {
                             continue;
                         }
-
+                      
                         $service = new CMPLZ_SERVICE($original_service_name, 'en');
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
                         $service->thirdParty = $service_object->thirdParty;
                         $service->serviceType = $service_object->serviceType;
 
-                        $service->save();
+	                    $service->lastUpdatedDate = time();
+
+	                    $service->save();
+
                         $isTranslationFrom[$service->name] = $service->ID;
 
                         //get the cookies only if it's third party service. Otherwise, just sync the service itself.
@@ -875,7 +875,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                         //when there's no en service, create one.
                         if (!isset($isTranslationFrom[$service->name])) {
                             $parent_service = new CMPLZ_SERVICE($service->name, 'en');
-                            $parent_service->save();
+	                        $service->lastUpdatedDate = time();
+	                        $parent_service->save();
                             $isTranslationFrom[$service->name] = $parent_service->ID;
                         }
 
