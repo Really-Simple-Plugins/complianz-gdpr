@@ -307,12 +307,12 @@ if (!class_exists("cmplz_wizard")) {
 
                     $change_service = false;
                     $new_service = $service->name;
-                    if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'Anonymous') === false) {
+                    if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') === false) {
                         $change_service = true;
-                        $new_service = $new_service.' Anonymous';
-                    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'Anonymous') !== false) {
+                        $new_service = $new_service.' (anonymized)';
+                    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') !== false) {
                         $change_service = true;
-                        $new_service = str_replace(' Anonymous', '',$new_service);
+                        $new_service = str_replace(' (anonymized)', '',$new_service);
                     }
 
                     if ($change_service || !$service->ID){
