@@ -1110,7 +1110,6 @@ if (!function_exists('cmplz_used_cookies')){
             $service = new CMPLZ_SERVICE($serviceID, substr(get_locale(),0,2));
             $cookieHTML = "";
             foreach($serviceData as $purpose => $service_cookies){
-                $cookieHTML .= $purpose."<br>";
 	            $cookieHTML .= str_replace(array('{purpose}'), array($purpose), $purpose_row);
 
 	            foreach ($service_cookies as $cookie){
