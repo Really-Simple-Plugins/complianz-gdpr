@@ -142,7 +142,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 //keep all translations in sync
                 $translationIDS = $this->get_translations();
                 foreach ($translationIDS as $translationID){
-                    if ($this->ID = $translationID) continue;
+                    if ($this->ID == $translationID) continue;
                     $translation = new CMPLZ_COOKIE($translationID);
                     $translation->name = $this->name;
                     $translation->sync = $this->sync;

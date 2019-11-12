@@ -1557,7 +1557,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         if (!COMPLIANZ()->wizard->wizard_completed_once()){
                             $this->parse_for_statistics_settings($html);
                         }
-                        if (preg_match_all('/ga.js/', $html) > 1 || preg_match_all('/analytics.js/', $html) > 1 || preg_match_all('/googletagmanager.com/gtm.js/', $html) > 1 || preg_match_all('/piwik.js/', $html) > 1) {
+                        if (preg_match_all('/ga.js/', $html) > 1 || preg_match_all('/analytics.js/', $html) > 1 || preg_match_all('/googletagmanager.com\/gtm.js/', $html) > 1 || preg_match_all('/piwik.js/', $html) > 1) {
                             update_option('cmplz_double_stats', true);
                         } else {
                             delete_option('cmplz_double_stats');

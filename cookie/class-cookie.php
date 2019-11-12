@@ -268,7 +268,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
 
         /**
          * Saves the data for a given Cookie, or creates a new one if no ID was passed.
-         *
+         * @param bool $updateAllLanguages
          */
 
         public function save($updateAllLanguages=false)
@@ -338,7 +338,8 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 //keep all translations in sync
                 $translationIDS = $this->get_translations();
                 foreach ($translationIDS as $translationID){
-                    if ($this->ID = $translationID) continue;
+
+                    if ($this->ID == $translationID) continue;
                     $translation = new CMPLZ_COOKIE($translationID);
                     $translation->name = $this->name;
                     $translation->serviceID = $this->serviceID;
