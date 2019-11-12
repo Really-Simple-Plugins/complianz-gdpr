@@ -412,9 +412,9 @@ if (!class_exists("cmplz_admin")) {
                 }
 
 
-                if (COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
-                    $warnings[] = 'cookies-incomplete';
-                }
+//                if (COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
+//                    $warnings[] = 'cookies-incomplete';
+//                }
 
                 if (COMPLIANZ()->document->documents_need_updating()) {
                     $warnings[] = 'docs-need-updating';
