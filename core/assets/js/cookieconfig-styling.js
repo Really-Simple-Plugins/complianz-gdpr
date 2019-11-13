@@ -164,10 +164,6 @@ jQuery(document).ready(function ($) {
 
         //when there is more than one optin type, optin and optinstats, and both use_cats settings are the same, hide the fields on optinstats
         if ($('#optin').length && $('#optinstats').length){
-            //always remove these when both regions are active
-            $('#optinstats .field-group.cmplz-editor').remove();
-            $('#optinstats .field-group.cmplz-readmore_optin').remove();
-            $('#optinstats .field-group.cmplz-tagmanager_categories').remove();
 
             var use_cats = $('input[name=cmplz_use_categories]').is(':checked');
             var use_cats_optinstats = $('input[name=cmplz_use_categories_optinstats]').is(':checked');
@@ -182,6 +178,30 @@ jQuery(document).ready(function ($) {
         //show always this field
         $('#optinstats [data-condition-question="show_always"]').show();
     }
+
+    /**
+     * if both EU and UK are active, we might have some double input fields. Remove all double fields from the form to
+     * prevent settings not being saved
+     */
+
+    $(document).on('submit', '#cookie-settings',function(e){
+        var inputs = $('#cookie-settings :input');
+
+        if ($('#optin').length && $('#optinstats').length){
+            inputs.each(function(){
+                var name = $(this).attr("name");
+                if (typeof name !== 'undefined' && name.indexOf('cmplz_')!==-1){
+                    //console.log('name '+name);
+                    if ($(this).closest('tr').is(":hidden")){
+                        console.log(name +' is hidden');
+                        $(this).remove();
+                    }
+                }
+
+
+            });
+        }
+    });
 
     cmplz_cookie_warning();
     function cmplz_cookie_warning() {
