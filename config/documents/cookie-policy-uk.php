@@ -123,26 +123,13 @@ $this->document_elements['cookie-statement-uk'] = array(
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
+
     'cookie_names' => array(
-        'title' => 'Placed cookies',
-        'p' => false,
-        'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
-                                 <tr><td colspan="2">' .
-                                    'Purpose: [purpose]<br>'.
-                                    'Retention period: [storage_duration]<br>'.
-                                    'Description: [description]'.
-                                 '</td></tr>
-                                 <tr>
-                                    <td>Used names</td>
-                                    <td>Sharing</td>
-                                  </tr><tr>
-                                     <td>[used_names]</td>
-                                     <td><a href="[privacy_policy_url]">'.'Privacy statement'.'</a></td>
-                                 </tr>
-                     </table>',
-        'condition' => array(
-            'used_cookies' => 'loop',
-        ),
+	    'title' => 'Placed cookies',
+	    'callback' => 'cmplz_used_cookies',
+	    'condition' => array(
+		    'uses_cookies' => 'yes',
+	    ),
     ),
 
     'your-rights' => array(

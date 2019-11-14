@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2019-11-08 13:35+0100\n"
-"PO-Revision-Date: 2019-11-08 13:34+0100\n"
+"POT-Creation-Date: 2019-11-13 14:22+0100\n"
+"PO-Revision-Date: 2019-11-13 14:22+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -302,7 +302,7 @@ msgid "Integrations"
 msgstr ""
 
 #: class-admin.php:508 class-admin.php:509 class-admin.php:607
-#: cookie/class-cookie-admin.php:1007
+#: cookie/class-cookie-admin.php:1003
 msgid "Proof of consent"
 msgstr ""
 
@@ -550,11 +550,11 @@ msgstr ""
 msgid "Third party services and social media"
 msgstr ""
 
-#: class-admin.php:1055 cookie/class-cookie-admin.php:2280
+#: class-admin.php:1055 cookie/class-cookie-admin.php:2276
 msgid "Social media"
 msgstr ""
 
-#: class-admin.php:1056 cookie/class-cookie-admin.php:2291
+#: class-admin.php:1056 cookie/class-cookie-admin.php:2287
 msgid "Third party services"
 msgstr ""
 
@@ -881,7 +881,7 @@ msgid ""
 "configuration at any time."
 msgstr ""
 
-#: class-wizard.php:117 class-wizard.php:830 config/steps.php:77
+#: class-wizard.php:117 class-wizard.php:830 config/steps.php:78
 #: pro/config/steps.php:116 pro/config/steps.php:141 pro/config/steps.php:166
 #: pro/config/steps.php:188 pro/config/steps.php:210 pro/config/steps.php:240
 msgid "Finish"
@@ -3170,7 +3170,7 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:248 config/steps.php:50
-#: cookie/class-cookie-admin.php:2430
+#: cookie/class-cookie-admin.php:2426
 msgid "Cookie scan"
 msgstr ""
 
@@ -3548,7 +3548,6 @@ msgid "Used cookies"
 msgstr ""
 
 #: config/steps.php:61
-#, php-format
 msgctxt "intro used cookies"
 msgid ""
 "With the automatic cookie scan, most first-party cookies should be detected. "
@@ -3556,17 +3555,23 @@ msgid ""
 "information and complete descriptions. Descriptions are by default "
 "synchronized with cookiedatabase.org to keep your cookie policy up-to-date. "
 "To manually edit the cookie, either disable synchronization in your "
-"dashboard or make a contribution to cookiedatabase.org. <br>Cookies that are "
-"not complete will be moderated by cookiedatabase.org to be synchronized as "
-"soon as possible. To know more about cookiedatabase.org and cookie "
-"descriptions, please read %sthis article%s."
+"dashboard or make a contribution to cookiedatabase.org."
 msgstr ""
 
-#: config/steps.php:63
-msgid "Used services"
+#: config/steps.php:62
+#, php-format
+msgctxt "intro used cookies"
+msgid ""
+"The cookiedatabase.org community will be asked to add missing cookie "
+"information. To know more about cookiedatabase.org and cookie descriptions, "
+"please read %sthis article%s."
 msgstr ""
 
 #: config/steps.php:64
+msgid "Used services"
+msgstr ""
+
+#: config/steps.php:65
 msgctxt "intro used cookies"
 msgid ""
 "Below services use cookies on your website to add functionality. You can use "
@@ -3575,16 +3580,16 @@ msgid ""
 "as possible."
 msgstr ""
 
-#: config/steps.php:71
+#: config/steps.php:72
 msgid "Menu"
 msgstr ""
 
-#: config/steps.php:73
+#: config/steps.php:74
 msgctxt "intro menu"
 msgid "Get ready to finish your configuration."
 msgstr ""
 
-#: config/steps.php:74
+#: config/steps.php:75
 msgctxt "intro menu"
 msgid ""
 "Your documents have been generated. You can add them to your menu directly "
@@ -3796,7 +3801,7 @@ msgstr ""
 msgid "Cookies without selected service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1011
+#: cookie/class-cookie-admin.php:1007
 #, php-format
 msgid ""
 "When you make significant changes to your cookie policy, cookie banner or "
@@ -3810,104 +3815,104 @@ msgid ""
 "consent registration%s."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1015
+#: cookie/class-cookie-admin.php:1011
 msgid "Proof of consent updated!"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1021
+#: cookie/class-cookie-admin.php:1017
 msgid "Generate now"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1027 cookiebanner/cookiebanner.php:181
+#: cookie/class-cookie-admin.php:1023 cookiebanner/cookiebanner.php:181
 msgid "Filter"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1089
+#: cookie/class-cookie-admin.php:1085
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized, so "
 "it is not necessary to add the script here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1091
+#: cookie/class-cookie-admin.php:1087
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized, so you should your tracking script here"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1941
+#: cookie/class-cookie-admin.php:1937
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2166
+#: cookie/class-cookie-admin.php:2162
 #, php-format
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2187
+#: cookie/class-cookie-admin.php:2183
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2253
+#: cookie/class-cookie-admin.php:2249
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2255
+#: cookie/class-cookie-admin.php:2251
 msgid "Cookie scan in progress"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2262
+#: cookie/class-cookie-admin.php:2258
 msgid "Cookies on your own domain"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2422
+#: cookie/class-cookie-admin.php:2418
 msgid ""
 "You have Do Not Track enabled. This will prevent most cookies from being "
 "placed. Please run the scan with Do Not Track disabled."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2426
+#: cookie/class-cookie-admin.php:2422
 msgid ""
 "You are using an ad blocker. This will prevent most cookies from being "
 "placed. Please run the scan without an adblocker enabled."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2427
+#: cookie/class-cookie-admin.php:2423
 msgid ""
 "You are using an anonymous window. This will prevent most cookies from being "
 "placed. Please run the scan in a normal browser window."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2436
+#: cookie/class-cookie-admin.php:2432
 msgid ""
 "Cookies as detected by the automatic cookie scan. Please note that only "
 "cookies set on your own domain are detected by this scan."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2436
+#: cookie/class-cookie-admin.php:2432
 msgid ""
 "Third party scripts will get detected if they're listed in the third party "
 "list."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2441
+#: cookie/class-cookie-admin.php:2437
 msgid "Re-scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2469
+#: cookie/class-cookie-admin.php:2465
 msgid ""
-"Synchronization disabled: There are no new cookies, or cookies synced longer "
-"that a week ago."
+"Synchronization disabled: This happens when all cookies have synchronized to "
+"cookiedatabase.org in the last week."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2474
+#: cookie/class-cookie-admin.php:2470
 msgid "Synchronization with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2483
+#: cookie/class-cookie-admin.php:2479
 msgid "Re-sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2883
+#: cookie/class-cookie-admin.php:2879
 msgid "Default Cookie banner"
 msgstr ""
 
@@ -4058,38 +4063,38 @@ msgstr ""
 msgid "(select a region)"
 msgstr ""
 
-#: functions.php:1120
+#: functions.php:1121
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1125
+#: functions.php:1126
 #, php-format
 msgid "For more information, please read the %s%s Privacy Policy%s."
 msgstr ""
 
-#: functions.php:1127
+#: functions.php:1128
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1129
+#: functions.php:1130
 #, php-format
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:1389
+#: functions.php:1390
 msgid "Opt-in settings (UK)"
 msgstr ""
 
-#: functions.php:1391
+#: functions.php:1392
 msgid "Opt-in settings"
 msgstr ""
 
-#: functions.php:1393
+#: functions.php:1394
 msgid "Opt-out settings"
 msgstr ""
 
-#: functions.php:1395
+#: functions.php:1396
 msgid "All consent types"
 msgstr ""
 

@@ -271,11 +271,12 @@ if (!class_exists("CMPLZ_SERVICE")) {
          * @param $name
          * @param array $languages
          * @param string $return_language
-         * @param string $category
+         * @param string $categoryc
+         * @param bool $sync_on
          * @return bool|int
          */
 
-        public function add($name, $languages=array('en'), $return_language='en', $category='')
+        public function add($name, $languages=array('en'), $return_language='en', $category='', $sync_on=true)
         {
             $return_id = false;
             //insert for each language
@@ -286,7 +287,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
             //if no ID is found, insert in the database
             if (!$this->ID){
-                $this->sync = true;
+                $this->sync = $sync_on;
                 $this->category = $category;
                 $this->save();
             }
@@ -303,7 +304,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
                 $translated_service = new CMPLZ_SERVICE($name, $language);
                 if (!$translated_service->ID) {
-                    $translated_service->sync = true;
+                    $translated_service->sync = $sync_on;
                 }
                 $translated_service->category = $category;
                 $translated_service->isTranslationFrom = $parent_ID;

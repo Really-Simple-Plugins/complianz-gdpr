@@ -395,7 +395,7 @@ jQuery(document).ready(function ($) {
 
                         } else {
                             progressBar.css({width: progress + '%'});
-console.log('loading for cookie scan: '+next_page);
+                            console.log('loading for cookie scan: '+next_page);
                             $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
                             window.setTimeout(checkIframeLoaded, cmplz_interval);

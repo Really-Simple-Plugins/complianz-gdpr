@@ -237,7 +237,6 @@ if (!class_exists("cmplz_admin")) {
             /*
              * change googlemaps into google-maps
              * */
-
             if ($prev_version && version_compare($prev_version, '4.0.0', '<')) {
                 $wizard_settings = get_option('complianz_options_wizard');
                 if (isset($wizard_settings['thirdparty_services_on_site']['googlemaps']) && $wizard_settings['thirdparty_services_on_site']['googlemaps']==1){
@@ -247,6 +246,9 @@ if (!class_exists("cmplz_admin")) {
                 }
 
                 //migrate detected cookies
+
+                //upgrade only cookies from an accepted list.
+	            $upgrade_cookies = COMPLIANZ()->config->upgrade_cookies;
                 $used_cookies = cmplz_get_value('used_cookies');
                 if (!empty($used_cookies) || is_array($used_cookies)) {
                     foreach ($used_cookies as $cookie) {
@@ -255,9 +257,10 @@ if (!class_exists("cmplz_admin")) {
                         $found_cookies = $cookie['used_names'];
                         $found_cookies = explode(',', $found_cookies);
                         foreach ($found_cookies as $name) {
-                            $name = trim($name);
                             $cookie = new CMPLZ_COOKIE();
-                            $cookie->add($name, COMPLIANZ()->cookie_admin->get_supported_languages());
+                            if (in_array($name, $upgrade_cookies)){
+	                            $cookie->add($name, COMPLIANZ()->cookie_admin->get_supported_languages());
+                            }
                         }
 
                     }

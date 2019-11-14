@@ -123,33 +123,14 @@ $this->document_elements['cookie-statement-us'] = array(
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
-    'cookie_names' => array(
-        'title' => 'Placed cookies',
-        'p' => false,
-        'content' => '<table><tr><td colspan="2"><b>[label]</b></td></tr>
-                                 <tr><td colspan="2">
-                                    Purpose: [purpose]<br>
-                                    Retention period: [storage_duration]<br>
-                                    Description: [description]
-                                 </td></tr>
-                                 <tr>
-                                    <td>Used names</td>
-                                    <td>Sharing</td>
-                                  </tr><tr>
-                                     <td>[used_names]</td>
-                                     <td><a href="[privacy_policy_url]">'.__('Privacy statement','complianz-gdpr').'</a></td>
-                                 </tr>
-                     </table>',
-        'condition' => array(
-            'used_cookies' => 'loop',
-        ),
-    ),
-
-//    array(
-//        'title' => __('List of data for sale',
-//        'content' => __("Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.",
-//        'condition' => array('purpose_personaldata' => 'selling-data-thirdparty'),
-//    ),
+	'cookie_names' => array(
+		'title' => 'Placed cookies',
+		'callback' => 'cmplz_used_cookies',
+		'condition' => array(
+			'uses_cookies' => 'yes',
+		),
+	),
+    
 
     array(
         'title' => 'Your rights with respect to personal data',

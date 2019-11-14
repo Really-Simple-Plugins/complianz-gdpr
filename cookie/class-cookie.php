@@ -85,10 +85,11 @@ if (!class_exists("CMPLZ_COOKIE")) {
          * @param array $languages
          * @param string|bool $return_language
          * @param bool $service_name
+         * @param bool $sync_on
          * @return int cookie_id
          */
 
-        public function add($name, $languages = array('en'), $return_language=false, $service_name=false){
+        public function add($name, $languages = array('en'), $return_language=false, $service_name=false, $sync_on=true){
             $this->name = $this->sanitize_cookie($name);
 
             //the parent cookie gets en as default language
@@ -102,7 +103,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
             //if no ID is found, insert  in the database
             if (!$this->ID){
                 $this->service = $service_name;
-                $this->sync = true;
+                $this->sync = $sync_on;
                 $this->showOnPolicy = true;
             }
 
@@ -123,7 +124,7 @@ if (!class_exists("CMPLZ_COOKIE")) {
 
                 $translated_cookie = new CMPLZ_COOKIE($name, $language);
                 if (!$translated_cookie->ID) {
-                    $translated_cookie->sync = true;
+                    $translated_cookie->sync = $sync_on;
                     $translated_cookie->showOnPolicy = true;
                 }
                 $translated_cookie->isTranslationFrom = $parent_ID;
@@ -374,7 +375,15 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 return false;
             }
 
-            return sanitize_text_field($cookie);
+            $cookie = sanitize_text_field($cookie);
+
+            //remove whitespace
+            $cookie = trim($cookie);
+
+            //strip double and single quotes
+            $cookie = str_replace('"', '', $cookie);
+            $cookie = str_replace("'", '', $cookie);
+            return $cookie;
         }
 
         /**
