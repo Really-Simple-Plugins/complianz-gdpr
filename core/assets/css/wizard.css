@@ -579,6 +579,14 @@ html .mceContentBody {
   background-color: #29b6f6;
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
+  font-weight: bold;
+  padding: 2px;
+}
+#cmplz-scan-progress .cmplz-progress-bar.cmplz-error,
+#cmplz-sync-progress .cmplz-progress-bar.cmplz-error,
+#cmplz-scan-progress .cmplz-sync-progress-bar.cmplz-error,
+#cmplz-sync-progress .cmplz-sync-progress-bar.cmplz-error {
+  color: red;
 }
 #cmplz-wizard,
 #cookie-policy-snapshots {

@@ -598,7 +598,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function maybe_sync_cookies(){
             if (!wp_doing_cron() && !current_user_can('manage_options')) return;
-
+            $msg = '';
             //get all cookies with sync on
             //we need all cookies, translated ones as well, as we will be syncing each language separately
             $error = false;
@@ -629,9 +629,12 @@ if (!class_exists("cmplz_cookie_admin")) {
                     }
                 }
             }
+
+            unset($data['en']);
             //if no syncable cookies are found, exit.
             if ($count_all==0) {
                 update_option('cmplz_sync_cookies_complete', true);
+	            $msg=__("No syncable cookies found", "complianz-gdpr");
                 $error = true;
             }
 //            //create json to request data from CDB
@@ -659,16 +662,18 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $result = curl_exec($ch);
 
                 $error = ($result == 0) ? false : true;
-                curl_close($ch);
+                if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
+
+	            curl_close($ch);
             }
 
             if (!$error) {
                 $result = json_decode($result);
-
                 //cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
                 //on updates it will still match.
-                if (!isset($result->data)) {
-                    $error = true;
+                if (isset($result->data->error)) {
+	                $msg= $result->data->error;
+	                $error = true;
                 } else {
                     $result =   $result->data;
                 }
@@ -704,7 +709,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $cookie->save();
                         $isTranslationFrom[$cookie->name] = $cookie->ID;
                     }
-
 
                 }
 
@@ -747,7 +751,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
 
             update_option('cmplz_sync_cookies_complete', true);
-
+            return $msg;
         }
 
         /**
@@ -760,6 +764,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             /**
              * get cookies by service name
              */
+            $msg = '';
             $error = false;
             $one_week_ago = strtotime("-1 week");
             $args = array('sync'=>true);
@@ -769,7 +774,11 @@ if (!class_exists("cmplz_cookie_admin")) {
             $services = wp_list_pluck($services, 'name');
 
             //if no syncable services found, exit.
-            if (count($services) == 0) $error = true;
+            if (count($services) == 0) {
+	            update_option('cmplz_sync_services_complete', true);
+	            $msg=__("No syncable cookies found", "complianz-gdpr");
+                $error = true;
+            }
 
             if (!$error) {
 
@@ -804,7 +813,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $result = curl_exec($ch);
 
                 $error = ($result == 0) ? false : true;
-                curl_close($ch);
+	            if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
+
+	            curl_close($ch);
             }
 
             if (!$error) {
@@ -812,7 +823,12 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 //cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
                 //on updates it will still match.
-                $result = $result->data;
+	            if (isset($result->error)) {
+		            $msg = $result->error;
+		            $error = true;
+	            } else {
+		            $result =   $result->data;
+	            }
                 //first, add en as base cookie, and get ID
 
             }
@@ -820,6 +836,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (!$error) {
                 if (isset($result->en)) {
                     $services = $result->en;
+
                     $isTranslationFrom = array();
                     foreach ($services as $original_service_name => $service_and_cookies) {
                         if (!isset($service_and_cookies->service)) continue;
@@ -830,6 +847,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         if (!isset($service_object->name)) {
                             continue;
                         }
+
                         $service = new CMPLZ_SERVICE($original_service_name, 'en');
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
@@ -892,6 +910,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             }
             update_option('cmplz_sync_services_complete', true);
+
+            return $msg;
         }
 
         /**
@@ -2378,7 +2398,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function run_sync_on_update(){
             //make sure this is only attempted max 3 times.
-            $attempts = get_option('cmplz_sync_attempts', 0);
+            $attempts = get_transient('cmplz_sync_attempts');
+            if (!$attempts) $attempts=0;
 
             if ($attempts<3 && get_option('cmplz_run_cdb_sync_once')){
                 $progress = $this->get_sync_progress();
@@ -2393,7 +2414,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 }
 
                 $attempts = $attempts+1;
-                update_option('cmplz_sync_attempts',$attempts);
+                set_transient('cmplz_sync_attempts',$attempts, DAY_IN_SECONDS);
             }
         }
 
@@ -2403,17 +2424,18 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function run_sync(){
+	        $msg="";
             $progress = $this->get_sync_progress();
             if ($progress<50){
-                $this->maybe_sync_cookies();
+                $msg = $this->maybe_sync_cookies();
             }
 
 	        if ($progress>=50 && $progress<100) {
-		        $this->maybe_sync_services();
+		        $msg = $this->maybe_sync_services();
 		        $this->clear_double_cookienames();
 	        }
-
             $output = array(
+                "message" => $msg,
                 "progress" => $progress,
             );
 
@@ -2445,6 +2467,11 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function scan_progress()
         {
+	        $disabled="";
+	        if (!function_exists('curl_version')){
+                $disabled = "disabled";
+                cmplz_notice(__('Your server does not have CURL installed, which is required for the scan. Please contact your hosting company to install CURL.','complianz-gdpr'), 'warning');
+	        }
             ?>
             <div class="field-group first">
                 <?php
@@ -2467,7 +2494,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>
-                <input type="submit" class="button cmplz-rescan"
+                <input <?php echo $disabled?> type="submit" class="button cmplz-rescan"
                        value="<?php _e('Re-scan', 'complianz-gdpr') ?>" name="rescan">
 
             </div>
@@ -2498,6 +2525,13 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $disabled = "disabled";
                 $explanation = cmplz_notice(__('Synchronization disabled: This happens when all cookies have synchronized to cookiedatabase.org in the last week.','complianz-gdpr'), 'warning', false, false);
             }
+
+            if (!function_exists('curl_version')){
+	            $disabled = "disabled";
+	            $explanation = cmplz_notice(__('Your server does not have CURL installed, which is required for the sync. Please contact your hosting company to install CURL.','complianz-gdpr'), 'warning', false, false);
+            }
+
+
             ?>
             <div class="field-group first">
                 <div class="cmplz-label">

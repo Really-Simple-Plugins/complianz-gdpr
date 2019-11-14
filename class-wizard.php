@@ -303,13 +303,17 @@ if (!class_exists("cmplz_wizard")) {
                 $selected_stat_service = cmplz_get_value('compile_statistics');
                 if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
                     $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
-                    $service = new CMPLZ_SERVICE($service_name);
+	                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
+		                $service_name = $service_name.' (anonymized)';
+	                }
+	                $service = new CMPLZ_SERVICE($service_name);
 
                     $change_service = false;
                     $new_service = $service->name;
                     if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') === false) {
                         $change_service = true;
                         $new_service = $new_service.' (anonymized)';
+
                     } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') !== false) {
                         $change_service = true;
                         $new_service = str_replace(' (anonymized)', '',$new_service);
