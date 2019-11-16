@@ -431,7 +431,7 @@ jQuery(document).ready(function ($) {
     function syncCookieDatabase() {
         //hide cookies during sync
 
-        $('#cmplz-sync-loader').html(loader);
+        //$('#cmplz-sync-loader').html(loader);
 
         $.get(
             complianz_admin.admin_url,
@@ -446,8 +446,8 @@ jQuery(document).ready(function ($) {
                     syncProgress = parseInt(obj['progress']);
                     var message = obj['message'];
                     if (typeof message !== 'undefined' && message.length>0){
-                        $('.cmplz-sync-progress-bar').addClass('cmplz-error');
-                        $('.cmplz-sync-progress-bar').html(message);
+                        $('#cmplz_action_error').removeClass('cmplz-hidden');
+                        $('#cmplz_action_error .cmplz-panel').html(message);
                     }
                     if (syncProgress >= 100) {
                         syncProgress = 100;

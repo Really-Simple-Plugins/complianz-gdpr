@@ -14,8 +14,8 @@ jQuery(document).ready(function ($) {
             cookies: cookies,
             lstorage: lstorage,
             token: '{token}',
-            complianz_id: '{id}',
-        },
+            complianz_id: '{id}'
+        }
     );
 
     function get_localstorage_array() {

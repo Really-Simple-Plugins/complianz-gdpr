@@ -106,16 +106,16 @@ if (!class_exists("cmplz_field")) {
 
                         $multiple_field = $this->get_value($fieldname, array());
                         //in case of cookies, store the deleted ones, otherwise
-                        if ($fieldname === 'used_cookies') {
-
-                            $cookie_key = $multiple_field[$key]['key'];
-                            $deleted_cookies = get_option('cmplz_deleted_cookies');
-
-                            if (!is_array($deleted_cookies)) $deleted_cookies = array();
-                            if (!in_array($cookie_key, $deleted_cookies)) $deleted_cookies[] = $cookie_key;
-
-                            update_option('cmplz_deleted_cookies', $deleted_cookies);
-                        }
+//                        if ($fieldname === 'used_cookies') {
+//
+//                            $cookie_key = $multiple_field[$key]['key'];
+//                            $deleted_cookies = get_option('cmplz_deleted_cookies');
+//
+//                            if (!is_array($deleted_cookies)) $deleted_cookies = array();
+//                            if (!in_array($cookie_key, $deleted_cookies)) $deleted_cookies[] = $cookie_key;
+//
+//                            update_option('cmplz_deleted_cookies', $deleted_cookies);
+//                        }
                         unset($multiple_field[$key]);
 
                         $options[$fieldname] = $multiple_field;

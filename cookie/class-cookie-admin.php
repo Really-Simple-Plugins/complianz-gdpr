@@ -16,6 +16,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
 
             self::$_this = $this;
+	        add_action('wp_enqueue_scripts', array($this, 'maybe_enqueue_jquery'));
 
             $scan_in_progress = isset($_GET['complianz_scan_token']) && (sanitize_title($_GET['complianz_scan_token']) == get_option('complianz_scan_token'));
             if ($scan_in_progress) {
@@ -77,6 +78,14 @@ if (!class_exists("cmplz_cookie_admin")) {
         static function this()
         {
             return self::$_this;
+        }
+
+
+        public function maybe_enqueue_jquery(){
+	        //enqueue if not available yet
+	        if ( ! wp_script_is( 'jquery', 'enqueued' )) {
+		        wp_enqueue_script( 'jquery' );
+	        }
         }
 
         /**
@@ -630,7 +639,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 }
             }
 
-            unset($data['en']);
             //if no syncable cookies are found, exit.
             if ($count_all==0) {
                 update_option('cmplz_sync_cookies_complete', true);
@@ -710,41 +718,42 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $isTranslationFrom[$cookie->name] = $cookie->ID;
                     }
 
-                }
+	                foreach ( $result as $language => $cookies ) {
+		                if ( $language === 'en' ) {
+			                continue;
+		                }
 
-                foreach ($result as $language => $cookies) {
-                    if ($language === 'en') continue;
+		                foreach ( $cookies as $original_cookie_name => $cookie_object ) {
+			                if ( ! isset( $cookie_object->name ) ) {
+				                continue;
+			                }
+			                $cookie                        = new CMPLZ_COOKIE( $original_cookie_name, $language );
+			                $cookie->name                  = $cookie_object->name;
+			                $cookie->retention             = $cookie_object->retention;
+			                $cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
+			                $cookie->cookieFunction        = $cookie_object->cookieFunction;
+			                $cookie->purpose               = $cookie_object->purpose;
+			                $cookie->isPersonalData        = $cookie_object->isPersonalData;
+			                $cookie->isMembersOnly         = $cookie_object->isMembersOnly;
+			                $cookie->service               = $cookie_object->service;
 
-                    foreach ($cookies as $original_cookie_name => $cookie_object) {
-                        if (!isset($cookie_object->name)) {
-                            continue;
-                        }
-                        $cookie = new CMPLZ_COOKIE($original_cookie_name, $language);
-                        $cookie->name = $cookie_object->name;
-                        $cookie->retention = $cookie_object->retention;
-                        $cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
-                        $cookie->cookieFunction = $cookie_object->cookieFunction;
-                        $cookie->purpose = $cookie_object->purpose;
-                        $cookie->isPersonalData = $cookie_object->isPersonalData;
-                        $cookie->isMembersOnly = $cookie_object->isMembersOnly;
-                        $cookie->service = $cookie_object->service;
+			                $cookie->ignored         = $cookie_object->ignore;
+			                $cookie->unique          = $cookie_object->unique;
+			                $cookie->lastUpdatedDate = time();
 
-                        $cookie->ignored = $cookie_object->ignore;
-                        $cookie->unique = $cookie_object->unique;
-                        $cookie->lastUpdatedDate = time();
+			                //when there's no en cookie, create one.
+			                if ( ! isset( $isTranslationFrom[ $cookie->name ] ) && $language !== 'en' ) {
+				                $parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
+				                $parent_cookie->save();
+				                $isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
+			                }
 
-                        //when there's no en cookie, create one.
-                        if (!isset($isTranslationFrom[$cookie->name]) && $language !== 'en') {
-                            $parent_cookie = new CMPLZ_COOKIE($cookie->name, 'en');
-                            $parent_cookie->save();
-                            $isTranslationFrom[$cookie->name] = $parent_cookie->ID;
-                        }
+			                $cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
 
-                        $cookie->isTranslationFrom = $isTranslationFrom[$cookie->name];
+			                $cookie->save();
 
-                        $cookie->save();
-
-                    }
+		                }
+	                }
                 }
 
                 $this->update_sync_date();
@@ -776,7 +785,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if no syncable services found, exit.
             if (count($services) == 0) {
 	            update_option('cmplz_sync_services_complete', true);
-	            $msg=__("No syncable cookies found", "complianz-gdpr");
+	            $msg=__("No syncable services found", "complianz-gdpr");
                 $error = true;
             }
 
@@ -1831,6 +1840,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 unset($post_types['cmplz-dataleak']);
                 unset($post_types['cmplz-processing']);
                 unset($post_types['user_request']);
+                unset($post_types['cookie']);
                 unset($post_types['cmplz-dataleak']);
                 unset($post_types['cmplz-processing']);
 
@@ -2051,7 +2061,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $sql .= $wpdb->prepare(' AND firstAddDate > %s ', get_option('cmplz_cookie_data_verified_date'));
             }
             if ($settings['lastUpdatedDate']){
-                $sql .= $wpdb->prepare(' AND lastUpdatedDate < %s', intval($settings['lastUpdatedDate']));
+                $sql .= $wpdb->prepare(' AND lastUpdatedDate < %s OR lastUpdatedDate=FALSE', intval($settings['lastUpdatedDate']));
             }
             $cookies = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookies where ".$sql);
 
@@ -2121,7 +2131,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
 
             if ($settings['lastUpdatedDate']){
-                $sql .= $wpdb->prepare(' AND (lastUpdatedDate < %s)', intval($settings['lastUpdatedDate']));
+                $sql .= $wpdb->prepare(' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE)', intval($settings['lastUpdatedDate']));
             }
             $sql = "select * from {$wpdb->prefix}cmplz_services where ".$sql;
             $services = $wpdb->get_results($sql);
@@ -2534,6 +2544,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             ?>
             <div class="field-group first">
+                <div id="cmplz_action_error" class="cmplz-hidden">
+		            <?php echo cmplz_notice(__('<!-- error msg-->', 'complianz-gdpr'), 'warning')?>
+                </div>
+
                 <div class="cmplz-label">
                     <label for="sync_progress"><?php _e("Synchronization with cookiedatabase.org", 'complianz-gdpr') ?></label>
                 </div>

@@ -134,13 +134,6 @@ if (!class_exists("cmplz_admin")) {
             $prev_version = get_option('cmplz-current-version', false);
 //            if (defined("SCRIPT_DEBUG") && SCRIPT_DEBUG) $prev_version = substr($prev_version,0, 5);
 
-            //as of 1.1.10, publish date is stored in variable.
-            if ($prev_version && version_compare($prev_version, '1.2.0', '<')) {
-                $date = get_option('cmplz_publish_date');
-                if (empty($date)) {
-                    COMPLIANZ()->cookie_admin->update_cookie_policy_date();
-                }
-            }
 
             //set a default region if this is an upgrade:
             if ($prev_version && version_compare($prev_version, '2.0.1', '<')) {
@@ -265,6 +258,7 @@ if (!class_exists("cmplz_admin")) {
 
                     }
                 }
+
             }
 
             /**
@@ -282,6 +276,34 @@ if (!class_exists("cmplz_admin")) {
                 }
 
                 update_option('cmplz_run_cdb_sync_once',true);
+            }
+
+             /**
+             * migrate to anonymous if anonymous settings are selected
+             */
+
+            if ($prev_version && version_compare($prev_version, '4.0.2', '<')) {
+	            $selected_stat_service = cmplz_get_value('compile_statistics');
+	            if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
+		            $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+		            $service = new CMPLZ_SERVICE($service_name);
+
+		            $change_service = false;
+		            $new_service = $service->name;
+		            if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') === false) {
+			            $change_service = true;
+			            $new_service = $new_service.' (anonymized)';
+		            }
+
+		            if ($change_service || !$service->ID){
+			            //will delete service and all related cookies
+			            if ($service->ID) $service->delete();
+
+			            //Add new service
+			            $service = new CMPLZ_SERVICE();
+			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+		            }
+	            }
             }
 
             do_action('cmplz_upgrade', $prev_version);

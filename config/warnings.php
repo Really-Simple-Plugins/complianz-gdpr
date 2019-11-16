@@ -54,6 +54,6 @@ $this->warning_types = array(
     ),
     'double-stats' => array(
         'type'=> 'general',
-        'label_error' => __('You have a duplicate implemenation of your statistics tool on your site.', 'complianz-gdpr'),
+        'label_error' => __('You have a duplicate implementation of your statistics tool on your site.', 'complianz-gdpr'),
     )
 );
