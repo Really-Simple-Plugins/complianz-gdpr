@@ -607,7 +607,7 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function maybe_sync_cookies(){
-            if (!wp_doing_cron() && !current_user_can('manage_options')) return;
+            if (!wp_doing_cron() && !current_user_can('manage_options')) return 'No permissions';
             $msg = '';
             $error = false;
             $data = $this->get_syncable_cookies();
@@ -615,7 +615,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if no syncable cookies are found, exit.
             if ($data['count']==0) {
                 update_option('cmplz_sync_cookies_complete', true);
-	            $msg=__("No syncable cookies found", "complianz-gdpr");
+	            $msg= __("No new unsynced cookies found, please try again in a week.", "complianz-gdpr");
                 $error = true;
             }
 
@@ -777,7 +777,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 		        $cookies = wp_list_pluck($cookies,'name');
 
 		        $count_all += count($cookies);
-_log($cookies);
 		        foreach($cookies as $cookie){
 			        $c = new CMPLZ_COOKIE($cookie, $language);
 			        //need to pass a service here.
@@ -816,7 +815,7 @@ _log($cookies);
             //if no syncable services found, exit.
             if ($data['count'] == 0) {
 	            update_option('cmplz_sync_services_complete', true);
-	            $msg=__("No syncable services found", "complianz-gdpr");
+	            $msg = '';
                 $error = true;
             }
 
@@ -2537,10 +2536,6 @@ _log($cookies);
             $explanation='';
             $data_cookies = $this->get_syncable_cookies();
             $data_services = $this->get_syncable_services();
-
-            _log($data_cookies);
-
-            _log($data_services);
 
             if ($data_cookies['count']==0 && $data_services['count']==0){
                 $disabled = "disabled";
