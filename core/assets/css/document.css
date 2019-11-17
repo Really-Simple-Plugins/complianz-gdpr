@@ -105,7 +105,8 @@
   border-bottom: 0;
 }
 #cmplz-document p,
-#cmplz-document li {
+#cmplz-document li,
+#cmplz-document td {
   font-size: 14px;
   margin-top: 0;
 }

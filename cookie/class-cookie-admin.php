@@ -600,6 +600,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
 
+
         /**
          * Runs once a week to check if the CDB should be synced
          * @hooked cmplz_every_week_hook
@@ -608,50 +609,25 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function maybe_sync_cookies(){
             if (!wp_doing_cron() && !current_user_can('manage_options')) return;
             $msg = '';
-            //get all cookies with sync on
-            //we need all cookies, translated ones as well, as we will be syncing each language separately
             $error = false;
-            $languages = $this->get_supported_languages();
-            $data = array();
-	        $thirdparty_cookies = array();
-
-            $count_all = 0;
-            $one_week_ago = strtotime("-1 week");
-            foreach($languages as $language){
-                $args = array('sync'=>true, 'language' => $language);
-                if (!wp_doing_cron() && !defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
-                $cookies = $this->get_cookies($args);
-
-                $cookies = wp_list_pluck($cookies,'name');
-
-                $count_all += count($cookies);
-
-                foreach($cookies as $cookie){
-                    $c = new CMPLZ_COOKIE($cookie, $language);
-                    //need to pass a service here.
-                    if (strlen($c->service)!=0){
-                        $service = new CMPLZ_SERVICE($c->service);
-                        if ($service->thirdParty) $thirdparty_cookies[] = $cookie;
-                        $data[$language][$c->service][] = $cookie;
-                    } else {
-                        $data[$language]['no-service-set'][] = $cookie;
-                    }
-                }
-            }
+            $data = $this->get_syncable_cookies();
 
             //if no syncable cookies are found, exit.
-            if ($count_all==0) {
+            if ($data['count']==0) {
                 update_option('cmplz_sync_cookies_complete', true);
 	            $msg=__("No syncable cookies found", "complianz-gdpr");
                 $error = true;
             }
+
+	        unset($data['count']);
+
+
 //            //create json to request data from CDB
             if (!$error) {
                 //add the plugins list to the data
                 $plugins = get_option('active_plugins');
                 $data['plugins'] = "<pre>" . implode("<br>", $plugins) . "</pre>";
                 $data['website'] = '<a href="'.esc_url_raw(site_url()).'">'.esc_url_raw(site_url()).'</a>';
-                $data['thirdpartyCookies'] = $thirdparty_cookies;
                 $json = json_encode($data);
                 $endpoint = trailingslashit(CMPLZ_COOKIEDATABASE_URL) . 'v1/cookies/';
 
@@ -763,6 +739,66 @@ if (!class_exists("cmplz_cookie_admin")) {
             return $msg;
         }
 
+
+        public function get_syncable_services(){
+	        $languages = $this->get_supported_languages();
+	        $data = array();
+
+	        $count_all = 0;
+	        $one_week_ago = strtotime("-1 week");
+	        foreach($languages as $language){
+		        $args = array('sync'=>true, 'language' => $language);
+		        if (!wp_doing_cron() && !defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
+		        $services = $this->get_services($args);
+
+		        $services = wp_list_pluck($services,'name');
+		        $data[$language] = $services;
+		        $count_all += count($services);
+
+	        }
+	        $data['count'] = $count_all;
+
+	        return $data;
+
+        }
+
+        public function get_syncable_cookies(){
+	        $languages = $this->get_supported_languages();
+	        $data = array();
+	        $thirdparty_cookies = array();
+
+	        $count_all = 0;
+	        $one_week_ago = strtotime("-1 week");
+	        foreach($languages as $language){
+		        $args = array('sync'=>true, 'language' => $language);
+		        if (!wp_doing_cron() && !defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
+		        $cookies = $this->get_cookies($args);
+
+		        $cookies = wp_list_pluck($cookies,'name');
+
+		        $count_all += count($cookies);
+_log($cookies);
+		        foreach($cookies as $cookie){
+			        $c = new CMPLZ_COOKIE($cookie, $language);
+			        //need to pass a service here.
+			        if (strlen($c->service)!=0){
+				        $service = new CMPLZ_SERVICE($c->service);
+				        if ($service->thirdParty) $thirdparty_cookies[] = $cookie;
+				        $data[$language][$c->service][] = $cookie;
+			        } else {
+				        $data[$language]['no-service-set'][] = $cookie;
+			        }
+		        }
+	        }
+
+	        $data['count'] = $count_all;
+	        $data['thirdpartyCookies'] = $thirdparty_cookies;
+
+	        return $data;
+        }
+
+
+
         /**
          * Sync all services
          */
@@ -775,30 +811,17 @@ if (!class_exists("cmplz_cookie_admin")) {
              */
             $msg = '';
             $error = false;
-            $one_week_ago = strtotime("-1 week");
-            $args = array('sync'=>true);
-            if (!defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
-            $services = $this->get_services($args);
-
-            $services = wp_list_pluck($services, 'name');
+            $data = $this->get_syncable_services();
 
             //if no syncable services found, exit.
-            if (count($services) == 0) {
+            if ($data['count'] == 0) {
 	            update_option('cmplz_sync_services_complete', true);
 	            $msg=__("No syncable services found", "complianz-gdpr");
                 $error = true;
             }
 
+            unset($data['count']);
             if (!$error) {
-
-                //get all cookies with sync on, ignored false
-                //we need all cookies, translated ones as well, as we will be syncing each language separately
-
-                $languages = $this->get_supported_languages();
-                $data = array();
-                foreach ($languages as $language) {
-                    $data[$language] = $services;
-                }
 
                 //clear, for further use of this variable.
                 $services = array();
@@ -1154,9 +1177,6 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (isset($_POST['rescan'])) {
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
 
-                //delete_option('cmplz_deleted_cookies');
-
-                delete_transient('cmplz_detected_cookies');
                 update_option('cmplz_detected_social_media', false);
                 update_option('cmplz_detected_thirdparty_services', false);
                 update_option('cmplz_detected_stats', false);
@@ -2061,7 +2081,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $sql .= $wpdb->prepare(' AND firstAddDate > %s ', get_option('cmplz_cookie_data_verified_date'));
             }
             if ($settings['lastUpdatedDate']){
-                $sql .= $wpdb->prepare(' AND lastUpdatedDate < %s OR lastUpdatedDate=FALSE', intval($settings['lastUpdatedDate']));
+                $sql .= $wpdb->prepare(' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE)', intval($settings['lastUpdatedDate']));
             }
             $cookies = $wpdb->get_results("select * from {$wpdb->prefix}cmplz_cookies where ".$sql);
 
@@ -2513,25 +2533,16 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         public function sync_progress(){
-            $has_updatable_cookies = false;
             $disabled = '';
             $explanation='';
-            $languages = $this->get_supported_languages();
-            $one_week_ago = strtotime("-1 week");
-            foreach($languages as $language) {
-                $args = array('sync' => true, 'language' => $language);
-                if (!defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
-                $cookies = $this->get_cookies($args);
-                if (count($cookies)>0) $has_updatable_cookies = true;
-            }
+            $data_cookies = $this->get_syncable_cookies();
+            $data_services = $this->get_syncable_services();
 
-            $args = array('sync'=>true);
-            if (!defined('CMPLZ_SKIP_WEEK_CHECK')) $args['lastUpdatedDate'] = $one_week_ago;
-            $services = $this->get_services($args);
-            $services = wp_list_pluck($services, 'name');
-            if (count($services)>0) $has_updatable_cookies = true;
+            _log($data_cookies);
 
-            if (!$has_updatable_cookies){
+            _log($data_services);
+
+            if ($data_cookies['count']==0 && $data_services['count']==0){
                 $disabled = "disabled";
                 $explanation = cmplz_notice(__('Synchronization disabled: This happens when all cookies have synchronized to cookiedatabase.org in the last week.','complianz-gdpr'), 'warning', false, false);
             }

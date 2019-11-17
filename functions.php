@@ -815,7 +815,7 @@ if (!function_exists('cmplz_set_plugin_language')) {
         if ($post_id && $region) {
             $post_type = get_post_type($post_id);
 
-            if ($region === 'us' && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
+            if (($region === 'us'|| $region === 'uk') && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
                 $locale = 'en_US';
             }
         }
@@ -853,7 +853,7 @@ if (!function_exists('cmplz_add_query_arg')) {
 
             if ($post && property_exists($post, 'post_content')) {
                 $pattern = '/cmplz-document type="(.*?)"/i';
-                $pattern_gutenberg = '/<!-- wp:complianz\/document {"title":".*?","selectedDocument":"(.*?)"} \/-->/i';
+	            $pattern_gutenberg = '/<!-- wp:complianz\/document {.*?selectedDocument":"(.*?)"} \/-->/i';
                 if (preg_match_all($pattern, $post->post_content, $matches, PREG_PATTERN_ORDER)) {
                     if (isset($matches[1][0])) $type = $matches[1][0];
                 } elseif(preg_match_all($pattern_gutenberg, $post->post_content, $matches, PREG_PATTERN_ORDER)) {
