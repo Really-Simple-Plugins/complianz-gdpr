@@ -298,6 +298,10 @@ if (!class_exists("cmplz_wizard")) {
                 COMPLIANZ()->cookie_admin->update_services();
             }
 
+            if ($fieldname==='use_cdb_api'){
+	            delete_option('cmplz_show_cookiedatabase_optin');
+            }
+
             //update google analytics service depending on anonymization choices
             if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager' || $fieldname === 'regions') {
                 $selected_stat_service = cmplz_get_value('compile_statistics');
@@ -771,9 +775,10 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             if ($page != 'wizard') {
-                $link = '<a href="' . admin_url('edit.php?post_type=cmplz-' . $page) . '">';
                 if ($this->post_id() && $step == 2 && (!$section || $section==1)) {
-                    $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
+	                $link = '<a href="' . admin_url('edit.php?post_type=' . get_post_type($this->post_id())) . '">';
+
+	                $link_pdf = '<a href="' . admin_url("post.php?post=".$this->post_id()."&action=edit") . '">';
                     cmplz_notice(sprintf(__('This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz-gdpr'), get_the_title($this->post_id()), $link_pdf, '</a>', $link, '</a>') , 'success', false);
                 } elseif ($step == 1) {
                     delete_option('complianz_options_' . $page);

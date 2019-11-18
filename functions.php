@@ -1156,6 +1156,27 @@ if (!function_exists('cmplz_translate')){
     }
 }
 
+
+/**
+ * Check if the user wants a reference to the cookiedatabase.org
+ * @return bool
+ */
+
+if (!function_exists('cmplz_cdb_reference_in_policy')){
+	function cmplz_cdb_reference_in_policy(){
+
+	    //make sure the default is not used
+        $use_reference = (cmplz_get_value('show_cdb_link', false, false, false)==='yes');
+	    return apply_filters('cmplz_use_cdb_reference', $use_reference);
+	}
+}
+
+/**
+ * Registrer a translation
+ * @param $fieldname
+ * @return bool
+ */
+
 if (!function_exists('cmplz_register_translation')) {
 
     function cmplz_register_translation($string, $fieldname)

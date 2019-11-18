@@ -208,19 +208,6 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'wp_admin_access_users' => array(
-            'step' => STEP_COMPANY,
-            'section' => 3,
-            'source' => 'wizard',
-            'type' => 'radio',
-            'default' => 'no',
-            'label' => __("Do you have users with access to the wp-admin part of your website, like the profile section of a forum?", 'complianz-gdpr'),
-            'help' => __("If so, the scan will be extended with the wp-admin URL so it can pick up the wp-admin cookies. ", 'complianz-gdpr'),
-            'required' => false,
-            'options' => $this->yes_no,
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-        ),
-
         // Purpose
         'purpose_personaldata' => array(
             'step' => STEP_COMPANY,
@@ -425,6 +412,31 @@ $this->fields = $this->fields + array(
             'options' => $this->yes_no,
             'label' => __("This website uses cookies or similiar techniques.", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'use_cdb_api' => array(
+	        'step' => STEP_COOKIES,
+	        'section' => 4,
+	        'source' => 'wizard',
+	        'type' => 'radio',
+	        'default' => 'yes',
+	        'options' => $this->yes_no,
+	        'condition' => array('uses_cookies' => 'yes'),
+	        'label' => __("Use the cookiedatabase.org API to automatically fill your cookie descriptions", 'complianz-gdpr'),
+	        'help' => __("This option will request the services, purposes, servicetypes and retention periods for the cookies on your site from cookiedatabase.org. Cookies that are not know will get added, with a list of used plugins and your domain so the contributors can get information about the placed cookies.", 'complianz-gdpr').' '.sprintf(__("For more information read or %sPrivacy Policy%s.", 'complianz-gdpr'),'<a target="_blank" href="https://complianz.io/privacy-statement/">','</a>'),
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'show_cdb_link' => array(
+	        'step' => STEP_COOKIES,
+	        'section' => 4,
+	        'source' => 'wizard',
+	        'type' => 'radio',
+	        'default' => 'yes',
+	        'options' => $this->yes_no,
+	        'condition' => array('use_cdb_api' => 'yes'),
+	        'label' => __("Tell your visitors in your Cookie Policy you keep your policy up to date with cookiedatabase.org", 'complianz-gdpr'),
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
         'uses_thirdparty_services' => array(

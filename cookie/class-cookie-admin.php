@@ -121,7 +121,11 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function get_serviceTypes_options($selected_value=false, $language){
-            if (!current_user_can('manage_options')) return;
+            if (!current_user_can('manage_options')) return '';
+
+	        if (!$this->use_cdb_api()){
+		        return '';
+	        }
 
             $html = '<option value="0" >'.esc_html(__('Select a service type','complianz-gdpr')).'</option>';
 
@@ -171,6 +175,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function get_cookiePurpose_options($selected_value=false, $language){
             if (!current_user_can('manage_options')) return;
+
+	        if (!$this->use_cdb_api()) {
+		        return '';
+	        }
 
             $html = '<option value="0" >'.esc_html(__('Select a purpose','complianz-gdpr')).'</option>';
 
@@ -612,6 +620,11 @@ if (!class_exists("cmplz_cookie_admin")) {
             $error = false;
             $data = $this->get_syncable_cookies();
 
+	        if (!$this->use_cdb_api()) {
+                $error=true;
+                $msg = __('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr');
+            }
+
             //if no syncable cookies are found, exit.
             if ($data['count']==0) {
                 update_option('cmplz_sync_cookies_complete', true);
@@ -811,6 +824,11 @@ if (!class_exists("cmplz_cookie_admin")) {
             $msg = '';
             $error = false;
             $data = $this->get_syncable_services();
+
+	        if (!$this->use_cdb_api()) {
+		        $error=true;
+		        $msg = __('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr');
+	        }
 
             //if no syncable services found, exit.
             if ($data['count'] == 0) {
@@ -2547,8 +2565,13 @@ if (!class_exists("cmplz_cookie_admin")) {
 	            $explanation = cmplz_notice(__('Your server does not have CURL installed, which is required for the sync. Please contact your hosting company to install CURL.','complianz-gdpr'), 'warning', false, false);
             }
 
+	        if (!$this->use_cdb_api()) {
+		        $disabled = "disabled";
+		        $explanation = cmplz_notice(__('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr'), 'warning', false, false);
+	        }
 
-            ?>
+
+		        ?>
             <div class="field-group first">
                 <div id="cmplz_action_error" class="cmplz-hidden">
 		            <?php echo cmplz_notice(__('<!-- error msg-->', 'complianz-gdpr'), 'warning')?>
@@ -2570,6 +2593,12 @@ if (!class_exists("cmplz_cookie_admin")) {
             <?php
         }
 
+
+        public function use_cdb_api(){
+            $use_api = cmplz_get_value('use_cdb_api', false, false, false)==='yes';
+
+            return apply_filters('cmplz_use_cdb_api', $use_api);
+        }
 
 
         /*

@@ -39,11 +39,9 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('admin_init', array($this, 'process_reset_action'), 10, 1);
 
-
-            //deprecated strings
-            $deprecated_strings = _x('We make decisions on the basis of automated processing with respect to matters that may have (significant) consequences for individuals. These are decisions taken by computer programmes or systems without human intervention.', 'Legal document privacy statement', 'complianz-gdpr');
-            $deprecated_strings = _x('A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr');
-
+            if (get_option('cmplz_show_cookiedatabase_optin')){
+                add_action('admin_notices', array($this, 'notice_optin_on_upgrade'));
+            }
 
         }
 
@@ -282,7 +280,7 @@ if (!class_exists("cmplz_admin")) {
              * migrate to anonymous if anonymous settings are selected
              */
 
-            if ($prev_version && version_compare($prev_version, '4.0.2', '<')) {
+            if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
 	            $selected_stat_service = cmplz_get_value('compile_statistics');
 	            if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
 		            $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
@@ -301,12 +299,19 @@ if (!class_exists("cmplz_admin")) {
 
 			            //Add new service
 			            $service = new CMPLZ_SERVICE();
-			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages());
 		            }
 	            }
             }
 
-            do_action('cmplz_upgrade', $prev_version);
+	        /**
+	         * ask consent for cookiedatabase sync and reference
+	         */
+	        if ($prev_version && version_compare($prev_version, '4.0.3', '<')) {
+	            update_option('cmplz_show_cookiedatabase_optin',true);
+	        }
+
+	        do_action('cmplz_upgrade', $prev_version);
 
             update_option('cmplz-current-version', cmplz_version);
         }
@@ -1203,5 +1208,25 @@ if (!class_exists("cmplz_admin")) {
             return $success;
         }
 
-    }
+
+	    /**
+	     * Show a notice on upgrade to get opt in consent
+	     */
+
+		public function notice_optin_on_upgrade()
+		{
+			?>
+            <div id="message" class="error fade notice is-dismissible really-simple-plugins">
+                <h2><?php _e("Upgrade action required", "complianz-gdpr")?></h2>
+
+                <p>
+					<?php echo sprintf(__("The Complianz 4.0 updates needs manual configuration. Please go to the %swizard%s to complete the new questions to finish the upgrade.", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'4'),admin_url('admin.php')).'">','</a>'); ?></p>
+                </p>
+            </div>
+			<?php
+		}
+
+
+
+}
 } //class closure
