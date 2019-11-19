@@ -81,7 +81,14 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz_detected_stats',
                 'cmplz_deleted_cookies',
                 'cmplz_reported_cookies',
+                'cmplz_sync_cookies_complete',
+                'cmplz_sync_services_complete',
+                'cmplz_detected_social_media',
+                'cmplz_detected_thirdparty_services',
+                'cmplz_run_cdb_sync_once',
+
             );
+
 
             foreach ($options as $option_name) {
                 delete_option($option_name);

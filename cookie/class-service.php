@@ -99,9 +99,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
                     || strlen($this->serviceType)==0 || strlen($this->name)==0);
             }
 
-	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
-		        $this->sync = false;
-	        }
         }
 
         /**
@@ -126,11 +123,6 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 'isTranslationFrom' => sanitize_text_field($this->isTranslationFrom),
                 'lastUpdatedDate' => intval($this->lastUpdatedDate),
             );
-
-	        //don't save sync setting if api not active
-	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
-		        unset($update_array['sync']);
-	        }
 
             global $wpdb;
             //if we have an ID, we update the existing value

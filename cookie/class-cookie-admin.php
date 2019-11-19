@@ -228,10 +228,15 @@ if (!class_exists("cmplz_cookie_admin")) {
             $disabled = $cookie->sync==1 ? 'disabled="disabled"' : false;
             $disabledClass = $cookie->sync==1 ? 'cmplz-disabled' : false;
             $sync = $cookie->sync==1 ? 'checked="checked"' : '';
+	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+		        $sync = false;
+	        }
             $isPersonalData = $cookie->isPersonalData==1 ? 'checked="checked"' : '';
             $showOnPolicy = $cookie->showOnPolicy==1 ? 'checked="checked"' : '';
             $services = $this->get_services_options($cookie->service, $language);
             $cookiePurposes = $this->get_cookiePurpose_options($cookie->purpose, $language);
+
+
 
             $cookie_html = str_replace(
                 array(
@@ -371,6 +376,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             $disabledClass = $service->sync==1 ? 'cmplz-disabled' : false;
 
             $sync = $service->sync==1 ? 'checked="checked"' : '';
+	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+		        $sync = false;
+	        }
             $thirdParty = $service->thirdParty==1 ? 'checked="checked"' : '';
             $service_html = str_replace(
                 array(
@@ -801,6 +809,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 	        }
 
 	        $data['count'] = $count_all;
+
 	        $data['thirdpartyCookies'] = $thirdparty_cookies;
 
 	        return $data;
@@ -2562,6 +2571,8 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         public function sync_progress(){
+            if (!$this->use_cdb_api()) return;
+
             $disabled = '';
             $explanation='';
             $data_cookies = $this->get_syncable_cookies();
