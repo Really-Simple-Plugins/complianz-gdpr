@@ -270,17 +270,14 @@ if (!class_exists("cmplz_admin")) {
                         $banner->save();
                     }
                 }
-                //reset scan, delayed
-	            COMPLIANZ()->cookie_admin->reset_pages_list(true);
-                //initialize a sync
-                update_option('cmplz_run_cdb_sync_once',true);
+
             }
 
              /**
              * migrate to anonymous if anonymous settings are selected
              */
 
-            if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
+            if ($prev_version && version_compare($prev_version, '4.0.3', '<')) {
 	            $selected_stat_service = cmplz_get_value('compile_statistics');
 	            if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
 		            $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
@@ -305,9 +302,19 @@ if (!class_exists("cmplz_admin")) {
             }
 
 	        /**
-	         * ask consent for cookiedatabase sync and reference
+	         * ask consent for cookiedatabase sync and reference, and start sync and scan
 	         */
-	        if ($prev_version && version_compare($prev_version, '4.0.3', '<')) {
+
+	        if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
+		        //move processed pages list to transient
+		        $processed_pages = get_option('cmplz_processed_pages_list');
+		        set_transient('cmplz_processed_pages_list', $processed_pages, HOUR_IN_SECONDS);
+
+		        //reset scan, delayed
+		        COMPLIANZ()->cookie_admin->reset_pages_list(true);
+		        //initialize a sync
+		        update_option('cmplz_run_cdb_sync_once',true);
+
 	            update_option('cmplz_show_cookiedatabase_optin',true);
 	        }
 
