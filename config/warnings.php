@@ -55,5 +55,10 @@ $this->warning_types = array(
     'double-stats' => array(
         'type'=> 'general',
         'label_error' => __('You have a duplicate implementation of your statistics tool on your site.', 'complianz-gdpr'),
-    )
+    ),
+    'api-disabled' => array(
+        'type'=> 'general',
+        'label_error' => __('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr'),
+    ),
+
 );

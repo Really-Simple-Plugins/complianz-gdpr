@@ -123,10 +123,6 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_serviceTypes_options($selected_value=false, $language){
             if (!current_user_can('manage_options')) return '';
 
-	        if (!$this->use_cdb_api()){
-		        return '';
-	        }
-
             $html = '<option value="0" >'.esc_html(__('Select a service type','complianz-gdpr')).'</option>';
 
             $serviceTypes = get_transient('cmplz_serviceTypes_'.$language);
@@ -175,10 +171,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function get_cookiePurpose_options($selected_value=false, $language){
             if (!current_user_can('manage_options')) return;
-
-	        if (!$this->use_cdb_api()) {
-		        return '';
-	        }
 
             $html = '<option value="0" >'.esc_html(__('Select a purpose','complianz-gdpr')).'</option>';
 
@@ -622,7 +614,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
                 $error=true;
-                $msg = __('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr');
+		        $msg = COMPLIANZ()->config->warning_types['api-disabled']['label_error'];
             }
 
             //if no syncable cookies are found, exit.
@@ -634,9 +626,13 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        unset($data['count']);
 
+            if (get_transient('cmplz_cookiedatabase_request_active')){
+                $error = true;
+                $msg = __("A request is already running. Please be patient until the current request finishes","complianz-gdpr");
+            }
 
-//            //create json to request data from CDB
             if (!$error) {
+                set_transient('cmplz_cookiedatabase_request_active', true, MINUTE_IN_SECONDS);
                 //add the plugins list to the data
                 $plugins = get_option('active_plugins');
                 $data['plugins'] = "<pre>" . implode("<br>", $plugins) . "</pre>";
@@ -662,6 +658,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
 	            curl_close($ch);
+	            delete_transient('cmplz_cookiedatabase_request_active');
             }
 
             if (!$error) {
@@ -827,7 +824,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
 		        $error=true;
-		        $msg = __('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr');
+		        $msg = COMPLIANZ()->config->warning_types['api-disabled']['label_error'];
 	        }
 
             //if no syncable services found, exit.
@@ -838,12 +835,18 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
 
             unset($data['count']);
+
+	        if (get_transient('cmplz_cookiedatabase_request_active')){
+		        $error = true;
+		        $msg = __("A request is already running. Please be patient until the current request finishes","complianz-gdpr");
+	        }
+
             if (!$error) {
+	            set_transient('cmplz_cookiedatabase_request_active', true, MINUTE_IN_SECONDS);
 
                 //clear, for further use of this variable.
                 $services = array();
 
-//            //create json to request data from CDB
                 $json = json_encode($data);
                 $endpoint = trailingslashit(CMPLZ_COOKIEDATABASE_URL) . 'v1/services/';
 
@@ -865,6 +868,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 	            if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
 	            curl_close($ch);
+	            delete_transient('cmplz_cookiedatabase_request_active');
             }
 
             if (!$error) {
@@ -1937,12 +1941,14 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function reset_pages_list($delay=false){
             if ($delay){
                 $current_list = get_transient('cmplz_pages_list');
+                $processed_pages = get_transient('cmplz_processed_pages_list');
                 set_transient('cmplz_pages_list', $current_list, HOUR_IN_SECONDS);
+	            set_transient('cmplz_processed_pages_list', $processed_pages, HOUR_IN_SECONDS);
+
             } else {
                 delete_transient('cmplz_pages_list');
+                delete_transient('cmplz_processed_pages_list');
             }
-            update_option('cmplz_processed_pages_list', array());
-            if (defined('WP_DEBUG') && WP_DEBUG) update_option('cmplz_cdb_sync_complete',false);
         }
 
 
@@ -1955,7 +1961,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_processed_pages_list()
         {
 
-            $pages = get_option('cmplz_processed_pages_list');
+            $pages = get_transient('cmplz_processed_pages_list');
             if (!is_array($pages)) $pages = array();
 
             return $pages;
@@ -2018,7 +2024,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             $pages = $this->get_processed_pages_list();
             if (!in_array($id, $pages)) {
                 $pages[] = $id;
-                update_option('cmplz_processed_pages_list', $pages);
+	            set_transient('cmplz_processed_pages_list', $pages, MONTH_IN_SECONDS);
             }
         }
 
@@ -2444,11 +2450,16 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function run_sync_on_update(){
+
+            if (!$this->use_cdb_api()) return;
+
+            if (!get_option('cmplz_run_cdb_sync_once')) return;
+
             //make sure this is only attempted max 3 times.
             $attempts = get_transient('cmplz_sync_attempts');
             if (!$attempts) $attempts=0;
 
-            if ($attempts<3 && get_option('cmplz_run_cdb_sync_once')){
+            if ($attempts<3){
                 $progress = $this->get_sync_progress();
                 if ($progress<50){
                     $this->maybe_sync_cookies();
@@ -2567,7 +2578,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
 		        $disabled = "disabled";
-		        $explanation = cmplz_notice(__('You haven\'t accepted the usage of the cookiedatabase.org API yet. Please choose yes in the integrations step to use the API','complianz-gdpr'), 'warning', false, false);
+		        $explanation = cmplz_notice(COMPLIANZ()->config->warning_types['api-disabled']['label_error'], 'warning', false, false);
 	        }
 
 

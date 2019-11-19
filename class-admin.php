@@ -76,9 +76,7 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz_license_key',
                 'cmplz_license_status',
                 'cmplz_changed_cookies',
-                'cmplz_processed_pages_list',
                 'cmplz_license_notice_dismissed',
-                'cmplz_processed_pages_list',
                 'cmplz_plugins_changed',
                 'cmplz_detected_stats',
                 'cmplz_deleted_cookies',
@@ -272,7 +270,9 @@ if (!class_exists("cmplz_admin")) {
                         $banner->save();
                     }
                 }
-
+                //reset scan, delayed
+	            COMPLIANZ()->cookie_admin->reset_pages_list(true);
+                //initialize a sync
                 update_option('cmplz_run_cdb_sync_once',true);
             }
 
@@ -441,6 +441,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'matomo-needs-configuring';
                 }
 
+                if (!COMPLIANZ()->cookie_admin->use_cdb_api()) {
+                    $warnings[] = 'api-disabled';
+                }
 
 //                if (COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
 //                    $warnings[] = 'cookies-incomplete';

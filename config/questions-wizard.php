@@ -427,18 +427,6 @@ $this->fields = $this->fields + array(
 	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'show_cdb_link' => array(
-	        'step' => STEP_COOKIES,
-	        'section' => 4,
-	        'source' => 'wizard',
-	        'type' => 'radio',
-	        'default' => 'yes',
-	        'options' => $this->yes_no,
-	        'condition' => array('use_cdb_api' => 'yes'),
-	        'label' => __("Tell your visitors in your Cookie Policy you keep your policy up to date with cookiedatabase.org", 'complianz-gdpr'),
-	        'time' => CMPLZ_MINUTES_PER_QUESTION,
-        ),
-
         'uses_thirdparty_services' => array(
             'step' => STEP_COOKIES,
             'section' => 4,

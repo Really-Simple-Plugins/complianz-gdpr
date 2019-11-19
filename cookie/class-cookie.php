@@ -246,6 +246,10 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 $this->old = $cookie->lastAddDate<strtotime('-3 months') && $cookie->lastAddDate>0 ? true : false;
             }
 
+            if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+                $this->sync = false;
+            }
+
             //get serviceid from service name
             if ($this->serviceID){
                 $service = new CMPLZ_SERVICE($this->serviceID, $this->language);

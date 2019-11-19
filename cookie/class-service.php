@@ -98,6 +98,10 @@ if (!class_exists("CMPLZ_SERVICE")) {
                     || (strlen($this->privacyStatementURL)==0 && $this->thirdParty)
                     || strlen($this->serviceType)==0 || strlen($this->name)==0);
             }
+
+	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+		        $this->sync = false;
+	        }
         }
 
         /**
