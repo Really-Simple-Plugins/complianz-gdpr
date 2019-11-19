@@ -54,9 +54,9 @@
                value="{collectedPersonalData}">
     </div>
 
-    <div >
+    <div class="{syncDisabledClass}">
         <label>
-            <input type="checkbox"
+            <input {syncDisabled} type="checkbox"
                    name="cmplz_sync"
                    class="cmplz_sync"
                    {sync}">

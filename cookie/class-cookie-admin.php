@@ -225,18 +225,21 @@ if (!class_exists("cmplz_cookie_admin")) {
             $cookie = new CMPLZ_COOKIE($name, $language);
             if (!$cookie->ID) return '';
 
-            $disabled = $cookie->sync==1 ? 'disabled="disabled"' : false;
-            $disabledClass = $cookie->sync==1 ? 'cmplz-disabled' : false;
-            $sync = $cookie->sync==1 ? 'checked="checked"' : '';
+	        $sync =COMPLIANZ()->cookie_admin->use_cdb_api() ? $cookie->sync : false;
+	        $syncDisabled = $syncDisabledClass ='';
 	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
-		        $sync = false;
+		        $syncDisabled = 'disabled="disabled"';
+		        $syncDisabledClass = "cmplz-disabled";
 	        }
+
+            $disabled = $sync ? 'disabled="disabled"' : false;
+            $disabledClass = $sync ? 'cmplz-disabled' : false;
+            $sync = $sync ? 'checked="checked"' : '';
+
             $isPersonalData = $cookie->isPersonalData==1 ? 'checked="checked"' : '';
             $showOnPolicy = $cookie->showOnPolicy==1 ? 'checked="checked"' : '';
             $services = $this->get_services_options($cookie->service, $language);
             $cookiePurposes = $this->get_cookiePurpose_options($cookie->purpose, $language);
-
-
 
             $cookie_html = str_replace(
                 array(
@@ -252,6 +255,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{isPersonalData}',
                     '{collectedPersonalData}',
                     '{showOnPolicy}',
+                    '{syncDisabled}',
+                    "{syncDisabledClass}",
                 ),
                 array(
                     $cookie->ID,
@@ -266,6 +271,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $isPersonalData,
                     $cookie->collectedPersonalData,
                     $showOnPolicy,
+	                $syncDisabled,
+	                $syncDisabledClass,
                 ),
                 $tmpl);
 
@@ -369,16 +376,24 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (!current_user_can('manage_options')) return;
 
             $service = new CMPLZ_SERVICE($name, $language);
+
             if (!$service->ID) return '';
+
+	        $sync =COMPLIANZ()->cookie_admin->use_cdb_api() ? $service->sync : false;
+	        $syncDisabled = $syncDisabledClass ='';
+	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+		        $syncDisabled = 'disabled="disabled"';
+		        $syncDisabledClass = "cmplz-disabled";
+	        }
+
             $serviceTypes = $this->get_serviceTypes_options($service->serviceType, $language);
 
-            $disabled = $service->sync==1 ? 'disabled="disabled"' : false;
-            $disabledClass = $service->sync==1 ? 'cmplz-disabled' : false;
+            $disabled = $sync ? 'disabled="disabled"' : false;
+            $disabledClass = $sync ? 'cmplz-disabled' : false;
+            $sync = $sync ? 'checked="checked"' : '';
 
-            $sync = $service->sync==1 ? 'checked="checked"' : '';
-	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
-		        $sync = false;
-	        }
+
+
             $thirdParty = $service->thirdParty==1 ? 'checked="checked"' : '';
             $service_html = str_replace(
                 array(
@@ -391,6 +406,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{privacyStatementURL}',
                     '{thirdParty}',
                     '{showOnPolicy}',
+                    '{syncDisabled}',
+	                "{syncDisabledClass}",
+
                 ),
                 array(
                     $service->ID,
@@ -402,6 +420,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $service->privacyStatementURL,
                     $thirdParty,
                     $service->showOnPolicy,
+	                $syncDisabled,
+	                $syncDisabledClass,
                 ),
                 $tmpl);
             $icons = '';
