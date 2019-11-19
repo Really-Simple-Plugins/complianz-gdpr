@@ -322,6 +322,10 @@ if (!class_exists("CMPLZ_COOKIE")) {
                 $update_array['firstAddDate'] = time();
             }
 
+	        //don't save sync setting if api not active
+	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+		        unset($update_array['sync']);
+	        }
 
             global $wpdb;
             //if we have an ID, we update the existing value

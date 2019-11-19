@@ -306,9 +306,9 @@ if (!class_exists("cmplz_admin")) {
 	         */
 
 	        if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
-		        //move processed pages list to transient
-		        $processed_pages = get_option('cmplz_processed_pages_list');
-		        set_transient('cmplz_processed_pages_list', $processed_pages, HOUR_IN_SECONDS);
+
+	            //upgrade option to transient
+		        if (!get_transient('cmplz_processed_pages_list')) set_transient('cmplz_processed_pages_list', get_option('cmplz_processed_pages_list'), MONTH_IN_SECONDS);
 
 		        //reset scan, delayed
 		        COMPLIANZ()->cookie_admin->reset_pages_list(true);
@@ -1228,10 +1228,29 @@ if (!class_exists("cmplz_admin")) {
 			?>
             <div id="message" class="error fade notice is-dismissible really-simple-plugins">
                 <h2><?php _e("Upgrade action required", "complianz-gdpr")?></h2>
+	            <p>
+                <?php echo __("Complianz 4.0 is Live! This major update provides automatic comprehensive cookie descriptions by cookiedatabase.org!", "complianz-gdpr"); ?>
+           <br>
+                <?php echo __("Please check the following to ensure a smooth update:", "complianz-gdpr"); ?>
+
+                <ol>
+                    <li>
+	                    <?php echo sprintf(__("Issue a new %scookiescan%s (we will automatically start one 30 minutes after update)", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'1'),admin_url('admin.php')).'">','</a>'); ?>
+
+                    </li>
+                <li>
+		                <?php echo sprintf(__("Opt in to the %sCookiedatabase.org API%s", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'4'),admin_url('admin.php')).'">','</a>'); ?>
+
+                    </li>
+                <li>
+		            <?php echo sprintf(__("%sCheck the results%s of the cookiedatabase.org synchronization and complete missing descriptions.", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'5'),admin_url('admin.php')).'">','</a>'); ?>
+
+                </li>
+                </ol>
+
+		            <?php echo sprintf(__("Complianz and the cookiedatabase.org community are working round the clock in adding more complete cookie descriptions, which will get added to your policy automatically. If you have any questions of issues updating, please %scontact support%s or join the %scookiedatabase.org%s community!", "complianz-gdpr"),'<a href="https://complianz.io/support" target="_blank">','</a>','<a href="https://cookiedatabase.org" target="_blank">','</a>'); ?>
 
                 <p>
-					<?php echo sprintf(__("The Complianz 4.0 updates needs manual configuration. Please go to the %swizard%s to complete the new questions to finish the upgrade.", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'4'),admin_url('admin.php')).'">','</a>'); ?></p>
-                </p>
             </div>
 			<?php
 		}

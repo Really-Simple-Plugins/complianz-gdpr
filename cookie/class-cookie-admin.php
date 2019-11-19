@@ -620,7 +620,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if no syncable cookies are found, exit.
             if ($data['count']==0) {
                 update_option('cmplz_sync_cookies_complete', true);
-	            $msg= __("No new unsynced cookies found, please try again in a week.", "complianz-gdpr");
+	            $msg= "";
                 $error = true;
             }
 
@@ -1939,16 +1939,17 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function reset_pages_list($delay=false){
-            if ($delay){
-                $current_list = get_transient('cmplz_pages_list');
-                $processed_pages = get_transient('cmplz_processed_pages_list');
-                set_transient('cmplz_pages_list', $current_list, HOUR_IN_SECONDS);
-	            set_transient('cmplz_processed_pages_list', $processed_pages, HOUR_IN_SECONDS);
+	        if ($delay){
+		        $current_list = get_transient('cmplz_pages_list');
+		        $processed_pages = get_transient('cmplz_processed_pages_list');
+		        set_transient('cmplz_pages_list', $current_list, HOUR_IN_SECONDS);
+		        set_transient('cmplz_processed_pages_list', $processed_pages, HOUR_IN_SECONDS);
 
-            } else {
-                delete_transient('cmplz_pages_list');
-                delete_transient('cmplz_processed_pages_list');
-            }
+	        } else {
+		        delete_transient('cmplz_pages_list');
+		        delete_transient('cmplz_processed_pages_list');
+	        }
+
         }
 
 
