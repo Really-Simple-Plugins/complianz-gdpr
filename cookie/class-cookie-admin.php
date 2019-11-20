@@ -682,7 +682,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 $result = curl_exec($ch);
 
-                $error = ($result == 0) ? false : true;
+	            $error = ($result == 0 && strpos($result,'<title>502 Bad Gateway</title>')===FALSE) ? false : true;
                 if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
 	            curl_close($ch);
@@ -893,7 +893,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 $result = curl_exec($ch);
 
-                $error = ($result == 0) ? false : true;
+                $error = ($result == 0 && strpos($result,'<title>502 Bad Gateway</title>')===FALSE) ? false : true;
 	            if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
 	            curl_close($ch);
@@ -911,9 +911,10 @@ if (!class_exists("cmplz_cookie_admin")) {
 	            } else {
 		            $result =   $result->data;
 	            }
-                //first, add en as base cookie, and get ID
-
             }
+
+
+
 
             if (!$error) {
                 if (isset($result->en)) {
