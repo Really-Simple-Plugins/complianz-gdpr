@@ -1255,7 +1255,7 @@ if (!class_exists("cmplz_admin")) {
                 </li>
                 </ol>
 
-		            <?php echo sprintf(__("Complianz and the cookiedatabase.org community are working round the clock in adding more complete cookie descriptions, which will get added to your policy automatically. If you have any questions of issues updating, please %scontact support%s or join the %scookiedatabase.org%s community!", "complianz-gdpr"),'<a href="https://complianz.io/support" target="_blank">','</a>','<a href="https://cookiedatabase.org" target="_blank">','</a>'); ?>
+		            <?php echo sprintf(__("Complianz and the cookiedatabase.org community are working round the clock in adding more complete cookie descriptions, which will get added to your policy automatically. If you have any questions or issues regarding updating, please %scontact support%s or join the %scookiedatabase.org%s community!", "complianz-gdpr"),'<a href="https://complianz.io/support" target="_blank">','</a>','<a href="https://cookiedatabase.org" target="_blank">','</a>'); ?>
 
                 <p>
             </div>
