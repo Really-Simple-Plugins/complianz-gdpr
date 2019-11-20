@@ -95,7 +95,7 @@ function cmplz_google_fonts_recommendation(){
 
             }
             if ($thirdparty==='google-recaptcha' && cmplz_get_value('disable_cookie_block')!=1) {
-                cmplz_notice(sprintf(__("Your site uses Google Recaptcha. For privacy compliance, recaptcha will be blocked until cookies are accepted. Please read %sthis article%s for more information", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/google-recaptcha-and-the-gdpr-a-possible-conflict/">','</a>'),'warning');
+                cmplz_notice(sprintf(__("Your site uses Google Recaptcha. For privacy compliance, recaptcha will be blocked until cookies are accepted. Please read %sthis article%s for more information", 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/google-recaptcha-and-the-gdpr-a-possible-conflict/">','</a>'));
             }
         }
     }
@@ -112,6 +112,11 @@ function cmplz_used_cookies_notice(){
 
     cmplz_notice(sprintf(__("Because your site uses third party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s", 'complianz-gdpr'), '<a href="'.admin_url('admin.php?page=cmplz-script-center').'">','</a>', '<a href="'.admin_url('admin.php?page=cmplz-settings').'">','</a>'),'warning');
 
+}
+
+add_action('cmplz_notice_use_cdb_api', 'cmplz_use_cdb_api_notice');
+function cmplz_use_cdb_api_notice(){
+	cmplz_notice(sprintf(__("Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sprivacy statement%s", 'complianz-gdpr'), '<a target="_blank" href="https://cookiedatabase.org">','</a>', '<a target="_blank" href="https://cookiedatabase.org/privacy-statement">','</a>'),'warning');
 }
 
 add_action('cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us');
@@ -169,7 +174,7 @@ function cmplz_show_cookie_usage_notice()
     $cookies = COMPLIANZ()->cookie_admin->get_cookies($args);
     if (count($cookies) > 0) {
         $count = count($cookies);
-        cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookies), 'warning');
+        cmplz_notice(sprintf(__("The cookie scan detected %s types of cookies on your site which means the answer to this question should be Yes.", 'complianz-gdpr'), $count, $cookies));
     } else {
         cmplz_notice(__("The cookie scan detected no cookies on your site which means the answer to this question can be answered with No.", 'complianz-gdpr'));
     }

@@ -39,11 +39,9 @@ if (!class_exists("cmplz_admin")) {
 
             add_action('admin_init', array($this, 'process_reset_action'), 10, 1);
 
-
-            //deprecated strings
-            $deprecated_strings = _x('We make decisions on the basis of automated processing with respect to matters that may have (significant) consequences for individuals. These are decisions taken by computer programmes or systems without human intervention.', 'Legal document privacy statement', 'complianz-gdpr');
-            $deprecated_strings = _x('A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.', 'Legal document cookie policy', 'complianz-gdpr');
-
+            if (get_option('cmplz_show_cookiedatabase_optin')){
+                add_action('admin_notices', array($this, 'notice_optin_on_upgrade'));
+            }
 
         }
 
@@ -78,14 +76,19 @@ if (!class_exists("cmplz_admin")) {
                 'cmplz_license_key',
                 'cmplz_license_status',
                 'cmplz_changed_cookies',
-                'cmplz_processed_pages_list',
                 'cmplz_license_notice_dismissed',
-                'cmplz_processed_pages_list',
                 'cmplz_plugins_changed',
                 'cmplz_detected_stats',
                 'cmplz_deleted_cookies',
                 'cmplz_reported_cookies',
+                'cmplz_sync_cookies_complete',
+                'cmplz_sync_services_complete',
+                'cmplz_detected_social_media',
+                'cmplz_detected_thirdparty_services',
+                'cmplz_run_cdb_sync_once',
+
             );
+
 
             foreach ($options as $option_name) {
                 delete_option($option_name);
@@ -275,14 +278,13 @@ if (!class_exists("cmplz_admin")) {
                     }
                 }
 
-                update_option('cmplz_run_cdb_sync_once',true);
             }
 
              /**
              * migrate to anonymous if anonymous settings are selected
              */
 
-            if ($prev_version && version_compare($prev_version, '4.0.2', '<')) {
+            if ($prev_version && version_compare($prev_version, '4.0.3', '<')) {
 	            $selected_stat_service = cmplz_get_value('compile_statistics');
 	            if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
 		            $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
@@ -301,12 +303,29 @@ if (!class_exists("cmplz_admin")) {
 
 			            //Add new service
 			            $service = new CMPLZ_SERVICE();
-			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages());
 		            }
 	            }
             }
 
-            do_action('cmplz_upgrade', $prev_version);
+	        /**
+	         * ask consent for cookiedatabase sync and reference, and start sync and scan
+	         */
+
+	        if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
+
+	            //upgrade option to transient
+		        if (!get_transient('cmplz_processed_pages_list')) set_transient('cmplz_processed_pages_list', get_option('cmplz_processed_pages_list'), MONTH_IN_SECONDS);
+
+		        //reset scan, delayed
+		        COMPLIANZ()->cookie_admin->reset_pages_list(true);
+		        //initialize a sync
+		        update_option('cmplz_run_cdb_sync_once',true);
+
+	            update_option('cmplz_show_cookiedatabase_optin',true);
+	        }
+
+	        do_action('cmplz_upgrade', $prev_version);
 
             update_option('cmplz-current-version', cmplz_version);
         }
@@ -436,6 +455,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'matomo-needs-configuring';
                 }
 
+                if (!COMPLIANZ()->cookie_admin->use_cdb_api()) {
+                    $warnings[] = 'api-disabled';
+                }
 
 //                if (COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
 //                    $warnings[] = 'cookies-incomplete';
@@ -1203,5 +1225,44 @@ if (!class_exists("cmplz_admin")) {
             return $success;
         }
 
-    }
+
+	    /**
+	     * Show a notice on upgrade to get opt in consent
+	     */
+
+		public function notice_optin_on_upgrade()
+		{
+			?>
+            <div id="message" class="error fade notice is-dismissible really-simple-plugins">
+                <h2><?php _e("Upgrade action required", "complianz-gdpr")?></h2>
+	            <p>
+                <?php echo __("Complianz 4.0 is Live! This major update provides automatic comprehensive cookie descriptions by cookiedatabase.org!", "complianz-gdpr"); ?>
+           <br>
+                <?php echo __("Please check the following to ensure a smooth update:", "complianz-gdpr"); ?>
+
+                <ol>
+                    <li>
+	                    <?php echo sprintf(__("Issue a new %scookiescan%s (we will automatically start one 30 minutes after update)", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'1'),admin_url('admin.php')).'">','</a>'); ?>
+
+                    </li>
+                <li>
+		                <?php echo sprintf(__("Opt in to the %sCookiedatabase.org API%s", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'4'),admin_url('admin.php')).'">','</a>'); ?>
+
+                    </li>
+                <li>
+		            <?php echo sprintf(__("%sCheck the results%s of the cookiedatabase.org synchronization and complete missing descriptions.", "complianz-gdpr"),'<a href="'.add_query_arg(array('page'=>'cmplz-wizard','step'=>STEP_COOKIES,'section'=>'5'),admin_url('admin.php')).'">','</a>'); ?>
+
+                </li>
+                </ol>
+
+		            <?php echo sprintf(__("Complianz and the cookiedatabase.org community are working round the clock in adding more complete cookie descriptions, which will get added to your policy automatically. If you have any questions or issues regarding updating, please %scontact support%s or join the %scookiedatabase.org%s community!", "complianz-gdpr"),'<a href="https://complianz.io/support" target="_blank">','</a>','<a href="https://cookiedatabase.org" target="_blank">','</a>'); ?>
+
+                <p>
+            </div>
+			<?php
+		}
+
+
+
+}
 } //class closure

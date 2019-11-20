@@ -1156,6 +1156,27 @@ if (!function_exists('cmplz_translate')){
     }
 }
 
+
+/**
+ * Show a reference to cookiedatabase if user has accepted the API
+ * @return bool
+ */
+
+if (!function_exists('cmplz_cdb_reference_in_policy')){
+	function cmplz_cdb_reference_in_policy(){
+
+	    //make sure the default is not used
+        $use_reference = COMPLIANZ()->cookie_admin->use_cdb_api();
+	    return apply_filters('cmplz_use_cdb_reference', $use_reference);
+	}
+}
+
+/**
+ * Registrer a translation
+ * @param $fieldname
+ * @return bool
+ */
+
 if (!function_exists('cmplz_register_translation')) {
 
     function cmplz_register_translation($string, $fieldname)

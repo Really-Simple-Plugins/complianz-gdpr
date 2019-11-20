@@ -425,6 +425,8 @@ jQuery(document).ready(function ($) {
             syncProgressBar.css({width: syncProgress + '%'});
             syncCookieDatabase();
         }
+    } else if ($('.cmplz-list-container').length){
+        loadListItem();
     }
 
     var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
@@ -585,7 +587,7 @@ jQuery(document).ready(function ($) {
     });
 
     /**
-     * Keep sync icon in syn.
+     * Keep sync icon in sync.
      */
 
     $(document).on('change', '.cmplz_sync', function(){

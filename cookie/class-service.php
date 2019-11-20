@@ -98,6 +98,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                     || (strlen($this->privacyStatementURL)==0 && $this->thirdParty)
                     || strlen($this->serviceType)==0 || strlen($this->name)==0);
             }
+
         }
 
         /**

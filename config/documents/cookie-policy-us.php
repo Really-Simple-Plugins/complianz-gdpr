@@ -216,6 +216,9 @@ $this->document_elements['cookie-statement-us'] = array(
 
     array(
         'content' => sprintf(_x('This cookie policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
+        'callback_condition' => array(
+	        'cmplz_cdb_reference_in_policy',
+        )
     ),
 
 );

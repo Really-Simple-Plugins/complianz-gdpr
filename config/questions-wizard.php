@@ -208,19 +208,6 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
-        'wp_admin_access_users' => array(
-            'step' => STEP_COMPANY,
-            'section' => 3,
-            'source' => 'wizard',
-            'type' => 'radio',
-            'default' => 'no',
-            'label' => __("Do you have users with access to the wp-admin part of your website, like the profile section of a forum?", 'complianz-gdpr'),
-            'help' => __("If so, the scan will be extended with the wp-admin URL so it can pick up the wp-admin cookies. ", 'complianz-gdpr'),
-            'required' => false,
-            'options' => $this->yes_no,
-            'time' => CMPLZ_MINUTES_PER_QUESTION,
-        ),
-
         // Purpose
         'purpose_personaldata' => array(
             'step' => STEP_COMPANY,
@@ -420,11 +407,26 @@ $this->fields = $this->fields + array(
             'section' => 4,
             'source' => 'wizard',
             'type' => 'radio',
+            'required' => true,
             'default' => '',
             'revoke_consent_onchange' => true,
             'options' => $this->yes_no,
             'label' => __("This website uses cookies or similiar techniques.", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'use_cdb_api' => array(
+	        'step' => STEP_COOKIES,
+	        'section' => 4,
+	        'source' => 'wizard',
+	        'type' => 'radio',
+	        'required' => true,
+	        'default' => '',
+	        'options' => $this->yes_no,
+	        'condition' => array('uses_cookies' => 'yes'),
+	        'label' => __("Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr'),
+	        'comment' => __("Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types", 'complianz-gdpr'),
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
         'uses_thirdparty_services' => array(
