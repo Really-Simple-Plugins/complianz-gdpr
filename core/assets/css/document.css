@@ -122,6 +122,7 @@
 #cmplz-document ul {
   list-style: disc;
   margin-left: 15px;
+  margin-bottom: 0;
 }
 #cmplz-document ol.alphabetic ol {
   counter-reset: list;
@@ -144,5 +145,8 @@
 #cmplz-document .cmplz-subtitle {
   font-weight: bold;
   margin-top: 25px;
+}
+#cmplz-document .cmplz-indent {
+  margin-left: 36px;
 }
 /*# sourceMappingURL=document.css.map */

@@ -104,6 +104,19 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility. 
 
 == Change log ==
+= 4.0.4 =
+* opt in to cookiedatabase.org
+
+= 4.0.3 =
+Fix: cookiedatabase sync not synchronizing third party services in multilingual environments
+Improvement: improved error messages for sync
+
+= 4.0.2 =
+Fix: UK and US policies still used old cookie descriptions
+
+= 4.0.1 =
+Fix: banner saving when UK and EU both use categories
+
 = 4.0.0 =
 * Improvement: separate consenttype for UK
 * Improvement: cookie information retrieved from cookiedatabase.org

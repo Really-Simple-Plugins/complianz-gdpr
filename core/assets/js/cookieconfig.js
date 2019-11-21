@@ -181,14 +181,6 @@ jQuery(document).ready(function($) {
         $('.cmplz-iframe').each(function (i, obj) {
             //we get the closest, not the parent, because a script could have inserted a div in the meantime.
             var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
-            //remove the added classes
-            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-            blockedContentContainer.removeClass('cmplz-blocked-content-container');
-            $(this).removeClass('cmplz-iframe-styles');
-
-			//in some cases the videowrap gets added to the iframe
-			$( this ).removeClass( 'video-wrap');
 
             //activate the video.
             var src = $(this).data('src-cmplz');
@@ -202,6 +194,14 @@ jQuery(document).ready(function($) {
                 $(this).parent().fitVids();
             }
 
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
+            $(this).removeClass('cmplz-iframe-styles');
+
+            //in some cases the videowrap gets added to the iframe
+            $( this ).removeClass( 'video-wrap');
         });
 
         //other services, no iframe, with placeholders
@@ -214,7 +214,7 @@ jQuery(document).ready(function($) {
             $(this).removeClass('cmplz-placeholder-element');
 
             //in some cases the videowrap gets added to the iframe
-            $( this ).removeClass( 'video-wrap');
+            $(this).removeClass( 'video-wrap');
 
             //activate the video.
             var src = $(this).data('src-cmplz');

@@ -303,38 +303,8 @@ if (!class_exists("cmplz_wizard")) {
             }
 
             //update google analytics service depending on anonymization choices
-            if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager' || $fieldname === 'regions') {
-                $selected_stat_service = cmplz_get_value('compile_statistics');
-                if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
-                    $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
-	                if (COMPLIANZ()->cookie_admin->cookie_warning_required_stats()) {
-		                $service_name = $service_name.' (anonymized)';
-	                }
-	                $service = new CMPLZ_SERVICE($service_name);
-
-                    $change_service = false;
-                    $new_service = $service->name;
-                    if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') === false) {
-                        $change_service = true;
-                        $new_service = $new_service.' (anonymized)';
-
-                    } elseif (COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') !== false) {
-                        $change_service = true;
-                        $new_service = str_replace(' (anonymized)', '',$new_service);
-                    }
-
-                    if ($change_service || !$service->ID){
-                        //will delete service and all related cookies
-                        if ($service->ID) $service->delete();
-
-                        //Add new service
-                        $service = new CMPLZ_SERVICE();
-                        $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
-                    }
-
-                } else {
-                    //drop stats services?
-                }
+            if ($fieldname==='compile_statistics' || $fieldname ==='compile_statistics_more_info' || $fieldname === 'compile_statistics_more_info_tag_manager') {
+	            COMPLIANZ()->cookie_admin->maybe_add_statistics_service();
             }
 
             $enable_categories_uk=$enable_categories_eu=false;
