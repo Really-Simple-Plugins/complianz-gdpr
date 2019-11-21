@@ -2592,7 +2592,6 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         public function sync_progress(){
-            if (!$this->use_cdb_api()) return;
 
             $disabled = '';
             $explanation='';
@@ -2611,14 +2610,16 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
 		        $disabled = "disabled";
-		        $explanation = cmplz_notice(COMPLIANZ()->config->warning_types['api-disabled']['label_error'], 'warning', false, false);
+		        echo cmplz_notice(COMPLIANZ()->config->warning_types['api-disabled']['label_error'], 'warning');
 	        }
 
+	        if (!$this->use_cdb_api()) return;
 
-		        ?>
+	        ?>
+
             <div class="field-group first">
                 <div id="cmplz_action_error" class="cmplz-hidden">
-		            <?php echo cmplz_notice(__('<!-- error msg-->', 'complianz-gdpr'), 'warning')?>
+		            <?php echo cmplz_notice('<!-- error msg-->', 'warning')?>
                 </div>
 
                 <div class="cmplz-label">

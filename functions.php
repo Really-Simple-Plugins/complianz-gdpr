@@ -841,7 +841,7 @@ if (!function_exists('cmplz_add_query_arg')) {
     function cmplz_add_query_arg()
     {
         $cmplz_lang = isset($_GET['clang']) ? $_GET['clang'] : false;
-        if (!$cmplz_lang) {
+        if (!$cmplz_lang && !cmplz_is_pagebuilder_preview()) {
             global $wp;
             $type = false;
 

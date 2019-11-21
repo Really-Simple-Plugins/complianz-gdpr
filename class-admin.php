@@ -452,13 +452,9 @@ if (!class_exists("cmplz_admin")) {
                     $warnings[] = 'matomo-needs-configuring';
                 }
 
-                if (!COMPLIANZ()->cookie_admin->use_cdb_api()) {
-                    $warnings[] = 'api-disabled';
-                }
-
-//                if (COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
-//                    $warnings[] = 'cookies-incomplete';
-//                }
+	            if (!COMPLIANZ()->cookie_admin->use_cdb_api() && COMPLIANZ()->cookie_admin->has_empty_cookie_descriptions()) {
+		            $warnings[] = 'cookies-incomplete';
+	            }
 
                 if (COMPLIANZ()->document->documents_need_updating()) {
                     $warnings[] = 'docs-need-updating';
