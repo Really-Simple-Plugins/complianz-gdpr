@@ -2857,34 +2857,71 @@ if (!class_exists("cmplz_cookie_admin")) {
             //but for us a cookie warning is required anyway
             if (!$eu & !$uk) return false;
 
-            $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
-            $matomo = ($statistics === 'matomo') ? true : false;
-            $google_analytics = ($statistics === 'google-analytics') ? true : false;
-            $accepted_google_data_processing_agreement = false;
-            $ip_anonymous = false;
-            $no_sharing = false;
+            //if we're here, we don't need stats if they're set up privacy friendly
+            return $this->statistics_privacy_friendly();
+        }
 
-            if ($google_analytics || $tagmanager) {
-                $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
-                $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
-                $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
-                $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
-            }
+		/**
+		 * Add the selected statistics service as a service, and check for doubles
+		 */
 
-            //not anonymous stats.
-            if ($statistics === 'yes') {
-                return true;
-            }
+        public function maybe_add_statistics_service(){
+	        $selected_stat_service = cmplz_get_value('compile_statistics');
+	        if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
+		        $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+		        $service = new CMPLZ_SERVICE($service_name);
 
-            if (($tagmanager || $google_analytics) &&
-                (!$accepted_google_data_processing_agreement || !$ip_anonymous || !$no_sharing)
-            ) {
-                return true;
-            }
+		        if (!$service->ID){
+			        //Add new service
+			        $service = new CMPLZ_SERVICE();
+			        $service->add($service_name, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+		        }
+	        }
+        }
 
-            if ($matomo && (cmplz_get_value('matomo_anonymized') !== 'yes')) return true;
 
-            return false;
+		/**
+         * Determine if statistics are used in a privacy friendly way
+		 * @return bool
+		 */
+
+        public function statistics_privacy_friendly(){
+	        if (cmplz_get_value('uses_cookies') !== 'yes') {
+		        return true;
+	        }
+
+	        $statistics = cmplz_get_value('compile_statistics');
+
+	        //no statistics at all, it's privacy friendly
+	        if ($statistics === 'no') return true;
+
+	        //not anonymous stats.
+	        if ($statistics === 'yes') return false;
+
+	        $tagmanager = ($statistics === 'google-tag-manager') ? true : false;
+	        $matomo = ($statistics === 'matomo') ? true : false;
+	        $google_analytics = ($statistics === 'google-analytics') ? true : false;
+	        $accepted_google_data_processing_agreement = false;
+	        $ip_anonymous = false;
+	        $no_sharing = false;
+
+	        if ($google_analytics || $tagmanager) {
+		        $thirdparty = $google_analytics ? cmplz_get_value('compile_statistics_more_info') : cmplz_get_value('compile_statistics_more_info_tag_manager');
+		        $accepted_google_data_processing_agreement = (isset($thirdparty['accepted']) && ($thirdparty['accepted'] == 1)) ? true : false;
+		        $ip_anonymous = (isset($thirdparty['ip-addresses-blocked']) && ($thirdparty['ip-addresses-blocked'] == 1)) ? true : false;
+		        $no_sharing = (isset($thirdparty['no-sharing']) && ($thirdparty['no-sharing'] == 1)) ? true : false;
+	        }
+
+	        if (($tagmanager || $google_analytics) &&
+	            (!$accepted_google_data_processing_agreement || !$ip_anonymous || !$no_sharing)
+	        ) {
+		        return false;
+	        }
+
+	        if ($matomo && (cmplz_get_value('matomo_anonymized') !== 'yes')) return false;
+
+	        //everything set up privacy friendly!
+	        return true;
         }
 
 

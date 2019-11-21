@@ -284,27 +284,24 @@ if (!class_exists("cmplz_admin")) {
              * migrate to anonymous if anonymous settings are selected
              */
 
-            if ($prev_version && version_compare($prev_version, '4.0.3', '<')) {
+            if ($prev_version && version_compare($prev_version, '4.0.4', '<')) {
 	            $selected_stat_service = cmplz_get_value('compile_statistics');
 	            if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
 		            $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+
+		            //check if we have ohter types of this service, to prevent double services here.
+		            $service_anonymized = $service_name.' (anonymized)';
+		            $service_anonymized = new CMPLZ_SERVICE($service_anonymized);
 		            $service = new CMPLZ_SERVICE($service_name);
 
-		            $change_service = false;
-		            $new_service = $service->name;
-		            if (!COMPLIANZ()->cookie_admin->cookie_warning_required_stats() && stripos($new_service, 'anonymized') === false) {
-			            $change_service = true;
-			            $new_service = $new_service.' (anonymized)';
-		            }
-
-		            if ($change_service || !$service->ID){
-			            //will delete service and all related cookies
-			            if ($service->ID) $service->delete();
-
-			            //Add new service
-			            $service = new CMPLZ_SERVICE();
-			            $service->add($new_service, COMPLIANZ()->cookie_admin->get_supported_languages());
-		            }
+		            //check if we have two service types. If so, just delete the anonymized one
+		            if ($service_anonymized->ID && $service->ID){
+			            $service_anonymized->delete();
+                    } else if ($service_anonymized->ID && !$service_name->ID) {
+		                //just one. If it's the anonymous service, rename, and save it.
+			            $service_anonymized->name = $service_name;
+			            $service_anonymized->save();
+                    }
 	            }
             }
 
