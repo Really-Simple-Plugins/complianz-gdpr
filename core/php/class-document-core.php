@@ -365,14 +365,16 @@ if (!class_exists("cmplz_document_core")) {
         {
             if (empty($content)) return "";
 
+            $class = isset($element['class']) ? 'class="'.esc_attr($element['class']).'"' : '';
+
             $list = (isset($element['list']) && $element['list']) ? true : false;
             //loop content
             if (!$element || $list) {
-                return '<div>' . $content . '</div>';
+                return '<div $class>' . $content . '</div>';
             }
             $p = (!isset($element['p']) || $element['p']) ? true : $element['p'];
             $el = $p ? 'p' : 'div';
-            return "<$el>" . $content . "</$el>";
+            return "<$el $class>" . $content . "</$el>";
         }
 
         /**
