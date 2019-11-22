@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2019-11-21 13:48+0100\n"
-"PO-Revision-Date: 2019-11-21 13:48+0100\n"
+"POT-Creation-Date: 2019-11-22 11:10+0100\n"
+"PO-Revision-Date: 2019-11-22 11:10+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2885,7 +2885,8 @@ msgid "Newsletters"
 msgstr ""
 
 #: config/purpose.php:7
-msgid "To support services or products that you want to buy or have purchased"
+msgid ""
+"To support services or products that a customer wants to buy or has purchased"
 msgstr ""
 
 #: config/purpose.php:8
