@@ -182,6 +182,18 @@ jQuery(document).ready(function($) {
             //we get the closest, not the parent, because a script could have inserted a div in the meantime.
             var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
 
+            /**
+             * It would be preferable to move the classes removal to after the activation of the source
+             * For a more fluid transform. But this seems to cause issues on some sites
+             */
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
+            $(this).removeClass('cmplz-iframe-styles');
+
+            //in some cases the videowrap gets added to the iframe
+            $(this).removeClass( 'video-wrap');
             //activate the video.
             var src = $(this).data('src-cmplz');
             //check if there's an autoplay value we need to pass on
@@ -193,15 +205,6 @@ jQuery(document).ready(function($) {
             if ( typeof $(this).parent().fitVids == 'function' ) {
                 $(this).parent().fitVids();
             }
-
-            //remove the added classes
-            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-            blockedContentContainer.removeClass('cmplz-blocked-content-container');
-            $(this).removeClass('cmplz-iframe-styles');
-
-            //in some cases the videowrap gets added to the iframe
-            $( this ).removeClass( 'video-wrap');
         });
 
         //other services, no iframe, with placeholders
