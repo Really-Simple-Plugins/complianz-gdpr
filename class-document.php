@@ -346,7 +346,7 @@ if (!class_exists("cmplz_document")) {
             $block = 'complianz/document';
 
             $html = $post->post_content;
-            if (has_block($block, $html)) {
+            if (cmplz_uses_gutenberg() && has_block($block, $html)) {
                 $elements = parse_blocks( $html );
                 foreach($elements as $element){
                     if ($element['blockName']===$block){

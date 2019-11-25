@@ -558,11 +558,11 @@ if (!class_exists("cmplz_admin")) {
                 global $submenu;
                 $class = 'cmplz-submenu';
                 $submenu['complianz'][] = array(__('Upgrade to premium', 'complianz-gdpr'), 'manage_options', 'https://complianz.io/pricing');
-                if (isset($submenu['complianz'][5])) {
-                    if (!empty($submenu['complianz'][5][4])) // Append if css class exists
-                        $submenu['complianz'][5][4] .= ' ' . $class;
+                if (isset($submenu['complianz'][6])) {
+                    if (!empty($submenu['complianz'][6][4])) // Append if css class exists
+                        $submenu['complianz'][6][4] .= ' ' . $class;
                     else
-                        $submenu['complianz'][5][4] = $class;
+                        $submenu['complianz'][6][4] = $class;
                 }
             }
 
