@@ -56,7 +56,6 @@ if (!class_exists("cmplz_cookie_admin")) {
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
 
             add_action('plugins_loaded', array($this, 'rescan'), 20, 2);
-            add_action('plugins_loaded', array($this, 'clear_cookies'), 20, 2);
 
             add_action('cmplz_notice_statistics_script', array($this, 'statistics_script_notice'));
 
@@ -393,9 +392,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             $disabledClass = $sync ? 'cmplz-disabled' : false;
             $sync = $sync ? 'checked="checked"' : '';
 
-
-
-            $thirdParty = $service->thirdParty==1 ? 'checked="checked"' : '';
+            $sharesData = $service->sharesData==1 ? 'checked="checked"' : '';
             $service_html = str_replace(
                 array(
                     '{service_id}',
@@ -405,11 +402,10 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{sync}',
                     '{serviceTypes}',
                     '{privacyStatementURL}',
-                    '{thirdParty}',
+                    '{sharesData}',
                     '{showOnPolicy}',
                     '{syncDisabled}',
 	                "{syncDisabledClass}",
-
                 ),
                 array(
                     $service->ID,
@@ -419,7 +415,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $sync,
                     $serviceTypes,
                     $service->privacyStatementURL,
-                    $thirdParty,
+                    $sharesData,
                     $service->showOnPolicy,
 	                $syncDisabled,
 	                $syncDisabledClass,
@@ -682,7 +678,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 );
 
                 $result = curl_exec($ch);
-
 	            $error = ($result == 0 && strpos($result,'<title>502 Bad Gateway</title>')===FALSE) ? false : true;
                 if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
@@ -935,7 +930,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service = new CMPLZ_SERVICE($original_service_name, 'en');
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
-                        $service->thirdParty = $service_object->thirdParty;
+                        $service->sharesData = $service_object->sharesData;
+                        $service->secondParty = $service_object->secondParty;
+                        $service->thirdParty = $service_object->sharesData && !$service_object->secondParty; //won't get saved, but for next part of code.
                         $service->serviceType = $service_object->serviceType;
 	                    $service->lastUpdatedDate = time();
 
@@ -968,11 +965,12 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service = new CMPLZ_SERVICE($original_service_name, $language);
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
-                        $service->thirdParty = $service_object->thirdParty;
+                        $service->sharesData = $service_object->sharesData;
+                        $service->secondParty = $service_object->secondParty;
                         $service->serviceType = $service_object->serviceType;
 	                    $service->lastUpdatedDate = time();
 
-                        //when there's no en service, create one.
+                        //when there's no 'en' service, create one.
                         if (!isset($isTranslationFrom[$service->name])) {
                             $parent_service = new CMPLZ_SERVICE($service->name, 'en');
 	                        $service->lastUpdatedDate = time();
@@ -1236,29 +1234,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
         }
 
-        public function clear_cookies()
+        public function resync()
         {
-            if (isset($_POST['clear'])) {
-                if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
-	            global $wpdb;
-	            $table_names = array(
-		            $wpdb->prefix . 'cmplz_cookies',
-//		            $wpdb->prefix . 'cmplz_services'
-	            );
-
-	            foreach($table_names as $table_name){
-		            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name) {
-			            $wpdb->query("TRUNCATE TABLE $table_name");
-		            }
-	            }
-
-	            $this->resync(true);
-            }
-        }
-
-        public function resync($force=false)
-        {
-            if ($force || isset($_POST['resync'])) {
+            if (isset($_POST['resync'])) {
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
                 update_option('cmplz_sync_cookies_complete', false);
                 update_option('cmplz_sync_services_complete', false);
@@ -2529,7 +2507,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         /**
-         * Run a sync
+         * Run a sync on update
          *
          */
 
@@ -2583,7 +2561,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 cmplz_notice(__('Your server does not have CURL installed, which is required for the scan. Please contact your hosting company to install CURL.','complianz-gdpr'), 'warning');
 	        }
             ?>
-            <div class="field-group cookie-scan first">
+            <div class="field-group first">
                 <?php
                 if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
                     cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.",'complianz-gdpr'));
@@ -2604,19 +2582,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>
-                <div>
-
                 <input <?php echo $disabled?> type="submit" class="button cmplz-rescan"
                        value="<?php _e('Re-scan', 'complianz-gdpr') ?>" name="rescan">
-                <input <?php echo $disabled?> type="submit" class="button cmplz-reset"
-                        onclick="return confirm('<?php _e('Are you sure? This will permanently delete the list of cookies.','complianz-gdpr')?>');"
-                                              value="<?php _e('Clear cookies', 'complianz-gdpr') ?>" name="clear">
 
-                    <?php
-                echo COMPLIANZ()->field->get_help_tip_btn(array('help'=>true));
-                echo COMPLIANZ()->field->get_help_tip(array('help'=>__("If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.","complianz-gdpr")));
-                ?>
-                </div>
             </div>
 
             <?php
@@ -2859,6 +2827,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function cookie_warning_required_stats($region=false)
         {
+
             if ($region){
                 $eu = false;
                 $uk = false;
@@ -2874,14 +2843,10 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
 
             //uk requires cookie warning for stats
-            if ($uk) {
-                return true;
-            }
+            if ($uk) return true;
 
             //us only, no cookie warning required for stats
-            if (!$eu & !$uk) {
-                return false;
-            }
+            if (!$eu & !$uk) return false;
 
             $statistics = cmplz_get_value('compile_statistics');
 
@@ -2893,10 +2858,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (!$eu & !$uk) return false;
 
             //if we're here, we don't need stats if they're set up privacy friendly
-            $privacy_friendly = $this->statistics_privacy_friendly();
-
-            //not stats required if privacy friendly
-            return !$privacy_friendly;
+            return $this->statistics_privacy_friendly();
         }
 
 		/**

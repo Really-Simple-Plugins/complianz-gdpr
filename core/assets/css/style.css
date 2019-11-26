@@ -51,15 +51,10 @@ Tabs
   display: block;
 }
 .cmplz-settings input[name="cmplz_reset_settings"],
-.cmplz-reset {
+.cmplz-reset:not(:hover) {
   color: #fff !important;
   background-color: #dc3545 !important;
   border-color: #dc3545 !important;
-}
-.cmplz-settings input[name="cmplz_reset_settings"]:hover,
-.cmplz-reset:hover {
-  background-color: #bd2130 !important;
-  border-color: #bd2130 !important;
 }
 table .cmplz-cookie-variations {
   margin-bottom: 20px;

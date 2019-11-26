@@ -6,7 +6,9 @@ if (!class_exists("CMPLZ_SERVICE")) {
         private $name;
         private $serviceType;
         private $category;
+        private $sharesData;
         private $thirdParty;
+        private $secondParty; //service that share data, but have cookies on the sites domain
         private $sync;
         private $synced;
         private $privacyStatementURL;
@@ -85,7 +87,9 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 $this->ID = $service->ID;
                 $this->name = $service->name;
                 $this->serviceType = $service->serviceType;
-                $this->thirdParty = $service->thirdParty;
+                $this->sharesData = $service->thirdParty; //legacy, sharesData was first called thirdparty
+                $this->secondParty = $service->secondParty;
+                $this->thirdParty = $this->sharesData && !$service->secondParty;
                 $this->sync = $service->sync;
                 $this->privacyStatementURL = $service->privacyStatementURL;
                 $this->language = $service->language;
@@ -95,7 +99,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 $this->synced = $service->lastUpdatedDate>0 ?  true : false;
 
                 $this->complete = !(strlen($this->name)==0
-                    || (strlen($this->privacyStatementURL)==0 && $this->thirdParty)
+                    || (strlen($this->privacyStatementURL)==0 && $this->sharesData)
                     || strlen($this->serviceType)==0 || strlen($this->name)==0);
             }
 
@@ -114,7 +118,9 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
             $update_array = array(
                 'name' => sanitize_text_field($this->name),
-                'thirdParty' => boolval($this->thirdParty),
+                'thirdParty' => boolval($this->sharesData), //legacy, sharesData was first called third party.
+                'sharesData' => boolval($this->sharesData), //fluid upgrade
+                'secondParty' => boolval($this->secondParty),
                 'sync' => boolval($this->sync),
                 'serviceType' => sanitize_text_field($this->serviceType),
                 'privacyStatementURL' => sanitize_text_field($this->privacyStatementURL),
@@ -148,7 +154,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                     $translation->name = $this->name;
                     $translation->sync = $this->sync;
                     $translation->serviceType = $this->serviceType;
-                    $translation->thirdParty = $this->thirdParty;
+                    $translation->sharesData = $this->sharesData;
                     $translation->showOnPolicy = $this->showOnPolicy;
                     $translation->save();
                 }

@@ -509,6 +509,8 @@ function cmplz_install_cookie_table()
                  `serviceType` varchar(250) NOT NULL,
                  `category` varchar(250) NOT NULL,
                  `thirdParty` int(11) NOT NULL,
+                 `sharesData` int(11) NOT NULL,
+                 `secondParty` int(11) NOT NULL,
                  `privacyStatementURL` varchar(250) NOT NULL,
                  `language` varchar(6) NOT NULL,
                 `isTranslationFrom` int(11) NOT NULL,
