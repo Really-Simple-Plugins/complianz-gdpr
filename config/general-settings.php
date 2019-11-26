@@ -96,6 +96,7 @@ $this->fields = $this->fields + array(
         'blocked_content_text' => array(
             'source' => 'settings',
             'type' => 'text',
+            'translatable' => true,
             'table' => true,
             'label' => __("Blocked content text", 'complianz-gdpr'),
             'default' => _x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),

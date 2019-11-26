@@ -55,10 +55,15 @@ Tabs
     margin-bottom:30px;
 }
 
-.cmplz-settings input[name="cmplz_reset_settings"], .cmplz-reset:not(:hover){
-        color: #fff !important;
-        background-color: #dc3545 !important;
-        border-color: #dc3545 !important;
+.cmplz-settings input[name="cmplz_reset_settings"], .cmplz-reset{
+
+    color: #fff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    &:hover{
+            background-color: darken(#dc3545,10%) !important;
+            border-color: darken( #dc3545,10%) !important;
+        }
     }
 
 

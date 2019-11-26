@@ -56,6 +56,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
 
             add_action('plugins_loaded', array($this, 'rescan'), 20, 2);
+            add_action('plugins_loaded', array($this, 'clear_cookies'), 20, 2);
 
             add_action('cmplz_notice_statistics_script', array($this, 'statistics_script_notice'));
 
@@ -1234,9 +1235,29 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
         }
 
-        public function resync()
+        public function clear_cookies()
         {
-            if (isset($_POST['resync'])) {
+            if (isset($_POST['clear'])) {
+                if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
+	            global $wpdb;
+	            $table_names = array(
+		            $wpdb->prefix . 'cmplz_cookies',
+//		            $wpdb->prefix . 'cmplz_services'
+	            );
+
+	            foreach($table_names as $table_name){
+		            if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name) {
+			            $wpdb->query("TRUNCATE TABLE $table_name");
+		            }
+	            }
+
+	            $this->resync(true);
+            }
+        }
+
+        public function resync($force=false)
+        {
+            if ($force || isset($_POST['resync'])) {
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
                 update_option('cmplz_sync_cookies_complete', false);
                 update_option('cmplz_sync_services_complete', false);
@@ -2507,7 +2528,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         /**
-         * Run a sync on update
+         * Run a sync
          *
          */
 
@@ -2561,7 +2582,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 cmplz_notice(__('Your server does not have CURL installed, which is required for the scan. Please contact your hosting company to install CURL.','complianz-gdpr'), 'warning');
 	        }
             ?>
-            <div class="field-group first">
+            <div class="field-group cookie-scan first">
                 <?php
                 if (isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1) {
                     cmplz_notice(__("You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.",'complianz-gdpr'));
@@ -2582,9 +2603,19 @@ if (!class_exists("cmplz_cookie_admin")) {
                 <div class="detected-cookies">
                     <?php echo $this->get_detected_cookies_table(); ?>
                 </div>
+                <div>
+
                 <input <?php echo $disabled?> type="submit" class="button cmplz-rescan"
                        value="<?php _e('Re-scan', 'complianz-gdpr') ?>" name="rescan">
+                <input <?php echo $disabled?> type="submit" class="button cmplz-reset"
+                        onclick="return confirm('<?php _e('Are you sure? This will permanently delete the list of cookies.','complianz-gdpr')?>');"
+                                              value="<?php _e('Clear cookies', 'complianz-gdpr') ?>" name="clear">
 
+                    <?php
+                echo COMPLIANZ()->field->get_help_tip_btn(array('help'=>true));
+                echo COMPLIANZ()->field->get_help_tip(array('help'=>__("If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.","complianz-gdpr")));
+                ?>
+                </div>
             </div>
 
             <?php
@@ -2827,7 +2858,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function cookie_warning_required_stats($region=false)
         {
-
             if ($region){
                 $eu = false;
                 $uk = false;
@@ -2843,10 +2873,14 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
 
             //uk requires cookie warning for stats
-            if ($uk) return true;
+            if ($uk) {
+                return true;
+            }
 
             //us only, no cookie warning required for stats
-            if (!$eu & !$uk) return false;
+            if (!$eu & !$uk) {
+                return false;
+            }
 
             $statistics = cmplz_get_value('compile_statistics');
 
@@ -2858,7 +2892,10 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (!$eu & !$uk) return false;
 
             //if we're here, we don't need stats if they're set up privacy friendly
-            return $this->statistics_privacy_friendly();
+            $privacy_friendly = $this->statistics_privacy_friendly();
+
+            //not stats required if privacy friendly
+            return !$privacy_friendly;
         }
 
 		/**
