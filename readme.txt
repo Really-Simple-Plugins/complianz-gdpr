@@ -101,14 +101,19 @@ The Children’s Online Privacy Protection Act (COPPA) is a law designed to prot
 = What is PECR & UK-GDPR? =
 PECR (UK) covers the use of cookies and similar technologies for storing information and accessing information stored, on a user’s equipment such as a computer or mobile device.
 = Can I create a Cookie Wall with this plugin? =
-With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility. 
+With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+
+= 4.0.5 =
+* Improvement: added reset for cookie scan clearing all cookies
+* Fix: added string for translation (Blocked content text)
+
 = 4.0.4 =
-* opt in to cookiedatabase.org
+* Improvement: opt-in to cookiedatabase.org
 
 = 4.0.3 =
-Fix: cookiedatabase sync not synchronizing third party services in multilingual environments
+Fix: cookiedatabase sync not synchronizing third-party services in multilingual environments
 Improvement: improved error messages for sync
 
 = 4.0.2 =
