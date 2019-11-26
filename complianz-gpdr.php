@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 4.0.4
+ * Version: 4.0.5
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
  * Author: RogierLankhorst, complianz
@@ -118,7 +118,7 @@ if (!class_exists('COMPLIANZ')) {
 
         private function setup_constants()
         {
-            define('CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/');
+            define('CMPLZ_COOKIEDATABASE_URL', 'https://staging.cookiedatabase.org/wp-json/cookiedatabase/');
 
             require_once(ABSPATH . 'wp-admin/includes/plugin.php');
             $plugin_data = get_plugin_data(__FILE__);

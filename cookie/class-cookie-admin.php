@@ -393,9 +393,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             $disabledClass = $sync ? 'cmplz-disabled' : false;
             $sync = $sync ? 'checked="checked"' : '';
 
-
-
-            $thirdParty = $service->thirdParty==1 ? 'checked="checked"' : '';
+            $sharesData = $service->sharesData==1 ? 'checked="checked"' : '';
             $service_html = str_replace(
                 array(
                     '{service_id}',
@@ -405,11 +403,10 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{sync}',
                     '{serviceTypes}',
                     '{privacyStatementURL}',
-                    '{thirdParty}',
+                    '{sharesData}',
                     '{showOnPolicy}',
                     '{syncDisabled}',
 	                "{syncDisabledClass}",
-
                 ),
                 array(
                     $service->ID,
@@ -419,7 +416,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $sync,
                     $serviceTypes,
                     $service->privacyStatementURL,
-                    $thirdParty,
+                    $sharesData,
                     $service->showOnPolicy,
 	                $syncDisabled,
 	                $syncDisabledClass,
@@ -682,7 +679,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 );
 
                 $result = curl_exec($ch);
-
 	            $error = ($result == 0 && strpos($result,'<title>502 Bad Gateway</title>')===FALSE) ? false : true;
                 if ($error) $msg=__("Could not connect to cookiedatabase.org", "complianz-gdpr");
 
@@ -935,7 +931,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service = new CMPLZ_SERVICE($original_service_name, 'en');
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
-                        $service->thirdParty = $service_object->thirdParty;
+                        $service->sharesData = $service_object->sharesData;
+                        $service->secondParty = $service_object->secondParty;
+                        $service->thirdParty = $service_object->sharesData && !$service_object->secondParty; //won't get saved, but for next part of code.
                         $service->serviceType = $service_object->serviceType;
 	                    $service->lastUpdatedDate = time();
 
@@ -968,11 +966,12 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service = new CMPLZ_SERVICE($original_service_name, $language);
                         $service->name = $service_object->name;
                         $service->privacyStatementURL = $service_object->privacyStatementURL;
-                        $service->thirdParty = $service_object->thirdParty;
+                        $service->sharesData = $service_object->sharesData;
+                        $service->secondParty = $service_object->secondParty;
                         $service->serviceType = $service_object->serviceType;
 	                    $service->lastUpdatedDate = time();
 
-                        //when there's no en service, create one.
+                        //when there's no 'en' service, create one.
                         if (!isset($isTranslationFrom[$service->name])) {
                             $parent_service = new CMPLZ_SERVICE($service->name, 'en');
 	                        $service->lastUpdatedDate = time();

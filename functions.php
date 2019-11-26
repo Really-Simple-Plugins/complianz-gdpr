@@ -1120,7 +1120,7 @@ if (!function_exists('cmplz_used_cookies')){
 
             $service_name = $service->ID && strlen($service->name)>0 ? $service->name : __('Miscellaneous','complianz-gdpr');
 
-            if ($service->thirdParty || $service_name==='Complianz') {
+            if ($service->sharesData || $service_name==='Complianz') {
                 $url = (strlen($service->privacyStatementURL)==0) ? 'https://cookiedatabase.org/missing-privacy-statement-url' : $service->privacyStatementURL;
                 $link = '<a target="_blank" href="'.$url.'">';
                 $sharing = sprintf(__('For more information, please read the %s%s Privacy Policy%s.','complianz-gdpr'), $link, $service_name,'</a>');
@@ -1164,9 +1164,7 @@ if (!function_exists('cmplz_translate')){
 
 if (!function_exists('cmplz_cdb_reference_in_policy')){
 	function cmplz_cdb_reference_in_policy(){
-
-	    //make sure the default is not used
-        $use_reference = COMPLIANZ()->cookie_admin->use_cdb_api();
+	    $use_reference = COMPLIANZ()->cookie_admin->use_cdb_api();
 	    return apply_filters('cmplz_use_cdb_reference', $use_reference);
 	}
 }

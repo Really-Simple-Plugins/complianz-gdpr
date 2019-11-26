@@ -15,10 +15,10 @@
     <div class="{disabledClass}">
         <label>
             <input type="checkbox" {disabled}
-                   name="cmplz_thirdParty"
-                   class="cmplz_thirdParty"
-                   {thirdParty}">
-            <?php _e('This is a third party service', 'complianz-gdpr') ?>
+                   name="cmplz_sharesData"
+                   class="cmplz_sharesData"
+                   {sharesData}">
+            <?php _e('Data is shared with this service', 'complianz-gdpr') ?>
         </label>
     </div>
     <div class="{disabledClass}">
