@@ -590,7 +590,7 @@ if (!function_exists('cmplz_no_ip_addresses')) {
             }
         }
 
-        return true;
+        return false;
     }
 }
 
