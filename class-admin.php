@@ -647,10 +647,10 @@ if (!class_exists("cmplz_admin")) {
                             href="<?php echo admin_url('admin.php?page=cmplz-proof-of-consent') ?>"><?php _e("Proof of consent", 'complianz-gdpr'); ?></a>
                 </li>
                 <li><i class="fas fa-plus"></i><a
-                            href="<?php echo admin_url('tools.php?page=export_personal_data') ?>"><?php _e("Export personal data", 'complianz-gdpr'); ?></a>
+                            href="<?php echo admin_url('export-personal-data.php') ?>"><?php _e("Export personal data", 'complianz-gdpr'); ?></a>
                 </li>
                 <li><i class="fas fa-plus"></i><a
-                            href="<?php echo admin_url('tools.php?page=remove_personal_data') ?>"><?php _e("Erase personal data", 'complianz-gdpr'); ?></a>
+                            href="<?php echo admin_url('erase-personal-data.php') ?>"><?php _e("Erase personal data", 'complianz-gdpr'); ?></a>
                 </li>
 
                 <?php
@@ -1225,6 +1225,8 @@ if (!class_exists("cmplz_admin")) {
 
 		public function notice_optin_on_upgrade()
 		{
+		    if (cmplz_get_value('uses_cookies')==='no') return;
+		    
 			?>
             <div id="message" class="error fade notice is-dismissible really-simple-plugins">
                 <h2><?php _e("Upgrade action required", "complianz-gdpr")?></h2>

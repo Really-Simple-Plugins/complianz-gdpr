@@ -291,15 +291,15 @@ if (!class_exists("cmplz_wizard")) {
                 cmplz_update_option('wizard', 'children-safe-harbor', 'no');
             }
 
+	        if ($fieldname==='use_cdb_api'){
+		        delete_option('cmplz_show_cookiedatabase_optin');
+	        }
+
             if ($fieldvalue === $prev_value) return;
 
             //keep services in sync
             if ($fieldname==='socialmedia_on_site' || $fieldname === 'thirdparty_services_on_site') {
                 COMPLIANZ()->cookie_admin->update_services();
-            }
-
-            if ($fieldname==='use_cdb_api'){
-	            delete_option('cmplz_show_cookiedatabase_optin');
             }
 
             //update google analytics service depending on anonymization choices
