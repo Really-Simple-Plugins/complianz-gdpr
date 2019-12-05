@@ -1121,15 +1121,16 @@ if (!function_exists('cmplz_used_cookies')){
             $service_name = $service->ID && strlen($service->name)>0 ? $service->name : __('Miscellaneous','complianz-gdpr');
 
             if ($service->sharesData || $service_name==='Complianz') {
-                $url = (strlen($service->privacyStatementURL)==0) ? 'https://cookiedatabase.org/missing-privacy-statement-url' : $service->privacyStatementURL;
-                $link = '<a target="_blank" href="'.$url.'">';
-                $sharing = sprintf(__('For more information, please read the %s%s Privacy Policy%s.','complianz-gdpr'), $link, $service_name,'</a>');
+	            $sharing = '';
+                if (strlen($service->privacyStatementURL)!=0){
+	                $link = '<a target="_blank" href="'.$service->privacyStatementURL.'">';
+	                $sharing = sprintf(__('For more information, please read the %s%s Privacy Policy%s.','complianz-gdpr'), $link, $service_name,'</a>');
+                }
             } else {
                 $sharing = __('This data is not shared with third parties.','complianz-gdpr');
             }
             $purposeDescription = ((strlen($service_name)>0) && (strlen($service->serviceType)>0)) ? sprintf(_x("We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr'),$service_name, $service->serviceType) : '';
-            $help = "";//strlen($service->name)==0 || strlen($service->serviceType)==0 || $has_empty_cookies ? sprintf(__("The information on %s and it's cookies is not complete yet. Help us complete the information at %scookiedatabase.org%s."), '<b>'.$service_name.'</b>', '<a target="_blank" href="https://cookiedatabase.org">','</a>') : '';
-            $servicesHTML .= str_replace(array('{service}','{sharing}','{purposeDescription}','{cookies}', '{helpComplete}'), array($service_name, $sharing, $purposeDescription, $cookieHTML, $help), $services_template);
+            $servicesHTML .= str_replace(array('{service}','{sharing}','{purposeDescription}','{cookies}'), array($service_name, $sharing, $purposeDescription, $cookieHTML), $services_template);
         }
 
         return $servicesHTML;
@@ -1164,7 +1165,11 @@ if (!function_exists('cmplz_translate')){
 
 if (!function_exists('cmplz_cdb_reference_in_policy')){
 	function cmplz_cdb_reference_in_policy(){
-	    $use_reference = COMPLIANZ()->cookie_admin->use_cdb_api();
+		if (cmplz_get_value('uses_cookies')==='no') {
+			$use_reference = false;
+        } else {
+			$use_reference = COMPLIANZ()->cookie_admin->use_cdb_api();
+		}
 	    return apply_filters('cmplz_use_cdb_reference', $use_reference);
 	}
 }

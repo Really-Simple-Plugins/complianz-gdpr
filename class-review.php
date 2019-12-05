@@ -28,7 +28,7 @@ if (!class_exists("cmplz_review")) {
                 if (!get_option('cmplz_activation_time')){
                     update_option('cmplz_activation_time', time());
                 }
-            }
+              }
 
         }
 
@@ -48,21 +48,43 @@ if (!class_exists("cmplz_review")) {
             if ( $screen->parent_base === 'edit' ) return;
 
                 ?>
-                <div id="message" class="updated fade notice is-dismissible cmplz-review really-simple-plugins">
-                    <p><?php printf(__('Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz-gdpr'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
-                    <i>- Rogier</i>
-                    <ul style="margin-left: 30px; list-style: square;">
-                        <li><p style="margin-top: -5px;"><a target="_blank"
-                                                            href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e('Leave a review', 'complianz-gdpr'); ?></a>
-                            </p></li>
-                        <li><p style="margin-top: -5px;"><a href="#"
-                                                            id="maybe-later"><?php _e('Maybe later', 'complianz-gdpr'); ?></a>
-                            </p></li>
-                        <li><p style="margin-top: -5px;"><a href="#"
-                                                            class="review-dismiss"><?php _e('No thanks', 'complianz-gdpr'); ?></a>
-                            </p></li>
-                    </ul>
+
+
+            <style>
+                .cmplz-container {
+                    display: flex;
+                    padding:12px;
+                }
+                .cmplz-container .dashicons {
+                    margin-left:10px;
+                    margin-right:5px;
+                }
+                .cmplz-review-image img{
+                    margin-top:0.5em;
+                }
+                .cmplz-buttons-row {
+                    margin-top:10px;
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+            <div id="message" class="updated fade notice is-dismissible cmplz-review really-simple-plugins" style="border-left:4px solid #333">
+                <div class="cmplz-container">
+                    <div class="cmplz-review-image"><img width=80px" src="<?php echo cmplz_url?>/core/assets/images/icon-128x128.png" alt="review-logo"></div>
+                    <div style="margin-left:30px">
+                        <p><?php printf(__('Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.', 'complianz-gdpr'), '<a href="https://complianz.io/contact" target="_blank">', '</a>'); ?></p>
+                        <i>- Rogier</i>
+                        <div class="cmplz-buttons-row">
+                            <a class="button button-primary" target="_blank"
+                               href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e('Leave a review', 'complianz-gdpr'); ?></a>
+
+                            <div class="dashicons dashicons-calendar"></div><a href="#" id="maybe-later"><?php _e('Maybe later', 'complianz-gdpr'); ?></a>
+
+                            <div class="dashicons dashicons-no-alt"></div><a href="#" class="review-dismiss"><?php _e('Don\'t show again', 'complianz-gdpr'); ?></a>
+                        </div>
+                    </div>
                 </div>
+            </div>
                 <?php
 
         }

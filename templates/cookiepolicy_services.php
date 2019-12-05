@@ -12,4 +12,3 @@
 
 <h5><?php echo _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') ?></h5>
 <p>{sharing}</p>
-<p>{helpComplete}</p>

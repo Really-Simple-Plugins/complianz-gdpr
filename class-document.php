@@ -272,6 +272,7 @@ if (!class_exists("cmplz_document")) {
         {
             //this shortcode is also available as gutenberg block
             add_shortcode('cmplz-document', array($this, 'load_document'));
+            add_shortcode('cmplz-cookies', array($this, 'cookies'));
 
             /*
              * @todo add a gutenberg block for the revoke link and DNSMPD form
@@ -307,6 +308,35 @@ if (!class_exists("cmplz_document")) {
 
 
         }
+
+
+	    /**
+	     * Render shortcode for cookie list
+	     *
+	     * @hooked shortcode hook
+	     * @param array $atts
+	     * @param null $content
+	     * @param string $tag
+	     * @return false|string
+	     * @since 2.0
+	     */
+
+	    public function cookies($atts = [], $content = null, $tag = '')
+	    {
+
+		    // normalize attribute keys, lowercase
+		    $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+		    ob_start();
+
+		    // override default attributes with user attributes
+		    $atts = shortcode_atts(['text' => false,], $atts, $tag);
+
+		    echo cmplz_used_cookies();
+
+		    return ob_get_clean();
+
+	    }
 
         public function add_meta_box($post_type)
         {

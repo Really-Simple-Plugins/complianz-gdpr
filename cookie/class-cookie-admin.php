@@ -663,6 +663,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $plugins = get_option('active_plugins');
                 $data['plugins'] = "<pre>" . implode("<br>", $plugins) . "</pre>";
                 $data['website'] = '<a href="'.esc_url_raw(site_url()).'">'.esc_url_raw(site_url()).'</a>';
+                $data = apply_filters('cmplz_api_data', $data);
                 $json = json_encode($data);
                 $endpoint = trailingslashit(CMPLZ_COOKIEDATABASE_URL) . 'v1/cookies/';
 
@@ -872,6 +873,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                 //clear, for further use of this variable.
                 $services = array();
+	            $data = apply_filters('cmplz_api_data', $data);
 
                 $json = json_encode($data);
                 $endpoint = trailingslashit(CMPLZ_COOKIEDATABASE_URL) . 'v1/services/';
