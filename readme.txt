@@ -105,6 +105,26 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 
+= 4.1.0 =
+* New: AMP support
+* Tweak: offer option to ask opt-in for statistics in Germany
+* Fix: dismiss on timeout not working
+* Fix: revoke on cookie policy when GEO ip enabled, US only
+* Fix: when no region was selected, a string with empty region could appear in the dashboard.
+* Tweak: dismiss the upgrade notice even when no changes are detected.
+* Tweak: improved review notice
+* Tweak: remove "unknown privacy link"
+* Tweak: no need to opt in to cookiedatabase.org when no cookies
+* Tweak: dedicated shortcode [cmplz-cookies] to enable users to inlude the cookies list only
+* Tweak: adjusted accept all cookies notice in blocked content notice
+* Tweak: improve activation of video scripts for smoother experience
+* Tweak: drop notification on plugin updates. This function is already handled by the "new cookies" feature
+* Tweak: removed double occurence of disqus
+* Tweak: added dot behind every paragraph
+* Tweak: improve region explanation to avoid confusion
+* Tweak: added remove data on uninstall option
+* Tweak: extend regex for iframe URL's to support brackets in URL's
+
 = 4.0.5 =
 * Improvement: added reset for cookie scan clearing all cookies
 * Fix: added string for translation (Blocked content text)
