@@ -8,13 +8,14 @@ Requires PHP: 5.6
 Tested up to: 5.3
 Stable tag: 4.1.0
 
-Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, ePrivacy, CCPA and PECR.
+Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PECR.
 
 == Description ==
-Complianz is a GDPR Cookie Consent plugin that supports GDPR, ePrivacy, CCPA and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
+Complianz is a GDPR Cookie Consent plugin that supports GDPR, DSGVO, CCPA and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 == Features ==
-* Configure for your specific region: European Union, United Kingdom or United States 
+* Configure for your specific region: European Union, United Kingdom or United States.
+* Configure specific cookie consent per subregion, for example: European Union + DSGVO or USA + CCPA
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
 * Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent.
 * Banner Templates US also include; Dismiss on scroll, time on page or both.
@@ -31,7 +32,7 @@ Complianz is a GDPR Cookie Consent plugin that supports GDPR, ePrivacy, CCPA and
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
 * Placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
 * Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
-* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 * Gutenberg Blocks enabled.
@@ -64,7 +65,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
-Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/) and [Zip Recipes](https://wordpress.org/plugins/zip-recipes/).
+Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/)
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR Cookie Consent is developed by [Complianz BV] (https://complianz.io).
 
@@ -107,12 +108,14 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 = 4.1.0 =
 * New: AMP support
-* Tweak: offer option to ask opt-in for statistics in Germany
+* New: Force opt-in for statistics in Germany (optional)
+* Tweak: Integrated with GADWP | Google Analytics for WordPress
 * Fix: dismiss on timeout not working
 * Fix: revoke on cookie policy when GEO ip enabled, US only
 * Fix: when no region was selected, a string with empty region could appear in the dashboard.
 * Tweak: dismiss the upgrade notice even when no changes are detected.
 * Tweak: improved review notice
+* Twea: higher treshold for dashboard notifications
 * Tweak: remove "unknown privacy link"
 * Tweak: no need to opt in to cookiedatabase.org when no cookies
 * Tweak: dedicated shortcode [cmplz-cookies] to enable users to inlude the cookies list only
