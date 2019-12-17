@@ -7,3 +7,13 @@ function cmplz_caos_analytics_script($tags){
 
     return $tags;
 }
+
+/**
+ * We remove some actions to integrate fully
+ * */
+function cmplz_caos_remove_scripts_others()
+{
+	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+}
+
+add_action('after_setup_theme', 'cmplz_caos_remove_scripts_others');

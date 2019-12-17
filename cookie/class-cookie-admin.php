@@ -33,6 +33,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 } else {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
                 }
+
             }
 
 
@@ -52,8 +53,8 @@ if (!class_exists("cmplz_cookie_admin")) {
             add_action('wp_ajax_cmplz_delete_snapshot', array($this, 'ajax_delete_snapshot'));
             add_action('admin_init', array($this, 'force_snapshot_generation'));
 
-            add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
-            add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
+//            add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
+//            add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
 
             add_action('plugins_loaded', array($this, 'rescan'), 20, 2);
             add_action('plugins_loaded', array($this, 'clear_cookies'), 20, 2);
@@ -113,6 +114,8 @@ if (!class_exists("cmplz_cookie_admin")) {
             }
             return $html;
         }
+
+
 
         /**
          * create select html for service types
@@ -1322,6 +1325,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             $this->known_cookie_keys = COMPLIANZ()->config->known_cookie_keys;
         }
 
+
         public function enqueue_assets($hook)
         {
             //enqueue if not available yet
@@ -1438,7 +1442,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if no cookie warning is needed for the stats specifically, we can move this out of the warning code by adding the native class
             if ($this->tagmamanager_fires_scripts() || !$this->cookie_warning_required_stats()) $classes[] = 'cmplz-native';
 
-            return $classes;
+            return apply_filters('cmplz_statistics_script_classes',$classes);
         }
 
         /**
@@ -1452,7 +1456,14 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 
         public function add_script_classes_for_stats($class, $match, $found){
-            if ($found === 'www.google-analytics.com/analytics.js'){
+	        $stats_tags = array(
+                'google-analytics.com/ga.js',
+                'googletagmanager.com/gtag/js',
+                'gtm.js',
+                'www.google-analytics.com/analytics.js',
+            );
+
+            if (in_array($found, $stats_tags) ){
                 $class = $class." ".implode(" ",$this->get_statistics_script_classes());
             }
 
@@ -2366,7 +2377,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             update_option('cmplz_publish_date', $date);
 
             //also reset the email notification, so it will get sent next year.
-            update_option('cmplz_update_legal_documents_mail_sent', false);
+            update_option('cmplz_publish_date', false);
         }
 
 
@@ -2860,38 +2871,32 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function cookie_warning_required_stats($region=false)
         {
-            if ($region){
-                $eu = false;
-                $uk = false;
-                if ($region==='uk') $uk = true;
-                if ($region==='eu') $eu = true;
-            } else {
-                $eu = cmplz_has_region('eu');
-                $uk = cmplz_has_region('uk');
+	        /**
+	         * user can override detected settings in wizard
+	         */
+
+            if (cmplz_consent_anonymous_stats_question() && cmplz_get_value('consent_for_anonymous_stats') === 'yes') {
+                return true;
             }
 
             if (cmplz_get_value('uses_cookies') !== 'yes') {
                 return false;
             }
 
-            //uk requires cookie warning for stats
-            if ($uk) {
-                return true;
-            }
+	        $has_optin = cmplz_uses_consenttype('optin', $region);
+	        $has_optinstats = cmplz_uses_consenttype('optinstats', $region);
 
-            //us only, no cookie warning required for stats
-            if (!$eu & !$uk) {
+	        /**
+	         * If optinstats and optin are both not used, there's not consent required for stats.
+	         */
+            if (!$has_optinstats && !$has_optin) {
                 return false;
             }
 
             $statistics = cmplz_get_value('compile_statistics');
 
             //uk requires cookie warning for stats
-            if ($uk && $statistics !== 'no') return true;
-
-            //us only, no cookie warning required for stats
-            //but for us a cookie warning is required anyway
-            if (!$eu & !$uk) return false;
+            if ($has_optinstats && $statistics !== 'no') return true;
 
             //if we're here, we don't need stats if they're set up privacy friendly
             $privacy_friendly = $this->statistics_privacy_friendly();
@@ -3016,7 +3021,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             foreach ($cookies as $cookie) {
                 $cookie_service = sanitize_title($cookie->service);
-                if (!cmplz_has_region('uk')) {
+	            $has_optinstats = cmplz_uses_consenttype('optinstats');
+                if (!$has_optinstats) {
                     if ($cookie_service === 'google-analytics') continue;
                     if ($cookie_service === 'matomo') continue;
                 }

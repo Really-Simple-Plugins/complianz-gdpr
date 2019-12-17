@@ -8,6 +8,10 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'constant_or_function' => 'A2A_SHARE_SAVE_init',
         'label' => 'Add To Any',
     ),
+    'amp' => array(
+        'constant_or_function' => 'AMP__VERSION',
+        'label' => 'AMP (official AMP plugin for WordPress)',
+    ),
     'pixelyoursite' => array(
         'constant_or_function' => 'PYS_FREE_VERSION',
         'label' => 'PixelYourSite',
@@ -30,33 +34,33 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'label' => 'CAOS host analytics locally',
 
     ),
-    //WP Google Maps plugin
     'wp-google-maps' => array(
         'constant_or_function' => 'WPGMZA_VERSION',
         'label' => 'WP Google Maps',
 
     ),
 
-    //Geo My WP plugin
     'geo-my-wp' => array(
         'constant_or_function' => 'GMW_VERSION',
         'label' => 'Geo My WP',
     ),
 
-    //WP Google Maps widget
+    'google-analytics-dashboard-for-wp' => array(
+        'constant_or_function' => 'GADWP_CURRENT_VERSION',
+        'label' => 'Google Analytics Dashboard for WP',
+    ),
+
     'wp-google-maps-widget' => array(
         'constant_or_function' => 'GMW_PLUGIN_DIR',
         'label' => 'Maps Widget for Google Maps',
 
     ),
 
-    //WP Do Not Track
     'wp-donottrack' => array(
         'constant_or_function' => 'wp_donottrack_config',
         'label' => 'WP Do Not Track',
     ),
 
-    //Pixel Caffeine
     'pixel-caffeine' => array(
         'constant_or_function' => 'AEPC_PIXEL_VERSION',
         'label' => 'Pixel Caffeine',
@@ -160,6 +164,22 @@ foreach ($cmplz_integrations_list as $plugin => $details) {
         error_log("searched for $plugin integration at $file, but did not find it");
     }
 }
+
+
+/**
+ * Check if this plugin's integration is enabled
+ * @return bool
+ */
+function cmplz_is_integration_enabled($plugin_name){
+	global $cmplz_integrations_list;
+	if (!array_key_exists($plugin_name, $cmplz_integrations_list)) return false;
+	$fields = get_option('complianz_options_integrations');
+	//default enabled, which means it's enabled when not set.
+	if (isset($fields[$plugin_name]) && $fields[$plugin_name]!=1 ) return false;
+
+	return true;
+}
+
 
 /**
  * code loaded without privileges to allow integrations between plugins and services, when enabled.

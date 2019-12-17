@@ -314,6 +314,12 @@
 .wpgmza-gdpr-compliance {
   text-align: center;
 }
+.cmplz-video.cmplz-hidden {
+  visibility: hidden;
+}
+.cmplz-video.cmplz-iframe-styles {
+  background-color: transparent;
+}
 .cmplz-blocked-content-container {
   background: #FFF;
   border: 0;
@@ -333,12 +339,6 @@
 }
 .cmplz-blocked-content-container div div {
   display: none;
-}
-.cmplz-blocked-content-container .cmplz-video.cmplz-hidden {
-  visibility: hidden;
-}
-.cmplz-blocked-content-container .cmplz-video.cmplz-iframe-styles {
-  background-color: transparent;
 }
 .cmplz-blocked-content-container.gmw-map-cover {
   max-height: 100%;
@@ -439,12 +439,12 @@ Make sue the text stays within the banne
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
-label.cc-check {
-  display: inline-block;
-  padding-bottom: 4px;
-}
 .cc-window label {
   color: inherit;
+}
+.cc-window label.cc-check {
+  display: inline-block;
+  padding-bottom: 4px;
 }
 .cc-check,
 .cc-check svg {

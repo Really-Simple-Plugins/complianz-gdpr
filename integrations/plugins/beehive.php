@@ -25,13 +25,24 @@ function cmplz_beehive_remove_actions()
 
 add_action('init', 'cmplz_beehive_remove_actions');
 
+
+/**
+ * We remove some actions to integrate fully
+ * */
+function cmplz_beehive_remove_scripts_others()
+{
+	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+}
+
+add_action('after_setup_theme', 'cmplz_beehive_remove_scripts_others');
+
 /**
  * Add notice to tell a user to choose Analytics
  * @param $args
  */
 function cmplz_beehive_show_compile_statistics_notice($args)
 {
-    cmplz_notice(__("You use Beehive, which means the answer to this question should be Google Analytics.", 'complianz-gdpr'));
+	cmplz_notice(sprintf(__("You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr'), 'Beehive'));
 }
 add_action('cmplz_notice_compile_statistics', 'cmplz_beehive_show_compile_statistics_notice', 10, 1);
 
@@ -75,9 +86,6 @@ function cmplz_beehive_filter_fields($fields)
     return $fields;
 }
 add_filter('cmplz_fields', 'cmplz_beehive_filter_fields', 20, 1);
-
-
-
 
 /**
  * Tell the user the consequences of choices made

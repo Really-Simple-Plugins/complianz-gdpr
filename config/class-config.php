@@ -143,7 +143,6 @@ if (!class_exists("cmplz_config")) {
             "paypal" => 'PayPal',
             "spotify" => 'Spotify',
             "hotjar" => 'Hotjar',
-            "disqus" => 'Disqus',
             "addthis" => 'AddThis',
             "sharethis" => 'ShareThis',
             "livechat" => 'LiveChat',
@@ -264,6 +263,43 @@ if (!class_exists("cmplz_config")) {
          * */
 
         public $image_tags = array();
+
+        public $amp_tags = array(
+            'amp-ad-exit',
+            'amp-ad',
+            'amp-analytics',
+            'amp-auto-ads',
+            'amp-call-tracking',
+            'amp-experiment',
+            'amp-pixel',
+            'amp-sticky-ad',
+                // Dynamic content.
+            'amp-google-document-embed' ,
+            'amp-gist',
+                // Media.
+            'amp-brightcove',
+            'amp-dailymotion',
+            'amp-hulu',
+            'amp-soundcloud',
+            'amp-vimeo',
+            'amp-youtube',
+                // Social.
+            'amp-addthis',
+            'amp-beopinion',
+            'amp-facebook-comments',
+            'amp-facebook-like',
+            'amp-facebook-page',
+            'amp-facebook',
+            'amp-gfycat',
+            'amp-instagram',
+            'amp-pinterest',
+            'amp-reddit',
+            'amp-riddle-quiz',
+            'amp-social-share',
+            'amp-twitter' ,
+            'amp-vine',
+            'amp-vk' ,
+        );
 
         public $sections;
         public $pages;

@@ -107,9 +107,22 @@ $this->fields = $this->fields + array(
             ),
             'label' => __("Which region(s) do you target with your website?", 'complianz-gdpr'),
             'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz-gdpr'),
-            'comment' => sprintf(__("If you want to target customers from several regions, consider upgrading to the %spremium version%s, which allows to select several or all regions simultaneously.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
+            'comment' => __("The plugin will apply the above-selected region's settings to all visitors worldwide.",'complianz-gdpr')." ".sprintf(__("If you want to target customers from several regions, consider upgrading to the %spremium version%s, which allows to select several or all regions simultaneously.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>'),
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'eu_consent_regions' => array(
+	        'step' => STEP_COMPANY,
+	        'section' => 2,
+	        'source' => 'wizard',
+	        'default' => 'no',
+	        'type' => 'radio',
+	        'options' => $this->yes_no,
+	        'condition' => array('regions' => 'eu'),
+	        'label' => __("Do you target visitors from Germany and/or Austria?", 'complianz-gdpr'),
+	        'required' => true,
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
         'california' => array(
@@ -328,6 +341,18 @@ $this->fields = $this->fields + array(
                 'compile_statistics' => 'matomo',
             ),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
+        'consent_for_anonymous_stats' => array(
+	        'step' => STEP_COOKIES,
+	        'section' => 3,
+	        'source' => 'wizard',
+	        'type' => 'select',
+	        'default' => 'yes',
+	        'label' => __("Do you want to ask consent for statistics?", 'complianz-gdpr'),
+	        'options' => $this->yes_no,
+	        'callback_condition' => 'cmplz_consent_anonymous_stats_question',
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
         'configuration_by_complianz' => array(
