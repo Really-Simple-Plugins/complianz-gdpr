@@ -52,6 +52,7 @@ function cmplz_install_cookiebanner_table()
             `border_color` varchar(255) NOT NULL,
             `use_custom_cookie_css` varchar(255) NOT NULL,
             `custom_css` text NOT NULL,
+            `custom_css_amp` text NOT NULL,
             `statistics` text NOT NULL,
               PRIMARY KEY  (ID)
             ) $charset_collate;";
@@ -80,6 +81,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         public $border_color;
         public $use_custom_cookie_css;
         public $custom_css;
+        public $custom_css_amp;
 
         /* texts */
         public $revoke;
@@ -238,6 +240,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->border_color = !empty($cookiebanner->border_color ) ? $cookiebanner->border_color : $this->get_default('border_color');
                 $this->use_custom_cookie_css = !empty($cookiebanner->use_custom_cookie_css ) ? $cookiebanner->use_custom_cookie_css : $this->get_default('use_custom_cookie_css');
                 $this->custom_css = !empty($cookiebanner->custom_css ) ? htmlspecialchars_decode($cookiebanner->custom_css) : $this->get_default('custom_css');
+                $this->custom_css_amp = !empty($cookiebanner->custom_css_amp ) ? htmlspecialchars_decode($cookiebanner->custom_css_amp) : $this->get_default('custom_css_amp');
 
                 //translated fields
                 $this->save_preferences_x = $this->translate($this->save_preferences, 'save_preferences');
@@ -388,6 +391,7 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             if ($this->use_custom_cookie_css){
                 $update_array['custom_css']=htmlspecialchars($this->custom_css);
+                $update_array['custom_css_amp']=htmlspecialchars($this->custom_css_amp);
             }
 
             global $wpdb;
@@ -691,7 +695,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         public function get_settings_array(){
 
             $this->dismiss_on_scroll = $this->dismiss_on_scroll ? 400 : false;
-            $this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_on_timeout : false;
+            $this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
             $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement','us');
             $privacy_link = !empty($privacy_link) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $this->readmore_privacy_x . '</a>' : '';
 
@@ -723,6 +727,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'border_color'              => $this->border_color,
                 'use_custom_cookie_css'     => $this->use_custom_cookie_css,
                 'custom_css'                => $this->sanitize_custom_css($this->custom_css),
+                'custom_css_amp'                => $this->sanitize_custom_css($this->custom_css_amp),
                 'readmore_optin'            => $this->readmore_optin_x,
                 'accept_informational'      => $this->accept_informational_x,
                 'message_optout'            => $this->message_optout_x,

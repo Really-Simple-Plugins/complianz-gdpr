@@ -95,9 +95,13 @@ if (!function_exists('cmplz_revoke_link')) {
     function cmplz_revoke_link($text = false)
     {
         $text = $text ? $text : __('Revoke cookie consent', 'complianz-gdpr');
-        $text = apply_filters('cmplz_revoke_button_text', $text);
-        $css = '<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>';
-        $html = $css.'<button class="cc-revoke-custom">' . $text . '</button>&nbsp;<span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Accepted", 'complianz-gdpr')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Denied", 'complianz-gdpr')) . '</span>';
+	    $html = "";
+        //if (!cmplz_is_amp()){
+	        $text = apply_filters('cmplz_revoke_button_text', $text);
+	        $css = '<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>';
+	        $html = $css.'<button class="cc-revoke-custom">' . $text . '</button>&nbsp;<span class="cmplz-status-accepted">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Accepted", 'complianz-gdpr')) . '</span><span class="cmplz-status-denied">' . sprintf(__('Current status: %s', 'complianz-gdpr'), __("Denied", 'complianz-gdpr')) . '</span>';
+        //}
+        
         return apply_filters('cmplz_revoke_link', $html);
     }
 }
@@ -297,6 +301,20 @@ if (!function_exists('cmplz_get_region_for_country')) {
 
         return false;
     }
+}
+
+
+if (!function_exists('cmplz_get_consenttype_for_country')) {
+
+	function cmplz_get_consenttype_for_country($country_code)
+	{
+		$regions = COMPLIANZ()->config->regions;
+		foreach ($regions as $region_code => $region) {
+			if (in_array($country_code, $region['countries'])) return $region['type'];
+		}
+
+		return false;
+	}
 }
 
 
@@ -601,6 +619,15 @@ if (!function_exists('cmplz_cookie_warning_required_stats')) {
     }
 }
 
+if (!function_exists('cmplz_consent_anonymous_stats_question')) {
+
+    function cmplz_consent_anonymous_stats_question()
+    {
+        $uses_google = COMPLIANZ()->cookie_admin->uses_google_analytics() || COMPLIANZ()->cookie_admin->uses_google_tagmanager();
+        return $uses_google && cmplz_get_value('eu_consent_regions') === 'yes' && COMPLIANZ()->cookie_admin->statistics_privacy_friendly();
+    }
+}
+
 if (!function_exists('cmplz_accepted_processing_agreement')) {
     function cmplz_accepted_processing_agreement()
     {
@@ -882,6 +909,43 @@ if (!function_exists('cmplz_array_filter_multidimensional')) {
         return $new;
     }
 }
+
+if (!function_exists('cmplz_is_amp')){
+    /**
+     * Check if we're on AMP
+     * @return bool
+     */
+    function cmplz_is_amp(){
+
+	    $amp_on = false;
+        if (function_exists('ampforwp_is_amp_endpoint') ) {
+            $amp_on = ampforwp_is_amp_endpoint();
+        }
+        if ( function_exists('is_amp_endpoint') || isset($_GET['amp'])) {
+	        $amp_on = is_amp_endpoint();
+        }
+
+        if ($amp_on){
+	        $amp_on = cmplz_amp_integration_active();
+        }
+
+	    return $amp_on;
+    }
+}
+
+if (!function_exists('cmplz_amp_integration_active')){
+    /**
+     * Check if AMP integration is active
+     * @return bool
+     */
+    function cmplz_amp_integration_active(){
+	    return cmplz_is_integration_enabled('amp');
+    }
+}
+
+
+
+
 
 if (!function_exists('cmplz_allowed_html')) {
     function cmplz_allowed_html()
@@ -1411,7 +1475,7 @@ if (!function_exists('cmplz_consenttype_nicename')) {
     function cmplz_consenttype_nicename($consenttype){
         switch ($consenttype) {
             case 'optinstats':
-                return __('Opt-in settings (UK)','complianz-gdpr');
+                return __('Opt-in settings','complianz-gdpr');
             case 'optin':
                 return __('Opt-in settings','complianz-gdpr');
             case 'optout':
@@ -1433,6 +1497,7 @@ if (!function_exists('cmplz_get_consenttype_for_region')) {
      */
     function cmplz_get_consenttype_for_region($region)
     {
+        
         //fallback
         if (!isset(COMPLIANZ()->config->regions[$region]['type'])) {
             return 'optin';
@@ -1441,6 +1506,44 @@ if (!function_exists('cmplz_get_consenttype_for_region')) {
         return COMPLIANZ()->config->regions[$region]['type'];
     }
 }
+
+if (!function_exists('cmplz_uses_consenttype')) {
+    /**
+     * Check if a specific consenttype is used
+     * @param string $consenttype
+     * @param string $region
+     * @return bool $uses_consenttype
+     */
+    function cmplz_uses_consenttype($check_consenttype, $region=false)
+    {
+	    if ($region){
+		    //get consenttype for region
+		    $consenttype = cmplz_get_consenttype_for_region($region);
+		    if ($consenttype===$check_consenttype) return true;
+	    } else {
+		    //check if any region has a consenttype $check_consenttype
+		    $regions = cmplz_get_regions(false);
+		    foreach ($regions as $region=>$label){
+			    $consenttype = cmplz_get_consenttype_for_region($region);
+			    if ($consenttype===$check_consenttype) return true;
+		    }
+	    }
+	    return false;
+    }
+}
+
+if (!function_exists('cmplz_get_document_extension')) {
+	/**
+	 * Get document extension for a region
+	 * @param string $region
+	 * @return string $extension
+	 */
+	function cmplz_get_document_extension($region)
+	{
+		return COMPLIANZ()->config->regions[$region]['documents'];
+	}
+}
+
 if (!function_exists('cmplz_get_default_banner_id')) {
 
     /**

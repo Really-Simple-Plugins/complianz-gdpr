@@ -99,7 +99,7 @@ $this->fields = $this->fields + array(
             'translatable' => true,
             'table' => true,
             'label' => __("Blocked content text", 'complianz-gdpr'),
-            'default' => _x('Click to accept cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),
+            'default' => _x('Click to accept all cookies and enable this content','Accept cookies on blocked content','complianz-gdpr'),
             'help' => __('The blocked content text appears when for example a Youtube video is embedded. Because Youtube places cookie which require consent, the video will be blocked initially, with an explanatory text.','complianz-gdpr'),
             'condition' => array(
                 'disable_cookie_block' => false,
@@ -174,6 +174,15 @@ $this->fields = $this->fields + array(
             'label' => __("Reset settings", 'complianz-gdpr'),
             'table' => true,
             'help' => __('This will reset all settings to defaults. All data in the Complianz plugin will be deleted', 'complianz-gdpr'),
+        ),
+
+        'clear_data_on_uninstall' => array(
+	        'source' => 'settings',
+	        'type' => 'checkbox',
+	        'label' => __("Clear all data from Complianz on uninstall", 'complianz-gdpr'),
+	        'default' => false,
+	        'help' => __('Enabling this option will delete all your settings, and the Complianz tables when you deactivate and remove Complianz.','complianz-gdpr'),
+	        'table' => true,
         ),
 
 

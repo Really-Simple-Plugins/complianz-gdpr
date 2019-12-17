@@ -177,51 +177,59 @@ jQuery(document).ready(function($) {
             $(this).remove();
         });
 
+
+
         //iframes and video's
         $('.cmplz-iframe').each(function (i, obj) {
-            //we get the closest, not the parent, because a script could have inserted a div in the meantime.
-            var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
-
-            /**
-             * It would be preferable to move the classes removal to after the activation of the source
-             * For a more fluid transform. But this seems to cause issues on some sites
-             */
-            //remove the added classes
-            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-            blockedContentContainer.removeClass('cmplz-blocked-content-container');
-            $(this).removeClass('cmplz-iframe-styles');
-
-            //in some cases the videowrap gets added to the iframe
-            $(this).removeClass( 'video-wrap');
-            //activate the video.
             var src = $(this).data('src-cmplz');
+
             //check if there's an autoplay value we need to pass on
             var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
             if (autoplay==='1') src = src+'&autoplay=1';
-            $(this).attr('src', src);
+            $(this).load(function() {
+                //fitvids integration, a.o. Beaverbuilder
+                if ( typeof $(this).parent().fitVids == 'function' ) {
+                  $(this).parent().fitVids();
+                }
 
-            //fitvids integration, a.o. Beaverbuilder
-            if ( typeof $(this).parent().fitVids == 'function' ) {
-                $(this).parent().fitVids();
-            }
+                $(this).removeClass('cmplz-iframe-styles');
+
+                //in some cases the videowrap gets added to the iframe
+                $(this).removeClass( 'video-wrap');
+                $(this).removeClass( 'cmplz-hidden');
+
+                //remove placeholder element class to prevent this frame from being parsed in the next step
+                $(this).removeClass( 'cmplz-placeholder-element');
+
+                //we get the closest, not the parent, because a script could have inserted a div in the meantime.
+                var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
+                //now remove the added classes
+                var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+                //$(this).fadeIn("slow", function() {
+                    blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+                    blockedContentContainer.removeClass('cmplz-blocked-content-container');
+                //});
+
+            }).attr('src',src);
+
         });
 
-        //other services, no iframe, with placeholders
+        // //other services, no iframe, with placeholders
         $('.cmplz-placeholder-element').each(function (i, obj) {
-            var blockedContentContainer = $(this);
-            //remove the added classes
-            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-            blockedContentContainer.removeClass('cmplz-blocked-content-container');
-            $(this).removeClass('cmplz-placeholder-element');
 
-            //in some cases the videowrap gets added to the iframe
-            $(this).removeClass( 'video-wrap');
-
-            //activate the video.
+            //activate the script.
             var src = $(this).data('src-cmplz');
-            $(this).attr('src', src);
+            $(this).load(function() {
+                var blockedContentContainer = $(this);
+                //remove the added classes
+                var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+                blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+                blockedContentContainer.removeClass('cmplz-blocked-content-container');
+                //in some cases the videowrap gets added to the iframe
+                $(this).removeClass('video-wrap');
+                $(this).removeClass('cmplz-hidden');
+
+            }).attr('src',src);
         });
 
         //first, create list of waiting scripts
@@ -869,7 +877,9 @@ jQuery(document).ready(function($) {
             } else {
                 cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
                 complianz_track_status('functional');
-                ccName.close();
+
+                //When there's no cookie banner (other consent regions) ccName is empty.
+                if (typeof ccName !== 'undefined') ccName.close();
 
                 $('.cc-revoke').fadeIn();
             }
@@ -1028,7 +1038,7 @@ jQuery(document).ready(function($) {
                     cmplzRunTmEvent('cmplz_event_' + i);
                 }
             }
-        }else if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
+        } else if (all || ($('#cmplz_stats').length && $('#cmplz_stats').is(":checked"))) {
             complianz_enable_stats();
         }
 
@@ -1198,6 +1208,19 @@ jQuery(document).ready(function($) {
     function cmplzMaybeAutoRedirect(){
         var redirect = cmplzGetUrlParameter(window.location.href,'cmplz_region_redirect');
         var region = cmplzGetUrlParameter(window.location.href,'region');
+        //check if we have a URL that could use a region redirect
+        // if ($('a.cmplz-region-redirect').length){
+        //     $('a.cmplz-region-redirect').each(function(){
+        //         var src = $(this).attr('src');
+        //         var append = '?';
+        //         if (src.indexOf('?')!==-1){
+        //             append = '&';
+        //         }
+        //         append += 'region='+complianz.region;
+        //         $(this).attr('src', src+append);
+        //     });
+        // }
+
         if (redirect && !region){
             window.location.href = window.location.href+'&region='+complianz.region;
         }

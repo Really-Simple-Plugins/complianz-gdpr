@@ -78,21 +78,29 @@ if (!class_exists("cmplz_document_core")) {
 
                     $value = cmplz_get_value($condition_question, false, false, $use_default=false);
                     $invert = false;
-                    if (strpos($condition_answer, 'NOT ')!==FALSE) {
+                    if (!is_array($condition_answer) && strpos($condition_answer, 'NOT ')!==FALSE) {
                         $condition_answer = str_replace('NOT ', '', $condition_answer);
                         $invert = true;
                     }
 
-                    if (is_array($value)) {
+                    $condition_answer = is_array($condition_answer) ? $condition_answer : array($condition_answer);
+                    foreach($condition_answer as $answer_item){
+	                    if (is_array($value)) {
+		                    if (!isset($value[$answer_item]) || !$value[$answer_item]) {
+			                    $condition_met = false;
+		                    } else {
+			                    $condition_met =true;
+		                    }
 
-                        if (!isset($value[$condition_answer]) || !$value[$condition_answer]) {
-                            $condition_met = false;
-                        } else {
-                            $condition_met =true;
-                        }
+	                    } else {
+		                    $condition_met = ($value == $answer_item);
+	                    }
 
-                    } else {
-                        $condition_met = ($value == $condition_answer);
+	                    //if one condition is met, we break with this condition, so it will return true.
+	                    if ($condition_met) {
+		                    break;
+	                    }
+
                     }
 
                     //if one condition is not met, we break with this condition, so it will return false.
@@ -262,7 +270,6 @@ if (!class_exists("cmplz_document_core")) {
 
                             $loop_section = $element['content'];
                             foreach ($fieldnames as $c_fieldname) {
-
                                 $field_value = (isset($value[$c_fieldname])) ? $value[$c_fieldname] : '';
                                 if (!empty($field_value) && is_array($field_value)) $field_value = implode(', ', $field_value);
 
@@ -319,7 +326,8 @@ if (!class_exists("cmplz_document_core")) {
             if (isset($element['title'])) {
                 if (empty($element['title'])) return "";
                 if ($paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph;
-                return '<h3>' . cmplz_esc_html($nr) . ' ' . cmplz_esc_html($element['title']) . '</h3>';
+                $index_char = apply_filters('cmplz_index_char', '.');
+                return '<h3>' . cmplz_esc_html($nr) . $index_char.' ' . cmplz_esc_html($element['title']) . '</h3>';
             }
 
             if (isset($element['subtitle'])) {

@@ -36,8 +36,24 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
         public function filter_buffer($buffer)
         {
-            $buffer = $this->replace_tags($buffer);
+            if (cmplz_is_amp()){
+                $buffer = $this->replace_for_amp($buffer);
+
+            } else {
+                $buffer = $this->replace_tags($buffer);
+
+            }
             return $buffer;
+        }
+
+        public function replace_for_amp($output){
+            $amp_tags = COMPLIANZ()->config->amp_tags;
+
+            $amp_tags = apply_filters('cmplz_amp_tags', $amp_tags);
+            foreach($amp_tags as $amp_tag){
+                $output = str_replace('<'.$amp_tag, '<'.$amp_tag.' data-block-on-consent ', $output);
+            }
+            return $output;
         }
 
         /**
@@ -287,6 +303,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                 foreach($matches[1] as $key => $script_open){
                     //we don't block scripts with the cmplz-native class
                     if (strpos($script_open,'cmplz-native')!==FALSE) continue;
+
                     //exclude ld+json
                     if (strpos($script_open,'application/ld+json')!==FALSE) continue;
                     $total_match = $matches[0][$key];
@@ -299,13 +316,18 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         if ($found !== false) {
                             $new = $total_match;
-                            $new = $this->add_class($new, 'script', apply_filters('cmplz_script_class','cmplz-script', $total_match, $found));
-                            $new = $this->set_javascript_to_plain($new);
 
-                            $waitfor = $this->strpos_arr($content, $dependencies);
-                            if ($waitfor !== false) {
-                                $new = $this->add_data($new, 'script', 'waitfor', $waitfor);
-                            }
+                            $new = $this->add_class($new, 'script', apply_filters('cmplz_script_class','cmplz-script', $total_match, $found));
+
+	                        //native scripts don't have to be blocked
+	                        if (strpos($new,'cmplz-native')===FALSE) {
+		                        $new = $this->set_javascript_to_plain( $new );
+
+		                        $waitfor = $this->strpos_arr( $content, $dependencies );
+		                        if ( $waitfor !== false ) {
+			                        $new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
+		                        }
+	                        }
                             $output = str_replace($total_match, $new, $output);
                         }
                     }
@@ -322,21 +344,25 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                             if ($found !== false){
                                 $new = $total_match;
                                 $new = $this->add_class($new, 'script', apply_filters('cmplz_script_class','cmplz-script', $total_match, $found));
-                                $new = $this->set_javascript_to_plain($new);
 
-                                if ($this->strpos_arr($found, $async_list)){
-                                    $index ++;
-                                    $new = $this->add_data($new, 'script', 'post_scribe_id', 'cmplz-ps-'.$index);
-                                    if (cmplz_has_async_documentwrite_scripts()) {
-                                        $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'.apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text')).'</div><div id="cmplz-ps-' . $index . '"><img src="'.cmplz_placeholder('div').'"></div></div>';
-                                    }
-                                }
+                                //native scripts don't have to be blocked
+	                            if (strpos($new,'cmplz-native')===FALSE) {
+		                            $new = $this->set_javascript_to_plain( $new );
 
-                                //maybe add dependency
-                                $waitfor = $this->strpos_arr($script_src, $dependencies);
-                                if ($waitfor !== false) {
-                                    $new = $this->add_data($new, 'script', 'waitfor', $waitfor);
-                                }
+		                            if ( $this->strpos_arr( $found, $async_list ) ) {
+			                            $index ++;
+			                            $new = $this->add_data( $new, 'script', 'post_scribe_id', 'cmplz-ps-' . $index );
+			                            if ( cmplz_has_async_documentwrite_scripts() ) {
+				                            $new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">' . apply_filters( 'cmplz_accept_cookies_blocked_content', cmplz_get_value( 'blocked_content_text' ) ) . '</div><div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder( 'div' ) . '"></div></div>';
+			                            }
+		                            }
+
+		                            //maybe add dependency
+		                            $waitfor = $this->strpos_arr( $script_src, $dependencies );
+		                            if ( $waitfor !== false ) {
+			                            $new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
+		                            }
+	                            }
 
                                 $output = str_replace($total_match, $new, $output);
                             }

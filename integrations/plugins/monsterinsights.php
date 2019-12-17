@@ -32,7 +32,7 @@ add_action('init', 'cmplz_monsterinsights_remove_actions');
  */
 function cmplz_monsterinsights_show_compile_statistics_notice($args)
 {
-    cmplz_notice(__("You use MonsterInsights, which means the answer to this question should be Google Analytics.", 'complianz-gdpr'));
+    cmplz_notice(sprintf(__("You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr'), 'Monsterinsights'));
 }
 add_action('cmplz_notice_compile_statistics', 'cmplz_monsterinsights_show_compile_statistics_notice', 10, 1);
 

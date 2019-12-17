@@ -149,7 +149,7 @@ if (!class_exists("cmplz_document")) {
             if (isset($_GET['page'])){
                 $page = sanitize_title($_GET['page']);
                 foreach($regions as $region => $label){
-                    if (strpos($page, '-'.$region)!==false){
+                    if (strpos($page, '-'.cmplz_get_document_extension($region))!==false){
                         return $region;
                     }
                 }
@@ -272,7 +272,9 @@ if (!class_exists("cmplz_document")) {
         {
             //this shortcode is also available as gutenberg block
             add_shortcode('cmplz-document', array($this, 'load_document'));
+
             add_shortcode('cmplz-cookies', array($this, 'cookies'));
+
 
             /*
              * @todo add a gutenberg block for the revoke link and DNSMPD form
@@ -308,35 +310,6 @@ if (!class_exists("cmplz_document")) {
 
 
         }
-
-
-	    /**
-	     * Render shortcode for cookie list
-	     *
-	     * @hooked shortcode hook
-	     * @param array $atts
-	     * @param null $content
-	     * @param string $tag
-	     * @return false|string
-	     * @since 2.0
-	     */
-
-	    public function cookies($atts = [], $content = null, $tag = '')
-	    {
-
-		    // normalize attribute keys, lowercase
-		    $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-		    ob_start();
-
-		    // override default attributes with user attributes
-		    $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-		    echo cmplz_used_cookies();
-
-		    return ob_get_clean();
-
-	    }
 
         public function add_meta_box($post_type)
         {
@@ -529,6 +502,36 @@ if (!class_exists("cmplz_document")) {
             return ob_get_clean();
 
         }
+
+
+
+	    /**
+	     * Render shortcode for cookie list
+	     *
+	     * @hooked shortcode hook
+	     * @param array $atts
+	     * @param null $content
+	     * @param string $tag
+	     * @return false|string
+	     * @since 2.0
+	     */
+
+	    public function cookies($atts = [], $content = null, $tag = '')
+	    {
+
+		    // normalize attribute keys, lowercase
+		    $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+		    ob_start();
+
+		    // override default attributes with user attributes
+		    $atts = shortcode_atts(['text' => false,], $atts, $tag);
+
+		    echo cmplz_used_cookies();
+
+		    return ob_get_clean();
+
+	    }
 
         /**
          *
@@ -1016,7 +1019,6 @@ if (!class_exists("cmplz_document")) {
                     if (cmplz_uses_gutenberg() && has_block($block, $page)){
                         //check if block contains property
 
-
                         if (preg_match('/"selectedDocument":"(.*?)"/i', $html, $matches)) {
                             if ($matches[1]===$type) {
                                 set_transient('cmplz_shortcode_' . $type, $page->ID, HOUR_IN_SECONDS);
@@ -1087,6 +1089,8 @@ if (!class_exists("cmplz_document")) {
 
             if (!cmplz_has_region($region)) return '';
 
+	        $region = cmplz_get_document_extension($region);
+
             $region = ($region == 'eu' || !$region) ? '' : '-' . $region;
 
             if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
@@ -1121,6 +1125,7 @@ if (!class_exists("cmplz_document")) {
 
             $regions = cmplz_get_regions();
             foreach($regions as $region => $label){
+                $region = cmplz_get_document_extension($region);
                 $region = ($region==='eu') ? '' : "-$region";
                 $banner_id = cmplz_get_default_banner_id();
                 $banner = new CMPLZ_COOKIEBANNER($banner_id);
@@ -1277,7 +1282,7 @@ if (!class_exists("cmplz_document")) {
 
             // Save the pages to a file
             if ($save_to_file){
-                $file_title = $save_dir.get_bloginfo('name').'-' .$region. "-proof-of-consent-" . sanitize_title($date);
+                $file_title = $save_dir.get_bloginfo('name').'-' .cmplz_get_document_extension($region). "-proof-of-consent-" . sanitize_title($date);
             } else{
                 $file_title = get_bloginfo('name') . "-export-" . sanitize_title($date);
             }

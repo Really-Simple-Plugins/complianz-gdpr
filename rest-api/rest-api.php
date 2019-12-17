@@ -13,6 +13,7 @@ function cmplz_documents_rest_route()
         'methods' => 'GET',
         'callback' => 'cmplz_documents_api',
     ));
+
 }
 
 function cmplz_documents_api(WP_REST_Request $request)
@@ -32,3 +33,4 @@ function cmplz_documents_api(WP_REST_Request $request)
     }
     return $output;
 }
+

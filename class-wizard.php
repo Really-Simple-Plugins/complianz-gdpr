@@ -201,7 +201,6 @@ if (!class_exists("cmplz_wizard")) {
             //only run when changes have been made
             if ($fieldvalue === $prev_value) return;
 
-
             $enable_categories = false;
             $tm_fires_scripts = cmplz_get_value('fire_scripts_in_tagmanager') === 'yes' ? true : false;
             $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
@@ -210,6 +209,11 @@ if (!class_exists("cmplz_wizard")) {
             if (($fieldname ==='fire_scripts_in_tagmanager') && $uses_tagmanager && $tm_fires_scripts) {
                 $enable_categories = true;
             }
+
+	        /* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
+	        if (($fieldname ==='consent_for_anonymous_stats') && $fieldvalue==='yes') {
+		        $enable_categories = true;
+	        }
 
             //when ab testing is just enabled icw TM, cats should be enabled for each banner.
             if (($fieldname == 'a_b_testing' && $fieldvalue===true && $prev_value==false) ){
@@ -845,10 +849,11 @@ if (!class_exists("cmplz_wizard")) {
         }
 
         public function get_page($post_id=false){
+            $page = false;
             if ($post_id) {
                 $region = COMPLIANZ()->document->get_region($post_id);
                 $post_type = get_post_type($post_id);
-                $page = str_replace('cmplz-','',$post_type).'-'.$region;
+                $page = str_replace('cmplz-','',$post_type).'-'.cmplz_get_document_extension($region);
             }
             if (isset($_GET['page'])) {
                 $page = str_replace('cmplz-', '', sanitize_title($_GET['page']));

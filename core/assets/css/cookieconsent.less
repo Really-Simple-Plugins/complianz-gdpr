@@ -45,6 +45,16 @@
 .wpgmza-gdpr-compliance {
   text-align:center;
 }
+
+//hide placeholder video
+.cmplz-video.cmplz-hidden{
+  visibility: hidden;
+}
+//prevent theme's from hiding the placeholder image with a background color
+.cmplz-video.cmplz-iframe-styles {
+  background-color:transparent;
+}
+
 .cmplz-blocked-content-container{
 
   iframe {
@@ -52,14 +62,7 @@
     border:0 !important;
   }
   div div {display:none}
-  //hide placeholder video
-  .cmplz-video.cmplz-hidden{
-    visibility: hidden;
-  }
-  //prevent theme's from hiding the placeholder image with a background color
-  .cmplz-video.cmplz-iframe-styles {
-    background-color:transparent;
-  }
+
 
   background: #FFF;
   border: 0;
@@ -178,15 +181,12 @@ Make sue the text stays within the banne
   box-shadow: 0 0 10px rgba(0, 0, 0, .4)
 }
 
-label {
+.cc-window label {
+  color:inherit;
   &.cc-check {
     display: inline-block;
     padding-bottom: 4px;
   }
-}
-
-.cc-window label {
-  color:inherit;
 }
 .cc-check,
 .cc-check svg {

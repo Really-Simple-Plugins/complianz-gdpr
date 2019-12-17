@@ -377,4 +377,15 @@ $this->fields = $this->fields + array(
             'condition' => array('use_custom_cookie_css' => true),
         ),
 
+        'custom_css_amp' => array(
+	        'source' => 'CMPLZ_COOKIEBANNER',
+	        'step' => 'general',
+	        'type' => 'css',
+	        'label' => __("Custom CSS for AMP", 'complianz-gdpr'),
+	        'default' => '#cmplz-consent-ui, #cmplz-post-consent-ui {} /* styles for entire banner */' . "\n" . '#cmplz-consent-ui .cmplz-consent-message {} /* styles for the message area */' . "\n" . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {} /* styles for the buttons */',
+	        'table' => true,
+	        'condition' => array('use_custom_cookie_css' => true),
+	        'callback_condition' => 'cmplz_amp_integration_active',
+        ),
+
     );

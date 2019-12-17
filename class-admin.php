@@ -680,6 +680,7 @@ if (!class_exists("cmplz_admin")) {
 
                     if (isset($page['condition']['regions'])) {
                         $region = $page['condition']['regions'];
+                        $region = is_array($region) ? reset($region) : $region;
                         $img = '<img width="25px" src="' . cmplz_url . '/core/assets/images/' . $region . '.png">';
                     }
                     $link = '<a href="' . get_permalink(COMPLIANZ()->document->get_shortcode_page_id($type)) . '">' . $page['title'] . '</a>';
@@ -935,14 +936,16 @@ if (!class_exists("cmplz_admin")) {
                             <?php
 
                             $regions = cmplz_get_regions();
-                            $labels = array();
-                            foreach ($regions as $region => $label) {
-                                if (!isset(COMPLIANZ()->config->regions[$region]['label'])) continue;
-                                $labels[] = COMPLIANZ()->config->regions[$region]['label'];
-                            }
-                            $labels = implode('/', $labels);
-                            $this->get_dashboard_element(sprintf(__('Your site is configured for the %s.', 'complianz-gdpr'), $labels), 'success');
 
+                            if (count($regions)>0) {
+	                            $labels = array();
+	                            foreach ($regions as $region => $label) {
+		                            if (!isset(COMPLIANZ()->config->regions[$region]['label'])) continue;
+		                            $labels[] = COMPLIANZ()->config->regions[$region]['label'];
+	                            }
+	                            $labels = implode( '/', $labels );
+	                            $this->get_dashboard_element( sprintf( __( 'Your site is configured for the %s.', 'complianz-gdpr' ), $labels ), 'success' );
+                            }
 
                             do_action('cmplz_dashboard_elements_success');
 
