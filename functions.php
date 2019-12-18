@@ -623,8 +623,10 @@ if (!function_exists('cmplz_consent_anonymous_stats_question')) {
 
     function cmplz_consent_anonymous_stats_question()
     {
+        if (!cmplz_has_region('eu')) return false;
+
         $uses_google = COMPLIANZ()->cookie_admin->uses_google_analytics() || COMPLIANZ()->cookie_admin->uses_google_tagmanager();
-        return $uses_google && cmplz_get_value('eu_consent_regions') === 'yes' && COMPLIANZ()->cookie_admin->statistics_privacy_friendly();
+        return $uses_google && (cmplz_get_value('eu_consent_regions') === 'yes') && COMPLIANZ()->cookie_admin->statistics_privacy_friendly();
     }
 }
 

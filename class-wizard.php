@@ -258,8 +258,7 @@ if (!class_exists("cmplz_wizard")) {
             /*
              * if the targeting of california is changed, we rewrite the corresponding page title and slug.
             */
-
-            if ($fieldname == 'california'){
+            if ($fieldname == 'california' || $fieldname == 'purpose_personaldata'){
                 add_action( 'shutdown', function() use ( $fieldvalue ) {cmplz_update_cookie_policy_title($fieldvalue );}, 12);
                 do_action('cmplz_update_us_cookie_policy_title', $fieldvalue);
             }

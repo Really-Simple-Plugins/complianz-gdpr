@@ -152,7 +152,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
             //not meant as a "real" URL pattern, just a loose match for URL type strings.
             //edit: instagram uses ;width, so we need to allow ; as well.
-            $url_pattern = '([\w.,;@?^=%&:\/~+#!\-*]*?)';
+            $url_pattern = '([\w.,;@?^=%&:()\/~+#!\-*]*?)';
 
             /*
              * Handle scripts loaded with dns prefetch
