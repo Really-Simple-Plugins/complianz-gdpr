@@ -197,7 +197,6 @@ if (!class_exists("cmplz_wizard")) {
         {
             update_option('cmplz_documents_update_date', time());
 
-
             //only run when changes have been made
             if ($fieldvalue === $prev_value) return;
 
@@ -255,14 +254,6 @@ if (!class_exists("cmplz_wizard")) {
                 update_option('cmplz_generate_new_cookiepolicy_snapshot',true);
             }
 
-            /*
-             * if the targeting of california is changed, we rewrite the corresponding page title and slug.
-            */
-            if ($fieldname == 'california' || $fieldname == 'purpose_personaldata'){
-                add_action( 'shutdown', function() use ( $fieldvalue ) {cmplz_update_cookie_policy_title($fieldvalue );}, 12);
-                do_action('cmplz_update_us_cookie_policy_title', $fieldvalue);
-            }
-
             //when the brand color is saved, update the cookie settings
             //only if same as default color.
             if ($fieldname == 'brand_color' && !empty($fieldvalue)){
@@ -290,6 +281,12 @@ if (!class_exists("cmplz_wizard")) {
          * */
 
         public function after_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type){
+
+	        if ($fieldname == 'california' || $fieldname == 'purpose_personaldata'){
+		        add_action( 'shutdown', 'cmplz_update_cookie_policy_title', 12);
+		        do_action('cmplz_update_us_cookie_policy_title');
+	        }
+
             if ($fieldname==='children-safe-harbor' && cmplz_get_value('targets-children')==='no'){
                 cmplz_update_option('wizard', 'children-safe-harbor', 'no');
             }

@@ -1300,10 +1300,11 @@ if (!function_exists('cmplz_us_cookie_statement_title')) {
      * @since 2.0.6
      */
 
-    function cmplz_us_cookie_statement_title($california = false)
+    function cmplz_us_cookie_statement_title()
     {
-        if (!$california) $california = cmplz_get_value('california');
-        if ($california === 'yes') {
+        $california = cmplz_get_value('california');
+
+        if ($california === 'yes' && COMPLIANZ()->company->sells_personal_data()) {
             $title = "Do Not Sell My Personal Information";
         } else {
             $title = "Cookie Policy (US)";
@@ -1337,11 +1338,11 @@ if (!function_exists('cmplz_update_cookie_policy_title')) {
      * @param string $fieldvalue
      * $return void
      */
-    function cmplz_update_cookie_policy_title($fieldvalue)
+    function cmplz_update_cookie_policy_title()
     {
         //get page id of US cookie policy
         $page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement-us');
-        $title = cmplz_us_cookie_statement_title($fieldvalue);
+        $title = cmplz_us_cookie_statement_title();
         $post = array(
             'ID' => intval($page_id),
             'post_title' => $title,

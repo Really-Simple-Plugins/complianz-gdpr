@@ -283,7 +283,8 @@ if (!class_exists("cmplz_config")) {
             'amp-soundcloud',
             'amp-vimeo',
             'amp-youtube',
-                // Social.
+	        'amp-iframe',
+	        // Social.
             'amp-addthis',
             'amp-beopinion',
             'amp-facebook-comments',
