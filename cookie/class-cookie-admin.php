@@ -2930,9 +2930,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 		 */
 
         public function statistics_privacy_friendly(){
-	        if (cmplz_get_value('uses_cookies') !== 'yes') {
-		        return true;
-	        }
+            //we don't check for cookies being used here, when needed this is checked separately, and this could
+            //cause issues when this function is checked before the "uses_cookies" question is asked
 
 	        $statistics = cmplz_get_value('compile_statistics');
 
