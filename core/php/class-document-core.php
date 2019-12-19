@@ -10,7 +10,7 @@ if (!class_exists("cmplz_document_core")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
+	            wp_die(sprintf('%s is a singleton class and you cannot create a second instance.', get_class($this)));
 
             self::$_this = $this;
 
@@ -429,7 +429,8 @@ if (!class_exists("cmplz_document_core")) {
             $html = str_replace('[cookie-statement-us-title]', $cookie_policy_title, $html);
 
             $date = $post_id ? get_the_date('', $post_id) : get_option('cmplz_publish_date');
-            $date = cmplz_localize_date($date);
+
+	        $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", cmplz_esc_html($date), $html);
 
             $html = str_replace("[sync_date]", cmplz_esc_html(COMPLIANZ()->cookie_admin->get_last_cookie_sync_date()), $html);

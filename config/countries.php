@@ -33,9 +33,6 @@ $this->eu_countries = array(
     "SE",
 );
 
-$this->eu_optin_countries = $this->eu_countries;
-unset($this->eu_optin_countries["DE"]);
-
 $this->regions = array(
     'us' => array(
         'label' => __('US', 'complianz-gdpr'),

@@ -6,7 +6,7 @@ $this->pages = array(
         'title' => __("Cookie policy (EU)", 'complianz-gdpr'),
         'public' => true,
         'condition' => array(
-            'regions' => array('eu','de'),
+            'regions' => 'eu',
             'cookie-policy-type' => 'default',
         ),
     ),
