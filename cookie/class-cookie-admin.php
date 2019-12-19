@@ -13,7 +13,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         function __construct()
         {
             if (isset(self::$_this))
-                wp_die(sprintf(__('%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr'), get_class($this)));
+	            wp_die(sprintf('%s is a singleton class and you cannot create a second instance.', get_class($this)));
 
             self::$_this = $this;
 	        add_action('wp_enqueue_scripts', array($this, 'maybe_enqueue_jquery'));
@@ -2377,7 +2377,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             update_option('cmplz_publish_date', $date);
 
             //also reset the email notification, so it will get sent next year.
-            update_option('cmplz_publish_date', false);
+	        update_option('cmplz_update_legal_documents_mail_sent', false);
         }
 
 

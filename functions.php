@@ -249,10 +249,11 @@ if (!function_exists('cmplz_has_region')) {
 
     function cmplz_has_region($code)
     {
-        $regions = cmplz_get_regions(false);
+	    $regions = cmplz_get_regions(false);
         if (isset($regions[$code])) {
             return true;
         }
+
         return false;
     }
 }
