@@ -1,0 +1,108 @@
+<?php
+defined('ABSPATH') or die("you do not have acces to this page!");
+
+/**
+ * Set analytics as suggested stats tool in the wizard
+ */
+add_filter('cmplz_default_value', 'cmplz_gtm4wp_set_default', 20, 2);
+function cmplz_gtm4wp_set_default($value, $fieldname)
+{
+    if ($fieldname == 'compile_statistics') {
+        return "google-tag-manager";
+    }
+    return $value;
+}
+
+/**
+ * Remove notice
+ *
+ * */
+
+function cmplz_gtm4wp_remove_actions()
+{
+    remove_action('cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10);
+}
+
+add_action('init', 'cmplz_gtm4wp_remove_actions');
+
+/**
+ * Add notice to tell a user to choose Analytics
+ * @param $args
+ */
+function cmplz_gtm4wp_show_compile_statistics_notice($args)
+{
+	cmplz_notice(sprintf(__("You use %s, which means the answer to this question should be Google Tag Manager.", 'complianz-gdpr'), 'Google Tag Manager for WordPress'));
+}
+add_action('cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statistics_notice', 10, 1);
+
+
+add_action('admin_init',  'cmplz_gtm4wp_options');
+function cmplz_gtm4wp_options(){
+	$storedoptions = (array) get_option( GTM4WP_OPTIONS );
+	$save = false;
+
+	if (cmplz_no_ip_addresses() && $storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP]) {
+		$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP] = false;
+		$save=true;
+	} elseif (!cmplz_no_ip_addresses() && !!$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP]) {
+		$save=true;
+		$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP] = true;
+	}
+
+	//handle sharing of data
+	if (cmplz_statistics_no_sharing_allowed() && $storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING]) {
+		$save=true;
+		$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING] = false;
+
+	} elseif (!cmplz_statistics_no_sharing_allowed() && !$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING]) {
+		$save=true;
+		$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING] = true;
+	}
+
+	if ($save) update_option(GTM4WP_OPTIONS, $storedoptions);
+}
+
+/**
+ * Make sure there's no warning about configuring GA anymore
+ * @param $warnings
+ * @return mixed
+ */
+
+function cmplz_gtm4wp_filter_warnings($warnings)
+{
+    if (($key = array_search('gtm-needs-configuring', $warnings)) !== false) {
+        unset($warnings[$key]);
+    }
+    return $warnings;
+}
+add_filter('cmplz_warnings', 'cmplz_gtm4wp_filter_warnings');
+
+/**
+ * Hide the stats configuration options when gtm4wp is enabled.
+ * @param $fields
+ * @return mixed
+ */
+
+function cmplz_gtm4wp_filter_fields($fields)
+{
+    unset($fields['configuration_by_complianz']);
+    unset($fields['GTM_code']);
+
+    return $fields;
+}
+add_filter('cmplz_fields', 'cmplz_gtm4wp_filter_fields', 20, 1);
+
+
+/**
+ * Tell the user the consequences of choices made
+ */
+function cmplz_gadwp_compile_statistics_more_info_notice()
+{
+	if (cmplz_no_ip_addresses()) {
+		cmplz_notice(sprintf(__("You have selected you anonymize IP addresses. This setting is now enabled in %s.", 'complianz-gdpr'),'Google Tag Manager for WordPress'));
+	}
+	if (cmplz_statistics_no_sharing_allowed()) {
+		cmplz_notice(sprintf(__("You have selected you do not share data with third party networks. Remarketing is now disabled in %s.", 'complianz-gdpr'), 'Google Tag Manager for WordPress'));
+	}
+}
+add_action('cmplz_notice_compile_statistics_more_info', 'cmplz_gadwp_compile_statistics_more_info_notice');

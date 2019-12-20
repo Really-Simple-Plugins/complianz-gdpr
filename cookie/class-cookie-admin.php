@@ -1438,9 +1438,14 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_statistics_script_classes(){
             //if a cookie warning is needed for the stats we don't add a native class, so it will be disabled by the cookie blocker by default
             $classes[] = 'cmplz-stats';
+	        $uses_tagmanager = cmplz_get_value('compile_statistics') === 'google-tag-manager' ? true : false;
 
-            //if no cookie warning is needed for the stats specifically, we can move this out of the warning code by adding the native class
-            if ($this->tagmamanager_fires_scripts() || !$this->cookie_warning_required_stats()) $classes[] = 'cmplz-native';
+	        if ($uses_tagmanager){
+		        if (!$this->tagmamanager_fires_scripts() && !$this->cookie_warning_required_stats()) $classes[] = 'cmplz-native';
+            } else {
+		        //if no cookie warning is needed for the stats specifically, we can move this out of the warning code by adding the native class
+		        if (!$this->cookie_warning_required_stats()) $classes[] = 'cmplz-native';
+	        }
 
             return apply_filters('cmplz_statistics_script_classes',$classes);
         }
@@ -1456,15 +1461,11 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 
         public function add_script_classes_for_stats($class, $match, $found){
-	        $stats_tags = array(
-                'google-analytics.com/ga.js',
-                'googletagmanager.com/gtag/js',
-                'gtm.js',
-                'www.google-analytics.com/analytics.js',
-            );
-
-            if (in_array($found, $stats_tags) ){
-                $class = $class." ".implode(" ",$this->get_statistics_script_classes());
+            $stats_tags = COMPLIANZ()->config->stats_markers;
+            foreach($stats_tags as $type => $markers){
+                if (in_array($found, $markers)){
+	                $class = $class." ".implode(" ",$this->get_statistics_script_classes());
+                }
             }
 
             return $class;
