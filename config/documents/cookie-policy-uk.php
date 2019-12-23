@@ -18,7 +18,7 @@ $this->document_elements['cookie-statement-uk'] = array(
         'content' => 'A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
     ),
     'what-is-a-webbeacon' => array(
-        'title' => 'What is a webbeacon?',
+        'title' => 'What is a web beacon?',
         'content' => 'A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.',
         'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),

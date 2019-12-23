@@ -12,6 +12,10 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'constant_or_function' => 'AMP__VERSION',
         'label' => 'AMP (official AMP plugin for WordPress)',
     ),
+    'beehive' => array(
+	    'constant_or_function' => 'BEEHIVE_PRO',
+	    'label' => 'Beehive',
+    ),
     'pixelyoursite' => array(
         'constant_or_function' => 'PYS_FREE_VERSION',
         'label' => 'PixelYourSite',
@@ -23,6 +27,11 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'contact-form-7' => array(
         'constant_or_function' => 'WPCF7_VERSION',
         'label' => 'Contact Form 7',
+    ),
+
+    'google-tagmanager-for-wordpress' => array(
+        'constant_or_function' => 'GTM4WP_VERSION',
+        'label' => 'Google Tag Manager for WordPress',
     ),
     'monsterinsights' => array(
         'constant_or_function' => 'MonsterInsights',
@@ -104,9 +113,9 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         ),
     ),
 
-    'beehive' => array(
-        'constant_or_function' => 'BEEHIVE_PRO',
-        'label' => 'Beehive',
+    'wp-rocket' => array(
+	    'constant_or_function' => 'WP_ROCKET_VERSION',
+	    'label' => 'WP Rocket',
     ),
 
     'forminator' => array(

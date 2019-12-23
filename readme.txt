@@ -1,4 +1,4 @@
-=== Complianz | GDPR Cookie Consent ===
+=== Complianz | GDPR/CCPA Cookie Consent ===
 Contributors: RogierLankhorst, Complianz
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, Legal Documents, Cookie Policy, Opt-in
@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.3
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PECR.
 
@@ -41,11 +41,11 @@ Complianz is a GDPR Cookie Consent plugin that supports GDPR, DSGVO, CCPA and mo
 
 Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
-IMPORTANT! Complianz | GDPR Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
+IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
 = Cookiedatabase.org API Privacy & Terms =
 
-Complianz connects with Cookiedatabase.org to collect and synchronize the most recent descriptions for cookies and related services. After consent in Complianz | GDPR Cookie Consent,  Cookiedatabase.org will collect your domain, cookies (descriptions) and used plugins for the sole purpose of researching and moderating cookies and related services. For more information, please check our [privacy statement](https://cookiedatabase.org/privacy-statement). Cookiedatabase.org is an open-source, community-driven cookie database founded by Complianz.io. [Terms of Use CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+Complianz connects with Cookiedatabase.org to collect and synchronize the most recent descriptions for cookies and related services. After consent in Complianz | GDPR/CCPA Cookie Consent,  Cookiedatabase.org will collect your domain, cookies (descriptions) and used plugins for the sole purpose of researching and moderating cookies and related services. For more information, please check our [privacy statement](https://cookiedatabase.org/privacy-statement). Cookiedatabase.org is an open-source, community-driven cookie database founded by Complianz.io. [Terms of Use CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 = Love Complianz? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
@@ -67,7 +67,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/)
 
-[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR Cookie Consent is developed by [Complianz BV] (https://complianz.io).
+[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz BV] (https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”.
@@ -82,7 +82,7 @@ Complianz maintains a continuously growing knowledgebase about GDPR, CCPA and CO
 = Is my website GDPR, COPPA, CCPA, DSGVO, AVG, UK-GDPR, PECR compliant with this plugin? =
 We cannot guarantee GDPR/COPPA/CCPA/UK-GDPR/PECR compliance for your website.
 = When do I need a Cookie Notice? =
-Complianz | GDPR Cookie Consent will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes. For the United Kingdom explicit consent for statistics is required, even when IP addresses have been anonymized.
+Complianz | GDPR/CCPA Cookie Consent will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes. For the United Kingdom explicit consent for statistics is required, even when IP addresses have been anonymized.
 Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
 Not always. The Complianz Privacy Suite Premium plugin can determine if you need this, based on your answers. It mainly depends on the type of information you request.
@@ -105,6 +105,8 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.1.2 =
+
 = 4.1.1 =
 * Fix: multiple regions not processed correctly by cmplz_has_region() function
 

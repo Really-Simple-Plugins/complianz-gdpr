@@ -494,6 +494,7 @@ $this->fields = $this->fields + array(
             'help' => __("You can configure Hotjar privacy-friendly, if you do this, no consent is required for Hotjar.", 'complianz-gdpr').$this->read_more('https://complianz.io/configuring-hotjar-for-gdpr/'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             'condition' => array('thirdparty_services_on_site' => 'hotjar'),
+            'callback_condition' => array('consent_for_anonymous_stats'=>'NOT yes'),
         ),
 
         'uses_social_media' => array(

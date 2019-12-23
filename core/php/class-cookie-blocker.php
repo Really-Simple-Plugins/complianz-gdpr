@@ -255,7 +255,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         if (!cmplz_get_value('dont_use_placeholders') && strpos($iframe_src,'like.php')===false) {
                             $new = $this->add_class($new, 'iframe', " cmplz-placeholder-element ");
                             $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
-                            //make sure there is a parent element which contains this time only, to attach the placeholder to
+
+                            //allow for integrations to override html
+                            $new = apply_filters('cmplz_iframe_html', $new);
+
+                            //make sure there is a parent element which contains this iframe only, to attach the placeholder to
                             if (!$this->is_video($iframe_src) && !$this->no_div($iframe_src)) $new = '<div>'.$new.'</div>';
                         }
 
@@ -483,7 +487,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
          * @return string $html
          */
 
-        private function add_data($html, $el, $id, $content){
+        public function add_data($html, $el, $id, $content){
             $content = esc_attr($content);
             $id = esc_attr($id);
 

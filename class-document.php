@@ -122,7 +122,7 @@ if (!class_exists("cmplz_document")) {
             );
 
             wp_add_privacy_policy_content(
-                'Complianz | GDPR Cookie Consent',
+                'Complianz | GDPR/CCPA Cookie Consent',
                 wp_kses_post(wpautop($content, false))
             );
         }
