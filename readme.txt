@@ -119,7 +119,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: when no region was selected, a string with empty region could appear in the dashboard.
 * Tweak: dismiss the upgrade notice even when no changes are detected.
 * Tweak: improved review notice
-* Twea: higher treshold for dashboard notifications
+* Tweak: higher treshold for dashboard notifications
 * Tweak: remove "unknown privacy link"
 * Tweak: no need to opt in to cookiedatabase.org when no cookies
 * Tweak: dedicated shortcode [cmplz-cookies] to enable users to inlude the cookies list only
