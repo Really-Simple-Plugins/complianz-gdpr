@@ -11,7 +11,7 @@ Stable tag: 4.1.2
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PECR.
 
 == Description ==
-Complianz is a GDPR Cookie Consent plugin that supports GDPR, DSGVO, CCPA and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
+Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA and more with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 == Features ==
 * Configure for your specific region: European Union, United Kingdom or United States.
@@ -51,7 +51,7 @@ Complianz connects with Cookiedatabase.org to collect and synchronize the most r
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 == Premium features ==
-* Select both USA, UK and EU as target regions with conditional Consent and Cookie Banners.
+* Select both USA, UK and EU as target regions with conditional Consent and dedicated Cookie Banners.
 * Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 * All Legal Documents: Customized and legally validated privacy statements (EU, UK & US), cookie policy (EU, UK & US), disclaimer, processing agreements (EU, UK & US) , dataleak reporting tools, created and updated by a dedicated law firm
@@ -61,7 +61,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * UK-GDPR / PECR and ICO Guidelines - Privacy Policy and other legal documents.
 * Respects Do Not Track settings in users browsers.
 * Multilanguage support for the cookie notice and legal documents.
-* 6 Default languages. English, Dutch, French, Italian, Spanish and German
+* 7 Default languages. English, Dutch, French, Italian, Spanish, Norwegian and German
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
@@ -108,7 +108,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 4.1.2 =
 * Tweak: When consent on anonymous statistics is enabled for Germany,  Hotjar anonymous version should also require consent
 * Fix: add space in "web beacon"
-* Improvement: Google Tag Manager for WordPress integration
 * Tweak: No lazy loading for WP Rocket iframes
 * Tweak: offer option to show link to cookiedatabase.org for cookies and services
 * Fix: database error on new install because cookies were checked before table was initialized on first activation.
