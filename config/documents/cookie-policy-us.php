@@ -46,11 +46,7 @@ $this->document_elements['cookie-statement-us'] = array(
     array(
         'content' =>'You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.',
     ),
-    array(
-        'title' => 'Third parties',
-        'content' => 'We have made agreements about the use of cookies with other companies that place cookies. However, we cannot guarantee that these third parties handle your personal data in a reliable or secure manner. Parties such as Google are to be considered as independent data controllers. We recommend that you read the privacy statements of these companies.',
-        'callback_condition' => 'cmplz_third_party_cookies_active',
-    ),
+
     array(
         'title' => 'Cookies',
     ),

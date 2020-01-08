@@ -245,6 +245,12 @@ if (!class_exists("cmplz_cookie_admin")) {
             $services = $this->get_services_options($cookie->service, $language);
             $cookiePurposes = $this->get_cookiePurpose_options($cookie->purpose, $language);
 
+	        $link = '';
+	        if (cmplz_get_value('use_cdb_links')==='yes' && strlen($cookie->slug)!==0){
+		        $service_slug  = (strlen($cookie->service)===0) ? 'unknown-service' : $cookie->service;
+		        $link = '<a target="_blank" href="https://cookiedatabase.org/cookie/'.$service_slug.'/'.$cookie->slug.'">'.__("View cookie on cookiedatabase.org", "complianz-gdpr").'</a>';
+	        }
+
             $cookie_html = str_replace(
                 array(
                     '{cookie_id}',
@@ -261,6 +267,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{showOnPolicy}',
                     '{syncDisabled}',
                     "{syncDisabledClass}",
+                    "{link}",
                 ),
                 array(
                     $cookie->ID,
@@ -277,6 +284,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $showOnPolicy,
 	                $syncDisabled,
 	                $syncDisabledClass,
+	                $link,
                 ),
                 $tmpl);
 
@@ -396,6 +404,11 @@ if (!class_exists("cmplz_cookie_admin")) {
             $disabledClass = $sync ? 'cmplz-disabled' : false;
             $sync = $sync ? 'checked="checked"' : '';
 
+	        $link = '';
+	        if (cmplz_get_value('use_cdb_links')==='yes' && strlen($service->slug)!==0 && $service->slug !== 'unknown-service' ){
+		        $link = '<a target="_blank" href="https://cookiedatabase.org/service/'.$service->slug.'">'.__("View service on cookiedatabase.org", "complianz-gdpr").'</a>';
+	        }
+
             $sharesData = $service->sharesData==1 ? 'checked="checked"' : '';
             $service_html = str_replace(
                 array(
@@ -410,6 +423,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     '{showOnPolicy}',
                     '{syncDisabled}',
 	                "{syncDisabledClass}",
+	                "{link}",
                 ),
                 array(
                     $service->ID,
@@ -423,6 +437,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     $service->showOnPolicy,
 	                $syncDisabled,
 	                $syncDisabledClass,
+	                $link,
                 ),
                 $tmpl);
             $icons = '';
@@ -710,7 +725,6 @@ if (!class_exists("cmplz_cookie_admin")) {
                 //make sure we have an en cookie
                 if (isset($result->en)) {
                     $cookies = $result->en;
-
                     $isTranslationFrom = array();
                     foreach ($cookies as $original_cookie_name => $cookie_object) {
                         if (!isset($cookie_object->name)) {
@@ -728,7 +742,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $cookie->service = $cookie_object->service;
                         $cookie->ignored = $cookie_object->ignore;
                         $cookie->unique = $cookie_object->unique;
-                        $cookie->lastUpdatedDate = time();
+	                    $cookie->slug   = $cookie_object->slug;
+
+	                    $cookie->lastUpdatedDate = time();
                         $cookie->save();
                         $isTranslationFrom[$cookie->name] = $cookie->ID;
                     }
@@ -751,6 +767,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 			                $cookie->isPersonalData        = $cookie_object->isPersonalData;
 			                $cookie->isMembersOnly         = $cookie_object->isMembersOnly;
 			                $cookie->service               = $cookie_object->service;
+			                $cookie->slug                   = $cookie_object->slug;
 
 			                $cookie->ignored         = $cookie_object->ignore;
 			                $cookie->unique          = $cookie_object->unique;
@@ -904,7 +921,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             if (!$error) {
                 $result = json_decode($result);
-
                 //cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
                 //on updates it will still match.
 	            if (isset($result->error)) {
@@ -940,6 +956,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service->secondParty = $service_object->secondParty;
                         $service->thirdParty = $service_object->sharesData && !$service_object->secondParty; //won't get saved, but for next part of code.
                         $service->serviceType = $service_object->serviceType;
+                        $service->slug = $service_object->slug;
+
 	                    $service->lastUpdatedDate = time();
 
 	                    $service->save();
@@ -974,6 +992,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $service->sharesData = $service_object->sharesData;
                         $service->secondParty = $service_object->secondParty;
                         $service->serviceType = $service_object->serviceType;
+	                    $service->slug = $service_object->slug;
 	                    $service->lastUpdatedDate = time();
 
                         //when there's no 'en' service, create one.
@@ -1145,6 +1164,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                 <?php
                 if (isset($_POST['cmplz_generate_snapshot'])){
                     cmplz_notice(__("Proof of consent updated!", "complianz-gdpr"), 'success', true);
+                }
+                if (isset($_POST['cmplz_generate_snapshot_error'])){
+                    cmplz_notice(__("Proof of consent generation failed. Check your write permissions in the uploads directory", "complianz-gdpr"), 'warning');
                 }
                 ?>
 
@@ -2121,7 +2143,12 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function get_cookies($settings = array()){
             global $wpdb;
-            $defaults = array(
+	        $result = $wpdb->query("SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'");
+	        if (empty($result)) {
+		        return array();
+	        }
+
+	        $defaults = array(
                 'ignored' => 'all',
                 'new' => false,
                 'language' => false,
@@ -3022,9 +3049,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             foreach ($cookies as $cookie) {
                 $cookie_service = sanitize_title($cookie->service);
 	            $has_optinstats = cmplz_uses_consenttype('optinstats');
-                if (!$has_optinstats) {
-                    if ($cookie_service === 'google-analytics') continue;
-                    if ($cookie_service === 'matomo') continue;
+	            if ($cookie_service === 'google-analytics' || $cookie_service === 'matomo'){
+	                if ($has_optinstats) return true;
+		            if (!$this->statistics_privacy_friendly()) return true;
                 }
 
                 if (!strtolower($cookie->purpose) == 'functional') {

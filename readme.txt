@@ -106,6 +106,25 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.1.2 =
+* Tweak: When consent on anonymous statistics is enabled for Germany,  Hotjar anonymous version should also require consent
+* Fix: add space in "web beacon"
+* Improvement: Google Tag Manager for WordPress integration
+* Tweak: No lazy loading for WP Rocket iframes
+* Tweak: offer option to show link to cookiedatabase.org for cookies and services
+* Fix: database error on new install because cookies were checked before table was initialized on first activation.
+* Tweak: Wp Forms recaptcha integration
+* Tweak: Mappress integration
+* Fix: placeholder activation for non iframes not working correctly
+* Fix: typo in privacy policies
+* Tweak: removed some obsolete statements in privacy policies
+* Tweak: changed blocked content notice in "accept marketing cookies"
+* Tweak: added OSM plugin open streetmaps support
+* Fix: is_amp_endpoint function check
+* Tweak: moved css to separate plugin integrations
+* Tweak: JetPack twitter integration
+* Tweak: improved notice when uploads folder not writable
+* Tweak: improved non functional and functional cookies check
+* Fix: cron was wrapped in logged in check, preventing the cron from running
 
 = 4.1.1 =
 * Fix: multiple regions not processed correctly by cmplz_has_region() function

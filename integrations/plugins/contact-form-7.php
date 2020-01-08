@@ -9,7 +9,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
  */
 function cmplz_contactform7_errormessage( $message, $status  ) {
     if ($status==='spam'){
-        $accept_text = apply_filters('cmplz_accept_cookies_contactform7',__('Click to accept cookies and enable this form','complianz-gdpr'));
+        $accept_text = apply_filters('cmplz_accept_cookies_contactform7',__('Click to accept marketing cookies and enable this form','complianz-gdpr'));
         $message = '<div class="cmplz-blocked-content-notice cmplz-accept-cookies"><a href="#">'.$accept_text.'</a></div>';
     }
     return $message;

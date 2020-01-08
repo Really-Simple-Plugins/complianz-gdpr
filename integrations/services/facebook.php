@@ -22,3 +22,18 @@ function cmplz_facebook_iframetags($tags){
 
     return $tags;
 }
+
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_facebook_css');
+function cmplz_facebook_css(){
+	?>
+	<style>
+		.cmplz-placeholder-element>blockquote.fb-xfbml-parse-ignore {
+			margin: 0 20px;
+		}
+	</style>
+	<?php
+};

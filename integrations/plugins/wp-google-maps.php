@@ -22,6 +22,20 @@ function cmplz_wp_google_maps_replace_gdpr_notice($html){
 }
 add_filter('wpgmza_gdpr_notice_html', 'cmplz_wp_google_maps_replace_gdpr_notice');
 
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_mapppress_css');
+function cmplz_mapppress_css(){
+	?>
+	<style>
+		.wpgmza-gdpr-compliance {
+			text-align:center;
+		}
+	</style>
+	<?php
+};
 
 /**
  * Force the GDPR option to be enabled

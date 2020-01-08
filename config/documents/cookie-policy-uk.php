@@ -38,11 +38,7 @@ $this->document_elements['cookie-statement-uk'] = array(
             'cmplz_eu_site_needs_cookie_warning',
         )
     ),
-    'third-party' => array(
-        'title' => 'Third parties',
-        'content' => 'We have made agreements about the use of cookies with other companies that place cookies. However, we cannot guarantee that these third parties handle your personal data in a reliable or secure manner. Parties such as Google are to be considered as independent data controllers within the meaning of the United Kingdom-GDPR. We recommend that you read the privacy statements of these companies.',
-        'callback_condition' => 'cmplz_third_party_cookies_active',
-    ),
+
     'cookies' => array(
         'title' => 'Cookies',
     ),

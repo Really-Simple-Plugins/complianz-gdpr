@@ -35,3 +35,18 @@ function cmplz_instagram_asynclist($tags){
 
     return $tags;
 }
+
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_instagram_css');
+function cmplz_instagram_css(){
+	?>
+	<style>
+		.instagram-media.cmplz-placeholder-element>div{
+			max-width:100%;
+		}
+	</style>
+	<?php
+};

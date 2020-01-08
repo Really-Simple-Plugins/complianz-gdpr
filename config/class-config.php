@@ -174,7 +174,7 @@ if (!class_exists("cmplz_config")) {
         public $social_media_markers = array(
             "linkedin" => array("platform.linkedin.com", 'addthis_widget.js'),
             "twitter" => array('super-socializer', 'sumoSiteId', 'addthis_widget.js', "platform.twitter.com", 'twitter-widgets.js'),
-            "facebook" => array('super-socializer', 'sumoSiteId', 'addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins', 'pixel-caffeine'),
+            "facebook" => array('fbq','super-socializer', 'sumoSiteId', 'addthis_widget.js', "fb-root", "<!-- Facebook Pixel Code -->", 'connect.facebook.net', 'www.facebook.com/plugins', 'pixel-caffeine'),
             "pinterest" => array('super-socializer', 'assets.pinterest.com'),
             "disqus" => array('disqus.com'),
             "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
@@ -188,7 +188,7 @@ if (!class_exists("cmplz_config")) {
         public $thirdparty_service_markers = array(
             "google-maps" => array('new google.maps.', 'google.com/maps', 'maps.google.com', 'wp-google-maps'),
             "soundcloud" => array('w.soundcloud.com/player'),
-            "openstreetmaps" => array('openstreetmap.org'),
+            "openstreetmaps" => array('openstreetmap.org', 'osm/js/osm'),
             "vimeo" => array('player.vimeo.com'),
             "google-recaptcha" => array('google.com/recaptcha'),
             "youtube" => array('youtube.com'),

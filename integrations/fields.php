@@ -25,7 +25,7 @@ function cmplz_filter_integration_fields($fields)
                 $plugin_fields[$plugin]['callback_condition'] = $details['callback_condition'];
             }
 
-            if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function']))){
+            if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function']) || class_exists($details['constant_or_function']))){
                 $plugin_fields[$plugin]['disabled'] = false;
                 $plugin_fields[$plugin]['default'] = true;
                 $enabled_plugin_fields[$plugin] = $plugin_fields[$plugin];

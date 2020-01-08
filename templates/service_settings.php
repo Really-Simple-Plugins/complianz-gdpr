@@ -39,6 +39,9 @@
             <?php _e('Sync service info with cookiedatabase.org', 'complianz-gdpr') ?>
         </label>
     </div>
+    <div>
+        {link}
+    </div>
 
     <button class="button cmplz-edit-item" type="button" data-action="save" data-type="service" name="cmplz-save-item" ><?php _e('Save','complianz-gdpr')?></button>
 

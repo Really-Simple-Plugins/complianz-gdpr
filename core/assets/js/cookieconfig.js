@@ -205,31 +205,27 @@ jQuery(document).ready(function($) {
                 var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
                 //now remove the added classes
                 var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-                //$(this).fadeIn("slow", function() {
-                    blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-                    blockedContentContainer.removeClass('cmplz-blocked-content-container');
-                //});
+                blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+                blockedContentContainer.removeClass('cmplz-blocked-content-container');
 
             }).attr('src',src);
 
         });
 
-        // //other services, no iframe, with placeholders
+        // other services, no iframe, with placeholders
         $('.cmplz-placeholder-element').each(function (i, obj) {
-
             //activate the script.
             var src = $(this).data('src-cmplz');
-            $(this).load(function() {
-                var blockedContentContainer = $(this);
-                //remove the added classes
-                var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-                blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
-                blockedContentContainer.removeClass('cmplz-blocked-content-container');
-                //in some cases the videowrap gets added to the iframe
-                $(this).removeClass('video-wrap');
-                $(this).removeClass('cmplz-hidden');
+            var blockedContentContainer = $(this);
 
-            }).attr('src',src);
+            blockedContentContainer.attr('src',src);
+            //remove the added classes
+            var cssIndex = blockedContentContainer.data('placeholderClassIndex');
+            blockedContentContainer.removeClass('cmplz-placeholder-'+cssIndex);
+            blockedContentContainer.removeClass('cmplz-blocked-content-container');
+            //in some cases the videowrap gets added to the iframe
+            $(this).removeClass('video-wrap');
+            $(this).removeClass('cmplz-hidden');
         });
 
         //first, create list of waiting scripts

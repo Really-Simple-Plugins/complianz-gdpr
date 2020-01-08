@@ -924,7 +924,8 @@ if (!function_exists('cmplz_is_amp')){
         if (function_exists('ampforwp_is_amp_endpoint') ) {
             $amp_on = ampforwp_is_amp_endpoint();
         }
-        if ( function_exists('is_amp_endpoint') || isset($_GET['amp'])) {
+        
+        if ( function_exists('is_amp_endpoint')) {
 	        $amp_on = is_amp_endpoint();
         }
 
@@ -1181,7 +1182,14 @@ if (!function_exists('cmplz_used_cookies')){
 
 	            foreach ($service_cookies as $cookie){
                     $has_empty_cookies = $has_empty_cookies || strlen($cookie->retention)==0;
-                    $cookieHTML .= str_replace(array('{name}','{retention}', '{cookieFunction}'), array($cookie->name,$cookie->retention, ucfirst($cookie->cookieFunction)), $cookies_row);
+		            $link_open = $link_close ='';
+
+		            if (cmplz_get_value('use_cdb_links')==='yes' && strlen($cookie->slug)!==0){
+		                $service_slug  = (strlen($service->slug)===0) ? 'unknown-service' : $service->slug;
+			            $link_open = '<a target="_blank" rel="nofollow" href="https://cookiedatabase.org/cookie/'.$service_slug.'/'.$cookie->slug.'">';
+			            $link_close = '</a>';
+		            }
+                    $cookieHTML .= str_replace(array('{name}','{retention}', '{cookieFunction}', '{link_open}', '{link_close}'), array($cookie->name,$cookie->retention, ucfirst($cookie->cookieFunction), $link_open, $link_close), $cookies_row);
                 }
             }
 
@@ -1197,6 +1205,13 @@ if (!function_exists('cmplz_used_cookies')){
                 $sharing = __('This data is not shared with third parties.','complianz-gdpr');
             }
             $purposeDescription = ((strlen($service_name)>0) && (strlen($service->serviceType)>0)) ? sprintf(_x("We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr'),$service_name, $service->serviceType) : '';
+
+	        if (cmplz_get_value('use_cdb_links')==='yes' && strlen($service->slug)!==0 && $service->slug !== 'unknown-service'){
+		        $link_open = '<a target="_blank" rel="nofollow" href="https://cookiedatabase.org/service/'.$service->slug.'">';
+		        $link_close = '</a>';
+		        $purposeDescription .= ' '.$link_open.__('Read more', "complianz-gdpr").$link_close;
+	        }
+
             $servicesHTML .= str_replace(array('{service}','{sharing}','{purposeDescription}','{cookies}'), array($service_name, $sharing, $purposeDescription, $cookieHTML), $services_template);
         }
 
@@ -1544,7 +1559,7 @@ if (!function_exists('cmplz_get_document_extension')) {
 	 */
 	function cmplz_get_document_extension($region)
 	{
-		return COMPLIANZ()->config->regions[$region]['documents'];
+		return isset(COMPLIANZ()->config->regions[$region]['documents']) ? COMPLIANZ()->config->regions[$region]['documents'] : 'eu';
 	}
 }
 
