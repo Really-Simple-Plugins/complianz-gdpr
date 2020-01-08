@@ -746,7 +746,7 @@ if (!class_exists("cmplz_admin")) {
         {
             ?>
             <div class="cmplz-documents-bottom cmplz-dashboard-text">
-                <div class="cmplz-dashboard-title"><?php _e("Like Complianz | GDPR/CCPA cookie consent?", 'complianz-gdpr') ?></div>
+                <div class="cmplz-dashboard-title"><?php _e("Like Complianz | GDPR/CCPA Cookie Consent?", 'complianz-gdpr') ?></div>
                 <div>
                     <?php _e("Then you'll like the premium plugin even more! With: ", 'complianz-gdpr'); ?>
                     <?php _e('A/B testing', 'complianz-gdpr') ?> -

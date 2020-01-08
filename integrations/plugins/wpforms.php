@@ -73,3 +73,19 @@ function cmplz_wpforms_add_consent_checkbox($form_id)
 }
 
 add_action("cmplz_add_consent_box_wpforms", 'cmplz_wpforms_add_consent_checkbox');
+
+
+
+add_action('wp_footer', 'cmplz_wpforms_css');
+function cmplz_wpforms_css(){
+	?>
+	<style>
+		.wpforms-recaptcha-container {
+			position:relative!important;
+		}
+		div.wpforms-container-full .wpforms-form .cmplz-accept-cookies {
+			background: grey;
+		}
+	</style>
+	<?php
+};

@@ -76,7 +76,7 @@ function cmplz_uses_thirdparty_services_notice(){
             $thirdparties[$key] = COMPLIANZ()->config->thirdparty_services[$thirdparty];
         }
         $thirdparties = implode(', ', $thirdparties);
-        cmplz_notice(sprintf(__("The scan found third party services for %s on your site, which means the answer should be yes", 'complianz-gdpr'), $thirdparties));
+        cmplz_notice(sprintf(__("The scan found third party services on your website: %s, this means the answer should be yes.", 'complianz-gdpr'), $thirdparties));
     }
 }
 

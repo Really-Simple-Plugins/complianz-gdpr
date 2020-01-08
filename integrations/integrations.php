@@ -34,10 +34,10 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'label' => 'Official Facebook Pixel',
     ),
 
-    'google-tagmanager-for-wordpress' => array(
-        'constant_or_function' => 'GTM4WP_VERSION',
-        'label' => 'Google Tag Manager for WordPress',
-    ),
+//    'google-tagmanager-for-wordpress' => array(
+//        'constant_or_function' => 'GTM4WP_VERSION',
+//        'label' => 'Google Tag Manager for WordPress',
+//    ),
 
     'jetpack' => array(
 	    'constant_or_function' => 'JETPACK__VERSION',
