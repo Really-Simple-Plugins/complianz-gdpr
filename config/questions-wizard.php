@@ -454,6 +454,19 @@ $this->fields = $this->fields + array(
 	        'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
 
+        'use_cdb_links' => array(
+	        'step' => STEP_COOKIES,
+	        'section' => 4,
+	        'source' => 'wizard',
+	        'type' => 'radio',
+	        'required' => false,
+	        'default' => '',
+	        'options' => $this->yes_no,
+	        'condition' => array('use_cdb_api' => 'yes'),
+	        'label' => __("Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org? These links will be added with a nofollow attribute so it won't hurt SEO.", 'complianz-gdpr'),
+	        'time' => CMPLZ_MINUTES_PER_QUESTION,
+        ),
+
         'uses_thirdparty_services' => array(
             'step' => STEP_COOKIES,
             'section' => 4,

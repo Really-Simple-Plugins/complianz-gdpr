@@ -276,18 +276,6 @@
 .cc-floating.cc-theme-edgeless .cc-btn + .cc-btn {
   margin-left: 0;
 }
-/*
-  to get the instagram placeholders to display the contents nicely, we apply some styling.
-*/
-.instagram-media.cmplz-placeholder-element > div {
-  max-width: 100%;
-}
-.twitter-tweet.cmplz-blocked-content-container {
-  padding: 10px 40px;
-}
-.cmplz-placeholder-element > blockquote.fb-xfbml-parse-ignore {
-  margin: 0 20px;
-}
 .cmplz-soft-cookiewall {
   position: fixed;
   width: 100%;
@@ -310,9 +298,6 @@
 }
 .cmplz-clear-padding:before {
   padding-top: 0 !important;
-}
-.wpgmza-gdpr-compliance {
-  text-align: center;
 }
 .cmplz-video.cmplz-hidden {
   visibility: hidden;

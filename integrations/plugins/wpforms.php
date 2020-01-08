@@ -17,9 +17,25 @@ function cmplz_wpforms_get_plugin_forms($input_forms)
 
     return $input_forms;
 }
-
 add_filter('cmplz_get_forms', 'cmplz_wpforms_get_plugin_forms', 10, 1);
 
+
+/**
+ * Conditionally add the dependency from the CF 7 inline script to the .js file
+ */
+
+add_filter('cmplz_dependencies', 'cmplz_wpforms_dependencies');
+function cmplz_wpforms_dependencies($tags){
+
+	$site_key   = wpforms_setting( 'recaptcha-site-key', '' );
+	$secret_key = wpforms_setting( 'recaptcha-secret-key', '' );
+
+	if ( !empty( $site_key ) && !empty( $secret_key ) ) {
+		$tags['recaptcha/api.js'] = 'grecaptcha';
+	}
+
+	return $tags;
+}
 
 function cmplz_wpforms_add_consent_checkbox($form_id)
 {

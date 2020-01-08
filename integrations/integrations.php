@@ -1,6 +1,7 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
 require_once('forms.php');
+
 global $cmplz_integrations_list;
 $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     //user registration plugin
@@ -28,14 +29,29 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
         'constant_or_function' => 'WPCF7_VERSION',
         'label' => 'Contact Form 7',
     ),
+    'facebook-for-wordpress' => array(
+        'constant_or_function' => 'FacebookPixelPlugin\\FacebookForWordpress',
+        'label' => 'Official Facebook Pixel',
+    ),
 
     'google-tagmanager-for-wordpress' => array(
         'constant_or_function' => 'GTM4WP_VERSION',
         'label' => 'Google Tag Manager for WordPress',
     ),
+
+    'jetpack' => array(
+	    'constant_or_function' => 'JETPACK__VERSION',
+	    'label' => 'JetPack',
+    ),
+
     'monsterinsights' => array(
         'constant_or_function' => 'MonsterInsights',
         'label' => 'MonsterInsights',
+    ),
+
+    'mappress' => array(
+        'constant_or_function' => 'Mappress',
+        'label' => 'MapPress Maps for WordPress',
     ),
 
     'caos-host-analytics-local' => array(
@@ -107,10 +123,6 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'wpforms' => array(
         'constant_or_function' => 'wpforms',
         'label' => 'WP Forms',
-        'callback_condition' => array(
-            'privacy-statement' => 'yes',
-            'regions' => array('eu','uk'),
-        ),
     ),
 
     'wp-rocket' => array(
@@ -131,6 +143,11 @@ $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     'happyforms' => array(
         'constant_or_function' => 'HAPPYFORMS_VERSION',
         'label' => 'Happy Forms',
+    ),
+
+    'osm' => array(
+        'constant_or_function' => 'OSM_PLUGIN_URL',
+        'label' => 'OSM - OpenStreetMap',
     ),
 
     'so-widgets-bundle' => array(
@@ -203,8 +220,7 @@ function cmplz_integrations(){
     foreach($cmplz_integrations_list as $plugin => $details){
         //because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
         $enabled = isset($fields[$plugin]) ? $fields[$plugin] : true;
-
-        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function'])) && $enabled){
+        if ((defined($details['constant_or_function']) || function_exists($details['constant_or_function']) || class_exists($details['constant_or_function'])) && $enabled){
             $file = apply_filters('cmplz_integration_path', cmplz_path."integrations/plugins/$plugin.php", $plugin);
             if (file_exists($file)){
                 require_once($file);

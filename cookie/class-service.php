@@ -17,6 +17,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
         private $language;
         private $languages;
         private $complete;
+        private $slug;
 
 
         function __construct($ID=FALSE, $language='en')
@@ -97,6 +98,7 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 $this->isTranslationFrom = $service->isTranslationFrom;
                 $this->lastUpdatedDate = $service->lastUpdatedDate;
                 $this->synced = $service->lastUpdatedDate>0 ?  true : false;
+                $this->slug = $service->slug;
 
                 $this->complete = !(strlen($this->name)==0
                     || (strlen($this->privacyStatementURL)==0 && $this->sharesData)
@@ -128,6 +130,8 @@ if (!class_exists("CMPLZ_SERVICE")) {
                 'category' => sanitize_text_field($this->category),
                 'isTranslationFrom' => sanitize_text_field($this->isTranslationFrom),
                 'lastUpdatedDate' => intval($this->lastUpdatedDate),
+                'slug'                  => sanitize_title( $this->slug ),
+
             );
 
             global $wpdb;

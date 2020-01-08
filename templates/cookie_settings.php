@@ -72,6 +72,9 @@
             <?php _e('Show cookie on Cookie Policy', 'complianz-gdpr') ?>
         </label>
     </div>
+    <div>
+        {link}
+    </div>
     <button class="button cmplz-edit-item" type="button" data-action="save" data-type="cookie" name="cmplz-save-item" ><?php _e('Save','complianz-gdpr')?></button>
 
     <button class="button cmplz-edit-item" type="button" data-action="delete" data-type="cookie"

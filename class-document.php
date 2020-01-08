@@ -1171,11 +1171,9 @@ if (!class_exists("cmplz_document")) {
                 }
             }
 
-
+            $error = false;
             $uploads = wp_upload_dir();
             $upload_dir = $uploads['basedir'];
-
-
 
             $pages = COMPLIANZ()->config->pages;
 
@@ -1238,59 +1236,70 @@ if (!class_exists("cmplz_document")) {
                 update_option('cmplz_pdf_dir_token', $token);
             }
 
-            if (!is_writable($upload_dir)){
-                die($upload_dir." directory not writable");
+            if ($save_to_file && !is_writable($upload_dir)){
+                $error = true;
             }
 
-            if (!file_exists($upload_dir . '/complianz')){
-                mkdir($upload_dir . '/complianz');
-            }
-            if (!file_exists($upload_dir . '/complianz/tmp')){
-                mkdir($upload_dir . '/complianz/tmp');
-            }
-            if (!file_exists($upload_dir . '/complianz/snapshots')){
-                mkdir($upload_dir . '/complianz/snapshots');
-            }
-            $save_dir = $upload_dir . '/complianz/snapshots/';
-            $temp_dir = $upload_dir . '/complianz/tmp/' . $token;
-            if (!file_exists($temp_dir)){
-                mkdir($temp_dir);
-            }
-            $mpdf = new Mpdf\Mpdf(array(
-                'setAutoTopMargin' => 'stretch',
-                'autoMarginPadding' => 5,
-                'tempDir' => $temp_dir,
-                'margin_left' => 20,
-                'margin_right' => 20,
-                'margin_top' => 30,
-                'margin_bottom' => 30,
-                'margin_header' => 30,
-                'margin_footer' => 10,
-            ));
-
-            $mpdf->SetDisplayMode('fullpage');
-            $mpdf->SetTitle($title);
-
-            $img = '';//'<img class="center" src="" width="150px">';
-            $date = date_i18n( get_option( 'date_format' ), time()  );
-
-            $mpdf->SetHTMLHeader($img);
-            $footer_text = sprintf("%s $title $date", get_bloginfo('name'));
-
-            $mpdf->SetFooter($footer_text);
-            $mpdf->WriteHTML($html);
-
-            // Save the pages to a file
-            if ($save_to_file){
-                $file_title = $save_dir.get_bloginfo('name').'-' .cmplz_get_document_extension($region). "-proof-of-consent-" . sanitize_title($date);
-            } else{
-                $file_title = get_bloginfo('name') . "-export-" . sanitize_title($date);
+            if (!$error) {
+	            if ( ! file_exists( $upload_dir . '/complianz' ) ) {
+		            mkdir( $upload_dir . '/complianz' );
+	            }
+	            if ( ! file_exists( $upload_dir . '/complianz/tmp' ) ) {
+		            mkdir( $upload_dir . '/complianz/tmp' );
+	            }
+	            if ( ! file_exists( $upload_dir . '/complianz/snapshots' ) ) {
+		            mkdir( $upload_dir . '/complianz/snapshots' );
+	            }
+	            $save_dir = $upload_dir . '/complianz/snapshots/';
+	            $temp_dir = $upload_dir . '/complianz/tmp/' . $token;
+	            if ( ! file_exists( $temp_dir ) ) {
+		            mkdir( $temp_dir );
+	            }
             }
 
-            $output_mode = $save_to_file ? 'F' : 'I';
+            if ($save_to_file && !file_exists( $upload_dir . '/complianz/snapshots')){
+                $error = true;
+            }
 
-            $mpdf->Output($file_title . ".pdf", $output_mode);
+            if (!$error) {
+	            $mpdf = new Mpdf\Mpdf( array(
+		            'setAutoTopMargin'  => 'stretch',
+		            'autoMarginPadding' => 5,
+		            'tempDir'           => $temp_dir,
+		            'margin_left'       => 20,
+		            'margin_right'      => 20,
+		            'margin_top'        => 30,
+		            'margin_bottom'     => 30,
+		            'margin_header'     => 30,
+		            'margin_footer'     => 10,
+	            ) );
 
+	            $mpdf->SetDisplayMode( 'fullpage' );
+	            $mpdf->SetTitle( $title );
+
+	            $img  = '';//'<img class="center" src="" width="150px">';
+	            $date = date_i18n( get_option( 'date_format' ), time() );
+
+	            $mpdf->SetHTMLHeader( $img );
+	            $footer_text = sprintf( "%s $title $date", get_bloginfo( 'name' ) );
+
+	            $mpdf->SetFooter( $footer_text );
+	            $mpdf->WriteHTML( $html );
+
+	            // Save the pages to a file
+	            if ( $save_to_file ) {
+		            $file_title = $save_dir . get_bloginfo( 'name' ) . '-' . cmplz_get_document_extension( $region ) . "-proof-of-consent-" . sanitize_title( $date );
+	            } else {
+		            $file_title = get_bloginfo( 'name' ) . "-export-" . sanitize_title( $date );
+	            }
+
+	            $output_mode = $save_to_file ? 'F' : 'I';
+
+	            $mpdf->Output( $file_title . ".pdf", $output_mode );
+            } else {
+                $_POST['cmplz_generate_snapshot_error']=true;
+                unset($_POST['cmplz_generate_snapshot']);
+            }
         }
     }
 

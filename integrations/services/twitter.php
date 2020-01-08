@@ -23,3 +23,18 @@ function cmplz_twitter_iframetags($tags){
 
     return $tags;
 }
+
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_twitter_css');
+function cmplz_twitter_css(){
+	?>
+	<style>
+		.twitter-tweet.cmplz-blocked-content-container {
+			padding:10px 40px;
+		}
+	</style>
+	<?php
+};
