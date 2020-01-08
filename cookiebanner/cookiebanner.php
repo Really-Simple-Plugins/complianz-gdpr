@@ -12,7 +12,7 @@ add_action('cmplz_update_us_cookie_policy_title',  'cmplz_update_us_cookie_polic
 
 	foreach ($banners as $banner) {
 		$banner = new CMPLZ_COOKIEBANNER($banner->ID);
-		$banner->readmore_us = $title;
+		$banner->readmore_optout = $title;
 		$banner->save();
 	}
 }
