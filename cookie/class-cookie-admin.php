@@ -2842,6 +2842,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             return apply_filters('cmplz_site_needs_cookiewarning', false);
         }
 
+
         /**
          * Check if the site has third party cookies active
          *

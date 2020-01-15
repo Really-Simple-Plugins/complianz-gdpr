@@ -61,7 +61,7 @@ function cmplz_redirect_to_cookiebanner(){
     }
 }
 
-add_action('cmplz_admin_menu', 'cmplz_cookiebanner_admin_menu');
+add_action('cmplz_cookiebanner_menu', 'cmplz_cookiebanner_admin_menu');
 function cmplz_cookiebanner_admin_menu()
 {
     if (!cmplz_user_can_manage()) return;

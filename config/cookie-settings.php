@@ -311,14 +311,13 @@ $this->fields = $this->fields + array(
             'label' => __("Text on link to privacy statement", 'complianz-gdpr'),
             'table' => true,
             'callback_condition' => 'cmplz_uses_optout',
-
         ),
 
         'popup_background_color' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
-            'default' => '#37a8de',
+            'default' => '#29b6f6',
             'label' => __("Popup background color", 'complianz-gdpr'),
             'table' => true,
         ),
@@ -344,7 +343,7 @@ $this->fields = $this->fields + array(
             'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'general',
             'type' => 'colorpicker',
-            'default' => '#37a8de',
+            'default' => '#29b6f6',
             'label' => __("Button text color", 'complianz-gdpr'),
             'table' => true,
         ),
