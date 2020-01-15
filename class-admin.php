@@ -525,7 +525,10 @@ if (!class_exists("cmplz_admin")) {
                 array($this, 'wizard_page')
             );
 
-            add_submenu_page(
+	        do_action('cmplz_cookiebanner_menu');
+
+
+	        add_submenu_page(
                 'complianz',
                 __('Integrations', 'complianz-gdpr'),
                 __('Integrations', 'complianz-gdpr'),
@@ -1046,19 +1049,19 @@ if (!class_exists("cmplz_admin")) {
 
         public function script_center()
         {
-            $active_tab = 'scripts';
+            $active_tab = 'services';
             if (isset($_POST['cmplz_save_integrations_type'])) {
                 $active_tab = sanitize_title($_POST['cmplz_save_integrations_type']);
             }
                 ?>
             <div class="wrap cmplz-settings cmplz-scriptcenter" >
                     <div class="cmplz-tab">
-                        <button class="cmplz-tablinks <?php echo $active_tab==='scripts'? 'active' : ''?>" type="button"
-                                data-tab="scripts"><?php _e("Script Center", 'complianz-gdpr') ?></button>
-                        <button class="cmplz-tablinks <?php echo $active_tab==='plugins'? 'active' : ''?>" type="button"
-                                data-tab="plugins"><?php _e("Plugins", "complianz-gdpr") ?></button>
                         <button class="cmplz-tablinks <?php echo $active_tab==='services'? 'active' : ''?>" type="button"
                                 data-tab="services"><?php _e("Services", "complianz-gdpr") ?></button>
+                        <button class="cmplz-tablinks <?php echo $active_tab==='plugins'? 'active' : ''?>" type="button"
+                                data-tab="plugins"><?php _e("Plugins", "complianz-gdpr") ?></button>
+                        <button class="cmplz-tablinks <?php echo $active_tab==='scripts'? 'active' : ''?>" type="button"
+                                data-tab="scripts"><?php _e("Script Center", 'complianz-gdpr') ?></button>
 
                     </div>
                     <div id="scripts" class="cmplz-tabcontent <?php echo $active_tab==='scripts'? 'active' : ''?>">
@@ -1080,7 +1083,9 @@ if (!class_exists("cmplz_admin")) {
                                 </td>
                             </tr>
                         </table>
-                        <?php COMPLIANZ()->field->save_button(); ?>
+                            <input type="hidden" name="cmplz_save_integrations_type" value="scripts">
+
+                            <?php COMPLIANZ()->field->save_button(); ?>
                     </form>
                     </div>
 
@@ -1155,7 +1160,22 @@ if (!class_exists("cmplz_admin")) {
                                     }
                                 }
 
-                                    ?>
+                                $uses_ad_cookies = cmplz_get_value('uses_ad_cookies')==='yes';
+
+                                $args = array(
+                                    'first' => false,
+                                    "fieldname" => 'advertising',
+                                    "type" => 'text',
+                                    "required" => false,
+                                    'default' => '',
+                                    'label' => 'Google Ads/DoubleClick',
+                                    'table' => true,
+                                    'disabled' => false,
+                                    'hidden' => false,
+                                );
+
+                                COMPLIANZ()->field->checkbox($args, $uses_ad_cookies);
+                                ?>
                         </table>
                         <?php COMPLIANZ()->field->save_button(); ?>
                         </form>

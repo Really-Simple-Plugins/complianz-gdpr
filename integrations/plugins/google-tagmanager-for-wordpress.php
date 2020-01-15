@@ -14,7 +14,7 @@ function cmplz_gtm4wp_set_default($value, $fieldname)
 }
 
 /**
- * Remove notice
+ * Remove stats
  *
  * */
 
@@ -22,8 +22,25 @@ function cmplz_gtm4wp_remove_actions()
 {
     remove_action('cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10);
 }
-
 add_action('init', 'cmplz_gtm4wp_remove_actions');
+
+//function cmplz_edit_known_script_tags($tags){
+//	if (($key = array_search('gtm.js', $tags)) !== false) {
+//		unset($tags[$key]);
+//	}
+//	return $tags;
+//}
+//add_filter('cmplz_known_script_tags', 'cmplz_edit_known_script_tags');
+//
+
+/**
+ * We remove some actions to integrate fully
+ * */
+function cmplz_gtm4wp_remove_scripts_statistics()
+{
+	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+}
+add_action('after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics');
 
 /**
  * Add notice to tell a user to choose Analytics

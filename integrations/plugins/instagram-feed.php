@@ -14,6 +14,7 @@ function cmplz_instagram_feed_script($tags){
  * @param $social_media
  * @return array
  */
+
 function cmplz_instagram_feed_detected_social_media($social_media){
     if (!in_array('instagram', $social_media)){
         $social_media[] = 'instagram';
