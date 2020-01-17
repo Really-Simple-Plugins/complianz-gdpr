@@ -80,13 +80,21 @@ if (!function_exists('cmplz_manual_stats_config_possible')) {
     function cmplz_manual_stats_config_possible()
     {
         $stats = cmplz_get_value('compile_statistics');
-        if ($stats === 'matomo' && cmplz_no_ip_addresses()) return true;
+        if ($stats === 'matomo' && cmplz_no_ip_addresses()) {
+            return true;
+        }
 
-        if ($stats === 'google-analytics' || $stats === 'google-tag-manager') {
+        //Google Tag Manager should also be possible to embed yourself if you haven't integrated it anonymously
+        if ($stats === 'google-tag-manager') {
+            return true;
+        }
+
+        if ($stats === 'google-analytics') {
             if (cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed() && cmplz_accepted_processing_agreement()) {
                 return true;
             }
         }
+
         return false;
     }
 }
@@ -1494,11 +1502,11 @@ if (!function_exists('cmplz_consenttype_nicename')) {
     function cmplz_consenttype_nicename($consenttype){
         switch ($consenttype) {
             case 'optinstats':
-                return __('Opt-in settings','complianz-gdpr');
+                return __('Opt-in (statistics)','complianz-gdpr');
             case 'optin':
-                return __('Opt-in settings','complianz-gdpr');
+                return __('Opt-in','complianz-gdpr');
             case 'optout':
-                return __('Opt-out settings', 'complianz-gdpr');
+                return __('Opt-out', 'complianz-gdpr');
             default :
                 return __('All consent types', 'complianz-gdpr');
         }

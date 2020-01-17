@@ -105,6 +105,9 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.1.4 =
+* Fix: Google Analytics was not blocked correctly
+
 = 4.1.3 =
 * Fix: Google Tag Manager integration
 * New: Google Tag Manager 4 WP integration
