@@ -1427,7 +1427,6 @@ if (!class_exists("cmplz_cookie_admin")) {
         {
             $policy_id = get_option('complianz_active_policy_id', 1);
             $policy_id++;
-
             update_option('complianz_active_policy_id', $policy_id);
         }
 
