@@ -1288,9 +1288,9 @@ if (!class_exists("cmplz_document")) {
 
 	            // Save the pages to a file
 	            if ( $save_to_file ) {
-		            $file_title = $save_dir . get_bloginfo( 'name' ) . '-' . cmplz_get_document_extension( $region ) . "-proof-of-consent-" . sanitize_title( $date );
+		            $file_title = $save_dir . sanitize_title(get_bloginfo( 'name' ) . '-' . $region . "-proof-of-consent-" .  $date );
 	            } else {
-		            $file_title = get_bloginfo( 'name' ) . "-export-" . sanitize_title( $date );
+		            $file_title = sanitize_title(get_bloginfo( 'name' ) . "-export-" . $date );
 	            }
 
 	            $output_mode = $save_to_file ? 'F' : 'I';
