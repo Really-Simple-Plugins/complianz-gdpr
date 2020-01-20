@@ -1,5 +1,5 @@
 === Complianz | GDPR/CCPA Cookie Consent ===
-Contributors: RogierLankhorst, Complianz
+Contributors: RogierLankhorst, Complianz, mujonly
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, Legal Documents, Cookie Policy, Opt-in
 Requires at least: 4.7
@@ -31,7 +31,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter and more.
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
 * Placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
-* Detected Cookie Data is prefilled from the shipped Cookie Database, which is continuously updated.
+* Detected Cookie Data is prefilled from cookiedatabase.org, which is continuously updated.
 * Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
