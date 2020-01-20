@@ -13,7 +13,7 @@ function cmplz_jetpack_script($tags){
  * placeholders
  */
 
-add_filter('cmplz_placeholder_markers', 'cmplz_jetpack_placeholders');
+//add_filter('cmplz_placeholder_markers', 'cmplz_jetpack_placeholders');
 function cmplz_jetpack_placeholders($tags){
 	$tags['twitter'] =  'widget_twitter_timeline';
 
