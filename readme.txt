@@ -1,5 +1,5 @@
 === Complianz | GDPR/CCPA Cookie Consent ===
-Contributors: RogierLankhorst, Complianz, mujonly
+Contributors: RogierLankhorst, Complianz, aahulsebos, leonwimmenhoeve, Mathieu, mujonly
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, Legal Documents, Cookie Policy, Opt-in
 Requires at least: 4.7
