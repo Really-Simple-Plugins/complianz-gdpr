@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.3
-Stable tag: 4.1.5
+Stable tag: 4.2.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PECR.
 
@@ -105,6 +105,23 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.2.0 =
+* New: PIPEDA support (Canada)
+* Tweak: CAOS integration improved
+* Fix: allow for private Vimeo video's, props @volkmar-kantor
+* Tweak: added to disable placeholders per plugin/service
+* Tweak: Updated WCAG to v2.1
+* Tweak: moved custom recaptcha css to integrations modules
+* Tweak: added introduction tour
+* Fix: user region and consenttype for not enabled regions should return "other", even when the user is from a supported region
+* Tweak: made aria-label in cookie notice translatable
+* Fix: check if array key exists in GTM4WP integration
+* Fix: check existence of table before retrieving services
+* Fix: IE11 support for blocked content notice, props @volkmar-kantor
+* Tweak: Improved placeholder support for Twitter embed
+* Fix: removed unintentional dot before not numbered paragraphs
+* Fix: custom policy URL incorrectly caused a not 100% completeness
+
 = 4.1.5 =
 * Tweak: improved signature style on processing agreements
 * Fix: proof of consent link not working when website title contained an ampersand
