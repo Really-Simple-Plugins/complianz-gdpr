@@ -5,7 +5,7 @@
  * */
 defined('ABSPATH') or die("you do not have acces to this page!");
 
-$this->document_elements['cookie-statement-us'] = array(
+$this->pages['us']['cookie-statement']['document_elements'] = array(
     array(
         'content' => '<i>' . sprintf("This page was last changed on %s, last checked on %s and applies to citizens of the United States. ", '[publish_date]', '[checked_date]') . '</i>',
     ),
@@ -23,7 +23,7 @@ $this->document_elements['cookie-statement-us'] = array(
     ),
 
     array(
-        'title' => 'What are cookies',
+        'title' => 'What are cookies?',
         'content' => 'A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.',
     ),
     array(
@@ -80,7 +80,7 @@ $this->document_elements['cookie-statement-us'] = array(
     ),
 
     array(
-        'subtitle' => 'Advertising cookies', 'Legal document cookie policy:paragraph title',
+        'subtitle' => 'Advertising cookies',
         'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
@@ -126,7 +126,7 @@ $this->document_elements['cookie-statement-us'] = array(
 			'uses_cookies' => 'yes',
 		),
 	),
-    
+
 
     array(
         'title' => 'Your rights with respect to personal data',

@@ -332,8 +332,10 @@
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
   cursor: pointer;
   position: absolute !important;
-  top: 50px;
   width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   max-width: 200px;
   font-size: 14px;
   padding: 10px;
@@ -341,28 +343,10 @@
   /* Black background with opacity */
   color: #fff;
   text-align: center;
-  /*make sure the container is on top of the iframe */
-  z-index: 99;
+  /*make sure the container is on top of the iframe, but below our cookie notice */
+  z-index: 98;
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
-}
-.cmplz-blocked-content-container.forminator-g-recaptcha,
-.cmplz-blocked-content-container.recaptcha-invisible,
-.cmplz-blocked-content-container.g-recaptcha {
-  max-width: initial !important;
-  height: 70px !important;
-}
-@media only screen and (max-width: 400px) {
-  .cmplz-blocked-content-container.forminator-g-recaptcha,
-  .cmplz-blocked-content-container.recaptcha-invisible,
-  .cmplz-blocked-content-container.g-recaptcha {
-    height: 100px !important;
-  }
-}
-.cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice,
-.cmplz-blocked-content-container.recaptcha-invisible .cmplz-blocked-content-notice,
-.cmplz-blocked-content-container.g-recaptcha .cmplz-blocked-content-notice {
-  top: 2px;
 }
 .cc-link {
   padding-right: 0;

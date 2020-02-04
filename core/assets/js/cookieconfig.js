@@ -1,6 +1,6 @@
 'use strict';
 
-/*
+/**
 * Opt in (e.g. EU):
 * default all scripts disabled.
 * cookie banner
@@ -23,6 +23,15 @@
         console.log(consentData.consentLevel);
         if (consentData.consentLevel==='all'){
             //do something with level all
+        }
+    }
+
+    //do CSS change on specific consenttypes
+
+    $(document).on("cmplzCookieWarningLoaded", myScriptHandler);
+    function myScriptHandler(consentData) {
+        if (consentData.consentType==='optout'){
+            $('#cc-banner-wrap').removeClass('.cmplz-soft-cookiewall');
         }
     }
 
@@ -126,7 +135,7 @@ jQuery(document).ready(function($) {
             if (src.indexOf('placeholder.jpg')===-1) {
                 heightCSS = 'height:' + h + 'px;';
             }
-            
+
             $('head').append('<style>.cmplz-placeholder-' + placeholderClassIndex + ' {'+heightCSS+'}</style>');
         });
         img.src = src;
@@ -176,8 +185,6 @@ jQuery(document).ready(function($) {
         $('.cmplz-blocked-content-notice').each(function () {
             $(this).remove();
         });
-
-
 
         //iframes and video's
         $('.cmplz-iframe').each(function (i, obj) {
@@ -408,16 +415,28 @@ jQuery(document).ready(function($) {
     function complianz_enable_stats() {
         console.log('fire statistics');
         $('.cmplz-script.cmplz-stats').each(function (i, obj) {
-            if ($(this).text().length) {
-                var str = $(this).text();
-                // str = str.replace("anonymizeIp': true", "anonymizeIp': false");
-                //if it's analytics.js, add remove anonymize ip
-                $('<script>')
-                    .attr('type', 'text/javascript')
-                    .text(str)
-                    .appendTo($(this).parent());
-                $(this).remove();
-            }
+			var src = $(this).attr('src');
+			if (src && src.length) {
+				$(this).attr('type', 'text/javascript');
+				$.getScript( src )
+					.done(function( s, Status ) {
+
+					})
+					.fail(function( jqxhr, settings, exception ) {
+						console.warn( "Something went wrong "+exception );
+					});
+
+			} else if ($(this).text().length) {
+				var str = $(this).text();
+				// str = str.replace("anonymizeIp': true", "anonymizeIp': false");
+				//if it's analytics.js, add remove anonymize ip
+				$('<script>')
+					.attr('type', 'text/javascript')
+					.text(str)
+					.appendTo($(this).parent());
+				$(this).remove();
+			}
+
             ccStatsEnabled = true;
         });
 
@@ -546,7 +565,7 @@ jQuery(document).ready(function($) {
                 complianz.readmore = complianz.readmore_optout;
                 complianz.dismiss = complianz.accept_informational;
                 complianz.message = complianz.message_optout;
-                ccPrivacyLink= complianz.privacy_link;
+                ccPrivacyLink = complianz.privacy_link[complianz.region];
                 cmplz_cookie_warning();
             } else {
                 console.log('other consenttype, no cookie warning');
@@ -670,11 +689,11 @@ jQuery(document).ready(function($) {
                 'categories': '<div class="cc-compliance cc-highlight">{{save}}</div>',
             },
             "elements": {
-                "dismiss": '<a aria-label="dismiss cookie message" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
-                "allow": '<a aria-label="allow cookies" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
-                "save": '<a aria-label="save cookies" href="#" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
+                "dismiss": '<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
+                "allow": '<a aria-label="{{allow}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
+                "save": '<a aria-label="{{save_preferences}}" href="#" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
                 "categories-checkboxes": complianz.categories,
-                "messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="learn more about cookies" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + ccPrivacyLink + '</span>',
+                "messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + ccPrivacyLink + '</span>',
             },
             "content": {
                 "save_preferences": complianz.save_preferences,

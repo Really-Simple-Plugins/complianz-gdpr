@@ -22,11 +22,39 @@ function cmplz_recaptcha_iframetags($tags){
     return $tags;
 }
 
-add_filter('cmplz_placeholder_markers', 'cmplz_recaptcha_placeholders');
-function cmplz_recaptcha_placeholders($tags){
+add_filter('cmplz_placeholder_markers', 'cmplz_google_recaptcha_placeholder');
+function cmplz_google_recaptcha_placeholder($tags){
     $tags['google-recaptcha'][] =  'recaptcha-invisible'; //forminator
     $tags['google-recaptcha'][] =  'g-recaptcha'; //ultimate member
     return $tags;
 }
+
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_recaptcha_css');
+function cmplz_recaptcha_css(){
+	?>
+	<style>
+		.cmplz-blocked-content-container.recaptcha-invisible,
+		.cmplz-blocked-content-container.g-recaptcha {
+			max-width: initial !important;
+			height: 70px !important
+		}
+		@media only screen and (max-width:400px) {
+			.cmplz-blocked-content-container.recaptcha-invisible,
+			.cmplz-blocked-content-container.g-recaptcha {
+				height: 100px !important
+			}
+		}
+		.cmplz-blocked-content-container.recaptcha-invisible .cmplz-blocked-content-notice,
+		.cmplz-blocked-content-container.g-recaptcha .cmplz-blocked-content-notice {
+			top: 2px
+		}
+	</style>
+	<?php
+};
+
 
 

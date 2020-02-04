@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
 
-$this->document_elements['cookie-statement-uk'] = array(
+$this->pages['uk']['cookie-statement']['document_elements'] = array(
     'last-updated' => array(
         'content' => '<i>' . sprintf('This cookie statement was last updated on %s and applies to citizens of the United Kingdom.', '[publish_date]') . '</i>',
     ),
@@ -10,7 +10,7 @@ $this->document_elements['cookie-statement-uk'] = array(
         'content' => sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]', '[article-cookie_names]'),
     ),
     'what-are-cookies' => array(
-        'title' => 'What are cookies',
+        'title' => 'What are cookies?',
         'content' => 'A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.',
     ),
     'what-are-scripts' => array(

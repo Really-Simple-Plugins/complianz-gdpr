@@ -193,7 +193,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
                         $new = $this->replace_src($new, apply_filters('cmplz_source_placeholder',$placeholder));
 
-                        if (!cmplz_get_value('dont_use_placeholders')) {
+                        if (!cmplz_get_value('dont_use_placeholders') && cmplz_use_placeholder($image_url)) {
                             $new = $this->add_class($new, 'img', " cmplz-placeholder-element ");
 
                             $new = $this->add_data($new, 'img', 'placeholder-text', apply_filters('cmplz_accept_cookies_blocked_content', cmplz_get_value('blocked_content_text')));
@@ -252,16 +252,16 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
                         $new = $this->replace_src($new, $source_placeholder);
                         $new = $this->add_class($new, 'iframe', "cmplz-iframe cmplz-iframe-styles $video_class ");
 
-                        if (!cmplz_get_value('dont_use_placeholders') && strpos($iframe_src,'like.php')===false) {
-                            $new = $this->add_class($new, 'iframe', " cmplz-placeholder-element ");
-                            $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
+	                    if (cmplz_use_placeholder($iframe_src)) {
+		                    $new = $this->add_class($new, 'iframe', " cmplz-placeholder-element ");
+		                    $new = $this->add_data($new, 'iframe','placeholder-image', $placeholder);
 
-                            //allow for integrations to override html
-                            $new = apply_filters('cmplz_iframe_html', $new);
+		                    //allow for integrations to override html
+		                    $new = apply_filters('cmplz_iframe_html', $new);
 
-                            //make sure there is a parent element which contains this iframe only, to attach the placeholder to
-                            if (!$this->is_video($iframe_src) && !$this->no_div($iframe_src)) $new = '<div>'.$new.'</div>';
-                        }
+		                    //make sure there is a parent element which contains this iframe only, to attach the placeholder to
+		                    if (!$this->is_video($iframe_src) && !$this->no_div($iframe_src)) $new = '<div>'.$new.'</div>';
+	                    }
 
                         $output = str_replace($total_match, $new, $output);
 
@@ -275,19 +275,21 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              *
              * */
-            if (!cmplz_get_value('dont_use_placeholders')) {
+            if (cmplz_use_placeholder()) {
                 $placeholder_markers = apply_filters('cmplz_placeholder_markers', COMPLIANZ()->config->placeholder_markers);
                 foreach ($placeholder_markers as $type => $markers) {
                     if (!is_array($markers)) $markers = array($markers);
                     foreach ($markers as $marker) {
-                    	$placeholder_pattern = '/<(section|div|blockquote|twitter-widget)*[^>]*class=[\'" ]*[^>]*('.$marker.')[\'" ].*?>/i';
+                    	$placeholder_pattern = '/<(a|section|div|blockquote|twitter-widget)*[^>]*class=[\'" ]*[^>]*('.$marker.')[\'" ].*?>/i';
 	                    if (preg_match_all($placeholder_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
                             foreach ($matches[0] as $key => $html_match) {
                                 $el = $matches[1][$key];
-                                $placeholder = cmplz_placeholder($type, $marker);
-                                $new_html = $this->add_data($html_match, $el, 'placeholder-image', $placeholder);
-	                            $new_html = $this->add_class($new_html, $el, 'cmplz-placeholder-element');
-                                $output = str_replace($html_match, $new_html, $output);
+	                            if (!empty($el)) {
+	                                $placeholder = cmplz_placeholder( $type, $marker );
+	                                $new_html    = $this->add_data( $html_match, $el, 'placeholder-image', $placeholder );
+	                                $new_html    = $this->add_class( $new_html, $el, 'cmplz-placeholder-element' );
+	                                $output      = str_replace( $html_match, $new_html, $output );
+                                }
                             }
                         }
                     }

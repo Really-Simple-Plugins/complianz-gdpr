@@ -59,7 +59,13 @@ if (!class_exists("cmplz_company")) {
                 }
             }
 
-            //fallback one: company location
+	        //fallback one: company location
+	        if (!$region && is_array($regions)) {
+		        reset($regions);
+		        $region = key($regions);
+	        }
+
+            //fallback two: company location
             if (!$region && !empty($company_region_code)) $region = $company_region_code;
 
             //fallback if no array was returned.
@@ -79,6 +85,7 @@ if (!class_exists("cmplz_company")) {
             //check default region
             $region = $this->get_default_region();
             return cmplz_get_consenttype_for_region($region);
+
         }
 
         /**

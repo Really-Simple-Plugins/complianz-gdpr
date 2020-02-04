@@ -165,6 +165,15 @@ $this->fields = $this->fields + array(
             'comment' => sprintf(__('If you want to import your settings, please check out the %spremium version%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io">', "</a>"),
         ),
 
+        'restart_tour' => array(
+	        'source' => 'settings',
+	        'type' => 'button',
+	        'action' => 'cmplz_restart_tour',
+	        'post_get' => 'post',
+	        'label' => __("Restart tour", 'complianz-gdpr'),
+	        'table' => true,
+        ),
+
         'reset_settings' => array(
             'warn' => __('Are you sure? This will remove all Complianz data.','complianz-gdpr'),
             'source' => 'settings',

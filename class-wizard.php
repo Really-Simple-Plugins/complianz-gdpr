@@ -134,20 +134,19 @@ if (!class_exists("cmplz_wizard")) {
 
         public function wizard_after_step()
         {
-
             if (!cmplz_user_can_manage()) return;
 
             //clear document cache
             COMPLIANZ()->document->clear_shortcode_transients();
 
             //create a page foreach page that is needed.
-            $pages = COMPLIANZ()->config->pages;
-
-            foreach ($pages as $type => $page) {
-                if (!$page['public']) continue;
-                if (COMPLIANZ()->document->page_required($page)) {
-                    COMPLIANZ()->document->create_page($type);
-                }
+            $pages = COMPLIANZ()->document->get_required_pages();
+            foreach ($pages as $region => $region_pages) {
+	            foreach ( $region_pages as $type => $page ) {
+	                if (!COMPLIANZ()->document->page_exists($type, $region)) {
+		                COMPLIANZ()->document->create_page( $type , $region);
+	                }
+	            }
             }
 
             //if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
@@ -514,7 +513,7 @@ if (!class_exists("cmplz_wizard")) {
                         <?php $this->get_content($page, $step, $section); ?>
                     </div>
                     <?php if (COMPLIANZ()->config->has_sections($page, $step)) { ?>
-                        <div class="cmplz-section-menu">
+                        <div class="cmplz-section-menu cmplz-step-<?php echo $step?>">
 
                             <?php
 
@@ -685,12 +684,14 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-        /**
+	    /**
          * Retrieves the region to which this step applies
-         *
-         *
-         * */
-
+	     * @param $page
+	     * @param $step
+	     * @param $section
+	     *
+	     * @return array|bool
+	     */
         public function get_section_regions($page, $step, $section){
             //only show when in action
             $regions = false;
@@ -730,15 +731,7 @@ if (!class_exists("cmplz_wizard")) {
         public function get_content($page, $step, $section = false)
         {
             $regions = $this->get_section_regions($page, $step, $section);
-
-            if ($regions){
-                ?><div class="cmplz-region-indicator"><?php
-                foreach($regions as $region) {?>
-                    <img width="40px" src="<?php echo cmplz_url?>/core/assets/images/<?php echo strtolower($region)?>.png">
-                <?php }
-                ?></div><?php
-
-            }
+            cmplz_flag($regions);
 
             if (isset($_POST['cmplz-save'])) {
                 cmplz_notice( __("Changes saved successfully", 'complianz-gdpr') , 'success', true);
@@ -844,12 +837,12 @@ if (!class_exists("cmplz_wizard")) {
             <?php
         }
 
-        public function get_page($post_id=false){
+        public function get_type($post_id=false){
             $page = false;
             if ($post_id) {
                 $region = COMPLIANZ()->document->get_region($post_id);
                 $post_type = get_post_type($post_id);
-                $page = str_replace('cmplz-','',$post_type).'-'.cmplz_get_document_extension($region);
+                $page = str_replace('cmplz-','',$post_type).'-'.$region;
             }
             if (isset($_GET['page'])) {
                 $page = str_replace('cmplz-', '', sanitize_title($_GET['page']));
@@ -1026,12 +1019,14 @@ if (!class_exists("cmplz_wizard")) {
             $completed_fields += $completed_warnings;
             $total_fields += $total_warnings;
 
-            foreach (COMPLIANZ()->config->pages as $type => $page) {
-                if (!COMPLIANZ()->document->page_required($page)) continue;
-                if (COMPLIANZ()->document->page_exists($type)) {
-                    $completed_fields++;
-                }
-                $total_fields++;
+            $pages = COMPLIANZ()->document->get_required_pages();
+            foreach ($pages as $region => $region_pages) {
+	            foreach ( $region_pages as $type => $page ) {
+		            if ( COMPLIANZ()->document->page_exists( $type , $region) ) {
+			            $completed_fields ++;
+		            }
+		            $total_fields ++;
+	            }
             }
 
             $percentage = round(100*($completed_fields/$total_fields) + 0.45);

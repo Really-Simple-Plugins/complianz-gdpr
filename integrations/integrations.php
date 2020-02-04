@@ -1,5 +1,8 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
+if (is_admin()) {
+	require_once( 'integrations-menu.php' );
+}
 require_once('forms.php');
 
 global $cmplz_integrations_list;
@@ -275,7 +278,7 @@ function cmplz_integrations(){
      */
 
     $statistics = cmplz_get_value('compile_statistics');
-    if ($statistics === 'google-analytics' && !defined('CAOS_STATIC_VERSION')) {
+    if ($statistics === 'google-analytics') {
         require_once('statistics/google-analytics.php');
     }elseif ($statistics === 'google-tag-manager') {
         require_once('statistics/google-tagmanager.php');
@@ -309,54 +312,168 @@ function cmplz_uses_thirdparty($name){
     return false;
 }
 
+
+add_action('complianz_after_field', 'cmplz_add_placeholder_checkbox', 9, 1);
+function cmplz_add_placeholder_checkbox($args){
+	if (!isset($args['fieldname']) || !isset($args["type"]) || $args["type"]!=='checkbox') return;
+
+	if (isset($_GET["page"]) && $_GET["page"]==='cmplz-script-center') {
+
+		$fieldname = str_replace("-","_", sanitize_text_field($args['fieldname']));
+        $function_name = $fieldname;
+
+		$has_placeholder = (function_exists("cmplz_{$function_name}_placeholder"));
+		$disabled_placeholders = get_option('cmplz_disabled_placeholders', array());
+		$value = !in_array($fieldname, $disabled_placeholders);
+
+		$disabled = !$has_placeholder;
+		$fieldname = 'cmplz_placeholder_' . $fieldname;
+
+		if ( $args['table'] ) {
+			echo '</td><td style="width:70%">';
+		} else {
+			echo '</div>';
+		}
+        if (!$has_placeholder){
+            ?>
+            <label class="cmplz-switch">
+                <span class="cmplz-slider-na cmplz-round"></span>
+            </label>
+            <?php
+        } else {
+	        ?>
+            <label class="cmplz-switch">
+                <input name="<?php echo esc_html( $fieldname ) ?>" type="hidden" value=""/ <?php if ( $disabled ) {
+			        echo 'disabled';
+		        } ?>>
+
+                <input name="<?php echo esc_html( $fieldname ) ?>" size="40" type="checkbox"
+			        <?php if ( $disabled ) {
+				        echo 'disabled';
+			        } ?>
+                       class="<?php if ( $args['required'] ) {
+				           echo 'is-required';
+			           } ?>"
+                       value="1" <?php checked( 1, $value, true ) ?> />
+                <span class="cmplz-slider cmplz-round"></span>
+            </label>
+	        <?php
+        }
+		if ( $args['table'] ) {
+			echo '</td></tr>';
+		} else {
+			echo '</div>';
+		}
+	}
+}
+
 /**
- * Handle saving of integrations services
+ * placeholders that are disabled will be removed by hook here.
+ *
+ * This only applies to the non iframe placeholders. Other placeholders are blocked using the cmplz_placeholder_disabled function
  */
 
-function process_integrations_services_save(){
-    if (!current_user_can('manage_options')) return;
-
-    if (isset($_POST['cmplz_save_integrations_type'])){
-        if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
-
-        $thirdparty_services = COMPLIANZ()->config->thirdparty_services;
-        unset($thirdparty_services['google-fonts']);
-
-        $active_services = cmplz_get_value('thirdparty_services_on_site');
-
-        foreach($thirdparty_services as $service => $label){
-            if (isset($_POST['cmplz_'.$service]) && $_POST['cmplz_'.$service]==1){
-                $active_services[$service]=1;
-                $service_obj = new CMPLZ_SERVICE();
-                $service_obj->add($label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'utility');
-            }else {
-                $active_services[$service]=0;
-            }
-        }
-
-        cmplz_update_option('wizard', 'thirdparty_services_on_site', $active_services);
-
-        $socialmedia = COMPLIANZ()->config->thirdparty_socialmedia;
-        $active_socialmedia = cmplz_get_value('socialmedia_on_site');
-        foreach($socialmedia as $service => $label){
-            if (isset($_POST['cmplz_'.$service]) && $_POST['cmplz_'.$service]==1){
-                $active_socialmedia[$service]=1;
-                $service_obj = new CMPLZ_SERVICE();
-                $service_obj->add($label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'social');
-            } else {
-                $active_socialmedia[$service]=0;
-            }
-        }
-
-        cmplz_update_option('wizard', 'socialmedia_on_site', $active_socialmedia);
-
-		if (isset($_POST['cmplz_advertising']) && $_POST['cmplz_advertising']==1){
-			cmplz_update_option('wizard', 'uses_ad_cookies','yes');
-		} else {
-			cmplz_update_option('wizard', 'uses_ad_cookies','no');
+add_action("plugins_loaded", 'cmplz_unset_placeholder_hooks');
+function cmplz_unset_placeholder_hooks(){
+	$disabled_placeholders = get_option('cmplz_disabled_placeholders', array());
+	foreach ($disabled_placeholders as $service){
+		$has_placeholder = (function_exists("cmplz_{$service}_placeholder"));
+		if ($has_placeholder){
+			remove_filter('cmplz_placeholder_markers', "cmplz_{$service}_placeholder");
 		}
-
     }
 
+
+
 }
-add_action('admin_init','process_integrations_services_save');
+
+/**
+ * check if the placeholder for a service is disabled
+ * @param string $service
+ *
+ * @return bool $disabled
+ */
+
+function cmplz_placeholder_disabled($service){
+	$disabled_placeholders = get_option('cmplz_disabled_placeholders', array());
+
+	if (in_array( $service, $disabled_placeholders )){
+		return true;
+	}
+	//check also other variation
+	$service = str_replace('-', "_", $service);
+	if (in_array( $service, $disabled_placeholders )){
+		return true;
+	}
+
+	return false;
+  
+}
+
+/**
+ * check if we should use placeholders
+ * @param string|bool $src
+ *
+ * @return bool
+ */
+
+function cmplz_use_placeholder($src = false){
+	if (cmplz_get_value('dont_use_placeholders')) return false;
+
+	if (!$src) return true;
+
+
+	//no placeholder on facebook like button
+	if (strpos($src,'like.php')!==false) return false;
+
+	//get service from $src
+	$service = cmplz_get_service_by_src($src);
+	if (cmplz_placeholder_disabled($service)){
+	    return false;
+    }
+
+	return true;
+}
+
+/**
+ * Get a service by string, looking at the src of a frame or script
+ * @param string $src
+ *
+ * @return bool|string
+ */
+
+function cmplz_get_service_by_src($src){
+	$type = false;
+
+    if (strpos($src, 'youtube') !== FALSE) {
+        $type = 'youtube';
+    }else if (strpos($src, 'facebook') !== FALSE) {
+        $type = 'facebook';
+    }else if (strpos($src, 'vimeo') !== FALSE) {
+        $type = 'vimeo';
+    }else if (strpos($src, 'dailymotion') !== FALSE) {
+        $type = 'dailymotion';
+    }else if (strpos($src, 'maps.googleapis') !== FALSE) {
+        $type = 'google-maps';
+    }else if (strpos($src, 'openstreetmaps.org') !== FALSE) {
+        $type = 'openstreetmaps';
+    }else if (strpos($src, 'spotify') !== FALSE) {
+        $type = 'spotify';
+    }else if (strpos($src, 'pinterest') !== FALSE) {
+        $type = 'pinterest';
+    }else if (strpos($src, 'soundcloud') !== FALSE) {
+        $type = 'soundcloud';
+    }else if (strpos($src, 'twitter') !== FALSE) {
+        $type = 'twitter';
+    }
+
+	if (!$type) {
+		$type = COMPLIANZ()->cookie_admin->parse_for_social_media($src, true);
+		if (!$type) {
+			$type = COMPLIANZ()->cookie_admin->parse_for_thirdparty_services($src, true);
+		}
+	}
+
+    return $type;
+}
+

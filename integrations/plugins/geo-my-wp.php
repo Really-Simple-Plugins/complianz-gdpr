@@ -1,5 +1,8 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
+/**
+ * Declare placeholder
+ */
 
 add_filter('cmplz_known_script_tags', 'cmplz_geo_my_wp_script');
 function cmplz_geo_my_wp_script($tags){
@@ -42,9 +45,16 @@ function cmplz_geo_my_wp_dependencies($tags){
     return $tags;
 }
 
-add_filter('cmplz_placeholder_markers', 'cmplz_geo_my_wp_placeholders');
-function cmplz_geo_my_wp_placeholders($tags){
+add_filter('cmplz_placeholder_markers', "cmplz_geo_my_wp_placeholder");
+function cmplz_geo_my_wp_placeholder($tags){
     $tags['google-maps'] =  'gmw-map-cover';
 
     return $tags;
 }
+
+
+
+
+//auto remove all hooks that are disabled actively
+
+//move all other dynamic placeholders to integration, if not already

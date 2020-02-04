@@ -7,6 +7,31 @@
 .cmplz-hidden{
   display:none;
 }
+
+.cmplz-region-indicator {
+  height:7px;
+  span{
+    padding-top:7px;
+    padding-right:10px;
+  }
+  span, img{
+    margin-top: -23px;
+    float:right;
+  }
+  img {
+    width: 25px;
+    height: 25px;
+    margin-left:5px;
+  }
+  //float:right;
+}
+#cookie-settings .cmplz-region-indicator img {height:35px;width:35px}
+
+#cookie-settings {
+  .cmplz-region-indicator img {
+    margin-top:0;
+  }
+}
 /*
    statistics
 */
@@ -220,6 +245,7 @@
   display:none;
   bottom:0;
   position:absolute;
+  padding: 5px 0;
 }
 .cmplz-second-column-docs{
   width:100%;
@@ -572,6 +598,26 @@ input[type="text"]{
   }
 }
 
+.cmplz-slider-na {
+  padding: 2px 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  &:before {
+    position: absolute;
+    content: "N/A";
+    color:white;
+  }
+  &.cmplz-round {
+    border-radius: 20px;
+  }
+}
+
 
 input:checked + .cmplz-slider {
   background-color: @brand-primary;
@@ -851,7 +897,7 @@ html .mceContentBody {
       border-radius: 0px;
       padding: 30px;
       margin-left: 0px;
-      flex: 0 0 190px;
+      flex: 0 0 250px;
       &.active a {
         font-size: 1.3em;
         text-decoration: underline;
@@ -861,23 +907,6 @@ html .mceContentBody {
       flex-grow: 1;
       padding: 30px;
       margin-left: 30px;
-    }
-    .cmplz-region-indicator {
-      height:0;
-      span{
-        padding-top:7px;
-        padding-right:10px;
-      }
-      span, img{
-        margin-top: -23px;
-        float:right;
-      }
-      img {
-        width: 40px;
-        height: 25px;
-        margin-left:5px;
-      }
-      //float:right;
     }
 
     /* Define the styling of the text input fields */

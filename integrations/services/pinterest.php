@@ -7,3 +7,4 @@ function cmplz_pinterest_script($tags){
 
     return $tags;
 }
+

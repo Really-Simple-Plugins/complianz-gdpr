@@ -44,13 +44,10 @@
     border:0 !important;
   }
   div div {display:none}
-
-
   background: #FFF;
   border: 0;
   border-radius: 3px;
   box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,28 +63,20 @@
   .cmplz-blocked-content-notice{
     cursor:pointer;
     position:absolute !important;
-    top:50px;
     width:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     max-width: 200px;
     font-size: 14px;
     padding: 10px;
     background-color: rgba(0,0,0,0.5); /* Black background with opacity */
     color:#fff;
     text-align:center;
-    /*make sure the container is on top of the iframe */
-    z-index: 99;
+    /*make sure the container is on top of the iframe, but below our cookie notice */
+    z-index: 98;
     /*We need some lineheight, for example Elementor will force a lineheight of 0*/
     line-height: 23px;
-  }
-  &.forminator-g-recaptcha, &.recaptcha-invisible, &.g-recaptcha{
-    max-width:initial !important;
-    height:70px !important;
-    @media only screen and (max-width: 400px) {
-      height:100px !important;
-    }
-    .cmplz-blocked-content-notice {
-      top: 2px;
-    }
   }
 
 }

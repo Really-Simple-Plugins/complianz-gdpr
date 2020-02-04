@@ -59,7 +59,7 @@ function cmplz_forminator_add_consent_checkbox($form_id)
             "required" => true,
             'cols' => '12',
             'validation' => '',
-            'gdpr_description' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement',true) . '">', '</a>'),
+            'gdpr_description' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement','eu', true) . '">', '</a>'),
             'field_label' => __('Privacy',"complianz-gdpr"),
             'description' => '',
             'validation_text' => '',
@@ -72,12 +72,37 @@ function cmplz_forminator_add_consent_checkbox($form_id)
 add_action("cmplz_add_consent_box_forminator", 'cmplz_forminator_add_consent_checkbox');
 
 
-add_filter('cmplz_placeholder_markers', 'cmplz_forminator_placeholders');
-function cmplz_forminator_placeholders($tags){
+add_filter('cmplz_placeholder_markers', 'cmplz_forminator_placeholder');
+function cmplz_forminator_placeholder($tags){
     $tags['google-recaptcha'][] =  'forminator-g-recaptcha';
 
     return $tags;
 }
+
+
+/**
+ * Add some custom css for the placeholder
+ */
+
+add_action('wp_footer', 'cmplz_forminator_css');
+function cmplz_forminator_css(){
+	?>
+	<style>
+		.cmplz-blocked-content-container.forminator-g-recaptcha {
+			max-width: initial !important;
+			height: 70px !important
+		}
+		@media only screen and (max-width:400px) {
+			.cmplz-blocked-content-container.forminator-g-recaptcha {
+				height: 100px !important
+			}
+		}
+		.cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice {
+			top: 2px
+		}
+	</style>
+	<?php
+};
 
 
 
