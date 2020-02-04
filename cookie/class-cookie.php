@@ -1,13 +1,4 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-/**
- * Todo:
- * Unique cookies? komen niet voor op eigen domein.
- *
- * Er is nu een lijst met cookies, per taal.
- * Na het eindigen van de scan, moet de sync starten.
- *
- */
-
 if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 	class CMPLZ_COOKIE {
 		private $ID = false;

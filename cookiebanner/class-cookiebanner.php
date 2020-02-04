@@ -44,6 +44,7 @@ function cmplz_install_cookiebanner_table()
             `accept_informational` varchar(255) NOT NULL,
             `message_optout` text NOT NULL,
             `readmore_optout` varchar(255) NOT NULL,
+            `readmore_optout_dnsmpi` varchar(255) NOT NULL,
             `readmore_privacy` varchar(255) NOT NULL,
             `popup_background_color` varchar(255) NOT NULL,
             `popup_text_color` varchar(255) NOT NULL,
@@ -92,6 +93,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         public $accept_informational;
         public $message_optout;
         public $readmore_optout;
+        public $readmore_optout_dnsmpi;
         public $readmore_privacy;
         public $tagmanager_categories;
         public $save_preferences;
@@ -121,6 +123,7 @@ if (!class_exists("cmplz_cookiebanner")) {
         public $accept_informational_x;
         public $message_optout_x;
         public $readmore_optout_x;
+        public $readmore_optout_dnsmpi_x;
         public $readmore_privacy_x;
 
         public $statistics;
@@ -232,6 +235,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->accept_informational = !empty($cookiebanner->accept_informational ) ? $cookiebanner->accept_informational : $this->get_default('accept_informational');
                 $this->message_optout = !empty($cookiebanner->message_optout ) ? $cookiebanner->message_optout : $this->get_default('message_optout');
                 $this->readmore_optout = !empty($cookiebanner->readmore_optout ) ? $cookiebanner->readmore_optout : $this->get_default('readmore_optout');
+                $this->readmore_optout_dnsmpi = !empty($cookiebanner->readmore_optout_dnsmpi ) ? $cookiebanner->readmore_optout_dnsmpi : $this->get_default('readmore_optout_dnsmpi');
                 $this->readmore_privacy = !empty($cookiebanner->readmore_privacy ) ? $cookiebanner->readmore_privacy : $this->get_default('readmore_privacy');
                 $this->popup_background_color = !empty($cookiebanner->popup_background_color ) ? $cookiebanner->popup_background_color : $this->get_default('popup_background_color');
                 $this->popup_text_color = !empty($cookiebanner->popup_text_color ) ? $cookiebanner->popup_text_color : $this->get_default('popup_text_color');
@@ -256,6 +260,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $this->accept_informational_x = $this->translate($this->accept_informational,'accept_informational');
                 $this->message_optout_x = $this->translate($this->message_optout,'message_optout');
                 $this->readmore_optout_x = $this->translate($this->readmore_optout,'readmore_optout');
+                $this->readmore_optout_dnsmpi_x = $this->translate($this->readmore_optout_dnsmpi,'readmore_optout_dnsmpi');
                 $this->readmore_privacy_x = $this->translate($this->readmore_privacy,'readmore_privacy');
 
                 $this->statistics = unserialize($cookiebanner->statistics);
@@ -339,6 +344,7 @@ if (!class_exists("cmplz_cookiebanner")) {
             $this->register_translation($this->accept_informational,'accept_informational');
             $this->register_translation($this->message_optout,'message_optout');
             $this->register_translation($this->readmore_optout,'readmore_optout');
+            $this->register_translation($this->readmore_optout_dnsmpi,'readmore_optout_dnsmpi');
             $this->register_translation($this->readmore_privacy,'readmore_privacy');
 
             /**
@@ -379,6 +385,7 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'accept_informational' => sanitize_text_field($this->accept_informational),
                 'message_optout' => wp_kses($this->message_optout, cmplz_allowed_html()),
                 'readmore_optout' => sanitize_text_field($this->readmore_optout),
+                'readmore_optout_dnsmpi' => sanitize_text_field($this->readmore_optout_dnsmpi),
                 'readmore_privacy' => sanitize_text_field($this->readmore_privacy),
                 'popup_background_color' => sanitize_hex_color($this->popup_background_color),
                 'popup_text_color' => sanitize_hex_color($this->popup_text_color),
@@ -696,8 +703,6 @@ if (!class_exists("cmplz_cookiebanner")) {
 
             $this->dismiss_on_scroll = $this->dismiss_on_scroll ? 400 : false;
             $this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
-            $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement','us');
-            $privacy_link = !empty($privacy_link) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $this->readmore_privacy_x . '</a>' : '';
 
             $output = array(
                 'static'                    => false,
@@ -727,12 +732,13 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'border_color'              => $this->border_color,
                 'use_custom_cookie_css'     => $this->use_custom_cookie_css,
                 'custom_css'                => $this->sanitize_custom_css($this->custom_css),
-                'custom_css_amp'                => $this->sanitize_custom_css($this->custom_css_amp),
+                'custom_css_amp'            => $this->sanitize_custom_css($this->custom_css_amp),
                 'readmore_optin'            => $this->readmore_optin_x,
                 'accept_informational'      => $this->accept_informational_x,
                 'message_optout'            => $this->message_optout_x,
                 'message_optin'             => $this->message_optin_x,
                 'readmore_optout'           => $this->readmore_optout_x,
+                'readmore_optout_dnsmpi'    => $this->readmore_optout_dnsmpi_x,
                 'hide_revoke'               => $this->hide_revoke ? 'cc-hidden' : '',
                 'soft_cookiewall'           => $this->soft_cookiewall,
                 'type'                      => 'opt-in',
@@ -740,7 +746,6 @@ if (!class_exists("cmplz_cookiebanner")) {
                 'dismiss_on_scroll'         => $this->dismiss_on_scroll,
                 'dismiss_on_timeout'        => $this->dismiss_on_timeout,
                 'cookie_expiry'             => cmplz_get_value('cookie_expiry'),
-                'privacy_link'              => $privacy_link,
                 'nonce'                     => wp_create_nonce('set_cookie'),
                 'url'                       => admin_url('admin-ajax.php'),
                 'current_policy_id'         => COMPLIANZ()->cookie_admin->get_active_policy_id(),
@@ -787,11 +792,12 @@ if (!class_exists("cmplz_cookiebanner")) {
                 $output['save_preferences'] = $this->save_preferences_x;
             }
 
-            $regions = cmplz_get_regions(false);
+            $regions = cmplz_get_regions();
             foreach ($regions as $region=>$label){
                 $output['readmore_url'][$region] = cmplz_get_cookie_policy_url($region);
+	            $privacy_link = COMPLIANZ()->document->get_page_url('privacy-statement',$region);
+	            $output['privacy_link'][$region] = !empty($privacy_link) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $this->readmore_privacy_x . '</a>' : '';
             }
-
             return $output;
 
         }

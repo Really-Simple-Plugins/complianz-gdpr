@@ -8,3 +8,11 @@ function cmplz_spotify_iframetags($tags){
 
     return $tags;
 }
+
+/**
+ * function to let complianz detect this integration as having placeholders.
+ */
+
+function cmplz_spotify_placeholder(){
+
+}

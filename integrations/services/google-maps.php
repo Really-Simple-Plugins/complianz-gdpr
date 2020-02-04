@@ -33,7 +33,7 @@ function cmplz_googlemaps_imagetags($tags){
 
 
 
-function cmplz_googlemaps_placeholder($new_src, $src){
+function cmplz_google_maps_placeholder($new_src, $src){
     $key_pattern = '/maps\.googleapis\.com\/maps\/api\/staticmap\?key\=(.*?)&/i';
     if (preg_match($key_pattern, $src, $matches)) {
         $id = $matches[1];
@@ -45,6 +45,6 @@ function cmplz_googlemaps_placeholder($new_src, $src){
     }
     return $new_src;
 }
-add_filter('cmplz_placeholder_googlemaps', 'cmplz_googlemaps_placeholder', 10, 2);
+add_filter('cmplz_placeholder_google-maps', 'cmplz_google_maps_placeholder', 10, 2);
 
 

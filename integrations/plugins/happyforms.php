@@ -81,7 +81,7 @@ function cmplz_happyforms_add_consent_checkbox($form_id)
     if (!$has_checkbox) {
         $part_data = array(
             'type' => 'legal',
-            'legal_text' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement',true) . '">', '</a>'),
+            'legal_text' => sprintf(__("Yes, I agree with the %sprivacy statement%s","complianz-gdpr"),'<a href="' . COMPLIANZ()->document->get_permalink('privacy-statement', 'eu', true) . '">', '</a>'),
             'width' => 'full',
             'required' => 1,
             'label' => __('Privacy',"complianz-gdpr"),

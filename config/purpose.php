@@ -15,7 +15,7 @@ if (cmplz_has_region('us')) {
 }
 $this->details_per_purpose_us = array(
     'first-lastname' => __('A first and last name', 'complianz-gdpr'),
-    'accountname-alias' => __('Accountname or alias', 'complianz-gdpr'),
+    'accountname-alias' => __('Account name or alias', 'complianz-gdpr'),
     'address' => __('A home or other physical address, including street name and name of a city or town', 'complianz-gdpr'),
     'email' => __('An email address', 'complianz-gdpr'),
     'phone' => __('A telephone number', 'complianz-gdpr'),

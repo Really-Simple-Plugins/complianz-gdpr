@@ -58,22 +58,26 @@ function cmplz_gtm4wp_options(){
 	$storedoptions = (array) get_option( GTM4WP_OPTIONS );
 	$save = false;
 
-	if (cmplz_no_ip_addresses() && $storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP]) {
-		$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP] = false;
-		$save=true;
-	} elseif (!cmplz_no_ip_addresses() && !!$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP]) {
-		$save=true;
-		$storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP] = true;
+	if (isset($storedoptions[GTM4WP_OPTION_INCLUDE_VISITOR_IP])) {
+		if ( cmplz_no_ip_addresses() && $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) {
+			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = false;
+			$save                                              = true;
+		} elseif ( ! cmplz_no_ip_addresses() && ! ! $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) {
+			$save                                              = true;
+			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = true;
+		}
 	}
 
 	//handle sharing of data
-	if (cmplz_statistics_no_sharing_allowed() && $storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING]) {
-		$save=true;
-		$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING] = false;
+	if (isset($storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING])) {
+		if ( cmplz_statistics_no_sharing_allowed() && $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] ) {
+			$save                                               = true;
+			$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = false;
 
-	} elseif (!cmplz_statistics_no_sharing_allowed() && !$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING]) {
-		$save=true;
-		$storedoptions[GTM4WP_OPTION_INCLUDE_REMARKETING] = true;
+		} elseif ( ! cmplz_statistics_no_sharing_allowed() && ! $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] ) {
+			$save                                               = true;
+			$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = true;
+		}
 	}
 
 	if ($save) update_option(GTM4WP_OPTIONS, $storedoptions);

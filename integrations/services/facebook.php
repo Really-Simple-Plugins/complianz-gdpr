@@ -9,8 +9,8 @@ function cmplz_facebook_script($tags){
 }
 
 
-add_filter('cmplz_placeholder_markers', 'cmplz_facebook_placeholders');
-function cmplz_facebook_placeholders($tags){
+add_filter('cmplz_placeholder_markers', 'cmplz_facebook_placeholder');
+function cmplz_facebook_placeholder($tags){
     $tags['facebook'] =  array("fb-page", "fb-post");
     return $tags;
 }

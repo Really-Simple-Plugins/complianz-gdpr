@@ -59,9 +59,16 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_readmore_optinstats]', function () {
         $(".cc-link.cookie-policy").html($(this).val());
     });
+
+
     $(document).on('keyup', 'input[name=cmplz_readmore_optout]', function () {
         $(".cc-link.cookie-policy").html($(this).val());
     });
+
+	$(document).on('keyup', 'input[name=cmplz_readmore_optout_dnsmpi]', function () {
+		$(".cc-link.cookie-policy").html($(this).val());
+	});
+
 
     $(document).on('keyup', 'textarea[name=cmplz_tagmanager_categories]', function () {
         //keep up to date with other tabs
@@ -235,8 +242,13 @@ jQuery(document).ready(function ($) {
         }
 
         var ccMessage = $('textarea[name=cmplz_message_'+settingConsentType + ']').val();
-        var ccAllow = $('input[name=cmplz_accept]').val();
-        var ccLink = $('input[name=cmplz_readmore_'+settingConsentType + ']').val();
+
+		var ccAllow = $('input[name=cmplz_accept]').val();
+		if ($('input[name=cmplz_readmore_'+settingConsentType + '_dnsmpi]').length){
+			var ccLink = $('input[name=cmplz_readmore_'+settingConsentType + '_dnsmpi]').val();
+		} else {
+			var ccLink = $('input[name=cmplz_readmore_'+settingConsentType + ']').val();
+		}
         var ccStatic = false;
         var ccBorder = $('input[name=cmplz_border_color]').val();
         var ccPosition = $('select[name=cmplz_position]').val();

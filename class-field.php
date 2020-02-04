@@ -362,6 +362,7 @@ if (!class_exists("cmplz_field")) {
         public
         function before_label($args)
         {
+
             $condition = false;
             $condition_question = '';
             $condition_answer = '';
@@ -374,15 +375,15 @@ if (!class_exists("cmplz_field")) {
             $condition_class = $condition ? 'condition-check' : '';
             $hidden_class =  ($args['hidden']) ? 'hidden' : '';
             $first_class =  ($args['first']) ? 'first' : '';
+            $type = $args['type']==='notice' ? '' : $args['type'];
 
             $this->get_master_label($args);
-
             if ($args['table']) {
                 echo '<tr class="cmplz-settings field-group ' . esc_attr('cmplz-'.$args['fieldname'].' cmplz-'.$args['type'].' '.$hidden_class.' '.$condition_class) . ' "';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><th scope="row">';
             } else {
-                echo '<div class="field-group ' .  esc_attr($args['fieldname'].' '.$args['type'].' '.$hidden_class.' '.$first_class.' '.$condition_class) . '" ';
+	            echo '<div class="field-group ' .  esc_attr($args['fieldname'].' '.$type.' '.$hidden_class.' '.$first_class.' '.$condition_class) . '" ';
                 echo $condition ? 'data-condition-question="' . esc_attr($condition_question) . '" data-condition-answer="' . esc_attr($condition_answer) . '"' : '';
                 echo '><div class="cmplz-label">';
             }
@@ -962,7 +963,6 @@ if (!class_exists("cmplz_field")) {
 
                 $type = ($args['callback']) ? 'callback' : $args['type'];
                 $args['fieldname'] = $fieldname;
-
                 switch ($type) {
                     case 'callback':
                         $this->callback($args);
@@ -1052,9 +1052,8 @@ if (!class_exists("cmplz_field")) {
         function notice($args)
         {
             if (!$this->show_field($args)) return;
-
             do_action('complianz_before_label', $args);
-            cmplz_notice($args['label']);
+            cmplz_notice($args['label'], 'warning');
             do_action('complianz_after_label', $args);
             do_action('complianz_after_field', $args);
         }

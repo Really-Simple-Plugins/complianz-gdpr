@@ -104,6 +104,7 @@ $this->fields = $this->fields + array(
                 'eu' => __('European Union (GDPR), excluding the UK','complianz-gdpr'),
                 'uk' => __('United Kingdom (UK-GDPR, PECR, Data Protection Act)','complianz-gdpr'),
                 'us' => __('United States','complianz-gdpr'),
+                'ca' => __('Canada (PIPEDA)','complianz-gdpr'),
             ),
             'label' => __("Which region(s) do you target with your website?", 'complianz-gdpr'),
             'help' => __("This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.", 'complianz-gdpr'),
@@ -149,6 +150,7 @@ $this->fields = $this->fields + array(
             'required' => true,
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
+
         'address_company' => array(
             'step' => STEP_COMPANY,
             'section' => 3,
@@ -232,7 +234,9 @@ $this->fields = $this->fields + array(
             'help' => __("Also consider future purposes. Regarding personalized products: these are products and/or services which are personalized based on visitor's behavior. E.g. advertisements based on pages visited.", 'complianz-gdpr'),
             'required' => true,
             'options' => $this->purposes,
-            'callback_condition' => array('regions' => 'us'),
+            'callback_condition' => array(
+	            'regions' => array('us')
+            ),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
         ),
     );
@@ -579,7 +583,7 @@ $this->fields = $this->fields + array(
             'label' => __("Does your website use wordpress comments?", 'complianz-gdpr'),
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             'callback_condition' => array(
-                'regions' => array('eu','uk'),
+	            'regions' => array('eu','uk'),
             ),
         ),
 
@@ -599,7 +603,7 @@ $this->fields = $this->fields + array(
                 'uses_wordpress_comments' => 'yes',
             ),
             'callback_condition' => array(
-                'regions' => array('eu','uk'),
+	            'regions' => array('eu','uk'),
             ),
         ),
 

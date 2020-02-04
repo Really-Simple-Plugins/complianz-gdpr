@@ -8,8 +8,7 @@ function cmplz_filter_fields($fields)
          * Add dynamic purposes
          *
          * */
-
-    if (cmplz_has_region('us')) {
+    if (cmplz_has_region('us') || (cmplz_has_region('ca') && cmplz_get_value('privacy-statement')==='yes')) {
         foreach (COMPLIANZ()->config->purposes as $key => $label) {
 
             if (!empty(COMPLIANZ()->config->details_per_purpose_us)) {

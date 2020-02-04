@@ -1,6 +1,30 @@
 .cmplz-hidden {
   display: none;
 }
+.cmplz-region-indicator {
+  height: 7px;
+}
+.cmplz-region-indicator span {
+  padding-top: 7px;
+  padding-right: 10px;
+}
+.cmplz-region-indicator span,
+.cmplz-region-indicator img {
+  margin-top: -23px;
+  float: right;
+}
+.cmplz-region-indicator img {
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+}
+#cookie-settings .cmplz-region-indicator img {
+  height: 35px;
+  width: 35px;
+}
+#cookie-settings .cmplz-region-indicator img {
+  margin-top: 0;
+}
 /*
    statistics
 */
@@ -194,6 +218,7 @@
   display: none;
   bottom: 0;
   position: absolute;
+  padding: 5px 0;
 }
 .cmplz-second-column-docs {
   width: 100%;
@@ -500,6 +525,25 @@ input[type="text"] {
 .cmplz-slider.cmplz-round:before {
   border-radius: 50%;
 }
+.cmplz-slider-na {
+  padding: 2px 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.cmplz-slider-na:before {
+  position: absolute;
+  content: "N/A";
+  color: white;
+}
+.cmplz-slider-na.cmplz-round {
+  border-radius: 20px;
+}
 input:checked + .cmplz-slider {
   background-color: #29b6f6;
 }
@@ -788,7 +832,7 @@ html .mceContentBody {
   border-radius: 0px;
   padding: 30px;
   margin-left: 0px;
-  flex: 0 0 190px;
+  flex: 0 0 250px;
 }
 #cmplz-wizard .cmplz-body .cmplz-section-menu.active a,
 #cookie-policy-snapshots .cmplz-body .cmplz-section-menu.active a {
@@ -800,28 +844,6 @@ html .mceContentBody {
   flex-grow: 1;
   padding: 30px;
   margin-left: 30px;
-}
-#cmplz-wizard .cmplz-body .cmplz-region-indicator,
-#cookie-policy-snapshots .cmplz-body .cmplz-region-indicator {
-  height: 0;
-}
-#cmplz-wizard .cmplz-body .cmplz-region-indicator span,
-#cookie-policy-snapshots .cmplz-body .cmplz-region-indicator span {
-  padding-top: 7px;
-  padding-right: 10px;
-}
-#cmplz-wizard .cmplz-body .cmplz-region-indicator span,
-#cookie-policy-snapshots .cmplz-body .cmplz-region-indicator span,
-#cmplz-wizard .cmplz-body .cmplz-region-indicator img,
-#cookie-policy-snapshots .cmplz-body .cmplz-region-indicator img {
-  margin-top: -23px;
-  float: right;
-}
-#cmplz-wizard .cmplz-body .cmplz-region-indicator img,
-#cookie-policy-snapshots .cmplz-body .cmplz-region-indicator img {
-  width: 40px;
-  height: 25px;
-  margin-left: 5px;
 }
 #cmplz-wizard .cmplz-body label,
 #cookie-policy-snapshots .cmplz-body label {

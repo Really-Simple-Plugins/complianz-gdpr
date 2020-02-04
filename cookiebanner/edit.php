@@ -66,7 +66,11 @@
 
             ?>
             <div id="<?php echo $consent_type?>" class="cmplz-tabcontent region <?php if ($active_tab===$consent_type) echo "active"?>">
-                <h3><?php echo get_regions_for_consent_type($consent_type);?></h3>
+                <?php
+                    $regions = get_regions_for_consent_type($consent_type);
+                    cmplz_flag($regions);
+
+                    ?>
                 <p>
                 <table class="form-table">
                     <?php

@@ -36,12 +36,12 @@ add_filter('cmplz_detected_services','cmplz_openstreetmaps_plugin_detected_servi
  * @return array
  */
 
-function cmplz_openstreetmaps_plugin_placeholder($tags){
+function cmplz_osm_placeholder($tags){
 	$tags['openstreetmaps'] = 'map'; //doesn't work, is too generic
 
 	return $tags;
 }
-add_filter('cmplz_placeholder_markers', 'cmplz_openstreetmaps_plugin_placeholder');
+add_filter('cmplz_placeholder_markers', 'cmplz_osm_placeholder');
 
 /**
  * Add some custom css for the placeholder

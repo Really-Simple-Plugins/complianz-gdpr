@@ -8,3 +8,11 @@ function cmplz_soundcloud_iframetags($tags){
 
     return $tags;
 }
+
+/**
+ * function to let complianz detect this integration as having placeholders.
+ */
+
+function cmplz_soundcloud_placeholder(){
+
+}

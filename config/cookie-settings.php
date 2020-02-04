@@ -280,7 +280,6 @@ $this->fields = $this->fields + array(
             'label' => __("Accept", 'complianz-gdpr'),
             'table' => true,
             'callback_condition' => 'cmplz_uses_optout',
-
         ),
 
         'message_optout' => array(
@@ -296,11 +295,21 @@ $this->fields = $this->fields + array(
             'source' => 'CMPLZ_COOKIEBANNER',
             'step' => 'optout',
             'type' => 'text',
-            'default' => cmplz_us_cookie_statement_title(),
-            'label' => __("Text on link to the US cookie statement", 'complianz-gdpr'),
+            'default' => 'Cookie Policy',
+            'label' => __("Text on link to the Cookie Policy", 'complianz-gdpr'),
             'table' => true,
-            'callback_condition' => 'cmplz_uses_optout',
+            'callback_condition' => 'NOT cmplz_ccpa_applies'
+        ),
 
+        'readmore_optout_dnsmpi' => array(
+	        'source' => 'CMPLZ_COOKIEBANNER',
+	        'step' => 'optout',
+	        'type' => 'text',
+	        'default' => 'Do Not Sell My Personal Information',
+	        'label' => __("Text on link to the Do Not Sell My Personal Information page.", 'complianz-gdpr'),
+	        'table' => true,
+	        'callback_condition' => 'cmplz_ccpa_applies',
+	        'help' => __('This text is not shown in the preview, but is used instead of the Cookie Policy text when the region is US, and CCPA applies.', 'complianz-gdpr'),
         ),
 
         'readmore_privacy' => array(

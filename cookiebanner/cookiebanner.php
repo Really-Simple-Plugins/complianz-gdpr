@@ -1,21 +1,4 @@
 <?php
-/**
- * On change of settings for california, we need to update the cookie policy settings for each variation as well.
- * @hooked cmplz_update_us_cookie_policy_title
- *
- */
-add_action('cmplz_update_us_cookie_policy_title',  'cmplz_update_us_cookie_policy_title_in_banners');
- function cmplz_update_us_cookie_policy_title_in_banners()
-{
-	$banners = cmplz_get_cookiebanners();
-	$title = cmplz_us_cookie_statement_title();
-
-	foreach ($banners as $banner) {
-		$banner = new CMPLZ_COOKIEBANNER($banner->ID);
-		$banner->readmore_optout = $title;
-		$banner->save();
-	}
-}
 
 /**
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache

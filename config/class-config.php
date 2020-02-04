@@ -180,7 +180,7 @@ if (!class_exists("cmplz_config")) {
             "instagram" => array('instawidget.net/js/instawidget.js', 'cdninstagram.com', 'instagram.com'),
         );
 
-        /*
+        /**
          * Scripts with this string in the content get listed in the third party list.
          * Also used in cmplz_placeholder()
          * */
@@ -190,7 +190,7 @@ if (!class_exists("cmplz_config")) {
             "soundcloud" => array('w.soundcloud.com/player'),
             "openstreetmaps" => array('openstreetmap.org', 'osm/js/osm'),
             "vimeo" => array('player.vimeo.com'),
-            "google-recaptcha" => array('google.com/recaptcha'),
+            "google-recaptcha" => array('google.com/recaptcha','google.com/recaptcha', 'grecaptcha', 'recaptcha.js', 'recaptcha/api'),
             "youtube" => array('youtube.com'),
             "videopress" => array('videopress.com/embed', 'videopress.com/videopress-iframe.js'),
             "dailymotion" => array('dailymotion.com/embed/video/'),
@@ -305,7 +305,6 @@ if (!class_exists("cmplz_config")) {
         public $sections;
         public $pages;
         public $warning_types;
-        public $document_elements;
         public $yes_no;
         public $known_cookie_keys;
         public $ignore_cookie_list;
@@ -319,7 +318,6 @@ if (!class_exists("cmplz_config")) {
         public $premium_privacypolicy;
         public $premium_disclaimer;
         public $collected_info_children;
-        public $steps_to_review_on_changes;
 
         function __construct()
         {
@@ -334,8 +332,6 @@ if (!class_exists("cmplz_config")) {
                 'no' => __('No', 'complianz-gdpr'),
             );
 
-
-            $this->steps_to_review_on_changes = (STEP_PLUGINS == STEP_COOKIES) ? STEP_COOKIES : STEP_PLUGINS . ", " . STEP_COOKIES;
             $this->premium_geo_ip = sprintf(__("To enable the warning only for countries with a cookie law, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
             $this->premium_ab_testing = sprintf(__("If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
             $this->premium_privacypolicy = sprintf(__("A comprehensive, legally validated privacy statement is part of the %spremium%s plugin.", 'complianz-gdpr'), '<a href="https://complianz.io" target="_blank">', '</a>') . "&nbsp;";
@@ -355,25 +351,38 @@ if (!class_exists("cmplz_config")) {
             require_once(cmplz_path . '/config/documents/cookie-policy.php');
             require_once(cmplz_path . '/config/documents/cookie-policy-us.php');
             require_once(cmplz_path . '/config/documents/cookie-policy-uk.php');
+            require_once(cmplz_path . '/config/documents/cookie-policy-ca.php');
 
             if (file_exists(cmplz_path . '/pro/config/')) {
                 require_once(cmplz_path . '/pro/config/steps.php');
                 require_once(cmplz_path . '/pro/config/warnings.php');
                 require_once(cmplz_path . '/pro/config/questions-wizard.php');
-                require_once(cmplz_path . '/pro/config/EU/questions-dataleak.php');
+	            require_once(cmplz_path . '/pro/config/documents/documents.php');
+
+	            require_once(cmplz_path . '/pro/config/EU/questions-dataleak.php');
                 require_once(cmplz_path . '/pro/config/US/questions-dataleak.php');
+                require_once(cmplz_path . '/pro/config/CA/questions-dataleak.php');
                 require_once(cmplz_path . '/pro/config/UK/questions-dataleak.php');
+
                 require_once(cmplz_path . '/pro/config/EU/questions-processing.php');
                 require_once(cmplz_path . '/pro/config/US/questions-processing.php');
+                require_once(cmplz_path . '/pro/config/CA/questions-processing.php');
                 require_once(cmplz_path . '/pro/config/UK/questions-processing.php');
+
                 require_once(cmplz_path . '/pro/config/dynamic-fields.php');
                 require_once(cmplz_path . '/pro/config/dynamic-document-elements.php');
                 require_once(cmplz_path . '/pro/config/documents/US/dataleak-report.php');
                 require_once(cmplz_path . '/pro/config/documents/US/privacy-policy.php');
                 require_once(cmplz_path . '/pro/config/documents/US/processing-agreement.php');
                 require_once(cmplz_path . '/pro/config/documents/US/privacy-policy-children.php');
-                require_once(cmplz_path . '/pro/config/documents/documents.php');
+
+	            require_once(cmplz_path . '/pro/config/documents/CA/dataleak-report.php');
+	            require_once(cmplz_path . '/pro/config/documents/CA/privacy-policy.php');
+	            require_once(cmplz_path . '/pro/config/documents/CA/processing-agreement.php');
+	            require_once(cmplz_path . '/pro/config/documents/CA/privacy-policy-children.php');
+
                 require_once(cmplz_path . '/pro/config/documents/disclaimer.php');
+
                 require_once(cmplz_path . '/pro/config/documents/EU/privacy-policy.php');
                 require_once(cmplz_path . '/pro/config/documents/EU/processing-agreement.php');
                 require_once(cmplz_path . '/pro/config/documents/EU/dataleak-report.php');
@@ -383,7 +392,6 @@ if (!class_exists("cmplz_config")) {
                 require_once(cmplz_path . '/pro/config/documents/UK/dataleak-report.php');
                 require_once(cmplz_path . '/pro/config/documents/UK/privacy-policy-children.php');
             }
-
             //after loading integrations on 10
             add_action('plugins_loaded', array($this, 'init'), 15);
         }
@@ -409,12 +417,10 @@ if (!class_exists("cmplz_config")) {
 
         public function get_step_by_id($id)
         {
-
             $steps = $this->steps['wizard'];
             //because the step arrays start with one instead of 0, we increase with one
             return array_search($id, array_column($steps, 'id')) + 1;
         }
-
 
         /**
          * Create a generic read more text with link for help texts.
@@ -455,8 +461,6 @@ if (!class_exists("cmplz_config")) {
 
             }
 
-            if ($get_by_fieldname) {
-            }
             return $output;
         }
 
@@ -472,12 +476,15 @@ if (!class_exists("cmplz_config")) {
         public function init()
         {
 
-            if (!is_admin() || (is_admin() && isset($_GET['page']) && strpos($_GET['page'], 'cmplz') !== FALSE)) {
-                $this->fields = apply_filters('cmplz_fields', $this->fields);
-            }
+            $this->fields = apply_filters('cmplz_fields', $this->fields);
 
             if (!is_admin()) {
-                $this->document_elements = apply_filters('cmplz_document_elements', $this->document_elements, $this->fields());
+            	$regions = cmplz_get_regions();
+            	foreach($regions as $region => $label){
+		            foreach ($this->pages[$region] as $type => $data){
+			            $this->pages[$region][$type]['document_elements'] = apply_filters('cmplz_document_elements', $this->pages[$region][$type]['document_elements'], $region, $type, $this->fields());
+		            }
+	            }
             }
         }
 

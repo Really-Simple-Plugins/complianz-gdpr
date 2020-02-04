@@ -73,6 +73,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             add_action('wp_ajax_cmplz_edit_item', array($this, 'ajax_edit_item'));
             add_action('wp_ajax_cmplz_get_list', array($this, 'ajax_get_list'));
 
+
+            add_filter('cmplz_consenttype', array($this, 'maybe_filter_consenttype'), 10, 2);
+
             $this->load();
 
         }
@@ -88,6 +91,22 @@ if (!class_exists("cmplz_cookie_admin")) {
 	        if ( ! wp_script_is( 'jquery', 'enqueued' )) {
 		        wp_enqueue_script( 'jquery' );
 	        }
+        }
+
+	    /**
+         * When special data is processed, Canada requires optinstats consenttype
+	     * @param string $consenttype
+	     * @param string $region
+	     *
+	     * @return string $consenttype
+	     */
+
+        public function maybe_filter_consenttype($consenttype, $region){
+            if ($region==='ca' && cmplz_third_party_cookies_active() && cmplz_get_value('sensitive_information_processed')==='yes'){
+            	$consenttype = 'optin';
+            }
+
+            return $consenttype;
         }
 
         /**
@@ -742,9 +761,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                         $cookie->service = $cookie_object->service;
                         $cookie->ignored = $cookie_object->ignore;
                         $cookie->unique = $cookie_object->unique;
-	                    $cookie->slug   = $cookie_object->slug;
+                        $cookie->slug = $cookie_object->slug;
+                        $cookie->lastUpdatedDate = time();
 
-	                    $cookie->lastUpdatedDate = time();
                         $cookie->save();
                         $isTranslationFrom[$cookie->name] = $cookie->ID;
                     }
@@ -758,6 +777,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 			                if ( ! isset( $cookie_object->name ) ) {
 				                continue;
 			                }
+
 			                $cookie                        = new CMPLZ_COOKIE( $original_cookie_name, $language );
 			                $cookie->name                  = $cookie_object->name;
 			                $cookie->retention             = $cookie_object->retention;
@@ -768,7 +788,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 			                $cookie->isMembersOnly         = $cookie_object->isMembersOnly;
 			                $cookie->service               = $cookie_object->service;
 			                $cookie->slug                   = $cookie_object->slug;
-
 			                $cookie->ignored         = $cookie_object->ignore;
 			                $cookie->unique          = $cookie_object->unique;
 			                $cookie->lastUpdatedDate = time();
@@ -1443,7 +1462,6 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             //deprecated filter
             $output = apply_filters('cmplz_cookie_settings', $output);
-
             return apply_filters('cmplz_cookiebanner_settings', $output);
         }
 
@@ -1773,7 +1791,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             $stats_markers = COMPLIANZ()->config->stats_markers;
             foreach ($stats_markers as $key => $markers) {
                 foreach ($markers as $marker) {
-                    if (strpos($html, $marker) !== FALSE && !in_array($key, $stats)) {
+                    if ($single_key && strpos($html, $marker) !== FALSE) {
+                        return $key;
+                    } else if (strpos($html, $marker) !== FALSE && !in_array($key, $stats)) {
                         if ($single_key) return $key;
                         $stats[] = $key;
                     }
@@ -1868,12 +1888,14 @@ if (!class_exists("cmplz_cookie_admin")) {
             $social_media_markers = COMPLIANZ()->config->social_media_markers;
             foreach ($social_media_markers as $key => $markers) {
                 foreach ($markers as $marker) {
-                    if (strpos($html, $marker) !== FALSE && !in_array($key, $social_media)) {
-                        if ($single_key) return $key;
+	                if ($single_key && strpos($html, $marker) !== FALSE) {
+	                    return $key;
+	                } else if (strpos($html, $marker) !== FALSE && !in_array($key, $social_media)) {
                         $social_media[] = $key;
                     }
                 }
             }
+
             if ($single_key) return false;
 
             return $social_media;
@@ -1894,9 +1916,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
             foreach ($thirdparty_markers as $key => $markers) {
                 foreach ($markers as $marker) {
-
-                    if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
-                        if ($single_key) return $key;
+	                if ($single_key && strpos($html, $marker) !== FALSE) {
+		                return $key;
+	                } else if (strpos($html, $marker) !== FALSE && !in_array($key, $thirdparty)) {
                         $thirdparty[] = $key;
                     }
                 }
@@ -2229,6 +2251,11 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_services($settings = array())
         {
             global $wpdb;
+	        $result = $wpdb->query("SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'");
+	        if (empty($result)) {
+		        return array();
+	        }
+
             $defaults = array(
                 'language' => false,
                 'hideEmpty' => false,
@@ -2398,8 +2425,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function update_cookie_policy_date()
         {
-            $date = date(get_option('date_format'), time());
-            update_option('cmplz_publish_date', $date);
+            update_option('cmplz_publish_date', time());
 
             //also reset the email notification, so it will get sent next year.
 	        update_option('cmplz_update_legal_documents_mail_sent', false);
@@ -2495,7 +2521,7 @@ if (!class_exists("cmplz_cookie_admin")) {
          */
 
         public function has_empty_cookie_descriptions(){
-            
+
             $cookies = COMPLIANZ()->cookie_admin->get_cookies(array('showOnPolicy'=>true, 'ignored' => false));
             if (is_array($cookies)) {
                 foreach ($cookies as $cookie_name) {
@@ -2855,6 +2881,9 @@ if (!class_exists("cmplz_cookie_admin")) {
                 return false;
             }
 
+	        /**
+	         * Script Center
+	         */
             $thirdparty_scripts = cmplz_get_value('thirdparty_scripts');
             $thirdparty_iframes = cmplz_get_value('thirdparty_iframes');
             $thirdparty_scripts = strlen($thirdparty_scripts)!=0 ? false : true;
@@ -2909,16 +2938,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 return false;
             }
 
-	        $has_optin = cmplz_uses_consenttype('optin', $region);
 	        $has_optinstats = cmplz_uses_consenttype('optinstats', $region);
-
-	        /**
-	         * If optinstats and optin are both not used, there's not consent required for stats.
-	         */
-            if (!$has_optinstats && !$has_optin) {
-                return false;
-            }
-
             $statistics = cmplz_get_value('compile_statistics');
 
             //uk requires cookie warning for stats
