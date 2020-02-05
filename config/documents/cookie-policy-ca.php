@@ -10,13 +10,13 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'content' => '<i>' . sprintf(_x("This page was last changed on %s, last checked on %s and applies to citizens of Canada.","Legal document cookie policy","complianz-gdpr"), '[publish_date]', '[checked_date]') . '</i>',
     ),
     array(
-        'title' => 'Introduction',
+	    'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.',"Legal document cookie policy","complianz-gdpr"), '[domain]', '[article-cookie_names]'),
     ),
 
     array(
         'title' => _x('What are cookies?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.',"complianz-gdpr"),
+        'content' => _x('A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.','Legal document cookie policy',"complianz-gdpr"),
     ),
     array(
         'title' => _x('What are scripts?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -124,7 +124,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
 	),
 
     array(
-        'title' => 'Your rights with respect to personal data',
+	    'title' => _x('Your rights with respect to personal data', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'p'=> false,
         'content' =>
             '<p>'._x('You have the following rights with respect to your personal data:','Legal document cookie policy', 'complianz-gdpr').'</p>' .
@@ -145,7 +145,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'title' => _x('Contact details', 'Legal document cookie policy:', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+	    'title' => _x('Contact details', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('For questions and/or comments about our cookie policy and this statement, please contact us by using the following contact details:','Legal document cookie policy', 'complianz-gdpr'),
     ),
 

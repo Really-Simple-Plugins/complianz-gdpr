@@ -5,16 +5,21 @@ function cmplz_wpforms_form_types($formtypes){
     return $formtypes;
 }
 add_filter('cmplz_form_types', 'cmplz_wpforms_form_types');
-
+/**
+ * Add WP forms to the forms array 
+ * @param array $input_forms
+ *
+ * @return array
+ */
 function cmplz_wpforms_get_plugin_forms($input_forms)
 {
     $forms = wpforms()->form->get();
-
-    $forms = wp_list_pluck($forms, "post_title", "ID");
-    foreach ($forms as $id => $title) {
-        $input_forms['wpf_' . $id] = $title . " " . __('(WP Forms)', 'complianz-gdpr');
+    if (is_array($forms)) {
+	    $forms = wp_list_pluck( $forms, "post_title", "ID" );
+	    foreach ( $forms as $id => $title ) {
+		    $input_forms[ 'wpf_' . $id ] = $title . " " . __( '(WP Forms)', 'complianz-gdpr' );
+	    }
     }
-
     return $input_forms;
 }
 add_filter('cmplz_get_forms', 'cmplz_wpforms_get_plugin_forms', 10, 1);

@@ -1190,25 +1190,28 @@ if (!class_exists("cmplz_document")) {
 
             $regions = cmplz_get_regions();
             foreach($regions as $region => $label){
-                $banner_id = cmplz_get_default_banner_id();
+	            $banner_id = cmplz_get_default_banner_id();
                 $banner = new CMPLZ_COOKIEBANNER($banner_id);
                 $settings = $banner->get_settings_array();
-                $settings['privacy_link_us '] = COMPLIANZ()->document->get_page_url('privacy-statement','us');
-                $settings_html='';
-                $skip = array('static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
-                foreach($settings as $key => $value) {
-                    if (in_array($key, $skip)) continue;
 
+	            $settings['privacy_link_us '] = COMPLIANZ()->document->get_page_url('privacy-statement','us');
+                $settings_html='';
+                $skip = array('use_custom_cookie_css','custom_css_amp', 'static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
+				unset($settings["readmore_url"]);
+
+	            foreach($settings as $key => $value) {
+                    if (in_array($key, $skip)) continue;
+//                    if (empty($value)) $value = __("no","complianz-gdpr");
                     $settings_html .= '<li>'.$key.' => '.esc_html($value).'</li>';
-                }
-                $settings_html = '<div><h1>'.__('Cookie consent settings','complianz-gdpr').'</h1><ul>'.($settings_html).'</ul></div>';
+	            }
+
+	            $settings_html = '<div><h1>'.__('Cookie consent settings','complianz-gdpr').'</h1><ul>'.($settings_html).'</ul></div>';
                 $intro =
                     '<h1>'. __("Proof of Consent","complianz-gdpr").'</h1>
                      <p>'.sprintf(__("This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the cookie policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
                             to %shttps://complianz.io/consent%s.","complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent">',"</a>").'</p>';
-
                 COMPLIANZ()->document->generate_pdf('cookie-statement', $region, false, true, $intro, $settings_html);
             }
             update_option('cmplz_generate_new_cookiepolicy_snapshot',false);
@@ -1264,11 +1267,11 @@ if (!class_exists("cmplz_document")) {
                     h2 {
                         font-size:12pt;
                     }
-                    
+
                     h3 {
                         font-size:12pt;
                     }
-                    
+
                     h4 {
                         font-size:10pt;
                         font-weight: bold;
@@ -1276,11 +1279,11 @@ if (!class_exists("cmplz_document")) {
                     .center {
                       text-align:center;
                     }
-                    
-                    
-                    
+
+
+
                     </style>
-                    
+
                     <body >
                     ' . $title_html . '
                     ' . $document_html . '

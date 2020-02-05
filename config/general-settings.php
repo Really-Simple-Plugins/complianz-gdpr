@@ -2,6 +2,8 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->fields = $this->fields + array(
+
+
         'use_country' => array(
             'step' => 'general',
             'source' => 'settings',
@@ -104,6 +106,17 @@ $this->fields = $this->fields + array(
             'condition' => array(
                 'disable_cookie_block' => false,
             )
+        ),
+
+        'disable_notifications' => array(
+	        'step' => 'general',
+	        'source' => 'settings',
+	        'type' => 'checkbox',
+	        'label' => __("Disable notifications", 'complianz-gdpr'),
+	        'comment' => __('Disable all plus ones and warnings on your dashboard.','complianz-gdpr'),
+	        'table' => true,
+	        'disabled' => false,
+	        'default' => false, //setting this to true will set it always to true
         ),
 
         'notification_from_email' => array(

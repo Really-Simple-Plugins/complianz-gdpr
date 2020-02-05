@@ -20,6 +20,8 @@ if (!class_exists("cmplz_admin")) {
 
             $plugin = cmplz_plugin;
             add_filter("plugin_action_links_$plugin", array($this, 'plugin_settings_link'));
+            //multisite
+	        add_filter("network_admin_plugin_action_links_$plugin", array($this, 'plugin_settings_link'));
 
             //Add actions for dashboard components
             add_action("cmplz_dashboard_third_block", array($this, 'dashboard_third_block'));
@@ -424,6 +426,9 @@ if (!class_exists("cmplz_admin")) {
 
         public function get_warnings($cache = true, $plus_ones_only = false, $ignore_warnings = array())
         {
+        	//return nothing when notifications disabled
+        	if (cmplz_get_value('disable_notifications')) return array();
+
             $warnings = $cache ? get_transient('complianz_warnings') : false;
             //re-check if there are no warnings, or if the transient has expired
             if (!$warnings || count($warnings) > 0) {

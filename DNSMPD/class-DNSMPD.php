@@ -73,21 +73,19 @@ if (!class_exists("cmplz_DNSMPD")) {
         public function get_users($args){
             global $wpdb;
             $sql = "SELECT * from {$wpdb->prefix}cmplz_dnsmpd";
-
+	        $search_sql = '';
             if (isset($args['email']) && !empty($args['email']) && is_email($args['email'])) {
-                $sql = $wpdb->prepare( "%s WHERE email like %s", $sql, "%" . $wpdb->esc_like($args['email']) . "%");
+                $sql = $wpdb->prepare( "%s WHERE email like %s", $sql, "%" . sanitize_text_field($args['email']) . "%");
             }
-            if (isset($args['name']) && !empty($args['name'])) {
-                $sql = $wpdb->prepare( "%s WHERE name like %s", $sql, "%" . $wpdb->esc_like($args['name']) . "%");
 
-            }
-            $sql .= " ORDER BY ".sanitize_title($args['orderby'])." ".sanitize_title($args['order']);
+	        if (isset($args['name']) && !empty($args['name'])) {
+                $search_sql = " WHERE name like '%".sanitize_text_field($args['name'])."%'";
+	        }
+            $sql .= $search_sql." ORDER BY ".sanitize_title($args['orderby'])." ".sanitize_title($args['order']);
 
             if (isset($args['number'])){
                 $sql .= " LIMIT ".intval($args['number'])." OFFSET ".intval($args["offset"]);
-
             }
-
             $users = $wpdb->get_results($sql);
             return $users;
         }

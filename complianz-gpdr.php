@@ -87,6 +87,7 @@ if (!class_exists('COMPLIANZ')) {
                         self::$instance->field = new cmplz_field();
                         self::$instance->wizard = new cmplz_wizard();
                         self::$instance->export_settings = new cmplz_export_settings();
+	                    self::$instance->tour = new cmplz_tour();
 
                     }
                     self::$instance->cookie_admin = new cmplz_cookie_admin();
@@ -235,3 +236,12 @@ if (!function_exists('cmplz_load_translation')) {
         load_plugin_textdomain('complianz-gdpr', FALSE, cmplz_path . '/config/languages/');
     }
 }
+
+if (!function_exists('cmplz_start_tour')){
+	function cmplz_start_tour(){
+		if (!get_site_option('cmplz_tour_shown_once')){
+			update_site_option('cmplz_tour_started', true);
+		}
+	}
+}
+register_activation_hook( __FILE__, 'cmplz_start_tour' );

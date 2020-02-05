@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 	};
 
 	var steps = cmplz_tour.steps;
-	console.log(steps);
+
 	plugins_overview_tour.addStep('cmplz-step-0', {
 		classes: 'shepherd-theme-arrows cmplz-plugins-overview-tour-container shepherd-has-cancel-link',
 		attachTo: steps[0]['attach']+' right',
@@ -67,8 +67,6 @@ jQuery(document).ready(function($) {
 	if (steps.hasOwnProperty(1)) {
 		var license_tour = new Shepherd.Tour();
 		license_tour.options.defaults = plugins_overview_tour.options.defaults;
-		console.log("has key 1 ");
-		console.log(steps[1]);
 		license_tour.addStep('cmplz-step-1', {
 			classes: 'shepherd-theme-arrows cmplz-plugins-overview-tour-container shepherd-has-cancel-link',
 			attachTo: steps[1]['attach'],
@@ -85,6 +83,8 @@ jQuery(document).ready(function($) {
 
 			],
 		});
+		license_tour.on('cancel', cancel_tour_plus);
+
 	}
 
 	dashboard_tour.addStep('cmplz-step-2', {
@@ -289,7 +289,12 @@ jQuery(document).ready(function($) {
 	function cancel_tour() {
 		// The tour is either finished or [x] was clicked
 		plugins_overview_tour.canceled = true;
+		dashboard_tour.canceled = true;
 		wizard_tour.canceled = true;
+		snapshot_tour.canceled = true;
+		settings_tour.canceled = true;
+		cookiebanner_tour.canceled = true;
+		integrations_tour.canceled = true;
 		finish_tour.canceled = true;
 
 		$.ajax({
@@ -302,5 +307,21 @@ jQuery(document).ready(function($) {
 			})
 		});
 	};
+
+	function cancel_tour_plus() {
+		license_tour.canceled = true;
+
+
+		$.ajax({
+			type: "POST",
+			url: cmplz_tour.ajaxurl,
+			dataType: 'json',
+			data: ({
+				action: 'cmplz_cancel_tour',
+				token: cmplz_tour.token,
+			})
+		});
+	};
+
 
 });

@@ -10,9 +10,11 @@ add_filter('cmplz_form_types', 'cmplz_gravityforms_form_types');
 function cmplz_gravityforms_get_plugin_forms($input_forms)
 {
     $forms = GFAPI::get_forms();
-    $forms = wp_list_pluck($forms, "title", "id");
-    foreach ($forms as $id => $title) {
-        $input_forms['gf_' . $id] = $title . " " . __('(Gravity Forms)', 'complianz-gdpr');
+    if (is_array($forms)) {
+	    $forms = wp_list_pluck( $forms, "title", "id" );
+	    foreach ( $forms as $id => $title ) {
+		    $input_forms[ 'gf_' . $id ] = $title . " " . __( '(Gravity Forms)', 'complianz-gdpr' );
+	    }
     }
 
     return $input_forms;

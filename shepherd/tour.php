@@ -23,7 +23,6 @@ class cmplz_tour {
 		add_action( 'admin_init', array( $this, 'restart_tour') );
 
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
-
 	}
 
 	static function this()
@@ -31,27 +30,9 @@ class cmplz_tour {
 		return self::$_this;
 	}
 
-	/**
-	 * Initializes the admin class
-	 *
-	 * @since  1.0
-	 *
-	 * @access public
-	 *
-	 */
-
-	public function init() {
-
-
-		if ( ! current_user_can( $this->capability ) ) {
-			return;
-		}
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-
-	}
-
 	public function enqueue_assets($hook) {
-		if ( ! get_option( 'cmplz_tour_cancelled' ) ) {
+
+		if ( get_site_option( 'cmplz_tour_started' ) ) {
 			if ($hook !== 'plugins.php' && (strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
 
 			wp_register_script( 'cmplz-tether',
@@ -161,13 +142,11 @@ class cmplz_tour {
 	 */
 
 	public function listen_for_cancel_tour() {
+
 		if (!isset($_POST['token']) || !wp_verify_nonce($_POST['token'], 'cmplz_tour_nonce') ) return;
-
-		update_option('cmplz_tour_cancelled', true);
-
+		update_site_option('cmplz_tour_started', false);
+		update_site_option('cmplz_tour_shown_once', true);
 	}
-
-
 
 
 	public function restart_tour()
@@ -179,7 +158,7 @@ class cmplz_tour {
 
 		if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
 
-		update_option('cmplz_tour_cancelled', false);
+		update_site_option('cmplz_tour_started', true);
 
 		wp_redirect(admin_url('plugins.php'));
 		exit;
