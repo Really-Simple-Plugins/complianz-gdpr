@@ -106,14 +106,14 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.2.0 =
-* Fix: use filename sanitize function instead of sanitize_title() for proof of consent files
 * New: PIPEDA support (Canada)
 * Tweak: CAOS integration improved
-* Fix: allow for private Vimeo video's, props @volkmar-kantor
 * Tweak: added to disable placeholders per plugin/service
 * Tweak: Updated WCAG to v2.1
 * Tweak: moved custom recaptcha css to integrations modules
 * Tweak: added introduction tour
+* Fix: allow for private Vimeo video's, props @volkmar-kantor
+* Fix: use filename sanitize function instead of sanitize_title() for proof of consent files
 * Fix: user region and consenttype for not enabled regions should return "other", even when the user is from a supported region
 * Tweak: made aria-label in cookie notice translatable
 * Fix: check if array key exists in GTM4WP integration
