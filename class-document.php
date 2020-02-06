@@ -1196,7 +1196,7 @@ if (!class_exists("cmplz_document")) {
 
 	            $settings['privacy_link_us '] = COMPLIANZ()->document->get_page_url('privacy-statement','us');
                 $settings_html='';
-                $skip = array('use_custom_cookie_css','custom_css_amp', 'static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
+                $skip = array('categorie','use_custom_cookie_css','custom_css_amp', 'static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
 				unset($settings["readmore_url"]);
 
 	            foreach($settings as $key => $value) {
@@ -1389,9 +1389,9 @@ if (!class_exists("cmplz_document")) {
 
 	            // Save the pages to a file
 	            if ( $save_to_file ) {
-		            $file_title = $save_dir . sanitize_title(get_bloginfo( 'name' ) . '-' . $region . "-proof-of-consent-" .  $date );
+		            $file_title = $save_dir . sanitize_file_name(get_bloginfo( 'name' ) . '-' . $region . "-proof-of-consent-" .  $date );
 	            } else {
-		            $file_title = sanitize_title(get_bloginfo( 'name' ) . "-export-" . $date );
+		            $file_title = sanitize_file_name(get_bloginfo( 'name' ) . "-export-" . $date );
 	            }
 
 	            $output_mode = $save_to_file ? 'F' : 'I';

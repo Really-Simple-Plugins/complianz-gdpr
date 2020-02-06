@@ -14,7 +14,7 @@ function cmplz_instagram_script($tags)
 
 add_filter('cmplz_placeholder_markers', 'cmplz_instagram_placeholder');
 function cmplz_instagram_placeholder($tags){
-    $tags['instagram'] =  'instagram-media';
+    $tags['instagram'][] =  'instagram-media';
 
     return $tags;
 }

@@ -77,7 +77,7 @@ add_filter('cmplz_set_cookies_on_consent',  'cmplz_wp_google_maps_add_cookie');
  */
 function cmplz_wp_google_maps_placeholder($tags){
 
-    $tags['google-maps'] = 'gmw-map-cover';
+    $tags['google-maps'][] = 'gmw-map-cover';
 
     return $tags;
 }

@@ -12,9 +12,8 @@ function cmplz_twitter_script($tags){
 
 add_filter('cmplz_placeholder_markers', 'cmplz_twitter_placeholder');
 function cmplz_twitter_placeholder($tags){
-    $tags['twitter'] =  'twitter-tweet';
-	  $tags['twitter'][] =  'twitter-timeline';
-
+    $tags['twitter'][] =  'twitter-tweet';
+    $tags['twitter'][] =  'twitter-timeline';
     return $tags;
 }
 
