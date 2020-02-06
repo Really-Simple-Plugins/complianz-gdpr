@@ -14,7 +14,7 @@ function cmplz_jetpack_script($tags){
  */
 add_filter('cmplz_placeholder_markers', 'cmplz_jetpack_placeholder');
 function cmplz_jetpack_placeholder($tags){
-	$tags['twitter'] =  'widget_twitter_timeline';
+	$tags['twitter'][] =  'widget_twitter_timeline';
 
 	return $tags;
 }

@@ -32,7 +32,7 @@ add_filter('cmplz_detected_services','cmplz_g1_gmaps_detected_services' );
  */
 
 function cmplz_g1_gmaps_placeholder($tags){
-	$tags['google-maps'] = 'g1gmap-main';
+	$tags['google-maps'][] = 'g1gmap-main';
 	return $tags;
 }
 add_filter('cmplz_placeholder_markers', 'cmplz_g1_gmaps_placeholder');

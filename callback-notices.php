@@ -90,8 +90,7 @@ function cmplz_google_fonts_recommendation() {
 	if ( ! cmplz_has_region( 'eu' ) ) {
 		return;
 	}
-
-	cmplz_notice( sprintf( __( "Enabled %s will be blocked automatically, and where possible, a placeholder is activated. You can also disable the placeholder and configure your own placeholder.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 	cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s", 'complianz-gdpr' ), '<a href="'.admin_url('admin.php?page=cmplz-script-center').'">', '</a>' ) );
 
 	$thirdparties = cmplz_get_value( 'thirdparty_services_on_site' );

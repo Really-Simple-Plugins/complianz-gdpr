@@ -14,7 +14,7 @@ function cmplz_so_widgets_bundle_widget_script($tags){
 function cmplz_so_widgets_bundle_placeholder($tags)
 {
 
-    $tags['google-maps'] = 'so-widget-sow-google-map';
+    $tags['google-maps'][] = 'so-widget-sow-google-map';
 
     return $tags;
 }

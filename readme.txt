@@ -106,6 +106,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.2.0 =
+* Fix: use filename sanitize function instead of sanitize_title() for proof of consent files
 * New: PIPEDA support (Canada)
 * Tweak: CAOS integration improved
 * Fix: allow for private Vimeo video's, props @volkmar-kantor

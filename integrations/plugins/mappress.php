@@ -29,7 +29,7 @@ function cmplz_mapppress_css(){
  * @return array
  */
 function cmplz_mappress_placeholder($tags){
-    $tags['google-maps'] = 'mapp-canvas-panel';
+    $tags['google-maps'][] = 'mapp-canvas-panel';
     return $tags;
 }
 add_filter('cmplz_placeholder_markers', 'cmplz_mappress_placeholder');

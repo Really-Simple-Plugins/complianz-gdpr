@@ -11,11 +11,12 @@ function cmplz_facebook_script($tags){
 
 add_filter('cmplz_placeholder_markers', 'cmplz_facebook_placeholder');
 function cmplz_facebook_placeholder($tags){
-    $tags['facebook'] =  array("fb-page", "fb-post");
+    $tags['facebook'][] =  "fb-page";
+    $tags['facebook'][] =  "fb-post";
     return $tags;
 }
 
-    
+
 add_filter('cmplz_known_iframe_tags', 'cmplz_facebook_iframetags');
 function cmplz_facebook_iframetags($tags){
     $tags[] = 'facebook.com/plugins';

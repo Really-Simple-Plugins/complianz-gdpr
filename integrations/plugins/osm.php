@@ -37,7 +37,7 @@ add_filter('cmplz_detected_services','cmplz_openstreetmaps_plugin_detected_servi
  */
 
 function cmplz_osm_placeholder($tags){
-	$tags['openstreetmaps'] = 'map'; //doesn't work, is too generic
+	$tags['openstreetmaps'][] = 'map'; //doesn't work, is too generic
 
 	return $tags;
 }

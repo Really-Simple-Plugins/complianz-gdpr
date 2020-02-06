@@ -32,12 +32,13 @@ add_filter('cmplz_form_types', 'cmplz_forminator_form_types');
 
 function cmplz_forminator_get_plugin_forms($input_forms)
 {
-
     $forms = Forminator_API::get_forms();
-    $forms = wp_list_pluck($forms, "name", "id");
-    foreach ($forms as $id => $title) {
-        $input_forms['fn_' . $id] = $title . " " . '(Forminator)';
-    }
+	if (is_array($forms)) {
+		$forms = wp_list_pluck( $forms, "name", "id" );
+		foreach ( $forms as $id => $title ) {
+			$input_forms[ 'fn_' . $id ] = $title . " " . '(Forminator)';
+		}
+	}
     return $input_forms;
 }
 add_filter('cmplz_get_forms', 'cmplz_forminator_get_plugin_forms');

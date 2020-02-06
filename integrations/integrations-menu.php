@@ -74,8 +74,7 @@ function cmplz_integrations_page() {
 				}
 
 				if ( $thirdparty_active || $socialmedia_active ) {
-					cmplz_notice( __( 'Services which are currently enabled will be blocked by Complianz on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out).', 'complianz-gdpr' ) );
-					cmplz_notice( sprintf( __( "Enabled %s will be blocked automatically, and where possible, a placeholder is activated. To change/disable the placeholder and configure your own placeholder", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+					cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 				}
 
 				?>
@@ -161,7 +160,7 @@ function cmplz_integrations_page() {
                 <input type="hidden" name="cmplz_save_integrations_type" value="plugins">
 				<?php
 				cmplz_notice( __( 'Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/developers-guide-for-third-party-integrations' ) );
-				cmplz_notice( sprintf( __( "Enabled %s will be blocked automatically, and where possible, a placeholder is activated. You can also disable the placeholder and configure your own placeholder.", 'complianz-gdpr' ), __("plugins", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+				cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("plugins", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 
 				$fields = COMPLIANZ()->config->fields( 'integrations' );
 				if ( count( $fields ) == 0 ) {

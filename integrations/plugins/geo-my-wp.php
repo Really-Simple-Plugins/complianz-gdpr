@@ -47,7 +47,7 @@ function cmplz_geo_my_wp_dependencies($tags){
 
 add_filter('cmplz_placeholder_markers', "cmplz_geo_my_wp_placeholder");
 function cmplz_geo_my_wp_placeholder($tags){
-    $tags['google-maps'] =  'gmw-map-cover';
+    $tags['google-maps'][] =  'gmw-map-cover';
 
     return $tags;
 }
