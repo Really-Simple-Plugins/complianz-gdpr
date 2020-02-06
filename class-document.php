@@ -855,7 +855,7 @@ if (!class_exists("cmplz_document")) {
         {
             $required_pages = COMPLIANZ()->document->get_required_pages();
             $pages = array();
-            if ($filter_region){
+            if ($filter_region && isset($required_pages[$filter_region])){
 	            foreach ( $required_pages[$filter_region] as $type => $page ) {
 		            $pages[] = $this->get_shortcode_page_id( $type, $filter_region );
 	            }
