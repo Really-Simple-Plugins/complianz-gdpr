@@ -1,3 +1,26 @@
+<?php
+/**
+ * Make sure we have at least a region, so we can show the cookie banner.
+ */
+$regions = cmplz_get_regions();
+if ( count( $regions ) == 0 ) {
+	$locale = get_locale();
+	if (strpos($locale,'US')!==false){
+		$default = 'us';
+	} elseif (strpos($locale,'GB')!==false){
+		$default = 'uk';
+	} elseif (strpos($locale,'CA')!==false){
+		$default = 'ca';
+	} else {
+		$default = 'eu';
+	}
+	if ( defined( 'cmplz_free' ) ) {
+		cmplz_update_option( 'wizard', 'regions', $default );
+	} else {
+		cmplz_update_option( 'wizard', 'regions', array( $default => 1 ) );
+	}
+}
+?>
 <div class="wrap">
 
     <form id='cookie-settings' action="" method="post">
