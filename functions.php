@@ -683,7 +683,9 @@ if (!function_exists('cmplz_accepted_processing_agreement')) {
 if (!function_exists('cmplz_init_cookie_blocker')) {
     function cmplz_init_cookie_blocker()
     {
-        //don't fire on the back-end
+	    if (!cmplz_third_party_cookies_active() && !cmplz_cookie_warning_required_stats()) return;
+
+	    //don't fire on the back-end
         if (wp_doing_ajax() || is_admin() || is_preview() || cmplz_is_pagebuilder_preview()) return;
 
         if (defined('CMPLZ_DO_NOT_BLOCK') && CMPLZ_DO_NOT_BLOCK) return;
