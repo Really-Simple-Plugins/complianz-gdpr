@@ -115,6 +115,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Tweak: Updated WCAG to v2.1
 * Tweak: moved custom recaptcha css to integrations modules
 * Tweak: added introduction tour
+* Fix: don't fire the cookieblocker when not needed
 * Fix: allow for private Vimeo video's, props @volkmar-kantor
 * Fix: use filename sanitize function instead of sanitize_title() for proof of consent files
 * Fix: user region and consenttype for not enabled regions should return "other", even when the user is from a supported region
