@@ -28,6 +28,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Proof of Consent; user consent registration that respects the data minimization guideline.
 * Implementation of Google Tag Manager, Google Analytics, Matomo etc.
 * Automatically anonymizes IP-addresses for Google Analytics if needed.
+* Integration with the [WP Consent API] (https://wpconsentapi.org/)
 * Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter and more.
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
 * Placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
@@ -108,6 +109,11 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+
+= 4.3.0 =
+
+* New: Supports the [WP Consent API] (https://wpconsentapi.org/). 
+
 = 4.2.0 =
 * New: PIPEDA support (Canada)
 * Tweak: CAOS integration improved
