@@ -887,7 +887,9 @@ if (!class_exists("cmplz_document")) {
 	        $required = array();
 
 	        foreach($regions as $region => $label) {
-		        $pages = COMPLIANZ()->config->pages[$region];
+	        	if (!isset(COMPLIANZ()->config->pages[$region])) continue;
+
+	        	$pages = COMPLIANZ()->config->pages[$region];
 
 		        foreach ($pages as $type => $page) {
 			        if (!$page['public']) continue;

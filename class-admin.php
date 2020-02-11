@@ -674,7 +674,9 @@ if (!class_exists("cmplz_admin")) {
                 $regions = COMPLIANZ()->config->regions;
                 $regions['all'] = 'All';
                 foreach($regions as $region => $label) {
-                    foreach ( COMPLIANZ()->config->pages[$region] as $type => $page ) {
+	                if (!isset(COMPLIANZ()->config->pages[$region])) continue;
+
+	                foreach ( COMPLIANZ()->config->pages[$region] as $type => $page ) {
                         if (!$page['public']) continue;
 
                         //get region of this page , and maybe add it to the title

@@ -260,7 +260,7 @@ jQuery(document).ready(function($) {
 		dashboard_tour.start();
 	}
 
-	if ($('.cmplz-wizard-steps').length) {
+	if ($('.cmplz-step-2').length || $('.cmplz-step-3').length) {
 		wizard_tour.start();
 	}
 
