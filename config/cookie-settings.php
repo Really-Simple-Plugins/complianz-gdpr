@@ -136,6 +136,20 @@ $this->fields = $this->fields + array(
             'callback_condition' => 'cmplz_uses_optin',
         ),
 
+        'category_prefs' => array(
+	        'source' => 'CMPLZ_COOKIEBANNER',
+	        'step' => array('optin','optinstats'),
+	        'type' => 'text',
+	        'default' => __("Preferences", 'complianz-gdpr'),
+	        'label' => __("Preferences cookies text", 'complianz-gdpr'),
+	        'table' => true,
+	        'condition' => array('use_categories' => true),
+	        'callback_condition' => array(
+	        	'cmplz_uses_optin',
+		        'cmplz_consent_api_active',
+	        )
+        ),
+
         'category_stats' => array(
             'source' => 'CMPLZ_COOKIEBANNER',
              'step' => array('optin','optinstats'),

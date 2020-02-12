@@ -584,6 +584,7 @@ $this->fields = $this->fields + array(
             'time' => CMPLZ_MINUTES_PER_QUESTION,
             'callback_condition' => array(
 	            'regions' => array('eu','uk'),
+	            'NOT cmplz_consent_api_active',
             ),
         ),
 
@@ -604,6 +605,7 @@ $this->fields = $this->fields + array(
             ),
             'callback_condition' => array(
 	            'regions' => array('eu','uk'),
+	            'NOT cmplz_consent_api_active',
             ),
         ),
 

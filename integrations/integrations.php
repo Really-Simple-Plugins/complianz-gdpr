@@ -5,6 +5,10 @@ if (is_admin()) {
 }
 require_once('forms.php');
 
+if (is_admin()) {
+	require_once( 'TGM/required.php' );
+}
+
 global $cmplz_integrations_list;
 $cmplz_integrations_list= apply_filters('cmplz_integrations', array(
     //user registration plugin
@@ -407,7 +411,7 @@ function cmplz_placeholder_disabled($service){
 	}
 
 	return false;
-  
+
 }
 
 /**
@@ -476,4 +480,11 @@ function cmplz_get_service_by_src($src){
 
     return $type;
 }
+
+
+/**
+ * Translation updates
+ *
+ */
+__('Audio, electronic, visual, thermal, olfactory, or simular information', 'complianz-gdpr');
 

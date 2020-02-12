@@ -314,7 +314,6 @@ if (!function_exists('cmplz_multiple_regions')) {
 
         $regions = cmplz_get_regions();
         return count($regions) > 1;
-
     }
 }
 
@@ -324,10 +323,13 @@ if (!function_exists('cmplz_get_region_for_country')) {
     {
         $regions = COMPLIANZ()->config->regions;
         foreach ($regions as $region_code => $region) {
-            if (in_array($country_code, $region['countries'])) return $region_code;
+            if (in_array($country_code, $region['countries'])) {
+	            $region = $region_code;
+	            break;
+            }
         }
 
-        return false;
+	    return apply_filters("cmplz_region_for_country", $region, $country_code);
     }
 }
 
@@ -337,8 +339,10 @@ if (!function_exists('cmplz_get_consenttype_for_country')) {
 	function cmplz_get_consenttype_for_country($country_code)
 	{
 		$regions = COMPLIANZ()->config->regions;
-		foreach ($regions as $region_code => $region) {
-			if (in_array($country_code, $region['countries'])) return $region['type'];
+		$actual_region = cmplz_get_region_for_country($country_code);
+
+		if (isset($regions[$actual_region]['type']) ) {
+			return $regions[$actual_region]['type'];
 		}
 
 		return false;
@@ -1210,6 +1214,7 @@ if (!function_exists('cmplz_used_cookies')){
         }
 
         $cookies = COMPLIANZ()->cookie_admin->get_cookies_by_service($args);
+//        _log(wp_get_cookie_info());
 
         $servicesHTML = '';
         foreach($cookies as $serviceID => $serviceData){
@@ -1530,7 +1535,7 @@ if (!function_exists('cmplz_consenttype_nicename')) {
     function cmplz_consenttype_nicename($consenttype){
         switch ($consenttype) {
             case 'optinstats':
-                return __('Opt-in (statistics)','complianz-gdpr');
+                return __('Opt-in settings (consent for statistics)','complianz-gdpr');
             case 'optin':
                 return __('Opt-in','complianz-gdpr');
             case 'optout':

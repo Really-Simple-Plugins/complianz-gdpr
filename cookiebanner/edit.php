@@ -63,7 +63,8 @@ if ( count( $regions ) == 0 ) {
         }?>
         <input type="hidden" name="cmplz_active_tab" value="<?php echo $active_tab?>">
         <script>
-            ccConsentType ='<?php echo $single_consenttype?>';
+            ccConsentType = '<?php echo $single_consenttype?>';
+            cmplzUsePreferences = <?php echo cmplz_consent_api_active() ? 'true' : 'false';?>;
         </script>
 
         <div class="cmplz-tab">

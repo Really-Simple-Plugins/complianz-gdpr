@@ -28,8 +28,8 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             if (!is_admin() && get_option('cmplz_wizard_completed_once')) {
                 if ($this->site_needs_cookie_warning()) {
-                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), 9999);
-                    add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'), 99999);
+                    add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script'), PHP_INT_MAX-50);
+                    add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'), PHP_INT_MAX-50);
                 } else {
                     add_action('wp_print_footer_scripts', array($this, 'inline_cookie_script_no_warning'), 10, 2);
                 }

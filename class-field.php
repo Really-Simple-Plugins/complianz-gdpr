@@ -679,6 +679,23 @@ if (!class_exists("cmplz_field")) {
             return $show;
         }
 
+
+        public function function_callback_applies($func){
+	        $invert = false;
+
+	        if (strpos($func, 'NOT ')!== FALSE){
+		        $invert = true;
+		        $func = str_replace('NOT ', '', $func);
+	        }
+	        $show_field = $func();
+	        if ($invert) $show_field = !$show_field;
+	        if ($show_field) {
+		        return true;
+	        } else {
+		        return false;
+	        }
+        }
+
         public
         function condition_applies($args, $type = false)
         {
@@ -698,21 +715,8 @@ if (!class_exists("cmplz_field")) {
             }
 
             //function callbacks
-            if (!is_array($args[$type]) && !empty($args[$type])){
-                $invert = false;
-                $func = $args[$type];
-
-                if (strpos($func, 'NOT ')!== FALSE){
-                    $invert = true;
-                    $func = str_replace('NOT ', '', $func);
-                }
-                $show_field = $func();
-                if ($invert) $show_field = !$show_field;
-                if ($show_field) {
-                    return true;
-                } else {
-                    return false;
-                }
+            if (!is_array($args[$type]) && !empty($args[$type]) && function_exists($args[$type])){
+                return $this->function_callback_applies($args[$type]);
             }
 
             $condition = $args[$type];
@@ -724,7 +728,6 @@ if (!class_exists("cmplz_field")) {
             }
 
             foreach ($condition as $c_fieldname => $c_value_content) {
-
                 $c_values = $c_value_content;
                 //the possible multiple values are separated with comma instead of an array, so we can add NOT.
                 if (!is_array($c_value_content) && strpos($c_value_content, ',') !== FALSE) {
@@ -733,42 +736,48 @@ if (!class_exists("cmplz_field")) {
                 $c_values = is_array($c_values) ? $c_values : array($c_values);
 
                 foreach ($c_values as $c_value) {
-                    $actual_value = cmplz_get_value($c_fieldname);
+                    if (function_exists($c_value)){
+						$match = $this->function_callback_applies($c_value);
+	                    if (!$match) return false;
+					} else{
+	                    $actual_value = cmplz_get_value($c_fieldname);
 
-                    $fieldtype = $this->get_field_type($c_fieldname);
+	                    $fieldtype = $this->get_field_type($c_fieldname);
 
-                    if (strpos($c_value, 'NOT ') === FALSE) {
-                        $invert=false;
-                    } else {
-                        $invert=true;
-                        $c_value = str_replace("NOT ", "", $c_value);
+	                    if (strpos($c_value, 'NOT ') === FALSE) {
+		                    $invert=false;
+	                    } else {
+		                    $invert=true;
+		                    $c_value = str_replace("NOT ", "", $c_value);
+	                    }
+
+	                    if ($fieldtype == 'multicheckbox') {
+		                    if (!is_array($actual_value)) $actual_value = array($actual_value);
+		                    //get all items that are set to true
+		                    $actual_value = array_filter($actual_value, function ($item) {
+			                    return $item == 1;
+		                    });
+		                    $actual_value = array_keys($actual_value);
+
+		                    if (!is_array($actual_value)) $actual_value = array($actual_value);
+		                    $match = false;
+		                    foreach ($c_values as $check_each_value){
+			                    if (in_array($check_each_value, $actual_value)) {
+				                    $match = true;
+			                    }
+		                    }
+
+	                    } else {
+		                    //when the actual value is an array, it is enough when just one matches.
+		                    //to be able to return false, for no match at all, we check all items, then return false if none matched
+		                    //this way we can preserve the AND property of this function
+		                    $match = ($c_value === $actual_value || in_array($actual_value, $c_values)) ;
+
+	                    }
+	                    if ($invert) $match = !$match;
+	                    if (!$match) return false;
                     }
 
-                    if ($fieldtype == 'multicheckbox') {
-                        if (!is_array($actual_value)) $actual_value = array($actual_value);
-                        //get all items that are set to true
-                        $actual_value = array_filter($actual_value, function ($item) {
-                            return $item == 1;
-                        });
-                        $actual_value = array_keys($actual_value);
-
-                        if (!is_array($actual_value)) $actual_value = array($actual_value);
-                        $match = false;
-                        foreach ($c_values as $check_each_value){
-                            if (in_array($check_each_value, $actual_value)) {
-                                $match = true;
-                            }
-                        }
-
-                    } else {
-                        //when the actual value is an array, it is enough when just one matches.
-                        //to be able to return false, for no match at all, we check all items, then return false if none matched
-                        //this way we can preserve the AND property of this function
-                        $match = ($c_value === $actual_value || in_array($actual_value, $c_values)) ;
-
-                    }
-                    if ($invert) $match = !$match;
-                    if (!$match) return false;
                 }
             }
             return true;

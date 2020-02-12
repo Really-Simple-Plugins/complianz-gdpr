@@ -39,7 +39,7 @@ $this->details_per_purpose_us = array(
     'biometric' => __('Biometric information', 'complianz-gdpr'),
     'internet' => __("Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.", 'complianz-gdpr'),
     'geo' => __('Geolocation data', 'complianz-gdpr'),
-    'audio' => __('Audio, electronic, visual, thermal, olfactory, or simular information', 'complianz-gdpr'),
+    'audio' => __('Audio, electronic, visual, thermal, olfactory, or similar information', 'complianz-gdpr'),
 );
 
 

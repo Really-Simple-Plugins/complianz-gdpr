@@ -48,6 +48,11 @@ jQuery(document).ready(function ($) {
         $('input[name=cmplz_category_stats]').val($(this).val());
         $(".cc-stats").html($(this).val());
     });
+    $(document).on('keyup', 'input[name=cmplz_category_prefs]', function () {
+        //keep up to date with other tabs
+        $('input[name=cmplz_category_prefs]').val($(this).val());
+        $(".cc-prefs").html($(this).val());
+    });
     $(document).on('keyup', 'input[name=cmplz_category_all]', function () {
         //keep up to date with other tabs
         $('input[name=cmplz_category_all]').val($(this).val());
@@ -83,7 +88,6 @@ jQuery(document).ready(function ($) {
 					var content;
 					var link = $(".cc-message").find('a').html();
 					var editor_id = 'cmplz_message_' + settingConsentType;
-					console.log(editor_id);
 					var textarea_id = 'cmplz_message';
 					if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
 					if (typeof textarea_id == 'undefined') textarea_id = editor_id;
@@ -271,6 +275,7 @@ jQuery(document).ready(function ($) {
         var ccSavePreferences = $('input[name=cmplz_save_preferences]').val();
         var ccViewPreferences = $('input[name=cmplz_view_preferences]').val();
         var ccCategoryStats = $('input[name=cmplz_category_stats]').val();
+        var ccCategoryPrefs = $('input[name=cmplz_category_prefs]').val();
         var ccRevokeText = $('input[name=cmplz_revoke]').val();
         var ccCheckboxes='';
         var ccCategoryFunctional = '';
@@ -301,7 +306,9 @@ jQuery(document).ready(function ($) {
             //minimum
             var ccCheckboxFunctional = ccCheckboxBase.replace('type', 'checked disabled type');
             ccCheckboxFunctional = ccCheckboxFunctional.replace(/cmplz_all/g, 'cmplz_functional');
+            var ccCheckboxPrefs = ccCheckboxBase.replace(/cmplz_all/g, 'cmplz_prefs');
             ccCheckboxes = '<label>' + ccCheckboxFunctional + '<span class="cc-functional cc-category">{{categoryfunctional}}</span></label>';
+            if (cmplzUsePreferences) ccCheckboxes += '<label>' + ccCheckboxPrefs + '<span class="cc-prefs cc-category">'+ccCategoryPrefs+'</span></label>';
 
             ccType = 'categories';
             ccLayout = 'categories-layout';

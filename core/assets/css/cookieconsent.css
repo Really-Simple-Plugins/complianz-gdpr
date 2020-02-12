@@ -479,6 +479,7 @@ Make sue the text stays within the banne
 .cc-window #cmplz_8:checked + .cc-check svg path,
 .cc-window #cmplz_all:checked + .cc-check svg path,
 .cc-window #cmplz_stats:checked + .cc-check svg path,
+.cc-window #cmplz_prefs:checked + .cc-check svg path,
 .cc-window #cmplz_functional:checked + .cc-check svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
@@ -494,6 +495,7 @@ Make sue the text stays within the banne
 .cc-window #cmplz_8:checked + .cc-check svg polyline,
 .cc-window #cmplz_all:checked + .cc-check svg polyline,
 .cc-window #cmplz_stats:checked + .cc-check svg polyline,
+.cc-window #cmplz_prefs:checked + .cc-check svg polyline,
 .cc-window #cmplz_functional:checked + .cc-check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
