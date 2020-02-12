@@ -715,7 +715,8 @@ if (!class_exists("cmplz_field")) {
             }
 
             //function callbacks
-            if (!is_array($args[$type]) && !empty($args[$type]) && function_exists($args[$type])){
+	        $maybe_is_function = str_replace('NOT ','',$args[$type]);
+            if (!is_array($args[$type]) && !empty($args[$type]) && function_exists($maybe_is_function)){
                 return $this->function_callback_applies($args[$type]);
             }
 
@@ -736,7 +737,8 @@ if (!class_exists("cmplz_field")) {
                 $c_values = is_array($c_values) ? $c_values : array($c_values);
 
                 foreach ($c_values as $c_value) {
-                    if (function_exists($c_value)){
+	                $maybe_is_function = str_replace('NOT ','',$c_value);
+	                if (function_exists($maybe_is_function)){
 						$match = $this->function_callback_applies($c_value);
 	                    if (!$match) return false;
 					} else{

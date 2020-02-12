@@ -110,7 +110,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.3.0 =
-* New: Supports the [WP Consent API] (https://wpconsentapi.org/).
+* New: Supports the [WP Consent API](https://wpconsentapi.org/).
 * Fix: Type on legal document
 * Tweak: filter to change the region dynamically
 

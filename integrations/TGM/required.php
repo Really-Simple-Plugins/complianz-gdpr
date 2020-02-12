@@ -68,7 +68,7 @@ add_action( 'tgmpa_register', 'cmplz__register_required_plugins' );
  * This function is hooked into `tgmpa_register`, which is fired on the WP `init` action on priority 10.
  */
 function cmplz__register_required_plugins() {
-	$plugins                      = get_option( 'active_plugins' );
+	$plugins                  = get_option( 'active_plugins' );
 	$registered               = array();
 	$plugins_with_registration = false;
 
@@ -111,16 +111,7 @@ function cmplz__register_required_plugins() {
 		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
 		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
 		'message'      => '',                      // Message to output right before the plugins table.
-
-
 		'strings'      => array(
-			'page_title'                      => __( 'Install Required Plugins', 'complianz-gdpr' ),
-			'menu_title'                      => __( 'Install Plugins', 'complianz-gdpr' ),
-			/* translators: %s: plugin name. */
-			'installing'                      => __( 'Installing Plugin: %s', 'complianz-gdpr' ),
-			/* translators: %s: plugin name. */
-			'updating'                        => __( 'Updating Plugin: %s', 'complianz-gdpr' ),
-			'oops'                            => __( 'Something went wrong with the plugin API.', 'complianz-gdpr' ),
 			'notice_can_activate_recommended' => _n_noop(
 				/* translators: 1: plugin name(s). */
 				'You have one ore more plugins compatible with the Consent API. To optimize compliancy, Complianz recommends to activate the following plugin: %1$s.',
@@ -133,25 +124,6 @@ function cmplz__register_required_plugins() {
 				'Complianz recommends the following plugins: %1$s.',
 				'complianz-gdpr'
 			),
-			'install_link'                    => _n_noop(
-				'Begin installing plugin',
-				'Begin installing plugins',
-				'complianz-gdpr'
-			),
-			'return'                          => __( 'Return to Required Plugins Installer', 'complianz-gdpr' ),
-			'plugin_activated'                => __( 'Plugin activated successfully.', 'complianz-gdpr' ),
-			'activated_successfully'          => __( 'The following plugin was activated successfully:', 'complianz-gdpr' ),
-			/* translators: 1: plugin name. */
-			'plugin_already_active'           => __( 'No action taken. Plugin %1$s was already active.', 'complianz-gdpr' ),
-			/* translators: 1: plugin name. */
-			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'complianz-gdpr' ),
-			/* translators: 1: dashboard link. */
-			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'complianz-gdpr' ),
-			'dismiss'                         => __( 'Dismiss this notice', 'complianz-gdpr' ),
-			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'complianz-gdpr' ),
-			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'complianz-gdpr' ),
-
-			'nag_type'                        => '', // Determines admin notice type - can only be one of the typical WP notice classes, such as 'updated', 'update-nag', 'notice-warning', 'notice-info' or 'error'. Some of which may not work as expected in older WP versions.
 		),
 
 	);
