@@ -222,14 +222,14 @@ if (!class_exists("CMPLZ_SERVICE")) {
 
             $slug = $this->get_service_slug($service);
             $wizard_settings = get_option('complianz_options_wizard');
-            $registered_services = COMPLIANZ()->config->thirdparty_services;
+            $registered_services = COMPLIANZ::$config->thirdparty_services;
 
             if (isset($registered_services[$slug]) && (!isset($wizard_settings['thirdparty_services_on_site'][$slug]) || $wizard_settings['thirdparty_services_on_site'][$slug]!=1)){
                 $wizard_settings['thirdparty_services_on_site'][$slug]=1;
                 update_option('complianz_options_wizard', $wizard_settings);
             }
 
-            $registered_social = COMPLIANZ()->config->thirdparty_socialmedia;
+            $registered_social = COMPLIANZ::$config->thirdparty_socialmedia;
 
             if (isset($registered_social[$slug]) && (!isset($wizard_settings['socialmedia_on_site'][$slug]) || $wizard_settings['socialmedia_on_site'][$slug]!=1)){
                 $wizard_settings['socialmedia_on_site'][$slug]=1;
@@ -244,11 +244,11 @@ if (!class_exists("CMPLZ_SERVICE")) {
          */
 
         private function get_service_slug($name){
-            $services = COMPLIANZ()->config->thirdparty_services;
+            $services = COMPLIANZ::$config->thirdparty_services;
             if (($slug = array_search($name, $services)) !== false) {
                 return $slug;
             }
-            $social = COMPLIANZ()->config->thirdparty_socialmedia;
+            $social = COMPLIANZ::$config->thirdparty_socialmedia;
             if (($slug = array_search($name, $social)) !== false) {
                 return $slug;
             }

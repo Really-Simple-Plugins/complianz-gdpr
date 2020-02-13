@@ -92,7 +92,7 @@ function cmplz_render_document_block($attributes, $content)
 	        if ($region){
 	        	$type = str_replace('-'.$region, '', $type);
 	        }
-            $html = COMPLIANZ()->document->get_document_html($type, $region);
+            $html = COMPLIANZ::$document->get_document_html($type, $region);
         }
     }
 

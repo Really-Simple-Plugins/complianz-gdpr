@@ -43,7 +43,7 @@ if (!class_exists("cmplz_amp")) {
 
 		public function handle_anonymous_settings($amp_tags){
 
-			if (COMPLIANZ()->cookie_admin->statistics_privacy_friendly()){
+			if (COMPLIANZ::$cookie_admin->statistics_privacy_friendly()){
 				unset($amp_tags['amp-analytics']);
 			}
 
@@ -96,7 +96,7 @@ if (!class_exists("cmplz_amp")) {
 			if ($post) $post_id = $post->ID;
 			foreach ($regions as $region => $label){
 				if ($is_policy) break;
-				$policy_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement', $region);
+				$policy_id = COMPLIANZ::$document->get_shortcode_page_id('cookie-statement', $region);
 				if ($policy_id==$post_id) $is_policy = true;
 			}
 			$postPromptUI = $is_policy ? '"cmplz-post-consent-ui"' : 'false';
@@ -146,7 +146,7 @@ if (!class_exists("cmplz_amp")) {
 
 			//check global cookie warning requirement
 			//we currently check only for EU region. In other regions, the banner is not shown, using geo ip from Google AMP (free feature).
-			$active = COMPLIANZ()->cookie_admin->site_needs_cookie_warning('eu') || COMPLIANZ()->cookie_admin->site_needs_cookie_warning('uk');
+			$active = COMPLIANZ::$cookie_admin->site_needs_cookie_warning('eu') || COMPLIANZ::$cookie_admin->site_needs_cookie_warning('uk');
 			//
 			//check if this user's region reguires a cookie warning
 			$payload = file_get_contents( 'php://input' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
@@ -168,7 +168,7 @@ if (!class_exists("cmplz_amp")) {
 					.cc-revoke-custom {
 						display:none;
 					}
-					#cmplz-consent-ui, #cmplz-post-consent-ui { 
+					#cmplz-consent-ui, #cmplz-post-consent-ui {
 					background-color: %s;
 					}
 					#cmplz-consent-ui .cmplz-consent-message {
@@ -176,7 +176,7 @@ if (!class_exists("cmplz_amp")) {
 						padding:6px 0 0 6px;
 
 					}
-                    #cmplz-consent-ui button, #cmplz-post-consent-ui button { 
+                    #cmplz-consent-ui button, #cmplz-post-consent-ui button {
                         background-color: %s;
                         color: %s;
                         padding: 6px 11px;

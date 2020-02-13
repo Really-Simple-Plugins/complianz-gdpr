@@ -18,13 +18,13 @@ function cmplz_documents_rest_route()
 
 function cmplz_documents_api(WP_REST_Request $request)
 {
-    $documents = COMPLIANZ()->document->get_required_pages();
+    $documents = COMPLIANZ::$document->get_required_pages();
     $output = array();
     if (is_array($documents)) {
 	    foreach ($documents as $region => $region_documents) {
 
 		    foreach ( $region_documents as $type => $document ) {
-			    $html     = COMPLIANZ()->document->get_document_html( $type, $region );
+			    $html     = COMPLIANZ::$document->get_document_html( $type, $region );
 			    $region_ext = ($region==='eu') ?  '' : '-'.$region;
 			    $output[] =
 				    array(

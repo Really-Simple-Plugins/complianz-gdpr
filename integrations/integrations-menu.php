@@ -40,7 +40,7 @@ function cmplz_integrations_page() {
             <form action="" method="post" class="cmplz-body">
 				<?php
 				cmplz_notice( _x( "The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s.", 'intro script center', 'complianz-gdpr' ) );
-				if ( COMPLIANZ()->cookie_admin->uses_google_tagmanager() ) {
+				if ( COMPLIANZ::$cookie_admin->uses_google_tagmanager() ) {
 					cmplz_notice( __( 'Because you are using Google Tag Manager you can only add iFrames, as shown below.', 'complianz-gdpr' ), 'warning' );
 				}
 				?>
@@ -48,13 +48,13 @@ function cmplz_integrations_page() {
 
                     <tr>
                         <th></th>
-                        <td><?php COMPLIANZ()->field->get_fields( 'wizard', STEP_COOKIES, 7 ); ?>
+                        <td><?php COMPLIANZ::$field->get_fields( 'wizard', STEP_COOKIES, 7 ); ?>
                         </td>
                     </tr>
                 </table>
                 <input type="hidden" name="cmplz_save_integrations_type" value="scripts">
 
-				<?php COMPLIANZ()->field->save_button(); ?>
+				<?php COMPLIANZ::$field->save_button(); ?>
             </form>
         </div>
 
@@ -74,7 +74,7 @@ function cmplz_integrations_page() {
 				}
 
 				if ( $thirdparty_active || $socialmedia_active ) {
-					cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+					cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ::$config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 				}
 
 				?>
@@ -89,7 +89,7 @@ function cmplz_integrations_page() {
 					<?php
 
 					if ( $thirdparty_active ) {
-						$thirdparty_services = COMPLIANZ()->config->thirdparty_services;
+						$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
 						unset( $thirdparty_services['google-fonts'] );
 						$active_services = cmplz_get_value( 'thirdparty_services_on_site' );
 						foreach ( $thirdparty_services as $service => $label ) {
@@ -106,12 +106,12 @@ function cmplz_integrations_page() {
 								'hidden'    => false,
 							);
 
-							COMPLIANZ()->field->checkbox( $args, $active );
+							COMPLIANZ::$field->checkbox( $args, $active );
 						}
 					}
 
 					if ( $socialmedia_active ) {
-						$socialmedia        = COMPLIANZ()->config->thirdparty_socialmedia;
+						$socialmedia        = COMPLIANZ::$config->thirdparty_socialmedia;
 						$active_socialmedia = cmplz_get_value( 'socialmedia_on_site' );
 						foreach ( $socialmedia as $service => $label ) {
 							$active = ( isset( $active_socialmedia[ $service ] ) && $active_socialmedia[ $service ] == 1 ) ? true : false;
@@ -128,7 +128,7 @@ function cmplz_integrations_page() {
 								'hidden'    => false,
 							);
 
-							COMPLIANZ()->field->checkbox( $args, $active );
+							COMPLIANZ::$field->checkbox( $args, $active );
 						}
 					}
 
@@ -146,10 +146,10 @@ function cmplz_integrations_page() {
 						'hidden'    => false,
 					);
 
-					COMPLIANZ()->field->checkbox( $args, $uses_ad_cookies );
+					COMPLIANZ::$field->checkbox( $args, $uses_ad_cookies );
 					?>
                 </table>
-				<?php COMPLIANZ()->field->save_button(); ?>
+				<?php COMPLIANZ::$field->save_button(); ?>
             </form>
         </div>
 
@@ -159,10 +159,10 @@ function cmplz_integrations_page() {
             <form action="" method="post" class="cmplz-body">
                 <input type="hidden" name="cmplz_save_integrations_type" value="plugins">
 				<?php
-				cmplz_notice( __( 'Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/developers-guide-for-third-party-integrations' ) );
-				cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("plugins", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+				cmplz_notice( __( 'Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr' ) . COMPLIANZ::$config->read_more( 'https://complianz.io/developers-guide-for-third-party-integrations' ) );
+				cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("plugins", "complianz-gdpr")).COMPLIANZ::$config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 
-				$fields = COMPLIANZ()->config->fields( 'integrations' );
+				$fields = COMPLIANZ::$config->fields( 'integrations' );
 				if ( count( $fields ) == 0 ) {
 					cmplz_notice( __( 'No active plugins detected in the integrations list.', 'complianz-gdpr' ), 'warning' );
 				}
@@ -175,10 +175,10 @@ function cmplz_integrations_page() {
                     </tr>
 					<?php
 
-					COMPLIANZ()->field->get_fields( 'integrations' );
+					COMPLIANZ::$field->get_fields( 'integrations' );
 					?>
                 </table>
-				<?php COMPLIANZ()->field->save_button(); ?>
+				<?php COMPLIANZ::$field->save_button(); ?>
             </form>
         </div>
 
@@ -203,7 +203,7 @@ function process_integrations_services_save() {
 		}
 
 		if ( $_POST["cmplz_save_integrations_type"] === 'services' ) {
-			$thirdparty_services = COMPLIANZ()->config->thirdparty_services;
+			$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
 			unset( $thirdparty_services['google-fonts'] );
 
 			$active_services = cmplz_get_value( 'thirdparty_services_on_site' );
@@ -211,7 +211,7 @@ function process_integrations_services_save() {
 				if ( isset( $_POST[ 'cmplz_' . $service ] ) && $_POST[ 'cmplz_' . $service ] == 1 ) {
 					$active_services[ $service ] = 1;
 					$service_obj                 = new CMPLZ_SERVICE();
-					$service_obj->add( $label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'utility' );
+					$service_obj->add( $label, COMPLIANZ::$cookie_admin->get_supported_languages(), false, 'utility' );
 				} else {
 					$active_services[ $service ] = 0;
 				}
@@ -220,13 +220,13 @@ function process_integrations_services_save() {
 
 			cmplz_update_option( 'wizard', 'thirdparty_services_on_site', $active_services );
 
-			$socialmedia        = COMPLIANZ()->config->thirdparty_socialmedia;
+			$socialmedia        = COMPLIANZ::$config->thirdparty_socialmedia;
 			$active_socialmedia = cmplz_get_value( 'socialmedia_on_site' );
 			foreach ( $socialmedia as $service => $label ) {
 				if ( isset( $_POST[ 'cmplz_' . $service ] ) && $_POST[ 'cmplz_' . $service ] == 1 ) {
 					$active_socialmedia[ $service ] = 1;
 					$service_obj                    = new CMPLZ_SERVICE();
-					$service_obj->add( $label, COMPLIANZ()->cookie_admin->get_supported_languages(), false, 'social' );
+					$service_obj->add( $label, COMPLIANZ::$cookie_admin->get_supported_languages(), false, 'social' );
 				} else {
 					$active_socialmedia[ $service ] = 0;
 				}

@@ -87,7 +87,7 @@ function cmplz_cookiebanner_form_submit()
     if (!isset($_GET['id']) && !isset($_POST['cmplz_add_new'])) return;
 
     if (!isset($_POST['cmplz_nonce'])) return;
-    
+
     if (isset($_POST['cmplz_add_new'])) {
         $banner = new CMPLZ_COOKIEBANNER();
     } else {
@@ -111,7 +111,7 @@ function cmplz_cookiebanner_overview(){
      * Reset the statistics
      * */
     if (class_exists('cmplz_statistics') && (isset($_GET['action']) && $_GET['action']=='reset_statistics'))  {
-        COMPLIANZ()->statistics->init_statistics();
+        COMPLIANZ::$statistics->init_statistics();
     }
 
     $id = false;
@@ -161,10 +161,10 @@ function cmplz_cookiebanner_overview(){
             <?php do_action('cmplz_after_cookiebanner_title'); ?>
         </h1>
             <?php
-            if (!COMPLIANZ()->wizard->wizard_completed_once()) {
+            if (!COMPLIANZ::$wizard->wizard_completed_once()) {
                 cmplz_notice(__('Please complete the wizard to check if you need a cookie warning.', 'complianz-gdpr'), 'warning');
             } else {
-                if (!COMPLIANZ()->cookie_admin->site_needs_cookie_warning()) {
+                if (!COMPLIANZ::$cookie_admin->site_needs_cookie_warning()) {
                     cmplz_notice(__('Your website does not require a cookie warning, so these settings do not apply.', 'complianz-gdpr'));
                 } else {
                     cmplz_notice(__('Your website requires a cookie warning, these settings will determine how the popup will look.', 'complianz-gdpr'));
@@ -220,7 +220,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets($hook){
     }
 
 
-    $cookiesettings = COMPLIANZ()->cookie_admin->get_cookiebanner_settings($cookiebanner_id);
+    $cookiesettings = COMPLIANZ::$cookie_admin->get_cookiebanner_settings($cookiebanner_id);
 
     wp_enqueue_script('cmplz-cookie', cmplz_url . "core/assets/js/cookieconsent.js", array('jquery', 'cmplz-admin'), cmplz_version, true);
     wp_localize_script(

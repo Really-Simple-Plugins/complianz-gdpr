@@ -248,9 +248,9 @@ if (!class_exists("cmplz_cookie_admin")) {
             $cookie = new CMPLZ_COOKIE($name, $language);
             if (!$cookie->ID) return '';
 
-	        $sync =COMPLIANZ()->cookie_admin->use_cdb_api() ? $cookie->sync : false;
+	        $sync =COMPLIANZ::$cookie_admin->use_cdb_api() ? $cookie->sync : false;
 	        $syncDisabled = $syncDisabledClass ='';
-	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+	        if (!COMPLIANZ::$cookie_admin->use_cdb_api()){
 		        $syncDisabled = 'disabled="disabled"';
 		        $syncDisabledClass = "cmplz-disabled";
 	        }
@@ -410,9 +410,9 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             if (!$service->ID) return '';
 
-	        $sync =COMPLIANZ()->cookie_admin->use_cdb_api() ? $service->sync : false;
+	        $sync =COMPLIANZ::$cookie_admin->use_cdb_api() ? $service->sync : false;
 	        $syncDisabled = $syncDisabledClass ='';
-	        if (!COMPLIANZ()->cookie_admin->use_cdb_api()){
+	        if (!COMPLIANZ::$cookie_admin->use_cdb_api()){
 		        $syncDisabled = 'disabled="disabled"';
 		        $syncDisabledClass = "cmplz-disabled";
 	        }
@@ -677,7 +677,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
                 $error=true;
-		        $msg = COMPLIANZ()->config->warning_types['api-disabled']['label_error'];
+		        $msg = COMPLIANZ::$config->warning_types['api-disabled']['label_error'];
             }
 
             //if no syncable cookies are found, exit.
@@ -890,7 +890,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
 		        $error=true;
-		        $msg = COMPLIANZ()->config->warning_types['api-disabled']['label_error'];
+		        $msg = COMPLIANZ::$config->warning_types['api-disabled']['label_error'];
 	        }
 
             //if no syncable services found, exit.
@@ -1097,7 +1097,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
             if (!$added){
                 $service = new CMPLZ_SERVICE();
-                $service->add($service_to_add, COMPLIANZ()->cookie_admin->get_supported_languages(), false, $type);
+                $service->add($service_to_add, COMPLIANZ::$cookie_admin->get_supported_languages(), false, $type);
                 $services[] = $service;
             }
             return $services;
@@ -1112,7 +1112,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             if (!cmplz_user_can_manage()) return;
 
             if (isset($_POST["cmplz_generate_snapshot"]) && isset($_POST["cmplz_nonce"]) && wp_verify_nonce($_POST['cmplz_nonce'],'cmplz_generate_snapshot')){
-                COMPLIANZ()->document->generate_cookie_policy_snapshot($force=true);
+                COMPLIANZ::$document->generate_cookie_policy_snapshot($force=true);
             }
         }
 
@@ -1227,7 +1227,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     if ($active == 1) {
                         $service = new CMPLZ_SERVICE();
                         //add for all languages
-                        $service_name = $thirdparty_services = COMPLIANZ()->config->thirdparty_socialmedia[$slug];
+                        $service_name = $thirdparty_services = COMPLIANZ::$config->thirdparty_socialmedia[$slug];
                         $service->add($service_name, $this->get_supported_languages(), false, 'social');
                     } else {
                         $service = new CMPLZ_SERVICE($slug);
@@ -1243,7 +1243,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                     if ($active == 1) {
                         $service = new CMPLZ_SERVICE();
                         //add for all languages
-                        $service_name = $thirdparty_services = COMPLIANZ()->config->thirdparty_services[$slug];
+                        $service_name = $thirdparty_services = COMPLIANZ::$config->thirdparty_services[$slug];
                         $service->add($service_name, $this->get_supported_languages(), false, 'service');
                     } else {
                         $service = new CMPLZ_SERVICE($slug);
@@ -1363,7 +1363,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function load()
         {
-            $this->known_cookie_keys = COMPLIANZ()->config->known_cookie_keys;
+            $this->known_cookie_keys = COMPLIANZ::$config->known_cookie_keys;
         }
 
 
@@ -1498,7 +1498,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 
         public function add_script_classes_for_stats($class, $match, $found){
-            $stats_tags = COMPLIANZ()->config->stats_markers;
+            $stats_tags = COMPLIANZ::$config->stats_markers;
             foreach($stats_tags as $type => $markers){
                 if (in_array($found, $markers)){
 	                $class = $class." ".implode(" ",$this->get_statistics_script_classes());
@@ -1752,7 +1752,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
                         //parse for google analytics and tagmanager, but only if the wizard wasn't completed before.
                         //with this data we prefill the settings and give warnings when tracking is doubled
-                        if (!COMPLIANZ()->wizard->wizard_completed_once()){
+                        if (!COMPLIANZ::$wizard->wizard_completed_once()){
                             $this->parse_for_statistics_settings($html);
                         }
                         if (preg_match_all('/ga.js/', $html) > 1 || preg_match_all('/analytics.js/', $html) > 1 || preg_match_all('/googletagmanager.com\/gtm.js/', $html) > 1 || preg_match_all('/piwik.js/', $html) > 1 || preg_match_all('/matomo.js/', $html) > 1) {
@@ -1788,7 +1788,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         {
 
             $stats = array();
-            $stats_markers = COMPLIANZ()->config->stats_markers;
+            $stats_markers = COMPLIANZ::$config->stats_markers;
             foreach ($stats_markers as $key => $markers) {
                 foreach ($markers as $marker) {
                     if ($single_key && strpos($html, $marker) !== FALSE) {
@@ -1885,7 +1885,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function parse_for_social_media($html, $single_key=false)
         {
             $social_media = array();
-            $social_media_markers = COMPLIANZ()->config->social_media_markers;
+            $social_media_markers = COMPLIANZ::$config->social_media_markers;
             foreach ($social_media_markers as $key => $markers) {
                 foreach ($markers as $marker) {
 	                if ($single_key && strpos($html, $marker) !== FALSE) {
@@ -1913,7 +1913,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         {
 
             $thirdparty = array();
-            $thirdparty_markers = COMPLIANZ()->config->thirdparty_service_markers;
+            $thirdparty_markers = COMPLIANZ::$config->thirdparty_service_markers;
             foreach ($thirdparty_markers as $key => $markers) {
                 foreach ($markers as $marker) {
 	                if ($single_key && strpos($html, $marker) !== FALSE) {
@@ -2104,7 +2104,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         private function pages_to_process()
         {
-            $pages_list = COMPLIANZ()->cookie_admin->get_pages_list_single_run();
+            $pages_list = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
             $processed_pages_list = $this->get_processed_pages_list();
 
             $pages = array_diff($pages_list, $processed_pages_list);
@@ -2135,7 +2135,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         }
 
         public function get_cookies_by_service($settings = array()){
-            $cookies = COMPLIANZ()->cookie_admin->get_cookies($settings);
+            $cookies = COMPLIANZ::$cookie_admin->get_cookies($settings);
 
             $grouped_by_service = array();
             $topServiceID = 0;
@@ -2494,7 +2494,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Social media', 'complianz-gdpr') . "</b></td></tr>";
                 if ($social_media && count($social_media)>0) {
                     foreach ($social_media as $key => $service) {
-                        $html .= '<tr><td>'.COMPLIANZ()->config->thirdparty_socialmedia[$service].'</td><td></td></tr>';
+                        $html .= '<tr><td>'.COMPLIANZ::$config->thirdparty_socialmedia[$service].'</td><td></td></tr>';
                     }
                 } else {
                     $html .= '<tr><td></td><td>---</td></tr>';
@@ -2505,7 +2505,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $html .= '<tr class="group-header"><td colspan="2"><b>' . __('Third party services', 'complianz-gdpr') . "</b></td></tr>";
                 if ($thirdparty && count($thirdparty)>0) {
                     foreach ($thirdparty as $key => $service) {
-                        $html .= '<tr><td>'.COMPLIANZ()->config->thirdparty_services[$service].'</td><td></td></tr>';
+                        $html .= '<tr><td>'.COMPLIANZ::$config->thirdparty_services[$service].'</td><td></td></tr>';
                     }
                 } else {
                     $html .= '<tr><td></td><td>---</td></tr>';
@@ -2522,7 +2522,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
         public function has_empty_cookie_descriptions(){
 
-            $cookies = COMPLIANZ()->cookie_admin->get_cookies(array('showOnPolicy'=>true, 'ignored' => false));
+            $cookies = COMPLIANZ::$cookie_admin->get_cookies(array('showOnPolicy'=>true, 'ignored' => false));
             if (is_array($cookies)) {
                 foreach ($cookies as $cookie_name) {
                     $cookie = new CMPLZ_COOKIE($cookie_name);
@@ -2539,7 +2539,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function get_progress_count()
         {
             $done = $this->get_processed_pages_list();
-            $total = COMPLIANZ()->cookie_admin->get_pages_list_single_run();
+            $total = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
 
             $progress = 100 * (count($done) / count($total));
             if ($progress > 100) $progress = 100;
@@ -2676,8 +2676,8 @@ if (!class_exists("cmplz_cookie_admin")) {
                                               value="<?php _e('Clear cookies', 'complianz-gdpr') ?>" name="clear">
 
                     <?php
-                echo COMPLIANZ()->field->get_help_tip_btn(array('help'=>true));
-                echo COMPLIANZ()->field->get_help_tip(array('help'=>__("If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.","complianz-gdpr")));
+                echo COMPLIANZ::$field->get_help_tip_btn(array('help'=>true));
+                echo COMPLIANZ::$field->get_help_tip(array('help'=>__("If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.","complianz-gdpr")));
                 ?>
                 </div>
             </div>
@@ -2704,7 +2704,7 @@ if (!class_exists("cmplz_cookie_admin")) {
 
 	        if (!$this->use_cdb_api()) {
 		        $disabled = "disabled";
-		        echo cmplz_notice(COMPLIANZ()->config->warning_types['api-disabled']['label_error'], 'warning');
+		        echo cmplz_notice(COMPLIANZ::$config->warning_types['api-disabled']['label_error'], 'warning');
 	        }
 
 	        if (!$this->use_cdb_api()) return;
@@ -2783,7 +2783,7 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if the user has chosen to configure it himself, we consider it to be configured.
             if (cmplz_get_value('configuration_by_complianz')==='no') return true;
 
-            $UA_code = COMPLIANZ()->field->get_value('UA_code');
+            $UA_code = COMPLIANZ::$field->get_value('UA_code');
             if (strlen($UA_code)!=0) return true;
 
             return false;
@@ -2793,7 +2793,7 @@ if (!class_exists("cmplz_cookie_admin")) {
         {
             //if the user has chosen to configure it himself, we consider it to be configured.
             if (cmplz_get_value('configuration_by_complianz')==='no') return true;
-            $GTM_code = COMPLIANZ()->field->get_value('GTM_code');
+            $GTM_code = COMPLIANZ::$field->get_value('GTM_code');
             if (strlen($GTM_code)!=0) return true;
 
             return false;
@@ -2804,8 +2804,8 @@ if (!class_exists("cmplz_cookie_admin")) {
             //if the user has chosen to configure it himself, we consider it to be configured.
             if (cmplz_get_value('configuration_by_complianz')==='no') return true;
 
-            $matomo_url = COMPLIANZ()->field->get_value('matomo_url');
-            $site_id = COMPLIANZ()->field->get_value('matomo_site_id');
+            $matomo_url = COMPLIANZ::$field->get_value('matomo_url');
+            $site_id = COMPLIANZ::$field->get_value('matomo_site_id');
             if (strlen($matomo_url)!=0 && strlen($site_id)!==0) return true;
 
             return false;
@@ -2958,13 +2958,13 @@ if (!class_exists("cmplz_cookie_admin")) {
         public function maybe_add_statistics_service(){
 	        $selected_stat_service = cmplz_get_value('compile_statistics');
 	        if ($selected_stat_service === 'google-analytics' || $selected_stat_service === 'matomo' || $selected_stat_service === 'google-tag-manager') {
-		        $service_name = COMPLIANZ()->cookie_admin->convert_slug_to_name($selected_stat_service);
+		        $service_name = COMPLIANZ::$cookie_admin->convert_slug_to_name($selected_stat_service);
 		        $service = new CMPLZ_SERVICE($service_name);
 
 		        if (!$service->ID){
 			        //Add new service
 			        $service = new CMPLZ_SERVICE();
-			        $service->add($service_name, COMPLIANZ()->cookie_admin->get_supported_languages(), false);
+			        $service->add($service_name, COMPLIANZ::$cookie_admin->get_supported_languages(), false);
 		        }
 	        }
         }
@@ -3164,7 +3164,7 @@ if (!class_exists("cmplz_cookie_admin")) {
                 $banner = new CMPLZ_COOKIEBANNER();
             }
 
-            $banner->title = $variation_id=='' ? __('Default Cookie banner', 'complianz-gdpr') :COMPLIANZ()->statistics->get_variation_nicename($variation_id);
+            $banner->title = $variation_id=='' ? __('Default Cookie banner', 'complianz-gdpr') :COMPLIANZ::$statistics->get_variation_nicename($variation_id);
             $banner->default = ($variation_id === '') ? true : false;
 
             if (isset($cookie_settings['position'.$variation_id])) $banner->position = $cookie_settings['position'.$variation_id];

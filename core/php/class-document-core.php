@@ -32,9 +32,9 @@ if (!class_exists("cmplz_document_core")) {
 
         public function is_public_page($type, $region)
         {
-            if (!isset(COMPLIANZ()->config->pages[$region][$type])) return false;
+            if (!isset(COMPLIANZ::$config->pages[$region][$type])) return false;
 
-            if (isset(COMPLIANZ()->config->pages[$region][$type]['public']) && COMPLIANZ()->config->pages[$region][$type]['public']) {
+            if (isset(COMPLIANZ::$config->pages[$region][$type]['public']) && COMPLIANZ::$config->pages[$region][$type]['public']) {
                 return true;
             }
             return false;
@@ -73,9 +73,9 @@ if (!class_exists("cmplz_document_core")) {
         public function page_required($page, $region)
         {
             if (!is_array($page)) {
-                if (!isset(COMPLIANZ()->config->pages[$region][$page])) return false;
+                if (!isset(COMPLIANZ::$config->pages[$region][$page])) return false;
 
-                $page = COMPLIANZ()->config->pages[$region][$page];
+                $page = COMPLIANZ::$config->pages[$region][$page];
             }
 
             //if it's not public, it's not required
@@ -178,7 +178,7 @@ if (!class_exists("cmplz_document_core")) {
 
         public function condition_applies($element, $post_id){
             if (isset($element['condition'])) {
-                $fields = COMPLIANZ()->config->fields();
+                $fields = COMPLIANZ::$config->fields();
                 $condition_met = true;
                 $invert = false;
                 foreach ($element['condition'] as $question => $condition_answer) {
@@ -246,9 +246,9 @@ if (!class_exists("cmplz_document_core")) {
         		$region = cmplz_get_region_from_legacy_type($type);
 		        $type = str_replace('-'.$region,'',$type);
 	        }
-            if (!isset(COMPLIANZ()->config->pages[$region][$type])) return sprintf(__('No %s document was found for %s','complianz-gdpr'),$type, $region);
+            if (!isset(COMPLIANZ::$config->pages[$region][$type])) return sprintf(__('No %s document was found for %s','complianz-gdpr'),$type, $region);
 
-            $elements = COMPLIANZ()->config->pages[$region][$type]["document_elements"];
+            $elements = COMPLIANZ::$config->pages[$region][$type]["document_elements"];
             $html = "";
             $paragraph = 0;
             $sub_paragraph = 0;
@@ -340,7 +340,7 @@ if (!class_exists("cmplz_document_core")) {
                     return '<h3 class="annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['title']) . '</h3>';
                 }
                 if (isset($element['subtitle'])) {
-                    return '<div class="subtitle annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
+                    return '<p class="subtitle annex">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</p>';
                 }
             }
 
@@ -358,7 +358,7 @@ if (!class_exists("cmplz_document_core")) {
 
             if (isset($element['subtitle'])) {
                 if ($paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element($element)) $nr = $paragraph . "." . $sub_paragraph . " ";
-                return '<div class="cmplz-subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</div>';
+                return '<p class="cmplz-subtitle">' . cmplz_esc_html($nr) . cmplz_esc_html($element['subtitle']) . '</p>';
             }
         }
 
@@ -404,10 +404,10 @@ if (!class_exists("cmplz_document_core")) {
             $list = (isset($element['list']) && $element['list']) ? true : false;
             //loop content
             if (!$element || $list) {
-                return '<div $class>' . $content . '</div>';
+                return '<p $class>' . $content . '</p>';
             }
             $p = (!isset($element['p']) || $element['p']) ? true : $element['p'];
-            $el = $p ? 'p' : 'div';
+            $el = $p ? 'p' : 'p';
             return "<$el $class>" . $content . "</$el>";
         }
 
@@ -451,7 +451,7 @@ if (!class_exists("cmplz_document_core")) {
 	        $date = cmplz_localize_date($date);
             $html = str_replace("[publish_date]", cmplz_esc_html($date), $html);
 
-            $html = str_replace("[sync_date]", cmplz_esc_html(COMPLIANZ()->cookie_admin->get_last_cookie_sync_date()), $html);
+            $html = str_replace("[sync_date]", cmplz_esc_html(COMPLIANZ::$cookie_admin->get_last_cookie_sync_date()), $html);
 
             $checked_date = date(get_option('date_format'), get_option('cmplz_documents_update_date'));
             $checked_date = cmplz_localize_date($checked_date);
@@ -469,7 +469,7 @@ if (!class_exists("cmplz_document_core")) {
             $html = str_replace("[email_dpo_uk]", $contact_dpo_uk, $html);
 
             //replace all fields.
-            foreach (COMPLIANZ()->config->fields() as $fieldname => $field) {
+            foreach (COMPLIANZ::$config->fields() as $fieldname => $field) {
 
                 if (strpos($html, "[$fieldname]") !== FALSE) {
 
@@ -501,21 +501,21 @@ if (!class_exists("cmplz_document_core")) {
         {
             $value = cmplz_get_value($fieldname, $post_id);
 
-            $front_end_label = isset(COMPLIANZ()->config->fields[$fieldname]['document_label']) ? COMPLIANZ()->config->fields[$fieldname]['document_label'] : false;
+            $front_end_label = isset(COMPLIANZ::$config->fields[$fieldname]['document_label']) ? COMPLIANZ::$config->fields[$fieldname]['document_label'] : false;
 
 
-            if (COMPLIANZ()->config->fields[$fieldname]['type'] == 'url') {
+            if (COMPLIANZ::$config->fields[$fieldname]['type'] == 'url') {
                 $value = '<a href="' . $value . '" target="_blank">';
-            } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'email') {
+            } elseif (COMPLIANZ::$config->fields[$fieldname]['type'] == 'email') {
                 $value = apply_filters('cmplz_document_email', $value);
-            } elseif (COMPLIANZ()->config->fields[$fieldname]['type'] == 'radio') {
-                $options = COMPLIANZ()->config->fields[$fieldname]['options'];
+            } elseif (COMPLIANZ::$config->fields[$fieldname]['type'] == 'radio') {
+                $options = COMPLIANZ::$config->fields[$fieldname]['options'];
                 $value = isset($options[$value]) ? $options[$value] : '';
-            } elseif(COMPLIANZ()->config->fields[$fieldname]['type'] == 'textarea'){
+            } elseif(COMPLIANZ::$config->fields[$fieldname]['type'] == 'textarea'){
                 //preserve linebreaks
                 $value = nl2br($value);
             } elseif (is_array($value)) {
-                $options = COMPLIANZ()->config->fields[$fieldname]['options'];
+                $options = COMPLIANZ::$config->fields[$fieldname]['options'];
                 //array('3' => 1 );
                 $value = array_filter($value, function ($item) {
                     return $item == 1;
@@ -543,8 +543,8 @@ if (!class_exists("cmplz_document_core")) {
 
                 $value = $labels;
             } else {
-                if (isset(COMPLIANZ()->config->fields[$fieldname]['options'])) {
-                    $options = COMPLIANZ()->config->fields[$fieldname]['options'];
+                if (isset(COMPLIANZ::$config->fields[$fieldname]['options'])) {
+                    $options = COMPLIANZ::$config->fields[$fieldname]['options'];
                     if (isset($options[$value])) $value = $options[$value];
                 }
             }

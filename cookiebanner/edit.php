@@ -30,7 +30,7 @@ if ( count( $regions ) == 0 ) {
             <input type="hidden" value="1" name="cmplz_add_new">
         <?php } ?>
         <?php //some fields for the cookies categories ?>
-        <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ()->cookie_admin->cookie_warning_required_stats('eu'))?>">
+        <input type="hidden" name="cmplz_cookie_warning_required_stats" value="<?php echo (COMPLIANZ::$cookie_admin->cookie_warning_required_stats('eu'))?>">
         <?php
         /**
         * If Tag manager fires categories, enable use categories by default
@@ -53,7 +53,7 @@ if ( count( $regions ) == 0 ) {
         } else {
 
             if (cmplz_multiple_regions()) {
-                $single_consenttype = COMPLIANZ()->company->get_default_consenttype();
+                $single_consenttype = COMPLIANZ::$company->get_default_consenttype();
             } else {
                 $single_region = $regions;
                 reset($single_region);
@@ -81,7 +81,7 @@ if ( count( $regions ) == 0 ) {
             <p>
             <table class="form-table">
                 <?php
-                COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', 'general');?>
+                COMPLIANZ::$field->get_fields('CMPLZ_COOKIEBANNER', 'general');?>
             </table>
             </p>
         </div>
@@ -98,7 +98,7 @@ if ( count( $regions ) == 0 ) {
                 <p>
                 <table class="form-table">
                     <?php
-                    COMPLIANZ()->field->get_fields('CMPLZ_COOKIEBANNER', $consent_type);?>
+                    COMPLIANZ::$field->get_fields('CMPLZ_COOKIEBANNER', $consent_type);?>
                 </table>
                 </p>
             </div>

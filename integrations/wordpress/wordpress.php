@@ -100,7 +100,7 @@ add_filter('wp_consent_types', 'wp_consent_api_cookie_expiration');
 
 
 function cmplz_consent_api_get_consenttype($consenttype){
-	$consenttype = COMPLIANZ()->company->get_default_consenttype();
+	$consenttype = COMPLIANZ::$company->get_default_consenttype();
 	return $consenttype;
 }
 add_filter('wp_get_consent_type', 'cmplz_consent_api_get_consenttype');

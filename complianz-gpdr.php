@@ -58,64 +58,56 @@ require_once(plugin_dir_path(__FILE__) . 'functions.php');
 if (!class_exists('COMPLIANZ')) {
     class COMPLIANZ
     {
+	    public static $instance;
+	    public static $config;
+	    public static $company;
+	    public static $review;
+	    public static $admin;
+	    public static $field;
+	    public static $wizard;
+	    public static $export_settings;
+	    public static $tour;
+	    public static $comments;
+	    public static $processing;
+	    public static $dataleak;
+	    public static $import_settings;
+	    public static $license;
+	    public static $cookie_admin;
+	    public static $geoip;
+	    public static $statistics;
+	    public static $document;
+	    public static $cookie_blocker;
+	    public static $DNSMPD;
 
-        private static $instance;
-        public $cmplz_front_end;
-        public $cmplz_admin;
-
-        private function __construct()
+	    private function __construct()
         {
+	        self::setup_constants();
+	        self::includes();
+	        self::hooks();
+
+	        self::$config = new cmplz_config();
+	        self::$company = new cmplz_company();
+	        if (cmplz_has_region('us')) self::$DNSMPD = new cmplz_DNSMPD();
+
+	        if (is_admin()) {
+		        self::$review = new cmplz_review();
+		        self::$admin = new cmplz_admin();
+		        self::$field = new cmplz_field();
+		        self::$wizard = new cmplz_wizard();
+		        self::$export_settings = new cmplz_export_settings();
+		        self::$tour = new cmplz_tour();
+	        }
+
+	        self::$cookie_admin = new cmplz_cookie_admin();
+	        self::$statistics = new cmplz_statistics();
+	        self::$document = new cmplz_document();
+
+	        if (cmplz_third_party_cookies_active() || cmplz_cookie_warning_required_stats()) {
+		        self::$cookie_blocker = new cmplz_cookie_blocker();
+	        }
+
         }
 
-        public static function instance()
-        {
-
-            if (!isset(self::$instance) && !(self::$instance instanceof COMPLIANZ)) {
-                self::$instance = new COMPLIANZ;
-                if (self::$instance->is_compatible()) {
-
-                    self::$instance->setup_constants();
-                    self::$instance->includes();
-
-                    self::$instance->config = new cmplz_config();
-                    self::$instance->company = new cmplz_company();
-                    if (cmplz_has_region('us')) self::$instance->DNSMPD = new cmplz_DNSMPD();
-
-                    if (is_admin()) {
-                        self::$instance->review = new cmplz_review();
-                        self::$instance->admin = new cmplz_admin();
-                        self::$instance->field = new cmplz_field();
-                        self::$instance->wizard = new cmplz_wizard();
-                        self::$instance->export_settings = new cmplz_export_settings();
-	                    self::$instance->tour = new cmplz_tour();
-
-                    }
-                    self::$instance->cookie_admin = new cmplz_cookie_admin();
-                    self::$instance->geoip = '';
-                    self::$instance->document = new cmplz_document();
-
-
-                    if (cmplz_third_party_cookies_active() || cmplz_cookie_warning_required_stats()) {
-                        self::$instance->cookie_blocker = new cmplz_cookie_blocker();
-                    }
-
-                    self::$instance->hooks();
-                }
-
-            }
-
-            return self::$instance;
-        }
-
-        /*
-         * Compatiblity checks
-         *
-         * */
-
-        private function is_compatible()
-        {
-            return true;
-        }
 
         private function setup_constants()
         {
@@ -139,8 +131,9 @@ if (!class_exists('COMPLIANZ')) {
              * 3: new questions
              * 4: new questions
              * 5: UK as seperate region
+             * 6: CA as seperate region
              * */
-            define('CMPLZ_LEGAL_VERSION', '4');
+            define('CMPLZ_LEGAL_VERSION', '6');
 
             /*statistics*/
             if (!defined('CMPLZ_AB_TESTING_DURATION')) define('CMPLZ_AB_TESTING_DURATION', 30); //Days
@@ -158,6 +151,21 @@ if (!class_exists('COMPLIANZ')) {
             define('cmplz_version', $plugin_data['Version'] . $debug);
             define('cmplz_plugin_file', __FILE__);
         }
+
+	    /**
+	     * Instantiate the class.
+	     *
+	     * @since 1.0.0
+	     *
+	     * @return COMPLIANZ
+	     */
+	    public static function get_instance() {
+		    if ( ! isset( self::$instance ) && ! ( self::$instance instanceof COMPLIANZ ) ) {
+			    self::$instance = new self();
+		    }
+
+		    return self::$instance;
+	    }
 
         private function includes()
         {
@@ -220,20 +228,6 @@ if (!function_exists('cmplz_set_activation_time_stamp')) {
     function cmplz_set_activation_time_stamp($networkwide)
     {
         update_option('cmplz_activation_time', time());
-    }
-}
-
-/**
- * Load the translation files
- * For the free this is different from the premium, as we only want to load languages that are not on the repository
- *
- */
-
-if (!function_exists('cmplz_load_translation')) {
-    add_action('init', 'cmplz_load_translation', 20);
-    function cmplz_load_translation()
-    {
-        load_plugin_textdomain('complianz-gdpr', FALSE, cmplz_path . '/config/languages/');
     }
 }
 

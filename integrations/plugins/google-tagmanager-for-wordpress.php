@@ -38,7 +38,7 @@ add_action('init', 'cmplz_gtm4wp_remove_actions');
  * */
 function cmplz_gtm4wp_remove_scripts_statistics()
 {
-	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+	remove_action('cmplz_statistics_script', array(COMPLIANZ::$cookie_admin, 'get_statistics_script'), 10);
 }
 add_action('after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics');
 

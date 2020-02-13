@@ -68,7 +68,7 @@ add_filter('cmplz_fields', 'cmplz_gadwp_filter_fields', 20, 1);
  * */
 function cmplz_gadwp_remove_scripts_others()
 {
-	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+	remove_action('cmplz_statistics_script', array(COMPLIANZ::$cookie_admin, 'get_statistics_script'), 10);
 }
 
 add_action('after_setup_theme', 'cmplz_gadwp_remove_scripts_others');

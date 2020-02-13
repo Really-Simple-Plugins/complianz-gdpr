@@ -9,9 +9,9 @@ function cmplz_filter_fields($fields)
          *
          * */
     if (cmplz_has_region('us') || (cmplz_has_region('ca') && cmplz_get_value('privacy-statement')==='yes')) {
-        foreach (COMPLIANZ()->config->purposes as $key => $label) {
+        foreach (COMPLIANZ::$config->purposes as $key => $label) {
 
-            if (!empty(COMPLIANZ()->config->details_per_purpose_us)) {
+            if (!empty(COMPLIANZ::$config->details_per_purpose_us)) {
                 $fields = $fields + array(
                         $key . '_data_purpose_us' => array(
                             'master_label' => __("Purpose:", 'complianz-gdpr') . " " . $label,
@@ -26,7 +26,7 @@ function cmplz_filter_fields($fields)
                                 'purpose_personaldata' => $key
                             ),
 
-                            'options' => COMPLIANZ()->config->details_per_purpose_us,
+                            'options' => COMPLIANZ::$config->details_per_purpose_us,
                             'time' => CMPLZ_MINUTES_PER_QUESTION_QUICK,
                         ),
 
