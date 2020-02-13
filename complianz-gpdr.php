@@ -99,7 +99,6 @@ if (!class_exists('COMPLIANZ')) {
 	        }
 
 	        self::$cookie_admin = new cmplz_cookie_admin();
-	        self::$statistics = new cmplz_statistics();
 	        self::$document = new cmplz_document();
 
 	        if (cmplz_third_party_cookies_active() || cmplz_cookie_warning_required_stats()) {
@@ -213,15 +212,20 @@ if (!class_exists('COMPLIANZ')) {
             add_action('wp_ajax_cmplz_user_settings', 'cmplz_ajax_user_settings');
         }
     }
+
+	/**
+	 * Load the plugins main class.
+	 */
+	add_action(
+		'plugins_loaded',
+		function() {
+			COMPLIANZ::get_instance();
+		},
+		9
+	);
+
 }
 
-if (!function_exists('COMPLIANZ')) {
-    function COMPLIANZ() {
-        return COMPLIANZ::instance();
-    }
-
-    add_action( 'plugins_loaded', 'COMPLIANZ', 9 );
-}
 
 register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp');
 if (!function_exists('cmplz_set_activation_time_stamp')) {
