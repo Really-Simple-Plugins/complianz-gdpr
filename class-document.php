@@ -596,26 +596,33 @@ if (!class_exists("cmplz_document")) {
 
             echo '<table>';
             foreach($regions as $region => $label) {
-                ?>
-                <tr><td><h3><?php echo $label?></h3></td></tr>
-                <?php
 	            $pages = $this->get_created_pages($region);
-	            foreach ( $pages as $page_id ) {
-		            echo "<tr><td>";
-		            echo get_the_title( $page_id );
-		            echo "</td><td>";
-		            ?>
+	            if (count($pages)>0){
+	                ?>
+	                <tr><td><h3><?php echo $label?></h3></td></tr>
+	                <?php
 
-                    <select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
-                        <option value=""><?php _e( "Select a menu", 'complianz-gdpr' ); ?></option>
-			            <?php foreach ( $menus as $menu_id => $menu ) {
-				            $selected = ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) ? "selected" : "";
-				            echo '<option ' . $selected . ' value="' . $menu_id . '">' . $menu . '</option>';
-			            } ?>
+		            foreach ( $pages as $page_id ) {
+			            echo "<tr><td>";
+			            echo get_the_title( $page_id );
+			            echo "</td><td>";
+			            ?>
 
-                    </select>
-		            <?php
-		            echo "</td></tr>";
+			            <select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
+				            <option value=""><?php _e( "Select a menu",
+						            'complianz-gdpr' ); ?></option>
+				            <?php foreach ( $menus as $menu_id => $menu ) {
+					            $selected
+						            = ( $this->is_assigned_this_menu( $page_id,
+						            $menu_id ) ) ? "selected" : "";
+					            echo '<option ' . $selected . ' value="' . $menu_id
+					                 . '">' . $menu . '</option>';
+				            } ?>
+
+			            </select>
+			            <?php
+			            echo "</td></tr>";
+		            }
 	            }
             }
             echo "</table>";
@@ -855,10 +862,13 @@ if (!class_exists("cmplz_document")) {
         {
             $required_pages = COMPLIANZ()->document->get_required_pages();
             $pages = array();
-            if ($filter_region && isset($required_pages[$filter_region])){
-	            foreach ( $required_pages[$filter_region] as $type => $page ) {
-		            $pages[] = $this->get_shortcode_page_id( $type, $filter_region );
+            if ($filter_region){
+            	if (isset($required_pages[$filter_region])){
+		            foreach ( $required_pages[$filter_region] as $type => $page ) {
+			            $pages[] = $this->get_shortcode_page_id( $type, $filter_region );
+		            }
 	            }
+
             } else {
 	            $regions = cmplz_get_regions();
 	            foreach($regions as $region => $label) {
@@ -867,7 +877,6 @@ if (!class_exists("cmplz_document")) {
 		            }
 	            }
             }
-
             return $pages;
         }
 
