@@ -25,18 +25,15 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
 */
 
 defined('ABSPATH') or die("you do not have access to this page!");
 
-define('cmplz_free', true);
-
-/**
- * Checks if the plugin can safely be activated, at least php 5.6 and wp 4.6
- * @since 2.1.5
- */
 if (!function_exists('cmplz_activation_check')) {
+	/**
+	 * Checks if the plugin can safely be activated, at least php 5.6 and wp 4.6
+	 * @since 2.1.5
+	 */
     function cmplz_activation_check()
     {
         if (version_compare(PHP_VERSION, '5.6', '<')) {
@@ -50,9 +47,8 @@ if (!function_exists('cmplz_activation_check')) {
             wp_die(__('Complianz GDPR cannot be activated. The plugin requires WordPress 4.6 or higher', 'complianz-gdpr'));
         }
     }
+	register_activation_hook( __FILE__, 'cmplz_activation_check' );
 }
-register_activation_hook( __FILE__, 'cmplz_activation_check' );
-
 
 require_once(plugin_dir_path(__FILE__) . 'functions.php');
 if (!class_exists('COMPLIANZ')) {
@@ -104,9 +100,11 @@ if (!class_exists('COMPLIANZ')) {
 	        if (cmplz_third_party_cookies_active() || cmplz_cookie_warning_required_stats()) {
 		        self::$cookie_blocker = new cmplz_cookie_blocker();
 	        }
-
         }
 
+	    /**
+	     * Setup constants for the plugin
+	     */
 
         private function setup_constants()
         {
@@ -123,7 +121,7 @@ if (!class_exists('COMPLIANZ')) {
             //default region code
             if (!defined('CMPLZ_DEFAULT_REGION')) define('CMPLZ_DEFAULT_REGION',  'us');
 
-            /*
+            /**
              * The legal version is only updated when document contents or the questions leading to it are changed
              * 1: start version
              * 2: introduction of US privacy questions
@@ -149,6 +147,7 @@ if (!class_exists('COMPLIANZ')) {
             $debug = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? time() : '';
             define('cmplz_version', $plugin_data['Version'] . $debug);
             define('cmplz_plugin_file', __FILE__);
+	        define('cmplz_free', true);
         }
 
 	    /**
@@ -168,7 +167,6 @@ if (!class_exists('COMPLIANZ')) {
 
         private function includes()
         {
-
             require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
             require_once(cmplz_path . 'cookie/class-cookie.php');
@@ -181,7 +179,6 @@ if (!class_exists('COMPLIANZ')) {
             }
             require_once plugin_dir_path( __FILE__ ) . 'rest-api/rest-api.php';
 
-
             if (is_admin()) {
                 require_once(cmplz_path . 'class-admin.php');
                 require_once(cmplz_path . 'class-review.php');
@@ -191,7 +188,6 @@ if (!class_exists('COMPLIANZ')) {
                 require_once(cmplz_path . 'cookiebanner/cookiebanner.php');
                 require_once(cmplz_path . 'class-export.php');
 	            require_once( cmplz_path . 'shepherd/tour.php' );
-
             }
 
             require_once(cmplz_path . 'cron/cron.php');
@@ -199,10 +195,8 @@ if (!class_exists('COMPLIANZ')) {
             require_once(cmplz_path . 'cookie/class-cookie-admin.php');
             require_once(cmplz_path . 'class-company.php');
             require_once(cmplz_path . 'DNSMPD/class-DNSMPD.php');
-
             require_once(cmplz_path . 'config/class-config.php');
             require_once(cmplz_path . 'core/php/class-cookie-blocker.php');
-
         }
 
         private function hooks()
@@ -223,23 +217,29 @@ if (!class_exists('COMPLIANZ')) {
 		},
 		9
 	);
-
 }
 
-
-register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp');
 if (!function_exists('cmplz_set_activation_time_stamp')) {
+	/**
+	 * Set an activation time stamp
+	 * @param $networkwide
+	 */
     function cmplz_set_activation_time_stamp($networkwide)
     {
         update_option('cmplz_activation_time', time());
     }
+	register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp');
+
 }
 
 if (!function_exists('cmplz_start_tour')){
+	/**
+	 * Start the tour of the plugin on activation
+	 */
 	function cmplz_start_tour(){
 		if (!get_site_option('cmplz_tour_shown_once')){
 			update_site_option('cmplz_tour_started', true);
 		}
 	}
+	register_activation_hook( __FILE__, 'cmplz_start_tour' );
 }
-register_activation_hook( __FILE__, 'cmplz_start_tour' );
