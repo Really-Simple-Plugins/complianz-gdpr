@@ -21,9 +21,11 @@ jQuery(document).ready(function($) {
 		classes: 'shepherd-theme-arrows',
 		scrollTo: true,
 		scrollToHandler: function(e) {
-			$('html, body').animate({
-				scrollTop: $(e).offset().top-200
-			}, 1000);
+			if (typeof ($(e).offset()) !== "undefined" ) {
+				$('html, body').animate({
+					scrollTop: $(e).offset().top - 200
+				}, 1000);
+			}
 		},
 		showCancelLink: true,
 		tetherOptions: {
