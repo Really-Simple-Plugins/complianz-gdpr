@@ -167,7 +167,6 @@ if (!class_exists('COMPLIANZ')) {
 
         private function includes()
         {
-            require_once(cmplz_path . 'core/php/class-document-core.php');
             require_once(cmplz_path . 'class-document.php');
             require_once(cmplz_path . 'cookie/class-cookie.php');
             require_once(cmplz_path . 'cookie/class-service.php');
