@@ -37,7 +37,6 @@ if (!class_exists("cmplz_wizard")) {
             add_action('complianz_after_save_wizard_option', array($this, 'after_save_wizard_option'), 10, 4);
 
             //dataleaks:
-
             add_action('cmplz_is_wizard_completed', array($this, 'is_wizard_completed_callback'));
 
         }
@@ -58,7 +57,9 @@ if (!class_exists("cmplz_wizard")) {
             }
         }
 
-
+	    /**
+	     * Fire some custom hooks
+	     */
 
         public function process_custom_hooks()
         {
@@ -90,6 +91,10 @@ if (!class_exists("cmplz_wizard")) {
             }
         }
 
+	    /**
+	     * Show notices
+	     */
+
         public function show_notices()
         {
             if (!cmplz_user_can_manage()) return;
@@ -106,6 +111,9 @@ if (!class_exists("cmplz_wizard")) {
             }
         }
 
+	    /**
+	     * last step
+	     */
 
         public function wizard_last_step_callback()
         {
@@ -126,8 +134,7 @@ if (!class_exists("cmplz_wizard")) {
 
         }
 
-
-        /*
+        /**
          * Process completion of setup
          *
          * */
@@ -187,7 +194,7 @@ if (!class_exists("cmplz_wizard")) {
             }
         }
 
-        /*
+        /**
          * Do stuff before a page from the wizard is saved.
          *
          * */
@@ -231,9 +238,6 @@ if (!class_exists("cmplz_wizard")) {
                 }
             }
 
-
-
-
             //when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
             if ($fieldname==='privacy-statement' || $fieldname==='regions' || $fieldname === 'cookie-policy-type'){
                 cmplz_update_banner_version_all_banners();
@@ -273,12 +277,14 @@ if (!class_exists("cmplz_wizard")) {
 
         }
 
-        /*
+	    /**
          * Handle some custom options after saving the wizard options
          *
-         *
-         * */
-
+	     * @param $fieldname
+	     * @param $fieldvalue
+	     * @param $prev_value
+	     * @param $type
+	     */
         public function after_save_wizard_option($fieldname, $fieldvalue, $prev_value, $type){
 
 	        if ($fieldname == 'california' || $fieldname == 'purpose_personaldata'){
@@ -330,6 +336,14 @@ if (!class_exists("cmplz_wizard")) {
             }
         }
 
+	    /**
+         * Get the next step that has at least one field
+	     * @param string $page
+	     * @param int $step
+	     *
+	     * @return int
+	     */
+
         public function get_next_not_empty_step($page, $step)
         {
             if (!COMPLIANZ::$field->step_has_fields($page, $step)) {
@@ -340,6 +354,15 @@ if (!class_exists("cmplz_wizard")) {
 
             return $step;
         }
+
+	    /**
+         * Get next section that is not empty
+	     * @param string $page
+	     * @param int $step
+	     * @param int $section
+	     *
+	     * @return int|bool
+	     */
 
         public function get_next_not_empty_section($page, $step, $section)
         {
@@ -367,6 +390,14 @@ if (!class_exists("cmplz_wizard")) {
             return $section;
         }
 
+	    /**
+         * Get previous step that is not empty
+	     * @param string $page
+	     * @param int $step
+	     *
+	     * @return int
+	     */
+
         public function get_previous_not_empty_step($page, $step)
         {
             if (!COMPLIANZ::$field->step_has_fields($page, $step)) {
@@ -377,6 +408,14 @@ if (!class_exists("cmplz_wizard")) {
 
             return $step;
         }
+
+	    /**
+	     * @param string $page
+	     * @param int $step
+	     * @param int $section
+	     *
+	     * @return int|bool
+	     */
 
         public function get_previous_not_empty_section($page, $step, $section)
         {
@@ -390,7 +429,7 @@ if (!class_exists("cmplz_wizard")) {
             return $section;
         }
 
-        /*
+        /**
          * Lock the wizard for further use while it's being edited by the current user.
          *
          *
@@ -402,10 +441,10 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-        /*
+        /**
          * Check if the wizard is locked by another user
          *
-         *
+         * @return bool
          * */
 
         public function wizard_is_locked(){
@@ -416,11 +455,17 @@ if (!class_exists("cmplz_wizard")) {
             return false;
         }
 
+	    /**
+         * Get the user that is using the wizard
+	     * @return int
+	     */
         public function get_lock_user(){
             return get_transient('cmplz_wizard_locked_by_user');
         }
 
-
+	    /**
+	     * @param $page
+	     */
         public function wizard($page)
         {
 
@@ -549,11 +594,14 @@ if (!class_exists("cmplz_wizard")) {
 
         }
 
-        /*
+	    /**
          * If a section does not contain any fields to be filled, just drop it from the menu.
-         *
-         *
-         * */
+	     * @param string $page
+	     * @param int $step
+	     * @param int $section
+	     *
+	     * @return bool
+	     */
 
         public function section_is_empty($page, $step, $section)
         {
@@ -564,6 +612,11 @@ if (!class_exists("cmplz_wizard")) {
             return false;
         }
 
+	    /**
+         * enqueue
+	     * @param $hook
+	     */
+
         public function enqueue_assets($hook)
         {
             if ((strpos($hook, 'complianz') === FALSE) && strpos($hook, 'cmplz') === FALSE) return;
@@ -572,16 +625,16 @@ if (!class_exists("cmplz_wizard")) {
             wp_enqueue_style('cmplz-wizard');
         }
 
-
-        /*
-         *
-         * Foreach required field, check if it's been answered
-         *
-         * if section is false, check all fields of the step.
-         *
-         *
-         * */
-
+	    /**
+	     * Foreach required field, check if it's been answered
+	     *
+	     * if section is false, check all fields of the step.
+	     * @param string $page
+	     * @param int $step
+	     * @param int $section
+	     *
+	     * @return bool
+	     */
 
         public function required_fields_completed($page, $step, $section)
         {
@@ -606,12 +659,12 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-
-        /*
+	    /**
          * Check if all required fields are filled
-         *
-         *
-         * */
+	     * @param string $page
+	     *
+	     * @return bool
+	     */
 
         public function all_required_fields_completed($page)
         {
@@ -631,12 +684,10 @@ if (!class_exists("cmplz_wizard")) {
             return true;
         }
 
-        /*
-         *
+	    /**
          * Get the current selected post id for documents
-         *
-         *
-         * */
+	     * @return bool|int
+	     */
 
         public function post_id()
         {
@@ -647,6 +698,10 @@ if (!class_exists("cmplz_wizard")) {
             return $post_id;
         }
 
+	    /**
+         * Get current wizard type
+	     * @return string
+	     */
         public function wizard_type()
         {
             $wizard_type = 'wizard';
@@ -660,12 +715,35 @@ if (!class_exists("cmplz_wizard")) {
             return $wizard_type;
         }
 
+	    /**
+	     * Get the type of a post
+	     * @param bool $post_id
+	     *
+	     * @return bool|string
+	     */
+	    public function get_type($post_id=false){
+		    $page = false;
+		    if ($post_id) {
+			    $region = COMPLIANZ::$document->get_region($post_id);
+			    $post_type = get_post_type($post_id);
+			    $page = str_replace('cmplz-','',$post_type).'-'.$region;
+		    }
+		    if (isset($_GET['page'])) {
+			    $page = str_replace('cmplz-', '', sanitize_title($_GET['page']));
+		    }
+		    return $page;
+	    }
 
-        /*
+
+	    /**
          * Get a notice style header with an intro above a step or section
          *
-         *
-         * */
+	     * @param string $page
+	     * @param int $step
+	     * @param int $section
+	     *
+	     * @return string
+	     */
 
         public function get_intro($page, $step, $section){
             //only show when in action
@@ -721,11 +799,12 @@ if (!class_exists("cmplz_wizard")) {
         }
 
 
-        /**
+	    /**
          * Get content of wizard for a page/step/section combination
-         *
-         *
-         * */
+	     * @param      $page
+	     * @param      $step
+	     * @param bool $section
+	     */
 
 
         public function get_content($page, $step, $section = false)
@@ -836,20 +915,6 @@ if (!class_exists("cmplz_wizard")) {
             </form>
             <?php
         }
-
-        public function get_type($post_id=false){
-            $page = false;
-            if ($post_id) {
-                $region = COMPLIANZ::$document->get_region($post_id);
-                $post_type = get_post_type($post_id);
-                $page = str_replace('cmplz-','',$post_type).'-'.$region;
-            }
-            if (isset($_GET['page'])) {
-                $page = str_replace('cmplz-', '', sanitize_title($_GET['page']));
-            }
-            return $page;
-        }
-
 
         public function wizard_completed_once(){
             return get_option('cmplz_wizard_completed_once');
