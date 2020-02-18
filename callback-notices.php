@@ -29,7 +29,7 @@ function cmplz_show_compile_statistics_notice( $args ) {
 	$stats = cmplz_scan_detected_stats();
 	if ( $stats ) {
 		$type = reset( $stats );
-		$type = COMPLIANZ()->config->stats[ $type ];
+		$type = COMPLIANZ::$config->stats[ $type ];
 
 		cmplz_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ) );
 	}
@@ -38,7 +38,7 @@ function cmplz_show_compile_statistics_notice( $args ) {
 
 add_action( 'cmplz_notice_consent_for_anonymous_stats', 'cmplz_notice_consent_for_anonymous_stats', 10, 1 );
 function cmplz_notice_consent_for_anonymous_stats( $args ) {
-	cmplz_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.", 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/google-analytics' ), 'warning' );
+	cmplz_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.", 'complianz-gdpr' ) . COMPLIANZ::$config->read_more( 'https://complianz.io/google-analytics' ), 'warning' );
 
 }
 
@@ -48,7 +48,7 @@ function cmplz_uses_social_media_notice() {
 	$social_media = cmplz_scan_detected_social_media();
 	if ( $social_media ) {
 		foreach ( $social_media as $key => $social_medium ) {
-			$social_media[ $key ] = COMPLIANZ()->config->thirdparty_socialmedia[ $social_medium ];
+			$social_media[ $key ] = COMPLIANZ::$config->thirdparty_socialmedia[ $social_medium ];
 		}
 		$social_media = implode( ', ', $social_media );
 		cmplz_notice( sprintf( __( "The scan found social media buttons or widgets for %s on your site, which means the answer should be yes", 'complianz-gdpr' ), $social_media ) );
@@ -69,7 +69,7 @@ function cmplz_uses_thirdparty_services_notice() {
 	$thirdparties = cmplz_scan_detected_thirdparty_services();
 	if ( $thirdparties ) {
 		foreach ( $thirdparties as $key => $thirdparty ) {
-			$thirdparties[ $key ] = COMPLIANZ()->config->thirdparty_services[ $thirdparty ];
+			$thirdparties[ $key ] = COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
 		}
 		$thirdparties = implode( ', ', $thirdparties );
 		cmplz_notice( sprintf( __( "The scan found third party services on your website: %s, this means the answer should be yes.", 'complianz-gdpr' ), $thirdparties ) );
@@ -79,7 +79,7 @@ function cmplz_uses_thirdparty_services_notice() {
 
 add_action( 'cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice' );
 function cmplz_purpose_personaldata_notice() {
-	if ( cmplz_has_region( 'us' ) && COMPLIANZ()->cookie_admin->uses_non_functional_cookies() ) {
+	if ( cmplz_has_region( 'us' ) && COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
 		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. According to the CCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.", 'complianz-gdpr' ) );
 	}
 }
@@ -90,7 +90,7 @@ function cmplz_google_fonts_recommendation() {
 	if ( ! cmplz_has_region( 'eu' ) ) {
 		return;
 	}
-	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ()->config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
+	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ), __("services", "complianz-gdpr")).COMPLIANZ::$config->read_more("https://complianz.io/blocking-recaptcha-manually/"), 'warning' );
 	cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s", 'complianz-gdpr' ), '<a href="'.admin_url('admin.php?page=cmplz-script-center').'">', '</a>' ) );
 
 	$thirdparties = cmplz_get_value( 'thirdparty_services_on_site' );
@@ -132,7 +132,7 @@ function cmplz_use_cdb_api_notice() {
 add_action( 'cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us' );
 function cmplz_data_disclosed_us() {
 
-	if ( COMPLIANZ()->cookie_admin->uses_non_functional_cookies() ) {
+	if ( COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
 		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr' ) );
 	}
 }
@@ -140,7 +140,7 @@ function cmplz_data_disclosed_us() {
 add_action( 'cmplz_notice_data_sold_us', 'cmplz_data_sold_us' );
 function cmplz_data_sold_us() {
 
-	if ( COMPLIANZ()->cookie_admin->uses_non_functional_cookies() ) {
+	if ( COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
 		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'", 'complianz-gdpr' ) );
 	}
 
@@ -157,7 +157,7 @@ function cmplz_notice_no_cookies_used() {
 
 add_action( 'cmplz_notice_uses_ad_cookies_personalized', 'cmplz_notice_personalized_ads_based_on_consent' );
 function cmplz_notice_personalized_ads_based_on_consent() {
-	cmplz_notice( __( "With Tag Manager, you can also configure your (personalized) advertising based on consent.", 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
+	cmplz_notice( __( "With Tag Manager, you can also configure your (personalized) advertising based on consent.", 'complianz-gdpr' ) . COMPLIANZ::$config->read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
 }
 
 
@@ -179,7 +179,7 @@ function cmplz_show_cookie_usage_notice() {
 		'isTranslationFrom' => false,
 		'ignored'           => false,
 	);
-	$cookies = COMPLIANZ()->cookie_admin->get_cookies( $args );
+	$cookies = COMPLIANZ::$cookie_admin->get_cookies( $args );
 	if ( count( $cookies ) > 0 ) {
 		$count = count( $cookies );
 		cmplz_notice( sprintf( __( "The cookie scan detected %s types of cookies on your site which means the answer to this question should be Yes.", 'complianz-gdpr' ), $count, $cookies ) );
@@ -195,8 +195,8 @@ function cmplz_show_use_categories_notice() {
 	if ( $uses_tagmanager && $tm_fires_scripts ) {
 		cmplz_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 
-	} elseif ( COMPLIANZ()->cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-		cmplz_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
+	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
+		cmplz_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' ) . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
 
@@ -207,8 +207,8 @@ function cmplz_show_use_categories_optinstats_notice() {
 	if ( $uses_tagmanager && $tm_fires_scripts ) {
 		cmplz_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 
-	} elseif ( COMPLIANZ()->cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
-		cmplz_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' ) . COMPLIANZ()->config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
+	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
+		cmplz_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' ) . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
 
@@ -247,7 +247,7 @@ function cmplz_set_default($value, $fieldname)
 	}
 
 	if ( $fieldname == 'purpose_personaldata' ) {
-		if ( cmplz_has_region( 'us' ) && COMPLIANZ()->cookie_admin->uses_non_functional_cookies() ) {
+		if ( cmplz_has_region( 'us' ) && COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
 			//possibly not an array yet, when it's empty
 			if ( ! is_array( $value ) ) {
 				$value = array();
@@ -268,7 +268,7 @@ function cmplz_set_default($value, $fieldname)
 			'isTranslationFrom' => false,
 			'ignored'           => false,
 		);
-		$cookie_types = COMPLIANZ()->cookie_admin->get_cookies( $args );
+		$cookie_types = COMPLIANZ::$cookie_admin->get_cookies( $args );
 		if ( count( $cookie_types ) > 0 ) {
 			return 'yes';
 		} else {
@@ -314,7 +314,7 @@ function cmplz_set_default($value, $fieldname)
 
 	if ( $fieldname == 'country_company' ) {
 		$country_code = substr( get_locale(), 3, 2 );
-		if ( isset( COMPLIANZ()->config->countries[ $country_code ] ) ) {
+		if ( isset( COMPLIANZ::$config->countries[ $country_code ] ) ) {
 			$value = $country_code;
 		}
 
@@ -358,7 +358,7 @@ function cmplz_set_default($value, $fieldname)
 	}
 
     if ($fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us'){
-        if (COMPLIANZ()->cookie_admin->uses_non_functional_cookies()) {
+        if (COMPLIANZ::$cookie_admin->uses_non_functional_cookies()) {
             //possibly not an array yet.
             if (!is_array($value)) $value = array();
             $value['internet'] = 1;

@@ -47,7 +47,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
         }
 
         public function replace_for_amp($output){
-            $amp_tags = COMPLIANZ()->config->amp_tags;
+            $amp_tags = COMPLIANZ::$config->amp_tags;
 
             $amp_tags = apply_filters('cmplz_amp_tags', $amp_tags);
             foreach($amp_tags as $amp_tag){
@@ -107,7 +107,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $known_style_tags = apply_filters('cmplz_known_style_tags', COMPLIANZ()->config->style_tags);
+            $known_style_tags = apply_filters('cmplz_known_style_tags', COMPLIANZ::$config->style_tags);
 
 
             /*
@@ -115,7 +115,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $known_script_tags = COMPLIANZ()->config->script_tags;
+            $known_script_tags = COMPLIANZ::$config->script_tags;
             $custom_scripts = cmplz_strip_spaces(cmplz_get_value('thirdparty_scripts'));
             if (!empty($custom_scripts) && strlen($custom_scripts)>0){
                 $custom_scripts = explode(',', $custom_scripts);
@@ -126,7 +126,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
             /*
              * Get dependencies between scripts
              * */
-            $dependencies = COMPLIANZ()->config->dependencies;
+            $dependencies = COMPLIANZ::$config->dependencies;
             $dependencies = apply_filters('cmplz_dependencies', $dependencies);
 
 
@@ -135,14 +135,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $async_list = apply_filters('cmplz_known_async_tags', COMPLIANZ()->config->async_list);
+            $async_list = apply_filters('cmplz_known_async_tags', COMPLIANZ::$config->async_list);
 
             /*
              * Get iframe tags, and add custom user iframes
              *
              * */
 
-            $known_iframe_tags = COMPLIANZ()->config->iframe_tags;
+            $known_iframe_tags = COMPLIANZ::$config->iframe_tags;
             $custom_iframes = cmplz_strip_spaces(cmplz_get_value('thirdparty_iframes'));
             if (!empty($custom_iframes) && strlen($custom_iframes)>0){
                 $custom_iframes = explode(',', $custom_iframes);
@@ -178,7 +178,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 
-            $image_tags = COMPLIANZ()->config->image_tags;
+            $image_tags = COMPLIANZ::$config->image_tags;
             $image_tags = apply_filters('cmplz_image_tags', $image_tags);
 	        $image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/s'; //matches multiline with s operater, for FB pixel
             if (preg_match_all($image_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
@@ -276,7 +276,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
             if (cmplz_use_placeholder()) {
-                $placeholder_markers = apply_filters('cmplz_placeholder_markers', COMPLIANZ()->config->placeholder_markers);
+                $placeholder_markers = apply_filters('cmplz_placeholder_markers', COMPLIANZ::$config->placeholder_markers);
                 foreach ($placeholder_markers as $type => $markers) {
                     if (!is_array($markers)) $markers = array($markers);
                     foreach ($markers as $marker) {

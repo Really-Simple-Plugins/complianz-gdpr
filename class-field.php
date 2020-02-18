@@ -91,7 +91,7 @@ if (!class_exists("cmplz_field")) {
                 //check nonce
                 if (!isset($_POST['complianz_nonce']) || !wp_verify_nonce($_POST['complianz_nonce'], 'complianz_save')) return;
 
-                $fields = COMPLIANZ()->config->fields();
+                $fields = COMPLIANZ::$config->fields();
 
                 //remove multiple field
                 if (isset($_POST['cmplz_remove_multiple'])) {
@@ -176,7 +176,7 @@ if (!class_exists("cmplz_field")) {
 
         public function is_conditional($fieldname)
         {
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
             if (isset($fields[$fieldname]['condition']) && $fields[$fieldname]['condition']) return true;
 
             return false;
@@ -191,7 +191,7 @@ if (!class_exists("cmplz_field")) {
 
         public function is_multiple_field($fieldname)
         {
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
             if (isset($fields[$fieldname]['type']) && ($fields[$fieldname]['type'] == 'thirdparties')) return true;
             if (isset($fields[$fieldname]['type']) && ($fields[$fieldname]['type'] == 'processors')) return true;
 
@@ -203,7 +203,7 @@ if (!class_exists("cmplz_field")) {
         {
             if (!current_user_can('manage_options')) return;
 
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
             foreach ($fieldnames as $fieldname => $saved_fields) {
 
                 if (!isset($fields[$fieldname])) return;
@@ -241,7 +241,7 @@ if (!class_exists("cmplz_field")) {
 
             if (!current_user_can('manage_options')) return;
 
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
             $fieldname = str_replace("cmplz_", '', $fieldname);
 
             //do not save callback fields
@@ -280,7 +280,7 @@ if (!class_exists("cmplz_field")) {
         {
             if (!current_user_can('manage_options')) return;
 
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
 
             $page = $fields[$fieldname]['source'];
             $options = get_option('complianz_options_' . $page);
@@ -352,7 +352,7 @@ if (!class_exists("cmplz_field")) {
         private
         function filter_complianz_fields($fieldname)
         {
-            if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ()->config->fields[str_replace('cmplz_', '', $fieldname)])){
+            if (strpos($fieldname, 'cmplz_') !== FALSE && isset(COMPLIANZ::$config->fields[str_replace('cmplz_', '', $fieldname)])){
                 return true;
             }
 
@@ -787,9 +787,9 @@ if (!class_exists("cmplz_field")) {
 
         public function get_field_type($fieldname)
         {
-            if (!isset(COMPLIANZ()->config->fields[$fieldname])) return false;
+            if (!isset(COMPLIANZ::$config->fields[$fieldname])) return false;
 
-            return COMPLIANZ()->config->fields[$fieldname]['type'];
+            return COMPLIANZ::$config->fields[$fieldname]['type'];
         }
 
         public
@@ -936,7 +936,7 @@ if (!class_exists("cmplz_field")) {
         function step_has_fields($page, $step = false, $section = false)
         {
 
-            $fields = COMPLIANZ()->config->fields($page, $step, $section);
+            $fields = COMPLIANZ::$config->fields($page, $step, $section);
             foreach ($fields as $fieldname => $args) {
                 $default_args = $this->default_args;
                 $args = wp_parse_args($args, $default_args);
@@ -959,7 +959,7 @@ if (!class_exists("cmplz_field")) {
         function get_fields($source, $step = false, $section = false, $get_by_fieldname=false)
         {
 
-            $fields = COMPLIANZ()->config->fields($source, $step, $section, $get_by_fieldname);
+            $fields = COMPLIANZ::$config->fields($source, $step, $section, $get_by_fieldname);
 
 
 
@@ -1234,8 +1234,8 @@ if (!class_exists("cmplz_field")) {
 
             <?php do_action('complianz_after_label', $args); ?>
             <?php
-            $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
-            $count = COMPLIANZ()->cookie_admin->get_supported_languages(true);
+            $languages = COMPLIANZ::$cookie_admin->get_supported_languages();
+            $count = COMPLIANZ::$cookie_admin->get_supported_languages(true);
 
             if ($count>1) {
 
@@ -1286,8 +1286,8 @@ if (!class_exists("cmplz_field")) {
             </div>
             <?php do_action('complianz_after_label', $args); ?>
             <?php
-            $languages = COMPLIANZ()->cookie_admin->get_supported_languages();
-            $count = COMPLIANZ()->cookie_admin->get_supported_languages(true);
+            $languages = COMPLIANZ::$cookie_admin->get_supported_languages();
+            $count = COMPLIANZ::$cookie_admin->get_supported_languages(true);
 
             if ($count>1) {
                 ?>
@@ -1321,7 +1321,7 @@ if (!class_exists("cmplz_field")) {
         public
         function processors($args)
         {
-            $processing_agreements = COMPLIANZ()->processing->processing_agreements();
+            $processing_agreements = COMPLIANZ::$processing->processing_agreements();
 
             //as an exception to this specific field, we use the same data for both us and eu
             $fieldname = str_replace("_us", "", $args['fieldname']);
@@ -1515,7 +1515,7 @@ if (!class_exists("cmplz_field")) {
         public
         function get_value($fieldname, $default = '')
         {
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
 
             if (!isset($fields[$fieldname])) return false;
 
@@ -1548,7 +1548,7 @@ if (!class_exists("cmplz_field")) {
         public
         function sanitize_fieldname($fieldname)
         {
-            $fields = COMPLIANZ()->config->fields();
+            $fields = COMPLIANZ::$config->fields();
             if (array_key_exists($fieldname, $fields)) return $fieldname;
 
             return false;

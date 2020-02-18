@@ -39,7 +39,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	use Strict;
 	use FpdiTrait;
 
-	const VERSION = '8.0.0';
+	const VERSION = '8.0.5';
 
 	const SCALE = 72 / 25.4;
 
@@ -701,6 +701,24 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	 */
 	var $curlAllowUnsafeSslRequests;
 
+	/**
+	 * Set the proxy for cURL.
+	 *
+	 * @see https://curl.haxx.se/libcurl/c/CURLOPT_PROXY.html
+	 *
+	 * @var string
+	 */
+	var $curlProxy;
+
+	/**
+	 * Set the proxy auth for cURL.
+	 *
+	 * @see https://curl.haxx.se/libcurl/c/CURLOPT_PROXYUSERPWD.html
+	 *
+	 * @var string
+	 */
+	var $curlProxyAuth;
+
 	// Private properties FROM FPDF
 	var $DisplayPreferences;
 	var $flowingBlockAttr;
@@ -796,6 +814,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	var $ispre;
 	var $outerblocktags;
 	var $innerblocktags;
+
+	public $exposeVersion;
 
 	/**
 	 * @var string
@@ -1052,8 +1072,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		$this->tableBackgrounds = [];
 		$this->uniqstr = '20110230'; // mPDF 5.7.2
-		$this->kt_y00 = '';
-		$this->kt_p00 = '';
+		$this->kt_y00 = 0;
+		$this->kt_p00 = 0;
 		$this->BMPonly = [];
 		$this->page = 0;
 		$this->n = 2;
@@ -2210,10 +2230,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		if ($this->bodyBackgroundColor) {
 			$s .= 'q ' . $this->SetFColor($this->bodyBackgroundColor, true) . "\n";
-			if ($this->bodyBackgroundColor{0} == 5) { // RGBa
-				$s .= $this->SetAlpha(ord($this->bodyBackgroundColor{4}) / 100, 'Normal', true, 'F') . "\n";
-			} elseif ($this->bodyBackgroundColor{0} == 6) { // CMYKa
-				$s .= $this->SetAlpha(ord($this->bodyBackgroundColor{5}) / 100, 'Normal', true, 'F') . "\n";
+			if ($this->bodyBackgroundColor[0] == 5) { // RGBa
+				$s .= $this->SetAlpha(ord($this->bodyBackgroundColor[4]) / 100, 'Normal', true, 'F') . "\n";
+			} elseif ($this->bodyBackgroundColor[0] == 6) { // CMYKa
+				$s .= $this->SetAlpha(ord($this->bodyBackgroundColor[5]) / 100, 'Normal', true, 'F') . "\n";
 			}
 			$s .= sprintf('%.3F %.3F %.3F %.3F re f Q', ($clx * Mpdf::SCALE), ($cly * Mpdf::SCALE), $clw * Mpdf::SCALE, $clh * Mpdf::SCALE) . "\n";
 		}
@@ -2299,10 +2319,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 					$s .= 'q ' . $this->SetFColor($pb['col'], true) . "\n";
 
-					if ($pb['col'] && $pb['col']{0} === '5') { // RGBa
-						$s .= $this->SetAlpha(ord($pb['col']{4}) / 100, 'Normal', true, 'F') . "\n";
-					} elseif ($pb['col'] && $pb['col']{0} === '6') { // CMYKa
-						$s .= $this->SetAlpha(ord($pb['col']{5}) / 100, 'Normal', true, 'F') . "\n";
+					if ($pb['col'] && $pb['col'][0] === '5') { // RGBa
+						$s .= $this->SetAlpha(ord($pb['col'][4]) / 100, 'Normal', true, 'F') . "\n";
+					} elseif ($pb['col'] && $pb['col'][0] === '6') { // CMYKa
+						$s .= $this->SetAlpha(ord($pb['col'][5]) / 100, 'Normal', true, 'F') . "\n";
 					}
 
 					$s .= sprintf('%.3F %.3F %.3F %.3F re f Q', $pb['x'] * Mpdf::SCALE, ($this->h - $pb['y']) * Mpdf::SCALE, $pb['w'] * Mpdf::SCALE, -$pb['h'] * Mpdf::SCALE) . "\n";
@@ -2537,10 +2557,10 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 			foreach ($pbs as $pb) {
 				if ((!isset($pb['gradient']) || !$pb['gradient']) && (!isset($pb['image_id']) || !$pb['image_id'])) {
 					$s .= 'q ' . $this->SetFColor($pb['col'], true) . "\n";
-					if ($pb['col']{0} == 5) { // RGBa
-						$s .= $this->SetAlpha(ord($pb['col']{4}) / 100, 'Normal', true, 'F') . "\n";
-					} elseif ($pb['col']{0} == 6) { // CMYKa
-						$s .= $this->SetAlpha(ord($pb['col']{5}) / 100, 'Normal', true, 'F') . "\n";
+					if ($pb['col'][0] == 5) { // RGBa
+						$s .= $this->SetAlpha(ord($pb['col'][4]) / 100, 'Normal', true, 'F') . "\n";
+					} elseif ($pb['col'][0] == 6) { // CMYKa
+						$s .= $this->SetAlpha(ord($pb['col'][5]) / 100, 'Normal', true, 'F') . "\n";
 					}
 					$s .= sprintf('%.3F %.3F %.3F %.3F re %s Q', $pb['x'] * Mpdf::SCALE, ($this->h - $pb['y']) * Mpdf::SCALE, $pb['w'] * Mpdf::SCALE, -$pb['h'] * Mpdf::SCALE, 'f') . "\n";
 				}
@@ -3301,14 +3321,14 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if (!$col) {
 			return '';
 		} // mPDF 6
-		if ($col{0} == 3 || $col{0} == 5) { // RGB / RGBa
-			$out = sprintf('%.3F %.3F %.3F rg', ord($col{1}) / 255, ord($col{2}) / 255, ord($col{3}) / 255);
-		} elseif ($col{0} == 1) { // GRAYSCALE
-			$out = sprintf('%.3F g', ord($col{1}) / 255);
-		} elseif ($col{0} == 2) { // SPOT COLOR
-			$out = sprintf('/CS%d cs %.3F scn', ord($col{1}), ord($col{2}) / 100);
-		} elseif ($col{0} == 4 || $col{0} == 6) { // CMYK / CMYKa
-			$out = sprintf('%.3F %.3F %.3F %.3F k', ord($col{1}) / 100, ord($col{2}) / 100, ord($col{3}) / 100, ord($col{4}) / 100);
+		if ($col[0] == 3 || $col[0] == 5) { // RGB / RGBa
+			$out = sprintf('%.3F %.3F %.3F rg', ord($col[1]) / 255, ord($col[2]) / 255, ord($col[3]) / 255);
+		} elseif ($col[0] == 1) { // GRAYSCALE
+			$out = sprintf('%.3F g', ord($col[1]) / 255);
+		} elseif ($col[0] == 2) { // SPOT COLOR
+			$out = sprintf('/CS%d cs %.3F scn', ord($col[1]), ord($col[2]) / 100);
+		} elseif ($col[0] == 4 || $col[0] == 6) { // CMYK / CMYKa
+			$out = sprintf('%.3F %.3F %.3F %.3F k', ord($col[1]) / 100, ord($col[2]) / 100, ord($col[3]) / 100, ord($col[4]) / 100);
 		}
 		if ($type == 'Draw') {
 			$out = strtoupper($out);
@@ -4562,7 +4582,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 			for ($c = 0; $c < count($cOTLdata); $c++) {
 				for ($i = 0; $i < strlen($cOTLdata[$c]['group']); $i++) {
-					if ($cOTLdata[$c]['group']{$i} == 'S') {
+					if ($cOTLdata[$c]['group'][$i] == 'S') {
 						// Save from last word
 						if ($max_kashida_in_word) {
 							$k_ctr++;
@@ -5302,12 +5322,12 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				foreach ($this->textshadow as $ts) {
 					$s .= ' q ';
 					$s .= $this->SetTColor($ts['col'], true) . "\n";
-					if ($ts['col']{0} == 5 && ord($ts['col']{4}) < 100) { // RGBa
-						$s .= $this->SetAlpha(ord($ts['col']{4}) / 100, 'Normal', true, 'F') . "\n";
-					} elseif ($ts['col']{0} == 6 && ord($ts['col']{5}) < 100) { // CMYKa
-						$s .= $this->SetAlpha(ord($ts['col']{5}) / 100, 'Normal', true, 'F') . "\n";
-					} elseif ($ts['col']{0} == 1 && $ts['col']{2} == 1 && ord($ts['col']{3}) < 100) { // Gray
-						$s .= $this->SetAlpha(ord($ts['col']{3}) / 100, 'Normal', true, 'F') . "\n";
+					if ($ts['col'][0] == 5 && ord($ts['col'][4]) < 100) { // RGBa
+						$s .= $this->SetAlpha(ord($ts['col'][4]) / 100, 'Normal', true, 'F') . "\n";
+					} elseif ($ts['col'][0] == 6 && ord($ts['col'][5]) < 100) { // CMYKa
+						$s .= $this->SetAlpha(ord($ts['col'][5]) / 100, 'Normal', true, 'F') . "\n";
+					} elseif ($ts['col'][0] == 1 && $ts['col'][2] == 1 && ord($ts['col'][3]) < 100) { // Gray
+						$s .= $this->SetAlpha(ord($ts['col'][3]) / 100, 'Normal', true, 'F') . "\n";
 					}
 					$s .= sprintf(' 1 0 0 1 %.4F %.4F cm', $ts['x'] * Mpdf::SCALE, -$ts['y'] * Mpdf::SCALE) . "\n";
 					$s .= $sub;
@@ -5589,7 +5609,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 				// Get YPlacement from next Base character
 				$nextbase = $i + 1;
-				while ($OTLdata['group']{$nextbase} != 'C') {
+				while ($OTLdata['group'][$nextbase] != 'C') {
 					$nextbase++;
 				}
 				if (isset($GPOSinfo[$nextbase]) && isset($GPOSinfo[$nextbase]['YPlacement']) && $GPOSinfo[$nextbase]['YPlacement']) {
@@ -9410,7 +9430,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					header('Content-disposition: inline; filename="' . $name . '"');
 					header('Cache-Control: public, must-revalidate, max-age=0');
 					header('Pragma: public');
-					header('X-Generator: mPDF ' . static::VERSION);
+					header('X-Generator: mPDF' . ($this->exposeVersion ? (' ' . static::VERSION) : ''));
 					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 					header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 				}
@@ -9429,7 +9449,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				header('Content-Transfer-Encoding: binary');
 				header('Cache-Control: public, must-revalidate, max-age=0');
 				header('Pragma: public');
-				header('X-Generator: mPDF ' . static::VERSION);
+				header('X-Generator: mPDF' . ($this->exposeVersion ? (' ' . static::VERSION) : ''));
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 				header('Content-Type: application/pdf');
@@ -10919,10 +10939,15 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		// and add half to the top and half to the bottom. BUT
 		// If an inline element has a font-size less than the block element, and the line-height is set as an em or % value
 		// it will add too much leading below the font and expand the height of the line - so just use the block element exttop/extbottom:
-		if (preg_match('/mm/', $CSSlineheight) && $ypos['boxtop'] < $blockYpos['boxtop'] && $ypos['boxbottom'] > $blockYpos['boxbottom']) {
+		if (preg_match('/mm/', $CSSlineheight)
+				&& ($blockYpos && $ypos['boxtop'] < $blockYpos['boxtop'])
+				&& ($blockYpos && $ypos['boxbottom'] > $blockYpos['boxbottom'])) {
+
 			$ypos['exttop'] = $blockYpos['exttop'];
 			$ypos['extbottom'] = $blockYpos['extbottom'];
+
 		} else {
+
 			$leading += ($lineheight - $fontheight);
 
 			$ypos['exttop'] = $ypos['boxtop'] + $leading / 2;
@@ -11242,7 +11267,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 			$host = '';
 		}
 		if (!$str) {
-			if ($_SERVER['SCRIPT_NAME']) {
+			if (isset($_SERVER['SCRIPT_NAME'])) {
 				$currentPath = dirname($_SERVER['SCRIPT_NAME']);
 			} else {
 				$currentPath = dirname($_SERVER['PHP_SELF']);
@@ -13655,13 +13680,21 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 			// Create Internal Links, if needed
 			if (!empty($this->internallink)) {
+
 				foreach ($this->internallink as $k => $v) {
+
 					if (strpos($k, "#") !== false) {
 						continue;
-					} // ignore
+					}
+
+					if (!is_array($v)) {
+						continue;
+					}
+
 					$ypos = $v['Y'];
 					$pagenum = $v['PAGE'];
 					$sharp = "#";
+
 					while (array_key_exists($sharp . $k, $this->internallink)) {
 						$internallink = $this->internallink[$sharp . $k];
 						$this->SetLink($internallink, $ypos, $pagenum);
@@ -14632,7 +14665,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				$prop[1] = $tmp;
 			}
 		} else {
-			return [];
+			return ['w' => 0, 's' => 0];
 		}
 		// Size
 		$bsize = $this->sizeConverter->convert($prop[0], $refw, $this->FontSize, false);
@@ -16986,23 +17019,23 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if (isset($this->blk[$blvl]['box_shadow']) && $this->blk[$blvl]['box_shadow'] && $h > 0) {
 			foreach ($this->blk[$blvl]['box_shadow'] as $sh) {
 				// Colors
-				if ($sh['col']{0} == 1) {
+				if ($sh['col'][0] == 1) {
 					$colspace = 'Gray';
-					if ($sh['col']{2} == 1) {
+					if ($sh['col'][2] == 1) {
 						$col1 = '1' . $sh['col'][1] . '1' . $sh['col'][3];
 					} else {
 						$col1 = '1' . $sh['col'][1] . '1' . chr(100);
 					}
 					$col2 = '1' . $sh['col'][1] . '1' . chr(0);
-				} elseif ($sh['col']{0} == 4) { // CMYK
+				} elseif ($sh['col'][0] == 4) { // CMYK
 					$colspace = 'CMYK';
 					$col1 = '6' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . $sh['col'][4] . chr(100);
 					$col2 = '6' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . $sh['col'][4] . chr(0);
-				} elseif ($sh['col']{0} == 5) { // RGBa
+				} elseif ($sh['col'][0] == 5) { // RGBa
 					$colspace = 'RGB';
 					$col1 = '5' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . $sh['col'][4];
 					$col2 = '5' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . chr(0);
-				} elseif ($sh['col']{0} == 6) { // CMYKa
+				} elseif ($sh['col'][0] == 6) { // CMYKa
 					$colspace = 'CMYK';
 					$col1 = '6' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . $sh['col'][4] . $sh['col'][5];
 					$col2 = '6' . $sh['col'][1] . $sh['col'][2] . $sh['col'][3] . $sh['col'][4] . chr(0);
@@ -17032,12 +17065,12 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				// Set path for INNER shadow
 				$shadow .= ' q 0 w ';
 				$shadow .= $this->SetFColor($col1, true) . "\n";
-				if ($col1{0} == 5 && ord($col1{4}) < 100) { // RGBa
-					$shadow .= $this->SetAlpha(ord($col1{4}) / 100, 'Normal', true, 'F') . "\n";
-				} elseif ($col1{0} == 6 && ord($col1{5}) < 100) { // CMYKa
-					$shadow .= $this->SetAlpha(ord($col1{5}) / 100, 'Normal', true, 'F') . "\n";
-				} elseif ($col1{0} == 1 && $col1{2} == 1 && ord($col1{3}) < 100) { // Gray
-					$shadow .= $this->SetAlpha(ord($col1{3}) / 100, 'Normal', true, 'F') . "\n";
+				if ($col1[0] == 5 && ord($col1[4]) < 100) { // RGBa
+					$shadow .= $this->SetAlpha(ord($col1[4]) / 100, 'Normal', true, 'F') . "\n";
+				} elseif ($col1[0] == 6 && ord($col1[5]) < 100) { // CMYKa
+					$shadow .= $this->SetAlpha(ord($col1[5]) / 100, 'Normal', true, 'F') . "\n";
+				} elseif ($col1[0] == 1 && $col1[2] == 1 && ord($col1[3]) < 100) { // Gray
+					$shadow .= $this->SetAlpha(ord($col1[3]) / 100, 'Normal', true, 'F') . "\n";
 				}
 
 				// Blur edges
@@ -20562,8 +20595,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					// Precedence to darker colours at joins
 					$coldom = 0;
 					if (isset($details[$side]['c']) && is_array($details[$side]['c'])) {
-						if ($details[$side]['c']{0} == 3) {  // RGB
-							$coldom = 10 - (((ord($details[$side]['c']{1}) * 1.00) + (ord($details[$side]['c']{2}) * 1.00) + (ord($details[$side]['c']{3}) * 1.00)) / 76.5);
+						if ($details[$side]['c'][0] == 3) {  // RGB
+							$coldom = 10 - (((ord($details[$side]['c'][1]) * 1.00) + (ord($details[$side]['c'][2]) * 1.00) + (ord($details[$side]['c'][3]) * 1.00)) / 76.5);
 						}
 					} // 10 black - 0 white
 					if ($coldom) {
@@ -21404,6 +21437,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					// Set maximum cell border width meeting at LRTB edges of cell - used for extended cell border
 					// ['border_details']['mbw']['LT'] = meeting border width - Left border - Top end
 					if (!$table['borders_separate']) {
+
 						$cbord['border_details']['mbw']['BL'] = max($cbord['border_details']['mbw']['BL'], $cbord['border_details']['L']['w']);
 						$cbord['border_details']['mbw']['BR'] = max($cbord['border_details']['mbw']['BR'], $cbord['border_details']['R']['w']);
 						$cbord['border_details']['mbw']['RT'] = max($cbord['border_details']['mbw']['RT'], $cbord['border_details']['T']['w']);
@@ -21412,77 +21446,163 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 						$cbord['border_details']['mbw']['TR'] = max($cbord['border_details']['mbw']['TR'], $cbord['border_details']['R']['w']);
 						$cbord['border_details']['mbw']['LT'] = max($cbord['border_details']['mbw']['LT'], $cbord['border_details']['T']['w']);
 						$cbord['border_details']['mbw']['LB'] = max($cbord['border_details']['mbw']['LB'], $cbord['border_details']['B']['w']);
+
 						if (($i + $crowsp) < $numrows && isset($cells[$i + $crowsp][$j])) { // Has Bottom adjoining cell
+
 							if ($this->packTableData) {
 								$adjc = $cells[$i + $crowsp][$j];
 								$celladj = $this->_unpackCellBorder($adjc['borderbin']);
 							} else {
 								$celladj = & $cells[$i + $crowsp][$j];
 							}
-							$cbord['border_details']['mbw']['BL'] = max($cbord['border_details']['mbw']['BL'], $celladj['border_details']['L']['w'], $celladj['border_details']['mbw']['TL']);
-							$cbord['border_details']['mbw']['BR'] = max($cbord['border_details']['mbw']['BR'], $celladj['border_details']['R']['w'], $celladj['border_details']['mbw']['TR']);
-							$cbord['border_details']['mbw']['LB'] = max($cbord['border_details']['mbw']['LB'], $celladj['border_details']['mbw']['LT']);
-							$cbord['border_details']['mbw']['RB'] = max($cbord['border_details']['mbw']['RB'], $celladj['border_details']['mbw']['RT']);
+
+							$cbord['border_details']['mbw']['BL'] = max(
+								$cbord['border_details']['mbw']['BL'],
+								$celladj ? $celladj['border_details']['L']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['TL']: 0
+							);
+
+							$cbord['border_details']['mbw']['BR'] = max(
+								$cbord['border_details']['mbw']['BR'],
+								$celladj ? $celladj['border_details']['R']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['TR']: 0
+							);
+
+							$cbord['border_details']['mbw']['LB'] = max(
+								$cbord['border_details']['mbw']['LB'],
+								$celladj ? $celladj['border_details']['mbw']['LT'] : 0
+							);
+
+							$cbord['border_details']['mbw']['RB'] = max(
+								$cbord['border_details']['mbw']['RB'],
+								$celladj ? $celladj['border_details']['mbw']['RT'] : 0
+							);
+
 							unset($celladj);
 						}
+
 						if (($j + $ccolsp) < $numcols && isset($cells[$i][$j + $ccolsp])) { // Has Right adjoining cell
+
 							if ($this->packTableData) {
 								$adjc = $cells[$i][$j + $ccolsp];
 								$celladj = $this->_unpackCellBorder($adjc['borderbin']);
 							} else {
 								$celladj = & $cells[$i][$j + $ccolsp];
 							}
-							$cbord['border_details']['mbw']['RT'] = max($cbord['border_details']['mbw']['RT'], $celladj['border_details']['T']['w'], $celladj['border_details']['mbw']['LT']);
-							$cbord['border_details']['mbw']['RB'] = max($cbord['border_details']['mbw']['RB'], $celladj['border_details']['B']['w'], $celladj['border_details']['mbw']['LB']);
-							$cbord['border_details']['mbw']['TR'] = max($cbord['border_details']['mbw']['TR'], $celladj['border_details']['mbw']['TL']);
-							$cbord['border_details']['mbw']['BR'] = max($cbord['border_details']['mbw']['BR'], $celladj['border_details']['mbw']['BL']);
+
+							$cbord['border_details']['mbw']['RT'] = max(
+								$cbord['border_details']['mbw']['RT'],
+								$celladj ? $celladj['border_details']['T']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['LT'] : 0
+							);
+
+							$cbord['border_details']['mbw']['RB'] = max(
+								$cbord['border_details']['mbw']['RB'],
+								$celladj ? $celladj['border_details']['B']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['LB'] : 0
+							);
+
+							$cbord['border_details']['mbw']['TR'] = max(
+								$cbord['border_details']['mbw']['TR'],
+								$celladj ? $celladj['border_details']['mbw']['TL'] : 0
+							);
+
+							$cbord['border_details']['mbw']['BR'] = max(
+								$cbord['border_details']['mbw']['BR'],
+								$celladj ? $celladj['border_details']['mbw']['BL'] : 0
+							);
+
 							unset($celladj);
 						}
 
-						if ($i > 0 && isset($cells[$i - 1][$j]) && (($this->packTableData && $cells[$i - 1][$j]['borderbin']) || $cells[$i - 1][$j]['border'])) { // Has Top adjoining cell
+						if ($i > 0 && isset($cells[$i - 1][$j]) && is_array($cells[$i - 1][$j]) && (($this->packTableData && $cells[$i - 1][$j]['borderbin']) || $cells[$i - 1][$j]['border'])) { // Has Top adjoining cell
+
 							if ($this->packTableData) {
 								$adjc = $cells[$i - 1][$j];
 								$celladj = $this->_unpackCellBorder($adjc['borderbin']);
 							} else {
 								$celladj = & $cells[$i - 1][$j];
 							}
-							$cbord['border_details']['mbw']['TL'] = max($cbord['border_details']['mbw']['TL'], $celladj['border_details']['L']['w'], $celladj['border_details']['mbw']['BL']);
-							$cbord['border_details']['mbw']['TR'] = max($cbord['border_details']['mbw']['TR'], $celladj['border_details']['R']['w'], $celladj['border_details']['mbw']['BR']);
-							$cbord['border_details']['mbw']['LT'] = max($cbord['border_details']['mbw']['LT'], $celladj['border_details']['mbw']['LB']);
-							$cbord['border_details']['mbw']['RT'] = max($cbord['border_details']['mbw']['RT'], $celladj['border_details']['mbw']['RB']);
+
+							$cbord['border_details']['mbw']['TL'] = max(
+								$cbord['border_details']['mbw']['TL'],
+								$celladj ? $celladj['border_details']['L']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['BL'] : 0
+							);
+
+							$cbord['border_details']['mbw']['TR'] = max(
+								$cbord['border_details']['mbw']['TR'],
+								$celladj ? $celladj['border_details']['R']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['BR'] : 0
+							);
+
+							$cbord['border_details']['mbw']['LT'] = max(
+								$cbord['border_details']['mbw']['LT'],
+								$celladj ? $celladj['border_details']['mbw']['LB'] : 0
+							);
+
+							$cbord['border_details']['mbw']['RT'] = max(
+								$cbord['border_details']['mbw']['RT'],
+								$celladj ? $celladj['border_details']['mbw']['RB'] : 0
+							);
 
 							if ($celladj['border_details']['mbw']['BL']) {
 								$celladj['border_details']['mbw']['BL'] = max($cbord['border_details']['mbw']['TL'], $celladj['border_details']['mbw']['BL']);
 							}
+
 							if ($celladj['border_details']['mbw']['BR']) {
 								$celladj['border_details']['mbw']['BR'] = max($celladj['border_details']['mbw']['BR'], $cbord['border_details']['mbw']['TR']);
 							}
+
 							if ($this->packTableData) {
 								$cells[$i - 1][$j]['borderbin'] = $this->_packCellBorder($celladj);
 							}
 							unset($celladj);
 						}
-						if ($j > 0 && isset($cells[$i][$j - 1]) && (($this->packTableData && $cells[$i][$j - 1]['borderbin']) || $cells[$i][$j - 1]['border'])) { // Has Left adjoining cell
+
+						if ($j > 0 && isset($cells[$i][$j - 1]) && is_array($cells[$i][$j - 1]) && (($this->packTableData && $cells[$i][$j - 1]['borderbin']) || $cells[$i][$j - 1]['border'])) { // Has Left adjoining cell
+
 							if ($this->packTableData) {
 								$adjc = $cells[$i][$j - 1];
 								$celladj = $this->_unpackCellBorder($adjc['borderbin']);
 							} else {
 								$celladj = & $cells[$i][$j - 1];
 							}
-							$cbord['border_details']['mbw']['LT'] = max($cbord['border_details']['mbw']['LT'], $celladj['border_details']['T']['w'], $celladj['border_details']['mbw']['RT']);
-							$cbord['border_details']['mbw']['LB'] = max($cbord['border_details']['mbw']['LB'], $celladj['border_details']['B']['w'], $celladj['border_details']['mbw']['RB']);
-							$cbord['border_details']['mbw']['BL'] = max($cbord['border_details']['mbw']['BL'], $celladj['border_details']['mbw']['BR']);
-							$cbord['border_details']['mbw']['TL'] = max($cbord['border_details']['mbw']['TL'], $celladj['border_details']['mbw']['TR']);
+
+							$cbord['border_details']['mbw']['LT'] = max(
+								$cbord['border_details']['mbw']['LT'],
+								$celladj ? $celladj['border_details']['T']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['RT'] : 0
+							);
+
+							$cbord['border_details']['mbw']['LB'] = max(
+								$cbord['border_details']['mbw']['LB'],
+								$celladj ? $celladj['border_details']['B']['w'] : 0,
+								$celladj ? $celladj['border_details']['mbw']['RB'] : 0
+							);
+
+							$cbord['border_details']['mbw']['BL'] = max(
+								$cbord['border_details']['mbw']['BL'],
+								$celladj ? $celladj['border_details']['mbw']['BR'] : 0
+							);
+
+							$cbord['border_details']['mbw']['TL'] = max(
+								$cbord['border_details']['mbw']['TL'],
+								$celladj ? $celladj['border_details']['mbw']['TR'] : 0
+							);
 
 							if ($celladj['border_details']['mbw']['RT']) {
 								$celladj['border_details']['mbw']['RT'] = max($celladj['border_details']['mbw']['RT'], $cbord['border_details']['mbw']['LT']);
 							}
+
 							if ($celladj['border_details']['mbw']['RB']) {
 								$celladj['border_details']['mbw']['RB'] = max($celladj['border_details']['mbw']['RB'], $cbord['border_details']['mbw']['LB']);
 							}
+
 							if ($this->packTableData) {
 								$cells[$i][$j - 1]['borderbin'] = $this->_packCellBorder($celladj);
 							}
+
 							unset($celladj);
 						}
 
@@ -23358,9 +23478,9 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		// Update Internal Links
 		if (count($this->internallink)) {
 			foreach ($this->internallink as $key => $o) {
-				if ($o['PAGE'] >= $start_page && $o['PAGE'] <= $end_page) {
+				if (is_array($o) && $o['PAGE'] >= $start_page && $o['PAGE'] <= $end_page) {
 					$this->internallink[$key]['PAGE'] += ($target_page - $start_page);
-				} elseif ($o['PAGE'] >= $target_page && $o['PAGE'] < $start_page) {
+				} elseif (is_array($o) && $o['PAGE'] >= $target_page && $o['PAGE'] < $start_page) {
 					$this->internallink[$key]['PAGE'] += $n_toc;
 				}
 			}
@@ -23691,6 +23811,20 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		$this->Reference[] = ['t' => $txta . ' - see ' . $txtb, 'p' => []];
 	}
 
+	private function filesInDir($directory)
+	{
+		$files = [];
+		foreach ((new \DirectoryIterator($directory)) as $v) {
+			if ($v->isDir() || $v->isDot()) {
+				continue;
+			}
+
+			$files[] = $v->getPathname();
+		}
+
+		return $files;
+	}
+
 	function InsertIndex($usedivletters = 1, $useLinking = false, $indexCollationLocale = '', $indexCollationGroup = '')
 	{
 		$size = count($this->Reference);
@@ -23727,7 +23861,9 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		}
 
 		if ($usedivletters) {
-			if ($indexCollationGroup) {
+			if ($indexCollationGroup && \in_array(strtolower($indexCollationGroup), array_map(function ($v) {
+					return strtolower(basename($v, '.php'));
+			}, $this->filesInDir(__DIR__ . '/../data/collations/')))) {
 				$collation = require __DIR__ . '/../data/collations/' . $indexCollationGroup . '.php';
 			} else {
 				$collation = [];
@@ -26182,7 +26318,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 			$rlm = $arrcode['quietR'] / $k; // Right Quiet margin
 			$tlm = $blm = $arrcode['quietTB'] / $k;
 			$height = 1;  // Overrides
-		} elseif (in_array($btype, ['C128A', 'C128B', 'C128C', 'EAN128A', 'EAN128B', 'EAN128C', 'C39', 'C39+', 'C39E', 'C39E+', 'S25', 'S25+', 'I25', 'I25+', 'I25B', 'I25B+', 'C93', 'MSI', 'MSI+', 'CODABAR', 'CODE11'])) {
+		} elseif (in_array($btype, ['C128A', 'C128B', 'C128C', 'C128RAW', 'EAN128A', 'EAN128B', 'EAN128C', 'C39', 'C39+', 'C39E', 'C39E+', 'S25', 'S25+', 'I25', 'I25+', 'I25B', 'I25B+', 'C93', 'MSI', 'MSI+', 'CODABAR', 'CODE11'])) {
 			$llm = $arrcode['lightmL'] * $xres; // Left Quiet margin
 			$rlm = $arrcode['lightmR'] * $xres; // Right Quiet margin
 			$tlm = $blm = $arrcode['lightTB'] * $xres * $height;

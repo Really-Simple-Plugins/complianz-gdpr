@@ -20,7 +20,6 @@ if (!class_exists("cmplz_document")) {
 
         static function this()
         {
-
             return self::$_this;
         }
 
@@ -28,6 +27,7 @@ if (!class_exists("cmplz_document")) {
         /**
          * If a document is loaded with the autoredirect parameter, we redirect automatically
          */
+
         public function maybe_autoredirect()
         {
             //if the autoredirect parameter is used, we look for the region of the passed type, and if necessary redirect to the redirect region
@@ -44,16 +44,16 @@ if (!class_exists("cmplz_document")) {
                 }
 	            $new_region = sanitize_title($_GET['region']);
 
-                if (!isset(COMPLIANZ()->config->pages[$new_region][$type])) return;
+                if (!isset(COMPLIANZ::$config->pages[$new_region][$type])) return;
 
-                $document = COMPLIANZ()->config->pages[$new_region][$type];
+                $document = COMPLIANZ::$config->pages[$new_region][$type];
                 if (array_key_exists($new_region, cmplz_get_regions()) && isset($document['condition']['regions']) && $document['condition']['regions'] !== $new_region) {
                     //get the URL of the new document
                     $doc_region = $document['condition']['regions'];
                     $core_type = str_replace('-' . $doc_region, '', $type);
                     $new_region = ($new_region === 'eu') ? '' : '-' . $new_region;
                     $final_type = $core_type . $new_region;
-                    $new_url = COMPLIANZ()->document->get_permalink($final_type, $new_region);
+                    $new_url = COMPLIANZ::$document->get_permalink($final_type, $new_region);
                     wp_redirect($new_url);
                     exit;
                 }
@@ -152,6 +152,11 @@ if (!class_exists("cmplz_document")) {
             return false;
         }
 
+	    /**
+	     * Set the region in a post
+	     * @param      $post_id
+	     * @param bool $region
+	     */
 
         public function set_region($post_id, $region=false){
             if (!$region){
@@ -173,7 +178,7 @@ if (!class_exists("cmplz_document")) {
 
             $term = get_term_by('slug', $region,'cmplz-region');
             if (!$term) {
-                wp_insert_term(COMPLIANZ()->config->regions[$region]['label'], 'cmplz-region',array(
+                wp_insert_term(COMPLIANZ::$config->regions[$region]['label'], 'cmplz-region',array(
                     'slug' => $region,
                 ));
                 $term = get_term_by('slug', $region,'cmplz-region');
@@ -187,11 +192,10 @@ if (!class_exists("cmplz_document")) {
         }
 
 
-        /*
-         * Check if legal documents should be updated
-         *
-         *
-         * */
+	    /**
+	     * Check if legal documents should be updated
+	     * @return bool
+	     */
 
         public function documents_need_updating(){
             if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12)){
@@ -200,11 +204,9 @@ if (!class_exists("cmplz_document")) {
             return false;
         }
 
-        /*
-         * Check if legal documents should be updated, and send mail to admin if so
-         *
-         *
-         * */
+	    /**
+	     * Check if legal documents should be updated, and send mail to admin if so
+	     */
 
         public function cron_check_last_updated_status(){
 
@@ -425,7 +427,7 @@ if (!class_exists("cmplz_document")) {
                 if ($shortcode) {
                     //store shortcode
                     update_post_meta($post->ID, 'cmplz_shortcode', $post->post_content);
-                    $document_html = COMPLIANZ()->document->get_document_html($type, $region);
+                    $document_html = COMPLIANZ::$document->get_document_html($type, $region);
                     $args = array(
                         'post_content' => $document_html,
                         'ID' => $post->ID,
@@ -580,7 +582,7 @@ if (!class_exists("cmplz_document")) {
 
             $pages_not_in_menu = $this->pages_not_in_menu();
             if ($pages_not_in_menu) {
-                if (COMPLIANZ()->company->sells_personal_data()){
+                if (COMPLIANZ::$company->sells_personal_data()){
                     cmplz_notice(sprintf(__('You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.', 'complianz-gdpr'), cmplz_us_cookie_statement_title()));
                 }
 
@@ -718,7 +720,7 @@ if (!class_exists("cmplz_document")) {
         public function create_page($type, $region)
         {
             if (!current_user_can('manage_options')) return false;
-            $pages = COMPLIANZ()->config->pages;
+            $pages = COMPLIANZ::$config->pages;
 
             if (!isset($pages[$region][$type])) return false;
 
@@ -794,7 +796,7 @@ if (!class_exists("cmplz_document")) {
         {
             //even if on gutenberg, with elementor we have to use classic shortcodes.
             if (!$force_classic && cmplz_uses_gutenberg() && !$this->uses_elementor()){
-                $page = COMPLIANZ()->config->pages[$region][$type];
+                $page = COMPLIANZ::$config->pages[$region][$type];
                 $ext = $region=='eu' ? '' : '-'.$region;
                 return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.$ext.'"} /-->';
             } else {
@@ -860,7 +862,7 @@ if (!class_exists("cmplz_document")) {
 
         public function get_created_pages($filter_region=false)
         {
-            $required_pages = COMPLIANZ()->document->get_required_pages();
+            $required_pages = COMPLIANZ::$document->get_required_pages();
             $pages = array();
             if ($filter_region){
             	if (isset($required_pages[$filter_region])){
@@ -896,9 +898,9 @@ if (!class_exists("cmplz_document")) {
 	        $required = array();
 
 	        foreach($regions as $region => $label) {
-	        	if (!isset(COMPLIANZ()->config->pages[$region])) continue;
+	        	if (!isset(COMPLIANZ::$config->pages[$region])) continue;
 
-	        	$pages = COMPLIANZ()->config->pages[$region];
+	        	$pages = COMPLIANZ::$config->pages[$region];
 
 		        foreach ($pages as $type => $page) {
 			        if (!$page['public']) continue;
@@ -1101,7 +1103,7 @@ if (!class_exists("cmplz_document")) {
         {
 	        $regions = cmplz_get_regions();
 	        foreach($regions as $region => $label) {
-		        foreach ( COMPLIANZ()->config->pages[ $region ] as $type => $page ) {
+		        foreach ( COMPLIANZ::$config->pages[ $region ] as $type => $page ) {
 			        //if a post id is passed, this is from the save post hook. We only clear the transient for this specific post id.
 			        if ( $post_id ) {
 				        if ( get_transient( "cmplz_shortcode_$type-$region" ) == $post_id ) {
@@ -1138,7 +1140,7 @@ if (!class_exists("cmplz_document")) {
                 $policy_page_id = $this->get_shortcode_page_id($type, $region);
 
                 if (!$policy_page_id) {
-                    if (COMPLIANZ()->document->page_required($type, $region)) {
+                    if (COMPLIANZ::$document->page_required($type, $region)) {
                         $policy_page_id = $this->create_page($type, $region);
                     }
                 }
@@ -1176,7 +1178,7 @@ if (!class_exists("cmplz_document")) {
 			    $policy_page_id = $this->get_shortcode_page_id($type, $region);
 
 			    if (!$policy_page_id) {
-				    if (COMPLIANZ()->document->page_required($type, $region)) {
+				    if (COMPLIANZ::$document->page_required($type, $region)) {
 					    $policy_page_id = $this->create_page($type, $region);
 				    }
 			    }
@@ -1205,7 +1207,7 @@ if (!class_exists("cmplz_document")) {
                 $banner = new CMPLZ_COOKIEBANNER($banner_id);
                 $settings = $banner->get_settings_array();
 
-	            $settings['privacy_link_us '] = COMPLIANZ()->document->get_page_url('privacy-statement','us');
+	            $settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url('privacy-statement','us');
                 $settings_html='';
                 $skip = array('categorie','use_custom_cookie_css','custom_css_amp', 'static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
 				unset($settings["readmore_url"]);
@@ -1223,7 +1225,7 @@ if (!class_exists("cmplz_document")) {
                             This document will contain the cookie policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
                             to %shttps://complianz.io/consent%s.","complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent">',"</a>").'</p>';
-                COMPLIANZ()->document->generate_pdf('cookie-statement', $region, false, true, $intro, $settings_html);
+                COMPLIANZ::$document->generate_pdf('cookie-statement', $region, false, true, $intro, $settings_html);
             }
             update_option('cmplz_generate_new_cookiepolicy_snapshot',false);
         }
@@ -1252,15 +1254,15 @@ if (!class_exists("cmplz_document")) {
             $uploads = wp_upload_dir();
             $upload_dir = $uploads['basedir'];
 
-            if (!isset(COMPLIANZ()->config->pages[$region])) return;
+            if (!isset(COMPLIANZ::$config->pages[$region])) return;
 
-            $pages = COMPLIANZ()->config->pages[$region];
+            $pages = COMPLIANZ::$config->pages[$region];
 
             //double check if it exists
             if (!isset($pages[$page])) return;
 
             $title = $pages[$page]['title'];
-            $document_html = $intro.COMPLIANZ()->document->get_document_html($page, $region, $post_id).$append;
+            $document_html = $intro.COMPLIANZ::$document->get_document_html($page, $region, $post_id).$append;
             $load_css = cmplz_get_value('use_document_css');
             $css = '';
             if ($load_css) {

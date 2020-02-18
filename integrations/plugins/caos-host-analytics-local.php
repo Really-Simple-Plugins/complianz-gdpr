@@ -4,7 +4,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 add_filter('caos_gtag_script_element_attributes','cmplz_caos_script_classes');
 add_filter('caos_analytics_script_element_attributes', 'cmplz_caos_script_classes');
 function cmplz_caos_script_classes($attr){
-	$classes = COMPLIANZ()->cookie_admin->get_statistics_script_classes();
+	$classes = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
 	$attr .= ' class="'.implode(' ', $classes).'" ';
 	return $attr;
 }
@@ -25,7 +25,7 @@ function cmplz_caos_script($tags){
  * */
 function cmplz_caos_remove_scripts_others()
 {
-	remove_action('cmplz_statistics_script', array(COMPLIANZ()->cookie_admin, 'get_statistics_script'), 10);
+	remove_action('cmplz_statistics_script', array(COMPLIANZ::$cookie_admin, 'get_statistics_script'), 10);
 }
 
 add_action('after_setup_theme', 'cmplz_caos_remove_scripts_others');

@@ -33,7 +33,7 @@ if (!class_exists("cmplz_DNSMPD")) {
         {
             if (!cmplz_user_can_manage()) return;
 
-            if (!cmplz_has_region('us') || !COMPLIANZ()->company->sells_personal_data()) return;
+            if (!cmplz_has_region('us') || !COMPLIANZ::$company->sells_personal_data()) return;
 
             add_submenu_page(
                 'complianz',
@@ -166,8 +166,8 @@ if (!class_exists("cmplz_DNSMPD")) {
 
         public function enqueue_assets($hook)
         {
-            if (!cmplz_has_region('us') || !COMPLIANZ()->company->sells_personal_data()) return;
-            $dnsmpd_page_id = COMPLIANZ()->document->get_shortcode_page_id('cookie-statement', 'us');
+            if (!cmplz_has_region('us') || !COMPLIANZ::$company->sells_personal_data()) return;
+            $dnsmpd_page_id = COMPLIANZ::$document->get_shortcode_page_id('cookie-statement', 'us');
             if (!$dnsmpd_page_id) return;
 
             global $post;

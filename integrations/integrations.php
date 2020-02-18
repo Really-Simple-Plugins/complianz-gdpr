@@ -247,7 +247,7 @@ function cmplz_integrations(){
      * Services
      */
 
-    $services = COMPLIANZ()->config->thirdparty_service_markers;
+    $services = COMPLIANZ::$config->thirdparty_service_markers;
     $services = array_keys($services);
 
     foreach($services as $service){
@@ -258,7 +258,7 @@ function cmplz_integrations(){
         }
     }
 
-    $services = COMPLIANZ()->config->social_media_markers;
+    $services = COMPLIANZ::$config->social_media_markers;
     $services = array_keys($services);
 
     foreach($services as $service){
@@ -472,9 +472,9 @@ function cmplz_get_service_by_src($src){
     }
 
 	if (!$type) {
-		$type = COMPLIANZ()->cookie_admin->parse_for_social_media($src, true);
+		$type = COMPLIANZ::$cookie_admin->parse_for_social_media($src, true);
 		if (!$type) {
-			$type = COMPLIANZ()->cookie_admin->parse_for_thirdparty_services($src, true);
+			$type = COMPLIANZ::$cookie_admin->parse_for_thirdparty_services($src, true);
 		}
 	}
 

@@ -23,16 +23,16 @@ function cmplz_schedule_cron() {
             wp_schedule_event( time(), 'cmplz_monthly', 'cmplz_every_month_hook' );
         }
 
-        add_action( 'cmplz_every_week_hook', array(COMPLIANZ()->document, 'cron_check_last_updated_status'));
+        add_action( 'cmplz_every_week_hook', array(COMPLIANZ::$document, 'cron_check_last_updated_status'));
         add_action( 'cmplz_every_month_hook', 'cmplz_cron_clean_placeholders');
 
-        add_action( 'cmplz_every_day_hook', array(COMPLIANZ()->document, 'generate_cookie_policy_snapshot'));
+        add_action( 'cmplz_every_day_hook', array(COMPLIANZ::$document, 'generate_cookie_policy_snapshot'));
 
     } else {
         add_action( 'init', 'cmplz_cron_clean_placeholders');
-        add_action( 'init', array(COMPLIANZ()->document, 'generate_cookie_policy_snapshot'));
+        add_action( 'init', array(COMPLIANZ::$document, 'generate_cookie_policy_snapshot'));
 
-        add_action( 'init', array(COMPLIANZ()->document, 'cron_check_last_updated_status'), 100);
+        add_action( 'init', array(COMPLIANZ::$document, 'cron_check_last_updated_status'), 100);
     }
 }
 

@@ -319,7 +319,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function get_default( $fieldname ) {
-			$default = ( isset( COMPLIANZ()->config->fields[ $fieldname ]['default'] ) ) ? COMPLIANZ()->config->fields[ $fieldname ]['default'] : '';
+			$default = ( isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) ) ? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
 
 			return $default;
 		}
@@ -580,7 +580,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 			$statuses[] = 'functional';
 
-			if ( COMPLIANZ()->cookie_admin->tagmamanager_fires_scripts() ) {
+			if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
 				$cats       = cmplz_get_value( 'tagmanager_categories' . $this->id );
 				$categories = explode( ',', $cats );
 				foreach ( $categories as $index => $category ) {
@@ -591,14 +591,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$statuses[] = 'cmplz_event_' . $index;
 				}
 			} elseif ( $this->use_categories && $consenttype == 'optin' ) {
-				if ( COMPLIANZ()->cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
+				if ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
 					$statuses[] = 'stats';
 				}
 			} elseif ( $this->use_categories_optinstats && $consenttype == 'optinstats' ) {
 				$statuses[] = 'stats';
 			}
 
-			if ( $consenttype === 'all' && ! in_array( 'stats', $statuses ) && COMPLIANZ()->cookie_admin->cookie_warning_required_stats() ) {
+			if ( $consenttype === 'all' && ! in_array( 'stats', $statuses ) && COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) {
 				$statuses[] = 'stats';
 			}
 
@@ -736,7 +736,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$sql = $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s " . $consenttype_sql, $status );
-			if ( COMPLIANZ()->cookie_admin->ab_testing_enabled() ) {
+			if ( COMPLIANZ::$cookie_admin->ab_testing_enabled() ) {
 				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s", $this->id );
 			}
 			$count = $wpdb->get_var( $sql );
@@ -772,8 +772,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'version'                   => cmplz_version,
 				'a_b_testing'               => cmplz_ab_testing_enabled(),
 				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled', false ),
-				'consenttype'               => COMPLIANZ()->company->get_default_consenttype(),
-				'region'                    => COMPLIANZ()->company->get_default_region(),
+				'consenttype'               => COMPLIANZ::$company->get_default_consenttype(),
+				'region'                    => COMPLIANZ::$company->get_default_region(),
 				'geoip'                     => cmplz_geoip_enabled(),
 				'categories'                => '',
 				'position'                  => $this->position,
@@ -808,7 +808,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
 				'url'                       => admin_url( 'admin-ajax.php' ),
-				'current_policy_id'         => COMPLIANZ()->cookie_admin->get_active_policy_id(),
+				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 			);
 
 
@@ -836,7 +836,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				), $checkbox_all );
 				$output['categories'] = '<label>' . $checkbox_functional . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_functional_x . '</span></label>';
 
-				if ( COMPLIANZ()->cookie_admin->tagmamanager_fires_scripts() ) {
+				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
 					$output['tm_categories'] = true;
 
 					$categories = explode( ',', $this->tagmanager_categories );
@@ -851,7 +851,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$output['cat_num']    = count( $categories );
 				} else {
 					$output['categories'] .= cmplz_consent_api_active() ? '<label>' . str_replace( 'cmplz_all', 'cmplz_prefs', $checkbox_all ) . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_prefs_x . '</span></label>' : '';
-					$output['categories'] .= ( COMPLIANZ()->cookie_admin->cookie_warning_required_stats() ) ? '<label>' . str_replace( 'cmplz_all', 'cmplz_stats', $checkbox_all ) . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_stats_x . '</span></label>' : '';
+					$output['categories'] .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? '<label>' . str_replace( 'cmplz_all', 'cmplz_stats', $checkbox_all ) . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_stats_x . '</span></label>' : '';
 					$output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_all_x . '</span></label>';
 				}
 				$output['view_preferences'] = $this->view_preferences_x;
@@ -861,7 +861,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
 				$output['readmore_url'][ $region ] = cmplz_get_cookie_policy_url( $region );
-				$privacy_link                      = COMPLIANZ()->document->get_page_url( 'privacy-statement', $region );
+				$privacy_link                      = COMPLIANZ::$document->get_page_url( 'privacy-statement', $region );
 				$output['privacy_link'][ $region ] = ! empty( $privacy_link ) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $this->readmore_privacy_x . '</a>' : '';
 			}
 

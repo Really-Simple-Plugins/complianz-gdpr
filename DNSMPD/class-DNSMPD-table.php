@@ -229,7 +229,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
         }
 
         $this->args = $args;
-        $customers  = COMPLIANZ()->DNSMPD->get_users( $args );
+        $customers  = COMPLIANZ::$DNSMPD->get_users( $args );
 
         if ( $customers ) {
 
@@ -258,7 +258,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 
         $this->items = $this->reports_data();
 
-        $this->total = COMPLIANZ()->DNSMPD->count_users($this->args);
+        $this->total = COMPLIANZ::$DNSMPD->count_users($this->args);
 
         // Add condition to be sure we don't divide by zero.
         // If $this->per_page is 0, then set total pages to 1.
