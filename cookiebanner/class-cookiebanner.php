@@ -149,11 +149,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return false;
 			}
-			$array = array( 'title' => __( 'New cookie banner', 'complianz-gdpr' ) );
+			$array = array(
+				'title' => __( 'New cookie banner', 'complianz-gdpr' )
+			);
 
 			global $wpdb;
 			//make sure we have at least one default banner
-			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
+			$cookiebanners
+				= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
 			if ( empty( $cookiebanners ) ) {
 				$array['default'] = true;
 			}
@@ -178,7 +181,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			//check nonce
-			if ( ! isset( $post['cmplz_nonce'] ) || ! wp_verify_nonce( $post['cmplz_nonce'], 'complianz_save_cookiebanner' ) ) {
+			if ( ! isset( $post['cmplz_nonce'] )
+			     || ! wp_verify_nonce( $post['cmplz_nonce'],
+					'complianz_save_cookiebanner' )
+			) {
 				return false;
 			}
 
@@ -203,69 +209,189 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				return;
 			}
 
-			$cookiebanners = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->id ) ) );
+			$cookiebanners
+				= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s",
+				intval( $this->id ) ) );
 
 			if ( isset( $cookiebanners[0] ) ) {
-				$cookiebanner              = $cookiebanners[0];
-				$this->banner_version      = $cookiebanner->banner_version;
-				$this->title               = $cookiebanner->title;
-				$this->default             = $cookiebanner->default;
-				$this->archived            = $cookiebanner->archived;
-				$this->position            = ! empty( $cookiebanner->position ) ? $cookiebanner->position : $this->get_default( 'position' );
-				$this->theme               = ! empty( $cookiebanner->theme ) ? $cookiebanner->theme : $this->get_default( 'theme' );
-				$this->revoke              = ! empty( $cookiebanner->revoke ) ? $cookiebanner->revoke : $this->get_default( 'revoke' );
-				$this->dismiss             = ! empty( $cookiebanner->dismiss ) ? $cookiebanner->dismiss : $this->get_default( 'dismiss' );
-				$this->save_preferences    = ! empty( $cookiebanner->save_preferences ) ? $cookiebanner->save_preferences : $this->get_default( 'save_preferences' );
-				$this->view_preferences    = ! empty( $cookiebanner->view_preferences ) ? $cookiebanner->view_preferences : $this->get_default( 'view_preferences' );
-				$this->category_functional = ! empty( $cookiebanner->category_functional ) ? $cookiebanner->category_functional : $this->get_default( 'category_functional' );
-				$this->category_all        = ! empty( $cookiebanner->category_all ) ? $cookiebanner->category_all : $this->get_default( 'category_all' );
-				$this->category_stats      = ! empty( $cookiebanner->category_stats ) ? $cookiebanner->category_stats : $this->get_default( 'category_stats' );
-				$this->category_prefs      = ! empty( $cookiebanner->category_prefs ) ? $cookiebanner->category_prefs : $this->get_default( 'category_prefs' );
-				$this->accept              = ! empty( $cookiebanner->accept ) ? $cookiebanner->accept : $this->get_default( 'accept' );
-				$this->message_optin       = ! empty( $cookiebanner->message_optin ) ? $cookiebanner->message_optin : $this->get_default( 'message_optin' );
-				$this->readmore_optin      = ! empty( $cookiebanner->readmore_optin ) ? $cookiebanner->readmore_optin : $this->get_default( 'readmore_optin' );
+				$cookiebanner         = $cookiebanners[0];
+				$this->banner_version = $cookiebanner->banner_version;
+				$this->title          = $cookiebanner->title;
+				$this->default        = $cookiebanner->default;
+				$this->archived       = $cookiebanner->archived;
+				$this->position       = ! empty( $cookiebanner->position )
+					? $cookiebanner->position
+					: $this->get_default( 'position' );
+				$this->theme          = ! empty( $cookiebanner->theme )
+					? $cookiebanner->theme : $this->get_default( 'theme' );
+				$this->revoke         = ! empty( $cookiebanner->revoke )
+					? $cookiebanner->revoke : $this->get_default( 'revoke' );
+				$this->dismiss        = ! empty( $cookiebanner->dismiss )
+					? $cookiebanner->dismiss : $this->get_default( 'dismiss' );
+				$this->save_preferences
+				                      = ! empty( $cookiebanner->save_preferences )
+					? $cookiebanner->save_preferences
+					: $this->get_default( 'save_preferences' );
+				$this->view_preferences
+				                      = ! empty( $cookiebanner->view_preferences )
+					? $cookiebanner->view_preferences
+					: $this->get_default( 'view_preferences' );
+				$this->category_functional
+				                      = ! empty( $cookiebanner->category_functional )
+					? $cookiebanner->category_functional
+					: $this->get_default( 'category_functional' );
+				$this->category_all
+				                      = ! empty( $cookiebanner->category_all )
+					? $cookiebanner->category_all
+					: $this->get_default( 'category_all' );
+				$this->category_stats
+				                      = ! empty( $cookiebanner->category_stats )
+					? $cookiebanner->category_stats
+					: $this->get_default( 'category_stats' );
+				$this->category_prefs
+				                      = ! empty( $cookiebanner->category_prefs )
+					? $cookiebanner->category_prefs
+					: $this->get_default( 'category_prefs' );
+				$this->accept         = ! empty( $cookiebanner->accept )
+					? $cookiebanner->accept : $this->get_default( 'accept' );
+				$this->message_optin
+				                      = ! empty( $cookiebanner->message_optin )
+					? $cookiebanner->message_optin
+					: $this->get_default( 'message_optin' );
+				$this->readmore_optin
+				                      = ! empty( $cookiebanner->readmore_optin )
+					? $cookiebanner->readmore_optin
+					: $this->get_default( 'readmore_optin' );
 
-				$this->use_categories        = ! empty( $cookiebanner->use_categories ) ? $cookiebanner->use_categories : $this->get_default( 'use_categories' );
-				$this->tagmanager_categories = ! empty( $cookiebanner->tagmanager_categories ) ? $cookiebanner->tagmanager_categories : $this->get_default( 'tagmanager_categories' );
+				$this->use_categories = ! empty( $cookiebanner->use_categories )
+					? $cookiebanner->use_categories
+					: $this->get_default( 'use_categories' );
+				$this->tagmanager_categories
+				                      = ! empty( $cookiebanner->tagmanager_categories )
+					? $cookiebanner->tagmanager_categories
+					: $this->get_default( 'tagmanager_categories' );
 
-				$this->use_categories_optinstats = ! empty( $cookiebanner->use_categories_optinstats ) ? $cookiebanner->use_categories_optinstats : $this->get_default( 'use_categories_optinstats' );
+				$this->use_categories_optinstats
+					= ! empty( $cookiebanner->use_categories_optinstats )
+					? $cookiebanner->use_categories_optinstats
+					: $this->get_default( 'use_categories_optinstats' );
 
-				$this->hide_revoke             = ! empty( $cookiebanner->hide_revoke ) ? $cookiebanner->hide_revoke : $this->get_default( 'hide_revoke' );
-				$this->soft_cookiewall         = ! empty( $cookiebanner->soft_cookiewall ) ? $cookiebanner->soft_cookiewall : $this->get_default( 'soft_cookiewall' );
-				$this->dismiss_on_scroll       = ! empty( $cookiebanner->dismiss_on_scroll ) ? $cookiebanner->dismiss_on_scroll : $this->get_default( 'dismiss_on_scroll' );
-				$this->dismiss_on_timeout      = ! empty( $cookiebanner->dismiss_on_timeout ) ? $cookiebanner->dismiss_on_timeout : $this->get_default( 'dismiss_on_timeout' );
-				$this->dismiss_timeout         = ! empty( $cookiebanner->dismiss_timeout ) ? $cookiebanner->dismiss_timeout : $this->get_default( 'dismiss_timeout' );
-				$this->accept_informational    = ! empty( $cookiebanner->accept_informational ) ? $cookiebanner->accept_informational : $this->get_default( 'accept_informational' );
-				$this->message_optout          = ! empty( $cookiebanner->message_optout ) ? $cookiebanner->message_optout : $this->get_default( 'message_optout' );
-				$this->readmore_optout         = ! empty( $cookiebanner->readmore_optout ) ? $cookiebanner->readmore_optout : $this->get_default( 'readmore_optout' );
-				$this->readmore_optout_dnsmpi  = ! empty( $cookiebanner->readmore_optout_dnsmpi ) ? $cookiebanner->readmore_optout_dnsmpi : $this->get_default( 'readmore_optout_dnsmpi' );
-				$this->readmore_privacy        = ! empty( $cookiebanner->readmore_privacy ) ? $cookiebanner->readmore_privacy : $this->get_default( 'readmore_privacy' );
-				$this->popup_background_color  = ! empty( $cookiebanner->popup_background_color ) ? $cookiebanner->popup_background_color : $this->get_default( 'popup_background_color' );
-				$this->popup_text_color        = ! empty( $cookiebanner->popup_text_color ) ? $cookiebanner->popup_text_color : $this->get_default( 'popup_text_color' );
-				$this->button_background_color = ! empty( $cookiebanner->button_background_color ) ? $cookiebanner->button_background_color : $this->get_default( 'button_background_color' );
-				$this->button_text_color       = ! empty( $cookiebanner->button_text_color ) ? $cookiebanner->button_text_color : $this->get_default( 'button_text_color' );
-				$this->border_color            = ! empty( $cookiebanner->border_color ) ? $cookiebanner->border_color : $this->get_default( 'border_color' );
-				$this->use_custom_cookie_css   = ! empty( $cookiebanner->use_custom_cookie_css ) ? $cookiebanner->use_custom_cookie_css : $this->get_default( 'use_custom_cookie_css' );
-				$this->custom_css              = ! empty( $cookiebanner->custom_css ) ? htmlspecialchars_decode( $cookiebanner->custom_css ) : $this->get_default( 'custom_css' );
-				$this->custom_css_amp          = ! empty( $cookiebanner->custom_css_amp ) ? htmlspecialchars_decode( $cookiebanner->custom_css_amp ) : $this->get_default( 'custom_css_amp' );
+				$this->hide_revoke = ! empty( $cookiebanner->hide_revoke )
+					? $cookiebanner->hide_revoke
+					: $this->get_default( 'hide_revoke' );
+				$this->soft_cookiewall
+				                   = ! empty( $cookiebanner->soft_cookiewall )
+					? $cookiebanner->soft_cookiewall
+					: $this->get_default( 'soft_cookiewall' );
+				$this->dismiss_on_scroll
+				                   = ! empty( $cookiebanner->dismiss_on_scroll )
+					? $cookiebanner->dismiss_on_scroll
+					: $this->get_default( 'dismiss_on_scroll' );
+				$this->dismiss_on_timeout
+				                   = ! empty( $cookiebanner->dismiss_on_timeout )
+					? $cookiebanner->dismiss_on_timeout
+					: $this->get_default( 'dismiss_on_timeout' );
+				$this->dismiss_timeout
+				                   = ! empty( $cookiebanner->dismiss_timeout )
+					? $cookiebanner->dismiss_timeout
+					: $this->get_default( 'dismiss_timeout' );
+				$this->accept_informational
+				                   = ! empty( $cookiebanner->accept_informational )
+					? $cookiebanner->accept_informational
+					: $this->get_default( 'accept_informational' );
+				$this->message_optout
+				                   = ! empty( $cookiebanner->message_optout )
+					? $cookiebanner->message_optout
+					: $this->get_default( 'message_optout' );
+				$this->readmore_optout
+				                   = ! empty( $cookiebanner->readmore_optout )
+					? $cookiebanner->readmore_optout
+					: $this->get_default( 'readmore_optout' );
+				$this->readmore_optout_dnsmpi
+				                   = ! empty( $cookiebanner->readmore_optout_dnsmpi )
+					? $cookiebanner->readmore_optout_dnsmpi
+					: $this->get_default( 'readmore_optout_dnsmpi' );
+				$this->readmore_privacy
+				                   = ! empty( $cookiebanner->readmore_privacy )
+					? $cookiebanner->readmore_privacy
+					: $this->get_default( 'readmore_privacy' );
+				$this->popup_background_color
+				                   = ! empty( $cookiebanner->popup_background_color )
+					? $cookiebanner->popup_background_color
+					: $this->get_default( 'popup_background_color' );
+				$this->popup_text_color
+				                   = ! empty( $cookiebanner->popup_text_color )
+					? $cookiebanner->popup_text_color
+					: $this->get_default( 'popup_text_color' );
+				$this->button_background_color
+				                   = ! empty( $cookiebanner->button_background_color )
+					? $cookiebanner->button_background_color
+					: $this->get_default( 'button_background_color' );
+				$this->button_text_color
+				                   = ! empty( $cookiebanner->button_text_color )
+					? $cookiebanner->button_text_color
+					: $this->get_default( 'button_text_color' );
+				$this->border_color
+				                   = ! empty( $cookiebanner->border_color )
+					? $cookiebanner->border_color
+					: $this->get_default( 'border_color' );
+				$this->use_custom_cookie_css
+				                   = ! empty( $cookiebanner->use_custom_cookie_css )
+					? $cookiebanner->use_custom_cookie_css
+					: $this->get_default( 'use_custom_cookie_css' );
+				$this->custom_css
+				                   = ! empty( $cookiebanner->custom_css )
+					? htmlspecialchars_decode( $cookiebanner->custom_css )
+					: $this->get_default( 'custom_css' );
+				$this->custom_css_amp
+				                   = ! empty( $cookiebanner->custom_css_amp )
+					? htmlspecialchars_decode( $cookiebanner->custom_css_amp )
+					: $this->get_default( 'custom_css_amp' );
 
 				//translated fields
-				$this->save_preferences_x       = $this->translate( $this->save_preferences, 'save_preferences' );
-				$this->view_preferences_x       = $this->translate( $this->view_preferences, 'view_preferences' );
-				$this->category_functional_x    = $this->translate( $this->category_functional, 'category_functional' );
-				$this->category_all_x           = $this->translate( $this->category_all, 'category_all' );
-				$this->category_stats_x         = $this->translate( $this->category_stats, 'category_stats' );
-				$this->category_prefs_x         = $this->translate( $this->category_prefs, 'category_prefs' );
-				$this->accept_x                 = $this->translate( $this->accept, 'accept' );
-				$this->revoke_x                 = $this->translate( $this->revoke, 'revoke' );
-				$this->dismiss_x                = $this->translate( $this->dismiss, 'dismiss' );
-				$this->message_optin_x          = $this->translate( $this->message_optin, 'message_optin' );
-				$this->readmore_optin_x         = $this->translate( $this->readmore_optin, 'readmore_optin' );
-				$this->accept_informational_x   = $this->translate( $this->accept_informational, 'accept_informational' );
-				$this->message_optout_x         = $this->translate( $this->message_optout, 'message_optout' );
-				$this->readmore_optout_x        = $this->translate( $this->readmore_optout, 'readmore_optout' );
-				$this->readmore_optout_dnsmpi_x = $this->translate( $this->readmore_optout_dnsmpi, 'readmore_optout_dnsmpi' );
-				$this->readmore_privacy_x       = $this->translate( $this->readmore_privacy, 'readmore_privacy' );
+				$this->save_preferences_x
+					= $this->translate( $this->save_preferences,
+					'save_preferences' );
+				$this->view_preferences_x
+					= $this->translate( $this->view_preferences,
+					'view_preferences' );
+				$this->category_functional_x
+					= $this->translate( $this->category_functional,
+					'category_functional' );
+				$this->category_all_x
+					= $this->translate( $this->category_all, 'category_all' );
+				$this->category_stats_x
+					= $this->translate( $this->category_stats,
+					'category_stats' );
+				$this->category_prefs_x
+					= $this->translate( $this->category_prefs,
+					'category_prefs' );
+				$this->accept_x
+					= $this->translate( $this->accept, 'accept' );
+				$this->revoke_x
+					= $this->translate( $this->revoke, 'revoke' );
+				$this->dismiss_x
+					= $this->translate( $this->dismiss, 'dismiss' );
+				$this->message_optin_x
+					= $this->translate( $this->message_optin, 'message_optin' );
+				$this->readmore_optin_x
+					= $this->translate( $this->readmore_optin,
+					'readmore_optin' );
+				$this->accept_informational_x
+					= $this->translate( $this->accept_informational,
+					'accept_informational' );
+				$this->message_optout_x
+					= $this->translate( $this->message_optout,
+					'message_optout' );
+				$this->readmore_optout_x
+					= $this->translate( $this->readmore_optout,
+					'readmore_optout' );
+				$this->readmore_optout_dnsmpi_x
+					= $this->translate( $this->readmore_optout_dnsmpi,
+					'readmore_optout_dnsmpi' );
+				$this->readmore_privacy_x
+					= $this->translate( $this->readmore_privacy,
+					'readmore_privacy' );
 
 				$this->statistics = unserialize( $cookiebanner->statistics );
 			}
@@ -281,34 +407,69 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function translate( $value, $fieldname ) {
+			$key = $this->get_translation_id();
+
 			if ( function_exists( 'pll__' ) ) {
 				$value = pll__( $value );
 			}
 
 			if ( function_exists( 'icl_translate' ) ) {
-				$value = icl_translate( 'complianz', $fieldname, $value );
+				$value = icl_translate( 'complianz', $fieldname . $key,
+					$value );
 			}
 
-			$value = apply_filters( 'wpml_translate_single_string', $value, 'complianz', $fieldname );
+			$value = apply_filters( 'wpml_translate_single_string', $value,
+				'complianz', $fieldname . $key );
 
 			return $value;
 
 		}
 
 		private function register_translation( $string, $fieldname ) {
+			$key = $this->get_translation_id();
 			//polylang
 			if ( function_exists( "pll_register_string" ) ) {
-				pll_register_string( $fieldname, $string, 'complianz' );
+				pll_register_string( $fieldname . $key, $string, 'complianz' );
 			}
 
 			//wpml
 			if ( function_exists( 'icl_register_string' ) ) {
-				icl_register_string( 'complianz', $fieldname, $string );
+				icl_register_string( 'complianz', $fieldname . $key, $string );
 			}
 
-			do_action( 'wpml_register_single_string', 'complianz', $fieldname, $string );
+			do_action( 'wpml_register_single_string', 'complianz', $fieldname,
+				$string );
 
 		}
+
+		/**
+		 * Get a prefix for translation registration
+		 * For backward compatibility we don't use a key when only one banner, or when the lowest.
+		 * If we don't use this, all field names from each banner will be the same, registering won't work.
+		 *
+		 * @return string
+		 */
+
+		public function get_translation_id() {
+			//if only one banner, no id
+			$banners = cmplz_get_cookiebanners();
+			if ( count( $banners ) === 0 ) {
+				return '';
+			} else {
+				//if this is the banner with the lowest ID's, no ID
+				global $wpdb;
+				$lowest
+					= $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
+				if ( $lowest == $this->id ) {
+					return '';
+				} else {
+					return $this->id;
+				}
+			}
+
+
+		}
+
 
 		/**
 		 * Get a default value
@@ -319,7 +480,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function get_default( $fieldname ) {
-			$default = ( isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) ) ? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
+			$default
+				= ( isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) )
+				? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
 
 			return $default;
 		}
@@ -345,23 +508,35 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$this->banner_version ++;
 
 			//register translations fields
-			$this->register_translation( $this->save_preferences, 'save_preferences' );
-			$this->register_translation( $this->view_preferences, 'view_preferences' );
-			$this->register_translation( $this->category_functional, 'category_functional' );
+			$this->register_translation( $this->save_preferences,
+				'save_preferences' );
+			$this->register_translation( $this->view_preferences,
+				'view_preferences' );
+			$this->register_translation( $this->category_functional,
+				'category_functional' );
 			$this->register_translation( $this->category_all, 'category_all' );
-			$this->register_translation( $this->category_stats, 'category_stats' );
-			$this->register_translation( $this->category_prefs, 'category_prefs' );
+			$this->register_translation( $this->category_stats,
+				'category_stats' );
+			$this->register_translation( $this->category_prefs,
+				'category_prefs' );
 
 			$this->register_translation( $this->accept, 'accept' );
 			$this->register_translation( $this->revoke, 'revoke' );
 			$this->register_translation( $this->dismiss, 'dismiss' );
-			$this->register_translation( $this->message_optin, 'message_optin' );
-			$this->register_translation( $this->readmore_optin, 'readmore_optin' );
-			$this->register_translation( $this->accept_informational, 'accept_informational' );
-			$this->register_translation( $this->message_optout, 'message_optout' );
-			$this->register_translation( $this->readmore_optout, 'readmore_optout' );
-			$this->register_translation( $this->readmore_optout_dnsmpi, 'readmore_optout_dnsmpi' );
-			$this->register_translation( $this->readmore_privacy, 'readmore_privacy' );
+			$this->register_translation( $this->message_optin,
+				'message_optin' );
+			$this->register_translation( $this->readmore_optin,
+				'readmore_optin' );
+			$this->register_translation( $this->accept_informational,
+				'accept_informational' );
+			$this->register_translation( $this->message_optout,
+				'message_optout' );
+			$this->register_translation( $this->readmore_optout,
+				'readmore_optout' );
+			$this->register_translation( $this->readmore_optout_dnsmpi,
+				'readmore_optout_dnsmpi' );
+			$this->register_translation( $this->readmore_privacy,
+				'readmore_privacy' );
 
 			/**
 			 * If Tag manager fires categories, enable use categories by default
@@ -391,7 +566,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'category_stats'            => sanitize_text_field( $this->category_stats ),
 				'category_prefs'            => sanitize_text_field( $this->category_prefs ),
 				'accept'                    => sanitize_text_field( $this->accept ),
-				'message_optin'             => wp_kses( $this->message_optin, cmplz_allowed_html() ),
+				'message_optin'             => wp_kses( $this->message_optin,
+					cmplz_allowed_html() ),
 				'readmore_optin'            => sanitize_text_field( $this->readmore_optin ),
 				'use_categories'            => sanitize_text_field( $this->use_categories ),
 				'use_categories_optinstats' => sanitize_text_field( $this->use_categories_optinstats ),
@@ -402,7 +578,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => boolval( $this->dismiss_on_timeout ),
 				'dismiss_timeout'           => intval( $this->dismiss_timeout ),
 				'accept_informational'      => sanitize_text_field( $this->accept_informational ),
-				'message_optout'            => wp_kses( $this->message_optout, cmplz_allowed_html() ),
+				'message_optout'            => wp_kses( $this->message_optout,
+					cmplz_allowed_html() ),
 				'readmore_optout'           => sanitize_text_field( $this->readmore_optout ),
 				'readmore_optout_dnsmpi'    => sanitize_text_field( $this->readmore_optout_dnsmpi ),
 				'readmore_privacy'          => sanitize_text_field( $this->readmore_privacy ),
@@ -416,8 +593,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			);
 
 			if ( $this->use_custom_cookie_css ) {
-				$update_array['custom_css']     = htmlspecialchars( $this->custom_css );
-				$update_array['custom_css_amp'] = htmlspecialchars( $this->custom_css_amp );
+				$update_array['custom_css']
+					= htmlspecialchars( $this->custom_css );
+				$update_array['custom_css_amp']
+					= htmlspecialchars( $this->custom_css_amp );
 			}
 
 			global $wpdb;
@@ -427,11 +606,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			);
 
 			if ( $updated === 0 ) {
-				update_option( 'cmplz_generate_new_cookiepolicy_snapshot', true );
+				update_option( 'cmplz_generate_new_cookiepolicy_snapshot',
+					true );
 			}
 
 			//get database value for "default"
-			$db_default = $wpdb->get_var( $wpdb->prepare( "select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s", $this->id ) );
+			$db_default
+				= $wpdb->get_var( $wpdb->prepare( "select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s",
+				$this->id ) );
 			if ( $this->default && ! $db_default ) {
 				$this->enable_default();
 			} elseif ( ! $this->default && $db_default ) {
@@ -482,7 +664,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			global $wpdb;
 
 			//do not delete the last one.
-			$count = $wpdb->get_var( "select count(*) as count from {$wpdb->prefix}cmplz_cookiebanners" );
+			$count
+				= $wpdb->get_var( "select count(*) as count from {$wpdb->prefix}cmplz_cookiebanners" );
 			if ( $count == 1 && ! $force ) {
 				$error = true;
 			}
@@ -507,6 +690,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		/**
 		 * Archive this cookie banner
+		 *
 		 * @return void
 		 */
 
@@ -528,7 +712,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$stats = array();
 			foreach ( $consenttypes as $consenttype => $label ) {
 				foreach ( $statuses as $status ) {
-					$count                            = $this->get_count( $status, $consenttype );
+					$count                            = $this->get_count( $status,
+						$consenttype );
 					$stats[ $consenttype ][ $status ] = $count;
 				}
 			}
@@ -544,6 +729,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		/**
 		 * Restore this cookiebanner
+		 *
 		 * @return void
 		 */
 
@@ -567,7 +753,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 *
 		 */
 
-		public function get_statuses( $exclude_no_warning = false, $consenttype = false ) {
+		public function get_statuses(
+			$exclude_no_warning = false, $consenttype = false
+		) {
 
 			//get all categories
 			$statuses = array();
@@ -581,7 +769,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$statuses[] = 'functional';
 
 			if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
-				$cats       = cmplz_get_value( 'tagmanager_categories' . $this->id );
+				$cats       = cmplz_get_value( 'tagmanager_categories'
+				                               . $this->id );
 				$categories = explode( ',', $cats );
 				foreach ( $categories as $index => $category ) {
 					//if the category is empty (e.g, none were entered), skip it.
@@ -594,11 +783,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				if ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
 					$statuses[] = 'stats';
 				}
-			} elseif ( $this->use_categories_optinstats && $consenttype == 'optinstats' ) {
+			} elseif ( $this->use_categories_optinstats
+			           && $consenttype == 'optinstats'
+			) {
 				$statuses[] = 'stats';
 			}
 
-			if ( $consenttype === 'all' && ! in_array( 'stats', $statuses ) && COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) {
+			if ( $consenttype === 'all' && ! in_array( 'stats', $statuses )
+			     && COMPLIANZ::$cookie_admin->cookie_warning_required_stats()
+			) {
 				$statuses[] = 'stats';
 			}
 
@@ -617,7 +810,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 				global $wpdb;
 				//first, set one  of the other banners random to default.
-				$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false and cb.archived=false LIMIT 1" );
+				$cookiebanners
+					= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false and cb.archived=false LIMIT 1" );
 				if ( ! empty( $cookiebanners ) ) {
 					$wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 						array( 'default' => true ),
@@ -643,7 +837,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 				global $wpdb;
 				//first set the current default to false
-				$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true LIMIT 1" );
+				$cookiebanners
+					= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true LIMIT 1" );
 				if ( ! empty( $cookiebanners ) ) {
 					$wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 						array( 'default' => false ),
@@ -673,6 +868,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		/**
 		 * Get the conversion to marketing for a cookiebanner
+		 *
 		 * @return float percentage
 		 */
 
@@ -683,7 +879,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 				$total = 0;
 				$all   = 0;
-				foreach ( $this->statistics[ $filter_consenttype ] as $status => $count ) {
+				foreach (
+					$this->statistics[ $filter_consenttype ] as $status =>
+					$count
+				) {
 					$total += $count;
 					if ( $status === 'all' ) {
 						$all = $count;
@@ -732,12 +931,17 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			if ( $consenttype === 'all' ) {
 				$consenttypes    = cmplz_get_used_consenttypes();
-				$consenttype_sql = " AND (consenttype='" . implode( "' OR consenttype='", $consenttypes ) . "')";
+				$consenttype_sql = " AND (consenttype='"
+				                   . implode( "' OR consenttype='",
+						$consenttypes ) . "')";
 			}
 
-			$sql = $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s " . $consenttype_sql, $status );
+			$sql
+				= $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s "
+				                  . $consenttype_sql, $status );
 			if ( COMPLIANZ::$cookie_admin->ab_testing_enabled() ) {
-				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s", $this->id );
+				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s",
+					$this->id );
 			}
 			$count = $wpdb->get_var( $sql );
 
@@ -762,16 +966,20 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_settings_array() {
 
 			$this->dismiss_on_scroll  = $this->dismiss_on_scroll ? 400 : false;
-			$this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
+			$this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000
+			                                                        * $this->dismiss_timeout
+				: false;
 
 			$output = array(
 				'static'                    => false,
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
-				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
+				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent',
+					array() ),
 				'banner_version'            => $this->banner_version,
 				'version'                   => cmplz_version,
 				'a_b_testing'               => cmplz_ab_testing_enabled(),
-				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled', false ),
+				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled',
+					false ),
 				'consenttype'               => COMPLIANZ::$company->get_default_consenttype(),
 				'region'                    => COMPLIANZ::$company->get_default_region(),
 				'geoip'                     => cmplz_geoip_enabled(),
@@ -799,7 +1007,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'message_optin'             => $this->message_optin_x,
 				'readmore_optout'           => $this->readmore_optout_x,
 				'readmore_optout_dnsmpi'    => $this->readmore_optout_dnsmpi_x,
-				'hide_revoke'               => $this->hide_revoke ? 'cc-hidden' : '',
+				'hide_revoke'               => $this->hide_revoke ? 'cc-hidden'
+					: '',
 				'soft_cookiewall'           => $this->soft_cookiewall,
 				'type'                      => 'opt-in',
 				'layout'                    => 'basic',
@@ -828,13 +1037,23 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			 *
 			 * */
 
-			if ( $output['use_categories'] || $output['use_categories_optinstats'] ) {
-				$checkbox_all         = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="16px" height="16px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
-				$checkbox_functional  = str_replace( array( 'type', 'cmplz_all' ), array(
+			if ( $output['use_categories']
+			     || $output['use_categories_optinstats']
+			) {
+				$checkbox_all
+					                  = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="16px" height="16px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
+				$checkbox_functional  = str_replace( array(
+					'type',
+					'cmplz_all'
+				), array(
 					'checked disabled type',
 					'cmplz_functional'
 				), $checkbox_all );
-				$output['categories'] = '<label>' . $checkbox_functional . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_functional_x . '</span></label>';
+				$output['categories'] = '<label>' . $checkbox_functional
+				                        . '<span class="cc-category" style="color:'
+				                        . $this->popup_text_color . '">'
+				                        . $this->category_functional_x
+				                        . '</span></label>';
 
 				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
 					$output['tm_categories'] = true;
@@ -844,15 +1063,38 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						if ( empty( $category ) ) {
 							continue;
 						}
-						$checkbox_category    = str_replace( 'cmplz_all', 'cmplz_' . $i, $checkbox_all );
-						$output['categories'] .= '<label>' . $checkbox_category . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . trim( $category ) . '</span></label>';
+						$checkbox_category    = str_replace( 'cmplz_all',
+							'cmplz_' . $i, $checkbox_all );
+						$output['categories'] .= '<label>' . $checkbox_category
+						                         . '<span class="cc-category" style="color:'
+						                         . $this->popup_text_color
+						                         . '">' . trim( $category )
+						                         . '</span></label>';
 					}
-					$output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_all_x . '</span></label>';
+					$output['categories'] .= '<label>' . $checkbox_all
+					                         . '<span class="cc-category" style="color:'
+					                         . $this->popup_text_color . '">'
+					                         . $this->category_all_x
+					                         . '</span></label>';
 					$output['cat_num']    = count( $categories );
 				} else {
-					$output['categories'] .= cmplz_consent_api_active() ? '<label>' . str_replace( 'cmplz_all', 'cmplz_prefs', $checkbox_all ) . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_prefs_x . '</span></label>' : '';
-					$output['categories'] .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? '<label>' . str_replace( 'cmplz_all', 'cmplz_stats', $checkbox_all ) . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_stats_x . '</span></label>' : '';
-					$output['categories'] .= '<label>' . $checkbox_all . '<span class="cc-category" style="color:' . $this->popup_text_color . '">' . $this->category_all_x . '</span></label>';
+					$output['categories'] .= cmplz_consent_api_active()
+						? '<label>' . str_replace( 'cmplz_all', 'cmplz_prefs',
+							$checkbox_all )
+						  . '<span class="cc-category" style="color:'
+						  . $this->popup_text_color . '">'
+						  . $this->category_prefs_x . '</span></label>' : '';
+					$output['categories'] .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() )
+						? '<label>' . str_replace( 'cmplz_all', 'cmplz_stats',
+							$checkbox_all )
+						  . '<span class="cc-category" style="color:'
+						  . $this->popup_text_color . '">'
+						  . $this->category_stats_x . '</span></label>' : '';
+					$output['categories'] .= '<label>' . $checkbox_all
+					                         . '<span class="cc-category" style="color:'
+					                         . $this->popup_text_color . '">'
+					                         . $this->category_all_x
+					                         . '</span></label>';
 				}
 				$output['view_preferences'] = $this->view_preferences_x;
 				$output['save_preferences'] = $this->save_preferences_x;
@@ -860,9 +1102,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
-				$output['readmore_url'][ $region ] = cmplz_get_cookie_policy_url( $region );
-				$privacy_link                      = COMPLIANZ::$document->get_page_url( 'privacy-statement', $region );
-				$output['privacy_link'][ $region ] = ! empty( $privacy_link ) ? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="' . $privacy_link . '">' . $this->readmore_privacy_x . '</a>' : '';
+				$output['readmore_url'][ $region ]
+					                               = cmplz_get_cookie_policy_url( $region );
+				$privacy_link
+					                               = COMPLIANZ::$document->get_page_url( 'privacy-statement',
+					$region );
+				$output['privacy_link'][ $region ] = ! empty( $privacy_link )
+					? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="'
+					  . $privacy_link . '">' . $this->readmore_privacy_x
+					  . '</a>' : '';
 			}
 
 			return $output;

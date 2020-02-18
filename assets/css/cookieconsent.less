@@ -1,0 +1,257 @@
+@import "cookieconsent.core.less";
+
+.cmplz-soft-cookiewall{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  &.preview {
+    // z-index:initial;
+  }
+}
+.cmplz-document .cmplz-soft-cookiewall{
+  background-color: transparent;
+}
+
+.cc-deny {
+  display:none;
+}
+.cmplz-clear-padding{
+  padding-top:10px !important;
+  &:before {
+    padding-top:0 !important;
+  }
+}
+
+//hide placeholder video
+.cmplz-video.cmplz-hidden{
+  visibility: hidden;
+}
+//prevent theme's from hiding the placeholder image with a background color
+.cmplz-video.cmplz-iframe-styles {
+  background-color:transparent;
+}
+
+.cmplz-blocked-content-container{
+
+  iframe {
+    max-height: 100%;
+    border:0 !important;
+  }
+  div div {display:none}
+  background: #FFF;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  height: inherit;
+  position:relative;
+  //Geo My WP integration
+  &.gmw-map-cover{
+    max-height: 100%;
+    position: absolute;
+  }
+  .cmplz-blocked-content-notice{
+    cursor:pointer;
+    position:absolute !important;
+    width:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    max-width: 200px;
+    font-size: 14px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    color:#fff;
+    text-align:center;
+    /*make sure the container is on top of the iframe, but below our cookie notice */
+    z-index: 98;
+    /*We need some lineheight, for example Elementor will force a lineheight of 0*/
+    line-height: 23px;
+  }
+
+}
+
+//because the US banner requires two links, we have a comma after the link, which is ugly with padding
+.cc-link {
+  padding-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .cc-revoke {
+    display: none !important
+  }
+}
+
+.cc-center.cc-revoke {
+  &.cc-animate {
+    transform: translateY(2em);
+    &:hover{
+      transform: translateY(0);
+    }
+  }
+  bottom: 0;
+  left: 3em;
+  border-top-left-radius: .5em;
+  border-top-right-radius: 0.5em;
+
+}
+
+.cc-hidden {
+  display:none;
+}
+
+#cmplz-container {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  position: absolute
+}
+
+/**
+Make sue the text stays within the banne
+ */
+.cc-message {
+  word-wrap:break-word;
+}
+
+.cc-window.cc-theme-minimal {
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+
+  .cc-message {
+    text-align: center;
+  }
+  .cc-btn {
+    &.cc-allow, &.cc-save, &.cc-dismiss {
+      border-radius: 5px;
+      border-width: 1px;
+    }
+  }
+}
+
+.cc-window.cc-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  min-width: 360px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .4)
+}
+
+.cc-window label {
+  color:inherit;
+  &.cc-check {
+    display: inline-block;
+    padding-bottom: 4px;
+  }
+}
+.cc-check,
+.cc-check svg {
+  transform: translate3d(0, 0, 0)
+}
+
+.cc-window label:not(.cc-check) {
+  white-space: nowrap;
+  margin-right: 15px;
+  padding-left:10px;
+}
+.cc-center .cc-save,
+.cc-left .cc-save,
+.cc-right .cc-save {
+  margin-top: 15px
+}
+.cc-type-categories.cc-floating.cc-theme-edgeless{
+  label {
+    margin-left: 1em;
+  }
+  .cc-message {
+    margin-bottom: .5em;
+  }
+}
+
+
+.cc-check {
+  cursor: pointer;
+  position: relative;
+  margin: auto 5px auto auto;
+  width: 18px;
+  height: 18px;
+  -webkit-tap-highlight-color: transparent;
+  &:before {
+    content: "";
+    position: absolute;
+    opacity: 0
+  }
+  &:hover:before {
+    opacity: 1
+  }
+  svg {
+    position: relative;
+    z-index: 1;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3.5;
+    transition: all .2s ease;
+    path {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 0
+    }
+    polyline {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 66
+    }
+  }
+}
+
+.cc-window {
+  #cmplz_0:checked + .cc-check svg path,
+  #cmplz_1:checked + .cc-check svg path,
+  #cmplz_2:checked + .cc-check svg path,
+  #cmplz_3:checked + .cc-check svg path,
+  #cmplz_4:checked + .cc-check svg path,
+  #cmplz_5:checked + .cc-check svg path,
+  #cmplz_6:checked + .cc-check svg path,
+  #cmplz_7:checked + .cc-check svg path,
+  #cmplz_8:checked + .cc-check svg path,
+  #cmplz_all:checked + .cc-check svg path,
+  #cmplz_stats:checked + .cc-check svg path,
+  #cmplz_prefs:checked + .cc-check svg path,
+  #cmplz_functional:checked + .cc-check svg path {
+    stroke-dashoffset: 60;
+    transition: all .3s linear
+  }
+
+  #cmplz_0:checked + .cc-check svg polyline,
+  #cmplz_1:checked + .cc-check svg polyline,
+  #cmplz_2:checked + .cc-check svg polyline,
+  #cmplz_3:checked + .cc-check svg polyline,
+  #cmplz_4:checked + .cc-check svg polyline,
+  #cmplz_5:checked + .cc-check svg polyline,
+  #cmplz_6:checked + .cc-check svg polyline,
+  #cmplz_7:checked + .cc-check svg polyline,
+  #cmplz_8:checked + .cc-check svg polyline,
+  #cmplz_all:checked + .cc-check svg polyline,
+  #cmplz_stats:checked + .cc-check svg polyline,
+  #cmplz_prefs:checked + .cc-check svg polyline,
+  #cmplz_functional:checked + .cc-check svg polyline {
+    stroke-dashoffset: 42;
+    transition: all .2s linear;
+    transition-delay: .15s
+  }
+
+}
