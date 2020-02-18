@@ -272,7 +272,7 @@ $this->fields = $this->fields + array(
 
 		'sensitive_information_processed' => array(
 			'step' => STEP_COMPANY,
-			'section' => 10,
+			'section' => 3,
 			'source' => 'wizard',
 			'type' => 'radio',
 			'required' => false,
