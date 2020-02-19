@@ -1649,9 +1649,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				<?php
 			}
 			?>
-
-
-			?>
 			<div class="cmplz-list-container">
 				<div class="cmplz-skeleton"></div>
 			</div>
