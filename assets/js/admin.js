@@ -466,6 +466,10 @@ jQuery(document).ready(function ($) {
         );
     }
 
+    $(document).on('change', 'input[name=cmplz_show_deleted]', function(){
+		loadListItem();
+	});
+
 
     //custom text for policy
     $(document).on("click", ".cmplz-add-to-policy", function () {
@@ -694,7 +698,9 @@ jQuery(document).ready(function ($) {
     function loadListItem(){
 
         var language = $('#cmplz_language').val();
+        var deleted = $('input[name=cmplz_show_deleted]').is(":checked");
 
+		$('.cmplz-list-container').html('<div class="cmplz-skeleton"></div>');
         var type = $('#cmplz_language').data('type');
         $.ajax({
             type: "GET",
@@ -703,6 +709,7 @@ jQuery(document).ready(function ($) {
             data: ({
                 language: language,
                 action: 'cmplz_get_list',
+                deleted: deleted,
                 type: type,
             }),
             success: function (response) {
@@ -717,11 +724,26 @@ jQuery(document).ready(function ($) {
                         cmplz_privacyStatementUrlFieldVisibility($(this));
                     });
 
+					cmpzlSyncDeleteRestoreButtons();
+
                     cmplzInitSelect2();
                 }
             }
         });
     }
+
+    function cmpzlSyncDeleteRestoreButtons(){
+		$('.cmplz-panel').each(function(){
+			if ($(this).hasClass('cmplz-deleted')){
+				$(this).find('button[data-action="restore"]').show();
+				$(this).find('button[data-action="delete"]').hide();
+			} else {
+				$(this).find('button[data-action="restore"]').hide();
+				$(this).find('button[data-action="delete"]').show();
+			}
+
+		});
+	}
 
     /**
     * add, Save and delete cookies
@@ -768,8 +790,12 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     if (action==='delete'){
-                        panel.remove();
+                        panel.addClass('cmplz-deleted');
                     }
+					if (action==='restore'){
+						panel.removeClass('cmplz-deleted');
+					}
+					cmpzlSyncDeleteRestoreButtons();
                     if (action==='add'){
                         var html = response.html;
                         var list_container = $('.cmplz-field>div.cmplz-list-container');

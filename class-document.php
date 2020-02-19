@@ -1,293 +1,1085 @@
 <?php
-
-defined('ABSPATH') or die("you do not have acces to this page!");
-
-if (!class_exists("cmplz_document")) {
-    class cmplz_document extends cmplz_document_core
-    {
-        private static $_this;
-
-        function __construct()
-        {
-            if (isset(self::$_this))
-	            wp_die(sprintf('%s is a singleton class and you cannot create a second instance.', get_class($this)));
-
-            self::$_this = $this;
-
-            $this->init();
-
-        }
-
-        static function this()
-        {
-            return self::$_this;
-        }
-
-
-        /**
-         * If a document is loaded with the autoredirect parameter, we redirect automatically
-         */
-
-        public function maybe_autoredirect()
-        {
-            //if the autoredirect parameter is used, we look for the region of the passed type, and if necessary redirect to the redirect region
-            if (isset($_GET['cmplz_region_redirect']) && isset($_GET['region'])) {
-                //get region from current page.
-                global $post;
-                if (!$post) return;
-
-                $type = false;
-                if (preg_match($this->get_shortcode_pattern("gutenberg"), $post->post_content, $matches)) {
-                    $type = $matches[1];
-                } elseif (preg_match($this->get_shortcode_pattern("classic"), $post->post_content, $matches)) {
-                    $type = $matches[1];
-                }
-	            $new_region = sanitize_title($_GET['region']);
-
-                if (!isset(COMPLIANZ::$config->pages[$new_region][$type])) return;
-
-                $document = COMPLIANZ::$config->pages[$new_region][$type];
-                if (array_key_exists($new_region, cmplz_get_regions()) && isset($document['condition']['regions']) && $document['condition']['regions'] !== $new_region) {
-                    //get the URL of the new document
-                    $doc_region = $document['condition']['regions'];
-                    $core_type = str_replace('-' . $doc_region, '', $type);
-                    $new_region = ($new_region === 'eu') ? '' : '-' . $new_region;
-                    $final_type = $core_type . $new_region;
-                    $new_url = COMPLIANZ::$document->get_permalink($final_type, $new_region);
-                    wp_redirect($new_url);
-                    exit;
-                }
-            }
-
-        }
-
-        public function enqueue_assets()
-        {
-
-            if ($this->is_complianz_page()) {
-                $min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
-                $load_css = cmplz_get_value('use_document_css');
-                if ($load_css) {
-                    wp_register_style('cmplz-document', cmplz_url . "core/assets/css/document$min.css", false, cmplz_version);
-                    wp_enqueue_style('cmplz-document');
-                }
-
-                add_action('wp_head', array($this, 'inline_styles'), 100);
-            }
-
-        }
-
-        /**
-         * Get custom CSS for documents
-         *
-         * */
-
-        public function inline_styles(){
-
-            //basic color style for revoke button
-            $custom_css='';
-            $background_color = sanitize_hex_color(cmplz_get_value('brand_color'));
-            if (!empty($background_color) ){
-                $light_background_color = $this->color_luminance($background_color, -0.2);
-                $custom_css = "#cmplz-document button.cc-revoke-custom {background-color:".$background_color.";border-color: ".$background_color.";}";
-                $custom_css .= "#cmplz-document button.cc-revoke-custom:hover {background-color: ".$light_background_color.";border-color: ".$light_background_color.";}";
-            }
-
-            if (cmplz_get_value('use_custom_document_css')) {
-                $custom_css .= cmplz_get_value('custom_document_css');
-            }
-
-            $custom_css = apply_filters('cmplz_custom_document_css', $custom_css);
-            if (empty($custom_css)) return;
-
-            echo '<style>' . $custom_css . '</style>';
-        }
-
-        /**
-         * Add some text to the privacy policy suggested texts in free.
-         */
-
-        public function add_privacy_info()
-        {
-            if (!function_exists('wp_add_privacy_policy_content')) {
-                return;
-            }
-
-            //only necessary for free, as premium will generate the privacy policy
-            if (!defined('cmplz_free')) return;
-
-            $content = sprintf(
-                __("Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your privacy policy. The used cookies (all functional) will be automatically added to your cookie policy. You can find our privacy policy %shere%s.", 'complianz-gdpr'),
-                '<a href="https://complianz.io/privacy-statement/" target="_blank">', '</a>'
-            );
-
-            wp_add_privacy_policy_content(
-                'Complianz | GDPR/CCPA Cookie Consent',
-                wp_kses_post(wpautop($content, false))
-            );
-        }
-
-
-        /**
-          * Get the region for a post id, based on the post type.
-          * @param int $post_id
-          * @return string|bool $region
-          * */
-
-        public function get_region($post_id){
-
-	        if (!is_numeric($post_id) && isset($post_id['source'])){
-		        return substr($post_id['source'], -2);
-	        }
-
-            if ($post_id) {
-                $term = wp_get_post_terms($post_id,'cmplz-region');
-                if (is_wp_error($term)) return false;
-
-                if (isset($term[0])) return $term[0]->slug;
-
-                return false;
-            }
-
-            return false;
-        }
-
-	    /**
-	     * Set the region in a post
-	     * @param      $post_id
-	     * @param bool $region
-	     */
-
-        public function set_region($post_id, $region=false){
-            if (!$region){
-                $region = $this->get_region($post_id);
-            }
-
-            if (!$region) {
-	            $regions = cmplz_get_regions();
-
-	            if (isset($_GET['page'])){
-		            $page = sanitize_title($_GET['page']);
-		            foreach($regions as $r => $label){
-			            if (strpos($page, '-'.$r)!==false){
-				            $region = $r;
-			            }
-		            }
-	            }
-            }
-
-            $term = get_term_by('slug', $region,'cmplz-region');
-            if (!$term) {
-                wp_insert_term(COMPLIANZ::$config->regions[$region]['label'], 'cmplz-region',array(
-                    'slug' => $region,
-                ));
-                $term = get_term_by('slug', $region,'cmplz-region');
-            }
-
-            if (empty($term)) return;
-
-            $term_id = $term->term_id;
-
-            wp_set_object_terms( $post_id, array($term_id), 'cmplz-region' );
-        }
-
-
-	    /**
-	     * Check if legal documents should be updated
-	     * @return bool
-	     */
-
-        public function documents_need_updating(){
-            if (cmplz_has_region('us') && $this->not_updated_in(MONTH_IN_SECONDS*12)){
-                return true;
-            }
-            return false;
-        }
-
-	    /**
-	     * Check if legal documents should be updated, and send mail to admin if so
-	     */
-
-        public function cron_check_last_updated_status(){
-
-            if ($this->documents_need_updating() && !get_option('cmplz_update_legal_documents_mail_sent')){
-                update_option('cmplz_update_legal_documents_mail_sent', true);
-                $to = get_option('admin_email');
-
-                $headers = array();
-                if (empty($subject)) $subject = sprintf(_x('Your legal documents on %s need to be updated.','Subject in notification email', 'complianz-gdpr'), home_url());
-
-                $message = sprintf(_x('Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.', 'Email message in notification email', 'complianz-gdpr'), home_url());
-
-                add_filter('wp_mail_content_type', function ($content_type) {
-                    return 'text/html';
-                });
-
-                wp_mail($to, $subject, $message, $headers);
-
-                // Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
-                remove_filter('wp_mail_content_type', 'set_html_content_type');
-            }
-        }
-
-
-        public function revoke_link($atts = [], $content = null, $tag = '')
-        {
-
-            // normalize attribute keys, lowercase
-            $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-            ob_start();
-
-            // override default attributes with user attributes
-            $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-            echo cmplz_revoke_link($atts['text']);
-
-            return ob_get_clean();
-        }
-
-        /**
-         * Display an accept hyperlink
-         *
-         * @param array $atts
-         * @param null $content
-         * @param string $tag
-         * @return string
-         */
-
-        public function accept_link($atts = [], $content = null, $tag = '')
-        {
-
-            // normalize attribute keys, lowercase
-            $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-            ob_start();
-
-            // override default attributes with user attributes
-            $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-            $accept_text = $atts['text'] ? $atts['text'] : apply_filters('cmplz_accept_cookies_blocked_content',cmplz_get_value('blocked_content_text'));
-            $html = '<div class="cmplz-blocked-content-notice cmplz-accept-cookies"><a href="#">'.$accept_text.'</a></div>';
-            echo $html;
-
-            return ob_get_clean();
-
-        }
-
-        /*
+defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+
+if ( ! class_exists( "cmplz_document" ) ) {
+	class cmplz_document {
+		private static $_this;
+
+		function __construct() {
+			if ( isset( self::$_this ) ) {
+				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
+					get_class( $this ) ) );
+			}
+
+			self::$_this = $this;
+			$this->init();
+
+		}
+
+		static function this() {
+			return self::$_this;
+		}
+
+
+		/**
+		 * If a document is loaded with the autoredirect parameter, we redirect automatically
+		 */
+
+		public function maybe_autoredirect() {
+			//if the autoredirect parameter is used, we look for the region of the passed type, and if necessary redirect to the redirect region
+			if ( isset( $_GET['cmplz_region_redirect'] )
+			     && isset( $_GET['region'] )
+			) {
+				//get region from current page.
+				global $post;
+				if ( ! $post ) {
+					return;
+				}
+
+				$type = false;
+				if ( preg_match( $this->get_shortcode_pattern( "gutenberg" ),
+					$post->post_content, $matches )
+				) {
+					$type = $matches[1];
+				} elseif ( preg_match( $this->get_shortcode_pattern( "classic" ),
+					$post->post_content, $matches )
+				) {
+					$type = $matches[1];
+				}
+				$new_region = sanitize_title( $_GET['region'] );
+
+				if ( ! isset( COMPLIANZ::$config->pages[ $new_region ][ $type ] ) ) {
+					return;
+				}
+
+				$document = COMPLIANZ::$config->pages[ $new_region ][ $type ];
+				if ( array_key_exists( $new_region, cmplz_get_regions() )
+				     && isset( $document['condition']['regions'] )
+				     && $document['condition']['regions'] !== $new_region
+				) {
+					//get the URL of the new document
+					$doc_region = $document['condition']['regions'];
+					$core_type  = str_replace( '-' . $doc_region, '', $type );
+					$new_region = ( $new_region === 'eu' ) ? ''
+						: '-' . $new_region;
+					$final_type = $core_type . $new_region;
+					$new_url
+					            = COMPLIANZ::$document->get_permalink( $final_type,
+						$new_region );
+					wp_redirect( $new_url );
+					exit;
+				}
+			}
+		}
+
+		/**
+		 * Enqueue assets
+		 */
+
+		public function enqueue_assets() {
+
+			if ( $this->is_complianz_page() ) {
+				$min      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? ''
+					: '.min';
+				$load_css = cmplz_get_value( 'use_document_css' );
+				if ( $load_css ) {
+					wp_register_style( 'cmplz-document',
+						cmplz_url . "assets/css/document$min.css", false,
+						cmplz_version );
+					wp_enqueue_style( 'cmplz-document' );
+				}
+
+				add_action( 'wp_head', array( $this, 'inline_styles' ), 100 );
+			}
+
+		}
+
+		/**
+		 * Get custom CSS for documents
+		 *
+		 * */
+
+		public function inline_styles() {
+
+			//basic color style for revoke button
+			$custom_css = '';
+			$background_color
+			            = sanitize_hex_color( cmplz_get_value( 'brand_color' ) );
+			if ( ! empty( $background_color ) ) {
+				$light_background_color
+					        = $this->color_luminance( $background_color,
+					- 0.2 );
+				$custom_css
+					        = "#cmplz-document button.cc-revoke-custom {background-color:"
+					          . $background_color . ";border-color: "
+					          . $background_color . ";}";
+				$custom_css .= "#cmplz-document button.cc-revoke-custom:hover {background-color: "
+				               . $light_background_color . ";border-color: "
+				               . $light_background_color . ";}";
+			}
+
+			if ( cmplz_get_value( 'use_custom_document_css' ) ) {
+				$custom_css .= cmplz_get_value( 'custom_document_css' );
+			}
+
+			$custom_css = apply_filters( 'cmplz_custom_document_css',
+				$custom_css );
+			if ( empty( $custom_css ) ) {
+				return;
+			}
+
+			echo '<style>' . $custom_css . '</style>';
+		}
+
+		/**
+		 * Check if the page is public
+		 *
+		 * @param string $type
+		 * @param string $region
+		 *
+		 * @return bool
+		 */
+
+		public function is_public_page( $type, $region ) {
+			if ( ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] ) ) {
+				return false;
+			}
+
+			if ( isset( COMPLIANZ::$config->pages[ $region ][ $type ]['public'] )
+			     && COMPLIANZ::$config->pages[ $region ][ $type ]['public']
+			) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * period in seconds the wizard wasn't updated
+		 *
+		 * @param int $period
+		 *
+		 * @return bool not_updated_in
+		 * */
+
+		public function not_updated_in( $period ) {
+			//if the wizard is never completed, we don't want any update warnings.
+			if ( ! get_option( 'cmplz_wizard_completed_once' ) ) {
+				return false;
+			}
+
+			$date = get_option( 'cmplz_documents_update_date' );
+			if ( ! $date ) {
+				return false;
+			}
+
+			$time_passed = time() - $date;
+			if ( $time_passed > $period ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Check if a page is required. If no condition is set, return true.
+		 * condition is "AND", all conditions need to be met.
+		 *
+		 * @param array|string $page
+		 * @param string       $region
+		 *
+		 * @return bool
+		 */
+
+		public function page_required( $page, $region ) {
+			if ( ! is_array( $page ) ) {
+				if ( ! isset( COMPLIANZ::$config->pages[ $region ][ $page ] ) ) {
+					return false;
+				}
+
+				$page = COMPLIANZ::$config->pages[ $region ][ $page ];
+			}
+
+			//if it's not public, it's not required
+			if ( isset( $page['public'] ) && $page['public'] == false ) {
+				return false;
+			}
+
+			//if there's no condition, we set it as required
+			if ( ! isset( $page['condition'] ) ) {
+				return true;
+			}
+
+			if ( isset( $page['condition'] ) ) {
+				$conditions    = $page['condition'];
+				$condition_met = true;
+				foreach (
+					$conditions as $condition_question => $condition_answer
+				) {
+
+					$value  = cmplz_get_value( $condition_question, false,
+						false, $use_default = false );
+					$invert = false;
+					if ( ! is_array( $condition_answer )
+					     && strpos( $condition_answer, 'NOT ' ) !== false
+					) {
+						$condition_answer = str_replace( 'NOT ', '',
+							$condition_answer );
+						$invert           = true;
+					}
+
+					$condition_answer = is_array( $condition_answer )
+						? $condition_answer : array( $condition_answer );
+					foreach ( $condition_answer as $answer_item ) {
+						if ( is_array( $value ) ) {
+							if ( ! isset( $value[ $answer_item ] )
+							     || ! $value[ $answer_item ]
+							) {
+								$condition_met = false;
+							} else {
+								$condition_met = true;
+							}
+
+						} else {
+							$condition_met = ( $value == $answer_item );
+						}
+
+						//if one condition is met, we break with this condition, so it will return true.
+						if ( $condition_met ) {
+							break;
+						}
+
+					}
+
+					//if one condition is not met, we break with this condition, so it will return false.
+					if ( ! $condition_met ) {
+						break;
+					}
+
+				}
+
+				$condition_met = $invert ? ! $condition_met : $condition_met;
+
+				return $condition_met;
+			}
+
+			return false;
+
+		}
+
+		/**
+		 * Check if an element should be inserted. AND implementation s
+		 *
+		 *
+		 * */
+
+		public function insert_element( $element, $post_id ) {
+
+			if ( $this->callback_condition_applies( $element )
+			     && $this->condition_applies( $element, $post_id )
+			) {
+				return true;
+			}
+
+			return false;
+
+		}
+
+		/**
+		 * @param $element
+		 *
+		 * @return bool
+		 */
+
+		public function callback_condition_applies( $element ) {
+
+			if ( isset( $element['callback_condition'] ) ) {
+
+				$conditions = is_array( $element['callback_condition'] )
+					? $element['callback_condition']
+					: array( $element['callback_condition'] );
+				foreach ( $conditions as $func ) {
+					$invert = false;
+					if ( strpos( $func, 'NOT ' ) !== false ) {
+						$invert = true;
+						$func   = str_replace( 'NOT ', '', $func );
+					}
+
+					if ( ! function_exists( $func ) ) {
+						break;
+					}
+
+					$show_field = $func();
+
+					if ( $invert ) {
+						$show_field = ! $show_field;
+					}
+					if ( ! $show_field ) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+		/**
+		 * Check if the passes condition applies
+		 *
+		 * @param array $element
+		 * @param int   $post_id
+		 *
+		 * @return bool
+		 */
+
+		public function condition_applies( $element, $post_id ) {
+			if ( isset( $element['condition'] ) ) {
+				$fields        = COMPLIANZ::$config->fields();
+				$condition_met = true;
+				$invert        = false;
+				foreach (
+					$element['condition'] as $question => $condition_answer
+				) {
+					if ( $condition_answer == 'loop' ) {
+						continue;
+					}
+
+					if ( ! isset( $fields[ $question ]['type'] ) ) {
+						return false;
+					}
+
+					$type  = $fields[ $question ]['type'];
+					$value = cmplz_get_value( $question, $post_id );
+
+
+					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
+						$condition_answer = str_replace( 'NOT ', '',
+							$condition_answer );
+						$invert           = true;
+					}
+
+					if ( $type == 'multicheckbox' ) {
+						if ( ! isset( $value[ $condition_answer ] )
+						     || ! $value[ $condition_answer ]
+						) {
+							$condition_met = false;
+						} else {
+							$condition_met = $condition_met && true;
+						}
+
+					} else {
+						$condition_met = $condition_met
+						                 && ( $value == $condition_answer );
+					}
+				}
+
+				return $invert ? ! $condition_met : $condition_met;
+
+			}
+
+			return true;
+		}
+
+
+		/**
+		 * Check if this element should loop through dynamic multiple values
+		 *
+		 * @param array $element
+		 *
+		 * @return bool
+		 * */
+
+		public function is_loop_element( $element ) {
+			if ( isset( $element['condition'] ) ) {
+				foreach (
+					$element['condition'] as $question => $condition_answer
+				) {
+					if ( $condition_answer == 'loop' ) {
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * Build a legal document by type
+		 *
+		 * @param string   $type
+		 * @param          $region
+		 * @param bool|int $post_id
+		 *
+		 * @return string
+		 */
+
+		public function get_document_html(
+			$type, $region = false, $post_id = false
+		) {
+			//legacy, if region is not passed, we get it from the type string
+			if ( ! $region ) {
+				$region = cmplz_get_region_from_legacy_type( $type );
+				$type   = str_replace( '-' . $region, '', $type );
+			}
+
+			if ( ! cmplz_has_region( $region )
+			     || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] )
+			) {
+				return sprintf( __( 'Region %s not activated for %s.',
+					'complianz-gdpr' ), strtoupper( $region ), $type );
+			}
+
+			$elements
+				              = COMPLIANZ::$config->pages[ $region ][ $type ]["document_elements"];
+			$html             = "";
+			$paragraph        = 0;
+			$sub_paragraph    = 0;
+			$annex            = 0;
+			$annex_arr        = array();
+			$paragraph_id_arr = array();
+			foreach ( $elements as $id => $element ) {
+				//count paragraphs
+				if ( $this->insert_element( $element, $post_id )
+				     || $this->is_loop_element( $element )
+				) {
+
+					if ( isset( $element['title'] )
+					     && ( ! isset( $element['numbering'] )
+					          || $element['numbering'] )
+					) {
+						$sub_paragraph = 0;
+						$paragraph ++;
+						$paragraph_id_arr[ $id ]['main'] = $paragraph;
+					}
+
+					//count subparagraphs
+					if ( isset( $element['subtitle'] ) && $paragraph > 0
+					     && ( ! isset( $element['numbering'] )
+					          || $element['numbering'] )
+					) {
+						$sub_paragraph ++;
+						$paragraph_id_arr[ $id ]['main'] = $paragraph;
+						$paragraph_id_arr[ $id ]['sub']  = $sub_paragraph;
+					}
+
+					//count annexes
+					if ( isset( $element['annex'] ) ) {
+						$annex ++;
+						$annex_arr[ $id ] = $annex;
+					}
+				}
+				if ( $this->is_loop_element( $element )
+				     && $this->insert_element( $element, $post_id )
+				) {
+					$fieldname    = key( $element['condition'] );
+					$values       = cmplz_get_value( $fieldname, $post_id );
+					$loop_content = '';
+					if ( ! empty( $values ) ) {
+						foreach ( $values as $value ) {
+
+							if ( ! is_array( $value ) ) {
+								$value = array( $value );
+							}
+							$fieldnames = array_keys( $value );
+							if ( count( $fieldnames ) == 1
+							     && $fieldnames[0] == 'key'
+							) {
+								continue;
+							}
+
+							$loop_section = $element['content'];
+							foreach ( $fieldnames as $c_fieldname ) {
+								$field_value
+									= ( isset( $value[ $c_fieldname ] ) )
+									? $value[ $c_fieldname ] : '';
+								if ( ! empty( $field_value )
+								     && is_array( $field_value )
+								) {
+									$field_value = implode( ', ',
+										$field_value );
+								}
+
+								$loop_section = str_replace( '[' . $c_fieldname
+								                             . ']',
+									$field_value, $loop_section );
+							}
+
+							$loop_content .= $loop_section;
+
+						}
+						$html .= $this->wrap_header( $element, $paragraph,
+							$sub_paragraph, $annex );
+						$html .= $this->wrap_content( $loop_content );
+					}
+				} elseif ( $this->insert_element( $element, $post_id ) ) {
+					$html .= $this->wrap_header( $element, $paragraph,
+						$sub_paragraph, $annex );
+					if ( isset( $element['content'] ) ) {
+						$html .= $this->wrap_content( $element['content'],
+							$element );
+					}
+				}
+
+				if ( isset( $element['callback'] )
+				     && function_exists( $element['callback'] )
+				) {
+					$func = $element['callback'];
+					$html .= $func();
+				}
+			}
+
+			$html = $this->replace_fields( $html, $paragraph_id_arr, $annex_arr,
+				$post_id, $type, $region );
+
+			$comment = apply_filters( "cmplz_document_comment", "\n"
+			                                                    . "<!-- This legal document was generated by Complianz | GDPR/CCPA Cookie Consent https://wordpress.org/plugins/complianz-gdpr -->"
+			                                                    . "\n" );
+
+			$html         = $comment . '<div id="cmplz-document">' . $html
+			                . '</div>';
+			$allowed_html = cmplz_allowed_html();
+			$html         = wp_kses( $html, $allowed_html );
+
+			return apply_filters( 'cmplz_document_html', $html, $type,
+				$post_id );
+		}
+
+		/**
+		 * Wrap the header for a paragraph
+		 *
+		 * @param array $element
+		 * @param int   $paragraph
+		 * @param int   $sub_paragraph
+		 * @param int   $annex
+		 *
+		 * @return string
+		 */
+
+		public function wrap_header(
+			$element, $paragraph, $sub_paragraph, $annex
+		) {
+			$nr = "";
+			if ( isset( $element['annex'] ) ) {
+				$nr = __( "Annex", 'complianz-gdpr' ) . " " . $annex . ": ";
+				if ( isset( $element['title'] ) ) {
+					return '<h3 class="annex">' . cmplz_esc_html( $nr )
+					       . cmplz_esc_html( $element['title'] ) . '</h3>';
+				}
+				if ( isset( $element['subtitle'] ) ) {
+					return '<p class="subtitle annex">' . cmplz_esc_html( $nr )
+					       . cmplz_esc_html( $element['subtitle'] ) . '</p>';
+				}
+			}
+
+			if ( isset( $element['title'] ) ) {
+				if ( empty( $element['title'] ) ) {
+					return "";
+				}
+				$nr = '';
+				if ( $paragraph > 0
+				     && $this->is_numbered_element( $element )
+				) {
+					$nr         = $paragraph;
+					$index_char = apply_filters( 'cmplz_index_char', '.' );
+					$nr         = $nr . $index_char . ' ';
+				}
+
+				return '<h3>' . cmplz_esc_html( $nr )
+				       . cmplz_esc_html( $element['title'] ) . '</h3>';
+			}
+
+			if ( isset( $element['subtitle'] ) ) {
+				if ( $paragraph > 0 && $sub_paragraph > 0
+				     && $this->is_numbered_element( $element )
+				) {
+					$nr = $paragraph . "." . $sub_paragraph . " ";
+				}
+
+				return '<p class="cmplz-subtitle">' . cmplz_esc_html( $nr )
+				       . cmplz_esc_html( $element['subtitle'] ) . '</p>';
+			}
+		}
+
+		/**
+		 * Check if this element should be numbered
+		 * if no key is set, default is true
+		 *
+		 * @param array $element
+		 *
+		 * @return bool
+		 */
+
+		public function is_numbered_element( $element ) {
+
+			if ( ! isset( $element['numbering'] ) ) {
+				return true;
+			}
+
+			return $element['numbering'];
+		}
+
+		/**
+		 * Wrap subheader in html
+		 *
+		 * @param string $header
+		 * @param int    $paragraph
+		 * @param int    $subparagraph
+		 *
+		 * @return string $html
+		 */
+
+		public function wrap_sub_header( $header, $paragraph, $subparagraph ) {
+			if ( empty( $header ) ) {
+				return "";
+			}
+
+			return '<b>' . cmplz_esc_html( $header ) . '</b><br>';
+		}
+
+		/**
+		 * Wrap content in html
+		 *
+		 * @param string $content
+		 * @param bool   $element
+		 *
+		 * @return string
+		 */
+		public function wrap_content( $content, $element = false ) {
+			if ( empty( $content ) ) {
+				return "";
+			}
+
+			$class = isset( $element['class'] ) ? 'class="'
+			                                      . esc_attr( $element['class'] )
+			                                      . '"' : '';
+
+			return "<p $class>" . $content . "</p>";
+		}
+
+		/**
+		 * Replace all fields in the resulting output
+		 *
+		 * @param string $html
+		 * @param array  $paragraph_id_arr
+		 * @param array  $annex_arr
+		 * @param int    $post_id
+		 * @param string $type
+		 * @param string $region
+		 *
+		 * @return string $html
+		 */
+
+		private function replace_fields(
+			$html, $paragraph_id_arr, $annex_arr, $post_id, $type, $region
+		) {
+			//replace references
+			foreach ( $paragraph_id_arr as $id => $paragraph ) {
+				$html = str_replace( "[article-$id]",
+					sprintf( __( '(See paragraph %s)', 'complianz-gdpr' ),
+						cmplz_esc_html( $paragraph['main'] ) ), $html );
+			}
+
+			foreach ( $annex_arr as $id => $annex ) {
+				$html = str_replace( "[annex-$id]",
+					sprintf( __( '(See annex %s)', 'complianz-gdpr' ),
+						cmplz_esc_html( $annex ) ), $html );
+			}
+
+			//some custom elements
+			$html = str_replace( "[cookie_accept_text]",
+				cmplz_get_value( 'accept' ), $html );
+			$html = str_replace( "[cookie_save_preferences_text]",
+				cmplz_get_value( 'save_preferences' ), $html );
+
+			$html = str_replace( "[domain]",
+				'<a href="' . cmplz_esc_url_raw( get_home_url() ) . '">'
+				. cmplz_esc_url_raw( get_home_url() ) . '</a>', $html );
+			$html = str_replace( "[cookie-statement-url]",
+				cmplz_get_cookie_policy_url( $region ), $html );
+
+			$html = str_replace( "[privacy-statement-url]",
+				$this->get_page_url( 'privacy-statement', $region ), $html );
+			$html = str_replace( "[privacy-statement-children-url]",
+				$this->get_page_url( 'privacy-statement-children', $region ),
+				$html );
+
+			//us can have two types of titles
+			$cookie_policy_title
+				  = esc_html( $this->get_document_title( 'cookie-statement',
+				$region ) );
+			$html = str_replace( '[cookie-statement-title]',
+				$cookie_policy_title, $html );
+
+			$date = $post_id
+				? get_the_date( '', $post_id )
+				: date( get_option( 'date_format' ),
+					get_option( 'cmplz_publish_date' ) );
+			$date = cmplz_localize_date( $date );
+			$html = str_replace( "[publish_date]", cmplz_esc_html( $date ),
+				$html );
+
+			$html = str_replace( "[sync_date]",
+				cmplz_esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ),
+				$html );
+
+			$checked_date = date( get_option( 'date_format' ),
+				get_option( 'cmplz_documents_update_date' ) );
+			$checked_date = cmplz_localize_date( $checked_date );
+			$html         = str_replace( "[checked_date]",
+				cmplz_esc_html( $checked_date ), $html );
+
+			//because the phonenumber is not required, we need to allow for an empty phonenr, making a dynamic string necessary.
+			$contact_dpo = cmplz_get_value( 'email_dpo' );
+			$phone_dpo   = cmplz_get_value( 'phone_dpo' );
+			if ( strlen( $phone_dpo ) !== 0 ) {
+				$contact_dpo .= " " . sprintf( _x( "or by telephone on %s",
+						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',
+						"complianz-gdpr" ), $phone_dpo );
+			}
+			$html = str_replace( "[email_dpo]", $contact_dpo, $html );
+
+			$contact_dpo_uk = cmplz_get_value( 'email_dpo_uk' );
+			$phone_dpo_uk   = cmplz_get_value( 'phone_dpo_uk' );
+			if ( strlen( $phone_dpo ) !== 0 ) {
+				$contact_dpo_uk .= " " . sprintf( _x( "or by telephone on %s",
+						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',
+						"complianz-gdpr" ), $phone_dpo_uk );
+			}
+			$html = str_replace( "[email_dpo_uk]", $contact_dpo_uk, $html );
+
+			//replace all fields.
+			foreach ( COMPLIANZ::$config->fields() as $fieldname => $field ) {
+
+				if ( strpos( $html, "[$fieldname]" ) !== false ) {
+
+					$html = str_replace( "[$fieldname]",
+						$this->get_plain_text_value( $fieldname, $post_id ),
+						$html );
+					//when there's a closing shortcode it's always a link
+					$html = str_replace( "[/$fieldname]", "</a>", $html );
+				}
+
+				if ( strpos( $html, "[comma_$fieldname]" ) !== false ) {
+					$html = str_replace( "[comma_$fieldname]",
+						$this->get_plain_text_value( $fieldname, $post_id,
+							false ), $html );
+				}
+			}
+
+			return $html;
+
+		}
+
+		/**
+		 *
+		 * Get the plain text value of an option
+		 *
+		 * @param string $fieldname
+		 * @param int    $post_id
+		 * @param bool   $list_style
+		 *
+		 * @return string
+		 */
+
+
+		private function get_plain_text_value(
+			$fieldname, $post_id, $list_style = true
+		) {
+			$value = cmplz_get_value( $fieldname, $post_id );
+
+			$front_end_label
+				= isset( COMPLIANZ::$config->fields[ $fieldname ]['document_label'] )
+				? COMPLIANZ::$config->fields[ $fieldname ]['document_label']
+				: false;
+
+
+			if ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'url' ) {
+				$value = '<a href="' . $value . '" target="_blank">';
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
+			           == 'email'
+			) {
+				$value = apply_filters( 'cmplz_document_email', $value );
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
+			           == 'radio'
+			) {
+				$options = COMPLIANZ::$config->fields[ $fieldname ]['options'];
+				$value   = isset( $options[ $value ] ) ? $options[ $value ]
+					: '';
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
+			           == 'textarea'
+			) {
+				//preserve linebreaks
+				$value = nl2br( $value );
+			} elseif ( is_array( $value ) ) {
+				$options = COMPLIANZ::$config->fields[ $fieldname ]['options'];
+				//array('3' => 1 );
+				$value = array_filter( $value, function ( $item ) {
+					return $item == 1;
+				} );
+				$value = array_keys( $value );
+				//array (1, 4, 6)
+				$labels = "";
+				foreach ( $value as $index ) {
+					//trying to fix strange issue where index is not set
+					if ( ! isset( $options[ $index ] ) ) {
+						continue;
+					}
+
+					if ( $list_style ) {
+						$labels .= "<li>" . cmplz_esc_html( $options[ $index ] )
+						           . '</li>';
+					} else {
+						$labels .= $options[ $index ] . ', ';
+					}
+				}
+				//if (empty($labels)) $labels = __('None','complianz-gdpr');
+
+				if ( $list_style ) {
+					$labels = "<ul>" . $labels . "</ul>";
+				} else {
+					$labels = cmplz_esc_html( rtrim( $labels, ', ' ) );
+					$labels = strrev( implode( strrev( ' ' . __( 'and',
+							'complianz-gdpr' ) ),
+						explode( strrev( ',' ), strrev( $labels ), 2 ) ) );
+				}
+
+				$value = $labels;
+			} else {
+				if ( isset( COMPLIANZ::$config->fields[ $fieldname ]['options'] ) ) {
+					$options
+						= COMPLIANZ::$config->fields[ $fieldname ]['options'];
+					if ( isset( $options[ $value ] ) ) {
+						$value = $options[ $value ];
+					}
+				}
+			}
+
+			if ( $front_end_label && ! empty( $value ) ) {
+				$value = $front_end_label . $value . "<br>";
+			}
+
+			return $value;
+		}
+
+
+		/**
+		 * Add some text to the privacy policy suggested texts in free.
+		 */
+
+		public function add_privacy_info() {
+			if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
+				return;
+			}
+
+			//only necessary for free, as premium will generate the privacy policy
+			if ( ! defined( 'cmplz_free' ) ) {
+				return;
+			}
+
+			$content = sprintf(
+				__( "Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your privacy policy. The used cookies (all functional) will be automatically added to your cookie policy. You can find our privacy policy %shere%s.",
+					'complianz-gdpr' ),
+				'<a href="https://complianz.io/privacy-statement/" target="_blank">',
+				'</a>'
+			);
+
+			wp_add_privacy_policy_content(
+				'Complianz | GDPR/CCPA Cookie Consent',
+				wp_kses_post( wpautop( $content, false ) )
+			);
+		}
+
+
+		/**
+		 * Get the region for a post id, based on the post type.
+		 *
+		 * @param int $post_id
+		 *
+		 * @return string|bool $region
+		 * */
+
+		public function get_region( $post_id ) {
+
+			if ( ! is_numeric( $post_id ) && isset( $post_id['source'] ) ) {
+				return substr( $post_id['source'], - 2 );
+			}
+
+			if ( $post_id ) {
+				$term = wp_get_post_terms( $post_id, 'cmplz-region' );
+				if ( is_wp_error( $term ) ) {
+					return false;
+				}
+
+				if ( isset( $term[0] ) ) {
+					return $term[0]->slug;
+				}
+
+				return false;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Set the region in a post
+		 *
+		 * @param      $post_id
+		 * @param bool $region
+		 */
+
+		public function set_region( $post_id, $region = false ) {
+			if ( ! $region ) {
+				$region = $this->get_region( $post_id );
+			}
+
+			if ( ! $region ) {
+				$regions = cmplz_get_regions();
+
+				if ( isset( $_GET['page'] ) ) {
+					$page = sanitize_title( $_GET['page'] );
+					foreach ( $regions as $r => $label ) {
+						if ( strpos( $page, '-' . $r ) !== false ) {
+							$region = $r;
+						}
+					}
+				}
+			}
+
+			$term = get_term_by( 'slug', $region, 'cmplz-region' );
+			if ( ! $term ) {
+				wp_insert_term( COMPLIANZ::$config->regions[ $region ]['label'],
+					'cmplz-region', array(
+						'slug' => $region,
+					) );
+				$term = get_term_by( 'slug', $region, 'cmplz-region' );
+			}
+
+			if ( empty( $term ) ) {
+				return;
+			}
+
+			$term_id = $term->term_id;
+
+			wp_set_object_terms( $post_id, array( $term_id ), 'cmplz-region' );
+		}
+
+
+		/**
+		 * Check if legal documents should be updated
+		 *
+		 * @return bool
+		 */
+
+		public function documents_need_updating() {
+			if ( cmplz_has_region( 'us' )
+			     && $this->not_updated_in( MONTH_IN_SECONDS * 12 )
+			) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Check if legal documents should be updated, and send mail to admin if so
+		 */
+
+		public function cron_check_last_updated_status() {
+
+			if ( $this->documents_need_updating()
+			     && ! get_option( 'cmplz_update_legal_documents_mail_sent' )
+			) {
+				update_option( 'cmplz_update_legal_documents_mail_sent', true );
+				$to = get_option( 'admin_email' );
+
+				$headers = array();
+				if ( empty( $subject ) ) {
+					$subject
+						= sprintf( _x( 'Your legal documents on %s need to be updated.',
+						'Subject in notification email', 'complianz-gdpr' ),
+						home_url() );
+				}
+
+				$message
+					= sprintf( _x( 'Your legal documents on %s have not been updated in 12 months. Please log in and run the wizard to check if everything is up to date.',
+					'Email message in notification email', 'complianz-gdpr' ),
+					home_url() );
+
+				add_filter( 'wp_mail_content_type', function ( $content_type ) {
+					return 'text/html';
+				} );
+
+				wp_mail( $to, $subject, $message, $headers );
+
+				// Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+				remove_filter( 'wp_mail_content_type',
+					'set_html_content_type' );
+			}
+		}
+
+
+		public function revoke_link( $atts = array(), $content = null, $tag = ''
+		) {
+
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+			ob_start();
+
+			// override default attributes with user attributes
+			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
+
+			echo cmplz_revoke_link( $atts['text'] );
+
+			return ob_get_clean();
+		}
+
+		/**
+		 * Display an accept hyperlink
+		 *
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return string
+		 */
+
+		public function accept_link( $atts = array(), $content = null, $tag = ''
+		) {
+
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+			ob_start();
+
+			// override default attributes with user attributes
+			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
+
+			$accept_text = $atts['text']
+				? $atts['text']
+				: apply_filters( 'cmplz_accept_cookies_blocked_content',
+					cmplz_get_value( 'blocked_content_text' ) );
+			$html
+			             = '<div class="cmplz-blocked-content-notice cmplz-accept-cookies"><a href="#">'
+			               . $accept_text . '</a></div>';
+			echo $html;
+
+			return ob_get_clean();
+
+		}
+
+		/*
          * This class is extended with pro functions, so init is called also from the pro extension.
          * */
 
-        public function init()
-        {
-            //this shortcode is also available as gutenberg block
-            add_shortcode('cmplz-document', array($this, 'load_document'));
+		public function init() {
+			//this shortcode is also available as gutenberg block
+			add_shortcode( 'cmplz-document', array( $this, 'load_document' ) );
 
-            add_shortcode('cmplz-cookies', array($this, 'cookies'));
+			add_shortcode( 'cmplz-cookies', array( $this, 'cookies' ) );
 
 
-            /*
+			/*
              * @todo add a gutenberg block for the revoke link and DNSMPD form
              *
              * These shortcodes are setup in a disconnected way, so this shortcode is not necessary: it's only used for user customizations
@@ -295,984 +1087,1236 @@ if (!class_exists("cmplz_document")) {
              *
              * */
 
-            add_shortcode('cmplz-revoke-link', array($this, 'revoke_link'));
-            add_shortcode('cmplz-accept-link', array($this, 'accept_link'));
-            add_shortcode('cmplz-do-not-sell-personal-data-form', array($this, 'do_not_sell_personal_data_form'));
-
-            //clear shortcode transients after post update
-            add_action('save_post', array($this, 'clear_shortcode_transients'), 10, 1);
-            add_action('cmplz_wizard_add_pages_to_menu', array($this, 'wizard_add_pages_to_menu'), 10, 1);
-            add_action('admin_init', array($this, 'assign_documents_to_menu'));
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
-
-            add_action('admin_init', array($this, 'add_privacy_info'));
-
-
-            add_filter('cmplz_document_email', array($this, 'obfuscate_email'));
-
-            add_filter( 'body_class', array($this, 'add_body_class_for_complianz_documents') );
-
-            //unlinking documents
-            add_action('add_meta_boxes', array($this, 'add_meta_box'));
-            add_action('save_post', array($this, 'save_metabox_data'));
-
-            add_action('wp', array($this, 'maybe_autoredirect'));
-
-
-
-        }
-
-        public function add_meta_box($post_type)
-        {
-            global $post;
-
-            if (!$post) return;
-
-            if($this->is_complianz_page($post->ID) && !cmplz_uses_gutenberg()) {
-                add_meta_box('cmplz_edit_meta_box', __('Document status', 'complianz-gdpr'), array($this, 'metabox_unlink_from_complianz'), null, 'side', 'high', array());
-            }
-        }
-
-        function metabox_unlink_from_complianz(){
-            if (!current_user_can('manage_options')) return;
-            wp_nonce_field('cmplz_unlink_nonce', 'cmplz_unlink_nonce');
-
-            global $post;
-            $sync = $this->syncStatus($post->ID);
-            ?>
-            <select name="cmplz_document_status">
-                <option value="sync" <?php echo $sync==='sync' ? 'selected="selected"' : ''?>><?php _e("Synchronize document with Complianz", "complianz-gdpr");?></option>
-                <option value="unlink" <?php echo $sync==='unlink' ? 'selected="selected"' : ''?>><?php _e("Edit document and stop synchronization", "complianz-gdpr");?></option>
-            </select>
-            <?php
-
-        }
-
-
-
-        public function syncStatus($post_id){
-            $post = get_post($post_id);
-            $sync = 'unlink';
-
-            if (!$post) return $sync;
-
-            $shortcode = 'cmplz-document';
-            $block = 'complianz/document';
-
-            $html = $post->post_content;
-            if (cmplz_uses_gutenberg() && has_block($block, $html)) {
-                $elements = parse_blocks( $html );
-                foreach($elements as $element){
-                    if ($element['blockName']===$block){
-                        if (isset($element['attrs']['documentSyncStatus']) && $element['attrs']['documentSyncStatus']==='unlink'){
-                            $sync = 'unlink';
-                        } else {
-                            $sync = 'sync';
-                        }
-                    }
-                }
-            } elseif (has_shortcode($post->post_content, $shortcode)) {
-                $sync = get_post_meta($post_id, 'cmplz_document_status', true);
-                if (!$sync) $sync = 'sync';
-            }
-
-            //default
-            return $sync;
-        }
-
-
-        public function save_metabox_data()
-        {
-            if (!current_user_can('manage_options')) return;
-            // check if this isn't an auto save
-            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
-                return;
-
-            // security check
-            if (!isset($_POST['cmplz_unlink_nonce']) || !wp_verify_nonce($_POST['cmplz_unlink_nonce'], 'cmplz_unlink_nonce'))
-                return;
-
-            if (!isset($_POST['cmplz_document_status'])) return;
-
-            global $post;
-
-            if (!$post) return;
-            //prevent looping
-            remove_action( 'save_post', array( $this, 'save_metabox_data' ) );
-
-            $sync = sanitize_text_field($_POST['cmplz_document_status'])=='unlink' ? 'unlink' : 'sync';
-
-            //save the document's shortcode in a meta field
-
-            if ($sync==='unlink') {
-                //get shortcode from page
-                $shortcode = false;
-
-                if (preg_match($this->get_shortcode_pattern("gutenberg"), $post->post_content, $matches)) {
-                    $shortcode  = $matches[0];
-                    $type  = $matches[1];
-                    $region = cmplz_get_region_from_legacy_type($type);
-                    $type = str_replace('-'.$region,'',$type);
-                } elseif (preg_match($this->get_shortcode_pattern("classic"), $post->post_content, $matches)) {
-                    $shortcode  = $matches[0];
-                    $type  = $matches[1];
-                    $region  = $matches[2];
-                } elseif (preg_match($this->get_shortcode_pattern("classic", $legacy=true), $post->post_content, $matches)) {
-	                $shortcode  = $matches[0];
-	                $type  = $matches[1];
-	                $region = cmplz_get_region_from_legacy_type($type);
-	                $type = str_replace('-'.$region,'',$type);
-                }
-
-                if ($shortcode) {
-                    //store shortcode
-                    update_post_meta($post->ID, 'cmplz_shortcode', $post->post_content);
-                    $document_html = COMPLIANZ::$document->get_document_html($type, $region);
-                    $args = array(
-                        'post_content' => $document_html,
-                        'ID' => $post->ID,
-                    );
-                    wp_update_post($args);
-                }
-            } else {
-                $shortcode = get_post_meta($post->ID,'cmplz_shortcode', true);
-                if ($shortcode) {
-                    $args = array(
-                        'post_content' => $shortcode,
-                        'ID' => $post->ID,
-                    );
-                    wp_update_post($args);
-                }
-                delete_post_meta($post->ID,'cmplz_shortcode');
-            }
-            update_post_meta($post->ID, 'cmplz_document_status', $sync);
-
-            add_action( 'save_post', array( $this, 'save_metabox_data' ) );
-
-
-
-        }
-        /**
-         * add a class to the body telling the page it's a complianz doc. We use this for the soft cookie wall
-         * @param $classes
-         * @return array
-         */
-        public function add_body_class_for_complianz_documents($classes){
-            global $post;
-            if ($post && $this->is_complianz_page($post->ID)) {
-                $classes[] = 'cmplz-document';
-            }
-            return $classes;
-        }
-
-        /**
-         * obfuscate the email address
-         * @param $email
-         * @return string
-         */
-
-        public function obfuscate_email($email)
-        {
-            $alwaysEncode = array('.', ':', '@');
-
-            $result = '';
-
-            // Encode string using oct and hex character codes
-            for ($i = 0; $i < strlen($email); $i++) {
-                // Encode 25% of characters including several that always should be encoded
-                if (in_array($email[$i], $alwaysEncode) || mt_rand(1, 100) < 25) {
-                    if (mt_rand(0, 1)) {
-                        $result .= '&#' . ord($email[$i]) . ';';
-                    } else {
-                        $result .= '&#x' . dechex(ord($email[$i])) . ';';
-                    }
-                } else {
-                    $result .= $email[$i];
-                }
-            }
-            return $result;
-        }
-
-
-        /**
-         * Render shortcode for DNSMPI form
-         *
-         * @hooked shortcode hook
-         * @param array $atts
-         * @param null $content
-         * @param string $tag
-         * @return false|string
-         * @since 2.0
-         */
-
-        public function do_not_sell_personal_data_form($atts = [], $content = null, $tag = '')
-        {
-
-            // normalize attribute keys, lowercase
-            $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-            ob_start();
-
-            // override default attributes with user attributes
-            $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-            echo cmplz_do_not_sell_personal_data_form();
-
-            return ob_get_clean();
-
-        }
-
-
-
-	    /**
-	     * Render shortcode for cookie list
-	     *
-	     * @hooked shortcode hook
-	     * @param array $atts
-	     * @param null $content
-	     * @param string $tag
-	     * @return false|string
-	     * @since 2.0
-	     */
-
-	    public function cookies($atts = [], $content = null, $tag = '')
-	    {
-
-		    // normalize attribute keys, lowercase
-		    $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-		    ob_start();
-
-		    // override default attributes with user attributes
-		    $atts = shortcode_atts(['text' => false,], $atts, $tag);
-
-		    echo cmplz_used_cookies();
-
-		    return ob_get_clean();
-
-	    }
-
-        /**
-         *
-         * Show form to enable user to add pages to a menu
-         *
-         * @hooked field callback wizard_add_pages_to_menu
-         * @since 1.0
-         *
-         */
-
-        public function wizard_add_pages_to_menu()
-        {
-
-            //this function is used as of 4.9.0
-            if (!function_exists('wp_get_nav_menu_name')) {
-                cmplz_notice(__('Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.', 'complianz-gdpr'),'warning');
-                return;
-            }
-
-            //get list of menus
-
-            $menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id');
-
-            $link = '<a href="' . admin_url('nav-menus.php') . '">';
-            if (empty($menus)) {
-                cmplz_notice(sprintf(__("No menus were found. Skip this step, or %screate a menu%s first."), $link, '</a>'));
-                return;
-            }
-
-            $pages_not_in_menu = $this->pages_not_in_menu();
-            if ($pages_not_in_menu) {
-                if (COMPLIANZ::$company->sells_personal_data()){
-                    cmplz_notice(sprintf(__('You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.', 'complianz-gdpr'), cmplz_us_cookie_statement_title()));
-                }
-
-                $docs = array_map('get_the_title', $pages_not_in_menu);
-                $docs = implode(", ", $docs);
-                cmplz_notice(sprintf(esc_html(_n('The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
-                    'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.', count($pages_not_in_menu), 'complianz-gdpr')), $docs), 'warning');
-            } else {
-                cmplz_notice(__("Great! All your generated documents have been assigned to a menu, so you can skip this step.", 'complianz-gdpr'), 'warning');
-            }
-
-            $regions = cmplz_get_regions(true);
-
-            echo '<table>';
-            foreach($regions as $region => $label) {
-	            $pages = $this->get_created_pages($region);
-	            if (count($pages)>0){
-	                ?>
-	                <tr><td><h3><?php echo $label?></h3></td></tr>
-	                <?php
-
-		            foreach ( $pages as $page_id ) {
-			            echo "<tr><td>";
-			            echo get_the_title( $page_id );
-			            echo "</td><td>";
-			            ?>
-
-			            <select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
-				            <option value=""><?php _e( "Select a menu",
-						            'complianz-gdpr' ); ?></option>
-				            <?php foreach ( $menus as $menu_id => $menu ) {
-					            $selected
-						            = ( $this->is_assigned_this_menu( $page_id,
-						            $menu_id ) ) ? "selected" : "";
-					            echo '<option ' . $selected . ' value="' . $menu_id
-					                 . '">' . $menu . '</option>';
-				            } ?>
-
-			            </select>
-			            <?php
-			            echo "</td></tr>";
-		            }
-	            }
-            }
-            echo "</table>";
-
-        }
-
-        /**
-         * Handle the submit of a form which assigns documents to a menu
-         *
-         * @hooked admin_init
-         *
-         */
-
-        public function assign_documents_to_menu()
-        {
-            if (!current_user_can('manage_options')) return;
-
-            if (isset($_POST['cmplz_assigned_menu'])) {
-                foreach ($_POST['cmplz_assigned_menu'] as $page_id => $menu_id) {
-                    if (empty($menu_id)) continue;
-                    if ($this->is_assigned_this_menu($page_id, $menu_id)) continue;
-
-                    $page = get_post($page_id);
-
-                    wp_update_nav_menu_item($menu_id, 0, array(
-                        'menu-item-title' => get_the_title($page),
-                        'menu-item-object-id' => $page->ID,
-                        'menu-item-object' => get_post_type($page),
-                        'menu-item-status' => 'publish',
-                        'menu-item-type' => 'post_type',
-                    ));
-                }
-            }
-        }
-
-
-        /**
-         * Get all pages that are not assigned to any menu
-         * @return array|bool
-         * @since 1.2
-         *
-         * */
-
-        public function pages_not_in_menu()
-        {
-            //search in menus for the current post
-            $menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id');
-            $pages = $this->get_created_pages();
-            $pages_in_menu = array();
-
-            foreach ($menus as $menu_id => $title) {
-
-                $menu_items = wp_get_nav_menu_items($menu_id);
-                foreach ($menu_items as $post) {
-                    if (in_array($post->object_id, $pages)) {
-                        $pages_in_menu[] = $post->object_id;
-                    }
-                }
-
-            }
-            $pages_not_in_menu = array_diff($pages, $pages_in_menu);
-            if (count($pages_not_in_menu) == 0) return false;
-
-            return $pages_not_in_menu;
-        }
-
-
-        /**
-         *
-         * Check if a page is assigned to a menu
-         * @since 1.2
-         * @param int $page_id
-         * @param int $menu_id
-         * @return bool
-         *
-         */
-
-        public function is_assigned_this_menu($page_id, $menu_id)
-        {
-            $menu_items = wp_list_pluck(wp_get_nav_menu_items($menu_id),'object_id');
-            return (in_array($page_id, $menu_items));
-
-        }
-
-        /**
-         * Create a page of certain type in wordpress
-         * @since 1.0
-         * @param string $type
-         * @param string $region
-         * @return int|bool page_id
-         */
-
-        public function create_page($type, $region)
-        {
-            if (!current_user_can('manage_options')) return false;
-            $pages = COMPLIANZ::$config->pages;
-
-            if (!isset($pages[$region][$type])) return false;
-
-            //only insert if there is no shortcode page of this type yet.
-            $page_id = $this->get_shortcode_page_id($type, $region);
-            if (!$page_id) {
-
-                $page = $pages[$region][$type];
-
-
-                $page = array(
-                    'post_title' => $page['title'],
-                    'post_type' => "page",
-                    'post_content' => $this->get_shortcode($type, $region),
-                    'post_status' => 'publish',
-                );
-
-                // Insert the post into the database
-                $page_id = wp_insert_post($page);
-            }
-
-            do_action('cmplz_create_page', $page_id, $type, $region);
-
-            return $page_id;
-
-        }
-
-        /**
-         * Delete a page of a type
-         * @param string $type
-         * @param string $region
-         *
-         */
-
-        public function delete_page($type, $region)
-        {
-            if (!current_user_can('manage_options')) return;
-
-            $page_id = $this->get_shortcode_page_id($type, $region);
-            if ($page_id) {
-                wp_delete_post($page_id, false);
-            }
-        }
-
-
-        /**
-         *
-         * Check if page of certain type exists
-         * @param string $type
-         * @param string $region
-         * @return bool
-         *
-         */
-
-        public function page_exists($type, $region)
-        {
-            if ($this->get_shortcode_page_id($type, $region)) return true;
-
-            return false;
-        }
-
-        /**
-         * get the shortcode or block for a page type
-         *
-         * @param string $type
-         * @param string $region
-         * @param bool $force_classic
-         * @return string $shortcode
-         *
-         */
-
-        public function get_shortcode($type, $region, $force_classic=false)
-        {
-            //even if on gutenberg, with elementor we have to use classic shortcodes.
-            if (!$force_classic && cmplz_uses_gutenberg() && !$this->uses_elementor()){
-                $page = COMPLIANZ::$config->pages[$region][$type];
-                $ext = $region=='eu' ? '' : '-'.$region;
-                return '<!-- wp:complianz/document {"title":"'.$page['title'].'","selectedDocument":"'.$type.$ext.'"} /-->';
-            } else {
-                return '[cmplz-document type="' . $type . '" region="'.$region.'"]';
-            }
-        }
-
-
-        public function get_shortcode_pattern($type="classic", $legacy=false)
-        {
-            if ($type==='classic' && $legacy){
-                return '/\[cmplz\-document.*?type="(.*?)".*?]/i';
-            } if ($type==='classic' && !$legacy){
-                return '/\[cmplz\-document.*?type="(.*?)".*?region="(.*?)".*?]/i';
-            }else {
-                return '/<!-- wp:complianz\/document {.*?"selectedDocument":"(.*?)"} \/-->/i';
-            }
-        }
-
-        /**
-         * Check if this site uses Elementor
-         * When Elementor is used, the classic shortcode should be used, even when on Gutenberg
-         *
-         * @return bool $uses_elementor
-         */
-
-        public function uses_elementor(){
-            if (defined('ELEMENTOR_VERSION')) return true;
-
-            return false;
-        }
-
-
-        /**
-         *
-         * Get type of document
-         * @param int $post_id
-         * @return bool
-         *
-         *
-         */
-
-        public function get_document_type($post_id){
-
-            $pattern = '/cmplz-document type="(.*?)"/i';
-            $post = get_post($post_id);
-
-            $content = $post->post_content;
-            if (preg_match_all($pattern, $content, $matches, PREG_PATTERN_ORDER)) {
-                if (isset($matches[1][0])) return $matches[1][0];
-            }
-
-            return false;
-        }
-
-        /**
-         * Get list of all created pages with page id for current setup
-         *
-         * @return array $pages
-         *
-         *
-         */
-
-        public function get_created_pages($filter_region=false)
-        {
-            $required_pages = COMPLIANZ::$document->get_required_pages();
-            $pages = array();
-            if ($filter_region){
-            	if (isset($required_pages[$filter_region])){
-		            foreach ( $required_pages[$filter_region] as $type => $page ) {
-			            $pages[] = $this->get_shortcode_page_id( $type, $filter_region );
-		            }
-	            }
-
-            } else {
-	            $regions = cmplz_get_regions();
-	            foreach($regions as $region => $label) {
-		            foreach ( $required_pages[$region] as $type => $page ) {
-			            $pages[] = $this->get_shortcode_page_id( $type, $region );
-		            }
-	            }
-            }
-            return $pages;
-        }
-
-
-
-        /**
-         * Get list of all required pages for current setup
-         *
-         * @return array $pages
-         *
-         *
-         */
-
-        public function get_required_pages()
-        {
-	        $regions = cmplz_get_regions($add_all_cat = true);
-	        $required = array();
-
-	        foreach($regions as $region => $label) {
-	        	if (!isset(COMPLIANZ::$config->pages[$region])) continue;
-
-	        	$pages = COMPLIANZ::$config->pages[$region];
-
-		        foreach ($pages as $type => $page) {
-			        if (!$page['public']) continue;
-			        if ($this->page_required($page, $region)) {
-				        $required[$region][$type] = $page;
-			        }
-		        }
-	        }
-
-
-            return $required;
-        }
-
-
-        /**
-         * Lightens/darkens a given colour (hex format), returning the altered colour in hex format.7
-         * @param string $hex Colour as hexadecimal (with or without hash);
-         * @percent float $percent Decimal ( 0.2 = lighten by 20%(), -0.4 = darken by 40%() )
-         * @return string Lightened/Darkend colour as hexadecimal (with hash);
-         */
-
-        function color_luminance( $hex, $percent ) {
-            if (empty($hex)) return $hex;
-            // validate hex string
-            $hex = preg_replace( '/[^0-9a-f]/i', '', $hex );
-            $new_hex = '#';
-
-            if ( strlen( $hex ) < 6 ) {
-                $hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2] + $hex[2];
-            }
-
-            // convert to decimal and change luminosity
-            for ($i = 0; $i < 3; $i++) {
-                $dec = hexdec( substr( $hex, $i*2, 2 ) );
-                $dec = min( max( 0, $dec + $dec * $percent ), 255 );
-                $new_hex .= str_pad( dechex( $dec ) , 2, 0, STR_PAD_LEFT );
-            }
-
-            return $new_hex;
-        }
-
-
-        /**
-         * loads document content on shortcode call
-         *
-         * @param array $atts
-         * @param null $content
-         * @param string $tag
-         * @return string $html
-         *
-         *
-         */
-
-        public function load_document($atts = [], $content = null, $tag = '')
-        {
-            // normalize attribute keys, lowercase
-            $atts = array_change_key_case((array)$atts, CASE_LOWER);
-
-
-
-            ob_start();
-
-            // override default attributes with user attributes
-            $atts = shortcode_atts(['type' => false,'region'=>false], $atts, $tag);
-            $type = sanitize_title($atts['type']);
-            $region = sanitize_title($atts['region']);
-
-            if ($type) {
-                $html = $this->get_document_html($type, $region);
-                $allowed_html = cmplz_allowed_html();
-                echo wp_kses($html, $allowed_html);
-            }
-
-            return ob_get_clean();
-        }
-
-        private function use_cache($type)
-        {
-
-            //do not cache on multilanguage environments
-            if (function_exists('pll__') || function_exists('icl_translate')) {
-                return false;
-            }
-
-            if (defined('WP_DEBUG') && WP_DEBUG) return false;
-
-            //do not cache for these types
-            if (($type === 'processing') || ($type === 'dataleak')) return false;
-
-            return true;
-
-        }
-
-
-        /**
-         * checks if the current page contains the shortcode.
-         * @param int|bool $post_id
-         * @return boolean
-         * @since 1.0
-         */
-
-        public function is_complianz_page($post_id = false)
-        {
-            $post_meta = get_post_meta($post_id, 'cmplz_shortcode',false);
-            if ($post_meta) return true;
-
-            $shortcode = 'cmplz-document';
-            $block = 'complianz/document';
-
-            if ($post_id){
-                $post = get_post($post_id);
-            } else {
-                global $post;
-            }
-
-            if ($post) {
-                if (cmplz_uses_gutenberg() && has_block($block, $post)) return true;
-                if (has_shortcode($post->post_content, $shortcode)) return true;
-            }
-            return false;
-        }
-
-        /**
-         * gets the  page that contains the shortcode or the gutenberg block
-         * @param string $type
-         * @param string $region
-         * @return int $page_id
-         * @since 1.0
-         */
-
-        public function get_shortcode_page_id($type, $region)
-        {
-            $shortcode = 'cmplz-document';
-            $block = 'complianz/document';
-            $page_id = get_transient('cmplz_shortcode_' . $type.'-'.$region);
-            if (!$page_id) {
-                $pages = get_pages();
-                foreach ($pages as $page) {
-                    $post_meta = get_post_meta($page->ID, 'cmplz_shortcode',true);
-                    if ($post_meta) {
-                        $html = $post_meta;
-                    } else {
-                        $html = $page->post_content;
-                    }
-
-	                $type_region = ($region=='eu') ? $type : $type.'-'.$region;
-
-                    /*
+			add_shortcode( 'cmplz-revoke-link', array( $this, 'revoke_link' ) );
+			add_shortcode( 'cmplz-accept-link', array( $this, 'accept_link' ) );
+			add_shortcode( 'cmplz-do-not-sell-personal-data-form',
+				array( $this, 'do_not_sell_personal_data_form' ) );
+
+			//clear shortcode transients after post update
+			add_action( 'save_post',
+				array( $this, 'clear_shortcode_transients' ), 10, 1 );
+			add_action( 'cmplz_wizard_add_pages_to_menu',
+				array( $this, 'wizard_add_pages_to_menu' ), 10, 1 );
+			add_action( 'admin_init',
+				array( $this, 'assign_documents_to_menu' ) );
+			add_action( 'wp_enqueue_scripts',
+				array( $this, 'enqueue_assets' ) );
+
+			add_action( 'admin_init', array( $this, 'add_privacy_info' ) );
+
+
+			add_filter( 'cmplz_document_email',
+				array( $this, 'obfuscate_email' ) );
+
+			add_filter( 'body_class',
+				array( $this, 'add_body_class_for_complianz_documents' ) );
+
+			//unlinking documents
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+			add_action( 'save_post', array( $this, 'save_metabox_data' ) );
+
+			add_action( 'wp', array( $this, 'maybe_autoredirect' ) );
+
+
+		}
+
+		public function add_meta_box( $post_type ) {
+			global $post;
+
+			if ( ! $post ) {
+				return;
+			}
+
+			if ( $this->is_complianz_page( $post->ID )
+			     && ! cmplz_uses_gutenberg()
+			) {
+				add_meta_box( 'cmplz_edit_meta_box',
+					__( 'Document status', 'complianz-gdpr' ),
+					array( $this, 'metabox_unlink_from_complianz' ), null,
+					'side', 'high', array() );
+			}
+		}
+
+		function metabox_unlink_from_complianz() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+			wp_nonce_field( 'cmplz_unlink_nonce', 'cmplz_unlink_nonce' );
+
+			global $post;
+			$sync = $this->syncStatus( $post->ID );
+			?>
+			<select name="cmplz_document_status">
+				<option value="sync" <?php echo $sync === 'sync'
+					? 'selected="selected"'
+					: '' ?>><?php _e( "Synchronize document with Complianz",
+						"complianz-gdpr" ); ?></option>
+				<option value="unlink" <?php echo $sync === 'unlink'
+					? 'selected="selected"'
+					: '' ?>><?php _e( "Edit document and stop synchronization",
+						"complianz-gdpr" ); ?></option>
+			</select>
+			<?php
+
+		}
+
+
+		public function syncStatus( $post_id ) {
+			$post = get_post( $post_id );
+			$sync = 'unlink';
+
+			if ( ! $post ) {
+				return $sync;
+			}
+
+			$shortcode = 'cmplz-document';
+			$block     = 'complianz/document';
+
+			$html = $post->post_content;
+			if ( cmplz_uses_gutenberg() && has_block( $block, $html ) ) {
+				$elements = parse_blocks( $html );
+				foreach ( $elements as $element ) {
+					if ( $element['blockName'] === $block ) {
+						if ( isset( $element['attrs']['documentSyncStatus'] )
+						     && $element['attrs']['documentSyncStatus']
+						        === 'unlink'
+						) {
+							$sync = 'unlink';
+						} else {
+							$sync = 'sync';
+						}
+					}
+				}
+			} elseif ( has_shortcode( $post->post_content, $shortcode ) ) {
+				$sync = get_post_meta( $post_id, 'cmplz_document_status',
+					true );
+				if ( ! $sync ) {
+					$sync = 'sync';
+				}
+			}
+
+			//default
+			return $sync;
+		}
+
+
+		public function save_metabox_data() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+			// check if this isn't an auto save
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return;
+			}
+
+			// security check
+			if ( ! isset( $_POST['cmplz_unlink_nonce'] )
+			     || ! wp_verify_nonce( $_POST['cmplz_unlink_nonce'],
+					'cmplz_unlink_nonce' )
+			) {
+				return;
+			}
+
+			if ( ! isset( $_POST['cmplz_document_status'] ) ) {
+				return;
+			}
+
+			global $post;
+
+			if ( ! $post ) {
+				return;
+			}
+			//prevent looping
+			remove_action( 'save_post', array( $this, 'save_metabox_data' ) );
+
+			$sync = sanitize_text_field( $_POST['cmplz_document_status'] )
+			        == 'unlink' ? 'unlink' : 'sync';
+
+			//save the document's shortcode in a meta field
+
+			if ( $sync === 'unlink' ) {
+				//get shortcode from page
+				$shortcode = false;
+
+				if ( preg_match( $this->get_shortcode_pattern( "gutenberg" ),
+					$post->post_content, $matches )
+				) {
+					$shortcode = $matches[0];
+					$type      = $matches[1];
+					$region    = cmplz_get_region_from_legacy_type( $type );
+					$type      = str_replace( '-' . $region, '', $type );
+				} elseif ( preg_match( $this->get_shortcode_pattern( "classic" ),
+					$post->post_content, $matches )
+				) {
+					$shortcode = $matches[0];
+					$type      = $matches[1];
+					$region    = $matches[2];
+				} elseif ( preg_match( $this->get_shortcode_pattern( "classic",
+					$legacy = true ), $post->post_content, $matches )
+				) {
+					$shortcode = $matches[0];
+					$type      = $matches[1];
+					$region    = cmplz_get_region_from_legacy_type( $type );
+					$type      = str_replace( '-' . $region, '', $type );
+				}
+
+				if ( $shortcode ) {
+					//store shortcode
+					update_post_meta( $post->ID, 'cmplz_shortcode',
+						$post->post_content );
+					$document_html
+						  = COMPLIANZ::$document->get_document_html( $type,
+						$region );
+					$args = array(
+						'post_content' => $document_html,
+						'ID'           => $post->ID,
+					);
+					wp_update_post( $args );
+				}
+			} else {
+				$shortcode = get_post_meta( $post->ID, 'cmplz_shortcode',
+					true );
+				if ( $shortcode ) {
+					$args = array(
+						'post_content' => $shortcode,
+						'ID'           => $post->ID,
+					);
+					wp_update_post( $args );
+				}
+				delete_post_meta( $post->ID, 'cmplz_shortcode' );
+			}
+			update_post_meta( $post->ID, 'cmplz_document_status', $sync );
+
+			add_action( 'save_post', array( $this, 'save_metabox_data' ) );
+
+
+		}
+
+		/**
+		 * add a class to the body telling the page it's a complianz doc. We use this for the soft cookie wall
+		 *
+		 * @param $classes
+		 *
+		 * @return array
+		 */
+		public function add_body_class_for_complianz_documents( $classes ) {
+			global $post;
+			if ( $post && $this->is_complianz_page( $post->ID ) ) {
+				$classes[] = 'cmplz-document';
+			}
+
+			return $classes;
+		}
+
+		/**
+		 * obfuscate the email address
+		 *
+		 * @param $email
+		 *
+		 * @return string
+		 */
+
+		public function obfuscate_email( $email ) {
+			$alwaysEncode = array( '.', ':', '@' );
+
+			$result = '';
+
+			// Encode string using oct and hex character codes
+			for ( $i = 0; $i < strlen( $email ); $i ++ ) {
+				// Encode 25% of characters including several that always should be encoded
+				if ( in_array( $email[ $i ], $alwaysEncode )
+				     || mt_rand( 1, 100 ) < 25
+				) {
+					if ( mt_rand( 0, 1 ) ) {
+						$result .= '&#' . ord( $email[ $i ] ) . ';';
+					} else {
+						$result .= '&#x' . dechex( ord( $email[ $i ] ) ) . ';';
+					}
+				} else {
+					$result .= $email[ $i ];
+				}
+			}
+
+			return $result;
+		}
+
+
+		/**
+		 * Render shortcode for DNSMPI form
+		 *
+		 * @hooked shortcode hook
+		 *
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return false|string
+		 * @since  2.0
+		 */
+
+		public function do_not_sell_personal_data_form(
+			$atts = array(), $content = null, $tag = ''
+		) {
+
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+			ob_start();
+
+			// override default attributes with user attributes
+			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
+
+			echo cmplz_do_not_sell_personal_data_form();
+
+			return ob_get_clean();
+
+		}
+
+
+		/**
+		 * Render shortcode for cookie list
+		 *
+		 * @hooked shortcode hook
+		 *
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return false|string
+		 * @since  2.0
+		 */
+
+		public function cookies( $atts = array(), $content = null, $tag = '' ) {
+
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+			ob_start();
+
+			// override default attributes with user attributes
+			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
+
+			echo cmplz_used_cookies();
+
+			return ob_get_clean();
+
+		}
+
+		/**
+		 *
+		 * Show form to enable user to add pages to a menu
+		 *
+		 * @hooked field callback wizard_add_pages_to_menu
+		 * @since  1.0
+		 *
+		 */
+
+		public function wizard_add_pages_to_menu() {
+
+			//this function is used as of 4.9.0
+			if ( ! function_exists( 'wp_get_nav_menu_name' ) ) {
+				cmplz_notice( __( 'Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.',
+					'complianz-gdpr' ), 'warning' );
+
+				return;
+			}
+
+			//get list of menus
+
+			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
+
+			$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
+			if ( empty( $menus ) ) {
+				cmplz_notice( sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ),
+					$link, '</a>' ) );
+
+				return;
+			}
+
+			$pages_not_in_menu = $this->pages_not_in_menu();
+			if ( $pages_not_in_menu ) {
+				if ( COMPLIANZ::$company->sells_personal_data() ) {
+					cmplz_notice( sprintf( __( 'You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.',
+						'complianz-gdpr' ),
+						cmplz_us_cookie_statement_title() ) );
+				}
+
+				$docs = array_map( 'get_the_title', $pages_not_in_menu );
+				$docs = implode( ", ", $docs );
+				cmplz_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+					'The generated documents %s have not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+					count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
+					'warning' );
+			} else {
+				cmplz_notice( __( "Great! All your generated documents have been assigned to a menu, so you can skip this step.",
+					'complianz-gdpr' ), 'warning' );
+			}
+
+			$regions = cmplz_get_regions( true );
+
+			echo '<table>';
+			foreach ( $regions as $region => $label ) {
+				$pages = $this->get_created_pages( $region );
+				if ( count( $pages ) > 0 ) {
+					?>
+					<tr>
+						<td><h3><?php echo $label ?></h3></td>
+					</tr>
+					<?php
+
+					foreach ( $pages as $page_id ) {
+						echo "<tr><td>";
+						echo get_the_title( $page_id );
+						echo "</td><td>";
+						?>
+
+						<select
+							name="cmplz_assigned_menu[<?php echo $page_id ?>]">
+							<option value=""><?php _e( "Select a menu",
+									'complianz-gdpr' ); ?></option>
+							<?php foreach ( $menus as $menu_id => $menu ) {
+								$selected
+									= ( $this->is_assigned_this_menu( $page_id,
+									$menu_id ) ) ? "selected" : "";
+								echo '<option ' . $selected . ' value="'
+								     . $menu_id
+								     . '">' . $menu . '</option>';
+							} ?>
+
+						</select>
+						<?php
+						echo "</td></tr>";
+					}
+				}
+			}
+			echo "</table>";
+
+		}
+
+		/**
+		 * Handle the submit of a form which assigns documents to a menu
+		 *
+		 * @hooked admin_init
+		 *
+		 */
+
+		public function assign_documents_to_menu() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			if ( isset( $_POST['cmplz_assigned_menu'] ) ) {
+				foreach (
+					$_POST['cmplz_assigned_menu'] as $page_id => $menu_id
+				) {
+					if ( empty( $menu_id ) ) {
+						continue;
+					}
+					if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
+						continue;
+					}
+
+					$page = get_post( $page_id );
+
+					wp_update_nav_menu_item( $menu_id, 0, array(
+						'menu-item-title'     => get_the_title( $page ),
+						'menu-item-object-id' => $page->ID,
+						'menu-item-object'    => get_post_type( $page ),
+						'menu-item-status'    => 'publish',
+						'menu-item-type'      => 'post_type',
+					) );
+				}
+			}
+		}
+
+
+		/**
+		 * Get all pages that are not assigned to any menu
+		 *
+		 * @return array|bool
+		 * @since 1.2
+		 *
+		 * */
+
+		public function pages_not_in_menu() {
+			//search in menus for the current post
+			$menus         = wp_list_pluck( wp_get_nav_menus(), 'name',
+				'term_id' );
+			$pages         = $this->get_created_pages();
+			$pages_in_menu = array();
+
+			foreach ( $menus as $menu_id => $title ) {
+
+				$menu_items = wp_get_nav_menu_items( $menu_id );
+				foreach ( $menu_items as $post ) {
+					if ( in_array( $post->object_id, $pages ) ) {
+						$pages_in_menu[] = $post->object_id;
+					}
+				}
+
+			}
+			$pages_not_in_menu = array_diff( $pages, $pages_in_menu );
+			if ( count( $pages_not_in_menu ) == 0 ) {
+				return false;
+			}
+
+			return $pages_not_in_menu;
+		}
+
+
+		/**
+		 *
+		 * Check if a page is assigned to a menu
+		 *
+		 * @param int $page_id
+		 * @param int $menu_id
+		 *
+		 * @return bool
+		 *
+		 * @since 1.2
+		 */
+
+		public function is_assigned_this_menu( $page_id, $menu_id ) {
+			$menu_items = wp_list_pluck( wp_get_nav_menu_items( $menu_id ),
+				'object_id' );
+
+			return ( in_array( $page_id, $menu_items ) );
+
+		}
+
+		/**
+		 * Create a page of certain type in wordpress
+		 *
+		 * @param string $type
+		 * @param string $region
+		 *
+		 * @return int|bool page_id
+		 * @since 1.0
+		 */
+
+		public function create_page( $type, $region ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return false;
+			}
+			$pages = COMPLIANZ::$config->pages;
+
+			if ( ! isset( $pages[ $region ][ $type ] ) ) {
+				return false;
+			}
+
+			//only insert if there is no shortcode page of this type yet.
+			$page_id = $this->get_shortcode_page_id( $type, $region );
+			if ( ! $page_id ) {
+
+				$page = $pages[ $region ][ $type ];
+
+
+				$page = array(
+					'post_title'   => $page['title'],
+					'post_type'    => "page",
+					'post_content' => $this->get_shortcode( $type, $region ),
+					'post_status'  => 'publish',
+				);
+
+				// Insert the post into the database
+				$page_id = wp_insert_post( $page );
+			}
+
+			do_action( 'cmplz_create_page', $page_id, $type, $region );
+
+			return $page_id;
+
+		}
+
+		/**
+		 * Delete a page of a type
+		 *
+		 * @param string $type
+		 * @param string $region
+		 *
+		 */
+
+		public function delete_page( $type, $region ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			$page_id = $this->get_shortcode_page_id( $type, $region );
+			if ( $page_id ) {
+				wp_delete_post( $page_id, false );
+			}
+		}
+
+
+		/**
+		 *
+		 * Check if page of certain type exists
+		 *
+		 * @param string $type
+		 * @param string $region
+		 *
+		 * @return bool
+		 *
+		 */
+
+		public function page_exists( $type, $region ) {
+			if ( $this->get_shortcode_page_id( $type, $region ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * get the shortcode or block for a page type
+		 *
+		 * @param string $type
+		 * @param string $region
+		 * @param bool   $force_classic
+		 *
+		 * @return string $shortcode
+		 *
+		 */
+
+		public function get_shortcode( $type, $region, $force_classic = false
+		) {
+			//even if on gutenberg, with elementor we have to use classic shortcodes.
+			if ( ! $force_classic && cmplz_uses_gutenberg()
+			     && ! $this->uses_elementor()
+			) {
+				$page = COMPLIANZ::$config->pages[ $region ][ $type ];
+				$ext  = $region == 'eu' ? '' : '-' . $region;
+
+				return '<!-- wp:complianz/document {"title":"' . $page['title']
+				       . '","selectedDocument":"' . $type . $ext . '"} /-->';
+			} else {
+				return '[cmplz-document type="' . $type . '" region="' . $region
+				       . '"]';
+			}
+		}
+
+
+		public function get_shortcode_pattern(
+			$type = "classic", $legacy = false
+		) {
+			if ( $type === 'classic' && $legacy ) {
+				return '/\[cmplz\-document.*?type="(.*?)".*?]/i';
+			}
+			if ( $type === 'classic' && ! $legacy ) {
+				return '/\[cmplz\-document.*?type="(.*?)".*?region="(.*?)".*?]/i';
+			} else {
+				return '/<!-- wp:complianz\/document {.*?"selectedDocument":"(.*?)"} \/-->/i';
+			}
+		}
+
+		/**
+		 * Check if this site uses Elementor
+		 * When Elementor is used, the classic shortcode should be used, even when on Gutenberg
+		 *
+		 * @return bool $uses_elementor
+		 */
+
+		public function uses_elementor() {
+			if ( defined( 'ELEMENTOR_VERSION' ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+
+		/**
+		 *
+		 * Get type of document
+		 *
+		 * @param int $post_id
+		 *
+		 * @return bool
+		 *
+		 *
+		 */
+
+		public function get_document_type( $post_id ) {
+
+			$pattern = '/cmplz-document type="(.*?)"/i';
+			$post    = get_post( $post_id );
+
+			$content = $post->post_content;
+			if ( preg_match_all( $pattern, $content, $matches,
+				PREG_PATTERN_ORDER )
+			) {
+				if ( isset( $matches[1][0] ) ) {
+					return $matches[1][0];
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * Get list of all created pages with page id for current setup
+		 *
+		 * @return array $pages
+		 *
+		 *
+		 */
+
+		public function get_created_pages( $filter_region = false ) {
+			$required_pages = COMPLIANZ::$document->get_required_pages();
+			$pages          = array();
+			if ( $filter_region ) {
+				if ( isset( $required_pages[ $filter_region ] ) ) {
+					foreach (
+						$required_pages[ $filter_region ] as $type => $page
+					) {
+						$pages[] = $this->get_shortcode_page_id( $type,
+							$filter_region );
+					}
+				}
+
+			} else {
+				$regions = cmplz_get_regions();
+				foreach ( $regions as $region => $label ) {
+					foreach ( $required_pages[ $region ] as $type => $page ) {
+						$pages[] = $this->get_shortcode_page_id( $type,
+							$region );
+					}
+				}
+			}
+
+			return $pages;
+		}
+
+
+		/**
+		 * Get list of all required pages for current setup
+		 *
+		 * @return array $pages
+		 *
+		 *
+		 */
+
+		public function get_required_pages() {
+			$regions  = cmplz_get_regions( $add_all_cat = true );
+			$required = array();
+
+			foreach ( $regions as $region => $label ) {
+				if ( ! isset( COMPLIANZ::$config->pages[ $region ] ) ) {
+					continue;
+				}
+
+				$pages = COMPLIANZ::$config->pages[ $region ];
+
+				foreach ( $pages as $type => $page ) {
+					if ( ! $page['public'] ) {
+						continue;
+					}
+					if ( $this->page_required( $page, $region ) ) {
+						$required[ $region ][ $type ] = $page;
+					}
+				}
+			}
+
+
+			return $required;
+		}
+
+
+		/**
+		 * Lightens/darkens a given colour (hex format), returning the altered colour in hex format.7
+		 *
+		 * @param string $hex Colour as hexadecimal (with or without hash);
+		 *
+		 * @percent float $percent Decimal ( 0.2 = lighten by 20%(), -0.4 = darken by 40%() )
+		 * @return string Lightened/Darkend colour as hexadecimal (with hash);
+		 */
+
+		function color_luminance( $hex, $percent ) {
+			if ( empty( $hex ) ) {
+				return $hex;
+			}
+			// validate hex string
+			$hex     = preg_replace( '/[^0-9a-f]/i', '', $hex );
+			$new_hex = '#';
+
+			if ( strlen( $hex ) < 6 ) {
+				$hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2]
+				       + $hex[2];
+			}
+
+			// convert to decimal and change luminosity
+			for ( $i = 0; $i < 3; $i ++ ) {
+				$dec     = hexdec( substr( $hex, $i * 2, 2 ) );
+				$dec     = min( max( 0, $dec + $dec * $percent ), 255 );
+				$new_hex .= str_pad( dechex( $dec ), 2, 0, STR_PAD_LEFT );
+			}
+
+			return $new_hex;
+		}
+
+
+		/**
+		 * loads document content on shortcode call
+		 *
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return string $html
+		 *
+		 *
+		 */
+
+		public function load_document(
+			$atts = array(), $content = null, $tag = ''
+		) {
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+
+			ob_start();
+
+			// override default attributes with user attributes
+			$atts   = shortcode_atts( array(
+				'type'   => false,
+				'region' => false
+			),
+				$atts, $tag );
+			$type   = sanitize_title( $atts['type'] );
+			$region = sanitize_title( $atts['region'] );
+
+			if ( $type ) {
+				$html         = $this->get_document_html( $type, $region );
+				$allowed_html = cmplz_allowed_html();
+				echo wp_kses( $html, $allowed_html );
+			}
+
+			return ob_get_clean();
+		}
+
+		private function use_cache( $type ) {
+
+			//do not cache on multilanguage environments
+			if ( function_exists( 'pll__' )
+			     || function_exists( 'icl_translate' )
+			) {
+				return false;
+			}
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				return false;
+			}
+
+			//do not cache for these types
+			if ( ( $type === 'processing' ) || ( $type === 'dataleak' ) ) {
+				return false;
+			}
+
+			return true;
+
+		}
+
+
+		/**
+		 * checks if the current page contains the shortcode.
+		 *
+		 * @param int|bool $post_id
+		 *
+		 * @return boolean
+		 * @since 1.0
+		 */
+
+		public function is_complianz_page( $post_id = false ) {
+			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', false );
+			if ( $post_meta ) {
+				return true;
+			}
+
+			$shortcode = 'cmplz-document';
+			$block     = 'complianz/document';
+
+			if ( $post_id ) {
+				$post = get_post( $post_id );
+			} else {
+				global $post;
+			}
+
+			if ( $post ) {
+				if ( cmplz_uses_gutenberg() && has_block( $block, $post ) ) {
+					return true;
+				}
+				if ( has_shortcode( $post->post_content, $shortcode ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * gets the  page that contains the shortcode or the gutenberg block
+		 *
+		 * @param string $type
+		 * @param string $region
+		 *
+		 * @return int $page_id
+		 * @since 1.0
+		 */
+
+		public function get_shortcode_page_id( $type, $region ) {
+			$shortcode = 'cmplz-document';
+			$block     = 'complianz/document';
+			$page_id   = get_transient( 'cmplz_shortcode_' . $type . '-'
+			                            . $region );
+			if ( ! $page_id ) {
+				$pages = get_pages();
+				foreach ( $pages as $page ) {
+					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
+						true );
+					if ( $post_meta ) {
+						$html = $post_meta;
+					} else {
+						$html = $page->post_content;
+					}
+
+					$type_region = ( $region == 'eu' ) ? $type
+						: $type . '-' . $region;
+
+					/*
                      * Gutenberg block check
                      *
                      * */
 
-                    //check if block contains property
-                    if (preg_match('/"selectedDocument":"(.*?)"/i', $html, $matches)) {
+					//check if block contains property
+					if ( preg_match( '/"selectedDocument":"(.*?)"/i', $html,
+						$matches )
+					) {
 
-                        if ($matches[1]===$type_region) {
-	                        set_transient("cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS);
-                            return $page->ID;
-                        }
-                    }
+						if ( $matches[1] === $type_region ) {
+							set_transient( "cmplz_shortcode_$type-$region",
+								$page->ID, HOUR_IN_SECONDS );
 
-                    /*
+							return $page->ID;
+						}
+					}
+
+					/*
                      * If nothing found, or if not Gutenberg, check for shortcodes.
                      * Classic shortcode check
                      *
                      * */
 
-                    //modern check
-                    if (has_shortcode($html, $shortcode) && strpos($html, 'type="' . $type.'"')!==FALSE && strpos($html, 'region="' . $region.'"')!==FALSE) {
-                        set_transient("cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS);
-	                    return $page->ID;
-                    }
+					//modern check
+					if ( has_shortcode( $html, $shortcode )
+					     && strpos( $html, 'type="' . $type . '"' ) !== false
+					     && strpos( $html, 'region="' . $region . '"' )
+					        !== false
+					) {
+						set_transient( "cmplz_shortcode_$type-$region",
+							$page->ID, HOUR_IN_SECONDS );
 
-                    //legacy check
-	                if (has_shortcode($html, $shortcode) && strpos($html, 'type="' . $type_region.'"')!==FALSE) {
-		                set_transient("cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS);
-		                return $page->ID;
-	                }
-                }
-            } else {
-                return $page_id;
-            }
+						return $page->ID;
+					}
 
+					//legacy check
+					if ( has_shortcode( $html, $shortcode )
+					     && strpos( $html, 'type="' . $type_region . '"' )
+					        !== false
+					) {
+						set_transient( "cmplz_shortcode_$type-$region",
+							$page->ID, HOUR_IN_SECONDS );
 
-            return false;
-        }
-
-
-        /**
-         * clear shortcode transients after page update
-         * @param int|bool $post_id
-         * @param object|bool $post
-         * @hooked save_post which is why the $post param is passed without being used.
-         *
-         * @return void
-         */
+						return $page->ID;
+					}
+				}
+			} else {
+				return $page_id;
+			}
 
 
-        public function clear_shortcode_transients($post_id=false, $post = false)
-        {
-	        $regions = cmplz_get_regions();
-	        foreach($regions as $region => $label) {
-		        foreach ( COMPLIANZ::$config->pages[ $region ] as $type => $page ) {
-			        //if a post id is passed, this is from the save post hook. We only clear the transient for this specific post id.
-			        if ( $post_id ) {
-				        if ( get_transient( "cmplz_shortcode_$type-$region" ) == $post_id ) {
-					        delete_transient( "cmplz_shortcode_$type-$region" );
-				        }
-
-			        } else {
-				        delete_transient( "cmplz_shortcode_$type-$region" );
-			        }
-		        }
-	        }
-        }
-
-        /**
-         *
-         * get the URl of a specific page type
-         * @param string $type cookie-policy, privacy-statement, etc
-         * @return string
-         *
-         *
-         */
-
-        public function get_page_url($type, $region){
-
-            if (!cmplz_has_region($region)) return '';
-
-            if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
-                $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
-            } else {
-                $policy_page_id = get_option("cmplz_document_id_.$type-$region");
-            }
-
-            if ((get_post_status($policy_page_id) !== 'publish') || !$policy_page_id || !get_permalink($policy_page_id)){
-                $policy_page_id = $this->get_shortcode_page_id($type, $region);
-
-                if (!$policy_page_id) {
-                    if (COMPLIANZ::$document->page_required($type, $region)) {
-                        $policy_page_id = $this->create_page($type, $region);
-                    }
-                }
-                update_option("cmplz_document_id_$type-$region", $policy_page_id);
-            }
-
-            //get correct translated id
-            $policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', TRUE , substr(get_locale(),0,2) );
-
-            return get_permalink($policy_page_id);
-        }
+			return false;
+		}
 
 
-	    /**
-	     *
-	     * get the title of a specific page type
-	     * @param string $type cookie-policy, privacy-statement, etc
-         * @param string $region
-	     * @return string $title
-	     *
-	     *
-	     */
+		/**
+		 * clear shortcode transients after page update
+		 *
+		 * @param int|bool    $post_id
+		 * @param object|bool $post
+		 *
+		 * @hooked save_post which is why the $post param is passed without being used.
+		 *
+		 * @return void
+		 */
 
-	    public function get_document_title($type, $region){
 
-		    if (!cmplz_has_region($region)) return '-';
+		public function clear_shortcode_transients(
+			$post_id = false, $post = false
+		) {
+			$regions = cmplz_get_regions();
+			foreach ( $regions as $region => $label ) {
+				foreach (
+					COMPLIANZ::$config->pages[ $region ] as $type => $page
+				) {
+					//if a post id is passed, this is from the save post hook. We only clear the transient for this specific post id.
+					if ( $post_id ) {
+						if ( get_transient( "cmplz_shortcode_$type-$region" )
+						     == $post_id
+						) {
+							delete_transient( "cmplz_shortcode_$type-$region" );
+						}
 
-		    if (strpos($type,'privacy-statement')!==FALSE && cmplz_get_value('privacy-statement')!=='yes'){
-			    $policy_page_id = (int)get_option('wp_page_for_privacy_policy');
-		    } else {
-			    $policy_page_id = get_option("cmplz_document_id_$type-$region");
-		    }
+					} else {
+						delete_transient( "cmplz_shortcode_$type-$region" );
+					}
+				}
+			}
+		}
 
-		    if ((get_post_status($policy_page_id) !== 'publish') || !$policy_page_id || !get_permalink($policy_page_id)){
-			    $policy_page_id = $this->get_shortcode_page_id($type, $region);
+		/**
+		 *
+		 * get the URl of a specific page type
+		 *
+		 * @param string $type cookie-policy, privacy-statement, etc
+		 *
+		 * @return string
+		 *
+		 *
+		 */
 
-			    if (!$policy_page_id) {
-				    if (COMPLIANZ::$document->page_required($type, $region)) {
-					    $policy_page_id = $this->create_page($type, $region);
-				    }
-			    }
-			    update_option("cmplz_document_id_$type-$region", $policy_page_id);
-		    }
+		public function get_page_url( $type, $region ) {
 
-		    //get correct translated id
-		    $policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', TRUE , substr(get_locale(),0,2) );
+			if ( ! cmplz_has_region( $region ) ) {
+				return '';
+			}
 
-		    $post = get_post($policy_page_id);
-		    if ($post) return $post->post_title;
+			if ( strpos( $type, 'privacy-statement' ) !== false
+			     && cmplz_get_value( 'privacy-statement' ) !== 'yes'
+			) {
+				$policy_page_id
+					= (int) get_option( 'wp_page_for_privacy_policy' );
+			} else {
+				$policy_page_id
+					= get_option( "cmplz_document_id_.$type-$region" );
+			}
 
-		    return '-';
-	    }
+			if ( ( get_post_status( $policy_page_id ) !== 'publish' )
+			     || ! $policy_page_id
+			     || ! get_permalink( $policy_page_id )
+			) {
+				$policy_page_id = $this->get_shortcode_page_id( $type,
+					$region );
 
-        /**
-         * Generate the cookie policy snapshot
-         */
+				if ( ! $policy_page_id ) {
+					if ( COMPLIANZ::$document->page_required( $type,
+						$region )
+					) {
+						$policy_page_id = $this->create_page( $type, $region );
+					}
+				}
+				update_option( "cmplz_document_id_$type-$region",
+					$policy_page_id );
+			}
 
-        public function generate_cookie_policy_snapshot($force=false){
-            if (!$force && !get_option('cmplz_generate_new_cookiepolicy_snapshot')) return;
+			//get correct translated id
+			$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id,
+				'page', true, substr( get_locale(), 0, 2 ) );
 
-            $regions = cmplz_get_regions();
-            foreach($regions as $region => $label){
-	            $banner_id = cmplz_get_default_banner_id();
-                $banner = new CMPLZ_COOKIEBANNER($banner_id);
-                $settings = $banner->get_settings_array();
+			return get_permalink( $policy_page_id );
+		}
 
-	            $settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url('privacy-statement','us');
-                $settings_html='';
-                $skip = array('categorie','use_custom_cookie_css','custom_css_amp', 'static','set_cookies', 'hide_revoke','popup_background_color','popup_text_color','button_background_color', 'button_text_color','position', 'theme', 'version', 'banner_version', 'a_b_testing', 'title', 'privacy_link', 'nonce', 'url','current_policy_id', 'type', 'layout','use_custom_css','custom_css','border_color');
-				unset($settings["readmore_url"]);
 
-	            foreach($settings as $key => $value) {
-                    if (in_array($key, $skip)) continue;
+		/**
+		 *
+		 * get the title of a specific page type
+		 *
+		 * @param string $type cookie-policy, privacy-statement, etc
+		 * @param string $region
+		 *
+		 * @return string $title
+		 *
+		 *
+		 */
+
+		public function get_document_title( $type, $region ) {
+
+			if ( ! cmplz_has_region( $region ) ) {
+				return '-';
+			}
+
+			if ( strpos( $type, 'privacy-statement' ) !== false
+			     && cmplz_get_value( 'privacy-statement' ) !== 'yes'
+			) {
+				$policy_page_id
+					= (int) get_option( 'wp_page_for_privacy_policy' );
+			} else {
+				$policy_page_id
+					= get_option( "cmplz_document_id_$type-$region" );
+			}
+
+			if ( ( get_post_status( $policy_page_id ) !== 'publish' )
+			     || ! $policy_page_id
+			     || ! get_permalink( $policy_page_id )
+			) {
+				$policy_page_id = $this->get_shortcode_page_id( $type,
+					$region );
+
+				if ( ! $policy_page_id ) {
+					if ( COMPLIANZ::$document->page_required( $type,
+						$region )
+					) {
+						$policy_page_id = $this->create_page( $type, $region );
+					}
+				}
+				update_option( "cmplz_document_id_$type-$region",
+					$policy_page_id );
+			}
+
+			//get correct translated id
+			$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id,
+				'page', true, substr( get_locale(), 0, 2 ) );
+
+			$post = get_post( $policy_page_id );
+			if ( $post ) {
+				return $post->post_title;
+			}
+
+			return '-';
+		}
+
+		/**
+		 * Generate the cookie policy snapshot
+		 */
+
+		public function generate_cookie_policy_snapshot( $force = false ) {
+			if ( ! $force
+			     && ! get_option( 'cmplz_generate_new_cookiepolicy_snapshot' )
+			) {
+				return;
+			}
+
+			$regions = cmplz_get_regions();
+			foreach ( $regions as $region => $label ) {
+				$banner_id = cmplz_get_default_banner_id();
+				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
+				$settings  = $banner->get_settings_array();
+
+				$settings['privacy_link_us ']
+					           = COMPLIANZ::$document->get_page_url( 'privacy-statement',
+					'us' );
+				$settings_html = '';
+				$skip          = array(
+					'categorie',
+					'use_custom_cookie_css',
+					'custom_css_amp',
+					'static',
+					'set_cookies',
+					'hide_revoke',
+					'popup_background_color',
+					'popup_text_color',
+					'button_background_color',
+					'button_text_color',
+					'position',
+					'theme',
+					'version',
+					'banner_version',
+					'a_b_testing',
+					'title',
+					'privacy_link',
+					'nonce',
+					'url',
+					'current_policy_id',
+					'type',
+					'layout',
+					'use_custom_css',
+					'custom_css',
+					'border_color'
+				);
+				unset( $settings["readmore_url"] );
+
+				foreach ( $settings as $key => $value ) {
+					if ( in_array( $key, $skip ) ) {
+						continue;
+					}
 //                    if (empty($value)) $value = __("no","complianz-gdpr");
-                    $settings_html .= '<li>'.$key.' => '.esc_html($value).'</li>';
-	            }
+					$settings_html .= '<li>' . $key . ' => '
+					                  . esc_html( $value ) . '</li>';
+				}
 
-	            $settings_html = '<div><h1>'.__('Cookie consent settings','complianz-gdpr').'</h1><ul>'.($settings_html).'</ul></div>';
-                $intro =
-                    '<h1>'. __("Proof of Consent","complianz-gdpr").'</h1>
-                     <p>'.sprintf(__("This document was generated to show efforts made to comply with privacy legislation.
+				$settings_html = '<div><h1>' . __( 'Cookie consent settings',
+						'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html )
+				                 . '</ul></div>';
+				$intro         = '<h1>' . __( "Proof of Consent",
+						"complianz-gdpr" ) . '</h1>
+                     <p>' . sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the cookie policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
-                            to %shttps://complianz.io/consent%s.","complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent">',"</a>").'</p>';
-                COMPLIANZ::$document->generate_pdf('cookie-statement', $region, false, true, $intro, $settings_html);
-            }
-            update_option('cmplz_generate_new_cookiepolicy_snapshot',false);
-        }
+                            to %shttps://complianz.io/consent%s.",
+						"complianz-gdpr" ),
+						'<a target="_blank" href="https://complianz.io/consent">',
+						"</a>" ) . '</p>';
+				COMPLIANZ::$document->generate_pdf( 'cookie-statement', $region,
+					false, true, $intro, $settings_html );
+			}
+			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false );
+		}
 
-        /**
-         * Function to generate a pdf file, either saving to file, or echo to browser
-         * @param $page
-         * @param $post_id
-         * @param $save_to_file
-         * @param $append //if we want to add addition html
-         * @throws \Mpdf\MpdfException
-         */
+		/**
+		 * Function to generate a pdf file, either saving to file, or echo to browser
+		 *
+		 * @param $page
+		 * @param $post_id
+		 * @param $save_to_file
+		 * @param $append //if we want to add addition html
+		 *
+		 * @throws \Mpdf\MpdfException
+		 */
 
-        public function generate_pdf($page, $region, $post_id=false, $save_to_file=false, $intro='', $append=''){
-            if ( !defined( 'DOING_CRON' ) ) {
-                if (!is_user_logged_in()) {
-                    die("invalid command");
-                }
+		public function generate_pdf(
+			$page, $region, $post_id = false, $save_to_file = false,
+			$intro = '', $append = ''
+		) {
+			if ( ! defined( 'DOING_CRON' ) ) {
+				if ( ! is_user_logged_in() ) {
+					die( "invalid command" );
+				}
 
-                if (!current_user_can('manage_options')) {
-                    die("invalid command");
-                }
-            }
+				if ( ! current_user_can( 'manage_options' ) ) {
+					die( "invalid command" );
+				}
+			}
 
-            $error = false;
-            $uploads = wp_upload_dir();
-            $upload_dir = $uploads['basedir'];
+			$error      = false;
+			$uploads    = wp_upload_dir();
+			$upload_dir = $uploads['basedir'];
 
-            if (!isset(COMPLIANZ::$config->pages[$region])) return;
+			if ( ! isset( COMPLIANZ::$config->pages[ $region ] ) ) {
+				return;
+			}
 
-            $pages = COMPLIANZ::$config->pages[$region];
+			$pages = COMPLIANZ::$config->pages[ $region ];
 
-            //double check if it exists
-            if (!isset($pages[$page])) return;
+			//double check if it exists
+			if ( ! isset( $pages[ $page ] ) ) {
+				return;
+			}
 
-            $title = $pages[$page]['title'];
-            $document_html = $intro.COMPLIANZ::$document->get_document_html($page, $region, $post_id).$append;
-            $load_css = cmplz_get_value('use_document_css');
-            $css = '';
-            if ($load_css) {
-                $css = file_get_contents (cmplz_path . "core/assets/css/document.css");
-            }
-            $title_html = $save_to_file ? '' : '<h4 class="center">' . $title . '</h4>';
+			$title         = $pages[ $page ]['title'];
+			$document_html = $intro
+			                 . COMPLIANZ::$document->get_document_html( $page,
+					$region, $post_id ) . $append;
+			$load_css      = cmplz_get_value( 'use_document_css' );
+			$css           = '';
+			if ( $load_css ) {
+				$css = file_get_contents( cmplz_path
+				                          . "assets/css/document.css" );
+			}
+			$title_html = $save_to_file ? ''
+				: '<h4 class="center">' . $title . '</h4>';
 
-            $html = '
+			$html = '
                     <style>
-                    '.$css.'
+                    ' . $css . '
                     body {
                       font-family: sans;
                       margin-top:100px;
@@ -1306,118 +2350,126 @@ if (!class_exists("cmplz_document")) {
 //==============================================================
 //==============================================================
 
-            require cmplz_path . '/core/assets/vendor/autoload.php';
+			require cmplz_path . '/assets/vendor/autoload.php';
 
-            //generate a token when it's not there, otherwise use the existing one.
-            if (get_option('cmplz_pdf_dir_token')) {
-                $token = get_option('cmplz_pdf_dir_token');
-            } else {
-                $token = time();
-                update_option('cmplz_pdf_dir_token', $token);
-            }
+			//generate a token when it's not there, otherwise use the existing one.
+			if ( get_option( 'cmplz_pdf_dir_token' ) ) {
+				$token = get_option( 'cmplz_pdf_dir_token' );
+			} else {
+				$token = time();
+				update_option( 'cmplz_pdf_dir_token', $token );
+			}
 
-            if ($save_to_file && !is_writable($upload_dir)){
-                $error = true;
-            }
+			if ( $save_to_file && ! is_writable( $upload_dir ) ) {
+				$error = true;
+			}
 
-            if (!$error) {
-	            if ( ! file_exists( $upload_dir . '/complianz' ) ) {
-		            mkdir( $upload_dir . '/complianz' );
-	            }
-	            if ( ! file_exists( $upload_dir . '/complianz/tmp' ) ) {
-		            mkdir( $upload_dir . '/complianz/tmp' );
-	            }
-	            if ( ! file_exists( $upload_dir . '/complianz/snapshots' ) ) {
-		            mkdir( $upload_dir . '/complianz/snapshots' );
-	            }
-	            $save_dir = $upload_dir . '/complianz/snapshots/';
-	            $temp_dir = $upload_dir . '/complianz/tmp/' . $token;
-	            if ( ! file_exists( $temp_dir ) ) {
-		            mkdir( $temp_dir );
-	            }
-            }
+			if ( ! $error ) {
+				if ( ! file_exists( $upload_dir . '/complianz' ) ) {
+					mkdir( $upload_dir . '/complianz' );
+				}
+				if ( ! file_exists( $upload_dir . '/complianz/tmp' ) ) {
+					mkdir( $upload_dir . '/complianz/tmp' );
+				}
+				if ( ! file_exists( $upload_dir . '/complianz/snapshots' ) ) {
+					mkdir( $upload_dir . '/complianz/snapshots' );
+				}
+				$save_dir = $upload_dir . '/complianz/snapshots/';
+				$temp_dir = $upload_dir . '/complianz/tmp/' . $token;
+				if ( ! file_exists( $temp_dir ) ) {
+					mkdir( $temp_dir );
+				}
+			}
 
-            $mpdf = new Mpdf\Mpdf(array(
-                'setAutoTopMargin' => 'stretch',
-                'autoMarginPadding' => 5,
-                'tempDir' => $temp_dir,
-                'margin_left' => 20,
-                'margin_right' => 20,
-                'margin_top' => 30,
-                'margin_bottom' => 30,
-                'margin_header' => 30,
-                'margin_footer' => 10,
-            ));
+			$mpdf = new Mpdf\Mpdf( array(
+				'setAutoTopMargin'  => 'stretch',
+				'autoMarginPadding' => 5,
+				'tempDir'           => $temp_dir,
+				'margin_left'       => 20,
+				'margin_right'      => 20,
+				'margin_top'        => 30,
+				'margin_bottom'     => 30,
+				'margin_header'     => 30,
+				'margin_footer'     => 10,
+			) );
 
-            $mpdf->SetDisplayMode('fullpage');
-            $mpdf->SetTitle($title);
+			$mpdf->SetDisplayMode( 'fullpage' );
+			$mpdf->SetTitle( $title );
 
-            $img = '';//'<img class="center" src="" width="150px">';
-            $date = date_i18n( get_option( 'date_format' ), time()  );
+			$img  = '';//'<img class="center" src="" width="150px">';
+			$date = date_i18n( get_option( 'date_format' ), time() );
 
-            $mpdf->SetHTMLHeader($img);
-            $footer_text = sprintf("%s $title $date", get_bloginfo('name'));
+			$mpdf->SetHTMLHeader( $img );
+			$footer_text = sprintf( "%s $title $date", get_bloginfo( 'name' ) );
 
-            $mpdf->SetFooter($footer_text);
-            $mpdf->WriteHTML($html);
+			$mpdf->SetFooter( $footer_text );
+			$mpdf->WriteHTML( $html );
 
-            // Save the pages to a file
-            if ($save_to_file){
-                $file_title = $save_dir.get_bloginfo('name').'-' .$region. "-proof-of-consent-" . sanitize_title($date);
-            } else{
-                $file_title = get_bloginfo('name') . "-export-" . sanitize_title($date);
-            }
+			// Save the pages to a file
+			if ( $save_to_file ) {
+				$file_title = $save_dir . get_bloginfo( 'name' ) . '-' . $region
+				              . "-proof-of-consent-" . sanitize_title( $date );
+			} else {
+				$file_title = get_bloginfo( 'name' ) . "-export-"
+				              . sanitize_title( $date );
+			}
 
-            $output_mode = $save_to_file ? 'F' : 'I';
-
-
-            if ($save_to_file && !file_exists( $upload_dir . '/complianz/snapshots')){
-                $error = true;
-            }
-
-            if (!$error) {
-	            $mpdf = new Mpdf\Mpdf( array(
-		            'setAutoTopMargin'  => 'stretch',
-		            'autoMarginPadding' => 5,
-		            'tempDir'           => $temp_dir,
-		            'margin_left'       => 20,
-		            'margin_right'      => 20,
-		            'margin_top'        => 30,
-		            'margin_bottom'     => 30,
-		            'margin_header'     => 30,
-		            'margin_footer'     => 10,
-	            ) );
-
-	            $mpdf->SetDisplayMode( 'fullpage' );
-	            $mpdf->SetTitle( $title );
-
-	            $img  = '';//'<img class="center" src="" width="150px">';
-	            $date = date_i18n( get_option( 'date_format' ), time() );
-
-	            $mpdf->SetHTMLHeader( $img );
-	            $footer_text = sprintf( "%s $title $date", get_bloginfo( 'name' ) );
-
-	            $mpdf->SetFooter( $footer_text );
-	            $mpdf->WriteHTML( $html );
-
-	            // Save the pages to a file
-	            if ( $save_to_file ) {
-		            $file_title = $save_dir . sanitize_file_name(get_bloginfo( 'name' ) . '-' . $region . "-proof-of-consent-" .  $date );
-	            } else {
-		            $file_title = sanitize_file_name(get_bloginfo( 'name' ) . "-export-" . $date );
-	            }
-
-	            $output_mode = $save_to_file ? 'F' : 'I';
-
-	            $mpdf->Output( $file_title . ".pdf", $output_mode );
-            } else {
-                $_POST['cmplz_generate_snapshot_error']=true;
-                unset($_POST['cmplz_generate_snapshot']);
-            }
-        }
-    }
+			$output_mode = $save_to_file ? 'F' : 'I';
 
 
+			if ( $save_to_file
+			     && ! file_exists( $upload_dir . '/complianz/snapshots' )
+			) {
+				$error = true;
+			}
+
+			if ( ! $error ) {
+				$mpdf = new Mpdf\Mpdf( array(
+					'setAutoTopMargin'  => 'stretch',
+					'autoMarginPadding' => 5,
+					'tempDir'           => $temp_dir,
+					'margin_left'       => 20,
+					'margin_right'      => 20,
+					'margin_top'        => 30,
+					'margin_bottom'     => 30,
+					'margin_header'     => 30,
+					'margin_footer'     => 10,
+				) );
+
+				$mpdf->SetDisplayMode( 'fullpage' );
+				$mpdf->SetTitle( $title );
+
+				$img  = '';//'<img class="center" src="" width="150px">';
+				$date = date_i18n( get_option( 'date_format' ), time() );
+
+				$mpdf->SetHTMLHeader( $img );
+				$footer_text = sprintf( "%s $title $date",
+					get_bloginfo( 'name' ) );
+
+				$mpdf->SetFooter( $footer_text );
+				$mpdf->WriteHTML( $html );
+
+				// Save the pages to a file
+				if ( $save_to_file ) {
+					$file_title = $save_dir
+					              . sanitize_file_name( get_bloginfo( 'name' )
+					                                    . '-' . $region
+					                                    . "-proof-of-consent-"
+					                                    . $date );
+				} else {
+					$file_title = sanitize_file_name( get_bloginfo( 'name' )
+					                                  . "-export-" . $date );
+				}
+
+				$output_mode = $save_to_file ? 'F' : 'I';
+
+				$mpdf->Output( $file_title . ".pdf", $output_mode );
+			} else {
+				$_POST['cmplz_generate_snapshot_error'] = true;
+				unset( $_POST['cmplz_generate_snapshot'] );
+			}
+		}
+	}
 
 
 } //class closure

@@ -301,7 +301,8 @@ a.button.cmplz-open-modal {
 }
 #cmplz_language {
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  margin-right: 30px;
 }
 .cmplz-list-container .cmplz-cookie-field > div {
   margin-top: 8px;
@@ -329,6 +330,9 @@ a.button.cmplz-open-modal {
 }
 .cmplz-panel.cmplz-toggle-disabled {
   color: #aca5a5;
+}
+.cmplz-panel.cmplz-deleted {
+  background-color: #FFa5aa;
 }
 .cmplz-panel .cmplz-panel-title {
   cursor: pointer;
@@ -495,7 +499,7 @@ input[type="text"] {
   height: 21px;
 }
 .cmplz-switch input {
-  display: none;
+  display: none !important;
 }
 .cmplz-slider {
   position: absolute;

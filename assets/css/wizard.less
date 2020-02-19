@@ -343,7 +343,8 @@ a.button.cmplz-open-modal{
 
 #cmplz_language{
   font-size:15px;
-  margin-bottom:10px;
+  margin-bottom:0;
+  margin-right:30px;
 }
 
 .cmplz-list-container {
@@ -364,9 +365,14 @@ a.button.cmplz-open-modal{
 
 
 }
+
 .cmplz-panel {
   &.cmplz-toggle-disabled{
     color:#aca5a5;
+  }
+
+  &.cmplz-deleted {
+	background-color:#FFa5aa;
   }
 
   .cmplz-panel-title{
@@ -561,7 +567,7 @@ input[type="text"]{
 
 .cmplz-switch {
   input {
-    display: none;
+    display: none !important;
   }
   position: relative;
   display: inline-block;

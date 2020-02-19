@@ -2,14 +2,14 @@
 defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['eu']['cookie-statement']['document_elements'] = array(
-    'last-updated' => array(
+    array(
         'content' => '<i>' . sprintf(_x('This cookie statement was last updated on %s and applies to citizens of the European Economic Area.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i>',
     ),
-    'introduction' => array(
+    array(
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]', '[article-cookie_names]'),
     ),
-    'what-are-cookies' => array(
+    array(
         'title' => _x('What are cookies?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.', 'Legal document cookie policy', 'complianz-gdpr'),
     ),
