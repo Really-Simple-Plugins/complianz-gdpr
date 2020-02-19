@@ -304,6 +304,9 @@ a.button.cmplz-open-modal {
   margin-bottom: 15px;
   margin-right: 30px;
 }
+#cmplz_language.cmplz_cookie_language_selector {
+  margin-bottom: 0;
+}
 .cmplz-list-container .cmplz-cookie-field > div {
   margin-top: 8px;
 }
