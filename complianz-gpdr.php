@@ -28,6 +28,7 @@
 */
 
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
+define( 'cmplz_free', true );
 
 if ( ! function_exists( 'cmplz_activation_check' ) ) {
 	/**
@@ -146,7 +147,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				: '';
 			define( 'cmplz_version', $plugin_data['Version'] . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
-			define( 'cmplz_free', true );
 		}
 
 		/**
