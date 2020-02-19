@@ -80,6 +80,9 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function setBlockedContentContainer() {
+		//to prevent this function to run when cookies are accepted, we check for accepted status here
+		//this is not the same as getHighestAcceptance
+		if (ccAllEnabled) return;
 
 		$('.cmplz-placeholder-element').each(function () {
 			//we set this element as container with placeholder image
@@ -157,7 +160,6 @@ jQuery(document).ready(function ($) {
 
 	$(window).bind('resize', function (e) {
 		if (cmplzGetHighestAcceptance() !== 'all') {
-
 			//window.resizeEvt;
 			$(window).resize(function () {
 				clearTimeout(window.resizeEvt);
@@ -1306,7 +1308,6 @@ jQuery(document).ready(function ($) {
 	 */
 	function cmplz_wp_set_consent(type, value) {
 		if (typeof wp_set_consent == 'function') {
-			console.log("set consent for " + type + ' ' + value);
 			wp_set_consent(type, value);
 		}
 	}
