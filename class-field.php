@@ -1539,7 +1539,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			if ( $count > 1 ) {
 
 				?>
-				<select id="cmplz_language" data-type="cookie">
+				<select id="cmplz_language" class="cmplz_cookie_language_selector" data-type="cookie">
 					<?php
 					foreach ( $languages as $language ) {
 						?>
