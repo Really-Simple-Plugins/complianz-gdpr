@@ -113,13 +113,21 @@ $this->steps = array(
 			),
 			STEP_MENU    => array(
 				"id"    => "menu",
-				"title" => __( "Menu", 'complianz-gdpr' ),
+				"title" => __( "Documents", 'complianz-gdpr' ),
 				'intro' =>
 					'<h1>' . _x( "Get ready to finish your configuration.",
 						'intro menu', 'complianz-gdpr' ) . '</h1>' .
 					'<p>'
-					. _x( "Your documents have been generated. You can add them to your menu directly or do it manually after the wizard is finished.",
+					. _x( "Generate your documents, then you can add them to your menu directly or do it manually after the wizard is finished.",
 						'intro menu', 'complianz-gdpr' ) . '</p>',
+				'sections' => array(
+					1 => array(
+						'title' => __( 'Create documents', 'complianz-gdpr' ),
+					),
+					2 => array(
+						'title' => __( 'Link to menu', 'complianz-gdpr' ),
+					),
+				),
 
 			),
 			STEP_FINISH  => array(

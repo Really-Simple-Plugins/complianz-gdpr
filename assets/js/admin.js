@@ -858,4 +858,47 @@ jQuery(document).ready(function ($) {
     }
     cmplz_check_cookie_blocking_services();
 
+
+	/**
+	 * Create missing pages
+	 */
+	$(document).on('click', '#cmplz-create_pages', function(){
+		//init loader anim
+		var btn = $('#cmplz-create_pages');
+		var oldBtnHtml = btn.html();
+		btn.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+		//get all page titles from the page
+		var pageTitles = {};
+		$('.cmplz-create-page-title').each(function(){
+			if (pageTitles.hasOwnProperty($(this).data('region'))){
+				region = pageTitles[$(this).data('region')];
+			} else {
+				var region = {};
+			}
+			region[$(this).attr('name')] = $(this).val();
+
+			pageTitles[$(this).data('region')] = region;
+
+		});
+
+		$.ajax({
+			type: "POST",
+			url: complianz_admin.admin_url,
+			dataType: 'json',
+			data: ({
+				pages: JSON.stringify(pageTitles),
+				action: 'cmplz_create_pages'
+			}),
+			success: function (response) {
+				if (response.success) {
+					console.log('success');
+					$('.cmplz-page-created').removeClass('fa-times').addClass('fa-check');
+					$('.cmplz-create-page-title').removeClass('cmplz-deleted-page');
+				}
+				btn.html(oldBtnHtml);
+			}
+		});
+	});
+
 });

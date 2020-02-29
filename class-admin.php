@@ -865,9 +865,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							          . '/assets/images/' . $region . '.png?v='
 							          . cmplz_version . '">';
 						}
-						$link      = '<a href="'
-						             . get_permalink( COMPLIANZ::$document->get_shortcode_page_id( $type,
-								$region ) ) . '">' . $page['title'] . '</a>';
+						$link      = '<a href="' . get_permalink( COMPLIANZ::$document->get_shortcode_page_id( $type, $region ) ) . '">'
+						             . $page['title']
+						             . '</a>';
 						$shortcode = COMPLIANZ::$document->get_shortcode( $type,
 							$region, $force_classic = true );
 						$link      .= '<div class="cmplz-selectable cmplz-shortcode">'

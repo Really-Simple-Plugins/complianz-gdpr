@@ -75,7 +75,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'wp-google-maps'            => array(
 		'constant_or_function' => 'WPGMZA_VERSION',
 		'label'                => 'WP Google Maps',
-
 	),
 
 	'geo-my-wp' => array(
@@ -84,14 +83,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	),
 
 	'google-analytics-dashboard-for-wp' => array(
-		'constant_or_function' => 'GADWP_CURRENT_VERSION',
+		'constant_or_function' => 'EXACTMETRICS_VERSION',
 		'label'                => 'Google Analytics Dashboard for WP',
 	),
 
 	'wp-google-maps-widget' => array(
 		'constant_or_function' => 'GMW_PLUGIN_DIR',
 		'label'                => 'Maps Widget for Google Maps',
-
 	),
 
 	'wp-donottrack' => array(
@@ -102,9 +100,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'pixel-caffeine'   => array(
 		'constant_or_function' => 'AEPC_PIXEL_VERSION',
 		'label'                => 'Pixel Caffeine',
-
 	),
-
 
 	//Super Socializer
 	'super-socializer' => array(
@@ -168,7 +164,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'SiteOrigin Widgets Bundle',
 	),
 
-
 	'gravity-forms' => array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
@@ -176,7 +171,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'privacy-statement' => 'yes',
 			'regions'           => 'eu',
 		),
-
 	),
 ) );
 
@@ -231,7 +225,6 @@ function cmplz_is_integration_enabled( $plugin_name ) {
 	return true;
 }
 
-
 /**
  * code loaded without privileges to allow integrations between plugins and services, when enabled.
  */
@@ -241,7 +234,6 @@ function cmplz_integrations() {
 	global $cmplz_integrations_list;
 
 	$fields = get_option( 'complianz_options_integrations' );
-
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
 		//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
 		$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;

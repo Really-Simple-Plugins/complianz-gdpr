@@ -32,7 +32,7 @@
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
+if ( ! class_exists( 'CMPLZ_Plugin_Activation' ) ) {
 
 	/**
 	 * Automatic plugin installation and activation library.
@@ -47,7 +47,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 * @author  Thomas Griffin
 	 * @author  Gary Jones
 	 */
-	class TGM_Plugin_Activation {
+	class CMPLZ_Plugin_Activation {
 		/**
 		 * TGMPA version number.
 		 *
@@ -80,7 +80,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @var TGM_Plugin_Activation
+		 * @var CMPLZ_Plugin_Activation
 		 */
 		public static $instance;
 
@@ -250,7 +250,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @see TGM_Plugin_Activation::init()
+		 * @see CMPLZ_Plugin_Activation::init()
 		 */
 		public function __construct() {
 			// Set the current WordPress version.
@@ -311,9 +311,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @see TGM_Plugin_Activation::admin_menu()
-		 * @see TGM_Plugin_Activation::notices()
-		 * @see TGM_Plugin_Activation::styles()
+		 * @see CMPLZ_Plugin_Activation::admin_menu()
+		 * @see CMPLZ_Plugin_Activation::notices()
+		 * @see CMPLZ_Plugin_Activation::styles()
 		 */
 		public function init() {
 			/**
@@ -684,8 +684,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @see TGM_Plugin_Activation::init()
-		 * @see TGM_Plugin_Activation::install_plugins_page()
+		 * @see CMPLZ_Plugin_Activation::init()
+		 * @see CMPLZ_Plugin_Activation::install_plugins_page()
 		 *
 		 * @return null Return early if user lacks capability to install a plugin.
 		 */
@@ -745,7 +745,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function install_plugins_page() {
 			// Store new instance of plugin table in object.
-			$plugin_table = new TGMPA_List_Table;
+			$plugin_table = new CMPLZ_List_Table;
 
 			// Return early if processing a plugin installation action.
 			if ( ( ( 'tgmpa-bulk-install' === $plugin_table->current_action() || 'tgmpa-bulk-update' === $plugin_table->current_action() ) && $plugin_table->process_bulk_actions() ) || $this->do_plugin_install() ) {
@@ -1209,7 +1209,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						unset( $plugin_slug );
 
 						$count          = count( $plugin_group );
-						$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
+						$linked_plugins = array_map( array( 'CMPLZ_Utils', 'wrap_in_em' ), $linked_plugins );
 						$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
 						$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
@@ -1394,9 +1394,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Forgive users for using string versions of booleans or floats for version number.
 			$plugin['version']            = (string) $plugin['version'];
 			$plugin['source']             = empty( $plugin['source'] ) ? 'repo' : $plugin['source'];
-			$plugin['required']           = TGMPA_Utils::validate_bool( $plugin['required'] );
-			$plugin['force_activation']   = TGMPA_Utils::validate_bool( $plugin['force_activation'] );
-			$plugin['force_deactivation'] = TGMPA_Utils::validate_bool( $plugin['force_deactivation'] );
+			$plugin['required']           = CMPLZ_Utils::validate_bool( $plugin['required'] );
+			$plugin['force_activation']   = CMPLZ_Utils::validate_bool( $plugin['force_activation'] );
+			$plugin['force_deactivation'] = CMPLZ_Utils::validate_bool( $plugin['force_deactivation'] );
 
 			// Enrich the received data.
 			$plugin['file_path']   = $this->_get_plugin_basename_from_slug( $plugin['slug'] );
@@ -2084,7 +2084,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @return \TGM_Plugin_Activation The TGM_Plugin_Activation object.
+		 * @return \CMPLZ_Plugin_Activation The CMPLZ_Plugin_Activation object.
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
@@ -2102,7 +2102,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @since 2.5.0
 		 */
 		function load_tgm_plugin_activation() {
-			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
+			$GLOBALS['tgmpa'] = CMPLZ_Plugin_Activation::get_instance();
 		}
 	}
 
@@ -2113,7 +2113,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	}
 }
 
-if ( ! function_exists( 'tgmpa' ) ) {
+if ( ! function_exists( 'cmplz_tgmpa' ) ) {
 	/**
 	 * Helper function to register a collection of required plugins.
 	 *
@@ -2123,7 +2123,7 @@ if ( ! function_exists( 'tgmpa' ) ) {
 	 * @param array $plugins An array of plugin arrays.
 	 * @param array $config  Optional. An array of configuration values.
 	 */
-	function tgmpa( $plugins, $config = array() ) {
+	function cmplz_tgmpa( $plugins, $config = array() ) {
 		$instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
 		foreach ( $plugins as $plugin ) {
@@ -2161,7 +2161,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-if ( ! class_exists( 'TGMPA_List_Table' ) ) {
+if ( ! class_exists( 'CMPLZ_List_Table' ) ) {
 
 	/**
 	 * List table class for handling plugins.
@@ -2180,7 +2180,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 	 * @author  Thomas Griffin
 	 * @author  Gary Jones
 	 */
-	class TGMPA_List_Table extends WP_List_Table {
+	class CMPLZ_List_Table extends WP_List_Table {
 		/**
 		 * TGMPA instance.
 		 *
@@ -3036,7 +3036,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>';
 				} else {
 					$count        = count( $plugin_names ); // Count so we can use _n function.
-					$plugin_names = array_map( array( 'TGMPA_Utils', 'wrap_in_strong' ), $plugin_names );
+					$plugin_names = array_map( array( 'CMPLZ_Utils', 'wrap_in_strong' ), $plugin_names );
 					$last_plugin  = array_pop( $plugin_names ); // Pop off last name to prep for readability.
 					$imploded     = empty( $plugin_names ) ? $last_plugin : ( implode( ', ', $plugin_names ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
@@ -3091,15 +3091,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * Retrieve plugin data, given the plugin name.
 		 *
 		 * @since      2.2.0
-		 * @deprecated 2.5.0 use {@see TGM_Plugin_Activation::_get_plugin_data_from_name()} instead.
-		 * @see        TGM_Plugin_Activation::_get_plugin_data_from_name()
+		 * @deprecated 2.5.0 use {@see CMPLZ_Plugin_Activation::_get_plugin_data_from_name()} instead.
+		 * @see        CMPLZ_Plugin_Activation::_get_plugin_data_from_name()
 		 *
 		 * @param string $name Name of the plugin, as it was registered.
 		 * @param string $data Optional. Array key of plugin data to return. Default is slug.
 		 * @return string|boolean Plugin slug if found, false otherwise.
 		 */
 		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
-			_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'TGM_Plugin_Activation::_get_plugin_data_from_name()' );
+			_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'CMPLZ_Plugin_Activation::_get_plugin_data_from_name()' );
 
 			return $this->tgmpa->_get_plugin_data_from_name( $name, $data );
 		}
@@ -3107,30 +3107,30 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 }
 
 
-if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
+if ( ! class_exists( 'CMPLZ_Bulk_Installer' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer class from being loaded if 2.4.1- is loaded after 2.5+.
 	 *
 	 * @since 2.5.2
 	 *
-	 * {@internal The TGMPA_Bulk_Installer class was originally called TGM_Bulk_Installer.
+	 * {@internal The TGMPA_Bulk_Installer class was originally called CMPLZ_Bulk_Installer.
 	 *            For more information, see that class.}}
 	 */
-	class TGM_Bulk_Installer {
+	class CMPLZ_Bulk_Installer {
 	}
 }
-if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
+if ( ! class_exists( 'CMPLZ_Bulk_Installer_Skin' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer skin class from being loaded if 2.4.1- is loaded after 2.5+.
 	 *
 	 * @since 2.5.2
 	 *
-	 * {@internal The TGMPA_Bulk_Installer_Skin class was originally called TGM_Bulk_Installer_Skin.
+	 * {@internal The TGMPA_Bulk_Installer_Skin class was originally called CMPLZ_Bulk_Installer_Skin.
 	 *            For more information, see that class.}}
 	 */
-	class TGM_Bulk_Installer_Skin {
+	class CMPLZ_Bulk_Installer_Skin {
 	}
 }
 
@@ -3144,12 +3144,12 @@ if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
  *
  * @since 2.2.0
  */
-add_action( 'admin_init', 'tgmpa_load_bulk_installer' );
-if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
+add_action( 'admin_init', 'cmplz_load_bulk_installer' );
+if ( ! function_exists( 'cmplz_load_bulk_installer' ) ) {
 	/**
 	 * Load bulk installer
 	 */
-	function tgmpa_load_bulk_installer() {
+	function cmplz_load_bulk_installer() {
 		// Silently fail if 2.5+ is loaded *after* an older version.
 		if ( ! isset( $GLOBALS['tgmpa'] ) ) {
 			return;
@@ -3174,7 +3174,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 * @since 2.2.0
 				 *
 				 * {@internal Since 2.5.0 the class is an extension of Plugin_Upgrader rather than WP_Upgrader.}}
-				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer to TGMPA_Bulk_Installer.
+				 * {@internal Since 2.5.2 the class has been renamed from CMPLZ_Bulk_Installer to TGMPA_Bulk_Installer.
 				 *            This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
 				 * @package TGM-Plugin-Activation
@@ -3502,7 +3502,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 *
 				 * @since 2.2.0
 				 *
-				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
+				 * {@internal Since 2.5.2 the class has been renamed from CMPLZ_Bulk_Installer_Skin to
 				 *            TGMPA_Bulk_Installer_Skin.
 				 *            This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
@@ -3724,21 +3724,21 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	}
 }
 
-if ( ! class_exists( 'TGMPA_Utils' ) ) {
+if ( ! class_exists( 'CMPLZ_Utils' ) ) {
 
 	/**
 	 * Generic utilities for TGMPA.
 	 *
 	 * All methods are static, poor-dev name-spacing class wrapper.
 	 *
-	 * Class was called TGM_Utils in 2.5.0 but renamed TGMPA_Utils in 2.5.1 as this was conflicting with Soliloquy.
+	 * Class was called TGM_Utils in 2.5.0 but renamed CMPLZ_Utils in 2.5.1 as this was conflicting with Soliloquy.
 	 *
 	 * @since 2.5.0
 	 *
 	 * @package TGM-Plugin-Activation
 	 * @author  Juliette Reinders Folmer
 	 */
-	class TGMPA_Utils {
+	class CMPLZ_Utils {
 		/**
 		 * Whether the PHP filter extension is enabled.
 		 *
@@ -3849,5 +3849,5 @@ if ( ! class_exists( 'TGMPA_Utils' ) ) {
 
 			return false;
 		}
-	} // End of class TGMPA_Utils
+	} // End of class CMPLZ_Utils
 } // End of class_exists wrapper

@@ -19,23 +19,6 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		}
 
 		/**
-		 * Check if personal data is sold
-		 *
-		 * @return bool
-		 */
-
-		public function sells_personal_data() {
-			$purposes = cmplz_get_value( 'purpose_personaldata' );
-			if ( isset( $purposes['selling-data-thirdparty'] )
-			     && $purposes['selling-data-thirdparty']
-			) {
-				return true;
-			}
-
-			return false;
-		}
-
-		/**
 		 * Get the default region based on region settings
 		 *  - if we have one region selected, return this
 		 *  - if we have more than one, try to get the one this company is based in
@@ -121,7 +104,7 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		 * @return bool
 		 */
 		public function sold_data_12months() {
-			if ( ! $this->sells_personal_data() ) {
+			if ( ! cmplz_sells_personal_data() ) {
 				return false;
 			}
 

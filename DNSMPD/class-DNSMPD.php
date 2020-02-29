@@ -36,7 +36,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			}
 
 			if ( ! cmplz_has_region( 'us' )
-			     || ! COMPLIANZ::$company->sells_personal_data()
+			     || ! cmplz_sells_personal_data()
 			) {
 				return;
 			}
@@ -217,7 +217,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 
 		public function enqueue_assets( $hook ) {
 			if ( ! cmplz_has_region( 'us' )
-			     || ! COMPLIANZ::$company->sells_personal_data()
+			     || ! cmplz_sells_personal_data()
 			) {
 				return;
 			}

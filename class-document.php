@@ -20,6 +20,24 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return self::$_this;
 		}
 
+		/**
+		 * @todo remove duplicate function
+		 * @return array
+		 */
+
+		public function get_availabe_documents(){
+			$documents = COMPLIANZ::$config->pages;
+			$output = array();
+			foreach( $documents as $region => $region_documents ){
+				foreach( $region_documents as $type => $data ){
+					if (!in_array( $type, $output )) {
+						$output[] = $type;
+					}
+				}
+			}
+
+			return $output;
+		}
 
 		/**
 		 * If a document is loaded with the autoredirect parameter, we redirect automatically
@@ -32,20 +50,39 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			) {
 				//get region from current page.
 				global $post;
-				if ( ! $post ) {
-					return;
+				$type = false;
+
+				if ( $post ) {
+					if ( preg_match( $this->get_shortcode_pattern( "gutenberg" ),
+						$post->post_content, $matches )
+					) {
+						$type = $matches[1];
+					} elseif ( preg_match( $this->get_shortcode_pattern( "classic" ),
+						$post->post_content, $matches )
+					) {
+						$type = $matches[1];
+					}
 				}
 
-				$type = false;
-				if ( preg_match( $this->get_shortcode_pattern( "gutenberg" ),
-					$post->post_content, $matches )
-				) {
-					$type = $matches[1];
-				} elseif ( preg_match( $this->get_shortcode_pattern( "classic" ),
-					$post->post_content, $matches )
-				) {
-					$type = $matches[1];
+				if ( !$type ){
+					$slug = esc_url_raw($_SERVER['REQUEST_URI']);
+					$documents = $this->get_availabe_documents();
+					foreach($documents as $doc_type){
+						if (strpos($slug, $doc_type)!==FALSE){
+							$type = $doc_type;
+						}
+					}
 				}
+
+				$current_region = false;
+				if ( substr( $type, - 3, 1 ) === '-' ) {
+					$current_region = cmplz_get_region_from_legacy_type($type);
+					$type = str_replace("-$current_region", '', $type);
+				} elseif (isset($matches[2])) {
+					$current_region = $matches[2];
+				}
+
+				if ($current_region) $type = str_replace("-$current_region", '', $type);
 				$new_region = sanitize_title( $_GET['region'] );
 
 				if ( ! isset( COMPLIANZ::$config->pages[ $new_region ][ $type ] ) ) {
@@ -54,17 +91,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 				$document = COMPLIANZ::$config->pages[ $new_region ][ $type ];
 				if ( array_key_exists( $new_region, cmplz_get_regions() )
-				     && isset( $document['condition']['regions'] )
-				     && $document['condition']['regions'] !== $new_region
+				     && $current_region !== $new_region
 				) {
 					//get the URL of the new document
-					$doc_region = $document['condition']['regions'];
-					$core_type  = str_replace( '-' . $doc_region, '', $type );
-					$new_region = ( $new_region === 'eu' ) ? ''
-						: '-' . $new_region;
-					$final_type = $core_type . $new_region;
-					$new_url
-					            = COMPLIANZ::$document->get_permalink( $final_type,
+					$new_url = COMPLIANZ::$document->get_permalink( $type,
 						$new_region );
 					wp_redirect( $new_url );
 					exit;
@@ -1097,6 +1127,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				array( $this, 'clear_shortcode_transients' ), 10, 1 );
 			add_action( 'cmplz_wizard_add_pages_to_menu',
 				array( $this, 'wizard_add_pages_to_menu' ), 10, 1 );
+			add_action( 'cmplz_wizard_add_pages',
+				array( $this, 'callback_wizard_add_pages' ), 10, 1 );
 			add_action( 'admin_init',
 				array( $this, 'assign_documents_to_menu' ) );
 			add_action( 'wp_enqueue_scripts',
@@ -1116,7 +1148,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			add_action( 'save_post', array( $this, 'save_metabox_data' ) );
 
 			add_action( 'wp', array( $this, 'maybe_autoredirect' ) );
-
+			add_action( 'wp_ajax_cmplz_create_pages',
+				array( $this, 'ajax_create_pages' ) );
 
 		}
 
@@ -1402,6 +1435,135 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		}
 
+		public function ajax_create_pages(){
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+			$error   = false;
+			if (!isset($_POST['pages'])){
+				$error = true;
+			}
+
+			if (!$error){
+				$pages = json_decode(stripslashes($_POST['pages']));
+				foreach ($pages as $region => $pages ){
+					foreach($pages as $type => $title) {
+						$current_page_id = $this->get_shortcode_page_id($type, $region);
+						if (!$current_page_id){
+							$this->create_page( $type, $region );
+						} else {
+							//if the page already exists, just update it with the title
+							$page = array(
+								'ID'           => $current_page_id,
+								'post_title'   => $title,
+								'post_type'    => "page",
+							);
+							wp_update_post( $page );
+						}
+					}
+				}
+			}
+			$data     = array(
+				'success' => !$error,
+			);
+			$response = json_encode( $data );
+			header( "Content-Type: application/json" );
+			echo $response;
+			exit;
+
+		}
+
+		/**
+		 * Check if the site has missing pages for the auto generated documents
+		 * @return bool
+		 */
+
+		public function has_missing_pages(){
+			$pages = COMPLIANZ::$document->get_required_pages();
+			$missing_pages = false;
+			foreach ( $pages as $region => $region_pages ) {
+				foreach ( $region_pages as $type => $page ) {
+					$current_page_id = $this->get_shortcode_page_id( $type,
+						$region );
+					if ( ! $current_page_id ) {
+						$missing_pages = true;
+						break;
+					}
+				}
+			}
+
+			return $missing_pages;
+		}
+
+		public function callback_wizard_add_pages(){
+			//create a page foreach page that is needed.
+			if ($this->has_missing_pages()){
+				cmplz_notice(__("The pages marked with X should be added to your website. You can create these pages with a shortcode, a Gutenberg block or use the below \"Create missing pages\" button.","complianz-gdpr"));
+			} else {
+				cmplz_notice(__("All necessary pages have been created already. You can update the page titles here if you want, then click the \"Update pages\" button.","complianz-gdpr"));
+			}
+
+			$pages = COMPLIANZ::$document->get_required_pages();
+			if (count($pages)==0){
+				cmplz_notice(__("You haven't selected any legal documents to create. You can skip this step", "complianz-gdpr"), "warning");
+			} else {
+				$missing_pages = false;
+				echo '<table style="width:100%">';
+				foreach ( $pages as $region => $region_pages ) {
+					foreach ( $region_pages as $type => $page ) {
+						$class           = '';
+						$current_page_id = $this->get_shortcode_page_id( $type,
+							$region, false);
+						if ( ! $current_page_id ) {
+							$missing_pages = true;
+							$title         = $page['title'];
+							$icon
+							               = '<i class="cmplz-page-created fa fa-times"></i>';
+							$class         = 'cmplz-deleted-page';
+						} else {
+							$post  = get_post( $current_page_id );
+							$icon
+							       = '<i class="cmplz-page-created fa fa-check"></i>';
+							$title = $post->post_title;
+						}
+						$shortcode = $this->get_shortcode( $type, $region,
+							$force_classic = true );
+						$shortcode = '<div  class="cmplz-selectable">'
+						             . $shortcode . '</div>';
+
+
+						$field = '<input name="' . $type . '" data-region="'
+						         . $region . '" class="' . $class
+						         . ' cmplz-create-page-title" required type="text" value="'
+						         . $title . '">';
+
+						?>
+
+						<tr>
+							<td><?php echo $icon ?></td>
+							<td><?php echo $field ?></td>
+							<td style="width:400px"><?php echo $shortcode; ?></td>
+						</tr>
+						<?php
+
+					}
+				}
+				echo '</table>';
+				if ($missing_pages){
+					$btn = __("Create missing pages","complianz-gdpr");
+				} else {
+					$btn = __("Update pages","complianz-gdpr");
+				}
+				?>
+				<p>
+					<button type="button" class="button button-default"
+					        id="cmplz-create_pages"><?php echo $btn ?></button>
+				</p>
+				<?php
+			}
+		}
+
 		/**
 		 *
 		 * Show form to enable user to add pages to a menu
@@ -1433,9 +1595,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
+			$created_pages = $this->get_created_pages(  );
+			$required_pages = $this->get_required_pages();
+			if (count($required_pages) > count($created_pages) ){
+				cmplz_notice( __( 'You haven\'t created all required pages yet. You can add missing pages in the previous step, or create them manually with the shortcode. You can come back later to this step to add your pages to the desired menu, or do it manually via Appearance > Menu.',
+					'complianz-gdpr' )
+				);
+			}
+
 			$pages_not_in_menu = $this->pages_not_in_menu();
 			if ( $pages_not_in_menu ) {
-				if ( COMPLIANZ::$company->sells_personal_data() ) {
+				if ( cmplz_ccpa_applies() ) {
 					cmplz_notice( sprintf( __( 'You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.',
 						'complianz-gdpr' ),
 						cmplz_us_cookie_statement_title() ) );
@@ -1448,8 +1618,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
 					'warning' );
 			} else {
-				cmplz_notice( __( "Great! All your generated documents have been assigned to a menu, so you can skip this step.",
-					'complianz-gdpr' ), 'warning' );
+				if (count($created_pages)>0 ) {
+					cmplz_notice( __( "Great! All your generated documents have been assigned to a menu, so you can skip this step.",
+						'complianz-gdpr' ), 'warning' );
+				}
 			}
 
 			$regions = cmplz_get_regions( true );
@@ -1769,17 +1941,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					foreach (
 						$required_pages[ $filter_region ] as $type => $page
 					) {
-						$pages[] = $this->get_shortcode_page_id( $type,
-							$filter_region );
+						$page_id = $this->get_shortcode_page_id( $type, $filter_region , false);
+						if ($page_id) $pages[] = $page_id;
 					}
 				}
-
 			} else {
 				$regions = cmplz_get_regions();
 				foreach ( $regions as $region => $label ) {
+					if (!isset($required_pages[ $region ])) continue;
 					foreach ( $required_pages[ $region ] as $type => $page ) {
-						$pages[] = $this->get_shortcode_page_id( $type,
-							$region );
+						$page_id = $this->get_shortcode_page_id( $type, $region, false);
+						if ($page_id) $pages[] = $page_id;
 					}
 				}
 			}
@@ -1963,13 +2135,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @since 1.0
 		 */
 
-		public function get_shortcode_page_id( $type, $region ) {
+		public function get_shortcode_page_id( $type, $region , $cache = true) {
 			$shortcode = 'cmplz-document';
-			$block     = 'complianz/document';
-			$page_id   = get_transient( 'cmplz_shortcode_' . $type . '-'
-			                            . $region );
+			$page_id   = $cache ? get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
 			if ( ! $page_id ) {
 				$pages = get_pages();
+				$type_region = ( $region == 'eu' ) ? $type : $type . '-' . $region;
+
+				/**
+				 * Gutenberg block check
+				 *
+				 * */
 				foreach ( $pages as $page ) {
 					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
 						true );
@@ -1978,14 +2154,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					} else {
 						$html = $page->post_content;
 					}
-
-					$type_region = ( $region == 'eu' ) ? $type
-						: $type . '-' . $region;
-
-					/*
-                     * Gutenberg block check
-                     *
-                     * */
 
 					//check if block contains property
 					if ( preg_match( '/"selectedDocument":"(.*?)"/i', $html,
@@ -1999,14 +2167,23 @@ if ( ! class_exists( "cmplz_document" ) ) {
 							return $page->ID;
 						}
 					}
+				}
 
-					/*
-                     * If nothing found, or if not Gutenberg, check for shortcodes.
-                     * Classic shortcode check
-                     *
-                     * */
+				/**
+				 * If nothing found, or if not Gutenberg, check for shortcodes.
+				 * Classic Editor, modern shortcode check
+				 *
+				 * */
 
-					//modern check
+				foreach ( $pages as $page ) {
+					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
+						true );
+					if ( $post_meta ) {
+						$html = $post_meta;
+					} else {
+						$html = $page->post_content;
+					}
+
 					if ( has_shortcode( $html, $shortcode )
 					     && strpos( $html, 'type="' . $type . '"' ) !== false
 					     && strpos( $html, 'region="' . $region . '"' )
@@ -2017,8 +2194,26 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 						return $page->ID;
 					}
+				}
 
-					//legacy check
+				/**
+				 * 	legacy check
+				 */
+
+				foreach ( $pages as $page ) {
+					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
+						true );
+					if ( $post_meta ) {
+						$html = $post_meta;
+					} else {
+						$html = $page->post_content;
+					}
+
+					//if the region is eu, we should not match if there's a region defined.
+					if ( $region==='eu' && strpos($html, ' region="') !== FALSE ) {
+						continue;
+					}
+
 					if ( has_shortcode( $html, $shortcode )
 					     && strpos( $html, 'type="' . $type_region . '"' )
 					        !== false
@@ -2107,13 +2302,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$policy_page_id = $this->get_shortcode_page_id( $type,
 					$region );
 
-				if ( ! $policy_page_id ) {
-					if ( COMPLIANZ::$document->page_required( $type,
-						$region )
-					) {
-						$policy_page_id = $this->create_page( $type, $region );
-					}
-				}
+//				if ( ! $policy_page_id ) {
+//					if ( COMPLIANZ::$document->page_required( $type,
+//						$region )
+//					) {
+//						$policy_page_id = $this->create_page( $type, $region );
+//					}
+//				}
 				update_option( "cmplz_document_id_$type-$region",
 					$policy_page_id );
 			}
@@ -2161,13 +2356,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$policy_page_id = $this->get_shortcode_page_id( $type,
 					$region );
 
-				if ( ! $policy_page_id ) {
-					if ( COMPLIANZ::$document->page_required( $type,
-						$region )
-					) {
-						$policy_page_id = $this->create_page( $type, $region );
-					}
-				}
+//				if ( ! $policy_page_id ) {
+//					if ( COMPLIANZ::$document->page_required( $type,
+//						$region )
+//					) {
+//						$policy_page_id = $this->create_page( $type, $region );
+//					}
+//				}
 				update_option( "cmplz_document_id_$type-$region",
 					$policy_page_id );
 			}

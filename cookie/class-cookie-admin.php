@@ -1866,7 +1866,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			update_option( 'complianz_active_policy_id', $policy_id );
 		}
 
-
 		/**
 		 * Make sure we only have the front-end settings for the output
 		 *
@@ -1931,7 +1930,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							$this->get_statistics_script_classes() );
 				}
 			}
-
 			return $class;
 		}
 
@@ -1944,8 +1942,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$classes = $this->get_statistics_script_classes();
 			do_action( 'cmplz_before_statistics_script' );
 			?>
-			<script type='text/javascript'
-			        class="<?php echo implode( " ", $classes ) ?>">
+			<script type='text/javascript' class="<?php echo implode( " ", $classes ) ?>">
 				<?php do_action( 'cmplz_statistics_script' );?>
 			</script>
 			<?php
@@ -2021,7 +2018,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$script = cmplz_get_value( 'statistics_script' );
 			}
 
-			echo( $script );
+			echo apply_filters('cmplz_script_filter' , $script );
 		}
 
 		/**
