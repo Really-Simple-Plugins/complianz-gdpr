@@ -126,6 +126,7 @@ function cmplz_contactform7_add_consent_checkbox( $form_id ) {
 		'messages'            => $properties['messages'],
 		'additional_settings' => $properties['additional_settings'],
 	);
+	remove_action( 'wpcf7_after_save', 'wpcf7_mch_save_mailchimp' );
 	wpcf7_save_contact_form( $args );
 }
 

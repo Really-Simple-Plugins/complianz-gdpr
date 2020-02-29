@@ -349,6 +349,10 @@ $this->fields = $this->fields + array(
 			'table'   => true,
 		),
 
+		/**
+		 * The condition NOT CCPA is removed, because it will hide the policy when in combination with Canada, where the text will be needed.
+		 */
+		
 		'readmore_optout' => array(
 			'source'             => 'CMPLZ_COOKIEBANNER',
 			'step'               => 'optout',
@@ -357,8 +361,8 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Text on link to the Cookie Policy",
 				'complianz-gdpr' ),
 			'table'              => true,
-			'callback_condition' => 'NOT cmplz_ccpa_applies'
 		),
+
 
 		'readmore_optout_dnsmpi' => array(
 			'source'             => 'CMPLZ_COOKIEBANNER',

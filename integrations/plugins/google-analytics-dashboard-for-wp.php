@@ -3,34 +3,33 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 /**
  * Keep GADWP settings in sync with Complianz
+ * @param string $value
+ * @param string $key
+ * @param string $default
+ *
+ * @return mixed
  */
+function cmplz_gadwp_options( $value, $key, $default ) {
 
-add_filter( 'admin_init', 'cmplz_gadwp_options', 10, 2 );
-function cmplz_gadwp_options() {
-
-	if ( class_exists( 'GADWP_Config' ) ) {
-		$save  = false;
-		$gadwp = new GADWP_Config();
-		//handle anonymization
-		if ( cmplz_no_ip_addresses() && ! $gadwp->options['ga_anonymize_ip'] ) {
-			$save                              = true;
-			$gadwp->options['ga_anonymize_ip'] = true;
-		}
-
-		//handle sharing of data
-		if ( cmplz_statistics_no_sharing_allowed()
-		     && $gadwp->options['ga_remarketing']
-		) {
-			$save                             = true;
-			$gadwp->options['ga_remarketing'] = false;
-		}
-
-		if ( $save ) {
-			$gadwp->set_plugin_options();
+	if ( $key == 'anonymize_ips' ) {
+		if (cmplz_no_ip_addresses()){
+			return true;
+		} else {
+			return false;
 		}
 	}
 
+	if ( $key == 'demographics' ) {
+		if (cmplz_statistics_no_sharing_allowed()){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	return $value;
 }
+add_filter( 'exactmetrics_get_option', 'cmplz_gadwp_options' , 10, 3 );
+
 
 /**
  * Make sure there's no warning about configuring GA anymore

@@ -158,17 +158,17 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			//clear document cache
 			COMPLIANZ::$document->clear_shortcode_transients();
 
-			//create a page foreach page that is needed.
-			$pages = COMPLIANZ::$document->get_required_pages();
-			foreach ( $pages as $region => $region_pages ) {
-				foreach ( $region_pages as $type => $page ) {
-					if ( ! COMPLIANZ::$document->page_exists( $type,
-						$region )
-					) {
-						COMPLIANZ::$document->create_page( $type, $region );
-					}
-				}
-			}
+//			//create a page foreach page that is needed.
+//			$pages = COMPLIANZ::$document->get_required_pages();
+//			foreach ( $pages as $region => $region_pages ) {
+//				foreach ( $region_pages as $type => $page ) {
+//					if ( ! COMPLIANZ::$document->page_exists( $type,
+//						$region )
+//					) {
+//						COMPLIANZ::$document->create_page( $type, $region );
+//					}
+//				}
+//			}
 
 			//if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
 			if ( cmplz_wp_privacy_version()
@@ -339,9 +339,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( $fieldname == 'california'
 			     || $fieldname == 'purpose_personaldata'
 			) {
-				add_action( 'shutdown', 'cmplz_update_cookie_policy_title',
-					12 );
-				do_action( 'cmplz_update_us_cookie_policy_title' );
+				add_action( 'shutdown', 'cmplz_update_cookie_policy_title', 12 );
 			}
 
 			if ( $fieldname === 'children-safe-harbor'

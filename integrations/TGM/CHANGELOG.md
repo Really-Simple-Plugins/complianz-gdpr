@@ -46,7 +46,7 @@ You can find the _Custom TGMPA Generator_ on the [download] page of the website.
 
 
 ## 2.5.2 (2015-07-15)
-* Hot Fix: fixes potential `Fatal error: Call to protected TGM_Plugin_Activation::__construct()` error and other compatibility issues when both TGMPA 2.5+ as well as TGMPA 2.3.6- would be loaded by different themes and plugins. [#449]
+* Hot Fix: fixes potential `Fatal error: Call to protected CMPLZ_Plugin_Activation::__construct()` error and other compatibility issues when both TGMPA 2.5+ as well as TGMPA 2.3.6- would be loaded by different themes and plugins. [#449]
 
 Take note: We do **NOT** support 2.3.6 anymore and **_highly_** discourage its use. Any themes and plugins still using TGMPA 2.3.6 or less should upgrade as soon as possible. All the same, the end-user should not be confronted with white screens because of it, so this hot fix should prevent just that.
 
@@ -157,7 +157,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 * Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
 * Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
 * Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
-* Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
+* Fixed: _"PHP Fatal error: Class 'CMPLZ_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
 
 ## 2.4.1 (2015-04-22)
 
@@ -231,7 +231,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 * Improved UI of plugins by listing them in WordPress' default table layout
 * Improved support for installing plugins if security credentials require FTP information
 * Improved support for MultiSite
-* Added 3 new classes (all extensions of existing WordPress classes): `TGMPA_List_Table` for outputting required/recommended plugins in a familiar table format, `TGM_Bulk_Installer` for bulk installing plugins and `TGM_Bulk_Installer_Skin` for skinning the bulk install process
+* Added 3 new classes (all extensions of existing WordPress classes): `CMPLZ_List_Table` for outputting required/recommended plugins in a familiar table format, `CMPLZ_Bulk_Installer` for bulk installing plugins and `CMPLZ_Bulk_Installer_Skin` for skinning the bulk install process
 * Added extra defensive measures to prevent duplication of classes
 * Added ability to bulk install and bulk activate plugins
 * Added new config options: `parent_menu_slug`, `parent_menu_url`, `is_automatic`, and `message`

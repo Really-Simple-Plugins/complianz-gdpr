@@ -509,6 +509,10 @@ jQuery(document).ready(function ($) {
 		//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 		//objects are merged so user_data will override data in complianz object
 		complianz = cmplzMergeObject(complianz, cmplz_user_data);
+
+		//check if we need to redirect to another legal document, for a specific region
+		cmplzMaybeAutoRedirect();
+
 		setBlockedContentContainer();
 
 		/**
@@ -1298,9 +1302,7 @@ jQuery(document).ready(function ($) {
 			window.location.href = window.location.href + '&region=' + complianz.region;
 		}
 	}
-
-	cmplzMaybeAutoRedirect();
-
+	
 	/**
 	 * wrapper to set consent for wp consent API. If consent API is not active, do nothing
 	 * @param type

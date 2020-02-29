@@ -269,22 +269,6 @@ $this->fields = $this->fields + array(
 			),
 			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
-
-		'sensitive_information_processed' => array(
-			'step' => STEP_COMPANY,
-			'section' => 3,
-			'source' => 'wizard',
-			'type' => 'radio',
-			'required' => false,
-			'default' => '',
-			'options' => $this->yes_no,
-			'label' => __("Does your website contain or process sensitive (personal) information?", 'complianz-gdpr'),
-			'time' => CMPLZ_MINUTES_PER_QUESTION,
-			'callback_condition' => array(
-				'regions' => array('ca'),
-			),
-			'help' => __('Sensitive personal information is information that is more significantly related to the notion of a reasonable expectation of privacy. Medical or financial information is often considered sensitive personal information, but other types of personal information might be as well. For example, pieces of information that, if procured by the wrong individuals, could result in serious cases of identity theft, might also be considered sensitive personal information.', 'complianz-gdpr'),
-		),
 	);
 
 $this->fields = $this->fields + array(
@@ -847,8 +831,20 @@ $this->fields = $this->fields + array(
 	);
 
 $this->fields = $this->fields + array(
+		'create_pages' => array(
+			'step'     => STEP_MENU,
+			'section'  => 1,
+			'source'   => 'wizard',
+			'callback' => 'wizard_add_pages',
+			'label'    => '',
+			'time'     => CMPLZ_MINUTES_PER_QUESTION_QUICK,
+		),
+	);
+
+$this->fields = $this->fields + array(
 		'add_pages_to_menu' => array(
 			'step'     => STEP_MENU,
+			'section'  => 2,
 			'source'   => 'wizard',
 			'callback' => 'wizard_add_pages_to_menu',
 			'label'    => '',

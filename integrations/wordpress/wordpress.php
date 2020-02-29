@@ -38,23 +38,23 @@ function cmplz_wordpress_register_cookies() {
 		$expiry = cmplz_get_value( 'cookie_expiry' );
 		wp_add_cookie_info( 'complianz_consent_status',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences', false );
+			'store cookie consent preferences' );
 		wp_add_cookie_info( 'complianz_policy_id',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences', false );
+			'store cookie consent preferences' );
 		wp_add_cookie_info( 'complianz_config',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences', false );
+			'store cookie consent preferences' );
 		wp_add_cookie_info( 'complianz_scan_token',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences', false );
+			'store cookie consent preferences' );
 		wp_add_cookie_info( 'cmplz_id', 'Complianz GDPR/CCPA Cookie Consent',
-			'functional', $expiry, 'store cookie consent preferences', false );
+			'functional', $expiry, 'store cookie consent preferences');
 		wp_add_cookie_info( 'cmplz_all', 'Complianz GDPR/CCPA Cookie Consent',
-			'functional', $expiry, 'store cookie consent preferences', false );
+			'functional', $expiry, 'store cookie consent preferences' );
 		wp_add_cookie_info( 'cmplz_event_*',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences', false );
+			'store cookie consent preferences' );
 	}
 }
 

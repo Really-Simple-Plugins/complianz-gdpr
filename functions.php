@@ -139,7 +139,14 @@ if ( ! function_exists( 'cmplz_do_not_sell_personal_data_form' ) ) {
 }
 if ( ! function_exists( 'cmplz_sells_personal_data' ) ) {
 	function cmplz_sells_personal_data() {
-		return COMPLIANZ::$company->sells_personal_data();
+		$purposes = cmplz_get_value( 'purpose_personaldata' , false, 'wizard');
+		if ( isset( $purposes['selling-data-thirdparty'] )
+		     && $purposes['selling-data-thirdparty']
+		) {
+			return true;
+		}
+
+		return false;
 	}
 }
 if ( ! function_exists( 'cmplz_sold_data_12months' ) ) {
@@ -292,7 +299,7 @@ if ( ! function_exists( 'cmplz_company_located_in_region' ) ) {
 if ( ! function_exists( 'cmplz_has_region' ) ) {
 
 	function cmplz_has_region( $code ) {
-		$regions = cmplz_get_regions();
+		$regions = cmplz_get_regions(true);
 		if ( isset( $regions[ $code ] ) ) {
 			return true;
 		}
@@ -363,6 +370,8 @@ if ( ! function_exists( 'cmplz_multiple_regions' ) ) {
 if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 
 	function cmplz_get_region_for_country( $country_code ) {
+		$region = false;
+
 		$regions = COMPLIANZ::$config->regions;
 		foreach ( $regions as $region_code => $region ) {
 			if ( in_array( $country_code, $region['countries'] ) ) {
@@ -375,7 +384,6 @@ if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 			$country_code );
 	}
 }
-
 
 if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
@@ -1640,8 +1648,8 @@ if ( ! function_exists( 'cmplz_update_cookie_policy_title' ) ) {
 
 if ( ! function_exists( 'cmplz_ccpa_applies' ) ) {
 	function cmplz_ccpa_applies() {
-		return cmplz_get_value( 'california' ) === 'yes'
-		       && COMPLIANZ::$company->sells_personal_data();
+		return cmplz_get_value( 'california' , false, 'wizard' ) === 'yes'
+		       && cmplz_sells_personal_data();
 	}
 }
 

@@ -831,8 +831,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			}
 
 			foreach ( $fields as $fieldname => $field ) {
-				if ( $get_by_fieldname ) {
-				}
 				if ( $get_by_fieldname && $fieldname !== $get_by_fieldname ) {
 					continue;
 				}
@@ -877,7 +875,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
 
 			if ( ! is_admin() ) {
-				$regions = cmplz_get_regions();
+				$regions = cmplz_get_regions(true);
 				foreach ( $regions as $region => $label ) {
 					foreach ( $this->pages[ $region ] as $type => $data ) {
 						$this->pages[ $region ][ $type ]['document_elements']
