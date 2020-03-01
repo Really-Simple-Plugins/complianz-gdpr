@@ -69,7 +69,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 
 Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/)
 
-[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz BV] (https://complianz.io).
+[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io).
 
 = Installation =
 * Go to “plugins” in your Wordpress Dashboard, and click “add new”.
