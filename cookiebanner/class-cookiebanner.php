@@ -1113,6 +1113,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					  . '</a>' : '';
 			}
 
+			/**
+			 * dynamically set the readmore link on the cookie policy banner, depending on ccpa and region
+			 */
+			$geoip = cmplz_geoip_enabled();
+			if ((!$geoip && cmplz_has_region('us') || ($geoip && COMPLIANZ::$geoip->region()==='us'))){
+				if (cmplz_ccpa_applies()){
+					$output['readmore_optout'] = $output['readmore_optout_dnsmpi'];
+				}
+			}
+
 			return $output;
 
 		}

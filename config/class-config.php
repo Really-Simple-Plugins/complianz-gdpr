@@ -877,6 +877,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			if ( ! is_admin() ) {
 				$regions = cmplz_get_regions(true);
 				foreach ( $regions as $region => $label ) {
+					if ( !isset( $this->pages[ $region ] ) ) continue;
+
 					foreach ( $this->pages[ $region ] as $type => $data ) {
 						$this->pages[ $region ][ $type ]['document_elements']
 							= apply_filters( 'cmplz_document_elements',
