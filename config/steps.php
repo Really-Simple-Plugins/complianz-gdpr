@@ -7,25 +7,9 @@ $this->steps = array(
 			STEP_COMPANY => array(
 				"id"    => "company",
 				"title" => __( "General", 'complianz-gdpr' ),
-				'intro' => '<h1>' . __( "Hi there!", 'complianz-gdpr' )
-				           . '</h1><p>' .
-				           _x( 'Welcome to the Complianz wizard.',
-					           'intro first step', 'complianz-gdpr' )
-				           . '</p><p>' .
-				           sprintf( _x( 'We have tried to make our Wizard as simple and fast as possible. Although these questions are all necessary, if there’s any way you think we can improve the plugin, please let us %sknow%s!',
-					           'intro first step', 'complianz-gdpr' ),
-					           '<a target="_blank" href="https://complianz.io/contact">',
-					           '</a>' ) . '<br>' .
-				           _x( 'The answers in the first step of the wizard are needed to configure your documents and consent banner specifically to your needs.',
-					           'intro first step', 'complianz-gdpr' )
-				           . '</p><p>' .
-				           _x( 'Please note that you can always save and finish the wizard later (if you need a break), use our %sdocumentation%s for additional information or log a support ticket if you need our assistance.',
-					           'intro first step', 'complianz-gdpr' ) . '</p>',
-
 				'sections' => array(
 					1 => array(
-						'id'    => 'general',
-						'title' => __( 'Documents', 'complianz-gdpr' ),
+						'title' => __( 'Visitors', 'complianz-gdpr' ),
 						'intro' => '<h1>' . __( "Hi there!", 'complianz-gdpr' )
 						           . '</h1><p>' .
 						           _x( 'Welcome to the Complianz Privacy Suite Wizard.',
@@ -47,21 +31,28 @@ $this->steps = array(
 
 					),
 					2 => array(
-						'title' => __( 'Visitors', 'complianz-gdpr' ),
-						'intro' => _x( 'To determine what laws apply, we need to know where your website visitors are coming from.',
-							'intro company info', 'complianz-gdpr' ),
+						'id'    => 'general',
+						'title' => __( 'Documents', 'complianz-gdpr' ),
+						'intro' => _x('Here you can select the documents for your website', 'intro company info', 'complianz-gdpr'),
 					),
 					3 => array(
+						'id' => 'impressum_info',
 						'title' => __( 'Website information',
 							'complianz-gdpr' ),
 						'intro' => _x( 'We need some information to be able to generate your documents.',
 							'intro company info', 'complianz-gdpr' ),
 					),
-					5 => array(
+					4 => array(
+						'id' => 'impressum_info',
+						'title' => __('Impressum', 'complianz-gdpr'),
+						'intro' => _x('We need some information to be able to generate your Impressum. Not all fields are required', 'intro company info', 'complianz-gdpr'),
+						'region' => array('eu'),
+					),
+					6 => array(
 						'title' => __( 'Purpose', 'complianz-gdpr' ),
 						//'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz-gdpr'),
 					),
-					7 => array(
+					8 => array(
 						'region' => array( 'us' ),
 						'id'     => 'details_per_purpose_us',
 						'title'  => __( 'Details per purpose',

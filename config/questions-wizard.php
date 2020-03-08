@@ -25,85 +25,10 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 // MY COMPANY SECTION
 $this->fields = $this->fields + array(
-		'cookie-policy-type' => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 1,
-			'source'   => 'wizard',
-			'default'  => 'default',
-			'type'     => 'select',
-			'options'  => array(
-				'default' => __( "Auto generated cookie policy",
-					'complianz-gdpr' ),
-				'custom'  => __( "Custom cookie policy", 'complianz-gdpr' ),
-			),
-			'label'    => __( "Select if you want to use the auto generated cookie policy or your own",
-				'complianz-gdpr' ),
-			'required' => true,
-			'help'     => __( 'Complianz will generate the cookie policy based on your cookies and the answers in the wizard, but you can also create your own, custom document.',
-				"complianz-gdpr" ),
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-		),
 
-		'custom-cookie-policy-url' => array(
-			'step'      => STEP_COMPANY,
-			'section'   => 1,
-			'source'    => 'wizard',
-			'type'      => 'url',
-			'options'   => array(
-				'default' => __( "Auto generated cookie policy",
-					'complianz-gdpr' ),
-				'custom'  => __( "Custom cookie policy", 'complianz-gdpr' ),
-			),
-			'condition' => array(
-				'cookie-policy-type' => 'custom',
-			),
-			'label'     => __( "Enter the URL to your custom cookie policy",
-				'complianz-gdpr' ),
-			'required'  => true,
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
-		'privacy-statement' => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 1,
-			'disabled' => true,
-			'source'   => 'wizard',
-			'type'     => 'radio',
-			'default'  => 'no',
-			'label'    => __( "Do you want to add a privacy statement on your site?",
-				'complianz-gdpr' ),
-			'options'  => $this->yes_no,
-			'comment'  => $this->premium_privacypolicy,
-			'required' => false,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
-		'disclaimer' => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 1,
-			'source'   => 'wizard',
-			'default'  => 'no',
-			'disabled' => true,
-			'type'     => 'radio',
-			'options'  => $this->yes_no,
-			'label'    => __( "Do you want to add a disclaimer on your site?",
-				'complianz-gdpr' ),
-			'comment'  => $this->premium_disclaimer,
-			'required' => false,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
-		'notice_missing_privacy_page' => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 3,
-			'source'   => 'wizard',
-			'type'     => 'callback',
-			'callback' => 'notice_missing_privacy_page',
-			'time'     => 0,
-		),
 		'regions'                     => array(
 			'step'     => STEP_COMPANY,
-			'section'  => 2,
+			'section'  => 1,
 			'source'   => 'wizard',
 			'default'  => '',
 			'type'     => 'radio',
@@ -130,7 +55,7 @@ $this->fields = $this->fields + array(
 
 		'eu_consent_regions' => array(
 			'step'      => STEP_COMPANY,
-			'section'   => 2,
+			'section'   => 1,
 			'source'    => 'wizard',
 			'default'   => 'no',
 			'type'      => 'radio',
@@ -144,7 +69,7 @@ $this->fields = $this->fields + array(
 
 		'california' => array(
 			'step'      => STEP_COMPANY,
-			'section'   => 2,
+			'section'   => 1,
 			'source'    => 'wizard',
 			'default'   => 'yes',
 			'type'      => 'radio',
@@ -156,6 +81,62 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'required'  => true,
 			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'cookie-statement' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 2,
+			'source'   => 'wizard',
+			'default'  => 'generated',
+			'type'     => 'document',
+			'label'    => __( "Select if you want to use the auto generated cookie policy or your own",
+				'complianz-gdpr' ),
+			'required' => true,
+			'help'     => __( 'Complianz will generate the cookie policy based on your cookies and the answers in the wizard, but you can also create your own, custom document.',
+				"complianz-gdpr" ),
+			'time'     => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'impressum' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 2,
+			'disabled' => true,
+			'source'   => 'wizard',
+			'default'  => 'custom',
+			'type'     => 'document',
+			'label'    => __( "Select if you want to use the auto generated impressum or your own", 'complianz-gdpr' ),
+			'required' => true,
+			'help'     => __( 'Complianz will generate the impressum based on the answers in the wizard, but you can also create your own, custom document.',
+				"complianz-gdpr" ),
+			'time'     => CMPLZ_MINUTES_PER_QUESTION,
+			'callback_condition' => array('eu_consent_regions' => 'yes'),
+		),
+
+		'privacy-statement' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 2,
+			'disabled' => true,
+			'source'   => 'wizard',
+			'type'     => 'document',
+			'default'  => 'custom',
+			'label'    => __( "Do you want to add a privacy statement on your site?", 'complianz-gdpr' ),
+			'options'  => $this->yes_no,
+			'required' => false,
+			'time'     => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'disclaimer' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 2,
+			'source'   => 'wizard',
+			'default'  => 'custom',
+			'disabled' => true,
+			'type'     => 'document',
+			'options'  => $this->yes_no,
+			'label'    => __( "Do you want to add a disclaimer on your site?",
+				'complianz-gdpr' ),
+			'required' => false,
+			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'organisation_name' => array(
@@ -196,6 +177,7 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
+
 		'email_company'     => array(
 			'step'     => STEP_COMPANY,
 			'section'  => 3,
@@ -209,6 +191,7 @@ $this->fields = $this->fields + array(
 			'required' => true,
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
+
 		'telephone_company' => array(
 			'step'           => STEP_COMPANY,
 			'section'        => 3,

@@ -142,6 +142,23 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					$this->save_multiple( $fieldnames );
 				}
 
+				//Save the custom URL's for not Complianz generated pages.
+				$docs = $this->get_availabe_documents();
+				foreach ($docs as $document){
+					if (isset($_POST["cmplz_".$document."_custom_page"])){
+						$doc_id = intval($_POST["cmplz_".$document."_custom_page"]);
+						update_option("cmplz_".$document."_custom_page", $doc_id );
+						//if we have an actual privacy statement, custom, set it as privacy url for WP
+						if ($document==='privacy-statement' && $doc_id > 0){
+							COMPLIANZ::$document->set_wp_privacy_policy($doc_id, 'privacy-statement');
+						}
+					}
+					if (isset($_POST["cmplz_".$document."_custom_page_url"])){
+						$url = esc_url_raw($_POST["cmplz_".$document."_custom_page_url"]);
+						update_option("cmplz_".$document."_custom_page_url", $url );
+					}
+				}
+
 				//save data
 				$posted_fields = array_filter( $_POST,
 					array( $this, 'filter_complianz_fields' ),
@@ -153,6 +170,20 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				//we're assuming the page is the same for all fields here, as it's all on the same page (or should be)
 
 			}
+		}
+
+		public function get_availabe_documents(){
+			$documents = COMPLIANZ::$config->pages;
+			$output = array();
+			foreach( $documents as $region => $region_documents ){
+				foreach( $region_documents as $type => $data ){
+					if (!in_array( $type, $output )) {
+						$output[] = $type;
+					}
+				}
+			}
+
+			return $output;
 		}
 
 		/**
@@ -275,7 +306,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 
 		public function save_field( $fieldname, $fieldvalue ) {
-
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
@@ -855,6 +885,117 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		}
 
 		public
+		function document(
+			$args
+		) {
+			$nicename = str_replace('-', ' ',$args['fieldname']);
+			$fieldname = 'cmplz_' . $args['fieldname'];
+			$value     = $this->get_value( $args['fieldname'], $args['default'] );
+			$doc_args = array(
+				'post_type' => 'page',
+				'posts_per_page' => -1,
+			);
+			$pages = get_posts($doc_args);
+			$pages = wp_list_pluck($pages, 'post_title','ID' );
+			$custom_page_id = get_option('cmplz_'.$args['fieldname'].'_custom_page');
+			if ( ! $this->show_field( $args ) ) {
+				return;
+			}
+
+			/**
+			 * If there's no active privacy policy, use the wp privacy policy, if available
+			 */
+			if ( $args['fieldname'] === 'privacy-statement' && !$custom_page_id ){
+				$wp_privacy_policy = get_option('wp_page_for_privacy_policy');
+				if ($wp_privacy_policy){
+					$custom_page_id = $wp_privacy_policy;
+				}
+			}
+
+			?>
+			<?php do_action( 'complianz_before_label', $args ); ?>
+			<label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn( $args ); ?></label>
+			<?php do_action( 'complianz_after_label', $args ); ?>
+
+			<div class="cmplz-validate-radio cmplz-document-field" data-fieldname="<?php echo esc_html( $fieldname ) ?>">
+				<input <?php if ( $args['disabled'] )
+					echo "disabled" ?>
+					<?php if ( $args['required'] ) {
+						echo "required";
+					} ?>
+					type="radio"
+					name="<?php echo esc_html( $fieldname ) ?>"
+					value="generated" <?php if ( $value == 'generated'
+				)
+					echo "checked" ?> class="cmplz-document-input">
+				<label class="">
+					<?php echo apply_filters("cmplz_generate_document_label", sprintf(__("Auto generate a comprehensive, legally validated %s with our %spremium%s plugin", "complianz-gdpr"),$nicename,'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' )); ?>
+				</label>
+				<div class="clear"></div>
+
+				<input
+					<?php if ( $args['required'] ) {
+						echo "required";
+					} ?>
+					type="radio"
+					name="<?php echo esc_html( $fieldname ) ?>"
+					value="custom"
+					<?php if ( $value == 'custom' )
+					echo "checked" ?> class="cmplz-document-input">
+				<label class="">
+					<?php _e("Link to custom page", "complianz-gdpr"); ?>
+				</label>
+
+				<div class="clear"></div>
+				<input
+					<?php if ( $args['required'] ) {
+						echo "required";
+					} ?>
+					type="radio"
+					name="<?php echo esc_html( $fieldname ) ?>"
+					value="url"
+					<?php if ( $value == 'url' )
+						echo "checked" ?> class="cmplz-document-input">
+				<label class="">
+					<?php printf( __("Custom URL", "complianz-gdpr"), $args['label'] ); ?>
+				</label>
+				<div class="clear"></div>
+
+
+				<?php if ( $args['fieldname'] !== 'cookie-statement' && !$custom_page_id ){?>
+					<input
+						<?php if ( $args['required'] ) {
+							echo "required";
+						} ?>
+						type="radio"
+						name="<?php echo esc_html( $fieldname ) ?>"
+						value="none"
+						<?php if ( $value == 'custom' )
+							echo "checked" ?> class="cmplz-document-input">
+					<label class="">
+						<?php printf( __("No document", "complianz-gdpr"), $args['label'] ); ?>
+					</label>
+					<div class="clear"></div>
+				<?php }?>
+				<input type="text" class="cmplz-document-custom-url" placeholder = "https://domain.com/your-policy" name="<?php echo esc_html( $fieldname."_custom_page_url" ) ?>">
+
+				<select class="cmplz-document-custom-page" name="<?php echo esc_html( $fieldname."_custom_page" ) ?>">
+					<option value=""><?php _e("None selected", "complianz-gdpr")?></option>
+
+					<?php foreach ($pages as $ID => $page){
+						$selected = $ID==$custom_page_id ? "selected" : "";
+						?>
+						<option value="<?php echo $ID?>" <?=$selected?>><?php echo $page?></option>
+					<?php } ?>
+				</select>
+			</div>
+
+			<?php do_action( 'complianz_after_field', $args ); ?>
+			<?php
+		}
+
+
+		public
 		function show_field(
 			$args
 		) {
@@ -1229,6 +1370,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 						break;
 					case 'text':
 						$this->text( $args );
+						break;
+					case 'document':
+						$this->document( $args );
 						break;
 					case 'button':
 						$this->button( $args );

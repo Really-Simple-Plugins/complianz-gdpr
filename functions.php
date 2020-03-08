@@ -373,15 +373,15 @@ if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 		$region = false;
 
 		$regions = COMPLIANZ::$config->regions;
-		foreach ( $regions as $region_code => $region ) {
-			if ( in_array( $country_code, $region['countries'] ) ) {
+		foreach ( $regions as $region_code => $region_data ) {
+			if ( in_array( $country_code, $region_data['countries'] ) ) {
 				$region = $region_code;
 				break;
 			}
 		}
 
-		return apply_filters( "cmplz_region_for_country", $region,
-			$country_code );
+		$region = apply_filters( "cmplz_region_for_country", $region, $country_code );
+		return $region;
 	}
 }
 
@@ -389,8 +389,7 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$actual_region = cmplz_get_region_for_country( $country_code );
-
-		if ( isset( $regions[ $actual_region ]['type'] ) ) {
+		if ( isset( $regions[ $actual_region ]) && isset( $regions[ $actual_region ]['type'] ) ) {
 			return $regions[ $actual_region ]['type'];
 		}
 
@@ -1603,23 +1602,19 @@ if ( ! function_exists( 'cmplz_us_cookie_statement_title' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_get_cookie_policy_url' ) ) {
+if ( ! function_exists( 'cmplz_get_document_url' ) ) {
 	/**
-	 * Get url to cookie policy
+	 * Get url to legal document
 	 *
 	 * @param string $region
 	 *
 	 * @return string URL
 	 */
-	function cmplz_get_cookie_policy_url( $region = 'eu' ) {
-		if ( cmplz_get_value( 'cookie-policy-type' ) === 'custom' ) {
-			return strlen( cmplz_get_value( 'custom-cookie-policy-url' ) ) == 0
-				? '#'
-				: esc_url_raw( cmplz_get_value( 'custom-cookie-policy-url' ) );
-		} else {
-			return COMPLIANZ::$document->get_page_url( 'cookie-statement',
-				$region );
-		}
+
+	function cmplz_get_document_url( $type, $region = 'eu' ) {
+
+		return COMPLIANZ::$document->get_page_url( $type,
+			$region );
 	}
 }
 

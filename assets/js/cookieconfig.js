@@ -48,7 +48,6 @@ jQuery(document).ready(function ($) {
 	var ccName;
 	var ccStatsEnabled = false;
 	var ccAllEnabled = false;
-	var ccPrivacyLink = '';
 	var waitingInlineScripts = [];
 	var waitingScripts = [];
 	var placeholderClassIndex = 0;
@@ -587,7 +586,6 @@ jQuery(document).ready(function ($) {
 				complianz.readmore = complianz.readmore_optout;
 				complianz.dismiss = complianz.accept_informational;
 				complianz.message = complianz.message_optout;
-				ccPrivacyLink = complianz.privacy_link[complianz.region];
 				cmplz_cookie_warning();
 			} else {
 				console.log('other consenttype, no cookie warning');
@@ -715,7 +713,7 @@ jQuery(document).ready(function ($) {
 				"allow": '<a aria-label="{{allow}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
 				"save": '<a aria-label="{{save_preferences}}" href="#" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
 				"categories-checkboxes": complianz.categories,
-				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + ccPrivacyLink + '</span>',
+				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</span>',
 			},
 			"content": {
 				"save_preferences": complianz.save_preferences,
@@ -839,7 +837,6 @@ jQuery(document).ready(function ($) {
 				} else {
 					cmplzSetCookie('cmplz_event_' + i, 'deny', complianz.cookie_expiry);
 					cmplz_wp_set_consent('cmplz_event_' + i, 'deny');
-
 				}
 			}
 		}
@@ -1302,7 +1299,7 @@ jQuery(document).ready(function ($) {
 			window.location.href = window.location.href + '&region=' + complianz.region;
 		}
 	}
-	
+
 	/**
 	 * wrapper to set consent for wp consent API. If consent API is not active, do nothing
 	 * @param type

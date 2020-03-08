@@ -631,8 +631,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $eu_countries;
 		public $premium_geo_ip;
 		public $premium_ab_testing;
-		public $premium_privacypolicy;
-		public $premium_disclaimer;
 		public $collected_info_children;
 
 		function __construct() {
@@ -670,16 +668,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'complianz-gdpr' ),
 					'<a href="https://complianz.io" target="_blank">', '</a>' )
 				  . "&nbsp;";
-			$this->premium_privacypolicy
-				= sprintf( __( "A comprehensive, legally validated privacy statement is part of the %spremium%s plugin.",
-					'complianz-gdpr' ),
-					'<a href="https://complianz.io" target="_blank">', '</a>' )
-				  . "&nbsp;";
-			$this->premium_disclaimer
-				= sprintf( __( "A comprehensive, legally validated disclaimer is part of the %spremium%s plugin.",
-					'complianz-gdpr' ),
-					'<a href="https://complianz.io" target="_blank">', '</a>' )
-				  . "&nbsp;";
+
 
 			/* config files */
 			require_once( cmplz_path . '/config/countries.php' );
@@ -705,13 +694,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				require_once( cmplz_path . '/pro/config/steps.php' );
 				require_once( cmplz_path . '/pro/config/warnings.php' );
 				require_once( cmplz_path . '/pro/config/questions-wizard.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/documents.php' );
-
-				require_once( cmplz_path
-				              . '/pro/config/EU/questions-dataleak.php' );
-				require_once( cmplz_path
-				              . '/pro/config/US/questions-dataleak.php' );
+				require_once( cmplz_path . '/pro/config/documents/documents.php' );
+				require_once( cmplz_path . '/pro/config/EU/questions-dataleak.php' );
+				require_once( cmplz_path . '/pro/config/US/questions-dataleak.php' );
 				require_once( cmplz_path
 				              . '/pro/config/CA/questions-dataleak.php' );
 				require_once( cmplz_path
@@ -750,8 +735,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				require_once( cmplz_path
 				              . '/pro/config/documents/disclaimer.php' );
 
-				require_once( cmplz_path
-				              . '/pro/config/documents/EU/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/EU/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/EU/impressum.php' );
 				require_once( cmplz_path
 				              . '/pro/config/documents/EU/processing-agreement.php' );
 				require_once( cmplz_path

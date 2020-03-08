@@ -816,6 +816,16 @@ html .mceContentBody {
   /* Styling for the previous and next buttons */
   /* CSS for the sections menu */
 }
+#cmplz-wizard .cmplz-body input[type="text"].cmplz-document-custom-url,
+#cookie-policy-snapshots .cmplz-body input[type="text"].cmplz-document-custom-url {
+  width: 250px;
+}
+#cmplz-wizard .cmplz-body .cmplz-document-custom-url,
+#cookie-policy-snapshots .cmplz-body .cmplz-document-custom-url,
+#cmplz-wizard .cmplz-body .cmplz-document-custom-page,
+#cookie-policy-snapshots .cmplz-body .cmplz-document-custom-page {
+  margin-top: 20px;
+}
 #cmplz-wizard .cmplz-body button.button,
 #cookie-policy-snapshots .cmplz-body button.button {
   margin-bottom: 15px;

@@ -284,7 +284,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			     && version_compare( $prev_version, '3.0.8', '<' )
 			) {
 				$wizard_settings                       = get_option( 'complianz_options_wizard' );
-				$wizard_settings['cookie-policy-type'] = 'default';
+				$wizard_settings['cookie-statement'] = 'generated';
 				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
@@ -418,6 +418,48 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					update_option( 'cmplz_publish_date',
 						intval( $publish_date ) );
 				}
+			}
+
+			/**
+			 * upgrade to new custom and generated document settings
+			 */
+
+			if ( $prev_version
+			     && version_compare( $prev_version, '4.3.3', '<' )
+			) {
+				//upgrade cookie policy setting to new field
+				$wizard_settings = get_option( 'complianz_options_wizard' );
+				$value = $wizard_settings["cookie-policy-type"];
+				unset($wizard_settings["cookie-policy-type"]);
+				//upgrade cookie policy custom url
+				if ($value === 'custom') {
+					$url     = cmplz_get_value( 'custom-cookie-policy-url' );
+					update_option( "cmplz_cookie-statement_custom_page", $url );
+				}
+				$wizard_settings['cookie-statement'] = $value;
+
+				//upgrade privacy policy settings
+				$value = $wizard_settings["privacy-statement"];
+				if ($value==='yes'){
+					$value = 'generated';
+				} else {
+					$value = 'custom';
+					$wp_privacy_policy = get_option('wp_page_for_privacy_policy');
+					update_option("cmplz_privacy-statement_custom_page", $wp_privacy_policy);
+				}
+				$wizard_settings['privacy-statement'] = $value;
+
+				//upgrade disclaimer settings
+				$value = $wizard_settings["disclaimer"];
+				if ($value==='yes'){
+					$value = 'generated';
+				} else {
+					$value = 'none';
+				}
+				$wizard_settings['privacy-statement'] = $value;
+
+				//save the data
+				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );

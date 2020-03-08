@@ -1102,15 +1102,23 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
-				$output['readmore_url'][ $region ]
-					                               = cmplz_get_cookie_policy_url( $region );
-				$privacy_link
-					                               = COMPLIANZ::$document->get_page_url( 'privacy-statement',
-					$region );
-				$output['privacy_link'][ $region ] = ! empty( $privacy_link )
-					? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="'
-					  . $privacy_link . '">' . $this->readmore_privacy_x
-					  . '</a>' : '';
+				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
+
+				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="{link}">{description}</a>';
+				$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
+				$impressum_link = cmplz_get_document_url( 'impressum', $region );
+
+				if ($region=='us' && $privacy_link !== '#'){
+					$info = str_replace(array( '{link}','{description}' ), array($privacy_link, $this->readmore_privacy_x), $tmpl);
+				}
+
+				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
+					$info = str_replace(array( '{link}','{description}' ), array($impressum_link, "Impressum"), $tmpl);
+				}
+
+				$output['privacy_link'][ $region ] = ! empty( $info )
+					? $info
+					: '';
 			}
 
 			/**

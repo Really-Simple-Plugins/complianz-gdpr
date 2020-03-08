@@ -173,7 +173,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			//if the plugins page is reviewed, we can reset the privacy statement suggestions from WordPress.
 			if ( cmplz_wp_privacy_version()
 			     && ( $this->step( 'wizard' ) == STEP_PLUGINS )
-			     && cmplz_get_value( 'privacy-statement' ) === 'yes'
+			     && cmplz_get_value( 'privacy-statement' ) === 'generated'
 			) {
 				$policy_page_id
 					= (int) get_option( 'wp_page_for_privacy_policy' );
@@ -276,7 +276,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 			//when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
 			if ( $fieldname === 'privacy-statement' || $fieldname === 'regions'
-			     || $fieldname === 'cookie-policy-type'
+			     || $fieldname === 'cookie-statement'
 			) {
 				cmplz_update_banner_version_all_banners();
 			}
@@ -838,7 +838,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		}
 
 
-		/*
+		/**
 		 * Get a notice style header with an intro above a step or section
 		 *
 		 *
