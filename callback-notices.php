@@ -302,7 +302,7 @@ function cmplz_notice_missing_privacy_page() {
 	     && ! $privacy_policy_exists
 	) {
 		cmplz_notice( sprintf( __( "You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s",
-			'complianz-gdpr' ), '<a href="' . admin_url( 'privacy.php' ) . '">',
+			'complianz-gdpr' ), '<a href="' . admin_url( 'options-privacy.php' ) . '">',
 			'</a>' ), 'warning' );
 	}
 
