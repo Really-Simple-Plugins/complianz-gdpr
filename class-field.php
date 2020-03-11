@@ -929,7 +929,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				)
 					echo "checked" ?> class="cmplz-document-input">
 				<label class="">
-					<?php echo apply_filters("cmplz_generate_document_label", sprintf(__("Auto generate a comprehensive, legally validated %s with our %spremium%s plugin", "complianz-gdpr"),$nicename,'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' )); ?>
+					<?php
+					if ($args['fieldname'] === 'cookie-statement'){
+						echo __("Generate with Complianz", "complianz-gdpr");
+					} else {
+						echo apply_filters("cmplz_generate_document_label", sprintf(__("Generate a comprehensive and legally validated %s with %spremium%s", "complianz-gdpr"), $nicename,'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' ));
+					} ?>
 				</label>
 				<div class="clear"></div>
 

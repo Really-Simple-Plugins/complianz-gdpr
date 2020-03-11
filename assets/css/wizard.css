@@ -1091,6 +1091,7 @@ html .mceContentBody {
 #cmplz-wizard input[type=checkbox]:disabled,
 #cookie-policy-snapshots input[type=checkbox]:disabled {
   border: 0;
+  background-color: #f2f2f2;
 }
 #cmplz-wizard input[type=radio]:checked:before,
 #cookie-policy-snapshots input[type=radio]:checked:before {

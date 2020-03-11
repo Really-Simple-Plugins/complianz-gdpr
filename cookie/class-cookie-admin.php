@@ -3387,10 +3387,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 
-		/*
+		/**
          * Check if site uses Google Analytics
-         *
-         *
+		 * @return bool
          * */
 
 		public function uses_google_analytics() {
@@ -3402,6 +3401,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return false;
 		}
 
+		/**
+		 * Check if tm is used
+		 * @return bool
+		 */
+
 		public function uses_google_tagmanager() {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
@@ -3412,6 +3416,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			return false;
 		}
+
+		/**
+		 * Check if matomo is used
+		 * @return bool
+		 */
 
 		public function uses_matomo() {
 			$statistics = cmplz_get_value( 'compile_statistics' );

@@ -381,14 +381,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$value = cmplz_get_value( $question, $post_id );
 
 					if ($condition_answer === 'NOT EMPTY') {
-						_log($question);
-						_log($value);
 						if ( strlen( $value )===0 ) {
-							_log("empty");
 							return false;
 						} else {
-							_log("not empty");
-
 							return true;
 						}
 					}
