@@ -113,7 +113,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: TGM compatibility fix
 * Fix: when dismiss on scroll is used in the US in combination with the hide settings button, the settings button wasn't hidden immediately
 * Fix: Improved blocked content activation on ajax loaded content
-* Fix: Add try/catch for the strange situation that file_exists returns true while it's not there on wp engine.
 
 = 4.3.4 =
 * Fix: Mailchimp for CF7 compatibility
