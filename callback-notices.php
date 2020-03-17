@@ -135,7 +135,7 @@ function cmplz_google_fonts_recommendation() {
 				continue;
 			}
 			if ( $thirdparty === 'google-fonts' ) {
-				cmplz_notice( sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
+				cmplz_notice( sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
 					'complianz-gdpr' ),
 					'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">',
 					'</a>' ) );
