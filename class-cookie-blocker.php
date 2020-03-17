@@ -110,10 +110,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 * */
 
 			$known_script_tags = COMPLIANZ::$config->script_tags;
-			$custom_scripts
-			                   = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_scripts' ) );
+			$custom_scripts    = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_scripts' ) );
 			if ( ! empty( $custom_scripts ) && strlen( $custom_scripts ) > 0 ) {
-				$custom_scripts    = explode( ',', $custom_scripts );
+				$custom_scripts    = array_filter(explode( ',', $custom_scripts ));
 				$known_script_tags = array_merge( $known_script_tags,
 					$custom_scripts );
 			}
@@ -505,6 +504,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			}
 
 			foreach ( $needle as $key => $value ) {
+				if ( strlen($value) === 0 ) continue;
 				if ( ( $pos = strpos( $haystack, $value ) ) !== false ) {
 					return ( is_numeric( $key ) ) ? $value : $key;
 				}

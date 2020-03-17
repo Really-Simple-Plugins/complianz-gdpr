@@ -32,12 +32,12 @@ function cmplz_consent_api_registered( $plugin ) {
  */
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
-add_action( 'tgmpa_register', 'cmplz__register_required_plugins' );
+add_action( 'cmplz_register', 'cmplz__register_required_plugins' );
 
 /**
  * Register the required plugins for this theme.
  *
- * This function is hooked into `tgmpa_register`, which is fired on the WP `init` action on priority 10.
+ * This function is hooked into `cmplz_register`, which is fired on the WP `init` action on priority 10.
  */
 function cmplz__register_required_plugins() {
 	$plugins                  = get_option( 'active_plugins' );

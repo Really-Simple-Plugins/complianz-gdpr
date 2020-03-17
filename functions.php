@@ -373,15 +373,14 @@ if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 		$region = false;
 
 		$regions = COMPLIANZ::$config->regions;
-		foreach ( $regions as $region_code => $region ) {
-			if ( in_array( $country_code, $region['countries'] ) ) {
+		foreach ( $regions as $region_code => $region_data ) {
+			if ( in_array( $country_code, $region_data['countries'] ) ) {
 				$region = $region_code;
 				break;
 			}
 		}
 
-		return apply_filters( "cmplz_region_for_country", $region,
-			$country_code );
+		return apply_filters( "cmplz_region_for_country", $region, $country_code );
 	}
 }
 
@@ -389,7 +388,6 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$actual_region = cmplz_get_region_for_country( $country_code );
-
 		if ( isset( $regions[ $actual_region ]['type'] ) ) {
 			return $regions[ $actual_region ]['type'];
 		}
