@@ -147,6 +147,17 @@ $this->fields = $this->fields + array(
 			//setting this to true will set it always to true
 		),
 
+		'enable_cookieblocker_ajax' => array(
+			'step'     => 'general',
+			'source'   => 'settings',
+			'type'     => 'checkbox',
+			'label'    => __( "Enable cookie blocker for ajax loaded content", 'complianz-gdpr' ),
+			'table'    => true,
+			'disabled' => false,
+			'default'  => false,
+		),
+
+
 		'notification_from_email' => array(
 			'source'             => 'settings',
 			'type'               => 'email',
