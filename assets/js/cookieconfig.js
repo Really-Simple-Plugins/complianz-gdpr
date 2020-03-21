@@ -94,8 +94,10 @@ jQuery(document).ready(function ($) {
 				blockedContentContainer = $(this);
 			}
 
+			var curIndex = blockedContentContainer.data('placeholderClassIndex');
+
 			//if the blocked content container class is already added, don't add it again
-			if (!blockedContentContainer.hasClass('cmplz-blocked-content-container')) {
+			if (typeof curIndex === 'undefined') {
 				placeholderClassIndex++;
 				blockedContentContainer.addClass('cmplz-placeholder-' + placeholderClassIndex);
 				blockedContentContainer.addClass('cmplz-blocked-content-container');
@@ -181,10 +183,11 @@ jQuery(document).ready(function ($) {
 	});
 
 	//we run this function also on an interval, because with ajax loaded content, the placeholders would otherwise not be handled.
-	setInterval(function () {
-		setBlockedContentContainer();
-
-	}, 2000);
+	if ( complianz.block_ajax_content ) {
+		setInterval(function () {
+			setBlockedContentContainer();
+		}, 2000);
+	}
 
 
 	/**
