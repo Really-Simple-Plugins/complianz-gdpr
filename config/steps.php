@@ -45,7 +45,6 @@ $this->steps = array(
 					4 => array(
 						'id' => 'impressum_info',
 						'title' => __('Impressum', 'complianz-gdpr'),
-						'intro' => _x('We need some information to be able to generate your Impressum. Not all fields are required', 'intro company info', 'complianz-gdpr'),
 						'region' => array('eu'),
 					),
 					6 => array(

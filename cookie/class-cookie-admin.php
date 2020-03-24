@@ -969,6 +969,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
+
 				$error  = ( $result == 0
 				            && strpos( $result,
 						'<title>502 Bad Gateway</title>' ) === false ) ? false
@@ -1017,20 +1018,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$cookie                  = new CMPLZ_COOKIE( $original_cookie_name,
 							'en' );
 						$cookie->name            = $cookie_object->name;
-						$cookie->retention
-						                         = $cookie_object->retention;
+						$cookie->retention       = $cookie_object->retention;
 						$cookie->collectedPersonalData
 						                         = $cookie_object->collectedPersonalData;
-						$cookie->cookieFunction
-						                         = $cookie_object->cookieFunction;
-						$cookie->purpose
-						                         = $cookie_object->purpose;
-						$cookie->isPersonalData
-						                         = $cookie_object->isPersonalData;
-						$cookie->isMembersOnly
-						                         = $cookie_object->isMembersOnly;
-						$cookie->service
-						                         = $cookie_object->service;
+						$cookie->cookieFunction  = $cookie_object->cookieFunction;
+						$cookie->purpose         = $cookie_object->purpose;
+						$cookie->isPersonalData  = $cookie_object->isPersonalData;
+						$cookie->isMembersOnly   = $cookie_object->isMembersOnly;
+						$cookie->service         = $cookie_object->service;
 						$cookie->ignored         = $cookie_object->ignore;
 						$cookie->unique          = $cookie_object->unique;
 						$cookie->slug            = $cookie_object->slug;
@@ -1189,7 +1184,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$msg   = '';
 			$error = false;
 			$data  = $this->get_syncable_services();
-
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
 				$msg
@@ -1263,7 +1257,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$result = $result->data;
 				}
 			}
-
 
 			if ( ! $error ) {
 				if ( isset( $result->en ) ) {
@@ -1661,6 +1654,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 		}
 
+		/**
+		 * Rescan after a manual "rescan" command from the user
+		 */
 
 		public function rescan() {
 			if ( isset( $_POST['rescan'] ) ) {
@@ -2157,7 +2153,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 			//if the last cookie scan date is more than a month ago, we re-scan.
 			$last_scan_date = $this->get_last_cookie_scan_date( true );
-			$one_month_ago  = strtotime( '-1 month' );
+			$one_month_ago  = apply_filters( 'cmplz_scan_frequency' , strtotime( '-1 month' ) );
 			if ( $this->scan_complete()
 			     && ( $one_month_ago > $last_scan_date )
 			) {
@@ -2983,9 +2979,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		/**
 		 * Get the last cookie sync date in unix or human time format
 		 *
-		 * @param bool $unix
-		 *
-		 * @return bool|int|string
+		 * @return string
 		 */
 
 		public function get_last_cookie_sync_date() {
@@ -3000,15 +2994,27 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $date;
 		}
 
+		/**
+		 * Set the cookies as having been changed
+		 */
 
 		public function set_cookies_changed() {
 			update_option( 'cmplz_changed_cookies', 1 );
 
 		}
 
+		/**
+		 * Check if cookies have been changed
+		 * @return bool
+		 */
+
 		public function cookies_changed() {
 			return ( get_option( 'cmplz_changed_cookies' ) == 1 );
 		}
+
+		/**
+		 * Reset the cookies changed value
+		 */
 
 		public function reset_cookies_changed() {
 			update_option( 'cmplz_cookie_data_verified_date', time() );
@@ -3016,12 +3022,21 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			update_option( 'cmplz_changed_cookies', - 1 );
 		}
 
+		/**
+		 * Update the cookie policy date
+		 */
+
 		public function update_cookie_policy_date() {
 			update_option( 'cmplz_publish_date', time() );
 
 			//also reset the email notification, so it will get sent next year.
 			update_option( 'cmplz_update_legal_documents_mail_sent', false );
 		}
+
+		/**
+		 * Hooked into ajax call to load detected cookies
+		 * @hooked wp_ajax_load_detected_cookies
+		 */
 
 		public function load_detected_cookies() {
 			$error   = false;
@@ -3042,6 +3057,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			die( json_encode( $out ) );
 		}
+
+		/**
+		 * Get html for list of detected cookies
+		 * @return string
+		 */
 
 		public function get_detected_cookies_table() {
 			$html         = '';
@@ -3079,6 +3099,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				} else {
 					$html .= '<tr><td></td><td>---</td></tr>';
 				}
+
 				/*
                  * Show the social media which are placing cookies
                  * */
@@ -3141,6 +3162,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return false;
 		}
 
+		/**
+		 * Get progress of the scan in percentage
+		 *
+		 * @return float
+		 */
 
 		public function get_progress_count() {
 			$done  = $this->get_processed_pages_list();
@@ -3153,6 +3179,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			return $progress;
 		}
+
+		/**
+		 * Get progress of the current scan to output with ajax
+		 */
 
 		public function get_scan_progress() {
 			$next_url = $this->get_next_page_url();

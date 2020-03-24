@@ -156,8 +156,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function check_upgrade() {
 			//when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
 			$prev_version = get_option( 'cmplz-current-version', false );
-//            if (defined("SCRIPT_DEBUG") && SCRIPT_DEBUG) $prev_version = substr($prev_version,0, 5);
-
 
 			//set a default region if this is an upgrade:
 			if ( $prev_version
@@ -423,29 +421,42 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			/**
 			 * upgrade to new custom and generated document settings
 			 */
-
-			if ( $prev_version
-			     && version_compare( $prev_version, '4.3.3', '<' )
+			if (  $prev_version
+			     && version_compare( $prev_version, '4.4.0', '<' )
 			) {
 				//upgrade cookie policy setting to new field
 				$wizard_settings = get_option( 'complianz_options_wizard' );
-				$value = $wizard_settings["cookie-policy-type"];
-				unset($wizard_settings["cookie-policy-type"]);
-				//upgrade cookie policy custom url
-				if ($value === 'custom') {
-					$url     = cmplz_get_value( 'custom-cookie-policy-url' );
-					update_option( "cmplz_cookie-statement_custom_page", $url );
+				if ( isset($wizard_settings["cookie-policy-type"]) ){
+					$value = $wizard_settings["cookie-policy-type"];
+					unset($wizard_settings["cookie-policy-type"]);
+					//upgrade cookie policy custom url
+					if ($value === 'custom') {
+						$url     = cmplz_get_value( 'custom-cookie-policy-url' );
+						update_option( "cmplz_cookie-statement_custom_page", $url );
+						unset($wizard_settings["custom-cookie-policy-url"]);
+					} else {
+						$value = 'generated';
+					}
+				} else {
+					$value = 'generated';
 				}
+
 				$wizard_settings['cookie-statement'] = $value;
+				$wizard_settings['impressum'] = 'none';
 
 				//upgrade privacy policy settings
 				$value = $wizard_settings["privacy-statement"];
-				if ($value==='yes'){
+
+				if ( $value === 'yes' ) {
 					$value = 'generated';
 				} else {
-					$value = 'custom';
 					$wp_privacy_policy = get_option('wp_page_for_privacy_policy');
-					update_option("cmplz_privacy-statement_custom_page", $wp_privacy_policy);
+					if ($wp_privacy_policy) {
+						$value = 'custom';
+						update_option("cmplz_privacy-statement_custom_page", $wp_privacy_policy);
+					} else {
+						$value = 'none';
+					}
 				}
 				$wizard_settings['privacy-statement'] = $value;
 
@@ -456,7 +467,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				} else {
 					$value = 'none';
 				}
-				$wizard_settings['privacy-statement'] = $value;
+				$wizard_settings['disclaimer'] = $value;
 
 				//save the data
 				update_option( 'complianz_options_wizard', $wizard_settings );

@@ -649,8 +649,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			 * 4: new questions
 			 * 5: UK as separate region
 			 * 6: CA as separate region
+			 * 7: Impressum in germany
 			 * */
-			define( 'CMPLZ_LEGAL_VERSION', '6' );
+			define( 'CMPLZ_LEGAL_VERSION', '7' );
 
 			//common options type
 			$this->yes_no = array(
@@ -782,26 +783,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			return array_search( $id, array_column( $steps, 'id' ) ) + 1;
 		}
 
-		/**
-		 * Create a generic read more text with link for help texts.
-		 *
-		 * @param string $url
-		 * @param bool   $add_space
-		 *
-		 * @return string
-		 */
-
-		public function read_more( $url, $add_space = true ) {
-			$html
-				= sprintf( __( "For more information on this subject, please read this %sarticle%s",
-				'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">',
-				'</a>' );
-			if ( $add_space ) {
-				$html = '&nbsp;' . $html;
-			}
-
-			return $html;
-		}
 
 		public function fields(
 			$page = false, $step = false, $section = false,
@@ -858,7 +839,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function init() {
 
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
-
 			if ( ! is_admin() ) {
 				$regions = cmplz_get_regions(true);
 				foreach ( $regions as $region => $label ) {

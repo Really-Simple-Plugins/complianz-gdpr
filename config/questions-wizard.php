@@ -89,8 +89,7 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'default'  => 'generated',
 			'type'     => 'document',
-			'label'    => __( "Select if you want to use the auto generated cookie policy or your own",
-				'complianz-gdpr' ),
+			'label'    => __( "cookie policy", 'complianz-gdpr' ),
 			'required' => true,
 			'help'     => __( 'Complianz will generate the cookie policy based on your cookies and the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
@@ -102,9 +101,9 @@ $this->fields = $this->fields + array(
 			'section'  => 2,
 			'disabled' => true,
 			'source'   => 'wizard',
-			'default'  => 'custom',
+			'default'  => 'none',
 			'type'     => 'document',
-			'label'    => __( "Select if you want to use the auto generated impressum or your own", 'complianz-gdpr' ),
+			'label'    => __( "impressum", 'complianz-gdpr' ),
 			'required' => true,
 			'help'     => __( 'Complianz will generate the impressum based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
@@ -119,7 +118,7 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'type'     => 'document',
 			'default'  => 'custom',
-			'label'    => __( "Do you want to add a privacy statement on your site?", 'complianz-gdpr' ),
+			'label'    => __( "privacy statement", 'complianz-gdpr' ),
 			'options'  => $this->yes_no,
 			'required' => false,
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
@@ -129,11 +128,11 @@ $this->fields = $this->fields + array(
 			'step'     => STEP_COMPANY,
 			'section'  => 2,
 			'source'   => 'wizard',
-			'default'  => 'custom',
+			'default'  => 'none',
 			'disabled' => true,
 			'type'     => 'document',
 			'options'  => $this->yes_no,
-			'label'    => __( "Do you want to add a disclaimer on your site?",
+			'label'    => __( "disclaimer",
 				'complianz-gdpr' ),
 			'required' => false,
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
@@ -237,7 +236,7 @@ $this->fields = $this->fields + array(
 		// Purpose
 		'purpose_personaldata' => array(
 			'step'               => STEP_COMPANY,
-			'section'            => 5,
+			'section'            => 6,
 			'source'             => 'wizard',
 			'type'               => 'multicheckbox',
 			'default'            => '',
@@ -314,7 +313,7 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ) . "<br>"
 			                             . __( 'If you can check all three options, you might not need a cookie warning on your site.',
 					'complianz-gdpr' )
-			                             . $this->read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
+			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-analytics',
 			),
@@ -340,7 +339,7 @@ $this->fields = $this->fields + array(
 			),
 			'help'                    => __( 'With Tag Manager you can configure the selective firing of cookies in the Tag Manager dashboard.',
 					'complianz-gdpr' )
-			                             . $this->read_more( 'https://complianz.io/how-to-configure-tag-manager-for-gdpr/' ),
+			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-tag-manager-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-tag-manager',
 			),
@@ -566,7 +565,7 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'help'                    => __( "You can configure Hotjar privacy-friendly, if you do this, no consent is required for Hotjar.",
 					'complianz-gdpr' )
-			                             . $this->read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/' ),
+			                             . cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'condition'               => array( 'thirdparty_services_on_site' => 'hotjar' ),
 			'callback_condition'      => array( 'consent_for_anonymous_stats' => 'NOT yes' ),

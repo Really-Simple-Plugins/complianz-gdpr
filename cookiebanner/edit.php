@@ -32,6 +32,10 @@ if ( count( $regions ) == 0 ) {
 		<?php //some fields for the cookies categories ?>
 		<input type="hidden" name="cmplz_cookie_warning_required_stats"
 		       value="<?php echo( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) ?>">
+
+
+		<input type="hidden" name="cmplz_impressum_required"
+		       value="<?php echo (cmplz_get_value( 'eu_consent_regions' ) === 'yes' ) ? '1' : '' ?>">
 		<?php
 		/**
 		 * If Tag manager fires categories, enable use categories by default

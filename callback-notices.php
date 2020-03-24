@@ -54,7 +54,7 @@ add_action( 'cmplz_notice_consent_for_anonymous_stats',
 function cmplz_notice_consent_for_anonymous_stats( $args ) {
 	cmplz_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.",
 			'complianz-gdpr' )
-	              . COMPLIANZ::$config->read_more( 'https://complianz.io/google-analytics' ),
+	              . cmplz_read_more( 'https://complianz.io/google-analytics' ),
 		'warning' );
 
 }
@@ -121,7 +121,7 @@ function cmplz_google_fonts_recommendation() {
 	}
 	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.",
 			'complianz-gdpr' ), __( "services", "complianz-gdpr" ) )
-	              . COMPLIANZ::$config->read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
+	              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
 		'warning' );
 	cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s",
 		'complianz-gdpr' ),
@@ -135,7 +135,7 @@ function cmplz_google_fonts_recommendation() {
 				continue;
 			}
 			if ( $thirdparty === 'google-fonts' ) {
-				cmplz_notice( sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommended to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
+				cmplz_notice( sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
 					'complianz-gdpr' ),
 					'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">',
 					'</a>' ) );
@@ -210,7 +210,7 @@ add_action( 'cmplz_notice_uses_ad_cookies_personalized',
 function cmplz_notice_personalized_ads_based_on_consent() {
 	cmplz_notice( __( "With Tag Manager, you can also configure your (personalized) advertising based on consent.",
 			'complianz-gdpr' )
-	              . COMPLIANZ::$config->read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
+	              . cmplz_read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
 }
 
 
@@ -258,7 +258,7 @@ function cmplz_show_use_categories_notice() {
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
 		cmplz_notice( __( "Categories are mandatory for your statistics configuration",
 				'complianz-gdpr' )
-		              . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
+		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
 			'warning' );
 	}
 }
@@ -277,7 +277,7 @@ function cmplz_show_use_categories_optinstats_notice() {
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
 		cmplz_notice( __( "Categories are mandatory for your statistics configuration",
 				'complianz-gdpr' )
-		              . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
+		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
 			'warning' );
 	}
 }
@@ -288,10 +288,6 @@ function cmplz_show_use_categories_optinstats_notice() {
  * */
 
 function cmplz_notice_missing_privacy_page() {
-//	$privacy_policy_exists = get_option( 'wp_page_for_privacy_policy' )
-//	                         && get_post( get_option( 'wp_page_for_privacy_policy' ) )
-//	                         && get_post_status( get_option( 'wp_page_for_privacy_policy' ) )
-//	                            === 'publish';
 	if (cmplz_has_region('us') || cmplz_has_region('ca') || cmplz_has_region('au')){
 		cmplz_notice( __( "It is recommended to select a privacy policy.", 'complianz-gdpr' )." ".__("The link to the privacy policy is used in the cookie banner and in your cookie policy.", 'complianz-gdpr' ) );
 	} else {
