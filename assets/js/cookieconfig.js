@@ -225,7 +225,8 @@ jQuery(document).ready(function ($) {
 			//check if there's an autoplay value we need to pass on
 			var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
 			if (autoplay === '1') src = src + '&autoplay=1';
-			$(this).attr('src', src).load(function () {
+                        //console.log( src );
+			$(this).on( 'load' , function () {
 				//fitvids integration, a.o. Beaverbuilder
 				if (typeof $(this).parent().fitVids == 'function') {
 					$(this).parent().fitVids();
@@ -247,6 +248,7 @@ jQuery(document).ready(function ($) {
 					curElement.removeClass('cmplz-hidden');
 				});
 			});
+                        $(this).attr('src', src); // change source here to trigger "load" event
 		});
 
 		//other services, no iframe, with placeholders
