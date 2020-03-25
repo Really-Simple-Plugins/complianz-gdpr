@@ -186,6 +186,7 @@ jQuery(document).ready(function ($) {
 		}, 2000);
 	}
 
+	//}else{console.log('no btn')}
 	/**
 	 * Enable scripts that were blocked
 	 *
@@ -1209,7 +1210,13 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzIntegrationsInit() {
-		cmplzIntegrationsRevoke();
+		var cookiesToSet = complianz.set_cookies;
+		//check if we have scripts that need to be set to true on init.
+		for (var key in cookiesToSet) {
+			if (cookiesToSet.hasOwnProperty(key) && cookiesToSet[key][1] === '1') {
+				cmplzSetCookie(key, cookiesToSet[key][1], 0);
+			}
+		}
 	}
 
 	/**
@@ -1218,7 +1225,6 @@ jQuery(document).ready(function ($) {
 	 * */
 	function cmplzIntegrationsRevoke() {
 		var cookiesToSet = complianz.set_cookies;
-		//check if we have waiting scripts
 		for (var key in cookiesToSet) {
 			if (cookiesToSet.hasOwnProperty(key)) {
 				cmplzSetCookie(key, cookiesToSet[key][1], 0);
@@ -1233,7 +1239,6 @@ jQuery(document).ready(function ($) {
 
 	function cmplzIntegrationsConsent() {
 		var cookiesToSet = complianz.set_cookies;
-		//check if we have waiting scripts
 		for (var key in cookiesToSet) {
 			if (cookiesToSet.hasOwnProperty(key)) {
 				cmplzSetCookie(key, cookiesToSet[key][0], complianz.cookie_expiry);
