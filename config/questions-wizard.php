@@ -108,7 +108,10 @@ $this->fields = $this->fields + array(
 			'help'     => __( 'Complianz will generate the impressum based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-			'callback_condition' => array('eu_consent_regions' => 'yes'),
+			'callback_condition' => array(
+				'regions' => 'eu',
+				'eu_consent_regions' => 'yes'
+			),
 		),
 
 		'privacy-statement' => array(
