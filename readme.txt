@@ -1,5 +1,5 @@
 === Complianz | GDPR/CCPA Cookie Consent ===
-Contributors: RogierLankhorst, Complianz, aahulsebos, leonwimmenhoeve, paapst, markwolters, mujuonly
+Contributors: RogierLankhorst, Complianz, aahulsebos, leonwimmenhoeve, paapst, markwolters, mujuonly, xantek, pierrotevrard
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, PIPEDA, Cookie Policy, Opt-in
 Requires at least: 4.7
@@ -109,9 +109,18 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.3.6 =
+* Fix: OpenStreetMaps (OSM plugin) compatibility fix
+* Fix: cookie blocker for ajax loaded content made conditional with a setting in the general settings
+* Tweak: allow colon in URL field
+
+= 4.3.5 =
+* Fix: TGM compatibility fix
+* Fix: when dismiss on scroll is used in the US in combination with the hide settings button, the settings button wasn't hidden immediately
+* Fix: Improved blocked content activation on ajax loaded content
+
 = 4.3.4 =
 * Fix: Mailchimp for CF7 compatibility
-* Tweak: hide license key
 * Tweak: added filter to allow to manipulate script output
 * Fix: embedded analytics script triggered before consent because regex didn't match the script after PHPcs changes
 * Fix: condition on Cookie Policy text field caused field not to be shown when both CCPA and PIPEDA apply

@@ -33,11 +33,12 @@ if ( ! function_exists( 'cmplz_fields_filter' ) ) {
 
 if ( ! function_exists( 'cmplz_get_template' ) ) {
 
-	function cmplz_get_template( $file ) {
+	function cmplz_get_template( $filename ) {
 
-		$file       = trailingslashit( cmplz_path ) . 'templates/' . $file;
+		$file       = trailingslashit( cmplz_path ) . 'templates/' . $filename;
 		$theme_file = trailingslashit( get_stylesheet_directory() )
-		              . dirname( cmplz_path ) . $file;
+		              . trailingslashit( basename( cmplz_path ) )
+                      . 'templates/' . $filename;
 
 		if ( file_exists( $theme_file ) ) {
 			$file = $theme_file;

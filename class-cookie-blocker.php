@@ -253,7 +253,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			$iframe_pattern
 				= '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'
-				  . $url_pattern . '[\'"].*?>.*?<\/iframe>/si';
+				  . $url_pattern . '[\'"].*?>.*?<\/iframe>/is';
 			if ( preg_match_all( $iframe_pattern, $output, $matches,
 				PREG_PATTERN_ORDER )
 			) {
