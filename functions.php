@@ -38,7 +38,7 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 		$file       = trailingslashit( cmplz_path ) . 'templates/' . $filename;
 		$theme_file = trailingslashit( get_stylesheet_directory() )
 		              . trailingslashit( basename( cmplz_path ) )
-                      . 'templates/' . $filename;
+		              . 'templates/' . $filename;
 
 		if ( file_exists( $theme_file ) ) {
 			$file = $theme_file;
