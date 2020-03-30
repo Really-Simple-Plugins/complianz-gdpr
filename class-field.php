@@ -928,7 +928,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					echo "checked" ?> class="cmplz-document-input">
 				<label class="">
 					<?php
-						echo apply_filters("cmplz_generate_document_label", sprintf(__("Generate a comprehensive and legally validated %s with %spremium%s", "complianz-gdpr"), $args['label'],'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' ), $args['fieldname']);
+						echo apply_filters("cmplz_generate_document_label", sprintf(__("Generate with Complianz", "complianz-gdpr"), $args['label'],'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' ), $args['fieldname']);
 					 ?>
 				</label>
 				<div class="clear"></div>
