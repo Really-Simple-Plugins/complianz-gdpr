@@ -55,7 +55,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Select both USA, CA, UK and EU as target regions with conditional Consent and dedicated Cookie Banners.
 * Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
-* All Legal Documents: Customized and legally validated privacy statements (EU, CA, UK & US), cookie policy (EU, UK, CA & US), disclaimer, processing agreements (EU, UK, CA & US) , dataleak reporting tools, created and updated by a dedicated law firm
+* All Legal Documents: Customized and legally validated privacy statements (EU, CA, UK & US), cookie policy (EU, UK, CA & US), Impressum, disclaimer, processing agreements (EU, UK, CA & US) , dataleak reporting tools, created and updated by a dedicated law firm
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
 * CCPA Consent and Legal documents.
 * COPPA ready with Children's Privacy Policy
@@ -109,6 +109,15 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.4.0 =
+* Improvement: Add an impressum link to your cookie banner for Germany or Austria
+* Improvement: pass type to Cookiedatabase: localstorage or cookie
+* Fix: improve integration with WP Google Maps plugin
+* Fix: template override feature from theme not working https://github.com/rlankhorst/complianz-gdpr/issues/242 props xantek
+* Fix: with line breaks in iframe element, https://github.com/rlankhorst/complianz-gdpr/issues/244 props pierrotevrard
+* Fix: iframe replacement issue with linebreaks https://github.com/rlankhorst/complianz-gdpr/issues/246 props pierrotevrard
+* Improvement: Translatepress support
+
 = 4.3.6 =
 * Fix: OpenStreetMaps (OSM plugin) compatibility fix
 * Fix: cookie blocker for ajax loaded content made conditional with a setting in the general settings
