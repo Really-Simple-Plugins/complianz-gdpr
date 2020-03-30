@@ -168,7 +168,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
 		'callback_condition'   => array(
-			'privacy-statement' => 'yes',
+			'privacy-statement' => 'generated',
 			'regions'           => 'eu',
 		),
 	),

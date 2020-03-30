@@ -54,7 +54,7 @@ add_action( 'cmplz_notice_consent_for_anonymous_stats',
 function cmplz_notice_consent_for_anonymous_stats( $args ) {
 	cmplz_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.",
 			'complianz-gdpr' )
-	              . COMPLIANZ::$config->read_more( 'https://complianz.io/google-analytics' ),
+	              . cmplz_read_more( 'https://complianz.io/google-analytics' ),
 		'warning' );
 
 }
@@ -121,7 +121,7 @@ function cmplz_google_fonts_recommendation() {
 	}
 	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.",
 			'complianz-gdpr' ), __( "services", "complianz-gdpr" ) )
-	              . COMPLIANZ::$config->read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
+	              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
 		'warning' );
 	cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s",
 		'complianz-gdpr' ),
@@ -210,7 +210,7 @@ add_action( 'cmplz_notice_uses_ad_cookies_personalized',
 function cmplz_notice_personalized_ads_based_on_consent() {
 	cmplz_notice( __( "With Tag Manager, you can also configure your (personalized) advertising based on consent.",
 			'complianz-gdpr' )
-	              . COMPLIANZ::$config->read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
+	              . cmplz_read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
 }
 
 
@@ -258,7 +258,7 @@ function cmplz_show_use_categories_notice() {
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
 		cmplz_notice( __( "Categories are mandatory for your statistics configuration",
 				'complianz-gdpr' )
-		              . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
+		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
 			'warning' );
 	}
 }
@@ -277,36 +277,26 @@ function cmplz_show_use_categories_optinstats_notice() {
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
 		cmplz_notice( __( "Categories are mandatory for your statistics configuration",
 				'complianz-gdpr' )
-		              . COMPLIANZ::$config->read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
+		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
 			'warning' );
 	}
 }
 
-
-/*
+/**
  * For the cookie page and the US banner we need a link to the privacy statement.
  * In free, and in premium when the privacy statement is not enabled, we choose the WP privacy page. If it is not set, the user needs to create one.
- *
- *
  * */
 
-add_action( 'cmplz_notice_missing_privacy_page',
-	'cmplz_notice_missing_privacy_page' );
 function cmplz_notice_missing_privacy_page() {
-	$privacy_policy_exists = get_option( 'wp_page_for_privacy_policy' )
-	                         && get_post( get_option( 'wp_page_for_privacy_policy' ) )
-	                         && get_post_status( get_option( 'wp_page_for_privacy_policy' ) )
-	                            === 'publish';
-	if ( ( defined( 'cmplz_free' )
-	       || cmplz_get_value( 'privacy-statement' ) !== 'yes' )
-	     && ! $privacy_policy_exists
-	) {
-		cmplz_notice( sprintf( __( "You do not have a privacy statement page selected, which is needed to configure your site. You can either let Complianz Privacy Suite premium handle it for you, or create one yourself and set it as the WordPress privacy page %shere%s",
-			'complianz-gdpr' ), '<a href="' . admin_url( 'options-privacy.php' ) . '">',
-			'</a>' ), 'warning' );
+	if (cmplz_has_region('us') || cmplz_has_region('ca') || cmplz_has_region('au')){
+		cmplz_notice( __( "It is recommended to select a privacy policy.", 'complianz-gdpr' )." ".__("The link to the privacy policy is used in the cookie banner and in your cookie policy.", 'complianz-gdpr' ) );
+	} else {
+		cmplz_notice( __( "It is recommended to select a privacy policy.", 'complianz-gdpr' )." ".__("The link to the privacy policy is used in your cookie policy.", 'complianz-gdpr' ) );
 	}
 
 }
+add_action( 'cmplz_notice_privacy-statement', 'cmplz_notice_missing_privacy_page' );
+
 
 add_action( 'cmplz_notice_sensitive_information_processed',
 	'cmplz_notice_sensitive_information_processed' );

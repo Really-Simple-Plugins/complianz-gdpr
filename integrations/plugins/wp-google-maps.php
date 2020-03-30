@@ -34,18 +34,31 @@ add_filter( 'wpgmza_gdpr_notice_html',
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_mapppress_css' );
-function cmplz_mapppress_css() {
+add_action( 'wp_footer', 'cmplz_wp_google_maps_css' );
+function cmplz_wp_google_maps_css() {
 	?>
 	<style>
 		.wpgmza-gdpr-compliance {
 			text-align: center;
 		}
 	</style>
+
 	<?php
 }
 
-;
+/**
+ * Make sure the agree button accepts the complianz banner
+ */
+
+function cmplz_wp_google_maps_js() {
+	if(!wp_script_is('jquery', 'done')) {
+		wp_enqueue_script('jquery');
+	}
+
+	$script = 'setInterval(function () {if($(\'.wpgmza-api-consent\').length) {$(\'.wpgmza-api-consent\').addClass(\'cmplz-accept-cookies\');}}, 2000);';
+	wp_add_inline_script( 'jquery', "jQuery(document).ready(function($){console.log('test3');$script});" );
+}
+add_action( 'wp_enqueue_scripts', 'cmplz_wp_google_maps_js' );
 
 /**
  * Force the GDPR option to be enabled

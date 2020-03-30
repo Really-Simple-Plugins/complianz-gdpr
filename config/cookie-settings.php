@@ -253,7 +253,7 @@ $this->fields = $this->fields + array(
 			'help'               => __( 'Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_all',
 					'complianz-gdpr' ) . "<br><br>"
 			                        . cmplz_tagmanager_conditional_helptext()
-			                        . $this->read_more( 'https://complianz.io/configure-categories-tag-manager' ),
+			                        . cmplz_read_more( 'https://complianz.io/configure-categories-tag-manager' ),
 			'table'              => true,
 			'placeholder'        => __( 'First category, Second category',
 				'complianz-gdpr' ),
@@ -352,7 +352,7 @@ $this->fields = $this->fields + array(
 		/**
 		 * The condition NOT CCPA is removed, because it will hide the policy when in combination with Canada, where the text will be needed.
 		 */
-		
+
 		'readmore_optout' => array(
 			'source'             => 'CMPLZ_COOKIEBANNER',
 			'step'               => 'optout',

@@ -157,7 +157,6 @@ $this->fields = $this->fields + array(
 			'default'  => false,
 		),
 
-
 		'notification_from_email' => array(
 			'source'             => 'settings',
 			'type'               => 'email',

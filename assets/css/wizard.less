@@ -883,6 +883,13 @@ html .mceContentBody {
 
   /*body */
   .cmplz-body {
+	input[type="text"].cmplz-document-custom-url {
+	  width: 250px;
+	}
+
+	.cmplz-document-custom-url, .cmplz-document-custom-page {
+	  margin-top:20px;
+	}
 
     button.button {
       margin-bottom: 15px;
@@ -1153,6 +1160,7 @@ html .mceContentBody {
   input[type=radio], input[type=checkbox] {
     &:disabled {
       border:0;
+	  background-color:#f2f2f2;
     }
     font-size: 14px;
     border: 1px solid #b4b9be;

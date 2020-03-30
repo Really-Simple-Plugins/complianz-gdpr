@@ -860,6 +860,44 @@ jQuery(document).ready(function ($) {
 
 
 	/**
+	 * hide and show custom url
+	 */
+	$(document).on('change', '.cmplz-document-input', function(){
+		cmplz_update_document_field();
+	});
+
+	cmplz_update_document_field();
+	function cmplz_update_document_field(){
+		if ($('.cmplz-document-field').length){
+			$('.cmplz-document-field').each(function(){
+				var fieldname = $(this).data('fieldname');
+				var value = $('input[name='+fieldname+']:checked').val();
+				var urlField = $(this).find('.cmplz-document-custom-url');
+				var pageField = $(this).find('.cmplz-document-custom-page');
+
+				if (value==='custom'){
+					pageField.show();
+					pageField.prop('required', true);
+				} else {
+					pageField.hide();
+					pageField.prop('required', false);
+				}
+
+				if (value==='url'){
+					urlField.show();
+					urlField.prop('required', true);
+				} else {
+					urlField.hide();
+					urlField.prop('required', false);
+				}
+
+
+
+			});
+		}
+	}
+
+	/**
 	 * Create missing pages
 	 */
 	$(document).on('click', '#cmplz-create_pages', function(){

@@ -389,7 +389,7 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$actual_region = cmplz_get_region_for_country( $country_code );
-		if ( isset( $regions[ $actual_region ]['type'] ) ) {
+		if ( isset( $regions[ $actual_region ]) && isset( $regions[ $actual_region ]['type'] ) ) {
 			return $regions[ $actual_region ]['type'];
 		}
 
@@ -833,6 +833,7 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 			add_action( "template_redirect",
 				array( COMPLIANZ::$cookie_blocker, "start_buffer" ) );
 		}
+
 		add_action( "shutdown",
 			array( COMPLIANZ::$cookie_blocker, "end_buffer" ), 999 );
 
@@ -865,13 +866,15 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 	}
 }
 
-/*
- * By default, the region which is returned is the region as selected in the wizard settings.
- *
- * */
+
 
 
 if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
+	/**
+	 * By default, the region which is returned is the region as selected in the wizard settings.
+	 *
+	 * */
+
 	function cmplz_ajax_user_settings() {
 		$data                = apply_filters( 'cmplz_user_data', array() );
 		$data['consenttype'] = apply_filters( 'cmplz_user_consenttype',
@@ -900,6 +903,28 @@ if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 	function cmplz_geoip_enabled() {
 		return apply_filters( 'cmplz_geoip_enabled', false );
+	}
+}
+
+if (!function_exists('cmplz_read_more')) {
+	/**
+	 * Create a generic read more text with link for help texts.
+	 *
+	 * @param string $url
+	 * @param bool   $add_space
+	 *
+	 * @return string
+	 */
+	function cmplz_read_more( $url, $add_space = true ) {
+		$html
+			= sprintf( __( "For more information on this subject, please read this %sarticle%s",
+			'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">',
+			'</a>' );
+		if ( $add_space ) {
+			$html = '&nbsp;' . $html;
+		}
+
+		return $html;
 	}
 }
 
@@ -1602,23 +1627,19 @@ if ( ! function_exists( 'cmplz_us_cookie_statement_title' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_get_cookie_policy_url' ) ) {
+if ( ! function_exists( 'cmplz_get_document_url' ) ) {
 	/**
-	 * Get url to cookie policy
+	 * Get url to legal document
 	 *
 	 * @param string $region
 	 *
 	 * @return string URL
 	 */
-	function cmplz_get_cookie_policy_url( $region = 'eu' ) {
-		if ( cmplz_get_value( 'cookie-policy-type' ) === 'custom' ) {
-			return strlen( cmplz_get_value( 'custom-cookie-policy-url' ) ) == 0
-				? '#'
-				: esc_url_raw( cmplz_get_value( 'custom-cookie-policy-url' ) );
-		} else {
-			return COMPLIANZ::$document->get_page_url( 'cookie-statement',
-				$region );
-		}
+
+	function cmplz_get_document_url( $type, $region = 'eu' ) {
+
+		return COMPLIANZ::$document->get_page_url( $type,
+			$region );
 	}
 }
 

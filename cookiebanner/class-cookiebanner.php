@@ -126,12 +126,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $readmore_optout_x;
 		public $readmore_optout_dnsmpi_x;
 		public $readmore_privacy_x;
+		public $translation_id;
 
 		public $statistics;
 
 
 		function __construct( $id = false ) {
 
+			$this->translation_id = $this->get_translation_id();
 			$this->id = $id;
 
 			if ( $this->id !== false ) {
@@ -407,7 +409,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function translate( $value, $fieldname ) {
-			$key = $this->get_translation_id();
+			$key = $this->translation_id;
 
 			if ( function_exists( 'pll__' ) ) {
 				$value = pll__( $value );
@@ -426,7 +428,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		}
 
 		private function register_translation( $string, $fieldname ) {
-			$key = $this->get_translation_id();
+			$key = $this->translation_id;
 			//polylang
 			if ( function_exists( "pll_register_string" ) ) {
 				pll_register_string( $fieldname . $key, $string, 'complianz' );
@@ -451,25 +453,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function get_translation_id() {
-			//if only one banner, no id
-			$banners = cmplz_get_cookiebanners();
-			if ( count( $banners ) === 0 ) {
+			//if this is the banner with the lowest ID's, no ID
+			global $wpdb;
+			$lowest = $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
+			if ( $lowest == $this->id ) {
 				return '';
 			} else {
-				//if this is the banner with the lowest ID's, no ID
-				global $wpdb;
-				$lowest
-					= $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
-				if ( $lowest == $this->id ) {
-					return '';
-				} else {
-					return $this->id;
-				}
+				return $this->id;
 			}
-
-
 		}
-
 
 		/**
 		 * Get a default value
@@ -973,8 +965,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$output = array(
 				'static'                    => false,
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
-				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent',
-					array() ),
+				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
+				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
 				'banner_version'            => $this->banner_version,
 				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
 				'version'                   => cmplz_version,
@@ -1103,15 +1095,23 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
-				$output['readmore_url'][ $region ]
-					                               = cmplz_get_cookie_policy_url( $region );
-				$privacy_link
-					                               = COMPLIANZ::$document->get_page_url( 'privacy-statement',
-					$region );
-				$output['privacy_link'][ $region ] = ! empty( $privacy_link )
-					? '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link" href="'
-					  . $privacy_link . '">' . $this->readmore_privacy_x
-					  . '</a>' : '';
+				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
+
+				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" tabindex="{tabindex}" class="cc-link {type}" href="{link}">{description}</a>';
+				$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
+				$impressum_link = cmplz_get_document_url( 'impressum', $region );
+
+				if ($region=='us' && $privacy_link !== '#'){
+					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($privacy_link, $this->readmore_privacy_x, '0', 'privacy-statement'), $tmpl);
+				}
+
+				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
+					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, __("Impressum","complianz-gdpr"), '1', "impressum"), $tmpl);
+				}
+
+				$output['privacy_link'][ $region ] = ! empty( $info )
+					? $info
+					: '';
 			}
 
 			/**

@@ -267,6 +267,10 @@ jQuery(document).ready(function ($) {
                 ccPrivacyLink = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy]').val() + '</a>';
         }
 
+		if (ccConsentType == 'optin' && $('input[name=cmplz_impressum_required]') ){
+			ccPrivacyLink += '<span class="cc-divider">&nbsp;-&nbsp;</span><a href="#" tabindex="1" class="cc-link impressum">Impressum</a>';
+		}
+
         var ccTheme = $('select[name=cmplz_theme]').val();
         var ccLayout = 'basic';
         var ccPopupTextColor = $('input[name=cmplz_popup_text_color]').val();
