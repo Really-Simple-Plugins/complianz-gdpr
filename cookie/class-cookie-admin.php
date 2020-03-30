@@ -1015,10 +1015,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							continue;
 						}
 
-						$cookie                  = new CMPLZ_COOKIE( $original_cookie_name,
-							'en' );
+						$cookie                  = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
 						$cookie->name            = $cookie_object->name;
 						$cookie->retention       = $cookie_object->retention;
+						$cookie->type            = $cookie_object->type;
 						$cookie->collectedPersonalData
 						                         = $cookie_object->collectedPersonalData;
 						$cookie->cookieFunction  = $cookie_object->cookieFunction;
@@ -1027,7 +1027,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$cookie->isMembersOnly   = $cookie_object->isMembersOnly;
 						$cookie->service         = $cookie_object->service;
 						$cookie->ignored         = $cookie_object->ignore;
-						$cookie->unique          = $cookie_object->unique;
 						$cookie->slug            = $cookie_object->slug;
 						$cookie->lastUpdatedDate = time();
 
@@ -1047,30 +1046,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 								continue;
 							}
 
-							$cookie                  = new CMPLZ_COOKIE( $original_cookie_name,
-								$language );
-							$cookie->name
-							                         = $cookie_object->name;
-							$cookie->retention
-							                         = $cookie_object->retention;
+							$cookie                  = new CMPLZ_COOKIE( $original_cookie_name, $language );
+							$cookie->name            = $cookie_object->name;
+							$cookie->retention       = $cookie_object->retention;
 							$cookie->collectedPersonalData
 							                         = $cookie_object->collectedPersonalData;
-							$cookie->cookieFunction
-							                         = $cookie_object->cookieFunction;
-							$cookie->purpose
-							                         = $cookie_object->purpose;
-							$cookie->isPersonalData
-							                         = $cookie_object->isPersonalData;
-							$cookie->isMembersOnly
-							                         = $cookie_object->isMembersOnly;
-							$cookie->service
-							                         = $cookie_object->service;
-							$cookie->slug
-							                         = $cookie_object->slug;
-							$cookie->ignored
-							                         = $cookie_object->ignore;
-							$cookie->unique
-							                         = $cookie_object->unique;
+							$cookie->cookieFunction  = $cookie_object->cookieFunction;
+							$cookie->purpose         = $cookie_object->purpose;
+							$cookie->isPersonalData  = $cookie_object->isPersonalData;
+							$cookie->isMembersOnly   = $cookie_object->isMembersOnly;
+							$cookie->service         = $cookie_object->service;
+							$cookie->slug            = $cookie_object->slug;
+							$cookie->ignored         = $cookie_object->ignore;
 							$cookie->lastUpdatedDate = time();
 
 							//when there's no en cookie, create one.
@@ -1132,6 +1119,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$languages          = $this->get_supported_languages();
 			$data               = array();
 			$thirdparty_cookies = array();
+			$localstorage_cookies = array();
 
 			$count_all    = 0;
 			$one_week_ago = strtotime( "-1 week" );
@@ -1143,12 +1131,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}
 				$cookies = $this->get_cookies( $args );
-
 				$cookies = wp_list_pluck( $cookies, 'name' );
-
 				$count_all += count( $cookies );
 				foreach ( $cookies as $cookie ) {
 					$c = new CMPLZ_COOKIE( $cookie, $language );
+					//pass the type to the CDB
+					if ($c->type === 'localstorage') {
+						$localstorage_cookies[] = $cookie;
+					}
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
 						$service = new CMPLZ_SERVICE( $c->service );
@@ -1163,8 +1153,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$data['count'] = $count_all;
-
 			$data['thirdpartyCookies'] = $thirdparty_cookies;
+			$data['localstorageCookies'] = $localstorage_cookies;
 
 			return $data;
 		}
@@ -2868,31 +2858,38 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$post_cookies  = isset( $_POST['cookies'] )
 				                 && is_array( $_POST['cookies'] )
 					? $_POST['cookies'] : array();
-				$found_cookies = array_map( function ( $el ) {
+				$cookies = array_map( function ( $el ) {
 					return sanitize_title( $el );
 				}, $post_cookies );
-				if ( ! is_array( $found_cookies ) ) {
-					$found_cookies = array();
+				if ( ! is_array( $cookies ) ) {
+					$cookies = array();
 				}
 
-				$post_storage  = isset( $_POST['lstorage'] )
-				                 && is_array( $_POST['lstorage'] )
-					? $_POST['lstorage'] : array();
-				$found_storage = array_map( function ( $el ) {
+				$post_storage  = isset( $_POST['lstorage'] ) && is_array( $_POST['lstorage'] ) ? $_POST['lstorage'] : array();
+				$localstorage = array_map( function ( $el ) {
 					return sanitize_title( $el );
 				}, $post_storage );
-				if ( ! is_array( $found_storage ) ) {
-					$found_storage = array();
+				if ( ! is_array( $localstorage ) ) {
+					$localstorage = array();
 				}
 
-				$found_cookies = array_merge( $found_cookies, $_COOKIE,
-					$found_storage );
-				$found_cookies = array_map( 'sanitize_text_field',
-					$found_cookies );
-
-				foreach ( $found_cookies as $key => $value ) {
+				//add local storage data
+				$localstorage = array_map( 'sanitize_text_field', $localstorage );
+				foreach ( $localstorage as $key => $value ) {
 					$cookie = new CMPLZ_COOKIE();
 					$cookie->add( $key, $this->get_supported_languages() );
+					$cookie->type = 'localstorage';
+					$cookie->save(true);
+				}
+
+				//add cookies
+				$cookies = array_merge($cookies, $_COOKIE);
+				$cookies = array_map( 'sanitize_text_field', $cookies );
+				foreach ( $cookies as $key => $value ) {
+					$cookie = new CMPLZ_COOKIE();
+					$cookie->add( $key, $this->get_supported_languages() );
+					$cookie->type = 'cookie';
+					$cookie->save(true);
 				}
 
 				//clear token
@@ -2904,7 +2901,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 		/**
-		 * Get an array of languages used on this site
+		 * Get an array of languages used on this site in format array('en' => 'en')
 		 *
 		 * @param bool $count
 		 *
@@ -2932,6 +2929,22 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$wpml = array();
 				}
 				$languages = array_merge( $wpml, $languages );
+			}
+
+			/**
+			 * TranslatePress support
+			 * There does not seem to be an easy accessible API to get the languages, so we retrieve from the settings directly
+			 */
+
+			if (class_exists('TRP_Translate_Press')){
+				$trp_settings = get_option('trp_settings', array());
+				if (isset($trp_settings['translation-languages'])) {
+					$trp_languages = $trp_settings['translation-languages'];
+					foreach( $trp_languages as $language_code){
+						$key = substr( $language_code, 0, 2 );
+						$languages[$key] = $key;
+					}
+				}
 			}
 
 			if ( $count ) {

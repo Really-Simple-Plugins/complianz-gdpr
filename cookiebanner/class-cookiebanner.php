@@ -1105,7 +1105,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, "Impressum", '1', "impressum"), $tmpl);
+					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, __("Impressum","complianz-gdpr"), '1', "impressum"), $tmpl);
 				}
 
 				$output['privacy_link'][ $region ] = ! empty( $info )

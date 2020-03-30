@@ -264,9 +264,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					) {
 						$placeholder = cmplz_placeholder( false, $iframe_src );
 						$new         = $total_match;
-						$new         = str_replace( '<iframe ',
+						$new         = preg_replace( '~<iframe\\s~i',
 							'<iframe data-src-cmplz="' . $iframe_src . '" ',
-							$new );
+							$new , 1 ); // make sure we replace it only once
 						//an iframes-styles class is added so we can reset styles from the theme, and release them after consent
 
 						//we insert video/no-video class for specific video styling

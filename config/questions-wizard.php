@@ -32,21 +32,22 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'default'  => '',
 			'type'     => 'radio',
+			'revoke_consent_onchange' => true,
 			'options'  => array(
-				'eu' => __( 'European Union (GDPR), excluding the UK',
+				'eu' => __( 'GDPR (European Union)',
 					'complianz-gdpr' ),
-				'uk' => __( 'United Kingdom (UK-GDPR, PECR, Data Protection Act)',
+				'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)',
 					'complianz-gdpr' ),
-				'us' => __( 'United States', 'complianz-gdpr' ),
-				'ca' => __( 'Canada (PIPEDA)', 'complianz-gdpr' ),
+				'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
+				'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
 			),
-			'label'    => __( "Which region(s) do you target with your website?",
+			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?",
 				'complianz-gdpr' ),
 			'help'     => __( "This will determine how many and what kind of legal documents and the type of cookie banner and other requirements your site needs.",
 				'complianz-gdpr' ),
 			'comment'  => __( "The plugin will apply the above-selected region's settings to all visitors worldwide.",
 					'complianz-gdpr' ) . " "
-			              . sprintf( __( "If you want to target customers from several regions, consider upgrading to the %spremium version%s, which allows to select several or all regions simultaneously.",
+			              . sprintf( __( "If you want to dynamically apply privacy laws based on the visitor's location, consider upgrading to the %spremium version%s, which allows you to apply a privacy law specific for that region..",
 					'complianz-gdpr' ),
 					'<a href="https://complianz.io" target="_blank">', '</a>' ),
 			'required' => true,
@@ -108,10 +109,7 @@ $this->fields = $this->fields + array(
 			'help'     => __( 'Complianz will generate the impressum based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-			'callback_condition' => array(
-				'regions' => 'eu',
-				'eu_consent_regions' => 'yes'
-			),
+			'callback_condition' => array('eu_consent_regions' => 'yes'),
 		),
 
 		'privacy-statement' => array(

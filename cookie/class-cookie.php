@@ -12,18 +12,12 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		private $sync = true;
 
 		/**
-		 * cookie is unique
-		 *
-		 * @var bool
-		 */
-		private $unique;
-
-		/**
 		 * Retention period
 		 *
 		 * @var string
 		 */
 		private $retention;
+		private $type;
 		private $service;
 		private $serviceID;
 		private $collectedPersonalData;
@@ -286,12 +280,12 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->ignored               = $cookie->ignored;
 				$this->deleted               = $cookie->deleted;
 				$this->retention             = $cookie->retention;
+				$this->type                  = $cookie->type;
 				$this->cookieFunction        = $cookie->cookieFunction;
 				$this->purpose               = $cookie->purpose;
 				$this->isPersonalData        = $cookie->isPersonalData;
 				$this->isMembersOnly         = $cookie->isMembersOnly;
 				$this->collectedPersonalData = $cookie->collectedPersonalData;
-				$this->unique                = $cookie->unique_cookie;
 				$this->isTranslationFrom     = $cookie->isTranslationFrom;
 				$this->showOnPolicy          = $cookie->showOnPolicy;
 				$this->lastUpdatedDate       = $cookie->lastUpdatedDate;
@@ -365,6 +359,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
 				'retention'             => sanitize_text_field( $this->retention ),
+				'type'                  => sanitize_text_field( $this->type ),
 				'serviceID'             => intval( $this->serviceID ),
 				'cookieFunction'        => sanitize_text_field( $this->cookieFunction ),
 				'purpose'               => sanitize_text_field( $this->purpose ),
@@ -374,7 +369,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'sync'                  => boolval( $this->sync ),
 				'ignored'               => boolval( $this->ignored ),
 				'deleted'               => boolval( $this->deleted ),
-				'unique_cookie'         => boolval( $this->unique ),
 				'language'              => cmplz_sanitize_language( $this->language ),
 				'isTranslationFrom'     => intval( $this->isTranslationFrom ),
 				'showOnPolicy'          => boolval( $this->showOnPolicy ),
@@ -568,8 +562,8 @@ function cmplz_install_cookie_table() {
             `slug` varchar(250) NOT NULL,
             `sync` int(11) NOT NULL,
             `ignored` int(11) NOT NULL,
-            `unique_cookie` int(11) NOT NULL,
             `retention` text NOT NULL,
+            `type` text NOT NULL,
             `serviceID` int(11) NOT NULL,
             `cookieFunction` text NOT NULL,
             `collectedPersonalData` text NOT NULL,

@@ -912,7 +912,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
-			<label for="<?php echo $args['fieldname'] ?>"><?php printf(__("Select how you want to add your %s."), $args['label']) ?><?php echo $this->get_help_tip_btn( $args ); ?></label>
+			<label for="<?php echo $args['fieldname'] ?>"><?php printf(__("Select how you want to add your %s.",'complianz-gdpr'), $args['label']) ?><?php echo $this->get_help_tip_btn( $args ); ?></label>
 			<?php do_action( 'complianz_after_label', $args ); ?>
 
 			<div class="cmplz-validate-radio cmplz-document-field" data-fieldname="<?php echo esc_html( $fieldname ) ?>">
@@ -928,7 +928,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					echo "checked" ?> class="cmplz-document-input">
 				<label class="">
 					<?php
-						echo apply_filters("cmplz_generate_document_label", sprintf(__("Generate with %sComplianz%s", "complianz-gdpr"),'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' ), $args['fieldname']);
+						echo apply_filters("cmplz_generate_document_label", sprintf(__("Generate a comprehensive and legally validated %s with %spremium%s", "complianz-gdpr"), $args['label'],'<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>' ), $args['fieldname']);
 					 ?>
 				</label>
 				<div class="clear"></div>
