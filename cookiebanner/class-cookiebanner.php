@@ -968,7 +968,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
 				'banner_version'            => $this->banner_version,
-				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
 				'version'                   => cmplz_version,
 				'a_b_testing'               => cmplz_ab_testing_enabled(),
 				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled',

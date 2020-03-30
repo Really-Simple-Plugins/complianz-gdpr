@@ -124,6 +124,7 @@ jQuery(document).ready(function ($) {
 			complianz_enable_scripts();
 		}
 
+
 	}
 
 	/**
@@ -184,7 +185,6 @@ jQuery(document).ready(function ($) {
 			setBlockedContentContainer();
 		}, 2000);
 	}
-
 
 	//}else{console.log('no btn')}
 	/**
