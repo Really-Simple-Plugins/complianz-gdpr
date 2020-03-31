@@ -217,7 +217,6 @@ jQuery(document).ready(function ($) {
 
     cmplz_cookie_warning();
     function cmplz_cookie_warning() {
-
         var ccDismiss;
 
         if (ccName) {
@@ -267,7 +266,7 @@ jQuery(document).ready(function ($) {
                 ccPrivacyLink = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy" tabindex="0" class="cc-link privacy-policy" href="#">' + $('input[name=cmplz_readmore_privacy]').val() + '</a>';
         }
 
-		if (ccConsentType == 'optin' && $('input[name=cmplz_impressum_required]') ){
+		if (ccConsentType == 'optin' && $('input[name=cmplz_impressum_required]').val() == 1 ){
 			ccPrivacyLink += '<span class="cc-divider">&nbsp;-&nbsp;</span><a href="#" tabindex="1" class="cc-link impressum">Impressum</a>';
 		}
 
