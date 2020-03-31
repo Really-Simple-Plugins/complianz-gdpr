@@ -957,7 +957,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					<?php if ( $value == 'url' )
 						echo "checked" ?> class="cmplz-document-input">
 				<label class="">
-					<?php printf( __("Custom URL", "complianz-gdpr"), $args['label'] ); ?>
+					<?php _e("Custom URL", "complianz-gdpr"); ?>
 				</label>
 				<div class="clear"></div>
 
@@ -975,8 +975,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 						<?php printf( __("No document", "complianz-gdpr"), $args['label'] ); ?>
 					</label>
 					<div class="clear"></div>
-				<?php }?>
-				<input type="text" class="cmplz-document-custom-url" placeholder = "https://domain.com/your-policy" name="<?php echo esc_html( $fieldname."_custom_page_url" ) ?>">
+				<?php } ?>
+				<input type="text" class="cmplz-document-custom-url" value="<?php echo get_option($fieldname."_custom_page_url")?>" placeholder = "https://domain.com/your-policy" name="<?php echo esc_html( $fieldname."_custom_page_url" ) ?>">
 
 				<select class="cmplz-document-custom-page" name="<?php echo esc_html( $fieldname."_custom_page" ) ?>">
 					<option value=""><?php _e("None selected", "complianz-gdpr")?></option>

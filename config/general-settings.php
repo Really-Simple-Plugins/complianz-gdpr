@@ -88,7 +88,8 @@ $this->fields = $this->fields + array(
 			               . '#cmplz-document, #cmplz-document p, #cmplz-document span, #cmplz-document li {} /* text */'
 			               . "\n"
 			               . '#cmplz-document table {} /* table styles */'
-			               . "\n" . '#cmplz-document td {} /* row styles */',
+			               . "\n" . '#cmplz-document td {} /* row styles */'
+			               . "\n" . '#cmplz-document.impressum, #cmplz-document.cookie-statement, #cmplz-document.privacy-statement {} /* styles for impressum */',
 			'help'      => __( 'Add your own custom document css here',
 				'complianz-gdpr' ),
 			'table'     => true,
