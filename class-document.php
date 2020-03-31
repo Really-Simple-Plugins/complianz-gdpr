@@ -2306,7 +2306,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					: esc_url_raw( get_permalink( $id ) );
 			} else if ( cmplz_get_value( $type ) === 'url' ) {
 					$url = get_option("cmplz_".$type."_custom_page_url");
-					return esc_url_raw( get_permalink($url) );
+					return esc_url_raw( $url );
 			} else {
 				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
 

@@ -824,6 +824,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$tmpl = cmplz_get_template( $type . '_settings.php' );
 				//create empty set, to use for ajax
 				$services = $this->get_services_options( '', $language );
+				$purposes = $this->get_cookiePurpose_options( '', $language );
+				$serviceTypes = $this->get_serviceTypes_options( '', $language );
 
 				if ( $type === 'cookie' ) {
 					$html = str_replace( array(
@@ -835,8 +837,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						'{sync}',
 						'{showOnPolicy}',
 						'{cookieFunction}',
-						'{purpose}',
-						'{collectedPersonalData}'
+						'{purposes}',
+						'{collectedPersonalData}',
+						'{link}',
 					), array(
 						$new_id,
 						'',
@@ -846,26 +849,29 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						'',
 						'checked="checked"',
 						'',
+						$purposes,
 						'',
-						''
+						'',
 					), $tmpl );
 				} else {
 					$html = str_replace( array(
 						'{' . $type . '_id}',
 						'{disabled}',
 						'{name}',
-						'{serviceType}',
+						'{serviceTypes}',
 						'{privacyStatementURL}',
 						'{sync}',
-						'{showOnPolicy}'
+						'{showOnPolicy}',
+						'{link}',
 					), array(
 						$new_id,
 						'',
 						$name,
+						$serviceTypes,
 						'',
 						'',
+						'checked="checked"',
 						'',
-						'checked="checked"'
 					), $tmpl );
 				}
 				$html = cmplz_panel( __( $name, 'complianz-gdpr' ), $html, '',
@@ -1238,6 +1244,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! $error ) {
 				$result = json_decode( $result );
+				_log($result);
 				//cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
 				//on updates it will still match.
 				if ( isset( $result->error ) ) {
