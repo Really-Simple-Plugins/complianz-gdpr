@@ -180,7 +180,7 @@ jQuery(document).ready(function ($) {
 	});
 
 	//we run this function also on an interval, because with ajax loaded content, the placeholders would otherwise not be handled.
-	if ( complianz.block_ajax_content ) {
+	if ( complianz.block_ajax_content === 1 ) {
 		setInterval(function () {
 			setBlockedContentContainer();
 		}, 2000);
