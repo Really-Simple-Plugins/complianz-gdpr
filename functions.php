@@ -108,6 +108,12 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_revoke_link' ) ) {
+	/**
+     * Outputs a button with which to revoke consent
+	 * @param bool $text
+	 *
+	 * @return mixed|void
+	 */
 	function cmplz_revoke_link( $text = false ) {
 		$text = $text ? $text : __( 'Revoke cookie consent', 'complianz-gdpr' );
 		$html = "";
@@ -130,7 +136,10 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_do_not_sell_personal_data_form' ) ) {
-
+	/**
+     * Shortcode function for DNSMPI form
+	 * @return false|string
+	 */
 	function cmplz_do_not_sell_personal_data_form() {
 
 		$html = cmplz_get_template( 'do-not-sell-my-personal-data-form.php' );
