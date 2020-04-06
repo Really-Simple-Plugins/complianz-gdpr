@@ -2095,21 +2095,21 @@ if ( ! class_exists( 'CMPLZ_Plugin_Activation' ) ) {
 		}
 	}
 
-	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
+	if ( ! function_exists( 'cmplz_load_tgm_plugin_activation' ) ) {
 		/**
 		 * Ensure only one instance of the class is ever invoked.
 		 *
 		 * @since 2.5.0
 		 */
-		function load_tgm_plugin_activation() {
+		function cmplz_load_tgm_plugin_activation() {
 			$GLOBALS['tgmpa'] = CMPLZ_Plugin_Activation::get_instance();
 		}
 	}
 
 	if ( did_action( 'plugins_loaded' ) ) {
-		load_tgm_plugin_activation();
+		cmplz_load_tgm_plugin_activation();
 	} else {
-		add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
+		add_action( 'plugins_loaded', 'cmplz_load_tgm_plugin_activation' );
 	}
 }
 
