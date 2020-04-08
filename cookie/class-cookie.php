@@ -410,9 +410,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->name           = $this->name;
 					$translation->serviceID      = $this->serviceID;
 					$translation->sync           = $this->sync;
-					$translation->collectedPersonalData
-					                             = $this->collectedPersonalData;
-					$translation->cookieFunction = $this->cookieFunction;
 					$translation->save();
 				}
 			}
