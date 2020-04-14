@@ -680,16 +680,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/general-settings.php' );
 			require_once( cmplz_path . '/config/questions-wizard.php' );
 			require_once( cmplz_path . '/config/dynamic-fields.php' );
-			require_once( cmplz_path
-			              . '/config/dynamic-document-elements.php' );
+			require_once( cmplz_path . '/config/dynamic-document-elements.php' );
 			require_once( cmplz_path . '/config/documents/documents.php' );
-			require_once( cmplz_path . '/config/documents/cookie-policy.php' );
-			require_once( cmplz_path
-			              . '/config/documents/cookie-policy-us.php' );
-			require_once( cmplz_path
-			              . '/config/documents/cookie-policy-uk.php' );
-			require_once( cmplz_path
-			              . '/config/documents/cookie-policy-ca.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-eu.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-us.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-uk.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-ca.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
 				require_once( cmplz_path . '/pro/config/steps.php' );
@@ -698,61 +694,36 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				require_once( cmplz_path . '/pro/config/documents/documents.php' );
 				require_once( cmplz_path . '/pro/config/EU/questions-dataleak.php' );
 				require_once( cmplz_path . '/pro/config/US/questions-dataleak.php' );
-				require_once( cmplz_path
-				              . '/pro/config/CA/questions-dataleak.php' );
-				require_once( cmplz_path
-				              . '/pro/config/UK/questions-dataleak.php' );
-
-				require_once( cmplz_path
-				              . '/pro/config/EU/questions-processing.php' );
-				require_once( cmplz_path
-				              . '/pro/config/US/questions-processing.php' );
-				require_once( cmplz_path
-				              . '/pro/config/CA/questions-processing.php' );
-				require_once( cmplz_path
-				              . '/pro/config/UK/questions-processing.php' );
-
+				require_once( cmplz_path . '/pro/config/CA/questions-dataleak.php' );
+				require_once( cmplz_path . '/pro/config/UK/questions-dataleak.php' );
+				require_once( cmplz_path . '/pro/config/EU/questions-processing.php' );
+				require_once( cmplz_path . '/pro/config/US/questions-processing.php' );
+				require_once( cmplz_path . '/pro/config/CA/questions-processing.php' );
+				require_once( cmplz_path . '/pro/config/UK/questions-processing.php' );
 				require_once( cmplz_path . '/pro/config/dynamic-fields.php' );
-				require_once( cmplz_path
-				              . '/pro/config/dynamic-document-elements.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/US/dataleak-report.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/US/privacy-policy.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/US/processing-agreement.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/US/privacy-policy-children.php' );
-
-				require_once( cmplz_path
-				              . '/pro/config/documents/CA/dataleak-report.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/CA/privacy-policy.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/CA/processing-agreement.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/CA/privacy-policy-children.php' );
-
-				require_once( cmplz_path
-				              . '/pro/config/documents/disclaimer.php' );
-
+				require_once( cmplz_path . '/pro/config/dynamic-document-elements.php' );
+				require_once( cmplz_path . '/pro/config/documents/US/dataleak-report.php' );
+				require_once( cmplz_path . '/pro/config/documents/US/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/US/processing-agreement.php' );
+				require_once( cmplz_path . '/pro/config/documents/US/privacy-policy-children.php' );
+				require_once( cmplz_path . '/pro/config/documents/CA/dataleak-report.php' );
+				require_once( cmplz_path . '/pro/config/documents/CA/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/CA/processing-agreement.php' );
+				require_once( cmplz_path . '/pro/config/documents/CA/privacy-policy-children.php' );
+				require_once( cmplz_path . '/pro/config/documents/disclaimer.php' );
 				require_once( cmplz_path . '/pro/config/documents/EU/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/EU/processing-agreement.php' );
+				require_once( cmplz_path . '/pro/config/documents/EU/dataleak-report.php' );
 				require_once( cmplz_path . '/pro/config/documents/EU/impressum.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/EU/processing-agreement.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/EU/dataleak-report.php' );
-
-				require_once( cmplz_path
-				              . '/pro/config/documents/UK/privacy-policy.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/UK/processing-agreement.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/UK/dataleak-report.php' );
-				require_once( cmplz_path
-				              . '/pro/config/documents/UK/privacy-policy-children.php' );
+				require_once( cmplz_path . '/pro/config/documents/UK/privacy-policy.php' );
+				require_once( cmplz_path . '/pro/config/documents/UK/processing-agreement.php' );
+				require_once( cmplz_path . '/pro/config/documents/UK/dataleak-report.php' );
+				require_once( cmplz_path . '/pro/config/documents/UK/privacy-policy-children.php' );
 			}
-			//after loading integrations on 10
+			/**
+			 * The integrations are loaded with priority 10
+			 * Because we want to initialize after that, we use 15 here
+			 */
 			add_action( 'plugins_loaded', array( $this, 'init' ), 15 );
 		}
 
@@ -837,7 +808,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		}
 
 		public function init() {
-
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
 			if ( ! is_admin() ) {
 				$regions = cmplz_get_regions(true);

@@ -17,12 +17,60 @@ function cmplz_youtube_iframetags( $tags ) {
 	return $tags;
 }
 
+/**
+ * Get the first video id from a video series
+ *
+ * @param string $src
+ *
+ * @return string
+ */
+
+function cmplz_youtube_get_video_id_from_series($src){
+	$output = wp_remote_get($src);
+	$youtube_id = false;
+	if (isset($output['body'])) {
+		$body = $output['body'];
+		$body = stripcslashes($body);
+		$series_pattern = '/VIDEO_ID\': "([^#\&\?].*?)"/i';
+		if ( preg_match( $series_pattern, $body, $matches ) ) {
+			$youtube_id = $matches[1];
+		}
+	}
+	return $youtube_id;
+}
+
+/**
+ * Get screenshot from youtube as placeholder
+ * @param $new_src
+ * @param $src
+ *
+ * @return mixed|string
+ */
 
 function cmplz_youtube_placeholder( $new_src, $src ) {
 	$youtube_pattern
 		= '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)([^#\&\?]*).*/i';
 	if ( preg_match( $youtube_pattern, $src, $matches ) ) {
 		$youtube_id = $matches[1];
+		//check if it's a video series. If so, we get the first video
+		if ($youtube_id === 'videoseries') {
+			//get the videoseries id
+			$series_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)[^#\&\?]*\?list=(.*)/i';
+			//if we find the unique id, we save it in the cache
+			if ( preg_match( $series_pattern, $src, $matches ) ) {
+				$series_id = $matches[1];
+
+				$youtube_id = get_transient("cmplz_youtube_videoseries_video_id_$series_id");
+				if (!$youtube_id){
+					//we do a get on the url to retrieve the first video
+					$youtube_id = cmplz_youtube_get_video_id_from_series($src);
+					set_transient( "cmplz_youtube_videoseries_video_id_$series_id", $youtube_id,
+						WEEK_IN_SECONDS );
+				}
+			} else{
+				$youtube_id = cmplz_youtube_get_video_id_from_series($src);
+			}
+		}
 		/*
 		 * The highest resolution of youtube thumbnail is the maxres, but it does not
 		 * always exist. In that case, we take the hq thumb

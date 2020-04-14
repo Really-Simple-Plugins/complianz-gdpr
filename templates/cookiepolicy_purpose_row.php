@@ -1,5 +1,5 @@
 <tr>
 	<td><b>{purpose}</b></td>
-	<td></td>
-	<td></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
 </tr>

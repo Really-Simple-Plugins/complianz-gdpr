@@ -950,6 +950,86 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		}
 
+
+		public function get_consent_checkbox($category, $label, $context = 'banner', $checked=false, $disabled=false){
+			$checked = $checked ? 'checked' : '';
+			$disabled = $disabled ? 'disabled' : '';
+			$color = '';
+			if ($context === 'banner' ){
+				$color = 'color:' . $this->popup_text_color;
+			}
+
+			$id = 'cmplz_{category}';
+			if ($context === 'document'){
+				$id = $id.'_document';
+			}
+			//no line breaks, to enable simple regex matching
+			$html = '<label><input type="checkbox" id="'.$id.'" class="cmplz-consent-checkbox cmplz-svg-checkbox cmplz_{category}" '.$checked.' '.$disabled.' data-category="cmplz_{category}"><label for="'.$id.'" class="cc-check"><svg width="16px" height="16px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path><polyline points="1 9 7 14 15 4"></polyline></svg></label>';
+			$html .= '<span class="cc-category" style="'.$color.'">{label}</span></label>';
+
+			//$html = '<label><input style="color:' . $this->popup_text_color . '" data-category="cmplz_{category}" class="cmplz-consent-checkbox cmplz_{category}" '.$checked.' '.$disabled.' type="checkbox">{label}</label>';
+
+			$html = str_replace(array('{category}','{label}'),array($category, $label),$html);
+			if ($context === 'document'){
+				$html = "<p>$html</p>";
+			}
+
+			return $html;
+		}
+
+		/**
+		 * Get list of checkboxes for a banner or revoke link
+		 * @param string $context
+		 * @param bool   $consenttype
+		 *
+		 * @return string|string[]
+		 */
+
+		public function get_consent_checkboxes($context = 'banner', $consenttype = false){
+			$checkbox_functional  = $this->get_consent_checkbox('functional', $this->category_functional_x, $context,true,true);
+			$checkbox_all  = $this->get_consent_checkbox('all', $this->category_all_x, $context);
+			$use_cats = false;
+
+			if ($consenttype) {
+				if ($consenttype !== 'optout' && (
+						$this->use_categories ||
+						( $consenttype === 'optinstats' && $this->use_categories_optinstats)
+					)){
+					$use_cats = true;
+				}
+			} else {
+				if ( $this->use_categories || $this->use_categories_optinstats ){
+					$use_cats = true;
+				}
+			}
+
+			if ( $use_cats) {
+
+				$output = $checkbox_functional;
+				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+					$categories = explode( ',', $this->tagmanager_categories );
+					foreach ( $categories as $i => $category ) {
+						if ( empty( $category ) ) {
+							continue;
+						}
+						$output .= $this->get_consent_checkbox( $i, trim( $category ), $context);
+					}
+				} else {
+					$output .= cmplz_consent_api_active() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context ) : '';
+					$output .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context ) : '';
+				}
+
+				$output .= $checkbox_all;
+
+			} else {
+				$output = $checkbox_functional;
+				$output .= $checkbox_all;
+			}
+
+			return $output;
+		}
+
+
 		/**
 		 * Get array to output to front-end
 		 *
@@ -1027,66 +1107,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			 *
 			 * Banners with categories
 			 *
-			 * */
+			 */
 
-			if ( $output['use_categories']
-			     || $output['use_categories_optinstats']
+			if ( $output['use_categories'] || $output['use_categories_optinstats']
 			) {
-				$checkbox_all
-					                  = '<input type="checkbox" id="cmplz_all" style="display: none;"><label for="cmplz_all" class="cc-check"><svg width="16px" height="16px" viewBox="0 0 18 18"> <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path> <polyline points="1 9 7 14 15 4"></polyline></svg></label>';
-				$checkbox_functional  = str_replace( array(
-					'type',
-					'cmplz_all'
-				), array(
-					'checked disabled type',
-					'cmplz_functional'
-				), $checkbox_all );
-				$output['categories'] = '<label>' . $checkbox_functional
-				                        . '<span class="cc-category" style="color:'
-				                        . $this->popup_text_color . '">'
-				                        . $this->category_functional_x
-				                        . '</span></label>';
+				$output['categories'] = $this->get_consent_checkboxes();
 
 				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
 					$output['tm_categories'] = true;
-
 					$categories = explode( ',', $this->tagmanager_categories );
-					foreach ( $categories as $i => $category ) {
-						if ( empty( $category ) ) {
-							continue;
-						}
-						$checkbox_category    = str_replace( 'cmplz_all',
-							'cmplz_' . $i, $checkbox_all );
-						$output['categories'] .= '<label>' . $checkbox_category
-						                         . '<span class="cc-category" style="color:'
-						                         . $this->popup_text_color
-						                         . '">' . trim( $category )
-						                         . '</span></label>';
-					}
-					$output['categories'] .= '<label>' . $checkbox_all
-					                         . '<span class="cc-category" style="color:'
-					                         . $this->popup_text_color . '">'
-					                         . $this->category_all_x
-					                         . '</span></label>';
 					$output['cat_num']    = count( $categories );
-				} else {
-					$output['categories'] .= cmplz_consent_api_active()
-						? '<label>' . str_replace( 'cmplz_all', 'cmplz_prefs',
-							$checkbox_all )
-						  . '<span class="cc-category" style="color:'
-						  . $this->popup_text_color . '">'
-						  . $this->category_prefs_x . '</span></label>' : '';
-					$output['categories'] .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() )
-						? '<label>' . str_replace( 'cmplz_all', 'cmplz_stats',
-							$checkbox_all )
-						  . '<span class="cc-category" style="color:'
-						  . $this->popup_text_color . '">'
-						  . $this->category_stats_x . '</span></label>' : '';
-					$output['categories'] .= '<label>' . $checkbox_all
-					                         . '<span class="cc-category" style="color:'
-					                         . $this->popup_text_color . '">'
-					                         . $this->category_all_x
-					                         . '</span></label>';
 				}
 				$output['view_preferences'] = $this->view_preferences_x;
 				$output['save_preferences'] = $this->save_preferences_x;
@@ -1094,6 +1124,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
+				//todo: change url generation to loop based on document types
+//				$docs = COMPLIANZ::$document->get_document_types();
+//				foreach ($docs as $document){
+//
+//				}
 				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
 
 				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" tabindex="{tabindex}" class="cc-link {type}" href="{link}">{description}</a>';

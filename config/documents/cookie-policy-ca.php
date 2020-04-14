@@ -32,7 +32,8 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'content' => _x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',"Legal document cookie policy","complianz-gdpr"),
     ),
     array(
-        'content' => cmplz_revoke_link(),
+	    'subtitle' => _x('Manage your consent settings', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+	    'content' => '[cmplz-manage-consent]',
     ),
 
     array(

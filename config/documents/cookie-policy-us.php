@@ -40,7 +40,8 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'content' => 'When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',
     ),
     array(
-        'content' => cmplz_revoke_link(),
+	    'subtitle' => 'Manage your consent settings',
+	    'content' => '[cmplz-manage-consent]',
     ),
 
     array(

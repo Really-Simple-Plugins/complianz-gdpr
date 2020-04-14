@@ -38,6 +38,11 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
             'cmplz_eu_site_needs_cookie_warning',
         )
     ),
+    'revoke_btn' => array(
+	    'subtitle' => _x('Manage your consent settings', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+	    'content' => '[cmplz-manage-consent]',
+	    'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
+    ),
 
     'cookies' => array(
         'title' => _x('Cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -169,11 +174,6 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
                     ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' [domain] <br>
                     ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' [email_company] <br>
                     [telephone_company]',
-    ),
-
-    'revoke_btn' => array(
-        'content' => cmplz_revoke_link(),
-        'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
     ),
 
     'last-sync' => array(

@@ -26,16 +26,16 @@ if ( count( $regions ) == 0 ) {
 	<form id='cookie-settings' action="" method="post">
 		<?php wp_nonce_field( 'complianz_save_cookiebanner', 'cmplz_nonce' ); ?>
 
-		<?php if ( ! $id ) { ?>
+		<?php
+		if ( ! $id ) { ?>
 			<input type="hidden" value="1" name="cmplz_add_new">
 		<?php } ?>
 		<?php //some fields for the cookies categories ?>
 		<input type="hidden" name="cmplz_cookie_warning_required_stats"
 		       value="<?php echo( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) ?>">
 
-
 		<input type="hidden" name="cmplz_impressum_required"
-		       value="<?php echo (cmplz_get_value( 'eu_consent_regions' ) === 'yes' ) ? '1' : '' ?>">
+		       value="<?php echo (cmplz_get_value( 'eu_consent_regions' ) === 'yes' && cmplz_get_value( 'impressum' ) !== 'none' ) ? '1' : '' ?>">
 		<?php
 		/**
 		 * If Tag manager fires categories, enable use categories by default
@@ -67,8 +67,7 @@ if ( count( $regions ) == 0 ) {
 				$single_region = $regions;
 				reset( $single_region );
 				$single_region = key( $single_region );
-				$single_consenttype
-				               = cmplz_get_consenttype_for_region( $single_region );
+				$single_consenttype = cmplz_get_consenttype_for_region( $single_region );
 			}
 		} ?>
 		<input type="hidden" name="cmplz_active_tab"

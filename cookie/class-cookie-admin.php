@@ -1292,7 +1292,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 						$service->lastUpdatedDate = time();
 
-						$service->save();
+						$service->save(false, false);
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
 						//get the cookies only if it's third party service. Otherwise, just sync the service itself.
@@ -3534,52 +3534,48 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 *
 		 */
 
-
 		public function site_needs_cookie_warning( $region = false ) {
+			/**
+			 * default is false
+			 */
+			$needs_warning = false;
 
 			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', false );
+				/**
+				 * if cookies are not used at all, no banner is needed
+				 */
+				$needs_warning = false;
+			} else if ( $region && ! cmplz_has_region( $region ) ) {
+				/**
+				 * if we do not target this region, we don't show a banner for that region
+				 */
+				$needs_warning = false;
+			} else if ( ( ! $region || $region === 'us' ) && cmplz_has_region( 'us' ) ) {
+				/**
+				 * for the US, a cookie warning is always required
+				 * if a region other than US is passed, we check the region's requirements
+				 * if US is passed, we always need a banner
+				 */
+				$needs_warning = true;
+			} else if ( $this->third_party_cookies_active() ) {
+				/**
+				 * non functional cookies? we need a cookie warning
+				 */
+				$needs_warning = true;
+			} else if ( $this->uses_non_functional_cookies() ) {
+				/**
+				 * non functional cookies? we need a cookie warning
+				 */
+				$needs_warning = true;
+			} else if ( $this->cookie_warning_required_stats() ) {
+				/**
+				 * does the config of the statistics require a cookie warning?
+				 */
+				$needs_warning = true;
 			}
 
-			//if we do not target this region, we don't show a banner for that region
-			if ( $region && ! cmplz_has_region( $region ) ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', false );
-			}
-
-			/*
-             * for the US, a cookie warning is always required
-             * if a region other than US is passed, we check the region's requirements
-             * if US is passed, we always need a banner.
-             *
-             */
-
-			if ( $region && ! cmplz_has_region( $region ) ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', false );
-			}
-
-			if ( ( ! $region || $region === 'us' )
-			     && cmplz_has_region( 'us' )
-			) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', true );
-			}
-
-			//non functional cookies? we need a cookie warning
-			if ( $this->third_party_cookies_active() ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', true );
-			}
-
-			//non functional cookies? we need a cookie warning
-			$uses_non_functional_cookies = $this->uses_non_functional_cookies();
-			if ( $uses_non_functional_cookies ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', false );
-			}
-
-			//does the config of the statistics require a cookie warning?
-			if ( $this->cookie_warning_required_stats() ) {
-				return apply_filters( 'cmplz_site_needs_cookiewarning', false );
-			}
-
-			return apply_filters( 'cmplz_site_needs_cookiewarning', false );
+			$needs_warning = apply_filters( 'cmplz_site_needs_cookiewarning', $needs_warning );
+			return $needs_warning;
 		}
 
 

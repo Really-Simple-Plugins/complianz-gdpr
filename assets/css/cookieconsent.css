@@ -438,6 +438,9 @@ Make sue the text stays within the banne
 .cc-type-categories.cc-floating.cc-theme-edgeless .cc-message {
   margin-bottom: 0.5em;
 }
+.cmplz-svg-checkbox {
+  display: none;
+}
 .cc-check {
   cursor: pointer;
   position: relative;
@@ -471,37 +474,40 @@ Make sue the text stays within the banne
   stroke-dasharray: 22;
   stroke-dashoffset: 66;
 }
-.cc-window #cmplz_0:checked + .cc-check svg path,
-.cc-window #cmplz_1:checked + .cc-check svg path,
-.cc-window #cmplz_2:checked + .cc-check svg path,
-.cc-window #cmplz_3:checked + .cc-check svg path,
-.cc-window #cmplz_4:checked + .cc-check svg path,
-.cc-window #cmplz_5:checked + .cc-check svg path,
-.cc-window #cmplz_6:checked + .cc-check svg path,
-.cc-window #cmplz_7:checked + .cc-check svg path,
-.cc-window #cmplz_8:checked + .cc-check svg path,
-.cc-window #cmplz_all:checked + .cc-check svg path,
-.cc-window #cmplz_stats:checked + .cc-check svg path,
-.cc-window #cmplz_prefs:checked + .cc-check svg path,
-.cc-window #cmplz_functional:checked + .cc-check svg path {
+.cmplz_0:checked + .cc-check svg path,
+.cmplz_1:checked + .cc-check svg path,
+.cmplz_2:checked + .cc-check svg path,
+.cmplz_3:checked + .cc-check svg path,
+.cmplz_4:checked + .cc-check svg path,
+.cmplz_5:checked + .cc-check svg path,
+.cmplz_6:checked + .cc-check svg path,
+.cmplz_7:checked + .cc-check svg path,
+.cmplz_8:checked + .cc-check svg path,
+.cmplz_all:checked + .cc-check svg path,
+.cmplz_stats:checked + .cc-check svg path,
+.cmplz_prefs:checked + .cc-check svg path,
+.cmplz_functional:checked + .cc-check svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
 }
-.cc-window #cmplz_0:checked + .cc-check svg polyline,
-.cc-window #cmplz_1:checked + .cc-check svg polyline,
-.cc-window #cmplz_2:checked + .cc-check svg polyline,
-.cc-window #cmplz_3:checked + .cc-check svg polyline,
-.cc-window #cmplz_4:checked + .cc-check svg polyline,
-.cc-window #cmplz_5:checked + .cc-check svg polyline,
-.cc-window #cmplz_6:checked + .cc-check svg polyline,
-.cc-window #cmplz_7:checked + .cc-check svg polyline,
-.cc-window #cmplz_8:checked + .cc-check svg polyline,
-.cc-window #cmplz_all:checked + .cc-check svg polyline,
-.cc-window #cmplz_stats:checked + .cc-check svg polyline,
-.cc-window #cmplz_prefs:checked + .cc-check svg polyline,
-.cc-window #cmplz_functional:checked + .cc-check svg polyline {
+.cmplz_0:checked + .cc-check svg polyline,
+.cmplz_1:checked + .cc-check svg polyline,
+.cmplz_2:checked + .cc-check svg polyline,
+.cmplz_3:checked + .cc-check svg polyline,
+.cmplz_4:checked + .cc-check svg polyline,
+.cmplz_5:checked + .cc-check svg polyline,
+.cmplz_6:checked + .cc-check svg polyline,
+.cmplz_7:checked + .cc-check svg polyline,
+.cmplz_8:checked + .cc-check svg polyline,
+.cmplz_all:checked + .cc-check svg polyline,
+.cmplz_stats:checked + .cc-check svg polyline,
+.cmplz_prefs:checked + .cc-check svg polyline,
+.cmplz_functional:checked + .cc-check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;
+}
+.cc-check svg {
+  stroke: #000;
 }
 /*# sourceMappingURL=cookieconsent.css.map */
