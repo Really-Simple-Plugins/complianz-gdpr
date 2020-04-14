@@ -46,7 +46,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		}
 
 		public function replace_for_amp( $output ) {
-			_log("replace for amp");
 			$amp_tags = COMPLIANZ::$config->amp_tags;
 
 			$amp_tags = apply_filters( 'cmplz_amp_tags', $amp_tags );
