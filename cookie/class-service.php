@@ -127,15 +127,15 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 
 		/**
 		 * Saves the data for a given service, ore creates a new one if no ID was passed.
-		 *
+		 * @param bool $updateAllLanguages
+		 * @param bool   $forceWizardUpdate
 		 */
-
-		public function save( $updateAllLanguages = false ) {
+		public function save( $updateAllLanguages = false, $forceWizardUpdate = true) {
 			if ( strlen( $this->name ) == 0 ) {
 				return;
 			}
 
-			$this->add_to_wizard( $this->name );
+			if ($forceWizardUpdate) $this->add_to_wizard( $this->name );
 
 			$update_array = array(
 				'name'                => sanitize_text_field( $this->name ),

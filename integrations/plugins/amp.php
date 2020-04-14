@@ -32,11 +32,27 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 			add_action( 'cmplz_amp_tags',
 				array( $this, 'handle_anonymous_settings' ) );
 
+			add_action('wp', array($this, 'custom_amp_css') );
 		}
 
 		static function this() {
 			return self::$_this;
 		}
+
+		public function custom_amp_css(){
+
+			if ( ! cmplz_is_amp() ) {
+				return;
+			}
+			wp_register_style( 'cmplz_amp_css', false );
+			wp_enqueue_style( 'cmplz_amp_css' );
+			ob_start();
+			$this->amp_styles($post=false);;
+			$css = ob_get_clean();
+			wp_add_inline_style( 'cmplz_amp_css', $css );
+		}
+
+
 
 		/**
 		 * If set up anonymously, remove the analytics tag
@@ -188,7 +204,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 				) {
 				}
 			}
-			wp_send_json( [ 'promptIfUnknown' => $active ], 200 );
+			wp_send_json( array('promptIfUnknown' => $active ), 200 );
 		}
 
 

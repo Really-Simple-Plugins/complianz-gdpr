@@ -14,6 +14,7 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { InspectorControls } = wp.editor;
 const { SelectControl } = wp.components;
+const { PanelBody, PanelRow } = wp.components;
 const { RichText } = wp.editor;
 const { Component } = wp.element;
 const el = wp.element.createElement;
@@ -181,15 +182,19 @@ const iconEl =
                 return [
                     !!this.props.isSelected && (
                         <InspectorControls key='inspector'>
+							<PanelBody title={ __('Document controls', 'zip-recipes' ) }initialOpen={ true } >
+								<PanelRow>
                             <SelectControl onChange={this.onChangeSelectDocument}
                                            value={this.props.attributes.selectedDocument}
                                            label={__('Select a document', 'complianz-gdpr')}
                                            options={options}/>
-
+								</PanelRow><PanelRow>
                             <SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
                                            value={this.props.attributes.documentSyncStatus}
                                            label={__('Document sync status', 'complianz-gdpr')}
                                            options={document_status_options}/>
+								</PanelRow>
+							</PanelBody>
 
                         </InspectorControls>
                     ),
@@ -200,16 +205,20 @@ const iconEl =
                 return [
                     !!this.props.isSelected && (
                         <InspectorControls key='inspector'>
+				<PanelBody title={ __('Document controls', 'zip-recipes' ) }initialOpen={ true } >
+				<PanelRow>
                             <SelectControl onChange={this.onChangeSelectDocument}
                                            value={this.props.attributes.selectedDocument}
                                            label={__('Select a document', 'complianz-gdpr')}
                                            options={options}/>
+				</PanelRow><PanelRow>
 
                             <SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
                                            value={this.props.attributes.documentSyncStatus}
                                            label={__('Document sync status', 'complianz-gdpr')}
                                            options={document_status_options}/>
-
+				</PanelRow>
+				</PanelBody>
                         </InspectorControls>
                     ),
 

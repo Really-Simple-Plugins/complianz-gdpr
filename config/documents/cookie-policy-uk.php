@@ -39,6 +39,12 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
         )
     ),
 
+    'revoke_btn' => array(
+	    'subtitle' => 'Manage your consent settings',
+	    'content' => '[cmplz-manage-consent]',
+	    'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
+    ),
+
     'cookies' => array(
         'title' => 'Cookies',
     ),
@@ -170,11 +176,6 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
                     ' . 'Website:' . ' [domain] <br>
                     ' . 'Email:' . ' [email_company] <br>
                     [telephone_company]',
-    ),
-
-    'revoke_btn' => array(
-        'content' => cmplz_revoke_link(),
-        'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
     ),
 
     'last-sync' => array(

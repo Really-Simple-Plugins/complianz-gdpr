@@ -73,7 +73,7 @@ $this->steps = array(
 						'title' => __( 'Used cookies', 'complianz-gdpr' ),
 						'intro' => _x( 'With the automatic cookie scan, most first-party cookies should be detected. These cookies will be synchronized with cookiedatabase.org to get the latest information and complete descriptions. Descriptions are by default synchronized with cookiedatabase.org to keep your cookie policy up-to-date. To manually edit the cookie, either disable synchronization in your dashboard or make a contribution to cookiedatabase.org.',
 								'intro used cookies', 'complianz-gdpr' )
-						           . sprintf( _x( 'The cookiedatabase.org community will be asked to add missing cookie information. To know more about cookiedatabase.org and cookie descriptions, please read %sthis article%s.',
+						           .'&nbsp;'. sprintf( _x( 'The cookiedatabase.org community will be asked to add missing cookie information. To know more about cookiedatabase.org and cookie descriptions, please read %sthis article%s.',
 								'intro used cookies', 'complianz-gdpr' ),
 								'<a href="https://complianz.io/our-cookiedatabase-a-new-initiative/">',
 								'</a>' )

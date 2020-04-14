@@ -25,9 +25,6 @@ function cmplz_mapppress_css() {
 	<?php
 }
 
-;
-
-
 /**
  * Add placeholder to the list
  *

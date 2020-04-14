@@ -69,7 +69,6 @@ function cmplz_editor_assets() { // phpcs:ignore
         'cmplz-block', // Handle.
         cmplz_url . "assets/css/document.min.css", array( 'wp-edit-blocks' ), cmplz_version
     );
-
 }
 
 

@@ -48,11 +48,7 @@ function cmplz_integrations_page() {
 			<form action="" method="post" class="cmplz-body">
 				<?php
 				cmplz_notice( _x( "The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s.",
-					'intro script center', 'complianz-gdpr' ) );
-				if ( COMPLIANZ::$cookie_admin->uses_google_tagmanager() ) {
-					cmplz_notice( __( 'Because you are using Google Tag Manager you can only add iFrames, as shown below.',
-						'complianz-gdpr' ), 'warning' );
-				}
+					'intro script center', 'complianz-gdpr' ) )
 				?>
 				<table class="form-table">
 

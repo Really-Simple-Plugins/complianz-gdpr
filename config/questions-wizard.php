@@ -695,7 +695,6 @@ $this->fields = $this->fields + array(
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
-
 		'used_cookies' => array(
 			'step'               => STEP_COOKIES,
 			'section'            => 5,
@@ -742,7 +741,6 @@ $this->fields = $this->fields + array(
 					'</a>' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'table'                   => true,
-
 		),
 
 		'cookie_scripts' => array(
@@ -757,7 +755,6 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'callback_condition'      => array(
 				'uses_cookies'       => 'yes',
-				'compile_statistics' => 'NOT google-tag-manager',
 			),
 			'help'                    => __( "Paste here all your scripts that activate cookies. Enter the scripts without the script tags",
 					'complianz-gdpr' ) . '&nbsp;'
@@ -781,9 +778,6 @@ $this->fields = $this->fields + array(
 			'placeholder'             => 'domain.com, domain.org',
 			'label'                   => __( "(part of) URL's or unique string from the inline scripts of third-party scripts & plugins that should be blocked before consent.",
 				'complianz-gdpr' ),
-			'callback_condition'      => array(
-				'compile_statistics' => 'NOT google-tag-manager',
-			),
 			'help'                    => sprintf( __( 'The most common third party cookies are blocked automatically. If you want to block other third party cookies, enter the a unique part of the script source, or unique string from the inline script here, comma separated. For more information on this, please read %sthis%s article',
 				'complianz-gdpr' ),
 				'<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">',
