@@ -199,7 +199,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		}
 
 		private function hooks() {
-			add_action( 'init', 'cmplz_init_cookie_blocker' );
+			//has to be wp, because of AMP plugin
+			add_action( 'wp', 'cmplz_init_cookie_blocker' );
 			add_action( 'wp_ajax_nopriv_cmplz_user_settings',
 				'cmplz_ajax_user_settings' );
 			add_action( 'wp_ajax_cmplz_user_settings',
