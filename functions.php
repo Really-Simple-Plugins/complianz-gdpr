@@ -1185,6 +1185,7 @@ if ( ! function_exists( 'cmplz_array_filter_multidimensional' ) ) {
 if ( ! function_exists( 'cmplz_is_amp' ) ) {
 	/**
 	 * Check if we're on AMP
+	 * Function should be run not before the 'wp' hook!
 	 *
 	 * @return bool
 	 */
