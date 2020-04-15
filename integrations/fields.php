@@ -8,8 +8,9 @@ function cmplz_filter_integration_fields( $fields ) {
 	$disabled_plugin_fields = array();
 	$enabled_plugin_fields  = array();
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
-
-		if ( file_exists( cmplz_path . "integrations/plugins/$plugin.php" ) ) {
+		$file = apply_filters( 'cmplz_integration_path',
+			cmplz_path . "integrations/plugins/$plugin.php", $plugin );
+		if ( file_exists( $file ) ) {
 			$plugin_fields[ $plugin ] = array(
 				'source'                  => 'integrations',
 				'type'                    => 'checkbox',
