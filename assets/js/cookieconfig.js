@@ -487,6 +487,7 @@ jQuery(document).ready(function ($) {
 	function cmplzRunTmEvent(event) {
 
 		if (cmplzFiredEvents.indexOf(event) === -1) {
+			console.log('fire '+event);
 			cmplzFiredEvents.push(event);
 			window.dataLayer = window.dataLayer || [];
 			window.dataLayer.push({
