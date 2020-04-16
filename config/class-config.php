@@ -402,6 +402,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"spotify"          => 'Spotify',
 				"hotjar"           => 'Hotjar',
 				"addthis"          => 'AddThis',
+				"addtoany"         => 'AddToAny',
 				"sharethis"        => 'ShareThis',
 				"livechat"         => 'LiveChat',
 			);
@@ -508,6 +509,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				),
 				"disqus"           => array( 'disqus.com' ),
 				"addthis"          => array( 'addthis.com' ),
+				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
 				"sharethis"        => array( 'sharethis.com' ),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
 			);

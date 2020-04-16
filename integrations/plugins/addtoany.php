@@ -33,3 +33,23 @@ function cmplz_addtoany_detected_social_media( $social_media ) {
 
 add_filter( 'cmplz_detected_social_media',
 	'cmplz_addtoany_detected_social_media' );
+
+
+/**
+ * Add services to the list of detected items, so it will get set as default, and will be added to the notice about it
+ *
+ * @param $services
+ *
+ * @return array
+ */
+
+function cmplz_addtoany_detected_services( $services ) {
+	if ( ! in_array( 'addtoany', $services ) ) {
+		$services[] = 'addtoany';
+	}
+
+	return $services;
+}
+
+add_filter( 'cmplz_detected_services', 'cmplz_addtoany_detected_services' );
+

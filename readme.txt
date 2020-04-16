@@ -125,6 +125,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: for the geo ip document redirect, redirect the "other" region to website's base region
 * Fix: possible issue when custom editing the cookie policy content because of empty table cells.
 * Fix: AMP plugin changed hooks, causing the integration not to work 100%
+* Fix: missing filter in integrations list props @orjhor
 
 = 4.4.1 =
 * Fix: ajax loaded content setting not applied
