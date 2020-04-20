@@ -1727,13 +1727,13 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		 * @return string
 		 */
 
-		private function get_language_descriptor( $language ) {
-
+		private function get_language_descriptor( $language, $type = 'cookie' ) {
+			$string = $type =='cookie' ? __( 'Cookies in %s', 'complianz-gdpr' ) : __( 'Services in %s', 'complianz-gdpr' );
 			if ( isset( COMPLIANZ::$config->language_codes[ $language ] ) ) {
-				$string = sprintf( __( 'Cookies in %s', 'complianz-gdpr' ),
+				$string = sprintf( $string ,
 					COMPLIANZ::$config->language_codes[ $language ] );
 			} else {
-				$string = sprintf( __( 'Cookies in %s', 'complianz-gdpr' ),
+				$string = sprintf( $string,
 					strtoupper( $language ) );
 			}
 
@@ -1776,7 +1776,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 						)
 							echo "selected" ?>>
 							<?php
-							echo $this->get_language_descriptor( $language );
+							echo $this->get_language_descriptor( $language , 'service');
 							?></option>
 					<?php } ?>
 				</select>
