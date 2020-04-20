@@ -3409,7 +3409,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				<div class="cmplz-label">
 					<label
-						for="sync_progress"><?php _e( "Synchronization with cookiedatabase.org",
+						for="sync_progress"><?php _e( "Connecting to Cookiedatabase.org",
 							'complianz-gdpr' ) ?></label>
 				</div>
 				<div id="cmplz-sync-progress">
@@ -3420,7 +3420,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				<input type="submit" <?php echo $disabled ?>
 				       class="button cmplz-resync"
-				       value="<?php _e( 'Re-sync', 'complianz-gdpr' ) ?>"
+				       value="<?php _e( 'Sync cookies with Cookiedatabase.org', 'complianz-gdpr' ) ?>"
 				       name="resync">
 				<?php echo $explanation ?>
 			</div>
