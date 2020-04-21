@@ -620,7 +620,7 @@ jQuery(document).ready(function ($) {
 			} else {
 				console.log('other consenttype, no cookie warning');
 				//on other consenttypes, all scripts are enabled by default.
-				cmplzFireCategories(true);
+				cmplzFireCategories(true, true);
 			}
 		} else {
 			setStatusAsBodyClass('deny');
@@ -680,7 +680,7 @@ jQuery(document).ready(function ($) {
 				//opt out cookie banner can be dismissed on scroll or on timeout.
 				//As cookies are consented by default, it does not have to be tracked, and cookies do not have to be saved.
 				if ((complianz.dismiss_on_scroll || complianz.dismiss_on_timeout) && (status === 'dismiss' || status === 'allow')) {
-					cmplzFireCategories(true);
+					cmplzFireCategories(true, true);
 					ccName.close();
 					$('.cc-revoke').fadeIn();
 				}
@@ -701,7 +701,7 @@ jQuery(document).ready(function ($) {
 				if (status === 'allow') {
 					var all = false;
 					if (!complianz.use_categories) all = true;
-					cmplzFireCategories(all);
+					cmplzFireCategories(all, true);
 				}
 
 				if (status === 'deny' && complianz.consenttype === 'optout') {
@@ -1019,7 +1019,7 @@ jQuery(document).ready(function ($) {
 		event.preventDefault();
 		if (complianz.use_categories) {
 			//set to highest level
-			cmplzFireCategories(true);
+			cmplzFireCategories(true, true);
 			//sync with checkboxes in banner
 			cmplzSyncCategoryCheckboxes();
 			//save all new selections, and run scripts
@@ -1028,7 +1028,7 @@ jQuery(document).ready(function ($) {
 			//cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
 			//dismiss the banner after saving, so it won't show on next page load
 			ccName.setStatus(cookieconsent.status.allow);
-			cmplzFireCategories(true);
+			cmplzFireCategories(true, true);
 
 			ccName.close();
 			$('.cc-revoke').fadeIn();
@@ -1140,8 +1140,9 @@ jQuery(document).ready(function ($) {
 	 *
 	 * */
 
-	function cmplzFireCategories(all) {
+	function cmplzFireCategories(all, save) {
 		all = typeof all !== 'undefined' ? all : false;
+		save = typeof save !== 'undefined' ? save : false;
 		//always functional
 		cmplz_wp_set_consent('functional', 'allow');
 		if (complianz.consenttype !== 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'allow');
@@ -1170,13 +1171,20 @@ jQuery(document).ready(function ($) {
 		if (all || ($('.cmplz_all').length && $('.cmplz_all').is(":checked"))) {
 			setStatusAsBodyClass('allow');
 			cmplzSetAcceptedCookiePolicyID();
-			cmplzSetCookie('complianz_consent_status', 'allow');
 			cmplz_wp_set_consent('marketing', 'allow');
 			cmplzRunTmEvent('cmplz_event_all');
 			complianz_enable_cookies();
 			complianz_enable_scripts();
 		}
+
+		//marketing cookies acceptance
+		if (save) {
+			if (all || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
+				cmplzSetCookie('complianz_consent_status', 'allow');
+			}
+		}
 	}
+
 	/**
 	 * Enable the checkbox for each category which was enabled
 	 *

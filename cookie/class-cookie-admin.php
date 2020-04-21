@@ -1139,8 +1139,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$cookies = $this->get_cookies( $args );
 				$cookies = wp_list_pluck( $cookies, 'name' );
 				$count_all += count( $cookies );
+				$index = 0;
 				foreach ( $cookies as $cookie ) {
 					$c = new CMPLZ_COOKIE( $cookie, $language );
+					$slug = $c->slug ? $c->slug : $index;
 					//pass the type to the CDB
 					if ($c->type === 'localstorage') {
 						$localstorage_cookies[] = $cookie;
@@ -1148,13 +1150,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
 						$service = new CMPLZ_SERVICE( $c->service );
-						if ( $service->thirdParty ) {
+						if ( $service->thirdParty || $service->secondParty) {
 							$thirdparty_cookies[] = $cookie;
 						}
-						$data[ $language ][ $c->service ][] = $cookie;
+						$data[ $language ][ $c->service ][$slug] = $cookie;
 					} else {
-						$data[ $language ]['no-service-set'][] = $cookie;
+						$data[ $language ]['no-service-set'][$slug] = $cookie;
 					}
+					$index++;
 				}
 			}
 
@@ -1296,7 +1299,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
 						//get the cookies only if it's third party service. Otherwise, just sync the service itself.
-						if ( $service->thirdParty
+						if ( $service->thirdParty || $service->secondParty
 						     && isset( $service_and_cookies->cookies )
 						) {
 							$cookies = $service_and_cookies->cookies;
@@ -1681,7 +1684,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				global $wpdb;
 				$table_names = array(
 					$wpdb->prefix . 'cmplz_cookies',
-//		            $wpdb->prefix . 'cmplz_services'
 				);
 
 				foreach ( $table_names as $table_name ) {
@@ -3847,8 +3849,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						return true;
 					}
 				}
-
-				if ( ! strtolower( $cookie->purpose ) == 'functional' ) {
+				if ( strpos(strtolower( $cookie->purpose ), 'functional' ) ===FALSE ) {
 					return true;
 				}
 			}
