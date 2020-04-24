@@ -3559,14 +3559,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				 * if US is passed, we always need a banner
 				 */
 				$needs_warning = true;
-			} else if ( $this->third_party_cookies_active() ) {
+			} else if ( $this->site_shares_data() ) {
 				/**
-				 * non functional cookies? we need a cookie warning
-				 */
-				$needs_warning = true;
-			} else if ( $this->uses_non_functional_cookies() ) {
-				/**
-				 * non functional cookies? we need a cookie warning
+				 * site shares data
 				 */
 				$needs_warning = true;
 			} else if ( $this->cookie_warning_required_stats() ) {
@@ -3812,6 +3807,53 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				? true : false;
 
 			return $tm_fires_scripts;
+		}
+
+		/**
+		 * Check if this website shares data with third parties
+		 * @return bool
+		 */
+
+		public function site_shares_data() {
+			if ( $this->tagmamanager_fires_scripts() ) {
+				return true;
+			}
+
+			//get all used cookies
+			$args    = array(
+				'isTranslationFrom' => false,
+				'ignored'           => false,
+			);
+			$cookies = $this->get_cookies( $args );
+			if ( empty( $cookies ) ) {
+				return false;
+			}
+
+			foreach ( $cookies as $cookie ) {
+				$cookie_service = sanitize_title( $cookie->service );
+				$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
+				if ( $cookie_service === 'google-analytics'
+				     || $cookie_service === 'matomo'
+				) {
+					if ( $has_optinstats ) {
+						return true;
+					}
+					if ( ! $this->statistics_privacy_friendly() ) {
+						return true;
+					}
+				}
+
+				//get service
+				$cookie = new CMPLZ_COOKIE($cookie);
+				$service = new CMPLZ_SERVICE($cookie->serviceID);
+				if ($service->secondParty || $service->thirdParty) {
+					return true;
+				}
+
+			}
+
+			return false;
+
 		}
 
 		/**

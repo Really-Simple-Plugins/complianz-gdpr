@@ -22,6 +22,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
         'content' => 'A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.',
         'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
+
     'consent' => array(
         'title' => 'Consent',
         'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_accept_text]'),
@@ -30,6 +31,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
             'cmplz_eu_site_needs_cookie_warning'
         ),
     ),
+
     'consent_cats' => array(
         'title' => 'Consent',
         'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_save_preferences_text]'),
@@ -42,7 +44,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'revoke_btn' => array(
 	    'subtitle' => 'Manage your consent settings',
 	    'content' => '[cmplz-manage-consent]',
-	    'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
+	    'callback_condition' => 'cmplz_uk_site_needs_cookie_warning',
     ),
 
     'cookies' => array(

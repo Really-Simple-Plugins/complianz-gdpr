@@ -105,9 +105,9 @@ add_action( 'cmplz_notice_purpose_personaldata',
 	'cmplz_purpose_personaldata_notice' );
 function cmplz_purpose_personaldata_notice() {
 	if ( cmplz_has_region( 'us' )
-	     && COMPLIANZ::$cookie_admin->uses_non_functional_cookies()
+	     && COMPLIANZ::$cookie_admin->site_shares_data()
 	) {
-		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. According to the CCPA, you are considered to 'Sell' personal data if you collect, share or sell personal data by any means. When a website uses non-functional cookies, it is collecting personal data.",
+		cmplz_notice( __( "The cookie scan detected cookies from services that share data with third parties. According to the CCPA, your website is considered to sell personal data in terms of the CCPA if it collects and shares with a third party any personal data in return for money or services. This includes services like Google Analytics.",
 			'complianz-gdpr' ) );
 	}
 }
@@ -115,7 +115,10 @@ function cmplz_purpose_personaldata_notice() {
 add_action( 'cmplz_notice_thirdparty_services_on_site',
 	'cmplz_google_fonts_recommendation' );
 function cmplz_google_fonts_recommendation() {
-
+	//Divi specific notice
+	if (function_exists('et_setup_theme')) {
+		cmplz_notice( __( "Your site uses Divi. If you use reCAPTCHA on your site, you may need to disable the reCAPTCHA integration in Complianz. ", 'complianz-gdpr' ).cmplz_read_more( "https://complianz.io/blocking-recaptcha-on-divi/" ) , 'warning');
+	}
 	if ( ! cmplz_has_region( 'eu' ) ) {
 		return;
 	}
@@ -127,6 +130,8 @@ function cmplz_google_fonts_recommendation() {
 		'complianz-gdpr' ),
 		'<a href="' . admin_url( 'admin.php?page=cmplz-script-center' ) . '">',
 		'</a>' ) );
+
+
 
 	$thirdparties = cmplz_get_value( 'thirdparty_services_on_site' );
 	if ( $thirdparties ) {
@@ -179,8 +184,8 @@ function cmplz_use_cdb_api_notice() {
 add_action( 'cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us' );
 function cmplz_data_disclosed_us() {
 
-	if ( COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
-		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+	if ( COMPLIANZ::$cookie_admin->site_shares_data() ) {
+		cmplz_notice( __( "The cookie scan detected cookies from services which share data with third parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 			'complianz-gdpr' ) );
 	}
 }
@@ -188,8 +193,8 @@ function cmplz_data_disclosed_us() {
 add_action( 'cmplz_notice_data_sold_us', 'cmplz_data_sold_us' );
 function cmplz_data_sold_us() {
 
-	if ( COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
-		cmplz_notice( __( "The cookie scan detected non-functional cookies on your site. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+	if ( COMPLIANZ::$cookie_admin->site_shares_data() ) {
+		cmplz_notice( __( "The cookie scan detected cookies from services which share data with third parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 			'complianz-gdpr' ) );
 	}
 
@@ -318,7 +323,7 @@ function cmplz_set_default( $value, $fieldname ) {
 
 	if ( $fieldname == 'purpose_personaldata' ) {
 		if ( cmplz_has_region( 'us' )
-		     && COMPLIANZ::$cookie_admin->uses_non_functional_cookies()
+		     && COMPLIANZ::$cookie_admin->site_shares_data()
 		) {
 			//possibly not an array yet, when it's empty
 			if ( ! is_array( $value ) ) {
@@ -434,7 +439,7 @@ function cmplz_set_default( $value, $fieldname ) {
 	}
 
 	if ( $fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us' ) {
-		if ( COMPLIANZ::$cookie_admin->uses_non_functional_cookies() ) {
+		if ( COMPLIANZ::$cookie_admin->site_shares_data() ) {
 			//possibly not an array yet.
 			if ( ! is_array( $value ) ) {
 				$value = array();

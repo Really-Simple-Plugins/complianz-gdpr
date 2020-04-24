@@ -182,7 +182,7 @@ const iconEl =
                 return [
                     !!this.props.isSelected && (
                         <InspectorControls key='inspector'>
-							<PanelBody title={ __('Document controls', 'zip-recipes' ) }initialOpen={ true } >
+							<PanelBody title={ __('Document settings', 'complianz-gdpr' ) }initialOpen={ true } >
 								<PanelRow>
                             <SelectControl onChange={this.onChangeSelectDocument}
                                            value={this.props.attributes.selectedDocument}
@@ -205,7 +205,7 @@ const iconEl =
                 return [
                     !!this.props.isSelected && (
                         <InspectorControls key='inspector'>
-				<PanelBody title={ __('Document controls', 'zip-recipes' ) }initialOpen={ true } >
+				<PanelBody title={ __('Document settings', 'complianz-gdpr' ) }initialOpen={ true } >
 				<PanelRow>
                             <SelectControl onChange={this.onChangeSelectDocument}
                                            value={this.props.attributes.selectedDocument}

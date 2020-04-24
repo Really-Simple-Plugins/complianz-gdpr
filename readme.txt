@@ -110,14 +110,16 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.5.0 =
+* Fix: User registration dependency
+* Fix: consent management on UK policy not possible due to an incorrect condition
+* Improvement: improve conditions and descriptions for selling data elements in legal documents and questions
+* Improvement: jquery >3.x compatibility
+* Improvement: Divi notice for Recaptcha
+* Improvement: convert region array when enabling or disabling geo ip setting
+* Improvement: support for retrieval of second party cookies
 * Improvement: dropped deprecated wp.editor in favor of wp.blockEditor in Gutenberg block, added panelrows.
 * Improvement: manage consent by category on Cookie Policy
 * SSL verify enabled for license verification
-* Improvement: pass type to Cookiedatabase: localstorage or cookie
-* Fix: custom URL not saving
-* Fix: {link} not replaced in new cookie template
-* Fix: one function in TGMPA library not prefixed yet, causing conflicts with other libraries
-* Fix: cookieFunction and collectedPersonalData sync across different languages https://github.com/rlankhorst/complianz-gdpr/issues/259. props pierrotevrard-idp
 * javascript sanitization https://github.com/rlankhorst/complianz-gdpr/issues/260 props pierrotevrard-idp
 * Do not automatically enable a service integration after a cookiedatabase sync
 * Get screencapture for youtube videoseries
@@ -125,7 +127,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: for the geo ip document redirect, redirect the "other" region to website's base region
 * Fix: possible issue when custom editing the cookie policy content because of empty table cells.
 * Fix: AMP plugin changed hooks, causing the integration not to work 100%
+* Improvement: added AddToAny in the integrations list
 * Fix: missing filter in integrations list props @orjhor
+* Fix: language selector services was called 'select {language} cookies';
 
 = 4.4.1 =
 * Fix: ajax loaded content setting not applied

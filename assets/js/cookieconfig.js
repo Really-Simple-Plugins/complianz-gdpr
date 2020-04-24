@@ -223,7 +223,7 @@ jQuery(document).ready(function ($) {
 			//check if there's an autoplay value we need to pass on
 			var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
 			if (autoplay === '1') src = src + '&autoplay=1';
-			$(this).attr('src', src).load(function () {
+			$(this).attr('src', src).on( 'load' , function () {
 				//fitvids integration, a.o. Beaverbuilder
 				if (typeof $(this).parent().fitVids == 'function') {
 					$(this).parent().fitVids();

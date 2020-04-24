@@ -21,3 +21,20 @@ function cmplz_user_registration_script( $tags ) {
 
 
 
+/**
+ * Conditionally add the dependency
+ * $deps['wait-for-this-script'] = 'script-that-should-wait';
+ */
+
+add_filter( 'cmplz_dependencies', 'cmplz_userregistration_dependencies' );
+function cmplz_userregistration_dependencies( $tags ) {
+	$recaptcha_enabled
+		= get_option( 'user_registration_login_options_enable_recaptcha',
+		'no' );
+
+	if ( 'yes' == $recaptcha_enabled ) {
+		$tags['recaptcha/api.js'] = 'user-registration.min.js';
+	}
+
+	return $tags;
+}

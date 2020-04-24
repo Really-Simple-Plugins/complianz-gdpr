@@ -321,6 +321,17 @@ if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_uk_site_needs_cookie_warning' ) ) {
+	/**
+	 * Check if EU targeted site needs a cookie warning
+	 *
+	 * @return bool
+	 */
+	function cmplz_uk_site_needs_cookie_warning() {
+		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'uk' );
+	}
+}
+
 if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning_cats' ) ) {
 
 	/**
