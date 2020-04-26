@@ -624,7 +624,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $pages;
 		public $warning_types;
 		public $yes_no;
-		public $known_cookie_keys;
 		public $ignore_cookie_list;
 		public $countries;
 		public $purposes;

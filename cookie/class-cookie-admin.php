@@ -6,7 +6,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		private static $_this;
 		public $position;
 		public $cookies = array();
-		public $known_cookie_keys;
 		public $user_cookie_variation;
 
 		function __construct() {
@@ -101,8 +100,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_filter( 'cmplz_consenttype',
 				array( $this, 'maybe_filter_consenttype' ), 10, 2 );
-
-			$this->load();
 
 		}
 
@@ -1756,10 +1753,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function reset_plugins_changed() {
 			update_option( 'cmplz_plugins_changed', - 1 );
-		}
-
-		public function load() {
-			$this->known_cookie_keys = COMPLIANZ::$config->known_cookie_keys;
 		}
 
 
@@ -3932,34 +3925,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			return false;
-		}
-
-		/*
-         * $type = title, used_names, description, storage_duration, purpose
-         *
-         *
-         *
-         * the index runs from 0- the number of cookies.
-         * so starting from 0, we get the first cookie in the detected cookie types list, and prefill the value
-         * */
-		public function get_default_value( $type, $key ) {
-			if ( $type === 'showOnPolicy' ) {
-				return true;
-			}
-
-			$cookie_type = $key;
-			if ( $type == 'key' ) {
-				return $cookie_type;
-			}
-			$value = isset( $this->known_cookie_keys[ $cookie_type ][ $type ] )
-				? $this->known_cookie_keys[ $cookie_type ][ $type ] : '';
-
-			if ( is_array( $value ) ) {
-				$value = implode( ', ', $value );
-			}
-
-			return $value;
-
 		}
 
 		/**
