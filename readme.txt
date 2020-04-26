@@ -130,6 +130,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: added AddToAny in the integrations list
 * Fix: missing filter in integrations list props @orjhor
 * Fix: language selector services was called 'select {language} cookies';
+* Fix: correctly translate Complianz cookie retention
 
 = 4.4.1 =
 * Fix: ajax loaded content setting not applied

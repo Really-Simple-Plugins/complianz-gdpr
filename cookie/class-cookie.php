@@ -300,6 +300,17 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					? true : false;
 			}
 
+			/**
+			 * complianz cookie retention can be retrieved form this site
+			 */
+
+			if ( strpos( $this->name, 'cmplz' ) !== false
+			     || strpos( $this->name, 'complianz' ) !== false
+			) {
+				$this->retention = sprintf( __( "%s days", "complianz-gdpr" ),
+					cmplz_get_value( 'cookie_expiry' ) );
+			}
+
 			//get serviceid from service name
 			if ( $this->serviceID ) {
 				$service       = new CMPLZ_SERVICE( $this->serviceID,
@@ -343,17 +354,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				} else {
 					$this->serviceID = $service->ID;
 				}
-			}
-
-			/**
-			 * complianz cookie retention can be retrieved form this site
-			 */
-
-			if ( strpos( $this->name, 'cmplz' ) !== false
-			     || strpos( $this->name, 'complianz' ) !== false
-			) {
-				$this->retention = sprintf( __( "%s days", "complianz-gdpr" ),
-					cmplz_get_value( 'cookie_expiry' ) );
 			}
 
 			$update_array = array(
