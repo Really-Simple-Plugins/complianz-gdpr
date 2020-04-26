@@ -83,6 +83,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			self::includes();
 			self::hooks();
 
+			self::$cookie_admin = new cmplz_cookie_admin();
 			self::$config  = new cmplz_config();
 			self::$company = new cmplz_company();
 			if ( cmplz_has_region( 'us' ) ) {
@@ -98,7 +99,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$tour            = new cmplz_tour();
 			}
 
-			self::$cookie_admin = new cmplz_cookie_admin();
 			self::$document     = new cmplz_document();
 
 			if ( cmplz_third_party_cookies_active()
