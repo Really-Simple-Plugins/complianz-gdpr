@@ -3560,6 +3560,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				 */
 				$needs_warning = true;
 			}
+
 			$needs_warning = apply_filters( 'cmplz_site_needs_cookiewarning', $needs_warning );
 			return $needs_warning;
 		}
@@ -3847,13 +3848,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					if ( ! $this->statistics_privacy_friendly() ) {
 						return true;
 					}
-				}
-
-				//get service
-				$cookie = new CMPLZ_COOKIE($cookie);
-				$service = new CMPLZ_SERVICE($cookie->serviceID);
-				if ($service->secondParty || $service->thirdParty) {
-					return true;
+				} else {
+					$service = new CMPLZ_SERVICE( $cookie->serviceID );
+					if ( $service->secondParty || $service->thirdParty ) {
+						return true;
+					}
 				}
 
 			}
