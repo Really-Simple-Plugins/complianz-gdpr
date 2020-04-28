@@ -393,7 +393,7 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?",
 				'complianz-gdpr' ),
 			'options'            => $this->yes_no,
-			'callback_condition' => 'cmplz_consent_anonymous_stats_question',
+			'callback_condition' => 'cmplz_consent_required_for_anonymous_stats',
 			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
 

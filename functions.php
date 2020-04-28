@@ -806,19 +806,9 @@ if ( ! function_exists( 'cmplz_cookie_warning_required_stats' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_consent_anonymous_stats_question' ) ) {
-
-	function cmplz_consent_anonymous_stats_question() {
-		if ( ! cmplz_has_region( 'eu' ) ) {
-			return false;
-		}
-
-		$uses_google = COMPLIANZ::$cookie_admin->uses_google_analytics()
-		               || COMPLIANZ::$cookie_admin->uses_google_tagmanager();
-
-		return $uses_google
-		       && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )
-		       && COMPLIANZ::$cookie_admin->statistics_privacy_friendly();
+if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
+	function cmplz_consent_required_for_anonymous_stats() {
+		return COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats();
 	}
 }
 

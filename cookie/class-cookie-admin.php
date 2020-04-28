@@ -6,7 +6,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		private static $_this;
 		public $position;
 		public $cookies = array();
-		public $user_cookie_variation;
 
 		function __construct() {
 			if ( isset( self::$_this ) ) {
@@ -31,6 +30,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( ! is_admin() && get_option( 'cmplz_wizard_completed_once' ) ) {
+
 				if ( $this->site_needs_cookie_warning() ) {
 					add_action( 'wp_print_footer_scripts',
 						array( $this, 'inline_cookie_script' ),
@@ -42,11 +42,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						array( $this, 'inline_cookie_script_no_warning' ), 10,
 						2 );
 				}
-
 			}
 
-
-//            //cookie script for styling purposes on backend
+            //cookie script for styling purposes on backend
 			add_action( 'admin_enqueue_scripts',
 				array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
@@ -3534,7 +3532,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 * default is false
 			 */
 			$needs_warning = false;
-
 			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
 				/**
 				 * if cookies are not used at all, no banner is needed
@@ -3563,7 +3560,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				 */
 				$needs_warning = true;
 			}
-
 			$needs_warning = apply_filters( 'cmplz_site_needs_cookiewarning', $needs_warning );
 			return $needs_warning;
 		}
@@ -3628,6 +3624,23 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 		/**
+		 * Check if consent is required for anonymous statistics
+		 * @return bool
+		 */
+
+		public function consent_required_for_anonymous_stats(){
+			if ( ! cmplz_has_region( 'eu' ) ) {
+				return false;
+			}
+			$uses_google = $this->uses_google_analytics()
+			               || $this->uses_google_tagmanager();
+
+			return $uses_google
+			       && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )
+			       && $this->statistics_privacy_friendly();
+		}
+
+		/**
 		 * Check if the site needs a cookie banner considering statistics only
 		 *
 		 * @param $region bool|string
@@ -3641,7 +3654,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 * user can override detected settings in wizard
 			 */
 
-			if ( cmplz_consent_anonymous_stats_question()
+			if ( $this->consent_required_for_anonymous_stats()
 			     && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes'
 			) {
 				return true;
