@@ -438,8 +438,12 @@ Make sue the text stays within the banne
 .cc-type-categories.cc-floating.cc-theme-edgeless .cc-message {
   margin-bottom: 0.5em;
 }
-.cmplz-svg-checkbox {
+.cc-window .cmplz-svg-checkbox,
+.cmplz-manage-consent-container .cmplz-svg-checkbox {
   display: none;
+}
+.cmplz-manage-consent-container .cc-check {
+  float: left;
 }
 .cc-check {
   cursor: pointer;
