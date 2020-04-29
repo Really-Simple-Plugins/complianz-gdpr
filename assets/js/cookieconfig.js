@@ -915,7 +915,7 @@ jQuery(document).ready(function ($) {
 				cmplz_wp_set_consent('marketing', 'allow');
 			} else {
 				cmplzSetCookie('cmplz_all', 'deny', complianz.cookie_expiry);
-				cmplzSetCookie('complianz_consent_status', 'deny');
+				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 				cmplz_wp_set_consent('marketing', 'deny');
 			}
 		}
@@ -1043,7 +1043,6 @@ jQuery(document).ready(function ($) {
 		if (cmplzUpdateCheckbox) {
 			cmplzSyncCategoryCheckboxes();
 		}
-
 	}
 	cmplzUpdateStatusCustomLink();
 
@@ -1180,7 +1179,7 @@ jQuery(document).ready(function ($) {
 		//marketing cookies acceptance
 		if (save) {
 			if (all || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
-				cmplzSetCookie('complianz_consent_status', 'allow');
+				cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
 			}
 		}
 	}
