@@ -2102,7 +2102,7 @@ if ( ! class_exists( 'CMPLZ_Plugin_Activation' ) ) {
 		 * @since 2.5.0
 		 */
 		function cmplz_load_tgm_plugin_activation() {
-			$GLOBALS['tgmpa'] = CMPLZ_Plugin_Activation::get_instance();
+			$GLOBALS['cmplz_tgmpa'] = CMPLZ_Plugin_Activation::get_instance();
 		}
 	}
 
@@ -2124,7 +2124,7 @@ if ( ! function_exists( 'cmplz_tgmpa' ) ) {
 	 * @param array $config  Optional. An array of configuration values.
 	 */
 	function cmplz_tgmpa( $plugins, $config = array() ) {
-		$instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+		$instance = call_user_func( array( get_class( $GLOBALS['cmplz_tgmpa'] ), 'get_instance' ) );
 
 		foreach ( $plugins as $plugin ) {
 			call_user_func( array( $instance, 'register' ), $plugin );
@@ -2219,7 +2219,7 @@ if ( ! class_exists( 'CMPLZ_List_Table' ) ) {
 		 * @since 2.2.0
 		 */
 		public function __construct() {
-			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['cmplz_tgmpa'] ), 'get_instance' ) );
 
 			parent::__construct(
 				array(
@@ -3151,12 +3151,12 @@ if ( ! function_exists( 'cmplz_load_bulk_installer' ) ) {
 	 */
 	function cmplz_load_bulk_installer() {
 		// Silently fail if 2.5+ is loaded *after* an older version.
-		if ( ! isset( $GLOBALS['tgmpa'] ) ) {
+		if ( ! isset( $GLOBALS['cmplz_tgmpa'] ) ) {
 			return;
 		}
 
 		// Get TGMPA class instance.
-		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['cmplz_tgmpa'] ), 'get_instance' ) );
 
 		if ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) {
 			if ( ! class_exists( 'Plugin_Upgrader', false ) ) {
@@ -3227,7 +3227,7 @@ if ( ! function_exists( 'cmplz_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $skin = null ) {
 						// Get TGMPA class instance.
-						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['cmplz_tgmpa'] ), 'get_instance' ) );
 
 						parent::__construct( $skin );
 
@@ -3558,7 +3558,7 @@ if ( ! function_exists( 'cmplz_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $args = array() ) {
 						// Get TGMPA class instance.
-						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['cmplz_tgmpa'] ), 'get_instance' ) );
 
 						// Parse default and new args.
 						$defaults = array(
