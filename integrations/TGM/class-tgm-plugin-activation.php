@@ -137,7 +137,7 @@ if ( ! class_exists( 'CMPLZ_Plugin_Activation' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $menu = 'tgmpa-install-plugins';
+		protected $menu = 'cmplz-install-plugins';
 
 		/**
 		 * Parent menu file slug.

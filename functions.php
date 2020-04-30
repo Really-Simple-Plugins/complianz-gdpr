@@ -658,9 +658,9 @@ if ( ! function_exists( 'cmplz_uses_only_functional_cookies' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_third_party_cookies_active' ) ) {
-	function cmplz_third_party_cookies_active() {
-		return COMPLIANZ::$cookie_admin->third_party_cookies_active();
+if ( ! function_exists( 'cmplz_site_shares_data' ) ) {
+	function cmplz_site_shares_data() {
+		return COMPLIANZ::$cookie_admin->site_shares_data();
 	}
 }
 
@@ -845,8 +845,7 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 
 if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 	function cmplz_init_cookie_blocker() {
-		if ( ! cmplz_third_party_cookies_active()
-		     && ! cmplz_cookie_warning_required_stats()
+		if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning()
 		) {
 			return;
 		}

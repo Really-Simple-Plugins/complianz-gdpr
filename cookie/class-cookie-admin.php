@@ -123,7 +123,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function maybe_filter_consenttype( $consenttype, $region ) {
-			if ( $region === 'ca' && cmplz_third_party_cookies_active()
+			if ( $region === 'ca' && cmplz_site_shares_data()
 			     && cmplz_get_value( 'sensitive_information_processed' )
 			        === 'yes'
 			) {
@@ -3566,63 +3566,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 
-		/**
-		 * Check if the site has third party cookies active
-		 *
-		 * @@return bool
-		 * *@since 1.0
-		 *
-		 */
 
-		public function third_party_cookies_active() {
-			//if user states no cookies are used, we simply return false.
-			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
-				return false;
-			}
-
-			/**
-			 * Script Center
-			 */
-			$thirdparty_scripts = cmplz_get_value( 'thirdparty_scripts' );
-			$thirdparty_iframes = cmplz_get_value( 'thirdparty_iframes' );
-			$thirdparty_scripts = strlen( $thirdparty_scripts ) != 0 ? false
-				: true;
-			$thirdparty_iframes = strlen( $thirdparty_iframes ) != 0 ? false
-				: true;
-
-			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' )
-				? true : false;
-			$social_media = ( cmplz_get_value( 'uses_social_media' ) === 'yes' )
-				? true : false;
-			$thirdparty_services
-			              = ( cmplz_get_value( 'uses_thirdparty_services' )
-			                  === 'yes' ) ? true : false;
-
-			if ( $thirdparty_scripts || $thirdparty_iframes || $ad_cookies
-			     || $social_media
-			     || $thirdparty_services
-			) {
-				return true;
-			}
-
-			$args    = array(
-				'isTranslationFrom' => false,
-				'ignored'           => false,
-			);
-			$cookies = $this->get_cookies( $args );
-			if ( ! empty( $cookies ) ) {
-				foreach ( $cookies as $cookie ) {
-					$service = new CMPLZ_SERVICE( $cookie->service );
-					if ( $service->thirdParty ) {
-						return true;
-					}
-
-				}
-			}
-
-
-			return false;
-		}
 
 		/**
 		 * Check if consent is required for anonymous statistics
@@ -3816,15 +3760,48 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $tm_fires_scripts;
 		}
 
+
 		/**
 		 * Check if this website shares data with third parties
 		 * @return bool
 		 */
 
 		public function site_shares_data() {
+			//if user states no cookies are used, we simply return false.
+			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
+				return false;
+			}
+
 			if ( $this->tagmamanager_fires_scripts() ) {
 				return true;
 			}
+
+
+			/**
+			 * Script Center
+			 */
+			$thirdparty_scripts = cmplz_get_value( 'thirdparty_scripts' );
+			$thirdparty_iframes = cmplz_get_value( 'thirdparty_iframes' );
+			$thirdparty_scripts = strlen( $thirdparty_scripts ) != 0 ? false
+				: true;
+			$thirdparty_iframes = strlen( $thirdparty_iframes ) != 0 ? false
+				: true;
+
+			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' )
+				? true : false;
+			$social_media = ( cmplz_get_value( 'uses_social_media' ) === 'yes' )
+				? true : false;
+			$thirdparty_services
+			              = ( cmplz_get_value( 'uses_thirdparty_services' )
+			                  === 'yes' ) ? true : false;
+
+			if ( $thirdparty_scripts || $thirdparty_iframes || $ad_cookies
+			     || $social_media
+			     || $thirdparty_services
+			) {
+				return true;
+			}
+
 
 			//get all used cookies
 			$args    = array(

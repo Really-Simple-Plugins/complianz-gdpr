@@ -29,7 +29,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		private $firstAddDate;
 		private $synced;
 		private $complete;
-		private $slug;
+		private $slug = '';
 		private $old;
 
 		/**

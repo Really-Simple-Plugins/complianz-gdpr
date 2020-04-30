@@ -100,12 +100,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 
 			self::$cookie_admin = new cmplz_cookie_admin();
 			self::$document     = new cmplz_document();
-
-			if ( cmplz_third_party_cookies_active()
-			     || cmplz_cookie_warning_required_stats()
-			) {
-				self::$cookie_blocker = new cmplz_cookie_blocker();
-			}
+			self::$cookie_blocker = new cmplz_cookie_blocker();
 		}
 
 		/**
