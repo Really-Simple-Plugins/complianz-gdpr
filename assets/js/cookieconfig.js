@@ -987,25 +987,49 @@ jQuery(document).ready(function ($) {
 
 	$(document).on('click', '.cc-revoke-custom', function () {
 		cmplzRevoke();
-		if (complianz.consenttype === 'optin') {
+		if (complianz.consenttype === 'optin' || complianz.consenttype === 'optinstats') {
 			$('.cc-revoke').click();
-			//categories should be disabled in the checkboxes, then we save the new setting
-			$('.cmplz-consent-checkbox').each(function(){
-				$(this).prop('checked', false);
-			});
+
+			//tag manager
+			if (complianz.tm_categories) {
+				for (var i = 0; i < complianz.cat_num; i++) {
+					$('.cmplz_' + i).each(function(){
+						$(this).prop('checked', false);
+					});
+				}
+			}
+
+			var cmplzCategories = [
+				'cmplz_all',
+				'cmplz_stats',
+				'cmplz_prefs'
+			];
+
+			for (var key in cmplzCategories) {
+				if (cmplzCategories.hasOwnProperty(key)) {
+					var cat = cmplzCategories[key];
+					$('.'+cat).each(function(){
+						$(this).prop('checked', false);
+					});
+
+				}
+			}
 		} else {
+
 			//if it's already denied, show the accept option again.
-			if (cmplzGetCookie('complianz_consent_status') === 'deny') {
+			if (cmplzGetCookie('complianz_consent_status') === 'dismiss' || cmplzGetCookie('complianz_consent_status') === 'deny') {
 				$('.cc-revoke').click();
+				$('.cc-revoke').fadeOut();
+				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 			} else {
 				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 				//When there's no cookie banner (other consent regions) ccName is empty.
-				if (typeof ccName !== 'undefined') ccName.close();
+				//if (typeof ccName !== 'undefined') ccName.close();
 
-				$('.cc-revoke').fadeIn();
+				//$('.cc-revoke').fadeIn();
 			}
 		}
-		cmplzSaveCategoriesSelection();
+		//cmplzSaveCategoriesSelection();
 		cmplzFireCategories();
 		cmplzUpdateStatusCustomLink();
 	});

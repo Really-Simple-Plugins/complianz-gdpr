@@ -110,7 +110,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.5.2 =
-* Fix: some themes showing double checkboxes
+* Fix: setCookie function at one point in code called without expiry, causing it to get set with session expiry
 
 = 4.5.1 =
 * Fix: some themes showing double checkboxes
