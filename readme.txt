@@ -17,7 +17,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Configure for your specific region: European Union, United Kingdom, United States or Canada.
 * Configure specific cookie consent per subregion, for example: European Union + DSGVO or USA + CCPA.
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
-* Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent.
+* Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent
 * Banner Templates CA/US also include; Dismiss on scroll, time on page or both.
 * Categorize your Cookies with Tag Manager or our own Script Center, if needed.
 * Automatically detects if you need a Cookie Notice (also called a Cookie Banner or Pop-Up).
@@ -112,7 +112,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 4.6.0 =
 * New: New Cookie banner variations with new checkbox options, accept all button, etc.
 * Fix: revoke on legacy revoke button not revoking correctly
+* Fix: in case of categories, paragraph text in cookie policy didn't match
 * Improvement: vimeo with DNT=1 in the URL will not get blocked, as it's privacy friendly, non tracking.
+* New: added Rate My Post integration
+* New: added ACF (Advanced Custom Fields) integration for Google Maps
 
 = 4.5.2 =
 * Fix: setCookie function at one point in code called without expiry, causing it to get set with session expiry
