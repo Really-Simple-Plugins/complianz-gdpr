@@ -123,7 +123,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 4.6.0 =
 * New: New Cookie banner variations with new checkbox options, accept all button, etc.
 * Fix: revoke on legacy revoke button not revoking correctly
+* Fix: in case of categories, paragraph text in cookie policy didn't match
 * Improvement: vimeo with DNT=1 in the URL will not get blocked, as it's privacy friendly, non tracking.
+* New: added Rate My Post integration
+* New: added ACF (Advanced Custom Fields) integration for Google Maps
 
 = 4.5.2 =
 * Fix: setCookie function at one point in code called without expiry, causing it to get set with session expiry
