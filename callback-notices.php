@@ -353,15 +353,6 @@ function cmplz_set_default( $value, $fieldname ) {
 		}
 	}
 
-	if ( $fieldname == 'popup_background_color'
-	     || $fieldname == 'button_text_color'
-	) {
-		$brand = cmplz_get_value( 'brand_color' );
-		if ( ! empty( $brand ) ) {
-			return $brand;
-		}
-	}
-
 	if ( $fieldname == 'sensitive_information_processed' ) {
 		if ( cmplz_uses_sensitive_data() ) {
 			return 'yes';
@@ -452,3 +443,7 @@ function cmplz_set_default( $value, $fieldname ) {
 
 	return $value;
 }
+
+
+
+

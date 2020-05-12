@@ -164,7 +164,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'CMDD',
 				'CMRUM3',
 				'CMSC',
-				'cmplz_all',
+				'cmplz_marketing',
 				'cmplz_event_xxx',
 				'cmplz_stats',
 				'cmplz_id',
@@ -574,6 +574,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $async_list = array();
 
 		public $iframe_tags = array();
+		public $iframe_tags_not_including = array();
+
 
 		/**
 		 * images with a URl in this list will get blocked
@@ -624,7 +626,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $pages;
 		public $warning_types;
 		public $yes_no;
-		public $ignore_cookie_list;
 		public $countries;
 		public $purposes;
 		public $details_per_purpose_us;
@@ -677,7 +678,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/purpose.php' );
 			require_once( cmplz_path . '/config/steps.php' );
 			require_once( cmplz_path . '/config/warnings.php' );
-			require_once( cmplz_path . '/config/cookie-settings.php' );
 			require_once( cmplz_path . '/config/general-settings.php' );
 			require_once( cmplz_path . '/config/questions-wizard.php' );
 			require_once( cmplz_path . '/config/dynamic-fields.php' );

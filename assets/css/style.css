@@ -1,3 +1,10 @@
+/**
+prevent focus box shadow on cookiebanner preview
+ */
+a.cc-btn:focus {
+  box-shadow: 0 0 0 0 #fff, 0 0 0 0 rgba(0, 0, 0, 0);
+  outline: 0px solid transparent;
+}
 /*
     show edit buttons in WP table class
 
@@ -41,11 +48,15 @@ Tabs
 /* Style the tab content */
 .cmplz-tabcontent {
   display: none;
-  padding: 6px 12px;
+  float: left;
+  width: 100%;
   border: 1px solid #ccc;
   border-top: none;
   background-color: #fff;
   margin-bottom: 30px;
+}
+.cmplz-tabcontent > div {
+  padding: 6px 12px;
 }
 .cmplz-tabcontent.active {
   display: block;

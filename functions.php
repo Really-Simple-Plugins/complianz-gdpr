@@ -125,7 +125,7 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 if (!function_exists('cmplz_manage_consent_container')) {
 	function cmplz_manage_consent_container()
 	{
-		$html = '<p class="cmplz-manage-consent-container"></p>';
+		$html = '<p id="cmlz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
 
 		return $html;
 	}
@@ -332,15 +332,32 @@ if ( ! function_exists( 'cmplz_uk_site_needs_cookie_warning' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning_cats' ) ) {
+if ( ! function_exists( 'cmplz_eu_site_uses_cookie_warning_cats' ) ) {
 
 	/**
-	 * Check if EU targeted site needs cookie warning with categories
+	 * Check if optin site needs cookie warning with categories
 	 * @return bool
 	 */
-	function cmplz_eu_site_needs_cookie_warning_cats() {
-		if ( cmplz_eu_site_needs_cookie_warning()
-		     && cmplz_get_value( 'use_categories' )
+	function cmplz_eu_site_uses_cookie_warning_cats() {
+		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
+		if ( $cookiebanner->use_categories
+		) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
+if ( ! function_exists( 'cmplz_uk_site_uses_cookie_warning_cats' ) ) {
+
+	/**
+	 * Check if optin site needs cookie warning with categories
+	 * @return bool
+	 */
+	function cmplz_uk_site_uses_cookie_warning_cats() {
+		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
+		if ( $cookiebanner->use_categories_optinstats
 		) {
 			return true;
 		}

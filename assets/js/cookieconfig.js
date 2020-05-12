@@ -14,7 +14,7 @@
 * default all scripts enabled
 * information cookie banner
 *
-* Other:
+* Other regions:
 * default all scripts enabled
 * no banner
 *
@@ -26,7 +26,7 @@
     function myScriptHandler(consentData) {
         //your code here
         console.log(consentData.consentLevel);
-        if (consentData.consentLevel==='all'){
+        if (consentData.consentLevel==='marketing'){
             //do something with level all
         }
     }
@@ -53,6 +53,11 @@ jQuery(document).ready(function ($) {
 	var placeholderClassIndex = 0;
 	var curClass = '';
 	var cmplzAllScriptsHookFired = false;
+	var cmplzCategories = [
+		'cmplz_marketing',
+		'cmplz_stats',
+		'cmplz_prefs'
+	];
 
 	/**
 	 * prevent scroll to top behaviour because of missing href tag
@@ -101,7 +106,7 @@ jQuery(document).ready(function ($) {
 				blockedContentContainer.data('placeholderClassIndex', placeholderClassIndex);
 
 				//insert placeholder text
-				if (cmplzGetHighestAcceptance() !== 'all' && !blockedContentContainer.find(".cmplz-blocked-content-notice").length) {
+				if (cmplzGetHighestAcceptance() !== 'marketing' && !blockedContentContainer.find(".cmplz-blocked-content-notice").length) {
 					var placeholderText = complianz.placeholdertext;
 					if (typeof placeholderText !== 'undefined') blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-cookies">' + placeholderText + '</div>');
 				}
@@ -120,10 +125,9 @@ jQuery(document).ready(function ($) {
 		 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
 		 * We're assuming that statistics scripts won't be loaded with ajax, so we only load marketing level scripts
 		 */
-		if ( cmplzGetHighestAcceptance() === 'all') {
-			complianz_enable_scripts();
+		if ( cmplzGetHighestAcceptance() === 'marketing') {
+			cmplzEnableMarketing();
 		}
-
 
 	}
 
@@ -168,7 +172,7 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	$(window).bind('resize', function (e) {
-		if (cmplzGetHighestAcceptance() !== 'all') {
+		if (cmplzGetHighestAcceptance() !== 'marketing') {
 			//window.resizeEvt;
 			$(window).resize(function () {
 				clearTimeout(window.resizeEvt);
@@ -193,10 +197,10 @@ jQuery(document).ready(function ($) {
 	 *
 	 * */
 
-	function complianz_enable_scripts() {
+	function cmplzEnableMarketing() {
 		//check if the stats were already running. Don't enable in case of categories, as it should be handled by cmplzFireCategories
-		if (!complianz.use_categories && !ccStatsEnabled) {
-			complianz_enable_stats();
+		if (complianz.use_categories === 'no' && !ccStatsEnabled) {
+			cmplzEnableStats();
 		}
 
 		//make sure it doesn't run twice
@@ -278,7 +282,7 @@ jQuery(document).ready(function ($) {
 
 			//scripts: set "cmplz-script classes to type="text/javascript"
 			scriptElements.each(function (i, obj) {
-				//do not run stats scripts yet. We leave that to the dedicated stats function complianz_enable_stats()
+				//do not run stats scripts yet. We leave that to the dedicated stats function cmplzEnableStats()
 				if ($(this).hasClass('cmplz-stats')) return true;
 
 				var src = $(this).attr('src');
@@ -343,12 +347,16 @@ jQuery(document).ready(function ($) {
 							});
 					}
 				}
-
-
 			});
 		}
 
 		//fire an event so custom scripts can hook into this.
+		$.event.trigger({
+			type: "cmplzEnableScripts",
+			consentLevel: "marketing"
+		});
+
+		//backward compatiblity: deprecating the 'all' event
 		$.event.trigger({
 			type: "cmplzEnableScripts",
 			consentLevel: "all"
@@ -440,7 +448,7 @@ jQuery(document).ready(function ($) {
 	 * Enable statistics scripts, scripts marked with the cmplz-stats class
 	 */
 
-	function complianz_enable_stats() {
+	function cmplzEnableStats() {
 		if (ccStatsEnabled) return;
 
 		$('.cmplz-script.cmplz-stats').each(function (i, obj) {
@@ -483,16 +491,24 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	var cmplzFiredEvents = [];
-
 	function cmplzRunTmEvent(event) {
-
 		if (cmplzFiredEvents.indexOf(event) === -1) {
-			console.log('fire '+event);
-			cmplzFiredEvents.push(event);
-			window.dataLayer = window.dataLayer || [];
-			window.dataLayer.push({
-				'event': event
-			});
+			//for TM events, we show a warning to tell users to stop using the event_all trigger. But we'll run it for now.
+			if (event === 'cmplz_event_marketing' && complianz.tm_categories ){
+				console.log('Deprecated event: The cmplz_event_all will be deprecated in the future.');
+				cmplzFiredEvents.push('cmplz_event_all');
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					'event': 'cmplz_event_all'
+				});
+			} else {
+				console.log('fire ' + event);
+				cmplzFiredEvents.push(event);
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					'event': event
+				});
+			}
 		}
 	}
 
@@ -551,11 +567,9 @@ jQuery(document).ready(function ($) {
 			//use the optin mechanisms
 			complianz.consenttype = 'optin';
 		}
-
-		if (complianz.use_categories) {
+		if ( complianz.use_categories !== 'no' ) {
 			complianz.type = 'categories';
 			complianz.layout = 'categories-layout';
-			complianz.revoke = complianz.view_preferences;
 		}
 
 		cmplzIntegrationsInit();
@@ -574,7 +588,7 @@ jQuery(document).ready(function ($) {
 				complianz_track_status('no-warning');
 			} else if (complianz.consenttype === 'optout') {
 				//for opt out visitors, so consent by default
-				complianz_track_status('all');
+				complianz_track_status('marketing');
 			} else {
 				//all others (eu): no choice yet.
 				complianz_track_status('no-choice');
@@ -594,7 +608,7 @@ jQuery(document).ready(function ($) {
 					if (revokeContainer.length){
 						revokeContainer.html( cmplzRemoveStatisticsCategory(revokeContainer.html()) );
 					}
-					complianz_enable_stats();
+					cmplzEnableStats();
 				}
 
 				//disable auto dismiss
@@ -644,7 +658,44 @@ jQuery(document).ready(function ($) {
 
 	function cmplz_cookie_warning() {
 		//apply custom css
-		if (complianz.use_custom_cookie_css) $('<style>').prop("type", "text/css").html(complianz.custom_css).appendTo("head");
+		var css = '';
+
+		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible' || complianz.use_custom_cookie_css) {
+
+			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-accept-all {color:' + complianz.accept_all_text_color + ';background-color:' + complianz.accept_all_background_color + ';border-color:' + complianz.accept_all_border_color + '}';
+			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-accept-all:hover{background-color:' + getHoverColour(complianz.accept_all_background_color) + '}';
+
+		}
+
+		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss{color:' + complianz.functional_text_color + ';background-color:' + complianz.functional_background_color + ';border-color:' + complianz.functional_border_color + '}';
+		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss:hover{background-color:' + getHoverColour(complianz.functional_background_color) + '}';
+
+		if ( complianz.banner_width !== 384 ) {
+			css += ".cc-window.cc-floating {max-width:" + complianz.banner_width + "px;}";
+		}
+
+		if (complianz.use_custom_cookie_css) {
+			css += complianz.custom_css;
+		}
+
+		if ( css.length > 0 ) {
+			$('<style>').prop("type", "text/css").html(css).appendTo("head");
+		}
+
+		var save_button = '<a aria-label="{{save_preferences}}" href="#" tabindex="0" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
+		if (complianz.use_categories === 'hidden' ) {
+			save_button = '<a aria-label="{{dismiss}}" href="#" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" tabindex="0" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
+		}
+
+		if (complianz.use_categories === 'visible' || complianz.use_categories === 'hidden' ) {
+			save_button = '<a aria-label="{{accept_all}}" href="#" tabindex="0" class="cc-btn cc-accept-all">{{accept_all}}</a>'+save_button;
+		}
+
+		var dismiss_button = '<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>';
+		var allow_button = '<a aria-label="{{allow}}" href="#" role="button" tabindex="0" class="cc-btn cc-save cc-allow">{{allow}}</a>';
+		if (complianz.consenttype === 'optout' ) {
+			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{dismiss}}</a>';
+		}
 
 		window.cookieconsent.initialise({
 			cookie: {
@@ -654,7 +705,6 @@ jQuery(document).ready(function ($) {
 			onInitialise: function (status) {
 				//runs only when dismissed or accepted
 				ccStatus = status;
-
 				if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
 					$('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
 				}
@@ -666,10 +716,9 @@ jQuery(document).ready(function ($) {
 				* */
 				if (status === 'allow') {
 					var all = false;
-					if (!complianz.use_categories) all = true;
-					cmplzFireCategories(all);
+					if (complianz.use_categories === 'no') all = true;
+					cmplzFireCategories(all, true);
 				}
-
 			},
 			onStatusChange: function (status, chosenBefore) {
 				//remove the banner wrap class to dismiss cookie wall styling
@@ -687,21 +736,22 @@ jQuery(document).ready(function ($) {
 				cmplzUpdateStatusCustomLink();
 
 				/**
-				* This runs when the status is changed
-				* When status = allow, it's accepted, and we want to run all scripts.
-				*
-				* */
+				 * This runs when the status is changed
+				 * When status = allow, it's accepted, and we want to run all scripts.
+				 *
+				 * */
 				ccStatus = status;
-
 				//track here only for non category style, the default one is tracked on save.
-				if (!complianz.use_categories) {
+				if (complianz.use_categories === 'no' ) {
 					complianz_track_status();
 				}
 
 				if (status === 'allow') {
-					var all = false;
-					if (!complianz.use_categories) all = true;
-					cmplzFireCategories(all, true);
+					if (complianz.use_categories === 'no' ) {
+						cmplzFireCategories(true, true);
+					} else {
+						cmplzFireCategories(false, true);
+					}
 				}
 
 				if (status === 'deny' && complianz.consenttype === 'optout') {
@@ -716,7 +766,7 @@ jQuery(document).ready(function ($) {
 				}
 
 				//when the revoke button is clicked, the status is still 'allow'
-				if (!complianz.use_categories && ccStatus === 'allow') {
+				if (complianz.use_categories === 'no' && ccStatus === 'allow') {
 					cmplzRevoke();
 					complianz_track_status();
 					location.reload();
@@ -750,9 +800,9 @@ jQuery(document).ready(function ($) {
 				'categories': '<div class="cc-compliance cc-highlight">{{save}}</div>',
 			},
 			"elements": {
-				"dismiss": '<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
-				"allow": '<a aria-label="{{allow}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
-				"save": '<a aria-label="{{save_preferences}}" href="#" tabindex="0" class="cc-btn cc-save">{{save_preferences}}</a>',
+				"dismiss": dismiss_button,
+				"allow": allow_button,
+				"save": save_button,
 				"categories-checkboxes": complianz.categories,
 				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</span>',
 			},
@@ -764,6 +814,8 @@ jQuery(document).ready(function ($) {
 				"allow": complianz.accept,
 				"link": complianz.readmore,
 				"href": complianz.readmore_url,
+				"accept_all": complianz.accept_all,
+				"settings": complianz.view_preferences,
 			}
 		}, function (popup) {
 			ccName = popup;
@@ -773,41 +825,29 @@ jQuery(document).ready(function ($) {
 			if (complianz.soft_cookiewall && (ccStatus == undefined)) {
 				$('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
 			}
+			if (complianz.use_categories === 'hidden') {
+				$('.cmplz-categories-wrap').hide();
+			}
+			$('.cc-window').addClass('cmplz-categories-'+complianz.use_categories);
 
 			/*
 			* If this is not opt out, and site is using categories, we need to apply some styling, sync the checkboxes, and fire the currently selected categories.
 			*
 			* */
 
-			if (complianz.consenttype !== 'optout' && complianz.use_categories) {
+			if (complianz.consenttype !== 'optout' && complianz.use_categories !== 'no') {
 				//make sure the checkboxes show the correct settings
 				cmplzSyncCategoryCheckboxes();
-
-				//some styles
-				if (complianz.tm_categories) {
-					for (var i = 0; i < complianz.cat_num; i++) {
-						$('.cc-window .cmplz_' + i + ':checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
-					}
-				}
-
-				$('.cc-window .cmplz_functional:checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
-				$('.cc-window .cmplz_all:checked + .cc-check svg').css({"stroke": complianz.popup_text_color});
-				$('.cc-window .cc-save').css({
-					"border-color": complianz.border_color,
-					"background-color": complianz.button_background_color,
-					"color": complianz.button_text_color
-				});
-				$('.cc-window .cc-check svg').css({"stroke": complianz.popup_text_color});
-
 			}
 			cmplzFireCategories();
 
 			/** We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
-			*
-			* If this is opt out, and cookies have not been denied, we run all cookies.
-			*
-			*
-			* */
+			 *
+			 * If this is opt out, and cookies have not been denied, we run all cookies.
+			 *
+			 *
+			 * */
+
 			if (complianz.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
 				cmplzFireCategories(true);
 			}
@@ -823,14 +863,39 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
+	//hidden categories
+	if (complianz.use_categories === 'hidden') {
+		$(document).on('click', '.cc-show-settings', function(){
+			var catsContainer = $('.cmplz-categories-wrap');
+			if (catsContainer.is(":visible")){
+				catsContainer.fadeOut(800);
+				var showSettingsBtn = $(".cc-save-settings");
+				showSettingsBtn.html(complianz.view_preferences);
+				showSettingsBtn.removeClass('cc-show-settings');
+				showSettingsBtn.addClass('cc-save-settings');
+			} else{
+				catsContainer.fadeIn(1600);
+				var showSettingsBtn = $(".cc-show-settings");
+				showSettingsBtn.html(complianz.save_preferences);
+				showSettingsBtn.addClass('cc-save-settings');
+				showSettingsBtn.removeClass('cc-show-settings');
+			}
+		});
+
+		$(document).on('click', '.cc-dismiss', function(){
+			cmplzRevoke();
+		});
+	}
+
 	/**
 	 * Save the preferences after user has changed the settings in the popup
 	 *
 	 *
 	 * */
 
-	$(document).on('click', '.cc-save', function () {
+	$(document).on('click', '.cc-save-settings', function () {
 		cmplzSaveCategoriesSelection();
+		cmplzFireCategories(false, true);
 	});
 
 	/**
@@ -840,27 +905,29 @@ jQuery(document).ready(function ($) {
 	 */
 
 	function cmplzRemoveStatisticsCategory(categories) {
-		if (complianz.use_categories && complianz.forceEnableStats) {
-			return categories.replace(/(.*)(<label><input type="checkbox" id="(cmplz_stats|cmplz_stats_document)".*?<\/label>.*?><\/label>)(.*)/g, function (a, b, c, d, e) {
-				return b + e;
+		if (complianz.use_categories !== 'no' && complianz.forceEnableStats) {
+			return categories.replace(/(.*)(<div class="cmplz-categories-wrap"><label.*?>.*?<input.*?class=".*?cmplz_stats.*?<\/label><\/div>)(.*)/g, function (a, b, c, d) {
+				return b + d;
 			});
 		}
+
 		return categories;
 	}
 
 	/**
 	 * Save the current selected categories, and dismiss the banner
+	 * Should be run always after the checkboxes have been checked.
 	 *
 	 * */
 
 	function cmplzSaveCategoriesSelection() {
 		//dismiss the banner after saving, so it won't show on next page load
-		if ( complianz.use_categories ) ccName.setStatus('dismiss');
+		//if ( complianz.use_categories ) ccName.setStatus('dismiss');
 		//check if status is changed from 'allow' to 'revoked'
 		var reload = false;
-		if ($('.cmplz_all').length) {
-			//'all' checkbox is not checked, and previous value was allow. reload.
-			if (!$('.cmplz_all').is(":checked") && (cmplzGetCookie('cmplz_all') === 'allow')) {
+		if ($('.cmplz_marketing').length) {
+			//'marketing' checkbox is not checked, and previous value was allow. reload.
+			if (!$('.cmplz_marketing').is(":checked") && (cmplzGetCookie('cmplz_marketing') === 'allow')) {
 				reload = true;
 			}
 		}
@@ -872,7 +939,6 @@ jQuery(document).ready(function ($) {
 		//using TM categories
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
-
 				if ($('#cmplz_' + i).is(":checked")) {
 					cmplzSetCookie('cmplz_event_' + i, 'allow', complianz.cookie_expiry);
 					cmplz_wp_set_consent('cmplz_event_' + i, 'allow');
@@ -908,18 +974,17 @@ jQuery(document).ready(function ($) {
 		}
 
 		//marketing cookies acceptance
-		if ($('.cmplz_all').length) {
-			if ($('.cmplz_all').is(":checked")) {
+		if ($('.cmplz_marketing').length) {
+			if ($('.cmplz_marketing').is(":checked")) {
 				ccName.setStatus(cookieconsent.status.allow);
-				cmplzSetCookie('cmplz_all', 'allow', complianz.cookie_expiry);
+				cmplzSetCookie('cmplz_marketing', 'allow', complianz.cookie_expiry);
 				cmplz_wp_set_consent('marketing', 'allow');
 			} else {
-				cmplzSetCookie('cmplz_all', 'deny', complianz.cookie_expiry);
+				cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
 				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 				cmplz_wp_set_consent('marketing', 'deny');
 			}
 		}
-		cmplzFireCategories();
 
 		//track status on saving of settings.
 		complianz_track_status();
@@ -937,6 +1002,10 @@ jQuery(document).ready(function ($) {
 		if (reload) location.reload();
 	}
 
+	/**
+	 * Track the status of current consent
+	 * @param status
+	 */
 
 	function complianz_track_status(status) {
 		status = typeof status !== 'undefined' ? status : false;
@@ -962,7 +1031,8 @@ jQuery(document).ready(function ($) {
 
 	/**
 	  optional method to revoke cookie acceptance from a custom link
-	*/
+	 */
+
 	var cmplzUpdateCheckbox = true;
 	$(document).on('change', '.cmplz-consent-checkbox', function () {
 		//when checkbox is clicked, don't update again
@@ -979,6 +1049,7 @@ jQuery(document).ready(function ($) {
 			cmplzDisableAutoDismiss();
 			cmplzSaveCategoriesSelection();
 		}
+
 	});
 
 	/**
@@ -1000,7 +1071,7 @@ jQuery(document).ready(function ($) {
 			}
 
 			var cmplzCategories = [
-				'cmplz_all',
+				'cmplz_marketing',
 				'cmplz_stats',
 				'cmplz_prefs'
 			];
@@ -1032,32 +1103,48 @@ jQuery(document).ready(function ($) {
 		//cmplzSaveCategoriesSelection();
 		cmplzFireCategories();
 		cmplzUpdateStatusCustomLink();
+
 	});
 
 
 	/**
-	 *       Accept cookies by clicking any other link cookie acceptance from a custom link
+	 *  Accept cookies by clicking any other link cookie acceptance from a custom link
 	 */
 
 	$(document).on('click', '.cmplz-accept-cookies', function (event) {
 		event.preventDefault();
-		if (complianz.use_categories) {
-			//set to highest level
-			cmplzFireCategories(true, true);
-			//sync with checkboxes in banner
-			cmplzSyncCategoryCheckboxes();
-			//save all new selections, and run scripts
-			cmplzSaveCategoriesSelection();
-		} else {
-			//cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
-			//dismiss the banner after saving, so it won't show on next page load
-			ccName.setStatus(cookieconsent.status.allow);
-			cmplzFireCategories(true, true);
-
-			ccName.close();
-			$('.cc-revoke').fadeIn();
-		}
+		cmplzAcceptAllCookies();
 	});
+
+	/**
+	 * Accept all cookies when accept all is clicked.
+	 */
+
+	$(document).on('click', '.cc-accept-all', function (event) {
+		cmplzAcceptAllCookies();
+	});
+
+	/**
+	 * Accept all cookies
+	 */
+
+	function cmplzAcceptAllCookies(){
+		ccName.setStatus(cookieconsent.status.allow);
+		cmplzFireCategories(true, true);
+		//sync with checkboxes in banner
+		cmplzSyncCategoryCheckboxes(true );
+		//save all new selections, and run scripts
+		cmplzSaveCategoriesSelection();
+
+		ccName.close();
+		$('.cc-revoke').fadeIn();
+	}
+
+	/**
+	 * Handle hidden categories
+	 */
+
+	$('.cmplz-hide-cats').show();
 
 	/**
 	 * When consent status changes, keep the consent management checkboxes on the site in sync
@@ -1080,7 +1167,6 @@ jQuery(document).ready(function ($) {
 
 	function cmplzSetCookie(name, value, days) {
 		var secure = ";secure";
-
 		var date = new Date();
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 		var expires = ";expires=" + date.toGMTString();
@@ -1099,7 +1185,7 @@ jQuery(document).ready(function ($) {
 		var name = cname + "="; //Create the cookie name variable with cookie name concatenate with = sign
 		var cArr = window.document.cookie.split(';'); //Create cookie array by split the cookie by ';'
 
-		//Loop through the cookies and return the cooki value if it find the cookie name
+		//Loop through the cookies and return the cookie value if it find the cookie name
 		for (var i = 0; i < cArr.length; i++) {
 			var c = cArr[i].trim();
 			//If the name is the cookie string at position 0, we found the cookie and return the cookie value
@@ -1111,42 +1197,42 @@ jQuery(document).ready(function ($) {
 	}
 
 	/**
-	* Retrieve the highest level of consent that has been given
-	*
-	* */
+	 * Retrieve the highest level of consent that has been given
+	 *
+	 * */
 
 	function cmplzGetHighestAcceptance() {
 		//if all is selected, it's automatically the highest
 		var status = cmplzGetCookie('complianz_consent_status');
 
 		//optout has different rules
-		if (status === 'allow' || (status === 'dismiss' && complianz.consenttype === 'optout')) {
-			return 'all';
+		if (status === 'allow' || (status !== 'deny' && complianz.consenttype === 'optout')) {
+			return 'marketing';
 		}
 
-		if (complianz.use_categories) {
 
-			if (cmplzGetCookie('cmplz_all') === 'allow') {
-				return 'all';
-			}
+		//the below blocks apply only to categories, but as categories are also used in the cookie policy
+		//we check them also in case of accept/deny
+		if (cmplzGetCookie('cmplz_marketing') === 'allow') {
+			return 'marketing';
+		}
 
-			if (complianz.tm_categories) {
-				for (var i = complianz.cat_num - 1; i >= 0; i--) {
-					if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
-						return 'cmplz_event_' + i;
-					}
+		if (complianz.tm_categories) {
+			for (var i = complianz.cat_num - 1; i >= 0; i--) {
+				if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
+					return 'cmplz_event_' + i;
 				}
 			}
-
-			if (cmplzGetCookie('cmplz_stats') === 'allow') {
-				return 'stats';
-			}
-
-			if (cmplzGetCookie('cmplz_prefs') === 'allow') {
-				return 'prefs';
-			}
-
 		}
+
+		if (cmplzGetCookie('cmplz_stats') === 'allow') {
+			return 'stats';
+		}
+
+		if (cmplzGetCookie('cmplz_prefs') === 'allow') {
+			return 'prefs';
+		}
+
 
 
 		if (status === 'dismiss') {
@@ -1182,7 +1268,7 @@ jQuery(document).ready(function ($) {
 			if (all || ($('.cmplz_stats').length && $('.cmplz_stats').is(":checked"))) {
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
-				complianz_enable_stats();
+				cmplzEnableStats();
 			}
 
 			if (all || ($('.cmplz_prefs').length && $('.cmplz_prefs').is(":checked"))) {
@@ -1191,13 +1277,12 @@ jQuery(document).ready(function ($) {
 		}
 
 		//marketing cookies acceptance
-		if (all || ($('.cmplz_all').length && $('.cmplz_all').is(":checked"))) {
+		if (all || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
 			setStatusAsBodyClass('allow');
 			cmplzSetAcceptedCookiePolicyID();
 			cmplz_wp_set_consent('marketing', 'allow');
-			cmplzRunTmEvent('cmplz_event_all');
-			complianz_enable_cookies();
-			complianz_enable_scripts();
+			cmplzRunTmEvent('cmplz_event_marketing');
+			cmplzEnableMarketing();
 		}
 
 		//marketing cookies acceptance
@@ -1206,50 +1291,58 @@ jQuery(document).ready(function ($) {
 				cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
 			}
 		}
+
 	}
+
 
 	/**
 	 * Enable the checkbox for each category which was enabled
-	 *
+	 * Pass force=true to enable all categories regardless of cookies
 	 *
 	 * */
 
-	function cmplzSyncCategoryCheckboxes() {
+	function cmplzSyncCategoryCheckboxes(force) {
+		force = typeof force !== 'undefined' ? force : false;
 		//tag manager
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
-				if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
+				if (cmplzGetCookie('cmplz_event_' + i) === 'allow' || force) {
 					$('.cmplz_' + i).each(function(){
 						$(this).prop('checked', true);
+					});
+				} else {
+					$('.cmplz_' + i).each(function(){
+						$(this).prop('checked', false);
 					});
 				}
 			}
 		}
 
-		var cmplzCategories = [
-			'cmplz_all',
-			'cmplz_stats',
-			'cmplz_prefs'
-		];
-
 		for (var key in cmplzCategories) {
 			if (cmplzCategories.hasOwnProperty(key)) {
 				var cat = cmplzCategories[key];
-				if (cmplzGetCookie(cat) === 'allow') {
+				if (cmplzGetCookie(cat) === 'allow' || force) {
 					$('.'+cat).each(function(){
 						$(this).prop('checked', true);
+					});
+				} else {
+					$('.'+cat).each(function(){
+						$(this).prop('checked', false);
 					});
 				}
 			}
 		}
 
 		//for the deny/accept banner
-		if (cmplzGetHighestAcceptance() === 'all') {
-			$('.cmplz_all').each(function(){
+		if ( cmplzGetHighestAcceptance() === 'marketing'  || force ) {
+			$('.cmplz_marketing').each(function(){
 				$(this).prop('checked', true);
 			});
+		} else {
+			$('.cmplz_marketing').each(function(){
+				$(this).prop('checked', false);
+			});
 		}
-
 	}
 
 	/**
@@ -1357,13 +1450,41 @@ jQuery(document).ready(function ($) {
 				}
 			}
 		);
-		cmplz_wp_set_consent('marketing', 'deny');
-		cmplz_wp_set_consent('statistics-anonymous', 'deny');
-		cmplz_wp_set_consent('statistics', 'deny');
-		cmplz_wp_set_consent('preferences', 'deny');
+
+		//using TM categories
+		if (complianz.tm_categories) {
+			for (var i = 0; i < complianz.cat_num; i++) {
+				cmplzSetCookie('cmplz_event_' + i, 'deny', complianz.cookie_expiry);
+				cmplz_wp_set_consent('cmplz_event_' + i, 'deny');
+			}
+		}
+
+		//statistics acceptance
+		if ($('.cmplz_stats').length) {
+			cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
+			cmplz_wp_set_consent('statistics', 'deny');
+			if (complianz.consenttype === 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'deny');
+
+		}
+
+		//preferences acceptance
+		if ($('.cmplz_prefs').length) {
+			cmplzSetCookie('cmplz_prefs', 'deny', complianz.cookie_expiry);
+			cmplz_wp_set_consent('preferences', 'deny');
+		}
+
+		//marketing cookies acceptance
+		if ($('.cmplz_marketing').length) {
+			cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
+			cmplzSetCookie('complianz_consent_status', 'deny');
+			cmplz_wp_set_consent('marketing', 'deny');
+		}
 
 		//we run it after the deletion of cookies, as there are cookies to be set.
 		cmplzIntegrationsRevoke();
+		cmplzSyncCategoryCheckboxes();
+		cmplzFireCategories();
+		location.reload();
 	}
 
 	function cmplzGetUrlParameter(sPageURL, sParam) {
@@ -1447,6 +1568,27 @@ jQuery(document).ready(function ($) {
 				}
 			});
 		}
+	}
+
+	function getHoverColour(hex){
+		if (hex[0] == '#') {
+			hex = hex.substr(1);
+		}
+		if (hex.length == 3) {
+			hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+		}
+
+		// for black buttons
+		if (hex == '000000') {
+			return '#222';
+		}
+		var num = parseInt(hex, 16),
+			amt = 38,
+			R = (num >> 16) + amt,
+			B = (num >> 8 & 0x00FF) + amt,
+			G = (num & 0x0000FF) + amt;
+		var newColour = (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
+		return '#'+newColour;
 	}
 
 });

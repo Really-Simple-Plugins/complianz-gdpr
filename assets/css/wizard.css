@@ -1,8 +1,23 @@
 .cmplz-hidden {
   display: none;
 }
+.cmplz-cols-4 {
+  float: left;
+  width: 33%;
+}
+.cmplz-cols-8 {
+  float: left;
+  width: 66%;
+}
+.cmplz-cols-12 {
+  float: left;
+  width: 100%;
+}
 .cmplz-deleted-page {
   background-color: #FFa5aa !important;
+}
+.cmplz-cookiebanner-save-button {
+  margin-bottom: 30px;
 }
 .cmplz-region-indicator {
   height: 7px;
@@ -33,6 +48,9 @@
 */
 .cmplz-bestperformericon {
   width: 12px;
+}
+.cmplz-scriptcenter .cmplz-body {
+  padding: 25px;
 }
 .cmplz-scriptcenter textarea {
   width: 100%;
@@ -326,7 +344,7 @@ a.button.cmplz-open-modal {
   margin-bottom: 10px;
 }
 .cmplz-panel {
-  font-size: 13px!important;
+  font-size: 13px !important;
   color: #383d41;
   background-color: #F2F2F2;
   border: 1px solid #d6d8db;
@@ -383,7 +401,7 @@ a.button.cmplz-open-modal {
   font-size: 22px;
 }
 .cmplz-panel p {
-  font-size: 13px!important;
+  font-size: 13px !important;
 }
 .cmplz-panel.cmplz-notice {
   background-color: #fff;
@@ -409,10 +427,10 @@ a.button.cmplz-open-modal {
   list-style-type: disc;
   margin-left: 22px;
 }
-div.field-group .wp-picker-container .wp-picker-input-wrap .button.button-small.wp-picker-clear {
+.cmplz-body div.field-group .wp-picker-container .wp-picker-input-wrap .button.button-small.wp-picker-clear {
   margin-top: 13px;
 }
-div.field-group .wp-picker-container .wp-picker-input-wrap .cmplz-color-picker.wp-color-picker {
+.cmplz-body div.field-group .wp-picker-container .wp-picker-input-wrap .cmplz-color-picker.wp-color-picker {
   margin-top: 5px;
 }
 #cmplz-region-slider {
@@ -677,7 +695,7 @@ html .mceContentBody {
   position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: 1px solid #c3c3c3;
+  border-top: 1px solid #f3f3f3;
 }
 #cmplz-wizard .field-group.first,
 #cookie-policy-snapshots .field-group.first {
@@ -812,7 +830,6 @@ html .mceContentBody {
   background-color: white;
   display: flex;
   flex-direction: row-reverse;
-  /* Define the styling of the text input fields */
   /* Styling for the previous and next buttons */
   /* CSS for the sections menu */
 }
@@ -864,74 +881,6 @@ html .mceContentBody {
   flex-grow: 1;
   padding: 30px;
   margin-left: 30px;
-}
-#cmplz-wizard .cmplz-body label,
-#cookie-policy-snapshots .cmplz-body label {
-  font-weight: normal;
-  margin: 10px 0;
-}
-#cmplz-wizard .cmplz-body input[type="text"],
-#cookie-policy-snapshots .cmplz-body input[type="text"],
-#cmplz-wizard .cmplz-body input[type="email"],
-#cookie-policy-snapshots .cmplz-body input[type="email"] {
-  width: 80%;
-  background-color: #F1F1F1;
-}
-#cmplz-wizard .cmplz-body .validation,
-#cookie-policy-snapshots .cmplz-body .validation {
-  /* Show a checkmark when input is valid */
-  /* Show a cross when input is invalid */
-}
-#cmplz-wizard .cmplz-body .validation:valid,
-#cookie-policy-snapshots .cmplz-body .validation:valid {
-  background: url(../fontawesome/check.svg);
-  background-size: 17px;
-  background-repeat: no-repeat;
-  background-color: #F1F1F1;
-  background-position: 0.5%;
-  padding-left: 25px;
-}
-#cmplz-wizard .cmplz-body .validation:invalid,
-#cookie-policy-snapshots .cmplz-body .validation:invalid {
-  background: url(../fontawesome/times.svg);
-  background-size: 17px;
-  background-repeat: no-repeat;
-  background-color: #F1F1F1;
-  background-position: 0.5%;
-  padding-left: 25px;
-}
-#cmplz-wizard .cmplz-body textarea.validation:invalid,
-#cookie-policy-snapshots .cmplz-body textarea.validation:invalid,
-#cmplz-wizard .cmplz-body textarea.validation:valid,
-#cookie-policy-snapshots .cmplz-body textarea.validation:valid {
-  background-position: 0.5% 1.5%;
-}
-#cmplz-wizard .cmplz-body .invalid-multicheckbox,
-#cookie-policy-snapshots .cmplz-body .invalid-multicheckbox,
-#cmplz-wizard .cmplz-body .invalid-radio,
-#cookie-policy-snapshots .cmplz-body .invalid-radio {
-  background: url(../fontawesome/times.svg);
-  background-size: 17px;
-  background-repeat: no-repeat;
-  background-position: 4px -2px;
-  margin-left: -25px;
-  padding-left: 25px;
-}
-#cmplz-wizard .cmplz-body .valid-multicheckbox,
-#cookie-policy-snapshots .cmplz-body .valid-multicheckbox,
-#cmplz-wizard .cmplz-body .valid-radio,
-#cookie-policy-snapshots .cmplz-body .valid-radio {
-  background: url(../fontawesome/check.svg);
-  background-size: 17px;
-  background-repeat: no-repeat;
-  background-position: 4px -2px;
-  margin-left: -25px;
-  padding-left: 25px;
-}
-#cmplz-wizard .cmplz-body textarea,
-#cookie-policy-snapshots .cmplz-body textarea {
-  min-height: 150px;
-  min-width: 100%;
 }
 #cmplz-wizard .cmplz-body .cmplz-buttons-container,
 #cookie-policy-snapshots .cmplz-body .cmplz-buttons-container {
@@ -1062,10 +1011,74 @@ html .mceContentBody {
     vertical-align: top !important;
   }
 }
-#cmplz-wizard input[type=radio],
-#cookie-policy-snapshots input[type=radio],
-#cmplz-wizard input[type=checkbox],
-#cookie-policy-snapshots input[type=checkbox] {
+.cmplz-field {
+  /* Define the styling of the text input fields */
+}
+.cmplz-field label {
+  font-weight: normal;
+  margin: 10px 0;
+}
+.cmplz-field .cmplz-color-picker.wp-color-picker {
+  margin-top: -11px !important;
+}
+.cmplz-field input[type="text"],
+.cmplz-field input[type="email"] {
+  max-width: 500px;
+  background-color: #F1F1F1;
+  border-color: #dadada;
+}
+.cmplz-field select {
+  border-color: #F1F1F1;
+}
+.cmplz-field .validation {
+  /* Show a checkmark when input is valid */
+  /* Show a cross when input is invalid */
+}
+.cmplz-field .validation:valid {
+  background: url(../fontawesome/check.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-color: #F1F1F1;
+  background-position: 0.5%;
+  padding-left: 25px;
+}
+.cmplz-field .validation:invalid {
+  background: url(../fontawesome/times.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-color: #F1F1F1;
+  background-position: 0.5%;
+  padding-left: 25px;
+}
+.cmplz-field textarea.validation:invalid,
+.cmplz-field textarea.validation:valid {
+  background-position: 0.5% 1.5%;
+  border-color: #dadada;
+}
+.cmplz-field .invalid-multicheckbox,
+.cmplz-field .invalid-radio {
+  background: url(../fontawesome/times.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: 4px -2px;
+  margin-left: -25px;
+  padding-left: 25px;
+}
+.cmplz-field .valid-multicheckbox,
+.cmplz-field .valid-radio {
+  background: url(../fontawesome/check.svg);
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: 4px -2px;
+  margin-left: -25px;
+  padding-left: 25px;
+}
+.cmplz-field textarea {
+  min-height: 150px;
+  min-width: 100%;
+}
+.cmplz-field input[type=radio],
+.cmplz-field input[type=checkbox] {
   font-size: 14px;
   border: 1px solid #b4b9be;
   background: #fff;
@@ -1086,15 +1099,12 @@ html .mceContentBody {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: 0.05s border-color ease-in-out;
 }
-#cmplz-wizard input[type=radio]:disabled,
-#cookie-policy-snapshots input[type=radio]:disabled,
-#cmplz-wizard input[type=checkbox]:disabled,
-#cookie-policy-snapshots input[type=checkbox]:disabled {
+.cmplz-field input[type=radio]:disabled,
+.cmplz-field input[type=checkbox]:disabled {
   border: 0;
   background-color: #f2f2f2;
 }
-#cmplz-wizard input[type=radio]:checked:before,
-#cookie-policy-snapshots input[type=radio]:checked:before {
+.cmplz-field input[type=radio]:checked:before {
   content: "\2022";
   text-indent: -9999px;
   border-radius: 50px;
@@ -1105,8 +1115,7 @@ html .mceContentBody {
   line-height: 16px;
   background-color: #1e8cbe;
 }
-#cmplz-wizard input[type=checkbox]:checked:before,
-#cookie-policy-snapshots input[type=checkbox]:checked:before {
+.cmplz-field input[type=checkbox]:checked:before {
   float: left;
   display: inline-block;
   vertical-align: middle;

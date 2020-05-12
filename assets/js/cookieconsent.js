@@ -120,7 +120,7 @@
 
     // used to change color on highlight
     getLuminance: function(hex) {
-      var num = parseInt(this.normaliseHex(hex), 16), 
+      var num = parseInt(this.normaliseHex(hex), 16),
           amt = 38,
           R = (num >> 16) + amt,
           B = (num >> 8 & 0x00FF) + amt,
@@ -239,7 +239,7 @@
       // The placeholders {{classes}} and {{children}} both get replaced during initialisation:
       //  - {{classes}} is where additional classes get added
       //  - {{children}} is where the HTML children are placed
-      window: '<div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window {{classes}}"><!--googleoff: all-->{{children}}<!--googleon: all--></div>',
+      window: '<div id="cc-window" role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window {{classes}}"><!--googleoff: all-->{{children}}<!--googleon: all--></div>',
 
       // This is the html for the revoke button. This only shows up after the user has selected their level of consent
       // It can be enabled of disabled using the `revokable` option
@@ -322,7 +322,7 @@
 
       // By default the created HTML is automatically appended to the container (which defaults to <body>). You can prevent this behaviour
       // by setting this to false, but if you do, you must attach the `element` yourself, which is a public property of the popup instance:
-      // 
+      //
       //     var instance = cookieconsent.factory(options);
       //     document.body.appendChild(instance.element);
       //
@@ -828,8 +828,8 @@
             'border-color: ' + button.border,
             'background-color: ' + button.background
           ];
-          
-          if(button.background != 'transparent') 
+
+          if(button.background != 'transparent')
             colorStyles[prefix + ' .cc-btn:hover, ' + prefix + ' .cc-btn:focus'] = [
               'background-color: ' + getHoverColour(button.background)
             ];
@@ -839,14 +839,14 @@
             highlight.text = highlight.text ? highlight.text : util.getContrast(highlight.background);
             highlight.border = highlight.border ? highlight.border : 'transparent';
             colorStyles[prefix + ' .cc-highlight .cc-btn:first-child'] = [
-              'color: ' + highlight.text,
+              //'color: ' + highlight.text,
               'border-color: ' + highlight.border,
               'background-color: ' + highlight.background
             ];
           } else {
             // sets highlight text color to popup text. background and border are transparent by default.
             colorStyles[prefix + ' .cc-highlight .cc-btn:first-child'] = [
-              'color: ' + popup.text
+             // 'color: ' + popup.text
             ];
           }
         }

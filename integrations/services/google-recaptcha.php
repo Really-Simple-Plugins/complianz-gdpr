@@ -54,7 +54,4 @@ function cmplz_recaptcha_css() {
 	<?php
 }
 
-;
-
-
 

@@ -5,6 +5,7 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_googlemaps_script' );
 function cmplz_googlemaps_script( $tags ) {
 	$tags[] = 'new google.maps.';
 	$tags[] = 'apis.google.com/js/platform.js';
+
 	//$tags[] = 'maps.googleapis.com'; //should be added, but need to test more first.
 	return $tags;
 }
@@ -24,7 +25,6 @@ function cmplz_googlemaps_imagetags( $tags ) {
 	$tags[] = 'maps.googleapis.com/maps/api/staticmap';
 	return $tags;
 }
-
 
 function cmplz_google_maps_placeholder( $new_src, $src ) {
 	$key_pattern

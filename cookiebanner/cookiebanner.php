@@ -1,5 +1,21 @@
 <?php
+require_once( cmplz_path . '/cookiebanner/settings.php' );
 
+
+/**
+ * Output category consent checkboxes html
+ */
+function cmplz_get_dynamic_categories_ajax()
+{
+	$cookiebanner = new CMPLZ_COOKIEBANNER( intval($_GET['id']) );
+	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = sanitize_title($_GET['checkbox_style']), $force_color = sanitize_hex_color($_GET['color']));
+
+	$response = json_encode( $data );
+	header( "Content-Type: application/json" );
+	echo $response;
+	exit;
+}
+add_action('wp_ajax_cmplz_get_dynamic_categories_ajax', 'cmplz_get_dynamic_categories_ajax');
 /**
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache
  */

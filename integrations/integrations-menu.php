@@ -131,6 +131,7 @@ function cmplz_integrations_page() {
 								'table'     => true,
 								'disabled'  => false,
 								'hidden'    => false,
+								'cols'    => false,
 							);
 
 							COMPLIANZ::$field->checkbox( $args, $active );
@@ -157,6 +158,7 @@ function cmplz_integrations_page() {
 								'table'     => true,
 								'disabled'  => false,
 								'hidden'    => false,
+								'cols'    => false,
 							);
 
 							COMPLIANZ::$field->checkbox( $args, $active );
@@ -176,6 +178,7 @@ function cmplz_integrations_page() {
 						'table'     => true,
 						'disabled'  => false,
 						'hidden'    => false,
+						'cols'    => false,
 					);
 
 					COMPLIANZ::$field->checkbox( $args, $uses_ad_cookies );

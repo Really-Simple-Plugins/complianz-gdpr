@@ -80,6 +80,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				'media'              => true,
 				'first'              => false,
 				'warn'               => false,
+				'cols'               => false,
 			);
 
 
@@ -467,6 +468,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$hidden_class    = ( $args['hidden'] ) ? 'hidden' : '';
 			$first_class     = ( $args['first'] ) ? 'first' : '';
 			$type            = $args['type'] === 'notice' ? '' : $args['type'];
+			$cols            = $args['cols'];
+			$cols_class = $cols ? "cmplz-cols-$cols" : '';
 
 			$this->get_master_label( $args );
 			if ( $args['table'] ) {
@@ -480,11 +483,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				                  . esc_attr( $condition_answer ) . '"' : '';
 				echo '><th scope="row">';
 			} else {
-				echo '<div class="field-group ' . esc_attr( $args['fieldname']
-				                                            . ' ' . $type . ' '
-				                                            . $hidden_class
-				                                            . ' ' . $first_class
-				                                            . ' '
+				echo '<div class="field-group ' . esc_attr( $args['fieldname'] . ' '
+	                                            . esc_attr( $cols_class ) . ' '
+				                                            .'cmplz-'. $type . ' '
+				                                            . $hidden_class . ' '
+				                                            . $first_class . ' '
 				                                            . $condition_class )
 				     . '" ';
 				echo $condition ? 'data-condition-question="'
@@ -525,9 +528,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		function after_label(
 			$args
 		) {
-//            if ($args['optional']) {
-//                echo '<span class="cmplz-optional">' . __("(Optional)", 'complianz-gdpr') . '</span>';
-//            }
 			if ( $args['table'] ) {
 				echo '</th><td>';
 			} else {

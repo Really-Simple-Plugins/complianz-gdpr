@@ -2,7 +2,15 @@
  * Script to test site for cookies. Never inserted for visitors, only for admin.
  */
 jQuery(document).ready(function ($) {
-    if (cmplz_function_exists('complianz_enable_cookies')) complianz_enable_cookies();
+	//create an element we can click on to accept cookies
+	$('body').append('<div id="cmplz_test_cookies_div" class="cmplz-accept-cookies"></div>');
+	/**
+	 * Force all cookies to be accepted, starting with complianz
+	 */
+	$(document).on("cmplzCookieWarningLoaded", cmplzForceAcceptCookies);
+	function cmplzForceAcceptCookies(consentData) {
+		$('.cmplz-accept-cookies').click();
+	}
 
     var cookies = get_cookies_array();
     var lstorage = get_localstorage_array();

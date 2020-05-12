@@ -10,7 +10,8 @@ function cmplz_filter_integration_fields( $fields ) {
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
 		$file = apply_filters( 'cmplz_integration_path',
 			cmplz_path . "integrations/plugins/$plugin.php", $plugin );
-		if ( file_exists( $file ) ) {			$plugin_fields[ $plugin ] = array(
+		if ( file_exists( $file ) ) {
+			$plugin_fields[ $plugin ] = array(
 				'source'                  => 'integrations',
 				'type'                    => 'checkbox',
 				'default'                 => false,
@@ -18,6 +19,7 @@ function cmplz_filter_integration_fields( $fields ) {
 				'label'                   => $details['label'],
 				'table'                   => true,
 				'disabled'                => true,
+				'cols'                      => false,
 			);
 
 			if ( isset( $details['callback_condition'] ) ) {

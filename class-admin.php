@@ -473,6 +473,35 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
+			/**
+			 * upgrade to new category field
+			 */
+			if (  $prev_version
+			      && version_compare( $prev_version, '4.6.0', '<' )
+			) {
+				$banners = cmplz_get_cookiebanners();
+				if ( $banners ) {
+					foreach ( $banners as $banner_item ) {
+						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
+						$banner->banner_version ++;
+						if ($banner->use_categories ) {
+							$banner->use_categories = 'legacy';
+						} else {
+							$banner->use_categories = 'no';
+						}
+						if ($banner->use_categories_optinstats) {
+							$banner->use_categories_optinstats = 'legacy';
+						} else {
+							$banner->use_categories_optinstats = 'no';
+						}
+						//also set the deny button to banner color, to make sure users start with correct colors
+						$banner->functional_background_color = $banner->popup_background_color;
+						$banner->functional_border_color = $banner->popup_background_color;
+						$banner->functional_text_color = $banner->popup_text_color;
+						$banner->save();
+					}
+				}
+			}
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );
@@ -966,7 +995,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						} elseif ( COMPLIANZ::$document->page_required( $page,
 							$region )
 						) {
-							$this->get_dashboard_element( sprintf( __( "You should create a %s" ),
+							$this->get_dashboard_element( sprintf( __( "You should create a %s", "complianz-gdpr"),
 								$page['title'], $img ), 'error' );
 						}
 					}

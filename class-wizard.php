@@ -267,7 +267,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				if ( ! empty( $banners ) ) {
 					foreach ( $banners as $banner ) {
 						$banner                 = new CMPLZ_COOKIEBANNER( $banner->ID );
-						$banner->use_categories = true;
+						$banner->use_categories = 'visible';
 						$banner->save();
 					}
 				}
@@ -297,21 +297,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
 				update_option( 'cmplz_generate_new_cookiepolicy_snapshot',
 					true );
-			}
-
-			//when the brand color is saved, update the cookie settings
-			//only if same as default color.
-			if ( $fieldname == 'brand_color' && ! empty( $fieldvalue ) ) {
-				$default_cookiebanner_id = cmplz_get_default_banner_id();
-				$banner
-				                         = new CMPLZ_COOKIEBANNER( $default_cookiebanner_id );
-				$default_color
-				                         = COMPLIANZ::$config->fields['popup_background_color']['default'];
-				if ( $banner->popup_background_color === $default_color ) {
-					$banner->popup_background_color = $fieldvalue;
-					$banner->button_text_color      = $fieldvalue;
-					$banner->save();
-				}
 			}
 
 			if ( $fieldname === 'configuration_by_complianz'
@@ -389,10 +374,10 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					foreach ( $banners as $banner ) {
 						$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
 						if ( $enable_categories_uk ) {
-							$banner->use_categories_optinstats = true;
+							$banner->use_categories_optinstats = 'visible';
 						}
 						if ( $enable_categories_eu ) {
-							$banner->use_categories_optinstats = true;
+							$banner->use_categories_optinstats = 'visible';
 						}
 						$banner->save();
 					}

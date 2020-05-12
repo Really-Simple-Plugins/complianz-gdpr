@@ -153,21 +153,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			//basic color style for revoke button
 			$custom_css = '';
-			$background_color
-			            = sanitize_hex_color( cmplz_get_value( 'brand_color' ) );
-			if ( ! empty( $background_color ) ) {
-				$light_background_color
-					        = $this->color_luminance( $background_color,
-					- 0.2 );
-				$custom_css
-					        = "#cmplz-document button.cc-revoke-custom {background-color:"
-					          . $background_color . ";border-color: "
-					          . $background_color . ";}";
-				$custom_css .= "#cmplz-document button.cc-revoke-custom:hover {background-color: "
-				               . $light_background_color . ";border-color: "
-				               . $light_background_color . ";}";
-			}
-
 			if ( cmplz_get_value( 'use_custom_document_css' ) ) {
 				$custom_css .= cmplz_get_value( 'custom_document_css' );
 			}

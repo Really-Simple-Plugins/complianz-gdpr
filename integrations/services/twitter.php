@@ -36,5 +36,3 @@ function cmplz_twitter_css() {
 	</style>
 	<?php
 }
-
-;

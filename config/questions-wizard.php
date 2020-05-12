@@ -220,20 +220,6 @@ $this->fields = $this->fields + array(
 			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
-		'brand_color'          => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 3,
-			'source'   => 'wizard',
-			'type'     => 'colorpicker',
-			'default'  => '',
-			'label'    => __( "What is the brand color on your website?",
-				'complianz-gdpr' ),
-			'help'     => __( "This color is used to setup your cookie warning, if you need one",
-				'complianz-gdpr' ),
-			'required' => false,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
 		// Purpose
 		'purpose_personaldata' => array(
 			'step'               => STEP_COMPANY,

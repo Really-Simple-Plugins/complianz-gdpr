@@ -36,5 +36,3 @@ function cmplz_facebook_css() {
 	</style>
 	<?php
 }
-
-;

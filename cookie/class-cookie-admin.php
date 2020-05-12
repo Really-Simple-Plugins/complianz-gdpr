@@ -1935,12 +1935,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			//scripts that should get executed on consent here
 			?>
 			<script class="cmplz-native">
-				function complianz_enable_cookies() {
-					console.log("enabling cookies");
-					<?php
-					$this->get_cookie_script();
-					?>
-				}
+				jQuery(document).ready(function ($) {
+					$(document).on("cmplzEnableScripts", cmplzMarketingScriptsHandler);
+					function cmplzMarketingScriptsHandler(consentData) {
+						if (consentData.consentLevel==='marketing'){
+							<?php
+							$this->get_cookie_script();
+							?>
+						}
+					}
+				});
 			</script>
 
 			<?php

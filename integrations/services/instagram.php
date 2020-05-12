@@ -48,5 +48,3 @@ function cmplz_instagram_css() {
 	</style>
 	<?php
 }
-
-;

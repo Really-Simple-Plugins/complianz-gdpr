@@ -142,15 +142,15 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 * */
 
 			$known_iframe_tags = COMPLIANZ::$config->iframe_tags;
-			$custom_iframes
-			                   = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_iframes' ) );
+			$custom_iframes = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_iframes' ) );
 			if ( ! empty( $custom_iframes ) && strlen( $custom_iframes ) > 0 ) {
 				$custom_iframes    = explode( ',', $custom_iframes );
 				$known_iframe_tags = array_merge( $known_iframe_tags,
 					$custom_iframes );
 			}
-			$known_iframe_tags = apply_filters( 'cmplz_known_iframe_tags',
-				$known_iframe_tags );
+
+			$known_iframe_tags = apply_filters( 'cmplz_known_iframe_tags', $known_iframe_tags );
+			$iframe_tags_not_including = apply_filters( 'cmplz_iframe_tags_not_including', array() );
 
 			//not meant as a "real" URL pattern, just a loose match for URL type strings.
 			//edit: instagram uses ;width, so we need to allow ; as well.
@@ -221,7 +221,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 			}
 
-
 			/*
 			 * Handle styles (e.g. google fonts)
 			 * fonts.google.com has currently been removed in favor of plugin recommendation
@@ -251,7 +250,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 *
 			 * */
-
 			$iframe_pattern
 				= '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'
 				  . $url_pattern . '[\'"].*?>.*?<\/iframe>/is';
@@ -268,7 +266,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$new         = preg_replace( '~<iframe\\s~i',
 							'<iframe data-src-cmplz="' . $iframe_src . '" ',
 							$new , 1 ); // make sure we replace it only once
-						//an iframes-styles class is added so we can reset styles from the theme, and release them after consent
+
+						//check if we can skip blocking this array if a specific string is included
+						if ( $this->strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
 
 						//we insert video/no-video class for specific video styling
 						if ( $this->is_video( $iframe_src ) ) {

@@ -162,8 +162,6 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		 */
 
 		public function dismiss_review_notice_callback() {
-			check_ajax_referer( 'cmplz_dismiss_review', 'token' );
-
 			$type = isset( $_POST['type'] ) ? $_POST['type'] : false;
 
 			if ( $type === 'dismiss' ) {

@@ -16,22 +16,32 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'constant_or_function' => 'A2A_SHARE_SAVE_init',
 		'label'                => 'Add To Any',
 	),
+
 	'amp'               => array(
 		'constant_or_function' => 'AMP__VERSION',
 		'label'                => 'AMP (official AMP plugin for WordPress)',
 	),
+
 	'beehive'           => array(
 		'constant_or_function' => 'BEEHIVE_PRO',
 		'label'                => 'Beehive',
 	),
+
+	'acf'           => array(
+		'constant_or_function' => 'ACF',
+		'label'                => 'Advanced Custom Fields',
+	),
+
 	'pixelyoursite'     => array(
 		'constant_or_function' => 'PYS_FREE_VERSION',
 		'label'                => 'PixelYourSite',
 	),
+
 	'user-registration' => array(
 		'constant_or_function' => 'UR',
 		'label'                => 'User Registration',
 	),
+
 	'contact-form-7'    => array(
 		'constant_or_function' => 'WPCF7_VERSION',
 		'label'                => 'Contact Form 7',
@@ -100,6 +110,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'pixel-caffeine'   => array(
 		'constant_or_function' => 'AEPC_PIXEL_VERSION',
 		'label'                => 'Pixel Caffeine',
+	),
+
+	'rate-my-post'   => array(
+		'constant_or_function' => 'RATE_MY_POST_VERSION',
+		'label'                => 'Rate My Post',
 	),
 
 	//Super Socializer
@@ -528,12 +543,4 @@ function cmplz_get_service_by_src( $src ) {
 
 	return $type;
 }
-
-
-/**
- * Translation updates
- *
- */
-__( 'Audio, electronic, visual, thermal, olfactory, or simular information',
-	'complianz-gdpr' );
 

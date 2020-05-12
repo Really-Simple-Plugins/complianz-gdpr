@@ -70,12 +70,25 @@ if ( count( $regions ) == 0 ) {
 				$single_consenttype = cmplz_get_consenttype_for_region( $single_region );
 			}
 		} ?>
-		<input type="hidden" name="cmplz_active_tab"
-		       value="<?php echo $active_tab ?>">
+		<input type="hidden" name="cmplz_active_tab" value="<?php echo $active_tab ?>">
+		<input type="hidden" name="cmplz_banner_id" value="<?php echo isset($_GET['id']) ? intval($_GET['id']) : false ?>">
 		<script>
 			ccConsentType = '<?php echo $single_consenttype?>';
-			cmplzUsePreferences = <?php echo cmplz_consent_api_active() ? 'true'
-				: 'false';?>;
+
+			<?php
+			$scheme_colors = cmplz_banner_color_schemes();?>
+
+			var color_schemes = {
+				<?php
+				foreach( $scheme_colors as $name => $scheme ){ ?>
+				'<?=$name?>' : {
+					<?php foreach ($scheme as $fieldname => $color ) {?>
+					'<?=$fieldname?>' : '<?=$color?>',
+					<?php } ?>
+				},
+				<?php } ?>
+
+			};
 		</script>
 
 		<div class="cmplz-tab">
@@ -97,14 +110,16 @@ if ( count( $regions ) == 0 ) {
 		<div id="general"
 		     class="cmplz-tabcontent <?php if ( $active_tab === 'general' )
 			     echo "active" ?>">
+			<div>
 			<h3><?php _e( "General", 'complianz-gdpr' ) ?></h3>
-			<p>
-			<table class="form-table">
-				<?php
-				COMPLIANZ::$field->get_fields( 'CMPLZ_COOKIEBANNER',
-					'general' ); ?>
-			</table>
-			</p>
+				<p>
+				<div id="cmplz-wizard">
+					<?php
+					COMPLIANZ::$field->get_fields( 'CMPLZ_COOKIEBANNER',
+						'general' ); ?>
+				</div>
+				</p>
+			</div>
 		</div>
 
 		<?php foreach ( $consent_types as $consent_type ) {
@@ -121,11 +136,11 @@ if ( count( $regions ) == 0 ) {
 
 				?>
 				<p>
-				<table class="form-table">
+				<div id="cmplz-wizard">
 					<?php
 					COMPLIANZ::$field->get_fields( 'CMPLZ_COOKIEBANNER',
 						$consent_type ); ?>
-				</table>
+				</div>
 				</p>
 			</div>
 		<?php } ?>

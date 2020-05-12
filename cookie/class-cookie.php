@@ -356,6 +356,24 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				}
 			}
 
+			/**
+			 * complianz cookie retention can be retrieved form this site
+			 */
+
+			if ( strpos( $this->name, 'cmplz' ) !== false
+			     || strpos( $this->name, 'complianz' ) !== false
+			) {
+				$this->retention = sprintf( __( "%s days", "complianz-gdpr" ),
+					cmplz_get_value( 'cookie_expiry' ) );
+			}
+
+			cmplz_register_translation($this->retention, 'cookie_retention');
+			cmplz_register_translation($this->type, 'cookie_storage_type');
+			cmplz_register_translation($this->cookieFunction, 'cookie_function');
+			cmplz_register_translation($this->purpose, 'cookie_purpose');
+			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+
+
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
 				'retention'             => sanitize_text_field( $this->retention ),
@@ -413,9 +431,8 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->save();
 				}
 			}
-
-
 		}
+
 
 		private function get_used_languages() {
 			global $wpdb;

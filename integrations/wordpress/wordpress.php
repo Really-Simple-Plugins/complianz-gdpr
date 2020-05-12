@@ -50,7 +50,7 @@ function cmplz_wordpress_register_cookies() {
 			'store cookie consent preferences' );
 		wp_add_cookie_info( 'cmplz_id', 'Complianz GDPR/CCPA Cookie Consent',
 			'functional', $expiry, 'store cookie consent preferences');
-		wp_add_cookie_info( 'cmplz_all', 'Complianz GDPR/CCPA Cookie Consent',
+		wp_add_cookie_info( 'cmplz_marketing', 'Complianz GDPR/CCPA Cookie Consent',
 			'functional', $expiry, 'store cookie consent preferences' );
 		wp_add_cookie_info( 'cmplz_event_*',
 			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
@@ -78,7 +78,6 @@ function cmplz_wordpress_maybe_disable_wordpress_personaldata_storage() {
 				'cmplz_wordpress_comment_form_hide_cookies_consent' );
 		}
 	}
-
 }
 
 add_action( 'init',

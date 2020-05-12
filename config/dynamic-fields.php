@@ -55,6 +55,10 @@ function cmplz_filter_fields( $fields ) {
 		unset( $fields['matomo_url']['condition'] );
 	}
 
+	if (!cmplz_consent_api_active()) {
+		unset( $fields['category_prefs'] );
+	}
+
 	return $fields;
 
 }
