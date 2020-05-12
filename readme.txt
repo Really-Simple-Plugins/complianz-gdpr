@@ -44,10 +44,6 @@ Complianz is on [GitHub](https://github.com/rlankhorst/complianz-gdpr) as well!
 
 IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
-= Cookiedatabase.org API Privacy & Terms =
-
-Complianz connects with Cookiedatabase.org to collect and synchronize the most recent descriptions for cookies and related services. After consent in Complianz | GDPR/CCPA Cookie Consent,  Cookiedatabase.org will collect your domain, cookies (descriptions) and used plugins for the sole purpose of researching and moderating cookies and related services. For more information, please check our [privacy statement](https://cookiedatabase.org/privacy-statement). Cookiedatabase.org is an open-source, community-driven cookie database founded by Complianz.io. [Terms of Use CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
-
 = Love Complianz? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
@@ -68,6 +64,10 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
 Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/)
+
+= Cookiedatabase.org API Privacy & Terms =
+
+Complianz connects with Cookiedatabase.org to collect and synchronize the most recent descriptions for cookies and related services. After consent in Complianz | GDPR/CCPA Cookie Consent,  Cookiedatabase.org will collect your domain, cookies (descriptions) and used plugins for the sole purpose of researching and moderating cookies and related services. For more information, please check our [privacy statement](https://cookiedatabase.org/privacy-statement). Cookiedatabase.org is an open-source, community-driven cookie database founded by Complianz.io. [Terms of Use CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io).
 
