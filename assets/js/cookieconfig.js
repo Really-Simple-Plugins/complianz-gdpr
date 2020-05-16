@@ -398,6 +398,21 @@ jQuery(document).ready(function ($) {
 	}
 
 	/**
+	 * Because we need a key=>value array in javascript, the .length check for an empty array doesn't work.
+	 * @param arr
+	 * @returns {boolean}
+	 */
+	function cmplzArrayIsEmpty(arr) {
+		for (var key in arr) {
+			if (arr.hasOwnProperty(key)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check if the passed src or script is waiting for another script and should not execute
 	 * @param waitingScripts
 	 * @param srcOrScript
@@ -421,12 +436,13 @@ jQuery(document).ready(function ($) {
 	 */
 
 	function cmplzRunAfterAllScripts() {
-		if (!cmplzAllScriptsHookFired && waitingInlineScripts.length === 0 && waitingScripts.length === 0) {
+		if (!cmplzAllScriptsHookFired && cmplzArrayIsEmpty(waitingInlineScripts) && cmplzArrayIsEmpty(waitingScripts) ) {
 			//hook
 			//fire an event so custom scripts can hook into this.
 			$.event.trigger({
 				type: "cmplzRunAfterAllScripts"
 			});
+
 			cmplzAllScriptsHookFired = true;
 		}
 	}
@@ -546,7 +562,6 @@ jQuery(document).ready(function ($) {
 		//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 		//objects are merged so user_data will override data in complianz object
 		complianz = cmplzMergeObject(complianz, cmplz_user_data);
-
 		//check if we need to redirect to another legal document, for a specific region
 		cmplzMaybeAutoRedirect();
 
@@ -825,9 +840,33 @@ jQuery(document).ready(function ($) {
 			if (complianz.soft_cookiewall && (ccStatus == undefined)) {
 				$('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
 			}
+
+			//hidden categories
 			if (complianz.use_categories === 'hidden') {
 				$('.cmplz-categories-wrap').hide();
+
+				$(document).on('click', '.cc-show-settings', function(){
+					var catsContainer = $('.cmplz-categories-wrap');
+					if (catsContainer.is(":visible")){
+						catsContainer.fadeOut(800);
+						var showSettingsBtn = $(".cc-save-settings");
+						showSettingsBtn.html(complianz.view_preferences);
+						showSettingsBtn.removeClass('cc-show-settings');
+						showSettingsBtn.addClass('cc-save-settings');
+					} else{
+						catsContainer.fadeIn(1600);
+						var showSettingsBtn = $(".cc-show-settings");
+						showSettingsBtn.html(complianz.save_preferences);
+						showSettingsBtn.addClass('cc-save-settings');
+						showSettingsBtn.removeClass('cc-show-settings');
+					}
+				});
+
+				$(document).on('click', '.cc-dismiss', function(){
+					cmplzRevoke();
+				});
 			}
+
 			$('.cc-window').addClass('cmplz-categories-'+complianz.use_categories);
 
 			/*
@@ -863,29 +902,7 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
-	//hidden categories
-	if (complianz.use_categories === 'hidden') {
-		$(document).on('click', '.cc-show-settings', function(){
-			var catsContainer = $('.cmplz-categories-wrap');
-			if (catsContainer.is(":visible")){
-				catsContainer.fadeOut(800);
-				var showSettingsBtn = $(".cc-save-settings");
-				showSettingsBtn.html(complianz.view_preferences);
-				showSettingsBtn.removeClass('cc-show-settings');
-				showSettingsBtn.addClass('cc-save-settings');
-			} else{
-				catsContainer.fadeIn(1600);
-				var showSettingsBtn = $(".cc-show-settings");
-				showSettingsBtn.html(complianz.save_preferences);
-				showSettingsBtn.addClass('cc-save-settings');
-				showSettingsBtn.removeClass('cc-show-settings');
-			}
-		});
 
-		$(document).on('click', '.cc-dismiss', function(){
-			cmplzRevoke();
-		});
-	}
 
 	/**
 	 * Save the preferences after user has changed the settings in the popup

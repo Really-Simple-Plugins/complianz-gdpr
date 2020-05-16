@@ -561,6 +561,7 @@
   color: inherit;
   font-weight: normal;
   margin-bottom: 0;
+  line-height: inherit;
 }
 #cc-window.cc-window label.cc-check,
 #cmlz-manage-consent-container.cmplz-manage-consent-container label.cc-check {

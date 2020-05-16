@@ -483,7 +483,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if ( $banners ) {
 					foreach ( $banners as $banner_item ) {
 						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-						$banner->banner_version ++;
+						$banner->banner_version++;
 						if ($banner->use_categories ) {
 							$banner->use_categories = 'legacy';
 						} else {

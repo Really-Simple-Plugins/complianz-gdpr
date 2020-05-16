@@ -1,5 +1,28 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+function cmplz_cf7_initDomContentLoaded() {
+	$service = WPCF7_RECAPTCHA::get_instance();
+
+	if ( $service->is_active() ) {
+		?>
+		<script>
+			jQuery(document).ready(function ($) {
+				$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
+
+				function cmplz_cf7_fire_domContentLoadedEvent() {
+					//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
+					window.document.dispatchEvent(new Event("DOMContentLoaded", {
+						bubbles: true,
+						cancelable: true
+					}));
+				}
+			})
+		</script>
+		<?php
+	}
+}
+add_action( 'wp_footer', 'cmplz_cf7_initDomContentLoaded' );
+
 
 /**
  * Customize the error message on submission of the form before consent
