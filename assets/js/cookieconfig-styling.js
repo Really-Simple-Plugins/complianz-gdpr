@@ -572,7 +572,7 @@ jQuery(document).ready(function ($) {
         return false;
     }
 
-    
+
 	/**
 	 * For UK, cats are always needed. If this user is EU, and does not need consent for stats, we can remove the stats category
 	 * @param categories
@@ -591,6 +591,8 @@ jQuery(document).ready(function ($) {
 
 
 	function getHoverColour(hex) {
+		if (typeof hex === 'undefined' ) return hex;
+
 		if (hex[0] === '#') {
 			hex = hex.substr(1);
 		}
