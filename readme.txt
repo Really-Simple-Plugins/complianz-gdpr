@@ -127,6 +127,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: vimeo with DNT=1 in the URL will not get blocked, as it's privacy friendly, non tracking.
 * New: added Rate My Post integration
 * New: added ACF (Advanced Custom Fields) integration for Google Maps
+* Fix: Contact form 7 recaptcha update patch
+* Improvement: regex for double statistics implementation was not specific enough
 
 = 4.5.2 =
 * Fix: setCookie function at one point in code called without expiry, causing it to get set with session expiry
