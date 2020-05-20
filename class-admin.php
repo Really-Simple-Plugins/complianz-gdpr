@@ -502,6 +502,8 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					}
 				}
 			}
+
+
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );

@@ -475,6 +475,22 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					'readmore_privacy' );
 
 				$this->statistics = unserialize( $cookiebanner->statistics );
+
+				/**
+				 * Fallback if upgrade didn't complete successfully
+				 */
+
+				if ($this->use_categories === true ) {
+					$this->use_categories = 'legacy';
+				} elseif ( $this->use_categories === false ) {
+					$this->use_categories = 'no';
+				}
+				if ($this->use_categories_optinstats  === true) {
+					$this->use_categories_optinstats = 'legacy';
+				} elseif ( $this->use_categories_optinstats === false ) {
+					$this->use_categories_optinstats = 'no';
+				}
+
 			}
 
 		}

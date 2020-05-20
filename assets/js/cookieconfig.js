@@ -902,13 +902,11 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
-
-
 	/**
 	 * Save the preferences after user has changed the settings in the popup
 	 *
 	 *
-	 * */
+	 **/
 
 	$(document).on('click', '.cc-save-settings', function () {
 		cmplzSaveCategoriesSelection();
@@ -1008,9 +1006,8 @@ jQuery(document).ready(function ($) {
 
 		if (cmplzGetHighestAcceptance() === 'no-choice' || cmplzGetHighestAcceptance() === 'functional') {
 			cmplzRevoke();
-		} else {
-			cmplzSetAcceptedCookiePolicyID();
 		}
+
 		cmplzUpdateStatusCustomLink();
 
 		ccName.close();
@@ -1111,13 +1108,9 @@ jQuery(document).ready(function ($) {
 				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 			} else {
 				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
-				//When there's no cookie banner (other consent regions) ccName is empty.
-				//if (typeof ccName !== 'undefined') ccName.close();
-
-				//$('.cc-revoke').fadeIn();
 			}
 		}
-		//cmplzSaveCategoriesSelection();
+
 		cmplzFireCategories();
 		cmplzUpdateStatusCustomLink();
 
@@ -1267,6 +1260,7 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzFireCategories(all, save) {
+		cmplzSetAcceptedCookiePolicyID();
 		all = typeof all !== 'undefined' ? all : false;
 		save = typeof save !== 'undefined' ? save : false;
 		//always functional
@@ -1296,7 +1290,6 @@ jQuery(document).ready(function ($) {
 		//marketing cookies acceptance
 		if (all || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
 			setStatusAsBodyClass('allow');
-			cmplzSetAcceptedCookiePolicyID();
 			cmplz_wp_set_consent('marketing', 'allow');
 			cmplzRunTmEvent('cmplz_event_marketing');
 			cmplzEnableMarketing();
@@ -1395,7 +1388,7 @@ jQuery(document).ready(function ($) {
 
 	function cmplzCheckCookiePolicyID() {
 		var user_policy_id = cmplzGetCookie('complianz_policy_id');
-		if (user_policy_id && (complianz.current_policy_id != user_policy_id)) {
+		if (user_policy_id && (complianz.current_policy_id !== user_policy_id)) {
 			cmplzSetCookie("complianz_consent_status", "", 0);
 		}
 	}
@@ -1493,7 +1486,7 @@ jQuery(document).ready(function ($) {
 		//marketing cookies acceptance
 		if ($('.cmplz_marketing').length) {
 			cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
-			cmplzSetCookie('complianz_consent_status', 'deny');
+			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 			cmplz_wp_set_consent('marketing', 'deny');
 		}
 
