@@ -120,7 +120,8 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
-= 4.6.1 =
+= 4.6.3 =
+* Fix: load ACF Maps integration only when Google Maps is enqueued
 * Fix: fallback for banner settings in case upgrade to new category banners didn't run successfully
 * Fix: cmplzSetCookie function called without expiration, causing a session expiration
 
