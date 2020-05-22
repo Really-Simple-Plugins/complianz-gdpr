@@ -15,6 +15,10 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			}
 
 			self::$_this = $this;
+
+			//uncomment for testing
+//			update_option('cmplz_review_notice_shown', false);
+//			update_option( 'cmplz_activation_time', strtotime( "-2 month" ) );
 			//show review notice, only to free users
 			if ( ! defined( "cmplz_premium" ) && ! is_multisite() ) {
 				if ( ! get_option( 'cmplz_review_notice_shown' )
@@ -37,6 +41,8 @@ if ( ! class_exists( "cmplz_review" ) ) {
 				}
 			}
 
+			add_action('admin_init', array($this, 'process_get_review_dismiss' ));
+
 		}
 
 		static function this() {
@@ -44,6 +50,8 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		}
 
 		public function show_leave_review_notice() {
+			if (isset( $_GET['cmplz_dismiss_review'] ) ) return;
+
 			/**
 			 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
 			 *
@@ -53,59 +61,58 @@ if ( ! class_exists( "cmplz_review" ) ) {
 				return;
 			}
 			?>
-			<style>
-				.cmplz-container {
-					display: flex;
-					padding: 12px;
-				}
+            <style>
+                .cmplz-container {
+                    display: flex;
+                    padding: 12px;
+                }
 
-				.cmplz-container .dashicons {
-					margin-left: 10px;
-					margin-right: 5px;
-				}
+                .cmplz-container .dashicons {
+                    margin-left: 10px;
+                    margin-right: 5px;
+                }
 
-				.cmplz-review-image img {
-					margin-top: 0.5em;
-				}
+                .cmplz-review-image img {
+                    margin-top: 0.5em;
+                }
 
-				.cmplz-buttons-row {
-					margin-top: 10px;
-					display: flex;
-					align-items: center;
-				}
-			</style>
-			<div id="message"
-			     class="updated fade notice is-dismissible cmplz-review really-simple-plugins"
-			     style="border-left:4px solid #333">
-				<div class="cmplz-container">
-					<div class="cmplz-review-image"><img width=80px"
-					                                     src="<?php echo cmplz_url ?>/assets/images/icon-128x128.png"
-					                                     alt="review-logo">
-					</div>
-					<div style="margin-left:30px">
-						<p><?php printf( __( 'Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.',
+                .cmplz-buttons-row {
+                    margin-top: 10px;
+                    display: flex;
+                    align-items: center;
+                }
+            </style>
+            <div id="message"
+                 class="updated fade notice is-dismissible cmplz-review really-simple-plugins"
+                 style="border-left:4px solid #333">
+                <div class="cmplz-container">
+                    <div class="cmplz-review-image"><img width=80px"
+                                                         src="<?php echo cmplz_url ?>/assets/images/icon-128x128.png"
+                                                         alt="review-logo">
+                    </div>
+                    <div style="margin-left:30px">
+                        <p><?php printf( __( 'Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.',
 								'complianz-gdpr' ),
 								'<a href="https://complianz.io/contact" target="_blank">',
 								'</a>' ); ?></p>
-						<i>- Rogier</i>
-						<div class="cmplz-buttons-row">
-							<a class="button button-primary" target="_blank"
-							   href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review',
+                        <i>- Rogier</i>
+                        <div class="cmplz-buttons-row">
+                            <a class="button button-primary" target="_blank"
+                               href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review',
 									'complianz-gdpr' ); ?></a>
 
-							<div class="dashicons dashicons-calendar"></div>
-							<a href="#"
-							   id="maybe-later"><?php _e( 'Maybe later',
+                            <div class="dashicons dashicons-calendar"></div>
+                            <a href="#"
+                               id="maybe-later"><?php _e( 'Maybe later',
 									'complianz-gdpr' ); ?></a>
 
-							<div class="dashicons dashicons-no-alt"></div>
-							<a href="#"
-							   class="review-dismiss"><?php _e( 'Don\'t show again',
+                            <div class="dashicons dashicons-no-alt"></div>
+                            <a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again',
 									'complianz-gdpr' ); ?></a>
-						</div>
-					</div>
-				</div>
-			</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<?php
 
 		}
@@ -124,31 +131,31 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		public function insert_dismiss_review() {
 			$ajax_nonce = wp_create_nonce( "cmplz_dismiss_review" );
 			?>
-			<script type='text/javascript'>
-				jQuery(document).ready(function ($) {
-					$(".cmplz-review.notice.is-dismissible").on("click", ".notice-dismiss", function (event) {
-						rsssl_dismiss_review('dismiss');
-					});
-					$(".cmplz-review.notice.is-dismissible").on("click", "#maybe-later", function (event) {
-						rsssl_dismiss_review('later');
-						$(this).closest('.cmplz-review').remove();
-					});
-					$(".cmplz-review.notice.is-dismissible").on("click", ".review-dismiss", function (event) {
-						rsssl_dismiss_review('dismiss');
-						$(this).closest('.cmplz-review').remove();
-					});
+            <script type='text/javascript'>
+                jQuery(document).ready(function ($) {
+                    $(".cmplz-review.notice.is-dismissible").on("click", ".notice-dismiss", function (event) {
+                        rsssl_dismiss_review('dismiss');
+                    });
+                    $(".cmplz-review.notice.is-dismissible").on("click", "#maybe-later", function (event) {
+                        rsssl_dismiss_review('later');
+                        $(this).closest('.cmplz-review').remove();
+                    });
+                    $(".cmplz-review.notice.is-dismissible").on("click", ".review-dismiss", function (event) {
+                        rsssl_dismiss_review('dismiss');
+                        $(this).closest('.cmplz-review').remove();
+                    });
 
-					function rsssl_dismiss_review(type) {
-						var data = {
-							'action': 'dismiss_review_notice',
-							'type': type,
-							'token': '<?php echo $ajax_nonce; ?>'
-						};
-						$.post(ajaxurl, data, function (response) {
-						});
-					}
-				});
-			</script>
+                    function rsssl_dismiss_review(type) {
+                        var data = {
+                            'action': 'dismiss_review_notice',
+                            'type': type,
+                            'token': '<?php echo $ajax_nonce; ?>'
+                        };
+                        $.post(ajaxurl, data, function (response) {
+                        });
+                    }
+                });
+            </script>
 			<?php
 		}
 
@@ -173,6 +180,16 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			}
 
 			wp_die(); // this is required to terminate immediately and return a proper response
+		}
+
+		/**
+		 * Dismiss review notice with get, which is more stable
+		 */
+
+		public function process_get_review_dismiss(){
+			if (isset( $_GET['cmplz_dismiss_review'] ) ){
+				update_option( 'cmplz_review_notice_shown', true );
+			}
 		}
 	}
 }
