@@ -35,7 +35,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'__cfduid',
 				'_sm_au_c',
 				'__insp_norec_sess, __insp_nv, __insp_ref, __insp_slim, __insp_targetlpt, __insp _targlpu, __insp_wid',
-				'__paypal_storage__',
 				'__smVID',
 				'__smToken',
 				'partial_smSessionId',

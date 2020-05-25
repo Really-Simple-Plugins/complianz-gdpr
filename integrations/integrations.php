@@ -133,10 +133,19 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	//Instagram feed / Smash balloon social photo feed
 	'instagram-feed'   => array(
 		'constant_or_function' => 'SBIVER',
-		'label'                => 'Instagram Feed',
+		'label'                => 'Smash Balloon Instagram Feed',
 	),
 
-
+	//Facebook feed / Smash balloon
+	'facebook-feed'   => array(
+		'constant_or_function' => 'CFFVER',
+		'label'                => 'Smash Balloon Facebook Feed',
+	),
+	//Twitter feed / Smash balloon
+	'twitter-feed'   => array(
+		'constant_or_function' => 'CTF_VERSION',
+		'label'                => 'Smash Balloon Twitter Feed',
+	),
 	//Sumo
 	'sumo'             => array(
 		'constant_or_function' => 'SUMOME__PLUGIN_DIR',
@@ -543,4 +552,3 @@ function cmplz_get_service_by_src( $src ) {
 
 	return $type;
 }
-
