@@ -589,7 +589,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 			if ( ! defined( 'cmplz_premium' ) ) {
 				$upgrade_link
-					= '<a style="color:#2DAAE1;font-weight:bold" target="_blank" href="https://complianz.io/l/pricing">'
+					= '<a style="color:#29b6f6;font-weight:bold" target="_blank" href="https://complianz.io/l/pricing">'
 					  . __( 'Upgrade to premium', 'complianz-gdpr' ) . '</a>';
 				array_unshift( $links, $upgrade_link );
 			}
