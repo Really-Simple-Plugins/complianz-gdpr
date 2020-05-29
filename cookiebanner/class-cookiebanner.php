@@ -479,7 +479,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				/**
 				 * Fallback if upgrade didn't complete successfully
 				 */
-				
+
 				if ( $this->set_defaults ) {
 					if ($this->use_categories === true ) {
 						$this->use_categories = 'legacy';
@@ -661,8 +661,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'category_stats'            => sanitize_text_field( $this->category_stats ),
 				'category_prefs'            => sanitize_text_field( $this->category_prefs ),
 				'accept'                    => sanitize_text_field( $this->accept ),
-				'message_optin'             => wp_kses( $this->message_optin,
-					cmplz_allowed_html() ),
+				'message_optin'             => wp_kses( $this->message_optin, cmplz_allowed_html() ),
 				'readmore_optin'            => sanitize_text_field( $this->readmore_optin ),
 				'use_categories'            => sanitize_text_field( $this->use_categories ),
 				'use_categories_optinstats' => sanitize_text_field( $this->use_categories_optinstats ),
@@ -674,8 +673,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => boolval( $this->dismiss_on_timeout ),
 				'dismiss_timeout'           => intval( $this->dismiss_timeout ),
 				'accept_informational'      => sanitize_text_field( $this->accept_informational ),
-				'message_optout'            => wp_kses( $this->message_optout,
-					cmplz_allowed_html() ),
+				'message_optout'            => wp_kses( $this->message_optout, cmplz_allowed_html() ),
 				'readmore_optout'           => sanitize_text_field( $this->readmore_optout ),
 				'readmore_optout_dnsmpi'    => sanitize_text_field( $this->readmore_optout_dnsmpi ),
 				'readmore_privacy'          => sanitize_text_field( $this->readmore_privacy ),
@@ -696,6 +694,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'use_custom_cookie_css'     => boolval( $this->use_custom_cookie_css ),
 				'statistics'                => $statistics,
 			);
+
+
 
 			if ( $this->use_custom_cookie_css ) {
 				$update_array['custom_css']
@@ -1265,6 +1265,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( $output['position'] == 'static' ) {
 				$output['static']   = true;
 				$output['position'] = 'top';
+			}
+
+			if ($output['position'] === 'bottom' || $output['position'] === 'top' || $output['position'] === 'static') {
+				$output['banner_width'] = '';
 			}
 
 			//When theme is edgeless, don't set border color
