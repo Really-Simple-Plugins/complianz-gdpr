@@ -1931,19 +1931,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				<?php do_action( 'cmplz_statistics_script' );?>
 			</script>
 			<?php
-
 			//scripts that should get executed on consent here
 			?>
-			<script class="cmplz-native">
+			<script type="text/javascript" class="cmplz-script">
 				jQuery(document).ready(function ($) {
-					$(document).on("cmplzEnableScripts", cmplzMarketingScriptsHandler);
-					function cmplzMarketingScriptsHandler(consentData) {
-						if (consentData.consentLevel==='marketing'){
-							<?php
-							$this->get_cookie_script();
-							?>
-						}
-					}
+					<?php $this->get_cookie_script(); ?>
 				});
 			</script>
 
