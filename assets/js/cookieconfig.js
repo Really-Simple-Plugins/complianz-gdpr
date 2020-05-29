@@ -721,7 +721,7 @@ jQuery(document).ready(function ($) {
 				//runs only when dismissed or accepted
 				ccStatus = status;
 				if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
-					$('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
+					dismissCookieWall();
 				}
 
 				/*
@@ -738,7 +738,7 @@ jQuery(document).ready(function ($) {
 			onStatusChange: function (status, chosenBefore) {
 				//remove the banner wrap class to dismiss cookie wall styling
 				if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
-					$('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
+					dismissCookieWall();
 				}
 
 				//opt out cookie banner can be dismissed on scroll or on timeout.
@@ -777,7 +777,7 @@ jQuery(document).ready(function ($) {
 			},
 			onRevokeChoice: function () {
 				if (complianz.soft_cookiewall) {
-					$('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
+					activateCookieWall();
 				}
 
 				//when the revoke button is clicked, the status is still 'allow'
@@ -838,7 +838,7 @@ jQuery(document).ready(function ($) {
 			//soft cookie wall
 			if (complianz.soft_cookiewall) $(".cc-window").wrap('<div id="cc-banner-wrap"></div>');
 			if (complianz.soft_cookiewall && (ccStatus == undefined)) {
-				$('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
+				activateCookieWall();
 			}
 
 			//hidden categories
@@ -936,6 +936,9 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzSaveCategoriesSelection() {
+		if (complianz.soft_cookiewall) {
+			dismissCookieWall();
+		}
 		//dismiss the banner after saving, so it won't show on next page load
 		//if ( complianz.use_categories ) ccName.setStatus('dismiss');
 		//check if status is changed from 'allow' to 'revoked'
@@ -1204,6 +1207,18 @@ jQuery(document).ready(function ($) {
 		}
 
 		return "";
+	}
+
+	/**
+	 * Dismiss the soft cookie wall
+	 */
+
+	function dismissCookieWall(){
+		$('#cc-banner-wrap').removeClass('cmplz-soft-cookiewall');
+	}
+
+	function activateCookieWall(){
+		$('#cc-banner-wrap').addClass('cmplz-soft-cookiewall');
 	}
 
 	/**

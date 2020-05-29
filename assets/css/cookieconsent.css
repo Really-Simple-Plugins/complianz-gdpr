@@ -276,6 +276,10 @@
   Make sue the text stays within the banne
    */
 }
+#cc-window input[type="checkbox"] {
+  width: initial;
+  -webkit-appearance: checkbox;
+}
 #cc-window a.cc-btn {
   text-decoration: none;
 }
