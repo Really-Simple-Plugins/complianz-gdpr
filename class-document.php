@@ -722,11 +722,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						cmplz_esc_html( $annex ) ), $html );
 			}
 
+			$active_cookiebanner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
+			$banner = new CMPLZ_COOKIEBANNER($active_cookiebanner_id);
 			//some custom elements
 			$html = str_replace( "[cookie_accept_text]",
-				cmplz_get_value( 'accept' ), $html );
+				$banner->accept_x, $html );
 			$html = str_replace( "[cookie_save_preferences_text]",
-				cmplz_get_value( 'save_preferences' ), $html );
+				$banner->save_preferences_x, $html );
 
 			$html = str_replace( "[domain]",
 				'<a href="' . cmplz_esc_url_raw( get_home_url() ) . '">'
@@ -2492,6 +2494,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			$error      = false;
+			$temp_dir = false;
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
 
@@ -2586,49 +2589,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				}
 			}
 
-			$mpdf = new Mpdf\Mpdf( array(
-				'setAutoTopMargin'  => 'stretch',
-				'autoMarginPadding' => 5,
-				'tempDir'           => $temp_dir,
-				'margin_left'       => 20,
-				'margin_right'      => 20,
-				'margin_top'        => 30,
-				'margin_bottom'     => 30,
-				'margin_header'     => 30,
-				'margin_footer'     => 10,
-			) );
-
-			$mpdf->SetDisplayMode( 'fullpage' );
-			$mpdf->SetTitle( $title );
-
-			$img  = '';//'<img class="center" src="" width="150px">';
-			$date = date_i18n( get_option( 'date_format' ), time() );
-
-			$mpdf->SetHTMLHeader( $img );
-			$footer_text = sprintf( "%s $title $date", get_bloginfo( 'name' ) );
-
-			$mpdf->SetFooter( $footer_text );
-			$mpdf->WriteHTML( $html );
-
-			// Save the pages to a file
-			if ( $save_to_file ) {
-				$file_title = $save_dir . get_bloginfo( 'name' ) . '-' . $region
-				              . "-proof-of-consent-" . sanitize_title( $date );
-			} else {
-				$file_title = get_bloginfo( 'name' ) . "-export-"
-				              . sanitize_title( $date );
-			}
-
-			$output_mode = $save_to_file ? 'F' : 'I';
-
-
-			if ( $save_to_file
-			     && ! file_exists( $upload_dir . '/complianz/snapshots' )
-			) {
-				$error = true;
-			}
-
-			if ( ! $error ) {
+			if ( ! $error && $temp_dir) {
 				$mpdf = new Mpdf\Mpdf( array(
 					'setAutoTopMargin'  => 'stretch',
 					'autoMarginPadding' => 5,
@@ -2656,8 +2617,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 				// Save the pages to a file
 				if ( $save_to_file ) {
-					$file_title = $save_dir
-					              . sanitize_file_name( get_bloginfo( 'name' )
+					$file_title = $save_dir . sanitize_file_name( get_bloginfo( 'name' )
 					                                    . '-' . $region
 					                                    . "-proof-of-consent-"
 					                                    . $date );
@@ -2667,7 +2627,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				}
 
 				$output_mode = $save_to_file ? 'F' : 'I';
-
 				$mpdf->Output( $file_title . ".pdf", $output_mode );
 			} else {
 				$_POST['cmplz_generate_snapshot_error'] = true;

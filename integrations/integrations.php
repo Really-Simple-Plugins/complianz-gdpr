@@ -27,6 +27,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Beehive',
 	),
 
+	'simple-business-directory' => array(
+		'constant_or_function' => 'QCSBD_DIR',
+		'label'                => 'Simple Business Directory',
+	),
+
 	'acf'           => array(
 		'constant_or_function' => 'ACF',
 		'label'                => 'Advanced Custom Fields',

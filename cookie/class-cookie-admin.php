@@ -1933,7 +1933,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			<?php
 			//scripts that should get executed on consent here
 			?>
-            <script class="cmplz-script" type="text/plain">
+			<script class="cmplz-script" type="text/plain">
+				console.log("script center scirpt");
 				jQuery(document).ready(function ($) {
 					<?php $this->get_cookie_script(); ?>
 				});
