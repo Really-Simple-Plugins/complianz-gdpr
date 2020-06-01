@@ -340,7 +340,7 @@ if ( ! function_exists( 'cmplz_eu_site_uses_cookie_warning_cats' ) ) {
 	 */
 	function cmplz_eu_site_uses_cookie_warning_cats() {
 		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
-		if ( $cookiebanner->use_categories
+		if ( $cookiebanner->use_categories !== 'no'
 		) {
 			return true;
 		}
@@ -357,8 +357,8 @@ if ( ! function_exists( 'cmplz_uk_site_uses_cookie_warning_cats' ) ) {
 	 */
 	function cmplz_uk_site_uses_cookie_warning_cats() {
 		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
-		if ( $cookiebanner->use_categories_optinstats
-		) {
+		if ( $cookiebanner->use_categories_optinstats !== 'no' ) {
+
 			return true;
 		}
 

@@ -350,24 +350,25 @@ jQuery(document).ready(function ($) {
 			});
 		}
 
-		//fire an event so custom scripts can hook into this.
-		$.event.trigger({
-			type: "cmplzEnableScripts",
-			consentLevel: "marketing"
-		});
+		if (!ccAllEnabled) {
+			//fire an event so custom scripts can hook into this.
+			$.event.trigger({
+				type: "cmplzEnableScripts",
+				consentLevel: "marketing"
+			});
 
-		//backward compatiblity: deprecating the 'all' event
-		$.event.trigger({
-			type: "cmplzEnableScripts",
-			consentLevel: "all"
-		});
+			//backward compatiblity: deprecating the 'all' event
+			$.event.trigger({
+				type: "cmplzEnableScripts",
+				consentLevel: "all"
+			});
 
-		//if there are no blockable scripts at all, we still want to provide a hook
-		//in most cases, this script fires too early, and won't run yet. In that
-		//case it's run from the script activation callbacks.
-		cmplzRunAfterAllScripts();
-
-		ccAllEnabled = true;
+			//if there are no blockable scripts at all, we still want to provide a hook
+			//in most cases, this script fires too early, and won't run yet. In that
+			//case it's run from the script activation callbacks.
+			cmplzRunAfterAllScripts();
+			ccAllEnabled = true;
+		}
 	}
 
 	/**
