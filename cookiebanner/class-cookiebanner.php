@@ -1298,11 +1298,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
-				//todo: change url generation to loop based on document types
-//				$docs = COMPLIANZ::$document->get_document_types();
-//				foreach ($docs as $document){
-//
-//				}
 				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
 
 				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" tabindex="{tabindex}" class="cc-link {type}" href="{link}">{description}</a>';

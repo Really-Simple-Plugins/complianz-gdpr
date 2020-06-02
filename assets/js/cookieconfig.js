@@ -40,6 +40,7 @@
         }
     }
 
+
 * */
 
 
@@ -519,7 +520,7 @@ jQuery(document).ready(function ($) {
 					'event': 'cmplz_event_all'
 				});
 			} else {
-				console.log('fire ' + event);
+				console.log( 'fire ' + event );
 				cmplzFiredEvents.push(event);
 				window.dataLayer = window.dataLayer || [];
 				window.dataLayer.push({
@@ -958,7 +959,7 @@ jQuery(document).ready(function ($) {
 		//using TM categories
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
-				if ($('#cmplz_' + i).is(":checked")) {
+				if ($('.cmplz_' + i).is(":checked")) {
 					cmplzSetCookie('cmplz_event_' + i, 'allow', complianz.cookie_expiry);
 					cmplz_wp_set_consent('cmplz_event_' + i, 'allow');
 				} else {
@@ -1275,6 +1276,7 @@ jQuery(document).ready(function ($) {
 	 *
 	 * */
 
+
 	function cmplzFireCategories(all, save) {
 		cmplzSetAcceptedCookiePolicyID();
 		all = typeof all !== 'undefined' ? all : false;
@@ -1283,7 +1285,6 @@ jQuery(document).ready(function ($) {
 		cmplz_wp_set_consent('functional', 'allow');
 		if (complianz.consenttype !== 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'allow');
 		cmplzRunTmEvent('cmplz_event_functional');
-
 		//using TM categories
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
@@ -1328,8 +1329,10 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzSyncCategoryCheckboxes(force) {
+
 		force = typeof force !== 'undefined' ? force : false;
 		//tag manager
+
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
 				if (cmplzGetCookie('cmplz_event_' + i) === 'allow' || force) {
