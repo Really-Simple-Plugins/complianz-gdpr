@@ -121,6 +121,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.6.3 =
+* Fix: Tag Manager event not firing in new style checkboxes
 * Improvement: catch error when uploads dir is not writable, for pdf creation
 * Fix: Correctly replace banner labels in policy
 * Fix: after 4.6.0 update script-center custom scripts not firing after consent
