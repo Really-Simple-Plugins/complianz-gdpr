@@ -6,7 +6,7 @@
  * Version: 4.6.3
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
- * Author: RogierLankhorst, Complianz
+ * Author: Really Simple Plugins
  * Author URI: https://www.complianz.io
  */
 
