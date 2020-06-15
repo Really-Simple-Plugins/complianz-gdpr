@@ -491,16 +491,18 @@
   transition: all 0.2s linear;
   transition-delay: 0.15s;
 }
+#cc-window.cc-window input.cmplz-svg-checkbox,
+#cmlz-manage-consent-container.cmplz-manage-consent-container input.cmplz-svg-checkbox,
+#cc-window.cc-window .cmplz-slider-checkbox input,
+#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input {
+  display: none !important;
+}
 #cc-window.cc-window .cmplz-slider-checkbox,
 #cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 21px;
-}
-#cc-window.cc-window .cmplz-slider-checkbox input,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input {
-  display: none !important;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider,
 #cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider {

@@ -753,6 +753,29 @@ $this->fields = $this->fields + array(
 
 		),
 
+		'cookie_scripts_async' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 7,
+			'source'                  => 'wizard',
+			'type'                    => 'javascript',
+			'optional'                => true,
+			'default'                 => '',
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Async scripts to execute on consent",
+				'complianz-gdpr' ),
+			'callback_condition'      => array(
+				'uses_cookies'       => 'yes',
+			),
+			'help'                    => __( "Paste here all your scripts that activate cookies. Enter the scripts without the script tags",
+					'complianz-gdpr' ) . '&nbsp;'
+			                             . sprintf( __( 'To be able to activate cookies when a user accepts the cookie policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article',
+					'complianz-gdpr' ),
+					'<a target="_blank" href="https://complianz.io/articles/adding-scripts/">',
+					'</a>' ),
+			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
+			'table'                   => true,
+		),
+
 		'thirdparty_scripts' => array(
 			'step'                    => STEP_COOKIES,
 			'section'                 => 7,

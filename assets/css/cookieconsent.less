@@ -273,12 +273,13 @@
 	transition-delay: .15s
   }
 
-  /* Slider style checkboxes */
+  //prevent classic checkbox from showing up in square and slider variant
+  input.cmplz-svg-checkbox, .cmplz-slider-checkbox input {
+	display:none !important;
+  }
 
+  /* Slider style checkboxes */
   .cmplz-slider-checkbox {
-	input {
-	  display: none !important;
-	}
 	position: relative;
 	display: inline-block;
 	width: 40px;

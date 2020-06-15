@@ -1932,14 +1932,24 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			</script>
 			<?php
 			//scripts that should get executed on consent here
-			?>
-			<script class="cmplz-script" type="text/plain">
-				jQuery(document).ready(function ($) {
-					<?php $this->get_cookie_script(); ?>
-				});
-			</script>
+			$script = cmplz_get_value( 'cookie_scripts' );
+			if (strlen($script ) >0 ){
+				?>
+				<script class="cmplz-script" type="text/plain">
+					<?php echo $script; ?>
+				</script>
+				<?php
+			}
 
-			<?php
+			$script_async = cmplz_get_value( 'cookie_scripts_async' );
+			if (strlen($script_async ) >0 ){
+				?>
+				<script class="cmplz-script" type="text/plain" async>
+					<?php echo $script_async; ?>
+				</script>
+				<?php
+			}
+
 
 		}
 
@@ -1957,7 +1967,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			?>
 			<script type='text/javascript' class="cmplz-native">
 				<?php do_action( 'cmplz_statistics_script' );?>
-				<?php $this->get_cookie_script();?>
+				<?php echo cmplz_get_value( 'cookie_scripts' );?>
 			</script>
 			<?php
 		}
@@ -2000,14 +2010,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			echo apply_filters('cmplz_script_filter' , $script );
-		}
-
-		/**
-		 * Retrieve scripts that place cookies, as user inserted on the back-end.
-		 */
-
-		private function get_cookie_script() {
-			echo cmplz_get_value( 'cookie_scripts' );
 		}
 
 
