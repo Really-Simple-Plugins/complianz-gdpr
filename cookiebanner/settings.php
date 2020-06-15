@@ -247,7 +247,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'source'  => 'CMPLZ_COOKIEBANNER',
 				'step'    => 'general',
 				'type'    => 'number',
-				'default' => '415',
+				'default' => '475',
 				'label'   => __( "Max width of banner in pixels", 'complianz-gdpr' ),
 				'cols'     => 4,
 			),
