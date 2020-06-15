@@ -772,21 +772,17 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( defined( 'cmplz_free' ) && cmplz_free ) {
 				global $submenu;
 				$class                  = 'cmplz-submenu';
+				$highest_index = count($submenu['complianz']);
 				$submenu['complianz'][] = array(
-					__( 'Upgrade to premium', 'complianz-gdpr' ),
-					'manage_options',
-					'https://complianz.io/l/pricing'
+						__( 'Upgrade to premium', 'complianz-gdpr' ),
+						'manage_options',
+						'https://complianz.io/l/pricing'
 				);
-				if ( isset( $submenu['complianz'][6] ) ) {
-					if ( ! empty( $submenu['complianz'][6][4] ) ) // Append if css class exists
-					{
-						$submenu['complianz'][6][4] .= ' ' . $class;
-					} else {
-						$submenu['complianz'][6][4] = $class;
-					}
+				if ( isset( $submenu['complianz'][$highest_index] ) ) {
+					if (! isset ($submenu['complianz'][$highest_index][4])) $submenu['complianz'][$highest_index][4] = '';
+					$submenu['complianz'][$highest_index][4] .= ' ' . $class;
 				}
 			}
-
 
 		}
 

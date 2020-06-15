@@ -513,6 +513,12 @@ jQuery(document).ready(function ($) {
 		if (cmplzFiredEvents.indexOf(event) === -1) {
 			//for TM events, we show a warning to tell users to stop using the event_all trigger. But we'll run it for now.
 			if (event === 'cmplz_event_marketing' && complianz.tm_categories ){
+				console.log( 'fire ' + event );
+				cmplzFiredEvents.push('cmplz_event_marketing');
+				window.dataLayer.push({
+					'event': 'cmplz_event_marketing'
+				});
+
 				console.log('Deprecated event: The cmplz_event_all will be deprecated in the future.');
 				cmplzFiredEvents.push('cmplz_event_all');
 				window.dataLayer = window.dataLayer || [];
