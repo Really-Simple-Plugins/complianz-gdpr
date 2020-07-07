@@ -1830,11 +1830,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			}
 
-
 		}
 
+		/**
+		 * On multisite, we want to get the policy consistent across sites
+		 * @return int
+		 */
+
 		public function get_active_policy_id() {
-			$policy_id = get_option( 'complianz_active_policy_id', 1 );
+			if (is_multisite()) {
+				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
+			} else {
+				$policy_id = get_option( 'complianz_active_policy_id', 1 );
+			}
+
 
 			return $policy_id;
 		}
@@ -1843,12 +1852,24 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Upgrade the activate policy id with one
 		 * The active policy id is used to track if the user has consented to the latest policy changes.
 		 * If changes were made, the policy is increased, and user should consent again.
+		 *
+		 * On multisite, we want to get the policy consistent across sites
 		 */
 
 		public function upgrade_active_policy_id() {
-			$policy_id = get_option( 'complianz_active_policy_id', 1 );
+			if (is_multisite()) {
+				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
+			} else {
+				$policy_id = get_option( 'complianz_active_policy_id', 1 );
+			}
+
 			$policy_id ++;
-			update_option( 'complianz_active_policy_id', $policy_id );
+
+			if (is_multisite()) {
+				update_site_option( 'complianz_active_policy_id', $policy_id );
+			} else {
+				update_option( 'complianz_active_policy_id', $policy_id );
+			}
 		}
 
 		/**

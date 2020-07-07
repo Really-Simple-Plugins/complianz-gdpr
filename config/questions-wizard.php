@@ -503,7 +503,7 @@ $this->fields = $this->fields + array(
 			'default'   => '',
 			'options'   => $this->yes_no,
 			'condition' => array( 'use_cdb_api' => 'yes' ),
-			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org? These links will be added with a nofollow attribute so it won't hurt SEO.",
+			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org? These links will be added with HTML attributes so it won't hurt SEO.",
 				'complianz-gdpr' ),
 			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),

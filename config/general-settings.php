@@ -40,7 +40,6 @@ $this->fields = $this->fields + array(
 			'disabled'  => true,
 			'condition' => array( 'a_b_testing' => true ),
 			'default'   => 30,
-			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 		),
 
 		'cookie_expiry' => array(
@@ -51,6 +50,28 @@ $this->fields = $this->fields + array(
 			'label'   => __( "Cookie banner expiration in days",
 				'complianz-gdpr' ),
 			'table'   => true,
+		),
+
+		'set_cookies_on_root' => array(
+			'source'  => 'settings',
+			'step'    => 'general',
+			'type'    => 'checkbox',
+			'default' => false,
+			'label'   => '',
+			'help'    => '',
+			'table'   => true,
+			'condition' => array( 'hide_field' => true ),
+		),
+
+		'cookie_domain' => array(
+			'source'  => 'settings',
+			'step'    => 'general',
+			'type'    => 'text',
+			'default' => false,
+			'label'   => '',
+			'help'    => '',
+			'table'   => true,
+			'condition' => array( 'hide_field' => true ),
 		),
 
 		'use_document_css' => array(

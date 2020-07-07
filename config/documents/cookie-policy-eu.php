@@ -70,12 +70,6 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
 
     ),
 
-    'cookies-analytical-no' => array(
-        'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We do not use analytical cookies on this website.', 'Legal document cookie policy', 'complianz-gdpr'),
-        'condition' => array('compile_statistics' => 'no'),
-    ),
-
     //ads
     'cookies-ads-yes' => array(
         'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -98,19 +92,6 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
     'advertising-cookies-yes-2' => array(
         'content' => _x('Because these cookies are marked as tracking cookies, we ask your permission to place these.', 'Legal document cookie policy', 'complianz-gdpr'),
         'condition' => array('uses_ad_cookies' => 'yes'),
-    ),
-
-    'advertising-cookies-no' => array(
-        'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We do not use any advertising cookies on this website.', 'Legal document cookie policy', 'complianz-gdpr'),
-        'condition' => array('uses_ad_cookies' => 'no'),
-    ),
-
-    //social media
-    'social-media' => array(
-        'subtitle' => _x('Social media buttons', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('On our website we do not use social media buttons to promote web pages or share them on social networks.', 'Legal document cookie policy', 'complianz-gdpr'),
-        'condition' => array('uses_social_media' => 'no'),
     ),
 
     'social-media-yes' => array(

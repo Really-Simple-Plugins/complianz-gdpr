@@ -56,14 +56,36 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array( $this, 'notice_optin_on_upgrade' ) );
 			}
 
+			add_action('cmplz_fieldvalue', array($this, 'filter_cookie_domain'), 10, 2);
 		}
 
 		static function this() {
 			return self::$_this;
-
-
 		}
 
+		/**
+		 * Sanitize the cookiedomain
+		 * @param $fieldname
+		 * @param $fieldvalue
+		 * @param $fieldvalue
+		 *
+		 * @return string|string[]
+		 */
+
+		public function filter_cookie_domain($fieldvalue, $fieldname){
+			if (!current_user_can('manage_options')) return $fieldvalue;
+			//sanitize the cookie domain
+			if ( ( $fieldname === 'cmplz_cookie_domain' && strlen($fieldvalue)>0 )
+			) {
+				$fieldvalue = str_replace(array("https://", "http://", "www."), "", $fieldvalue);
+			}
+
+			return $fieldvalue;
+		}
+
+		/**
+		 * process the reset
+		 */
 
 		public function process_reset_action() {
 
@@ -503,6 +525,14 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				}
 			}
 
+			/**
+			 * migrate policy id to network option for multisites
+			 */
+
+			if (  $prev_version && version_compare( $prev_version, '4.6.7', '<' )
+			) {
+				if (is_multisite()) update_site_option( 'complianz_active_policy_id', get_option( 'complianz_active_policy_id', 1 ));
+			}
 
 			do_action( 'cmplz_upgrade', $prev_version );
 
@@ -958,7 +988,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							if ( ! COMPLIANZ::$document->page_required( $page,
 								$region )
 							) {
-								$this->get_dashboard_element( sprintf( __( "Obsolete page, you can delete %s" ),
+								$this->get_dashboard_element( sprintf( __( "Obsolete page, you can delete %s",
+											'complianz-gdpr'),
+
 									$link, $img ), 'error' );
 							} else {
 								$sync_status

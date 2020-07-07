@@ -64,12 +64,6 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'condition' => array('compile_statistics' => 'yes'),
     ),
 
-    array(
-        'subtitle' => 'Analytical cookies',
-        'content' => 'We do not use analytical cookies on this website.',
-        'condition' => array('compile_statistics' => 'no'),
-    ),
-
     //ads
     array(
         'subtitle' => 'Advertising cookies',
@@ -94,19 +88,6 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'condition' => array(
             'uses_ad_cookies' => 'yes',
         ),
-    ),
-
-    array(
-        'subtitle' => 'Advertising cookies',
-        'content' => 'We do not use any advertising cookies on this website.',
-        'condition' => array('uses_ad_cookies' => 'no'),
-    ),
-
-    //social media
-    array(
-        'subtitle' => 'Social media buttons',
-        'content' => 'On our website we do not use social media buttons to promote web pages or share them on social networks.',
-        'condition' => array('uses_social_media' => 'no'),
     ),
 
     array(

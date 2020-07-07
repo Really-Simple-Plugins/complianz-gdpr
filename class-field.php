@@ -297,6 +297,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				return;
 			}
 
+			$fieldvalue = apply_filters("cmplz_fieldvalue", $fieldvalue, $fieldname);
+
 			$fields    = COMPLIANZ::$config->fields();
 			$fieldname = str_replace( "cmplz_", '', $fieldname );
 
@@ -399,8 +401,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 		public function sanitize( $value, $type ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
+				return false;
 			}
+
 			switch ( $type ) {
 				case 'colorpicker':
 					return sanitize_hex_color( $value );
@@ -418,12 +421,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					return $value;
 				case 'email':
 					return sanitize_email( $value );
-				case 'css':
-					return $value;
 				case 'url':
 					return esc_url_raw( $value );
 				case 'number':
 					return intval( $value );
+				case 'css':
 				case 'javascript':
 					return  $value ;
 				case 'editor':
@@ -698,7 +700,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				placeholder="<?php echo esc_html( $args['placeholder'] ) ?>"
 				type="number"
 				value="<?php echo esc_html( $value ) ?>"
-				name="<?php echo esc_html( $fieldname ) ?>">
+				name="<?php echo esc_html( $fieldname ) ?>"
+				min="0" step="<?php echo isset($args["validation_step"]) ? intval($args["validation_step"]) : 1?>"
+				>
 			<?php do_action( 'complianz_after_field', $args ); ?>
 			<?php
 		}

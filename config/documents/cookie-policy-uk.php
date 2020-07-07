@@ -73,12 +73,6 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
     ),
 
-    'cookies-analytical-no' => array(
-        'subtitle' => 'Analytical cookies',
-        'content' => 'We do not use analytical cookies on this website.',
-        'condition' => array('compile_statistics' => 'no'),
-    ),
-
     //ads
     'cookies-ads-yes' => array(
         'subtitle' => 'Advertising cookies',
@@ -101,19 +95,6 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'advertising-cookies-yes-2' => array(
         'content' => 'Because these cookies are marked as tracking cookies, we ask your permission to place these.',
         'condition' => array('uses_ad_cookies' => 'yes'),
-    ),
-
-    'advertising-cookies-no' => array(
-        'subtitle' => 'Advertising cookies',
-        'content' => 'We do not use any advertising cookies on this website.',
-        'condition' => array('uses_ad_cookies' => 'no'),
-    ),
-
-    //social media
-    'social-media' => array(
-        'subtitle' => 'Social media buttons',
-        'content' => 'On our website we do not use social media buttons to promote web pages or share them on social networks.',
-        'condition' => array('uses_social_media' => 'no'),
     ),
 
     'social-media-yes' => array(

@@ -74,6 +74,9 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_readmore_optin]', function () {
         $(".cc-link.cookie-policy").html($(this).val());
     });
+	$(document).on('keyup', 'input[name=cmplz_readmore_impressum]', function () {
+		$(".cc-link.impressum").html($(this).val());
+	});
     $(document).on('keyup', 'input[name=cmplz_readmore_optinstats]', function () {
         $(".cc-link.cookie-policy").html($(this).val());
     });
@@ -368,7 +371,7 @@ jQuery(document).ready(function ($) {
         }
 
 		if (ccConsentType == 'optin' && $('input[name=cmplz_impressum_required]').val() == 1 ){
-			ccPrivacyLink += '<span class="cc-divider">&nbsp;-&nbsp;</span><a href="#" tabindex="1" class="cc-link impressum">Impressum</a>';
+				ccPrivacyLink = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about the impressum" tabindex="1" class="cc-link impressum" href="#">' + $('input[name=cmplz_readmore_impressum]').val() + '</a>';
 		}
 
         var ccTheme = $('select[name=cmplz_theme]').val();

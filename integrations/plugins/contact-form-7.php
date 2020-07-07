@@ -4,21 +4,69 @@ function cmplz_cf7_initDomContentLoaded() {
 	$service = WPCF7_RECAPTCHA::get_instance();
 
 	if ( $service->is_active() ) {
-		?>
-		<script>
-			jQuery(document).ready(function ($) {
-				$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
+		if (version_compare(WPCF7_VERSION, 5.2, '>=')) {
+			?>
+			<script>
+				jQuery(document).ready(function ($) {
+					$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
 
-				function cmplz_cf7_fire_domContentLoadedEvent() {
-					//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
-					window.document.dispatchEvent(new Event("DOMContentLoaded", {
-						bubbles: true,
-						cancelable: true
-					}));
-				}
-			})
-		</script>
-		<?php
+					function cmplz_cf7_fire_domContentLoadedEvent() {
+						wpcf7_recaptcha.execute = function (action) {
+							grecaptcha.execute(
+								wpcf7_recaptcha.sitekey,
+								{action: action}
+							).then(function (token) {
+								var event = new CustomEvent('wpcf7grecaptchaexecuted', {
+									detail: {
+										action: action,
+										token: token,
+									},
+								});
+
+								document.dispatchEvent(event);
+							});
+						};
+
+						wpcf7_recaptcha.execute_on_homepage = function () {
+							wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['homepage']);
+						};
+
+						wpcf7_recaptcha.execute_on_contactform = function () {
+							wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['contactform']);
+						};
+
+						grecaptcha.ready(
+							wpcf7_recaptcha.execute_on_homepage
+						);
+
+						document.addEventListener('change',
+							wpcf7_recaptcha.execute_on_contactform
+						);
+
+						document.addEventListener('wpcf7submit',
+							wpcf7_recaptcha.execute_on_homepage
+						);
+					}
+				})
+			</script>
+			<?php
+		} else {
+			?>
+			<script>
+				jQuery(document).ready(function ($) {
+					$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
+
+					function cmplz_cf7_fire_domContentLoadedEvent() {
+						//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
+						window.document.dispatchEvent(new Event("DOMContentLoaded", {
+							bubbles: true,
+							cancelable: true
+						}));
+					}
+				})
+			</script>
+			<?php
+		}
 	}
 }
 add_action( 'wp_footer', 'cmplz_cf7_initDomContentLoaded' );
@@ -72,9 +120,22 @@ function cmplz_contactform7_dependencies( $tags ) {
 	$service = WPCF7_RECAPTCHA::get_instance();
 
 	if ( $service->is_active() ) {
-		$tags['recaptcha/api.js'] = 'grecaptcha';
+		if (version_compare(WPCF7_VERSION, 5.2, '>=')){
+			$tags['recaptcha/api.js'] = 'modules/recaptcha/script.js';
+		} else {
+			$tags['recaptcha/api.js'] = 'grecaptcha';
+		}
 	}
+	return $tags;
+}
 
+add_filter( 'cmplz_known_script_tags', 'cmplz_contactform7_script' );
+function cmplz_contactform7_script( $tags ) {
+	$service = WPCF7_RECAPTCHA::get_instance();
+
+	if ( $service->is_active() ) {
+		$tags[] = 'modules/recaptcha/script.js';
+	}
 	return $tags;
 }
 

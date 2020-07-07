@@ -54,6 +54,7 @@ jQuery(document).ready(function ($) {
 	var placeholderClassIndex = 0;
 	var curClass = '';
 	var cmplzAllScriptsHookFired = false;
+	var cmplzLocalhostWarningShown = false;
 	var cmplzCategories = [
 		'cmplz_marketing',
 		'cmplz_stats',
@@ -199,6 +200,10 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzEnableMarketing() {
+		$.event.trigger({
+			type: "cmplzRunBeforeAllScripts"
+		});
+
 		//check if the stats were already running. Don't enable in case of categories, as it should be handled by cmplzFireCategories
 		if (complianz.use_categories === 'no' && !ccStatsEnabled) {
 			cmplzEnableStats();
@@ -720,10 +725,22 @@ jQuery(document).ready(function ($) {
 			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{dismiss}}</a>';
 		}
 
+		//allow to set cookies on the root domain
+		var domain = false;
+		if (complianz.set_cookies_on_root){
+			domain = complianz.cookie_domain;
+		}
+		if (complianz.cookie_domain.indexOf('localhost')!== -1 ) {
+			domain = '';
+			if (!cmplzLocalhostWarningShown) console.log("Configuration warning: cookies can't be set on root domain on localhost setups");
+			cmplzLocalhostWarningShown = true;
+		}
+
 		window.cookieconsent.initialise({
 			cookie: {
 				name: 'complianz_consent_status',
-				expiryDays: complianz.cookie_expiry
+				expiryDays: complianz.cookie_expiry,
+				domain: domain
 			},
 			onInitialise: function (status) {
 				//runs only when dismissed or accepted
@@ -1189,12 +1206,21 @@ jQuery(document).ready(function ($) {
 	function cmplzSetCookie(name, value, days) {
 		var secure = ";secure";
 		var date = new Date();
+		var domain = '';
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 		var expires = ";expires=" + date.toGMTString();
 
 		if (window.location.protocol !== "https:") secure = '';
+		if (complianz.set_cookies_on_root){
+			domain = ";domain=."+complianz.cookie_domain;
+		}
 
-		document.cookie = name + "=" + value + secure + expires + ";path=/";
+		if (complianz.cookie_domain.indexOf('localhost')!== -1 ) {
+			domain = '';
+			if (!cmplzLocalhostWarningShown) console.log("Configuration warning: cookies can't be set on root domain on localhost setups");
+			cmplzLocalhostWarningShown = true;
+		}
+		document.cookie = name + "=" + value + secure + expires + domain + ";path=/";
 	}
 
 	/**

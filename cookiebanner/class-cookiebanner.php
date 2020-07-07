@@ -49,6 +49,7 @@ function cmplz_install_cookiebanner_table() {
             `readmore_optout` varchar(255) NOT NULL,
             `readmore_optout_dnsmpi` varchar(255) NOT NULL,
             `readmore_privacy` varchar(255) NOT NULL,
+            `readmore_impressum` varchar(255) NOT NULL,
             `popup_background_color` varchar(255) NOT NULL,
             `popup_text_color` varchar(255) NOT NULL,
             `slider_background_color` varchar(255) NOT NULL,
@@ -116,6 +117,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $readmore_optout;
 		public $readmore_optout_dnsmpi;
 		public $readmore_privacy;
+		public $readmore_impressum;
 		public $tagmanager_categories;
 		public $save_preferences;
 		public $accept_all;
@@ -151,6 +153,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $readmore_optout_x;
 		public $readmore_optout_dnsmpi_x;
 		public $readmore_privacy_x;
+		public $readmore_impressum_x;
 		public $translation_id;
 
 		public $statistics;
@@ -357,6 +360,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				                   = ! empty( $cookiebanner->readmore_privacy )
 					? $cookiebanner->readmore_privacy
 					: $this->get_default( 'readmore_privacy' );
+				$this->readmore_impressum
+					= ! empty( $cookiebanner->readmore_impressum )
+					? $cookiebanner->readmore_impressum
+					: $this->get_default( 'readmore_impressum' );
 				$this->popup_background_color
 				                   = ! empty( $cookiebanner->popup_background_color )
 					? $cookiebanner->popup_background_color
@@ -473,6 +480,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$this->readmore_privacy_x
 					= $this->translate( $this->readmore_privacy,
 					'readmore_privacy' );
+				$this->readmore_impressum_x
+					= $this->translate( $this->readmore_impressum,
+					'readmore_impressum' );
 
 				$this->statistics = unserialize( $cookiebanner->statistics );
 
@@ -630,6 +640,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'readmore_optout_dnsmpi' );
 			$this->register_translation( $this->readmore_privacy,
 				'readmore_privacy' );
+			$this->register_translation( $this->readmore_impressum,
+				'readmore_impressum' );
 
 			/**
 			 * If Tag manager fires categories, enable use categories by default
@@ -677,6 +689,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'readmore_optout'           => sanitize_text_field( $this->readmore_optout ),
 				'readmore_optout_dnsmpi'    => sanitize_text_field( $this->readmore_optout_dnsmpi ),
 				'readmore_privacy'          => sanitize_text_field( $this->readmore_privacy ),
+				'readmore_impressum'        => sanitize_text_field( $this->readmore_impressum ),
 				'popup_background_color'    => sanitize_hex_color( $this->popup_background_color ),
 				'popup_text_color'          => sanitize_hex_color( $this->popup_text_color ),
 				'button_background_color'   => sanitize_hex_color( $this->button_background_color ),
@@ -1209,11 +1222,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
 				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
+				'set_cookies_on_root'       => cmplz_get_value('set_cookies_on_root'),
+				'cookie_domain'             => cmplz_get_value('cookie_domain'),
 				'banner_version'            => $this->banner_version,
 				'version'                   => cmplz_version,
 				'a_b_testing'               => cmplz_ab_testing_enabled(),
-				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled',
-					false ),
+				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled', false ),
 				'consenttype'               => COMPLIANZ::$company->get_default_consenttype(),
 				'region'                    => COMPLIANZ::$company->get_default_region(),
 				'geoip'                     => cmplz_geoip_enabled(),
@@ -1243,6 +1257,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'custom_css'                => $this->sanitize_custom_css( $this->custom_css ),
 				'custom_css_amp'            => $this->sanitize_custom_css( $this->custom_css_amp ),
 				'readmore_optin'            => $this->readmore_optin_x,
+				'readmore_impressum'        => $this->readmore_impressum_x,
 				'accept_informational'      => $this->accept_informational_x,
 				'message_optout'            => $this->message_optout_x,
 				'message_optin'             => $this->message_optin_x,
@@ -1309,7 +1324,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, __("Impressum","complianz-gdpr"), '1', "impressum"), $tmpl);
+					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, $this->readmore_impressum_x, '0', "impressum"), $tmpl);
 				}
 
 				$output['privacy_link'][ $region ] = ! empty( $info )

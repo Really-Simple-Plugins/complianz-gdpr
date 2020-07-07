@@ -1536,7 +1536,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						$service_slug = ( strlen( $service->slug ) === 0 )
 							? 'unknown-service' : $service->slug;
 						$link_open
-						              = '<a target="_blank" rel="nofollow" href="https://cookiedatabase.org/cookie/'
+						              = '<a target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/cookie/'
 						                . $service_slug . '/' . $cookie->slug
 						                . '">';
 						$link_close   = '</a>';
@@ -1562,9 +1562,9 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 
 			if ( $service->sharesData || $service_name === 'Complianz' ) {
 				$sharing = '';
+				$attributes = $service_name === 'Complianz' ? "noopener noreferrer" : "noopener noreferrer nofollow";
 				if ( strlen( $service->privacyStatementURL ) != 0 ) {
-					$link = '<a target="_blank" href="'
-					        . $service->privacyStatementURL . '">';
+					$link = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
 					$sharing
 					      = sprintf( __( 'For more information, please read the %s%s Privacy Policy%s.',
 						'complianz-gdpr' ), $link, $service_name, '</a>' );
@@ -1584,7 +1584,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			     && $service->slug !== 'unknown-service'
 			) {
 				$link_open
-					                = '<a target="_blank" rel="nofollow" href="https://cookiedatabase.org/service/'
+					                = '<a target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/service/'
 					                  . $service->slug . '">';
 				$link_close         = '</a>';
 				$purposeDescription .= ' ' . $link_open . __( 'Read more',

@@ -57,6 +57,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Official Facebook Pixel',
 	),
 
+	'facebook-for-woocommerce' => array(
+		'constant_or_function' => 'facebook_for_woocommerce',
+		'label'                => 'Facebook for WooCommerce',
+	),
+
 	'google-tagmanager-for-wordpress' => array(
 		'constant_or_function' => 'GTM4WP_VERSION',
 		'label'                => 'Google Tag Manager for WordPress',
