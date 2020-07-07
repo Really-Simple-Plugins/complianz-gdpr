@@ -247,7 +247,8 @@ function cmplz_add_cookiebanner_settings($fields){
 				'source'  => 'CMPLZ_COOKIEBANNER',
 				'step'    => 'general',
 				'type'    => 'number',
-				'default' => '474',
+				'default' => '476',
+				'validation_step' => 2,
 				'label'   => __( "Max width of banner in pixels", 'complianz-gdpr' ),
 				'cols'     => 4,
 			),
@@ -706,6 +707,18 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'               => 'text',
 				'default'            => __( "Read more", 'complianz-gdpr' ),
 				'label'              => __( "Text on link to cookie policy",
+					'complianz-gdpr' ),
+
+				'callback_condition' => 'cmplz_uses_optin',
+				'cols'     => 12,
+			),
+
+			'readmore_impressum' => array(
+				'source'             => 'CMPLZ_COOKIEBANNER',
+				'step'               => array( 'optin', 'optinstats' ),
+				'type'               => 'text',
+				'default'            => __( "Impressum", 'complianz-gdpr' ),
+				'label'              => __( "Text on link to Impressum",
 					'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_uses_optin',
