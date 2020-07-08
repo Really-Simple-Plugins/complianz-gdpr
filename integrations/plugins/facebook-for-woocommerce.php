@@ -17,7 +17,7 @@ function cmplz_facebookforwoocommerce_script( $tags ) {
  *
  * @return array
  */
-function cmplz_facebookforwoocommerce_social_media( $social_media ) {
+function cmplz_facebookforwoocommerce_detected_social_media( $social_media ) {
 	if ( ! in_array( 'facebook', $social_media ) ) {
 		$social_media[] = 'facebook';
 	}
