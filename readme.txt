@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.4
-Stable tag: 4.6.5
+Stable tag: 4.6.8
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -120,10 +120,18 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
-= 4.6.5 =
+= 4.6.8 =
+* Fix: run upgrade for banner width to prevent saving issues because bannerwidth still has odd number of pixels
+
+= 4.6.7 =
+* Fix: correctly load defaults so the banner has a fallback if the impressum title is not yet entered.
+
+= 4.6.6 =
 * Improvement: read more link on double analytics implementation
 * Fix: string "obsolete page" not translatable
 * improvement: impressum title in cookie banner editable
+
+= 4.6.5 =
 * Improvement: remove "we do not use ... " statements from cookie policy
 * Improvement: facebook for woocommerce integration
 * Improvement: support for cross domain cookie consent on multisite
