@@ -122,6 +122,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Change log ==
 = 4.6.8 =
 * Fix: run upgrade for banner width to prevent saving issues because bannerwidth still has odd number of pixels
+* Fix: correctly load defaults so the banner has a fallback if the impressum title is not yet entered.
+* Improvement: Syncing or adding used services won't enable integrations
 
 = 4.6.7 =
 * Fix: correctly load defaults so the banner has a fallback if the impressum title is not yet entered.

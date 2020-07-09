@@ -1349,14 +1349,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							$parent_service           = new CMPLZ_SERVICE( $service->name,
 								'en' );
 							$service->lastUpdatedDate = time();
-							$parent_service->save();
+							$parent_service->save(false, false);
 							$isTranslationFrom[ $service->name ]
 								= $parent_service->ID;
 						}
 
 						$service->isTranslationFrom
 							= $isTranslationFrom[ $service->name ];
-						$service->save();
+						$service->save(false, false);
 
 					}
 

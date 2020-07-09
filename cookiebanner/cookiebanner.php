@@ -1,7 +1,4 @@
 <?php
-require_once( cmplz_path . '/cookiebanner/settings.php' );
-
-
 /**
  * Output category consent checkboxes html
  */

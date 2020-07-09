@@ -534,6 +534,22 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if (is_multisite()) update_site_option( 'complianz_active_policy_id', get_option( 'complianz_active_policy_id', 1 ));
 			}
 
+			/**
+			 * migrate odd numbers
+			 */
+			if (  $prev_version && version_compare( $prev_version, '4.6.8', '<' )
+			) {
+				$banners = cmplz_get_cookiebanners();
+				if ( $banners ) {
+					foreach ( $banners as $banner_item ) {
+						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+						if($banner->banner_width % 2 == 1) $banner->banner_width++;
+						$banner->save();
+					}
+				}
+
+			}
+
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );

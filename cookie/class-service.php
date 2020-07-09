@@ -372,7 +372,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				}
 				$translated_service->category          = $category;
 				$translated_service->isTranslationFrom = $parent_ID;
-				$translated_service->save();
+				$translated_service->save(false, false);
 
 				if ( $return_language && $language == $return_language ) {
 					$return_id = $translated_service->ID;
