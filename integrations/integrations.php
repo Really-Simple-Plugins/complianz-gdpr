@@ -11,7 +11,7 @@ if ( is_admin() ) {
 
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
-	//user registration plugin google-maps-easy
+	//user registration plugin
 	'addtoany'          => array(
 		'constant_or_function' => 'A2A_SHARE_SAVE_init',
 		'label'                => 'Add To Any',
