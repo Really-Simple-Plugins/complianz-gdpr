@@ -17,11 +17,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Add To Any',
 	),
 
-	'google-maps-easy'       => array(
-		'constant_or_function' => 'getRandName',
-		'label'                => 'Google Maps Easy',
-	),
-
 	'amp'               => array(
 		'constant_or_function' => 'AMP__VERSION',
 		'label'                => 'AMP (official AMP plugin for WordPress)',
