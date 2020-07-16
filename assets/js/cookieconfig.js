@@ -1211,7 +1211,7 @@ jQuery(document).ready(function ($) {
 		var expires = ";expires=" + date.toGMTString();
 
 		if (window.location.protocol !== "https:") secure = '';
-		if (complianz.set_cookies_on_root){
+		if ( complianz.set_cookies_on_root == 1 ){
 			domain = ";domain=."+complianz.cookie_domain;
 		}
 
