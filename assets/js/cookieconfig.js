@@ -796,8 +796,6 @@ jQuery(document).ready(function ($) {
 
 				if (status === 'deny' && complianz.consenttype === 'optout') {
 					cmplzRevoke();
-					complianz_track_status();
-					location.reload();
 				}
 			},
 			onRevokeChoice: function () {
@@ -808,8 +806,6 @@ jQuery(document).ready(function ($) {
 				//when the revoke button is clicked, the status is still 'allow'
 				if (complianz.use_categories === 'no' && ccStatus === 'allow') {
 					cmplzRevoke();
-					complianz_track_status();
-					location.reload();
 				}
 			},
 			"dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
@@ -1099,7 +1095,7 @@ jQuery(document).ready(function ($) {
 	 */
 
 	$(document).on('click', '.cc-revoke-custom', function () {
-		cmplzRevoke();
+
 		if (complianz.consenttype === 'optin' || complianz.consenttype === 'optinstats') {
 			$('.cc-revoke').click();
 
@@ -1141,7 +1137,7 @@ jQuery(document).ready(function ($) {
 
 		cmplzFireCategories();
 		cmplzUpdateStatusCustomLink();
-
+		cmplzRevoke();
 	});
 
 
@@ -1210,8 +1206,8 @@ jQuery(document).ready(function ($) {
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 		var expires = ";expires=" + date.toGMTString();
 
-		if (window.location.protocol !== "https:") secure = '';
-		if ( complianz.set_cookies_on_root == 1 ){
+		if (window.location.protocol !== "https:") secure = ''
+		if ( complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length>3){
 			domain = ";domain=."+complianz.cookie_domain;
 		}
 
@@ -1504,6 +1500,11 @@ jQuery(document).ready(function ($) {
 
 	function cmplzRevoke() {
 		//delete all cookies
+		var consentLevel = cmplzGetHighestAcceptance();
+		var reload = false;
+		if (consentLevel !== 'no-choice' && consentLevel !== 'functional' ) {
+			reload = true;
+		}
 		document.cookie.split(";").forEach(
 			function (c) {
 				if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
@@ -1545,7 +1546,12 @@ jQuery(document).ready(function ($) {
 		cmplzIntegrationsRevoke();
 		cmplzSyncCategoryCheckboxes();
 		cmplzFireCategories();
-		location.reload();
+		complianz_track_status();
+
+		if (reload) {
+			console.log("do reload on revoke");
+			location.reload();
+		}
 	}
 
 	function cmplzGetUrlParameter(sPageURL, sParam) {
