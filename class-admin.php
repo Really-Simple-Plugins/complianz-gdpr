@@ -550,6 +550,14 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 			}
 
+			/**
+			 * new progress option default
+			 */
+			if (  $prev_version && version_compare( $prev_version, '4.6.10.1', '<' )
+			) {
+				if (get_option( 'cmplz_sync_cookies_complete' )) update_option( 'cmplz_sync_cookies_after_services_complete', true );
+			}
+
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );

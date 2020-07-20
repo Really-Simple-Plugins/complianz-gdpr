@@ -912,7 +912,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @hooked cmplz_every_week_hook
 		 */
 
-		public function maybe_sync_cookies() {
+		public function maybe_sync_cookies($running_after_services = false) {
 			if ( ! wp_doing_cron() && ! current_user_can( 'manage_options' ) ) {
 				return 'No permissions';
 			}
@@ -970,7 +970,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-
 				$error  = ( $result == 0
 				            && strpos( $result,
 						'<title>502 Bad Gateway</title>' ) === false ) ? false
@@ -986,6 +985,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! $error ) {
 				$result = json_decode( $result );
+
 				//cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
 				//on updates it will still match.
 				if ( isset( $result->data->error ) ) {
@@ -1084,7 +1084,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$this->update_sync_date();
 			}
 
-			update_option( 'cmplz_sync_cookies_complete', true );
+			if ($running_after_services ) {
+				update_option( 'cmplz_sync_cookies_after_services_complete', true );
+			} else {
+				update_option( 'cmplz_sync_cookies_complete', true );
+
+			}
 
 			return $msg;
 		}
@@ -1361,9 +1366,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 
 				}
-
-				//after adding the cookies, do one more cookies sync
-				$this->maybe_sync_cookies();
 				$this->update_sync_date();
 
 
@@ -1702,6 +1704,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					return;
 				}
 				update_option( 'cmplz_sync_cookies_complete', false );
+				update_option( 'cmplz_sync_cookies_after_services_complete', false );
 				update_option( 'cmplz_sync_services_complete', false );
 
 			}
@@ -2171,6 +2174,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! $this->scan_complete() ) {
 				if ( ! get_option( 'cmplz_synced_cookiedatabase_once' ) ) {
 					update_option( 'cmplz_sync_cookies_complete', false );
+					update_option( 'cmplz_sync_cookies_after_services_complete', false );
 					update_option( 'cmplz_sync_services_complete', false );
 					update_option( 'cmplz_synced_cookiedatabase_once', true );
 				}
@@ -3247,16 +3251,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$attempts = 0;
 			}
 
-			if ( $attempts < 3 ) {
+			if ( $attempts < 5 ) {
 				$progress = $this->get_sync_progress();
 				if ( $progress < 50 ) {
 					$this->maybe_sync_cookies();
 				}
 
-				if ( $progress >= 50 && $progress < 100 ) {
+				if ( $progress >= 50 && $progress < 75 ) {
 					$this->maybe_sync_services();
-					$this->clear_double_cookienames();
+				}
 
+				//after adding the cookies, do one more cookies sync
+				if ( $progress >= 75 && $progress < 100 ) {
+					$this->maybe_sync_cookies(true);
+					$this->clear_double_cookienames();
 				}
 
 				$attempts = $attempts + 1;
@@ -3277,8 +3285,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$msg = $this->maybe_sync_cookies();
 			}
 
-			if ( $progress >= 50 && $progress < 100 ) {
+			if ( $progress >= 50 && $progress < 75 ) {
 				$msg = $this->maybe_sync_services();
+			}
+
+			//after adding the cookies, do one more cookies sync
+			if ( $progress >= 75 && $progress < 100 ) {
+				$this->maybe_sync_cookies(true);
 				$this->clear_double_cookienames();
 			}
 			$output = array(
@@ -3303,9 +3316,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( get_option( 'cmplz_sync_cookies_complete' )
 			     && get_option( 'cmplz_sync_services_complete' )
 			) {
+				$progress = 75;
+			}
+
+			if ( get_option( 'cmplz_sync_cookies_complete' )
+			     && get_option( 'cmplz_sync_services_complete' ) && get_option( 'cmplz_sync_cookies_after_services_complete' )
+			) {
 				//if sync was started after update, stop it now
 				update_option( 'cmplz_run_cdb_sync_once', false );
-
 				$progress = 100;
 			}
 

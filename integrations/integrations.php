@@ -22,6 +22,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'AMP (official AMP plugin for WordPress)',
 	),
 
+	'google-maps-easy'               => array(
+		'constant_or_function' => 'toeGetClassNameGmp',
+		'label'                => 'Google Maps Easy',
+	),
+
 	'beehive'           => array(
 		'constant_or_function' => 'BEEHIVE_PRO',
 		'label'                => 'Beehive',

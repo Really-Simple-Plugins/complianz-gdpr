@@ -121,6 +121,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.6.10 =
+* Google Maps easy integration added
+* Split last cookie sync into separate ajax call for better performance
 * Fix: prevent page reload when user chooses functional only in category banner, when no other category has been selected.
 
 = 4.6.9 =
