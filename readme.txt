@@ -32,7 +32,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Categorize your Cookies with Tag Manager or our own Script Center, if needed.
 * Automatically anonymizes IP-addresses for Google Analytics if needed.
 * Integration with the [WP Consent API](https://wpconsentapi.org/)
-* Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter and more.
+* Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter, ActiveCampaign, and more.
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
 
