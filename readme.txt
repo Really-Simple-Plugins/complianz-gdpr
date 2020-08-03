@@ -99,13 +99,6 @@ Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on 
 Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
 Not always. The Complianz Privacy Suite Premium plugin can determine if you need this, based on your answers in the wizard. It mainly depends on the type of information and the reason why your visitor use the contact form.
-= What are functional cookies? =
-A functional cookie is a cookie which is needed for the technical functioning of the website. Cookies that are used to track if something is placed in the cart, or if a user is logged in are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
-= What are analytical cookies? =
-Analytical cookies are used to track visitors on the website. How do they browse, how long are they staying, and what are they looking at, e.g. Also demography is part of an analytical cookie. They are essential in measuring the usage of a website and to optimize it. They can be seen as real management instruments.
-= What are advertising, marketing or tracking cookies? =
-Advertising, or marketing cookies, are cookies that are being placed for advertising purposes. Advertising cookies can never be set without consent. These cookies are only being used for advertising purposes.
-Our plugin decides whether a cookie consent banner has to be shown. So you shouldn’t need to worry when using our plugin.
 = What is the GDPR? =
 The GDPR is a regulation within the EU law on privacy and data protection for any citizen within the EU and European Economic Area. It aims primarily on giving control to individuals over their personal data. The GDPR also addresses the export of personal data outside the EU.
 = What is the CCPA? =
@@ -120,6 +113,19 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.6.11 =
+* Improvement: Updated string consistency towards 5.0 release
+* New: Added integration for Calendly
+* Improvement: Facebook placeholder update
+* Improvement: Default placeholder resized
+* Improvement: Adsense cookies check
+* Fix: Facebook integration in AMP
+* Improvement: CAOS integration
+* Improvement: Gutenberg update
+* New: Ready for WordPress 5.5
+* New: Independent question for reCAPTCHA
+* New: Shortcode wrappers for content
+
 = 4.6.10 =
 * Google Maps easy integration added
 * Split last cookie sync into separate ajax call for better performance
