@@ -95,10 +95,10 @@ Complianz maintains a continuously growing knowledgebase about GDPR, CCPA, PIPED
 = Is my website GDPR, COPPA, CCPA, DSGVO, AVG, UK-GDPR, PECR, CASL and/or PIPEDA compliant with this plugin? =
 We cannot guarantee GDPR/COPPA/CCPA/UK-GDPR/PECR/CASL/PIPEDA compliance for your website. A correct configuration of this plugin by a website administrator is always required. 
 = When do I need a Cookie Notice? =
-Complianz | GDPR/CCPA Cookie Consent will determine this automatically. Regarding the GDPR, when you are using cookies that store personal data you always have to explicitly ask consent to the user. When you anonymize every single bit of data you don’t have to. Functional cookies don’t require the consent of the user as they are only placed for functional purposes. For the United Kingdom explicit consent for statistics is required, even when IP addresses have been anonymized.
+Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on the laws of the region or regions, where most of your visitors come from. 
 Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
-Not always. The Complianz Privacy Suite Premium plugin can determine if you need this, based on your answers. It mainly depends on the type of information you request.
+Not always. The Complianz Privacy Suite Premium plugin can determine if you need this, based on your answers in the wizard. It mainly depends on the type of information and the reason why your visitor use the contact form.
 = What are functional cookies? =
 A functional cookie is a cookie which is needed for the technical functioning of the website. Cookies that are used to track if something is placed in the cart, or if a user is logged in are functional cookies. There is no need to request permission for this kind of cookies, nor is there any need to describe them in your cookie policy (although we think that is a good idea).
 = What are analytical cookies? =
@@ -112,9 +112,9 @@ The GDPR is a regulation within the EU law on privacy and data protection for an
 The CCPA (Californian Privacy Act) is a law set up by the Californian government. The law is adjudged to be one of the toughest and farthest-reaching consumer privacy laws in the US. It is mostly focused on giving insights on what personal data business gather and how to protect and control these personal data.
 = What is COPPA? =
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
-= What is PECR & UK-GDPR? =
+= What are PECR & UK-GDPR? =
 PECR (UK) covers the use of cookies and similar technologies for storing information and accessing information stored, on a user’s equipment such as a computer or mobile device.
-= What is PIPEDA & CASL? =
+= What are PIPEDA & CASL? =
 Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and Electronic Documents Act (PIPEDA) require a website operator to obtain consent, either implied or express consent with a dedicated cookie statement.
 = Can I create a Cookie Wall with this plugin? =
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
