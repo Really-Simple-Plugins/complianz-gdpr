@@ -6,7 +6,7 @@ Requires at least: 4.7
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.4
-Stable tag: 4.6.10
+Stable tag: 4.7.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -113,18 +113,22 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
-= 4.6.11 =
-* Improvement: Updated string consistency towards 5.0 release
-* New: Added integration for Calendly
-* Improvement: Facebook placeholder update
-* Improvement: Default placeholder resized
-* Improvement: Adsense cookies check
-* Fix: Facebook integration in AMP
-* Improvement: CAOS integration
-* Improvement: Gutenberg update
-* New: Ready for WordPress 5.5
-* New: Independent question for reCAPTCHA
-* New: Shortcode wrappers for content
+= 4.7.0 =
+* Improvement: WP 5.5 permissions callback default true for public rest api calls
+* New: Calendly integration
+* New: Consent Shortcode to wrap your content manually [cmplz-consent-area][/cmplz-consent-area]
+* Improvement: string update
+* Improvement: proof of consent remove unnecessary info
+* Improvement: improved activation notice
+* Improvement: added Gutenberg preview image
+* Improvement: improved Google Maps placeholders
+* Fix: placeholders update
+* Fix: static Google Maps images integration not working correctly due to regex pattern
+* Fix: AMP matching on facebook and facebook-like tag
+* Fix: CAOS analytics integration update: frontend.js was not blocked correctly yet
+* Fix: Google Ads integration could not be disabled
+* Fix: cookiedomain feature could cause indexOf undefined error in specific congfigurations
+* NPM package updates
 
 = 4.6.10 =
 * Google Maps easy integration added
