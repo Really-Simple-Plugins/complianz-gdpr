@@ -12,13 +12,13 @@ $this->purposes = array(
 		'complianz-gdpr' ),
 	'statistics'                  => __( 'Compiling and analyzing statistics for website improvement.',
 		'complianz-gdpr' ),
-	'offer-personalized-products' => __( 'To be able to offer personalized products and services.',
+	'offer-personalized-products' => __( 'To be able to offer personalized products and services',
 		'complianz-gdpr' ),
 );
 
 if ( cmplz_has_region( 'us' ) ) {
 	$this->purposes['selling-data-thirdparty']
-		= __( 'To sell data to third parties', 'complianz-gdpr' );
+		= __( 'To sell data to Third Parties', 'complianz-gdpr' );
 }
 $this->details_per_purpose_us = array(
 	'first-lastname'          => __( 'A first and last name',
@@ -58,7 +58,7 @@ $this->details_per_purpose_us = array(
 		'complianz-gdpr' ),
 	'biometric'               => __( 'Biometric information',
 		'complianz-gdpr' ),
-	'internet'                => __( "Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement.",
+	'internet'                => __( "Internet activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an Internet Web site, application, or advertisement",
 		'complianz-gdpr' ),
 	'geo'                     => __( 'Geolocation data', 'complianz-gdpr' ),
 	'audio'                   => __( 'Audio, electronic, visual, thermal, olfactory, or similar information',
@@ -78,6 +78,6 @@ $this->collected_info_children = array(
 	'social-security-nr' => __( 'a Social Security number', 'complianz-gdpr' ),
 	'identifier-online'  => __( 'an identifier that permits the physical or online contacting of a child',
 		'complianz-gdpr' ),
-	'other'              => __( 'other information concerning the child or the parents, combined with an identifier as described above.',
+	'other'              => __( 'other information concerning the child or the parents, combined with an identifier as described above',
 		'complianz-gdpr' ),
 );

@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['eu'] = array(
     'cookie-statement' => array(
-        'title' => __("Cookie policy (EU)", 'complianz-gdpr'),
+        'title' => __("Cookie Policy (EU)", 'complianz-gdpr'),
         'public' => true,
         'document_elements' => '',
         'condition' => array(
@@ -26,7 +26,7 @@ $this->pages['us'] = array(
 
 $this->pages['uk'] = array(
 	'cookie-statement' => array(
-        'title' => __("Cookie policy (UK)", 'complianz-gdpr'),
+        'title' => __("Cookie Policy (UK)", 'complianz-gdpr'),
         'public' => true,
         'document_elements' => '',
         'condition' => array(
@@ -38,7 +38,7 @@ $this->pages['uk'] = array(
 
 $this->pages['ca'] = array(
 	'cookie-statement' => array(
-	    'title' => __("Cookie policy (CA)", 'complianz-gdpr'),
+	    'title' => __("Cookie Policy (CA)", 'complianz-gdpr'),
 	    'public' => true,
 	    'document_elements' => '',
 	    'condition' => array(
@@ -47,6 +47,3 @@ $this->pages['ca'] = array(
 	    ),
     ),
 );
-
-
-

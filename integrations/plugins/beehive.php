@@ -111,7 +111,7 @@ function cmplz_beehive_compile_statistics_more_info_notice() {
 			'complianz-gdpr' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( __( "You have selected you do not share data with third party networks. Display advertising is now disabled in Beehive.",
+		cmplz_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
 			'complianz-gdpr' ) );
 	}
 }

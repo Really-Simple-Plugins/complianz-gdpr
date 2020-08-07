@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'last-updated' => array(
-        'content' => '<i>' . sprintf('This cookie statement was last updated on %s and applies to citizens of the United Kingdom.', '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf('This Cookie Policy was last updated on %s and applies to citizens of the United Kingdom.', '[publish_date]') . '</i>',
     ),
     'introduction' => array(
         'title' => 'Introduction',
@@ -25,7 +25,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
     'consent' => array(
         'title' => 'Consent',
-        'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_accept_text]'),
+        'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_accept_text]'),
         'callback_condition' => array(
             'NOT cmplz_uk_site_uses_cookie_warning_cats',
             'cmplz_uk_site_needs_cookie_warning'
@@ -34,7 +34,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
     'consent_cats' => array(
         'title' => 'Consent',
-        'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this cookie statement. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_save_preferences_text]'),
+        'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_save_preferences_text]'),
         'callback_condition' => array(
             'cmplz_uk_site_uses_cookie_warning_cats',
             'cmplz_uk_site_needs_cookie_warning',
@@ -136,7 +136,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
     'your-rights-3' => array(
         'content' =>
-            "To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Information Commissioner's Office (ICO)).",
+            "To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Information Commissioner's Office (ICO)).",
     ),
 
     'enable-disable-removal-cookies' => array(
@@ -150,7 +150,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
     'contact-details' => array(
         'title' => 'Contact details',
-        'content' => 'For questions and/or comments about our cookie policy and this statement, please contact us by using the following contact details:',
+        'content' => 'For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:',
     ),
     'contact-details-2' => array(
         'content' => '[organisation_name]<br>
@@ -162,7 +162,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
 
     'last-sync' => array(
-        'content' => sprintf(_x('This cookie policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
+        'content' => sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

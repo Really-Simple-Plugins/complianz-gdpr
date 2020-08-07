@@ -46,7 +46,7 @@ $this->warning_types = array(
 			'complianz-gdpr' ),
 		'label_error' => __( 'Plugin changes have been detected.',
 				'complianz-gdpr' ) . " "
-		                 . sprintf( __( 'Please review step %s of the wizard for changes in plugin privacy statements and cookies.',
+		                 . sprintf( __( 'Please review step %s of the wizard for changes in plugin Privacy Statements and cookies.',
 				'complianz-gdpr' ), STEP_PLUGINS ),
 	),
 	'ga-needs-configuring'     => array(
@@ -56,7 +56,7 @@ $this->warning_types = array(
 	),
 	'gtm-needs-configuring'    => array(
 		'type'        => 'general',
-		'label_error' => __( 'Google Tagmanager is being used, but is not configured in Complianz.',
+		'label_error' => __( 'Google Tag Manager is being used, but is not configured in Complianz.',
 			'complianz-gdpr' ),
 	),
 	'matomo-needs-configuring' => array(

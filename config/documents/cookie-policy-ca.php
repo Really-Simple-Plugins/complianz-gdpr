@@ -118,7 +118,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
                 <li>'._x('You have the right to withdraw consent at any time, subject to legal or contractual restrictions and reasonable notice. You will be informed of the implications of such withdrawal.','Legal document cookie policy', 'complianz-gdpr').'</li>
                 <li>'._x('You have the right to address a challenge concerning non-compliance with PIPEDA to our organization and, if the issue is not resolved, to the Office of the Privacy Commissioner of Canada.','Legal document cookie policy', 'complianz-gdpr').'</li>
             </ul>' .
-            '<p>'._x('To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you.','Legal document cookie policy', 'complianz-gdpr').'</p>',
+            '<p>'._x('To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you.','Legal document cookie policy', 'complianz-gdpr').'</p>',
     ),
 
     array(
@@ -128,7 +128,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
 
     array(
 	    'title' => _x('Contact details', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('For questions and/or comments about our cookie policy and this statement, please contact us by using the following contact details:','Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:','Legal document cookie policy', 'complianz-gdpr'),
     ),
 
     array(
@@ -141,7 +141,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => sprintf(_x('This cookie policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
+        'content' => sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

@@ -50,10 +50,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			$amp_tags = apply_filters( 'cmplz_amp_tags', $amp_tags );
 			foreach ( $amp_tags as $amp_tag ) {
-				$output = str_replace( '<' . $amp_tag,
+				$output = str_replace( '<' . $amp_tag . ' ',
 					'<' . $amp_tag . ' data-block-on-consent ', $output );
-
-
 			}
 			return $output;
 		}
@@ -193,29 +191,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					     !== false
 					) {
 						$placeholder = cmplz_placeholder( false, $image_url );
-
 						$new = $total_match;
-						//$new = str_replace('<img ', '<img data-src-cmplz="'.$image_url.'" ', $new);
-						$new = $this->add_class( $new, 'img',
-							'cmplz-iframe cmplz-iframe-styles '
-							. apply_filters( 'cmplz_video_class',
-								'cmplz-no-video' ) );
-
 						$new = $this->replace_src( $new,
 							apply_filters( 'cmplz_source_placeholder',
 								$placeholder ) );
 
-						if ( ! cmplz_get_value( 'dont_use_placeholders' )
-						     && cmplz_use_placeholder( $image_url )
-						) {
-							$new = $this->add_class( $new, 'img',
-								" cmplz-placeholder-element " );
+						$new = apply_filters('cmplz_image_html', $new, $image_url);
 
-							$new = $this->add_data( $new, 'img',
-								'placeholder-text',
-								apply_filters( 'cmplz_accept_cookies_blocked_content',
-									cmplz_get_value( 'blocked_content_text' ) ) );
-						}
 						$output = str_replace( $total_match, $new, $output );
 					}
 				}
@@ -552,7 +534,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 		private function replace_src( $script, $new_src ) {
 			$pattern
-				     = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\w.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
+				     = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\w.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
 			$new_src = ' src="' . $new_src . '" ';
 			preg_match( $pattern, $script, $matches );
 			$script = preg_replace( $pattern, $new_src, $script );
@@ -582,7 +564,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return string
 		 */
 
-		private function add_class( $html, $el, $class ) {
+		public function add_class( $html, $el, $class ) {
 			$class = esc_attr( $class );
 			preg_match( '/<' . $el . '[^\>]*[^\>\S]+\K(class=")/i', $html,
 				$matches );

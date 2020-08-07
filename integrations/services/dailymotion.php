@@ -20,7 +20,7 @@ function cmplz_dailymotion_placeholder( $new_src, $src ) {
 			$daily_motion_id = $matches[2];
 		}
 		$new_src = get_transient( "cmplz_dailymotion_image_$daily_motion_id" );
-		if ( ! $new_src || ! file_exists( $new_src ) ) {
+		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			//pass thumbnail_60_url (60px height), thumbnail_120_url (120px height), thumbnail_180_url (180px height), thumbnail_240_url (240px height), thumbnail_360_url (360px height), thumbnail_480_url (480px height), thumbnail_720_url (720px height), thumbnail_1080_url (1080px height), for different sizes
 			$thumbnail_large_url = 'https://api.dailymotion.com/video/'
 			                       . $daily_motion_id

@@ -895,7 +895,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 
 			/**
-			 * If there's no active privacy policy, use the wp privacy policy, if available
+			 * If there's no active privacy statement, use the wp privacy statement, if available
 			 */
 			if ( $args['fieldname'] === 'privacy-statement' && !$custom_page_id ){
 				$wp_privacy_policy = get_option('wp_page_for_privacy_policy');
@@ -1863,7 +1863,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         </div>
                         <div>
                             <label>'
-					        . sprintf( __( 'Select the processing agreement you made with this %s, or %screate one%s',
+					        . sprintf( __( 'Select the Processing Agreement you made with this %s, or %screate one%s',
 							'complianz-gdpr' ), $args['label'],
 							$create_processing_agreement_link, '</a>' ) . '</label>
                         </div>
@@ -1875,7 +1875,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					        . __( 'No agreement selected', 'complianz-gdpr' ) . '</option>
                                     <option value="-1" '
 					        . $processing_agreement_outside_c . '>'
-					        . __( 'A processing agreement outside Complianz Privacy Suite',
+					        . __( 'A Processing Agreement outside Complianz Privacy Suite',
 							'complianz-gdpr' ) . '</option>';
 					foreach ( $processing_agreements as $id => $title ) {
 						$selected = ( intval( $value['processing_agreement'] )
@@ -1984,7 +1984,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                     <div class="multiple-field">
                         <div>
                             <label>'
-					        . __( 'Name of the third party with whom you share the data',
+					        . __( 'Name of the Third Party with whom you share the data',
 							'complianz-gdpr' ) . '</label>
                         </div>
                         <div>
@@ -1996,7 +1996,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         </div>
 
                         <div>
-                            <label>' . __( 'Third party country',
+                            <label>' . __( 'Third Party country',
 							'complianz-gdpr' ) . '</label>
                         </div>
                         <div>
@@ -2050,7 +2050,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			?>
 			<button class="button" type="submit"
 			        class="cmplz-add-new-thirdparty" name="cmplz_add_multiple"
-			        value="<?php echo esc_html( $args['fieldname'] ) ?>"><?php _e( "Add new third-party",
+			        value="<?php echo esc_html( $args['fieldname'] ) ?>"><?php _e( "Add new Third Party",
 					'complianz-gdpr' ) ?></button>
 			<?php do_action( 'complianz_after_field', $args ); ?>
 			<?php

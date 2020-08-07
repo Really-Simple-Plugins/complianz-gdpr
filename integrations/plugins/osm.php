@@ -67,8 +67,6 @@ function cmplz_openstreetmaps_plugin_css() {
 	<?php
 }
 
-;
-
 
 
 

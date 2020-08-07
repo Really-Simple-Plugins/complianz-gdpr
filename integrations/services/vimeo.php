@@ -22,7 +22,7 @@ function cmplz_vimeo_placeholder( $placeholder_src, $src ) {
 	if ( preg_match( $vimeo_pattern, $src, $matches ) ) {
 		$vimeo_id = $matches[1];
 		$new_src  = get_transient( "cmplz_vimeo_image_$vimeo_id" );
-		if ( ! $new_src || ! file_exists( $new_src ) ) {
+		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			$xml
 				= @file_get_contents( "https://vimeo.com/api/v2/video/$vimeo_id.xml" );
 			if ( ! empty( $xml ) ) {//-> maybe a not public video

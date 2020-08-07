@@ -726,15 +726,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		//allow to set cookies on the root domain
-		var domain = false;
-		if (complianz.set_cookies_on_root){
-			domain = complianz.cookie_domain;
-		}
-		if (complianz.cookie_domain.indexOf('localhost')!== -1 ) {
-			domain = '';
-			if (!cmplzLocalhostWarningShown) console.log("Configuration warning: cookies can't be set on root domain on localhost setups");
-			cmplzLocalhostWarningShown = true;
-		}
+		var domain = cmplzGetCookieDomain();
 
 		window.cookieconsent.initialise({
 			cookie: {
@@ -1202,21 +1194,35 @@ jQuery(document).ready(function ($) {
 	function cmplzSetCookie(name, value, days) {
 		var secure = ";secure";
 		var date = new Date();
-		var domain = '';
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 		var expires = ";expires=" + date.toGMTString();
 
-		if (window.location.protocol !== "https:") secure = ''
-		if ( complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length>3){
-			domain = ";domain=."+complianz.cookie_domain;
+		if (window.location.protocol !== "https:") secure = '';
+
+		var domain = cmplzGetCookieDomain();
+		if (domain.length > 0) {
+			domain = ";domain=." + complianz.cookie_domain;
 		}
 
-		if (complianz.cookie_domain.indexOf('localhost')!== -1 ) {
+		document.cookie = name + "=" + value + secure + expires + domain + ";path=/";
+	}
+
+	/**
+	 * retrieve domain to set the cookies on
+	 * @returns {string}
+	 */
+	function cmplzGetCookieDomain(){
+		var domain = '';
+		if ( complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length>3){
+			domain = complianz.cookie_domain;
+		}
+
+		if (domain.indexOf('localhost') !== -1 ) {
 			domain = '';
 			if (!cmplzLocalhostWarningShown) console.log("Configuration warning: cookies can't be set on root domain on localhost setups");
 			cmplzLocalhostWarningShown = true;
 		}
-		document.cookie = name + "=" + value + secure + expires + domain + ";path=/";
+		return domain;
 	}
 
 	/**
@@ -1549,7 +1555,6 @@ jQuery(document).ready(function ($) {
 		complianz_track_status();
 
 		if (reload) {
-			console.log("do reload on revoke");
 			location.reload();
 		}
 	}

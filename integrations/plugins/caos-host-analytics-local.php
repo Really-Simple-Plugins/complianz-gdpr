@@ -24,6 +24,24 @@ function cmplz_caos_script( $tags ) {
 }
 
 /**
+ * Add the correct classes for the Caos script front-end
+ * @param $tag
+ * @param $handle
+ *
+ * @return string|string[]
+ */
+function cmplz_caos_add_data_attribute($tag, $handle) {
+	if ( 'caos_frontend_script' !== $handle )
+		return $tag;
+
+	$classes = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
+	$attr = ' class="' . implode( ' ', $classes ) . '" ';
+
+	return str_replace( ' src', " $attr src", $tag );
+}
+add_filter('script_loader_tag', 'cmplz_caos_add_data_attribute', 10, 2);
+
+/**
  * We remove some actions to integrate fully
  * */
 function cmplz_caos_remove_scripts_others() {

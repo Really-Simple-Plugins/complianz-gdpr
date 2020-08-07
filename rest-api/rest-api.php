@@ -12,6 +12,7 @@ function cmplz_documents_rest_route() {
 	register_rest_route( 'complianz/v1', 'documents/', array(
 		'methods'  => 'GET',
 		'callback' => 'cmplz_documents_api',
+		'permission_callback' => '__return_true',
 	) );
 
 }

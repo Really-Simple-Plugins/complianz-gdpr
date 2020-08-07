@@ -78,7 +78,7 @@ function cmplz_integrations_page() {
 				$socialmedia_active = ( cmplz_get_value( 'uses_social_media' )
 				                        === 'yes' ) ? true : false;
 				if ( ! $thirdparty_active && ! $socialmedia_active ) {
-					$not_used = __( 'Third party services and social media',
+					$not_used = __( 'Third-party services and social media',
 						'complianz-gdpr' );
 					$link     = '<a href="' . add_query_arg( array(
 							'page'    => 'cmplz-wizard',

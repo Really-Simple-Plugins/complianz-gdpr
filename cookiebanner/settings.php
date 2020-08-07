@@ -706,7 +706,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => array( 'optin', 'optinstats' ),
 				'type'               => 'text',
 				'default'            => __( "Read more", 'complianz-gdpr' ),
-				'label'              => __( "Text on link to cookie policy",
+				'label'              => __( "Text on link to Cookie Policy",
 					'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_uses_optin',
@@ -748,7 +748,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'optout',
 				'type'               => 'checkbox',
 				'label'              => __( "Dismiss on scroll", 'complianz-gdpr' ),
-				'help'               => __( 'When dismiss on scroll is enabled, the cookie warning will be dismissed as soon as the user scrolls.',
+				'help'               => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.',
 					'complianz-gdpr' ),
 				'default'            => false,
 				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
@@ -760,9 +760,9 @@ function cmplz_add_cookiebanner_settings($fields){
 				'source'             => 'CMPLZ_COOKIEBANNER',
 				'step'               => 'optout',
 				'type'               => 'checkbox',
-				'label'              => __( "Dismiss on timeout",
+				'label'              => __( "Dismiss on time out",
 					'complianz-gdpr' ),
-				'help'               => __( 'When dismiss on time out is enabled, the cookie warning will be dismissed after 10 seconds, or the time you choose below.',
+				'help'               => __( 'When dismiss on time out is enabled, the cookie banner will be dismissed after 10 seconds, or the time you choose below.',
 					'complianz-gdpr' ),
 				'default'            => false,
 				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
@@ -829,8 +829,8 @@ function cmplz_add_cookiebanner_settings($fields){
 				'source'             => 'CMPLZ_COOKIEBANNER',
 				'step'               => 'optout',
 				'type'               => 'text',
-				'default'            => __( "Privacy statement", 'complianz-gdpr' ),
-				'label'              => __( "Text on link to privacy statement",
+				'default'            => __( "Privacy Statement", 'complianz-gdpr' ),
+				'label'              => __( "Text on link to Privacy Statement",
 					'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_uses_optout',

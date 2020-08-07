@@ -62,7 +62,7 @@ function cmplz_monsterinsights_compile_statistics_notice() {
 	}
 
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( __( "You have selected you do not share data with third party networks. Demographics is now disabled in MonsterInsights.",
+		cmplz_notice( __( "You have selected you do not share data with third-party networks. Demographics is now disabled in MonsterInsights.",
 			'complianz-gdpr' ) );
 	}
 }
@@ -166,8 +166,3 @@ function cmplz_monsterinsights_force_demographics( $value, $key, $default ) {
 
 add_filter( 'monsterinsights_get_option_demographics',
 	'cmplz_monsterinsights_force_demographics', 30, 3 );
-
-
-
-
-

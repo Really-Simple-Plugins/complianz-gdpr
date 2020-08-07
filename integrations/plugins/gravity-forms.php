@@ -28,7 +28,7 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 
 	$form_id = str_replace( 'gf_', '', $form_id );
 	$label
-	         = __( 'To submit this form, you need to accept our privacy statement',
+	         = __( 'To submit this form, you need to accept our Privacy Statement',
 		'complianz-gdpr' );
 
 	$form                   = GFAPI::get_form( $form_id );
@@ -66,7 +66,7 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 		$consent_box->id               = $new_field_id;
 		$consent_box->description      = '<a href="'
 		                                 . COMPLIANZ::$document->get_permalink( 'privacy-statement',
-				'eu', true ) . '">' . __( "Privacy statement",
+				'eu', true ) . '">' . __( "Privacy Statement",
 				"complianz-gdpr" ) . '</a>';
 		$consent_box->isRequired       = true;
 		$consent_box->choices          = $choices;
@@ -80,6 +80,3 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 
 add_action( "cmplz_add_consent_box_gravity-forms",
 	'cmplz_gravityforms_add_consent_checkbox' );
-
-
-

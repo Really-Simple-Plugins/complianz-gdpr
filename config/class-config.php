@@ -404,6 +404,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addtoany"         => 'AddToAny',
 				"sharethis"        => 'ShareThis',
 				"livechat"         => 'LiveChat',
+				"calendly"         => 'Calendly',
 			);
 
 		public $thirdparty_socialmedia
@@ -511,6 +512,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
 				"sharethis"        => array( 'sharethis.com' ),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
+				"calendly"         => array( 'assets.calendly.com' ),
 			);
 
 		public $stats_markers

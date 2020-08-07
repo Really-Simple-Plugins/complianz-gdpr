@@ -118,7 +118,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'cmplz_license_key',
 				'cmplz_license_status',
 				'cmplz_changed_cookies',
-				'cmplz_license_notice_dismissed',
 				'cmplz_plugins_changed',
 				'cmplz_detected_stats',
 				'cmplz_deleted_cookies',
@@ -466,7 +465,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$wizard_settings['cookie-statement'] = $value;
 				$wizard_settings['impressum'] = 'none';
 
-				//upgrade privacy policy settings
+				//upgrade privacy statement settings
 				$value = $wizard_settings["privacy-statement"];
 
 				if ( $value === 'yes' ) {
@@ -916,7 +915,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 								"</a>" ); ?>
 					</li>
 					<li>
-						<i class="fas fa-plus"></i><?php echo __( "Create processing agreement",
+						<i class="fas fa-plus"></i><?php echo __( "Create Processing Agreement",
 								'complianz-gdpr' ) . " "
 						                                      . sprintf( __( '(%spremium%s)',
 								'complianz-gdpr' ),
@@ -1340,11 +1339,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning()
 							     && COMPLIANZ::$wizard->wizard_completed_once()
 							) {
-								$this->get_dashboard_element( __( 'Your site requires a cookie warning, which has been enabled',
+								$this->get_dashboard_element( __( 'Your site requires a cookie banner, which has been enabled.',
 									'complianz-gdpr' ), 'success' );
 							}
 							if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-								$this->get_dashboard_element( __( 'Your site does not require a cookie warning. No cookie warning has been enabled.',
+								$this->get_dashboard_element( __( 'Your site does not require a cookie banner. No cookie banner has been enabled.',
 									'complianz-gdpr' ), 'success' );
 							}
 							if ( $last_cookie_scan ) {

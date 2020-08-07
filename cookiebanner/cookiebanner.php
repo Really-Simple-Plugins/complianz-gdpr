@@ -197,14 +197,14 @@ function cmplz_cookiebanner_overview() {
 			</h1>
 			<?php
 			if ( ! COMPLIANZ::$wizard->wizard_completed_once() ) {
-				cmplz_notice( __( 'Please complete the wizard to check if you need a cookie warning.',
+				cmplz_notice( __( 'Please complete the wizard to check if you need a cookie banner.',
 					'complianz-gdpr' ), 'warning' );
 			} else {
 				if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_notice( __( 'Your website does not require a cookie warning, so these settings do not apply.',
+					cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.',
 						'complianz-gdpr' ) );
 				} else {
-					cmplz_notice( __( 'Your website requires a cookie warning, these settings will determine how the popup will look.',
+					cmplz_notice( __( 'Your website requires a cookie banner, these settings will determine how the popup will look.',
 						'complianz-gdpr' ) );
 				}
 			}

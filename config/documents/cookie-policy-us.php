@@ -121,7 +121,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
                 <li>you may request an overview, in a commonly used format, of the data we process about you;</li>
                 <li>you may request correction or deletion of the data if it is incorrect or not or no longer relevant, or to ask to restrict the processing of the data.</li>
             </ul>' .
-            '<p>To exercise these rights, please contact us. Please refer to the contact details at the bottom of this cookie statement. If you have a complaint about how we handle your data, we would like to hear from you.</p>',
+            '<p>To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you.</p>',
     ),
 
     array(
@@ -180,7 +180,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 
     array(
         'title' => 'Contact details', 'Legal document cookie policy:',
-        'content' => 'For questions and/or comments about our cookie policy and this statement, please contact us by using the following contact details:',
+        'content' => 'For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:',
     ),
 
     array(
@@ -193,7 +193,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => sprintf(_x('This cookie policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
+        'content' => sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

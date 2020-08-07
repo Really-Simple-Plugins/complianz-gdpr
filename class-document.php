@@ -903,7 +903,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 
 		/**
-		 * Add some text to the privacy policy suggested texts in free.
+		 * Add some text to the privacy statement suggested texts in free.
 		 */
 
 		public function add_privacy_info() {
@@ -911,13 +911,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
-			//only necessary for free, as premium will generate the privacy policy
+			//only necessary for free, as premium will generate the privacy statement
 			if ( ! defined( 'cmplz_free' ) ) {
 				return;
 			}
 
 			$content = sprintf(
-				__( "Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your privacy policy. The used cookies (all functional) will be automatically added to your cookie policy. You can find our privacy policy %shere%s.",
+				__( "Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your Privacy Statement. The used cookies (all functional) will be added to your Cookie Policy automatically. You can find our Privacy Statement %shere%s.",
 					'complianz-gdpr' ),
 				'<a href="https://complianz.io/privacy-statement/" target="_blank">',
 				'</a>'
@@ -1129,6 +1129,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function init() {
 			//this shortcode is also available as gutenberg block
 			add_shortcode( 'cmplz-document', array( $this, 'load_document' ) );
+			add_shortcode( 'cmplz-consent-area', array( $this, 'show_consent_area' ) );
 
 			add_shortcode( 'cmplz-cookies', array( $this, 'cookies' ) );
 
@@ -2096,6 +2097,70 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return ob_get_clean();
 		}
 
+		/**
+		 * Show content conditionally, based on consent
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return false|string
+		 */
+
+		public function show_consent_area(
+			$atts = array(), $content = null, $tag = ''
+		) {
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+			ob_start();
+
+			//should always be wrapped in closing tag
+			if (empty($content)) return '';
+			$blocked_text = __('Click to accept marketing cookies and enable this content', 'complianz-gdpr');
+
+			// override default attributes with user attributes
+			$atts   = shortcode_atts( array(
+				'category'   => 'marketing',
+				'text'   => $blocked_text,
+			),
+				$atts, $tag );
+			$category   = sanitize_text_field( $atts['category'] );
+			$cookie_name  = 'cmplz_'.sanitize_title( $category );
+			$blocked_text = sanitize_text_field( $atts['text'] );
+			$blocked_text = str_replace('marketing', $category, $blocked_text);
+
+			//if has consent, show content. Otherwise, show placeholder.
+			$has_consent = false;
+			$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+
+			if ( $consenttype === 'optin' || $consenttype === 'optinstats' ) {
+				if (isset($_COOKIE[$cookie_name]) && $_COOKIE[$cookie_name] === 'allow' ) {
+					$has_consent = true;
+				}
+			} elseif ( $consenttype === 'optout' ) {
+				if (!isset($_COOKIE[$cookie_name]) || $_COOKIE[$cookie_name] === 'allow' ) {
+					$has_consent = true;
+				}
+			}
+
+			if ( $has_consent ) {
+				echo do_shortcode($content);
+			} else {
+				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
+				?>
+				<script>
+					jQuery(document).ready(function ($) {
+						$(document).on('click', '.cmplz-consent-area', function(){
+							location.reload();
+						});
+					});
+				</script>
+				<div class="cmplz-consent-area cmplz-accept-cookies <?php echo $cookie_name?>" ><a href="#"><?php echo $blocked_text?></a></div>
+				<?php
+			}
+
+			return ob_get_clean();
+		}
+
 		private function use_cache( $type ) {
 
 			//do not cache on multilanguage environments
@@ -2407,7 +2472,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$banner_id = cmplz_get_default_banner_id();
 				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
 				$settings  = $banner->get_settings_array();
-
 				$settings['privacy_link_us ']
 					           = COMPLIANZ::$document->get_page_url( 'privacy-statement',
 					'us' );
@@ -2437,8 +2501,31 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					'layout',
 					'use_custom_css',
 					'custom_css',
-					'border_color'
+					'border_color',
+					'accept_all_background_color',
+					'accept_all_text_color',
+					'accept_all_border_color',
+					'functional_background_color',
+					'functional_text_color',
+					'functional_border_color',
+					'banner_width',
 				);
+				$cats_pattern = '/data-category="(.*?)"/i';
+				if (isset($settings['categories'])) {
+					if ( preg_match_all( $cats_pattern, $settings['categories'],
+						$matches )
+					) {
+						$categories = $matches[1];
+						foreach($categories as $index => $category ) {
+							$category = str_replace('cmplz_', '', $category);
+							if (is_numeric(intval($category))) {
+								$category = 'Custom event ' . $category;
+							}
+							$categories[$index] = $category;
+						}
+						$settings['categories'] =  implode(', ', $categories);
+					}
+				}
 				unset( $settings["readmore_url"] );
 
 				foreach ( $settings as $key => $value ) {
@@ -2456,7 +2543,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$intro         = '<h1>' . __( "Proof of Consent",
 						"complianz-gdpr" ) . '</h1>
                      <p>' . sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
-                            This document will contain the cookie policy and the cookie consent settings to proof consent
+                            This document will contain the Cookie Policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
                             to %shttps://complianz.io/consent%s.",
 						"complianz-gdpr" ),

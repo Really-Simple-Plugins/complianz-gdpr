@@ -125,7 +125,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					'complianz-gdpr' ), 'warning' );
 			} else {
 				cmplz_notice( sprintf( '<h1>'
-				                       . __( "All steps have been completed.",
+				                       . __( "All steps have been completed",
 						'complianz-gdpr' ) . "</h1>"
 				                       . __( "Click '%s' to complete the configuration. You can come back to change your configuration at any time.",
 						'complianz-gdpr' ),
@@ -136,8 +136,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					$link_open = '<a href="'
 					             . admin_url( 'admin.php?page=cmplz-cookiebanner' )
 					             . '">';
-					cmplz_notice( sprintf( __( "Your site needs a cookie warning. The cookie warning has been configured with default settings. Check the cookie warning settings to customize it.",
-						'complianz-gdpr' ), $link_open, "</a>" ), 'warning' );
+					cmplz_notice( sprintf( __( "The cookie banner and cookie blocker are enabled. Please check your website if your configuration is working properly. Please read %sthese instructions%s to debug any issues while in safe mode. Safe mode is available under settings.",
+						'complianz-gdpr' ), 				'<a  target="_blank" href="https://complianz.io/debugging-manual">', '</a>' )
+							, 'warning' );
 				}
 
 			}
@@ -923,7 +924,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					delete_option( 'complianz_options_' . $page );
 
 					if ( strpos( $page, 'processing' ) !== false ) {
-						$about = __( 'processing agreements',
+						$about = __( 'Processing Agreements',
 							'complianz-gdpr' );
 						$link_article
 						       = '<a href="https://complianz.io/what-are-processing-agreements">';

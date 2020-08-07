@@ -325,7 +325,7 @@ function cmplz_integrations() {
 	 * advertising
 	 */
 
-	if ( cmplz_get_value( 'uses_ad_cookies' ) ) {
+	if ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' ) {
 		require_once( 'services/advertising.php' );
 	}
 
@@ -554,6 +554,8 @@ function cmplz_get_service_by_src( $src ) {
 		$type = 'soundcloud';
 	} else if ( strpos( $src, 'twitter' ) !== false ) {
 		$type = 'twitter';
+	} else if ( strpos( $src, 'calendly' ) !== false ) {
+		$type = 'calendly';
 	}
 
 	if ( ! $type ) {

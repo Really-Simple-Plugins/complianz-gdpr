@@ -18,7 +18,7 @@ $this->steps = array(
 					2 => array(
 						'id'    => 'general',
 						'title' => __( 'Documents', 'complianz-gdpr' ),
-						'intro' => _x('Here you can select the documents for your website', 'intro company info', 'complianz-gdpr'),
+						'intro' => _x('Here you can select which legal documents you want to generate with Complianz. You can also use existing legal documents.', 'intro company info', 'complianz-gdpr'),
 					),
 					3 => array(
 						'id' => 'impressum_info',
@@ -54,7 +54,7 @@ $this->steps = array(
 						'title' => __( 'Cookie scan', 'complianz-gdpr' ),
 						'intro' =>
 							'<p>'
-							. _x( 'The cookie scan will request several pages on your site to check if cookies are placed and will check the html of your site for known third party scripts. The cookie scan will be recurring weekly to keep you up-to-date!',
+							. _x( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!',
 								'intro scan', 'complianz-gdpr' ) . '</p>',
 					),
 					2 => array(
@@ -71,7 +71,7 @@ $this->steps = array(
 
 					5 => array(
 						'title' => __( 'Used cookies', 'complianz-gdpr' ),
-						'intro' => _x( 'With the automatic cookie scan, most first-party cookies should be detected. These cookies will be synchronized with cookiedatabase.org to get the latest information and complete descriptions. Descriptions are by default synchronized with cookiedatabase.org to keep your cookie policy up-to-date. To manually edit the cookie, either disable synchronization in your dashboard or make a contribution to cookiedatabase.org.',
+						'intro' => _x( 'With the automatic cookie scan, most first-party cookies should be detected. These cookies will be synchronized with cookiedatabase.org to get the latest information and complete descriptions. Descriptions are by default synchronized with cookiedatabase.org to keep your Cookie Policy up-to-date. To manually edit the cookie, either disable synchronization in your dashboard or make a contribution to cookiedatabase.org.',
 								'intro used cookies', 'complianz-gdpr' )
 						           .'&nbsp;'. sprintf( _x( 'The cookiedatabase.org community will be asked to add missing cookie information. To know more about cookiedatabase.org and cookie descriptions, please read %sthis article%s.',
 								'intro used cookies', 'complianz-gdpr' ),

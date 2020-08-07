@@ -78,7 +78,7 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 		 *
 		 * */
 		$new_src = get_transient( "cmplz_youtube_image_$youtube_id" );
-		if ( ! $new_src || ! file_exists( $new_src ) ) {
+		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			$new_src
 				= "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
 			if ( ! cmplz_remote_file_exists( $new_src ) ) {

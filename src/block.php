@@ -56,8 +56,11 @@ function cmplz_editor_assets() { // phpcs:ignore
         'complianz',
         array(
             'site_url' => site_url(),
+            //'query_preview' => plugins_url( 'img/wp-query-preview.jpg', __FILE__ ),
+            'cmplz_preview' => cmplz_url.  'assets/images/gutenberg-preview.png',
         )
     );
+
     //https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
     //wp package install git@github.com:wp-cli/i18n-command.git
     //wp i18n make-pot . config/languages/complianz-json.pot --include="src"

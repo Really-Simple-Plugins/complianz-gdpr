@@ -948,6 +948,16 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 	}
 }
 
+if (!function_exists('cmplz_file_exists_on_url')) {
+	function cmplz_file_exists_on_url($url){
+		$uploads    = wp_upload_dir();
+		$upload_dir = $uploads['basedir'];
+		$upload_url = $uploads['baseurl'];
+		$path        = str_replace( $upload_url, $upload_dir, $url );
+		return file_exists($path);
+	}
+}
+
 
 
 
@@ -1566,7 +1576,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				if ( strlen( $service->privacyStatementURL ) != 0 ) {
 					$link = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
 					$sharing
-					      = sprintf( __( 'For more information, please read the %s%s Privacy Policy%s.',
+					      = sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.',
 						'complianz-gdpr' ), $link, $service_name, '</a>' );
 				}
 			} else {

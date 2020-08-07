@@ -95,7 +95,7 @@ function cmplz_uses_thirdparty_services_notice() {
 				= COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
 		}
 		$thirdparties = implode( ', ', $thirdparties );
-		cmplz_notice( sprintf( __( "The scan found third party services on your website: %s, this means the answer should be yes.",
+		cmplz_notice( sprintf( __( "The scan found third-party services on your website: %s, this means the answer should be yes.",
 			'complianz-gdpr' ), $thirdparties ) );
 	}
 }
@@ -107,7 +107,7 @@ function cmplz_purpose_personaldata_notice() {
 	if ( cmplz_has_region( 'us' )
 	     && COMPLIANZ::$cookie_admin->site_shares_data()
 	) {
-		cmplz_notice( __( "The cookie scan detected cookies from services that share data with third parties. According to the CCPA, your website is considered to sell personal data in terms of the CCPA if it collects and shares with a third party any personal data in return for money or services. This includes services like Google Analytics.",
+		cmplz_notice( __( "The cookie scan detected cookies from services that share data with Third Parties. According to the CCPA, your website is considered to sell personal data in terms of the CCPA if it collects and shares with a Third Party any personal data in return for money or services. This includes services like Google Analytics.",
 			'complianz-gdpr' ) );
 	}
 }
@@ -163,7 +163,7 @@ function cmplz_used_cookies_notice() {
 		return;
 	}
 
-	cmplz_notice( sprintf( __( "Because your site uses third party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s",
+	cmplz_notice( sprintf( __( "Because your site uses third-party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s",
 		'complianz-gdpr' ),
 		'<a href="' . admin_url( 'admin.php?page=cmplz-script-center' ) . '">',
 		'</a>',
@@ -174,7 +174,7 @@ function cmplz_used_cookies_notice() {
 
 add_action( 'cmplz_notice_use_cdb_api', 'cmplz_use_cdb_api_notice' );
 function cmplz_use_cdb_api_notice() {
-	cmplz_notice( sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sprivacy statement%s",
+	cmplz_notice( sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
 		'complianz-gdpr' ),
 		'<a target="_blank" href="https://cookiedatabase.org">', '</a>',
 		'<a target="_blank" href="https://cookiedatabase.org/privacy-statement">',
@@ -185,7 +185,7 @@ add_action( 'cmplz_notice_data_disclosed_us', 'cmplz_data_disclosed_us' );
 function cmplz_data_disclosed_us() {
 
 	if ( COMPLIANZ::$cookie_admin->site_shares_data() ) {
-		cmplz_notice( __( "The cookie scan detected cookies from services which share data with third parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+		cmplz_notice( __( "The cookie scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 			'complianz-gdpr' ) );
 	}
 }
@@ -194,7 +194,7 @@ add_action( 'cmplz_notice_data_sold_us', 'cmplz_data_sold_us' );
 function cmplz_data_sold_us() {
 
 	if ( COMPLIANZ::$cookie_admin->site_shares_data() ) {
-		cmplz_notice( __( "The cookie scan detected cookies from services which share data with third parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+		cmplz_notice( __( "The cookie scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 			'complianz-gdpr' ) );
 	}
 
@@ -294,9 +294,9 @@ function cmplz_show_use_categories_optinstats_notice() {
 
 function cmplz_notice_missing_privacy_page() {
 	if (cmplz_has_region('us') || cmplz_has_region('ca') || cmplz_has_region('au')){
-		cmplz_notice( __( "It is recommended to select a privacy policy.", 'complianz-gdpr' )." ".__("The link to the privacy policy is used in the cookie banner and in your cookie policy.", 'complianz-gdpr' ) );
+		cmplz_notice( __( "It is recommended to select a Privacy Statement.", 'complianz-gdpr' )." ".__("The link to the Privacy Statement is used in the cookie banner and in your Cookie Policy.", 'complianz-gdpr' ) );
 	} else {
-		cmplz_notice( __( "It is recommended to select a privacy policy.", 'complianz-gdpr' )." ".__("The link to the privacy policy is used in your cookie policy.", 'complianz-gdpr' ) );
+		cmplz_notice( __( "It is recommended to select a Privacy Statement.", 'complianz-gdpr' )." ".__("The link to the Privacy Statement is used in your Cookie Policy.", 'complianz-gdpr' ) );
 	}
 
 }
@@ -443,7 +443,3 @@ function cmplz_set_default( $value, $fieldname ) {
 
 	return $value;
 }
-
-
-
-

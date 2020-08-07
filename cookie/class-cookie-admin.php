@@ -440,9 +440,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$icons  .= $this->get_icon( array(
 				'status'        => $status,
 				'icon_success'  => 'file',
-				'desc_success'  => __( "This cookie will be on your cookie policy",
+				'desc_success'  => __( "This cookie will be on your Cookie Policy",
 					"complianz-gdpr" ),
-				'desc_disabled' => __( "This cookie is not shown on the cookie policy",
+				'desc_disabled' => __( "This cookie is not shown on the Cookie Policy",
 					"complianz-gdpr" ),
 			) );
 			$status = $cookie->old ? 'error' : 'success';
@@ -1541,7 +1541,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					<?php
 					$link_open
 						= '<a href="https://complianz.io/user-consent-registration/" target="_blank">';
-					cmplz_notice( sprintf( __( 'When you make significant changes to your cookie policy, cookie banner or revoke functionality, we will add a time-stamped document under "Proof of Consent" with the latest changes. If there is any concern if your website was ready for GDPR at a point of time, you can use the Complianz Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. On a daily basis, the document will be generated if the plugin has detected significant changes. For more information read our article about %suser consent registration%s.',
+					cmplz_notice( sprintf( __( 'When you make significant changes to your Cookie Policy, cookie banner or revoke functionality, we will add a time-stamped document under "Proof of Consent" with the latest changes. If there is any concern if your website was ready for GDPR at a point of time, you can use the Complianz Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. On a daily basis, the document will be generated if the plugin has detected significant changes. For more information read our article about %suser consent registration%s.',
 						'complianz-gdpr' ), $link_open, '</a>' ) ) ?>
 				</p>
 				<?php
@@ -3001,7 +3001,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$date = date( get_option( 'date_format' ), $last_scan_date );
 				$date = cmplz_localize_date( $date );
 				$time = date( get_option( 'time_format' ), $last_scan_date );
-				$date = sprintf( __( "%s at %s", 'complianz-gdpr' ), $date,
+				$date = sprintf( __( "%s at %s.", 'complianz-gdpr' ), $date,
 					$time );
 			} else {
 				$date = false;
@@ -3154,7 +3154,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
                  * Show the third party services which are placing cookies
                  * */
 				$html .= '<tr class="group-header"><td colspan="2"><b>'
-				         . __( 'Third party services', 'complianz-gdpr' )
+				         . __( 'Third-party services', 'complianz-gdpr' )
 				         . "</b></td></tr>";
 				if ( $thirdparty && count( $thirdparty ) > 0 ) {
 					foreach ( $thirdparty as $key => $service ) {
@@ -3366,7 +3366,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				<br>
 				<?php echo __( "Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.",
 						'complianz-gdpr' ) . " "
-				           . __( "Third party scripts will get detected if they're listed in the third party list.",
+				           . __( "Third-party scripts will get detected if they're listed in the Third Party list.",
 						'complianz-gdpr' ) ?>
 				<div class="detected-cookies">
 					<?php echo $this->get_detected_cookies_table(); ?>

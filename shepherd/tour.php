@@ -118,7 +118,7 @@ class cmplz_tour {
 				),
 				6 => array(
 					'title'  => __( 'Settings', 'complianz-gdpr' ),
-					'text'   => __( "Adding Document CSS, disabling certain features, and other settings can be found here. You can also revisit the tour here.",
+					'text'   => __( "Adding Document CSS, enabling safe mode, and other settings can be found here. You can also revisit the tour here.",
 						'complianz-gdpr' ),
 					'link'   => admin_url( "admin.php?page=cmplz-proof-of-consent" ),
 					'attach' => '.cmplz-cookie_expiry',
