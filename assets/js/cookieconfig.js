@@ -710,19 +710,19 @@ jQuery(document).ready(function ($) {
 			$('<style>').prop("type", "text/css").html(css).appendTo("head");
 		}
 
-		var save_button = '<a aria-label="{{save_preferences}}" href="#" tabindex="0" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
+		var save_button = '<a aria-label="{{save_preferences}}" href="#" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
 		if (complianz.use_categories === 'hidden' ) {
-			save_button = '<a aria-label="{{dismiss}}" href="#" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" tabindex="0" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
+			save_button = '<a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
 		}
 
 		if (complianz.use_categories === 'visible' || complianz.use_categories === 'hidden' ) {
-			save_button = '<a aria-label="{{accept_all}}" href="#" tabindex="0" class="cc-btn cc-accept-all">{{accept_all}}</a>'+save_button;
+			save_button = '<a aria-label="{{accept_all}}" href="#" class="cc-btn cc-accept-all">{{accept_all}}</a>'+save_button;
 		}
 
-		var dismiss_button = '<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>';
-		var allow_button = '<a aria-label="{{allow}}" href="#" role="button" tabindex="0" class="cc-btn cc-save cc-allow">{{allow}}</a>';
+		var dismiss_button = '<a aria-label="{{dismiss}}" href="#" role="button" class="cc-btn cc-dismiss">{{dismiss}}</a>';
+		var allow_button = '<a aria-label="{{allow}}" href="#" role="button" class="cc-btn cc-save cc-allow">{{allow}}</a>';
 		if (complianz.consenttype === 'optout' ) {
-			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" tabindex="0" class="cc-btn cc-allow">{{dismiss}}</a>';
+			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" class="cc-btn cc-allow">{{dismiss}}</a>';
 		}
 
 		//allow to set cookies on the root domain
@@ -832,7 +832,7 @@ jQuery(document).ready(function ($) {
 				"allow": allow_button,
 				"save": save_button,
 				"categories-checkboxes": complianz.categories,
-				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" tabindex="0" class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</span>',
+				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</span>',
 			},
 			"content": {
 				"save_preferences": complianz.save_preferences,
@@ -906,6 +906,16 @@ jQuery(document).ready(function ($) {
 
 			//if we're on the cookie policy page, we dynamically load the applicable revoke checkbox
 			cmplzLoadRevokeContainer();
+
+			//get highest used tab index on page
+			var highestTabIndex = 0;
+			$('[tabindex]').attr('tabindex', function (a, b) {
+				highestTabIndex = Math.max(highestTabIndex, +b);
+			});
+			highestTabIndex++;
+
+			//set tab index
+			$(".cc-btn, .cc-link, .cmplz-classic, .cmplz-square, .cmplz-slider").each(function (i) { $(this).attr('tabindex', i + highestTabIndex); });
 
 			//fire an event so custom scripts can hook into this.
 			$.event.trigger({
@@ -1637,6 +1647,14 @@ jQuery(document).ready(function ($) {
 				success: function (response) {
 					$('.cmplz-manage-consent-container').html(response.html);
 					cmplzSyncCategoryCheckboxes();
+					//set tab indexes on the consent html
+					var highestTabIndex = 0;
+					$('[tabindex]').attr('tabindex', function (a, b) {
+						highestTabIndex = Math.max(highestTabIndex, +b);
+					});
+					highestTabIndex++;
+					$("#cmplz-manage-consent-container .cmplz-classic, #cmplz-manage-consent-container .cmplz-square, #cmplz-manage-consent-container .cmplz-slider").each(function (i) { $(this).attr('tabindex', i + highestTabIndex); });
+
 				}
 			});
 		}

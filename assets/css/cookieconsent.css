@@ -271,14 +271,19 @@
 .cc-floating.cc-theme-edgeless .cc-btn + .cc-btn {
   margin-left: 0;
 }
+#cc-window input[type="checkbox"],
+#cmplz-manage-consent-container input[type="checkbox"] {
+  width: initial;
+  -webkit-appearance: checkbox;
+}
+#cc-window input[type="checkbox"]:checked::before,
+#cmplz-manage-consent-container input[type="checkbox"]:checked::before {
+  content: '';
+}
 #cc-window {
   /**
   Make sue the text stays within the banne
    */
-}
-#cc-window input[type="checkbox"] {
-  width: initial;
-  -webkit-appearance: checkbox;
 }
 #cc-window a.cc-btn {
   text-decoration: none;
@@ -441,71 +446,71 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 #cc-window.cc-window,
-#cmlz-manage-consent-container.cmplz-manage-consent-container {
+#cmplz-manage-consent-container.cmplz-manage-consent-container {
   /* Slider style checkboxes */
 }
 #cc-window.cc-window .cmplz_0:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_0:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_0:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_1:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_1:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_1:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_2:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_2:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_2:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_3:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_3:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_3:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_4:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_4:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_4:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_5:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_5:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_5:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_marketing:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_marketing:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_marketing:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_stats:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_stats:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_stats:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_prefs:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_prefs:checked + .cc-check svg path,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_prefs:checked + .cc-check svg path,
 #cc-window.cc-window .cmplz_functional:checked + .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_functional:checked + .cc-check svg path {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_functional:checked + .cc-check svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
 }
 #cc-window.cc-window .cmplz_0:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_0:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_0:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_1:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_1:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_1:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_2:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_2:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_2:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_3:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_3:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_3:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_4:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_4:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_4:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_5:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_5:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_5:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_marketing:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_marketing:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_marketing:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_stats:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_stats:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_stats:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_prefs:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_prefs:checked + .cc-check svg polyline,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_prefs:checked + .cc-check svg polyline,
 #cc-window.cc-window .cmplz_functional:checked + .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz_functional:checked + .cc-check svg polyline {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz_functional:checked + .cc-check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;
 }
 #cc-window.cc-window input.cmplz-svg-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container input.cmplz-svg-checkbox,
+#cmplz-manage-consent-container.cmplz-manage-consent-container input.cmplz-svg-checkbox,
 #cc-window.cc-window .cmplz-slider-checkbox input,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input {
   display: none !important;
 }
 #cc-window.cc-window .cmplz-slider-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 21px;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -516,7 +521,7 @@
   transition: 0.4s;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider:before {
   position: absolute;
   content: "";
   height: 15px;
@@ -528,15 +533,15 @@
   transition: 0.4s;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider.cmplz-round,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider.cmplz-round {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider.cmplz-round {
   border-radius: 20px;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider.cmplz-round:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider.cmplz-round:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider.cmplz-round:before {
   border-radius: 50%;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider-na,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na {
   padding: 2px 8px;
   position: absolute;
   top: 0;
@@ -547,77 +552,74 @@
   transition: 0.4s;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider-na:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na:before {
   position: absolute;
   content: "N/A";
   color: white;
 }
 #cc-window.cc-window .cmplz-slider-checkbox .cmplz-slider-na.cmplz-round,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na.cmplz-round {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox .cmplz-slider-na.cmplz-round {
   border-radius: 20px;
 }
 #cc-window.cc-window .cmplz-slider-checkbox input:checked + .cmplz-slider:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input:checked + .cmplz-slider:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input:checked + .cmplz-slider:before {
   -webkit-transform: translateX(17px);
   -ms-transform: translateX(17px);
   transform: translateX(17px);
 }
 #cc-window.cc-window label,
-#cmlz-manage-consent-container.cmplz-manage-consent-container label {
+#cmplz-manage-consent-container.cmplz-manage-consent-container label {
   color: inherit;
   font-weight: normal;
   margin-bottom: 0;
   line-height: inherit;
 }
 #cc-window.cc-window label.cc-check,
-#cmlz-manage-consent-container.cmplz-manage-consent-container label.cc-check {
+#cmplz-manage-consent-container.cmplz-manage-consent-container label.cc-check {
   display: inline-block;
   padding-bottom: 10px;
 }
 #cc-window.cc-window .cc-check,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check,
 #cc-window.cc-window .cc-check svg,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check svg {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check svg {
   display: inherit;
   transform: translate3d(0, 0, 0);
 }
 #cc-window.cc-window label:not(.cc-check),
-#cmlz-manage-consent-container.cmplz-manage-consent-container label:not(.cc-check) {
+#cmplz-manage-consent-container.cmplz-manage-consent-container label:not(.cc-check) {
   white-space: nowrap;
   margin-right: 15px;
   margin-left: 0;
   padding-left: 0;
 }
 #cc-window.cc-window .cmplz-svg-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-svg-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-svg-checkbox {
   display: none;
 }
 #cc-window.cc-window.cc-theme-edgeless .cmplz-categories-wrap .cmplz-classic-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container.cc-theme-edgeless .cmplz-categories-wrap .cmplz-classic-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container.cc-theme-edgeless .cmplz-categories-wrap .cmplz-classic-checkbox {
   margin-left: 15px;
 }
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check {
-  float: left;
-}
 #cc-window.cc-window .cmplz-categories-wrap .cmplz-slider-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox {
   vertical-align: top;
   margin: 3px 15px 10px 0;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cmplz-consent-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-consent-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-consent-checkbox {
   margin-right: 15px;
 }
 #cc-window.cc-window .cmplz-categories-wrap label,
-#cmlz-manage-consent-container.cmplz-manage-consent-container label {
+#cmplz-manage-consent-container.cmplz-manage-consent-container label {
   box-sizing: initial;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cmplz-svg-checkbox,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cmplz-svg-checkbox {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-svg-checkbox {
   display: none;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check {
   cursor: pointer;
   position: relative;
   margin: auto 7px auto auto;
@@ -626,17 +628,17 @@
   -webkit-tap-highlight-color: transparent;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check:before {
   content: "";
   position: absolute;
   opacity: 0;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check:hover:before,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check:hover:before {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check:hover:before {
   opacity: 1;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check svg,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check svg {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check svg {
   position: relative;
   z-index: 1;
   fill: none;
@@ -647,12 +649,12 @@
   stroke: #000;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check svg path,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check svg path {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check svg path {
   stroke-dasharray: 60;
   stroke-dashoffset: 0;
 }
 #cc-window.cc-window .cmplz-categories-wrap .cc-check svg polyline,
-#cmlz-manage-consent-container.cmplz-manage-consent-container .cc-check svg polyline {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cc-check svg polyline {
   stroke-dasharray: 22;
   stroke-dashoffset: 66;
 }

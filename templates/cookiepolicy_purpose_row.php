@@ -1,5 +1,5 @@
 <tr>
-	<td><b>{purpose}</b></td>
+	<td scope="row"><b>{purpose}</b></th>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 </tr>

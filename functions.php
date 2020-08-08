@@ -122,15 +122,6 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 	}
 }
 
-if (!function_exists('cmplz_manage_consent_container')) {
-	function cmplz_manage_consent_container()
-	{
-		$html = '<p id="cmlz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
-
-		return $html;
-	}
-}
-
 if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	/**
 	 * Output a revoke button
@@ -1345,7 +1336,8 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 
 			),
 			'style'      => array(),
-			'td'         => array( 'colspan' => array() ),
+			'td'         => array( 'colspan' => array(), 'scope' => array() ),
+			'th'         => array( 'scope' => array() ),
 			'ul'         => array(
 				'class' => array(),
 				'id'    => array(),

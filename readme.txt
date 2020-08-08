@@ -114,6 +114,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.7.0 =
+* Improvement: WCAG 2 compatibility
 * Improvement: WP 5.5 permissions callback default true for public rest api calls
 * New: Calendly integration
 * New: Consent Shortcode to wrap your content manually [cmplz-consent-area][/cmplz-consent-area]

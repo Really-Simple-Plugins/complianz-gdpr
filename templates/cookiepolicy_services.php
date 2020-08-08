@@ -1,14 +1,15 @@
 <h4>{service}</h4>
-<p>{purposeDescription}</p>
+<caption>{purposeDescription}</caption>
 
 <table>
+  <tbody>
     <tr>
-        <td><?php _e('Name', 'complianz-gdpr') ?></td>
-        <td><?php _e('Retention', 'complianz-gdpr') ?></td>
-        <td><?php _e('Function', 'complianz-gdpr') ?></td>
+        <th scope="col"><?php _e('Name', 'complianz-gdpr') ?></th>
+        <th scope="col"><?php _e('Retention', 'complianz-gdpr') ?></th>
+        <th scope="col"><?php _e('Function', 'complianz-gdpr') ?></th>
     </tr>
     {cookies}
 </table>
-
+</tbody>
 <h5><?php echo _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') ?></h5>
 <p>{sharing}</p>

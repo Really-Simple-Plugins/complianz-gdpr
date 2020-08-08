@@ -4,16 +4,27 @@
 #cmplz-document {
   font-size: 14px;
   margin-top: 0;
-  max-width: 580px;
-  text-align: justify;
+  max-width: 600px;
   text-justify: inter-word;
   /* Buttons styles */
+  /*WCAG2.0 */
   /*honeypot */
 }
 #cmplz-document input::-moz-focus-inner,
 #cmplz-document button::-moz-focus-inner {
   border: 0;
   padding: 0;
+}
+#cmplz-document a {
+  text-decoration: underline;
+}
+#cmplz-document a[target="_blank"]::after {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 3px 0 5px;
+}
+#cmplz-document a:focus {
+  border: 1px solid black;
+  padding: 2px;
 }
 #cmplz-document .dnsmpd-firstname {
   position: absolute !important;
@@ -146,11 +157,24 @@
 #cmplz-document table {
   width: 100%;
   margin-bottom: 30px;
+  border-collapse: collapse;
 }
+#cmplz-document table th,
 #cmplz-document table td {
   text-align: left;
   width: 33.33%;
-  word-break: break-word;
+  word-break: normal;
+  border: 1px solid #ddd;
+}
+#cmplz-document table tbody > tr:nth-child(odd) > td,
+#cmplz-document table table tbody > tr:nth-child(odd) > th {
+  background: #f7f7f7;
+  padding: 15px;
+}
+#cmplz-document table tbody > tr:nth-child(even) > td,
+#cmplz-document table table tbody > tr:nth-child(even) > th {
+  background: white;
+  padding: 15px;
 }
 #cmplz-document .cmplz-subtitle {
   font-weight: bold;

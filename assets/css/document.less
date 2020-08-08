@@ -5,8 +5,8 @@
 #cmplz-document {
   font-size: 14px;
   margin-top: 0;
-  max-width: 580px;
-  text-align: justify;
+  max-width: 600px;
+  // text-align: justify;
   text-justify: inter-word;
 
   /* Buttons styles */
@@ -15,6 +15,21 @@
   button::-moz-focus-inner {
     border: 0;
     padding: 0;
+  }
+
+  /*WCAG2.0 */
+
+  a {
+  	text-decoration: underline;
+  }
+  a[target="_blank"]::after {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 3px 0 5px;
+  }
+
+  a:focus {
+    border: 1px solid black;
+    padding:2px;
   }
 
   /*honeypot */
@@ -78,6 +93,8 @@
     background-color: #4682B4;
     border-color: #4682B4;
   }
+
+
 
 
   a.cc-revoke-custom:hover {
@@ -170,14 +187,24 @@
   }
 
   table {
-    width: 100%;
-    margin-bottom: 30px;
-  }
+	width: 100%;
+	margin-bottom: 30px;
+	border-collapse:collapse;
+	th, td {
+	  text-align: left;
+	  width: 33.33%;
+	  word-break: normal;
+	  border: 1px solid #ddd;
+	}
 
-  table td {
-    text-align: left;
-    width: 33.33%;
-    word-break: break-word;
+	tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th {
+	  background: #f7f7f7;
+	  padding:15px;
+	}
+	tbody>tr:nth-child(even)>td, table tbody>tr:nth-child(even)>th {
+	  background:white;
+	  padding:15px;
+	}
   }
 
   .cmplz-subtitle {
@@ -188,4 +215,3 @@
     margin-left:36px;
   }
 }
-

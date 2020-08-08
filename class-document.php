@@ -599,8 +599,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( isset( $element['annex'] ) ) {
 				$nr = __( "Annex", 'complianz-gdpr' ) . " " . $annex . ": ";
 				if ( isset( $element['title'] ) ) {
-					return '<h3 class="annex">' . cmplz_esc_html( $nr )
-					       . cmplz_esc_html( $element['title'] ) . '</h3>';
+					return '<h2 class="annex">' . cmplz_esc_html( $nr )
+					       . cmplz_esc_html( $element['title'] ) . '</h2>';
 				}
 				if ( isset( $element['subtitle'] ) ) {
 					return '<p class="subtitle annex">' . cmplz_esc_html( $nr )
@@ -621,8 +621,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$nr         = $nr . $index_char . ' ';
 				}
 
-				return '<h3>' . cmplz_esc_html( $nr )
-				       . cmplz_esc_html( $element['title'] ) . '</h3>';
+				return '<h2>' . cmplz_esc_html( $nr )
+				       . cmplz_esc_html( $element['title'] ) . '</h2>';
 			}
 
 			if ( isset( $element['subtitle'] ) ) {
@@ -1068,7 +1068,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			// override default attributes with user attributes
 			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
 
-			echo cmplz_manage_consent_container();
+			echo '<p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
 
 			return ob_get_clean();
 		}

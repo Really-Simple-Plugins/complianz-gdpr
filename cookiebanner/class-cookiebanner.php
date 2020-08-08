@@ -159,7 +159,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $statistics;
 		public $set_defaults;
 
-
 		function __construct( $id = false, $set_defaults = true ) {
 
 			$this->translation_id = $this->get_translation_id();
@@ -1109,9 +1108,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$html = cmplz_get_template("category-checkbox-$category_template.php");
 
 			$html = str_replace(array('{category}','{label}', '{id}', '{checked}', '{disabled}', '{color}'),array($category, $label, $id, $checked, $disabled, $color), $html);
-
 			if ($context === 'document'){
-				$html = "<p>$html</p>";
+				$html = '<div>'.$html.'</div>';
 			} else {
 				$html = '<div class="cmplz-categories-wrap">'.$html.'</div>';
 			}
@@ -1133,7 +1131,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_consent_checkboxes($context = 'banner', $consenttype = false, $force_template = false, $force_color = false){
 
 			$checkbox_functional  = $this->get_consent_checkbox('functional', $this->category_functional_x, $context, $force_template,true,true, $force_color);
-			$checkbox_all  = $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 			$use_cats = false;
 
 			if ($consenttype) {
@@ -1163,12 +1160,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$output .= cmplz_consent_api_active() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
 					$output .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
 				}
-
-				$output .= $checkbox_all;
-
+				$output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 			} else {
 				$output = $checkbox_functional;
-				$output .= $checkbox_all;
+				$output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 			}
 
 			$category_template = $force_template ?: $this->checkbox_style;
@@ -1315,16 +1310,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			foreach ( $regions as $region => $label ) {
 				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
 
-				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" tabindex="{tabindex}" class="cc-link {type}" href="{link}">{description}</a>';
+				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" class="cc-link {type}" href="{link}">{description}</a>';
 				$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
 				$impressum_link = cmplz_get_document_url( 'impressum', $region );
 
 				if ($region=='us' && $privacy_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($privacy_link, $this->readmore_privacy_x, '0', 'privacy-statement'), $tmpl);
+					$info = str_replace(array( '{link}','{description}', '{type}' ), array($privacy_link, $this->readmore_privacy_x, 'privacy-statement'), $tmpl);
 				}
 
 				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{tabindex}', '{type}' ), array($impressum_link, $this->readmore_impressum_x, '0', "impressum"), $tmpl);
+					$info = str_replace(array( '{link}','{description}', '{type}' ), array($impressum_link, __("Impressum","complianz-gdpr"), "impressum"), $tmpl);
 				}
 
 				$output['privacy_link'][ $region ] = ! empty( $info )
