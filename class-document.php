@@ -2149,9 +2149,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				?>
 				<script>
 					jQuery(document).ready(function ($) {
-						$(document).on('click', '.cmplz-consent-area', function(){
-							location.reload();
-						});
+						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
+						function cmplzEnableCustomBlockedContent(consentData) {
+							if (consentData.consentLevel==='marketing'){
+								location.reload();
+							}
+						}
 					});
 				</script>
 				<div class="cmplz-consent-area cmplz-accept-cookies <?php echo $cookie_name?>" ><a href="#"><?php echo $blocked_text?></a></div>

@@ -159,6 +159,9 @@
   margin-bottom: 30px;
   border-collapse: collapse;
 }
+#cmplz-document table th {
+  padding: 15px;
+}
 #cmplz-document table th,
 #cmplz-document table td {
   text-align: left;
