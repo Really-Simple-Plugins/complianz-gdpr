@@ -1,4 +1,4 @@
-<h4>{service}</h4>
+<h3>{service}</h3>
 <caption>{purposeDescription}</caption>
 
 <table>
@@ -11,5 +11,5 @@
     {cookies}
 </table>
 </tbody>
-<h5><?php echo _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') ?></h5>
+<h4><?php echo _x("Sharing", 'Legal document cookie policy', 'complianz-gdpr') ?></h4>
 <p>{sharing}</p>

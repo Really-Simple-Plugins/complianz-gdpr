@@ -574,8 +574,8 @@
   margin-bottom: 0;
   line-height: inherit;
 }
-#cc-window.cc-window label.cc-check,
-#cmplz-manage-consent-container.cmplz-manage-consent-container label.cc-check {
+#cc-window.cc-window div.cc-check,
+#cmplz-manage-consent-container.cmplz-manage-consent-container div.cc-check {
   display: inline-block;
   padding-bottom: 10px;
 }

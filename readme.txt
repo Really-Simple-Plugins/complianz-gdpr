@@ -126,7 +126,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: placeholders update
 * Fix: static Google Maps images integration not working correctly due to regex pattern
 * Fix: AMP matching on facebook and facebook-like tag
-* Fix: CAOS analytics integration update: frontend.js was not blocked correctly yet
 * Fix: Google Ads integration could not be disabled
 * Fix: cookiedomain feature could cause indexOf undefined error in specific congfigurations
 * NPM package updates

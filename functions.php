@@ -2043,11 +2043,13 @@ if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 		if ( ! is_user_logged_in() ) {
 			return false;
 		}
-		if ( cmplz_wp_privacy_version()
+
+		if ( !is_multisite() && cmplz_wp_privacy_version()
 		     && ! current_user_can( 'manage_privacy_options' )
 		) {
 			return false;
 		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
