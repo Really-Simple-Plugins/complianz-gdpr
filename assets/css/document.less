@@ -189,24 +189,21 @@
   table {
 	width: 100%;
 	margin-bottom: 30px;
-	border-collapse:collapse;
-	th {
-	  padding:15px;
-	}
+	border-collapse: collapse;
 	th, td {
 	  text-align: left;
 	  width: 33.33%;
 	  word-break: normal;
 	  border: 1px solid #ddd;
-	}
-
-	tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th {
-	  background: #f7f7f7;
 	  padding:15px;
 	}
-	tbody>tr:nth-child(even)>td, table tbody>tr:nth-child(even)>th {
-	  background:white;
-	  padding:15px;
+	tbody>tr{
+	  &:nth-child(odd)>td {
+		background: #f7f7f7;
+	  }
+	  &:nth-child(even)>td {
+		background:white;
+	  }
 	}
   }
 

@@ -159,25 +159,19 @@
   margin-bottom: 30px;
   border-collapse: collapse;
 }
-#cmplz-document table th {
-  padding: 15px;
-}
 #cmplz-document table th,
 #cmplz-document table td {
   text-align: left;
   width: 33.33%;
   word-break: normal;
   border: 1px solid #ddd;
+  padding: 15px;
 }
-#cmplz-document table tbody > tr:nth-child(odd) > td,
-#cmplz-document table table tbody > tr:nth-child(odd) > th {
+#cmplz-document table tbody > tr:nth-child(odd) > td {
   background: #f7f7f7;
-  padding: 15px;
 }
-#cmplz-document table tbody > tr:nth-child(even) > td,
-#cmplz-document table table tbody > tr:nth-child(even) > th {
+#cmplz-document table tbody > tr:nth-child(even) > td {
   background: white;
-  padding: 15px;
 }
 #cmplz-document .cmplz-subtitle {
   font-weight: bold;
