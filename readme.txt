@@ -129,6 +129,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: Google Ads integration could not be disabled
 * Fix: cookiedomain feature could cause indexOf undefined error in specific congfigurations
 * NPM package updates
+* Fix: Canada getting incorrect privacy statement URL on banner
 
 = 4.6.10 =
 * Google Maps easy integration added
