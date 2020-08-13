@@ -16,28 +16,26 @@ function cmplz_vimeo_not_including_iframetags( $tags ) {
 }
 
 function cmplz_vimeo_placeholder( $placeholder_src, $src ) {
+	//get id, used only for storing in transient
 	$vimeo_pattern
 		= '/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i';
-
 	if ( preg_match( $vimeo_pattern, $src, $matches ) ) {
 		$vimeo_id = $matches[1];
 		$new_src  = get_transient( "cmplz_vimeo_image_$vimeo_id" );
 		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
-			$xml
-				= @file_get_contents( "https://vimeo.com/api/v2/video/$vimeo_id.xml" );
-			if ( ! empty( $xml ) ) {//-> maybe a not public video
-				$vimeo_images = simplexml_load_string( $xml );
-				$placeholder_src = $vimeo_images->video->thumbnail_large;
+			$data = json_decode( file_get_contents( 'http://vimeo.com/api/oembed.json?url=' . $src ) );
+			if (!empty($data) ) {
+				$placeholder_src = $data->thumbnail_url;
 				$placeholder_src = cmplz_download_to_site( $placeholder_src,
 					'vimeo' . $vimeo_id );
+
+				set_transient( "cmplz_vimeo_image_$vimeo_id", $placeholder_src,
+					WEEK_IN_SECONDS );
 			}
-			set_transient( "cmplz_vimeo_image_$vimeo_id", $placeholder_src,
-				WEEK_IN_SECONDS );
 		} else {
 			$placeholder_src = $new_src;
 		}
 	}
-
 	return $placeholder_src;
 }
 

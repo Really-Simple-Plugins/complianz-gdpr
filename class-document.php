@@ -2151,7 +2151,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					jQuery(document).ready(function ($) {
 						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
 						function cmplzEnableCustomBlockedContent(consentData) {
-							if (consentData.consentLevel==='marketing'){
+							if (consentData.consentLevel==='marketing' ){
 								location.reload();
 							}
 						}

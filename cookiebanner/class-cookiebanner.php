@@ -1308,22 +1308,45 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region => $label ) {
+				$privacy_link = '';
 				$output['readmore_url'][ $region ] = cmplz_get_document_url( 'cookie-statement' ,$region );
 
 				$tmpl = '<span class="cc-divider">&nbsp;-&nbsp;</span><a aria-label="learn more about privacy in our {type}" class="cc-link {type}" href="{link}">{description}</a>';
-				$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
-				$impressum_link = cmplz_get_document_url( 'impressum', $region );
 
-				if ($region=='us' && $privacy_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{type}' ), array($privacy_link, $this->readmore_privacy_x, 'privacy-statement'), $tmpl);
+				if ( ($region=='us' || $region=='ca') ){
+					$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
+
+					if ($privacy_link !== '#') {
+						$privacy_link = cmplz_get_document_url( 'privacy-statement', $region );
+						$privacy_link = str_replace( array(
+							'{link}',
+							'{description}',
+							'{type}'
+						), array(
+							$privacy_link,
+							$this->readmore_privacy_x,
+							'privacy-statement'
+						), $tmpl );
+					}
 				}
 
-				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' && $impressum_link !== '#'){
-					$info = str_replace(array( '{link}','{description}', '{type}' ), array($impressum_link, __("Impressum","complianz-gdpr"), "impressum"), $tmpl);
+				if ( $region == 'eu' && cmplz_get_value( 'eu_consent_regions' ) === 'yes' ){
+					$privacy_link = cmplz_get_document_url( 'impressum', $region );
+					if ( $privacy_link !== '#' ) {
+						$privacy_link = str_replace( array(
+							'{link}',
+							'{description}',
+							'{type}'
+						), array(
+							$privacy_link,
+							$this->readmore_impressum_x,
+							"impressum"
+						), $tmpl );
+					}
 				}
 
-				$output['privacy_link'][ $region ] = ! empty( $info )
-					? $info
+				$output['privacy_link'][ $region ] = ! empty( $privacy_link )
+					? $privacy_link
 					: '';
 			}
 

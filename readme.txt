@@ -130,6 +130,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: cookiedomain feature could cause indexOf undefined error in specific congfigurations
 * NPM package updates
 * Fix: Canada getting incorrect privacy statement URL on banner
+* Fix: Vimeo sunset of simple API v2, requiring update of placeholder/thumbnail download
 
 = 4.6.10 =
 * Google Maps easy integration added
