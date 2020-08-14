@@ -1345,7 +1345,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 
-				$output['privacy_link'][ $region ] = ! empty( $privacy_link )
+				$output['privacy_link'][ $region ] = ( !empty( $privacy_link ) &&  $privacy_link !== '#' )
 					? $privacy_link
 					: '';
 			}
