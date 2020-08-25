@@ -93,9 +93,25 @@ function cmplz_integrations_page() {
 				if ( $thirdparty_active || $socialmedia_active ) {
 					cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.",
 							'complianz-gdpr' ),
-							__( "services", "complianz-gdpr" ) )
-					              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
-						'warning' );
+								__( "services", "complianz-gdpr" ) )
+						              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
+							'warning' );
+
+					if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+						if ( defined( 'cmplz_free' ) && cmplz_free ) {
+							cmplz_notice( sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ",
+									'complianz-gdpr' ),
+									'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">',
+									'</a>' ),
+									'warning' );
+						} else {
+							cmplz_notice( sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ",
+									'complianz-gdpr' ),
+									'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=3&section=4' ) . '">',
+									'</a>' ),
+									'warning' );
+						}
+					}
 				}
 
 				?>
@@ -112,9 +128,13 @@ function cmplz_integrations_page() {
 					<?php
 
 					if ( $thirdparty_active ) {
-						$thirdparty_services
-							= COMPLIANZ::$config->thirdparty_services;
+						$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
 						unset( $thirdparty_services['google-fonts'] );
+
+				        if (cmplz_get_value('block_recaptcha_service') !== 'yes'){
+							unset( $thirdparty_services['google-recaptcha'] );
+						}
+
 						$active_services
 							= cmplz_get_value( 'thirdparty_services_on_site' );
 						foreach ( $thirdparty_services as $service => $label ) {
@@ -209,6 +229,7 @@ function cmplz_integrations_page() {
 				if ( count( $fields ) == 0 ) {
 					cmplz_notice( __( 'No active plugins detected in the integrations list.',
 						'complianz-gdpr' ), 'warning' );
+
 				}
 				?>
 				<table class="form-table">

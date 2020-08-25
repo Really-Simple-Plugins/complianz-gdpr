@@ -546,15 +546,23 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						$banner->save();
 					}
 				}
-
 			}
 
 			/**
 			 * new progress option default
 			 */
-			if (  $prev_version && version_compare( $prev_version, '4.6.10.1', '<' )
-			) {
+
+			if (  $prev_version && version_compare( $prev_version, '4.6.10.1', '<' ) ){
 				if (get_option( 'cmplz_sync_cookies_complete' )) update_option( 'cmplz_sync_cookies_after_services_complete', true );
+			}
+
+			if (  $prev_version
+			     && version_compare( $prev_version, '4.7.1', '<' )
+			) {
+				//upgrade cookie policy setting to new field
+				$wizard_settings = get_option( 'complianz_options_wizard' );
+				$wizard_settings['block_recaptcha_service'] = 'yes';
+				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );
@@ -562,15 +570,29 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			update_option( 'cmplz-current-version', cmplz_version );
 		}
 
-
+		/**
+		 * Check if new features are shipped with the plugin
+		 *
+		 * @return mixed|void
+		 */
 		public function complianz_plugin_has_new_features() {
 			return get_option( 'cmplz_plugin_new_features' );
 		}
 
+		/**
+		 * Reset the new features option
+		 *
+		 * @return bool
+		 */
 		public function reset_complianz_plugin_has_new_features() {
 			return update_option( 'cmplz_plugin_new_features', false );
 		}
 
+		/**
+		 * Enqueue some assets
+		 *
+		 * @param $hook
+		 */
 		public function enqueue_assets( $hook ) {
 			if ( ( strpos( $hook, 'complianz' ) === false )
 			     && strpos( $hook, 'cmplz' ) === false

@@ -183,14 +183,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			          && isset( $_POST['cmplz-next'] ) )
 			) {
 				$this->set_wizard_completed_once();
-				//check if cookie warning should be enabled
-				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_update_option( 'cookie_settings',
-						'cookie_warning_enabled', true );
-				} else {
-					cmplz_update_option( 'cookie_settings',
-						'cookie_warning_enabled', false );
-				}
 			}
 
 

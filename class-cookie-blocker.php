@@ -431,7 +431,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 											'post_scribe_id',
 											'cmplz-ps-' . $index );
 										if ( cmplz_has_async_documentwrite_scripts() ) {
-											$new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-cookies">'
+											$new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-marketing">'
 											        . apply_filters( 'cmplz_accept_cookies_blocked_content',
 													cmplz_get_value( 'blocked_content_text' ) )
 											        . '</div><div id="cmplz-ps-'

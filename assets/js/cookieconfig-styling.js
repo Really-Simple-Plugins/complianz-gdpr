@@ -224,7 +224,7 @@ jQuery(document).ready(function ($) {
 		css += '.cmplz-slider-checkbox .cmplz-slider {background-color: '+ccSliderBackgroundColorInactive+'!important;}';
 		css += ".cmplz-slider-checkbox input:focus + .cmplz-slider {box-shadow: 0 0 1px "+ccSliderBackgroundColor+"!important;}";
 		css += ".cmplz-slider-checkbox .cmplz-slider:before {background-color: "+ccSliderBulletColor+"!important;}.cmplz-slider-checkbox .cmplz-slider-na:before {color:"+ccSliderBulletColor+"!important;}";
-		css += "#cc-window.cc-floating {max-width:"+ccBannerWidth+"px;}";
+		css += "#cc-window.cc-floating {min-width:"+ccBannerWidth+"px;}";
 		if (checked){
 			css +=$('textarea[name="cmplz_custom_css"]').val();
         }

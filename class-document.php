@@ -2119,11 +2119,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			// override default attributes with user attributes
 			$atts   = shortcode_atts( array(
+				'cache_redirect'   => true,
 				'category'   => 'marketing',
 				'text'   => $blocked_text,
 			),
 				$atts, $tag );
 			$category   = sanitize_text_field( $atts['category'] );
+			if ($atts['cache_redirect']==="true" || $atts['cache_redirect']=== 1 || $atts['cache_redirect'] === true) {
+				$cache_redirect = true;
+			} else {
+				$cache_redirect = false;
+			}
 			$cookie_name  = 'cmplz_'.sanitize_title( $category );
 			$blocked_text = sanitize_text_field( $atts['text'] );
 			$blocked_text = str_replace('marketing', $category, $blocked_text);
@@ -2143,21 +2149,53 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( $has_consent ) {
-				echo do_shortcode($content);
+				if ($cache_redirect) {
+					//redirect if not on redirect url, to prevent caching issues
+					?>
+					<script>
+						jQuery(document).ready(function ($) {
+							var url = window.location.href;
+							if (url.indexOf('cmplz_consent=1') === -1) {
+								if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';} url += 'cmplz_consent=1';
+								window.location.replace(url);
+							}
+						});
+					</script>
+					<?php
+				}
+				echo '<a id="cmplz_consent_area_anchor"></a>'.do_shortcode($content);
 			} else {
 				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
+				if ($cache_redirect) {
 				?>
 				<script>
 					jQuery(document).ready(function ($) {
 						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
 						function cmplzEnableCustomBlockedContent(consentData) {
 							if (consentData.consentLevel==='marketing' ){
+								var url = window.location.href;
+								if (url.indexOf('cmplz_consent=1') === -1 ) {
+									if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';} url += 'cmplz_consent=1';
+									url = url + '#cmplz_consent_area_anchor';
+									window.location.replace(url);
+								}
+							}
+						}
+					});
+				</script>
+				<?php } else {?>
+				<script>
+					jQuery(document).ready(function ($) {
+						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
+						function cmplzEnableCustomBlockedContent(consentData) {
+							if (consentData.consentLevel==='marketing'){
 								location.reload();
 							}
 						}
 					});
 				</script>
-				<div class="cmplz-consent-area cmplz-accept-cookies <?php echo $cookie_name?>" ><a href="#"><?php echo $blocked_text?></a></div>
+				<?php } ?>
+				<div class="cmplz-consent-area cmplz-accept-marketing <?php echo $cookie_name?>" ><a href="#"><?php echo $blocked_text?></a></div>
 				<?php
 			}
 

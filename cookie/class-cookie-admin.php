@@ -1790,7 +1790,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						array( 'jquery' ), cmplz_version, true );
 				}
 				wp_enqueue_script( 'cmplz-cookie-config',
-					cmplz_url . "assets/js/cookieconfig$minified.js", $deps,
+					cmplz_url . "assets/js/complianz$minified.js", $deps,
 					cmplz_version, true );
 				wp_localize_script(
 					'cmplz-cookie-config',
@@ -3598,6 +3598,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$needs_warning = true;
 			}
 
+			$url = $_SERVER['REQUEST_URI'];
+			$excluded_posts_array = get_option('cmplz_excluded_posts_array', array());
+			if ( !empty($excluded_posts_array) ) {
+				foreach ( $excluded_posts_array as $excluded_slug ) {
+					if ( strpos( $url, $excluded_slug ) !== FALSE) return false;
+				}
+			}
+
 			$needs_warning = apply_filters( 'cmplz_site_needs_cookiewarning', $needs_warning );
 			return $needs_warning;
 		}
@@ -3812,7 +3820,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $this->tagmamanager_fires_scripts() ) {
 				return true;
 			}
-
 
 			/**
 			 * Script Center

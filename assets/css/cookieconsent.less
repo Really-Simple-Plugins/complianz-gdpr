@@ -11,6 +11,25 @@
   }
 }
 #cc-window {
+  &.cc-floating {
+	max-width:max-content;
+	min-width: 468px;
+	.cc-message {
+	  max-width:fit-content;
+	}
+  }
+
+  @media screen and (max-width: 469px) {
+	&.cc-floating {
+	  min-width: 100%;
+	}
+	&.cc-type-categories {
+	  &.cc-floating, .cc-btn {
+		min-width: 100%;
+	  }
+	}
+  }
+
   a.cc-btn {
 	text-decoration: none;
 
@@ -42,8 +61,6 @@
 
 
 	&.cc-floating {
-	  min-width: 350px;
-
 	  .cc-compliance {
 		display: block;
 
@@ -178,12 +195,8 @@
 	  margin-bottom: .5em;
 	}
   }
-
-
 }
 //end #cc-window
-
-
 
 
 
@@ -243,44 +256,35 @@
 	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .4)
   }
-
-
 }
 
 //checkboxes, both for documents and banner
 #cc-window.cc-window, #cmplz-manage-consent-container.cmplz-manage-consent-container {
-  .cmplz_0:checked + .cc-check svg path,
-  .cmplz_1:checked + .cc-check svg path,
-  .cmplz_2:checked + .cc-check svg path,
-  .cmplz_3:checked + .cc-check svg path,
-  .cmplz_4:checked + .cc-check svg path,
-  .cmplz_5:checked + .cc-check svg path,
-  .cmplz_marketing:checked + .cc-check svg path,
-  .cmplz_stats:checked + .cc-check svg path,
-  .cmplz_prefs:checked + .cc-check svg path,
-  .cmplz_functional:checked + .cc-check svg path {
-	stroke-dashoffset: 60;
-	transition: all .3s linear
-  }
-
-  .cmplz_0:checked + .cc-check svg polyline,
-  .cmplz_1:checked + .cc-check svg polyline,
-  .cmplz_2:checked + .cc-check svg polyline,
-  .cmplz_3:checked + .cc-check svg polyline,
-  .cmplz_4:checked + .cc-check svg polyline,
-  .cmplz_5:checked + .cc-check svg polyline,
-  .cmplz_marketing:checked + .cc-check svg polyline,
-  .cmplz_stats:checked + .cc-check svg polyline,
-  .cmplz_prefs:checked + .cc-check svg polyline,
-  .cmplz_functional:checked + .cc-check svg polyline {
-	stroke-dashoffset: 42;
-	transition: all .2s linear;
-	transition-delay: .15s
+  .cmplz-square-checkbox{
+	&:checked + .cc-check {
+	  svg {
+		path {
+		  stroke-dashoffset: 60;
+		  transition: all .3s linear
+		}
+		polyline {
+		  stroke-dashoffset: 42;
+		  transition: all .2s linear;
+		  transition-delay: .15s
+		}
+	  }
+	}
+	&:focus + .cc-check svg {
+	  outline: -webkit-focus-ring-color auto 1px;
+	}
   }
 
   //prevent classic checkbox from showing up in square and slider variant
+  //We cannot use display none, as the checkboxes can't be made to enable on keyboard https://stackoverflow.com/questions/50739145/css-checkbox-not-checked-when-spacebar-is-pressed
   input.cmplz-svg-checkbox, .cmplz-slider-checkbox input {
-	display:none !important;
+	display:block !important;
+	opacity:0 !important;
+	height: 0 !important;
   }
 
   /* Slider style checkboxes */
@@ -315,8 +319,10 @@
 	  }
 	  &.cmplz-round:before {
 		border-radius: 50%;
+
 	  }
 	}
+
 
 	.cmplz-slider-na {
 	  padding: 2px 8px;
@@ -343,6 +349,10 @@
 		-ms-transform: translateX(17px);
 		transform: translateX(17px);
 	  }
+	}
+	//set focus style
+	input[type="checkbox"]:focus + .cmplz-slider {
+	  outline: -webkit-focus-ring-color auto 1px;
 	}
   }
 
@@ -373,10 +383,6 @@
 	padding-left:0;
   }
 
-  .cmplz-svg-checkbox {
-	display: none;
-  }
-
   &.cc-theme-edgeless .cmplz-categories-wrap {
 	.cmplz-classic-checkbox {
 	  margin-left:15px;
@@ -395,9 +401,6 @@
   label {
 	//position:relative;
 	box-sizing: initial;
-  }
-  .cmplz-svg-checkbox {
-	display: none;
   }
 
   .cc-check {

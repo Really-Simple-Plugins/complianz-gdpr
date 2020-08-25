@@ -1132,6 +1132,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$checkbox_functional  = $this->get_consent_checkbox('functional', $this->category_functional_x, $context, $force_template,true,true, $force_color);
 			$use_cats = false;
+			$uses_marketing_cookies = cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' ;
 
 			if ($consenttype) {
 				if ($consenttype !== 'optout' && (
@@ -1160,10 +1161,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$output .= cmplz_consent_api_active() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
 					$output .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
 				}
-				$output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
+				if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 			} else {
 				$output = $checkbox_functional;
-				$output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
+				if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 			}
 
 			$category_template = $force_template ?: $this->checkbox_style;
