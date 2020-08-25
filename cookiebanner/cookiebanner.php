@@ -287,3 +287,67 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 		array( 'jquery', 'cmplz-cookie' ), cmplz_version, true );
 
 }
+
+/**
+ * Show meta box on edit pages
+ * @param $post_type
+ */
+
+function cmplz_add_hide_cookiebanner_meta_box($post_type)
+{
+	add_meta_box('cmplz_edit_meta_box', __('Cookiebanner', 'complianz-gdpr'), 'cmplz_hide_cookiebanner_metabox', null, 'side', 'default', array());
+}
+add_action('add_meta_boxes', 'cmplz_add_hide_cookiebanner_meta_box');
+
+/**
+ * Render meta box
+ */
+
+function cmplz_hide_cookiebanner_metabox(){
+	wp_nonce_field('cmplz_cookiebanner_hide_nonce', 'cmplz_cookiebanner_hide_nonce');
+	global $post;
+	$option_label = __("Hide cookiebanner on this page", "complianz-gdpr");
+	$checked = get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
+	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" />' . $option_label . '</label>';
+}
+
+/**
+ * Save the chosen selection to hide the cookiebanner on a page
+ *
+ * @param int $post_ID
+ * @param WP_POST $post
+ * @param bool $update
+ */
+
+function cmplz_save_hide_page_cookiebanner_option($post_ID, $post, $update)
+{
+	if ( !$update ) return;
+
+	if (!current_user_can('edit_posts'))
+		return;
+
+	// check if this isn't an auto save
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+		return;
+
+	// security check
+	if (!isset($_POST['cmplz_cookiebanner_hide_nonce']) || !wp_verify_nonce($_POST['cmplz_cookiebanner_hide_nonce'], 'cmplz_cookiebanner_hide_nonce'))
+		return;
+
+	$hide = isset($_POST['cmplz_hide_cookiebanner']) ? true : false;
+	update_post_meta($post_ID, "cmplz_hide_cookiebanner", $hide);
+	$excluded_posts_array = get_option('cmplz_excluded_posts_array', array());
+	$slug = $post->post_name;
+
+	if ($hide) {
+		if ( !in_array( $slug, $excluded_posts_array) ) {
+			$excluded_posts_array[] = $slug;
+		}
+	} else {
+		$key = array_search( $slug, $excluded_posts_array );
+		if ( $key !== FALSE ) unset($excluded_posts_array[$key]);
+	}
+
+	update_option( 'cmplz_excluded_posts_array', $excluded_posts_array );
+}
+add_action('save_post', 'cmplz_save_hide_page_cookiebanner_option', 10, 3 );

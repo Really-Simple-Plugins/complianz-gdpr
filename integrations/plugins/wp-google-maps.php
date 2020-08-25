@@ -55,7 +55,7 @@ function cmplz_wp_google_maps_js() {
 		wp_enqueue_script('jquery');
 	}
 
-	$script = 'setInterval(function () {if($(\'.wpgmza-api-consent\').length) {$(\'.wpgmza-api-consent\').addClass(\'cmplz-accept-cookies\');}}, 2000);';
+	$script = 'setInterval(function () {if($(\'.wpgmza-api-consent\').length) {$(\'.wpgmza-api-consent\').addClass(\'cmplz-accept-marketing\');}}, 2000);';
 	wp_add_inline_script( 'jquery', "jQuery(document).ready(function($){console.log('test3');$script});" );
 }
 add_action( 'wp_enqueue_scripts', 'cmplz_wp_google_maps_js' );

@@ -88,8 +88,10 @@ function cmplz_purpose_personaldata() {
 add_action( 'cmplz_notice_uses_thirdparty_services',
 	'cmplz_uses_thirdparty_services_notice' );
 function cmplz_uses_thirdparty_services_notice() {
+
+
 	$thirdparties = cmplz_scan_detected_thirdparty_services();
-	if ( $thirdparties ) {
+	if ( $thirdparties || cmplz_detected_custom_marketing_scripts() ) {
 		foreach ( $thirdparties as $key => $thirdparty ) {
 			$thirdparties[ $key ]
 				= COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
@@ -126,11 +128,12 @@ function cmplz_google_fonts_recommendation() {
 			'complianz-gdpr' ), __( "services", "complianz-gdpr" ) )
 	              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ),
 		'warning' );
-	cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s",
-		'complianz-gdpr' ),
-		'<a href="' . admin_url( 'admin.php?page=cmplz-script-center' ) . '">',
-		'</a>' ) );
 
+	// cmplz_notice( sprintf( __( "You can disable placeholders per service/plugin on the %sintegrations settings page%s",
+	// 	'complianz-gdpr' ),
+	// 	'<a href="' . admin_url( 'admin.php?page=cmplz-script-center' ) . '">',
+	// 	'</a>' )
+ // );
 
 
 	$thirdparties = cmplz_get_value( 'thirdparty_services_on_site' );
@@ -218,6 +221,13 @@ function cmplz_notice_personalized_ads_based_on_consent() {
 	              . cmplz_read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
 }
 
+add_action( 'cmplz_notice_block_recaptcha_service',
+	'cmplz_notice_block_recaptcha_service' );
+function cmplz_notice_block_recaptcha_service() {
+	cmplz_notice( __( "If you choose to block reCAPTCHA, please make sure you add a placeholder to your forms.",
+			'complianz-gdpr' )
+	              . cmplz_read_more( 'https://complianz.io/blocking-recaptcha-manually/' ) );
+}
 
 add_action( 'cmplz_notice_statistics_script',
 	'cmplz_notice_statistics_script' );
@@ -301,6 +311,20 @@ function cmplz_notice_missing_privacy_page() {
 
 }
 add_action( 'cmplz_notice_privacy-statement', 'cmplz_notice_missing_privacy_page' );
+
+/**
+ * If a plugin places marketing cookie as first party, we can't block it automatically, unless the wp consent api is used.
+ * User should be warned, and category marketing is necessary
+ * */
+
+function cmplz_notice_firstparty_marketing() {
+	if ( cmplz_detected_firstparty_marketing() ) {
+		cmplz_notice( __( "You use plugins which place first-party marketing cookies. You can view these plugins on the integrations page. Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API.", 'complianz-gdpr' )
+		              . cmplz_read_more( 'https://complianz.io/first-party-marketing-cookies' )
+		);
+	}
+}
+add_action( 'cmplz_notice_uses_firstparty_marketing_cookies', 'cmplz_notice_firstparty_marketing' );
 
 
 add_action( 'cmplz_notice_sensitive_information_processed',
@@ -413,7 +437,7 @@ function cmplz_set_default( $value, $fieldname ) {
 
 	if ( $fieldname === 'uses_thirdparty_services' ) {
 		$thirdparty = cmplz_scan_detected_thirdparty_services();
-		if ( $thirdparty ) {
+		if ( $thirdparty || cmplz_detected_custom_marketing_scripts()) {
 			return 'yes';
 		}
 	}
@@ -438,6 +462,12 @@ function cmplz_set_default( $value, $fieldname ) {
 			$value['internet'] = 1;
 
 			return $value;
+		}
+	}
+
+	if ( $fieldname === 'uses_firstparty_marketing_cookies' ) {
+		if ( cmplz_detected_firstparty_marketing() ) {
+			return 'yes';
 		}
 	}
 

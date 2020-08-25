@@ -1815,6 +1815,38 @@ if ( ! function_exists( 'cmplz_remote_file_exists' ) ) {
 
 }
 
+if ( ! function_exists( 'cmplz_detected_firstparty_marketing' )) {
+
+	/**
+	 * Check if we detect first party marketing scripts
+	 * @return bool
+	 */
+
+	function cmplz_detected_firstparty_marketing(){
+		global $cmplz_integrations_list;
+		$firstparty_plugins = array_filter(array_column($cmplz_integrations_list, 'firstparty_marketing'));
+		return count($firstparty_plugins)>0;
+	}
+}
+
+if ( ! function_exists( 'cmplz_detected_custom_marketing_scripts' )) {
+
+	/**
+	 * Check if site uses custom marketing scripts
+	 * @return bool
+	 */
+
+	function cmplz_detected_custom_marketing_scripts(){
+		$has_marketing_scripts = false;
+		$script = cmplz_get_value( 'cookie_scripts' );
+		$async_script = cmplz_get_value( 'cookie_scripts_async' );
+		if (strlen($script ) > 0 || strlen($async_script) >0 ){
+			$has_marketing_scripts = true;
+		}
+		return $has_marketing_scripts;
+	}
+}
+
 if ( ! function_exists( 'cmplz_uses_gutenberg' ) ) {
 	function cmplz_uses_gutenberg() {
 

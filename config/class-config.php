@@ -407,6 +407,11 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"calendly"         => 'Calendly',
 			);
 
+		// public $recaptcha_services
+		// 		= array(
+		// 			'google-recaptcha' => 'Google reCaptcha',
+		// 		);
+
 		public $thirdparty_socialmedia
 			= array(
 				'facebook'  => 'Facebook',
@@ -831,4 +836,3 @@ if ( ! class_exists( "cmplz_config" ) ) {
 	}
 
 } //class closure
-

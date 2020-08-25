@@ -331,7 +331,6 @@ $this->fields = $this->fields + array(
 				'compile_statistics' => 'google-tag-manager',
 			),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			//'help' => __('If you use the built in method for Google Tag Manager, anonymization of ip numbers is automatically enabled.','complianz-gdpr'),
 		),
 
 		'fire_scripts_in_tagmanager' => array(
@@ -536,8 +535,25 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'help'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).",
 				'complianz-gdpr' ),
+			'comment'   => __( "You can disable services and placeholders under Integrations.",
+					'complianz-gdpr' ),
 			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),
+
+		'block_recaptcha_service' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 4,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'options'   => $this->yes_no,
+			'default'   => 'no',
+			'condition' => array( 'thirdparty_services_on_site' => 'google-recaptcha' ),
+			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?",
+				'complianz-gdpr' ),
+			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+
 
 		'hotjar_privacyfriendly' => array(
 			'step'                    => STEP_COOKIES,
@@ -567,7 +583,7 @@ $this->fields = $this->fields + array(
 			'revoke_consent_onchange' => true,
 			'options'                 => $this->yes_no,
 			'default'                 => '',
-			'label'                   => __( "Does your website contain embedded social media content, like buttons, timelines, video’s or pixels?",
+			'label'                   => __( "Does your website contain embedded social media content, like buttons, timelines, videos or pixels?",
 				'complianz-gdpr' ),
 			'help'                    => __( "Content from social media is mostly embedded through iFrames. These often place third party (tracking) cookies, so must be blocked based on visitor consent. If your website only contains buttons or links to a social media profile on an external page you can answer No.",
 				'complianz-gdpr' ),
@@ -587,6 +603,23 @@ $this->fields = $this->fields + array(
 			'help'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out)",
 				'complianz-gdpr' ),
 			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'uses_firstparty_marketing_cookies' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 4,
+			'source'                  => 'wizard',
+			'type'                    => 'radio',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'options'                 => $this->yes_no,
+			'default'                 => 'no',
+			'label'                   => __( "Does your website place marketing cookies?",
+				'complianz-gdpr' ),
+			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
+			'condition'               =>array(
+				'uses_thirdparty_services' => 'no',
+			),
 		),
 
 		'uses_ad_cookies' => array(
