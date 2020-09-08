@@ -614,8 +614,10 @@ $this->fields = $this->fields + array(
 			'revoke_consent_onchange' => true,
 			'options'                 => $this->yes_no,
 			'default'                 => 'no',
-			'label'                   => __( "Does your website place marketing cookies?",
+			'label'                   => __( "You have stated that you don't use third-party services. Do you use plugins that might set marketing cookies?",
 				'complianz-gdpr' ),
+			'help'                    => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.",
+					'complianz-gdpr' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'condition'               =>array(
 				'uses_thirdparty_services' => 'no',

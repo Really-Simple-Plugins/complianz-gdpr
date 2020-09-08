@@ -30,11 +30,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
-//	'activecampaign'               => array(
-//		'constant_or_function' => '??',
-//		'label'                => 'Active Campaign',
-//		'firstparty_marketing' => true,
-//	),
+	'activecampaign'               => array(
+		'constant_or_function' => 'ACTIVECAMPAIGN_URL',
+		'label'                => 'Active Campaign',
+		'firstparty_marketing' => true,
+	),
 
 	'google-site-kit'               => array(
 		'constant_or_function' => 'GOOGLESITEKIT_VERSION',

@@ -292,6 +292,11 @@
 #cc-window.cc-floating .cc-message {
   max-width: fit-content;
 }
+@-moz-document url-prefix() {
+  #cc-window.cc-floating {
+    max-width: min-content;
+  }
+}
 @media screen and (max-width: 469px) {
   #cc-window.cc-floating {
     min-width: 100%;

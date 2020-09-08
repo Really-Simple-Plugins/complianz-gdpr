@@ -374,9 +374,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( $found !== false ) {
 							$new = $total_match;
 
-							$new = $this->add_class( $new, 'script',
-								apply_filters( 'cmplz_script_class',
-									'cmplz-script', $total_match, $found ) );
+							$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
 
 							//native scripts don't have to be blocked
 							if ( strpos( $new, 'cmplz-native' ) === false ) {
