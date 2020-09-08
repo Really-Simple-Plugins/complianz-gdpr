@@ -113,6 +113,24 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.7.1 =
+* Improvement: add option to exclude cookie banner from a page
+* Improvement: keyboard accessibility of square and slider checkboxes on the banner for WCAG2
+* Improvement: when no marketing categories are present, don't show the marketing category on the banner
+* Improvement: consent area shortcode caching proof
+* Improvement: only accept marketing on placeholder accept
+* Improvement: drop obsolete setting cookie_warning_enabled
+* Improvement: rename cookieconfig.js to complianz.js to prevent unnecessary blocking by all in one wp security
+* Improvement: better adjusting to long button texts in the banner
+* Improvement: add data-nosnippet to banner div to discourage indexing by search engines
+* Improvement: separate question to explicitly let users choose to block recaptcha
+* Improvement: google site kit notification
+* Improvements on the consent area shortcode implementation
+* Fix: accept deny banner variation did not revoke anymore after accepting, then revoking.
+* Fix: CAOS integration not working anymore
+* Fix: edited some typos
+* Fix: legacy revoke button in opt out regions, revoking in manage consent tab in opt out regions
+
 = 4.7.0 =
 * Improvement: WCAG 2 compatibility
 * Improvement: WP 5.5 permissions callback default true for public rest api calls
