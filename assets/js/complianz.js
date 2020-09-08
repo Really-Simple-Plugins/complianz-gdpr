@@ -700,7 +700,7 @@ jQuery(document).ready(function ($) {
 		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss:hover{background-color:' + getHoverColour(complianz.functional_background_color) + '}';
 
 		if ( complianz.banner_width !== 468 ) {
-			css += ".cc-window.cc-floating {min-width:" + complianz.banner_width + "px;}";
+			css += "#cc-window.cc-floating {min-width:" + complianz.banner_width + "px;}";
 		}
 
 		if (complianz.use_custom_cookie_css) {

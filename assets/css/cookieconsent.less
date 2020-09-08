@@ -12,18 +12,7 @@
 }
 #cc-window {
   &.cc-floating {
-	max-width:max-content;
 	min-width: 468px;
-	.cc-message {
-	  max-width:fit-content;
-	}
-  }
-  //max-content doesn't seem to work well on firefox, so we exclude it from firefox.
-  //https://stackoverflow.com/questions/952861/targeting-only-firefox-with-css
-  @-moz-document url-prefix() {
-	&.cc-floating {
-	  max-width: min-content;
-	}
   }
 
   @media screen and (max-width: 469px) {
