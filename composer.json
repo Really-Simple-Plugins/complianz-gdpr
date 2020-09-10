@@ -1,5 +1,5 @@
 {
-  "name": "ReallySimplePlugins/complianz-gdpr",
+  "name": "really-simple-plugins/complianz-gdpr",
   "description": "Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
