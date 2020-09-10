@@ -15,7 +15,6 @@
 
   "minimum-stability": "dev",
   "prefer-stable": true,
-
   "scripts": {
     "phpcs": [
       "phpcs -p -s *.php"
