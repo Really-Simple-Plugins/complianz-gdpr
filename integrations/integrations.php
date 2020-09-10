@@ -33,7 +33,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'activecampaign'               => array(
 		'constant_or_function' => 'ACTIVECAMPAIGN_URL',
 		'label'                => 'Active Campaign',
-		'firstparty_marketing' => false,
+		'firstparty_marketing' => true,
 	),
 
 	'google-site-kit'               => array(
@@ -307,24 +307,42 @@ function cmplz_is_integration_enabled( $plugin_name ) {
 }
 
 /**
+ * Check if a plugin from the integrations list is active
+ * @param $plugin
+ *
+ * @return bool
+ */
+error_log("loading integration check function");
+function cmplz_integration_plugin_is_active( $plugin ){
+
+    global $cmplz_integrations_list;
+	if ( !isset($cmplz_integrations_list[ $plugin ]) ) return false;
+
+	//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
+	$fields = get_option( 'complianz_options_integrations' );
+	$details = $cmplz_integrations_list[ $plugin ];
+	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
+	if ( ( defined( $details['constant_or_function'] )
+	       || function_exists( $details['constant_or_function'] )
+	       || class_exists( $details['constant_or_function'] ) )
+	     && $enabled
+	) {
+	    return true;
+    }
+
+	return false;
+}
+
+/**
  * code loaded without privileges to allow integrations between plugins and services, when enabled.
  */
 
 function cmplz_integrations() {
 
 	global $cmplz_integrations_list;
-
-	$fields = get_option( 'complianz_options_integrations' );
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
-		//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
-		$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
-		if ( ( defined( $details['constant_or_function'] )
-		       || function_exists( $details['constant_or_function'] )
-		       || class_exists( $details['constant_or_function'] ) )
-		     && $enabled
-		) {
-			$file = apply_filters( 'cmplz_integration_path',
-				cmplz_path . "integrations/plugins/$plugin.php", $plugin );
+		if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+			$file = apply_filters( 'cmplz_integration_path', cmplz_path . "integrations/plugins/$plugin.php", $plugin );
 			if ( file_exists( $file ) ) {
 				require_once( $file );
 			} else {
