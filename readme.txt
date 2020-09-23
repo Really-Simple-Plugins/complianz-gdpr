@@ -51,6 +51,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
 * Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
+* Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
 * Respects the Do Not Track settings in end-users browsers.
 
 = All Legal Documents configured for a specific region =
@@ -66,7 +67,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Full support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
 * Full support for PIPEDA and CASL - Canada.
 * Multilanguage support for the cookie notice and legal documents.
-* 7 Default languages. English, Dutch, French, Italian, Spanish, Norwegian and German
+* 9 Default languages. English, German, Dutch, French, Italian, Spanish, Norwegian, Greek and Czech. Formal and Informal if available.
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
@@ -113,6 +114,16 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.7.2 =
+* Improvement: add option to flag first party marketing cookies with an integration.
+* Improvement: set tabindex to 0 for banner controls.
+* Improvement: limit access to hide banner option to users with manage_privacy capability.
+* Fix: Do Not Track signal not passed correctly when caching enabled.
+* Fix: legacy revoke button in US.
+* Fix: on configurations without marketing cookies "save preferences" was not functioning properly.
+* Fix: max banner width was implemented with min-width.
+* Fix: remove clearing cookies. Would cause issues when logged-in.
+
 = 4.7.1 =
 * Improvement: add option to exclude cookie banner from a page
 * Improvement: keyboard accessibility of square and slider checkboxes on the banner for WCAG2
