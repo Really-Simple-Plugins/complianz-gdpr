@@ -295,6 +295,8 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 
 function cmplz_add_hide_cookiebanner_meta_box($post_type)
 {
+	if ( !cmplz_user_can_manage() ) return;
+
 	add_meta_box('cmplz_edit_meta_box', __('Cookiebanner', 'complianz-gdpr'), 'cmplz_hide_cookiebanner_metabox', null, 'side', 'default', array());
 }
 add_action('add_meta_boxes', 'cmplz_add_hide_cookiebanner_meta_box');
@@ -304,6 +306,9 @@ add_action('add_meta_boxes', 'cmplz_add_hide_cookiebanner_meta_box');
  */
 
 function cmplz_hide_cookiebanner_metabox(){
+
+	if ( !cmplz_user_can_manage() ) return;
+
 	wp_nonce_field('cmplz_cookiebanner_hide_nonce', 'cmplz_cookiebanner_hide_nonce');
 	global $post;
 	$option_label = __("Hide cookiebanner on this page", "complianz-gdpr");
@@ -323,8 +328,7 @@ function cmplz_save_hide_page_cookiebanner_option($post_ID, $post, $update)
 {
 	if ( !$update ) return;
 
-	if (!current_user_can('edit_posts'))
-		return;
+	if ( !cmplz_user_can_manage() ) return;
 
 	// check if this isn't an auto save
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)

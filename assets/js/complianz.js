@@ -700,7 +700,7 @@ jQuery(document).ready(function ($) {
 		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss:hover{background-color:' + getHoverColour(complianz.functional_background_color) + '}';
 
 		if ( complianz.banner_width !== 468 ) {
-			css += "#cc-window.cc-floating {min-width:" + complianz.banner_width + "px;}";
+			css += "#cc-window.cc-floating {max-width:" + complianz.banner_width + "px;}";
 		}
 
 		if (complianz.use_custom_cookie_css) {
@@ -766,7 +766,7 @@ jQuery(document).ready(function ($) {
 					ccName.close();
 					$('.cc-revoke').fadeIn();
 				}
-				cmplzUpdateStatusCustomLink();
+				cmplzUpdateStatusCustomLink(false);
 
 				/**
 				 * This runs when the status is changed
@@ -910,16 +910,6 @@ jQuery(document).ready(function ($) {
 			//if we're on the cookie policy page, we dynamically load the applicable revoke checkbox
 			cmplzLoadRevokeContainer();
 
-			//get highest used tab index on page
-			var highestTabIndex = 0;
-			$('[tabindex]').attr('tabindex', function (a, b) {
-				highestTabIndex = Math.max(highestTabIndex, +b);
-			});
-			highestTabIndex++;
-
-			//set tab index
-			$(".cc-btn, .cc-link, .cmplz-classic, input.cmplz-square-checkbox, input.cmplz-slider-checkbox").each(function (i) { $(this).attr('tabindex', i + highestTabIndex); });
-
 			//fire an event so custom scripts can hook into this.
 			$.event.trigger({
 				type: "cmplzCookieWarningLoaded",
@@ -966,8 +956,9 @@ jQuery(document).ready(function ($) {
 		if (complianz.soft_cookiewall) {
 			dismissCookieWall();
 		}
-		//dismiss the banner after saving, so it won't show on next page load
-		//if ( complianz.use_categories ) ccName.setStatus('dismiss');
+		// //dismiss the banner after saving, so it won't show on next page load
+		if ( complianz.use_categories ) ccName.setStatus('dismiss');
+
 		//check if status is changed from 'allow' to 'revoked'
 		var reload = false;
 		if ($('.cmplz_marketing').length) {
@@ -1043,7 +1034,7 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		cmplzUpdateStatusCustomLink();
+		cmplzUpdateStatusCustomLink(false);
 		ccName.close();
 		$('.cc-revoke').fadeIn();
 
@@ -1109,6 +1100,7 @@ jQuery(document).ready(function ($) {
 	$(document).on('click', '.cc-revoke-custom', function () {
 		var doRevoke = true;
 		if (complianz.consenttype === 'optin' || complianz.consenttype === 'optinstats') {
+
 			$('.cc-revoke').click();
 
 			//tag manager
@@ -1137,7 +1129,7 @@ jQuery(document).ready(function ($) {
 			}
 		} else {
 			//if it's already denied, show the accept option again.
-			if (cmplzGetCookie('complianz_consent_status') === 'dismiss' || cmplzGetCookie('complianz_consent_status') === 'deny') {
+			if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
 				$('.cc-revoke').click();
 				$('.cc-revoke').fadeOut();
 				doRevoke = false;
@@ -1145,8 +1137,6 @@ jQuery(document).ready(function ($) {
 		}
 
 		if (doRevoke) {
-			cmplzFireCategories();
-			cmplzUpdateStatusCustomLink();
 			cmplzRevoke();
 		}
 
@@ -1189,10 +1179,9 @@ jQuery(document).ready(function ($) {
 
 	function cmplzAcceptAllCookies(){
 		ccName.setStatus(cookieconsent.status.allow);
-		cmplzFireCategories(true, true);
 		//sync with checkboxes in banner
 		cmplzSyncCategoryCheckboxes(true);
-		//save all new selections, and run scripts
+		cmplzFireCategories('all', true);
 		cmplzSaveCategoriesSelection();
 
 		ccName.close();
@@ -1209,7 +1198,10 @@ jQuery(document).ready(function ($) {
 	 * When consent status changes, keep the consent management checkboxes on the site in sync
 	 */
 
-	function cmplzUpdateStatusCustomLink() {
+	function cmplzUpdateStatusCustomLink(updateCheckbox) {
+		updateCheckbox = typeof updateCheckbox !== 'undefined' ? updateCheckbox : true;
+		if (!updateCheckbox) cmplzUpdateCheckbox = false;
+
 		if (cmplzUpdateCheckbox) {
 			cmplzSyncCategoryCheckboxes();
 		}
@@ -1385,6 +1377,7 @@ jQuery(document).ready(function ($) {
 			}
 		} else {
 			if (forceStatistics || ($('.cmplz_stats').length && $('.cmplz_stats').is(":checked"))) {
+				console.log('fire statistics');
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
 				cmplzEnableStats();
@@ -1570,7 +1563,7 @@ jQuery(document).ready(function ($) {
 			reload = true;
 		}
 
-		//accept deny variant should revoke if current level is no choice.
+		//accept deny variant should reload if current level is no choice.
 		if (consentLevel === 'no-choice' && complianz.use_categories === 'no' ) {
 			reload = true;
 		}
@@ -1608,15 +1601,17 @@ jQuery(document).ready(function ($) {
 		//marketing cookies acceptance
 		if ($('.cmplz_marketing').length) {
 			cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
-			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 			cmplz_wp_set_consent('marketing', 'deny');
 		}
+
+		cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
 
 		//we run it after the deletion of cookies, as there are cookies to be set.
 		cmplzIntegrationsRevoke();
 		cmplzSyncCategoryCheckboxes();
 		cmplzFireCategories();
 		complianz_track_status();
+		cmplzUpdateStatusCustomLink();
 
 		if (reload) {
 			location.reload();

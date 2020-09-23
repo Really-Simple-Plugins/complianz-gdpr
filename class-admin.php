@@ -178,45 +178,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			//when debug is enabled, a timestamp is appended. We strip this for version comparison purposes.
 			$prev_version = get_option( 'cmplz-current-version', false );
 
-			//set a default region if this is an upgrade:
-			if ( $prev_version
-			     && version_compare( $prev_version, '2.0.1', '<' )
-			) {
-				$regions = cmplz_get_value( 'regions' );
-				if ( empty( $regions ) ) {
-					if ( defined( 'cmplz_free' ) ) {
-						cmplz_update_option( 'wizard', 'regions', 'eu' );
-					}
-				}
-			}
-
-			/*
-			 * Set the value of the US cookie banner message on upgrade
-			 * copy message text to message_us
-			 * */
-
-			if ( $prev_version
-			     && version_compare( $prev_version, '2.1.2', '<' )
-			) {
-				$settings               = get_option( 'complianz_options_cookie_settings' );
-				$settings['message_us'] = $settings['message'];
-				update_option( 'complianz_options_cookie_settings', $settings );
-			}
-
-			/*
-			 * If the legal documents have changed, we notify the user of this.
-			 *
-			 * */
-
-			if ( CMPLZ_LEGAL_VERSION > get_option( 'cmplz_legal_version',
-					0 )
-			) {
-				update_option( 'cmplz_plugin_new_features', true );
-				update_option( 'cmplz_legal_version', CMPLZ_LEGAL_VERSION );
-			}
-
-
-			/*
+			/**
 			 * Migrate use_country and a_b_testing to general settings
 			 *
 			 * */

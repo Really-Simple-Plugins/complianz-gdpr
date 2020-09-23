@@ -949,9 +949,6 @@ if (!function_exists('cmplz_file_exists_on_url')) {
 	}
 }
 
-
-
-
 if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 	/**
 	 * By default, the region which is returned is the region as selected in the wizard settings.
@@ -959,16 +956,12 @@ if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 	 * */
 
 	function cmplz_ajax_user_settings() {
-		$data                = apply_filters( 'cmplz_user_data', array() );
-		$data['consenttype'] = apply_filters( 'cmplz_user_consenttype',
-			COMPLIANZ::$company->get_default_consenttype() );
-		$data['region']      = apply_filters( 'cmplz_user_region',
-			COMPLIANZ::$company->get_default_region() );
-		$data['version']     = cmplz_version;
-		$data['forceEnableStats']
-		                     = apply_filters( 'cmplz_user_force_enable_stats',
-			false );
-
+		$data                       = apply_filters( 'cmplz_user_data', array() );
+		$data['consenttype']        = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+		$data['region']             = apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
+		$data['version']            = cmplz_version;
+		$data['forceEnableStats']   = apply_filters( 'cmplz_user_force_enable_stats', false );
+		$data['do_not_track']       = apply_filters( 'cmplz_dnt_enabled', false );
 		//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 		//@todo: move this to the inline script  generation
 		//and move all generic, not banner specific data away from the banner.
@@ -1824,7 +1817,14 @@ if ( ! function_exists( 'cmplz_detected_firstparty_marketing' )) {
 
 	function cmplz_detected_firstparty_marketing(){
 		global $cmplz_integrations_list;
-		$firstparty_plugins = array_filter(array_column($cmplz_integrations_list, 'firstparty_marketing'));
+		$active_plugins = array();
+		foreach ( $cmplz_integrations_list as $plugin => $details ) {
+			if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+				$active_plugins[$plugin] = $details;
+			}
+		}
+		$firstparty_plugins = array_filter(array_column($active_plugins, 'firstparty_marketing'));
+
 		return count($firstparty_plugins)>0;
 	}
 }

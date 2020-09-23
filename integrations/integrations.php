@@ -312,10 +312,9 @@ function cmplz_is_integration_enabled( $plugin_name ) {
  *
  * @return bool
  */
-error_log("loading integration check function");
 function cmplz_integration_plugin_is_active( $plugin ){
 
-    global $cmplz_integrations_list;
+	global $cmplz_integrations_list;
 	if ( !isset($cmplz_integrations_list[ $plugin ]) ) return false;
 
 	//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
@@ -327,8 +326,8 @@ function cmplz_integration_plugin_is_active( $plugin ){
 	       || class_exists( $details['constant_or_function'] ) )
 	     && $enabled
 	) {
-	    return true;
-    }
+		return true;
+	}
 
 	return false;
 }
