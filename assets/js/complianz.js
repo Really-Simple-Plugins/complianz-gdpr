@@ -1279,13 +1279,11 @@ jQuery(document).ready(function ($) {
 	 * @returns {string}
 	 */
 	function cmplzGetCookie(cname) {
-		var name = cname + "="; //Create the cookie name variable with cookie name concatenate with = sign
-		var cArr = window.document.cookie.split(';'); //Create cookie array by split the cookie by ';'
+		var name = cname + "=";
+		var cArr = window.document.cookie.split(';');
 
-		//Loop through the cookies and return the cookie value if it find the cookie name
 		for (var i = 0; i < cArr.length; i++) {
 			var c = cArr[i].trim();
-			//If the name is the cookie string at position 0, we found the cookie and return the cookie value
 			if (c.indexOf(name) == 0)
 				return c.substring(name.length, c.length);
 		}
@@ -1555,7 +1553,6 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzRevoke() {
-		//delete all cookies
 		var consentLevel = cmplzGetHighestAcceptance();
 		var reload = false;
 
@@ -1567,14 +1564,6 @@ jQuery(document).ready(function ($) {
 		if (consentLevel === 'no-choice' && complianz.use_categories === 'no' ) {
 			reload = true;
 		}
-
-		document.cookie.split(";").forEach(
-			function (c) {
-				if (c.indexOf('cmplz_stats') === -1 && c.indexOf('cmplz_') === -1 && c.indexOf('complianz_consent_status') === -1 && c.indexOf('complianz_policy_id') === -1) {
-					document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-				}
-			}
-		);
 
 		//using TM categories
 		if (complianz.tm_categories) {
