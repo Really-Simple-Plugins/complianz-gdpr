@@ -268,11 +268,13 @@ jQuery(document).ready(function ($) {
             var use_cats_optinstats = $('select[name=cmplz_use_categories_optinstats]').val() !== 'no';
 
             if (use_cats === use_cats_optinstats){
-
                 $('#optinstats .field-group').each(function(){
                     $(this).hide();
                 });
             }
+
+            //hide the editor when both optin and optinstats are available, to prevent breaking the editor because of duplicate ID's
+            $("#optinstats .message_optin").hide();
         }
         //show always this field
         $('#optinstats [data-condition-question="show_always"]').show();
@@ -328,7 +330,6 @@ jQuery(document).ready(function ($) {
             ccName.fadeOut();
             ccName.destroy();
         }
-
 
 
         if (ccConsentType === 'optin'){
