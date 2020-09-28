@@ -5,7 +5,8 @@
 function cmplz_get_dynamic_categories_ajax()
 {
 	$cookiebanner = new CMPLZ_COOKIEBANNER( intval($_GET['id']) );
-	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = sanitize_title($_GET['checkbox_style']), $force_color = sanitize_hex_color($_GET['color']));
+	$checkbox_style = isset($_GET['checkbox_style']) ? sanitize_title($_GET['checkbox_style']) : 'classic';
+	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = $checkbox_style, $force_color = sanitize_hex_color($_GET['color']));
 
 	$response = json_encode( $data );
 	header( "Content-Type: application/json" );

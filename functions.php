@@ -154,10 +154,24 @@ if (!function_exists('cmplz_manage_consent_html_ajax')) {
 	{
 		$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 		$banner = new CMPLZ_COOKIEBANNER(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
-		$checkboxes = $banner->get_consent_checkboxes('document', $consenttype);
+
+		$use_revoke_button = false;
+		if ( $consenttype === 'optin' && $banner->use_categories === 'no' ) {
+			$use_revoke_button = true;
+		} elseif ( $consenttype === 'optinstats' && $banner->use_categories_optinstats === 'no' ) {
+			$use_revoke_button = true;
+		} elseif ( $consenttype ==='optout' ){
+			$use_revoke_button = true;
+		}
+
+		if ( $use_revoke_button ) {
+			$html = cmplz_revoke_link();
+		} else {
+			$html = $banner->get_consent_checkboxes('document', $consenttype);
+		}
 
 		$data     = array(
-			'html' => $checkboxes,
+			'html' => $html,
 		);
 		$response = json_encode( $data );
 		header( "Content-Type: application/json" );

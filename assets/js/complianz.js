@@ -1098,11 +1098,7 @@ jQuery(document).ready(function ($) {
 	 */
 
 	$(document).on('click', '.cc-revoke-custom', function () {
-		var doRevoke = true;
 		if (complianz.consenttype === 'optin' || complianz.consenttype === 'optinstats') {
-
-			$('.cc-revoke').click();
-
 			//tag manager
 			if (complianz.tm_categories) {
 				for (var i = 0; i < complianz.cat_num; i++) {
@@ -1127,16 +1123,14 @@ jQuery(document).ready(function ($) {
 
 				}
 			}
-		} else {
-			//if it's already denied, show the accept option again.
-			if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
-				$('.cc-revoke').click();
-				$('.cc-revoke').fadeOut();
-				doRevoke = false;
-			}
 		}
 
-		if (doRevoke) {
+		//if it's already denied, show the accept option again.
+		//if not denied, do a full revoke 
+		if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
+			$('.cc-revoke').click();
+			$('.cc-revoke').fadeOut();
+		} else {
 			cmplzRevoke();
 		}
 
@@ -1279,11 +1273,13 @@ jQuery(document).ready(function ($) {
 	 * @returns {string}
 	 */
 	function cmplzGetCookie(cname) {
-		var name = cname + "=";
-		var cArr = window.document.cookie.split(';');
+		var name = cname + "="; //Create the cookie name variable with cookie name concatenate with = sign
+		var cArr = window.document.cookie.split(';'); //Create cookie array by split the cookie by ';'
 
+		//Loop through the cookies and return the cookie value if it find the cookie name
 		for (var i = 0; i < cArr.length; i++) {
 			var c = cArr[i].trim();
+			//If the name is the cookie string at position 0, we found the cookie and return the cookie value
 			if (c.indexOf(name) == 0)
 				return c.substring(name.length, c.length);
 		}
@@ -1692,7 +1688,8 @@ jQuery(document).ready(function ($) {
 					});
 					highestTabIndex++;
 					$("#cmplz-manage-consent-container .cmplz-classic, #cmplz-manage-consent-container .cmplz-square, #cmplz-manage-consent-container .cmplz-slider").each(function (i) { $(this).attr('tabindex', i + highestTabIndex); });
-
+					//in case of revoke, update the accepted/deny settings
+					cmplzUpdateStatusCustomLink();
 				}
 			});
 		}
