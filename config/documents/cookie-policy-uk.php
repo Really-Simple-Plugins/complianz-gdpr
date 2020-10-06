@@ -23,6 +23,78 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
         'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
 
+
+    'cookies' => array(
+	    'title' => 'Cookies',
+    ),
+
+    'cookies-intro' => array(
+	    'subtitle' => 'Technical or functional cookies',
+	    'content' => 'Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.',
+    ),
+
+	//analytical
+    'cookies-analytical' => array(
+	    'subtitle' => 'Analytical cookies',
+	    'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.'
+	                 .'&nbsp;'.'We ask your permission to place analytical cookies.',
+	    'callback_condition' => 'cmplz_cookie_warning_required_stats',
+	    'condition' => array('compile_statistics' => 'yes'),
+    ),
+
+	array(
+		'subtitle' => 'Analytical cookies',
+		'content' => 'Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.',
+		'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
+		'condition' => array('compile_statistics' => 'yes'),
+
+	),
+
+	//ads
+    'cookies-ads-yes' => array(
+	    'subtitle' => 'Advertising cookies',
+	    'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
+	    'condition' => array(
+		    'uses_ad_cookies' => 'yes',
+		    'uses_ad_cookies_personalized' => 'NOT no'
+	    ),
+    ),
+
+    'cookies-ads-yes-no-tracking' => array(
+	    'subtitle' => 'Advertising cookies',
+	    'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
+	    'condition' => array(
+		    'uses_ad_cookies' => 'yes',
+		    'uses_ad_cookies_personalized' => 'no'
+	    ),
+    ),
+
+    'advertising-cookies-yes-2' => array(
+	    'content' => 'Because these cookies are marked as tracking cookies, we ask your permission to place these.',
+	    'condition' => array('uses_ad_cookies' => 'yes'),
+    ),
+
+    'social-media-yes' => array(
+	    'subtitle' => 'Social media buttons',
+	    'content' => sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+	    'condition' => array('uses_social_media' => 'yes'),
+    ),
+
+    'social-media-yes2' => array(
+	    'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+	    'condition' => array('uses_social_media' => 'yes'),
+    ),
+
+
+    'cookie_names' => array(
+	    'title' => 'Placed cookies',
+	    'callback' => 'cmplz_used_cookies',
+	    'condition' => array(
+		    'uses_cookies' => 'yes',
+	    ),
+    ),
+
+
     'consent' => array(
         'title' => 'Consent',
         'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_accept_text]'),
@@ -47,75 +119,11 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	    'callback_condition' => 'cmplz_uk_site_needs_cookie_warning',
     ),
 
-    'cookies' => array(
-        'title' => 'Cookies',
-    ),
-
-    'cookies-subtitle' => array(
-        'subtitle' => 'Technical or functional cookies',
-        'content' => 'Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.',
-    ),
-
-    //analytical
-    'cookies-analytical' => array(
-        'subtitle' => 'Analytical cookies',
-        'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.'
-            .'&nbsp;'.'We ask your permission to place analytical cookies.',
-        'callback_condition' => 'cmplz_cookie_warning_required_stats',
-        'condition' => array('compile_statistics' => 'yes'),
-    ),
-
-    array(
-        'subtitle' => 'Analytical cookies',
-        'content' => 'Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.',
-        'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
-        'condition' => array('compile_statistics' => 'yes'),
-
-    ),
-
-    //ads
-    'cookies-ads-yes' => array(
-        'subtitle' => 'Advertising cookies',
-        'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
-        'condition' => array(
-            'uses_ad_cookies' => 'yes',
-            'uses_ad_cookies_personalized' => 'yes'
-        ),
-    ),
-
-    'cookies-ads-yes-no-tracking' => array(
-        'subtitle' => 'Advertising cookies',
-        'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', '[domain]'),
-        'condition' => array(
-            'uses_ad_cookies' => 'yes',
-            'uses_ad_cookies_personalized' => 'no'
-        ),
-    ),
-
-    'advertising-cookies-yes-2' => array(
-        'content' => 'Because these cookies are marked as tracking cookies, we ask your permission to place these.',
-        'condition' => array('uses_ad_cookies' => 'yes'),
-    ),
-
-    'social-media-yes' => array(
-        'subtitle' => 'Social media buttons',
-        'content' => sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
-        'condition' => array('uses_social_media' => 'yes'),
-    ),
-
-    'social-media-yes2' => array(
-        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
-        'condition' => array('uses_social_media' => 'yes'),
-    ),
-
-
-    'cookie_names' => array(
-	    'title' => 'Placed cookies',
-	    'callback' => 'cmplz_used_cookies',
-	    'condition' => array(
-		    'uses_cookies' => 'yes',
-	    ),
-    ),
+	array(
+		'subtitle' => _x('Vendors', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => '[cmplz-tcf-vendors]',
+		'callback_condition' => 'cmplz_tcf_active',
+	),
 
     'your-rights' => array(
         'title' => 'Your rights with respect to personal data',

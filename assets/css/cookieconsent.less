@@ -1,6 +1,5 @@
 @import "cookieconsent.core.less";
-
-#cc-window, #cmplz-manage-consent-container {
+#cc-window, #cmplz-manage-consent-container, .cmplz-tcf-container {
   //reset checkbox styles for classic
   input[type="checkbox"] {
 	width: initial;
@@ -255,7 +254,7 @@
 }
 
 //checkboxes, both for documents and banner
-#cc-window.cc-window, #cmplz-manage-consent-container.cmplz-manage-consent-container {
+#cc-window.cc-window, #cmplz-manage-consent-container.cmplz-manage-consent-container, #cmplz-tcf-container.cmplz-tcf-container {
   .cmplz-square-checkbox{
 	&:checked + .cc-check {
 	  svg {
@@ -386,7 +385,7 @@
   }
 }
 
-#cc-window.cc-window .cmplz-categories-wrap, #cmplz-manage-consent-container.cmplz-manage-consent-container {
+#cc-window.cc-window .cmplz-categories-wrap, #cmplz-manage-consent-container.cmplz-manage-consent-container,#cmplz-tcf-container.cmplz-tcf-container {
   .cmplz-slider-checkbox {
 	vertical-align: top;
 	margin:3px 15px 10px 0;

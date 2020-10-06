@@ -696,37 +696,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once(cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
-				require_once( cmplz_path . '/pro/config/steps.php' );
-				require_once( cmplz_path . '/pro/config/warnings.php' );
-				require_once( cmplz_path . '/pro/config/questions-wizard.php' );
-				require_once( cmplz_path . '/pro/config/documents/documents.php' );
-				require_once( cmplz_path . '/pro/config/EU/questions-dataleak.php' );
-				require_once( cmplz_path . '/pro/config/US/questions-dataleak.php' );
-				require_once( cmplz_path . '/pro/config/CA/questions-dataleak.php' );
-				require_once( cmplz_path . '/pro/config/UK/questions-dataleak.php' );
-				require_once( cmplz_path . '/pro/config/EU/questions-processing.php' );
-				require_once( cmplz_path . '/pro/config/US/questions-processing.php' );
-				require_once( cmplz_path . '/pro/config/CA/questions-processing.php' );
-				require_once( cmplz_path . '/pro/config/UK/questions-processing.php' );
-				require_once( cmplz_path . '/pro/config/dynamic-fields.php' );
-				require_once( cmplz_path . '/pro/config/dynamic-document-elements.php' );
-				require_once( cmplz_path . '/pro/config/documents/US/dataleak-report.php' );
-				require_once( cmplz_path . '/pro/config/documents/US/privacy-policy.php' );
-				require_once( cmplz_path . '/pro/config/documents/US/processing-agreement.php' );
-				require_once( cmplz_path . '/pro/config/documents/US/privacy-policy-children.php' );
-				require_once( cmplz_path . '/pro/config/documents/CA/dataleak-report.php' );
-				require_once( cmplz_path . '/pro/config/documents/CA/privacy-policy.php' );
-				require_once( cmplz_path . '/pro/config/documents/CA/processing-agreement.php' );
-				require_once( cmplz_path . '/pro/config/documents/CA/privacy-policy-children.php' );
-				require_once( cmplz_path . '/pro/config/documents/disclaimer.php' );
-				require_once( cmplz_path . '/pro/config/documents/EU/privacy-policy.php' );
-				require_once( cmplz_path . '/pro/config/documents/EU/processing-agreement.php' );
-				require_once( cmplz_path . '/pro/config/documents/EU/dataleak-report.php' );
-				require_once( cmplz_path . '/pro/config/documents/EU/impressum.php' );
-				require_once( cmplz_path . '/pro/config/documents/UK/privacy-policy.php' );
-				require_once( cmplz_path . '/pro/config/documents/UK/processing-agreement.php' );
-				require_once( cmplz_path . '/pro/config/documents/UK/dataleak-report.php' );
-				require_once( cmplz_path . '/pro/config/documents/UK/privacy-policy-children.php' );
+				require_once( cmplz_path . '/pro/config/includes.php' );
 			}
 			/**
 			 * The integrations are loaded with priority 10

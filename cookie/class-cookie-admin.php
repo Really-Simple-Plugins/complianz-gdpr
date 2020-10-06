@@ -14,14 +14,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			self::$_this = $this;
-			add_action( 'wp_enqueue_scripts',
-				array( $this, 'maybe_enqueue_jquery' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_jquery' ), PHP_INT_MAX - 100 );
 
 			$scan_in_progress = isset( $_GET['complianz_scan_token'] )
 			                    && ( sanitize_title( $_GET['complianz_scan_token'] )
 			                         == get_option( 'complianz_scan_token' ) );
 			if ( $scan_in_progress ) {
-				//add_action('init', array($this, 'maybe_clear_cookies'), 10, 2);
 				add_action( 'wp_print_footer_scripts',
 					array( $this, 'test_cookies' ), 10, 2 );
 			} else {
@@ -60,22 +58,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_action( 'plugins_loaded', array( $this, 'resync' ), 11, 2 );
 
-			add_action( 'wp_ajax_cmplz_report_unknown_cookies',
-				array( $this, 'ajax_report_unknown_cookies' ) );
-			add_action( 'wp_ajax_cmplz_delete_snapshot',
-				array( $this, 'ajax_delete_snapshot' ) );
-			add_action( 'admin_init',
-				array( $this, 'force_snapshot_generation' ) );
+			add_action( 'wp_ajax_cmplz_report_unknown_cookies', array( $this, 'ajax_report_unknown_cookies' ) );
+			add_action( 'wp_ajax_cmplz_delete_snapshot', array( $this, 'ajax_delete_snapshot' ) );
+			add_action( 'admin_init', array( $this, 'force_snapshot_generation' ) );
 
 //            add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
 //            add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
 
 			add_action( 'plugins_loaded', array( $this, 'rescan' ), 20, 2 );
-			add_action( 'plugins_loaded', array( $this, 'clear_cookies' ), 20,
-				2 );
+			add_action( 'plugins_loaded', array( $this, 'clear_cookies' ), 20, 2 );
 
-			add_action( 'cmplz_notice_statistics_script',
-				array( $this, 'statistics_script_notice' ) );
+			add_action( 'cmplz_notice_statistics_script', array( $this, 'statistics_script_notice' ) );
 
 
 			//callback from settings
@@ -96,8 +89,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				array( $this, 'ajax_get_list' ) );
 
 
-			add_filter( 'cmplz_consenttype',
-				array( $this, 'maybe_filter_consenttype' ), 10, 2 );
+			add_filter( 'cmplz_consenttype', array( $this, 'maybe_filter_consenttype' ), 10, 2 );
 
 		}
 
@@ -105,12 +97,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return self::$_this;
 		}
 
-
+		/**
+		 * enqueue if not available yet
+		 */
 		public function maybe_enqueue_jquery() {
-			//enqueue if not available yet
-			if ( ! wp_script_is( 'jquery', 'enqueued' ) ) {
-				wp_enqueue_script( 'jquery' );
-			}
+			wp_enqueue_script( 'jquery' );
 		}
 
 		/**
@@ -1756,15 +1747,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			update_option( 'cmplz_plugins_changed', - 1 );
 		}
 
-
 		public function enqueue_assets( $hook ) {
-			//enqueue if not available yet
-			if ( ! wp_script_is( 'jquery', 'enqueued' ) ) {
-				wp_enqueue_script( 'jquery' );
-			}
-
-			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? ''
-				: '.min';
+			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style( 'cmplz-cookie',
 				cmplz_url . "assets/css/cookieconsent$minified.css", "",
 				cmplz_version );
@@ -1783,6 +1767,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! isset( $_GET['complianz_scan_token'] ) ) {
 				$deps = array( 'jquery' );
+				if (cmplz_tcf_active()){
+					$deps[] = 'cmplz-tcf';
+				}
 				if ( cmplz_has_async_documentwrite_scripts() ) {
 					$deps[] = 'cmplz-postscribe';
 					wp_enqueue_script( 'cmplz-postscribe',
@@ -1887,7 +1874,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			//deprecated filter
 			$output = apply_filters( 'cmplz_cookie_settings', $output );
 
-			return apply_filters( 'cmplz_cookiebanner_settings', $output );
+			return $output;
 		}
 
 
@@ -1947,11 +1934,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function inline_cookie_script() {
+			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) return;
+
 			//based on the script classes, the statistics will get added on consent, or without consent
 			$classes = $this->get_statistics_script_classes();
 			do_action( 'cmplz_before_statistics_script' );
 			?>
-			<script type='text/javascript' class="<?php echo implode( " ", $classes ) ?>">
+			<script type="text/javascript" class="<?php echo implode( " ", $classes ) ?>">
 				<?php do_action( 'cmplz_statistics_script' );?>
 			</script>
 			<?php
@@ -1973,21 +1962,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				</script>
 				<?php
 			}
-
-
 		}
 
-
 		/**
-		 *
-		 *
-		 * wordpress_logged_in_4807ca19337754ff7151a7add52c165c
-		 * al deze cookies opslaan in een lijst option of transient
-		 * per cookie: toevoegen,
-		 * als sync aan, niet gedelete, nog niet gesynced, of oud, opnieuw syncen/data ophalen
+		 * Inline scripts which do not require a warning
 		 */
 
 		public function inline_cookie_script_no_warning() {
+			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) return;
+
 			?>
 			<script type='text/javascript' class="cmplz-native">
 				<?php do_action( 'cmplz_statistics_script' );?>
@@ -3807,11 +3790,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 
 		/**
-		 * Check if this website shares data with third parties
+		 * Check if this website shares data with third parties, used for recommendations, cookiebanner check and canada policies
 		 * @return bool
 		 */
 
 		public function site_shares_data() {
+
+			//TCF always shares data
+			if ( cmplz_tcf_active() ) return true;
+
 			//if user states no cookies are used, we simply return false.
 			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
 				return false;

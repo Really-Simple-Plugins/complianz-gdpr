@@ -78,7 +78,7 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		public function get_default_consenttype() {
 			//check default region
 			$region = $this->get_default_region();
-			return cmplz_get_consenttype_for_region( $region );
+			return apply_filters('cmplz_default_consenttype',cmplz_get_consenttype_for_region( $region ));
 		}
 
 		/**

@@ -13,6 +13,7 @@ function cmplz_get_dynamic_categories_ajax()
 	echo $response;
 	exit;
 }
+
 add_action('wp_ajax_cmplz_get_dynamic_categories_ajax', 'cmplz_get_dynamic_categories_ajax');
 /**
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache
@@ -275,18 +276,20 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	$cookiesettings
 		= COMPLIANZ::$cookie_admin->get_cookiebanner_settings( $cookiebanner_id );
 
-	wp_enqueue_script( 'cmplz-cookie', cmplz_url . "assets/js/cookieconsent.js",
+	wp_enqueue_script( 'cmplz-cookie', cmplz_url . "assets/js/cookieconsent$minified.js",
 		array( 'jquery', 'cmplz-admin' ), cmplz_version, true );
 	wp_localize_script(
 		'cmplz-cookie',
 		'complianz',
 		$cookiesettings
 	);
+	$deps =  array( 'jquery', 'cmplz-cookie' );
 
 	wp_enqueue_script( 'cmplz-cookie-config-styling',
-		cmplz_url . "assets/js/cookieconfig-styling.js",
-		array( 'jquery', 'cmplz-cookie' ), cmplz_version, true );
+		cmplz_url . "assets/js/cookieconfig-styling$minified.js",
+		$deps, cmplz_version, true );
 
+	do_action("cmplz_enqueue_cookiebanner_settings");
 }
 
 /**

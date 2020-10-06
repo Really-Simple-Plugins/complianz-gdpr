@@ -553,8 +553,6 @@ $this->fields = $this->fields + array(
 			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
-
-
 		'hotjar_privacyfriendly' => array(
 			'step'                    => STEP_COOKIES,
 			'section'                 => 4,
@@ -645,16 +643,22 @@ $this->fields = $this->fields + array(
 			'type'                    => 'radio',
 			'required'                => true,
 			'revoke_consent_onchange' => true,
-			'options'                 => $this->yes_no,
+			'options'                 => array(
+				'yes' => __("Yes", "complianz-gdpr"),
+				'no' => __("No", "complianz-gdpr"),
+				'tcf' => __("Enable TCF", "complianz-gdpr").' (premium)',
+			),
 			'default'                 => '',
-			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?",
-				'complianz-gdpr' ),
+			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),
+			'comment'                 => __( "Google recommends an integration with TCF V2.0 to avoid loss of revenue.", 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/tcf-for-wordpress"),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'help'                    => __( "If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.",
-				'complianz-gdpr' ),
+			'help'                    => __( "If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.", 'complianz-gdpr' ),
 			'condition'               => array(
 				'uses_ad_cookies' => 'yes'
 			),
+			'disabled' => array(
+				'tcf'
+			)
 		),
 
 		'uses_wordpress_comments' => array(
@@ -744,7 +748,7 @@ $this->fields = $this->fields + array(
 
 		'statistics_script' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 7,
+			'section'                 => 8,
 			'source'                  => 'wizard',
 			'type'                    => 'javascript',
 			'default'                 => '',
@@ -766,7 +770,7 @@ $this->fields = $this->fields + array(
 
 		'cookie_scripts' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 7,
+			'section'                 => 8,
 			'source'                  => 'wizard',
 			'type'                    => 'javascript',
 			'optional'                => true,
@@ -790,7 +794,7 @@ $this->fields = $this->fields + array(
 
 		'cookie_scripts_async' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 7,
+			'section'                 => 8,
 			'source'                  => 'wizard',
 			'type'                    => 'javascript',
 			'optional'                => true,
@@ -813,7 +817,7 @@ $this->fields = $this->fields + array(
 
 		'thirdparty_scripts' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 7,
+			'section'                 => 8,
 			'source'                  => 'wizard',
 			'type'                    => 'textarea',
 			'optional'                => true,
@@ -832,7 +836,7 @@ $this->fields = $this->fields + array(
 
 		'thirdparty_iframes' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 7,
+			'section'                 => 8,
 			'source'                  => 'wizard',
 			'type'                    => 'textarea',
 			'optional'                => true,

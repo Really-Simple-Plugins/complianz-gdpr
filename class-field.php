@@ -167,7 +167,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				foreach ( $posted_fields as $fieldname => $fieldvalue ) {
 					$this->save_field( $fieldname, $fieldvalue );
 				}
-				//we're assuming the page is the same for all fields here, as it's all on the same page (or should be)
+				do_action('cmplz_after_saved_all_fields' );
 			}
 		}
 
@@ -790,24 +790,35 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					) {
 						$sel_key = false;
 						if ( ! $has_selection ) {
-							$sel_key = $default_index;
+							if (is_array($default_index)) {
+								if ($default_index[$option_key] == 1) {
+									$sel_key = $option_key;
+								}
+							} else {
+								$sel_key = $default_index;
+
+							}
+
 						} elseif ( isset( $value[ $option_key ] )
 						           && $value[ $option_key ]
 						) {
 							$sel_key = $option_key;
 						}
+						$disabled = '';
+						if (is_array($args['disabled']) && in_array($option_key, $args['disabled'])) {
+							$disabled = 'disabled';
+						}
 						?>
 						<div>
 							<input
 								name="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
-								type="hidden" value=""/>
-							<input class="<?php if ( $args['required'] ) {
+								type="hidden" value="<?php echo $disabled && ( (string) ( $sel_key == (string) $option_key ) ) ? 1 : ''?>"/>
+							<input <?php echo $disabled?> class="<?php if ( $args['required'] ) {
 								echo 'is-required';
 							} ?>"
 							       name="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
 							       size="40" type="checkbox"
-							       value="1" <?php echo ( (string) ( $sel_key
-							                                         == (string) $option_key ) )
+							       value="1" <?php echo ( (string) ( $sel_key == (string) $option_key ) )
 								? "checked" : "" ?> >
 							<label>
 								<?php echo esc_html( $option_label ) ?>
@@ -828,8 +839,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$args
 		) {
 			$fieldname = 'cmplz_' . $args['fieldname'];
-			$value     = $this->get_value( $args['fieldname'],
-				$args['default'] );
+			$value     = $this->get_value( $args['fieldname'], $args['default'] );
 			$options   = $args['options'];
 
 			if ( ! $this->show_field( $args ) ) {
@@ -839,21 +849,26 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 
-			<label
-				for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn( $args ); ?></label>
+			<label for="<?php echo $args['fieldname'] ?>"><?php echo $args['label'] ?><?php echo $this->get_help_tip_btn( $args ); ?></label>
 
 			<?php do_action( 'complianz_after_label', $args ); ?>
 			<div class="cmplz-validate-radio">
 				<?php
 				if ( ! empty( $options ) ) {
 					if ( $args['disabled'] ) {
-						echo '<input type="hidden" value="' . $args['default']
-						     . '" name="' . $fieldname . '">';
+						echo '<input type="hidden" value="' . $args['default'] . '" name="' . $fieldname . '">';
 					}
 					foreach ( $options as $option_value => $option_label ) {
 						?>
-						<input <?php if ( $args['disabled'] )
-							echo "disabled" ?>
+						<input <?php
+							if ( !is_array($args['disabled']) ) {
+								if ($args['disabled']) echo "disabled";
+							} else {
+								if ( in_array($option_value, $args['disabled'] ) ) {
+									echo "disabled";
+								}
+							}
+								?>
 							<?php if ( $args['required'] ) {
 								echo "required";
 							} ?>
