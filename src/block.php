@@ -11,26 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * */
 
 /**
- * Enqueue Gutenberg block assets for both frontend + backend.
- *
- * @uses {wp-editor} for WP editor styles.
- * @since 1.0.0
- */
-// Hook: Frontend assets.
-//handled in documents class
-
-//add_action( 'enqueue_block_assets', 'cmplz_block_assets' );
-//function cmplz_block_assets() { // phpcs:ignore
-//	// Styles.
-//	wp_enqueue_style(
-//		'my_block-cgb-style-css', // Handle.
-//		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
-//		array( 'wp-editor' ) // Dependency to include the CSS after it.
-//		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
-//	);
-//}
-
-/**
  * Enqueue Gutenberg block assets for backend editor.
  *
  * @uses {wp-blocks} for block type registration & related functions.

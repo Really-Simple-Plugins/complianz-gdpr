@@ -70,7 +70,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
-            'uses_ad_cookies_personalized' => 'yes'
+            'uses_ad_cookies_personalized' => 'NOT no'
         ),
     ),
 

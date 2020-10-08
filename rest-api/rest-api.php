@@ -15,6 +15,7 @@ function cmplz_documents_rest_route() {
 		'permission_callback' => '__return_true',
 	) );
 
+
 }
 
 function cmplz_documents_api( WP_REST_Request $request ) {
@@ -39,4 +40,6 @@ function cmplz_documents_api( WP_REST_Request $request ) {
 
 	return $output;
 }
+
+
 

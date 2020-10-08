@@ -55,7 +55,7 @@ function cmplz_integrations_page() {
 					<tr>
 						<th></th>
 						<td><?php COMPLIANZ::$field->get_fields( 'wizard',
-								STEP_COOKIES, 7 ); ?>
+								STEP_COOKIES, 8 ); ?>
 						</td>
 					</tr>
 				</table>

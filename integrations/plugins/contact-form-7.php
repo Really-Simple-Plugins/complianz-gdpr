@@ -1,6 +1,9 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 function cmplz_cf7_initDomContentLoaded() {
+
+	if (class_exists('IQFix_WPCF7_Deity')) return;
+
 	$service = WPCF7_RECAPTCHA::get_instance();
 
 	if ( $service->is_active() ) {
@@ -117,6 +120,8 @@ add_filter( 'cmplz_form_types', 'cmplz_contactform7_form_types' );
 
 add_filter( 'cmplz_dependencies', 'cmplz_contactform7_dependencies' );
 function cmplz_contactform7_dependencies( $tags ) {
+	if (class_exists('IQFix_WPCF7_Deity')) return $tags;
+
 	$service = WPCF7_RECAPTCHA::get_instance();
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		if ( $service->is_active() ) {
@@ -154,8 +159,7 @@ function cmplz_contactform7_get_plugin_forms( $input_forms ) {
 	$forms = get_posts( array( 'post_type' => 'wpcf7_contact_form' ) );
 	$forms = wp_list_pluck( $forms, "post_title", "ID" );
 	foreach ( $forms as $id => $title ) {
-		$input_forms[ 'cf7_' . $id ] = $title . " " . __( '(Contact form 7)',
-				'complianz-gdpr' );
+		$input_forms[ 'cf7_' . $id ] = $title . " " . __( '(Contact form 7)', 'complianz-gdpr' );
 	}
 
 	return $input_forms;
