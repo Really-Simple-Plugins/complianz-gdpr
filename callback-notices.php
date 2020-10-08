@@ -12,6 +12,15 @@ function cmplz_compile_statistics() {
 	}
 }
 
+add_action( 'cmplz_notice_share_data_other', 'cmplz_notice_share_data_other' );
+add_action( 'cmplz_notice_share_data_other_us', 'cmplz_notice_share_data_other' );
+function cmplz_notice_share_data_other() {
+	if ( COMPLIANZ::$cookie_admin->site_shares_data()
+	) {
+		cmplz_notice( __( "Complianz detected settings that suggest your site shares data, which means the answer should probably be Yes, or Limited", 'complianz-gdpr' ) );
+	}
+}
+
 add_action( 'cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional' );
 add_action( 'cmplz_notice_UA_code', 'cmplz_notice_stats_non_functional' );
 add_action( 'cmplz_notice_matomo_site_id',

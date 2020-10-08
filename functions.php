@@ -681,6 +681,10 @@ if ( ! function_exists( 'cmplz_uses_only_functional_cookies' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_site_shares_data' ) ) {
+	/**
+	 * Function to check if site shares data. Used in canada cookie policy
+	 * @return bool
+	 */
 	function cmplz_site_shares_data() {
 		return COMPLIANZ::$cookie_admin->site_shares_data();
 	}
@@ -979,10 +983,12 @@ if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 		//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 		//@todo: move this to the inline script  generation
 		//and move all generic, not banner specific data away from the banner.
+
 		unset( $data["set_cookies"] );
 		$banner_id              = cmplz_get_default_banner_id();
 		$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
 		$data['banner_version'] = $banner->banner_version;
+		$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
 		$response               = json_encode( $data );
 		header( "Content-Type: application/json" );
 		echo $response;
@@ -993,6 +999,12 @@ if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 	function cmplz_geoip_enabled() {
 		return apply_filters( 'cmplz_geoip_enabled', false );
+	}
+}
+
+if ( ! function_exists( 'cmplz_tcf_active' ) ) {
+	function cmplz_tcf_active() {
+		return apply_filters( 'cmplz_tcf_active', false );
 	}
 }
 
@@ -1256,8 +1268,10 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 				'rel'    => array(),
 				'title'  => array(),
 				'target' => array(),
+				'id' => array(),
 			),
 			'button'     => array(
+				'id'  => array(),
 				'class'  => array(),
 				'href'   => array(),
 				'rel'    => array(),
@@ -1371,10 +1385,8 @@ if ( ! function_exists( 'cmplz_flag' ) ) {
 
 		?>
 		<div class="cmplz-region-indicator"><?php
-		foreach ( $regions as $region ) {
-			?>
-			<img
-				src="<?php echo cmplz_url ?>/assets/images/<?php echo strtolower( $region ) ?>.png">
+		foreach ( $regions as $region ) { ?>
+			<img src="<?php echo cmplz_url ?>/assets/images/<?php echo strtolower( $region ) ?>.png">
 			<?php
 		}
 		?></div><?php
@@ -1569,8 +1581,9 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$service_name = $service->ID && strlen( $service->name ) > 0
 				? $service->name : __( 'Miscellaneous', 'complianz-gdpr' );
 
+
+			$sharing = '';
 			if ( $service->sharesData || $service_name === 'Complianz' ) {
-				$sharing = '';
 				$attributes = $service_name === 'Complianz' ? "noopener noreferrer" : "noopener noreferrer nofollow";
 				if ( strlen( $service->privacyStatementURL ) != 0 ) {
 					$link = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
@@ -1578,9 +1591,11 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 					      = sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.',
 						'complianz-gdpr' ), $link, $service_name, '</a>' );
 				}
-			} else {
+			} elseif ( strlen( $service->name )>0 ) { //don't state sharing info on misc services
 				$sharing = __( 'This data is not shared with third parties.',
 					'complianz-gdpr' );
+			} else {
+				$sharing = __( 'Sharing of data is pending investigation', 'complianz-gdpr' );
 			}
 			$purposeDescription = ( ( strlen( $service_name ) > 0 )
 			                        && ( strlen( $service->serviceType ) > 0 ) )
@@ -1890,7 +1905,7 @@ if ( ! function_exists( 'get_regions_for_consent_type' ) ) {
 			}
 		}
 
-		return $regions;
+		return apply_filters( 'cmplz_regions_for_consenttype', $regions, $consenttype );
 	}
 }
 
@@ -1965,6 +1980,8 @@ if ( ! function_exists( 'cmplz_consenttype_nicename' ) ) {
 				return __( 'Opt-in', 'complianz-gdpr' );
 			case 'optout':
 				return __( 'Opt-out', 'complianz-gdpr' );
+			case 'tcf':
+				return __( 'TCF', 'complianz-gdpr' );
 			default :
 				return __( 'All consent types', 'complianz-gdpr' );
 		}

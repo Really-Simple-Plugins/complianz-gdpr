@@ -328,7 +328,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function callback_condition_applies( $element ) {
 
 			if ( isset( $element['callback_condition'] ) ) {
-
 				$conditions = is_array( $element['callback_condition'] )
 					? $element['callback_condition']
 					: array( $element['callback_condition'] );
@@ -1057,20 +1056,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 		}
 
+		/**
+		 * Render html for the manage consent shortcode
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return string
+		 */
 
 		public function manage_consent_html( $atts = array(), $content = null, $tag = ''
 		) {
-			// normalize attribute keys, lowercase
-			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
-
-			ob_start();
-
-			// override default attributes with user attributes
-			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
-
-			echo '<p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
-
-			return ob_get_clean();
+			return '<a id="manage-consent"></a><p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
 		}
 
 		public function revoke_link( $atts = array(), $content = null, $tag = ''
@@ -2542,8 +2539,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
 				$settings  = $banner->get_settings_array();
 				$settings['privacy_link_us ']
-					           = COMPLIANZ::$document->get_page_url( 'privacy-statement',
-					'us' );
+					           = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );
 				$settings_html = '';
 				$skip          = array(
 					'categorie',
@@ -2596,19 +2592,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 				}
 				unset( $settings["readmore_url"] );
+				$settings = apply_filters( 'cmplz_cookie_policy_snapshot_settings' ,$settings );
 
 				foreach ( $settings as $key => $value ) {
 					if ( in_array( $key, $skip ) ) {
 						continue;
 					}
 //                    if (empty($value)) $value = __("no","complianz-gdpr");
-					$settings_html .= '<li>' . $key . ' => '
-					                  . esc_html( $value ) . '</li>';
+					$settings_html .= '<li>' . $key . ' => ' . esc_html( $value ) . '</li>';
 				}
 
-				$settings_html = '<div><h1>' . __( 'Cookie consent settings',
-						'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html )
-				                 . '</ul></div>';
+				$settings_html = '<div><h1>' . __( 'Cookie consent settings', 'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html ) . '</ul></div>';
 				$intro         = '<h1>' . __( "Proof of Consent",
 						"complianz-gdpr" ) . '</h1>
                      <p>' . sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
@@ -2618,8 +2612,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						"complianz-gdpr" ),
 						'<a target="_blank" href="https://complianz.io/consent">',
 						"</a>" ) . '</p>';
-				COMPLIANZ::$document->generate_pdf( 'cookie-statement', $region,
-					false, true, $intro, $settings_html );
+				$this->generate_pdf( 'cookie-statement', $region, false, true, $intro, $settings_html );
 			}
 			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false );
 		}
@@ -2666,14 +2659,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			$title         = $pages[ $page ]['title'];
-			$document_html = $intro
-			                 . COMPLIANZ::$document->get_document_html( $page,
-					$region, $post_id ) . $append;
+			$document_html = $intro . COMPLIANZ::$document->get_document_html( $page, $region, $post_id ) . $append;
+			$document_html = apply_filters( 'cmplz_cookie_policy_snapshot_html', $document_html , $save_to_file );
 			$load_css      = cmplz_get_value( 'use_document_css' );
 			$css           = '';
+
 			if ( $load_css ) {
-				$css = file_get_contents( cmplz_path
-				                          . "assets/css/document.css" );
+				$css = file_get_contents( cmplz_path . "assets/css/document.css" );
 			}
 			$title_html = $save_to_file ? ''
 				: '<h4 class="center">' . $title . '</h4>';
@@ -2688,11 +2680,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
                     h2 {
                         font-size:12pt;
                     }
-
                     h3 {
                         font-size:12pt;
                     }
-
                     h4 {
                         font-size:10pt;
                         font-weight: bold;
@@ -2700,9 +2690,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
                     .center {
                       text-align:center;
                     }
-
-
-
+					 #cmplz-tcf-buttons-template, #cmplz-tcf-vendor-template, #cmplz-tcf-type-template {
+						display:none !important;
+					}
                     </style>
 
                     <body >
