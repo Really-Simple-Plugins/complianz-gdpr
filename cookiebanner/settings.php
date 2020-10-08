@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
  function cmplz_banner_color_schemes(){
-	return array(
+	$schemes = array(
 		'Wordpress' => array(
 			'slider_background_color' => '#21759b',
 			'slider_bullet_color' => '#fff',
@@ -122,7 +122,27 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 			'button_text_color' => '#000000',
 			'border_color' => '#e35899',
 		),
+
+		'tcf' => array(
+			'slider_background_color' => '#33CC66',
+			'slider_bullet_color' => '#fff',
+			'slider_background_color_inactive' => '#CC0000',
+			'accept_all_background_color' => '#333',
+			'accept_all_text_color' => '#fff',
+			'accept_all_border_color' => '#333',
+			'functional_background_color' => '#fff',
+			'functional_text_color' => '#333',
+			'functional_border_color' => '#fff',
+			'popup_background_color' => '#fff',
+			'popup_text_color' => '#333',
+			'button_background_color' => '#fff',
+			'button_text_color' => '#333',
+			'border_color' => '#333',
+			'theme' => 'minimal',
+		),
 	);
+
+	return $schemes;
 }
 
 function cmplz_get_banner_color_scheme_options(){
@@ -666,9 +686,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => array( 'optin', 'optinstats' ),
 				'type'               => 'text',
 				'default'            => __( "Marketing", 'complianz-gdpr' ),
-				'label'              => __( "Marketing category text",
-					'complianz-gdpr' ),
-
+				'label'              => __( "Marketing category text", 'complianz-gdpr' ),
 				'condition'          => array( 'use_categories' => 'NOT no' ),
 				'callback_condition' => 'cmplz_uses_optin',
 				'cols'     => 12,

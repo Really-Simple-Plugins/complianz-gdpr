@@ -1123,50 +1123,52 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @param bool   $consenttype
 		 * @param bool   $force_template
 		 * @param bool   $force_color
+		 * @param bool   $functional_only
 		 *
 		 * @return string|string[]
 		 */
 
 
-		public function get_consent_checkboxes($context = 'banner', $consenttype = false, $force_template = false, $force_color = false){
+		public function get_consent_checkboxes($context = 'banner', $consenttype = false, $force_template = false, $force_color = false, $functional_only = false){
 
 			$checkbox_functional  = $this->get_consent_checkbox('functional', $this->category_functional_x, $context, $force_template,true,true, $force_color);
-			$use_cats = false;
-			$uses_marketing_cookies = cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' ;
+			$output = $checkbox_functional;
+			if (!$functional_only) {
+				$use_cats = false;
+				$uses_marketing_cookies = cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' ;
 
-			if ($consenttype) {
-				if ($consenttype !== 'optout' && (
-						$this->use_categories !== 'no' ||
-						( $consenttype === 'optinstats' && $this->use_categories_optinstats !== 'no')
-					)){
-					$use_cats = true;
-				}
-			} else {
-				if ( $this->use_categories !== 'no' || $this->use_categories_optinstats !== 'no' ){
-					$use_cats = true;
-				}
-			}
-
-			if ( $use_cats) {
-				$output = $checkbox_functional;
-				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
-					$categories = explode( ',', $this->tagmanager_categories );
-					foreach ( $categories as $i => $category ) {
-						if ( empty( $category ) ) {
-							continue;
-						}
-						$output .= $this->get_consent_checkbox( $i, trim( $category ), $context, $force_template, false, false, $force_color);
+				if ($consenttype) {
+					if ($consenttype !== 'optout' && (
+							$this->use_categories !== 'no' ||
+							( $consenttype === 'optinstats' && $this->use_categories_optinstats !== 'no')
+						)){
+						$use_cats = true;
 					}
 				} else {
-					$output .= cmplz_consent_api_active() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
-					$output .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
+					if ( $this->use_categories !== 'no' || $this->use_categories_optinstats !== 'no' ){
+						$use_cats = true;
+					}
 				}
-				if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
-			} else {
-				$output = $checkbox_functional;
-				if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
-			}
 
+				if ( $use_cats) {
+
+					if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+						$categories = explode( ',', $this->tagmanager_categories );
+						foreach ( $categories as $i => $category ) {
+							if ( empty( $category ) ) {
+								continue;
+							}
+							$output .= $this->get_consent_checkbox( $i, trim( $category ), $context, $force_template, false, false, $force_color);
+						}
+					} else {
+						$output .= cmplz_consent_api_active() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
+						$output .= ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats() ) ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
+					}
+					if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
+				} else {
+					if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
+				}
+			}
 			$category_template = $force_template ?: $this->checkbox_style;
 
 			if ($category_template === 'slider'){
@@ -1195,7 +1197,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$output = preg_replace( "/\r|\n/", "", $output );
-			return $output;
+			return apply_filters('cmplz_categories_html',$output, $context);
 		}
 
 
@@ -1268,8 +1270,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => $this->dismiss_on_timeout,
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
-				'url'                       => admin_url( 'admin-ajax.php' ),
+				'url'                       => add_query_arg('lang',  get_locale(), admin_url( 'admin-ajax.php' ) ),
 				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),
+				'tcf_active'                => cmplz_tcf_active(),
 			);
 
 
@@ -1361,7 +1364,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 
-			return $output;
+			return apply_filters( 'cmplz_cookiebanner_settings', $output, $this );
 
 		}
 

@@ -44,6 +44,7 @@
       var cookie = [
         name + '=' + value,
         'expires=' + exdate.toGMTString(),
+		  'SameSite=Lax',
         'path=' + (path || '/')
       ];
 

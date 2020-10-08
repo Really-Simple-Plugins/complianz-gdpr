@@ -1,11 +1,8 @@
 jQuery(document).ready(function ($) {
-
     var ccName;
 	var ccCatsOpenedByUser = false;
 	var ccCookieWallShownBefore = false;
-
 	var ccEventHooked = false;
-
     $('.cmplz-color-picker').wpColorPicker({
         change:
             function (event, ui) {
@@ -20,6 +17,16 @@ jQuery(document).ready(function ($) {
         }
     );
 
+	var cmplz_tcf_active = $('input[name=cmplz_tcf_active]').val();
+	var has_optout = $('data[tab=general]').length;
+	console.log(has_optout);
+	if (cmplz_tcf_active && ccConsentType === 'optin') {
+		if (has_optout) {
+			ccConsentType = 'optout';
+		} else {
+			ccConsentType = 'nopreview';
+		}
+	}
     var settingConsentType = ccConsentType;
     if (ccConsentType === 'optinstats') settingConsentType = 'optin';
 
@@ -183,10 +190,14 @@ jQuery(document).ready(function ($) {
     });
 
     $(document).on('click', '.region-link', function () {
-        ccConsentType = $(this).data('tab');
-        settingConsentType = ccConsentType;
-        if (ccConsentType === 'optinstats') settingConsentType = 'optin';
-        cmplz_cookie_warning();
+
+		ccConsentType = $(this).data('tab');
+		if (ccConsentType !=='tcf' ) {
+			settingConsentType = ccConsentType;
+			if (ccConsentType === 'optinstats') settingConsentType = 'optin';
+			cmplz_cookie_warning();
+		}
+
     });
 
     $(document).on('change', 'input[name=cmplz_use_custom_cookie_css]', function () {
@@ -303,6 +314,7 @@ jQuery(document).ready(function ($) {
     cmplz_cookie_warning();
 	cmplz_apply_style();
     function cmplz_cookie_warning(){
+    	if (ccConsentType==='nopreview') return;
     	if (ccCheckboxes.length === 0) {
 			$.ajax({
 				type: 'GET',
@@ -326,11 +338,14 @@ jQuery(document).ready(function ($) {
 	}
     function cmplz_cookie_warning_render() {
         var ccDismiss;
+		complianz.tcf_regions = ['eu', 'uk', 'ca'];
         if (ccName) {
             ccName.fadeOut();
             ccName.destroy();
         }
 
+		var event = new CustomEvent('wp_consent_type_defined');
+		document.dispatchEvent(event);
 
         if (ccConsentType === 'optin'){
             var ccCategories = $('select[name=cmplz_use_categories]').val();
@@ -417,10 +432,7 @@ jQuery(document).ready(function ($) {
 			if (!ccHasStatsCategory){
 				ccCheckboxes =  cmplzRemoveStatisticsCategory(ccCheckboxes, ccCategories, ccConsentType);
 			}
-
 		}
-
-
 
         if (ccPosition === 'static') {
             ccStatic = true;
@@ -515,9 +527,18 @@ jQuery(document).ready(function ($) {
 				$('.cmplz-categories-wrap').hide();
 			}
 
-			ccName.open();
+			var event = new CustomEvent('cmplzCookieWarningLoaded', { detail: complianz.region });
+			document.dispatchEvent(event);
 
-        });
+			ccName.open();
+			//check for TCF integration
+			//we need to reload if it exists
+			if ($('#cmplz-tcf-js').length) {
+				var src = $('#cmplz-tcf-js').attr('src');
+				$.getScript(src);
+			}
+		});
+
 
         $(document).on('click', '.cc-save-settings', function(){
             if ($('#cmplz_marketing').is(":checked")) {

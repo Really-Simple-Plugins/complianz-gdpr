@@ -30,7 +30,7 @@
             //do something with level all
         }
     }
-
+cmplzCookieWarningLoaded
     //do CSS change on specific consenttypes
 
     $(document).on("cmplzCookieWarningLoaded", myScriptHandler);
@@ -39,10 +39,7 @@
             $('#cc-banner-wrap').removeClass('.cmplz-soft-cookiewall');
         }
     }
-
-
 * */
-
 
 jQuery(document).ready(function ($) {
 	var ccStatus;
@@ -65,7 +62,7 @@ jQuery(document).ready(function ($) {
 	 * prevent scroll to top behaviour because of missing href tag
 	 */
 
-	$(document).on('click', '.cc-btn', function (e) {
+	$(document).on('click', '.cc-btn-no-href', function (e) {
 		e.preventDefault();
 	});
 
@@ -87,7 +84,6 @@ jQuery(document).ready(function ($) {
 
 	function setBlockedContentContainer() {
 		//force = typeof force !== 'undefined' ? force : false;
-
 		//to prevent this function to run when cookies are accepted, we check for accepted status here
 		//this is not the same as getHighestAcceptance
 		// if (!ccAllEnabled) return;
@@ -370,6 +366,10 @@ jQuery(document).ready(function ($) {
 				consentLevel: "all"
 			});
 
+			//javascript event
+			var event = document.createEvent('Event');
+			event.initEvent('cmplzEnableScriptsMarketing', true, true);
+			document.dispatchEvent(event);
 			//if there are no blockable scripts at all, we still want to provide a hook
 			//in most cases, this script fires too early, and won't run yet. In that
 			//case it's run from the script activation callbacks.
@@ -474,7 +474,6 @@ jQuery(document).ready(function ($) {
 
 	function cmplzEnableStats() {
 		if (ccStatsEnabled) return;
-
 		$('.cmplz-script.cmplz-stats').each(function (i, obj) {
 			var src = $(this).attr('src');
 			if (src && src.length) {
@@ -497,10 +496,8 @@ jQuery(document).ready(function ($) {
 					.appendTo($(this).parent());
 				$(this).remove();
 			}
-
-			ccStatsEnabled = true;
 		});
-
+		ccStatsEnabled = true;
 		//fire an event so custom scripts can hook into this.
 		$.event.trigger({
 			type: "cmplzEnableScripts",
@@ -576,6 +573,8 @@ jQuery(document).ready(function ($) {
 		//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 		//objects are merged so user_data will override data in complianz object
 		complianz = cmplzMergeObject(complianz, cmplz_user_data);
+		console.log("after loaded user data");
+
 		//check if we need to redirect to another legal document, for a specific region
 		cmplzMaybeAutoRedirect();
 
@@ -589,6 +588,8 @@ jQuery(document).ready(function ($) {
 		$.event.trigger({
 			type: "wp_consent_type_defined"
 		});
+		var event = new CustomEvent('wp_consent_type_defined');
+		document.dispatchEvent(event);
 
 		//uk has it's own use_category setting
 		if (complianz.consenttype === 'optinstats') {
@@ -609,6 +610,8 @@ jQuery(document).ready(function ($) {
 			type: "cmplzCookieBannerData",
 			data: complianz
 		});
+		var cbd_event = new CustomEvent('cmplzCookieBannerData');
+		document.dispatchEvent(cbd_event);
 
 		//if no status was saved before, we do it now
 		if (cmplzGetCookie('cmplz_choice') !== 'set') {
@@ -713,7 +716,11 @@ jQuery(document).ready(function ($) {
 
 		var save_button = '<a aria-label="{{save_preferences}}" href="#" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
 		if (complianz.use_categories === 'hidden' ) {
-			save_button = '<a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
+			if (complianz.tcf_active) {
+				save_button = '<a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a><a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a>';
+			} else {
+				save_button = '<a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
+			}
 		}
 
 		if (complianz.use_categories === 'visible' || complianz.use_categories === 'hidden' ) {
@@ -729,6 +736,8 @@ jQuery(document).ready(function ($) {
 		//allow to set cookies on the root domain
 		var domain = cmplzGetCookieDomain();
 
+		//to be able to hide the banner on the cookie policy
+		var autoOpen = $('.cmplz-tcf-container').length && complianz.tcf_active ? false : true;
 		window.cookieconsent.initialise({
 			cookie: {
 				name: 'complianz_consent_status',
@@ -742,7 +751,7 @@ jQuery(document).ready(function ($) {
 					dismissCookieWall();
 				}
 
-				/*
+				/**
 				* This runs when the banner is dismissed or accepted.
 				* When status = allow, it's accepted, and we want to run all scripts.
 				*
@@ -803,6 +812,7 @@ jQuery(document).ready(function ($) {
 					ccName.open();
 				}
 			},
+			"autoOpen" : autoOpen,
 			"dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
 			"dismissOnScroll": parseInt(complianz.dismiss_on_scroll),
 			"dismissOnWindowClick": true,
@@ -857,6 +867,11 @@ jQuery(document).ready(function ($) {
 				activateCookieWall();
 			}
 
+			//we don't want the cc-btn to trigger a click, scrolling the window. But in some cases we do. So we add a separate class here which we can remove later, without changin the styling
+			$('.cc-btn').each(function(){
+				$(this).addClass('cc-btn-no-href');
+			});
+
 			//hidden categories
 			if (complianz.use_categories === 'hidden') {
 				$('.cmplz-categories-wrap').hide();
@@ -894,6 +909,7 @@ jQuery(document).ready(function ($) {
 				//make sure the checkboxes show the correct settings
 				cmplzSyncCategoryCheckboxes();
 			}
+
 			cmplzFireCategories();
 
 			/** We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
@@ -915,6 +931,9 @@ jQuery(document).ready(function ($) {
 				type: "cmplzCookieWarningLoaded",
 				consentType: complianz.consenttype
 			});
+			//javascript event
+			var event = new CustomEvent('cmplzCookieWarningLoaded', { detail: complianz.region });
+			document.dispatchEvent(event);
 		});
 	}
 
@@ -926,7 +945,7 @@ jQuery(document).ready(function ($) {
 
 	$(document).on('click', '.cc-save-settings', function () {
 		cmplzSaveCategoriesSelection();
-		cmplzFireCategories(false, true);
+		// cmplzFireCategories(false, true);
 	});
 
 	/**
@@ -961,7 +980,7 @@ jQuery(document).ready(function ($) {
 
 		//check if status is changed from 'allow' to 'revoked'
 		var reload = false;
-		if ($('.cmplz_marketing').length) {
+		if ($('.cmplz_marketing').length ) {
 			//'marketing' checkbox is not checked, and previous value was allow. reload.
 			if (!$('.cmplz_marketing').is(":checked") && cmplzGetCookie('cmplz_marketing') === 'allow' ) {
 				reload = true;
@@ -1126,14 +1145,13 @@ jQuery(document).ready(function ($) {
 		}
 
 		//if it's already denied, show the accept option again.
-		//if not denied, do a full revoke 
+		//if not denied, do a full revoke
 		if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
 			$('.cc-revoke').click();
 			$('.cc-revoke').fadeOut();
 		} else {
 			cmplzRevoke();
 		}
-
 	});
 
 	/**
@@ -1177,7 +1195,11 @@ jQuery(document).ready(function ($) {
 		cmplzSyncCategoryCheckboxes(true);
 		cmplzFireCategories('all', true);
 		cmplzSaveCategoriesSelection();
-
+		//dispatch event
+		var details = new Object();
+		details.region = complianz.region;
+		var event = new CustomEvent('cmplzAcceptAll', { detail: details });
+		document.dispatchEvent(event);
 		ccName.close();
 		$('.cc-revoke').fadeIn();
 	}
@@ -1246,7 +1268,7 @@ jQuery(document).ready(function ($) {
 			domain = ";domain=." + complianz.cookie_domain;
 		}
 
-		document.cookie = name + "=" + value + secure + expires + domain + ";path=/";
+		document.cookie = name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path=/";
 	}
 
 	/**
@@ -1343,13 +1365,11 @@ jQuery(document).ready(function ($) {
 		return 'no-choice';
 	}
 
-
 	/**
 	 * Fire the categories events which have been accepted.
 	 * Fires Tag Manager events.
 	 *
 	 * */
-
 
 	function cmplzFireCategories(category, save) {
 		cmplzSetAcceptedCookiePolicyID();
@@ -1357,6 +1377,7 @@ jQuery(document).ready(function ($) {
 		var forceMarketing = category === 'all' || category === 'marketing';
 		var forceStatistics = category === 'all' || category === 'statistics';
 		var forcePreferences = category === 'all' || category === 'preferences';
+		var highestCategoryAccepted = 'functional';
 		save = typeof save !== 'undefined' ? save : false;
 		//always functional
 		cmplz_wp_set_consent('functional', 'allow');
@@ -1370,15 +1391,16 @@ jQuery(document).ready(function ($) {
 				}
 			}
 		} else {
+			if (forcePreferences || ($('.cmplz_prefs').length && $('.cmplz_prefs').is(":checked"))) {
+				cmplz_wp_set_consent('preferences', 'allow');
+				highestCategoryAccepted = 'preferences';
+			}
+
 			if (forceStatistics || ($('.cmplz_stats').length && $('.cmplz_stats').is(":checked"))) {
-				console.log('fire statistics');
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
 				cmplzEnableStats();
-			}
-
-			if (forcePreferences || ($('.cmplz_prefs').length && $('.cmplz_prefs').is(":checked"))) {
-				cmplz_wp_set_consent('preferences', 'allow');
+				highestCategoryAccepted = 'statistics';
 			}
 		}
 
@@ -1388,7 +1410,15 @@ jQuery(document).ready(function ($) {
 			cmplz_wp_set_consent('marketing', 'allow');
 			cmplzRunTmEvent('cmplz_event_marketing');
 			cmplzEnableMarketing();
+			highestCategoryAccepted = 'marketing';
 		}
+
+		//dispatch event
+		var details = new Object();
+		details.category = highestCategoryAccepted;
+		details.region = complianz.region;
+		var event = new CustomEvent('cmplzFireCategories', { detail: details });
+		document.dispatchEvent(event);
 
 		//marketing cookies acceptance
 		if (save) {
@@ -1396,7 +1426,6 @@ jQuery(document).ready(function ($) {
 				cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
 			}
 		}
-
 	}
 
 
@@ -1596,9 +1625,13 @@ jQuery(document).ready(function ($) {
 		cmplzSyncCategoryCheckboxes();
 		cmplzFireCategories();
 		complianz_track_status();
+
+		var event = new CustomEvent('cmplzRevoke', { detail: reload });
+		document.dispatchEvent(event);
 		cmplzUpdateStatusCustomLink();
 
-		if (reload) {
+		//we need to let the iab extension handle the reload, otherwise the consent revoke might not be ready yet.
+		if (!complianz.tcf_active && reload) {
 			location.reload();
 		}
 	}
