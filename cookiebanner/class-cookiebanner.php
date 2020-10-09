@@ -18,6 +18,7 @@ function cmplz_install_cookiebanner_table() {
              `ID` int(11) NOT NULL AUTO_INCREMENT,
              `banner_version` int(11) NOT NULL,
              `default` int(11) NOT NULL,
+             `iab_global` int(11) NOT NULL,
              `archived` int(11) NOT NULL,
              `title` varchar(255) NOT NULL,
             `position` varchar(255) NOT NULL,
@@ -82,6 +83,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $banner_version = 0;
 		public $title;
 		public $default = false;
+		public $iab_global = false;
 		public $archived = false;
 
 		/* styling */
@@ -253,6 +255,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$this->banner_version = $cookiebanner->banner_version;
 				$this->title          = $cookiebanner->title;
 				$this->default        = $cookiebanner->default;
+				$this->iab_global     = $cookiebanner->iab_global;
 				$this->archived       = $cookiebanner->archived;
 				$this->position       = ! empty( $cookiebanner->position )
 					? $cookiebanner->position
@@ -658,6 +661,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$update_array = array(
 				'position'                  => sanitize_title( $this->position ),
 				'banner_version'            => intval( $this->banner_version ),
+				'iab_global'                => intval( $this->iab_global ),
 				'archived'                  => boolval( $this->archived ),
 				'title'                     => sanitize_text_field( $this->title ),
 				'theme'                     => sanitize_title( $this->theme ),
