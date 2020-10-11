@@ -48,10 +48,14 @@ function cmplz_editor_assets() { // phpcs:ignore
     wp_set_script_translations( 'cmplz-block', 'complianz-gdpr' , cmplz_path . 'config/languages');
 
 	// Styles.
-    wp_enqueue_style(
-        'cmplz-block', // Handle.
-        cmplz_url . "assets/css/document.min.css", array( 'wp-edit-blocks' ), cmplz_version
-    );
+	$load_css = cmplz_get_value('use_document_css');
+	if ($load_css) {
+		wp_enqueue_style(
+			'cmplz-block', // Handle.
+			cmplz_url . "assets/css/document.min.css",
+			array( 'wp-edit-blocks' ), cmplz_version
+		);
+	}
 }
 
 

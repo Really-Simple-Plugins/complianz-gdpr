@@ -47,7 +47,6 @@ function cmplz_filter_fields( $fields ) {
 	 * we unset the condition that makes these dependent of the manual config selection
 	 *
 	 * */
-
 	if ( ! cmplz_manual_stats_config_possible() ) {
 		unset( $fields['GTM_code']['condition'] );
 		unset( $fields['UA_code']['condition'] );

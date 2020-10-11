@@ -117,7 +117,6 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 }
@@ -2203,5 +2202,73 @@ if ( ! function_exists( 'cmplz_sanitize_languages' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_remove_free_translation_files' ) ) {
+
+	/**
+	 *   Get a list of files from a directory, with the extensions as passed.
+	 */
+
+	function cmplz_remove_free_translation_files() {
+		$path = dirname( cmplz_path, 2 ) . "/languages/plugins/";
+		$extensions = array( "po", "mo" );
+		if ( $handle = opendir( $path ) ) {
+			while ( false !== ( $file = readdir( $handle ) ) ) {
+				if ( $file != "." && $file != ".." ) {
+					$file = $path . '/' . $file;
+					$ext  = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
+
+					if ( is_file( $file ) && in_array( $ext, $extensions )
+					     && strpos( $file, 'complianz-gdpr' ) !== false
+					     && strpos( $file, 'backup' ) === false
+					) {
+						//copy to new file
+						$new_name = str_replace( 'complianz-gdpr',
+							'complianz-gdpr-backup-' . time(), $file );
+
+						rename( $file, $new_name );
+					}
+				}
+			}
+			closedir( $handle );
+		}
+	}
+}
+
+if ( ! function_exists( 'cmplz_has_free_translation_files' ) ) {
+
+	/**
+	 * Get a list of files from a directory, with the extensions as passed.
+	 *
+	 * @return bool
+	 */
+
+	function cmplz_has_free_translation_files() {
+		$path = dirname( cmplz_path, 2 ) . "/languages/plugins/";
+		if ( ! file_exists( $path ) ) {
+			return false;
+		}
+
+		$has_free_files = false;
+		$extensions     = array( "po", "mo" );
+		if ( $handle = opendir( $path ) ) {
+			while ( false !== ( $file = readdir( $handle ) ) ) {
+				if ( $file != "." && $file != ".." ) {
+					$file = $path . '/' . $file;
+					$ext  = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
+
+					if ( is_file( $file ) && in_array( $ext, $extensions )
+					     && strpos( $file, 'complianz-gdpr' ) !== false
+					) {
+						$has_free_files = true;
+						break;
+					}
+				}
+			}
+			closedir( $handle );
+		}
+
+		return $has_free_files;
+	}
+}
 
 

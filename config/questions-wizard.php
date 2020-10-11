@@ -422,7 +422,8 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'required'                => true,
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Analytics UA code", 'complianz-gdpr' ),
+			'label'                   => __( "Enter your Analytics UA code",
+				'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
@@ -640,7 +641,7 @@ $this->fields = $this->fields + array(
 			'section'                 => 4,
 			'source'                  => 'wizard',
 			'type'                    => 'radio',
-			'required'                => false,
+			'required'                => true,
 			'revoke_consent_onchange' => true,
 			'options'                 => array(
 				'yes' => __("Yes", "complianz-gdpr"),

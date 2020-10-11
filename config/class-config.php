@@ -469,7 +469,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"instagram" => array(
 					'instawidget.net/js/instawidget.js',
 					'cdninstagram.com',
-					'instagram.com'
+					'src="https://www.instagram.com',
+					'src="https://instagram.com',
 				),
 			);
 

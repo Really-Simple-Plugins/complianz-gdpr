@@ -573,7 +573,6 @@ jQuery(document).ready(function ($) {
 		//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 		//objects are merged so user_data will override data in complianz object
 		complianz = cmplzMergeObject(complianz, cmplz_user_data);
-		console.log("after loaded user data");
 
 		//check if we need to redirect to another legal document, for a specific region
 		cmplzMaybeAutoRedirect();

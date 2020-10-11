@@ -18,8 +18,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 
 			self::$_this = $this;
-
-			add_action( 'plugins_loaded', array( $this, 'process_save' ), 20 );
+			//safe before the fields are loaded in config, in init
+			add_action( 'plugins_loaded', array( $this, 'process_save' ), 14 );
 			add_action( 'cmplz_register_translation',
 				array( $this, 'register_translation' ), 10, 2 );
 
@@ -90,7 +90,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
-
 			if ( isset( $_POST['complianz_nonce'] ) ) {
 				//check nonce
 				if ( ! isset( $_POST['complianz_nonce'] )

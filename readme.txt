@@ -6,7 +6,7 @@ Requires at least: 4.8
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.5
-Stable tag: 4.7.3
+Stable tag: 4.7.4
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,22 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.7.4 =
+* Improvement: don't enqueue document css in Gutenberg editor when disabled
+* Improvement: no cookie wall on cookie policy
+* Improvement: responsiveness of TCF banner
+* Improvement: upgrade translation files on activation rather then upgrade from free
+* Improvement: stricter instagram detection, preventing false positives on hyperlinks
+* Fix: safe data before loading fields, which could cause conditions not to be updated yet on next pageload
+* Fix: set default for personalized ads, to prevent unfocusable document control
+* Fix: pass language as parameter with ajax calls, to ensure WPML and polylang translation
+
+= 4.7.3 =
+* CF 7 reCaptcha v2 fix
+* Increase conditional jquery priority to limit chances of deregistering afterwards.
+* Extend safe mode with script center features
+* TCF implementation
+
 = 4.7.2 =
 * Improvement: add option to flag first party marketing cookies with an integration.
 * Improvement: set tabindex to 0 for banner controls.
