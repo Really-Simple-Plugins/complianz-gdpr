@@ -94,4 +94,18 @@ $this->warning_types = array(
 			'complianz-gdpr' ),
 	),
 
+	'no-jquery' => array(
+		'type'        => 'general',
+		'label_error' => __( 'No jquery was detected on the front-end of your site. Complianz requires jquery', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
+	),
+	'console-errors' => array(
+		'type'        => 'general',
+		'label_error' => __( 'Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality.', 'complianz-gdpr' )
+		                 . '<br>'.__("Last error in the console:", "complianz-gdpr")
+		                 .'<div style="color:red">'
+		                 . cmplz_get_console_errors()
+		                 .'</div>'
+		                 . cmplz_read_more( 'https://complianz.io/cookie-banner-does-not-appear/' , false ),
+	),
+
 );

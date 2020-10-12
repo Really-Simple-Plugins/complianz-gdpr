@@ -727,6 +727,16 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					$warnings[] = 'complianz-gdpr-feature-update';
 				}
 
+				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() && get_option('cmplz_detected_console_errors') ) {
+					//clear all other errors, as this one is important
+					$warnings = array();
+					$warnings[] = 'console-errors';
+				}
+
+				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() && get_option('cmplz_detected_missing_jquery') ) {
+					$warnings[] = 'no-jquery';
+				}
+
 				$warnings = apply_filters( 'cmplz_warnings', $warnings );
 
 				set_transient( 'complianz_warnings', $warnings,

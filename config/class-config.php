@@ -407,11 +407,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"calendly"         => 'Calendly',
 			);
 
-		// public $recaptcha_services
-		// 		= array(
-		// 			'google-recaptcha' => 'Google reCaptcha',
-		// 		);
-
 		public $thirdparty_socialmedia
 			= array(
 				'facebook'  => 'Facebook',
@@ -699,6 +694,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
 				require_once( cmplz_path . '/pro/config/includes.php' );
 			}
+
+			/**
+			 * Preload fields with a filter, to allow for overriding types
+			 */
+			add_action( 'plugins_loaded', array( $this, 'preload_init' ), 10 );
+
 			/**
 			 * The integrations are loaded with priority 10
 			 * Because we want to initialize after that, we use 15 here
@@ -784,6 +785,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			}
 
 			return false;
+		}
+
+		public function preload_init(){
+			$this->fields = apply_filters( 'cmplz_fields_load_types', $this->fields );
 		}
 
 		public function init() {

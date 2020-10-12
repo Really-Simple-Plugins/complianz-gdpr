@@ -117,6 +117,7 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 }
@@ -822,6 +823,20 @@ if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 		}
 
 		return false;
+	}
+}
+
+if (!function_exists('cmplz_get_console_errors')){
+	/**
+	 * Get console errors as detected by complianz
+	 * @return string
+	 */
+	function cmplz_get_console_errors(){
+		$errors = get_option('cmplz_detected_console_errors');
+		if ( $errors && isset($errors[0]) && isset($errors[1]) && isset($errors[2]) ) {
+			return sprintf(__('%s on line %s of %s', 'complianz-gdpr'), $errors[0], $errors[1], $errors[2]);
+		}
+		return '';
 	}
 }
 
@@ -2209,7 +2224,9 @@ if ( ! function_exists( 'cmplz_remove_free_translation_files' ) ) {
 	 */
 
 	function cmplz_remove_free_translation_files() {
-		$path = dirname( cmplz_path, 2 ) . "/languages/plugins/";
+		//can't use cmplz_path here, it may not have been defined yet on activation
+		$path = plugin_dir_path(__FILE__);
+		$path = dirname( $path, 2 ) . "/languages/plugins/";
 		$extensions = array( "po", "mo" );
 		if ( $handle = opendir( $path ) ) {
 			while ( false !== ( $file = readdir( $handle ) ) ) {
@@ -2243,7 +2260,10 @@ if ( ! function_exists( 'cmplz_has_free_translation_files' ) ) {
 	 */
 
 	function cmplz_has_free_translation_files() {
-		$path = dirname( cmplz_path, 2 ) . "/languages/plugins/";
+		//can't use cmplz_path here, it may not have been defined yet on activation
+		$path = plugin_dir_path(__FILE__);
+		$path = dirname( $path, 2 ) . "/languages/plugins/";
+
 		if ( ! file_exists( $path ) ) {
 			return false;
 		}

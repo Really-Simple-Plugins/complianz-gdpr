@@ -60,7 +60,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				$string );
 		}
 
-
 		public function load() {
 			$this->default_args = array(
 				"fieldname"          => '',
@@ -312,6 +311,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				? $fields[ $fieldname ]['required'] : false;
 
 			$fieldvalue = $this->sanitize( $fieldvalue, $type );
+
 			if ( ! $this->is_conditional( $fieldname ) && $required
 			     && empty( $fieldvalue )
 			) {
@@ -323,8 +323,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				if ( isset( $fields[ $fieldname ]['translatable'] )
 				     && $fields[ $fieldname ]['translatable']
 				) {
-					do_action( 'cmplz_register_translation', $fieldname,
-						$fieldvalue );
+					do_action( 'cmplz_register_translation', $fieldname, $fieldvalue );
 				}
 			}
 
@@ -332,18 +331,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			if ( ! is_array( $options ) ) {
 				$options = array();
 			}
-			$prev_value = isset( $options[ $fieldname ] )
-				? $options[ $fieldname ] : false;
-			do_action( "complianz_before_save_" . $page . "_option", $fieldname,
-				$fieldvalue, $prev_value, $type );
+			$prev_value = isset( $options[ $fieldname ] ) ? $options[ $fieldname ] : false;
+			do_action( "complianz_before_save_" . $page . "_option", $fieldname, $fieldvalue, $prev_value, $type );
 			$options[ $fieldname ] = $fieldvalue;
 
 			if ( ! empty( $options ) ) {
 				update_option( 'complianz_options_' . $page, $options );
 			}
 
-			do_action( "complianz_after_save_" . $page . "_option", $fieldname,
-				$fieldvalue, $prev_value, $type );
+			do_action( "complianz_after_save_" . $page . "_option", $fieldname, $fieldvalue, $prev_value, $type );
 		}
 
 
@@ -398,11 +394,17 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 		}
 
+		/**
+		 * Sanitize a field
+		 * @param $value
+		 * @param $type
+		 *
+		 * @return array|bool|int|string|void
+		 */
 		public function sanitize( $value, $type ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return false;
 			}
-
 			switch ( $type ) {
 				case 'colorpicker':
 					return sanitize_hex_color( $value );

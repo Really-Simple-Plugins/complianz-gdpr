@@ -156,7 +156,7 @@ function cmplz_get_banner_color_scheme_options(){
 }
 
 
-add_filter('cmplz_fields', 'cmplz_add_cookiebanner_settings');
+add_filter('cmplz_fields_load_types', 'cmplz_add_cookiebanner_settings');
 function cmplz_add_cookiebanner_settings($fields){
 
 	$fields = $fields + array(
@@ -326,8 +326,6 @@ function cmplz_add_cookiebanner_settings($fields){
 				),
 				'cols'     => 4,
 			),
-
-
 
 			'slider_bullet_color' => array(
 				'source'  => 'CMPLZ_COOKIEBANNER',

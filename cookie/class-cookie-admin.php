@@ -6,7 +6,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		private static $_this;
 		public $position;
 		public $cookies = array();
-
 		function __construct() {
 			if ( isset( self::$_this ) ) {
 				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
@@ -28,7 +27,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( ! is_admin() && get_option( 'cmplz_wizard_completed_once' ) ) {
-
 				if ( $this->site_needs_cookie_warning() ) {
 					add_action( 'wp_print_footer_scripts',
 						array( $this, 'inline_cookie_script' ),
@@ -46,6 +44,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'admin_enqueue_scripts',
 				array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
+			add_action( 'wp_head', array( $this, 'detect_conflicts' ) );
+			add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			add_action( 'wp_ajax_load_detected_cookies',
 				array( $this, 'load_detected_cookies' ) );
 			add_action( 'wp_ajax_cmplz_get_scan_progress',
@@ -53,21 +53,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_run_sync', array( $this, 'run_sync' ) );
 			add_action( 'admin_init', array( $this, 'run_sync_on_update' ) );
 
-			add_action( 'wp_ajax_store_detected_cookies',
-				array( $this, 'store_detected_cookies' ) );
-
+			add_action( 'wp_ajax_store_detected_cookies', array( $this, 'store_detected_cookies' ) );
 			add_action( 'plugins_loaded', array( $this, 'resync' ), 11, 2 );
-
 			add_action( 'wp_ajax_cmplz_report_unknown_cookies', array( $this, 'ajax_report_unknown_cookies' ) );
 			add_action( 'wp_ajax_cmplz_delete_snapshot', array( $this, 'ajax_delete_snapshot' ) );
 			add_action( 'admin_init', array( $this, 'force_snapshot_generation' ) );
-
-//            add_action('deactivated_plugin', array($this, 'plugin_changes'), 10, 2);
-//            add_action('activated_plugin', array($this, 'plugin_changes'), 10, 2);
-
 			add_action( 'plugins_loaded', array( $this, 'rescan' ), 20, 2 );
 			add_action( 'plugins_loaded', array( $this, 'clear_cookies' ), 20, 2 );
-
 			add_action( 'cmplz_notice_statistics_script', array( $this, 'statistics_script_notice' ) );
 
 
@@ -95,6 +87,119 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * Front end javascript error detection.
+		 * Only for site admins
+		 */
+
+		public function detect_conflicts(){
+			if ( !cmplz_user_can_manage() ) return;
+
+			if ( !$this->site_needs_cookie_warning() ) return;
+
+
+			$nonce = wp_create_nonce('cmplz-detect-errors');
+			?>
+			<script type="text/javascript">
+				var cmplz_jquery_detected = 'jquery-detected';
+				if (typeof jQuery === 'undefined') {
+					cmplz_jquery_detected = 'no-jquery-detected';
+				}
+				var request = new XMLHttpRequest();
+				request.open('POST', '<?php echo add_query_arg(
+					array(
+						'type' => 'jquery',
+						'nonce' => $nonce,
+						'action'=>'cmplz_store_console_errors'
+					),
+					admin_url('admin-ajax.php')
+				)
+				?>', true);
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+				request.send(cmplz_jquery_detected);
+
+				window.onerror = function (msg, url, lineNo, columnNo, error) {
+					var request = new XMLHttpRequest();
+					request.open('POST', '<?php echo add_query_arg(
+						array(
+							'type' => 'errors',
+							'nonce' => $nonce,
+							'action'=>'cmplz_store_console_errors'
+						),
+						admin_url('admin-ajax.php')
+					)
+					?>', true);
+					var data = [];
+					data.push(msg);
+					data.push(lineNo);
+					data.push(url.substring(0, url.indexOf('?')));
+					request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+					request.send(data);
+				}
+
+				//if no error occurred after 3 seconds, send a reset signal
+				setTimeout(function () {
+					var request = new XMLHttpRequest();
+					request.open('POST', '<?php echo add_query_arg(
+						array(
+							'type' => 'errors',
+							'nonce' => $nonce,
+							'action'=>'cmplz_store_console_errors'
+						),
+						admin_url('admin-ajax.php')
+					)
+						?>', true);
+					var data = [];
+					data.push('no-errors');
+					request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+					request.send(data);
+				}, 3000);
+			</script>
+			<?php
+		}
+
+		/**
+		 * Store detected errors
+		 * Only for site admins
+		 */
+
+		public function store_console_errors(){
+			if ( !cmplz_user_can_manage() ) return;
+
+			if ( !$this->site_needs_cookie_warning() ) return;
+
+			$success = false;
+			if ( isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'cmplz-detect-errors') ) {
+				if ( $_GET['type'] === 'jquery' ) {
+					if (isset($_POST['no-jquery-detected'])){
+						update_option('cmplz_detected_missing_jquery', true );
+					} else {
+						update_option('cmplz_detected_missing_jquery', false );
+					}
+				} else {
+					if ( isset($_POST['no-errors']) ){
+						update_option('cmplz_detected_console_errors', false);
+						$success = true;
+					} else {
+						$errors = array_keys(array_map('sanitize_text_field', $_POST));
+						if (count($errors)>0){
+							$errors = explode(',', str_replace( site_url(),'',$errors[0]) );
+							update_option('cmplz_detected_console_errors', $errors);
+							$success = true;
+						}
+					}
+
+				}
+			}
+
+			$response = json_encode( array(
+				'success' => $success,
+			) );
+			header( "Content-Type: application/json" );
+			echo $response;
+			exit;
 		}
 
 		/**

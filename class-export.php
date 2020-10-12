@@ -44,6 +44,8 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 					'settings' => $settings,
 					'wizard'   => $wizard,
 					'banners'  => cmplz_get_cookiebanners(),
+					'errors'  => cmplz_get_console_errors(),
+					'jquery'  => get_option('cmplz_detected_missing_jquery') ? 'no-jquery' : 'found-jquery',
 				) );
 
 				$json = $json . '#--COMPLIANZ--#'
