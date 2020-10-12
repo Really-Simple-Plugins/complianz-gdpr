@@ -770,7 +770,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'manage_options',
 				'complianz',
 				array( $this, 'main_page' ),
-				cmplz_url . 'assets/images/menu-icon.png',
+				cmplz_url . 'assets/images/menu-icon.svg',
 				CMPLZ_MAIN_MENU_POSITION
 			);
 
