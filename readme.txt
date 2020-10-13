@@ -2,7 +2,7 @@
 Contributors: RogierLankhorst, aahulsebos, leonwimmenhoeve, paapst, markwolters, mujuonly, xantek, pierrotevrard
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, PIPEDA, Cookie Policy, Opt-in
-Requires at least: 4.8
+Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.5
@@ -117,8 +117,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 4.7.4 =
 * Improvement: don't enqueue document css in Gutenberg editor when disabled
 * Improvement: no cookie wall on cookie policy
-* Improvement: responsiveness of TCF banner
-* Improvement: upgrade translation files on activation rather then upgrade from free
 * Improvement: stricter instagram detection, preventing false positives on hyperlinks
 * Fix: safe data before loading fields, which could cause conditions not to be updated yet on next pageload
 * Fix: set default for personalized ads, to prevent unfocusable document control
@@ -128,7 +126,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * CF 7 reCaptcha v2 fix
 * Increase conditional jquery priority to limit chances of deregistering afterwards.
 * Extend safe mode with script center features
-* TCF implementation
 
 = 4.7.2 =
 * Improvement: add option to flag first party marketing cookies with an integration.

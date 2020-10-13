@@ -96,7 +96,7 @@ $this->warning_types = array(
 
 	'no-jquery' => array(
 		'type'        => 'general',
-		'label_error' => __( 'No jquery was detected on the front-end of your site. Complianz requires jquery', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
+		'label_error' => __( 'jQuery was not detected on the front-end of your site. Complianz requires jQuery.', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
 	),
 	'console-errors' => array(
 		'type'        => 'general',

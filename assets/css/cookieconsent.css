@@ -680,7 +680,7 @@
 }
 .cmplz-document .cmplz-soft-cookiewall {
   background-color: transparent;
-  z-index: 0;
+  display: none;
 }
 .cmplz-video.cmplz-hidden {
   visibility: hidden;
