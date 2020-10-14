@@ -8,7 +8,7 @@ At Complianz we are working towards a full-featured privacy suite for all WordPr
 
 ### Developers Guide and Contributions
 
-If you're a developer and want to help out, please feel free to contribute anyway you can. We respond to any pull request or issue on Github. Start with reading the [developer's guide](https://complianz.io/developers-guide-for-third-party-integrations/) to get a head start.
+If you're a developer and want to help out, please feel free to contribute anyway you can. We respond to any pull request or issue on Github. Start with reading the [developers guide](https://complianz.io/developers-guide-for-third-party-integrations/) to get a head start.
 
 **Bug report:** Please start an issue, and if you have a fix a pull request. Please explain your issue clearly, and use comments when adding a pull request. Your contribution will be acknowledges on WordPress.org.
 
