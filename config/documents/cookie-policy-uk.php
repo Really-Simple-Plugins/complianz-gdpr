@@ -38,15 +38,15 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	    'subtitle' => 'Analytical cookies',
 	    'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.'
 	                 .'&nbsp;'.'We ask your permission to place analytical cookies.',
-	    'callback_condition' => 'cmplz_cookie_warning_required_stats',
-	    'condition' => array('compile_statistics' => 'yes'),
+	    'callback_condition' => 'cmplz_cookie_warning_required_stats_uk',
+	    'condition' => array('compile_statistics' => 'NOT no'),
     ),
 
 	array(
 		'subtitle' => 'Analytical cookies',
 		'content' => 'Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.',
-		'callback_condition' => 'NOT cmplz_cookie_warning_required_stats',
-		'condition' => array('compile_statistics' => 'yes'),
+		'callback_condition' => 'NOT cmplz_cookie_warning_required_stats_uk',
+		'condition' => array('compile_statistics' => 'NOT no'),
 
 	),
 

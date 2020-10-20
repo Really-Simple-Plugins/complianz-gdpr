@@ -61,7 +61,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'subtitle' => 'Analytical cookies',
         'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.',
         'callback_condition' => 'cmplz_uses_statistics',
-        'condition' => array('compile_statistics' => 'yes'),
+        'condition' => array('compile_statistics' => 'NOT no'),
     ),
 
     //ads

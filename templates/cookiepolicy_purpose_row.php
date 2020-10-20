@@ -1,5 +1,4 @@
-<tr>
-	<td scope="row"><b>{purpose}</b></th>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-</tr>
+<div class="cookies-per-purpose">
+    <div class="purpose"><h4>{purpose}</h4></div>
+    {cookies_per_purpose}
+</div>

@@ -154,24 +154,79 @@
   content: counter(list, decimal) ") ";
   counter-increment: list;
 }
-#cmplz-document table {
-  width: 100%;
-  margin-bottom: 30px;
-  border-collapse: collapse;
+#cmplz-document .cmplz-service-header {
+  background-color: #f7f7f7;
+  margin: 5px 0;
+  text-decoration: none;
 }
-#cmplz-document table th,
-#cmplz-document table td {
-  text-align: left;
-  width: 33.33%;
-  word-break: normal;
-  border: 1px solid #ddd;
+#cmplz-document .cmplz-service-header h3 {
+  padding: 0 15px;
+  border-bottom: 0;
+  font-size: 18px;
+}
+#cmplz-document .cmplz-service-header:after {
+  content: '';
+  cursor: pointer;
+  background: url(../images/down.png) no-repeat;
+  transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin: 12px 15px 12px 35px;
+}
+#cmplz-document .cmplz-service-header.cmplz-service-open:after {
+  transform: rotate(180deg);
+}
+#cmplz-document .cmplz-service-desc h4 {
+  font-size: 15px;
+  margin: 5px 0;
+}
+#cmplz-document .cmplz-service-desc h5 {
+  margin: 0;
+}
+#cmplz-document .cmplz-service-desc .cmplz-service-description {
+  padding: 0 15px;
+}
+#cmplz-document .cmplz-service-desc .cmplz-sharing-data {
+  padding: 0 15px;
+}
+#cmplz-document .cookies-per-purpose {
+  border: 1px solid #dadada;
+  grid-gap: 1px;
+  background-color: #dadada;
+  margin-bottom: 10px;
+}
+#cmplz-document .cookies-per-purpose div {
+  background-color: white;
   padding: 15px;
 }
-#cmplz-document table tbody > tr:nth-child(odd) > td {
-  background: #f7f7f7;
+@media only screen and (min-width: 600px) {
+  #cmplz-document .cookies-per-purpose .name-header {
+    background-color: #f7f7f7;
+  }
+  #cmplz-document .cookies-per-purpose .retention-header {
+    background-color: #f7f7f7;
+  }
+  #cmplz-document .cookies-per-purpose .function-header {
+    background-color: #f7f7f7;
+  }
 }
-#cmplz-document table tbody > tr:nth-child(even) > td {
-  background: white;
+@media only screen and (max-width: 600px) {
+  #cmplz-document .cookies-per-purpose h5 {
+    line-height: 1.8;
+  }
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+2),
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+3),
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+4),
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+5),
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+6),
+  #cmplz-document .cookies-per-purpose div:nth-child(12n+7) {
+    background-color: #f7f7f7;
+  }
 }
 #cmplz-document .cmplz-subtitle {
   font-weight: bold;

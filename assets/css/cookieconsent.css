@@ -284,7 +284,7 @@
 }
 #cc-window {
   /**
-  Make sue the text stays within the banne
+  Make sure the text stays within the banne
    */
 }
 #cc-window.cc-floating {
@@ -310,7 +310,17 @@
 }
 #cc-window.cc-type-categories.cc-top .cmplz-categories-wrap,
 #cc-window.cc-type-categories.cc-bottom .cmplz-categories-wrap {
-  line-height: 29px;
+  line-height: 28px;
+}
+#cc-window.cc-type-categories.cc-top .cmplz-slider-checkbox,
+#cc-window.cc-type-categories.cc-bottom .cmplz-slider-checkbox {
+  margin: 3px 15px 5px 0;
+}
+@media screen and (min-width: 768px) {
+  #cc-window.cc-type-categories.cc-top .cmplz-categories-wrap,
+  #cc-window.cc-type-categories.cc-bottom .cmplz-categories-wrap {
+    line-height: 29px;
+  }
 }
 #cc-window.cc-type-categories.cc-top.cc-theme-edgeless:not(.cc-floating) .cc-compliance .cc-dismiss,
 #cc-window.cc-type-categories.cc-bottom.cc-theme-edgeless:not(.cc-floating) .cc-compliance .cc-dismiss,
@@ -682,11 +692,11 @@
   background-color: transparent;
   display: none;
 }
-.cmplz-video.cmplz-hidden {
-  visibility: hidden;
-}
 .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;
+}
+.cmplz-video.cmplz-hidden {
+  visibility: hidden !important;
 }
 .cmplz-blocked-content-container {
   background: #FFF;
@@ -713,6 +723,7 @@
   position: absolute;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+  text-transform: initial;
   cursor: pointer;
   position: absolute !important;
   width: 50%;
@@ -730,5 +741,8 @@
   z-index: 98;
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
+}
+.cmplz-blocked-content-container .cmplz-blocked-content-notice:focus {
+  border: 1px dotted #cecece;
 }
 /*# sourceMappingURL=cookieconsent.css.map */

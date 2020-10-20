@@ -131,6 +131,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( $this->is_complianz_page() ) {
 				$min      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? ''
 					: '.min';
+
+				wp_register_style( 'cmplz-document-grid',
+					cmplz_url . "assets/css/document-grid$min.css", false,
+					cmplz_version );
+				wp_enqueue_style( 'cmplz-document-grid' );
 				$load_css = cmplz_get_value( 'use_document_css' );
 				if ( $load_css ) {
 					wp_register_style( 'cmplz-document',
@@ -379,7 +384,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					if ( ! isset( $fields[ $question ]['type'] ) ) {
 						return false;
 					}
-
 					$type  = $fields[ $question ]['type'];
 					$value = cmplz_get_value( $question, $post_id );
 					if ($condition_answer === 'NOT EMPTY') {
@@ -391,27 +395,26 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
-						$condition_answer = str_replace( 'NOT ', '',
-							$condition_answer );
+						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
 					}
 
 					if ( $type == 'multicheckbox' ) {
-						if ( ! isset( $value[ $condition_answer ] )
-						     || ! $value[ $condition_answer ]
-						) {
-							$condition_met = false;
+						if ( ! isset( $value[ $condition_answer ] ) || ! $value[ $condition_answer ] )
+						{
+							$current_condition_met = false;
 						} else {
-							$condition_met = $condition_met && true;
+							$current_condition_met = true;
 						}
 
 					} else {
-						$condition_met = $condition_met
-						                 && ( $value == $condition_answer );
+						$current_condition_met = $value == $condition_answer ;
 					}
+					$current_condition_met = $invert ? !$current_condition_met : $current_condition_met;
+					$condition_met = $condition_met && $current_condition_met;
 				}
 
-				return $invert ? ! $condition_met : $condition_met;
+				return $condition_met;
 
 			}
 

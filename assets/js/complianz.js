@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
 				//insert placeholder text
 				if (cmplzGetHighestAcceptance() !== 'marketing' && !blockedContentContainer.find(".cmplz-blocked-content-notice").length) {
 					var placeholderText = complianz.placeholdertext;
-					if (typeof placeholderText !== 'undefined') blockedContentContainer.append('<div class="cmplz-blocked-content-notice cmplz-accept-marketing">' + placeholderText + '</div>');
+					if (typeof placeholderText !== 'undefined') blockedContentContainer.append('<button tabindex=0 class="cmplz-blocked-content-notice cmplz-accept-marketing">' + placeholderText + '</button>');
 				}
 
 				//handle image size for video
@@ -474,7 +474,8 @@ jQuery(document).ready(function ($) {
 
 	function cmplzEnableStats() {
 		if (ccStatsEnabled) return;
-		$('.cmplz-script.cmplz-stats').each(function (i, obj) {
+		console.log('fire cmplz_event_statistics');
+		$('.cmplz-stats').each(function (i, obj) {
 			var src = $(this).attr('src');
 			if (src && src.length) {
 				$(this).attr('type', 'text/javascript');
@@ -1376,6 +1377,7 @@ jQuery(document).ready(function ($) {
 		var forceMarketing = category === 'all' || category === 'marketing';
 		var forceStatistics = category === 'all' || category === 'statistics';
 		var forcePreferences = category === 'all' || category === 'preferences';
+
 		var highestCategoryAccepted = 'functional';
 		save = typeof save !== 'undefined' ? save : false;
 		//always functional
@@ -1713,19 +1715,28 @@ jQuery(document).ready(function ($) {
 				success: function (response) {
 					$('.cmplz-manage-consent-container').html(response.html);
 					cmplzSyncCategoryCheckboxes();
-					//set tab indexes on the consent html
-					var highestTabIndex = 0;
-					$('[tabindex]').attr('tabindex', function (a, b) {
-						highestTabIndex = Math.max(highestTabIndex, +b);
-					});
-					highestTabIndex++;
-					$("#cmplz-manage-consent-container .cmplz-classic, #cmplz-manage-consent-container .cmplz-square, #cmplz-manage-consent-container .cmplz-slider").each(function (i) { $(this).attr('tabindex', i + highestTabIndex); });
 					//in case of revoke, update the accepted/deny settings
 					cmplzUpdateStatusCustomLink();
 				}
 			});
 		}
 	}
+
+    /**
+     * Toggle service
+     */
+
+    $(document).on('click', '.cmplz-service-header', function () {
+        var item = $(this).next();
+
+        if (item.hasClass('cmplz-service-hidden')) {
+            $(this).addClass('cmplz-service-open');
+            item.removeClass('cmplz-service-hidden');
+        } else {
+            $(this).removeClass('cmplz-service-open');
+            item.addClass('cmplz-service-hidden');
+        }
+    });
 
 	function getHoverColour(hex){
 		if (hex[0] == '#') {

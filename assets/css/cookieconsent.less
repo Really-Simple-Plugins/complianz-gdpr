@@ -42,7 +42,15 @@
   &.cc-type-categories {
 	&.cc-top, &.cc-bottom {
 	  .cmplz-categories-wrap {
-		line-height: 29px;
+		line-height: 28px;
+	  }
+	  .cmplz-slider-checkbox {
+		margin:3px 15px 5px 0;
+	  }
+	  @media screen and (min-width: 768px) {
+		.cmplz-categories-wrap {
+		  line-height: 29px;
+		}
 	  }
 
 	  &.cc-theme-edgeless:not(.cc-floating) {
@@ -163,7 +171,7 @@
   }
 
   /**
-  Make sue the text stays within the banne
+  Make sure the text stays within the banne
    */
   .cc-message {
 	word-wrap:break-word;
@@ -390,11 +398,11 @@
 	vertical-align: top;
 	margin:3px 15px 10px 0;
   }
+
   .cmplz-consent-checkbox{
 	margin-right:15px;
   }
   label {
-	//position:relative;
 	box-sizing: initial;
   }
 
@@ -445,9 +453,6 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 9999;
-  &.preview {
-	// z-index:initial;
-  }
 }
 
 //don't show cookie wall on our own document pages, and hide cookie warning
@@ -456,19 +461,19 @@
   display:none;
 }
 
-//Cookie Blocker CSS
-
-//hide placeholder video
-.cmplz-video.cmplz-hidden{
-  visibility: hidden;
-}
-//prevent theme's from hiding the placeholder image with a background color
-.cmplz-video.cmplz-iframe-styles {
-  background-color:transparent;
+//this class should not be contained in blocked content container class, to ensure it applies also before the complianz script has added the blocked content classå
+.cmplz-video {
+  //prevent theme's from hiding the placeholder image with a background color
+  &.cmplz-iframe-styles {
+	background-color:transparent;
+  }
+  //hide placeholder video
+  &.cmplz-hidden {
+	visibility: hidden !important;
+  }
 }
 
 .cmplz-blocked-content-container{
-
   iframe {
 	max-height: 100%;
 	border:0 !important;
@@ -491,6 +496,10 @@
 	position: absolute;
   }
   .cmplz-blocked-content-notice{
+	&:focus {
+	  border:1px dotted #cecece;
+	}
+	text-transform: initial;
 	cursor:pointer;
 	position:absolute !important;
 	width:50%;

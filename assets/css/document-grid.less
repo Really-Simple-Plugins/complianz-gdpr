@@ -1,0 +1,63 @@
+#cmplz-document {
+  .cmplz-service-header {
+	display: grid;
+	grid-template-columns: 1fr 70px;
+	cursor: pointer;
+	text-decoration: underline;
+	align-items: center;
+	&.cmplz-service-open:after {
+	  transform: rotate(180deg);
+	}
+
+	@media only screen and (max-width: 600px) {
+	  align-items: center;
+	}
+  }
+
+  .cmplz-service-desc {
+	display: grid;
+	&.cmplz-service-hidden {
+	  visibility: hidden;
+	  height: 0;
+	}
+	@media only screen and (min-width: 600px) {
+	  grid-template-columns: 1fr 1fr;
+	}
+
+	@media only screen and (max-width: 600px) {
+	  grid-template-columns: 1fr;
+	}
+  }
+
+
+  .cookies-per-purpose {
+	display: grid;
+
+	@media only screen and (min-width: 600px) {
+	  grid-column: span 2;
+	  grid-template-colums: 1fr 1fr 1fr;
+	  grid-template: "purpose purpose purpose" "header1 header2 header3" auto;
+	   .purpose {
+		grid-area: purpose;
+	  }
+	  .name-header {
+		grid-area: header1;
+	  }
+	  .retention-header {
+		grid-area: header2;
+	  }
+	  .function-header {
+		grid-area: header3;
+	  }
+	}
+
+	@media only screen and (max-width: 600px) {
+	  grid-template-columns: 100px 1fr;
+	  align-items: center;
+
+	  .purpose {
+		grid-column: span 2;
+	  }
+	}
+  }
+}

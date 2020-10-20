@@ -57,7 +57,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.','Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_uses_statistics',
-        'condition' => array('compile_statistics' => 'yes'),
+        'condition' => array('compile_statistics' => 'NOT no'),
     ),
 
     //ads

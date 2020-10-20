@@ -840,11 +840,18 @@ if (!function_exists('cmplz_get_console_errors')){
 	}
 }
 
-if ( ! function_exists( 'cmplz_cookie_warning_required_stats' ) ) {
-	function cmplz_cookie_warning_required_stats() {
-		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats();
+if ( ! function_exists( 'cmplz_cookie_warning_required_stats_eu' ) ) {
+	function cmplz_cookie_warning_required_stats_eu() {
+		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('eu');
 	}
 }
+
+if ( ! function_exists( 'cmplz_cookie_warning_required_stats_uk' ) ) {
+	function cmplz_cookie_warning_required_stats_uk() {
+		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('uk');
+	}
+}
+
 
 if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
 	function cmplz_consent_required_for_anonymous_stats() {
@@ -1533,9 +1540,9 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 	function cmplz_used_cookies() {
 		$services_template = cmplz_get_template( 'cookiepolicy_services.php' );
 
-		$cookies_row = cmplz_get_template( 'cookiepolicy_cookies_row.php' );
-		$purpose_row = cmplz_get_template( 'cookiepolicy_purpose_row.php' );
-		$language    = substr( get_locale(), 0, 2 );
+		$cookies_row    = cmplz_get_template( 'cookiepolicy_cookies_row.php' );
+		$purpose_row    = cmplz_get_template( 'cookiepolicy_purpose_row.php' );
+		$language       = substr( get_locale(), 0, 2 );
 
 		$args = array(
 			'language'     => $language,
@@ -1555,11 +1562,11 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 
 			$service    = new CMPLZ_SERVICE( $serviceID,
 				substr( get_locale(), 0, 2 ) );
-			$cookieHTML = "";
-			foreach ( $serviceData as $purpose => $service_cookies ) {
-				$cookieHTML .= str_replace( array( '{purpose}' ),
-					array( $purpose ), $purpose_row );
 
+            $cookieHTML = "";
+			foreach ( $serviceData as $purpose => $service_cookies ) {
+
+				$cookies_per_purpose_HTML = "";
 				foreach ( $service_cookies as $cookie ) {
 					$has_empty_cookies = $has_empty_cookies
 					                     || strlen( $cookie->retention ) == 0;
@@ -1576,7 +1583,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						                . '">';
 						$link_close   = '</a>';
 					}
-					$cookieHTML .= str_replace( array(
+                    $cookies_per_purpose_HTML .= str_replace( array(
 						'{name}',
 						'{retention}',
 						'{cookieFunction}',
@@ -1590,6 +1597,9 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						$link_close
 					), $cookies_row );
 				}
+
+                $cookieHTML .= str_replace( array( '{purpose}' ), array( $purpose ), $purpose_row );
+				$cookieHTML = str_replace(array('{cookies_per_purpose}'), array($cookies_per_purpose_HTML), $cookieHTML);
 			}
 
 			$service_name = $service->ID && strlen( $service->name ) > 0
@@ -1642,7 +1652,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			), $services_template );
 		}
 
-		return $servicesHTML;
+		return str_replace( '{plugin_url}',cmplz_url, $servicesHTML);
 	}
 }
 

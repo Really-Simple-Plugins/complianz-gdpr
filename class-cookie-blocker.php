@@ -245,23 +245,18 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					) {
 						$placeholder = cmplz_placeholder( false, $iframe_src );
 						$new         = $total_match;
-						$new         = preg_replace( '~<iframe\\s~i',
-							'<iframe data-src-cmplz="' . $iframe_src . '" ',
-							$new , 1 ); // make sure we replace it only once
+						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
 						//check if we can skip blocking this array if a specific string is included
 						if ( $this->strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
 
 						//we insert video/no-video class for specific video styling
 						if ( $this->is_video( $iframe_src ) ) {
-							$video_class = apply_filters( 'cmplz_video_class',
-								'cmplz-video cmplz-hidden' );
+							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video cmplz-hidden' );
 							//we add a variable behind the placeholder, so other scripts which randomly add a variable with & won't cause a 404.
-							$source_placeholder = cmplz_url
-							                      . 'assets/video/youtube-placeholder.mp4?cmplz=1';
+							$source_placeholder = cmplz_url . 'assets/video/youtube-placeholder.mp4?cmplz=1';
 						} else {
-							$video_class        = apply_filters( 'cmplz_video_class',
-								'cmplz-no-video' );
+							$video_class        = apply_filters( 'cmplz_video_class', 'cmplz-no-video' );
 							$source_placeholder = 'about:blank';
 						}
 
