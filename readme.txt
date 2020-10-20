@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.5
-Stable tag: 4.7.4
+Stable tag: 4.7.5
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,14 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.7.5 =
+* Improvement: force display none on video placeholder for themes that are overriding the display none
+* Improvement: cookie list responsive and better compact design
+* improvement: responsiveness for banner bottom with square category checkboxes
+* Fix: statistics paragraph EU/UK cookie policy not taking into account consent differences for statistical cookies
+* Fix: advertising section incorrectly in cookie policy showing when no ads are showing
+* Improvement: WCAG for blocked content notice: changed clickable div into button
+
 = 4.7.4 =
 * Improvement: don't enqueue document css in Gutenberg editor when disabled
 * Improvement: no cookie wall on cookie policy
