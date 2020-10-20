@@ -131,18 +131,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( $this->is_complianz_page() ) {
 				$min      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? ''
 					: '.min';
-
-				wp_register_style( 'cmplz-document-grid',
-					cmplz_url . "assets/css/document-grid$min.css", false,
-					cmplz_version );
-				wp_enqueue_style( 'cmplz-document-grid' );
 				$load_css = cmplz_get_value( 'use_document_css' );
 				if ( $load_css ) {
 					wp_register_style( 'cmplz-document',
 						cmplz_url . "assets/css/document$min.css", false,
 						cmplz_version );
 					wp_enqueue_style( 'cmplz-document' );
-				}
+				} else {
+                    wp_register_style( 'cmplz-document-grid',
+                        cmplz_url . "assets/css/document-grid$min.css", false,
+                        cmplz_version );
+                    wp_enqueue_style( 'cmplz-document-grid' );
+                }
 
 				add_action( 'wp_head', array( $this, 'inline_styles' ), 100 );
 			}

@@ -125,18 +125,15 @@ $this->fields = $this->fields + array(
 			'source'    => 'settings',
 			'type'      => 'css',
 			'label'     => __( "Custom document CSS", 'complianz-gdpr' ),
-			'default'   => '#cmplz-document h3 {} /* titles in complianz documents */'
+			'default'   => '#cmplz-document h2 {} /* titles in complianz documents */'
 				. "\n"
 				. '#cmplz-document .subtitle {} /* subtitles */'
 				. "\n"
-				. '#cmplz-document h3.annex{} /* titles in annexes */'
+				. '#cmplz-document h2.annex{} /* titles in annexes */'
 				. "\n"
 				. '#cmplz-document .subtitle.annex{} /* subtitles in annexes */'
 				. "\n"
 				. '#cmplz-document, #cmplz-document p, #cmplz-document span, #cmplz-document li {} /* text */'
-				. "\n"
-				. '#cmplz-document table {} /* table styles */'
-				. "\n" . '#cmplz-document td {} /* row styles */'
 				. "\n" . '#cmplz-document.impressum, #cmplz-document.cookie-statement, #cmplz-document.privacy-statement {} /* styles for impressum */',
 			'help'      => __( 'Add your own custom document css here',
 				'complianz-gdpr' ),
