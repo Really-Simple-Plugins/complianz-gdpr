@@ -237,6 +237,11 @@ jQuery(document).ready(function ($) {
 				}
 				var curElement = $(this);
 
+				//handle browser native lazy load feature
+				if ($(this).data('deferlazy')) {
+					$(this).attr('loading', 'lazy');
+				}
+
 				//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 				var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');
 				//now remove the added classes
