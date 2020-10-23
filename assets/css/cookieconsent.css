@@ -723,6 +723,7 @@
   position: absolute;
 }
 .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+  white-space: normal;
   text-transform: initial;
   cursor: pointer;
   position: absolute !important;

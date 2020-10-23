@@ -1,63 +1,63 @@
-#cmplz-document .cmplz-service-header {
+.cmplz-service-header {
   display: grid;
   grid-template-columns: 1fr 70px;
   cursor: pointer;
   text-decoration: underline;
   align-items: center;
 }
-#cmplz-document .cmplz-service-header.cmplz-service-open:after {
+.cmplz-service-header.cmplz-service-open:after {
   transform: rotate(180deg);
 }
 @media only screen and (max-width: 600px) {
-  #cmplz-document .cmplz-service-header {
+  .cmplz-service-header {
     align-items: center;
   }
 }
-#cmplz-document .cmplz-service-desc {
+.cmplz-service-desc {
   display: grid;
 }
-#cmplz-document .cmplz-service-desc.cmplz-service-hidden {
+.cmplz-service-desc.cmplz-service-hidden {
   visibility: hidden;
   height: 0;
 }
 @media only screen and (min-width: 600px) {
-  #cmplz-document .cmplz-service-desc {
+  .cmplz-service-desc {
     grid-template-columns: 1fr 1fr;
   }
 }
 @media only screen and (max-width: 600px) {
-  #cmplz-document .cmplz-service-desc {
+  .cmplz-service-desc {
     grid-template-columns: 1fr;
   }
 }
-#cmplz-document .cookies-per-purpose {
+.cookies-per-purpose {
   display: grid;
 }
 @media only screen and (min-width: 600px) {
-  #cmplz-document .cookies-per-purpose {
+  .cookies-per-purpose {
     grid-column: span 2;
     grid-template-colums: 1fr 1fr 1fr;
     grid-template: "purpose purpose purpose" "header1 header2 header3" auto;
   }
-  #cmplz-document .cookies-per-purpose .purpose {
+  .cookies-per-purpose .purpose {
     grid-area: purpose;
   }
-  #cmplz-document .cookies-per-purpose .name-header {
+  .cookies-per-purpose .name-header {
     grid-area: header1;
   }
-  #cmplz-document .cookies-per-purpose .retention-header {
+  .cookies-per-purpose .retention-header {
     grid-area: header2;
   }
-  #cmplz-document .cookies-per-purpose .function-header {
+  .cookies-per-purpose .function-header {
     grid-area: header3;
   }
 }
 @media only screen and (max-width: 600px) {
-  #cmplz-document .cookies-per-purpose {
+  .cookies-per-purpose {
     grid-template-columns: 100px 1fr;
     align-items: center;
   }
-  #cmplz-document .cookies-per-purpose .purpose {
+  .cookies-per-purpose .purpose {
     grid-column: span 2;
   }
 }
@@ -217,17 +217,27 @@
   content: counter(list, decimal) ") ";
   counter-increment: list;
 }
-#cmplz-document .cmplz-service-header {
+#cmplz-document .cmplz-subtitle {
+  font-weight: bold;
+  margin-top: 25px;
+}
+#cmplz-document .cmplz-indent {
+  margin-left: 36px;
+}
+/*
+	This css should also apply to the cookie shortcode only, so should not be wrapped in the cmplz-document styles
+*/
+.cmplz-service-header {
   background-color: #f7f7f7;
   margin: 5px 0;
   text-decoration: none;
 }
-#cmplz-document .cmplz-service-header h3 {
+.cmplz-service-header h3 {
   padding: 0 15px;
   border-bottom: 0;
   font-size: 18px;
 }
-#cmplz-document .cmplz-service-header:after {
+.cmplz-service-header:after {
   content: '';
   cursor: pointer;
   background: url(../images/down.png) no-repeat;
@@ -241,61 +251,54 @@
   width: 25px;
   margin: 12px 15px 12px 35px;
 }
-#cmplz-document .cmplz-service-header.cmplz-service-open:after {
+.cmplz-service-header.cmplz-service-open:after {
   transform: rotate(180deg);
 }
-#cmplz-document .cmplz-service-desc h4 {
+.cmplz-service-desc h4 {
   font-size: 15px;
   margin: 5px 0;
 }
-#cmplz-document .cmplz-service-desc h5 {
+.cmplz-service-desc h5 {
   margin: 0;
 }
-#cmplz-document .cmplz-service-desc .cmplz-service-description {
+.cmplz-service-desc .cmplz-service-description {
   padding: 0 15px;
 }
-#cmplz-document .cmplz-service-desc .cmplz-sharing-data {
+.cmplz-service-desc .cmplz-sharing-data {
   padding: 0 15px;
 }
-#cmplz-document .cookies-per-purpose {
+.cookies-per-purpose {
   border: 1px solid #dadada;
   grid-gap: 1px;
   background-color: #dadada;
   margin-bottom: 10px;
 }
-#cmplz-document .cookies-per-purpose div {
+.cookies-per-purpose div {
   background-color: white;
   padding: 15px;
 }
 @media only screen and (min-width: 600px) {
-  #cmplz-document .cookies-per-purpose .name-header {
+  .cookies-per-purpose .name-header {
     background-color: #f7f7f7;
   }
-  #cmplz-document .cookies-per-purpose .retention-header {
+  .cookies-per-purpose .retention-header {
     background-color: #f7f7f7;
   }
-  #cmplz-document .cookies-per-purpose .function-header {
+  .cookies-per-purpose .function-header {
     background-color: #f7f7f7;
   }
 }
 @media only screen and (max-width: 600px) {
-  #cmplz-document .cookies-per-purpose h5 {
+  .cookies-per-purpose h5 {
     line-height: 1.8;
   }
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+2),
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+3),
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+4),
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+5),
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+6),
-  #cmplz-document .cookies-per-purpose div:nth-child(12n+7) {
+  .cookies-per-purpose div:nth-child(12n+2),
+  .cookies-per-purpose div:nth-child(12n+3),
+  .cookies-per-purpose div:nth-child(12n+4),
+  .cookies-per-purpose div:nth-child(12n+5),
+  .cookies-per-purpose div:nth-child(12n+6),
+  .cookies-per-purpose div:nth-child(12n+7) {
     background-color: #f7f7f7;
   }
-}
-#cmplz-document .cmplz-subtitle {
-  font-weight: bold;
-  margin-top: 25px;
-}
-#cmplz-document .cmplz-indent {
-  margin-left: 36px;
 }
 /*# sourceMappingURL=document.css.map */
