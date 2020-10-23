@@ -247,6 +247,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$new         = $total_match;
 						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
+						//remove lazy loading for iframes, as it is breaking on activation
+						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
+
 						//check if we can skip blocking this array if a specific string is included
 						if ( $this->strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
 

@@ -87,10 +87,18 @@ jQuery(document).ready(function ($) {
 		//to prevent this function to run when cookies are accepted, we check for accepted status here
 		//this is not the same as getHighestAcceptance
 		// if (!ccAllEnabled) return;
+
 		$('.cmplz-placeholder-element').each(function () {
 			//we set this element as container with placeholder image
 			var blockedContentContainer;
 			if ($(this).hasClass('cmplz-iframe')) {
+
+				//handle browser native lazy load feature
+				if ($(this).attr('loading') === 'lazy' ) {
+					$(this).removeAttr('loading');
+					$(this).data('deferlazy', 1);
+				}
+
 				blockedContentContainer = $(this).parent();
 			} else {
 				blockedContentContainer = $(this);
@@ -236,6 +244,11 @@ jQuery(document).ready(function ($) {
 					$(this).parent().fitVids();
 				}
 				var curElement = $(this);
+
+				//handle browser native lazy load feature
+				if ($(this).data('deferlazy')) {
+					$(this).attr('loading', 'lazy');
+				}
 
 				//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 				var blockedContentContainer = $(this).closest('.cmplz-blocked-content-container');

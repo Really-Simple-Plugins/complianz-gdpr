@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-add_filter( 'cmplz_fields', 'cmplz_filter_integration_fields', 10, 1 );
+add_filter( 'cmplz_fields_load_types', 'cmplz_filter_integration_fields', 10, 1 );
 function cmplz_filter_integration_fields( $fields ) {
 	global $cmplz_integrations_list;
 	$plugin_fields          = array();

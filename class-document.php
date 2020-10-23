@@ -127,7 +127,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function enqueue_assets() {
-
 			if ( $this->is_complianz_page() ) {
 				$min      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? ''
 					: '.min';
@@ -2270,6 +2269,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			$shortcode = 'cmplz-document';
 			$block     = 'complianz/document';
+			$cookies_shortcode = 'cmplz-cookies';
 
 			if ( $post_id ) {
 				$post = get_post( $post_id );
@@ -2284,7 +2284,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				if ( has_shortcode( $post->post_content, $shortcode ) ) {
 					return true;
 				}
+				if ( has_shortcode( $post->post_content, $cookies_shortcode ) ) {
+					return true;
+				}
 			}
+
 
 			return false;
 		}

@@ -3687,7 +3687,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$url = $_SERVER['REQUEST_URI'];
-			$excluded_posts_array = get_option('cmplz_excluded_posts_array', array());
+			$excluded_posts_array = get_option( 'cmplz_excluded_posts_array', array() );
 			if ( !empty($excluded_posts_array) ) {
 				foreach ( $excluded_posts_array as $excluded_slug ) {
 					if ( strpos( $url, $excluded_slug ) !== FALSE) return false;

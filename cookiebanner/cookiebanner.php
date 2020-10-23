@@ -315,6 +315,12 @@ function cmplz_hide_cookiebanner_metabox(){
 
 	wp_nonce_field('cmplz_cookiebanner_hide_nonce', 'cmplz_cookiebanner_hide_nonce');
 	global $post;
+
+	if (!$post) return;
+
+	//if there's no slug, don't offer this option
+	if ( strlen($post->post_name)==0 ) return;
+
 	$option_label = __("Hide cookiebanner on this page", "complianz-gdpr");
 	$checked = get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
 	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" />' . $option_label . '</label>';
@@ -356,6 +362,6 @@ function cmplz_save_hide_page_cookiebanner_option($post_ID, $post, $update)
 		if ( $key !== FALSE ) unset($excluded_posts_array[$key]);
 	}
 
-	update_option( 'cmplz_excluded_posts_array', $excluded_posts_array );
+	update_option( 'cmplz_excluded_posts_array', array_filter( $excluded_posts_array) );
 }
 add_action('save_post', 'cmplz_save_hide_page_cookiebanner_option', 10, 3 );
