@@ -115,8 +115,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.7.6 =
-* Fix: pass new cookies overview css also when only the cookies shortcode is used.
-* Fix: saving of plugin integration settings
+* Fix: pass new cookies overview css also when only the cookies shortcode is used, rops @ollieuk
+* Fix: saving of plugin integration settings, props Laura
 * Improvement: some themes overriding the white-space:normal for the blocked content button
 * Improvement: don't show "hide cookie banner option when no slug is available
 * Improvement: compatibility with native browser lazyload option loading="lazy"
