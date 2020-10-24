@@ -2288,8 +2288,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					return true;
 				}
 			}
-
-
 			return false;
 		}
 
@@ -2598,14 +2596,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$settings['categories'] =  implode(', ', $categories);
 					}
 				}
+
+
 				unset( $settings["readmore_url"] );
 				$settings = apply_filters( 'cmplz_cookie_policy_snapshot_settings' ,$settings );
 
 				foreach ( $settings as $key => $value ) {
+
 					if ( in_array( $key, $skip ) ) {
 						continue;
 					}
 //                    if (empty($value)) $value = __("no","complianz-gdpr");
+					if (is_array($value)) $value = implode(',', $value);
 					$settings_html .= '<li>' . $key . ' => ' . esc_html( $value ) . '</li>';
 				}
 
@@ -2664,10 +2666,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( ! isset( $pages[ $page ] ) ) {
 				return;
 			}
-
 			$title         = $pages[ $page ]['title'];
 			$document_html = $intro . COMPLIANZ::$document->get_document_html( $page, $region, $post_id ) . $append;
 			$document_html = apply_filters( 'cmplz_cookie_policy_snapshot_html', $document_html , $save_to_file );
+
+			//prevent hidden fields
+			$document_html = str_replace('cmplz-service-hidden', '', $document_html);
+
 			$load_css      = cmplz_get_value( 'use_document_css' );
 			$css           = '';
 
@@ -2683,6 +2688,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
                     body {
                       font-family: sans;
                       margin-top:100px;
+                      color :#000;
                     }
                     h2 {
                         font-size:12pt;
@@ -2707,9 +2713,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
                     ' . $document_html . '
                     </body>';
 
-//==============================================================
-//==============================================================
-//==============================================================
+			//==============================================================
+			//==============================================================
+			//==============================================================
 
 			require cmplz_path . '/assets/vendor/autoload.php';
 
