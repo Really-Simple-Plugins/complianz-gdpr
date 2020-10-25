@@ -119,6 +119,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'map-multi-marker' => array(
+		'constant_or_function' => 'MapMultiMarker',
+		'label'                => 'Map Multi Marker',
+		'firstparty_marketing' => false,
+	),
+
 	'caos-host-analytics-local' => array(
 		'constant_or_function' => 'CAOS_STATIC_VERSION',
 		'label'                => 'CAOS host analytics locally',
