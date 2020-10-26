@@ -27,7 +27,6 @@ function cmplz_multimarker_script( $tags ) {
 }
 add_filter( 'cmplz_known_script_tags', 'cmplz_multimarker_script' );
 
-
 /**
  * Add a placeholder to a div with class "my-maps-class"
  * @param $tags
