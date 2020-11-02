@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Complianz | GDPR/CCPA Cookie Consent
+ * Plugin Name: Complianz | GDPR/CCPA Cookie Consent - Tanaguru (accessibility fixes)
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
  * Version: 4.7.5
