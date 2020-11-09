@@ -495,9 +495,15 @@
 #cc-window.cc-window .cmplz-slider-checkbox input,
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox input,
 #cmplz-tcf-container.cmplz-tcf-container .cmplz-slider-checkbox input {
-  display: block !important;
-  opacity: 0 !important;
-  height: 0 !important;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
 }
 #cc-window.cc-window .cmplz-slider-checkbox,
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-slider-checkbox,
