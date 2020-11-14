@@ -283,11 +283,17 @@
   }
 
   //prevent classic checkbox from showing up in square and slider variant
-  //We cannot use display none, as the checkboxes can't be made to enable on keyboard https://stackoverflow.com/questions/50739145/css-checkbox-not-checked-when-spacebar-is-pressed
+  //We cannot use display none or height 0, as the checkboxes can't be made to enable on keyboard or with screen reader. https://hugogiraudel.com/2016/10/13/css-hide-and-seek/
   input.cmplz-svg-checkbox, .cmplz-slider-checkbox input {
-	display:block !important;
-	opacity:0 !important;
-	height: 0 !important;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	border: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
   }
 
   /* Slider style checkboxes */
