@@ -89,8 +89,8 @@ function cmplz_contactform7_errormessage( $message, $status ) {
 			__( 'Click to accept marketing cookies and enable this form',
 				'complianz-gdpr' ) );
 		$message
-		             = '<div class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#">'
-		               . $accept_text . '</a></div>';
+		             = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">'
+		               . $accept_text . '</a></span>';
 	}
 
 	return $message;
