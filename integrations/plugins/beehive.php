@@ -96,7 +96,6 @@ add_filter( 'cmplz_warnings', 'cmplz_beehive_filter_warnings' );
 function cmplz_beehive_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-
 	return $fields;
 }
 

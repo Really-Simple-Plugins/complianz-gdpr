@@ -273,7 +273,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 			if ( $cookie ) {
 				$this->ID                    = $cookie->ID;
-				$this->name                  = $cookie->name;
+				$this->name                  = substr($cookie->name, 0, 100); //maximize cookie name length
 				$this->serviceID             = $cookie->serviceID;
 				$this->sync                  = $cookie->sync;
 				$this->language              = $cookie->language;
@@ -298,6 +298,17 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				                               < strtotime( '-3 months' )
 				                               && $cookie->lastAddDate > 0
 					? true : false;
+			}
+
+			/**
+			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 */
+			if ( !defined('POLYLANG_VERSION') ) {
+				$this->retention = cmplz_translate($this->retention, 'cookie_retention');
+				$this->type = cmplz_translate($this->type, 'cookie_storage_type');
+				$this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
+				$this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
+				$this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
 			}
 
 			/**
@@ -367,12 +378,17 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					cmplz_get_value( 'cookie_expiry' ) );
 			}
 
-			cmplz_register_translation($this->retention, 'cookie_retention');
-			cmplz_register_translation($this->type, 'cookie_storage_type');
-			cmplz_register_translation($this->cookieFunction, 'cookie_function');
-			cmplz_register_translation($this->purpose, 'cookie_purpose');
-			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+			/**
+			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 */
 
+			if ( !defined('POLYLANG_VERSION') ) {
+				cmplz_register_translation($this->retention, 'cookie_retention');
+				cmplz_register_translation($this->type, 'cookie_storage_type');
+				cmplz_register_translation($this->cookieFunction, 'cookie_function');
+				cmplz_register_translation($this->purpose, 'cookie_purpose');
+				cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+			}
 
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
@@ -459,6 +475,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			}
 
 			$cookie = sanitize_text_field( $cookie );
+
+			//100 characters max
+			$cookie = substr($cookie, 0, 100);
 
 			//remove whitespace
 			$cookie = trim( $cookie );

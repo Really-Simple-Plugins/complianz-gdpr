@@ -50,14 +50,6 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 	public $args = array();
 
 	/**
-	 * If true, only one banner is shown, without the "default" column
-	 *
-	 * @var bool
-	 */
-
-	private $show_default_only = false;
-
-	/**
 	 * Get things started
 	 *
 	 * @since 1.5
@@ -74,9 +66,6 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 			'plural'   => __( 'Cookiebanners', 'complianz-gdpr' ),
 			'ajax'     => false,
 		) );
-
-		//if ab testing is not enabled, show only the default.
-		$this->show_default_only = apply_filters( 'cmplz_default_only', true );
 
 	}
 

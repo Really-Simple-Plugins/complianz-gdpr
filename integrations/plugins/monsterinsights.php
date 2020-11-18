@@ -100,7 +100,6 @@ add_action( 'cmplz_before_statistics_script', 'monsterinsights_tracking_script',
 function cmplz_monsterinsights_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-
 	return $fields;
 }
 

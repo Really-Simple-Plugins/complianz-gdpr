@@ -72,7 +72,6 @@ add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
 function cmplz_caos_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-
 	return $fields;
 }
 

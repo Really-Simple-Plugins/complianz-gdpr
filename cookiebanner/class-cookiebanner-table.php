@@ -55,7 +55,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 	 * @var bool
 	 */
 
-	private $show_default_only = false;
+	private $ab_testing_enabled = false;
 
 	/**
 	 * Get things started
@@ -76,7 +76,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		) );
 
 		//if ab testing is not enabled, show only the default.
-		$this->show_default_only = apply_filters( 'cmplz_default_only', true );
+		$this->ab_testing_enabled = cmplz_ab_testing_enabled();
 
 	}
 
@@ -104,7 +104,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		}
 
 
-		if ( ! $this->show_default_only ) { ?>
+		if ( $this->ab_testing_enabled ) { ?>
 
 			<p class="search-box">
 				<label class="screen-reader-text"
@@ -160,7 +160,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			 *
 			 * */
 			if ( ( COMPLIANZ::$statistics->best_performer_enabled()
-			       || ( COMPLIANZ::$cookie_admin->ab_testing_enabled() )
+			       || ( $this->ab_testing_enabled )
 			          && COMPLIANZ::$statistics->best_performing_cookiebanner()
 			             === $item['ID'] )
 			) {
@@ -192,6 +192,13 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			$value, $item['ID'] );
 	}
 
+	/**
+	 * Set name of column
+	 * @param $item
+	 *
+	 * @return string
+	 */
+
 	public function column_name( $item ) {
 		$name = ! empty( $item['name'] ) ? $item['name']
 			: '<em>' . __( 'Unnamed cookie banner', 'complianz-gdpr' )
@@ -209,7 +216,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		);
 
 		$banner_count = count( cmplz_get_cookiebanners() );
-		if ( $this->show_default_only || $banner_count == 1 ) {
+		if ( !$this->ab_testing_enabled || $banner_count == 1 ) {
 			unset( $actions['delete'] );
 		}
 
@@ -228,13 +235,13 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			'name' => __( 'Name', 'complianz-gdpr' ),
 		);
 
-		if ( ! $this->show_default_only ) {
+		if ( $this->ab_testing_enabled ) {
 			$columns['best_performer'] = __( 'Best performer',
 				'complianz-gdpr' );
 			$columns['default-banner'] = __( 'Default', 'complianz-gdpr' );
 		}
 
-		if ( class_exists( 'cmplz_statistics' ) ) {
+		if ( $this->ab_testing_enabled ) {
 			$consenttypes = cmplz_get_used_consenttypes();
 			foreach ( $consenttypes as $consenttype ) {
 				$columns[ $consenttype ]
@@ -243,7 +250,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			}
 		}
 
-		if ( ! $this->show_default_only ) {
+		if ( $this->ab_testing_enabled ) {
 			$columns['archive'] = __( 'Archive', 'complianz-gdpr' );
 		}
 
@@ -341,7 +348,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
 		$args['name'] = $search;
 
-		if ( $this->show_default_only ) {
+		if ( !$this->ab_testing_enabled ) {
 			$args['default'] = true;
 		}
 
@@ -372,8 +379,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
 		$this->items = $this->reports_data();
 
-		$this->total = $this->show_default_only ? 1
-			: count( cmplz_get_cookiebanners() );
+		$this->total = $this->ab_testing_enabled ? count( cmplz_get_cookiebanners() ) : 1;
 
 		// Add condition to be sure we don't divide by zero.
 		// If $this->per_page is 0, then set total pages to 1.

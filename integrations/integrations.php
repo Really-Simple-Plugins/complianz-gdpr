@@ -12,6 +12,13 @@ if ( is_admin() ) {
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	//user registration plugin
+
+	'trustpulse'          => array(
+		'constant_or_function' => 'TRUSTPULSE_PLUGIN_VERSION',
+		'label'                => 'TrustPulse',
+		'firstparty_marketing' => false,
+	),
+
 	'addtoany'          => array(
 		'constant_or_function' => 'A2A_SHARE_SAVE_init',
 		'label'                => 'Add To Any',
@@ -21,6 +28,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'amp'               => array(
 		'constant_or_function' => 'AMP__VERSION',
 		'label'                => 'AMP (official AMP plugin for WordPress)',
+		'firstparty_marketing' => false,
+	),
+
+	'podcast-player'         => array(
+		'constant_or_function' => 'PODCAST_PLAYER_VERSION',
+		'label'                => 'Podcast Player',
 		'firstparty_marketing' => false,
 	),
 

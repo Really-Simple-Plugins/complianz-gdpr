@@ -100,6 +100,9 @@
 	  }
 
 	  &.cc-theme-edgeless{
+		.cmplz-categories-wrap{
+		  padding-left:1.1em;
+		}
 		&.cmplz-categories-no, &.cmplz-categories-hidden {
 		  .cc-compliance {
 			.cc-dismiss, .cc-save {
@@ -144,7 +147,6 @@
 		  }
 
 		  .cc-btn {
-			//width: 100%;
 			float: initial;
 			margin: 15px 0 0 0;
 		  }
@@ -294,6 +296,9 @@
 	overflow: hidden;
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
+	//display: block !important;
+	//opacity: 0 !important;
+	//height: 0 !important;
   }
 
   /* Slider style checkboxes */
@@ -392,11 +397,11 @@
 	padding-left:0;
   }
 
-  &.cc-theme-edgeless .cmplz-categories-wrap {
-	.cmplz-classic-checkbox {
-	  margin-left:15px;
-	}
-  }
+  //&.cc-theme-edgeless .cmplz-categories-wrap {
+	//.cmplz-classic-checkbox {
+	// // margin-left:15px;
+	//}
+  //}
 }
 
 #cc-window.cc-window .cmplz-categories-wrap, #cmplz-manage-consent-container.cmplz-manage-consent-container,#cmplz-tcf-container.cmplz-tcf-container {

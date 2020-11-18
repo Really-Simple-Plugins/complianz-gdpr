@@ -420,15 +420,13 @@ $this->fields = $this->fields + array(
 			'source'                  => 'wizard',
 			'type'                    => 'text',
 			'default'                 => '',
-			'required'                => true,
+			'required'                => false,
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Analytics UA code",
-				'complianz-gdpr' ),
+			'label'                   => __( "Enter your tracking-ID", 'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'help'                    => __( "For the Google Analytics UA code, log on and click Admin and copy the UA code below Tracking-ID.",
-				'complianz-gdpr' ),
+			'help'                    => __( "For the Google Analytics tracking-ID, log on and click Admin and copy the Tracking-ID.", 'complianz-gdpr' ),
 		),
 
 		'matomo_site_id' => array(

@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.5
-Stable tag: 4.7.7
+Stable tag: 4.8.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -36,7 +36,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
 
-* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, Happy Forms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, HappyForms, Contact Form 7 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with the popular themes en page builders.
 * Gutenberg Blocks enabled.
 * Cookie Banners and Legal Documents conform to WCAG 2.1 Accessibility Guidelines.
@@ -114,6 +114,23 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.8.0 =
+* Improvement: include stats when in safe mode
+* Improvement: CSS style for invisible checkboxes to make them readable by screen readers. props @juliemoynat-tanaguru
+* Improvement: Trust Pulse integration
+* Fix: boolean comparison on 1 value for geo ip detection in javascript, causing the plugin to do an unnecessary call to the server.
+* Fix: custom statistics script blocking
+* Fix: allow for matching on relative URL's for script sources, props @onwk
+* Improvement: skip translation of cookie properties when Polylang is enabled, as Polylang can't handle different fieldname contexts
+* Improvement: banner bottom edgeless theme responsiveness, props @tim
+* Improvement: Podcast Player integration, props @vedathemes, @uiuiui7
+* Improvement: consent mode Google
+* Fix: Disable cookieblocker on AMP when AMP integration not enabled, props @jensminor
+* Fix: ony one ID for the cookie policy overview div, props @frown
+* Improvement: maximize cookie name length, to prevent display issues
+* Fix: typo in text domain
+* Fix: "Usage" translated with _x function with wrong arguments
+
 = 4.7.6 =
 * Fix: pass new cookies overview css also when only the cookies shortcode is used
 * Fix: saving of plugin integration settings, props Laura

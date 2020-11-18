@@ -1058,7 +1058,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$sql
 				= $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s "
 				                  . $consenttype_sql, $status );
-			if ( COMPLIANZ::$cookie_admin->ab_testing_enabled() ) {
+			if ( cmplz_ab_testing_enabled() ) {
 				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s",
 					$this->id );
 			}

@@ -485,8 +485,9 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$actual_region = cmplz_get_region_for_country( $country_code );
+
 		if ( isset( $regions[ $actual_region ]) && isset( $regions[ $actual_region ]['type'] ) ) {
-			return $regions[ $actual_region ]['type'];
+			return apply_filters( 'cmplz_consenttype', $regions[ $actual_region ]['type'], $actual_region );
 		}
 
 		return false;
@@ -892,6 +893,7 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 
 if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 	function cmplz_init_cookie_blocker() {
+
 		if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning()
 		) {
 			return;
@@ -1011,6 +1013,7 @@ if ( ! function_exists( 'cmplz_ajax_user_settings' ) ) {
 		$data['banner_version'] = $banner->banner_version;
 		$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
 		$response               = json_encode( $data );
+
 		header( "Content-Type: application/json" );
 		echo $response;
 		exit;
@@ -1242,7 +1245,7 @@ if ( ! function_exists( 'cmplz_array_filter_multidimensional' ) ) {
 
 if ( ! function_exists( 'cmplz_is_amp' ) ) {
 	/**
-	 * Check if we're on AMP
+	 * Check if we're on AMP, and AMP integration is active
 	 * Function should be run not before the 'wp' hook!
 	 *
 	 * @return bool
@@ -1261,6 +1264,29 @@ if ( ! function_exists( 'cmplz_is_amp' ) ) {
 
 		if ( $amp_on ) {
 			$amp_on = cmplz_amp_integration_active();
+		}
+
+		return $amp_on;
+	}
+}
+
+if ( ! function_exists( 'cmplz_is_amp_endpoint' ) ) {
+	/**
+	 * Check if the site is loading as AMP
+	 * Function should be run not before the 'wp' hook!
+	 *
+	 * @return bool
+	 */
+	function cmplz_is_amp_endpoint() {
+
+		$amp_on = false;
+
+		if ( !$amp_on && function_exists( 'ampforwp_is_amp_endpoint' ) ) {
+			$amp_on = ampforwp_is_amp_endpoint();
+		}
+
+		if ( !$amp_on && function_exists( 'is_amp_endpoint' ) ) {
+			$amp_on = is_amp_endpoint();
 		}
 
 		return $amp_on;
@@ -1652,6 +1678,8 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			), $services_template );
 		}
 
+		$servicesHTML = '<div id="cmplz-cookies-overview">'.$servicesHTML.'</div>';
+
 		return str_replace( '{plugin_url}',cmplz_url, $servicesHTML);
 	}
 }
@@ -1982,7 +2010,7 @@ if ( ! function_exists( 'cmplz_uses_optout' ) ) {
 
 if ( ! function_exists( 'cmplz_ab_testing_enabled' ) ) {
 	function cmplz_ab_testing_enabled() {
-		return COMPLIANZ::$cookie_admin->ab_testing_enabled();
+		return apply_filters( 'cmplz_ab_testing_enabled', false );
 	}
 }
 

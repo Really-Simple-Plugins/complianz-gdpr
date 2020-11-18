@@ -565,7 +565,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-	if (complianz.geoip && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version) || (cmplz_user_data.banner_version !== complianz.banner_version))) {
+	if ( complianz.geoip == 1 && (cmplz_user_data.length === 0 || (cmplz_user_data.version !== complianz.version) || (cmplz_user_data.banner_version !== complianz.banner_version)) ) {
 		$.ajax({
 			type: "GET",
 			url: complianz.url,
@@ -958,7 +958,7 @@ jQuery(document).ready(function ($) {
 
 	$(document).on('click', '.cc-save-settings', function () {
 		cmplzSaveCategoriesSelection();
-		// cmplzFireCategories(false, true);
+		cmplzFireCategories(false, true);
 	});
 
 	/**
