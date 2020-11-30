@@ -130,7 +130,7 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	 * @return string
 	 */
 	function cmplz_revoke_link( $text = false ) {
-		$text = $text ? $text : __( 'Revoke cookie consent', 'complianz-gdpr' );
+		$text = $text ? $text : __( 'Manage Consent', 'complianz-gdpr' );
 		$text = apply_filters( 'cmplz_revoke_button_text', $text );
 		$css
 		      = '<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>';
@@ -152,22 +152,27 @@ if (!function_exists('cmplz_manage_consent_html_ajax')) {
 	 */
 	function cmplz_manage_consent_html_ajax()
 	{
-		$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
-		$banner = new CMPLZ_COOKIEBANNER(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
-
-		$use_revoke_button = false;
-		if ( $consenttype === 'optin' && $banner->use_categories === 'no' ) {
-			$use_revoke_button = true;
-		} elseif ( $consenttype === 'optinstats' && $banner->use_categories_optinstats === 'no' ) {
-			$use_revoke_button = true;
-		} elseif ( $consenttype ==='optout' ){
-			$use_revoke_button = true;
-		}
-
-		if ( $use_revoke_button ) {
-			$html = cmplz_revoke_link();
+		$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
+		if ( $do_not_track ) {
+			$html = sprintf(_x("We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.", "cookie policy", "complianz-gdpr"), site_url() );
 		} else {
-			$html = $banner->get_consent_checkboxes('document', $consenttype);
+			$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+			$banner = new CMPLZ_COOKIEBANNER(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+
+			$use_revoke_button = false;
+			if ( $consenttype === 'optin' && $banner->use_categories === 'no' ) {
+				$use_revoke_button = true;
+			} elseif ( $consenttype === 'optinstats' && $banner->use_categories_optinstats === 'no' ) {
+				$use_revoke_button = true;
+			} elseif ( $consenttype ==='optout' ){
+				$use_revoke_button = true;
+			}
+
+			if ( $use_revoke_button ) {
+				$html = cmplz_revoke_link();
+			} else {
+				$html = $banner->get_consent_checkboxes('document', $consenttype);
+			}
 		}
 
 		$data     = array(
@@ -905,7 +910,7 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 		}
 
 		//don't fire on the back-end
-		if ( is_preview() || cmplz_is_pagebuilder_preview() ) {
+		if ( is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]) ) {
 			return;
 		}
 

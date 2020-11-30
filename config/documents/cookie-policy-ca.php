@@ -93,7 +93,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => _x('You can object to the tracking by these cookies by clicking the "Revoke cookie consent" button.','Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('You can object to the tracking by these cookies by clicking the "Manage Consent" button.','Legal document cookie policy', 'complianz-gdpr'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
         ),

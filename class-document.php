@@ -1131,7 +1131,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			add_shortcode( 'cmplz-consent-area', array( $this, 'show_consent_area' ) );
 
 			add_shortcode( 'cmplz-cookies', array( $this, 'cookies' ) );
-
+			add_filter( 'display_post_states', array( $this, 'add_post_state') , 10, 2);
 
 			/*
              * @todo add a gutenberg block for the revoke link and DNSMPD form
@@ -1179,6 +1179,19 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		}
 
+		/**
+		 * Add document post state
+		 * @param array $post_states
+		 * @param WP_Post $post
+		 * @return array
+		 */
+		public function add_post_state($post_states, $post) {
+			if ( $this->is_complianz_page( $post->ID ) ) {
+				$post_states['page_for_privacy_policy'] = __("Legal Document", "complianz-gdpr");
+			}
+			return $post_states;
+		}
+
 		public function add_meta_box( $post_type ) {
 			global $post;
 
@@ -1196,6 +1209,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 		}
 
+		/**
+		 * Unlink a page from the shortcode, and use the html instead
+		 *
+		 */
 		function metabox_unlink_from_complianz() {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
@@ -1219,6 +1236,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		}
 
+		/**
+		 * Get sync status of post
+		 *
+		 * @param $post_id
+		 *
+		 * @return string
+		 */
 
 		public function syncStatus( $post_id ) {
 			$post = get_post( $post_id );
@@ -1258,7 +1282,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return $sync;
 		}
 
-
+		/**
+		 * Save data posted from the metabox
+		 */
 		public function save_metabox_data() {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
@@ -1465,6 +1491,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		}
 
+		/**
+		 * Create legal document pages from the wizard using ajax
+		 */
 		public function ajax_create_pages(){
 
 			if ( ! current_user_can( 'manage_options' ) ) {
@@ -1526,6 +1555,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return $missing_pages;
 		}
 
+		/**
+		 * Add pages from the wizard
+		 */
 		public function callback_wizard_add_pages(){
 			//create a page foreach page that is needed.
 			if ($this->has_missing_pages()){
@@ -1897,7 +1929,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 		}
 
-
+		/**
+		 * Get shortcode pattern for this site, gutenberg or classic
+		 *
+		 * @param string $type
+		 * @param bool   $legacy
+		 *
+		 * @return string
+		 */
 		public function get_shortcode_pattern(
 			$type = "classic", $legacy = false
 		) {
@@ -1933,26 +1972,46 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 *
 		 * @param int $post_id
 		 *
-		 * @return bool
+		 * @return array
 		 *
 		 *
 		 */
 
-		public function get_document_type( $post_id ) {
+		public function get_document_data( $post_id ) {
 
-			$pattern = '/cmplz-document type="(.*?)"/i';
+			$pattern = $this->get_shortcode_pattern('classic' );
+			$pattern_legacy = $this->get_shortcode_pattern('classic' , true );
+			$pattern_gutenberg = $this->get_shortcode_pattern('gutenberg' );
 			$post    = get_post( $post_id );
 
 			$content = $post->post_content;
-			if ( preg_match_all( $pattern, $content, $matches,
-				PREG_PATTERN_ORDER )
-			) {
+			$output = array(
+				'type' => '',
+				'region' => false,
+			);
+			if ( preg_match_all( $pattern, $content, $matches, PREG_PATTERN_ORDER ) ) {
 				if ( isset( $matches[1][0] ) ) {
-					return $matches[1][0];
+					$output['type'] = $matches[1][0];
+				}
+				if ( isset( $matches[2][0] ) ) {
+					$output['region'] = $matches[2][0];
+				}
+			} else if ( preg_match_all( $pattern_gutenberg, $content, $matches, PREG_PATTERN_ORDER ) ) {
+				if ( isset( $matches[1][0] ) ) {
+					$output['type'] = $matches[1][0];
+				}
+				if ( isset( $matches[2][0] ) ) {
+					$output['region'] = $matches[2][0];
+				}
+			} else if ( preg_match_all( $pattern_legacy, $content, $matches, PREG_PATTERN_ORDER ) ) {
+				if ( isset( $matches[1][0] ) ) {
+					$output['type'] = $matches[1][0];
+				}
+				if ( isset( $matches[2][0] ) ) {
+					$output['region'] = $matches[2][0];
 				}
 			}
-
-			return false;
+			return $output;
 		}
 
 		/**
@@ -2229,6 +2288,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return ob_get_clean();
 		}
 
+		/**
+		 * Check if we should use caching
+		 * @param string $type
+		 *
+		 * @return bool
+		 */
 		private function use_cache( $type ) {
 
 			//do not cache on multilanguage environments

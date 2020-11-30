@@ -584,8 +584,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 
 		public function add_class( $html, $el, $class ) {
-			$classes = explode(' ', $class);
-			$class = esc_attr( $class );
+			$classes = array_filter( explode(' ', $class) );
 			preg_match( '/<' . $el . '[^\>]*[^\>\S]+\K(class=")(.*)"/i', $html, $matches );
 			if ( $matches ) {
 				foreach ($classes as $class){
@@ -599,7 +598,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				$pos = strpos( $html, "<$el" );
 				if ( $pos !== false ) {
 					$html = substr_replace( $html,
-						'<' . $el . ' class="' . $class . '"', $pos,
+						'<' . $el . ' class="' . esc_attr($class) . '"', $pos,
 						strlen( "<$el" ) );
 				}
 			}

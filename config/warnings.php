@@ -7,12 +7,12 @@ $this->warning_types = array(
 		'label_error' => __( 'The Complianz plugin has new features. Please check the wizard to see if all your settings are still up to date.',
 			'complianz-gdpr' ),
 	),
-	'no-dnt'                        => array(
+	'no-dnt' => array(
 		'type'        => 'general',
-		'label_ok'    => __( 'Do Not Track is respected.', 'complianz-gdpr' ),
-		'label_error' => sprintf( __( 'The browser setting Do Not Track is not respected yet - (%spremium%s)',
+		'label_ok'    => __( 'Do Not Track & Global Privacy Control are respected.', 'complianz-gdpr' ),
+		'label_error' => sprintf( __( 'Do Not Track & Global Privacy Control are not respected yet - (%spremium%s)',
 			'complianz-gdpr' ),
-			'<a  target="_blank" href="https://complianz.io">', '</a>' )
+			'<a  target="_blank" href="https://complianz.io/browser-privacy-controls/">', '</a>' )
 	),
 	'wizard-incomplete'             => array(
 		'type'        => 'general',

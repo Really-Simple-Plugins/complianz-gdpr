@@ -15,45 +15,30 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			self::$_this = $this;
-			add_action( 'admin_enqueue_scripts',
-				array( $this, 'enqueue_assets' ) );
-			add_action( 'admin_menu', array( $this, 'register_admin_page' ),
-				20 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_menu', array( $this, 'register_admin_page' ), 20 );
 
 			$plugin = cmplz_plugin;
-			add_filter( "plugin_action_links_$plugin",
-				array( $this, 'plugin_settings_link' ) );
+			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 			//multisite
-			add_filter( "network_admin_plugin_action_links_$plugin",
-				array( $this, 'plugin_settings_link' ) );
+			add_filter( "network_admin_plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
 			//Add actions for dashboard components
-			add_action( "cmplz_dashboard_third_block",
-				array( $this, 'dashboard_third_block' ) );
-			add_action( "cmplz_dashboard_footer",
-				array( $this, 'dashboard_footer' ) );
-			add_action( "cmplz_dashboard_second_block",
-				array( $this, 'dashboard_second_block' ) );
-			add_action( "cmplz_documents_footer",
-				array( $this, 'documents_footer' ) );
+			add_action( "cmplz_dashboard_third_block", array( $this, 'dashboard_third_block' ) );
+			add_action( "cmplz_dashboard_footer", array( $this, 'dashboard_footer' ) );
+			add_action( "cmplz_dashboard_second_block", array( $this, 'dashboard_second_block' ) );
+			add_action( "cmplz_documents_footer", array( $this, 'documents_footer' ) );
 			add_action( "cmplz_documents", array( $this, 'documents' ) );
 
 			//some custom warnings
-			add_filter( 'cmplz_warnings_types',
-				array( $this, 'filter_warnings' ) );
-
+			add_filter( 'cmplz_warnings_types', array( $this, 'filter_warnings' ) );
 			add_action( 'cmplz_tools', array( $this, 'dashboard_tools' ) );
-
 			add_action( 'admin_init', array( $this, 'check_upgrade' ), 10, 2 );
-
 			add_action( 'cmplz_show_message', array( $this, 'show_message' ) );
-
-			add_action( 'admin_init', array( $this, 'process_reset_action' ),
-				10, 1 );
+			add_action( 'admin_init', array( $this, 'process_reset_action' ), 10, 1 );
 
 			if ( get_option( 'cmplz_show_cookiedatabase_optin' ) ) {
-				add_action( 'admin_notices',
-					array( $this, 'notice_optin_on_upgrade' ) );
+				add_action( 'admin_notices', array( $this, 'notice_optin_on_upgrade' ) );
 			}
 
 			add_action('cmplz_fieldvalue', array($this, 'filter_cookie_domain'), 10, 2);
@@ -1124,7 +1109,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					class="cmplz-footer-title"><?php echo __( 'Really Simple SSL',
 						'complianz-gdpr' ); ?></div>
 				<div
-					class="cmplz-footer-description"><?php echo __( 'Trusted by over 4 million WordPress users',
+					class="cmplz-footer-description"><?php echo __( 'Trusted by over 5 million WordPress users',
 						'complianz-gdpr' ); ?></div>
 				<a href="https://really-simple-ssl.com" target="_blank">
 					<div class="cmplz-external-btn">

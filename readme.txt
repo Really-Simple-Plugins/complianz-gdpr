@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 4.8.0
+Stable tag: 4.8.1
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,17 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.8.1 =
+* Fix: Shares data test returning false positive because of inverted script center script condition, props Michael
+* Fix: Tag Manager script was incorrectly added when Google Tag Manager for WordPress plugin was used, props @imkane
+* Fix: PHP warning when classes to insert contain two spaces. props @jadorwin
+* Improvement: Revoke cookie consent string changed into Manage Consent
+* Improvement: add Post Status for legal documents
+* Improvement: remove quotes in WP Google Maps string to prevent German quotes issues
+* Improvement: jquery error detection, skip error on line 0 as false positive, prevent overwriting error
+* New: Nudgify integration
+* New: you can now disable the cookieblocker by adding ?cmplz_safe_mode=1 to the URL
+
 = 4.8.0 =
 * Improvement: include stats when in safe mode
 * Improvement: CSS style for invisible checkboxes to make them readable by screen readers. props @juliemoynat-tanaguru

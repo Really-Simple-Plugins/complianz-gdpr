@@ -683,6 +683,8 @@ jQuery(document).ready(function ($) {
 			}
 		} else {
 			setStatusAsBodyClass('deny');
+			//the load revoke container loads the notification for the user that DNT has been enabled.
+			cmplzLoadRevokeContainer()
 		}
 
 	}
@@ -1717,7 +1719,10 @@ jQuery(document).ready(function ($) {
 	 */
 
 	function cmplzLoadRevokeContainer() {
+		console.log("containe r");
 		if ($('.cmplz-manage-consent-container').length) {
+			console.log("length r");
+
 			$.ajax({
 				type: 'GET',
 				url: complianz.url,

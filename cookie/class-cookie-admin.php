@@ -81,10 +81,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function detect_conflicts(){
+
 			if ( !cmplz_user_can_manage() ) return;
 
-			if ( !$this->site_needs_cookie_warning() ) return;
+			//no back-end warnings
+			if ( is_admin() ) return;
 
+			//not when scan runs
+			if ( isset( $_GET['complianz_scan_token'] ) ) return;
+
+			if ( !$this->site_needs_cookie_warning() ) return;
 
 			$nonce = wp_create_nonce('cmplz-detect-errors');
 			?>
@@ -105,8 +111,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				?>', true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 				request.send(cmplz_jquery_detected);
-
+				var error_ocurred = false;
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
+					error_ocurred = true;
 					var request = new XMLHttpRequest();
 					request.open('POST', '<?php echo add_query_arg(
 						array(
@@ -123,24 +130,27 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					data.push(url.substring(0, url.indexOf('?')));
 					request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 					request.send(data);
-				}
+				};
 
 				//if no error occurred after 3 seconds, send a reset signal
 				setTimeout(function () {
-					var request = new XMLHttpRequest();
-					request.open('POST', '<?php echo add_query_arg(
-						array(
-							'type' => 'errors',
-							'nonce' => $nonce,
-							'action'=>'cmplz_store_console_errors'
-						),
-						admin_url('admin-ajax.php')
-					)
-						?>', true);
-					var data = [];
-					data.push('no-errors');
-					request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-					request.send(data);
+					if (!error_ocurred) {
+						var request = new XMLHttpRequest();
+						request.open('POST', '<?php echo add_query_arg(
+							array(
+								'type' => 'errors',
+								'nonce' => $nonce,
+								'action'=>'cmplz_store_console_errors'
+							),
+							admin_url('admin-ajax.php')
+						)
+							?>', true);
+						var data = [];
+						data.push('no-errors');
+						request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+						request.send(data);
+					}
+
 				}, 3000);
 			</script>
 			<?php
@@ -155,8 +165,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( !cmplz_user_can_manage() ) return;
 
 			if ( !$this->site_needs_cookie_warning() ) return;
-
 			$success = false;
+
 			if ( isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'cmplz-detect-errors') ) {
 				if ( $_GET['type'] === 'jquery' ) {
 					if (isset($_POST['no-jquery-detected'])){
@@ -172,7 +182,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$errors = array_keys(array_map('sanitize_text_field', $_POST));
 						if (count($errors)>0){
 							$errors = explode(',', str_replace( site_url(),'',$errors[0]) );
-							update_option('cmplz_detected_console_errors', $errors);
+							if ( isset($errors[1]) && $errors[1] != 0 ) update_option('cmplz_detected_console_errors', $errors);
 							$success = true;
 						}
 					}
@@ -2032,7 +2042,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					?><script type="<?php echo $type?>" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_statistics_script' );?></script><?php
 				}
 			}
-      
+
 			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) return;
 
 			//scripts that should get executed on consent here
@@ -2091,7 +2101,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * */
 
 		public function get_tagmanager_script() {
-			if ( cmplz_get_value( 'configuration_by_complianz' ) === 'no' ) {
+			if ( cmplz_get_value( 'configuration_by_complianz' ) !== 'yes' ) {
 				return;
 			}
 
@@ -3413,10 +3423,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			?>
 			<div class="field-group cookie-scan first">
 				<?php
-				if ( isset( $_SERVER['HTTP_DNT'] )
-				     && $_SERVER['HTTP_DNT'] == 1
+				if ( ( isset( $_SERVER['HTTP_DNT'] )
+				     && $_SERVER['HTTP_DNT'] == 1 )
+				     || isset($_SERVER['HTTP_SEC_GPC'])
 				) {
-					cmplz_notice( __( "You have Do Not Track enabled. This will prevent most cookies from being placed. Please run the scan with Do Not Track disabled.",
+					cmplz_notice( __( "You have Do Not Track or Global Privacy Control enabled. This will prevent most cookies from being placed. Please run the scan with these options disabled.",
 						'complianz-gdpr' ) );
 				}
 				?>
@@ -3902,10 +3913,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 */
 			$thirdparty_scripts = cmplz_get_value( 'thirdparty_scripts' );
 			$thirdparty_iframes = cmplz_get_value( 'thirdparty_iframes' );
-			$thirdparty_scripts = strlen( $thirdparty_scripts ) != 0 ? false
-				: true;
-			$thirdparty_iframes = strlen( $thirdparty_iframes ) != 0 ? false
-				: true;
+			$thirdparty_scripts = strlen( $thirdparty_scripts ) == 0 ? false : true;
+			$thirdparty_iframes = strlen( $thirdparty_iframes ) == 0 ? false : true;
 
 			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' )
 				? true : false;

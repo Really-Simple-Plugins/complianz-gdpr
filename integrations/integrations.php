@@ -11,7 +11,12 @@ if ( is_admin() ) {
 
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
-	//user registration plugin
+
+	'nudgify'          => array(
+		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
+		'label'                => 'Nudgify',
+		'firstparty_marketing' => false,
+	),
 
 	'trustpulse'          => array(
 		'constant_or_function' => 'TRUSTPULSE_PLUGIN_VERSION',
