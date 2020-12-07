@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 4.8.1
+Stable tag: 4.8.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,11 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.8.2 =
+* Improvement: possibility to add both a marketing and an advertising cookies section
+* Fix: prevent double firing of analytics icw native class on accept #926
+* Improvement: analytics script in script center when running analytics from Complianz
+
 = 4.8.1 =
 * Fix: Shares data test returning false positive because of inverted script center script condition, props Michael
 * Fix: Tag Manager script was incorrectly added when Google Tag Manager for WordPress plugin was used, props @imkane
