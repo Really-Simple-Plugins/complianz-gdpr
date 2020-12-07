@@ -159,13 +159,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				}
 
 				//save data
-				$posted_fields = array_filter( $_POST,
-					array( $this, 'filter_complianz_fields' ),
-					ARRAY_FILTER_USE_KEY );
+				$posted_fields = array_filter( $_POST, array( $this, 'filter_complianz_fields' ), ARRAY_FILTER_USE_KEY );
 				foreach ( $posted_fields as $fieldname => $fieldvalue ) {
 					$this->save_field( $fieldname, $fieldvalue );
 				}
-				do_action('cmplz_after_saved_all_fields' );
+				do_action('cmplz_after_saved_all_fields', $posted_fields );
 			}
 		}
 
@@ -289,6 +287,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 		}
 
+		/**
+		 * Save the field
+		 * @param string $fieldname
+		 * @param mixed $fieldvalue
+		 */
 
 		public function save_field( $fieldname, $fieldvalue ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
@@ -296,7 +299,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 
 			$fieldvalue = apply_filters("cmplz_fieldvalue", $fieldvalue, $fieldname);
-
 			$fields    = COMPLIANZ::$config->fields();
 			$fieldname = str_replace( "cmplz_", '', $fieldname );
 
@@ -307,9 +309,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			$type     = $fields[ $fieldname ]['type'];
 			$page     = $fields[ $fieldname ]['source'];
-			$required = isset( $fields[ $fieldname ]['required'] )
-				? $fields[ $fieldname ]['required'] : false;
-
+			$required = isset( $fields[ $fieldname ]['required'] ) ? $fields[ $fieldname ]['required'] : false;
 			$fieldvalue = $this->sanitize( $fieldvalue, $type );
 
 			if ( ! $this->is_conditional( $fieldname ) && $required
@@ -1328,11 +1328,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php
 		}
 
-
-		public
-		function step_has_fields(
-			$page, $step = false, $section = false
-		) {
+		/**
+		 * Check if a step has any fields
+		 * @param string $page
+		 * @param bool $step
+		 * @param bool $section
+		 *
+		 * @return bool
+		 */
+		public function step_has_fields( $page, $step = false, $section = false ) {
 
 			$fields = COMPLIANZ::$config->fields( $page, $step, $section );
 			foreach ( $fields as $fieldname => $args ) {

@@ -487,6 +487,10 @@ jQuery(document).ready(function ($) {
 
 	function cmplzEnableStats() {
 		if (ccStatsEnabled) return;
+
+		//if native class is included, it isn't blocked.
+		if ($(this).hasClass('cmplz-native')) return true;
+
 		console.log('fire cmplz_event_statistics');
 		$('.cmplz-stats').each(function (i, obj) {
 			var src = $(this).attr('src');

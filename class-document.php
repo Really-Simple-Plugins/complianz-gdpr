@@ -361,7 +361,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		}
 
 		/**
-		 * Check if the passes condition applies
+		 * Check if the passed condition applies
 		 *
 		 * @param array $element
 		 * @param int   $post_id
@@ -374,6 +374,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$fields        = COMPLIANZ::$config->fields;
 				$condition_met = true;
 				$invert        = false;
+
 				foreach (
 					$element['condition'] as $question => $condition_answer
 				) {
@@ -506,60 +507,47 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$annex_arr[ $id ] = $annex;
 					}
 				}
-				if ( $this->is_loop_element( $element )
-				     && $this->insert_element( $element, $post_id )
+				if ( $this->is_loop_element( $element ) && $this->insert_element( $element, $post_id )
 				) {
 					$fieldname    = key( $element['condition'] );
 					$values       = cmplz_get_value( $fieldname, $post_id );
 					$loop_content = '';
 					if ( ! empty( $values ) ) {
 						foreach ( $values as $value ) {
-
 							if ( ! is_array( $value ) ) {
 								$value = array( $value );
 							}
 							$fieldnames = array_keys( $value );
-							if ( count( $fieldnames ) == 1
-							     && $fieldnames[0] == 'key'
+							if ( count( $fieldnames ) == 1 && $fieldnames[0] == 'key'
 							) {
 								continue;
 							}
 
 							$loop_section = $element['content'];
 							foreach ( $fieldnames as $c_fieldname ) {
-								$field_value
-									= ( isset( $value[ $c_fieldname ] ) )
-									? $value[ $c_fieldname ] : '';
-								if ( ! empty( $field_value )
-								     && is_array( $field_value )
+								$field_value = ( isset( $value[ $c_fieldname ] ) ) ? $value[ $c_fieldname ] : '';
+								if ( ! empty( $field_value ) && is_array( $field_value )
 								) {
-									$field_value = implode( ', ',
-										$field_value );
+									$field_value = implode( ', ', $field_value );
 								}
 
-								$loop_section = str_replace( '[' . $c_fieldname
-								                             . ']',
-									$field_value, $loop_section );
+								$loop_section = str_replace( '[' . $c_fieldname . ']', $field_value, $loop_section );
 							}
 
 							$loop_content .= $loop_section;
 
 						}
-						$html .= $this->wrap_header( $element, $paragraph,
-							$sub_paragraph, $annex );
+						$html .= $this->wrap_header( $element, $paragraph, $sub_paragraph, $annex );
 						$html .= $this->wrap_content( $loop_content );
 					}
 				} elseif ( $this->insert_element( $element, $post_id ) ) {
-					$html .= $this->wrap_header( $element, $paragraph,
-						$sub_paragraph, $annex );
+					$html .= $this->wrap_header( $element, $paragraph, $sub_paragraph, $annex );
 					if ( isset( $element['content'] ) ) {
-						$html .= $this->wrap_content( $element['content'],
-							$element );
+						$html .= $this->wrap_content( $element['content'], $element );
 					}
 				}
 
-				if ( isset( $element['callback'] )
-				     && function_exists( $element['callback'] )
+				if ( isset( $element['callback'] ) && function_exists( $element['callback'] )
 				) {
 					$func = $element['callback'];
 					$html .= $func();

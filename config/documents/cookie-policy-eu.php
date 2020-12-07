@@ -48,10 +48,8 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
 		'condition' => array(
 			'compile_statistics' => 'NOT no'
 		),
-
 	),
 
-	//ads
     array(
 	    'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 	    'content' => sprintf(_x('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
@@ -63,12 +61,21 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
 
     array(
 	    'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-	    'content' => sprintf(_x('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
+	    'content' => sprintf(_x('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behavior and interests to serve personalized ads.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
 	    'condition' => array(
 		    'uses_ad_cookies' => 'yes',
 		    'uses_ad_cookies_personalized' => 'no'
 	    ),
     ),
+
+	array(
+		'subtitle' => _x('Marketing/Tracking cookies', 'cookie policy', 'complianz-gdpr'),
+		'content' => _x('Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.', 'cookie policy', 'complianz-gdpr'),
+//		'condition' => array(
+//			//'uses_ad_cookies' => 'no',
+//		),
+		'callback_condition' => 'cmplz_uses_marketing_cookies',
+	),
 
     array(
 	    'content' => _x('Because these cookies are marked as tracking cookies, we ask your permission to place these.', 'Legal document cookie policy', 'complianz-gdpr'),

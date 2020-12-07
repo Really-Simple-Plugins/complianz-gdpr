@@ -2051,15 +2051,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				?><script class="cmplz-script" type="text/plain"><?php echo $script; ?></script><?php
 			}
 
-			//stats scripts that should get executed on consent here
-			$stats_script = cmplz_get_value( 'statistics_script' );
-			if ( strlen($stats_script) >0 ){
-				?><script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
-			}
-
 			$script_async = cmplz_get_value( 'cookie_scripts_async' );
 			if ( strlen($script_async) >0 ){
 				?><script class="cmplz-script" type="text/plain" async><?php echo $script_async; ?></script><?php
+			}
+
+			//stats scripts that should get executed on consent here
+			$stats_script = cmplz_get_value( 'statistics_script' );
+			if ( strlen($stats_script) >0 && cmplz_get_value( 'compile_statistics' ) === 'yes' ){
+				?><script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
 			}
 		}
 
@@ -3717,8 +3717,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Check if the site needs a cookie banner considering statistics only
 		 *
 		 * @param $region bool|string
-		 *                @@return bool
-		 *                *@since 1.0
+		 * @return bool
+		 * @since 1.0
 		 *
 		 */
 

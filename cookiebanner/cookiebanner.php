@@ -249,10 +249,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 		return;
 	}
 
-	if ( ! isset( $_GET['id'] )
-	     && ! ( isset( $_GET['action'] )
-	            && $_GET['action'] == 'new' )
-	) {
+	if ( ! isset( $_GET['id'] ) && ! ( isset( $_GET['action'] ) && $_GET['action'] == 'new' ) ) {
 		return;
 	}
 

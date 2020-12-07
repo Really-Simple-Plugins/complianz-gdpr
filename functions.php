@@ -657,7 +657,12 @@ if ( ! function_exists( 'cmplz_scan_detected_stats' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_update_option' ) ) {
-
+	/**
+	 * Save a complianz option
+	 * @param string $page
+	 * @param string $fieldname
+	 * @param mixed $value
+	 */
 	function cmplz_update_option( $page, $fieldname, $value ) {
 		$options               = get_option( 'complianz_options_' . $page );
 		$options[ $fieldname ] = $value;
@@ -982,6 +987,16 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		}
 
 		return apply_filters( 'cmplz_is_preview', $preview );
+	}
+}
+
+if ( !function_exists('cmplz_uses_marketing_cookies') ) {
+	/**
+	 * Check if the site uses marketing cookies
+	 * @return bool
+	 */
+	function cmplz_uses_marketing_cookies(){
+		return cmplz_get_value('uses_ad_cookies') ==='yes' || cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' ;
 	}
 }
 

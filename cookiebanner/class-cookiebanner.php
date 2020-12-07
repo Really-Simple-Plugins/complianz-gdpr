@@ -1135,7 +1135,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$output = $checkbox_functional;
 			if (!$functional_only) {
 				$use_cats = false;
-				$uses_marketing_cookies = cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' ;
+				$uses_marketing_cookies = cmplz_uses_marketing_cookies();
 
 				if ($consenttype) {
 					if ($consenttype !== 'optout' && (
