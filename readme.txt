@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 4.8.2
+Stable tag: 4.9.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,14 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.9.0 =
+* WCAG: fix button accessibility and div for Contact Form 7. props @juliemoynat-tanaguru
+* Improvement: set default checkbox style to slider
+* WCAG: fix category checkbox square accessibility. props @juliemoynat-tanaguru
+* New: support for plugin "Invisible recaptcha for WordPress"
+* New: option to disable monthly automatic cookie scan
+* Fix: typo in css class
+
 = 4.8.2 =
 * Improvement: possibility to add both a marketing and an advertising cookies section
 * Fix: prevent double firing of analytics icw native class on accept #926
