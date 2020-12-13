@@ -41,7 +41,7 @@
 @media only screen and (min-width: 600px) {
   #cmplz-cookies-overview .cookies-per-purpose {
     grid-column: span 2;
-    grid-template-colums: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template: "purpose purpose purpose" "header1 header2 header3" auto;
   }
   #cmplz-cookies-overview .cookies-per-purpose .purpose {
