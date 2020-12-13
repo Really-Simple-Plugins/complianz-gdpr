@@ -49,7 +49,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_get_scan_progress', array( $this, 'get_scan_progress' ) );
 			add_action( 'wp_ajax_cmplz_run_sync', array( $this, 'run_sync' ) );
 			add_action( 'admin_init', array( $this, 'run_sync_on_update' ) );
-
 			add_action( 'wp_ajax_store_detected_cookies', array( $this, 'store_detected_cookies' ) );
 			add_action( 'plugins_loaded', array( $this, 'resync' ), 11, 2 );
 			add_action( 'wp_ajax_cmplz_report_unknown_cookies', array( $this, 'ajax_report_unknown_cookies' ) );
@@ -508,6 +507,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				'desc_error'   => __( "This cookie has missing fields",
 					"complianz-gdpr" ),
 			) );
+
 			if ( ! $cookie->sync ) {
 				$status = 'disabled';
 			} elseif ( $cookie->synced ) {
@@ -526,8 +526,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				'desc_disabled' => __( "Synchronization with cookiedatabase.org is not enabled for this cookie",
 					"complianz-gdpr" ),
 			) );
-			$status = $cookie->showOnPolicy && ! $cookie->ignored ? 'success'
-				: 'disabled';
+			$status = $cookie->showOnPolicy && ! $cookie->ignored ? 'success' : 'disabled';
 
 			$icons  .= $this->get_icon( array(
 				'status'        => $status,
@@ -537,7 +536,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				'desc_disabled' => __( "This cookie is not shown on the Cookie Policy",
 					"complianz-gdpr" ),
 			) );
-			$status = $cookie->old ? 'error' : 'success';
+
+			//don't set the status if cookie scan is disabled
+			$status = $cookie->old && !$this->automatic_cookiescan_disabled() ? 'error' : 'success';
 
 			$icons .= $this->get_icon( array(
 				'status'       => $status,
@@ -1758,9 +1759,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				update_option( 'cmplz_detected_social_media', false );
 				update_option( 'cmplz_detected_thirdparty_services', false );
 				update_option( 'cmplz_detected_stats', false );
-				$this->reset_pages_list();
+				$this->reset_pages_list(false, true);
 			}
 		}
+
+		/**
+		 * Clear the cookies table
+		 */
 
 		public function clear_cookies() {
 			if ( isset( $_POST['clear'] ) ) {
@@ -1786,6 +1791,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$this->resync( true );
 			}
 		}
+
+		/**
+		 * Start a new sync
+		 * @param bool $force
+		 */
 
 		public function resync( $force = false ) {
 			if ( $force || isset( $_POST['resync'] ) ) {
@@ -2230,18 +2240,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		private function bool_string( $boolean ) {
 			$bool = boolval( $boolean );
-
 			return $bool ? 'TRUE' : 'FALSE';
 		}
 
-
-		/*
+		/**
          * Insert an iframe to retrieve front-end cookies
          *
          *
          * */
 
 		public function run_cookie_scan() {
+
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
@@ -2253,11 +2262,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( isset( $_GET['complianz_scan_token'] ) ) {
 				return;
 			}
+
 			//if the last cookie scan date is more than a month ago, we re-scan.
 			$last_scan_date = $this->get_last_cookie_scan_date( true );
 			$one_month_ago  = apply_filters( 'cmplz_scan_frequency' , strtotime( '-1 month' ) );
 			if ( $this->scan_complete()
 			     && ( $one_month_ago > $last_scan_date )
+			     && !$this->automatic_cookiescan_disabled()
 			) {
 				$this->reset_pages_list();
 			}
@@ -2282,35 +2293,25 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				//first, get the html of this page.
 				if ( strpos( $url, 'complianz_id' ) !== false ) {
-
 					$response = wp_remote_get( $url );
 					if ( ! is_wp_error( $response ) ) {
 						$html = $response['body'];
 
-						$stored_social_media
-							= cmplz_scan_detected_social_media();
+						$stored_social_media = cmplz_scan_detected_social_media();
 						if ( ! $stored_social_media ) {
 							$stored_social_media = array();
 						}
 						$social_media = $this->parse_for_social_media( $html );
-						$social_media
-						              = array_unique( array_merge( $stored_social_media,
-							$social_media ), SORT_REGULAR );
-						update_option( 'cmplz_detected_social_media',
-							$social_media );
+						$social_media = array_unique( array_merge( $stored_social_media, $social_media ), SORT_REGULAR );
+						update_option( 'cmplz_detected_social_media', $social_media );
 
-						$stored_thirdparty_services
-							= cmplz_scan_detected_thirdparty_services();
+						$stored_thirdparty_services = cmplz_scan_detected_thirdparty_services();
 						if ( ! $stored_thirdparty_services ) {
 							$stored_thirdparty_services = array();
 						}
-						$thirdparty
-							= $this->parse_for_thirdparty_services( $html );
-						$thirdparty
-							= array_unique( array_merge( $stored_thirdparty_services,
-							$thirdparty ), SORT_REGULAR );
-						update_option( 'cmplz_detected_thirdparty_services',
-							$thirdparty );
+						$thirdparty = $this->parse_for_thirdparty_services( $html );
+						$thirdparty = array_unique( array_merge( $stored_thirdparty_services, $thirdparty ), SORT_REGULAR );
+						update_option( 'cmplz_detected_thirdparty_services', $thirdparty );
 
 						//parse for google analytics and tagmanager, but only if the wizard wasn't completed before.
 						//with this data we prefill the settings and give warnings when tracking is doubled
@@ -2319,8 +2320,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						}
 						if ( preg_match_all( '/ga\.js/', $html ) > 1
 						     || preg_match_all( '/analytics\.js/', $html ) > 1
-						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/',
-								$html ) > 1
+						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
 						     || preg_match_all( '/piwik\.js/', $html ) > 1
 						     || preg_match_all( '/matomo\.js/', $html ) > 1
 						) {
@@ -2607,15 +2607,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$posts     = array_merge( $posts, $new_posts );
 				}
 
-				if ( count( $posts ) == 0 ) {
+				if ( count( $posts ) == 0 && !$this->automatic_cookiescan_disabled()) {
 					/*
                      * If we didn't find any posts, we reset the post meta that tracks if all posts have been scanned.
                      * This way we will find some posts on the next scan attempt
                      * */
-					if ( ! function_exists( 'delete_post_meta_by_key' ) ) {
-						require_once ABSPATH . WPINC . '/post.php';
-					}
-					delete_post_meta_by_key( '_cmplz_scanned_post' );
+					$this->reset_scanned_post_batches();
 
 					//now we need to reset the scanned pages list too
 					$this->reset_pages_list();
@@ -2632,7 +2629,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$posts[] = 'loginpage';
 				}
 
-				set_transient( 'cmplz_pages_list', $posts, WEEK_IN_SECONDS );
+				set_transient( 'cmplz_pages_list', $posts, MONTH_IN_SECONDS );
 			}
 
 			return $posts;
@@ -2640,17 +2637,24 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Reset the list of pages
-		 *
+		 * @param bool $delay
+		 * @param bool $manual //if it's manual, we always reset. If automatic scan is disabled, we do not reset.
 		 * @return void
 		 *
 		 * @since 2.1.5
 		 */
 
-		public function reset_pages_list( $delay = false ) {
+		public function reset_pages_list( $delay = false, $manual = false ) {
+
+			if ( !$manual && $this->automatic_cookiescan_disabled() ) return;
+
+			if ( $manual && $this->automatic_cookiescan_disabled() ) {
+				$this->reset_scanned_post_batches();
+			}
+
 			if ( $delay ) {
 				$current_list = get_transient( 'cmplz_pages_list' );
-				$processed_pages
-				              = get_transient( 'cmplz_processed_pages_list' );
+				$processed_pages = get_transient( 'cmplz_processed_pages_list' );
 				set_transient( 'cmplz_pages_list', $current_list,
 					HOUR_IN_SECONDS );
 				set_transient( 'cmplz_processed_pages_list', $processed_pages,
@@ -2661,6 +2665,28 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				delete_transient( 'cmplz_processed_pages_list' );
 			}
 
+		}
+
+		/**
+		 * The scanned post meta is used to create batches of posts. A batch that is being processed is set to scanned.
+		 * This is only reset when all posts have been processed, or if user has disabled automatic scanning, and the manual scan is fired.
+		 * */
+
+		public function reset_scanned_post_batches(){
+
+			if ( ! function_exists( 'delete_post_meta_by_key' ) ) {
+				require_once ABSPATH . WPINC . '/post.php';
+			}
+			delete_post_meta_by_key( '_cmplz_scanned_post' );
+		}
+
+		/**
+		 * Check if the automatic scan is disabled
+		 * @return bool
+		 */
+
+		public function automatic_cookiescan_disabled(){
+			return cmplz_get_value('disable_automatic_cookiescan') == 1;
 		}
 
 
@@ -2711,7 +2737,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		private function pages_to_process() {
-			$pages_list           = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
+			$pages_list           = $this->get_pages_list_single_run();
 			$processed_pages_list = $this->get_processed_pages_list();
 
 			$pages = array_diff( $pages_list, $processed_pages_list );
@@ -2742,8 +2768,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$pages = $this->get_processed_pages_list();
 			if ( ! in_array( $id, $pages ) ) {
 				$pages[] = $id;
-				set_transient( 'cmplz_processed_pages_list', $pages,
-					MONTH_IN_SECONDS );
+				$expiration = $this->automatic_cookiescan_disabled() ? 10 * YEAR_IN_SECONDS : MONTH_IN_SECONDS;
+				set_transient( 'cmplz_processed_pages_list', $pages, $expiration );
 			}
 		}
 

@@ -12,6 +12,12 @@ if ( is_admin() ) {
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
+	'invisible-recaptcha' => array(
+			'constant_or_function' => 'InvisibleReCaptcha',
+			'label'                => 'Google Invisible reCaptcha voor WordPress',
+			'firstparty_marketing' => false,
+	),
+
 	'nudgify'          => array(
 		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
 		'label'                => 'Nudgify',

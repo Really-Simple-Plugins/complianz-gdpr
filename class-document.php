@@ -588,12 +588,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( isset( $element['annex'] ) ) {
 				$nr = __( "Annex", 'complianz-gdpr' ) . " " . $annex . ": ";
 				if ( isset( $element['title'] ) ) {
-					return '<h2 class="annex">' . cmplz_esc_html( $nr )
-					       . cmplz_esc_html( $element['title'] ) . '</h2>';
+					return '<h2 class="annex">' . esc_html( $nr )
+					       . esc_html( $element['title'] ) . '</h2>';
 				}
 				if ( isset( $element['subtitle'] ) ) {
-					return '<p class="subtitle annex">' . cmplz_esc_html( $nr )
-					       . cmplz_esc_html( $element['subtitle'] ) . '</p>';
+					return '<p class="subtitle annex">' . esc_html( $nr )
+					       . esc_html( $element['subtitle'] ) . '</p>';
 				}
 			}
 
@@ -610,8 +610,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$nr         = $nr . $index_char . ' ';
 				}
 
-				return '<h2>' . cmplz_esc_html( $nr )
-				       . cmplz_esc_html( $element['title'] ) . '</h2>';
+				return '<h2>' . esc_html( $nr )
+				       . esc_html( $element['title'] ) . '</h2>';
 			}
 
 			if ( isset( $element['subtitle'] ) ) {
@@ -621,8 +621,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$nr = $paragraph . "." . $sub_paragraph . " ";
 				}
 
-				return '<p class="cmplz-subtitle">' . cmplz_esc_html( $nr )
-				       . cmplz_esc_html( $element['subtitle'] ) . '</p>';
+				return '<p class="cmplz-subtitle">' . esc_html( $nr )
+				       . esc_html( $element['subtitle'] ) . '</p>';
 			}
 		}
 
@@ -659,7 +659,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return "";
 			}
 
-			return '<b>' . cmplz_esc_html( $header ) . '</b><br>';
+			return '<b>' . esc_html( $header ) . '</b><br>';
 		}
 
 		/**
@@ -702,13 +702,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			foreach ( $paragraph_id_arr as $id => $paragraph ) {
 				$html = str_replace( "[article-$id]",
 					sprintf( __( '(See paragraph %s)', 'complianz-gdpr' ),
-						cmplz_esc_html( $paragraph['main'] ) ), $html );
+						esc_html( $paragraph['main'] ) ), $html );
 			}
 
 			foreach ( $annex_arr as $id => $annex ) {
 				$html = str_replace( "[annex-$id]",
 					sprintf( __( '(See annex %s)', 'complianz-gdpr' ),
-						cmplz_esc_html( $annex ) ), $html );
+						esc_html( $annex ) ), $html );
 			}
 
 			$active_cookiebanner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
@@ -720,8 +720,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$banner->save_preferences_x, $html );
 
 			$html = str_replace( "[domain]",
-				'<a href="' . cmplz_esc_url_raw( get_home_url() ) . '">'
-				. cmplz_esc_url_raw( get_home_url() ) . '</a>', $html );
+				'<a href="' . esc_url_raw( get_home_url() ) . '">'
+				. esc_url_raw( get_home_url() ) . '</a>', $html );
 			$html = str_replace( "[cookie-statement-url]",
 				cmplz_get_document_url( 'cookie-statement', $region ), $html );
 
@@ -745,18 +745,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				: date( get_option( 'date_format' ),
 					get_option( 'cmplz_publish_date' ) );
 			$date = cmplz_localize_date( $date );
-			$html = str_replace( "[publish_date]", cmplz_esc_html( $date ),
+			$html = str_replace( "[publish_date]", esc_html( $date ),
 				$html );
 
 			$html = str_replace( "[sync_date]",
-				cmplz_esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ),
+				esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ),
 				$html );
 
 			$checked_date = date( get_option( 'date_format' ),
 				get_option( 'cmplz_documents_update_date' ) );
 			$checked_date = cmplz_localize_date( $checked_date );
 			$html         = str_replace( "[checked_date]",
-				cmplz_esc_html( $checked_date ), $html );
+				esc_html( $checked_date ), $html );
 
 			//because the phonenumber is not required, we need to allow for an empty phonenr, making a dynamic string necessary.
 			$contact_dpo = cmplz_get_value( 'email_dpo' );
@@ -855,7 +855,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 
 					if ( $list_style ) {
-						$labels .= "<li>" . cmplz_esc_html( $options[ $index ] )
+						$labels .= "<li>" . esc_html( $options[ $index ] )
 						           . '</li>';
 					} else {
 						$labels .= $options[ $index ] . ', ';
@@ -866,7 +866,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				if ( $list_style ) {
 					$labels = "<ul>" . $labels . "</ul>";
 				} else {
-					$labels = cmplz_esc_html( rtrim( $labels, ', ' ) );
+					$labels = esc_html( rtrim( $labels, ', ' ) );
 					$labels = strrev( implode( strrev( ' ' . __( 'and',
 							'complianz-gdpr' ) ),
 						explode( strrev( ',' ), strrev( $labels ), 2 ) ) );

@@ -78,6 +78,16 @@ $this->fields = $this->fields + array(
 			),
 		),
 
+		'disable_automatic_cookiescan' => array(
+			'source'  => 'settings',
+			'step'    => 'general',
+			'type'    => 'checkbox',
+			'default' => false,
+			'label'   => __("Disable the automatic cookie scan.","complianz-gdpr"),
+			'help'      => __( "You can disable the monthly automatic cookie scan here, and do only manual cookie scans.","complianz-gdpr"),
+			'table'   => true,
+		),
+
 		'set_cookies_on_root' => array(
 			'source'  => 'settings',
 			'step'    => 'general',
@@ -98,7 +108,6 @@ $this->fields = $this->fields + array(
 			'help'    => '',
 			'table'   => true,
 			'condition' => array( 'hide_field' => true ),
-
 		),
 
 		'use_document_css' => array(

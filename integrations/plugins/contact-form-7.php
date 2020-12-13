@@ -85,12 +85,9 @@ add_action( 'wp_footer', 'cmplz_cf7_initDomContentLoaded' );
  */
 function cmplz_contactform7_errormessage( $message, $status ) {
 	if ( $status === 'spam' ) {
-		$accept_text = apply_filters( 'cmplz_accept_cookies_contactform7',
-			__( 'Click to accept marketing cookies and enable this form',
-				'complianz-gdpr' ) );
-		$message
-		             = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">'
-		               . $accept_text . '</a></span>';
+		$accept_text = apply_filters( 'cmplz_accept_cookies_contactform7', __( 'Click to accept marketing cookies and enable this form', 'complianz-gdpr' ) );
+		$message = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">'
+				  . $accept_text . '</a></span>';
 	}
 
 	return $message;

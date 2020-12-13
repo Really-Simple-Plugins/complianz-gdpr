@@ -241,7 +241,7 @@ function cmplz_add_cookiebanner_settings($fields){
 					'square'  => __( "Square", 'complianz-gdpr' ),
 					'slider' => __( "Slider", 'complianz-gdpr' ),
 				),
-				'default' => 'square',
+				'default' => 'slider',
 				'cols'     => 12,
 				'condition' => array(
 					'use_categories' => 'NOT no',

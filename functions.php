@@ -1124,38 +1124,12 @@ if ( ! function_exists( 'cmplz_supported_laws' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_get_option' ) ) {
-	function cmplz_get_option( $name ) {
-		return get_option( $name );
-	}
-}
-
-if ( ! function_exists( 'cmplz_esc_html' ) ) {
-	function cmplz_esc_html( $html ) {
-		return esc_html( $html );
-	}
-}
-
-if ( ! function_exists( 'cmplz_esc_url_raw' ) ) {
-	function cmplz_esc_url_raw( $url ) {
-		return esc_url_raw( $url );
-	}
-}
-
-if ( ! function_exists( 'cmplz_is_admin' ) ) {
-
-	function cmplz_is_admin() {
-		return is_admin();
-	}
-}
-
 register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp' );
 if ( ! function_exists( 'cmplz_set_activation_time_stamp' ) ) {
 	function cmplz_set_activation_time_stamp( $networkwide ) {
 		update_option( 'cmplz_activation_time', time() );
 	}
 }
-
 
 /*
  * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
