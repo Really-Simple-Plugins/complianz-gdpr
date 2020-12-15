@@ -249,17 +249,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 *
 			 * */
-			$iframe_pattern
-				= '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)'
-				  . $url_pattern . '[\'"].*?>.*?<\/iframe>/is';
+			$iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern . '[\'"].*?>.*?<\/iframe>/is';
 
 			if ( preg_match_all( $iframe_pattern, $output, $matches,
 				PREG_PATTERN_ORDER )
 			) {
 				foreach ( $matches[0] as $key => $total_match ) {
 					$iframe_src = $matches[2][ $key ] . $matches[3][ $key ];
-					if ( $this->strpos_arr( $iframe_src, $known_iframe_tags )
-					     !== false
+					if ( $this->strpos_arr( $iframe_src, $known_iframe_tags ) !== false
 					) {
 						$placeholder = cmplz_placeholder( false, $iframe_src );
 						$new         = $total_match;
@@ -274,25 +271,17 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						//we insert video/no-video class for specific video styling
 						if ( $this->is_video( $iframe_src ) ) {
 							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video cmplz-hidden' );
-							//we add a variable behind the placeholder, so other scripts which randomly add a variable with & won't cause a 404.
-							$source_placeholder = cmplz_url . 'assets/video/youtube-placeholder.mp4?cmplz=1';
 						} else {
-							$video_class        = apply_filters( 'cmplz_video_class', 'cmplz-no-video' );
-							$source_placeholder = 'about:blank';
+							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-no-video' );
 						}
 
-						$source_placeholder
-							 = apply_filters( 'cmplz_source_placeholder',
-							$source_placeholder );
-						$new = $this->replace_src( $new, $source_placeholder );
+						$new = $this->replace_src( $new, apply_filters( 'cmplz_source_placeholder', 'about:blank' ) );
 						$new = $this->add_class( $new, 'iframe',
 							"cmplz-iframe cmplz-iframe-styles $video_class " );
 
 						if ( cmplz_use_placeholder( $iframe_src ) ) {
-							$new = $this->add_class( $new, 'iframe',
-								" cmplz-placeholder-element " );
-							$new = $this->add_data( $new, 'iframe',
-								'placeholder-image', $placeholder );
+							$new = $this->add_class( $new, 'iframe', " cmplz-placeholder-element " );
+							$new = $this->add_data( $new, 'iframe', 'placeholder-image', $placeholder );
 
 							//allow for integrations to override html
 							$new = apply_filters( 'cmplz_iframe_html', $new );
@@ -318,9 +307,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 * */
 			if ( cmplz_use_placeholder() ) {
-				$placeholder_markers
-					= apply_filters( 'cmplz_placeholder_markers',
-					COMPLIANZ::$config->placeholder_markers );
+				$placeholder_markers = apply_filters( 'cmplz_placeholder_markers', COMPLIANZ::$config->placeholder_markers );
 				foreach ( $placeholder_markers as $type => $markers ) {
 					if ( ! is_array( $markers ) ) {
 						$markers = array( $markers );
@@ -359,7 +346,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 * */
 
-			$script_pattern = '/(<script.*?>)(\X*?)<\/script>/i';
+			$script_pattern = '/(<script.*?>)(\X*?)<\/script>/is';
 			$index          = 0;
 			if ( preg_match_all( $script_pattern, $output, $matches,
 				PREG_PATTERN_ORDER )
@@ -384,23 +371,19 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( strpos( $content, 'avia_preview' ) !== false ) {
 							continue;
 						}
-						$found = $this->strpos_arr( $content,
-							$known_script_tags );
+						$found = $this->strpos_arr( $content, $known_script_tags );
 
 						if ( $found !== false ) {
 							$new = $total_match;
-
 							$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
 
 							//native scripts don't have to be blocked
 							if ( strpos( $new, 'cmplz-native' ) === false ) {
 								$new = $this->set_javascript_to_plain( $new );
 
-								$waitfor = $this->strpos_arr( $content,
-									$dependencies );
+								$waitfor = $this->strpos_arr( $content, $dependencies );
 								if ( $waitfor !== false ) {
-									$new = $this->add_data( $new, 'script',
-										'waitfor', $waitfor );
+									$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
 								}
 							}
 							$output = str_replace( $total_match, $new,
@@ -409,36 +392,25 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					}
 
 					//when script contains src
-					$script_src_pattern
-						= '/<script [^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/i';
-					if ( preg_match_all( $script_src_pattern, $total_match,
-						$src_matches, PREG_PATTERN_ORDER )
+					$script_src_pattern = '/<script [^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/is';
+					if ( preg_match_all( $script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER )
 					) {
-
+						error_log(print_r($src_matches[1],true));
 						foreach ( $src_matches[1] as $src_key => $script_src ) {
 							$script_src = $src_matches[1][ $src_key ];
-							$found = $this->strpos_arr( $script_src,
-								$known_script_tags );
+							$found = $this->strpos_arr( $script_src, $known_script_tags );
 							if ( $found !== false ) {
 								$new = $total_match;
-								$new = $this->add_class( $new, 'script',
-									apply_filters( 'cmplz_script_class',
-										'cmplz-script', $total_match,
-										$found ) );
+								$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
 
 								//native scripts don't have to be blocked
-								if ( strpos( $new, 'cmplz-native' )
-								     === false
+								if ( strpos( $new, 'cmplz-native' ) === false
 								) {
 									$new = $this->set_javascript_to_plain( $new );
-
-									if ( $this->strpos_arr( $found,
-										$async_list )
+									if ( $this->strpos_arr( $found, $async_list )
 									) {
 										$index ++;
-										$new = $this->add_data( $new, 'script',
-											'post_scribe_id',
-											'cmplz-ps-' . $index );
+										$new = $this->add_data( $new, 'script', 'post_scribe_id', 'cmplz-ps-' . $index );
 										if ( cmplz_has_async_documentwrite_scripts() ) {
 											$new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-marketing">'
 											        . apply_filters( 'cmplz_accept_cookies_blocked_content',
@@ -451,16 +423,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 									}
 
 									//maybe add dependency
-									$waitfor = $this->strpos_arr( $script_src,
-										$dependencies );
+									$waitfor = $this->strpos_arr( $script_src, $dependencies );
 									if ( $waitfor !== false ) {
-										$new = $this->add_data( $new, 'script',
-											'waitfor', $waitfor );
+										$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
 									}
 								}
 
-								$output = str_replace( $total_match, $new,
-									$output );
+								$output = str_replace( $total_match, $new, $output );
 							}
 
 

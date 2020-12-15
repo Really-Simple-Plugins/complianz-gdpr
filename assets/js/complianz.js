@@ -488,11 +488,12 @@ jQuery(document).ready(function ($) {
 	function cmplzEnableStats() {
 		if (ccStatsEnabled) return;
 
-		//if native class is included, it isn't blocked.
-		if ($(this).hasClass('cmplz-native')) return true;
-
-		console.log('fire cmplz_event_statistics');
 		$('.cmplz-stats').each(function (i, obj) {
+			//if native class is included, it isn't blocked, so will have run already
+			if ($(this).hasClass('cmplz-native')) {
+				return true;
+			}
+			
 			var src = $(this).attr('src');
 			if (src && src.length) {
 				$(this).attr('type', 'text/javascript');
@@ -752,16 +753,14 @@ jQuery(document).ready(function ($) {
 			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" class="cc-btn cc-allow">{{dismiss}}</a>';
 		}
 
-		//allow to set cookies on the root domain
-		var domain = cmplzGetCookieDomain();
-
 		//to be able to hide the banner on the cookie policy
 		var autoOpen = $('.cmplz-tcf-container').length && complianz.tcf_active ? false : true;
 		window.cookieconsent.initialise({
 			cookie: {
 				name: 'complianz_consent_status',
 				expiryDays: complianz.cookie_expiry,
-				domain: domain
+				domain: cmplzGetCookieDomain(),
+				path: '/'+cmplzGetCookiePath()
 			},
 			onInitialise: function (status) {
 				//runs only when dismissed or accepted
@@ -782,6 +781,12 @@ jQuery(document).ready(function ($) {
 				}
 			},
 			onStatusChange: function (status, chosenBefore) {
+				var details = new Object();
+				details.category = cmplzGetHighestAcceptance();
+				details.region = complianz.region;
+				var event = new CustomEvent('cmplzStatusChange', { detail: details });
+				document.dispatchEvent(event);
+
 				//remove the banner wrap class to dismiss cookie wall styling
 				if (complianz.soft_cookiewall && (status === 'allow' || status === 'dismiss')) {
 					dismissCookieWall();
@@ -1284,10 +1289,17 @@ jQuery(document).ready(function ($) {
 
 		var domain = cmplzGetCookieDomain();
 		if (domain.length > 0) {
-			domain = ";domain=." + complianz.cookie_domain;
+			domain = ";domain=" + domain;
 		}
+		document.cookie = name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path=/"+cmplzGetCookiePath();
+	}
 
-		document.cookie = name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path=/";
+	/**
+	 * Get cookie path
+	 * @returns {*}
+	 */
+	function cmplzGetCookiePath(){
+		return typeof complianz.cookie_path !== 'undefined' ? complianz.cookie_path+'/' : '';
 	}
 
 	/**
@@ -1299,7 +1311,6 @@ jQuery(document).ready(function ($) {
 		if ( complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length>3){
 			domain = complianz.cookie_domain;
 		}
-
 		if (domain.indexOf('localhost') !== -1 ) {
 			domain = '';
 			if (!cmplzLocalhostWarningShown) console.log("Configuration warning: cookies can't be set on root domain on localhost setups");

@@ -1,12 +1,82 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
+/**
+ * Add some custom css for the recaptcha integration
+ */
+function cmplz_gravityforms_recaptcha_css() {
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+		?>
+		<style>
+			.cmplz-gf-recaptcha {
+				background-image:url(<?php echo cmplz_placeholder('google-recaptcha')?>) !important;
+				cursor:pointer;
+				white-space: normal;
+				text-transform: initial;
+				z-index: 98;
+				line-height: 23px;
+				height:80px !important;
+				background: #FFF;
+				border: 0;
+				border-radius: 3px;
+				box-shadow: 0 0 1px 0 rgba(0,0,0,0.5), 0 1px 10px 0 rgba(0,0,0,0.15);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-repeat: no-repeat !important;
+				background-size: cover !important;
+				position: relative;
+			}
+			@media only screen and (max-width: 400px) {
+				.cmplz-gf-recaptcha {
+					height: 100px !important
+				}
+			}
+		</style>
+	<?php
+	}
+}
+add_action( 'wp_footer', 'cmplz_gravityforms_recaptcha_css' );
+
+/**
+ * Initialize the form after cookies have been accepted, to ensure recaptcha is enabled.
+ */
+function cmplz_gravifyforms_initform() {
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+		?>
+		<script>
+			jQuery(document).ready(function ($) {
+				//store the container where gf recaptcha resides
+				var reCaptchaContainer = $('.ginput_recaptcha').closest('.gfield');
+				reCaptchaContainer.append('<span class="cmplz-gf-recaptcha cmplz-accept-marketing"><?php _e("Click to accept reCaptcha validation.", 'complianz-gdpr')?></span>');
+
+				$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_post_render);
+				function cmplz_cf7_fire_post_render() {
+					//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
+					window.document.dispatchEvent(new Event("gform_post_render", {
+						bubbles: true,
+						cancelable: true
+					}));
+					$('.cmplz-gf-recaptcha').remove();
+				}
+			})
+		</script>
+<?php }
+}
+add_action( 'wp_footer', 'cmplz_gravifyforms_initform' );
+
+/**
+ * Add gravify forms as form type
+ * @param $formtypes
+ *
+ * @return mixed
+ */
+
 function cmplz_gravityforms_form_types( $formtypes ) {
 	$formtypes['gf_'] = 'gravity-forms';
 
 	return $formtypes;
 }
-
 add_filter( 'cmplz_form_types', 'cmplz_gravityforms_form_types' );
 
 function cmplz_gravityforms_get_plugin_forms( $input_forms ) {

@@ -1978,6 +1978,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $output;
 		}
 
+		/**
+		 * Check if we're in a subfolder setup (home_url consists of domain+path, e.g. domain.com/sub)
+		 * @return string $path
+		 */
+
+		public function get_cookie_path(){
+			$domain = site_url();
+			$parse = parse_url($domain);
+			$root_domain = $parse['host'];
+			$path = str_replace(array('http://', 'https://', $root_domain), '', $domain );
+			$path = str_replace('/', '', $path );
+			return $path;
+		}
+
 
 		/**
 		 * The classes that are passed to the statistics script determine if these are executed immediately or not.

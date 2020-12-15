@@ -136,10 +136,10 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_contactform7_script' );
 function cmplz_contactform7_script( $tags ) {
 	$service = WPCF7_RECAPTCHA::get_instance();
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-	if ( $service->is_active() ) {
-		$tags[] = 'modules/recaptcha/script.js';
+		if ( $service->is_active() ) {
+			$tags[] = 'modules/recaptcha/script.js';
+		}
 	}
-}
 	return $tags;
 }
 

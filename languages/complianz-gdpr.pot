@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2020-12-07 13:49+0100\n"
-"PO-Revision-Date: 2020-12-07 13:49+0100\n"
+"POT-Creation-Date: 2020-12-15 08:54+0100\n"
+"PO-Revision-Date: 2020-12-15 08:54+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -334,7 +334,7 @@ msgid "Wizard"
 msgstr ""
 
 #: class-admin.php:795 class-admin.php:796 class-admin.php:920
-#: cookie/class-cookie-admin.php:1631
+#: cookie/class-cookie-admin.php:1632
 msgid "Proof of consent"
 msgstr ""
 
@@ -2740,134 +2740,144 @@ msgid ""
 "placeholder insertion, which in some themes can conflict with theme styling."
 msgstr ""
 
-#: config/general-settings.php:107
+#: config/general-settings.php:86
+msgid "Disable the automatic cookie scan."
+msgstr ""
+
+#: config/general-settings.php:87
+msgid ""
+"You can disable the monthly automatic cookie scan here, and do only manual "
+"cookie scans."
+msgstr ""
+
+#: config/general-settings.php:116
 msgid "Use document CSS by Complianz"
 msgstr ""
 
-#: config/general-settings.php:110
+#: config/general-settings.php:119
 msgid "Disable to let your theme take over."
 msgstr ""
 
-#: config/general-settings.php:117
+#: config/general-settings.php:126
 msgid "Add custom document CSS"
 msgstr ""
 
-#: config/general-settings.php:120
+#: config/general-settings.php:129
 msgid "Enable if you want to add custom CSS for the documents"
 msgstr ""
 
-#: config/general-settings.php:127
+#: config/general-settings.php:136
 msgid "Custom document CSS"
 msgstr ""
 
-#: config/general-settings.php:136
+#: config/general-settings.php:145
 msgid "Add your own custom document css here"
 msgstr ""
 
-#: config/general-settings.php:147
+#: config/general-settings.php:156
 msgid "Blocked content text"
 msgstr ""
 
-#: config/general-settings.php:148
+#: config/general-settings.php:157
 msgctxt "Accept cookies on blocked content"
 msgid "Click to accept marketing cookies and enable this content"
 msgstr ""
 
-#: config/general-settings.php:150
+#: config/general-settings.php:159
 msgid ""
 "The blocked content text appears when for example a Youtube video is "
 "embedded."
 msgstr ""
 
-#: config/general-settings.php:161
+#: config/general-settings.php:170
 msgid "Disable notifications"
 msgstr ""
 
-#: config/general-settings.php:162
+#: config/general-settings.php:171
 msgid "Disable all plus ones and warnings on your dashboard."
 msgstr ""
 
-#: config/general-settings.php:174
+#: config/general-settings.php:183
 msgid "Enable cookie blocker for ajax loaded content"
 msgstr ""
 
-#: config/general-settings.php:183
+#: config/general-settings.php:192
 msgid "Notification sender email address"
 msgstr ""
 
-#: config/general-settings.php:186
+#: config/general-settings.php:195
 msgid ""
 "When emails are sent, you can choose the sender email address here. Please "
 "note that it should have this website's domain as sender domain, otherwise "
 "the server might block the email from being sent."
 msgstr ""
 
-#: config/general-settings.php:198
+#: config/general-settings.php:207
 msgid "Notification email subject"
 msgstr ""
 
-#: config/general-settings.php:200
+#: config/general-settings.php:209
 msgid "Your request has been processed"
 msgstr ""
 
-#: config/general-settings.php:212
+#: config/general-settings.php:221
 msgid "Notification email content"
 msgstr ""
 
-#: config/general-settings.php:214
+#: config/general-settings.php:223
 msgid "Hi {name}"
 msgstr ""
 
-#: config/general-settings.php:216
+#: config/general-settings.php:225
 msgid "Your request has been processed successfully."
 msgstr ""
 
-#: config/general-settings.php:217
+#: config/general-settings.php:226
 msgctxt "email signature"
 msgid "Regards,"
 msgstr ""
 
-#: config/general-settings.php:233
+#: config/general-settings.php:242
 msgid "Export settings"
 msgstr ""
 
-#: config/general-settings.php:235
+#: config/general-settings.php:244
 msgid "You can use this to export your settings to another site"
 msgstr ""
 
-#: config/general-settings.php:245
+#: config/general-settings.php:254
 msgid "Import settings"
 msgstr ""
 
-#: config/general-settings.php:247
+#: config/general-settings.php:256
 #, php-format
 msgid ""
 "If you want to import your settings, please check out the %spremium version%s"
 msgstr ""
 
-#: config/general-settings.php:257
+#: config/general-settings.php:266
 msgid "Restart tour"
 msgstr ""
 
-#: config/general-settings.php:262
+#: config/general-settings.php:271
 msgid "Are you sure? This will remove all Complianz data."
 msgstr ""
 
-#: config/general-settings.php:268
+#: config/general-settings.php:277
 msgid "Reset settings"
 msgstr ""
 
-#: config/general-settings.php:270
+#: config/general-settings.php:279
 msgid ""
 "This will reset all settings to defaults. All data in the Complianz plugin "
 "will be deleted"
 msgstr ""
 
-#: config/general-settings.php:277
+#: config/general-settings.php:286
 msgid "Clear all data from Complianz on uninstall"
 msgstr ""
 
-#: config/general-settings.php:280
+#: config/general-settings.php:289
 msgid ""
 "Enabling this option will delete all your settings, and the Complianz tables "
 "when you deactivate and remove Complianz."
@@ -3137,7 +3147,7 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:122 cookiebanner/settings.php:847
-#: integrations/plugins/gravity-forms.php:69
+#: integrations/plugins/gravity-forms.php:139
 msgid "Privacy Statement"
 msgstr ""
 
@@ -3213,7 +3223,7 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:251 config/steps.php:54
-#: cookie/class-cookie-admin.php:3443
+#: cookie/class-cookie-admin.php:3483
 msgid "Cookie scan"
 msgstr ""
 
@@ -3816,39 +3826,39 @@ msgstr ""
 msgid "Last error in the console:"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:245
+#: cookie/class-cookie-admin.php:244
 msgid "Select or add a service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:261
+#: cookie/class-cookie-admin.php:260
 msgid "No services listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:286
+#: cookie/class-cookie-admin.php:285
 msgid "Select a service type"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:331
+#: cookie/class-cookie-admin.php:330
 msgid "No service types listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:355
+#: cookie/class-cookie-admin.php:354
 msgid "Select a purpose"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:399
+#: cookie/class-cookie-admin.php:398
 msgid "No purposes listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:458
+#: cookie/class-cookie-admin.php:457
 msgid "View cookie on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:506
+#: cookie/class-cookie-admin.php:505
 msgid "The data for this cookie is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:508
+#: cookie/class-cookie-admin.php:507
 msgid "This cookie has missing fields"
 msgstr ""
 
@@ -3864,85 +3874,85 @@ msgstr ""
 msgid "Synchronization with cookiedatabase.org is not enabled for this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:535
+#: cookie/class-cookie-admin.php:534
 msgid "This cookie will be on your Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:537
+#: cookie/class-cookie-admin.php:536
 msgid "This cookie is not shown on the Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:546
+#: cookie/class-cookie-admin.php:547
 msgid "This cookie has recently been detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:548
+#: cookie/class-cookie-admin.php:549
 msgid "This cookie has not been detected on your site in the last three months"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:554
+#: cookie/class-cookie-admin.php:555
 msgid ""
 "This cookie has not been found in the scan for three months. Please check if "
 "you are still using this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:558
+#: cookie/class-cookie-admin.php:559
 msgid "(Administrator cookie, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:564
+#: cookie/class-cookie-admin.php:565
 msgid "(Logged in users only, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:566
+#: cookie/class-cookie-admin.php:567
 #, php-format
 msgid "Cookie \"%s\"%s%s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:669
+#: cookie/class-cookie-admin.php:670
 msgid "View service on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:712
+#: cookie/class-cookie-admin.php:713
 msgid "The data for this service is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:714
+#: cookie/class-cookie-admin.php:715
 msgid "This service has missing fields"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:729
+#: cookie/class-cookie-admin.php:730
 msgid "This service has been synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:731
+#: cookie/class-cookie-admin.php:732
 msgid "This service is not synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:733
+#: cookie/class-cookie-admin.php:734
 msgid "Synchronization with cookiedatabase.org is not enabled for this service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:740
+#: cookie/class-cookie-admin.php:741
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: cookie/class-cookie-admin.php:795 cookie/class-cookie-admin.php:974
+#: cookie/class-cookie-admin.php:796 cookie/class-cookie-admin.php:975
 msgid "Cookies without selected service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1033 cookie/class-cookie-admin.php:1296
+#: cookie/class-cookie-admin.php:1034 cookie/class-cookie-admin.php:1297
 msgid ""
 "A request is already running. Please be patient until the current request "
 "finishes"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1070 cookie/class-cookie-admin.php:1332
+#: cookie/class-cookie-admin.php:1071 cookie/class-cookie-admin.php:1333
 msgid "Could not connect to cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1636
+#: cookie/class-cookie-admin.php:1637
 #, php-format
 msgid ""
 "When you make significant changes to your Cookie Policy, cookie banner or "
@@ -3956,119 +3966,119 @@ msgid ""
 "consent registration%s."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1641
+#: cookie/class-cookie-admin.php:1642
 msgid "Proof of consent updated!"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1645
+#: cookie/class-cookie-admin.php:1646
 msgid ""
 "Proof of consent generation failed. Check your write permissions in the "
 "uploads directory"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1656
+#: cookie/class-cookie-admin.php:1657
 msgid "Generate now"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1663 cookiebanner/cookiebanner.php:221
+#: cookie/class-cookie-admin.php:1664 cookiebanner/cookiebanner.php:221
 msgid "Filter"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1736
+#: cookie/class-cookie-admin.php:1737
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized, so "
 "it is not necessary to add the script here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1739
+#: cookie/class-cookie-admin.php:1740
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized, so you should your tracking script here"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2764
+#: cookie/class-cookie-admin.php:2804
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3086
+#: cookie/class-cookie-admin.php:3126
 #, php-format
 msgid "%s at %s."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3108
+#: cookie/class-cookie-admin.php:3148
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3193
+#: cookie/class-cookie-admin.php:3233
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3195
+#: cookie/class-cookie-admin.php:3235
 msgid "Cookie scan in progress"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3203
+#: cookie/class-cookie-admin.php:3243
 msgid "Cookies on your own domain"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3224
+#: cookie/class-cookie-admin.php:3264
 msgid "Social media"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3239
+#: cookie/class-cookie-admin.php:3279
 msgid "Third-party services"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3420
+#: cookie/class-cookie-admin.php:3460
 msgid ""
 "Your server does not have CURL installed, which is required for the scan. "
 "Please contact your hosting company to install CURL."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3430
+#: cookie/class-cookie-admin.php:3470
 msgid ""
 "You have Do Not Track or Global Privacy Control enabled. This will prevent "
 "most cookies from being placed. Please run the scan with these options "
 "disabled."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3436
+#: cookie/class-cookie-admin.php:3476
 msgid ""
 "You are using an ad blocker. This will prevent most cookies from being "
 "placed. Please run the scan without an adblocker enabled."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3439
+#: cookie/class-cookie-admin.php:3479
 msgid ""
 "You are using an anonymous window. This will prevent most cookies from being "
 "placed. Please run the scan in a normal browser window."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3450
+#: cookie/class-cookie-admin.php:3490
 msgid ""
 "Cookies as detected by the automatic cookie scan. Please note that only "
 "cookies set on your own domain are detected by this scan."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3452
+#: cookie/class-cookie-admin.php:3492
 msgid ""
 "Third-party scripts will get detected if they're listed in the Third Party "
 "list."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3461
+#: cookie/class-cookie-admin.php:3501
 msgid "Re-scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3466
+#: cookie/class-cookie-admin.php:3506
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3468
+#: cookie/class-cookie-admin.php:3508
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3475
+#: cookie/class-cookie-admin.php:3515
 msgid ""
 "If you want to clear all cookies from the plugin, you can do so here. You'll "
 "need to run a scan again afterwards. If you want to start with a clean "
@@ -4076,27 +4086,27 @@ msgid ""
 "are removed from your browser as well."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3495
+#: cookie/class-cookie-admin.php:3535
 msgid ""
 "Synchronization disabled: This happens when all cookies have synchronized to "
 "cookiedatabase.org in the last week."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3502
+#: cookie/class-cookie-admin.php:3542
 msgid ""
 "Your server does not have CURL installed, which is required for the sync. "
 "Please contact your hosting company to install CURL."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3525
+#: cookie/class-cookie-admin.php:3565
 msgid "Connecting to Cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3536
+#: cookie/class-cookie-admin.php:3576
 msgid "Sync cookies with Cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:4077
+#: cookie/class-cookie-admin.php:4117
 msgid "Default Cookie banner"
 msgstr ""
 
@@ -4565,9 +4575,9 @@ msgid "Timeout in seconds"
 msgstr ""
 
 #: cookiebanner/settings.php:808 cookiebanner/settings.php:809
-#: integrations/plugins/gravity-forms.php:52
-#: integrations/plugins/gravity-forms.php:57
-#: integrations/plugins/gravity-forms.php:58
+#: integrations/plugins/gravity-forms.php:122
+#: integrations/plugins/gravity-forms.php:127
+#: integrations/plugins/gravity-forms.php:128
 msgid "Accept"
 msgstr ""
 
@@ -4658,50 +4668,50 @@ msgstr ""
 msgid "(select a region)"
 msgstr ""
 
-#: functions.php:1652
+#: functions.php:1626
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1661
+#: functions.php:1635
 #, php-format
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:1665
+#: functions.php:1639
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1668
+#: functions.php:1642
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:1672
+#: functions.php:1646
 #, php-format
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:1684
+#: functions.php:1658
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2049
+#: functions.php:2023
 msgid "Opt-in settings (consent for statistics)"
 msgstr ""
 
-#: functions.php:2052
+#: functions.php:2026
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2054
+#: functions.php:2028
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2056
+#: functions.php:2030
 msgid "TCF"
 msgstr ""
 
-#: functions.php:2058
+#: functions.php:2032
 msgid "All consent types"
 msgstr ""
 
@@ -4769,7 +4779,7 @@ msgstr ""
 
 #: integrations/plugins/beehive.php:45
 #: integrations/plugins/caos-host-analytics-local.php:108
-#: integrations/plugins/monsterinsights.php:35
+#: integrations/plugins/monsterinsights.php:46
 #, php-format
 msgid ""
 "You use %s, which means the answer to this question should be Google "
@@ -4788,15 +4798,15 @@ msgid ""
 "advertising is now disabled in Beehive."
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:89
+#: integrations/plugins/contact-form-7.php:88
 msgid "Click to accept marketing cookies and enable this form"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:162
+#: integrations/plugins/contact-form-7.php:159
 msgid "(Contact form 7)"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:180
+#: integrations/plugins/contact-form-7.php:177
 #: integrations/plugins/wpforms.php:61
 #, php-format
 msgid "To submit this form, you need to accept our %sPrivacy Statement%s"
@@ -4872,11 +4882,15 @@ msgid ""
 "Remarketing is now disabled in %s."
 msgstr ""
 
-#: integrations/plugins/gravity-forms.php:17
+#: integrations/plugins/gravity-forms.php:51
+msgid "Click to accept reCaptcha validation."
+msgstr ""
+
+#: integrations/plugins/gravity-forms.php:87
 msgid "(Gravity Forms)"
 msgstr ""
 
-#: integrations/plugins/gravity-forms.php:31
+#: integrations/plugins/gravity-forms.php:101
 msgid "To submit this form, you need to accept our Privacy Statement"
 msgstr ""
 
@@ -4885,13 +4899,13 @@ msgstr ""
 msgid "Yes, I agree with the %sprivacy statement%s"
 msgstr ""
 
-#: integrations/plugins/monsterinsights.php:60
+#: integrations/plugins/monsterinsights.php:70
 msgid ""
 "You have selected you anonymize IP addresses. This setting is now enabled in "
 "MonsterInsights."
 msgstr ""
 
-#: integrations/plugins/monsterinsights.php:65
+#: integrations/plugins/monsterinsights.php:75
 msgid ""
 "You have selected you do not share data with third-party networks. "
 "Demographics is now disabled in MonsterInsights."

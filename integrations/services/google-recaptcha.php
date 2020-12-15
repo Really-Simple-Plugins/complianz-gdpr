@@ -10,10 +10,9 @@ function cmplz_recaptcha_script( $tags ) {
 		$tags[] = 'recaptcha.js';
 		$tags[] = 'recaptcha/api';
 		$tags[] = 'apis.google.com/js/platform.js';
-  }
+  	}
 	return $tags;
 }
-
 
 add_filter( 'cmplz_known_iframe_tags', 'cmplz_recaptcha_iframetags' );
 function cmplz_recaptcha_iframetags( $tags ) {
@@ -43,7 +42,8 @@ function cmplz_recaptcha_css() {
 		.cmplz-blocked-content-container.recaptcha-invisible,
 		.cmplz-blocked-content-container.g-recaptcha {
 			max-width: initial !important;
-			height: 70px !important
+			height: 80px !important;
+			margin-bottom: 20px;
 		}
 
 		@media only screen and (max-width: 400px) {
@@ -55,7 +55,8 @@ function cmplz_recaptcha_css() {
 
 		.cmplz-blocked-content-container.recaptcha-invisible .cmplz-blocked-content-notice,
 		.cmplz-blocked-content-container.g-recaptcha .cmplz-blocked-content-notice {
-			top: 2px
+			max-width: initial;
+			padding: 7px;
 		}
 	</style>
 	<?php

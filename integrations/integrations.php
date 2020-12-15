@@ -11,6 +11,11 @@ if ( is_admin() ) {
 
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
+	'advanced-nocaptcha-recaptcha' => array(
+			'constant_or_function' => 'ANR_PLUGIN_VERSION',
+			'label'                => 'Advanced noCaptcha & invisible Captcha',
+			'firstparty_marketing' => false,
+	),
 
 	'invisible-recaptcha' => array(
 			'constant_or_function' => 'InvisibleReCaptcha',
@@ -21,6 +26,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'nudgify'          => array(
 		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
 		'label'                => 'Nudgify',
+		'firstparty_marketing' => false,
+	),
+
+	'volocation'          => array(
+		'constant_or_function' => 'VOSL_VERSION',
+		'label'                => 'VO Locator',
 		'firstparty_marketing' => false,
 	),
 
@@ -277,10 +288,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'gravity-forms' => array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
-		'callback_condition'   => array(
-			'privacy-statement' => 'generated',
-			'regions'           => 'eu',
-		),
 		'firstparty_marketing' => false,
 	),
 ) );

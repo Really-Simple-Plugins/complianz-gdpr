@@ -55,6 +55,7 @@
       if (domain) {
         cookie.push('domain=' + domain);
       }
+
       document.cookie = cookie.join(';');
     },
 
