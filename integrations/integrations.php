@@ -29,6 +29,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'generatepress-maps'          => array(
+		'constant_or_function' => 'GeneratePress',
+		'label'                => 'GeneratePress Maps',
+		'firstparty_marketing' => false,
+	),
+
 	'volocation'          => array(
 		'constant_or_function' => 'VOSL_VERSION',
 		'label'                => 'VO Locator',
@@ -358,9 +364,11 @@ function cmplz_integration_plugin_is_active( $plugin ){
 	$fields = get_option( 'complianz_options_integrations' );
 	$details = $cmplz_integrations_list[ $plugin ];
 	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
+	$theme = wp_get_theme();
 	if ( ( defined( $details['constant_or_function'] )
 	       || function_exists( $details['constant_or_function'] )
 	       || class_exists( $details['constant_or_function'] ) )
+	       || ( $theme && ($theme->name === $details['constant_or_function']) )
 	     && $enabled
 	) {
 		return true;

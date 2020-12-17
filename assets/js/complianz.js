@@ -493,7 +493,7 @@ jQuery(document).ready(function ($) {
 			if ($(this).hasClass('cmplz-native')) {
 				return true;
 			}
-			
+
 			var src = $(this).attr('src');
 			if (src && src.length) {
 				$(this).attr('type', 'text/javascript');
@@ -1299,7 +1299,7 @@ jQuery(document).ready(function ($) {
 	 * @returns {*}
 	 */
 	function cmplzGetCookiePath(){
-		return typeof complianz.cookie_path !== 'undefined' ? complianz.cookie_path+'/' : '';
+		return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path+'/' : '';
 	}
 
 	/**

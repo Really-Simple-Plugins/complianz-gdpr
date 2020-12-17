@@ -395,7 +395,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$script_src_pattern = '/<script [^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/is';
 					if ( preg_match_all( $script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER )
 					) {
-						error_log(print_r($src_matches[1],true));
 						foreach ( $src_matches[1] as $src_key => $script_src ) {
 							$script_src = $src_matches[1][ $src_key ];
 							$found = $this->strpos_arr( $script_src, $known_script_tags );
