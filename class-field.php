@@ -1056,7 +1056,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 
 			//function callbacks
-			$maybe_is_function = str_replace( 'NOT ', '', $args[ $type ] );
+			$maybe_is_function = is_string($args[ $type ]) ? str_replace( 'NOT ', '', $args[ $type ] ) : '';
 			if ( ! is_array( $args[ $type ] ) && ! empty( $args[ $type ] )
 			     && function_exists( $maybe_is_function )
 			) {

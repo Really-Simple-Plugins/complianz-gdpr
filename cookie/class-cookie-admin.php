@@ -227,16 +227,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		/**
 		 * create select html for services
 		 *
-		 * @param bool $selected_value
-		 * @param      $language
+		 * @param string $selected_value
+		 * @param string $language
 		 *
 		 * @return string
 		 */
 
-		public function get_services_options( $selected_value = false, $language
-		) {
+		public function get_services_options( $selected_value, $language ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
+				return '';
 			}
 
 			$services = $this->get_services( array( 'language' => $language ) );
@@ -268,15 +267,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		/**
 		 * create select html for service types
 		 *
-		 * @param bool $selected_value
-		 * @param      $language
+		 * @param string $selected_value
+		 * @param string $language
 		 *
 		 * @return string
 		 */
 
-		public function get_serviceTypes_options(
-			$selected_value = false, $language
-		) {
+		public function get_serviceTypes_options( $selected_value, $language ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return '';
 			}
@@ -338,15 +335,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		/**
 		 * create select html for purposes
 		 *
-		 * @param bool $selected_value
-		 * @param      $language
+		 * @param string $selected_value
+		 * @param string $language
 		 *
 		 * @return string
 		 */
 
-		public function get_cookiePurpose_options(
-			$selected_value = false, $language
-		) {
+		public function get_cookiePurpose_options( $selected_value, $language ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
@@ -439,11 +434,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				: '';
 			$showOnPolicy   = $cookie->showOnPolicy == 1 ? 'checked="checked"'
 				: '';
-			$services       = $this->get_services_options( $cookie->service,
-				$language );
-			$cookiePurposes
-			                = $this->get_cookiePurpose_options( $cookie->purpose,
-				$language );
+			$services       = $this->get_services_options( $cookie->service, $language );
+			$cookiePurposes = $this->get_cookiePurpose_options( $cookie->purpose, $language );
 
 			$link = '';
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
@@ -1046,8 +1038,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				                   . '">' . esc_url_raw( site_url() ) . '</a>';
 				$data            = apply_filters( 'cmplz_api_data', $data );
 				$json            = json_encode( $data );
-				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL )
-				                   . 'v1/cookies/';
+				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/cookies/';
 
 				$ch = curl_init();
 
@@ -1063,13 +1054,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-				$error  = ( $result == 0
-				            && strpos( $result,
-						'<title>502 Bad Gateway</title>' ) === false ) ? false
-					: true;
+				$error  = ( $result != 0 && strpos( $result, '<title>502 Bad Gateway</title>' ) === false ) ? false : true;
 				if ( $error ) {
-					$msg = __( "Could not connect to cookiedatabase.org",
-						"complianz-gdpr" );
+					$msg = __( "Could not connect to cookiedatabase.org", "complianz-gdpr" );
 				}
 
 				curl_close( $ch );
@@ -1324,11 +1311,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-
-				$error = ( $result == 0
-				           && strpos( $result,
-						'<title>502 Bad Gateway</title>' ) === false ) ? false
-					: true;
+				$error = ( $result != 0 && strpos( $result, '<title>502 Bad Gateway</title>' ) === false ) ? false : true;
 				if ( $error ) {
 					$msg = __( "Could not connect to cookiedatabase.org",
 						"complianz-gdpr" );
@@ -1995,11 +1978,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * The classes that are passed to the statistics script determine if these are executed immediately or not.
-		 *
-		 *
-		 * */
+		 * @return array
+		 **/
 
-		public function get_statistics_script_classes() {
+		public function get_statistics_script_classes( ) {
 			//if a cookie warning is needed for the stats we don't add a native class, so it will be disabled by the cookie blocker by default
 			$classes[]       = 'cmplz-stats';
 			$uses_tagmanager = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
@@ -2016,7 +1998,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$classes[] = 'cmplz-native';
 				}
 			}
-
 			return apply_filters( 'cmplz_statistics_script_classes', $classes );
 		}
 
@@ -2031,15 +2012,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @return string
 		 */
 
-
 		public function add_script_classes_for_stats( $class, $match, $found ) {
 			$stats_tags = COMPLIANZ::$config->stats_markers;
 			foreach ( $stats_tags as $type => $markers ) {
 				if ( in_array( $found, $markers ) ) {
-					$class = $class . " " . implode( " ",
-							$this->get_statistics_script_classes() );
+					$class = $class . " " . implode( " ", $this->get_statistics_script_classes( ) );
 				}
 			}
+
 			return $class;
 		}
 
@@ -2051,18 +2031,25 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			//based on the script classes, the statistics will get added on consent, or without consent
 			$classes = $this->get_statistics_script_classes();
 			$statistics = cmplz_get_value( 'compile_statistics' );
-			$configured_by_complianz = cmplz_get_value( 'configuration_by_complianz' ) !== 'no';
+			$fields = COMPLIANZ::$config->fields();
+
+			$configured_by_complianz = isset($fields['configuration_by_complianz']) && cmplz_get_value( 'configuration_by_complianz' ) !== 'no';
 			do_action( 'cmplz_before_statistics_script' );
 
 			/**
 			 * Tag manager needs to be included with text/javascript, as it always needs to fire.
 			 * All other scripts will be included with the appropriate tags, and fired when possible
 			 */
+			$stats_comment = '<!-- Statistics script Complianz GDPR/CCPA -->'."\n";
+			$script_comment = '<!-- Script Center scripts Complianz GDPR/CCPA -->'."\n";
 			if ( $configured_by_complianz ) {
+
 				if ( $statistics === 'google-tag-manager' ) {
+					echo $stats_comment;
 					?><script type="text/javascript" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_tagmanager_script' );?></script><?php
 				} else {
 					$type = in_array( 'cmplz-native', $classes) ? 'text/javascript' : 'text/plain';
+					echo $stats_comment;
 					?><script type="<?php echo $type?>" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_statistics_script' );?></script><?php
 				}
 			}
@@ -2072,11 +2059,21 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			//scripts that should get executed on consent here
 			$script = cmplz_get_value( 'cookie_scripts' );
 			if ( strlen($script) >0 ){
+				echo $script_comment;
 				?><script class="cmplz-script" type="text/plain"><?php echo $script; ?></script><?php
 			}
 
+			//stats scripts that should get executed on consent here
+			$stats_script = cmplz_get_value( 'statistics_script' );
+			if ( strlen($stats_script) >0 ){
+				echo $stats_comment;
+				?><script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
+			}
+
+
 			$script_async = cmplz_get_value( 'cookie_scripts_async' );
 			if ( strlen($script_async) >0 ){
+				echo $script_comment;
 				?><script class="cmplz-script" type="text/plain" async><?php echo $script_async; ?></script><?php
 			}
 
@@ -3789,7 +3786,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$privacy_friendly = $this->statistics_privacy_friendly();
 
 			//not stats required if privacy friendly
-			return ! $privacy_friendly;
+			return apply_filters('cmplz_cookie_warning_required_stats',!$privacy_friendly);
 		}
 
 		/**

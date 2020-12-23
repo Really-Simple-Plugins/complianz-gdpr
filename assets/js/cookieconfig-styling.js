@@ -268,9 +268,9 @@ jQuery(document).ready(function ($) {
 
     function reRenderConditionQuestions(){
         $('#optinstats [data-condition-question="use_categories"]').data('condition-question','use_categories_optinstats');
-        $.event.trigger({
-            type: "cmplzRenderConditions"
-        });
+		//javascript event
+		var event = new CustomEvent('cmplzRenderConditions' );
+		document.dispatchEvent(event);
 
         //when there is more than one optin type, optin and optinstats, and both use_cats settings are the same, hide the fields on optinstats
         if ($('#optin').length && $('#optinstats').length){
@@ -318,7 +318,7 @@ jQuery(document).ready(function ($) {
     	if (ccCheckboxes.length === 0) {
 			$.ajax({
 				type: 'GET',
-				url: complianz.url,
+				url: complianz_admin.url,
 				dataType: 'json',
 				data: ({
 					id: $('input[name=cmplz_banner_id]').val(),

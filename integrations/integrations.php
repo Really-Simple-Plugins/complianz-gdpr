@@ -178,6 +178,16 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'woocommerce-google-analytics-pro' => array(
+		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
+		'label'                => 'Woocommerce Google Analytics Pro',
+		'firstparty_marketing' => false,
+	),
+	'woocommerce-google-analytics-integration' => array(
+		'constant_or_function' => 'WC_Google_Analytics_Integration',
+		'label'                => 'Woocommerce Google Analytics Integration',
+		'firstparty_marketing' => false,
+	),
 	'geo-my-wp' => array(
 		'constant_or_function' => 'GMW_VERSION',
 		'label'                => 'Geo My WP',

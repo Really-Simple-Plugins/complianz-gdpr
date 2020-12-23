@@ -15,7 +15,74 @@ function cmplz_documents_rest_route() {
 		'permission_callback' => '__return_true',
 	) );
 
+	register_rest_route( 'complianz/v1', 'banner/', array(
+		'methods'  => 'GET',
+		'callback' => 'cmplz_banner_data',
+		'permission_callback' => '__return_true',
+	) );
 
+	register_rest_route( 'complianz/v1', 'track/', array(
+		'methods'  => 'POST',
+		'callback' => 'cmplz_ajax_track_status',
+		'permission_callback' => '__return_true',
+	) );
+
+	register_rest_route( 'complianz/v1', 'manage_consent_html/', array(
+		'methods'  => 'GET',
+		'callback' => 'cmplz_manage_consent_html_ajax',
+		'permission_callback' => '__return_true',
+	) );
+}
+
+/**
+ *
+ * Track the status selected by the user, for statistics.
+ *
+ *
+ * */
+
+function cmplz_ajax_track_status(WP_REST_Request $request) {
+	$params = $request->get_json_params();
+	$status = isset($params['status']) ? sanitize_title($params['status']) : 'no-choice';
+	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
+
+	do_action( 'cmplz_track_status', $status, $consenttype );
+
+	$response = json_encode( array(
+		'success' => true,
+	) );
+	header( "Content-Type: application/json" );
+	echo $response;
+	exit;
+}
+
+
+function cmplz_banner_data(WP_REST_Request $request){
+	/**
+	 * By default, the region which is returned is the region as selected in the wizard settings.
+	 *
+	 * */
+
+	$data                       = apply_filters( 'cmplz_user_data', array() );
+	$data['consenttype']        = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+	$data['region']             = apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
+	$data['version']            = cmplz_version;
+	$data['forceEnableStats']   = apply_filters( 'cmplz_user_force_enable_stats', false );
+	$data['do_not_track']       = apply_filters( 'cmplz_dnt_enabled', false );
+	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
+	//@todo: move this to the inline script  generation
+	//and move all generic, not banner specific data away from the banner.
+
+	unset( $data["set_cookies"] );
+	$banner_id              = cmplz_get_default_banner_id();
+	$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
+	$data['banner_version'] = $banner->banner_version;
+	$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
+	$response               = json_encode( $data );
+
+	header( "Content-Type: application/json" );
+	echo $response;
+	exit;
 }
 
 function cmplz_documents_api( WP_REST_Request $request ) {
@@ -40,6 +107,43 @@ function cmplz_documents_api( WP_REST_Request $request ) {
 
 	return $output;
 }
+
+
+/**
+ * Output category consent checkboxes html
+ */
+function cmplz_manage_consent_html_ajax()
+{
+	$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
+	if ( $do_not_track ) {
+		$html = sprintf(_x("We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.", "cookie policy", "complianz-gdpr"), site_url() );
+	} else {
+		$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+		$banner = new CMPLZ_COOKIEBANNER(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+
+		$use_revoke_button = false;
+		if ( $consenttype === 'optin' && $banner->use_categories === 'no' ) {
+			$use_revoke_button = true;
+		} elseif ( $consenttype === 'optinstats' && $banner->use_categories_optinstats === 'no' ) {
+			$use_revoke_button = true;
+		} elseif ( $consenttype ==='optout' ){
+			$use_revoke_button = true;
+		}
+
+		if ( $use_revoke_button ) {
+			$html = cmplz_revoke_link();
+		} else {
+			$html = $banner->get_consent_checkboxes('document', $consenttype);
+		}
+	}
+
+	$response = json_encode( $html );
+	header( "Content-Type: application/json" );
+	echo $response;
+	exit;
+
+}
+
 
 
 

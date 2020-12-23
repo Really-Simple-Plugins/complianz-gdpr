@@ -285,7 +285,13 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	wp_enqueue_script( 'cmplz-cookie-config-styling',
 		cmplz_url . "assets/js/cookieconfig-styling$minified.js",
 		$deps, cmplz_version, true );
-
+		wp_localize_script(
+				'cmplz-cookie-config-styling',
+				'complianz_admin',
+				array(
+						'url' => add_query_arg('lang',  get_locale(), admin_url( 'admin-ajax.php' ) ),
+				)
+	);
 	do_action("cmplz_enqueue_cookiebanner_settings");
 }
 

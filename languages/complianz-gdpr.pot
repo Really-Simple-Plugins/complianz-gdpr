@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2020-12-15 08:54+0100\n"
-"PO-Revision-Date: 2020-12-15 08:54+0100\n"
+"POT-Creation-Date: 2020-12-23 09:57+0100\n"
+"PO-Revision-Date: 2020-12-23 09:54+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -9042,6 +9042,7 @@ msgid "Purpose, data and retention period"
 msgstr ""
 
 #: pro/config/dynamic-document-elements.php:39
+#: pro/config/dynamic-document-elements.php:199
 msgid "We use your data for the following purpose:"
 msgstr ""
 
@@ -9099,6 +9100,20 @@ msgstr ""
 #, php-format
 msgid ""
 "We determine the retention period according to fixed objective criteria: %s"
+msgstr ""
+
+#: pro/config/dynamic-document-elements.php:180
+msgid "Purpose and categories of data"
+msgstr ""
+
+#: pro/config/dynamic-document-elements.php:181
+msgid ""
+"Categories of personal information to be collected and the purpose for which "
+"the categories shall be used."
+msgstr ""
+
+#: pro/config/dynamic-document-elements.php:206
+msgid "The following categories of data is collected"
 msgstr ""
 
 #: pro/config/dynamic-fields.php:21

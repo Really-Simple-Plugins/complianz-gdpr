@@ -1270,7 +1270,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => $this->dismiss_on_timeout,
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
-				'url'                       => add_query_arg('lang',  get_locale(), admin_url( 'admin-ajax.php' ) ),
+				'url'                       => add_query_arg('lang',  get_locale(), site_url('wp-json/complianz/v1/') ),
 				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 				'cookie_path'               => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'                => cmplz_tcf_active(),

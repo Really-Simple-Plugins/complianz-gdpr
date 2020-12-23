@@ -117,10 +117,29 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 4.9.0 =
 * WCAG: fix button accessibility and div for Contact Form 7. props @juliemoynat-tanaguru
 * Improvement: set default checkbox style to slider
+* Improvement: Recaptcha v2 for CF7 CSS for better placeholder look
 * WCAG: fix category checkbox square accessibility. props @juliemoynat-tanaguru
 * New: support for plugin "Invisible recaptcha for WordPress"
 * New: option to disable monthly automatic cookie scan
+* New: Volocation integration
+* New: Set cookie path based on site url. This allows for sites in subfolders to place cookies on the subfolder URL only
 * Fix: typo in css class
+* New: Gravity Forms recaptcha integration
+* New: Advanced noCaptcha & invisible captcha integration
+* New: Added status change event to be able to hook into consent actions from the user. E.g. a reload on consent action for plugins with server side consent management.
+* New: MonsterInsights Enhanced ECommerce integration
+* New: Generate Press theme integration
+* Fix: Resource interpreted as Document but transferred with MIME type. Due to browsers expecting a html document as source, using mp4 as src placeholder caused unexpected behaviour.
+* Fix: duplicate statistics tracking on anonymous statistics accept action fix not merged correctly in previous update
+* Improvement: new method of ip detection added
+* Fix: some strings for Canadian policies not translatable
+* Fix: revoke marketing cookies if statistics still enabled, on configurations with non anonymous statistics
+* Improvement: more context for email on updating legal documents each 12 months in US configurations props @gfields108
+* Improvement: resolve jQuery Migrate notice "Global events are undocumented and deprecated" props @m266
+* Improvement: change front-end admin-ajax.php calls into rest-api calls
+* Improvement: Visual Composer front end editing exclude from the Cookie Blocker
+* Improvement: PHP 8 compatibility
+* New: Woocommerce analytics integration (free)
 
 = 4.8.2 =
 * Improvement: possibility to add both a marketing and an advertising cookies section
