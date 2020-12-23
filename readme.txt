@@ -71,7 +71,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
-Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/) and [WP Search Insights](https://wordpress.org/plugins/wp-search-insights/)
+Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/)
 
 Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr) as well!
 
