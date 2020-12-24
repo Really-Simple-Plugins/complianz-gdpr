@@ -993,7 +993,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Runs once a week to check if the CDB should be synced
-		 *
+		 * @param bool $running_after_services
 		 * @hooked cmplz_every_week_hook
 		 */
 
@@ -1054,7 +1054,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-				$error  = ( $result != 0 && strpos( $result, '<title>502 Bad Gateway</title>' ) === false ) ? false : true;
+
+				if ( $result === FALSE ) {
+					$error = true;
+				}
+
+				if ( strpos( $result, '<title>502 Bad Gateway</title>' ) !== false ) {
+					$error = true;
+				}
+
 				if ( $error ) {
 					$msg = __( "Could not connect to cookiedatabase.org", "complianz-gdpr" );
 				}
@@ -1311,10 +1319,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-				$error = ( $result != 0 && strpos( $result, '<title>502 Bad Gateway</title>' ) === false ) ? false : true;
+
+				if ( $result === FALSE ) {
+					$error = true;
+				}
+
+				if ( strpos( $result, '<title>502 Bad Gateway</title>' ) !== false ) {
+					$error = true;
+				}
+
 				if ( $error ) {
-					$msg = __( "Could not connect to cookiedatabase.org",
-						"complianz-gdpr" );
+					$msg = __( "Could not connect to cookiedatabase.org", "complianz-gdpr" );
 				}
 
 				curl_close( $ch );

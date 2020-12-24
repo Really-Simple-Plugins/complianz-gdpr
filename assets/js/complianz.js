@@ -21,24 +21,7 @@
 * */
 
 /*
-    //to hook into the event that fires when the scripts are enabled, use script like this:
-    $(document).on("cmplzEnableScripts", myScriptHandler);
-    function myScriptHandler(consentData) {
-        //your code here
-        console.log(consentData.consentLevel);
-        if (consentData.consentLevel==='marketing'){
-            //do something with level all
-        }
-    }
-cmplzCookieWarningLoaded
-    //do CSS change on specific consenttypes
-
-    $(document).on("cmplzCookieWarningLoaded", myScriptHandler);
-    function myScriptHandler(consentData) {
-        if (consentData.consentType==='optout'){
-            $('#cc-banner-wrap').removeClass('.cmplz-soft-cookiewall');
-        }
-    }
+* For examples to edit the behaviour of the banner, please see https://github.com/really-Simple-Plugins/complianz-integrations
 * */
 
 jQuery(document).ready(function ($) {
