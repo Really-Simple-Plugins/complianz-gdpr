@@ -1274,6 +1274,9 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 			'label'      => array(
 				'for' => array(),
 				'class' => array(),
+				'style' => array(
+					'visibility' => array(),
+				),
 			),
 			'li'         => array(
 				'class' => array(),

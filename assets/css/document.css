@@ -76,7 +76,6 @@
   text-justify: inter-word;
   /* Buttons styles */
   /*WCAG2.0 */
-  /*honeypot */
 }
 #cmplz-document input::-moz-focus-inner,
 #cmplz-document button::-moz-focus-inner {
@@ -94,9 +93,10 @@
   border: 1px solid black;
   padding: 2px;
 }
-#cmplz-document .dnsmpd-firstname {
-  position: absolute !important;
-  left: -5000px !important;
+#cmplz-document #cmplz-dnsmpd-form label {
+  margin-right: 20px;
+  min-width: 100px;
+  display: inline-block;
 }
 #cmplz-document .alert {
   padding: 7px;

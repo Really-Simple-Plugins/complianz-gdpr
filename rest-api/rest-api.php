@@ -11,25 +11,25 @@ add_action( 'rest_api_init', 'cmplz_documents_rest_route' );
 function cmplz_documents_rest_route() {
 	register_rest_route( 'complianz/v1', 'documents/', array(
 		'methods'  => 'GET',
-		'callback' => 'cmplz_documents_api',
+		'callback' => 'cmplz_rest_api_documents',
 		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'complianz/v1', 'banner/', array(
 		'methods'  => 'GET',
-		'callback' => 'cmplz_banner_data',
+		'callback' => 'cmplz_rest_api_banner_data',
 		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'complianz/v1', 'track/', array(
 		'methods'  => 'POST',
-		'callback' => 'cmplz_ajax_track_status',
+		'callback' => 'cmplz_rest_api_ajax_track_status',
 		'permission_callback' => '__return_true',
 	) );
 
 	register_rest_route( 'complianz/v1', 'manage_consent_html/', array(
 		'methods'  => 'GET',
-		'callback' => 'cmplz_manage_consent_html_ajax',
+		'callback' => 'cmplz_rest_api_manage_consent_html',
 		'permission_callback' => '__return_true',
 	) );
 }
@@ -41,7 +41,7 @@ function cmplz_documents_rest_route() {
  *
  * */
 
-function cmplz_ajax_track_status(WP_REST_Request $request) {
+function cmplz_rest_api_ajax_track_status(WP_REST_Request $request) {
 	$params = $request->get_json_params();
 	$status = isset($params['status']) ? sanitize_title($params['status']) : 'no-choice';
 	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
@@ -56,8 +56,11 @@ function cmplz_ajax_track_status(WP_REST_Request $request) {
 	exit;
 }
 
-
-function cmplz_banner_data(WP_REST_Request $request){
+/**
+ * Get Banner data
+ * @param WP_REST_Request $request
+ */
+function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	/**
 	 * By default, the region which is returned is the region as selected in the wizard settings.
 	 *
@@ -85,7 +88,12 @@ function cmplz_banner_data(WP_REST_Request $request){
 	exit;
 }
 
-function cmplz_documents_api( WP_REST_Request $request ) {
+/**
+ * @param WP_REST_Request $request
+ *
+ * @return array
+ */
+function cmplz_rest_api_documents( WP_REST_Request $request ) {
 	$documents = COMPLIANZ::$document->get_required_pages();
 	$output    = array();
 	if ( is_array( $documents ) ) {
@@ -112,7 +120,7 @@ function cmplz_documents_api( WP_REST_Request $request ) {
 /**
  * Output category consent checkboxes html
  */
-function cmplz_manage_consent_html_ajax()
+function cmplz_rest_api_manage_consent_html()
 {
 	$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
 	if ( $do_not_track ) {
