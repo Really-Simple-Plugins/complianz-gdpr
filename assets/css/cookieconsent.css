@@ -437,6 +437,13 @@
 .cc-center.cc-revoke.cc-animate:hover {
   transform: translateY(0);
 }
+/**IE 11 fix for left:unset */
+.cc-revoke.cc-right {
+  left: auto;
+}
+.cc-revoke.left {
+  right: auto;
+}
 /*
 * Hide revoke button
 * prevent overriding by script by using !important

@@ -35,7 +35,7 @@ function cmplz_editor_assets() { // phpcs:ignore
         'cmplz-block',
         'complianz',
         array(
-            'site_url' => site_url(),
+            'site_url' => get_rest_url(),
             //'query_preview' => plugins_url( 'img/wp-query-preview.jpg', __FILE__ ),
             'cmplz_preview' => cmplz_url.  'assets/images/gutenberg-preview.png',
         )

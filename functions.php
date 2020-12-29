@@ -921,6 +921,18 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 }
 
 /**
+ * check if a pdf document is being generated
+ *
+ * @return bool
+ */
+
+if ( !function_exists('cmplz_is_loading_pdf')) {
+	function cmplz_is_loading_pdf() {
+		return is_user_logged_in() && isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz_pdf_nonce' );
+	}
+}
+
+/**
  *
  * Check if we are currently in preview mode from one of the known page builders
  *
@@ -937,6 +949,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['et_fb'] )
 		     || isset( $_GET['elementor-preview'] )
 		     || isset( $_GET['vc_action'] )
+		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
 		) {

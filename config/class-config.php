@@ -434,8 +434,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				}
 			}
 		}
-
-
 	}
 
 } //class closure

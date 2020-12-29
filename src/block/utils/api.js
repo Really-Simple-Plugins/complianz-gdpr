@@ -5,7 +5,7 @@ import axios from 'axios';
  *
  * @returns {AxiosPromise<any>}
  */
-export const getPostTypes = () => axios.get(complianz.site_url+'/wp-json/wp/v2/types');
+export const getPostTypes = () => axios.get(complianz.site_url+'wp/v2/types');
 
 /**
  * Makes a get request to the desired post type and builds the query string based on an object.
@@ -16,5 +16,5 @@ export const getPostTypes = () => axios.get(complianz.site_url+'/wp-json/wp/v2/t
  */
 export const getDocuments = () => {
     //domain.com/wp-json/complianz/v1/data/doctypes
-    return axios.get(complianz.site_url+`/wp-json/complianz/v1/documents`);
+    return axios.get(complianz.site_url+`complianz/v1/documents`);
 };

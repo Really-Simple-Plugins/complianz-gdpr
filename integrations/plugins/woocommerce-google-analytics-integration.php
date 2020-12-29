@@ -42,8 +42,6 @@ function cmplz_wc_google_uses_marketing_cookies( $uses_marketing_cookies ) {
 }
 add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_uses_marketing_cookies', 20, 2 );
 
-
-
 /**
  * Add markers to the statistics markers list
  * @param $markers
@@ -56,10 +54,24 @@ function cmplz_wc_google_analytics_integration_stats_markers( $markers ) {
 	$markers['google-analytics'][] = '_gaq.push';
 	$markers['google-analytics'][] = 'stats.g.doubleclick.net/dc.js';
 	$markers['google-analytics'][] = 'gaProperty';
+	
+	//we want TM to be treated as stats
+	$markers['google-analytics'][] = 'googletagmanager.com';
+
 	return $markers;
 }
 add_filter( 'cmplz_stats_markers', 'cmplz_wc_google_analytics_integration_stats_markers', 20, 1 );
 
+/**
+ * Entirely remove tag manager blocking if anonymous
+ */
+
+function cmplz_wc_google_analytics_drop_tm_blocking(){
+	if ( COMPLIANZ::$cookie_admin->statistics_privacy_friendly() ) {
+		remove_filter( 'cmplz_known_script_tags', 'cmplz_googletagmanager_script' );
+	}
+}
+add_action( 'init', 'cmplz_wc_google_analytics_drop_tm_blocking');
 
 /**
  * Block inline script

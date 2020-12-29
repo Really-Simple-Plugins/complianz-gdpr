@@ -1982,6 +1982,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_cookie_path(){
+			//if cookies are to be set on the root, don't send a path
+			if ( cmplz_get_value('set_cookies_on_root') ) {
+				return '';
+			}
+
 			$domain = site_url();
 			$parse = parse_url($domain);
 			$root_domain = $parse['host'];

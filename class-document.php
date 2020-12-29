@@ -734,37 +734,28 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$html = str_replace( "[site_url]", site_url(), $html );
 
 			//us can have two types of titles
-			$cookie_policy_title
-				  = esc_html( $this->get_document_title( 'cookie-statement',
-				$region ) );
-			$html = str_replace( '[cookie-statement-title]',
-				$cookie_policy_title, $html );
+			$cookie_policy_title = esc_html( $this->get_document_title( 'cookie-statement', $region ) );
+			$html = str_replace( '[cookie-statement-title]', $cookie_policy_title, $html );
 
 			$date = $post_id
 				? get_the_date( '', $post_id )
 				: date( get_option( 'date_format' ),
 					get_option( 'cmplz_publish_date' ) );
 			$date = cmplz_localize_date( $date );
-			$html = str_replace( "[publish_date]", esc_html( $date ),
-				$html );
+			$html = str_replace( "[publish_date]", esc_html( $date ), $html );
 
-			$html = str_replace( "[sync_date]",
-				esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ),
-				$html );
+			$html = str_replace( "[sync_date]", esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ), $html );
 
-			$checked_date = date( get_option( 'date_format' ),
-				get_option( 'cmplz_documents_update_date' ) );
+			$checked_date = date( get_option( 'date_format' ), get_option( 'cmplz_documents_update_date' ) );
 			$checked_date = cmplz_localize_date( $checked_date );
-			$html         = str_replace( "[checked_date]",
-				esc_html( $checked_date ), $html );
+			$html         = str_replace( "[checked_date]", esc_html( $checked_date ), $html );
 
 			//because the phonenumber is not required, we need to allow for an empty phonenr, making a dynamic string necessary.
 			$contact_dpo = cmplz_get_value( 'email_dpo' );
 			$phone_dpo   = cmplz_get_value( 'phone_dpo' );
 			if ( strlen( $phone_dpo ) !== 0 ) {
 				$contact_dpo .= " " . sprintf( _x( "or by telephone on %s",
-						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',
-						"complianz-gdpr" ), $phone_dpo );
+						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo );
 			}
 			$html = str_replace( "[email_dpo]", $contact_dpo, $html );
 
@@ -772,8 +763,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$phone_dpo_uk   = cmplz_get_value( 'phone_dpo_uk' );
 			if ( strlen( $phone_dpo ) !== 0 ) {
 				$contact_dpo_uk .= " " . sprintf( _x( "or by telephone on %s",
-						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"',
-						"complianz-gdpr" ), $phone_dpo_uk );
+						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo_uk );
 			}
 			$html = str_replace( "[email_dpo_uk]", $contact_dpo_uk, $html );
 
@@ -783,8 +773,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				if ( strpos( $html, "[$fieldname]" ) !== false ) {
 
 					$html = str_replace( "[$fieldname]",
-						$this->get_plain_text_value( $fieldname, $post_id , true,  $type ),
-						$html );
+						$this->get_plain_text_value( $fieldname, $post_id , true,  $type ), $html );
 					//when there's a closing shortcode it's always a link
 					$html = str_replace( "[/$fieldname]", "</a>", $html );
 				}

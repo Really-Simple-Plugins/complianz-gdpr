@@ -1200,8 +1200,19 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			return apply_filters('cmplz_categories_html',$output, $context);
 		}
 
+		/**
+		 * Get the cookie domain, without https or end slash
+		 * @return string
+		 */
 
+		public function get_cookie_domain(){
+			$domain = str_replace(array('http://', 'https://'), '', cmplz_get_value('cookie_domain'));
+			if(substr($domain, -1) == '/') {
+				$domain = substr($domain, 0, -1);
+			}
 
+			return $domain;
+		}
 
 		/**
 		 * Get array to output to front-end
@@ -1220,8 +1231,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
 				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
-				'set_cookies_on_root'       => cmplz_get_value('set_cookies_on_root'),
-				'cookie_domain'             => cmplz_get_value('cookie_domain'),
+				'set_cookies_on_root'       => cmplz_get_value( 'set_cookies_on_root' ),
+				'cookie_domain'             => $this->get_cookie_domain(),
 				'banner_version'            => $this->banner_version,
 				'version'                   => cmplz_version,
 				'a_b_testing'               => cmplz_ab_testing_enabled(),
@@ -1245,11 +1256,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'button_background_color'   => $this->button_background_color,
 				'button_text_color'         => $this->button_text_color,
 				'accept_all_background_color'=> $this->accept_all_background_color,
-				'accept_all_text_color'     => $this->accept_all_text_color,
-				'accept_all_border_color'     => $this->accept_all_border_color,
+				'accept_all_text_color'      => $this->accept_all_text_color,
+				'accept_all_border_color'    => $this->accept_all_border_color,
 				'functional_background_color'=> $this->functional_background_color,
-				'functional_text_color'     => $this->functional_text_color,
-				'functional_border_color'     => $this->functional_border_color,
+				'functional_text_color'      => $this->functional_text_color,
+				'functional_border_color'    => $this->functional_border_color,
 				'border_color'              => $this->border_color,
 				'use_custom_cookie_css'     => $this->use_custom_cookie_css,
 				'custom_css'                => $this->sanitize_custom_css( $this->custom_css ),
@@ -1270,7 +1281,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => $this->dismiss_on_timeout,
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
-				'url'                       => add_query_arg('lang',  get_locale(), site_url('wp-json/complianz/v1/') ),
+				'url'                       => add_query_arg('lang',  get_locale(), get_rest_url().'complianz/v1/' ),
 				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 				'cookie_path'               => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'                => cmplz_tcf_active(),

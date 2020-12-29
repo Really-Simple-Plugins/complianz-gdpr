@@ -225,6 +225,16 @@
   border-top-right-radius: 0.5em;
 }
 
+/**IE 11 fix for left:unset */
+.cc-revoke{
+  &.cc-right {
+  	left:auto;
+  }
+  &.left {
+	right:auto;
+  }
+}
+
 /*
 * Hide revoke button
 * prevent overriding by script by using !important

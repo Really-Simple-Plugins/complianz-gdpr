@@ -25,6 +25,27 @@
 * */
 
 jQuery(document).ready(function ($) {
+
+	/**
+	 * CustomEvent() polyfill
+	 * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill
+	 */
+	(function () {
+
+		if (typeof window.CustomEvent === 'function') return false;
+
+		function CustomEvent(event, params) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+			return evt;
+		}
+
+		CustomEvent.prototype = window.Event.prototype;
+
+		window.CustomEvent = CustomEvent;
+	})();
+
 	var ccStatus;
 	var ccName;
 	var ccStatsEnabled = false;
@@ -1733,5 +1754,4 @@ jQuery(document).ready(function ($) {
 		var newColour = (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
 		return '#'+newColour;
 	}
-
 });
