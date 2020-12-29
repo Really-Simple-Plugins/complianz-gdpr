@@ -115,6 +115,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.9.0 =
+* Fix: use get_rest_url() instead of site_url for rest api calls
+* WCAG: Do Not Sell My Personal information form WCAG improvements
 * WCAG: fix button accessibility and div for Contact Form 7. props @juliemoynat-tanaguru
 * Improvement: set default checkbox style to slider
 * Improvement: Recaptcha v2 for CF7 CSS for better placeholder look
