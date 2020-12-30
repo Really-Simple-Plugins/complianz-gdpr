@@ -20,5 +20,5 @@ If you're a developer and want to help out, please feel free to contribute anywa
 
 For support we kindly ask you to start at our [support forum](https://wordpress.org/support/plugin/complianz-gdpr/) and our documentation at [complianz.io/docs/](complianz.io/docs/). If you can't find a solution, do not hesitate to ask either on the forum or log a suppor ticket.
 
-If you like Complianz - Pleae [rate us](https://wordpress.org/support/plugin/complianz-gdpr/reviews/) on WordPress.org
+If you like Complianz - Please [rate us](https://wordpress.org/support/plugin/complianz-gdpr/reviews/) on WordPress.org
 
