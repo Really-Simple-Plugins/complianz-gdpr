@@ -115,7 +115,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.9.1 =
-* Fix: on websites with wordpress installed in subdirectory, cookiepath was set incorrectly. 
+* Fix: on websites with wordpress installed in subdirectory, cookiepath was set incorrectly.
 
 = 4.9.0 =
 * Fix: use get_rest_url() instead of site_url for rest api calls
