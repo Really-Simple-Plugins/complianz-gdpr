@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 add_filter( 'cmplz_known_script_tags', 'cmplz_pixelyoursite_script' );
 function cmplz_pixelyoursite_script( $tags ) {
 	$tags[] = 'pixelyoursite/dist';
+	$tags[] = 'pixelyoursite-pro/dist';
 
 	return $tags;
 }

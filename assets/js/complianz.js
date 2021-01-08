@@ -733,7 +733,7 @@ jQuery(document).ready(function ($) {
 				name: 'complianz_consent_status',
 				expiryDays: complianz.cookie_expiry,
 				domain: cmplzGetCookieDomain(),
-				path: '/'+cmplzGetCookiePath()
+				path: cmplzGetCookiePath(),
 			},
 			onInitialise: function (status) {
 				//runs only when dismissed or accepted
@@ -1258,7 +1258,7 @@ jQuery(document).ready(function ($) {
 		if (domain.length > 0) {
 			domain = ";domain=" + domain;
 		}
-		document.cookie = name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path=/"+cmplzGetCookiePath();
+		document.cookie = name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path="+cmplzGetCookiePath();
 	}
 
 	/**
@@ -1266,7 +1266,7 @@ jQuery(document).ready(function ($) {
 	 * @returns {*}
 	 */
 	function cmplzGetCookiePath(){
-		return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path+'/' : '';
+		return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path : '';
 	}
 
 	/**
