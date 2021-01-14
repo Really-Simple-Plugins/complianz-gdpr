@@ -631,8 +631,10 @@ jQuery(document).ready(function ($) {
 		//if no status was saved before, we do it now
 		if (cmplzGetCookie('cmplz_choice') !== 'set') {
 			//for Non optin/optout visitors, and DNT users, we just track the no-warning option
-			if (complianz.do_not_track || (complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout')) {
+			if ( complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout' ) {
 				complianz_track_status('no_warning');
+			} else if ( complianz.do_not_track ) {
+				complianz_track_status('do_not_track' );
 			} else if (complianz.consenttype === 'optout') {
 				//for opt out visitors, so consent by default
 				complianz_track_status('all');
@@ -767,10 +769,10 @@ jQuery(document).ready(function ($) {
 				}
 
 				/**
-				* This runs when the banner is dismissed or accepted.
-				* When status = allow, it's accepted, and we want to run all scripts.
-				*
-				* */
+				 * This runs when the banner is dismissed or accepted.
+				 * When status = allow, it's accepted, and we want to run all scripts.
+				 *
+				 * */
 				if (status === 'allow') {
 					var all = false;
 					if (complianz.use_categories === 'no') all = 'all';
@@ -1000,7 +1002,7 @@ jQuery(document).ready(function ($) {
 			//'marketing' checkbox is not checked, and previous value was allow. reload.
 			if (!$('.cmplz_marketing').is(":checked") && cmplzGetCookie('cmplz_marketing') === 'allow' ) {
 				reload = true;
-			//marketing checkbox not che3cked, optout region, previous value empty, also reload
+				//marketing checkbox not che3cked, optout region, previous value empty, also reload
 			} else if (!$('.cmplz_marketing').is(":checked") &&  complianz.consenttype === 'optout' && cmplzGetCookie('cmplz_marketing') === '' ) {
 				reload = true;
 			}
@@ -1790,21 +1792,21 @@ jQuery(document).ready(function ($) {
 		}
 	}
 
-    /**
-     * Toggle service
-     */
+	/**
+	 * Toggle service
+	 */
 
-    $(document).on('click', '.cmplz-service-header', function () {
-        var item = $(this).next();
+	$(document).on('click', '.cmplz-service-header', function () {
+		var item = $(this).next();
 
-        if (item.hasClass('cmplz-service-hidden')) {
-            $(this).addClass('cmplz-service-open');
-            item.removeClass('cmplz-service-hidden');
-        } else {
-            $(this).removeClass('cmplz-service-open');
-            item.addClass('cmplz-service-hidden');
-        }
-    });
+		if (item.hasClass('cmplz-service-hidden')) {
+			$(this).addClass('cmplz-service-open');
+			item.removeClass('cmplz-service-hidden');
+		} else {
+			$(this).removeClass('cmplz-service-open');
+			item.addClass('cmplz-service-hidden');
+		}
+	});
 
 	function getHoverColour(hex){
 		if (hex[0] == '#') {
