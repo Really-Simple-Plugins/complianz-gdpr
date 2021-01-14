@@ -1494,6 +1494,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			if ( ! $this->show_field( $args ) ) {
 				return;
 			}
+
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<label
