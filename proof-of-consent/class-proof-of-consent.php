@@ -10,7 +10,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					get_class( $this ) ) );
 			}
 			self::$_this = $this;
-			if ( cmplz_get_value('records_of_consent') !== 'yes' ) {
+			if ( cmplz_get_value('records_of_consent') !== 'yes' || defined('cmplz_free') ) {
 				add_action( 'cmplz_admin_menu', array( $this, 'menu_item' ), 10 );
 				add_action( 'wp_ajax_cmplz_delete_snapshot', array( $this, 'ajax_delete_snapshot' ) );
 			}

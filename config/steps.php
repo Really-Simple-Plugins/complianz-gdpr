@@ -42,6 +42,9 @@ $this->steps = apply_filters('cmplz_steps',array(
 						'title'  => __( 'Details per purpose',
 							'complianz-gdpr' ),
 					),
+					11 => array(
+						'title' => __('Security & Consent', 'complianz-gdpr'),
+					),
 
 				),
 			),
