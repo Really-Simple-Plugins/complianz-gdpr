@@ -2709,6 +2709,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( ! isset( $pages[ $page ] ) ) {
 				return;
 			}
+
 			$title         = $pages[ $page ]['title'];
 			$document_html = $intro . COMPLIANZ::$document->get_document_html( $page, $region, $post_id ) . $append;
 			$document_html = apply_filters( 'cmplz_cookie_policy_snapshot_html', $document_html , $save_to_file );
@@ -2728,6 +2729,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$html = '
                     <style>
                     ' . $css . '
+                    .cmplz-tcf-vendor-container {
+                      display:none;
+                    }
                     body {
                       font-family: sans;
                       margin-top:100px;

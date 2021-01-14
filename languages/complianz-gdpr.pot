@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-01-14 12:14+0100\n"
-"PO-Revision-Date: 2021-01-14 12:14+0100\n"
+"POT-Creation-Date: 2021-01-14 16:03+0100\n"
+"PO-Revision-Date: 2021-01-14 16:03+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -436,7 +436,7 @@ msgstr ""
 msgid "A/B testing"
 msgstr ""
 
-#: class-admin.php:1065 config/steps.php:61
+#: class-admin.php:1065 config/steps.php:62
 #: cookiebanner/class-cookiebanner.php:885 cookiebanner/settings.php:671
 #: pro/tcf/tcf.php:428 pro/tcf/tcf.php:504
 msgid "Statistics"
@@ -1058,12 +1058,12 @@ msgid ""
 "higher"
 msgstr ""
 
-#: config/class-config.php:288 config/questions-wizard.php:671
+#: config/class-config.php:288 config/questions-wizard.php:670
 msgid "Yes"
 msgstr ""
 
-#: config/class-config.php:289 config/questions-wizard.php:303
-#: config/questions-wizard.php:672 pro/config/questions-wizard.php:529
+#: config/class-config.php:289 config/questions-wizard.php:302
+#: config/questions-wizard.php:671 pro/config/questions-wizard.php:529
 #: pro/config/questions-wizard.php:586
 msgid "No"
 msgstr ""
@@ -3201,122 +3201,122 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:244
-msgid "Register consent with Premium"
+msgid "Extend Proof of Consent with Records of Consent (Premium)"
 msgstr ""
 
 #: config/questions-wizard.php:251
 msgid ""
-"Enabling this option will extend our Proof of Consent method with consent "
-"registration."
+"Enabling this option will extend our Proof of Consent method with user "
+"consent registration."
 msgstr ""
 
-#: config/questions-wizard.php:263
+#: config/questions-wizard.php:262
 msgid "Respect Do Not Track and Global Privacy Control with Premium"
 msgstr ""
 
-#: config/questions-wizard.php:264
+#: config/questions-wizard.php:263
 msgid ""
 "If you enable this option, Complianz will not show the cookie banner to "
 "users that enabled a ‘Do Not Track’ or 'Global Privacy Control' setting in "
 "their browsers and their default consent status is set to ‘denied’."
 msgstr ""
 
-#: config/questions-wizard.php:277 config/steps.php:54
+#: config/questions-wizard.php:276 config/steps.php:55
 #: cookie/class-cookie-admin.php:3449
 msgid "Cookie scan"
 msgstr ""
 
-#: config/questions-wizard.php:290
+#: config/questions-wizard.php:289
 msgid "Do you compile statistics of this website?"
 msgstr ""
 
-#: config/questions-wizard.php:293
+#: config/questions-wizard.php:292
 msgid "Yes, anonymous"
 msgstr ""
 
-#: config/questions-wizard.php:295
+#: config/questions-wizard.php:294
 msgid "Yes, and the personal data is available to us"
 msgstr ""
 
-#: config/questions-wizard.php:297
+#: config/questions-wizard.php:296
 msgid "Yes, with Google Analytics"
 msgstr ""
 
-#: config/questions-wizard.php:299
+#: config/questions-wizard.php:298
 msgid "Yes, with Matomo"
 msgstr ""
 
-#: config/questions-wizard.php:301
+#: config/questions-wizard.php:300
 msgid "Yes, with Google Tag Manager"
 msgstr ""
 
-#: config/questions-wizard.php:315 config/questions-wizard.php:343
+#: config/questions-wizard.php:314 config/questions-wizard.php:342
 msgid "Regarding the previous question, can you give more information?"
 msgstr ""
 
-#: config/questions-wizard.php:318 config/questions-wizard.php:346
+#: config/questions-wizard.php:317 config/questions-wizard.php:345
 msgid "I have accepted the Google data processing amendment"
 msgstr ""
 
-#: config/questions-wizard.php:320 config/questions-wizard.php:348
+#: config/questions-wizard.php:319 config/questions-wizard.php:347
 msgid "Google is not allowed to use this data for other Google services"
 msgstr ""
 
-#: config/questions-wizard.php:322
+#: config/questions-wizard.php:321
 msgid "Always block acquiring of IP addresses"
 msgstr ""
 
-#: config/questions-wizard.php:325
+#: config/questions-wizard.php:324
 msgid ""
 "If you do not check to always block acquiring IP addresses, the IP addresses "
 "will get acquired as soon as the user accepts statistics or higher."
 msgstr ""
 
-#: config/questions-wizard.php:327
+#: config/questions-wizard.php:326
 msgid ""
 "If you can check all three options, you might not need a cookie banner on "
 "your site."
 msgstr ""
 
-#: config/questions-wizard.php:350
+#: config/questions-wizard.php:349
 msgid "Acquiring IP-addresses is blocked"
 msgstr ""
 
-#: config/questions-wizard.php:353
+#: config/questions-wizard.php:352
 msgid ""
 "With Tag Manager you can configure the selective firing of cookies in the "
 "Tag Manager dashboard."
 msgstr ""
 
-#: config/questions-wizard.php:373
+#: config/questions-wizard.php:372
 msgid "Tag Manager fires scripts which place cookies"
 msgstr ""
 
-#: config/questions-wizard.php:375
+#: config/questions-wizard.php:374
 msgid ""
 "If you use Tag Manager to fire scripts on your site, Complianz will "
 "automatically enable categories."
 msgstr ""
 
-#: config/questions-wizard.php:387
+#: config/questions-wizard.php:386
 msgid "Do you anonymize IP addresses in Matomo?"
 msgstr ""
 
-#: config/questions-wizard.php:390
+#: config/questions-wizard.php:389
 msgid ""
 "If ip numbers are anonymized, the statistics cookie do not require a cookie "
 "banner"
 msgstr ""
 
-#: config/questions-wizard.php:404
+#: config/questions-wizard.php:403
 msgid "Do you want to ask consent for statistics?"
 msgstr ""
 
-#: config/questions-wizard.php:417
+#: config/questions-wizard.php:416
 msgid "Do you want Complianz to configure your statistics?"
 msgstr ""
 
-#: config/questions-wizard.php:420
+#: config/questions-wizard.php:419
 msgid ""
 "It's recommended to let Complianz handle the statistics script. This way, "
 "the plugin can detect if it needs to be hooked into the cookie consent code "
@@ -3324,106 +3324,106 @@ msgid ""
 "you can choose to do so"
 msgstr ""
 
-#: config/questions-wizard.php:434
+#: config/questions-wizard.php:433
 msgid "Enter your Google Tag Manager code"
 msgstr ""
 
-#: config/questions-wizard.php:439
+#: config/questions-wizard.php:438
 msgid ""
 "For the Google Tag Manager code, log on. Then, you will immediatly see "
 "Container codes. The one next to your website name is the code you will need "
 "to fill in here, the Container ID."
 msgstr ""
 
-#: config/questions-wizard.php:451
+#: config/questions-wizard.php:450
 msgid "Enter your tracking-ID"
 msgstr ""
 
-#: config/questions-wizard.php:455
+#: config/questions-wizard.php:454
 msgid ""
 "For the Google Analytics tracking-ID, log on and click Admin and copy the "
 "Tracking-ID."
 msgstr ""
 
-#: config/questions-wizard.php:466
+#: config/questions-wizard.php:465
 msgid "Enter your Matomo site ID"
 msgstr ""
 
-#: config/questions-wizard.php:481
+#: config/questions-wizard.php:480
 msgid "Enter the URL of Matomo"
 msgstr ""
 
-#: config/questions-wizard.php:486
+#: config/questions-wizard.php:485
 msgid "e.g. https://domain.com/stats"
 msgstr ""
 
-#: config/questions-wizard.php:499
+#: config/questions-wizard.php:498
 msgid "This website uses cookies or similiar techniques."
 msgstr ""
 
-#: config/questions-wizard.php:513
+#: config/questions-wizard.php:512
 msgid "Do you consent to the use of the cookiedatabase.org API?"
 msgstr ""
 
-#: config/questions-wizard.php:515
+#: config/questions-wizard.php:514
 msgid ""
 "Without the API, you will have to manually describe all found cookies, their "
 "purpose, function, service and service types"
 msgstr ""
 
-#: config/questions-wizard.php:529
+#: config/questions-wizard.php:528
 msgid ""
 "Do you want to hyperlink cookie names so visitors can find more information "
 "on Cookiedatabase.org? These links will be added with HTML attributes so it "
 "won't hurt SEO."
 msgstr ""
 
-#: config/questions-wizard.php:543
+#: config/questions-wizard.php:542
 msgid "Does your website use third-party services?"
 msgstr ""
 
-#: config/questions-wizard.php:545
+#: config/questions-wizard.php:544
 msgid ""
 "e.g. services like Google Fonts, Maps or recaptcha usually place cookies."
 msgstr ""
 
-#: config/questions-wizard.php:558
+#: config/questions-wizard.php:557
 msgid "Select the types of third-party services you use on your site."
 msgstr ""
 
-#: config/questions-wizard.php:560
+#: config/questions-wizard.php:559
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)."
 msgstr ""
 
-#: config/questions-wizard.php:562
+#: config/questions-wizard.php:561
 msgid "You can disable services and placeholders under Integrations."
 msgstr ""
 
-#: config/questions-wizard.php:575
+#: config/questions-wizard.php:574
 msgid ""
 "Do you want to block reCAPTCHA before consent, and when consent is revoked?"
 msgstr ""
 
-#: config/questions-wizard.php:589
+#: config/questions-wizard.php:588
 msgid "Is Hotjar configured in a privacy-friendly way?"
 msgstr ""
 
-#: config/questions-wizard.php:591
+#: config/questions-wizard.php:590
 msgid ""
 "You can configure Hotjar privacy-friendly, if you do this, no consent is "
 "required for Hotjar."
 msgstr ""
 
-#: config/questions-wizard.php:608
+#: config/questions-wizard.php:607
 msgid ""
 "Does your website contain embedded social media content, like buttons, "
 "timelines, videos or pixels?"
 msgstr ""
 
-#: config/questions-wizard.php:610
+#: config/questions-wizard.php:609
 msgid ""
 "Content from social media is mostly embedded through iFrames. These often "
 "place third party (tracking) cookies, so must be blocked based on visitor "
@@ -3431,24 +3431,24 @@ msgid ""
 "profile on an external page you can answer No."
 msgstr ""
 
-#: config/questions-wizard.php:623
+#: config/questions-wizard.php:622
 msgid "Select which social media are used on the website."
 msgstr ""
 
-#: config/questions-wizard.php:625
+#: config/questions-wizard.php:624
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)"
 msgstr ""
 
-#: config/questions-wizard.php:639
+#: config/questions-wizard.php:638
 msgid ""
 "You have stated that you don't use third-party services. Do you use plugins "
 "that might set marketing cookies?"
 msgstr ""
 
-#: config/questions-wizard.php:641
+#: config/questions-wizard.php:640
 msgid ""
 "Complianz cannot automatically block first-party marketing cookies unless "
 "these plugins conform to the WP Consent API. Look for any possible "
@@ -3456,71 +3456,71 @@ msgid ""
 "question, the marketing category will be removed."
 msgstr ""
 
-#: config/questions-wizard.php:658
+#: config/questions-wizard.php:657
 msgid "Does your website use cookies for advertising?"
 msgstr ""
 
-#: config/questions-wizard.php:673 pro/config/dynamic-fields.php:209
+#: config/questions-wizard.php:672 pro/config/dynamic-fields.php:209
 msgid "Enable TCF"
 msgstr ""
 
-#: config/questions-wizard.php:676
+#: config/questions-wizard.php:675
 msgid "Are any of your advertising cookies used to show personalized ads?"
 msgstr ""
 
-#: config/questions-wizard.php:677
+#: config/questions-wizard.php:676
 msgid ""
 "Google recommends an integration with TCF V2.0 to avoid loss of revenue."
 msgstr ""
 
-#: config/questions-wizard.php:679
+#: config/questions-wizard.php:678
 msgid ""
 "If you only use Google for advertising, and have activated the option to use "
 "only non personalized ads, you can select no here."
 msgstr ""
 
-#: config/questions-wizard.php:697
+#: config/questions-wizard.php:696
 msgid "Does your website use WordPress comments?"
 msgstr ""
 
-#: config/questions-wizard.php:715
+#: config/questions-wizard.php:714
 msgid ""
 "Do you want to disable the storage of personal data by the WP comments "
 "function and the checkbox?"
 msgstr ""
 
-#: config/questions-wizard.php:718
+#: config/questions-wizard.php:717
 msgid ""
 "If you enable this, WordPress will not store personal data with comments and "
 "you won't need a consent checkbox for the comment form. The consent box will "
 "not be displayed."
 msgstr ""
 
-#: config/questions-wizard.php:742
+#: config/questions-wizard.php:741
 msgid "Cookiedatabase sync"
 msgstr ""
 
-#: config/questions-wizard.php:754
+#: config/questions-wizard.php:753
 msgid "Add the used cookies here"
 msgstr ""
 
-#: config/questions-wizard.php:767
+#: config/questions-wizard.php:766
 msgid "Add the services to which your cookies belong here"
 msgstr ""
 
-#: config/questions-wizard.php:780
+#: config/questions-wizard.php:779
 msgid "Statistics script"
 msgstr ""
 
-#: config/questions-wizard.php:785 config/questions-wizard.php:808
-#: config/questions-wizard.php:832
+#: config/questions-wizard.php:784 config/questions-wizard.php:807
+#: config/questions-wizard.php:831
 msgid ""
 "Paste here all your scripts that activate cookies. Enter the scripts without "
 "the script tags"
 msgstr ""
 
-#: config/questions-wizard.php:787 config/questions-wizard.php:810
-#: config/questions-wizard.php:834
+#: config/questions-wizard.php:786 config/questions-wizard.php:809
+#: config/questions-wizard.php:833
 #, php-format
 msgid ""
 "To be able to activate cookies when a user accepts the Cookie Policy, the "
@@ -3529,21 +3529,21 @@ msgid ""
 "article"
 msgstr ""
 
-#: config/questions-wizard.php:803
+#: config/questions-wizard.php:802
 msgid "Scripts to add services, for example, Facebook Pixel, Hotjar, etcetera."
 msgstr ""
 
-#: config/questions-wizard.php:827
+#: config/questions-wizard.php:826
 msgid "Async scripts to execute on consent"
 msgstr ""
 
-#: config/questions-wizard.php:851
+#: config/questions-wizard.php:850
 msgid ""
 "(part of) URL's or unique string from the inline scripts of third-party "
 "scripts & plugins that should be blocked before consent."
 msgstr ""
 
-#: config/questions-wizard.php:853
+#: config/questions-wizard.php:852
 #, php-format
 msgid ""
 "The most common third-party cookies are blocked automatically. If you want "
@@ -3552,11 +3552,11 @@ msgid ""
 "more information on this, please read %sthis%s article"
 msgstr ""
 
-#: config/questions-wizard.php:870
+#: config/questions-wizard.php:869
 msgid "URL's from iFrames that should be blocked before consent."
 msgstr ""
 
-#: config/questions-wizard.php:872
+#: config/questions-wizard.php:871
 #, php-format
 msgid ""
 "The most common third-party cookies are blocked automatically. If you want "
@@ -3621,15 +3621,19 @@ msgctxt "intro company info"
 msgid "We need some information to be able to generate your documents."
 msgstr ""
 
-#: config/steps.php:42 pro/config/steps.php:47 pro/config/steps.php:53
+#: config/steps.php:41 pro/config/steps.php:47 pro/config/steps.php:53
 msgid "Details per purpose"
 msgstr ""
 
-#: config/steps.php:50
+#: config/steps.php:45 pro/config/steps.php:68
+msgid "Security & Consent"
+msgstr ""
+
+#: config/steps.php:51
 msgid "Cookies"
 msgstr ""
 
-#: config/steps.php:57
+#: config/steps.php:58
 msgctxt "intro scan"
 msgid ""
 "Complianz will scan several pages of your website for first-party cookies "
@@ -3637,11 +3641,11 @@ msgid ""
 "you up-to-date!"
 msgstr ""
 
-#: config/steps.php:64
+#: config/steps.php:65
 msgid "Statistics - configuration"
 msgstr ""
 
-#: config/steps.php:68 integrations/integrations-menu.php:9
+#: config/steps.php:69 integrations/integrations-menu.php:9
 #: integrations/integrations-menu.php:10 shepherd/tour.php:113
 msgid "Integrations"
 msgstr ""
@@ -9854,10 +9858,6 @@ msgid ""
 "processors you’re working with."
 msgstr ""
 
-#: pro/config/steps.php:68
-msgid "Security & Consent"
-msgstr ""
-
 #: pro/config/steps.php:73
 msgid "Financial incentives"
 msgstr ""
@@ -10441,6 +10441,10 @@ msgstr ""
 
 #: pro/tcf/tcf.php:519
 msgid "For some of the purposes above we and our partners"
+msgstr ""
+
+#: pro/tcf/tcf.php:522
+msgid "Vendors"
 msgstr ""
 
 #: pro/tcf/tcf.php:652
