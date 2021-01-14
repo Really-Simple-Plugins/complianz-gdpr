@@ -118,7 +118,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: Fn.resize shorthand is deprecated
 * Improvement: pass language to ajax calls with two character language code
 * New: Woocommerce Analytics Pro integration
-* New: Citadello Directory integration
+* New: Citadela Directory integration
 * Improvement: when new languages are added to a site (multilanguage setup) ensure each cookie is added in every new language
 * Fix: on multisite environments cookies were set on language subdomains instead of root. This fix sets cookiepath to root for WPML and polylang
 
