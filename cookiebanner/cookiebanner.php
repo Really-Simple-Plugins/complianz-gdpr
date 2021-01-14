@@ -141,8 +141,8 @@ function cmplz_cookiebanner_overview() {
 		return;
 	}
 
-	/*
-	 * Reset the statistics
+	/**
+	 * Restart the statistics
 	 * */
 	if ( class_exists( 'cmplz_statistics' )
 	     && ( isset( $_GET['action'] )
@@ -289,7 +289,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 				'cmplz-cookie-config-styling',
 				'complianz_admin',
 				array(
-						'url' => add_query_arg('lang',  get_locale(), admin_url( 'admin-ajax.php' ) ),
+						'url' => add_query_arg('lang',  substr( get_locale(), 0, 2 ), admin_url( 'admin-ajax.php' ) ),
 				)
 	);
 	do_action("cmplz_enqueue_cookiebanner_settings");

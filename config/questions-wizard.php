@@ -238,6 +238,32 @@ $this->fields = $this->fields + array(
 			),
 			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
+
+		'records_of_consent' => array(
+			'source'  => 'wizard',
+			'label'   => __( "Register consent with Premium", 'complianz-gdpr' ),
+			'step'    => STEP_COMPANY,
+			'section' => 11,
+			'type'    => 'radio',
+			'options' => $this->yes_no,
+			'default' => false,
+			'disabled' => true,
+			'comment'  => __( "Enabling this option will extend our Proof of Consent method with consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
+		),
+
+		'respect_dnt' => array(
+			'step' => STEP_COMPANY,
+			'section' => 11,
+			'source' => 'wizard',
+			'disabled' => true,
+			'type' => 'select',
+			'options' => $this->yes_no,
+			'required' => true,
+			'default' => 'yes',
+			'label' => __("Respect Do Not Track and Global Privacy Control with Premium", 'complianz-gdpr'),
+			'comment' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
+			'time' => CMPLZ_MINUTES_PER_QUESTION,
+		),
 	);
 
 $this->fields = $this->fields + array(

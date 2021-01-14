@@ -250,8 +250,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			     && $field['revoke_consent_onchange']
 			) {
 				COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
-				update_option( 'cmplz_generate_new_cookiepolicy_snapshot',
-					true );
+				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time() );
 			}
 
 			if ( $fieldname === 'configuration_by_complianz'

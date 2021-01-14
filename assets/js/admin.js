@@ -930,7 +930,6 @@ jQuery(document).ready(function ($) {
 			}),
 			success: function (response) {
 				if (response.success) {
-					console.log('success');
 					$('.cmplz-page-created').removeClass('fa-times').addClass('fa-check');
 					$('.cmplz-create-page-title').removeClass('cmplz-deleted-page');
 				}
@@ -938,5 +937,81 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	});
+
+	/**
+	 * Start export to csv of records of consent
+	 */
+
+	var roc_progress = 0;
+	var btn = $('.cmplz_export_roc_to_csv');
+	$(document).on('click', '.cmplz_export_roc_to_csv', function(e){
+
+		btn.html(roc_progress+' %');
+		btn.prop('disabled', true);
+		cmplzExportBatch();
+	} );
+
+	function cmplzExportBatch(){
+		var btn = $('.cmplz_export_roc_to_csv');
+		$.ajax({
+			type: "GET",
+			url: complianz_admin.admin_url,
+			dataType: 'json',
+			data: ({
+				action: 'cmplz_export_roc_to_csv',
+				order: cmplzGetUrlParameter('order'),
+				orderby: cmplzGetUrlParameter('orderby'),
+				s: cmplzGetUrlParameter('s'),
+			}),
+			success: function (response) {
+				if ( response.success ) {
+					if ( response.progress<100 ) {
+						roc_progress = response.progress;
+						btn.html(roc_progress+' %');
+						cmplzExportBatch();
+					} else {
+						cmplzLoadDownloadBtn(response.link, roc_progress);
+					}
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * A slightly unnecessary function which shows a nicely increasing percentage
+	 * If the download is ready in one go, the button would otherwise show 0%, then "download".
+	 * @param link
+	 * @param roc_progress
+	 */
+	function cmplzLoadDownloadBtn(link, roc_progress ) {
+		setTimeout(function() {
+			roc_progress = roc_progress+10;
+			if (roc_progress < 100) {
+				btn.html(roc_progress+' %');
+
+				cmplzLoadDownloadBtn(link, roc_progress);
+			} else {
+				btn.replaceWith(link);
+			}
+		}, 100)
+	}
+
+	function cmplzGetUrlParameter(sParam) {
+		var sPageURL = window.location.href;
+		var queryString = sPageURL.split('?');
+		if (queryString.length == 1) return false;
+
+		var sURLVariables = queryString[1].split('&'),
+			sParameterName,
+			i;
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? '' : decodeURIComponent(sParameterName[1]);
+			}
+		}
+		return false;
+	}
 
 });

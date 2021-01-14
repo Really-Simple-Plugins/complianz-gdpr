@@ -723,8 +723,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			);
 
 			if ( $updated === 0 ) {
-				update_option( 'cmplz_generate_new_cookiepolicy_snapshot',
-					true );
+				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time() );
 			}
 
 			//get database value for "default"
@@ -736,7 +735,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			} elseif ( ! $this->default && $db_default ) {
 				$this->remove_default();
 			}
-
 		}
 
 		/**
@@ -799,9 +797,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				) );
 
 				//clear all statistics regarding this banner
-				$wpdb->delete( $wpdb->prefix . 'cmplz_statistics', array(
-					'cookiebanner_id' => $this->id,
-				) );
+				$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}cmplz_statistics SET cookiebanner_id = 0 where poc_url=%s", $this->id) ;
+				$wpdb->query($sql);
 			}
 
 			return ! $error;
@@ -824,15 +821,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 //            //generate the stats
-			$statuses            = $this->get_statuses();
+			$statuses            = $this->get_available_categories();
 			$consenttypes        = cmplz_get_used_consenttypes();
 			$consenttypes['all'] = "all";
 
 			$stats = array();
 			foreach ( $consenttypes as $consenttype => $label ) {
 				foreach ( $statuses as $status ) {
-					$count                            = $this->get_count( $status,
-						$consenttype );
+					$count                            = $this->get_count( $status, $consenttype );
 					$stats[ $consenttype ][ $status ] = $count;
 				}
 			}
@@ -862,63 +858,54 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		}
 
 		/**
-		 * Get all possible statuses for the consent
-		 * With GTM integration this can be dynamic
-		 *
-		 * @param bool $exclude_no_warning if true, the status 'no-warning' will be excluded
-		 *
+		 * Get available categories, taking into account TM cats with labels
+		 * @param bool $labels
+		 * @param bool $exclude_no_warning
 		 * @return array
-		 * @since 2.0
-		 *
 		 */
 
-		public function get_statuses(
-			$exclude_no_warning = false, $consenttype = false
-		) {
-
+		public function get_available_categories( $labels = true, $exclude_no_warning = false){
 			//get all categories
-			$statuses = array();
-			if ( cmplz_get_value( 'use_country' ) ) {
-				$statuses[] = 'no-choice';
+			$available_cats = array(
+				'do_not_track' => __("Do Not Track", "complianz-gdpr"),
+				'no_choice' => __("No choice", "complianz-gdpr"),
+			);
+
+			if ( ! $exclude_no_warning && cmplz_get_value( 'use_country' )) {
+				$available_cats['no_warning'] = __("No warning", "complianz-gdpr");
 			}
 
-			if ( ! $exclude_no_warning ) {
-				$statuses[] = 'no-warning';
+			$available_cats['functional'] = __("Functional", "complianz-gdpr");
+
+			if (cmplz_consent_api_active() ) {
+				$available_cats['prefs'] = __("Preferences", "complianz-gdpr");
 			}
-			$statuses[] = 'functional';
+
+			if ( !COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+				$available_cats['stats'] = __( "Statistics", "complianz-gdpr" );
+			}
 
 			if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
-				$cats       = cmplz_get_value( 'tagmanager_categories'
-				                               . $this->id );
-				$categories = explode( ',', $cats );
-				foreach ( $categories as $index => $category ) {
-					//if the category is empty (e.g, none were entered), skip it.
-					if ( empty( $category ) ) {
+				$tm_cats = explode( ',', $this->tagmanager_categories );
+				foreach ( $tm_cats as $i => $tm_category ) {
+					if ( $i > 1 ) continue;
+					if ( empty( $tm_category ) ) {
 						continue;
 					}
-					$statuses[] = 'cmplz_event_' . $index;
+					$available_cats['event_'.$i] = trim( $tm_category );
 				}
-			} elseif ( $this->use_categories && $consenttype == 'optin' ) {
-				if ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-					$statuses[] = 'stats';
-				}
-			} elseif ( $this->use_categories_optinstats !== 'no'
-			           && $consenttype == 'optinstats'
-			) {
-				$statuses[] = 'stats';
 			}
 
-			if ( $consenttype === 'all' && ! in_array( 'stats', $statuses )
-			     && COMPLIANZ::$cookie_admin->cookie_warning_required_stats()
-			) {
-				$statuses[] = 'stats';
+			if ( cmplz_uses_marketing_cookies() ) {
+				$available_cats['marketing'] = __("Marketing", "complianz-gdpr");
 			}
 
-			$statuses[] = 'all';
+			if ( !$labels ) {
+				$available_cats = array_keys( $available_cats );
+			}
 
-			return $statuses;
+			return $available_cats;
 		}
-
 
 		/**
 		 * Check if current banner is the default, and if so move it to another banner.
@@ -986,8 +973,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 
 		/**
-		 * Get the conversion to marketing for a cookiebanner
-		 *
+		 * Get the conversion to marketing for a cookie banner
+		 * @param string $filter_consenttype
 		 * @return float percentage
 		 */
 
@@ -1011,8 +998,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$total = ( $total == 0 ) ? 1 : $total;
 				$score = ROUND( 100 * ( $all / $total ) );
 			} else {
-				$statuses = $this->get_statuses( true );
-
+				$statuses = $this->get_available_categories( false, true );
 				$total = 0;
 				$all   = 0;
 				foreach ( $statuses as $status ) {
@@ -1025,9 +1011,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				$total = ( $total == 0 ) ? 1 : $total;
-
 				$score = ROUND( 100 * ( $all / $total ) );
-
 				return $score;
 			}
 
@@ -1035,45 +1019,35 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		}
 
 		/**
-		 * Get the count for this status and consenttype.
+		 * Get the count for this category and consent type.
 		 *
-		 * @param $status
-		 * @param $consenttype
+		 * @param string $consent_category
+		 * @param string $consenttype
 		 *
 		 * @return int $count
 		 */
 
-		public function get_count( $status, $consenttype = false ) {
+		public function get_count( $consent_category, $consenttype ) {
+			$available_categories  = $this->get_available_categories( false );
+			$ab_testing_start_time = get_option('cmplz_tracking_ab_started');
+			//sanitize status
+			if ( !in_array( $consent_category, $available_categories ) ) return 0;
+
 			global $wpdb;
-			$status          = sanitize_title( $status );
 			$consenttype_sql = " AND consenttype='$consenttype'";
 
 			if ( $consenttype === 'all' ) {
 				$consenttypes    = cmplz_get_used_consenttypes();
-				$consenttype_sql = " AND (consenttype='"
-				                   . implode( "' OR consenttype='",
-						$consenttypes ) . "')";
+				$consenttype_sql = " AND (consenttype='" . implode( "' OR consenttype='", $consenttypes ) . "')";
 			}
 
-			$sql
-				= $wpdb->prepare( "SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE status = %s "
-				                  . $consenttype_sql, $status );
+			$sql = $wpdb->prepare("SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE time> %s AND $consent_category = 1 $consenttype_sql" , $ab_testing_start_time );
 			if ( cmplz_ab_testing_enabled() ) {
-				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s",
-					$this->id );
+				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s", $this->id );
 			}
 			$count = $wpdb->get_var( $sql );
 
 			return $count;
-		}
-
-		public function report_conversion_total_count( $statistics ) {
-			$total = 0;
-			foreach ( $statistics as $status => $count ) {
-				$total += $count;
-			}
-
-			return $total;
 		}
 
 		/**
@@ -1200,19 +1174,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			return apply_filters('cmplz_categories_html',$output, $context);
 		}
 
-		/**
-		 * Get the cookie domain, without https or end slash
-		 * @return string
-		 */
 
-		public function get_cookie_domain(){
-			$domain = str_replace(array('http://', 'https://'), '', cmplz_get_value('cookie_domain'));
-			if(substr($domain, -1) == '/') {
-				$domain = substr($domain, 0, -1);
-			}
-
-			return $domain;
-		}
 
 		/**
 		 * Get array to output to front-end
@@ -1220,22 +1182,18 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @return array
 		 */
 		public function get_settings_array() {
-
+			$records_of_consent = cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_on_scroll  = $this->dismiss_on_scroll ? 400 : false;
-			$this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000
-			                                                        * $this->dismiss_timeout
-				: false;
+			$this->dismiss_on_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 
 			$output = array(
 				'static'                    => false,
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
 				'set_cookies'               => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'        => cmplz_get_value('enable_cookieblocker_ajax'),
-				'set_cookies_on_root'       => cmplz_get_value( 'set_cookies_on_root' ),
-				'cookie_domain'             => $this->get_cookie_domain(),
 				'banner_version'            => $this->banner_version,
 				'version'                   => cmplz_version,
-				'a_b_testing'               => cmplz_ab_testing_enabled(),
+				'a_b_testing'               => cmplz_ab_testing_enabled() || $records_of_consent,
 				'do_not_track'              => apply_filters( 'cmplz_dnt_enabled', false ),
 				'consenttype'               => COMPLIANZ::$company->get_default_consenttype(),
 				'region'                    => COMPLIANZ::$company->get_default_region(),
@@ -1281,7 +1239,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => $this->dismiss_on_timeout,
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
-				'url'                       => add_query_arg('lang',  get_locale(), get_rest_url().'complianz/v1/' ),
+				'url'                       => add_query_arg('lang',  substr(get_locale(),0,2), get_rest_url().'complianz/v1/' ),
+				'set_cookies_on_root'       => cmplz_get_value( 'set_cookies_on_root' ),
+				'cookie_domain'             => COMPLIANZ::$cookie_admin->get_cookie_domain(),
 				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 				'cookie_path'               => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'                => cmplz_tcf_active(),

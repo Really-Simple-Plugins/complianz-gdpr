@@ -43,10 +43,13 @@ function cmplz_documents_rest_route() {
 
 function cmplz_rest_api_ajax_track_status(WP_REST_Request $request) {
 	$params = $request->get_json_params();
-	$status = isset($params['status']) ? sanitize_title($params['status']) : 'no-choice';
+	$consented_categories = isset($params['consented_categories']) ? array_map('sanitize_title', $params['consented_categories']) : array('no_choice');
 	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
 
-	do_action( 'cmplz_track_status', $status, $consenttype );
+	foreach($consented_categories as $key => $consented_category ) {
+		$consented_categories[$key] = str_replace('cmplz_', '', $consented_category);
+	}
+	do_action( 'cmplz_store_consent', $consented_categories, $consenttype );
 
 	$response = json_encode( array(
 		'success' => true,

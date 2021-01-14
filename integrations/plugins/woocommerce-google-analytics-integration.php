@@ -32,7 +32,7 @@ function cmplz_wc_google_analytics_integration_set_default( $value, $fieldname )
  *
  * @return bool|mixed
  */
-function cmplz_wc_google_uses_marketing_cookies( $uses_marketing_cookies ) {
+function cmplz_wc_google_analytics_integration_uses_marketing_cookies( $uses_marketing_cookies ) {
 	$settings = get_option('woocommerce_google_analytics_settings');
 	if ( $settings && isset( $settings['ga_support_display_advertising']) && $settings['ga_support_display_advertising'] === 'yes' ) {
 		$uses_marketing_cookies = true;
@@ -40,7 +40,7 @@ function cmplz_wc_google_uses_marketing_cookies( $uses_marketing_cookies ) {
 
 	return $uses_marketing_cookies;
 }
-add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_uses_marketing_cookies', 20, 2 );
+add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_analytics_integration_uses_marketing_cookies', 20, 2 );
 
 /**
  * Add markers to the statistics markers list
@@ -54,7 +54,7 @@ function cmplz_wc_google_analytics_integration_stats_markers( $markers ) {
 	$markers['google-analytics'][] = '_gaq.push';
 	$markers['google-analytics'][] = 'stats.g.doubleclick.net/dc.js';
 	$markers['google-analytics'][] = 'gaProperty';
-	
+
 	//we want TM to be treated as stats
 	$markers['google-analytics'][] = 'googletagmanager.com';
 
@@ -66,12 +66,12 @@ add_filter( 'cmplz_stats_markers', 'cmplz_wc_google_analytics_integration_stats_
  * Entirely remove tag manager blocking if anonymous
  */
 
-function cmplz_wc_google_analytics_drop_tm_blocking(){
+function cmplz_wc_google_analytics_integration_drop_tm_blocking(){
 	if ( COMPLIANZ::$cookie_admin->statistics_privacy_friendly() ) {
 		remove_filter( 'cmplz_known_script_tags', 'cmplz_googletagmanager_script' );
 	}
 }
-add_action( 'init', 'cmplz_wc_google_analytics_drop_tm_blocking');
+add_action( 'init', 'cmplz_wc_google_analytics_integration_drop_tm_blocking');
 
 /**
  * Block inline script
@@ -110,7 +110,7 @@ function cmplz_wc_google_analytics_integration_script_classes($classes){
 
 	return $classes;
 }
-add_filter( 'cmplz_statistics_script_classes', 'cmplz_wc_google_analytics_integration_script_classes', 10, 2 );
+add_filter( 'cmplz_statistics_script_classes', 'cmplz_wc_google_analytics_integration_script_classes', 10, 1 );
 
 /**
  * Remove stuff which is not necessary anymore

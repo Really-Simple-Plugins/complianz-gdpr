@@ -57,9 +57,10 @@ jQuery(document).ready(function ($) {
 	var cmplzAllScriptsHookFired = false;
 	var cmplzLocalhostWarningShown = false;
 	var cmplzCategories = [
-		'cmplz_marketing',
+		'cmplz_functional',
+		'cmplz_prefs',
 		'cmplz_stats',
-		'cmplz_prefs'
+		'cmplz_marketing',
 	];
 
 	/**
@@ -181,7 +182,7 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	var resizeTimer;
-	$(window).resize(function() {
+	$(window).on( "resize", function() {
 		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout( setBlockedContentContainer, 100);
 	});
@@ -568,6 +569,29 @@ jQuery(document).ready(function ($) {
 		conditionally_show_warning();
 	}
 
+	//when ab testing, or using records of consent, we want to keep track of the unique user id
+	if ( complianz.a_b_testing == 1 ) {
+		var cmplz_id_cookie = cmplzGetCookie('cmplz_id');
+		var cmplz_id_session = '';
+		var cmplz_id = '';
+		if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_id) {
+			cmplz_id_session = JSON.parse(sessionStorage.cmplz_id);
+		}
+
+		if ( cmplz_id_cookie.length == 0 && cmplz_id_session.length > 0 ) {
+			cmplz_id = cmplz_id_session;
+		}
+
+		if ( cmplz_id_cookie.length > 0 && cmplz_id_session.length == 0 ) {
+			cmplz_id = cmplz_id_cookie;
+		}
+
+		if ( typeof (Storage) !== "undefined" ) {
+			sessionStorage.cmplz_id = JSON.stringify(cmplz_id);
+		}
+		cmplzSetCookie('cmplz_id', cmplz_id, complianz.cookie_expiry )
+	}
+
 	function conditionally_show_warning() {
 		//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 		//objects are merged so user_data will override data in complianz object
@@ -608,13 +632,13 @@ jQuery(document).ready(function ($) {
 		if (cmplzGetCookie('cmplz_choice') !== 'set') {
 			//for Non optin/optout visitors, and DNT users, we just track the no-warning option
 			if (complianz.do_not_track || (complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout')) {
-				complianz_track_status('no-warning');
+				complianz_track_status('no_warning');
 			} else if (complianz.consenttype === 'optout') {
 				//for opt out visitors, so consent by default
-				complianz_track_status('marketing');
+				complianz_track_status('all');
 			} else {
 				//all others (eu): no choice yet.
-				complianz_track_status('no-choice');
+				complianz_track_status('no_choice');
 			}
 		}
 
@@ -1040,7 +1064,7 @@ jQuery(document).ready(function ($) {
 		//track status on saving of settings.
 		complianz_track_status();
 		if (complianz.use_categories !== 'no') {
-			if (cmplzGetHighestAcceptance() === 'no-choice' || cmplzGetHighestAcceptance() === 'functional') {
+			if (cmplzGetHighestAcceptance() === 'no_choice' || cmplzGetHighestAcceptance() === 'functional') {
 				cmplzRevoke();
 			}
 		}
@@ -1059,12 +1083,25 @@ jQuery(document).ready(function ($) {
 	 * @param status
 	 */
 
-	function complianz_track_status(status) {
+	function complianz_track_status( status ) {
+		var cats = [];
+		var consentClass = '';
 		status = typeof status !== 'undefined' ? status : false;
-		if (!status) status = cmplzGetHighestAcceptance();
 
-		if (status) setStatusAsBodyClass(status);
+		if ( !status ) {
+			cats = cmplzAcceptedCategories();
+			consentClass = cmplzGetHighestAcceptance();
+		} else {
+			if ( status === 'all' ) {
+				cats = cmplzCategories;
+			} else {
+				cats = [status];
+			}
 
+			consentClass = status;
+		}
+
+		setStatusAsBodyClass(consentClass);
 		if ( complianz.a_b_testing != 1 ) return;
 
 		//keep track of the fact that the status was saved at least once, for the no choice status
@@ -1072,7 +1109,7 @@ jQuery(document).ready(function ($) {
 		var request = new XMLHttpRequest();
 		request.open('POST', complianz.url.replace('/v1', '/v1/track'), true);
 		var data = {
-			'status': status,
+			'consented_categories': cats,
 			'consenttype': complianz.consenttype
 		};
 
@@ -1118,15 +1155,10 @@ jQuery(document).ready(function ($) {
 				}
 			}
 
-			var cmplzCategories = [
-				'cmplz_marketing',
-				'cmplz_stats',
-				'cmplz_prefs'
-			];
-
 			for (var key in cmplzCategories) {
 				if (cmplzCategories.hasOwnProperty(key)) {
 					var cat = cmplzCategories[key];
+					if ( cat === 'cmplz_functional' ) {continue}
 					$('.'+cat).each(function(){
 						$(this).prop('checked', false);
 					});
@@ -1266,7 +1298,7 @@ jQuery(document).ready(function ($) {
 	 * @returns {*}
 	 */
 	function cmplzGetCookiePath(){
-		return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path : '';
+		return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path : '/';
 	}
 
 	/**
@@ -1324,43 +1356,82 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzGetHighestAcceptance() {
-		//if all is selected, it's automatically the highest
-		var status = cmplzGetCookie('complianz_consent_status');
-		//optout has different rules
-		if (status === 'allow' || (status !== 'deny' && complianz.consenttype === 'optout')) {
-			return 'marketing';
-		}
-
-		//the below blocks apply only to categories, but as categories are also used in the cookie policy
-		//we check them also in case of accept/deny
-		if (cmplzGetCookie('cmplz_marketing') === 'allow') {
+		var consentedCategories = cmplzAcceptedCategories();
+		if (cmplzInArray( 'cmplz_marketing', consentedCategories )) {
 			return 'marketing';
 		}
 
 		if (complianz.tm_categories) {
 			for (var i = complianz.cat_num - 1; i >= 0; i--) {
-				if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
+				if (cmplzInArray( 'cmplz_event_' + i, consentedCategories )) {
 					return 'cmplz_event_' + i;
 				}
 			}
 		}
 
-		if (cmplzGetCookie('cmplz_stats') === 'allow') {
+		if (cmplzInArray( 'cmplz_stats', consentedCategories )) {
 			return 'stats';
 		}
 
-		if (cmplzGetCookie('cmplz_prefs') === 'allow') {
+		if (cmplzInArray( 'cmplz_prefs', consentedCategories )) {
 			return 'prefs';
 		}
 
-
-
-		if (status === 'dismiss') {
+		if (cmplzInArray( 'cmplz_functional', consentedCategories )) {
 			return 'functional';
 		}
 
-		return 'no-choice';
+		return 'no_choice';
 	}
+
+	/**
+	 * Get accepted categories
+	 *
+	 * @returns {string}
+	 */
+	function cmplzAcceptedCategories() {
+		var userMadeChoice = cmplzGetCookie('cmplz_choice') === 'set';
+
+		if (!userMadeChoice) {
+			return ['no_choice'];
+		}
+
+		var consentedCategories = cmplzCategories;
+		var consentedTemp = [];
+		var status = cmplzGetCookie('complianz_consent_status');
+		if ( status === 'allow' || (status !== 'deny' && complianz.consenttype === 'optout') ) {
+			return consentedCategories;
+		}
+
+		//because array filter changes keys, we make a temp arr
+		for (var key in consentedCategories) {
+			if ( consentedCategories.hasOwnProperty(key) ){
+				var cat = consentedCategories[key];
+				if ( cmplzGetCookie(cat) === 'allow' || cat === 'cmplz_functional' ) {
+					consentedTemp.push(cat);
+				}
+			}
+		}
+
+		consentedCategories = consentedCategories.filter(function(value, index, consentedCategories){
+			return cmplzInArray(value, consentedTemp);
+		});
+
+		if ( complianz.tm_categories ) {
+			for (var i = complianz.cat_num - 1; i >= 0; i--) {
+				if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
+					consentedCategories.push('cmplz_event_' + i);
+				}
+			}
+			//for tm cats, we skip the stats cat
+			consentedCategories = consentedCategories.filter(function(value, index, consentedCategories){
+				return value !== 'cmplz_stats';
+			});
+		}
+
+		return consentedCategories;
+	}
+
 
 	/**
 	 * Fire the categories events which have been accepted.
@@ -1455,6 +1526,7 @@ jQuery(document).ready(function ($) {
 		for (var key in cmplzCategories) {
 			if (cmplzCategories.hasOwnProperty(key)) {
 				var cat = cmplzCategories[key];
+				if ( cat === 'cmplz_functional' ) {continue}
 				if (cmplzGetCookie(cat) === 'allow' || force) {
 					$('.'+cat).each(function(){
 						$(this).prop('checked', true);
@@ -1579,12 +1651,12 @@ jQuery(document).ready(function ($) {
 		var consentLevel = cmplzGetHighestAcceptance();
 		var reload = false;
 
-		if (consentLevel !== 'no-choice' && consentLevel !== 'functional' ) {
+		if (consentLevel !== 'no_choice' && consentLevel !== 'functional' ) {
 			reload = true;
 		}
 
 		//accept deny variant should reload if current level is no choice.
-		if (consentLevel === 'no-choice' && complianz.use_categories === 'no' ) {
+		if (consentLevel === 'no_choice' && complianz.use_categories === 'no' ) {
 			reload = true;
 		}
 
