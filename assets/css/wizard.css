@@ -1436,4 +1436,7 @@ input.cmplz.button .fa-angle-right {
   vertical-align: middle;
   margin-left: 2px;
 }
+input.current-page {
+  width: initial;
+}
 /*# sourceMappingURL=wizard.css.map */

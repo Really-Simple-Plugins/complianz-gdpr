@@ -1502,7 +1502,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_after_label', $args ); ?>
 			<select <?php if ( $args['required'] ) {
 				echo 'required';
-			} ?> name="<?php echo esc_html( $fieldname ) ?>">
+			} ?> <?php if ($args['disabled']) echo "disabled";?> name="<?php echo esc_html( $fieldname ) ?>">
 				<option value=""><?php _e( "Choose an option",
 						'complianz-gdpr' ) ?></option>
 				<?php foreach (

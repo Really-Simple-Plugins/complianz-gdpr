@@ -34,7 +34,6 @@ $this->steps = apply_filters('cmplz_steps',array(
 					),
 					6 => array(
 						'title' => __( 'Purpose', 'complianz-gdpr' ),
-						//'intro' => _x( 'In this section information regarding the purpose of processing personal data is asked.  ', 'intro purpose', 'complianz-gdpr'),
 					),
 					8 => array(
 						'region' => array( 'us' ),
@@ -42,7 +41,9 @@ $this->steps = apply_filters('cmplz_steps',array(
 						'title'  => __( 'Details per purpose',
 							'complianz-gdpr' ),
 					),
-
+					11 => array(
+						'title' => __('Security & Consent', 'complianz-gdpr'),
+					),
 				),
 			),
 
@@ -66,7 +67,6 @@ $this->steps = apply_filters('cmplz_steps',array(
 					),
 					4 => array(
 						'title' => __( 'Integrations', 'complianz-gdpr' ),
-						//'intro' => _x('You can add scripts that should be activated whenever someone accepts the cookie policy. In the third party iframes and scripts sections, you can add URLs from third party scripts that should be blocked until the cookie warning is accepted.', 'intro cookie usage', 'complianz-gdpr'),
 					),
 
 					5 => array(

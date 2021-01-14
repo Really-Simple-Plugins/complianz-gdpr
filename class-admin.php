@@ -202,20 +202,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					$cookie_settings );
 			}
 
-
-			/*
-			 * Upgrade to new cookie banner database table
-			 *
-			 * */
-
-
-			if ( $prev_version
-			     && version_compare( $prev_version, '3.0.0', '<' )
-			) {
-				COMPLIANZ::$cookie_admin->migrate_legacy_cookie_settings();
-
-			}
-
 			/*
 			 * Merge address data into one field for more flexibility
 			 * */
@@ -788,15 +774,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'manage_options',
 				"cmplz-settings",
 				array( $this, 'settings' )
-			);
-
-			add_submenu_page(
-				'complianz',
-				__( 'Proof of consent', 'complianz-gdpr' ),
-				__( 'Proof of consent', 'complianz-gdpr' ),
-				'manage_options',
-				"cmplz-proof-of-consent",
-				array( COMPLIANZ::$cookie_admin, 'cookie_statement_snapshots' )
 			);
 
 			do_action( 'cmplz_admin_menu' );

@@ -23,6 +23,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'citadela-directory' => array(
+			'constant_or_function' => 'CITADELA_DIRECTORY_LITE_PLUGIN',
+			'label'                => 'Citadela Directory',
+			'firstparty_marketing' => false,
+	),
+
 	'nudgify'          => array(
 		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
 		'label'                => 'Nudgify',

@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR/CCPA Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 4.9.1
+ * Version: 4.9.2
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
  * Author: Really Simple Plugins
@@ -77,6 +77,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $document;
 		public static $cookie_blocker;
 		public static $DNSMPD;
+		public static $proof_of_consent;
 
 		private function __construct() {
 			self::setup_constants();
@@ -98,9 +99,10 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$tour            = new cmplz_tour();
 			}
 
-			self::$cookie_admin = new cmplz_cookie_admin();
-			self::$document     = new cmplz_document();
-			self::$cookie_blocker = new cmplz_cookie_blocker();
+			self::$proof_of_consent = new cmplz_proof_of_consent();
+			self::$cookie_admin     = new cmplz_cookie_admin();
+			self::$document         = new cmplz_document();
+			self::$cookie_blocker   = new cmplz_cookie_blocker();
 		}
 
 		/**
@@ -166,6 +168,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			require_once( cmplz_path . 'cookie/class-cookie.php' );
 			require_once( cmplz_path . 'cookie/class-service.php' );
 			require_once( cmplz_path . 'integrations/integrations.php' );
+			require_once( cmplz_path . 'cron/cron.php' );
 
 			/* Gutenberg block */
 			if ( cmplz_uses_gutenberg() ) {
@@ -184,7 +187,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'shepherd/tour.php' );
 			}
 
-			require_once( cmplz_path . 'cron/cron.php' );
+			require_once( cmplz_path . 'proof-of-consent/class-proof-of-consent.php' );
 			require_once( cmplz_path . 'cookiebanner/class-cookiebanner.php' );
 			require_once( cmplz_path . 'cookie/class-cookie-admin.php' );
 			require_once( cmplz_path . 'class-company.php' );
