@@ -1392,12 +1392,6 @@ jQuery(document).ready(function ($) {
 	 * @returns {string}
 	 */
 	function cmplzAcceptedCategories() {
-		var userMadeChoice = cmplzGetCookie('cmplz_choice') === 'set';
-
-		if (!userMadeChoice) {
-			return ['no_choice'];
-		}
-
 		var consentedCategories = cmplzCategories;
 		var consentedTemp = [];
 		var status = cmplzGetCookie('complianz_consent_status');
