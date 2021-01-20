@@ -25,6 +25,8 @@
 * */
 
 jQuery(document).ready(function ($) {
+	//prevent caching of the WP Rest API by varnish or other caching tools
+	complianz.url = complianz.url + '&token='+Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
 	/**
 	 * CustomEvent() polyfill
@@ -933,8 +935,6 @@ jQuery(document).ready(function ($) {
 				cmplzSyncCategoryCheckboxes();
 			}
 
-			cmplzFireCategories();
-
 			/** We cannot run this on the initialize, as that hook runs only after a dismiss or accept choice
 			 *
 			 * If this is opt out, and cookies have not been denied, we run all cookies.
@@ -944,6 +944,8 @@ jQuery(document).ready(function ($) {
 
 			if (complianz.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
 				cmplzFireCategories('all');
+			} else {
+				cmplzFireCategories();
 			}
 
 			//if we're on the cookie policy page, we dynamically load the applicable revoke checkbox
@@ -994,7 +996,7 @@ jQuery(document).ready(function ($) {
 			dismissCookieWall();
 		}
 		// //dismiss the banner after saving, so it won't show on next page load
-		if ( complianz.use_categories ) ccName.setStatus('dismiss');
+		if ( complianz.use_categories !== 'no' ) ccName.setStatus('dismiss');
 
 		//check if status is changed from 'allow' to 'revoked'
 		var reload = false;
@@ -1197,6 +1199,7 @@ jQuery(document).ready(function ($) {
 		$('.cmplz_marketing').each(function(){
 			$(this).prop('checked', true);
 		});
+
 		cmplzFireCategories('marketing', true);
 		cmplzSaveCategoriesSelection();
 		cmplzEnableMarketing();
@@ -1651,8 +1654,8 @@ jQuery(document).ready(function ($) {
 			reload = true;
 		}
 
-		//accept deny variant should reload if current level is no choice.
-		if (consentLevel === 'no_choice' && complianz.use_categories === 'no' ) {
+		//accept deny variant should reload if current level is functional.
+		if (consentLevel === 'functional' && complianz.use_categories === 'no' ) {
 			reload = true;
 		}
 

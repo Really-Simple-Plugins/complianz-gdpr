@@ -6,6 +6,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		private static $_this;
 		public $position;
 		public $cookies = array();
+
 		function __construct() {
 			if ( isset( self::$_this ) ) {
 				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
@@ -40,7 +41,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 			}
 
-            //cookie script for styling purposes on backend
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
 			add_action( 'wp_head', array( $this, 'detect_conflicts' ) );
@@ -78,19 +78,27 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Only for site admins
 		 */
 
-		public function detect_conflicts(){
+		public function detect_conflicts() {
 
-			if ( !cmplz_user_can_manage() ) return;
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 
 			//no back-end warnings
-			if ( is_admin() ) return;
+			if ( is_admin() ) {
+				return;
+			}
 
 			//not when scan runs
-			if ( isset( $_GET['complianz_scan_token'] ) ) return;
+			if ( isset( $_GET['complianz_scan_token'] ) ) {
+				return;
+			}
 
-			if ( !$this->site_needs_cookie_warning() ) return;
+			if ( ! $this->site_needs_cookie_warning() ) {
+				return;
+			}
 
-			$nonce = wp_create_nonce('cmplz-detect-errors');
+			$nonce = wp_create_nonce( 'cmplz-detect-errors' );
 			?>
 			<script type="text/javascript">
 				var cmplz_jquery_detected = 'jquery-detected';
@@ -100,13 +108,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				var request = new XMLHttpRequest();
 				request.open('POST', '<?php echo add_query_arg(
 					array(
-						'type' => 'jquery',
-						'nonce' => $nonce,
-						'action'=>'cmplz_store_console_errors'
+						'type'   => 'jquery',
+						'nonce'  => $nonce,
+						'action' => 'cmplz_store_console_errors'
 					),
-					admin_url('admin-ajax.php')
+					admin_url( 'admin-ajax.php' )
 				)
-				?>', true);
+					?>', true);
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 				request.send(cmplz_jquery_detected);
 				var error_ocurred = false;
@@ -115,13 +123,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					var request = new XMLHttpRequest();
 					request.open('POST', '<?php echo add_query_arg(
 						array(
-							'type' => 'errors',
-							'nonce' => $nonce,
-							'action'=>'cmplz_store_console_errors'
+							'type'   => 'errors',
+							'nonce'  => $nonce,
+							'action' => 'cmplz_store_console_errors'
 						),
-						admin_url('admin-ajax.php')
+						admin_url( 'admin-ajax.php' )
 					)
-					?>', true);
+						?>', true);
 					var data = [];
 					data.push(msg);
 					data.push(lineNo);
@@ -136,11 +144,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						var request = new XMLHttpRequest();
 						request.open('POST', '<?php echo add_query_arg(
 							array(
-								'type' => 'errors',
-								'nonce' => $nonce,
-								'action'=>'cmplz_store_console_errors'
+								'type'   => 'errors',
+								'nonce'  => $nonce,
+								'action' => 'cmplz_store_console_errors'
 							),
-							admin_url('admin-ajax.php')
+							admin_url( 'admin-ajax.php' )
 						)
 							?>', true);
 						var data = [];
@@ -159,28 +167,34 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Only for site admins
 		 */
 
-		public function store_console_errors(){
-			if ( !cmplz_user_can_manage() ) return;
+		public function store_console_errors() {
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 
-			if ( !$this->site_needs_cookie_warning() ) return;
+			if ( ! $this->site_needs_cookie_warning() ) {
+				return;
+			}
 			$success = false;
 
-			if ( isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'cmplz-detect-errors') ) {
+			if ( isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz-detect-errors' ) ) {
 				if ( $_GET['type'] === 'jquery' ) {
-					if (isset($_POST['no-jquery-detected'])){
-						update_option('cmplz_detected_missing_jquery', true );
+					if ( isset( $_POST['no-jquery-detected'] ) ) {
+						update_option( 'cmplz_detected_missing_jquery', true );
 					} else {
-						update_option('cmplz_detected_missing_jquery', false );
+						update_option( 'cmplz_detected_missing_jquery', false );
 					}
 				} else {
-					if ( isset($_POST['no-errors']) ){
-						update_option('cmplz_detected_console_errors', false);
+					if ( isset( $_POST['no-errors'] ) ) {
+						update_option( 'cmplz_detected_console_errors', false );
 						$success = true;
 					} else {
-						$errors = array_keys(array_map('sanitize_text_field', $_POST));
-						if (count($errors)>0){
-							$errors = explode(',', str_replace( site_url(),'',$errors[0]) );
-							if ( isset($errors[1]) && $errors[1] != 0 ) update_option('cmplz_detected_console_errors', $errors);
+						$errors = array_keys( array_map( 'sanitize_text_field', $_POST ) );
+						if ( count( $errors ) > 0 ) {
+							$errors = explode( ',', str_replace( site_url(), '', $errors[0] ) );
+							if ( isset( $errors[1] ) && $errors[1] != 0 ) {
+								update_option( 'cmplz_detected_console_errors', $errors );
+							}
 							$success = true;
 						}
 					}
@@ -519,7 +533,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			) );
 			$status = $cookie->showOnPolicy && ! $cookie->ignored ? 'success' : 'disabled';
 
-			$icons  .= $this->get_icon( array(
+			$icons .= $this->get_icon( array(
 				'status'        => $status,
 				'icon_success'  => 'file',
 				'desc_success'  => __( "This cookie will be on your Cookie Policy",
@@ -529,7 +543,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			) );
 
 			//don't set the status if cookie scan is disabled
-			$status = $cookie->old && !$this->automatic_cookiescan_disabled() ? 'error' : 'success';
+			$status = $cookie->old && ! $this->automatic_cookiescan_disabled() ? 'error' : 'success';
 
 			$icons .= $this->get_icon( array(
 				'status'       => $status,
@@ -902,8 +916,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				$tmpl = cmplz_get_template( $type . '_settings.php' );
 				//create empty set, to use for ajax
-				$services = $this->get_services_options( '', $language );
-				$purposes = $this->get_cookiePurpose_options( '', $language );
+				$services     = $this->get_services_options( '', $language );
+				$purposes     = $this->get_cookiePurpose_options( '', $language );
 				$serviceTypes = $this->get_serviceTypes_options( '', $language );
 
 				if ( $type === 'cookie' ) {
@@ -992,28 +1006,35 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Runs each used cookies overview pageload to check if any new languages were added in the meantime.
+		 *
 		 * @hooked admin_init
 		 */
 
 		public function ensure_cookies_in_all_languages() {
-			if ( !cmplz_user_can_manage() ) return;
-			if ( !isset( $_GET['step']) || $_GET['step'] != STEP_COOKIES ) return;
-			if ( !isset( $_GET['section']) || $_GET['section'] != 5 ) return;
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
+			if ( ! isset( $_GET['step'] ) || $_GET['step'] != STEP_COOKIES ) {
+				return;
+			}
+			if ( ! isset( $_GET['section'] ) || $_GET['section'] != 5 ) {
+				return;
+			}
 
-			$data  = $this->get_syncable_cookies(true);
+			$data = $this->get_syncable_cookies( true );
 
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
 				return;
 			}
 
-			if ( !isset($data['en']) ) {
+			if ( ! isset( $data['en'] ) ) {
 				return;
 			}
 
 			//get english cookies
 			$en_cookie_data = $data['en'];
-			$languages = $this->get_supported_languages( );
+			$languages      = $this->get_supported_languages();
 			foreach ( $languages as $language ) {
 
 				if ( $language === 'en' ) {
@@ -1023,7 +1044,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				//make sure each cookie is available in all languages
 				foreach ( $en_cookie_data as $service_name => $en_cookies ) {
 					foreach ( $en_cookies as $cookie_name ) {
-						$en_cookie = new CMPLZ_COOKIE( $cookie_name );
+						$en_cookie         = new CMPLZ_COOKIE( $cookie_name );
 						$translated_cookie = new CMPLZ_COOKIE( $cookie_name, $language );
 						if ( ! $translated_cookie->ID ) {
 							$translated_cookie->isTranslationFrom = $en_cookie->ID;
@@ -1048,11 +1069,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Runs once a week to check if the CDB should be synced
+		 *
 		 * @param bool $running_after_services
+		 *
 		 * @hooked cmplz_every_week_hook
 		 */
 
-		public function maybe_sync_cookies($running_after_services = false) {
+		public function maybe_sync_cookies( $running_after_services = false ) {
 			if ( ! wp_doing_cron() && ! current_user_can( 'manage_options' ) ) {
 				return 'No permissions';
 			}
@@ -1110,7 +1133,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				$result = curl_exec( $ch );
 
-				if ( $result === FALSE ) {
+				if ( $result === false ) {
 					$error = true;
 				}
 
@@ -1227,7 +1250,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$this->update_sync_date();
 			}
 
-			if ($running_after_services ) {
+			if ( $running_after_services ) {
 				update_option( 'cmplz_sync_cookies_after_services_complete', true );
 			} else {
 				update_option( 'cmplz_sync_cookies_complete', true );
@@ -1265,53 +1288,54 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Get cookies to be synced
+		 *
 		 * @param false $ignore_time_limit
 		 *
 		 * @return array
 		 */
 
 		public function get_syncable_cookies( $ignore_time_limit = false ) {
-			$languages          = $this->get_supported_languages();
-			$data               = array();
-			$thirdparty_cookies = array();
+			$languages            = $this->get_supported_languages();
+			$data                 = array();
+			$thirdparty_cookies   = array();
 			$localstorage_cookies = array();
 
 			$count_all    = 0;
 			$one_week_ago = strtotime( "-1 week" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language );
-				if ( !$ignore_time_limit && ! wp_doing_cron()
+				if ( ! $ignore_time_limit && ! wp_doing_cron()
 				     && ! defined( 'CMPLZ_SKIP_WEEK_CHECK' )
 				) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}
-				$cookies = $this->get_cookies( $args );
-				$cookies = wp_list_pluck( $cookies, 'name' );
+				$cookies   = $this->get_cookies( $args );
+				$cookies   = wp_list_pluck( $cookies, 'name' );
 				$count_all += count( $cookies );
-				$index = 0;
+				$index     = 0;
 				foreach ( $cookies as $cookie ) {
-					$c = new CMPLZ_COOKIE( $cookie, $language );
+					$c    = new CMPLZ_COOKIE( $cookie, $language );
 					$slug = $c->slug ? $c->slug : $index;
 					//pass the type to the CDB
-					if ($c->type === 'localstorage') {
+					if ( $c->type === 'localstorage' ) {
 						$localstorage_cookies[] = $cookie;
 					}
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
 						$service = new CMPLZ_SERVICE( $c->service );
-						if ( $service->thirdParty || $service->secondParty) {
+						if ( $service->thirdParty || $service->secondParty ) {
 							$thirdparty_cookies[] = $cookie;
 						}
-						$data[ $language ][ $c->service ][$slug] = $cookie;
+						$data[ $language ][ $c->service ][ $slug ] = $cookie;
 					} else {
-						$data[ $language ]['no-service-set'][$slug] = $cookie;
+						$data[ $language ]['no-service-set'][ $slug ] = $cookie;
 					}
-					$index++;
+					$index ++;
 				}
 			}
 
-			$data['count'] = $count_all;
-			$data['thirdpartyCookies'] = $thirdparty_cookies;
+			$data['count']               = $count_all;
+			$data['thirdpartyCookies']   = $thirdparty_cookies;
 			$data['localstorageCookies'] = $localstorage_cookies;
 
 			return $data;
@@ -1319,13 +1343,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Get the cookie domain, without https or end slash
+		 *
 		 * @return string
 		 */
 
-		public function get_cookie_domain(){
-			$domain = str_replace(array('http://', 'https://'), '', cmplz_get_value('cookie_domain'));
-			if(substr($domain, -1) == '/') {
-				$domain = substr($domain, 0, -1);
+		public function get_cookie_domain() {
+			$domain = str_replace( array( 'http://', 'https://' ), '', cmplz_get_value( 'cookie_domain' ) );
+			if ( substr( $domain, - 1 ) == '/' ) {
+				$domain = substr( $domain, 0, - 1 );
 			}
 
 			return $domain;
@@ -1394,7 +1419,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				$result = curl_exec( $ch );
 
-				if ( $result === FALSE ) {
+				if ( $result === false ) {
 					$error = true;
 				}
 
@@ -1460,12 +1485,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 						$service->lastUpdatedDate = time();
 
-						$service->save(false, false);
+						$service->save( false, false );
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
 						//get the cookies only if it's third party service. Otherwise, just sync the service itself.
-						if ( $service->thirdParty || $service->secondParty
-						     && isset( $service_and_cookies->cookies )
+						if ( $service->thirdParty
+						     || $service->secondParty
+						        && isset( $service_and_cookies->cookies )
 						) {
 							$cookies = $service_and_cookies->cookies;
 							if ( ! is_array( $cookies ) ) {
@@ -1519,14 +1545,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							$parent_service           = new CMPLZ_SERVICE( $service->name,
 								'en' );
 							$service->lastUpdatedDate = time();
-							$parent_service->save(false, false);
+							$parent_service->save( false, false );
 							$isTranslationFrom[ $service->name ]
 								= $parent_service->ID;
 						}
 
 						$service->isTranslationFrom
 							= $isTranslationFrom[ $service->name ];
-						$service->save(false, false);
+						$service->save( false, false );
 
 					}
 
@@ -1703,7 +1729,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				update_option( 'cmplz_detected_social_media', false );
 				update_option( 'cmplz_detected_thirdparty_services', false );
 				update_option( 'cmplz_detected_stats', false );
-				$this->reset_pages_list(false, true);
+				$this->reset_pages_list( false, true );
 			}
 		}
 
@@ -1738,6 +1764,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Start a new sync
+		 *
 		 * @param bool $force
 		 */
 
@@ -1822,7 +1849,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! isset( $_GET['complianz_scan_token'] ) ) {
 				$deps = array( 'jquery' );
-				if (cmplz_tcf_active()){
+				if ( cmplz_tcf_active() ) {
 					$deps[] = 'cmplz-tcf';
 				}
 				if ( cmplz_has_async_documentwrite_scripts() ) {
@@ -1869,11 +1896,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * On multisite, we want to get the policy consistent across sites
+		 *
 		 * @return int
 		 */
 
 		public function get_active_policy_id() {
-			if (is_multisite()) {
+			if ( is_multisite() ) {
 				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
 			} else {
 				$policy_id = get_option( 'complianz_active_policy_id', 1 );
@@ -1892,7 +1920,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function upgrade_active_policy_id() {
-			if (is_multisite()) {
+			if ( is_multisite() ) {
 				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
 			} else {
 				$policy_id = get_option( 'complianz_active_policy_id', 1 );
@@ -1900,7 +1928,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$policy_id ++;
 
-			if (is_multisite()) {
+			if ( is_multisite() ) {
 				update_site_option( 'complianz_active_policy_id', $policy_id );
 			} else {
 				update_option( 'complianz_active_policy_id', $policy_id );
@@ -1924,33 +1952,36 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if we're in a subfolder setup (home_url consists of domain+path, e.g. domain.com/sub)
+		 *
 		 * @return string $path //$path should at least contain a '/', for root application.
 		 */
 
-		public function get_cookie_path(){
+		public function get_cookie_path() {
 			//if cookies are to be set on the root, don't send a path
 
-			if ( cmplz_get_value( 'set_cookies_on_root') ||
-				function_exists( 'pll__' ) ||
-				function_exists( 'icl_translate' )
+			if ( cmplz_get_value( 'set_cookies_on_root' )
+			     || function_exists( 'pll__' )
+			     || function_exists( 'icl_translate' )
 			) {
 				return apply_filters( 'cmplz_cookie_path', '/' );
 			}
 
-			$domain = home_url();
-			$parse = parse_url($domain);
+			$domain      = home_url();
+			$parse       = parse_url( $domain );
 			$root_domain = $parse['host'];
-			$path = str_replace(array('http://', 'https://', $root_domain), '', $domain );
+			$path        = str_replace( array( 'http://', 'https://', $root_domain ), '', $domain );
+
 			return apply_filters( 'cmplz_cookie_path', trailingslashit( $path ) );
 		}
 
 
 		/**
 		 * The classes that are passed to the statistics script determine if these are executed immediately or not.
+		 *
 		 * @return array
 		 **/
 
-		public function get_statistics_script_classes( ) {
+		public function get_statistics_script_classes() {
 			//if a cookie warning is needed for the stats we don't add a native class, so it will be disabled by the cookie blocker by default
 			$classes[]       = 'cmplz-stats';
 			$uses_tagmanager = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
@@ -1967,6 +1998,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$classes[] = 'cmplz-native';
 				}
 			}
+
 			return apply_filters( 'cmplz_statistics_script_classes', $classes );
 		}
 
@@ -1985,7 +2017,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$stats_tags = COMPLIANZ::$config->stats_markers;
 			foreach ( $stats_tags as $type => $markers ) {
 				if ( in_array( $found, $markers ) ) {
-					$class = $class . " " . implode( " ", $this->get_statistics_script_classes( ) );
+					$class = $class . " " . implode( " ", $this->get_statistics_script_classes() );
 				}
 			}
 
@@ -1998,74 +2030,86 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function inline_cookie_script() {
 			//based on the script classes, the statistics will get added on consent, or without consent
-			$classes = $this->get_statistics_script_classes();
+			$classes    = $this->get_statistics_script_classes();
 			$statistics = cmplz_get_value( 'compile_statistics' );
-			$fields = COMPLIANZ::$config->fields();
+			$fields     = COMPLIANZ::$config->fields();
 
-			$configured_by_complianz = isset($fields['configuration_by_complianz']) && cmplz_get_value( 'configuration_by_complianz' ) !== 'no';
+			$configured_by_complianz = isset( $fields['configuration_by_complianz'] ) && cmplz_get_value( 'configuration_by_complianz' ) !== 'no';
 			do_action( 'cmplz_before_statistics_script' );
 
 			/**
 			 * Tag manager needs to be included with text/javascript, as it always needs to fire.
 			 * All other scripts will be included with the appropriate tags, and fired when possible
 			 */
-			$stats_comment = '<!-- Statistics script Complianz GDPR/CCPA -->'."\n";
-			$script_comment = '<!-- Script Center scripts Complianz GDPR/CCPA -->'."\n";
+			$stats_comment  = '<!-- Statistics script Complianz GDPR/CCPA -->' . "\n";
+			$script_comment = '<!-- Script Center scripts Complianz GDPR/CCPA -->' . "\n";
 			if ( $configured_by_complianz ) {
 
 				if ( $statistics === 'google-tag-manager' ) {
 					echo $stats_comment;
-					?><script type="text/javascript" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_tagmanager_script' );?></script><?php
+					?>
+					<script type="text/javascript" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_tagmanager_script' ); ?></script><?php
 				} else {
-					$type = in_array( 'cmplz-native', $classes) ? 'text/javascript' : 'text/plain';
+					$type = in_array( 'cmplz-native', $classes ) ? 'text/javascript' : 'text/plain';
 					echo $stats_comment;
-					?><script type="<?php echo $type?>" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_statistics_script' );?></script><?php
+					?>
+					<script type="<?php echo $type ?>" class="<?php echo implode( " ", $classes ) ?>"><?php do_action( 'cmplz_statistics_script' ); ?></script><?php
 				}
 			}
 
-			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) return;
+			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) {
+				return;
+			}
 
 			//scripts that should get executed on consent here
 			$script = cmplz_get_value( 'cookie_scripts' );
-			if ( strlen($script) >0 ){
+			if ( strlen( $script ) > 0 ) {
 				echo $script_comment;
-				?><script class="cmplz-script" type="text/plain"><?php echo $script; ?></script><?php
+				?>
+				<script class="cmplz-script" type="text/plain"><?php echo $script; ?></script><?php
 			}
 
 			//stats scripts that should get executed on consent here
 			$stats_script = cmplz_get_value( 'statistics_script' );
-			if ( strlen($stats_script) >0 ){
+			if ( strlen( $stats_script ) > 0 ) {
 				echo $stats_comment;
-				?><script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
+				?>
+				<script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
 			}
 
 
 			$script_async = cmplz_get_value( 'cookie_scripts_async' );
-			if ( strlen($script_async) >0 ){
+			if ( strlen( $script_async ) > 0 ) {
 				echo $script_comment;
-				?><script class="cmplz-script" type="text/plain" async><?php echo $script_async; ?></script><?php
+				?>
+				<script class="cmplz-script" type="text/plain" async><?php echo $script_async; ?></script><?php
 			}
 
 			//stats scripts that should get executed on consent here
 			$stats_script = cmplz_get_value( 'statistics_script' );
-			if ( strlen($stats_script) >0 && cmplz_get_value( 'compile_statistics' ) === 'yes' ){
-				?><script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
+			if ( strlen( $stats_script ) > 0 && cmplz_get_value( 'compile_statistics' ) === 'yes' ) {
+				?>
+				<script class="cmplz-stats" type="text/plain"><?php echo $stats_script; ?></script><?php
 			}
 		}
 
 		/**
 		 * Insert the gtag.js script required if gtag.js is used
+		 *
 		 * @hooked cmplz_before_statistics_script
-		 * @since 4.7.8
+		 * @since  4.7.8
 		 */
-		public function add_gtag_js(){
-			if ( cmplz_get_value( 'configuration_by_complianz' ) === 'no' ) return;
+		public function add_gtag_js() {
+			if ( cmplz_get_value( 'configuration_by_complianz' ) === 'no' ) {
+				return;
+			}
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
-			$gtag_code = esc_attr( cmplz_get_value( "UA_code" ) );
-			if ( $statistics === 'google-analytics' && strlen($gtag_code) > 0 && substr($gtag_code, 0, 1) === 'G' ) {
+			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
+			if ( $statistics === 'google-analytics' && strlen( $gtag_code ) > 0 && substr( $gtag_code, 0, 1 ) === 'G' ) {
 				$classes = $this->get_statistics_script_classes();
-				?><script async class="<?php echo implode( " ", $classes ) ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code?>"></script><?php
+				?>
+				<script async class="<?php echo implode( " ", $classes ) ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php
 			}
 		}
 
@@ -2078,7 +2122,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			<script type='text/javascript' class="cmplz-native">
 				<?php do_action( 'cmplz_statistics_script' );?>
 				<?php do_action( 'cmplz_tagmanager_script' );?>
-				<?php if ( cmplz_get_value( 'disable_cookie_block' ) != 1 ) echo cmplz_get_value( 'cookie_scripts' );?>
+				<?php if ( cmplz_get_value( 'disable_cookie_block' ) != 1 ) {
+					echo cmplz_get_value( 'cookie_scripts' );
+				}?>
 			</script>
 			<?php
 		}
@@ -2099,7 +2145,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $statistics === 'google-tag-manager' ) {
 				$script = cmplz_get_template( 'google-tag-manager.js' );
 				$script = str_replace( '{GTM_code}', esc_attr( cmplz_get_value( "GTM_code" ) ), $script );
-				echo apply_filters('cmplz_script_filter' , $script );
+				echo apply_filters( 'cmplz_script_filter', $script );
 			}
 		}
 
@@ -2116,18 +2162,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
-			$script = '';
+			$script     = '';
 			if ( $statistics === 'google-analytics' ) {
-				$code = esc_attr( cmplz_get_value( "UA_code" ) );
+				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
-				if (strlen($code)>0 && substr($code, 0, 1) === 'G') {
-					$script       = cmplz_get_template( 'gtag.js' );
-					$script       = str_replace( '{G_code}', $code, $script );
-					$script       = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
+				if ( strlen( $code ) > 0 && substr( $code, 0, 1 ) === 'G' ) {
+					$script = cmplz_get_template( 'gtag.js' );
+					$script = str_replace( '{G_code}', $code, $script );
+					$script = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
 				} else {
-					$script       = cmplz_get_template( 'google-analytics.js' );
-					$script       = str_replace( '{UA_code}', $code, $script );
-					$script       = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
+					$script = cmplz_get_template( 'google-analytics.js' );
+					$script = str_replace( '{UA_code}', $code, $script );
+					$script = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
 				}
 			} elseif ( $statistics === 'matomo' ) {
 				$script = cmplz_get_template( 'matomo.js' );
@@ -2137,7 +2183,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_url' ) ) ),
 					$script );
 			}
-			echo apply_filters('cmplz_script_filter' , $script );
+			echo apply_filters( 'cmplz_script_filter', $script );
 		}
 
 		/**
@@ -2220,14 +2266,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		private function bool_string( $boolean ) {
 			$bool = boolval( $boolean );
+
 			return $bool ? 'TRUE' : 'FALSE';
 		}
 
 		/**
-         * Insert an iframe to retrieve front-end cookies
-         *
-         *
-         * */
+		 * Insert an iframe to retrieve front-end cookies
+		 *
+		 *
+		 * */
 
 		public function run_cookie_scan() {
 
@@ -2245,10 +2292,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//if the last cookie scan date is more than a month ago, we re-scan.
 			$last_scan_date = $this->get_last_cookie_scan_date( true );
-			$one_month_ago  = apply_filters( 'cmplz_scan_frequency' , strtotime( '-1 month' ) );
+			$one_month_ago  = apply_filters( 'cmplz_scan_frequency', strtotime( '-1 month' ) );
 			if ( $this->scan_complete()
 			     && ( $one_month_ago > $last_scan_date )
-			     && !$this->automatic_cookiescan_disabled()
+			     && ! $this->automatic_cookiescan_disabled()
 			) {
 				$this->reset_pages_list();
 			}
@@ -2587,7 +2634,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$posts     = array_merge( $posts, $new_posts );
 				}
 
-				if ( count( $posts ) == 0 && !$this->automatic_cookiescan_disabled()) {
+				if ( count( $posts ) == 0 && ! $this->automatic_cookiescan_disabled() ) {
 					/*
                      * If we didn't find any posts, we reset the post meta that tracks if all posts have been scanned.
                      * This way we will find some posts on the next scan attempt
@@ -2617,8 +2664,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Reset the list of pages
+		 *
 		 * @param bool $delay
 		 * @param bool $manual //if it's manual, we always reset. If automatic scan is disabled, we do not reset.
+		 *
 		 * @return void
 		 *
 		 * @since 2.1.5
@@ -2626,14 +2675,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function reset_pages_list( $delay = false, $manual = false ) {
 
-			if ( !$manual && $this->automatic_cookiescan_disabled() ) return;
+			if ( ! $manual && $this->automatic_cookiescan_disabled() ) {
+				return;
+			}
 
 			if ( $manual && $this->automatic_cookiescan_disabled() ) {
 				$this->reset_scanned_post_batches();
 			}
 
 			if ( $delay ) {
-				$current_list = get_transient( 'cmplz_pages_list' );
+				$current_list    = get_transient( 'cmplz_pages_list' );
 				$processed_pages = get_transient( 'cmplz_processed_pages_list' );
 				set_transient( 'cmplz_pages_list', $current_list,
 					HOUR_IN_SECONDS );
@@ -2652,7 +2703,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * This is only reset when all posts have been processed, or if user has disabled automatic scanning, and the manual scan is fired.
 		 * */
 
-		public function reset_scanned_post_batches(){
+		public function reset_scanned_post_batches() {
 
 			if ( ! function_exists( 'delete_post_meta_by_key' ) ) {
 				require_once ABSPATH . WPINC . '/post.php';
@@ -2662,11 +2713,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if the automatic scan is disabled
+		 *
 		 * @return bool
 		 */
 
-		public function automatic_cookiescan_disabled(){
-			return cmplz_get_value('disable_automatic_cookiescan') == 1;
+		public function automatic_cookiescan_disabled() {
+			return cmplz_get_value( 'disable_automatic_cookiescan' ) == 1;
 		}
 
 
@@ -2747,7 +2799,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$pages = $this->get_processed_pages_list();
 			if ( ! in_array( $id, $pages ) ) {
-				$pages[] = $id;
+				$pages[]    = $id;
 				$expiration = $this->automatic_cookiescan_disabled() ? 10 * YEAR_IN_SECONDS : MONTH_IN_SECONDS;
 				set_transient( 'cmplz_processed_pages_list', $pages, $expiration );
 			}
@@ -2965,17 +3017,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			     && ( sanitize_title( $_POST['token'] )
 			          == get_option( 'complianz_scan_token' ) )
 			) {
-				$post_cookies  = isset( $_POST['cookies'] )
-				                 && is_array( $_POST['cookies'] )
+				$post_cookies = isset( $_POST['cookies'] )
+				                && is_array( $_POST['cookies'] )
 					? $_POST['cookies'] : array();
-				$cookies = array_map( function ( $el ) {
+				$cookies      = array_map( function ( $el ) {
 					return sanitize_title( $el );
 				}, $post_cookies );
 				if ( ! is_array( $cookies ) ) {
 					$cookies = array();
 				}
 
-				$post_storage  = isset( $_POST['lstorage'] ) && is_array( $_POST['lstorage'] ) ? $_POST['lstorage'] : array();
+				$post_storage = isset( $_POST['lstorage'] ) && is_array( $_POST['lstorage'] ) ? $_POST['lstorage'] : array();
 				$localstorage = array_map( function ( $el ) {
 					return sanitize_title( $el );
 				}, $post_storage );
@@ -2989,17 +3041,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookie = new CMPLZ_COOKIE();
 					$cookie->add( $key, $this->get_supported_languages() );
 					$cookie->type = 'localstorage';
-					$cookie->save(true);
+					$cookie->save( true );
 				}
 
 				//add cookies
-				$cookies = array_merge($cookies, $_COOKIE);
+				$cookies = array_merge( $cookies, $_COOKIE );
 				$cookies = array_map( 'sanitize_text_field', $cookies );
 				foreach ( $cookies as $key => $value ) {
 					$cookie = new CMPLZ_COOKIE();
 					$cookie->add( $key, $this->get_supported_languages() );
 					$cookie->type = 'cookie';
-					$cookie->save(true);
+					$cookie->save( true );
 				}
 
 				//clear token
@@ -3024,17 +3076,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$languages = array( $site_locale => $site_locale );
 
 			if ( function_exists( 'icl_register_string' ) ) {
-				$wpml      = apply_filters( 'wpml_active_languages', null,
+				$wpml = apply_filters( 'wpml_active_languages', null,
 					array( 'skip_missing' => 0 ) );
 				/**
 				 * WPML has changed the index from 'language_code' to 'code' so
 				 * we check for both.
 				 */
-				$wpml_test_index = reset($wpml);
-				if (isset($wpml_test_index['language_code'])){
-					$wpml      = wp_list_pluck( $wpml, 'language_code' );
-				} elseif (isset($wpml_test_index['code'])) {
-					$wpml      = wp_list_pluck( $wpml, 'code' );
+				$wpml_test_index = reset( $wpml );
+				if ( isset( $wpml_test_index['language_code'] ) ) {
+					$wpml = wp_list_pluck( $wpml, 'language_code' );
+				} elseif ( isset( $wpml_test_index['code'] ) ) {
+					$wpml = wp_list_pluck( $wpml, 'code' );
 				} else {
 					$wpml = array();
 				}
@@ -3046,13 +3098,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 * There does not seem to be an easy accessible API to get the languages, so we retrieve from the settings directly
 			 */
 
-			if (class_exists('TRP_Translate_Press')){
-				$trp_settings = get_option('trp_settings', array());
-				if (isset($trp_settings['translation-languages'])) {
+			if ( class_exists( 'TRP_Translate_Press' ) ) {
+				$trp_settings = get_option( 'trp_settings', array() );
+				if ( isset( $trp_settings['translation-languages'] ) ) {
 					$trp_languages = $trp_settings['translation-languages'];
-					foreach( $trp_languages as $language_code){
-						$key = substr( $language_code, 0, 2 );
-						$languages[$key] = $key;
+					foreach ( $trp_languages as $language_code ) {
+						$key               = substr( $language_code, 0, 2 );
+						$languages[ $key ] = $key;
 					}
 				}
 			}
@@ -3128,6 +3180,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if cookies have been changed
+		 *
 		 * @return bool
 		 */
 
@@ -3158,6 +3211,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Hooked into ajax call to load detected cookies
+		 *
 		 * @hooked wp_ajax_load_detected_cookies
 		 */
 
@@ -3183,6 +3237,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Get html for list of detected cookies
+		 *
 		 * @return string
 		 */
 
@@ -3351,7 +3406,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				//after adding the cookies, do one more cookies sync
 				if ( $progress >= 75 && $progress < 100 ) {
-					$this->maybe_sync_cookies(true);
+					$this->maybe_sync_cookies( true );
 					$this->clear_double_cookienames();
 				}
 
@@ -3379,7 +3434,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//after adding the cookies, do one more cookies sync
 			if ( $progress >= 75 && $progress < 100 ) {
-				$this->maybe_sync_cookies(true);
+				$this->maybe_sync_cookies( true );
 				$this->clear_double_cookienames();
 			}
 			$output = array(
@@ -3408,7 +3463,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( get_option( 'cmplz_sync_cookies_complete' )
-			     && get_option( 'cmplz_sync_services_complete' ) && get_option( 'cmplz_sync_cookies_after_services_complete' )
+			     && get_option( 'cmplz_sync_services_complete' )
+			     && get_option( 'cmplz_sync_cookies_after_services_complete' )
 			) {
 				//if sync was started after update, stop it now
 				update_option( 'cmplz_run_cdb_sync_once', false );
@@ -3430,8 +3486,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			<div class="field-group cookie-scan first">
 				<?php
 				if ( ( isset( $_SERVER['HTTP_DNT'] )
-				     && $_SERVER['HTTP_DNT'] == 1 )
-				     || isset($_SERVER['HTTP_SEC_GPC'])
+				       && $_SERVER['HTTP_DNT'] == 1 )
+				     || isset( $_SERVER['HTTP_SEC_GPC'] )
 				) {
 					cmplz_notice( __( "You have Do Not Track or Global Privacy Control enabled. This will prevent most cookies from being placed. Please run the scan with these options disabled.",
 						'complianz-gdpr' ) );
@@ -3556,9 +3612,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 
 		/**
-         * Check if site uses Google Analytics
+		 * Check if site uses Google Analytics
+		 *
 		 * @return bool
-         * */
+		 * */
 
 		public function uses_google_analytics() {
 			$statistics = cmplz_get_value( 'compile_statistics' );
@@ -3571,6 +3628,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if tm is used
+		 *
 		 * @return bool
 		 */
 
@@ -3587,6 +3645,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if matomo is used
+		 *
 		 * @return bool
 		 */
 
@@ -3687,27 +3746,29 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$needs_warning = true;
 			}
 
-			$url = $_SERVER['REQUEST_URI'];
+			$url                  = $_SERVER['REQUEST_URI'];
 			$excluded_posts_array = get_option( 'cmplz_excluded_posts_array', array() );
-			if ( !empty($excluded_posts_array) ) {
+			if ( ! empty( $excluded_posts_array ) ) {
 				foreach ( $excluded_posts_array as $excluded_slug ) {
-					if ( strpos( $url, $excluded_slug ) !== FALSE) return false;
+					if ( strpos( $url, $excluded_slug ) !== false ) {
+						return false;
+					}
 				}
 			}
 
 			$needs_warning = apply_filters( 'cmplz_site_needs_cookiewarning', $needs_warning );
+
 			return $needs_warning;
 		}
 
 
-
-
 		/**
 		 * Check if consent is required for anonymous statistics
+		 *
 		 * @return bool
 		 */
 
-		public function consent_required_for_anonymous_stats(){
+		public function consent_required_for_anonymous_stats() {
 			if ( ! cmplz_has_region( 'eu' ) ) {
 				return false;
 			}
@@ -3723,6 +3784,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Check if the site needs a cookie banner considering statistics only
 		 *
 		 * @param $region bool|string
+		 *
 		 * @return bool
 		 * @since 1.0
 		 *
@@ -3755,7 +3817,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$privacy_friendly = $this->statistics_privacy_friendly();
 
 			//not stats required if privacy friendly
-			return apply_filters('cmplz_cookie_warning_required_stats',!$privacy_friendly);
+			return apply_filters( 'cmplz_cookie_warning_required_stats', ! $privacy_friendly );
 		}
 
 		/**
@@ -3897,13 +3959,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		/**
 		 * Check if this website shares data with third parties, used for recommendations, cookiebanner check and canada policies
+		 *
 		 * @return bool
 		 */
 
 		public function site_shares_data() {
 
 			//TCF always shares data
-			if ( cmplz_tcf_active() ) return true;
+			if ( cmplz_tcf_active() ) {
+				return true;
+			}
 
 			//if user states no cookies are used, we simply return false.
 			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
@@ -4008,7 +4073,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						return true;
 					}
 				}
-				if ( strpos(strtolower( $cookie->purpose ), 'functional' ) ===FALSE ) {
+				if ( strpos( strtolower( $cookie->purpose ), 'functional' ) === false ) {
 					return true;
 				}
 			}
@@ -4047,6 +4112,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 				}
 			}
+
 			return false;
 		}
 
