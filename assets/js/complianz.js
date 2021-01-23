@@ -1687,9 +1687,9 @@ jQuery(document).ready(function ($) {
 			cmplz_wp_set_consent('marketing', 'deny');
 		}
 
-		// if ( complianz.use_categories !== 'no' ) {
+		if ( complianz.use_categories !== 'no' ) {
 			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
-		// }
+		}
 
 		cmplzIntegrationsRevoke();
 
