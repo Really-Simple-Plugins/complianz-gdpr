@@ -820,7 +820,6 @@ jQuery(document).ready(function ($) {
 						cmplzFireCategories(false, true);
 					}
 				}
-
 				if (status === 'deny' && complianz.consenttype === 'optout') {
 					cmplzRevoke();
 				}
@@ -831,7 +830,7 @@ jQuery(document).ready(function ($) {
 				}
 
 				//when the revoke button is clicked, the status is still 'allow'
-				if (complianz.use_categories === 'no' && ccStatus === 'allow') {
+				if (complianz.use_categories === 'no') {
 					cmplzRevoke();
 					$('.cc-revoke').fadeOut();
 					ccName.open();
@@ -1171,12 +1170,17 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		//if it's already denied, show the accept option again.
-		//if not denied, do a full revoke
 		if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
+			//when denied, just get the popup again.
 			$('.cc-revoke').click();
 			$('.cc-revoke').fadeOut();
+		} else if ( complianz.use_categories === 'no' ) {
+			//when accept/deny, set to deny, and revoke.
+			//if we set to deny in the revoke function, it will prevent the banner from showing up in other cases.
+			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
+			cmplzRevoke();
 		} else {
+			//category banners, do a full revoke
 			cmplzRevoke();
 		}
 	});
@@ -1672,7 +1676,6 @@ jQuery(document).ready(function ($) {
 			cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
 			cmplz_wp_set_consent('statistics', 'deny');
 			if (complianz.consenttype === 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'deny');
-
 		}
 
 		//preferences acceptance
