@@ -2237,7 +2237,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
 						function cmplzEnableCustomBlockedContent(consentData) {
-							if (consentData.consentLevel==='marketing' ){
+							if (consentData.detail==='marketing' ){
 								if (url.indexOf('cmplz_consent=1') === -1 ) {
 									if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
 									url += 'cmplz_consent=1#cmplz_consent_area_anchor';
@@ -2252,7 +2252,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					jQuery(document).ready(function ($) {
 						$(document).on("cmplzEnableScripts", cmplzEnableCustomBlockedContent);
 						function cmplzEnableCustomBlockedContent(consentData) {
-							if (consentData.consentLevel==='marketing' && !$("#cmplz_consent_area_anchor").length){
+							if (consentData.detail==='marketing' && !$("#cmplz_consent_area_anchor").length){
 								location.reload();
 							}
 						}
