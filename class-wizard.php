@@ -683,6 +683,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		}
 
 		public function enqueue_assets( $hook ) {
+			if ( strpos($hook, 'cmplz-terms-conditions')!==false ) return;
+
 			if ( ( strpos( $hook, 'complianz' ) === false )
 			     && strpos( $hook, 'cmplz' ) === false
 			) {

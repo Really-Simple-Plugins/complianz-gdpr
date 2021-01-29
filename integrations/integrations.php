@@ -381,15 +381,16 @@ function cmplz_integration_plugin_is_active( $plugin ){
 	$details = $cmplz_integrations_list[ $plugin ];
 	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
 	$theme = wp_get_theme();
-	if ( ( defined( $details['constant_or_function'] )
-	       || function_exists( $details['constant_or_function'] )
-	       || class_exists( $details['constant_or_function'] ) )
-	       || ( $theme && ($theme->name === $details['constant_or_function']) )
-	     && $enabled
+	if (
+			( defined( $details['constant_or_function']
+			   || function_exists( $details['constant_or_function'] )
+			   || class_exists( $details['constant_or_function'] ) )
+			   || ( $theme && ($theme->name === $details['constant_or_function']) )
+			)
+	     	&& $enabled
 	) {
 		return true;
 	}
-
 	return false;
 }
 
