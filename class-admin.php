@@ -498,6 +498,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
+			if (  $prev_version
+				  && version_compare( $prev_version, '4.9.6', '<' )
+			) {
+				//this branch aims to revoke consent and clear all cookies. We increase the policy id to do this.
+				COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
+			}
+
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );

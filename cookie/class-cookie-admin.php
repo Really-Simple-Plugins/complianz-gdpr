@@ -43,7 +43,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
-			add_action( 'wp_head', array( $this, 'detect_conflicts' ) );
+			add_action( 'wp_head', array( $this, 'detect_conflicts' ), 1 );
 			add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			add_action( 'wp_ajax_load_detected_cookies', array( $this, 'load_detected_cookies' ) );
 			add_action( 'wp_ajax_cmplz_get_scan_progress', array( $this, 'get_scan_progress' ) );
@@ -52,7 +52,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'admin_init', array( $this, 'ensure_cookies_in_all_languages' ) );
 			add_action( 'wp_ajax_store_detected_cookies', array( $this, 'store_detected_cookies' ) );
 			add_action( 'plugins_loaded', array( $this, 'resync' ), 11, 2 );
-			add_action( 'wp_ajax_cmplz_report_unknown_cookies', array( $this, 'ajax_report_unknown_cookies' ) );
 			add_action( 'plugins_loaded', array( $this, 'rescan' ), 20, 2 );
 			add_action( 'plugins_loaded', array( $this, 'clear_cookies' ), 20, 2 );
 			add_action( 'cmplz_notice_statistics_script', array( $this, 'statistics_script_notice' ) );
@@ -84,8 +83,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return;
 			}
 
-			//no back-end warnings
-			if ( is_admin() ) {
+			if ( wp_doing_ajax() || is_admin() ) {
+				return;
+			}
+
+			if ( ! $this->site_needs_cookie_warning() ) {
+				return;
+			}
+
+			//don't fire on the back-end
+			if ( is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]) ) {
+				return;
+			}
+
+			if ( cmplz_get_value( 'disable_cookie_block' ) ) {
 				return;
 			}
 
@@ -94,7 +105,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return;
 			}
 
-			if ( ! $this->site_needs_cookie_warning() ) {
+			/* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
+			if ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
+				return;
+			}
+
+			if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+				return;
+			}
+
+			$checked_count = intval( get_transient( 'cmplz_checked_for_js_count' ) );
+			if ( $checked_count > 5  ) {
 				return;
 			}
 
@@ -175,8 +196,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! $this->site_needs_cookie_warning() ) {
 				return;
 			}
-			$success = false;
 
+			/**
+			 * limit to one request each two minutes.
+			 */
+
+			$checked_count = intval( get_transient( 'cmplz_checked_for_js_count' ) );
+			if ( $checked_count > 5  ) {
+				return;
+			}
+
+			set_transient( 'cmplz_checked_for_js_count' , $checked_count + 1, 5 * MINUTE_IN_SECONDS );
+			$success = false;
 			if ( isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz-detect-errors' ) ) {
 				if ( $_GET['type'] === 'jquery' ) {
 					if ( isset( $_POST['no-jquery-detected'] ) ) {
@@ -1958,7 +1989,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_cookie_path() {
 			//if cookies are to be set on the root, don't send a path
-
 			if ( cmplz_get_value( 'set_cookies_on_root' )
 			     || function_exists( 'pll__' )
 			     || function_exists( 'icl_translate' )
@@ -4013,16 +4043,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return false;
 			}
 
+			$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
+			$stats_privacy_friendly = $this->statistics_privacy_friendly();
 			foreach ( $cookies as $cookie ) {
 				$cookie_service = sanitize_title( $cookie->service );
-				$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
 				if ( $cookie_service === 'google-analytics'
 				     || $cookie_service === 'matomo'
 				) {
 					if ( $has_optinstats ) {
 						return true;
 					}
-					if ( ! $this->statistics_privacy_friendly() ) {
+					if ( !$stats_privacy_friendly ) {
 						return true;
 					}
 				} else {

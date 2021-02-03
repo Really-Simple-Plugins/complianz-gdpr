@@ -184,6 +184,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'wp-google-map-plugin'            => array(
+		'constant_or_function' => 'WPGMP_VERSION',
+		'label'                => 'WP Google Map Plugin',
+		'firstparty_marketing' => false,
+	),
+
 	'woocommerce-google-analytics-pro' => array(
 		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
 		'label'                => 'Woocommerce Google Analytics Pro',
@@ -372,7 +378,6 @@ function cmplz_is_integration_enabled( $plugin_name ) {
  * @return bool
  */
 function cmplz_integration_plugin_is_active( $plugin ){
-
 	global $cmplz_integrations_list;
 	if ( !isset($cmplz_integrations_list[ $plugin ]) ) return false;
 
@@ -382,9 +387,9 @@ function cmplz_integration_plugin_is_active( $plugin ){
 	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
 	$theme = wp_get_theme();
 	if (
-			( defined( $details['constant_or_function']
+			( defined($details['constant_or_function'])
 			   || function_exists( $details['constant_or_function'] )
-			   || class_exists( $details['constant_or_function'] ) )
+			   || class_exists( $details['constant_or_function'] )
 			   || ( $theme && ($theme->name === $details['constant_or_function']) )
 			)
 	     	&& $enabled

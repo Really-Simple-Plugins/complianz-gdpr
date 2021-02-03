@@ -553,6 +553,7 @@ $this->fields = $this->fields + array(
 			'type'      => 'multicheckbox',
 			'options'   => $this->thirdparty_services,
 			'default'   => '',
+			'revoke_consent_onchange' => true,
 			'condition' => array( 'uses_thirdparty_services' => 'yes' ),
 			'label'     => __( "Select the types of third-party services you use on your site.",
 				'complianz-gdpr' ),
@@ -612,6 +613,7 @@ $this->fields = $this->fields + array(
 		),
 
 		'socialmedia_on_site' => array(
+			'revoke_consent_onchange' => true,
 			'step'      => STEP_COOKIES,
 			'section'   => 4,
 			'source'    => 'wizard',
