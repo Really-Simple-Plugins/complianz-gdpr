@@ -53,6 +53,6 @@ add_filter( 'cmplz_placeholder_markers', 'cmplz_wp_google_map_plugin_placeholder
 
  add_filter( 'cmplz_dependencies', 'cmplz_wp_google_map_plugin_dependencies' );
  function cmplz_wp_google_map_plugin_dependencies( $tags ) {
- 	$tags['maps.google.com'] = 'wpgmp_map';
- 	return $tags;
+	 $tags['maps.js'] = 'wpgmp_map';
+	 return $tags;
  }

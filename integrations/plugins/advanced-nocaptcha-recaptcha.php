@@ -11,7 +11,7 @@ function cmplz_advanced_captcha_nocaptcha_script( $tags ) {
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[] = 'google.com/recaptcha/api.js';
-		$tags[] = 'anr_onloadCallback';
+		$tags[] = 'var anr_captcha';
 	}
 	return $tags;
 }
@@ -24,7 +24,7 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_advanced_captcha_nocaptcha_script'
 
 function cmplz_advanced_captcha_nocaptcha_dependencies( $tags ) {
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-		$tags[ 'google.com/recaptcha/api.js' ] = 'anr_onloadCallback';
+		$tags[ 'google.com/recaptcha/api.js' ] = 'var anr_captcha';
 	}
 	return $tags;
 }

@@ -101,7 +101,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	),
 
 	'acf'           => array(
-		'constant_or_function' => 'ACF',
+		'constant_or_function' => 'ACF_VERSION',
 		'label'                => 'Advanced Custom Fields',
 		'firstparty_marketing' => false,
 	),

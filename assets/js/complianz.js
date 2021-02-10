@@ -90,13 +90,12 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function setBlockedContentContainer() {
-		//to prevent this function to run when cookies are accepted, we check for accepted status here
-		//especially in case of a window resize, this should not run again after consent has been given.
-		//this is not the same as getHighestAcceptance
-		//we need to check here, because the cmplzEnableMarketing function doesn't run twice
-		if ( ccAllEnabled ) return;
+		//to prevent this function to twice on an element, we add an attribute to each element that has been processed.
+		//then skip elements with that element.
 
 		$('.cmplz-image').each(function (i, obj) {
+			if ( $(this).hasClass('cmplz-processed') ) return;
+			$(this).addClass('cmplz-processed' );
 			var blockedImageContainer = $(this).parent();
 			blockedImageContainer.addClass('cmplz-blocked-content-container');
 			//handle browser native lazy load feature
@@ -112,8 +111,8 @@ jQuery(document).ready(function ($) {
 		});
 
 		$('.cmplz-placeholder-element').each(function () {
-			//images are already handled
-			if ($(this).hasClass('cmplz-image')) return;
+			if ( $(this).hasClass('cmplz-processed') ) return;
+			$(this).addClass('cmplz-processed' );
 
  			//we set this element as container with placeholder image
 			var blockedContentContainer;
@@ -157,7 +156,6 @@ jQuery(document).ready(function ($) {
 		 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
 		 * We're assuming that statistics scripts won't be loaded with ajax, so we only load marketing level scripts
 		 *
-		 * As this is now handled in the first line, by checking ccAllEnabled
 		 */
 		if ( cmplzGetHighestAcceptance() === 'marketing') {
 			cmplzEnableMarketing();
@@ -207,19 +205,17 @@ jQuery(document).ready(function ($) {
 	var resizeTimer;
 	$(window).on( "resize", function() {
 		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout( setBlockedContentContainer, 100);
+		//resizeTimer = setTimeout( setBlockedContentContainer, 100);
 	});
 
 	/**
 	 * 	we run this function also on an interval, because with ajax loaded content, the placeholders would otherwise not be handled.
 	 */
-	if ( complianz.block_ajax_content == 1 ) {
+	//if ( complianz.block_ajax_content == 1 ) {
 		setInterval(function () {
-			//to make sure this function will run, and marketing can get enabled, we set this value to false
-			ccAllEnabled = false;
 			setBlockedContentContainer();
 		}, 2000);
-	}
+	//}
 
 	/**
 	 * Enable scripts that were blocked
@@ -236,40 +232,42 @@ jQuery(document).ready(function ($) {
 			cmplzEnableStats();
 		}
 
-		//make sure it doesn't run twice
-		if (!ccAllEnabled) {
-			//enable integrations
-			cmplzIntegrationsConsent();
+		//enable cookies for integrations
+		cmplzIntegrationsConsent();
 
-			//styles
-			$('.cmplz-style-element').each(function (i, obj) {
-				var src = $(this).data('href');
-				$('head').append('<link rel="stylesheet" type="text/css" href="' + src + '">');
-			});
+		//styles
+		$('.cmplz-style-element').each(function (i, obj) {
+			if ( $(this).hasClass('cmplz-activated') ) return;
+			$(this).addClass('cmplz-activated' );
+			var src = $(this).data('href');
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + src + '">');
+		});
 
-			//remove accept cookie notice overlay
-			$('.cmplz-blocked-content-notice').each(function () {
-				$(this).remove();
-			});
-		}
+		//remove accept cookie notice overlay
+		$('.cmplz-blocked-content-notice').each(function () {
+			$(this).remove();
+		});
 
 		//blocked images
-		if (!ccAllEnabled) {
-			var images = $('.cmplz-image');
-			images.each(function (i, obj) {
-				var src = $(this).data('src-cmplz');
-				$(this).attr('src', src);
-				//handle browser native lazy load feature
-				if ($(this).data('deferlazy')) {
-					$(this).attr('loading', 'lazy');
-				}
-			});
-		}
+		var images = $('.cmplz-image');
+		images.each(function (i, obj) {
+			if ( $(this).hasClass('cmplz-activated') ) return;
+			$(this).addClass('cmplz-activated' );
+
+			var src = $(this).data('src-cmplz');
+			$(this).attr('src', src);
+			//handle browser native lazy load feature
+			if ($(this).data('deferlazy')) {
+				$(this).attr('loading', 'lazy');
+			}
+		});
 
 		//iframes and video's
 		$('.cmplz-iframe').each(function (i, obj) {
-			var src = $(this).data('src-cmplz');
+			if ( $(this).hasClass('cmplz-activated') ) return;
+			$(this).addClass('cmplz-activated' );
 
+			var src = $(this).data('src-cmplz');
 			//check if there's an autoplay value we need to pass on
 			var autoplay = cmplzGetUrlParameter($(this).attr('src'), 'autoplay');
 			if (autoplay === '1') src = src + '&autoplay=1';
@@ -304,6 +302,9 @@ jQuery(document).ready(function ($) {
 
 		//other services, no iframe, with placeholders
 		$('.cmplz-noframe').each(function (i, obj) {
+			if ( $(this).hasClass('cmplz-activated') ) return;
+			$(this).addClass('cmplz-activated' );
+
 			var blockedContentContainer = $(this);
 			//remove the added classes
 			var cssIndex = blockedContentContainer.data('placeholderClassIndex');
@@ -312,94 +313,95 @@ jQuery(document).ready(function ($) {
 			blockedContentContainer.removeClass('cmplz-placeholder-' + cssIndex);
 		});
 
-		if (!ccAllEnabled) {
+		//first, create list of waiting scripts
+		var scriptElements = $('.cmplz-script');
+		scriptElements.each(function (i, obj) {
+			var waitfor = $(this).data('waitfor');
+			var src = $(this).attr('src');
 
-			//first, create list of waiting scripts
-			var scriptElements = $('.cmplz-script');
-			scriptElements.each(function (i, obj) {
-				var waitfor = $(this).data('waitfor');
-				var src = $(this).attr('src');
-
-				if (src && src.length) {
-					if (typeof (waitfor) !== "undefined") {
-						waitingScripts[waitfor] = src;
-					}
-				} else if ($(this).text().length) {
-					if (typeof (waitfor) !== "undefined") {
-						waitingInlineScripts[waitfor] = $(this);
-					}
+			if (src && src.length) {
+				if (typeof (waitfor) !== "undefined") {
+					waitingScripts[waitfor] = src;
 				}
-			});
-
-			//scripts: set "cmplz-script classes to type="text/javascript"
-			scriptElements.each(function (i, obj) {
-				//do not run stats scripts yet. We leave that to the dedicated stats function cmplzEnableStats()
-				if ($(this).hasClass('cmplz-stats')) return true;
-
-				var src = $(this).attr('src');
-				if (src && src.length) {
-					$(this).attr('type', 'text/javascript');
-
-					//check if this src or txt is in a waiting script. If so, skip.
-					if (cmplzIsWaitingScript(waitingScripts, src)) {
-						return;
-					}
-
-					if (typeof $(this).data('post_scribe_id') !== 'undefined') {
-						var psID = '#' + $(this).data('post_scribe_id');
-						if ($(psID).length) {
-							$(psID).html('');
-							$(function () {
-								postscribe(psID, '<script src=' + src + '></script>');
-							});
-						}
-					} else {
-						$.getScript(src)
-							.done(function (s, Status) {
-								//check if we have waiting scripts
-								var waitingScript = cmplzGetWaitingScript(waitingScripts, src);
-								if (waitingScript) {
-									$.getScript(waitingScript).done(function (script, textStatus) {
-										cmplzRunAfterAllScripts();
-									}).fail(function (jqxhr, settings, exception) {
-										console.warn("Something went wrong " + exception);
-									});
-								}
-
-								var waitingInlineScript = cmplzGetWaitingScript(waitingInlineScripts, src);
-								if (waitingInlineScript) {
-									cmplzRunInlineScript(waitingInlineScript);
-								}
-
-								//maybe all scripts are already done
-								cmplzRunAfterAllScripts();
-							})
-							.fail(function (jqxhr, settings, exception) {
-								console.warn("Something went wrong " + exception);
-							});
-					}
-
-				} else if ($(this).text().length) {
-					//check if this src or txt is in a waiting script. If so, skip.
-					if (cmplzIsWaitingScript(waitingInlineScripts, $(this).text())) {
-						return;
-					}
-					cmplzRunInlineScript($(this));
-					//get scripts that are waiting for this inline script
-					var waitingScript = cmplzGetWaitingScript(waitingScripts, $(this).text());
-					if (waitingScript !== false) {
-						$.getScript(waitingScript)
-							.done(function (s, Status) {
-								//maybe all scripts are already done
-								cmplzRunAfterAllScripts();
-							})
-							.fail(function (jqxhr, settings, exception) {
-								console.warn("Something went wrong " + exception);
-							});
-					}
+			} else if ($(this).text().length) {
+				if (typeof (waitfor) !== "undefined") {
+					waitingInlineScripts[waitfor] = $(this);
 				}
-			});
-		}
+			}
+		});
+
+		//scripts: set "cmplz-script classes to type="text/javascript"
+		scriptElements.each(function (i, obj) {
+			if ( $(this).hasClass('cmplz-activated') ) return;
+			$(this).addClass('cmplz-activated' );
+
+			//do not run stats scripts yet. We leave that to the dedicated stats function cmplzEnableStats()
+			if ($(this).hasClass('cmplz-stats')) return true;
+
+			var src = $(this).attr('src');
+			if (src && src.length) {
+				$(this).attr('type', 'text/javascript');
+
+				//check if this src or txt is in a waiting script. If so, skip.
+				if (cmplzIsWaitingScript(waitingScripts, src)) {
+					return;
+				}
+
+				if (typeof $(this).data('post_scribe_id') !== 'undefined') {
+					var psID = '#' + $(this).data('post_scribe_id');
+					if ($(psID).length) {
+						$(psID).html('');
+						$(function () {
+							postscribe(psID, '<script src=' + src + '></script>');
+						});
+					}
+				} else {
+					$.getScript(src)
+						.done(function (s, Status) {
+							//check if we have waiting scripts
+							var waitingScript = cmplzGetWaitingScript(waitingScripts, src);
+							if (waitingScript) {
+								$.getScript(waitingScript).done(function (script, textStatus) {
+									cmplzRunAfterAllScripts();
+								}).fail(function (jqxhr, settings, exception) {
+									console.warn("Something went wrong " + exception);
+								});
+							}
+
+							var waitingInlineScript = cmplzGetWaitingScript(waitingInlineScripts, src);
+							if (waitingInlineScript) {
+								cmplzRunInlineScript(waitingInlineScript);
+							}
+
+							//maybe all scripts are already done
+							cmplzRunAfterAllScripts();
+						})
+						.fail(function (jqxhr, settings, exception) {
+							console.warn("Something went wrong " + exception);
+						});
+				}
+
+			} else if ($(this).text().length) {
+				//check if this src or txt is in a waiting script. If so, skip.
+				if (cmplzIsWaitingScript(waitingInlineScripts, $(this).text())) {
+					return;
+				}
+				cmplzRunInlineScript($(this));
+				//get scripts that are waiting for this inline script
+				var waitingScript = cmplzGetWaitingScript(waitingScripts, $(this).text());
+				if (waitingScript !== false) {
+					$.getScript(waitingScript)
+						.done(function (s, Status) {
+							//maybe all scripts are already done
+							cmplzRunAfterAllScripts();
+						})
+						.fail(function (jqxhr, settings, exception) {
+							console.warn("Something went wrong " + exception);
+						});
+				}
+			}
+		});
+
 
 		if (!ccAllEnabled) {
 			//fire an event so custom scripts can hook into this.

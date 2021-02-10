@@ -43,7 +43,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
-			add_action( 'wp_head', array( $this, 'detect_conflicts' ), 1 );
+			add_action( 'wp_head', array( $this, 'detect_conflicts' ) );
 			add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			add_action( 'wp_ajax_load_detected_cookies', array( $this, 'load_detected_cookies' ) );
 			add_action( 'wp_ajax_cmplz_get_scan_progress', array( $this, 'get_scan_progress' ) );
@@ -4043,7 +4043,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return false;
 			}
 
-			$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
+			$has_optinstats = false;
+			$regions = cmplz_get_regions();
+			foreach ( $regions as $region => $label ) {
+				$consenttype = isset( COMPLIANZ::$config->regions[ $region ]['type'] ) ? COMPLIANZ::$config->regions[ $region ]['type'] : 'optin';
+				if ( $consenttype === 'optinstats' ) {
+					$has_optinstats =  true;
+				}
+			}
+
 			$stats_privacy_friendly = $this->statistics_privacy_friendly();
 			foreach ( $cookies as $cookie ) {
 				$cookie_service = sanitize_title( $cookie->service );
