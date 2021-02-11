@@ -184,11 +184,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
-	'wp-google-map-plugin'            => array(
-		'constant_or_function' => 'WPGMP_VERSION',
-		'label'                => 'WP Google Map Plugin',
-		'firstparty_marketing' => false,
-	),
+//	'wp-google-map-plugin'            => array(
+//		'constant_or_function' => 'WPGMP_VERSION',
+//		'label'                => 'WP Google Map Plugin',
+//		'firstparty_marketing' => false,
+//	),
 
 	'woocommerce-google-analytics-pro' => array(
 		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
