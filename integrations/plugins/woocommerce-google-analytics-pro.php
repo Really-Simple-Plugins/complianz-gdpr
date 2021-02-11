@@ -51,7 +51,7 @@ add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_analytics_pro_uses_
  * @return array
  */
 function cmplz_wc_google_analytics_pro_stats_markers( $markers ) {
-	$markers['google-analytics'][] = 'add_to_cart_button';
+	$markers['google-analytics'][] = 'wc_google_analytics_pro_loaded';
 	$markers['google-analytics'][] = "ga( 'send', 'pageview' )";
 	$markers['google-analytics'][] = '_gaq.push';
 	$markers['google-analytics'][] = 'stats.g.doubleclick.net/dc.js';

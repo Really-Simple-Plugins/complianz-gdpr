@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 4.9.5
+Stable tag: 4.9.6
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,21 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.9.6 =
+* Fix: Revoke on cookie policy with accept/deny banner
+* Improvement: do not re-run marketing after consent
+* Improvement: clear cookies after cookie policy id change. Resolves issues for WPML users with cookiepath issues
+* Improvement: activate blocked images on consent
+* Fix: prevent infinite loop in Canada region with certain configurations
+* Improvement: limit number of requests by jquery error detection
+* Improvement: Advanced Captcha reCaptcha updated to integrate with latest version
+* Improvement: improved URL pattern in URL input field
+* Improvement: changed Advanced Custom Fields detection from ACF to ACF_VERSION, as it seems another plugin or theme is using this same function/constant/class
+* Improvement: improved method of keeping track of blocked content containers that were already set up, or activated.
+* Improvement: TranslatePress compatibility
+* Improvement: allow for space in Google Maps iframe embed URL
+* Improvement: stricter matching for WooCommerce Google Analytics pro and WooCommerce Google Analytics Integration, preventing matching on other scripts
+
 = 4.9.5 =
 * JetPack integration
 * Fix: disabling of integrations not working properly after theme support was added.

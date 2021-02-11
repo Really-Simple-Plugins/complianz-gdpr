@@ -49,7 +49,7 @@ add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_analytics_integrati
  * @return array
  */
 function cmplz_wc_google_analytics_integration_stats_markers( $markers ) {
-	$markers['google-analytics'][] = 'add_to_cart_button';
+	$markers['google-analytics'][] = 'add_to_cart_button:not(.product_type_variable';
 	$markers['google-analytics'][] = "ga( 'send', 'pageview' )";
 	$markers['google-analytics'][] = '_gaq.push';
 	$markers['google-analytics'][] = 'stats.g.doubleclick.net/dc.js';
@@ -80,7 +80,7 @@ add_action( 'init', 'cmplz_wc_google_analytics_integration_drop_tm_blocking');
  * @return array
  */
 function cmplz_wc_google_analytics_integration_script( $tags ) {
-	$tags[] = 'add_to_cart_button';
+	$tags[] = 'add_to_cart_button:not(.product_type_variable';
 	$tags[] = "ga( 'send', 'pageview' )";
 	$tags[] = '_gaq.push';
 	$tags[] = 'stats.g.doubleclick.net/dc.js';

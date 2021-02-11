@@ -1992,6 +1992,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( cmplz_get_value( 'set_cookies_on_root' )
 			     || function_exists( 'pll__' )
 			     || function_exists( 'icl_translate' )
+			     || class_exists( 'TRP_Translate_Press' )
 			) {
 				return apply_filters( 'cmplz_cookie_path', '/' );
 			}
