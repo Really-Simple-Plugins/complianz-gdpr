@@ -237,6 +237,9 @@ if ( ! function_exists( 'cmplz_start_tour' ) ) {
 	 * Start the tour of the plugin on activation
 	 */
 	function cmplz_start_tour() {
+		if ( !get_option( 'cmplz_show_terms_conditions_notice' ) ) {
+			update_option('cmplz_show_terms_conditions_notice', time());
+		}
 		if ( ! get_site_option( 'cmplz_tour_shown_once' ) ) {
 			update_site_option( 'cmplz_tour_started', true );
 		}
