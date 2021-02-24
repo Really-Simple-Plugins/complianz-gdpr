@@ -505,6 +505,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
 			}
 
+			if (  $prev_version
+				  && version_compare( $prev_version, '4.9.7', '<' )
+			) {
+				update_option('cmplz_show_terms_conditions_notice', time());
+			}
+
 			do_action( 'cmplz_upgrade', $prev_version );
 
 			update_option( 'cmplz-current-version', cmplz_version );

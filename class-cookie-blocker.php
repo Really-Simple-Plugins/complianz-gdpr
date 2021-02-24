@@ -424,7 +424,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//add a marker so we can recognize if this function is active on the front-end
 			$output = str_replace( "<body ", '<body data-cmplz=1 ', $output );
 
-			return $output;
+			return apply_filters('cmplz_cookie_blocker_output', $output);
 		}
 
 

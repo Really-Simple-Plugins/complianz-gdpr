@@ -249,8 +249,7 @@ jQuery(document).ready(function ($) {
 		});
 
 		//blocked images
-		var images = $('.cmplz-image');
-		images.each(function (i, obj) {
+		$('.cmplz-image').each(function (i, obj) {
 			if ( $(this).hasClass('cmplz-activated') ) return;
 			$(this).addClass('cmplz-activated' );
 
@@ -262,7 +261,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		//iframes and video's
 		$('.cmplz-iframe').each(function (i, obj) {
 			if ( $(this).hasClass('cmplz-activated') ) return;
 			$(this).addClass('cmplz-activated' );

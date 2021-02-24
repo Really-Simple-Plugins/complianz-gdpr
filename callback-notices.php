@@ -94,16 +94,12 @@ function cmplz_purpose_personaldata() {
 	}
 }
 
-add_action( 'cmplz_notice_uses_thirdparty_services',
-	'cmplz_uses_thirdparty_services_notice' );
+add_action( 'cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_services_notice' );
 function cmplz_uses_thirdparty_services_notice() {
-
-
 	$thirdparties = cmplz_scan_detected_thirdparty_services();
 	if ( $thirdparties || cmplz_detected_custom_marketing_scripts() ) {
 		foreach ( $thirdparties as $key => $thirdparty ) {
-			$thirdparties[ $key ]
-				= COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
+			$thirdparties[ $key ] = COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
 		}
 		$thirdparties = implode( ', ', $thirdparties );
 		cmplz_notice( sprintf( __( "The scan found third-party services on your website: %s, this means the answer should be yes.",

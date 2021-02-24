@@ -1,6 +1,6 @@
 <?php
 /**
- * We need this function also when the consent API is not active, so we build our won.
+ * We need this function also when the consent API is not active, so we build our own.
  * @param $plugin
  *
  * @return bool
@@ -32,7 +32,6 @@ function cmplz_consent_api_registered( $plugin ) {
  */
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
-add_action( 'cmplz_register', 'cmplz__register_required_plugins' );
 
 /**
  * Register the required plugins for this theme.
@@ -63,6 +62,19 @@ function cmplz__register_required_plugins() {
 			),
 		);
 	}
+
+	//for testing:
+	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
+	$tc_timestamp = get_option( 'cmplz_show_terms_conditions_notice' );
+	if ( $tc_timestamp < strtotime( '-1 week' )){
+		$plugins[] = array(
+			'name'      => 'Complianz - Terms & Conditions',
+			'slug'      => 'complianz-terms-conditions',
+			'source'    => 'https://wordpress.org/plugins/complianz-terms-conditions/',
+			'required'  => false, // If false, the plugin is only 'recommended' instead of required.
+		);
+	}
+
 	/*
 	 * Array of configuration settings. Amend each line as needed.
 	 *
@@ -73,7 +85,7 @@ function cmplz__register_required_plugins() {
 	 * Only uncomment the strings in the config array if you want to customize the strings.
 	 */
 	$config = array(
-		'id'           => 'complianz-gdpr',                 // Unique ID for hashing notices for multiple instances of TGMPA.
+		'id'           => 'complianz-gdpr',        // Unique ID for hashing notices for multiple instances of TGMPA.
 		'default_path' => '',                      // Default absolute path to bundled plugins.
 		'menu'         => 'cmplz-install-plugins', // Menu slug.
 		'parent_slug'  => 'plugins.php',            // Parent menu slug.
@@ -86,14 +98,14 @@ function cmplz__register_required_plugins() {
 		'strings'      => array(
 			'notice_can_activate_recommended' => _n_noop(
 				/* translators: 1: plugin name(s). */
-				'You have one ore more plugins compatible with the Consent API. To optimize compliancy, Complianz recommends to activate the following plugin: %1$s.',
+				'Complianz GDPR/CCPA recommends to activate the following plugin: %1$s.',
 				'The following recommended plugins are currently inactive: %1$s.',
 				'complianz-gdpr'
 			),
 			'notice_can_install_recommended'  => _n_noop(
 			/* translators: 1: plugin name(s). */
-				'You have one ore more plugins compatible with the Consent API. To optimize compliancy, Complianz recommends the following plugin: %1$s.',
-				'Complianz recommends the following plugins: %1$s.',
+				'Complianz GDPR/CCPA recommends the following plugin: %1$s.',
+				'Complianz GDPR/CCPA recommends the following plugins: %1$s.',
 				'complianz-gdpr'
 			),
 		),
@@ -102,3 +114,4 @@ function cmplz__register_required_plugins() {
 
 	cmplz_tgmpa( $plugins, $config );
 }
+add_action( 'cmplz_register', 'cmplz__register_required_plugins' );

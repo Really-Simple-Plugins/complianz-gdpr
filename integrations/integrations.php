@@ -29,6 +29,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'elementor' => array(
+			'constant_or_function' => 'ELEMENTOR_VERSION',
+			'label'                => 'Elementor',
+			'firstparty_marketing' => false,
+	),
+
 	'nudgify'          => array(
 		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
 		'label'                => 'Nudgify',
