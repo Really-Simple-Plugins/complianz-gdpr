@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.6
-Stable tag: 4.9.6
+Stable tag: 4.9.7
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -114,6 +114,10 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.9.7 =
+* Improvement: cookie policy overview css for mobile
+* Fix: Youtube in Elementor widget after Elementor update not blocking anymore
+
 = 4.9.6 =
 * Fix: Revoke on cookie policy with accept/deny banner
 * Improvement: do not re-run marketing after consent
