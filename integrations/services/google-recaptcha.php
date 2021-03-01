@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_recaptcha_script' );
 function cmplz_recaptcha_script( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[] = 'google.com/recaptcha';
@@ -16,6 +17,8 @@ function cmplz_recaptcha_script( $tags ) {
 
 add_filter( 'cmplz_known_iframe_tags', 'cmplz_recaptcha_iframetags' );
 function cmplz_recaptcha_iframetags( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[] = 'google.com/recaptcha/';
 	}
@@ -24,6 +27,8 @@ function cmplz_recaptcha_iframetags( $tags ) {
 
 add_filter( 'cmplz_placeholder_markers', 'cmplz_google_recaptcha_placeholder' );
 function cmplz_google_recaptcha_placeholder( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags['google-recaptcha'][] = 'recaptcha-invisible'; //forminator
 		$tags['google-recaptcha'][] = 'g-recaptcha'; //ultimate member
@@ -37,6 +42,8 @@ function cmplz_google_recaptcha_placeholder( $tags ) {
 
 add_action( 'wp_footer', 'cmplz_recaptcha_css' );
 function cmplz_recaptcha_css() {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
+
 	?>
 	<style>
 		.cmplz-blocked-content-container.recaptcha-invisible,

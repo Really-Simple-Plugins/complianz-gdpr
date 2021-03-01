@@ -720,11 +720,8 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() && get_option('cmplz_detected_missing_jquery') ) {
 					$warnings[] = 'no-jquery';
 				}
-
 				$warnings = apply_filters( 'cmplz_warnings', $warnings );
-
-				set_transient( 'complianz_warnings', $warnings,
-					HOUR_IN_SECONDS );
+				set_transient( 'complianz_warnings', $warnings, HOUR_IN_SECONDS );
 			}
 
 			$warnings = array_diff( $warnings, $ignore_warnings );

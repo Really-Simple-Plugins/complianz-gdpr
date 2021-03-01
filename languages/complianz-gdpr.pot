@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-02-11 13:59+0100\n"
-"PO-Revision-Date: 2021-02-11 13:59+0100\n"
+"POT-Creation-Date: 2021-03-01 16:49+0100\n"
+"PO-Revision-Date: 2021-03-01 16:49+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -150,14 +150,14 @@ msgid ""
 "include \"contact\"."
 msgstr ""
 
-#: callback-notices.php:109
+#: callback-notices.php:105
 #, php-format
 msgid ""
 "The scan found third-party services on your website: %s, this means the "
 "answer should be yes."
 msgstr ""
 
-#: callback-notices.php:121
+#: callback-notices.php:117
 msgid ""
 "The cookie scan detected cookies from services that share data with Third "
 "Parties. According to the CCPA, your website is considered to sell personal "
@@ -166,13 +166,13 @@ msgid ""
 "Google Analytics."
 msgstr ""
 
-#: callback-notices.php:131
+#: callback-notices.php:127
 msgid ""
 "Your site uses Divi. If you use reCAPTCHA on your site, you may need to "
 "disable the reCAPTCHA integration in Complianz. "
 msgstr ""
 
-#: callback-notices.php:136 integrations/integrations-menu.php:94
+#: callback-notices.php:132 integrations/integrations-menu.php:94
 #: integrations/integrations-menu.php:223
 #, php-format
 msgid ""
@@ -182,11 +182,11 @@ msgid ""
 "the placeholder to your liking."
 msgstr ""
 
-#: callback-notices.php:137 integrations/integrations-menu.php:96
+#: callback-notices.php:133 integrations/integrations-menu.php:96
 msgid "services"
 msgstr ""
 
-#: callback-notices.php:155
+#: callback-notices.php:151
 #, php-format
 msgid ""
 "Your site uses Google Fonts. For best privacy compliance, we recommend to "
@@ -194,7 +194,7 @@ msgid ""
 "article%s"
 msgstr ""
 
-#: callback-notices.php:178
+#: callback-notices.php:174
 #, php-format
 msgid ""
 "Because your site uses third-party cookies, the cookie blocker is now "
@@ -204,7 +204,7 @@ msgid ""
 "on the %ssettings page%s"
 msgstr ""
 
-#: callback-notices.php:189
+#: callback-notices.php:185
 #, php-format
 msgid ""
 "Complianz provides your Cookie Policy with comprehensive cookie "
@@ -216,75 +216,75 @@ msgid ""
 "information, read the %sPrivacy Statement%s"
 msgstr ""
 
-#: callback-notices.php:200 callback-notices.php:209
+#: callback-notices.php:196 callback-notices.php:205
 msgid ""
 "The cookie scan detected cookies from services which share data with Third "
 "Parties. If these cookies were also used in the past 12 months, you should "
 "at least select the option 'Internet activity...'"
 msgstr ""
 
-#: callback-notices.php:219
+#: callback-notices.php:215
 msgid ""
 "You have indicated your site does not use cookies. If you're sure about "
 "this, you can skip this step"
 msgstr ""
 
-#: callback-notices.php:228
+#: callback-notices.php:224
 msgid ""
 "With Tag Manager, you can also configure your (personalized) advertising "
 "based on consent."
 msgstr ""
 
-#: callback-notices.php:236
+#: callback-notices.php:232
 msgid ""
 "If you choose to block reCAPTCHA, please make sure you add a placeholder to "
 "your forms."
 msgstr ""
 
-#: callback-notices.php:245
+#: callback-notices.php:241
 msgid ""
 "You have indicated you use a statistics tool which tracks personal data. You "
 "can insert this script here so it only fires if the user consents to this."
 msgstr ""
 
-#: callback-notices.php:264
+#: callback-notices.php:260
 #, php-format
 msgid ""
 "The cookie scan detected %s types of cookies on your site which means the "
 "answer to this question should be Yes."
 msgstr ""
 
-#: callback-notices.php:267
+#: callback-notices.php:263
 msgid ""
 "The cookie scan detected no cookies on your site which means the answer to "
 "this question can be answered with No."
 msgstr ""
 
-#: callback-notices.php:279 callback-notices.php:298
+#: callback-notices.php:275 callback-notices.php:294
 msgid ""
 "If you want to specify the categories used by Tag Manager, you need to "
 "enable categories."
 msgstr ""
 
-#: callback-notices.php:283 callback-notices.php:302
+#: callback-notices.php:279 callback-notices.php:298
 msgid "Categories are mandatory for your statistics configuration"
 msgstr ""
 
-#: callback-notices.php:316 callback-notices.php:318
+#: callback-notices.php:312 callback-notices.php:314
 msgid "It is recommended to select a Privacy Statement."
 msgstr ""
 
-#: callback-notices.php:316
+#: callback-notices.php:312
 msgid ""
 "The link to the Privacy Statement is used in the cookie banner and in your "
 "Cookie Policy."
 msgstr ""
 
-#: callback-notices.php:318
+#: callback-notices.php:314
 msgid "The link to the Privacy Statement is used in your Cookie Policy."
 msgstr ""
 
-#: callback-notices.php:331
+#: callback-notices.php:327
 msgid ""
 "You use plugins which place first-party marketing cookies. You can view "
 "these plugins on the integrations page. Complianz cannot automatically block "
@@ -292,7 +292,7 @@ msgid ""
 "API."
 msgstr ""
 
-#: callback-notices.php:343
+#: callback-notices.php:339
 msgid ""
 "You have selected options that indicate your site processes sensitive, "
 "personal data. You should select 'Yes'"
@@ -302,288 +302,288 @@ msgstr ""
 msgid "Data successfully cleared"
 msgstr ""
 
-#: class-admin.php:595 class-admin.php:779 class-admin.php:780
-#: class-admin.php:1387 shepherd/tour.php:120
+#: class-admin.php:601 class-admin.php:782 class-admin.php:783
+#: class-admin.php:1390 shepherd/tour.php:120
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:602
+#: class-admin.php:608
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:608 class-admin.php:793
+#: class-admin.php:614 class-admin.php:796
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:621
+#: class-admin.php:627
 msgid ""
 "All fields have been completed, but you have not clicked the finish button "
 "yet."
 msgstr ""
 
-#: class-admin.php:739
+#: class-admin.php:742
 #, php-format
 msgid "Complianz %s"
 msgstr ""
 
-#: class-admin.php:746
+#: class-admin.php:749
 msgid "Complianz"
 msgstr ""
 
-#: class-admin.php:757 class-admin.php:758 shepherd/tour.php:85
+#: class-admin.php:760 class-admin.php:761 shepherd/tour.php:85
 msgid "Dashboard"
 msgstr ""
 
-#: class-admin.php:766 class-admin.php:767 class-admin.php:810
+#: class-admin.php:769 class-admin.php:770 class-admin.php:813
 msgid "Wizard"
 msgstr ""
 
-#: class-admin.php:818 pro/class-dataleak.php:368 pro/class-processing.php:127
+#: class-admin.php:821 pro/class-dataleak.php:368 pro/class-processing.php:127
 msgid "Your license needs to be activated to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:852 pro/filters-actions.php:208
+#: class-admin.php:855 pro/filters-actions.php:208
 msgid "Tools"
 msgstr ""
 
-#: class-admin.php:861
+#: class-admin.php:864
 #, php-format
 msgid "For the most common issues see the Complianz %sknowledge base%s"
 msgstr ""
 
-#: class-admin.php:867
+#: class-admin.php:870
 #, php-format
 msgid "Ask your questions on the %sWordPress forum%s"
 msgstr ""
 
-#: class-admin.php:873
+#: class-admin.php:876
 msgid "Create dataleak report"
 msgstr ""
 
-#: class-admin.php:875 class-admin.php:883
+#: class-admin.php:878 class-admin.php:886
 #, php-format
 msgid "(%spremium%s)"
 msgstr ""
 
-#: class-admin.php:881
+#: class-admin.php:884
 msgid "Create Processing Agreement"
 msgstr ""
 
-#: class-admin.php:889
+#: class-admin.php:892
 #, php-format
 msgid "Upgrade to Complianz premium for %spremium support%s"
 msgstr ""
 
-#: class-admin.php:904 proof-of-consent/class-proof-of-consent.php:195
+#: class-admin.php:907 proof-of-consent/class-proof-of-consent.php:195
 #: proof-of-consent/class-proof-of-consent.php:196
 #: proof-of-consent/class-proof-of-consent.php:240
 msgid "Proof of consent"
 msgstr ""
 
-#: class-admin.php:908
+#: class-admin.php:911
 msgid "Export personal data"
 msgstr ""
 
-#: class-admin.php:912
+#: class-admin.php:915
 msgid "Erase personal data"
 msgstr ""
 
-#: class-admin.php:921
+#: class-admin.php:924
 msgid "Manage shop privacy"
 msgstr ""
 
-#: class-admin.php:932 config/steps.php:20 config/steps.php:92
+#: class-admin.php:935 config/steps.php:20 config/steps.php:92
 #: pro/config/steps.php:19
 msgid "Documents"
 msgstr ""
 
-#: class-admin.php:977
+#: class-admin.php:980
 #, php-format
 msgid "Obsolete page, you can delete %s"
 msgstr ""
 
-#: class-admin.php:989
+#: class-admin.php:992
 msgid "Click to view the document shortcode"
 msgstr ""
 
-#: class-admin.php:999
+#: class-admin.php:1002
 msgid "Document is kept up to date by Complianz"
 msgstr ""
 
-#: class-admin.php:1001
+#: class-admin.php:1004
 msgid "Document is not kept up to date by Complianz"
 msgstr ""
 
-#: class-admin.php:1014
+#: class-admin.php:1017
 #, php-format
 msgid "You should create a %s"
 msgstr ""
 
-#: class-admin.php:1056
+#: class-admin.php:1059
 #, php-format
 msgid "Privacy Statement (%s) - (%spremium%s)"
 msgstr ""
 
-#: class-admin.php:1066
+#: class-admin.php:1069
 msgid "Like Complianz | GDPR/CCPA Cookie Consent?"
 msgstr ""
 
-#: class-admin.php:1069
+#: class-admin.php:1072
 msgid "Then you'll like the premium plugin even more! With: "
 msgstr ""
 
-#: class-admin.php:1071
+#: class-admin.php:1074
 msgid "A/B testing"
 msgstr ""
 
-#: class-admin.php:1072 config/steps.php:62
+#: class-admin.php:1075 config/steps.php:62
 #: cookiebanner/class-cookiebanner.php:885 cookiebanner/settings.php:671
 #: pro/tcf/tcf.php:428 pro/tcf/tcf.php:516
 msgid "Statistics"
 msgstr ""
 
-#: class-admin.php:1073
+#: class-admin.php:1076
 msgid "Multiple regions"
 msgstr ""
 
-#: class-admin.php:1074
+#: class-admin.php:1077
 msgid "More legal documents"
 msgstr ""
 
-#: class-admin.php:1075
+#: class-admin.php:1078
 msgid "Premium support"
 msgstr ""
 
-#: class-admin.php:1076
+#: class-admin.php:1079
 msgid "& more!"
 msgstr ""
 
-#: class-admin.php:1080
+#: class-admin.php:1083
 msgid "Discover premium"
 msgstr ""
 
-#: class-admin.php:1093
+#: class-admin.php:1096
 msgid "Really Simple SSL"
 msgstr ""
 
-#: class-admin.php:1096
+#: class-admin.php:1099
 msgid "Trusted by over 5 million WordPress users"
 msgstr ""
 
-#: class-admin.php:1107
+#: class-admin.php:1110
 msgid "Feature requests"
 msgstr ""
 
-#: class-admin.php:1110
+#: class-admin.php:1113
 msgid "Need new features or languages? Let us know!"
 msgstr ""
 
-#: class-admin.php:1120
+#: class-admin.php:1123
 msgid "Documentation"
 msgstr ""
 
-#: class-admin.php:1123
+#: class-admin.php:1126
 msgid "Check out the docs on complianz.io!"
 msgstr ""
 
-#: class-admin.php:1133
+#: class-admin.php:1136
 msgid "Our blog"
 msgstr ""
 
-#: class-admin.php:1136
+#: class-admin.php:1139
 msgid "Stay up to date with the latest news"
 msgstr ""
 
-#: class-admin.php:1162
+#: class-admin.php:1165
 msgid "Free"
 msgstr ""
 
-#: class-admin.php:1175
+#: class-admin.php:1178
 msgid "Your progress"
 msgstr ""
 
-#: class-admin.php:1181
+#: class-admin.php:1184
 msgid "Your website is not ready for your selected regions yet."
 msgstr ""
 
-#: class-admin.php:1185
+#: class-admin.php:1188
 msgid "Well done! Your website is ready for your selected regions."
 msgstr ""
 
-#: class-admin.php:1208
+#: class-admin.php:1211
 msgid "Continue"
 msgstr ""
 
-#: class-admin.php:1222
+#: class-admin.php:1225
 msgid "Tasks"
 msgstr ""
 
-#: class-admin.php:1232
+#: class-admin.php:1235
 msgid "No cookies detected yet"
 msgstr ""
 
-#: class-admin.php:1269
+#: class-admin.php:1272
 msgid "Nothing on your to do list"
 msgstr ""
 
-#: class-admin.php:1277
+#: class-admin.php:1280
 msgid "System status"
 msgstr ""
 
-#: class-admin.php:1296
+#: class-admin.php:1299
 #, php-format
 msgid "Your site is configured for %s."
 msgstr ""
 
-#: class-admin.php:1305
+#: class-admin.php:1308
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: class-admin.php:1309
+#: class-admin.php:1312
 msgid ""
 "Your site does not require a cookie banner. No cookie banner has been "
 "enabled."
 msgstr ""
 
-#: class-admin.php:1313
+#: class-admin.php:1316
 #, php-format
 msgid "Last cookie scan on %s"
 msgstr ""
 
-#: class-admin.php:1452
+#: class-admin.php:1455
 msgid "Upgrade action required"
 msgstr ""
 
-#: class-admin.php:1455
+#: class-admin.php:1458
 msgid ""
 "Complianz 4.0 is Live! This major update provides automatic comprehensive "
 "cookie descriptions by cookiedatabase.org!"
 msgstr ""
 
-#: class-admin.php:1458
+#: class-admin.php:1461
 msgid "Please check the following to ensure a smooth update:"
 msgstr ""
 
-#: class-admin.php:1463
+#: class-admin.php:1466
 #, php-format
 msgid ""
 "Issue a new %scookiescan%s (we will automatically start one 30 minutes after "
 "update)"
 msgstr ""
 
-#: class-admin.php:1473
+#: class-admin.php:1476
 #, php-format
 msgid "Opt in to the %sCookiedatabase.org API%s"
 msgstr ""
 
-#: class-admin.php:1483
+#: class-admin.php:1486
 #, php-format
 msgid ""
 "%sCheck the results%s of the cookiedatabase.org synchronization and complete "
 "missing descriptions."
 msgstr ""
 
-#: class-admin.php:1494
+#: class-admin.php:1497
 #, php-format
 msgid ""
 "Complianz and the cookiedatabase.org community are working round the clock "
@@ -4795,18 +4795,29 @@ msgid ""
 "advertising is now disabled in Beehive."
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:88
+#: integrations/plugins/contact-form-7.php:93
 msgid "Click to accept marketing cookies and enable this form"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:159
+#: integrations/plugins/contact-form-7.php:96
+msgid "Please accept marketing cookies to enable this form"
+msgstr ""
+
+#: integrations/plugins/contact-form-7.php:172
 msgid "(Contact form 7)"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:177
+#: integrations/plugins/contact-form-7.php:190
 #: integrations/plugins/wpforms.php:61
 #, php-format
 msgid "To submit this form, you need to accept our %sPrivacy Statement%s"
+msgstr ""
+
+#: integrations/plugins/contact-form-7.php:273
+msgid ""
+"Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 "
+"integration as of CF7 5.4. We have concluded that the only viable solution "
+"is for Contact Form 7 to integrate with the WP Consent API."
 msgstr ""
 
 #: integrations/plugins/forminator-addon-class.php:25
