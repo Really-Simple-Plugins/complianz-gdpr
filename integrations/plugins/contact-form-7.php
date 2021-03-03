@@ -267,11 +267,14 @@ add_filter( 'cmplz_detected_services', 'cmplz_contactform7_detected_services' );
 function cmplz_cf7_warnings_types($warnings)
 {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '<')) return $warnings;
+	$recaptcha = WPCF7_RECAPTCHA::get_instance();
 
-	$warnings['contact-form-7'] = array(
-		'type'        => 'general',
-		'label_error' => __( 'Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 integration as of CF7 5.4. We have concluded that the only viable solution is for Contact Form 7 to integrate with the WP Consent API.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/why-the-wp-consent-api-is-important-a-case-study-with-cf7-and-recaptcha/'),
-	);
+	if ( $recaptcha->is_active() ) {
+		$warnings['contact-form-7'] = array(
+				'type'        => 'general',
+				'label_error' => __( 'Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 integration as of CF7 5.4. We have concluded that the only viable solution is for Contact Form 7 to integrate with the WP Consent API.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/why-the-wp-consent-api-is-important-a-case-study-with-cf7-and-recaptcha/'),
+		);
+	}
 	return $warnings;
 }
 add_filter('cmplz_warnings_types', 'cmplz_cf7_warnings_types');

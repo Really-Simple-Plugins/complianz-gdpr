@@ -612,8 +612,6 @@ function cmplz_unset_placeholder_hooks() {
 				"cmplz_{$service}_placeholder" );
 		}
 	}
-
-
 }
 
 /**

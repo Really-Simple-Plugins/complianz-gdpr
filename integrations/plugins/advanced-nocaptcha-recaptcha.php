@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
  * @return array
  */
 function cmplz_advanced_captcha_nocaptcha_script( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[] = 'google.com/recaptcha/api.js';
@@ -23,6 +24,8 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_advanced_captcha_nocaptcha_script'
  */
 
 function cmplz_advanced_captcha_nocaptcha_dependencies( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[ 'google.com/recaptcha/api.js' ] = 'var anr_captcha';
 	}
@@ -36,6 +39,8 @@ add_filter( 'cmplz_dependencies', 'cmplz_advanced_captcha_nocaptcha_dependencies
 
 add_filter( 'cmplz_placeholder_markers', 'cmplz_advanced_captcha_nocaptcha_placeholder' );
 function cmplz_advanced_captcha_nocaptcha_placeholder( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags['google-recaptcha'][] = 'anr_captcha_field_div'; //ultimate member
 	}
@@ -46,6 +51,8 @@ function cmplz_advanced_captcha_nocaptcha_placeholder( $tags ) {
  * Add css
  */
 function cmplz_advanced_captcha_nocaptcha_css() {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
+
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 
 		?>
@@ -80,6 +87,7 @@ add_action( 'wp_footer', 'cmplz_advanced_captcha_nocaptcha_css' );
  * @return array
  */
 function cmplz_advanced_captcha_nocaptcha_services( $services ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $services;
 
 	if ( ! in_array( 'google-recaptcha', $services ) ) {
 		$services[] = 'google-recaptcha';
