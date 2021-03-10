@@ -35,11 +35,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
-//	'novo-map' => array(
-//			'constant_or_function' => 'NOVO_MAP_VERSION',
-//			'label'                => 'Novo-Map',
-//			'firstparty_marketing' => false,
-//	),
+	'novo-map' => array(
+			'constant_or_function' => 'NOVO_MAP_VERSION',
+			'label'                => 'Novo-Map',
+			'firstparty_marketing' => false,
+	),
 
 	'citadela-directory' => array(
 			'constant_or_function' => 'CITADELA_DIRECTORY_LITE_PLUGIN',

@@ -1202,7 +1202,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @return int
 		 * */
 
-
 		public function wizard_percentage_complete()  //($page)
 		{
 			//store to make sure it only runs once.
@@ -1234,15 +1233,10 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					}
 				}
 			}
-
 			$total_warnings     = count( COMPLIANZ::$config->warning_types );
-			$completed_warnings = $total_warnings
-			                      - count( COMPLIANZ::$admin->get_warnings( false,
-					false, array( 'no-dnt' ) ) );
-
+			$completed_warnings = $total_warnings - count( COMPLIANZ::$admin->get_warnings( false, false, array( 'no-dnt' ) ) );
 			$completed_fields += $completed_warnings;
 			$total_fields     += $total_warnings;
-
 			$pages = COMPLIANZ::$document->get_required_pages();
 			foreach ( $pages as $region => $region_pages ) {
 				foreach ( $region_pages as $type => $page ) {
@@ -1253,13 +1247,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				}
 			}
 
-			$percentage = round( 100 * ( $completed_fields / $total_fields )
-			                     + 0.45 );
-
+			$percentage = round( 100 * ( $completed_fields / $total_fields ) + 0.45 );
 			$this->percentage_complete = $percentage;
-
 			return $percentage;
-
 		}
 
 	}

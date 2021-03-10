@@ -286,7 +286,12 @@ add_filter('cmplz_warnings_types', 'cmplz_cf7_warnings_types');
  */
 
 function cmplz_cf7_warnings( $warnings ){
-	$warnings[] = 'contact-form-7';
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '<')) return $warnings;
+	$recaptcha = WPCF7_RECAPTCHA::get_instance();
+
+	if ( $recaptcha->is_active() ) {
+		$warnings[] = 'contact-form-7';
+	}
 	return $warnings;
 }
 add_filter( 'cmplz_warnings', 'cmplz_cf7_warnings' );
