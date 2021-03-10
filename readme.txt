@@ -114,6 +114,11 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.9.10 =
+* New: Novo Maps integration
+* Improvement: pinterest blocklist extended
+* Fix: not 100% in wizard because of CF7 notification, even when not applicable.
+
 = 4.9.9 =
 * Improvement: only show CF7 notice when recaptcha is active
 
