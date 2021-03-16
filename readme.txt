@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 4.9.10
+Stable tag: 4.9.11
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -115,6 +115,12 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 4.9.11 =
+* Fix: Elementor integration firing init, causing issues with hamburger menu
+* New: Clicky integration
+* New: feedback for AMP/no javascript
+* Fix: lanuage when requesting over rest-api with polylang
+
 = 4.9.10 =
 * New: Novo Maps integration
 * Improvement: pinterest blocklist extended

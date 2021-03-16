@@ -1047,7 +1047,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function manage_consent_html( $atts = array(), $content = null, $tag = ''
 		) {
-			return '<a id="manage-consent"></a><p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
+			$html = '<div id="cmplz-manage-consent-container-nojavascript">'.
+					_x( "You have loaded the Cookie Policy without javascript support.", "cookie policy", "complianz-gdpr" ).
+					_x( "On AMP, you can use the manage consent button on the bottom of the page.", "cookie policy", "complianz-gdpr" ).
+					'</div>';
+			$html .= '<a id="manage-consent"></a><p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
+			return $html;
 		}
 
 		public function revoke_link( $atts = array(), $content = null, $tag = ''
@@ -2673,8 +2678,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * Function to generate a pdf file, either saving to file, or echo to browser
 		 *
 		 * @param $page
+		 * @param $region
 		 * @param $post_id
 		 * @param $save_to_file
+		 * @param $intro
 		 * @param $append //if we want to add addition html
 		 *
 		 * @throws \Mpdf\MpdfException

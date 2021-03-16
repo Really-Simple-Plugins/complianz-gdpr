@@ -1239,7 +1239,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_timeout'        => $this->dismiss_on_timeout,
 				'cookie_expiry'             => cmplz_get_value( 'cookie_expiry' ),
 				'nonce'                     => wp_create_nonce( 'set_cookie' ),
-				'url'                       => add_query_arg('lang',  substr(get_locale(),0,2), get_rest_url().'complianz/v1/' ),
+				'url'                       => add_query_arg(array('lang' => substr(get_locale(),0,2), 'locale' => get_locale() ), get_rest_url().'complianz/v1/' ),
 				'set_cookies_on_root'       => cmplz_get_value( 'set_cookies_on_root' ),
 				'cookie_domain'             => COMPLIANZ::$cookie_admin->get_cookie_domain(),
 				'current_policy_id'         => COMPLIANZ::$cookie_admin->get_active_policy_id(),

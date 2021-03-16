@@ -1,6 +1,9 @@
 /*
   To ensure this file is minified, comment the import in document.less, then save this file.
 */
+#cmplz-manage-consent-container {
+  display: none;
+}
 #cmplz-cookies-overview .cmplz-service-header {
   display: grid;
   grid-template-columns: 1fr 70px;

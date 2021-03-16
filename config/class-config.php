@@ -152,7 +152,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'googletagmanager.com/gtag/js',
 					'gtm.js',
 				),
-				'matomo'             => array( 'piwik.js', 'matomo.js' ),
+				'matomo' => array( 'piwik.js', 'matomo.js' ),
+				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
 			);
 
 

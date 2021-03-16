@@ -62,6 +62,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'cmplz_statistics_script', array( $this, 'get_statistics_script' ), 10 );
 			add_action( 'cmplz_tagmanager_script', array( $this, 'get_tagmanager_script' ), 10 );
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_gtag_js' ), 10 );
+			add_action( 'cmplz_before_statistics_script', array( $this, 'add_clicky_js' ), 10 );
 			add_filter( 'cmplz_script_class', array( $this, 'add_script_classes_for_stats' ), 10, 3 );
 			add_action( 'wp_ajax_cmplz_edit_item', array( $this, 'ajax_edit_item' ) );
 			add_action( 'wp_ajax_cmplz_get_list', array( $this, 'ajax_get_list' ) );
@@ -2145,12 +2146,45 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 		/**
+		 * Add generic clicky js script
+		 */
+
+		public function add_clicky_js(){
+			$statistics = cmplz_get_value( 'compile_statistics' );
+			if ( $statistics === 'clicky' ) {
+				$classes = $this->get_statistics_script_classes();
+				$type = in_array( 'cmplz-native', $classes ) ? 'text/javascript' : 'text/plain';
+				?>
+				<script async type='<?php echo $type?>' class="<?php echo implode( " ", $classes ) ?>" src="//static.getclicky.com/js"></script>
+				<?php
+			}
+		}
+
+		/**
 		 * Inline scripts which do not require a warning
 		 */
 
 		public function inline_cookie_script_no_warning() {
 			?>
 			<script type='text/javascript' class="cmplz-native">
+				jQuery(document).ready(function ($) {
+					$('.cmplz-service-header').each(function () {
+						var item = $(this).next();
+						$(this).removeClass('cmplz-service-open');
+						item.addClass('cmplz-service-hidden');
+					});
+					$(document).on('click', '.cmplz-service-header', function () {
+						var item = $(this).next();
+
+						if (item.hasClass('cmplz-service-hidden')) {
+							$(this).addClass('cmplz-service-open');
+							item.removeClass('cmplz-service-hidden');
+						} else {
+							$(this).removeClass('cmplz-service-open');
+							item.addClass('cmplz-service-hidden');
+						}
+					});
+				});
 				<?php do_action( 'cmplz_statistics_script' );?>
 				<?php do_action( 'cmplz_tagmanager_script' );?>
 				<?php if ( cmplz_get_value( 'disable_cookie_block' ) != 1 ) {
@@ -2213,6 +2247,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$script = str_replace( '{matomo_url}',
 					esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_url' ) ) ),
 					$script );
+			} elseif ( $statistics === 'clicky' ) {
+				$script = cmplz_get_template( 'clicky.js' );
+				$script = str_replace( '{site_ID}',
+				esc_attr( cmplz_get_value( 'clicky_site_id' ) ), $script );
 			}
 			echo apply_filters( 'cmplz_script_filter', $script );
 		}
@@ -2381,6 +2419,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
 						     || preg_match_all( '/piwik\.js/', $html ) > 1
 						     || preg_match_all( '/matomo\.js/', $html ) > 1
+						     || preg_match_all( '/getclicky\.com\/js', $html ) > 1
 						) {
 							update_option( 'cmplz_double_stats', true );
 						} else {
@@ -2399,12 +2438,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 				}
 				//load in iframe so the scripts run.
-				echo '<iframe id="cmplz_cookie_scan_frame" class="hidden" src="'
-				     . $url . '"></iframe>';
-
+				echo '<iframe id="cmplz_cookie_scan_frame" class="hidden" src="' . $url . '"></iframe>';
 			}
 		}
-
 
 		/**
 		 * Check a string for statistics
@@ -2483,7 +2519,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				$pattern = '/\'anonymizeIp\':[ ]{0,1}true/i';
 				preg_match( $pattern, $html, $matches );
-				if ( $matches && isset( $matches[2] ) ) {
+				if ( $matches ) {
 					$value = cmplz_get_value( 'compile_statistics_more_info' );
 					if ( ! is_array( $value ) ) {
 						$value = array();
@@ -2500,20 +2536,29 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				if ( $matches && isset( $matches[2] ) ) {
 					cmplz_update_option( 'wizard', 'matomo_url', sanitize_text_field( $matches[2] ) );
 					update_option( 'cmplz_detected_stats_data', true );
-
 				}
 
 				$pattern = '/\[\'setSiteId\', \'([0-9]){1,3}\'\]\)/i';
 				preg_match( $pattern, $html, $matches );
-				if ( $matches && isset( $matches[2] ) ) {
-					cmplz_update_option( 'wizard', 'matomo_site_id', sanitize_text_field( $matches[1] ) );
+				if ( $matches && isset( $matches[1] ) ) {
+					cmplz_update_option( 'wizard', 'matomo_site_id', intval( $matches[1] ) );
 					update_option( 'cmplz_detected_stats_data', true );
 				}
 
 				cmplz_update_option( 'wizard', 'compile_statistics', 'matomo' );
 			}
 
+			if ( strpos( $html, 'static.getclicky.com/js' ) !== false ) {
+				update_option( 'cmplz_detected_stats_type', true );
 
+				$pattern = '/clicky_site_ids\.push\(([0-9]{1,3})\)/i';
+				preg_match( $pattern, $html, $matches );
+				if ( $matches && isset( $matches[1] ) ) {
+					cmplz_update_option( 'wizard', 'clicky_site_id', intval( $matches[1] ) );
+					update_option( 'cmplz_detected_stats_data', true );
+					cmplz_update_option( 'wizard', 'compile_statistics', 'clicky' );
+				}
+			}
 		}
 
 
@@ -3839,11 +3884,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$has_optinstats = cmplz_uses_consenttype( 'optinstats', $region );
 			$statistics     = cmplz_get_value( 'compile_statistics' );
 
+			if ( $statistics === 'clicky' ) {
+				return true;
+			}
+
 			//uk requires cookie warning for stats
 			if ( $has_optinstats && $statistics !== 'no' ) {
 				return true;
 			}
-
 			//if we're here, we don't need stats if they're set up privacy friendly
 			$privacy_friendly = $this->statistics_privacy_friendly();
 

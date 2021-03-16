@@ -66,6 +66,31 @@ jQuery(document).ready(function ($) {
 	];
 
 	/**
+	 * Show manage consent area
+	 */
+	$('#cmplz-manage-consent-container-nojavascript').hide();
+	$('#cmplz-manage-consent-container').show();
+	/**
+	 * Toggle service
+	 */
+	$('.cmplz-service-header').each(function () {
+		var item = $(this).next();
+		$(this).removeClass('cmplz-service-open');
+		item.addClass('cmplz-service-hidden');
+	});
+	$(document).on('click', '.cmplz-service-header', function () {
+		var item = $(this).next();
+
+		if (item.hasClass('cmplz-service-hidden')) {
+			$(this).addClass('cmplz-service-open');
+			item.removeClass('cmplz-service-hidden');
+		} else {
+			$(this).removeClass('cmplz-service-open');
+			item.addClass('cmplz-service-hidden');
+		}
+	});
+
+	/**
 	 * prevent scroll to top behaviour because of missing href tag
 	 */
 
@@ -1875,22 +1900,6 @@ jQuery(document).ready(function ($) {
 			};
 		}
 	}
-
-	/**
-	 * Toggle service
-	 */
-
-	$(document).on('click', '.cmplz-service-header', function () {
-		var item = $(this).next();
-
-		if (item.hasClass('cmplz-service-hidden')) {
-			$(this).addClass('cmplz-service-open');
-			item.removeClass('cmplz-service-hidden');
-		} else {
-			$(this).removeClass('cmplz-service-open');
-			item.addClass('cmplz-service-hidden');
-		}
-	});
 
 	function getHoverColour(hex){
 		if (hex[0] == '#') {

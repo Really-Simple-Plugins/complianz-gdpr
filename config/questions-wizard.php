@@ -297,6 +297,8 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ),
 				'matomo'             => __( 'Yes, with Matomo',
 					'complianz-gdpr' ),
+					'clicky'             => __( 'Yes, with Clicky',
+						'complianz-gdpr' ),
 				'google-tag-manager' => __( 'Yes, with Google Tag Manager',
 					'complianz-gdpr' ),
 				'no'                 => __( 'No', 'complianz-gdpr' )
@@ -462,11 +464,26 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'required'                => true,
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Matomo site ID",
-				'complianz-gdpr' ),
+			'label'                   => __( "Enter your Matomo site ID", 'complianz-gdpr' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
 			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
 			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'clicky_site_id' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'number',
+			'default'                 => '',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Enter your Clicky site ID", 'complianz-gdpr' ),
+			'callback_condition'               => array(
+				'compile_statistics' => 'clicky',
+			),
+			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
+			'help'                    => __( "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/configuring-clicky-for-gdpr/' ),
 		),
 
 		'matomo_url' => array(

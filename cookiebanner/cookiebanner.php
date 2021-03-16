@@ -263,12 +263,10 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 		: cmplz_get_default_banner_id();
 	if ( cmplz_get_value( 'use_custom_cookie_css' . $cookiebanner_id ) ) {
 		$custom_css = cmplz_get_value( 'custom_css' . $cookiebanner_id );
-		( 'sanitized css' . $custom_css );
 		if ( ! empty( $custom_css ) ) {
 			wp_add_inline_style( 'cmplz-cookie', $custom_css );
 		}
 	}
-
 
 	$cookiesettings
 		= COMPLIANZ::$cookie_admin->get_cookiebanner_settings( $cookiebanner_id );

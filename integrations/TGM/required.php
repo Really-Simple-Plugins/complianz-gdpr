@@ -8,8 +8,8 @@
 function cmplz_consent_api_registered( $plugin ) {
 
 	//we don't need a recommended notice for Complianz or the consent API.
-	if (strpos($plugin, 'wp-consent-api.php')!==FALSE) return false;
-	if (strpos($plugin, 'complianz')!==FALSE) return false;
+	if (strpos($plugin, 'wp-consent-api.php') !== FALSE) return false;
+	if (strpos($plugin, 'complianz') !== FALSE) return false;
 
 	return apply_filters( "wp_consent_api_registered_$plugin", false );
 }
@@ -66,7 +66,7 @@ function cmplz__register_required_plugins() {
 	//for testing:
 	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
 	$tc_timestamp = get_option( 'cmplz_show_terms_conditions_notice' );
-	if ( $tc_timestamp < strtotime( '-1 week' )){
+	if ( !defined( 'cmplz_tc_version' ) && $tc_timestamp < strtotime( '-1 week' )){
 		$plugins[] = array(
 			'name'      => 'Complianz - Terms & Conditions',
 			'slug'      => 'complianz-terms-conditions',
