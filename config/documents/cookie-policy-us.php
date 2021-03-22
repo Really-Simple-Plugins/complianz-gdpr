@@ -13,6 +13,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'title' => 'Introduction',
         'content' => sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]', '[article-cookie_names]'),
     ),
+
     array(
         'p' => false,
         'content' => "We also use the website to collect and sell your personal information. In the document below we explain which data we have sold in the last 12 months, and we give you the possibility to opt-out.",
@@ -21,6 +22,57 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
             'california' => 'yes',
         ),
     ),
+
+	array(
+		'title' => 'Selling data to third parties',
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+	array(
+		'subtitle' => 'Categories of data',
+		'content' => 'The following categories of data are sold to third parties',
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+
+	array(
+		'content' => '[selling-data-thirdparty_data_purpose_us]',
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+
+	array(
+		'title' => 'Selling data to third parties',
+		'content' => 'We do not sell data to third parties',
+		'callback_condition' => 'NOT cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+
+	array(
+		'subtitle' => 'Object to selling of personal data to third parties',
+		'content' => 'You can object to our selling of your personal data by entering your email address and name here. We will then remove your data from the databases we sell to third parties.',
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+
+	array(
+		'content' => cmplz_do_not_sell_personal_data_form(),
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'california' => 'yes',
+		),
+	),
+
 
     array(
         'title' => 'What are cookies?',
@@ -136,55 +188,6 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
     array(
         'title' => 'Enabling/disabling and deleting cookies',
         'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
-    ),
-    array(
-        'title' => 'Selling data to third parties',
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-    array(
-        'subtitle' => 'Categories of data',
-        'content' => 'The following categories of data are sold to third parties',
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-
-    array(
-        'content' => '[selling-data-thirdparty_data_purpose_us]',
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-
-    array(
-        'title' => 'Selling data to third parties',
-        'content' => 'We do not sell data to third parties',
-        'callback_condition' => 'NOT cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-
-    array(
-        'subtitle' => 'Object to selling of personal data to third parties',
-        'content' => 'You can object to our selling of your personal data by entering your email address and name here. We will then remove your data from the databases we sell to third parties.',
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-
-    array(
-        'content' => cmplz_do_not_sell_personal_data_form(),
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
     ),
 
     array(

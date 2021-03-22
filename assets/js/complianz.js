@@ -112,12 +112,12 @@ jQuery(document).ready(function ($) {
 	/**
 	 * This creates an API which devs can use to trigger actions in complianz.
 	 */
-	document.addEventListener( 'cmplz_consent_action', function (e) {
+	document.addEventListener('cmplz_consent_action', function (e) {
 		cmplzFireCategories( e.detail.category , true);
 		cmplzSyncCategoryCheckboxes();
 		cmplzSaveCategoriesSelection();
 	});
-	
+
 	/**
 	 * Set placeholder image as background on the parent div, set notice, and handle height.
 	 *
@@ -1238,7 +1238,6 @@ jQuery(document).ready(function ($) {
 					$('.'+cat).each(function(){
 						$(this).prop('checked', false);
 					});
-
 				}
 			}
 		}
