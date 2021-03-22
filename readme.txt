@@ -116,6 +116,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 4.9.11 =
+= 4.9.11 =
+* Legal: Do Not Sell My Personal information form moved up to top of policy in accordance with recent changes
 * Fix: Elementor integration firing init, causing issues with hamburger menu
 * New: Clicky integration
 * New: feedback for AMP/no javascript
