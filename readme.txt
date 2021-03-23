@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 4.9.11
+Stable tag: 4.9.12
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -115,7 +115,9 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
-= 4.9.11 =
+= 4.9.12 =
+* Legal: ending delimiter in clicky recognition regex
+
 = 4.9.11 =
 * Legal: Do Not Sell My Personal information form moved up to top of policy in accordance with recent changes
 * Fix: Elementor integration firing init, causing issues with hamburger menu

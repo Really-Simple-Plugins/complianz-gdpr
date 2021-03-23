@@ -2419,7 +2419,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
 						     || preg_match_all( '/piwik\.js/', $html ) > 1
 						     || preg_match_all( '/matomo\.js/', $html ) > 1
-						     || preg_match_all( '/getclicky\.com\/js', $html ) > 1
+						     || preg_match_all( '/getclicky\.com\/js/', $html ) > 1
 						) {
 							update_option( 'cmplz_double_stats', true );
 						} else {
