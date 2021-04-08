@@ -167,6 +167,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'weglot-translate'          => array(
+		'constant_or_function' => 'WEGLOT_VERSION',
+		'label'                => 'Weglot Translate',
+		'firstparty_marketing' => false,
+	),
+
 	'user-registration' => array(
 		'constant_or_function' => 'UR',
 		'label'                => 'User Registration',

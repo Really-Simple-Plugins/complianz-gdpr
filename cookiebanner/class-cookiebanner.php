@@ -241,8 +241,17 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					foreach ( $cookiebanner as $fieldname => $value ) {
 						$this->{$fieldname} = $this->get_value( $fieldname, $value );
 						//if partially empty
-						if ( is_array( $this->{$fieldname} ) ) {
-							$this->{$fieldname} = wp_parse_args( $this->{$fieldname}, $this->get_default( $fieldname ) );
+						$defaults = $this->get_default( $fieldname );
+						//we cannot use parse_args, as that will also set values when it's 0.
+						if ( is_array( $this->{$fieldname} ) && is_array($defaults) ) {
+							foreach( $defaults as $key => $default_arr_value ) {
+								if ( isset($defaults['type']) && !isset($this->{$fieldname}['type'])) {
+									$this->{$fieldname}['type'] = $defaults['type'];
+								}
+								if ( !isset($this->{$fieldname}[$key]) ) {
+									$this->{$fieldname}[$key] = 0;
+								}
+							}
 						}
 					}
 
@@ -272,7 +281,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			foreach ( $this as $fieldname => $value ) {
-				if ( empty($value) ) {
+				if ( empty($value) && $value !==0 ) {
 					$this->{$fieldname} = $this->get_default( $fieldname );
 				}
 			}
@@ -421,7 +430,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( ! $this->id ) {
 				$this->add();
 			}
-
 			$this->banner_version ++;
 
 			//register translations fields
@@ -436,6 +444,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$statistics   = serialize( $this->statistics );
+
 			$update_array = array(
 				'position'                  => sanitize_title( $this->position ),
 				'banner_version'            => intval( $this->banner_version ),
@@ -536,8 +545,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @return int|array
 		 */
 		public function sanitize_int_array( $int ) {
+			$store_int = false;
 			if ( is_array($int) ) {
-				$int = serialize( array_map('intval', $int ) );
+				if (isset($int['type'])) {
+					$store_int = $int['type'];
+				}
+				$int = array_map('intval', $int );
+				if ($store_int){
+					$int['type'] = $store_int;
+				}
+				$int = serialize(  $int );
 			} else {
 				$int = intval($int);
 			}
@@ -1163,7 +1180,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @return string
 		 */
         private function get_border_radius($element) {
-            $type   = !isset($element['type']) || $element['type'] == 'px' ? 'px' : '%';
+            $type   = !isset($element['type']) || $element['type'] == '%' ? '%' : 'px';
             $top    = $element['top'] .  $type . ' ';
             $right  = $element['right'] .  $type . ' ';
             $bottom = $element['bottom'] .  $type . ' ';

@@ -1417,7 +1417,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
             );
 
             foreach ($args['fields'] as $field)
-            { ?>
+            {
+            	$options = array('px', '%');
+            	if (!in_array($values['type'], $options )){
+					$values['type']='px';
+				}
+            	?>
 
                 <div class="cmplz-border-radius-wrap">
                     <div class="cmplz-sublabel">
@@ -1428,7 +1433,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                            name="<?php echo esc_html( $field['fieldname'] ) ?>"
                            value="<?php echo esc_html( $field['value'] ) ?>"
                            class="cmplz-border-radius">
-
                 </div>
                 <?php
             }
@@ -1440,8 +1444,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
                     class="cmplz-border-input-type"
                     type="hidden" value="<?php echo $values['type'] ?>"
                     name="<?php echo $fieldname . '[type]' ?>">
-                <span class="cmplz-border-input-type-pixel <?php echo $values['type'] === 1 ? 'cmplz-grey' : '' ?>">px</span>
-                <span class="cmplz-border-input-type-percent <?php echo $values['type'] === 0 ? 'cmplz-grey' : '' ?>">%</span>
+                <span class="cmplz-border-input-type-pixel <?php echo $values['type'] === '%' ? 'cmplz-grey' : '' ?>">px</span>
+                <span class="cmplz-border-input-type-percent <?php echo $values['type'] === 'px' ? 'cmplz-grey' : '' ?>">%</span>
             </div>
 
             <?php do_action( 'complianz_after_field', $args );

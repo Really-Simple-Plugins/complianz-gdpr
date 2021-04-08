@@ -481,7 +481,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					          cmplz_read_more('https://complianz.io/informal-language-in-legal-documents/')
 				),
 
-
 				'cookies-changed' => array(
 					'plus_one' => true,
 					'warning_condition' => 'cookie_admin->cookies_changed',
@@ -517,25 +516,25 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				),
 
 				'ga-needs-configuring'     => array(
-					'warning_condition' => 'cookie_admin->analytics_configured',
+					'warning_condition' => 'cookie_admin->uses_google_analytics',
 					'success_conditions'  => array(
-						'NOT cookie_admin->uses_google_analytics',
+						'cookie_admin->analytics_configured',
 					),
 					'open' => __( 'Google Analytics is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
 				),
 
 				'gtm-needs-configuring'    => array(
-					'warning_condition' => 'cookie_admin->tagmanager_configured',
+					'warning_condition' => 'cookie_admin->uses_google_tagmanager',
 					'success_conditions'  => array(
-						'NOT cookie_admin->uses_google_tagmanager',
+						'cookie_admin->tagmanager_configured',
 					),
 					'open' => __( 'Google Tag Manager is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
 				),
 
 				'matomo-needs-configuring' => array(
-					'warning_condition' => 'cookie_admin->matomo_configured',
+					'warning_condition' => 'cookie_admin->uses_matomo',
 					'success_conditions'  => array(
-						'NOT cookie_admin->uses_matomo',
+						'cookie_admin->matomo_configured',
 					),
 					'open' => __( 'Matomo is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
 				),

@@ -273,7 +273,7 @@
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-cols-2 .cmplz-field {
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 33% 33%;
   grid-column-gap: 20px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-cols-2 .cmplz-field .cmplz-label {
@@ -281,7 +281,7 @@
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-cols-3 .cmplz-field {
   display: grid;
-  grid-template-columns: 100px 100px 100px;
+  grid-template-columns: 33% 33% 33%;
   grid-column-gap: 20px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-cols-3 .cmplz-field .cmplz-label {

@@ -611,15 +611,33 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							$banner->colorpalette_toggles['background']         = $result->slider_background_color;
 							$banner->colorpalette_toggles['bullet']             = $result->slider_bullet_color;
 							$banner->colorpalette_toggles['inactive']           = $result->slider_background_color_inactive;
-							$banner->colorpalette_button_accept['background']   = $result->accept_all_background_color;
-							$banner->colorpalette_button_accept['border']       = $result->accept_all_border_color;
-							$banner->colorpalette_button_accept['text']         = $result->accept_all_text_color;
+
+							if ($banner->use_categories === 'no' ) {
+								$banner->colorpalette_button_accept['background']   = $result->button_background_color;
+								$banner->colorpalette_button_accept['border']       = $result->button_background_color;
+								$banner->colorpalette_button_accept['text']         = $result->button_text_color;
+							} else {
+								$banner->colorpalette_button_accept['background']   = $result->accept_all_background_color;
+								$banner->colorpalette_button_accept['border']       = $result->accept_all_border_color;
+								$banner->colorpalette_button_accept['text']         = $result->accept_all_text_color;
+							}
+
 							$banner->colorpalette_button_deny['background']     = $result->functional_background_color;
 							$banner->colorpalette_button_deny['border']         = $result->functional_border_color;
 							$banner->colorpalette_button_deny['text']           = $result->functional_text_color;
 							$banner->colorpalette_button_settings['background'] = $result->button_background_color;
 							$banner->colorpalette_button_settings['border']     = $result->functional_border_color;
 							$banner->colorpalette_button_settings['text']       = $result->button_text_color;
+							if ($banner->theme === 'edgeless') {
+								$banner->buttons_border_radius = array(
+										'top'       => '0',
+										'right'     => '0',
+										'bottom'    => '0',
+										'left'      => '0',
+										'type'      => 'px',
+								);
+							}
+
 							$banner->custom_css                                 = $result->custom_css . "\n\n" . $result->custom_css_amp;
 							$banner->save();
 						}
@@ -769,6 +787,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			);
 			$args = wp_parse_args($args, $defaults);
 			$cache = $args['cache'];
+			if (isset($_GET['page']) && ($_GET['page']==='complianz' || strpos($_GET['page'],'cmplz') !== false ) ) {
+				$cache = false;
+			}
+
 			$warnings = $cache ? get_transient( 'complianz_warnings' ) : false;
 			//re-check if there are no warnings, or if the transient has expired
 			if ( ! $warnings ) {
@@ -830,49 +852,50 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						}
 					}
 				}
-
-				//filter by status
-				if ($args['status'] !== 'all' ) {
-					$filter_statuses = is_array($args['status']) ? $args['status'] : array($args['status']);
-					foreach ($warnings as $id => $warning ) {
-						if ( !in_array( $warning['status'], $filter_statuses) ) {
-							unset( $warnings[$id] );
-						}
-					}
-				}
-
-				//filter by plus ones
-				if ($args['plus_ones']) {
-					//if notifications disabled, we return an empty array when the plus ones are requested.
-					if ( cmplz_get_value( 'disable_notifications' ) ) {
-						return array();
-					}
-					foreach ($warnings as $id => $warning ) {
-						if (!$warning['plus_one']){
-							unset($warnings[$id]);
-						}
-					}
-				}
-
-				//sort so warnings are on top
-				$completed = array();
-				$open = array();
-				$urgent = array();
-				foreach ($warnings as $key => $warning){
-					//prevent notices on upgrade to 5.0
-					if ( !isset( $warning['status'])) continue;
-
-					if ($warning['status']==='urgent') {
-						$urgent[$key] = $warning;
-					} else if ($warning['status']==='open') {
-						$open[$key] = $warning;
-					} else {
-						$completed[$key] = $warning;
-					}
-				}
-				$warnings = $urgent + $open + $completed;
 				set_transient( 'complianz_warnings', $warnings, HOUR_IN_SECONDS );
 			}
+
+			//filtering outside cache if, to make sure all warnings are saved for the cache.
+			//filter by status
+			if ($args['status'] !== 'all' ) {
+				$filter_statuses = is_array($args['status']) ? $args['status'] : array($args['status']);
+				foreach ($warnings as $id => $warning ) {
+					if ( !in_array( $warning['status'], $filter_statuses) ) {
+						unset( $warnings[$id] );
+					}
+				}
+			}
+
+			//filter by plus ones
+			if ($args['plus_ones']) {
+				//if notifications disabled, we return an empty array when the plus ones are requested.
+				if ( cmplz_get_value( 'disable_notifications' ) ) {
+					return array();
+				}
+				foreach ($warnings as $id => $warning ) {
+					if (!$warning['plus_one']){
+						unset($warnings[$id]);
+					}
+				}
+			}
+
+			//sort so warnings are on top
+			$completed = array();
+			$open = array();
+			$urgent = array();
+			foreach ($warnings as $key => $warning){
+				//prevent notices on upgrade to 5.0
+				if ( !isset( $warning['status'])) continue;
+
+				if ($warning['status']==='urgent') {
+					$urgent[$key] = $warning;
+				} else if ($warning['status']==='open') {
+					$open[$key] = $warning;
+				} else {
+					$completed[$key] = $warning;
+				}
+			}
+			$warnings = $urgent + $open + $completed;
 
 			return $warnings;
 		}
@@ -944,7 +967,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
-
 			$warnings = $this->get_warnings( array(
 					'plus_ones' => true,
 			) );
