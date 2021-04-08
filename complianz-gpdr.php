@@ -77,7 +77,9 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $document;
 		public static $cookie_blocker;
 		public static $DNSMPD;
+		public static $support;
 		public static $proof_of_consent;
+		public static $records_of_consent;
 
 		private function __construct() {
 			self::setup_constants();
@@ -90,7 +92,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$DNSMPD = new cmplz_DNSMPD();
 			}
 
-			if ( is_admin() ) {
+			if ( is_admin() || defined('CMPLZ_DOING_SYSTEM_STATUS') ) {
 				self::$review          = new cmplz_review();
 				self::$admin           = new cmplz_admin();
 				self::$field           = new cmplz_field();
@@ -110,13 +112,10 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		 */
 
 		private function setup_constants() {
-			define( 'CMPLZ_COOKIEDATABASE_URL',
-				'https://cookiedatabase.org/wp-json/cookiedatabase/' );
-
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			$plugin_data = get_plugin_data( __FILE__ );
-			define( 'CMPLZ_MINUTES_PER_QUESTION', 0.33 );
-			define( 'CMPLZ_MINUTES_PER_QUESTION_QUICK', 0.1 );
+
+			define( 'CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/' );
 			define( 'CMPLZ_MAIN_MENU_POSITION', 40 );
 			define( 'CMPLZ_PROCESSING_MENU_POSITION', 41 );
 			define( 'CMPLZ_DATALEAK_MENU_POSITION', 42 );
@@ -132,7 +131,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			} //Days
 
 			define( 'STEP_COMPANY', 1 );
-			define( 'STEP_PLUGINS', 2 );
 			define( 'STEP_COOKIES', 2 );
 			define( 'STEP_MENU', 3 );
 			define( 'STEP_FINISH', 4 );
@@ -140,8 +138,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			define( 'cmplz_url', plugin_dir_url( __FILE__ ) );
 			define( 'cmplz_path', plugin_dir_path( __FILE__ ) );
 			define( 'cmplz_plugin', plugin_basename( __FILE__ ) );
-			$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? time()
-				: '';
+			$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? time() : '';
 			define( 'cmplz_version', $plugin_data['Version'] . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
 		}
@@ -176,7 +173,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			}
 			require_once plugin_dir_path( __FILE__ ) . 'rest-api/rest-api.php';
 
-			if ( is_admin() ) {
+			if ( is_admin() || defined('CMPLZ_DOING_SYSTEM_STATUS') ) {
+				require_once(cmplz_path . '/assets/icons.php');
 				require_once( cmplz_path . 'class-admin.php' );
 				require_once( cmplz_path . 'class-review.php' );
 				require_once( cmplz_path . 'class-field.php' );
@@ -185,6 +183,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'cookiebanner/cookiebanner.php' );
 				require_once( cmplz_path . 'class-export.php' );
 				require_once( cmplz_path . 'shepherd/tour.php' );
+				require_once( cmplz_path . 'grid/grid.php' );
 			}
 
 			require_once( cmplz_path . 'proof-of-consent/class-proof-of-consent.php' );
@@ -199,10 +198,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		private function hooks() {
 			//has to be wp, because of AMP plugin
 			add_action( 'wp', 'cmplz_init_cookie_blocker' );
-			add_action( 'wp_ajax_nopriv_cmplz_user_settings',
-				'cmplz_ajax_user_settings' );
-			add_action( 'wp_ajax_cmplz_user_settings',
-				'cmplz_ajax_user_settings' );
 		}
 	}
 
@@ -237,9 +232,6 @@ if ( ! function_exists( 'cmplz_start_tour' ) ) {
 	 * Start the tour of the plugin on activation
 	 */
 	function cmplz_start_tour() {
-		if ( !get_option( 'cmplz_show_terms_conditions_notice' ) ) {
-			update_option('cmplz_show_terms_conditions_notice', time());
-		}
 		if ( ! get_site_option( 'cmplz_tour_shown_once' ) ) {
 			update_site_option( 'cmplz_tour_started', true );
 		}
