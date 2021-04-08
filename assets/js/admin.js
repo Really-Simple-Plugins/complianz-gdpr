@@ -1,5 +1,95 @@
 jQuery(document).ready(function ($) {
     'use strict';
+	$(document).on('click', '.cmplz-copy-shortcode', function () {
+		var element_id = $(this).closest('.shortcode-container').find('.cmplz-shortcode').attr('id');
+		var element = document.getElementById(element_id);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		var range = document.createRange();
+		range.selectNodeContents(element);
+		sel.addRange(range);
+		var success;
+		try {
+			success = document.execCommand("copy");
+		} catch (e) {
+			success = false;
+		}
+
+		if (success) {
+			var icon = $(this).find('.cmplz-tooltip-icon');
+			icon.addClass('copied');
+			setTimeout(function(){ icon.removeClass('copied') }, 1000);
+		}
+	});
+
+	$(document).on('click', '.cmplz-download-document', function () {
+		var btn =  $(this);
+		var oldBtnHtml = btn.html();
+		var selectElement = $(this).closest('.cmplz-document').find('select');
+		var url = selectElement.val();
+		var fileTitle = $(this).closest('.cmplz-document').find('select option:selected').text();
+		var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+		btn.html(loader);
+		btn.attr('disabled', 'disabled');
+
+		var request = new XMLHttpRequest();
+		request.responseType = 'blob';
+		request.open('get', url, true);
+		request.send();
+
+		request.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var obj = window.URL.createObjectURL(this.response);
+
+				var element = document.createElement('a');
+				element.setAttribute('href',obj);
+				element.setAttribute('download', fileTitle);
+				document.body.appendChild(element);
+				//onClick property
+				element.click();
+				setTimeout(function() {
+					window.URL.revokeObjectURL(obj);
+				}, 60 * 1000);
+			}
+		};
+
+		request.onprogress = function(e) {
+			btn.html(oldBtnHtml);
+			btn.removeAttr("disabled");
+		};
+
+	});
+
+    $(document).on('change', '.cmplz-grid-selector', function(){
+    	var new_value = $(this).val();
+    	var property_name = $(this).attr('id');
+    	var url = window.location.href;
+		var region = cmplzGetUrlParam(url, property_name);
+		if (region !== false ) {
+			url = url.replace('&'+property_name+'='+region, '' );
+		}
+		url += '&'+property_name+'='+new_value;
+		window.location.replace(url);
+	});
+
+	function cmplzGetUrlParam(sPageURL, sParam) {
+		if (typeof sPageURL === 'undefined') return false;
+
+		var queryString = sPageURL.split('?');
+		if (queryString.length == 1) return false;
+
+		var sURLVariables = queryString[1].split('&'),
+			sParameterName,
+			i;
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+			}
+		}
+		return false;
+	}
+
     //tabs
     $(document).on('click', '.cmplz-tablinks', function(){
         $(".cmplz-tablinks").removeClass('active');
@@ -16,63 +106,29 @@ jQuery(document).ready(function ($) {
         });
     }, 2000);
 
+    function remove_after_change() {
+        $(".cmplz-panel.cmplz-remove-after-change").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }
+
     /*
     * open and close panels
     * */
     $(document).on('click', '.cmplz-panel-toggle', function(){
         var content = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-content');
-        var icon_toggle = $(this).closest('.cmplz-slide-panel').find('i.toggle');
+        var icon_toggle = $(this).closest('.cmplz-slide-panel').find('.cmplz-panel-toggle :first-child div');
         //close all open panels
 
         if (content.is(':hidden')){
-            icon_toggle.removeClass('fa-caret-right');
-            icon_toggle.addClass('fa-caret-down');
+            icon_toggle.toggleClass('dashicons-arrow-down-alt2');
+            icon_toggle.toggleClass('dashicons-arrow-right-alt2');
             content.slideDown("fast");
-
         } else {
             content.slideUp( 'fast');
-            icon_toggle.removeClass('fa-caret-down');
-            icon_toggle.addClass('fa-caret-right');
+            icon_toggle.toggleClass('dashicons-arrow-right-alt2');
+            icon_toggle.toggleClass('dashicons-arrow-down-alt2');
         }
-    });
-
-    /*
-    * help modals
-    * */
-    $(document).on('click', '.cmplz-open-modal', function(e){
-
-        e.preventDefault();
-        var field_group = $(this).closest('.field-group');
-        var field = field_group.find('.cmplz-field');
-        var help_modal = field_group.find('.cmplz-help-modal');
-
-        //close all other modals.
-
-        $('.cmplz-field').each(function(){
-            $(this).css('float','none');
-            $(this).css('width','100%');
-        });
-
-        $('.cmplz-help-modal').each(function(){
-            $(this).hide();
-
-            //reset parent div height
-            $(this).parent().height(0);
-        });
-        field.css('float','left');
-        field.css('width','60%');
-
-        //force the div height
-        if (!field_group.hasClass('cmplz-settings')) {
-            var height = field.height();
-            if (help_modal.height() > height) height = help_modal.height();
-            height += 20;
-            help_modal.parent().height(height);
-        }
-        help_modal.fadeIn();
-
-
-
     });
 
     $(document).on('click', '.cmplz-help-modal span', function(e){
@@ -131,9 +187,10 @@ jQuery(document).ready(function ($) {
         cmplz_validate_multiple();
     });
 
+
     //validation of checkboxes
     cmplz_validate_checkboxes();
-    $('.cmplz-validate-multicheckbox .is-required:checkbox').change(cmplz_validate_checkboxes);
+    $(':checkbox').change(cmplz_validate_checkboxes);
 
     function cmplz_validate_checkboxes() {
         $('.cmplz-validate-multicheckbox').each(function (i) {
@@ -167,58 +224,66 @@ jQuery(document).ready(function ($) {
 
         });
 
-
         //now apply the required.
-
         check_conditions();
-    }
+	}
 
-
-    //validation of checkboxes
-    cmplz_validate_radios();
-    $('input:radio').attr('required',true).click(cmplz_validate_radios);
-    //$(document).on('click','input:radio:required', cmplz_validate_radios );
-    function cmplz_validate_radios() {
-        $('.cmplz-validate-radio').each(function (i) {
-            var set_required = [];
-            var all_unchecked = true;
-
-            $(this).find('input:radio').each(function (i) {
-                set_required.push($(this));
-                if ($(this).is(':checked')) {
-                    all_unchecked = false;
-                }
-            });
-            var container = $(this).closest('.field-group').find('.cmplz-label');
-            if (all_unchecked) {
-                container.removeClass('valid-radio');
-                container.addClass('invalid-radio');
-            } else {
-                container.removeClass('invalid-radio');
-                container.addClass('valid-radio');
-            }
-
-        });
-
-
-        //now apply the required.
-
+    $(document).on('change', 'input', function (e) {
         check_conditions();
-    }
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
+	});
 
-    check_conditions();
-    $("input").change(function (e) {
+    $(document).on('keyup', 'input', function (e) {
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
+	});
+
+    $(document).on('change', 'select', function (e) {
         check_conditions();
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
+	});
+
+    $(document).on('change', 'textarea', function (e) {
+        check_conditions();
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
+	});
+
+    $(document).on('keyup', 'textarea', function (e) {
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
+	});
+
+    $(document).on('click', 'button', function (e) {
+        remove_after_change();
+		cmplz_show_save_settings_feedback(e);
     });
 
-    $("select").change(function (e) {
-        check_conditions();
-    });
+	setTimeout(function () {
+		if (typeof tinymce !== 'undefined') {
+			for (var i = 0; i < tinymce.editors.length; i++) {
+				tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
+					console.log("on change editor");
+					cmplz_show_save_settings_feedback();
+					if ($("input[name=step]").val() == 2) {
+						remove_after_change();
+					}
+				});
+			}
+		}
+	}, 5000);
 
-    $("textarea").change(function (e) {
-        check_conditions();
-    });
+	function cmplz_show_save_settings_feedback(e){
+		if (typeof e !== 'undefined' && e.target.type === 'submit') return;
+		if (typeof e !== 'undefined' && e.target.name === 'cmplz_type') return;
 
+		if ( $('.cmplz-save-settings').length ) {
+			$('.cmplz-notification.cmplz-success').closest('.cmplz-panel-wrap').hide();
+			$('.cmplz-save-settings').show();
+		}
+	}
 
     $(document).on("cmplzRenderConditions", check_conditions);
 
@@ -227,96 +292,97 @@ jQuery(document).ready(function ($) {
         var value;
         var showIfConditionMet = true;
 
-        $(".condition-check").each(function (e) {
-            var question = 'cmplz_' + $(this).data("condition-question");
-            var condition_type = 'AND';
+        $(".condition-check-1").each(function (e) {
 
-            if (question == undefined) return;
+            var i;
+            for (i = 1; i < 4; i++) {
+                var question = 'cmplz_' + $(this).data("condition-question-" + i);
+                var condition_type = 'AND';
 
-            var condition_answer = $(this).data("condition-answer");
+                if (question == 'cmplz_undefined') return;
 
-            //remove required attribute of child, and set a class.
-            var input = $(this).find('input[type=checkbox]');
-            if (!input.length) {
-                input = $(this).find('input');
-            }
-            if (!input.length) {
-                input = $(this).find('textarea');
-            }
-            if (!input.length) {
-                input = $(this).find('select');
-            }
+                var condition_answer = $(this).data("condition-answer-" + i);
 
-            if (input.length && input[0].hasAttribute('required')) {
-                input.addClass('is-required');
-            }
-
-            //cast into string
-            condition_answer += "";
-
-            if (condition_answer.indexOf('NOT ') !== -1) {
-                condition_answer = condition_answer.replace('NOT ', '');
-                showIfConditionMet = false;
-            } else {
-                showIfConditionMet = true;
-            }
-            var condition_answers = [];
-            if (condition_answer.indexOf(' OR ') !== -1) {
-                condition_answers = condition_answer.split(' OR ');
-                condition_type = 'OR';
-            } else {
-                condition_answers = [condition_answer];
-            }
-
-            var container = $(this);
-            var conditionMet = false;
-            condition_answers.forEach(function (condition_answer) {
-                value = get_input_value(question);
-
-                if ($('select[name=' + question + ']').length) {
-                    value = Array($('select[name=' + question + ']').val());
+                //remove required attribute of child, and set a class.
+                var input = $(this).find('input[type=checkbox]');
+                if (!input.length) {
+                    input = $(this).find('input');
+                }
+                if (!input.length) {
+                    input = $(this).find('textarea');
+                }
+                if (!input.length) {
+                    input = $(this).find('select');
                 }
 
-                if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length){
-                    if ($("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
-                        conditionMet = true;
-                        value = [];
-                    } else {
-                        conditionMet = false;
-                        value = [];
-                    }
+                if (input.length && input[0].hasAttribute('required')) {
+                    input.addClass('is-required');
                 }
 
-                if (showIfConditionMet) {
+                //cast into string
+                condition_answer += "";
 
-                    //check if the index of the value is the condition, or, if the value is the condition
-                    if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
-
-                        container.removeClass("hidden");
-                        //remove required attribute of child, and set a class.
-                        if (input.hasClass('is-required')) input.prop('required', true);
-                        //prevent further checks if it's an or statement
-                        if (condition_type === 'OR') conditionMet = true;
-
-                    } else {
-                        container.addClass("hidden");
-                        if (input.hasClass('is-required')) input.prop('required', false);
-                        //prevent further checks if it's an or statement
-                        if (condition_type === 'OR') return;
-                    }
+                if (condition_answer.indexOf('NOT ') !== -1) {
+                    condition_answer = condition_answer.replace('NOT ', '');
+                    showIfConditionMet = false;
                 } else {
-
-                    if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
-                        container.addClass("hidden");
-                        if (input.hasClass('is-required')) input.prop('required', false);
-
-                    } else {
-                        container.removeClass("hidden");
-                        if (input.hasClass('is-required')) input.prop('required', true);
-                    }
+                    showIfConditionMet = true;
                 }
-            });
+                var condition_answers = [];
+                if (condition_answer.indexOf(' OR ') !== -1) {
+                    condition_answers = condition_answer.split(' OR ');
+                    condition_type = 'OR';
+                } else {
+                    condition_answers = [condition_answer];
+                }
 
+                var container = $(this);
+                var conditionMet = false;
+                condition_answers.forEach(function (condition_answer) {
+                    value = get_input_value(question);
+
+                    if ($('select[name=' + question + ']').length) {
+                        value = Array($('select[name=' + question + ']').val());
+                    }
+                    if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length) {
+
+                        if ($("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
+                            conditionMet = true;
+                            value = [];
+                        } else {
+                            conditionMet = false;
+                            value = [];
+                        }
+                    }
+
+                    if (showIfConditionMet) {
+                        //check if the index of the value is the condition, or, if the value is the condition
+                        if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
+                            container.removeClass("cmplz-hidden");
+                            //remove required attribute of child, and set a class.
+                            if (input.hasClass('is-required')) input.prop('required', true);
+                            //prevent further checks if it's an or/and statement
+                            conditionMet = true;
+                        } else {
+							container.addClass("cmplz-hidden");
+                            if (input.hasClass('is-required')) input.prop('required', false);
+                        }
+                    } else {
+
+                        if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
+                            container.addClass("cmplz-hidden");
+                            if (input.hasClass('is-required')) input.prop('required', false);
+                        } else {
+                            container.removeClass("cmplz-hidden");
+                            if (input.hasClass('is-required')) input.prop('required', true);
+                            conditionMet = true;
+                        }
+                    }
+                });
+                if (!conditionMet) {
+                    break;
+                }
+            }
         });
     }
 
@@ -395,7 +461,6 @@ jQuery(document).ready(function ($) {
 
                         } else {
                             progressBar.css({width: progress + '%'});
-                            console.log('loading for cookie scan: '+next_page);
                             $("#cmplz_cookie_scan_frame").attr('src', next_page);
 
                             window.setTimeout(checkIframeLoaded, cmplz_interval);
@@ -419,9 +484,14 @@ jQuery(document).ready(function ($) {
     /*Cookie Database sync*/
     var syncProgress = 0;
     var syncProgressBar = $('.cmplz-sync-progress-bar');
+	var syncStatus = $('.cmplz-sync-status span');
+	var syncButton = $('.cmplz-resync');
+	syncStatus.hide();
     if ($('#cmplz-sync-progress').length) {
         var syncProgress = complianz_admin.syncProgress;
         if (syncProgress<100) {
+			syncButton.attr('disabled', 'disabled');
+			syncStatus.show();
             syncProgressBar.css({width: syncProgress + '%'});
             syncCookieDatabase();
         }
@@ -429,16 +499,22 @@ jQuery(document).ready(function ($) {
         loadListItem();
     }
 
-    var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
-    function syncCookieDatabase() {
-        //hide cookies during sync
+    /*restart sync*/
+	$(document).on('click', '.cmplz-resync', function(){
+		syncButton.attr('disabled', 'disabled');
+		syncProgressBar.css({width: '0%'});
+		syncStatus.show();
+		syncCookieDatabase(true);
+	});
 
-        //$('#cmplz-sync-loader').html(loader);
+    function syncCookieDatabase(restart) {
+		restart = typeof restart !== 'undefined' ? restart : false;
 
-        $.get(
+		$.get(
             complianz_admin.admin_url,
             {
-                action: 'cmplz_run_sync'
+                action: 'cmplz_run_sync',
+				restart: restart,
             },
             function (response) {
                 var obj;
@@ -454,7 +530,9 @@ jQuery(document).ready(function ($) {
                     if (syncProgress >= 100) {
                         syncProgress = 100;
                         $('#cmplz-sync-loader').html('');
-                        loadListItem();
+						syncStatus.hide();
+						syncButton.removeAttr("disabled");
+						loadListItem();
                         syncProgressBar.css({width: syncProgress + '%'});
                     } else {
                         syncProgressBar.css({width: syncProgress + '%'});
@@ -573,19 +651,40 @@ jQuery(document).ready(function ($) {
      * Keep sync button in sync with disabled state for both cookies and services
      */
     $(document).on('change', '.cmplz_sync', function(){
-
         var container = $(this).closest('.cmplz-field');
         var disabled = false;
         if ($(this).is(":checked")) disabled=true;
         container.find(':input').each(function () {
-            if ($(this).attr('name')==='cmplz_remove_item' || $(this).attr('name')==='cmplz-save-item' || $(this).attr('name')==='cmplz_showOnPolicy' || $(this).attr('name')==='cmplz_sync') return;
+            if ($(this).attr('name')==='cmplz_remove_item'  ||
+                $(this).attr('name')==='cmplz-save-item'    ||
+                $(this).attr('name')==='cmplz_restore_item' ||
+                $(this).attr('name')==='cmplz_showOnPolicy' ||
+                $(this).attr('name')==='cmplz_sync') return;
             $(this).prop('disabled', disabled);
             if (disabled){
                 $(this).closest('div').addClass('cmplz-disabled');
-
+                $(this).closest('label').addClass('cmplz-disabled');
             } else{
                 $(this).closest('div').removeClass('cmplz-disabled');
+                $(this).closest('label').removeClass('cmplz-disabled');
+            }
+        });
+    });
 
+    /**
+     * Keep use cdb in sync with sync button disabled state
+     */
+
+    $(document).on('change', '.cmplz_use_cdb_api', function(){
+        var disabled = ($(this).val() === 'no') ? true : false;
+        $('.cmplz-list-container').find(':input[name=cmplz_sync]').each(function () {
+            var sync_checkbox = $(this).closest('label');
+            if (disabled){
+                sync_checkbox.find(':checkbox').prop('checked', false).change();
+                sync_checkbox.addClass('cmplz-disabled');
+            } else{
+                sync_checkbox.removeClass('cmplz-disabled');
+                sync_checkbox.find(':checkbox').prop('checked', true).change();
             }
         });
     });
@@ -599,6 +698,7 @@ jQuery(document).ready(function ($) {
 
         if ($(this).is(":checked")) {
             container.find('.fa-sync-alt').removeClass('cmplz-disabled');
+
         } else {
             container.find('.fa-sync-alt').addClass('cmplz-disabled');
         }
@@ -751,8 +851,6 @@ jQuery(document).ready(function ($) {
     * */
 
     $(document).on('click', '.cmplz-edit-item', function(){
-        var template = $('.cmplz-settings-template').html();
-        var alertSuccess = $('#cmplz_action_success');
         var action = $(this).data('action');
         var btn = $(this);
         var type = btn.data('type');
@@ -791,26 +889,57 @@ jQuery(document).ready(function ($) {
                 if (response.success) {
                     if (action==='delete'){
                         panel.addClass('cmplz-deleted');
+                        container.find('input').each(function() {
+                            $(this).attr('disabled', 'disabled');
+                        });
+                        container.find('select').each(function() {
+                            $(this).attr('disabled', 'disabled');
+                        });
+                        container.children('div').addClass('cmplz-disabled');
+                        container.children('label').addClass('cmplz-disabled');
+                        container.find('button[name="cmplz-save-item"]').attr('disabled', 'disabled');
                     }
 					if (action==='restore'){
 						panel.removeClass('cmplz-deleted');
+                        container.find('input').each(function() {
+                            $(this).removeAttr("disabled");
+                        });
+                        container.find('select').each(function() {
+                            $(this).removeAttr("disabled");
+                        });
+                        container.children('div').removeClass('cmplz-disabled');
+                        container.children('label').removeClass('cmplz-disabled');
+                        container.find('button[name="cmplz-save-item"]').removeAttr("disabled");
+                        container.find('.cmplz_sync').change();
 					}
 					cmpzlSyncDeleteRestoreButtons();
                     if (action==='add'){
                         var html = response.html;
-                        var list_container = $('.cmplz-field>div.cmplz-list-container');
+                        var field = btn.closest('.cmplz-field');
                         var noservice = $('.cmplz-service-divider.no-service');
-                        if (noservice.length){
-                            noservice.after(html);
+                        if (response.divider) {
+                            if (noservice.length){
+                                noservice.closest('.cmplz-service-cookie-list').append(html);
+                            } else {
+                                html = '<div class="cmplz-service-cookie-list">' + response.divider + html + '<div>';
+                                field.find('.cmplz-list-container').append(html);
+                            }
+                            noservice = $('.cmplz-service-divider.no-service');
+                            var disable_sync = $('.cmplz_use_cdb_api:checked').val() == 'no';
+                            if (disable_sync) {
+                                noservice.siblings(":last").find('.cmplz_sync').closest('label').addClass('cmplz-disabled');
+                            }
                         } else {
-                            html = response.divider + html;
-                            list_container.append(html);
+                            field.find('.cmplz-list-container').append(html);
                         }
+
                     }
                     if (action==='save'){
-                        alertSuccess.show(100, function(){
-                            alertSuccess.delay(1000).hide();
-                        });
+                        var title = panel.find('.cmplz-title');
+                        var name = container.find('.cmplz_name').val();
+                        var new_title = title.text().replace(/\".*\"/, '"' + name + '"');
+                        title.text(new_title);
+                        btn.parent().append('<div class="cmplz-panel cmplz-success cmplz-remove-after-change">'+complianz_admin.saved_message+'</div>');
                     }
 
                     btn.html(btnHtml);
@@ -821,18 +950,7 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    /*
-    * show shortcodes
-    *
-    * */
-
-    $(document).on('click', '.cmplz-open-shortcode', function(){
-        $(this).closest('.cmplz-success').find('.cmplz-shortcode').toggle();
-    });
-
-
-
-    /*
+    /**
     * Check for anonymous window, adblocker
     *
     * */
@@ -866,7 +984,6 @@ jQuery(document).ready(function ($) {
 		cmplz_update_document_field();
 	});
 
-	cmplz_update_document_field();
 	function cmplz_update_document_field(){
 		if ($('.cmplz-document-field').length){
 			$('.cmplz-document-field').each(function(){
@@ -903,8 +1020,9 @@ jQuery(document).ready(function ($) {
 	$(document).on('click', '#cmplz-create_pages', function(){
 		//init loader anim
 		var btn = $('#cmplz-create_pages');
+		btn.attr('disabled', 'disabled');
 		var oldBtnHtml = btn.html();
-		btn.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+		btn.html('<div class="cmplz-loader "><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
 
 		//get all page titles from the page
 		var pageTitles = {};
@@ -915,9 +1033,7 @@ jQuery(document).ready(function ($) {
 				var region = {};
 			}
 			region[$(this).attr('name')] = $(this).val();
-
 			pageTitles[$(this).data('region')] = region;
-
 		});
 
 		$.ajax({
@@ -930,13 +1046,31 @@ jQuery(document).ready(function ($) {
 			}),
 			success: function (response) {
 				if (response.success) {
+					$('.cmplz-panel.cmplz-notification.cmplz-success.cmplz-hidden').removeClass('cmplz-hidden');
+					$('.cmplz-create-page-title').each(function(){
+						$(this).removeClass('cmplz-deleted-page').addClass('cmplz-valid-page');
+						$(this).parent().find('.cmplz-icon').replaceWith(response.icon);
+					});
+
+
+					btn.html(response.new_button_text);
+					btn.removeAttr('disabled');
+				} else {
+					btn.html(oldBtnHtml);
+
 					$('.cmplz-page-created').removeClass('fa-times').addClass('fa-check');
 					$('.cmplz-create-page-title').removeClass('cmplz-deleted-page');
 				}
-				btn.html(oldBtnHtml);
 			}
 		});
 	});
+
+
+    $(document).on('change', '.cmplz-region-select', function() {
+        var _href = $('.cmplz-document-button').attr("href").slice(0,-2);
+        $('.cmplz-document-button').attr('href', _href + $(this).val());
+    });
+
 
 	/**
 	 * Start export to csv of records of consent
@@ -1013,5 +1147,20 @@ jQuery(document).ready(function ($) {
 		}
 		return false;
 	}
+
+    $(document).on('change', '.cmplz-region-select', function() {
+        var _href = $('.cmplz-document-button').attr("href").slice(0,-2);
+        $('.cmplz-document-button').attr('href', _href + $(this).val());
+	});
+
+    $(document).on('click', '.upload_button', function (e) {
+        e.preventDefault();
+        $('input[type=file]').click();
+    });
+
+    $(document).on('change', ':input[name="cmplz-upload-file"]', function () {
+        $('.cmplz-file-chosen').text( $(this).val().split('\\').pop() );
+
+    });
 
 });

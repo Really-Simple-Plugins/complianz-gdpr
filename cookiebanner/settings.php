@@ -5,124 +5,22 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 	$schemes = array(
 		'Wordpress' => array(
 			'slider_background_color' => '#21759b',
-			'slider_bullet_color' => '#fff',
+			'slider_bullet_color' => '#f9f9f9',
 			'slider_background_color_inactive' => '#F56E28',
 			'accept_all_background_color' => '#21759b',
 			'accept_all_text_color' => '#fff',
 			'accept_all_border_color' => '#21759b',
-			'functional_background_color' => '#f1f1f1',
+			'functional_background_color' => '#fff',
 			'functional_text_color' => '#21759b',
-			'functional_border_color' => '#f1f1f1',
-			'popup_background_color' => '#f1f1f1',
-			'popup_text_color' => '#191e23',
-			'button_background_color' => '#f1f1f1',
+			'functional_border_color' => '#ffffff',
+			'colorpalette_background_color' => '#fff',
+			'colorpalette_text_color' => '#191e23',
+			'button_background_color' => '#fff',
 			'button_text_color' => '#21759b',
 			'border_color' => '#21759b',
 			'theme' => 'minimal',
 		),
-
-		'Minimalist' => array(
-			'slider_background_color' => '#5ccebb',
-			'slider_bullet_color' => '#fff',
-			'slider_background_color_inactive' => '#f4a977',
-			'accept_all_background_color' => '#fff',
-			'accept_all_text_color' => '#333',
-			'accept_all_border_color' => '#333',
-			'functional_background_color' => '#fff',
-			'functional_text_color' => '#333',
-			'functional_border_color' => '#fff',
-			'popup_background_color' => '#fff',
-			'popup_text_color' => '#333',
-			'button_background_color' => '#fff',
-			'button_text_color' => '#333',
-			'border_color' => '#fff',
-		),
-
-		'Darkmode' => array(
-			'slider_background_color' => '#081e2e',
-			'slider_bullet_color' => '#BBBBBB',
-			'slider_background_color_inactive' => '#230200',
-			'accept_all_background_color' => '#090030',
-			'accept_all_text_color' => '#BBBBBB',
-			'accept_all_border_color' => '#090030',
-			'functional_background_color' => '#230200',
-			'functional_text_color' => '#BBBBBB',
-			'functional_border_color' => '#230200',
-			'popup_background_color' => '#000000',
-			'popup_text_color' => '#BBBBBB',
-			'button_background_color' => '#081E2E',
-			'button_text_color' => '#BBBBBB',
-			'border_color' => '#081E2E',
-		),
-
-		'Really-Simple-SSL' => array(
-			'slider_background_color' => '#333333',
-			'slider_bullet_color' => '#f8be2e',
-			'slider_background_color_inactive' => '#F1f1f1',
-			'accept_all_background_color' => '#333333',
-			'accept_all_text_color' => '#f8be2e',
-			'accept_all_border_color' => '#333333',
-			'functional_background_color' => '#f8be2e',
-			'functional_text_color' => '#333333',
-			'functional_border_color' => '#333333',
-			'popup_background_color' => '#f8be2e',
-			'popup_text_color' => '#333333',
-			'button_background_color' => '#f8be2e',
-			'button_text_color' => '#333333',
-			'border_color' => '#333333',
-		),
-
-		'Complianz' => array(
-			'slider_background_color' => '#29b6f6',
-			'slider_bullet_color' => '#ffffff',
-			'slider_background_color_inactive' => '#cccccc',
-			'accept_all_background_color' => '#29b6f6',
-			'accept_all_text_color' => '#ffffff',
-			'accept_all_border_color' => '#29b6f6',
-			'functional_background_color' => '#000000',
-			'functional_text_color' => '#ffffff',
-			'functional_border_color' => '#0000000',
-			'popup_background_color' => '#ffffff',
-			'popup_text_color' => '#000000',
-			'button_background_color' => '#000000',
-			'button_text_color' => '#ffffff',
-			'border_color' => '#000000',
-		),
-
-		'WP-Search-Insights' => array(
-			'slider_background_color' => '#61ce70',
-			'slider_bullet_color' => '#ffffff',
-			'slider_background_color_inactive' => '#d7263d',
-			'accept_all_background_color' => '#d7263d',
-			'accept_all_text_color' => '#ffffff',
-			'accept_all_border_color' => '#d7263d',
-			'functional_background_color' => '#d7263d',
-			'functional_text_color' => '#ffffff',
-			'functional_border_color' => '#d7263d',
-			'popup_background_color' => '#f1f1f1',
-			'popup_text_color' => '#000000',
-			'button_background_color' => '#d7263d',
-			'button_text_color' => '#ffffff',
-			'border_color' => '#d7263d',
-		),
-
-		'Zip-Recipes' => array(
-			'slider_background_color' => '#81d742',
-			'slider_bullet_color' => '#ffffff',
-			'slider_background_color_inactive' => '#d60039',
-			'accept_all_background_color' => '#333333',
-			'accept_all_text_color' => '#ffffff',
-			'accept_all_border_color' => '#e35899',
-			'functional_background_color' => '#e35899',
-			'functional_text_color' => '#000000',
-			'functional_border_color' => '#e35899',
-			'popup_background_color' => '#333333',
-			'popup_text_color' => '#ffffff',
-			'button_background_color' => '#e35899',
-			'button_text_color' => '#000000',
-			'border_color' => '#e35899',
-		),
-
+		//keep this one
 		'tcf' => array(
 			'slider_background_color' => '#33CC66',
 			'slider_bullet_color' => '#fff',
@@ -161,595 +59,638 @@ function cmplz_add_cookiebanner_settings($fields){
 
 	$fields = $fields + array(
 
+	        /* ----- General ----- */
 			'title' => array(
 				'step'        => 'general',
 				'source'      => 'CMPLZ_COOKIEBANNER',
 				'type'        => 'text',
 				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
-				'help'        => __( 'For internal use only', 'complianz-gdpr' ),
-				'cols'     => 12,
+				'tooltip'        => __( 'For internal use only', 'complianz-gdpr' ),
+                'help' => __("Interested in full control over your cookie banner? Have a look at our CSS Lessons!", 'complianz-gdpr').cmplz_read_more('https://complianz.io/?s=CSS+Lesson&lang=en'),
 			),
+
+            'revoke' => array(
+                'source'    => 'CMPLZ_COOKIEBANNER',
+                'step'      => 'general',
+                'type'      => 'text',
+                'default'   => __( "Manage consent", 'complianz-gdpr' ),
+                'label'     => __( "Text on the manage consent tab", 'complianz-gdpr' ),
+                'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.',
+                    'complianz-gdpr' ),
+            ),
+
+            'hide_revoke' => array(
+              'source'  => 'CMPLZ_COOKIEBANNER',
+              'step'    => 'general',
+              'type'    => 'checkbox',
+              'default' => false,
+              'label'   => __( "Hide manage consent tab", 'complianz-gdpr' ),
+              'tooltip'    => __( 'If you want to hide the manage consent tab, enable this checkbox. The tab will normally appear after making a choice.', 'complianz-gdpr' ),
+              'comment' => __( 'If you hide this button, you should at least leave the option to revoke consent on your cookie policy or Do Not Sell My Personal Information page', 'complianz-gdpr' ),
+            ),
+
+            'soft_cookiewall' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'general',
+                'type'    => 'checkbox',
+                'default' => false,
+                'label'   => __( "Show as soft cookie wall", 'complianz-gdpr' ),
+                'help'    => sprintf( __( "You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. Read more about the soft cookie wall in this %sarticle%s.",
+                    'complianz-gdpr' ),
+                    '<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">', "</a>" ),
+                'tooltip' => __( 'After saving, a preview of the soft cookie wall will be shown for 3 seconds', 'complianz-gdpr' ),
+            ),
+
+            'disable_cookiebanner' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'general',
+                'type'    => 'checkbox',
+                'label'   => __( "Disable cookie banner", 'complianz-gdpr' ),
+                'default' => false,
+            ),
 
 			'default' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
 				'step'               => 'general',
 				'type'               => 'checkbox',
-				'label'              => __( "Default cookie banner",
-					'complianz-gdpr' ),
+				'label'              => __( "Default cookie banner", 'complianz-gdpr' ),
 				'help'               => __( 'When enabled, this is the cookie banner that is used for all visitors. Enabling it will disable this setting on the current default banner. Disabling it will enable randomly a different default banner.',
 					'complianz-gdpr' ),
 
 				'default'            => false,
-				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 				'callback_condition' => 'cmplz_ab_testing_enabled',
-				'cols'     => 12,
 			),
 
-			'color_scheme' => array(
-				'step'    => 'general',
+            'hide_preview' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'general',
+                'type'    => 'checkbox',
+                'label'   => __( "Hide preview", 'complianz-gdpr' ),
+                'default' => false,
+            ),
+
+            'use_custom_cookie_css' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'general',
+                'type'    => 'checkbox',
+                'label'   => __( "Use Custom CSS", 'complianz-gdpr' ),
+                'default' => false,
+                'comment'   => __("The custom CSS editor will appear at the bottom of this page when enabled.","complianz-gdpr"),
+            ),
+
+            /* ----- Appearance ----- */
+
+            'position' => array(
+                'step'    => 'appearance',
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'type'    => 'select',
+                'label'   => __( "Position", 'complianz-gdpr' ),
+                'options' => array(
+                    'top'          => __( "Top", 'complianz-gdpr' ),
+                    'center'       => __( "Center", 'complianz-gdpr' ),
+                    'bottom-left'  => __( "Left", 'complianz-gdpr' ),
+                    'bottom-right' => __( "Right", 'complianz-gdpr' ),
+                    'bottom'       => __( "Bottom", 'complianz-gdpr' ),
+                ),
+                'default' => 'bottom-right',
+            ),
+
+            'theme' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'appearance',
+                'type'    => 'select',
+                'label'   => __( "Template", 'complianz-gdpr' ),
+                'options' => array(
+                    'block'    => __( "Block", 'complianz-gdpr' ),
+                    'classic'  => __( "Classic", 'complianz-gdpr' ),
+                    'edgeless' => __( "Edgeless", 'complianz-gdpr' ),
+                    'minimal'  => __( "Minimal", 'complianz-gdpr' ),
+                ),
+                'default' => 'minimal',
+            ),
+
+            'banner_width' => array(
 				'source'  => 'CMPLZ_COOKIEBANNER',
-				'type'    => 'select',
-				'label'   => __( "Color scheme", 'complianz-gdpr' ),
-				'help'   => __( "This is not a setting, but a tool to switch all colors to a predefined set.", 'complianz-gdpr' ),
-				'options' => cmplz_get_banner_color_scheme_options(),
-				'default' => 'bottom-right',
-				'cols'     => 4,
+				'step'    => 'appearance',
+				'type'    => 'number',
+				'default' => '476',
+				'validation_step' => 2,
+				'label'   => __( "Min width of banner in pixels", 'complianz-gdpr' ),
 			),
 
-			'position' => array(
-				'step'    => 'general',
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'type'    => 'select',
-				'label'   => __( "Banner position", 'complianz-gdpr' ),
-				'options' => array(
-					'bottom'       => __( "Banner bottom", 'complianz-gdpr' ),
-					'bottom-left'  => __( "Floating left", 'complianz-gdpr' ),
-					'bottom-right' => __( "Floating right", 'complianz-gdpr' ),
-					'center'       => __( "Center", 'complianz-gdpr' ),
-					'top'          => __( "Banner top", 'complianz-gdpr' ),
-					'static'       => __( "Push down", 'complianz-gdpr' ),
-				),
-				'default' => 'bottom-right',
-				'cols'     => 4,
-			),
+            'animation' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'appearance',
+                'type'    => 'select',
+                'label'   => __( "Animation", 'complianz-gdpr' ),
+                'options' => array(
+                    'none'    => __( "None", 'complianz-gdpr' ),
+                    'fade'  => __( "Fade", 'complianz-gdpr' ),
+                    'slide' => __( "Slide", 'complianz-gdpr' ),
+                ),
+                'default' => 'none',
+            ),
 
-			'theme' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'select',
-				'label'   => __( "Banner style", 'complianz-gdpr' ),
-				'options' => array(
-					'block'    => __( "Block", 'complianz-gdpr' ),
-					'classic'  => __( "Classic", 'complianz-gdpr' ),
-					'edgeless' => __( "Edgeless", 'complianz-gdpr' ),
-					'minimal'  => __( "Minimal", 'complianz-gdpr' ),
-				),
-				'default' => 'classic',
-				'cols'     => 4,
-			),
+            'use_categories' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'appearance',
+                'type'               => 'select',
+                'options'            => array(
+                    'no' => __('Accept/Deny', 'complianz-gdpr'),
+                    'legacy' => __('Legacy categories', 'complianz-gdpr'),
+                    'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
+                    'visible' => __('Accept all + categories', 'complianz-gdpr'),
+                ),
+                'label'              => __( "Categories", 'complianz-gdpr' ),
+                'tooltip'               => __( 'With categories, you can let users choose which category of cookies they want to accept.',
+                        'complianz-gdpr' ) . ' '
+                    . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.',
+                        'complianz-gdpr' ),
+                'help'    => cmplz_cookiebanner_category_conditional_helptext(),
+                'default'            => 'hidden',
+                'condition'          => array('type' => 'NOT optout'),
+                //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+                'callback_condition' => 'cmplz_uses_optin',
+            ),
 
 			'checkbox_style' => array(
 				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
+				'step'    => 'appearance',
 				'type'    => 'select',
 				'label'   => __( "Checkbox style", 'complianz-gdpr' ),
-				'help'    => __( "This style is for the checkboxes on the cookie banner, as well as on your policy for managing consent.",
-					'complianz-gdpr' ),
+				'tooltip'    => __( "This style is for the checkboxes on the cookie banner, as well as on your policy for managing consent.", 'complianz-gdpr' ),
 				'options' => array(
 					'classic'    => __( "Classic", 'complianz-gdpr' ),
 					'square'  => __( "Square", 'complianz-gdpr' ),
 					'slider' => __( "Slider", 'complianz-gdpr' ),
 				),
 				'default' => 'slider',
-				'cols'     => 12,
 				'condition' => array(
 					'use_categories' => 'NOT no',
 				)
 			),
 
-			'soft_cookiewall' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'checkbox',
-				'default' => false,
-				'label'   => __( "Show as soft cookie wall", 'complianz-gdpr' ),
-				'help'    => sprintf( __( "You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. Read more about the soft cookie wall in this %sarticle%s.",
-					'complianz-gdpr' ),
-					'<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">',
-					"</a>" ),
-				'comment' => __( 'After saving, a preview of the soft cookie wall will be shown for 3 seconds',
-					'complianz-gdpr' ),
-				'cols'     => 4,
-			),
+            'use_box_shadow' => array(
+                'source'  => 'CMPLZ_COOKIEBANNER',
+                'step'    => 'appearance',
+                'type'    => 'checkbox',
+                'label'   => __( "Box shadow", 'complianz-gdpr' ),
+                'default' => true,
+            ),
 
-			'banner_width' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'number',
-				'default' => '476',
-				'validation_step' => 2,
-				'label'   => __( "Min width of banner in pixels", 'complianz-gdpr' ),
-				'cols'     => 4,
-			),
+            /* ----- Customization ----- */
+            'colorpalette_background' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'master_label'  => __( "Cookie notice", 'complianz-gdpr' ),
+                'label'         => __( "Background", 'complianz-gdpr' ),
+                'default'       => array(
+                    'color'     => '#f1f1f1',
+                    'border'    => '#f1f1f1',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'color',
+                        'label'         => __( "Background", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'border',
+                        'label'         => __( "Border", 'complianz-gdpr' ),
+                    ),
+                ),
+            ),
 
-			'hide_revoke' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'checkbox',
-				'default' => false,
-				'label'   => __( "Hide manage consent button", 'complianz-gdpr' ),
-				'help'    => __( 'If you want to hide the button, enable this check box. The button will normally show after making a choice.',
-					'complianz-gdpr' ),
-				'comment' => __( 'If you hide this button, you should at least leave the option to revoke consent on your cookie policy or Do Not Sell My Personal Information page',
-					'complianz-gdpr' ),
-				'cols'     => 4,
-			),
+            'colorpalette_text' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'label'         => __( "Text", 'complianz-gdpr' ),
+                'default'      => array(
+                    'color'       => '#191e23',
+                    'hyperlink'   => '#191e23',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'color',
+                        'label'         => __( "Color", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'hyperlink',
+                        'label'         => __( "Hyperlink", 'complianz-gdpr' ),
+                    ),
+                ),
+            ),
 
-			'revoke' => array(
-				'source'    => 'CMPLZ_COOKIEBANNER',
-				'step'      => 'general',
-				'type'      => 'text',
-				'default'   => __( "Manage consent", 'complianz-gdpr' ),
-				'label'     => __( "Manage consent text", 'complianz-gdpr' ),
-				'help'      => __( 'The text that appears on the button used to change consent, which shows when a choice has been made in the cookie warning.',
-					'complianz-gdpr' ),
-				'cols'     => 12,
-			),
+            'colorpalette_toggles' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'label'         => __( "Toggles", 'complianz-gdpr' ),
+                'default'       => array(
+                    'background'    => '#21759b',
+                    'bullet'        => '#fff',
+                    'inactive'      => '#F56E28',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'background',
+                        'label'         => __( "Background", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'bullet',
+                        'label'         => __( "Bullet", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'inactive',
+                        'label'         => __( "Inactive", 'complianz-gdpr' ),
+                    ),
+                ),
+                'condition'     => array('checkbox_style' => 'slider'),
+            ),
 
-			'popup_background_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#f1f1f1',
-				'label'   => __( "Background color | Banner", 'complianz-gdpr' ),
-				'cols'     => 4,
-			),
+            'colorpalette_border_radius' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'borderradius',
+                'default'       => array(
+                    'top'       => '0',
+                    'right'     => '0',
+                    'bottom'    => '0',
+                    'left'      => '0',
+                    'type'      => 'px',
+                ),
+                'label'         => __( "Border radius", 'complianz-gdpr' ),
+            ),
 
-			'popup_text_color'        => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#191e23',
-				'label'   => __( "Text color | Banner", 'complianz-gdpr' ),
-				'cols'     => 8,
-			),
+            'border_width' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'borderwidth',
+                'default'       => array(
+                    'top'       => '0',
+                    'right'     => '0',
+                    'bottom'    => '0',
+                    'left'      => '0',
+                ),
+                'label'         => __( "Border width", 'complianz-gdpr' ),
+            ),
 
-			'slider_background_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0073aa',
-				'label'   => __( "Background color | Slider", 'complianz-gdpr' ),
-				'condition' => array(
-					'checkbox_style' => 'slider'
-				),
-				'cols'     => 4,
-			),
+            'colorpalette_button_accept' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'master_label'  => __( "Buttons", 'complianz-gdpr' ),
+                'label'         => __( "Accept", 'complianz-gdpr' ),
+                'default'      => array(
+                    'background'    => '#21759b',
+                    'border'        => '#21759b',
+                    'text'          => '#fff',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'background',
+                        'label'         => __( "Background", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'border',
+                        'label'         => __( "Border", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'text',
+                        'label'         => __( "Text", 'complianz-gdpr' ),
+                    ),
+                ),
+            ),
 
-			'slider_bullet_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#fff',
-				'label'   => __( "Bullet color | Slider", 'complianz-gdpr' ),
-				'condition' => array(
-					'checkbox_style' => 'slider'
-				),
-				'cols'     => 4,
-			),
+            'colorpalette_button_deny' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'label'         => __( "Deny", 'complianz-gdpr' ),
+                'default'      => array(
+                    'background'    => '#f1f1f1',
+                    'border'        => '#f1f1f1',
+                    'text'          => '#21759b',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'background',
+                        'label'         => __( "Background", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'border',
+                        'label'         => __( "Border", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'text',
+                        'label'         => __( "Text", 'complianz-gdpr' ),
+                    ),
+                ),
+            ),
 
-			'slider_background_color_inactive' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#F56E28',
-				'label'   => __( "Background color | Inactive slider", 'complianz-gdpr' ),
-				'condition' => array(
-					'checkbox_style' => 'slider'
-				),
-				'cols'     => 4,
-			),
+            'colorpalette_button_settings' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'colorpicker',
+                'label'         => __( "Settings", 'complianz-gdpr' ),
+                'default'      => array(
+                    'background'    => '#f1f1f1',
+                    'border'        => '#21759b',
+                    'text'          => '#21759b',
+                ),
+                'fields'        => array(
+                    array(
+                        'fieldname'     => 'background',
+                        'label'         => __( "Background", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'border',
+                        'label'         => __( "Border", 'complianz-gdpr' ),
+                    ),
+                    array(
+                        'fieldname'     => 'text',
+                        'label'         => __( "Text", 'complianz-gdpr' ),
+                    ),
+                ),
+            ),
 
-			'accept_all_background_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0085ba',
-				'label'   => __( "Background color | Accept all button", 'complianz-gdpr' ),
-				'condition' => array(
-					//'use_categories' => 'hidden'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
+            'buttons_border_radius' => array(
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'step'          => 'customization',
+                'type'          => 'borderradius',
+                'default'       => array(
+                    'top'       => '5',
+                    'right'     => '5',
+                    'bottom'    => '5',
+                    'left'      => '5',
+                    'type'      => 'px',
+                ),
+                'label'         => __( "Border radius", 'complianz-gdpr' ),
+            ),
 
-			'accept_all_text_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#fff',
-				'label'   => __( "Text color | Accept all button", 'complianz-gdpr' ),
-				'condition' => array(
-					//'use_categories' => 'hidden'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
-
-			'accept_all_border_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0073aa',
-				'label'   => __( "Border color | Accept all button", 'complianz-gdpr' ),
-				'condition' => array(
-					//'use_categories' => 'hidden'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
-
-			'functional_background_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#f1f1f1',
-				'label'   => __( "Background color | Deny button", 'complianz-gdpr' ),
-				'condition' => array(
-					//'use_categories' => 'hidden'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
-
-			'functional_text_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0073aa',
-				'label'   => __( "Text color | Deny button", 'complianz-gdpr' ),
-				'condition' => array(
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
-
-			'functional_border_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#f1f1f1',
-				'label'   => __( "Border color | Deny button", 'complianz-gdpr' ),
-				'condition' => array(
-					//'use_categories' => 'hidden'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 4,
-			),
-
-//			'popup_border_color'        => array(
-//				'source'  => 'CMPLZ_COOKIEBANNER',
-//				'step'    => 'general',
-//				'type'    => 'colorpicker',
-//				'default' => '#fff',
-//				'label'   => __( "Popup border color", 'complianz-gdpr' ),
-//				'cols'     => 4,
-//			),
-
-			'button_background_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#f1f1f1',
-				'label'   => __( "Background color | Accept or Preferences button", 'complianz-gdpr' ),
-				'cols'     => 4,
-			),
-
-			'button_text_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0073aa',
-				'label'   => __( "Text color | Accept or Preferences button", 'complianz-gdpr' ),
-				'cols'     => 4,
-			),
-
-			'border_color' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'colorpicker',
-				'default' => '#0073aa',
-				'label'   => __( "Border color | Accept or Preferences button", 'complianz-gdpr' ),
-				'cols'     => 4,
-			),
-
-			'use_custom_cookie_css' => array(
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'step'    => 'general',
-				'type'    => 'checkbox',
-				'label'   => __( "Use Custom CSS", 'complianz-gdpr' ),
-				'default' => false,
-				'cols'     => 12,
-
-			),
-
+            /* ----- Custom CSS ----- */
 			'custom_css' => array(
 				'source'    => 'CMPLZ_COOKIEBANNER',
-				'step'      => 'general',
+				'step'      => 'custom_css',
 				'type'      => 'css',
-				'label'     => __( "Custom CSS", 'complianz-gdpr' ),
-				'default'   => '.cc-message{} /* styles for the message box */'
+				'help'      => sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
+				'label'     => '',
+				'default'   => '.cc-message{}'
+				               . "\n".' /* styles for the message box */'
 				               . "\n"
-				               . '.cc-dismiss{} /* styles for the dismiss button */'
-				               . "\n" . '.cc-btn{} /* styles for buttons */' . "\n"
-				               . '.cc-allow{} /* styles for the accept button */'
+				               . '.cc-dismiss{}'
+				               . "\n".' /* styles for the dismiss button */'
+				               . "\n" . '.cc-btn{}'
+				               . "\n".' /* styles for buttons */' . "\n"
+				               . '.cc-allow{} '
+				               . "\n".'/* styles for the accept button */'
 				               . "\n"
-				               . '.cc-accept-all{} /* styles for the accept all button */'
+				               . '.cc-accept-all{} '
+				               . "\n".'/* styles for the accept all button */'
 				               . "\n"
-				               . '.cc-window{} /* styles for the popup banner */'
+				               . '.cc-window{} '
+				               . "\n".'/* styles for the popup banner */'
 				               . "\n"
-				               . '.cc-window .cc-category{} /* styles for categories*/'
+				               . '.cc-window .cc-category{} '
+				               . "\n".'/* styles for categories*/'
 				               . "\n"
-				               . '.cc-window .cc-check{} /* styles for the checkboxes with categories */'
+				               . '.cc-window .cc-check{} '
+				               . "\n".'/* styles for the checkboxes with categories */'
 				               . "\n"
-				               . '.cc-revoke{} /* styles for the revoke / settings popup */'
+				               . '.cc-revoke{} '
+				               . "\n".'/* styles for the revoke / settings popup */'
 				               . "\n"
-				               . '.cmplz-slider-checkbox{} /* styles for the checkboxes */'
+				               . '.cmplz-slider-checkbox{} '
+				               . "\n".'/* styles for the checkboxes */'
 				               . "\n"
-				               . '.cmplz-soft-cookiewall{} /* styles for the soft cookie wall */',
+				               . '.cmplz-soft-cookiewall{} '
+				               . "\n".'/* styles for the soft cookie wall */'
+                               . "\n"
+                               . "\n"
+                               . "/* styles for the AMP notice */"
+                               . "\n"
+                               . '#cmplz-consent-ui, #cmplz-post-consent-ui {} '
+				               . "\n".'/* styles for entire banner */'
+                               . "\n"
+                               . '#cmplz-consent-ui .cmplz-consent-message {} '
+				               . "\n".'/* styles for the message area */'
+                               . "\n"
+                               . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {} '
+				               . "\n".'/* styles for the buttons */',
 				'condition' => array( 'use_custom_cookie_css' => true ),
-				'cols'     => 12,
 			),
 
-			'custom_css_amp' => array(
+			'tcf_intro' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'general',
-				'type'               => 'css',
-				'label'              => __( "Custom CSS for AMP",
-					'complianz-gdpr' ),
-				'default'            => '#cmplz-consent-ui, #cmplz-post-consent-ui {} /* styles for entire banner */'
-				                        . "\n"
-				                        . '#cmplz-consent-ui .cmplz-consent-message {} /* styles for the message area */'
-				                        . "\n"
-				                        . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {} /* styles for the buttons */',
-
-				'condition'          => array( 'use_custom_cookie_css' => true ),
-				'callback_condition' => 'cmplz_amp_integration_active',
-				'cols'     => 12,
-
-			),
-
-			/**
-			 * Opt in settings
-			 */
-
-			'use_categories' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optin',
-				'type'               => 'select',
-				'options'            => array(
-					'no' => __('Accept/Deny', 'complianz-gdpr'),
-					'legacy' => __('Legacy categories', 'complianz-gdpr'),
-					'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
-					'visible' => __('Accept all + categories', 'complianz-gdpr'),
-				),
-				'label'              => __( "Categories", 'complianz-gdpr' ),
-				'help'               => __( 'With categories, you can let users choose which category of cookies they want to accept.',
-						'complianz-gdpr' ) . ' '
-				                        . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.',
-						'complianz-gdpr' ),
-
-				'default'            => 'hidden',
-				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'use_categories_optinstats' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optinstats',
-				'type'               => 'select',
-				'label'              => __( "Categories", 'complianz-gdpr' ),
-				'help'               => __( 'With categories, you can let users choose which category of cookies they want to accept.',
-						'complianz-gdpr' ) . ' '
-				                        . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.',
-						'complianz-gdpr' ),
-				'options'            => array(
-					'no' => __('Accept/Deny', 'complianz-gdpr'),
-					'legacy' => __('Legacy categories', 'complianz-gdpr'),
-					'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
-					'visible' => __('Accept all + categories', 'complianz-gdpr'),
-				),
-
-				'condition'          => array( 'show_always' => true ),
-				'default'            => 'hidden',
-				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'tagmanager_categories' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'textarea',
-				'label'              => __( "Custom Tag Manager categories",
-					'complianz-gdpr' ),
-				'help'               => __( 'Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_marketing',
-						'complianz-gdpr' ) . "<br><br>"
-				                        . cmplz_tagmanager_conditional_helptext()
-				                        . cmplz_read_more( 'https://complianz.io/configure-categories-tag-manager' ),
-
-				'placeholder'        => __( 'First category, Second category',
-					'complianz-gdpr' ),
-				'callback_condition' => array(
-					'fire_scripts_in_tagmanager' => 'yes',
-					'compile_statistics'         => 'google-tag-manager',
-					'regions'                    => array( 'eu', 'uk' ),
-				),
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'default'            => false,
-				'cols'     => 12,
-			),
-
-			'dismiss' => array(
-				'step'               => array( 'optin', 'optinstats' ),
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'type'               => 'text',
-				'default'            => __( "Functional only", 'complianz-gdpr' ),
-				'label'              => __( "Functional cookies text",
-					'complianz-gdpr' ),
-
-				'help'               => __( 'When a users clicks this button, the message is dismissed, without activating all cookies. This can be described as a "dismiss" button or as an "activate functional cookies" only button.',
-					'complianz-gdpr' ),
-				//'condition'          => array( 'use_categories' => 'no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'save_preferences' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Save preferences", 'complianz-gdpr' ),
-				'label'              => __( "Save preferences text",
-					'complianz-gdpr' ),
-
+				'step'               => 'settings',
+				'type'               => 'notice',
 				'condition'          => array(
-					'use_categories' => 'NOT no'
-				),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
+											'hide_field' => 'true' //random condition so it's hidden by default
+										),
 			),
 
-			'view_preferences'    => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "View preferences", 'complianz-gdpr' ),
-				'label'              => __( "View preferences text", 'complianz-gdpr' ),
+            'header' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'label'              => __( "Title", 'complianz-gdpr' ),
+                'placeholder'        => __( "Manage Cookie Consent", 'complianz-gdpr' ),
+                'condition'          => array(
+	                'position' => 'center OR bottom-left OR bottom-right',
+                ),
+            ),
 
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
+            'readmore_optin' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Cookie Policy", 'complianz-gdpr' ),
+                'label'              => __( "Read more", 'complianz-gdpr' ),
+                'condition'          => array( 'type' => 'NOT optout' ),
+                'callback_condition' => 'cmplz_uses_optin',
+            ),
 
-			'category_functional' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Functional",
-					'complianz-gdpr' ),
-				'label'              => __( "Functional category text",
-					'complianz-gdpr' ),
-
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'category_prefs' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Preferences", 'complianz-gdpr' ),
-				'label'              => __( "Preferences category text",
-					'complianz-gdpr' ),
-
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'callback_condition' => array(
-					'cmplz_uses_optin',
-					'cmplz_consent_api_active',
-				),
-				'cols'     => 12,
-			),
-
-			'category_stats' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Statistics", 'complianz-gdpr' ),
-				'label'              => __( "Statistics category text",
-					'complianz-gdpr' ),
-				'help'               => __( "It depends on your settings if this category is necessary, so it will conditionally show",
-					'complianz-gdpr' ),
-
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'category_all' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Marketing", 'complianz-gdpr' ),
-				'label'              => __( "Marketing category text", 'complianz-gdpr' ),
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
-
-			'accept' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
-				'type'               => 'text',
-				'default'            => __( "Accept cookies", 'complianz-gdpr' ),
-				'help'               => __( 'This text is shown in the button which accepts all cookies. These are generally marketing related cookies, so you could also name it "Marketing"',
-					'complianz-gdpr' ),
-				'label'              => __( "Accept all",
-					'complianz-gdpr' ),
-
-				'condition'          => array( 'use_categories' => 'no' ),
-				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
-			),
+            'readmore_impressum' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Impressum", 'complianz-gdpr' ),
+                'label'              => __( "Impressum", 'complianz-gdpr' ),
+                'condition'          => array(
+                    'type' => 'NOT optout',
+                ),
+                'callback_condition' => array(
+                    'cmplz_uses_optin',
+                    'cmplz_impressum_required',
+                ),
+            ),
 
 			'accept_all' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
+				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => __( "Accept all", 'complianz-gdpr' ),
-				'label'              => __( "Text on accept all button", 'complianz-gdpr' ),
+				'label'              => __( "Accept all", 'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_uses_optin',
-				'condition'          => array( 'use_categories' => 'NOT no' ),
-				'cols'     => 12,
+                'condition'          => array(
+                    'type'           => 'NOT optout',
+                    'use_categories' => 'hidden OR visible',
+                ),
 			),
 
-			'readmore_optin' => array(
+            'accept' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
+				'step'               => 'settings',
 				'type'               => 'text',
-				'default'            => __( "Cookie Policy", 'complianz-gdpr' ),
-				'label'              => __( "Text on link to Cookie Policy",
-					'complianz-gdpr' ),
+				'default'            => __( "Accept", 'complianz-gdpr' ),
+				'label'              => __( "Accept", 'complianz-gdpr' ),
 				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
+				'condition'          => array(
+				    'use_categories' => 'no',
+                    'type'           => 'NOT optout',
+                ),
 			),
 
-			'readmore_impressum' => array(
+            'dismiss' => array(
+                'step'               => 'settings',
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'type'               => 'text',
+                'default'            => __( "Dismiss", 'complianz-gdpr' ),
+                'label'              => __( "Dismiss cookies text",
+                    'complianz-gdpr' ),
+
+                'help'               => __( 'This button will reject all cookies, and will dismiss the cookie banner. Only functional/necessary cookies will be allowed.',
+                    'complianz-gdpr' ),
+                'condition'          => array(
+                    'type' => 'NOT optout',
+                    'use_categories' => 'no OR hidden',
+                ),
+                'callback_condition' => 'cmplz_uses_optin',
+            ),
+
+            'category_functional' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Functional", 'complianz-gdpr' ),
+                'label'              => __( "Functional", 'complianz-gdpr' ),
+                'condition'          => array(
+                    'use_categories' => 'NOT no',
+                    'type'           => 'NOT optout',
+                ),
+                'callback_condition' => 'cmplz_uses_optin',
+            ),
+
+            'category_prefs' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Preferences", 'complianz-gdpr' ),
+                'label'              => __( "Preferences", 'complianz-gdpr' ),
+                'condition'          => array( 'use_categories' => 'NOT no' ),
+                'callback_condition' => array(
+                    'cmplz_uses_optin',
+                    'cmplz_consent_api_active',
+                ),
+            ),
+
+            'category_stats' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Statistics", 'complianz-gdpr' ),
+                'label'              => __( "Statistics", 'complianz-gdpr' ),
+                'tooltip'               => __( "It depends on your settings if this category is necessary, so it will show conditionally", 'complianz-gdpr' ),
+
+                'condition'          => array(
+                    'use_categories' => 'NOT no',
+                    'type'           => 'NOT optout',
+                ),
+                'callback_condition' => array(
+                    'cmplz_uses_optin',
+                    'cmplz_uses_statistic_cookies',
+                ),
+            ),
+
+            'category_all' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Marketing", 'complianz-gdpr' ),
+                'label'              => __( "Marketing", 'complianz-gdpr' ),
+                'condition'          => array(
+                    'use_categories' => 'NOT no',
+                    'type'           => 'NOT optout',
+                ),
+                'callback_condition' => array(
+                    'cmplz_uses_optin',
+                    'cmplz_uses_marketing_cookies',
+                ),
+            ),
+
+            'view_preferences'    => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Preferences", 'complianz-gdpr' ),
+                'label'              => __( "Settings", 'complianz-gdpr' ),
+
+                'condition'          => array(
+                    'use_categories' => 'hidden',
+                    'type'           => 'NOT optout',
+                ),
+                'callback_condition' => 'cmplz_uses_optin',
+            ),
+
+            'save_preferences' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => array( 'optin', 'optinstats' ),
+				'step'               => 'settings',
 				'type'               => 'text',
-				'default'            => __( "Impressum", 'complianz-gdpr' ),
-				'label'              => __( "Text on link to Impressum",
+				'default'            => __( "Save preferences", 'complianz-gdpr' ),
+				'label'              => __( "Save preferences",
 					'complianz-gdpr' ),
 
+				'condition'          => array(
+                    'use_categories' => 'hidden OR legacy OR visible',
+					'type' => 'NOT optout',
+				),
 				'callback_condition' => 'cmplz_uses_optin',
-				'cols'     => 12,
 			),
 
-			'message_optin' => array(
-				'step'    => array( 'optin', 'optinstats' ),
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'type'    => 'editor',
-				'default' => __( "We use cookies to optimize our website and our service.",
-					'complianz-gdpr' ),
-				'label'   => __( "Cookie message", 'complianz-gdpr' ),
-				'cols'     => 12,
-			),
+            'tagmanager_categories' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'label'              => __( "Custom Tag Manager categories", 'complianz-gdpr' ),
+                'help'               => __( 'Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_marketing',
+                        'complianz-gdpr' ) . "<br><br>"
+                    . cmplz_tagmanager_conditional_helptext()
+                    . cmplz_read_more( 'https://complianz.io/configure-categories-tag-manager' ),
 
+                'placeholder'        => __( 'First category, Second category', 'complianz-gdpr' ),
+                'callback_condition' => array(
+                    'fire_scripts_in_tagmanager' => 'yes',
+                    'compile_statistics'         => 'google-tag-manager',
+                    'regions'                    => array( 'eu', 'uk' ),
+                ),
+                'condition'          => array(
+                    'use_categories' => 'NOT no',
+                    'type'           => 'NOT optout',
+                ),
+                'default'            => false,
+            ),
+
+            'message_optin' => array(
+                'step'          => 'settings',
+                'source'        => 'CMPLZ_COOKIEBANNER',
+                'type'          => 'editor',
+                'default'       => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
+                'label'         => __( "Cookie message", 'complianz-gdpr' ),
+                'condition'     => array( 'type' => 'NOT optout' ),
+            ),
 
 
 			/*
@@ -758,111 +699,103 @@ function cmplz_add_cookiebanner_settings($fields){
 			 *
 			 * */
 
-			'dismiss_on_scroll' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
-				'type'               => 'checkbox',
-				'label'              => __( "Dismiss on scroll", 'complianz-gdpr' ),
-				'help'               => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.',
-					'complianz-gdpr' ),
-				'default'            => false,
-				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
-				'callback_condition' => 'cmplz_uses_optout',
-				'cols'     => 12,
-			),
+            'accept_informational' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Accept", 'complianz-gdpr' ),
+                'label'              => __( "Accept", 'complianz-gdpr' ),
+                'callback_condition' => 'cmplz_uses_optout',
+                'condition'          => array( 'type' => 'optout' ),
+            ),
+
+            'readmore_optout' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => 'Cookie Policy',
+                'label'              => __( "Text on link to the Cookie Policy", 'complianz-gdpr' ),
+                'condition'          => array( 'type' => 'optout' ),
+            ),
+
+            'dismiss_on_scroll' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'checkbox',
+                'label'              => __( "Dismiss on scroll", 'complianz-gdpr' ),
+                'tooltip'               => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.',
+                    'complianz-gdpr' ),
+                'default'            => false,
+                //setting this to true will set it always to true, as the get_cookie settings will see an empty value
+                'callback_condition' => 'cmplz_uses_optout',
+                'condition'          => array( 'type' => 'optout' ),
+            ),
+
+            'readmore_privacy' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'text',
+                'default'            => __( "Privacy Statement", 'complianz-gdpr' ),
+                'label'              => __( "Text on link to Privacy Statement",
+                    'complianz-gdpr' ),
+
+                'callback_condition' => 'cmplz_uses_optout',
+                'condition'          => array( 'type' => 'optout' ),
+            ),
 
 			'dismiss_on_timeout' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
+				'step'               => 'settings',
 				'type'               => 'checkbox',
-				'label'              => __( "Dismiss on time out",
-					'complianz-gdpr' ),
-				'help'               => __( 'When dismiss on time out is enabled, the cookie banner will be dismissed after 10 seconds, or the time you choose below.',
-					'complianz-gdpr' ),
+				'label'              => __( "Dismiss on time out", 'complianz-gdpr' ),
+				'tooltip'               => __( 'When dismiss on time out is enabled, the cookie banner will be dismissed after 10 seconds, or the time you choose below.', 'complianz-gdpr' ),
 				'default'            => false,
 				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 				'callback_condition' => 'cmplz_uses_optout',
-				'cols'     => 12,
+                'condition'          => array( 'type' => 'optout' ),
 			),
 
 			'dismiss_timeout' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
+				'step'               => 'settings',
 				'type'               => 'number',
 				'label'              => __( "Timeout in seconds",
 					'complianz-gdpr' ),
 				'default'            => 10,
 				//setting this to true will set it always to true, as the get_cookie settings will see an empty value
-				'condition'          => array(
-					'dismiss_on_timeout' => true,
-				),
 				'callback_condition' => 'cmplz_uses_optout',
-				'cols'     => 12,
-
-			),
-
-			'accept_informational' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
-				'type'               => 'text',
-				'default'            => __( "Accept", 'complianz-gdpr' ),
-				'label'              => __( "Accept", 'complianz-gdpr' ),
-				'callback_condition' => 'cmplz_uses_optout',
-				'cols'     => 12,
+                'condition'          => array(
+                    'type' => 'optout',
+                    'dismiss_on_timeout' => true,
+                    ),
 			),
 
 			/**
 			 * The condition NOT CCPA is removed, because it will hide the policy when in combination with Canada, where the text will be needed.
 			 */
 
-			'readmore_optout' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
-				'type'               => 'text',
-				'default'            => 'Cookie Policy',
-				'label'              => __( "Text on link to the Cookie Policy",
-					'complianz-gdpr' ),
-				'cols'     => 12,
-			),
-
-
 			'readmore_optout_dnsmpi' => array(
 				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
+				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => 'Do Not Sell My Personal Information',
-				'label'              => __( "Text on link to the Do Not Sell My Personal Information page.",
-					'complianz-gdpr' ),
+				'label'              => __( "Text on link to the Do Not Sell My Personal Information page.", 'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_ccpa_applies',
 				'help'               => __( 'This text is not shown in the preview, but is used instead of the Cookie Policy text when the region is US, and CCPA applies.',
 					'complianz-gdpr' ),
-				'cols'     => 12,
-			),
-
-			'readmore_privacy' => array(
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'step'               => 'optout',
-				'type'               => 'text',
-				'default'            => __( "Privacy Statement", 'complianz-gdpr' ),
-				'label'              => __( "Text on link to Privacy Statement",
-					'complianz-gdpr' ),
-
-				'callback_condition' => 'cmplz_uses_optout',
-				'cols'     => 12,
+                'condition'          => array( 'type' => 'optout' ),
 			),
 
 			'message_optout' => array(
-				'step'    => 'optout',
+				'step'    => 'settings',
 				'source'  => 'CMPLZ_COOKIEBANNER',
 				'type'    => 'editor',
 				'default' => __( "We use cookies to optimize our website and our service.",
 					'complianz-gdpr' ),
 				'label'   => __( "Cookie message", 'complianz-gdpr' ),
-				'cols'     => 12,
+                'condition'          => array( 'type' => 'optout' ),
 			),
-
-
 		);
 
 

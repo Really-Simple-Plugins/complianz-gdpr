@@ -13,47 +13,48 @@ if ( ! function_exists( 'cmplz_uses_google_analytics' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_fields_filter' ) ) {
+if ( ! function_exists( 'cmplz_upgraded_to_five' ) ) {
 
 	/**
-	 * This overrides the enabled setting for use_categories, based on the tagmanager settings
-	 * When tagmanager is enabled, use of TM cats is obligatory
-	 *
-	 * @param $fields
-	 *
-	 * @return mixed
+	 * Check if user upgraded to 5.0
+	 * @return bool
 	 */
 
-	function cmplz_fields_filter( $fields ) {
-
-		$tm_fires_scripts = cmplz_get_value( 'fire_scripts_in_tagmanager' )
-		                    === 'yes' ? true : false;
-		$uses_tagmanager  = cmplz_get_value( 'compile_statistics' )
-		                    === 'google-tag-manager' ? true : false;
-		if ( $uses_tagmanager && $tm_fires_scripts ) {
-			//$fields['use_categories']['disabled'] = true;
-		}
-
-		return $fields;
+	function cmplz_upgraded_to_five() {
+		return get_option( 'cmplz_upgraded_to_five' ) ? true : false;
 	}
-	add_filter( 'cmplz_fields', 'cmplz_fields_filter', 10, 1 );
+}
 
+if ( ! function_exists('cmplz_subscription_type') ) {
+    /**
+     * Get subscription type
+     * @return string
+     */
+    function cmplz_subscription_type()
+    {
+        return defined('cmplz_free') ? 'free' : 'premium';
+    }
 }
 
 if ( ! function_exists( 'cmplz_get_template' ) ) {
 	/**
 	 * Get a template based on filename, overridable in theme dir
-	 * @param $filename
-	 *
+	 * @param string $filename
+	 * @param array $args
+	 * @param string $path
 	 * @return string
 	 */
 
-	function cmplz_get_template( $filename ) {
-
-		$file       = trailingslashit( cmplz_path ) . 'templates/' . $filename;
+	function cmplz_get_template( $filename , $args = array(), $path = false ) {
+		$path = $path ? $path : trailingslashit( cmplz_path ) . 'templates/';
+		$file = apply_filters('cmplz_template_file', $path . $filename, $filename);
 		$theme_file = trailingslashit( get_stylesheet_directory() )
 		              . trailingslashit( basename( cmplz_path ) )
 		              . 'templates/' . $filename;
+
+		if ( !file_exists( $file ) ) {
+		    return false;
+        }
 
 		if ( file_exists( $theme_file ) ) {
 			$file = $theme_file;
@@ -65,6 +66,12 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 			$contents = ob_get_clean();
 		} else {
 			$contents = file_get_contents( $file );
+		}
+
+		if ( !empty($args) && is_array($args) ) {
+			foreach($args as $fieldname => $value ) {
+				$contents = str_replace( '{'.$fieldname.'}', $value, $contents );
+			}
 		}
 
 		return $contents;
@@ -86,6 +93,21 @@ if ( ! function_exists( 'cmplz_tagmanager_conditional_helptext' ) ) {
 				'complianz-gdpr' );
 		}
 
+		return $text;
+	}
+}
+
+if ( ! function_exists( 'cmplz_cookiebanner_category_conditional_helptext' ) ) {
+
+	function cmplz_cookiebanner_category_conditional_helptext() {
+		$text = '';
+		if ( cmplz_get_value('country_company') == "FR"
+		) {
+			$text
+				= sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept + View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
+                    'complianz-gdpr' ),
+                    '<a href="https://complianz.io/cnil-updated-privacy-guidelines/" target="_blank">', "</a>" );
+		}
 		return $text;
 	}
 }
@@ -187,16 +209,17 @@ if ( ! function_exists( 'cmplz_get_value' ) ) {
 	 * Get value for an a complianz option
 	 * For usage very early in the execution order, use the $page option. This bypasses the class usage.
 	 *
-	 * @param      $fieldname
-	 * @param bool $post_id
-	 * @param bool $page
+	 * @param string $fieldname
+	 * @param bool|int $post_id
+	 * @param bool|string $page
 	 * @param bool $use_default
+	 * @param bool $use_translate
 	 *
 	 * @return array|bool|mixed|string
 	 */
 
 	function cmplz_get_value(
-		$fieldname, $post_id = false, $page = false, $use_default = true
+		$fieldname, $post_id = false, $page = false, $use_default = true, $use_translate = true
 	) {
 		if ( ! is_numeric( $post_id ) ) {
 			$post_id = false;
@@ -215,64 +238,67 @@ if ( ! function_exists( 'cmplz_get_value' ) ) {
 		} else {
 			$fields = get_option( 'complianz_options_' . $page );
 
-			$default = ( $use_default && $page
-			             && isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) )
-				? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
-			$value   = isset( $fields[ $fieldname ] ) ? $fields[ $fieldname ]
-				: $default;
+			$default = ( $use_default && $page && isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) )
+                ? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
+            //@todo $default = apply_filters( 'cmplz_default_value', $default, $fieldname );
+
+			$value   = isset( $fields[ $fieldname ] ) ? $fields[ $fieldname ] : $default;
 		}
 
 		/*
          * Translate output
          *
          * */
+        if ($use_translate) {
 
-		$type = isset( COMPLIANZ::$config->fields[ $fieldname ]['type'] )
-			? COMPLIANZ::$config->fields[ $fieldname ]['type'] : false;
-		if ( $type === 'cookies' || $type === 'thirdparties'
-		     || $type === 'processors'
-		) {
-			if ( is_array( $value ) ) {
+            $type = isset(COMPLIANZ::$config->fields[$fieldname]['type'])
+                ? COMPLIANZ::$config->fields[$fieldname]['type'] : false;
+            if ($type === 'cookies' || $type === 'thirdparties'
+                || $type === 'processors'
+            ) {
+                if (is_array($value)) {
 
-				//this is for example a cookie array, like ($item = cookie("name"=>"_ga")
+                    //this is for example a cookie array, like ($item = cookie("name"=>"_ga")
 
-				foreach ( $value as $item_key => $item ) {
-					//contains the values of an item
-					foreach ( $item as $key => $key_value ) {
-						if ( function_exists( 'pll__' ) ) {
-							$value[ $item_key ][ $key ] = pll__( $item_key . '_'
-							                                     . $fieldname
-							                                     . "_" . $key );
-						}
-						if ( function_exists( 'icl_translate' ) ) {
-							$value[ $item_key ][ $key ]
-								= icl_translate( 'complianz',
-								$item_key . '_' . $fieldname . "_" . $key,
-								$key_value );
-						}
+                    foreach ($value as $item_key => $item) {
+                        //contains the values of an item
+                        foreach ($item as $key => $key_value) {
+                            if (function_exists('pll__')) {
+                                $value[$item_key][$key] = pll__($item_key . '_'
+                                    . $fieldname
+                                    . "_" . $key);
+                            }
+                            if (function_exists('icl_translate')) {
+                                $value[$item_key][$key]
+                                    = icl_translate('complianz',
+                                    $item_key . '_' . $fieldname . "_" . $key,
+                                    $key_value);
+                            }
 
-						$value[ $item_key ][ $key ]
-							= apply_filters( 'wpml_translate_single_string',
-							$key_value, 'complianz',
-							$item_key . '_' . $fieldname . "_" . $key );
-					}
-				}
-			}
-		} else {
-			if ( isset( COMPLIANZ::$config->fields[ $fieldname ]['translatable'] )
-			     && COMPLIANZ::$config->fields[ $fieldname ]['translatable']
-			) {
-				if ( function_exists( 'pll__' ) ) {
-					$value = pll__( $value );
-				}
-				if ( function_exists( 'icl_translate' ) ) {
-					$value = icl_translate( 'complianz', $fieldname, $value );
-				}
+                            $value[$item_key][$key]
+                                = apply_filters('wpml_translate_single_string',
+                                $key_value, 'complianz',
+                                $item_key . '_' . $fieldname . "_" . $key);
+                        }
+                    }
+                }
+            } else {
+                if (isset(COMPLIANZ::$config->fields[$fieldname]['translatable'])
+                    && COMPLIANZ::$config->fields[$fieldname]['translatable']
+                ) {
+                    if (function_exists('pll__')) {
+                        $value = pll__($value);
+                    }
+                    if (function_exists('icl_translate')) {
+                        $value = icl_translate('complianz', $fieldname, $value);
+                    }
 
-				$value = apply_filters( 'wpml_translate_single_string', $value,
-					'complianz', $fieldname );
-			}
-		}
+                    $value = apply_filters('wpml_translate_single_string', $value,
+                        'complianz', $fieldname);
+                }
+            }
+
+        }
 
 		return $value;
 	}
@@ -462,26 +488,56 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 		return false;
 	}
 }
+if ( ! function_exists( 'cmplz_intro' ) ) {
 
+	/**
+	 * @param string $msg
+	 *
+	 * @return string|void
+	 */
+
+	function cmplz_intro( $msg ) {
+		if ( $msg == '' ) {
+			return;
+		}
+		$html = "<div class='cmplz-panel cmplz-notification cmplz-intro'>{$msg}</div>";
+
+		echo $html;
+
+	}
+}
 
 if ( ! function_exists( 'cmplz_notice' ) ) {
 	/**
+	 * Notification without arrow on the left. Should be used outside notifications center
 	 * @param string $msg
 	 * @param string $type notice | warning | success
 	 * @param bool   $hide
 	 * @param bool   $echo
+     * @param array  $condition $condition['question'] $condition['answer']
 	 *
 	 * @return string|void
 	 */
-	function cmplz_notice( $msg, $type = 'notice', $hide = false, $echo = true
-	) {
+	function cmplz_notice( $msg, $type = 'notice', $hide = false, $echo = true, $condition = false) {
 		if ( $msg == '' ) {
 			return;
 		}
 
-		$hide_class = $hide ? "cmplz-hide" : "";
-		$html       = '<div class="cmplz-panel cmplz-' . $type . ' '
-		              . $hide_class . '">' . $msg . '</div>';
+		// Condition
+        $condition_check = "";
+        $condition_question = "";
+        $condition_answer = "";
+        $cmplz_hidden = "";
+		if ($condition) {
+		    $condition_check = "condition-check";
+		    $condition_question = "data-condition-question='{$condition['question']}'";
+		    $condition_answer = "data-condition-answer='{$condition['answer']}'";
+		    $args['condition'] = array($condition['question'] => $condition['answer']);
+            $cmplz_hidden = cmplz_field::this()->condition_applies($args) ? "" : "cmplz-hidden";;
+        }
+		$hide = $hide ? 'cmplz-hidden' : '';
+		$html = "<div class='cmplz-panel-wrap'><div class='cmplz-panel cmplz-notification cmplz-{$type} {$hide} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}><div>{$msg}</div></div></div>";
+
 		if ( $echo ) {
 			echo $html;
 		} else {
@@ -490,31 +546,103 @@ if ( ! function_exists( 'cmplz_notice' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
+	/**
+	 * @param string $msg
+	 * @param string $type notice | warning | success
+	 * @param bool   $remove_after_change
+	 * @param bool   $echo
+	 * @param bool|array  $condition $condition['question'] $condition['answer']
+	 *
+	 * @return string|void
+	 */
+
+	function cmplz_sidebar_notice( $msg, $type = 'notice', $remove_after_change = false, $echo = true, $condition = false) {
+		if ( $msg == '' ) {
+			return;
+		}
+
+		// Condition
+		$condition_check = "";
+		$condition_question = "";
+		$condition_answer = "";
+		$cmplz_hidden = "";
+		if ($condition) {
+			$condition_check = "condition-check";
+			$condition_question = "data-condition-question='{$condition['question']}'";
+			$condition_answer = "data-condition-answer='{$condition['answer']}'";
+			$args['condition'] = array($condition['question'] => $condition['answer']);
+			$cmplz_hidden = cmplz_field::this()->condition_applies($args) ? "" : "cmplz-hidden";;
+		}
+
+		// Hide
+
+		$html = "<div class='cmplz-help-modal cmplz-notice cmplz-{$type} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}>{$msg}</div>";
+
+		if ( $echo ) {
+			echo $html;
+		} else {
+			return $html;
+		}
+	}
+}
+
+if ( !function_exists('cmplz_admin_notice')) {
+	/**
+	 * @param $msg
+	 */
+	function cmplz_admin_notice( $msg ) {
+		/**
+		 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
+		 *
+		 * */
+		$screen = get_current_screen();
+		if ( $screen && $screen->parent_base === 'edit' ) {
+			return;
+		}
+		?>
+		<div id="message"
+			 class="updated fade notice is-dismissible cmplz-admin-notice really-simple-plugins"
+			 style="border-left:4px solid #333">
+			<div class="cmplz-admin-notice-container">
+				<div class="cmplz-logo"><img width=80px"
+													 src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
+													 alt="logo">
+				</div>
+				<div style="margin-left:30px">
+					<?php echo $msg ?>
+				</div>
+			</div>
+		</div>
+		<?php
+
+	}
+}
+
 if ( ! function_exists( 'cmplz_panel' ) ) {
 
-	function cmplz_panel(
-		$title, $html, $custom_btn = '', $validate = '', $echo = true
-	) {
+	function cmplz_panel($title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false) {
 		if ( $title == '' ) {
 			return '';
 		}
 
-		$slide = ( $html == '' ) ? false : true;
+		$open_class = $open ? 'style="display: block;"' : '';
 
 		$output = '
         <div class="cmplz-panel cmplz-slide-panel cmplz-toggle-active">
             <div class="cmplz-panel-title">
 
                 <span class="cmplz-panel-toggle">
-                    <i class="toggle fa fa-caret-right"></i>
+                    '. cmplz_icon('arrow-right', 'success') .'
                     <span class="cmplz-title">' . $title . '</span>
                  </span>
 
+                <span>' . $validate . '</span>
 
-                ' . $validate . '
                 <span>' . $custom_btn . '</span>
+
             </div>
-            <div class="cmplz-panel-content">
+            <div class="cmplz-panel-content" ' . $open_class . '>
                 ' . $html . '
             </div>
         </div>';
@@ -745,6 +873,12 @@ if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
+	function cmplz_consent_required_for_anonymous_stats() {
+		return COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats();
+	}
+}
+
 /**
  * callback for privacy statement document. Check if ip addresses are stored.
  *
@@ -806,10 +940,13 @@ if (!function_exists('cmplz_get_console_errors')){
 	 */
 	function cmplz_get_console_errors(){
 		$errors = get_option('cmplz_detected_console_errors');
-		if ( $errors && isset($errors[0]) && isset($errors[1]) && isset($errors[2]) ) {
-			return sprintf(__('%s on line %s of %s', 'complianz-gdpr'), $errors[0], $errors[1], $errors[2]);
+		$location = isset($errors[2]) && strlen($errors[2])>0 ? $errors[2] : __('the page source', 'complianz-gdpr');
+		$line_no = isset($errors[1]) ? $errors[1] : 0;
+		if ( $errors && isset($errors[0]) && $line_no>1 ) {
+			return sprintf(__('%s on line %s of %s', 'complianz-gdpr'), $errors[0], $errors[1], $location);
 		}
-		return '';
+
+		return false;
 	}
 }
 
@@ -826,11 +963,7 @@ if ( ! function_exists( 'cmplz_cookie_warning_required_stats_uk' ) ) {
 }
 
 
-if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
-	function cmplz_consent_required_for_anonymous_stats() {
-		return COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats();
-	}
-}
+
 
 if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 	function cmplz_accepted_processing_agreement() {
@@ -976,6 +1109,16 @@ if ( !function_exists('cmplz_uses_marketing_cookies') ) {
 	}
 }
 
+if (!function_exists('cmplz_dnsmpi_required')) {
+	/**
+	 * Check if the site requires DNSMPI logic
+	 *
+	 * @return bool
+	 */
+	function cmplz_dnsmpi_required() {
+		return cmplz_has_region( 'us' ) && cmplz_sells_personal_data();
+	}
+}
 if (!function_exists('cmplz_file_exists_on_url')) {
 	function cmplz_file_exists_on_url($url){
 		$uploads    = wp_upload_dir();
@@ -1009,7 +1152,7 @@ if (!function_exists('cmplz_read_more')) {
 	 */
 	function cmplz_read_more( $url, $add_space = true ) {
 		$html
-			= sprintf( __( "For more information on this subject, please read this %sarticle%s",
+			= sprintf( __( "For more information on this subject, please read this %sarticle%s.",
 			'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">',
 			'</a>' );
 		if ( $add_space ) {
@@ -1020,7 +1163,13 @@ if (!function_exists('cmplz_read_more')) {
 	}
 }
 
-/*
+if (!function_exists('cmplz_settings_overlay')) {
+	function cmplz_settings_overlay($msg) {
+		echo '<div class="cmplz-settings-overlay"><div class="cmplz-settings-overlay-message">'.$msg.'</div></div>';
+	}
+}
+
+/**
  * Get string of supported laws
  *
  * */
@@ -1311,6 +1460,14 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 				'id'    => array(),
 			),
 			'tr'         => array(),
+			'details' => array(
+				'class' => array(),
+				'id'    => array(),
+			),
+			'summary' => array(
+				'class' => array(),
+				'id'    => array(),
+			),
 			'svg'         => array(
 				'width' => array(),
 				'height' => array(),
@@ -1346,19 +1503,27 @@ if ( ! function_exists( 'cmplz_flag' ) ) {
 	 * @return string
 	 */
 
-	function cmplz_flag( $regions ) {
+	function cmplz_flag( $regions, $echo = true ) {
 		if ( ! $regions ) {
-			return;
+		    if ($echo) {
+                return;
+            } else {
+		        return '';
+            }
 		}
+		if (!is_array( $regions ) ) $regions = array($regions);
 
-		?>
-		<div class="cmplz-region-indicator"><?php
-		foreach ( $regions as $region ) { ?>
-			<img src="<?php echo cmplz_url ?>/assets/images/<?php echo strtolower( $region ) ?>.png">
-			<?php
+		$html = '<div class="cmplz-region-indicator">';
+		foreach ( $regions as $region ) {
+            $html .= cmplz_region_icon($region);
 		}
-		?></div><?php
+        $html .= '</div>';
 
+		if ($echo) {
+		    echo $html;
+        } else {
+		    return $html;
+        }
 	}
 }
 
@@ -1506,6 +1671,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
 			$has_empty_cookies = false;
+			$allPurposes = array();
 
 			$service    = new CMPLZ_SERVICE( $serviceID,
 				substr( get_locale(), 0, 2 ) );
@@ -1547,6 +1713,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 
                 $cookieHTML .= str_replace( array( '{purpose}' ), array( $purpose ), $purpose_row );
 				$cookieHTML = str_replace(array('{cookies_per_purpose}'), array($cookies_per_purpose_HTML), $cookieHTML);
+				array_push($allPurposes, $purpose);
 			}
 
 			$service_name = $service->ID && strlen( $service->name ) > 0
@@ -1585,17 +1752,19 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				$purposeDescription .= ' ' . $link_open . __( 'Read more',
 						"complianz-gdpr" ) . $link_close;
 			}
-
+			$allPurposes = implode (", ", $allPurposes);
 			$servicesHTML .= str_replace( array(
 				'{service}',
 				'{sharing}',
 				'{purposeDescription}',
-				'{cookies}'
+				'{cookies}',
+				'{allPurposes}'
 			), array(
 				$service_name,
 				$sharing,
 				$purposeDescription,
-				$cookieHTML
+				$cookieHTML,
+				$allPurposes
 			), $services_template );
 		}
 
@@ -1632,6 +1801,27 @@ if ( ! function_exists( 'cmplz_translate' ) ) {
 	}
 }
 
+if ( !function_exists('cmplz_get_server') ) {
+	/**
+	 * Get server type
+	 *
+	 * @return string
+	 */
+
+	function cmplz_get_server() {
+		$server_raw = strtolower( filter_var( $_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING ) );
+		//figure out what server they're using
+		if ( strpos( $server_raw, 'apache' ) !== false ) {
+			return 'Apache';
+		} elseif ( strpos( $server_raw, 'nginx' ) !== false ) {
+			return 'NGINX';
+		} elseif ( strpos( $server_raw, 'litespeed' ) !== false ) {
+			return 'Litespeed';
+		} else { //unsupported server
+			return 'Not recognized';
+		}
+	}
+}
 
 /**
  * Show a reference to cookiedatabase if user has accepted the API
@@ -1641,12 +1831,7 @@ if ( ! function_exists( 'cmplz_translate' ) ) {
 
 if ( ! function_exists( 'cmplz_cdb_reference_in_policy' ) ) {
 	function cmplz_cdb_reference_in_policy() {
-		if ( cmplz_get_value( 'uses_cookies' ) === 'no' ) {
-			$use_reference = false;
-		} else {
-			$use_reference = COMPLIANZ::$cookie_admin->use_cdb_api();
-		}
-
+        $use_reference = COMPLIANZ::$cookie_admin->use_cdb_api();
 		return apply_filters( 'cmplz_use_cdb_reference', $use_reference );
 	}
 }
@@ -1885,10 +2070,10 @@ if ( ! function_exists( 'get_regions_for_consent_type' ) ) {
 if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 	/**
 	 * Get list of consenttypes in use on this site, based on the selected regions
-	 *
+	 * @param bool $add_labels
 	 * @return array consenttypes
 	 */
-	function cmplz_get_used_consenttypes() {
+	function cmplz_get_used_consenttypes( $add_labels = false ) {
 		//get all regions in use on this site
 		$regions       = cmplz_get_regions();
 		$consent_types = array();
@@ -1898,15 +2083,104 @@ if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 				continue;
 			}
 
-			$consent_types[] = apply_filters( 'cmplz_consenttype',
-				COMPLIANZ::$config->regions[ $region ]['type'], $region );
+			$consent_types[] = apply_filters( 'cmplz_consenttype', COMPLIANZ::$config->regions[ $region ]['type'], $region );
 		}
 		//remove duplicates
 		$consent_types = array_unique( $consent_types );
 
-		return $consent_types;
+		if ( $add_labels ) {
+			$consent_types_labelled = array();
+			foreach ( $consent_types as $consent_type ) {
+				$consent_types_labelled[$consent_type] = cmplz_get_consenttype_nice_name($consent_type);
+			}
+			$consent_types = $consent_types_labelled;
+		}
 
+		return $consent_types;
 	}
+}
+
+if ( ! function_exists( 'cmplz_get_consenttype_nice_name' ) ) {
+	/**
+	 * Get a human readable name for a consenttype
+	 * @param string $consent_type
+	 *
+	 * @return string
+	 */
+	function cmplz_get_consenttype_nice_name( $consent_type ){
+		switch ($consent_type) {
+			case 'optout':
+				return __('Opt-out', 'complianz-gdpr');
+			case 'optinstats':
+				return __('Opt-in statistics', 'complianz-gdpr');
+			case 'optin':
+			default:
+				return __('Opt-in', 'complianz-gdpr');
+		}
+	}
+}
+
+if ( ! function_exists( 'cmplz_short_date_format') ) {
+	/**
+	 * Make sure the date formate is always the short version. If "F" (February) is used, replace with "M" (Feb)
+	 * @return string
+	 */
+	function cmplz_short_date_format(){
+		return str_replace( array('F', 'Y'), array('M', 'y'), get_option( 'date_format' ) );
+	}
+}
+
+if ( ! function_exists( 'cmplz_uses_preferences_cookies' ) ) {
+
+    /**
+     * Check if the site uses preferences cookies
+     *
+     * @return bool
+     */
+    function cmplz_uses_preferences_cookies()
+    {
+        return ! COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() && cmplz_consent_api_active();
+    }
+}
+
+if ( ! function_exists( 'cmplz_uses_statistic_cookies' ) ) {
+
+    /**
+     * Check if the site uses statistic cookies
+     *
+     * @return bool
+     */
+    function cmplz_uses_statistic_cookies()
+    {
+        return ! COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() && COMPLIANZ::$cookie_admin->cookie_warning_required_stats();
+    }
+}
+
+if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
+
+    /**
+     * Check if the site uses marketing cookies
+     *
+     * @return bool
+     */
+    function cmplz_uses_marketing_cookies() {
+        return true;
+        return cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes'
+            || cmplz_get_value('uses_thirdparty_services')==='yes'
+            || cmplz_get_value('uses_social_media') === 'yes' ;
+    }
+}
+
+if ( ! function_exists( 'cmplz_impressum_required' ) ) {
+
+    /**
+     * Check if the site requires an impressum
+     *
+     * @return bool
+     */
+    function cmplz_impressum_required() {
+        return cmplz_get_value( 'eu_consent_regions' ) === 'yes' && cmplz_get_value( 'impressum' ) !== 'none' ;
+    }
 }
 
 if ( ! function_exists( 'cmplz_uses_optin' ) ) {
@@ -2020,7 +2294,7 @@ if ( ! function_exists( 'cmplz_uses_consenttype' ) ) {
 	/**
 	 * Check if a specific consenttype is used
 	 *
-	 * @param string $consenttype
+	 * @param string $check_consenttype
 	 * @param string $region
 	 *
 	 * @return bool $uses_consenttype
@@ -2119,6 +2393,9 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		}
 		if ( isset( $args['default'] ) && $args['default'] === false ) {
 			$sql = 'AND cdb.default = false';
+		}
+		if ( isset( $args['limit'] ) && $args['limit'] !== false ) {
+			$sql = ' LIMIT '.intval($args['limit']);
 		}
 		$cookiebanners
 			= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql" );
@@ -2248,6 +2525,13 @@ if ( ! function_exists( 'cmplz_has_free_translation_files' ) ) {
 
 		return $has_free_files;
 	}
+}
+
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $array) {
+		reset($array);
+		return key($array);
+    }
 }
 
 

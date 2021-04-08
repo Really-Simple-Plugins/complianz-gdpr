@@ -119,6 +119,7 @@ function cmplz_wc_google_analytics_pro_script_classes( $classes ){
 }
 add_filter( 'cmplz_statistics_script_classes', 'cmplz_wc_google_analytics_pro_script_classes', 10, 1  );
 
+
 /**
  * Remove stuff which is not necessary anymore
  *

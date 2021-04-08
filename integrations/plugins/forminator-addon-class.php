@@ -14,12 +14,14 @@ final class CMPLZ_Forminator_Addon extends Forminator_Addon_Abstract {
 	protected $_title = 'Complianz Privacy Suite';
 	protected $_url = 'https://complianz.io';
 	protected $_full_path = __FILE__;
-	protected $_icon = cmplz_url . 'assets/images/icon-128x128.png';
-	protected $_icon_x2 = cmplz_url . 'assets/images/icon-256x256.png';
+	protected $_icon;
+	protected $_icon_x2;
 	protected $_image = '';
 	protected $_image_x2 = '';
 
 	public function __construct() {
+		$this->_icon = cmplz_url . 'assets/images/icon-logo.svg';
+		$this->_icon_x2 = cmplz_url . 'assets/images/icon-256x256.png';
 		// late init to allow translation
 		$this->_description
 			= __( 'Integrate Forminator with Complianz Privacy Suite',

@@ -57,37 +57,17 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			 *
 			 * */
 			$screen = get_current_screen();
-			if ( $screen->parent_base === 'edit' ) {
+			if ( $screen && $screen->parent_base === 'edit' ) {
 				return;
 			}
 			?>
-			<style>
-				.cmplz-container {
-					display: flex;
-					padding: 12px;
-				}
 
-				.cmplz-container .dashicons {
-					margin-left: 10px;
-					margin-right: 5px;
-				}
-
-				.cmplz-review-image img {
-					margin-top: 0.5em;
-				}
-
-				.cmplz-buttons-row {
-					margin-top: 10px;
-					display: flex;
-					align-items: center;
-				}
-			</style>
 			<div id="message"
 			     class="updated fade notice is-dismissible cmplz-review really-simple-plugins"
 			     style="border-left:4px solid #333">
 				<div class="cmplz-container">
 					<div class="cmplz-review-image"><img width=80px"
-					                                     src="<?php echo cmplz_url ?>/assets/images/icon-128x128.png"
+					                                     src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
 					                                     alt="review-logo">
 					</div>
 					<div style="margin-left:30px">

@@ -8,7 +8,6 @@ function cmplz_uafe_initDomContentLoaded() {
 			jQuery(document).ready(function ($) {
 				$(document).on("cmplzRunAfterAllScripts", cmplz_uafe_fire_initOnReadyComponents);
 				function cmplz_uafe_fire_initOnReadyComponents() {
-					console.log("init elementor frontend");
 				// 	setTimeout(
 			  // function()
 			  // {

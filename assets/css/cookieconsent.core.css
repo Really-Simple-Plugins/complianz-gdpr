@@ -92,13 +92,8 @@
   text-align: center;
   white-space: nowrap;
 }
-.cc-highlight .cc-btn:first-child {
-  background-color: transparent;
-  border-color: transparent;
-}
 .cc-highlight .cc-btn:first-child:focus,
 .cc-highlight .cc-btn:first-child:hover {
-  background-color: transparent;
   text-decoration: underline;
 }
 .cc-close {
@@ -276,3 +271,4 @@
 .cc-floating.cc-theme-edgeless .cc-btn + .cc-btn {
   margin-left: 0;
 }
+/*# sourceMappingURL=cookieconsent.core.css.map */

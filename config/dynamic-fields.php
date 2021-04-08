@@ -31,7 +31,6 @@ function cmplz_filter_field_types( $fields ) {
 							),
 
 							'options' => COMPLIANZ::$config->details_per_purpose_us,
-							'time'    => CMPLZ_MINUTES_PER_QUESTION_QUICK,
 						),
 
 					);

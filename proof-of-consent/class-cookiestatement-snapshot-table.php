@@ -82,6 +82,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 	 *
 	 */
 
+
 	public function search_box( $text, $input_id ) {
 		$input_id = $input_id . '-search-input';
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
@@ -137,8 +138,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		$time  = date( get_option( 'time_format' ), $item['time'] );
 		$value = $date . " " . $time;
 
-		return apply_filters( 'cmplz_cookiestatement_snapshots_column_'
-							  . $column_name, $value, $item['file'] );
+		return apply_filters( 'cmplz_cookiestatement_snapshots_column_'. $column_name, $value, $item['file'] );
 	}
 
 	public function column_name( $item ) {
@@ -211,13 +211,13 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		return isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 	}
 
-
 	/**
 	 * Retrieves the search query string
 	 *
 	 * @return mixed string If search is present, false otherwise
 	 * @since 1.7
 	 */
+
 	public function get_search() {
 		return ! empty( $_GET['s'] )
 				? urldecode( trim( sanitize_text_field( $_GET['s'] ) ) ) : false;
@@ -356,6 +356,4 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 				'total_pages' => $total_pages,
 		) );
 	}
-
-
 }

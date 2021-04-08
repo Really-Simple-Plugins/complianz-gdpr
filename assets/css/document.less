@@ -1,3 +1,4 @@
+@import 'variables.less';
 @import 'document-grid.less';
 
 .postbox #cmplz-document {
@@ -194,102 +195,103 @@
   .cmplz-indent{
     margin-left:36px;
   }
+
+// cmplz-dropdown
+.cmplz-dropdown{
+  summary{
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 5px 0;
+    padding: 0 10px;
+    align-items: center;
+    justify-items: stretch;
+    h3 {
+      padding: 0 5px;
+      border-bottom: 0;
+      font-size: 18px;
+      border-bottom: 0;
+    }
+    p{
+      text-align: right;
+      padding: 0 5px;
+      margin: 7px 0;
+      font-size: 14px;
+      border-bottom: 0;
+    }
+    &:after {
+	  cursor: pointer;
+      content: '';
+      background: url(../images/down.png) no-repeat;
+      transform: rotate(0deg);
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+      background-size: cover;
+      height: 25px;
+      width: 25px;
+      margin: 12px 5px;
+    }
+  }
+  &[open] summary:after {
+      transform: rotate(180deg);
+    }
+  h4 {
+     font-size: 15px;
+     margin: 5px 0;
+   }
+
+   h5 {
+     margin: 0;
+   }
+
+   .cmplz-service-description {
+     padding: 0 15px;
+   }
+
+   .cmplz-sharing-data {
+     padding: 0 15px;
+   }
+    }
+
+    .cookies-per-purpose {
+   border: 1px solid #dadada;
+   grid-gap: 1px;
+   background-color: #dadada;
+   margin-bottom: 10px;
+
+   div {
+     background-color: white;
+     padding: 15px;
+   }
+
+   @media only screen and (min-width: 600px) {
+     .name-header {
+     background-color: #f7f7f7;
+     }
+
+     .retention-header {
+     background-color: #f7f7f7;
+     }
+
+     .function-header {
+     background-color: #f7f7f7;
+     }
+   }
+
+   @media only screen and (max-width: 600px) {
+     h5 {
+     line-height: 1.8;
+     }
+
+     div:nth-child(12n+2),
+     div:nth-child(12n+3),
+     div:nth-child(12n+4),
+     div:nth-child(12n+5),
+     div:nth-child(12n+6),
+     div:nth-child(12n+7) {
+     background-color: #f7f7f7;
+     }
+   }
 }
 
-/*
-	This css should also apply to the cookie shortcode only, so should not be wrapped in the cmplz-document styles
-*/
-#cmplz-cookies-overview {
-  .cmplz-service-header {
-	background-color: #f7f7f7;
-	margin: 5px 0;
-	text-decoration: none;
-
-	h3 {
-	  padding: 0 15px;
-	  border-bottom: 0;
-	  font-size: 18px;
-	  border-bottom: 0;
-	}
-
-	&:after {
-	  content: '';
-	  cursor: pointer;
-	  background: url(../images/down.png) no-repeat;
-	  transform: rotate(0deg);
-	  -webkit-transition: all 0.5s ease;
-	  -moz-transition: all 0.5s ease;
-	  -o-transition: all 0.5s ease;
-	  transition: all 0.5s ease;
-	  background-size: cover;
-	  height: 25px;
-	  width: 25px;
-	  margin: 12px 15px 12px 35px;
-	}
-
-	&.cmplz-service-open:after {
-	  transform: rotate(180deg);
-	}
-  }
-
-  .cmplz-service-desc {
-	h4 {
-	  font-size: 15px;
-	  margin: 5px 0;
-	}
-
-	h5 {
-	  margin: 0;
-	}
-
-	.cmplz-service-description {
-	  padding: 0 15px;
-	}
-
-	.cmplz-sharing-data {
-	  padding: 0 15px;
-	}
-  }
-
-  .cookies-per-purpose {
-	border: 1px solid #dadada;
-	grid-gap: 1px;
-	background-color: #dadada;
-	margin-bottom: 10px;
-
-	div {
-	  background-color: white;
-	  padding: 15px;
-	}
-
-	@media only screen and (min-width: 600px) {
-	  .name-header {
-		background-color: #f7f7f7;
-	  }
-
-	  .retention-header {
-		background-color: #f7f7f7;
-	  }
-
-	  .function-header {
-		background-color: #f7f7f7;
-	  }
-	}
-
-	@media only screen and (max-width: 600px) {
-	  h5 {
-		line-height: 1.8;
-	  }
-
-	  div:nth-child(12n+2),
-	  div:nth-child(12n+3),
-	  div:nth-child(12n+4),
-	  div:nth-child(12n+5),
-	  div:nth-child(12n+6),
-	  div:nth-child(12n+7) {
-		background-color: #f7f7f7;
-	  }
-	}
-
-  }
 }

@@ -43,7 +43,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
-			add_action( 'wp_head', array( $this, 'detect_conflicts' ) );
+			add_action( 'wp_footer', array( $this, 'detect_conflicts' ), PHP_INT_MAX );
 			add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			add_action( 'wp_ajax_load_detected_cookies', array( $this, 'load_detected_cookies' ) );
 			add_action( 'wp_ajax_cmplz_get_scan_progress', array( $this, 'get_scan_progress' ) );
@@ -51,7 +51,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'admin_init', array( $this, 'run_sync_on_update' ) );
 			add_action( 'admin_init', array( $this, 'ensure_cookies_in_all_languages' ) );
 			add_action( 'wp_ajax_store_detected_cookies', array( $this, 'store_detected_cookies' ) );
-			add_action( 'plugins_loaded', array( $this, 'resync' ), 11, 2 );
 			add_action( 'plugins_loaded', array( $this, 'rescan' ), 20, 2 );
 			add_action( 'plugins_loaded', array( $this, 'clear_cookies' ), 20, 2 );
 			add_action( 'cmplz_notice_statistics_script', array( $this, 'statistics_script_notice' ) );
@@ -71,6 +70,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		static function this() {
 			return self::$_this;
+		}
+
+		public function has_console_error(){
+
 		}
 
 		/**
@@ -142,6 +145,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				var error_ocurred = false;
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
 					error_ocurred = true;
+
 					var request = new XMLHttpRequest();
 					request.open('POST', '<?php echo add_query_arg(
 						array(
@@ -208,6 +212,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			set_transient( 'cmplz_checked_for_js_count' , $checked_count + 1, 5 * MINUTE_IN_SECONDS );
+
 			$success = false;
 			if ( isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz-detect-errors' ) ) {
 				if ( $_GET['type'] === 'jquery' ) {
@@ -224,7 +229,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$errors = array_keys( array_map( 'sanitize_text_field', $_POST ) );
 						if ( count( $errors ) > 0 ) {
 							$errors = explode( ',', str_replace( site_url(), '', $errors[0] ) );
-							if ( isset( $errors[1] ) && $errors[1] != 0 ) {
+							if ( isset( $errors[1] ) && $errors[1] > 1 ) {
 								update_option( 'cmplz_detected_console_errors', $errors );
 							}
 							$success = true;
@@ -463,22 +468,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return '';
 			}
 
-			$sync         = COMPLIANZ::$cookie_admin->use_cdb_api()
-				? $cookie->sync : false;
-			$syncDisabled = $syncDisabledClass = '';
+			$sync         = COMPLIANZ::$cookie_admin->use_cdb_api() ? $cookie->sync : false;
+			$syncDisabled = '';
 			if ( ! COMPLIANZ::$cookie_admin->use_cdb_api() ) {
-				$syncDisabled      = 'disabled="disabled"';
-				$syncDisabledClass = "cmplz-disabled";
+				$syncDisabled = 'cmplz-disabled';
 			}
 
 			$disabled      = $sync ? 'disabled="disabled"' : false;
 			$disabledClass = $sync ? 'cmplz-disabled' : false;
 			$sync          = $sync ? 'checked="checked"' : '';
 
-			$isPersonalData = $cookie->isPersonalData == 1 ? 'checked="checked"'
-				: '';
-			$showOnPolicy   = $cookie->showOnPolicy == 1 ? 'checked="checked"'
-				: '';
+			$isPersonalData = $cookie->isPersonalData == 1 ? 'checked="checked"' : '';
+			$showOnPolicy   = $cookie->showOnPolicy == 1 ? 'checked="checked"' : '';
 			$services       = $this->get_services_options( $cookie->service, $language );
 			$cookiePurposes = $this->get_cookiePurpose_options( $cookie->purpose, $language );
 
@@ -486,13 +487,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
 			     && strlen( $cookie->slug ) !== 0
 			) {
-				$service_slug = ( strlen( $cookie->service ) === 0 )
-					? 'unknown-service' : $cookie->service;
-				$link
-				              = '<a target="_blank" href="https://cookiedatabase.org/cookie/'
-				                . $service_slug . '/' . $cookie->slug . '">'
-				                . __( "View cookie on cookiedatabase.org",
-						"complianz-gdpr" ) . '</a>';
+				$service_slug = ( strlen( $cookie->service ) === 0 ) ? 'unknown-service' : $cookie->service;
+				$link         = '<a target="_blank" href="https://cookiedatabase.org/cookie/' . $service_slug . '/' . $cookie->slug . '">'
+				                . __( "View cookie on cookiedatabase.org", "complianz-gdpr" ) .
+				                '</a>';
 			}
 
 			$cookie_html = str_replace(
@@ -510,7 +508,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					'{collectedPersonalData}',
 					'{showOnPolicy}',
 					'{syncDisabled}',
-					"{syncDisabledClass}",
 					"{link}",
 				),
 				array(
@@ -527,136 +524,56 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookie->collectedPersonalData,
 					$showOnPolicy,
 					$syncDisabled,
-					$syncDisabledClass,
 					$link,
 				),
 				$tmpl );
 
-			$icons  = '';
-			$status = $cookie->complete || $cookie->ignored ? 'success'
-				: 'error';
-			$icons  .= $this->get_icon( array(
-				'status'       => $status,
-				'icon_success' => 'check',
-				'icon_error'   => 'times',
-				'desc_success' => __( "The data for this cookie is complete",
-					"complianz-gdpr" ),
-				'desc_error'   => __( "This cookie has missing fields",
-					"complianz-gdpr" ),
-			) );
+			$icons = '';
+
+			if ( $cookie->complete || $cookie->ignored ) {
+				$icons .= cmplz_icon( 'check', 'green', __( "The data for this cookie is complete", "complianz-gdpr" ) );
+			} else {
+				$icons .= cmplz_icon( 'check', 'error', __( "This cookie has missing fields", "complianz-gdpr" ) );
+			}
 
 			if ( ! $cookie->sync ) {
-				$status = 'disabled';
+				$icons .= cmplz_icon( 'sync', 'disabled', __( "Synchronization with cookiedatabase.org is not enabled for this cookie", "complianz-gdpr" ) );
 			} elseif ( $cookie->synced ) {
-				$status = 'success';
+				$icons .= cmplz_icon( 'sync', 'success', __( "This cookie has been synchronized with cookiedatabase.org.",'complianz-gdpr').'&nbsp;'.__( "Our moderators will keep the cookies up-to-date.", "complianz-gdpr" ) );
 			} else {
-				$status = 'error';
+				$icons .= cmplz_icon( 'sync', 'error', __( "This cookie is not yet synchronized with cookiedatabase.org.",'complianz-gdpr').'&nbsp;'.__( "Either try again, or if this fails; our moderators will investigate further and automatically update the descriptions.", "complianz-gdpr" ) );
 			}
 
-			$icons  .= $this->get_icon( array(
-				'status'        => $status,
-				'icon_success'  => 'sync-alt',
-				'desc_success'  => __( "This cookie has been synchronized with cookiedatabase.org",
-					"complianz-gdpr" ),
-				'desc_error'    => __( "This cookie is not synchronized with cookiedatabase.org",
-					"complianz-gdpr" ),
-				'desc_disabled' => __( "Synchronization with cookiedatabase.org is not enabled for this cookie",
-					"complianz-gdpr" ),
-			) );
-			$status = $cookie->showOnPolicy && ! $cookie->ignored ? 'success' : 'disabled';
+			if ( $cookie->showOnPolicy && ! $cookie->ignored ) {
+				$icons .= cmplz_icon( 'file', 'success', __( "This cookie will be on your Cookie Policy", "complianz-gdpr" ) );
+			} else {
+				$icons .= cmplz_icon( 'file', 'disabled', __( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" ) );
+			}
 
-			$icons .= $this->get_icon( array(
-				'status'        => $status,
-				'icon_success'  => 'file',
-				'desc_success'  => __( "This cookie will be on your Cookie Policy",
-					"complianz-gdpr" ),
-				'desc_disabled' => __( "This cookie is not shown on the Cookie Policy",
-					"complianz-gdpr" ),
-			) );
+			if ( ! $cookie->old ) {
+				$icons .= cmplz_icon( 'calendar', 'success', __( "This cookie has recently been detected", "complianz-gdpr" ) );
+			} else {
+				$icons .= cmplz_icon( 'calendar', 'error', __( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" ) );
+			}
 
-			//don't set the status if cookie scan is disabled
-			$status = $cookie->old && ! $this->automatic_cookiescan_disabled() ? 'error' : 'success';
-
-			$icons .= $this->get_icon( array(
-				'status'       => $status,
-				'icon_success' => 'calendar-check',
-				'icon_error'   => 'calendar-times',
-				'desc_success' => __( "This cookie has recently been detected",
-					"complianz-gdpr" ),
-				'desc_error'   => __( "This cookie has not been detected on your site in the last three months",
-					"complianz-gdpr" ),
-			) );
-
-			$icons       = '<span style="float:right">' . $icons . '</span>';
-			$notice      = ( $cookie->old )
-				? cmplz_notice( __( 'This cookie has not been found in the scan for three months. Please check if you are still using this cookie',
-					'complianz-gdpr' ), 'warning', false, false ) : '';
+			$notice      = ( $cookie->old ) ? cmplz_notice( __( 'This cookie has not been found in the scan for three months. Please check if you are still using this cookie',
+				'complianz-gdpr' ), 'warning', false, false ) : '';
 			$cookie_html = $notice . $cookie_html;
-			$ignored     = ( $cookie->ignored ) ? ' <i>'
-			                                      . __( '(Administrator cookie, will be ignored)',
-					'complianz-gdpr' ) . '</i>' : '';
-			$membersOnly = ( ! $cookie->ignored
-			                 && cmplz_get_value( 'wp_admin_access_users' )
-			                    === 'no'
-			                 && $cookie->isMembersOnly ) ? ' <i>'
-			                                               . __( '(Logged in users only, will be ignored)',
-					'complianz-gdpr' ) . '</i>' : '';
-			$html        = cmplz_panel( sprintf( __( 'Cookie "%s"%s%s',
-				'complianz-gdpr' ), $cookie->name, $ignored, $membersOnly ),
+			$ignored     = ( $cookie->ignored ) ? ' <i>' . __( '(Administrator cookie, will be ignored)', 'complianz-gdpr' ) . '</i>' : '';
+			$membersOnly = ( ! $cookie->ignored && cmplz_get_value( 'wp_admin_access_users' ) === 'no' && $cookie->isMembersOnly ) ?
+				' <i>' . __( '(Logged in users only, will be ignored)', 'complianz-gdpr' ) . '</i>' : '';
+
+			$html = cmplz_panel( sprintf( __( 'Cookie "%s"%s%s', 'complianz-gdpr' ), $cookie->name, $ignored, $membersOnly ),
 				$cookie_html, $icons, false, false );
+
 			if ( $cookie->deleted ) {
-				$html = str_replace( array( 'cmplz-toggle-active' ),
-					array( 'cmplz-toggle-active cmplz-deleted' ), $html );
+				$html = str_replace( array( 'cmplz-toggle-active' ), array( 'cmplz-toggle-active cmplz-deleted' ), $html );
 			}
 			if ( $cookie->ignored ) {
-				$html = str_replace( array( 'cmplz-toggle-active' ),
-					array( 'cmplz-toggle-disabled' ), $html );
+				$html = str_replace( array( 'cmplz-toggle-active' ), array( 'cmplz-toggle-disabled' ), $html );
 			}
 
 			return $html;
-		}
-
-		/**
-		 * Get icon html for panel
-		 *
-		 * @param $status = success, error, disabled
-		 * @param $icon_if_success
-		 * @param $icon_if_error
-		 *
-		 * @return string
-		 */
-
-		public function get_icon( $args ) {
-			$default_args = array(
-				'status'        => 'success',
-				'icon_success'  => '',
-				'icon_error'    => false,
-				'desc_success'  => '',
-				'desc_error'    => '',
-				'desc_disabled' => '',
-			);
-			$args         = wp_parse_args( $args, $default_args );
-			if ( ! $args['icon_error'] ) {
-				$args['icon_error'] = $args['icon_success'];
-			}
-			$complete = ( $args['status'] == 'success' ) ? $args['icon_success']
-				: $args['icon_error'];
-			switch ( $args['status'] ) {
-				case 'success':
-					$desc = $args['desc_success'];
-					break;
-				case 'error';
-					$desc = $args['desc_error'];
-					break;
-				case 'disabled';
-					$desc = $args['desc_disabled'];
-					break;
-			}
-
-			return '<span cmplz-tooltip="' . $desc
-			       . '" flow="left"><i class="fa cmplz-tooltip-icon  cmplz-'
-			       . esc_attr( $args['status'] ) . ' fa-' . $complete
-			       . '" ></i></span>';
 		}
 
 		/**
@@ -680,17 +597,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return '';
 			}
 
-			$sync         = COMPLIANZ::$cookie_admin->use_cdb_api()
-				? $service->sync : false;
-			$syncDisabled = $syncDisabledClass = '';
+			$sync         = COMPLIANZ::$cookie_admin->use_cdb_api() ? $service->sync : false;
+			$syncDisabled = '';
 			if ( ! COMPLIANZ::$cookie_admin->use_cdb_api() ) {
-				$syncDisabled      = 'disabled="disabled"';
-				$syncDisabledClass = "cmplz-disabled";
+				$syncDisabled = 'cmplz-disabled';
 			}
 
-			$serviceTypes
-				= $this->get_serviceTypes_options( $service->serviceType,
-				$language );
+			$serviceTypes = $this->get_serviceTypes_options( $service->serviceType, $language );
 
 			$disabled      = $sync ? 'disabled="disabled"' : false;
 			$disabledClass = $sync ? 'cmplz-disabled' : false;
@@ -701,15 +614,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			     && strlen( $service->slug ) !== 0
 			     && $service->slug !== 'unknown-service'
 			) {
-				$link
-					= '<a target="_blank" href="https://cookiedatabase.org/service/'
-					  . $service->slug . '">'
-					  . __( "View service on cookiedatabase.org",
-						"complianz-gdpr" ) . '</a>';
+				$link = '<a target="_blank" href="https://cookiedatabase.org/service/' . $service->slug . '">'
+				        . __( "View service on cookiedatabase.org", "complianz-gdpr" ) .
+				        '</a>';
 			}
 
-			$sharesData   = $service->sharesData == 1 ? 'checked="checked"'
-				: '';
+			$sharesData   = $service->sharesData == 1 ? 'checked="checked"' : '';
 			$service_html = str_replace(
 				array(
 					'{service_id}',
@@ -722,7 +632,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					'{sharesData}',
 					'{showOnPolicy}',
 					'{syncDisabled}',
-					"{syncDisabledClass}",
 					"{link}",
 				),
 				array(
@@ -736,47 +645,27 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$sharesData,
 					$service->showOnPolicy,
 					$syncDisabled,
-					$syncDisabledClass,
 					$link,
 				),
 				$tmpl );
-			$icons        = '';
-			$status       = $service->complete ? 'success' : 'error';
 
-			$icons .= $this->get_icon( array(
-				'status'       => $status,
-				'icon_success' => 'check',
-				'icon_error'   => 'times',
-				'desc_success' => __( "The data for this service is complete",
-					"complianz-gdpr" ),
-				'desc_error'   => __( "This service has missing fields",
-					"complianz-gdpr" ),
-			) );
+			$icons = '';
 
-			if ( ! $service->sync ) {
-				$status = 'disabled';
-			} elseif ( $service->synced ) {
-				$status = 'success';
+			if ( $service->complete ) {
+				$icons .= cmplz_icon( 'check', 'green', __( "The data for this service is complete", "complianz-gdpr" ) );
 			} else {
-				$status = 'error';
+				$icons .= cmplz_icon( 'check', 'error', __( "This service has missing fields", "complianz-gdpr" ) );
 			}
 
-			$icons .= $this->get_icon( array(
-				'status'        => $status,
-				'icon_success'  => 'sync-alt',
-				'desc_success'  => __( "This service has been synchronized with cookiedatabase.org",
-					"complianz-gdpr" ),
-				'desc_error'    => __( "This service is not synchronized with cookiedatabase.org",
-					"complianz-gdpr" ),
-				'desc_disabled' => __( "Synchronization with cookiedatabase.org is not enabled for this service",
-					"complianz-gdpr" ),
-			) );
+			if ( ! $service->sync ) {
+				$icons .= cmplz_icon( 'sync', 'disabled', __( "Synchronization with cookiedatabase.org is not enabled for this service", "complianz-gdpr" ) );
+			} elseif ( $service->synced ) {
+				$icons .= cmplz_icon( 'sync', 'success', __( "This service has been synchronized with cookiedatabase.org", "complianz-gdpr" ) );
+			} else {
+				$icons .= cmplz_icon( 'sync', 'error', __( "This service is not synchronized with cookiedatabase.org", "complianz-gdpr" ) );
+			}
 
-			$icons = '<span style="float:right">' . $icons . '</span>';
-
-
-			return cmplz_panel( sprintf( __( 'Service "%s"', 'complianz-gdpr' ),
-				$service->name ), $service_html, $icons, false, false );
+			return cmplz_panel( sprintf( __( 'Service "%s"', 'complianz-gdpr' ), $service->name ), $service_html, $icons, false, false );
 		}
 
 		/**
@@ -834,12 +723,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 								'complianz-gdpr' );
 							$class   = 'no-service';
 						}
+						$html .= '<div class="cmplz-service-cookie-list">';
 						$html .= '<div class="cmplz-service-divider ' . $class
 						         . '">' . $service . '</div>';
 						foreach ( $cookies as $cookie ) {
 							$html .= $this->get_cookie_list_item_html( $tmpl,
 								$cookie->name, $language );
 						}
+						$html .= '</div>';
 					}
 				}
 
@@ -879,6 +770,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$error   = false;
 			$action  = "";
 			$html    = '';
+			$divider = '';
 			$msg     = 'success';
 			$item_id = false;
 
@@ -953,13 +845,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$serviceTypes = $this->get_serviceTypes_options( '', $language );
 
 				if ( $type === 'cookie' ) {
-					$html = str_replace( array(
+					$title   = 'Cookie "' . $name . '"';
+					$divider = '<div class="cmplz-service-divider no-service">'
+					           . __( 'Cookies without selected service',
+							'complianz-gdpr' ) . '</div>';
+					$html    = str_replace( array(
 						'{' . $type . '_id}',
 						'{disabled}',
 						'{name}',
 						'{services}',
 						'{retention}',
 						'{sync}',
+						'{syncDisabled}',
 						'{showOnPolicy}',
 						'{cookieFunction}',
 						'{purposes}',
@@ -972,6 +869,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$services,
 						'',
 						'',
+						'',
 						'checked="checked"',
 						'',
 						$purposes,
@@ -979,13 +877,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						'',
 					), $tmpl );
 				} else {
-					$html = str_replace( array(
+					$title        = 'Service "' . $name . '"';
+					$syncDisabled = ! COMPLIANZ::$cookie_admin->use_cdb_api() ? 'cmplz-disabled' : '';
+					$html         = str_replace( array(
 						'{' . $type . '_id}',
 						'{disabled}',
 						'{name}',
 						'{serviceTypes}',
 						'{privacyStatementURL}',
 						'{sync}',
+						'{syncDisabled}',
 						'{showOnPolicy}',
 						'{link}',
 					), array(
@@ -995,12 +896,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$serviceTypes,
 						'',
 						'',
+						$syncDisabled,
 						'checked="checked"',
 						'',
 					), $tmpl );
 				}
-				$html = cmplz_panel( __( $name, 'complianz-gdpr' ), $html, '',
-					'', false );
+				$html = cmplz_panel( __( $title, 'complianz-gdpr' ), $html, '',
+					'', false, true );
 			}
 
 			$data     = array(
@@ -1008,9 +910,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				'message' => $msg,
 				'action'  => $action,
 				'html'    => $html,
-				'divider' => '<div class="cmplz-service-divider no-service">'
-				             . __( 'Cookies without selected service',
-						'complianz-gdpr' ) . '</div>',
+				'divider' => $divider,
 
 			);
 			$response = json_encode( $data );
@@ -1117,14 +1017,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
-				$msg
-				       = COMPLIANZ::$config->warning_types['api-disabled']['label_error'];
+				$msg   = __( 'You haven\'t accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes.', 'complianz-gdpr' );
 			}
 
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
 				update_option( 'cmplz_sync_cookies_complete', true );
-				$msg   = "";
+				$msg   = "No cookies";
 				$error = true;
 			}
 
@@ -1286,7 +1185,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				update_option( 'cmplz_sync_cookies_after_services_complete', true );
 			} else {
 				update_option( 'cmplz_sync_cookies_complete', true );
-
 			}
 
 			return $msg;
@@ -1316,6 +1214,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$data['count'] = $count_all;
 
 			return $data;
+
 		}
 
 		/**
@@ -1350,14 +1249,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$slug = $c->slug ? $c->slug : $index;
 					//pass the type to the CDB
 					if ( $c->type === 'localstorage' ) {
-						$localstorage_cookies[] = $cookie;
+						if (!in_array($cookie, $localstorage_cookies) ) $localstorage_cookies[] = $cookie;
 					}
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
 						$service = new CMPLZ_SERVICE( $c->service );
 						if ( $service->thirdParty || $service->secondParty ) {
-							$thirdparty_cookies[] = $cookie;
+							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
 						}
+						$test = '"'.$slug.'"';
+						$test = (int) trim($test,"'\"");
 						$data[ $language ][ $c->service ][ $slug ] = $cookie;
 					} else {
 						$data[ $language ]['no-service-set'][ $slug ] = $cookie;
@@ -1404,8 +1305,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$data  = $this->get_syncable_services();
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
-				$msg
-				       = COMPLIANZ::$config->warning_types['api-disabled']['label_error'];
+				$msg   = __( 'You haven\'t accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes.', 'complianz-gdpr' );
 			}
 
 			//if no syncable services found, exit.
@@ -1598,6 +1498,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $msg;
 		}
 
+
 		/**
 		 * Save the last sync date
 		 */
@@ -1678,6 +1579,53 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $services;
 		}
 
+		public function processing_agreements() {
+			ob_start();
+			//include( cmplz_path . '/class-processing-table.php' );
+
+			$processing_agreements_table = new WP_List_Table();
+			$processing_agreements_table->prepare_items();
+
+			?>
+
+			<div id="processing_agreements" class="wrap processing_agreements">
+				<h1><?php _e( "Processing Agreements", 'complianz-gdpr' ) ?></h1>
+				<?php
+				cmplz_notice( __( 'A Processor or Service Provider is the party that processes personal data on behalf of a responsible organization or person. ' .
+				                  'If you are this organization or person, you should probably sign a Processing Agreement with them. ' .
+				                  'You can use a Processing Agreement outside of Complianz, or generate one here.', 'complianz-gdpr' ) ) ?>
+
+				<form id="cmplz-processing-agreements-create" method="POST" action="">
+					<?php echo wp_nonce_field( 'cmplz_processing_agreements', 'cmplz_nonce' ); ?>
+					<select>
+						<option id="eu">EU</option>
+					</select>
+					<input type="submit" class="button button-primary"
+					       name="cmplz_create_processing_agreement"
+					       value="<?php _e( "Create", "complianz-gdpr" ) ?>"/>
+				</form>
+				<form id="cmplz-processing-agreements-filter" method="get" action="">
+
+					<?php
+					$processing_agreements_table->display();
+					?>
+					<input type="hidden" name="page" value="cmplz-processing-agreements"/>
+
+				</form>
+				<?php do_action( 'cmplz_after_cookiesnapshot_list' ); ?>
+			</div>
+
+			<?php
+
+			$content = ob_get_clean();
+			$args    = array(
+				'page'    => 'processing-agreements',
+				'content' => $content,
+			);
+			echo cmplz_get_template( 'admin_wrap.php', $args );
+		}
+
+
 		/**
 		 * Keep services in sync with selected answers in wizard
 		 *
@@ -1751,8 +1699,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function rescan() {
 			if ( isset( $_POST['rescan'] ) ) {
-				if ( ! isset( $_POST['complianz_nonce'] )
-				     || ! wp_verify_nonce( $_POST['complianz_nonce'],
+				if ( ! isset( $_POST['cmplz_nonce'] )
+				     || ! wp_verify_nonce( $_POST['cmplz_nonce'],
 						'complianz_save' )
 				) {
 					return;
@@ -1771,8 +1719,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function clear_cookies() {
 			if ( isset( $_POST['clear'] ) ) {
-				if ( ! isset( $_POST['complianz_nonce'] )
-				     || ! wp_verify_nonce( $_POST['complianz_nonce'],
+				if ( ! isset( $_POST['cmplz_nonce'] )
+				     || ! wp_verify_nonce( $_POST['cmplz_nonce'],
 						'complianz_save' )
 				) {
 					return;
@@ -1790,7 +1738,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 				}
 
-				$this->resync( true );
+				$this->resync();
 			}
 		}
 
@@ -1800,19 +1748,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @param bool $force
 		 */
 
-		public function resync( $force = false ) {
-			if ( $force || isset( $_POST['resync'] ) ) {
-				if ( ! isset( $_POST['complianz_nonce'] )
-				     || ! wp_verify_nonce( $_POST['complianz_nonce'],
-						'complianz_save' )
-				) {
-					return;
-				}
-				update_option( 'cmplz_sync_cookies_complete', false );
-				update_option( 'cmplz_sync_cookies_after_services_complete', false );
-				update_option( 'cmplz_sync_services_complete', false );
-
-			}
+		public function resync() {
+			update_option( 'cmplz_sync_cookies_complete', false );
+			update_option( 'cmplz_sync_cookies_after_services_complete', false );
+			update_option( 'cmplz_sync_services_complete', false );
 		}
 
 		/**
@@ -1867,6 +1806,22 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				cmplz_url . "assets/css/cookieconsent$minified.css", "",
 				cmplz_version );
 			wp_enqueue_style( 'cmplz-cookie' );
+
+			// Banner under wp menu
+			if ( is_user_logged_in() ) {
+				wp_add_inline_style( 'cmplz-cookie', '.cc-window.cc-top{top:32px;}' );
+				wp_add_inline_script( 'cmplz-banner-customization', '
+                jQuery(document).ready(function ($) {
+                    setTimeout(function () {
+                        $(".cc-revoke").addClass("cc-bottom");
+                        $(".cc-revoke").removeClass("cc-top");
+                        $(".cc-revoke").css("display", "none");
+                    }, 0);
+                    setTimeout(function () {
+                        $(".cc-revoke").css("display", "initial");
+                    }, 100);
+                });' );
+			}
 
 			$cookiesettings
 				= $this->get_cookiebanner_settings( apply_filters( 'cmplz_user_banner_id',
@@ -2005,7 +1960,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			return apply_filters( 'cmplz_cookie_path', trailingslashit( $path ) );
 		}
-
 
 		/**
 		 * The classes that are passed to the statistics script determine if these are executed immediately or not.
@@ -2167,24 +2121,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function inline_cookie_script_no_warning() {
 			?>
 			<script type='text/javascript' class="cmplz-native">
-				jQuery(document).ready(function ($) {
-					$('.cmplz-service-header').each(function () {
-						var item = $(this).next();
-						$(this).removeClass('cmplz-service-open');
-						item.addClass('cmplz-service-hidden');
-					});
-					$(document).on('click', '.cmplz-service-header', function () {
-						var item = $(this).next();
 
-						if (item.hasClass('cmplz-service-hidden')) {
-							$(this).addClass('cmplz-service-open');
-							item.removeClass('cmplz-service-hidden');
-						} else {
-							$(this).removeClass('cmplz-service-open');
-							item.addClass('cmplz-service-hidden');
-						}
-					});
-				});
 				<?php do_action( 'cmplz_statistics_script' );?>
 				<?php do_action( 'cmplz_tagmanager_script' );?>
 				<?php if ( cmplz_get_value( 'disable_cookie_block' ) != 1 ) {
@@ -2414,6 +2351,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						if ( ! COMPLIANZ::$wizard->wizard_completed_once() ) {
 							$this->parse_for_statistics_settings( $html );
 						}
+
 						if ( preg_match_all( '/ga\.js/', $html ) > 1
 						     || preg_match_all( '/analytics\.js/', $html ) > 1
 						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
@@ -3217,7 +3155,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$date = date( get_option( 'date_format' ), $last_scan_date );
 				$date = cmplz_localize_date( $date );
 				$time = date( get_option( 'time_format' ), $last_scan_date );
-				$date = sprintf( __( "%s at %s.", 'complianz-gdpr' ), $date,
+				$date = sprintf( __( "%s at %s", 'complianz-gdpr' ), $date,
 					$time );
 			} else {
 				$date = false;
@@ -3336,9 +3274,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				/*
                  * Show the cookies from our own domain
                  * */
-				$html    .= '<tr class="group-header"><td colspan="2"><b>'
-				            . __( 'Cookies on your own domain',
-						'complianz-gdpr' ) . "</b></td></tr>";
+				$html    .= '<div class="cmplz-cookies-table">';
+				$html    .= '<h2>' . __( 'Cookies on your own domain', 'complianz-gdpr' ) . "</h2>";
+				$html    .= '<div class="cmplz-cookies-table-body">';
 				$args    = array(
 					'isTranslationFrom' => false,
 				);
@@ -3346,46 +3284,43 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$cookies = wp_list_pluck( $cookies, 'name' );
 				if ( $cookies ) {
 					foreach ( $cookies as $name ) {
-						$html .= '<tr>';
-						$html .= '<td>' . $name . '</td><td></td>';
-						$html .= '</tr>';
+						$html .= '<span>' . $name . '</span>';
 					}
 				} else {
-					$html .= '<tr><td></td><td>---</td></tr>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
 				}
+				$html .= '</div></div>';
 
 				/*
                  * Show the social media which are placing cookies
                  * */
-				$html .= '<tr class="group-header"><td colspan="2"><b>'
-				         . __( 'Social media', 'complianz-gdpr' )
-				         . "</b></td></tr>";
+				$html .= '<div class="cmplz-cookies-table">';
+				$html .= '<h2>' . __( 'Social media', 'complianz-gdpr' ) . "</h2>";
+				$html .= '<div class="cmplz-cookies-table-body">';
 				if ( $social_media && count( $social_media ) > 0 ) {
 					foreach ( $social_media as $key => $service ) {
-						$html .= '<tr><td>'
-						         . COMPLIANZ::$config->thirdparty_socialmedia[ $service ]
-						         . '</td><td></td></tr>';
+						$html .= '<span>' . COMPLIANZ::$config->thirdparty_socialmedia[ $service ] . '</span>';
 					}
 				} else {
-					$html .= '<tr><td></td><td>---</td></tr>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
 				}
+				$html .= '</div></div>';
+
 				/*
                  * Show the third party services which are placing cookies
                  * */
-				$html .= '<tr class="group-header"><td colspan="2"><b>'
-				         . __( 'Third-party services', 'complianz-gdpr' )
-				         . "</b></td></tr>";
+				$html .= '<div class="cmplz-cookies-table">';
+				$html .= '<h2>' . __( 'Third-party services', 'complianz-gdpr' ) . "</h2>";
+				$html .= '<div class="cmplz-cookies-table-body">';
 				if ( $thirdparty && count( $thirdparty ) > 0 ) {
 					foreach ( $thirdparty as $key => $service ) {
-						$html .= '<tr><td>'
-						         . COMPLIANZ::$config->thirdparty_services[ $service ]
-						         . '</td><td></td></tr>';
+						$html .= '<span>' . COMPLIANZ::$config->thirdparty_services[ $service ] . '</span>';
 					}
 				} else {
-					$html .= '<tr><td></td><td>---</td></tr>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
 				}
+				$html .= '</div></div>';
 			}
-			$html = '<table style="width:100%">' . $html . "</table>";
 
 			return $html;
 		}
@@ -3414,24 +3349,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			return false;
-		}
-
-		/**
-		 * Get progress of the scan in percentage
-		 *
-		 * @return float
-		 */
-
-		public function get_progress_count() {
-			$done  = $this->get_processed_pages_list();
-			$total = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
-
-			$progress = 100 * ( count( $done ) / count( $total ) );
-			if ( $progress > 100 ) {
-				$progress = 100;
-			}
-
-			return $progress;
 		}
 
 		/**
@@ -3498,6 +3415,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function run_sync() {
+			if ( isset( $_GET['restart'] ) && $_GET['restart'] == 'true' ) {
+				$this->resync();
+			}
 			$msg      = "";
 			$progress = $this->get_sync_progress();
 			if ( $progress < 50 ) {
@@ -3525,7 +3445,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		}
 
-
+		/**
+ 		* Get syn progress
+		* @return int
+	    */
 		public function get_sync_progress() {
 			$progress = 10;
 			if ( get_option( 'cmplz_sync_cookies_complete' ) ) {
@@ -3550,132 +3473,135 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $progress;
 		}
 
+		/**
+		* Get scan progress html
+	    */
 
 		public function scan_progress() {
 			$disabled = "";
 			if ( ! function_exists( 'curl_version' ) ) {
 				$disabled = "disabled";
-				cmplz_notice( __( 'Your server does not have CURL installed, which is required for the scan. Please contact your hosting company to install CURL.',
-					'complianz-gdpr' ), 'warning' );
 			}
 			?>
-			<div class="field-group cookie-scan first">
-				<?php
-				if ( ( isset( $_SERVER['HTTP_DNT'] )
-				       && $_SERVER['HTTP_DNT'] == 1 )
-				     || isset( $_SERVER['HTTP_SEC_GPC'] )
-				) {
-					cmplz_notice( __( "You have Do Not Track or Global Privacy Control enabled. This will prevent most cookies from being placed. Please run the scan with these options disabled.",
-						'complianz-gdpr' ) );
-				}
-				?>
 
-				<div id="cmplz_adblock_warning"
-				     style="display:none"><?php cmplz_notice( __( "You are using an ad blocker. This will prevent most cookies from being placed. Please run the scan without an adblocker enabled.",
-						'complianz-gdpr' ), 'warning' ) ?></div>
-				<div id="cmplz_anonymous_window_warning"
-				     style="display:none"><?php cmplz_notice( __( "You are using an anonymous window. This will prevent most cookies from being placed. Please run the scan in a normal browser window.",
-						'complianz-gdpr' ), 'warning' ) ?></div>
-
-				<div class="cmplz-label">
-					<label for="scan_progress"><?php _e( "Cookie scan",
-							'complianz-gdpr' ) ?></label>
+			<div class="cmplz-field">
+				<div class="cmplz-buttons-row-left">
+					<input
+						<?php echo $disabled ?>
+						type="submit"
+						class="button cmplz-rescan"
+						value="<?php _e( 'Scan', 'complianz-gdpr' ) ?>"
+						name="rescan"
+					>
+					<input
+						<?php echo $disabled ?>
+						type="submit"
+						class="button button-red cmplz-reset"
+						onclick="return confirm('<?php _e( 'Are you sure? This will permanently delete the list of cookies.', 'complianz-gdpr' ) ?>');"
+						value="<?php _e( 'Clear cookies', 'complianz-gdpr' ) ?>"
+						name="clear"
+					>
 				</div>
+				<br>
+				<div class="cmplz-label"><label><?php _e( "Cookie scan", "complianz-gdpr" ) ?></label></div>
 				<div id="cmplz-scan-progress">
 					<div class="cmplz-progress-bar"></div>
 				</div>
 				<br>
-				<?php echo __( "Cookies as detected by the automatic cookie scan. Please note that only cookies set on your own domain are detected by this scan.",
-						'complianz-gdpr' ) . " "
-				           . __( "Third-party scripts will get detected if they're listed in the Third Party list.",
-						'complianz-gdpr' ) ?>
+
 				<div class="detected-cookies">
 					<?php echo $this->get_detected_cookies_table(); ?>
 				</div>
-				<div>
-
-					<input <?php echo $disabled ?> type="submit"
-					                               class="button cmplz-rescan"
-					                               value="<?php _e( 'Re-scan',
-						                               'complianz-gdpr' ) ?>"
-					                               name="rescan">
-					<input <?php echo $disabled ?> type="submit"
-					                               class="button cmplz-reset"
-					                               onclick="return confirm('<?php _e( 'Are you sure? This will permanently delete the list of cookies.',
-						                               'complianz-gdpr' ) ?>');"
-					                               value="<?php _e( 'Clear cookies',
-						                               'complianz-gdpr' ) ?>"
-					                               name="clear">
-
-					<?php
-					echo COMPLIANZ::$field->get_help_tip_btn( array( 'help' => true ) );
-					echo COMPLIANZ::$field->get_help_tip( array(
-						'help' => __( "If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.",
-							"complianz-gdpr" )
-					) );
-					?>
-				</div>
 			</div>
+
 
 			<?php
 		}
 
 		public function sync_progress() {
-
-			$disabled      = '';
 			$explanation   = '';
 			$data_cookies  = $this->get_syncable_cookies();
 			$data_services = $this->get_syncable_services();
+			$disabled = $this->use_cdb_api() ? '' : 'disabled';
+			if ( ! function_exists( 'curl_version' ) ) {
+				$disabled    = "disabled";
+			}
 
 			if ( $data_cookies['count'] == 0 && $data_services['count'] == 0 ) {
-				$disabled = "disabled";
-				$explanation
-				          = cmplz_notice( __( 'Synchronization disabled: This happens when all cookies have synchronized to cookiedatabase.org in the last week.',
-					'complianz-gdpr' ), 'warning', false, false );
+				$disabled    = "disabled";
 			}
 
-			if ( ! function_exists( 'curl_version' ) ) {
-				$disabled = "disabled";
-				$explanation
-				          = cmplz_notice( __( 'Your server does not have CURL installed, which is required for the sync. Please contact your hosting company to install CURL.',
-					'complianz-gdpr' ), 'warning', false, false );
-			}
+			$default_language = substr( get_locale(), 0, 2 );
+			$languages        = COMPLIANZ::$cookie_admin->get_supported_languages();
 
-			if ( ! $this->use_cdb_api() ) {
-				$disabled = "disabled";
-				echo cmplz_notice( COMPLIANZ::$config->warning_types['api-disabled']['label_error'],
-					'warning' );
-			}
+				?>
 
-			if ( ! $this->use_cdb_api() ) {
-				return;
-			}
+			<div class="field-group sync_progress">
+				<div class="cmplz-field">
+					<div class="cmplz-buttons-row-left">
+						<input type="button" <?php echo $disabled ?>
+						       class="button cmplz-resync"
+						       value="<?php _e( 'Sync', 'complianz-gdpr' ) ?>"
+						       name="resync">
 
-			?>
+						<?php if ( count( $languages ) > 1 ) { ?>
+							<select id="cmplz_language" class="cmplz_cookie_language_selector" data-type="cookie">
+								<?php foreach ( $languages as $language ) { ?>
+									<option value="<?php echo $language ?>" <?php if ( $default_language === $language )
+										echo "selected" ?>>
+										<?php echo $this->get_language_descriptor( $language ); ?>
+									</option>
+								<?php } ?>
+							</select>
+						<?php } else { ?>
+							<input type="hidden" id="cmplz_language" data-type="cookie" value="<?php echo reset( $languages ) ?>">
+						<?php } ?>
 
-			<div class="field-group first">
-				<div id="cmplz_action_error" class="cmplz-hidden">
-					<?php echo cmplz_notice( '<!-- error msg-->', 'warning' ) ?>
+						<label class="cmplz-switch">
+							<input name="cmplz_show_deleted" size="40" type="checkbox" value="1"/>
+							<span class="cmplz-slider cmplz-round"></span>
+						</label>
+						<span><?php _e( "Show deleted cookies", "complianz-gdpr" ) ?></span>
+					</div>
+					<div class="cmplz-label cmplz-sync-status">
+						<label class=""><span><?php _e( "Syncing...", 'complianz-gdpr' ) ?></span>&nbsp;</label>
+					</div>
+					<div id="cmplz-sync-progress">
+						<div class="cmplz-sync-progress-bar"></div>
+					</div>
+
 				</div>
 
-				<div class="cmplz-label">
-					<label
-						for="sync_progress"><?php _e( "Connecting to Cookiedatabase.org",
-							'complianz-gdpr' ) ?></label>
-				</div>
-				<div id="cmplz-sync-progress">
-					<div class="cmplz-sync-progress-bar"></div>
-				</div>
-				<div id="cmplz-sync-loader"></div>
-				<br>
+				<div class="cmplz-help-warning-wrap">
+					<?php echo $explanation ?>
 
-				<input type="submit" <?php echo $disabled ?>
-				       class="button cmplz-resync"
-				       value="<?php _e( 'Sync cookies with Cookiedatabase.org', 'complianz-gdpr' ) ?>"
-				       name="resync">
-				<?php echo $explanation ?>
+					<div id="cmplz-warning cmplz_action_error" class="cmplz-hidden">
+						<?php echo cmplz_notice( '<!-- error msg-->', 'warning' ) ?>
+					</div>
+				</div>
 			</div>
 			<?php
+
+		}
+
+
+		/**
+		 * @param $language
+		 *
+		 * @return string
+		 */
+
+		private function get_language_descriptor( $language, $type = 'cookie' ) {
+			$string = $type == 'cookie' ? __( 'Cookies in %s', 'complianz-gdpr' ) : __( 'Services in %s', 'complianz-gdpr' );
+			if ( isset( COMPLIANZ::$config->language_codes[ $language ] ) ) {
+				$string = sprintf( $string,
+					COMPLIANZ::$config->language_codes[ $language ] );
+			} else {
+				$string = sprintf( $string,
+					strtoupper( $language ) );
+			}
+
+			return $string;
 		}
 
 
@@ -3787,18 +3713,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * *@since 1.2
 		 *
 		 */
-
 		public function site_needs_cookie_warning( $region = false ) {
 			/**
 			 * default is false
 			 */
 			$needs_warning = false;
-			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
-				/**
-				 * if cookies are not used at all, no banner is needed
-				 */
-				$needs_warning = false;
-			} else if ( $region && ! cmplz_has_region( $region ) ) {
+			if ( $region && ! cmplz_has_region( $region ) ) {
 				/**
 				 * if we do not target this region, we don't show a banner for that region
 				 */
@@ -3837,25 +3757,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $needs_warning;
 		}
 
-
-		/**
-		 * Check if consent is required for anonymous statistics
-		 *
-		 * @return bool
-		 */
-
-		public function consent_required_for_anonymous_stats() {
-			if ( ! cmplz_has_region( 'eu' ) ) {
-				return false;
-			}
-			$uses_google = $this->uses_google_analytics()
-			               || $this->uses_google_tagmanager();
-
-			return $uses_google
-			       && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )
-			       && $this->statistics_privacy_friendly();
-		}
-
 		/**
 		 * Check if the site needs a cookie banner considering statistics only
 		 *
@@ -3871,14 +3772,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 * user can override detected settings in wizard
 			 */
 
-			if ( $this->consent_required_for_anonymous_stats()
-			     && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes'
-			) {
+			if ( $this->consent_required_for_anonymous_stats() && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes' ) {
 				return true;
-			}
-
-			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
-				return false;
 			}
 
 			$has_optinstats = cmplz_uses_consenttype( 'optinstats', $region );
@@ -3897,6 +3792,24 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//not stats required if privacy friendly
 			return apply_filters( 'cmplz_cookie_warning_required_stats', ! $privacy_friendly );
+		}
+
+		/**
+		 * Check if consent is required for anonymous statistics
+		 *
+		 * @return bool
+		 */
+
+		public function consent_required_for_anonymous_stats() {
+			if ( ! cmplz_has_region( 'eu' ) ) {
+				return false;
+			}
+			$uses_google = $this->uses_google_analytics()
+						   || $this->uses_google_tagmanager();
+
+			return $uses_google
+				   && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )
+				   && $this->statistics_privacy_friendly();
 		}
 
 		/**
@@ -3923,7 +3836,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 		}
 
-
 		/**
 		 * Determine if statistics are used in a privacy friendly way
 		 *
@@ -3931,9 +3843,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function statistics_privacy_friendly() {
-			//we don't check for cookies being used here, when needed this is checked separately, and this could
-			//cause issues when this function is checked before the "uses_cookies" question is asked
-
 			$statistics = cmplz_get_value( 'compile_statistics' );
 
 			//no statistics at all, it's privacy friendly
@@ -4049,12 +3958,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return true;
 			}
 
-			//if user states no cookies are used, we simply return false.
-			if ( cmplz_get_value( 'uses_cookies' ) !== 'yes' ) {
-				return false;
+			if ( $this->tagmamanager_fires_scripts() ) {
+				return true;
 			}
 
-			if ( $this->tagmamanager_fires_scripts() ) {
+			if ( cmplz_uses_marketing_cookies() ) {
 				return true;
 			}
 
@@ -4065,16 +3973,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$thirdparty_iframes = cmplz_get_value( 'thirdparty_iframes' );
 			$thirdparty_scripts = strlen( $thirdparty_scripts ) == 0 ? false : true;
 			$thirdparty_iframes = strlen( $thirdparty_iframes ) == 0 ? false : true;
+			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' ) ? true : false;
+			$social_media = ( cmplz_get_value( 'uses_social_media' ) === 'yes' ) ? true : false;
+			$thirdparty_services = ( cmplz_get_value( 'uses_thirdparty_services' ) === 'yes' ) ? true : false;
 
-			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' )
-				? true : false;
-			$social_media = ( cmplz_get_value( 'uses_social_media' ) === 'yes' )
-				? true : false;
-			$thirdparty_services
-			              = ( cmplz_get_value( 'uses_thirdparty_services' )
-			                  === 'yes' ) ? true : false;
-
-			if ( $thirdparty_scripts || $thirdparty_iframes || $ad_cookies
+			if ( $thirdparty_scripts
+				 || $thirdparty_iframes
+				 || $ad_cookies
 			     || $social_media
 			     || $thirdparty_services
 			) {
@@ -4123,15 +4028,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			return false;
-
 		}
-
-		/**
-		 *
-		 * Check if the site uses non functional cookies
-		 *
-		 *
-		 * */
 
 		public function uses_non_functional_cookies() {
 			if ( $this->tagmamanager_fires_scripts() ) {
@@ -4167,7 +4064,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			return false;
-
 		}
 
 
@@ -4175,6 +4071,23 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return ! $this->uses_non_functional_cookies();
 		}
 
+		/**
+		 * Get progress of the scan in percentage
+		 *
+		 * @return float
+		 */
+
+		public function get_progress_count() {
+			$done  = $this->get_processed_pages_list();
+			$total = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
+
+			$progress = 100 * ( count( $done ) / count( $total ) );
+			if ( $progress > 100 ) {
+				$progress = 100;
+			}
+
+			return $progress;
+		}
 
 		/**
 		 * Check if this website uses cookies from a specific service
@@ -4203,6 +4116,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			return false;
 		}
-
 	}
+
 } //class closure

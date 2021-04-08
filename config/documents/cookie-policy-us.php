@@ -165,9 +165,6 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 	'cookie_names' => array(
 		'title' => 'Placed cookies',
 		'callback' => 'cmplz_used_cookies',
-		'condition' => array(
-			'uses_cookies' => 'yes',
-		),
 	),
 
 

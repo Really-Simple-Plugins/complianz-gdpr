@@ -10,16 +10,30 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					get_class( $this ) ) );
 			}
 			self::$_this = $this;
+
 			if ( cmplz_get_value('records_of_consent') !== 'yes' || defined('cmplz_free') ) {
 				add_action( 'cmplz_admin_menu', array( $this, 'menu_item' ), 10 );
 				add_action( 'wp_ajax_cmplz_delete_snapshot', array( $this, 'ajax_delete_snapshot' ) );
 			}
 
 			add_action( 'admin_init', array( $this, 'force_snapshot_generation' ) );
+			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
+
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * Enqueue back-end assets
+		 * @param $hook
+		 */
+		public function admin_enqueue($hook){
+			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz-proof-of-consent' ) return;
+			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
+			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
+			wp_enqueue_style('cmplz-posttypes');
 		}
 
 		/**
@@ -44,7 +58,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 			return 0;
 		}
-
 
 		/**
 		 * Get list of cookie statement snapshots
@@ -235,36 +248,28 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					});
 				});
 			</script>
-
+			<div class="wrap">
 			<div id="cookie-policy-snapshots" class="wrap cookie-snapshot">
-				<h1><?php _e( "Proof of consent", 'complianz-gdpr' ) ?></h1>
-				<p>
-					<?php
-					$link_open
-						= '<a href="https://complianz.io/user-consent-registration/" target="_blank">';
-					cmplz_notice( sprintf( __( 'When you make significant changes to your Cookie Policy, cookie banner or revoke functionality, we will add a time-stamped document under "Proof of Consent" with the latest changes. If there is any concern if your website was ready for GDPR at a point of time, you can use the Complianz Proof of Consent to show the efforts you made being compliant, while respecting data minimization and full control of consent registration by the user. On a daily basis, the document will be generated if the plugin has detected significant changes. For more information read our article about %suser consent registration%s.',
-						'complianz-gdpr' ), $link_open, '</a>' ) ) ?>
-				</p>
-				<?php
-				if ( isset( $_POST['cmplz_generate_snapshot'] ) ) {
-					cmplz_notice( __( "Proof of consent updated!",
-						"complianz-gdpr" ), 'success', true );
-				}
-				if ( isset( $_POST['cmplz_generate_snapshot_error'] ) ) {
-					cmplz_notice( __( "Proof of consent generation failed. Check your write permissions in the uploads directory",
-						"complianz-gdpr" ), 'warning' );
-				}
-				?>
-
-				<form id="cmplz-cookiestatement-snapshot-generate" method="POST"
-				      action="">
+				<form id="cmplz-cookiestatement-snapshot-generate" method="POST" action="">
+					<h1 class="wp-heading-inline"><?php _e( "Proof of consent", 'complianz-gdpr' ) ?></h1>
 					<?php echo wp_nonce_field( 'cmplz_generate_snapshot',
 						'cmplz_nonce' ); ?>
-					<input type="submit" class="button button-primary"
+					<input type="submit" class="button button-primary cmplz-header-btn"
 					       name="cmplz_generate_snapshot"
 					       value="<?php _e( "Generate now",
 						       "complianz-gdpr" ) ?>"/>
+					<a href="https://complianz.io/definitions/what-is-proof-of-consent/" target="_blank" class="button button-default cmplz-header-btn"><?php _e( "Read more", "complianz-gdpr" ) ?></a>
 				</form>
+				<?php
+				if ( isset( $_POST['cmplz_generate_snapshot'] ) ) {
+					cmplz_notice( __( "Proof of consent updated!",
+							"complianz-gdpr" ), 'success', false );
+				}
+				if ( isset( $_POST['cmplz_generate_snapshot_error'] ) ) {
+					cmplz_notice( __( "Proof of consent generation failed. Check your write permissions in the uploads directory",
+							"complianz-gdpr" ), 'warning' );
+				}
+				?>
 				<form id="cmplz-cookiestatement-snapshot-filter" method="get"
 				      action="">
 
@@ -277,7 +282,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				</form>
 				<?php do_action( 'cmplz_after_cookiesnapshot_list' ); ?>
 			</div>
-
+			</div>
 			<?php
 		}
 
@@ -298,8 +303,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				$banner_id = cmplz_get_default_banner_id();
 				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
 				$settings  = $banner->get_settings_array();
-				$settings['privacy_link_us ']
-				           = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );
+				$settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );
 				$settings_html = '';
 				$skip          = array(
 					'categorie',
@@ -308,10 +312,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					'static',
 					'set_cookies',
 					'hide_revoke',
-					'popup_background_color',
-					'popup_text_color',
-					'button_background_color',
-					'button_text_color',
 					'position',
 					'theme',
 					'version',
@@ -326,14 +326,16 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					'layout',
 					'use_custom_css',
 					'custom_css',
-					'border_color',
-					'accept_all_background_color',
-					'accept_all_text_color',
-					'accept_all_border_color',
-					'functional_background_color',
-					'functional_text_color',
-					'functional_border_color',
 					'banner_width',
+                    'colorpalette_background',
+                    'colorpalette_text',
+                    'colorpalette_toggles',
+                    'colorpalette_border_radius',
+                    'border_width',
+                    'colorpalette_button_accept',
+                    'colorpalette_button_deny',
+                    'colorpalette_button_settings',
+                    'buttons_border_radius',
 				);
 				$cats_pattern = '/data-category="(.*?)"/i';
 				if (isset($settings['categories'])) {
@@ -376,15 +378,11 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 						'<a target="_blank" href="https://complianz.io/consent">',
 						"</a>" ) . '</p>';
 				COMPLIANZ::$document->generate_pdf( 'cookie-statement', $region, false, true, $intro, $settings_html );
-
 				do_action('cmplz_after_proof_of_consent_generation', get_option( 'cmplz_generate_new_cookiepolicy_snapshot') );
 			}
 
 
 			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false );
 		}
-
-
-
 	}
 } //class closure

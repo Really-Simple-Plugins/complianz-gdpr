@@ -1,10 +1,11 @@
 .cc-window {
   opacity: 1;
-  transition: opacity 1s ease
+  //transition: opacity 1s ease
 }
 
 .cc-window.cc-invisible {
-  opacity: 0
+  //opacity: 0;
+  //pointer-events: none;
 }
 
 .cc-animate.cc-revoke {
@@ -51,6 +52,7 @@
   z-index: 9999
 }
 
+
 .cc-window.cc-static {
   position: static
 }
@@ -66,17 +68,14 @@
   padding: 1em 1.8em;
   width: 100%;
   -ms-flex-direction: row;
-  flex-direction: row
+  flex-direction: row;
 }
 
 .cc-revoke {
   padding: .5em
 }
 
-.cc-header {
-  font-size: 18px;
-  font-weight: 700
-}
+
 
 .cc-btn,
 .cc-close,

@@ -58,13 +58,13 @@ add_filter( 'cmplz_placeholder_markers', 'cmplz_osm_placeholder' );
 
 add_action( 'wp_footer', 'cmplz_openstreetmaps_plugin_css' );
 function cmplz_openstreetmaps_plugin_css() {
-	?>
-	<style>
-		.cmplz-placeholder-element .ol-popup {
-			display: none;
-		}
-	</style>
-	<?php
+    ?>
+    <style>
+        .cmplz-placeholder-element .ol-popup {
+            display: none;
+        }
+    </style>
+    <?php
 }
 
 

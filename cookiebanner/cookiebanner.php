@@ -6,7 +6,7 @@ function cmplz_get_dynamic_categories_ajax()
 {
 	$cookiebanner = new CMPLZ_COOKIEBANNER( intval($_GET['id']) );
 	$checkbox_style = isset($_GET['checkbox_style']) ? sanitize_title($_GET['checkbox_style']) : 'classic';
-	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = $checkbox_style, $force_color = sanitize_hex_color($_GET['color']));
+	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = $checkbox_style );
 
 	$response = json_encode( $data );
 	header( "Content-Type: application/json" );
@@ -30,27 +30,36 @@ function cmplz_update_banner_version_all_banners() {
 	}
 }
 
-add_action( 'admin_init', 'cmplz_check_minimum_one_banner' );
 function cmplz_check_minimum_one_banner() {
 	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
 
+	if ( !isset($_GET['page'])){
+		return;
+	}
+
+	if (strpos($_GET['page'], 'cmplz')===false && strpos($_GET['page'], 'complianz')===false ) {
+		return;
+	}
+
 	//make sure there's at least one banner
 	$cookiebanners = cmplz_get_cookiebanners();
+	$added_banner = false;
 	if ( count( $cookiebanners ) < 1 ) {
 		$banner = new CMPLZ_COOKIEBANNER();
 		$banner->save();
+		$added_banner = true;
 	}
 
 	//if we have one (active) banner, but it's not default, make it default
-	$cookiebanners = cmplz_get_cookiebanners();
+	if ($added_banner) $cookiebanners = cmplz_get_cookiebanners();
 	if ( count( $cookiebanners ) == 1 && ! $cookiebanners[0]->default ) {
 		$banner = new CMPLZ_COOKIEBANNER( $cookiebanners[0]->ID );
 		$banner->enable_default();
 	}
-
 }
+add_action( 'admin_init', 'cmplz_check_minimum_one_banner' );
 
 add_action( 'admin_init', 'cmplz_redirect_to_cookiebanner' );
 function cmplz_redirect_to_cookiebanner() {
@@ -128,8 +137,7 @@ function cmplz_cookiebanner_form_submit() {
 	$banner->process_form( $_POST );
 
 	if ( isset( $_POST['cmplz_add_new'] ) ) {
-		wp_redirect( admin_url( 'admin.php?page=cmplz-cookiebanner&id='
-		                        . $banner->id ) );
+		wp_redirect( admin_url( 'admin.php?page=cmplz-cookiebanner&id=' . $banner->id ) );
 		exit;
 	}
 }
@@ -144,10 +152,7 @@ function cmplz_cookiebanner_overview() {
 	/**
 	 * Restart the statistics
 	 * */
-	if ( class_exists( 'cmplz_statistics' )
-	     && ( isset( $_GET['action'] )
-	          && $_GET['action'] == 'reset_statistics' )
-	) {
+	if ( class_exists( 'cmplz_statistics' ) && ( isset( $_GET['action'] ) && $_GET['action'] == 'reset_statistics' )) {
 		COMPLIANZ::$statistics->init_statistics();
 	}
 
@@ -159,6 +164,8 @@ function cmplz_cookiebanner_overview() {
 	if ( $id || ( isset( $_GET['action'] ) && $_GET['action'] == 'new' ) ) {
 		include( dirname( __FILE__ ) . "/edit.php" );
 	} else {
+
+        ob_start();
 
 		include( dirname( __FILE__ ) . '/class-cookiebanner-table.php' );
 
@@ -199,27 +206,21 @@ function cmplz_cookiebanner_overview() {
 			</h1>
 			<?php
 			if ( ! COMPLIANZ::$wizard->wizard_completed_once() ) {
-				cmplz_notice( __( 'Please complete the wizard to check if you need a cookie banner.',
-					'complianz-gdpr' ), 'warning' );
+				cmplz_notice( __( 'Please complete the wizard to check if you need a cookie banner.', 'complianz-gdpr' ), 'warning' );
 			} else {
 				if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.',
-						'complianz-gdpr' ) );
+					cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.', 'complianz-gdpr' ) );
 				} else {
-					cmplz_notice( __( 'Your website requires a cookie banner, these settings will determine how the popup will look.',
-						'complianz-gdpr' ) );
+					cmplz_notice( __( 'Your website requires a cookie banner, click edit below the cookie banner title to determine how the popup will look.', 'complianz-gdpr' ) );
 				}
 			}
 
 			do_action( 'cmplz_before_cookiebanner_list' );
 			?>
 
-			<form id="cmplz-cookiebanner-filter" method="get"
-			      action="">
-
+			<form id="cmplz-cookiebanner-filter" method="get" action="">
 				<?php
-				$customers_table->search_box( __( 'Filter', 'complianz-gdpr' ),
-					'cmplz-cookiebanner' );
+				$customers_table->search_box( __( 'Filter', 'complianz-gdpr' ), 'cmplz-cookiebanner' );
 				$customers_table->display();
 				?>
 				<input type="hidden" name="page" value="cmplz-cookiebanner"/>
@@ -227,6 +228,13 @@ function cmplz_cookiebanner_overview() {
 			<?php do_action( 'cmplz_after_cookiebanner_list' ); ?>
 		</div>
 		<?php
+
+        $content = ob_get_clean();
+        $args = array(
+            'page' => 'cookie-banner',
+            'content' => $content,
+        );
+        echo cmplz_get_template('admin_wrap.php', $args );
 	}
 }
 

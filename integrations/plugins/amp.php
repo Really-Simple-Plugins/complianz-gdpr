@@ -222,15 +222,13 @@ if ( ! class_exists( "cmplz_amp" ) ) {
                         margin: 8px;
                         }
                 ',
-				$this->banner->popup_background_color,
-				$this->banner->popup_text_color,
+				$this->banner->background['color'],
+				$this->banner->text['color'],
 				$this->banner->button_background_color,
 				$this->banner->button_text_color
 			);
-			if ( $this->banner->use_custom_cookie_css
-			     && strlen( $this->banner->custom_css_amp ) > 0
-			) {
-				echo $this->banner->custom_css_amp;
+			if ( $this->banner->use_custom_cookie_css && strlen( $this->banner->custom_css ) > 0) {
+				echo $this->banner->custom_css;
 			}
 		}
 

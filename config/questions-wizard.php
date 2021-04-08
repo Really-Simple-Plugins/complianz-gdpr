@@ -41,17 +41,16 @@ $this->fields = $this->fields + array(
 				'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
 				'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
 			),
-			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?",
-				'complianz-gdpr' ),
-			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.",
-				'complianz-gdpr' ),
+			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?", 'complianz-gdpr' ),
+			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr')
+											. cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
+
 			'comment'  => __( "The plugin will apply the above-selected region's settings to all visitors worldwide.",
 					'complianz-gdpr' ) . " "
 			              . sprintf( __( "If you want to dynamically apply privacy laws based on the visitor's location, consider upgrading to the %spremium version%s, which allows you to apply a privacy law specific for that region.",
 					'complianz-gdpr' ),
 					'<a href="https://complianz.io" target="_blank">', '</a>' ),
 			'required' => true,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'eu_consent_regions' => array(
@@ -65,7 +64,6 @@ $this->fields = $this->fields + array(
 			'label'     => __( "Do you target visitors from Germany and/or Austria?",
 				'complianz-gdpr' ),
 			'required'  => true,
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'california' => array(
@@ -78,10 +76,9 @@ $this->fields = $this->fields + array(
 			'condition' => array( 'regions' => 'us' ),
 			'label'     => __( "Do you target visitors from California?",
 				'complianz-gdpr' ),
-			'help'      => __( "There are some rules which only apply to California.",
+			'tooltip'      => __( "There are some rules which only apply to California.",
 				'complianz-gdpr' ),
 			'required'  => true,
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'cookie-statement' => array(
@@ -92,9 +89,8 @@ $this->fields = $this->fields + array(
 			'type'     => 'document',
 			'label'    => __( "Cookie Policy", 'complianz-gdpr' ),
 			'required' => true,
-			'help'     => __( 'A Cookie Policy is required to inform your visitors about the way cookies and similar techniques are used on your website. A link to this document is placed on your cookie banner.',
+			'tooltip'     => __( 'A Cookie Policy is required to inform your visitors about the way cookies and similar techniques are used on your website. A link to this document is placed on your cookie banner.',
 				"complianz-gdpr" ),
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'impressum' => array(
@@ -106,9 +102,8 @@ $this->fields = $this->fields + array(
 			'type'     => 'document',
 			'label'    => __( "Impressum", 'complianz-gdpr' ),
 			'required' => true,
-			'help'     => __( 'Complianz will generate the Impressum based on the answers in the wizard, but you can also create your own, custom document.',
+			'tooltip'  => __( 'Complianz will generate the Impressum based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 			'callback_condition' => array('eu_consent_regions' => 'yes'),
 		),
 
@@ -122,7 +117,6 @@ $this->fields = $this->fields + array(
 			'label'    => __( "Privacy Statement", 'complianz-gdpr' ),
 			'options'  => $this->yes_no,
 			'required' => false,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'disclaimer' => array(
@@ -136,7 +130,6 @@ $this->fields = $this->fields + array(
 			'label'    => __( "Disclaimer",
 				'complianz-gdpr' ),
 			'required' => false,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'organisation_name' => array(
@@ -145,10 +138,9 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'type'     => 'text',
 			'default'  => '',
-			'label'    => __( "Who is the owner of the website (person or company)?",
-				'complianz-gdpr' ),
+			'placeholder'  => __( "Name or company name", 'complianz-gdpr' ),
+			'label'    => __( "Who is the owner of the website?", 'complianz-gdpr' ),
 			'required' => true,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'address_company' => array(
@@ -161,7 +153,6 @@ $this->fields = $this->fields + array(
 			'default'     => '',
 			'label'       => __( "What is your address?", 'complianz-gdpr' ),
 			'required'    => true,
-			'time'        => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'country_company'   => array(
@@ -173,9 +164,8 @@ $this->fields = $this->fields + array(
 			'default'  => 'NL',
 			'label'    => __( "What is your country?", 'complianz-gdpr' ),
 			'required' => true,
-			'help'     => __( "This setting is automatically selected based on your WordPress language setting.",
+			'tooltip'     => __( "This setting is automatically selected based on your WordPress language setting.",
 				'complianz-gdpr' ),
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'email_company'     => array(
@@ -184,12 +174,11 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'type'     => 'email',
 			'default'  => '',
-			'help'     => __( "The email address will be obfuscated on the front-end to prevent spidering.",
+			'tooltip'     => __( "The email address will be obfuscated on the front-end to prevent spidering.",
 				'complianz-gdpr' ),
 			'label'    => __( "What is the email address your visitors can use to contact you about privacy issues?",
 				'complianz-gdpr' ),
 			'required' => true,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'telephone_company' => array(
@@ -202,7 +191,6 @@ $this->fields = $this->fields + array(
 			'label'          => __( "What is the telephone number your visitors can use to contact you about privacy issues?",
 				'complianz-gdpr' ),
 			'required'       => false,
-			'time'           => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'wp_admin_access_users' => array(
@@ -213,11 +201,10 @@ $this->fields = $this->fields + array(
 			'default'  => 'no',
 			'label'    => __( "Does your site have users with access to the wp-admin part of the website?",
 				'complianz-gdpr' ),
-			'help'     => __( "If so, the scan will be extended to the wp-admin part of your site. ",
+			'tooltip'     => __( "If so, the scan will be extended to the wp-admin part of your site. ",
 				'complianz-gdpr' ),
 			'required' => false,
 			'options'  => $this->yes_no,
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		// Purpose
@@ -227,16 +214,12 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'multicheckbox',
 			'default'            => '',
-			'label'              => __( "Indicate for what purpose personal data is processed via your website:",
-				'complianz-gdpr' ),
-			'help'               => __( "Also consider future purposes. Regarding personalized products: these are products and/or services which are personalized based on visitor's behavior. E.g. advertisements based on pages visited.",
-				'complianz-gdpr' ),
+			'label'              => __( "Indicate for what purpose personal data is processed via your website:", 'complianz-gdpr' ),
 			'required'           => true,
 			'options'            => $this->purposes,
 			'callback_condition' => array(
 				'regions' => array( 'us' )
 			),
-			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'records_of_consent' => array(
@@ -260,22 +243,51 @@ $this->fields = $this->fields + array(
 			'options' => $this->yes_no,
 			'default' => 'no',
 			'label' => __("Respect Do Not Track and Global Privacy Control with Premium", 'complianz-gdpr'),
-			'comment' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
-			'time' => CMPLZ_MINUTES_PER_QUESTION,
+			'tooltip' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
 		),
 	);
 
 $this->fields = $this->fields + array(
-		// Cookie policy
+		'use_cdb_api' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'required'  => true,
+			'default'   => '',
+			'options'   => $this->yes_no,
+			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),
+			'comment'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ",
+				'complianz-gdpr' )
+		. sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
+					'complianz-gdpr' ),
+					'<a target="_blank" href="https://cookiedatabase.org">', '</a>',
+					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement">',
+					'</a>' ),
+		),
+
+		'use_cdb_links' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'required'  => false,
+			'default'   => '',
+			'options'   => $this->yes_no,
+			'condition' => array( 'use_cdb_api' => 'yes' ),
+			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org?", 'complianz-gdpr' ),
+			'tooltip'   => __("These links will be added with HTML attributes so it won't hurt SEO.", "complianz-gdpr"),
+		),
+
 		'cookie_scan' => array(
 			'step'     => STEP_COOKIES,
 			'section'  => 1,
 			'source'   => 'wizard',
 			'type'     => 'radio',
 			'options'  => $this->yes_no,
-			'label'    => __( "Cookie scan", 'complianz-gdpr' ),
+			'label'    => '',
 			'callback' => 'cookie_scan',
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
+			'help'     => __( "If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.", "complianz-gdpr" ),
 		),
 
 		'compile_statistics' => array(
@@ -303,7 +315,6 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ),
 				'no'                 => __( 'No', 'complianz-gdpr' )
 			),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'compile_statistics_more_info' => array(
@@ -313,25 +324,17 @@ $this->fields = $this->fields + array(
 			'type'                    => 'multicheckbox',
 			'revoke_consent_onchange' => true,
 			'default'                 => '',
-			'label'                   => __( "Regarding the previous question, can you give more information?",
-				'complianz-gdpr' ),
+			'label'                   => __( "Regarding the previous question, can you give more information?", 'complianz-gdpr' ),
 			'options'                 => array(
-				'accepted'             => __( 'I have accepted the Google data processing amendment',
-					'complianz-gdpr' ),
-				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services',
-					'complianz-gdpr' ),
-				'ip-addresses-blocked' => __( 'Always block acquiring of IP addresses',
-					'complianz-gdpr' ),
+				'accepted'             => __( 'I have accepted the Google data processing amendment', 'complianz-gdpr' ),
+				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services', 'complianz-gdpr' ),
+				'ip-addresses-blocked' => __( 'Let Complianz anonymize IP addresses', 'complianz-gdpr' ),
 			),
-			'help'                    => __( 'If you do not check to always block acquiring IP addresses, the IP addresses will get acquired as soon as the user accepts statistics or higher.',
-					'complianz-gdpr' ) . "<br>"
-			                             . __( 'If you can check all three options, you might not need a cookie banner on your site.',
-					'complianz-gdpr' )
+			'help'                    => __( 'If you do not check to let Complianz anonymize IP addresses, the IP addresses will get collected as soon as the user consents to the category statistics or higher.', 'complianz-gdpr' )
 			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-analytics',
 			),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'compile_statistics_more_info_tag_manager' => array(
@@ -357,7 +360,6 @@ $this->fields = $this->fields + array(
 			'condition'               => array(
 				'compile_statistics' => 'google-tag-manager',
 			),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'fire_scripts_in_tagmanager' => array(
@@ -375,7 +377,6 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'help'                    => __( 'If you use Tag Manager to fire scripts on your site, Complianz will automatically enable categories.',
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'matomo_anonymized' => array(
@@ -388,12 +389,11 @@ $this->fields = $this->fields + array(
 			'label'                   => __( "Do you anonymize IP addresses in Matomo?",
 				'complianz-gdpr' ),
 			'options'                 => $this->yes_no,
-			'help'                    => __( 'If ip numbers are anonymized, the statistics cookie do not require a cookie banner',
+			'help'                    => __( 'If IP addresses are anonymized, the statistics cookies do not require a separate category on your banner.',
 				'complianz-gdpr' ),
 			'condition'               => array(
 				'compile_statistics' => 'matomo',
 			),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'consent_for_anonymous_stats' => array(
@@ -405,8 +405,11 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?",
 				'complianz-gdpr' ),
 			'options'            => $this->yes_no,
+			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ),
+			'condition'               => array(
+				'regions' => 'eu',
+			),
 			'callback_condition' => 'cmplz_consent_required_for_anonymous_stats',
-			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'configuration_by_complianz' => array(
@@ -418,10 +421,9 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want Complianz to configure your statistics?",
 				'complianz-gdpr' ),
 			'options'            => $this->yes_no,
-			'help'               => __( "It's recommended to let Complianz handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so",
+			'tooltip'               => __( "It's recommended to let Complianz handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so",
 				'complianz-gdpr' ),
 			'callback_condition' => 'cmplz_manual_stats_config_possible',
-			'time'               => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'GTM_code' => array(
@@ -436,8 +438,7 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-tag-manager' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'help'                    => __( "For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.",
+			'tooltip'                    => __( "For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.",
 				'complianz-gdpr' ),
 		),
 
@@ -452,38 +453,7 @@ $this->fields = $this->fields + array(
 			'label'                   => __( "Enter your tracking-ID", 'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'help'                    => __( "For the Google Analytics tracking-ID, log on and click Admin and copy the Tracking-ID.", 'complianz-gdpr' ),
-		),
-
-		'matomo_site_id' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 3,
-			'source'                  => 'wizard',
-			'type'                    => 'number',
-			'default'                 => '',
-			'required'                => true,
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Matomo site ID", 'complianz-gdpr' ),
-			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
-			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
-		'clicky_site_id' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 3,
-			'source'                  => 'wizard',
-			'type'                    => 'number',
-			'default'                 => '',
-			'required'                => true,
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Clicky site ID", 'complianz-gdpr' ),
-			'callback_condition'               => array(
-				'compile_statistics' => 'clicky',
-			),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'help'                    => __( "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/configuring-clicky-for-gdpr/' ),
+			'tooltip'                 => __( "For the Google Analytics tracking-ID, log on and click Admin and copy the Tracking-ID.", 'complianz-gdpr' ),
 		),
 
 		'matomo_url' => array(
@@ -498,53 +468,36 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'help'                    => __( "e.g. https://domain.com/stats",
 				'complianz-gdpr' ),
 		),
 
-		'uses_cookies' => array(
+		'matomo_site_id' => array(
 			'step'                    => STEP_COOKIES,
-			'section'                 => 4,
+			'section'                 => 3,
 			'source'                  => 'wizard',
-			'type'                    => 'radio',
-			'required'                => true,
+			'type'                    => 'number',
 			'default'                 => '',
+			'required'                => true,
 			'revoke_consent_onchange' => true,
-			'options'                 => $this->yes_no,
-			'label'                   => __( "This website uses cookies or similiar techniques.",
-				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
+			'label'                   => __( "Enter your Matomo site ID", 'complianz-gdpr' ),
+			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
+			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
 		),
 
-		'use_cdb_api' => array(
-			'step'      => STEP_COOKIES,
-			'section'   => 4,
-			'source'    => 'wizard',
-			'type'      => 'radio',
-			'required'  => true,
-			'default'   => '',
-			'options'   => $this->yes_no,
-			'condition' => array( 'uses_cookies' => 'yes' ),
-			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?",
-				'complianz-gdpr' ),
-			'comment'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types",
-				'complianz-gdpr' ),
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
-		),
-
-		'use_cdb_links' => array(
-			'step'      => STEP_COOKIES,
-			'section'   => 4,
-			'source'    => 'wizard',
-			'type'      => 'radio',
-			'required'  => false,
-			'default'   => '',
-			'options'   => $this->yes_no,
-			'condition' => array( 'use_cdb_api' => 'yes' ),
-			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org? These links will be added with HTML attributes so it won't hurt SEO.",
-				'complianz-gdpr' ),
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+		'clicky_site_id' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'number',
+			'default'                 => '',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Enter your Clicky site ID", 'complianz-gdpr' ),
+			'callback_condition'               => array(
+				'compile_statistics' => 'clicky',
+			),
+			'help'                    => __( "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/configuring-clicky-for-gdpr/' ),
 		),
 
 		'uses_thirdparty_services' => array(
@@ -558,9 +511,8 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'label'                   => __( "Does your website use third-party services?",
 				'complianz-gdpr' ),
-			'help'                    => __( "e.g. services like Google Fonts, Maps or recaptcha usually place cookies.",
+			'tooltip'                    => __( "e.g. services like Google Fonts, Maps or reCAPTCHA usually place cookies.",
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'thirdparty_services_on_site' => array(
@@ -574,11 +526,10 @@ $this->fields = $this->fields + array(
 			'condition' => array( 'uses_thirdparty_services' => 'yes' ),
 			'label'     => __( "Select the types of third-party services you use on your site.",
 				'complianz-gdpr' ),
-			'help'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).",
+			'tooltip'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).",
 				'complianz-gdpr' ),
-			'comment'   => __( "You can disable services and placeholders under Integrations.",
-					'complianz-gdpr' ),
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+			'comment'   => __( "When possible a placeholder is activated. You can also disable or configure the placeholder to your liking. You can disable services and placeholders under Integrations.",
+					'complianz-gdpr' ) .'</br>' .cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/' ),
 		),
 
 		'block_recaptcha_service' => array(
@@ -591,7 +542,19 @@ $this->fields = $this->fields + array(
 			'condition' => array( 'thirdparty_services_on_site' => 'google-recaptcha' ),
 			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?",
 				'complianz-gdpr' ),
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
+		),
+
+		'block_hubspot_service' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 4,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'options'   => $this->yes_no,
+			'default'   => 'no',
+			'condition' => array( 'thirdparty_services_on_site' => 'hubspot' ),
+			'label'     => __( "Complianz integrates with the consent module of HubSpot. Did you enable the consent module in your HubSpot account?",
+				'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/hubspot-integration/' ),
+
 		),
 
 		'hotjar_privacyfriendly' => array(
@@ -608,7 +571,6 @@ $this->fields = $this->fields + array(
 			'help'                    => __( "You can configure Hotjar privacy-friendly, if you do this, no consent is required for Hotjar.",
 					'complianz-gdpr' )
 			                             . cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'condition'               => array( 'thirdparty_services_on_site' => 'hotjar' ),
 			'callback_condition'      => array( 'consent_for_anonymous_stats' => 'NOT yes' ),
 		),
@@ -624,9 +586,8 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'label'                   => __( "Does your website contain embedded social media content, like buttons, timelines, videos or pixels?",
 				'complianz-gdpr' ),
-			'help'                    => __( "Content from social media is mostly embedded through iFrames. These often place third party (tracking) cookies, so must be blocked based on visitor consent. If your website only contains buttons or links to a social media profile on an external page you can answer No.",
+			'tooltip'                    => __( "Content from social media is mostly embedded through iFrames. These often place third party (tracking) cookies, so must be blocked based on visitor consent. If your website only contains buttons or links to a social media profile on an external page you can answer No.",
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'socialmedia_on_site' => array(
@@ -640,9 +601,8 @@ $this->fields = $this->fields + array(
 			'default'   => '',
 			'label'     => __( "Select which social media are used on the website.",
 				'complianz-gdpr' ),
-			'help'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out)",
+			'tooltip'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out)",
 				'complianz-gdpr' ),
-			'time'      => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'uses_firstparty_marketing_cookies' => array(
@@ -658,7 +618,6 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'help'                    => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.",
 					'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'condition'               =>array(
 				'uses_thirdparty_services' => 'no',
 			),
@@ -675,7 +634,6 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'label'                   => __( "Does your website use cookies for advertising?",
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'uses_ad_cookies_personalized' => array(
@@ -693,7 +651,6 @@ $this->fields = $this->fields + array(
 			'default'                 => 'no',
 			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),
 			'comment'                 => __( "Google recommends an integration with TCF V2.0 to avoid loss of revenue.", 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/tcf-for-wordpress"),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'help'                    => __( "If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.", 'complianz-gdpr' ),
 			'condition'               => array(
 				'uses_ad_cookies' => 'yes'
@@ -714,7 +671,6 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'label'                   => __( "Does your website use WordPress comments?",
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'callback_condition'      => array(
 				'regions' => array( 'eu', 'uk' ),
 				'NOT cmplz_consent_api_active',
@@ -732,7 +688,6 @@ $this->fields = $this->fields + array(
 			'default'                 => 'yes',
 			'label'                   => __( "Do you want to disable the storage of personal data by the WP comments function and the checkbox?",
 				'complianz-gdpr' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
 			'help'                    => __( "If you enable this, WordPress will not store personal data with comments and you won't need a consent checkbox for the comment form. The consent box will not be displayed.",
 				'complianz-gdpr' ),
 			'condition'               => array(
@@ -744,22 +699,12 @@ $this->fields = $this->fields + array(
 			),
 		),
 
-		'no_cookies_used' => array(
-			'step'     => STEP_COOKIES,
-			'section'  => 5,
-			'source'   => 'wizard',
-			'type'     => 'callback',
-			'callback' => 'notice_no_cookies_used',
-			'time'     => 0,
-		),
-
 		'cookiedatabase_sync' => array(
 			'step'     => STEP_COOKIES,
 			'section'  => 5,
 			'source'   => 'wizard',
-			'label'    => __( "Cookiedatabase sync", 'complianz-gdpr' ),
+			'label'    => __( "Connect with Cookiedatabase.org", 'complianz-gdpr' ),
 			'callback' => 'cookiedatabase_sync',
-			'time'     => CMPLZ_MINUTES_PER_QUESTION,
 		),
 
 		'used_cookies' => array(
@@ -771,7 +716,6 @@ $this->fields = $this->fields + array(
 			'default'            => '',
 			'label'              => __( "Add the used cookies here",
 				'complianz-gdpr' ),
-			'callback_condition' => array( 'uses_cookies' => 'yes' ),
 			'time'               => 5,
 		),
 
@@ -784,116 +728,7 @@ $this->fields = $this->fields + array(
 			'default'            => '',
 			'label'              => __( "Add the services to which your cookies belong here",
 				'complianz-gdpr' ),
-			'callback_condition' => array( 'uses_cookies' => 'yes' ),
 			'time'               => 5,
-		),
-
-		'statistics_script' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 8,
-			'source'                  => 'wizard',
-			'type'                    => 'javascript',
-			'default'                 => '',
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Statistics script",
-				'complianz-gdpr' ),
-			'callback_condition'      => array(
-				'compile_statistics' => 'NOT google-analytics,NOT matomo,NOT google-tag-manager,NOT no,NOT yes-anonymous',
-			),
-			'help'                    => __( 'Paste here all your scripts that activate cookies. Enter the scripts without the script tags',
-					'complianz-gdpr' ) . '.&nbsp;'
-			                             . sprintf( __( 'To be able to activate cookies when a user accepts the Cookie Policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article',
-					'complianz-gdpr' ),
-					'<a target="_blank" href="https://complianz.io/articles/adding-scripts">',
-					'</a>' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'table'                   => true,
-		),
-
-		'cookie_scripts' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 8,
-			'source'                  => 'wizard',
-			'type'                    => 'javascript',
-			'optional'                => true,
-			'default'                 => '',
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Scripts to add services, for example, Facebook Pixel, Hotjar, etcetera.",
-				'complianz-gdpr' ),
-			'callback_condition'      => array(
-				'uses_cookies'       => 'yes',
-			),
-			'help'                    => __( "Paste here all your scripts that activate cookies. Enter the scripts without the script tags",
-					'complianz-gdpr' ) . '&nbsp;'
-			                             . sprintf( __( 'To be able to activate cookies when a user accepts the Cookie Policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article',
-					'complianz-gdpr' ),
-					'<a target="_blank" href="https://complianz.io/articles/adding-scripts/">',
-					'</a>' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'table'                   => true,
-
-		),
-
-		'cookie_scripts_async' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 8,
-			'source'                  => 'wizard',
-			'type'                    => 'javascript',
-			'optional'                => true,
-			'default'                 => '',
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Async scripts to execute on consent",
-				'complianz-gdpr' ),
-			'callback_condition'      => array(
-				'uses_cookies'       => 'yes',
-			),
-			'help'                    => __( "Paste here all your scripts that activate cookies. Enter the scripts without the script tags",
-					'complianz-gdpr' ) . '&nbsp;'
-			                             . sprintf( __( 'To be able to activate cookies when a user accepts the Cookie Policy, the scripts that are used for these cookies need to be entered here, without <script></script> tags. For more information on this, please read %sthis%s article',
-					'complianz-gdpr' ),
-					'<a target="_blank" href="https://complianz.io/articles/adding-scripts/">',
-					'</a>' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'table'                   => true,
-		),
-
-		'thirdparty_scripts' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 8,
-			'source'                  => 'wizard',
-			'type'                    => 'textarea',
-			'optional'                => true,
-			'default'                 => '',
-			'revoke_consent_onchange' => true,
-			'placeholder'             => 'domain.com, domain.org',
-			'label'                   => __( "(part of) URL's or unique string from the inline scripts of third-party scripts & plugins that should be blocked before consent.",
-				'complianz-gdpr' ),
-			'help'                    => sprintf( __( 'The most common third-party cookies are blocked automatically. If you want to block other third-party cookies, enter the a unique part of the script source, or unique string from the inline script here, comma separated. For more information on this, please read %sthis%s article',
-				'complianz-gdpr' ),
-				'<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">',
-				'</a>' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'table'                   => true,
-		),
-
-		'thirdparty_iframes' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 8,
-			'source'                  => 'wizard',
-			'type'                    => 'textarea',
-			'optional'                => true,
-			'default'                 => '',
-			'placeholder'             => 'domain.com, domain.org',
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "URL's from iFrames that should be blocked before consent.",
-				'complianz-gdpr' ),
-			'help'                    => sprintf( __( 'The most common third-party cookies are blocked automatically. If you want to block other third-party cookies, enter the iframe source here, comma separated. For more information on this, please read %sthis%s article',
-				'complianz-gdpr' ),
-				'<a target="_blank" href="https://complianz.io/articles/blocking-custom-third-party-scripts">',
-				'</a>' ),
-			'time'                    => CMPLZ_MINUTES_PER_QUESTION,
-			'table'                   => true,
-
 		),
 	);
 
@@ -904,7 +739,6 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'callback' => 'wizard_add_pages',
 			'label'    => '',
-			'time'     => CMPLZ_MINUTES_PER_QUESTION_QUICK,
 		),
 	);
 
@@ -915,7 +749,6 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'callback' => 'wizard_add_pages_to_menu',
 			'label'    => '',
-			'time'     => CMPLZ_MINUTES_PER_QUESTION_QUICK,
 		),
 	);
 

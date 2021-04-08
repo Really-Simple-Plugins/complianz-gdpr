@@ -164,13 +164,11 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			          && COMPLIANZ::$statistics->best_performing_cookiebanner()
 			             === $item['ID'] )
 			) {
-				$value = '<img class="cmplz-bestperformericon" src="'
-				         . cmplz_url . 'assets/fontawesome/check.svg' . '">';
+				$value = cmplz_icon('check', 'success');
 			}
 		} elseif ( $column_name === 'default-banner' ) {
 			if ( $banner->default ) {
-				$value = '<img class="cmplz-bestperformericon" src="'
-				         . cmplz_url . 'assets/fontawesome/check.svg' . '">';
+				$value = cmplz_icon('check', 'success');
 			}
 		} elseif ( $column_name === 'archive' ) {
 			if ( $banner->archived ) {
@@ -207,9 +205,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
 		$actions = array(
 			'edit'   => '<a href="'
-			            . admin_url( 'admin.php?page=cmplz-cookiebanner&id='
-			                         . $item['ID'] ) . '">' . __( 'Edit',
-					'complianz-gdpr' ) . '</a>',
+			            . admin_url( 'admin.php?page=cmplz-cookiebanner&id=' . $item['ID'] ) . '">' . __( 'Edit', 'complianz-gdpr' ) . '</a>',
 			'delete' => '<a class="cmplz-delete-banner" data-id="' . $item['ID']
 			            . '" href="#">' . __( 'Delete', 'complianz-gdpr' )
 			            . '</a>'
@@ -351,7 +347,6 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		if ( !$this->ab_testing_enabled ) {
 			$args['default'] = true;
 		}
-
 		$this->args = $args;
 		$banners    = cmplz_get_cookiebanners( $args );
 		if ( $banners ) {
@@ -374,11 +369,8 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		$columns  = $this->get_columns();
 		$hidden   = array(); // No hidden columns
 		$sortable = $this->get_sortable_columns();
-
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-
 		$this->items = $this->reports_data();
-
 		$this->total = $this->ab_testing_enabled ? count( cmplz_get_cookiebanners() ) : 1;
 
 		// Add condition to be sure we don't divide by zero.

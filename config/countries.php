@@ -33,6 +33,11 @@ $this->eu_countries = array(
 	"SE",
 );
 
+$this->formal_languages = array(
+	'de_DE',
+	'nl_NL',
+);
+
 $this->regions = array(
 	'us' => array(
 		'label'     => __( 'US', 'complianz-gdpr' ),

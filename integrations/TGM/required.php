@@ -32,6 +32,45 @@ function cmplz_consent_api_registered( $plugin ) {
  */
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
+/**
+ * The 'x' in the TGMPA notice does not dismiss it, which is annoying.
+ */
+function cmplz_fix_TGM_dismiss() {
+	if ( cmplz_show_terms_conditions_notice() ){
+		?>
+		<script>
+			jQuery(document).ready(function ($) {
+				$(document).on('click', '#setting-error-tgmpa .notice-dismiss', function(e){
+					e.preventDefault();
+					window.location.replace($('#setting-error-tgmpa .dismiss-notice').attr('href'));
+				});
+			});
+		</script>
+		<?php
+	}
+
+}
+add_action( 'admin_footer', 'cmplz_fix_TGM_dismiss' );
+
+/**
+ * Check if the notice should be shown
+ *
+ * @return bool
+ */
+function cmplz_show_terms_conditions_notice(){
+	//check if the tgmpa notice already was dismissed.
+	if ( get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_complianz-gdpr' , true ) ) {
+		return false;
+	}
+
+		//for testing:
+	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
+	$tc_timestamp = get_option( 'cmplz_show_terms_conditions_notice' );
+	if ( !defined( 'cmplz_tc_version' ) && $tc_timestamp < strtotime( '-1 week' )){
+		return true;
+	}
+	return false;
+}
 
 /**
  * Register the required plugins for this theme.
@@ -51,9 +90,7 @@ function cmplz__register_required_plugins() {
 	}
 
 	if ($plugins_with_registration) {
-
 		$plugins = array(
-
 			array(
 				'name'      => 'WP Consent API',
 				'slug'      => 'wp-consent-api',
@@ -63,10 +100,8 @@ function cmplz__register_required_plugins() {
 		);
 	}
 
-	//for testing:
-	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
-	$tc_timestamp = get_option( 'cmplz_show_terms_conditions_notice' );
-	if ( !defined( 'cmplz_tc_version' ) && $tc_timestamp < strtotime( '-1 week' )){
+
+	if ( cmplz_show_terms_conditions_notice() ){
 		$plugins[] = array(
 			'name'      => 'Complianz - Terms & Conditions',
 			'slug'      => 'complianz-terms-conditions',
@@ -74,6 +109,8 @@ function cmplz__register_required_plugins() {
 			'required'  => false, // If false, the plugin is only 'recommended' instead of required.
 		);
 	}
+
+
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.

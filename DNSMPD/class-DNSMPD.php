@@ -24,6 +24,8 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 
 			add_action( 'cmplz_admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
+			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
+
 		}
 
 		static function this() {
@@ -35,8 +37,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				return;
 			}
 
-			if ( ! cmplz_has_region( 'us' )
-			     || ! cmplz_sells_personal_data()
+			if ( ! cmplz_dnsmpi_required()
 			) {
 				return;
 			}
@@ -58,14 +59,14 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			$customers_table->prepare_items();
 			?>
 			<div class="wrap">
-				<h1><?php _e( 'Do Not Sell My Personal Information requests',
-						'complianz-gdpr' ); ?></h1>
+				<h1 class="wp-heading-inline"><?php _e( 'Do Not Sell My Personal Info Requests', 'complianz-gdpr' ); ?>
 				<?php //do_action( 'edd_customers_table_top' );
 				?>
 				<a href="<?php echo esc_url_raw( cmplz_url
 				                                 . "DNSMPD/csv.php?nonce="
 				                                 . wp_create_nonce( 'cmplz_csv_nonce' ) ) ?>"
-				   target="_blank" class="button button-primary">Export</a>
+				   target="_blank" class="button button-primary"><?php _e("Export", "complianz-gdpr")?></a>
+				</h1>
 				<form id="cmplz-dnsmpd-filter" method="get"
 				      action="<?php echo admin_url( 'admin.php?page=cmplz_dnsmpd' ); ?>">
 					<?php
@@ -214,7 +215,21 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			}
 		}
 
+		/**
+		 * Enqueue back-end assets
+		 * @param $hook
+		 */
+		public function admin_enqueue($hook){
+			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz_dnsmpd' ) return;
+			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
+			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
+			wp_enqueue_style('cmplz-posttypes');
+		}
 
+		/**
+		 * Enqueue front-end assets
+		 * @param $hook
+		 */
 		public function enqueue_assets( $hook ) {
 			if ( ! cmplz_has_region( 'us' )
 			     || ! cmplz_sells_personal_data()

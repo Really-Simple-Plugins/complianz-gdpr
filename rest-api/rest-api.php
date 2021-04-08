@@ -87,8 +87,8 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
 	$data['banner_version'] = $banner->banner_version;
 	$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
-	$response               = json_encode( $data );
 
+	$response               = json_encode( $data );
 	header( "Content-Type: application/json" );
 	echo $response;
 	exit;

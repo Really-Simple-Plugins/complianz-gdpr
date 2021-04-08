@@ -122,9 +122,6 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
 	'cookie_names' => array(
 		'title' => _x('Placed cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'callback' => 'cmplz_used_cookies',
-		'condition' => array(
-			'uses_cookies' => 'yes',
-		),
 	),
 
     array(

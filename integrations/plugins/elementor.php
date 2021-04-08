@@ -20,21 +20,15 @@ function cmplz_elementor_initDomContentLoaded() {
 							blockedContentContainer.removeClass('cmplz-blocked-content-container');
 							blockedContentContainer.removeClass('cmplz-placeholder-' + cssIndex);
 						});
+						elementorFrontend.elementsHandler.runReadyTrigger( $(this) );
 					});
 				}
-
-				document.addEventListener('cmplzStatusChange', function (e) {
-					if (e.detail.category === 'marketing') {
-						//if ( cmplzElementor ) window.elementorFrontend.init();
-						if ( $('[data-cmplz-elementor-settings]').length ) window.location.reload();					}
-				});
-
 			})
 		</script>
 		<?php
 	}
 }
-add_action( 'wp_footer', 'cmplz_elementor_initDomContentLoaded' );
+add_action( 'wp_footer', 'cmplz_elementor_initDomContentLoaded', 100 );
 
 /**
  * Filter cookie blocker output
@@ -45,7 +39,7 @@ function cmplz_elementor_cookieblocker( $output ){
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 			foreach ( $matches[0] as $key => $total_match ) {
 				$placeholder = '';
-				if ( cmplz_use_placeholder('youtube') && isset($matches[1][0]) ) {
+				if ( cmplz_use_placeholder('youtube') && isset($matches[1][$key]) ) {
 					$youtube_url = $matches[1][0];
 					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, $youtube_url ).'" ';
 				}

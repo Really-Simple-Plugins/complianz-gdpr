@@ -37,9 +37,6 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 				$wizard   = get_option( 'complianz_options_wizard' );
 				unset( $wizard['used_cookies'] );
 
-				//disable a/b testing
-				$settings['a_b_testing'] = false;
-
 				$json = json_encode( array(
 					'settings' => $settings,
 					'wizard'   => $wizard,

@@ -58,7 +58,7 @@ function cmplz_wordpress_register_cookies() {
 	}
 }
 
-//add_action( 'plugins_loaded', 'cmplz_wordpress_register_cookies' );
+add_action( 'plugins_loaded', 'cmplz_wordpress_register_cookies' );
 
 
 /**
