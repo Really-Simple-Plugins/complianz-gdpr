@@ -1,4 +1,3 @@
-@import 'variables.less';
 /*
   To ensure this file is minified, comment the import in document.less, then save this file.
 */
@@ -20,26 +19,35 @@
 			}
 		}
 	  	summary{
-		  	display: grid;
+			&::-webkit-details-marker, &::marker {
+			  display:none;
+			  content:'';
+			}
+		  div {
+			display: grid;
 			grid-template: "heading chevron";
 			grid-template-columns: 2fr 35px;
 			grid-gap: 15px;
 
 			h3{
-				grid-area: heading;
-				margin: 0;
+			  grid-area: heading;
+			  margin: 0;
 			}
 			&:after{
-				grid-area: chevron;
+			  grid-area: chevron;
 			}
+		  }
+
 		}
 		&.cmplz-dropdown-cookiepolicy{
 			summary{
+			  div {
 				grid-template: "heading paragraph chevron";
 				grid-template-columns: 2fr auto 35px;
 				p {
 					grid-area: paragraph;
 				}
+			  }
 			}
 			.cookies-per-purpose {
 				display: grid;

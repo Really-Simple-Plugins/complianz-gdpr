@@ -1,4 +1,3 @@
-@gridblock _height_big: calc(auto + 20px);
 /*
   To ensure this file is minified, comment the import in document.less, then save this file.
 */
@@ -17,24 +16,29 @@
     width: 100%;
   }
 }
-#cmplz-document .cmplz-dropdown summary {
+#cmplz-document .cmplz-dropdown summary::-webkit-details-marker,
+#cmplz-document .cmplz-dropdown summary::marker {
+  display: none;
+  content: '';
+}
+#cmplz-document .cmplz-dropdown summary div {
   display: grid;
   grid-template: "heading chevron";
   grid-template-columns: 2fr 35px;
   grid-gap: 15px;
 }
-#cmplz-document .cmplz-dropdown summary h3 {
+#cmplz-document .cmplz-dropdown summary div h3 {
   grid-area: heading;
   margin: 0;
 }
-#cmplz-document .cmplz-dropdown summary:after {
+#cmplz-document .cmplz-dropdown summary div:after {
   grid-area: chevron;
 }
-#cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary {
+#cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
   grid-template: "heading paragraph chevron";
   grid-template-columns: 2fr auto 35px;
 }
-#cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary p {
+#cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p {
   grid-area: paragraph;
 }
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose {
@@ -244,12 +248,15 @@
 }
 #cmplz-document .cmplz-dropdown summary p {
   text-align: right;
-  padding: 0 5px;
-  margin: 7px 0;
+  padding: 0;
+  margin: 0;
   font-size: 14px;
   border-bottom: 0;
 }
-#cmplz-document .cmplz-dropdown summary:after {
+#cmplz-document .cmplz-dropdown summary div {
+  padding-top: 10px;
+}
+#cmplz-document .cmplz-dropdown summary div:after {
   cursor: pointer;
   content: '';
   background: url(../images/down.png) no-repeat;
@@ -261,9 +268,9 @@
   background-size: cover;
   height: 25px;
   width: 25px;
-  margin: 12px 5px;
+  margin: 0 5px 5px;
 }
-#cmplz-document .cmplz-dropdown[open] summary:after {
+#cmplz-document .cmplz-dropdown[open] summary div:after {
   transform: rotate(180deg);
 }
 #cmplz-document .cmplz-dropdown h4 {

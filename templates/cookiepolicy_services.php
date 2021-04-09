@@ -1,5 +1,5 @@
 <details class="cmplz-dropdown cmplz-service-desc cmplz-dropdown-cookiepolicy ">
-	<summary class="cmplz-service-header"><h3>{service}</h3><p>{allPurposes}</p></summary>
+	<summary class="cmplz-service-header"><div><h3>{service}</h3><p>{allPurposes}</p></div></summary>
 	    <div class="cmplz-service-description">
 		    <h4><?php _ex("Usage", 'cookie policy', 'complianz-gdpr') ?></h4>
 	        <p>{purposeDescription}</p>
