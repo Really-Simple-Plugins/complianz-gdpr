@@ -153,6 +153,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $readmore_optout_dnsmpi_x;
 		public $readmore_privacy_x;
 		public $readmore_impressum_x;
+		public $header_x;
+
 		public $translation_id;
 		public $statistics;
 		public $set_defaults;
@@ -1027,7 +1029,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'checkbox_style'                          => $this->checkbox_style,
 				'use_categories'                          => $this->use_categories,
 				'use_categories_optinstats'               => $this->use_categories_optinstats,
-				'header'                                  => $this->header,
+				'header'                                  => $this->header_x,
 				'accept'                                  => $this->accept_x,
 				'revoke'                                  => $this->revoke_x,
 				'dismiss'                                 => $this->dismiss_x,

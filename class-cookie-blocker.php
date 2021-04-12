@@ -35,26 +35,15 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 		public function filter_buffer( $buffer ) {
 			if ( cmplz_is_amp() ) {
-				$buffer = $this->replace_for_amp( $buffer );
-
+				$buffer = apply_filters( 'cmplz_cookieblocker_amp',  $buffer );
 			} else {
 				$buffer = $this->replace_tags( $buffer );
-
 			}
 
 			return $buffer;
 		}
 
-		public function replace_for_amp( $output ) {
-			$amp_tags = COMPLIANZ::$config->amp_tags;
 
-			$amp_tags = apply_filters( 'cmplz_amp_tags', $amp_tags );
-			foreach ( $amp_tags as $amp_tag ) {
-				$output = str_replace( '<' . $amp_tag . ' ',
-					'<' . $amp_tag . ' data-block-on-consent ', $output );
-			}
-			return $output;
-		}
 
 		/**
 		 * Start buffering the output

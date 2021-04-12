@@ -639,6 +639,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							}
 
 							$banner->custom_css                                 = $result->custom_css . "\n\n" . $result->custom_css_amp;
+
+							if ( cmplz_tcf_active() ) {
+								$banner->header = __("Manage your privacy", 'complianz-gdpr');
+							}
+
 							$banner->save();
 						}
 

@@ -119,6 +119,7 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
     array(
 	    'subtitle' => _x('Manage your consent settings', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 	    'content' => '[cmplz-manage-consent]',
+	    'p' => false,
 	    'callback_condition' => 'cmplz_eu_site_needs_cookie_warning',
     ),
     array(

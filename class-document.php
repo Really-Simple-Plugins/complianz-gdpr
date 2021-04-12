@@ -725,7 +725,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$class = isset( $element['class'] ) ? 'class="'
 			                                      . esc_attr( $element['class'] )
 			                                      . '"' : '';
-
+			
+			if (isset($element['p']) && !$element['p']) {
+				return $content;
+			}
 			return "<p $class>" . $content . "</p>";
 		}
 
@@ -1172,7 +1175,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					_x( "You have loaded the Cookie Policy without javascript support.", "cookie policy", "complianz-gdpr" ).
 					_x( "On AMP, you can use the manage consent button on the bottom of the page.", "cookie policy", "complianz-gdpr" ).
 					'</div>';
-			$html .= '<a id="manage-consent"></a><p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
+			$html .= '<p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
 			return $html;
 		}
 

@@ -1,6 +1,7 @@
 <?php
-
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+
+
 
 if ( ! class_exists( "cmplz_amp" ) ) {
 	class cmplz_amp {
@@ -23,10 +24,28 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 			add_action( 'plugins_loaded', array( $this, 'init' ), 11 );
 			add_action( 'cmplz_amp_tags', array( $this, 'handle_anonymous_settings' ) );
 			add_action('wp', array($this, 'custom_amp_css') );
+
+			add_filter('cmplz_cookieblocker_amp',  array($this, 'cookieblocker_for_amp') );
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * @param $output
+		 *
+		 * @return string
+		 */
+		public function cookieblocker_for_amp( $output ) {
+			$amp_tags = COMPLIANZ::$config->amp_tags;
+
+			$amp_tags = apply_filters( 'cmplz_amp_tags', $amp_tags );
+			foreach ( $amp_tags as $amp_tag ) {
+				$output = str_replace( '<' . $amp_tag . ' ',
+					'<' . $amp_tag . ' data-block-on-consent ', $output );
+			}
+			return $output;
 		}
 
 		public function custom_amp_css(){
