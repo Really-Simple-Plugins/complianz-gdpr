@@ -20,8 +20,8 @@
 .cmplz-trick .cmplz-bullet {
   margin-right: 10px;
 }
-.dashicons,
-.dashicons-before:before {
+#complianz .dashicons,
+#complianz .dashicons-before:before {
   font-size: 15px;
   width: 15px;
   height: 15px;

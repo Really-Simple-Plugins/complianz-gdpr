@@ -663,7 +663,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 				$html .= '<details class="cmplz-dropdown '.$dp_class.'">';
 				if ( isset( $element['dropdown-title'] ) ) {
-					$html .= '<summary><h3 class="test">'. esc_html( $nr ) . esc_html( $element['dropdown-title'] ) . '</h3></summary>';
+					$html .= '<summary><div><h3>'. esc_html( $nr ) . esc_html( $element['dropdown-title'] ) . '</h3></div></summary>';
 				}
 				return $html;
 			}
@@ -725,7 +725,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$class = isset( $element['class'] ) ? 'class="'
 			                                      . esc_attr( $element['class'] )
 			                                      . '"' : '';
-			
+
 			if (isset($element['p']) && !$element['p']) {
 				return $content;
 			}
