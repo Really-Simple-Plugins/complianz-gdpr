@@ -41,12 +41,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
-
-//	'ultimate-addons-elementor' => array(
-//			'constant_or_function' => 'UAEL_FILE',
-//			'label'                => 'Ultimate Addons for Elementor',
-//			'firstparty_marketing' => false,
-//	),
+	'ultimate-addons-elementor' => array(
+			'constant_or_function' => 'UAEL_FILE',
+			'label'                => 'Ultimate Addons for Elementor',
+			'firstparty_marketing' => false,
+	),
 
 	'invisible-recaptcha' => array(
 			'constant_or_function' => 'InvisibleReCaptcha',

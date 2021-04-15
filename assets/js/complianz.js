@@ -780,7 +780,7 @@ jQuery(document).ready(function ($) {
 
 		if (complianz.use_categories === 'no') {
             // Accept
-	            css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow {color:' + complianz.colorpalette_button_accept_text + ';background-color:' + complianz.colorpalette_button_accept_background + ';border-color:' + complianz.colorpalette_button_accept_border + '}';
+			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow {color:' + complianz.colorpalette_button_accept_text + ';background-color:' + complianz.colorpalette_button_accept_background + ';border-color:' + complianz.colorpalette_button_accept_border + '}';
             css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow:hover{background-color:' + getHoverColour(complianz.colorpalette_button_accept_background) + '}';
 		}
 
@@ -949,11 +949,11 @@ jQuery(document).ready(function ($) {
                     "boxshadow": complianz.box_shadow,
 				},
 				"button": {
-					"background": complianz.colorpalette_button_accept_color,
+					"background": complianz.colorpalette_button_accept_background,
 					"text": complianz.colorpalette_button_accept_text,
 					"border": complianz.colorpalette_button_accept_border,
                     "borderradius": complianz.buttons_border_radius,
-				}
+				},
 			},
 			"theme": complianz.theme,
 			// "static": complianz.static,

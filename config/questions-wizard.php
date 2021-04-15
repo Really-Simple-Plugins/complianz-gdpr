@@ -43,7 +43,7 @@ $this->fields = $this->fields + array(
 			),
 			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?", 'complianz-gdpr' ),
 			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr')
-											. cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
+											. cmplz_read_more( 'https://complianz.io/what-regions-do-i-target/' ),
 
 			'comment'  => __( "The plugin will apply the above-selected region's settings to all visitors worldwide.",
 					'complianz-gdpr' ) . " "

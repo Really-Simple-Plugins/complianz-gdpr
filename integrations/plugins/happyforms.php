@@ -2,19 +2,26 @@
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 function cmplz_happyforms_initform() {
+	if(!wp_script_is('jquery', 'done')) {
+		wp_enqueue_script('jquery');
+	}
+	ob_start();
 	?>
 	<script>
 		jQuery(document).ready(function ($) {
 			$(document).on("cmplzRunAfterAllScripts", cmplzRunHappyFormsScript);
-
 			function cmplzRunHappyFormsScript() {
 				if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
 			}
-		})
+		});
 	</script>
-<?php }
+	<?php
+	$script = ob_get_clean();
+	$script = str_replace(array('<script>', '</script>'), '', $script);
+	wp_add_inline_script( 'jquery', $script );
 
-add_action( 'wp_footer', 'cmplz_happyforms_initform' );
+}
+add_action( 'wp_enqueue_scripts', 'cmplz_happyforms_initform' );
 
 
 /**
@@ -65,6 +72,10 @@ add_filter( 'cmplz_get_forms', 'cmplz_happyforms_get_plugin_forms' );
  */
 function cmplz_happyforms_add_consent_checkbox( $form_id ) {
 	$form_id = str_replace( 'hf_', '', $form_id );
+
+	if ( !file_exists(happyforms_get_include_folder() . '/core/classes/class-form-controller.php')) {
+		return;
+	}
 
 	require_once( happyforms_get_include_folder()
 	              . '/core/classes/class-form-controller.php' );

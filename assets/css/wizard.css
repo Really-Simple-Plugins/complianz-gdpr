@@ -852,7 +852,6 @@
 .cmplz-help-warning-wrap .cmplz-help-modal {
   position: relative;
   z-index: 1;
-  position: absolute;
   margin: 10px 0 0 20px;
   padding: 10px 15px;
   color: #fff;
@@ -2006,14 +2005,6 @@ input.current-page {
 #cmplz-proof-of-consent #cmplz-content-area #cmplz-cookiestatement-snapshot-filter,
 #cmplz-cookie-banner #cmplz-content-area #cmplz-cookiestatement-snapshot-filter {
   padding-top: 20px;
-}
-#cmplz-proof-of-consent #cmplz-content-area .wp-list-table,
-#cmplz-cookie-banner #cmplz-content-area .wp-list-table {
-  font-weight: bold;
-}
-#cmplz-proof-of-consent #cmplz-content-area .wp-list-table th,
-#cmplz-cookie-banner #cmplz-content-area .wp-list-table th {
-  font-weight: bold;
 }
 #cmplz-proof-of-consent #cmplz-content-area .wp-list-table th a,
 #cmplz-cookie-banner #cmplz-content-area .wp-list-table th a {

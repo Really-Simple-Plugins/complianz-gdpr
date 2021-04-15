@@ -32,6 +32,10 @@ add_filter( 'cmplz_detected_services', 'cmplz_novo_map_detected_services' );
  */
 
 function cmplz_novo_initDomContentLoaded() {
+	if(!wp_script_is('jquery', 'done')) {
+		wp_enqueue_script('jquery');
+	}
+	ob_start();
 	?>
 	<script>
 		jQuery(document).ready(function ($) {
@@ -42,8 +46,11 @@ function cmplz_novo_initDomContentLoaded() {
 		});
 	</script>
 	<?php
+	$script = ob_get_clean();
+	$script = str_replace(array('<script>', '</script>'), '', $script);
+	wp_add_inline_script( 'jquery', $script );
 }
-add_action( 'wp_footer', 'cmplz_novo_initDomContentLoaded' );
+add_action( 'wp_enqueue_scripts', 'cmplz_novo_initDomContentLoaded' );
 
 /**
  * Add placeholder for google maps

@@ -2010,11 +2010,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $class;
 		}
 
-		/**
-		 * Print inline cookie enabling scripts and statistics scripts
-		 */
-
 		public function inline_cookie_script() {
+			if(!wp_script_is('jquery', 'done')) {
+				wp_enqueue_script('jquery');
+			}
+
 			//based on the script classes, the statistics will get added on consent, or without consent
 			$classes    = $this->get_statistics_script_classes();
 			$statistics = cmplz_get_value( 'compile_statistics' );

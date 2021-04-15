@@ -835,7 +835,10 @@
           button.text = button.text ? button.text : util.getContrast(button.background);
           button.border = button.border ? button.border : 'transparent';
           colorStyles[prefix + ' .cc-btn'] = [
-            'border-radius: ' + button.borderradius,
+			  'color: ' + button.text,
+			  'border-color: ' + button.border,
+			  'background-color: ' + button.background,
+			  'border-radius: ' + button.borderradius,
           ];
 
           if (highlight) {
@@ -843,14 +846,14 @@
             highlight.text = highlight.text ? highlight.text : util.getContrast(highlight.background);
             highlight.border = highlight.border ? highlight.border : 'transparent';
             colorStyles[prefix + ' .cc-highlight .cc-btn:first-child'] = [
-              //'color: ' + highlight.text,
+              'color: ' + highlight.text,
               'border-color: ' + highlight.border,
               'background-color: ' + highlight.background
             ];
           } else {
             // sets highlight text color to popup text. background and border are transparent by default.
             colorStyles[prefix + ' .cc-highlight .cc-btn:first-child'] = [
-             // 'color: ' + popup.text
+              'color: ' + popup.text
             ];
           }
         }

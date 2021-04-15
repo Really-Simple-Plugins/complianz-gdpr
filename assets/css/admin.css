@@ -160,7 +160,7 @@
   margin-top: 20px;
 }
 .cookie-warning .cmplz-panel-wrap {
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
 }
 .cookie-warning .cmplz-document-button {
   margin-top: 0;
@@ -298,7 +298,7 @@ Admin notice
 #complianz #cmplz-header img {
   margin-left: 10px;
   width: 120px;
-  height: 28px;
+  height: 34px;
 }
 #complianz #cmplz-header .cmplz-header-right {
   display: flex;

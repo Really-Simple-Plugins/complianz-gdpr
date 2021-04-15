@@ -1,25 +1,41 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-
 function cmplz_uafe_initDomContentLoaded() {
-//	if ( cmplz_uses_thirdparty('youtube') ) {
+	if ( cmplz_uses_thirdparty('google-maps') ) {
+		if(!wp_script_is('jquery', 'done')) {
+			wp_enqueue_script('jquery');
+		}
+		ob_start();
+		/**
+		 * Using the frontend init method is not very nice, as it has some unwanted side effects, but in this case using the runReadyTrigger does not seem to work because UAFE
+		 * is adding their own hook. This hook isn't fired with runreadytrigger. As a result, the map does not initialize.
+		 */
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
 				$(document).on("cmplzRunAfterAllScripts", cmplz_uafe_fire_initOnReadyComponents);
 				function cmplz_uafe_fire_initOnReadyComponents() {
-				// 	setTimeout(
-			  // function()
-			  // {
-					window.elementorFrontend.init();
-			  // }, 2000);
+					setTimeout(cmplz_uafe_trigger_element, 2000);
 				}
-			})
+
+				function cmplz_uafe_trigger_element()
+				{
+
+					window.elementorFrontend.init();
+					// $('.elementor-widget-uael-google-map').each(function () {
+					// 	// window.elementorFrontend.init();
+					// 	elementorFrontend.elementsHandler.runReadyTrigger( $(this) );
+					// });
+				}
+			});
 		</script>
-	<?php
-//	}
+		<?php
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'jquery', $script);
+	}
 }
-add_action( 'wp_footer', 'cmplz_uafe_initDomContentLoaded' );
+add_action( 'wp_enqueue_scripts', 'cmplz_uafe_initDomContentLoaded' );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_uafe_script' );
 function cmplz_uafe_script( $tags ) {

@@ -1805,7 +1805,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_label_html' , $args );?>
             <?php do_action( 'complianz_after_label', $args ); ?>
 			<div style="flex-grow:1"></div>
-            <input class="upload_button button button-grey" value="Choose file"/>
+            <input type="button" class="upload_button button button-grey" value="<?php _e("Choose file", "complianz-gdpr")?>"/>
             <input type="file" type="submit" name="cmplz-upload-file" style="display: none;">
 
             <input <?php if ( $args['disabled'] )

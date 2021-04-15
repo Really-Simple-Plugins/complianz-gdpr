@@ -461,7 +461,7 @@ jQuery(document).ready(function ($) {
         var ccPopupLinkColor = $('input[name="cmplz_colorpalette_text[hyperlink]"]').val();
         var ccButtonBackgroundColor = $('input[name="cmplz_colorpalette_button_accept[background]"]').val();
         var ccButtonTextColor = $('input[name="cmplz_colorpalette_button_accept[text]"]').val();
-        var ccSavePreferences = 'Save preferences'; // $('input[name=cmplz_save_preferences]').val();
+        var ccSavePreferences = $('input[name=cmplz_save_preferences]').val();
         var ccViewPreferences = $('input[name=cmplz_view_preferences]').val();
         var ccAcceptAll = $('input[name=cmplz_accept_all]').val();
         var ccRevokeText = $('input[name=cmplz_revoke]').val();

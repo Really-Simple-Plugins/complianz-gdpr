@@ -41,8 +41,13 @@ add_action( 'wp_footer', 'cmplz_gravityforms_recaptcha_css' );
 /**
  * Initialize the form after cookies have been accepted, to ensure recaptcha is enabled.
  */
+
 function cmplz_gravifyforms_initform() {
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+		if(!wp_script_is('jquery', 'done')) {
+			wp_enqueue_script('jquery');
+		}
+		ob_start();
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
@@ -61,9 +66,13 @@ function cmplz_gravifyforms_initform() {
 				}
 			})
 		</script>
-<?php }
+		<?php
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'jquery', $script );
+	}
 }
-add_action( 'wp_footer', 'cmplz_gravifyforms_initform' );
+add_action( 'wp_enqueue_scripts', 'cmplz_gravifyforms_initform' );
 
 /**
  * Add gravify forms as form type

@@ -22,20 +22,36 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 		),
 		//keep this one
 		'tcf' => array(
-			'slider_background_color' => '#33CC66',
-			'slider_bullet_color' => '#fff',
-			'slider_background_color_inactive' => '#CC0000',
-			'accept_all_background_color' => '#333',
-			'accept_all_text_color' => '#fff',
-			'accept_all_border_color' => '#333',
-			'functional_background_color' => '#fff',
-			'functional_text_color' => '#333',
-			'functional_border_color' => '#fff',
-			'popup_background_color' => '#fff',
-			'popup_text_color' => '#333',
-			'button_background_color' => '#fff',
-			'button_text_color' => '#333',
-			'border_color' => '#333',
+			'colorpalette_background' => array(
+				'color'     => '#ffffff',
+				'border'    => '#333333',
+			),
+			'colorpalette_text' => array(
+				'color'       => '#191e23',
+				'hyperlink'   => '#191e23',
+			),
+			'colorpalette_toggles' => array(
+				'background'    => '#33CC66',
+				'bullet'        => '#ffffff',
+				'inactive'      => '#CC0000',
+			),
+
+			'colorpalette_button_accept' => array(
+				'background'    => '#333333',
+				'border'        => '#333333',
+				'text'          => '#ffffff',
+			),
+
+			'colorpalette_button_deny' => array(
+				'background'    => '#ffffff',
+				'border'        => '#ffffff',
+				'text'          => '#333333',
+			),
+			'colorpalette_button_settings' => array(
+				'background'    => '#ffffff',
+				'border'        => '#333333',
+				'text'          => '#333333',
+			),
 			'theme' => 'minimal',
 		),
 	);
@@ -290,7 +306,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'label'         => __( "Toggles", 'complianz-gdpr' ),
                 'default'       => array(
                     'background'    => '#21759b',
-                    'bullet'        => '#fff',
+                    'bullet'        => '#ffffff',
                     'inactive'      => '#F56E28',
                 ),
                 'fields'        => array(
@@ -329,10 +345,10 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'          => 'customization',
                 'type'          => 'borderwidth',
                 'default'       => array(
-                    'top'       => '0',
-                    'right'     => '0',
-                    'bottom'    => '0',
-                    'left'      => '0',
+                    'top'       => '1',
+                    'right'     => '1',
+                    'bottom'    => '1',
+                    'left'      => '1',
                 ),
                 'label'         => __( "Border width", 'complianz-gdpr' ),
             ),
@@ -346,7 +362,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'default'      => array(
                     'background'    => '#21759b',
                     'border'        => '#21759b',
-                    'text'          => '#fff',
+                    'text'          => '#ffffff',
                 ),
                 'fields'        => array(
                     array(
@@ -650,9 +666,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => __( "Save preferences", 'complianz-gdpr' ),
-				'label'              => __( "Save preferences",
-					'complianz-gdpr' ),
-
+				'label'              => __( "Save preferences", 'complianz-gdpr' ),
 				'condition'          => array(
                     'use_categories' => 'hidden OR legacy OR visible',
 					'type' => 'NOT optout',

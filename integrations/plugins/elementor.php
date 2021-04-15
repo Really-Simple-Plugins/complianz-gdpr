@@ -3,6 +3,10 @@ defined( 'ABSPATH' ) or die();
 
 function cmplz_elementor_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('youtube') ) {
+		if(!wp_script_is('jquery', 'done')) {
+			wp_enqueue_script('jquery');
+		}
+		ob_start();
 		?>
 		<script>
 			jQuery(document).ready(function ($) {
@@ -26,9 +30,12 @@ function cmplz_elementor_initDomContentLoaded() {
 			})
 		</script>
 		<?php
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'jquery', $script);
 	}
 }
-add_action( 'wp_footer', 'cmplz_elementor_initDomContentLoaded', 100 );
+add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded' );
 
 /**
  * Filter cookie blocker output

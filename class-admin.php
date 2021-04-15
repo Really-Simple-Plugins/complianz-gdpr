@@ -599,35 +599,39 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if ( $banners ) {
 					foreach ( $banners as $banner_item ) {
 						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-						$banner->banner_version ++;
-
 						$sql    = "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = {$banner_item->ID}";
 						$result = $wpdb->get_row( $sql );
 
 						if ( $result ) {
-							$banner->colorpalette_background['color']           = $result->popup_background_color;
-							$banner->colorpalette_background['border']          = $result->border_color;
-							$banner->colorpalette_text['color']                 = $result->popup_text_color;
-							$banner->colorpalette_toggles['background']         = $result->slider_background_color;
-							$banner->colorpalette_toggles['bullet']             = $result->slider_bullet_color;
-							$banner->colorpalette_toggles['inactive']           = $result->slider_background_color_inactive;
+							$banner->colorpalette_background['color']           = empty($result->popup_background_color) ? '#f1f1f1' : $result->popup_background_color;
+							$banner->colorpalette_background['border']          = empty($result->border_color) ? '#f1f1f1' : $result->border_color;
+							$banner->colorpalette_text['color']                 = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
+							$banner->colorpalette_text['hyperlink']             = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
+							$banner->colorpalette_toggles['background']         = empty($result->slider_background_color) ? '#21759b' : $result->slider_background_color;
+							$banner->colorpalette_toggles['bullet']             = empty($result->slider_bullet_color) ? '#ffffff' : $result->slider_bullet_color;
+							$banner->colorpalette_toggles['inactive']           = empty($result->slider_background_color_inactive) ? '#F56E28' : $result->slider_background_color_inactive;
 
-							if ($banner->use_categories === 'no' ) {
-								$banner->colorpalette_button_accept['background']   = $result->button_background_color;
-								$banner->colorpalette_button_accept['border']       = $result->button_background_color;
-								$banner->colorpalette_button_accept['text']         = $result->button_text_color;
-							} else {
-								$banner->colorpalette_button_accept['background']   = $result->accept_all_background_color;
-								$banner->colorpalette_button_accept['border']       = $result->accept_all_border_color;
-								$banner->colorpalette_button_accept['text']         = $result->accept_all_text_color;
+							$consenttypes = cmplz_get_used_consenttypes();
+							$optout_only = false;
+							if (in_array('optout', $consenttypes) && count($consenttypes)===1) {
+								$optout_only = true;
 							}
 
-							$banner->colorpalette_button_deny['background']     = $result->functional_background_color;
-							$banner->colorpalette_button_deny['border']         = $result->functional_border_color;
-							$banner->colorpalette_button_deny['text']           = $result->functional_text_color;
-							$banner->colorpalette_button_settings['background'] = $result->button_background_color;
-							$banner->colorpalette_button_settings['border']     = $result->functional_border_color;
-							$banner->colorpalette_button_settings['text']       = $result->button_text_color;
+							if ( $banner->use_categories === 'no' || $optout_only ) {
+								$banner->colorpalette_button_accept['background']   = empty($result->button_background_color) ? '#21759b' : $result->button_background_color;
+								$banner->colorpalette_button_accept['border']       = empty($result->button_background_color) ? '#21759b' : $result->button_background_color;
+								$banner->colorpalette_button_accept['text']         = empty($result->button_text_color) ? '#ffffff' : $result->button_text_color;
+							} else {
+								$banner->colorpalette_button_accept['background']   = empty($result->accept_all_background_color) ? '#21759b' : $result->accept_all_background_color;
+								$banner->colorpalette_button_accept['border']       = empty($result->accept_all_border_color) ? '#21759b' : $result->accept_all_border_color;
+								$banner->colorpalette_button_accept['text']         = empty($result->accept_all_text_color) ? '#ffffff' : $result->accept_all_text_color;
+							}
+							$banner->colorpalette_button_deny['background']     = empty($result->functional_background_color) ? '#f1f1f1' : $result->functional_background_color;
+							$banner->colorpalette_button_deny['border']         = empty($result->functional_border_color) ? '#f1f1f1' : $result->functional_border_color;
+							$banner->colorpalette_button_deny['text']           = empty($result->functional_text_color) ? '#21759b' : $result->functional_text_color;
+							$banner->colorpalette_button_settings['background'] = empty($result->button_background_color) ? '#f1f1f1' : $result->button_background_color;
+							$banner->colorpalette_button_settings['border']     = empty($result->functional_border_color) ? '#21759b' : $result->functional_border_color;
+							$banner->colorpalette_button_settings['text']       = empty($result->button_text_color) ? '#21759b' : $result->button_text_color;
 							if ($banner->theme === 'edgeless') {
 								$banner->buttons_border_radius = array(
 										'top'       => '0',
@@ -643,7 +647,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							if ( cmplz_tcf_active() ) {
 								$banner->header = __("Manage your privacy", 'complianz-gdpr');
 							}
-
 							$banner->save();
 						}
 
@@ -677,10 +680,23 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				unset( $wizard_settings['thirdparty_iframes'] );
 				update_option( 'complianz_options_custom-scripts', $custom_scripts );
 				update_option( 'complianz_options_wizard', $wizard_settings );
+
+				/**
+				 * we dismiss the integrations enabled notices
+				 */
+
+				$dismissed_warnings = get_option('cmplz_dismissed_warnings', array() );
+				$fields = COMPLIANZ::$config->fields( 'integrations' );
+				foreach ($fields as $warning_id => $field ) {
+					if ($field['disabled']) continue;
+					if ( !in_array($warning_id, $dismissed_warnings) ) {
+						$dismissed_warnings[] = $warning_id;
+					}
+				}
+				update_option('cmplz_dismissed_warnings', $dismissed_warnings );
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );
-
 			update_option( 'cmplz-current-version', cmplz_version );
 		}
 
@@ -799,6 +815,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$warnings = $cache ? get_transient( 'complianz_warnings' ) : false;
 			//re-check if there are no warnings, or if the transient has expired
 			if ( ! $warnings ) {
+
 				$warning_type_defaults = array(
 					'plus_one' => false,
 					'warning_condition' => '_true_',
@@ -877,8 +894,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if ( cmplz_get_value( 'disable_notifications' ) ) {
 					return array();
 				}
+
 				foreach ($warnings as $id => $warning ) {
-					if (!$warning['plus_one']){
+					//prevent notices on upgrade to 5.0
+					if ( !isset( $warning['plus_one'])) continue;
+
+					if ( !$warning['plus_one'] ){
 						unset($warnings[$id]);
 					}
 				}
