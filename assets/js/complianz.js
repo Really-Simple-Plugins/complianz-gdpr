@@ -707,7 +707,7 @@ jQuery(document).ready(function ($) {
 
 		if (!complianz.do_not_track) {
 			if (complianz.consenttype === 'optin') {
-				setStatusAsBodyClass('deny');
+				setStatusAsBodyClass('functional');
 
 				//if this website also targets UK, stats are blocked by default but can be enabled in the eu before consent
 				//but only if EU does not require consent.
@@ -730,7 +730,7 @@ jQuery(document).ready(function ($) {
 				cmplz_cookie_warning();
 			} else if (complianz.consenttype === 'optout') {
 				console.log('opt-out');
-				setStatusAsBodyClass('allow');
+				setStatusAsBodyClass('marketing');
 				complianz.type = 'opt-out';
 				complianz.layout = 'basic';
 
@@ -747,7 +747,7 @@ jQuery(document).ready(function ($) {
 				cmplzFireCategories('all', true);
 			}
 		} else {
-			setStatusAsBodyClass('deny');
+			setStatusAsBodyClass('functional');
 			//the load revoke container loads the notification for the user that DNT has been enabled.
 			cmplzLoadRevokeContainer();
 			complianz_track_status( 'do_not_track' );
@@ -1388,6 +1388,9 @@ jQuery(document).ready(function ($) {
 	 */
 
 	function cmplzSetCookie(name, value, days) {
+		if (typeof document === 'undefined') {
+			return;
+		}
 		var secure = ";secure";
 		var date = new Date();
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -1433,8 +1436,11 @@ jQuery(document).ready(function ($) {
 	 * @returns {string}
 	 */
 	function cmplzGetCookie(cname) {
+		if (typeof document === 'undefined') {
+			return '';
+		}
 		var name = cname + "="; //Create the cookie name variable with cookie name concatenate with = sign
-		var cArr = window.document.cookie.split(';'); //Create cookie array by split the cookie by ';'
+		var cArr = document.cookie.split(';'); //Create cookie array by split the cookie by ';'
 
 		//Loop through the cookies and return the cookie value if it find the cookie name
 		for (var i = 0; i < cArr.length; i++) {
@@ -1574,7 +1580,7 @@ jQuery(document).ready(function ($) {
 
 		//marketing cookies acceptance
 		if (forceMarketing || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
-			setStatusAsBodyClass('allow');
+			setStatusAsBodyClass('marketing');
 			cmplz_wp_set_consent('marketing', 'allow');
 			cmplzRunTmEvent('cmplz_event_marketing');
 			cmplzEnableMarketing();
@@ -1693,6 +1699,9 @@ jQuery(document).ready(function ($) {
 	 *
 	 */
 	function cmplzClearAllComplianzCookies(){
+		if (typeof document === 'undefined') {
+			return;
+		}
 		var secure = ";secure";
 		var date = new Date();
 		date.setTime(date.getTime() - (24 * 60 * 60 * 1000));

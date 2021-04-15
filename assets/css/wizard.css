@@ -852,6 +852,7 @@
 .cmplz-help-warning-wrap .cmplz-help-modal {
   position: relative;
   z-index: 1;
+  position: absolute;
   margin: 10px 0 0 20px;
   padding: 10px 15px;
   color: #fff;
