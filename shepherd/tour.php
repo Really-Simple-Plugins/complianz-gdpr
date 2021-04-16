@@ -42,9 +42,7 @@ class cmplz_tour {
 				return;
 			}
 
-			wp_register_script( 'cmplz-tether',
-				trailingslashit( $this->url )
-				. 'tether/tether.min.js', "", $this->version );
+			wp_register_script( 'cmplz-tether', trailingslashit( $this->url ) . 'tether/tether.min.js', "", $this->version );
 			wp_enqueue_script( 'cmplz-tether' );
 
 			wp_register_script( 'cmplz-shepherd',
@@ -58,9 +56,7 @@ class cmplz_tour {
 			wp_register_style( 'cmplz-shepherd-tour', trailingslashit( $this->url ) . "css/cmplz-tour.min.css", "", $this->version );
 			wp_enqueue_style( 'cmplz-shepherd-tour' );
 
-			wp_register_script( 'cmplz-shepherd-tour',
-				trailingslashit( $this->url )
-				. '/js/cmplz-tour.js', array( 'jquery' ), $this->version );
+			wp_register_script( 'cmplz-shepherd-tour', trailingslashit( $this->url ) . 'js/cmplz-tour.js', array( 'jquery' ), $this->version );
 			wp_enqueue_script( 'cmplz-shepherd-tour' );
 
 			$logo  = '<span class="cmplz-tour-logo"><img class="cmplz-tour-logo" style="width: 70px; height: 70px;" src="' . cmplz_url . 'assets/images/icon-256x256.png"></span>';
@@ -106,7 +102,7 @@ class cmplz_tour {
 					'title'  => __( 'Settings', 'complianz-gdpr' ),
 					'text'   => __( "Adding Document CSS, enabling safe mode, and other settings can be found here. You can also revisit the tour here.", 'complianz-gdpr' ),
 					'link'   => add_query_arg(array("page" => 'cmplz-settings'), admin_url( "admin.php" ) ),
-					'attach' => '#settings-general .cmplz-settings-title',
+					'attach' => '#general.settings .cmplz-settings-title',
 					'position' => 'right',
 				),
 				array(

@@ -48,7 +48,6 @@ function cmplz_fix_TGM_dismiss() {
 		</script>
 		<?php
 	}
-
 }
 add_action( 'admin_footer', 'cmplz_fix_TGM_dismiss' );
 
@@ -58,13 +57,15 @@ add_action( 'admin_footer', 'cmplz_fix_TGM_dismiss' );
  * @return bool
  */
 function cmplz_show_terms_conditions_notice(){
+	//for testing:
+	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
+	//	update_user_meta(get_current_user_id(),'tgmpa_dismissed_notice_complianz-gdpr', false);
+	//	return true;
 	//check if the tgmpa notice already was dismissed.
 	if ( get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_complianz-gdpr' , true ) ) {
 		return false;
 	}
 
-		//for testing:
-	//	update_option( 'cmplz_show_terms_conditions_notice', strtotime( "-2 weeks" ) );
 	$tc_timestamp = get_option( 'cmplz_show_terms_conditions_notice' );
 	if ( !defined( 'cmplz_tc_version' ) && $tc_timestamp < strtotime( '-1 week' )){
 		return true;
@@ -99,7 +100,6 @@ function cmplz__register_required_plugins() {
 			),
 		);
 	}
-
 
 	if ( cmplz_show_terms_conditions_notice() ){
 		$plugins[] = array(
