@@ -36,7 +36,7 @@ foreach ($docs as $index => $doc) {
 			'page_exists' => '',
 			'sync_icon' => cmplz_icon( 'sync', 'disabled' ),
 			'shortcode_icon' => cmplz_icon( 'shortcode', 'disabled' ),
-			'generated' => '<a href="https://complianz.io" target="_blank">'.__("Premium","complianz-gdpr").'</a>',
+			'generated' => '<a href="https://complianz.io" target="_blank" class="cmplz-premium">'.__("Premium","complianz-gdpr").'</a>',
 		);
 		echo cmplz_get_template('dashboard/documents-row.php', $args);
 	}
@@ -70,7 +70,7 @@ foreach ($docs as $key => $doc) {
 			'page_exists' => $flag_1,
 			'sync_icon' => $flag_2,
 			'shortcode_icon' => $flag_3,
-			'generated' => '<a href="https://complianz.io" target="_blank">'.__("Premium","complianz-gdpr").'</a>',
+			'generated' => '<a href="https://complianz.io" target="_blank" class="cmplz-premium">'.__("Premium","complianz-gdpr").'</a>',
 		);
 		echo cmplz_get_template('dashboard/documents-row.php', $args);
 	}

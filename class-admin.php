@@ -1143,6 +1143,14 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					),
 
 					array(
+							'name'  => 'tips-tricks',
+							'header' => __("Tips & Tricks", "complianz-gdpr"),
+							'class' => 'half-height',
+							'page' => 'dashboard',
+							'controls' => '',
+					),
+
+					array(
 						'name'  => 'other-plugins',
 						'header' => __("Other plugins", "complianz-gdpr"),
 						'class' => 'half-height',
@@ -1150,14 +1158,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						'controls' => '<a href="https://really-simple-plugins.com/" target="_blank">
 										<img src="'.cmplz_url.'/assets/images/really-simple-plugins.svg" alt="Really Simple Plugins">
 										</a>',
-					),
-
-					array(
-						'name'  => 'tips-tricks',
-						'header' => __("Tips & Tricks", "complianz-gdpr"),
-						'class' => 'half-height',
-						'page' => 'dashboard',
-						'controls' => '',
 					),
 
 				);

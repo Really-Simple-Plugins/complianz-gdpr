@@ -91,6 +91,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'      => 'general',
                 'type'      => 'text',
                 'default'   => __( "Manage consent", 'complianz-gdpr' ),
+                'placeholder'        => __( "Manage consent", 'complianz-gdpr' ),
                 'label'     => __( "Text on the manage consent tab", 'complianz-gdpr' ),
                 'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.',
                     'complianz-gdpr' ),
@@ -523,6 +524,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Cookie Policy", 'complianz-gdpr' ),
+                'placeholder'        => __( "Cookie Policy", 'complianz-gdpr' ),
                 'label'              => __( "Read more", 'complianz-gdpr' ),
                 'condition'          => array( 'type' => 'NOT optout' ),
                 'callback_condition' => 'cmplz_uses_optin',
@@ -533,6 +535,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Impressum", 'complianz-gdpr' ),
+                'placeholder'        => __( "Impressum", 'complianz-gdpr' ),
                 'label'              => __( "Impressum", 'complianz-gdpr' ),
                 'condition'          => array(
                     'type' => 'NOT optout',
@@ -549,7 +552,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'               => 'text',
 				'default'            => __( "Accept all", 'complianz-gdpr' ),
 				'label'              => __( "Accept all", 'complianz-gdpr' ),
-
+        'placeholder'        => __( "Accept all", 'complianz-gdpr' ),
 				'callback_condition' => 'cmplz_uses_optin',
                 'condition'          => array(
                     'type'           => 'NOT optout',
@@ -563,6 +566,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'               => 'text',
 				'default'            => __( "Accept", 'complianz-gdpr' ),
 				'label'              => __( "Accept", 'complianz-gdpr' ),
+        'placeholder'        => __( "Accept", 'complianz-gdpr' ),
 				'callback_condition' => 'cmplz_uses_optin',
 				'condition'          => array(
 				    'use_categories' => 'no',
@@ -577,6 +581,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'default'            => __( "Dismiss", 'complianz-gdpr' ),
                 'label'              => __( "Dismiss cookies text",
                     'complianz-gdpr' ),
+                'placeholder'        => __( "Dismiss", 'complianz-gdpr' ),
 
                 'help'               => __( 'This button will reject all cookies, and will dismiss the cookie banner. Only functional/necessary cookies will be allowed.',
                     'complianz-gdpr' ),
@@ -592,6 +597,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Functional", 'complianz-gdpr' ),
+                'placeholder'        => __( "Functional", 'complianz-gdpr' ),
                 'label'              => __( "Functional", 'complianz-gdpr' ),
                 'condition'          => array(
                     'use_categories' => 'NOT no',
@@ -605,6 +611,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Preferences", 'complianz-gdpr' ),
+                'placeholder'        => __( "Preferences", 'complianz-gdpr' ),
                 'label'              => __( "Preferences", 'complianz-gdpr' ),
                 'condition'          => array( 'use_categories' => 'NOT no' ),
                 'callback_condition' => array(
@@ -619,6 +626,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'               => 'text',
                 'default'            => __( "Statistics", 'complianz-gdpr' ),
                 'label'              => __( "Statistics", 'complianz-gdpr' ),
+                'placeholder'        => __( "Statistics", 'complianz-gdpr' ),
                 'tooltip'               => __( "It depends on your settings if this category is necessary, so it will show conditionally", 'complianz-gdpr' ),
 
                 'condition'          => array(
@@ -637,6 +645,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'               => 'text',
                 'default'            => __( "Marketing", 'complianz-gdpr' ),
                 'label'              => __( "Marketing", 'complianz-gdpr' ),
+                'placeholder'        => __( "Marketing", 'complianz-gdpr' ),
                 'condition'          => array(
                     'use_categories' => 'NOT no',
                     'type'           => 'NOT optout',
@@ -653,6 +662,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'               => 'text',
                 'default'            => __( "Preferences", 'complianz-gdpr' ),
                 'label'              => __( "Settings", 'complianz-gdpr' ),
+                'placeholder'        => __( "Preferences", 'complianz-gdpr' ),
 
                 'condition'          => array(
                     'use_categories' => 'hidden',
@@ -666,6 +676,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => __( "Save preferences", 'complianz-gdpr' ),
+        'placeholder'        => __( "Save preferences", 'complianz-gdpr' ),
 				'label'              => __( "Save preferences", 'complianz-gdpr' ),
 				'condition'          => array(
                     'use_categories' => 'hidden OR legacy OR visible',
@@ -703,6 +714,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'          => 'editor',
                 'default'       => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
                 'label'         => __( "Cookie message", 'complianz-gdpr' ),
+                'placeholder'        => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
                 'condition'     => array( 'type' => 'NOT optout' ),
             ),
 
@@ -718,6 +730,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Accept", 'complianz-gdpr' ),
+                'placeholder'        => __( "Accept", 'complianz-gdpr' ),
                 'label'              => __( "Accept", 'complianz-gdpr' ),
                 'callback_condition' => 'cmplz_uses_optout',
                 'condition'          => array( 'type' => 'optout' ),
@@ -728,6 +741,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => 'Cookie Policy',
+                'placeholder'        => __( "Cookie Policy", 'complianz-gdpr' ),
                 'label'              => __( "Text on link to the Cookie Policy", 'complianz-gdpr' ),
                 'condition'          => array( 'type' => 'optout' ),
             ),
@@ -750,6 +764,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'default'            => __( "Privacy Statement", 'complianz-gdpr' ),
+                'placeholder'        => __( "Privacy Statement", 'complianz-gdpr' ),
                 'label'              => __( "Text on link to Privacy Statement",
                     'complianz-gdpr' ),
 
@@ -793,6 +808,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => 'Do Not Sell My Personal Information',
+        'placeholder'        => 'Do Not Sell My Personal Information',
 				'label'              => __( "Text on link to the Do Not Sell My Personal Information page.", 'complianz-gdpr' ),
 
 				'callback_condition' => 'cmplz_ccpa_applies',
@@ -807,6 +823,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'    => 'editor',
 				'default' => __( "We use cookies to optimize our website and our service.",
 					'complianz-gdpr' ),
+          'placeholder'        => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
 				'label'   => __( "Cookie message", 'complianz-gdpr' ),
                 'condition'          => array( 'type' => 'optout' ),
 			),

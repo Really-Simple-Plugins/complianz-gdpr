@@ -16,6 +16,9 @@
   background-color: lightgrey;
   text-decoration: none;
 }
+.cmplz-other-plugins .cmplz-bullet {
+  background-color: #333;
+}
 .plugin-color .cmplz-bullet,
 .cmplz-trick .cmplz-bullet {
   margin-right: 10px;
