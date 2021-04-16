@@ -1684,10 +1684,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				? true : false;
 			if ( $this->uses_matomo() ) {
 				if ( $anonimized ) {
-					cmplz_notice( __( "You use Matomo for statistics on your site, with ip numbers anonymized, so it is not necessary to add the script here.",
+					cmplz_notice( __( "You use Matomo for statistics on your site, with ip numbers anonymized. Therefore it is not necessary to add the script here.",
 						'complianz-gdpr' ) );
 				} else {
-					cmplz_notice( __( "You use Matomo for statistics on your site, but ip numbers are not anonymized, so you should your tracking script here",
+					cmplz_notice( __( "You use Matomo for statistics on your site, but ip numbers are not anonymized. Therefore you should add your tracking script here.",
 						'complianz-gdpr' ) );
 				}
 			}
