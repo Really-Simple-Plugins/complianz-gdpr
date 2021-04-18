@@ -576,7 +576,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                 $args_menu['steps'] .= cmplz_get_template( 'wizard/step.php' , $args);
             }
 
-            $args_menu['percentage-complete'] = $this->wizard_percentage_complete();
+            $args_menu['percentage-complete'] = $this->wizard_percentage_complete( false );
             $args_menu['title'] = !empty( $wizard_title ) ? '<div class="cmplz-wizard-subtitle"><h2>' . $wizard_title . '</h2></div>': '' ;
 
             return cmplz_get_template( 'wizard/menu.php', $args_menu );
@@ -1098,24 +1098,68 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @return int
 		 * */
 
-		public function wizard_percentage_complete( )
+		public function wizard_percentage_complete( $count_warnings = true )
 		{
 			//store to make sure it only runs once.
 			if ( $this->percentage_complete !== false ) {
 				return $this->percentage_complete;
 			}
-			$args = array(
-				'cache' => false,
-				'status' => 'all',
-			);
-			$total_warnings     = count( COMPLIANZ::$admin->get_warnings( $args ) );
-			$args = array(
-				'cache' => false,
-				'status' => 'completed',
-			);
-			$completed_warnings = count( COMPLIANZ::$admin->get_warnings( $args ) );
-			$percentage = round( 100 * ( $completed_warnings / $total_warnings ) + 0.45 );
 
+			$total_fields     = 0;
+			$completed_fields = 0;
+			$total_steps      = $this->total_steps( 'wizard' );
+			for ( $i = 1; $i <= $total_steps; $i ++ ) {
+				$fields = COMPLIANZ::$config->fields( 'wizard', $i, false );
+
+				foreach ( $fields as $fieldname => $field ) {
+					//is field required
+					$required = isset( $field['required'] ) ? $field['required']
+						: false;
+					if ( ( isset( $field['condition'] )
+					       || isset( $field['callback_condition'] ) )
+					     && ! COMPLIANZ::$field->condition_applies( $field )
+					) {
+						$required = false;
+					}
+					if ( $required ) {
+						$value = cmplz_get_value( $fieldname );
+						$total_fields ++;
+						if ( ! empty( $value ) ) {
+							$completed_fields ++;
+						}
+					}
+				}
+			}
+
+			if ( $count_warnings ) {
+				$args = array(
+					'cache' => false,
+					'status' => 'all',
+					'progress_items_only' => true,
+				);
+				$total_warnings     = count( COMPLIANZ::$admin->get_warnings( $args ) );
+				$args = array(
+					'cache' => false,
+					'status' => 'completed',
+					'progress_items_only' => true,
+				);
+				$completed_warnings = count( COMPLIANZ::$admin->get_warnings( $args ) );
+
+				$completed_fields += $completed_warnings;
+				$total_fields     += $total_warnings;
+			}
+
+			$pages = COMPLIANZ::$document->get_required_pages();
+			foreach ( $pages as $region => $region_pages ) {
+				foreach ( $region_pages as $type => $page ) {
+					if ( COMPLIANZ::$document->page_exists( $type, $region ) ) {
+						$completed_fields ++;
+					}
+					$total_fields ++;
+				}
+			}
+
+			$percentage = round( 100 * ( $completed_fields / $total_fields ) + 0.45 );
 			$this->percentage_complete = $percentage;
 			return $percentage;
 		}

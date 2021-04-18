@@ -998,10 +998,10 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         value="generated"
                         <?php echo $generated ?>
                         class="cmplz-document-input">
-                    <div class="radiobtn" <?php echo $generated_disabled ?> <?php echo $required ?>><?php echo $check_icon ?></div>
+                    <div class="radiobtn <?php echo $generated_disabled ?>"  <?php echo $required ?>><?php echo $check_icon ?></div>
                 </label>
 
-                <label class="cmplz-radio-container"><?php echo $custom_label ?>
+                <label class="cmplz-radio-container <?php echo $custom_disabled ?>"><?php echo $custom_label ?>
                     <input
 							<?php echo $custom_disabled ?>
 							<?php echo $required ?>
@@ -1014,7 +1014,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                     <div class="radiobtn <?php echo $custom_disabled ?>" <?php echo $custom_disabled ?> <?php echo $required ?>><?php echo $check_icon ?></div>
                 </label>
 
-                <label class="cmplz-radio-container"><?php echo $url_label ?>
+                <label class="cmplz-radio-container <?php echo $url_disabled ?>"><?php echo $url_label ?>
                     <input
 						<?php echo $url_disabled ?>
 						<?php echo $required ?>
@@ -1028,7 +1028,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 </label>
 
 				<?php if ( $args['fieldname'] !== 'cookie-statement' ){ ?>
-                    <label class="cmplz-radio-container"><?php echo $none_label ?>
+                    <label class="cmplz-radio-container <?php echo $none_disabled ?>"><?php echo $none_label ?>
                         <input
 							<?php echo $none_disabled ?>
                             <?php echo $required ?>
@@ -1043,6 +1043,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				<?php } ?>
 
 				<input
+					<?php echo $url_disabled ?>
                     type="text"
                     class="cmplz-document-custom-url"
                     value="<?php echo get_option($fieldname."_custom_page_url")?>"
@@ -1052,6 +1053,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 >
 
 				<select
+					<?php echo $custom_disabled ?>
                     class="cmplz-document-custom-page"
                     name="<?php echo esc_html( $fieldname."_custom_page" ) ?>"
                     <?php echo $show_custom_field ?>>

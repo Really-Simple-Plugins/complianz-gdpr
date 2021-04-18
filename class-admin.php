@@ -805,6 +805,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'cache' => true,
 				'status' => 'all',
 				'plus_ones' => false,
+				'progress_items_only' => false,
 			);
 			$args = wp_parse_args($args, $defaults);
 			$cache = $args['cache'];
@@ -822,6 +823,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'success_conditions' => array(),
 					'relation' => 'OR',
 					'status' => 'open',
+					'include_in_progress' => false,
 				);
 
 				$warning_types = apply_filters( 'cmplz_warnings_types', COMPLIANZ::$config->warning_types );
@@ -900,6 +902,18 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					if ( !isset( $warning['plus_one'])) continue;
 
 					if ( !$warning['plus_one'] ){
+						unset($warnings[$id]);
+					}
+				}
+			}
+
+			//filter for progress bar
+			if ($args['progress_items_only']) {
+				foreach ($warnings as $id => $warning ) {
+					//prevent notices on upgrade to 5.0
+					if ( !isset( $warning['include_in_progress'])) continue;
+
+					if ( !$warning['include_in_progress'] ){
 						unset($warnings[$id]);
 					}
 				}

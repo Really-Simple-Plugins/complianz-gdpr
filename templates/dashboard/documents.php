@@ -79,7 +79,7 @@
 		$sync_icon = cmplz_icon('sync', 'disabled');
 		$page_exists = cmplz_icon('bullet', 'disabled');
 
-		$generated = '<a class="cmplz-premium" href="'.add_query_arg( array('s'=>'complianz+terms+conditions+stand-alone', 'tab'=>'search','type'=>'term'),  admin_url('plugin-install.php') ).'">'.__('Install', 'complianz-gdpr').'</a>';
+		$generated = '<a href="'.add_query_arg( array('s'=>'complianz+terms+conditions+stand-alone', 'tab'=>'search','type'=>'term'),  admin_url('plugin-install.php') ).'">'.__('Install', 'complianz-gdpr').'</a>';
 		if (class_exists('COMPLIANZ_TC') ) {
 			$page_id = COMPLIANZ_TC::$document->get_shortcode_page_id();
 			$shortcode = COMPLIANZ_TC::$document->get_shortcode( $force_classic = true );

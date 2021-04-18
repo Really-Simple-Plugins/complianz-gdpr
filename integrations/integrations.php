@@ -608,6 +608,7 @@ function cmplz_notify_of_plugin_integrations( $warnings ){
 		if ($field['disabled']) continue;
 		$warnings[$id] = array(
 			'open' => sprintf(__( 'We have enabled the %s integration.', 'complianz-gdpr' ), $field['label']).cmplz_read_more("https://complianz.io/enabled-integration"),
+			'include_in_progress' => false,
 		);
 	}
 

@@ -10,9 +10,8 @@
  *
  * @return string
  */
-function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14 ) {
+function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14) {
 	$vb = $size + 8;
-
 	$icons = array(
 		'sync' => array(
 			'success' => array(
@@ -148,9 +147,9 @@ function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14 ) {
 	);
 
 	if ( !empty($tooltip) ) {
-        $tooltip =  'cmplz-tooltip="' . $tooltip . '" flow="up"';
+        $tooltip =  'cmplz-tooltip="' . $tooltip . '" flow="right"';
     } else if ( isset($icons[$icon_name][$status]['tooltip']) ) {
-        $tooltip =  'cmplz-tooltip="' . $icons[$icon_name][$status]['tooltip'] . '" flow="up"';
+        $tooltip =  'cmplz-tooltip="' . $icons[$icon_name][$status]['tooltip'] . '" flow="right"';
     }
 
 	$icon = $icons[$icon_name][$status]['icon'];
