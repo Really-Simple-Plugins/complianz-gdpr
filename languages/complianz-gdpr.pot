@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-04-16 11:29+0200\n"
-"PO-Revision-Date: 2021-04-16 11:29+0200\n"
+"POT-Creation-Date: 2021-04-19 14:11+0200\n"
+"PO-Revision-Date: 2021-04-19 14:11+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -98,11 +98,11 @@ msgstr ""
 msgid "Your email address was already registered!"
 msgstr ""
 
-#: assets/icons.php:20 assets/icons.php:25
+#: assets/icons.php:21 assets/icons.php:26
 msgid "Document is kept up to date by Complianz"
 msgstr ""
 
-#: assets/icons.php:30
+#: assets/icons.php:31
 msgid "Document is not kept up to date by Complianz"
 msgstr ""
 
@@ -351,11 +351,11 @@ msgstr ""
 msgid "Saved successfully"
 msgstr ""
 
-#: class-admin.php:773 class-admin.php:1041 class-admin.php:1042
-#: class-admin.php:1266 cookiebanner/settings.php:413
-#: cookiebanner/settings.php:655 integrations/integrations-menu.php:51
-#: pro/class-licensing.php:398 pro/class-licensing.php:497
-#: shepherd/tour.php:106 templates/dashboard/tools.php:46
+#: class-admin.php:773 class-admin.php:1055 class-admin.php:1056
+#: class-admin.php:1280 cookiebanner/settings.php:413
+#: cookiebanner/settings.php:663 integrations/integrations-menu.php:51
+#: pro/class-licensing.php:401 pro/class-licensing.php:500
+#: shepherd/tour.php:102 templates/dashboard/tools.php:46
 msgid "Settings"
 msgstr ""
 
@@ -364,96 +364,97 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:786 class-admin.php:1055
+#: class-admin.php:786 class-admin.php:1069
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:1001
+#: class-admin.php:1015
 #, php-format
 msgid "Complianz %s"
 msgstr ""
 
-#: class-admin.php:1008
+#: class-admin.php:1022
 msgid "Complianz"
 msgstr ""
 
-#: class-admin.php:1019 class-admin.php:1020 shepherd/tour.php:77
+#: class-admin.php:1033 class-admin.php:1034 shepherd/tour.php:73
 msgid "Dashboard"
 msgstr ""
 
-#: class-admin.php:1028 class-admin.php:1029
+#: class-admin.php:1042 class-admin.php:1043
 msgid "Wizard"
 msgstr ""
 
-#: class-admin.php:1077 pro/class-dataleak.php:365 pro/class-processing.php:122
+#: class-admin.php:1091 pro/class-dataleak.php:365 pro/class-processing.php:122
 #, php-format
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:1093
+#: class-admin.php:1107 integrations/TGM/class-tgm-plugin-activation.php:2809
+#: templates/dashboard/documents.php:82
 msgid "Install"
 msgstr ""
 
-#: class-admin.php:1096
+#: class-admin.php:1110
 msgid "Installed"
 msgstr ""
 
-#: class-admin.php:1099
+#: class-admin.php:1113
 msgid "Upgrade to pro"
 msgstr ""
 
-#: class-admin.php:1116
+#: class-admin.php:1130
 #, php-format
 msgid "All tasks (%s)"
 msgstr ""
 
-#: class-admin.php:1118
+#: class-admin.php:1132
 #, php-format
 msgid "Remaining tasks (%s)"
 msgstr ""
 
-#: class-admin.php:1124
+#: class-admin.php:1138
 msgid "Your progress"
 msgstr ""
 
-#: class-admin.php:1131 config/steps.php:23 config/steps.php:95
+#: class-admin.php:1145 config/steps.php:23 config/steps.php:95
 #: pro/config/steps.php:21 pro/config/steps.php:91
 msgid "Documents"
 msgstr ""
 
-#: class-admin.php:1134
+#: class-admin.php:1148
 msgid "Last update"
 msgstr ""
 
-#: class-admin.php:1139
+#: class-admin.php:1153
 msgid "Tools"
 msgstr ""
 
-#: class-admin.php:1147
-msgid "Other plugins"
-msgstr ""
-
-#: class-admin.php:1157
+#: class-admin.php:1161
 msgid "Tips & Tricks"
 msgstr ""
 
-#: class-admin.php:1232 config/steps.php:9 cookiebanner/edit.php:39
+#: class-admin.php:1169
+msgid "Other plugins"
+msgstr ""
+
+#: class-admin.php:1246 config/steps.php:9 cookiebanner/edit.php:39
 #: pro/config/steps.php:6 pro/config/steps.php:116 pro/config/steps.php:143
 #: pro/config/steps.php:168 pro/config/steps.php:193 pro/config/steps.php:218
 #: pro/config/steps.php:240 pro/config/steps.php:262 pro/config/steps.php:291
 msgid "General"
 msgstr ""
 
-#: class-admin.php:1240 pro/config/steps.php:122 pro/config/steps.php:147
+#: class-admin.php:1254 pro/config/steps.php:122 pro/config/steps.php:147
 #: pro/config/steps.php:172 pro/config/steps.php:197
 msgid "Data"
 msgstr ""
 
-#: class-admin.php:1248 templates/dashboard/progress-footer.php:16
+#: class-admin.php:1262 templates/dashboard/progress-footer.php:16
 msgid "Cookie blocker"
 msgstr ""
 
-#: class-admin.php:1256
+#: class-admin.php:1270
 msgid "Document Styling"
 msgstr ""
 
@@ -629,43 +630,43 @@ msgstr ""
 msgid "Select how you want to add your %s."
 msgstr ""
 
-#: class-field.php:1058
+#: class-field.php:1060
 msgid "None selected"
 msgstr ""
 
-#: class-field.php:1399 class-field.php:1473 cookiebanner/settings.php:166
+#: class-field.php:1401 class-field.php:1475 cookiebanner/settings.php:167
 msgid "Top"
 msgstr ""
 
-#: class-field.php:1404 class-field.php:1478 cookiebanner/settings.php:169
+#: class-field.php:1406 class-field.php:1480 cookiebanner/settings.php:170
 msgid "Right"
 msgstr ""
 
-#: class-field.php:1409 class-field.php:1483 cookiebanner/settings.php:170
+#: class-field.php:1411 class-field.php:1485 cookiebanner/settings.php:171
 msgid "Bottom"
 msgstr ""
 
-#: class-field.php:1414 class-field.php:1488 cookiebanner/settings.php:168
+#: class-field.php:1416 class-field.php:1490 cookiebanner/settings.php:169
 msgid "Left"
 msgstr ""
 
-#: class-field.php:1709 cookiebanner/edit.php:25
+#: class-field.php:1711 cookiebanner/edit.php:25
 msgid "Choose an option"
 msgstr ""
 
-#: class-field.php:1808
+#: class-field.php:1810
 msgid "Choose file"
 msgstr ""
 
-#: class-field.php:1814
+#: class-field.php:1816
 msgid "Import"
 msgstr ""
 
-#: class-field.php:1816
+#: class-field.php:1818
 msgid "No file chosen"
 msgstr ""
 
-#: class-field.php:1832 class-field.php:2093 class-field.php:2204
+#: class-field.php:1834 class-field.php:2095 class-field.php:2206
 #: class-wizard.php:728 pro/templates/license/footer.php:2
 #: templates/CMPLZ_COOKIEBANNER/footer.php:3 templates/cookie_settings.php:87
 #: templates/integrations/footer.php:3 templates/service_settings.php:49
@@ -673,93 +674,93 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: class-field.php:1853 pro/framework/post-types.php:169
+#: class-field.php:1855 pro/framework/post-types.php:169
 #: pro/framework/post-types.php:170 pro/framework/post-types.php:209
 #: pro/framework/post-types.php:210
 msgid "Add new"
 msgstr ""
 
-#: class-field.php:1863
+#: class-field.php:1865
 msgid "Description"
 msgstr ""
 
-#: class-field.php:1875 class-field.php:2097 class-field.php:2208
+#: class-field.php:1877 class-field.php:2099 class-field.php:2210
 msgid "Remove"
 msgstr ""
 
-#: class-field.php:1905
+#: class-field.php:1907
 msgid "Add new cookie"
 msgstr ""
 
-#: class-field.php:1920 cookie/class-cookie-admin.php:3595
+#: class-field.php:1922 cookie/class-cookie-admin.php:3595
 #, php-format
 msgid "Cookies in %s"
 msgstr ""
 
-#: class-field.php:1920 cookie/class-cookie-admin.php:3595
+#: class-field.php:1922 cookie/class-cookie-admin.php:3595
 #, php-format
 msgid "Services in %s"
 msgstr ""
 
-#: class-field.php:1968
+#: class-field.php:1970
 msgid "Add new service"
 msgstr ""
 
-#: class-field.php:1996
+#: class-field.php:1998
 msgid "list"
 msgstr ""
 
-#: class-field.php:2022
+#: class-field.php:2024
 #, php-format
 msgid "Name of the %s with whom you share the data"
 msgstr ""
 
-#: class-field.php:2033
+#: class-field.php:2035
 #, php-format
 msgid ""
 "Select the Processing Agreement you made with this %s, or %screate one%s"
 msgstr ""
 
-#: class-field.php:2042
+#: class-field.php:2044
 msgid "No agreement selected"
 msgstr ""
 
-#: class-field.php:2045
+#: class-field.php:2047
 msgid "A Processing Agreement outside Complianz Privacy Suite"
 msgstr ""
 
-#: class-field.php:2056
+#: class-field.php:2058
 #, php-format
 msgid "%s country"
 msgstr ""
 
-#: class-field.php:2068 class-field.php:2182 config/steps.php:39
+#: class-field.php:2070 class-field.php:2184 config/steps.php:39
 #: pro/config/steps.php:42 templates/cookie_settings.php:34
 msgid "Purpose"
 msgstr ""
 
-#: class-field.php:2080 class-field.php:2192
+#: class-field.php:2082 class-field.php:2194
 msgid "What type of data is shared"
 msgstr ""
 
-#: class-field.php:2104 class-field.php:2214
+#: class-field.php:2106 class-field.php:2216
 msgid "New entry"
 msgstr ""
 
-#: class-field.php:2118
+#: class-field.php:2120
 #, php-format
 msgid "Add new %s"
 msgstr ""
 
-#: class-field.php:2157
+#: class-field.php:2159
 msgid "Name of the Third Party with whom you share the data"
 msgstr ""
 
-#: class-field.php:2169
+#: class-field.php:2171
 msgid "Third Party country"
 msgstr ""
 
-#: class-field.php:2224
+#: class-field.php:2226
 msgid "Add new Third Party"
 msgstr ""
 
@@ -875,11 +876,11 @@ msgstr ""
 msgid "Changes saved successfully"
 msgstr ""
 
-#: class-wizard.php:698 shepherd/tour.php:137
+#: class-wizard.php:698 shepherd/tour.php:133
 msgid "Previous"
 msgstr ""
 
-#: class-wizard.php:703 shepherd/tour.php:136
+#: class-wizard.php:703 shepherd/tour.php:132
 msgid "Next"
 msgstr ""
 
@@ -963,22 +964,22 @@ msgid ""
 "button yet."
 msgstr ""
 
-#: config/class-config.php:465
+#: config/class-config.php:466
 msgid ""
 "The Complianz plugin has new features. Please check the wizard to see if all "
 "your settings are still up to date."
 msgstr ""
 
-#: config/class-config.php:472
+#: config/class-config.php:474
 msgid "Do Not Track is respected."
 msgstr ""
 
-#: config/class-config.php:473
+#: config/class-config.php:475
 #, php-format
 msgid "The browser setting Do Not Track is not respected yet - (%spremium%s)"
 msgstr ""
 
-#: config/class-config.php:480
+#: config/class-config.php:482
 #, php-format
 msgid ""
 "You have currently selected an informal language, which will result in "
@@ -986,112 +987,112 @@ msgid ""
 "style, you can activate this in the %sgeneral settings%s."
 msgstr ""
 
-#: config/class-config.php:489
+#: config/class-config.php:493
 msgid "No cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:490
+#: config/class-config.php:494
 msgid "Cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:490
+#: config/class-config.php:494
 #, php-format
 msgid "Please review step %s of the wizard for changes in cookies."
 msgstr ""
 
-#: config/class-config.php:496
+#: config/class-config.php:501
 #, php-format
 msgid "Last cookie scan completed on %s."
 msgstr ""
 
-#: config/class-config.php:497
+#: config/class-config.php:502
 msgid "No cookie scan has been completed yet."
 msgstr ""
 
-#: config/class-config.php:505
+#: config/class-config.php:511
 msgid "All required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:506
+#: config/class-config.php:512
 msgid "Not all required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:513
+#: config/class-config.php:520
 msgid "Great! You're already on SSL!"
 msgstr ""
 
-#: config/class-config.php:514
+#: config/class-config.php:521
 #, php-format
 msgid ""
 "You don't have SSL on your site yet. Most hosting companies can install SSL "
 "for you, which you can quickly enable with %sReally Simple SSL%s"
 msgstr ""
 
-#: config/class-config.php:523
+#: config/class-config.php:531
 msgid "Google Analytics is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:531
+#: config/class-config.php:540
 msgid "Google Tag Manager is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:539
+#: config/class-config.php:549
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:545
+#: config/class-config.php:556
 msgid ""
 "Your documents have not been updated in the past 12 months. Run the wizard "
 "to check your settings."
 msgstr ""
 
-#: config/class-config.php:552
+#: config/class-config.php:564
 msgid "You have cookies with incomplete descriptions."
 msgstr ""
 
-#: config/class-config.php:553
+#: config/class-config.php:565
 #, php-format
 msgid ""
 "Enable the cookiedatabase.org API for automatic descriptions, or add these "
 "%smanually%s."
 msgstr ""
 
-#: config/class-config.php:564
+#: config/class-config.php:577
 msgid ""
 "You have a duplicate implementation of your statistics tool on your site."
 msgstr ""
 
-#: config/class-config.php:565
+#: config/class-config.php:578
 msgid ""
 "After the issue has been resolved, please re-run a scan to clear this "
 "message."
 msgstr ""
 
-#: config/class-config.php:574
+#: config/class-config.php:588
 msgid ""
 "jQuery was not detected on the front-end of your site. Complianz requires "
 "jQuery."
 msgstr ""
 
-#: config/class-config.php:582
+#: config/class-config.php:597
 msgid ""
 "Javascript errors are detected on the front-end of your site. This may break "
 "the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:583
+#: config/class-config.php:598
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:595
+#: config/class-config.php:611
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:603
+#: config/class-config.php:620
 msgid "Your site does not require a cookie banner."
 msgstr ""
 
-#: config/class-config.php:611
+#: config/class-config.php:629
 msgid ""
 "Pretty permalinks are not enabled on your site. This can cause issues with "
 "the REST API, used by Complianz."
@@ -3140,6 +3141,7 @@ msgid "There are some rules which only apply to California."
 msgstr ""
 
 #: config/questions-wizard.php:90 cookiebanner/settings.php:525
+#: cookiebanner/settings.php:526 cookiebanner/settings.php:743
 #: templates/dashboard/documents-conditional.php:8
 #: templates/dashboard/documents-conditional.php:30
 msgid "Cookie Policy"
@@ -3153,9 +3155,9 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:103 config/steps.php:35
-#: cookiebanner/settings.php:535 cookiebanner/settings.php:536
-#: pro/config/documents/documents.php:15 pro/config/steps.php:31
-#: templates/dashboard/documents-conditional.php:12
+#: cookiebanner/settings.php:536 cookiebanner/settings.php:537
+#: cookiebanner/settings.php:538 pro/config/documents/documents.php:15
+#: pro/config/steps.php:31 templates/dashboard/documents-conditional.php:12
 #: templates/dashboard/documents-conditional.php:30
 msgid "Impressum"
 msgstr ""
@@ -3166,8 +3168,8 @@ msgid ""
 "but you can also create your own, custom document."
 msgstr ""
 
-#: config/questions-wizard.php:117 cookiebanner/settings.php:752
-#: integrations/plugins/gravity-forms.php:148
+#: config/questions-wizard.php:117 cookiebanner/settings.php:765
+#: cookiebanner/settings.php:766 integrations/plugins/gravity-forms.php:148
 msgid "Privacy Statement"
 msgstr ""
 
@@ -3672,8 +3674,8 @@ msgid "For more information, %sread our 5 tips%s about the cookie scan."
 msgstr ""
 
 #: config/steps.php:64 cookiebanner/class-cookiebanner.php:711
-#: cookiebanner/settings.php:620 cookiebanner/settings.php:621
-#: pro/tcf/tcf.php:514 pro/tcf/tcf.php:633
+#: cookiebanner/settings.php:626 cookiebanner/settings.php:627
+#: cookiebanner/settings.php:628 pro/tcf/tcf.php:514 pro/tcf/tcf.php:633
 msgid "Statistics"
 msgstr ""
 
@@ -3682,7 +3684,7 @@ msgid "Statistics - configuration"
 msgstr ""
 
 #: config/steps.php:71 integrations/integrations-menu.php:8
-#: integrations/integrations-menu.php:9 shepherd/tour.php:99
+#: integrations/integrations-menu.php:9 shepherd/tour.php:95
 msgid "Integrations"
 msgstr ""
 
@@ -4046,18 +4048,20 @@ msgstr ""
 msgid "No warning"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:704 cookiebanner/settings.php:594
-#: cookiebanner/settings.php:595
+#: cookiebanner/class-cookiebanner.php:704 cookiebanner/settings.php:598
+#: cookiebanner/settings.php:599 cookiebanner/settings.php:600
 msgid "Functional"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:707 cookiebanner/settings.php:607
-#: cookiebanner/settings.php:608 cookiebanner/settings.php:654
+#: cookiebanner/class-cookiebanner.php:707 cookiebanner/settings.php:612
+#: cookiebanner/settings.php:613 cookiebanner/settings.php:614
+#: cookiebanner/settings.php:662 cookiebanner/settings.php:664
 msgid "Preferences"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:726 cookiebanner/settings.php:638
-#: cookiebanner/settings.php:639 pro/tcf/tcf.php:521 pro/tcf/tcf.php:636
+#: cookiebanner/class-cookiebanner.php:726 cookiebanner/settings.php:645
+#: cookiebanner/settings.php:646 cookiebanner/settings.php:647
+#: pro/tcf/tcf.php:521 pro/tcf/tcf.php:636
 msgid "Marketing"
 msgstr ""
 
@@ -4134,41 +4138,41 @@ msgid ""
 "Lessons!"
 msgstr ""
 
-#: cookiebanner/settings.php:93
+#: cookiebanner/settings.php:93 cookiebanner/settings.php:94
 msgid "Manage consent"
 msgstr ""
 
-#: cookiebanner/settings.php:94
+#: cookiebanner/settings.php:95
 msgid "Text on the manage consent tab"
 msgstr ""
 
-#: cookiebanner/settings.php:95
+#: cookiebanner/settings.php:96
 msgid ""
 "The tab will show after the visitor interacted with the banner, and can be "
 "used to make the cookie banner reappear."
 msgstr ""
 
-#: cookiebanner/settings.php:104
+#: cookiebanner/settings.php:105
 msgid "Hide manage consent tab"
 msgstr ""
 
-#: cookiebanner/settings.php:105
+#: cookiebanner/settings.php:106
 msgid ""
 "If you want to hide the manage consent tab, enable this checkbox. The tab "
 "will normally appear after making a choice."
 msgstr ""
 
-#: cookiebanner/settings.php:106
+#: cookiebanner/settings.php:107
 msgid ""
 "If you hide this button, you should at least leave the option to revoke "
 "consent on your cookie policy or Do Not Sell My Personal Information page"
 msgstr ""
 
-#: cookiebanner/settings.php:114
+#: cookiebanner/settings.php:115
 msgid "Show as soft cookie wall"
 msgstr ""
 
-#: cookiebanner/settings.php:115
+#: cookiebanner/settings.php:116
 #, php-format
 msgid ""
 "You can grey out the rest of the website, which makes it look like a cookie "
@@ -4176,138 +4180,138 @@ msgid ""
 "cookie wall in this %sarticle%s."
 msgstr ""
 
-#: cookiebanner/settings.php:118
+#: cookiebanner/settings.php:119
 msgid ""
 "After saving, a preview of the soft cookie wall will be shown for 3 seconds"
 msgstr ""
 
-#: cookiebanner/settings.php:125
+#: cookiebanner/settings.php:126
 msgid "Disable cookie banner"
 msgstr ""
 
-#: cookiebanner/settings.php:133
+#: cookiebanner/settings.php:134
 msgid "Default cookie banner"
 msgstr ""
 
-#: cookiebanner/settings.php:134
+#: cookiebanner/settings.php:135
 msgid ""
 "When enabled, this is the cookie banner that is used for all visitors. "
 "Enabling it will disable this setting on the current default banner. "
 "Disabling it will enable randomly a different default banner."
 msgstr ""
 
-#: cookiebanner/settings.php:145
+#: cookiebanner/settings.php:146
 msgid "Hide preview"
 msgstr ""
 
-#: cookiebanner/settings.php:153
+#: cookiebanner/settings.php:154
 msgid "Use Custom CSS"
 msgstr ""
 
-#: cookiebanner/settings.php:155
+#: cookiebanner/settings.php:156
 msgid ""
 "The custom CSS editor will appear at the bottom of this page when enabled."
 msgstr ""
 
-#: cookiebanner/settings.php:164
+#: cookiebanner/settings.php:165
 msgid "Position"
 msgstr ""
 
-#: cookiebanner/settings.php:167
+#: cookiebanner/settings.php:168
 msgid "Center"
 msgstr ""
 
-#: cookiebanner/settings.php:179
+#: cookiebanner/settings.php:180
 msgid "Template"
 msgstr ""
 
-#: cookiebanner/settings.php:181
+#: cookiebanner/settings.php:182
 msgid "Block"
 msgstr ""
 
-#: cookiebanner/settings.php:182 cookiebanner/settings.php:240
+#: cookiebanner/settings.php:183 cookiebanner/settings.php:241
 msgid "Classic"
 msgstr ""
 
-#: cookiebanner/settings.php:183
+#: cookiebanner/settings.php:184
 msgid "Edgeless"
 msgstr ""
 
-#: cookiebanner/settings.php:184
+#: cookiebanner/settings.php:185
 msgid "Minimal"
 msgstr ""
 
-#: cookiebanner/settings.php:195
+#: cookiebanner/settings.php:196
 msgid "Min width of banner in pixels"
 msgstr ""
 
-#: cookiebanner/settings.php:202
+#: cookiebanner/settings.php:203
 msgid "Animation"
 msgstr ""
 
-#: cookiebanner/settings.php:204
+#: cookiebanner/settings.php:205
 msgid "None"
 msgstr ""
 
-#: cookiebanner/settings.php:205
+#: cookiebanner/settings.php:206
 msgid "Fade"
 msgstr ""
 
-#: cookiebanner/settings.php:206
+#: cookiebanner/settings.php:207
 msgid "Slide"
 msgstr ""
 
-#: cookiebanner/settings.php:216
+#: cookiebanner/settings.php:217
 msgid "Accept/Deny"
 msgstr ""
 
-#: cookiebanner/settings.php:217
+#: cookiebanner/settings.php:218
 msgid "Legacy categories"
 msgstr ""
 
-#: cookiebanner/settings.php:218
+#: cookiebanner/settings.php:219
 msgid "Accept all + view preferences"
 msgstr ""
 
-#: cookiebanner/settings.php:219
+#: cookiebanner/settings.php:220
 msgid "Accept all + categories"
 msgstr ""
 
-#: cookiebanner/settings.php:221
+#: cookiebanner/settings.php:222
 msgid "Categories"
 msgstr ""
 
-#: cookiebanner/settings.php:222
+#: cookiebanner/settings.php:223
 msgid ""
 "With categories, you can let users choose which category of cookies they "
 "want to accept."
 msgstr ""
 
-#: cookiebanner/settings.php:224
+#: cookiebanner/settings.php:225
 msgid ""
 "Depending on your settings and cookies you use, there can be two or three "
 "categories. With Tag Manager you can use more, custom categories."
 msgstr ""
 
-#: cookiebanner/settings.php:237
+#: cookiebanner/settings.php:238
 msgid "Checkbox style"
 msgstr ""
 
-#: cookiebanner/settings.php:238
+#: cookiebanner/settings.php:239
 msgid ""
 "This style is for the checkboxes on the cookie banner, as well as on your "
 "policy for managing consent."
 msgstr ""
 
-#: cookiebanner/settings.php:241
+#: cookiebanner/settings.php:242
 msgid "Square"
 msgstr ""
 
-#: cookiebanner/settings.php:242
+#: cookiebanner/settings.php:243
 msgid "Slider"
 msgstr ""
 
-#: cookiebanner/settings.php:254
+#: cookiebanner/settings.php:255
 msgid "Box shadow"
 msgstr ""
 
@@ -4363,9 +4367,10 @@ msgstr ""
 msgid "Buttons"
 msgstr ""
 
-#: cookiebanner/settings.php:361 cookiebanner/settings.php:564
-#: cookiebanner/settings.php:565 cookiebanner/settings.php:720
-#: cookiebanner/settings.php:721 integrations/plugins/gravity-forms.php:131
+#: cookiebanner/settings.php:361 cookiebanner/settings.php:566
+#: cookiebanner/settings.php:567 cookiebanner/settings.php:568
+#: cookiebanner/settings.php:731 cookiebanner/settings.php:732
+#: cookiebanner/settings.php:733 integrations/plugins/gravity-forms.php:131
 #: integrations/plugins/gravity-forms.php:136
 #: integrations/plugins/gravity-forms.php:137
 msgid "Accept"
@@ -4383,45 +4388,47 @@ msgstr ""
 msgid "Manage Cookie Consent"
 msgstr ""
 
-#: cookiebanner/settings.php:526 functions.php:1752
+#: cookiebanner/settings.php:527 functions.php:1752
 #: pro/records-of-consent/class-records-of-consent.php:369
 #: proof-of-consent/class-proof-of-consent.php:261
 msgid "Read more"
 msgstr ""
 
-#: cookiebanner/settings.php:550 cookiebanner/settings.php:551
+#: cookiebanner/settings.php:552 cookiebanner/settings.php:553
+#: cookiebanner/settings.php:554
 msgid "Accept all"
 msgstr ""
 
-#: cookiebanner/settings.php:577
+#: cookiebanner/settings.php:580 cookiebanner/settings.php:583
 msgid "Dismiss"
 msgstr ""
 
-#: cookiebanner/settings.php:578
+#: cookiebanner/settings.php:581
 msgid "Dismiss cookies text"
 msgstr ""
 
-#: cookiebanner/settings.php:581
+#: cookiebanner/settings.php:585
 msgid ""
 "This button will reject all cookies, and will dismiss the cookie banner. "
 "Only functional/necessary cookies will be allowed."
 msgstr ""
 
-#: cookiebanner/settings.php:622
+#: cookiebanner/settings.php:629
 msgid ""
 "It depends on your settings if this category is necessary, so it will show "
 "conditionally"
 msgstr ""
 
-#: cookiebanner/settings.php:668 cookiebanner/settings.php:669
+#: cookiebanner/settings.php:677 cookiebanner/settings.php:678
+#: cookiebanner/settings.php:679
 msgid "Save preferences"
 msgstr ""
 
-#: cookiebanner/settings.php:681
+#: cookiebanner/settings.php:691
 msgid "Custom Tag Manager categories"
 msgstr ""
 
-#: cookiebanner/settings.php:682
+#: cookiebanner/settings.php:692
 msgid ""
 "Enter your custom Tag Manager categories, comma separated. The first item "
 "will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so "
@@ -4429,55 +4436,56 @@ msgid ""
 "cmplz_event_marketing"
 msgstr ""
 
-#: cookiebanner/settings.php:687
+#: cookiebanner/settings.php:697
 msgid "First category, Second category"
 msgstr ""
 
-#: cookiebanner/settings.php:704 cookiebanner/settings.php:808
+#: cookiebanner/settings.php:714 cookiebanner/settings.php:716
+#: cookiebanner/settings.php:823 cookiebanner/settings.php:825
 msgid "We use cookies to optimize our website and our service."
 msgstr ""
 
-#: cookiebanner/settings.php:705 cookiebanner/settings.php:810
+#: cookiebanner/settings.php:715 cookiebanner/settings.php:826
 msgid "Cookie message"
 msgstr ""
 
-#: cookiebanner/settings.php:731
+#: cookiebanner/settings.php:744
 msgid "Text on link to the Cookie Policy"
 msgstr ""
 
-#: cookiebanner/settings.php:739
+#: cookiebanner/settings.php:752
 msgid "Dismiss on scroll"
 msgstr ""
 
-#: cookiebanner/settings.php:740
+#: cookiebanner/settings.php:753
 msgid ""
 "When dismiss on scroll is enabled, the cookie banner will be dismissed as "
 "soon as the user scrolls."
 msgstr ""
 
-#: cookiebanner/settings.php:753
+#: cookiebanner/settings.php:767
 msgid "Text on link to Privacy Statement"
 msgstr ""
 
-#: cookiebanner/settings.php:764
+#: cookiebanner/settings.php:778
 msgid "Dismiss on time out"
 msgstr ""
 
-#: cookiebanner/settings.php:765
+#: cookiebanner/settings.php:779
 msgid ""
 "When dismiss on time out is enabled, the cookie banner will be dismissed "
 "after 10 seconds, or the time you choose below."
 msgstr ""
 
-#: cookiebanner/settings.php:776
+#: cookiebanner/settings.php:790
 msgid "Timeout in seconds"
 msgstr ""
 
-#: cookiebanner/settings.php:796
+#: cookiebanner/settings.php:811
 msgid "Text on link to the Do Not Sell My Personal Information page."
 msgstr ""
 
-#: cookiebanner/settings.php:799
+#: cookiebanner/settings.php:814
 msgid ""
 "This text is not shown in the preview, but is used instead of the Cookie "
 "Policy text when the region is US, and CCPA applies."
@@ -4610,6 +4618,442 @@ msgstr ""
 #: grid/templates/grid-settings-menu.php:7
 msgid "Changes saved"
 msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:334
+msgid "Install Required Plugins"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:335
+msgid "Install Plugins"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:337
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:339
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:340
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:349
+#, php-format
+msgid "This plugin recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:355
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:361
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:367
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:373
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:378
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:383
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:388
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:392
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:393
+#: integrations/TGM/class-tgm-plugin-activation.php:920
+#: integrations/TGM/class-tgm-plugin-activation.php:2625
+#: integrations/TGM/class-tgm-plugin-activation.php:3672
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:394
+#: integrations/TGM/class-tgm-plugin-activation.php:3251
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:395
+#: integrations/TGM/class-tgm-plugin-activation.php:3044
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:397
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:399
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:401
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:402
+msgid "Dismiss this notice"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:403
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:404
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:607
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:608
+msgid "Update Required"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:725
+msgid "Set the parent_slug config variable instead."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:1027
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:1027
+#: integrations/TGM/class-tgm-plugin-activation.php:1030
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:1030
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:1214
+#: integrations/TGM/class-tgm-plugin-activation.php:3040
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2074
+#, php-format
+msgid "TGMPA v%s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2365
+msgid "Required"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2368
+msgid "Recommended"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2384
+msgid "WordPress Repository"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2387
+msgid "External Source"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2390
+msgid "Pre-Packaged"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2407
+msgid "Not Installed"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2411
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2413
+msgid "Active"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2419
+msgid "Required Update not Available"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2422
+msgid "Requires Update"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2425
+msgid "Update recommended"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2434
+#, php-format
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2480
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2484
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2488
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2492
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2574
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2582
+msgid "Installed version:"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2590
+msgid "Minimum required version:"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2602
+msgid "Available version:"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2625
+msgid "No plugins to install, update or activate."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2639
+msgid "Plugin"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2640
+msgid "Source"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2641
+msgid "Type"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2645
+msgid "Version"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2646
+msgid "Status"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2695
+#, php-format
+msgid "Install %2$s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2700
+#, php-format
+msgid "Update %2$s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2706
+#, php-format
+msgid "Activate %2$s"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2776
+msgid "Upgrade message from the plugin author:"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2815
+msgid "Update"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2818
+msgid "Activate"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2849
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2851
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2892
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:2894
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3000
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3026
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3250
+msgid "Plugin activation failed."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3590
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3593
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3595
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3599
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3601
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3601
+#: integrations/TGM/class-tgm-plugin-activation.php:3609
+msgid "Show Details"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3601
+#: integrations/TGM/class-tgm-plugin-activation.php:3609
+msgid "Hide Details"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3602
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3604
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3607
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3609
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3610
+msgid "All installations have been completed."
+msgstr ""
+
+#: integrations/TGM/class-tgm-plugin-activation.php:3612
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: integrations/TGM/required.php:138
+#, php-format
+msgid "Complianz GDPR/CCPA recommends to activate the following plugin: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: integrations/TGM/required.php:144
+#, php-format
+msgid "Complianz GDPR/CCPA recommends the following plugin: %1$s."
+msgid_plural "Complianz GDPR/CCPA recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
 
 #: integrations/integrations-menu.php:27
 msgid "Services"
@@ -5068,28 +5512,28 @@ msgstr ""
 msgid "Activate your license"
 msgstr ""
 
-#: pro/class-licensing.php:88
+#: pro/class-licensing.php:89
 #, php-format
 msgid "Please %senter your license key%s to activate your license."
 msgstr ""
 
-#: pro/class-licensing.php:93
+#: pro/class-licensing.php:95
 msgid "Your license is activated and valid."
 msgstr ""
 
-#: pro/class-licensing.php:98
+#: pro/class-licensing.php:101
 #, php-format
 msgid "Please check your %slicense status%s."
 msgstr ""
 
-#: pro/class-licensing.php:114 pro/class-licensing.php:391
-#: pro/class-licensing.php:493 pro/class-licensing.php:566
-#: pro/class-licensing.php:572 pro/class-licensing.php:591
-#: pro/class-licensing.php:653
+#: pro/class-licensing.php:117 pro/class-licensing.php:394
+#: pro/class-licensing.php:496 pro/class-licensing.php:569
+#: pro/class-licensing.php:575 pro/class-licensing.php:594
+#: pro/class-licensing.php:656
 msgid "License"
 msgstr ""
 
-#: pro/class-licensing.php:451
+#: pro/class-licensing.php:454
 #, php-format
 msgid ""
 "Welcome to Complianz Privacy Suite! Before you start, please activate your "
@@ -5097,134 +5541,134 @@ msgid ""
 "%ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:457 pro/templates/license/footer.php:7
+#: pro/class-licensing.php:460 pro/templates/license/footer.php:7
 msgid "Activate license"
 msgstr ""
 
-#: pro/class-licensing.php:461
+#: pro/class-licensing.php:464
 #, php-format
 msgid "%sDocumentation%s"
 msgstr ""
 
-#: pro/class-licensing.php:500
+#: pro/class-licensing.php:503
 #, php-format
 msgid ""
 "Complianz Privacy Suite includes GeoLite2 data created by MaxMind, available "
 "from %shttp://www.maxmind.com%s"
 msgstr ""
 
-#: pro/class-licensing.php:522
+#: pro/class-licensing.php:525
 msgid "unlimited"
 msgstr ""
 
-#: pro/class-licensing.php:526
+#: pro/class-licensing.php:529
 msgid "Not available"
 msgstr ""
 
-#: pro/class-licensing.php:528
+#: pro/class-licensing.php:531
 msgid "You have a lifetime license."
 msgstr ""
 
-#: pro/class-licensing.php:528
+#: pro/class-licensing.php:531
 #, php-format
 msgid "Valid until %s."
 msgstr ""
 
-#: pro/class-licensing.php:534
+#: pro/class-licensing.php:537
 #, php-format
 msgid "Upgrade to a %s5 sites or Agency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:537
+#: pro/class-licensing.php:540
 #, php-format
 msgid "Upgrade to an %sAgency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:540
+#: pro/class-licensing.php:543
 #, php-format
 msgid "You can renew your license on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:545
+#: pro/class-licensing.php:548
 msgid "Unlimited activations available."
 msgstr ""
 
-#: pro/class-licensing.php:547 pro/class-licensing.php:654
+#: pro/class-licensing.php:550 pro/class-licensing.php:657
 #, php-format
 msgid "%s/%s activations available."
 msgstr ""
 
-#: pro/class-licensing.php:560
+#: pro/class-licensing.php:563
 msgid "Valid"
 msgstr ""
 
-#: pro/class-licensing.php:567
+#: pro/class-licensing.php:570
 #, php-format
 msgid "Valid license for %s."
 msgstr ""
 
-#: pro/class-licensing.php:579
+#: pro/class-licensing.php:582
 msgid "Multisite"
 msgstr ""
 
-#: pro/class-licensing.php:580
+#: pro/class-licensing.php:583
 #, php-format
 msgid "Multisite detected. Please consider upgrading to %smultisite%s."
 msgstr ""
 
-#: pro/class-licensing.php:600
+#: pro/class-licensing.php:603
 msgid "No response"
 msgstr ""
 
-#: pro/class-licensing.php:601
+#: pro/class-licensing.php:604
 msgid ""
 "The license information could not be retrieved at this moment. Please try "
 "again at a later time."
 msgstr ""
 
-#: pro/class-licensing.php:607 pro/class-licensing.php:616
-#: templates/dashboard/progress.php:49
+#: pro/class-licensing.php:610 pro/class-licensing.php:619
+#: templates/dashboard/progress.php:61
 msgid "Open"
 msgstr ""
 
-#: pro/class-licensing.php:608
+#: pro/class-licensing.php:611
 #, php-format
 msgid "Please enter your license key. Available in your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:617
+#: pro/class-licensing.php:620
 msgid "Please activate your license key."
 msgstr ""
 
-#: pro/class-licensing.php:623 pro/class-licensing.php:630
-#: pro/class-licensing.php:638 pro/class-licensing.php:645
-#: pro/class-licensing.php:660
+#: pro/class-licensing.php:626 pro/class-licensing.php:633
+#: pro/class-licensing.php:641 pro/class-licensing.php:648
+#: pro/class-licensing.php:663
 msgid "Warning"
 msgstr ""
 
-#: pro/class-licensing.php:624
+#: pro/class-licensing.php:627
 #, php-format
 msgid "Your license has been revoked. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:631
+#: pro/class-licensing.php:634
 #, php-format
 msgid ""
 "Your license could not be found in our system. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:639
+#: pro/class-licensing.php:642
 #, php-format
 msgid "This license is not valid. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:646
+#: pro/class-licensing.php:649
 #, php-format
 msgid ""
 "This license is not valid for this product. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:661
+#: pro/class-licensing.php:664
 #, php-format
 msgid ""
 "Your license key has expired. Please renew your license key on your %saccount"
@@ -10128,7 +10572,7 @@ msgid "Consent type"
 msgstr ""
 
 #: pro/records-of-consent/class-records-of-consent-table.php:302
-#: proof-of-consent/class-proof-of-consent.php:371 shepherd/tour.php:113
+#: proof-of-consent/class-proof-of-consent.php:371 shepherd/tour.php:109
 msgid "Proof of Consent"
 msgstr ""
 
@@ -10595,82 +11039,82 @@ msgid ""
 "settings."
 msgstr ""
 
-#: shepherd/tour.php:70
+#: shepherd/tour.php:66
 msgid "Welcome to Complianz"
 msgstr ""
 
-#: shepherd/tour.php:71
+#: shepherd/tour.php:67
 msgid ""
 "Get ready for privacy legislation around the world. Follow a quick tour or "
 "start configuring the plugin!"
 msgstr ""
 
-#: shepherd/tour.php:78
+#: shepherd/tour.php:74
 msgid ""
 "This is your Dashboard. When the Wizard is completed, this will give you an "
 "overview of tasks, tools, and documentation."
 msgstr ""
 
-#: shepherd/tour.php:84 templates/wizard/menu.php:2
+#: shepherd/tour.php:80 templates/wizard/menu.php:2
 msgid "The Wizard"
 msgstr ""
 
-#: shepherd/tour.php:85
+#: shepherd/tour.php:81
 msgid ""
 "This is where you configure your website for your specific region. It "
 "includes everything you need to get started. We will come back to the Wizard "
 "soon."
 msgstr ""
 
-#: shepherd/tour.php:91
+#: shepherd/tour.php:87
 msgid "Cookie Banner"
 msgstr ""
 
-#: shepherd/tour.php:92
+#: shepherd/tour.php:88
 msgid ""
 "Here you can configure and style your cookie banner if the Wizard is "
 "completed. An extra tab will be added with region-specific settings."
 msgstr ""
 
-#: shepherd/tour.php:100
+#: shepherd/tour.php:96
 msgid ""
 "Based on your answers in the Wizard, we will automatically enable "
 "integrations with relevant services and plugins. In case you want to block "
 "extra scripts, you can add them to the Script Center."
 msgstr ""
 
-#: shepherd/tour.php:107
+#: shepherd/tour.php:103
 msgid ""
 "Adding Document CSS, enabling safe mode, and other settings can be found "
 "here. You can also revisit the tour here."
 msgstr ""
 
-#: shepherd/tour.php:114
+#: shepherd/tour.php:110
 msgid ""
 "Complianz tracks changes in your Cookie Notice and Cookie Policy with time-"
 "stamped documents. This is your consent registration while respecting the "
 "data minimization guidelines and won't store any user data."
 msgstr ""
 
-#: shepherd/tour.php:120
+#: shepherd/tour.php:116
 msgid "Let's start the Wizard"
 msgstr ""
 
-#: shepherd/tour.php:121
+#: shepherd/tour.php:117
 msgid ""
 "You are ready to start the Wizard. For more information, FAQ, and support, "
 "please visit Complianz.io."
 msgstr ""
 
-#: shepherd/tour.php:138
+#: shepherd/tour.php:134
 msgid "Configure"
 msgstr ""
 
-#: shepherd/tour.php:140
+#: shepherd/tour.php:136
 msgid "Start tour"
 msgstr ""
 
-#: shepherd/tour.php:141
+#: shepherd/tour.php:137
 msgid "End tour"
 msgstr ""
 
@@ -10734,6 +11178,10 @@ msgstr ""
 
 #: templates/dashboard/documents-conditional.php:39
 #: templates/dashboard/documents-conditional.php:73
+#: templates/dashboard/tools-conditional.php:9
+#: templates/dashboard/tools-conditional.php:19
+#: templates/dashboard/tools-conditional.php:29
+#: templates/dashboard/tools-conditional.php:39
 msgid "Premium"
 msgstr ""
 
@@ -10766,10 +11214,6 @@ msgstr ""
 msgid "Terms and Conditions"
 msgstr ""
 
-#: templates/dashboard/documents.php:82
-msgid "install"
-msgstr ""
-
 #: templates/dashboard/other-plugins.php:12
 msgid "Beautiful recipes optimized for Google"
 msgstr ""
@@ -10795,10 +11239,17 @@ msgid "Well done! Your website is ready for your selected regions."
 msgstr ""
 
 #: templates/dashboard/progress.php:46
+#, php-format
+msgid ""
+"You have no new tasks! Have a look at our %sdocumentation%s and see all the "
+"possibilities Complianz has to offer."
+msgstr ""
+
+#: templates/dashboard/progress.php:58
 msgid "Completed"
 msgstr ""
 
-#: templates/dashboard/progress.php:52
+#: templates/dashboard/progress.php:64
 msgid "Urgent"
 msgstr ""
 
@@ -10836,13 +11287,6 @@ msgstr ""
 
 #: templates/dashboard/tools-conditional.php:5
 msgid "Priority Support"
-msgstr ""
-
-#: templates/dashboard/tools-conditional.php:9
-#: templates/dashboard/tools-conditional.php:19
-#: templates/dashboard/tools-conditional.php:29
-#: templates/dashboard/tools-conditional.php:39
-msgid "premium"
 msgstr ""
 
 #: templates/dashboard/tools-conditional.php:15

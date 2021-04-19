@@ -43,7 +43,7 @@
 						'status' => 'completed',
 						'plus_one' => 'false',
 						'message'    => sprintf(
-								__( 'You have no new tasks! Have a look at our %sdocumentation and see all the possibilities Complianz has to offer.', 'complianz-gdpr' ),
+								__( 'You have no new tasks! Have a look at our %sdocumentation%s and see all the possibilities Complianz has to offer.', 'complianz-gdpr' ),
 						'<a href="https://complianz.io/docs/" target="_blank">',
 								'</a>'
 						),
