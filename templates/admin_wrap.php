@@ -6,7 +6,7 @@
 			<img alt="Complianz-GDPR/CCPA" src="<?php echo trailingslashit(cmplz_url)?>assets/images/cmplz-logo.svg">
             <div class="cmplz-header-right">
                 <a href="https://complianz.io/docs/" class="link-black" target="_blank"><?php _e("Documentation", "complianz-gdpr")?></a>
-                <a href="https://complianz.io/support" class="button button-black" target="_blank"><?php echo _e("Support", "complianz-gdpr") ?></a>
+                <a href="<?php echo apply_filters('cmplz_support_link', 'https://wordpress.org/support/plugin/complianz-gdpr/')?>" class="button button-black" target="_blank"><?php _e("Support", "complianz-gdpr") ?></a>
             </div>
 		</div>
 		<div id="cmplz-content-area">

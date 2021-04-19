@@ -529,7 +529,7 @@ $this->fields = $this->fields + array(
 			'tooltip'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).",
 				'complianz-gdpr' ),
 			'comment'   => __( "When possible a placeholder is activated. You can also disable or configure the placeholder to your liking. You can disable services and placeholders under Integrations.",
-					'complianz-gdpr' ) .'</br>' .cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/' ),
+					'complianz-gdpr' ) .'</br>' .cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/', false ),
 		),
 
 		'block_recaptcha_service' => array(

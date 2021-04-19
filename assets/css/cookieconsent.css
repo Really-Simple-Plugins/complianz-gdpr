@@ -750,6 +750,7 @@
 }
 .cmplz-dismiss {
   opacity: 0;
+  display: none;
 }
 .cmplz-animation-fade {
   -webkit-animation: fadeIn 1s;

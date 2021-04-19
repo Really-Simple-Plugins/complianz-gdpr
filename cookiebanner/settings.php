@@ -253,7 +253,6 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'    => 'appearance',
                 'type'    => 'checkbox',
                 'label'   => __( "Box shadow", 'complianz-gdpr' ),
-                'default' => true,
             ),
 
             /* ----- Customization ----- */
