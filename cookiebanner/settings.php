@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 			'border_color' => '#21759b',
 			'theme' => 'minimal',
 		),
+
 		//keep this one
 		'tcf' => array(
 			'colorpalette_background' => array(
@@ -551,7 +552,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'               => 'text',
 				'default'            => __( "Accept all", 'complianz-gdpr' ),
 				'label'              => __( "Accept all", 'complianz-gdpr' ),
-        'placeholder'        => __( "Accept all", 'complianz-gdpr' ),
+                'placeholder'        => __( "Accept all", 'complianz-gdpr' ),
 				'callback_condition' => 'cmplz_uses_optin',
                 'condition'          => array(
                     'type'           => 'NOT optout',
@@ -565,7 +566,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'               => 'text',
 				'default'            => __( "Accept", 'complianz-gdpr' ),
 				'label'              => __( "Accept", 'complianz-gdpr' ),
-        'placeholder'        => __( "Accept", 'complianz-gdpr' ),
+                'placeholder'        => __( "Accept", 'complianz-gdpr' ),
 				'callback_condition' => 'cmplz_uses_optin',
 				'condition'          => array(
 				    'use_categories' => 'no',
@@ -578,8 +579,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'source'             => 'CMPLZ_COOKIEBANNER',
                 'type'               => 'text',
                 'default'            => __( "Dismiss", 'complianz-gdpr' ),
-                'label'              => __( "Dismiss cookies text",
-                    'complianz-gdpr' ),
+                'label'              => __( "Dismiss cookies text", 'complianz-gdpr' ),
                 'placeholder'        => __( "Dismiss", 'complianz-gdpr' ),
 
                 'help'               => __( 'This button will reject all cookies, and will dismiss the cookie banner. Only functional/necessary cookies will be allowed.',

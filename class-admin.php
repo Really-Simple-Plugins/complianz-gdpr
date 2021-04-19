@@ -619,7 +619,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 							if ( $banner->use_categories === 'no' || $optout_only ) {
 								$banner->colorpalette_button_accept['background']   = empty($result->button_background_color) ? '#21759b' : $result->button_background_color;
-								$banner->colorpalette_button_accept['border']       = empty($result->button_background_color) ? '#21759b' : $result->button_background_color;
+								$banner->colorpalette_button_accept['border']       = empty($result->border_color) ? '#21759b' : $result->border_color;
 								$banner->colorpalette_button_accept['text']         = empty($result->button_text_color) ? '#ffffff' : $result->button_text_color;
 							} else {
 								$banner->colorpalette_button_accept['background']   = empty($result->accept_all_background_color) ? '#21759b' : $result->accept_all_background_color;
@@ -629,8 +629,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							$banner->colorpalette_button_deny['background']     = empty($result->functional_background_color) ? '#f1f1f1' : $result->functional_background_color;
 							$banner->colorpalette_button_deny['border']         = empty($result->functional_border_color) ? '#f1f1f1' : $result->functional_border_color;
 							$banner->colorpalette_button_deny['text']           = empty($result->functional_text_color) ? '#21759b' : $result->functional_text_color;
+
 							$banner->colorpalette_button_settings['background'] = empty($result->button_background_color) ? '#f1f1f1' : $result->button_background_color;
-							$banner->colorpalette_button_settings['border']     = empty($result->functional_border_color) ? '#21759b' : $result->functional_border_color;
+							$banner->colorpalette_button_settings['border']     = empty($result->border_color) ? '#21759b' : $result->border_color;
 							$banner->colorpalette_button_settings['text']       = empty($result->button_text_color) ? '#21759b' : $result->button_text_color;
 							if ($banner->theme === 'edgeless') {
 								$banner->buttons_border_radius = array(
