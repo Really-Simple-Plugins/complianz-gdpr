@@ -230,7 +230,7 @@ $this->fields = $this->fields + array(
 			'type'    => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
-			'disabled' => true,
+			'disabled' => array('yes'),
 			'comment'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
 		),
 

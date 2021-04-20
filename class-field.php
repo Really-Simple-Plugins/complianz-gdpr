@@ -855,27 +855,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $options   = $args['options'];
             $required = $args['required'] ? 'required' : '';
             $check_icon = cmplz_icon('bullet', 'success');
-            $disabled_index = array();
-            $default_index = array();
-
-            if ( ! empty( $options ) ) {
-                // Disabled index
-                foreach ($options as $option_value => $option_label) {
-                    if ( is_array($args['disabled']) && in_array($option_value, $args['disabled']) || $args['disabled'] === true ) {
-                        $disabled_index[$option_value] = 'cmplz-disabled';
-                    } else {
-                        $disabled_index[$option_value] = '';
-                    }
-                }
-                // Default index
-                foreach ($options as $option_value => $option_label) {
-                    if ( is_array($args['default']) && in_array($option_value, $args['default']) ) {
-                        $default_index[$option_value] = 'cmplz-default';
-                    } else {
-                        $default_index[$option_value] = '';
-                    }
-                }
-            }
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -885,10 +864,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
             if ( ! empty( $options ) ) {
                 foreach ( $options as $option_value => $option_label )
                 {
-                    if ($disabled_index[$option_value] === 'cmplz-disabled') {
-                        echo '<div class="cmplz-not-allowed">';
-                    } ?>
-                    <label class="cmplz-radio-container <?php echo $disabled_index[$option_value] ?>"><?php echo esc_html( $option_label ) ?>
+					$disabled = $default = '';
+					if ( is_array($args['disabled']) && in_array($option_value, $args['disabled']) || $args['disabled'] === true ) {
+						$disabled = 'disabled';
+					}
+					if ( is_array($args['default']) && in_array($option_value, $args['default']) ) {
+						$default = 'cmplz-default';
+					}
+                	?>
+                    <label class="cmplz-radio-container <?php echo $disabled ?>"><?php echo esc_html( $option_label ) ?>
                         <input
                             <?php echo $required ?>
                                 type="radio"
@@ -898,13 +882,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 value="<?php echo esc_html( $option_value ) ?>"
                             <?php if ( $value == $option_value ) echo "checked" ?>
                         >
-                        <div class="radiobtn <?php echo $default_index[$option_value] ?>"
+                        <div class="radiobtn <?php echo $default ?> <?php echo $disabled ?>"
                             <?php echo $required ?>
                         ><?php echo $check_icon ?></div>
                     </label>
-                    <?php if ($disabled_index[$option_value] === 'cmplz-disabled') {
-                        echo '</div>'; // class="cmplz-not-allowed"
-                    }
+					<?php
                 }
             }
             ?>
@@ -921,8 +903,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			$fieldname = 'cmplz_' . $args['fieldname'];
 			$value     = $this->get_value( $args['fieldname'], $args['default'] );
-
-			$disabled = $args['disabled'] ? 'cmplz-disabled' : '';
             $required = $args['required'] ? 'required' : '';
 
             // Checked

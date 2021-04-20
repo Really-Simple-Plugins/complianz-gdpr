@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-04-19 14:11+0200\n"
-"PO-Revision-Date: 2021-04-19 14:11+0200\n"
+"POT-Creation-Date: 2021-04-19 15:24+0200\n"
+"PO-Revision-Date: 2021-04-19 15:24+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -390,8 +390,7 @@ msgstr ""
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:1107 integrations/TGM/class-tgm-plugin-activation.php:2809
-#: templates/dashboard/documents.php:82
+#: class-admin.php:1107 templates/dashboard/documents.php:82
 msgid "Install"
 msgstr ""
 
@@ -4619,447 +4618,11 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: integrations/TGM/class-tgm-plugin-activation.php:334
-msgid "Install Required Plugins"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:335
-msgid "Install Plugins"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:337
-#, php-format
-msgid "Installing Plugin: %s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:339
-#, php-format
-msgid "Updating Plugin: %s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:340
-msgid "Something went wrong with the plugin API."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:343
-#, php-format
-msgid "This theme requires the following plugin: %1$s."
-msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:349
-#, php-format
-msgid "This plugin recommends the following plugin: %1$s."
-msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:355
-#, php-format
-msgid ""
-"The following plugin needs to be updated to its latest version to ensure "
-"maximum compatibility with this theme: %1$s."
-msgid_plural ""
-"The following plugins need to be updated to their latest version to ensure "
-"maximum compatibility with this theme: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:361
-#, php-format
-msgid "There is an update available for: %1$s."
-msgid_plural "There are updates available for the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:367
-#, php-format
-msgid "The following required plugin is currently inactive: %1$s."
-msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:373
-#, php-format
-msgid "The following recommended plugin is currently inactive: %1$s."
-msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:378
-msgid "Begin installing plugin"
-msgid_plural "Begin installing plugins"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:383
-msgid "Begin updating plugin"
-msgid_plural "Begin updating plugins"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:388
-msgid "Begin activating plugin"
-msgid_plural "Begin activating plugins"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:392
-msgid "Return to Required Plugins Installer"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:393
-#: integrations/TGM/class-tgm-plugin-activation.php:920
-#: integrations/TGM/class-tgm-plugin-activation.php:2625
-#: integrations/TGM/class-tgm-plugin-activation.php:3672
-msgid "Return to the Dashboard"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:394
-#: integrations/TGM/class-tgm-plugin-activation.php:3251
-msgid "Plugin activated successfully."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:395
-#: integrations/TGM/class-tgm-plugin-activation.php:3044
-msgid "The following plugin was activated successfully:"
-msgid_plural "The following plugins were activated successfully:"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:397
-#, php-format
-msgid "No action taken. Plugin %1$s was already active."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:399
-#, php-format
-msgid ""
-"Plugin not activated. A higher version of %s is needed for this theme. "
-"Please update the plugin."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:401
-#, php-format
-msgid "All plugins installed and activated successfully. %1$s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:402
-msgid "Dismiss this notice"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:403
-msgid ""
-"There are one or more required or recommended plugins to install, update or "
-"activate."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:404
-msgid "Please contact the administrator of this site for help."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:607
-msgid "This plugin needs to be updated to be compatible with your theme."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:608
-msgid "Update Required"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:725
-msgid "Set the parent_slug config variable instead."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:1027
-msgid ""
-"The remote plugin package does not contain a folder with the desired slug "
-"and renaming did not work."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:1027
-#: integrations/TGM/class-tgm-plugin-activation.php:1030
-msgid ""
-"Please contact the plugin provider and ask them to package their plugin "
-"according to the WordPress guidelines."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:1030
-msgid ""
-"The remote plugin package consists of more than one file, but the files are "
-"not packaged in a folder."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:1214
-#: integrations/TGM/class-tgm-plugin-activation.php:3040
-msgctxt "plugin A *and* plugin B"
-msgid "and"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2074
-#, php-format
-msgid "TGMPA v%s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2365
-msgid "Required"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2368
-msgid "Recommended"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2384
-msgid "WordPress Repository"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2387
-msgid "External Source"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2390
-msgid "Pre-Packaged"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2407
-msgid "Not Installed"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2411
-msgid "Installed But Not Activated"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2413
-msgid "Active"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2419
-msgid "Required Update not Available"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2422
-msgid "Requires Update"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2425
-msgid "Update recommended"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2434
-#, php-format
-msgctxt "Install/Update Status"
-msgid "%1$s, %2$s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2480
-#, php-format
-msgctxt "plugins"
-msgid "All <span class=\"count\">(%s)</span>"
-msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2484
-#, php-format
-msgid "To Install <span class=\"count\">(%s)</span>"
-msgid_plural "To Install <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2488
-#, php-format
-msgid "Update Available <span class=\"count\">(%s)</span>"
-msgid_plural "Update Available <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2492
-#, php-format
-msgid "To Activate <span class=\"count\">(%s)</span>"
-msgid_plural "To Activate <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2574
-msgctxt "as in: \"version nr unknown\""
-msgid "unknown"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2582
-msgid "Installed version:"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2590
-msgid "Minimum required version:"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2602
-msgid "Available version:"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2625
-msgid "No plugins to install, update or activate."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2639
-msgid "Plugin"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2640
-msgid "Source"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2641
-msgid "Type"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2645
-msgid "Version"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2646
-msgid "Status"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2695
-#, php-format
-msgid "Install %2$s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2700
-#, php-format
-msgid "Update %2$s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2706
-#, php-format
-msgid "Activate %2$s"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2776
-msgid "Upgrade message from the plugin author:"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2815
-msgid "Update"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2818
-msgid "Activate"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2849
-msgid "No plugins were selected to be installed. No action taken."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2851
-msgid "No plugins were selected to be updated. No action taken."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2892
-msgid "No plugins are available to be installed at this time."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:2894
-msgid "No plugins are available to be updated at this time."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3000
-msgid "No plugins were selected to be activated. No action taken."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3026
-msgid "No plugins are available to be activated at this time."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3250
-msgid "Plugin activation failed."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3590
-#, php-format
-msgid "Updating Plugin %1$s (%2$d/%3$d)"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3593
-#, php-format
-msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3595
-#, php-format
-msgid "The installation of %1$s failed."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3599
-msgid ""
-"The installation and activation process is starting. This process may take a "
-"while on some hosts, so please be patient."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3601
-#, php-format
-msgid "%1$s installed and activated successfully."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3601
-#: integrations/TGM/class-tgm-plugin-activation.php:3609
-msgid "Show Details"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3601
-#: integrations/TGM/class-tgm-plugin-activation.php:3609
-msgid "Hide Details"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3602
-msgid "All installations and activations have been completed."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3604
-#, php-format
-msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3607
-msgid ""
-"The installation process is starting. This process may take a while on some "
-"hosts, so please be patient."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3609
-#, php-format
-msgid "%1$s installed successfully."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3610
-msgid "All installations have been completed."
-msgstr ""
-
-#: integrations/TGM/class-tgm-plugin-activation.php:3612
-#, php-format
-msgid "Installing Plugin %1$s (%2$d/%3$d)"
-msgstr ""
-
-#: integrations/TGM/required.php:138
-#, php-format
-msgid "Complianz GDPR/CCPA recommends to activate the following plugin: %1$s."
-msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
-#: integrations/TGM/required.php:144
-#, php-format
-msgid "Complianz GDPR/CCPA recommends the following plugin: %1$s."
-msgid_plural "Complianz GDPR/CCPA recommends the following plugins: %1$s."
-msgstr[0] ""
-msgstr[1] ""
-
 #: integrations/integrations-menu.php:27
 msgid "Services"
 msgstr ""
 
-#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1096
+#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1097
 #: pro/config/steps.php:106
 msgid "Plugins"
 msgstr ""
@@ -6220,7 +5783,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:179
 #: pro/config/UK/questions-processing.php:179
 #: pro/config/US/questions-processing.php:179
-#: pro/config/questions-wizard.php:739
+#: pro/config/questions-wizard.php:740
 msgid "Username and Password"
 msgstr ""
 
@@ -6228,7 +5791,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:180
 #: pro/config/UK/questions-processing.php:180
 #: pro/config/US/questions-processing.php:180
-#: pro/config/questions-wizard.php:740
+#: pro/config/questions-wizard.php:741
 msgid "DNSSEC"
 msgstr ""
 
@@ -6236,7 +5799,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:181
 #: pro/config/UK/questions-processing.php:181
 #: pro/config/US/questions-processing.php:181
-#: pro/config/questions-wizard.php:741
+#: pro/config/questions-wizard.php:742
 msgid "TLS / SSL"
 msgstr ""
 
@@ -6244,7 +5807,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:182
 #: pro/config/UK/questions-processing.php:182
 #: pro/config/US/questions-processing.php:182
-#: pro/config/questions-wizard.php:742
+#: pro/config/questions-wizard.php:743
 msgid "DKIM, SPF en DMARC"
 msgstr ""
 
@@ -6252,7 +5815,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:183
 #: pro/config/UK/questions-processing.php:183
 #: pro/config/US/questions-processing.php:183
-#: pro/config/questions-wizard.php:743
+#: pro/config/questions-wizard.php:744
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 
@@ -6260,7 +5823,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:184
 #: pro/config/UK/questions-processing.php:184
 #: pro/config/US/questions-processing.php:184
-#: pro/config/questions-wizard.php:744
+#: pro/config/questions-wizard.php:745
 msgid "Security software"
 msgstr ""
 
@@ -6268,7 +5831,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:185
 #: pro/config/UK/questions-processing.php:185
 #: pro/config/US/questions-processing.php:185
-#: pro/config/questions-wizard.php:745
+#: pro/config/questions-wizard.php:746
 msgid "ISO27001/27002 certified"
 msgstr ""
 
@@ -6276,7 +5839,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:193
 #: pro/config/UK/questions-processing.php:193
 #: pro/config/US/questions-processing.php:193
-#: pro/config/questions-wizard.php:753
+#: pro/config/questions-wizard.php:754
 msgid "STARTTLS and DANE"
 msgstr ""
 
@@ -10019,12 +9582,12 @@ msgid ""
 "the past 12 months"
 msgstr ""
 
-#: pro/config/questions-wizard.php:687
+#: pro/config/questions-wizard.php:688
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 
-#: pro/config/questions-wizard.php:693
+#: pro/config/questions-wizard.php:694
 msgid ""
 "You have answered that you use webforms on your site. Not every form that "
 "collects personal data requires a checkbox. It isn’t required if the only "
@@ -10035,127 +9598,127 @@ msgid ""
 "form editor."
 msgstr ""
 
-#: pro/config/questions-wizard.php:704
+#: pro/config/questions-wizard.php:705
 msgid "Does your website contain or process sensitive (personal) information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:708
+#: pro/config/questions-wizard.php:709
 msgid ""
 "Sensitive personal information is considered to data that is very likely to "
 "have a greater impact on Privacy. For example medical, religious or legal "
 "information."
 msgstr ""
 
-#: pro/config/questions-wizard.php:720
+#: pro/config/questions-wizard.php:721
 msgid ""
 "Do you want to provide a detailed list of security measures in your Privacy "
 "Statement?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:722
+#: pro/config/questions-wizard.php:723
 msgid "No, provide a general explanation"
 msgstr ""
 
-#: pro/config/questions-wizard.php:723
+#: pro/config/questions-wizard.php:724
 msgid "Yes, we will list our security measures"
 msgstr ""
 
-#: pro/config/questions-wizard.php:737
+#: pro/config/questions-wizard.php:738
 msgid "Which security measures did you take?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:757
+#: pro/config/questions-wizard.php:758
 #, php-format
 msgid ""
 "Quickly want to implement most of these security headers? Check out %sReally "
 "Simple SSL Pro%s."
 msgstr ""
 
-#: pro/config/questions-wizard.php:771
+#: pro/config/questions-wizard.php:772
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:783
+#: pro/config/questions-wizard.php:784
 msgid "https://your-terms-page.com"
 msgstr ""
 
-#: pro/config/questions-wizard.php:788
+#: pro/config/questions-wizard.php:789
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:789 pro/config/questions-wizard.php:1032
+#: pro/config/questions-wizard.php:790 pro/config/questions-wizard.php:1033
 #, php-format
 msgid "Also see our free %sTerms & Conditions%s plugin"
 msgstr ""
 
-#: pro/config/questions-wizard.php:796
+#: pro/config/questions-wizard.php:797
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
 
-#: pro/config/questions-wizard.php:806
+#: pro/config/questions-wizard.php:807
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:822
+#: pro/config/questions-wizard.php:823
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:824
+#: pro/config/questions-wizard.php:825
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: pro/config/questions-wizard.php:825
+#: pro/config/questions-wizard.php:826
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: pro/config/questions-wizard.php:826
+#: pro/config/questions-wizard.php:827
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: pro/config/questions-wizard.php:842
+#: pro/config/questions-wizard.php:843
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:860
+#: pro/config/questions-wizard.php:861
 msgid "What is the name of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:878
+#: pro/config/questions-wizard.php:879
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:896
+#: pro/config/questions-wizard.php:897
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:898
+#: pro/config/questions-wizard.php:899
 msgid "Registration"
 msgstr ""
 
-#: pro/config/questions-wizard.php:899
+#: pro/config/questions-wizard.php:900
 msgid "Content created by a child and publicly shared"
 msgstr ""
 
-#: pro/config/questions-wizard.php:900
+#: pro/config/questions-wizard.php:901
 msgid "Chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:901
+#: pro/config/questions-wizard.php:902
 msgid "Email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:917
+#: pro/config/questions-wizard.php:918
 #, php-format
 msgid ""
 "You have indicated that your website is not included in a COPPA Safe Harbor "
@@ -10163,124 +9726,124 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:934
+#: pro/config/questions-wizard.php:935
 msgid "Information collected for registration "
 msgstr ""
 
-#: pro/config/questions-wizard.php:953
+#: pro/config/questions-wizard.php:954
 msgid "Information collected for content created by a child"
 msgstr ""
 
-#: pro/config/questions-wizard.php:972
+#: pro/config/questions-wizard.php:973
 msgid "Information collected for chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:991
+#: pro/config/questions-wizard.php:992
 msgid "Information collected for email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1012
+#: pro/config/questions-wizard.php:1013
 msgid "Which themes would you like to include in your Disclaimer?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1014
+#: pro/config/questions-wizard.php:1015
 msgid "Liability"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1015
+#: pro/config/questions-wizard.php:1016
 msgid "Reference to terms of use"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1016
+#: pro/config/questions-wizard.php:1017
 msgid "How you will answer inquiries"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1017
+#: pro/config/questions-wizard.php:1018
 msgid "Privacy and reference to the privacy statement"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1018
+#: pro/config/questions-wizard.php:1019
 msgid "Not liable when security is breached"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1019
+#: pro/config/questions-wizard.php:1020
 msgid "Not liable for third-party content"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1020
+#: pro/config/questions-wizard.php:1021
 msgid "Accessibility of the website for the disabled"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1031
+#: pro/config/questions-wizard.php:1032
 msgid "What is the URL of the Terms of Use?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1044
+#: pro/config/questions-wizard.php:1045
 msgid "Is your website built according to WCAG 2.1 level AA guidelines?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1060
+#: pro/config/questions-wizard.php:1061
 msgid "Who made the content of the website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1062
+#: pro/config/questions-wizard.php:1063
 msgid "The content is being developed by ourselves"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1063
+#: pro/config/questions-wizard.php:1064
 msgid "The content is being developed or posted by Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1064
+#: pro/config/questions-wizard.php:1065
 msgid "The content is being developed by ourselves and other parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1077
+#: pro/config/questions-wizard.php:1078
 msgid "What do you want to do with any intellectual property claims?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1079
+#: pro/config/questions-wizard.php:1080
 msgid "All rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1080
+#: pro/config/questions-wizard.php:1081
 msgid "No rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1081
+#: pro/config/questions-wizard.php:1082
 msgid "Creative Commons - Attribution"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1082
+#: pro/config/questions-wizard.php:1083
 msgid "Creative Commons - Share a like"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1083
+#: pro/config/questions-wizard.php:1084
 msgid "Creative Commons - No derivatives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1084
+#: pro/config/questions-wizard.php:1085
 msgid "Creative Commons - Noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1085
+#: pro/config/questions-wizard.php:1086
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1088
+#: pro/config/questions-wizard.php:1089
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
 "legally and to share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1103
+#: pro/config/questions-wizard.php:1104
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1112
+#: pro/config/questions-wizard.php:1113
 msgid "Annex of your Privacy Statement"
 msgstr ""
 
