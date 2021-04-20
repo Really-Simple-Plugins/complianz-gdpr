@@ -107,16 +107,11 @@ function cmplz_gtm4wp_options() {
  */
 
 function cmplz_gtm4wp_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'gtm-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset($warnings['gtm-needs-configuring']);
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_gtm4wp_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_gtm4wp_filter_warnings' );
 
 /**
  * Hide the stats configuration options when gtm4wp is enabled.

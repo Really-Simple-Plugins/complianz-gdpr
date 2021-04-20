@@ -827,7 +827,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'include_in_progress' => false,
 				);
 
-				$warning_types = apply_filters( 'cmplz_warnings_types', COMPLIANZ::$config->warning_types );
+				$warning_types = COMPLIANZ::$config->warning_types;
 				foreach ($warning_types as $id => $warning_type) {
 					$warning_types[$id] = wp_parse_args($warning_type, $warning_type_defaults );
 				}

@@ -165,14 +165,9 @@ add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_pro_filter_fields' );
  */
 
 function cmplz_wc_google_analytics_pro_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset($warnings['ga-needs-configuring']);
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_wc_google_analytics_pro_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_wc_google_analytics_pro_filter_warnings' );
 

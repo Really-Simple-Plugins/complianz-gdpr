@@ -448,7 +448,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'plus_one' => true,
 				),
 				'wizard-incomplete'  => array(
-					//'warning_condition' => 'wizard->wizard_completed_once',
 					'success_conditions'  => array(
 						'wizard->all_required_fields_completed_wizard'
 					),

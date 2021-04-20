@@ -123,16 +123,11 @@ add_filter( 'cmplz_fields', 'cmplz_monsterinsights_filter_fields' );
  */
 
 function cmplz_monsterinsights_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_monsterinsights_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_monsterinsights_filter_warnings' );
 
 /**
  * Make sure Monsterinsights returns true for anonymize IP's when this option is selected in the wizard

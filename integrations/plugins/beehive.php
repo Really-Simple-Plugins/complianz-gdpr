@@ -74,16 +74,11 @@ function cmplz_beehive_options( $options, $network ) {
  */
 
 function cmplz_beehive_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_beehive_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_beehive_filter_warnings' );
 
 /**
  * Hide the stats configuration options when Beehive is enabled.

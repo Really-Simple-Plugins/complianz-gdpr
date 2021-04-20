@@ -40,21 +40,11 @@ add_filter( 'exactmetrics_get_option', 'cmplz_gadwp_options' , 10, 3 );
  */
 
 function cmplz_gadwp_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-	if ( ( $key = array_search( 'gtm-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
+	unset( $warnings[ 'gtm-needs-configuring' ] );
 	return $warnings;
 }
-
-add_filter( 'cmplz_warnings', 'cmplz_gadwp_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_gadwp_filter_warnings' );
 
 /**
  * Hide the stats configuration options when gadwp is enabled.
