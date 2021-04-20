@@ -3,26 +3,35 @@ $docs = array(
 	'privacy-statement' => array(
 		'title' => __("Privacy Statements", "complianz-gdpr"),
 		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement/'
 	),
 	'cookie-statement' => array(
 		'title' => __("Cookie Policy", 'complianz-gdpr'),
 		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'read-more' => ' https://complianz.io/definition/what-is-a-cookie-policy/',
 	),
 	'impressum' => array(
 		'title' => __("Impressum", 'complianz-gdpr'),
 		'regions' => array('eu'),
+		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
+
 	),
 	'do-not-sell-my-info' => array(
 		'title' => __("Do Not Sell My Personal Information", 'complianz-gdpr'),
 		'regions' => array('us'),
+		'read-more' => 'https://complianz.io/definition/what-is-do-not-sell-my-personal-information/',
+
 	),
 	'privacy-statement-for-children' => array(
 		'title' => __("Privacy Statement for Children", 'complianz-gdpr'),
 		'regions' => array('us', 'uk', 'ca'),
+		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement-for-children/',
+
 	),
 	'disclaimer' => array(
 		'title' => __("Disclaimer", 'complianz-gdpr'),
 		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
 	),
 );
 
@@ -36,7 +45,7 @@ foreach ($docs as $index => $doc) {
 			'page_exists' => '',
 			'sync_icon' => cmplz_icon( 'sync', 'disabled' ),
 			'shortcode_icon' => cmplz_icon( 'shortcode', 'disabled' ),
-			'generated' => '<a href="https://complianz.io" target="_blank" class="cmplz-premium">'.__("Premium","complianz-gdpr").'</a>',
+			'generated' => '<a href="'.$doc['read-more'].'" target="_blank" class="cmplz-premium">'.__("Read more","complianz-gdpr").'</a>',
 		);
 		echo cmplz_get_template('dashboard/documents-row.php', $args);
 	}
@@ -70,7 +79,7 @@ foreach ($docs as $key => $doc) {
 			'page_exists' => $flag_1,
 			'sync_icon' => $flag_2,
 			'shortcode_icon' => $flag_3,
-			'generated' => '<a href="https://complianz.io" target="_blank" class="cmplz-premium">'.__("Premium","complianz-gdpr").'</a>',
+			'generated' => '<a href="'.$doc['read-more'].'" target="_blank" class="cmplz-premium">'.__("Read more","complianz-gdpr").'</a>',
 		);
 		echo cmplz_get_template('dashboard/documents-row.php', $args);
 	}

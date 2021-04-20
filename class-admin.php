@@ -604,7 +604,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 						if ( $result ) {
 							$banner->colorpalette_background['color']           = empty($result->popup_background_color) ? '#f1f1f1' : $result->popup_background_color;
-							$banner->colorpalette_background['border']          = empty($result->border_color) ? '#f1f1f1' : $result->border_color;
+							$banner->colorpalette_background['border']          = empty($result->popup_background_color) ? '#f1f1f1' : $result->popup_background_color;
 							$banner->colorpalette_text['color']                 = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
 							$banner->colorpalette_text['hyperlink']             = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
 							$banner->colorpalette_toggles['background']         = empty($result->slider_background_color) ? '#21759b' : $result->slider_background_color;
