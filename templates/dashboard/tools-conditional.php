@@ -5,8 +5,8 @@
 		<span><?php _e( "Priority Support", 'complianz-gdpr' ); ?></span>
 	</div>
 	<div>
-		<a target="_blank" href="https://complianz.io/support/#priority" class="cmplz-premium">
-			<?php _e( 'Read more', 'complianz-gdpr' ) ?>
+		<a target="_blank" href="https://complianz.io" class="cmplz-premium">
+			<?php _e( 'Premium', 'complianz-gdpr' ) ?>
 		</a>
 	</div>
 </div>
@@ -15,8 +15,8 @@
 		<?php _e( "Create Processing Agreements", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
-		<a target="_blank" href="https://complianz.io/definition/what-is-a-processing-agreement/" class="cmplz-premium">
-			<?php _e( 'Read more', 'complianz-gdpr' ) ?>
+		<a target="_blank" href="https://complianz.io" class="cmplz-premium">
+			<?php _e( 'Premium', 'complianz-gdpr' ) ?>
 		</a>
 	</div>
 </div>
@@ -25,8 +25,8 @@
 		<?php _e( "Create a Data Leak Inventory", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
-		<a target="_blank" href="https://complianz.io/definition/what-is-a-data-breach/" class="cmplz-premium">
-			<?php _e( 'Read more', 'complianz-gdpr' ) ?>
+		<a target="_blank" href="https://complianz.io" class="cmplz-premium">
+			<?php _e( 'Premium', 'complianz-gdpr' ) ?>
 		</a>
 	</div>
 </div>
@@ -35,8 +35,8 @@
 		<?php _e( "Create A/B Tests", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
-		<a target="_blank" href="https://complianz.io/definition/a-quick-introduction-to-a-b-testing/" class="cmplz-premium">
-			<?php _e( 'Read more', 'complianz-gdpr' ) ?>
+		<a target="_blank" href="https://complianz.io" class="cmplz-premium">
+			<?php _e( 'Premium', 'complianz-gdpr' ) ?>
 		</a>
 	</div>
 </div>
