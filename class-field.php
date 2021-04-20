@@ -809,10 +809,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			<?php if ( ! empty( $args['options'] ) ) {
                 foreach ($args['options'] as $option_key => $option_label)
-                {
-                    if ($disabled_index[$option_key] === 'cmplz-disabled') {
-                        echo '<div class="cmplz-not-allowed">';
-                    } ?>
+                { ?>
                     <label class="cmplz-checkbox-container <?php echo $disabled_index[$option_key] ?>"><?php echo esc_html( $option_label ) ?>
                         <input
                             name="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
@@ -831,9 +828,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <?php echo $value_index[$option_key] ?>
                         ><?php echo $check_icon ?></div>
                     </label>
-                <?php if ($disabled_index[$option_key] === 'cmplz-disabled') {
-                        echo '</div>'; // class="cmplz-not-allowed"
-                    }
+                <?php
                 }
 			} else {
 				cmplz_notice( __( 'No options found', 'complianz-gdpr' ) );
@@ -850,11 +845,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 return;
             }
 
-            $fieldname = 'cmplz_' . $args['fieldname'];
-            $value     = $this->get_value( $args['fieldname'], $args['default'] );
-            $options   = $args['options'];
-            $required = $args['required'] ? 'required' : '';
-            $check_icon = cmplz_icon('bullet', 'success');
+			$fieldname     = 'cmplz_' . $args['fieldname'];
+			$value         = $this->get_value( $args['fieldname'], $args['default'] );
+			$default_value = $this->get_default( $args['fieldname'], $args['default'] );
+			$options       = $args['options'];
+			$required      = $args['required'] ? 'required' : '';
+			$check_icon    = cmplz_icon( 'bullet', 'success');
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -864,11 +860,11 @@ if ( ! class_exists( "cmplz_field" ) ) {
             if ( ! empty( $options ) ) {
                 foreach ( $options as $option_value => $option_label )
                 {
-					$disabled = $default = '';
+					$disabled = $default_class = '';
 					if ( is_array($args['disabled']) && in_array($option_value, $args['disabled']) || $args['disabled'] === true ) {
 						$disabled = 'disabled';
 					}
-					if ( is_array($args['default']) && in_array($option_value, $args['default']) ) {
+					if ( $default_value === $option_value ) {
 						$default = 'cmplz-default';
 					}
                 	?>
@@ -2209,6 +2205,18 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php
 
 		}
+		/**
+		 * Get value of this fieldname
+		 *
+		 * @param        $fieldname
+		 * @param string $default
+		 *
+		 * @return mixed
+		 */
+
+		public function get_default( $fieldname, $default = '' ) {
+			return apply_filters( 'cmplz_default_value', $default, $fieldname );
+		}
 
 		/**
 		 * Get value of this fieldname
@@ -2246,9 +2254,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					? $options[ $fieldname ] : false;
 			}
 
-			//if no value isset, pass a default
-			$value = ( $value !== false ) ? $value
-				: apply_filters( 'cmplz_default_value', $default, $fieldname );
+			//if no value is set, pass a default
+			$value = ( $value !== false ) ? $value : apply_filters( 'cmplz_default_value', $default, $fieldname );
 
 			return $value;
 		}
