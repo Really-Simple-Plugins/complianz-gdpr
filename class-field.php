@@ -847,7 +847,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			$fieldname     = 'cmplz_' . $args['fieldname'];
 			$value         = $this->get_value( $args['fieldname'], $args['default'] );
-			$default_value = $this->get_default( $args['fieldname'], $args['default'] );
 			$options       = $args['options'];
 			$required      = $args['required'] ? 'required' : '';
 			$check_icon    = cmplz_icon( 'bullet', 'success');
@@ -864,9 +863,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					if ( is_array($args['disabled']) && in_array($option_value, $args['disabled']) || $args['disabled'] === true ) {
 						$disabled = 'disabled';
 					}
-					if ( $default_value === $option_value ) {
-						$default = 'cmplz-default';
-					}
+
                 	?>
                     <label class="cmplz-radio-container <?php echo $disabled ?>"><?php echo esc_html( $option_label ) ?>
                         <input
@@ -878,7 +875,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 value="<?php echo esc_html( $option_value ) ?>"
                             <?php if ( $value == $option_value ) echo "checked" ?>
                         >
-                        <div class="radiobtn <?php echo $default ?> <?php echo $disabled ?>"
+                        <div class="radiobtn <?php echo $disabled ?>"
                             <?php echo $required ?>
                         ><?php echo $check_icon ?></div>
                     </label>
