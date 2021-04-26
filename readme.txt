@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
