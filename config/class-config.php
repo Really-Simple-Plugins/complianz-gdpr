@@ -609,14 +609,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 						'cookie_admin->site_needs_cookie_warning',
 					),
 					'completed' => __( 'Your site requires a cookie banner, which has been enabled.', 'complianz-gdpr' ),
-					'include_in_progress' => true,
-				),
-
-				'cookie-banner-not-enabled' => array(
-					'warning_condition' => 'wizard->wizard_completed_once',
-					'success_conditions'  => array(
-						'NOT cookie_admin->site_needs_cookie_warning',
-					),
 					'open' => __( 'Your site does not require a cookie banner.', 'complianz-gdpr' ),
 					'include_in_progress' => true,
 				),
