@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -115,6 +115,19 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.0.1 =
+* Fix: Exclude RSS feed from cookie blocker.
+* CSS: save button to primary on license
+* Improvement: tips & tricks not translatable
+* Fix: CSS styles for cookies shortcode
+* Fix: since 5.0 UK could not set the categories type separately
+* Fix: preview of categories automatically hidden after timeout
+* Fix: upgrade integrations notices to 5.0 style
+* Improvement: when cookie banner isn't necessary, show "open" notice instead of "completed"
+* Fix: on duplicate cookies cleanup, do not delete cookies when from different services
+* Fix: Processing field for 'other' option, linked textfield wasn't shown when selected
+* Fix: feedback on settings saved responsive and multilanguage proof
+
 = 5.0.0 =
 * New: Animations/Customizations for the Cookie Banner
 * New: Integrations for 10+ plugins and services
@@ -123,7 +136,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: Adjustments for CNIL Guidelines
 * Improvement: Elementor integration improved
 * Improvement: Integration with Terms & Conditions
-
 
 = 4.9.12 =
 * Legal: ending delimiter in clicky recognition regex
