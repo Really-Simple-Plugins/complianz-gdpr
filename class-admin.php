@@ -752,7 +752,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'admin_url'    => admin_url( 'admin-ajax.php' ),
 					'progress'     => $progress,
 					'syncProgress' => $sync_progress,
-					'saved_message' => __("Saved successfully", "complianz-gdpr"),
 				)
 			);
 		}

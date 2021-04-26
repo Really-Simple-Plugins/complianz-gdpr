@@ -53,9 +53,9 @@
 }
 #cmplz-content-area .cmplz-wizard-title .cmplz-save-settings {
   display: none;
-  color: #D7263D;
-  font-weight: normal;
-  font-size: 12px;
+}
+#cmplz-content-area .cmplz-wizard-title .cmplz-save-settings svg path {
+  fill: #D7263D;
 }
 #cmplz-content-area .cmplz-wizard-title.cmplz-section-content-notifications-header {
   border-bottom: 1px solid #dedede;
@@ -255,7 +255,12 @@
   min-width: 100px;
   text-align: center;
   height: 30px;
-  margin: 5px 0;
+  margin: 0 0;
+}
+#cmplz-content-area .cmplz-section-content .cmplz-scroll .button.button-cmplz-tertiary {
+  background-color: #D7263D;
+  color: #fff;
+  border-color: #D7263D;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .upload_button {
   margin-right: 15px;
@@ -529,59 +534,83 @@
   /* Text, Email, Select(2), Textarea Style */
   /* Placeholders */
 }
-#cmplz-wizard .cmplz-icon,
-#cmplz-settings .cmplz-icon {
+#cmplz-wizard .cmplz-field .cmplz-icon,
+#cmplz-settings .cmplz-field .cmplz-icon,
+#cmplz-wizard .cmplz-step .cmplz-icon,
+#cmplz-settings .cmplz-step .cmplz-icon {
   border-radius: 50%;
 }
-#cmplz-wizard .cmplz-icon.dashicons-before:before,
-#cmplz-settings .cmplz-icon.dashicons-before:before {
+#cmplz-wizard .cmplz-field .cmplz-icon.dashicons-before:before,
+#cmplz-settings .cmplz-field .cmplz-icon.dashicons-before:before,
+#cmplz-wizard .cmplz-step .cmplz-icon.dashicons-before:before,
+#cmplz-settings .cmplz-step .cmplz-icon.dashicons-before:before {
   font-size: 18px;
   height: 20px;
   width: 20px;
   margin-top: 2px;
 }
-#cmplz-wizard .cmplz-icon.cmplz-empty,
-#cmplz-settings .cmplz-icon.cmplz-empty {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-empty,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-empty,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-empty,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-empty {
   visibility: hidden;
 }
-#cmplz-wizard .cmplz-icon.cmplz-success,
-#cmplz-settings .cmplz-icon.cmplz-success {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-success,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-success,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-success,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-success {
   color: #333;
 }
-#cmplz-wizard .cmplz-icon.cmplz-success svg,
-#cmplz-settings .cmplz-icon.cmplz-success svg {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-success svg,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-success svg,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-success svg,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-success svg {
   fill: #333;
   stroke: #333;
 }
-#cmplz-wizard .cmplz-icon.cmplz-green,
-#cmplz-settings .cmplz-icon.cmplz-green {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-green,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-green,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-green,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-green {
   color: #61ce70;
 }
-#cmplz-wizard .cmplz-icon.cmplz-green svg,
-#cmplz-settings .cmplz-icon.cmplz-green svg {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-green svg,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-green svg,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-green svg,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-green svg {
   fill: #61ce70;
   stroke: #61ce70;
 }
-#cmplz-wizard .cmplz-icon.cmplz-disabled,
-#cmplz-settings .cmplz-icon.cmplz-disabled {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-disabled,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-disabled,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-disabled,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-disabled {
   color: #ababab;
 }
-#cmplz-wizard .cmplz-icon.cmplz-disabled svg,
-#cmplz-settings .cmplz-icon.cmplz-disabled svg {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-disabled svg,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-disabled svg,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-disabled svg,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-disabled svg {
   fill: #ababab;
   stroke: #ababab;
 }
-#cmplz-wizard .cmplz-icon.cmplz-error,
-#cmplz-settings .cmplz-icon.cmplz-error {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-error,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-error,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-error,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-error {
   color: #d7263d;
 }
-#cmplz-wizard .cmplz-icon.cmplz-error svg,
-#cmplz-settings .cmplz-icon.cmplz-error svg {
+#cmplz-wizard .cmplz-field .cmplz-icon.cmplz-error svg,
+#cmplz-settings .cmplz-field .cmplz-icon.cmplz-error svg,
+#cmplz-wizard .cmplz-step .cmplz-icon.cmplz-error svg,
+#cmplz-settings .cmplz-step .cmplz-icon.cmplz-error svg {
   fill: #d7263d;
   stroke: #d7263d;
 }
-#cmplz-wizard .cmplz-icon.arrow-right-alt2::before,
-#cmplz-settings .cmplz-icon.arrow-right-alt2::before {
+#cmplz-wizard .cmplz-field .cmplz-icon.arrow-right-alt2::before,
+#cmplz-settings .cmplz-field .cmplz-icon.arrow-right-alt2::before,
+#cmplz-wizard .cmplz-step .cmplz-icon.arrow-right-alt2::before,
+#cmplz-settings .cmplz-step .cmplz-icon.arrow-right-alt2::before {
   font-size: 17px;
 }
 #cmplz-wizard .cmplz-circle-green,
@@ -846,13 +875,11 @@
   display: none !important;
 }
 .cmplz-help-warning-wrap {
-  display: flex;
   align-items: center;
 }
 .cmplz-help-warning-wrap .cmplz-help-modal {
   position: relative;
   z-index: 1;
-  position: absolute;
   margin: 10px 0 0 20px;
   padding: 10px 15px;
   color: #fff;
@@ -1387,9 +1414,9 @@ html .mceContentBody {
 #cmplz-wizard #cmplz-content-area input.button.button-red,
 #cookie-policy-snapshots #cmplz-content-area input.button.button-red,
 #cmplz-settings #cmplz-content-area input.button.button-red {
-  background-color: red;
+  background-color: #D7263D;
   color: white;
-  border-color: red;
+  border-color: #D7263D;
 }
 #cmplz-wizard .cmplz-body input.button.button-grey,
 #cookie-policy-snapshots .cmplz-body input.button.button-grey,
@@ -1435,9 +1462,9 @@ html .mceContentBody {
 #cmplz-wizard #cmplz-content-area button.button-red,
 #cookie-policy-snapshots #cmplz-content-area button.button-red,
 #cmplz-settings #cmplz-content-area button.button-red {
-  background-color: red;
+  background-color: #D7263D;
   color: white;
-  border-color: red;
+  border-color: #D7263D;
 }
 #cmplz-wizard .cmplz-body .cmplz-master-label h2,
 #cookie-policy-snapshots .cmplz-body .cmplz-master-label h2,

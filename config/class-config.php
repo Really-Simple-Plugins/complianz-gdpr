@@ -12,6 +12,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'yith_wcwl_products',
 			);
 
+		public $supported_regions;
 		//used to check if social media is used on site
 
 		public $thirdparty_services
@@ -616,7 +617,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'success_conditions'  => array(
 						'NOT cookie_admin->site_needs_cookie_warning',
 					),
-					'completed' => __( 'Your site does not require a cookie banner.', 'complianz-gdpr' ),
+					'open' => __( 'Your site does not require a cookie banner.', 'complianz-gdpr' ),
 					'include_in_progress' => true,
 				),
 

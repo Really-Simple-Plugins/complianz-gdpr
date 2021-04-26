@@ -108,18 +108,6 @@ function cmplz_add_cookiebanner_settings($fields){
               'comment' => __( 'If you hide this button, you should at least leave the option to revoke consent on your cookie policy or Do Not Sell My Personal Information page', 'complianz-gdpr' ),
             ),
 
-            'soft_cookiewall' => array(
-                'source'  => 'CMPLZ_COOKIEBANNER',
-                'step'    => 'general',
-                'type'    => 'checkbox',
-                'default' => false,
-                'label'   => __( "Show as soft cookie wall", 'complianz-gdpr' ),
-                'help'    => sprintf( __( "You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. Read more about the soft cookie wall in this %sarticle%s.",
-                    'complianz-gdpr' ),
-                    '<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">', "</a>" ),
-                'tooltip' => __( 'After saving, a preview of the soft cookie wall will be shown for 3 seconds', 'complianz-gdpr' ),
-            ),
-
             'disable_cookiebanner' => array(
                 'source'  => 'CMPLZ_COOKIEBANNER',
                 'step'    => 'general',
@@ -210,27 +198,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'default' => 'none',
             ),
 
-            'use_categories' => array(
-                'source'             => 'CMPLZ_COOKIEBANNER',
-                'step'               => 'appearance',
-                'type'               => 'select',
-                'options'            => array(
-                    'no' => __('Accept/Deny', 'complianz-gdpr'),
-                    'legacy' => __('Legacy categories', 'complianz-gdpr'),
-                    'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
-                    'visible' => __('Accept all + categories', 'complianz-gdpr'),
-                ),
-                'label'              => __( "Categories", 'complianz-gdpr' ),
-                'tooltip'               => __( 'With categories, you can let users choose which category of cookies they want to accept.',
-                        'complianz-gdpr' ) . ' '
-                    . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.',
-                        'complianz-gdpr' ),
-                'help'    => cmplz_cookiebanner_category_conditional_helptext(),
-                'default'            => 'hidden',
-                'condition'          => array('type' => 'NOT optout'),
-                //setting this to true will set it always to true, as the get_cookie settings will see an empty value
-                'callback_condition' => 'cmplz_uses_optin',
-            ),
+
 
 			'checkbox_style' => array(
 				'source'  => 'CMPLZ_COOKIEBANNER',
@@ -518,6 +486,59 @@ function cmplz_add_cookiebanner_settings($fields){
 	                'position' => 'center OR bottom-left OR bottom-right',
                 ),
             ),
+
+			'soft_cookiewall' => array(
+				'source'  => 'CMPLZ_COOKIEBANNER',
+				'step'    => 'settings',
+				'type'    => 'checkbox',
+				'default' => false,
+				'label'   => __( "Show as soft cookie wall", 'complianz-gdpr' ),
+				'help'    => sprintf( __( "You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. Read more about the soft cookie wall in this %sarticle%s.",
+					'complianz-gdpr' ),
+					'<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">', "</a>" ),
+				'tooltip' => __( 'After saving, a preview of the soft cookie wall will be shown for 3 seconds', 'complianz-gdpr' ),
+				'condition'          => array(
+					'type' => 'NOT optout',
+				),
+			),
+
+			'use_categories' => array(
+				'source'             => 'CMPLZ_COOKIEBANNER',
+				'step'               => 'settings',
+				'type'               => 'select',
+				'options'            => array(
+					'no' => __('Accept/Deny', 'complianz-gdpr'),
+					'legacy' => __('Legacy categories', 'complianz-gdpr'),
+					'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
+					'visible' => __('Accept all + categories', 'complianz-gdpr'),
+				),
+				'label'              => __( "Categories", 'complianz-gdpr' ),
+				'tooltip'               => __( 'With categories, you can let users choose which category of cookies they want to accept.', 'complianz-gdpr' ) . ' '
+				                           . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.', 'complianz-gdpr' ),
+				'help'    => cmplz_cookiebanner_category_conditional_helptext(),
+				'default'            => 'hidden',
+				'condition'          => array('type' => 'optin'),
+				'callback_condition' => 'cmplz_uses_optin',
+			),
+
+			'use_categories_optinstats' => array(
+				'source'             => 'CMPLZ_COOKIEBANNER',
+				'step'               => 'settings',
+				'type'               => 'select',
+				'options'            => array(
+					'no' => __('Accept/Deny', 'complianz-gdpr'),
+					'legacy' => __('Legacy categories', 'complianz-gdpr'),
+					'hidden' => __('Accept all + view preferences', 'complianz-gdpr'),
+					'visible' => __('Accept all + categories', 'complianz-gdpr'),
+				),
+				'label'              => __( "Categories", 'complianz-gdpr' ),
+				'tooltip'               => __( 'With categories, you can let users choose which category of cookies they want to accept.', 'complianz-gdpr' ) . ' '
+				                           . __( 'Depending on your settings and cookies you use, there can be two or three categories. With Tag Manager you can use more, custom categories.', 'complianz-gdpr' ),
+				'help'    => cmplz_cookiebanner_category_conditional_helptext(),
+				'default'            => 'hidden',
+				'condition'          => array('type' => 'optinstats'),
+				'callback_condition' => 'cmplz_uses_optin',
+			),
 
             'readmore_optin' => array(
                 'source'             => 'CMPLZ_COOKIEBANNER',

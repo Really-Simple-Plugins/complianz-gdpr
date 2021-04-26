@@ -1,4 +1,6 @@
 <?php
+
+
 $this->eu_countries = array(
 	"BE",
 	"BG",
@@ -63,6 +65,13 @@ $this->regions = array(
 		'law'       => __( "UK-GDPR", 'complianz-gdpr' ),
 		'type'      => 'optinstats',
 	)
+);
+
+$this->supported_regions = array(
+	'eu' => __( 'GDPR (European Union)', 'complianz-gdpr' ),
+	'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)', 'complianz-gdpr' ),
+	'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
+	'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
 );
 
 $this->cookie_consent_converter = array(

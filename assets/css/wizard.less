@@ -63,10 +63,10 @@
     justify-content: space-between;
     align-content: center;
 	.cmplz-save-settings {
+	  svg path {
+		fill: @color-warning;
+	  }
 	  display:none;
-	  color:@color-warning;
-	  font-weight:normal;
-	  font-size:12px;
 	}
 	&.cmplz-section-content-notifications-header {
 	  border-bottom: 1px solid @input-border-color;
@@ -298,7 +298,12 @@
 		min-width: 100px;
 		text-align:center;
 		height:30px;
-		margin: 5px 0;
+		margin: 0 0;
+	  }
+	  .button.button-cmplz-tertiary {
+		background-color:@color-warning;
+		color:#fff;
+		border-color:@color-warning;
 	  }
 
 	  .upload_button {
@@ -554,16 +559,13 @@
 	}
   }
 
+  .cmplz-add-pages-table  {
 
-
-
-
-  .cmplz-add-pages-table {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 5px;
-    align-items: center;
-    margin-bottom: @green-gap;
+	  display: grid;
+	  grid-template-columns: auto auto;
+	  grid-gap: 5px;
+	  align-items: center;
+	  margin-bottom: @green-gap;
 
     span {
       text-align: justify;
@@ -609,7 +611,7 @@
 #cmplz-wizard, #cmplz-settings {
   /* ----------- Icons ----------- */
 
-  .cmplz-icon {
+  .cmplz-field .cmplz-icon, .cmplz-step .cmplz-icon {
 	border-radius: 50%;
 	&.dashicons-before:before {
 	  font-size:18px;
@@ -903,12 +905,12 @@
 }
 
 .cmplz-help-warning-wrap {
-  display: flex; // make us of Flexbox
+  //display: flex; // make use of Flexbox
   align-items: center; // does vertically center the desired content
   .cmplz-help-modal {
 	.cmplz-pointer;
   	z-index: 1;
-	position:absolute;
+	//position:absolute;
 
 	&.cmplz-notice {
 	  background-color: @brand-primary;
@@ -1448,9 +1450,9 @@ html .mceContentBody {
     input.button {
       min-width: 100px;
       &.button-red {
-        background-color: red;
+        background-color: @color-warning;
         color: white;
-        border-color: red;
+        border-color: @color-warning;
       }
       &.button-grey {
         background-color: white;
@@ -1475,9 +1477,9 @@ html .mceContentBody {
 
     button {
       &.button-red {
-        background-color: red;
+        background-color: @color-warning;
         color: white;
-        border-color: red;
+        border-color: @color-warning;
       }
     }
 

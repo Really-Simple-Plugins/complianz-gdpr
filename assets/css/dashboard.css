@@ -33,7 +33,6 @@
   /*
 	Progress labels
    */
-  /* Documents overview */
 }
 #cmplz-dashboard .cmplz-progress-warning-container {
   display: grid;
@@ -125,16 +124,6 @@
 #cmplz-dashboard .cmplz-task.active {
   color: #333;
   text-decoration: underline;
-}
-#cmplz-dashboard .cmplz-shortcode {
-  right: 10000px;
-  position: absolute;
-  background-color: #fff;
-  padding: 0;
-  white-space: nowrap;
-}
-#cmplz-dashboard .shortcode {
-  cursor: pointer;
 }
 #cmplz-dashboard .cmplz-support textarea {
   width: 100%;

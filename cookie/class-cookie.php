@@ -126,8 +126,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				if ( $language == 'en' ) {
 					continue;
 				}
-
-				$translated_cookie = new CMPLZ_COOKIE( $name, $language );
+				$translated_cookie = new CMPLZ_COOKIE( $name, $language, $service_name );
 				if ( ! $translated_cookie->ID ) {
 					$translated_cookie->sync         = $sync_on;
 					$translated_cookie->showOnPolicy = true;
@@ -247,21 +246,21 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$sql = " AND isTranslationFrom = FALSE";
 			}
 
+			//if the service is set, we check within the service as well.
+			if ( $this->service ) {
+				$service = new CMPLZ_SERVICE($this->service, $this->language );
+				if ($service->ID) $sql .= $wpdb->prepare(" AND serviceID = %s", $service->ID);
+			}
+
 			if ( $this->ID ) {
-				$cookie
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ",
-					$this->ID ) );
+				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ", $this->ID ) );
 			} else {
-				$cookie
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s $sql",
-					$this->name, $this->language ) );
+				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s $sql", $this->name, $this->language ) );
 			}
 
 			//if there's no match, try to do a fuzzy match
 			if ( ! $cookie ) {
-				$cookies
-					       = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where language = %s $sql",
-					$this->language ) );
+				$cookies = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where language = %s $sql", $this->language ) );
 				$cookies   = wp_list_pluck( $cookies, 'name', 'ID' );
 				$cookie_id = $this->get_fuzzy_match( $cookies, $this->name );
 				if ( $cookie_id ) {
@@ -453,8 +452,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		private function get_used_languages() {
 			global $wpdb;
 
-			$sql
-				       = "SELECT language FROM {$wpdb->prefix}cmplz_cookies group by language";
+			$sql = "SELECT language FROM {$wpdb->prefix}cmplz_cookies group by language";
 			$languages = $wpdb->get_results( $sql );
 			$languages = wp_list_pluck( $languages, 'language' );
 

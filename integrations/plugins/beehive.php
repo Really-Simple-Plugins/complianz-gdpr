@@ -42,7 +42,7 @@ add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
  * @param $args
  */
 function cmplz_beehive_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
 		'complianz-gdpr' ), 'Beehive' ) );
 }
 
@@ -101,11 +101,11 @@ add_filter( 'cmplz_fields', 'cmplz_beehive_filter_fields', 20, 1 );
  */
 function cmplz_beehive_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
+		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
 			'complianz-gdpr' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
+		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
 			'complianz-gdpr' ) );
 	}
 }

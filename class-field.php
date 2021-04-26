@@ -1968,7 +1968,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
-			<label><?php echo $args["label"] . " " . __( 'list', 'complianz-gdpr' ) ?></label>
+			<?php do_action( 'complianz_label_html' , $args );?>
 			<?php do_action( 'complianz_after_label', $args ); ?>
 
 			<?php

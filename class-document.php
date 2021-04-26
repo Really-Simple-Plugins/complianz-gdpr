@@ -1666,7 +1666,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				?>
 				<div class="field-group add-pages">
                     <div class="cmplz-field">
-				        <div class="cmplz-add-pages-table shortcode-container">
+
                         <?php foreach ( $pages as $region => $region_pages ) {
                             foreach ( $region_pages as $type => $page ) {
                                 $current_page_id   = $this->get_shortcode_page_id( $type, $region, false);
@@ -1683,6 +1683,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
                                 }
                                 $shortcode = $this->get_shortcode( $type, $region, $force_classic = true );
                                 ?>
+								<div class="cmplz-add-pages-table shortcode-container">
 									<div>
 										<input
 												name="<?php echo $type ?>"
@@ -1692,13 +1693,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 												value="<?php echo $title ?>">
 										<?php echo $icon ?>
 									</div>
-									<div class="cmplz-hidden cmplz-shortcode" id="<?php echo $type?>"><?php echo $shortcode?></div>
+									<div class="cmplz-shortcode" id="<?php echo $type?>"><?php echo $shortcode?></div>
 									<span class="cmplz-copy-shortcode"><?php echo cmplz_icon('shortcode', 'success', __( 'Click to copy the document shortcode', 'complianz-gdpr' ) ); ?></span>
-
+								</div>
                                 <?php
                             }
                         } ?>
-                        </div>
 
                         <?php if ($missing_pages){
                             $btn = __("Create missing pages","complianz-gdpr");
@@ -2381,7 +2381,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function is_complianz_page( $post_id = false ) {
-			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', false );
+			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', true );
 			if ( $post_meta ) {
 				return true;
 			}

@@ -50,7 +50,7 @@ add_action( 'after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics' );
  * @param $args
  */
 function cmplz_gtm4wp_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.",
 		'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
 }
 
@@ -136,11 +136,11 @@ add_filter( 'cmplz_fields', 'cmplz_gtm4wp_filter_fields', 20, 1 );
  */
 function cmplz_gtm4wp_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
 			'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( sprintf( __( "You have selected you do not share data with third-party networks. Remarketing is now disabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you do not share data with third-party networks. Remarketing is now disabled in %s.",
 			'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
 	}
 }

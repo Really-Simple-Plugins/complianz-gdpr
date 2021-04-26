@@ -432,7 +432,7 @@ if ( ! function_exists( 'cmplz_get_regions' ) ) {
 		}
 
 		if ( $ad_all_category ) {
-			$output['all'] = __( 'All regions', 'complianz-gdpr' );
+			$output['all'] = __( 'General', 'complianz-gdpr' );
 		}
 
 		return $output;
@@ -1006,6 +1006,10 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 
 		//only admin when ajax
 		if ( ! wp_doing_ajax() && is_admin() ) {
+			return;
+		}
+
+		if ( is_feed() ) {
 			return;
 		}
 

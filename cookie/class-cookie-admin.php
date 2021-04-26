@@ -15,29 +15,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			self::$_this = $this;
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_jquery' ), PHP_INT_MAX - 100 );
-
-			$scan_in_progress = isset( $_GET['complianz_scan_token'] )
-			                    && ( sanitize_title( $_GET['complianz_scan_token'] )
-			                         == get_option( 'complianz_scan_token' ) );
+			$scan_in_progress = isset( $_GET['complianz_scan_token'] ) && ( sanitize_title( $_GET['complianz_scan_token'] ) == get_option( 'complianz_scan_token' ) );
 			if ( $scan_in_progress ) {
-				add_action( 'wp_print_footer_scripts',
-					array( $this, 'test_cookies' ), 10, 2 );
+				add_action( 'wp_print_footer_scripts', array( $this, 'test_cookies' ), 10, 2 );
 			} else {
-				add_action( 'admin_init',
-					array( $this, 'track_cookie_changes' ) );
+				add_action( 'admin_init', array( $this, 'track_cookie_changes' ) );
 			}
 
 			if ( ! is_admin() && get_option( 'cmplz_wizard_completed_once' ) ) {
 				if ( $this->site_needs_cookie_warning() ) {
-					add_action( 'wp_print_footer_scripts',
-						array( $this, 'inline_cookie_script' ),
-						PHP_INT_MAX - 50 );
-					add_action( 'wp_enqueue_scripts',
-						array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
+					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script' ), PHP_INT_MAX - 50 );
+					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
 				} else {
-					add_action( 'wp_print_footer_scripts',
-						array( $this, 'inline_cookie_script_no_warning' ), 10,
-						2 );
+					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script_no_warning' ), 10, 2 );
 				}
 			}
 
@@ -1257,8 +1247,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						if ( $service->thirdParty || $service->secondParty ) {
 							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
 						}
-						$test = '"'.$slug.'"';
-						$test = (int) trim($test,"'\"");
 						$data[ $language ][ $c->service ][ $slug ] = $cookie;
 					} else {
 						$data[ $language ]['no-service-set'][ $slug ] = $cookie;
@@ -1399,8 +1387,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							continue;
 						}
 
-						$service       = new CMPLZ_SERVICE( $original_service_name,
-							'en' );
+						$service       = new CMPLZ_SERVICE( $original_service_name, 'en' );
 						$service->name = $service_object->name;
 						$service->privacyStatementURL
 						               = $service_object->privacyStatementURL;
@@ -1431,8 +1418,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							}
 
 							foreach ( $cookies as $cookie_name ) {
-								$cookie = new CMPLZ_COOKIE( $cookie_name, 'en',
-									$service->name );
+								$cookie = new CMPLZ_COOKIE( $cookie_name, 'en', $service->name );
 								$cookie->add( $cookie_name,
 									$this->get_supported_languages(), false,
 									$service->name );
@@ -1482,8 +1468,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 								= $parent_service->ID;
 						}
 
-						$service->isTranslationFrom
-							= $isTranslationFrom[ $service->name ];
+						$service->isTranslationFrom = $isTranslationFrom[ $service->name ];
 						$service->save( false, false );
 
 					}
@@ -1525,15 +1510,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$cookies  = $this->get_cookies( $settings );
 				foreach ( $cookies as $cookie ) {
 					$same_name_cookies
-						= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s",
-						$cookie->name, $language ) );
+						= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s and serviceID = %s ",
+						$cookie->name, $language, $cookie->serviceID ) );
 					if ( count( $same_name_cookies ) > 1 ) {
 						array_shift( $same_name_cookies );
 						$IDS = wp_list_pluck( $same_name_cookies, 'ID' );
 						$sql = implode( ' OR ID =', $IDS );
-						$sql
-						     = "DELETE from {$wpdb->prefix}cmplz_cookies where ID="
-						       . $sql;
+						$sql = "DELETE from {$wpdb->prefix}cmplz_cookies where ID=" . $sql;
 						$wpdb->query( $sql );
 					}
 				}

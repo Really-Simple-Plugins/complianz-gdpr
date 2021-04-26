@@ -1,5 +1,29 @@
 jQuery(document).ready(function ($) {
     'use strict';
+
+	// other_region_behaviour
+	$(document).on('click', '.regions .cmplz-checkbox-container input', function(){
+		cmplz_filter_other_region_options();
+	});
+	var region_field = $('.regions .cmplz-checkbox-container input')
+	cmplz_filter_other_region_options(region_field);
+	function cmplz_filter_other_region_options(){
+
+		if ( !$('select[name=cmplz_other_region_behaviour]').length) {
+			return;
+		}
+
+		$('.regions .cmplz-field').find(':checkbox').each(function (i) {
+			var region = $(this).attr('name').replace(']','').replace('cmplz_regions[','');
+			var option = $("select[name=cmplz_other_region_behaviour] option[value=" + region + "]");
+			if ($(this).is(':checked')) {
+				option.removeAttr('disabled');
+			} else {
+				option.attr('disabled', 'disabled');
+			}
+		});
+	}
+
 	$(document).on('click', '.cmplz-copy-shortcode', function () {
 		var element_id = $(this).closest('.shortcode-container').find('.cmplz-shortcode').attr('id');
 		var element = document.getElementById(element_id);
@@ -265,7 +289,6 @@ jQuery(document).ready(function ($) {
 		if (typeof tinymce !== 'undefined') {
 			for (var i = 0; i < tinymce.editors.length; i++) {
 				tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
-					console.log("on change editor");
 					cmplz_show_save_settings_feedback();
 					if ($("input[name=step]").val() == 2) {
 						remove_after_change();
@@ -279,9 +302,18 @@ jQuery(document).ready(function ($) {
 		if (typeof e !== 'undefined' && e.target.type === 'submit') return;
 		if (typeof e !== 'undefined' && e.target.name === 'cmplz_type') return;
 
-		if ( $('.cmplz-save-settings').length ) {
-			$('.cmplz-notification.cmplz-success').closest('.cmplz-panel-wrap').hide();
-			$('.cmplz-save-settings').show();
+		var container = $('.cmplz-save-settings');
+		if ( container.length ) {
+			$('.cmplz-settings-saved').hide();
+			container.show();
+		}
+	}
+
+	function cmplz_hide_save_settings_feedback(){
+		var container = $('.cmplz-save-settings');
+		if ( container.length ) {
+			$('.cmplz-settings-saved').show();
+			container.hide();
 		}
 	}
 
@@ -939,7 +971,7 @@ jQuery(document).ready(function ($) {
                         var name = container.find('.cmplz_name').val();
                         var new_title = title.text().replace(/\".*\"/, '"' + name + '"');
                         title.text(new_title);
-                        btn.parent().append('<div class="cmplz-panel cmplz-success cmplz-remove-after-change">'+complianz_admin.saved_message+'</div>');
+						cmplz_hide_save_settings_feedback();
                     }
 
                     btn.html(btnHtml);

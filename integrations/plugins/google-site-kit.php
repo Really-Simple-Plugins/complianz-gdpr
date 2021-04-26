@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
  */
 
 function cmplz_google_site_kit_show_compile_statistics_notice( $args ) {
-	cmplz_notice(
+	cmplz_sidebar_notice(
 		sprintf( __( "Because you're using %s, you can choose which plugin should insert the relevant snippet.", 'complianz-gdpr' ), "Google Site Kit" )
 		. cmplz_read_more( "https://complianz.io/configuring-google-site-kit/" ),
 	'warning' );

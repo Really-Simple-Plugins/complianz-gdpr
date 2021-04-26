@@ -79,11 +79,11 @@ add_action( 'after_setup_theme', 'cmplz_gadwp_remove_scripts_others' );
  */
 function cmplz_gadwp_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 }

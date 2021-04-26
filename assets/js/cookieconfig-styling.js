@@ -192,17 +192,6 @@ jQuery(document).ready(function ($) {
         cmplz_apply_style();
     });
 
-    $(document).on('click', '.region-link', function () {
-
-		ccConsentType = $(this).data('tab');
-		if (ccConsentType !=='tcf' ) {
-			settingConsentType = ccConsentType;
-			if (ccConsentType === 'optinstats') settingConsentType = 'optin';
-			cmplz_cookie_warning();
-		}
-
-    });
-
     $(document).on('change', 'input[name=cmplz_use_custom_cookie_css]', function () {
         cmplz_apply_style();
     });
@@ -310,33 +299,6 @@ jQuery(document).ready(function ($) {
         cmplz_cookie_warning();
     });
 
-    //reRenderConditionQuestions();
-
-    function reRenderConditionQuestions(){
-        $('#optinstats [data-condition-question="use_categories"]').data('condition-question','use_categories_optinstats');
-		//javascript event
-		var event = new CustomEvent('cmplzRenderConditions' );
-		document.dispatchEvent(event);
-
-        //when there is more than one optin type, optin and optinstats, and both use_cats settings are the same, hide the fields on optinstats
-        if ($('#optin').length && $('#optinstats').length){
-
-            var use_cats = $('select[name=cmplz_use_categories]').val() !== 'no';
-            var use_cats_optinstats = $('select[name=cmplz_use_categories_optinstats]').val() !== 'no';
-
-            if (use_cats === use_cats_optinstats){
-                $('#optinstats .field-group').each(function(){
-                    $(this).hide();
-                });
-            }
-
-            //hide the editor when both optin and optinstats are available, to prevent breaking the editor because of duplicate ID's
-            $("#optinstats .message_optin").hide();
-        }
-        //show always this field
-        $('#optinstats [data-condition-question="show_always"]').show();
-    }
-
     /**
      * if both EU and UK are active, we might have some double input fields. Remove all double fields from the form to
      * prevent settings not being saved
@@ -357,7 +319,6 @@ jQuery(document).ready(function ($) {
     });
 
     var ccCheckboxes = '';
-    reRenderConditionQuestions();
     cmplz_apply_style();
     cmplz_cookie_warning();
     function cmplz_cookie_warning(){
@@ -398,14 +359,19 @@ jQuery(document).ready(function ($) {
 		var event = new CustomEvent('wp_consent_type_defined');
 		document.dispatchEvent(event);
 
-        var ccCategories = $('select[name=cmplz_use_categories]').val();
+        var ccCategories = 'no';
 
-        reRenderConditionQuestions();
+        if (ccConsentType === 'optin') {
+			ccCategories = $('select[name=cmplz_use_categories]').val();
+		} else {
+			ccCategories = $('select[name=cmplz_use_categories_optinstats]').val();
+		}
+
         if (settingConsentType === 'optin'){
             ccDismiss = $('input[name=cmplz_dismiss]').val();
         } else {
             ccDismiss = $('input[name=cmplz_accept_informational]').val();
-        }
+		}
 
         var ccHideRevoke = $('input[name=cmplz_hide_revoke]').is(':checked');
         if (ccHideRevoke) {
@@ -622,11 +588,17 @@ jQuery(document).ready(function ($) {
 		});
 
         $(document).on('click', '.cc-save-settings', function(){
-            if ($('#cmplz_marketing').is(":checked")) {
+        	if ($('#cmplz_marketing').is(":checked")) {
                 ccName.setStatus(cookieconsent.status.allow);
             } else {
                 ccName.setStatus(cookieconsent.status.dismiss);
             }
+			var catsContainer = $('.cmplz-categories-wrap');
+			catsContainer.hide();
+			var showSettingsBtn = $(".cc-save-settings");
+			showSettingsBtn.addClass('cc-show-settings');
+			showSettingsBtn.html($('input[name=cmplz_view_preferences]').val());
+			showSettingsBtn.removeClass('cc-save-settings');
 
             $('.cc-window').addClass('cmplz-dismiss');
             ccName.close();
@@ -651,13 +623,7 @@ jQuery(document).ready(function ($) {
 
 		$(document).on('click', '.cc-show-settings', function(e){
 			var catsContainer = $('.cmplz-categories-wrap');
-			if (catsContainer.is(":visible")){
-				catsContainer.fadeOut(800);
-				$(".cc-show-settings").html($('input[name=cmplz_view_preferences]').val());
-				var showSettingsBtn = $(".cc-save-settings");
-				showSettingsBtn.addClass('cc-save-settings');
-				showSettingsBtn.removeClass('cc-show-settings');
-			} else {
+			if (!catsContainer.is(":visible")){
 				catsContainer.fadeIn(1600);
 				var showSettingsBtn = $(".cc-show-settings");
 				showSettingsBtn.html($('input[name=cmplz_save_preferences]').val());

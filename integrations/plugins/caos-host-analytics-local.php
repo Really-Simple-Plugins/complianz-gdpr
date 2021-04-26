@@ -105,7 +105,7 @@ add_action( 'init', 'cmplz_caos_remove_actions' );
  * @param $args
  */
 function cmplz_caos_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
 		'complianz-gdpr' ), 'CAOS host analytics locally' ) );
 }
 

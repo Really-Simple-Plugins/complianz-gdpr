@@ -87,6 +87,8 @@ jQuery(document).ready(function ($) {
 		var ccBody = $('body');
 		ccBody.removeClass(curClass);
 		ccBody.addClass('cmplz-status-' + status);
+		ccBody.addClass('cmplz-' + complianz.region );
+		ccBody.addClass('cmplz-' + complianz.consenttype );
 		curClass = 'cmplz-status-' + status;
 	}
 

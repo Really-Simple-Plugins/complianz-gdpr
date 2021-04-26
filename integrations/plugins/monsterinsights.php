@@ -43,7 +43,7 @@ add_action( 'init', 'cmplz_monsterinsights_remove_actions' );
  * @param $args
  */
 function cmplz_monsterinsights_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
 		'complianz-gdpr' ), 'Monsterinsights' ) );
 }
 
@@ -67,12 +67,12 @@ add_filter( 'monsterinsights_tracking_analytics_script_attributes', 'cmplz_monst
 
 function cmplz_monsterinsights_compile_statistics_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.",
+		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.",
 			'complianz-gdpr' ) );
 	}
 
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( __( "You have selected you do not share data with third-party networks. Demographics is now disabled in MonsterInsights.",
+		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Demographics is now disabled in MonsterInsights.",
 			'complianz-gdpr' ) );
 	}
 }

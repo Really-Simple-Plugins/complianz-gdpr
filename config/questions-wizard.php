@@ -33,14 +33,7 @@ $this->fields = $this->fields + array(
 			'default'  => '',
 			'type'     => 'radio',
 			'revoke_consent_onchange' => true,
-			'options'  => array(
-				'eu' => __( 'GDPR (European Union)',
-					'complianz-gdpr' ),
-				'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)',
-					'complianz-gdpr' ),
-				'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
-				'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
-			),
+			'options'  => $this->supported_regions,
 			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?", 'complianz-gdpr' ),
 			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr')
 											. cmplz_read_more( 'https://complianz.io/what-regions-do-i-target/' ),
@@ -51,6 +44,17 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ),
 					'<a href="https://complianz.io" target="_blank">', '</a>' ),
 			'required' => true,
+		),
+
+		'other_region_behaviour' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 1,
+			'source'   => 'wizard',
+			'default'  => 'none',
+			'type'     => 'select',
+			'options'  => array('none'=> __("None", 'complianz-gdpr')) + $this->supported_regions,
+			'label'    => __( "Which banner do you want to display in other regions?", 'complianz-gdpr' ),
+			'callback_condition' => 'cmplz_geoip_enabled'
 		),
 
 		'eu_consent_regions' => array(

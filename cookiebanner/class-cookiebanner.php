@@ -12,7 +12,6 @@ function cmplz_install_cookiebanner_table() {
 
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
 		$sql        = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,

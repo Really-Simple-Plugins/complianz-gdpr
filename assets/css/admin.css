@@ -138,6 +138,17 @@
 [cmplz-tooltip][flow^="right"]:hover::after {
   animation: tooltips-horz 300ms ease-out forwards;
 }
+/* Documents overview */
+.cmplz-shortcode {
+  right: 10000px;
+  position: absolute;
+  background-color: #fff;
+  padding: 0;
+  white-space: nowrap;
+}
+.shortcode {
+  cursor: pointer;
+}
 #cmplz-cookiebanner-filter .search-box {
   margin-bottom: 5px;
 }

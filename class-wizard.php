@@ -643,7 +643,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
             $regions = $this->get_section_regions( $page, $step, $section );
             $args['flags'] = cmplz_flag( $regions, false );
 
-            $args['save_notice'] = cmplz_notice( __( "Updated successfully", 'complianz-gdpr' ), 'success', true , false);
             $args['save_as_notice'] = '';
             $args['learn_notice'] = '';
             $args['cookie_or_finish_button'] = '';
@@ -677,8 +676,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                         sprintf( __( "To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz-gdpr' ), $about, $link_article, '</a>' ),
                         'notice', false, false);
                 }
-            } else if ( isset( $_POST['cmplz-save'] ) ) {
-                $args['save_notice'] = cmplz_notice( __( "Changes saved successfully", 'complianz-gdpr' ), 'success', false , false);
             }
 
             $args['intro'] = $this->get_intro( $page, $step, $section );

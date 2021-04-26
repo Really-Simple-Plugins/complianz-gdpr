@@ -18,7 +18,6 @@
 
         <div class="cmplz-section-footer">
             {save_as_notice}
-            {save_notice}
             <div class="cmplz-buttons-container">
                 {previous_button}
                 {save_button}

@@ -694,6 +694,9 @@
   background-color: transparent;
   display: none;
 }
+.cmplz-optout .cmplz-soft-cookiewall {
+  position: initial;
+}
 .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;
 }
