@@ -127,6 +127,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: on duplicate cookies cleanup, do not delete cookies when from different services
 * Fix: Processing field for 'other' option, linked textfield wasn't shown when selected
 * Fix: feedback on settings saved responsive and multilanguage proof
+* Improvement: change varchar fields in cookiebanner table to text, to preven max rowsize warnings on some installations.
 
 = 5.0.0 =
 * New: Animations/Customizations for the Cookie Banner
