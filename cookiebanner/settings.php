@@ -232,8 +232,8 @@ function cmplz_add_cookiebanner_settings($fields){
                 'master_label'  => __( "Cookie notice", 'complianz-gdpr' ),
                 'label'         => __( "Background", 'complianz-gdpr' ),
                 'default'       => array(
-                    'color'     => '#f1f1f1',
-                    'border'    => '#f1f1f1',
+                    'color'     => '#f9f9f9',
+                    'border'    => '#f9f9f9',
                 ),
                 'fields'        => array(
                     array(
