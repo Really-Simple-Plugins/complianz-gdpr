@@ -617,7 +617,7 @@ $this->fields = $this->fields + array(
 			'options'                 => $this->yes_no,
 			'default'                 => 'no',
 			'label'                   => __( "You have stated that you don't use third-party services. Do you use plugins that might set marketing cookies?", 'complianz-gdpr' ),
-			'help'                    => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.", 'complianz-gdpr' ),
+			'tooltip'                    => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.", 'complianz-gdpr' ),
 			'condition'               =>array(
 				'uses_thirdparty_services' => 'no',
 			),

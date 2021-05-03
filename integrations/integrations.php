@@ -41,6 +41,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'woocommerce-variation-swatches' => array(
+			'constant_or_function' => 'woo_variation_swatches',
+			'label'                => 'Variation Swatches for WooCommerce',
+			'firstparty_marketing' => false,
+	),
+
 	'ultimate-addons-elementor' => array(
 			'constant_or_function' => 'UAEL_FILE',
 			'label'                => 'Ultimate Addons for Elementor',

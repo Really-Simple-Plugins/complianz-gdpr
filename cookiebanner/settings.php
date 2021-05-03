@@ -493,7 +493,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'    => 'checkbox',
 				'default' => false,
 				'label'   => __( "Show as soft cookie wall", 'complianz-gdpr' ),
-				'help'    => sprintf( __( "You can grey out the rest of the website, which makes it look like a cookie wall, but it is dismissible: a 'soft' cookie wall. Read more about the soft cookie wall in this %sarticle%s.",
+				'help'    => sprintf( __( "Read more about the soft cookie wall in this %sarticle%s.",
 					'complianz-gdpr' ),
 					'<a href="https://complianz.io/the-soft-cookie-wall/" target="_blank">', "</a>" ),
 				'tooltip' => __( 'After saving, a preview of the soft cookie wall will be shown for 3 seconds', 'complianz-gdpr' ),
@@ -603,7 +603,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'label'              => __( "Dismiss cookies text", 'complianz-gdpr' ),
                 'placeholder'        => __( "Dismiss", 'complianz-gdpr' ),
 
-                'help'               => __( 'This button will reject all cookies, and will dismiss the cookie banner. Only functional/necessary cookies will be allowed.',
+                'help'               => __( 'This button will reject all, but necessary cookies, and dismisses the cookie banner.',
                     'complianz-gdpr' ),
                 'condition'          => array(
                     'type' => 'NOT optout',
@@ -710,12 +710,12 @@ function cmplz_add_cookiebanner_settings($fields){
                 'step'               => 'settings',
                 'type'               => 'text',
                 'label'              => __( "Custom Tag Manager categories", 'complianz-gdpr' ),
-                'help'               => __( 'Enter your custom Tag Manager categories, comma separated. The first item will fire event cmplz_event_0, the second one will fire cmplz_event_1 and so on. At page load cmplz_event_functional is fired, Marketing fires cmplz_event_marketing',
+                'comment'               => __( 'Enter your custom Google Tag Manager categories, comma separated. Functional and Marketing are already set.',
                         'complianz-gdpr' ) . "<br><br>"
                     . cmplz_tagmanager_conditional_helptext()
                     . cmplz_read_more( 'https://complianz.io/configure-categories-tag-manager' ),
 
-                'placeholder'        => __( 'First category, Second category', 'complianz-gdpr' ),
+                'placeholder'        => __( 'Second category, Third category', 'complianz-gdpr' ),
                 'callback_condition' => array(
                     'fire_scripts_in_tagmanager' => 'yes',
                     'compile_statistics'         => 'google-tag-manager',

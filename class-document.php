@@ -1172,7 +1172,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function manage_consent_html( $atts = array(), $content = null, $tag = ''
 		) {
 			$html = '<div id="cmplz-manage-consent-container-nojavascript">'.
-					_x( "You have loaded the Cookie Policy without javascript support.", "cookie policy", "complianz-gdpr" ).
+					_x( "You have loaded the Cookie Policy without javascript support.", "cookie policy", "complianz-gdpr" ).'&nbsp;'.
 					_x( "On AMP, you can use the manage consent button on the bottom of the page.", "cookie policy", "complianz-gdpr" ).
 					'</div>';
 			$html .= '<p id="cmplz-manage-consent-container" class="cmplz-manage-consent-container"></p>';
@@ -2725,7 +2725,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$html = '
                     <style>
                     ' . $css . '
-                    .cmplz-tcf-vendor-container {
+                    #cmplz-manage-consent-container-nojavascript, .cmplz-tcf-vendor-container {
                       display:none;
                     }
                     body {

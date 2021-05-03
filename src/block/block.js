@@ -5,8 +5,8 @@
  */
 
 //  Import CSS.
-import './style.scss';
-import './editor.scss';
+// import './style.scss';
+// import './editor.scss';
 
 import * as api from './utils/api';
 //
@@ -224,8 +224,8 @@ const iconEl =
                                            value={this.props.attributes.documentSyncStatus}
                                            label={__('Document sync status', 'complianz-gdpr')}
                                            options={document_status_options}/>
-				</PanelRow>
-				</PanelBody>
+								</PanelRow>
+							</PanelBody>
                         </InspectorControls>
                     ),
 

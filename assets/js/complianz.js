@@ -1319,7 +1319,7 @@ jQuery(document).ready(function ($) {
 		cmplzAcceptAllCookies();
 	});
 
-	/**
+	/**cmplzClearAllCookies
 	 * Accept all cookies
 	 */
 
@@ -1729,6 +1729,8 @@ jQuery(document).ready(function ($) {
 							if ( path.length>0 ) {
 								document.cookie = cookieBase + '/' + path;
 								document.cookie = cookieBaseDomain + '/' + path;
+								document.cookie = cookieBase + '/' + path + '/';
+								document.cookie = cookieBaseDomain + '/' + path + '/';
 							}
 							p.pop();
 						};

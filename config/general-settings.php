@@ -108,10 +108,10 @@ $this->fields = $this->fields + array(
             'label'              => __( "Notification sender email address",
                 'complianz-gdpr' ),
             'default'            => false,
-            'help'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.",
+            'tooltip'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.",
                 'complianz-gdpr' ),
             'table'              => true,
-            'tooltip' => __( "Email address used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
+            'help' => __( "Email address used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
             'callback_condition' => array(
                 'purpose_personaldata' => 'selling-data-thirdparty',
             ),

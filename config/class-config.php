@@ -120,7 +120,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"vimeo"            => array( 'player.vimeo.com' ),
 				"google-recaptcha" => array(
 					'google.com/recaptcha',
-					'google.com/recaptcha',
 					'grecaptcha',
 					'recaptcha.js',
 					'recaptcha/api'

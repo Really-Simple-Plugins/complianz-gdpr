@@ -87,18 +87,6 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'content' => 'A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.',
         'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
-    array(
-        'title' => 'Consent',
-        'content' => 'When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',
-    ),
-    array(
-	    'subtitle' => 'Manage your consent settings',
-	    'content' => '[cmplz-manage-consent]',
-    ),
-
-    array(
-        'content' =>'You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.',
-    ),
 
     array(
         'title' => 'Cookies',
@@ -167,6 +155,18 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 		'callback' => 'cmplz_used_cookies',
 	),
 
+  array(
+      'title' => 'Consent',
+      'content' => 'When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',
+  ),
+  array(
+    'subtitle' => 'Manage your consent settings',
+    'content' => '[cmplz-manage-consent]',
+  ),
+
+  array(
+      'content' =>'You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.',
+  ),
 
     array(
         'title' => 'Your rights with respect to personal data',

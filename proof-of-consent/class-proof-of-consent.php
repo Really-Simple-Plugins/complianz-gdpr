@@ -354,7 +354,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					}
 				}
 
-
 				unset( $settings["readmore_url"] );
 				$settings = apply_filters( 'cmplz_cookie_policy_snapshot_settings' ,$settings );
 

@@ -12,6 +12,7 @@ function cmplz_elementor_initDomContentLoaded() {
 			jQuery(document).ready(function ($) {
 				$(document).on("cmplzRunAfterAllScripts", cmplz_elementor_fire_initOnReadyComponents);
 				function cmplz_elementor_fire_initOnReadyComponents() {
+					var blockedContentContainers = [];
 					$('[data-cmplz-elementor-settings]').each(function (i, obj) {
 						if ( $(this).hasClass('cmplz-activated') ) return;
 						$(this).addClass('cmplz-activated' );
@@ -24,8 +25,15 @@ function cmplz_elementor_initDomContentLoaded() {
 							blockedContentContainer.removeClass('cmplz-blocked-content-container');
 							blockedContentContainer.removeClass('cmplz-placeholder-' + cssIndex);
 						});
-						elementorFrontend.elementsHandler.runReadyTrigger( $(this) );
+						blockedContentContainers.push(blockedContentContainer);
 					});
+
+					for (var key in blockedContentContainers) {
+						console.log(blockedContentContainers[key]);
+						if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined ) {
+							elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainers[key] );
+						}
+					}
 				}
 			})
 		</script>

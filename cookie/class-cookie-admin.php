@@ -3838,35 +3838,22 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return false;
 			}
 
-			$tagmanager                                = ( $statistics
-			                                               === 'google-tag-manager' )
-				? true : false;
-			$matomo                                    = ( $statistics
-			                                               === 'matomo' ) ? true
-				: false;
-			$google_analytics                          = ( $statistics
-			                                               === 'google-analytics' )
-				? true : false;
+			if ( $statistics === 'yes-anonymous' ) {
+				return true;
+			}
+
+			$tagmanager = ( $statistics === 'google-tag-manager' ) ? true : false;
+			$matomo = ( $statistics === 'matomo' ) ? true : false;
+			$google_analytics = ( $statistics === 'google-analytics' ) ? true : false;
 			$accepted_google_data_processing_agreement = false;
 			$ip_anonymous                              = false;
 			$no_sharing                                = false;
 
 			if ( $google_analytics || $tagmanager ) {
-				$thirdparty = $google_analytics
-					? cmplz_get_value( 'compile_statistics_more_info' )
-					: cmplz_get_value( 'compile_statistics_more_info_tag_manager' );
-				$accepted_google_data_processing_agreement
-				            = ( isset( $thirdparty['accepted'] )
-				                && ( $thirdparty['accepted'] == 1 ) ) ? true
-					: false;
-				$ip_anonymous
-				            = ( isset( $thirdparty['ip-addresses-blocked'] )
-				                && ( $thirdparty['ip-addresses-blocked']
-				                     == 1 ) ) ? true : false;
-				$no_sharing
-				            = ( isset( $thirdparty['no-sharing'] )
-				                && ( $thirdparty['no-sharing'] == 1 ) ) ? true
-					: false;
+				$thirdparty = $google_analytics ? cmplz_get_value( 'compile_statistics_more_info' ) : cmplz_get_value( 'compile_statistics_more_info_tag_manager' );
+				$accepted_google_data_processing_agreement = ( isset( $thirdparty['accepted'] ) && ( $thirdparty['accepted'] == 1 ) ) ? true : false;
+				$ip_anonymous = ( isset( $thirdparty['ip-addresses-blocked'] ) && ( $thirdparty['ip-addresses-blocked'] == 1 ) ) ? true : false;
+				$no_sharing = ( isset( $thirdparty['no-sharing'] ) && ( $thirdparty['no-sharing'] == 1 ) ) ? true : false;
 			}
 
 			if ( ( $tagmanager || $google_analytics )

@@ -99,13 +99,6 @@ class cmplz_tour {
 					'position' => 'right',
 				),
 				array(
-					'title'  => __( 'Settings', 'complianz-gdpr' ),
-					'text'   => __( "Adding Document CSS, enabling safe mode, and other settings can be found here. You can also revisit the tour here.", 'complianz-gdpr' ),
-					'link'   => add_query_arg(array("page" => 'cmplz-settings'), admin_url( "admin.php" ) ),
-					'attach' => '#general.settings .cmplz-settings-title',
-					'position' => 'right',
-				),
-				array(
 					'title'  => __( 'Proof of Consent', 'complianz-gdpr' ),
 					'text'   => __( "Complianz tracks changes in your Cookie Notice and Cookie Policy with time-stamped documents. This is your consent registration while respecting the data minimization guidelines and won't store any user data.", 'complianz-gdpr' ),
 					'link'   => add_query_arg(array("page" => 'cmplz-proof-of-consent'), admin_url( "admin.php" ) ),

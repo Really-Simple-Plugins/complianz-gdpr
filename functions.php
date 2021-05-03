@@ -1103,16 +1103,6 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 	}
 }
 
-if ( !function_exists('cmplz_uses_marketing_cookies') ) {
-	/**
-	 * Check if the site uses marketing cookies
-	 * @return bool
-	 */
-	function cmplz_uses_marketing_cookies(){
-		return apply_filters( 'cmplz_uses_marketing_cookies', cmplz_get_value('uses_ad_cookies') ==='yes' || cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes' || cmplz_get_value('uses_thirdparty_services')==='yes' || cmplz_get_value('uses_social_media') === 'yes' );
-	}
-}
-
 if (!function_exists('cmplz_dnsmpi_required')) {
 	/**
 	 * Check if the site requires DNSMPI logic
@@ -2168,11 +2158,14 @@ if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
      * @return bool
      */
     function cmplz_uses_marketing_cookies() {
-        return true;
-        return cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes'
-            || cmplz_get_value('uses_thirdparty_services')==='yes'
+        $uses_marketing_cookies =
+				cmplz_get_value('uses_ad_cookies') === 'yes'
+			|| cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes'
+            || cmplz_get_value('uses_thirdparty_services') === 'yes'
             || cmplz_get_value('uses_social_media') === 'yes' ;
-    }
+
+		return apply_filters( 'cmplz_uses_marketing_cookies', $uses_marketing_cookies );
+	}
 }
 
 if ( ! function_exists( 'cmplz_impressum_required' ) ) {
