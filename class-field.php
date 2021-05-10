@@ -1985,7 +1985,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					$value                            = wp_parse_args( $value,
 						$default_index );
 					$create_processing_agreement_link = '<a href="'
-					                                    . admin_url( "admin.php?page=cmplz-processing-$region" )
+					                                    . admin_url( "edit.php?post_type=cmplz-processing" )
 					                                    . '">';
 
 					$processing_agreement_outside_c

@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-05-03 17:47+0200\n"
-"PO-Revision-Date: 2021-05-03 17:47+0200\n"
+"POT-Creation-Date: 2021-05-07 08:41+0200\n"
+"PO-Revision-Date: 2021-05-07 08:41+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -298,8 +298,7 @@ msgstr ""
 #: callback-notices.php:293
 #, php-format
 msgid ""
-"You sell personal data from your customers. This means you are required to "
-"put the \"%s\" page clearly visible on your homepage."
+"You are required to put the \"%s\" page clearly visible on your homepage."
 msgstr ""
 
 #: callback-notices.php:307 callback-notices.php:326
@@ -3952,7 +3951,7 @@ msgid "%s days"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner-table.php:73
-#: cookiebanner/cookiebanner.php:313
+#: cookiebanner/cookiebanner.php:314
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:67
 msgid "Cookiebanner"
 msgstr ""
@@ -4065,12 +4064,12 @@ msgid ""
 msgstr ""
 
 #: cookiebanner/cookiebanner.php:223
-#: pro/records-of-consent/class-records-of-consent.php:385
+#: pro/records-of-consent/class-records-of-consent.php:388
 #: proof-of-consent/class-proof-of-consent.php:277
 msgid "Filter"
 msgstr ""
 
-#: cookiebanner/cookiebanner.php:333
+#: cookiebanner/cookiebanner.php:334
 msgid "Hide cookiebanner on this page"
 msgstr ""
 
@@ -4356,7 +4355,7 @@ msgid ""
 msgstr ""
 
 #: cookiebanner/settings.php:549 functions.php:1746
-#: pro/records-of-consent/class-records-of-consent.php:369
+#: pro/records-of-consent/class-records-of-consent.php:372
 #: proof-of-consent/class-proof-of-consent.php:261
 #: templates/dashboard/documents-conditional.php:47
 #: templates/dashboard/documents-conditional.php:81
@@ -4582,7 +4581,7 @@ msgstr ""
 msgid "Services"
 msgstr ""
 
-#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1097
+#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1113
 #: pro/config/steps.php:106
 msgid "Plugins"
 msgstr ""
@@ -5741,7 +5740,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:179
 #: pro/config/UK/questions-processing.php:179
 #: pro/config/US/questions-processing.php:179
-#: pro/config/questions-wizard.php:740
+#: pro/config/questions-wizard.php:756
 msgid "Username and Password"
 msgstr ""
 
@@ -5749,7 +5748,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:180
 #: pro/config/UK/questions-processing.php:180
 #: pro/config/US/questions-processing.php:180
-#: pro/config/questions-wizard.php:741
+#: pro/config/questions-wizard.php:757
 msgid "DNSSEC"
 msgstr ""
 
@@ -5757,7 +5756,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:181
 #: pro/config/UK/questions-processing.php:181
 #: pro/config/US/questions-processing.php:181
-#: pro/config/questions-wizard.php:742
+#: pro/config/questions-wizard.php:758
 msgid "TLS / SSL"
 msgstr ""
 
@@ -5765,7 +5764,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:182
 #: pro/config/UK/questions-processing.php:182
 #: pro/config/US/questions-processing.php:182
-#: pro/config/questions-wizard.php:743
+#: pro/config/questions-wizard.php:759
 msgid "DKIM, SPF en DMARC"
 msgstr ""
 
@@ -5773,7 +5772,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:183
 #: pro/config/UK/questions-processing.php:183
 #: pro/config/US/questions-processing.php:183
-#: pro/config/questions-wizard.php:744
+#: pro/config/questions-wizard.php:760
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 
@@ -5781,7 +5780,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:184
 #: pro/config/UK/questions-processing.php:184
 #: pro/config/US/questions-processing.php:184
-#: pro/config/questions-wizard.php:745
+#: pro/config/questions-wizard.php:761
 msgid "Security software"
 msgstr ""
 
@@ -5789,7 +5788,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:185
 #: pro/config/UK/questions-processing.php:185
 #: pro/config/US/questions-processing.php:185
-#: pro/config/questions-wizard.php:746
+#: pro/config/questions-wizard.php:762
 msgid "ISO27001/27002 certified"
 msgstr ""
 
@@ -5797,7 +5796,7 @@ msgstr ""
 #: pro/config/EU/questions-processing.php:193
 #: pro/config/UK/questions-processing.php:193
 #: pro/config/US/questions-processing.php:193
-#: pro/config/questions-wizard.php:754
+#: pro/config/questions-wizard.php:770
 msgid "STARTTLS and DANE"
 msgstr ""
 
@@ -6690,8 +6689,6 @@ msgid "Sharing with other parties"
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:106
-#: pro/config/documents/CA/privacy-policy.php:31
-#: pro/config/documents/CA/privacy-policy.php:38
 msgctxt "Legal document privacy statement"
 msgid ""
 "We only share or disclose this data to other recipients for the following "
@@ -6699,19 +6696,19 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:112
-#: pro/config/documents/CA/privacy-policy.php:59
+#: pro/config/documents/CA/privacy-policy.php:75
 msgctxt "Legal document privacy statement"
 msgid "We do not share data with third parties."
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:121
-#: pro/config/documents/CA/privacy-policy.php:47
+#: pro/config/documents/CA/privacy-policy.php:45
 msgctxt "Legal document privacy statement"
 msgid "Purpose of the data transfer:"
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:122
-#: pro/config/documents/CA/privacy-policy.php:48
+#: pro/config/documents/CA/privacy-policy.php:46
 msgctxt "Legal document privacy statement"
 msgid "Country or state in which this third party is located:"
 msgstr ""
@@ -6726,14 +6723,14 @@ msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:135
 #: pro/config/documents/CA/privacy-policy-children.php:141
-#: pro/config/documents/CA/privacy-policy.php:72
-#: pro/config/documents/CA/privacy-policy.php:79
+#: pro/config/documents/CA/privacy-policy.php:88
+#: pro/config/documents/CA/privacy-policy.php:95
 msgctxt "privacy statement"
 msgid "How we respond to Do Not Track signals & Global Privacy Control "
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:136
-#: pro/config/documents/CA/privacy-policy.php:73
+#: pro/config/documents/CA/privacy-policy.php:89
 msgctxt "Legal document privacy statement"
 msgid ""
 "Our website responds to and supports the Do Not Track (DNT) header request "
@@ -6743,7 +6740,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:142
-#: pro/config/documents/CA/privacy-policy.php:80
+#: pro/config/documents/CA/privacy-policy.php:96
 msgctxt "Legal document privacy statement"
 msgid ""
 "Our website does not respond to and does not support the Do Not Track (DNT) "
@@ -6770,7 +6767,7 @@ msgid "Security"
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:155
-#: pro/config/documents/CA/privacy-policy.php:119
+#: pro/config/documents/CA/privacy-policy.php:135
 #: pro/config/documents/EU/privacy-policy.php:144
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -6782,7 +6779,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy-children.php:160
-#: pro/config/documents/CA/privacy-policy.php:123
+#: pro/config/documents/CA/privacy-policy.php:139
 #: pro/config/documents/EU/privacy-policy.php:148
 msgctxt "Legal document privacy statement"
 msgid "The security measures we use consist of:"
@@ -6870,9 +6867,7 @@ msgid ""
 "please contact us."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:30
-#: pro/config/documents/CA/privacy-policy.php:37
-#: pro/config/documents/CA/privacy-policy.php:58
+#: pro/config/documents/CA/privacy-policy.php:74
 #: pro/config/documents/EU/privacy-policy.php:24
 #: pro/config/documents/EU/privacy-policy.php:32
 #: pro/config/documents/EU/privacy-policy.php:84
@@ -6880,7 +6875,7 @@ msgctxt "Legal document privacy statement:paragraph title"
 msgid "Sharing with other parties"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:66
+#: pro/config/documents/CA/privacy-policy.php:82
 msgctxt "Legal document privacy statement"
 msgid ""
 "We disclose personal information if we are required by law or by a court "
@@ -6889,7 +6884,7 @@ msgid ""
 "investigation on a matter related to public safety."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:87
+#: pro/config/documents/CA/privacy-policy.php:103
 #: pro/config/documents/EU/privacy-policy.php:93
 #: pro/config/documents/EU/privacy-policy.php:101
 #: pro/config/documents/UK/privacy-policy.php:100
@@ -6897,7 +6892,7 @@ msgctxt "Legal document privacy statement:paragraph title"
 msgid "Cookies"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:88
+#: pro/config/documents/CA/privacy-policy.php:104
 #, php-format
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -6905,13 +6900,13 @@ msgid ""
 "to our Cookie Policy on our %s[cookie-statement-title]%s webpage."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:93
+#: pro/config/documents/CA/privacy-policy.php:109
 #: pro/config/documents/EU/privacy-policy.php:118
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Statistics"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:94
+#: pro/config/documents/CA/privacy-policy.php:110
 #: pro/config/documents/EU/privacy-policy.php:119
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -6919,36 +6914,36 @@ msgid ""
 "what way visitors use our website."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:100
+#: pro/config/documents/CA/privacy-policy.php:116
 #: pro/config/documents/EU/privacy-policy.php:125
 msgctxt "Legal document privacy statement"
 msgid "We have concluded a data Processing Agreement with Google."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:106
+#: pro/config/documents/CA/privacy-policy.php:122
 #: pro/config/documents/EU/privacy-policy.php:131
 msgctxt "Legal document privacy statement"
 msgid "Google may not use the data for any other Google services."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:112
+#: pro/config/documents/CA/privacy-policy.php:128
 #: pro/config/documents/EU/privacy-policy.php:137
 msgctxt "Legal document privacy statement"
 msgid "The inclusion of full IP addresses is blocked by us."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:118
+#: pro/config/documents/CA/privacy-policy.php:134
 #: pro/config/documents/EU/privacy-policy.php:143
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Security"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:133
+#: pro/config/documents/CA/privacy-policy.php:149
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Third party websites"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:134
+#: pro/config/documents/CA/privacy-policy.php:150
 msgctxt "Legal document privacy statement"
 msgid ""
 "This privacy statement does not apply to third party websites connected by "
@@ -6957,13 +6952,13 @@ msgid ""
 "privacy statements of these websites prior to making use of these websites."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:138
+#: pro/config/documents/CA/privacy-policy.php:154
 #: pro/config/documents/EU/privacy-policy.php:163
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Amendments to this privacy statement"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:139
+#: pro/config/documents/CA/privacy-policy.php:155
 #: pro/config/documents/EU/privacy-policy.php:164
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -6973,12 +6968,12 @@ msgid ""
 "possible."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:142
+#: pro/config/documents/CA/privacy-policy.php:158
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Accessing and modifying your data"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:143
+#: pro/config/documents/CA/privacy-policy.php:159
 msgctxt "Legal document privacy statement"
 msgid ""
 "If you have any questions or want to know which personal data we have about "
@@ -6989,24 +6984,24 @@ msgid ""
 "information below."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:148
+#: pro/config/documents/CA/privacy-policy.php:164
 msgctxt "Legal document privacy statement"
 msgid "You have the following rights with respect to your personal data"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:150
+#: pro/config/documents/CA/privacy-policy.php:166
 msgctxt "Legal document privacy statement"
 msgid "You may submit a request for access to the data we process about you."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:151
+#: pro/config/documents/CA/privacy-policy.php:167
 msgctxt "Legal document privacy statement"
 msgid ""
 "You may request an overview, in a commonly used format, of the data we "
 "process about you."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:152
+#: pro/config/documents/CA/privacy-policy.php:168
 msgctxt "Legal document privacy statement"
 msgid ""
 "You may request correction or deletion of the data if it is incorrect or not "
@@ -7014,7 +7009,7 @@ msgid ""
 "transmitted to third parties having access to the information in question."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:153
+#: pro/config/documents/CA/privacy-policy.php:169
 msgctxt "Legal document privacy statement"
 msgid ""
 "You have the right to withdraw consent at any time, subject to legal or "
@@ -7022,7 +7017,7 @@ msgid ""
 "implications of such withdrawal."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:154
+#: pro/config/documents/CA/privacy-policy.php:170
 msgctxt "Legal document privacy statement"
 msgid ""
 "You have the right to address a challenge concerning non-compliance with "
@@ -7030,7 +7025,7 @@ msgid ""
 "of the Privacy Commissioner of Canada."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:155
+#: pro/config/documents/CA/privacy-policy.php:171
 msgctxt "Legal document privacy statement"
 msgid ""
 "We shall give access to personal information in an alternative format to an "
@@ -7041,13 +7036,13 @@ msgid ""
 "necessary in order for the individual to be able to exercise rights."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:160
-#: pro/config/documents/CA/privacy-policy.php:166
+#: pro/config/documents/CA/privacy-policy.php:176
+#: pro/config/documents/CA/privacy-policy.php:182
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Children"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:161
+#: pro/config/documents/CA/privacy-policy.php:177
 msgctxt "Legal document privacy statement"
 msgid ""
 "Our website is not designed to attract children and it is not our intent to "
@@ -7056,7 +7051,7 @@ msgid ""
 "consent do not submit any personal data to us."
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:167
+#: pro/config/documents/CA/privacy-policy.php:183
 #, php-format
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -7064,20 +7059,20 @@ msgid ""
 "%sChildren's Privacy Statement%s"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:172
+#: pro/config/documents/CA/privacy-policy.php:188
 #: pro/config/documents/EU/privacy-policy.php:207
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Contact details"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:183
+#: pro/config/documents/CA/privacy-policy.php:199
 msgctxt "Legal document privacy statement"
 msgid ""
 "We have appointed a contact person for the organization’s policies and "
 "practices and to whom complaints or inquiries can be forwarded:"
 msgstr ""
 
-#: pro/config/documents/CA/privacy-policy.php:189
+#: pro/config/documents/CA/privacy-policy.php:205
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Annex"
 msgstr ""
@@ -9534,150 +9529,160 @@ msgid ""
 "each one, and add the details of the data you share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:648
+#: pro/config/questions-wizard.php:654
+msgid "Third-party details"
+msgstr ""
+
+#: pro/config/questions-wizard.php:655
+msgid ""
+"If you share data with Third Parties, add a \"Third-Party\" for each one, "
+"and add the details of the data you share."
+msgstr ""
+
+#: pro/config/questions-wizard.php:664
 msgid ""
 "Select which categories of personal data you have disclosed for a business "
 "purpose in the past 12 months"
 msgstr ""
 
-#: pro/config/questions-wizard.php:665
+#: pro/config/questions-wizard.php:681
 msgid ""
 "Select which categories of personal data you have sold to Third Parties in "
 "the past 12 months"
 msgstr ""
 
-#: pro/config/questions-wizard.php:688
+#: pro/config/questions-wizard.php:704
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 
-#: pro/config/questions-wizard.php:694
+#: pro/config/questions-wizard.php:710
 msgid ""
 "You have answered that you use webforms on your site. Not every form that "
 "collects personal data requires a checkbox."
 msgstr ""
 
-#: pro/config/questions-wizard.php:705
+#: pro/config/questions-wizard.php:721
 msgid "Does your website contain or process sensitive (personal) information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:709
+#: pro/config/questions-wizard.php:725
 msgid ""
 "Sensitive personal information is considered to data that is very likely to "
 "have a greater impact on Privacy. For example medical, religious or legal "
 "information."
 msgstr ""
 
-#: pro/config/questions-wizard.php:721
+#: pro/config/questions-wizard.php:737
 msgid ""
 "Do you want to provide a detailed list of security measures in your Privacy "
 "Statement?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:723
+#: pro/config/questions-wizard.php:739
 msgid "No, provide a general explanation"
 msgstr ""
 
-#: pro/config/questions-wizard.php:724
+#: pro/config/questions-wizard.php:740
 msgid "Yes, we will list our security measures"
 msgstr ""
 
-#: pro/config/questions-wizard.php:738
+#: pro/config/questions-wizard.php:754
 msgid "Which security measures did you take?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:758
+#: pro/config/questions-wizard.php:774
 #, php-format
 msgid ""
 "Quickly want to implement most of these security headers? Check out %sReally "
 "Simple SSL Pro%s."
 msgstr ""
 
-#: pro/config/questions-wizard.php:772
+#: pro/config/questions-wizard.php:788
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:784
+#: pro/config/questions-wizard.php:800
 msgid "https://your-terms-page.com"
 msgstr ""
 
-#: pro/config/questions-wizard.php:789
+#: pro/config/questions-wizard.php:805
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:790 pro/config/questions-wizard.php:1033
+#: pro/config/questions-wizard.php:806 pro/config/questions-wizard.php:1049
 #, php-format
 msgid "Also see our free %sTerms & Conditions%s plugin"
 msgstr ""
 
-#: pro/config/questions-wizard.php:797
+#: pro/config/questions-wizard.php:813
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
 
-#: pro/config/questions-wizard.php:807
+#: pro/config/questions-wizard.php:823
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:823
+#: pro/config/questions-wizard.php:839
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:825
+#: pro/config/questions-wizard.php:841
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: pro/config/questions-wizard.php:826
+#: pro/config/questions-wizard.php:842
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: pro/config/questions-wizard.php:827
+#: pro/config/questions-wizard.php:843
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: pro/config/questions-wizard.php:843
+#: pro/config/questions-wizard.php:859
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:861
+#: pro/config/questions-wizard.php:877
 msgid "What is the name of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:879
+#: pro/config/questions-wizard.php:895
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:897
+#: pro/config/questions-wizard.php:913
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:899
+#: pro/config/questions-wizard.php:915
 msgid "Registration"
 msgstr ""
 
-#: pro/config/questions-wizard.php:900
+#: pro/config/questions-wizard.php:916
 msgid "Content created by a child and publicly shared"
 msgstr ""
 
-#: pro/config/questions-wizard.php:901
+#: pro/config/questions-wizard.php:917
 msgid "Chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:902
+#: pro/config/questions-wizard.php:918
 msgid "Email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:918
+#: pro/config/questions-wizard.php:934
 #, php-format
 msgid ""
 "You have indicated that your website is not included in a COPPA Safe Harbor "
@@ -9685,124 +9690,124 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:935
+#: pro/config/questions-wizard.php:951
 msgid "Information collected for registration "
 msgstr ""
 
-#: pro/config/questions-wizard.php:954
+#: pro/config/questions-wizard.php:970
 msgid "Information collected for content created by a child"
 msgstr ""
 
-#: pro/config/questions-wizard.php:973
+#: pro/config/questions-wizard.php:989
 msgid "Information collected for chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:992
+#: pro/config/questions-wizard.php:1008
 msgid "Information collected for email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1013
+#: pro/config/questions-wizard.php:1029
 msgid "Which themes would you like to include in your Disclaimer?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1015
+#: pro/config/questions-wizard.php:1031
 msgid "Liability"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1016
+#: pro/config/questions-wizard.php:1032
 msgid "Reference to terms of use"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1017
+#: pro/config/questions-wizard.php:1033
 msgid "How you will answer inquiries"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1018
+#: pro/config/questions-wizard.php:1034
 msgid "Privacy and reference to the privacy statement"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1019
+#: pro/config/questions-wizard.php:1035
 msgid "Not liable when security is breached"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1020
+#: pro/config/questions-wizard.php:1036
 msgid "Not liable for third-party content"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1021
+#: pro/config/questions-wizard.php:1037
 msgid "Accessibility of the website for the disabled"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1032
+#: pro/config/questions-wizard.php:1048
 msgid "What is the URL of the Terms of Use?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1045
+#: pro/config/questions-wizard.php:1061
 msgid "Is your website built according to WCAG 2.1 level AA guidelines?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1061
+#: pro/config/questions-wizard.php:1077
 msgid "Who made the content of the website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1063
+#: pro/config/questions-wizard.php:1079
 msgid "The content is being developed by ourselves"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1064
+#: pro/config/questions-wizard.php:1080
 msgid "The content is being developed or posted by Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1065
+#: pro/config/questions-wizard.php:1081
 msgid "The content is being developed by ourselves and other parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1078
+#: pro/config/questions-wizard.php:1094
 msgid "What do you want to do with any intellectual property claims?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1080
+#: pro/config/questions-wizard.php:1096
 msgid "All rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1081
+#: pro/config/questions-wizard.php:1097
 msgid "No rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1082
+#: pro/config/questions-wizard.php:1098
 msgid "Creative Commons - Attribution"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1083
+#: pro/config/questions-wizard.php:1099
 msgid "Creative Commons - Share a like"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1084
+#: pro/config/questions-wizard.php:1100
 msgid "Creative Commons - No derivatives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1085
+#: pro/config/questions-wizard.php:1101
 msgid "Creative Commons - Noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1086
+#: pro/config/questions-wizard.php:1102
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1089
+#: pro/config/questions-wizard.php:1105
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
 "legally and to share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1104
+#: pro/config/questions-wizard.php:1120
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1113
+#: pro/config/questions-wizard.php:1129
 msgid "Annex of your Privacy Statement"
 msgstr ""
 
@@ -10164,26 +10169,26 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:317
-#: pro/records-of-consent/class-records-of-consent.php:318
-#: pro/records-of-consent/class-records-of-consent.php:362
+#: pro/records-of-consent/class-records-of-consent.php:320
+#: pro/records-of-consent/class-records-of-consent.php:321
+#: pro/records-of-consent/class-records-of-consent.php:365
 msgid "Records of consent"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:367
+#: pro/records-of-consent/class-records-of-consent.php:370
 msgid "Generate proof of consent file"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:368
+#: pro/records-of-consent/class-records-of-consent.php:371
 msgid "Export to csv"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:374
+#: pro/records-of-consent/class-records-of-consent.php:377
 #: proof-of-consent/class-proof-of-consent.php:265
 msgid "Proof of consent updated!"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:378
+#: pro/records-of-consent/class-records-of-consent.php:381
 #: proof-of-consent/class-proof-of-consent.php:269
 msgid ""
 "Proof of consent generation failed. Check your write permissions in the "

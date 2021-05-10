@@ -308,6 +308,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 
 function cmplz_add_hide_cookiebanner_meta_box($post_type)
 {
+	if ( !is_post_type_viewable( $post_type )) return;
 	if ( !cmplz_user_can_manage() ) return;
 
 	add_meta_box('cmplz_edit_meta_box', __('Cookiebanner', 'complianz-gdpr'), 'cmplz_hide_cookiebanner_metabox', null, 'side', 'default', array());

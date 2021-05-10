@@ -290,7 +290,7 @@ function cmplz_notice_add_pages_to_menu() {
 	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
 	if ( $pages_not_in_menu ) {
 		if ( cmplz_ccpa_applies() ) {
-			cmplz_sidebar_notice( sprintf( __( 'You sell personal data from your customers. This means you are required to put the "%s" page clearly visible on your homepage.',
+			cmplz_sidebar_notice( sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
 					'complianz-gdpr' ),
 					cmplz_us_cookie_statement_title() ) );
 		}
