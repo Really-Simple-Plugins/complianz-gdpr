@@ -3,7 +3,7 @@
  * Plugin Name: Complianz | GDPR/CCPA Cookie Consent
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
- * Version: 5.0.2
+ * Version: 5.0.3
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
  * Author: Really Simple Plugins
@@ -224,7 +224,6 @@ if ( ! function_exists( 'cmplz_set_activation_time_stamp' ) ) {
 	}
 
 	register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp' );
-
 }
 
 if ( ! function_exists( 'cmplz_start_tour' ) ) {
@@ -232,6 +231,10 @@ if ( ! function_exists( 'cmplz_start_tour' ) ) {
 	 * Start the tour of the plugin on activation
 	 */
 	function cmplz_start_tour() {
+		if (!get_option('cmplz_show_terms_conditions_notice')) {
+			update_option('cmplz_show_terms_conditions_notice', time());
+		}
+
 		if ( ! get_site_option( 'cmplz_tour_shown_once' ) ) {
 			update_site_option( 'cmplz_tour_started', true );
 		}
