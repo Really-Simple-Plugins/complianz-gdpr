@@ -171,6 +171,18 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'PixelYourSite Pro',
 			'firstparty_marketing' => false,
 	),
+	
+	'pixelyoursite-pinterest'     => array(
+			'constant_or_function' => 'PYS_PINTEREST_VERSION',
+			'label'                => 'PixelYourSite Pinterest',
+			'firstparty_marketing' => false,
+	),
+
+	'pixelyoursite-bing'     => array(
+			'constant_or_function' => 'PYS_BING_VERSION',
+			'label'                => 'PixelYourSite Bing',
+			'firstparty_marketing' => false,
+	),
 
 	'weglot-translate'          => array(
 		'constant_or_function' => 'WEGLOT_VERSION',

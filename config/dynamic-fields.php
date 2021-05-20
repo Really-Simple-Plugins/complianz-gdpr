@@ -10,6 +10,8 @@ function cmplz_filter_field_types( $fields ) {
 	if ( cmplz_has_region( 'us' )
 	     || ( cmplz_has_region( 'ca' )
 	          && cmplz_get_value( 'privacy-statement' ) === 'generated' )
+	     || ( cmplz_has_region( 'au' )
+	          && cmplz_get_value( 'privacy-statement' ) === 'generated' )
 	) {
 		foreach ( COMPLIANZ::$config->purposes as $key => $label ) {
 

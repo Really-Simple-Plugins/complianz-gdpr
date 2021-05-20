@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'last-updated' => array(
-        'content' => '<i>' . sprintf('This Cookie Policy was last updated on %s and applies to citizens of the United Kingdom.', '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the United Kingdom.', '[publish_date]') . '</i>',
     ),
     'introduction' => array(
         'title' => 'Introduction',
@@ -33,16 +33,16 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
 
 	array(
-	    'subtitle' => 'Analytical cookies',
-	    'content' => 'We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.'
-	                 .'&nbsp;'.'We ask your permission to place analytical cookies.',
+	    'subtitle' => 'Statistics cookies',
+	    'content' => 'We use statistics cookies to optimize the website experience for our users. With these statistics cookies we get insights in the usage of our website.'
+	                 .'&nbsp;'.'We ask your permission to place statistics cookies.',
 	    'callback_condition' => 'cmplz_cookie_warning_required_stats_uk',
 	    'condition' => array('compile_statistics' => 'NOT no'),
     ),
 
 	array(
-		'subtitle' => 'Analytical cookies',
-		'content' => 'Because statistics are being tracked anonymously, no permission is asked to place analytical cookies.',
+		'subtitle' => 'Statistics cookies',
+		'content' => 'Because statistics are being tracked anonymously, no permission is asked to place statistics cookies.',
 		'callback_condition' => 'NOT cmplz_cookie_warning_required_stats_uk',
 		'condition' => array('compile_statistics' => 'NOT no'),
 

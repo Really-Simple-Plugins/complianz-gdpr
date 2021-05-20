@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['ca']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . sprintf(_x("This page was last changed on %s, last checked on %s and applies to citizens of Canada.","Legal document cookie policy","complianz-gdpr"), '[publish_date]', '[checked_date]') . '</i>',
+        'content' => '<i>' . sprintf(_x("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of Canada.","Legal document cookie policy","complianz-gdpr"), '[publish_date]', '[checked_date]') . '</i>',
     ),
     array(
 	    'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -40,10 +40,10 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'content' => _x('Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid.','Legal document cookie policy', 'complianz-gdpr'),
     ),
 
-    //analytical
+    //statistics
     array(
-        'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.','Legal document cookie policy', 'complianz-gdpr'),
+        'subtitle' => _x('Statistics cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+        'content' => _x('We use statistics cookies to optimize the website experience for our users. With these statistics cookies we get insights in the usage of our website.','Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_uses_statistics',
         'condition' => array('compile_statistics' => 'NOT no'),
     ),

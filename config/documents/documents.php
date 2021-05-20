@@ -22,7 +22,8 @@ $this->pages['us'] = array(
             'regions' => 'us',
             'cookie-statement' => 'generated',
         ),
-    ),);
+    ),
+);
 
 $this->pages['uk'] = array(
 	'cookie-statement' => array(
@@ -45,5 +46,16 @@ $this->pages['ca'] = array(
 		    'regions' => 'ca',
 		    'cookie-statement' => 'generated',
 	    ),
+    ),
+);
+$this->pages['au'] = array(
+    'cookie-statement' => array(
+        'title' => 'Cookie Policy (AU)',
+        'public' => true,
+        'document_elements' => '',
+        'condition' => array(
+            'regions' => 'au',
+            'cookie-statement' => 'generated',
+        ),
     ),
 );

@@ -1,9 +1,9 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-add_filter( 'cmplz_known_script_tags', 'cmplz_pixelyoursite_script' );
-function cmplz_pixelyoursite_script( $tags ) {
-	$tags[] = 'pixelyoursite/dist';
+add_filter( 'cmplz_known_script_tags', 'cmplz_pixelyoursite_pinterest_script' );
+function cmplz_pixelyoursite_pinterest_script( $tags ) {
+	$tags[] = 'pixelyoursite-pinterest/dist';
 
 	return $tags;
 }
@@ -15,9 +15,9 @@ function cmplz_pixelyoursite_script( $tags ) {
  *
  * @return array
  */
-function cmplz_pixelyoursite_detected_social_media( $social_media ) {
-	if ( ! in_array( 'facebook', $social_media ) ) {
-		$social_media[] = 'facebook';
+function cmplz_pixelyoursite_pinterest_detected_social_media( $social_media ) {
+	if ( ! in_array( 'pinterest', $social_media ) ) {
+		$social_media[] = 'pinterest';
 	}
 
 	return $social_media;

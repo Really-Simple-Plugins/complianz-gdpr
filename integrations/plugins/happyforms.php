@@ -119,9 +119,7 @@ function cmplz_happyforms_add_consent_checkbox( $form_id ) {
 		$form_data['parts'][] = $part_data;
 		$form_controller->update( $form_data );
 	}
-
 }
 
 add_action( "cmplz_add_consent_box_happyforms",
 	'cmplz_happyforms_add_consent_checkbox' );
-

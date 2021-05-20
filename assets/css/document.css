@@ -33,6 +33,7 @@
   grid-template: "heading chevron";
   grid-template-columns: 2fr 35px;
   grid-gap: 15px;
+  align-items: center;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div h3,
 #cmplz-document .cmplz-dropdown summary div h3 {
@@ -253,6 +254,10 @@
 #cmplz-document .cmplz-indent {
   margin-left: 36px;
 }
+#cmplz-cookies-overview .cmplz-dropdown,
+#cmplz-document .cmplz-dropdown {
+  background-color: rgba(239, 239, 239, 0.25);
+}
 #cmplz-cookies-overview .cmplz-dropdown h4,
 #cmplz-document .cmplz-dropdown h4 {
   font-size: 18px;
@@ -262,15 +267,31 @@
   text-transform: initial;
 }
 #cmplz-cookies-overview .cmplz-dropdown p,
-#cmplz-document .cmplz-dropdown p {
+#cmplz-document .cmplz-dropdown p,
+#cmplz-cookies-overview .cmplz-dropdown a,
+#cmplz-document .cmplz-dropdown a {
   font-size: 14px;
   margin-top: 0;
 }
+#cmplz-cookies-overview .cmplz-dropdown p,
+#cmplz-document .cmplz-dropdown p,
+#cmplz-cookies-overview .cmplz-dropdown a,
+#cmplz-document .cmplz-dropdown a,
+#cmplz-cookies-overview .cmplz-dropdown h4,
+#cmplz-document .cmplz-dropdown h4,
+#cmplz-cookies-overview .cmplz-dropdown ul,
+#cmplz-document .cmplz-dropdown ul {
+  padding: 0 15px ;
+}
+#cmplz-cookies-overview .cmplz-dropdown p.legal-obligations-description,
+#cmplz-document .cmplz-dropdown p.legal-obligations-description {
+  padding-bottom: 15px;
+}
 #cmplz-cookies-overview .cmplz-dropdown summary,
 #cmplz-document .cmplz-dropdown summary {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(239, 239, 239, 0.5);
   margin: 5px 0;
-  padding: 0 10px;
+  padding: 5px 10px;
   align-items: center;
   justify-items: stretch;
 }
@@ -288,10 +309,6 @@
   font-size: 14px;
   border-bottom: 0;
 }
-#cmplz-cookies-overview .cmplz-dropdown summary div,
-#cmplz-document .cmplz-dropdown summary div {
-  padding-top: 10px;
-}
 #cmplz-cookies-overview .cmplz-dropdown summary div:after,
 #cmplz-document .cmplz-dropdown summary div:after {
   cursor: pointer;
@@ -305,7 +322,11 @@
   background-size: cover;
   height: 25px;
   width: 25px;
-  margin: 0 5px 5px;
+  margin: 5px;
+}
+#cmplz-cookies-overview .cmplz-dropdown[open],
+#cmplz-document .cmplz-dropdown[open] {
+  padding-bottom: 1px;
 }
 #cmplz-cookies-overview .cmplz-dropdown[open] summary div:after,
 #cmplz-document .cmplz-dropdown[open] summary div:after {

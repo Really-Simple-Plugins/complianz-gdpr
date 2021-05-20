@@ -261,6 +261,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$consenttype = 'optin';
 			}
 
+			if ( $region === 'au' 
+				 && cmplz_site_shares_data()
+			     && cmplz_get_value( 'sensitive_information_processed' )
+			     && cmplz_uses_marketing_cookies()
+			) {
+				$consenttype = 'optin';	
+			}
+
+
 			return $consenttype;
 		}
 
@@ -697,9 +706,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				//group by service
 				$grouped_by_service = array();
 				foreach ( $items as $cookie ) {
-					$service                          = strlen( $cookie->service )
-					                                    !== 0 ? $cookie->service
-						: 'no-service';
+					$service = strlen( $cookie->service ) !== 0 ? $cookie->service : 'no-service';
 					$grouped_by_service[ $service ][] = $cookie;
 				}
 
@@ -1103,21 +1110,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							continue;
 						}
 
-						$cookie                  = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
-						$cookie->name            = $cookie_object->name;
-						$cookie->retention       = $cookie_object->retention;
-						$cookie->type            = $cookie_object->type;
-						$cookie->collectedPersonalData
-						                         = $cookie_object->collectedPersonalData;
-						$cookie->cookieFunction  = $cookie_object->cookieFunction;
-						$cookie->purpose         = $cookie_object->purpose;
-						$cookie->isPersonalData  = $cookie_object->isPersonalData;
-						$cookie->isMembersOnly   = $cookie_object->isMembersOnly;
-						$cookie->service         = $cookie_object->service;
-						$cookie->ignored         = $cookie_object->ignore;
-						$cookie->slug            = $cookie_object->slug;
-						$cookie->lastUpdatedDate = time();
-
+						$cookie                      = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
+						$cookie->name                = $cookie_object->name;
+						$cookie->retention           = $cookie_object->retention;
+						$cookie->type                = $cookie_object->type;
+						$cookie->collectedPersonalDa = $cookie_object->collectedPersonalData;
+						$cookie->cookieFunction      = $cookie_object->cookieFunction;
+						$cookie->purpose             = $cookie_object->purpose;
+						$cookie->isPersonalData      = $cookie_object->isPersonalData;
+						$cookie->isMembersOnly       = $cookie_object->isMembersOnly;
+						$cookie->service             = $cookie_object->service;
+						$cookie->ignored             = $cookie_object->ignore;
+						$cookie->slug                = $cookie_object->slug;
 						$cookie->save();
 						$isTranslationFrom[ $cookie->name ] = $cookie->ID;
 					}
@@ -1133,37 +1137,29 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							if ( ! isset( $cookie_object->name ) ) {
 								continue;
 							}
-
-							$cookie                  = new CMPLZ_COOKIE( $original_cookie_name, $language );
-							$cookie->name            = $cookie_object->name;
-							$cookie->retention       = $cookie_object->retention;
-							$cookie->collectedPersonalData
-							                         = $cookie_object->collectedPersonalData;
-							$cookie->cookieFunction  = $cookie_object->cookieFunction;
-							$cookie->purpose         = $cookie_object->purpose;
-							$cookie->isPersonalData  = $cookie_object->isPersonalData;
-							$cookie->isMembersOnly   = $cookie_object->isMembersOnly;
-							$cookie->service         = $cookie_object->service;
-							$cookie->slug            = $cookie_object->slug;
-							$cookie->ignored         = $cookie_object->ignore;
-							$cookie->lastUpdatedDate = time();
+							$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language);
+							$cookie->name                  = $cookie_object->name;
+							$cookie->retention             = $cookie_object->retention;
+							$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
+							$cookie->cookieFunction        = $cookie_object->cookieFunction;
+							$cookie->purpose               = $cookie_object->purpose;
+							$cookie->isPersonalData        = $cookie_object->isPersonalData;
+							$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
+							$cookie->service               = $cookie_object->service;
+							$cookie->slug                  = $cookie_object->slug;
+							$cookie->ignored               = $cookie_object->ignore;
 
 							//when there's no en cookie, create one.
 							if ( ! isset( $isTranslationFrom[ $cookie->name ] )
 							     && $language !== 'en'
 							) {
-								$parent_cookie
-									= new CMPLZ_COOKIE( $cookie->name, 'en' );
+								$parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
 								$parent_cookie->save();
-								$isTranslationFrom[ $cookie->name ]
-									= $parent_cookie->ID;
+								$isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
 							}
 
-							$cookie->isTranslationFrom
-								= $isTranslationFrom[ $cookie->name ];
-
+							$cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
 							$cookie->save();
-
 						}
 					}
 				}
@@ -1389,21 +1385,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 						$service       = new CMPLZ_SERVICE( $original_service_name, 'en' );
 						$service->name = $service_object->name;
-						$service->privacyStatementURL
-						               = $service_object->privacyStatementURL;
-						$service->sharesData
-						               = $service_object->sharesData;
-						$service->secondParty
-						               = $service_object->secondParty;
-						$service->thirdParty
-						               = $service_object->sharesData
-						                 && ! $service_object->secondParty; //won't get saved, but for next part of code.
-						$service->serviceType
-						               = $service_object->serviceType;
+						$service->privacyStatementURL = $service_object->privacyStatementURL;
+						$service->sharesData = $service_object->sharesData;
+						$service->secondParty = $service_object->secondParty;
+						//won't get saved, but for next part of code.
+						$service->thirdParty = $service_object->sharesData && ! $service_object->secondParty;
+						$service->serviceType = $service_object->serviceType;
 						$service->slug = $service_object->slug;
-
-						$service->lastUpdatedDate = time();
-
 						$service->save( false, false );
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
@@ -1444,28 +1432,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						if ( ! isset( $service_object->name ) ) {
 							continue;
 						}
-						$service                  = new CMPLZ_SERVICE( $original_service_name,
-							$language );
-						$service->name            = $service_object->name;
-						$service->privacyStatementURL
-						                          = $service_object->privacyStatementURL;
-						$service->sharesData
-						                          = $service_object->sharesData;
-						$service->secondParty
-						                          = $service_object->secondParty;
-						$service->serviceType
-						                          = $service_object->serviceType;
-						$service->slug            = $service_object->slug;
-						$service->lastUpdatedDate = time();
+						$service                  = new CMPLZ_SERVICE( $original_service_name, $language );
+						$service->name = $service_object->name;
+						$service->privacyStatementURL = $service_object->privacyStatementURL;
+						$service->sharesData = $service_object->sharesData;
+						$service->secondParty = $service_object->secondParty;
+						$service->serviceType = $service_object->serviceType;
+						$service->slug = $service_object->slug;
 
 						//when there's no 'en' service, create one.
 						if ( ! isset( $isTranslationFrom[ $service->name ] ) ) {
-							$parent_service           = new CMPLZ_SERVICE( $service->name,
-								'en' );
-							$service->lastUpdatedDate = time();
+							$parent_service           = new CMPLZ_SERVICE( $service->name, 'en' );
 							$parent_service->save( false, false );
-							$isTranslationFrom[ $service->name ]
-								= $parent_service->ID;
+							$isTranslationFrom[ $service->name ] = $parent_service->ID;
 						}
 
 						$service->isTranslationFrom = $isTranslationFrom[ $service->name ];
@@ -2906,7 +2885,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					get_option( 'cmplz_cookie_data_verified_date' ) );
 			}
 			if ( $settings['lastUpdatedDate'] ) {
-				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE)',
+				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate=0)',
 					intval( $settings['lastUpdatedDate'] ) );
 			}
 			$cookies
@@ -2992,7 +2971,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( $settings['lastUpdatedDate'] ) {
-				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE)',
+				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate = 0 )',
 					intval( $settings['lastUpdatedDate'] ) );
 			}
 			$sql      = "select * from {$wpdb->prefix}cmplz_services where "

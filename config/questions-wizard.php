@@ -33,6 +33,7 @@ $this->fields = $this->fields + array(
 			'default'  => '',
 			'type'     => 'radio',
 			'revoke_consent_onchange' => true,
+
 			'options'  => $this->supported_regions,
 			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?", 'complianz-gdpr' ),
 			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr')

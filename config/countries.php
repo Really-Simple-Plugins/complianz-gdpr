@@ -64,6 +64,12 @@ $this->regions = array(
 		'countries' => array( 'GB' ),
 		'law'       => __( "UK-GDPR", 'complianz-gdpr' ),
 		'type'      => 'optinstats',
+	),
+	'au' => array(
+		'label'     => __( 'AU', 'complianz-gdpr' ),
+		'countries' => array( 'AU' ),
+		'law'       => __( "APA", 'complianz-gdpr' ),
+		'type'      => 'optout',
 	)
 );
 
@@ -72,6 +78,7 @@ $this->supported_regions = array(
 	'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)', 'complianz-gdpr' ),
 	'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
 	'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
+	'au' => __( 'Privacy Act 1988 (Australia)', 'complianz-gdpr' ),
 );
 
 $this->cookie_consent_converter = array(

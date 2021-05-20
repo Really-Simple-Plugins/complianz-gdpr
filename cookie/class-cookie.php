@@ -90,12 +90,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function add(
-			$name, $languages = array( 'en' ), $return_language = false,
-			$service_name = false, $sync_on = true
+			$name, $languages = array( 'en' ), $return_language = false, $service_name = false, $sync_on = true
 		) {
 			$this->name = $this->sanitize_cookie( $name );
 
-			//the parent cookie gets en as default language
+			//the parent cookie gets "en" as default language
 			$this->language = 'en';
 			$return_id      = 0;
 
@@ -261,7 +260,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			//if there's no match, try to do a fuzzy match
 			if ( ! $cookie ) {
 				$cookies = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where language = %s $sql", $this->language ) );
-				$cookies   = wp_list_pluck( $cookies, 'name', 'ID' );
+				$cookies = wp_list_pluck( $cookies, 'name', 'ID' );
 				$cookie_id = $this->get_fuzzy_match( $cookies, $this->name );
 				if ( $cookie_id ) {
 					$cookie
@@ -301,13 +300,14 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 			/**
 			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 * To prevent newly added cookies from getting translated, only translate when not in admin or cron, leaving front-end, where cookies aren't saved.
 			 */
-			if ( !defined('POLYLANG_VERSION') ) {
-				$this->retention = cmplz_translate($this->retention, 'cookie_retention');
-				$this->type = cmplz_translate($this->type, 'cookie_storage_type');
-				$this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
-				$this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
-				$this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
+			if ( !defined('POLYLANG_VERSION') && $this->language !== 'en' && !is_admin() && !wp_doing_cron() ) {
+				if (!empty($this->retention) ) $this->retention = cmplz_translate($this->retention, 'cookie_retention');
+				//type should not be translated
+				if (!empty($this->cookieFunction) ) $this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
+				if (!empty($this->purpose) ) $this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
+				if (!empty($this->collectedPersonalData) ) $this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
 			}
 
 			/**
@@ -359,8 +359,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$service = new CMPLZ_SERVICE( $this->service, $this->language );
 				if ( ! $service->ID ) {
 					$languages       = $this->get_used_languages();
-					$this->serviceID = $service->add( $this->service,
-						$languages, $this->language );
+					$this->serviceID = $service->add( $this->service, $languages, $this->language );
 				} else {
 					$this->serviceID = $service->ID;
 				}
@@ -405,7 +404,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'language'              => cmplz_sanitize_language( $this->language ),
 				'isTranslationFrom'     => intval( $this->isTranslationFrom ),
 				'showOnPolicy'          => boolval( $this->showOnPolicy ),
-				'lastUpdatedDate'       => intval( $this->lastUpdatedDate ),
+				'lastUpdatedDate'       => time(),
 				'lastAddDate'           => intval( $this->lastAddDate ),
 				'slug'                  => sanitize_title( $this->slug ),
 			);
@@ -418,6 +417,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			global $wpdb;
 			//if we have an ID, we update the existing value
 			if ( $this->ID ) {
+
 				$wpdb->update( $wpdb->prefix . 'cmplz_cookies',
 					$update_array,
 					array( 'ID' => $this->ID )

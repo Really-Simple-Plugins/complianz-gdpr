@@ -197,6 +197,7 @@
 }
 //needs to apply both to separate cookie shortcode, cookie policy and privacy policy
 #cmplz-cookies-overview .cmplz-dropdown, #cmplz-document .cmplz-dropdown{
+  background-color: rgba(239, 239, 239, 0.25);
   h4 {
 	font-size: 18px;
 	text-align: left;
@@ -204,50 +205,60 @@
 	margin-bottom: 5px;
 	text-transform: initial;
   }
-  p {
+  p, a {
 	font-size: 14px;
 	margin-top: 0;
   }
+  p, a, h4, ul{
+    padding: 0 15px ;
+  }
+  p{
+	&.legal-obligations-description{
+	  padding-bottom: 15px;
+	}
+  }
   summary{
-	background-color: rgba(255, 255, 255, 0.5);
-	margin: 5px 0;
-	padding: 0 10px;
-	align-items: center;
-	justify-items: stretch;
-	h3 {
-	  padding: 0 5px;
-	  border-bottom: 0;
-	  font-size: 18px;
-	  border-bottom: 0;
-	}
-	p{
-	  text-align: right;
-	  padding: 0;
-	  margin: 0;
-	  font-size: 14px;
-	  border-bottom: 0;
-	}
-	div {
-	  padding-top:10px;
-	  &:after {
-		cursor: pointer;
-		content: '';
-		background: url(../images/down.png) no-repeat;
-		transform: rotate(0deg);
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
-		background-size: cover;
-		height: 25px;
-		width: 25px;
-		margin: 0 5px 5px;
+  	background-color: rgba(239, 239, 239, 0.5);
+  	margin: 5px 0;
+  	padding: 5px 10px;
+  	align-items: center;
+  	justify-items: stretch;
+  	h3 {
+  	  padding: 0 5px;
+  	  border-bottom: 0;
+  	  font-size: 18px;
+  	  border-bottom: 0;
+  	}
+  	p{
+  	  text-align: right;
+  	  padding: 0;
+  	  margin: 0;
+  	  font-size: 14px;
+  	  border-bottom: 0;
+  	}
+  	div {
+  	  &:after {
+  		cursor: pointer;
+  		content: '';
+  		background: url(../images/down.png) no-repeat;
+  		transform: rotate(0deg);
+  		-webkit-transition: all 0.5s ease;
+  		-moz-transition: all 0.5s ease;
+  		-o-transition: all 0.5s ease;
+  		transition: all 0.5s ease;
+  		background-size: cover;
+  		height: 25px;
+  		width: 25px;
+  		margin: 5px;
 	  }
 	}
 
   }
-  &[open] summary div:after {
-	transform: rotate(180deg);
+  &[open]{
+    padding-bottom: 1px;
+    summary div:after {
+      transform: rotate(180deg);
+    }
   }
   h4 {
 	font-size: 15px;

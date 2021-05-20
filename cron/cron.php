@@ -25,8 +25,7 @@ function cmplz_schedule_cron() {
 				'cmplz_every_month_hook' );
 		}
 
-		add_action( 'cmplz_every_week_hook',
-			array( COMPLIANZ::$document, 'cron_check_last_updated_status' ) );
+		add_action( 'cmplz_every_week_hook', array( COMPLIANZ::$document, 'cron_check_last_updated_status' ) );
 		add_action( 'cmplz_every_month_hook', 'cmplz_cron_clean_placeholders' );
 		add_action( 'cmplz_every_day_hook', array( COMPLIANZ::$proof_of_consent, 'generate_cookie_policy_snapshot' ) );
 

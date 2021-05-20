@@ -11,7 +11,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		function __construct() {
 			if ( isset( self::$_this ) ) {
 				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
-					get_class( $this ) ) );
+						get_class( $this ) ) );
 			}
 
 			self::$_this = $this;
@@ -22,17 +22,17 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			//show review notice, only to free users
 			if ( ! defined( "cmplz_premium" ) && ! is_multisite() ) {
 				if ( ! get_option( 'cmplz_review_notice_shown' )
-				     && get_option( 'cmplz_activation_time' )
-				     && get_option( 'cmplz_activation_time' )
-				        < strtotime( "-1 month" )
+					 && get_option( 'cmplz_activation_time' )
+					 && get_option( 'cmplz_activation_time' )
+						< strtotime( "-1 month" )
 				) {
 					add_action( 'wp_ajax_dismiss_review_notice',
-						array( $this, 'dismiss_review_notice_callback' ) );
+							array( $this, 'dismiss_review_notice_callback' ) );
 
 					add_action( 'admin_notices',
-						array( $this, 'show_leave_review_notice' ) );
+							array( $this, 'show_leave_review_notice' ) );
 					add_action( 'admin_print_footer_scripts',
-						array( $this, 'insert_dismiss_review' ) );
+							array( $this, 'insert_dismiss_review' ) );
 				}
 
 				//set a time for users who didn't have it set yet.
@@ -52,7 +52,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		public function show_leave_review_notice() {
 			if (isset( $_GET['cmplz_dismiss_review'] ) ) return;
 
-				/**
+			/**
 			 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
 			 *
 			 * */
@@ -61,34 +61,44 @@ if ( ! class_exists( "cmplz_review" ) ) {
 				return;
 			}
 			?>
-
+			<style>
+				.cmplz-review .button {
+					margin-right:10px;
+				}
+				.cmplz-review .cmplz-buttons-row {
+					padding:10px 0;
+				}
+				.cmplz-buttons-row a{
+					padding-top:20px
+				}
+			</style>
 			<div id="message"
-			     class="updated fade notice is-dismissible cmplz-review really-simple-plugins"
-			     style="border-left:4px solid #333">
-				<div class="cmplz-container">
-					<div class="cmplz-review-image"><img width=80px"
-					                                     src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
-					                                     alt="review-logo">
+				 class="updated fade notice is-dismissible cmplz-review really-simple-plugins"
+				 style="border-left:4px solid #333">
+				<div class="cmplz-container" style="display:flex">
+					<div class="cmplz-review-image" style="padding:20px 10px"><img width=80px"
+																			  src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
+																			  alt="review-logo">
 					</div>
 					<div style="margin-left:30px">
 						<p><?php printf( __( 'Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.',
-								'complianz-gdpr' ),
-								'<a href="https://complianz.io/contact" target="_blank">',
-								'</a>' ); ?></p>
+									'complianz-gdpr' ),
+									'<a href="https://complianz.io/contact" target="_blank">',
+									'</a>' ); ?></p>
 						<i>- Rogier</i>
 						<div class="cmplz-buttons-row">
 							<a class="button button-primary" target="_blank"
 							   href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review',
-									'complianz-gdpr' ); ?></a>
+										'complianz-gdpr' ); ?></a>
 
 							<div class="dashicons dashicons-calendar"></div>
 							<a href="#"
 							   id="maybe-later"><?php _e( 'Maybe later',
-									'complianz-gdpr' ); ?></a>
+										'complianz-gdpr' ); ?></a>
 
 							<div class="dashicons dashicons-no-alt"></div>
 							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again',
-									'complianz-gdpr' ); ?></a>
+										'complianz-gdpr' ); ?></a>
 						</div>
 					</div>
 				</div>

@@ -318,6 +318,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/documents/cookie-policy-us.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-uk.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-ca.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-au.php' );
 			require_once(cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {

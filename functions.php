@@ -1951,7 +1951,8 @@ if ( ! function_exists( 'cmplz_update_cookie_policy_title' ) ) {
 
 if ( ! function_exists( 'cmplz_ccpa_applies' ) ) {
 	function cmplz_ccpa_applies() {
-		return cmplz_get_value( 'california' , false, 'wizard' ) === 'yes'
+
+		return cmplz_has_region('us') && cmplz_get_value( 'california' , false, 'wizard' ) === 'yes'
 		       && cmplz_sells_personal_data();
 	}
 }
@@ -2158,6 +2159,7 @@ if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
      * @return bool
      */
     function cmplz_uses_marketing_cookies() {
+
         $uses_marketing_cookies =
 				cmplz_get_value('uses_ad_cookies') === 'yes'
 			|| cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes'

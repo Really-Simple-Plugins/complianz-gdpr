@@ -766,19 +766,6 @@ function cmplz_add_cookiebanner_settings($fields){
                 'condition'          => array( 'type' => 'optout' ),
             ),
 
-            'dismiss_on_scroll' => array(
-                'source'             => 'CMPLZ_COOKIEBANNER',
-                'step'               => 'settings',
-                'type'               => 'checkbox',
-                'label'              => __( "Dismiss on scroll", 'complianz-gdpr' ),
-                'tooltip'               => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.',
-                    'complianz-gdpr' ),
-                'default'            => false,
-                //setting this to true will set it always to true, as the get_cookie settings will see an empty value
-                'callback_condition' => 'cmplz_uses_optout',
-                'condition'          => array( 'type' => 'optout' ),
-            ),
-
             'readmore_privacy' => array(
                 'source'             => 'CMPLZ_COOKIEBANNER',
                 'step'               => 'settings',
@@ -788,6 +775,19 @@ function cmplz_add_cookiebanner_settings($fields){
                 'label'              => __( "Text on link to Privacy Statement",
                     'complianz-gdpr' ),
 
+                'callback_condition' => 'cmplz_uses_optout',
+                'condition'          => array( 'type' => 'optout' ),
+            ),
+
+            'dismiss_on_scroll' => array(
+                'source'             => 'CMPLZ_COOKIEBANNER',
+                'step'               => 'settings',
+                'type'               => 'checkbox',
+                'label'              => __( "Dismiss on scroll", 'complianz-gdpr' ),
+                'tooltip'               => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.',
+                    'complianz-gdpr' ),
+                'default'            => false,
+                //setting this to true will set it always to true, as the get_cookie settings will see an empty value
                 'callback_condition' => 'cmplz_uses_optout',
                 'condition'          => array( 'type' => 'optout' ),
             ),

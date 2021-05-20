@@ -33,6 +33,7 @@
   grid-template: "heading chevron";
   grid-template-columns: 2fr 35px;
   grid-gap: 15px;
+  align-items: center;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div h3,
 #cmplz-document .cmplz-dropdown summary div h3 {
