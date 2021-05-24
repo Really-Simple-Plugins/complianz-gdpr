@@ -74,15 +74,16 @@ function cmplz_show_compile_statistics_notice( $args ) {
 
 }
 
-add_action( 'cmplz_notice_consent_for_anonymous_stats',
-	'cmplz_notice_consent_for_anonymous_stats', 10, 1 );
-function cmplz_notice_consent_for_anonymous_stats( $args ) {
-	cmplz_sidebar_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.",
-			'complianz-gdpr' )
-	              . cmplz_read_more( 'https://complianz.io/google-analytics' ),
-		'warning' );
-
-}
+// Double?
+// add_action( 'cmplz_notice_consent_for_anonymous_stats',
+// 	'cmplz_notice_consent_for_anonymous_stats', 10, 1 );
+// function cmplz_notice_consent_for_anonymous_stats( $args ) {
+// 	cmplz_sidebar_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.",
+// 			'complianz-gdpr' )
+// 	              . cmplz_read_more( 'https://complianz.io/google-analytics' ),
+// 		'warning' );
+//
+// }
 
 
 add_action( 'cmplz_notice_uses_social_media',

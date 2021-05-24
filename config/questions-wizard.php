@@ -66,8 +66,7 @@ $this->fields = $this->fields + array(
 			'type'      => 'radio',
 			'options'   => $this->yes_no,
 			'condition' => array( 'regions' => 'eu' ),
-			'label'     => __( "Do you target visitors from Germany and/or Austria?",
-				'complianz-gdpr' ),
+			'label'     => __( "Do you target visitors from Germany, Austria, Belgium and/or Spain?", 'complianz-gdpr' ),
 			'required'  => true,
 		),
 
@@ -248,6 +247,21 @@ $this->fields = $this->fields + array(
 			'label' => __("Respect Do Not Track and Global Privacy Control with Premium", 'complianz-gdpr'),
 			'tooltip' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
 		),
+
+		'sensitive_information_processed' => array(
+			'step' => STEP_COMPANY,
+			'section' => 11,
+			'source' => 'wizard',
+			'type' => 'radio',
+			'required' => false,
+			'default' => '',
+			'options' => $this->yes_no,
+			'label' => __("Does your website contain or process sensitive (personal) information?", 'complianz-gdpr'),
+			'callback_condition' => array(
+				'regions' => array('ca', 'au'),
+			),
+			'tooltip' => __('Sensitive personal information is considered to data that is very likely to have a greater impact on Privacy. For example medical, religious or legal information.', 'complianz-gdpr'),
+		),
 	);
 
 $this->fields = $this->fields + array(
@@ -405,13 +419,9 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'select',
 			'default'            => 'yes',
-			'label'              => __( "Do you want to ask consent for statistics?",
-				'complianz-gdpr' ),
+			'label'              => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
-			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ),
-			'condition'               => array(
-				'regions' => 'eu',
-			),
+			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/google-analytics' ),
 			'callback_condition' => 'cmplz_consent_required_for_anonymous_stats',
 		),
 
@@ -421,8 +431,7 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'select',
 			'default'            => 'yes',
-			'label'              => __( "Do you want Complianz to configure your statistics?",
-				'complianz-gdpr' ),
+			'label'              => __( "Do you want Complianz to configure your statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
 			'tooltip'               => __( "It's recommended to let Complianz handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so",
 				'complianz-gdpr' ),

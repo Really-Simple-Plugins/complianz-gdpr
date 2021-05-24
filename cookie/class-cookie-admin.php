@@ -261,12 +261,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$consenttype = 'optin';
 			}
 
-			if ( $region === 'au' 
+			if ( $region === 'au'
 				 && cmplz_site_shares_data()
 			     && cmplz_get_value( 'sensitive_information_processed' )
 			     && cmplz_uses_marketing_cookies()
 			) {
-				$consenttype = 'optin';	
+				$consenttype = 'optin';
 			}
 
 
@@ -1122,6 +1122,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$cookie->service             = $cookie_object->service;
 						$cookie->ignored             = $cookie_object->ignore;
 						$cookie->slug                = $cookie_object->slug;
+						$cookie->lastUpdatedDate     = time();
 						$cookie->save();
 						$isTranslationFrom[ $cookie->name ] = $cookie->ID;
 					}
@@ -1148,6 +1149,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							$cookie->service               = $cookie_object->service;
 							$cookie->slug                  = $cookie_object->slug;
 							$cookie->ignored               = $cookie_object->ignore;
+							$cookie->lastUpdatedDate     = time();
 
 							//when there's no en cookie, create one.
 							if ( ! isset( $isTranslationFrom[ $cookie->name ] )
@@ -1383,15 +1385,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							continue;
 						}
 
-						$service       = new CMPLZ_SERVICE( $original_service_name, 'en' );
-						$service->name = $service_object->name;
+						$service                      = new CMPLZ_SERVICE( $original_service_name, 'en' );
+						$service->name                = $service_object->name;
 						$service->privacyStatementURL = $service_object->privacyStatementURL;
-						$service->sharesData = $service_object->sharesData;
-						$service->secondParty = $service_object->secondParty;
-						//won't get saved, but for next part of code.
-						$service->thirdParty = $service_object->sharesData && ! $service_object->secondParty;
-						$service->serviceType = $service_object->serviceType;
-						$service->slug = $service_object->slug;
+						$service->sharesData          = $service_object->sharesData;
+						$service->secondParty         = $service_object->secondParty;
+						$service->thirdParty          = $service_object->sharesData && ! $service_object->secondParty;
+						$service->serviceType         = $service_object->serviceType;
+						$service->slug                = $service_object->slug;
+						$service->lastUpdatedDate      = time();
 						$service->save( false, false );
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
@@ -3766,8 +3768,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! cmplz_has_region( 'eu' ) ) {
 				return false;
 			}
-			$uses_google = $this->uses_google_analytics()
-						   || $this->uses_google_tagmanager();
+			$uses_google = $this->uses_google_analytics() || $this->uses_google_tagmanager();
 
 			return $uses_google
 				   && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )

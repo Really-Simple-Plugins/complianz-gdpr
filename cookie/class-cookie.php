@@ -404,7 +404,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'language'              => cmplz_sanitize_language( $this->language ),
 				'isTranslationFrom'     => intval( $this->isTranslationFrom ),
 				'showOnPolicy'          => boolval( $this->showOnPolicy ),
-				'lastUpdatedDate'       => time(),
+				'lastUpdatedDate'       => intval( $this->lastUpdatedDate ),
 				'lastAddDate'           => intval( $this->lastAddDate ),
 				'slug'                  => sanitize_title( $this->slug ),
 			);
