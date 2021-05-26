@@ -14,11 +14,11 @@ Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard a
 Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 == Features ==
-* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States or Canada. Or use one Cookie Notice worldwide.
+* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia or Canada. Or use one Cookie Notice worldwide.
 * Configure specific cookie consent per subregion, for example: European Union + DSGVO or USA + CCPA.
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
 * Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent
-* Banner Templates CA/US also include; Dismiss on scroll, time on page or both.
+* Banner Templates CA/US/AU also include; Dismiss on scroll, time on page or both.
 * Proof of Consent; user consent registration that respects the GDPR data minimization guideline.
 
 * Automatically detects if you need a Cookie Notice (also called a Cookie Banner or Pop-Up).
@@ -38,35 +38,36 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
 
 * Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, HappyForms, Contact Form 7 <5.4 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
-* Tested with the popular themes en page builders.
+* Tested with popular themes en page builders.
 * Gutenberg Blocks enabled.
-* Cookie Banners and Legal Documents conform to WCAG 2.1 Accessibility Guidelines.
-* Ready for GDPR, AVG, DSGVO, CNIL, PECR, UK DPA, UK GDPR, CCPA, COPPA, PIPEDA & CASL.
+* Cookie Banners and Legal Documents conform to WCAG 2.1 AA Accessibility Guidelines.
+* Ready for GDPR, AVG, DSGVO, CNIL, PECR, UK DPA, UK GDPR, CCPA, COPPA, PIPEDA, CASL, Privacy Act 1988 & Australian Privacy Principles
 * We closely follow the latest developments in the ePrivacy regulation, the proposed Cookie Law for the European Union, and other legislation world-wide.
 
 = Love Complianz? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 == Premium features ==
-* Simultaneously select USA, CA, UK and EU as target regions with conditional Consent and dedicated Cookie Banners.
+* Simultaneously select USA, CA, UK, AU and EU as target regions with conditional Consent and dedicated Cookie Banners.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
-* Consent Statistics: see how many visitors accept, decline, or don't need a cookie notice at all.
+* Records of Consent: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 * Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
 * Respects the Do Not Track settings in end-users browsers.
 
 = All Legal Documents configured for a specific region =
-* Privacy statements (EU, CA, UK & US). 
-* Cookie policy (EU, UK, CA & US). 
-* Impressum (Germany). 
+* Privacy statements (EU, CA, UK, AU & US). 
+* Cookie policy (EU, UK, CA, AU & US). 
+* Impressum (Germany & Austria). 
 * Disclaimer. 
-* Processing agreements (EU, UK, CA & US). 
-* Dataleak reporting tools (EU, UK, CA & US). 
-* CCPA Consent and Legal documents.
-* COPPA ready with Children's Privacy Policy
-
-* Full support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
-* Full support for PIPEDA and CASL - Canada.
+* Processing agreements (EU, UK, CA, AU & US). 
+* Dataleak reporting tools (EU, UK, CA, AU & US). 
+* Supports CCPA Consent and Legal documents.
+* COPPA ready with Children's Privacy Policy (US)
+* Children's Privacy Policy (UK,CA & AU)
+* Support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
+* Support for PIPEDA and CASL - Canada.
+* Support for Privacy Act 1988 & Australian Privacy Principles
 * Multilanguage support for the cookie notice and legal documents.
 * 9 Default languages. English, German, Dutch, French, Italian, Spanish, Norwegian, Greek and Czech. Formal and Informal if available.
 * Premium Support from our amazing team.
@@ -109,12 +110,24 @@ The CCPA (Californian Privacy Act) is a law set up by the Californian government
 The Children’s Online Privacy Protection Act (COPPA) is a law designed to protect the online privacy of children under 13. It was set up in the 1990's and states that website owners have to meet certain requirements regarding visitors with the age under 13.
 = What are PECR & UK-GDPR? =
 PECR (UK) covers the use of cookies and similar technologies for storing information and accessing information stored, on a user’s equipment such as a computer or mobile device.
+= What are the Privacy Act 1988 & Australian Privacy Principles =
+To comply with the Australian privacy laws a website operator should present a cookie policy and/or a privacy notice before or, if that is not practicable, as soon as practicable after, your website collects personal information about an individual.
 = What are PIPEDA & CASL? =
 Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and Electronic Documents Act (PIPEDA) require a website operator to obtain consent, either implied or express consent with a dedicated cookie statement.
 = Can I create a Cookie Wall with this plugin? =
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+
+= 5.1.0 =
+* New region: Australia
+* New: Pixel your Site Pro - and Add-ons
+* Improvement: changed "Analytical" to "Statistical"
+* Improvement: terminology in US/CA documents "to citizens and legal permanent residents of" instead of "to citizens of"
+* Fix: miscelaneous cookies without information in another language defaulted to the wrong translation
+* Fix: explicitly ask consent in some EU regions question restored
+* Fix: Sensitive data question conditions under Security & Consent
+
 = 5.0.3 =
 * Improvement: new purposes for EU/UK
 * Improvement: switch consent area order in cookie policies
