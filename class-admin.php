@@ -237,6 +237,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$prev_version = get_option( 'cmplz-current-version', false );
 
 			/**
+			 * Set a "first version" variable, so we can check if some notices need to be shown
+			 */
+			if ( !$prev_version ) {
+				update_option( 'cmplz_first_version', cmplz_version);
+			}
+
+			/**
 			 * Migrate use_country and a_b_testing to general settings
 			 *
 			 * */
@@ -427,7 +434,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				COMPLIANZ::$cookie_admin->reset_pages_list( true );
 				//initialize a sync
 				update_option( 'cmplz_run_cdb_sync_once', true );
-
 			}
 
 			/**
@@ -695,6 +701,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					}
 				}
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings );
+			}
+
+			if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {
+				error_log("run upgrade");
+				update_option( 'cmplz_first_version', '5.0.0');
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );
