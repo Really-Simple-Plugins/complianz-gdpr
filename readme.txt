@@ -124,7 +124,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * New: Pixel your Site Pro - and Add-ons
 * Improvement: changed "Analytical" to "Statistical"
 * Improvement: terminology in US/CA documents "to citizens and legal permanent residents of" instead of "to citizens of"
-* Fix: miscelaneous cookies without information in another language defaulted to the wrong translation
+* Fix: miscellaneous cookies without information in another language defaulted to the wrong translation
 * Fix: explicitly ask consent in some EU regions question restored
 * Fix: Sensitive data question conditions under Security & Consent
 
