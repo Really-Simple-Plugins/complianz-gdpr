@@ -115,6 +115,15 @@ Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and 
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.1.0 =
+* Fix: allow for German Ringel S in Google Maps addresses
+* New: Privacy Act 1988 Australia
+* Fix: miscelaneous cookies without information in another language defaulted to the wrong translation
+* New: Pixel your site pro
+* Improvement: changed "Analytical" to "statistical".
+* Fix: terminology in US/CA documents "to citizens and legal permanent residents of" instead of "to citizens of"
+* Fix: explicitly ask consent in some EU regions question restored
+
 = 5.0.3 =
 * Improvement: new purposes for EU/UK
 * Improvement: switch consent area order in cookie policies

@@ -1110,19 +1110,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							continue;
 						}
 
-						$cookie                      = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
-						$cookie->name                = $cookie_object->name;
-						$cookie->retention           = $cookie_object->retention;
-						$cookie->type                = $cookie_object->type;
-						$cookie->collectedPersonalDa = $cookie_object->collectedPersonalData;
-						$cookie->cookieFunction      = $cookie_object->cookieFunction;
-						$cookie->purpose             = $cookie_object->purpose;
-						$cookie->isPersonalData      = $cookie_object->isPersonalData;
-						$cookie->isMembersOnly       = $cookie_object->isMembersOnly;
-						$cookie->service             = $cookie_object->service;
-						$cookie->ignored             = $cookie_object->ignore;
-						$cookie->slug                = $cookie_object->slug;
-						$cookie->lastUpdatedDate     = time();
+						$cookie                        = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
+						$cookie->name                  = $cookie_object->name;
+						$cookie->retention             = $cookie_object->retention;
+						$cookie->type                  = $cookie_object->type;
+						$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
+						$cookie->cookieFunction        = $cookie_object->cookieFunction;
+						$cookie->purpose               = $cookie_object->purpose;
+						$cookie->isPersonalData        = $cookie_object->isPersonalData;
+						$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
+						$cookie->service               = $cookie_object->service;
+						$cookie->ignored               = $cookie_object->ignore;
+						$cookie->slug                  = $cookie_object->slug;
+						$cookie->lastUpdatedDate       = time();
 						$cookie->save();
 						$isTranslationFrom[ $cookie->name ] = $cookie->ID;
 					}

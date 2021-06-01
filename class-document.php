@@ -1693,7 +1693,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 												value="<?php echo $title ?>">
 										<?php echo $icon ?>
 									</div>
-									<div class="cmplz-shortcode" id="<?php echo $type?>"><?php echo $shortcode?></div>
+									<div class="cmplz-shortcode" id="<?php echo $type . '-' . $region ?>"><?php echo $shortcode?></div>
 									<span class="cmplz-copy-shortcode"><?php echo cmplz_icon('shortcode', 'success', __( 'Click to copy the document shortcode', 'complianz-gdpr' ) ); ?></span>
 								</div>
                                 <?php
