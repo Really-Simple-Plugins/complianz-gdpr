@@ -346,7 +346,7 @@ if ( ! class_exists( 'CMPLZ_Plugin_Activation' ) ) {
 				),
 				'notice_can_install_recommended'  => _n_noop(
 					/* translators: 1: plugin name(s). */
-					'This plugin recommends the following plugin: %1$s.',
+					'This theme recommends the following plugin: %1$s.',
 					'This theme recommends the following plugins: %1$s.',
 					'tgmpa'
 				),
