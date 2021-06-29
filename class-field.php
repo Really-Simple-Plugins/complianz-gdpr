@@ -472,7 +472,10 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $col_class       = isset($args['col'])                    ? "cmplz-col-{$args['col']}" : '';
             $colspan_class   = isset($args['colspan'])                ? "cmplz-colspan-{$args['colspan']}" : '';
 
-			$this->get_master_label( $args );
+			$this->get_master_label( $args, $hidden_class . ' ' .
+										   $first_class . ' ' .
+										   $condition_class . ' ' .
+										   $cmplz_hidden );
 
 			echo '<div class="field-group ' .
                     esc_attr( $args['fieldname'] . ' ' .
@@ -498,12 +501,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php
 		}
 
-		public function get_master_label( $args ) {
+		public function get_master_label( $args , $classes='') {
 			if ( ! isset( $args['master_label'] ) ) {
 				return;
 			}
 			?>
-			<div class="cmplz-master-label field-group">
+			<div class="cmplz-master-label field-group <?php echo $classes?>">
 				<div><h2><?php echo esc_html( $args['master_label'] ) ?></h2></div>
 			</div>
 			<?php
@@ -546,7 +549,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			echo '</div><!--close after field-->';
 			echo '<div class="cmplz-help-warning-wrap">';
 			if (  isset( $args['help'] ) ) {
-				cmplz_sidebar_notice( wp_kses_post( $args['help'] ) );
+				$status = isset($args['help_status']) ? $args['help_status'] : 'notice';
+				cmplz_sidebar_notice( wp_kses_post( $args['help'] ), $status, $args['condition'] );
 			}
 
 			do_action( 'cmplz_notice_' . $args['fieldname'], $args );
@@ -958,7 +962,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			?>
 
 			<?php do_action( 'complianz_before_label', $args ); ?>
-			<label for="<?php echo $args['fieldname'] ?>"><?php printf(__("Select how you want to add your %s.",'complianz-gdpr'), $args['label']) ?><?php do_action("complianz_in_label", $args ) ?></label>
+			<?php do_action( 'complianz_label_html' , $args ); ?>
 			<?php do_action( 'complianz_after_label', $args ); ?>
 
 			<div class="cmplz-document-field" data-fieldname="<?php echo esc_html( $fieldname ) ?>">
@@ -1680,17 +1684,16 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			<select <?php if ( $args['required'] ) {
 				echo 'required';
-			} ?> <?php if ($args['disabled']) echo "disabled";?> name="<?php echo esc_html( $fieldname ) ?>">
-				<option value=""><?php _e( "Choose an option",
-						'complianz-gdpr' ) ?></option>
+			} ?> <?php
+				if ( !is_array( $args['disabled']) && $args['disabled'] ) echo "disabled";?> name="<?php echo esc_html( $fieldname )?>">
+				<option value=""><?php _e( "Choose an option", 'complianz-gdpr' ) ?></option>
 				<?php foreach (
 					$args['options'] as $option_key => $option_label
 				) { ?>
-					<option
-						value="<?php echo esc_html( $option_key ) ?>" <?php echo ( $option_key
-						                                                           == $value )
-						? "selected"
-						: "" ?>><?php echo esc_html( $option_label ) ?></option>
+					<option <?php
+							if ( is_array( $args['disabled']) && in_array($option_key, $args['disabled']) ) {
+								echo "disabled";;
+							}?> value="<?php echo esc_html( $option_key ) ?>" <?php echo ( $option_key == $value ) ? "selected" : "" ?>><?php echo esc_html( $option_label ) ?></option>
 				<?php } ?>
 			</select>
 
@@ -1788,7 +1791,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                    name="<?php echo $args['action'] ?>"
                                    value="<?php _e( 'Import',
                                        'complianz-gdpr' ) ?>">
-			<div class="cmplz-comment"><span class="cmplz-file-chosen"><?php _e("No file chosen", "complianz-gpdr")?></span></div>
+			<div class="cmplz-comment"><span class="cmplz-file-chosen"><?php _e("No file chosen", "complianz-gdpr")?></span></div>
 
             <?php do_action( 'complianz_after_field', $args ); ?>
 

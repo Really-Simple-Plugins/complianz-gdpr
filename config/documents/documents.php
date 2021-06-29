@@ -59,3 +59,14 @@ $this->pages['au'] = array(
         ),
     ),
 );
+$this->pages['za'] = array(
+	'cookie-statement' => array(
+		'title' => __("Cookie Policy (ZA)", 'complianz-gdpr'),
+		'public' => true,
+		'document_elements' => '',
+		'condition' => array(
+			'regions' => 'za',
+			'cookie-statement' => 'generated',
+		),
+	),
+);

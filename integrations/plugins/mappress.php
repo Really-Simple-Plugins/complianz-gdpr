@@ -1,5 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_mappress_script' );
 function cmplz_mappress_script( $tags ) {

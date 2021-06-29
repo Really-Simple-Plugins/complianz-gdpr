@@ -1,5 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+add_filter( 'cmplz_known_script_tags', 'cmplz_custom_googlemaps_script' );
+add_filter( 'cmplz_dependencies', 'cmplz_custom_maps_dependencies' );
 
 /**
  * Block the script, and an inline script with string 'initMap'.
@@ -15,7 +17,6 @@ function cmplz_custom_googlemaps_script( $tags ) {
 
 	return $tags;
 }
-add_filter( 'cmplz_known_script_tags', 'cmplz_custom_googlemaps_script' );
 
 /**
  * add the dependency

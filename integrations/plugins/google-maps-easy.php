@@ -1,7 +1,12 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_google_maps_easy_script' );
+add_filter( 'cmplz_placeholder_markers', 'cmplz_google_maps_easy_placeholder' );
+add_filter( 'cmplz_dependencies', 'cmplz_google_maps_easy_dependencies' );
+
+
 function cmplz_google_maps_easy_script( $tags ) {
 	$tags[] = 'google-maps-easy';
 	$tags[] = 'maps.googleapis.com';
@@ -38,21 +43,16 @@ add_filter( 'cmplz_detected_services', 'cmplz_google_maps_easy_detected_services
 
 function cmplz_google_maps_easy_placeholder( $tags ) {
 	$tags['google-maps'][] = 'gmpMapDetailsContainer';
-
 	return $tags;
 }
 
-add_filter( 'cmplz_placeholder_markers', 'cmplz_google_maps_easy_placeholder' );
 
 
 /**
  * Conditionally add the dependency from the plugin core file to the api files
  */
 
-add_filter( 'cmplz_dependencies', 'cmplz_google_maps_easy_dependencies' );
 function cmplz_google_maps_easy_dependencies( $tags ) {
-
 	$tags['maps.googleapis.com'] = 'google-maps-easy';
-
 	return $tags;
 }

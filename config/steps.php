@@ -66,8 +66,7 @@ $this->steps = apply_filters('cmplz_steps',array(
 							'intro statistics', 'complianz-gdpr' ) .cmplz_read_more("https://complianz.io/statistics-implementation") .'</p>'
 					),
 					3 => array(
-						'title' => __( 'Statistics - configuration',
-							'complianz-gdpr' ),
+						'title' => __( 'Statistics - configuration', 'complianz-gdpr' ),
 							'intro' => '<p>'._x( 'If you choose Complianz to handle your statistics implementation, please delete the current implementation.',
 								'intro statistics configuration', 'complianz-gdpr' ) .cmplz_read_more("https://complianz.io/statistics-implementation#configuration") .'</p>'
 					),

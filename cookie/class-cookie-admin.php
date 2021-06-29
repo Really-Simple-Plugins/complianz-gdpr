@@ -217,7 +217,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$success = true;
 					} else {
 						$errors = array_keys( array_map( 'sanitize_text_field', $_POST ) );
-						if ( count( $errors ) > 0 ) {
+						if ( count( $errors ) > 0 && strpos($errors[0], 'runReadyTrigger') === false) {
 							$errors = explode( ',', str_replace( site_url(), '', $errors[0] ) );
 							if ( isset( $errors[1] ) && $errors[1] > 1 ) {
 								update_option( 'cmplz_detected_console_errors', $errors );
@@ -556,7 +556,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$notice      = ( $cookie->old ) ? cmplz_notice( __( 'This cookie has not been found in the scan for three months. Please check if you are still using this cookie',
-				'complianz-gdpr' ), 'warning', false, false ) : '';
+				'complianz-gdpr' ), 'warning', false ) : '';
 			$cookie_html = $notice . $cookie_html;
 			$ignored     = ( $cookie->ignored ) ? ' <i>' . __( '(Administrator cookie, will be ignored)', 'complianz-gdpr' ) . '</i>' : '';
 			$membersOnly = ( ! $cookie->ignored && cmplz_get_value( 'wp_admin_access_users' ) === 'no' && $cookie->isMembersOnly ) ?
@@ -716,8 +716,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					foreach ( $grouped_by_service as $service => $cookies ) {
 						$class = '';
 						if ( $service === 'no-service' ) {
-							$service = __( 'Cookies without selected service',
-								'complianz-gdpr' );
+							$service = __( 'Cookies without selected service', 'complianz-gdpr' );
 							$class   = 'no-service';
 						}
 						$html .= '<div class="cmplz-service-cookie-list">';
@@ -2056,7 +2055,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
-			if ( $statistics === 'google-analytics' && strlen( $gtag_code ) > 0 && substr( $gtag_code, 0, 1 ) === 'G' ) {
+			$is_gtag = $statistics === 'google-analytics' && strlen( $gtag_code ) > 0 && substr( $gtag_code, 0, 1 ) === 'G';
+			$is_consent_mode = cmplz_get_value('configuration_by_complianz') === 'consent-mode';
+			if ( $is_gtag || $is_consent_mode ) {
 				$classes = $this->get_statistics_script_classes();
 				?>
 				<script async class="<?php echo implode( " ", $classes ) ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php
@@ -2128,8 +2129,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
+			$consent_mode = cmplz_get_value( 'configuration_by_complianz' )==='consent-mode';
 			$script     = '';
-			if ( $statistics === 'google-analytics' ) {
+			if ( $statistics === 'google-analytics' && !$consent_mode ) {
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
 				if ( strlen( $code ) > 0 && substr( $code, 0, 1 ) === 'G' ) {
@@ -2141,6 +2143,25 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$script = str_replace( '{UA_code}', $code, $script );
 					$script = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
 				}
+			} elseif ($statistics === 'google-analytics' && $consent_mode) {
+				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
+				$ads_data_redaction = cmplz_get_value('ads_data_redaction') === 'yes';
+				$default_statistics_consent = 'denied';
+				$anonymize_ip = "";
+				$googleads_id_code = "";
+				if ($this->google_analytics_always_block_ip()){
+					$anonymize_ip = "'anonymizeIp': true";
+					if ( cmplz_get_value('consent_for_anonymous_stats') !== 'yes'){
+						$default_statistics_consent = 'granted';
+					}
+				}
+				$googleads_id = cmplz_get_value('googleads_id');
+				if ( !empty( $googleads_id )) {
+					$googleads_id_code = "gtag( 'config', '$googleads_id' );";
+				}
+				$script = cmplz_get_template( 'consent-mode.js' );
+				$script = str_replace( array( '{UA_code}', '{anonymize_ip}','{ads_data_redaction}','{default_statistics_consent}','{googleads_id}' ), array($code, $anonymize_ip, $ads_data_redaction, $default_statistics_consent, $googleads_id_code), $script );
+
 			} elseif ( $statistics === 'matomo' ) {
 				$script = cmplz_get_template( 'matomo.js' );
 				$script = str_replace( '{site_id}',

@@ -331,7 +331,7 @@ function cmplz_hide_cookiebanner_metabox(){
 	//if there's no slug, don't offer this option
 	if ( strlen($post->post_name)==0 ) return;
 
-	$option_label = __("Hide cookiebanner on this page", "complianz-gdpr");
+	$option_label = __("Disable Complianz on this page", "complianz-gdpr");
 	$checked = get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
 	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" />' . $option_label . '</label>';
 }

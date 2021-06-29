@@ -48,6 +48,13 @@ $grid_items = array(
         'index' => '12',
         'conditions' => 'data-condition-question-1="type" data-condition-answer-1="NOT tcf"',
     ),
+    'customization' => array(
+	    'page' => 'CMPLZ_COOKIEBANNER',
+	    'name' => 'customization',
+	    'header' => __('Customization', 'complianz-gdpr'),
+	    'class' => 'big',
+	    'index' => '14',
+    ),
     'settings' => array(
         'page' => 'CMPLZ_COOKIEBANNER',
         'name' => 'settings',
@@ -56,14 +63,7 @@ $grid_items = array(
         'index' => '13',
         'controls' => $controls,
     ),
-    'customization' => array(
-	    'page' => 'CMPLZ_COOKIEBANNER',
-        'name' => 'customization',
-        'header' => __('Customization', 'complianz-gdpr'),
-        'class' => 'big condition-check-1',
-        'index' => '14',
-	    'conditions' => 'data-condition-question-1="type" data-condition-answer-1="NOT tcf"',
-    ),
+
     'custom_css' => array(
 	    'page' => 'CMPLZ_COOKIEBANNER',
         'name' => 'custom_css',

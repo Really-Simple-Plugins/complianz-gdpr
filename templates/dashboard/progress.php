@@ -37,11 +37,9 @@
 			$warnings = COMPLIANZ::$admin->get_warnings($warning_args);
 			if (count($warnings) == 0 ){
 				//make sure we don't have an empty space
-				?>
-				<?php
 				$warnings['no-tasks'] = array(
 						'status' => 'completed',
-						'plus_one' => 'false',
+						'plus_one' => false,
 						'message'    => sprintf(
 								__( 'You have no new tasks! Have a look at our %sdocumentation%s and see all the possibilities Complianz has to offer.', 'complianz-gdpr' ),
 						'<a href="https://complianz.io/docs/" target="_blank">',

@@ -13,6 +13,17 @@ function cmplz_monsterinsights_set_default( $value, $fieldname ) {
 
 	return $value;
 }
+/**
+ * Add conditional classes to the monsterinsights statistics script
+ *
+ * */
+
+function cmplz_monsterinsights_add_monsterinsights_attributes( $attr ) {
+	$classes       = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
+	$attr['class'] = implode( ' ', $classes );
+	return $attr;
+}
+add_filter( 'monsterinsights_tracking_analytics_script_attributes', 'cmplz_monsterinsights_add_monsterinsights_attributes', 10, 1 );
 
 /**
  * Block all premium scripts as well
@@ -21,6 +32,7 @@ function cmplz_monsterinsights_set_default( $value, $fieldname ) {
 function cmplz_monsterinsights_script( $tags ) {
 	$tags[] = 'monsterinsights_scroll_tracking_load';
 	$tags[] = 'google-analytics-premium/pro/assets/';
+	$tags[] = 'mi_version';
 	return $tags;
 }
 add_filter( 'cmplz_known_script_tags', 'cmplz_monsterinsights_script' );
@@ -43,37 +55,20 @@ add_action( 'init', 'cmplz_monsterinsights_remove_actions' );
  * @param $args
  */
 function cmplz_monsterinsights_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
-		'complianz-gdpr' ), 'Monsterinsights' ) );
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Monsterinsights' ) );
 }
 
-add_action( 'cmplz_notice_compile_statistics',
-	'cmplz_monsterinsights_show_compile_statistics_notice', 10, 1 );
+add_action( 'cmplz_notice_compile_statistics', 'cmplz_monsterinsights_show_compile_statistics_notice', 10, 1 );
 
-/**
- * Add conditional classes to the monsterinsights statistics script
- *
- * */
-
-function cmplz_monsterinsights_add_monsterinsights_attributes( $attr ) {
-	$classes       = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
-	$attr['class'] = implode( ' ', $classes );
-
-	return $attr;
-}
-
-add_filter( 'monsterinsights_tracking_analytics_script_attributes', 'cmplz_monsterinsights_add_monsterinsights_attributes', 10, 1 );
 
 
 function cmplz_monsterinsights_compile_statistics_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.",
-			'complianz-gdpr' ) );
+		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in MonsterInsights.", 'complianz-gdpr' ) );
 	}
 
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Demographics is now disabled in MonsterInsights.",
-			'complianz-gdpr' ) );
+		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Demographics is now disabled in MonsterInsights.", 'complianz-gdpr' ) );
 	}
 }
 
@@ -109,6 +104,8 @@ add_action( 'cmplz_before_statistics_script', 'monsterinsights_tracking_script',
 function cmplz_monsterinsights_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
+	unset( $fields['googleads_id'] );
+	unset( $fields['ads_data_redaction'] );
 	return $fields;
 }
 

@@ -1,7 +1,11 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_g1_gmaps_script' );
+add_filter( 'cmplz_dependencies', 'cmplz_g1_gmaps_dependencies' );
+add_filter( 'cmplz_placeholder_markers', 'cmplz_g1_gmaps_placeholder' );
+
 function cmplz_g1_gmaps_script( $tags ) {
 	$tags[] = 'g1-gmaps.js';
 	$tags[] = 'infobox_packed.js';
@@ -43,14 +47,12 @@ function cmplz_g1_gmaps_placeholder( $tags ) {
 	return $tags;
 }
 
-add_filter( 'cmplz_placeholder_markers', 'cmplz_g1_gmaps_placeholder' );
 
 
 /**
  * Conditionally add the dependency from the plugin core file to the api files
  */
 
-add_filter( 'cmplz_dependencies', 'cmplz_g1_gmaps_dependencies' );
 function cmplz_g1_gmaps_dependencies( $tags ) {
 
 	$tags['maps.googleapis.com'] = 'g1-gmaps.js';

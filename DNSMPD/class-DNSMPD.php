@@ -12,16 +12,11 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			}
 
 			self::$_this = $this;
-			add_action( 'wp_enqueue_scripts',
-				array( $this, 'enqueue_assets' ) );
-			add_action( 'wp_ajax_cmplz_send_dnsmpd_request',
-				array( $this, 'send_dnsmpd_request' ) );
-			add_action( 'wp_ajax_nopriv_cmplz_send_dnsmpd_request',
-				array( $this, 'send_dnsmpd_request' ) );
-			add_action( 'activated_plugin', array( $this, 'update_db_check' ),
-				10, 2 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'wp_ajax_cmplz_send_dnsmpd_request', array( $this, 'send_dnsmpd_request' ) );
+			add_action( 'wp_ajax_nopriv_cmplz_send_dnsmpd_request', array( $this, 'send_dnsmpd_request' ) );
+			add_action( 'activated_plugin', array( $this, 'update_db_check' ), 10, 2 );
 			add_action( 'admin_init', array( $this, 'update_db_check' ), 10 );
-
 			add_action( 'cmplz_admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
 			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
@@ -210,8 +205,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				$paged = isset( $_GET['paged'] ) ? 'paged='
 				                                   . intval( $_GET['paged'] )
 					: '';
-				wp_redirect( admin_url( 'admin.php?page=cmplz_dnsmpd'
-				                        . $paged ) );
+				wp_redirect( admin_url( 'admin.php?page=cmplz_dnsmpd' . $paged ) );
 			}
 		}
 

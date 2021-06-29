@@ -659,7 +659,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                         sprintf( __( 'This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz-gdpr' ),
                             get_the_title( $this->post_id() ),
                             $link_pdf, '</a>', $link, '</a>' ),
-                        'success', false, false);
+                        'success', false);
 
                 } elseif ( $step == 1 ) {
                     delete_option( 'complianz_options_' . $page );
@@ -674,7 +674,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
                     $args['learn_notice'] = cmplz_notice(
                         sprintf( __( "To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz-gdpr' ), $about, $link_article, '</a>' ),
-                        'notice', false, false);
+                        'notice', false);
                 }
             }
 
@@ -696,13 +696,14 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
             }
 
             if ( $step < $this->total_steps( $page ) ) {
-                $args['next_button'] =
-                    '<input class="button button-primary cmplz-next" type="submit" name="cmplz-next" value="'. __( "Next", 'complianz-gdpr' ) . '">';
+                $args['next_button'] = '<input class="button button-primary cmplz-next" type="submit" name="cmplz-next" value="'. __( "Next", 'complianz-gdpr' ) . '">';
             }
 
             $hide_finish_button = false;
-            if ( strpos( $page, 'dataleak' ) !== false && ! COMPLIANZ::$dataleak->dataleak_has_to_be_reported()) {
-                $hide_finish_button = true;
+            if ( strpos( $page, 'dataleak' ) !== false ) {
+                if ( !COMPLIANZ::$dataleak->dataleak_has_to_be_reported_to_involved() ) {
+	                $hide_finish_button = true;
+                }
             }
             $label = ( strpos( $page, 'dataleak' ) !== false || strpos( $page, 'processing' ) !== false )
                 ? __( "View document", 'complianz-gdpr' )

@@ -2,7 +2,6 @@
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 add_filter( 'cmplz_fields_load_types', 'cmplz_filter_field_types', 10, 1 );
 function cmplz_filter_field_types( $fields ) {
-
 	/**
 	 * Add dynamic purposes
 	 *
@@ -46,6 +45,10 @@ function cmplz_filter_field_types( $fields ) {
 
 add_filter( 'cmplz_fields', 'cmplz_filter_fields', 10, 1 );
 function cmplz_filter_fields( $fields ) {
+	if ( isset($fields['configuration_by_complianz']) && cmplz_manual_stats_config_possible() ) {
+		$key = array_search('no', $fields['configuration_by_complianz']['disabled']);
+		unset($fields['configuration_by_complianz']['disabled'][$key]);
+	}
 	/*
 	 * If it's not possible to configure the stats manually, because the three conditions are not met (anonymized ip, etc)
 	 * we unset the condition that makes these dependent of the manual config selection

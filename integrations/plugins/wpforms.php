@@ -16,11 +16,11 @@ add_filter( 'cmplz_form_types', 'cmplz_wpforms_form_types' );
  */
 function cmplz_wpforms_get_plugin_forms( $input_forms ) {
 	$forms = wpforms()->form->get();
+
 	if ( is_array( $forms ) ) {
 		$forms = wp_list_pluck( $forms, "post_title", "ID" );
 		foreach ( $forms as $id => $title ) {
-			$input_forms[ 'wpf_' . $id ] = $title . " " . __( '(WP Forms)',
-					'complianz-gdpr' );
+			$input_forms[ 'wpf_' . $id ] = $title . " " . __( '(WP Forms)', 'complianz-gdpr' );
 		}
 	}
 
@@ -85,8 +85,7 @@ function cmplz_wpforms_add_consent_checkbox( $form_id ) {
 	}
 }
 
-add_action( "cmplz_add_consent_box_wpforms",
-	'cmplz_wpforms_add_consent_checkbox' );
+add_action( "cmplz_add_consent_box_wpforms", 'cmplz_wpforms_add_consent_checkbox' );
 
 
 add_action( 'wp_footer', 'cmplz_wpforms_css' );

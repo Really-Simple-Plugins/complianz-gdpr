@@ -5,21 +5,11 @@ add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_grid_assets' );
 function cmplz_enqueue_grid_assets( $hook ) {
 	if (strpos($hook, "toplevel_page_complianz")===false ) return;
 
-	wp_register_style( ' cmplz-muuri',
-		trailingslashit( cmplz_url ) . "grid/css/muuri.css", "",
-		cmplz_version );
+	wp_register_style( ' cmplz-muuri', trailingslashit( cmplz_url ) . "grid/css/muuri.css", "", cmplz_version );
 	wp_enqueue_style( ' cmplz-muuri' );
-
-	wp_register_script( ' cmplz-muuri',
-        trailingslashit( cmplz_url )
-        . 'grid/js/muuri.min.js', array( "jquery" ),
-        cmplz_version );
+	wp_register_script( ' cmplz-muuri', trailingslashit( cmplz_url ) . 'grid/js/muuri.min.js', array( "jquery" ), cmplz_version );
 	wp_enqueue_script( ' cmplz-muuri' );
-
-	wp_register_script( ' cmplz-grid',
-		trailingslashit( cmplz_url )
-		. 'grid/js/grid.js', array( "jquery", " cmplz-muuri" ),
-		cmplz_version );
+	wp_register_script( ' cmplz-grid', trailingslashit( cmplz_url ) . 'grid/js/grid.js', array( "jquery", " cmplz-muuri" ), cmplz_version );
 	wp_enqueue_script( ' cmplz-grid' );
 }
 

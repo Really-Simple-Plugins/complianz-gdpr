@@ -65,12 +65,12 @@ jQuery(document).ready(function ($) {
     $(document).on('keyup', 'input[name=cmplz_category_stats]', function () {
         //keep up to date with other tabs
         $('input[name=cmplz_category_stats]').val($(this).val());
-		$(".cmplz_stats").closest('.cmplz-categories-wrap').find(".cc-category").html($(this).val());
+		$(".cmplz_statistics").closest('.cmplz-categories-wrap').find(".cc-category").html($(this).val());
     });
     $(document).on('keyup', 'input[name=cmplz_category_prefs]', function () {
         //keep up to date with other tabs
         $('input[name=cmplz_category_prefs]').val($(this).val());
-		$(".cmplz_prefs").closest('.cmplz-categories-wrap').find(".cc-category").html($(this).val());
+		$(".cmplz_preferences").closest('.cmplz-categories-wrap').find(".cc-category").html($(this).val());
     });
     $(document).on('keyup', 'input[name=cmplz_category_all]', function () {
         //keep up to date with other tabs
@@ -656,7 +656,7 @@ jQuery(document).ready(function ($) {
 
 	function cmplzRemoveStatisticsCategory(categories, category_type, consent_type) {
 		if (category_type !== 'no' && consent_type === 'optin') {
-			return categories.replace(/(.*)(<div class="cmplz-categories-wrap"><label.*?>.*?<input.*?class=".*?cmplz_stats.*?<\/label><\/div>)(.*)/g, function (a, b, c, d) {
+			return categories.replace(/(.*)(<div class="cmplz-categories-wrap"><label.*?>.*?<input.*?class=".*?cmplz_statistics.*?<\/label><\/div>)(.*)/g, function (a, b, c, d) {
 				return b + d;
 			});
 

@@ -325,7 +325,6 @@ jQuery(document).ready(function ($) {
         var showIfConditionMet = true;
 
         $(".condition-check-1").each(function (e) {
-
             var i;
             for (i = 1; i < 4; i++) {
                 var question = 'cmplz_' + $(this).data("condition-question-" + i);
@@ -360,7 +359,7 @@ jQuery(document).ready(function ($) {
                 } else {
                     showIfConditionMet = true;
                 }
-                var condition_answers = [];
+				var condition_answers = [];
                 if (condition_answer.indexOf(' OR ') !== -1) {
                     condition_answers = condition_answer.split(' OR ');
                     condition_type = 'OR';
@@ -400,12 +399,11 @@ jQuery(document).ready(function ($) {
                             if (input.hasClass('is-required')) input.prop('required', false);
                         }
                     } else {
-
                         if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
-                            container.addClass("cmplz-hidden");
+							container.addClass("cmplz-hidden");
                             if (input.hasClass('is-required')) input.prop('required', false);
                         } else {
-                            container.removeClass("cmplz-hidden");
+							container.removeClass("cmplz-hidden");
                             if (input.hasClass('is-required')) input.prop('required', true);
                             conditionMet = true;
                         }

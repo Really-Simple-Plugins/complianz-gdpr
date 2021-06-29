@@ -54,8 +54,7 @@ function cmplz_forms_maybe_add_consent_checkbox() {
 	}
 }
 
-add_action( 'cmplz_wizard_wizard', 'cmplz_forms_maybe_add_consent_checkbox', 10,
-	1 );
+add_action( 'cmplz_wizard_wizard', 'cmplz_forms_maybe_add_consent_checkbox', 10, 1 );
 
 
 /**

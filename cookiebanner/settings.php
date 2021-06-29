@@ -84,7 +84,6 @@ function cmplz_add_cookiebanner_settings($fields){
 				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
 				'tooltip'        => __( 'For internal use only', 'complianz-gdpr' ),
-                'help' => __("Interested in full control over your cookie banner? Have a look at our CSS Lessons!", 'complianz-gdpr').cmplz_read_more('https://complianz.io/?s=CSS+Lesson&lang=en'),
 			),
 
             'revoke' => array(
@@ -696,7 +695,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => __( "Save preferences", 'complianz-gdpr' ),
-        'placeholder'        => __( "Save preferences", 'complianz-gdpr' ),
+                'placeholder'        => __( "Save preferences", 'complianz-gdpr' ),
 				'label'              => __( "Save preferences", 'complianz-gdpr' ),
 				'condition'          => array(
                     'use_categories' => 'hidden OR legacy OR visible',
@@ -719,7 +718,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'callback_condition' => array(
                     'fire_scripts_in_tagmanager' => 'yes',
                     'compile_statistics'         => 'google-tag-manager',
-                    'regions'                    => array( 'eu', 'uk' ),
+                    'regions'                    => array( 'eu', 'uk', 'za' ),
                 ),
                 'condition'          => array(
                     'use_categories' => 'NOT no',
@@ -828,24 +827,21 @@ function cmplz_add_cookiebanner_settings($fields){
 				'step'               => 'settings',
 				'type'               => 'text',
 				'default'            => 'Do Not Sell My Personal Information',
-        'placeholder'        => 'Do Not Sell My Personal Information',
+                'placeholder'        => 'Do Not Sell My Personal Information',
 				'label'              => __( "Text on link to the Do Not Sell My Personal Information page.", 'complianz-gdpr' ),
-
 				'callback_condition' => 'cmplz_ccpa_applies',
-				'help'               => __( 'This text is not shown in the preview, but is used instead of the Cookie Policy text when the region is US, and CCPA applies.',
-					'complianz-gdpr' ),
+				'help'               => __( 'This text is not shown in the preview, but is used instead of the Cookie Policy text when the region is US, and CCPA applies.', 'complianz-gdpr' ),
                 'condition'          => array( 'type' => 'optout' ),
 			),
 
 			'message_optout' => array(
-				'step'    => 'settings',
-				'source'  => 'CMPLZ_COOKIEBANNER',
-				'type'    => 'editor',
-				'default' => __( "We use cookies to optimize our website and our service.",
-					'complianz-gdpr' ),
-          'placeholder'        => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
-				'label'   => __( "Cookie message", 'complianz-gdpr' ),
-                'condition'          => array( 'type' => 'optout' ),
+				'step'        => 'settings',
+				'source'      => 'CMPLZ_COOKIEBANNER',
+				'type'        => 'editor',
+				'default'     => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
+				'placeholder' => __( "We use cookies to optimize our website and our service.", 'complianz-gdpr' ),
+				'label'       => __( "Cookie message", 'complianz-gdpr' ),
+				'condition'   => array( 'type' => 'optout' ),
 			),
 		);
 

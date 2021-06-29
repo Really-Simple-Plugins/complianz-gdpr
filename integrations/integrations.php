@@ -171,7 +171,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'PixelYourSite Pro',
 			'firstparty_marketing' => false,
 	),
-	
+
 	'pixelyoursite-pinterest'     => array(
 			'constant_or_function' => 'PYS_PINTEREST_VERSION',
 			'label'                => 'PixelYourSite Pinterest',
@@ -261,7 +261,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Google Maps',
 		'firstparty_marketing' => false,
 	),
-
+//Unfixable dependency isseu c/4D5CWjib/3295-52-wp-google-map-plugin
 //	'wp-google-map-plugin'            => array(
 //		'constant_or_function' => 'WPGMP_VERSION',
 //		'label'                => 'WP Google Map Plugin',
@@ -349,7 +349,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Forminator',
 		'early_load'           => 'forminator-addon-registration.php',
 		'callback_condition'   => array(
-			'regions' => array( 'eu', 'uk' ),
+			'regions' => array( 'eu', 'uk', 'za'),
 		),
 		'firstparty_marketing' => false,
 
@@ -439,8 +439,9 @@ function cmplz_is_integration_enabled( $plugin_name ) {
  */
 function cmplz_integration_plugin_is_active( $plugin ){
 	global $cmplz_integrations_list;
-	if ( !isset($cmplz_integrations_list[ $plugin ]) ) return false;
-
+	if ( !isset($cmplz_integrations_list[ $plugin ]) ) {
+		return false;
+	}
 	//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
 	$fields = get_option( 'complianz_options_integrations' );
 	$details = $cmplz_integrations_list[ $plugin ];
@@ -565,6 +566,17 @@ function cmplz_uses_thirdparty( $name ) {
 	return false;
 }
 
+/**
+ * Callback to check if google maps is used
+ * @return bool
+ */
+function cmplz_uses_google_maps(){
+	return cmplz_uses_thirdparty('google-maps');
+}
+
+function cmplz_google_maps_integration_enabled(){
+	return defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE');
+}
 
 add_action( 'complianz_after_label', 'cmplz_add_placeholder_checkbox', 91, 1 );
 function cmplz_add_placeholder_checkbox( $args ) {

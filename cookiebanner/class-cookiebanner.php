@@ -703,11 +703,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$available_cats['functional'] = __("Functional", "complianz-gdpr");
 
 			if (cmplz_consent_api_active() ) {
-				$available_cats['prefs'] = __("Preferences", "complianz-gdpr");
+				$available_cats['preferences'] = __("Preferences", "complianz-gdpr");
 			}
 
 			if ( !COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
-				$available_cats['stats'] = __( "Statistics", "complianz-gdpr" );
+				$available_cats['statistics'] = __( "Statistics", "complianz-gdpr" );
 			}
 
 			if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
@@ -955,8 +955,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						}
 					}
 
-                    $output .= cmplz_uses_preferences_cookies() ?  $this->get_consent_checkbox( 'prefs',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
-                    $output .= cmplz_uses_statistic_cookies() ? $this->get_consent_checkbox( 'stats',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
+                    $output .= cmplz_uses_preferences_cookies() ?  $this->get_consent_checkbox( 'preferences',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
+                    $output .= cmplz_uses_statistic_cookies() ? $this->get_consent_checkbox( 'statistics',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
                     if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 				} else {
 					if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
@@ -1011,6 +1011,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$output = array(
 				'static'                                  => false,
+				'is_multisite_root'                       => is_multisite() && is_main_site(),
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
 				'set_cookies'                             => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'                      => cmplz_get_value( 'enable_cookieblocker_ajax' ),

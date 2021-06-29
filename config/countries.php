@@ -70,6 +70,12 @@ $this->regions = array(
 		'countries' => array( 'AU' ),
 		'law'       => __( "APA", 'complianz-gdpr' ),
 		'type'      => 'optout',
+	),
+	'za' => array(
+		'label'     => __( 'ZA', 'complianz-gdpr' ),
+		'countries' => array( 'ZA' ),
+		'law'       => __( "POPIA", 'complianz-gdpr' ),
+		'type'      => 'optinstats',
 	)
 );
 
@@ -79,6 +85,7 @@ $this->supported_regions = array(
 	'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
 	'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
 	'au' => __( 'Privacy Act 1988 (Australia)', 'complianz-gdpr' ),
+	'za' => __( 'POPIA (South Africa)', 'complianz-gdpr' ),
 );
 
 $this->cookie_consent_converter = array(

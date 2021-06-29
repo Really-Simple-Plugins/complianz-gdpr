@@ -271,7 +271,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 			if ( $cookie ) {
 				$this->ID                    = $cookie->ID;
-				$this->name                  = substr($cookie->name, 0, 100); //maximize cookie name length
+				$this->name                  = substr($cookie->name, 0, 200); //maximize cookie name length
 				$this->serviceID             = $cookie->serviceID;
 				$this->sync                  = $cookie->sync;
 				$this->language              = $cookie->language;

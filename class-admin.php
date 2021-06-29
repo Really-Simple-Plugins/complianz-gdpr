@@ -243,83 +243,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				update_option( 'cmplz_first_version', cmplz_version);
 			}
 
-			/**
-			 * Migrate use_country and a_b_testing to general settings
-			 *
-			 * */
-			if ( $prev_version
-			     && version_compare( $prev_version, '3.0.0', '<' )
-			) {
-				$cookie_settings
-					              = get_option( 'complianz_options_cookie_settings' );
-				$general_settings = get_option( 'complianz_options_settings' );
-
-				if ( isset( $cookie_settings['use_country'] ) ) {
-					$general_settings['use_country']
-						= $cookie_settings['use_country'];
-				}
-				if ( isset( $cookie_settings['a_b_testing'] ) ) {
-					$general_settings['a_b_testing']
-						= $cookie_settings['a_b_testing'];
-				}
-				if ( isset( $cookie_settings['a_b_testing_duration'] ) ) {
-					$general_settings['a_b_testing_duration']
-						= $cookie_settings['a_b_testing_duration'];
-				}
-				if ( isset( $cookie_settings['cookie_expiry'] ) ) {
-					$general_settings['cookie_expiry']
-						= $cookie_settings['cookie_expiry'];
-				}
-
-				unset( $cookie_settings['use_country'] );
-				unset( $cookie_settings['a_b_testing'] );
-				unset( $cookie_settings['a_b_testing_duration'] );
-				unset( $cookie_settings['cookie_expiry'] );
-
-				update_option( 'complianz_options_settings',
-					$general_settings );
-				update_option( 'complianz_options_cookie_settings',
-					$cookie_settings );
-			}
-
-			/*
-			 * Merge address data into one field for more flexibility
-			 * */
-
-			if ( $prev_version
-			     && version_compare( $prev_version, '3.0.0', '<' )
-			) {
-				//get address data
-				$wizard_settings = get_option( 'complianz_options_wizard' );
-
-				$adress                             = isset( $wizard_settings['address_company'] )
-					? $wizard_settings['address_company'] : '';
-				$zip
-				                                    = isset( $wizard_settings['postalcode_company'] )
-					? $wizard_settings['postalcode_company'] : '';
-				$city
-				                                    = isset( $wizard_settings['city_company'] )
-					? $wizard_settings['city_company'] : '';
-				$new_adress                         = $adress . "\n" . $zip
-				                                      . ' ' . $city;
-				$wizard_settings['address_company'] = $new_adress;
-				unset( $wizard_settings['postalcode_company'] );
-				unset( $wizard_settings['city_company'] );
-				update_option( 'complianz_options_wizard', $wizard_settings );
-			}
-
-			/*
-			 * set new cookie policy url option to correct default state
-			 * */
-
-			if ( $prev_version
-			     && version_compare( $prev_version, '3.0.8', '<' )
-			) {
-				$wizard_settings                       = get_option( 'complianz_options_wizard' );
-				$wizard_settings['cookie-statement'] = 'generated';
-				update_option( 'complianz_options_wizard', $wizard_settings );
-			}
-
 			/*
 			 * change googlemaps into google-maps
 			 * */
@@ -390,8 +313,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( $prev_version
 			     && version_compare( $prev_version, '4.0.4', '<' )
 			) {
-				$selected_stat_service
-					= cmplz_get_value( 'compile_statistics' );
+				$selected_stat_service = cmplz_get_value( 'compile_statistics' );
 				if ( $selected_stat_service === 'google-analytics'
 				     || $selected_stat_service === 'matomo'
 				     || $selected_stat_service === 'google-tag-manager'
@@ -400,8 +322,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						= COMPLIANZ::$cookie_admin->convert_slug_to_name( $selected_stat_service );
 
 					//check if we have ohter types of this service, to prevent double services here.
-					$service_anonymized = new CMPLZ_SERVICE( $service_name
-					                                         . ' (anonymized)' );
+					$service_anonymized = new CMPLZ_SERVICE( $service_name . ' (anonymized)' );
 					$service            = new CMPLZ_SERVICE( $service_name );
 
 					//check if we have two service types. If so, just delete the anonymized one
@@ -704,8 +625,49 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {
-				error_log("run upgrade");
 				update_option( 'cmplz_first_version', '5.0.0');
+			}
+
+			/**
+			 * restore dropshadow in TCF banner.
+			 */
+			if (  $prev_version
+				  && version_compare( $prev_version, '5.1.2', '<' )
+			) {
+				if ( cmplz_tcf_active() ) {
+					$banners = cmplz_get_cookiebanners();
+					if ( $banners ) {
+						foreach ( $banners as $banner_item ) {
+							$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
+							$banner->use_box_shadow = true;
+							$banner->save();
+						}
+					}
+				}
+			}
+
+			if (  $prev_version
+				  && version_compare( $prev_version, '5.2.0', '<' )
+			) {
+				if ( cmplz_tcf_active() ) {
+					$banners = cmplz_get_cookiebanners();
+					if ( $banners ) {
+						foreach ( $banners as $banner_item ) {
+							$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
+							$banner->colorpalette_button_accept = array(
+									'background'    => '#333',
+									'border'        => '#333',
+									'text'          => '#fff',
+							);
+							$banner->colorpalette_button_settings = array(
+									'background'    => '#fff',
+									'border'        => '#333',
+									'text'          => '#333',
+							);
+							$banner->save();
+						}
+					}
+				}
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );

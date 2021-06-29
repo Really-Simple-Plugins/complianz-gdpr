@@ -233,7 +233,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				foreach ( $matches[0] as $key => $total_match ) {
 					$iframe_src = $matches[2][ $key ] . $matches[3][ $key ];
 					if ( $this->strpos_arr( $iframe_src, $known_iframe_tags ) !== false ) {
+						$is_video = $this->is_video( $iframe_src );
 						$placeholder = cmplz_placeholder( false, $iframe_src );
+						$service_name = cmplz_get_service_by_src( $iframe_src );
 						$new         = $total_match;
 						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
@@ -244,7 +246,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( $this->strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
 
 						//we insert video/no-video class for specific video styling
-						if ( $this->is_video( $iframe_src ) ) {
+						if ( $is_video ) {
 							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video cmplz-hidden' );
 						} else {
 							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-no-video' );
@@ -256,12 +258,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( cmplz_use_placeholder( $iframe_src ) ) {
 							$new = $this->add_class( $new, 'iframe', " cmplz-placeholder-element " );
 							$new = $this->add_data( $new, 'iframe', 'placeholder-image', $placeholder );
+							$new = $this->add_data( $new, 'iframe', 'service', $service_name );
 
 							//allow for integrations to override html
 							$new = apply_filters( 'cmplz_iframe_html', $new );
 
 							//make sure there is a parent element which contains this iframe only, to attach the placeholder to
-							if ( ! $this->is_video( $iframe_src )
+							if ( ! $is_video
 							     && ! $this->no_div( $iframe_src )
 							) {
 								$new = '<div>' . $new . '</div>';

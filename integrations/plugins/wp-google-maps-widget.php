@@ -1,5 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+add_filter( 'cmplz_known_script_tags', 'cmplz_wp_google_maps_widget_script' );
 
 /**
  * override the flex feature of the blocked content container in case of this map
@@ -16,7 +17,6 @@ function cmplz_wp_google_maps_widget_css() {
 add_action( 'wp_footer', 'cmplz_wp_google_maps_widget_css' );
 
 
-add_filter( 'cmplz_known_script_tags', 'cmplz_wp_google_maps_widget_script' );
 function cmplz_wp_google_maps_widget_script( $tags ) {
 	$tags[] = 'gmw.js';
 

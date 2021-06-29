@@ -47,7 +47,10 @@ jQuery(document).ready(function ($) {
 
 		window.CustomEvent = CustomEvent;
 	})();
-
+	var cmplzPrefix = 'cmplz_';
+	if ( complianz.is_multisite_root ) {
+		cmplzPrefix = 'cmplz_rt_'
+	}
 	var ccStatus;
 	var ccName;
 	var ccStatsEnabled = false;
@@ -59,11 +62,12 @@ jQuery(document).ready(function ($) {
 	var cmplzAllScriptsHookFired = false;
 	var cmplzLocalhostWarningShown = false;
 	var cmplzCategories = [
-		'cmplz_functional',
-		'cmplz_prefs',
-		'cmplz_stats',
-		'cmplz_marketing',
+		cmplzPrefix+'functional',
+		cmplzPrefix+'preferences',
+		cmplzPrefix+'statistics',
+		cmplzPrefix+'marketing',
 	];
+
 
 	/**
 	 * Show manage consent area
@@ -146,6 +150,8 @@ jQuery(document).ready(function ($) {
 			} else {
 				blockedContentContainer = $(this);
 			}
+
+
 			var curIndex = blockedContentContainer.data('placeholderClassIndex');
 			//if the blocked content container class is already added, don't add it again
 			if (typeof curIndex === 'undefined') {
@@ -153,7 +159,9 @@ jQuery(document).ready(function ($) {
 				blockedContentContainer.addClass('cmplz-placeholder-' + placeholderClassIndex);
 				blockedContentContainer.addClass('cmplz-blocked-content-container');
 				blockedContentContainer.data('placeholderClassIndex', placeholderClassIndex);
-
+				if ($(this).hasClass('cmplz-video')){
+					blockedContentContainer.addClass('cmplz-video-placeholder');
+				}
 				//insert placeholder text
 				if (cmplzGetHighestAcceptance() !== 'marketing' && !blockedContentContainer.find(".cmplz-blocked-content-notice").length) {
 					var placeholderText = complianz.placeholdertext;
@@ -229,11 +237,11 @@ jQuery(document).ready(function ($) {
 	/**
 	 * 	we run this function also on an interval, because with ajax loaded content, the placeholders would otherwise not be handled.
 	 */
-	//if ( complianz.block_ajax_content == 1 ) {
+	if ( complianz.block_ajax_content == 1 ) {
 		setInterval(function () {
 			setBlockedContentContainer();
 		}, 2000);
-	//}
+	}
 
 	/**
 	 * Enable scripts that were blocked
@@ -409,7 +417,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-
 		if (!ccAllEnabled) {
 			//fire an event so custom scripts can hook into this.
 			var event = new CustomEvent('cmplzEnableScripts', { detail: 'marketing' });
@@ -578,18 +585,18 @@ jQuery(document).ready(function ($) {
 	function cmplzRunTmEvent(event) {
 		if (cmplzFiredEvents.indexOf(event) === -1) {
 			//for TM events, we show a warning to tell users to stop using the event_all trigger. But we'll run it for now.
-			if (event === 'cmplz_event_marketing' && complianz.tm_categories ){
+			if (event === cmplzPrefix+'event_marketing' && complianz.tm_categories ){
 				console.log( 'fire ' + event );
-				cmplzFiredEvents.push('cmplz_event_marketing');
+				cmplzFiredEvents.push(cmplzPrefix+'event_marketing');
 				window.dataLayer.push({
-					'event': 'cmplz_event_marketing'
+					'event': cmplzPrefix+'event_marketing'
 				});
 
 				console.log('Deprecated event: The cmplz_event_all will be deprecated in the future.');
-				cmplzFiredEvents.push('cmplz_event_all');
+				cmplzFiredEvents.push(cmplzPrefix+'event_all');
 				window.dataLayer = window.dataLayer || [];
 				window.dataLayer.push({
-					'event': 'cmplz_event_all'
+					'event': cmplzPrefix+'event_all'
 				});
 			} else {
 				console.log( 'fire ' + event );
@@ -631,7 +638,7 @@ jQuery(document).ready(function ($) {
 
 	//when ab testing, or using records of consent, we want to keep track of the unique user id
 	if ( complianz.a_b_testing == 1 ) {
-		var cmplz_id_cookie = cmplzGetCookie('cmplz_id');
+		var cmplz_id_cookie = cmplzGetCookie(cmplzPrefix+'id');
 		var cmplz_id_session = '';
 		var cmplz_id = '';
 		if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_id) {
@@ -649,7 +656,7 @@ jQuery(document).ready(function ($) {
 		if ( typeof (Storage) !== "undefined" ) {
 			sessionStorage.cmplz_id = JSON.stringify(cmplz_id);
 		}
-		cmplzSetCookie('cmplz_id', cmplz_id, complianz.cookie_expiry )
+		cmplzSetCookie(cmplzPrefix+'id', cmplz_id, complianz.cookie_expiry )
 	}
 
 	function conditionally_show_warning() {
@@ -692,7 +699,7 @@ jQuery(document).ready(function ($) {
 		document.dispatchEvent(event);
 
 		//if no status was saved before, we do it now
-		if (cmplzGetCookie('cmplz_choice') !== 'set') {
+		if (cmplzGetCookie(cmplzPrefix+'choice') !== 'set') {
 			//for Non optin/optout visitors, and DNT users, we just track the no-warning option
 			if ( complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout' ) {
 				complianz_track_status('no_warning');
@@ -736,7 +743,7 @@ jQuery(document).ready(function ($) {
 				complianz.type = 'opt-out';
 				complianz.layout = 'basic';
 
-				if ( cmplzGetCookie('complianz_consent_status') == 'deny' ){
+				if ( cmplzGetCookie(cmplzPrefix+'consent_status') == 'deny' ){
 					cmplzDisableAutoDismiss();
 				}
 				complianz.readmore = complianz.readmore_optout;
@@ -774,6 +781,8 @@ jQuery(document).ready(function ($) {
 	function cmplz_cookie_warning() {
 		//apply custom css
 		var css = '';
+		if (complianz.tcf_active) css += '.cmplz-tcf-banner-hidden{display:none;}';
+
 		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible') {
 			// Accept all
 			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-accept-all {color:' + complianz.colorpalette_button_accept_text + ';background-color:' + complianz.colorpalette_button_accept_background + ';border-color:' + complianz.colorpalette_button_accept_border + '}';
@@ -788,8 +797,8 @@ jQuery(document).ready(function ($) {
 
         if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible') {
             // View settings
-            css += '.cc-compliance .cc-btn.cc-show-settings{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
-            css += '.cc-compliance .cc-btn.cc-show-settings:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
+            css += '.cc-compliance .cc-btn.cc-show-settings,.cc-compliance .cc-btn.cc-save{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
+            css += '.cc-compliance .cc-btn.cc-show-settings:hover,.cc-compliance .cc-btn.cc-save:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
         }
 
 		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible' || complianz.use_categories === 'legacy') {
@@ -797,7 +806,7 @@ jQuery(document).ready(function ($) {
             css += '.cc-compliance .cc-btn.cc-save-settings{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
             css += '.cc-compliance .cc-btn.cc-save-settings:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
 
-            if (complianz.checkbox_style == 'slider') {
+            if (complianz.checkbox_style === 'slider') {
             	// Slider
                 css += ".cmplz-slider-checkbox input:checked + .cmplz-slider {background-color: " + complianz.colorpalette_toggles_background + "!important}";
                 css += '.cmplz-slider-checkbox .cmplz-slider {background-color: ' + complianz.colorpalette_toggles_inactive + '!important;}';
@@ -845,7 +854,7 @@ jQuery(document).ready(function ($) {
 		var autoOpen = $('.cmplz-tcf-container').length && complianz.tcf_active ? false : true;
 		window.cookieconsent.initialise({
 			cookie: {
-				name: 'complianz_consent_status',
+				name: cmplzPrefix+'consent_status',
 				expiryDays: complianz.cookie_expiry,
 				domain: cmplzGetCookieDomain(),
 				path: cmplzGetCookiePath(),
@@ -1048,7 +1057,7 @@ jQuery(document).ready(function ($) {
 			 *
 			 * */
 
-			if (complianz.consenttype === 'optout' && cmplzGetCookie('complianz_consent_status') !== 'deny') {
+			if (complianz.consenttype === 'optout' && cmplzGetCookie(cmplzPrefix+'consent_status') !== 'deny') {
 				cmplzFireCategories('all');
 			} else {
 				cmplzFireCategories();
@@ -1082,7 +1091,7 @@ jQuery(document).ready(function ($) {
 
 	function cmplzRemoveStatisticsCategory(categories) {
 		if (complianz.use_categories !== 'no' && complianz.forceEnableStats) {
-			return categories.replace(/(.*)(<div class="cmplz-categories-wrap"><label.*?>.*?<input.*?class=".*?cmplz_stats.*?<\/label><\/div>)(.*)/g, function (a, b, c, d) {
+			return categories.replace(/(.*)(<div class="cmplz-categories-wrap"><label.*?>.*?<input.*?class=".*?cmplz_statistics.*?<\/label><\/div>)(.*)/g, function (a, b, c, d) {
 				return b + d;
 			});
 		}
@@ -1108,10 +1117,10 @@ jQuery(document).ready(function ($) {
 		var reload = false;
 		if ($('.cmplz_marketing').length ) {
 			//'marketing' checkbox is not checked, and previous value was allow. reload.
-			if (!$('.cmplz_marketing').is(":checked") && cmplzGetCookie('cmplz_marketing') === 'allow' ) {
+			if (!$('.cmplz_marketing').is(":checked") && cmplzGetCookie(cmplzPrefix+'marketing') === 'allow' ) {
 				reload = true;
 				//marketing checkbox not che3cked, optout region, previous value empty, also reload
-			} else if (!$('.cmplz_marketing').is(":checked") &&  complianz.consenttype === 'optout' && cmplzGetCookie('cmplz_marketing') === '' ) {
+			} else if (!$('.cmplz_marketing').is(":checked") &&  complianz.consenttype === 'optout' && cmplzGetCookie(cmplzPrefix+'marketing') === '' ) {
 				reload = true;
 			}
 		}
@@ -1124,35 +1133,29 @@ jQuery(document).ready(function ($) {
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
 				if ($('.cmplz_' + i).is(":checked")) {
-					cmplzSetCookie('cmplz_event_' + i, 'allow', complianz.cookie_expiry);
-					cmplz_wp_set_consent('cmplz_event_' + i, 'allow');
+					cmplz_wp_set_consent('event_' + i, 'allow');
 				} else {
-					cmplzSetCookie('cmplz_event_' + i, 'deny', complianz.cookie_expiry);
-					cmplz_wp_set_consent('cmplz_event_' + i, 'deny');
+					cmplz_wp_set_consent('event_' + i, 'deny');
 				}
 			}
 		}
 
 		//statistics acceptance
-		if ($('.cmplz_stats').length) {
-			if ($('.cmplz_stats').is(":checked")) {
-				cmplzSetCookie('cmplz_stats', 'allow', complianz.cookie_expiry);
+		if ($('.cmplz_statistics').length) {
+			if ($('.cmplz_statistics').is(":checked")) {
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
 			} else {
-				cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
 				cmplz_wp_set_consent('statistics', 'deny');
 				if (complianz.consenttype === 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'deny');
 			}
 		}
 
 		//preferences acceptance
-		if ($('.cmplz_prefs').length) {
-			if ($('.cmplz_prefs').is(":checked")) {
-				cmplzSetCookie('cmplz_prefs', 'allow', complianz.cookie_expiry);
+		if ($('.cmplz_preferences').length) {
+			if ($('.cmplz_preferences').is(":checked")) {
 				cmplz_wp_set_consent('preferences', 'allow');
 			} else {
-				cmplzSetCookie('cmplz_prefs', 'deny', complianz.cookie_expiry);
 				cmplz_wp_set_consent('preferences', 'deny');
 			}
 		}
@@ -1161,11 +1164,9 @@ jQuery(document).ready(function ($) {
 		if ($('.cmplz_marketing').length) {
 			if ($('.cmplz_marketing').is(":checked")) {
 				ccName.setStatus(cookieconsent.status.allow);
-				cmplzSetCookie('cmplz_marketing', 'allow', complianz.cookie_expiry);
 				cmplz_wp_set_consent('marketing', 'allow');
 			} else {
-				cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
-				cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
+				cmplzSetCookie(cmplzPrefix+'consent_status', 'deny', complianz.cookie_expiry);
 				cmplz_wp_set_consent('marketing', 'deny');
 				cmplzIntegrationsRevoke();
 			}
@@ -1211,7 +1212,7 @@ jQuery(document).ready(function ($) {
 		if ( complianz.a_b_testing != 1 ) return;
 
 		//keep track of the fact that the status was saved at least once, for the no choice status
-		cmplzSetCookie('cmplz_choice', 'set', complianz.cookie_expiry);
+		cmplzSetCookie(cmplzPrefix+'choice', 'set', complianz.cookie_expiry);
 		var request = new XMLHttpRequest();
 		request.open('POST', complianz.url.replace('/v1', '/v1/track'), true);
 		var data = {
@@ -1264,7 +1265,7 @@ jQuery(document).ready(function ($) {
 			for (var key in cmplzCategories) {
 				if (cmplzCategories.hasOwnProperty(key)) {
 					var cat = cmplzCategories[key];
-					if ( cat === 'cmplz_functional' ) {continue}
+					if ( cat === cmplzPrefix+'functional' ) {continue}
 					$('.'+cat).each(function(){
 						$(this).prop('checked', false);
 					});
@@ -1272,14 +1273,14 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		if ( cmplzGetCookie('complianz_consent_status') === 'deny' ) {
+		if ( cmplzGetCookie(cmplzPrefix+'consent_status') === 'deny' ) {
 			//when denied, just get the popup again.
 			$('.cc-revoke').click();
 			$('.cc-revoke').fadeOut();
 		} else if ( complianz.use_categories === 'no' ) {
 			//when accept/deny, set to deny, and revoke.
 			//if we set to deny in the revoke function, it will prevent the banner from showing up in other cases.
-			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
+			cmplzSetCookie(cmplzPrefix+'consent_status', 'deny', complianz.cookie_expiry);
 			cmplzRevoke();
 		} else {
 			//category banners, do a full revoke
@@ -1360,7 +1361,7 @@ jQuery(document).ready(function ($) {
 			var accepted = $('.cmplz-status-accepted');
 			var denied = $('.cmplz-status-denied');
 			if (complianz.consenttype === 'optout') {
-				if (cmplzGetCookie('complianz_consent_status') === 'deny') {
+				if (cmplzGetCookie(cmplzPrefix+'consent_status') === 'deny') {
 					accepted.hide();
 					denied.show();
 				} else {
@@ -1474,24 +1475,24 @@ jQuery(document).ready(function ($) {
 
 	function cmplzGetHighestAcceptance() {
 		var consentedCategories = cmplzAcceptedCategories();
-		if (cmplzInArray( 'cmplz_marketing', consentedCategories )) {
+		if (cmplzInArray( cmplzPrefix+'marketing', consentedCategories )) {
 			return 'marketing';
 		}
 
 		if (complianz.tm_categories) {
 			for (var i = complianz.cat_num - 1; i >= 0; i--) {
-				if (cmplzInArray( 'cmplz_event_' + i, consentedCategories )) {
-					return 'cmplz_event_' + i;
+				if (cmplzInArray( cmplzPrefix+'event_' + i, consentedCategories )) {
+					return cmplzPrefix+'event_' + i;
 				}
 			}
 		}
 
-		if (cmplzInArray( 'cmplz_stats', consentedCategories )) {
-			return 'stats';
+		if (cmplzInArray( cmplzPrefix+'statistics', consentedCategories )) {
+			return 'statistics';
 		}
 
-		if (cmplzInArray( 'cmplz_prefs', consentedCategories )) {
-			return 'prefs';
+		if (cmplzInArray( cmplzPrefix+'preferences', consentedCategories )) {
+			return 'preferences';
 		}
 
 		return 'functional';
@@ -1505,7 +1506,7 @@ jQuery(document).ready(function ($) {
 	function cmplzAcceptedCategories() {
 		var consentedCategories = cmplzCategories;
 		var consentedTemp = [];
-		var status = cmplzGetCookie('complianz_consent_status');
+		var status = cmplzGetCookie(cmplzPrefix+'consent_status');
 		if ( status === 'allow' || (status !== 'deny' && complianz.consenttype === 'optout') ) {
 			return consentedCategories;
 		}
@@ -1514,7 +1515,7 @@ jQuery(document).ready(function ($) {
 		for (var key in consentedCategories) {
 			if ( consentedCategories.hasOwnProperty(key) ){
 				var cat = consentedCategories[key];
-				if ( cmplzGetCookie(cat) === 'allow' || cat === 'cmplz_functional' ) {
+				if ( cmplzGetCookie(cat) === 'allow' || cat === cmplzPrefix+'functional' ) {
 					consentedTemp.push(cat);
 				}
 			}
@@ -1526,13 +1527,13 @@ jQuery(document).ready(function ($) {
 
 		if ( complianz.tm_categories ) {
 			for (var i = complianz.cat_num - 1; i >= 0; i--) {
-				if (cmplzGetCookie('cmplz_event_' + i) === 'allow') {
-					consentedCategories.push('cmplz_event_' + i);
+				if (cmplzGetCookie(cmplzPrefix+'event_' + i) === 'allow') {
+					consentedCategories.push(cmplzPrefix+'event_' + i);
 				}
 			}
 			//for tm cats, we skip the stats cat
 			consentedCategories = consentedCategories.filter(function(value, index, consentedCategories){
-				return value !== 'cmplz_stats';
+				return value !== cmplzPrefix+'statistics';
 			});
 		}
 
@@ -1558,21 +1559,21 @@ jQuery(document).ready(function ($) {
 		//always functional
 		cmplz_wp_set_consent('functional', 'allow');
 		if (complianz.consenttype !== 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'allow');
-		cmplzRunTmEvent('cmplz_event_functional');
 		//using TM categories
 		if (complianz.tm_categories) {
+			cmplzRunTmEvent(cmplzPrefix+'event_functional');
 			for (var i = 0; i < complianz.cat_num; i++) {
 				if (category === 'all' || $('.cmplz_' + i).is(":checked")) {
-					cmplzRunTmEvent('cmplz_event_' + i);
+					cmplzRunTmEvent(cmplzPrefix+'event_' + i);
 				}
 			}
 		} else {
-			if (forcePreferences || ($('.cmplz_prefs').length && $('.cmplz_prefs').is(":checked"))) {
+			if (forcePreferences || ($('.cmplz_preferences').length && $('.cmplz_preferences').is(":checked"))) {
 				cmplz_wp_set_consent('preferences', 'allow');
 				highestCategoryAccepted = 'preferences';
 			}
 
-			if (forceStatistics || ($('.cmplz_stats').length && $('.cmplz_stats').is(":checked"))) {
+			if (forceStatistics || ($('.cmplz_statistics').length && $('.cmplz_statistics').is(":checked"))) {
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
 				cmplzEnableStats();
@@ -1584,7 +1585,9 @@ jQuery(document).ready(function ($) {
 		if (forceMarketing || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
 			setStatusAsBodyClass('marketing');
 			cmplz_wp_set_consent('marketing', 'allow');
-			cmplzRunTmEvent('cmplz_event_marketing');
+			if ( complianz.tm_categories ) {
+				cmplzRunTmEvent(cmplzPrefix+'event_marketing');
+			}
 			cmplzEnableMarketing();
 			highestCategoryAccepted = 'marketing';
 		}
@@ -1599,7 +1602,7 @@ jQuery(document).ready(function ($) {
 		//marketing cookies acceptance
 		if (save) {
 			if (forceMarketing || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
-				cmplzSetCookie('complianz_consent_status', 'allow', complianz.cookie_expiry);
+				cmplzSetCookie(cmplzPrefix+'consent_status', 'allow', complianz.cookie_expiry);
 			}
 		}
 	}
@@ -1618,7 +1621,7 @@ jQuery(document).ready(function ($) {
 
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
-				if (cmplzGetCookie('cmplz_event_' + i) === 'allow' || force) {
+				if (cmplzGetCookie(cmplzPrefix+'event_' + i) === 'allow' || force) {
 					$('.cmplz_' + i).each(function(){
 						$(this).prop('checked', true);
 					});
@@ -1633,7 +1636,7 @@ jQuery(document).ready(function ($) {
 		for (var key in cmplzCategories) {
 			if (cmplzCategories.hasOwnProperty(key)) {
 				var cat = cmplzCategories[key];
-				if ( cat === 'cmplz_functional' ) {continue}
+				if ( cat === cmplzPrefix+'functional' ) {continue}
 				if (cmplzGetCookie(cat) === 'allow' || force) {
 					$('.'+cat).each(function(){
 						$(this).prop('checked', true);
@@ -1689,7 +1692,7 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzCheckCookiePolicyID() {
-		var user_policy_id = cmplzGetCookie('complianz_policy_id');
+		var user_policy_id = cmplzGetCookie(cmplzPrefix+'policy_id');
 		if (user_policy_id && (complianz.current_policy_id !== user_policy_id) ) {
 			cmplzClearAllComplianzCookies();
 		}
@@ -1753,7 +1756,7 @@ jQuery(document).ready(function ($) {
 	 * */
 
 	function cmplzSetAcceptedCookiePolicyID() {
-		cmplzSetCookie('complianz_policy_id', complianz.current_policy_id, complianz.cookie_expiry);
+		cmplzSetCookie(cmplzPrefix+'policy_id', complianz.current_policy_id, complianz.cookie_expiry);
 	}
 
 	/**
@@ -1820,32 +1823,28 @@ jQuery(document).ready(function ($) {
 		//using TM categories
 		if (complianz.tm_categories) {
 			for (var i = 0; i < complianz.cat_num; i++) {
-				cmplzSetCookie('cmplz_event_' + i, 'deny', complianz.cookie_expiry);
-				cmplz_wp_set_consent('cmplz_event_' + i, 'deny');
+				cmplz_wp_set_consent('event_' + i, 'deny');
 			}
 		}
 
 		//statistics acceptance
-		if ($('.cmplz_stats').length) {
-			cmplzSetCookie('cmplz_stats', 'deny', complianz.cookie_expiry);
+		if ($('.cmplz_statistics').length) {
 			cmplz_wp_set_consent('statistics', 'deny');
 			if (complianz.consenttype === 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'deny');
 		}
 
 		//preferences acceptance
-		if ($('.cmplz_prefs').length) {
-			cmplzSetCookie('cmplz_prefs', 'deny', complianz.cookie_expiry);
+		if ($('.cmplz_preferences').length) {
 			cmplz_wp_set_consent('preferences', 'deny');
 		}
 
 		//marketing cookies acceptance
 		if ($('.cmplz_marketing').length) {
-			cmplzSetCookie('cmplz_marketing', 'deny', complianz.cookie_expiry);
 			cmplz_wp_set_consent('marketing', 'deny');
 		}
 
 		if ( complianz.use_categories !== 'no' ) {
-			cmplzSetCookie('complianz_consent_status', 'deny', complianz.cookie_expiry);
+			cmplzSetCookie(cmplzPrefix+'consent_status', 'deny', complianz.cookie_expiry);
 		}
 
 		cmplzIntegrationsRevoke();
@@ -1922,6 +1921,9 @@ jQuery(document).ready(function ($) {
 	 * @param value
 	 */
 	function cmplz_wp_set_consent(type, value) {
+		//our own consent
+		cmplzSetCookie(cmplzPrefix+type, value, complianz.cookie_expiry);
+		//wp consent api integration
 		if (typeof wp_set_consent == 'function') {
 			wp_set_consent(type, value);
 		}

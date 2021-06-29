@@ -3,13 +3,17 @@
  * add the dependency
  * $deps['wait-for-this-script'] = 'script-that-should-wait';
  */
+define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
+
+add_filter( 'cmplz_dependencies', 'cmplz_multimarker_dependencies' );
+add_filter( 'cmplz_known_script_tags', 'cmplz_multimarker_script' );
+add_filter( 'cmplz_placeholder_markers', 'cmplz_multimarker_placeholder' );
 
 function cmplz_multimarker_dependencies( $tags ) {
 	$tags['maps.googleapis.com/maps/api/js'] = 'map-multi-marker/asset/js/';
 
 	return $tags;
 }
-add_filter( 'cmplz_dependencies', 'cmplz_multimarker_dependencies' );
 
 /**
  * Block the scripts.
@@ -25,7 +29,6 @@ function cmplz_multimarker_script( $tags ) {
 
 	return $tags;
 }
-add_filter( 'cmplz_known_script_tags', 'cmplz_multimarker_script' );
 
 /**
  * Add a placeholder to a div with class "my-maps-class"
@@ -37,7 +40,6 @@ function cmplz_multimarker_placeholder( $tags ) {
 	$tags['google-maps'][] = "map-multi-marker";
 	return $tags;
 }
-add_filter( 'cmplz_placeholder_markers', 'cmplz_multimarker_placeholder' );
 
 
 

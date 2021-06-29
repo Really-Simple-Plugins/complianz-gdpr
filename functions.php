@@ -25,13 +25,13 @@ if ( ! function_exists( 'cmplz_upgraded_to_five' ) ) {
 	}
 }
 
-if ( !function_exists('cmplz_upgraded_to')){
+if ( !function_exists('cmplz_upgraded_to_current_version')){
 
 	/**
 	 * Check if the user has upgraded to the current version, or if this is a fresh install with this version.
 	 */
 
-	function cmplz_upgraded_to_current() {
+	function cmplz_upgraded_to_current_version() {
 		$first_version = get_option( 'cmplz_first_version' );
 		//if there's no first version yet, we assume it's not upgraded
 		if ( !$first_version ) {
@@ -335,6 +335,17 @@ if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_za_site_needs_cookie_warning' ) ) {
+	/**
+	 * Check if ZA targeted site needs a cookie warning
+	 *
+	 * @return bool
+	 */
+	function cmplz_za_site_needs_cookie_warning() {
+		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'za' );
+	}
+}
+
 if ( ! function_exists( 'cmplz_uk_site_needs_cookie_warning' ) ) {
 	/**
 	 * Check if EU targeted site needs a cookie warning
@@ -370,6 +381,23 @@ if ( ! function_exists( 'cmplz_uk_site_uses_cookie_warning_cats' ) ) {
 	 * @return bool
 	 */
 	function cmplz_uk_site_uses_cookie_warning_cats() {
+		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
+		if ( $cookiebanner->use_categories_optinstats !== 'no' ) {
+
+			return true;
+		}
+
+		return false;
+	}
+}
+
+if ( ! function_exists( 'cmplz_za_site_uses_cookie_warning_cats' ) ) {
+
+	/**
+	 * Check if optin site needs cookie warning with categories
+	 * @return bool
+	 */
+	function cmplz_za_site_uses_cookie_warning_cats() {
 		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
 		if ( $cookiebanner->use_categories_optinstats !== 'no' ) {
 
@@ -532,31 +560,16 @@ if ( ! function_exists( 'cmplz_notice' ) ) {
 	 * Notification without arrow on the left. Should be used outside notifications center
 	 * @param string $msg
 	 * @param string $type notice | warning | success
-	 * @param bool   $hide
 	 * @param bool   $echo
-     * @param array  $condition $condition['question'] $condition['answer']
 	 *
 	 * @return string|void
 	 */
-	function cmplz_notice( $msg, $type = 'notice', $hide = false, $echo = true, $condition = false) {
+	function cmplz_notice( $msg, $type = 'notice', $echo = true ) {
 		if ( $msg == '' ) {
 			return;
 		}
 
-		// Condition
-        $condition_check = "";
-        $condition_question = "";
-        $condition_answer = "";
-        $cmplz_hidden = "";
-		if ($condition) {
-		    $condition_check = "condition-check";
-		    $condition_question = "data-condition-question='{$condition['question']}'";
-		    $condition_answer = "data-condition-answer='{$condition['answer']}'";
-		    $args['condition'] = array($condition['question'] => $condition['answer']);
-            $cmplz_hidden = cmplz_field::this()->condition_applies($args) ? "" : "cmplz-hidden";;
-        }
-		$hide = $hide ? 'cmplz-hidden' : '';
-		$html = "<div class='cmplz-panel-wrap'><div class='cmplz-panel cmplz-notification cmplz-{$type} {$hide} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}><div>{$msg}</div></div></div>";
+		$html = "<div class='cmplz-panel-wrap'><div class='cmplz-panel cmplz-notification cmplz-{$type}'><div>{$msg}</div></div></div>";
 
 		if ( $echo ) {
 			echo $html;
@@ -570,14 +583,12 @@ if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
 	/**
 	 * @param string $msg
 	 * @param string $type notice | warning | success
-	 * @param bool   $remove_after_change
-	 * @param bool   $echo
-	 * @param bool|array  $condition $condition['question'] $condition['answer']
+	 * @param bool|array  $condition
 	 *
 	 * @return string|void
 	 */
 
-	function cmplz_sidebar_notice( $msg, $type = 'notice', $remove_after_change = false, $echo = true, $condition = false) {
+	function cmplz_sidebar_notice( $msg, $type = 'notice', $condition = false ) {
 		if ( $msg == '' ) {
 			return;
 		}
@@ -588,22 +599,18 @@ if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
 		$condition_answer = "";
 		$cmplz_hidden = "";
 		if ($condition) {
-			$condition_check = "condition-check";
-			$condition_question = "data-condition-question='{$condition['question']}'";
-			$condition_answer = "data-condition-answer='{$condition['answer']}'";
-			$args['condition'] = array($condition['question'] => $condition['answer']);
-			$cmplz_hidden = cmplz_field::this()->condition_applies($args) ? "" : "cmplz-hidden";;
+			//get first
+			$questions = array_keys($condition);
+			$question = reset($questions);
+			$answer = reset($condition);
+			$condition_check = "condition-check-1";
+			$condition_question = "data-condition-question-1='{$question}'";
+			$condition_answer = "data-condition-answer-1='{$answer}'";
+			$args = array('condition'=> $condition);
+			$cmplz_hidden = cmplz_field::this()->condition_applies( $args ) ? "" : "cmplz-hidden";;
 		}
 
-		// Hide
-
-		$html = "<div class='cmplz-help-modal cmplz-notice cmplz-{$type} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}>{$msg}</div>";
-
-		if ( $echo ) {
-			echo $html;
-		} else {
-			return $html;
-		}
+		echo "<div class='cmplz-help-modal cmplz-notice cmplz-{$type} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}>{$msg}</div>";
 	}
 }
 
@@ -979,6 +986,12 @@ if ( ! function_exists( 'cmplz_cookie_warning_required_stats_eu' ) ) {
 if ( ! function_exists( 'cmplz_cookie_warning_required_stats_uk' ) ) {
 	function cmplz_cookie_warning_required_stats_uk() {
 		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('uk');
+	}
+}
+
+if ( ! function_exists( 'cmplz_cookie_warning_required_stats_za' ) ) {
+	function cmplz_cookie_warning_required_stats_za() {
+		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('za');
 	}
 }
 
@@ -1730,9 +1743,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				array_push($allPurposes, $purpose);
 			}
 
-			$service_name = $service->ID && strlen( $service->name ) > 0
-				? $service->name : __( 'Miscellaneous', 'complianz-gdpr' );
-
+			$service_name = $service->ID && strlen( $service->name ) > 0 ? $service->name : __( 'Miscellaneous', 'complianz-gdpr' );
 
 			$sharing = '';
 			if ( $service->sharesData || $service_name === 'Complianz' ) {

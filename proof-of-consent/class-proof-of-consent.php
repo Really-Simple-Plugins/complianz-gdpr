@@ -263,7 +263,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				<?php
 				if ( isset( $_POST['cmplz_generate_snapshot'] ) ) {
 					cmplz_notice( __( "Proof of consent updated!",
-							"complianz-gdpr" ), 'success', false );
+							"complianz-gdpr" ), 'success' );
 				}
 				if ( isset( $_POST['cmplz_generate_snapshot_error'] ) ) {
 					cmplz_notice( __( "Proof of consent generation failed. Check your write permissions in the uploads directory",

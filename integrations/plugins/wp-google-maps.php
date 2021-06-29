@@ -1,7 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-
 /**
  * //WP Google Maps, should not be blocked as we use it's integrated GDPR feature
  * //    'wpgmaps.js',
@@ -23,12 +22,10 @@ function cmplz_wp_google_maps_replace_gdpr_notice( $html ) {
 	       . __( 'To enable Google Maps cookies, click on I Agree',
 			"complianz-gdpr" ) . '</div>';
 
-	return apply_filters( 'cmplz_wp_google_maps_html',
-		'<img src="' . $img . '" style="margin-bottom:15px">' . $msg );
+	return apply_filters( 'cmplz_wp_google_maps_html', '<img src="' . $img . '" style="margin-bottom:15px">' . $msg );
 }
 
-add_filter( 'wpgmza_gdpr_notice_html',
-	'cmplz_wp_google_maps_replace_gdpr_notice' );
+add_filter( 'wpgmza_gdpr_notice_html', 'cmplz_wp_google_maps_replace_gdpr_notice' );
 
 /**
  * Add some custom css for the placeholder
@@ -70,16 +67,13 @@ add_action( 'wp_enqueue_scripts', 'cmplz_wp_google_maps_js' );
 function cmplz_wp_google_maps_settings() {
 	if ( is_admin() && current_user_can( 'manage_options' ) ) {
 		$settings = json_decode( get_option( 'wpgmza_global_settings' ) );
-
-		if ( $settings->wpgmza_gdpr_require_consent_before_load === 'on' ) {
+		if ( property_exists($settings, 'wpgmza_gdpr_require_consent_before_load') && $settings->wpgmza_gdpr_require_consent_before_load === 'on' ) {
 			return;
 		}
-
 		$settings->wpgmza_gdpr_require_consent_before_load = 'on';
 		update_option( 'wpgmza_global_settings', json_encode( $settings ) );
 	}
 }
-
 add_action( 'admin_init', 'cmplz_wp_google_maps_settings' );
 
 
@@ -94,7 +88,6 @@ add_action( 'admin_init', 'cmplz_wp_google_maps_settings' );
 
 function cmplz_wp_google_maps_add_cookie( $cookies ) {
 	$cookies['wpgmza-api-consent-given'] = array( '1', '' );
-
 	return $cookies;
 }
 
@@ -109,9 +102,7 @@ add_filter( 'cmplz_set_cookies_on_consent', 'cmplz_wp_google_maps_add_cookie' );
  * @return array
  */
 function cmplz_wp_google_maps_placeholder( $tags ) {
-
 	$tags['google-maps'][] = 'gmw-map-cover';
-
 	return $tags;
 }
 
@@ -126,13 +117,10 @@ add_filter( 'cmplz_placeholder_markers', 'cmplz_wp_google_maps_placeholder' );
  * @return array
  */
 function cmplz_wp_google_maps_detected_services( $services ) {
-
 	if ( ! in_array( 'google-maps', $services ) ) {
 		$services[] = 'google-maps';
 	}
 
 	return $services;
 }
-
-add_filter( 'cmplz_detected_services',
-	'cmplz_wp_google_maps_detected_services' );
+add_filter( 'cmplz_detected_services', 'cmplz_wp_google_maps_detected_services' );

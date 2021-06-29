@@ -44,6 +44,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'linkedin'  => 'LinkedIn',
 				'whatsapp'  => 'WhatsApp',
 				'instagram' => 'Instagram',
+				'tiktok' 		=> 'TikTok',
 				'disqus'    => 'Disqus',
 				'pinterest' => 'Pinterest',
 			);
@@ -91,6 +92,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'assets.pinterest.com'
 				),
 				"disqus"    => array( 'disqus.com' ),
+				"tiktok"    => array( 'tiktok.com' ),
 				"instagram" => array(
 					'instawidget.net/js/instawidget.js',
 					'cdninstagram.com',
@@ -110,7 +112,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'new google.maps.',
 					'google.com/maps',
 					'maps.google.com',
-					'wp-google-maps'
+					'wp-google-maps',
+					'new google.maps.InfoWindow',
+					'new google.maps.Marker',
+					'new google.maps.Map',
+					'var mapOptions',
+					'var map',
+					'var Latlng',
 				),
 				"soundcloud"       => array( 'w.soundcloud.com/player' ),
 				"openstreetmaps"   => array(
@@ -142,7 +150,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
 				"sharethis"        => array( 'sharethis.com' ),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
-				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net' ),
+				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net','track.hubspot.com','js.hs-analytics.net'),
 				"calendly"         => array( 'assets.calendly.com' ),
 			);
 
@@ -319,6 +327,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/documents/cookie-policy-uk.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-ca.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-au.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-za.php' );
 			require_once(cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
@@ -447,12 +456,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'warning_condition' => 'cmplz_upgraded_to_five',
 					'open' => __( 'Complianz GDPR/CCPA 5.0. Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-0/'),
 					'plus_one' => true,
+					'include_in_progress' => false,
 				),
-
 				'new_australia' => array(
-					'warning_condition' => 'cmplz_upgraded_to_current',
+					'warning_condition' => 'cmplz_upgraded_to_current_version',
 					'open' => __( 'We have added a new region: Australia. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/australia/'),
 					'plus_one' => true,
+					'include_in_progress' => false,
 				),
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
@@ -625,6 +635,16 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					),
 					'plus_one' => true,
 					'urgent' => __( 'Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+				'custom-google-maps' => array(
+					'warning_condition' => 'cmplz_uses_google_maps',
+					'success_conditions'  => array(
+						'cmplz_google_maps_integration_enabled',
+					),
+					'plus_one' => false,
+					'open' => __( 'We see you have enabled Google Maps as a service, but we can\'t find an integration. You can integrate manually if needed.', 'complianz-gdpr' ).
+					cmplz_read_more('https://complianz.io/custom-google-maps-integration/'),
 					'include_in_progress' => true,
 				),
 			) );

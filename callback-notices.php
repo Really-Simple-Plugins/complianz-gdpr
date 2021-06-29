@@ -69,22 +69,10 @@ function cmplz_show_compile_statistics_notice( $args ) {
 		$type = COMPLIANZ::$config->stats[ $type ];
 
 		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.",
-			'complianz-gdpr' ), $type, $type ) );
+			'complianz-gdpr' ), $type ) );
 	}
 
 }
-
-// Double?
-// add_action( 'cmplz_notice_consent_for_anonymous_stats',
-// 	'cmplz_notice_consent_for_anonymous_stats', 10, 1 );
-// function cmplz_notice_consent_for_anonymous_stats( $args ) {
-// 	cmplz_sidebar_notice( __( "You have configured your statistics tracking privacy-friendly with Google Analytics. Therefore, in most EU countries, asking for consent for placing these particular cookies is generally not required. For some countries, like Germany, asking consent for Google Analytics is always required.",
-// 			'complianz-gdpr' )
-// 	              . cmplz_read_more( 'https://complianz.io/google-analytics' ),
-// 		'warning' );
-//
-// }
-
 
 add_action( 'cmplz_notice_uses_social_media',
 	'cmplz_uses_social_media_notice' );
@@ -188,12 +176,6 @@ function cmplz_google_fonts_warning() {
     if (function_exists('et_setup_theme')) {
         cmplz_sidebar_notice( __( "Your site uses Divi. If you use reCAPTCHA on your site, you may need to disable the reCAPTCHA integration in Complianz. ", 'complianz-gdpr' ).cmplz_read_more( "https://complianz.io/blocking-recaptcha-on-divi/" ) , 'warning');
     }
-    // if ( ! cmplz_has_region( 'eu' ) ) {
-    //     return;
-    // }
-    // cmplz_sidebar_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.",
-    //         'complianz-gdpr' ), __( "services", "complianz-gdpr" ) )
-    //     . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ) );
 }
 add_action( 'cmplz_notice_thirdparty_services_on_site', 'cmplz_google_fonts_warning' );
 
@@ -237,13 +219,6 @@ function cmplz_data_sold_us() {
 
 }
 add_action( 'cmplz_notice_data_sold_us', 'cmplz_data_sold_us' );
-
-// function cmplz_notice_personalized_ads_based_on_consent() {
-// 	cmplz_sidebar_notice( __( "With Tag Manager, you can also configure your (personalized) advertising based on consent.",
-// 			'complianz-gdpr' )
-// 	              . cmplz_read_more( 'https://complianz.io/setting-up-consent-based-advertising/' ) );
-// }
-// add_action( 'cmplz_notice_uses_ad_cookies_personalized', 'cmplz_notice_personalized_ads_based_on_consent' );
 
 function cmplz_notice_block_recaptcha_service() {
 	cmplz_sidebar_notice( __( "If you choose to block reCAPTCHA, please make sure you add a placeholder to your forms.",

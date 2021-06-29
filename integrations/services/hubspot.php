@@ -1,5 +1,14 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+
+add_filter( 'cmplz_known_script_tags', 'cmplz_hs_tracking_script' );
+function cmplz_hs_tracking_script( $tags ) {
+	$tags[] = 'track.hubspot.com';
+	$tags[] = 'js.hs-analytics.net';
+
+	return $tags;
+}
+
 /**
  * Sync the Complianz banner with the hubspot banner by clicking on the apropriate buttonn when consent is given.
  */

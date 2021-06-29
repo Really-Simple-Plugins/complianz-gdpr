@@ -2,19 +2,18 @@
 $docs = array(
 	'privacy-statement' => array(
 		'title' => __("Privacy Statements", "complianz-gdpr"),
-		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement/'
 	),
 	'cookie-statement' => array(
 		'title' => __("Cookie Policy", 'complianz-gdpr'),
-		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
 		'read-more' => ' https://complianz.io/definition/what-is-a-cookie-policy/',
 	),
 	'impressum' => array(
 		'title' => __("Impressum", 'complianz-gdpr'),
 		'regions' => array('eu'),
-		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
-
+		'read-more' => 'https://complianz.io/definition/what-is-an-impressum/',
 	),
 	'do-not-sell-my-info' => array(
 		'title' => __("Do Not Sell My Personal Information", 'complianz-gdpr'),
@@ -23,13 +22,13 @@ $docs = array(
 	),
 	'privacy-statement-for-children' => array(
 		'title' => __("Privacy Statement for Children", 'complianz-gdpr'),
-		'regions' => array('us', 'uk', 'ca'),
+		'regions' => array('us', 'uk', 'ca', 'za'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement-for-children/',
 
 	),
 	'disclaimer' => array(
 		'title' => __("Disclaimer", 'complianz-gdpr'),
-		'regions' => array('eu', 'us', 'uk', 'ca'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
 	),
 );

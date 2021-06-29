@@ -1029,7 +1029,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			);
 		}
 
-
 		/**
 		 * Get the region for a post id, based on the post type.
 		 *
@@ -1040,8 +1039,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function get_region( $post_id ) {
 
-			if ( ! is_numeric( $post_id ) && isset( $post_id['source'] ) ) {
-				return substr( $post_id['source'], - 2 );
+			if ( ! is_numeric( $post_id )  ) {
+				if ( isset( $post_id['source'] )) {
+					return substr( $post_id['source'], - 2 );
+				} else if (strpos($post_id, 'cmplz-') !== false ) {
+					return substr( $post_id, - 2 );
+				}
 			}
 
 			if ( $post_id ) {

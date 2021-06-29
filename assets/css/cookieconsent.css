@@ -716,6 +716,9 @@
   height: inherit;
   position: relative;
 }
+.cmplz-blocked-content-container.cmplz-video-placeholder {
+  padding-bottom: initial;
+}
 .cmplz-blocked-content-container iframe {
   max-height: 100%;
   border: 0 !important;
