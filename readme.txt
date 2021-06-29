@@ -14,8 +14,8 @@ Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard a
 Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 == Features ==
-* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia or Canada. Or use one Cookie Notice worldwide.
-* Configure specific cookie consent per subregion, for example: European Union + DSGVO or USA + CCPA.
+* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia, South Africa or Canada. Or use one Cookie Notice worldwide.
+* Configure specific cookie consent per subregion, for example: European Union + DSGVO/CNIL or USA + CCPA.
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
 * Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent
 * Banner Templates CA/US/AU also include; Dismiss on scroll, time on page or both.
@@ -48,7 +48,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, CCPA a
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 == Premium features ==
-* Simultaneously select USA, CA, UK, AU and EU as target regions with conditional Consent and dedicated Cookie Banners.
+* Simultaneously select USA, CA, UK, AU, ZA and EU as target regions with conditional Consent and dedicated Cookie Banners.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
 * Records of Consent: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
@@ -56,8 +56,8 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Respects the Do Not Track settings in end-users browsers.
 
 = All Legal Documents configured for a specific region =
-* Privacy statements (EU, CA, UK, AU & US). 
-* Cookie policy (EU, UK, CA, AU & US). 
+* Privacy statements (EU, CA, UK, AU, ZA & USA). 
+* Cookie policy (EU, UK, CA, AU, ZA & US). 
 * Impressum (Germany & Austria). 
 * Disclaimer. 
 * Processing agreements (EU, UK, CA, AU & US). 
@@ -68,6 +68,7 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
 * Support for PIPEDA and CASL - Canada.
 * Support for Privacy Act 1988 & Australian Privacy Principles
+* Support for POPIA, the South African Protection of Personal Information Act
 * Multilanguage support for the cookie notice and legal documents.
 * 9 Default languages. English, German, Dutch, French, Italian, Spanish, Norwegian, Greek and Czech. Formal and Informal if available.
 * Premium Support from our amazing team.
@@ -93,10 +94,10 @@ Complianz connects with Cookiedatabase.org to collect and synchronize the most r
 
 == Frequently asked questions ==
 = Knowledgebase =
-Complianz maintains a continuously growing knowledgebase about GDPR, CCPA, PIPEDA and COPPA on [complianz.io](https://complianz.io)
+Complianz maintains a continuously growing knowledgebase about GDPR, including subregions e.g. DSGVO and CNIL, CCPA, PIPEDA, COPPA, POPIA & other specific laws on [complianz.io](https://complianz.io)
 
-= Is my website GDPR, COPPA, CCPA, DSGVO, AVG, UK-GDPR, PECR, CASL and/or PIPEDA compliant with this plugin? =
-We cannot guarantee GDPR/COPPA/CCPA/UK-GDPR/PECR/CASL/PIPEDA compliance for your website. A correct configuration of this plugin by a website administrator is always required. 
+= Is my website GDPR, COPPA, CCPA, DSGVO, AVG, CNIL, UK-GDPR, PECR, CASL, POPIA and/or PIPEDA compliant with this plugin? =
+We cannot guarantee compliance for your website. A correct configuration of this plugin by a website administrator is always required. 
 = When do I need a Cookie Notice? =
 Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on the laws of the region or regions, where most of your visitors come from. 
 Regarding CCPA, you always have to show which cookies you are using but there's no obligation in asking consent.
@@ -114,10 +115,22 @@ PECR (UK) covers the use of cookies and similar technologies for storing informa
 To comply with the Australian privacy laws a website operator should present a cookie policy and/or a privacy notice before or, if that is not practicable, as soon as practicable after, your website collects personal information about an individual.
 = What are PIPEDA & CASL? =
 Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and Electronic Documents Act (PIPEDA) require a website operator to obtain consent, either implied or express consent with a dedicated cookie statement.
+= What POPIA (POPI Act)? =
+POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION ACT. Similar to the GDPR, the UK-GDPR, and the Brasilian LGPD, it promotes the protection of personal information processed by public and private bodies,bregulates the cross-border flow of personal information, and outlines the rights of data subjects.
 = Can I create a Cookie Wall with this plugin? =
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.2.0 =
+* New: TikTok integration
+* New: South Africa POPIA support
+* Fix: On multisite, root/main site cookies get different prefix, to prevent browser from getting confused about cookies on root and subpaths.
+* Fix: Monsterinsights integration causing two pageviews
+* Fix: Restore ajax loaded content blocker option, which was not following the setting's input
+* Improvement: reset padding bottom for iframes during blocked status where responsiveness is handled with a padding-bottom 56%.
+* Improvement: Detect Google Maps integration, and show notice about possible solution
+* Improvement: Disable ACF integration when any of the other Google Maps integrations is detected
+
 = 5.1.0 =
 * Fix: allow for German Ringel S in Google Maps addresses
 * New: Privacy Act 1988 Australia
