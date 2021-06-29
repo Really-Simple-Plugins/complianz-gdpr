@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 5.1.0
+Stable tag: 5.2.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -127,6 +127,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: On multisite, root/main site cookies get different prefix, to prevent browser from getting confused about cookies on root and subpaths.
 * Fix: Monsterinsights integration causing two pageviews
 * Fix: Restore ajax loaded content blocker option, which was not following the setting's input
+* Improvement: reset padding bottom for iframes during blocked status where responsiveness is handled with a padding-bottom 56%.
+* Improvement: Detect Google Maps integration, and show notice about possible solution
+* Improvement: Disable ACF integration when any of the other Google Maps integrations is detected
 * Improvement: reset padding bottom for iframes during blocked status where responsiveness is handled with a padding-bottom 56%.
 * Improvement: Detect Google Maps integration, and show notice about possible solution
 * Improvement: Disable ACF integration when any of the other Google Maps integrations is detected
