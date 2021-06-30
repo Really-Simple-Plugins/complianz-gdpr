@@ -103,7 +103,7 @@ function find_wordpress_base_path() {
  */
 
 function implode_array_recursive($array) {
-
+	if (!is_array($array)) return '';
 	return implode("\n", array_map(
 		function ($v, $k) {
 			if (is_array($v)){
