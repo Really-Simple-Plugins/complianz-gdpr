@@ -3,40 +3,45 @@ $docs = array(
 	'privacy-statement' => array(
 		'title' => __("Privacy Statements", "complianz-gdpr"),
 		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
-		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement/'
+		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement/',
+		'subscription' => 'premium',
 	),
 	'cookie-statement' => array(
 		'title' => __("Cookie Policy", 'complianz-gdpr'),
 		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
 		'read-more' => ' https://complianz.io/definition/what-is-a-cookie-policy/',
+		'subscription' => 'free',
 	),
 	'impressum' => array(
 		'title' => __("Impressum", 'complianz-gdpr'),
 		'regions' => array('eu'),
 		'read-more' => 'https://complianz.io/definition/what-is-an-impressum/',
+		'subscription' => 'premium',
 	),
 	'do-not-sell-my-info' => array(
 		'title' => __("Do Not Sell My Personal Information", 'complianz-gdpr'),
 		'regions' => array('us'),
 		'read-more' => 'https://complianz.io/definition/what-is-do-not-sell-my-personal-information/',
+		'subscription' => 'free',
 	),
 	'privacy-statement-for-children' => array(
 		'title' => __("Privacy Statement for Children", 'complianz-gdpr'),
 		'regions' => array('us', 'uk', 'ca', 'za'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement-for-children/',
-
+		'subscription' => 'premium',
 	),
 	'disclaimer' => array(
 		'title' => __("Disclaimer", 'complianz-gdpr'),
 		'regions' => array('eu', 'us', 'uk', 'ca', 'za'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
+		'subscription' => 'premium',
 	),
 );
 
 foreach ($docs as $index => $doc) {
-	if ($doc['title'] == __("Cookie Policy", "complianz-gdpr") || $doc['title'] == __("Impressum", 'complianz-gdpr')) continue;
-	if (array_search($region, $doc['regions']) !== false) {
+	if ( $doc['subscription'] === 'free' ) continue;
 
+	if (array_search($region, $doc['regions']) !== false) {
 		$args = array(
 			'status' => 'missing',
 			'title' => $doc['title'],
