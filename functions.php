@@ -164,6 +164,27 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
+
+	/**
+	 * Checks if the plugin can configure this type of statistics automatically
+	 *
+	 * @return bool
+	 */
+
+	function cmplz_complianz_can_configure_stats() {
+		$stats = cmplz_get_value( 'compile_statistics' );
+		if ( $stats === 'google-analytics' ||
+			 $stats === 'matomo' ||
+			 $stats === 'clicky' ||
+			 $stats === 'google-tag-manager'
+		){
+			return true;
+		}
+		return false;
+	}
+}
+
 if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	/**
 	 * Output a revoke button

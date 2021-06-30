@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.7
-Stable tag: 5.2.1
+Stable tag: 5.2.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, CCPA and PIPEDA.
 
@@ -121,6 +121,9 @@ POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION AC
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.2.2 =
+* Fix: When choosing anonymous statistics from a not supported statistics type, the wizard forced configuration by Complianz.
+
 = 5.2.1 =
 * Fix: arguments error in notice
 

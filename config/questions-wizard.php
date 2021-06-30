@@ -438,10 +438,11 @@ $this->fields = $this->fields + array(
 				'consent-mode',
 			),
 			'callback_condition' => array(
-				'cmplz_uses_statistics',
+				'cmplz_complianz_can_configure_stats',
 			),
 			'tooltip'               => __( "It's recommended to let Complianz handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so.", 'complianz-gdpr' ),
-			'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode'),
+			'comment'               => __( "If you have selected non privacy friendly options in the previous step, configuration by Complianz is required.", 'complianz-gdpr' ),
+			//'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode'),
 		),
 
 		'UA_code' => array(
