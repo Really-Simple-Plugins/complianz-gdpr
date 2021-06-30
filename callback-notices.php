@@ -69,7 +69,7 @@ function cmplz_show_compile_statistics_notice( $args ) {
 		$type = COMPLIANZ::$config->stats[ $type ];
 
 		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.",
-			'complianz-gdpr' ), $type ) );
+				'complianz-gdpr' ), $type, $type ) );
 	}
 
 }
