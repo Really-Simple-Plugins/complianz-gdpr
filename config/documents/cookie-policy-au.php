@@ -35,7 +35,15 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	    'subtitle' => 'Manage your consent settings',
 	    'content' => '[cmplz-manage-consent]',
     ),
-
+	array(
+		'subtitle' => _x('Vendors', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'p' => false,
+		'content' => '[cmplz-tcf-vendors]',
+		'callback_condition' => array(
+			'cmplz_tcf_active',
+			'cmplz_site_shares_data',
+		),
+	),
     array(
         'content' =>'You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.',
     ),
