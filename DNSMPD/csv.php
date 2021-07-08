@@ -83,7 +83,7 @@ function find_wordpress_base_path()
 				if ( file_exists( $path ) && $handle = opendir( $path ) ) {
 					while ( false !== ( $file = readdir( $handle ) ) ) {
 						if ( $file != "." && $file != ".." ) {
-							$file = trailingslashit( $path ) . $file;
+							$file = $path .'/' . $file;
 							if ( is_dir( $file ) && file_exists( $file . '/wp-load.php') ) {
 								$path = $file;
 								break;
