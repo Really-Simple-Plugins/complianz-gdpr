@@ -6,6 +6,9 @@ define( 'WP_USE_THEMES', false );
 define( 'BASE_PATH', find_wordpress_base_path() . "/" );
 
 # Load WordPress Core
+if ( !file_exists(BASE_PATH . 'wp-load.php') ) {
+	die("WordPress not installed here");
+}
 require_once( BASE_PATH . 'wp-load.php' );
 require_once( BASE_PATH . 'wp-includes/class-phpass.php' );
 require_once( BASE_PATH . 'wp-admin/includes/image.php' );
@@ -65,15 +68,35 @@ function export_array() {
 	return $output;
 }
 
+function find_wordpress_base_path()
+{
+	$path = dirname(__FILE__);
 
-function find_wordpress_base_path() {
-	$dir = dirname( __FILE__ );
 	do {
 		//it is possible to check for other files here
-		if ( file_exists( $dir . "/wp-config.php" ) ) {
-			return $dir;
-		}
-	} while ( $dir = realpath( "$dir/.." ) );
+		if (file_exists($path . "/wp-config.php")) {
+			//check if the wp-load.php file exists here. If not, we assume it's in a subdir.
+			if ( file_exists( $path . '/wp-load.php') ) {
+				return $path;
+			} else {
+				//wp not in this directory. Look in each folder to see if it's there.
+				if ( file_exists( $path ) && $handle = opendir( $path ) ) {
+					while ( false !== ( $file = readdir( $handle ) ) ) {
+						if ( $file != "." && $file != ".." ) {
+							$file = $path .'/' . $file;
+							if ( is_dir( $file ) && file_exists( $file . '/wp-load.php') ) {
+								$path = $file;
+								break;
+							}
+						}
+					}
+					closedir( $handle );
+				}
+			}
 
-	return null;
+			return $path;
+		}
+	} while ($path = realpath("$path/.."));
+
+	return false;
 }
