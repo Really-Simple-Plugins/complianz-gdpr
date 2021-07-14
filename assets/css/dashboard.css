@@ -150,14 +150,17 @@
   margin-left: auto;
 }
 #cmplz-dashboard .cmplz-document.flags {
+  margin-right: -10px;
   grid-template-columns: 160px auto;
 }
 #cmplz-dashboard .cmplz-document.flags > div:not(:first-child) {
   margin-left: initial;
 }
 #cmplz-dashboard .cmplz-document.flags .cmplz-flags-container {
+  align-content: center;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20px, 40px));
+  grid-template-columns: repeat(auto-fit, 20px);
+  justify-content: flex-end;
   grid-gap: 0;
 }
 #cmplz-dashboard .cmplz-document h3 {

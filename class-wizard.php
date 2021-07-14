@@ -615,7 +615,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
                     $title = COMPLIANZ::$config->steps[ $page ][ $step ]['sections'][ $i ]['title'];
                     $regions = $this->get_section_regions( $page, $step, $i );
-                    if (count(cmplz_get_regions()) > count($regions)) {
+                      if (count(cmplz_get_regions()) > count($regions)) {
 	                    $title .= $regions ? ' - ' . implode( ' | ', $regions ) : '';
                     }
                     $args = array(
@@ -932,17 +932,15 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 		public function get_section_regions( $page, $step, $section ) {
 			//only show when in action
-			$regions = false;
+			$regions = array();
 
 			if ( COMPLIANZ::$config->has_sections( $page, $step ) ) {
 				if ( isset( COMPLIANZ::$config->steps[ $page ][ $step ]['sections'][ $section ]['region'] ) ) {
-					$regions
-						= COMPLIANZ::$config->steps[ $page ][ $step ]['sections'][ $section ]['region'];
+					$regions = COMPLIANZ::$config->steps[ $page ][ $step ]['sections'][ $section ]['region'];
 				}
 			} else {
 				if ( isset( COMPLIANZ::$config->steps[ $page ][ $step ]['region'] ) ) {
-					$regions
-						= COMPLIANZ::$config->steps[ $page ][ $step ]['region'];
+					$regions = COMPLIANZ::$config->steps[ $page ][ $step ]['region'];
 				}
 			}
 
@@ -956,15 +954,13 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 						unset( $regions[ $index ] );
 					}
 				}
-				if ( count( $regions ) == 0 ) {
-					$regions = false;
-				}
 
 			}
 			if ( $regions ) {
 				$regions = array_map( 'strtoupper', $regions );
 			}
-
+			_log("regions in step");
+			_log($regions);
 			return $regions;
 		}
 

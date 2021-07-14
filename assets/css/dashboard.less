@@ -169,13 +169,17 @@
 	  margin-left: auto;
 	}
 	&.flags {
+	  margin-right:-10px;
 	  >div:not(:first-child) {
 		margin-left: initial;
 	  }
 	  grid-template-columns: 160px auto;
 	  .cmplz-flags-container {
+		align-content:center;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(20px, 40px));
+		grid-template-columns: repeat(auto-fit, 20px);
+		//grid-template-columns: repeat(auto-fit, minmax(20px, 30px));
+		justify-content: flex-end;
 		grid-gap:0;
 	  }
 	}
