@@ -50,12 +50,12 @@ foreach ($docs as $index => $doc) {
 }
 
 $args = array(
-	'status' => '',
+	'status' => 'header',
 	'title' => '<h3>'.__("Other regions", "complianz-gdpr").'</h3>',
 	'page_exists' => '',
 	'sync_icon' => '',
 	'shortcode_icon' => '',
-	'generated' => '',
+	'generated' => '<a href="" >'.__("View all documents", "complianz-gdpr").'</a>',
 );
 echo cmplz_get_template('dashboard/documents-row.php', $args);
 

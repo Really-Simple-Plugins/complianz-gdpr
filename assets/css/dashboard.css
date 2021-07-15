@@ -133,7 +133,7 @@
 }
 #cmplz-dashboard .cmplz-document {
   display: grid;
-  grid-template-columns: 160px 20px 20px 20px auto;
+  grid-template-columns: 160px 24px 24px 24px auto;
   margin: 10px 0;
 }
 #cmplz-dashboard .cmplz-document .cmplz-icon {
@@ -149,6 +149,13 @@
 #cmplz-dashboard .cmplz-document > div:not(:first-child) {
   margin-left: auto;
 }
+#cmplz-dashboard .cmplz-document.cmplz-header > div:last-child {
+  padding-top: 14px;
+}
+#cmplz-dashboard .cmplz-document.cmplz-header a {
+  color: #d7d7d7;
+  font-size: 10px;
+}
 #cmplz-dashboard .cmplz-document.flags {
   margin-right: -10px;
   grid-template-columns: 160px auto;
@@ -159,7 +166,7 @@
 #cmplz-dashboard .cmplz-document.flags .cmplz-flags-container {
   align-content: center;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 20px);
+  grid-template-columns: repeat(auto-fit, 24px);
   justify-content: flex-end;
   grid-gap: 0;
 }
