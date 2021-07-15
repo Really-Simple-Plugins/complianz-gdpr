@@ -55,7 +55,7 @@ $args = array(
 	'page_exists' => '',
 	'sync_icon' => '',
 	'shortcode_icon' => '',
-	'generated' => '<a href="" >'.__("View all documents", "complianz-gdpr").'</a>',
+	'generated' => '<a href="https://complianz.io/features/" target="_blank" >'.__("View all documents", "complianz-gdpr").'</a>',
 );
 echo cmplz_get_template('dashboard/documents-row.php', $args);
 
