@@ -959,8 +959,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( $regions ) {
 				$regions = array_map( 'strtoupper', $regions );
 			}
-			_log("regions in step");
-			_log($regions);
 			return $regions;
 		}
 
