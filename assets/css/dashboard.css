@@ -154,7 +154,8 @@
 }
 #cmplz-dashboard .cmplz-document.cmplz-header a {
   color: #d7d7d7;
-  font-size: 10px;
+  font-size: 12px;
+  line-height: 2em;
 }
 #cmplz-dashboard .cmplz-document.flags {
   margin-right: -10px;
