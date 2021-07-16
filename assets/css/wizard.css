@@ -264,7 +264,7 @@
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .upload_button {
   margin-right: 15px;
-  width: 100px;
+  min-width: 135px !important;
   height: 30px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll input[name="cmplz_import_settings"] {

@@ -89,7 +89,6 @@ function find_wordpress_base_path()
 	$path = dirname(__FILE__);
 
 	do {
-		//it is possible to check for other files here
 		if (file_exists($path . "/wp-config.php")) {
 			//check if the wp-load.php file exists here. If not, we assume it's in a subdir.
 			if ( file_exists( $path . '/wp-load.php') ) {

@@ -46,6 +46,15 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	$(document).on('change', '.cmplz-download-document-selector', function(){
+		var sel =  $(this);
+		if ($(this).find(":selected").val().length!=0) {
+			sel.closest('.cmplz-document').find('.cmplz-download-document').attr('disabled', false);
+		} else {
+			sel.closest('.cmplz-document').find('.cmplz-download-document').attr('disabled', true);
+		}
+	});
+
 	$(document).on('click', '.cmplz-download-document', function () {
 		var btn =  $(this);
 		var oldBtnHtml = btn.html();

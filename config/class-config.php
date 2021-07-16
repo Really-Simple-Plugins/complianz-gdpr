@@ -534,7 +534,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 						'is_ssl'
 					),
 					'completed'    => __( "Great! You're already on SSL!", 'complianz-gdpr' ),
-					'open' => sprintf( __( "You don't have SSL on your site yet. Most hosting companies can install SSL for you, which you can quickly enable with %sReally Simple SSL%s", 'complianz-gdpr' ),
+					'open' => sprintf( __( "You don't have SSL on your site yet. Install SSL for Free with %sReally Simple SSL%s", 'complianz-gdpr' ),
 						'<a target="_blank" href="https://wordpress.org/plugins/really-simple-ssl/">', '</a>' ),
 					'include_in_progress' => true,
 				),

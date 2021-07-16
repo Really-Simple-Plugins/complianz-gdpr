@@ -697,11 +697,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$args = array(
 				'language' => $language,
 				'deleted'  => $deleted,
+				'isMembersOnly' => 'all',
 			);
 
 			if ( $type == 'cookie' ) {
 				$this->reset_cookies_changed();
-
 				$items = $this->get_cookies( $args );
 				//group by service
 				$grouped_by_service = array();

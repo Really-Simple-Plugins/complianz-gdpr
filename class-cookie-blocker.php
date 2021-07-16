@@ -162,7 +162,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 //            if (preg_match_all($prefetch_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
 //                foreach($matches[1] as $key => $prefetch_url){
 //                    $total_match = $matches[0][$key];
-//                    if ($this->strpos_arr($prefetch_url, $known_script_tags) !== false) {
+//                    if (cmplz_strpos_arr($prefetch_url, $known_script_tags) !== false) {
 //                        $new = $this->replace_href($total_match);
 //                        $output = str_replace($total_match, $new, $output);
 //                    }
@@ -183,7 +183,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			) {
 				foreach ( $matches[1] as $key => $image_url ) {
 					$total_match = $matches[0][ $key ];
-					$found = $this->strpos_arr( $image_url, $image_tags );
+					$found = cmplz_strpos_arr( $image_url, $image_tags );
 					if ( $found !== false ) {
 						$placeholder = cmplz_placeholder( false, $image_url );
 						$new = $total_match;
@@ -212,7 +212,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( preg_match_all( $style_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[1] as $key => $style_url ) {
 					$total_match = $matches[0][ $key ];
-					if ( $this->strpos_arr( $style_url, $known_style_tags ) !== false ) {
+					if ( cmplz_strpos_arr( $style_url, $known_style_tags ) !== false ) {
 						$new    = $this->replace_href( $total_match );
 						$new    = $this->add_class( $new, 'link', 'cmplz-style-element' );
 						$output = str_replace( $total_match, $new, $output );
@@ -232,7 +232,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[0] as $key => $total_match ) {
 					$iframe_src = $matches[2][ $key ] . $matches[3][ $key ];
-					if ( $this->strpos_arr( $iframe_src, $known_iframe_tags ) !== false ) {
+					if ( cmplz_strpos_arr( $iframe_src, $known_iframe_tags ) !== false ) {
 						$is_video = $this->is_video( $iframe_src );
 						$placeholder = cmplz_placeholder( false, $iframe_src );
 						$service_name = cmplz_get_service_by_src( $iframe_src );
@@ -243,7 +243,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
 
 						//check if we can skip blocking this array if a specific string is included
-						if ( $this->strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
+						if ( cmplz_strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
 
 						//we insert video/no-video class for specific video styling
 						if ( $is_video ) {
@@ -348,7 +348,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( strpos( $content, 'avia_preview' ) !== false ) {
 							continue;
 						}
-						$found = $this->strpos_arr( $content, $known_script_tags );
+						$found = cmplz_strpos_arr( $content, $known_script_tags );
 
 						if ( $found !== false ) {
 							$new = $total_match;
@@ -358,7 +358,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 							if ( strpos( $new, 'cmplz-native' ) === false ) {
 								$new = $this->set_javascript_to_plain( $new );
 
-								$waitfor = $this->strpos_arr( $content, $dependencies );
+								$waitfor = cmplz_strpos_arr( $content, $dependencies );
 								if ( $waitfor !== false ) {
 									$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
 								}
@@ -373,7 +373,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					) {
 						foreach ( $src_matches[1] as $src_key => $script_src ) {
 							$script_src = $src_matches[1][ $src_key ];
-							$found = $this->strpos_arr( $script_src, $known_script_tags );
+							$found = cmplz_strpos_arr( $script_src, $known_script_tags );
 							if ( $found !== false ) {
 								$new = $total_match;
 								$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
@@ -382,7 +382,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 								if ( strpos( $new, 'cmplz-native' ) === false
 								) {
 									$new = $this->set_javascript_to_plain( $new );
-									if ( $this->strpos_arr( $found, $async_list )
+									if ( cmplz_strpos_arr( $found, $async_list )
 									) {
 										$index ++;
 										$new = $this->add_data( $new, 'script', 'post_scribe_id', 'cmplz-ps-' . $index );
@@ -398,7 +398,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 									}
 
 									//maybe add dependency
-									$waitfor = $this->strpos_arr( $script_src, $dependencies );
+									$waitfor = cmplz_strpos_arr( $script_src, $dependencies );
 									if ( $waitfor !== false ) {
 										$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
 									}
@@ -417,36 +417,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			$output = str_replace( "<body ", '<body data-cmplz=1 ', $output );
 
 			return apply_filters('cmplz_cookie_blocker_output', $output);
-		}
-
-
-		/**
-		 * check if there is a partial match between a key of the array and the haystack
-		 * We cannot use array_search, as this would not allow partial matches.
-		 *
-		 * @param string $haystack
-		 * @param array  $needle
-		 *
-		 * @return bool|string
-		 */
-
-		private function strpos_arr( $haystack, $needle ) {
-			if ( empty( $haystack ) ) {
-				return false;
-			}
-
-			if ( ! is_array( $needle ) ) {
-				$needle = array( $needle );
-			}
-
-			foreach ( $needle as $key => $value ) {
-				if ( strlen($value) === 0 ) continue;
-				if ( ( $pos = strpos( $haystack, $value ) ) !== false ) {
-					return ( is_numeric( $key ) ) ? $value : $key;
-				}
-			}
-
-			return false;
 		}
 
 		/**

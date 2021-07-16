@@ -6,10 +6,6 @@ if ( is_admin() ) {
 require_once( trailingslashit(cmplz_path) . 'integrations/forms.php' );
 require_once( trailingslashit(cmplz_path) . 'integrations/settings.php' );
 
-if ( is_admin() ) {
-	require_once( 'TGM/required.php' );
-}
-
 function cmplz_enqueue_integrations_assets( $hook ) {
 	if ( strpos($hook, "cmplz-script-center")===false  ) return;
 
@@ -484,7 +480,6 @@ function cmplz_integrations() {
 
 	$services = COMPLIANZ::$config->thirdparty_service_markers;
 	$services = array_keys( $services );
-
 	foreach ( $services as $service ) {
 		if ( cmplz_uses_thirdparty( $service ) ) {
 			if ( file_exists( cmplz_path
@@ -734,37 +729,22 @@ function cmplz_use_placeholder( $src = false ) {
 
 function cmplz_get_service_by_src( $src ) {
 	$type = false;
-
-	if ( strpos( $src, 'youtube' ) !== false ) {
-		$type = 'youtube';
-	} else if ( strpos( $src, 'facebook' ) !== false ) {
-		$type = 'facebook';
-	} else if ( strpos( $src, 'vimeo' ) !== false ) {
-		$type = 'vimeo';
-	} else if ( strpos( $src, 'dailymotion' ) !== false ) {
-		$type = 'dailymotion';
-	} else if ( strpos( $src, 'maps.googleapis' ) !== false ) {
-		$type = 'google-maps';
-	} else if ( strpos( $src, 'openstreetmaps.org' ) !== false ) {
-		$type = 'openstreetmaps';
-	} else if ( strpos( $src, 'spotify' ) !== false ) {
-		$type = 'spotify';
-	} else if ( strpos( $src, 'pinterest' ) !== false ) {
-		$type = 'pinterest';
-	} else if ( strpos( $src, 'soundcloud' ) !== false ) {
-		$type = 'soundcloud';
-	} else if ( strpos( $src, 'twitter' ) !== false ) {
-		$type = 'twitter';
-	} else if ( strpos( $src, 'calendly' ) !== false ) {
-		$type = 'calendly';
+	$services = COMPLIANZ::$config->thirdparty_service_markers;
+	$social = COMPLIANZ::$config->social_media_markers;
+	$stats = COMPLIANZ::$config->stats_markers;
+	$all = $services+$social+$stats;
+	foreach ( $all as $markers ) {
+		$service = cmplz_strpos_arr($src, $markers);
+		if ( $service !== FALSE ) {
+			$type = $service;
+			break;
+		}
 	}
 
 	if ( ! $type ) {
 		$type = COMPLIANZ::$cookie_admin->parse_for_social_media( $src, true );
 		if ( ! $type ) {
-			$type
-				= COMPLIANZ::$cookie_admin->parse_for_thirdparty_services( $src,
-				true );
+			$type = COMPLIANZ::$cookie_admin->parse_for_thirdparty_services( $src, true );
 		}
 	}
 

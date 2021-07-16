@@ -482,7 +482,7 @@ if ( ! function_exists( 'cmplz_get_region_from_legacy_type' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_get_regions' ) ) {
-	function cmplz_get_regions( $ad_all_category = false ) {
+	function cmplz_get_regions( $ad_all_category = false, $use_full_label = false ) {
 		$regions = cmplz_get_value( 'regions', false, 'wizard' );
 
 		if ( ! is_array( $regions ) && ! empty( $regions ) ) {
@@ -494,8 +494,11 @@ if ( ! function_exists( 'cmplz_get_regions' ) ) {
 				if ( ! $enabled ) {
 					continue;
 				}
-				$label             = isset( COMPLIANZ::$config->regions[ $region ] )
-					? COMPLIANZ::$config->regions[ $region ]['label'] : '';
+				if ($use_full_label) {
+					$label = isset( COMPLIANZ::$config->regions[ $region ] ) ? COMPLIANZ::$config->regions[ $region ]['label_full'] : '';
+				} else {
+					$label = isset( COMPLIANZ::$config->regions[ $region ] ) ? COMPLIANZ::$config->regions[ $region ]['label'] : '';
+				}
 				$output[ $region ] = $label;
 			}
 		}
@@ -858,6 +861,36 @@ if ( ! function_exists( 'cmplz_localize_date' ) ) {
 		$date              = str_replace( $weekday, $weekday_localized, $date );
 
 		return $date;
+	}
+}
+
+if (!function_exists('cmplz_strpos_arr')) {
+	/**
+	 * check if there is a partial match between a key of the array and the haystack
+	 * We cannot use array_search, as this would not allow partial matches.
+	 *
+	 * @param string $haystack
+	 * @param array  $needle
+	 *
+	 * @return bool|string
+	 */
+
+	function cmplz_strpos_arr( $haystack, $needle ) {
+		if ( empty( $haystack ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $needle ) ) {
+			$needle = array( $needle );
+		}
+		foreach ( $needle as $key => $value ) {
+			if ( strlen($value) === 0 ) continue;
+			if ( ( $pos = strpos( $haystack, $value ) ) !== false ) {
+				return ( is_numeric( $key ) ) ? $value : $key;
+			}
+		}
+
+		return false;
 	}
 }
 

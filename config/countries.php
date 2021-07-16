@@ -43,36 +43,42 @@ $this->formal_languages = array(
 $this->regions = array(
 	'us' => array(
 		'label'     => __( 'US', 'complianz-gdpr' ),
+		'label_full'=> __( 'United States', 'complianz-gdpr' ),
 		'countries' => array( 'US' ),
 		'law'       => __( "CCPA", 'complianz-gdpr' ),
 		'type'      => 'optout',
 	),
 	'ca' => array(
 		'label'     => __( 'CA', 'complianz-gdpr' ),
+		'label_full'=> __( 'Canada', 'complianz-gdpr' ),
 		'countries' => array( 'CA' ),
 		'law'       => __( "PIPEDA", 'complianz-gdpr' ),
 		'type'      => 'optout',
 	),
 	'eu' => array(
 		'label'     => __( 'EU', 'complianz-gdpr' ),
+		'label_full'=> __( 'European Union', 'complianz-gdpr' ),
 		'countries' => $this->eu_countries,
 		'law'       => __( "GDPR", 'complianz-gdpr' ),
 		'type'      => 'optin',
 	),
 	'uk' => array(
 		'label'     => __( 'UK', 'complianz-gdpr' ),
+		'label_full'=> __( 'United Kingdom', 'complianz-gdpr' ),
 		'countries' => array( 'GB' ),
 		'law'       => __( "UK-GDPR", 'complianz-gdpr' ),
 		'type'      => 'optinstats',
 	),
 	'au' => array(
 		'label'     => __( 'AU', 'complianz-gdpr' ),
+		'label_full'=> __( 'Australia', 'complianz-gdpr' ),
 		'countries' => array( 'AU' ),
 		'law'       => __( "APA", 'complianz-gdpr' ),
 		'type'      => 'optout',
 	),
 	'za' => array(
 		'label'     => __( 'ZA', 'complianz-gdpr' ),
+		'label_full'=> __( 'South Africa', 'complianz-gdpr' ),
 		'countries' => array( 'ZA' ),
 		'law'       => __( "POPIA", 'complianz-gdpr' ),
 		'type'      => 'optinstats',

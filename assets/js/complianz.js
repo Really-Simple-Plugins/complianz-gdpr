@@ -781,7 +781,7 @@ jQuery(document).ready(function ($) {
 	function cmplz_cookie_warning() {
 		//apply custom css
 		var css = '';
-		if (complianz.tcf_active) css += '.cmplz-tcf-banner-hidden{display:none;}';
+		if ( complianz.tcf_active ) css += '.cc-type-categories.cmplz-tcf-banner-hidden{display:none;}';
 
 		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible') {
 			// Accept all
