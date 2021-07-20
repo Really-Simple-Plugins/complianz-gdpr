@@ -1,12 +1,11 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-//switch to Cron here.
-
-/*
+/**
   Schedule cron jobs if useCron is true
   Else start the functions.
 */
+
 add_action( 'plugins_loaded', 'cmplz_schedule_cron' );
 function cmplz_schedule_cron() {
 	$useCron = true;
@@ -55,13 +54,25 @@ function cmplz_filter_cron_schedules( $schedules ) {
 	return $schedules;
 }
 
-
 register_deactivation_hook( __FILE__, 'cmplz_clear_scheduled_hooks' );
 function cmplz_clear_scheduled_hooks() {
+	wp_clear_scheduled_hook( 'cmplz_every_month_hook' );
 	wp_clear_scheduled_hook( 'cmplz_every_week_hook' );
 	wp_clear_scheduled_hook( 'cmplz_every_day_hook' );
 }
 
+/**
+ * Check if the json files update function exists, and if so, run it weekly
+ */
+function cmplz_check_json_files(){
+	if ( function_exists('cmplz_update_json_files') ) {
+		cmplz_update_json_files();
+	}
+}
+
+/**
+ * Clean placeholders directory periodically
+ */
 function cmplz_cron_clean_placeholders() {
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
 	$uploads = wp_upload_dir();

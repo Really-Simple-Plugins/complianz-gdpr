@@ -633,20 +633,29 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
         }
 
 		public function wizard_content( $page, $step, $section ) {
-			$args = array();
-            if (isset(COMPLIANZ::$config->steps[$page][$step]['sections'][$section]['title'])) {
+			$regions = $this->get_section_regions( $page, $step, $section );
+			$args = array(
+				'title' => '',
+				'page' => $page,
+				'step' => $step,
+				'section' => $section,
+				'flags' => cmplz_flag( $regions, false ),
+				'save_as_notice' => '',
+				'learn_notice' => '',
+				'cookie_or_finish_button' => '',
+				'previous_button' => '',
+				'next_button' => '',
+				'save_button' => '',
+				'intro' => $this->get_intro( $page, $step, $section ),
+				'page_url' => $this->page_url,
+				'post_id' => $this->post_id() ? '<input type="hidden" value="' . $this->post_id() . '" name="post_id">' : '',
+			);
+            if ( isset(COMPLIANZ::$config->steps[$page][$step]['sections'][$section]['title'])) {
                 $args['title'] = COMPLIANZ::$config->steps[$page][$step]['sections'][$section]['title'];
             } else {
                 $args['title'] .= COMPLIANZ::$config->steps[$page][$step]['title'];
             }
-            $regions = $this->get_section_regions( $page, $step, $section );
-            $args['flags'] = cmplz_flag( $regions, false );
-            $args['save_as_notice'] = '';
-            $args['learn_notice'] = '';
-            $args['cookie_or_finish_button'] = '';
-            $args['previous_button'] = '';
-            $args['next_button'] = '';
-            $args['save_button'] = '';
+
 
             if ( $page != 'wizard' ) {
                 if ( $this->post_id() && $step == 2 && ( ! $section || $section == 1 )) {
@@ -655,9 +664,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
                     $args['save_as_notice'] = cmplz_notice(
                         sprintf( __( 'This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz-gdpr' ),
-                            get_the_title( $this->post_id() ),
-                            $link_pdf, '</a>', $link, '</a>' ),
-                        'success', false);
+                            get_the_title( $this->post_id() ), $link_pdf, '</a>', $link, '</a>' ), 'success', false);
 
                 } elseif ( $step == 1 ) {
                     delete_option( 'complianz_options_' . $page );
@@ -676,21 +683,12 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                 }
             }
 
-            $args['intro'] = $this->get_intro( $page, $step, $section );
-            $args['page_url'] = $this->page_url;
-            $args['page'] = $page;
-            $args['post_id'] = $this->post_id() ? '<input type="hidden" value="' . $this->post_id() . '" name="post_id">' : '';
-
             ob_start();
             COMPLIANZ::$field->get_fields( $page, $step, $section );
             $args['fields'] = ob_get_clean();
 
-            $args['step'] = $step;
-            $args['section'] = $section;
-
             if ( $step > 1 || $section > 1 ) {
-                $args['previous_button'] =
-                    '<input class="button button-link cmplz-previous" type="submit" name="cmplz-previous" value="'. __( "Previous", 'complianz-gdpr' ) . '">';
+                $args['previous_button'] = '<input class="button button-link cmplz-previous" type="submit" name="cmplz-previous" value="'. __( "Previous", 'complianz-gdpr' ) . '">';
             }
 
             if ( $step < $this->total_steps( $page ) ) {
@@ -703,6 +701,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 	                $hide_finish_button = true;
                 }
             }
+
             $label = ( strpos( $page, 'dataleak' ) !== false || strpos( $page, 'processing' ) !== false )
                 ? __( "View document", 'complianz-gdpr' )
                 : __( "Finish", 'complianz-gdpr' );

@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: 5.2.2
+Stable tag: 5.2.3
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, LGPD, POPIA, APA, CCPA and PIPEDA.
 
@@ -116,6 +116,16 @@ POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION AC
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.2.3 =
+* Fix: text domain correction
+* Fix: min-width upload button
+* Fix: in subdirectory installations, the find_wordpress_basepath function could not find the wp installation, props @ianpegg
+* Improvement: re-structured services detection
+* Improvement: drop TGM integration
+* Improvement: flags for multiple regions
+* TCF/IAB: some changes to keep the banner and cookie policy compliant with the IAB requirements
+* Improvement: enable auto updates
+
 = 5.2.2 =
 * Fix: When choosing anonymous statistics from a not supported statistics type, the wizard forced configuration by Complianz.
 
