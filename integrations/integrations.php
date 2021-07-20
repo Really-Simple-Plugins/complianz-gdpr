@@ -733,10 +733,10 @@ function cmplz_get_service_by_src( $src ) {
 	$social = COMPLIANZ::$config->social_media_markers;
 	$stats = COMPLIANZ::$config->stats_markers;
 	$all = $services+$social+$stats;
-	foreach ( $all as $markers ) {
+	foreach ( $all as $service_id => $markers ) {
 		$service = cmplz_strpos_arr($src, $markers);
 		if ( $service !== FALSE ) {
-			$type = $service;
+			$type = $service_id;
 			break;
 		}
 	}
