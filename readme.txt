@@ -119,7 +119,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Change log ==
 = 5.2.6 =
-* Sync services in multilanguage environment
+* Fix: Sync services in multilanguage environment
+* Improvement: prevent naming conflicts with custom posttypes when region redirecting by adding a prefix
+* Fix: consent area required a cookiename change on multisite environments because of rt_ cookie prefix
 
 = 5.2.5 =
 * Fix: placeholder detection used wrong key, resulting in default placeholder
