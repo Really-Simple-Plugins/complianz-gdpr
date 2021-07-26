@@ -49,7 +49,7 @@ function cmplz_rest_api_ajax_track_status( WP_REST_Request $request ) {
 	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
 
 	foreach($consented_categories as $key => $consented_category ) {
-		$consented_categories[$key] = str_replace('cmplz_', '', $consented_category);
+		$consented_categories[$key] = str_replace(array('cmplz_', 'cmplz_rt_'), '', $consented_category);
 	}
 	do_action( 'cmplz_store_consent', $consented_categories, $consenttype );
 

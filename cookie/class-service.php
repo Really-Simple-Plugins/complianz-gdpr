@@ -111,8 +111,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				$this->category            = $service->category;
 				$this->isTranslationFrom   = $service->isTranslationFrom;
 				$this->lastUpdatedDate     = $service->lastUpdatedDate;
-				$this->synced              = $service->lastUpdatedDate > 0
-					? true : false;
+				$this->synced              = $service->lastUpdatedDate > 0 ? true : false;
 				$this->slug                = $service->slug;
 
 				$this->complete = ! ( strlen( $this->name ) == 0
@@ -179,12 +178,13 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 					if ( $this->ID == $translationID ) {
 						continue;
 					}
-					$translation               = new CMPLZ_COOKIE( $translationID );
+					$translation               = new CMPLZ_SERVICE( $translationID );
 					$translation->name         = $this->name;
 					$translation->sync         = $this->sync;
 					$translation->serviceType  = $this->serviceType;
 					$translation->sharesData   = $this->sharesData;
 					$translation->showOnPolicy = $this->showOnPolicy;
+					$translation->lastUpdatedDate = $this->lastUpdatedDate;
 					$translation->save();
 				}
 			}

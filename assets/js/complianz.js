@@ -1896,22 +1896,9 @@ jQuery(document).ready(function ($) {
 	 */
 	function cmplzMaybeAutoRedirect() {
 		var redirect = cmplzGetUrlParameter(window.location.href, 'cmplz_region_redirect');
-		var region = cmplzGetUrlParameter(window.location.href, 'region');
-		//check if we have a URL that could use a region redirect
-		// if ($('a.cmplz-region-redirect').length){
-		//     $('a.cmplz-region-redirect').each(function(){
-		//         var src = $(this).attr('src');
-		//         var append = '?';
-		//         if (src.indexOf('?')!==-1){
-		//             append = '&';
-		//         }
-		//         append += 'region='+complianz.region;
-		//         $(this).attr('src', src+append);
-		//     });
-		// }
-
+		var region = cmplzGetUrlParameter(window.location.href, 'cmplz-region');
 		if (redirect && !region) {
-			window.location.href = window.location.href + '&region=' + complianz.region;
+			window.location.href = window.location.href + '&cmplz-region=' + complianz.region;
 		}
 	}
 

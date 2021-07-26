@@ -77,7 +77,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function maybe_autoredirect() {
 			//if the autoredirect parameter is used, we look for the region of the passed type, and if necessary redirect to the redirect region
 			if ( isset( $_GET['cmplz_region_redirect'] )
-			     && isset( $_GET['region'] )
+			     && isset( $_GET['cmplz-region'] )
 			) {
 				//get region from current page.
 				global $post;
@@ -114,7 +114,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				}
 
 				if ($current_region) $type = str_replace("-$current_region", '', $type);
-				$new_region = sanitize_title( $_GET['region'] );
+				$new_region = sanitize_title( $_GET['cmplz-region'] );
 
 				//if region is "other", get the default region
 				if ( $new_region === 'other') {
@@ -2244,10 +2244,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$has_consent = false;
 			$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 			$cookiesettings = COMPLIANZ::$cookie_admin->get_cookiebanner_settings( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
-
+			$prefix = is_multisite() && is_main_site() ? 'cmplz_rt_' : 'cmplz_';
 			if ( $consenttype === 'optin' || $consenttype === 'optinstats' ) {
 				if ( $cookiesettings['use_categories'] === 'no' ){
-					if (isset($_COOKIE['complianz_consent_status']) && $_COOKIE['complianz_consent_status'] === 'allow' ) {
+					if (isset($_COOKIE[$prefix.'consent_status']) && $_COOKIE[$prefix.'consent_status'] === 'allow' ) {
 						$has_consent = true;
 					}
 				} else {
@@ -2256,7 +2256,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 				}
 			} elseif ( $consenttype === 'optout' ) {
-				if (isset($_COOKIE['complianz_consent_status']) && $_COOKIE['complianz_consent_status'] === 'allow') {
+				if (isset($_COOKIE[$prefix.'consent_status']) && $_COOKIE[$prefix.'consent_status'] === 'allow') {
 					$has_consent = true;
 				} elseif (!isset($_COOKIE[$cookie_name]) || $_COOKIE[$cookie_name] === 'allow' ) {
 					$has_consent = true;

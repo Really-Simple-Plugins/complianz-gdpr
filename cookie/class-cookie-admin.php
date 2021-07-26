@@ -589,7 +589,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
-
 			$service = new CMPLZ_SERVICE( $name, $language );
 
 			if ( ! $service->ID ) {
@@ -1392,8 +1391,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$service->thirdParty          = $service_object->sharesData && ! $service_object->secondParty;
 						$service->serviceType         = $service_object->serviceType;
 						$service->slug                = $service_object->slug;
-						$service->lastUpdatedDate      = time();
-						$service->save( false, false );
+						$service->lastUpdatedDate     = time();
+						$service->save( true, false );
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
 						//get the cookies only if it's third party service. Otherwise, just sync the service itself.

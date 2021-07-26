@@ -30,38 +30,6 @@ function cmplz_consent_api_active() {
 }
 
 /**
- * Register our cookies
- */
-
-function cmplz_wordpress_register_cookies() {
-	if ( function_exists( 'wp_add_cookie_info' ) ) {
-		$expiry = cmplz_get_value( 'cookie_expiry' );
-		wp_add_cookie_info( 'complianz_consent_status',
-			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences' );
-		wp_add_cookie_info( 'complianz_policy_id',
-			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences' );
-		wp_add_cookie_info( 'complianz_config',
-			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences' );
-		wp_add_cookie_info( 'complianz_scan_token',
-			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences' );
-		wp_add_cookie_info( 'cmplz_id', 'Complianz GDPR/CCPA Cookie Consent',
-			'functional', $expiry, 'store cookie consent preferences');
-		wp_add_cookie_info( 'cmplz_marketing', 'Complianz GDPR/CCPA Cookie Consent',
-			'functional', $expiry, 'store cookie consent preferences' );
-		wp_add_cookie_info( 'cmplz_event_*',
-			'Complianz GDPR/CCPA Cookie Consent', 'functional', $expiry,
-			'store cookie consent preferences' );
-	}
-}
-
-add_action( 'plugins_loaded', 'cmplz_wordpress_register_cookies' );
-
-
-/**
  * If disabled in the wizard, the consent checkbox is disabled, and personal data is not stored.
  */
 
