@@ -13,6 +13,8 @@ Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard a
 == Description ==
 Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, LGPD, POPIA, APA, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
+https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
+
 == Features ==
 * Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia, South Africa or Canada. Or use one Cookie Notice worldwide.
 * Configure specific cookie consent per subregion, for example: European Union + DSGVO/CNIL or USA + CCPA.
