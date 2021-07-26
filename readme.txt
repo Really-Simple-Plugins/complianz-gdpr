@@ -118,6 +118,9 @@ POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION AC
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.2.6 =
+* Sync services in multilanguage environment
+
 = 5.2.5 =
 * Fix: placeholder detection used wrong key, resulting in default placeholder
 
