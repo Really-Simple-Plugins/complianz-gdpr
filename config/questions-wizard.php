@@ -116,11 +116,10 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'default'  => 'none',
 			'type'     => 'document',
-			'label'    => __( "Impressum", 'complianz-gdpr' ),
+			'label'    => __( "Imprint", 'complianz-gdpr' ),
 			'required' => true,
-			'tooltip'  => __( 'Complianz will generate the Impressum based on the answers in the wizard, but you can also create your own, custom document.',
+			'tooltip'  => __( 'Complianz will generate the Imprint based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
-			'callback_condition' => array('eu_consent_regions' => 'yes'),
 		),
 
 		'disclaimer' => array(
@@ -260,7 +259,7 @@ $this->fields = $this->fields + array(
 			'callback_condition' => array(
 				'regions' => array('ca', 'au'),
 			),
-			'tooltip' => __('Sensitive personal information is considered to data that is very likely to have a greater impact on Privacy. For example medical, religious or legal information.', 'complianz-gdpr'),
+			'tooltip' => __('Sensitive personal information is considered data that is very likely to have a greater impact on Privacy. For example medical, religious or legal information.', 'complianz-gdpr'),
 		),
 	);
 

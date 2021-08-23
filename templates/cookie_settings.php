@@ -16,7 +16,7 @@
 		</select>
 	</div>
 	<div class="{disabledClass}">
-		<div><label><?php _e( 'Retention', 'complianz-gdpr' ) ?></label></div>
+		<div><label><?php _e( 'Expiration', 'complianz-gdpr' ) ?></label></div>
 
 		<input type="text" {disabled}
 		       class="cmplz_retention" name="cmplz_retention"

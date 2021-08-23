@@ -1119,7 +1119,7 @@ jQuery(document).ready(function ($) {
 			//'marketing' checkbox is not checked, and previous value was allow. reload.
 			if (!$('.cmplz_marketing').is(":checked") && cmplzGetCookie(cmplzPrefix+'marketing') === 'allow' ) {
 				reload = true;
-				//marketing checkbox not che3cked, optout region, previous value empty, also reload
+				//marketing checkbox not checked, optout region, previous value empty, also reload
 			} else if (!$('.cmplz_marketing').is(":checked") &&  complianz.consenttype === 'optout' && cmplzGetCookie(cmplzPrefix+'marketing') === '' ) {
 				reload = true;
 			}
@@ -1506,16 +1506,17 @@ jQuery(document).ready(function ($) {
 	function cmplzAcceptedCategories() {
 		var consentedCategories = cmplzCategories;
 		var consentedTemp = [];
+		var getAll = false;
 		var status = cmplzGetCookie(cmplzPrefix+'consent_status');
 		if ( status === 'allow' || (status !== 'deny' && complianz.consenttype === 'optout') ) {
-			return consentedCategories;
+			getAll = true;
 		}
 
 		//because array filter changes keys, we make a temp arr
 		for (var key in consentedCategories) {
 			if ( consentedCategories.hasOwnProperty(key) ){
 				var cat = consentedCategories[key];
-				if ( cmplzGetCookie(cat) === 'allow' || cat === cmplzPrefix+'functional' ) {
+				if (getAll || ( cmplzGetCookie(cat) === 'allow' || cat === cmplzPrefix+'functional') ) {
 					consentedTemp.push(cat);
 				}
 			}
@@ -1527,7 +1528,7 @@ jQuery(document).ready(function ($) {
 
 		if ( complianz.tm_categories ) {
 			for (var i = complianz.cat_num - 1; i >= 0; i--) {
-				if (cmplzGetCookie(cmplzPrefix+'event_' + i) === 'allow') {
+				if (getAll || cmplzGetCookie(cmplzPrefix+'event_' + i) === 'allow') {
 					consentedCategories.push(cmplzPrefix+'event_' + i);
 				}
 			}

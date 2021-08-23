@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') or die("you do not have access to this page!"); ?>
 
 	<div class="cmplz-trick">
-		<a href="https://complianz.io/?s=css" target="_blank">
+		<a href="https://complianz.io/docs/customization/" target="_blank">
 			<div class="cmplz-bullet"></div>
 			<div class="cmplz-tips-tricks-content">Styling your cookie notice and legal documents</div>
 		</a>

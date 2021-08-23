@@ -24,7 +24,7 @@ function cmplz_schedule_cron() {
 		}
 
 		if ( function_exists( 'cmplz_update_json_files' ) ) {
-			add_action( 'cmplz_every_week_hook', 'cmplz_update_json_files' );
+			add_action( 'cmplz_every_day_hook', 'cmplz_update_json_files' );
 		}
 
 		add_action( 'cmplz_every_week_hook', array( COMPLIANZ::$document, 'cron_check_last_updated_status' ) );
@@ -62,15 +62,6 @@ function cmplz_clear_scheduled_hooks() {
 	wp_clear_scheduled_hook( 'cmplz_every_month_hook' );
 	wp_clear_scheduled_hook( 'cmplz_every_week_hook' );
 	wp_clear_scheduled_hook( 'cmplz_every_day_hook' );
-}
-
-/**
- * Check if the json files update function exists, and if so, run it weekly
- */
-function cmplz_check_json_files(){
-	if ( function_exists('cmplz_update_json_files') ) {
-		cmplz_update_json_files();
-	}
 }
 
 /**

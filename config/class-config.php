@@ -67,7 +67,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			= array(
 				"linkedin"  => array(
 					"platform.linkedin.com",
-					'addthis_widget.js'
+					'addthis_widget.js',
+					'linkedin.com/embed/feed'
 				),
 				"twitter"   => array(
 					'super-socializer',
@@ -452,18 +453,39 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 		public function load_warning_types() {
 			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
+
 				'upgraded_to_five' => array(
 					'warning_condition' => 'cmplz_upgraded_to_five',
 					'open' => __( 'Complianz GDPR/CCPA 5.0. Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-0/'),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
-				'new_australia' => array(
+				// Keep for 6.0
+
+				// 'upgrade_to_six' => array(
+				// 	'warning_condition' => 'wizard->wizard_completed_once',
+				// 	'open' => __( 'Complianz 6.0 is coming soon! Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),
+				// 	'plus_one' => true,
+				// 	'include_in_progress' => false,
+				// ),
+
+				// Keep for Brasil
+
+				// 'new_brasil' => array(
+				// 	'warning_condition' => 'cmplz_upgraded_to_current_version',
+				// 	'open' => __( 'We have added another region: Brasil. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/brasil'),
+				// 	'plus_one' => true,
+				// 	'include_in_progress' => false,
+				// ),
+
+				// Premium only?
+				'new_imprint' => array(
 					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'We have added a new region: Australia. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/australia/'),
+					'open' => __( 'The Impressum is now called an Imprint with addional fields to broaden the scope for all users. ', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/definition/what-are-statutory-and-regulatory-disclosures/'),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
+
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
 						'wizard->all_required_fields_completed_wizard'
@@ -647,6 +669,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					cmplz_read_more('https://complianz.io/custom-google-maps-integration/'),
 					'include_in_progress' => true,
 				),
+
+				'other-cookie-plugins' => array(
+					'warning_condition'  => 'cmplz_detected_cookie_plugin',
+					'plus_one' => true,
+					'urgent' => sprintf(__( 'We have detected the %s plugin on your website.', 'complianz-gdpr' ),cmplz_detected_cookie_plugin(true)).'&nbsp;'.__( 'As Complianz handles all the functionality this plugin provides, you should disable this plugin to prevent unexpected behaviour.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
 			) );
 		}
 

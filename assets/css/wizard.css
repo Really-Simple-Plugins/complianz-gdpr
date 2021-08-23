@@ -75,7 +75,7 @@
   box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
 }
 #cmplz-content-area .cmplz-wizard-menu .cmplz-wizard-progress-bar {
-  background: #eeeeee;
+  background: #dadada;
   height: 15px;
   margin: 20px 20px 0 20px;
 }
@@ -441,7 +441,7 @@
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item .cmplz-settings-header-container .cmplz-settings-header .cmplz-settings-controls {
   padding: 20px;
   background-color: #fff;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #dadada;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item .cmplz-settings-header-container .cmplz-settings-header .cmplz-settings-title {
   font-size: 17px;
@@ -846,23 +846,23 @@
 }
 #cmplz-wizard ::placeholder,
 #cmplz-settings ::placeholder {
-  color: #eeeeee;
+  color: #dadada;
 }
 #cmplz-wizard ::placeholder,
 #cmplz-settings ::placeholder {
-  color: #eeeeee;
+  color: #dadada;
 }
 #cmplz-wizard ::-moz-placeholder,
 #cmplz-settings ::-moz-placeholder {
-  color: #eeeeee;
+  color: #dadada;
 }
 #cmplz-wizard :-ms-input-placeholder,
 #cmplz-settings :-ms-input-placeholder {
-  color: #eeeeee;
+  color: #dadada;
 }
 #cmplz-wizard :-moz-placeholder,
 #cmplz-settings :-moz-placeholder {
-  color: #eeeeee;
+  color: #dadada;
 }
 .cmplz-multiple-field-button-footer {
   display: flex;
@@ -1998,7 +1998,8 @@ input.current-page {
 #cmplz-cookie-banner #cmplz-content-area h1 {
   background-color: white;
   padding: 20px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #dadada;
+  width: -webkit-fill-available;
 }
 #cmplz-proof-of-consent #cmplz-content-area input[name=cmplz_generate_snapshot],
 #cmplz-cookie-banner #cmplz-content-area input[name=cmplz_generate_snapshot] {

@@ -40,7 +40,7 @@ function cmplz_google_recaptcha_placeholder( $tags ) {
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_recaptcha_css' );
+add_action( 'wp_head', 'cmplz_recaptcha_css' );
 function cmplz_recaptcha_css() {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
 

@@ -101,16 +101,11 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 if ( ! function_exists( 'cmplz_tagmanager_conditional_helptext' ) ) {
 
 	function cmplz_tagmanager_conditional_helptext() {
-		if ( cmplz_no_ip_addresses() && cmplz_statistics_no_sharing_allowed()
-		     && cmplz_accepted_processing_agreement()
-		) {
-			$text
-				= __( "Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.",
-				'complianz-gdpr' );
+
+		if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats() ) {
+			$text = __( "Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.", 'complianz-gdpr' );
 		} else {
-			$text
-				= __( "Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.",
-				'complianz-gdpr' );
+			$text = __( "Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.", 'complianz-gdpr' );
 		}
 
 		return $text;
@@ -152,9 +147,7 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 		}
 
 		if ( $stats === 'google-analytics' ) {
-			if ( cmplz_no_ip_addresses()
-			     && cmplz_statistics_no_sharing_allowed()
-			     && cmplz_accepted_processing_agreement()
+			if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats()
 			) {
 				return true;
 			}
@@ -182,6 +175,55 @@ if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
 			return true;
 		}
 		return false;
+	}
+}
+
+if ( !function_exists('cmplz_detected_cookie_plugin')) {
+	function cmplz_detected_cookie_plugin( $return_name = false ){
+		$plugin = false;
+		if (defined('CLI_LATEST_VERSION_NUMBER')){
+			$plugin = "GDPR Cookie Consent";
+		} elseif(defined('MOOVE_GDPR_VERSION')) {
+			$plugin = "GDPR Cookie Compliance";
+		}elseif(defined('CTCC_PLUGIN_URL')) {
+			$plugin = "GDPR Cookie Consent Banner";
+		}elseif(defined('RCB_FILE')) {
+			$plugin = "Real Cookie Banner";
+		}elseif(class_exists('Cookiebot_WP')) {
+			$plugin = "Cookiebot";
+		}elseif(function_exists('bst_plugin_install')) {
+			$plugin = "BST DSGVO Cookie";
+		}elseif(function_exists('jlplg_lovecoding_set_cookie')) {
+			$plugin = "Simple Cookie Notice";
+		}elseif(class_exists('SCCBPP_WpCookie_Save')) {
+			$plugin = "Seers Cookie Consent Banner Privacy Policy";
+		}elseif(function_exists('daextlwcnf_customize_action_links')) {
+			$plugin = "Lightweight Cookie Notice Free";
+		}elseif(defined('GDPRCN_VERSION')) {
+			$plugin = "GDPR Cookie Notice";
+		}elseif(function_exists('wp_gdpr_cookie_notice_check_requirements')) {
+			$plugin = "WP GDPR Cookie Notice";
+		}elseif(defined('SURBMA_GPGA_PLUGIN_VERSION_NUMBER')) {
+			$plugin = "Surbma | GDPR Proof Cookie Consent & Notice Bar";
+		}elseif(class_exists('dsdvo_wp_backend')) {
+			$plugin = "DSGVO All in one for WP";
+		}elseif(class_exists('Cookie_Notice')) {
+			$plugin = "Cookie Notice & Compliance";
+		}elseif(defined('CNCB_VERSION')) {
+			$plugin = "Cookie Notice and Consent Banner";
+		}elseif(function_exists('add_cookie_notice')) {
+			$plugin = "Cookie Notice Lite";
+		}elseif(function_exists('fhw_dsgvo_cookie_insert')) {
+			$plugin = "GDPR tools: cookie notice + privacy";
+		}elseif(defined('GDPR_COOKIE_CONSENT_PLUGIN_URL')) {
+			$plugin = "GDPR Cookie Consent";
+		}
+
+		if ( $plugin !== false && !$return_name ) {
+			return true;
+		} else {
+			return $plugin;
+		}
 	}
 }
 
@@ -466,7 +508,7 @@ if ( ! function_exists( 'cmplz_has_region' ) ) {
 if ( ! function_exists( 'cmplz_get_region_from_legacy_type' ) ) {
 	function cmplz_get_region_from_legacy_type( $type ) {
 		$region = false;
-		if ( strpos( $type, 'disclaimer' ) !== false ) {
+		if ( strpos( $type, 'disclaimer' ) !== false || strpos( $type, 'all' ) !== false ) {
 			$region = 'all';
 		}
 		//get last three chars of string. if not contains -, it's eu or disclaimer.
@@ -1800,36 +1842,33 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$service_name = $service->ID && strlen( $service->name ) > 0 ? $service->name : __( 'Miscellaneous', 'complianz-gdpr' );
 
 			$sharing = '';
-			if ( $service->sharesData || $service_name === 'Complianz' ) {
-				$attributes = $service_name === 'Complianz' ? "noopener noreferrer" : "noopener noreferrer nofollow";
+			if ( $service_name === 'Complianz' ) {
 				if ( strlen( $service->privacyStatementURL ) != 0 ) {
-					$link = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
-					$sharing
-					      = sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.',
-						'complianz-gdpr' ), $link, $service_name, '</a>' );
+					$link = '<a target="_blank" rel="noopener noreferrer" href="http://complianz.io/legal/privacy-statement/">';
+					$sharing = __( 'This data is not shared with third parties.', 'complianz-gdpr' )
+							.'&nbsp;'
+							.sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
+				}
+			} else if ( $service->sharesData  ) {
+				$attributes = "noopener noreferrer nofollow";
+				if ( strlen( $service->privacyStatementURL ) != 0 ) {
+					$link    = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
+					$sharing = sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
 				}
 			} elseif ( strlen( $service->name )>0 ) { //don't state sharing info on misc services
-				$sharing = __( 'This data is not shared with third parties.',
-					'complianz-gdpr' );
+				$sharing = __( 'This data is not shared with third parties.', 'complianz-gdpr' );
 			} else {
 				$sharing = __( 'Sharing of data is pending investigation', 'complianz-gdpr' );
 			}
-			$purposeDescription = ( ( strlen( $service_name ) > 0 )
-			                        && ( strlen( $service->serviceType ) > 0 ) )
-				? sprintf( _x( "We use %s for %s.",
-					'Legal document cookie policy', 'complianz-gdpr' ),
-					$service_name, $service->serviceType ) : '';
+			$purposeDescription = ( ( strlen( $service_name ) > 0 ) && ( strlen( $service->serviceType ) > 0 ) )
+				? sprintf( _x( "We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr' ), $service_name, $service->serviceType ) : '';
 
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
 			     && strlen( $service->slug ) !== 0
 			     && $service->slug !== 'unknown-service'
 			) {
-				$link_open
-					                = '<a target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/service/'
-					                  . $service->slug . '">';
-				$link_close         = '</a>';
-				$purposeDescription .= ' ' . $link_open . __( 'Read more',
-						"complianz-gdpr" ) . $link_close;
+				$link_open = '<a target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/service/' . $service->slug . '">';
+				$purposeDescription .= ' ' . $link_open . __( 'Read more', "complianz-gdpr" ) . '</a>';
 			}
 			$allPurposes = implode (", ", $allPurposes);
 			$servicesHTML .= str_replace( array(
@@ -2617,5 +2656,3 @@ if (!function_exists('array_key_first')) {
 		return key($array);
     }
 }
-
-

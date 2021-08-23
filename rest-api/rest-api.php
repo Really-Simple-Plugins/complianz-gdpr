@@ -44,6 +44,7 @@ function cmplz_documents_rest_route() {
  * */
 
 function cmplz_rest_api_ajax_track_status( WP_REST_Request $request ) {
+	_log($request);
 	$params = $request->get_json_params();
 	$consented_categories = isset($params['consented_categories']) ? array_map('sanitize_title', $params['consented_categories']) : array('no_choice');
 	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
@@ -106,8 +107,7 @@ function cmplz_rest_api_documents( WP_REST_Request $request ) {
 		foreach ( $documents as $region => $region_documents ) {
 
 			foreach ( $region_documents as $type => $document ) {
-				$html       = COMPLIANZ::$document->get_document_html( $type,
-					$region );
+				$html       = COMPLIANZ::$document->get_document_html( $type, $region );
 				$region_ext = ( $region === 'eu' ) ? '' : '-' . $region;
 				$output[]
 				            = array(

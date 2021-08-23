@@ -669,6 +669,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					}
 				}
 			}
+			if (  $prev_version
+				  && version_compare( $prev_version, '5.2.6.1', '<' )
+			) {
+				if ( cmplz_tcf_active() ) {
+					delete_transient( 'cmplz_vendorlist_downloaded_once' );
+				}
+			}
 
 			do_action( 'cmplz_upgrade', $prev_version );
 			update_option( 'cmplz-current-version', cmplz_version );
@@ -705,17 +712,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
 			wp_register_style( 'cmplz', trailingslashit( cmplz_url ) . "assets/css/admin$minified.css", "", cmplz_version );
 			wp_enqueue_style( 'cmplz' );
-
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'cmplz-ace', cmplz_url . "assets/ace/ace.js", array(), cmplz_version, false );
-
-			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-			wp_enqueue_script( 'cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array( 'jquery', 'wp-color-picker' ), cmplz_version, true );
 			wp_enqueue_script( 'cmplz-dashboard', cmplz_url . "assets/js/dashboard$minified.js", array( 'jquery' ), cmplz_version, true );
-
+			wp_enqueue_script( 'cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array( 'jquery', 'wp-color-picker' ), cmplz_version, true );
 			$sync_progress = COMPLIANZ::$cookie_admin->get_sync_progress();
 			$progress      = COMPLIANZ::$cookie_admin->get_progress_count();
 			wp_localize_script(

@@ -46,6 +46,23 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	var cmplz_localstorage_selectors = $('.cmplz_save_localstorage');
+	if ( cmplz_localstorage_selectors.length ) {
+		cmplz_localstorage_selectors.each(function(){
+			const name = $(this).attr('name');
+			const value = window.localStorage.getItem(name);
+			if ( typeof value !== 'undefined' && value !== null  ) {
+				$(this).val(value).change();
+			}
+		});
+	}
+
+	$(document).on('change','.cmplz_save_localstorage', function(){
+		const name = $(this).attr('name');
+		const value = $(this).find(":selected").val();
+		window.localStorage.setItem(name, value);
+	});
+
 	$(document).on('change', '.cmplz-download-document-selector', function(){
 		var sel =  $(this);
 		if ($(this).find(":selected").val().length!=0) {

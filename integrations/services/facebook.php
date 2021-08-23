@@ -26,7 +26,7 @@ function cmplz_facebook_iframetags( $tags ) {
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_facebook_css' );
+add_action( 'wp_head', 'cmplz_facebook_css' );
 function cmplz_facebook_css() {
 	?>
 	<style>

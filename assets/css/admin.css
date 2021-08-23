@@ -167,7 +167,7 @@
   font-size: 10px;
 }
 .cmplz-notice-hook-element {
-  display: none;
+  display: none !important;
 }
 .wrap .button.cmplz-header-btn {
   margin-left: 6px;

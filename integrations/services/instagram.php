@@ -38,7 +38,7 @@ function cmplz_instagram_asynclist( $tags ) {
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_instagram_css' );
+add_action( 'wp_head', 'cmplz_instagram_css' );
 function cmplz_instagram_css() {
 	?>
 	<style>

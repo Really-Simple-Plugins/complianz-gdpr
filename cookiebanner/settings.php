@@ -556,7 +556,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'               => 'text',
                 'default'            => __( "Impressum", 'complianz-gdpr' ),
                 'placeholder'        => __( "Impressum", 'complianz-gdpr' ),
-                'label'              => __( "Impressum", 'complianz-gdpr' ),
+                'label'              => __( "Imprint", 'complianz-gdpr' ),
                 'condition'          => array(
                     'type' => 'NOT optout',
                 ),

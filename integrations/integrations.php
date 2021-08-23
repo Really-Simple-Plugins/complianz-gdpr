@@ -14,7 +14,6 @@ function cmplz_enqueue_integrations_assets( $hook ) {
 
 	wp_register_style( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.css', false, cmplz_version );
 	wp_enqueue_style( ' cmplz-pagify' );
-
 }
 add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_integrations_assets' );
 

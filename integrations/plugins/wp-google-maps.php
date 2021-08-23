@@ -1,5 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 /**
  * //WP Google Maps, should not be blocked as we use it's integrated GDPR feature

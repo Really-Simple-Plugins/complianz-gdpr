@@ -22,7 +22,7 @@
 	}
 	$consenttypes = apply_filters( 'cmplz_edit_banner_consenttypes',cmplz_get_used_consenttypes(true) );
 	$default_consenttype = apply_filters( 'cmplz_edit_banner_default_consenttype' ,COMPLIANZ::$company->get_default_consenttype() );
-	$controls = '<select name="cmplz_type"><option value="">'.__("Choose an option",'complianz-gdpr').'</option>';
+	$controls = '<select class="cmplz_save_localstorage" name="cmplz_type"><option value="">'.__("Choose an option",'complianz-gdpr').'</option>';
 	foreach ($consenttypes as $consenttype_id => $consenttype){
 		$selected = $consenttype_id == $default_consenttype ? 'selected' : '';
 		$controls .= '<option '.$selected.' value="'.$consenttype_id.'">'.$consenttype.'</option>';

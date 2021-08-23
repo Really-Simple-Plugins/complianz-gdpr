@@ -477,12 +477,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$type   = str_replace( '-' . $region, '', $type );
 			}
 
-			if ( ! cmplz_has_region( $region )
-			     || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] )
+			if ( ! cmplz_has_region( $region ) || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] )
 			) {
 				return sprintf( __( 'Region %s not activated for %s.',
 					'complianz-gdpr' ), strtoupper( $region ), $type );
 			}
+
+
 			$elements         = COMPLIANZ::$config->pages[ $region ][ $type ]["document_elements"];
 			$html             = "";
 			$paragraph        = 0;
@@ -1011,20 +1012,19 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
-			//only necessary for free, as premium will generate the privacy statement
-			if ( ! defined( 'cmplz_free' ) ) {
-				return;
-			}
-
-			$content = sprintf(
-				__( "Complianz GDPR Cookie Consent does not process any personally identifiable information, which means there's no need to add text about this plugin to your Privacy Statement. The used cookies (all functional) will be added to your Cookie Policy automatically. You can find our Privacy Statement %shere%s.",
-					'complianz-gdpr' ),
-				'<a href="https://complianz.io/privacy-statement/" target="_blank">',
-				'</a>'
+			$content = __( "This website uses the Privacy Suite for WordPress by Complianz to collect and record Browser and Device based Consent. For this functionality your IP address is anonymized and stored in our database.", 'complianz-gdpr' )
+			.'&nbsp;'
+			. __( "This service does not process any personally identifiable information, and does not share any data with the service provider.", 'complianz-gdpr' )
+			.'&nbsp;'
+			 .sprintf(
+					__( "For more information, see the Complianz %sPrivacy Statement%s.", 'complianz-gdpr' ),
+					'<a href="https://complianz.io/legal/privacy-statement/" rel="noopener noreferrer nofollow" target="_blank">',
+					'</a>'
 			);
 
+			$content = apply_filters( 'cmplz_privacy_info', $content );
 			wp_add_privacy_policy_content(
-				'Complianz | GDPR/CCPA Cookie Consent',
+				'Complianz | The Privacy Suite for WordPress',
 				wp_kses_post( wpautop( $content, false ) )
 			);
 		}

@@ -3,7 +3,7 @@
 </div>
 <div class="name">{link_open}{name}{link_close}</div>
 <div class="retention-header">
-	<h5><?php _e( 'Retention', 'complianz-gdpr' ) ?></h5>
+	<h5><?php _e( 'Expiration', 'complianz-gdpr' ) ?></h5>
 </div>
 <div class="retention">{retention}</div>
 <div class="function-header">

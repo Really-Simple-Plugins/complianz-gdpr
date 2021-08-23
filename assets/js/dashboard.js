@@ -29,8 +29,9 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	$(document).on('change', '#cmplz_selected_region', function(){
+	$(document).on('change', '[name=cmplz_selected_region]', function(){
 		var data = {};
+		console.log("selected region change");
 		data['region'] = $('#cmplz_selected_region').val();
 		cmplzLoadGridBlock(data, $(this));
 	});

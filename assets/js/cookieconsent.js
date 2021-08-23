@@ -743,14 +743,14 @@
       this.onButtonClick = handleButtonClick.bind(this);
 
       el.addEventListener('click', this.onButtonClick);
-
-      if (opts.autoAttach) {
-        if (!cont.firstChild) {
-          cont.appendChild(el);
-        } else {
-          cont.insertBefore(el, cont.firstChild)
-        }
-      }
+		document.body.appendChild(el);
+      // if (opts.autoAttach) {
+      //   if (!cont.firstChild) {
+      //     cont.appendChild(el);
+      //   } else {
+      //     cont.insertBefore(el, cont.firstChild)
+      //   }
+      // }
 
       return el;
     }

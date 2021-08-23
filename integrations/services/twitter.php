@@ -26,7 +26,7 @@ function cmplz_twitter_iframetags( $tags ) {
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_twitter_css' );
+add_action( 'wp_head', 'cmplz_twitter_css' );
 function cmplz_twitter_css() {
 	?>
 	<style>
