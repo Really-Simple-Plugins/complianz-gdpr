@@ -2157,7 +2157,7 @@ if ( ! function_exists( 'cmplz_uses_gutenberg' ) ) {
 	function cmplz_uses_gutenberg() {
 
 		if ( function_exists( 'has_block' )
-		     && ! class_exists( 'Classic_Editor' )
+		     && ! class_exists( 'Classic_Editor', false )
 		) {
 			return true;
 		}

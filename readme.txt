@@ -136,6 +136,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * New: Imprint
 * Fix: initialize the __tcfapi() and postmessage functionality
 * Improvement: several changes to the way TCF is handled
+* Improvement: do not autoload class with class_exists check in cmplz_uses_gutenberg() function props @knomepasi
 
 = 5.2.6 =
 * Fix: Sync services in multilanguage environment
