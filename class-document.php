@@ -1018,7 +1018,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			.'&nbsp;'
 			 .sprintf(
 					__( "For more information, see the Complianz %sPrivacy Statement%s.", 'complianz-gdpr' ),
-					'<a href="https://complianz.io/legal/privacy-statement/" rel="noopener noreferrer nofollow" target="_blank">',
+					'<a href="https://complianz.io/legal/privacy-statement/">',
 					'</a>'
 			);
 
