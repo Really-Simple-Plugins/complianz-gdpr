@@ -117,7 +117,6 @@ $this->fields = $this->fields + array(
 			'default'  => 'none',
 			'type'     => 'document',
 			'label'    => __( "Imprint", 'complianz-gdpr' ),
-			'required' => true,
 			'tooltip'  => __( 'Complianz will generate the Imprint based on the answers in the wizard, but you can also create your own, custom document.',
 				"complianz-gdpr" ),
 		),
