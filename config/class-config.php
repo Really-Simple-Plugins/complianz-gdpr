@@ -478,14 +478,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				// 	'include_in_progress' => false,
 				// ),
 
-				// Premium only?
-				'new_imprint' => array(
-					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'The Impressum is now called an Imprint with addional fields to broaden the scope for all users. ', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/definition/what-are-statutory-and-regulatory-disclosures/'),
-					'plus_one' => true,
-					'include_in_progress' => false,
-				),
-
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
 						'wizard->all_required_fields_completed_wizard'
