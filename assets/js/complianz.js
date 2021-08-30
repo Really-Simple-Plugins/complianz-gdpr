@@ -1637,13 +1637,14 @@ jQuery(document).ready(function ($) {
 		for (var key in cmplzCategories) {
 			if (cmplzCategories.hasOwnProperty(key)) {
 				var cat = cmplzCategories[key];
+				var catClass = cat.replace('_rt', '');
 				if ( cat === cmplzPrefix+'functional' ) {continue}
 				if (cmplzGetCookie(cat) === 'allow' || force) {
-					$('.'+cat).each(function(){
+					$('.'+catClass).each(function(){
 						$(this).prop('checked', true);
 					});
 				} else {
-					$('.'+cat).each(function(){
+					$('.'+catClass).each(function(){
 						$(this).prop('checked', false);
 					});
 				}

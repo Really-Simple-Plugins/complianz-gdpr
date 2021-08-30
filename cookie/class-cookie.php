@@ -31,6 +31,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		private $complete;
 		private $slug = '';
 		private $old;
+		private $isOwnDomainCookie=false;
 
 		/**
 		 * in CDB, we can mark a cookie as not relevant to users.
@@ -130,6 +131,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translated_cookie->sync         = $sync_on;
 					$translated_cookie->showOnPolicy = true;
 				}
+				$translated_cookie->isOwnDomainCookie = $this->isOwnDomainCookie;
 				$translated_cookie->isTranslationFrom = $parent_ID;
 				$translated_cookie->service           = $service_name;
 				$translated_cookie->lastAddDate       = time();
@@ -279,6 +281,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->deleted               = $cookie->deleted;
 				$this->retention             = $cookie->retention;
 				$this->type                  = $cookie->type;
+				$this->isOwnDomainCookie       = $cookie->isOwnDomainCookie;
 				$this->cookieFunction        = $cookie->cookieFunction;
 				$this->purpose               = $cookie->purpose;
 				$this->isPersonalData        = $cookie->isPersonalData;
@@ -392,6 +395,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'name'                  => sanitize_text_field( $this->name ),
 				'retention'             => sanitize_text_field( $this->retention ),
 				'type'                  => sanitize_text_field( $this->type ),
+				'isOwnDomainCookie'       => boolval( $this->isOwnDomainCookie ),
 				'serviceID'             => intval( $this->serviceID ),
 				'cookieFunction'        => sanitize_text_field( $this->cookieFunction ),
 				'purpose'               => sanitize_text_field( $this->purpose ),
@@ -602,6 +606,7 @@ function cmplz_install_cookie_table() {
             `language` varchar(6) NOT NULL,
             `isTranslationFrom` int(11) NOT NULL,
             `isPersonalData` int(11) NOT NULL,
+            `isOwnDomainCookie` int(11) NOT NULL,
             `deleted` int(11) NOT NULL,
             `isMembersOnly` int(11) NOT NULL,
             `showOnPolicy` int(11) NOT NULL,

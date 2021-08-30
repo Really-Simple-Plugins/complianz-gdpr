@@ -24,9 +24,16 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Advanced noCaptcha & invisible Captcha',
 			'firstparty_marketing' => false,
 	),
+	
 	'theeventscalendar' => array(
 			'constant_or_function' => 'TRIBE_EVENTS_FILE',
 			'label'                => 'The Events Calendar',
+			'firstparty_marketing' => false,
+	),
+
+	'meks-easy-maps' => array(
+			'constant_or_function' => 'MKS_MAP_VER',
+			'label'                => 'Meks Easy Maps',
 			'firstparty_marketing' => false,
 	),
 
@@ -87,6 +94,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'generatepress-maps'          => array(
 		'constant_or_function' => 'GeneratePress',
 		'label'                => 'GeneratePress Maps',
+		'firstparty_marketing' => false,
+	),
+
+	'avada-maps'          => array(
+		'constant_or_function' => 'FUSION_BUILDER_VERSION',
+		'label'                => 'Avada Fusion Builder',
 		'firstparty_marketing' => false,
 	),
 

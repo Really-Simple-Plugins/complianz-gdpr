@@ -1214,10 +1214,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function get_syncable_cookies( $ignore_time_limit = false ) {
 			$languages            = $this->get_supported_languages();
 			$data                 = array();
+			$index                = array();
 			$thirdparty_cookies   = array();
 			$localstorage_cookies = array();
+			$count_all = 0;
+			$ownDomainCookies = $this->get_cookies(array('isOwnDomainCookie'=>true));
+			$hasOwnDomainCookies = count($ownDomainCookies) >0 ;
 
-			$count_all    = 0;
 			$one_week_ago = strtotime( "-1 week" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language );
@@ -1228,11 +1231,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 				$cookies   = $this->get_cookies( $args );
 				$cookies   = wp_list_pluck( $cookies, 'name' );
-				$count_all += count( $cookies );
-				$index     = 0;
+				$index[$language]     = 0;
 				foreach ( $cookies as $cookie ) {
 					$c    = new CMPLZ_COOKIE( $cookie, $language );
-					$slug = $c->slug ? $c->slug : $index;
+					$slug = $c->slug ? $c->slug : $index[$language];
 					//pass the type to the CDB
 					if ( $c->type === 'localstorage' ) {
 						if (!in_array($cookie, $localstorage_cookies) ) $localstorage_cookies[] = $cookie;
@@ -1240,15 +1242,40 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
 						$service = new CMPLZ_SERVICE( $c->service );
-						if ( $service->thirdParty || $service->secondParty ) {
-							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
+
+						//deprecated as of 5.3. Use only if no own domain cookie property has ever been saved
+						if ( !$hasOwnDomainCookies ) {
+							if ( $service->thirdParty || $service->secondParty ) {
+								if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
+							}
 						}
+
 						$data[ $language ][ $c->service ][ $slug ] = $cookie;
+						//make sure the cookie is available in en as well.
+						if (!isset($data[ 'en' ][ $c->service ][ $slug ])) {
+							$data[ 'en' ][ $c->service ][ $slug ] = $cookie;
+						}
 					} else {
 						$data[ $language ]['no-service-set'][ $slug ] = $cookie;
+						if (!isset($data[ 'en' ]['no-service-set'][ $slug ])) {
+							$data[ 'en' ]['no-service-set'][ $slug ] = $cookie;
+						}
 					}
-					$index ++;
+
+					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced onlly with non own domain cookies.
+					if ( $hasOwnDomainCookies ) {
+						if ( !$c->isOwnDomainCookie ) {
+							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
+						}
+					}
+
+					$index[$language] ++;
 				}
+			}
+
+			//now count the cookies
+			foreach ($data['en'] as $service => $cookies ){
+				$count_all += count($cookies);
 			}
 
 			$data['count']               = $count_all;
@@ -2848,15 +2875,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$defaults = array(
-				'ignored'         => 'all',
-				'new'             => false,
-				'language'        => false,
-				'isPersonalData'  => 'all',
-				'isMembersOnly'   => false,
-				'hideEmpty'       => false,
-				'showOnPolicy'    => 'all',
-				'lastUpdatedDate' => false,
-				'deleted'         => false,
+					'ignored'           => 'all',
+					'new'               => false,
+					'language'          => false,
+					'isPersonalData'    => 'all',
+					'isMembersOnly'     => false,
+					'hideEmpty'         => false,
+					'showOnPolicy'      => 'all',
+					'lastUpdatedDate'   => false,
+					'deleted'           => false,
+					'isOwnDomainCookie' => 'all',
 			);
 
 			$settings = wp_parse_args( $settings, $defaults );
@@ -2880,6 +2908,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $settings['ignored'] !== 'all' ) {
 				$sql .= ' AND ignored = '
 				        . $this->bool_string( $settings['ignored'] );
+			}
+
+			if ( $settings['isOwnDomainCookie'] !== 'all' ) {
+				$sql .= ' AND isOwnDomainCookie = '
+						. $this->bool_string( $settings['isOwnDomainCookie'] );
 			}
 
 			if ( ! $settings['language'] ) {
@@ -3039,6 +3072,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookie = new CMPLZ_COOKIE();
 					$cookie->add( $key, $this->get_supported_languages() );
 					$cookie->type = 'localstorage';
+					$cookie->isOwnDomainCookie = true;
 					$cookie->save( true );
 				}
 
@@ -3049,12 +3083,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookie = new CMPLZ_COOKIE();
 					$cookie->add( $key, $this->get_supported_languages() );
 					$cookie->type = 'cookie';
+					$cookie->isOwnDomainCookie = true;
 					$cookie->save( true );
 				}
 
 				//clear token
 				update_option( 'complianz_scan_token', false );
-
 				//store current requested page
 				$this->set_page_as_processed( $_POST['complianz_id'] );
 			}

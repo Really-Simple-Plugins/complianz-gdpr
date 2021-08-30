@@ -5,6 +5,7 @@ if ( !cmplz_integration_plugin_is_active( 'google-maps-easy' ) &&
      !cmplz_integration_plugin_is_active( 'generatepress-maps' ) &&
      !cmplz_integration_plugin_is_active( 'map-multi-marker' ) &&
      !cmplz_integration_plugin_is_active( 'wp-google-maps' ) &&
+     !cmplz_integration_plugin_is_active( 'avada-maps' ) &&
      !cmplz_integration_plugin_is_active( 'wp-google-maps-widget' )
 	) {
 	add_filter( 'cmplz_placeholder_markers', 'cmplz_acf_placeholder' );

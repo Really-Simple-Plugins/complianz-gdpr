@@ -263,20 +263,21 @@
     }
 
 
+    // remove scroll from back-end
 
 	.cmplz-scroll {
 	  //if the scrollbar shows, we will see two scrollbars if the wordpress menu is longer than the screen.
-	  &::-webkit-scrollbar {
-		display: none;
-	  }
-	  -ms-overflow-style: none;  /* IE and Edge */
-	  scrollbar-width: none;  /* Firefox */
-	  overflow: scroll;
-	  scroll-behavior: smooth;
-	  overflow-x: hidden;
-	  flex-wrap: wrap;
-	  grid-column: span 1;
-	  max-height: 100vh;
+	  // &::-webkit-scrollbar {
+		// display: none;
+	  // }
+	  // -ms-overflow-style: none;  /* IE and Edge */
+	  // scrollbar-width: none;  /* Firefox */
+	  // overflow: scroll;
+	  // scroll-behavior: smooth;
+	  // overflow-x: hidden;
+	  // flex-wrap: wrap;
+	  // grid-column: span 1;
+	  // max-height: 100vh;
 	  section {
 		width:100%;
 	  }
@@ -308,7 +309,7 @@
 
 	  .upload_button {
 		margin-right:@default-margin;
-		min-width: 135px !important;
+		width: 100px;
 		height: 30px;
 	  }
 
@@ -1455,7 +1456,7 @@ html .mceContentBody {
         border-color: @color-warning;
       }
       &.button-grey {
-		background-color: white;
+        background-color: white;
         color: black;
         border-color: black;
       }

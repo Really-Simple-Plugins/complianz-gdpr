@@ -1012,9 +1012,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
-			$content = __( "This website uses the Privacy Suite for WordPress by Complianz to collect and record Browser and Device based Consent. For this functionality your IP address is anonymized and stored in our database.", 'complianz-gdpr' )
+			$content = __( "This website uses the Privacy Suite for WordPress by Complianz to collect and record Browser and Device-based Consent. For this functionality, your IP address is anonymized and stored in our database.", 'complianz-gdpr' )
 			.'&nbsp;'
-			. __( "This service does not process any personally identifiable information, and does not share any data with the service provider.", 'complianz-gdpr' )
+			. __( "This service does not process any personally identifiable information and does not share any data with the service provider.", 'complianz-gdpr' )
 			.'&nbsp;'
 			 .sprintf(
 					__( "For more information, see the Complianz %sPrivacy Statement%s.", 'complianz-gdpr' ),
