@@ -137,6 +137,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: initialize the __tcfapi() and postmessage functionality
 * Improvement: several changes to the way TCF is handled
 * Improvement: do not autoload class with class_exists check in cmplz_uses_gutenberg() function props @knomepasi
+* New: Meks Easy Maps
+* Fix: keep cookie and service lists in sync across languages when new languages are added.
+* Fix: on the root website of a multisite setup accept all did not enable statistics
+* New: Avada integration
 
 = 5.2.6 =
 * Fix: Sync services in multilanguage environment
