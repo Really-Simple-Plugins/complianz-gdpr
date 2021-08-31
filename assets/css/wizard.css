@@ -222,20 +222,7 @@
   margin-right: 20px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  overflow: scroll;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  flex-wrap: wrap;
-  grid-column: span 1;
-  max-height: 100vh;
   position: relative;
-}
-#cmplz-content-area .cmplz-section-content .cmplz-scroll::-webkit-scrollbar {
-  display: none;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll section {
   width: 100%;
@@ -264,7 +251,7 @@
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .upload_button {
   margin-right: 15px;
-  min-width: 135px !important;
+  width: 100px;
   height: 30px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll input[name="cmplz_import_settings"] {
