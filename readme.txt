@@ -1,5 +1,5 @@
 === Complianz - GDPR/CCPA Cookie Consent ===
-Contributors: RogierLankhorst, aahulsebos, leonwimmenhoeve, paapst, markwolters, tomeijkelenkamp, hesseldejong, mujuonly, xantek, pierrotevrard, samu-dn
+Contributors: RogierLankhorst, aahulsebos, leonwimmenhoeve, paapst, markwolters, tomeijkelenkamp, hesseldejong, mujuonly, xantek, pierrotevrard, samu-dn, jarnovos
 Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CCPA, Consent, RGPD, LGPD, Privacy, PIPEDA, Cookie Policy, Opt-in
 Requires at least: 4.9
@@ -16,7 +16,7 @@ Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, LGPD, 
 https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 
 == Features ==
-* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia, South Africa or Canada. Or use one Cookie Notice worldwide.
+* Configure a Cookie Notice for your specific region: European Union, United Kingdom, United States, Australia, South Africa, Brazil or Canada. Or use one Cookie Notice worldwide.
 * Configure specific cookie consent per subregion, for example: European Union + DSGVO/CNIL or USA + CCPA.
 * Cookie Consent and Conditional Cookie Notice with Custom CSS and Customizable Templates.
 * Banner Templates include: GDPR-friendly Cookie Wall - Accept/Dismiss - Category Based Consent
@@ -31,37 +31,38 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 * Terms and Conditions are available in a separate plugin: [Complianz – Terms and Conditions](https://wordpress.org/plugins/complianz-terms-conditions/)
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
 
-* Implementation of Google Tag Manager, Google Analytics, Matomo etc.
+* Implementation of Google Tag Manager, Google Analytics, Matomo, Clicky, Yandex etc.
 * Categorize your Cookies with Tag Manager or our own Script Center, if needed.
 * Automatically anonymizes IP-addresses for Google Analytics if needed.
 * Integration with the [WP Consent API](https://wpconsentapi.org/)
-* Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Recaptcha, Twitter, ActiveCampaign, and more.
-* Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames.
-* Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per service.
+* Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Hubspot, Recaptcha, Twitter, ActiveCampaign, and more.
+* Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames e.g. Instagram, Facebook et al.
+* Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per (social) service.
 
 * Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, HappyForms, Contact Form 7 <5.4 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Gutenberg Blocks enabled.
 * Cookie Banners and Legal Documents conform to WCAG 2.1 AA Accessibility Guidelines.
-* Ready for GDPR, AVG, DSGVO, CNIL, PECR, UK DPA, UK GDPR, CCPA, COPPA, PIPEDA, CASL, POPIA, Privacy Act 1988 & Australian Privacy Principles
+* Ready for GDPR, AVG, RGPD, LGPD, DSGVO, CNIL, PECR, UK DPA, UK GDPR, CCPA, COPPA, PIPEDA, CASL, POPIA, Privacy Act 1988, Australian Privacy Principles, The “Marco Civil” and the Brazilian General Data Protection Law
 * We closely follow the latest developments in the ePrivacy regulation, the proposed Cookie Law for the European Union, and other legislation world-wide.
 
 = Love Complianz? =
 If you enjoy this plugin and you want your site to have the best compliancy features, consider purchasing the [premium version](https://complianz.io/pricing), also available for multisite users.
 
 == Premium features ==
-* Simultaneously select USA, CA, UK, AU, ZA and EU as target regions with conditional Consent and dedicated Cookie Banners.
+* Simultaneously select USA, CA, UK, AU, ZA, BR and EU as target regions with conditional Consent and dedicated Cookie Banners.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
-* Records of Consent: see how many visitors accept, decline, or don't need a cookie notice at all.
+* Records of Consent: Keep record of your consent management changes and user's consent registration.
+* A/B testing: see how many visitors accept, decline, or don't need a cookie notice at all.
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 * Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
 * Respects the Do Not Track settings in end-users browsers.
-* Privacy statements (EU, CA, UK, AU, ZA & USA). 
-* Cookie policy (EU, UK, CA, AU, ZA & US). 
+* Privacy statements (EU, CA, UK, AU, ZA, BR & USA). 
+* Cookie policy (EU, UK, CA, AU, ZA, BR & US). 
 * Impressum (Germany & Austria). 
 * Disclaimer. 
-* Processing agreements (EU, UK, CA, AU & US). 
-* Dataleak reporting tools (EU, UK, CA, AU & US). 
+* Processing agreements (EU, UK, CA, AU, ZA, BR & US). 
+* Dataleak reporting tools (EU, UK, CA, AU, ZA, BR & US). 
 * Supports CCPA Consent and Legal documents.
 * COPPA ready with Children's Privacy Policy (US)
 * Children's Privacy Policy (UK,CA & AU)
@@ -69,12 +70,13 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Support for PIPEDA and CASL - Canada.
 * Support for Privacy Act 1988 & Australian Privacy Principles
 * Support for POPIA, the South African Protection of Personal Information Act
+* Supports The “Marco Civil” and the Brazilian General Data Protection Law (LGPD)
 * Multilanguage support for the cookie notice and legal documents.
-* 9 Default languages. English, German, Dutch, French, Italian, Spanish, Norwegian, Greek and Czech. Formal and Informal if available.
+* 10 Default languages. English, German, Dutch, French, Italian, Spanish, Norwegian, Greek, Portuguese, and Czech. Formal and Informal if available.
 * Premium Support from our amazing team.
 * Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
-Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/), [Zip Recipes](https://wordpress.org/plugins/zip-recipes/)
+Check out other plugins developed by Really Simple Plugins as well: [Really Simple SSL](https://wordpress.org/plugins/really-simple-ssl/)
 
 Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr) as well!
 
@@ -93,7 +95,7 @@ Complianz needs to connect with Cookiedatabase.org to collect and synchronize wi
 = Knowledgebase =
 Complianz maintains a continuously growing knowledgebase about GDPR, including subregions e.g. DSGVO and CNIL, CCPA, PIPEDA, COPPA, POPIA & other specific laws on [complianz.io](https://complianz.io)
 
-= Is my website GDPR, COPPA, CCPA, DSGVO, AVG, CNIL, UK-GDPR, PECR, CASL, POPIA and/or PIPEDA compliant with this plugin? =
+= Is my website GDPR, COPPA, CCPA, DSGVO, AVG, CNIL, UK-GDPR, PECR, CASL, LGPD, POPIA and/or PIPEDA compliant with this plugin? =
 We cannot guarantee compliance for your website. A correct configuration of this plugin by a website administrator is always required. 
 = When do I need a Cookie Notice? =
 Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on the laws of the region or regions, where most of your visitors come from. 
@@ -114,10 +116,15 @@ To comply with the Australian privacy laws a website operator should present a c
 Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and Electronic Documents Act (PIPEDA) require a website operator to obtain consent, either implied or express consent with a dedicated cookie statement.
 = What POPIA (POPI Act)? =
 POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION ACT. Similar to the GDPR, the UK-GDPR, and the Brasilian LGPD, it promotes the protection of personal information processed by public and private bodies,bregulates the cross-border flow of personal information, and outlines the rights of data subjects.
+= What are “Marco Civil” and the Brazilian General Data Protection Law (LGPD)? =
+The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it promotes the protection of personal information processed by public and private bodies,bregulates the cross-border flow of personal information, and outlines the rights of data subjects. The Marco Civil is the Brazilian name of the Brazilian Civil Rights Framework for the Internet a counterpart to European's "ePrivacy", although not similar.
 = Can I create a Cookie Wall with this plugin? =
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.4.0 =
+* New: Brazil
+
 = 5.3.0.1 =
 * Fix: anonymizeip double quote in gtag.js
 
