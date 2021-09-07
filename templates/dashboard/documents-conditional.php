@@ -2,13 +2,13 @@
 $docs = array(
 	'privacy-statement' => array(
 		'title' => __("Privacy Statements", "complianz-gdpr"),
-		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au', 'br'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement/',
 		'subscription' => 'premium',
 	),
 	'cookie-statement' => array(
 		'title' => __("Cookie Policy", 'complianz-gdpr'),
-		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au', 'br'),
 		'read-more' => ' https://complianz.io/definition/what-is-a-cookie-policy/',
 		'subscription' => 'free',
 	),
@@ -26,13 +26,13 @@ $docs = array(
 	),
 	'privacy-statement-for-children' => array(
 		'title' => __("Privacy Statement for Children", 'complianz-gdpr'),
-		'regions' => array('us', 'uk', 'ca', 'za', 'au'),
+		'regions' => array('us', 'uk', 'ca', 'za', 'au', 'br'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement-for-children/',
 		'subscription' => 'premium',
 	),
 	'disclaimer' => array(
 		'title' => __("Disclaimer", 'complianz-gdpr'),
-		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au'),
+		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au', 'br'),
 		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
 		'subscription' => 'premium',
 	),
