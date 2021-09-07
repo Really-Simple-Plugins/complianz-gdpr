@@ -139,7 +139,7 @@ $this->pages['br']['cookie-statement']['document_elements'] = array(
         'p' => false,
         'content' =>
             '<ul>
-                    <li>' . _x('confirmation of the existence of treatment;', 'Legal document cookie policy', 'complianz-gdpr') . '</li>
+                    <li>' . _x('confirmation of the existence of processing;', 'Legal document', 'complianz-gdpr') . '</li>
                     <li>' . _x('access to data;', 'Legal document cookie policy', 'complianz-gdpr') . '</li>
                     <li>' . _x('correction of incomplete, inaccurate, or outdated data;', 'Legal document cookie policy', 'complianz-gdpr') . '</li>
                     <li>' . _x('anonymization, blocking, or deletion of unnecessary, excessive, or processed data in disagreement with the provisions of the General Law for the Protection of Personal Data (LGPD);', 'Legal document cookie policy', 'complianz-gdpr') . '</li>
