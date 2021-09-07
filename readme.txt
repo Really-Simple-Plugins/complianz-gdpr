@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: 5.3.0.1
+Stable tag: 5.4.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, LGPD, POPIA, APA, CCPA and PIPEDA.
 
@@ -124,6 +124,13 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Change log ==
 = 5.4.0 =
 * New: Brazil
+* New: WP Store locator maps integration
+* Improvement: some string changes
+* Improvement: save feedback
+* New: WCAG option on the admin
+* New: cmplz_choice cookie also available without a/b testing or records of consent
+* Fix: restore youtube-nocookie url to be recognized as URL for YouTube placeholders
+* Fix: allow marketing cookies on accept deny, props @klous-1
 
 = 5.3.0.1 =
 * Fix: anonymizeip double quote in gtag.js
