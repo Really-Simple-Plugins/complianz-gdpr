@@ -78,8 +78,4 @@ foreach ($docs as $key => $doc) {
 		echo '</span>';
 	}
 	echo '</div></div>';
-
-
 }
-
-

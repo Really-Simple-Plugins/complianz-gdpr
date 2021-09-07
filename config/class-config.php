@@ -506,8 +506,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'success_conditions'  => array(
 						'get_value_respect_dnt==yes'
 					),
-					'completed'    => __( 'Do Not Track is respected.', 'complianz-gdpr' ),
-					'open' => sprintf( __( 'The browser setting Do Not Track is not respected yet - (%spremium%s)', 'complianz-gdpr' ), '<a  target="_blank" href="https://complianz.io">', '</a>' ),
+					'completed'    => __( 'Do Not Track and Global Privacy Control are respected.', 'complianz-gdpr' ),
+					'open' => sprintf( __( 'Do Not Track and Global Privacy Control are not yet respected. - (%spremium%s)', 'complianz-gdpr' ), '<a  target="_blank" href="https://complianz.io/browser-privacy-controls/">', '</a>' ),
 				),
 
 				'has_formal' => array(
