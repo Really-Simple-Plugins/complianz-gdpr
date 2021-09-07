@@ -238,7 +238,6 @@ function cmplz_cookiebanner_overview() {
 	}
 }
 
-
 /*
  *
  *

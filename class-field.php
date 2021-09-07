@@ -739,9 +739,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
 			<?php do_action( 'complianz_after_label', $args ); ?>
-			<label class="cmplz-switch">
-				<input name="<?php echo esc_html( $fieldname ) ?>" type="hidden" value="<?php echo $placeholder_value ?>"/>
-				<input name="<?php echo esc_html( $fieldname ) ?>" size="40" type="checkbox"
+			<label tabindex="0" role="button" aria-pressed="false" class="cmplz-switch">
+				<input tabindex="-1" name="<?php echo esc_html( $fieldname ) ?>" type="hidden" value="<?php echo $placeholder_value ?>"/>
+				<input tabindex="-1" name="<?php echo esc_html( $fieldname ) ?>" size="40" type="checkbox"
 					<?php if ( $args['disabled'] ) {
 						echo 'disabled';
 					} ?>
@@ -814,17 +814,19 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php if ( ! empty( $args['options'] ) ) {
                 foreach ($args['options'] as $option_key => $option_label)
                 { ?>
-                    <label class="cmplz-checkbox-container <?php echo $disabled_index[$option_key] ?>"><?php echo esc_html( $option_label ) ?>
+                    <label tabindex="0" role="button" aria-pressed="false" class="cmplz-checkbox-container <?php echo $disabled_index[$option_key] ?>"><?php echo esc_html( $option_label ) ?>
                         <input
                             name="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
                             type="hidden"
                             value="0"
+							tabindex="-1"
                         >
                         <input
                             name="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
                             class="<?php echo esc_html( $fieldname ) ?>[<?php echo $option_key ?>]"
                             type="checkbox"
                             value="1"
+							tabindex="-1"
                             <?php echo $value_index[$option_key] ?>
                         >
                         <div
@@ -869,8 +871,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					}
 
                 	?>
-                    <label class="cmplz-radio-container <?php echo $disabled ?>"><?php echo esc_html( $option_label ) ?>
-                        <input
+                    <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $disabled ?>"><?php echo esc_html( $option_label ) ?>
+                        <input tabindex="-1"
                             <?php echo $required ?>
                                 type="radio"
                                 id="<?php echo esc_html( $option_value ) ?>"
@@ -966,7 +968,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_after_label', $args ); ?>
 
 			<div class="cmplz-document-field" data-fieldname="<?php echo esc_html( $fieldname ) ?>">
-                <label class="cmplz-radio-container <?php echo $generated_disabled ?>"><?php echo $generate_label ?>
+                <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $generated_disabled ?>"><?php echo $generate_label ?>
                     <input
 						<?php echo $generated_disabled ?>
                         <?php echo $required ?>
@@ -974,11 +976,13 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         name="<?php echo esc_html( $fieldname ) ?>"
                         value="generated"
                         <?php echo $generated ?>
-                        class="cmplz-document-input">
+                        class="cmplz-document-input"
+						tabindex="-1"
+					>
                     <div class="radiobtn <?php echo $generated_disabled ?>"  <?php echo $required ?>><?php echo $check_icon ?></div>
                 </label>
 
-                <label class="cmplz-radio-container <?php echo $custom_disabled ?>"><?php echo $custom_label ?>
+                <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $custom_disabled ?>"><?php echo $custom_label ?>
                     <input
 							<?php echo $custom_disabled ?>
 							<?php echo $required ?>
@@ -987,11 +991,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         value="custom"
                         <?php echo $custom ?>
                         class="cmplz-document-input"
+						tabindex="-1"
                     >
                     <div class="radiobtn <?php echo $custom_disabled ?>" <?php echo $custom_disabled ?> <?php echo $required ?>><?php echo $check_icon ?></div>
                 </label>
 
-                <label class="cmplz-radio-container <?php echo $url_disabled ?>"><?php echo $url_label ?>
+                <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $url_disabled ?>"><?php echo $url_label ?>
                     <input
 						<?php echo $url_disabled ?>
 						<?php echo $required ?>
@@ -1000,12 +1005,13 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         value="url"
                         <?php echo $url ?>
                         class="cmplz-document-input"
+						tabindex="-1"
                     >
                     <div class="radiobtn <?php echo $url_disabled ?>"  <?php echo $required ?>><?php echo $check_icon ?></div>
                 </label>
 
 				<?php if ( $args['fieldname'] !== 'cookie-statement' ){ ?>
-                    <label class="cmplz-radio-container <?php echo $none_disabled ?>"><?php echo $none_label ?>
+                    <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $none_disabled ?>"><?php echo $none_label ?>
                         <input
 							<?php echo $none_disabled ?>
                             <?php echo $required ?>
@@ -1014,6 +1020,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             value="none"
                             <?php echo $none ?>
                             class="cmplz-document-input"
+							tabindex="-1"
                         >
                         <div class="radiobtn <?php echo $none_disabled ?>" <?php echo $required ?>><?php echo $check_icon ?></div>
                     </label>

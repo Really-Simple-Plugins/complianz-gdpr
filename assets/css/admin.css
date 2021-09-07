@@ -1,4 +1,132 @@
 @gridblock _height_big: calc(auto + 20px);
+#complianz *:focus-visible {
+  outline-offset: 4px;
+}
+#complianz.wrap.cmplz-high-contrast {
+  /* Show the default checkmark when default */
+  /* Disabled option */
+  /* Placeholders */
+  /* License */
+  /* Ending */
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-grid-controls {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-grid-controls a {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast button .cmplz-close-warning-x {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-progress-status.cmplz-completed {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-step-header.incomplete a h2 {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  margin: 0 20px;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section span {
+  align-self: center;
+  justify-self: center;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section a {
+  display: inline-block;
+  text-decoration: none;
+  padding: 3px 5px;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section a h3 {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section.cmplz-done a h3 {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section.active a h3 {
+  color: #333 !important;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal {
+  z-index: 1;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-notice {
+  background-color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-notice:after {
+  border-right: 15px solid #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning a {
+  color: #333 !important;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning {
+  color: #333 !important;
+  background-color: #f8be2e;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning:after {
+  border-right: 15px solid #f8be2e;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal a {
+  color: #fff;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-panel.cmplz-toggle-disabled {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .checkmark.cmplz-default svg {
+  display: block;
+  fill: #eee;
+  stroke: #eee;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled {
+  pointer-events: none;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark {
+  background-color: #eee;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark svg {
+  stroke: #eee !important;
+  fill: #eee !important;
+}
+#complianz.wrap.cmplz-high-contrast input:disabled {
+  cursor: not-allowed;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-sublabel label {
+  color: #333;
+  font-size: 13px;
+}
+#complianz.wrap.cmplz-high-contrast ::placeholder {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast ::placeholder {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast ::-moz-placeholder {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast :-ms-input-placeholder {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast :-moz-placeholder {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info {
+  display: flex;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info > div {
+  padding: 10px 10px 10px 0;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info .cmplz-license-status-container .cmplz-license-status {
+  display: block;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info .cmplz-license-status-container .cmplz-license-status.cmplz-premium {
+  background-color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info .cmplz-license-status-container .cmplz-license-status.cmplz-success {
+  color: #333;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-status-info .cmplz-license-status-container .cmplz-license-status.cmplz-warning {
+  color: #333;
+}
 .cmplz-premium {
   color: #2271b1;
 }
@@ -44,6 +172,11 @@
 /* Make the tooltips respond to hover */
 [cmplz-tooltip]:hover::before,
 [cmplz-tooltip]:hover::after {
+  display: block;
+}
+/* Make the tooltips respond to focus */
+[cmplz-tooltip]:focus::before,
+[cmplz-tooltip]:focus::after {
   display: block;
 }
 /* don't show empty tooltips */
@@ -125,17 +258,27 @@
 }
 /* FX All The Things */
 [cmplz-tooltip]:not([flow]):hover::before,
+[cmplz-tooltip]:not([flow]):focus::before,
 [cmplz-tooltip]:not([flow]):hover::after,
+[cmplz-tooltip]:not([flow]):focus::after,
 [cmplz-tooltip][flow^="up"]:hover::before,
+[cmplz-tooltip][flow^="up"]:focus::before,
 [cmplz-tooltip][flow^="up"]:hover::after,
+[cmplz-tooltip][flow^="up"]:focus::after,
 [cmplz-tooltip][flow^="down"]:hover::before,
-[cmplz-tooltip][flow^="down"]:hover::after {
+[cmplz-tooltip][flow^="down"]:focus::before,
+[cmplz-tooltip][flow^="down"]:hover::after,
+[cmplz-tooltip][flow^="down"]:focus::after {
   animation: tooltips-vert 300ms ease-out forwards;
 }
 [cmplz-tooltip][flow^="left"]:hover::before,
+[cmplz-tooltip][flow^="left"]:focus::before,
 [cmplz-tooltip][flow^="left"]:hover::after,
+[cmplz-tooltip][flow^="left"]:focus::after,
 [cmplz-tooltip][flow^="right"]:hover::before,
-[cmplz-tooltip][flow^="right"]:hover::after {
+[cmplz-tooltip][flow^="right"]:focus::before,
+[cmplz-tooltip][flow^="right"]:hover::after,
+[cmplz-tooltip][flow^="right"]:focus::after {
   animation: tooltips-horz 300ms ease-out forwards;
 }
 /* Documents overview */

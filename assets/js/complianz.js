@@ -1208,11 +1208,12 @@ jQuery(document).ready(function ($) {
 			consentClass = status;
 		}
 
+		//keep track of the fact that the status was saved at least once, for the no choice status
+		cmplzSetCookie(cmplzPrefix+'choice', 'set', complianz.cookie_expiry);
+
 		setStatusAsBodyClass(consentClass);
 		if ( complianz.a_b_testing != 1 ) return;
 
-		//keep track of the fact that the status was saved at least once, for the no choice status
-		cmplzSetCookie(cmplzPrefix+'choice', 'set', complianz.cookie_expiry);
 		var request = new XMLHttpRequest();
 		request.open('POST', complianz.url.replace('/v1', '/v1/track'), true);
 		var data = {
@@ -1841,7 +1842,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		//marketing cookies acceptance
-		if ($('.cmplz_marketing').length) {
+		if ($('.cmplz_marketing').length || complianz.use_categories === 'no') {
 			cmplz_wp_set_consent('marketing', 'deny');
 		}
 

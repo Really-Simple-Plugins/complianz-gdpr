@@ -577,7 +577,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
             }
 
             $args_menu['percentage-complete'] = $this->wizard_percentage_complete( false );
-            $args_menu['title'] = !empty( $wizard_title ) ? '<div class="cmplz-wizard-subtitle"><h2>' . $wizard_title . '</h2></div>': '' ;
+            $args_menu['title'] = !empty( $wizard_title ) ? $wizard_title : __( "The Wizard", 'complianz-gdpr' );
 
             return cmplz_get_template( 'wizard/menu.php', $args_menu );
         }
@@ -658,28 +658,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 
             if ( $page != 'wizard' ) {
-                if ( $this->post_id() && $step == 2 && ( ! $section || $section == 1 )) {
-                    $link = '<a href="' . admin_url( 'edit.php?post_type=' . get_post_type( $this->post_id() ) ) . '">';
-                    $link_pdf = '<a href="' . admin_url( "post.php?post=" . $this->post_id() . "&action=edit" ) . '">';
-
-                    $args['save_as_notice'] = cmplz_notice(
-                        sprintf( __( 'This document has been saved as "%s" (%sview%s). You can view existing documents on the %soverview page%s', 'complianz-gdpr' ),
-                            get_the_title( $this->post_id() ), $link_pdf, '</a>', $link, '</a>' ), 'success', false);
-
-                } elseif ( $step == 1 ) {
+                if ( $step == 1 ) {
                     delete_option( 'complianz_options_' . $page );
 
-                    if ( strpos( $page, 'processing' ) !== false ) {
-                        $about = __( 'Processing Agreements', 'complianz-gdpr' );
-                        $link_article = '<a href="https://complianz.io/what-are-processing-agreements">';
-                    } else {
-                        $about = __( 'dataleak reports', 'complianz-gdpr' );
-                        $link_article = '<a href="https://complianz.io/what-are-dataleak-reports">';
-                    }
-
-                    $args['learn_notice'] = cmplz_notice(
-                        sprintf( __( "To learn what %s are and what you need them for, please read this  %sarticle%s", 'complianz-gdpr' ), $about, $link_article, '</a>' ),
-                        'notice', false);
                 }
             }
 
@@ -692,7 +673,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
             }
 
             if ( $step < $this->total_steps( $page ) ) {
-                $args['next_button'] = '<input class="button button-primary cmplz-next" type="submit" name="cmplz-next" value="'. __( "Next", 'complianz-gdpr' ) . '">';
+                $args['next_button'] = '<input class="button button-primary cmplz-next" type="submit" name="cmplz-next" value="'. __( "Save and Continue", 'complianz-gdpr' ) . '">';
             }
 
             $hide_finish_button = false;

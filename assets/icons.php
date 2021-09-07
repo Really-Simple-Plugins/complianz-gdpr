@@ -10,7 +10,7 @@
  *
  * @return string
  */
-function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14 ) {
+function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14, $classes = '' ) {
 	$vb = $size + 8;
 
 	$icons = array(
@@ -155,20 +155,38 @@ function cmplz_icon( $icon_name, $status, $tooltip = '', $size = 14 ) {
                 'type' => 'dashicons',
                 'icon' => 'dashicons-editor-help',
             ),
-        )
+        ),
+		'conclusion' => array(
+			'loading' => array(
+				'type' => 'svg',
+				'icon' => '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="spinner" class="svg-inline--fa fa-spinner fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>',
+			),
+			'error' => array(
+				'type' => 'svg',
+				'icon' => '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" class="svg-inline--fa fa-exclamation-triangle fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg>',
+			),
+			'warning' => array(
+				'type' => 'svg',
+				'icon' => '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-circle" class="svg-inline--fa fa-exclamation-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg>',
+			),
+			'success' => array(
+				'type' => 'svg',
+				'icon' => '<svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="check-circle" class="svg-inline--fa fa-check-circle fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path></svg>',
+			),
+		),
 	);
 
 	if ( !empty($tooltip) ) {
-        $tooltip =  'cmplz-tooltip="' . $tooltip . '" flow="up"';
+        $tooltip =  'cmplz-tooltip="' . $tooltip . '" flow="up" tabindex="0" role="button" aria-pressed="false"';
     } else if ( isset($icons[$icon_name][$status]['tooltip']) ) {
-        $tooltip =  'cmplz-tooltip="' . $icons[$icon_name][$status]['tooltip'] . '" flow="up"';
+        $tooltip =  'cmplz-tooltip="' . $icons[$icon_name][$status]['tooltip'] . '" flow="up" tabindex="0" role="button" aria-pressed="false"';
     }
 
 	$icon = $icons[$icon_name][$status]['icon'];
 	$type = $icons[$icon_name][$status]['type'];
 
 	if ( $type === 'svg' ){
-		$html = '<div class="cmplz-tooltip-icon dashicons-before cmplz-icon cmplz-' . esc_attr( $status ) . ' ' . esc_attr($icon_name) . '" >' . $icon . '</div>';
+		$html = '<div class="cmplz-tooltip-icon dashicons-before cmplz-icon '. $classes .' cmplz-' . esc_attr( $status ) . ' ' . esc_attr($icon_name) . '" >' . $icon . '</div>';
 	} else if ( $type === 'dashicons' ) {
 		$html = '<div class="cmplz-tooltip-icon dashicons-before cmplz-icon cmplz-' . esc_attr( $status ) . ' ' . esc_attr($icon_name) . ' ' . $icon . '" ></div>';
 	} else {

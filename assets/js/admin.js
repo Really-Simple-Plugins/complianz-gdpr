@@ -156,12 +156,6 @@ jQuery(document).ready(function ($) {
         });
     }, 2000);
 
-    function remove_after_change() {
-        $(".cmplz-panel.cmplz-remove-after-change").fadeTo(500, 0).slideUp(500, function () {
-            $(this).remove();
-        });
-    }
-
     /*
     * open and close panels
     * */
@@ -195,6 +189,23 @@ jQuery(document).ready(function ($) {
                 }
         }
     );
+
+	// Make wizard and settings fields selectable via the 'enter' key
+	$('.cmplz-radio-container').keypress(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			$(event.target).find(':radio').click();
+		}
+	});
+
+	// Make checkboxes in wizard and settings fields selectable via the 'enter' key
+	$('.cmplz-switch, .cmplz-checkbox-container').keypress(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			$(event.target).find(':checkbox').click();
+		}
+	});
+
 
 
     /*
@@ -280,68 +291,18 @@ jQuery(document).ready(function ($) {
 
     $(document).on('change', 'input', function (e) {
         check_conditions();
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
-	});
-
-    $(document).on('keyup', 'input', function (e) {
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
 	});
 
     $(document).on('change', 'select', function (e) {
         check_conditions();
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
 	});
 
     $(document).on('change', 'textarea', function (e) {
         check_conditions();
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
 	});
 
-    $(document).on('keyup', 'textarea', function (e) {
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
-	});
 
-    $(document).on('click', 'button', function (e) {
-        remove_after_change();
-		cmplz_show_save_settings_feedback(e);
-    });
 
-	setTimeout(function () {
-		if (typeof tinymce !== 'undefined') {
-			for (var i = 0; i < tinymce.editors.length; i++) {
-				tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
-					cmplz_show_save_settings_feedback();
-					if ($("input[name=step]").val() == 2) {
-						remove_after_change();
-					}
-				});
-			}
-		}
-	}, 5000);
-
-	function cmplz_show_save_settings_feedback(e){
-		if (typeof e !== 'undefined' && e.target.type === 'submit') return;
-		if (typeof e !== 'undefined' && e.target.name === 'cmplz_type') return;
-
-		var container = $('.cmplz-save-settings');
-		if ( container.length ) {
-			$('.cmplz-settings-saved').hide();
-			container.show();
-		}
-	}
-
-	function cmplz_hide_save_settings_feedback(){
-		var container = $('.cmplz-save-settings');
-		if ( container.length ) {
-			$('.cmplz-settings-saved').show();
-			container.hide();
-		}
-	}
 
     $(document).on("cmplzRenderConditions", check_conditions);
 
@@ -995,7 +956,6 @@ jQuery(document).ready(function ($) {
                         var name = container.find('.cmplz_name').val();
                         var new_title = title.text().replace(/\".*\"/, '"' + name + '"');
                         title.text(new_title);
-						cmplz_hide_save_settings_feedback();
                     }
 
                     btn.html(btnHtml);

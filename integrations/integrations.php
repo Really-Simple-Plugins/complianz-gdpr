@@ -24,7 +24,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Advanced noCaptcha & invisible Captcha',
 			'firstparty_marketing' => false,
 	),
-	
+
 	'theeventscalendar' => array(
 			'constant_or_function' => 'TRIBE_EVENTS_FILE',
 			'label'                => 'The Events Calendar',
@@ -381,6 +381,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'wp-store-locator' => array(
+		'constant_or_function' => 'WPSL_VERSION_NUM',
+		'label'                => 'WP Store Locator',
+		'firstparty_marketing' => false,
+	),
+
 	'gravity-forms' => array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
@@ -615,11 +621,12 @@ function cmplz_add_placeholder_checkbox( $args ) {
 			<?php
 		} else {
 			?>
-			<label class="cmplz-checkbox-container <?php echo $disabled ? 'cmplz-disabled' : '' ?>"><?php _e("Placeholder", "complianz-gdpr") ?>
+			<label tabindex="0" role="button" aria-pressed="false" class="cmplz-checkbox-container <?php echo $disabled ? 'cmplz-disabled' : '' ?>"><?php _e("Placeholder", "complianz-gdpr") ?>
 				<input
 						name="<?php echo esc_html( $fieldname ) ?>"
 						type="hidden"
 						value="0"
+						tabindex="-1"
 						<?php if ( $disabled ) {echo 'disabled';} ?>
 				>
 				<input
@@ -627,6 +634,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 						name="<?php echo $fieldname ?>"
 						type="checkbox"
 						value="1"
+						tabindex="-1"
 						<?php checked( 1, $value, true ) ?>
 				>
 				<div

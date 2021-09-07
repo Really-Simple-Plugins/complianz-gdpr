@@ -669,12 +669,130 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					}
 				}
 			}
+
 			if (  $prev_version
 				  && version_compare( $prev_version, '5.2.6.1', '<' )
 			) {
 				if ( cmplz_tcf_active() ) {
 					delete_transient( 'cmplz_vendorlist_downloaded_once' );
 				}
+			}
+
+			/**
+			 * Change metakeys for eu dataleaks from '{metakey}' to '{metakey}-eu' for consistency between dataleaks .
+			 */
+			if (  $prev_version
+					&& version_compare( $prev_version, '5.4.0', '<' )
+			) {
+				$args = array(
+						'numberposts' => -1,
+						'post_type'   => 'cmplz-dataleak',
+						'tax_query'   => array(
+								array(
+										'taxonomy' => 'cmplz-region',
+										'field'    => 'slug',
+										'terms'    => 'eu',
+								),
+						),
+				);
+
+				$posts     = get_posts( $args );
+				$meta_keys = array(
+						'security-incident-occurred',
+						'type-of-dataloss',
+						'reach-of-dataloss',
+						'risk-of-data-loss',
+						'what-occurred',
+						'consequences',
+						'measures',
+						'measures_by_person_involved',
+						'conclusion',
+				);
+				foreach ( $posts as $post ) {
+					foreach ( $meta_keys as $meta_key ) {
+						$value = get_post_meta( $post->ID, $meta_key, true );
+						if ( $value ) {
+							update_post_meta( $post->ID, $meta_key . '-eu', $value );
+						}
+					}
+				}
+
+				$wizard_settings = get_option( 'complianz_options_wizard' );
+				//upgrade to checkboxes structure.
+				$value_eu = $value_uk = false;
+				if (isset($wizard_settings['dpo_or_gdpr'])) {
+					$value_eu = $wizard_settings['dpo_or_gdpr'];
+				}
+
+				if (isset($wizard_settings['dpo_or_uk_gdpr'])) {
+					$value_uk = $wizard_settings['dpo_or_uk_gdpr'];
+				}
+				if (! is_array( $value_eu )) {
+					$new_value = array(
+							'dpo'         => 0,
+							'dpo_uk'      => 0,
+							'gdpr_rep'    => 0,
+							'uk_gdpr_rep' => 0,
+					);
+					if ( $value_eu ) {
+						$new_value[ $value_eu ] = 1;
+					}
+					if ( $value_uk ) {
+						if ( $value_uk === 'dpo') $value_uk = 'dpo_uk';
+						$new_value[ $value_uk ] = 1;
+					}
+					//none is not applicable anymore, as it's  multischeckbox
+					unset($new_value['none']);
+
+					$wizard_settings['dpo_or_gdpr'] = $new_value;
+					unset( $wizard_settings['dpo_or_uk_gdpr'] );
+
+					if ( isset( $wizard_settings['ca_name_address_accountable_person'] ) ) {
+						$address = preg_split( '#\n(?!s)#', $wizard_settings['ca_name_address_accountable_person'] );
+						$name    = isset( $address[0] ) ? $address[0] : '';
+						unset( $address[0] );
+						$address                                          = implode( "\n", $address );
+						$wizard_settings['ca_name_accountable_person']    = $name;
+						$wizard_settings['ca_address_accountable_person'] = $address;
+					}
+
+					update_option( 'complianz_options_wizard', $wizard_settings );
+				}
+			}
+
+			if (  $prev_version
+				  && version_compare( $prev_version, '5.5.0', '<' )
+			) {
+				$wizard_settings = get_option( 'complianz_options_wizard' );
+				if ( isset($wizard_settings['share_data_other_us']) ) {
+					$wizard_settings['share_data_other'] = $wizard_settings['share_data_other_us'];
+					$us_processors = isset($wizard_settings['processor_us'] ) ? $wizard_settings['processor_us'] : array();
+
+					$eu_processors = isset($wizard_settings['processor']) ? $wizard_settings['processor'] : array();
+					foreach ( $us_processors as $us_processor ) {
+						//check if it's already in the list
+						$key = array_search($us_processor['name'], array_column($eu_processors, 'name'));
+						if ( $key !== false ) unset($us_processors[ $key ]);
+					}
+					//now add the remaining values to the EU list
+					$eu_processors = array_merge($eu_processors, $us_processors);
+					$wizard_settings['processor'] = $eu_processors;
+
+					$us_thirdparties = isset($wizard_settings['thirdparty_us'] ) ? $wizard_settings['thirdparty_us'] : array();
+					$eu_thirdparties = isset($wizard_settings['thirdparty']) ? $wizard_settings['thirdparty'] : array();
+					foreach ( $us_thirdparties as $us_thirdparty ) {
+						//check if it's already in the list
+						$key = array_search($us_thirdparty['name'], array_column($eu_thirdparties, 'name'));
+						if ( $key !== false ) unset($us_thirdparties[ $key ]);
+					}
+					//now add the remaining values to the EU list
+					$eu_thirdparties = array_merge($eu_thirdparties, $us_thirdparties);
+					unset($wizard_settings['thirdparty_us']);
+					unset($wizard_settings['processor_us']);
+					$wizard_settings['thirdparty'] = $eu_thirdparties;
+				}
+
+				update_option( 'complianz_options_wizard', $wizard_settings );
 			}
 
 			do_action( 'cmplz_upgrade', $prev_version );

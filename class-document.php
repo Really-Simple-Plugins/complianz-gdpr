@@ -408,6 +408,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						}
 					}
 
+					if ($condition_answer === 'EMPTY') {
+						if ( strlen( $value )===0 ) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
 						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
@@ -477,12 +485,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$type   = str_replace( '-' . $region, '', $type );
 			}
 
-			if ( ! cmplz_has_region( $region ) || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] )
-			) {
-				return sprintf( __( 'Region %s not activated for %s.',
-					'complianz-gdpr' ), strtoupper( $region ), $type );
+			if ( ! cmplz_has_region( $region ) || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] ) ) {
+				return sprintf( __( 'Region %s not activated for %s.', 'complianz-gdpr' ), strtoupper( $region ), $type );
 			}
-
 
 			$elements         = COMPLIANZ::$config->pages[ $region ][ $type ]["document_elements"];
 			$html             = "";
@@ -1032,7 +1037,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		/**
 		 * Get the region for a post id, based on the post type.
 		 *
-		 * @param int $post_id
+		 * @param int|array $post_id
 		 *
 		 * @return string|bool $region
 		 * */
@@ -1104,6 +1109,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$term_id = $term->term_id;
 
 			wp_set_object_terms( $post_id, array( $term_id ), 'cmplz-region' );
+		}
+
+		public function get_dataleak_type( $post_id = false ){
+			if (!$post_id) return;
+			$region = $this->get_region($post_id);
+			$regions       = COMPLIANZ::$config->regions;
+			return $regions[$region]['dataleak_type'];
 		}
 
 

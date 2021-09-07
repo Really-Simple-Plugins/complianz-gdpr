@@ -217,6 +217,10 @@ if ( !function_exists('cmplz_detected_cookie_plugin')) {
 			$plugin = "GDPR tools: cookie notice + privacy";
 		}elseif(defined('GDPR_COOKIE_CONSENT_PLUGIN_URL')) {
 			$plugin = "GDPR Cookie Consent";
+		}elseif(defined('WP_GDPR_C_SLUG')) {
+			$plugin = "WP GDPR Compliance";
+		}elseif(defined('TERMLY_VERSION')) {
+			$plugin = "Termly | GDPR/CCPA Cookie Consent Banner";
 		}
 
 		if ( $plugin !== false && !$return_name ) {
@@ -636,6 +640,82 @@ if ( ! function_exists( 'cmplz_notice' ) ) {
 		}
 
 		$html = "<div class='cmplz-panel-wrap'><div class='cmplz-panel cmplz-notification cmplz-{$type}'><div>{$msg}</div></div></div>";
+
+		if ( $echo ) {
+			echo $html;
+		} else {
+			return $html;
+		}
+	}
+}
+
+if ( ! function_exists( 'cmplz_conclusion' ) ) {
+	/**
+	 * Conclusion list drop down
+	 * @param string $msg
+	 * @param string $type notice | warning | success
+	 * @param bool   $echo
+	 *
+	 * @return string|void
+	 */
+	function cmplz_conclusion( $title, $conclusions, $animate = true, $echo = true ) {
+		if ( is_array( $conclusions ) == false ) {
+			return;
+		}
+
+		ob_start();
+
+		 echo '<div id="cmplz-conclusion"><h3>' . $title . '</h3><ul class="cmplz-conclusion__list">';
+				foreach($conclusions as $conclusion) {
+					$icon = $animate ? 'icon-loading' : 'icon-' . $conclusion['report_status'];
+					$displayOpac = $animate ? 'style="opacity: 0"' : '';
+					$display = $animate ? 'style="display: none"' : '';
+					echo '<li ' . $displayOpac . 'class="cmplz-conclusion__check '  .$icon . '" data-status="' . $conclusion['report_status'] . '">';
+						if ($animate) echo '<p class="cmplz-conclusion__check--check-text">' . $conclusion['check_text'] . '</p>';
+						echo '<p ' . $display . ' class="cmplz-conclusion__check--report-text">' . $conclusion['report_text'] . '</p>';
+					echo '</li>';
+				}
+		echo '</ul></div>';
+		if ($animate) {
+			?>
+			<script>
+				jQuery('.cmplz-conclusion__check--report-text').hide();
+				// We initialise this to the first text element
+				var firstText = jQuery(".cmplz-conclusion__check:first-child");
+				var time = 0;
+				var timeSmall = 0;
+
+				jQuery(".cmplz-conclusion__check").each(function(){
+					console.log(this);
+					jQuery(firstText).css('opacity', 1);
+					var that = this;
+					time += getRandomInt(5, 10) * 100;;
+					setTimeout( function(){
+						setTimeout( function() {
+
+							//jQuery(that).text(jQuery(that).data('text'));
+
+							jQuery(that).removeClass('icon-loading').addClass('icon-' + jQuery(that).data('status'));
+							jQuery(that).find('.cmplz-conclusion__check--check-text').hide();
+							jQuery(that).find('.cmplz-conclusion__check--report-text').show();
+							jQuery(that).next().css('opacity', 1);
+						}, timeSmall );
+						timeSmall = getRandomInt(5, 10) * 100;
+					}, time);
+
+					console.log(Math.floor(time));
+				});
+
+				function getRandomInt(min, max) {
+					min = Math.ceil(min);
+					max = Math.floor(max);
+					return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+				}
+
+			</script>
+			<?php
+		}
+		$html = ob_get_clean();
 
 		if ( $echo ) {
 			echo $html;

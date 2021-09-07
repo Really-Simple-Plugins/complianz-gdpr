@@ -33,6 +33,17 @@ $this->fields = $this->fields + array(
 			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 		),
 
+		'high_contrast' => array(
+			'source'   => 'settings',
+			'step'     => 'general',
+			'type'     => 'checkbox',
+			'label'    => __( "Enable High Contrast mode", 'complianz-gdpr' ),
+			'comment'  => __( 'If enabled, all the Complianz pages within the WordPress admin will be in high contrast.', 'complianz-gdpr' ),
+			'table'    => true,
+			'disabled' => false,
+			'default'  => false,
+		),
+
 
         'blocked_content_text' => array(
             'step'         => 'general',
@@ -139,9 +150,7 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'default'            => __( 'Hi {name}', 'complianz-gdpr' )
 			                        . "<br><br>"
-			                        . __( 'Your request has been processed successfully.',
-					'complianz-gdpr' ) . "<br><br>" . _x( 'Regards,',
-					'email signature', 'complianz-gdpr' )
+			                        . __( 'Your request has been processed successfully.', 'complianz-gdpr' ) . "<br><br>" . _x( 'Regards,', 'email signature', 'complianz-gdpr' )
 			                        . '<br><br>{blogname}',
 			'table'              => true,
 			'tooltip' => __( "Email content used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),

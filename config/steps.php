@@ -1,7 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-
-$this->steps = apply_filters('cmplz_steps',array(
+$this->steps = array(
 	'wizard' =>
 		array(
 			STEP_COMPANY => array(
@@ -116,4 +115,4 @@ $this->steps = apply_filters('cmplz_steps',array(
 				"title" => __( "Finish", 'complianz-gdpr' ),
 			),
 		),
-));
+);

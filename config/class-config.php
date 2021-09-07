@@ -6,6 +6,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 	class cmplz_config {
 		private static $_this;
 		public $fields = array();
+		public $steps = array();
 		public $formal_languages = array();
 
 		public $upgrade_cookies = array(
@@ -133,7 +134,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'recaptcha.js',
 					'recaptcha/api'
 				),
-				"youtube"          => array( 'youtube.com' ),
+				"youtube"          => array(
+					'youtube.com',
+					'youtube-nocookie.com',
+					),
 				"videopress"       => array(
 					'videopress.com/embed',
 					'videopress.com/videopress-iframe.js'
@@ -264,7 +268,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			);
 
 		public $sections;
-		public $pages;
+		public $pages = array();
 		public $warning_types;
 		public $yes_no;
 		public $countries;
@@ -314,6 +318,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				  . "&nbsp;";
 
 
+
 				/* config files */
 			require_once( cmplz_path . '/config/countries.php' );
 			require_once( cmplz_path . '/config/purpose.php' );
@@ -329,6 +334,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/documents/cookie-policy-ca.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-au.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-za.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-br.php' );
 			require_once(cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
@@ -431,10 +437,11 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function preload_init(){
 			$this->stats_markers = apply_filters( 'cmplz_stats_markers', $this->stats_markers );
 			$this->fields = apply_filters( 'cmplz_fields_load_types', $this->fields );
+			$this->pages = apply_filters( 'cmplz_pages_load_types', $this->pages );
 		}
 
 		public function init() {
-
+			$this->steps = apply_filters('cmplz_steps', $this->steps );
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
 			if ( ! is_admin() ) {
 				$regions = cmplz_get_regions(true);
@@ -460,20 +467,18 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
+
+				'new_brasil' => array(
+					'warning_condition' => 'cmplz_upgraded_to_current_version',
+					'open' => __( 'We have added a new region: Brazil. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/brazil/'),
+					'plus_one' => true,
+					'include_in_progress' => false,
+				),
 				// Keep for 6.0
 
 				// 'upgrade_to_six' => array(
 				// 	'warning_condition' => 'wizard->wizard_completed_once',
 				// 	'open' => __( 'Complianz 6.0 is coming soon! Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),
-				// 	'plus_one' => true,
-				// 	'include_in_progress' => false,
-				// ),
-
-				// Keep for Brasil
-
-				// 'new_brasil' => array(
-				// 	'warning_condition' => 'cmplz_upgraded_to_current_version',
-				// 	'open' => __( 'We have added another region: Brasil. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/brasil'),
 				// 	'plus_one' => true,
 				// 	'include_in_progress' => false,
 				// ),

@@ -85,6 +85,18 @@ $this->fields = $this->fields + array(
 			'required'  => true,
 		),
 
+		'wp_admin_access_users' => array(
+			'step'     => STEP_COMPANY,
+			'section'  => 1,
+			'source'   => 'wizard',
+			'type'     => 'radio',
+			'default'  => 'no',
+			'label'    => __( "Does your site have users with log-in access to a restricted area of the website?", 'complianz-gdpr' ),
+			'tooltip'     => __( "If so, the scan will be extended to the wp-admin part of your site. ", 'complianz-gdpr' ),
+			'required' => false,
+			'options'  => $this->yes_no,
+		),
+
 		'cookie-statement' => array(
 			'step'     => STEP_COMPANY,
 			'section'  => 2,
@@ -196,18 +208,6 @@ $this->fields = $this->fields + array(
 			'required'       => false,
 		),
 
-		'wp_admin_access_users' => array(
-			'step'     => STEP_COMPANY,
-			'section'  => 3,
-			'source'   => 'wizard',
-			'type'     => 'radio',
-			'default'  => 'no',
-			'label'    => __( "Does your site have users with log-in access to a restricted area of the website?", 'complianz-gdpr' ),
-			'tooltip'     => __( "If so, the scan will be extended to the wp-admin part of your site. ", 'complianz-gdpr' ),
-			'required' => false,
-			'options'  => $this->yes_no,
-		),
-
 		// Purpose
 		'purpose_personaldata' => array(
 			'step'               => STEP_COMPANY,
@@ -240,7 +240,7 @@ $this->fields = $this->fields + array(
 			'section' => 11,
 			'source' => 'wizard',
 			'disabled' => true,
-			'type' => 'select',
+			'type' => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
 			'label' => __("Respect Do Not Track and Global Privacy Control with Premium", 'complianz-gdpr'),
@@ -569,10 +569,8 @@ $this->fields = $this->fields + array(
 			'default'   => '',
 			'revoke_consent_onchange' => true,
 			'condition' => array( 'uses_thirdparty_services' => 'yes' ),
-			'label'     => __( "Select the types of third-party services you use on your site.",
-				'complianz-gdpr' ),
-			'tooltip'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).",
-				'complianz-gdpr' ),
+			'label'     => __( "Select the types of third-party services you use on your site.", 'complianz-gdpr' ),
+			'tooltip'      => __( "Checking services here will add the associated cookies to your Cookie Policy, and block the service until consent is given (opt-in), or after consent is revoked (opt-out).", 'complianz-gdpr' ),
 			'comment'   => __( "When possible a placeholder is activated. You can also disable or configure the placeholder to your liking. You can disable services and placeholders under Integrations.",
 					'complianz-gdpr' ) .'</br>' .cmplz_read_more( 'https://complianz.io/configuring-hotjar-for-gdpr/', false ),
 		),
@@ -585,8 +583,7 @@ $this->fields = $this->fields + array(
 			'options'   => $this->yes_no,
 			'default'   => 'no',
 			'condition' => array( 'thirdparty_services_on_site' => 'google-recaptcha' ),
-			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?",
-				'complianz-gdpr' ),
+			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?", 'complianz-gdpr' ),
 		),
 
 		'block_hubspot_service' => array(
@@ -597,8 +594,8 @@ $this->fields = $this->fields + array(
 			'options'   => $this->yes_no,
 			'default'   => 'no',
 			'condition' => array( 'thirdparty_services_on_site' => 'hubspot' ),
-			'label'     => __( "Complianz integrates with the consent module of HubSpot. Did you enable the consent module in your HubSpot account?",
-				'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/hubspot-integration/' ),
+			'label'     => __( "Complianz integrates with the consent module of HubSpot. Did you enable the consent module in your HubSpot account?", 'complianz-gdpr' )
+			               . cmplz_read_more( 'https://complianz.io/hubspot-integration/' ),
 
 		),
 

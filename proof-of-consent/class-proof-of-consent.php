@@ -261,10 +261,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					<a href="https://complianz.io/definitions/what-is-proof-of-consent/" target="_blank" class="button button-default cmplz-header-btn"><?php _e( "Read more", "complianz-gdpr" ) ?></a>
 				</form>
 				<?php
-				if ( isset( $_POST['cmplz_generate_snapshot'] ) ) {
-					cmplz_notice( __( "Proof of consent updated!",
-							"complianz-gdpr" ), 'success' );
-				}
 				if ( isset( $_POST['cmplz_generate_snapshot_error'] ) ) {
 					cmplz_notice( __( "Proof of consent generation failed. Check your write permissions in the uploads directory",
 							"complianz-gdpr" ), 'warning' );

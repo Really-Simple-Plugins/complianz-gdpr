@@ -11,7 +11,6 @@ function cmplz_compile_statistics() {
 }
 
 add_action( 'cmplz_notice_share_data_other', 'cmplz_notice_share_data_other' );
-add_action( 'cmplz_notice_share_data_other_us', 'cmplz_notice_share_data_other' );
 function cmplz_notice_share_data_other() {
 	if ( COMPLIANZ::$cookie_admin->site_shares_data()
 	) {
@@ -390,18 +389,6 @@ function cmplz_set_default( $value, $fieldname ) {
 			$value['contact'] = 1;
 
 			return $value;
-		}
-	}
-
-	if ( $fieldname == 'dpo_or_gdpr' ) {
-		if ( ! cmplz_company_located_in_region( 'eu' ) ) {
-			return 'gdpr_rep';
-		}
-	}
-
-	if ( $fieldname == 'dpo_or_uk_gdpr' ) {
-		if ( ! cmplz_company_located_in_region( 'uk' ) ) {
-			return 'uk_gdpr_rep';
 		}
 	}
 

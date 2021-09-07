@@ -1,6 +1,6 @@
 // Import Complianz LESS Variables
 @import 'variables.less';
-
+@import 'wcag.less';
 .cmplz-premium {
   color:#2271b1;
 }
@@ -47,6 +47,14 @@
 [cmplz-tooltip]:hover::after {
   display: block;
 }
+
+/* Make the tooltips respond to focus */
+[cmplz-tooltip]:focus::before,
+[cmplz-tooltip]:focus::after {
+  display: block;
+}
+
+
 
 /* don't show empty tooltips */
 [cmplz-tooltip='']::before,
@@ -139,19 +147,19 @@
 }
 
 /* FX All The Things */
-[cmplz-tooltip]:not([flow]):hover::before,
-[cmplz-tooltip]:not([flow]):hover::after,
-[cmplz-tooltip][flow^="up"]:hover::before,
-[cmplz-tooltip][flow^="up"]:hover::after,
-[cmplz-tooltip][flow^="down"]:hover::before,
-[cmplz-tooltip][flow^="down"]:hover::after {
+[cmplz-tooltip]:not([flow]):hover::before, [cmplz-tooltip]:not([flow]):focus::before,
+[cmplz-tooltip]:not([flow]):hover::after, [cmplz-tooltip]:not([flow]):focus::after,
+[cmplz-tooltip][flow^="up"]:hover::before, [cmplz-tooltip][flow^="up"]:focus::before,
+[cmplz-tooltip][flow^="up"]:hover::after, [cmplz-tooltip][flow^="up"]:focus::after,
+[cmplz-tooltip][flow^="down"]:hover::before, [cmplz-tooltip][flow^="down"]:focus::before,
+[cmplz-tooltip][flow^="down"]:hover::after, [cmplz-tooltip][flow^="down"]:focus::after {
   animation: tooltips-vert 300ms ease-out forwards;
 }
 
-[cmplz-tooltip][flow^="left"]:hover::before,
-[cmplz-tooltip][flow^="left"]:hover::after,
-[cmplz-tooltip][flow^="right"]:hover::before,
-[cmplz-tooltip][flow^="right"]:hover::after {
+[cmplz-tooltip][flow^="left"]:hover::before, [cmplz-tooltip][flow^="left"]:focus::before,
+[cmplz-tooltip][flow^="left"]:hover::after, [cmplz-tooltip][flow^="left"]:focus::after,
+[cmplz-tooltip][flow^="right"]:hover::before, [cmplz-tooltip][flow^="right"]:focus::before,
+[cmplz-tooltip][flow^="right"]:hover::after, [cmplz-tooltip][flow^="right"]:focus::after {
   animation: tooltips-horz 300ms ease-out forwards;
 }
 /* Documents overview */
@@ -531,7 +539,6 @@ Admin notice
   }
 
 }
-
 
 
 

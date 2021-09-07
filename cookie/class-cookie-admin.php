@@ -3575,7 +3575,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							<input type="hidden" id="cmplz_language" data-type="cookie" value="<?php echo reset( $languages ) ?>">
 						<?php } ?>
 
-						<label class="cmplz-switch">
+						<label tabindex="0" role="button" aria-pressed="false" class="cmplz-switch">
 							<input name="cmplz_show_deleted" size="40" type="checkbox" value="1"/>
 							<span class="cmplz-slider cmplz-round"></span>
 						</label>
