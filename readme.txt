@@ -131,7 +131,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * New: cmplz_choice cookie also available without a/b testing or records of consent
 * Fix: restore youtube-nocookie url to be recognized as URL for YouTube placeholders
 * Fix: allow marketing cookies on accept deny, props @klous-1
-* Improvement: merge several sharing of data sections for improved user experience
 
 = 5.3.0.1 =
 * Fix: anonymizeip double quote in gtag.js
