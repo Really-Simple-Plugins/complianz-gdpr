@@ -11,7 +11,7 @@
 <div class="item-footer">
 	<div>
 		<div class="cmplz-footer-contents">
-			<a class="button button-primary" href="<?php echo add_query_arg( array('page' => 'cmplz-wizard' ), admin_url('admin.php'))?>" ><?php echo _e("Continue Wizard", "complianz-gdpr") ?></a>
+			<a class="button button-primary" href="<?php echo add_query_arg( array('page' => 'cmplz-wizard' ), admin_url('admin.php'))?>" ><?php _e("Continue Wizard", "complianz-gdpr") ?></a>
 			<div class="cmplz-legend cmplz-stretch"></div>
 			<div class="cmplz-legend"><?php echo cmplz_icon('bullet', $cookieblocker)?><span><?php _e("Cookie blocker", "complianz-gdpr")?></span></div>
 			<div class="cmplz-legend"><?php echo cmplz_icon('bullet', $placeholder)?><span><?php _e("Placeholders", "complianz-gdpr")?></span></div>

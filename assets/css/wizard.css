@@ -693,6 +693,10 @@
   /* Show the default checkmark when default */
   /* Disabled option */
 }
+#cmplz-wizard .cmplz-radio-container .radiobtn .cmplz-success,
+#cmplz-settings .cmplz-radio-container .radiobtn .cmplz-success {
+  background-color: initial;
+}
 #cmplz-wizard .cmplz-radio-container input,
 #cmplz-settings .cmplz-radio-container input {
   position: absolute;
@@ -2125,29 +2129,32 @@ input.current-page {
   background-color: #fff;
   z-index: 999999;
   left: 50%;
-  min-width: 300px;
   transform: translateX(-50%);
-  border-left: 4px solid #22932e;
   text-align: left;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12), 0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12), 0 16px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
 }
 .cmplz-settings-saved svg {
-  color: #22932e;
   margin: 2px 17px;
   margin-right: 7px;
-  width: 14px;
 }
-.cmplz-settings-saved p {
+.cmplz-settings-saved .cmplz-settings-saved__text_and_icon {
   display: flex;
   align-content: center;
   margin: 10px 0;
+  padding-right: 40px;
 }
-.cmplz-settings-saved p span {
+.cmplz-settings-saved .cmplz-settings-saved__text_and_icon span {
+  display: flex;
+  align-self: center;
   margin: 2px;
   margin-left: 0;
   font-size: 12.6px;
   font-weight: 400;
   color: #696969;
+}
+.cmplz-settings-saved .cmplz-settings-saved__text_and_icon div {
+  display: flex;
+  align-self: center;
 }
 .cmplz-settings-saved.cmplz-settings-saved--fade-in {
   display: block;

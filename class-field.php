@@ -570,8 +570,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success');
-            $times_icon = cmplz_icon('check', 'failed');
+            $check_icon = cmplz_icon('check', 'success', '', 10);
+            $times_icon = cmplz_icon('check', 'failed', '', 10);
             ?>
 
 			<?php do_action( 'complianz_before_label', $args ); ?>
@@ -604,8 +604,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success');
-            $times_icon = cmplz_icon('check', 'failed');
+            $check_icon = cmplz_icon('check', 'success', '', 10);
+            $times_icon = cmplz_icon('check', 'failed', '', 10);
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -637,8 +637,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success');
-            $times_icon = cmplz_icon('check', 'failed');
+            $check_icon = cmplz_icon('check', 'success', '', 10);
+            $times_icon = cmplz_icon('check', 'failed', '', 10);
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -669,8 +669,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success');
-            $times_icon = cmplz_icon('check', 'failed');
+            $check_icon = cmplz_icon('check', 'success', '', 10);
+            $times_icon = cmplz_icon('check', 'failed', '', 10);
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -802,7 +802,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 $validate = $args['required'] ? 'class="cmplz-validate-multicheckbox"' : '';
 
                 // Check icon
-                $check_icon = cmplz_icon('check', 'success');
+                $check_icon = cmplz_icon('check', 'success', '', 10);
             }
 
 			?>
@@ -1193,8 +1193,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$args
 		) {
 			$fieldname = 'cmplz_' . $args['fieldname'];
-			$check_icon = cmplz_icon('check', 'success');
-			$times_icon = cmplz_icon('check', 'failed');
+			$check_icon = cmplz_icon('check', 'success', '', 10);
+			$times_icon = cmplz_icon('check', 'failed', '', 10);
 			$value = $this->get_value( $args['fieldname'], $args['default'] );
 			if ( ! $this->show_field( $args ) ) {
 				return;
@@ -1342,20 +1342,20 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 $value = $values[$field['fieldname']]; ?>
                 <div class="cmplz-color-picker-wrap">
 
-                    <div class="cmplz-sublabel">
-                        <label for="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"><?php echo esc_html( $field['label'] ) ?></label>
-                    </div>
+                <div class="cmplz-sublabel">
+                    <label for="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"><?php echo esc_html( $field['label'] ) ?></label>
+                </div>
 
-                    <input type="hidden"
-                           name="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"
-                           id="<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>"
-                           value="<?php echo esc_html( $value ) ?>"
-                           class="cmplz-color-picker-hidden">
-                    <input type="text"
-                           name="color_picker_container"
-                           data-hidden-input='<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>'
-                           value="<?php echo esc_html( $value ) ?>"
-                           class="cmplz-color-picker">
+                <input type="hidden"
+                       name="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"
+                       id="<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>"
+                       value="<?php echo esc_html( $value ) ?>"
+                       class="cmplz-color-picker-hidden">
+                <input type="text"
+                       name="color_picker_container"
+                       data-hidden-input='<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>'
+                       value="<?php echo esc_html( $value ) ?>"
+                       class="cmplz-color-picker">
 
                 </div>
                 <?php

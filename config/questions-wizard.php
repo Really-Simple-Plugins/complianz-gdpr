@@ -264,37 +264,6 @@ $this->fields = $this->fields + array(
 	);
 
 $this->fields = $this->fields + array(
-		'use_cdb_api' => array(
-			'step'      => STEP_COOKIES,
-			'section'   => 1,
-			'source'    => 'wizard',
-			'type'      => 'radio',
-			'required'  => true,
-			'default'   => '',
-			'options'   => $this->yes_no,
-			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),
-			'comment'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ",
-				'complianz-gdpr' )
-		. sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
-					'complianz-gdpr' ),
-					'<a target="_blank" href="https://cookiedatabase.org">', '</a>',
-					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement">',
-					'</a>' ),
-		),
-
-		'use_cdb_links' => array(
-			'step'      => STEP_COOKIES,
-			'section'   => 1,
-			'source'    => 'wizard',
-			'type'      => 'radio',
-			'required'  => false,
-			'default'   => '',
-			'options'   => $this->yes_no,
-			'condition' => array( 'use_cdb_api' => 'yes' ),
-			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org?", 'complianz-gdpr' ),
-			'tooltip'   => __("These links will be added with HTML attributes so it won't hurt SEO.", "complianz-gdpr"),
-		),
-
 		'cookie_scan' => array(
 			'step'     => STEP_COOKIES,
 			'section'  => 1,

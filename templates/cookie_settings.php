@@ -46,7 +46,7 @@
                 type="checkbox"
                 {isPersonalData}
         >
-        <div class="checkmark"><?php echo cmplz_icon('check', 'success') ?></div>
+        <div class="checkmark"><?php echo cmplz_icon('check', 'success', '', 10) ?></div>
     </label>
 
     <div class="{disabledClass}">
@@ -65,7 +65,7 @@
                 type="checkbox"
                 {sync}
         >
-        <div class="checkmark"><?php echo cmplz_icon('check', 'success') ?></div>
+        <div class="checkmark"><?php echo cmplz_icon('check', 'success', '', 10) ?></div>
     </label>
 
     <label class="cmplz-checkbox-container"><?php _e( 'Show cookie on Cookie Policy', 'complianz-gdpr' ) ?>
@@ -75,7 +75,7 @@
                 type="checkbox"
                 {showOnPolicy}
         >
-        <div class="checkmark"><?php echo cmplz_icon('check', 'success') ?></div>
+        <div class="checkmark"><?php echo cmplz_icon('check', 'success', '', 10) ?></div>
     </label>
 
 	<div>

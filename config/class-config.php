@@ -8,14 +8,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $fields = array();
 		public $steps = array();
 		public $formal_languages = array();
-
-		public $upgrade_cookies = array(
-				'yith_wcwl_products',
-			);
-
-		public $supported_regions;
-		//used to check if social media is used on site
-
+		public $supported_regions; //used to check if social media is used on site
 		public $thirdparty_services
 			= array(
 				'google-fonts'     => 'Google Fonts',
@@ -45,7 +38,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'linkedin'  => 'LinkedIn',
 				'whatsapp'  => 'WhatsApp',
 				'instagram' => 'Instagram',
-				'tiktok' 		=> 'TikTok',
+				'tiktok' 	=> 'TikTok',
 				'disqus'    => 'Disqus',
 				'pinterest' => 'Pinterest',
 			);

@@ -595,7 +595,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 	        if ( COMPLIANZ::$config->has_sections( $page, $step )) {
 
 		        for ($i = $this->first_section( $page, $step ); $i <= $this->last_section( $page, $step ); $i ++) {
-			        $icon = cmplz_icon('check', 'empty');
+			        $icon = cmplz_icon('check', 'empty', '', 10);
 
 			        if ( $this->section_is_empty( $page, $step, $i ) ) continue;
                     if ( $i < $this->get_next_not_empty_section( $page, $step, $i ) ) continue;
@@ -604,7 +604,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                     if ( $active == 'active' ) {
                         $icon = cmplz_icon('arrow-right', 'success');
                     } else if ($this->required_fields_completed( $page, $step, $i )) {
-                    	$icon = cmplz_icon('check', 'success');
+                    	$icon = cmplz_icon('check', 'success', '', 10);
                     }
 
                     $completed = ( $this->required_fields_completed( $page, $step, $i ) ) ? "cmplz-done" : "cmplz-to-do";

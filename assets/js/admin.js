@@ -1095,7 +1095,7 @@ jQuery(document).ready(function ($) {
 	var roc_progress = 0;
 	var btn = $('.cmplz_export_roc_to_csv');
 	$(document).on('click', '.cmplz_export_roc_to_csv', function(e){
-
+		e.preventDefault();
 		btn.html(roc_progress+' %');
 		btn.prop('disabled', true);
 		cmplzExportBatch();

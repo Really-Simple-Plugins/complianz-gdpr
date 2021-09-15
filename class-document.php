@@ -861,7 +861,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$value = cmplz_get_value( $fieldname, $post_id );
 
 			$front_end_label
-				= $type !== 'impressum' && isset( COMPLIANZ::$config->fields[ $fieldname ]['document_label'] )
+				= isset( COMPLIANZ::$config->fields[ $fieldname ]['document_label'] )
 				? COMPLIANZ::$config->fields[ $fieldname ]['document_label']
 				: false;
 
@@ -1632,7 +1632,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$data     = array(
 				'success' => !$error,
 				'new_button_text' => __("Update pages","complianz-gdpr"),
-				'icon' => cmplz_icon('check', 'success'),
+				'icon' => cmplz_icon('check', 'success', '', 10),
 			);
 			$response = json_encode( $data );
 			header( "Content-Type: application/json" );
@@ -1688,11 +1688,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
                                 if ( ! $current_page_id ) {
                                     $missing_pages = true;
                                     $title         = $page['title'];
-                                    $icon          = cmplz_icon('check', 'failed');
+                                    $icon          = cmplz_icon('check', 'failed', '', 10);
                                     $class         = 'cmplz-deleted-page';
                                 } else {
                                     $post          = get_post( $current_page_id );
-                                    $icon          = cmplz_icon('check', 'success');
+                                    $icon          = cmplz_icon('check', 'success', '', 10);
                                     $title         = $post->post_title;
                                     $class         = 'cmplz-valid-page';
                                 }

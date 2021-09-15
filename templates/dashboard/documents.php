@@ -73,45 +73,8 @@
 			}
 		}
 
-		if ( $region === 'all' ) {
-			$title = __("Terms and Conditions",'complianz-gdpr');
-			$status = 'disabled';
-			$shortcode_icon = cmplz_icon( 'shortcode', 'disabled' , __( 'Click to copy the document shortcode', 'complianz-gdpr' ));
-			$sync_icon = cmplz_icon('sync', 'disabled');
-			$page_exists = cmplz_icon('bullet', 'disabled');
-
-			$generated = '<a href="'.add_query_arg( array('s'=>'complianz+terms+conditions+stand-alone', 'tab'=>'search','type'=>'term'),  admin_url('plugin-install.php') ).'">'.__('Install', 'complianz-gdpr').'</a>';
-			if (class_exists('COMPLIANZ_TC') ) {
-				$page_id = COMPLIANZ_TC::$document->get_shortcode_page_id();
-				$shortcode = COMPLIANZ_TC::$document->get_shortcode( $force_classic = true );
-				$title = '<a href="' . get_permalink($page_id) . '">' . $title . '</a>';
-				$title .= '<div class="cmplz-selectable cmplz-shortcode" id="'.$type.'">' . $shortcode . '</div>';
-
-				if ($page_id) {
-					$generated = date( cmplz_short_date_format(), get_option( 'cmplz_tc_documents_update_date', get_option( 'cmplz_documents_update_date' ) ) );
-					$sync_status = COMPLIANZ_TC::$document->syncStatus( $page_id );
-					$status = $sync_status === 'sync' ? "success" : "disabled";
-					$sync_icon = cmplz_icon( 'sync', $status );
-					$page_exists = cmplz_icon('bullet', 'success');
-				} else {
-					$generated = '<a href="'.add_query_arg( array('page'=>'terms-conditions', 'step'=>3),  admin_url('admin.php') ).'">'.__('create', 'complianz-gdpr').'</a>';
-				}
-				$shortcode_icon = cmplz_icon( 'shortcode', $status , __( 'Click to copy the document shortcode', 'complianz-gdpr' ));
-				$shortcode_icon = '<span class="cmplz-copy-shortcode">' . $shortcode_icon . '</span>';
-			}
-
-			$args = array(
-					'status' => $status,
-					'title' => $title,
-					'page_exists' => $page_exists,
-					'sync_icon' => $sync_icon,
-					'shortcode_icon' => $shortcode_icon,
-					'generated' => $generated,
-			);
-			echo cmplz_get_template('dashboard/documents-row.php', $args);
-		}
-
 	}
+	do_action('cmplz_documents_overview', $region);
 
  	require_once( apply_filters('cmplz_free_templates_path', cmplz_path . 'templates/' ) .'dashboard/documents-conditional.php'); ?>
 </div>

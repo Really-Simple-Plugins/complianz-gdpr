@@ -164,11 +164,11 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			          && COMPLIANZ::$statistics->best_performing_cookiebanner()
 			             === $item['ID'] )
 			) {
-				$value = cmplz_icon('check', 'success');
+				$value = cmplz_icon('check', 'success', '', 10);
 			}
 		} elseif ( $column_name === 'default-banner' ) {
 			if ( $banner->default ) {
-				$value = cmplz_icon('check', 'success');
+				$value = cmplz_icon('check', 'success', '', 10);
 			}
 		} elseif ( $column_name === 'archive' ) {
 			if ( $banner->archived ) {

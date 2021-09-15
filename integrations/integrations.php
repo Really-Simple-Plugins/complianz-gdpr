@@ -640,7 +640,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 				<div
 						class="checkmark <?php echo $disabled ? 'cmplz-disabled' : '' ?>"
 						<?php checked( 1, $value, true ) ?>
-				><?php echo cmplz_icon('check', 'success'); ?></div>
+				><?php echo cmplz_icon('check', 'success', '', 10); ?></div>
 			</label>
 			<?php
 		}

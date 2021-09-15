@@ -281,7 +281,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->deleted               = $cookie->deleted;
 				$this->retention             = $cookie->retention;
 				$this->type                  = $cookie->type;
-				$this->isOwnDomainCookie       = $cookie->isOwnDomainCookie;
+				$this->isOwnDomainCookie     = $cookie->isOwnDomainCookie;
 				$this->cookieFunction        = $cookie->cookieFunction;
 				$this->purpose               = $cookie->purpose;
 				$this->isPersonalData        = $cookie->isPersonalData;

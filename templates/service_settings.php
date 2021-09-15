@@ -20,7 +20,7 @@
                 type="checkbox"
                 {sharesData}
         >
-        <div class="checkmark"><?php echo cmplz_icon('check', 'success') ?></div>
+        <div class="checkmark"><?php echo cmplz_icon('check', 'success', '', 10) ?></div>
     </label>
 
     <div class="{disabledClass}">
@@ -38,7 +38,7 @@
                 type="checkbox"
                 {sync}
         >
-        <div class="checkmark"><?php echo cmplz_icon('check', 'success') ?></div>
+        <div class="checkmark"><?php echo cmplz_icon('check', 'success', '', 10) ?></div>
     </label>
 
     <div>

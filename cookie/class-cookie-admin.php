@@ -254,21 +254,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function maybe_filter_consenttype( $consenttype, $region ) {
-			if ( $region === 'ca' && cmplz_site_shares_data()
-			     && cmplz_get_value( 'sensitive_information_processed' )
-			        === 'yes'
+			if ( $region === 'ca'
+				 && cmplz_site_shares_data()
+			     && cmplz_get_value( 'sensitive_information_processed' ) === 'yes'
 			) {
 				$consenttype = 'optin';
 			}
-
 			if ( $region === 'au'
 				 && cmplz_site_shares_data()
-			     && cmplz_get_value( 'sensitive_information_processed' )
+			     && cmplz_get_value( 'sensitive_information_processed' )==='yes'
 			     && cmplz_uses_marketing_cookies()
 			) {
 				$consenttype = 'optin';
 			}
-
 
 			return $consenttype;
 		}
@@ -530,9 +528,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$icons = '';
 
 			if ( $cookie->complete || $cookie->ignored ) {
-				$icons .= cmplz_icon( 'check', 'green', __( "The data for this cookie is complete", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'check', 'green', __( "The data for this cookie is complete", "complianz-gdpr" ), 10 );
 			} else {
-				$icons .= cmplz_icon( 'check', 'error', __( "This cookie has missing fields", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'check', 'error', __( "This cookie has missing fields", "complianz-gdpr" ), 10 );
 			}
 
 			if ( ! $cookie->sync ) {
@@ -650,9 +648,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$icons = '';
 
 			if ( $service->complete ) {
-				$icons .= cmplz_icon( 'check', 'green', __( "The data for this service is complete", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'check', 'green', __( "The data for this service is complete", "complianz-gdpr" ), 10 );
 			} else {
-				$icons .= cmplz_icon( 'check', 'error', __( "This service has missing fields", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'check', 'error', __( "This service has missing fields", "complianz-gdpr" ), 10 );
 			}
 
 			if ( ! $service->sync ) {
@@ -1273,12 +1271,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 			}
 
-			//now count the cookies
+			//now count the "EN" cookies
 			if ( isset($data['en']) ) {
-				foreach ( $data['en'] as $service => $cookies ) {
-					$count_all += is_array($cookies) ? count( $cookies ) : 0;
+				foreach ($data['en'] as $service => $cookies ){
+					$count_all += is_array($cookies) ? count($cookies) : 0;
 				}
 			}
+
 			$data['count']               = $count_all;
 			$data['thirdpartyCookies']   = $thirdparty_cookies;
 			$data['localstorageCookies'] = $localstorage_cookies;
@@ -3625,9 +3624,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 
 		public function use_cdb_api() {
-			$use_api = cmplz_get_value( 'use_cdb_api', false, false, false )
-			           === 'yes';
-
+			$use_api = cmplz_get_value( 'use_cdb_api', false, false, false ) === 'yes';
 			return apply_filters( 'cmplz_use_cdb_api', $use_api );
 		}
 

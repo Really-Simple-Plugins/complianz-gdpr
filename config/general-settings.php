@@ -33,6 +33,35 @@ $this->fields = $this->fields + array(
 			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 		),
 
+		'use_cdb_api' => array(
+			'source'   => 'settings',
+			'step'     => 'general',
+			'type'      => 'radio',
+			'required'  => true,
+			'default'   => 'yes',
+			'options'   => $this->yes_no,
+			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),
+			'help'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ",
+					'complianz-gdpr' ),
+			  'comment' => sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
+					'complianz-gdpr' ),
+					'<a target="_blank" href="https://cookiedatabase.org">', '</a>',
+					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement">',
+					'</a>' ),
+		),
+
+		'use_cdb_links' => array(
+			'source'   => 'settings',
+			'step'     => 'general',
+			'type'      => 'radio',
+			'required'  => false,
+			'default'   => 'yes',
+			'options'   => $this->yes_no,
+			'condition' => array( 'use_cdb_api' => 'yes' ),
+			'label'     => __( "Do you want to hyperlink cookie names so visitors can find more information on Cookiedatabase.org?", 'complianz-gdpr' ),
+			'tooltip'   => __("These links will be added with HTML attributes so it won't hurt SEO.", "complianz-gdpr"),
+		),
+
 		'high_contrast' => array(
 			'source'   => 'settings',
 			'step'     => 'general',
@@ -43,32 +72,6 @@ $this->fields = $this->fields + array(
 			'disabled' => false,
 			'default'  => false,
 		),
-
-
-        'blocked_content_text' => array(
-            'step'         => 'general',
-            'source'       => 'settings',
-            'type'         => 'text',
-            'translatable' => true,
-            'table'        => true,
-            'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-            'default'      => _x( 'Click to accept marketing cookies and enable this content', 'Accept cookies on blocked content', 'complianz-gdpr' ),
-            'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
-            'condition'    => array(
-                'disable_cookie_block' => false,
-            )
-        ),
-
-        'enable_cookieblocker_ajax' => array(
-            'step'     => 'general',
-            'source'   => 'settings',
-            'type'     => 'checkbox',
-            'label'    => __( "Enable cookie blocker for ajax loaded content", 'complianz-gdpr'),
-            'table'    => true,
-            'disabled' => false,
-            'default'  => false,
-						'tooltip'  => __( "When content is loaded with ajax, for example with a load more button or lightbox, this option could help blocking the service correctly", 'complianz-gdpr' ),
-        ),
 
 		'a_b_testing_duration' => array(
 			'source'    => 'settings',
@@ -81,16 +84,6 @@ $this->fields = $this->fields + array(
 			'condition' => array( 'a_b_testing' => true ),
 			'default'   => 30,
 		),
-
-        'disable_automatic_cookiescan' => array(
-            'source'  => 'settings',
-            'step'    => 'general',
-            'type'    => 'checkbox',
-            'default' => false,
-            'label'   => __("Disable the automatic cookie scan.","complianz-gdpr"),
-            'tooltip' => __( "You can disable the monthly automatic cookie scan here, and do only manual cookie scans.","complianz-gdpr"),
-            'table'   => true,
-        ),
 
         'use_document_css' => array(
             'step'    => 'general',
@@ -116,15 +109,13 @@ $this->fields = $this->fields + array(
             'step'               => 'general',
             'source'             => 'settings',
             'type'               => 'email',
-            'label'              => __( "Notification sender email address",
-                'complianz-gdpr' ),
+            'label'              => __( "Notification sender email address", 'complianz-gdpr' ),
             'default'            => false,
-            'tooltip'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.",
-                'complianz-gdpr' ),
+            'tooltip'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.", 'complianz-gdpr' ),
             'table'              => true,
             'help' => __( "Email address used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
             'callback_condition' => array(
-                'purpose_personaldata' => 'selling-data-thirdparty',
+                'cmplz_dnsmpi_required',
             ),
         ),
 		'notification_email_subject' => array(
@@ -138,7 +129,7 @@ $this->fields = $this->fields + array(
 			'table'              => true,
 			'tooltip' => __( "Subject used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
 			'callback_condition' => array(
-				'purpose_personaldata' => 'selling-data-thirdparty',
+				'cmplz_dnsmpi_required',
 			),
 		),
 
@@ -155,7 +146,7 @@ $this->fields = $this->fields + array(
 			'table'              => true,
 			'tooltip' => __( "Email content used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
 			'callback_condition' => array(
-				'purpose_personaldata' => 'selling-data-thirdparty',
+				'cmplz_dnsmpi_required',
 			),
 		),
 
@@ -179,14 +170,37 @@ $this->fields = $this->fields + array(
 			'type'      => 'checkbox',
 			'step'      => 'cookie-blocker',
 			'table'     => true,
-			'label'     => __( "Disable placeholder insertion",
-				'complianz-gdpr' ),
+			'label'     => __( "Disable placeholder insertion", 'complianz-gdpr' ),
 			'default'   => false,
-			'tooltip'      => __( "If you experience styling issues with videos or iFrames you can disable the placeholder insertion, which in some themes can conflict with theme styling.",
-				'complianz-gdpr' ),
+			'tooltip'      => __( "If you experience styling issues with videos or iFrames you can disable the placeholder insertion, which in some themes can conflict with theme styling.", 'complianz-gdpr' ),
 			'condition' => array(
 				'disable_cookie_block' => false,
 			),
+		),
+
+		'blocked_content_text' => array(
+			'step'      => 'cookie-blocker',
+			'source'       => 'settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'table'        => true,
+			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
+			'default'      => _x( 'Click to accept marketing cookies and enable this content', 'Accept cookies on blocked content', 'complianz-gdpr' ),
+			'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'condition'    => array(
+				'disable_cookie_block' => false,
+			)
+		),
+
+		'enable_cookieblocker_ajax' => array(
+			'step'      => 'cookie-blocker',
+			'source'   => 'settings',
+			'type'     => 'checkbox',
+			'label'    => __( "Enable cookie blocker for ajax loaded content", 'complianz-gdpr'),
+			'table'    => true,
+			'disabled' => false,
+			'default'  => false,
+			'tooltip'  => __( "When content is loaded with ajax, for example with a load more button or lightbox, this option could help blocking the service correctly", 'complianz-gdpr' ),
 		),
 
         'set_cookies_on_root' => array(
@@ -220,6 +234,16 @@ $this->fields = $this->fields + array(
                 'complianz-gdpr' ),
             'table'   => true,
         ),
+
+		'disable_automatic_cookiescan' => array(
+			'source'  => 'settings',
+			'step'    => 'cookie-blocker',
+			'type'    => 'checkbox',
+			'default' => false,
+			'label'   => __("Disable the automatic cookie scan.","complianz-gdpr"),
+			'tooltip' => __( "You can disable the monthly automatic cookie scan here, and do only manual cookie scans.","complianz-gdpr"),
+			'table'   => true,
+		),
 
         // -------------- Data -------------- //
 

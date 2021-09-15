@@ -78,9 +78,9 @@ class cmplz_tour {
 				),
 				array(
 					'title'  => __( "The Wizard", "complianz-gdpr" ),
-					'text'   => __( "This is where you configure your website for your specific region. It includes everything you need to get started. We will come back to the Wizard soon.", 'complianz-gdpr' ),
+					'text'   => __( "This is where everything regarding cookies is configured. We will come back to the Wizard soon.", 'complianz-gdpr' ),
 					'link'   => add_query_arg( array( "page" => "cmplz-wizard", "step" => STEP_COOKIES ), admin_url( "admin.php" ) ),
-					'attach' => '.use_cdb_api .cmplz-label',
+					'attach' => '.cookie_scan .cmplz-label',
 					'position' => 'bottom',
 				),
 				array(
