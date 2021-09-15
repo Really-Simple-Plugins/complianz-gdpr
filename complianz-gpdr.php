@@ -186,6 +186,10 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'grid/grid.php' );
 			}
 
+			if (is_admin() || wp_doing_cron() ) {
+				require_once( cmplz_path . 'upgrade.php' );
+			}
+
 			require_once( cmplz_path . 'proof-of-consent/class-proof-of-consent.php' );
 			require_once( cmplz_path . 'cookiebanner/class-cookiebanner.php' );
 			require_once( cmplz_path . 'cookie/class-cookie-admin.php' );
