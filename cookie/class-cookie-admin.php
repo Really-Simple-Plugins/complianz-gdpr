@@ -1274,10 +1274,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			//now count the cookies
-			foreach ($data['en'] as $service => $cookies ){
-				$count_all += count($cookies);
+			if ( isset($data['en']) ) {
+				foreach ( $data['en'] as $service => $cookies ) {
+					$count_all += is_array($cookies) ? count( $cookies ) : 0;
+				}
 			}
-
 			$data['count']               = $count_all;
 			$data['thirdpartyCookies']   = $thirdparty_cookies;
 			$data['localstorageCookies'] = $localstorage_cookies;

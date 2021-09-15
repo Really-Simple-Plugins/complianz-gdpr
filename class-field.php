@@ -1342,20 +1342,20 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 $value = $values[$field['fieldname']]; ?>
                 <div class="cmplz-color-picker-wrap">
 
-                <div class="cmplz-sublabel">
-                    <label for="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"><?php echo esc_html( $field['label'] ) ?></label>
-                </div>
+                    <div class="cmplz-sublabel">
+                        <label for="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"><?php echo esc_html( $field['label'] ) ?></label>
+                    </div>
 
-                <input type="hidden"
-                       name="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"
-                       id="<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>"
-                       value="<?php echo esc_html( $value ) ?>"
-                       class="cmplz-color-picker-hidden">
-                <input type="text"
-                       name="color_picker_container"
-                       data-hidden-input='<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>'
-                       value="<?php echo esc_html( $value ) ?>"
-                       class="cmplz-color-picker">
+                    <input type="hidden"
+                           name="<?php echo $fieldname . '[' . esc_html( $field['fieldname'] ) . ']' ?>"
+                           id="<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>"
+                           value="<?php echo esc_html( $value ) ?>"
+                           class="cmplz-color-picker-hidden">
+                    <input type="text"
+                           name="color_picker_container"
+                           data-hidden-input='<?php echo $fieldname . '_' . esc_html( $field['fieldname'] ) . '' ?>'
+                           value="<?php echo esc_html( $value ) ?>"
+                           class="cmplz-color-picker">
 
                 </div>
                 <?php
