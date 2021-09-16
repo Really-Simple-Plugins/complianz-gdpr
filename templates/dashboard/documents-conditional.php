@@ -1,4 +1,23 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
+
+if (!class_exists('COMPLIANZ_TC') ) {
+	$title = __("Terms and Conditions",'complianz-gdpr');
+	$status = 'disabled';
+	$shortcode_icon = cmplz_icon( 'shortcode', 'disabled' , __( 'Click to copy the document shortcode', 'complianz-gdpr' ));
+	$sync_icon = cmplz_icon('sync', 'disabled');
+	$page_exists = cmplz_icon('bullet', 'disabled');
+	$generated = '<a href="'.add_query_arg( array('s'=>'complianz+terms+conditions+stand-alone', 'tab'=>'search','type'=>'term'),  admin_url('plugin-install.php') ).'">'.__('Install', 'complianz-gdpr').'</a>';
+	$args = array(
+		'status' => $status,
+		'title' => $title,
+		'page_exists' => $page_exists,
+		'sync_icon' => $sync_icon,
+		'shortcode_icon' => $shortcode_icon,
+		'generated' => $generated,
+	);
+	echo cmplz_get_template('dashboard/documents-row.php', $args);
+}
+
 $docs = array(
 	'privacy-statement' => array(
 		'title' => __("Privacy Statements", "complianz-gdpr"),
