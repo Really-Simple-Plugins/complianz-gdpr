@@ -113,7 +113,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 
 		private function setup_constants() {
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			$plugin_data = get_plugin_data( __FILE__ );
+			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
 
 			define( 'CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/' );
 			define( 'CMPLZ_MAIN_MENU_POSITION', 40 );
