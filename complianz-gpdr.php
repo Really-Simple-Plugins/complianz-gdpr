@@ -112,9 +112,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		 */
 
 		private function setup_constants() {
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), false );
-
 			define( 'CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/' );
 			define( 'CMPLZ_MAIN_MENU_POSITION', 40 );
 			define( 'CMPLZ_PROCESSING_MENU_POSITION', 41 );
@@ -139,7 +136,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			define( 'cmplz_path', plugin_dir_path( __FILE__ ) );
 			define( 'cmplz_plugin', plugin_basename( __FILE__ ) );
 			$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? time() : '';
-			define( 'cmplz_version', $plugin_data['Version'] . $debug );
+			define( 'cmplz_version', '5.4.0' . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
 		}
 
