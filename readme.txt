@@ -8,10 +8,10 @@ Requires PHP: 5.6
 Tested up to: 5.8
 Stable tag: 5.4.0
 
-Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, LGPD, POPIA, APA, CCPA and PIPEDA.
+Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
 == Description ==
-Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, LGPD, POPIA, APA, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
+Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, LGPD, POPIA, APA, RGPD, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 
