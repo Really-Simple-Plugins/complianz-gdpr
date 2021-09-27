@@ -733,7 +733,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			                                      . '"' : '';
 
 			if (isset($element['p']) && !$element['p']) {
-				return $content;
+				return $content.'&nbsp;';
 			}
 			return "<p $class>" . $content . "</p>";
 		}
@@ -1270,6 +1270,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//clear shortcode transients after post update
 			add_action( 'save_post', array( $this, 'clear_shortcode_transients' ), 10, 1 );
 			add_action( 'cmplz_wizard_add_pages_to_menu', array( $this, 'wizard_add_pages_to_menu' ), 10, 1 );
+			add_action( 'cmplz_wizard_add_pages_to_menu_region_redirected', array( $this, 'wizard_add_pages_to_menu_region_redirected' ), 10, 1 );
 			add_action( 'cmplz_wizard_add_pages', array( $this, 'callback_wizard_add_pages' ), 10, 1 );
 			add_action( 'admin_init', array( $this, 'assign_documents_to_menu' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -1742,7 +1743,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			//this function is used as of 4.9.0
 			if ( ! function_exists( 'wp_get_nav_menu_name' ) ) {
-                echo '<div class="field-group cmplz-link-to-menu">';
+				echo '<div class="field-group cmplz-link-to-menu">';
                 echo '<div class="cmplz-field"></div>';
 				cmplz_sidebar_notice( __( 'Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.',
                     'complianz-gdpr' ), 'warning' );
@@ -1759,7 +1760,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
-			$regions = cmplz_get_regions( true );
+			$regions = cmplz_get_regions( true , true );
 
             echo '<div class="cmplz-field">';
             echo '<div class="cmplz-link-to-menu-table">';
@@ -1772,7 +1773,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						echo '<span>' . get_the_title( $page_id ) . '</span>';
 						?>
 
-						<select name="cmplz_assigned_menu[<?php echo $page_id ?>]">
+						<select name="cmplz_assigned_menu[default][<?php echo $page_id ?>]">
 							<option value=""><?php _e( "Select a menu", 'complianz-gdpr' ); ?></option>
 							<?php foreach ( $menus as $menu_id => $menu ) {
 								$selected = $this->is_assigned_this_menu($page_id, $menu_id) ? "selected" : "";
@@ -1791,6 +1792,102 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		}
 
 		/**
+		 *
+		 * Show form to enable user to add pages to a menu, region redirected
+		 *
+		 * @hooked field callback wizard_add_pages_to_menu_region_redirected
+		 * @since  1.0
+		 *
+		 */
+
+		public function wizard_add_pages_to_menu_region_redirected() {
+
+			//this function is used as of 4.9.0
+			if ( ! function_exists( 'wp_get_nav_menu_name' ) ) {
+                echo '<div class="field-group cmplz-link-to-menu-region">';
+                echo '<div class="cmplz-field"></div>';
+				cmplz_sidebar_notice( __( 'Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu.',
+                    'complianz-gdpr' ), 'warning' );
+                echo '</div>';
+				return;
+			}
+
+			//get list of menus
+			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
+			$mapping_array = COMPLIANZ::$config->generic_documents_list;
+			$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
+			if ( empty( $menus ) ) {
+				cmplz_notice( sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
+				return;
+			}
+			$page_types = $this->get_created_pages( false, true );
+			if ( cmplz_ccpa_applies() ) {
+				//if only us, and ccpa, the default cookie policy is a DNSMPI document, which should not get region redirected.
+				$regions = cmplz_get_regions();
+				unset($regions['us']);
+				if ( count($regions)==0 ) {
+					$key = array_search('cookie-statement', $page_types);
+					unset( $page_types[$key]);
+				}
+			}
+
+
+            echo '<div class="cmplz-field">';
+            echo '<div class="cmplz-link-to-menu-table">';
+			if ( count( $page_types ) > 0 ) {
+				foreach ( $page_types as $key => $page_type ) {
+					if (!$mapping_array[$page_type]['can_region_redirect']) {
+						continue;
+					}
+					//if ccpa, the DNSMPI page should always be added separately to the menu.
+					if ( !cmplz_ccpa_applies() || $page_type !== 'cookie-statement' ) {
+						unset($page_types[$key]);
+					}
+
+					echo '<span>' . $mapping_array[$page_type]['title'] . '</span>'; ?>
+					<select name="cmplz_assigned_menu[redirected][<?php echo $page_type ?>]">
+						<option value=""><?php _e( "Select a menu", 'complianz-gdpr' ); ?></option>
+						<?php foreach ( $menus as $menu_id => $menu ) {
+							$selected = $this->is_assigned_this_menu($page_type, $menu_id) ? "selected" : "";
+							echo "<option {$selected} value='{$menu_id}'>{$menu}</option>";
+						} ?>
+					</select>
+					<?php
+				}
+			}
+
+			//if not all pages were in the generic document list, these should not be region redirected.
+			if (count($page_types)>0){
+				foreach ($page_types as $page_type ) {
+					if ( cmplz_ccpa_applies() && $page_type === 'cookie-statement' ) {
+						$page_id = $this->get_shortcode_page_id('cookie-statement', 'us', false);
+					} else {
+						$page_id = $this->get_page_id_for_generic_document($page_type);
+					}
+
+					if ( $page_id ) {
+						echo '<span>' . get_the_title( $page_id ) . '</span>';
+						?>
+						<select name="cmplz_assigned_menu[redirected][<?php echo $page_id ?>]">
+							<option value=""><?php _e( "Select a menu", 'complianz-gdpr' ); ?></option>
+							<?php foreach ( $menus as $menu_id => $menu ) {
+								$selected = $this->is_assigned_this_menu($page_id, $menu_id) ? "selected" : "";
+								echo "<option {$selected} value='{$menu_id}'>{$menu}</option>";
+							} ?>
+						</select>
+						<?php
+					}
+				}
+			}
+
+
+            echo '</div>';
+			echo '</div>';
+
+
+		}
+
+		/**
 		 * Handle the submit of a form which assigns documents to a menu
 		 *
 		 * @hooked admin_init
@@ -1802,28 +1899,55 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 
-			if ( isset( $_POST['cmplz_assigned_menu'] ) ) {
-				foreach (
-					$_POST['cmplz_assigned_menu'] as $page_id => $menu_id
-				) {
-					if ( empty( $menu_id ) ) {
-						continue;
-					}
-					if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
-						continue;
-					}
-
-					$page = get_post( $page_id );
-
-					wp_update_nav_menu_item( $menu_id, 0, array(
-						'menu-item-title'     => get_the_title( $page ),
-						'menu-item-object-id' => $page->ID,
-						'menu-item-object'    => get_post_type( $page ),
-						'menu-item-status'    => 'publish',
-						'menu-item-type'      => 'post_type',
-					) );
-				}
+			if ( !isset( $_POST['cmplz_assigned_menu'] ) ) {
+			    return;
 			}
+
+			if ( isset($_POST['cmplz_region_redirect']) && $_POST['cmplz_region_redirect'] === 'yes' ) {
+			    $type = 'redirected';
+			} else {
+			    $type = 'default';
+			}
+
+			$this->clear_assigned_menu_items();
+
+			$assigned_menu = $_POST['cmplz_assigned_menu'][$type];
+
+            foreach (
+	            $assigned_menu as $page_id => $menu_id
+            ) {
+                if ( empty( $menu_id ) ) {
+                    continue;
+                }
+
+                if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
+                    continue;
+                }
+
+                if (is_numeric($page_id) ) {
+                    $page = get_post( $page_id );
+                    wp_update_nav_menu_item( $menu_id, 0, array(
+                            'menu-item-title'     => get_the_title( $page ),
+                            'menu-item-object-id' => $page->ID,
+                            'menu-item-object'    => get_post_type( $page ),
+                            'menu-item-status'    => 'publish',
+                            'menu-item-type'      => 'post_type',
+                    ) );
+
+                } else {
+	                $title = COMPLIANZ::$config->generic_documents_list[$page_id]['title'];
+                    $page_id = $this->get_page_id_for_generic_document( $page_id );
+                    $url = add_query_arg( array('cmplz_region_redirect'=> 'true'), get_permalink($page_id) );
+
+                    wp_update_nav_menu_item( $menu_id, 0, array(
+                            'menu-item-title'     => $title,
+                            'menu-item-object'    => 'object',
+                            'menu-item-status'    => 'publish',
+                            'menu-item-type'      => 'custom',
+                            'menu-item-url'       => $url,
+                    ) );
+                }
+            }
 		}
 
 
@@ -1837,27 +1961,34 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function pages_not_in_menu() {
 			//search in menus for the current post
-			$menus         = wp_list_pluck( wp_get_nav_menus(), 'name',
-				'term_id' );
-			$pages         = $this->get_created_pages();
+			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
 			$pages_in_menu = array();
+			$region_redirected = cmplz_get_value('region_redirect') === 'yes';
+			$pages = $this->get_created_pages(false , $region_redirected);
 
-			foreach ( $menus as $menu_id => $title ) {
+			if ( count( $pages ) > 0 ) {
+				foreach ( $pages as $page_id ) {
+					foreach ( $menus as $menu_id => $menu ) {
+						if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
+							$pages_in_menu[] = $page_id;
+						}
 
-				$menu_items = wp_get_nav_menu_items( $menu_id );
-				foreach ( $menu_items as $post ) {
-					if ( in_array( $post->object_id, $pages ) ) {
-						$pages_in_menu[] = $post->object_id;
 					}
 				}
-
 			}
+
 			$pages_not_in_menu = array_diff( $pages, $pages_in_menu );
 			if ( count( $pages_not_in_menu ) == 0 ) {
 				return false;
 			}
-
-			return $pages_not_in_menu;
+			if ($region_redirected){
+				$output = array_map( function($page_not_in_menu){
+					return  COMPLIANZ::$config->generic_documents_list[$page_not_in_menu]['title'];
+				}, $pages_not_in_menu);
+			} else {
+				$output = array_map('get_the_title', $pages_not_in_menu);
+			}
+			return $output;
 		}
 
 
@@ -1874,12 +2005,104 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function is_assigned_this_menu( $page_id, $menu_id ) {
-			$menu_items = wp_list_pluck( wp_get_nav_menu_items( $menu_id ),
-				'object_id' );
-
-			return ( in_array( $page_id, $menu_items ) );
-
+			if (!cmplz_user_can_manage()) return false;
+			if ( is_numeric($page_id) ) {
+				$menu_items = wp_list_pluck( wp_get_nav_menu_items( $menu_id ), 'object_id' );
+				return ( in_array( $page_id, $menu_items ) );
+			} else {
+				$page_id = $this->get_page_id_for_generic_document( $page_id );
+				$page = get_post($page_id);
+				//get only custom links
+				$menu_items = wp_get_nav_menu_items( $menu_id );
+				foreach ($menu_items as $key => $menu_item ) {
+					if ($menu_item->type!=='custom') {
+						unset($menu_items[$key]);
+					}
+				}
+				$menu_items = wp_list_pluck( $menu_items, 'url' );
+				foreach( $menu_items as $url ) {
+					if ( $page && strpos($url, $page->post_name) !== false && strpos( $url, 'cmplz_region_redirect') !== false ) {
+						return true;
+					}
+				}
+				return false;
+			}
 		}
+
+		/**
+		 * Currently not active, not doing anything without explicit user action
+		 *
+		 * After switching the region_redirect option, clean all previous menu items to start fresh.
+		 */
+		public function clear_assigned_menu_items(){
+			if (!cmplz_user_can_manage()) return;
+
+			//get all menus
+			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
+			$generic_documents = COMPLIANZ::$config->generic_documents_list;
+
+			//clean up non geo ip.
+			if ( cmplz_get_value('region_redirect') === 'yes' ) {
+				$regions = cmplz_get_regions( true );
+				foreach ( $regions as $region => $label ) {
+					$pages = $this->get_created_pages( $region );
+					foreach ( $pages as $page_id ) {
+						foreach ( $menus as $menu_id => $menu ) {
+							$menu_items = wp_get_nav_menu_items( $menu_id );
+							foreach ( $menu_items as $menu_item_id => $menu_item ) {
+								if ( $menu_item->object_id == $page_id ) {
+									wp_delete_post( $menu_item->ID );
+								}
+							}
+						}
+					}
+				}
+			}
+
+			//clean up geo ip items
+			if ( cmplz_get_value('region_redirect') === 'no' ) {
+				foreach ( $generic_documents as $type => $document ) {
+					foreach ( $menus as $menu_id => $menu ) {
+						$menu_items = wp_get_nav_menu_items( $menu_id );
+						$page_id = $this->get_page_id_for_generic_document( $type );
+						$page       = get_post( $page_id );
+
+						foreach ( $menu_items as $menu_item_id => $menu_item ) {
+							if ( $menu_item->type === 'custom' ) {
+								if ( strpos( $menu_item->url, $page->post_name ) !== false && strpos( $menu_item->url, 'cmplz_region_redirect' ) !== false ) {
+									wp_delete_post( $menu_item->ID );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/**
+         * For use in region redirect functionality only.
+         * We get the first page id for a page type
+         *
+		 * @param $type
+		 *
+		 * @return bool|int
+		 */
+		public function get_page_id_for_generic_document($type){
+			$regions = cmplz_get_regions( true );
+			//first, try the default region.
+			$default_region = COMPLIANZ::$company->get_default_region();
+			$detected_page_id = $this->get_shortcode_page_id( $type, $default_region );
+			//if not found, try all other regions.
+			if ( !$detected_page_id ) {
+				foreach ( $regions as $region => $label ) {
+					$detected_page_id = $this->get_shortcode_page_id( $type, $region );
+					if ($detected_page_id) {
+						break;
+					}
+				}
+			}
+			return $detected_page_id;
+        }
 
 		/**
 		 * Create a page of certain type in wordpress
@@ -2076,15 +2299,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		/**
 		 * Get list of all created pages with page id for current setup
-		 *
+		 * @param bool $filter_region
+		 * @param bool $get_type
 		 * @return array $pages
 		 *
 		 *
 		 */
 
-		public function get_created_pages( $filter_region = false ) {
+		public function get_created_pages( $filter_region = false, $get_type = false ) {
 			$required_pages = COMPLIANZ::$document->get_required_pages();
 			$pages          = array();
+			$types          = array();
 			if ( $filter_region ) {
 				if ( isset( $required_pages[ $filter_region ] ) ) {
 					foreach (
@@ -2092,20 +2317,26 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					) {
 						$page_id = $this->get_shortcode_page_id( $type, $filter_region , false);
 						if ($page_id) $pages[] = $page_id;
+						if ( $get_type ) $types[] = $type;
 					}
 				}
 			} else {
-				$regions = cmplz_get_regions();
+				$regions = cmplz_get_regions(true);
 				foreach ( $regions as $region => $label ) {
 					if (!isset($required_pages[ $region ])) continue;
 					foreach ( $required_pages[ $region ] as $type => $page ) {
 						$page_id = $this->get_shortcode_page_id( $type, $region, false);
 						if ($page_id) $pages[] = $page_id;
+						if ( $get_type ) $types[] = $type;
 					}
 				}
 			}
+			if ( $get_type ) {
+				return array_unique($types);
+			} else {
+				return $pages;
+			}
 
-			return $pages;
 		}
 
 
@@ -2448,8 +2679,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				 *
 				 * */
 				foreach ( $pages as $page ) {
-					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
-						true );
+					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode', true );
 					if ( $post_meta ) {
 						$html = $post_meta;
 					} else {
@@ -2461,10 +2691,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$matches )
 					) {
 						if ( $matches[1] === $type_region ) {
-
-							set_transient( "cmplz_shortcode_$type-$region",
-								$page->ID, HOUR_IN_SECONDS );
-
+							set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
 							return $page->ID;
 						}
 					}
@@ -2477,8 +2704,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				 * */
 
 				foreach ( $pages as $page ) {
-					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode',
-						true );
+					$post_meta = get_post_meta( $page->ID, 'cmplz_shortcode', true );
 					if ( $post_meta ) {
 						$html = $post_meta;
 					} else {
@@ -2487,12 +2713,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 					if ( has_shortcode( $html, $shortcode )
 					     && strpos( $html, 'type="' . $type . '"' ) !== false
-					     && strpos( $html, 'region="' . $region . '"' )
-					        !== false
+					     && strpos( $html, 'region="' . $region . '"' ) !== false
 					) {
-						set_transient( "cmplz_shortcode_$type-$region",
-							$page->ID, HOUR_IN_SECONDS );
-
+						set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
 						return $page->ID;
 					}
 				}

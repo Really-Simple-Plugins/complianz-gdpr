@@ -702,15 +702,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$available_cats['functional'] = __("Functional", "complianz-gdpr");
 
-			if (cmplz_consent_api_active() ) {
+			if ( cmplz_uses_preferences_cookies() ) {
 				$available_cats['preferences'] = __("Preferences", "complianz-gdpr");
 			}
 
-			if ( !COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+			if ( cmplz_get_value( 'compile_statistics' ) !== 'google-tag-manager' ) {
 				$available_cats['statistics'] = __( "Statistics", "complianz-gdpr" );
 			}
 
-			if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+			if ( cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ) {
 				$tm_cats = explode( ',', $this->tagmanager_categories_x );
 				foreach ( $tm_cats as $i => $tm_category ) {
 					if ( $i > 1 ) continue;
@@ -944,8 +944,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $use_cats) {
+					$output .= cmplz_uses_preferences_cookies() ?  $this->get_consent_checkbox( 'preferences',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
 
-					if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+					if ( cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ) {
 						$categories = explode( ',', $this->tagmanager_categories_x );
 						foreach ( $categories as $i => $category ) {
 							if ( empty( $category ) ) {
@@ -955,7 +956,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						}
 					}
 
-                    $output .= cmplz_uses_preferences_cookies() ?  $this->get_consent_checkbox( 'preferences',  $this->category_prefs_x , $context , $force_template, false, false, $force_color) : '';
                     $output .= cmplz_uses_statistic_cookies() ? $this->get_consent_checkbox( 'statistics',  $this->category_stats_x , $context , $force_template, false, false, $force_color) : '';
                     if ($uses_marketing_cookies) $output .= $this->get_consent_checkbox('marketing', $this->category_all_x, $context, $force_template, false, false, $force_color);
 				} else {
@@ -1108,7 +1108,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			) {
 				$output['categories'] = $this->get_consent_checkboxes();
 
-				if ( COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() ) {
+				if ( cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ) {
 					$output['tm_categories'] = true;
 					$categories = explode( ',', $this->tagmanager_categories_x );
 					$output['cat_num']    = count( $categories );

@@ -10,13 +10,7 @@ function cmplz_compile_statistics() {
 	}
 }
 
-add_action( 'cmplz_notice_share_data_other', 'cmplz_notice_share_data_other' );
-function cmplz_notice_share_data_other() {
-	if ( COMPLIANZ::$cookie_admin->site_shares_data()
-	) {
-		cmplz_sidebar_notice( __( "Complianz detected settings that suggest your site shares data, which means the answer should probably be Yes, or Limited", 'complianz-gdpr' ) );
-	}
-}
+
 
 function cmplz_notice_cookiedatabase_sync(){
 	if (!COMPLIANZ::$cookie_admin->use_cdb_api() ) {
@@ -37,23 +31,15 @@ function cmplz_notice_cookiedatabase_sync(){
 }
 add_action( 'cmplz_notice_cookiedatabase_sync', 'cmplz_notice_cookiedatabase_sync' );
 
-
 function cmplz_notice_stats_non_functional() {
-	if ( ! cmplz_manual_stats_config_possible() ) {
-		cmplz_sidebar_notice( __( "Your settings indicate you need consent for statistics. Remove your current statistics tracking, and configure it in Complianz",
-			'complianz-gdpr' ), 'warning' );
+	if ( get_option( 'cmplz_detected_stats_type' )
+		 || get_option( 'cmplz_detected_stats_data' )
+	) {
+		cmplz_sidebar_notice( __( "This field has been pre-filled based on the scan results.",
+				'complianz-gdpr' ) . "&nbsp;"
+					  . __( "Please make sure you remove your current implementation to prevent double statistics tracking.", 'complianz-gdpr' ) );
 	} else {
-		if ( get_option( 'cmplz_detected_stats_type' )
-		     || get_option( 'cmplz_detected_stats_data' )
-		) {
-			cmplz_sidebar_notice( __( "This field has been pre-filled based on the scan results.",
-					'complianz-gdpr' ) . "&nbsp;"
-			              . __( "Please make sure you remove your current implementation to prevent double statistics tracking.",
-					'complianz-gdpr' ) );
-		} else {
-			cmplz_sidebar_notice( __( 'If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.',
-				'intro cookie usage', 'complianz-gdpr' ) );
-		}
+		cmplz_sidebar_notice( __( 'If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz-gdpr' ) );
 	}
 }
 add_action( 'cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional' );
@@ -249,10 +235,15 @@ function cmplz_notice_add_pages_to_menu() {
 	$created_pages = COMPLIANZ::$document->get_created_pages();
 	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
 	if ( $pages_not_in_menu ) {
-		$docs = array_map( 'get_the_title', $pages_not_in_menu );
-		$docs = implode( ", ", $docs );
+		if ( cmplz_ccpa_applies() ) {
+			cmplz_sidebar_notice( sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
+					'complianz-gdpr' ),
+					cmplz_us_cookie_statement_title() ) );
+		}
+
+		$docs = implode( ", ", $pages_not_in_menu );
 		cmplz_sidebar_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
-				'The generated documents have not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+				'Not all generated documents have been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
 				'warning' );
 	} else {
@@ -262,50 +253,29 @@ function cmplz_notice_add_pages_to_menu() {
 		}
 	}
 
-	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
-	if ( $pages_not_in_menu ) {
-		if ( cmplz_ccpa_applies() ) {
-			cmplz_sidebar_notice( sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
-					'complianz-gdpr' ),
-					cmplz_us_cookie_statement_title() ) );
-		}
-	}
 }
 add_action( 'cmplz_notice_add_pages_to_menu', 'cmplz_notice_add_pages_to_menu' );
+add_action( 'cmplz_notice_add_pages_to_menu_region_redirected', 'cmplz_notice_add_pages_to_menu' );
 
 function cmplz_show_use_categories_notice() {
-	$tm_fires_scripts = cmplz_get_value( 'fire_scripts_in_tagmanager' )
-	                    === 'yes' ? true : false;
-	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' )
-	                    === 'google-tag-manager' ? true : false;
-	if ( $uses_tagmanager && $tm_fires_scripts ) {
-		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.',
-			'complianz-gdpr' ), 'warning' );
-
+	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
+	if ( $uses_tagmanager ) {
+		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration",
-				'complianz-gdpr' )
-		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
-			'warning' );
+		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' )
+		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
 add_action( 'cmplz_notice_use_categories', 'cmplz_show_use_categories_notice' );
 
 
 function cmplz_show_use_categories_optinstats_notice() {
-	$tm_fires_scripts = cmplz_get_value( 'fire_scripts_in_tagmanager' )
-	                    === 'yes' ? true : false;
-	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' )
-	                    === 'google-tag-manager' ? true : false;
-	if ( $uses_tagmanager && $tm_fires_scripts ) {
-		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.',
-			'complianz-gdpr' ), 'warning' );
-
+	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
+	if ( $uses_tagmanager ) {
+		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration",
-				'complianz-gdpr' )
-		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ),
-			'warning' );
+		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' )
+		    . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
 add_action( 'cmplz_notice_use_categories_optinstats', 'cmplz_show_use_categories_optinstats_notice' );

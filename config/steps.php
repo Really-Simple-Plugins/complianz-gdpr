@@ -107,6 +107,7 @@ $this->steps = array(
 					),
 					2 => array(
 						'title' => __( 'Link to menu', 'complianz-gdpr' ),
+						'intro' => __( 'It\'s possible to use region redirect when GEO IP is enabled, and you have multiple policies and statements.','complianz-gdpr' ).cmplz_read_more('https://complianz.io/how-to-redirect-your-policies-based-on-region/'),
 					),
 				),
 

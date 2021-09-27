@@ -152,8 +152,6 @@ add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_pro_sh
 function cmplz_wc_google_analytics_pro_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-	unset( $fields['googleads_id'] );
-	unset( $fields['ads_data_redaction'] );
 	return $fields;
 }
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_pro_filter_fields' );

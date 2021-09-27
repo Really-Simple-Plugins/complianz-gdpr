@@ -492,13 +492,20 @@ if ( ! class_exists( "cmplz_field" ) ) {
             echo $condition_question;
             echo $condition_answer;
 
-            echo '><div class="cmplz-field"><div class="cmplz-label">';
+            echo ' data-fieldname="'.$args['fieldname'].'"><div class="cmplz-field"><div class="cmplz-label">';
 		}
 
-		public function after_label(){
+		/**
+		 * @param array $args
+		 */
+		public function after_label( $args ){
 			?>
 			</div>
+
 			<?php
+			if ( $args['type'] === 'button' ) {
+				$this->get_comment( $args );
+			}
 		}
 
 		public function get_master_label( $args , $classes='') {
@@ -506,7 +513,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				return;
 			}
 			?>
-			<div class="cmplz-master-label field-group <?php echo $classes?>">
+			<div class="cmplz-master-label field-group <?php echo $classes?> <?php echo $args['fieldname']?>">
 				<div><h2><?php echo esc_html( $args['master_label'] ) ?></h2></div>
 			</div>
 			<?php
@@ -545,7 +552,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 		public function after_field( $args ) {
 
-			$this->get_comment( $args );
+			if ( $args['type'] !== 'button' ) {
+				$this->get_comment( $args );
+			}
 			echo '</div><!--close after field-->';
 			echo '<div class="cmplz-help-warning-wrap">';
 			if (  isset( $args['help'] ) ) {
@@ -880,7 +889,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="<?php echo esc_html( $fieldname ) ?>"
                                 value="<?php echo esc_html( $option_value ) ?>"
                             <?php if ( $value == $option_value ) echo "checked" ?>
-                        >
+							<?php echo $disabled?>
+						>
                         <div class="radiobtn <?php echo $disabled ?>"
                             <?php echo $required ?>
                         ><?php echo $check_icon ?></div>
@@ -1169,6 +1179,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 						if ( $invert ) {
 							$match = ! $match;
 						}
+
+
 						if ( ! $match ) {
 							return false;
 						}
@@ -1738,12 +1750,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		function button(
 			$args
 		) {
-			$fieldname = 'cmplz_' . $args['fieldname'];
 			if ( ! $this->show_field( $args ) ) {
 				return;
 			}
 
 			$red = isset($args['red']) && $args['red'] ? 'button-red' : '';
+			$button_label = isset($args['button_label']) ? $args['button_label'] : $args['label'];
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -1751,18 +1763,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			<?php if ( $args['post_get'] === 'get' ) { ?>
 				<a <?php if ( $args['disabled'] )
-					echo "disabled" ?>href="<?php echo $args['disabled']
-					? "#"
-					: admin_url( 'admin.php?page=cmplz-settings&action='
-					             . $args['action'] ) ?>"
-				   class="button"><?php echo esc_html( $args['label'] ) ?></a>
+					echo "disabled" ?> href="<?php echo $args['disabled'] ? "#" : $args['action']?>"
+				   class="button"><?php echo esc_html( $button_label ) ?></a>
 			<?php } else { ?>
 				<input <?php if ( $args['warn'] )
 					echo 'onclick="return confirm(\'' . $args['warn']
 					     . '\');"' ?> <?php if ( $args['disabled'] )
 					echo "disabled" ?> class="button <?php echo $red ?>" type="submit"
 				                       name="<?php echo $args['action'] ?>"
-				                       value="<?php echo esc_html( $args['label'] ) ?>">
+				                       value="<?php echo esc_html( $button_label ) ?>">
 			<?php } ?>
 
 			<?php do_action( 'complianz_after_field', $args ); ?>

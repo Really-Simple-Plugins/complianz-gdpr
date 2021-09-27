@@ -57,9 +57,6 @@ add_filter( 'cmplz_warning_types', 'cmplz_gadwp_filter_warnings' );
 function cmplz_gadwp_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-	unset( $fields['googleads_id'] );
-	unset( $fields['ads_data_redaction'] );
-
 	return $fields;
 }
 

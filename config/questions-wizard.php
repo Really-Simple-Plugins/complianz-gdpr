@@ -37,7 +37,7 @@ $this->fields = $this->fields + array(
 			'options'  => $this->supported_regions,
 			'label'    => __( "Which privacy law or guideline do you want to use as the default for your worldwide visitors?", 'complianz-gdpr' ),
 			'help'     => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr')
-											. cmplz_read_more( 'https://complianz.io/what-regions-do-i-target/' ),
+						. cmplz_read_more( 'https://complianz.io/what-regions-do-i-target/' ),
 
 			'comment'  => __( "The plugin will apply the above-selected region's settings to all visitors worldwide.",
 					'complianz-gdpr' ) . " "
@@ -283,22 +283,15 @@ $this->fields = $this->fields + array(
 			'required'                => true,
 			'default'                 => '',
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Do you compile statistics of this website?",
-				'complianz-gdpr' ),
+			'label'                   => __( "Do you compile statistics of this website?", 'complianz-gdpr' ),
 			'options'                 => array(
-				'yes-anonymous'      => __( 'Yes, anonymous',
-					'complianz-gdpr' ),
-				'yes'                => __( 'Yes, and the personal data is available to us',
-					'complianz-gdpr' ),
-				'google-analytics'   => __( 'Yes, with Google Analytics',
-					'complianz-gdpr' ),
-				'matomo'             => __( 'Yes, with Matomo',
-					'complianz-gdpr' ),
-					'clicky'             => __( 'Yes, with Clicky',
-						'complianz-gdpr' ),
-				'google-tag-manager' => __( 'Yes, with Google Tag Manager',
-					'complianz-gdpr' ),
-				'no'                 => __( 'No', 'complianz-gdpr' )
+				'google-tag-manager' => __( 'Yes, and Google Tag Manager fires this script', 'complianz-gdpr' ),
+				'google-analytics'   => __( 'Yes, with Google Analytics', 'complianz-gdpr' ),
+				'matomo'             => __( 'Yes, with Matomo', 'complianz-gdpr' ),
+				'clicky'             => __( 'Yes, with Clicky', 'complianz-gdpr' ),
+				'yandex'             => __( 'Yes, with Yandex', 'complianz-gdpr' ),
+				'yes'                => __( 'Yes, but not with any of the above services', 'complianz-gdpr' ),
+				'no'                 => __( 'No', 'complianz-gdpr' ),
 			),
 		),
 
@@ -309,13 +302,13 @@ $this->fields = $this->fields + array(
 			'type'                    => 'multicheckbox',
 			'revoke_consent_onchange' => true,
 			'default'                 => '',
-			'label'                   => __( "Regarding the previous question, can you give more information?", 'complianz-gdpr' ),
+			'label'                   => __( "Does the following apply to your website?", 'complianz-gdpr' ),
 			'options'                 => array(
 				'accepted'             => __( 'I have accepted the Google data processing amendment', 'complianz-gdpr' ),
 				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services', 'complianz-gdpr' ),
-				'ip-addresses-blocked' => __( 'Let Complianz anonymize IP addresses', 'complianz-gdpr' ),
+				'ip-addresses-blocked' => __( 'IP addresses are anonymized.', 'complianz-gdpr' ),
 			),
-			'help'                    => __( 'If you do not check to let Complianz anonymize IP addresses, the IP addresses will get collected as soon as the user consents to the category statistics or higher.', 'complianz-gdpr' )
+			'help'                    => __( 'If you select the option that IP addresses are anonymized, and let Complianz handle the statistics, Complianz will ensure that ip adresses are anonymized by default, unless consent is given for statistics.', 'complianz-gdpr' )
 			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-analytics',
@@ -329,37 +322,17 @@ $this->fields = $this->fields + array(
 			'type'                    => 'multicheckbox',
 			'revoke_consent_onchange' => true,
 			'default'                 => '',
-			'label'                   => __( "Regarding the previous question, can you give more information?",
-				'complianz-gdpr' ),
+			'label'                   => __( "Does the following apply to your website?", 'complianz-gdpr' ),
 			'options'                 => array(
-				'accepted'             => __( 'I have accepted the Google data processing amendment',
-					'complianz-gdpr' ),
-				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services',
-					'complianz-gdpr' ),
-				'ip-addresses-blocked' => __( 'Acquiring IP-addresses is blocked',
-					'complianz-gdpr' ),
+				'accepted'             => __( 'I have accepted the Google data processing amendment', 'complianz-gdpr' ),
+				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services', 'complianz-gdpr' ),
+				'ip-addresses-blocked' => __( 'Acquiring IP-addresses is blocked', 'complianz-gdpr' ),
 			),
-			'help'                    => __( 'With Tag Manager you can configure the selective firing of cookies in the Tag Manager dashboard.',
-					'complianz-gdpr' )
+			'help'                    => __( 'You can configure Google Tag Manager for Complianz, and, if applicable, adjust configuration for Google Analytics for GDPR and other opt-in based privacy laws.', 'complianz-gdpr' )
 			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-tag-manager-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-tag-manager',
 			),
-		),
-
-		'fire_scripts_in_tagmanager' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 2,
-			'source'                  => 'wizard',
-			'type'                    => 'radio',
-			'default'                 => '',
-			'revoke_consent_onchange' => true,
-			'options'                 => $this->yes_no,
-			'condition'               => array(
-				'compile_statistics' => 'google-tag-manager',
-			),
-			'label'                   => __( "Tag Manager fires scripts which place cookies", 'complianz-gdpr' ),
-			'help'                    => __( 'If you use Tag Manager to fire scripts on your site, Complianz will automatically enable categories.', 'complianz-gdpr' ),
 		),
 
 		'matomo_anonymized' => array(
@@ -386,7 +359,28 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
 			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/google-analytics' ),
-			'callback_condition' => 'cmplz_consent_required_for_anonymous_stats',
+		),
+
+		'script_center_button' => array(
+			'step'               => STEP_COOKIES,
+			'section'            => 3,
+			'source'             => 'wizard',
+			'type'               => 'button',
+			'post_get'           => 'get',
+			'action'             => add_query_arg( array( 'page'=>'cmplz-script-center'), admin_url( 'admin.php') ) .'#custom-scripts',
+			'default'            => 'yes',
+			'label'              => __( "Controlling your statistics script", 'complianz-gdpr' ),
+			'button_label'       => __( "Script Center", 'complianz-gdpr' ),
+			'options'            => $this->yes_no,
+			'callback_condition' => array(
+				'compile_statistics' => 'yes',
+			),
+			'condition' => array(
+				'consent_for_anonymous_stats' => 'yes',
+			),
+			'comment' => __( "Below you can choose to implement your statistics script with Complianz.", 'complianz-gdpr' ).'&nbsp;'.
+			             __( "We will add the needed snippets and control consent at the same time.", 'complianz-gdpr' ).
+						cmplz_read_more('https://complianz.io/integrating-plugins/'),
 		),
 
 		'configuration_by_complianz' => array(
@@ -395,22 +389,35 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'radio',
 			'default'            => 'yes',
-			'label'              => __( "Do you want Complianz to configure your statistics?", 'complianz-gdpr' ),
+			'label'              => sprintf(__( "Do you want Complianz to add %s to your website?", 'complianz-gdpr' ), cmplz_get_stats_tool_nice() ),
 			'options'            => array(
 				'yes'          => __( 'Yes', 'complianz-gdpr' ),
-				//'consent-mode' => __( 'Yes, enable Consent Mode.', 'complianz-gdpr' ),
 				'no'           => __( 'No', 'complianz-gdpr' ),
-			),
-			'disabled'  => array(
-				'no',
-				'consent-mode',
 			),
 			'callback_condition' => array(
 				'cmplz_complianz_can_configure_stats',
 			),
 			'tooltip'               => __( "It's recommended to let Complianz handle the statistics script. This way, the plugin can detect if it needs to be hooked into the cookie consent code or not. But if you have set it up yourself and don't want to change this, you can choose to do so.", 'complianz-gdpr' ),
 			'comment'               => __( "If you have selected non privacy friendly options in the previous step, configuration by Complianz is required.", 'complianz-gdpr' ),
-			//'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode'),
+		),
+
+		'consent-mode' => array(
+			'step'               => STEP_COOKIES,
+			'section'            => 3,
+			'source'             => 'wizard',
+			'type'               => 'radio',
+			'default'            => 'yes',
+			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ),
+			'options'            => array(
+				'yes'          => __( 'Yes', 'complianz-gdpr' ),
+				'no'           => __( 'No', 'complianz-gdpr' ),
+			),
+			'comment'  => __( "You can also enable Google Consent Mode.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
+			'disabled' => true,
+			'callback_condition' => array(
+				'compile_statistics' => 'google-tag-manager,google-analytics',
+			),
+			'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode'),
 		),
 
 		'UA_code' => array(
@@ -423,36 +430,12 @@ $this->fields = $this->fields + array(
 			'required'                => false,
 			'revoke_consent_onchange' => true,
 			'label'                   => __( "Enter your tracking-ID", 'complianz-gdpr' ),
+			'comment'                 => __( "Consent mode is only available for gtag.js and can't be used in combination with a UA code.", 'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
 			'condition'               => array(
-				'configuration_by_complianz' => 'consent-mode OR yes',
+				'configuration_by_complianz' => 'yes',
 			),
 			'tooltip'                 => __( "For the Google Analytics tracking-ID, log on and click Admin and copy the Tracking-ID.", 'complianz-gdpr' ),
-		),
-
-		'googleads_id' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 3,
-			'source'                  => 'wizard',
-			'type'                    => 'text',
-			'placeholder'             => 'AW-*',
-			'required'                => false,
-			'revoke_consent_onchange' => true,
-			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
-			'label'                   => __( "Optional: your Google Ads tracking ID", 'complianz-gdpr' ),
-			'condition'               => array( 'configuration_by_complianz' => 'consent-mode' ),
-		),
-
-		'ads_data_redaction' => array(
-			'step'               => STEP_COOKIES,
-			'section'            => 3,
-			'source'             => 'wizard',
-			'type'               => 'radio',
-			'default'            => 'yes',
-			'callback_condition' => array( 'compile_statistics' => 'google-analytics' ),
-			'label'              => __( "Do you want to redact all data for advertising purposes when consent is denied?", 'complianz-gdpr' ),
-			'options'            => $this->yes_no,
-			'condition'               => array( 'configuration_by_complianz' => 'consent-mode' ),
 		),
 
 		'GTM_code' => array(
@@ -463,7 +446,7 @@ $this->fields = $this->fields + array(
 			'default'                 => '',
 			'required'                => true,
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Google Tag Manager code", 'complianz-gdpr' ),
+			'label'                   => __( "Please enter your GTM container ID", 'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-tag-manager' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
 			'tooltip'                    => __( "For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.",
@@ -512,6 +495,35 @@ $this->fields = $this->fields + array(
 				'compile_statistics' => 'clicky',
 			),
 			'help'                    => __( "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/configuring-clicky-for-gdpr/' ),
+		),
+
+		'yandex_id' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'number',
+			'default'                 => '',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Enter your Yandex ID", 'complianz-gdpr' ),
+			'callback_condition'               => array(
+				'compile_statistics' => 'yandex',
+			),
+		),
+
+		'yandex_ecommerce' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'radio',
+			'default'                 => 'no',
+			'options'                 => $this->yes_no,
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Do you want to enable the Yandex ecommerce datalayer?", 'complianz-gdpr' ),
+			'callback_condition'               => array(
+				'compile_statistics' => 'yandex',
+			),
 		),
 
 		'uses_thirdparty_services' => array(
@@ -626,8 +638,8 @@ $this->fields = $this->fields + array(
 			'options'                 => $this->yes_no,
 			'default'                 => 'no',
 			'label'                   => __( "You have stated that you don't use third-party services. Do you use plugins that might set marketing cookies?", 'complianz-gdpr' ),
-			'tooltip'                    => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.", 'complianz-gdpr' ),
-			'condition'               =>array(
+			'tooltip'                 => __( "Complianz cannot automatically block first-party marketing cookies unless these plugins conform to the WP Consent API. Look for any possible integrations on our website if you're not sure. When you answer 'No' to this question, the marketing category will be removed.", 'complianz-gdpr' ),
+			'condition'               => array(
 				'uses_thirdparty_services' => 'no',
 			),
 		),
@@ -735,9 +747,7 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'time'               => 5,
 		),
-	);
 
-$this->fields = $this->fields + array(
 		'create_pages' => array(
 			'step'     => STEP_MENU,
 			'section'  => 1,
@@ -745,19 +755,48 @@ $this->fields = $this->fields + array(
 			'callback' => 'wizard_add_pages',
 			'label'    => '',
 		),
-	);
 
-$this->fields = $this->fields + array(
+		'region_redirect' => array(
+			'step'     => STEP_MENU,
+			'section'  => 2,
+			'type'     => 'radio',
+			'options'  => array(
+				'yes' => __("Yes, redirect based on GEO IP"),
+				'no' => __("No, choose a menu per document")
+			),
+			'disabled' => array(
+				'yes',
+			),
+			'default' => 'no',
+			'comment' =>  sprintf(__("GEO IP based redirect is available in %spremium%s", "complianz-gdpr"), '<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>'),
+			'source'   => 'wizard',
+			'label'    => __("Do you want to use region redirect on the relevant documents?"),
+			'help' =>  __( 'Did you know you can design a legal hub for your website?','complianz-gdpr' ).
+			           cmplz_read_more('https://complianz.io/creating-the-legal-hub/'),
+		),
+
 		'add_pages_to_menu' => array(
 			'step'     => STEP_MENU,
 			'section'  => 2,
 			'source'   => 'wizard',
 			'callback' => 'wizard_add_pages_to_menu',
 			'label'    => '',
+			'condition' => array(
+				'region_redirect' => 'no',
+			),
 		),
-	);
 
-$this->fields = $this->fields + array(
+		'add_pages_to_menu_region_redirected' => array(
+			'step'     => STEP_MENU,
+			'section'  => 2,
+			'source'   => 'wizard',
+			'callback' => 'wizard_add_pages_to_menu_region_redirected',
+			'label'    => '',
+			'condition' => array(
+				'region_redirect' => 'yes',
+			),
+		),
+
 		'finish_setup' => array(
 			'step'     => STEP_FINISH,
 			'source'   => 'wizard',

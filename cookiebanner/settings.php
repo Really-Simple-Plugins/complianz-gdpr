@@ -635,7 +635,7 @@ function cmplz_add_cookiebanner_settings($fields){
                 'condition'          => array( 'use_categories' => 'NOT no' ),
                 'callback_condition' => array(
                     'cmplz_uses_optin',
-                    'cmplz_consent_api_active',
+                    'cmplz_uses_preferences_cookies',
                 ),
             ),
 
@@ -716,9 +716,7 @@ function cmplz_add_cookiebanner_settings($fields){
 
                 'placeholder'        => __( 'Second category, Third category', 'complianz-gdpr' ),
                 'callback_condition' => array(
-                    'fire_scripts_in_tagmanager' => 'yes',
-                    'compile_statistics'         => 'google-tag-manager',
-                    'regions'                    => array( 'eu', 'uk', 'za' ),
+                    'compile_statistics' => 'google-tag-manager',
                 ),
                 'condition'          => array(
                     'use_categories' => 'NOT no',

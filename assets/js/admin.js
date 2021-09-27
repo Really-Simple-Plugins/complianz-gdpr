@@ -355,6 +355,7 @@ jQuery(document).ready(function ($) {
                 }
 
                 var container = $(this);
+                var fieldName = $(this).data("fieldname");
                 var conditionMet = false;
                 condition_answers.forEach(function (condition_answer) {
                     value = get_input_value(question);
@@ -377,21 +378,29 @@ jQuery(document).ready(function ($) {
                         //check if the index of the value is the condition, or, if the value is the condition
                         if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
                             container.removeClass("cmplz-hidden");
+							$('.'+fieldName).removeClass("cmplz-hidden");
+							// $(".condition-question-" + i).
                             //remove required attribute of child, and set a class.
                             if (input.hasClass('is-required')) input.prop('required', true);
                             //prevent further checks if it's an or/and statement
                             conditionMet = true;
                         } else {
 							container.addClass("cmplz-hidden");
-                            if (input.hasClass('is-required')) input.prop('required', false);
+							$('.'+fieldName).addClass("cmplz-hidden");
+
+							if (input.hasClass('is-required')) input.prop('required', false);
                         }
                     } else {
                         if (conditionMet || value.indexOf(condition_answer) != -1 || (value == condition_answer)) {
 							container.addClass("cmplz-hidden");
-                            if (input.hasClass('is-required')) input.prop('required', false);
+							$('.'+fieldName).addClass("cmplz-hidden");
+
+							if (input.hasClass('is-required')) input.prop('required', false);
                         } else {
 							container.removeClass("cmplz-hidden");
-                            if (input.hasClass('is-required')) input.prop('required', true);
+							$('.'+fieldName).removeClass("cmplz-hidden");
+
+							if (input.hasClass('is-required')) input.prop('required', true);
                             conditionMet = true;
                         }
                     }

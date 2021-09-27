@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'last-updated' => array(
-        'content' => '<i>' . sprintf('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the United Kingdom.', '[publish_date]') . '</i>',
+        'content' => '<i>' . sprintf('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the United Kingdom.', '[publish_date]') . '</i><br>',
     ),
     'introduction' => array(
         'title' => 'Introduction',

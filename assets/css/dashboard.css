@@ -35,9 +35,7 @@
    */
 }
 #cmplz-dashboard .cmplz-progress-warning-container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 126px auto 50px;
   grid-template-columns: 126px auto 50px;
 }
 #cmplz-dashboard .cmplz-progress-warning-container > div {
@@ -89,15 +87,9 @@
 #cmplz-dashboard .cmplz-sync-progress-bar {
   border-radius: 5px;
   background: #dadada;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: flex-start;
+  align-items: center;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   height: 20px;
   width: 100%;
@@ -105,10 +97,8 @@
 #cmplz-dashboard .cmplz-progress-bar .cmplz-progress-bar-value,
 #cmplz-dashboard .cmplz-sync-progress-bar .cmplz-progress-bar-value {
   border-radius: 5px;
-  -webkit-animation: cmplz-load-progress-bar 3s normal forwards;
-          animation: cmplz-load-progress-bar 3s normal forwards;
-  -webkit-box-shadow: 0 10px 40px -10px #fff;
-          box-shadow: 0 10px 40px -10px #fff;
+  animation: cmplz-load-progress-bar 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #fff;
   background: #61ce70;
   height: 20px;
   width: 0;
@@ -125,9 +115,7 @@
   font-size: 32px;
 }
 #cmplz-dashboard .cmplz-grid-progress {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 125px auto;
   grid-template-columns: 125px auto;
 }
 #cmplz-dashboard .cmplz-task {
@@ -144,9 +132,7 @@
   font-size: 13px;
 }
 #cmplz-dashboard .cmplz-document {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 160px 24px 24px 24px auto;
   grid-template-columns: 160px 24px 24px 24px auto;
   margin: 10px 0;
 }
@@ -158,7 +144,6 @@
   margin-top: 4px;
 }
 #cmplz-dashboard .cmplz-document.compact {
-  -ms-grid-columns: 190px auto;
   grid-template-columns: 190px auto;
 }
 #cmplz-dashboard .cmplz-document > div:not(:first-child) {
@@ -174,21 +159,16 @@
 }
 #cmplz-dashboard .cmplz-document.flags {
   margin-right: -10px;
-  -ms-grid-columns: 160px auto;
   grid-template-columns: 160px auto;
 }
 #cmplz-dashboard .cmplz-document.flags > div:not(:first-child) {
   margin-left: initial;
 }
 #cmplz-dashboard .cmplz-document.flags .cmplz-flags-container {
-  -ms-flex-line-pack: center;
-      align-content: center;
-  display: -ms-grid;
+  align-content: center;
   display: grid;
   grid-template-columns: repeat(auto-fit, 24px);
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   grid-gap: 0;
 }
 #cmplz-dashboard .cmplz-document h3 {
@@ -206,9 +186,7 @@
   margin-left: 10px;
 }
 #cmplz-dashboard .cmplz-tools-row {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 190px auto;
   grid-template-columns: 190px auto;
   margin: 10px 0;
 }

@@ -9,6 +9,7 @@
 
 .box-shadow-right {
   box-shadow: 5px 0 5px -5px rgba(222, 222, 222, 0.2);
+
 }
 
 .box-shadow-bottom {
@@ -16,6 +17,7 @@
 }
 
 .box-shadow-left {
+
   box-shadow: -5px 0 5px -5px rgba(222, 222, 222, 0.2);
 }
 
@@ -183,7 +185,7 @@
 	}
 	.cmplz-master-label {
 	  >div {
-		padding:@green-gap;
+		padding:0 @green-gap;
 		background-color: #fff;
 	  }
 	}
@@ -231,6 +233,9 @@
         grid-column-gap: @red-gap;
 
         .cmplz-field {
+		  .button {
+			margin-top:10px;
+		  }
           grid-column-start: 1;
 		  select {
 			font-size:13px;
@@ -2228,6 +2233,7 @@ input.current-page {
   display: none;
   opacity: 0;
   top: 20px;
+  height: 45px;
   position: fixed;
   background-color: #fff;
   z-index: 999999;

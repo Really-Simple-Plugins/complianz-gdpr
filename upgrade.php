@@ -32,36 +32,9 @@ function cmplz_check_upgrade() {
 		        == 1
 		) {
 			unset( $wizard_settings['thirdparty_services_on_site']['googlemaps'] );
-			$wizard_settings['thirdparty_services_on_site']['google-maps']
-				= 1;
-			update_option( 'complianz_options_wizard',
-				$wizard_settings );
+			$wizard_settings['thirdparty_services_on_site']['google-maps'] = 1;
+			update_option( 'complianz_options_wizard', $wizard_settings );
 		}
-
-		//migrate detected cookies
-
-		//upgrade only cookies from an accepted list.
-		$upgrade_cookies = COMPLIANZ::$config->upgrade_cookies;
-		$used_cookies    = cmplz_get_value( 'used_cookies' );
-		if ( ! empty( $used_cookies ) || is_array( $used_cookies ) ) {
-			foreach ( $used_cookies as $cookie ) {
-				if ( ! isset( $cookie['used_names'] ) ) {
-					continue;
-				}
-
-				$found_cookies = $cookie['used_names'];
-				$found_cookies = explode( ',', $found_cookies );
-				foreach ( $found_cookies as $name ) {
-					$cookie = new CMPLZ_COOKIE();
-					if ( in_array( $name, $upgrade_cookies ) ) {
-						$cookie->add( $name,
-							COMPLIANZ::$cookie_admin->get_supported_languages() );
-					}
-				}
-
-			}
-		}
-
 	}
 
 	/**
@@ -256,14 +229,6 @@ function cmplz_check_upgrade() {
 				$banner->save();
 			}
 		}
-	}
-
-	/**
-	 * new progress option default
-	 */
-
-	if (  $prev_version && version_compare( $prev_version, '4.6.10.1', '<' ) ){
-		if (get_option( 'cmplz_sync_cookies_complete' )) update_option( 'cmplz_sync_cookies_after_services_complete', true );
 	}
 
 	if (  $prev_version
@@ -556,33 +521,46 @@ function cmplz_check_upgrade() {
 	      && version_compare( $prev_version, '5.5.0', '<' )
 	) {
 		$wizard_settings = get_option( 'complianz_options_wizard' );
+		$share_data_us = $share_data_eu = 2;
 		if ( isset($wizard_settings['share_data_other_us']) ) {
-			$wizard_settings['share_data_other'] = $wizard_settings['share_data_other_us'];
-			$us_processors = isset($wizard_settings['processor_us'] ) ? $wizard_settings['processor_us'] : array();
-
-			$eu_processors = isset($wizard_settings['processor']) ? $wizard_settings['processor'] : array();
-			foreach ( $us_processors as $us_processor ) {
-				//check if it's already in the list
-				$key = array_search($us_processor['name'], array_column($eu_processors, 'name'));
-				if ( $key !== false ) unset($us_processors[ $key ]);
-			}
-			//now add the remaining values to the EU list
-			$eu_processors = array_merge($eu_processors, $us_processors);
-			$wizard_settings['processor'] = $eu_processors;
-
-			$us_thirdparties = isset($wizard_settings['thirdparty_us'] ) ? $wizard_settings['thirdparty_us'] : array();
-			$eu_thirdparties = isset($wizard_settings['thirdparty']) ? $wizard_settings['thirdparty'] : array();
-			foreach ( $us_thirdparties as $us_thirdparty ) {
-				//check if it's already in the list
-				$key = array_search($us_thirdparty['name'], array_column($eu_thirdparties, 'name'));
-				if ( $key !== false ) unset($us_thirdparties[ $key ]);
-			}
-			//now add the remaining values to the EU list
-			$eu_thirdparties = array_merge($eu_thirdparties, $us_thirdparties);
-			unset($wizard_settings['thirdparty_us']);
-			unset($wizard_settings['processor_us']);
-			$wizard_settings['thirdparty'] = $eu_thirdparties;
+			$share_data_us = intval($wizard_settings['share_data_other_us']);
 		}
+		if ( isset($wizard_settings['share_data_other']) ) {
+			$share_data_eu = intval($wizard_settings['share_data_other']);
+		}
+		//share data other parties: indien een van beide "yes", nieuwe yes. Indien een van beide limited, nieuwe "limited". anders no.
+		if ($share_data_us===1 || $share_data_eu ===1) {
+			$share_data = 1;
+		} else if ($share_data_us===3 || $share_data_eu ===3){
+			$share_data = 3;
+		} else {
+			$share_data = 2;
+		}
+		$wizard_settings['share_data_other'] = $share_data;
+		$us_processors = isset($wizard_settings['processor_us'] ) ? $wizard_settings['processor_us'] : array();
+		$eu_processors = isset($wizard_settings['processor']) ? $wizard_settings['processor'] : array();
+		foreach ( $us_processors as $us_processor ) {
+			//check if it's already in the list
+			$key = array_search($us_processor['name'], array_column($eu_processors, 'name'));
+			if ( $key !== false ) unset($us_processors[ $key ]);
+		}
+
+		//now add the remaining values to the EU list
+		$eu_processors = array_merge($eu_processors, $us_processors);
+		$wizard_settings['processor'] = $eu_processors;
+
+		$us_thirdparties = isset($wizard_settings['thirdparty_us'] ) ? $wizard_settings['thirdparty_us'] : array();
+		$eu_thirdparties = isset($wizard_settings['thirdparty']) ? $wizard_settings['thirdparty'] : array();
+		foreach ( $us_thirdparties as $us_thirdparty ) {
+			//check if it's already in the list
+			$key = array_search($us_thirdparty['name'], array_column($eu_thirdparties, 'name'));
+			if ( $key !== false ) unset($us_thirdparties[ $key ]);
+		}
+		//now add the remaining values to the EU list
+		$eu_thirdparties = array_merge($eu_thirdparties, $us_thirdparties);
+		$wizard_settings['thirdparty'] = $eu_thirdparties;
+		unset($wizard_settings['thirdparty_us']);
+		unset($wizard_settings['processor_us']);
 
 		update_option( 'complianz_options_wizard', $wizard_settings );
 	}

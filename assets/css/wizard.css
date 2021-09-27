@@ -12,7 +12,6 @@
   box-shadow: -5px 0 5px -5px rgba(222, 222, 222, 0.2);
 }
 .all {
-  color:blue;
   box-shadow: 0 0 5px #333;
 }
 /**
@@ -155,7 +154,7 @@
   margin-top: 1em;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-master-label > div {
-  padding: 20px;
+  padding: 0 20px;
   background-color: #fff;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-form {
@@ -201,6 +200,9 @@
 }
 #cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field {
   grid-column-start: 1;
+}
+#cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field .button {
+  margin-top: 10px;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field select {
   font-size: 13px;
@@ -2126,6 +2128,7 @@ input.current-page {
   display: none;
   opacity: 0;
   top: 20px;
+  height: 45px;
   position: fixed;
   background-color: #fff;
   z-index: 999999;

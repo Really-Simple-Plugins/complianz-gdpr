@@ -32,10 +32,9 @@ function cmplz_filter_integrations_field_types( $fields ) {
 				'type'                    => 'javascript',
 				'default'                 => '',
 				'revoke_consent_onchange' => true,
-				'label'                   => __( "Statistics script",
-					'complianz-gdpr' ),
+				'label'                   => __( "Statistics script", 'complianz-gdpr' ),
 				'callback_condition'      => array(
-					'compile_statistics' => 'NOT google-analytics,NOT matomo,NOT google-tag-manager,NOT no,NOT yes-anonymous',
+					'compile_statistics' => 'NOT google-analytics,NOT matomo,NOT google-tag-manager,NOT no',
 				),
 				'table'                   => true,
 			),

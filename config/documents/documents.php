@@ -1,5 +1,27 @@
 <?php
 defined('ABSPATH') or die("you do not have access to this page!");
+$this->generic_documents_list = array(
+	'cookie-statement' => array(
+		'can_region_redirect' => true,
+		'title' => __("Cookie Policy", "complianz-gdpr")
+	),
+	'privacy-statement' =>  array(
+		'can_region_redirect' => true,
+		'title' => __("Privacy Statement", "complianz-gdpr"),
+	),
+	'privacy-statement-children' =>  array(
+		'can_region_redirect' => true,
+		'title' => __("Privacy Statement for Children", "complianz-gdpr"),
+	),
+	'impressum' =>  array(
+		'can_region_redirect' => false,
+		'title' => __("Impressum", "complianz-gdpr"),
+	),
+	'disclaimer' =>  array(
+		'can_region_redirect' => false,
+		'title' => __("Disclaimer", "complianz-gdpr"),
+	),
+);
 
 $this->pages = array(
 	'eu' => array(

@@ -8,7 +8,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $fields = array();
 		public $steps = array();
 		public $formal_languages = array();
-		public $supported_regions; //used to check if social media is used on site
+		public $generic_documents_list;
+
+		public $supported_regions;
+
 		public $thirdparty_services
 			= array(
 				'google-fonts'     => 'Google Fonts',
@@ -48,6 +51,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'google-analytics'   => 'Google Analytics',
 				'google-tag-manager' => 'Tag Manager',
 				'matomo'             => 'Matomo',
+				'clicky'             => 'Clicky',
 			);
 
 		/**
@@ -163,6 +167,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				),
 				'matomo' => array( 'piwik.js', 'matomo.js' ),
 				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
+				'yandex' => array( 'mc.yandex.ru/metrika/watch.js' ),
 			);
 
 
@@ -454,27 +459,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function load_warning_types() {
 			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
 
-				'upgraded_to_five' => array(
-					'warning_condition' => 'cmplz_upgraded_to_five',
-					'open' => __( 'Complianz GDPR/CCPA 5.0. Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-0/'),
-					'plus_one' => true,
-					'include_in_progress' => false,
-				),
-
-				'new_brasil' => array(
+				'upgraded_to_fivefive' => array(
 					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'We have added a new region: Brazil. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/brazil/'),
+					'open' => __( 'Complianz GDPR/CCPA 5.5. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-5/'),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
-				// Keep for 6.0
-
-				// 'upgrade_to_six' => array(
-				// 	'warning_condition' => 'wizard->wizard_completed_once',
-				// 	'open' => __( 'Complianz 6.0 is coming soon! Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),
-				// 	'plus_one' => true,
-				// 	'include_in_progress' => false,
-				// ),
 
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
@@ -483,15 +473,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'completed'    => __( 'The wizard has been completed.', 'complianz-gdpr' ),
 					'urgent' => __( 'Not all fields have been entered, or you have not clicked the "finish" button yet.', 'complianz-gdpr' ),
 					'plus_one' => true,
-					'include_in_progress' => true,
-				),
-
-				'complianz-gdpr-feature-update' => array(
-					'plus_one' => true,
-					'success_conditions' => array(
-						'NOT admin->complianz_plugin_has_new_features' //completed when no new features
-					),
-					'open' => __( 'The Complianz plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz-gdpr' ),
 					'include_in_progress' => true,
 				),
 

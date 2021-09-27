@@ -104,8 +104,6 @@ add_action( 'cmplz_before_statistics_script', 'monsterinsights_tracking_script',
 function cmplz_monsterinsights_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-	unset( $fields['googleads_id'] );
-	unset( $fields['ads_data_redaction'] );
 	return $fields;
 }
 

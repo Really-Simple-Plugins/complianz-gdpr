@@ -1961,17 +1961,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$classes[]       = 'cmplz-stats';
 			$uses_tagmanager = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
 
-			if ( $uses_tagmanager ) {
-				if ( ! $this->tagmamanager_fires_scripts()
-				     && ! $this->cookie_warning_required_stats()
-				) {
-					$classes[] = 'cmplz-native';
-				}
-			} else {
+			if ( !$uses_tagmanager ) {
 				//if no cookie warning is needed for the stats specifically, we can move this out of the warning code by adding the native class
 				if ( ! $this->cookie_warning_required_stats() ) {
 					$classes[] = 'cmplz-native';
 				}
+			}
+
+			/*
+			 * Run Tag Manager or gtag by default if consent mode is enabled
+			 */
+			if ( cmplz_consent_mode() ) {
+				$classes[] = 'cmplz-native';
 			}
 
 			return apply_filters( 'cmplz_statistics_script_classes', $classes );
@@ -2081,9 +2082,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
-			$is_gtag = $statistics === 'google-analytics' && strlen( $gtag_code ) > 0 && substr( $gtag_code, 0, 1 ) === 'G';
-			$is_consent_mode = cmplz_get_value('configuration_by_complianz') === 'consent-mode';
-			if ( $is_gtag || $is_consent_mode ) {
+			if ( $statistics === 'google-analytics' ) {
 				$classes = $this->get_statistics_script_classes();
 				?>
 				<script async class="<?php echo implode( " ", $classes ) ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php
@@ -2136,7 +2135,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			if ( $statistics === 'google-tag-manager' ) {
-				$script = cmplz_get_template( 'google-tag-manager.js' );
+				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
+				$script = cmplz_get_template( "google-tag-manager$consent_mode.js" );
 				$script = str_replace( '{GTM_code}', esc_attr( cmplz_get_value( "GTM_code" ) ), $script );
 				echo apply_filters( 'cmplz_script_filter', $script );
 			}
@@ -2155,50 +2155,29 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
-			$consent_mode = cmplz_get_value( 'configuration_by_complianz' )==='consent-mode';
 			$script     = '';
-			if ( $statistics === 'google-analytics' && !$consent_mode ) {
+			if ( $statistics === 'google-analytics' ) {
+				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
-				if ( strlen( $code ) > 0 && substr( $code, 0, 1 ) === 'G' ) {
-					$script = cmplz_get_template( 'gtag.js' );
-					$script = str_replace( '{G_code}', $code, $script );
-					$script = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
-				} else {
-					$script = cmplz_get_template( 'google-analytics.js' );
-					$script = str_replace( '{UA_code}', $code, $script );
-					$script = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
-				}
-			} elseif ($statistics === 'google-analytics' && $consent_mode) {
-				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
-				$ads_data_redaction = cmplz_get_value('ads_data_redaction') === 'yes';
-				$default_statistics_consent = 'denied';
-				$anonymize_ip = "";
-				$googleads_id_code = "";
-				if ($this->google_analytics_always_block_ip()){
-					$anonymize_ip = "'anonymizeIp': true";
-					if ( cmplz_get_value('consent_for_anonymous_stats') !== 'yes'){
-						$default_statistics_consent = 'granted';
-					}
-				}
-				$googleads_id = cmplz_get_value('googleads_id');
-				if ( !empty( $googleads_id )) {
-					$googleads_id_code = "gtag( 'config', '$googleads_id' );";
-				}
-				$script = cmplz_get_template( 'consent-mode.js' );
-				$script = str_replace( array( '{UA_code}', '{anonymize_ip}','{ads_data_redaction}','{default_statistics_consent}','{googleads_id}' ), array($code, $anonymize_ip, $ads_data_redaction, $default_statistics_consent, $googleads_id_code), $script );
-
+				$script       = cmplz_get_template( "gtag$consent_mode.js" );
+				$script       = str_replace( '{G_code}', $code, $script );
+				$script       = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
 			} elseif ( $statistics === 'matomo' ) {
 				$script = cmplz_get_template( 'matomo.js' );
-				$script = str_replace( '{site_id}',
-					esc_attr( cmplz_get_value( 'matomo_site_id' ) ), $script );
-				$script = str_replace( '{matomo_url}',
-					esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_url' ) ) ),
-					$script );
+				$script = str_replace( '{site_id}', esc_attr( cmplz_get_value( 'matomo_site_id' ) ), $script );
+				$script = str_replace( '{matomo_url}', esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_url' ) ) ), $script );
 			} elseif ( $statistics === 'clicky' ) {
 				$script = cmplz_get_template( 'clicky.js' );
-				$script = str_replace( '{site_ID}',
-				esc_attr( cmplz_get_value( 'clicky_site_id' ) ), $script );
+				$script = str_replace( '{site_ID}', esc_attr( cmplz_get_value( 'clicky_site_id' ) ), $script );
+			} elseif ( $statistics === 'yandex' ) {
+				$script = cmplz_get_template( 'yandex.js' );
+				$data_layer = cmplz_get_value('yandex_ecommerce') === 'yes';
+				$data_layer_str = '';
+				if ($data_layer) {
+					$data_layer_str = 'ecommerce:"dataLayer"';
+				}
+				$script = str_replace( '{yandex_id}','{ecommerce}', esc_attr( cmplz_get_value( 'yandex_id' ), $data_layer_str ), $script );
 			}
 			echo apply_filters( 'cmplz_script_filter', $script );
 		}
@@ -2369,6 +2348,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						     || preg_match_all( '/piwik\.js/', $html ) > 1
 						     || preg_match_all( '/matomo\.js/', $html ) > 1
 						     || preg_match_all( '/getclicky\.com\/js/', $html ) > 1
+						     || preg_match_all( '/mc\.yandex\.ru\/metrika\/watch\.js/', $html ) > 1
 						) {
 							update_option( 'cmplz_double_stats', true );
 						} else {
@@ -2508,6 +2488,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					cmplz_update_option( 'wizard', 'compile_statistics', 'clicky' );
 				}
 			}
+
+			if ( strpos( $html, 'mc.yandex.ru/metrika/watch.js' ) !== false ) {
+				update_option( 'cmplz_detected_stats_type', true );
+
+				$pattern = '/w.yaCounter([0-9]{1,10}) = new/i';
+				preg_match( $pattern, $html, $matches );
+				if ( $matches && isset( $matches[1] ) ) {
+					cmplz_update_option( 'wizard', 'yandex_id', intval( $matches[1] ) );
+					update_option( 'cmplz_detected_stats_data', true );
+					cmplz_update_option( 'wizard', 'compile_statistics', 'yandex' );
+				}
+			}
+
 		}
 
 
@@ -2629,7 +2622,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					'public' => true,
 				);
 				$post_types = get_post_types( $args );
-
 				unset( $post_types['elementor_font'] );
 				unset( $post_types['attachment'] );
 				unset( $post_types['revision'] );
@@ -2642,6 +2634,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				unset( $post_types['cookie'] );
 				unset( $post_types['cmplz-dataleak'] );
 				unset( $post_types['cmplz-processing'] );
+				$post_types = apply_filters('cmplz_cookiescan_post_types',$post_types );
 
 				$posts = array();
 				foreach ( $post_types as $post_type ) {
@@ -3788,7 +3781,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 * user can override detected settings in wizard
 			 */
 
-			if ( $this->consent_required_for_anonymous_stats() && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes' ) {
+			if ( cmplz_consent_required_for_anonymous_stats() && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes' ) {
 				return true;
 			}
 
@@ -3808,23 +3801,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//not stats required if privacy friendly
 			return apply_filters( 'cmplz_cookie_warning_required_stats', ! $privacy_friendly );
-		}
-
-		/**
-		 * Check if consent is required for anonymous statistics
-		 *
-		 * @return bool
-		 */
-
-		public function consent_required_for_anonymous_stats() {
-			if ( ! cmplz_has_region( 'eu' ) ) {
-				return false;
-			}
-			$uses_google = $this->uses_google_analytics() || $this->uses_google_tagmanager();
-
-			return $uses_google
-				   && ( cmplz_get_value( 'eu_consent_regions' ) === 'yes' )
-				   && $this->statistics_privacy_friendly();
 		}
 
 		/**
@@ -3870,13 +3846,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return false;
 			}
 
-			if ( $statistics === 'yes-anonymous' ) {
-				return true;
-			}
-
-			$tagmanager = ( $statistics === 'google-tag-manager' ) ? true : false;
-			$matomo = ( $statistics === 'matomo' ) ? true : false;
-			$google_analytics = ( $statistics === 'google-analytics' ) ? true : false;
+			$tagmanager                                = $statistics === 'google-tag-manager';
+			$matomo                                    = $statistics === 'matomo';
+			$google_analytics                          = $statistics === 'google-analytics';
 			$accepted_google_data_processing_agreement = false;
 			$ip_anonymous                              = false;
 			$no_sharing                                = false;
@@ -3926,27 +3898,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return false;
 		}
 
-
-		/**
-		 * Check if Google Tag Manager is configured to fire scripts, managed remotely
-		 *
-		 *
-		 * */
-
-		public function tagmamanager_fires_scripts() {
-
-			if ( ! $this->uses_google_tagmanager() ) {
-				return false;
-			}
-
-			$tm_fires_scripts
-				= ( cmplz_get_value( 'fire_scripts_in_tagmanager' ) === 'yes' )
-				? true : false;
-
-			return $tm_fires_scripts;
-		}
-
-
 		/**
 		 * Check if this website shares data with third parties, used for recommendations, cookiebanner check and canada policies
 		 *
@@ -3960,7 +3911,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return true;
 			}
 
-			if ( $this->tagmamanager_fires_scripts() ) {
+			if ( $this->uses_google_tagmanager() ) {
 				return true;
 			}
 
@@ -4033,7 +3984,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 		public function uses_non_functional_cookies() {
-			if ( $this->tagmamanager_fires_scripts() ) {
+			if ( $this->uses_google_tagmanager() ) {
 				return true;
 			}
 

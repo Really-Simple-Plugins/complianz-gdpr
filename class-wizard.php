@@ -138,7 +138,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				WP_Privacy_Policy_Content::text_change_check();
 			}
 
-			COMPLIANZ::$admin->reset_complianz_plugin_has_new_features();
 			COMPLIANZ::$cookie_admin->reset_plugins_changed();
 			COMPLIANZ::$cookie_admin->reset_cookies_changed();
 			COMPLIANZ::$cookie_admin->reset_plugins_updated();
@@ -196,18 +195,14 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			$enable_categories = false;
-			$tm_fires_scripts  = cmplz_get_value( 'fire_scripts_in_tagmanager' ) === 'yes' ? true : false;
 			$uses_tagmanager   = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
 
 			/* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
-			if ( ( $fieldname === 'fire_scripts_in_tagmanager' )
-			     && $uses_tagmanager
-			     && $tm_fires_scripts
+			if ( $fieldname === 'compile_statistics' && $fieldvalue === 'google-tag-manager'
 			) {
 				$enable_categories = true;
 			}
 
-			/* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
 			if ( ( $fieldname === 'consent_for_anonymous_stats' )
 			     && $fieldvalue === 'yes'
 			) {
@@ -218,7 +213,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( ( $fieldname == 'a_b_testing' && $fieldvalue === true
 			       && $prev_value == false )
 			) {
-				if ( $uses_tagmanager && $tm_fires_scripts ) {
+				if ( $uses_tagmanager ) {
 					$enable_categories = true;
 				}
 			}

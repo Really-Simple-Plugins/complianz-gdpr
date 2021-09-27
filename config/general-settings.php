@@ -178,6 +178,57 @@ $this->fields = $this->fields + array(
 			),
 		),
 
+		'placeholder_style' => array(
+			'source'    => 'settings',
+			'type'      => 'select',
+			'options'   => array(
+				'minimal' => __("Default",'complianz-gdpr'),
+				'light' => __("Light",'complianz-gdpr'),
+				'color' => __("Full Color",'complianz-gdpr'),
+				'dark' => __("Dark Mode",'complianz-gdpr'),
+				'custom' => __("Custom",'complianz-gdpr'),
+			),
+			'disabled' => array(
+				'light',
+				'color',
+				'dark',
+				'custom',
+			),
+			'step'      => 'cookie-blocker',
+			'table'     => true,
+			'label'     => __( "Placeholder style", 'complianz-gdpr' ),
+			'default'   => 'minimal',
+			'tooltip'      => __( "You can choose your favorite placeholder style here.", 'complianz-gdpr' ),
+			'comment'      => __( "You can change your placeholders manually or use Premium to do it for you.", 'complianz-gdpr' ).
+			                  cmplz_read_more('https://complianz.io/changing-the-default-social-placeholders/'),
+			'condition' => array(
+				'disable_cookie_block' => false,
+			),
+		),
+
+		'google-maps-format' => array(
+			'source'    => 'settings',
+			'type'      => 'select',
+			'options'   => array(
+				'1280x920' => "1280 x 920",
+				'1280x500' => "1280 x 500",
+				'500x500' => "500 x 500",
+				'custom' => __("Custom",'complianz-gdpr'),
+			),
+			'step'      => 'cookie-blocker',
+			'table'     => true,
+			'label'     => __( "Google Maps placeholder format", 'complianz-gdpr' ),
+			'default'   => '1280x920',
+			'tooltip'      => __( "Select the optimal Google Maps placeholder ratio for your site.", 'complianz-gdpr' ),
+			'condition' => array(
+				'disable_cookie_block' => false,
+			),
+			'callback_condition' => array(
+				'thirdparty_services_on_site' => 'google-maps',
+			),
+			'comment'=> __( "If you select custom, you need to add your custom image to your site.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/changing-the-google-maps-placeholder/'),
+		),
+
 		'blocked_content_text' => array(
 			'step'      => 'cookie-blocker',
 			'source'       => 'settings',
@@ -252,7 +303,7 @@ $this->fields = $this->fields + array(
 			'source'   => 'settings',
 			'disabled' => false,
 			'type'     => 'button',
-			'action'   => 'cmplz_export_settings',
+			'action'   => add_query_arg( array( 'page'=>'cmplz-settings','action' => 'cmplz_export_settings'), admin_url( 'admin.php') ),
 			'post_get' => 'get',
 			'label'    => __( "Export", 'complianz-gdpr' ),
 			'table'    => true,

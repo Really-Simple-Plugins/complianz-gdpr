@@ -136,7 +136,7 @@ jQuery(document).ready(function ($) {
 			if ( $(this).hasClass('cmplz-processed') ) return;
 			$(this).addClass('cmplz-processed' );
 
- 			//we set this element as container with placeholder image
+			//we set this element as container with placeholder image
 			var blockedContentContainer;
 			if ($(this).hasClass('cmplz-iframe')) {
 
@@ -606,6 +606,8 @@ jQuery(document).ready(function ($) {
 					'event': event
 				});
 			}
+			var event = new CustomEvent('cmplzFireTMCategories', { detail: event.replace(cmplzPrefix+'event_', '') });
+			document.dispatchEvent(event);
 		}
 	}
 
@@ -790,34 +792,34 @@ jQuery(document).ready(function ($) {
 		}
 
 		if (complianz.use_categories === 'no') {
-            // Accept
+			// Accept
 			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow {color:' + complianz.colorpalette_button_accept_text + ';background-color:' + complianz.colorpalette_button_accept_background + ';border-color:' + complianz.colorpalette_button_accept_border + '}';
-            css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow:hover{background-color:' + getHoverColour(complianz.colorpalette_button_accept_background) + '}';
+			css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-allow:hover{background-color:' + getHoverColour(complianz.colorpalette_button_accept_background) + '}';
 		}
 
-        if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible') {
-            // View settings
-            css += '.cc-compliance .cc-btn.cc-show-settings,.cc-compliance .cc-btn.cc-save{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
-            css += '.cc-compliance .cc-btn.cc-show-settings:hover,.cc-compliance .cc-btn.cc-save:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
-        }
+		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible') {
+			// View settings
+			css += '.cc-compliance .cc-btn.cc-show-settings,.cc-compliance .cc-btn.cc-save{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
+			css += '.cc-compliance .cc-btn.cc-show-settings:hover,.cc-compliance .cc-btn.cc-save:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
+		}
 
 		if (complianz.use_categories === 'hidden' || complianz.use_categories === 'visible' || complianz.use_categories === 'legacy') {
-            // Save settings
-            css += '.cc-compliance .cc-btn.cc-save-settings{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
-            css += '.cc-compliance .cc-btn.cc-save-settings:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
+			// Save settings
+			css += '.cc-compliance .cc-btn.cc-save-settings{color:' + complianz.colorpalette_button_settings_text + '!important;background-color:' + complianz.colorpalette_button_settings_background + '!important;border-color:' + complianz.colorpalette_button_settings_border + '!important}';
+			css += '.cc-compliance .cc-btn.cc-save-settings:hover{background-color:' + getHoverColour(complianz.colorpalette_button_settings_background) + '!important}';
 
-            if (complianz.checkbox_style === 'slider') {
-            	// Slider
-                css += ".cmplz-slider-checkbox input:checked + .cmplz-slider {background-color: " + complianz.colorpalette_toggles_background + "!important}";
-                css += '.cmplz-slider-checkbox .cmplz-slider {background-color: ' + complianz.colorpalette_toggles_inactive + '!important;}';
-                css += ".cmplz-slider-checkbox input:focus + .cmplz-slider {}";
-                css += ".cmplz-slider-checkbox .cmplz-slider:before {background-color: " + complianz.colorpalette_toggles_bullet + "!important;}.cmplz-slider-checkbox .cmplz-slider-na:before {color:" + complianz.toggles_bulletColor + "!important;}";
-            }
-        }
+			if (complianz.checkbox_style === 'slider') {
+				// Slider
+				css += ".cmplz-slider-checkbox input:checked + .cmplz-slider {background-color: " + complianz.colorpalette_toggles_background + "!important}";
+				css += '.cmplz-slider-checkbox .cmplz-slider {background-color: ' + complianz.colorpalette_toggles_inactive + '!important;}';
+				css += ".cmplz-slider-checkbox input:focus + .cmplz-slider {}";
+				css += ".cmplz-slider-checkbox .cmplz-slider:before {background-color: " + complianz.colorpalette_toggles_bullet + "!important;}.cmplz-slider-checkbox .cmplz-slider-na:before {color:" + complianz.toggles_bulletColor + "!important;}";
+			}
+		}
 
-        // Functional only
+		// Functional only
 		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss{color:' + complianz.colorpalette_button_deny_text + ';background-color:' + complianz.colorpalette_button_deny_background + ';border-color:' + complianz.colorpalette_button_deny_border + '}';
-        css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss:hover{background-color:' + getHoverColour(complianz.colorpalette_button_deny_background) + '}';
+		css += '#cc-window.cc-window .cc-compliance .cc-btn.cc-dismiss:hover{background-color:' + getHoverColour(complianz.colorpalette_button_deny_background) + '}';
 
 		if ( complianz.banner_width !== 468 ) {
 			css += "#cc-window.cc-floating {max-width:" + complianz.banner_width + "px;}";
@@ -953,17 +955,17 @@ jQuery(document).ready(function ($) {
 				"popup": {
 					"background": complianz.colorpalette_background_color,
 					"text": complianz.colorpalette_text_color,
-                    "link": complianz.colorpalette_text_hyperlink_color,
-                    "border": complianz.colorpalette_background_border,
-                    "borderwidth": complianz.border_width,
-                    "borderradius": complianz.colorpalette_border_radius,
-                    "boxshadow": complianz.box_shadow,
+					"link": complianz.colorpalette_text_hyperlink_color,
+					"border": complianz.colorpalette_background_border,
+					"borderwidth": complianz.border_width,
+					"borderradius": complianz.colorpalette_border_radius,
+					"boxshadow": complianz.box_shadow,
 				},
 				"button": {
 					"background": complianz.colorpalette_button_accept_background,
 					"text": complianz.colorpalette_button_accept_text,
 					"border": complianz.colorpalette_button_accept_border,
-                    "borderradius": complianz.buttons_border_radius,
+					"borderradius": complianz.buttons_border_radius,
 				},
 			},
 			"theme": complianz.theme,
@@ -1561,6 +1563,12 @@ jQuery(document).ready(function ($) {
 		//always functional
 		cmplz_wp_set_consent('functional', 'allow');
 		if (complianz.consenttype !== 'optinstats') cmplz_wp_set_consent('statistics-anonymous', 'allow');
+
+		if (forcePreferences || ($('.cmplz_preferences').length && $('.cmplz_preferences').is(":checked"))) {
+			cmplz_wp_set_consent('preferences', 'allow');
+			highestCategoryAccepted = 'preferences';
+		}
+
 		//using TM categories
 		if (complianz.tm_categories) {
 			cmplzRunTmEvent(cmplzPrefix+'event_functional');
@@ -1570,11 +1578,6 @@ jQuery(document).ready(function ($) {
 				}
 			}
 		} else {
-			if (forcePreferences || ($('.cmplz_preferences').length && $('.cmplz_preferences').is(":checked"))) {
-				cmplz_wp_set_consent('preferences', 'allow');
-				highestCategoryAccepted = 'preferences';
-			}
-
 			if (forceStatistics || ($('.cmplz_statistics').length && $('.cmplz_statistics').is(":checked"))) {
 				cmplz_wp_set_consent('statistics', 'allow');
 				cmplz_wp_set_consent('statistics-anonymous', 'allow');
@@ -1582,7 +1585,7 @@ jQuery(document).ready(function ($) {
 				highestCategoryAccepted = 'statistics';
 			}
 		}
-
+		
 		//marketing cookies acceptance
 		if (forceMarketing || ($('.cmplz_marketing').length && $('.cmplz_marketing').is(":checked"))) {
 			setStatusAsBodyClass('marketing');

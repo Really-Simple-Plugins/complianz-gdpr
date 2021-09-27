@@ -27,8 +27,7 @@ function cmplz_googlemaps_imagetags( $tags ) {
 
 function cmplz_google_maps_placeholder( $new_src, $src ) {
 
-	$key_pattern
-		= '/maps\.googleapis\.com\/maps\/api\/staticmap/i';
+	$key_pattern = '/maps\.googleapis\.com\/maps\/api\/staticmap/i';
 	if ( preg_match( $key_pattern, $src, $matches ) ) {
 		$id = str_replace(array('http://', 'https://','maps.googleapis.com/maps/api/staticmap'), '', $src);
 		//to prevent issues with the url as ID, we create a separate ID, and look it up by the url of this image
@@ -43,8 +42,7 @@ function cmplz_google_maps_placeholder( $new_src, $src ) {
 	return $new_src;
 }
 
-add_filter( 'cmplz_placeholder_google-maps', 'cmplz_google_maps_placeholder',
-	10, 2 );
+add_filter( 'cmplz_placeholder_google-maps', 'cmplz_google_maps_placeholder', 10, 2 );
 
 
 

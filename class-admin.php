@@ -19,6 +19,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 			$plugin = cmplz_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
+
+			add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
+			add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
+
 			//multisite
 			add_filter( "network_admin_plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
@@ -230,21 +234,29 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		}
 
 		/**
-		 * Check if new features are shipped with the plugin
-		 *
-		 * @return mixed|void
+		 * Add a major changes notice to the plugin updates message
+		 * @param $plugin_data
+		 * @param $response
 		 */
-		public function complianz_plugin_has_new_features() {
-			return get_option( 'cmplz_plugin_new_features' );
+		public function plugin_update_message($plugin_data, $response){
+			if ( $response->new_version === '6.0.0' ) {
+				echo '<br><b>' . '&nbsp'.sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+			}
 		}
 
 		/**
-		 * Reset the new features option
+		 * If this update is to 6, don't auto update
 		 *
-		 * @return bool
+		 * @param $update
+		 * @param $item
+		 *
+		 * @return false|mixed
 		 */
-		public function reset_complianz_plugin_has_new_features() {
-			return update_option( 'cmplz_plugin_new_features', false );
+		public function override_auto_updates( $update, $item ) {
+			if ( version_compare($item->new_version, '6.0.0') ) {
+				return false;
+			}
+			return $update;
 		}
 
 		/**

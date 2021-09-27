@@ -13,17 +13,19 @@ if ( ! function_exists( 'cmplz_uses_google_analytics' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_upgraded_to_five' ) ) {
+if ( ! function_exists( 'cmplz_consent_mode' ) ) {
 
 	/**
-	 * Check if user upgraded to 5.0
+	 * Check if site uses google analytics
 	 * @return bool
 	 */
 
-	function cmplz_upgraded_to_five() {
-		return get_option( 'cmplz_upgraded_to_five' ) ? true : false;
+	function cmplz_consent_mode() {
+		return cmplz_get_value( 'consent-mode' ) === 'yes';
 	}
 }
+
+
 
 if ( !function_exists('cmplz_upgraded_to_current_version')){
 
@@ -102,7 +104,7 @@ if ( ! function_exists( 'cmplz_tagmanager_conditional_helptext' ) ) {
 
 	function cmplz_tagmanager_conditional_helptext() {
 
-		if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats() ) {
+		if ( !cmplz_consent_required_for_anonymous_stats() ) {
 			$text = __( "Based on your Analytics configuration you should fire Analytics as a functional cookie on event cmplz_event_functional.", 'complianz-gdpr' );
 		} else {
 			$text = __( "Based on your Analytics configuration you should fire Analytics as a non-functional cookie with a category of your choice, for example cmplz_event_0.", 'complianz-gdpr' );
@@ -147,7 +149,7 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 		}
 
 		if ( $stats === 'google-analytics' ) {
-			if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats()
+			if ( !cmplz_consent_required_for_anonymous_stats()
 			) {
 				return true;
 			}
@@ -169,12 +171,39 @@ if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
 		$stats = cmplz_get_value( 'compile_statistics' );
 		if ( $stats === 'google-analytics' ||
 			 $stats === 'matomo' ||
+			 $stats === 'yandex' ||
 			 $stats === 'clicky' ||
 			 $stats === 'google-tag-manager'
 		){
 			return true;
 		}
 		return false;
+	}
+}
+
+if ( ! function_exists( 'cmplz_get_stats_tool_nice' ) ) {
+	function cmplz_get_stats_tool_nice() {
+		//if the user just changed the setting, we use the posted data. The data is not saved yet, so would yield the previous setting
+		if ( isset($_POST['cmplz_compile_statistics'])) {
+			$stats = sanitize_text_field($_POST['cmplz_compile_statistics']);
+		} else {
+			$stats = cmplz_get_value( 'compile_statistics', false, 'wizard', false );
+
+		}
+		switch ( $stats ){
+			case 'google-analytics':
+				return "Google Analytics";
+			case 'matomo':
+				return "Matomo";
+			case 'clicky':
+				return "Clicky";
+			case 'yandex':
+				return "Yandex";
+			case 'google-tag-manager':
+				return "Google Tag Manager";
+			default:
+				return __("Not found","complianz-gdpr");
+		}
 	}
 }
 
@@ -1078,7 +1107,15 @@ if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
 
 if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
 	function cmplz_consent_required_for_anonymous_stats() {
-		return COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats();
+		if ( ! cmplz_uses_optin() ) {
+			return false;
+		}
+
+		if ( cmplz_get_value( 'compile_statistics' ) !== 'no' )  {
+			return true;
+		}
+
+		return false;
 	}
 }
 
@@ -1089,11 +1126,6 @@ if ( ! function_exists( 'cmplz_consent_required_for_anonymous_stats' ) ) {
 if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 	function cmplz_no_ip_addresses() {
 		$statistics = cmplz_get_value( 'compile_statistics', false, 'wizard' );
-
-		//anonymous stats.
-		if ( $statistics === 'yes-anonymous' ) {
-			return true;
-		}
 
 		//not anonymous stats.
 		if ( $statistics === 'yes' ) {
@@ -1466,29 +1498,29 @@ if ( ! function_exists( 'cmplz_add_query_arg' ) ) {
 			}
 
 			if ( $post && property_exists( $post, 'post_content' ) ) {
-				$pattern = '/cmplz-document type="(.*?)"/i';
-				$pattern_gutenberg
-				         = '/<!-- wp:complianz\/document {.*?selectedDocument":"(.*?)"} \/-->/i';
+				$pattern = '/cmplz-document.*type=".*?".*region="(.*?)"/i';
+				$pattern_gutenberg = '/<!-- wp:complianz\/document {.*?selectedDocument":"(.*?)"} \/-->/i';
 				if ( preg_match_all( $pattern, $post->post_content, $matches,
-					PREG_PATTERN_ORDER )
+						PREG_PATTERN_ORDER )
 				) {
 					if ( isset( $matches[1][0] ) ) {
 						$type = $matches[1][0];
 					}
 				} elseif ( preg_match_all( $pattern_gutenberg,
-					$post->post_content, $matches, PREG_PATTERN_ORDER )
+						$post->post_content, $matches, PREG_PATTERN_ORDER )
 				) {
 					if ( isset( $matches[1][0] ) ) {
 						$type = $matches[1][0];
 					}
 				}
 
-				if ( strpos( $type, '-us' ) !== false
-				     || strpos( $type, '-uk' ) !== false
+				if ( strpos( $type, 'us' ) !== false
+					 || strpos( $type, 'uk' ) !== false
+					 || strpos( $type, 'au' ) !== false
 				) {
 					//remove lang property, add our own.
 					wp_redirect( home_url( add_query_arg( 'clang', 'en',
-						remove_query_arg( 'lang', $wp->request ) ) ) );
+							remove_query_arg( 'lang', $wp->request ) ) ) );
 					exit;
 				}
 			}
@@ -1748,10 +1780,9 @@ if ( ! function_exists( 'cmplz_placeholder' ) ) {
 		}
 
 		$new_src = cmplz_default_placeholder( $type );
-
 		$new_src = apply_filters( "cmplz_placeholder_$type", $new_src, $src );
-
-		return apply_filters( 'cmplz_placeholder', $new_src, $type, $src );
+		$new_src = apply_filters( 'cmplz_placeholder', $new_src, $type, $src );
+		return $new_src;
 	}
 }
 
@@ -2068,29 +2099,33 @@ if ( ! function_exists( 'cmplz_default_placeholder' ) ) {
 	 * @return string placeholder
 	 * @since 2.1.5
 	 */
-	function cmplz_default_placeholder( $type = '' ) {
-
-		$img = "placeholder.jpg";
-
-		//check if this type exists as placeholder
-		if ( ! empty( $type )
-		     && file_exists( cmplz_path
-		                     . "assets/images/placeholder-$type.jpg" )
-		) {
-			$img = "placeholder-$type.jpg";
+	function cmplz_default_placeholder( $type = 'default' ) {
+		//treat open streetmaps same as google maps.
+		if ( $type === 'openstreetmaps' ) {
+			$type = 'google-maps';
 		}
 
-		$img_url = cmplz_url . 'assets/images/' . $img;
+		$style = cmplz_get_value('placeholder_style');
+		$ratio = $type === 'google-maps' ? cmplz_get_value( 'google-maps-format' ) : '';
+		$path = cmplz_path . "assets/images/placeholders";
+		//check if this type exists as placeholder
+		if ( file_exists( "$path/$type-$style-$ratio.jpg" ) ) {
+			$img = "$type-$style-$ratio.jpg";
+		} else if ( file_exists( "$path/$type-$style.jpg" ) ) {
+			$img = "$type-$style.jpg";
+		} else {
+			$img = "default-$style.jpg";
+		}
+
+		$img_url = cmplz_url . 'assets/images/placeholders/' . $img;
 
 		//check for image in themedir/complianz-gpdr-premium
-		$theme_img = trailingslashit( get_stylesheet_directory() )
-		             . dirname( cmplz_path ) . $img;
+		$theme_img = trailingslashit( get_stylesheet_directory() ) . trailingslashit( basename( cmplz_path ) ) . $img;
 		if ( file_exists( $theme_img ) ) {
-			$img_url = trailingslashit( get_stylesheet_directory_uri() )
-			           . dirname( cmplz_path ) . $img;
+			$img_url = trailingslashit( get_stylesheet_directory_uri() ) . trailingslashit( basename( cmplz_path ) ) . $img;
 		}
 
-		return apply_filters( 'cmplz_default_placeholder', $img_url, $type );
+		return apply_filters( 'cmplz_default_placeholder', $img_url, $type, $style );
 	}
 }
 
@@ -2155,9 +2190,7 @@ if ( ! function_exists( 'cmplz_update_cookie_policy_title' ) ) {
 
 if ( ! function_exists( 'cmplz_ccpa_applies' ) ) {
 	function cmplz_ccpa_applies() {
-
-		return cmplz_has_region('us') && cmplz_get_value( 'california' , false, 'wizard' ) === 'yes'
-		       && cmplz_sells_personal_data();
+		return cmplz_has_region('us') && cmplz_get_value( 'california' , false, 'wizard' ) === 'yes' && cmplz_sells_personal_data();
 	}
 }
 
@@ -2338,7 +2371,7 @@ if ( ! function_exists( 'cmplz_uses_preferences_cookies' ) ) {
      */
     function cmplz_uses_preferences_cookies()
     {
-        return ! COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() && cmplz_consent_api_active();
+        return cmplz_consent_mode() || cmplz_consent_api_active();
     }
 }
 
@@ -2351,7 +2384,7 @@ if ( ! function_exists( 'cmplz_uses_statistic_cookies' ) ) {
      */
     function cmplz_uses_statistic_cookies()
     {
-        return ! COMPLIANZ::$cookie_admin->tagmamanager_fires_scripts() && COMPLIANZ::$cookie_admin->cookie_warning_required_stats();
+        return cmplz_get_value( 'compile_statistics' ) !== 'google-tag-manager' && COMPLIANZ::$cookie_admin->cookie_warning_required_stats();
     }
 }
 

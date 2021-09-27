@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['au']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i>',
+        'content' => '<i>' . sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i><br>',
     ),
     array(
         'title' => 'Introduction',

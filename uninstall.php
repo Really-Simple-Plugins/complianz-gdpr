@@ -48,7 +48,6 @@ if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['cl
 		'cmplz_tracking_ab_started',
 		'cmplz_geo_ip_file',
 		'cmplz_legal_version',
-		'cmplz_plugin_new_features',
 		'cmplz_show_cookiedatabase_optin',
 		'cmplz_statsdb_version',
 		'cmplz_run_premium_install',

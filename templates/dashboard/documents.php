@@ -1,10 +1,10 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );?>
 <?php
-if (isset($_GET['region']) && array_key_exists( $_GET['region'], cmplz_get_regions(true) ) ) {
-	$region = sanitize_title($_GET['region']);
-} else {
-	$region = COMPLIANZ::$company->get_default_region();
-}
+	if (isset($_GET['region']) && array_key_exists( $_GET['region'], cmplz_get_regions(true) ) ) {
+		$region = sanitize_title($_GET['region']);
+	} else {
+		$region = COMPLIANZ::$company->get_default_region();
+	}
 ?>
 <div class="cmplz-documents">
 	<?php
@@ -62,19 +62,18 @@ if (isset($_GET['region']) && array_key_exists( $_GET['region'], cmplz_get_regio
 
 			} elseif ( COMPLIANZ::$document->page_required( $page, $region ) ) {
 				$args = array(
-					'status' => 'missing',
-					'title' => $title,
-					'page_exists' => cmplz_icon('bullet', 'disabled'),
-					'sync_icon' => cmplz_icon('sync', 'disabled'),
-					'shortcode_icon' => cmplz_icon('shortcode', 'disabled'),
-					'generated' => '<a href="'.add_query_arg( array('page'=>'cmplz-wizard', 'step'=>STEP_MENU),  admin_url('admin.php') ).'">'.__( "create", 'complianz-gdpr' ).'</a>',
+						'status' => 'missing',
+						'title' => $title,
+						'page_exists' => cmplz_icon('bullet', 'disabled'),
+						'sync_icon' => cmplz_icon('sync', 'disabled'),
+						'shortcode_icon' => cmplz_icon('shortcode', 'disabled'),
+						'generated' => '<a href="'.add_query_arg( array('page'=>'cmplz-wizard', 'step'=>STEP_MENU),  admin_url('admin.php') ).'">'.__( "create", 'complianz-gdpr' ).'</a>',
 				);
 				echo cmplz_get_template('dashboard/documents-row.php', $args);
 			}
 		}
 	}
-
 	do_action('cmplz_documents_overview', $region);
 
-	require_once( apply_filters('cmplz_free_templates_path', cmplz_path . 'templates/' ) .'dashboard/documents-conditional.php'); ?>
+ 	require_once( apply_filters('cmplz_free_templates_path', cmplz_path . 'templates/' ) .'dashboard/documents-conditional.php'); ?>
 </div>
