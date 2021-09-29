@@ -9,6 +9,12 @@ jQuery(document).ready(function ($) {
 		btn.attr('disabled', 'disabled');
 		var task_count = parseInt($('.cmplz-task-count').html());
 		var container = $(this).closest('.cmplz-progress-warning-container');
+		container.animate({
+			position: 'relative',
+			right: '1000px'
+		}, 500, function(){
+			container.remove();
+		});
 		$.ajax({
 			type: "POST",
 			url: complianz_admin.admin_url,
@@ -20,7 +26,7 @@ jQuery(document).ready(function ($) {
 			success: function (response) {
 				btn.removeAttr('disabled');
 				if (response.success) {
-					container.remove();
+					// container.remove();
 					var remainingContainer = $('.cmplz-task-count.cmplz-remaining');
 					var curValue = parseInt( remainingContainer.html() );
 					remainingContainer.html(curValue-1)
@@ -31,7 +37,6 @@ jQuery(document).ready(function ($) {
 
 	$(document).on('change', '[name=cmplz_selected_region]', function(){
 		var data = {};
-		console.log("selected region change");
 		data['region'] = $('#cmplz_selected_region').val();
 		cmplzLoadGridBlock(data, $(this));
 	});

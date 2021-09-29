@@ -382,7 +382,6 @@ $this->fields = $this->fields + array(
             'type'      => 'css',
             'label'     => __( "Custom document CSS", 'complianz-gdpr' ),
             'default'   => '#cmplz-document h2 {} /* titles in complianz documents */'
-                . "{} /* subtitles */" . '#cmplz-document .subtitle'
                 . "\n" . '#cmplz-document h2.annex{} /* titles in annexes */'
                 . "\n" . '#cmplz-document .subtitle.annex{} /* subtitles in annexes */'
                 . "\n" . '#cmplz-document, #cmplz-document p, #cmplz-document span, #cmplz-document li {} /* text */'

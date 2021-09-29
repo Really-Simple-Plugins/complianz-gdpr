@@ -262,7 +262,7 @@ function cmplz_show_use_categories_notice() {
 	if ( $uses_tagmanager ) {
 		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' )
+		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration.", 'complianz-gdpr' )
 		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
@@ -274,7 +274,7 @@ function cmplz_show_use_categories_optinstats_notice() {
 	if ( $uses_tagmanager ) {
 		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration", 'complianz-gdpr' )
+		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration.", 'complianz-gdpr' )
 		    . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }

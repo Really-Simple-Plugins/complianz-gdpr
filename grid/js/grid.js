@@ -99,7 +99,6 @@ jQuery(document).ready(function($) {
             grid.render();
         }
         catch(err) {
-            console.log('error with grid, clear');
             window.localStorage.removeItem('cmplz_layout');
         }
     }

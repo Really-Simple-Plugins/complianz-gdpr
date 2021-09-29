@@ -308,7 +308,7 @@ $this->fields = $this->fields + array(
 				'no-sharing'           => __( 'Google is not allowed to use this data for other Google services', 'complianz-gdpr' ),
 				'ip-addresses-blocked' => __( 'IP addresses are anonymized.', 'complianz-gdpr' ),
 			),
-			'help'                    => __( 'If you select the option that IP addresses are anonymized, and let Complianz handle the statistics, Complianz will ensure that ip adresses are anonymized by default, unless consent is given for statistics.', 'complianz-gdpr' )
+			'help'                    => __( 'If you select the option that IP addresses are anonymized, and let Complianz handle the statistics, Complianz will ensure that ip addresses are anonymized by default, unless consent is given for statistics.', 'complianz-gdpr' )
 			                             . cmplz_read_more( 'https://complianz.io/how-to-configure-google-analytics-for-gdpr/' ),
 			'condition'               => array(
 				'compile_statistics' => 'google-analytics',
