@@ -122,6 +122,18 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.5.0 =
+* New: Placeholder themes and customization options
+* New: Google Consent Mode for Google Tag Manager and GTAG.js
+* Improvement: Animate task dismissal
+* Improvement: Cookiedatabase optin to optout
+* Improvement: prepare update notice for 6.0
+* Improvement: new filter 'cmplz_cookiescan_post_types' for posttypes in cookiescan
+* Improvement: sharing of data section from different regions merged
+* Improvement: line break in legal documents after publish/checked date
+* Fix: Terms & Conditions recommendation not showing
+* Fix: automatic redirect to English for native English docs
+
 = 5.4.0 =
 * New: Brazil
 * New: WP Store locator maps integration
