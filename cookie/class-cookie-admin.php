@@ -2160,9 +2160,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
+				$enable_tcf_support = cmplz_tcf_active() ? 'true' : 'false';
 				$script       = cmplz_get_template( "gtag$consent_mode.js" );
-				$script       = str_replace( '{G_code}', $code, $script );
-				$script       = str_replace( '{anonymize_ip}', $anonymize_ip, $script );
+				$script       = str_replace( array('{G_code}', '{anonymize_ip}', '{enable_tcf_support}'), array($code, $anonymize_ip, $enable_tcf_support), $script );
 			} elseif ( $statistics === 'matomo' ) {
 				$script = cmplz_get_template( 'matomo.js' );
 				$script = str_replace( '{site_id}', esc_attr( cmplz_get_value( 'matomo_site_id' ) ), $script );
@@ -3617,7 +3617,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 
 		public function use_cdb_api() {
-			$use_api = cmplz_get_value( 'use_cdb_api', false, false, false ) === 'yes';
+			$use_api = cmplz_get_value( 'use_cdb_api' ) === 'yes';
 			return apply_filters( 'cmplz_use_cdb_api', $use_api );
 		}
 

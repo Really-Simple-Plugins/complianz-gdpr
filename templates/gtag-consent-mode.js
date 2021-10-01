@@ -1,3 +1,4 @@
+window['gtag_enable_tcf_support'] = {enable_tcf_support};
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('consent', 'default', {

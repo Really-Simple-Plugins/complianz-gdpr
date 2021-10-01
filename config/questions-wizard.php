@@ -406,18 +406,17 @@ $this->fields = $this->fields + array(
 			'section'            => 3,
 			'source'             => 'wizard',
 			'type'               => 'radio',
-			'default'            => 'yes',
+			'default'            => 'no',
 			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ),
 			'options'            => array(
 				'yes'          => __( 'Yes', 'complianz-gdpr' ),
 				'no'           => __( 'No', 'complianz-gdpr' ),
 			),
-			'comment'  => __( "You can also enable Google Consent Mode.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
-			'disabled' => true,
+			'disabled' => array('yes'),
 			'callback_condition' => array(
 				'compile_statistics' => 'google-tag-manager,google-analytics',
 			),
-			'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode'),
+			'help'                  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-mode/'),
 		),
 
 		'UA_code' => array(
@@ -575,7 +574,7 @@ $this->fields = $this->fields + array(
 			'options'   => $this->yes_no,
 			'default'   => 'no',
 			'condition' => array( 'thirdparty_services_on_site' => 'hubspot' ),
-			'label'     => __( "Complianz integrates with the consent module of HubSpot. Did you enable the consent module in your HubSpot account?", 'complianz-gdpr' )
+			'label'     => __( "Did you enable the consent module in your HubSpot account?", 'complianz-gdpr' )
 			               . cmplz_read_more( 'https://complianz.io/hubspot-integration/' ),
 
 		),

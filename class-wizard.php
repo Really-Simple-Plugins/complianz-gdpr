@@ -223,7 +223,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				if ( ! empty( $banners ) ) {
 					foreach ( $banners as $banner ) {
 						$banner                 = new CMPLZ_COOKIEBANNER( $banner->ID );
-						$banner->use_categories = 'visible';
+						$banner->use_categories = 'hidden';
 						$banner->save();
 					}
 				}
@@ -337,10 +337,10 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					foreach ( $banners as $banner ) {
 						$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
 						if ( $enable_categories_uk ) {
-							$banner->use_categories_optinstats = 'visible';
+							$banner->use_categories_optinstats = 'hidden';
 						}
 						if ( $enable_categories_eu ) {
-							$banner->use_categories_optinstats = 'visible';
+							$banner->use_categories_optinstats = 'hidden';
 						}
 						$banner->save();
 					}

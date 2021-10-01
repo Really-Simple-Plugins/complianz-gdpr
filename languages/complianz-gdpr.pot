@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-09-27 12:57+0200\n"
-"PO-Revision-Date: 2021-09-27 12:56+0200\n"
+"POT-Creation-Date: 2021-10-01 15:39+0200\n"
+"PO-Revision-Date: 2021-10-01 15:39+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -293,7 +293,7 @@ msgid ""
 msgstr ""
 
 #: callback-notices.php:265 callback-notices.php:277
-msgid "Categories are mandatory for your statistics configuration"
+msgid "Categories are mandatory for your statistics configuration."
 msgstr ""
 
 #: callback-notices.php:291 callback-notices.php:293
@@ -339,7 +339,7 @@ msgstr ""
 #: class-admin.php:308 class-admin.php:590 class-admin.php:591
 #: class-admin.php:815 cookiebanner/settings.php:383
 #: cookiebanner/settings.php:683 integrations/integrations-menu.php:51
-#: pro/class-licensing.php:403 pro/class-licensing.php:502
+#: pro/class-licensing.php:422 pro/class-licensing.php:521
 #: templates/dashboard/tools.php:46
 msgid "Settings"
 msgstr ""
@@ -858,14 +858,14 @@ msgid ""
 msgstr ""
 
 #: config/class-config.php:303 config/questions-wizard.php:394
-#: config/questions-wizard.php:412 config/questions-wizard.php:667
+#: config/questions-wizard.php:412 config/questions-wizard.php:666
 #: pro/config/questions-wizard.php:728 pro/tcf/tcf.php:702 pro/tcf/tcf.php:706
 msgid "Yes"
 msgstr ""
 
 #: config/class-config.php:304 config/questions-wizard.php:294
 #: config/questions-wizard.php:395 config/questions-wizard.php:413
-#: config/questions-wizard.php:668 pro/config/questions-wizard.php:729
+#: config/questions-wizard.php:667 pro/config/questions-wizard.php:729
 #: pro/config/questions-wizard.php:797 pro/tcf/tcf.php:702 pro/tcf/tcf.php:706
 msgid "No"
 msgstr ""
@@ -3221,7 +3221,7 @@ msgstr ""
 msgid "Custom document CSS"
 msgstr ""
 
-#: config/general-settings.php:392 cookiebanner/settings.php:424
+#: config/general-settings.php:391 cookiebanner/settings.php:424
 #, php-format
 msgid ""
 "You can add additional custom CSS here. For tips and CSS lessons, check out "
@@ -3639,8 +3639,8 @@ msgstr ""
 #: config/questions-wizard.php:311
 msgid ""
 "If you select the option that IP addresses are anonymized, and let Complianz "
-"handle the statistics, Complianz will ensure that ip adresses are anonymized "
-"by default, unless consent is given for statistics."
+"handle the statistics, Complianz will ensure that ip addresses are "
+"anonymized by default, unless consent is given for statistics."
 msgstr ""
 
 #: config/questions-wizard.php:329
@@ -3714,127 +3714,125 @@ msgstr ""
 msgid "Do you want to enable Google Consent Mode?"
 msgstr ""
 
-#: config/questions-wizard.php:415 config/questions-wizard.php:420
+#: config/questions-wizard.php:419
 msgid "You can also enable Google Consent Mode."
 msgstr ""
 
-#: config/questions-wizard.php:429
+#: config/questions-wizard.php:428
 #, php-format
 msgid "%s or %s"
 msgstr ""
 
-#: config/questions-wizard.php:432
+#: config/questions-wizard.php:431
 msgid "Enter your tracking-ID"
 msgstr ""
 
-#: config/questions-wizard.php:433
+#: config/questions-wizard.php:432
 msgid ""
 "Consent mode is only available for gtag.js and can't be used in combination "
 "with a UA code."
 msgstr ""
 
-#: config/questions-wizard.php:438
+#: config/questions-wizard.php:437
 msgid ""
 "For the Google Analytics tracking-ID, log on and click Admin and copy the "
 "Tracking-ID."
 msgstr ""
 
-#: config/questions-wizard.php:449
+#: config/questions-wizard.php:448
 msgid "Please enter your GTM container ID"
 msgstr ""
 
-#: config/questions-wizard.php:452
+#: config/questions-wizard.php:451
 msgid ""
 "For the Google Tag Manager code, log on. Then, you will immediatly see "
 "Container codes. The one next to your website name is the code you will need "
 "to fill in here, the Container ID."
 msgstr ""
 
-#: config/questions-wizard.php:464
+#: config/questions-wizard.php:463
 msgid "Enter the URL of Matomo"
 msgstr ""
 
-#: config/questions-wizard.php:468
+#: config/questions-wizard.php:467
 msgid "e.g. https://domain.com/stats"
 msgstr ""
 
-#: config/questions-wizard.php:480
+#: config/questions-wizard.php:479
 msgid "Enter your Matomo site ID"
 msgstr ""
 
-#: config/questions-wizard.php:493
+#: config/questions-wizard.php:492
 msgid "Enter your Clicky site ID"
 msgstr ""
 
-#: config/questions-wizard.php:497
+#: config/questions-wizard.php:496
 msgid ""
 "Because Clicky always sets a so-called unique identifier cookie, consent for "
 "statistics is always required."
 msgstr ""
 
-#: config/questions-wizard.php:508
+#: config/questions-wizard.php:507
 msgid "Enter your Yandex ID"
 msgstr ""
 
-#: config/questions-wizard.php:523
+#: config/questions-wizard.php:522
 msgid "Do you want to enable the Yandex ecommerce datalayer?"
 msgstr ""
 
-#: config/questions-wizard.php:538
+#: config/questions-wizard.php:537
 msgid "Does your website use third-party services?"
 msgstr ""
 
-#: config/questions-wizard.php:540
+#: config/questions-wizard.php:539
 msgid ""
 "e.g. services like Google Fonts, Maps or reCAPTCHA usually place cookies."
 msgstr ""
 
-#: config/questions-wizard.php:553
+#: config/questions-wizard.php:552
 msgid "Select the types of third-party services you use on your site."
 msgstr ""
 
-#: config/questions-wizard.php:554
+#: config/questions-wizard.php:553
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)."
 msgstr ""
 
-#: config/questions-wizard.php:555
+#: config/questions-wizard.php:554
 msgid ""
 "When possible a placeholder is activated. You can also disable or configure "
 "the placeholder to your liking. You can disable services and placeholders "
 "under Integrations."
 msgstr ""
 
-#: config/questions-wizard.php:567
+#: config/questions-wizard.php:566
 msgid ""
 "Do you want to block reCAPTCHA before consent, and when consent is revoked?"
 msgstr ""
 
-#: config/questions-wizard.php:578
-msgid ""
-"Complianz integrates with the consent module of HubSpot. Did you enable the "
-"consent module in your HubSpot account?"
+#: config/questions-wizard.php:577
+msgid "Did you enable the consent module in your HubSpot account?"
 msgstr ""
 
-#: config/questions-wizard.php:592
+#: config/questions-wizard.php:591
 msgid "Is Hotjar configured in a privacy-friendly way?"
 msgstr ""
 
-#: config/questions-wizard.php:594
+#: config/questions-wizard.php:593
 msgid ""
 "You can configure Hotjar privacy-friendly, if you do this, no consent is "
 "required for Hotjar."
 msgstr ""
 
-#: config/questions-wizard.php:610
+#: config/questions-wizard.php:609
 msgid ""
 "Does your website contain embedded social media content, like buttons, "
 "timelines, videos or pixels?"
 msgstr ""
 
-#: config/questions-wizard.php:612
+#: config/questions-wizard.php:611
 msgid ""
 "Content from social media is mostly embedded through iFrames. These often "
 "place third party (tracking) cookies, so must be blocked based on visitor "
@@ -3842,24 +3840,24 @@ msgid ""
 "profile on an external page you can answer No."
 msgstr ""
 
-#: config/questions-wizard.php:625
+#: config/questions-wizard.php:624
 msgid "Select which social media are used on the website."
 msgstr ""
 
-#: config/questions-wizard.php:627
+#: config/questions-wizard.php:626
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)"
 msgstr ""
 
-#: config/questions-wizard.php:640
+#: config/questions-wizard.php:639
 msgid ""
 "You have stated that you don't use third-party services. Do you use plugins "
 "that might set marketing cookies?"
 msgstr ""
 
-#: config/questions-wizard.php:641
+#: config/questions-wizard.php:640
 msgid ""
 "Complianz cannot automatically block first-party marketing cookies unless "
 "these plugins conform to the WP Consent API. Look for any possible "
@@ -3867,76 +3865,76 @@ msgid ""
 "question, the marketing category will be removed."
 msgstr ""
 
-#: config/questions-wizard.php:656
+#: config/questions-wizard.php:655
 msgid "Does your website use cookies for advertising?"
 msgstr ""
 
-#: config/questions-wizard.php:669 pro/config/dynamic-fields.php:279
+#: config/questions-wizard.php:668 pro/config/dynamic-fields.php:279
 msgid "Enable TCF"
 msgstr ""
 
-#: config/questions-wizard.php:672
+#: config/questions-wizard.php:671
 msgid "Are any of your advertising cookies used to show personalized ads?"
 msgstr ""
 
-#: config/questions-wizard.php:673
+#: config/questions-wizard.php:672
 msgid ""
 "Google recommends an integration with TCF V2.0 to avoid loss of revenue."
 msgstr ""
 
-#: config/questions-wizard.php:674
+#: config/questions-wizard.php:673
 msgid ""
 "If you only use Google for advertising, and have activated the option to use "
 "only non personalized ads, you can select no here."
 msgstr ""
 
-#: config/questions-wizard.php:692
+#: config/questions-wizard.php:691
 msgid "Does your website use WordPress comments?"
 msgstr ""
 
-#: config/questions-wizard.php:708
+#: config/questions-wizard.php:707
 msgid ""
 "Do you want to disable the storage of personal data by the WP comments "
 "function and the checkbox?"
 msgstr ""
 
-#: config/questions-wizard.php:709
+#: config/questions-wizard.php:708
 msgid ""
 "If you enable this, WordPress will not store personal data with comments and "
 "you won't need a consent checkbox for the comment form. The consent box will "
 "not be displayed."
 msgstr ""
 
-#: config/questions-wizard.php:723
+#: config/questions-wizard.php:722
 msgid "Connect with Cookiedatabase.org"
 msgstr ""
 
-#: config/questions-wizard.php:734
+#: config/questions-wizard.php:733
 msgid "Add the used cookies here"
 msgstr ""
 
-#: config/questions-wizard.php:746
+#: config/questions-wizard.php:745
 msgid "Add the services to which your cookies belong here"
 msgstr ""
 
-#: config/questions-wizard.php:764
+#: config/questions-wizard.php:763
 msgid "Yes, redirect based on GEO IP"
 msgstr ""
 
-#: config/questions-wizard.php:765
+#: config/questions-wizard.php:764
 msgid "No, choose a menu per document"
 msgstr ""
 
-#: config/questions-wizard.php:771
+#: config/questions-wizard.php:770
 #, php-format
 msgid "GEO IP based redirect is available in %spremium%s"
 msgstr ""
 
-#: config/questions-wizard.php:773
+#: config/questions-wizard.php:772
 msgid "Do you want to use region redirect on the relevant documents?"
 msgstr ""
 
-#: config/questions-wizard.php:774
+#: config/questions-wizard.php:773
 msgid "Did you know you can design a legal hub for your website?"
 msgstr ""
 
@@ -4980,7 +4978,7 @@ msgstr ""
 msgid "Services"
 msgstr ""
 
-#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1245
+#: integrations/integrations-menu.php:35 pro/config/questions-wizard.php:1243
 #: pro/config/steps.php:101
 msgid "Plugins"
 msgstr ""
@@ -5275,15 +5273,15 @@ msgstr ""
 msgid "Add to annex of Privacy Statement"
 msgstr ""
 
-#: pro/class-document.php:106
+#: pro/class-document.php:107
 msgid "Conforms to the Consent API"
 msgstr ""
 
-#: pro/class-document.php:107
+#: pro/class-document.php:108
 msgid "Does not conform with the Consent API"
 msgstr ""
 
-#: pro/class-document.php:114
+#: pro/class-document.php:115
 msgid "No plugins with suggested statements found."
 msgstr ""
 
@@ -5307,42 +5305,46 @@ msgstr ""
 msgid "Imports completed successfully"
 msgstr ""
 
-#: pro/class-licensing.php:47
+#: pro/class-licensing.php:60
+msgid "Activate your license for automatic updates."
+msgstr ""
+
+#: pro/class-licensing.php:66
 msgid "Great, your license is activated and valid!"
 msgstr ""
 
-#: pro/class-licensing.php:49
+#: pro/class-licensing.php:68
 msgid ""
 "To unlock the wizard and future updates, please enter and activate your "
 "license."
 msgstr ""
 
-#: pro/class-licensing.php:53
+#: pro/class-licensing.php:72
 msgid "Activate your license"
 msgstr ""
 
-#: pro/class-licensing.php:91
+#: pro/class-licensing.php:110
 #, php-format
 msgid "Please %senter your license key%s to activate your license."
 msgstr ""
 
-#: pro/class-licensing.php:97
+#: pro/class-licensing.php:116
 msgid "Your license is activated and valid."
 msgstr ""
 
-#: pro/class-licensing.php:103
+#: pro/class-licensing.php:122
 #, php-format
 msgid "Please check your %slicense status%s."
 msgstr ""
 
-#: pro/class-licensing.php:119 pro/class-licensing.php:396
-#: pro/class-licensing.php:498 pro/class-licensing.php:571
-#: pro/class-licensing.php:577 pro/class-licensing.php:596
-#: pro/class-licensing.php:658
+#: pro/class-licensing.php:138 pro/class-licensing.php:415
+#: pro/class-licensing.php:517 pro/class-licensing.php:590
+#: pro/class-licensing.php:596 pro/class-licensing.php:615
+#: pro/class-licensing.php:677
 msgid "License"
 msgstr ""
 
-#: pro/class-licensing.php:456
+#: pro/class-licensing.php:475
 #, php-format
 msgid ""
 "Welcome to Complianz Privacy Suite! Before you start, please activate your "
@@ -5350,134 +5352,134 @@ msgid ""
 "%ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:462 pro/templates/license/footer.php:7
+#: pro/class-licensing.php:481 pro/templates/license/footer.php:7
 msgid "Activate license"
 msgstr ""
 
-#: pro/class-licensing.php:466
+#: pro/class-licensing.php:485
 #, php-format
 msgid "%sDocumentation%s"
 msgstr ""
 
-#: pro/class-licensing.php:505
+#: pro/class-licensing.php:524
 #, php-format
 msgid ""
 "Complianz Privacy Suite includes GeoLite2 data created by MaxMind, available "
 "from %shttp://www.maxmind.com%s"
 msgstr ""
 
-#: pro/class-licensing.php:527
+#: pro/class-licensing.php:546
 msgid "unlimited"
 msgstr ""
 
-#: pro/class-licensing.php:531
+#: pro/class-licensing.php:550
 msgid "Not available"
 msgstr ""
 
-#: pro/class-licensing.php:533
+#: pro/class-licensing.php:552
 msgid "You have a lifetime license."
 msgstr ""
 
-#: pro/class-licensing.php:533
+#: pro/class-licensing.php:552
 #, php-format
 msgid "Valid until %s."
 msgstr ""
 
-#: pro/class-licensing.php:539
+#: pro/class-licensing.php:558
 #, php-format
 msgid "Upgrade to a %s5 sites or Agency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:542
+#: pro/class-licensing.php:561
 #, php-format
 msgid "Upgrade to an %sAgency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:545
+#: pro/class-licensing.php:564
 #, php-format
 msgid "You can renew your license on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:550
+#: pro/class-licensing.php:569
 msgid "Unlimited activations available."
 msgstr ""
 
-#: pro/class-licensing.php:552 pro/class-licensing.php:659
+#: pro/class-licensing.php:571 pro/class-licensing.php:678
 #, php-format
 msgid "%s/%s activations available."
 msgstr ""
 
-#: pro/class-licensing.php:565
+#: pro/class-licensing.php:584
 msgid "Valid"
 msgstr ""
 
-#: pro/class-licensing.php:572
+#: pro/class-licensing.php:591
 #, php-format
 msgid "Valid license for %s."
 msgstr ""
 
-#: pro/class-licensing.php:584
+#: pro/class-licensing.php:603
 msgid "Multisite"
 msgstr ""
 
-#: pro/class-licensing.php:585
+#: pro/class-licensing.php:604
 #, php-format
 msgid "Multisite detected. Please consider upgrading to %smultisite%s."
 msgstr ""
 
-#: pro/class-licensing.php:605
+#: pro/class-licensing.php:624
 msgid "No response"
 msgstr ""
 
-#: pro/class-licensing.php:606
+#: pro/class-licensing.php:625
 msgid ""
 "The license information could not be retrieved at this moment. Please try "
 "again at a later time."
 msgstr ""
 
-#: pro/class-licensing.php:612 pro/class-licensing.php:621
+#: pro/class-licensing.php:631 pro/class-licensing.php:640
 #: templates/dashboard/progress.php:59
 msgid "Open"
 msgstr ""
 
-#: pro/class-licensing.php:613
+#: pro/class-licensing.php:632
 #, php-format
 msgid "Please enter your license key. Available in your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:622
+#: pro/class-licensing.php:641
 msgid "Please activate your license key."
 msgstr ""
 
-#: pro/class-licensing.php:628 pro/class-licensing.php:635
-#: pro/class-licensing.php:643 pro/class-licensing.php:650
-#: pro/class-licensing.php:665
+#: pro/class-licensing.php:647 pro/class-licensing.php:654
+#: pro/class-licensing.php:662 pro/class-licensing.php:669
+#: pro/class-licensing.php:684
 msgid "Warning"
 msgstr ""
 
-#: pro/class-licensing.php:629
+#: pro/class-licensing.php:648
 #, php-format
 msgid "Your license has been revoked. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:636
+#: pro/class-licensing.php:655
 #, php-format
 msgid ""
 "Your license could not be found in our system. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:644
+#: pro/class-licensing.php:663
 #, php-format
 msgid "This license is not valid. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:651
+#: pro/class-licensing.php:670
 #, php-format
 msgid ""
 "This license is not valid for this product. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:666
+#: pro/class-licensing.php:685
 #, php-format
 msgid ""
 "Your license key has expired. Please renew your license key on your %saccount"
@@ -6044,7 +6046,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:180
 #: pro/config/US/questions-processing.php:180
 #: pro/config/ZA/questions-processing.php:180
-#: pro/config/questions-wizard.php:888
+#: pro/config/questions-wizard.php:886
 msgid "Username and Password"
 msgstr ""
 
@@ -6055,7 +6057,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:181
 #: pro/config/US/questions-processing.php:181
 #: pro/config/ZA/questions-processing.php:181
-#: pro/config/questions-wizard.php:889
+#: pro/config/questions-wizard.php:887
 msgid "DNSSEC"
 msgstr ""
 
@@ -6066,7 +6068,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:182
 #: pro/config/US/questions-processing.php:182
 #: pro/config/ZA/questions-processing.php:182
-#: pro/config/questions-wizard.php:890
+#: pro/config/questions-wizard.php:888
 msgid "TLS / SSL"
 msgstr ""
 
@@ -6077,7 +6079,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:183
 #: pro/config/US/questions-processing.php:183
 #: pro/config/ZA/questions-processing.php:183
-#: pro/config/questions-wizard.php:891
+#: pro/config/questions-wizard.php:889
 msgid "DKIM, SPF en DMARC"
 msgstr ""
 
@@ -6088,7 +6090,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:184
 #: pro/config/US/questions-processing.php:184
 #: pro/config/ZA/questions-processing.php:184
-#: pro/config/questions-wizard.php:892
+#: pro/config/questions-wizard.php:890
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 
@@ -6099,7 +6101,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:185
 #: pro/config/US/questions-processing.php:185
 #: pro/config/ZA/questions-processing.php:185
-#: pro/config/questions-wizard.php:893
+#: pro/config/questions-wizard.php:891
 msgid "Security software"
 msgstr ""
 
@@ -6110,7 +6112,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:186
 #: pro/config/US/questions-processing.php:186
 #: pro/config/ZA/questions-processing.php:186
-#: pro/config/questions-wizard.php:894
+#: pro/config/questions-wizard.php:892
 msgid "ISO27001/27002 certified"
 msgstr ""
 
@@ -6121,7 +6123,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:194
 #: pro/config/US/questions-processing.php:194
 #: pro/config/ZA/questions-processing.php:194
-#: pro/config/questions-wizard.php:902
+#: pro/config/questions-wizard.php:900
 msgid "STARTTLS and DANE"
 msgstr ""
 
@@ -10972,6 +10974,14 @@ msgstr ""
 msgid "Purpose, data and retention period"
 msgstr ""
 
+#: pro/config/dynamic-document-elements.php:17
+#: pro/config/dynamic-document-elements.php:263
+msgid ""
+"We may collect or receive personal information for a number of purposes "
+"connected with our business operations which may include the following: "
+"(click to expand)"
+msgstr ""
+
 #: pro/config/dynamic-document-elements.php:48
 #: pro/config/dynamic-document-elements.php:293
 #: pro/config/questions-wizard.php:706
@@ -11072,13 +11082,6 @@ msgstr ""
 
 #: pro/config/dynamic-document-elements.php:262
 msgid "Purpose and categories of data"
-msgstr ""
-
-#: pro/config/dynamic-document-elements.php:263
-msgid ""
-"We may collect or receive personal information for a number of purposes "
-"connected with our business operations which may include the following: "
-"(click to expand)"
 msgstr ""
 
 #: pro/config/dynamic-document-elements.php:306
@@ -11705,143 +11708,131 @@ msgstr ""
 msgid "Processors & Service Providers"
 msgstr ""
 
-#: pro/config/questions-wizard.php:822
-msgid ""
-"If you share data with processors, add a \"Processor\" or \"Service Provider "
-"for each one, and add the details of the data you share."
-msgstr ""
-
-#: pro/config/questions-wizard.php:836
+#: pro/config/questions-wizard.php:835
 msgid "Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:837
-msgid ""
-"If you share data with Third Parties, add a \"Third Party\" for each one, "
-"and add the details of the data you share."
-msgstr ""
-
-#: pro/config/questions-wizard.php:851
+#: pro/config/questions-wizard.php:849
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 
-#: pro/config/questions-wizard.php:857
+#: pro/config/questions-wizard.php:855
 msgid ""
 "You have answered that you use webforms on your site. Not every form that "
 "collects personal data requires a checkbox."
 msgstr ""
 
-#: pro/config/questions-wizard.php:869
+#: pro/config/questions-wizard.php:867
 msgid ""
 "Do you want to provide a detailed list of security measures in your Privacy "
 "Statement?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:871
+#: pro/config/questions-wizard.php:869
 msgid "No, provide a general explanation"
 msgstr ""
 
-#: pro/config/questions-wizard.php:872
+#: pro/config/questions-wizard.php:870
 msgid "Yes, we will list our security measures"
 msgstr ""
 
-#: pro/config/questions-wizard.php:886
+#: pro/config/questions-wizard.php:884
 msgid "Which security measures did you take?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:906
+#: pro/config/questions-wizard.php:904
 #, php-format
 msgid ""
 "Quickly want to implement most of these security headers? Check out %sReally "
 "Simple SSL Pro%s."
 msgstr ""
 
-#: pro/config/questions-wizard.php:920
+#: pro/config/questions-wizard.php:918
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:932
+#: pro/config/questions-wizard.php:930
 msgid "https://your-terms-page.com"
 msgstr ""
 
-#: pro/config/questions-wizard.php:937
+#: pro/config/questions-wizard.php:935
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:938 pro/config/questions-wizard.php:1181
+#: pro/config/questions-wizard.php:936 pro/config/questions-wizard.php:1179
 #, php-format
 msgid "Also see our free %sTerms & Conditions%s plugin"
 msgstr ""
 
-#: pro/config/questions-wizard.php:945
+#: pro/config/questions-wizard.php:943
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
 
-#: pro/config/questions-wizard.php:955
+#: pro/config/questions-wizard.php:953
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:971
+#: pro/config/questions-wizard.php:969
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:973
+#: pro/config/questions-wizard.php:971
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: pro/config/questions-wizard.php:974
+#: pro/config/questions-wizard.php:972
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: pro/config/questions-wizard.php:975
+#: pro/config/questions-wizard.php:973
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: pro/config/questions-wizard.php:991
+#: pro/config/questions-wizard.php:989
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1009
+#: pro/config/questions-wizard.php:1007
 msgid "What is the name of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1027
+#: pro/config/questions-wizard.php:1025
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1045
+#: pro/config/questions-wizard.php:1043
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1047
+#: pro/config/questions-wizard.php:1045
 msgid "Registration"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1048
+#: pro/config/questions-wizard.php:1046
 msgid "Content created by a child and publicly shared"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1049
+#: pro/config/questions-wizard.php:1047
 msgid "Chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1050
+#: pro/config/questions-wizard.php:1048
 msgid "Email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1066
+#: pro/config/questions-wizard.php:1064
 #, php-format
 msgid ""
 "You have indicated that your website is not included in a COPPA Safe Harbor "
@@ -11849,124 +11840,124 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1083
+#: pro/config/questions-wizard.php:1081
 msgid "Information collected for registration "
 msgstr ""
 
-#: pro/config/questions-wizard.php:1102
+#: pro/config/questions-wizard.php:1100
 msgid "Information collected for content created by a child"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1121
+#: pro/config/questions-wizard.php:1119
 msgid "Information collected for chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1140
+#: pro/config/questions-wizard.php:1138
 msgid "Information collected for email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1161
+#: pro/config/questions-wizard.php:1159
 msgid "Which themes would you like to include in your Disclaimer?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1163
+#: pro/config/questions-wizard.php:1161
 msgid "Liability"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1164
+#: pro/config/questions-wizard.php:1162
 msgid "Reference to terms of use"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1165
+#: pro/config/questions-wizard.php:1163
 msgid "How you will answer inquiries"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1166
+#: pro/config/questions-wizard.php:1164
 msgid "Privacy and reference to the privacy statement"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1167
+#: pro/config/questions-wizard.php:1165
 msgid "Not liable when security is breached"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1168
+#: pro/config/questions-wizard.php:1166
 msgid "Not liable for third-party content"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1169
+#: pro/config/questions-wizard.php:1167
 msgid "Accessibility of the website for the disabled"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1180
+#: pro/config/questions-wizard.php:1178
 msgid "What is the URL of the Terms of Use?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1193
+#: pro/config/questions-wizard.php:1191
 msgid "Is your website built according to WCAG 2.1 level AA guidelines?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1209
+#: pro/config/questions-wizard.php:1207
 msgid "Who made the content of the website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1211
+#: pro/config/questions-wizard.php:1209
 msgid "The content is being developed by ourselves"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1212
+#: pro/config/questions-wizard.php:1210
 msgid "The content is being developed or posted by Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1213
+#: pro/config/questions-wizard.php:1211
 msgid "The content is being developed by ourselves and other parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1226
+#: pro/config/questions-wizard.php:1224
 msgid "What do you want to do with any intellectual property claims?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1228
+#: pro/config/questions-wizard.php:1226
 msgid "All rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1229
+#: pro/config/questions-wizard.php:1227
 msgid "No rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1230
+#: pro/config/questions-wizard.php:1228
 msgid "Creative Commons - Attribution"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1231
+#: pro/config/questions-wizard.php:1229
 msgid "Creative Commons - Share a like"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1232
+#: pro/config/questions-wizard.php:1230
 msgid "Creative Commons - No derivatives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1233
+#: pro/config/questions-wizard.php:1231
 msgid "Creative Commons - Noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1234
+#: pro/config/questions-wizard.php:1232
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1237
+#: pro/config/questions-wizard.php:1235
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
 "legally and to share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1252
+#: pro/config/questions-wizard.php:1250
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1261
+#: pro/config/questions-wizard.php:1259
 msgid "Annex of your Privacy Statement"
 msgstr ""
 
