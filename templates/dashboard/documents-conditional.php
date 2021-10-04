@@ -30,12 +30,6 @@ $docs = array(
 		'read-more' => 'https://complianz.io/definition/what-is-a-privacy-statement-for-children/',
 		'subscription' => 'premium',
 	),
-	'disclaimer' => array(
-		'title' => __("Disclaimer", 'complianz-gdpr'),
-		'regions' => array('eu', 'us', 'uk', 'ca', 'za', 'au', 'br'),
-		'read-more' => 'https://complianz.io/definition/what-is-a-disclaimer/',
-		'subscription' => 'premium',
-	),
 );
 
 if (!class_exists('COMPLIANZ_TC') ) {
@@ -78,7 +72,7 @@ $args = array(
 	'page_exists' => '',
 	'sync_icon' => '',
 	'shortcode_icon' => '',
-	'generated' => '<a href="https://complianz.io/features/" target="_blank" >'.__("View all documents", "complianz-gdpr").'</a>',
+	'generated' => '<a href="https://complianz.io/features/" target="_blank" >'.__("Read more", "complianz-gdpr").'</a>',
 );
 echo cmplz_get_template('dashboard/documents-row.php', $args);
 
