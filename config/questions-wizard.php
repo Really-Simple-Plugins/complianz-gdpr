@@ -760,8 +760,8 @@ $this->fields = $this->fields + array(
 			'section'  => 2,
 			'type'     => 'radio',
 			'options'  => array(
-				'yes' => __("Yes, redirect based on GEO IP"),
-				'no' => __("No, choose a menu per document")
+				'yes' => __("Yes, redirect based on GEO IP", 'complianz-gdpr'),
+				'no' => __("No, choose a menu per document", 'complianz-gdpr'),
 			),
 			'disabled' => array(
 				'yes',
@@ -769,7 +769,7 @@ $this->fields = $this->fields + array(
 			'default' => 'no',
 			'comment' =>  sprintf(__("GEO IP based redirect is available in %spremium%s", "complianz-gdpr"), '<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>'),
 			'source'   => 'wizard',
-			'label'    => __("Do you want to use region redirect on the relevant documents?"),
+			'label'    => __("Do you want to use region redirect on the relevant documents?", 'complianz-gdpr'),
 			'help' =>  __( 'Did you know you can design a legal hub for your website?','complianz-gdpr' ).
 			           cmplz_read_more('https://complianz.io/creating-the-legal-hub/'),
 		),

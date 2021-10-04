@@ -9,7 +9,7 @@
 #cmplz-cookies-overview .cmplz-dropdown .cmplz-sharing-data,
 #cmplz-document .cmplz-dropdown .cmplz-sharing-data {
   display: inline-block;
-  width: calc(50% - 30px);
+  width: calc(50% - 35px);
   vertical-align: top;
 }
 @media only screen and (max-width: 600px) {
