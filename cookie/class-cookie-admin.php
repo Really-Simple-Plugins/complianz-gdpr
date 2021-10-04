@@ -1272,7 +1272,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			//now count the "EN" cookies
-			if ( isset($data['en']) ) {
+			if ( isset($data['en']) && is_array($data['en']) ) {
 				foreach ($data['en'] as $service => $cookies ){
 					$count_all += is_array($cookies) ? count($cookies) : 0;
 				}

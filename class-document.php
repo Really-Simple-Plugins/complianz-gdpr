@@ -2067,6 +2067,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$page_id = $this->get_page_id_for_generic_document( $type );
 						$page       = get_post( $page_id );
 
+						if (!$page) continue;
+
 						foreach ( $menu_items as $menu_item_id => $menu_item ) {
 							if ( $menu_item->type === 'custom' ) {
 								if ( strpos( $menu_item->url, $page->post_name ) !== false && strpos( $menu_item->url, 'cmplz_region_redirect' ) !== false ) {
