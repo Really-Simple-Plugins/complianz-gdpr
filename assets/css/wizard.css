@@ -1148,7 +1148,6 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  opacity: 0.4;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -1196,8 +1195,8 @@ input:checked + .cmplz-slider:before {
   -ms-transform: translateX(17px);
   transform: translateX(17px);
 }
-input:checked:disabled + .cmplz-slider {
-  background-color: #edf9fe;
+input:disabled + .cmplz-slider {
+  opacity: 0.4;
 }
 input:focus + .cmplz-slider {
   box-shadow: 0 0 1px #29b6f6;

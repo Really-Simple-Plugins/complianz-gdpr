@@ -1232,10 +1232,8 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  opacity:0.4;
   -webkit-transition: .4s;
   transition: .4s;
-
   &:before {
 	position: absolute;
 	content: "";
@@ -1283,6 +1281,7 @@ a.button.cmplz-open-modal {
 input:checked + .cmplz-slider {
   background-color: @brand-primary;
 
+
   &:before {
 	-webkit-transform: translateX(17px);
 	-ms-transform: translateX(17px);
@@ -1290,8 +1289,8 @@ input:checked + .cmplz-slider {
   }
 }
 
-input:checked:disabled + .cmplz-slider {
-  background-color: lighten(@brand-primary, 40%);
+input:disabled + .cmplz-slider {
+  opacity:0.4;
 }
 
 
