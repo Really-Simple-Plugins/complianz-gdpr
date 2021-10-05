@@ -253,7 +253,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-			if ( version_compare($item->new_version, '6.0.0') ) {
+			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>') ) {
 				return false;
 			}
 			return $update;

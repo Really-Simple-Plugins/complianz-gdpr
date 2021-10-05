@@ -12,7 +12,6 @@
 	</domain>
 	<exclude>
 		<directory>node_modules</directory>
-		<directory>integrations/TGM</directory>
 	</exclude>
 </bundle>
 

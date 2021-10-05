@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.8
-Stable tag: 5.5.0
+Stable tag: 5.5.1
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
@@ -122,6 +122,9 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 5.5.1 =
+* Fix: auto update disabled for other plugins
+
 = 5.5.0 =
 * New: Placeholder themes and customization options
 * New: Google Consent Mode for Google Tag Manager and GTAG.js
