@@ -21,7 +21,7 @@
 					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">', '</a>' ) );
 		} else {
 			cmplz_notice( sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ", 'complianz-gdpr' ),
-					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=3&section=4' ) . '">', '</a>' ) );
+					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">', '</a>' ) );
 		}
 	}
 
@@ -95,7 +95,3 @@
 	}
 	?>
 	<input type="hidden" name="cmplz_save_integrations_type_services" value="1">
-
-
-
-
