@@ -2109,6 +2109,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function inline_cookie_script_no_warning() {
+			do_action( 'cmplz_before_statistics_script' );
 			?>
 			<script type='text/javascript' class="cmplz-native">
 

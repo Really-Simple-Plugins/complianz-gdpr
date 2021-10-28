@@ -38,6 +38,32 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		}
 
 		/**
+		 * Check if current day falls within required date range.
+		 *
+		 * @return bool
+		 */
+		public function is_bf(){
+			if ( defined("cmplz_premium" ) ) {
+				return false;
+			}
+			$start_day = 26;
+			$end_day = 29;
+			$current_year = date("Y");//e.g. 2021
+			$current_month = date("n");//e.g. 3
+			$current_day = date("j");//e.g. 4
+
+			if ( $current_year == 2021 &&
+				 $current_month == 11 &&
+				 $current_day >=$start_day &&
+				 $current_day <= $end_day
+			) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		/**
 		 * Hooked into ajax call to dismiss a warning
 		 * @hooked wp_ajax_cmplz_dismiss_warning
 		 */
@@ -253,7 +279,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>') ) {
+			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
 				return false;
 			}
 			return $update;

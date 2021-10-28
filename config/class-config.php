@@ -348,7 +348,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			 * The integrations are loaded with priority 10
 			 * Because we want to initialize after that, we use 15 here
 			 */
-			add_action( 'plugins_loaded', array( $this, 'load_warning_types' ) );
+			if ( is_admin() ) {
+				add_action( 'plugins_loaded', array( $this, 'load_warning_types' ) );
+			}
+
 			add_action( 'plugins_loaded', array( $this, 'init' ), 15 );
 		}
 
@@ -646,6 +649,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'plus_one' => true,
 					'urgent' => sprintf(__( 'We have detected the %s plugin on your website.', 'complianz-gdpr' ),cmplz_detected_cookie_plugin(true)).'&nbsp;'.__( 'As Complianz handles all the functionality this plugin provides, you should disable this plugin to prevent unexpected behaviour.', 'complianz-gdpr' ),
 					'include_in_progress' => true,
+				),
+
+				'bf-notice' => array(
+					'warning_condition'  => 'admin->is_bf',
+					'plus_one' => true,
+					'open' => __( "It's Black Friday! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',
+					'include_in_progress' => false,
 				),
 
 			) );

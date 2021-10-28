@@ -98,8 +98,10 @@ function process_integrations_services_save() {
 					$active_socialmedia[ $service ] = 0;
 				}
 			}
+
 			cmplz_update_option( 'wizard', 'socialmedia_on_site', $active_socialmedia );
-			if ( $_POST['cmplz_advertising'] == 1 ) {
+
+			if ( isset($_POST['cmplz_advertising']) & $_POST['cmplz_advertising'] == 1 ) {
 				cmplz_update_option( 'wizard', 'uses_ad_cookies', 'yes' );
 			} else {
 				cmplz_update_option( 'wizard', 'uses_ad_cookies', 'no' );
