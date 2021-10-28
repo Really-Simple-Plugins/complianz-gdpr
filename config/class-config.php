@@ -654,7 +654,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'bf-notice' => array(
 					'warning_condition'  => 'admin->is_bf',
 					'plus_one' => true,
-					'open' => sprintf(__( "It's Black Friday! %sGet 40%%s Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ),'<a target="_blank" href="https://complianz.io/pricing">', '</a>' ),
+					'open' => __( "It's Black Friday! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',
 					'include_in_progress' => false,
 				),
 
