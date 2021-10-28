@@ -1387,7 +1387,7 @@ if (!function_exists('cmplz_read_more')) {
 	 */
 	function cmplz_read_more( $url, $add_space = true ) {
 		$html
-			= sprintf( __( "For more information on this subject, please read this %sarticle%s.",
+			= sprintf( __( "For more information, please read this %sarticle%s.",
 			'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">',
 			'</a>' );
 		if ( $add_space ) {
@@ -2429,6 +2429,20 @@ if ( ! function_exists( 'cmplz_uses_optin' ) ) {
 	function cmplz_uses_optin() {
 		return ( in_array( 'optin', cmplz_get_used_consenttypes() )
 		         || in_array( 'optinstats', cmplz_get_used_consenttypes() ) );
+	}
+}
+
+if ( ! function_exists( 'cmplz_set_multisite_root' ) ) {
+
+	/**
+	 * Check if the cookies should get set as special multisite root cookies
+	 *
+	 * Don't do this
+	 *
+	 * @return bool
+	 */
+	function cmplz_set_multisite_root() {
+		return is_multisite() && is_main_site() && cmplz_get_value( 'set_cookies_on_root' );
 	}
 }
 

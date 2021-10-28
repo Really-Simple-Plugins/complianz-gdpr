@@ -1011,7 +1011,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$output = array(
 				'static'                                  => false,
-				'is_multisite_root'                       => is_multisite() && is_main_site(),
+				'is_multisite_root'                       => cmplz_set_multisite_root(),
 				//cookies to set on acceptance, in order array('cookiename=>array('consent value', 'revoke value');
 				'set_cookies'                             => apply_filters( 'cmplz_set_cookies_on_consent', array() ),
 				'block_ajax_content'                      => cmplz_get_value( 'enable_cookieblocker_ajax' ),

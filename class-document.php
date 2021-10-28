@@ -1968,8 +1968,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( count( $pages ) > 0 ) {
 				foreach ( $pages as $page_id ) {
+					//check also for generic redirected documents
+					$region_redirected_page_id = $this->get_page_id_for_generic_document($page_id);
 					foreach ( $menus as $menu_id => $menu ) {
 						if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
+							$pages_in_menu[] = $page_id;
+						} else if ($this->is_assigned_this_menu( $region_redirected_page_id, $menu_id )) {
 							$pages_in_menu[] = $page_id;
 						}
 
@@ -2489,7 +2493,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$has_consent = false;
 			$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 			$cookiesettings = COMPLIANZ::$cookie_admin->get_cookiebanner_settings( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
-			$prefix = is_multisite() && is_main_site() ? 'cmplz_rt_' : 'cmplz_';
+			$prefix = cmplz_set_multisite_root() ? 'cmplz_rt_' : 'cmplz_';
 			if ( $consenttype === 'optin' || $consenttype === 'optinstats' ) {
 				if ( $cookiesettings['use_categories'] === 'no' ){
 					if (isset($_COOKIE[$prefix.'consent_status']) && $_COOKIE[$prefix.'consent_status'] === 'allow' ) {
