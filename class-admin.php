@@ -46,7 +46,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( defined("cmplz_premium" ) ) {
 				return false;
 			}
-			$start_day = 26;
+			$start_day = 22;
 			$end_day = 29;
 			$current_year = date("Y");//e.g. 2021
 			$current_month = date("n");//e.g. 3
