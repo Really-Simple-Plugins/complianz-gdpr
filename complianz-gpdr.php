@@ -102,9 +102,9 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			}
 
 			self::$proof_of_consent = new cmplz_proof_of_consent();
+			self::$cookie_blocker   = new cmplz_cookie_blocker();
 			self::$cookie_admin     = new cmplz_cookie_admin();
 			self::$document         = new cmplz_document();
-			self::$cookie_blocker   = new cmplz_cookie_blocker();
 		}
 
 		/**
