@@ -198,8 +198,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			$uses_tagmanager   = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
 
 			/* if tag manager fires scripts, cats should be enabled for each cookiebanner. */
-			if ( $fieldname === 'compile_statistics' && $fieldvalue === 'google-tag-manager'
-			) {
+			if ( $fieldname === 'compile_statistics' && $fieldvalue === 'google-tag-manager' ) {
 				$enable_categories = true;
 			}
 
@@ -299,15 +298,15 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				cmplz_update_option( 'wizard', 'children-safe-harbor', 'no' );
 			}
 
-
 			if ( $fieldvalue === $prev_value ) {
 				return;
 			}
 
+			//clear blocked scripts transient on wizard edits.
+			delete_transient('cmplz_blocked_scripts');
+
 			//keep services in sync
-			if ( $fieldname === 'socialmedia_on_site'
-			     || $fieldname === 'thirdparty_services_on_site'
-			) {
+			if ( $fieldname === 'socialmedia_on_site' || $fieldname === 'thirdparty_services_on_site' ) {
 				COMPLIANZ::$cookie_admin->update_services();
 			}
 
@@ -319,32 +318,16 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				COMPLIANZ::$cookie_admin->maybe_add_statistics_service();
 			}
 
-			$enable_categories_uk = $enable_categories_eu = false;
-			if ( $fieldname === 'compile_statistics_more_info'
-			     || $fieldname === 'compile_statistics_more_info_tag_manager'
-			) {
-				if ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-					$enable_categories_eu = true;
-				}
-				if ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
-					$enable_categories_uk = true;
-				}
-			}
-
-			if ( $enable_categories_eu || $enable_categories_uk ) {
+			/**
+			 * If TCF was just disabled, regenerate the css.
+			 */
+			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
 				$banners = cmplz_get_cookiebanners();
-				if ( ! empty( $banners ) ) {
-					foreach ( $banners as $banner ) {
-						$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
-						if ( $enable_categories_uk ) {
-							$banner->use_categories_optinstats = 'hidden';
-						}
-						if ( $enable_categories_eu ) {
-							$banner->use_categories_optinstats = 'hidden';
-						}
-						$banner->save();
+				if ( $banners ) {
+					foreach ( $banners as $banner_item ) {
+						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+						$banner->generate_css();
 					}
-
 				}
 			}
 		}

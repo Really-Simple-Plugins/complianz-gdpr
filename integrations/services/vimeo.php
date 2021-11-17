@@ -1,15 +1,22 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-add_filter( 'cmplz_known_iframe_tags', 'cmplz_vimeo_iframetags' );
+add_filter( 'cmplz_known_script_tags', 'cmplz_vimeo_iframetags' );
 function cmplz_vimeo_iframetags( $tags ) {
-	$tags[] = 'player.vimeo.com';
-	$tags[] = 'i.vimeocdn.com';
+	$tags[] = array(
+		'name' => 'vimeo',
+		'placeholder' => 'vimeo',
+		'category' => 'marketing',
+		'urls' => array(
+			'player.vimeo.com',
+			'i.vimeocdn.com',
+		),
+	);
 	return $tags;
 }
 
-add_filter( 'cmplz_iframe_tags_not_including', 'cmplz_vimeo_not_including_iframetags' );
-function cmplz_vimeo_not_including_iframetags( $tags ) {
+add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_vimeo_whitelist' );
+function cmplz_vimeo_whitelist( $tags ) {
 	$tags[] = 'dnt=1';
 	$tags[] = 'dnt=true';
 	return $tags;

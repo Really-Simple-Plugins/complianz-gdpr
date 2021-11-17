@@ -2,9 +2,16 @@
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 
-add_filter( 'cmplz_known_iframe_tags', 'cmplz_spotify_iframetags' );
+add_filter( 'cmplz_known_script_tags', 'cmplz_spotify_iframetags' );
 function cmplz_spotify_iframetags( $tags ) {
-	$tags[] = 'open.spotify.com/embed';
+	$tags[] = array(
+		'name' => 'spotify',
+		'placeholder' => 'spotify',
+		'category' => 'marketing',
+		'urls' => array(
+			'open.spotify.com/embed',
+		),
+	);
 	return $tags;
 }
 

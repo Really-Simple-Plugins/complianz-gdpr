@@ -53,7 +53,9 @@ $this->regions = array(
 		'countries' => array( 'US' ),
 		'law'       => __( "CCPA", 'complianz-gdpr' ),
 		'type'      => 'optout',
+		'statistics_consent' => 'no',
 		'dataleak_type' => '2',
+		'tcf' => true,
 	),
 	'ca' => array(
 		'label'     => __( 'CA', 'complianz-gdpr' ),
@@ -61,7 +63,9 @@ $this->regions = array(
 		'countries' => array( 'CA' ),
 		'law'       => __( "PIPEDA", 'complianz-gdpr' ),
 		'type'      => 'optout',
+		'statistics_consent' => 'no',
 		'dataleak_type' => '3',
+		'tcf' => true,
 	),
 	'eu' => array(
 		'label'     => __( 'EU', 'complianz-gdpr' ),
@@ -69,15 +73,19 @@ $this->regions = array(
 		'countries' => $this->eu_countries,
 		'law'       => __( "GDPR", 'complianz-gdpr' ),
 		'type'      => 'optin',
+		'statistics_consent' => 'when_not_anonymous',
 		'dataleak_type' => '1',
+		'tcf' => true,
 	),
 	'uk' => array(
 		'label'     => __( 'UK', 'complianz-gdpr' ),
 		'label_full'=> __( 'United Kingdom', 'complianz-gdpr' ),
 		'countries' => array( 'GB' ),
 		'law'       => __( "UK-GDPR", 'complianz-gdpr' ),
-		'type'      => 'optinstats',
+		'type'      => 'optin',
+		'statistics_consent' => 'always',
 		'dataleak_type' => '1',
+		'tcf' => true,
 	),
 	'au' => array(
 		'label'     => __( 'AU', 'complianz-gdpr' ),
@@ -85,15 +93,19 @@ $this->regions = array(
 		'countries' => array( 'AU' ),
 		'law'       => __( "APA", 'complianz-gdpr' ),
 		'type'      => 'optout',
+		'statistics_consent' => 'no',
 		'dataleak_type' => '3',
+		'tcf' => true,
 	),
 	'za' => array(
 		'label'     => __( 'ZA', 'complianz-gdpr' ),
 		'label_full'=> __( 'South Africa', 'complianz-gdpr' ),
 		'countries' => array( 'ZA' ),
 		'law'       => __( "POPIA", 'complianz-gdpr' ),
-		'type'      => 'optinstats',
+		'type'      => 'optin',
+		'statistics_consent' => 'no',
 		'dataleak_type' => '3',
+		'tcf' => true,
 	),
 	'br' => array(
 		'label'     => __( 'BR', 'complianz-gdpr' ),
@@ -101,7 +113,9 @@ $this->regions = array(
 		'countries' => array( 'BR' ),
 		'law'       => __( "LGPD", 'complianz-gdpr' ),
 		'type'      => 'optin',
+		'statistics_consent' => 'no',
 		'dataleak_type' => '3',
+		'tcf' => true,
 	)
 );
 

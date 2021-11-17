@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 function cmplz_gravityforms_recaptcha_css() {
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		?>
-		<style>
 			.cmplz-gf-recaptcha {
 				background-image:url(<?php echo cmplz_placeholder('google-recaptcha')?>) !important;
 				cursor:pointer;
@@ -32,11 +31,10 @@ function cmplz_gravityforms_recaptcha_css() {
 					height: 100px !important
 				}
 			}
-		</style>
 	<?php
 	}
 }
-add_action( 'wp_footer', 'cmplz_gravityforms_recaptcha_css' );
+add_action( 'cmplz_banner_css', 'cmplz_gravityforms_recaptcha_css' );
 
 /**
  * Initialize the form after cookies have been accepted, to ensure recaptcha is enabled.
@@ -44,35 +42,31 @@ add_action( 'wp_footer', 'cmplz_gravityforms_recaptcha_css' );
 
 function cmplz_gravifyforms_initform() {
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-		if(!wp_script_is('jquery', 'done')) {
-			wp_enqueue_script('jquery');
-		}
 		ob_start();
 		?>
 		<script>
-			jQuery(document).ready(function ($) {
-				//store the container where gf recaptcha resides
-				var reCaptchaContainer = $('.ginput_recaptcha').closest('.gfield');
-				reCaptchaContainer.append('<span class="cmplz-gf-recaptcha cmplz-accept-marketing"><?php _e("Click to accept reCaptcha validation.", 'complianz-gdpr')?></span>');
-
-				$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_post_render);
-				function cmplz_cf7_fire_post_render() {
-					//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
-					window.document.dispatchEvent(new Event("gform_post_render", {
-						bubbles: true,
-						cancelable: true
-					}));
-					$('.cmplz-gf-recaptcha').remove();
-				}
-			})
+			//store the container where gf recaptcha resides
+			let reCaptchaContainer = document.querySelector('.ginput_recaptcha').closest('.gfield');
+			let html = '<span class="cmplz-gf-recaptcha cmplz-accept-marketing"><?php _e("Click to accept reCaptcha validation.", 'complianz-gdpr')?></span>';
+			reCaptchaContainer.insertAdjacentHTML( 'beforeend', html );
+			document.addEventListener("cmplz_run_after_all_scripts", cmplz_cf7_fire_post_render);
+			function cmplz_cf7_fire_post_render() {
+				//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
+				window.document.dispatchEvent(new Event("gform_post_render", {
+					bubbles: true,
+					cancelable: true
+				}));
+				let obj = document.querySelector('.cmplz-gf-recaptcha');
+				obj.parentNode.removeChild(obj)
+			}
 		</script>
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace(array('<script>', '</script>'), '', $script);
-		wp_add_inline_script( 'jquery', $script );
+		wp_add_inline_script( 'cmplz-cookiebanner', $script );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'cmplz_gravifyforms_initform' );
+add_action( 'wp_enqueue_scripts', 'cmplz_gravifyforms_initform', PHP_INT_MAX );
 
 /**
  * Add gravify forms as form type

@@ -9,35 +9,31 @@ gtag('consent', 'default', {
 	'ad_storage': "denied",
 });
 
-document.addEventListener("cmplzFireCategories", function (e) {
-	var consentedCategory = e.detail.category;
-	if ( consentedCategory === 'marketing' ) {
+document.addEventListener("cmplz_fire_categories", function (e) {
+	var consentedCategories = e.detail.categories;
+	if (cmplz_in_array( 'preferences', consentedCategories )) {
 		gtag('consent', 'update', {
 			'ad_storage': 'granted',
 			'analytics_storage': 'granted',
 			'personalization_storage': 'granted'
 		});
-	} else if ( consentedCategory === 'statistics' ) {
+	}
+
+	if (cmplz_in_array( 'statistics', consentedCategories )) {
 		gtag('consent', 'update', {
 			'analytics_storage': 'granted',
 			'personalization_storage': 'granted',
 		});
-	} else if ( consentedCategory === 'preferences' ) {
+	}
+
+	if (cmplz_in_array( 'marketing', consentedCategories )) {
 		gtag('consent', 'update', {
-			'personalization_storage': 'granted'
-		});
-	} else {
-		gtag('consent', 'update', {
-			'security_storage': "granted",
-			'functionality_storage': "granted",
-			'personalization_storage': "denied",
-			'analytics_storage': 'denied',
-			'ad_storage': "denied",
+			'ad_storage': 'granted',
 		});
 	}
 });
 
-document.addEventListener("cmplzCookieWarningLoaded", function (e) {
+document.addEventListener("cmplz_cookie_warning_loaded", function (e) {
 	gtag('js', new Date());
 	gtag('config', '{G_code}', {
 		cookie_flags:'secure;samesite=none',
@@ -45,7 +41,7 @@ document.addEventListener("cmplzCookieWarningLoaded", function (e) {
 	});
 });
 
-document.addEventListener("cmplzRevoke", function (e) {
+document.addEventListener("cmplz_revoke", function (e) {
 	gtag('consent', 'update', {
 		'security_storage': "granted",
 		'functionality_storage': "granted",

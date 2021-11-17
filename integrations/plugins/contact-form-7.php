@@ -1,78 +1,78 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+
 function cmplz_cf7_initDomContentLoaded() {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
 
 	if (class_exists('IQFix_WPCF7_Deity')) return;
 
+
 	$service = WPCF7_RECAPTCHA::get_instance();
 	if ( $service->is_active() ) {
+		ob_start();
 		if (version_compare(WPCF7_VERSION, 5.2, '>=') ) {
 			?>
 			<script>
-				jQuery(document).ready(function ($) {
-					$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
-
-					function cmplz_cf7_fire_domContentLoadedEvent() {
-						wpcf7_recaptcha.execute = function (action) {
-							grecaptcha.execute(
+				document.addEventListener("cmplz_run_after_all_scripts", cmplz_cf7_fire_domContentLoadedEvent);
+				function cmplz_cf7_fire_domContentLoadedEvent() {
+					wpcf7_recaptcha.execute = function (action) {
+						grecaptcha.execute(
 								wpcf7_recaptcha.sitekey,
 								{action: action}
-							).then(function (token) {
-								var event = new CustomEvent('wpcf7grecaptchaexecuted', {
-									detail: {
-										action: action,
-										token: token,
-									},
-								});
-
-								document.dispatchEvent(event);
+						).then(function (token) {
+							var event = new CustomEvent('wpcf7grecaptchaexecuted', {
+								detail: {
+									action: action,
+									token: token,
+								},
 							});
-						};
 
-						wpcf7_recaptcha.execute_on_homepage = function () {
-							wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['homepage']);
-						};
+							document.dispatchEvent(event);
+						});
+					};
 
-						wpcf7_recaptcha.execute_on_contactform = function () {
-							wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['contactform']);
-						};
+					wpcf7_recaptcha.execute_on_homepage = function () {
+						wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['homepage']);
+					};
 
-						grecaptcha.ready(
+					wpcf7_recaptcha.execute_on_contactform = function () {
+						wpcf7_recaptcha.execute(wpcf7_recaptcha.actions['contactform']);
+					};
+
+					grecaptcha.ready(
 							wpcf7_recaptcha.execute_on_homepage
-						);
+					);
 
-						document.addEventListener('change',
+					document.addEventListener('change',
 							wpcf7_recaptcha.execute_on_contactform
-						);
+					);
 
-						document.addEventListener('wpcf7submit',
+					document.addEventListener('wpcf7submit',
 							wpcf7_recaptcha.execute_on_homepage
-						);
-					}
-				})
+					);
+				}
 			</script>
 			<?php
-		} else {
-			?>
+		} else {?>
 			<script>
-				jQuery(document).ready(function ($) {
-					$(document).on("cmplzRunAfterAllScripts", cmplz_cf7_fire_domContentLoadedEvent);
-
-					function cmplz_cf7_fire_domContentLoadedEvent() {
-						//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
-						window.document.dispatchEvent(new Event("DOMContentLoaded", {
-							bubbles: true,
-							cancelable: true
-						}));
-					}
-				})
+				document.addEventListener("cmplz_run_after_all_scripts", cmplz_cf7_fire_domContentLoadedEvent);
+				function cmplz_cf7_fire_domContentLoadedEvent() {
+					//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
+					window.document.dispatchEvent(new Event("DOMContentLoaded", {
+						bubbles: true,
+						cancelable: true
+					}));
+				}
 			</script>
 			<?php
 		}
+
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'cmplz-cookiebanner', $script);
 	}
 }
-add_action( 'wp_footer', 'cmplz_cf7_initDomContentLoaded' );
+add_action( 'wp_enqueue_scripts', 'cmplz_cf7_initDomContentLoaded', PHP_INT_MAX );
 
 
 /**
@@ -117,10 +117,28 @@ function cmplz_contactform7_form_types( $formtypes ) {
 
 add_filter( 'cmplz_form_types', 'cmplz_contactform7_form_types' );
 
-
 /**
  * Conditionally add the dependency from the CF 7 inline script to the .js file
  */
+add_action( 'cmplz_banner_css', 'cmplz_forminator_css' );
+function cmplz_forminator_css() {
+	?>
+	.cmplz-blocked-content-container.qforminator-g-recaptcha {
+	max-width: initial !important;
+	height: 70px !important
+	}
+
+	@media only screen and (max-width: 400px) {
+	.cmplz-blocked-content-container.forminator-g-recaptcha {
+	height: 100px !important
+	}
+	}
+
+	.cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice {
+	top: 2px
+	}
+	<?php
+}
 
 add_filter( 'cmplz_dependencies', 'cmplz_contactform7_dependencies' );
 function cmplz_contactform7_dependencies( $tags ) {

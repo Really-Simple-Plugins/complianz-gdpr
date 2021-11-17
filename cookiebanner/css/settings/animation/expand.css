@@ -1,0 +1,38 @@
+.cmplz-cookiebanner {
+  animation-name: cmplz-expand;
+  animation-duration: 2s;
+}
+.cmplz-cookiebanner div {
+  animation-name: cmplz-expand-opacity;
+  animation-duration: 2s;
+}
+@keyframes cmplz-expand {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+  25% {
+    width: 50%;
+  }
+  50% {
+    width: initial;
+  }
+  75% {
+    height: 70%;
+  }
+  100% {
+    height: initial;
+  }
+}
+@keyframes cmplz-expand-opacity {
+  0% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=expand.css.map */

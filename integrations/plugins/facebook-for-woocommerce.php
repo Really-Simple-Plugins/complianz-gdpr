@@ -3,9 +3,15 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_facebookforwoocommerce_script' );
 function cmplz_facebookforwoocommerce_script( $tags ) {
-
-	$tags[] = 'fbq';
-	$tags[] = 'connect.facebook.net';
+	$tags[] = array(
+		'name' => 'facebook',
+		'category' => 'marketing',
+		'placeholder' => 'facebook',
+		'urls' => array(
+			'connect.facebook.net',
+			'fbq',
+		),
+	);
 
 	return $tags;
 }

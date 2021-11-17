@@ -4,8 +4,6 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 	class cmplz_cookie_blocker {
 		private static $_this;
-		public $script_tags = array();
-		public $iframe_tags = array();
 
 		function __construct() {
 
@@ -15,14 +13,162 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			}
 
 			self::$_this = $this;
-
 		}
 
 		static function this() {
 			return self::$_this;
-
 		}
 
+		/**
+		 * Get array of scripts to block in correct format
+		 * This is the base array, of which dependencies and placeholder lists also are derived
+		 *
+		 * @return array
+		 */
+		public function blocked_scripts()
+		{
+			$blocked_scripts = apply_filters( 'cmplz_known_script_tags', array() );
+			$scripts = get_option("complianz_options_custom-scripts");
+			if ( is_array($scripts) && isset($scripts['block_script']) && is_array($scripts['block_script']) ) {
+				$custom_script_tags = array_filter( $scripts['block_script'], function($script) {
+					return $script['enable'] == 1;
+				});
+				$blocked_scripts = array_merge($blocked_scripts, $custom_script_tags);
+			}
+
+			$blocked_scripts = apply_filters_deprecated( 'cmplz_known_iframe_tags', array($blocked_scripts), '6.0.0', 'cmplz_known_script_tags', 'The cmplz_known_iframe_tags filter is deprecated');
+
+			//make sure every item has the default array structure
+			foreach ($blocked_scripts as $key => $blocked_script ){
+				$default = [
+					'name'               => 'general',//default service name
+					'enable_placeholder' => 1,
+					'placeholder'        => '',
+					'category'           => 'marketing',
+					'urls'               => array( $blocked_script ),
+					'enable'             => 1,
+					'enable_dependency'  => 0,
+					'dependency'         => '',
+				];
+
+				if ( !is_array($blocked_script) ){
+					$service = cmplz_get_service_by_src( $blocked_script );
+					$default['name'] = $service;
+					$default['placeholder'] = $service;
+					$blocked_scripts[$key] = $default;
+				} else {
+					$blocked_scripts[$key] = wp_parse_args( $blocked_script, $default);
+				}
+			}
+
+			$formatted_custom_script_tags = [];
+			foreach ( $blocked_scripts as $blocked_script ) {
+				$blocked_script['name'] = sanitize_title($blocked_script['name']);
+				if ( isset($blocked_script['urls']) ) {
+					foreach ($blocked_script['urls'] as $url) {
+						$formatted_custom_script_tags[$url] = $blocked_script;
+					}
+				} else if (isset($blocked_script['editor'])) {
+					$formatted_custom_script_tags[$blocked_script['editor']] = $blocked_script;
+				}
+			}
+			return $formatted_custom_script_tags;
+		}
+
+		/**
+		 * Get array of placeholder - placeholder_classes for non iframe blocked content
+		 * @param array $blocked_scripts
+		 * @return array
+		 */
+		public function placeholder_markers( $blocked_scripts )
+		{
+			$placeholder_markers = apply_filters( 'cmplz_placeholder_markers', array() );
+
+			//current format: array('facebook' = array('class1','class2') )
+			//force into new structure
+			foreach ( $placeholder_markers as $name => $placeholders ) {
+				foreach ( $placeholders as $class ) {
+					$name = sanitize_title($name);
+					$blocked_scripts[] = [
+						'name' => $name,
+						'placeholder' => $name,
+						'placeholder_class' => $class,
+						'category' => 'marketing',
+						'enable_placeholder' => 1,
+						'iframe' => 0,
+					];
+				}
+			}
+
+			//add script center data. add_script arrays aren't included in the "known_script_tags" function
+			$scripts = get_option("complianz_options_custom-scripts");
+			if ( is_array($scripts) && isset($scripts['add_script']) || is_array($scripts['add_script'] ) ) {
+				$added_scripts = array_filter( $scripts['add_script'], function ( $script ) {
+					return $script['enable'] == 1;
+				} );
+				if (!empty($added_scripts)) $blocked_scripts = array_merge($blocked_scripts, $added_scripts);
+			}
+
+			//filter out non-iframe and disabled placeholders.
+			//add_script items do not have an iframe
+			$blocked_scripts = array_filter( $blocked_scripts, function($script) {
+				return $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
+			});
+			return $blocked_scripts;
+		}
+
+		/**
+		 * Get dependencies and merge with dependencies from the script center
+		 * @param array $blocked_scripts
+		 * @return array
+		 */
+
+		function dependencies( $blocked_scripts ) {
+			//array['wait-for-this-script'] = 'script-that-should-wait';
+			$dependencies = apply_filters( 'cmplz_dependencies', array() );
+			$scripts = get_option( "complianz_options_custom-scripts" );
+			if ( is_array( $scripts ) && isset( $scripts['block_script'] ) && is_array( $scripts['block_script'] ) ) {
+				$added_scripts = array_filter( $scripts['block_script'], function ( $script ) {
+					return $script['enable'] == 1;
+				} );
+				$blocked_scripts = array_merge($blocked_scripts, $added_scripts);
+			}
+			$blocked_scripts = array_filter( $blocked_scripts, function ( $script ) {
+				return $script['enable_dependency'] == 1 && !empty($script['dependency']);
+			} );
+
+			$flat = array();
+			foreach ( $blocked_scripts as $data ) {
+				$flat = array_merge($flat, $data['dependency']);
+			}
+			return array_merge($dependencies, $flat);
+		}
+
+		/**
+		 * Get array of whitelisted scripts, and add flattened scriptcenter whitelist
+		 *
+		 * @return array
+		 */
+
+		public function whitelisted_scripts(  ) {
+			//whitelist our localized inline scripts
+			$whitelisted_script_tags = apply_filters( 'cmplz_whitelisted_script_tags', array('user_banner_id') );
+			$scripts = get_option("complianz_options_custom-scripts");
+			if ( is_array($scripts) && isset($scripts['whitelist_script']) && is_array($scripts['whitelist_script']) ) {
+				$custom_whitelisted_script_tags = array_filter( $scripts['whitelist_script'], function($script) {
+					return $script['enable'] == 1;
+				});
+
+				//flatten array
+				$flat = array();
+				foreach ( $custom_whitelisted_script_tags as $data ) {
+					$flat = array_merge($flat, $data['urls']);
+				}
+
+				$whitelisted_script_tags = array_merge($flat, $whitelisted_script_tags );
+			}
+			return $whitelisted_script_tags;
+		}
 
 		/**
 		 * Apply the mixed content fixer.
@@ -42,8 +188,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			return $buffer;
 		}
-
-
 
 		/**
 		 * Start buffering the output
@@ -99,85 +243,62 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @access public
 		 *
 		 */
-
-
 		public function replace_tags( $output ) {
 			/**
 			 * Get style tags
 			 *
 			 * */
-			$known_style_tags = apply_filters( 'cmplz_known_style_tags', COMPLIANZ::$config->style_tags );
+			$known_style_tags = apply_filters( 'cmplz_known_style_tags', array() );
+
+            /**
+             * Get script tags, including custom user scripts
+             *
+             * */
+			$blocked_scripts = false;//get_transient('cmplz_blocked_scripts');
+			if ( defined('WP_DEBUG') && WP_DEBUG ) {
+				$blocked_scripts = false;
+			}
+
+			if ( !$blocked_scripts ) {
+				$blocked_scripts = $this->blocked_scripts();
+				set_transient('cmplz_blocked_scripts', $blocked_scripts, 5 * MINUTE_IN_SECONDS );
+			}
 
 			/**
-			 * Get script tags, and add custom user scrripts
-			 *
-			 * */
+			 * Get placeholder markers for non iframe blocked content
+			 */
 
-			$known_script_tags = COMPLIANZ::$config->script_tags;
-			$custom_scripts    = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_scripts' ) );
-			if ( ! empty( $custom_scripts ) && strlen( $custom_scripts ) > 0 ) {
-				$custom_scripts    = array_filter(explode( ',', $custom_scripts ));
-				$known_script_tags = array_merge( $known_script_tags, $custom_scripts );
-			}
-			$known_script_tags = apply_filters( 'cmplz_known_script_tags', $known_script_tags );
+			$placeholder_markers = $this->placeholder_markers( $blocked_scripts );
+
+            /**
+             * Get whitelisted script tags
+             *
+             * */
+            $whitelisted_script_tags = $this->whitelisted_scripts();
 
 			/**
 			 * Get dependencies between scripts
+             *
 			 * */
-			$dependencies = apply_filters( 'cmplz_dependencies', COMPLIANZ::$config->dependencies );
+			$dependencies = $this->dependencies( $blocked_scripts );
 
 			/**
-			 * Get async list tags
+			 * Get list of tags that require post scribe to be enabled on the page. Currently only for instawidget.js
 			 *
 			 * */
 
-			$async_list = apply_filters( 'cmplz_known_async_tags', COMPLIANZ::$config->async_list );
+			$post_scribe_list = apply_filters( 'cmplz_post_scribe_tags', array() );
 
-			/**
-			 * Get iframe tags, and add custom user iframes
-			 *
-			 * */
-
-			$known_iframe_tags = COMPLIANZ::$config->iframe_tags;
-			$custom_iframes = cmplz_strip_spaces( cmplz_get_value( 'thirdparty_iframes' ) );
-			if ( ! empty( $custom_iframes ) && strlen( $custom_iframes ) > 0 ) {
-				$custom_iframes    = explode( ',', $custom_iframes );
-				$known_iframe_tags = array_merge( $known_iframe_tags, $custom_iframes );
-			}
-
-			$known_iframe_tags = apply_filters( 'cmplz_known_iframe_tags', $known_iframe_tags );
-			$iframe_tags_not_including = apply_filters( 'cmplz_iframe_tags_not_including', array() );
 
 			//not meant as a "real" URL pattern, just a loose match for URL type strings.
 			//edit: instagram uses ;width, so we need to allow ; as well.
 			$url_pattern = '([\w.,;ß@?^=%&:()\/~+#!\-*]*?)';
 
 			/**
-			 * Handle scripts loaded with dns prefetch
-			 *
-			 *
-			 * */
-
-			/*            $prefetch_pattern = '/<link rel=[\'|"]dns-prefetch[\'|"] href=[\'|"](\X*?)[\'|"][^>]*?>/i';*/
-//            if (preg_match_all($prefetch_pattern, $output, $matches, PREG_PATTERN_ORDER)) {
-//                foreach($matches[1] as $key => $prefetch_url){
-//                    $total_match = $matches[0][$key];
-//                    if (cmplz_strpos_arr($prefetch_url, $known_script_tags) !== false) {
-//                        $new = $this->replace_href($total_match);
-//                        $output = str_replace($total_match, $new, $output);
-//                    }
-//                }
-//            }
-
-
-			/**
 			 * Handle images from third party services, e.g. google maps
 			 *
-			 *
 			 * */
-
-			$image_tags = COMPLIANZ::$config->image_tags;
-			$image_tags = apply_filters( 'cmplz_image_tags', $image_tags );
+			$image_tags = apply_filters( 'cmplz_image_tags', array() );
 			$image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/s'; //matches multiline with s operater, for FB pixel
 			if ( preg_match_all( $image_pattern, $output, $matches, PREG_PATTERN_ORDER )
 			) {
@@ -186,8 +307,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$found = cmplz_strpos_arr( $image_url, $image_tags );
 					if ( $found !== false ) {
 						$placeholder = cmplz_placeholder( false, $image_url );
+						$service_name = cmplz_get_service_by_src( $image_url );
+						$service_name = !$service_name ? 'general' :$service_name;
 						$new = $total_match;
 						$new = $this->add_data( $new, 'img', 'src-cmplz', $image_url );
+						$new = $this->add_data( $new, 'img', 'service', $service_name );
 						//remove lazy loading for images, as it is breaking on activation
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
 						$new = $this->add_class( $new, 'img', apply_filters( 'cmplz_image_class', 'cmplz-image', $total_match, $found ) );
@@ -214,52 +338,52 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$total_match = $matches[0][ $key ];
 					if ( cmplz_strpos_arr( $style_url, $known_style_tags ) !== false ) {
 						$new    = $this->replace_href( $total_match );
-						$new    = $this->add_class( $new, 'link', 'cmplz-style-element' );
+						$service_name = cmplz_get_service_by_src( $style_url );
+						$service_name = !$service_name ? 'general' :$service_name;
+						$new    = $this->add_data( $new, 'link', 'service', $service_name );
+						$new    = $this->add_data( $new, 'link', 'category', 'marketing' );
 						$output = str_replace( $total_match, $new, $output );
 					}
-
 				}
 			}
 
 			/**
 			 * Handle iframes from third parties
 			 *
-			 *
 			 * */
 			//the iframes URL pattern allows for a space, which may be included in a Google Maps embed.
-			$url_pattern_iframes = '([\w.,;@?^=%&:()\/~+#!\- *]*?)';
-			$iframe_pattern = '/<(iframe)[^>].*?src=[\'"](http:\/\/|https:\/\/|\/\/)' . $url_pattern_iframes . '[\'"].*?>.*?<\/iframe>/is';
+			$iframe_pattern = '/<(iframe)[^>].*?src=[\'"](.*?)[\'"].*?>.*?<\/iframe>/is';
 			if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[0] as $key => $total_match ) {
-					$iframe_src = $matches[2][ $key ] . $matches[3][ $key ];
-					if ( cmplz_strpos_arr( $iframe_src, $known_iframe_tags ) !== false ) {
+					$iframe_src = $matches[2][ $key ];
+					if ( ( $tag_key = cmplz_strpos_arr($iframe_src, array_keys($blocked_scripts)) ) !== false ) {
+                        $tag = $blocked_scripts[$tag_key];
+						if ($tag['category']==='functional') {
+							continue;
+						}
+
 						$is_video = $this->is_video( $iframe_src );
-						$placeholder = cmplz_placeholder( false, $iframe_src );
-						$service_name = cmplz_get_service_by_src( $iframe_src );
+						$service_name = sanitize_title($tag['name']);
 						$new         = $total_match;
 						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
 						//remove lazy loading for iframes, as it is breaking on activation
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
-
-						//check if we can skip blocking this array if a specific string is included
-						if ( cmplz_strpos_arr($iframe_src, $iframe_tags_not_including )) continue;
-
+                        //check if we can skip blocking this array if a specific string is included
+                        if ( cmplz_strpos_arr($total_match, $whitelisted_script_tags) ) continue;
 						//we insert video/no-video class for specific video styling
-						if ( $is_video ) {
-							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video cmplz-hidden' );
-						} else {
-							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-no-video' );
-						}
+						$video_class = $is_video ? 'cmplz-video' : 'cmplz-no-video';
+						$video_class = apply_filters( 'cmplz_video_class', $video_class );
 
 						$new = $this->replace_src( $new, apply_filters( 'cmplz_source_placeholder', 'about:blank' ) );
 						$new = $this->add_class( $new, 'iframe', "cmplz-iframe cmplz-iframe-styles $video_class " );
+						$new = $this->add_data( $new, 'iframe', 'service', $service_name );
+						$new = $this->add_data( $new, 'iframe', 'category', $tag['category'] );
 
 						if ( cmplz_use_placeholder( $iframe_src ) ) {
-							$new = $this->add_class( $new, 'iframe', " cmplz-placeholder-element " );
+							$placeholder = cmplz_placeholder($tag['placeholder'], $iframe_src );
+							$new = $this->add_class( $new, 'iframe', "cmplz-placeholder-element" );
 							$new = $this->add_data( $new, 'iframe', 'placeholder-image', $placeholder );
-							$new = $this->add_data( $new, 'iframe', 'service', $service_name );
-
 							//allow for integrations to override html
 							$new = apply_filters( 'cmplz_iframe_html', $new );
 
@@ -272,129 +396,125 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						}
 
 						$output = str_replace( $total_match, $new, $output );
-
 					}
 				}
-
 			}
 
 			/**
 			 * set non iframe placeholders
 			 *
-			 *
 			 * */
 			if ( cmplz_use_placeholder() ) {
-				$placeholder_markers = apply_filters( 'cmplz_placeholder_markers', COMPLIANZ::$config->placeholder_markers );
-				foreach ( $placeholder_markers as $type => $markers ) {
-					if ( ! is_array( $markers ) ) {
-						$markers = array( $markers );
-					}
-					foreach ( $markers as $marker ) {
-						$placeholder_pattern
-							= '/<(a|section|div|blockquote|twitter-widget)*[^>]*class=[\'" ]*[^>]*('
-							  . $marker . ')[\'" ].*?>/is';
-						if ( preg_match_all( $placeholder_pattern, $output,
-							$matches, PREG_PATTERN_ORDER )
-						) {
+				foreach ( $placeholder_markers as $placeholder ) {
+					//placeholder class can be comma separated list e.g. facebook service integration
+					$classes = array_map('trim', explode(',',$placeholder['placeholder_class']) );
+					foreach ( $classes as $placeholder_class ) {
+						$placeholder_pattern = '/<(a|section|div|blockquote|twitter-widget)*[^>]*class=[\'" ]*[^>]*(' . $placeholder_class . ')[\'" ].*?>/is';
+						if ( preg_match_all( $placeholder_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 							foreach ( $matches[0] as $key => $html_match ) {
 								$el = $matches[1][ $key ];
 								if ( ! empty( $el ) ) {
-									$placeholder = cmplz_placeholder( $type,
-										$marker );
-									$new_html    = $this->add_data( $html_match,
-										$el, 'placeholder-image',
-										$placeholder );
-									$new_html    = $this->add_class( $new_html,
-										$el,
-										'cmplz-noframe cmplz-placeholder-element' );
-									$output      = str_replace( $html_match,
-										$new_html, $output );
+									$type        = $placeholder['placeholder'];
+									$new_html    = $this->add_data( $html_match, $el, 'placeholder-image', cmplz_placeholder( $type, $placeholder_class ) );
+									$new_html    = $this->add_data( $new_html, $el, 'category', $placeholder['category'] );
+									$new_html    = $this->add_data( $new_html, $el, 'service', $placeholder['name'] );
+									$new_html    = $this->add_class( $new_html, $el, "cmplz-placeholder-element" );
+									$output      = str_replace( $html_match, $new_html, $output );
 								}
 							}
 						}
 					}
+
 				}
 			}
-
 
 			/**
 			 * Handle scripts from third parties
 			 *
-			 *
 			 * */
-
 			$script_pattern = '/(<script.*?>)(\X*?)<\/script>/is';
 			$index          = 0;
-			if ( preg_match_all( $script_pattern, $output, $matches,
-				PREG_PATTERN_ORDER )
-			) {
+			if ( preg_match_all( $script_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[1] as $key => $script_open ) {
-					//we don't block scripts with the cmplz-native class
-					if ( strpos( $script_open, 'cmplz-native' ) !== false ) {
+					//we don't block scripts with the functional data attribute
+					if ( strpos( $script_open, 'data-category="functional"' ) !== false ) {
 						continue;
 					}
 
 					//exclude ld+json
-					if ( strpos( $script_open, 'application/ld+json' )
-					     !== false
-					) {
+					if ( strpos( $script_open, 'application/ld+json' ) !== false ) {
 						continue;
 					}
-					$total_match = $matches[0][ $key ];
-					$content     = $matches[2][ $key ];
-					//if there is inline script here, it has some content
-					if ( ! empty( $content ) ) {
 
+                    //check if we can skip blocking this array if a specific string is included
+                    $total_match = $matches[0][ $key ];
+                    $content     = $matches[2][ $key ];
+					if ( cmplz_strpos_arr($total_match, $whitelisted_script_tags) ) {
+						continue;
+					}
+
+                    //if there is inline script here, it has some content
+					if ( ! empty( $content ) )
+					{
 						if ( strpos( $content, 'avia_preview' ) !== false ) {
 							continue;
 						}
-						$found = cmplz_strpos_arr( $content, $known_script_tags );
 
+						$found = cmplz_strpos_arr( $content, array_keys($blocked_scripts) );
 						if ( $found !== false ) {
+
+                            $match = $blocked_scripts[$found];
+							$service_name = sanitize_title($match['name']);
 							$new = $total_match;
-							$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
+							$category = apply_filters_deprecated( 'cmplz_script_class', array($match['category'], $total_match, $found), '6.0.0', 'cmplz_service_category', 'The cmplz_script_class filter has been deprecated since 6.0');
+							$category = apply_filters('cmplz_service_category', $category, $total_match, $found);
 
-							//native scripts don't have to be blocked
-							if ( strpos( $new, 'cmplz-native' ) === false ) {
-								$new = $this->set_javascript_to_plain( $new );
-
-								$waitfor = cmplz_strpos_arr( $content, $dependencies );
-								if ( $waitfor !== false ) {
-									$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
-								}
+							//skip if functional
+							if ( $category === 'functional' ) {
+								continue;
 							}
+
+							$new = $this->add_data( $new, 'script', 'category', $category );
+							$new = $this->add_data( $new, 'script', 'service', $service_name );
+							$new = $this->set_javascript_to_plain( $new );
+							$waitfor = cmplz_strpos_arr( $content, $dependencies );
+							if ( $waitfor !== false ) {
+								$new = $this->add_data( $new, 'script', 'waitfor', $waitfor );
+							}
+
 							$output = str_replace( $total_match, $new, $output );
 						}
 					}
 
 					//when script contains src
 					$script_src_pattern = '/<script [^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/is';
-					if ( preg_match_all( $script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER )
-					) {
+					if ( preg_match_all( $script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER ) ) {
 						foreach ( $src_matches[1] as $src_key => $script_src ) {
 							$script_src = $src_matches[1][ $src_key ];
-							$found = cmplz_strpos_arr( $script_src, $known_script_tags );
+							$found = cmplz_strpos_arr( $script_src, array_keys($blocked_scripts) );
 							if ( $found !== false ) {
-								$new = $total_match;
-								$new = $this->add_class( $new, 'script', apply_filters( 'cmplz_script_class', 'cmplz-script', $total_match, $found ) );
-
+                                $match = $blocked_scripts[$found];
+                                $new = $total_match;
+								$service_name = sanitize_title($match['name']);
+								$category = apply_filters_deprecated( 'cmplz_script_class', array($match['category'], $total_match, $found), '6.0.0', 'cmplz_service_category', 'The cmplz_script_class filter has been deprecated since 6.0');
+	                            $new = $this->add_data( $new, 'script', 'category', apply_filters('cmplz_service_category', $category, $total_match, $found) );
+								$new = $this->add_data( $new, 'script', 'service', $service_name );
 								//native scripts don't have to be blocked
-								if ( strpos( $new, 'cmplz-native' ) === false
+								if ( strpos( $new, 'data-category="functional"' ) === false
 								) {
 									$new = $this->set_javascript_to_plain( $new );
-									if ( cmplz_strpos_arr( $found, $async_list )
+									if ( cmplz_strpos_arr( $found, $post_scribe_list )
 									) {
+										//will be to late for the first page load, but will enable post scribe on next page load
+										if (!get_option('cmplz_post_scribe_required')) {
+											update_option('cmplz_post_scribe_required', true);
+										}
 										$index ++;
 										$new = $this->add_data( $new, 'script', 'post_scribe_id', 'cmplz-ps-' . $index );
-										if ( cmplz_has_async_documentwrite_scripts() ) {
-											$new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-marketing">'
-											        . apply_filters( 'cmplz_accept_cookies_blocked_content',
-													cmplz_get_value( 'blocked_content_text' ) )
-											        . '</div><div id="cmplz-ps-'
-											        . $index . '"><img src="'
-											        . cmplz_placeholder( 'div' )
-											        . '"></div></div>';
-										}
+										$new .= '<div class="cmplz-blocked-content-container"><div class="cmplz-blocked-content-notice cmplz-accept-marketing">'
+										        . apply_filters( 'cmplz_accept_cookies_blocked_content', cmplz_get_value( 'blocked_content_text' ) )
+										        . '</div><div id="cmplz-ps-' . $index . '"><img src="' . cmplz_placeholder( 'div' ) . '"></div></div>';
+
 									}
 
 									//maybe add dependency
@@ -406,8 +526,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 								$output = str_replace( $total_match, $new, $output );
 							}
-
-
 						}
 					}
 				}
@@ -415,6 +533,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			//add a marker so we can recognize if this function is active on the front-end
 			$output = str_replace( "<body ", '<body data-cmplz=1 ', $output );
+
 
 			return apply_filters('cmplz_cookie_blocker_output', $output);
 		}
@@ -534,6 +653,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		public function add_data( $html, $el, $id, $content ) {
 			$content = esc_attr( $content );
 			$id      = esc_attr( $id );
+
+			//don't add if it's already included
+			if ( strpos($html, 'data-'.$id) !== false ) {
+				return $html;
+			}
 
 			$pos = strpos( $html, "<$el" );
 			if ( $pos !== false ) {

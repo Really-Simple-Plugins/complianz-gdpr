@@ -1,20 +1,43 @@
 <?php
 /**
- * Output category consent checkboxes html
+ * Register banner logo image size
  */
-function cmplz_get_dynamic_categories_ajax()
+function cmplz_register_banner_logo_size()
 {
-	$cookiebanner = new CMPLZ_COOKIEBANNER( intval($_GET['id']) );
-	$checkbox_style = isset($_GET['checkbox_style']) ? sanitize_title($_GET['checkbox_style']) : 'classic';
-	$data = $cookiebanner->get_consent_checkboxes($context = 'banner', $consenttype = sanitize_title($_GET['consenttype']), $force_template = $checkbox_style );
-
-	$response = json_encode( $data );
-	header( "Content-Type: application/json" );
-	echo $response;
-	exit;
+	if (function_exists('add_image_size')) {
+		add_image_size('cmplz_banner_image', 350, 100, true);
+	}
 }
+add_action('init', 'cmplz_register_banner_logo_size');
 
-add_action('wp_ajax_cmplz_get_dynamic_categories_ajax', 'cmplz_get_dynamic_categories_ajax');
+/**
+ * Register our custom logo size so we can use it in the media uploader
+ *
+ * @param $response
+ * @param $attachment
+ * @param $meta
+ *
+ * @return array
+ */
+function cmplz_image_sizes_js( $response, $attachment, $meta ){
+	if ( isset( $meta['sizes'][ 'cmplz_banner_image' ] ) ) {
+		$attachment_url = wp_get_attachment_url( $attachment->ID );
+		$base_url       = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
+		$size_meta      = $meta['sizes']['cmplz_banner_image'];
+
+		$response['sizes']['cmplz_banner_image'] = array(
+				'height'      => $size_meta['height'],
+				'width'       => $size_meta['width'],
+				'url'         => $base_url . $size_meta['file'],
+				'orientation' => $size_meta['height'] > $size_meta['width'] ? 'portrait' : 'landscape',
+		);
+
+	}
+
+	return $response;
+}
+add_filter ( 'wp_prepare_attachment_for_js',  'cmplz_image_sizes_js' , 10, 3  );
+
 /**
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache
  */
@@ -29,7 +52,38 @@ function cmplz_update_banner_version_all_banners() {
 		}
 	}
 }
+add_action('wp_ajax_cmplz_generate_preview_css', 'cmplz_generate_preview_css');
+function cmplz_generate_preview_css(){
+	$error   = false;
+	if ( ! is_user_logged_in() ) {
+		$error = true;
+	}
+	if (!isset($_POST['formData'])) {
+		$error = true;
+	}
 
+	if (!isset($_POST['id'])) {
+		$error = true;
+	}
+
+	if (!$error) {
+		parse_str($_POST['formData'], $formData);
+		$banner = new CMPLZ_COOKIEBANNER(intval($_POST['id']));
+		foreach ($formData as $fieldname => $value ) {
+			$fieldname = str_replace('cmplz_', '', $fieldname);
+			if (property_exists( $banner, $fieldname )) {
+				$banner->{$fieldname} = $value;
+			}
+		}
+		$banner->generate_css(true);
+	}
+
+	$out = array(
+			'success' => ! $error,
+	);
+
+	die( json_encode( $out ) );
+}
 function cmplz_check_minimum_one_banner() {
 	if ( ! cmplz_user_can_manage() ) {
 		return;
@@ -114,7 +168,7 @@ function cmplz_delete_cookiebanner() {
  *
  * @todo fix the escaping
  */
-add_action( 'plugins_loaded', 'cmplz_cookiebanner_form_submit', 20 );
+add_action( 'plugins_loaded', 'cmplz_cookiebanner_form_submit', 10 );
 function cmplz_cookiebanner_form_submit() {
 	if ( ! cmplz_user_can_manage() ) {
 		return;
@@ -238,16 +292,14 @@ function cmplz_cookiebanner_overview() {
 	}
 }
 
-/*
+/**
  *
  *
  * Here we add scripts and styles for the wysywig editor on the backend
  *
  * */
-add_action( 'admin_enqueue_scripts',
-	'cmplz_enqueue_cookiebanner_wysiwyg_assets' );
+add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_cookiebanner_wysiwyg_assets' );
 function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
-
 	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
@@ -261,43 +313,53 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	}
 
 	$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-	wp_register_style( 'cmplz-cookie',
-		cmplz_url . "assets/css/cookieconsent$minified.css", "",
-		cmplz_version );
-	wp_enqueue_style( 'cmplz-cookie' );
-
-	$cookiebanner_id = isset( $_GET['id'] ) ? intval( $_GET['id'] )
-		: cmplz_get_default_banner_id();
-	if ( cmplz_get_value( 'use_custom_cookie_css' . $cookiebanner_id ) ) {
-		$custom_css = cmplz_get_value( 'custom_css' . $cookiebanner_id );
-		if ( ! empty( $custom_css ) ) {
-			wp_add_inline_style( 'cmplz-cookie', $custom_css );
+	$cookiebanner_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : false;
+	$banner = new CMPLZ_COOKIEBANNER( $cookiebanner_id );
+	//make sure we have a recent preview css when loading
+	$banner->generate_css(true);
+	$fields = cmplz_add_cookiebanner_settings(array());
+	$defaults = array();
+	foreach ( $fields as $key => $data ) {
+		if ( !empty($data['default'] ) ) {
+			$defaults[$key] = $data['default'];
 		}
 	}
 
-	$cookiesettings
-		= COMPLIANZ::$cookie_admin->get_cookiebanner_settings( $cookiebanner_id );
+	$cookiesettings = $banner->get_front_end_settings();
+	$cookiesettings['logo_options'] = $banner->get_banner_logo(true);
+	$cookiesettings['admin_url'] = add_query_arg('lang',  substr( get_locale(), 0, 2 ), admin_url( 'admin-ajax.php' ) );
+	$cookiesettings['regions'] = array();
+	$cookiesettings['regions']['optin'] = cmplz_get_region_for_consenttype('optin');
+	$cookiesettings['regions']['optout'] = cmplz_get_region_for_consenttype('optout');
+	//set tcf region for TCF .js compatibility
+	$cookiesettings['region'] = 'eu';
+	$cookiesettings['preview'] = true;
+	$cookiesettings['defaults'] = $defaults;
+	wp_enqueue_script( 'cmplz-wysiwyg',cmplz_url . "cookiebanner/js/wysiwyg$minified.js", array( 'jquery' ), cmplz_version, true );
+	wp_localize_script( 'cmplz-wysiwyg', 'complianz', $cookiesettings );
 
-	wp_enqueue_script( 'cmplz-cookie', cmplz_url . "assets/js/cookieconsent$minified.js",
-		array( 'jquery', 'cmplz-admin' ), cmplz_version, true );
-	wp_localize_script(
-		'cmplz-cookie',
-		'complianz',
-		$cookiesettings
-	);
-	$deps =  array( 'jquery', 'cmplz-cookie' );
+	wp_register_style( 'wysiwyg', cmplz_url . "cookiebanner/css/wysiwyg$minified.css", false, cmplz_version );
+	wp_enqueue_style( 'wysiwyg' );
+	do_action('cmplz_enqueue_banner_editor');
+}
 
-	wp_enqueue_script( 'cmplz-cookie-config-styling',
-		cmplz_url . "assets/js/cookieconfig-styling$minified.js",
-		$deps, cmplz_version, true );
-		wp_localize_script(
-				'cmplz-cookie-config-styling',
-				'complianz_admin',
-				array(
-						'url' => add_query_arg('lang',  substr( get_locale(), 0, 2 ), admin_url( 'admin-ajax.php' ) ),
-				)
-	);
-	do_action("cmplz_enqueue_cookiebanner_settings");
+/**
+ * Get a random region for a consenttype that is in use on this website
+ *
+ * @param $consenttype
+ *
+ * @return false|string
+ */
+
+function cmplz_get_region_for_consenttype($consenttype){
+	$regions = cmplz_get_regions();
+	foreach ( $regions as $region => $label ) {
+		$found_consenttype = cmplz_get_consenttype_for_region($region);
+		if ( $consenttype === $found_consenttype ) {
+			return $region;
+		}
+	}
+	return false;
 }
 
 /**

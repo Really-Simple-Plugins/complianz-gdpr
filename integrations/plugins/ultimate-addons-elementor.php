@@ -2,9 +2,6 @@
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 function cmplz_uafe_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('google-maps') ) {
-		if(!wp_script_is('jquery', 'done')) {
-			wp_enqueue_script('jquery');
-		}
 		ob_start();
 		/**
 		 * Using the frontend init method is not very nice, as it has some unwanted side effects, but in this case using the runReadyTrigger does not seem to work because UAFE
@@ -12,30 +9,23 @@ function cmplz_uafe_initDomContentLoaded() {
 		 */
 		?>
 		<script>
-			jQuery(document).ready(function ($) {
-				$(document).on("cmplzRunAfterAllScripts", cmplz_uafe_fire_initOnReadyComponents);
-				function cmplz_uafe_fire_initOnReadyComponents() {
-					setTimeout(cmplz_uafe_trigger_element, 2000);
-				}
+			document.addEventListener("cmplz_run_after_all_scripts", cmplz_uafe_fire_initOnReadyComponents);
+			function cmplz_uafe_fire_initOnReadyComponents() {
+				setTimeout(cmplz_uafe_trigger_element, 2000);
+			}
 
-				function cmplz_uafe_trigger_element()
-				{
-
-					window.elementorFrontend.init();
-					// $('.elementor-widget-uael-google-map').each(function () {
-					// 	// window.elementorFrontend.init();
-					// 	elementorFrontend.elementsHandler.runReadyTrigger( $(this) );
-					// });
-				}
-			});
+			function cmplz_uafe_trigger_element()
+			{
+				window.elementorFrontend.init();
+			}
 		</script>
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace(array('<script>', '</script>'), '', $script);
-		wp_add_inline_script( 'jquery', $script);
+		wp_add_inline_script( 'cmplz-cookiebanner', $script);
 	}
 }
-add_action( 'wp_enqueue_scripts', 'cmplz_uafe_initDomContentLoaded' );
+add_action( 'wp_enqueue_scripts', 'cmplz_uafe_initDomContentLoaded', PHP_INT_MAX );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_uafe_script' );
 function cmplz_uafe_script( $tags ) {

@@ -100,7 +100,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
         'title' => 'Consent',
         'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_accept_text]'),
         'callback_condition' => array(
-            'NOT cmplz_uk_site_uses_cookie_warning_cats',
+            'NOT cmplz_site_uses_cookie_warning_cats',
             'cmplz_uk_site_needs_cookie_warning'
         ),
     ),
@@ -109,7 +109,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
         'title' => 'Consent',
         'content' => sprintf('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', '[cookie_save_preferences_text]'),
         'callback_condition' => array(
-            'cmplz_uk_site_uses_cookie_warning_cats',
+            'cmplz_site_uses_cookie_warning_cats',
             'cmplz_uk_site_needs_cookie_warning',
         )
     ),

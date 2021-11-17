@@ -19,8 +19,6 @@ function cmplz_user_registration_script( $tags ) {
 	return $tags;
 }
 
-
-
 /**
  * Conditionally add the dependency
  * $deps['wait-for-this-script'] = 'script-that-should-wait';

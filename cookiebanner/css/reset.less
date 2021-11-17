@@ -1,0 +1,26 @@
+//reset checkbox styles for classic
+input[type="checkbox"].cmplz-category {
+  width: initial;
+  -webkit-appearance: checkbox;
+  &:checked::before{
+	content:'';
+  }
+}
+
+.cmplz-cookiebanner{
+  box-sizing:border-box;
+  .cmplz-header, .cmplz-body {
+	h1, h2 {
+	  margin: 10px 0;
+	  padding:initial;
+	  //twenty nineteen fix
+	  &:before {
+		height: 0;
+		margin: initial;
+	  }
+	}
+  }
+  section {
+	padding:initial;//2020 theme
+  }
+}

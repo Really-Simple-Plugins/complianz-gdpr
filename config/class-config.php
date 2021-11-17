@@ -55,6 +55,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			);
 
 		/**
+		 * The services for which a placeholder exists in the assets/images/placeholders folder.
+		 * @var array
+		 */
+		public $placeholders;
+
+		/**
 		 * This is used in the scan function to tell the user he/she uses social media
 		 * Also in the function to determine a media type for the placeholders
 		 * Based on this the cookie warning is enabled.
@@ -84,7 +90,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					"<!-- Facebook Pixel Code -->",
 					'connect.facebook.net',
 					'www.facebook.com/plugins',
-					'pixel-caffeine'
+					'pixel-caffeine',
+					'facebook.com/plugins',
 				),
 				"pinterest" => array(
 					'super-socializer',
@@ -94,9 +101,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"tiktok"    => array( 'tiktok.com' ),
 				"instagram" => array(
 					'instawidget.net/js/instawidget.js',
-					'cdninstagram.com',
-					'src="https://www.instagram.com',
-					'src="https://instagram.com',
+					'instagram.com',
 				),
 			);
 
@@ -108,6 +113,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $thirdparty_service_markers
 			= array(
 				"google-maps"      => array(
+					'apis.google.com/js/platform.js',
 					'new google.maps.',
 					'google.com/maps',
 					'maps.google.com',
@@ -124,7 +130,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'openstreetmap.org',
 					'osm/js/osm'
 				),
-				"vimeo"            => array( 'player.vimeo.com' ),
+				"vimeo"            => array(
+					'player.vimeo.com',
+					'i.vimeocdn.com',
+				),
 				"google-recaptcha" => array(
 					'google.com/recaptcha',
 					'grecaptcha',
@@ -134,7 +143,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"youtube"          => array(
 					'youtube.com',
 					'youtube-nocookie.com',
-					),
+					'youtu.be'
+				),
 				"videopress"       => array(
 					'videopress.com/embed',
 					'videopress.com/videopress-iframe.js'
@@ -160,6 +170,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'google-analytics'   => array(
 					'google-analytics.com/ga.js',
 					'www.google-analytics.com/analytics.js',
+					'_getTracker',
 				),
 				'google-tag-manager' => array(
 					'googletagmanager.com/gtag/js',
@@ -169,62 +180,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
 				'yandex' => array( 'mc.yandex.ru/metrika/watch.js' ),
 			);
-
-
-		/**
-		 * Some scripts need to be loaded in specific order
-		 * key: script or part of script to wait for
-		 * value: script or part of script that should wait
-		 * */
-
-		/**
-		 * example:
-		 *
-		 *
-		 * add_filter('cmplz_dependencies', 'my_dependency');
-		 * function my_dependency($deps){
-		 * $deps['wait-for-this-script'] = 'script-that-should-wait';
-		 * return $deps;
-		 * }
-		 */
-		public $dependencies = array();
-
-		/**
-		 * placeholders for not iframes
-		 * */
-
-		public $placeholder_markers = array();
-
-		/**
-		 * Scripts with this string in the source or in the content of the script tags get blocked.
-		 *
-		 * */
-
-		public $script_tags = array();
-
-		/**
-		 * Style strings (google fonts have been removed in favor of plugin recommendation)
-		 * */
-
-		public $style_tags = array();
-
-		/**
-		 * Scripts in this list are loaded with post scribe.js
-		 * due to the implementation, these should also be added to the list above
-		 *
-		 * */
-
-		public $async_list = array();
-
-		public $iframe_tags = array();
-		public $iframe_tags_not_including = array();
-
-
-		/**
-		 * images with a URl in this list will get blocked
-		 * */
-
-		public $image_tags = array();
 
 		public $amp_tags
 			= array(
@@ -315,6 +270,21 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'<a href="https://complianz.io" target="_blank">', '</a>' )
 				  . "&nbsp;";
 
+			$this->placeholders = array(
+				'default' => __('Default','complianz-gdpr'),
+				'calendly' => 'Calendly',
+				'facebook' => 'Facebook',
+				'google-maps' => 'Google Maps',
+				'google-recaptcha' => 'Google Recaptcha',
+				'instagram' => 'Instagram',
+				'openstreetmaps' => 'Open Street Maps',
+				'soundcloud' => 'SoundCloud',
+				'spotify' => 'Spotify',
+				'ted' => 'Ted',
+				'twitter' => 'Twitter',
+				'tiktok' => 'Tik Tok'
+			);
+
 
 
 				/* config files */
@@ -359,6 +329,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			return self::$_this;
 		}
 
+		/**
+		 * Get full array of regions, but only active ones
+		 * @return array
+		 */
+		public function active_regions(){
+			return array_intersect_key( COMPLIANZ::$config->regions, cmplz_get_regions() );
+		}
 
 		public function get_section_by_id( $id ) {
 
@@ -462,9 +439,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function load_warning_types() {
 			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
 
-				'upgraded_to_fivefive' => array(
+				'upgraded_to_6' => array(
 					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'Complianz GDPR/CCPA 5.5. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-5/'),
+					'open' => sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
@@ -589,15 +566,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'open' => __( 'You have a duplicate implementation of your statistics tool on your site.', 'complianz-gdpr' ) .
 					          __( 'After the issue has been resolved, please re-run a scan to clear this message.', 'complianz-gdpr' )
 					                 . cmplz_read_more( 'https://complianz.io/duplicate-implementation-of-analytics/' ),
-					'include_in_progress' => true,
-				),
-
-				'no-jquery' => array(
-					'warning_condition' => 'cookie_admin->site_needs_cookie_warning',
-					'success_conditions'  => array(
-						'NOT get_option_cmplz_detected_missing_jquery',
-					),
-					'open' => __( 'jQuery was not detected on the front-end of your site. Complianz requires jQuery.', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
 					'include_in_progress' => true,
 				),
 

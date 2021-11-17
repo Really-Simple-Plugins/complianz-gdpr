@@ -12,19 +12,19 @@ add_filter( 'cmplz_dependencies', 'cmplz_custom_maps_dependencies' );
  * @return array
  */
 function cmplz_custom_googlemaps_script( $tags ) {
-	$tags[] = 'maps.googleapis.com/maps/api/js';
-	$tags[] = 'show_google_map_acf.js';
-
+	$tags[] = array(
+		'name' => 'google-maps',
+		'category' => 'marketing',
+		'placeholder' => 'google-maps',
+		'urls' => array(
+			'show_google_map_acf.js',
+			'maps.googleapis.com/maps/api/js',
+		),
+		'enable_dependency' => '1',
+		'dependency' => [
+			//'wait-for-this-script' => 'script-that-should-wait'
+			'maps.googleapis.com/maps/api/' => 'show_google_map_acf.js',
+		],
+	);
 	return $tags;
 }
-
-/**
- * add the dependency
- * $deps['wait-for-this-script'] = 'script-that-should-wait';
- */
-function cmplz_custom_maps_dependencies( $tags ) {
-	$tags['maps.googleapis.com/maps/api/'] = 'show_google_map_acf.js';
-
-	return $tags;
-}
-add_filter( 'cmplz_dependencies', 'cmplz_custom_maps_dependencies' );

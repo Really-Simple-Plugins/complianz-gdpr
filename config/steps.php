@@ -50,7 +50,7 @@ $this->steps = array(
 			),
 
 			STEP_COOKIES => array(
-				"title"    => __( "Cookies", 'complianz-gdpr' ),
+				"title"    => __( "Consent", 'complianz-gdpr' ),
 				"id"       => "cookies",
 				'sections' => array(
 					1 => array(

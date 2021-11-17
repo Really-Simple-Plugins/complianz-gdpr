@@ -87,7 +87,7 @@ function cmplz_purpose_personaldata() {
 add_action( 'cmplz_notice_uses_thirdparty_services', 'cmplz_uses_thirdparty_services_notice' );
 function cmplz_uses_thirdparty_services_notice() {
 	$thirdparties = cmplz_scan_detected_thirdparty_services();
-	if ( $thirdparties || cmplz_detected_custom_marketing_scripts() ) {
+	if ( $thirdparties ) {
 		foreach ( $thirdparties as $key => $thirdparty ) {
 			$thirdparties[ $key ] = COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
 		}
@@ -258,28 +258,13 @@ add_action( 'cmplz_notice_add_pages_to_menu', 'cmplz_notice_add_pages_to_menu' )
 add_action( 'cmplz_notice_add_pages_to_menu_region_redirected', 'cmplz_notice_add_pages_to_menu' );
 
 function cmplz_show_use_categories_notice() {
-	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
-	if ( $uses_tagmanager ) {
-		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
+	if ( COMPLIANZ::$cookie_admin->uses_google_tagmanager() ) {
+		cmplz_sidebar_notice( __( "You're using Google Tag Manager. This means you need to configure Tag Manager to use the below categories.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/definitive-guide-to-tag-manager-and-complianz/'), 'warning' );
 	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration.", 'complianz-gdpr' )
-		              . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
+		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
 	}
 }
 add_action( 'cmplz_notice_use_categories', 'cmplz_show_use_categories_notice' );
-
-
-function cmplz_show_use_categories_optinstats_notice() {
-	$uses_tagmanager  = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
-	if ( $uses_tagmanager ) {
-		cmplz_sidebar_notice( __( 'If you want to specify the categories used by Tag Manager, you need to enable categories.', 'complianz-gdpr' ), 'warning' );
-	} elseif ( COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'uk' ) ) {
-		cmplz_sidebar_notice( __( "Categories are mandatory for your statistics configuration.", 'complianz-gdpr' )
-		    . cmplz_read_more( 'https://complianz.io/statistics-as-mandatory-category' ), 'warning' );
-	}
-}
-add_action( 'cmplz_notice_use_categories_optinstats', 'cmplz_show_use_categories_optinstats_notice' );
-
 
 /**
  * For the cookie page and the US banner we need a link to the privacy statement.
@@ -390,8 +375,9 @@ function cmplz_set_default( $value, $fieldname ) {
 	}
 
 	if ( $fieldname === 'uses_thirdparty_services' ) {
-		$thirdparty = cmplz_scan_detected_thirdparty_services();
-		if ( $thirdparty || cmplz_detected_custom_marketing_scripts()) {
+		$blocked_scripts = COMPLIANZ::$cookie_blocker->blocked_scripts();
+		$custom_thirdparty_scripts = is_array($blocked_scripts) && count( $blocked_scripts ) > 0;
+		if ( cmplz_scan_detected_thirdparty_services() || $custom_thirdparty_scripts ) {
 			return 'yes';
 		}
 	}

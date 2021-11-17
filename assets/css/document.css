@@ -4,6 +4,14 @@
 #cmplz-manage-consent-container {
   display: none;
 }
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary {
+  cursor: pointer;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary::-webkit-details-marker,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary::marker {
+  display: none;
+  content: '';
+}
 #cmplz-cookies-overview .cmplz-dropdown .cmplz-service-description,
 #cmplz-document .cmplz-dropdown .cmplz-service-description,
 #cmplz-cookies-overview .cmplz-dropdown .cmplz-sharing-data,
@@ -12,6 +20,10 @@
   width: calc(50% - 35px);
   vertical-align: top;
 }
+#cmplz-cookies-overview .cmplz-dropdown .cmplz-service-header .cmplz-accept-service,
+#cmplz-document .cmplz-dropdown .cmplz-service-header .cmplz-accept-service {
+  display: none;
+}
 @media only screen and (max-width: 600px) {
   #cmplz-cookies-overview .cmplz-dropdown .cmplz-service-description,
   #cmplz-document .cmplz-dropdown .cmplz-service-description,
@@ -19,6 +31,10 @@
   #cmplz-document .cmplz-dropdown .cmplz-sharing-data {
     width: 100%;
   }
+}
+#cmplz-cookies-overview .cmplz-dropdown summary,
+#cmplz-document .cmplz-dropdown summary {
+  cursor: pointer;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary::-webkit-details-marker,
 #cmplz-document .cmplz-dropdown summary::-webkit-details-marker,
@@ -46,8 +62,8 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
-  grid-template: "heading paragraph chevron";
-  grid-template-columns: 2fr auto 35px;
+  grid-template: "heading paragraph checkbox chevron";
+  grid-template-columns: 2fr auto auto 35px;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p {
@@ -90,6 +106,90 @@
   #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose {
     grid-column: span 2;
   }
+}
+/**
+* Categories on the cookie policy
+* Do not wrap in cmplz-document, to ensure it works with the separate shortcode
+ */
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category {
+  background-color: rgba(239, 239, 239, 0.25);
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category summary::marker {
+  display: none;
+  content: '';
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-description {
+  padding: 10px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category:not(:last-child) {
+  margin-bottom: 5px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header {
+  display: grid;
+  grid-template-columns: 1fr auto 25px;
+  grid-template-rows: auto;
+  align-items: center;
+  grid-gap: 10px;
+  padding: 5px 10px;
+  background-color: rgba(239, 239, 239, 0.5);
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header section {
+  padding: initial;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header h2 {
+  grid-column-start: 1;
+  width: 100%;
+  justify-self: start;
+  font-size: 18px;
+  text-align: left;
+  margin-top: 8px;
+  text-transform: initial;
+  padding-bottom: 10px;
+  border-bottom: 0;
+  margin-bottom: 0px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header h2:before {
+  height: 0;
+  margin: initial;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-always-active {
+  font-size: var(--cmplz_category_header_active_font_size);
+  color: var(--cmplz_category_header_always_active_color);
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-always-active label,
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-always-active input {
+  display: none;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header label > span {
+  display: none;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-banner-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: initial;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-icon.cmplz-open {
+  grid-column-start: 3;
+  cursor: pointer;
+  content: '';
+  background: var(--cmplz_category_open_icon_url) no-repeat;
+  transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] .cmplz-icon.cmplz-open {
+  transform: rotate(180deg);
 }
 .postbox #cmplz-document {
   margin: auto auto;
@@ -146,35 +246,6 @@
 }
 #cmplz-document .close:hover {
   color: black;
-}
-#cmplz-document a.cc-revoke-custom {
-  margin-right: 1em;
-  margin-bottom: 1em;
-  display: inline-block;
-  outline: none;
-  *zoom: 1;
-  text-align: center;
-  text-decoration: none;
-  font-family: inherit;
-  font-weight: 300;
-  letter-spacing: 1px;
-  vertical-align: middle;
-  border: 1px solid;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.01);
-  border-radius: 3px;
-  font-size: 0.9375em;
-  padding: 0.5375em 1.375em;
-  cursor: pointer;
-  color: #fff;
-  background-color: #4682B4;
-  border-color: #4682B4;
-}
-#cmplz-document a.cc-revoke-custom:hover {
-  background-color: #396a93;
-  color: #fff;
-  border-color: #396a93;
 }
 #cmplz-document h2,
 #cmplz-document h3 {
@@ -287,6 +358,11 @@
 #cmplz-document .cmplz-dropdown p.legal-obligations-description {
   padding-bottom: 15px;
 }
+#cmplz-cookies-overview .cmplz-dropdown summary::marker,
+#cmplz-document .cmplz-dropdown summary::marker {
+  display: none;
+  content: '';
+}
 #cmplz-cookies-overview .cmplz-dropdown summary,
 #cmplz-document .cmplz-dropdown summary {
   background-color: rgba(239, 239, 239, 0.5);
@@ -342,12 +418,10 @@
   margin: 0;
 }
 #cmplz-cookies-overview .cmplz-dropdown .cmplz-service-description,
-#cmplz-document .cmplz-dropdown .cmplz-service-description {
-  padding: 0 15px;
-}
+#cmplz-document .cmplz-dropdown .cmplz-service-description,
 #cmplz-cookies-overview .cmplz-dropdown .cmplz-sharing-data,
 #cmplz-document .cmplz-dropdown .cmplz-sharing-data {
-  padding: 0 15px;
+  padding: 0 15px 15px;
 }
 #cmplz-cookies-overview .cmplz-dropdown .cookies-per-purpose,
 #cmplz-document .cmplz-dropdown .cookies-per-purpose {

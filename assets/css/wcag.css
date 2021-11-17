@@ -1,4 +1,7 @@
 @gridblock _height_big: calc(auto + 20px);
+#complianz *:focus-visible {
+  outline-offset: 4px;
+}
 #complianz.wrap.cmplz-high-contrast {
   /* Show the default checkmark when default */
   /* Disabled option */
@@ -49,11 +52,6 @@
 #complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-section.active a h3 {
   color: #333 !important;
 }
-#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
 #complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal {
   z-index: 1;
 }
@@ -66,6 +64,13 @@
 #complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning a {
   color: #333 !important;
 }
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning {
+  color: #333 !important;
+  background-color: #f8be2e;
+}
+#complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-warning:after {
+  border-right: 15px solid #f8be2e;
+}
 #complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal a {
   color: #fff;
 }
@@ -77,13 +82,13 @@
   fill: #eee;
   stroke: #eee;
 }
-#complianz.wrap.cmplz-high-contrast.cmplz-disabled {
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled {
   pointer-events: none;
 }
-#complianz.wrap.cmplz-high-contrast.cmplz-disabled .checkmark {
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark {
   background-color: #eee;
 }
-#complianz.wrap.cmplz-high-contrast.cmplz-disabled .checkmark svg {
+#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark svg {
   stroke: #eee !important;
   fill: #eee !important;
 }

@@ -269,12 +269,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Google Maps',
 		'firstparty_marketing' => false,
 	),
-//Unfixable dependency isseu c/4D5CWjib/3295-52-wp-google-map-plugin
-//	'wp-google-map-plugin'            => array(
-//		'constant_or_function' => 'WPGMP_VERSION',
-//		'label'                => 'WP Google Map Plugin',
-//		'firstparty_marketing' => false,
-//	),
+//Unfixable dependency issue c/4D5CWjib/3295-52-wp-google-map-plugin
+	'wp-google-map-plugin'            => array(
+		'constant_or_function' => 'WPGMP_VERSION',
+		'label'                => 'WP Google Map Plugin',
+		'firstparty_marketing' => false,
+	),
 
 	'woocommerce-google-analytics-pro' => array(
 		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
@@ -479,10 +479,13 @@ function cmplz_integration_plugin_is_active( $plugin ){
  */
 
 function cmplz_integrations() {
-
 	global $cmplz_integrations_list;
+	$stored_integrations_count = get_option('cmplz_active_integrations', 0 );
+	$actual_integrations_count = 0;
+
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
 		if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+			$actual_integrations_count++;
 			$file = apply_filters( 'cmplz_integration_path', cmplz_path . "integrations/plugins/$plugin.php", $plugin );
 			if ( file_exists( $file ) ) {
 				require_once( $file );
@@ -491,6 +494,12 @@ function cmplz_integrations() {
 			}
 		}
 	}
+	update_option('cmplz_active_integrations',  $actual_integrations_count);
+
+	if ( $stored_integrations_count != $actual_integrations_count) {
+		update_option('cmplz_integrations_changed', true );
+	}
+
 
 	/**
 	 * Services
@@ -767,6 +776,24 @@ function cmplz_get_service_by_src( $src ) {
 			$type = COMPLIANZ::$cookie_admin->parse_for_thirdparty_services( $src, true );
 		}
 	}
-
-	return $type;
+	return $type ?: 'default';
 }
+
+/**
+ * Maybe update css if integrations have been changed
+ */
+
+function cmplz_maybe_update_css(){
+	$integrations_changed = get_option('cmplz_integrations_changed', false );
+	if ( $integrations_changed ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner->generate_css();
+			}
+		}
+	}
+	update_option('cmplz_integrations_changed', false );
+}
+add_action('admin_init', 'cmplz_maybe_update_css');

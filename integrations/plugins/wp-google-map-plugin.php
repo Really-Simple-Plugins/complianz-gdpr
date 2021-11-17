@@ -1,16 +1,32 @@
 <?php
+/**
+ * Currently broken.
+ * https://wordpress.org/support/topic/gdpr-integration-for-complianz-gdpr/
+ */
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
+if ( !defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE') ) define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_wp_google_map_plugin_script' );
-add_filter( 'cmplz_placeholder_markers', 'cmplz_wp_google_map_plugin_placeholder' );
-add_filter( 'cmplz_dependencies', 'cmplz_wp_google_map_plugin_dependencies' );
-
 function cmplz_wp_google_map_plugin_script( $tags ) {
-	$tags[] = 'maps.js';
-	$tags[] = 'maps.googleapis.com';
-	$tags[] = 'maps.google.com';
-	$tags[] = 'wpgmp_map';
+	$tags[] = array(
+		'name' => 'google-maps',
+		'category' => 'marketing',
+		'placeholder' => 'google-maps',
+		'urls' => array(
+			'maps.js',
+			'maps.googleapis.com',
+			'maps.google.com',
+			'wpgmp_map',
+		),
+		'enable_placeholder' => 1,
+		'placeholder_class' => 'wpgmp_map_container',
+		'enable_dependency' => '1',
+		'dependency' => [
+			//'wait-for-this-script' => 'script-that-should-wait'
+			'/maps/api/js' => 'maps.js',
+			'maps.js' => 'wpgmp_map',
+		],
+	);
 
 	return $tags;
 }
@@ -32,28 +48,6 @@ function cmplz_wp_google_map_plugin_detected_services( $services ) {
 }
 add_filter( 'cmplz_detected_services', 'cmplz_wp_google_map_plugin_detected_services' );
 
+function cmplz_wp_google_map_plugin_placeholder(){
 
-/**
- * Add placeholder for google maps
- *
- * @param $tags
- *
- * @return mixed
- */
-
-function cmplz_wp_google_map_plugin_placeholder( $tags ) {
-	$tags['google-maps'][] = 'wpgmp_map_container';
-	return $tags;
 }
-
-
-
-/**
- * Conditionally add the dependency
- * $deps['wait-for-this-script'] = 'script-that-should-wait';
- */
-
- function cmplz_wp_google_map_plugin_dependencies( $tags ) {
-	 $tags['maps.js'] = 'wpgmp_map';
-	 return $tags;
- }

@@ -1,9 +1,16 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-add_filter( 'cmplz_known_iframe_tags', 'cmplz_dailymotion_iframetags' );
+add_filter( 'cmplz_known_script_tags', 'cmplz_dailymotion_iframetags' );
 function cmplz_dailymotion_iframetags( $tags ) {
-	$tags[] = 'dailymotion.com/embed/video/';
+	$tags[] = array(
+		'name' => 'dailymotion',
+		'category' => 'marketing',
+		'placeholder' => 'dailymotion',
+		'urls' => array(
+			'dailymotion.com/embed/video/',
+		),
+	);
 
 	return $tags;
 }
@@ -37,6 +44,4 @@ function cmplz_dailymotion_placeholder( $new_src, $src ) {
 
 	return $new_src;
 }
-
-add_filter( 'cmplz_placeholder_dailymotion', 'cmplz_dailymotion_placeholder',
-	10, 2 );
+add_filter( 'cmplz_placeholder_dailymotion', 'cmplz_dailymotion_placeholder', 10, 2 );

@@ -96,28 +96,24 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_wc_google_analytics_pro_script' );
 
 /**
  * If "use advertising features" is enabled, block as if it's marketing
- * @param array $classes
+ * @param array $category
  *
  * @return array
  */
-function cmplz_wc_google_analytics_pro_script_classes( $classes ){
+function cmplz_wc_google_analytics_pro_script_classes( $category ){
 	$settings = get_option('woocommerce_google_analytics_pro_settings');
 
 	if ( $settings && isset( $settings['enable_displayfeatures']) && $settings['enable_displayfeatures'] !== 'yes' ) {
-		if (!in_array('cmplz-stats', $classes )) {
-			$classes[] = 'cmplz-stats';
-		}
+		$category = 'statistics';
 	}
 
 	if ( $settings && isset( $settings['enable_displayfeatures']) && $settings['enable_displayfeatures'] === 'yes' ) {
-		if (in_array( 'cmplz-native' , $classes) ) {
-			unset($classes[array_search('cmplz-native', $classes)]);
-		}
+		$category = 'statistics';
 	}
 
-	return $classes;
+	return $category;
 }
-add_filter( 'cmplz_statistics_script_classes', 'cmplz_wc_google_analytics_pro_script_classes', 10, 1  );
+add_filter( 'cmplz_statistics_category', 'cmplz_wc_google_analytics_pro_script_classes', 10, 1  );
 
 
 /**

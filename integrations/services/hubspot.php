@@ -12,41 +12,43 @@ function cmplz_hs_tracking_script( $tags ) {
 /**
  * Sync the Complianz banner with the hubspot banner by clicking on the apropriate buttonn when consent is given.
  */
+
 function cmplz_hubspot_clicker() {
 	if (cmplz_get_value('block_hubspot_service') === 'yes') {
+		ob_start();
 		?>
 		<script>
-			jQuery(document).ready(function ($) {
-				$(document).on("cmplzEnableScripts", cmplzHubspotScriptHandler);
-				function cmplzHubspotScriptHandler(consentData) {
-					var hubspotAcceptBtn = document.getElementById("hs-eu-confirmation-button");
-					var hubspotDeclinetBtn = document.getElementById("hs-eu-decline-button");
-
-					$('#hs-eu-confirmation-button').remove();
-					if (consentData.detail === 'marketing') {
-						if ( hubspotAcceptBtn != null ) {
-							hubspotAcceptBtn.click();
-						}
-					} else {
-						if ( hubspotDeclinetBtn != null ) {
-							hubspotDeclinetBtn.click();
-						}
+			document.addEventListener("cmplz_enable_category", cmplzHubspotScriptHandler);
+			function cmplzHubspotScriptHandler(consentData) {
+				let hubspotAcceptBtn = document.getElementById("hs-eu-confirmation-button");
+				let hubspotDeclinetBtn = document.getElementById("hs-eu-decline-button");
+				if ( consentData.detail.category === 'marketing' ) {
+					if ( hubspotAcceptBtn != null ) {
+						hubspotAcceptBtn.click();
+					}
+				} else {
+					if ( hubspotDeclinetBtn != null ) {
+						hubspotDeclinetBtn.click();
 					}
 				}
-			})
+				hubspotAcceptBtn.parentNode.removeChild(hubspotAcceptBtn);
+			}
 		</script>
 		<?php
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'cmplz-cookiebanner', $script);
 	}
 }
-add_action( 'wp_footer', 'cmplz_hubspot_clicker' );
+add_action( 'wp_enqueue_scripts', 'cmplz_hubspot_clicker', PHP_INT_MAX);
 
 /**
  * Add custom hubspot css
  */
 function cmplz_hubspot_css() {
 	if (cmplz_get_value('block_hubspot_service') === 'yes'){ ?>
-		<style>div#hs-eu-cookie-confirmation {display: none;}</style>
+		div#hs-eu-cookie-confirmation {display: none;}
 	<?php
 	}
 }
-add_action( 'wp_footer', 'cmplz_hubspot_css' );
+add_action( 'cmplz_banner_css', 'cmplz_hubspot_css' );

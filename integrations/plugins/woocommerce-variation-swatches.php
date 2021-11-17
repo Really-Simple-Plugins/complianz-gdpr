@@ -6,11 +6,11 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
  * Can be used for other script ID's well. Copy/Paste/Rename
  */
 
-function cmplz_whitelist_woo_variation( $class, $total_match, $found ) {
+function cmplz_whitelist_woo_variation( $category, $total_match, $found ) {
 	$string = 'woo-variation-swatches-js-extra'; //'string from inline script or source that should be whitelisted'
 	if ( $found && false !== strpos( $total_match, $string ) ) {
-		$class = 'cmplz-native'; // add cmplz-script for Marketing and cmplz-stats for Statistics
+		$category = 'functional';
 	}
-	return $class;
+	return $category;
 }
-add_filter ( 'cmplz_script_class', 'cmplz_whitelist_woo_variation', 10 , 3 );
+add_filter ( 'cmplz_service_category', 'cmplz_whitelist_woo_variation', 10 , 3 );

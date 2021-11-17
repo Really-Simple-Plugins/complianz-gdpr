@@ -21,7 +21,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
 			add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
-			add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
+			//add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
 
 			//multisite
 			add_filter( "network_admin_plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
@@ -31,6 +31,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_dismiss_warning', array( $this, 'dismiss_warning' ) );
 			add_action( 'wp_ajax_cmplz_load_warnings', array( $this, 'ajax_load_warnings' ) );
 			add_action( 'wp_ajax_cmplz_load_gridblock', array( $this, 'ajax_load_gridblock' ) );
+
 		}
 
 		static function this() {
@@ -202,6 +203,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			$options = array(
+				'cmplz_post_scribe_required',
 				'cmplz_activation_time',
 				'cmplz_review_notice_shown',
 				"cmplz_wizard_completed_once",
@@ -272,6 +274,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 		/**
 		 * If this update is to 6, don't auto update
+		 * Deactivated as of 6.0
 		 *
 		 * @param $update
 		 * @param $item
@@ -279,9 +282,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
-				return false;
-			}
+//			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
+//				return false;
+//			}
 			return $update;
 		}
 
@@ -828,7 +831,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
                 'document-styling' => array(
                     'page' => 'settings',
                     'name' => 'document-styling',
-                    'header' => __('Document Styling', 'complianz-gdpr'),
+                    'header' => __('Advanced features', 'complianz-gdpr'),
                     'class' => 'big condition-check-1',
                     'index' => '14',
                     'controls' => '',

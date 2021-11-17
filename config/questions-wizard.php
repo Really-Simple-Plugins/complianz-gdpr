@@ -359,6 +359,7 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
 			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/google-analytics' ),
+			'callback_condition' => 'cmplz_stats_privacy_friendly'
 		),
 
 		'script_center_button' => array(
@@ -425,16 +426,15 @@ $this->fields = $this->fields + array(
 			'source'                  => 'wizard',
 			'type'                    => 'text',
 			'default'                 => '',
-			'placeholder'             => sprintf(__('%s or %s','complianz-gdpr'),'G-*','UA-*'),
+			'placeholder'             => 'GA_TRACKING_ID',
 			'required'                => false,
 			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your tracking-ID", 'complianz-gdpr' ),
-			'comment'                 => __( "Consent mode is only available for gtag.js and can't be used in combination with a UA code.", 'complianz-gdpr' ),
+			'label'                   => __( "Enter your tracking ID", 'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
 			'condition'               => array(
 				'configuration_by_complianz' => 'yes',
 			),
-			'tooltip'                 => __( "For the Google Analytics tracking-ID, log on and click Admin and copy the Tracking-ID.", 'complianz-gdpr' ),
+			'tooltip'                 => __( "For the Google Analytics tracking ID, log on and click Admin and copy the tracking ID.", 'complianz-gdpr' ),
 		),
 
 		'GTM_code' => array(
@@ -451,6 +451,24 @@ $this->fields = $this->fields + array(
 			'tooltip'                    => __( "For the Google Tag Manager code, log on. Then, you will immediatly see Container codes. The one next to your website name is the code you will need to fill in here, the Container ID.",
 				'complianz-gdpr' ),
 		),
+
+		'AW_code' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'text',
+			'default'                 => '',
+			'placeholder'             => 'AW-CONVERSION_ID',
+			'required'                => false,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Conversion ID", 'complianz-gdpr' ),
+			'comment'                 => __( "Optional, this will be fired on marketing consent.", 'complianz-gdpr' ),
+			'callback_condition'      => array( 'compile_statistics' => 'google-analytics' ),
+			'condition'               => array(
+				'configuration_by_complianz' => 'yes',
+			),
+		),
+
 
 		'matomo_url' => array(
 			'step'                    => STEP_COOKIES,

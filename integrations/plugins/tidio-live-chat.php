@@ -21,5 +21,4 @@ function cmplz_tidio_live_chat_force_non_async( $async ) {
 	return false;
 }
 
-add_filter( 'option_tidio-async-load',
-	'cmplz_tidio_live_chat_force_non_async' );
+add_filter( 'option_tidio-async-load', 'cmplz_tidio_live_chat_force_non_async' );

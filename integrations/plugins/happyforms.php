@@ -1,15 +1,28 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-function cmplz_happyforms_initform() {
-	if(!wp_script_is('jquery', 'done')) {
-		wp_enqueue_script('jquery');
+/**
+ * If reCaptcha is enabled in Happy Forms. Block front-end script
+ *
+ */
+
+if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	add_filter( 'cmplz_known_script_tags', 'cmplz_happyforms_script' );
+	function cmplz_happyforms_script( $tags ) {
+		$tags[] = 'recaptchav3/frontend.js';
+		return $tags;
 	}
+}
+
+function cmplz_happyforms_initform() {
 	ob_start();
+	/**
+	 * Happy form requires jquery
+	 */
 	?>
 	<script>
 		jQuery(document).ready(function ($) {
-			$(document).on("cmplzRunAfterAllScripts", cmplzRunHappyFormsScript);
+			$(document).on("cmplz_run_after_all_scripts", cmplzRunHappyFormsScript);
 			function cmplzRunHappyFormsScript() {
 				if ($('.happyforms-form').length) $('.happyforms-form').happyForm();
 			}

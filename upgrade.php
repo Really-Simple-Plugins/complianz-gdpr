@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( );
+defined( 'ABSPATH' ) or die();
 
 add_action( 'admin_init', 'cmplz_check_upgrade', 10, 2 );
 
@@ -16,8 +16,8 @@ function cmplz_check_upgrade() {
 	/**
 	 * Set a "first version" variable, so we can check if some notices need to be shown
 	 */
-	if ( !$prev_version ) {
-		update_option( 'cmplz_first_version', cmplz_version);
+	if ( ! $prev_version ) {
+		update_option( 'cmplz_first_version', cmplz_version );
 	}
 
 	/*
@@ -124,19 +124,19 @@ function cmplz_check_upgrade() {
 	/**
 	 * upgrade to new custom and generated document settings
 	 */
-	if (  $prev_version
-	      && version_compare( $prev_version, '4.4.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '4.4.0', '<' )
 	) {
 		//upgrade cookie policy setting to new field
 		$wizard_settings = get_option( 'complianz_options_wizard' );
-		if ( isset($wizard_settings["cookie-policy-type"]) ){
+		if ( isset( $wizard_settings["cookie-policy-type"] ) ) {
 			$value = $wizard_settings["cookie-policy-type"];
-			unset($wizard_settings["cookie-policy-type"]);
+			unset( $wizard_settings["cookie-policy-type"] );
 			//upgrade cookie policy custom url
-			if ($value === 'custom') {
-				$url     = cmplz_get_value( 'custom-cookie-policy-url' );
+			if ( $value === 'custom' ) {
+				$url = cmplz_get_value( 'custom-cookie-policy-url' );
 				update_option( "cmplz_cookie-statement_custom_page", $url );
-				unset($wizard_settings["custom-cookie-policy-url"]);
+				unset( $wizard_settings["custom-cookie-policy-url"] );
 			} else {
 				$value = 'generated';
 			}
@@ -145,7 +145,7 @@ function cmplz_check_upgrade() {
 		}
 
 		$wizard_settings['cookie-statement'] = $value;
-		$wizard_settings['impressum'] = 'none';
+		$wizard_settings['impressum']        = 'none';
 
 		//upgrade privacy statement settings
 		$value = $wizard_settings["privacy-statement"];
@@ -153,10 +153,10 @@ function cmplz_check_upgrade() {
 		if ( $value === 'yes' ) {
 			$value = 'generated';
 		} else {
-			$wp_privacy_policy = get_option('wp_page_for_privacy_policy');
-			if ($wp_privacy_policy) {
+			$wp_privacy_policy = get_option( 'wp_page_for_privacy_policy' );
+			if ( $wp_privacy_policy ) {
 				$value = 'custom';
-				update_option("cmplz_privacy-statement_custom_page", $wp_privacy_policy);
+				update_option( "cmplz_privacy-statement_custom_page", $wp_privacy_policy );
 			} else {
 				$value = 'none';
 			}
@@ -165,7 +165,7 @@ function cmplz_check_upgrade() {
 
 		//upgrade disclaimer settings
 		$value = $wizard_settings["disclaimer"];
-		if ($value==='yes'){
+		if ( $value === 'yes' ) {
 			$value = 'generated';
 		} else {
 			$value = 'none';
@@ -179,29 +179,29 @@ function cmplz_check_upgrade() {
 	/**
 	 * upgrade to new category field
 	 */
-	if (  $prev_version
-	      && version_compare( $prev_version, '4.6.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '4.6.0', '<' )
 	) {
 
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
 				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-				$banner->banner_version++;
-				if ($banner->use_categories ) {
+				$banner->banner_version ++;
+				if ( $banner->use_categories ) {
 					$banner->use_categories = 'legacy';
 				} else {
 					$banner->use_categories = 'no';
 				}
-				if ($banner->use_categories_optinstats) {
+				if ( $banner->use_categories_optinstats ) {
 					$banner->use_categories_optinstats = 'legacy';
 				} else {
 					$banner->use_categories_optinstats = 'no';
 				}
 				//also set the deny button to banner color, to make sure users start with correct colors
 				$banner->functional_background_color = $banner->colorpalette_background['color'];
-				$banner->functional_border_color = $banner->colorpalette_background['border'];
-				$banner->functional_text_color = $banner->colorpalette_text['color'];
+				$banner->functional_border_color     = $banner->colorpalette_background['border'];
+				$banner->functional_text_color       = $banner->colorpalette_text['color'];
 				$banner->save();
 			}
 		}
@@ -211,21 +211,25 @@ function cmplz_check_upgrade() {
 	 * migrate policy id to network option for multisites
 	 */
 
-	if (  $prev_version && version_compare( $prev_version, '4.6.7', '<' )
+	if ( $prev_version && version_compare( $prev_version, '4.6.7', '<' )
 	) {
-		if (is_multisite()) update_site_option( 'complianz_active_policy_id', get_option( 'complianz_active_policy_id', 1 ));
+		if ( is_multisite() ) {
+			update_site_option( 'complianz_active_policy_id', get_option( 'complianz_active_policy_id', 1 ) );
+		}
 	}
 
 	/**
 	 * migrate odd numbers
 	 */
-	if (  $prev_version && version_compare( $prev_version, '4.6.8', '<' )
+	if ( $prev_version && version_compare( $prev_version, '4.6.8', '<' )
 	) {
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
 				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-				if($banner->banner_width % 2 == 1) $banner->banner_width++;
+				if ( $banner->banner_width % 2 == 1 ) {
+					$banner->banner_width ++;
+				}
 				$banner->save();
 			}
 		}
@@ -235,22 +239,22 @@ function cmplz_check_upgrade() {
 	      && version_compare( $prev_version, '4.7.1', '<' )
 	) {
 		//upgrade cookie policy setting to new field
-		$wizard_settings = get_option( 'complianz_options_wizard' );
+		$wizard_settings                            = get_option( 'complianz_options_wizard' );
 		$wizard_settings['block_recaptcha_service'] = 'yes';
 		update_option( 'complianz_options_wizard', $wizard_settings );
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '4.9.6', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '4.9.6', '<' )
 	) {
 		//this branch aims to revoke consent and clear all cookies. We increase the policy id to do this.
 		COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '4.9.7', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '4.9.7', '<' )
 	) {
-		update_option('cmplz_show_terms_conditions_notice', time());
+		update_option( 'cmplz_show_terms_conditions_notice', time() );
 	}
 
 	/**
@@ -258,7 +262,7 @@ function cmplz_check_upgrade() {
 	 */
 
 	if ( $prev_version && version_compare( $prev_version, '5.0.0', '<' ) ) {
-		update_option('cmplz_upgraded_to_five', true);
+		update_option( 'cmplz_upgraded_to_five', true );
 
 		//clear notices cache, as the array structure has changed
 		delete_transient( 'complianz_warnings' );
@@ -272,51 +276,46 @@ function cmplz_check_upgrade() {
 				$result = $wpdb->get_row( $sql );
 
 				if ( $result ) {
-					$banner->colorpalette_background['color']           = empty($result->popup_background_color) ? '#f1f1f1' : $result->popup_background_color;
-					$banner->colorpalette_background['border']          = empty($result->popup_background_color) ? '#f1f1f1' : $result->popup_background_color;
-					$banner->colorpalette_text['color']                 = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
-					$banner->colorpalette_text['hyperlink']             = empty($result->popup_text_color) ? '#191e23' : $result->popup_text_color;
-					$banner->colorpalette_toggles['background']         = empty($result->slider_background_color) ? '#21759b' : $result->slider_background_color;
-					$banner->colorpalette_toggles['bullet']             = empty($result->slider_bullet_color) ? '#ffffff' : $result->slider_bullet_color;
-					$banner->colorpalette_toggles['inactive']           = empty($result->slider_background_color_inactive) ? '#F56E28' : $result->slider_background_color_inactive;
+					$banner->colorpalette_background['color']   = empty( $result->popup_background_color ) ? '#f1f1f1' : $result->popup_background_color;
+					$banner->colorpalette_background['border']  = empty( $result->popup_background_color ) ? '#f1f1f1' : $result->popup_background_color;
+					$banner->colorpalette_text['color']         = empty( $result->popup_text_color ) ? '#191e23' : $result->popup_text_color;
+					$banner->colorpalette_text['hyperlink']     = empty( $result->popup_text_color ) ? '#191e23' : $result->popup_text_color;
+					$banner->colorpalette_toggles['background'] = empty( $result->slider_background_color ) ? '#21759b' : $result->slider_background_color;
+					$banner->colorpalette_toggles['bullet']     = empty( $result->slider_bullet_color ) ? '#ffffff' : $result->slider_bullet_color;
+					$banner->colorpalette_toggles['inactive']   = empty( $result->slider_background_color_inactive ) ? '#F56E28' : $result->slider_background_color_inactive;
 
 					$consenttypes = cmplz_get_used_consenttypes();
-					$optout_only = false;
-					if (in_array('optout', $consenttypes) && count($consenttypes)===1) {
+					$optout_only  = false;
+					if ( in_array( 'optout', $consenttypes ) && count( $consenttypes ) === 1 ) {
 						$optout_only = true;
 					}
 
 					if ( $banner->use_categories === 'no' || $optout_only ) {
-						$banner->colorpalette_button_accept['background']   = empty($result->button_background_color) ? '#21759b' : $result->button_background_color;
-						$banner->colorpalette_button_accept['border']       = empty($result->border_color) ? '#21759b' : $result->border_color;
-						$banner->colorpalette_button_accept['text']         = empty($result->button_text_color) ? '#ffffff' : $result->button_text_color;
+						$banner->colorpalette_button_accept['background'] = empty( $result->button_background_color ) ? '#21759b' : $result->button_background_color;
+						$banner->colorpalette_button_accept['border']     = empty( $result->border_color ) ? '#21759b' : $result->border_color;
+						$banner->colorpalette_button_accept['text']       = empty( $result->button_text_color ) ? '#ffffff' : $result->button_text_color;
 					} else {
-						$banner->colorpalette_button_accept['background']   = empty($result->accept_all_background_color) ? '#21759b' : $result->accept_all_background_color;
-						$banner->colorpalette_button_accept['border']       = empty($result->accept_all_border_color) ? '#21759b' : $result->accept_all_border_color;
-						$banner->colorpalette_button_accept['text']         = empty($result->accept_all_text_color) ? '#ffffff' : $result->accept_all_text_color;
+						$banner->colorpalette_button_accept['background'] = empty( $result->accept_all_background_color ) ? '#21759b' : $result->accept_all_background_color;
+						$banner->colorpalette_button_accept['border']     = empty( $result->accept_all_border_color ) ? '#21759b' : $result->accept_all_border_color;
+						$banner->colorpalette_button_accept['text']       = empty( $result->accept_all_text_color ) ? '#ffffff' : $result->accept_all_text_color;
 					}
-					$banner->colorpalette_button_deny['background']     = empty($result->functional_background_color) ? '#f1f1f1' : $result->functional_background_color;
-					$banner->colorpalette_button_deny['border']         = empty($result->functional_border_color) ? '#f1f1f1' : $result->functional_border_color;
-					$banner->colorpalette_button_deny['text']           = empty($result->functional_text_color) ? '#21759b' : $result->functional_text_color;
+					$banner->colorpalette_button_deny['background'] = empty( $result->functional_background_color ) ? '#f1f1f1' : $result->functional_background_color;
+					$banner->colorpalette_button_deny['border']     = empty( $result->functional_border_color ) ? '#f1f1f1' : $result->functional_border_color;
+					$banner->colorpalette_button_deny['text']       = empty( $result->functional_text_color ) ? '#21759b' : $result->functional_text_color;
 
-					$banner->colorpalette_button_settings['background'] = empty($result->button_background_color) ? '#f1f1f1' : $result->button_background_color;
-					$banner->colorpalette_button_settings['border']     = empty($result->border_color) ? '#21759b' : $result->border_color;
-					$banner->colorpalette_button_settings['text']       = empty($result->button_text_color) ? '#21759b' : $result->button_text_color;
-					if ($banner->theme === 'edgeless') {
+					$banner->colorpalette_button_settings['background'] = empty( $result->button_background_color ) ? '#f1f1f1' : $result->button_background_color;
+					$banner->colorpalette_button_settings['border']     = empty( $result->border_color ) ? '#21759b' : $result->border_color;
+					$banner->colorpalette_button_settings['text']       = empty( $result->button_text_color ) ? '#21759b' : $result->button_text_color;
+					if ( $banner->theme === 'edgeless' ) {
 						$banner->buttons_border_radius = array(
-							'top'       => '0',
-							'right'     => '0',
-							'bottom'    => '0',
-							'left'      => '0',
-							'type'      => 'px',
+							'top'    => '0',
+							'right'  => '0',
+							'bottom' => '0',
+							'left'   => '0',
+							'type'   => 'px',
 						);
 					}
 
-					$banner->custom_css                                 = $result->custom_css . "\n\n" . $result->custom_css_amp;
-
-					if ( cmplz_tcf_active() ) {
-						$banner->header = __("Manage your privacy", 'complianz-gdpr');
-					}
 					$banner->save();
 				}
 
@@ -355,32 +354,34 @@ function cmplz_check_upgrade() {
 		 * we dismiss the integrations enabled notices
 		 */
 
-		$dismissed_warnings = get_option('cmplz_dismissed_warnings', array() );
-		$fields = COMPLIANZ::$config->fields( 'integrations' );
-		foreach ($fields as $warning_id => $field ) {
-			if ($field['disabled']) continue;
-			if ( !in_array($warning_id, $dismissed_warnings) ) {
+		$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
+		$fields             = COMPLIANZ::$config->fields( 'integrations' );
+		foreach ( $fields as $warning_id => $field ) {
+			if ( $field['disabled'] ) {
+				continue;
+			}
+			if ( ! in_array( $warning_id, $dismissed_warnings ) ) {
 				$dismissed_warnings[] = $warning_id;
 			}
 		}
-		update_option('cmplz_dismissed_warnings', $dismissed_warnings );
+		update_option( 'cmplz_dismissed_warnings', $dismissed_warnings );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {
-		update_option( 'cmplz_first_version', '5.0.0');
+		update_option( 'cmplz_first_version', '5.0.0' );
 	}
 
 	/**
 	 * restore dropshadow in TCF banner.
 	 */
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.1.2', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.1.2', '<' )
 	) {
 		if ( cmplz_tcf_active() ) {
 			$banners = cmplz_get_cookiebanners();
 			if ( $banners ) {
 				foreach ( $banners as $banner_item ) {
-					$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
+					$banner                 = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
 					$banner->use_box_shadow = true;
 					$banner->save();
 				}
@@ -388,23 +389,23 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.2.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.2.0', '<' )
 	) {
 		if ( cmplz_tcf_active() ) {
 			$banners = cmplz_get_cookiebanners();
 			if ( $banners ) {
 				foreach ( $banners as $banner_item ) {
-					$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-					$banner->colorpalette_button_accept = array(
-						'background'    => '#333',
-						'border'        => '#333',
-						'text'          => '#fff',
+					$banner                               = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
+					$banner->colorpalette_button_accept   = array(
+						'background' => '#333',
+						'border'     => '#333',
+						'text'       => '#fff',
 					);
 					$banner->colorpalette_button_settings = array(
-						'background'    => '#fff',
-						'border'        => '#333',
-						'text'          => '#333',
+						'background' => '#fff',
+						'border'     => '#333',
+						'text'       => '#333',
 					);
 					$banner->save();
 				}
@@ -412,8 +413,8 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.2.6.1', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.2.6.1', '<' )
 	) {
 		if ( cmplz_tcf_active() ) {
 			delete_transient( 'cmplz_vendorlist_downloaded_once' );
@@ -423,11 +424,11 @@ function cmplz_check_upgrade() {
 	/**
 	 * Change metakeys for eu dataleaks from '{metakey}' to '{metakey}-eu' for consistency between dataleaks .
 	 */
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.4.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.4.0', '<' )
 	) {
 		$args = array(
-			'numberposts' => -1,
+			'numberposts' => - 1,
 			'post_type'   => 'cmplz-dataleak',
 			'tax_query'   => array(
 				array(
@@ -462,14 +463,14 @@ function cmplz_check_upgrade() {
 		$wizard_settings = get_option( 'complianz_options_wizard' );
 		//upgrade to checkboxes structure.
 		$value_eu = $value_uk = false;
-		if (isset($wizard_settings['dpo_or_gdpr'])) {
+		if ( isset( $wizard_settings['dpo_or_gdpr'] ) ) {
 			$value_eu = $wizard_settings['dpo_or_gdpr'];
 		}
 
-		if (isset($wizard_settings['dpo_or_uk_gdpr'])) {
+		if ( isset( $wizard_settings['dpo_or_uk_gdpr'] ) ) {
 			$value_uk = $wizard_settings['dpo_or_uk_gdpr'];
 		}
-		if (! is_array( $value_eu )) {
+		if ( ! is_array( $value_eu ) ) {
 			$new_value = array(
 				'dpo'         => 0,
 				'dpo_uk'      => 0,
@@ -480,11 +481,13 @@ function cmplz_check_upgrade() {
 				$new_value[ $value_eu ] = 1;
 			}
 			if ( $value_uk ) {
-				if ( $value_uk === 'dpo') $value_uk = 'dpo_uk';
+				if ( $value_uk === 'dpo' ) {
+					$value_uk = 'dpo_uk';
+				}
 				$new_value[ $value_uk ] = 1;
 			}
 			//none is not applicable anymore, as it's  multischeckbox
-			unset($new_value['none']);
+			unset( $new_value['none'] );
 
 			$wizard_settings['dpo_or_gdpr'] = $new_value;
 			unset( $wizard_settings['dpo_or_uk_gdpr'] );
@@ -502,25 +505,26 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.5.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.5.0', '<' )
 	) {
-		$wizard_settings = get_option( 'complianz_options_wizard' );
+		$wizard_settings   = get_option( 'complianz_options_wizard' );
 		$settings_settings = get_option( 'complianz_options_settings' );
-		if (isset($wizard_settings['use_cdb_api'])) {
+		if ( isset( $wizard_settings['use_cdb_api'] ) ) {
 			$settings_settings['use_cdb_api']   = $wizard_settings['use_cdb_api'];
 			$settings_settings['use_cdb_links'] = $wizard_settings['use_cdb_links'];
 		}
-		unset($wizard_settings['use_cdb_api']);
-		unset($wizard_settings['use_cdb_links']);
-		update_option( 'complianz_options_wizard' , $wizard_settings );
-		update_option( 'complianz_options_settings' , $settings_settings );
+		unset( $wizard_settings['use_cdb_api'] );
+		unset( $wizard_settings['use_cdb_links'] );
+		update_option( 'complianz_options_wizard', $wizard_settings );
+		update_option( 'complianz_options_settings', $settings_settings );
 	}
 
-	if (  $prev_version
-	      && version_compare( $prev_version, '5.5.0', '<' )
+	if ( $prev_version
+	     && version_compare( $prev_version, '5.5.0', '<' )
 	) {
 		$wizard_settings = get_option( 'complianz_options_wizard' );
+
 		$share_data_us = $share_data_eu = 2;
 		if ( isset($wizard_settings['share_data_other_us']) ) {
 			$share_data_us = intval($wizard_settings['share_data_other_us']);
@@ -565,6 +569,193 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_wizard', $wizard_settings );
 	}
 
+	if ( $prev_version && version_compare( $prev_version, '6.0.0', '<' ) ) {
+		$custom_scripts = get_option( 'complianz_options_custom-scripts' );
+
+		$scripts['add_script']       = [];
+		$scripts['block_script']     = [];
+		$scripts['whitelist_script'] = [];
+
+		if ( ! empty( $custom_scripts['cookie_scripts'] ) ) {
+			$scripts['add_script'][] = [
+				'name'                 => 'Scripts',
+				'editor'               => $custom_scripts['cookie_scripts'],
+				'async'                => '0',
+				'category'             => 'marketing',
+				'enable_placeholder'   => '0',
+				'placeholder_class' => '',
+				'placeholder'          => '',
+				'enable_dependency'    => '0',
+				'dependency'           => '',
+				'enable'               => '1',
+			];
+		}
+
+		if ( ! empty( $custom_scripts['cookie_scripts_async'] ) ) {
+			$scripts['add_script'][] = [
+				'name'                 => 'Async scripts',
+				'editor'               => $custom_scripts['cookie_scripts_async'],
+				'async'                => '1',
+				'category'             => 'marketing',
+				'enable_placeholder'   => '0',
+				'placeholder_class' => '',
+				'placeholder'          => '',
+				'enable_dependency'    => '0',
+				'dependency'           => '',
+				'enable'               => '1',
+			];
+		}
+
+		if ( ! empty( $custom_scripts['statistics_script'] ) ) {
+			$scripts['add_script'][] = [
+				'name'                 => 'Statistics scripts',
+				'editor'               => $custom_scripts['statistics_script'],
+				'async'                => '0',
+				'category'             => 'statistics',
+				'enable_placeholder'   => '0',
+				'placeholder_class' => '',
+				'placeholder'          => '',
+				'enable_dependency'    => '0',
+				'dependency'           => '',
+				'enable'               => '1',
+			];
+		}
+
+		if ( ! empty( $custom_scripts['thirdparty_scripts'] ) ) {
+			$scripts['block_script'][] = [
+				'name'                 => 'Third party scripts',
+				'urls'                 => explode( ',', $custom_scripts['thirdparty_scripts'] ),
+				'category'             => 'marketing',
+				'enable_placeholder'   => '0',
+				'placeholder_class' => '',
+				'placeholder'          => '',
+				'enable'               => '1',
+			];
+		}
+
+		if ( ! empty( $custom_scripts['thirdparty_iframes'] ) ) {
+			$scripts['block_script'][] = [
+				'name'                 => 'Third party iframes',
+				'urls'                 => explode( ',', $custom_scripts['thirdparty_iframes'] ),
+				'category'             => 'marketing',
+				'enable_placeholder'   => '0',
+				'placeholder_class' => '',
+				'placeholder'          => '',
+				'enable'               => '1',
+			];
+		}
+		update_option( 'complianz_options_custom-scripts', $scripts );
+	}
+
+	if ( $prev_version
+	     && version_compare( $prev_version, '6.0.0', '<' )
+	) {
+		$general_settings                      = get_option( 'complianz_options_general' );
+		$general_settings['enable_migrate_js'] = true;
+		update_option( 'complianz_options_general', $general_settings );
+
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner              = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				switch ( $banner->use_categories ) {
+					case 'no':
+						$banner->use_categories = 'no';
+						break;
+					case 'legacy':
+					case 'visible':
+						$banner->use_categories = 'save-preferences';
+						break;
+					default:
+						$banner->use_categories = 'view-preferences';
+				}
+
+				switch ( $banner->position ) {
+					case 'top':
+					case 'bottom':
+					case 'bottom-left':
+					case 'bottom-right':
+						break;
+					default:
+						$banner->position = 'center';
+				}
+
+				switch ( $banner->checkbox_style ) {
+					case 'classic':
+						$banner->checkbox_style = 'classic';
+						break;
+					default:
+						$banner->checkbox_style = 'slider';
+				}
+
+				$banner->revoke = array(
+					'text' => $banner_item->revoke,
+					'show' => !$banner_item->hide_revoke,
+				);
+
+				$banner->dismiss = array(
+					'text' => $banner_item->dismiss,
+					'show' => true,
+				);
+
+				if ( strlen($banner_item->header)<4 ) {
+					$banner->header = array(
+						'text' => '',
+						'show' => false,
+					);
+				} else {
+					$banner->header = array(
+						'text' => $banner_item->header,
+						'show' => true,
+					);
+				}
+
+
+				$banner->accept_informational = array(
+					'text' => $banner_item->accept_informational,
+					'show' => true,
+				);
+
+				$banner->use_logo = 'hide';
+				$banner->close_button = false;
+
+				$banner->category_prefs       = array(
+					'text' => $banner_item->category_prefs,
+					'show' => true,
+				);
+				$banner->category_stats       = array(
+					'text' => $banner_item->category_stats,
+					'show' => true,
+				);
+				$banner->category_all         = array(
+					'text' => $banner_item->category_all,
+					'show' => true,
+				);
+				$banner->save();
+				$banner->generate_css();
+			}
+		}
+
+		$wizard_settings = get_option( 'complianz_options_wizard' );
+		if ( isset( $wizard_settings['compile_statistics'] ) && $wizard_settings['compile_statistics'] === 'yes-anonymous' ) {
+			$wizard_settings['compile_statistics'] = 'yes';
+			update_option( 'complianz_options_wizard', $wizard_settings );
+		}
+	}
+
+	$banners = cmplz_get_cookiebanners();
+	if ( $banners ) {
+		foreach ( $banners as $banner_item ) {
+			$banner              = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+			$banner->generate_css();
+		}
+	}
+
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', cmplz_version );
 }
+
+
+
+
+

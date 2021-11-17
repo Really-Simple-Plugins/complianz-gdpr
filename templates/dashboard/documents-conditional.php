@@ -19,7 +19,7 @@ $docs = array(
 		'subscription' => 'premium',
 	),
 	'do-not-sell-my-info' => array(
-		'title' => __("Do Not Sell My Personal Information", 'complianz-gdpr'),
+		'title' => __("Opt-out preferences", 'complianz-gdpr'),
 		'regions' => array('us'),
 		'read-more' => 'https://complianz.io/definition/what-is-do-not-sell-my-personal-information/',
 		'subscription' => 'free',
