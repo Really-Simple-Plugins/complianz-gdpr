@@ -2004,7 +2004,7 @@ if (!function_exists('cmplz_has_consent')) {
 	}
 }
 
-if (!function_exists('cmplz_has_servie_consent')) {
+if (!function_exists('cmplz_has_service_consent')) {
 	/**
 	 * Check if a service has consent
 	 *
