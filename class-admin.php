@@ -430,6 +430,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 							$warning['message'] = $warning['urgent'];
 							$warning['status'] = 'urgent';
 							$warnings[$id] = $warning;
+						} else if (isset( $warning['premium']) ) {
+							$warning['message'] = $warning['premium'];
+							$warning['status'] = 'premium';
+							$warnings[$id] = $warning;
 						}
 					} else {
 						if (isset( $warning['completed']) ) {

@@ -230,7 +230,7 @@ $this->fields = $this->fields + array(
 			'type'         => 'text',
 			'translatable' => true,
 			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-			'default'      => _x( 'Click to accept the cookies for this service', 'Accept cookies on blocked content', 'complianz-gdpr' ),
+			'default'      => __( 'Click to accept the cookies for this service', 'complianz-gdpr' ),
 			'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
 			'condition'    => array(
 				'disable_cookie_block' => false,
@@ -353,7 +353,7 @@ $this->fields = $this->fields + array(
 			'type'    => 'checkbox',
 			'label'   => __( "Enable migrate.js", 'complianz-gdpr' ),
 			'default' => false,
-			'tooltip' => __( "If you use legcacy events and hooks, you can enable this script to restore these legacy hooks.", 'complianz-gdpr' ),
+			'tooltip' => __( "If you use legacy events and hooks, you can enable this script to restore these legacy hooks.", 'complianz-gdpr' ),
 		),
 
 		'enable_cookieblocker_ajax' => array(

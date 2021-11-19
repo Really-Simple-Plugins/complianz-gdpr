@@ -122,6 +122,15 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Change log ==
+= 6.0.0 =
+* Improvement: new Script Center, with option to add dependencies and placeholders
+* Improvement: complete rewrite of the cookiebanner code, faster, modular, easily customizable.
+* Improvement: removed jquery as dependency from the cookiebanner javascript
+* Fix: new array structure for cookiebanner settings causing error with translations.
+* Fix: load tcf stub als first action on page
+* Fix: catastrophic backtracking with regex on iframes that do not contain a URL, props @ajoah https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/320
+* Improvement: auto consent for visits from bots
+
 = 5.5.2 =
 * Fix: regex pattern in placeholder code should allow for linebreaks props @ajoah
 * Fix: on multisite, when the settings "set cookies on root" is used, the rt prefix should not be used.

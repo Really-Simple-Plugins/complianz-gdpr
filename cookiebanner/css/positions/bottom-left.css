@@ -29,4 +29,7 @@
     width: calc(var(--cmplz_banner_width) - 42px);
   }
 }
+#cmplz-manage-consent .cmplz-manage-consent {
+  left: 40px;
+}
 /*# sourceMappingURL=bottom-left.css.map */

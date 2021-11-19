@@ -56,7 +56,7 @@ function create_element(el, content) {
  * @param callback
  * @param context
  */
-function addEvent(event, selector, callback, context) {
+function addEvent(event, selector, callback ) {
 	document.addEventListener(event, e => {
 		if ( e.target.closest(selector) ) {
 			callback(e);
@@ -269,7 +269,7 @@ function cmplz_run_script( script, category, type ) {
 		fileref.setAttribute("src", script);
 	} else {
 		if (typeof script !== 'string') {
-			script = script.innerText;
+			script = script.innerHTML;
 		}
 		fileref.innerHTML = script;
 	}
@@ -830,8 +830,11 @@ function cmplz_get_services_on_page(){
 
 window.show_cookie_banner = function () {
 	var fragment = document.createDocumentFragment();
-	fragment.appendChild(document.getElementById('cmplz-cookiebanner-container'));
-	document.body.prepend(fragment);
+	let container = document.getElementById('cmplz-cookiebanner-container');
+	if (container) {
+		fragment.appendChild(container);
+		document.body.prepend(fragment);
+	}
 
 	let link = document.createElement("link");
 	let pageLinks = complianz.page_links[complianz.region];
@@ -848,7 +851,7 @@ window.show_cookie_banner = function () {
 	}
 	document.getElementsByTagName("head")[0].appendChild(link);
 
-	let disableCookiebanner = complianz.disable_cookiebanner;
+	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
 	let temporarilyDismissBanner = false;
 	//do not show banner when manage consent area on cookie policy is visible
 	//when users use only the shortcode, the manage consent container is not active, but the dropdown cookie policy class is.
@@ -873,10 +876,13 @@ window.show_cookie_banner = function () {
 			}
 		});
 
-		banner.classList.add(complianz.region);
+		if ( banner ) {
+			banner.classList.add(complianz.region);
+		}
+
 		cmplz_set_banner_status();
 		//we don't use the setBannerStatus function here, as we don't want to save it in a cookie now.
-		if (temporarilyDismissBanner) {
+		if ( banner && temporarilyDismissBanner ) {
 			banner.classList.add('cmplz-show');
 			banner.classList.add('cmplz-dismissed');
 			manage_consent_button.classList.remove('cmplz-dismissed');
@@ -917,18 +923,22 @@ window.cmplz_set_banner_status = function ( status ){
 	}
 	cmplz_track_status();
 
-	if ( status.length>0 ) {
+	if ( banner && status.length>0 ) {
 		banner.classList.remove('cmplz-'+prevStatus);
 		banner.classList.add('cmplz-'+status );
-		manage_consent_button.classList.add('cmplz-'+prevStatus);
-		manage_consent_button.classList.remove('cmplz-'+status);
+		if ( manage_consent_button ) {
+			manage_consent_button.classList.add('cmplz-'+prevStatus);
+			manage_consent_button.classList.remove('cmplz-'+status);
+		}
 	}
 
-	if ( complianz.soft_cookiewall ) {
+	if ( banner_container && complianz.soft_cookiewall ) {
 		banner_container.classList.remove('cmplz-'+prevStatus);
 		banner_container.classList.add('cmplz-'+status );
 		banner_container.classList.add('cmplz-soft-cookiewall');
 	}
+	var event = new CustomEvent('cmplz_banner_status', { detail: status });
+	document.dispatchEvent(event);
 }
 
 /**
@@ -938,11 +948,27 @@ window.cmplz_set_banner_status = function ( status ){
  */
 function cmplz_is_bot(){
 	var botPattern = "(googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
-	var re = new RegExp(botPattern, 'i');
+	var reBot = new RegExp(botPattern, 'i');
 	var userAgent = navigator.userAgent;
-	if (re.test(userAgent)) {
+	if ( reBot.test(userAgent) ) {
 		return true;
-	}else{
+	} else {
+		return false;
+	}
+}
+/**
+ * Check if current visitor is a speedbot
+ *
+ * @returns {boolean}
+ */
+function cmplz_is_speedbot(){
+	var userAgent = navigator.userAgent;
+	var speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
+	var speedBot = new RegExp(speedBotPattern, 'i');
+
+	if ( speedBot.test(userAgent) ) {
+		return true;
+	} else {
 		return false;
 	}
 }
@@ -1010,6 +1036,11 @@ window.cmplz_is_service_denied = function ( service ) {
 window.cmplz_has_service_consent = function ( service ) {
 	//in opt out, there's no consent per service. so it's always true.
 	if ( complianz.consenttype === 'optout' ) {
+		return true;
+	}
+
+	//if there's at least one other service consented, allow default as well
+	if ( service === 'general' && cmplz_exists_service_consent() ){
 		return true;
 	}
 
@@ -1237,7 +1268,6 @@ window.cmplz_accept_all = function(){
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
-
 	for (var key in categories) {
 		cmplz_set_consent(categories[key], 'deny');
 	}
@@ -1337,7 +1367,7 @@ addEvent('change', '.cmplz-accept-service', function(e){
  */
 addEvent('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
-	let banner = obj.closest('.cmplz-cookiebanner');
+	banner = obj.closest('.cmplz-cookiebanner');
 	for (var key in categories) {
 		var category = categories[key];
 		var categoryElement = _$1('input.cmplz-'+category, banner);
@@ -1358,7 +1388,7 @@ addEvent('click', '.cmplz-close', function(e){
 
 addEvent('click', '.cmplz-view-preferences', function(e){
 	let obj = e.target;
-	let banner = obj.closest('.cmplz-cookiebanner');
+	banner = obj.closest('.cmplz-cookiebanner');
 	if ( _$1('.cmplz-categories', banner).classList.contains('cmplz-fade-in')) {
 		banner.classList.add('categories-visible');
 		_$1('.cmplz-categories', banner).classList.remove('cmplz-fade-in');

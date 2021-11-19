@@ -22,7 +22,4 @@ input[type="checkbox"].cmplz-category:checked::before {
   height: 0;
   margin: initial;
 }
-.cmplz-cookiebanner section {
-  padding: initial;
-}
 /*# sourceMappingURL=reset.css.map */

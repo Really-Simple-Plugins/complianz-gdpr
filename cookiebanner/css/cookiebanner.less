@@ -68,33 +68,33 @@
 	&.cmplz-dismissed {
 	  display: none;
 	}
-	animation: slideOut 0.5s forwards;
+	animation: mc_slideOut 0.5s forwards;
 
 	&:hover {
-	  animation: slideIn 0.5s forwards;
+	  animation: mc_slideIn 0.5s forwards;
 	  animation-delay: 0;
 	}
   }
 
-  @-webkit-keyframes slideIn {
+  @-webkit-keyframes mc_slideIn {
 	100% {
 	  bottom: 0;
 	}
   }
 
-  @keyframes slideIn {
+  @keyframes mc_slideIn {
 	100% {
 	  bottom: 0;
 	}
   }
 
-  @-webkit-keyframes slideOut {
+  @-webkit-keyframes mc_slideOut {
 	100% {
 	  bottom: var(--cmplz-manage-consent-offset);
 	}
   }
 
-  @keyframes slideOut {
+  @keyframes mc_slideOut {
 	100% {
 	  bottom: var(--cmplz-manage-consent-offset);
 	}
@@ -285,18 +285,18 @@
 		  }
 		}
 
-
-	   label>span {
-		  display:none;
-		}
 		// Center checkbox
 		.cmplz-banner-checkbox {
-
 		  display: flex;
 		  align-items: center;
 		  margin: 0;
+		  label>span {
+			display:none;
+		  }
+		  input[data-category=cmplz_functional]{
+			display:none;
+		  }
 		}
-
 
 		// Complianz marker
 		.cmplz-icon.cmplz-open {
@@ -344,11 +344,6 @@
   @media (max-width:425px) {
 	.cmplz-category .cmplz-category-header {
 	  grid-template-columns: 1fr!important;
-	}
-	//stack links on small screens
-	.cmplz-links.cmplz-information {
-	  display:initial;
-	  text-align:center;
 	}
   }
   @media (max-width:425px) {
@@ -412,9 +407,17 @@
 
   // ---------------------------------------------------- Links ----------------------------------------------------- //
 
+  //disabled until consent per services on cookie policy is released
   .cmplz-links.cmplz-information {
 	  display:none;
   }
+  //@media (max-width:425px) {
+	////stack links on small screens
+	//.cmplz-links.cmplz-information {
+	//  display:initial;
+	//  text-align:center;
+	//}
+  //}
 
   .cmplz-links {
 	&.cmplz-information {

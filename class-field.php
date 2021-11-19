@@ -20,7 +20,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			self::$_this = $this;
 			//safe before the fields are loaded in config, in init
-			add_action( 'plugins_loaded', array( $this, 'process_save' ), 14 );
+			add_action( 'plugins_loaded', array( $this, 'process_save' ), 16 );
 			add_action( 'cmplz_register_translation', array( $this, 'register_translation' ), 10, 2 );
 			add_action( 'complianz_before_label', array( $this, 'before_label' ), 10, 1 );
 			add_action( 'complianz_before_label', array( $this, 'show_errors' ), 10, 1 );
@@ -76,6 +76,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		public function load() {
 			$this->default_args = array(
 				"fieldname"          => '',
+				'order'				 => 100,
 				"type"               => 'text',
 				"required"           => false,
 				'default'            => '',
@@ -962,7 +963,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					}
 
                 	?>
-                    <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $disabled ?>"><?php echo esc_html( $option_label ) ?>
+                    <label tabindex="0" role="button" aria-pressed="false" class="cmplz-radio-container <?php echo $disabled ?>"><?php echo $option_label ?>
                         <input tabindex="-1"
                             <?php echo $required ?>
                                 type="radio"

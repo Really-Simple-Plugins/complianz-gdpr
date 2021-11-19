@@ -162,20 +162,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				wp_redirect( admin_url( 'admin.php?page=cmplz-cookiebanner' ) );
 				exit();
 			}
-
-//						if (isset($_POST['wizard_type']) && $_POST['wizard_type'] === 'wizard' ) {
-//				$url = add_query_arg(array( 'page' => 'cmplz-'.sanitize_title($_POST['wizard_type']) ),  admin_url('admin.php') );
-//				if (isset($_POST['step'])) {
-//					$url = add_query_arg(array( 'step' => intval($_POST['step'])),  $url );
-//				}
-//
-//				if (isset($_POST['section'])) {
-//					$url = add_query_arg(array( 'section' => intval($_POST['section'])),  $url );
-//				}
-//				wp_redirect( $url );
-//				exit();
-//			}
-
 		}
 
 		/**
@@ -638,7 +624,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
             if ( $page != 'wizard' ) {
                 if ( $step == 1 ) {
                     delete_option( 'complianz_options_' . $page );
-
                 }
             }
 
@@ -669,9 +654,10 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                 /**
                  * Only for the wizard type, should there optional be a button redirecting to the cookie settings page
                  * */
+
                 if ( $page == 'wizard' && COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-                    $args['cookie_or_finish_button'] =
-                        '<input class="button button-primary cmplz-cookiebanner-settings" type="submit" name="cmplz-cookiebanner-settings" value="'. __( "Finish and check cookie banner settings", 'complianz-gdpr' ) . '">';
+					$target = apply_filters('cmplz_finish_wizard_target', 'cmplz-cookiebanner-settings');
+					$args['cookie_or_finish_button'] = '<input class="button button-primary '.$target.'" type="submit" name="'.$target.'" value="'. __( "Finish and check cookie banner settings", 'complianz-gdpr' ) . '">';
                 } else {
                     $args['cookie_or_finish_button'] = '<input class="button button-primary cmplz-finish" type="submit" name="cmplz-finish" value="'. $label . '">';
                 }

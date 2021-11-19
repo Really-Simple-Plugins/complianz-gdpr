@@ -368,14 +368,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			$output = array();
 			$fields = $this->fields;
 			if ( $page ) {
-				$fields = cmplz_array_filter_multidimensional( $this->fields,
-					'source', $page );
+				$fields = cmplz_array_filter_multidimensional( $this->fields, 'source', $page );
 			}
 
 			foreach ( $fields as $fieldname => $field ) {
 				if ( $get_by_fieldname && $fieldname !== $get_by_fieldname ) {
 					continue;
 				}
+				$field = wp_parse_args( $field, array('order'=> 100 ) );
 
 				if ( $step ) {
 					if ( $section && isset( $field['section'] ) ) {
@@ -398,7 +398,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				if ( ! $step ) {
 					$output[ $fieldname ] = $field;
 				}
+			}
 
+			//maybe sort by order
+			if ( $section ){
+				uasort($output, function($a, $b) {
+					return $a["order"] - $b["order"];
+				});
 			}
 
 			return $output;
@@ -619,18 +625,89 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => true,
 				),
 
+				// New progress warnings
+				'advertising-enabled' => array(
+					'warning_condition' => 'cmplz_uses_ad_cookies',
+					'plus_one' => true,
+					'premium' => __( 'With Advertising enabled consider implementing TCF.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/implementing-tcf-on-your-website/'),
+					'include_in_progress' => true,
+				),
+
+				'sync-privacy-statement' => array(
+					'warning_condition' => 'cmplz_is_free',
+					'plus_one' => true,
+					'premium' => __( 'Synchronize your Privacy Statement with Complianz.', 'complianz-gdpr' ) . ' <a href="https://complianz.io/l/pricing/" target="_blank">' . __('Upgrade to premium', 'complianz-gdpr') . '</a>',
+					'include_in_progress' => true,
+				),
+
+				'ecommerce_legal' => array(
+					'warning_condition' => 'cmplz_ecommerce_legal',
+					'plus_one' => true,
+					'premium' => __( 'Legal compliance for Webshops.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/legal-compliance-for-ecommerce/'),
+					'include_in_progress' => true,
+				),
+
+				'configure_tag_manager' => array(
+					'warning_condition' => 'cookie_admin->uses_google_tagmanager',
+					'plus_one' => true,
+					'premium' => __( 'Learn more about Google Consent Mode.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/configure-consent-mode/'),
+					'include_in_progress' => true,
+				),
+
+				'targeting_multiple_regions' => array(
+					'warning_condition' => 'cmplz_targeting_multiple_regions',
+					'plus_one' => true,
+					'premium' => __( 'Are you targeting multiple regions?', 'complianz-gdpr' ) . cmplz_read_more('/what-regions-do-i-target/'),
+					'include_in_progress' => true,
+				),
+
 				'bf-notice' => array(
 					'warning_condition'  => 'admin->is_bf',
 					'plus_one' => true,
 					'open' => __( "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',
 					'include_in_progress' => false,
+
 				),
 
-			) );
+			));
 		}
 
 	}
 
+	function cmplz_uses_ad_cookies(){
+		$wizard_settings = get_option( 'complianz_options_wizard' );
+		return $wizard_settings['uses_ad_cookies'];
+	}
 
+	function cmplz_is_free(){
+		$premium = ( ! defined( 'cmplz_premium' ) ) ? true : false;
+		return $premium;
+	}
+
+	function cmplz_ecommerce_legal(){
+		$ecommerce_enabled = /*cmplz_woocommerce_enabled()*/ true || cmplz_edd_enabled() ? true : false; //@todo use cmplz_woocommerce_enabled() instead of true
+		return $ecommerce_enabled;
+	}
+
+	function cmplz_targeting_multiple_regions(){
+
+		$regions = cmplz_get_regions();
+		$multiple_languages = COMPLIANZ::$cookie_admin->get_supported_languages(true) > 1 ? true : false;
+		$get_locale = get_locale();
+		$lang_is_english = strpos($get_locale, 'en') === 0 ? true : false;
+		$lang_is_brazilian_portugese = strpos($get_locale, 'pt') === 0 ? true : false;
+
+		if ($multiple_languages) return true;
+		if ( array_key_exists('uk', $regions) && ! $lang_is_english ) return true; // works
+		if ( array_key_exists('us', $regions) && ! $lang_is_english ) return true; // works
+		if ( array_key_exists('au', $regions) && ! $lang_is_english ) return true; // works
+
+		if ( array_key_exists('br', $regions) && ! $lang_is_brazilian_portugese ) return true; // works
+		if ( array_key_exists('eu', $regions) && $lang_is_english ) return true; // works
+		if ( array_key_exists('za', $regions) && ! $lang_is_english && $get_locale !== 'af') return true;  // works
+		if ( array_key_exists('ca', $regions) && ! $lang_is_english && $get_locale !== 'fr_FR' && $get_locale !== 'fr_BE') return true;
+
+		return false;
+	}
 
 } //class closure

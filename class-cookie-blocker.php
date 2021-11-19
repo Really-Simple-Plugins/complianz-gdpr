@@ -339,7 +339,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					if ( cmplz_strpos_arr( $style_url, $known_style_tags ) !== false ) {
 						$new    = $this->replace_href( $total_match );
 						$service_name = cmplz_get_service_by_src( $style_url );
-						$service_name = !$service_name ? 'general' :$service_name;
 						$new    = $this->add_data( $new, 'link', 'service', $service_name );
 						$new    = $this->add_data( $new, 'link', 'category', 'marketing' );
 						$output = str_replace( $total_match, $new, $output );

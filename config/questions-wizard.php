@@ -733,9 +733,20 @@ $this->fields = $this->fields + array(
 			),
 		),
 
+		'plugins_overviews' => array(
+			'label' => __('Enabled integrations', "complianz-gdpr"),
+			'step' => STEP_COOKIES,
+			'section' => 5,
+			'order'    => 10,
+			'source' => 'wizard',
+			'type' => 'multiple',
+			'callback' => 'plugins_overview_wizard',
+			'required' => false,
+		),
+
 		'cookiedatabase_sync' => array(
 			'step'     => STEP_COOKIES,
-			'section'  => 5,
+			'section'  => 6,
 			'source'   => 'wizard',
 			'label'    => __( "Connect with Cookiedatabase.org", 'complianz-gdpr' ),
 			'callback' => 'cookiedatabase_sync',
@@ -743,7 +754,7 @@ $this->fields = $this->fields + array(
 
 		'used_cookies' => array(
 			'step'               => STEP_COOKIES,
-			'section'            => 5,
+			'section'            => 6,
 			'source'             => 'wizard',
 			'translatable'       => true,
 			'type'               => 'cookies',
@@ -755,7 +766,7 @@ $this->fields = $this->fields + array(
 
 		'used_services' => array(
 			'step'               => STEP_COOKIES,
-			'section'            => 6,
+			'section'            => 7,
 			'source'             => 'wizard',
 			'translatable'       => true,
 			'type'               => 'services',
@@ -788,8 +799,6 @@ $this->fields = $this->fields + array(
 			'comment' =>  sprintf(__("GEO IP based redirect is available in %spremium%s", "complianz-gdpr"), '<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>'),
 			'source'   => 'wizard',
 			'label'    => __("Do you want to use region redirect on the relevant documents?", 'complianz-gdpr'),
-			'help' =>  __( 'Did you know you can design a legal hub for your website?','complianz-gdpr' ).
-			           cmplz_read_more('https://complianz.io/creating-the-legal-hub/'),
 		),
 
 		'add_pages_to_menu' => array(

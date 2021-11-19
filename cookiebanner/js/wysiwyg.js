@@ -229,6 +229,9 @@ jQuery(document).ready(function ($) {
 	$(document).on('keyup', "input[name='cmplz_marketing_text[text]']", function () {
 		$(".cmplz-marketing .cmplz-description-statistics-anonymous").html($(this).val());
 	});
+	$(document).on('keyup', "textarea.wp-editor-area", function () {
+		$(".cmplz-message").html($(this).val());
+	});
 
 	$(document).on('keyup',
 		'input[name=cmplz_banner_width], ' +
@@ -318,6 +321,7 @@ jQuery(document).ready(function ($) {
 		processingReset = true;
 		var defaults = complianz.defaults;
 		for (var default_field in defaults) {
+
 			var fieldGroup = $(".field-group."+default_field);
 			if (fieldGroup.hasClass('cmplz-colorpicker') ) {
 				if (defaults[default_field].hasOwnProperty("color")) {
@@ -362,7 +366,18 @@ jQuery(document).ready(function ($) {
 			} else if (fieldGroup.hasClass('cmplz-checkbox')) {
 				$(".field-group." + default_field + ' input').prop('checked', defaults[default_field]);
 			} else if (fieldGroup.hasClass('cmplz-select')){
-				$(".field-group."+default_field+' select').val( defaults[default_field] );
+				if (default_field!=='position') {
+					$(".field-group."+default_field+' select').val( defaults[default_field] );
+				}
+			} else if (fieldGroup.hasClass('cmplz-editor')){
+					var editor_id = 'cmplz_message_' + consenttype;
+					var textarea_id = 'cmplz_message_' + consenttype;
+					$(".cmplz-message").html(defaults[default_field] );
+					if ($('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
+						tinyMCE.get(editor_id).setContent(defaults[default_field]);
+					} else {
+						$('#' + textarea_id).val(defaults[default_field]);
+					}
 			}
 			$('select[name=cmplz_use_logo]').trigger('change');
 		}
@@ -381,14 +396,12 @@ jQuery(document).ready(function ($) {
 				tinymce.editors[i].on('NodeChange keyup', function (ed, e) {
 					var content;
 					var editor_id = 'cmplz_message_' + consenttype;
-					var textarea_id = 'cmplz_message';
-					if (typeof editor_id == 'undefined') editor_id = wpActiveEditor;
-					if (typeof textarea_id == 'undefined') textarea_id = editor_id;
+					var textarea_id = 'cmplz_message_' + consenttype;
 
-					if (jQuery('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
+					if ($('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
 						content = tinyMCE.get(editor_id).getContent();
 					} else {
-						content = jQuery('#' + textarea_id).val();
+						content = $('#' + textarea_id).val();
 					}
 					content = content.replace(/<[\/]{0,1}(p)[^><]*>/ig, "");
 					$(".cmplz-message").html(content );

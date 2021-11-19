@@ -86,6 +86,10 @@
   background-color: #D7263D;
   color: white;
 }
+#cmplz-dashboard .cmplz-progress-status.cmplz-premium {
+  background-color: #29b6f6;
+  color: white;
+}
 #cmplz-dashboard .cmplz-progress-bar,
 #cmplz-dashboard .cmplz-sync-progress-bar {
   border-radius: 5px;

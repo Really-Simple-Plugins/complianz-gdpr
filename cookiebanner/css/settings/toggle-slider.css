@@ -17,9 +17,8 @@
   width: 40px;
   height: 20px;
 }
-.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox input.cmplz-consent-checkbox:focus + .cmplz-label:before,
-.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox input.cmplz-consent-checkbox:active + .cmplz-label:before {
-  box-shadow: 0 0 5px 3px rgba(0, 119, 200, 0.5);
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox input.cmplz-consent-checkbox:focus + .cmplz-label:before {
+  box-shadow: 0 0 0 2px #245fcc;
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox input.cmplz-consent-checkbox:checked + .cmplz-label::before {
   background-color: var(--cmplz_slider_active_color);

@@ -47,7 +47,7 @@
 				'table'     => true,
 				'disabled'  => false,
 				'hidden'    => false,
-				'cols'    => false,
+				'source'    => 'integrations',
 			);
 
 			COMPLIANZ::$field->checkbox( $args, $active );
@@ -67,10 +67,9 @@
 				"required"  => false,
 				'default'   => '',
 				'label'     => $label,
-				'table'     => true,
 				'disabled'  => false,
 				'hidden'    => false,
-				'cols'    => false,
+				'source'    => 'integrations',
 			);
 
 			COMPLIANZ::$field->checkbox( $args, $active );
@@ -85,10 +84,9 @@
 			"required"  => false,
 			'default'   => '',
 			'label'     => 'Google Ads/DoubleClick',
-			'table'     => true,
 			'disabled'  => false,
 			'hidden'    => false,
-			'cols'      => false,
+			'source'    => 'integrations',
 		);
 
 		COMPLIANZ::$field->checkbox( $args, $uses_ad_cookies );

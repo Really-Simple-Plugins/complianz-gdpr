@@ -3256,7 +3256,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$html .= '<span>' . $name . '</span>';
 					}
 				} else {
-					$html .= '<span>' . __("Nothing found yet. You can add these manually under 'Integrations'.", "complianz-gdpr") . '</span>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
 				}
 				$html .= '</div></div>';
 
@@ -3271,7 +3271,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$html .= '<span>' . COMPLIANZ::$config->thirdparty_socialmedia[ $service ] . '</span>';
 					}
 				} else {
-					$html .= '<span>' . __("Nothing found yet. You can add these manually under 'Integrations'.", "complianz-gdpr") . '</span>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr").__("You can add these manually under 'Services'.", "complianz-gdpr") . '</span>';
 				}
 				$html .= '</div></div>';
 
@@ -3286,7 +3286,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$html .= '<span>' . COMPLIANZ::$config->thirdparty_services[ $service ] . '</span>';
 					}
 				} else {
-					$html .= '<span>' . __("Nothing found yet. You can add these manually under 'Integrations'.", "complianz-gdpr") . '</span>';
+					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr").__("You can add these manually under 'Services'.", "complianz-gdpr") . '</span>';
 				}
 				$html .= '</div></div>';
 			}

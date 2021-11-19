@@ -1,6 +1,8 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );?>
 
 <?php $progress = COMPLIANZ::$wizard->wizard_percentage_complete(); ?>
+<?php $premium = ( ! defined( 'cmplz_premium' ) ) ? true : false; ?>
+
 	<style>
 		@keyframes cmplz-load-progress-bar {
 			0% { width: 0; }
@@ -17,11 +19,17 @@
 		<div class="cmplz-progress-description">
 			<?php if ( $progress < 100
 			) {
-				printf( __( 'Your website is not ready for your selected regions yet.', 'complianz-gdpr' ),
-					cmplz_supported_laws() );
+					_e( 'Your website is not ready for your selected regions yet.', 'complianz-gdpr' );
 			} else {
-				printf( __( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' ),
-					cmplz_supported_laws() );
+				if ( $premium ) {
+					_e( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' );
+				} else {
+					$regions = cmplz_get_regions();
+					foreach ($regions as $region => $value) {
+						echo __( 'Great! Your website is configured for', 'complianz-gdpr') . ' ' .  COMPLIANZ::$config->regions[$region]['law'];
+					}
+				}
+
 			} ?>
 		</div>
 	</div>
@@ -61,6 +69,10 @@
 				if ( $status === 'urgent' ) {
 					$status_message = __("Urgent", 'complianz-gdpr');
 				}
+				if ( $status === 'premium' ) {
+					$status_message = __("Premium", 'complianz-gdpr');
+				}
+
 				?>
 				<div class="cmplz-progress-warning-container">
 					<div class="cmplz-progress-status-container">

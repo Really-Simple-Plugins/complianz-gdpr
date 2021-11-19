@@ -952,7 +952,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$css_files[] = "tcf$minified.css";
 			}
 			// Animation
-			if ( !$preview ) {
+			if ( !$preview && $this->animation !== 'none' ) {
 				if ( $this->animation === "slide" ) {
 					$css_files[] = "settings/animation/{$this->position}-slide$minified.css";
 				} else {
@@ -1128,6 +1128,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$region = COMPLIANZ::$company->get_default_region();
+
 			$output = array(
 				'prefix'               => COMPLIANZ::$cookie_admin->get_cookie_prefix(),
 				'user_banner_id'       => apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ),

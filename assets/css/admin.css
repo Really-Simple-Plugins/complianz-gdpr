@@ -71,16 +71,6 @@
 #complianz.wrap.cmplz-high-contrast .cmplz-panel.cmplz-toggle-disabled {
   color: #333;
 }
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled {
-  pointer-events: none;
-}
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark {
-  background-color: #eee;
-}
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark svg {
-  stroke: #eee !important;
-  fill: #eee !important;
-}
 #complianz.wrap.cmplz-high-contrast input:disabled {
   cursor: not-allowed;
 }

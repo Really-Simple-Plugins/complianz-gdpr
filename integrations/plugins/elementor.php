@@ -1,24 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
-/**
- * Add a notice about the legal hub
- * @param array $warnings
- *
- * @return array
- */
-function cmplz_elementor_legal_hub($warnings){
-	$warnings['elementor_hub']  = array(
-			'conditions' => array('_true_'),
-			'plus_one' => false,
-			'include_in_progress' => false,
-			'open' => sprintf(__( 'Download the Legal Hub for Elementor or design it yourself!', 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/creating-the-legal-hub/") ),
-		);
-	return $warnings;
-}
-add_filter( 'cmplz_warning_types', 'cmplz_elementor_legal_hub' );
-
-
 function cmplz_elementor_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('youtube') ) {
 

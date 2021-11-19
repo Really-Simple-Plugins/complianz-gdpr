@@ -224,12 +224,10 @@
       margin-left: 15px;
     }
 
-
-
-		//if an intro is nested in a field, we don't need the padding, as the field already has padding
-	  .cmplz-field .cmplz-wizard-intro {
-		padding:0 0 @green-gap 0;
-	  }
+	  //if an intro is nested in a field, we don't need the padding, as the field already has padding
+	.cmplz-field .cmplz-wizard-intro {
+	  padding:0 0 @green-gap 0;
+	}
 
       .field-group {
         grid-column: span 2;
@@ -268,9 +266,7 @@
       }
     }
 
-
     // remove scroll from back-end
-
 	.cmplz-scroll {
 	  .cmplz-form:first-child{
 		.cmplz-settings-item{
@@ -602,6 +598,11 @@
 			  box-shadow: 0 0 5px 5px rgba(223,222,222,0.4);
 			}
 		  }
+		  @media screen and (max-width: 960px) {
+			.cmplz-settings-overlay {
+			  right: 0;
+			}
+		  }
 		}
 
 	  }
@@ -784,16 +785,16 @@
     }
 
     /* Disabled option */
-    &.cmplz-disabled {
-      pointer-events: none;
-      .checkmark {
-        background-color: #eee;
-        svg {
-          stroke: #eee !important;
-          fill: #eee !important;
-        }
-      }
-    }
+    //&.cmplz-disabled {
+    //  pointer-events: none;
+    //  .checkmark {
+    //    background-color: #eee;
+    //    svg {
+    //      stroke: #eee !important;
+    //      fill: #eee !important;
+    //    }
+    //  }
+    //}
   }
 
 
@@ -2143,20 +2144,15 @@ input.current-page {
 }
 // responsive settings
 
-@media screen and (max-width: 1480px) {
+@media screen and (max-width: 960px) {
   #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
-	.cmplz-settings-body .cmplz-panel-wrap, .field-group, .cmplz-settings-header-container, .cmplz-settings-footer-container {
-	  grid-template-columns: auto 325px;
-	}
-	.cmplz-settings-header-container .cmplz-settings-header {
-	  grid-template-columns: auto 325px;
-	}
 	.cmplz-settings-controls{
 	  &:empty{
 		display: none;
 	  }
 	}
   }
+
 }
 
 @media screen and (max-width: 1280px) {

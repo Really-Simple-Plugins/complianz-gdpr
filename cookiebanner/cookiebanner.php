@@ -320,7 +320,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	$fields = cmplz_add_cookiebanner_settings(array());
 	$defaults = array();
 	foreach ( $fields as $key => $data ) {
-		if ( !empty($data['default'] ) ) {
+		if ( isset($data['default'])  ) {
 			$defaults[$key] = $data['default'];
 		}
 	}

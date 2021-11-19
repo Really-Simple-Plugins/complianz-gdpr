@@ -50,7 +50,7 @@
 	//extra class to be able to override categories height from css generation
 	&.optin, &.optout {
 	  .cmplz-categories {
-		width: 40vw;
+		width: 85vw;
 
 		grid-column-start: 2;
 	  }
@@ -68,14 +68,14 @@
 	}
 	.cmplz-links.cmplz-documents {
 	  grid-column-end: 3;
-
 	}
+
 	.cmplz-links.cmplz-information {
 	  grid-column-start: 3;
 	  grid-column-end: 4;
 	  grid-row-start: 5;
-
-	  display: flex;
+	  //manage third parties hidden until consent per service is released
+	  //display: flex;
 	  justify-content: flex-end;
 	}
 
@@ -87,10 +87,8 @@
 	  justify-content: flex-start;
 	}
 
-	&.tcf {
-	  .cmplz-categories {
-		height: 160px;
-	  }
+	.cmplz-categories.cmplz-tcf {
+	  height: 160px;
 	}
 
 	&.view-preferences, &.no {

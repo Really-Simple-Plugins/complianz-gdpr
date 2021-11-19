@@ -149,7 +149,7 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 
 		if ( preg_match( '/<!-- categories start -->(.*?)<!-- categories end -->/s', $banner_html,  $matches ) ) {
 			$html      = $matches[0];
-			$banner_id = cmplz_get_default_banner_id();
+			$banner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
 			$banner = new CMPLZ_COOKIEBANNER(  $banner_id );
 			$cookie_settings = $banner->get_html_settings();
 

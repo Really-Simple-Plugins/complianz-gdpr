@@ -685,8 +685,9 @@ jQuery(document).ready(function ($) {
      */
     $(document).on('change', '.cmplz_sync', function(){
         var container = $(this).closest('.cmplz-field');
+		var checkbox = $(this);
         var disabled = false;
-        if ($(this).is(":checked")) disabled=true;
+        if ( checkbox.is(":checked") ) disabled=true;
         container.find(':input').each(function () {
             if ($(this).attr('name')==='cmplz_remove_item'  ||
                 $(this).attr('name')==='cmplz-save-item'    ||
@@ -695,11 +696,11 @@ jQuery(document).ready(function ($) {
                 $(this).attr('name')==='cmplz_sync') return;
             $(this).prop('disabled', disabled);
             if (disabled){
-                $(this).closest('div').addClass('cmplz-disabled');
-                $(this).closest('label').addClass('cmplz-disabled');
-            } else{
-                $(this).closest('div').removeClass('cmplz-disabled');
-                $(this).closest('label').removeClass('cmplz-disabled');
+				$(this).closest('.cmplz-service-field div, .cmplz-cookie-field div').addClass('cmplz-disabled');
+				$(this).closest('label').addClass('cmplz-disabled');
+            } else {
+				$(this).closest('.cmplz-service-field div, .cmplz-cookie-field div').removeClass('cmplz-disabled');
+				$(this).closest('label').removeClass('cmplz-disabled');
             }
         });
     });

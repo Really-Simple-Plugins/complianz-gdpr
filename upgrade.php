@@ -672,6 +672,8 @@ function cmplz_check_upgrade() {
 
 				switch ( $banner->position ) {
 					case 'top':
+						$banner->position = 'bottom';
+						break;
 					case 'bottom':
 					case 'bottom-left':
 					case 'bottom-right':
@@ -709,7 +711,6 @@ function cmplz_check_upgrade() {
 						'show' => true,
 					);
 				}
-
 
 				$banner->accept_informational = array(
 					'text' => $banner_item->accept_informational,

@@ -281,21 +281,25 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	 * @return string
 	 */
 	function cmplz_revoke_link( $text = false ) {
-		$text = $text ? $text : __( 'Manage Consent', 'complianz-gdpr' );
+		$text = $text ? : __( 'Manage Consent', 'complianz-gdpr' );
 		$text = apply_filters( 'cmplz_revoke_button_text', $text );
 		$css
 		      = "<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>
 				<script>
-				    if (cmplz_has_consent('marketing')) {
+				document.addEventListener('cmplz_before_cookiebanner', function(){
+                    if (cmplz_has_consent('marketing')) {
 				        document.querySelector('.cmplz-status-accepted').style.display = 'block';
 				        document.querySelector('.cmplz-status-denied').style.display = 'none';
 				    } else {
 						document.querySelector('.cmplz-status-accepted').style.display = 'none';
 				        document.querySelector('.cmplz-status-denied').style.display = 'block';
 				    }
-				    document.addEventListener('click','.cmplz-revoke-custom',function(){
-				        document.querySelector('.cmplz-deny').attr('disabled', true);
-				    });
+                    document.addEventListener('click', e => {
+						if ( e.target.closest('.cmplz-revoke-custom') ) {
+							document.querySelector('.cmplz-deny').setAttribute('disabled', true);;
+						}
+					});
+				});
 			</script>";
 		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom">' . $text
 		        . '</button>&nbsp;<span class="cmplz-status-accepted">'
@@ -1377,34 +1381,6 @@ if (!function_exists('cmplz_read_more')) {
 if (!function_exists('cmplz_settings_overlay')) {
 	function cmplz_settings_overlay($msg) {
 		echo '<div class="cmplz-settings-overlay"><div class="cmplz-settings-overlay-message">'.$msg.'</div></div>';
-	}
-}
-
-/**
- * Get string of supported laws
- *
- * */
-
-if ( ! function_exists( 'cmplz_supported_laws' ) ) {
-
-	function cmplz_supported_laws() {
-		$regions = cmplz_get_regions();
-
-		$arr = array();
-		foreach ( $regions as $region => $enabled ) {
-			//fallback
-			if ( ! isset( COMPLIANZ::$config->regions[ $region ]['law'] ) ) {
-				break;
-			}
-
-			$arr[] = COMPLIANZ::$config->regions[ $region ]['law'];
-		}
-
-		if ( count( $arr ) == 0 ) {
-			return __( '(select a region)', 'complianz-gdpr' );
-		}
-
-		return implode( '/', $arr );
 	}
 }
 
