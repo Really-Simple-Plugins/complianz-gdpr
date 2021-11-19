@@ -7,7 +7,12 @@ jQuery(document).ready(function ($) {
         var email = $('#cmplz_dnsmpd_email').val();
         var name = $('#cmplz_dnsmpd_name').val();
         var firstname = $('#cmplz_dnsmpd_firstname').val();
-
+		/**
+		 * Fire an event so we can hook into this
+		 * @type {CustomEvent}
+		 */
+		var event = new CustomEvent('cmplz_dnsmpi_submit', { detail: status });
+		document.dispatchEvent(event);
         $.ajax({
             type: "POST",
             url: cmplz_dnsmpd.url,
@@ -19,6 +24,7 @@ jQuery(document).ready(function ($) {
                 firstname : firstname
             }),
             success: function (response) {
+
                 $('.cmplz-dnsmpd.alert #message').html(response.message);
                 if (response.success) {
                     $('#cmplz-dnsmpd-form').hide();

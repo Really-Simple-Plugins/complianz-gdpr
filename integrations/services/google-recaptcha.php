@@ -6,33 +6,21 @@ function cmplz_recaptcha_script( $tags ) {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-		$tags[] = 'google.com/recaptcha';
-		$tags[] = 'grecaptcha'; //contact form 7
-		$tags[] = 'recaptcha.js';
-		$tags[] = 'recaptcha/api';
-		$tags[] = 'apis.google.com/js/platform.js';
+		$tags[] = array(
+				'name' => 'recaptcha',
+				'placeholder' => 'recaptcha',
+				'category' => 'marketing',
+				'urls' => array(
+						'google.com/recaptcha',
+						'grecaptcha',
+						'recaptcha.js',
+						'recaptcha/api',
+						'apis.google.com/js/platform.js',
+				),
+				'enable_placeholder' => '1',
+				'placeholder_class' => 'recaptcha-invisible,g-recaptcha',
+		);
   	}
-	return $tags;
-}
-
-add_filter( 'cmplz_known_iframe_tags', 'cmplz_recaptcha_iframetags' );
-function cmplz_recaptcha_iframetags( $tags ) {
-	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
-
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-		$tags[] = 'google.com/recaptcha/';
-	}
-	return $tags;
-}
-
-add_filter( 'cmplz_placeholder_markers', 'cmplz_google_recaptcha_placeholder' );
-function cmplz_google_recaptcha_placeholder( $tags ) {
-	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
-
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-		$tags['google-recaptcha'][] = 'recaptcha-invisible'; //forminator
-		$tags['google-recaptcha'][] = 'g-recaptcha'; //ultimate member
-	}
 	return $tags;
 }
 
@@ -40,12 +28,11 @@ function cmplz_google_recaptcha_placeholder( $tags ) {
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_head', 'cmplz_recaptcha_css' );
+add_action( 'cmplz_banner_css', 'cmplz_recaptcha_css' );
 function cmplz_recaptcha_css() {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
 
 	?>
-	<style>
 		.cmplz-blocked-content-container.recaptcha-invisible,
 		.cmplz-blocked-content-container.g-recaptcha {
 			max-width: initial !important;
@@ -65,6 +52,5 @@ function cmplz_recaptcha_css() {
 			max-width: initial;
 			padding: 7px;
 		}
-	</style>
 	<?php
 }

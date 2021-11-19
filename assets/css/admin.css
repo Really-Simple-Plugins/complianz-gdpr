@@ -3,7 +3,6 @@
   outline-offset: 4px;
 }
 #complianz.wrap.cmplz-high-contrast {
-  /* Show the default checkmark when default */
   /* Disabled option */
   /* Placeholders */
   /* License */
@@ -71,21 +70,6 @@
 }
 #complianz.wrap.cmplz-high-contrast .cmplz-panel.cmplz-toggle-disabled {
   color: #333;
-}
-#complianz.wrap.cmplz-high-contrast .checkmark.cmplz-default svg {
-  display: block;
-  fill: #eee;
-  stroke: #eee;
-}
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled {
-  pointer-events: none;
-}
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark {
-  background-color: #eee;
-}
-#complianz.wrap.cmplz-high-contrast .cmplz-disabled .checkmark svg {
-  stroke: #eee !important;
-  fill: #eee !important;
 }
 #complianz.wrap.cmplz-high-contrast input:disabled {
   cursor: not-allowed;
@@ -204,7 +188,7 @@
 }
 /* FLOW: DOWN */
 [cmplz-tooltip][flow^="down"]::before {
-  top: 100%;
+  top: 17px;
   border-top-width: 0;
   border-bottom-color: #333;
 }
@@ -573,6 +557,9 @@ Admin notice
 #complianz .cmplz-loader .rect5 {
   -webkit-animation-delay: -0.8s;
   animation-delay: -0.8s;
+}
+#complianz .button-primary .cmplz-loader div {
+  background-color: #fff;
 }
 @-webkit-keyframes sk-stretchdelay {
   0%,

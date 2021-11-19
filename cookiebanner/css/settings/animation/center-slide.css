@@ -1,0 +1,26 @@
+#cmplz-cookiebanner-container .cmplz-cookiebanner {
+  top: 100vh;
+  -webkit-animation: slideIn 1s forwards;
+  -webkit-animation-delay: 0;
+  animation: slideIn 1s forwards;
+  animation-delay: 0;
+  -ms-transform: translateX(-50%) translateY(0%);
+  transform: translateX(-50%) translateY(0%);
+}
+@-webkit-keyframes slideIn {
+  100% {
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+@keyframes slideIn {
+  100% {
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+/*# sourceMappingURL=center-slide.css.map */

@@ -3,16 +3,22 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_addtoany_script' );
 function cmplz_addtoany_script( $tags ) {
-	$tags[] = 'addtoany.min.js';
-	$tags[] = 'window.a2a_config';
-
+	$tags[] = array(
+		'name' => 'addtoany',
+		'category' => 'marketing',
+		'urls' => array(
+			'window.a2a_config',
+			'addtoany.min.js',
+		),
+		'enable_placeholder' => '0',
+	);
 	return $tags;
 }
 
 /**
  * Add social media to the list of detected items, so it will get set as default, and will be added to the notice about it
  *
- * @param $social_media
+ * @param array $social_media
  *
  * @return array
  */
@@ -30,15 +36,13 @@ function cmplz_addtoany_detected_social_media( $social_media ) {
 
 	return $social_media;
 }
-
-add_filter( 'cmplz_detected_social_media',
-	'cmplz_addtoany_detected_social_media' );
+add_filter( 'cmplz_detected_social_media', 'cmplz_addtoany_detected_social_media' );
 
 
 /**
  * Add services to the list of detected items, so it will get set as default, and will be added to the notice about it
  *
- * @param $services
+ * @param array $services
  *
  * @return array
  */
@@ -50,6 +54,5 @@ function cmplz_addtoany_detected_services( $services ) {
 
 	return $services;
 }
-
 add_filter( 'cmplz_detected_services', 'cmplz_addtoany_detected_services' );
 

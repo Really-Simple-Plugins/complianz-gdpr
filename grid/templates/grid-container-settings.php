@@ -1,4 +1,4 @@
-<form action="" method="post" enctype="multipart/form-data">
+<form id="cmplz-form" action="" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="cmplz-save" value="1">
 	<?php if (isset($_GET['action']) && $_GET['action']==='new') {?>
 		<input type="hidden" name="cmplz_add_new" value="1">

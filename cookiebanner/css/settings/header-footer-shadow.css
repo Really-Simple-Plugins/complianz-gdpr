@@ -1,0 +1,8 @@
+.cmplz-cookiebanner .cmplz-divider {
+  height: 3px;
+  box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.05);
+}
+.cmplz-cookiebanner.center .cmplz-divider.cmplz-footer {
+  margin-top: 5px;
+}
+/*# sourceMappingURL=header-footer-shadow.css.map */

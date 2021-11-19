@@ -3,10 +3,15 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_pixel_caffeine_script' );
 function cmplz_pixel_caffeine_script( $tags ) {
-
-	$tags[] = 'pixel-caffeine/build/frontend.js';
-	$tags[] = 'connect.facebook.net';
-
+	$tags[] = array(
+		'name' => 'facebook',
+		'category' => 'marketing',
+		'placeholder' => 'facebook',
+		'urls' => array(
+			'pixel-caffeine/build/frontend.js',
+			'connect.facebook.net',
+		),
+	);
 	return $tags;
 }
 
@@ -25,5 +30,4 @@ function cmplz_pixelcaffeine_detected_social_media( $social_media ) {
 	return $social_media;
 }
 
-add_filter( 'cmplz_detected_social_media',
-	'cmplz_pixelcaffeine_detected_social_media' );
+add_filter( 'cmplz_detected_social_media', 'cmplz_pixelcaffeine_detected_social_media' );

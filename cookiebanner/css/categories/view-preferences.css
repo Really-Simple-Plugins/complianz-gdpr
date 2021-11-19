@@ -1,0 +1,57 @@
+.cmplz-cookiebanner .cmplz-categories,
+.cmplz-cookiebanner .cmplz-save-preferences,
+.cmplz-cookiebanner .cmplz-link.cmplz-manage-options,
+.cmplz-cookiebanner .cmplz-manage-vendors,
+.cmplz-cookiebanner .cmplz-read-more,
+.cmplz-cookiebanner .cmplz-btn.cmplz-manage-options {
+  display: none;
+}
+.cmplz-cookiebanner .cmplz-categories.cmplz-fade-in {
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+  display: block;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=view-preferences.css.map */

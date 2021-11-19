@@ -55,6 +55,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			);
 
 		/**
+		 * The services for which a placeholder exists in the assets/images/placeholders folder.
+		 * @var array
+		 */
+		public $placeholders;
+
+		/**
 		 * This is used in the scan function to tell the user he/she uses social media
 		 * Also in the function to determine a media type for the placeholders
 		 * Based on this the cookie warning is enabled.
@@ -84,7 +90,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					"<!-- Facebook Pixel Code -->",
 					'connect.facebook.net',
 					'www.facebook.com/plugins',
-					'pixel-caffeine'
+					'pixel-caffeine',
+					'facebook.com/plugins',
 				),
 				"pinterest" => array(
 					'super-socializer',
@@ -94,9 +101,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"tiktok"    => array( 'tiktok.com' ),
 				"instagram" => array(
 					'instawidget.net/js/instawidget.js',
-					'cdninstagram.com',
-					'src="https://www.instagram.com',
-					'src="https://instagram.com',
+					'instagram.com',
 				),
 			);
 
@@ -108,6 +113,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $thirdparty_service_markers
 			= array(
 				"google-maps"      => array(
+					'apis.google.com/js/platform.js',
 					'new google.maps.',
 					'google.com/maps',
 					'maps.google.com',
@@ -124,7 +130,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'openstreetmap.org',
 					'osm/js/osm'
 				),
-				"vimeo"            => array( 'player.vimeo.com' ),
+				"vimeo"            => array(
+					'player.vimeo.com',
+					'i.vimeocdn.com',
+				),
 				"google-recaptcha" => array(
 					'google.com/recaptcha',
 					'grecaptcha',
@@ -134,7 +143,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"youtube"          => array(
 					'youtube.com',
 					'youtube-nocookie.com',
-					),
+					'youtu.be'
+				),
 				"videopress"       => array(
 					'videopress.com/embed',
 					'videopress.com/videopress-iframe.js'
@@ -160,6 +170,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'google-analytics'   => array(
 					'google-analytics.com/ga.js',
 					'www.google-analytics.com/analytics.js',
+					'_getTracker',
 				),
 				'google-tag-manager' => array(
 					'googletagmanager.com/gtag/js',
@@ -169,62 +180,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
 				'yandex' => array( 'mc.yandex.ru/metrika/watch.js' ),
 			);
-
-
-		/**
-		 * Some scripts need to be loaded in specific order
-		 * key: script or part of script to wait for
-		 * value: script or part of script that should wait
-		 * */
-
-		/**
-		 * example:
-		 *
-		 *
-		 * add_filter('cmplz_dependencies', 'my_dependency');
-		 * function my_dependency($deps){
-		 * $deps['wait-for-this-script'] = 'script-that-should-wait';
-		 * return $deps;
-		 * }
-		 */
-		public $dependencies = array();
-
-		/**
-		 * placeholders for not iframes
-		 * */
-
-		public $placeholder_markers = array();
-
-		/**
-		 * Scripts with this string in the source or in the content of the script tags get blocked.
-		 *
-		 * */
-
-		public $script_tags = array();
-
-		/**
-		 * Style strings (google fonts have been removed in favor of plugin recommendation)
-		 * */
-
-		public $style_tags = array();
-
-		/**
-		 * Scripts in this list are loaded with post scribe.js
-		 * due to the implementation, these should also be added to the list above
-		 *
-		 * */
-
-		public $async_list = array();
-
-		public $iframe_tags = array();
-		public $iframe_tags_not_including = array();
-
-
-		/**
-		 * images with a URl in this list will get blocked
-		 * */
-
-		public $image_tags = array();
 
 		public $amp_tags
 			= array(
@@ -315,6 +270,21 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'<a href="https://complianz.io" target="_blank">', '</a>' )
 				  . "&nbsp;";
 
+			$this->placeholders = array(
+				'default' => __('Default','complianz-gdpr'),
+				'calendly' => 'Calendly',
+				'facebook' => 'Facebook',
+				'google-maps' => 'Google Maps',
+				'google-recaptcha' => 'Google Recaptcha',
+				'instagram' => 'Instagram',
+				'openstreetmaps' => 'Open Street Maps',
+				'soundcloud' => 'SoundCloud',
+				'spotify' => 'Spotify',
+				'ted' => 'Ted',
+				'twitter' => 'Twitter',
+				'tiktok' => 'Tik Tok'
+			);
+
 
 
 				/* config files */
@@ -359,6 +329,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			return self::$_this;
 		}
 
+		/**
+		 * Get full array of regions, but only active ones
+		 * @return array
+		 */
+		public function active_regions(){
+			return array_intersect_key( COMPLIANZ::$config->regions, cmplz_get_regions() );
+		}
 
 		public function get_section_by_id( $id ) {
 
@@ -391,14 +368,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			$output = array();
 			$fields = $this->fields;
 			if ( $page ) {
-				$fields = cmplz_array_filter_multidimensional( $this->fields,
-					'source', $page );
+				$fields = cmplz_array_filter_multidimensional( $this->fields, 'source', $page );
 			}
 
 			foreach ( $fields as $fieldname => $field ) {
 				if ( $get_by_fieldname && $fieldname !== $get_by_fieldname ) {
 					continue;
 				}
+				$field = wp_parse_args( $field, array('order'=> 100 ) );
 
 				if ( $step ) {
 					if ( $section && isset( $field['section'] ) ) {
@@ -421,7 +398,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				if ( ! $step ) {
 					$output[ $fieldname ] = $field;
 				}
+			}
 
+			//maybe sort by order
+			if ( $section ){
+				uasort($output, function($a, $b) {
+					return $a["order"] - $b["order"];
+				});
 			}
 
 			return $output;
@@ -462,9 +445,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function load_warning_types() {
 			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
 
-				'upgraded_to_fivefive' => array(
+				'upgraded_to_6' => array(
 					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'Complianz GDPR/CCPA 5.5. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-5/'),
+					'open' => sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
@@ -592,15 +575,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => true,
 				),
 
-				'no-jquery' => array(
-					'warning_condition' => 'cookie_admin->site_needs_cookie_warning',
-					'success_conditions'  => array(
-						'NOT get_option_cmplz_detected_missing_jquery',
-					),
-					'open' => __( 'jQuery was not detected on the front-end of your site. Complianz requires jQuery.', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
-					'include_in_progress' => true,
-				),
-
 				'console-errors' => array(
 					'warning_condition' => 'cookie_admin->site_needs_cookie_warning',
 					'success_conditions'  => array(
@@ -651,18 +625,89 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => true,
 				),
 
+				// New progress warnings
+				'advertising-enabled' => array(
+					'warning_condition' => 'cmplz_uses_ad_cookies',
+					'plus_one' => true,
+					'premium' => __( 'With Advertising enabled consider implementing TCF.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/implementing-tcf-on-your-website/'),
+					'include_in_progress' => true,
+				),
+
+				'sync-privacy-statement' => array(
+					'warning_condition' => 'cmplz_is_free',
+					'plus_one' => true,
+					'premium' => __( 'Synchronize your Privacy Statement with Complianz.', 'complianz-gdpr' ) . ' <a href="https://complianz.io/l/pricing/" target="_blank">' . __('Upgrade to premium', 'complianz-gdpr') . '</a>',
+					'include_in_progress' => true,
+				),
+
+				'ecommerce_legal' => array(
+					'warning_condition' => 'cmplz_ecommerce_legal',
+					'plus_one' => true,
+					'premium' => __( 'Legal compliance for Webshops.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/legal-compliance-for-ecommerce/'),
+					'include_in_progress' => true,
+				),
+
+				'configure_tag_manager' => array(
+					'warning_condition' => 'cookie_admin->uses_google_tagmanager',
+					'plus_one' => true,
+					'premium' => __( 'Learn more about Google Consent Mode.', 'complianz-gdpr' ) . cmplz_read_more('https://complianz.io/configure-consent-mode/'),
+					'include_in_progress' => true,
+				),
+
+				'targeting_multiple_regions' => array(
+					'warning_condition' => 'cmplz_targeting_multiple_regions',
+					'plus_one' => true,
+					'premium' => __( 'Are you targeting multiple regions?', 'complianz-gdpr' ) . cmplz_read_more('/what-regions-do-i-target/'),
+					'include_in_progress' => true,
+				),
+
 				'bf-notice' => array(
 					'warning_condition'  => 'admin->is_bf',
 					'plus_one' => true,
 					'open' => __( "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',
 					'include_in_progress' => false,
+
 				),
 
-			) );
+			));
 		}
 
 	}
 
+	function cmplz_uses_ad_cookies(){
+		$wizard_settings = get_option( 'complianz_options_wizard' );
+		return $wizard_settings['uses_ad_cookies'];
+	}
 
+	function cmplz_is_free(){
+		$premium = ( ! defined( 'cmplz_premium' ) ) ? true : false;
+		return $premium;
+	}
+
+	function cmplz_ecommerce_legal(){
+		$ecommerce_enabled = /*cmplz_woocommerce_enabled()*/ true || cmplz_edd_enabled() ? true : false; //@todo use cmplz_woocommerce_enabled() instead of true
+		return $ecommerce_enabled;
+	}
+
+	function cmplz_targeting_multiple_regions(){
+
+		$regions = cmplz_get_regions();
+		$multiple_languages = COMPLIANZ::$cookie_admin->get_supported_languages(true) > 1 ? true : false;
+		$get_locale = get_locale();
+		$lang_is_english = strpos($get_locale, 'en') === 0 ? true : false;
+		$lang_is_brazilian_portugese = strpos($get_locale, 'pt') === 0 ? true : false;
+
+		if ($multiple_languages) return true;
+		if ( array_key_exists('uk', $regions) && ! $lang_is_english ) return true; // works
+		if ( array_key_exists('us', $regions) && ! $lang_is_english ) return true; // works
+		if ( array_key_exists('au', $regions) && ! $lang_is_english ) return true; // works
+
+		if ( array_key_exists('br', $regions) && ! $lang_is_brazilian_portugese ) return true; // works
+		if ( array_key_exists('eu', $regions) && $lang_is_english ) return true; // works
+		if ( array_key_exists('za', $regions) && ! $lang_is_english && $get_locale !== 'af') return true;  // works
+		if ( array_key_exists('ca', $regions) && ! $lang_is_english && $get_locale !== 'fr_FR' && $get_locale !== 'fr_BE') return true;
+
+		return false;
+	}
 
 } //class closure

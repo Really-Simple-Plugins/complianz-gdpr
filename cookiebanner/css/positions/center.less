@@ -1,0 +1,22 @@
+@media (min-width:768px) {
+  .cmplz-cookiebanner {
+	min-width: var(--cmplz_banner_width);
+	max-width: 100%;
+	display: grid;
+	grid-row-gap: 10px;
+  }
+}
+
+@media (max-width:768px) {
+  .cmplz-cookiebanner {
+	.cmplz-buttons {
+	  flex-direction: column;
+	}
+	width: 100%;
+  }
+}
+@media (min-width:769px) {
+  .cmplz-message, .cmplz-categories {
+	width: calc(~"var(--cmplz_banner_width) - 42px" );
+  }
+}

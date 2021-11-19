@@ -1,0 +1,95 @@
+
+
+/**
+* Cookie blocker css
+ */
+
+//this class should not be contained in blocked content container class, to ensure it applies also before the complianz script has added the blocked content class
+.cmplz-video {
+  //prevent theme's from hiding the placeholder image with a background color
+  &.cmplz-iframe-styles {
+	background-color:transparent;
+  }
+  //hide placeholder video
+  &.cmplz-hidden {
+	visibility: hidden !important;
+  }
+}
+
+//show the notice when the banner is loaded completely
+//it's hidden by default, with an inline css snippet to make sure it's loaded instantly
+.cmplz-optin, .cmplz-optout {
+  .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+	display: block;
+  }
+}
+
+.cmplz-blocked-content-container {
+  animation-name: cmplz-fadein;
+  animation-duration: 600ms;
+  &.cmplz-video-placeholder {
+	padding-bottom: initial;
+  }
+
+  iframe {
+	max-height: 100%;
+	border: 0 !important;
+  }
+
+  div div {
+	display: none
+  }
+
+  background: #FFF;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  height: inherit;
+  position: relative;
+  //Geo My WP integration
+  &.gmw-map-cover {
+	max-height: 100%;
+	position: absolute;
+  }
+
+  .cmplz-blocked-content-notice, .cmplz-custom-accept-btn {
+
+	&:focus {
+	  border: 1px dotted #cecece;
+	}
+
+	white-space: normal;
+	text-transform: initial;
+	cursor: pointer;
+	position: absolute !important;
+	width: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 200px;
+	font-size: 14px;
+	padding: 10px;
+	background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+	color: #fff;
+	text-align: center;
+	/*make sure the container is on top of the iframe, but below our cookie notice */
+	z-index: 98;
+	/*We need some lineheight, for example Elementor will force a lineheight of 0*/
+	line-height: 23px;
+  }
+}
+
+@keyframes cmplz-fadein {
+  0%   {
+	opacity:0;
+  }
+  100% {
+	opacity:1;
+  }
+}
+

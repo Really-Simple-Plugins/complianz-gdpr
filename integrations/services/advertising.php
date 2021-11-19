@@ -15,7 +15,7 @@ function cmplz_advertising_script( $tags ) {
 }
 
 
-add_filter( 'cmplz_known_iframe_tags', 'cmplz_advertising_iframetags' );
+add_filter( 'cmplz_known_script_tags', 'cmplz_advertising_iframetags' );
 function cmplz_advertising_iframetags( $tags ) {
 	$tags[] = 'googleads';
 	$tags[] = 'doubleclick';

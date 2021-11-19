@@ -21,8 +21,6 @@ if ( current_user_can( 'manage_options' ) ) {
 	ob_start();
 
 	echo 'Domain:' . esc_url_raw( site_url() ) . "\n";
-	echo 'jQuery: ' . get_option('cmplz_detected_missing_jquery') ? 'No jquery found on site' : 'Successfully detected jquery';
-	echo "\n";
 	$console_errors = cmplz_get_console_errors();
 	if (empty($console_errors)) $console_errors = "none found";
 	echo 'Detected console errors: ' . $console_errors . "\n". "\n";

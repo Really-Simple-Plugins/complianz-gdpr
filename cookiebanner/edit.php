@@ -22,7 +22,7 @@
 	}
 	$consenttypes = apply_filters( 'cmplz_edit_banner_consenttypes',cmplz_get_used_consenttypes(true) );
 	$default_consenttype = apply_filters( 'cmplz_edit_banner_default_consenttype' ,COMPLIANZ::$company->get_default_consenttype() );
-	$controls = '<select class="cmplz_save_localstorage" name="cmplz_type"><option value="">'.__("Choose an option",'complianz-gdpr').'</option>';
+	$controls = '<select class="cmplz_save_localstorage" name="cmplz_consenttype"><option value="-1">'.__("Choose an option",'complianz-gdpr').'</option>';
 	foreach ($consenttypes as $consenttype_id => $consenttype){
 		$selected = $consenttype_id == $default_consenttype ? 'selected' : '';
 		$controls .= '<option '.$selected.' value="'.$consenttype_id.'">'.$consenttype.'</option>';
@@ -44,41 +44,53 @@ $grid_items = array(
         'page' => 'CMPLZ_COOKIEBANNER',
         'name' => 'appearance',
         'header' => __('Appearance', 'complianz-gdpr'),
-        'class' => 'medium condition-check-1',
+        'class' => 'medium',
         'index' => '12',
-        'conditions' => 'data-condition-question-1="type" data-condition-answer-1="NOT tcf"',
     ),
     'customization' => array(
 	    'page' => 'CMPLZ_COOKIEBANNER',
 	    'name' => 'customization',
 	    'header' => __('Customization', 'complianz-gdpr'),
 	    'class' => 'big',
-	    'index' => '14',
+	    'index' => '13',
     ),
     'settings' => array(
         'page' => 'CMPLZ_COOKIEBANNER',
         'name' => 'settings',
         'header' => __('Banner settings', 'complianz-gdpr'),
         'class' => 'big',
-        'index' => '13',
+        'index' => '14',
         'controls' => $controls,
     ),
-
+    'categories' => array(
+        'page' => 'CMPLZ_COOKIEBANNER',
+        'name' => 'categories',
+        'header' => __('Categories', 'complianz-gdpr'),
+        'class' => 'big condition-check-1',
+        'index' => '15',
+		'conditions' => 'data-condition-question-1="consenttype" data-condition-answer-1="optin"',
+    ),
     'custom_css' => array(
 	    'page' => 'CMPLZ_COOKIEBANNER',
         'name' => 'custom_css',
         'header' => __('Custom CSS', 'complianz-gdpr'),
         'class' => 'regular condition-check-1',
-        'index' => '15',
+        'index' => '16',
         'conditions' => 'data-condition-question-1="use_custom_cookie_css" data-condition-answer-1="1"',
     ),
 );
 
-$banner_id = (isset($_GET['id']) ? intval($_GET['id']) : false);
-$input_elements =
-'<input type="hidden" name="cmplz_banner_id" value="' . $banner_id . '">' .
-'<input type="hidden" name="cmplz_impressum_required" value="' . cmplz_impressum_required() . '">' .
-'<input type="hidden" name="cmplz_cookie_warning_required_stats" value="' . COMPLIANZ::$cookie_admin->cookie_warning_required_stats( 'eu' ) . '">' .
-'<input type="hidden" name="cmplz_tcf_active" value="' . cmplz_tcf_active() . '">';
+$grid_items['custom_css'] = array(
+	'page' => 'CMPLZ_COOKIEBANNER',
+	'name' => 'custom_css',
+	'header' => __('Custom CSS', 'complianz-gdpr'),
+	'class' => 'regular condition-check-1',
+	'index' => '16',
+	'conditions' => 'data-condition-question-1="use_custom_cookie_css" data-condition-answer-1="1"',
+);
 
+
+$banner_id = (isset($_GET['id']) ? intval($_GET['id']) : false);
+$input_elements = '<input type="hidden" name="cmplz_banner_id" value="' . $banner_id . '">';
+$grid_items = apply_filters('cmplz_cookiebanner_grid_items', $grid_items);
 echo $input_elements.cmplz_grid_container_settings( __( "Style your banner", 'complianz-gdpr' ), $grid_items);

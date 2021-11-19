@@ -12,33 +12,32 @@ dataLayer.push({
 	'event': 'default_consent'
 });
 
-document.addEventListener("cmplzFireTMCategories", function (e) {
-	var consentedCategory = e.detail;
-	if ( consentedCategory === '0') {
+document.addEventListener("cmplz_fire_categories", function (e) {
+	var consentedCategories = e.detail.categories;
+	if (cmplz_in_array( 'preferences', consentedCategories )) {
 		gtag('consent', 'update', {
-			'analytics_storage': 'granted'
-		});
-	} else {
-		gtag('consent', 'update', {
-			'analytics_storage': 'denied'
+			'personalization_storage': 'granted'
 		});
 	}
-});
 
-document.addEventListener("cmplzFireCategories", function (e) {
-	var consentedCategory = e.detail.category;
-	if ( consentedCategory === 'marketing' ) {
+	if (cmplz_in_array( 'statistics', consentedCategories )) {
+		gtag('consent', 'update', {
+			'analytics_storage': 'granted',
+		});
+	}
+
+	if (cmplz_in_array( 'marketing', consentedCategories )) {
 		gtag('consent', 'update', {
 			'ad_storage': 'granted',
 			'analytics_storage': 'granted',
 			'personalization_storage': 'granted'
 		});
-	} else if ( consentedCategory === 'statistics' ) {
+	} else if ( cmplz_in_array( 'statistics', consentedCategories ) ) {
 		gtag('consent', 'update', {
 			'analytics_storage': 'granted',
 			'personalization_storage': 'granted',
 		});
-	} else if ( consentedCategory === 'preferences' ) {
+	} else if ( cmplz_in_array( 'preferences', consentedCategories ) ) {
 		gtag('consent', 'update', {
 			'personalization_storage': 'granted'
 		});
@@ -53,7 +52,7 @@ document.addEventListener("cmplzFireCategories", function (e) {
 	}
 });
 
-document.addEventListener("cmplzCookieWarningLoaded", function (e) {
+document.addEventListener("cmplz_cookie_warning_loaded", function (e) {
 	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -61,7 +60,7 @@ document.addEventListener("cmplzCookieWarningLoaded", function (e) {
 	})(window,document,'script','dataLayer','{GTM_code}');
 });
 
-document.addEventListener("cmplzRevoke", function (e) {
+document.addEventListener("cmplz_revoke", function (e) {
 	gtag('consent', 'update', {
 		'security_storage': "granted",
 		'functionality_storage': "granted",

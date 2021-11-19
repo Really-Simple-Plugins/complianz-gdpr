@@ -1,67 +1,42 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
-/**
- * Add a notice about the legal hub
- * @param array $warnings
- *
- * @return array
- */
-function cmplz_elementor_legal_hub($warnings){
-	$warnings['elementor_hub']  = array(
-			'conditions' => array('_true_'),
-			'plus_one' => false,
-			'include_in_progress' => false,
-			'open' => sprintf(__( 'Download the Legal Hub for Elementor or design it yourself!', 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/creating-the-legal-hub/") ),
-		);
-	return $warnings;
-}
-add_filter( 'cmplz_warning_types', 'cmplz_elementor_legal_hub' );
-
-
 function cmplz_elementor_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('youtube') ) {
-		if(!wp_script_is('jquery', 'done')) {
-			wp_enqueue_script('jquery');
-		}
+
 		ob_start();
 		?>
 		<script>
-			jQuery(document).ready(function ($) {
-				$(document).on("cmplzRunAfterAllScripts", cmplz_elementor_fire_initOnReadyComponents);
-				function cmplz_elementor_fire_initOnReadyComponents() {
-					var blockedContentContainers = [];
-					$('[data-cmplz-elementor-settings]').each(function (i, obj) {
-						if ( $(this).hasClass('cmplz-activated') ) return;
-						$(this).addClass('cmplz-activated' );
-						$(this).data('settings', $(this).data('cmplz-elementor-settings'));
+			document.addEventListener("cmplz_run_after_all_scripts", cmplz_elementor_fire_initOnReadyComponents);
+			function cmplz_elementor_fire_initOnReadyComponents() {
+				var blockedContentContainers = [];
+				document.querySelectorAll('[data-cmplz-elementor-settings]').forEach(obj => {
+					if ( obj.classList.contains('cmplz-activated') ) return;
+					obj.classList.add('cmplz-activated' );
+					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
 
-						var blockedContentContainer = $(this);
-						blockedContentContainer.animate({"background-image": "url('')"}, 400, function () {
-							//remove the added classes
-							var cssIndex = blockedContentContainer.data('placeholderClassIndex');
-							blockedContentContainer.removeClass('cmplz-blocked-content-container');
-							blockedContentContainer.removeClass('cmplz-placeholder-' + cssIndex);
-						});
-						blockedContentContainers.push(blockedContentContainer);
-					});
+					var blockedContentContainer = obj;
+					//remove the added classes
+					var cssIndex = blockedContentContainer.getAttribute('data-placeholderClassIndex');
+					blockedContentContainer.classList.remove('cmplz-blocked-content-container');
+					blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
+					blockedContentContainers.push(blockedContentContainer);
+				});
 
-					for (var key in blockedContentContainers) {
-						console.log(blockedContentContainers[key]);
-						if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined ) {
-							elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainers[key] );
-						}
+				for (var key in blockedContentContainers) {
+					if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined ) {
+						elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainers[key] );
 					}
 				}
-			})
+			}
 		</script>
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace(array('<script>', '</script>'), '', $script);
-		wp_add_inline_script( 'jquery', $script);
+		wp_add_inline_script( 'cmplz-cookiebanner', $script);
 	}
 }
-add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded' );
+add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded',PHP_INT_MAX );
 
 /**
  * Filter cookie blocker output

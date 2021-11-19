@@ -4,7 +4,16 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 add_filter( 'cmplz_known_script_tags', 'cmplz_citadela_directory_script' );
 function cmplz_citadela_directory_script( $tags ) {
 	$tags[] = 'leaflet-maps-initializer.js';
-
+	$tags[] = array(
+		'name' => 'citadela-directory',
+		'category' => 'marketing',
+		'placeholder' => 'openstreetmaps',
+		'urls' => array(
+			'leaflet-maps-initializer.js',
+		),
+		'enable_placeholder' => '1',
+		'placeholder_class' => 'citadela-openstreetmap',
+	);
 	return $tags;
 }
 
@@ -25,20 +34,3 @@ function cmplz_citadela_directory_detected_services( $services ) {
 }
 
 add_filter( 'cmplz_detected_services', 'cmplz_citadela_directory_detected_services' );
-
-
-/**
- * Add placeholder for google maps
- *
- * @param $tags
- *
- * @return mixed
- */
-
-function cmplz_citadela_directory_placeholder( $tags ) {
-	$tags['openstreetmaps'][] = 'citadela-openstreetmap';
-
-	return $tags;
-}
-
-add_filter( 'cmplz_placeholder_markers', 'cmplz_citadela_directory_placeholder' );

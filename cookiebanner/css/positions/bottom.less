@@ -1,0 +1,106 @@
+@media (max-width:768px) {
+  .cmplz-cookiebanner {
+	//make sure cookie banner is full width and set to bottom
+	bottom: 0;
+	height: fit-content;
+	.cmplz-buttons {
+	  flex-direction: column;
+	}
+	width: 100%;
+  }
+}
+
+@media (max-width:1023px) {
+  .cmplz-cookiebanner {
+	max-width: 100%;
+  }
+}
+
+@media (min-width: 1024px ) {
+  .cmplz-cookiebanner {
+	&.categories-visible .cmplz-body{
+	  & > div{
+		width: 49%;
+	  }
+	}
+	.cmplz-body{
+	  grid-column: span 2;
+	  display: flex;
+	  gap: 10px;
+	}
+	margin: 10px;
+	width: calc(100% - 20px);
+	grid-column-gap:10px;
+	// With auto the Text element will fill space of Categories and Buttons if they are not there
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	bottom: 0;
+	left: initial;
+	top:initial;
+	transform: initial;
+
+	.cmplz-message, .cmplz-categories, .cmplz-links, .cmplz-buttons {
+	  grid-column: inherit;
+	}
+
+	.cmplz-description {
+	  grid-column-start: 1;
+	}
+
+	//extra class to be able to override categories height from css generation
+	&.optin, &.optout {
+	  .cmplz-categories {
+		width: 85vw;
+
+		grid-column-start: 2;
+	  }
+	}
+	.cmplz-buttons {
+	  grid-column-start: 3;
+	  grid-row-start: 3;
+
+	  display: flex;
+	  flex-direction: column;
+	  .cmplz-btn {
+		min-width: 250px;
+		width: 100%;
+	  }
+	}
+	.cmplz-links.cmplz-documents {
+	  grid-column-end: 3;
+	}
+
+	.cmplz-links.cmplz-information {
+	  grid-column-start: 3;
+	  grid-column-end: 4;
+	  grid-row-start: 5;
+	  //manage third parties hidden until consent per service is released
+	  //display: flex;
+	  justify-content: flex-end;
+	}
+
+	.cmplz-links.cmplz-documents {
+	  grid-column-start: 1;
+	  grid-row-start: 5;
+
+	  display: flex;
+	  justify-content: flex-start;
+	}
+
+	.cmplz-categories.cmplz-tcf {
+	  height: 160px;
+	}
+
+	&.view-preferences, &.no {
+	  .cmplz-buttons {
+		flex-direction: row-reverse;
+	  }
+
+	  &.categories-visible {
+		.cmplz-buttons {
+		  flex-direction: column;
+		}
+	  }
+	}
+  }
+}

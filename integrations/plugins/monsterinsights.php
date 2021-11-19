@@ -19,8 +19,7 @@ function cmplz_monsterinsights_set_default( $value, $fieldname ) {
  * */
 
 function cmplz_monsterinsights_add_monsterinsights_attributes( $attr ) {
-	$classes       = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
-	$attr['class'] = implode( ' ', $classes );
+	$attr['class'] = COMPLIANZ::$cookie_admin->get_statistics_category();
 	return $attr;
 }
 add_filter( 'monsterinsights_tracking_analytics_script_attributes', 'cmplz_monsterinsights_add_monsterinsights_attributes', 10, 1 );

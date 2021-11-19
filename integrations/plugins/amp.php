@@ -1,10 +1,10 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-
-
-
 if ( ! class_exists( "cmplz_amp" ) ) {
 	class cmplz_amp {
+		/**
+		 * @var CMPLZ_COOKIEBANNER
+		 */
 		private $banner;
 		private static $_this;
 
@@ -223,16 +223,15 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 
 			printf(
 				'
-					.cc-revoke-custom {
+					.cmplz-revoke-custom {
 						display:none;
 					}
 					#cmplz-consent-ui, #cmplz-post-consent-ui {
-					background-color: %s;
+						background-color: %s;
 					}
 					#cmplz-consent-ui .cmplz-consent-message {
 						color: %s;
 						padding:6px 0 0 6px;
-
 					}
                     #cmplz-consent-ui button, #cmplz-post-consent-ui button {
                         background-color: %s;
@@ -241,10 +240,11 @@ if ( ! class_exists( "cmplz_amp" ) ) {
                         margin: 8px;
                         }
                 ',
-				$this->banner->background['color'],
-				$this->banner->text['color'],
-				$this->banner->button_background_color,
-				$this->banner->button_text_color
+
+				$this->banner->colorpalette_background['color'],
+				$this->banner->colorpalette_text['color'],
+				$this->banner->colorpalette_button_accept['background'],
+				$this->banner->colorpalette_button_accept['text']
 			);
 			if ( $this->banner->use_custom_cookie_css && strlen( $this->banner->custom_css ) > 0) {
 				echo $this->banner->custom_css;

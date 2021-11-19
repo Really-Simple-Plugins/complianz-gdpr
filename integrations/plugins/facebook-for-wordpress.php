@@ -3,8 +3,14 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_facebookforwordpress_script' );
 function cmplz_facebookforwordpress_script( $tags ) {
-	$tags[] = 'fbq';
-
+	$tags[] = array(
+		'name' => 'facebook',
+		'category' => 'marketing',
+		'placeholder' => 'facebook',
+		'urls' => array(
+			'fbq',
+		),
+	);
 	return $tags;
 }
 

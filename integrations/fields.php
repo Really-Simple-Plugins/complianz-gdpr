@@ -18,7 +18,6 @@ function cmplz_filter_integration_fields( $fields ) {
 				'label'                   => $details['label'],
 				'table'                   => true,
 				'disabled'                => true,
-				'cols'                      => false,
 			);
 
 			if ( isset( $details['callback_condition'] ) ) {

@@ -85,6 +85,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'elementor-pro/elementor-pro' => array(
+			'constant_or_function' => 'ELEMENTOR_PRO_VERSION',
+			'label'                => 'Elementor Pro',
+			'firstparty_marketing' => false,
+	),
+
 	'nudgify'          => array(
 		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
 		'label'                => 'Nudgify',
@@ -269,13 +275,17 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Google Maps',
 		'firstparty_marketing' => false,
 	),
-//Unfixable dependency isseu c/4D5CWjib/3295-52-wp-google-map-plugin
-//	'wp-google-map-plugin'            => array(
-//		'constant_or_function' => 'WPGMP_VERSION',
-//		'label'                => 'WP Google Map Plugin',
-//		'firstparty_marketing' => false,
-//	),
+	'woocommerce' => array(
+			'constant_or_function' => 'WC_PLUGIN_FILE',
+			'label'                => 'Woocommerce',
+			'firstparty_marketing' => false,
+	),
 
+	'wp-google-map-plugin'            => array(
+		'constant_or_function' => 'WPGMP_VERSION',
+		'label'                => 'WP Google Map Plugin',
+		'firstparty_marketing' => false,
+	),
 	'woocommerce-google-analytics-pro' => array(
 		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
 		'label'                => 'Woocommerce Google Analytics Pro',
@@ -392,6 +402,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Gravity Forms',
 		'firstparty_marketing' => false,
 	),
+
+	'easy-digital-downloads' => array(
+			'constant_or_function' => 'EDD_VERSION',
+			'label'                => 'Easy Digital Downloads',
+			'firstparty_marketing' => false,
+	),
 ) );
 
 
@@ -479,10 +495,13 @@ function cmplz_integration_plugin_is_active( $plugin ){
  */
 
 function cmplz_integrations() {
-
 	global $cmplz_integrations_list;
+	$stored_integrations_count = get_option('cmplz_active_integrations', 0 );
+	$actual_integrations_count = 0;
+
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
 		if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+			$actual_integrations_count++;
 			$file = apply_filters( 'cmplz_integration_path', cmplz_path . "integrations/plugins/$plugin.php", $plugin );
 			if ( file_exists( $file ) ) {
 				require_once( $file );
@@ -491,6 +510,12 @@ function cmplz_integrations() {
 			}
 		}
 	}
+	update_option('cmplz_active_integrations',  $actual_integrations_count);
+
+	if ( $stored_integrations_count != $actual_integrations_count) {
+		update_option('cmplz_integrations_changed', true );
+	}
+
 
 	/**
 	 * Services
@@ -591,6 +616,10 @@ function cmplz_google_maps_integration_enabled(){
 	return defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE');
 }
 
+function cmplz_uses_woocmmerce(){
+	return cmplz_uses_thirdparty('google-maps');
+}
+
 add_action( 'complianz_after_label', 'cmplz_add_placeholder_checkbox', 91, 1 );
 function cmplz_add_placeholder_checkbox( $args ) {
 	if ( ! isset( $args['fieldname'] ) || ! isset( $args["type"] )
@@ -599,7 +628,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 		return;
 	}
 
-	if ( isset( $_GET["page"] ) && $_GET["page"] === 'cmplz-script-center' ) {
+	if ( $args['source'] === 'integrations' ) {
 		$fieldname     = str_replace( "-", "_", sanitize_text_field( $args['fieldname'] ) );
 		$function_name = $fieldname;
 		$has_placeholder = ( function_exists( "cmplz_{$function_name}_placeholder" ) );
@@ -767,6 +796,37 @@ function cmplz_get_service_by_src( $src ) {
 			$type = COMPLIANZ::$cookie_admin->parse_for_thirdparty_services( $src, true );
 		}
 	}
-
-	return $type;
+	return $type ?: 'general';
 }
+
+/**
+ * Maybe update css if integrations have been changed
+ */
+
+function cmplz_maybe_update_css(){
+	$integrations_changed = get_option('cmplz_integrations_changed', false );
+	if ( $integrations_changed ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner->generate_css();
+			}
+		}
+	}
+	update_option('cmplz_integrations_changed', false );
+}
+add_action('admin_init', 'cmplz_maybe_update_css');
+
+function cmplz_plugins_overview_wizard() {
+	$fields = COMPLIANZ::$config->fields( 'integrations' );
+	echo '<div class="cmplz-cookies-table"><div class="cmplz-cookies-table-body">';
+	if ( count($fields)==0 ) {
+		echo '<span>'.__("No required integrations detected yet.","complianz-gdpr").'</span>';
+	}
+	foreach ( $fields as $field ){
+		echo '<span>'.$field['label'].'</span>';
+	}
+	echo '</div></div>';
+}
+add_action('cmplz_plugins_overview_wizard', 'cmplz_plugins_overview_wizard');

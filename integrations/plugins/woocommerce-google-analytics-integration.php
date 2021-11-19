@@ -91,26 +91,22 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_wc_google_analytics_integration_sc
 
 /**
  * If "use advertising features" is enabled, block as if it's marketing
- * @param array $classes
+ * @param array $category
  *
  * @return array
  */
-function cmplz_wc_google_analytics_integration_script_classes($classes){
+function cmplz_wc_google_analytics_integration_script_classes($category){
 	$settings = get_option('woocommerce_google_analytics_settings');
 	if ( $settings && isset( $settings['ga_support_display_advertising']) && $settings['ga_support_display_advertising'] !== 'yes' ) {
-		if (!in_array('cmplz-stats', $classes )) {
-			$classes[] = 'cmplz-stats';
-		}
+		$category = 'statistics';
 	}
 	if ( $settings && isset( $settings['ga_support_display_advertising']) && $settings['ga_support_display_advertising'] === 'yes' ) {
-		if (in_array( 'cmplz-native' , $classes) ) {
-			unset($classes[array_search('cmplz-native', $classes)]);
-		}
+		$category = 'statistics';
 	}
 
-	return $classes;
+	return $category;
 }
-add_filter( 'cmplz_statistics_script_classes', 'cmplz_wc_google_analytics_integration_script_classes', 10, 1 );
+add_filter( 'cmplz_statistics_category', 'cmplz_wc_google_analytics_integration_script_classes', 10, 1 );
 
 /**
  * Remove stuff which is not necessary anymore

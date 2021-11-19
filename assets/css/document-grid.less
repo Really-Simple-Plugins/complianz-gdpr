@@ -5,12 +5,27 @@
   display:none;
 }
 
+#cmplz-manage-consent-container.cmplz-manage-consent-container {
+  .cmplz-categories {
+	summary{
+	  cursor:pointer;
+	  &::-webkit-details-marker, &::marker {
+		display:none;
+		content:'';
+	  }
+	}
+  }
+}
+
 //needs to apply both to separate cookie shortcode, cookie policy and privacy policy
 #cmplz-cookies-overview .cmplz-dropdown, #cmplz-document .cmplz-dropdown{
 	.cmplz-service-description, .cmplz-sharing-data{
 		display:inline-block;
 		width: calc(50% - 35px);
 		vertical-align: top;
+	}
+    .cmplz-service-header .cmplz-accept-service {
+		display:none;
 	}
 
 	@media only screen and (max-width: 600px) {
@@ -19,6 +34,7 @@
 		}
 	}
 	summary{
+	  	cursor:pointer;
 		&::-webkit-details-marker, &::marker {
 		  display:none;
 		  content:'';
@@ -29,7 +45,6 @@
 		grid-template-columns: 2fr 35px;
 		grid-gap: 15px;
 		align-items: center;
-
 		h3{
 		  grid-area: heading;
 		  margin: 0;
@@ -42,8 +57,8 @@
 	&.cmplz-dropdown-cookiepolicy{
 		summary{
 		  div {
-			grid-template: "heading paragraph chevron";
-			grid-template-columns: 2fr auto 35px;
+			grid-template: "heading paragraph checkbox chevron";
+			grid-template-columns: 2fr auto auto 35px;
 			p {
 				grid-area: paragraph;
 			}
@@ -82,4 +97,107 @@
 		}
 	}
 }
+/**
+* Categories on the cookie policy
+* Do not wrap in cmplz-document, to ensure it works with the separate shortcode
+ */
+
+#cmplz-manage-consent-container.cmplz-manage-consent-container {
+  .cmplz-categories {
+	margin-top:10px;
+	display: block;
+	width:100%;
+	.cmplz-category {
+
+	  summary::marker {
+		display: none;
+		content: '';
+	  }
+	  .cmplz-description {
+		padding:10px;
+	  }
+
+	  &:not(:last-child) {
+		margin-bottom: 5px;
+	  }
+
+	  background-color: rgba(239, 239, 239, .25);
+
+	  .cmplz-category-header {
+		display: grid;
+		grid-template-columns: 1fr auto 25px;
+		grid-template-rows: auto;
+		align-items: center;
+		grid-gap: 10px;
+		padding: 5px 10px;
+		background-color: rgba(239, 239, 239, .5);
+		section {
+		  padding:initial;
+		}
+		h2 {
+		  grid-column-start: 1;
+		  width:100%;
+		  justify-self: start;
+		  font-size: 18px;
+		  text-align: left;
+		  margin-top: 8px;
+		  text-transform: initial;
+		  padding-bottom: 10px;
+		  border-bottom: 0;
+		  margin-bottom: 0px;
+		  //twenty nineteen fix
+		  &:before {
+			height: 0;
+			margin: initial;
+		  }
+		}
+
+		// Always active
+		.cmplz-always-active {
+		  font-size: var(--cmplz_category_header_active_font_size);
+		  color: var(--cmplz_category_header_always_active_color);
+		  label, input {
+			display:none;
+		  }
+		}
+
+		label>span {
+		  display:none;
+		}
+		// Center checkbox
+		.cmplz-banner-checkbox {
+		  display: flex;
+		  align-items: center;
+		  margin: 0;
+		  padding: initial;
+		}
+
+		// Complianz marker
+		.cmplz-icon.cmplz-open {
+		  grid-column-start: 3;
+		  cursor: pointer;
+		  content: '';
+		  background: var(--cmplz_category_open_icon_url) no-repeat;
+		  transform: rotate(0deg);
+		  -webkit-transition: all 0.5s ease;
+		  -moz-transition: all 0.5s ease;
+		  -o-transition: all 0.5s ease;
+		  transition: all 0.5s ease;
+		  background-size: cover;
+		  height: 25px;
+		  width: 25px;
+		}
+
+	  }
+
+	  // Rotate marker on open
+	  &[open] {
+		.cmplz-icon.cmplz-open {
+		  transform: rotate(180deg);
+		}
+	  }
+	}
+  }
+}
+
 

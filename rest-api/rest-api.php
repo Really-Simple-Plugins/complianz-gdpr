@@ -28,6 +28,7 @@ function cmplz_documents_rest_route() {
 	register_rest_route( 'complianz/v1', 'track/', array(
 		'methods'  => 'POST',
 		'callback' => 'cmplz_rest_api_ajax_track_status',
+		'args' => array(),
 		'permission_callback' => '__return_true',
 	) );
 
@@ -35,6 +36,15 @@ function cmplz_documents_rest_route() {
 		'methods'  => 'GET',
 		'callback' => 'cmplz_rest_api_manage_consent_html',
 		'permission_callback' => '__return_true',
+	) );
+
+	register_rest_route( 'complianz/v1', 'store_cookies/', array(
+		'methods'  => 'POST',
+		'callback' => 'cmplz_store_detected_cookies',
+		'permission_callback' => function () {
+			return current_user_can( 'manage_options' );
+		}
+
 	) );
 }
 
@@ -46,12 +56,13 @@ function cmplz_documents_rest_route() {
 function cmplz_rest_api_ajax_track_status( WP_REST_Request $request ) {
 	$params = $request->get_json_params();
 	$consented_categories = isset($params['consented_categories']) ? array_map('sanitize_title', $params['consented_categories']) : array('no_choice');
+	$consented_services = isset($params['consented_services']) ? array_map('sanitize_title', $params['consented_services']) : array();
 	$consenttype = isset($params['consenttype']) ? sanitize_title($params['consenttype']) : COMPLIANZ::$company->get_default_consenttype();
-
+	$prefix = COMPLIANZ::$cookie_admin->get_cookie_prefix();
 	foreach($consented_categories as $key => $consented_category ) {
-		$consented_categories[$key] = str_replace(array('cmplz_rt_', 'cmplz_'), '', $consented_category);
+		$consented_categories[$key] = str_replace($prefix, '', $consented_category);
 	}
-	do_action( 'cmplz_store_consent', $consented_categories, $consenttype );
+	do_action( 'cmplz_store_consent', $consented_categories, $consented_services, $consenttype );
 
 	$response = json_encode( array(
 		'success' => true,
@@ -72,16 +83,14 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	 *
 	 * */
 
+	$region = apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
 	$data                       = apply_filters( 'cmplz_user_data', array() );
 	$data['consenttype']        = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
-	$data['region']             = apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
+	$data['region']             = $region;
 	$data['version']            = cmplz_version;
-	$data['forceEnableStats']   = apply_filters( 'cmplz_user_force_enable_stats', false );
+	$data['forceEnableStats']   = apply_filters( 'cmplz_user_force_enable_stats', COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ) );
 	$data['do_not_track']       = apply_filters( 'cmplz_dnt_enabled', false );
 	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
-	//@todo: move this to the inline script  generation
-	//and move all generic, not banner specific data away from the banner.
-
 	unset( $data["set_cookies"] );
 	$banner_id              = cmplz_get_default_banner_id();
 	$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
@@ -127,36 +136,96 @@ function cmplz_rest_api_documents( WP_REST_Request $request ) {
  */
 function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 {
+	$html = '';
 	$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
 	if ( $do_not_track ) {
 		$html
 			= sprintf( _x( "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.",
 			"cookie policy", "complianz-gdpr" ), site_url() );
 	} else {
-		$consenttype = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
-		$banner = new CMPLZ_COOKIEBANNER(apply_filters('cmplz_user_banner_id', cmplz_get_default_banner_id()));
+		$consent_type = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
+		$path = trailingslashit( cmplz_path ).'cookiebanner/templates/';
+		$banner_html = cmplz_get_template( "cookiebanner.php", array( 'consent_type' => $consent_type ), $path);
 
-		$use_revoke_button = false;
-		if ( $consenttype === 'optin' && $banner->use_categories === 'no' ) {
-			$use_revoke_button = true;
-		} elseif ( $consenttype === 'optinstats' && $banner->use_categories_optinstats === 'no' ) {
-			$use_revoke_button = true;
-		} elseif ( $consenttype ==='optout' ){
-			$use_revoke_button = true;
-		}
+		if ( preg_match( '/<!-- categories start -->(.*?)<!-- categories end -->/s', $banner_html,  $matches ) ) {
+			$html      = $matches[0];
+			$banner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
+			$banner = new CMPLZ_COOKIEBANNER(  $banner_id );
+			$cookie_settings = $banner->get_html_settings();
 
-		if ( $use_revoke_button ) {
-			$html = cmplz_revoke_link();
-		} else {
-			$html = $banner->get_consent_checkboxes('document', $consenttype);
+			foreach($cookie_settings as $fieldname => $value ) {
+				if ( isset($value['text']) ) $value = $value['text'];
+				if ( is_array($value) ) continue;
+				$html = str_replace( '{'.$fieldname.'}', $value, $html );
+			}
 		}
 	}
-
 	$response = json_encode( $html );
 	header( "Content-Type: application/json" );
 	echo $response;
 	exit;
+}
 
+
+/**
+ * Store the detected cookies in the cookies table
+ */
+
+function cmplz_store_detected_cookies(WP_REST_Request $request) {
+	$params = $request->get_json_params();
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( isset( $params['token'] )
+	     && ( sanitize_title( $params['token'] )
+	          == get_option( 'complianz_scan_token' ) )
+	) {
+		$post_cookies = isset( $params['cookies'] )
+		                && is_array( $params['cookies'] )
+			? $params['cookies'] : array();
+		$cookies      = array_map( function ( $el ) {
+			return sanitize_title( $el );
+		}, $post_cookies );
+		if ( ! is_array( $cookies ) ) {
+			$cookies = array();
+		}
+
+		$post_storage = isset( $params['lstorage'] ) && is_array( $params['lstorage'] ) ? $params['lstorage'] : array();
+		$localstorage = array_map( function ( $el ) {
+			return sanitize_title( $el );
+		}, $post_storage );
+		if ( ! is_array( $localstorage ) ) {
+			$localstorage = array();
+		}
+
+		//add local storage data
+		$localstorage = array_map( 'sanitize_text_field', $localstorage );
+		foreach ( $localstorage as $key => $value ) {
+			$cookie = new CMPLZ_COOKIE();
+			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
+			$cookie->type = 'localstorage';
+			$cookie->isOwnDomainCookie = true;
+			$cookie->save( true );
+		}
+
+		//add cookies
+		$cookies = array_merge( $cookies, $_COOKIE );
+		$cookies = array_map( 'sanitize_text_field', $cookies );
+		foreach ( $cookies as $key => $value ) {
+			$cookie = new CMPLZ_COOKIE();
+			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
+			$cookie->type = 'cookie';
+			$cookie->isOwnDomainCookie = true;
+			$cookie->save( true );
+		}
+
+		//clear token
+		update_option( 'complianz_scan_token', false );
+		//store current requested page
+		COMPLIANZ::$cookie_admin->set_page_as_processed( $params['complianz_id'] );
+	}
 }
 
 

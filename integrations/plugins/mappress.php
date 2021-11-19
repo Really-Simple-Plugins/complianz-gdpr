@@ -1,45 +1,46 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
+if ( !defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE') ) define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
-add_filter( 'cmplz_known_script_tags', 'cmplz_mappress_script' );
+/**
+ * Add a script to the blocked list
+ * @param array $tags
+ *
+ * @return array
+ */
 function cmplz_mappress_script( $tags ) {
-
-	$tags[] = 'mappress-google-maps-for-wordpress/js/mappress';
+	$tags[] = array(
+			'name' => 'google-maps',
+			'category' => 'marketing',
+			'placeholder' => 'google-maps',
+			'urls' => array(
+					'mappress-google-maps-for-wordpress/js/mappress',
+			),
+			'enable_placeholder' => '1',
+			'placeholder_class' => 'mapp-canvas-panel',
+			'enable_dependency' => '1',
+			'dependency' => [
+					'maps.js' => 'wpgmp_map',
+			],
+	);
 
 	return $tags;
 }
+add_filter( 'cmplz_known_script_tags', 'cmplz_mappress_script' );
 
 /**
  * Add some custom css for the placeholder
  */
 
-add_action( 'wp_footer', 'cmplz_mapppress_css' );
 function cmplz_mapppress_css() {
 	?>
-	<style>
 		.mapp-main .cmplz-placeholder-element {
 			height: 100%;
 			width: 100%;
 		}
-	</style>
 	<?php
 }
-
-/**
- * Add placeholder to the list
- *
- * @param $tags
- *
- * @return array
- */
-function cmplz_mappress_placeholder( $tags ) {
-	$tags['google-maps'][] = 'mapp-canvas-panel';
-
-	return $tags;
-}
-
-add_filter( 'cmplz_placeholder_markers', 'cmplz_mappress_placeholder' );
+add_action( 'cmplz_banner_css', 'cmplz_mapppress_css' );
 
 
 /**

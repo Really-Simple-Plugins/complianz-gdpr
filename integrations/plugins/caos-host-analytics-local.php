@@ -1,13 +1,11 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
-add_filter( 'caos_gtag_script_element_attributes',
-	'cmplz_caos_script_classes' );
-add_filter( 'caos_analytics_script_element_attributes',
-	'cmplz_caos_script_classes' );
+add_filter( 'caos_gtag_script_element_attributes', 'cmplz_caos_script_classes' );
+add_filter( 'caos_analytics_script_element_attributes', 'cmplz_caos_script_classes' );
 function cmplz_caos_script_classes( $attr ) {
-	$classes = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
-	$attr    .= ' class="' . implode( ' ', $classes ) . '" ';
+	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
+	$attr    .= ' class="' . $category . '" ';
 
 	return $attr;
 }
@@ -18,13 +16,13 @@ function cmplz_caos_script( $tags ) {
 	$tags[] = 'gtag.js';
 	$tags[] = 'ga.js';
 
-	$classes = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
+	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
 
 	//block these only if not anonymous
-	if (!in_array('cmplz-native', $classes )) {
+	if ( $category !== 'functional') {
 		$tags[] = 'caosLocalGa';
-		$tags[] = 'CaosGtag';
-	}
+		$tags[] = 'CaosGtag';	}
+
 	return $tags;
 }
 
@@ -42,8 +40,8 @@ function cmplz_caos_add_data_attribute($tag, $handle) {
 	if ( $handle != $caos_handle )
 		return $tag;
 
-	$classes = COMPLIANZ::$cookie_admin->get_statistics_script_classes();
-	$attr = ' class="' . implode( ' ', $classes ) . '" ';
+	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
+	$attr = ' class="' .  $category . '" ';
 
 	return str_replace( ' src', " $attr src", $tag );
 }
@@ -54,8 +52,7 @@ add_filter('script_loader_tag', 'cmplz_caos_add_data_attribute', 10, 2);
  * */
 
 function cmplz_caos_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script',
-		array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
 }
 
 add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );

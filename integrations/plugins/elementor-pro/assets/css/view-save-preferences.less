@@ -1,0 +1,39 @@
+.cmplz-view-preferences {
+  cursor:pointer;
+}
+.view-save-preferences .elementor-widget-cmplz-category {
+  display:none;
+  &::before {
+	content: inherit;
+  }
+  opacity: inherit;
+  height: inherit;
+  .elementor-widget-container {
+	visibility: visible;
+  }
+}
+
+.view-save-preferences .ui-sortable .elementor-widget-cmplz-category {
+  display:block;
+  &::before {
+	content:'Categories block, default hidden on front-end.'!important;
+  }
+}
+
+.elementor-button.cmplz-save-preferences {
+	display:none;
+  	cursor:pointer;
+}
+
+.cmplz-view-preferences, .cmplz-categories {
+  display:none;
+}
+
+.cmplz-optin, .elementor-editor-active {
+  .cmplz-view-preferences, .cmplz-categories {
+	display: block;
+  }
+}
+
+
+

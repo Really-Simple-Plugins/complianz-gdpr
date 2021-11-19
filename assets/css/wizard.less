@@ -9,7 +9,6 @@
 
 .box-shadow-right {
   box-shadow: 5px 0 5px -5px rgba(222, 222, 222, 0.2);
-
 }
 
 .box-shadow-bottom {
@@ -43,7 +42,7 @@
 }
 @media only screen and (max-width: 1400px) {
   #cmplz-content-area {
-	grid-template-columns: 24% auto!important;
+	grid-template-columns: 24% auto;
   }
 }
 
@@ -81,6 +80,12 @@
 	margin-bottom:30px;
     padding-bottom: @green-gap;
 	box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+	// sticky menu
+	position: sticky;
+	top: 50px;
+	max-height: calc(100vh - 87px);
+	height: 100%;
+	min-height: 480px;
 
     .cmplz-wizard-progress-bar {
       background: @grey-light;
@@ -192,7 +197,7 @@
 
 	.cmplz-form {
       display: grid;
-	  grid-template-columns: auto 325px !important;
+	  grid-template-columns: auto 325px;
       grid-column-gap: @red-gap;
 	  .cmplz-wizard-intro, .cmplz-field, .cmplz-section-content-title-header, .cmplz-section-footer {
 		.box-shadow-left;
@@ -219,12 +224,10 @@
       margin-left: 15px;
     }
 
-
-
-		//if an intro is nested in a field, we don't need the padding, as the field already has padding
-	  .cmplz-field .cmplz-wizard-intro {
-		padding:0 0 @green-gap 0;
-	  }
+	  //if an intro is nested in a field, we don't need the padding, as the field already has padding
+	.cmplz-field .cmplz-wizard-intro {
+	  padding:0 0 @green-gap 0;
+	}
 
       .field-group {
         grid-column: span 2;
@@ -263,10 +266,13 @@
       }
     }
 
-
     // remove scroll from back-end
-
 	.cmplz-scroll {
+	  .cmplz-form:first-child{
+		.cmplz-settings-item{
+		  margin-top: 0;
+		}
+	  }
 	  //if the scrollbar shows, we will see two scrollbars if the wordpress menu is longer than the screen.
 	  // &::-webkit-scrollbar {
 		// display: none;
@@ -302,6 +308,20 @@
 		height:30px;
 		margin: 0 0;
 	  }
+
+	  .cmplz_add_url, .cmplz_remove_url {
+		padding: 2px 4px;
+		margin-left: 4px;
+		line-height: 22px;
+		cursor:pointer;
+		background-color: transparent;
+		border: 0;
+	  }
+	  .cmplz-multiple-field-button-footer .button.button-primary {
+		min-width: 0px;
+		margin-right: 5px;
+	  }
+
 	  .button.button-cmplz-tertiary {
 		background-color:@color-warning;
 		color:#fff;
@@ -325,6 +345,18 @@
 		padding-left: 20px;
 	  }
 
+	  .cmplz-text_checkbox .cmplz-field {
+		display: grid;
+		grid-template-columns: 500px 1fr;
+		grid-column-gap: 20px;
+		.cmplz-text {
+		  grid-column-start: 1;
+		}
+		.cmplz-switch {
+		  align-self: center;
+		  justify-self: end;
+		}
+	  }
 
 	  .cmplz-cols-2 .cmplz-field {
 		//grid-column: span 2;
@@ -373,6 +405,18 @@
 
 	  select {
 		width: 100%;
+	  }
+
+	  .cmplz-block_script select[data-name=dependency] {
+		width: 45%;
+		float:left;
+		clear:both;
+	  }
+	  .cmplz_deps_desc {
+		width:45%;
+		float:left;
+		padding-top: 5px;
+		padding-left: 9px;
 	  }
 
 	  .field-group {
@@ -450,7 +494,7 @@
 	  }
 
 	  .cmplz-form {
-		grid-template-columns: auto;
+		grid-template-columns: auto !important;
 	  }
 	  position: relative;
 	  #services, #plugins {
@@ -471,7 +515,7 @@
 	  }
 
 	  .cmplz-settings-item {
-		margin-bottom:@green-gap;
+		margin-top:@green-gap;
 		.cmplz-settings-title {
 		  .box-shadow-top;
 		  .box-shadow-left;
@@ -552,6 +596,11 @@
 			  padding: @red-gap;
 			  margin:@green-gap;
 			  box-shadow: 0 0 5px 5px rgba(223,222,222,0.4);
+			}
+		  }
+		  @media screen and (max-width: 960px) {
+			.cmplz-settings-overlay {
+			  right: 0;
 			}
 		  }
 		}
@@ -736,16 +785,16 @@
     }
 
     /* Disabled option */
-    &.cmplz-disabled {
-      pointer-events: none;
-      .checkmark {
-        background-color: #eee;
-        svg {
-          stroke: #eee !important;
-          fill: #eee !important;
-        }
-      }
-    }
+    //&.cmplz-disabled {
+    //  pointer-events: none;
+    //  .checkmark {
+    //    background-color: #eee;
+    //    svg {
+    //      stroke: #eee !important;
+    //      fill: #eee !important;
+    //    }
+    //  }
+    //}
   }
 
 
@@ -784,7 +833,7 @@
     }
 
     /* Check icon (hidden when not checked) */
-    .radiobtn div {
+    .radiobtn span .cmplz-icon {
       content: "";
       position: absolute;
       display: none;
@@ -894,8 +943,10 @@
 .cmplz-multiple-field-button-footer {
   display: flex;
   align-items: center;
-  .cmplz-edit-item {
+  .button {
     margin-right: 5px;
+    margin-bottom: 10px;
+    min-width: 0;
   }
 }
 
@@ -903,13 +954,13 @@
   display: none !important;
 }
 
-
 //this breaks the editor height.
 .wp-editor-wrap iframe {
   //height: initial !important;
 }
 
 .cmplz-help-warning-wrap {
+  max-width:400px;
   //display: flex; // make use of Flexbox
   align-items: center; // does vertically center the desired content
   .cmplz-help-modal {
@@ -1005,14 +1056,14 @@ a.button.cmplz-open-modal {
 }
 
 
-.multiple-field {
-  div {
-    margin-top: 8px;
-    &:last-child {
-      margin-bottom: 8px;
-    }
-  }
+.multiple-field > div {
+	margin-top: 8px;
+	&:last-child {
+	  margin-bottom: 8px;
+	  clear:both;
+	}
 }
+
 
 .cmplz-list-container {
 
@@ -1052,9 +1103,10 @@ a.button.cmplz-open-modal {
   grid-column-gap: 10px;
   align-items: center;
 }
-//.cmplz-panel-wrap {
-//  margin:@green-gap 0 @green-gap 0;
-//}
+
+.cmplz-panel + .cmplz-panel {
+  margin-top:10px;
+}
 .cmplz-panel {
   padding: @green-gap;
   margin-bottom: @green-gap;
@@ -1103,7 +1155,7 @@ a.button.cmplz-open-modal {
 
       span {
         &.cmplz-panel-toggle {
-          overflow: hidden;
+          //overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
@@ -1401,7 +1453,7 @@ html .mceContentBody {
 	}
 
 	.cmplz-label {
-      //margin-bottom: 10px;
+	  margin-top:0;
       label {
 		display:flex;
 		font-size:15px;
@@ -1456,11 +1508,6 @@ html .mceContentBody {
         background-color: @color-warning;
         color: white;
         border-color: @color-warning;
-      }
-      &.button-grey {
-        background-color: white;
-        color: black;
-        border-color: black;
       }
       &.button-black {
         background-color: black;
@@ -1537,7 +1584,7 @@ html .mceContentBody {
 	}
 
 	//Reset the vertical-align: middle that WordPress applies. The vertical-align middle presses the next and previous icons downwards
-	@media screen and (max-width: 782px) {
+	@media screen and (max-width: 768px) {
 	  input {
 		vertical-align: top !important;
 	  }
@@ -1548,7 +1595,6 @@ html .mceContentBody {
 }
 
 //Dashboard
-
 .cmplz-field {
   /* Define the styling of the text input fields */
 
@@ -1607,12 +1653,42 @@ html .mceContentBody {
     margin-bottom: 10px;
   }
 
-  button[name=cmplz_add_multiple] {
+  button[name=cmplz_add_multiple],
+  .cmplz_script_add {
     margin-top: @green-gap;
   }
 
+  .cmplz-logo-preview {
+	&.cmplz-clickable {
+	  cursor:pointer;
+	}
+	&.cmplz-complianz-logo {
+	  padding: 5px;
+	  svg {
+		height: 90px;
+		width: 90px;
+	  }
+	}
+	border: 1px black dashed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float: right;
+  }
 }
-
+.cmplz-use_logo_custom .cmplz-logo-preview {
+  height: 100px;
+  img {
+	max-height: 100px;
+	max-width: 350px;
+  }
+}
+.cmplz-use_logo_site .cmplz-logo-preview {
+  img {
+	width: 100px;
+	height: inherit;
+  }
+}
 //Button styling
 a.cmplz.button, button.cmplz.button, input.cmplz.button {
   //smargin-left:15px;
@@ -1647,336 +1723,10 @@ a.cmplz.button, button.cmplz.button, input.cmplz.button {
   color: @brand-primary;
 }
 
-/* building our new structured css here */
-
-.cmplz-dashboard-container {
-  .cmplz-dashboard-title {
-	padding-top: 22px;
-	font-weight: 600;
-	font-size: 24px;
-	line-height: 30px;
-	margin-bottom: 20px;
-	@media screen and (max-width: 720px) {
-	  padding-bottom: 0px;
-	}
-
-  }
-}
-
-.cmplz-dashboard-header .cmplz-header-top {
-  min-height: 60px;
-}
-
-.cmplz-header-top {
-  grid-area: header-top;
-  background-color: #F2F2F2;
-  min-height: 30px;
-  padding-top: 25px;
-
-  .cmplz-premium-cta {
-	width: 150px;
-	float: right;
-	border-color: @brand-primary;
-	color: @brand-primary;
-	text-transform: uppercase;
-	display: flex;
-  }
-}
-
-.cmplz-dashboard-container {
-  background-color: white;
-  display: flex;
-  flex-wrap: wrap;
-
-  .cmplz-dashboard-header {
-	margin-bottom: -270px;
-	width: 100%;
-	min-height: 220px;
-	background-color: @brand-primary;
-	background-repeat: no-repeat;
-	background-image: url(../images/complianz-header.png);
-	background-attachment: scroll;
-	background-position: bottom center;
-
-	.cmplz-header-text {
-	  display: flex;
-	  align-items: center;
-	}
-  }
-
-  .cmplz-dashboard-item {
-	background-color: #fff;
-	width: 450px;
-	margin-top: 10px;
-	border: 2px solid;
-	flex: 0 0 450px;
-	flex-shrink: 1;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 0px;
-	border-color: #f2f2f2;
-	overflow: hidden;
-  }
-
-  .cmplz-dashboard-item .cmplz-top h1 {
-	font-weight: 600;
-	font-size: 2.5em;
-	padding: 25px;
-  }
-
-  .cmplz-dashboard-content-container {
-	margin: 0 auto;
-	display: grid;
-	grid-template-areas: 'header-top header-top header-top header-top' 'text-completed text-completed text-completed text-completed' 'progress progress support support' 'progress progress documents documents' 'footer footer footer footer';
-	@media screen and (max-width: 1210px) {
-	  grid-template-areas: 'header-top header-top' 'text-completed text-completed' 'progress progress' 'support support' 'documents documents' 'footer footer' 'footer footer';
-	}
-
-	.cmplz-logo {
-	  display: flex;
-	  align-items: center;
-	  font-size: 1.5em;
-	  font-weight: 600;
-	}
-
-	.cmplz-header-text {
-	  display: flex;
-	  align-items: center;
-	}
-
-	.cmplz-completed-text {
-	  display: flex;
-	  align-items: center;
-	  margin-top: 35px;
-	  grid-area: text-completed;
-	  font-size: 24px;
-	  color: white;
-	  @media screen and (max-width: 720px) {
-		button {
-		  width: 100px;
-		}
-	  }
-	}
-
-	grid-gap: 10px;
-	padding: 10px;
-
-	.cmplz-dashboard-info {
-	  font-size: 19px;
-	  font-weight: bold;
-	  padding-top: 20px;
-	  padding-bottom: 10px;
-	}
-
-	.cmplz-dashboard-text {
-	  color: black;
-	  font-weight: 400;
-	  padding: 15px;
-
-	  li {
-		border-bottom: 1px solid;
-	  }
-
-	  .fa-plus {
-		margin-right: 8px;
-	  }
-
-	  &.free {
-		background-color: #000;
-		color: #fff;
-		min-height: 40px;
-	  }
-	}
-
-	.cmplz-dashboard-progress {
-	  @media screen and (max-width: 1210px) {
-		margin: 0 auto;
-	  }
-	  grid-area: progress;
-
-	  .cmplz-dashboard-progress-top {
-		background-color: #F2F2F2;
-		min-height: 170px;
-
-		.cmplz-dashboard-top-text {
-		  display: inline-grid;
-		  font-size: 18px;
-		  line-height: 22px;
-		  max-width: 60%;
-		  float: left;
-
-		  .cmplz-dashboard-top-text-subtitle {
-			color: @brand-primary;
-		  }
-		}
-	  }
-
-	  .cmplz-continue-wizard-btn {
-		padding-top: 125px;
-
-		button {
-		  text-align: -webkit-left;
-		  border-radius: 50px;
-		}
-	  }
-
-	  .cmplz-percentage-complete {
-		margin-top: 20px;
-		float: right;
-	  }
-
-	  .cmplz-steps-table {
-		padding-top: 10px;
-
-		.i.fa.fa-check {
-		  color: black;
-		}
-
-		.cmplz-success,
-		.cmplz-error {
-		  color: black;
-		}
-	  }
-	}
-
-	.cmplz-dashboard-support {
-
-	  width: 450px;
-	  @media screen and (max-width: 1210px) {
-		margin: 0 auto;
-	  }
-
-	  input[type=text], input[type=email], textarea, input[type=submit] {
-		width: 425px;
-		margin-bottom: 5px;
-		margin-top: 5px;
-	  }
-
-	  textarea {
-		min-height: 100px;
-	  }
-
-	  input[type=submit] {
-		margin: auto;
-	  }
-
-	  grid-area: support;
-	}
-
-	.cmplz-dashboard-documents {
-	  @media screen and (max-width: 1210px) {
-		margin: 0 auto;
-	  }
-	  grid-area: documents;
-	  margin-top: 10px;
-
-	  .cmplz-upgrade-table {
-		padding-bottom: 15px;
-
-		.fas {
-		  margin-right: 8px;
-		}
-
-		ul {
-		  margin: 5px;
-		}
-
-		li {
-		  border-bottom: 2px solid;
-		  margin-bottom: 5px;
-		  text-indent: 5px;
-		  display: flex;
-		  vertical-align: middle;
-		  margin-left: 8px;
-		}
-
-		.fa-plus {
-		  color: @brand-primary;
-		  font-size: 1.5em;
-		}
-	  }
-
-	  .cmplz-documents-bottom {
-		color: white;
-		background-color: black;
-		min-height: 70px;
-		font-size: 14px;
-
-		div {
-		  margin-bottom: 10px;
-		}
-
-		//display: flex;
-	  }
-	}
-
-	.cmplz-dashboard-footer {
-	  grid-area: footer;
-	  display: flex;
-	  flex-shrink: 1;
-	  flex-grow: 1;
-	  margin-top: 20px;
-	  flex-wrap: wrap;
-	  justify-content: center;
-	  padding-bottom: 20px;
-
-	  .cmplz-footer-block {
-		position: relative;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 0px;
-		background-color: #F2F2F2;
-		width: 205px;
-		min-height: 70px;
-		//margin-top: 10px;
-		margin: 5px auto;
-
-		a {
-		  position: absolute;
-		  top: 5px;
-		  right: 5px;
-		}
-
-		.cmplz-footer-title {
-		  margin-top: 9px;
-		  margin-left: 9px;
-		  font-weight: 900;
-		  font-size: 1.2em;
-		  margin-right: 35px;
-		}
-
-		.cmplz-footer-description {
-		  width: 70%;
-		  margin-left: 9px;
-		  font-size: 0.8em;
-		  display: flex;
-		}
-
-		.cmplz-external-btn {
-		  text-align: center;
-		  border-radius: 7px;
-		  color: @brand-primary;
-		  width: 25px;
-		  height: 20px;
-		  float: right;
-
-		  .fa-angle-right {
-			font-size: 1.5em;
-			vertical-align: middle;
-			margin-left: 2px;
-		  }
-		}
-	  }
-	}
-  }
-}
-
 //reset page navigation
 input.current-page {
   width:initial;
 }
-
-
 
 .cmplz-wizard-menu-menus {
   padding-top: 10px;
@@ -2389,6 +2139,62 @@ input.current-page {
 	  display: none;
 	  opacity: 0;
 	  top: 20px;
+	}
+  }
+}
+// responsive settings
+
+@media screen and (max-width: 960px) {
+  #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
+	.cmplz-settings-controls{
+	  &:empty{
+		display: none;
+	  }
+	}
+  }
+
+}
+
+@media screen and (max-width: 1280px) {
+  #cmplz-wizard, #cmplz-settings {
+	.cmplz-wizard-menu {
+	  display: none;
+	}
+
+	#cmplz-content-area {
+	  grid-template-columns: 100%;
+	}
+  }
+}
+
+@media screen and (max-width: 960px) {
+  #cmplz-wizard, #cmplz-settings {
+	.cmplz-wizard-menu,
+	.cmplz-help-warning-wrap,
+	#cmplz-content-area .cmplz-section-content-notifications-header {
+	  display: none;
+	}
+
+	#cmplz-content-area {
+	  grid-template-columns: 100%;
+	}
+
+	#cmplz-content-area .cmplz-section-content .cmplz-form {
+	  display: grid;
+	  grid-template-columns: 100%;
+
+	  .field-group {
+		grid-column: 1;
+		grid-template-columns: 100%;
+	  }
+	}
+  }
+  #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
+	.cmplz-settings-body .cmplz-panel-wrap, .field-group, .cmplz-settings-header-container, .cmplz-settings-footer-container {
+	  grid-template-columns: 100%;
+	}
+	.cmplz-settings-header-container .cmplz-settings-header {
+	  grid-template-columns: 100%;
 	}
   }
 }

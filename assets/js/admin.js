@@ -49,9 +49,15 @@ jQuery(document).ready(function ($) {
 	var cmplz_localstorage_selectors = $('.cmplz_save_localstorage');
 	if ( cmplz_localstorage_selectors.length ) {
 		cmplz_localstorage_selectors.each(function(){
-			const name = $(this).attr('name');
-			const value = window.localStorage.getItem(name);
-			if ( typeof value !== 'undefined' && value !== null  ) {
+			var name = $(this).attr('name');
+			var value = window.localStorage.getItem(name);
+			var curValue = $(this).val();
+			//in case the option is removed (optin/optout), we check if the option that is found still exists
+			if ( value == null || !$(this).find("option[value="+value+"]").length > 0){
+				value = curValue;
+				window.localStorage.setItem(name, value);
+				$(this).val(value).change();
+			}else if ( typeof value !== 'undefined' && value !== null  && value !== curValue ) {
 				$(this).val(value).change();
 			}
 		});
@@ -179,16 +185,15 @@ jQuery(document).ready(function ($) {
         $(this).closest('.cmplz-help-modal').fadeOut();
     });
 
-
     //colorpicker in the wizard
-    $('.cmplz-color-picker').wpColorPicker({
-            change:
-                function (event, ui) {
-                    var container_id = $(event.target).data('hidden-input');
-                    $('#' + container_id).val(ui.color.toString());
-                }
-        }
-    );
+    // $('.cmplz-color-picker').wpColorPicker({
+    //         change:
+    //             function (event, ui) {
+    //                 var container_id = $(event.target).data('hidden-input');
+    //                 $('#' + container_id).val(ui.color.toString());
+    //             }
+    //     }
+    // );
 
 	// Make wizard and settings fields selectable via the 'enter' key
 	$('.cmplz-radio-container').keypress(function(event){
@@ -360,9 +365,10 @@ jQuery(document).ready(function ($) {
                 condition_answers.forEach(function (condition_answer) {
                     value = get_input_value(question);
 
-                    if ($('select[name=' + question + ']').length) {
+                    if ($('select[name="' + question + '"]').length) {
                         value = Array($('select[name=' + question + ']').val());
                     }
+
                     if ($("input[name='" + question + "[" + condition_answer + "]" + "']").length) {
 
                         if ($("input[name='" + question + "[" + condition_answer + "]" + "']").is(':checked')) {
@@ -410,6 +416,7 @@ jQuery(document).ready(function ($) {
                 }
             }
         });
+
     }
 
 
@@ -419,11 +426,11 @@ jQuery(document).ready(function ($) {
 
     function get_input_value(fieldName) {
 
-        if ($('input[name=' + fieldName + ']').attr('type') == 'text') {
+        if ($('input[name="' + fieldName + '"]').attr('type') == 'text') {
             return $('input[name^=' + fieldName + ']').val();
         } else {
             var checked_boxes = [];
-            $('input[name=' + fieldName + ']:checked').each(function () {
+            $('input[name="' + fieldName + '"]:checked').each(function () {
                 checked_boxes[checked_boxes.length] = $(this).val();
             });
             return checked_boxes;
@@ -678,8 +685,9 @@ jQuery(document).ready(function ($) {
      */
     $(document).on('change', '.cmplz_sync', function(){
         var container = $(this).closest('.cmplz-field');
+		var checkbox = $(this);
         var disabled = false;
-        if ($(this).is(":checked")) disabled=true;
+        if ( checkbox.is(":checked") ) disabled=true;
         container.find(':input').each(function () {
             if ($(this).attr('name')==='cmplz_remove_item'  ||
                 $(this).attr('name')==='cmplz-save-item'    ||
@@ -688,11 +696,11 @@ jQuery(document).ready(function ($) {
                 $(this).attr('name')==='cmplz_sync') return;
             $(this).prop('disabled', disabled);
             if (disabled){
-                $(this).closest('div').addClass('cmplz-disabled');
-                $(this).closest('label').addClass('cmplz-disabled');
-            } else{
-                $(this).closest('div').removeClass('cmplz-disabled');
-                $(this).closest('label').removeClass('cmplz-disabled');
+				$(this).closest('.cmplz-service-field div, .cmplz-cookie-field div').addClass('cmplz-disabled');
+				$(this).closest('label').addClass('cmplz-disabled');
+            } else {
+				$(this).closest('.cmplz-service-field div, .cmplz-cookie-field div').removeClass('cmplz-disabled');
+				$(this).closest('label').removeClass('cmplz-disabled');
             }
         });
     });
@@ -898,6 +906,9 @@ jQuery(document).ready(function ($) {
             }
         });
 
+		if (action==='delete'){
+			panel.addClass('cmplz-deleted');
+		}
 
         $.ajax({
             type: "POST",
@@ -914,16 +925,7 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     if (action==='delete'){
-                        panel.addClass('cmplz-deleted');
-                        container.find('input').each(function() {
-                            $(this).attr('disabled', 'disabled');
-                        });
-                        container.find('select').each(function() {
-                            $(this).attr('disabled', 'disabled');
-                        });
-                        container.children('div').addClass('cmplz-disabled');
-                        container.children('label').addClass('cmplz-disabled');
-                        container.find('button[name="cmplz-save-item"]').attr('disabled', 'disabled');
+						panel.remove();
                     }
 					if (action==='restore'){
 						panel.removeClass('cmplz-deleted');
@@ -974,6 +976,133 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+    /**
+     * add script
+     * */
+    $(document).on('click', '.cmplz_script_add', cmplz_script_add);
+    function cmplz_script_add() {
+        var btn = $(this);
+        var btn_html = btn.html();
+        var type = btn.data('type');
+        btn.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+        $.ajax({
+            type: "POST",
+            url: complianz_admin.admin_url,
+            data: ({
+                action: 'cmplz_script_add',
+                type: type,
+            }),
+            success: function (response) {
+                if (response.success) {
+                    btn.before(response.html);
+                    btn.html(btn_html);
+                }
+            }
+        });
+    }
+
+	/**
+	 * Add URL
+	 *
+	 */
+	$(document).on("click", '.cmplz_add_url', function(){
+		let container = $(this).closest('div');
+		let templ = $('.cmplz-url-template').get(0).innerHTML;
+		container.append(templ);
+	});
+	$(document).on("click", '.cmplz_remove_url', function(){
+		let container = $(this).closest('div');
+		container.remove();
+	});
+    /**
+     * add script
+     * */
+    $(document).on('click', '.cmplz_script_save', cmplz_script_save );
+    function cmplz_script_save() {
+        var btn = $(this);
+        var btn_html = btn.html();
+        btn.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+
+        var container = btn.closest('.cmplz-panel');
+        var type = btn.data('type');
+        var action = btn.data('action');
+        var id = btn.data('id');
+
+        // Values
+        var data = {};
+        container.find(':input').each(function () {
+            if ($(this).attr('type') === 'button') return;
+            if ( typeof $(this).attr('name') === 'undefined') return;
+            if ($(this).attr('type')==='checkbox' ) {
+                data[$(this).data('name')] = $(this).is(":checked");
+            } else if ( $(this).attr('type')==='radio' ) {
+				if ($(this).is(":checked")) {
+					data[$(this).data('name')] = $(this).val();
+				}
+			} else if ($(this).data('name')==='urls'){
+				let curValue = data[$(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push($(this).val());
+				data[$(this).data('name')] = curValue;
+			} else if ($(this).data('name')==='dependency'){
+				//key value arrays with string keys aren't stringified to json.
+				let curValue = data[$(this).data('name')];
+				if (typeof curValue === 'undefined' ) curValue = [];
+				curValue.push($(this).data('url')+'|:|'+$(this).val());
+				data[$(this).data('name')] = curValue;
+			} else {
+                data[$(this).data('name')] = $(this).val();
+            }
+        });
+
+        // Enable / Disable
+        if ( action === 'enable' ) {
+            data['enable'] = 1;
+        }
+        if ( action === 'disable' ) {
+            data['enable'] = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: complianz_admin.admin_url,
+            data: ({
+                action: 'cmplz_script_save',
+                'cmplz-save': true,
+                type: type,
+                button_action: action,
+                id: id,
+                data: JSON.stringify(data),
+            }),
+            success: function (response) {
+                if (response.success) {
+
+                    if ( action === 'enable' ) {
+						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="disable"]').removeClass('cmplz-hidden');
+						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="enable"]').addClass('cmplz-hidden');
+						container.find('.cmplz_script_enabled').removeClass('cmplz-hidden');
+						container.find('.cmplz_script_disabled').addClass('cmplz-hidden');
+						btn.html(btn_html);
+                    }
+                    if ( action === 'disable' ) {
+						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="disable"]').addClass('cmplz-hidden');
+						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="enable"]').removeClass('cmplz-hidden');
+						container.find('.cmplz_script_enabled').addClass('cmplz-hidden');
+						container.find('.cmplz_script_disabled').removeClass('cmplz-hidden');
+						btn.html(btn_html);
+					}
+                    if ( action === 'save' ) {
+                        btn.html(btn_html);
+                    }
+                    if ( action === 'remove' ) {
+                        container.remove();
+                        btn.html(btn_html);
+                    }
+                }
+            }
+        });
+    }
 
     /**
     * Check for anonymous window, adblocker
@@ -1187,5 +1316,46 @@ jQuery(document).ready(function ($) {
         $('.cmplz-file-chosen').text( $(this).val().split('\\').pop() );
 
     });
+
+	/**
+	 * Image uploader
+	 */
+
+	$(document).on( 'click','.cmplz-image-uploader, .cmplz-logo-preview.cmplz-clickable', function()
+	{
+		var btn = $(this);
+		var container = btn.closest('.cmplz-field');
+		var fieldname = btn.closest('.field-group').data('fieldname');
+		var media_uploader = wp.media({
+			frame:    "post",
+			state:    "insert",
+			multiple: false
+		});
+
+		media_uploader.on("insert", function(){
+			var length = media_uploader.state().get("selection").length;
+			var images = media_uploader.state().get("selection").models;
+
+			for(var iii = 0; iii < length; iii++)
+			{
+				var thumbnail_id = images[iii].id;
+				var image = false;
+				image = images[iii].attributes.sizes['cmplz_banner_image'];
+				if (!image) {
+					image = images[iii].attributes.sizes['medium'];
+				}
+
+				if ( image ) {
+					var image_url = image['url'];
+					container.find('.cmplz-logo-preview img').attr('src',image_url);
+					$('input[name=cmplz_'+fieldname+']').val(thumbnail_id);
+					$('.cmplz-cookiebanner .cmplz-logo').html('<img>');
+					$('.cmplz-cookiebanner .cmplz-logo img').attr('src',image_url);
+				}
+
+			}
+		});
+		media_uploader.open();
+	});
 
 });

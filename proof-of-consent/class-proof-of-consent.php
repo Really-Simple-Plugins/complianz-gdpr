@@ -298,18 +298,18 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			foreach ( $regions as $region => $label ) {
 				$banner_id = cmplz_get_default_banner_id();
 				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
-				$settings  = $banner->get_settings_array();
+				$settings  = $banner->get_front_end_settings();
+				$settings  += $banner->get_html_settings();
 				$settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );
 				$settings_html = '';
 				$skip          = array(
 					'categorie',
 					'use_custom_cookie_css',
+					'logo',
 					'custom_css_amp',
 					'static',
 					'set_cookies',
-					'hide_revoke',
 					'position',
-					'theme',
 					'version',
 					'banner_version',
 					'a_b_testing',
@@ -328,6 +328,14 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
                     'colorpalette_toggles',
                     'colorpalette_border_radius',
                     'border_width',
+                    'store_consent',
+                    'cookie_domain',
+                    'set_cookies_on_root',
+                    'placeholdertext',
+                    'css_file',
+                    'page_links',
+                    'tm_categories',
+                    'cookie_path',
                     'colorpalette_button_accept',
                     'colorpalette_button_deny',
                     'colorpalette_button_settings',

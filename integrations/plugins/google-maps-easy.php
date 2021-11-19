@@ -1,16 +1,25 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
+if ( !defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE') ) define('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE', true);
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_google_maps_easy_script' );
-add_filter( 'cmplz_placeholder_markers', 'cmplz_google_maps_easy_placeholder' );
-add_filter( 'cmplz_dependencies', 'cmplz_google_maps_easy_dependencies' );
-
-
 function cmplz_google_maps_easy_script( $tags ) {
-	$tags[] = 'google-maps-easy';
-	$tags[] = 'maps.googleapis.com';
-
+	$tags[] = array(
+		'name' => 'google-maps',
+		'category' => 'marketing',
+		'placeholder' => 'google-maps',
+		'urls' => array(
+			'google-maps-easy',
+			'maps.googleapis.com',
+		),
+		'enable_placeholder' => '1',
+		'placeholder_class' => 'gmpMapDetailsContainer',
+		'enable_dependency' => '1',
+		'dependency' => [
+			//'wait-for-this-script' => 'script-that-should-wait'
+			'maps.googleapis.com' => 'google-maps-easy',
+		],
+	);
 	return $tags;
 }
 
@@ -31,28 +40,3 @@ function cmplz_google_maps_easy_detected_services( $services ) {
 }
 
 add_filter( 'cmplz_detected_services', 'cmplz_google_maps_easy_detected_services' );
-
-
-/**
- * Add placeholder for google maps
- *
- * @param $tags
- *
- * @return mixed
- */
-
-function cmplz_google_maps_easy_placeholder( $tags ) {
-	$tags['google-maps'][] = 'gmpMapDetailsContainer';
-	return $tags;
-}
-
-
-
-/**
- * Conditionally add the dependency from the plugin core file to the api files
- */
-
-function cmplz_google_maps_easy_dependencies( $tags ) {
-	$tags['maps.googleapis.com'] = 'google-maps-easy';
-	return $tags;
-}
