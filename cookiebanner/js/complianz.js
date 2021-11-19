@@ -829,6 +829,15 @@ function cmplz_get_services_on_page(){
 
 
 window.show_cookie_banner = function () {
+	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
+	//do not show banner when manage consent area on cookie policy is visible
+	//when users use only the shortcode, the manage consent container is not active, but the dropdown cookie policy class is.
+	//when the complianz shortcode is used, the dropdown cookie policy class is loaded late because it's loaded with javascript.
+	let tmpDismissCookiebanner = false;
+	if ( _$1('#cmplz-manage-consent-container') || _$1('.cmplz-dropdown-cookiepolicy') ) {
+		tmpDismissCookiebanner = true;
+	}
+
 	var fragment = document.createDocumentFragment();
 	let container = document.getElementById('cmplz-cookiebanner-container');
 	if (container) {
@@ -846,19 +855,12 @@ window.show_cookie_banner = function () {
 	link.type = "text/css";
 	link.rel = "stylesheet";
 	link.onload = function () {
-		banner.classList.remove('cmplz-hidden');
-		manage_consent_button.classList.remove('cmplz-hidden');
+		if ( !disableCookiebanner ) {
+			banner.classList.remove('cmplz-hidden');
+			manage_consent_button.classList.remove('cmplz-hidden');
+		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(link);
-
-	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
-	let temporarilyDismissBanner = false;
-	//do not show banner when manage consent area on cookie policy is visible
-	//when users use only the shortcode, the manage consent container is not active, but the dropdown cookie policy class is.
-	//when the complianz shortcode is used, the dropdown cookie policy class is loaded late because it's loaded with javascript.
-	if ( _$1('#cmplz-manage-consent-container') || _$1('.cmplz-dropdown-cookiepolicy') ) {
-		temporarilyDismissBanner = true;
-	}
 
 	if ( !disableCookiebanner ) {
 		_$('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)', banner ).forEach(obj => {
@@ -882,8 +884,8 @@ window.show_cookie_banner = function () {
 
 		cmplz_set_banner_status();
 		//we don't use the setBannerStatus function here, as we don't want to save it in a cookie now.
-		if ( banner && temporarilyDismissBanner ) {
-			banner.classList.add('cmplz-show');
+		if ( banner && tmpDismissCookiebanner ) {
+			banner.classList.remove('cmplz-show');
 			banner.classList.add('cmplz-dismissed');
 			manage_consent_button.classList.remove('cmplz-dismissed');
 			manage_consent_button.classList.add('cmplz-show');
