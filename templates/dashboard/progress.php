@@ -19,17 +19,16 @@
 		<div class="cmplz-progress-description">
 			<?php if ( $progress < 100
 			) {
-					_e( 'Your website is not ready for your selected regions yet.', 'complianz-gdpr' );
+				_e( 'Your website is not ready for your selected regions yet.', 'complianz-gdpr' );
 			} else {
 				if ( $premium ) {
 					_e( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' );
 				} else {
 					$regions = cmplz_get_regions();
 					foreach ($regions as $region => $value) {
-						echo __( 'Great! Your website is configured for', 'complianz-gdpr') . ' ' .  COMPLIANZ::$config->regions[$region]['law'];
+						echo sprintf(__( 'Great! Your website is configured for %s.', 'complianz-gdpr'),  COMPLIANZ::$config->regions[$region]['law']);
 					}
 				}
-
 			} ?>
 		</div>
 	</div>
