@@ -442,12 +442,14 @@ jQuery(document).ready(function ($) {
 
 	function cmplzHideBanner(){
 		$('.cmplz-cookiebanner.' + consenttype).addClass('cmplz-hidden');
+		$('.cmplz-cookiebanner.' + consenttype).removeClass('cmplz-show');
 		manageConsent.removeClass('cmplz-hidden');
 		bannerVisible = false;
 	}
 
 	function cmplzShowBanner(){
 		$('.cmplz-cookiebanner.' + consenttype).removeClass('cmplz-hidden');
+		$('.cmplz-cookiebanner.' + consenttype).addClass('cmplz-show');
 		manageConsent.addClass('cmplz-hidden');
 		bannerVisible = true;
 	}

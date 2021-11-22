@@ -1279,7 +1279,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @return string
 		 */
 		public function get_cookie_prefix(){
-			if ( is_multisite() && is_main_site() ) {
+			if ( is_multisite() && is_main_site() && !cmplz_get_value( 'set_cookies_on_root' ) ) {
 				return 'cmplz_rt_';
 			} else {
 				return 'cmplz_';

@@ -298,6 +298,7 @@
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
   height: 45px;
   padding: 10px;
+  margin: initial;
   width: 100%;
   white-space: nowrap;
   border-radius: var(--cmplz_button_border_radius);

@@ -769,29 +769,37 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * */
 
 		public function all_required_fields_completed( $page ) {
-			for ( $step = 1; $step <= $this->total_steps( $page ); $step ++ ) {
-				if ( COMPLIANZ::$config->has_sections( $page, $step ) ) {
-					for (
-						$section = $this->first_section( $page, $step );
-						$section <= $this->last_section( $page, $step );
-						$section ++
+
+			$total_fields     = 0;
+			$completed_fields = 0;
+			$total_steps      = $this->total_steps( $page );
+			for ( $i = 1; $i <= $total_steps; $i ++ ) {
+				$fields = COMPLIANZ::$config->fields( $page, $i, false );
+
+				foreach ( $fields as $fieldname => $field ) {
+					//is field required
+					$required = isset( $field['required'] ) ? $field['required'] : false;
+					if ( ( isset( $field['condition'] )
+					       || isset( $field['callback_condition'] ) )
+					     && ! COMPLIANZ::$field->condition_applies( $field )
 					) {
-						if ( ! $this->required_fields_completed( $page, $step,
-							$section )
-						) {
-							return false;
-						}
+						$required = false;
 					}
-				} else {
-					if ( ! $this->required_fields_completed( $page, $step,
-						false )
-					) {
-						return false;
+					if ( $required ) {
+						$value = cmplz_get_value( $fieldname );
+						$total_fields ++;
+						if ( ! empty( $value ) ) {
+							$completed_fields ++;
+						}
 					}
 				}
 			}
 
-			return true;
+			if ( $completed_fields == $total_fields ) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		/**
@@ -1078,7 +1086,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					'progress_items_only' => true,
 				);
 				$completed_warnings = count( COMPLIANZ::$admin->get_warnings( $args ) );
-
 				$completed_fields += $completed_warnings;
 				$total_fields     += $total_warnings;
 			}

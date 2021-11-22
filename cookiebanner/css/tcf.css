@@ -14,6 +14,9 @@
   padding: 0;
 }
 .cmplz-cookiebanner .cmplz-links.cmplz-information {
+  display: flex;
+}
+.cmplz-cookiebanner .cmplz-links.cmplz-information .cmplz-link.cmplz-read-more-purposes.tcf {
   display: block;
 }
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-manage-options.tcf {

@@ -747,15 +747,20 @@ window.conditionally_show_banner = function() {
 		}
 	}
 
-	let services = cmplz_get_services_on_page();
-	for (let key in services) {
-		let service = services[key];
-		if ( service.length == 0 ) continue;
-		if ( cmplz_has_service_consent(service) ) {
-			_$('.cmplz-accept-service[data-service='+ service +']').forEach(obj => {
-				obj.checked = true;
-			});
-			cmplz_enable_category('', service);
+	if ( cmplz_exists_service_consent() ) {
+		//if any service is enabled, allow the general services also, because some services are partially 'general'
+		cmplz_enable_category('', 'general');
+		let services = cmplz_get_services_on_page();
+		for (let key in services) {
+			let service = services[key];
+			if ( service.length == 0 ) continue;
+			if ( cmplz_has_service_consent(service) ) {
+				_$('.cmplz-accept-service[data-service='+ service +']').forEach(obj => {
+					obj.checked = true;
+				});
+
+				cmplz_enable_category('', service);
+			}
 		}
 	}
 
@@ -1041,11 +1046,6 @@ window.cmplz_has_service_consent = function ( service ) {
 		return true;
 	}
 
-	//if there's at least one other service consented, allow default as well
-	if ( service === 'general' && cmplz_exists_service_consent() ){
-		return true;
-	}
-
 	//Check if it's in the consented services cookie
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
@@ -1315,6 +1315,7 @@ addEvent('click', '.cmplz-accept-marketing', function(e){
 	var service = obj.getAttribute('data-service');
 	if ( typeof service !== 'undefined' ){
 		cmplz_set_service_consent(service, true);
+		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	} else {
 		cmplz_set_consent('marketing', 'allow' );
@@ -1338,6 +1339,7 @@ addEvent('click', '.cmplz-accept-service', function(e){
 	let service = obj.getAttribute('data-service');
 	if ( typeof service !== 'undefined' ){
 		cmplz_set_service_consent(service, true);
+		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	}
 	cmplz_track_status();

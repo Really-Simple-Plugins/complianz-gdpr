@@ -15,8 +15,13 @@
   .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-description {
 	padding:0;
   }
-  .cmplz-links.cmplz-information {
-	display:block;
+  .cmplz-links {
+	&.cmplz-information {
+		display: flex;
+		.cmplz-link.cmplz-read-more-purposes.tcf {
+		  display: block;
+		}
+	  }
   }
   .cmplz-buttons {
 	.cmplz-btn {
