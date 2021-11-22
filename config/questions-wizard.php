@@ -376,9 +376,6 @@ $this->fields = $this->fields + array(
 			'callback_condition' => array(
 				'compile_statistics' => 'yes',
 			),
-			'condition' => array(
-				'consent_for_anonymous_stats' => 'yes',
-			),
 			'comment' => __( "Below you can choose to implement your statistics script with Complianz.", 'complianz-gdpr' ).'&nbsp;'.
 			             __( "We will add the needed snippets and control consent at the same time.", 'complianz-gdpr' ).
 						cmplz_read_more('https://complianz.io/integrating-plugins/'),
