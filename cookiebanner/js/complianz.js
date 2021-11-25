@@ -853,8 +853,7 @@ window.show_cookie_banner = function () {
 			docElement.classList.add('cmplz-hidden');
 			for (let pageType in pageLinks) {
 				if ( docElement.classList.contains(pageType) ){
-					let curHref = docElement.getAttribute('href');
-					docElement.setAttribute('href', curHref.replace('{url}',pageLinks[pageType]['url'] ));
+					docElement.setAttribute('href', pageLinks[pageType]['url']+docElement.getAttribute('data-relative_url') );
 					if ( docElement.innerText === '{title}') {
 						docElement.innerText = pageLinks[pageType]['title'];
 					}

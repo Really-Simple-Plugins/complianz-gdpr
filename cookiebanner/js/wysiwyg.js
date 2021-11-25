@@ -68,11 +68,8 @@ jQuery(document).ready(function ($) {
 				docElement.addClass('cmplz-hidden');
 				for (var pageType in pageLinks) {
 					if ( docElement.hasClass(pageType) ){
-						var curHref = docElement.attr('href');
-						if (pageType==='cookie-statement') {
-							$(this).find('.cmplz-manage-options.tcf').attr('href', pageLinks[pageType]['url']);
-						}
-						docElement.attr('href', curHref.replace('{url}',pageLinks[pageType]['url'] ));
+
+						docElement.attr('href', pageLinks[pageType]['url']+docElement.data('relative_url') );
 						if ( docElement.html() === '{title}') {
 							docElement.html(pageLinks[pageType]['title']);
 						}

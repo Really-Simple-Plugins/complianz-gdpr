@@ -421,12 +421,12 @@ class CMPLZ_Link extends Widget_Base {
         if ( $settings['cmplz_link_type'] === 'manage-options' || $settings['cmplz_link_type'] === 'manage-third-parties' ) {
             $this->add_render_attribute( 'link', 'class', 'cmplz-' . $settings['cmplz_link_type'] );
             $this->add_render_attribute( 'link', 'class', 'cookie-statement' );
-            $this->add_render_attribute( 'link', 'href', '{url}#cmplz-manage-consent-container' );
+            $this->add_render_attribute( 'link', 'href', '#' );
+            $this->add_render_attribute( 'link', 'data-relative_url', '#cmplz-manage-consent-container' );
         } else {
             $this->add_render_attribute( 'link', 'class', $settings['cmplz_link_type'] );
-            $this->add_render_attribute( 'link', 'href', '{url}' );
+            $this->add_render_attribute( 'link', 'href', '#' );
         }
-
 
         if ( ! empty( $settings['link_css_id'] ) ) {
             $this->add_render_attribute( 'link', 'id', $settings['link_css_id'] );

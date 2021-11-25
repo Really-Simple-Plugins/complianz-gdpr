@@ -370,13 +370,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			if ( $page ) {
 				$fields = cmplz_array_filter_multidimensional( $this->fields, 'source', $page );
 			}
-
+			$order = 100;
 			foreach ( $fields as $fieldname => $field ) {
 				if ( $get_by_fieldname && $fieldname !== $get_by_fieldname ) {
 					continue;
 				}
-				$field = wp_parse_args( $field, array('order'=> 100 ) );
-
+				$field = wp_parse_args( $field, array( 'order'=> $order ) );
+				$order++;
 				if ( $step ) {
 					if ( $section && isset( $field['section'] ) ) {
 						if ( ( $field['step'] == $step

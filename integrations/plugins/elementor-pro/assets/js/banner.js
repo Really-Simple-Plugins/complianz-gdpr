@@ -50,8 +50,8 @@ jQuery(document).ready(function ($) {
 					docElement.classList.add('cmplz-hidden');
 					for (var pageType in pageLinks) {
 						if (docElement.classList.contains(pageType)) {
-							var curHref = docElement.getAttribute('href');
-							docElement.setAttribute('href', curHref.replace('{url}', pageLinks[pageType]['url']));
+							let relativeUrl = docElement.getAttribute('data-relative_url') ? docElement.getAttribute('data-relative_url') : '';
+							docElement.setAttribute('href', pageLinks[pageType]['url']+relativeUrl );
 							if (docElement.innerText === '{title}') {
 								docElement.innerText=pageLinks[pageType]['title'];
 							}
