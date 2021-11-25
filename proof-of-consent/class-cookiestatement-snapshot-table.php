@@ -98,10 +98,10 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 
 		<p class="search-box">
 			<label class="screen-reader-text"
-				   for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
+				   for="<?php echo esc_attr($input_id) ?>"><?php echo esc_html($text); ?>:</label>
 			<input type="search" name="s"
 				   placeholder="<?php _e( "Search", "complianz-gdpr" ) ?>"
-				   value="<?php echo $search ?>">
+				   value="<?php echo esc_html($search) ?>">
 			<?php submit_button( $text, 'button', false, false,
 					array( 'ID' => 'search-submit' ) ); ?>
 		</p>
@@ -219,8 +219,8 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 	 */
 
 	public function get_search() {
-		return ! empty( $_GET['s'] )
-				? urldecode( trim( sanitize_text_field( $_GET['s'] ) ) ) : false;
+		return '';//! empty( $_GET['s'] )
+			//	? urldecode( trim( sanitize_text_field( $_GET['s'] ) ) ) : false;
 	}
 
 	public function date_select() {

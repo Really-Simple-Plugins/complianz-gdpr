@@ -25,8 +25,12 @@
 					_e( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' );
 				} else {
 					$regions = cmplz_get_regions();
-					foreach ($regions as $region => $value) {
-						echo sprintf(__( 'Great! Your website is configured for %s.', 'complianz-gdpr'),  COMPLIANZ::$config->regions[$region]['law']);
+					if ( count($regions)>0 ) {
+						$laws = [];
+						foreach ($regions as $region => $value) {
+							$laws[] = COMPLIANZ::$config->regions[$region]['law'];
+						}
+						echo sprintf(__( 'Great! Your website is configured for %s.', 'complianz-gdpr'),  implode(', ', $laws));
 					}
 				}
 			} ?>

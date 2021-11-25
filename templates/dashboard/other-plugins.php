@@ -39,7 +39,7 @@ $plugins = array(
 				<div class="cmplz-bullet"></div>
 			</div>
 			<div class="plugin-text">
-				<a href="<?php echo $plugin['url']?>" target="_blank"><?php echo $plugin['title']?></a>
+				<a href="<?php echo esc_url_raw($plugin['url'])?>" target="_blank"><?php echo esc_html($plugin['title'])?></a>
 			</div>
 			<div class="plugin-status">
 				<?php echo COMPLIANZ::$admin->get_status_link($plugin)?>

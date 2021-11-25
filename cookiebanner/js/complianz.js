@@ -17,33 +17,12 @@
  * */
 
 /**
- * select a list of matching elements, context is optional
- * @param string selector
- * @param string context
- */
-
-function _$(selector, context) {
-	return (context || document).querySelectorAll(selector);
-}
-
-/**
- * select the first match only, context is optional
- * @param string selector
- * @param string context
- * @returns {*}
- * @private
- */
-function _$1(selector, context) {
-	return (context || document).querySelector(selector);
-}
-
-/**
  * Create an element
  * @param el
  * @param content
  * @returns {*}
  */
-function create_element(el, content) {
+function cmplz_create_element(el, content) {
 	let obj = document.createElement(el);
 	obj.innerHtml = content;
 	return obj;
@@ -56,7 +35,7 @@ function create_element(el, content) {
  * @param callback
  * @param context
  */
-function addEvent(event, selector, callback ) {
+function cmplz_add_event(event, selector, callback ) {
 	document.addEventListener(event, e => {
 		if ( e.target.closest(selector) ) {
 			callback(e);
@@ -69,7 +48,7 @@ function addEvent(event, selector, callback ) {
  * @param el
  * @returns {boolean}
  */
-function is_hidden(el) {
+function cmplz_is_hidden(el) {
 	return (el.offsetParent === null)
 }
 
@@ -111,15 +90,15 @@ complianz.locale = complianz.locale + '&token='+Math.random().toString(36).repla
 	window.CustomEvent = CustomEvent;
 })();
 
-let banner;//look this one up when the cookiebanner loads.
-let banner_container = document.getElementById('cmplz-cookiebanner-container');
-let manage_consent_button;
-let waiting_inline_scripts = [];
-let waiting_scripts = [];
-let fired_scripts = [];
-let placeholder_class_index = 0;
-let all_scripts_hook_fired = false;
-let categories = [
+let cmplz_banner;//look this one up when the cookiebanner loads.
+let cmplz_banner_container = document.getElementById('cmplz-cookiebanner-container');
+let cmplz_manage_consent_button;
+let cmplz_waiting_inline_scripts = [];
+let cmplz_waiting_scripts = [];
+let cmplz_fired_scripts = [];
+let cmplz_placeholder_class_index = 0;
+let cmplz_all_scripts_hook_fired = false;
+let cmplz_categories = [
 	'functional',
 	'preferences',
 	'statistics',
@@ -219,24 +198,24 @@ window.cmplz_highest_accepted_category = function() {
  * Sets all accepted categories as class in body
  */
 
-function set_category_as_body_class() {
+function cmplz_set_category_as_body_class() {
 	let classList = document.body.className.split(/\s+/);
 	for (let i = 0; i < classList.length; i++) {
-		if ( classList[i].indexOf('cmplz_') !== -1 ) {
+		if ( classList[i].indexOf('cmplz-') !== -1 ) {
 			document.body.classList.remove( classList[i] );
 		}
 	}
 	let cats = cmplz_accepted_categories();
 	for (let i in cats) {
-		document.body.classList.add('cmplz_'+cats[i]);
+		document.body.classList.add('cmplz-'+cats[i]);
 	}
 	document.body.classList.add('cmplz-' + complianz.region);
 	document.body.classList.add('cmplz-' + complianz.consenttype);
-	let event = new CustomEvent('cmplz_set_status_as_bodyclass');
+	let event = new CustomEvent('cmplz_set_category_as_bodyclass');
 	document.dispatchEvent(event);
 }
 
-function append_css(css){
+function cmplz_append_css(css){
 	let head = document.getElementsByTagName('head')[0];
 	let style = document.createElement('style');
 	style.setAttribute('type', 'text/css');
@@ -274,7 +253,7 @@ function cmplz_run_script( script, category, type ) {
 		fileref.innerHTML = script;
 	}
 	//check if already fired
-	if ( cmplz_in_array( script, fired_scripts) ) {
+	if ( cmplz_in_array( script, cmplz_fired_scripts) ) {
 		return;
 	}
 
@@ -285,7 +264,7 @@ function cmplz_run_script( script, category, type ) {
 
 	try {
 		document.getElementsByTagName("head")[0].appendChild(fileref);
-		fired_scripts.push(script);
+		cmplz_fired_scripts.push(script);
 	} catch(exception) {
 		throw "Something went wrong " + exception + " while loading "+path;
 	}
@@ -300,12 +279,12 @@ function cmplz_run_script( script, category, type ) {
  */
 
 function cmplz_maybe_run_waiting_scripts( script, category ){
-	let waitingScript = cmplz_get_waiting_script(waiting_scripts, script);
+	let waitingScript = cmplz_get_waiting_script(cmplz_waiting_scripts, script);
 	if ( waitingScript ) {
 		cmplz_run_script( waitingScript, category, 'src' );
 	}
 
-	let waiting_inline_script = cmplz_get_waiting_script(waiting_inline_scripts, script);
+	let waiting_inline_script = cmplz_get_waiting_script(cmplz_waiting_inline_scripts, script);
 	if (waiting_inline_script) {
 		cmplz_run_script(waiting_inline_script, category, 'inline');
 	}
@@ -318,7 +297,7 @@ function cmplz_maybe_run_waiting_scripts( script, category ){
  *
  * */
 
-function set_blocked_content_container() {
+function cmplz_set_blocked_content_container() {
 	//to prevent this function to twice run on an element, we add an attribute to each element that has been processed.
 	//then skip elements with that element.
 	document.querySelectorAll('.cmplz-image').forEach(obj => {
@@ -336,10 +315,10 @@ function set_blocked_content_container() {
 		}
 
 		//insert placeholder text
-		if ( _$1(".cmplz-blocked-content-notice", blocked_image_container ) == null) {
+		if ( blocked_image_container.querySelector(".cmplz-blocked-content-notice" ) == null) {
 			let placeholderText = complianz.placeholdertext;
 			if (typeof placeholderText !== 'undefined') {
-				let btn = create_element('button', placeholderText);
+				let btn = cmplz_create_element('button', placeholderText);
 				btn.classList.add('cmplz-blocked-content-notice');
 				btn.classList.add('cmplz-accept-marketing');
 				blocked_image_container.appendChild( btn );
@@ -347,7 +326,7 @@ function set_blocked_content_container() {
 		}
 	});
 
-	_$('.cmplz-placeholder-element').forEach(obj => {
+	document.querySelectorAll('.cmplz-placeholder-element').forEach(obj => {
 		if ( obj.classList.contains('cmplz-processed') ) {
 			return;
 		}
@@ -369,15 +348,15 @@ function set_blocked_content_container() {
 		let curIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
 		//if the blocked content container class is already added, don't add it again
 		if ( curIndex == null ) {
-			placeholder_class_index++;
-			blocked_content_container.classList.add('cmplz-placeholder-' + placeholder_class_index);
+			cmplz_placeholder_class_index++;
+			blocked_content_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
 			blocked_content_container.classList.add('cmplz-blocked-content-container');
-			blocked_content_container.setAttribute('data-placeholder_class_index', placeholder_class_index);
+			blocked_content_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
 			//insert placeholder text
-			if ( _$1( ".cmplz-blocked-content-notice", blocked_content_container ) == null ) {
+			if ( blocked_content_container.querySelector( ".cmplz-blocked-content-notice" ) == null ) {
 				let placeholderText = complianz.placeholdertext;
 				if (typeof placeholderText !== 'undefined') {
-					let btn = create_element('button', '');
+					let btn = cmplz_create_element('button', '');
 					btn.innerText = placeholderText;
 					btn.classList.add('cmplz-blocked-content-notice');
 					btn.classList.add('cmplz-accept-marketing');
@@ -391,8 +370,8 @@ function set_blocked_content_container() {
 			let src = obj.getAttribute('data-placeholder-image');
 			if (typeof src !== 'undefined' && src.length ) {
 				src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
-				append_css('.cmplz-placeholder-' + placeholder_class_index + ' {background-image: url(' + src + ') !important;}');
-				set_blocked_content_container_aspect_ratio(obj, src, placeholder_class_index);
+				cmplz_append_css('.cmplz-placeholder-' + cmplz_placeholder_class_index + ' {background-image: url(' + src + ') !important;}');
+				cmplz_set_blocked_content_container_aspect_ratio(obj, src, cmplz_placeholder_class_index);
 			}
 		}
 	});
@@ -414,7 +393,7 @@ function set_blocked_content_container() {
  *
  * */
 
-function set_blocked_content_container_aspect_ratio(container, src, placeholder_class_index) {
+function cmplz_set_blocked_content_container_aspect_ratio(container, src, placeholder_class_index) {
 	if ( container == null ) return;
 
 	//we set the first parent div as container with placeholder image
@@ -435,21 +414,20 @@ function set_blocked_content_container_aspect_ratio(container, src, placeholder_
 		if (src.indexOf('placeholder.jpg') === -1) {
 			heightCSS = 'height:' + h + 'px;';
 		}
-		append_css('.cmplz-placeholder-' + placeholder_class_index + ' {' + heightCSS + '}');
+		cmplz_append_css('.cmplz-placeholder-' + placeholder_class_index + ' {' + heightCSS + '}');
 	});
 	img.src = src;
 }
-
 /**
  * Keep window aspect ratio in sync when window resizes
  * To lower the number of times this code is executed, it is done with a timeout.
  *
  * */
 
-let resizeTimer;
+var cmplzResizeTimer;
 window.addEventListener('resize', function(event) {
-	clearTimeout(resizeTimer);
-	resizeTimer = setTimeout( set_blocked_content_container, 500);
+	clearTimeout(cmplzResizeTimer);
+	cmplzResizeTimer = setTimeout( cmplz_set_blocked_content_container, 500);
 }, true);
 
 /**
@@ -457,7 +435,7 @@ window.addEventListener('resize', function(event) {
  */
 if ( complianz.block_ajax_content == 1 ) {
 	setInterval(function () {
-		set_blocked_content_container();
+		cmplz_set_blocked_content_container();
 	}, 2000);
 }
 
@@ -467,6 +445,11 @@ if ( complianz.block_ajax_content == 1 ) {
  * */
 
 function cmplz_enable_category(category, service) {
+
+	if ( complianz.tm_categories == 1 && category !== '') {
+		cmplz_run_tm_event(category);
+	}
+
 	service = typeof service !== 'undefined' ? service : 'do_not_match';
 	if ( category === '' ) category = 'do_not_match';
 
@@ -480,11 +463,11 @@ function cmplz_enable_category(category, service) {
 	}
 
 	//remove accept cookie notice overlay
-	_$('.cmplz-blocked-content-notice.cmplz-accept-'+category+', .cmplz-blocked-content-notice[data-service='+service+']').forEach(obj => {
+	document.querySelectorAll('.cmplz-blocked-content-notice.cmplz-accept-'+category+', .cmplz-blocked-content-notice[data-service='+service+']').forEach(obj => {
 		obj.parentNode.removeChild(obj);
 	});
 
-	_$('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
+	document.querySelectorAll('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
 		//if a category is activated, but this specific service is denied, skip.
 		let elementService = obj.getAttribute('data-service');
 		if ( cmplz_is_service_denied(elementService)) {
@@ -557,15 +540,15 @@ function cmplz_enable_category(category, service) {
 	 */
 
 	//create list of waiting scripts
-	let scriptElements = _$('script[data-category='+category+'], script[data-service='+service+']');
+	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
 		let src = obj.getAttribute('src');
 		if ( waitfor ) {
 			if ( src ) {
-				waiting_scripts[waitfor] = src;
+				cmplz_waiting_scripts[waitfor] = src;
 			} else if ( obj.innerText.length > 0 ) {
-				waiting_inline_scripts[waitfor] = obj;
+				cmplz_waiting_inline_scripts[waitfor] = obj;
 			}
 		}
 	});
@@ -580,13 +563,13 @@ function cmplz_enable_category(category, service) {
 		if ( src ) {
 			obj.setAttribute('type', 'text/javascript');
 			//check if this src or txt is in a waiting script. If so, skip.
-			if ( cmplz_is_waiting_script(waiting_scripts, src) ) {
+			if ( cmplz_is_waiting_script(cmplz_waiting_scripts, src) ) {
 				return;
 			}
 
 			if ( obj.getAttribute('data-post_scribe_id') ) {
 				let psID = '#' + obj.getAttribute('data-post_scribe_id');
-				let postScribeObj = _$1(psID);
+				let postScribeObj = document.querySelector(psID);
 				if ( postScribeObj ) {
 					postScribeObj.innerHtml('');
 					postscribe(psID, '<script src=' + src + '></script>');
@@ -597,7 +580,7 @@ function cmplz_enable_category(category, service) {
 
 		} else if (obj.innerText.length > 0 ) {
 			//check if this src or txt is in a waiting script. If so, skip.
-			if (cmplz_is_waiting_script(waiting_inline_scripts, obj.innerText )) {
+			if (cmplz_is_waiting_script(cmplz_waiting_inline_scripts, obj.innerText )) {
 				return;
 			}
 
@@ -686,14 +669,12 @@ function cmplz_is_waiting_script(waiting_scripts, srcOrScript) {
  */
 
 function cmplz_run_after_all_scripts(category) {
-	if (!all_scripts_hook_fired && cmplz_array_is_empty(waiting_inline_scripts) && cmplz_array_is_empty(waiting_scripts) ) {
+	if (!cmplz_all_scripts_hook_fired && cmplz_array_is_empty(cmplz_waiting_inline_scripts) && cmplz_array_is_empty(cmplz_waiting_scripts) ) {
 		let event = new CustomEvent('cmplz_run_after_all_scripts', { detail: category });
 		document.dispatchEvent(event);
-		all_scripts_hook_fired = true;
+		cmplz_all_scripts_hook_fired = true;
 	}
 }
-
-
 
 /**
  * Fire an event in Tag Manager
@@ -707,7 +688,7 @@ function cmplz_run_tm_event(category) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
 		window.dataLayer.push({
-			'event': 'event_'+category
+			'event': complianz.prefix+'event_'+category
 		});
 		let event = new CustomEvent('cmplz_tag_manager_event', { detail: category });
 		document.dispatchEvent(event);
@@ -719,8 +700,8 @@ window.conditionally_show_banner = function() {
 	//objects are merged so user_data will override data in complianz object
 	complianz = cmplz_merge_object( complianz, cmplz_user_data );
 	//check if we need to redirect to another legal document, for a specific region
-	cmplzMaybeAutoRedirect();
-	set_blocked_content_container();
+	cmplz_maybe_auto_redirect();
+	cmplz_set_blocked_content_container();
 
 	/**
 	 * Integration with WordPress, tell what kind of consent type we're using, then fire an event
@@ -735,13 +716,13 @@ window.conditionally_show_banner = function() {
 
 	if ( complianz.forceEnableStats == 1 ) {
 		cmplz_set_consent('statistics', 'allow');
-		_$1('.cmplz-description-statistics').classList.add('cmplz-hidden');
-		_$1('.cmplz-description-statistics-anonymous').classList.remove('cmplz-hidden');
+		document.querySelector('.cmplz-description-statistics').classList.add('cmplz-hidden');
+		document.querySelector('.cmplz-description-statistics-anonymous').classList.remove('cmplz-hidden');
 	}
 
-	let rev_cats = categories.reverse();
+	let rev_cats = cmplz_categories.reverse();
 	for (let key in rev_cats) {
-		let category = categories[key];
+		let category = cmplz_categories[key];
 		if ( cmplz_has_consent(category) ) {
 			cmplz_enable_category(category);
 		}
@@ -755,7 +736,7 @@ window.conditionally_show_banner = function() {
 			let service = services[key];
 			if ( service.length == 0 ) continue;
 			if ( cmplz_has_service_consent(service) ) {
-				_$('.cmplz-accept-service[data-service='+ service +']').forEach(obj => {
+				document.querySelectorAll('.cmplz-accept-service[data-service='+ service +']').forEach(obj => {
 					obj.checked = true;
 				});
 
@@ -791,7 +772,7 @@ window.conditionally_show_banner = function() {
 		}
 	}
 
-	set_category_as_body_class();
+	cmplz_set_category_as_body_class();
 	if (!complianz.do_not_track) {
 		if (complianz.consenttype === 'optin') {
 			if (complianz.forceEnableStats) {
@@ -818,7 +799,7 @@ window.conditionally_show_banner = function() {
  */
 function cmplz_get_services_on_page(){
 	let services=[];
-	_$('[data-service]').forEach(obj => {
+	document.querySelectorAll('[data-service]').forEach(obj => {
 		let service = obj.getAttribute('data-service');
 		if ( services.indexOf(service)==-1 ) {
 			services.push(service);
@@ -839,7 +820,7 @@ window.show_cookie_banner = function () {
 	//when users use only the shortcode, the manage consent container is not active, but the dropdown cookie policy class is.
 	//when the complianz shortcode is used, the dropdown cookie policy class is loaded late because it's loaded with javascript.
 	let tmpDismissCookiebanner = false;
-	if ( _$1('#cmplz-manage-consent-container') || _$1('.cmplz-dropdown-cookiepolicy') ) {
+	if ( document.querySelector('#cmplz-manage-consent-container') || document.querySelector('.cmplz-dropdown-cookiepolicy') ) {
 		tmpDismissCookiebanner = true;
 	}
 
@@ -853,22 +834,21 @@ window.show_cookie_banner = function () {
 	let link = document.createElement("link");
 	let pageLinks = complianz.page_links[complianz.region];
 	//get correct banner, based on banner_id
-	banner = _$1('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
-	manage_consent_button = _$1('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
+	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
+	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
 	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);;
 	link.href = css_file_url;
 	link.type = "text/css";
 	link.rel = "stylesheet";
 	link.onload = function () {
 		if ( !disableCookiebanner ) {
-			banner.classList.remove('cmplz-hidden');
-			manage_consent_button.classList.remove('cmplz-hidden');
+			cmplz_banner.classList.remove('cmplz-hidden');
+			cmplz_manage_consent_button.classList.remove('cmplz-hidden');
 		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(link);
-
 	if ( !disableCookiebanner ) {
-		_$('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)', banner ).forEach(obj => {
+		cmplz_banner.querySelectorAll('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)').forEach(obj => {
 			let docElement = obj;
 			docElement.classList.add('cmplz-hidden');
 			for (let pageType in pageLinks) {
@@ -883,17 +863,17 @@ window.show_cookie_banner = function () {
 			}
 		});
 
-		if ( banner ) {
-			banner.classList.add(complianz.region);
+		if ( cmplz_banner ) {
+			cmplz_banner.classList.add(complianz.region);
 		}
 
 		cmplz_set_banner_status();
 		//we don't use the setBannerStatus function here, as we don't want to save it in a cookie now.
-		if ( banner && tmpDismissCookiebanner ) {
-			banner.classList.remove('cmplz-show');
-			banner.classList.add('cmplz-dismissed');
-			manage_consent_button.classList.remove('cmplz-dismissed');
-			manage_consent_button.classList.add('cmplz-show');
+		if ( cmplz_banner && tmpDismissCookiebanner ) {
+			cmplz_banner.classList.remove('cmplz-show');
+			cmplz_banner.classList.add('cmplz-dismissed');
+			cmplz_manage_consent_button.classList.remove('cmplz-dismissed');
+			cmplz_manage_consent_button.classList.add('cmplz-show');
 		}
 	}
 
@@ -930,19 +910,19 @@ window.cmplz_set_banner_status = function ( status ){
 	}
 	cmplz_track_status();
 
-	if ( banner && status.length>0 ) {
-		banner.classList.remove('cmplz-'+prevStatus);
-		banner.classList.add('cmplz-'+status );
-		if ( manage_consent_button ) {
-			manage_consent_button.classList.add('cmplz-'+prevStatus);
-			manage_consent_button.classList.remove('cmplz-'+status);
+	if ( cmplz_banner && status.length>0 ) {
+		cmplz_banner.classList.remove('cmplz-'+prevStatus);
+		cmplz_banner.classList.add('cmplz-'+status );
+		if ( cmplz_manage_consent_button ) {
+			cmplz_manage_consent_button.classList.add('cmplz-'+prevStatus);
+			cmplz_manage_consent_button.classList.remove('cmplz-'+status);
 		}
 	}
 
-	if ( banner_container && complianz.soft_cookiewall ) {
-		banner_container.classList.remove('cmplz-'+prevStatus);
-		banner_container.classList.add('cmplz-'+status );
-		banner_container.classList.add('cmplz-soft-cookiewall');
+	if ( cmplz_banner_container && complianz.soft_cookiewall ) {
+		cmplz_banner_container.classList.remove('cmplz-'+prevStatus);
+		cmplz_banner_container.classList.add('cmplz-'+status );
+		cmplz_banner_container.classList.add('cmplz-soft-cookiewall');
 	}
 	var event = new CustomEvent('cmplz_banner_status', { detail: status });
 	document.dispatchEvent(event);
@@ -1151,11 +1131,6 @@ function cmplz_get_cookie_domain(){
  * @param value
  */
 window.cmplz_set_consent = function (category, value){
-	if ( category === 'functional' && complianz.tm_categories == 1) {
-		cmplz_run_tm_event(category);
-		return;
-	}
-
 	cmplz_set_accepted_cookie_policy_id();
 	var previous_value = cmplz_get_cookie(category);
 	//do not trigger a change event if nothing has changed.
@@ -1165,7 +1140,7 @@ window.cmplz_set_consent = function (category, value){
 
 	//keep checkboxes in banner and on cookie policy in sync
 	var checked = value === 'allow';
-	_$('input.cmplz-'+category).forEach(obj => {
+	document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 		obj.checked = checked;
 	});
 
@@ -1177,10 +1152,6 @@ window.cmplz_set_consent = function (category, value){
 	cmplz_wp_set_consent(category, value);
 	if ( category === 'statistics' ) {
 		cmplz_wp_set_consent('statistics-anonymous', 'allow');
-	}
-
-	if ( complianz.tm_categories == 1 ) {
-		cmplz_run_tm_event( category);
 	}
 
 	var details = new Object();
@@ -1261,8 +1232,8 @@ document.addEventListener('cmplz_consent_action', function (e) {
  * Accept all categories
  */
 window.cmplz_accept_all = function(){
-	for (var key in categories) {
-		cmplz_set_consent(categories[key], 'allow');
+	for (var key in cmplz_categories) {
+		cmplz_set_consent(cmplz_categories[key], 'allow');
 	}
 }
 
@@ -1270,8 +1241,8 @@ window.cmplz_accept_all = function(){
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
-	for (var key in categories) {
-		cmplz_set_consent(categories[key], 'deny');
+	for (var key in cmplz_categories) {
+		cmplz_set_consent(cmplz_categories[key], 'deny');
 	}
 	var consentLevel = cmplz_highest_accepted_category();
 	var reload = false;
@@ -1299,7 +1270,7 @@ window.cmplz_deny_all = function(){
 /**
  * For both opt-in and opt-out, clicking cmplz-accept should result in accepting all categories
  */
-addEvent('click', '.cmplz-accept', function(e){
+cmplz_add_event('click', '.cmplz-accept', function(e){
 	e.preventDefault();
 	cmplz_accept_all();
 	cmplz_set_banner_status('dismissed');
@@ -1309,7 +1280,7 @@ addEvent('click', '.cmplz-accept', function(e){
  *  Accept marketing cookies by clicking any other link cookie acceptance from a custom link
  */
 
-addEvent('click', '.cmplz-accept-marketing', function(e){
+cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
 	var service = obj.getAttribute('data-service');
@@ -1330,7 +1301,7 @@ addEvent('click', '.cmplz-accept-marketing', function(e){
 /**
  * Accept a specific service
  */
-addEvent('click', '.cmplz-accept-service', function(e){
+cmplz_add_event('click', '.cmplz-accept-service', function(e){
 	e.preventDefault();
 	let obj = e.target;
 	//that is for the change event, for input checkboxes
@@ -1348,7 +1319,7 @@ addEvent('click', '.cmplz-accept-service', function(e){
 /**
  * Accept a specific service
  */
-addEvent('change', '.cmplz-accept-service', function(e){
+cmplz_add_event('change', '.cmplz-accept-service', function(e){
 	let obj = e.target;
 	let service = obj.getAttribute('data-service');
 	if ( typeof service !== 'undefined' ){
@@ -1369,12 +1340,12 @@ addEvent('change', '.cmplz-accept-service', function(e){
  * On the banner, clicking a category should fire the category only after the save button is clicked.
  *
  */
-addEvent('click', '.cmplz-save-preferences', function(e){
+cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
-	banner = obj.closest('.cmplz-cookiebanner');
-	for (var key in categories) {
-		var category = categories[key];
-		var categoryElement = _$1('input.cmplz-'+category, banner);
+	cmplz_banner = obj.closest('.cmplz-cookiebanner');
+	for (var key in cmplz_categories) {
+		var category = cmplz_categories[key];
+		var categoryElement = cmplz_banner.querySelector('input.cmplz-'+category);
 		if ( categoryElement ) {
 			if ( categoryElement.checked ) {
 				cmplz_set_consent(category, 'allow');
@@ -1386,33 +1357,33 @@ addEvent('click', '.cmplz-save-preferences', function(e){
 	cmplz_set_banner_status('dismissed');
 });
 
-addEvent('click', '.cmplz-close', function(e){
+cmplz_add_event('click', '.cmplz-close', function(e){
 	cmplz_set_banner_status('dismissed');
 });
 
-addEvent('click', '.cmplz-view-preferences', function(e){
+cmplz_add_event('click', '.cmplz-view-preferences', function(e){
 	let obj = e.target;
-	banner = obj.closest('.cmplz-cookiebanner');
-	if ( _$1('.cmplz-categories', banner).classList.contains('cmplz-fade-in')) {
-		banner.classList.add('categories-visible');
-		_$1('.cmplz-categories', banner).classList.remove('cmplz-fade-in');
-		_$1('.cmplz-view-preferences', banner).style.display = 'block';
-		_$1('.cmplz-save-preferences', banner).style.display = 'none';
+	cmplz_banner = obj.closest('.cmplz-cookiebanner');
+	if ( cmplz_banner.querySelector('.cmplz-categories').classList.contains('cmplz-fade-in')) {
+		cmplz_banner.classList.add('categories-visible');
+		cmplz_banner.querySelector('.cmplz-categories' ).classList.remove('cmplz-fade-in');
+		cmplz_banner.querySelector('.cmplz-view-preferences' ).style.display = 'block';
+		cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'none';
 	} else {
-		banner.classList.add('categories-visible');
-		_$1('.cmplz-categories', banner).classList.add('cmplz-fade-in');
-		_$1('.cmplz-view-preferences', banner).style.display = 'none';
-		_$1('.cmplz-save-preferences', banner).style.display = 'block';
+		cmplz_banner.classList.add('categories-visible');
+		cmplz_banner.querySelector('.cmplz-categories' ).classList.add('cmplz-fade-in');
+		cmplz_banner.querySelector('.cmplz-view-preferences' ).style.display = 'none';
+		cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'block';
 	}
 });
 /**
  * On the cookie policy, clicking a category should fire the category immediately
  *
  */
-addEvent('change', '.cmplz-manage-consent-container .cmplz-category', function(e){
-	for (var key in categories) {
-		var category = categories[key];
-		var categoryElement = _$1('.cmplz-manage-consent-container input.cmplz-'+category);
+cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', function(e){
+	for (var key in cmplz_categories) {
+		var category = cmplz_categories[key];
+		var categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-'+category);
 		if ( categoryElement ) {
 			if ( categoryElement.checked ) {
 				cmplz_set_consent(category, 'allow');
@@ -1425,18 +1396,18 @@ addEvent('change', '.cmplz-manage-consent-container .cmplz-category', function(e
 
 });
 
-addEvent('click', '.cmplz-deny', function(e){
+cmplz_add_event('click', '.cmplz-deny', function(e){
 	e.preventDefault();
 	cmplz_set_banner_status('dismissed');
 	cmplz_deny_all();
 });
 
-addEvent('click', 'button.cmplz-manage-settings', function(e){
+cmplz_add_event('click', 'button.cmplz-manage-settings', function(e){
 	e.preventDefault();
-	var catsContainer = _$1('.cmplz-cookiebanner .cmplz-categories');
-	var saveSettings = _$1('.cmplz-save-settings');
-	var manageSettings = _$1('button.cmplz-manage-settings');
-	if ( !is_hidden(catsContainer) ){
+	var catsContainer = document.querySelector('.cmplz-cookiebanner .cmplz-categories');
+	var saveSettings = document.querySelector('.cmplz-save-settings');
+	var manageSettings = document.querySelector('button.cmplz-manage-settings');
+	if ( !cmplz_is_hidden(catsContainer) ){
 		saveSettings.style.display='none';
 		manageSettings.style.display = 'block';
 		catsContainer.style.display='none';
@@ -1447,7 +1418,7 @@ addEvent('click', 'button.cmplz-manage-settings', function(e){
 	}
 });
 
-addEvent('click', 'button.cmplz-manage-consent', function(e){
+cmplz_add_event('click', 'button.cmplz-manage-consent', function(e){
 	e.preventDefault();
 	cmplz_set_banner_status('show');
 });
@@ -1501,7 +1472,7 @@ function cmplz_track_status( status ) {
 	} else {
 		cats = [status];
 	}
-	set_category_as_body_class();
+	cmplz_set_category_as_body_class();
 	var saved_cats, saved_services;
 	try {saved_cats = JSON.parse(cmplz_get_cookie('saved_categories'));} catch (e) {saved_cats = {};}
 	try {saved_services = JSON.parse(cmplz_get_cookie('saved_services'));} catch (e) {saved_services = {};}
@@ -1536,7 +1507,7 @@ function cmplz_track_status( status ) {
  * @returns {string}
  */
 function cmplz_accepted_categories() {
-	var consentedCategories = categories;
+	var consentedCategories = cmplz_categories;
 	var consentedTemp = [];
 
 	//because array filter changes keys, we make a temp arr
@@ -1559,15 +1530,15 @@ function cmplz_accepted_categories() {
  * */
 
 function cmplz_sync_category_checkboxes() {
-	for ( var key in categories ) {
+	for ( var key in cmplz_categories ) {
 
-		var category = categories[key];
+		var category = cmplz_categories[key];
 		if ( cmplz_has_consent(category) || category === 'functional' ) {
-			_$('input.cmplz-'+category).forEach(obj => {
+			document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 				obj.checked = true;
 			});
 		} else {
-			_$('input.cmplz-'+category).forEach(obj => {
+			document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 				obj.checked = false;
 			});
 		}
@@ -1741,7 +1712,7 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
 /**
  * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
  */
-function cmplzMaybeAutoRedirect() {
+function cmplz_maybe_auto_redirect() {
 	var redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
 	var region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
 	if (redirect && !region) {
@@ -1766,7 +1737,7 @@ function cmplz_wp_set_consent(type, value) {
  */
 
 function cmplz_load_manage_consent_container() {
-	let manage_consent_container = _$1('.cmplz-manage-consent-container');
+	let manage_consent_container = document.querySelector('.cmplz-manage-consent-container');
 	if ( manage_consent_container ) {
 		var request = new XMLHttpRequest();
 		request.open('GET', complianz.url+'manage_consent_html?'+complianz.locale, true);
@@ -1776,7 +1747,7 @@ function cmplz_load_manage_consent_container() {
 			let html = JSON.parse(request.response);
 			manage_consent_container.insertAdjacentHTML( 'beforeend', html );
 			cmplz_sync_category_checkboxes();
-			let nojavascript = _$1('#cmplz-manage-consent-container-nojavascript')
+			let nojavascript = document.querySelector('#cmplz-manage-consent-container-nojavascript')
 			nojavascript.style.display = 'none';
 			manage_consent_container.style.display = 'block';
 			event = new CustomEvent('cmplz_manage_consent_container_loaded');
@@ -1789,7 +1760,7 @@ function cmplz_load_manage_consent_container() {
  * Make slider radio's tabable
  */
 
-addEvent('keypress', '.cmplz-banner-slider label', function(e){
+cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
 	var keycode = (e.keyCode ? e.keyCode : e.which);
 	if (keycode == '32') {
 		document.activeElement.click();
@@ -1843,7 +1814,7 @@ if ('undefined' != typeof window.jQuery) {
 		 */
 		$(document).on("cmplz_category_enabled", cmplz_enable_fitvids);
 		function cmplz_enable_fitvids(data) {
-			_$('.cmplz-video').forEach(obj => {
+			document.querySelectorAll('.cmplz-video').forEach(obj => {
 				//turn obj into jquery object
 				let $obj = $(obj);
 				if (typeof $obj.parent().fitVids == 'function') {

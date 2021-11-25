@@ -1,5 +1,7 @@
-.cmplz-preferences .cmplz-icon,
-.cmplz-preferences .cmplz-description {
+.cmplz-cookiebanner .cmplz-preferences .cmplz-icon,
+.cmplz-manage-consent-container .cmplz-preferences .cmplz-icon,
+.cmplz-cookiebanner .cmplz-preferences .cmplz-description,
+.cmplz-manage-consent-container .cmplz-preferences .cmplz-description {
   display: none;
 }
 /*# sourceMappingURL=hide-preferences_text.css.map */

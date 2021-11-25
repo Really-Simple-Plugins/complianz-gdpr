@@ -120,25 +120,6 @@ add_filter( 'cmplz_form_types', 'cmplz_contactform7_form_types' );
 /**
  * Conditionally add the dependency from the CF 7 inline script to the .js file
  */
-add_action( 'cmplz_banner_css', 'cmplz_forminator_css' );
-function cmplz_forminator_css() {
-	?>
-	.cmplz-blocked-content-container.qforminator-g-recaptcha {
-	max-width: initial !important;
-	height: 70px !important
-	}
-
-	@media only screen and (max-width: 400px) {
-	.cmplz-blocked-content-container.forminator-g-recaptcha {
-	height: 100px !important
-	}
-	}
-
-	.cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice {
-	top: 2px
-	}
-	<?php
-}
 
 add_filter( 'cmplz_dependencies', 'cmplz_contactform7_dependencies' );
 function cmplz_contactform7_dependencies( $tags ) {

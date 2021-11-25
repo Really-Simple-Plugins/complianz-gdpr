@@ -652,7 +652,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 			?>
 			<label tabindex="0" role="button" aria-pressed="false" class="cmplz-checkbox-container <?php echo $disabled ? 'cmplz-disabled' : '' ?>"><?php _e("Placeholder", "complianz-gdpr") ?>
 				<input
-						name="<?php echo esc_html( $fieldname ) ?>"
+						name="<?php echo esc_attr( $fieldname ) ?>"
 						type="hidden"
 						value="0"
 						tabindex="-1"
@@ -660,7 +660,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 				>
 				<input
 						<?php if ( $disabled ) {echo 'disabled';} ?>
-						name="<?php echo $fieldname ?>"
+						name="<?php echo esc_attr($fieldname) ?>"
 						type="checkbox"
 						value="1"
 						tabindex="-1"

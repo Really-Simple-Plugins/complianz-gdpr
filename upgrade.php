@@ -695,6 +695,11 @@ function cmplz_check_upgrade() {
 					'show' => !$banner_item->hide_revoke,
 				);
 
+				if ( !isset($banner->border_width['top']) ) $banner->border_width['top'] = 0;
+				if ( !isset($banner->border_width['right']) ) $banner->border_width['right'] = 0;
+				if ( !isset($banner->border_width['bottom']) ) $banner->border_width['bottom'] = 0;
+				if ( !isset($banner->border_width['left']) ) $banner->border_width['left'] = 0;
+
 				$banner->dismiss = array(
 					'text' => $banner_item->dismiss,
 					'show' => true,

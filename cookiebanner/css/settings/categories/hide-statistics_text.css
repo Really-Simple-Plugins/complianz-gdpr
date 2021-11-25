@@ -1,5 +1,7 @@
-.cmplz-statistics .cmplz-icon,
-.cmplz-statistics .cmplz-description {
+.cmplz-cookiebanner .cmplz-statistics .cmplz-icon,
+.cmplz-manage-consent-container .cmplz-statistics .cmplz-icon,
+.cmplz-cookiebanner .cmplz-statistics .cmplz-description,
+.cmplz-manage-consent-container .cmplz-statistics .cmplz-description {
   display: none;
 }
 /*# sourceMappingURL=hide-statistics_text.css.map */

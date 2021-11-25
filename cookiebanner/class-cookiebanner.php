@@ -1189,10 +1189,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
         }
 
         private function get_border_width() {
-            $top    = $this->border_width['top'] . 'px ';
-            $right  = $this->border_width['right'] . 'px ';
-            $bottom = $this->border_width['bottom'] . 'px ';
-            $left   = $this->border_width['left'] .  'px';
+	        $top    = isset( $this->border_width['top'] ) ? $this->border_width['top'] . 'px ' : 0;
+	        $right  = isset( $this->border_width['right'] ) ? $this->border_width['right'] . 'px ' : 0;
+	        $bottom = isset( $this->border_width['bottom'] ) ? $this->border_width['bottom'] . 'px ' : 0;
+	        $left   = isset( $this->border_width['left'] ) ? $this->border_width['left'] . 'px ' : 0;
             return $top . $right . $bottom . $left;
         }
 	}

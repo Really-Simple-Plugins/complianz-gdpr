@@ -794,7 +794,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function get_help_tip( $str ) {
 			?>
 			<span class="cmplz-tooltip-right tooltip-right"
-			      data-cmplz-tooltip="<?php echo $str ?>">
+			      data-cmplz-tooltip="<?php echo esc_attr($str) ?>">
               <span class="dashicons dashicons-editor-help"></span>
             </span>
 			<?php

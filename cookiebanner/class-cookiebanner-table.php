@@ -108,7 +108,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 
 			<p class="search-box">
 				<label class="screen-reader-text"
-				       for="<?php echo $input_id ?>"><?php echo $text; ?>
+				       for="<?php echo esc_attr($input_id) ?>"><?php echo esc_html($text); ?>
 					:</label>
 				<select name="status">
 					<option value="active" <?php if ( $status === 'active' )
@@ -118,7 +118,7 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 						echo "selected" ?>><?php _e( 'Archived cookiebanners',
 							'complianz-gdpr' ) ?></option>
 				</select>
-				<?php submit_button( $text, 'button', false, false,
+				<?php submit_button( esc_html($text), 'button', false, false,
 					array( 'ID' => 'search-submit' ) ); ?>
 			</p>
 			<?php

@@ -97,8 +97,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 										'complianz-gdpr' ); ?></a>
 
 							<div class="dashicons dashicons-no-alt"></div>
-							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again',
-										'complianz-gdpr' ); ?></a>
+							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again', 'complianz-gdpr' ); ?></a>
 						</div>
 					</div>
 				</div>

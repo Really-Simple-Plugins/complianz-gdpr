@@ -121,7 +121,7 @@ if ( ! function_exists( 'cmplz_cookiebanner_category_conditional_helptext' ) ) {
 		if ( cmplz_get_value('country_company') == "FR"
 		) {
 			$text
-				= sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept + View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
+				= sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept - Deny - View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
                     'complianz-gdpr' ),
                     '<a href="https://complianz.io/cnil-updated-privacy-guidelines/" target="_blank">', "</a>" );
 		}
@@ -807,7 +807,7 @@ if ( !function_exists('cmplz_admin_notice')) {
 													 alt="logo">
 				</div>
 				<div style="margin-left:30px">
-					<?php echo $msg ?>
+					<?php echo esc_html($msg) ?>
 				</div>
 			</div>
 		</div>
@@ -862,12 +862,12 @@ if ( ! function_exists( 'cmplz_list_item' ) ) {
 		$selected = $selected ? "selected" : '';
 		?>
 
-		<div class="cmplz-panel cmplz-link-panel <?php echo $selected ?>">
+		<div class="cmplz-panel cmplz-link-panel <?php echo esc_attr($selected) ?>">
 			<div class="cmplz-panel-title">
-				<a class="cmplz-panel-link" href="<?php echo $link ?>">
+				<a class="cmplz-panel-link" href="<?php echo esc_url_raw($link) ?>">
                 <span class="cmplz-panel-toggle">
                     <i class="fa fa-edit"></i>
-                    <span class="cmplz-title"><?php echo $title ?></span>
+                    <span class="cmplz-title"><?php echo esc_html($title) ?></span>
                  </span>
 				</a>
 

@@ -9,7 +9,7 @@
  * @param callback
  * @param context
  */
-function addEvent(event, selector, callback, context) {
+function cmplz_migrate_add_event(event, selector, callback, context) {
 	document.addEventListener(event, e => {
 		if ( e.target == 'document' ) {
 			callback(e);
@@ -61,13 +61,15 @@ document.addEventListener("cmplz_run_after_all_scripts", function() {
 	document.dispatchEvent(event);
 });
 
-document.addEventListener("cmplz_set_status_as_bodyclass", function() {
+document.addEventListener("cmplz_set_category_as_bodyclass", function() {
 	let body = document.body;
 	if (body.classList.contains('cmplz-marketing')) {
 		body.classList.add('cmplz-status-marketing');
-	} else if (body.classList.contains('cmplz-statistics')) {
+	}
+	if (body.classList.contains('cmplz-statistics')) {
 		body.classList.add('cmplz-status-statistics');
-	} else {
+	}
+	if ( !body.classList.contains('cmplz-marketing') && !body.classList.contains('cmplz-statistics')){
 		body.classList.add('cmplz-status-deny');
 	}
 });
@@ -112,30 +114,29 @@ document.addEventListener("cmplz_cookie_warning_loaded", function(consentData) {
 });
 
 var cmplzTMFiredEvents = [];
-document.addEventListener("cmplzTagManagerEvent", function(data) {
+document.addEventListener("cmplz_tag_manager_event", function(data) {
 	var category = data.detail;
 
 	if (cmplzTMFiredEvents.indexOf(category) === -1) {
 		var event;
 		cmplzTMFiredEvents.push(category);
-		if (category==='marketing') {
-			event = complianz.prefix + 'event_marketing';
-		} else if ( category === 'statistics' ){
+		if ( category === 'statistics' ){
 			event = complianz.prefix + 'event_0';
-		} else if ( category === 'functional' ){
-			event = complianz.prefix + 'event_functional';
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({
+				'event': event
+			});
 		}
-		console.log('fire ' + event);
-		window.dataLayer = window.dataLayer || [];
-		window.dataLayer.push({
-			'event': event
-		});
 
 		//fire event 1 as marketing
-		if (category==='marketing') {
+		if ( category==='marketing' ) {
 			window.dataLayer = window.dataLayer || [];
 			window.dataLayer.push({
 				'event': complianz.prefix + 'event_1'
+			});
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({
+				'event': complianz.prefix + 'event_all'
 			});
 		}
 	}
@@ -150,7 +151,7 @@ document.addEventListener("cmplz_track_status", function(data) {
 	document.body.classList.add('cmplz-status-' + category);
 });
 
-addEvent('click', '.cc-revoke-custom',function(event){
+cmplz_migrate_add_event('click', '.cc-revoke-custom',function(event){
 	event.preventDefault();
 	cmplz_deny_all();
 });
@@ -159,12 +160,12 @@ addEvent('click', '.cc-revoke-custom',function(event){
  *  Accept all cookie categories by clicking any other link cookie acceptance from a custom link
  */
 
-addEvent('click', '.cmplz-accept-cookies', function (event) {
+cmplz_migrate_add_event('click', '.cmplz-accept-cookies', function (event) {
 	event.preventDefault();
 	cmplz_accept_all();
 });
 
-addEvent('click', '.cmplz-save-settings', function (event) {
+cmplz_migrate_add_event('click', '.cmplz-save-settings', function (event) {
 	event.preventDefault();
 	document.querySelector('.cmplz-save-preferences').click();
 });
