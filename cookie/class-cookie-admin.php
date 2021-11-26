@@ -2171,10 +2171,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$script = cmplz_get_template( 'yandex.js' );
 				$data_layer = cmplz_get_value('yandex_ecommerce') === 'yes';
 				$data_layer_str = '';
-				if ($data_layer) {
+				if ( $data_layer ) {
 					$data_layer_str = 'ecommerce:"dataLayer"';
 				}
-				$script = str_replace( '{yandex_id}','{ecommerce}', esc_attr( cmplz_get_value( 'yandex_id' ), $data_layer_str ), $script );
+				$script = str_replace( array('{yandex_id}','{ecommerce}'), array(cmplz_get_value( 'yandex_id' ), $data_layer_str ), $script );
 			}
 			echo apply_filters( 'cmplz_script_filter', $script );
 		}
@@ -3735,6 +3735,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function cookie_warning_required_stats( $region = false ) {
+
+			if ( cmplz_get_value('consent_for_anonymous_stats')==='yes' ) {
+				return apply_filters( 'cmplz_cookie_warning_required_stats', true );
+			}
+
 			if ( $region ) {
 				if ( COMPLIANZ::$config->regions[$region]['statistics_consent'] === 'no' ) {
 					return apply_filters( 'cmplz_cookie_warning_required_stats', false );

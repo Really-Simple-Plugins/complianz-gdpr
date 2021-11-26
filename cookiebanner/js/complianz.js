@@ -201,7 +201,7 @@ window.cmplz_highest_accepted_category = function() {
 function cmplz_set_category_as_body_class() {
 	let classList = document.body.className.split(/\s+/);
 	for (let i = 0; i < classList.length; i++) {
-		if ( classList[i].indexOf('cmplz-') !== -1 ) {
+		if ( classList[i].indexOf('cmplz-') !== -1 && classList[i] !== 'cmplz-document' ) {
 			document.body.classList.remove( classList[i] );
 		}
 	}
@@ -1099,8 +1099,6 @@ function cmplz_get_all_service_consents(){
 	}
 	return consented_services;
 }
-
-
 /**
  * Get cookie path
  * @returns {*}
