@@ -422,18 +422,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * get list item html for one cookie setting form
 		 *
 		 * @param $tmpl
-		 * @param $name
-		 * @param $language
+		 * @param CMPLZ_COOKIE
 		 *
 		 * @return string
 		 */
 
-		public function get_cookie_list_item_html( $tmpl, $name, $language ) {
+		public function get_cookie_list_item_html( $tmpl, $cookie ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
-			}
-			$cookie = new CMPLZ_COOKIE( $name, $language );
-			if ( ! $cookie->ID ) {
 				return '';
 			}
 
@@ -449,8 +444,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$isPersonalData = $cookie->isPersonalData == 1 ? 'checked="checked"' : '';
 			$showOnPolicy   = $cookie->showOnPolicy == 1 ? 'checked="checked"' : '';
-			$services       = $this->get_services_options( $cookie->service, $language );
-			$cookiePurposes = $this->get_cookiePurpose_options( $cookie->purpose, $language );
+			$services       = $this->get_services_options( $cookie->service, $cookie->language );
+			$cookiePurposes = $this->get_cookiePurpose_options( $cookie->purpose, $cookie->language );
 
 			$link = '';
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
@@ -683,18 +678,18 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$html = '';
 				$tmpl = cmplz_get_template( $type . '_settings.php' );
 				if ( $grouped_by_service ) {
-					foreach ( $grouped_by_service as $service => $cookies ) {
+					foreach ( $grouped_by_service as $service_name => $cookies ) {
 						$class = '';
-						if ( $service === 'no-service' ) {
+						if ( $service_name === 'no-service' ) {
 							$service = __( 'Cookies without selected service', 'complianz-gdpr' );
 							$class   = 'no-service';
+						} else {
+							$service = $service_name;
 						}
 						$html .= '<div class="cmplz-service-cookie-list">';
-						$html .= '<div class="cmplz-service-divider ' . $class
-						         . '">' . $service . '</div>';
+						$html .= '<div class="cmplz-service-divider ' . $class . '">' . $service . '</div>';
 						foreach ( $cookies as $cookie ) {
-							$html .= $this->get_cookie_list_item_html( $tmpl,
-								$cookie->name, $language );
+							$html .= $this->get_cookie_list_item_html( $tmpl, $cookie );
 						}
 						$html .= '</div>';
 					}
@@ -980,7 +975,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$msg   = '';
 			$error = false;
 			$data  = $this->get_syncable_cookies();
-
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
 				$msg   = __( 'You haven\'t accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes.', 'complianz-gdpr' );
@@ -1013,7 +1007,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				                   . '">' . esc_url_raw( site_url() ) . '</a>';
 				$data            = apply_filters( 'cmplz_api_data', $data );
 				$json            = json_encode( $data );
-				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/cookies/';
+				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v2/cookies/';
 
 				$ch = curl_init();
 
@@ -1048,7 +1042,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( ! $error ) {
 				$result = json_decode( $result );
-
 				//cookie creation also searches fuzzy, so we can now change the cookie name to an asterisk value
 				//on updates it will still match.
 				if ( isset( $result->data->error ) ) {
@@ -1070,67 +1063,73 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				//make sure we have an en cookie
 				if ( isset( $result->en ) ) {
-					$cookies           = $result->en;
-					$isTranslationFrom = array();
-					foreach (
-						$cookies as $original_cookie_name => $cookie_object
-					) {
-						if ( ! isset( $cookie_object->name ) ) {
-							continue;
-						}
-
-						$cookie                        = new CMPLZ_COOKIE( $original_cookie_name, 'en' );
-						$cookie->name                  = $cookie_object->name;
-						$cookie->retention             = $cookie_object->retention;
-						$cookie->type                  = $cookie_object->type;
-						$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
-						$cookie->cookieFunction        = $cookie_object->cookieFunction;
-						$cookie->purpose               = $cookie_object->purpose;
-						$cookie->isPersonalData        = $cookie_object->isPersonalData;
-						$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
-						$cookie->service               = $cookie_object->service;
-						$cookie->ignored               = $cookie_object->ignore;
-						$cookie->slug                  = $cookie_object->slug;
-						$cookie->lastUpdatedDate       = time();
-						$cookie->save();
-						$isTranslationFrom[ $cookie->name ] = $cookie->ID;
-					}
-
-					foreach ( $result as $language => $cookies ) {
-						if ( $language === 'en' ) {
-							continue;
-						}
-
+					$services           = $result->en;
+					foreach ($services as $service => $cookies ) {
+						$service_name = ($service !== 'no-service-set') ? $service : false;
+						$isTranslationFrom = array();
 						foreach (
 							$cookies as $original_cookie_name => $cookie_object
 						) {
 							if ( ! isset( $cookie_object->name ) ) {
 								continue;
 							}
-							$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language);
+
+							$cookie                        = new CMPLZ_COOKIE( $original_cookie_name, 'en', $service_name );
 							$cookie->name                  = $cookie_object->name;
 							$cookie->retention             = $cookie_object->retention;
+							$cookie->type                  = $cookie_object->type;
 							$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
 							$cookie->cookieFunction        = $cookie_object->cookieFunction;
 							$cookie->purpose               = $cookie_object->purpose;
 							$cookie->isPersonalData        = $cookie_object->isPersonalData;
 							$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
 							$cookie->service               = $cookie_object->service;
-							$cookie->slug                  = $cookie_object->slug;
 							$cookie->ignored               = $cookie_object->ignore;
-							$cookie->lastUpdatedDate     = time();
-
-							//when there's no en cookie, create one.
-							if ( ! isset( $isTranslationFrom[ $cookie->name ] )
-							     && $language !== 'en'
-							) {
-								$parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
-								$parent_cookie->save();
-								$isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
-							}
-
-							$cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
+							$cookie->slug                  = $cookie_object->slug;
+							$cookie->lastUpdatedDate       = time();
 							$cookie->save();
+							$isTranslationFrom[ $cookie->name ] = $cookie->ID;
+						}
+					}
+
+					foreach ( $result as $language => $services ) {
+						if ( $language === 'en' ) {
+							continue;
+						}
+
+						foreach ($services as $service => $cookies ) {
+							$service_name = ($service !== 'no-service-set') ? $service : false;
+							foreach (
+								$cookies as $original_cookie_name => $cookie_object
+							) {
+								if ( ! isset( $cookie_object->name ) ) {
+									continue;
+								}
+								$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language, $service_name);
+								$cookie->name                  = $cookie_object->name;
+								$cookie->retention             = $cookie_object->retention;
+								$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
+								$cookie->cookieFunction        = $cookie_object->cookieFunction;
+								$cookie->purpose               = $cookie_object->purpose;
+								$cookie->isPersonalData        = $cookie_object->isPersonalData;
+								$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
+								$cookie->service               = $cookie_object->service;
+								$cookie->slug                  = $cookie_object->slug;
+								$cookie->ignored               = $cookie_object->ignore;
+								$cookie->lastUpdatedDate     = time();
+
+								//when there's no en cookie, create one.
+								if ( ! isset( $isTranslationFrom[ $cookie->name ] )
+									 && $language !== 'en'
+								) {
+									$parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
+									$parent_cookie->save();
+									$isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
+								}
+
+								$cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
+								$cookie->save();
+							}
 						}
 					}
 				}
@@ -1188,10 +1187,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$index                = array();
 			$thirdparty_cookies   = array();
 			$localstorage_cookies = array();
-			$count_all = 0;
+			$count_all            = 0;
 			$ownDomainCookies = $this->get_cookies(array('isOwnDomainCookie'=>true));
 			$hasOwnDomainCookies = count($ownDomainCookies) >0 ;
-
 			$one_week_ago = strtotime( "-1 week" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language );
@@ -1201,14 +1199,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}
 				$cookies   = $this->get_cookies( $args );
-				$cookies   = wp_list_pluck( $cookies, 'name' );
 				$index[$language]     = 0;
-				foreach ( $cookies as $cookie ) {
-					$c    = new CMPLZ_COOKIE( $cookie, $language );
-					$slug = $c->slug ? $c->slug : $index[$language];
+				foreach ( $cookies as $c_index => $cookie ) {
+					$c    = new CMPLZ_COOKIE( $cookie->name, $language, $cookie->service );
+					$slug = $c->slug ?: $index[$language];
 					//pass the type to the CDB
 					if ( $c->type === 'localstorage' ) {
-						if (!in_array($cookie, $localstorage_cookies) ) $localstorage_cookies[] = $cookie;
+						if (!in_array($cookie->name, $localstorage_cookies) ) $localstorage_cookies[] = $cookie->name;
 					}
 					//need to pass a service here.
 					if ( strlen( $c->service ) != 0 ) {
@@ -1217,26 +1214,26 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						//deprecated as of 5.3. Use only if no own domain cookie property has ever been saved
 						if ( !$hasOwnDomainCookies ) {
 							if ( $service->thirdParty || $service->secondParty ) {
-								if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
+								if (!in_array($cookie->name, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
 							}
 						}
 
-						$data[ $language ][ $c->service ][ $slug ] = $cookie;
+						$data[ $language ][ $c->service ][ $slug ] = $cookie->name;
 						//make sure the cookie is available in en as well.
 						if (!isset($data[ 'en' ][ $c->service ][ $slug ])) {
-							$data[ 'en' ][ $c->service ][ $slug ] = $cookie;
+							$data[ 'en' ][ $c->service ][ $slug ] = $cookie->name;
 						}
 					} else {
-						$data[ $language ]['no-service-set'][ $slug ] = $cookie;
+						$data[ $language ]['no-service-set'][ $slug ] = $cookie->name;
 						if (!isset($data[ 'en' ]['no-service-set'][ $slug ])) {
-							$data[ 'en' ]['no-service-set'][ $slug ] = $cookie;
+							$data[ 'en' ]['no-service-set'][ $slug ] = $cookie->name;
 						}
 					}
 
 					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced onlly with non own domain cookies.
 					if ( $hasOwnDomainCookies ) {
 						if ( !$c->isOwnDomainCookie ) {
-							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie;
+							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
 						}
 					}
 
