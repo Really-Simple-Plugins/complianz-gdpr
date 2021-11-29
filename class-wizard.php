@@ -312,7 +312,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				if ( $banners ) {
 					foreach ( $banners as $banner_item ) {
 						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-						$banner->generate_css();
+						$banner->save();
 					}
 				}
 			}

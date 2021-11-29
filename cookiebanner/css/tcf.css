@@ -27,7 +27,7 @@
 .cmplz-cookiebanner .cmplz-buttons a.cmplz-btn.cmplz-manage-options.tcf {
   display: flex;
 }
-.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header h2 {
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-category-title {
   margin: 0 0 5px 0;
 }
 @media (min-width: 1024px) {

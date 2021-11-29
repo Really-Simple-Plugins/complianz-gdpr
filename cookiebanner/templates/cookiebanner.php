@@ -7,7 +7,7 @@
 <div class="cmplz-cookiebanner cmplz-hidden banner-{id} {consent_type} {position} {use_categories}" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-{id}" aria-describedby="cmplz-message-{id}">
 	<div class="cmplz-header">
 		<div class="cmplz-logo">{logo}</div>
-		<h1 class="cmplz-title" id="cmplz-header-{id}">{header}</h1>
+		<div class="cmplz-title" id="cmplz-header-{id}">{header}</div>
 		<a class="cmplz-close" tabindex="0" role="button">
 			<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><title>close</title><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
 		</a>
@@ -21,7 +21,7 @@
 				<details class="cmplz-category cmplz-functional" >
 					<summary>
 						<div class="cmplz-category-header">
-							<h2>{category_functional}</h2>
+							<div class="cmplz-category-title">{category_functional}</div>
 							<div class='cmplz-always-active'>
 								<div class="cmplz-banner-checkbox">
 									<input type="checkbox"
@@ -46,7 +46,7 @@
 				<details class="cmplz-category cmplz-preferences" >
 					<summary>
 						<div class="cmplz-category-header">
-							<h2>{category_preferences}</h2>
+							<div class="cmplz-category-title">{category_preferences}</div>
 							<div class="cmplz-banner-checkbox">
 								<input type="checkbox"
 									   id="cmplz-preferences"
@@ -67,7 +67,7 @@
 				<details class="cmplz-category cmplz-statistics" >
 					<summary>
 						<div class="cmplz-category-header">
-							<h2>{category_statistics}</h2>
+							<div class="cmplz-category-title">{category_statistics}</div>
 							<div class="cmplz-banner-checkbox">
 								<input type="checkbox"
 									   aria-checked="0"
@@ -90,7 +90,7 @@
 				<details class="cmplz-category cmplz-marketing" >
 					<summary>
 						<div class="cmplz-category-header">
-							<h2>{category_marketing}</h2>
+							<div class="cmplz-category-title">{category_marketing}</div>
 								<div class="cmplz-banner-checkbox">
 									<input type="checkbox"
 										   id="cmplz-marketing"

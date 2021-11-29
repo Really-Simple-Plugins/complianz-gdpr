@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
-add_action( 'admin_init', 'cmplz_check_upgrade', 10, 2 );
+add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
 
 /**
  * Run an upgrade procedure if the version has changed
@@ -738,7 +738,6 @@ function cmplz_check_upgrade() {
 					'show' => true,
 				);
 				$banner->save();
-				$banner->generate_css();
 			}
 		}
 
@@ -748,12 +747,11 @@ function cmplz_check_upgrade() {
 			update_option( 'complianz_options_wizard', $wizard_settings );
 		}
 	}
-
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
 		foreach ( $banners as $banner_item ) {
 			$banner              = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-			$banner->generate_css();
+			$banner->save();
 		}
 	}
 

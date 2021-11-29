@@ -31,7 +31,10 @@ function cmplz_hubspot_clicker() {
 						hubspotDeclinetBtn.click();
 					}
 				}
-				hubspotAcceptBtn.parentNode.removeChild(hubspotAcceptBtn);
+
+				if ( hubspotAcceptBtn ) {
+					hubspotAcceptBtn.parentNode.removeChild(hubspotAcceptBtn);
+				}
 			}
 		</script>
 		<?php

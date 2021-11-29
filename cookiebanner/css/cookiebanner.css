@@ -111,13 +111,6 @@
   display: grid;
   grid-gap: 10px;
 }
-.cmplz-cookiebanner .cmplz-header h1,
-.cmplz-cookiebanner .cmplz-body h1,
-.cmplz-cookiebanner .cmplz-header h2,
-.cmplz-cookiebanner .cmplz-body h2 {
-  margin: 10px 0;
-  padding: initial;
-}
 .cmplz-cookiebanner a {
   transition: initial;
 }
@@ -177,7 +170,7 @@
 .cmplz-cookiebanner .cmplz-close {
   justify-self: end;
   grid-column-start: 3;
-  font-size: 28px;
+  font-size: 22px;
   cursor: pointer;
   width: initial;
   height: initial;
@@ -189,6 +182,8 @@
 }
 .cmplz-cookiebanner .cmplz-close:hover {
   text-decoration: none;
+  line-height: initial;
+  font-size: initial;
 }
 .cmplz-cookiebanner .cmplz-message {
   word-wrap: break-word;
@@ -224,7 +219,7 @@
   grid-gap: 0;
   padding: 10px;
 }
-.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header h2 {
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-category-title {
   font-weight: 500;
   grid-column-start: 1;
   justify-self: start;

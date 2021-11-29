@@ -124,13 +124,6 @@
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
   grid-template-rows: minmax(0, 1fr);
-
-  .cmplz-header, .cmplz-body {
-	h1, h2 {
-	  margin: 10px 0;
-	  padding:initial;
-	}
-  }
  a {
    transition: initial;
  }
@@ -218,13 +211,15 @@
 	  }
 	  justify-self: end;
 	  grid-column-start: 3;
-	  font-size: 28px;
+	  font-size: 22px;
 	  cursor: pointer;
 	  width: initial;
 	  height: initial;
 	  color: var(--cmplz_text_color);
 	  &:hover {
 		text-decoration:none;
+		line-height: initial;
+		font-size: initial;
 	  }
 	}
 
@@ -266,7 +261,7 @@
 		align-items: center;
 		grid-gap: 0;
 		padding: 10px;
-		h2 {
+		.cmplz-category-title {
 		  font-weight: 500;
 		  grid-column-start: 1;
 		  justify-self: start;
