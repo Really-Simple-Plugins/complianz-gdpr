@@ -705,6 +705,8 @@ function cmplz_run_tm_event(category) {
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
+	console.log(complianz);
+	console.log(cmplz_user_data);
 	complianz = cmplz_merge_object( complianz, cmplz_user_data );
 	//check if we need to redirect to another legal document, for a specific region
 	cmplz_maybe_auto_redirect();
@@ -717,14 +719,10 @@ window.conditionally_show_banner = function() {
 	window.wp_consent_type = complianz.consenttype;
 	let event = new CustomEvent('wp_consent_type_defined');
 	document.dispatchEvent( event );
-
 	event = new CustomEvent('cmplz_before_cookiebanner' );
 	document.dispatchEvent(event);
-
 	if ( complianz.forceEnableStats == 1 ) {
 		cmplz_set_consent('statistics', 'allow');
-		document.querySelector('.cmplz-description-statistics').classList.add('cmplz-hidden');
-		document.querySelector('.cmplz-description-statistics-anonymous').classList.remove('cmplz-hidden');
 	}
 
 	let rev_cats = cmplz_categories.reverse();

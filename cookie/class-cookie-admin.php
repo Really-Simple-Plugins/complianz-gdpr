@@ -1962,11 +1962,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$category       = 'statistics';
 			$uses_tagmanager = cmplz_get_value( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
 
-			if ( !$uses_tagmanager ) {
-				//if no cookie warning is needed for the stats specifically, we can move this out of the warning code by adding the native class
-				if ( ! $this->cookie_warning_required_stats() ) {
-					$category = 'functional';
-				}
+			//without tag manager, set as functional if no cookie warning required for stats
+			if ( !$uses_tagmanager && ! $this->cookie_warning_required_stats() ) {
+				$category = 'functional';
+			}
+
+			//tag manager always fires as functional
+			if ( $uses_tagmanager ){
+				$category = 'functional';
 			}
 
 			/*
@@ -3723,7 +3726,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 
 				if ( COMPLIANZ::$config->regions[$region]['statistics_consent'] === 'when_not_anonymous' ) {
-					if (cmplz_get_value( 'eu_consent_regions' ) === 'yes') {
+					if ( cmplz_get_value( 'eu_consent_regions' ) === 'yes') {
 						return apply_filters( 'cmplz_cookie_warning_required_stats', true );
 					} elseif ( $this->statistics_privacy_friendly() ) {
 						return apply_filters( 'cmplz_cookie_warning_required_stats', false );
@@ -3761,7 +3764,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$when_not_anonymous = array_search('when_not_anonymous', array_column( $active_regions, 'statistics_consent') );
 			$uses_google = $this->uses_google_analytics() || $this->uses_google_tagmanager();
-			if ( $when_not_anonymous && $uses_google &&  cmplz_get_value( 'eu_consent_regions' ) === 'yes'  ) {
+			if ( $when_not_anonymous && $uses_google && cmplz_get_value( 'consent_for_anonymous_stats' ) === 'yes'  ) {
 				return true;
 			}
 

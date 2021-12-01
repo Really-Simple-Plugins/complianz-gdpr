@@ -275,6 +275,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 
 		public function after_save_wizard_option( $fieldname, $fieldvalue, $prev_value, $type ) {
+			$generate_css = false;
 			if ( $fieldname == 'california' || $fieldname == 'purpose_personaldata' ) {
 				add_action( 'shutdown', 'cmplz_update_cookie_policy_title', 12 );
 			}
@@ -303,12 +304,17 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			     || $fieldname === 'compile_statistics_more_info_tag_manager'
 			) {
 				COMPLIANZ::$cookie_admin->maybe_add_statistics_service();
+				$generate_css = true;
 			}
 
 			/**
 			 * If TCF was just disabled, regenerate the css.
 			 */
 			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
+				$generate_css = true;
+			}
+
+			if ( $generate_css ){
 				cmplz_update_all_banners();
 			}
 		}

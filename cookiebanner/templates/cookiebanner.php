@@ -83,7 +83,7 @@
 					</summary>
 					<div class="cmplz-description">
 						<span class="cmplz-description-statistics">{statistics_text}</span>
-						<span class="cmplz-description-statistics-anonymous cmplz-hidden">{statistics_text_anonymous}</span>
+						<span class="cmplz-description-statistics-anonymous">{statistics_text_anonymous}</span>
 					</div>
 				</details>
 

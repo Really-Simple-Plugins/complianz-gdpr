@@ -747,6 +747,19 @@ function cmplz_check_upgrade() {
 			update_option( 'complianz_options_wizard', $wizard_settings );
 		}
 	}
+
+	if ( $prev_version && version_compare( $prev_version, '6.0.2', '<' ) ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner ) {
+				if ( $banner->banner_width == 476 ) {
+					$banner->banner_width = 526;
+					$banner->save();
+				}
+			}
+		}
+	}
+
 	cmplz_update_all_banners();
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', cmplz_version );

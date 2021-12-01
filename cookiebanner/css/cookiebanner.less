@@ -244,12 +244,21 @@
 
   // -------------------------------------------------- Categories -------------------------------------------------- //
 
+
   .cmplz-categories {
 	&.cmplz-tcf .cmplz-category .cmplz-category-header {
 	  grid-template-columns: 1fr auto;
 	}
 
 	.cmplz-category {
+	  .cmplz-description-statistics-anonymous {
+		display: none;
+	  }
+
+	  .cmplz-description-statistics {
+		display: block;
+	  }
+
 	  &:not(:last-child) {
 		margin-bottom: 10px;
 	  }
@@ -364,6 +373,7 @@
 	  font-size:var(--cmplz_button_font_size);
 	  font-weight:500;
 	  text-decoration: none;
+	  text-align: center;
 	  &:hover{
 		text-decoration: none;
 	  }

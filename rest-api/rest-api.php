@@ -88,7 +88,7 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	$data['consenttype']        = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 	$data['region']             = $region;
 	$data['version']            = cmplz_version;
-	$data['forceEnableStats']   = apply_filters( 'cmplz_user_force_enable_stats', COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ) );
+	$data['forceEnableStats']   = !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region );
 	$data['do_not_track']       = apply_filters( 'cmplz_dnt_enabled', false );
 	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 	unset( $data["set_cookies"] );

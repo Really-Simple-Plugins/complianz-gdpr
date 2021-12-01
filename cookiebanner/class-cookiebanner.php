@@ -338,6 +338,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$value = $value['text'];
 			}
 
+			//e.g. When elementor integration is active, preferences may pass an array without the text entry here, causing an error with WPML
+			if ( is_array( $value ) ) {
+				return '';
+			}
+
 			$key = $this->translation_id;
 			if ( function_exists( 'pll__' ) ) {
 				$value = pll__( $value );
@@ -991,6 +996,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			) {
 				$css_files[] = "settings/hide-header$minified.css";
 			}
+
+			if ( cmplz_statistics_privacy_friendly() ) {
+				$css_files[] = 'anonymous-stats.css';
+			}
 			return apply_filters('cmplz_banner_css_files', $css_files);
 		}
 
@@ -1099,7 +1108,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
-			$upload_url = $uploads['baseurl'];
+			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
 			$pages = COMPLIANZ::$config->pages;
 
 			$page_links = array();
@@ -1146,7 +1155,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'soft_cookiewall'      => boolval($this->soft_cookiewall),
 				'dismiss_on_scroll'    => boolval($this->dismiss_on_scroll),
 				'cookie_expiry'        => cmplz_get_value( 'cookie_expiry' ),
-				'url'                  => get_rest_url() . 'complianz/v1/' ,
+				'url'                  => get_rest_url() . 'complianz/v1/',
 				'locale'               => 'lang='.substr( get_locale(), 0, 2 ).'&locale='.get_locale(),
 				'set_cookies_on_root'  => cmplz_get_value( 'set_cookies_on_root' ),
 				'cookie_domain'        => COMPLIANZ::$cookie_admin->get_cookie_domain(),
@@ -1157,7 +1166,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'css_file'             => $upload_url . '/complianz/css/banner-banner_id-type.css?v='.$this->banner_version.$script_debug,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
-				'forceEnableStats'     => COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
+				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
 				'preview'              => false,
 			);
 

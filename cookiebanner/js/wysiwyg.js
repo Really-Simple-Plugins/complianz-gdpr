@@ -7,12 +7,17 @@ jQuery(document).ready(function ($) {
 	var bannerInitialized = false;
 	var consenttype = $('select[name=cmplz_consenttype]').val();
 
+	//setup typing interval functions
+	var typingTimer;
+	var doneTypingInterval = 1000;
+
 	var hideBanner = $('input[name=cmplz_hide_preview]').is(':checked') || $('input[name=cmplz_disable_cookiebanner]').is(':checked');
 
 	var banner_id = $('input[name=cmplz_banner_id]').val();
 	var manageConsent = $('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+banner_id);
 	cmplz_apply_style();
 	cmplzUpdateLinks();
+	cmplz_validate_banner_width();
 	/**
 	 * Make sure the banner is loaded after the css has loaded, but only once.
 	 */
@@ -32,6 +37,8 @@ jQuery(document).ready(function ($) {
 			cmplzShowBanner();
 		}
 	}
+
+
 
 	/**
 	 * The function which handles the localstorage, always triggers a change event on the consenttype field.
@@ -81,14 +88,25 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
+	function cmplz_validate_banner_width(){
+		console.log("start vaildate banner width ");
+		//check if cats width is ok
+		let cats_width = document.querySelector('.cmplz-categories').offsetWidth;
+		let banner_width = document.querySelector('.cmplz-cookiebanner').offsetWidth;
+		if (banner_width-40 > cats_width ) {
+			let difference = banner_width-40 - cats_width;
+			let newWidth =  parseInt(banner_width) + parseInt(difference);
+			document.querySelector('input[name=cmplz_banner_width]').value = newWidth;
+			cmplz_apply_style();
+		}
+	}
+
 	function cmplz_apply_style(){
 		if (processingReset || cssGenerationActive) {
 			return;
 		}
 		cssGenerationActive = true;
 		$('.cmplz-cookiebanner').addClass('reloading');
-
-		// categories-visible
 
 		$.ajax({
 			type: 'POST',
@@ -180,22 +198,37 @@ jQuery(document).ready(function ($) {
 
 	$(document).on('keyup', "input[name='cmplz_header[text]']", function () {
 		$(".cmplz-header .cmplz-title").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	})
 
 	$(document).on('keyup', "input[name='cmplz_accept']", function () {
 		$(".optin button.cmplz-accept").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_accept_informational[text]']", function () {
 		$(".optout button.cmplz-accept").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_dismiss[text]']", function () {
 		$("button.cmplz-deny").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_revoke[text]']", function () {
 		$("button.cmplz-manage-consent").html($(this).val());
 	});
 	$(document).on('keyup', "input[name='cmplz_view_preferences']", function () {
 		$("button.cmplz-view-preferences").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
+	});
+	$(document).on('keyup', "input[name='cmplz_save_preferences']", function () {
+		$("button.cmplz-view-preferences").html($(this).val());
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_category_functional']", function () {
 		$(".cmplz-functional .cmplz-category-header h2").html($(this).val());
@@ -228,6 +261,11 @@ jQuery(document).ready(function ($) {
 	});
 	$(document).on('keyup', "textarea.wp-editor-area", function () {
 		$(".cmplz-message").html($(this).val());
+	});
+
+	//on keydown, clear the countdown
+	$('input[type=text]').on('keydown', function () {
+		clearTimeout(typingTimer);
 	});
 
 	$(document).on('keyup',

@@ -209,6 +209,12 @@
 .cmplz-cookiebanner .cmplz-categories .cmplz-category {
   background-color: rgba(239, 239, 239, 0.5);
 }
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-description-statistics-anonymous {
+  display: none;
+}
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-description-statistics {
+  display: block;
+}
 .cmplz-cookiebanner .cmplz-categories .cmplz-category:not(:last-child) {
   margin-bottom: 10px;
 }
@@ -302,6 +308,7 @@
   font-size: var(--cmplz_button_font_size);
   font-weight: 500;
   text-decoration: none;
+  text-align: center;
 }
 .cmplz-cookiebanner .cmplz-buttons .cmplz-btn:hover {
   text-decoration: none;
