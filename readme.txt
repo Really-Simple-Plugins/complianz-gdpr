@@ -65,7 +65,8 @@ If you enjoy this plugin and you want your site to have the best compliancy feat
 * Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
 * Respects the Do Not Track settings in end-users browsers.
 * Privacy statements (EU, CA, UK, AU, ZA, BR & USA). 
-* Cookie policy (EU, UK, CA, AU, ZA, BR & US). 
+* Cookie policy (EU, UK, CA, AU, ZA, BR & US).
+* Elementor
 * Impressum (Germany & Austria). 
 * Disclaimer. 
 * Processing agreements (EU, UK, CA, AU, ZA, BR & US). 
