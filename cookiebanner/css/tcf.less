@@ -12,8 +12,17 @@
   .cmplz-deny {
 	display: none;
   }
-  .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-description {
-	padding:0;
+  .cmplz-categories .cmplz-category .cmplz-category-header {
+	.cmplz-title {
+	  justify-self:left;
+	  grid-column-start: 1;
+	}
+	.cmplz-always-active {
+	  justify-self:right;
+	}
+	.cmplz-description {
+		padding:0;
+  	}
   }
   .cmplz-links {
 	&.cmplz-information {

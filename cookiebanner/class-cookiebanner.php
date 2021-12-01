@@ -424,7 +424,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( ! $this->id ) {
 				$this->add();
 			}
-			$this->banner_version ++;
+			$this->banner_version++;
 
 			//register translations fields
 			foreach ( $this as $fieldname => $value ) {

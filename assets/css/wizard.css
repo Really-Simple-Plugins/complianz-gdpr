@@ -547,6 +547,9 @@
 #cmplz-content-area .cmplz-link-to-menu-table select {
   grid-column-start: 2;
 }
+#cmplz-content-area .cmplz-scan-count {
+  padding: 0 5px;
+}
 #cmplz-content-area .cmplz-cookies-table h2 {
   font-weight: normal;
   font-size: 15px;

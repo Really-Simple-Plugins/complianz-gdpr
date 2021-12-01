@@ -1,1 +1,1 @@
-#cmplz-cookiebanner-container .cmplz-cookiebanner{bottom:-50vh;-webkit-animation:slideIn 1s forwards;-webkit-animation-delay:0;animation:slideIn 1s forwards;animation-delay:0}@-webkit-keyframes slideIn{100%{bottom:0}}@keyframes slideIn{100%{bottom:0}}
+@-webkit-keyframes slideIn{to{bottom:0}}@keyframes slideIn{to{bottom:0}}#cmplz-cookiebanner-container .cmplz-cookiebanner{bottom:-50vh;-webkit-animation:slideIn 1s forwards;-webkit-animation-delay:0s;animation:slideIn 1s forwards;animation-delay:0s}

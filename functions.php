@@ -807,7 +807,7 @@ if ( !function_exists('cmplz_admin_notice')) {
 													 alt="logo">
 				</div>
 				<div style="margin-left:30px">
-					<?php echo esc_html($msg) ?>
+					<?php echo wp_kses_post($msg) ?>
 				</div>
 			</div>
 		</div>
@@ -817,7 +817,16 @@ if ( !function_exists('cmplz_admin_notice')) {
 }
 
 if ( ! function_exists( 'cmplz_panel' ) ) {
-
+	/**
+	 * @param string $title
+	 * @param string $html
+	 * @param string $custom_btn
+	 * @param string $validate
+	 * @param bool   $echo
+	 * @param false  $open
+	 *
+	 * @return string|void
+	 */
 	function cmplz_panel($title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false) {
 		if ( $title == '' ) {
 			return '';
@@ -849,32 +858,6 @@ if ( ! function_exists( 'cmplz_panel' ) ) {
 		} else {
 			return $output;
 		}
-
-	}
-}
-
-if ( ! function_exists( 'cmplz_list_item' ) ) {
-
-	function cmplz_list_item( $title, $link, $btn, $selected ) {
-		if ( $title == '' ) {
-			return;
-		}
-		$selected = $selected ? "selected" : '';
-		?>
-
-		<div class="cmplz-panel cmplz-link-panel <?php echo esc_attr($selected) ?>">
-			<div class="cmplz-panel-title">
-				<a class="cmplz-panel-link" href="<?php echo esc_url_raw($link) ?>">
-                <span class="cmplz-panel-toggle">
-                    <i class="fa fa-edit"></i>
-                    <span class="cmplz-title"><?php echo esc_html($title) ?></span>
-                 </span>
-				</a>
-
-				<?php echo $btn ?>
-			</div>
-		</div>
-		<?php
 
 	}
 }
@@ -1836,9 +1819,9 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 
 if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 	function cmplz_used_cookies() {
-		$services_template = cmplz_get_template( 'cookiepolicy_services.php' );
-		$cookies_row    = cmplz_get_template( 'cookiepolicy_cookies_row.php' );
-		$purpose_row    = cmplz_get_template( 'cookiepolicy_purpose_row.php' );
+		$services_template = cmplz_get_template( 'cookiepolicy/services.php' );
+		$cookies_row    = cmplz_get_template( 'cookiepolicy/cookies_row.php' );
+		$purpose_row    = cmplz_get_template( 'cookiepolicy/purpose_row.php' );
 		$language       = substr( get_locale(), 0, 2 );
 
 		$args = array(

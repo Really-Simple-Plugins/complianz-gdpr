@@ -14,7 +14,6 @@
     flex-direction: column;
   }
 }
-
 @media (min-width: 769px) {
   .cmplz-message,
   .cmplz-categories {

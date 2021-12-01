@@ -454,8 +454,8 @@ jQuery(document).ready(function ($) {
         var iframe = document.getElementById('cmplz_cookie_scan_frame');
         var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (!cookieContainer.find('.cmplz-loader').length && progress < 100) {
-            cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-            cookieContainer.addClass('loader');
+            // cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+            // cookieContainer.addClass('loader');
         }
         // Check if loading is complete
         iframe.onload = function () {
@@ -471,31 +471,17 @@ jQuery(document).ready(function ($) {
                     var obj;
                     if (response) {
                         obj = jQuery.parseJSON(response);
-
+						var cookies = obj.cookies;
+						$('.detected-cookies .cmplz-cookies-table').html(cookies.join("<br>"));
+						$('.cmplz-scan-count').html(cookies.length);
                         progress = parseInt(obj['progress']);
                         var next_page = obj['next_page'];
                         if (progress >= 100) {
                             progress = 100;
                             progressBar.css({width: progress + '%'});
-                            $.ajax({
-                                type: "GET",
-                                url: complianz_admin.admin_url,
-                                dataType: 'json',
-                                data: ({
-                                    action: 'load_detected_cookies',
-                                }),
-                                success: function (response) {
-                                    if (response.success) {
-                                        $('.detected-cookies').html(response.cookies);
-                                        $('.detected-cookies.loader').removeClass('loader');
-                                    }
-                                }
-                            });
-
                         } else {
                             progressBar.css({width: progress + '%'});
                             $("#cmplz_cookie_scan_frame").attr('src', next_page);
-
                             window.setTimeout(checkIframeLoaded, cmplz_interval);
                         }
                     }
@@ -520,9 +506,9 @@ jQuery(document).ready(function ($) {
 	var syncStatus = $('.cmplz-sync-status span');
 	var syncButton = $('.cmplz-resync');
 	syncStatus.hide();
-    if ($('#cmplz-sync-progress').length) {
+    if ( $('#cmplz-sync-progress').length ) {
         var syncProgress = complianz_admin.syncProgress;
-        if (syncProgress<100) {
+        if ( syncProgress<100 ) {
 			syncButton.attr('disabled', 'disabled');
 			syncStatus.show();
             syncProgressBar.css({width: syncProgress + '%'});

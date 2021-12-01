@@ -168,6 +168,7 @@
   font-weight: 500;
 }
 .cmplz-cookiebanner .cmplz-close {
+  line-height: initial;
   justify-self: end;
   grid-column-start: 3;
   font-size: 22px;
@@ -183,7 +184,7 @@
 .cmplz-cookiebanner .cmplz-close:hover {
   text-decoration: none;
   line-height: initial;
-  font-size: initial;
+  font-size: 22px;
 }
 .cmplz-cookiebanner .cmplz-message {
   word-wrap: break-word;

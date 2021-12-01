@@ -94,6 +94,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 		public function wizard_last_step_callback() {
 			$page = $this->wizard_type();
+			cmplz_update_all_banners();
 
 			if ( ! $this->all_required_fields_completed( $page ) ) {
                 echo '<div class="cmplz-wizard-intro">';
@@ -219,7 +220,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( $fieldname === 'privacy-statement' || $fieldname === 'regions'
 			     || $fieldname === 'cookie-statement'
 			) {
-				cmplz_update_banner_version_all_banners();
+				cmplz_update_all_banners();
 			}
 
 			//we can check here if certain things have been updated,
@@ -308,13 +309,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			 * If TCF was just disabled, regenerate the css.
 			 */
 			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
-				$banners = cmplz_get_cookiebanners();
-				if ( $banners ) {
-					foreach ( $banners as $banner_item ) {
-						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-						$banner->save();
-					}
-				}
+				cmplz_update_all_banners();
 			}
 		}
 

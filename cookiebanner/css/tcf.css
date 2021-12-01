@@ -10,6 +10,13 @@
 .cmplz-cookiebanner .cmplz-deny {
   display: none;
 }
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-title {
+  justify-self: left;
+  grid-column-start: 1;
+}
+.cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-always-active {
+  justify-self: right;
+}
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-description {
   padding: 0;
 }

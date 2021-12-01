@@ -205,10 +205,7 @@
 	}
 
 	.cmplz-close {
-	  svg {
-		width:20px;
-		height:20px;
-	  }
+	  line-height: initial;
 	  justify-self: end;
 	  grid-column-start: 3;
 	  font-size: 22px;
@@ -216,10 +213,14 @@
 	  width: initial;
 	  height: initial;
 	  color: var(--cmplz_text_color);
+	  svg {
+		width:20px;
+		height:20px;
+	  }
 	  &:hover {
 		text-decoration:none;
 		line-height: initial;
-		font-size: initial;
+		font-size: 22px;
 	  }
 	}
 

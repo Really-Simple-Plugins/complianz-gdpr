@@ -42,12 +42,11 @@ add_filter ( 'wp_prepare_attachment_for_js',  'cmplz_image_sizes_js' , 10, 3  );
  * When A/B testing is enabled, we should increase all banner versions to flush the users cache
  */
 
-function cmplz_update_banner_version_all_banners() {
+function cmplz_update_all_banners() {
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
 		foreach ( $banners as $banner_item ) {
 			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-			$banner->banner_version ++;
 			$banner->save();
 		}
 	}

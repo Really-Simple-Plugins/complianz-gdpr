@@ -27,11 +27,15 @@ function cmplz_wp_google_maps_whitelist($tags){
 	$tags[] = 'WPGMZA_localized_data';
 	$tags[] = 'maps.google.com';
 
-
 	return $tags;
 }
 add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_wp_google_maps_whitelist');
 
+/**
+ * Declare a placeholder
+ *
+ */
+function cmplz_wp_google_maps_placeholder(){}
 /**
  * Add some custom css for the placeholder
  */
@@ -45,6 +49,24 @@ function cmplz_wp_google_maps_css() {
 	<?php
 }
 
+/**
+ * v: 6.0
+ * reload after consent.
+ */
+function cmplz_reload_after_consent() {
+	?>
+	<script>
+		document.addEventListener('cmplz_status_change', function (e) {
+			if ( document.querySelector('.wpgmza-api-consent') ) {
+				if (e.detail.category === 'marketing' && e.detail.value === 'allow') {
+					location.reload();
+				}
+			}
+		});
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'cmplz_reload_after_consent' );
 
 /**
  * Make sure the agree button accepts the complianz banner

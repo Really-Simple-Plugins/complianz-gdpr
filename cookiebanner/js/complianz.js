@@ -98,6 +98,7 @@ let cmplz_waiting_scripts = [];
 let cmplz_fired_scripts = [];
 let cmplz_placeholder_class_index = 0;
 let cmplz_all_scripts_hook_fired = false;
+let cmplz_consent_stored_once = false;
 let cmplz_categories = [
 	'functional',
 	'preferences',
@@ -207,7 +208,9 @@ function cmplz_set_category_as_body_class() {
 	}
 	let cats = cmplz_accepted_categories();
 	for (let i in cats) {
-		document.body.classList.add('cmplz-'+cats[i]);
+		if ( cats.hasOwnProperty(i) ) {
+			document.body.classList.add('cmplz-' + cats[i]);
+		}
 	}
 	document.body.classList.add('cmplz-' + complianz.region);
 	document.body.classList.add('cmplz-' + complianz.consenttype);
@@ -614,16 +617,18 @@ function cmplz_enable_category(category, service) {
 
 function cmplz_get_waiting_script(waiting_scripts, src) {
 	for (let waitfor in waiting_scripts) {
-		let waitingScript;//recaptcha/api.js, waitfor="gregaptcha"
-		if (waiting_scripts.hasOwnProperty(waitfor) ) {
-			waitingScript = waiting_scripts[waitfor];
-			if (typeof waitingScript !== 'string') {
-				waitingScript = waitingScript.innerText;
-			}
-			if (src.indexOf(waitfor) !== -1) {
-				let output = waiting_scripts[waitfor];
-				delete waiting_scripts[waitfor];
-				return output;
+		if ( waiting_scripts.hasOwnProperty(waitfor)) {
+			let waitingScript;//recaptcha/api.js, waitfor="gregaptcha"
+			if (waiting_scripts.hasOwnProperty(waitfor)) {
+				waitingScript = waiting_scripts[waitfor];
+				if (typeof waitingScript !== 'string') {
+					waitingScript = waitingScript.innerText;
+				}
+				if (src.indexOf(waitfor) !== -1) {
+					let output = waiting_scripts[waitfor];
+					delete waiting_scripts[waitfor];
+					return output;
+				}
 			}
 		}
 	}
@@ -654,11 +659,13 @@ function cmplz_array_is_empty(arr) {
 
 function cmplz_is_waiting_script(waiting_scripts, srcOrScript) {
 	for (let waitfor in waiting_scripts) {
-		let waitingScript = waiting_scripts[waitfor];
-		if (typeof waitingScript !== 'string') waitingScript = waitingScript.innerText;
+		if ( waiting_scripts.hasOwnProperty(waitfor) ) {
+			let waitingScript = waiting_scripts[waitfor];
+			if (typeof waitingScript !== 'string') waitingScript = waitingScript.innerText;
 
-		if ( srcOrScript.indexOf(waitingScript) !== -1 || waitingScript.indexOf(srcOrScript) !== -1 ) {
-			return true;
+			if (srcOrScript.indexOf(waitingScript) !== -1 || waitingScript.indexOf(srcOrScript) !== -1) {
+				return true;
+			}
 		}
 	}
 	return false;
@@ -722,9 +729,11 @@ window.conditionally_show_banner = function() {
 
 	let rev_cats = cmplz_categories.reverse();
 	for (let key in rev_cats) {
-		let category = cmplz_categories[key];
-		if ( cmplz_has_consent(category) ) {
-			cmplz_enable_category(category);
+		if ( rev_cats.hasOwnProperty(key) ) {
+			let category = cmplz_categories[key];
+			if (cmplz_has_consent(category)) {
+				cmplz_enable_category(category);
+			}
 		}
 	}
 
@@ -733,14 +742,16 @@ window.conditionally_show_banner = function() {
 		cmplz_enable_category('', 'general');
 		let services = cmplz_get_services_on_page();
 		for (let key in services) {
-			let service = services[key];
-			if ( service.length == 0 ) continue;
-			if ( cmplz_has_service_consent(service) ) {
-				document.querySelectorAll('.cmplz-accept-service[data-service='+ service +']').forEach(obj => {
-					obj.checked = true;
-				});
+			if ( services.hasOwnProperty(key) ) {
+				let service = services[key];
+				if (service.length == 0) continue;
+				if (cmplz_has_service_consent(service)) {
+					document.querySelectorAll('.cmplz-accept-service[data-service=' + service + ']').forEach(obj => {
+						obj.checked = true;
+					});
 
-				cmplz_enable_category('', service);
+					cmplz_enable_category('', service);
+				}
 			}
 		}
 	}
@@ -763,12 +774,6 @@ window.conditionally_show_banner = function() {
 			cmplz_track_status( 'no_warning' );
 		} else if ( complianz.do_not_track ) {
 			cmplz_track_status('do_not_track' );
-		} else if ( complianz.consenttype === 'optout' ) {
-			//for opt out visitors, so consent by default
-			cmplz_track_status();
-		} else {
-			//all others (eu): no choice yet.
-			cmplz_track_status( 'no_choice' );
 		}
 	}
 
@@ -847,28 +852,25 @@ window.show_cookie_banner = function () {
 		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(link);
-	if ( !disableCookiebanner ) {
+	if ( cmplz_banner && !disableCookiebanner ) {
 		cmplz_banner.querySelectorAll('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)').forEach(obj => {
 			let docElement = obj;
 			docElement.classList.add('cmplz-hidden');
 			for (let pageType in pageLinks) {
-				if ( docElement.classList.contains(pageType) ){
-					docElement.setAttribute('href', pageLinks[pageType]['url']+docElement.getAttribute('data-relative_url') );
-					if ( docElement.innerText === '{title}') {
+				if (pageLinks.hasOwnProperty(pageType) && docElement.classList.contains(pageType)) {
+					docElement.setAttribute('href', pageLinks[pageType]['url'] + docElement.getAttribute('data-relative_url'));
+					if (docElement.innerText === '{title}') {
 						docElement.innerText = pageLinks[pageType]['title'];
 					}
 					docElement.classList.remove('cmplz-hidden');
 				}
 			}
 		});
-
-		if ( cmplz_banner ) {
-			cmplz_banner.classList.add(complianz.region);
-		}
+		cmplz_banner.classList.add(complianz.region);
 
 		cmplz_set_banner_status();
 		//we don't use the setBannerStatus function here, as we don't want to save it in a cookie now.
-		if ( cmplz_banner && tmpDismissCookiebanner ) {
+		if ( tmpDismissCookiebanner ) {
 			cmplz_banner.classList.remove('cmplz-show');
 			cmplz_banner.classList.add('cmplz-dismissed');
 			cmplz_manage_consent_button.classList.remove('cmplz-dismissed');
@@ -879,6 +881,7 @@ window.show_cookie_banner = function () {
 	let event = new CustomEvent('cmplz_cookie_warning_loaded', {detail: complianz.region});
 	document.dispatchEvent(event);
 }
+
 /**
  * Get the status of the banner: dismissed | show
  * @returns {string}
@@ -905,9 +908,9 @@ window.cmplz_set_banner_status = function ( status ){
 	if (status==='show') {
 		prevStatus = 'dismissed';
 	} else {
+		cmplz_track_status();
 		prevStatus = 'show';
 	}
-	cmplz_track_status();
 
 	if ( cmplz_banner && status.length>0 ) {
 		cmplz_banner.classList.remove('cmplz-'+prevStatus);
@@ -1051,8 +1054,10 @@ function cmplz_exists_service_consent(){
 	try {
 		consented_services = JSON.parse(consented_services_json);
 		for (const key in consented_services) {
-			if ( consented_services[key] == true ) {
-				return true;
+			if ( consented_services.hasOwnProperty(key) ) {
+				if (consented_services[key] == true) {
+					return true;
+				}
 			}
 		}
 	} catch (e) {
@@ -1217,6 +1222,21 @@ if ( complianz.store_consent == 1 ) {
 	}
 }
 
+// visibilitychange and pagehide work in more browsers hence we check if they are supported and try to use them
+document.addEventListener('visibilitychange', function () {
+	if ( document.visibilityState === 'hidden' ) {
+		cmplz_track_status_end();
+	}
+});
+window.addEventListener("pagehide", cmplz_track_status_end, false );
+window.addEventListener("beforeunload", cmplz_track_status_end, false );
+
+function cmplz_track_status_end(){
+	if ( !cmplz_consent_stored_once ) {
+		cmplz_track_status();
+	}
+}
+
 /**
  * This creates an API which devs can use to trigger actions in complianz.
  */
@@ -1230,7 +1250,9 @@ document.addEventListener('cmplz_consent_action', function (e) {
  */
 window.cmplz_accept_all = function(){
 	for (var key in cmplz_categories) {
-		cmplz_set_consent(cmplz_categories[key], 'allow');
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'allow');
+		}
 	}
 }
 
@@ -1239,7 +1261,9 @@ window.cmplz_accept_all = function(){
  */
 window.cmplz_deny_all = function(){
 	for (var key in cmplz_categories) {
-		cmplz_set_consent(cmplz_categories[key], 'deny');
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'deny');
+		}
 	}
 	var consentLevel = cmplz_highest_accepted_category();
 	var reload = false;
@@ -1281,13 +1305,12 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
 	var service = obj.getAttribute('data-service');
-	if ( typeof service !== 'undefined' ){
+	if ( typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
 		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	} else {
 		cmplz_set_consent('marketing', 'allow' );
-		cmplz_enable_category('marketing');
 	}
 	cmplz_set_banner_status('dismissed');
 	cmplz_track_status();
@@ -1341,13 +1364,15 @@ cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
 	cmplz_banner = obj.closest('.cmplz-cookiebanner');
 	for (var key in cmplz_categories) {
-		var category = cmplz_categories[key];
-		var categoryElement = cmplz_banner.querySelector('input.cmplz-'+category);
-		if ( categoryElement ) {
-			if ( categoryElement.checked ) {
-				cmplz_set_consent(category, 'allow');
-			} else {
-				cmplz_set_consent(category, 'deny');
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			var category = cmplz_categories[key];
+			var categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
+			if (categoryElement) {
+				if (categoryElement.checked) {
+					cmplz_set_consent(category, 'allow');
+				} else {
+					cmplz_set_consent(category, 'deny');
+				}
 			}
 		}
 	}
@@ -1379,15 +1404,17 @@ cmplz_add_event('click', '.cmplz-view-preferences', function(e){
  */
 cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', function(e){
 	for (var key in cmplz_categories) {
-		var category = cmplz_categories[key];
-		var categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-'+category);
-		if ( categoryElement ) {
-			if ( categoryElement.checked ) {
-				cmplz_set_consent(category, 'allow');
-			} else {
-				cmplz_set_consent(category, 'deny');
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			var category = cmplz_categories[key];
+			var categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-' + category);
+			if (categoryElement) {
+				if (categoryElement.checked) {
+					cmplz_set_consent(category, 'allow');
+				} else {
+					cmplz_set_consent(category, 'deny');
+				}
+				cmplz_set_banner_status('dismissed');
 			}
-			cmplz_set_banner_status('dismissed');
 		}
 	}
 
@@ -1480,12 +1507,14 @@ function cmplz_track_status( status ) {
 		return;
 	}
 
-	if ( complianz.store_consent != 1 ) return;
+	if ( complianz.store_consent != 1 ) {
+		return;
+	}
 
 	//keep track of the fact that the status was saved at least once
 	cmplz_set_cookie('saved_categories', JSON.stringify(cats));
 	cmplz_set_cookie('saved_services', JSON.stringify(consented_services));
-
+	cmplz_consent_stored_once = true;
 	var request = new XMLHttpRequest();
 	request.open('POST', complianz.url+'track', true);
 	var data = {
@@ -1496,6 +1525,7 @@ function cmplz_track_status( status ) {
 
 	request.setRequestHeader('Content-type', 'application/json');
 	request.send(JSON.stringify(data));
+
 }
 
 /**
@@ -1509,9 +1539,11 @@ function cmplz_accepted_categories() {
 
 	//because array filter changes keys, we make a temp arr
 	for (var key in consentedCategories) {
-		var category = consentedCategories[key];
-		if ( cmplz_has_consent(category)) {
-			consentedTemp.push(category);
+		if ( consentedCategories.hasOwnProperty(key) ) {
+			var category = consentedCategories[key];
+			if (cmplz_has_consent(category)) {
+				consentedTemp.push(category);
+			}
 		}
 	}
 
@@ -1528,16 +1560,17 @@ function cmplz_accepted_categories() {
 
 function cmplz_sync_category_checkboxes() {
 	for ( var key in cmplz_categories ) {
-
-		var category = cmplz_categories[key];
-		if ( cmplz_has_consent(category) || category === 'functional' ) {
-			document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
-				obj.checked = true;
-			});
-		} else {
-			document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
-				obj.checked = false;
-			});
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			var category = cmplz_categories[key];
+			if (cmplz_has_consent(category) || category === 'functional') {
+				document.querySelectorAll('input.cmplz-' + category).forEach(obj => {
+					obj.checked = true;
+				});
+			} else {
+				document.querySelectorAll('input.cmplz-' + category).forEach(obj => {
+					obj.checked = false;
+				});
+			}
 		}
 	}
 }
@@ -1698,9 +1731,11 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
 		sParameterName,
 		i;
 	for (i = 0; i < sURLVariables.length; i++) {
-		sParameterName = sURLVariables[i].split('=');
-		if (sParameterName[0] === sParam) {
-			return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+		if ( sURLVariables.hasOwnProperty(i) ) {
+			sParameterName = sURLVariables[i].split('=');
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+			}
 		}
 	}
 	return false;

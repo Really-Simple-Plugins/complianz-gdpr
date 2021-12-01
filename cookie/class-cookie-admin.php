@@ -2030,7 +2030,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 
 				if ( !empty($aw_code ) ) {
-					$script = str_replace( '{AW_code}', $aw_code, cmplz_get_template( "gtag-remarketing.js" ) );
+					$script = str_replace( '{AW_code}', $aw_code, cmplz_get_template( "statistics/gtag-remarketing.js" ) );
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
 					if ( cmplz_consent_mode() ) {
 						?>
@@ -2130,7 +2130,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			if ( $statistics === 'google-tag-manager' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
-				$script = cmplz_get_template( "google-tag-manager$consent_mode.js" );
+				$script = cmplz_get_template( "statistics/google-tag-manager$consent_mode.js" );
 				$script = str_replace( '{GTM_code}', esc_attr( cmplz_get_value( "GTM_code" ) ), $script );
 				echo apply_filters( 'cmplz_script_filter', $script );
 			}
@@ -2155,17 +2155,17 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
 				$enable_tcf_support = cmplz_tcf_active() ? 'true' : 'false';
-				$script       = cmplz_get_template( "gtag$consent_mode.js" );
+				$script       = cmplz_get_template( "statistics/gtag$consent_mode.js" );
 				$script       = str_replace( array('{G_code}', '{anonymize_ip}', '{enable_tcf_support}'), array($code, $anonymize_ip, $enable_tcf_support), $script );
 			} elseif ( $statistics === 'matomo' ) {
-				$script = cmplz_get_template( 'matomo.js' );
+				$script = cmplz_get_template( 'statistics/matomo.js' );
 				$script = str_replace( '{site_id}', esc_attr( cmplz_get_value( 'matomo_site_id' ) ), $script );
 				$script = str_replace( '{matomo_url}', esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_url' ) ) ), $script );
 			} elseif ( $statistics === 'clicky' ) {
-				$script = cmplz_get_template( 'clicky.js' );
+				$script = cmplz_get_template( 'statistics/clicky.js' );
 				$script = str_replace( '{site_ID}', esc_attr( cmplz_get_value( 'clicky_site_id' ) ), $script );
 			} elseif ( $statistics === 'yandex' ) {
-				$script = cmplz_get_template( 'yandex.js' );
+				$script = cmplz_get_template( 'statistics/yandex.js' );
 				$data_layer = cmplz_get_value('yandex_ecommerce') === 'yes';
 				$data_layer_str = '';
 				if ( $data_layer ) {
@@ -3197,22 +3197,27 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function load_detected_cookies() {
 			$error   = false;
-			$cookies = '';
-
+			$cookies=array();
 			if ( ! is_user_logged_in() ) {
 				$error = true;
 			}
 
+
 			if ( ! $error ) {
-				$html = $this->get_detected_cookies_table();
+				$args         = array(
+						'isTranslationFrom' => false,
+				);
+				$cookies      = $this->get_cookies( $args );
+				$cookies = wp_list_pluck($cookies, 'name');
 			}
-
 			$out = array(
-				'success' => ! $error,
-				'cookies' => $html,
+				'success' => true,
+				'cookies' => $cookies,
 			);
-
-			die( json_encode( $out ) );
+			$obj      = new stdClass();
+			$obj      = $out;
+			echo json_encode( $obj );
+			wp_die();
 		}
 
 		/**
@@ -3222,73 +3227,36 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_detected_cookies_table() {
-			$html         = '';
+			$list_html         = '';
 			$args         = array(
 				'isTranslationFrom' => false,
 			);
 			$cookies      = $this->get_cookies( $args );
-			$social_media = cmplz_scan_detected_social_media();
-			$thirdparty   = cmplz_scan_detected_thirdparty_services();
-			if ( ! $cookies && ! $social_media && ! $thirdparty ) {
+			if ( ! $cookies ) {
 				if ( $this->scan_complete() ) {
-					$html = __( "No cookies detected", 'complianz-gdpr' );
+					$detected = __( "No cookies detected", 'complianz-gdpr' );
 				} else {
-					$html = __( "Cookie scan in progress", 'complianz-gdpr' );
+					$detected = __( "Cookie scan in progress", 'complianz-gdpr' );
 				}
 			} else {
-
-				/*
-                 * Show the cookies from our own domain
-                 * */
-				$html    .= '<div class="cmplz-cookies-table">';
-				$html    .= '<h2>' . __( 'Cookies on your own domain', 'complianz-gdpr' ) . "</h2>";
-				$html    .= '<div class="cmplz-cookies-table-body">';
-				$args    = array(
-					'isTranslationFrom' => false,
-				);
-				$cookies = $this->get_cookies( $args );
+				$cookie_count = $this->scan_complete() ? count($cookies) : 2;
+				$detected = sprintf( _n( 'The scan found 1 cookie on your domain.', 'The scan found %s cookies on your domain.', $cookie_count, 'complianz-gdpr' ), '<span class="cmplz-scan-count">'.number_format_i18n( $cookie_count ).'</span>' )	;
+				$detected .= ' '.__('Continue the wizard to categorize cookies and configure consent.', 'complianz-gdpr');
+				/**
+				 * Create list
+				 */
 				$cookies = wp_list_pluck( $cookies, 'name' );
+				$list_html    .= '<div class="cmplz-cookies-table">';
 				if ( $cookies ) {
 					foreach ( $cookies as $name ) {
-						$html .= '<span>' . $name . '</span>';
+						$list_html .= '<div>' . $name . '</div>';
 					}
 				} else {
-					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
+					$list_html .= '<span>' . __("Nothing found yet.", "complianz-gdpr") . '</span>';
 				}
-				$html .= '</div></div>';
-
-				/*
-                 * Show the social media which are placing cookies
-                 * */
-				$html .= '<div class="cmplz-cookies-table">';
-				$html .= '<h2>' . __( 'Social media', 'complianz-gdpr' ) . "</h2>";
-				$html .= '<div class="cmplz-cookies-table-body">';
-				if ( $social_media && count( $social_media ) > 0 ) {
-					foreach ( $social_media as $key => $service ) {
-						$html .= '<span>' . COMPLIANZ::$config->thirdparty_socialmedia[ $service ] . '</span>';
-					}
-				} else {
-					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr").__("You can add these manually under 'Services'.", "complianz-gdpr") . '</span>';
-				}
-				$html .= '</div></div>';
-
-				/*
-                 * Show the third party services which are placing cookies
-                 * */
-				$html .= '<div class="cmplz-cookies-table">';
-				$html .= '<h2>' . __( 'Third-party services', 'complianz-gdpr' ) . "</h2>";
-				$html .= '<div class="cmplz-cookies-table-body">';
-				if ( $thirdparty && count( $thirdparty ) > 0 ) {
-					foreach ( $thirdparty as $key => $service ) {
-						$html .= '<span>' . COMPLIANZ::$config->thirdparty_services[ $service ] . '</span>';
-					}
-				} else {
-					$html .= '<span>' . __("Nothing found yet.", "complianz-gdpr").__("You can add these manually under 'Services'.", "complianz-gdpr") . '</span>';
-				}
-				$html .= '</div></div>';
+				$list_html .= '</div>';
 			}
-
-			return $html;
+			return cmplz_panel( $detected,	$list_html, false, false);
 		}
 
 		/**
@@ -3323,9 +3291,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_scan_progress() {
 			$next_url = $this->get_next_page_url();
+			$args = array(
+				'isTranslationFrom' => false,
+			);
+			$cookies  = $this->get_cookies( $args );
+			$progress = $this->get_progress_count();
+			$total = count($cookies);
+			$current = intval($progress/100 * $total);
+			$cookies = array_slice( $cookies, 0, $current);
+
+			$cookies = wp_list_pluck( $cookies, 'name' );
 			$output   = array(
-				"progress"  => $this->get_progress_count(),
+				"progress"  => $progress,
 				"next_page" => $next_url,
+				'cookies' => $cookies,
 			);
 			$obj      = new stdClass();
 			$obj      = $output;
@@ -3873,6 +3852,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 
+		/**
+		 * Check if ip is always blocked
+		 * @return bool
+		 */
 		public function google_analytics_always_block_ip() {
 			$statistics       = cmplz_get_value( 'compile_statistics' );
 			$google_analytics = $statistics === 'google-analytics';
@@ -3950,6 +3933,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return false;
 		}
 
+		/**
+		 * Check if non functional cookies are used on this site
+		 * @return bool
+		 */
 		public function uses_non_functional_cookies() {
 			if ( $this->uses_google_tagmanager() ) {
 				return true;

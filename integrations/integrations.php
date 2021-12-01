@@ -806,13 +806,7 @@ function cmplz_get_service_by_src( $src ) {
 function cmplz_maybe_update_css(){
 	$integrations_changed = get_option('cmplz_integrations_changed', false );
 	if ( $integrations_changed ) {
-		$banners = cmplz_get_cookiebanners();
-		if ( $banners ) {
-			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-				$banner->save();
-			}
-		}
+		cmplz_update_all_banners();
 	}
 	update_option('cmplz_integrations_changed', false );
 }

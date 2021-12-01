@@ -6,7 +6,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		private static $_this;
 
 		function __construct() {
-
 			if ( isset( self::$_this ) ) {
 				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
 					get_class( $this ) ) );
@@ -65,7 +64,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			foreach ( $blocked_scripts as $blocked_script ) {
 				$blocked_script['name'] = sanitize_title($blocked_script['name']);
 				if ( isset($blocked_script['urls']) ) {
-					foreach ($blocked_script['urls'] as $url) {
+					foreach ($blocked_script['urls'] as $url ) {
 						$formatted_custom_script_tags[$url] = $blocked_script;
 					}
 				} else if (isset($blocked_script['editor'])) {
@@ -102,7 +101,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			//add script center data. add_script arrays aren't included in the "known_script_tags" function
 			$scripts = get_option("complianz_options_custom-scripts");
-			if ( is_array($scripts) && isset($scripts['add_script']) || is_array($scripts['add_script'] ) ) {
+			if ( is_array($scripts) && isset($scripts['add_script']) && is_array($scripts['add_script'] ) ) {
 				$added_scripts = array_filter( $scripts['add_script'], function ( $script ) {
 					return $script['enable'] == 1;
 				} );
