@@ -1046,8 +1046,7 @@ jQuery(document).ready(function ($) {
         // Enable / Disable
         if ( action === 'enable' ) {
             data['enable'] = 1;
-        }
-        if ( action === 'disable' ) {
+        } else if ( action === 'disable' ) {
             data['enable'] = 0;
         }
         $.ajax({
@@ -1069,6 +1068,7 @@ jQuery(document).ready(function ($) {
 						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="enable"]').addClass('cmplz-hidden');
 						container.find('.cmplz_script_enabled').removeClass('cmplz-hidden');
 						container.find('.cmplz_script_disabled').addClass('cmplz-hidden');
+						container.find('input.cmplz_enable').val(1);
 						btn.html(btn_html);
                     }
                     if ( action === 'disable' ) {
@@ -1076,6 +1076,7 @@ jQuery(document).ready(function ($) {
 						btn.closest('.cmplz-multiple-field-button-footer').find('[data-action="enable"]').removeClass('cmplz-hidden');
 						container.find('.cmplz_script_enabled').addClass('cmplz-hidden');
 						container.find('.cmplz_script_disabled').removeClass('cmplz-hidden');
+						container.find('input.cmplz_enable').val(0);
 						btn.html(btn_html);
 					}
                     if ( action === 'save' ) {

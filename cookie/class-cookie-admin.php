@@ -3232,16 +3232,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				'isTranslationFrom' => false,
 			);
 			$cookies      = $this->get_cookies( $args );
-			if ( ! $cookies ) {
-				if ( $this->scan_complete() ) {
-					$detected = __( "No cookies detected", 'complianz-gdpr' );
-				} else {
-					$detected = __( "Cookie scan in progress", 'complianz-gdpr' );
-				}
+			if ( ! $cookies && $this->scan_complete() ) {
+				$detected = __( "No cookies detected", 'complianz-gdpr' );
 			} else {
-				$cookie_count = $this->scan_complete() ? count($cookies) : 2;
+				$cookie_count = $this->scan_complete() ? count($cookies) : 0;
 				$detected = sprintf( _n( 'The scan found 1 cookie on your domain.', 'The scan found %s cookies on your domain.', $cookie_count, 'complianz-gdpr' ), '<span class="cmplz-scan-count">'.number_format_i18n( $cookie_count ).'</span>' )	;
 				$detected .= ' '.__('Continue the wizard to categorize cookies and configure consent.', 'complianz-gdpr');
+
 				/**
 				 * Create list
 				 */
