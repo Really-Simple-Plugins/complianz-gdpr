@@ -2304,39 +2304,22 @@ if ( ! function_exists( 'cmplz_uses_statistic_cookies' ) ) {
 
 if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
 
-    /**
-     * Check if the site uses marketing cookies
-     *
-     * @return bool
-     */
-    function cmplz_uses_marketing_cookies() {
+	/**
+	 * Check if the site uses marketing cookies
+	 *
+	 * @return bool
+	 */
+	function cmplz_uses_marketing_cookies() {
 
-        $uses_marketing_cookies =
-				cmplz_get_value('uses_ad_cookies') === 'yes'
-			|| cmplz_get_value('uses_firstparty_marketing_cookies') === 'yes'
-            || cmplz_get_value('uses_thirdparty_services') === 'yes'
-            || cmplz_get_value('uses_social_media') === 'yes' ;
+		$uses_marketing_cookies
+				= cmplz_get_value( 'uses_ad_cookies' ) === 'yes'
+				  || cmplz_get_value( 'uses_firstparty_marketing_cookies' ) === 'yes'
+				  || cmplz_get_value( 'uses_thirdparty_services' ) === 'yes'
+				  || cmplz_get_value( 'uses_social_media' ) === 'yes';
 
 		return apply_filters( 'cmplz_uses_marketing_cookies', $uses_marketing_cookies );
 	}
 }
-
-if ( !function_exists('cmplz_update_all_banners')) {
-	/**
-	 * Regenerate css and update banner version for all banners
-	 */
-
-	function cmplz_update_all_banners() {
-		$banners = cmplz_get_cookiebanners();
-		if ( $banners ) {
-			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-				$banner->save();
-			}
-		}
-	}
-}
-
 
 if ( ! function_exists( 'cmplz_statistics_privacy_friendly' ) ) {
 
