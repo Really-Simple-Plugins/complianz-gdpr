@@ -42,7 +42,6 @@ function cmplz_integrations_page() {
 					'name' => 'custom-scripts',
 					'header' => __('Script Center', 'complianz-gdpr'),
 					'class' => 'big',
-
 					'index' => '13',
 					'controls' => '',
 			),

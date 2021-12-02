@@ -2530,8 +2530,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
                         <div class="cmplz-multiple-field-button-footer">
                             <button class="button button-primary cmplz_script_save" type="button" data-id="'.$i.'" data-type="add_script" data-action="save">' . __( 'Save', 'complianz-gdpr' ) . '</button>
-                            <button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
-							<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
+                            <button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="add_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
+							<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="add_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
                             <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="add_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
                         </div>
                     </div>';
@@ -3016,8 +3016,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$html.= '</div>
                 <div class="cmplz-multiple-field-button-footer">
                     <button class="button button-primary cmplz_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="save">' . __( 'Save', 'complianz-gdpr' ) . '</button>
-					<button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
-					<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
+					<button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
+					<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
                     <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
                 </div>
             </div>';

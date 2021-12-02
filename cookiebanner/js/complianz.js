@@ -705,8 +705,6 @@ function cmplz_run_tm_event(category) {
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
-	console.log(complianz);
-	console.log(cmplz_user_data);
 	complianz = cmplz_merge_object( complianz, cmplz_user_data );
 	//check if we need to redirect to another legal document, for a specific region
 	cmplz_maybe_auto_redirect();

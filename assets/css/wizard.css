@@ -498,6 +498,7 @@
   position: relative;
 }
 #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item .cmplz-settings-body .cmplz-settings-overlay {
+  z-index: 99;
   display: grid;
   grid-template-columns: 680px auto;
   position: absolute;

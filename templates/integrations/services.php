@@ -1,4 +1,9 @@
 <?php
+
+	if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) {
+		cmplz_settings_overlay( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+	}
+
 	$thirdparty_active = cmplz_get_value( 'uses_thirdparty_services' ) === 'yes';
 	$socialmedia_active = cmplz_get_value( 'uses_social_media' ) === 'yes' ;
 	$uses_ad_cookies = cmplz_get_value( 'uses_ad_cookies' ) === 'yes';
@@ -24,6 +29,8 @@
 					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">', '</a>' ) );
 		}
 	}
+
+
 
 	if ( $thirdparty_active ) {
 		$thirdparty_services = COMPLIANZ::$config->thirdparty_services;

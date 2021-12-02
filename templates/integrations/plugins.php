@@ -6,7 +6,9 @@
 	              . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ) );
 
 	$fields = COMPLIANZ::$config->fields( 'integrations' );
-	if ( count( $fields ) == 0 ) {
+	if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) {
+		cmplz_settings_overlay( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+	} else if ( count( $fields ) == 0 ) {
 		cmplz_settings_overlay( __( 'No active plugins detected in the integrations list.', 'complianz-gdpr' ) );
 	}
 	?>
