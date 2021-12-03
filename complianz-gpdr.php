@@ -166,7 +166,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 
 			/* Gutenberg block */
 			if ( cmplz_uses_gutenberg() ) {
-				require_once plugin_dir_path( __FILE__ ) . 'src/block.php';
+				require_once plugin_dir_path(__FILE__) . 'gutenberg/block.php';
 			}
 			require_once plugin_dir_path( __FILE__ ) . 'rest-api/rest-api.php';
 
