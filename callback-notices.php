@@ -54,7 +54,6 @@ function cmplz_show_compile_statistics_notice( $args ) {
 
 		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ) );
 	}
-
 }
 
 add_action( 'cmplz_notice_uses_social_media',

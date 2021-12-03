@@ -9,7 +9,6 @@ function cmplz_beehive_set_default( $value, $fieldname ) {
 	if ( $fieldname == 'compile_statistics' ) {
 		return "google-analytics";
 	}
-
 	return $value;
 }
 
@@ -19,10 +18,8 @@ function cmplz_beehive_set_default( $value, $fieldname ) {
  * */
 
 function cmplz_beehive_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics',
-		'cmplz_show_compile_statistics_notice', 10 );
+	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
 }
-
 add_action( 'init', 'cmplz_beehive_remove_actions' );
 
 
@@ -30,10 +27,8 @@ add_action( 'init', 'cmplz_beehive_remove_actions' );
  * We remove some actions to integrate fully
  * */
 function cmplz_beehive_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script',
-		array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
 }
-
 add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
 
 /**
@@ -42,12 +37,9 @@ add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
  * @param $args
  */
 function cmplz_beehive_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
-		'complianz-gdpr' ), 'Beehive' ) );
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Beehive' ) );
 }
-
-add_action( 'cmplz_notice_compile_statistics',
-	'cmplz_beehive_show_compile_statistics_notice', 10, 1 );
+add_action( 'cmplz_notice_compile_statistics', 'cmplz_beehive_show_compile_statistics_notice', 10, 1 );
 
 
 add_filter( 'beehive_get_options', 'cmplz_beehive_options', 10, 2 );
@@ -77,7 +69,6 @@ function cmplz_beehive_filter_warnings( $warnings ) {
 	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
-
 add_filter( 'cmplz_warning_types', 'cmplz_beehive_filter_warnings' );
 
 /**
@@ -91,6 +82,9 @@ add_filter( 'cmplz_warning_types', 'cmplz_beehive_filter_warnings' );
 function cmplz_beehive_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
+	unset( $fields['AW_code'] );
+	unset( $fields['consent-mode'] );
+	unset( $fields['compile_statistics_more_info']['help']);
 	return $fields;
 }
 
@@ -110,5 +104,4 @@ function cmplz_beehive_compile_statistics_more_info_notice() {
 	}
 }
 
-add_action( 'cmplz_notice_compile_statistics_more_info',
-	'cmplz_beehive_compile_statistics_more_info_notice' );
+add_action( 'cmplz_notice_compile_statistics_more_info', 'cmplz_beehive_compile_statistics_more_info_notice' );

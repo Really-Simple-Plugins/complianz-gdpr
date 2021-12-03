@@ -1,51 +1,23 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-
-add_filter( 'caos_gtag_script_element_attributes', 'cmplz_caos_script_classes' );
-add_filter( 'caos_analytics_script_element_attributes', 'cmplz_caos_script_classes' );
-function cmplz_caos_script_classes( $attr ) {
-	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
-	$attr    .= ' class="' . $category . '" ';
-
-	return $attr;
-}
-
 add_filter( 'cmplz_known_script_tags', 'cmplz_caos_script' );
 function cmplz_caos_script( $tags ) {
-	$tags[] = 'analytics.js';
-	$tags[] = 'gtag.js';
-	$tags[] = 'ga.js';
-
-	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
-
-	//block these only if not anonymous
-	if ( $category !== 'functional') {
-		$tags[] = 'caosLocalGa';
-		$tags[] = 'CaosGtag';	}
+	$tags[] = array(
+		'name' => 'caos-analytics',
+		'category' => 'statistics',
+		'urls' => array(
+			'analytics.js',
+			'gtag.js',
+			'ga.js',
+			'caos-analytics',
+			CAOS_OPT_CACHE_DIR,
+			'caosLocalGa',
+			'CaosGtag',
+		),
+	);
 
 	return $tags;
 }
-
-/**
- * Add the correct classes for the Caos script front-end
- * @param $tag
- * @param $handle
- *
- * @return string|string[]
- */
-function cmplz_caos_add_data_attribute($tag, $handle) {
-	$frontend = new CAOS_Frontend_Tracking();
-	$caos_handle = $frontend->handle;
-
-	if ( $handle != $caos_handle )
-		return $tag;
-
-	$category = COMPLIANZ::$cookie_admin->get_statistics_category();
-	$attr = ' class="' .  $category . '" ';
-
-	return str_replace( ' src', " $attr src", $tag );
-}
-add_filter('script_loader_tag', 'cmplz_caos_add_data_attribute', 10, 2);
 
 /**
  * We remove some actions to integrate fully
@@ -69,6 +41,9 @@ add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
 function cmplz_caos_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
+	unset( $fields['AW_code'] );
+	unset( $fields['consent-mode'] );
+	unset( $fields['compile_statistics_more_info']['help']);
 	return $fields;
 }
 
@@ -94,7 +69,7 @@ function cmplz_caos_remove_actions() {
 		'cmplz_show_compile_statistics_notice', 10 );
 }
 
-add_action( 'init', 'cmplz_caos_remove_actions' );
+add_action( 'admin_init', 'cmplz_caos_remove_actions' );
 
 /**
  * Add notice to tell a user to choose Analytics

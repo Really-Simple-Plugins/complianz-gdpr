@@ -304,7 +304,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
 	'google-analytics-dashboard-for-wp' => array(
 		'constant_or_function' => 'EXACTMETRICS_VERSION',
-		'label'                => 'Google Analytics Dashboard for WP',
+		'label'                => 'ExactMetrics',
 		'firstparty_marketing' => false,
 	),
 
@@ -561,8 +561,6 @@ function cmplz_integrations() {
 	$statistics = cmplz_get_value( 'compile_statistics' );
 	if ( $statistics === 'google-analytics' ) {
 		require_once( 'statistics/google-analytics.php' );
-	} elseif ( $statistics === 'google-tag-manager' ) {
-		require_once( 'statistics/google-tagmanager.php' );
 	}
 
 }

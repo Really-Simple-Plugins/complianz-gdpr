@@ -23,14 +23,13 @@ function cmplz_wc_google_analytics_integration_set_default( $value, $fieldname )
 	if ( $fieldname == 'compile_statistics' ) {
 		return "google-analytics";
 	}
-
 	return $value;
 }
 /**
  * If display ads is enabled, ensure a marketing category is added to the banner
  * @param bool $uses_marketing_cookies
  *
- * @return bool|mixed
+ * @return bool
  */
 function cmplz_wc_google_analytics_integration_uses_marketing_cookies( $uses_marketing_cookies ) {
 	$settings = get_option('woocommerce_google_analytics_settings');
@@ -42,71 +41,21 @@ function cmplz_wc_google_analytics_integration_uses_marketing_cookies( $uses_mar
 }
 add_filter( 'cmplz_uses_marketing_cookies', 'cmplz_wc_google_analytics_integration_uses_marketing_cookies', 20, 2 );
 
-/**
- * Add markers to the statistics markers list
- * @param $markers
- *
- * @return array
- */
-function cmplz_wc_google_analytics_integration_stats_markers( $markers ) {
-	$markers['google-analytics'][] = 'add_to_cart_button:not(.product_type_variable';
-	$markers['google-analytics'][] = "ga( 'send', 'pageview' )";
-	$markers['google-analytics'][] = '_gaq.push';
-	$markers['google-analytics'][] = 'stats.g.doubleclick.net/dc.js';
-	$markers['google-analytics'][] = 'gaProperty';
-
-	//we want TM to be treated as stats
-	$markers['google-analytics'][] = 'googletagmanager.com';
-
-	return $markers;
-}
-add_filter( 'cmplz_stats_markers', 'cmplz_wc_google_analytics_integration_stats_markers', 20, 1 );
-
-/**
- * Entirely remove tag manager blocking if anonymous
- */
-
-function cmplz_wc_google_analytics_integration_drop_tm_blocking(){
-	if ( COMPLIANZ::$cookie_admin->statistics_privacy_friendly() ) {
-		remove_filter( 'cmplz_known_script_tags', 'cmplz_googletagmanager_script' );
-	}
-}
-add_action( 'init', 'cmplz_wc_google_analytics_integration_drop_tm_blocking');
-
-/**
- * Block inline script
- * @param $tags
- *
- * @return array
- */
+add_filter( 'cmplz_known_script_tags', 'cmplz_wc_google_analytics_integration_script' );
 function cmplz_wc_google_analytics_integration_script( $tags ) {
-	$tags[] = 'add_to_cart_button:not(.product_type_variable';
-	$tags[] = "ga( 'send', 'pageview' )";
-	$tags[] = '_gaq.push';
-	$tags[] = 'stats.g.doubleclick.net/dc.js';
-	$tags[] = 'gaProperty';
+	$tags[] = array(
+		'name' => 'google-analytics',
+		'category' => 'statistics',
+		'urls' => array(
+			'add_to_cart_button:not(.product_type_variable',
+			"ga( 'send', 'pageview' )",
+			'_gaq.push',
+			'stats.g.doubleclick.net/dc.js',
+			'gaProperty',
+		),
+	);
 	return $tags;
 }
-add_filter( 'cmplz_known_script_tags', 'cmplz_wc_google_analytics_integration_script' );
-
-/**
- * If "use advertising features" is enabled, block as if it's marketing
- * @param array $category
- *
- * @return array
- */
-function cmplz_wc_google_analytics_integration_script_classes($category){
-	$settings = get_option('woocommerce_google_analytics_settings');
-	if ( $settings && isset( $settings['ga_support_display_advertising']) && $settings['ga_support_display_advertising'] !== 'yes' ) {
-		$category = 'statistics';
-	}
-	if ( $settings && isset( $settings['ga_support_display_advertising']) && $settings['ga_support_display_advertising'] === 'yes' ) {
-		$category = 'statistics';
-	}
-
-	return $category;
-}
-add_filter( 'cmplz_statistics_category', 'cmplz_wc_google_analytics_integration_script_classes', 10, 1 );
 
 /**
  * Remove stuff which is not necessary anymore
@@ -114,11 +63,9 @@ add_filter( 'cmplz_statistics_category', 'cmplz_wc_google_analytics_integration_
  * */
 
 function cmplz_wc_google_analytics_integration_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics',
-		'cmplz_show_compile_statistics_notice', 10 );
+	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
 }
-
-add_action( 'init', 'cmplz_wc_google_analytics_integration_remove_actions' );
+add_action( 'admin_init', 'cmplz_wc_google_analytics_integration_remove_actions' );
 
 /**
  * Add notice to tell a user to choose Analytics
@@ -128,9 +75,7 @@ add_action( 'init', 'cmplz_wc_google_analytics_integration_remove_actions' );
 function cmplz_wc_google_analytics_integration_show_compile_statistics_notice( $args ) {
 	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'WooCommerce Google Analytics Integration' ) );
 }
-
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_integration_show_compile_statistics_notice', 10, 1 );
-
 
 /**
  * Hide the stats configuration options when wc_google_analytics_integration is enabled.
@@ -143,9 +88,11 @@ add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_integr
 function cmplz_wc_google_analytics_integration_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
+	unset( $fields['AW_code'] );
+	unset( $fields['consent-mode'] );
+	unset( $fields['compile_statistics_more_info']['help']);
 	return $fields;
 }
-
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_integration_filter_fields' );
 
 /**
@@ -160,6 +107,5 @@ function cmplz_wc_google_analytics_integration_filter_warnings( $warnings ) {
 	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
-
 add_filter( 'cmplz_warning_types', 'cmplz_wc_google_analytics_integration_filter_warnings' );
 

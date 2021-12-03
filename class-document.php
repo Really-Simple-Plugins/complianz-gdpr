@@ -1225,7 +1225,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function accept_link( $atts = array(), $content = null, $tag = ''
 		) {
-
 			// normalize attribute keys, lowercase
 			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 

@@ -3,34 +3,28 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_jetpack_script' );
 function cmplz_jetpack_script( $tags ) {
+	$tags[] = array(
+		'name' => 'jetpack-statistics',
+		'category' => 'statistics',
+		'urls' => array(
+			'pixel.wp.com',
+			'stats.wp.com',
+		),
+	);
 
-	$tags[] = '/twitter-timeline.min.js';
-	$tags[] = '/twitter-timeline.js';
-
-	//stats
-	$tags[] = 'pixel.wp.com';
-	$tags[] = 'stats.wp.com';
-
+	$tags[] = array(
+		'name' => 'jetpack-twitter',
+		'category' => 'marketing',
+		'placeholder' => 'twitter',
+		'urls' => array(
+			'/twitter-timeline.min.js',
+			'/twitter-timeline.js',
+		),
+		'enable_placeholder' => 1,
+		'placeholder_class' => 'widget_twitter_timeline',
+	);
 	return $tags;
 }
-
-/**
- * placeholder not needed, as it's handled by core twitter integration
- */
-add_filter( 'cmplz_placeholder_markers', 'cmplz_jetpack_placeholder' );
-function cmplz_jetpack_placeholder( $tags ) {
-	$tags['twitter'][] = 'widget_twitter_timeline';
-
-	return $tags;
-}
-
-
-
-/**
- * Statistics for Jetpack
- *
- */
-
 
 /**
  * Make sure it's set as not anonymous when tracking enabled
@@ -43,19 +37,5 @@ function cmplz_jetpack_set_statistics_required( $stats_category_required ){
 	return $stats_category_required;
 }
 add_filter('cmplz_cookie_warning_required_stats', 'cmplz_jetpack_set_statistics_required');
-
-
-/**
- * Add markers to the statistics markers list
- * @param $markers
- *
- * @return array
- */
-function cmplz_jetpack_stats_markers( $markers ) {
-	$markers['jetpack'][] = 'pixel.wp.com';
-	$markers['jetpack'][] = "stats.wp.com";
-	return $markers;
-}
-add_filter( 'cmplz_stats_markers', 'cmplz_jetpack_stats_markers', 20, 1 );
 
 

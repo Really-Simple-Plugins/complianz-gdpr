@@ -5,33 +5,32 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
  * Set analytics as suggested stats tool in the wizard
  */
 
-add_filter( 'cmplz_default_value', 'cmplz_monsterinsights_set_default', 20, 2 );
 function cmplz_monsterinsights_set_default( $value, $fieldname ) {
 	if ( $fieldname == 'compile_statistics' ) {
 		return "google-analytics";
 	}
-
 	return $value;
 }
-/**
- * Add conditional classes to the monsterinsights statistics script
- *
- * */
-
-function cmplz_monsterinsights_add_monsterinsights_attributes( $attr ) {
-	$attr['class'] = COMPLIANZ::$cookie_admin->get_statistics_category();
-	return $attr;
-}
-add_filter( 'monsterinsights_tracking_analytics_script_attributes', 'cmplz_monsterinsights_add_monsterinsights_attributes', 10, 1 );
+add_filter( 'cmplz_default_value', 'cmplz_monsterinsights_set_default', 20, 2 );
 
 /**
- * Block all premium scripts as well
+ * Add blocked scripts
  *
- * */
+ * @param array $tags
+ *
+ * @return mixed
+ */
 function cmplz_monsterinsights_script( $tags ) {
-	$tags[] = 'monsterinsights_scroll_tracking_load';
-	$tags[] = 'google-analytics-premium/pro/assets/';
-	$tags[] = 'mi_version';
+	$tags[] = array(
+		'name' => 'google-analytics',
+		'category' => 'statistics',
+		'urls' => array(
+			'monsterinsights_scroll_tracking_load',
+			'google-analytics-premium/pro/assets/',
+			'mi_version',
+		),
+	);
+
 	return $tags;
 }
 add_filter( 'cmplz_known_script_tags', 'cmplz_monsterinsights_script' );
@@ -42,11 +41,9 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_monsterinsights_script' );
  * */
 
 function cmplz_monsterinsights_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics',
-		'cmplz_show_compile_statistics_notice', 10 );
+	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
 }
-
-add_action( 'init', 'cmplz_monsterinsights_remove_actions' );
+add_action( 'admin_init', 'cmplz_monsterinsights_remove_actions' );
 
 /**
  * Add notice to tell a user to choose Analytics
@@ -56,7 +53,6 @@ add_action( 'init', 'cmplz_monsterinsights_remove_actions' );
 function cmplz_monsterinsights_show_compile_statistics_notice( $args ) {
 	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Monsterinsights' ) );
 }
-
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_monsterinsights_show_compile_statistics_notice', 10, 1 );
 
 
@@ -79,12 +75,9 @@ add_action( 'cmplz_notice_compile_statistics_more_info',
  * */
 function cmplz_monsterinsights_remove_scripts_others() {
 	remove_action( 'wp_head', 'monsterinsights_tracking_script', 6 );
-	remove_action( 'cmplz_statistics_script',
-		array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
 }
-
-add_action( 'after_setup_theme',
-	'cmplz_monsterinsights_remove_scripts_others' );
+add_action( 'after_setup_theme', 'cmplz_monsterinsights_remove_scripts_others' );
 
 /**
  * Execute the monsterinsights script at the right point
@@ -103,9 +96,11 @@ add_action( 'cmplz_before_statistics_script', 'monsterinsights_tracking_script',
 function cmplz_monsterinsights_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
+	unset( $fields['AW_code'] );
+	unset( $fields['consent-mode'] );
+	unset( $fields['compile_statistics_more_info']['help']);
 	return $fields;
 }
-
 add_filter( 'cmplz_fields', 'cmplz_monsterinsights_filter_fields' );
 
 /**
@@ -136,10 +131,8 @@ function cmplz_monsterinsights_force_anonymize_ips( $value, $key, $default ) {
 	if ( cmplz_no_ip_addresses() ) {
 		return true;
 	}
-
 	return $value;
 }
-
 add_filter( 'monsterinsights_get_option_anonymize_ips', 'cmplz_monsterinsights_force_anonymize_ips', 30, 3 );
 
 /**
@@ -152,13 +145,9 @@ add_filter( 'monsterinsights_get_option_anonymize_ips', 'cmplz_monsterinsights_f
  * @return bool
  */
 function cmplz_monsterinsights_force_demographics( $value, $key, $default ) {
-
 	if ( cmplz_statistics_no_sharing_allowed() ) {
 		return false;
 	}
-
 	return $value;
 }
-
-add_filter( 'monsterinsights_get_option_demographics',
-	'cmplz_monsterinsights_force_demographics', 30, 3 );
+add_filter( 'monsterinsights_get_option_demographics', 'cmplz_monsterinsights_force_demographics', 30, 3 );

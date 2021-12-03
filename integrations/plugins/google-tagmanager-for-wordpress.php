@@ -9,7 +9,6 @@ function cmplz_gtm4wp_set_default( $value, $fieldname ) {
 	if ( $fieldname == 'compile_statistics' ) {
 		return "google-tag-manager";
 	}
-
 	return $value;
 }
 
@@ -17,31 +16,17 @@ function cmplz_gtm4wp_set_default( $value, $fieldname ) {
  * Remove stats
  *
  * */
-
 function cmplz_gtm4wp_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics',
-		'cmplz_show_compile_statistics_notice', 10 );
+	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
 }
-
-add_action( 'init', 'cmplz_gtm4wp_remove_actions' );
-
-//function cmplz_edit_known_script_tags($tags){
-//	if (($key = array_search('gtm.js', $tags)) !== false) {
-//		unset($tags[$key]);
-//	}
-//	return $tags;
-//}
-//add_filter('cmplz_known_script_tags', 'cmplz_edit_known_script_tags');
-//
+add_action( 'admin_init', 'cmplz_gtm4wp_remove_actions' );
 
 /**
  * We remove some actions to integrate fully
  * */
 function cmplz_gtm4wp_remove_scripts_statistics() {
-	remove_action( 'cmplz_statistics_script',
-		array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
 }
-
 add_action( 'after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics' );
 
 /**
@@ -50,27 +35,23 @@ add_action( 'after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics' );
  * @param $args
  */
 function cmplz_gtm4wp_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.",
-		'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.", 'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
 }
+add_action( 'cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statistics_notice', 10, 1 );
 
-add_action( 'cmplz_notice_compile_statistics',
-	'cmplz_gtm4wp_show_compile_statistics_notice', 10, 1 );
-
-
-add_action( 'admin_init', 'cmplz_gtm4wp_options' );
+/**
+ * Configure options for GTM4WP
+ */
 function cmplz_gtm4wp_options() {
 	$storedoptions = (array) get_option( GTM4WP_OPTIONS );
 	$save          = false;
 
 	if ( isset( $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) ) {
-		if ( cmplz_no_ip_addresses()
-		     && $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
+		if ( cmplz_no_ip_addresses() && $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
 		) {
 			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = false;
 			$save                                              = true;
-		} elseif ( ! cmplz_no_ip_addresses()
-		           && ! ! $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
+		} elseif ( ! cmplz_no_ip_addresses() && ! ! $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
 		) {
 			$save                                              = true;
 			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = true;
@@ -97,6 +78,7 @@ function cmplz_gtm4wp_options() {
 		update_option( GTM4WP_OPTIONS, $storedoptions );
 	}
 }
+add_action( 'admin_init', 'cmplz_gtm4wp_options' );
 
 /**
  * Make sure there's no warning about configuring GA anymore
@@ -124,6 +106,10 @@ add_filter( 'cmplz_warning_types', 'cmplz_gtm4wp_filter_warnings' );
 function cmplz_gtm4wp_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['GTM_code'] );
+	unset( $fields['AW_code'] );
+	unset( $fields['consent-mode'] );
+	unset( $fields['compile_statistics_more_info']['help']);
+
 	return $fields;
 }
 
