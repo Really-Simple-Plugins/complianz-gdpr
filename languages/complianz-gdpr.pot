@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-11-18 14:00+0100\n"
-"PO-Revision-Date: 2021-11-18 13:59+0100\n"
+"POT-Creation-Date: 2021-12-03 09:20+0100\n"
+"PO-Revision-Date: 2021-12-03 09:19+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -34,9 +34,9 @@ msgid "Unnamed user"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD-table.php:150
-#: cookiebanner/class-cookiebanner-table.php:210 pro/class-statistics.php:566
-#: pro/records-of-consent/class-records-of-consent-table.php:155
-#: pro/records-of-consent/class-records-of-consent-table.php:282
+#: cookiebanner/class-cookiebanner-table.php:210 pro/class-statistics.php:571
+#: pro/records-of-consent/class-records-of-consent-table.php:150
+#: pro/records-of-consent/class-records-of-consent-table.php:276
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:156
 #: templates/cookie_settings.php:90 templates/service_settings.php:52
 msgid "Delete"
@@ -45,9 +45,9 @@ msgstr ""
 #: DNSMPD/class-DNSMPD-table.php:165 DNSMPD/csv.php:61 class-field.php:2408
 #: class-field.php:2749 class-field.php:2975
 #: cookiebanner/class-cookiebanner-table.php:231
-#: pro/config/questions-wizard.php:434 pro/config/questions-wizard.php:491
-#: pro/config/questions-wizard.php:557 pro/config/questions-wizard.php:613
-#: templates/cookie_settings.php:4 templates/cookiepolicy_cookies_row.php:2
+#: pro/config/questions-wizard.php:431 pro/config/questions-wizard.php:488
+#: pro/config/questions-wizard.php:554 pro/config/questions-wizard.php:610
+#: templates/cookie_settings.php:4 templates/cookiepolicy/cookies_row.php:2
 #: templates/do-not-sell-my-personal-data-form.php:15
 #: templates/do-not-sell-my-personal-data-form.php:17
 #: templates/service_settings.php:3
@@ -55,8 +55,8 @@ msgid "Name"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD-table.php:166 DNSMPD/csv.php:62
-#: pro/config/questions-wizard.php:449 pro/config/questions-wizard.php:506
-#: pro/config/questions-wizard.php:571 pro/config/questions-wizard.php:628
+#: pro/config/questions-wizard.php:446 pro/config/questions-wizard.php:503
+#: pro/config/questions-wizard.php:568 pro/config/questions-wizard.php:625
 #: pro/framework/post-types.php:447
 #: templates/do-not-sell-my-personal-data-form.php:19
 msgid "Email"
@@ -140,46 +140,46 @@ msgid ""
 "cookiedatabase.org in the last week."
 msgstr ""
 
-#: callback-notices.php:40
+#: callback-notices.php:39
 msgid ""
 "Please make sure you remove your current implementation to prevent double "
 "statistics tracking."
 msgstr ""
 
-#: callback-notices.php:42
+#: callback-notices.php:41
 msgid ""
 "If you add the ID for your statistics tool here, Complianz will configure "
 "your site for statistics tracking."
 msgstr ""
 
-#: callback-notices.php:56
+#: callback-notices.php:55
 #, php-format
 msgid ""
 "The cookie scan detected %s on your site, which means the answer to this "
 "question should be %s."
 msgstr ""
 
-#: callback-notices.php:72
+#: callback-notices.php:69
 #, php-format
 msgid ""
 "The scan found social media buttons or widgets for %s on your site, which "
 "means the answer should be yes"
 msgstr ""
 
-#: callback-notices.php:82
+#: callback-notices.php:79
 msgid ""
 "The scan found forms on your site, which means answer should probably "
 "include \"contact\"."
 msgstr ""
 
-#: callback-notices.php:95
+#: callback-notices.php:92
 #, php-format
 msgid ""
 "The scan found third-party services on your website: %s, this means the "
 "answer should be yes."
 msgstr ""
 
-#: callback-notices.php:106
+#: callback-notices.php:103
 msgid ""
 "The cookie scan detected cookies from services that share data with Third "
 "Parties. According to the CCPA, your website is considered to sell personal "
@@ -188,32 +188,32 @@ msgid ""
 "Google Analytics."
 msgstr ""
 
-#: callback-notices.php:113
+#: callback-notices.php:110
 msgid ""
 "Your server does not have CURL installed, which is required for the scan. "
 "Please contact your hosting company to install CURL."
 msgstr ""
 
-#: callback-notices.php:120
+#: callback-notices.php:117
 msgid ""
 "You have Do Not Track or Global Privacy Control enabled. This will prevent "
 "most cookies from being placed. Please run the scan with these options "
 "disabled."
 msgstr ""
 
-#: callback-notices.php:125
+#: callback-notices.php:122
 msgid ""
 "You are using an ad blocker. This will prevent most cookies from being "
 "placed. Please run the scan without an adblocker enabled."
 msgstr ""
 
-#: callback-notices.php:128
+#: callback-notices.php:125
 msgid ""
 "You are using an anonymous window. This will prevent most cookies from being "
 "placed. Please run the scan in a normal browser window."
 msgstr ""
 
-#: callback-notices.php:149
+#: callback-notices.php:146
 #, php-format
 msgid ""
 "Your site uses Google Fonts. For best privacy compliance, we recommend to "
@@ -221,13 +221,13 @@ msgid ""
 "article%s"
 msgstr ""
 
-#: callback-notices.php:162
+#: callback-notices.php:159
 msgid ""
 "Your site uses Divi. If you use reCAPTCHA on your site, you may need to "
 "disable the reCAPTCHA integration in Complianz. "
 msgstr ""
 
-#: callback-notices.php:179
+#: callback-notices.php:176
 #, php-format
 msgid ""
 "Because your site uses third-party cookies, the cookie blocker is now "
@@ -237,26 +237,26 @@ msgid ""
 "on the %ssettings page%s"
 msgstr ""
 
-#: callback-notices.php:192 callback-notices.php:201
+#: callback-notices.php:189 callback-notices.php:198
 msgid ""
 "The cookie scan detected cookies from services which share data with Third "
 "Parties. If these cookies were also used in the past 12 months, you should "
 "at least select the option 'Internet activity...'"
 msgstr ""
 
-#: callback-notices.php:209
+#: callback-notices.php:206
 msgid ""
 "If you choose to block reCAPTCHA, please make sure you add a placeholder to "
 "your forms."
 msgstr ""
 
-#: callback-notices.php:216
+#: callback-notices.php:213
 msgid ""
 "You have indicated you use a statistics tool which tracks personal data. You "
 "can insert this script here so it only fires if the user consents to this."
 msgstr ""
 
-#: callback-notices.php:228
+#: callback-notices.php:225
 msgid ""
 "You haven't created all required pages yet. You can add missing pages in the "
 "previous step, or create them manually with the shortcode. You can come back "
@@ -264,13 +264,13 @@ msgid ""
 "via Appearance > Menu."
 msgstr ""
 
-#: callback-notices.php:239
+#: callback-notices.php:236
 #, php-format
 msgid ""
 "You are required to put the \"%s\" page clearly visible on your homepage."
 msgstr ""
 
-#: callback-notices.php:245
+#: callback-notices.php:242
 #, php-format
 msgid ""
 "The generated document %s has not been assigned to a menu yet, you can do "
@@ -281,37 +281,37 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: callback-notices.php:251
+#: callback-notices.php:248
 msgid ""
 "Great! All your generated documents have been assigned to a menu, so you can "
 "skip this step."
 msgstr ""
 
-#: callback-notices.php:262
+#: callback-notices.php:259
 msgid ""
 "You're using Google Tag Manager. This means you need to configure Tag "
 "Manager to use the below categories."
 msgstr ""
 
-#: callback-notices.php:264
+#: callback-notices.php:266
 msgid "Categories are mandatory for your statistics configuration."
 msgstr ""
 
-#: callback-notices.php:276 callback-notices.php:278
+#: callback-notices.php:278 callback-notices.php:280
 msgid "It is recommended to select a Privacy Statement."
 msgstr ""
 
-#: callback-notices.php:276
+#: callback-notices.php:278
 msgid ""
 "The link to the Privacy Statement is used in the cookie banner and in your "
 "Cookie Policy."
 msgstr ""
 
-#: callback-notices.php:278
+#: callback-notices.php:280
 msgid "The link to the Privacy Statement is used in your Cookie Policy."
 msgstr ""
 
-#: callback-notices.php:291
+#: callback-notices.php:293
 msgid ""
 "You use plugins which place first-party marketing cookies. You can view "
 "these plugins on the integrations page. Complianz cannot automatically block "
@@ -319,7 +319,7 @@ msgid ""
 "API."
 msgstr ""
 
-#: callback-notices.php:303
+#: callback-notices.php:305
 msgid ""
 "You have selected options that indicate your site processes sensitive, "
 "personal data. You should select 'Yes'"
@@ -339,7 +339,7 @@ msgstr ""
 
 #: class-admin.php:337 class-admin.php:623 class-admin.php:624
 #: class-admin.php:848 cookiebanner/settings.php:468
-#: integrations/integrations-menu.php:51 pro/class-licensing.php:423
+#: integrations/integrations-menu.php:50 pro/class-licensing.php:423
 #: pro/class-licensing.php:522 templates/dashboard/tools.php:46
 msgid "Settings"
 msgstr ""
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:350 class-admin.php:637 config/class-config.php:639
+#: class-admin.php:350 class-admin.php:637
 msgid "Upgrade to premium"
 msgstr ""
 
@@ -522,70 +522,70 @@ msgid ""
 "On AMP, you can use the manage consent button on the bottom of the page."
 msgstr ""
 
-#: class-document.php:1305
+#: class-document.php:1304
 msgid "Legal Document"
 msgstr ""
 
-#: class-document.php:1321
+#: class-document.php:1320
 msgid "Document status"
 msgstr ""
 
-#: class-document.php:1343
+#: class-document.php:1342
 msgid "Synchronize document with Complianz"
 msgstr ""
 
-#: class-document.php:1347
+#: class-document.php:1346
 msgid "Edit document and stop synchronization"
 msgstr ""
 
-#: class-document.php:1644 class-document.php:1731
+#: class-document.php:1643 class-document.php:1730
 msgid "Update pages"
 msgstr ""
 
-#: class-document.php:1680
+#: class-document.php:1679
 msgid ""
 "The pages marked with X should be added to your website. You can create "
 "these pages with a shortcode, a Gutenberg block or use the below \"Create "
 "missing pages\" button."
 msgstr ""
 
-#: class-document.php:1682
+#: class-document.php:1681
 msgid ""
 "All necessary pages have been created already. You can update the page "
 "titles here if you want, then click the \"Update pages\" button."
 msgstr ""
 
-#: class-document.php:1688
+#: class-document.php:1687
 msgid ""
 "You haven't selected any legal documents to create. You can skip this step"
 msgstr ""
 
-#: class-document.php:1722 templates/dashboard/documents-conditional.php:38
+#: class-document.php:1721 templates/dashboard/documents-conditional.php:38
 #: templates/dashboard/documents.php:47
 msgid "Click to copy the document shortcode"
 msgstr ""
 
-#: class-document.php:1729
+#: class-document.php:1728
 msgid "Create missing pages"
 msgstr ""
 
-#: class-document.php:1757 class-document.php:1817
+#: class-document.php:1756 class-document.php:1816
 msgid ""
 "Your WordPress version does not support the functions needed for this step. "
 "You can upgrade to the latest WordPress version, or add the pages manually "
 "to a menu."
 msgstr ""
 
-#: class-document.php:1768 class-document.php:1828
+#: class-document.php:1767 class-document.php:1827
 #, php-format
 msgid "No menus were found. Skip this step, or %screate a menu%s first."
 msgstr ""
 
-#: class-document.php:1786 class-document.php:1857 class-document.php:1879
+#: class-document.php:1785 class-document.php:1856 class-document.php:1878
 msgid "Select a menu"
 msgstr ""
 
-#: class-document.php:2473 config/general-settings.php:233
+#: class-document.php:2472 config/general-settings.php:233
 msgid "Click to accept the cookies for this service"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr ""
 
 #: class-field.php:1943 class-field.php:2199 class-field.php:2310
 #: class-field.php:2532 class-field.php:2914 class-field.php:3018
-#: class-wizard.php:668 pro/templates/license/footer.php:2
+#: class-wizard.php:669 pro/templates/license/footer.php:2
 #: templates/CMPLZ_COOKIEBANNER/footer.php:3 templates/cookie_settings.php:87
 #: templates/integrations/footer.php:3 templates/service_settings.php:49
 #: templates/settings/footer.php:3
@@ -695,12 +695,12 @@ msgstr ""
 msgid "Add new cookie"
 msgstr ""
 
-#: class-field.php:2031 cookie/class-cookie-admin.php:3564
+#: class-field.php:2031 cookie/class-cookie-admin.php:3517
 #, php-format
 msgid "Cookies in %s"
 msgstr ""
 
-#: class-field.php:2031 cookie/class-cookie-admin.php:3564
+#: class-field.php:2031 cookie/class-cookie-admin.php:3517
 #, php-format
 msgid "Services in %s"
 msgstr ""
@@ -773,27 +773,27 @@ msgstr ""
 msgid "This script contains an async attribute."
 msgstr ""
 
-#: class-field.php:2465 class-field.php:2791 pro/class-statistics.php:568
+#: class-field.php:2465 class-field.php:2791 pro/class-statistics.php:573
 msgid "Category"
 msgstr ""
 
 #: class-field.php:2468 class-field.php:2794 config/steps.php:63
-#: cookiebanner/class-cookiebanner.php:706 cookiebanner/settings.php:683
+#: cookiebanner/class-cookiebanner.php:711 cookiebanner/settings.php:683
 #: cookiebanner/settings.php:684 cookiebanner/settings.php:685
-#: pro/tcf/tcf.php:683 pro/tcf/tcf.php:689 pro/templates/cookiebanner-tcf.php:6
+#: pro/tcf/tcf.php:689 pro/tcf/tcf.php:695 pro/templates/cookiebanner-tcf.php:6
 #: pro/templates/tcf-categories.php:6
 msgid "Statistics"
 msgstr ""
 
 #: class-field.php:2480 class-field.php:2806
-#: cookiebanner/class-cookiebanner.php:710 cookiebanner/settings.php:720
+#: cookiebanner/class-cookiebanner.php:715 cookiebanner/settings.php:720
 #: cookiebanner/settings.php:721 cookiebanner/settings.php:722
-#: pro/tcf/tcf.php:685 pro/tcf/tcf.php:692
+#: pro/tcf/tcf.php:691 pro/tcf/tcf.php:698
 #: pro/templates/cookiebanner-tcf.php:13 pro/templates/tcf-categories.php:14
 msgid "Marketing"
 msgstr ""
 
-#: class-field.php:2494 class-field.php:2820 integrations/integrations.php:653
+#: class-field.php:2494 class-field.php:2820 integrations/integrations.php:651
 msgid "Placeholder"
 msgstr ""
 
@@ -896,26 +896,26 @@ msgid ""
 "wizard first%s."
 msgstr ""
 
-#: class-wizard.php:100 pro/class-processing.php:129
+#: class-wizard.php:101 pro/class-processing.php:129
 msgid ""
 "Not all required fields are completed yet. Please check the steps to "
 "complete all required questions"
 msgstr ""
 
-#: class-wizard.php:104
+#: class-wizard.php:105
 #, php-format
 msgid ""
 "Click '%s' to complete the configuration. You can come back to change your "
 "configuration at any time."
 msgstr ""
 
-#: class-wizard.php:105 class-wizard.php:651 config/steps.php:120
+#: class-wizard.php:106 class-wizard.php:652 config/steps.php:120
 #: pro/config/steps.php:125 pro/dataleak/steps.php:21 pro/dataleak/steps.php:46
 #: pro/dataleak/steps.php:71
 msgid "Finish"
 msgstr ""
 
-#: class-wizard.php:109
+#: class-wizard.php:110
 #, php-format
 msgid ""
 "The cookie banner and cookie blocker are enabled. Please check your website "
@@ -924,39 +924,39 @@ msgid ""
 "settings."
 msgstr ""
 
-#: class-wizard.php:109
+#: class-wizard.php:110
 msgid ""
 "You will find tips and tricks on your dashboard after you have configured "
 "your cookie banner."
 msgstr ""
 
-#: class-wizard.php:451
+#: class-wizard.php:452
 #, php-format
 msgid "The wizard is currently being edited by %s"
 msgstr ""
 
-#: class-wizard.php:453
+#: class-wizard.php:454
 #, php-format
 msgid "If this user stops editing, the lock will expire after %s minutes."
 msgstr ""
 
-#: class-wizard.php:544 shepherd/tour.php:80
+#: class-wizard.php:545 shepherd/tour.php:80
 msgid "The Wizard"
 msgstr ""
 
-#: class-wizard.php:635 shepherd/tour.php:126
+#: class-wizard.php:636 shepherd/tour.php:126
 msgid "Previous"
 msgstr ""
 
-#: class-wizard.php:639
+#: class-wizard.php:640
 msgid "Save and Continue"
 msgstr ""
 
-#: class-wizard.php:650 pro/class-processing.php:132
+#: class-wizard.php:651 pro/class-processing.php:132
 msgid "View document"
 msgstr ""
 
-#: class-wizard.php:660
+#: class-wizard.php:661
 msgid "Finish and check cookie banner settings"
 msgstr ""
 
@@ -969,70 +969,70 @@ msgid ""
 "Complianz cannot be activated. The plugin requires WordPress 4.6 or higher"
 msgstr ""
 
-#: config/class-config.php:258 config/questions-wizard.php:395
-#: config/questions-wizard.php:413 config/questions-wizard.php:684
-#: integrations/plugins/elementor-pro/elementor-pro.php:213
-#: integrations/plugins/elementor-pro/elementor-pro.php:233
-#: pro/config/questions-wizard.php:728 pro/tcf/tcf.php:656 pro/tcf/tcf.php:660
+#: config/class-config.php:260 config/questions-wizard.php:392
+#: config/questions-wizard.php:410 config/questions-wizard.php:681
+#: integrations/plugins/elementor-pro/elementor-pro.php:219
+#: integrations/plugins/elementor-pro/elementor-pro.php:239
+#: pro/config/questions-wizard.php:725 pro/tcf/tcf.php:662 pro/tcf/tcf.php:666
 msgid "Yes"
 msgstr ""
 
-#: config/class-config.php:259 config/questions-wizard.php:294
-#: config/questions-wizard.php:396 config/questions-wizard.php:414
-#: config/questions-wizard.php:685
-#: integrations/plugins/elementor-pro/elementor-pro.php:186
-#: integrations/plugins/elementor-pro/elementor-pro.php:214
-#: integrations/plugins/elementor-pro/elementor-pro.php:234
-#: pro/config/questions-wizard.php:729 pro/config/questions-wizard.php:797
-#: pro/tcf/tcf.php:656 pro/tcf/tcf.php:660
+#: config/class-config.php:261 config/questions-wizard.php:294
+#: config/questions-wizard.php:393 config/questions-wizard.php:411
+#: config/questions-wizard.php:682
+#: integrations/plugins/elementor-pro/elementor-pro.php:189
+#: integrations/plugins/elementor-pro/elementor-pro.php:220
+#: integrations/plugins/elementor-pro/elementor-pro.php:240
+#: pro/config/questions-wizard.php:726 pro/config/questions-wizard.php:794
+#: pro/tcf/tcf.php:662 pro/tcf/tcf.php:666
 msgid "No"
 msgstr ""
 
-#: config/class-config.php:263
+#: config/class-config.php:265
 #, php-format
 msgid ""
 "To enable the warning only for countries with a cookie law, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:268
+#: config/class-config.php:270
 #, php-format
 msgid ""
 "If you want to run a/b testing to track which banner gets the highest "
 "acceptance ratio, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:274 config/general-settings.php:182
+#: config/class-config.php:276 config/general-settings.php:182
 #: cookiebanner/class-cookiebanner-table.php:237
 msgid "Default"
 msgstr ""
 
-#: config/class-config.php:450
+#: config/class-config.php:452
 #, php-format
 msgid "Complianz GDPR/CCPA %s. Learn more about our newest release."
 msgstr ""
 
-#: config/class-config.php:459
+#: config/class-config.php:461
 msgid "The wizard has been completed."
 msgstr ""
 
-#: config/class-config.php:460
+#: config/class-config.php:462
 msgid ""
 "Not all fields have been entered, or you have not clicked the \"finish\" "
 "button yet."
 msgstr ""
 
-#: config/class-config.php:469
+#: config/class-config.php:471
 msgid "Do Not Track and Global Privacy Control are respected."
 msgstr ""
 
-#: config/class-config.php:470
+#: config/class-config.php:472
 #, php-format
 msgid ""
 "Do Not Track and Global Privacy Control are not yet respected. - (%spremium"
 "%s)"
 msgstr ""
 
-#: config/class-config.php:477
+#: config/class-config.php:479
 #, php-format
 msgid ""
 "You have currently selected an informal language, which will result in "
@@ -1040,153 +1040,133 @@ msgid ""
 "style, you can activate this in the %sgeneral settings%s."
 msgstr ""
 
-#: config/class-config.php:488
+#: config/class-config.php:490
 msgid "No cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:489
+#: config/class-config.php:491
 msgid "Cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:489
+#: config/class-config.php:491
 #, php-format
 msgid "Please review step %s of the wizard for changes in cookies."
 msgstr ""
 
-#: config/class-config.php:496
+#: config/class-config.php:498
 #, php-format
 msgid "Last cookie scan completed on %s."
 msgstr ""
 
-#: config/class-config.php:497
+#: config/class-config.php:499
 msgid "No cookie scan has been completed yet."
 msgstr ""
 
-#: config/class-config.php:506
+#: config/class-config.php:508
 msgid "All required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:507
+#: config/class-config.php:509
 msgid "Not all required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:515
+#: config/class-config.php:517
 msgid "Great! You're already on SSL!"
 msgstr ""
 
-#: config/class-config.php:516
+#: config/class-config.php:518
 #, php-format
 msgid ""
 "You don't have SSL on your site yet. Install SSL for Free with %sReally "
 "Simple SSL%s"
 msgstr ""
 
-#: config/class-config.php:526
+#: config/class-config.php:528
 msgid "Google Analytics is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:535
+#: config/class-config.php:537
 msgid "Google Tag Manager is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:544
+#: config/class-config.php:546
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:551
+#: config/class-config.php:553
 msgid ""
 "Your documents have not been updated in the past 12 months. Run the wizard "
 "to check your settings."
 msgstr ""
 
-#: config/class-config.php:559
+#: config/class-config.php:561
 msgid "You have cookies with incomplete descriptions."
 msgstr ""
 
-#: config/class-config.php:560
+#: config/class-config.php:562
 #, php-format
 msgid ""
 "Enable the cookiedatabase.org API for automatic descriptions, or add these "
 "%smanually%s."
 msgstr ""
 
-#: config/class-config.php:572
+#: config/class-config.php:574
 msgid ""
 "You have a duplicate implementation of your statistics tool on your site."
 msgstr ""
 
-#: config/class-config.php:573
+#: config/class-config.php:575
 msgid ""
 "After the issue has been resolved, please re-run a scan to clear this "
 "message."
 msgstr ""
 
-#: config/class-config.php:583
+#: config/class-config.php:585
 msgid ""
 "Javascript errors are detected on the front-end of your site. This may break "
 "the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:584
+#: config/class-config.php:586
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:597
+#: config/class-config.php:599
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:598
+#: config/class-config.php:600
 msgid "Your site does not require a cookie banner."
 msgstr ""
 
-#: config/class-config.php:607
+#: config/class-config.php:609
 msgid ""
 "Pretty permalinks are not enabled on your site. This can cause issues with "
 "the REST API, used by Complianz."
 msgstr ""
 
-#: config/class-config.php:616
+#: config/class-config.php:618
 msgid ""
 "We see you have enabled Google Maps as a service, but we can't find an "
 "integration. You can integrate manually if needed."
 msgstr ""
 
-#: config/class-config.php:624
+#: config/class-config.php:626
 #, php-format
 msgid "We have detected the %s plugin on your website."
 msgstr ""
 
-#: config/class-config.php:624
+#: config/class-config.php:626
 msgid ""
 "As Complianz handles all the functionality this plugin provides, you should "
 "disable this plugin to prevent unexpected behaviour."
 msgstr ""
 
-#: config/class-config.php:632
-msgid "With Advertising enabled consider implementing TCF."
-msgstr ""
-
-#: config/class-config.php:639
-msgid "Synchronize your Privacy Statement with Complianz."
-msgstr ""
-
-#: config/class-config.php:646
-msgid "Legal compliance for Webshops."
-msgstr ""
-
-#: config/class-config.php:653
-msgid "Learn more about Google Consent Mode."
-msgstr ""
-
-#: config/class-config.php:660
-msgid "Are you targeting multiple regions?"
-msgstr ""
-
-#: config/class-config.php:667
+#: config/class-config.php:633
 msgid "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!"
 msgstr ""
 
-#: config/class-config.php:667
+#: config/class-config.php:633
 msgid "Learn more."
 msgstr ""
 
@@ -3456,7 +3436,7 @@ msgid ""
 msgstr ""
 
 #: config/purpose.php:23
-#: pro/records-of-consent/class-records-of-consent-table.php:300
+#: pro/records-of-consent/class-records-of-consent-table.php:294
 msgid "IP address"
 msgstr ""
 
@@ -3621,7 +3601,7 @@ msgstr ""
 
 #: config/questions-wizard.php:94
 msgid ""
-"Does your site have users with log-in access to a restricted area of the "
+"Does your site have visitors with log-in access to a restricted area of the "
 "website?"
 msgstr ""
 
@@ -3694,8 +3674,8 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:68
 #: pro/config/US/questions-processing.php:68
 #: pro/config/ZA/questions-processing.php:68
-#: pro/config/questions-wizard.php:459 pro/config/questions-wizard.php:521
-#: pro/config/questions-wizard.php:581 pro/config/questions-wizard.php:643
+#: pro/config/questions-wizard.php:456 pro/config/questions-wizard.php:518
+#: pro/config/questions-wizard.php:578 pro/config/questions-wizard.php:640
 msgid "Phone number"
 msgstr ""
 
@@ -3839,21 +3819,21 @@ msgstr ""
 msgid "Script Center"
 msgstr ""
 
-#: config/questions-wizard.php:382
+#: config/questions-wizard.php:379
 msgid ""
 "Below you can choose to implement your statistics script with Complianz."
 msgstr ""
 
-#: config/questions-wizard.php:383
+#: config/questions-wizard.php:380
 msgid "We will add the needed snippets and control consent at the same time."
 msgstr ""
 
-#: config/questions-wizard.php:393
+#: config/questions-wizard.php:390
 #, php-format
 msgid "Do you want Complianz to add %s to your website?"
 msgstr ""
 
-#: config/questions-wizard.php:401
+#: config/questions-wizard.php:398
 msgid ""
 "It's recommended to let Complianz handle the statistics script. This way, "
 "the plugin can detect if it needs to be hooked into the cookie consent code "
@@ -3861,132 +3841,132 @@ msgid ""
 "you can choose to do so."
 msgstr ""
 
-#: config/questions-wizard.php:402
+#: config/questions-wizard.php:399
 msgid ""
 "If you have selected non privacy friendly options in the previous step, "
 "configuration by Complianz is required."
 msgstr ""
 
-#: config/questions-wizard.php:411
+#: config/questions-wizard.php:408
 msgid "Do you want to enable Google Consent Mode?"
 msgstr ""
 
-#: config/questions-wizard.php:420
+#: config/questions-wizard.php:417
 msgid "You can also enable Google Consent Mode."
 msgstr ""
 
-#: config/questions-wizard.php:432
+#: config/questions-wizard.php:429
 msgid "Enter your tracking ID"
 msgstr ""
 
-#: config/questions-wizard.php:437
+#: config/questions-wizard.php:434
 msgid ""
 "For the Google Analytics tracking ID, log on and click Admin and copy the "
 "tracking ID."
 msgstr ""
 
-#: config/questions-wizard.php:448
+#: config/questions-wizard.php:445
 msgid "Please enter your GTM container ID"
 msgstr ""
 
-#: config/questions-wizard.php:451
+#: config/questions-wizard.php:448
 msgid ""
 "For the Google Tag Manager code, log on. Then, you will immediatly see "
 "Container codes. The one next to your website name is the code you will need "
 "to fill in here, the Container ID."
 msgstr ""
 
-#: config/questions-wizard.php:464
+#: config/questions-wizard.php:461
 msgid "Conversion ID"
 msgstr ""
 
-#: config/questions-wizard.php:465
+#: config/questions-wizard.php:462
 msgid "Optional, this will be fired on marketing consent."
 msgstr ""
 
-#: config/questions-wizard.php:481
+#: config/questions-wizard.php:478
 msgid "Enter the URL of Matomo"
 msgstr ""
 
-#: config/questions-wizard.php:485
+#: config/questions-wizard.php:482
 msgid "e.g. https://domain.com/stats"
 msgstr ""
 
-#: config/questions-wizard.php:497
+#: config/questions-wizard.php:494
 msgid "Enter your Matomo site ID"
 msgstr ""
 
-#: config/questions-wizard.php:510
+#: config/questions-wizard.php:507
 msgid "Enter your Clicky site ID"
 msgstr ""
 
-#: config/questions-wizard.php:514
+#: config/questions-wizard.php:511
 msgid ""
 "Because Clicky always sets a so-called unique identifier cookie, consent for "
 "statistics is always required."
 msgstr ""
 
-#: config/questions-wizard.php:525
+#: config/questions-wizard.php:522
 msgid "Enter your Yandex ID"
 msgstr ""
 
-#: config/questions-wizard.php:540
+#: config/questions-wizard.php:537
 msgid "Do you want to enable the Yandex ecommerce datalayer?"
 msgstr ""
 
-#: config/questions-wizard.php:555
+#: config/questions-wizard.php:552
 msgid "Does your website use third-party services?"
 msgstr ""
 
-#: config/questions-wizard.php:557
+#: config/questions-wizard.php:554
 msgid ""
 "e.g. services like Google Fonts, Maps or reCAPTCHA usually place cookies."
 msgstr ""
 
-#: config/questions-wizard.php:570
+#: config/questions-wizard.php:567
 msgid "Select the types of third-party services you use on your site."
 msgstr ""
 
-#: config/questions-wizard.php:571
+#: config/questions-wizard.php:568
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)."
 msgstr ""
 
-#: config/questions-wizard.php:572
+#: config/questions-wizard.php:569
 msgid ""
 "When possible a placeholder is activated. You can also disable or configure "
 "the placeholder to your liking. You can disable services and placeholders "
 "under Integrations."
 msgstr ""
 
-#: config/questions-wizard.php:584
+#: config/questions-wizard.php:581
 msgid ""
 "Do you want to block reCAPTCHA before consent, and when consent is revoked?"
 msgstr ""
 
-#: config/questions-wizard.php:595
+#: config/questions-wizard.php:592
 msgid "Did you enable the consent module in your HubSpot account?"
 msgstr ""
 
-#: config/questions-wizard.php:609
+#: config/questions-wizard.php:606
 msgid "Is Hotjar configured in a privacy-friendly way?"
 msgstr ""
 
-#: config/questions-wizard.php:611
+#: config/questions-wizard.php:608
 msgid ""
 "You can configure Hotjar privacy-friendly, if you do this, no consent is "
 "required for Hotjar."
 msgstr ""
 
-#: config/questions-wizard.php:627
+#: config/questions-wizard.php:624
 msgid ""
 "Does your website contain embedded social media content, like buttons, "
 "timelines, videos or pixels?"
 msgstr ""
 
-#: config/questions-wizard.php:629
+#: config/questions-wizard.php:626
 msgid ""
 "Content from social media is mostly embedded through iFrames. These often "
 "place third party (tracking) cookies, so must be blocked based on visitor "
@@ -3994,24 +3974,24 @@ msgid ""
 "profile on an external page you can answer No."
 msgstr ""
 
-#: config/questions-wizard.php:642
+#: config/questions-wizard.php:639
 msgid "Select which social media are used on the website."
 msgstr ""
 
-#: config/questions-wizard.php:644
+#: config/questions-wizard.php:641
 msgid ""
 "Checking services here will add the associated cookies to your Cookie "
 "Policy, and block the service until consent is given (opt-in), or after "
 "consent is revoked (opt-out)"
 msgstr ""
 
-#: config/questions-wizard.php:657
+#: config/questions-wizard.php:654
 msgid ""
 "You have stated that you don't use third-party services. Do you use plugins "
 "that might set marketing cookies?"
 msgstr ""
 
-#: config/questions-wizard.php:658
+#: config/questions-wizard.php:655
 msgid ""
 "Complianz cannot automatically block first-party marketing cookies unless "
 "these plugins conform to the WP Consent API. Look for any possible "
@@ -4019,76 +3999,76 @@ msgid ""
 "question, the marketing category will be removed."
 msgstr ""
 
-#: config/questions-wizard.php:673
+#: config/questions-wizard.php:670
 msgid "Does your website use cookies for advertising?"
 msgstr ""
 
-#: config/questions-wizard.php:686 pro/config/dynamic-fields.php:278
+#: config/questions-wizard.php:683 pro/config/dynamic-fields.php:278
 msgid "Enable TCF"
 msgstr ""
 
-#: config/questions-wizard.php:689
+#: config/questions-wizard.php:686
 msgid "Are any of your advertising cookies used to show personalized ads?"
 msgstr ""
 
-#: config/questions-wizard.php:690
+#: config/questions-wizard.php:687
 msgid ""
 "Google recommends an integration with TCF V2.0 to avoid loss of revenue."
 msgstr ""
 
-#: config/questions-wizard.php:691
+#: config/questions-wizard.php:688
 msgid ""
 "If you only use Google for advertising, and have activated the option to use "
 "only non personalized ads, you can select no here."
 msgstr ""
 
-#: config/questions-wizard.php:709
+#: config/questions-wizard.php:706
 msgid "Does your website use WordPress comments?"
 msgstr ""
 
-#: config/questions-wizard.php:725
+#: config/questions-wizard.php:722
 msgid ""
 "Do you want to disable the storage of personal data by the WP comments "
 "function and the checkbox?"
 msgstr ""
 
-#: config/questions-wizard.php:726
+#: config/questions-wizard.php:723
 msgid ""
 "If you enable this, WordPress will not store personal data with comments and "
 "you won't need a consent checkbox for the comment form. The consent box will "
 "not be displayed."
 msgstr ""
 
-#: config/questions-wizard.php:737
+#: config/questions-wizard.php:734
 msgid "Enabled integrations"
 msgstr ""
 
-#: config/questions-wizard.php:751
+#: config/questions-wizard.php:748
 msgid "Connect with Cookiedatabase.org"
 msgstr ""
 
-#: config/questions-wizard.php:762
+#: config/questions-wizard.php:759
 msgid "Add the used cookies here"
 msgstr ""
 
-#: config/questions-wizard.php:774
+#: config/questions-wizard.php:771
 msgid "Add the services to which your cookies belong here"
 msgstr ""
 
-#: config/questions-wizard.php:792
+#: config/questions-wizard.php:789
 msgid "Yes, redirect based on GEO IP"
 msgstr ""
 
-#: config/questions-wizard.php:793
+#: config/questions-wizard.php:790
 msgid "No, choose a menu per document"
 msgstr ""
 
-#: config/questions-wizard.php:799
+#: config/questions-wizard.php:796
 #, php-format
 msgid "GEO IP based redirect is available in %spremium%s"
 msgstr ""
 
-#: config/questions-wizard.php:801
+#: config/questions-wizard.php:798
 msgid "Do you want to use region redirect on the relevant documents?"
 msgstr ""
 
@@ -4159,12 +4139,12 @@ msgid "Security & Consent"
 msgstr ""
 
 #: config/steps.php:53
-#: pro/records-of-consent/class-records-of-consent-table.php:299
-#: pro/tcf/tcf.php:638 pro/tcf/tcf.php:681
+#: pro/records-of-consent/class-records-of-consent-table.php:293
+#: pro/tcf/tcf.php:644 pro/tcf/tcf.php:687
 msgid "Consent"
 msgstr ""
 
-#: config/steps.php:57 cookie/class-cookie-admin.php:3475
+#: config/steps.php:57 cookie/class-cookie-admin.php:3428
 msgid "Cookie scan"
 msgstr ""
 
@@ -4275,153 +4255,153 @@ msgid ""
 "multiple policies and statements."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:263
+#: cookie/class-cookie-admin.php:262
 msgid "Select or add a service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:279
+#: cookie/class-cookie-admin.php:278
 msgid "No services listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:302
+#: cookie/class-cookie-admin.php:301
 msgid "Select a service type"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:347
+#: cookie/class-cookie-admin.php:346
 msgid "No service types listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:369
+#: cookie/class-cookie-admin.php:368
 msgid "Select a purpose"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:413
+#: cookie/class-cookie-admin.php:412
 msgid "No purposes listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:461
+#: cookie/class-cookie-admin.php:455
 msgid "View cookie on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:505
+#: cookie/class-cookie-admin.php:499
 msgid "The data for this cookie is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:507
+#: cookie/class-cookie-admin.php:501
 msgid "This cookie has missing fields"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:511
+#: cookie/class-cookie-admin.php:505
 msgid "Synchronization with cookiedatabase.org is not enabled for this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:513
+#: cookie/class-cookie-admin.php:507
 msgid "This cookie has been synchronized with cookiedatabase.org."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:513
+#: cookie/class-cookie-admin.php:507
 msgid "Our moderators will keep the cookies up-to-date."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:515
+#: cookie/class-cookie-admin.php:509
 msgid "This cookie is not yet synchronized with cookiedatabase.org."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:515
+#: cookie/class-cookie-admin.php:509
 msgid ""
 "Either try again, or if this fails; our moderators will investigate further "
 "and automatically update the descriptions."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:519
+#: cookie/class-cookie-admin.php:513
 msgid "This cookie will be on your Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:521
+#: cookie/class-cookie-admin.php:515
 msgid "This cookie is not shown on the Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:525
+#: cookie/class-cookie-admin.php:519
 msgid "This cookie has recently been detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:527
+#: cookie/class-cookie-admin.php:521
 msgid "This cookie has not been detected on your site in the last three months"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:530
+#: cookie/class-cookie-admin.php:524
 msgid ""
 "This cookie has not been found in the scan for three months. Please check if "
 "you are still using this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:533
+#: cookie/class-cookie-admin.php:527
 msgid "(Administrator cookie, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:534
+#: cookie/class-cookie-admin.php:528
 msgid "(Logged in users only, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:536
+#: cookie/class-cookie-admin.php:530
 #, php-format
 msgid "Cookie \"%s\"%s%s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:587
+#: cookie/class-cookie-admin.php:581
 msgid "View service on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:624
+#: cookie/class-cookie-admin.php:618
 msgid "The data for this service is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:626
+#: cookie/class-cookie-admin.php:620
 msgid "This service has missing fields"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:630
+#: cookie/class-cookie-admin.php:624
 msgid "Synchronization with cookiedatabase.org is not enabled for this service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:632
+#: cookie/class-cookie-admin.php:626
 msgid "This service has been synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:634
+#: cookie/class-cookie-admin.php:628
 msgid "This service is not synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:637
+#: cookie/class-cookie-admin.php:631
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: cookie/class-cookie-admin.php:689 cookie/class-cookie-admin.php:816
+#: cookie/class-cookie-admin.php:683 cookie/class-cookie-admin.php:810
 msgid "Cookies without selected service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:986 cookie/class-cookie-admin.php:1305
+#: cookie/class-cookie-admin.php:979 cookie/class-cookie-admin.php:1301
 msgid ""
 "You haven't accepted the usage of the cookiedatabase.org API. To "
 "automatically complete your cookie descriptions, please choose yes."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1001 cookie/class-cookie-admin.php:1320
+#: cookie/class-cookie-admin.php:994 cookie/class-cookie-admin.php:1316
 msgid ""
 "A request is already running. Please be patient until the current request "
 "finishes"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1042 cookie/class-cookie-admin.php:1360
+#: cookie/class-cookie-admin.php:1035 cookie/class-cookie-admin.php:1356
 msgid "Could not connect to cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1567
+#: cookie/class-cookie-admin.php:1563
 msgid "Processing Agreements"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1569
+#: cookie/class-cookie-admin.php:1565
 msgid ""
 "A Processor or Service Provider is the party that processes personal data on "
 "behalf of a responsible organization or person. If you are this organization "
@@ -4429,7 +4409,7 @@ msgid ""
 "can use a Processing Agreement outside of Complianz, or generate one here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1580 pro/framework/post-types.php:85
+#: cookie/class-cookie-admin.php:1576 pro/framework/post-types.php:85
 #: pro/templates/dashboard/documents-conditional.php:23
 #: pro/templates/dashboard/documents-conditional.php:58
 #: pro/templates/dashboard/tools-conditional.php:7
@@ -4438,81 +4418,71 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1662
+#: cookie/class-cookie-admin.php:1658
 msgid ""
 "You use Matomo for statistics on your site, with ip numbers anonymized. "
 "Therefore it is not necessary to add the script here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1665
+#: cookie/class-cookie-admin.php:1661
 msgid ""
 "You use Matomo for statistics on your site, but ip numbers are not "
 "anonymized. Therefore you should add your tracking script here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2854 functions.php:1927
+#: cookie/class-cookie-admin.php:2831 functions.php:1910
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3127
+#: cookie/class-cookie-admin.php:3104
 #, php-format
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3149
+#: cookie/class-cookie-admin.php:3126
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3237
+#: cookie/class-cookie-admin.php:3216
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3239
-msgid "Cookie scan in progress"
+#: cookie/class-cookie-admin.php:3219
+#, php-format
+msgid "The scan found 1 cookie on your domain."
+msgid_plural "The scan found %s cookies on your domain."
+msgstr[0] ""
+msgstr[1] ""
+
+#: cookie/class-cookie-admin.php:3220
+msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3247
-msgid "Cookies on your own domain"
-msgstr ""
-
-#: cookie/class-cookie-admin.php:3259 cookie/class-cookie-admin.php:3274
-#: cookie/class-cookie-admin.php:3289
+#: cookie/class-cookie-admin.php:3232
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3267
-msgid "Social media"
-msgstr ""
-
-#: cookie/class-cookie-admin.php:3274 cookie/class-cookie-admin.php:3289
-msgid "You can add these manually under 'Services'."
-msgstr ""
-
-#: cookie/class-cookie-admin.php:3282
-msgid "Third-party services"
-msgstr ""
-
-#: cookie/class-cookie-admin.php:3462
+#: cookie/class-cookie-admin.php:3415
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3469
+#: cookie/class-cookie-admin.php:3422
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3470
+#: cookie/class-cookie-admin.php:3423
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3513
+#: cookie/class-cookie-admin.php:3466
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3533
+#: cookie/class-cookie-admin.php:3486
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3536
+#: cookie/class-cookie-admin.php:3489
 msgid "Syncing..."
 msgstr ""
 
@@ -4571,24 +4541,24 @@ msgstr ""
 msgid "New cookie banner"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:691
+#: cookiebanner/class-cookiebanner.php:696
 msgid "Do Not Track"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:692
+#: cookiebanner/class-cookiebanner.php:697
 msgid "No choice"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:696
+#: cookiebanner/class-cookiebanner.php:701
 msgid "No warning"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:699 cookiebanner/settings.php:643
+#: cookiebanner/class-cookiebanner.php:704 cookiebanner/settings.php:643
 #: cookiebanner/settings.php:644 cookiebanner/settings.php:645
 msgid "Functional"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:702 cookiebanner/settings.php:660
+#: cookiebanner/class-cookiebanner.php:707 cookiebanner/settings.php:660
 #: cookiebanner/settings.php:661 cookiebanner/settings.php:662
 msgid "Preferences"
 msgstr ""
@@ -5149,7 +5119,7 @@ msgstr ""
 #: functions.php:124
 #, php-format
 msgid ""
-"Due to the French CNIL guidelines we suggest using the Accept + View "
+"Due to the French CNIL guidelines we suggest using the Accept - Deny - View "
 "preferences template. For more information, read about the CNIL updated "
 "privacy guidelines in this %sarticle%s."
 msgstr ""
@@ -5177,44 +5147,44 @@ msgstr ""
 msgid "Denied"
 msgstr ""
 
-#: functions.php:1158
+#: functions.php:1141
 msgid "the page source"
 msgstr ""
 
-#: functions.php:1161
+#: functions.php:1144
 #, php-format
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1370
+#: functions.php:1353
 #, php-format
 msgid "For more information, please read this %sarticle%s."
 msgstr ""
 
-#: functions.php:1897
+#: functions.php:1880
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1902 functions.php:1912
+#: functions.php:1885 functions.php:1895
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1904 functions.php:1909
+#: functions.php:1887 functions.php:1892
 #, php-format
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:1914
+#: functions.php:1897
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:1917
+#: functions.php:1900
 #, php-format
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:1924 pro/records-of-consent/class-records-of-consent.php:377
+#: functions.php:1907 pro/records-of-consent/class-records-of-consent.php:377
 #: proof-of-consent/class-proof-of-consent.php:261
 #: templates/dashboard/documents-conditional.php:63
 #: templates/dashboard/documents-conditional.php:75
@@ -5225,19 +5195,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2404
-#: pro/records-of-consent/class-records-of-consent-table.php:242
-#: pro/tcf/tcf.php:877
+#: functions.php:2387
+#: pro/records-of-consent/class-records-of-consent-table.php:236
+#: pro/tcf/tcf.php:883
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2406
-#: pro/records-of-consent/class-records-of-consent-table.php:245
-#: pro/tcf/tcf.php:876
+#: functions.php:2389
+#: pro/records-of-consent/class-records-of-consent-table.php:239
+#: pro/tcf/tcf.php:882
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2408
+#: functions.php:2391
 msgid "All consent types"
 msgstr ""
 
@@ -5246,33 +5216,34 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:684
+#: integrations/integrations.php:682
 #, php-format
 msgid "We have enabled the %s integration."
 msgstr ""
 
-#: integrations/integrations.php:825
+#: integrations/integrations.php:817
 msgid "No required integrations detected yet."
 msgstr ""
 
-#: integrations/plugins/beehive.php:45
-#: integrations/plugins/caos-host-analytics-local.php:105
-#: integrations/plugins/monsterinsights.php:57
-#: integrations/plugins/woocommerce-google-analytics-integration.php:129
-#: integrations/plugins/woocommerce-google-analytics-pro.php:135
+#: integrations/plugins/beehive.php:40
+#: integrations/plugins/caos-host-analytics-local.php:80
+#: integrations/plugins/google-analytics-dashboard-for-wp.php:51
+#: integrations/plugins/monsterinsights.php:54
+#: integrations/plugins/woocommerce-google-analytics-integration.php:76
+#: integrations/plugins/woocommerce-google-analytics-pro.php:89
 #, php-format
 msgid ""
 "You use %s, which means the answer to this question should be Google "
 "Analytics."
 msgstr ""
 
-#: integrations/plugins/beehive.php:104
+#: integrations/plugins/beehive.php:98
 msgid ""
 "You have selected you anonymize IP addresses. This setting is now enabled in "
 "Beehive."
 msgstr ""
 
-#: integrations/plugins/beehive.php:108
+#: integrations/plugins/beehive.php:102
 msgid ""
 "You have selected you do not share data with third-party networks. Display "
 "advertising is now disabled in Beehive."
@@ -5286,17 +5257,17 @@ msgstr ""
 msgid "Please accept marketing cookies to enable this form"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:190
+#: integrations/plugins/contact-form-7.php:171
 msgid "(Contact form 7)"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:208
+#: integrations/plugins/contact-form-7.php:189
 #: integrations/plugins/wpforms.php:61
 #, php-format
 msgid "To submit this form, you need to accept our %sPrivacy Statement%s"
 msgstr ""
 
-#: integrations/plugins/contact-form-7.php:290
+#: integrations/plugins/contact-form-7.php:271
 msgid ""
 "Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 "
 "integration as of CF7 5.4. We have concluded that the only viable solution "
@@ -5598,59 +5569,65 @@ msgstr ""
 msgid "Complianz Cookiebanner"
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:176
+#: integrations/plugins/elementor-pro/elementor-pro.php:177
 msgid "The Elementor Cookie Banner integration has been enabled."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:176
+#: integrations/plugins/elementor-pro/elementor-pro.php:177
 #, php-format
 msgid "You can edit your banner in the %sElementor popup templates%s."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:178
+#: integrations/plugins/elementor-pro/elementor-pro.php:181
 msgid "Do you want to create your Cookie Banner with Elementor Pro?"
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:185
+#: integrations/plugins/elementor-pro/elementor-pro.php:188
 #, php-format
 msgid "Yes (Available in %sPremium%s)"
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:191
+#: integrations/plugins/elementor-pro/elementor-pro.php:194
 msgid ""
 "If you choose to create your Cookie Banner with Elementor Pro we will import "
 "our default template."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:200
+#: integrations/plugins/elementor-pro/elementor-pro.php:205
 msgid "A template has been added to your Elementor popups."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:200
+#: integrations/plugins/elementor-pro/elementor-pro.php:205
 msgid "Edit template"
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:206
+#: integrations/plugins/elementor-pro/elementor-pro.php:212
 msgid "Do you want to create a Legal Hub with Elementor Pro?"
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:217
+#: integrations/plugins/elementor-pro/elementor-pro.php:223
 msgid ""
 "If you choose to create your Legal Hub with Elementor Pro we will import our "
 "default template."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:225
+#: integrations/plugins/elementor-pro/elementor-pro.php:231
 #, php-format
 msgid ""
 "You enabled the Elementor cookie banner, %sConfigure your banner via "
 "Elementor%s or disable the Elementor cookie banner."
 msgstr ""
 
-#: integrations/plugins/elementor-pro/elementor-pro.php:240
+#: integrations/plugins/elementor-pro/elementor-pro.php:246
 msgid ""
 "You have enabled TCF under Integrations. Due to IAB Guidelines you canʼt use "
 "this feature."
+msgstr ""
+
+#: integrations/plugins/elementor-pro/elementor-pro.php:252
+msgid ""
+"You have enabled the Elementor popup integration. You can't use TCF in "
+"combination with the Elementor popup."
 msgstr ""
 
 #: integrations/plugins/forminator-addon-class.php:27
@@ -5687,15 +5664,15 @@ msgstr ""
 msgid "Privacy"
 msgstr ""
 
-#: integrations/plugins/google-analytics-dashboard-for-wp.php:81
-#: integrations/plugins/google-tagmanager-for-wordpress.php:138
+#: integrations/plugins/google-analytics-dashboard-for-wp.php:112
+#: integrations/plugins/google-tagmanager-for-wordpress.php:124
 #, php-format
 msgid ""
 "You have selected you anonymize IP addresses. This setting is now enabled in "
 "%s."
 msgstr ""
 
-#: integrations/plugins/google-analytics-dashboard-for-wp.php:85
+#: integrations/plugins/google-analytics-dashboard-for-wp.php:116
 #, php-format
 msgid ""
 "You have selected you do not share data with third-party networks. Display "
@@ -5709,14 +5686,14 @@ msgid ""
 "relevant snippet."
 msgstr ""
 
-#: integrations/plugins/google-tagmanager-for-wordpress.php:53
+#: integrations/plugins/google-tagmanager-for-wordpress.php:38
 #, php-format
 msgid ""
 "You use %s, which means the answer to this question should be Google Tag "
 "Manager."
 msgstr ""
 
-#: integrations/plugins/google-tagmanager-for-wordpress.php:142
+#: integrations/plugins/google-tagmanager-for-wordpress.php:128
 #, php-format
 msgid ""
 "You have selected you do not share data with third-party networks. "
@@ -5740,13 +5717,13 @@ msgstr ""
 msgid "Yes, I agree with the %sprivacy statement%s"
 msgstr ""
 
-#: integrations/plugins/monsterinsights.php:66
+#: integrations/plugins/monsterinsights.php:62
 msgid ""
 "You have selected you anonymize IP addresses. This setting is now enabled in "
 "MonsterInsights."
 msgstr ""
 
-#: integrations/plugins/monsterinsights.php:70
+#: integrations/plugins/monsterinsights.php:66
 msgid ""
 "You have selected you do not share data with third-party networks. "
 "Demographics is now disabled in MonsterInsights."
@@ -6025,7 +6002,7 @@ msgid ""
 msgstr ""
 
 #: pro/class-licensing.php:632 pro/class-licensing.php:641
-#: templates/dashboard/progress.php:67
+#: templates/dashboard/progress.php:70
 msgid "Open"
 msgstr ""
 
@@ -6094,21 +6071,21 @@ msgstr ""
 msgid "Processing Agreement %s"
 msgstr ""
 
-#: pro/class-statistics.php:57
+#: pro/class-statistics.php:48
 msgid ""
 "Because this variation was determined to get the best results, this cookie "
 "warning was enabled as your default cookie warning"
 msgstr ""
 
-#: pro/class-statistics.php:83
+#: pro/class-statistics.php:74
 msgid "Add banner"
 msgstr ""
 
-#: pro/class-statistics.php:85
+#: pro/class-statistics.php:76
 msgid "Restart a/b testing"
 msgstr ""
 
-#: pro/class-statistics.php:513
+#: pro/class-statistics.php:519
 msgid ""
 "The conversion graph shows the ratio for the different choices users have. "
 "When a user has made a choice, this will be counted as either a converted "
@@ -6116,57 +6093,57 @@ msgid ""
 "the \"No choice\" category."
 msgstr ""
 
-#: pro/class-statistics.php:517
+#: pro/class-statistics.php:523
 #, php-format
 msgid ""
 "As you have enabled geoip, there are several regions in which a banner is "
 "shown, in different ways. In regions apart from %s no banner is shown at all."
 msgstr ""
 
-#: pro/class-statistics.php:531
+#: pro/class-statistics.php:537
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/class-statistics.php:532
+#: pro/class-statistics.php:538
 #, php-format
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pro/class-statistics.php:534
+#: pro/class-statistics.php:540
 #, php-format
 msgid ""
 "A/B tracking is still in progress, in approximately %s and %s the "
 "application will automatically enable the best performing banner."
 msgstr ""
 
-#: pro/class-statistics.php:536
+#: pro/class-statistics.php:542
 msgid ""
 "The A/B tracking period has ended, the best performer will be enabled on the "
 "next scheduled check."
 msgstr ""
 
-#: pro/class-statistics.php:567
+#: pro/class-statistics.php:572
 msgid "loading..."
 msgstr ""
 
-#: pro/class-statistics.php:569
+#: pro/class-statistics.php:574
 msgid "Conversions"
 msgstr ""
 
-#: pro/class-statistics.php:713
+#: pro/class-statistics.php:718
 msgid "default"
 msgstr ""
 
-#: pro/class-statistics.php:740
+#: pro/class-statistics.php:745
 msgid "No data for this selection"
 msgstr ""
 
-#: pro/class-statistics.php:750
+#: pro/class-statistics.php:755
 msgid "A/B testing graph"
 msgstr ""
 
@@ -6629,7 +6606,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:180
 #: pro/config/US/questions-processing.php:180
 #: pro/config/ZA/questions-processing.php:180
-#: pro/config/questions-wizard.php:886
+#: pro/config/questions-wizard.php:883
 msgid "Username and Password"
 msgstr ""
 
@@ -6640,7 +6617,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:181
 #: pro/config/US/questions-processing.php:181
 #: pro/config/ZA/questions-processing.php:181
-#: pro/config/questions-wizard.php:887
+#: pro/config/questions-wizard.php:884
 msgid "DNSSEC"
 msgstr ""
 
@@ -6651,7 +6628,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:182
 #: pro/config/US/questions-processing.php:182
 #: pro/config/ZA/questions-processing.php:182
-#: pro/config/questions-wizard.php:888
+#: pro/config/questions-wizard.php:885
 msgid "TLS / SSL"
 msgstr ""
 
@@ -6662,7 +6639,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:183
 #: pro/config/US/questions-processing.php:183
 #: pro/config/ZA/questions-processing.php:183
-#: pro/config/questions-wizard.php:889
+#: pro/config/questions-wizard.php:886
 msgid "DKIM, SPF en DMARC"
 msgstr ""
 
@@ -6673,7 +6650,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:184
 #: pro/config/US/questions-processing.php:184
 #: pro/config/ZA/questions-processing.php:184
-#: pro/config/questions-wizard.php:890
+#: pro/config/questions-wizard.php:887
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 
@@ -6684,7 +6661,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:185
 #: pro/config/US/questions-processing.php:185
 #: pro/config/ZA/questions-processing.php:185
-#: pro/config/questions-wizard.php:891
+#: pro/config/questions-wizard.php:888
 msgid "Security software"
 msgstr ""
 
@@ -6695,7 +6672,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:186
 #: pro/config/US/questions-processing.php:186
 #: pro/config/ZA/questions-processing.php:186
-#: pro/config/questions-wizard.php:892
+#: pro/config/questions-wizard.php:889
 msgid "ISO27001/27002 certified"
 msgstr ""
 
@@ -6706,7 +6683,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:194
 #: pro/config/US/questions-processing.php:194
 #: pro/config/ZA/questions-processing.php:194
-#: pro/config/questions-wizard.php:900
+#: pro/config/questions-wizard.php:897
 msgid "STARTTLS and DANE"
 msgstr ""
 
@@ -11571,7 +11548,7 @@ msgstr ""
 
 #: pro/config/dynamic-document-elements.php:48
 #: pro/config/dynamic-document-elements.php:293
-#: pro/config/questions-wizard.php:706
+#: pro/config/questions-wizard.php:703
 msgid ""
 "The collection is required or authorized by the following law or court/"
 "tribunal order:"
@@ -11969,9 +11946,9 @@ msgid ""
 msgstr ""
 
 #: pro/config/questions-wizard.php:76 pro/config/questions-wizard.php:104
-#: pro/config/questions-wizard.php:131 pro/config/questions-wizard.php:474
-#: pro/config/questions-wizard.php:536 pro/config/questions-wizard.php:596
-#: pro/config/questions-wizard.php:658
+#: pro/config/questions-wizard.php:131 pro/config/questions-wizard.php:471
+#: pro/config/questions-wizard.php:533 pro/config/questions-wizard.php:593
+#: pro/config/questions-wizard.php:655
 msgid "Leave empty if not applicable"
 msgstr ""
 
@@ -12093,107 +12070,107 @@ msgstr ""
 msgid "The URL to the regulations so website visitors know how to access them."
 msgstr ""
 
-#: pro/config/questions-wizard.php:263
+#: pro/config/questions-wizard.php:260
 msgid "Do you sell products or services through your website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:264
+#: pro/config/questions-wizard.php:261
 msgid ""
 "If this is a webshop, the Imprint should include a paragraph about dispute "
 "settlement."
 msgstr ""
 
-#: pro/config/questions-wizard.php:276
+#: pro/config/questions-wizard.php:273
 msgid "Are you obliged or prepared to use Alternative Dispute Resolution?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:277
+#: pro/config/questions-wizard.php:274
 msgid "Alternate Dispute Resolution means settling disputes without lawsuit."
 msgstr ""
 
-#: pro/config/questions-wizard.php:295
+#: pro/config/questions-wizard.php:292
 msgid "Do you target a German audience?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:296
+#: pro/config/questions-wizard.php:293
 msgid "This will enable questions specific to an Impressum"
 msgstr ""
 
-#: pro/config/questions-wizard.php:313
+#: pro/config/questions-wizard.php:310
 msgid "Do you offer content for journalistic and editorial purposes?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:314
+#: pro/config/questions-wizard.php:311
 msgid ""
 "For example websites that run a blog, publish news articles or moderate an "
 "online community."
 msgstr ""
 
-#: pro/config/questions-wizard.php:328
+#: pro/config/questions-wizard.php:325
 msgid ""
 "State the full name of the person responsible for the content on this "
 "website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:329
+#: pro/config/questions-wizard.php:326
 msgid "The person should be stated with first and last name."
 msgstr ""
 
-#: pro/config/questions-wizard.php:346
+#: pro/config/questions-wizard.php:343
 msgid ""
 "What is the residence of the person responsible for the content on this "
 "website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:365
+#: pro/config/questions-wizard.php:362
 msgid "Capital Stock"
 msgstr ""
 
-#: pro/config/questions-wizard.php:380
+#: pro/config/questions-wizard.php:377
 msgid ""
 "What is the name, address, and geographical scope of your professional "
 "liability insurance?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:395
+#: pro/config/questions-wizard.php:392
 msgid "For additional information, please use this field."
 msgstr ""
 
-#: pro/config/questions-wizard.php:408
+#: pro/config/questions-wizard.php:405
 msgid "Select all that applies."
 msgstr ""
 
-#: pro/config/questions-wizard.php:410
+#: pro/config/questions-wizard.php:407
 msgid "We have registered a DPO with the Data Protection Authority in the EU."
 msgstr ""
 
-#: pro/config/questions-wizard.php:411
+#: pro/config/questions-wizard.php:408
 msgid "We have registered a DPO with the Data Protection Authority in the UK."
 msgstr ""
 
-#: pro/config/questions-wizard.php:412
+#: pro/config/questions-wizard.php:409
 msgid "We have appointed a GDPR representative within the EU."
 msgstr ""
 
-#: pro/config/questions-wizard.php:413
+#: pro/config/questions-wizard.php:410
 msgid "We have a UK-GDPR representative within the United Kingdom"
 msgstr ""
 
-#: pro/config/questions-wizard.php:423 pro/config/questions-wizard.php:546
+#: pro/config/questions-wizard.php:420 pro/config/questions-wizard.php:543
 #: pro/config/steps.php:36
 msgid "Data Protection Officer"
 msgstr ""
 
-#: pro/config/questions-wizard.php:475 pro/config/questions-wizard.php:537
-#: pro/config/questions-wizard.php:597 pro/config/questions-wizard.php:659
+#: pro/config/questions-wizard.php:472 pro/config/questions-wizard.php:534
+#: pro/config/questions-wizard.php:594 pro/config/questions-wizard.php:656
 msgid "Website"
 msgstr ""
 
-#: pro/config/questions-wizard.php:484 pro/config/questions-wizard.php:606
+#: pro/config/questions-wizard.php:481 pro/config/questions-wizard.php:603
 msgid "Representative"
 msgstr ""
 
-#: pro/config/questions-wizard.php:673
+#: pro/config/questions-wizard.php:670
 msgid ""
 "We use digital services to automate processes without human intervention to "
 "optimize our workflows. We make decisions based on the frequency of "
@@ -12201,224 +12178,224 @@ msgid ""
 "to personalize the customer journey."
 msgstr ""
 
-#: pro/config/questions-wizard.php:675
+#: pro/config/questions-wizard.php:672
 msgid ""
 "The placeholder is a general example, please rewrite to your specific "
 "situation."
 msgstr ""
 
-#: pro/config/questions-wizard.php:680
+#: pro/config/questions-wizard.php:677
 msgid ""
 "Do you make decisions based on automated processes, such as profiling, that "
 "could have significant consequences for users?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:696
+#: pro/config/questions-wizard.php:693
 msgid ""
 "Specify what kind of decisions these are, what the consequences are, and "
 "what (in general terms) the logic behind these decisions is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:731
+#: pro/config/questions-wizard.php:728
 msgid ""
 "Do you collect or have you collected personal information about an "
 "individual that you bought or received from a third party?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:745
+#: pro/config/questions-wizard.php:742
 msgid "Please describe the circumstances under which that is being done."
 msgstr ""
 
-#: pro/config/questions-wizard.php:755
+#: pro/config/questions-wizard.php:752
 msgid ""
 "Under CCPA you must show a list of the categories of personal information "
 "you have disclosed for a business purpose in the preceding 12 months."
 msgstr ""
 
-#: pro/config/questions-wizard.php:757
+#: pro/config/questions-wizard.php:754
 msgid ""
 "Select which categories of personal data you have disclosed for a business "
 "purpose in the past 12 months"
 msgstr ""
 
-#: pro/config/questions-wizard.php:773
+#: pro/config/questions-wizard.php:770
 msgid ""
 "You must Inform your visitors if you have sold any personal data in the last "
 "12 months, and give them the possibility to opt-out of the future sale of "
 "personal information with Complianz."
 msgstr ""
 
-#: pro/config/questions-wizard.php:774
+#: pro/config/questions-wizard.php:771
 msgid ""
 "Select which categories of personal data you have sold to Third Parties in "
 "the past 12 months"
 msgstr ""
 
-#: pro/config/questions-wizard.php:796
+#: pro/config/questions-wizard.php:793
 msgid ""
 "Yes, both to Processors/Service Providers and other Third Parties, whereby "
 "the data subject must give permission"
 msgstr ""
 
-#: pro/config/questions-wizard.php:798
+#: pro/config/questions-wizard.php:795
 msgid ""
 "Limited: only with Processors/Service Providers that are necessary for the "
 "fulfillment of my service"
 msgstr ""
 
-#: pro/config/questions-wizard.php:800
+#: pro/config/questions-wizard.php:797
 msgid "Do you share personal data with other parties?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:802
+#: pro/config/questions-wizard.php:799
 msgid ""
 "A Service Provider is a legal entity that processes information on behalf of "
 "a business and to which the business discloses a consumer's personal "
 "information for a business purpose pursuant to a written contract."
 msgstr ""
 
-#: pro/config/questions-wizard.php:804
+#: pro/config/questions-wizard.php:801
 msgid ""
 "Within the GDPR a ‘Processor’ means a natural or legal person, public "
 "authority, agency or other body which processes personal data on behalf of "
 "the Controller."
 msgstr ""
 
-#: pro/config/questions-wizard.php:806
+#: pro/config/questions-wizard.php:803
 msgid ""
 "A Third Party is every other entity which receives personal data, but does "
 "not fall within the definition of a Processor or Service Provider"
 msgstr ""
 
-#: pro/config/questions-wizard.php:821
+#: pro/config/questions-wizard.php:818
 msgid "Processors & Service Providers"
 msgstr ""
 
-#: pro/config/questions-wizard.php:835
+#: pro/config/questions-wizard.php:832
 msgid "Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:849
+#: pro/config/questions-wizard.php:846
 msgid ""
 "For forms detected on your site, you can choose to add a consent checkbox"
 msgstr ""
 
-#: pro/config/questions-wizard.php:855
+#: pro/config/questions-wizard.php:852
 msgid ""
 "You have answered that you use webforms on your site. Not every form that "
 "collects personal data requires a checkbox."
 msgstr ""
 
-#: pro/config/questions-wizard.php:867
+#: pro/config/questions-wizard.php:864
 msgid ""
 "Do you want to provide a detailed list of security measures in your Privacy "
 "Statement?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:869
+#: pro/config/questions-wizard.php:866
 msgid "No, provide a general explanation"
 msgstr ""
 
-#: pro/config/questions-wizard.php:870
+#: pro/config/questions-wizard.php:867
 msgid "Yes, we will list our security measures"
 msgstr ""
 
-#: pro/config/questions-wizard.php:884
+#: pro/config/questions-wizard.php:881
 msgid "Which security measures did you take?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:904
+#: pro/config/questions-wizard.php:901
 #, php-format
 msgid ""
 "Quickly want to implement most of these security headers? Check out %sReally "
 "Simple SSL Pro%s."
 msgstr ""
 
-#: pro/config/questions-wizard.php:918
+#: pro/config/questions-wizard.php:915
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:930
+#: pro/config/questions-wizard.php:927
 msgid "https://your-terms-page.com"
 msgstr ""
 
-#: pro/config/questions-wizard.php:935
+#: pro/config/questions-wizard.php:932
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:936 pro/config/questions-wizard.php:1179
+#: pro/config/questions-wizard.php:933 pro/config/questions-wizard.php:1176
 #, php-format
 msgid "Also see our free %sTerms & Conditions%s plugin"
 msgstr ""
 
-#: pro/config/questions-wizard.php:943
+#: pro/config/questions-wizard.php:940
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
 
-#: pro/config/questions-wizard.php:953
+#: pro/config/questions-wizard.php:950
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:969
+#: pro/config/questions-wizard.php:966
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:971
+#: pro/config/questions-wizard.php:968
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: pro/config/questions-wizard.php:972
+#: pro/config/questions-wizard.php:969
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: pro/config/questions-wizard.php:973
+#: pro/config/questions-wizard.php:970
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: pro/config/questions-wizard.php:989
+#: pro/config/questions-wizard.php:986
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1007
+#: pro/config/questions-wizard.php:1004
 msgid "What is the name of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1025
+#: pro/config/questions-wizard.php:1022
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1043
+#: pro/config/questions-wizard.php:1040
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1045
+#: pro/config/questions-wizard.php:1042
 msgid "Registration"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1046
+#: pro/config/questions-wizard.php:1043
 msgid "Content created by a child and publicly shared"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1047
+#: pro/config/questions-wizard.php:1044
 msgid "Chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1048
+#: pro/config/questions-wizard.php:1045
 msgid "Email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1064
+#: pro/config/questions-wizard.php:1061
 #, php-format
 msgid ""
 "You have indicated that your website is not included in a COPPA Safe Harbor "
@@ -12426,140 +12403,140 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1081
+#: pro/config/questions-wizard.php:1078
 msgid "Information collected for registration "
 msgstr ""
 
-#: pro/config/questions-wizard.php:1100
+#: pro/config/questions-wizard.php:1097
 msgid "Information collected for content created by a child"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1119
+#: pro/config/questions-wizard.php:1116
 msgid "Information collected for chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1138
+#: pro/config/questions-wizard.php:1135
 msgid "Information collected for email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1159
+#: pro/config/questions-wizard.php:1156
 msgid "Which themes would you like to include in your Disclaimer?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1161
+#: pro/config/questions-wizard.php:1158
 msgid "Liability"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1162
+#: pro/config/questions-wizard.php:1159
 msgid "Reference to terms of use"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1163
+#: pro/config/questions-wizard.php:1160
 msgid "How you will answer inquiries"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1164
+#: pro/config/questions-wizard.php:1161
 msgid "Privacy and reference to the privacy statement"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1165
+#: pro/config/questions-wizard.php:1162
 msgid "Not liable when security is breached"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1166
+#: pro/config/questions-wizard.php:1163
 msgid "Not liable for third-party content"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1167
+#: pro/config/questions-wizard.php:1164
 msgid "Accessibility of the website for the disabled"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1178
+#: pro/config/questions-wizard.php:1175
 msgid "What is the URL of the Terms of Use?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1191
+#: pro/config/questions-wizard.php:1188
 msgid "Is your website built according to WCAG 2.1 level AA guidelines?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1207
+#: pro/config/questions-wizard.php:1204
 msgid "Who made the content of the website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1209
+#: pro/config/questions-wizard.php:1206
 msgid "The content is being developed by ourselves"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1210
+#: pro/config/questions-wizard.php:1207
 msgid "The content is being developed or posted by Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1211
+#: pro/config/questions-wizard.php:1208
 msgid "The content is being developed by ourselves and other parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1224
+#: pro/config/questions-wizard.php:1221
 msgid "What do you want to do with any intellectual property claims?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1226
+#: pro/config/questions-wizard.php:1223
 msgid "All rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1227
+#: pro/config/questions-wizard.php:1224
 msgid "No rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1228
+#: pro/config/questions-wizard.php:1225
 msgid "Creative Commons - Attribution"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1229
+#: pro/config/questions-wizard.php:1226
 msgid "Creative Commons - Share a like"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1230
+#: pro/config/questions-wizard.php:1227
 msgid "Creative Commons - No derivatives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1231
+#: pro/config/questions-wizard.php:1228
 msgid "Creative Commons - Noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1232
+#: pro/config/questions-wizard.php:1229
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1235
+#: pro/config/questions-wizard.php:1232
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
 "legally and to share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1239
+#: pro/config/questions-wizard.php:1236
 msgid "Privacy statements from plugins"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1246
+#: pro/config/questions-wizard.php:1243
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1247
+#: pro/config/questions-wizard.php:1244
 msgid ""
 "Plugins and themes can add their own suggested privacy paragraphs here. You "
 "can choose to add these to the Annex of your Privacy Statement."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1248
+#: pro/config/questions-wizard.php:1245
 msgid ""
 "You can also add additional custom texts to the Annex of your Privacy "
 "Statement if you like."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1259
+#: pro/config/questions-wizard.php:1256
 msgid "Annex of your Privacy Statement"
 msgstr ""
 
@@ -13180,33 +13157,33 @@ msgstr ""
 msgid "Insights"
 msgstr ""
 
-#: pro/filters-actions.php:280
+#: pro/filters-actions.php:271
 msgid ""
 "The Impressum is now called an Imprint with additional fields to broaden the "
 "scope for all users. "
 msgstr ""
 
-#: pro/filters-actions.php:289
+#: pro/filters-actions.php:280
 msgid "No changes in plugin privacy policies have been detected."
 msgstr ""
 
-#: pro/filters-actions.php:290
+#: pro/filters-actions.php:281
 msgid "Changes in plugin privacy policies have been detected."
 msgstr ""
 
-#: pro/filters-actions.php:291
+#: pro/filters-actions.php:282
 #, php-format
 msgid "Please review step %s of the wizard."
 msgstr ""
 
-#: pro/filters-actions.php:299
+#: pro/filters-actions.php:290
 #, php-format
 msgid ""
 "You have processors and/or Service Providers without a Processing Agreement. "
 "%sCreate a Processing Agreement%s."
 msgstr ""
 
-#: pro/filters-actions.php:309
+#: pro/filters-actions.php:300
 #, php-format
 msgid ""
 "You have enabled Geo IP, but the GEO IP database hasn't been downloaded "
@@ -13215,14 +13192,14 @@ msgid ""
 "directory"
 msgstr ""
 
-#: pro/filters-actions.php:315
+#: pro/filters-actions.php:306
 #, php-format
 msgid ""
 "You have not deleted the free Complianz plugin. To prevent issues with "
 "translations, %syou should delete it%s."
 msgstr ""
 
-#: pro/filters-actions.php:321
+#: pro/filters-actions.php:312
 msgid "The browser setting Do Not Track is not respected"
 msgstr ""
 
@@ -13272,7 +13249,7 @@ msgstr ""
 
 #: pro/framework/post-types.php:256 pro/framework/post-types.php:328
 #: pro/framework/post-types.php:443
-#: pro/records-of-consent/class-records-of-consent-table.php:301
+#: pro/records-of-consent/class-records-of-consent-table.php:295
 msgid "Region"
 msgstr ""
 
@@ -13295,7 +13272,7 @@ msgid "Document contents"
 msgstr ""
 
 #: pro/framework/post-types.php:452
-#: pro/records-of-consent/class-records-of-consent-table.php:274
+#: pro/records-of-consent/class-records-of-consent-table.php:268
 #: pro/records-of-consent/class-records-of-consent.php:115
 #: pro/templates/dashboard/documents-conditional.php:32
 #: pro/templates/dashboard/documents-conditional.php:64
@@ -13332,102 +13309,102 @@ msgstr ""
 msgid "records"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:106
+#: pro/records-of-consent/class-records-of-consent-table.php:105
 msgid "Search User ID"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:124
+#: pro/records-of-consent/class-records-of-consent-table.php:122
 msgid "ID"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:297
+#: pro/records-of-consent/class-records-of-consent-table.php:291
 msgid "User ID"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:298
+#: pro/records-of-consent/class-records-of-consent-table.php:292
 #: pro/records-of-consent/class-records-of-consent.php:179
 msgid "Date"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:302
+#: pro/records-of-consent/class-records-of-consent-table.php:296
 msgid "Consented services"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:303
+#: pro/records-of-consent/class-records-of-consent-table.php:297
 msgid "Consent type"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:304
+#: pro/records-of-consent/class-records-of-consent-table.php:298
 #: proof-of-consent/class-proof-of-consent.php:374 shepherd/tour.php:102
 msgid "Proof of Consent"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:359
+#: pro/records-of-consent/class-records-of-consent-table.php:352
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:237
 msgid "Month"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:360
+#: pro/records-of-consent/class-records-of-consent-table.php:353
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:238
 msgid "January"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:361
+#: pro/records-of-consent/class-records-of-consent-table.php:354
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:239
 msgid "February"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:362
+#: pro/records-of-consent/class-records-of-consent-table.php:355
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:240
 msgid "March"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:363
+#: pro/records-of-consent/class-records-of-consent-table.php:356
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:241
 msgid "April"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:364
+#: pro/records-of-consent/class-records-of-consent-table.php:357
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:242
 msgid "May"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:365
+#: pro/records-of-consent/class-records-of-consent-table.php:358
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:243
 msgid "June"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:366
+#: pro/records-of-consent/class-records-of-consent-table.php:359
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:244
 msgid "July"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:367
+#: pro/records-of-consent/class-records-of-consent-table.php:360
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:245
 msgid "August"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:368
+#: pro/records-of-consent/class-records-of-consent-table.php:361
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:246
 msgid "September"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:369
+#: pro/records-of-consent/class-records-of-consent-table.php:362
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:247
 msgid "October"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:370
+#: pro/records-of-consent/class-records-of-consent-table.php:363
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:248
 msgid "November"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:371
+#: pro/records-of-consent/class-records-of-consent-table.php:364
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:249
 msgid "December"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:398
+#: pro/records-of-consent/class-records-of-consent-table.php:391
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:275
 msgid "Year"
 msgstr ""
@@ -13470,7 +13447,7 @@ msgstr ""
 msgid "Manage your privacy"
 msgstr ""
 
-#: pro/tcf/tcf.php:276
+#: pro/tcf/tcf.php:275
 msgid ""
 "To provide the best experiences, we and our partners use technologies like "
 "cookies to store and/or access device information. Consenting to these "
@@ -13479,210 +13456,210 @@ msgid ""
 "consent, may adversely affect certain features and functions."
 msgstr ""
 
-#: pro/tcf/tcf.php:277
+#: pro/tcf/tcf.php:276
 msgid "Click below to consent to the above or make granular choices."
 msgstr ""
 
-#: pro/tcf/tcf.php:279
+#: pro/tcf/tcf.php:278
 msgid "Your choices will be applied globally."
 msgstr ""
 
-#: pro/tcf/tcf.php:280
+#: pro/tcf/tcf.php:279
 msgid ""
 "This means that your settings will be available on other sites that set your "
 "choices globally."
 msgstr ""
 
-#: pro/tcf/tcf.php:282
+#: pro/tcf/tcf.php:281
 msgid "Your choices will be applied to this site only."
 msgstr ""
 
-#: pro/tcf/tcf.php:285
+#: pro/tcf/tcf.php:284
 msgid ""
 "You can change your settings at any time, including withdrawing your "
 "consent, by using the toggles on the Cookie Policy, or by clicking on the "
 "manage consent button at the bottom of the screen."
 msgstr ""
 
-#: pro/tcf/tcf.php:365
+#: pro/tcf/tcf.php:364
 msgid "Transparency Consent Framework"
 msgstr ""
 
-#: pro/tcf/tcf.php:366
+#: pro/tcf/tcf.php:365
 msgid ""
 "The below questions will help you configure a vendor list of your choosing. "
 "Only vendors that adhere to the purposes and special features you configure "
 "will be able to serve ads."
 msgstr ""
 
-#: pro/tcf/tcf.php:440
+#: pro/tcf/tcf.php:439
 msgid "Configuring your TCF cookie banner is limited due to IAB guidelines."
 msgstr ""
 
-#: pro/tcf/tcf.php:453
+#: pro/tcf/tcf.php:452
 msgid "Your site will show vendors with the purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:454
+#: pro/tcf/tcf.php:453
 msgid ""
 "To get a better understanding of vendors, purposes and features please read "
 "this definitions guide."
 msgstr ""
 
-#: pro/tcf/tcf.php:469
+#: pro/tcf/tcf.php:468
 msgid "Your site will show vendors with the special purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:471
+#: pro/tcf/tcf.php:470
 msgid ""
 "These special purposes should be enabled for best performance. These "
 "purposes are set based on legitimate interest of the vendor, one of the "
 "legal bases of data processing."
 msgstr ""
 
-#: pro/tcf/tcf.php:483
+#: pro/tcf/tcf.php:482
 msgid "Your site will show vendors with the features selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:495
+#: pro/tcf/tcf.php:494
 msgid "Your site will show vendors with the special features selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:507
+#: pro/tcf/tcf.php:506
 msgid ""
 "Have you signed the IAB Privacy, LLC’s Limited Service Provider Agreement "
 "(LSPA)?"
 msgstr ""
 
-#: pro/tcf/tcf.php:592
+#: pro/tcf/tcf.php:598
 msgid "Opt out"
 msgstr ""
 
-#: pro/tcf/tcf.php:598 pro/tcf/tcf.php:674
+#: pro/tcf/tcf.php:604 pro/tcf/tcf.php:680
 msgid ""
 "The TCF vendorlist is not available when javascript is disabled, like on AMP."
 msgstr ""
 
-#: pro/tcf/tcf.php:629
+#: pro/tcf/tcf.php:635
 msgid "Privacy Policy"
 msgstr ""
 
-#: pro/tcf/tcf.php:634
+#: pro/tcf/tcf.php:640
 msgid "Legal bases"
 msgstr ""
 
-#: pro/tcf/tcf.php:642
+#: pro/tcf/tcf.php:648
 msgid "Legitimate interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:647
+#: pro/tcf/tcf.php:653
 msgid "Maximum cookie expiration:"
 msgstr ""
 
-#: pro/tcf/tcf.php:649
+#: pro/tcf/tcf.php:655
 msgid "Session Storage"
 msgstr ""
 
-#: pro/tcf/tcf.php:650
+#: pro/tcf/tcf.php:656
 #, php-format
 msgid "%s Days"
 msgstr ""
 
-#: pro/tcf/tcf.php:651
+#: pro/tcf/tcf.php:657
 #, php-format
 msgid "%s Seconds"
 msgstr ""
 
-#: pro/tcf/tcf.php:655
+#: pro/tcf/tcf.php:661
 msgid "Non-cookie storage and access:"
 msgstr ""
 
-#: pro/tcf/tcf.php:659
+#: pro/tcf/tcf.php:665
 msgid "Cookie Refresh:"
 msgstr ""
 
-#: pro/tcf/tcf.php:663
+#: pro/tcf/tcf.php:669
 msgid "Purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:671
+#: pro/tcf/tcf.php:677
 msgid "Select all"
 msgstr ""
 
-#: pro/tcf/tcf.php:671
+#: pro/tcf/tcf.php:677
 msgid "Deselect all"
 msgstr ""
 
-#: pro/tcf/tcf.php:677
+#: pro/tcf/tcf.php:683
 msgid ""
 "These are the partners we share data with. By clicking into each partner, "
 "you can see which purposes they are requesting consent and/or which purposes "
 "they are claiming legitimate interest for."
 msgstr ""
 
-#: pro/tcf/tcf.php:679
+#: pro/tcf/tcf.php:685
 msgid ""
 "You can provide or withdraw consent, and object to legitimate interest "
 "purposes for processing your personal data. However, please note that by "
 "disabling all data processing, some site functionality may be affected."
 msgstr ""
 
-#: pro/tcf/tcf.php:682
+#: pro/tcf/tcf.php:688
 msgid "Below you can give and withdraw your consent on a per purpose basis."
 msgstr ""
 
-#: pro/tcf/tcf.php:687
+#: pro/tcf/tcf.php:693
 msgid "Legitimate Interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:688
+#: pro/tcf/tcf.php:694
 msgid ""
 "Some Vendors set purposes with legitimate interest, a legal basis under the "
 "GDPR for data processing. You have the \"Right to Object\" to this data "
 "processing and can do so below per purpose."
 msgstr ""
 
-#: pro/tcf/tcf.php:694
+#: pro/tcf/tcf.php:700
 msgid "Special features and purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:696
+#: pro/tcf/tcf.php:702
 msgid "Special features"
 msgstr ""
 
-#: pro/tcf/tcf.php:697
+#: pro/tcf/tcf.php:703
 msgid "For some of the purposes we and/or our partners use below features."
 msgstr ""
 
-#: pro/tcf/tcf.php:702
+#: pro/tcf/tcf.php:708
 msgid "Special purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:703
+#: pro/tcf/tcf.php:709
 msgid ""
 "We and/or our partners have a legitimate interest for the following two "
 "purposes:"
 msgstr ""
 
-#: pro/tcf/tcf.php:708 pro/templates/cookiebanner-tcf.php:21
+#: pro/tcf/tcf.php:714 pro/templates/cookiebanner-tcf.php:21
 #: pro/templates/tcf-categories.php:22
 msgid "Features"
 msgstr ""
 
-#: pro/tcf/tcf.php:709
+#: pro/tcf/tcf.php:715
 msgid "For some of the purposes above we and our partners"
 msgstr ""
 
-#: pro/tcf/tcf.php:713
+#: pro/tcf/tcf.php:719
 msgid "Vendors"
 msgstr ""
 
-#: pro/tcf/tcf.php:851
+#: pro/tcf/tcf.php:857
 #, php-format
 msgid "The vendor list can be found at %s"
 msgstr ""
 
-#: pro/tcf/tcf.php:876 pro/tcf/tcf.php:877
+#: pro/tcf/tcf.php:882 pro/tcf/tcf.php:883
 msgid "TCF"
 msgstr ""
 
@@ -13820,7 +13797,7 @@ msgid ""
 "                            to %shttps://complianz.io/consent%s."
 msgstr ""
 
-#: rest-api/rest-api.php:143
+#: rest-api/rest-api.php:141
 #, php-format
 msgctxt "cookie policy"
 msgid ""
@@ -13910,7 +13887,7 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: templates/cookie_settings.php:19 templates/cookiepolicy_cookies_row.php:6
+#: templates/cookie_settings.php:19 templates/cookiepolicy/cookies_row.php:6
 msgid "Expiration"
 msgstr ""
 
@@ -13934,16 +13911,16 @@ msgstr ""
 msgid "Show cookie on Cookie Policy"
 msgstr ""
 
-#: templates/cookiepolicy_cookies_row.php:10
+#: templates/cookiepolicy/cookies_row.php:10
 msgid "Function"
 msgstr ""
 
-#: templates/cookiepolicy_services.php:8
+#: templates/cookiepolicy/services.php:8
 msgctxt "cookie policy"
 msgid "Usage"
 msgstr ""
 
-#: templates/cookiepolicy_services.php:12
+#: templates/cookiepolicy/services.php:12
 msgctxt "Legal document cookie policy"
 msgid "Sharing data"
 msgstr ""
@@ -14013,26 +13990,27 @@ msgstr ""
 msgid "Well done! Your website is ready for your selected regions."
 msgstr ""
 
-#: templates/dashboard/progress.php:29
-msgid "Great! Your website is configured for"
+#: templates/dashboard/progress.php:33
+#, php-format
+msgid "Great! Your website is configured for %s."
 msgstr ""
 
-#: templates/dashboard/progress.php:52
+#: templates/dashboard/progress.php:55
 #, php-format
 msgid ""
 "You have no new tasks! Have a look at our %sdocumentation%s and see all the "
 "possibilities Complianz has to offer."
 msgstr ""
 
-#: templates/dashboard/progress.php:64
+#: templates/dashboard/progress.php:67
 msgid "Completed"
 msgstr ""
 
-#: templates/dashboard/progress.php:70
+#: templates/dashboard/progress.php:73
 msgid "Urgent"
 msgstr ""
 
-#: templates/dashboard/progress.php:73
+#: templates/dashboard/progress.php:76
 msgid "Premium"
 msgstr ""
 
@@ -14104,6 +14082,13 @@ msgid ""
 "Hotjar and embedded video’s."
 msgstr ""
 
+#: templates/integrations/custom-scripts.php:7
+#: templates/integrations/plugins.php:10 templates/integrations/services.php:4
+msgid ""
+"Safe Mode enabled. To manage integrations, disable Safe Mode in the general "
+"settings."
+msgstr ""
+
 #: templates/integrations/plugins.php:2
 msgid ""
 "Below you will find the plugins currently detected and integrated with "
@@ -14111,7 +14096,7 @@ msgid ""
 "the script center or add it to the integration list."
 msgstr ""
 
-#: templates/integrations/plugins.php:4 templates/integrations/services.php:15
+#: templates/integrations/plugins.php:4 templates/integrations/services.php:20
 #, php-format
 msgid ""
 "Enabled %s will be blocked on the front-end of your website until the user "
@@ -14124,25 +14109,25 @@ msgstr ""
 msgid "plugins"
 msgstr ""
 
-#: templates/integrations/plugins.php:10
+#: templates/integrations/plugins.php:12
 msgid "No active plugins detected in the integrations list."
 msgstr ""
 
-#: templates/integrations/services.php:7
+#: templates/integrations/services.php:12
 msgid "Third-party services and social media"
 msgstr ""
 
-#: templates/integrations/services.php:12
+#: templates/integrations/services.php:17
 #, php-format
 msgid "%s are marked as not being used on your website in the %swizard%s."
 msgstr ""
 
-#: templates/integrations/services.php:16
+#: templates/integrations/services.php:21
 msgid "services"
 msgstr ""
 
-#: templates/integrations/services.php:20
-#: templates/integrations/services.php:23
+#: templates/integrations/services.php:25
+#: templates/integrations/services.php:28
 #, php-format
 msgid ""
 "reCaptcha is connected and will be blocked before consent. To change your "

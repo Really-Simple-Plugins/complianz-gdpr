@@ -35,11 +35,10 @@ function cmplz_notice_stats_non_functional() {
 	if ( get_option( 'cmplz_detected_stats_type' )
 		 || get_option( 'cmplz_detected_stats_data' )
 	) {
-		cmplz_sidebar_notice( __( "This field has been pre-filled based on the scan results.",
-				'complianz-gdpr' ) . "&nbsp;"
+		cmplz_sidebar_notice( __( "This field has been pre-filled based on the scan results.", 'complianz-gdpr' ) . "&nbsp;"
 					  . __( "Please make sure you remove your current implementation to prevent double statistics tracking.", 'complianz-gdpr' ) );
 	} else {
-		cmplz_sidebar_notice( __( 'If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'intro cookie usage', 'complianz-gdpr' ) );
+		cmplz_sidebar_notice( __( 'If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'complianz-gdpr' ) );
 	}
 }
 add_action( 'cmplz_notice_GTM_code', 'cmplz_notice_stats_non_functional' );
@@ -53,8 +52,7 @@ function cmplz_show_compile_statistics_notice( $args ) {
 		$type = reset( $stats );
 		$type = COMPLIANZ::$config->stats[ $type ];
 
-		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.",
-				'complianz-gdpr' ), $type, $type ) );
+		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ) );
 	}
 
 }

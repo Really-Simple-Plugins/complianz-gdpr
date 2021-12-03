@@ -9,14 +9,14 @@ function cmplz_openstreetmaps_plugin_script( $tags ) {
 			'placeholder' => 'openstreetmaps',
 			'urls' => array(
 					'ol.js',
-					'var attribution = new ol.control.Attribution',
+					'var raster = getTileLayer("osm","NoKey")',
 			),
 			'enable_placeholder' => '1',
 			'placeholder_class' => 'map',
 			'enable_dependency' => '1',
 			'dependency' => [
 				//'wait-for-this-script' => 'script-that-should-wait'
-				'ol.js' => 'ol.control.Attribution',
+				'ol.js' => 'var raster = getTileLayer("osm","NoKey")',
 			],
 	);
 	return $tags;

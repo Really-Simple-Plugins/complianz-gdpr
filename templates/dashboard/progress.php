@@ -30,7 +30,7 @@
 						foreach ($regions as $region => $value) {
 							$laws[] = COMPLIANZ::$config->regions[$region]['law'];
 						}
-						echo sprintf(__( 'Great! Your website is configured for %s.', 'complianz-gdpr'),  implode(', ', $laws));
+						printf( __( 'Great! Your website is configured for %s.', 'complianz-gdpr' ),  implode(', ', $laws) );
 					}
 				}
 			} ?>
