@@ -46,10 +46,13 @@ function cmplz_gravifyforms_initform() {
 		?>
 		<script>
 			//store the container where gf recaptcha resides
-			let reCaptchaContainer = document.querySelector('.ginput_recaptcha').closest('.gfield');
-			let html = '<span class="cmplz-gf-recaptcha cmplz-accept-marketing"><?php _e("Click to accept reCaptcha validation.", 'complianz-gdpr')?></span>';
-			reCaptchaContainer.insertAdjacentHTML( 'beforeend', html );
-			document.addEventListener("cmplz_run_after_all_scripts", cmplz_cf7_fire_post_render);
+			let recaptcha_field = document.querySelector('.ginput_recaptcha');
+			if (recaptcha_field) {
+				let reCaptchaContainer = recaptcha_field.closest('.gfield');
+				let html = '<span class="cmplz-gf-recaptcha cmplz-accept-marketing"><?php _e( "Click to accept reCaptcha validation.", 'complianz-gdpr' )?></span>';
+				reCaptchaContainer.insertAdjacentHTML('beforeend', html);
+				document.addEventListener("cmplz_run_after_all_scripts", cmplz_cf7_fire_post_render);
+			}
 			function cmplz_cf7_fire_post_render() {
 				//fire a DomContentLoaded event, so the Contact Form 7 reCaptcha integration will work
 				window.document.dispatchEvent(new Event("gform_post_render", {
@@ -57,7 +60,9 @@ function cmplz_gravifyforms_initform() {
 					cancelable: true
 				}));
 				let obj = document.querySelector('.cmplz-gf-recaptcha');
-				obj.parentNode.removeChild(obj)
+				if (obj){
+					obj.parentNode.removeChild(obj)
+				}
 			}
 		</script>
 		<?php
