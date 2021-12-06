@@ -69,7 +69,6 @@
   box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
   position: sticky;
   top: 50px;
-  max-height: calc(100vh - 87px);
   height: 100%;
   min-height: 480px;
 }

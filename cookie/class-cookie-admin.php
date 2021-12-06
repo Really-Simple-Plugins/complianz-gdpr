@@ -1266,7 +1266,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$domain = substr( $domain, 0, - 1 );
 			}
 
-			return $domain;
+			return apply_filters('cmplz_cookie_domain', $domain);
 		}
 
 		/**

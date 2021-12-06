@@ -68,7 +68,6 @@ document.addEventListener('cmplz_manage_consent_container_loaded', function(e){
 	}
 });
 
-
 /**
  * prevent caching of the WP Rest API by varnish or other caching tools
  */
@@ -206,12 +205,21 @@ function cmplz_set_category_as_body_class() {
 			document.body.classList.remove( classList[i] );
 		}
 	}
+
 	let cats = cmplz_accepted_categories();
 	for (let i in cats) {
 		if ( cats.hasOwnProperty(i) ) {
 			document.body.classList.add('cmplz-' + cats[i]);
 		}
 	}
+
+	/**
+	 * If a service has been consented, we add the marketing class, to ensure integrations work.
+	 */
+	if ( cmplz_exists_service_consent() && !document.body.classList.contains('cmplz-marketing') ) {
+		document.body.classList.add('cmplz-marketing');
+	}
+
 	document.body.classList.add('cmplz-' + complianz.region);
 	document.body.classList.add('cmplz-' + complianz.consenttype);
 	let event = new CustomEvent('cmplz_set_category_as_bodyclass');
