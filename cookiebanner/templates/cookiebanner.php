@@ -4,10 +4,10 @@
  * If A/B testing is enabled, each banner is rendered per consenttype as well.
  */
 ?>
-<div class="cmplz-cookiebanner cmplz-hidden banner-{id} {consent_type} {position} {use_categories}" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-{id}" aria-describedby="cmplz-message-{id}">
+<div class="cmplz-cookiebanner cmplz-hidden banner-{id} {consent_type} {position} {use_categories}" aria-modal="true" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-{id}-{consent_type}" aria-describedby="cmplz-message-{id}-{consent_type}">
 	<div class="cmplz-header">
 		<div class="cmplz-logo">{logo}</div>
-		<div class="cmplz-title" id="cmplz-header-{id}">{header}</div>
+		<div class="cmplz-title" id="cmplz-header-{id}-{consent_type}">{header}</div>
 		<a class="cmplz-close" tabindex="0" role="button">
 			<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><title>close</title><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
 		</a>
@@ -15,7 +15,7 @@
 
 		<div class="cmplz-divider cmplz-divider-header"></div>
 		<div class="cmplz-body">
-			<div class="cmplz-message" id="cmplz-message-{id}">{message_{consent_type}}</div>
+			<div class="cmplz-message" id="cmplz-message-{id}-{consent_type}">{message_{consent_type}}</div>
 			<!-- categories start -->
 			<div class="cmplz-categories">
 				<details class="cmplz-category cmplz-functional" >
@@ -26,12 +26,12 @@
 								<div class="cmplz-banner-checkbox">
 									<input type="checkbox"
 										   aria-checked="true"
-										   id="cmplz-functional"
+										   id="cmplz-functional-{consent_type}"
 										   data-category="cmplz_functional"
 										   class="cmplz-consent-checkbox cmplz-functional"
 										   size="40"
 										   value="1"/>
-									<label class="cmplz-label" for="cmplz-functional" tabindex="0"><span>{category_functional}</span></label>
+									<label class="cmplz-label" for="cmplz-functional-{consent_type}" tabindex="0"><span>{category_functional}</span></label>
 								</div>
 								<?php _e("Always active","complianz-gdpr")?>
 							</div>
@@ -49,12 +49,12 @@
 							<div class="cmplz-category-title">{category_preferences}</div>
 							<div class="cmplz-banner-checkbox">
 								<input type="checkbox"
-									   id="cmplz-preferences"
+									   id="cmplz-preferences-{consent_type}"
 									   data-category="cmplz_preferences"
 									   class="cmplz-consent-checkbox cmplz-preferences"
 									   size="40"
 									   value="1"/>
-								<label class="cmplz-label" for="cmplz-preferences" tabindex="0"><span>{category_preferences}</span></label>
+								<label class="cmplz-label" for="cmplz-preferences-{consent_type}" tabindex="0"><span>{category_preferences}</span></label>
 							</div>
 							<div class="cmplz-icon cmplz-open"></div>
 						</div>
@@ -70,13 +70,12 @@
 							<div class="cmplz-category-title">{category_statistics}</div>
 							<div class="cmplz-banner-checkbox">
 								<input type="checkbox"
-									   aria-checked="0"
-									   id="cmplz-statistics"
+									   id="cmplz-statistics-{consent_type}"
 									   data-category="cmplz_statistics"
 									   class="cmplz-consent-checkbox cmplz-statistics"
 									   size="40"
 									   value="1"/>
-								<label class="cmplz-label" for="cmplz-statistics" tabindex="0"><span>{category_statistics}</span></label>
+								<label class="cmplz-label" for="cmplz-statistics-{consent_type}" tabindex="0"><span>{category_statistics}</span></label>
 							</div>
 							<div class="cmplz-icon cmplz-open"></div>
 						</div>
@@ -93,12 +92,12 @@
 							<div class="cmplz-category-title">{category_marketing}</div>
 								<div class="cmplz-banner-checkbox">
 									<input type="checkbox"
-										   id="cmplz-marketing"
+										   id="cmplz-marketing-{consent_type}"
 										   data-category="cmplz_marketing"
 										   class="cmplz-consent-checkbox cmplz-marketing"
 										   size="40"
 										   value="1"/>
-									<label class="cmplz-label" for="cmplz-marketing" tabindex="0"><span>{category_marketing}</span></label>
+									<label class="cmplz-label" for="cmplz-marketing-{consent_type}" tabindex="0"><span>{category_marketing}</span></label>
 								</div>
 							<div class="cmplz-icon cmplz-open"></div>
 						</div>

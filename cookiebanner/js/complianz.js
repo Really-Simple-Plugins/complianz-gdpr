@@ -213,11 +213,11 @@ function cmplz_set_category_as_body_class() {
 		}
 	}
 
-	/**
-	 * If a service has been consented, we add the marketing class, to ensure integrations work.
-	 */
-	if ( cmplz_exists_service_consent() && !document.body.classList.contains('cmplz-marketing') ) {
-		document.body.classList.add('cmplz-marketing');
+	let services = cmplz_get_all_service_consents();
+	for (let service in services) {
+		if ( services.hasOwnProperty(service) && services[service]) {
+			document.body.classList.add('cmplz-' + service);
+		}
 	}
 
 	document.body.classList.add('cmplz-' + complianz.region);
@@ -912,7 +912,6 @@ window.cmplz_set_banner_status = function ( status ){
 	if (status==='show') {
 		prevStatus = 'dismissed';
 	} else {
-		cmplz_track_status();
 		prevStatus = 'show';
 	}
 
@@ -1095,7 +1094,7 @@ function cmplz_clear_all_service_consents(){
 }
 
 /**
- * Get all consented services
+ * Get all consented or denied services
  */
 
 function cmplz_get_all_service_consents(){
@@ -1170,7 +1169,10 @@ window.cmplz_set_consent = function (category, value){
 
 	if ( category === 'marketing' && value === 'deny' ) {
 		cmplz_integrations_revoke();
-		location.reload();
+		//give the code some time to finish, so our track status code can send a signal to the backend.
+		setTimeout(function(){
+			location.reload()
+		}, 500);
 	}
 }
 
@@ -1282,6 +1284,7 @@ window.cmplz_deny_all = function(){
 	//has to be after the check if should be reloaded, otherwise that check won't work.
 	cmplz_clear_all_service_consents();
 	cmplz_integrations_revoke();
+	cmplz_track_status();
 
 	var event = new CustomEvent('cmplz_revoke', { detail: reload });
 	document.dispatchEvent(event);
@@ -1299,6 +1302,7 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 	e.preventDefault();
 	cmplz_accept_all();
 	cmplz_set_banner_status('dismissed');
+	cmplz_track_status();
 });
 
 /**
@@ -1309,7 +1313,7 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
 	var service = obj.getAttribute('data-service');
-	if ( typeof service !== 'undefined' && service ){
+	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
 		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
@@ -1352,7 +1356,10 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 			cmplz_enable_category('', service);
 		} else {
 			cmplz_set_service_consent(service, false);
-			location.reload();
+			//give our track status time to finish
+			setTimeout(function(){
+				location.reload()
+			}, 500);
 		}
 	}
 	cmplz_track_status();
@@ -1381,6 +1388,7 @@ cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 		}
 	}
 	cmplz_set_banner_status('dismissed');
+	cmplz_track_status();
 });
 
 cmplz_add_event('click', '.cmplz-close', function(e){
@@ -1418,6 +1426,7 @@ cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', fun
 					cmplz_set_consent(category, 'deny');
 				}
 				cmplz_set_banner_status('dismissed');
+				cmplz_track_status();
 			}
 		}
 	}
@@ -1428,6 +1437,7 @@ cmplz_add_event('click', '.cmplz-deny', function(e){
 	e.preventDefault();
 	cmplz_set_banner_status('dismissed');
 	cmplz_deny_all();
+
 });
 
 cmplz_add_event('click', 'button.cmplz-manage-settings', function(e){
@@ -1460,6 +1470,7 @@ function cmplz_set_up_auto_dismiss() {
 			var onWindowScroll = function(evt) {
 				if (window.pageYOffset > Math.floor(400)) {
 					cmplz_set_banner_status('dismissed');
+					cmplz_track_status();
 					window.removeEventListener('scroll', onWindowScroll);
 					this.onWindowScroll = null;
 				}
@@ -1471,6 +1482,7 @@ function cmplz_set_up_auto_dismiss() {
 		if ( delay > 0 ) {
 			var cmplzDismissTimeout = window.setTimeout(function () {
 				cmplz_set_banner_status('dismissed');
+				cmplz_track_status();
 			}, Math.floor(delay));
 		}
 	}

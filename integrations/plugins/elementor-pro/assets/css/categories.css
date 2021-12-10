@@ -43,6 +43,10 @@
   display: none;
   content: '';
 }
+.cmplz-category summary::-webkit-details-marker {
+  display: none;
+  content: '';
+}
 .cmplz-category[open] .cmplz-icon.cmplz-open {
   transform: rotate(180deg);
 }

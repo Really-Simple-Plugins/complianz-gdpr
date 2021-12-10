@@ -13,7 +13,6 @@ jQuery(document).ready(function ($) {
 	var manageConsent = $('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+banner_id);
 	cmplz_apply_style();
 	cmplzUpdateLinks();
-	cmplz_validate_banner_width();
 	/**
 	 * Make sure the banner is loaded after the css has loaded, but only once.
 	 */
@@ -31,6 +30,7 @@ jQuery(document).ready(function ($) {
 				return;
 			}
 			cmplzShowBanner();
+			cmplz_validate_banner_width();
 		}
 	}
 
@@ -80,27 +80,53 @@ jQuery(document).ready(function ($) {
 					}
 				}
 			});
-
 		});
 	}
 
+	/**
+	 * We want to apply the current settings, then recalculate the banner width, then apply the settings again.
+	 */
 	function cmplz_validate_banner_width(){
+		cmplz_apply_style(cmplz_validate_banner_width_after);
+	}
+
+	function cmplz_validate_banner_width_after(){
+		if ($('select[name=cmplz_position]').val() === 'bottom' ) return;
 		//check if cats width is ok
 		let cats_width = document.querySelector('.cmplz-categories').offsetWidth;
 		let message_width = document.querySelector('.cmplz-message').offsetWidth;
 		let banner_width = document.querySelector('.cmplz-cookiebanner').offsetWidth;
-
-		if ( cats_width>0){
-			if (banner_width-42 > cats_width ) {
+		if ( cats_width>0 ){
+			if ( banner_width-42 > cats_width ) {
 				let difference = banner_width-42 - cats_width;
 				let newWidth =  parseInt(banner_width) + parseInt(difference);
 				document.querySelector('input[name=cmplz_banner_width]').value = newWidth;
-				cmplz_apply_style();
 			}
 		}
+
+		let btn_width = 0;
+		document.querySelectorAll('.cmplz-buttons .cmplz-btn').forEach(obj => {
+			if (obj.offsetWidth > 0) {
+				btn_width = parseInt(btn_width) + parseInt(obj.offsetWidth) + 20;
+			}
+		});
+		btn_width = btn_width + 20;
+		if (btn_width > message_width) {
+			let difference = btn_width - 42 - message_width;
+			let newWidth = parseInt(btn_width) + parseInt(difference);
+			if ( newWidth > banner_width ) {
+				document.querySelector('input[name=cmplz_banner_width]').value = btn_width;
+			}
+		}
+
+		cmplz_apply_style();
 	}
 
-	function cmplz_apply_style(){
+	/**
+	 * apply the banner styles
+	 * @param callback
+	 */
+	function cmplz_apply_style(callback){
 		if (processingReset || cssGenerationActive) {
 			return;
 		}
@@ -151,6 +177,7 @@ jQuery(document).ready(function ($) {
 						var event = new CustomEvent('cmplzCssLoaded');
 						document.dispatchEvent(event);
 						cssIndex++;
+						if (typeof callback == "function") callback();
 					}
 
 				}
@@ -191,7 +218,6 @@ jQuery(document).ready(function ($) {
 					$('#cmplz-cookiebanner-container').removeClass('cmplz-soft-cookiewall');
 				}, 3000)
 			);
-
 		}
 	});
 
@@ -274,13 +300,8 @@ jQuery(document).ready(function ($) {
 		'input[type=number].cmplz-border-radius'
 		, function () {
 			clearTimeout(typingTimer);
-			typingTimer = setTimeout(cmplz_check_banner_width_and_update_style, doneTypingInterval);
+			typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
-
-	function cmplz_check_banner_width_and_update_style(){
-		cmplz_validate_banner_width();
-		cmplz_apply_style();
-	}
 
 	$(document).on('change',
 		'select[name=cmplz_position], ' +

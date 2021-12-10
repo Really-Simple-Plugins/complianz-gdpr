@@ -2134,6 +2134,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
+				if ( substr( strtoupper($code), 0, 2) === 'G-' ) {
+					$anonymize_ip = '';
+				}
 				$enable_tcf_support = cmplz_tcf_active() ? 'true' : 'false';
 				$script       = cmplz_get_template( "statistics/gtag$consent_mode.js" );
 				$script       = str_replace( array('{G_code}', '{anonymize_ip}', '{enable_tcf_support}'), array($code, $anonymize_ip, $enable_tcf_support), $script );

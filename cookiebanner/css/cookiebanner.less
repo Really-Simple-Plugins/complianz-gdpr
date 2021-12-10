@@ -251,14 +251,6 @@
 	}
 
 	.cmplz-category {
-	  .cmplz-description-statistics-anonymous {
-		display: none;
-	  }
-
-	  .cmplz-description-statistics {
-		display: block;
-	  }
-
 	  &:not(:last-child) {
 		margin-bottom: 10px;
 	  }
@@ -330,10 +322,15 @@
 	  }
 
 	  // Remove default marker
-	  summary::marker, summary::-webkit-details-marker {
+	  summary::marker {
+		display: none;
+	  	content: '';
+	  }
+	  summary::-webkit-details-marker {
 		display: none;
 		content: '';
 	  }
+
 
 	  .cmplz-description {
 		font-size: var(--cmplz_category_body_font_size);
@@ -411,6 +408,12 @@
 	  padding:initial;
 	}
   }
+  //fix for browser not supporting the gap property
+  @supports not (display: flex; gap: 1em) {
+	.cmplz-buttons .cmplz-btn {
+	  margin-bottom:10px;
+	}
+  }
 
   // ---------------------------------------------------- Links ----------------------------------------------------- //
 
@@ -448,8 +451,25 @@
 	  }
 	}
   }
+
+	//fix for browsers not supporting the gap property
+	@supports not (display: flex; gap: 1em) {
+	  .cmplz-links .cmplz-link + .cmplz-link {
+		margin-left:10px;
+	  }
+	}
 }
+/* The categories are also used on the cookie policy, so this needs to be outside the banner class */
+.cmplz-categories {
+  .cmplz-category {
+	.cmplz-description-statistics-anonymous {
+	  display: none;
+	}
 
-
+	.cmplz-description-statistics {
+	  display: block;
+	}
+  }
+}
 
 

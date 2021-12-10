@@ -42,13 +42,18 @@ add_filter( 'cmplz_detected_services', 'cmplz_volocation_detected_services' );
 add_action( 'cmplz_banner_css', 'cmplz_volocation_css' );
 function cmplz_volocation_css() {
 	?>
-		.cmplz-functional .voslpsearch,  .cmplz-status-deny .col-lg-8 ,
+		.cmplz-functional .voslpsearch,  .cmplz-functional .col-lg-8,
 		.cmplz-functional #maplist .col-lg-3.overflowscroll {
 			display:none;
 		}
-		.cmplz-functional.cmplz-marketing .voslpsearch,  .cmplz-status-marketing .col-lg-8 ,
-	    .cmplz-functional.cmplz-marketing #maplist .col-lg-3.overflowscroll {
+		.cmplz-functional.cmplz-google-maps .voslpsearch,  .cmplz-functional.cmplz-google-maps .col-lg-8 ,
+	    .cmplz-functional.cmplz-google-maps #maplist .col-lg-3.overflowscroll {
 				display:block;
 			}
+
+		.cmplz-functional.cmplz-marketing .voslpsearch,  .cmplz-marketing .col-lg-8 ,
+		.cmplz-functional.cmplz-marketing #maplist .col-lg-3.overflowscroll {
+			display:none;
+		}
 	<?php
 }

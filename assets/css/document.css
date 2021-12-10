@@ -123,6 +123,10 @@
   display: none;
   content: '';
 }
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category summary::-webkit-details-marker {
+  display: none;
+  content: '';
+}
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-description {
   padding: 10px;
 }
@@ -360,6 +364,11 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown summary::marker,
 #cmplz-document .cmplz-dropdown summary::marker {
+  display: none;
+  content: '';
+}
+#cmplz-cookies-overview .cmplz-dropdown summary::-webkit-details-marker,
+#cmplz-document .cmplz-dropdown summary::-webkit-details-marker {
   display: none;
   content: '';
 }

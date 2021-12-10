@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') or die("you do not have acces to this page!");
 
-add_filter( 'cmplz_known_script_tags', 'cmplz_wp_google_map_plugin_script' );
-function cmplz_wp_google_map_plugin_script( $tags ) {
+add_filter( 'cmplz_known_script_tags', 'cmplz_wp_google_analytics_script' );
+function cmplz_wp_google_analytics_script( $tags ) {
 	$tags[] = array(
 		'name' => 'google-analytics',
 		'category' => 'statistics',

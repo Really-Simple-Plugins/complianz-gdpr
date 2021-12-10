@@ -33,13 +33,13 @@ add_filter( 'exactmetrics_get_option', 'cmplz_gadwp_options' , 10, 3 );
  * Set analytics as suggested stats tool in the wizard
  */
 
-function cmplz_gtm4wp_set_default( $value, $fieldname ) {
+function cmplz_gadwp_set_default( $value, $fieldname ) {
 	if ( $fieldname == 'compile_statistics' ) {
 		return "google-analytics";
 	}
 	return $value;
 }
-add_filter( 'cmplz_default_value', 'cmplz_gtm4wp_set_default', 20, 2 );
+add_filter( 'cmplz_default_value', 'cmplz_gadwp_set_default', 20, 2 );
 
 /**
  * Add notice to tell a user to choose Analytics
@@ -47,10 +47,10 @@ add_filter( 'cmplz_default_value', 'cmplz_gtm4wp_set_default', 20, 2 );
  * @param $args
  */
 
-function cmplz_gtm4wp_show_compile_statistics_notice( $args ) {
+function cmplz_gadwp_show_compile_statistics_notice( $args ) {
 	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'ExactMetrics' ) );
 }
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statistics_notice', 10, 1 );
+add_action( 'cmplz_notice_compile_statistics', 'cmplz_gadwp_show_compile_statistics_notice', 10, 1 );
 
 /**
  * Make sure there's no warning about configuring GA anymore

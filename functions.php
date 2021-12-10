@@ -710,7 +710,6 @@ if ( ! function_exists( 'cmplz_conclusion' ) ) {
 				var timeSmall = 0;
 
 				jQuery(".cmplz-conclusion__check").each(function(){
-					console.log(this);
 					jQuery(firstText).css('opacity', 1);
 					var that = this;
 					time += getRandomInt(5, 10) * 100;;
@@ -726,8 +725,6 @@ if ( ! function_exists( 'cmplz_conclusion' ) ) {
 						}, timeSmall );
 						timeSmall = getRandomInt(5, 10) * 100;
 					}, time);
-
-					console.log(Math.floor(time));
 				});
 
 				function getRandomInt(min, max) {
@@ -1299,6 +1296,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
+		     || isset( $_GET['ct_builder'] )
 		) {
 			$preview = true;
 		}

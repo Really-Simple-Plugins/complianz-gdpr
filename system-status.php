@@ -17,15 +17,14 @@ require_once( BASE_PATH . 'wp-admin/includes/image.php' );
 require_once( BASE_PATH . 'wp-admin/includes/plugin.php');
 
 if ( current_user_can( 'manage_options' ) ) {
-
 	ob_start();
-
 	echo 'Domain:' . esc_url_raw( site_url() ) . "\n";
 	$console_errors = cmplz_get_console_errors();
 	if (empty($console_errors)) $console_errors = "none found";
 	echo 'Detected console errors: ' . $console_errors . "\n". "\n";
 
 	echo "General\n";
+	echo "---------\n";
 	echo "Plugin version: " . cmplz_version . "\n";
 	global $wp_version;
 	echo "WordPress version: " . $wp_version . "\n";
@@ -40,14 +39,17 @@ if ( current_user_can( 'manage_options' ) ) {
 
 	$settings = get_option( 'complianz_options_settings' );
 	echo "\n"."General settings" . "\n";
+	echo "---------\n";
+
 	echo implode_array_recursive($settings);
 
 	$wizard   = get_option( 'complianz_options_wizard' );
 	echo "\n\n"."Wizard settings" . "\n";
+	echo "---------\n";
+
 	$t = array_keys($wizard);
 	echo implode_array_recursive($wizard);
 	do_action( "cmplz_system_status" );
-
 	$content = ob_get_clean();
 
 
