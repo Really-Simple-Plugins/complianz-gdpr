@@ -1,0 +1,51 @@
+
+@grey-light: #dadada;
+@rsp-green: #22932e;
+@rsp-red: #D7263D;
+
+.install-pro-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.install-step {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 50px;
+  align-items: center;
+}
+
+.rsp-bullet {
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: lightgrey;
+  text-decoration: none;
+}
+
+.rsp-grey {
+  background-color: @grey-light;
+}
+
+.rsp-green {
+  background-color: @rsp-green;
+}
+
+.rsp-red {
+  background-color: @rsp-red;
+}
+
+.progress-bar-container {
+  margin: 0 0 25px 0;
+
+  .progress {
+    overflow: hidden;
+    height: 20px;
+    border-radius: 5px;
+
+    .bar {
+      height: 100%;
+    }
+  }
+}

@@ -80,6 +80,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $support;
 		public static $proof_of_consent;
 		public static $records_of_consent;
+		public static $rsp_upgrade_to_pro;
 
 		private function __construct() {
 			self::setup_constants();
@@ -105,6 +106,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			self::$cookie_blocker   = new cmplz_cookie_blocker();
 			self::$cookie_admin     = new cmplz_cookie_admin();
 			self::$document         = new cmplz_document();
+
+			self::$rsp_upgrade_to_pro   = new rsp_upgrade_to_pro();
 		}
 
 		/**
@@ -194,6 +197,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			require_once( cmplz_path . 'DNSMPD/class-DNSMPD.php' );
 			require_once( cmplz_path . 'config/class-config.php' );
 			require_once( cmplz_path . 'class-cookie-blocker.php' );
+
+			require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
 		}
 
 		private function hooks() {
