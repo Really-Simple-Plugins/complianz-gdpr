@@ -96,7 +96,7 @@ class rsp_upgrade_to_pro {
                 array(
                     'admin_url' => admin_url( 'admin-ajax.php' ),
                     'token'     => wp_create_nonce( 'upgrade_to_pro_nonce'),
-                    'rsssl_pro_nonce'     => wp_create_nonce( 'rsssl_pro_nonce'),
+                    'cmplz_nonce'     => wp_create_nonce( 'complianz_save'),
                 )
             );
         }
