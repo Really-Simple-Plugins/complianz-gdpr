@@ -21,6 +21,7 @@ class rsp_upgrade_to_pro {
     private $pro_prefix  = "";
     private $slug        = "";
     private $health_check_timeout = 5;
+    private $plugin_name = "";
 
     /**
      * Class constructor.
@@ -46,10 +47,12 @@ class rsp_upgrade_to_pro {
                 case "rsssl_pro":
                     $this->pro_prefix = "rsssl_pro_";
                     $this->slug = "really-simple-ssl-pro/really-simple-ssl-pro.php";
+                    $this->plugin_name = "Really Simple SSL Pro";
                     break;
                 case "cmplz_pro":
                     $this->pro_prefix = "cmplz_";
                     $this->slug = "complianz/complianz-gpdr-premium.php";
+                    $this->plugin_name = "Complianz";
                     break;
                 case "brst_pro":
                     $this->pro_prefix = "brst_pro_";
@@ -77,6 +80,7 @@ class rsp_upgrade_to_pro {
         add_action( 'wp_ajax_rsp_upgrade_package_information', array($this, 'process_ajax_package_information') );
         add_action( 'wp_ajax_rsp_upgrade_install_plugin', array($this, 'process_ajax_install_plugin') );
         add_action( 'wp_ajax_rsp_upgrade_activate_plugin', array($this, 'process_ajax_activate_plugin') );
+        add_action( 'wp_ajax_rsp_upgrade_deactivate_plugin', array($this, 'process_ajax_deactivate_plugin') );
     }
 
     /**
@@ -197,75 +201,84 @@ class rsp_upgrade_to_pro {
     public function print_install_modal()
     {
         if ( is_admin() && isset($_GET['install-pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
+            $page_object = get_page_by_title( "complianz" );
+            $page_id = $page_object->ID;
+            $dashboard_url = get_permalink( $page_id );
+
+            $plugins_url = home_url( "plugins.php" );
             ?>
-            <div
-                class="install-pro-steps"
-                style="
-                max-height: calc(100vh - 20px);
-                position: fixed;
-                left: 50%;
-                top: 50%;
-                -ms-transform: translateX(-50%) translateY(-50%);
-                transform: translateX(-50%) translateY(-50%);
-                width: 400px;
-                height: 400px;
-                padding: 10px;
-                background-color: white;
-                border: 1px solid black;
-                ">
-                <span>Installing Pro ...</span>
-                <div class="progress-bar-container">
-                    <div class="progress rsp-grey">
-                        <div class="bar rsp-green" style="width:0%"></div>
+            <div class="modal-transparent-background">
+                <div class="install-plugin-modal" style="">
+                    <h3><?php echo __("Installing", "really-simple-ssl") . " " . $this->plugin_name ?></h3>
+                    <div class="progress-bar-container">
+                        <div class="progress rsp-grey">
+                            <div class="bar rsp-green" style="width:0%"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="install-step step-destination-clear">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
+                    <div class="install-steps">
+                        <div class="install-step step-destination-clear">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Checking if destination for plugin is clear", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-activate-license">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Activate license", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-package-information">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Get package information", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-install-plugin">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Install plugin", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-activate-plugin">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Activate plugin", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-activate-license-plugin">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Activate license plugin", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
+                        <div class="install-step step-deactivate-plugin">
+                            <div class="step-color">
+                                <div class="rsp-grey rsp-bullet"></div>
+                            </div>
+                            <div class="step-text">
+                                <span><?php echo __("Deactivate free plugin", "really-simple-ssl") ?></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="step-text">
-                        <span><?php echo __("Checking if destination for plugin is clear", "really-simple-ssl") ?></span>
-                    </div>
-                </div>
-                <div class="install-step step-activate-license">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
-                    </div>
-                    <div class="step-text">
-                        <span><?php echo __("Activate license", "really-simple-ssl") ?></span>
-                    </div>
-                </div>
-                <div class="install-step step-package-information">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
-                    </div>
-                    <div class="step-text">
-                        <span><?php echo __("Get package information", "really-simple-ssl") ?></span>
-                    </div>
-                </div>
-                <div class="install-step step-install-plugin">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
-                    </div>
-                    <div class="step-text">
-                        <span><?php echo __("Install plugin", "really-simple-ssl") ?></span>
-                    </div>
-                </div>
-                <div class="install-step step-activate-plugin">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
-                    </div>
-                    <div class="step-text">
-                        <span><?php echo __("Activate plugin", "really-simple-ssl") ?></span>
-                    </div>
-                </div>
-                <div class="install-step step-activate-license-plugin">
-                    <div class="step-color">
-                        <div class="rsp-grey rsp-bullet"></div>
-                    </div>
-                    <div class="step-text">
-                        <span><?php echo __("Activate license plugin", "really-simple-ssl") ?></span>
-                    </div>
+                    <a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
+                        <?php echo __("Visit Dashboard", "really-simple-ssl") ?>
+                    </a>
+                    <a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
+                        <?php echo __("Cancel", "really-simple-ssl") ?>
+                    </a>
                 </div>
             </div>
             <?php
@@ -569,10 +582,6 @@ class rsp_upgrade_to_pro {
 
             $result = activate_plugin( $this->slug );
 
-            error_log(print_r($result, true));
-            error_log("Plugins");
-            error_log(print_r(get_plugins(), true));
-
             if ( !is_wp_error($result) ) {
                 $response = [
                     'success' => true,
@@ -584,6 +593,34 @@ class rsp_upgrade_to_pro {
             }
 
 
+            $response = json_encode($response);
+
+            header("Content-Type: application/json");
+            echo $response;
+            exit;
+        }
+    }
+
+
+    /**
+     * Ajax GET request
+     *
+     * Deactivate the free plugin (Only for Complianz)
+     *
+     * Requires from GET:
+     * - 'token' => wp_nonce 'upgrade_to_pro_nonce'
+     *
+     * Echoes array [success]
+     */
+    public function process_ajax_deactivate_plugin()
+    {
+        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') ) {
+
+            deactivate_plugins(cmplz_plugin);
+
+            $response = [
+                'success' => true,
+            ];
             $response = json_encode($response);
 
             header("Content-Type: application/json");

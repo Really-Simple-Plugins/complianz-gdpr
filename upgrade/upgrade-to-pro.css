@@ -1,39 +1,92 @@
-.install-pro-steps {
+.modal-transparent-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+.modal-transparent-background .install-plugin-modal {
+  max-height: calc(100vh - 20px);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  width: fit-content;
+  height: fit-content;
+  padding: 25px;
+  background-color: white;
+  border-radius: 10px;
+}
+.modal-transparent-background .install-plugin-modal .progress-bar-container {
+  margin: 0 0 15px 0;
+}
+.modal-transparent-background .install-plugin-modal .progress-bar-container .progress {
+  overflow: hidden;
+  height: 10px;
+  border-radius: 5px;
+  width: 500px;
+}
+.modal-transparent-background .install-plugin-modal .progress-bar-container .progress .bar {
+  height: 100%;
+}
+.modal-transparent-background .install-plugin-modal .install-steps {
   display: flex;
   flex-direction: column;
+  margin: 0 0 15px 0;
 }
-.install-step {
+.modal-transparent-background .install-plugin-modal .install-steps .install-step {
   display: grid;
   grid-template-columns: 50px 1fr;
-  grid-template-rows: 50px;
+  grid-template-rows: 25px;
   align-items: center;
 }
-.rsp-bullet {
+.modal-transparent-background .install-plugin-modal .rsp-btn {
+  width: fit-content;
+  margin: 0 0 25px 0;
+}
+.modal-transparent-background .install-plugin-modal .rsp-btn.rsp-yellow {
+  background-color: #f8be2e;
+  color: white;
+  border: 1px solid #f8be2e;
+}
+.modal-transparent-background .install-plugin-modal .rsp-btn.rsp-yellow:hover {
+  background-color: #f8be2e;
+  border: 1px solid #f8be2e;
+}
+.modal-transparent-background .install-plugin-modal .rsp-btn.rsp-red {
+  background-color: #D7263D;
+  color: white;
+  border: 1px solid #D7263D;
+}
+.modal-transparent-background .install-plugin-modal .rsp-btn.rsp-red:hover {
+  background-color: #D7263D;
+  border: 1px solid #D7263D;
+}
+.modal-transparent-background .install-plugin-modal .rsp-bullet {
   height: 13px;
   width: 13px;
   border-radius: 50%;
   margin-right: 10px;
-  background-color: lightgrey;
   text-decoration: none;
 }
-.rsp-grey {
+.modal-transparent-background .install-plugin-modal .rsp-grey {
   background-color: #dadada;
 }
-.rsp-green {
+.modal-transparent-background .install-plugin-modal .rsp-green {
   background-color: #22932e;
 }
-.rsp-red {
+.modal-transparent-background .install-plugin-modal .rsp-red {
   background-color: #D7263D;
 }
-.progress-bar-container {
-  margin: 0 0 25px 0;
+.modal-transparent-background .install-plugin-modal .rsp-yellow {
+  background-color: #f8be2e;
 }
-.progress-bar-container .progress {
-  overflow: hidden;
-  height: 20px;
-  border-radius: 5px;
-}
-.progress-bar-container .progress .bar {
-  height: 100%;
+.modal-transparent-background .install-plugin-modal .rsp-hidden {
+  display: none;
 }
 /*# sourceMappingURL=upgrade-to-pro.css.map */

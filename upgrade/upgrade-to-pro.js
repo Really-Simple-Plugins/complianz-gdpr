@@ -1,5 +1,6 @@
-
-
+/**
+ * Check if the installation folder already exists
+ */
 function rsp_install_pro_destination_clear() {
 
     rsp_progress_bar_start();
@@ -34,6 +35,8 @@ function rsp_install_pro_destination_clear() {
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>Destination folder already exists</span>";
                 rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
 
         }
@@ -42,6 +45,10 @@ function rsp_install_pro_destination_clear() {
 
 }
 
+
+/**
+ * Link the license with this sites url and the site where you download the plugin
+ */
 function rsp_install_pro_activate_licence() {
 
     rsp_progress_bar_start();
@@ -77,22 +84,28 @@ function rsp_install_pro_activate_licence() {
             }
 
             if ( data.status == "invalid" ) {
-                rsp_progress_bar_stop();
-
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>License invalid</span>";
+
+                rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
 
             if ( data.status == "error" ) {
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>" + data.message + "</span>";
+
                 rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
         }
 
     });
 
 }
+
 
 function rsp_install_pro_get_package_information() {
 
@@ -129,6 +142,8 @@ function rsp_install_pro_get_package_information() {
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>Failed to gather package information</span>";
                 rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
 
         }
@@ -173,6 +188,8 @@ function rsp_install_pro_install_plugin( download_link ) {
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>Failed to install plugin</span>";
                 rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
 
         }
@@ -180,6 +197,7 @@ function rsp_install_pro_install_plugin( download_link ) {
     });
 
 }
+
 
 function rsp_install_pro_activate_plugin() {
 
@@ -213,12 +231,15 @@ function rsp_install_pro_activate_plugin() {
                 step_color[0].innerHTML = "<div class='rsp-red rsp-bullet'></div>";
                 step_text[0].innerHTML = "<span>Failed to activate plugin</span>";
                 rsp_progress_bar_stop();
+
+                document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
             }
 
         }
     });
 
 }
+
 
 function rsp_install_pro_activate_license_plugin() {
 
@@ -229,11 +250,19 @@ function rsp_install_pro_activate_license_plugin() {
 
     if ( urlParams.get('plugin') == 'cmplz_pro' ) {
         var data = {
-            'action' : 'rsp_upgrade_activate_plugin',
             'cmplz_nonce'  : rsp_upgrade.cmplz_nonce,
             'cmplz_license_activate'  : true,
             'cmplz_license_save'  : true,
             'cmplz_license_key'       : urlParams.get('license'),
+        };
+    }
+
+    if ( urlParams.get('license') == 'rsssl_pro' ) {
+        var data = {
+            'action' : 'rsp_upgrade_activate_plugin',
+            'rsssl_pro_nonce'  : rsp_upgrade.rsssl_pro_nonce,
+            'rsssl_pro_license_activate'  : true,
+            'rsssl_pro_license_key'       : urlParams.get('license'),
         };
     }
 
@@ -245,6 +274,39 @@ function rsp_install_pro_activate_license_plugin() {
         step_color[0].innerHTML = "<div class='rsp-green rsp-bullet'></div>";
         step_text[0].innerHTML = "<span>Plugin license activated</span>";
         rsp_progress_bar_finish();
+
+        if ( urlParams.get('plugin') == 'cmplz_pro' ) {
+            rsp_install_pro_deactivate_plugin();
+        } else {
+            document.getElementsByClassName("rsp-btn rsp-visit-dashboard")[0].classList.remove("rsp-hidden");
+        }
+    });
+
+}
+
+
+/**
+ * Deactivate the free plugin, only for complianz
+ */
+function rsp_install_pro_deactivate_plugin() {
+
+    rsp_progress_bar_start();
+
+    var data = {
+        'action' : 'rsp_upgrade_deactivate_plugin',
+        'token'  : rsp_upgrade.token,
+    };
+
+    ajax.get(rsp_upgrade.admin_url, data, function(response) {
+        var step_deactivate_plugin = document.getElementsByClassName("step-deactivate-plugin");
+        var step_color = step_deactivate_plugin[0].getElementsByClassName("step-color");
+        var step_text = step_deactivate_plugin[0].getElementsByClassName("step-text");
+
+        step_color[0].innerHTML = "<div class='rsp-green rsp-bullet'></div>";
+        step_text[0].innerHTML = "<span>Free plugin deactivated</span>";
+        rsp_progress_bar_finish();
+
+        document.getElementsByClassName("rsp-btn rsp-visit-dashboard")[0].classList.remove("rsp-hidden");
     });
 
 }
@@ -254,6 +316,8 @@ function rsp_install_pro_activate_license_plugin() {
 /**
  * Progress bar
  */
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 
 let rsp_progress_bar = {
     current_step: 1,
@@ -261,6 +325,15 @@ let rsp_progress_bar = {
     progress_procentage: 0,
     speed: 1,
 };
+
+if ( urlParams.get('plugin') == 'cmplz_pro' ) {
+    rsp_progress_bar = {
+        current_step: 1,
+        total_steps: 7,
+        progress_procentage: 0,
+        speed: 1,
+    };
+}
 
 function rsp_progress_bar_start() {
     rsp_progress_bar['speed'] = 0.25;
