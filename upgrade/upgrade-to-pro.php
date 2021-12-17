@@ -201,11 +201,10 @@ class rsp_upgrade_to_pro {
     public function print_install_modal()
     {
         if ( is_admin() && isset($_GET['install-pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
-            $page_object = get_page_by_title( "complianz" );
-            $page_id = $page_object->ID;
-            $dashboard_url = get_permalink( $page_id );
 
-            $plugins_url = home_url( "plugins.php" );
+            $dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
+            $plugins_url = admin_url( "plugins.php" );
+
             ?>
             <div class="modal-transparent-background">
                 <div class="install-plugin-modal" style="">
