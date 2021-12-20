@@ -10,4 +10,7 @@
 .cmplz-btn.cmplz-manage-options {
   display: none;
 }
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
+  margin-bottom: 0;
+}
 /*# sourceMappingURL=optout.css.map */

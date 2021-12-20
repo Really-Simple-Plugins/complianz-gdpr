@@ -38,7 +38,7 @@
   margin: 0 0 5px 0;
 }
 @media (min-width: 1024px) {
-  .cmplz-cookiebanner.bottom .cmplz-body > div {
+  .cmplz-cookiebanner.cmplz-bottom .cmplz-body > div {
     width: 49%;
   }
 }
@@ -57,7 +57,7 @@
     flex-direction: column;
   }
 }
-.cmplz-cookiebanner.bottom .cmplz-buttons {
+.cmplz-cookiebanner.cmplz-bottom .cmplz-buttons {
   flex-direction: column;
 }
 /**

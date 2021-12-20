@@ -3,7 +3,6 @@ defined( 'ABSPATH' ) or die();
 
 function cmplz_elementor_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('youtube') ) {
-
 		ob_start();
 		?>
 		<script>
@@ -13,19 +12,19 @@ function cmplz_elementor_initDomContentLoaded() {
 				document.querySelectorAll('[data-cmplz-elementor-settings]').forEach(obj => {
 					if ( obj.classList.contains('cmplz-activated') ) return;
 					obj.classList.add('cmplz-activated' );
-					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
-
-					var blockedContentContainer = obj;
-					//remove the added classes
-					var cssIndex = blockedContentContainer.getAttribute('data-placeholderClassIndex');
-					blockedContentContainer.classList.remove('cmplz-blocked-content-container');
-					blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
-					blockedContentContainers.push(blockedContentContainer);
+					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings') );
+					blockedContentContainers.push(obj);
 				});
 
 				for (var key in blockedContentContainers) {
 					if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined ) {
-						elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainers[key] );
+						let blockedContentContainer = blockedContentContainers[key];
+						if ( elementorFrontend.elementsHandler ) {
+							elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainer )
+						}
+						var cssIndex = blockedContentContainer.getAttribute('data-placeholder_class_index');
+						blockedContentContainer.classList.remove('cmplz-blocked-content-container');
+						blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
 					}
 				}
 			}
@@ -48,15 +47,14 @@ function cmplz_elementor_cookieblocker( $output ){
 			foreach ( $matches[0] as $key => $total_match ) {
 				$placeholder = '';
 				if ( cmplz_use_placeholder('youtube') && isset($matches[1][$key]) ) {
-					$youtube_url = $matches[1][0];
-					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, $youtube_url ).'" ';
+					$youtube_url = $matches[1][$key];
+					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
 				}
 
 				$new_match = str_replace('data-settings', $placeholder.'data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('elementor-widget-video', 'elementor-widget-video cmplz-placeholder-element', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
-
 		}
 	}
 

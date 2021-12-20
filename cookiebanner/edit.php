@@ -80,16 +80,6 @@ $grid_items = array(
     ),
 );
 
-$grid_items['custom_css'] = array(
-	'page' => 'CMPLZ_COOKIEBANNER',
-	'name' => 'custom_css',
-	'header' => __('Custom CSS', 'complianz-gdpr'),
-	'class' => 'regular condition-check-1',
-	'index' => '16',
-	'conditions' => 'data-condition-question-1="use_custom_cookie_css" data-condition-answer-1="1"',
-);
-
-
 $banner_id = (isset($_GET['id']) ? intval($_GET['id']) : false);
 $input_elements = '<input type="hidden" name="cmplz_banner_id" value="' . $banner_id . '">';
 $grid_items = apply_filters('cmplz_cookiebanner_grid_items', $grid_items);

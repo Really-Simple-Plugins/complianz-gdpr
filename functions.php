@@ -2483,19 +2483,23 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 	 *
 	 * @return int default_ID
 	 */
+	global $cmplz_default_banner_id;
 	function cmplz_get_default_banner_id() {
+		global $cmplz_default_banner_id;
+		if (!empty($cmplz_default_banner_id)) {
+			return $cmplz_default_banner_id;
+		}
 		global $wpdb;
-		$cookiebanners
-			= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
+		$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
 
 		//if nothing, try the first entry
 		if ( empty( $cookiebanners ) ) {
-			$cookiebanners
-				= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners" );
+			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners" );
 		}
 
 		if ( ! empty( $cookiebanners ) ) {
-			return $cookiebanners[0]->ID;
+			$cmplz_default_banner_id = $cookiebanners[0]->ID;
+			return $cmplz_default_banner_id;
 		}
 
 		return false;

@@ -227,7 +227,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		private function get() {
 			global $wpdb;
 			if ( intval( $this->id ) > 0 ) {
-				$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->id ) ) );
+				$cookiebanner = wp_cache_get('cmplz_cookiebanner_'.$this->id, 'complianz');
+				if ( !$cookiebanner ){
+					$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->id ) ) );
+					wp_cache_set('cmplz_cookiebanner_'.$this->id, $cookiebanner, 'complianz', HOUR_IN_SECONDS);
+				}
+
 				if ( $cookiebanner ) {
 					$this->banner_version = $cookiebanner->banner_version;
 					$this->title          = $cookiebanner->title;
@@ -397,7 +402,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_translation_id() {
 			//if this is the banner with the lowest ID's, no ID
 			global $wpdb;
-			$lowest = $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
+			$lowest = wp_cache_get('cmplz_min_banner_id', 'complianz');
+			if ( !$lowest ){
+				$lowest = $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
+				wp_cache_set('cmplz_min_banner_id', $lowest,  'complianz', HOUR_IN_SECONDS );
+			}
+
 			if ( $lowest == $this->id ) {
 				return '';
 			} else {
@@ -522,6 +532,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			} elseif ( ! $this->default && $db_default ) {
 				$this->remove_default();
 			}
+			wp_cache_delete('cmplz_cookiebanner_'.$this->id, 'complianz');
+			wp_cache_delete('cmplz_min_banner_id', 'complianz');
 
 			$this->generate_css();
 		}

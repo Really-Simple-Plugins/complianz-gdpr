@@ -20,7 +20,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$plugin = cmplz_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
-			add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
+			//add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
 			//add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
 
 			//multisite
@@ -267,7 +267,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @param $response
 		 */
 		public function plugin_update_message($plugin_data, $response){
-			if ( $response->new_version === '6.0.0' ) {
+			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
 				echo '<br><b>' . '&nbsp'.sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
@@ -282,9 +282,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-//			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
-//				return false;
-//			}
+			if ( strpos($item->slug , 'complianz') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
+				return false;
+			}
 			return $update;
 		}
 
