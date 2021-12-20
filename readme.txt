@@ -11,7 +11,7 @@ Stable tag: 6.0.0
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
 == Description ==
-Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, DSGVO, TTDSG, LGPD, POPIA, APA, RGPD, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
+Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, ePrivacy, DSGVO, TTDSG, LGPD, POPIA, APA, RGPD, CCPA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
 
 https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 
@@ -149,9 +149,9 @@ To comply with the Australian privacy laws a website operator should present a c
 = What are PIPEDA & CASL? =
 Canada’s Anti-Spam Legislation (CASL) and Personal Information Protection and Electronic Documents Act (PIPEDA) require a website operator to obtain consent, either implied or express consent with a dedicated cookie statement.
 = What POPIA (POPI Act)? =
-POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION ACT. Similar to the GDPR, the UK-GDPR, and the Brasilian LGPD, it promotes the protection of personal information processed by public and private bodies,bregulates the cross-border flow of personal information, and outlines the rights of data subjects.
+POPIA is the acronym for the South African PROTECTION OF PERSONAL INFORMATION ACT. Similar to the GDPR, the UK-GDPR, and the Brasilian LGPD, it promotes the protection of personal information processed by public and private bodies, regulates the cross-border flow of personal information, and outlines the rights of data subjects.
 = What are “Marco Civil” and the Brazilian General Data Protection Law (LGPD)? =
-The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it promotes the protection of personal information processed by public and private bodies,bregulates the cross-border flow of personal information, and outlines the rights of data subjects. The Marco Civil is the Brazilian name of the Brazilian Civil Rights Framework for the Internet a counterpart to European's "ePrivacy", although not similar.
+The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it promotes the protection of personal information processed by public and private bodies, regulates the cross-border flow of personal information, and outlines the rights of data subjects. The Marco Civil is the Brazilian name of the Brazilian Civil Rights Framework for the Internet a counterpart to European's "ePrivacy", although not similar.
 = Can I create a Cookie Wall with this plugin? =
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
