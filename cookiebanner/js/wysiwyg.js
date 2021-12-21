@@ -272,7 +272,7 @@ jQuery(document).ready(function ($) {
 		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_save_preferences']", function () {
-		$("button.cmplz-view-preferences").html($(this).val());
+		$("button.cmplz-save-preferences").html($(this).val());
 		clearTimeout(typingTimer);
 		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
@@ -536,7 +536,6 @@ jQuery(document).ready(function ($) {
 		bannerVisible = true;
 	}
 
-
 	$(document).on('click', '.cmplz-border-input-type-pixel', function() {
 		var hidden_field = $(this).closest('.cmplz-border-input-type-wrap');
 		hidden_field.find('.cmplz-border-input-type').val('px');
@@ -552,7 +551,6 @@ jQuery(document).ready(function ($) {
 		$(this).removeClass('cmplz-grey');
 		cmplz_apply_style();
 	});
-
 
 	function cmplzUpdatePreviewFields(){
 		$(".cmplz-header .cmplz-title").html($("input[name='cmplz_header[text]']").val());
