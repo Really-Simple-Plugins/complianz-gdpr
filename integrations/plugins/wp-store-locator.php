@@ -38,10 +38,10 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_wpsl_googlemaps_script' );
  *
  * @return array
  */
-function cmplz_wp_google_maps_detected_services( $services ) {
+function cmplz_wpsl_googlemaps_detected_services( $services ) {
 	if ( ! in_array( 'google-maps', $services ) ) {
 		$services[] = 'google-maps';
 	}
 	return $services;
 }
-add_filter( 'cmplz_detected_services', 'cmplz_wp_google_maps_detected_services' );
+add_filter( 'cmplz_detected_services', 'cmplz_wpsl_googlemaps_detected_services' );

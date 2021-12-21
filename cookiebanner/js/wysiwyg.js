@@ -96,11 +96,22 @@ jQuery(document).ready(function ($) {
 		let cats_width = document.querySelector('.cmplz-categories').offsetWidth;
 		let message_width = document.querySelector('.cmplz-message').offsetWidth;
 		let banner_width = document.querySelector('.cmplz-cookiebanner').offsetWidth;
-		if ( cats_width>0 ){
-			if ( banner_width-42 > cats_width ) {
+		let max_banner_change = banner_width * 1.3;
+		let new_width_cats = 0;
+		let new_width_btns = 0;
+		let banner_padding= false;
+		let padding_left = window.getComputedStyle(document.querySelector('.cmplz-cookiebanner'), null).getPropertyValue('padding-left');
+		let padding_right = window.getComputedStyle(document.querySelector('.cmplz-cookiebanner'), null).getPropertyValue('padding-left');
+
+		//check if the banner padding is in px, and if so get it as int
+		if (padding_left.indexOf('px')!=-1 && padding_right.indexOf('px')!=-1){
+			banner_padding = parseInt(padding_left.replace('px', '')) + parseInt(padding_right.replace('px', ''));
+		}
+
+		if ( cats_width>0 && banner_padding ){
+			if ( banner_width-banner_padding > cats_width ) {
 				let difference = banner_width-42 - cats_width;
-				let newWidth =  parseInt(banner_width) + parseInt(difference);
-				document.querySelector('input[name=cmplz_banner_width]').value = newWidth;
+				new_width_cats =  parseInt(banner_width) + parseInt(difference);
 			}
 		}
 
@@ -110,13 +121,23 @@ jQuery(document).ready(function ($) {
 				btn_width = parseInt(btn_width) + parseInt(obj.offsetWidth) + 20;
 			}
 		});
+
 		btn_width = btn_width + 20;
 		if (btn_width > message_width) {
 			let difference = btn_width - 42 - message_width;
-			let newWidth = parseInt(btn_width) + parseInt(difference);
-			if ( newWidth > banner_width ) {
-				document.querySelector('input[name=cmplz_banner_width]').value = btn_width;
-			}
+			new_width_btns = parseInt(btn_width) + parseInt(difference);
+		}
+
+		let new_width = 0;
+		if (new_width_btns > new_width_cats ) {
+			new_width = new_width_btns;
+		} else {
+			new_width = new_width_cats;
+		}
+
+		if ( new_width > banner_width && new_width < max_banner_change ) {
+			if(new_width % 2 != 0) new_width++;
+			document.querySelector('input[name=cmplz_banner_width]').value = new_width;
 		}
 
 		cmplz_apply_style();
@@ -153,11 +174,11 @@ jQuery(document).ready(function ($) {
 					if (banner_id==='') banner_id = 'new';
 
 					$('.cmplz-cookiebanner').each(function(){
-						$(this).removeClass('center');
-						$(this).removeClass('bottom');
-						$(this).removeClass('bottom-left');
-						$(this).removeClass('bottom-right');
-						$(this).addClass($('select[name=cmplz_position]').val());
+						$(this).removeClass('cmplz-center');
+						$(this).removeClass('cmplz-bottom');
+						$(this).removeClass('cmplz-bottom-left');
+						$(this).removeClass('cmplz-bottom-right');
+						$(this).addClass('cmplz-'+$('select[name=cmplz_position]').val());
 						if ($('#cmplz-tcf-js').length ) {
 							$(this).addClass('tcf');
 						}
@@ -251,7 +272,7 @@ jQuery(document).ready(function ($) {
 		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
 	$(document).on('keyup', "input[name='cmplz_save_preferences']", function () {
-		$("button.cmplz-view-preferences").html($(this).val());
+		$("button.cmplz-save-preferences").html($(this).val());
 		clearTimeout(typingTimer);
 		typingTimer = setTimeout(cmplz_validate_banner_width, doneTypingInterval);
 	});
@@ -515,7 +536,6 @@ jQuery(document).ready(function ($) {
 		bannerVisible = true;
 	}
 
-
 	$(document).on('click', '.cmplz-border-input-type-pixel', function() {
 		var hidden_field = $(this).closest('.cmplz-border-input-type-wrap');
 		hidden_field.find('.cmplz-border-input-type').val('px');
@@ -531,7 +551,6 @@ jQuery(document).ready(function ($) {
 		$(this).removeClass('cmplz-grey');
 		cmplz_apply_style();
 	});
-
 
 	function cmplzUpdatePreviewFields(){
 		$(".cmplz-header .cmplz-title").html($("input[name='cmplz_header[text]']").val());

@@ -195,6 +195,17 @@ window.cmplz_highest_accepted_category = function() {
 }
 
 /**
+ * Accept all categories
+ */
+window.cmplz_accept_all = function(){
+	for (var key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'allow');
+		}
+	}
+}
+
+/**
  * Sets all accepted categories as class in body
  */
 
@@ -782,6 +793,8 @@ window.conditionally_show_banner = function() {
 	}
 
 	cmplz_set_category_as_body_class();
+	//fire cats event, but do not fire a track, as we do this on exit.
+	cmplz_fire_categories_event();
 	if (!complianz.do_not_track) {
 		if (complianz.consenttype === 'optin') {
 			if (complianz.forceEnableStats) {
@@ -797,6 +810,7 @@ window.conditionally_show_banner = function() {
 			//on other consent types, all scripts are enabled by default.
 			cmplz_accept_all();
 		}
+
 	} else {
 		cmplz_track_status( 'do_not_track' );
 	}
@@ -1248,19 +1262,9 @@ function cmplz_track_status_end(){
  */
 document.addEventListener('cmplz_consent_action', function (e) {
 	cmplz_set_consent( e.detail.category , 'allow' );
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
-
-/**
- * Accept all categories
- */
-window.cmplz_accept_all = function(){
-	for (var key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'allow');
-		}
-	}
-}
 
 /**
  * Deny all categories, and reload if needed.
@@ -1284,6 +1288,7 @@ window.cmplz_deny_all = function(){
 	//has to be after the check if should be reloaded, otherwise that check won't work.
 	cmplz_clear_all_service_consents();
 	cmplz_integrations_revoke();
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 
 	var event = new CustomEvent('cmplz_revoke', { detail: reload });
@@ -1302,6 +1307,7 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 	e.preventDefault();
 	cmplz_accept_all();
 	cmplz_set_banner_status('dismissed');
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
 
@@ -1321,6 +1327,7 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 		cmplz_set_consent('marketing', 'allow' );
 	}
 	cmplz_set_banner_status('dismissed');
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
 
@@ -1341,6 +1348,7 @@ cmplz_add_event('click', '.cmplz-accept-service', function(e){
 		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	}
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
 
@@ -1362,6 +1370,7 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 			}, 500);
 		}
 	}
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
 
@@ -1388,6 +1397,7 @@ cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 		}
 	}
 	cmplz_set_banner_status('dismissed');
+	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
 
@@ -1426,6 +1436,7 @@ cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', fun
 					cmplz_set_consent(category, 'deny');
 				}
 				cmplz_set_banner_status('dismissed');
+				cmplz_fire_categories_event();
 				cmplz_track_status();
 			}
 		}
@@ -1470,6 +1481,7 @@ function cmplz_set_up_auto_dismiss() {
 			var onWindowScroll = function(evt) {
 				if (window.pageYOffset > Math.floor(400)) {
 					cmplz_set_banner_status('dismissed');
+					cmplz_fire_categories_event();
 					cmplz_track_status();
 					window.removeEventListener('scroll', onWindowScroll);
 					this.onWindowScroll = null;
@@ -1482,25 +1494,27 @@ function cmplz_set_up_auto_dismiss() {
 		if ( delay > 0 ) {
 			var cmplzDismissTimeout = window.setTimeout(function () {
 				cmplz_set_banner_status('dismissed');
+				cmplz_fire_categories_event();
 				cmplz_track_status();
 			}, Math.floor(delay));
 		}
 	}
 }
 
-/**
- * Track the status of current consent
- * @param status
- */
-
-function cmplz_track_status( status ) {
+function cmplz_fire_categories_event(){
 	let details = new Object();
 	details.category = cmplz_highest_accepted_category();
 	details.categories = cmplz_accepted_categories();
 	details.region = complianz.region;
 	event = new CustomEvent('cmplz_fire_categories', { detail: details });
 	document.dispatchEvent(event);
+}
+/**
+ * Track the status of current consent
+ * @param status
+ */
 
+function cmplz_track_status( status ) {
 	var cats = [];
 	status = typeof status !== 'undefined' ? status : false;
 
@@ -1508,7 +1522,7 @@ function cmplz_track_status( status ) {
 	document.dispatchEvent(event);
 
 	if ( !status ) {
-		cats = details.categories;
+		cats = cmplz_accepted_categories();
 	} else {
 		cats = [status];
 	}

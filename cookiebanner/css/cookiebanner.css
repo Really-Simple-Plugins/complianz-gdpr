@@ -101,7 +101,7 @@
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
   grid-template-rows: minmax(0, 1fr);
-  z-index: 9999;
+  z-index: 99999;
   background: var(--cmplz_banner_background_color);
   border-style: solid;
   border-color: var(--cmplz_banner_border_color);
@@ -168,13 +168,13 @@
   font-weight: 500;
 }
 .cmplz-cookiebanner .cmplz-close {
-  line-height: initial;
+  line-height: 20px;
   justify-self: end;
   grid-column-start: 3;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  width: initial;
-  height: initial;
+  width: 20px;
+  height: 20px;
   color: var(--cmplz_text_color);
 }
 .cmplz-cookiebanner .cmplz-close svg {
@@ -184,7 +184,7 @@
 .cmplz-cookiebanner .cmplz-close:hover {
   text-decoration: none;
   line-height: initial;
-  font-size: 22px;
+  font-size: 18px;
 }
 .cmplz-cookiebanner .cmplz-message {
   word-wrap: break-word;

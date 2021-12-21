@@ -26,13 +26,9 @@ if ( ! class_exists( "cmplz_review" ) ) {
 					 && get_option( 'cmplz_activation_time' )
 						< strtotime( "-1 month" )
 				) {
-					add_action( 'wp_ajax_dismiss_review_notice',
-							array( $this, 'dismiss_review_notice_callback' ) );
-
-					add_action( 'admin_notices',
-							array( $this, 'show_leave_review_notice' ) );
-					add_action( 'admin_print_footer_scripts',
-							array( $this, 'insert_dismiss_review' ) );
+					add_action( 'wp_ajax_cmplz_dismiss_review_notice', array( $this, 'dismiss_review_notice_callback' ) );
+					add_action( 'admin_notices', array( $this, 'show_leave_review_notice' ) );
+					add_action( 'admin_print_footer_scripts', array( $this, 'insert_dismiss_review' ) );
 				}
 
 				//set a time for users who didn't have it set yet.
@@ -62,6 +58,9 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			}
 			?>
 			<style>
+				#message.cmplz-review {
+					margin-left:10px !important;
+				}
 				.cmplz-review .button {
 					margin-right:10px;
 				}
@@ -87,14 +86,10 @@ if ( ! class_exists( "cmplz_review" ) ) {
 									'</a>' ); ?></p>
 						<i>- Rogier</i>
 						<div class="cmplz-buttons-row">
-							<a class="button button-primary" target="_blank"
-							   href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review',
-										'complianz-gdpr' ); ?></a>
+							<a class="button button-primary" target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review', 'complianz-gdpr' ); ?></a>
 
 							<div class="dashicons dashicons-calendar"></div>
-							<a href="#"
-							   id="maybe-later"><?php _e( 'Maybe later',
-										'complianz-gdpr' ); ?></a>
+							<a href="#" id="maybe-later"><?php _e( 'Maybe later', 'complianz-gdpr' ); ?></a>
 
 							<div class="dashicons dashicons-no-alt"></div>
 							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again', 'complianz-gdpr' ); ?></a>
@@ -136,12 +131,11 @@ if ( ! class_exists( "cmplz_review" ) ) {
 
 					function rsssl_dismiss_review(type) {
 						var data = {
-							'action': 'dismiss_review_notice',
+							'action': 'cmplz_dismiss_review_notice',
 							'type': type,
 							'token': '<?php echo $ajax_nonce; ?>'
 						};
-						$.post(ajaxurl, data, function (response) {
-						});
+						$.post(ajaxurl, data, function (response) {});
 					}
 				});
 			</script>

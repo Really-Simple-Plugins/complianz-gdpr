@@ -445,13 +445,22 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		}
 
 		public function load_warning_types() {
+			$banner_url = admin_url(add_query_arg(array('page'=>'cmplz-cookiebanner','id'=>cmplz_get_default_banner_id()),'admin.php'));
 			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
 
+//				'upgraded_to_6' => array(
+//					'warning_condition' => 'cmplz_upgraded_to_current_version',
+//					'open' => sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ),
+//					'plus_one' => true,
+//					'include_in_progress' => false,
+//				),
+
 				'upgraded_to_6' => array(
-					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ),
-					'plus_one' => true,
-					'include_in_progress' => false,
+					'warning_condition'  => 'cmplz_upgraded_to_current_version',
+					'open' => sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ).'&nbsp;'.
+					          '<br><br>'.sprintf(__('We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s.','complianz-gdpr'),'<a href="'.$banner_url.'">','</a>').'&nbsp;'.
+					          __('You can reset to default values, if needed.','complianz-gdpr'),
+					'admin_notice' => true,
 				),
 
 				'wizard-incomplete'  => array(

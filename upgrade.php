@@ -729,7 +729,7 @@ function cmplz_check_upgrade() {
 					'text' => $banner_item->accept_informational,
 					'show' => true,
 				);
-
+				$banner->use_box_shadow = true;
 				$banner->use_logo = 'hide';
 				$banner->close_button = false;
 
@@ -776,6 +776,9 @@ function cmplz_check_upgrade() {
 			$banner->save();
 		}
 	}
+	//always clear warnings cache on update
+	delete_transient('complianz_warnings');
+	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', cmplz_version );
 }

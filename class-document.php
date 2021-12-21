@@ -2802,9 +2802,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$title = COMPLIANZ::$config->generic_documents_list[$type]['title'];
 			} else {
 				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
-
 				//get correct translated id
 				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
+				if ( !$policy_page_id ) {
+					return '';
+				}
 				$title =  get_the_title( $policy_page_id );
 			}
 

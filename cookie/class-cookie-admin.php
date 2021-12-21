@@ -1792,7 +1792,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-			$banner = new CMPLZ_COOKIEBANNER(  apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
+			$banner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
 			$cookiesettings = $banner->get_front_end_settings();
 			if ( ! isset( $_GET['complianz_scan_token'] ) ) {
 				$deps = array();
@@ -1847,7 +1847,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				foreach ( $banner_ids  as $banner_id ) {
 					$temp_banner_html = $banner_template;
 					$temp_manage_consent_html = $manage_consent_template;
-					$banner = new CMPLZ_COOKIEBANNER(  $banner_id );
+					$banner = new CMPLZ_COOKIEBANNER( $banner_id );
 					$cookie_settings = $banner->get_html_settings();
 					foreach($cookie_settings as $fieldname => $value ) {
 						if ( isset($value['text']) ) $value = $value['text'];
@@ -3016,8 +3016,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate = 0 )',
 					intval( $settings['lastUpdatedDate'] ) );
 			}
-			$sql      = "select * from {$wpdb->prefix}cmplz_services where "
-			            . $sql;
+			$sql      = "select * from {$wpdb->prefix}cmplz_services where " . $sql;
 			$services = $wpdb->get_results( $sql );
 
 			return $services;

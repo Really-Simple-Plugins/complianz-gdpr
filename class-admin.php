@@ -20,7 +20,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$plugin = cmplz_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
-			add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
+			//add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
 			//add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
 
 			//multisite
@@ -32,6 +32,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_load_warnings', array( $this, 'ajax_load_warnings' ) );
 			add_action( 'wp_ajax_cmplz_load_gridblock', array( $this, 'ajax_load_gridblock' ) );
 
+			//admin notices
+			add_action( 'wp_ajax_cmplz_dismiss_admin_notice', array( $this, 'dismiss_warning' ) );
+			add_action( 'admin_notices', array( $this, 'show_admin_notice' ) );
+			add_action( 'admin_print_footer_scripts', array( $this, 'insert_dismiss_admin_notice_script' ) );
 		}
 
 		static function this() {
@@ -87,6 +91,8 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					$dismissed_warnings[] = $warning_id;
 				}
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings );
+				delete_transient('complianz_warnings');
+				delete_transient('complianz_warnings_admin_notices');
 			}
 
 			$out = array(
@@ -267,7 +273,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @param $response
 		 */
 		public function plugin_update_message($plugin_data, $response){
-			if ( $response->new_version === '6.0.0' ) {
+			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
 				echo '<br><b>' . '&nbsp'.sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
@@ -282,9 +288,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-//			if ( strpos($item->slug , 'complianz-gdpr') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
-//				return false;
-//			}
+			if ( strpos($item->slug , 'complianz') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
+				return false;
+			}
 			return $update;
 		}
 
@@ -354,7 +360,59 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			return $links;
 		}
 
+		/**
+		 * Insert some ajax script to dismiss the admin notice
+		 *
+		 * @since  2.0
+		 *
+		 * @access public
+		 *
+		 * type: dismiss, later
+		 *
+		 */
 
+		public function insert_dismiss_admin_notice_script() {
+			$ajax_nonce = wp_create_nonce( "cmplz_dismiss_admin_notice" );
+			?>
+			<script type='text/javascript'>
+				jQuery(document).ready(function ($) {
+					$(".cmplz-admin-notice.notice.is-dismissible").on("click", ".notice-dismiss, .cmplz-btn-dismiss-notice", function (event) {
+						var id = $('.cmplz-admin-notice').data('admin_notice_id');
+						var data = {
+							'action': 'cmplz_dismiss_admin_notice',
+							'id': id,
+							'token': '<?php echo $ajax_nonce; ?>'
+						};
+						$.post(ajaxurl, data, function (response) {
+							$(".cmplz-admin-notice.notice.is-dismissible").remove();
+						});
+					});
+				});
+			</script>
+			<?php
+		}
+
+		/**
+		 * Show an admin notice from our warnings list
+		 * @return void
+		 */
+		public function show_admin_notice(){
+			delete_transient( 'complianz_warnings' );
+			$warnings = $this->get_warnings( [ 'admin_notices' => true] );
+			if (count($warnings)==0) {
+				return;
+			}
+
+			//only one admin notice at the same time.
+			$keys = array_keys($warnings);
+			$id = $keys[0];
+			$warning = $warnings[$id];
+			if ( !isset($warning['open'])) {
+				return;
+			}
+			$dismiss_btn = '<br><br><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
+			cmplz_admin_notice($warning['open'].$dismiss_btn, $id);
+		}
 
 		/**
 		 * get a list of applicable warnings.
@@ -370,14 +428,16 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'status' => 'all',
 				'plus_ones' => false,
 				'progress_items_only' => false,
+				'admin_notices' => false,
 			);
 			$args = wp_parse_args($args, $defaults);
+			$admin_notice =  $args['admin_notices'] ? '_admin_notices' : '';
 			$cache = $args['cache'];
 			if (isset($_GET['page']) && ($_GET['page']==='complianz' || strpos($_GET['page'],'cmplz') !== false ) ) {
 				$cache = false;
 			}
 
-			$warnings = $cache ? get_transient( 'complianz_warnings' ) : false;
+			$warnings = $cache ? get_transient( 'complianz_warnings'.$admin_notice ) : false;
 			//re-check if there are no warnings, or if the transient has expired
 			if ( ! $warnings ) {
 
@@ -388,6 +448,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'relation' => 'OR',
 					'status' => 'open',
 					'include_in_progress' => false,
+					'admin_notice' => false,
 				);
 
 				$warning_types = COMPLIANZ::$config->warning_types;
@@ -398,6 +459,14 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$dismissed_warnings = get_option('cmplz_dismissed_warnings', array() );
 				foreach ( $warning_types as $id => $warning ) {
 					if ( in_array( $id, $dismissed_warnings) ) {
+						continue;
+					}
+
+					if ( $args['admin_notices'] && !$warning['admin_notice']){
+						continue;
+					}
+
+					if ( !$args['admin_notices'] && $warning['admin_notice']){
 						continue;
 					}
 
@@ -444,7 +513,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						}
 					}
 				}
-				set_transient( 'complianz_warnings', $warnings, HOUR_IN_SECONDS );
+				set_transient( 'complianz_warnings'.$admin_notice, $warnings, HOUR_IN_SECONDS );
 			}
 
 			//filtering outside cache if, to make sure all warnings are saved for the cache.
@@ -491,16 +560,20 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$completed = array();
 			$open = array();
 			$urgent = array();
-			foreach ($warnings as $key => $warning){
-				//prevent notices on upgrade to 5.0
-				if ( !isset( $warning['status'])) continue;
+			if (!empty($warnings)) {
+				foreach ( $warnings as $key => $warning ) {
+					//prevent notices on upgrade to 5.0
+					if ( ! isset( $warning['status'] ) ) {
+						continue;
+					}
 
-				if ($warning['status']==='urgent') {
-					$urgent[$key] = $warning;
-				} else if ($warning['status']==='open') {
-					$open[$key] = $warning;
-				} else {
-					$completed[$key] = $warning;
+					if ( $warning['status'] === 'urgent' ) {
+						$urgent[ $key ] = $warning;
+					} else if ( $warning['status'] === 'open' ) {
+						$open[ $key ] = $warning;
+					} else {
+						$completed[ $key ] = $warning;
+					}
 				}
 			}
 			$warnings = $urgent + $open + $completed;
