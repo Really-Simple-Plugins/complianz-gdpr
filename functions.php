@@ -34,6 +34,7 @@ if ( !function_exists('cmplz_upgraded_to_current_version')){
 	 */
 
 	function cmplz_upgraded_to_current_version() {
+		return true;
 		$first_version = get_option( 'cmplz_first_version' );
 		//if there's no first version yet, we assume it's not upgraded
 		if ( !$first_version ) {
@@ -783,9 +784,9 @@ if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
 
 if ( !function_exists('cmplz_admin_notice')) {
 	/**
-	 * @param $msg
+	 * @param string $msg
 	 */
-	function cmplz_admin_notice( $msg ) {
+	function cmplz_admin_notice( $msg, $id='' ) {
 		/**
 		 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
 		 *
@@ -795,16 +796,31 @@ if ( !function_exists('cmplz_admin_notice')) {
 			return;
 		}
 		?>
+		<style>
+			#message.cmplz-admin-notice {
+				margin-left:10px !important;
+			}
+			.cmplz-admin-notice-container {
+				display:flex;
+			}
+			.cmplz-admin-notice-logo {
+				margin:20px 10px;
+			}
+			.cmplz-admin-notice-content {
+				margin: 20px 30px;
+			}
+		</style>
 		<div id="message"
 			 class="updated fade notice is-dismissible cmplz-admin-notice really-simple-plugins"
+			 data-admin_notice_id="<?php echo $id?>"
 			 style="border-left:4px solid #333">
 			<div class="cmplz-admin-notice-container">
-				<div class="cmplz-logo"><img width=80px"
+				<div class="cmplz-admin-notice-logo"><img width=80px"
 													 src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
 													 alt="logo">
 				</div>
-				<div style="margin-left:30px">
-					<?php echo wp_kses_post($msg) ?>
+				<div class="cmplz-admin-notice-content">
+					<p><?php echo wp_kses_post($msg) ?></p>
 				</div>
 			</div>
 		</div>
@@ -2222,7 +2238,7 @@ if ( ! function_exists( 'cmplz_uses_gutenberg' ) ) {
 	function cmplz_uses_gutenberg() {
 
 		if ( function_exists( 'has_block' )
-		     && ! class_exists( 'Classic_Editor', false )
+		     && !class_exists( 'Classic_Editor', false )
 		) {
 			return true;
 		}

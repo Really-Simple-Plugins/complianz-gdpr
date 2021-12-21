@@ -1134,8 +1134,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			foreach ( $pages as $region => $region_pages ) {
 				foreach ( $region_pages as $type => $page ) {
-					$title = COMPLIANZ::$document->get_page_title( $type ,$region );
-					$url = COMPLIANZ::$document->get_page_url( $type ,$region );
+					$title = COMPLIANZ::$document->get_page_title( $type, $region );
+					$url = COMPLIANZ::$document->get_page_url( $type, $region );
 					if ( $url !== '#') {
 						$page_links[ $region ][$type]['title'] = $title;
 						$page_links[ $region ][$type]['url'] = $url;

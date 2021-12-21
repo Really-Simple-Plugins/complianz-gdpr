@@ -6,28 +6,30 @@ function cmplz_elementor_initDomContentLoaded() {
 		ob_start();
 		?>
 		<script>
-			document.addEventListener("cmplz_run_after_all_scripts", cmplz_elementor_fire_initOnReadyComponents);
-			function cmplz_elementor_fire_initOnReadyComponents() {
-				var blockedContentContainers = [];
-				document.querySelectorAll('[data-cmplz-elementor-settings]').forEach(obj => {
-					if ( obj.classList.contains('cmplz-activated') ) return;
-					obj.classList.add('cmplz-activated' );
-					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings') );
-					blockedContentContainers.push(obj);
-				});
+			document.addEventListener("cmplz_enable_category", function(consentData) {
+				var category = consentData.detail.category;
+				if (category==='marketing') {
+					var blockedContentContainers = [];
+					document.querySelectorAll('[data-cmplz-elementor-settings]').forEach(obj => {
+						if (obj.classList.contains('cmplz-activated')) return;
+						obj.classList.add('cmplz-activated');
+						obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
+						blockedContentContainers.push(obj);
+					});
 
-				for (var key in blockedContentContainers) {
-					if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined ) {
-						let blockedContentContainer = blockedContentContainers[key];
-						if ( elementorFrontend.elementsHandler ) {
-							elementorFrontend.elementsHandler.runReadyTrigger( blockedContentContainer )
+					for (var key in blockedContentContainers) {
+						if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined) {
+							let blockedContentContainer = blockedContentContainers[key];
+							if (elementorFrontend.elementsHandler) {
+								elementorFrontend.elementsHandler.runReadyTrigger(blockedContentContainer)
+							}
+							var cssIndex = blockedContentContainer.getAttribute('data-placeholder_class_index');
+							blockedContentContainer.classList.remove('cmplz-blocked-content-container');
+							blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
 						}
-						var cssIndex = blockedContentContainer.getAttribute('data-placeholder_class_index');
-						blockedContentContainer.classList.remove('cmplz-blocked-content-container');
-						blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
 					}
 				}
-			}
+			});
 		</script>
 		<?php
 		$script = ob_get_clean();

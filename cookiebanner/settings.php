@@ -278,7 +278,7 @@ function cmplz_add_cookiebanner_settings($fields){
 			),
 
             'use_box_shadow' => array(
-            	'default' => false,
+            	'default' => true,
                 'source'  => 'CMPLZ_COOKIEBANNER',
                 'step'    => 'appearance',
                 'type'    => 'checkbox',
