@@ -13,6 +13,7 @@ function rsp_install_pro_destination_clear() {
         'action': 'rsp_upgrade_destination_clear',
         'token'  : rsp_upgrade.token,
         'plugin'  : urlParams.get('plugin'),
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {
@@ -63,6 +64,7 @@ function rsp_install_pro_activate_licence() {
         'license'  : urlParams.get('license'),
         'item_id'  : urlParams.get('item_id'),
         'api_url'  : urlParams.get('api_url'),
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {
@@ -120,6 +122,7 @@ function rsp_install_pro_get_package_information() {
         'license'  : urlParams.get('license'),
         'item_id'  : urlParams.get('item_id'),
         'api_url'  : urlParams.get('api_url'),
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {
@@ -166,6 +169,7 @@ function rsp_install_pro_install_plugin( download_link ) {
         'license'  : urlParams.get('license'),
         'item_id'  : urlParams.get('item_id'),
         'api_url'  : urlParams.get('api_url'),
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {
@@ -210,6 +214,7 @@ function rsp_install_pro_activate_plugin() {
         'action': 'rsp_upgrade_activate_plugin',
         'token'  : rsp_upgrade.token,
         'plugin'  : urlParams.get('plugin'),
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {
@@ -254,6 +259,7 @@ function rsp_install_pro_activate_license_plugin() {
             'cmplz_license_activate'  : true,
             'cmplz_license_save'  : true,
             'cmplz_license_key'       : urlParams.get('license'),
+            'install_pro' : true,
         };
     }
 
@@ -263,6 +269,7 @@ function rsp_install_pro_activate_license_plugin() {
             'rsssl_pro_nonce'  : rsp_upgrade.rsssl_pro_nonce,
             'rsssl_pro_license_activate'  : true,
             'rsssl_pro_license_key'       : urlParams.get('license'),
+            'install_pro' : true,
         };
     }
 
@@ -295,6 +302,7 @@ function rsp_install_pro_deactivate_plugin() {
     var data = {
         'action' : 'rsp_upgrade_deactivate_plugin',
         'token'  : rsp_upgrade.token,
+        'install_pro' : true,
     };
 
     ajax.get(rsp_upgrade.admin_url, data, function(response) {

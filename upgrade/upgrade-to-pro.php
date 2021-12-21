@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @author Easy Digital Downloads
  * @version 1.7
  */
+if ( !class_exists('rsp_upgrade_to_pro')){
 class rsp_upgrade_to_pro {
 
     // Version for css and js files
@@ -30,11 +31,11 @@ class rsp_upgrade_to_pro {
     public function __construct() {
 
         if ( isset($_GET['license']) ) {
-            $this->license = esc_html(sanitize_title($_GET['license']));
+            $this->license = sanitize_title($_GET['license']);
         }
 
         if ( isset($_GET['item_id']) ) {
-            $this->item_id = esc_html(sanitize_title($_GET['item_id']));
+            $this->item_id = sanitize_title($_GET['item_id']);
         }
 
         if ( isset($_GET['api_url']) ) {
@@ -42,7 +43,7 @@ class rsp_upgrade_to_pro {
         }
 
         if ( isset($_GET['plugin']) ) {
-            $plugin = esc_html(sanitize_title($_GET['plugin']));
+            $plugin = sanitize_title($_GET['plugin']);
             switch ($plugin) {
                 case "rsssl_pro":
                     $this->pro_prefix = "rsssl_pro_";
@@ -89,11 +90,13 @@ class rsp_upgrade_to_pro {
      */
     public function enqueue_assets( $hook ) {
         if ( $hook === "plugins.php" && isset($_GET['install-pro']) ) {
-            wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . 'upgrade-to-pro.css', false, $this->version.time() );
+	        $minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+	        wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.css", false, $this->version.time() );
             wp_enqueue_style( 'rsp-upgrade-css' );
 
-            wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax.js", array(), $this->version.time(), true );
-            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro.js", array(), $this->version.time(), true );
+            wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax$minified.js", array(), $this->version.time(), true );
+            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.js", array(), $this->version.time(), true );
             wp_localize_script(
                 'rsp-upgrade-js',
                 'rsp_upgrade',
@@ -635,4 +638,5 @@ class rsp_upgrade_to_pro {
         }
     }
 
+}
 }

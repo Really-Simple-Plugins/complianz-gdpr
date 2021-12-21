@@ -100,7 +100,9 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$wizard             = new cmplz_wizard();
 				self::$export_settings    = new cmplz_export_settings();
 				self::$tour               = new cmplz_tour();
-				self::$rsp_upgrade_to_pro = new rsp_upgrade_to_pro();
+				if ( isset($_GET['install-pro']) || isset($_GET['install_pro'])) {
+					self::$rsp_upgrade_to_pro = new rsp_upgrade_to_pro();
+				}
 			}
 
 			self::$proof_of_consent = new cmplz_proof_of_consent();
@@ -184,7 +186,9 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'class-export.php' );
 				require_once( cmplz_path . 'shepherd/tour.php' );
 				require_once( cmplz_path . 'grid/grid.php' );
-				require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
+				if ( isset($_GET['install-pro']) || isset($_GET['install_pro'])) {
+					require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
+				}
 			}
 
 			if (is_admin() || wp_doing_cron() ) {
