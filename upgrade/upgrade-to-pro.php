@@ -116,7 +116,9 @@ class rsp_upgrade_to_pro {
      * @return false|object
      */
     private function api_request() {
-
+        if ( !current_user_can('manage_options') ) {
+            return false;
+        }
         global $edd_plugin_url_available;
 
         $verify_ssl = $this->verify_ssl();
@@ -140,7 +142,7 @@ class rsp_upgrade_to_pro {
         }
 
         if ( false === $edd_plugin_url_available[ $store_hash ] ) {
-            return;
+            return false;
         }
 
         if( $this->api_url == trailingslashit ( home_url() ) ) {
@@ -200,6 +202,10 @@ class rsp_upgrade_to_pro {
      */
     public function print_install_modal()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( is_admin() && isset($_GET['install-pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
 
             $dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
@@ -299,7 +305,9 @@ class rsp_upgrade_to_pro {
      * @return array [license status, response message]
      */
     function activate_license( $license, $item_id ) {
-
+	    if ( !current_user_can('manage_options') ) {
+		    return array();
+	    }
         $message = "";
 
         // data to send in our API request
@@ -323,15 +331,10 @@ class rsp_upgrade_to_pro {
             }
 
         } else {
-
             $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
             if ( false === $license_data->success ) {
-
                 switch( $license_data->error ) {
-
                     case 'expired' :
-
                         $message = sprintf(
                             __( 'Your license key expired on %s.' ),
                             date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
@@ -385,9 +388,7 @@ class rsp_upgrade_to_pro {
 
                 if ( isset($license_data->license_limit) ) update_site_option("{$this->pro_prefix}license_activation_limit", $license_data->license_limit);
                 if ( isset($license_data->activations_left) ) update_site_option("{$this->pro_prefix}license_activations_left", $license_data->activations_left);
-
             }
-
         }
 
         if ( empty($message) ) {
@@ -402,7 +403,6 @@ class rsp_upgrade_to_pro {
                 'status' => "error",
                 'message' => $message,
             ];
-
             set_site_transient("{$this->pro_prefix}license_status", 'error', WEEK_IN_SECONDS);
         }
 
@@ -423,6 +423,10 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_destination_clear()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
 
             if ( !file_exists(WP_PLUGIN_DIR . '/' . $this->slug) ) {
@@ -436,7 +440,6 @@ class rsp_upgrade_to_pro {
             }
 
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;
@@ -461,19 +464,18 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_activate_license()
     {
-        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
 
+        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
             $license  = sanitize_title($_GET['license']);
             $item_id  = intval($_GET['item_id']);
-
             $response = $this->activate_license($license, $item_id);
-
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;
-
         }
     }
 
@@ -493,10 +495,12 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_package_information()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
-
             $api = $this->api_request();
-
             if ( $api && isset($api->download_link) ) {
                 $response = [
                     'success' => true,
@@ -508,9 +512,7 @@ class rsp_upgrade_to_pro {
                     'download_link' => "",
                 ];
             }
-
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;
@@ -533,10 +535,13 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_install_plugin()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['download_link']) ) {
 
             $download_link = esc_url_raw($_GET['download_link']);
-
             require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
             include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
@@ -577,6 +582,10 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_activate_plugin()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
 
             $result = activate_plugin( $this->slug );
@@ -590,10 +599,7 @@ class rsp_upgrade_to_pro {
                     'success' => false,
                 ];
             }
-
-
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;
@@ -613,15 +619,16 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_deactivate_plugin()
     {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') ) {
-
             deactivate_plugins(cmplz_plugin);
-
             $response = [
                 'success' => true,
             ];
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;

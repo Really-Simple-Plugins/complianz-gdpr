@@ -94,12 +94,13 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			}
 
 			if ( is_admin() || defined('CMPLZ_DOING_SYSTEM_STATUS') ) {
-				self::$review          = new cmplz_review();
-				self::$admin           = new cmplz_admin();
-				self::$field           = new cmplz_field();
-				self::$wizard          = new cmplz_wizard();
-				self::$export_settings = new cmplz_export_settings();
-				self::$tour            = new cmplz_tour();
+				self::$review             = new cmplz_review();
+				self::$admin              = new cmplz_admin();
+				self::$field              = new cmplz_field();
+				self::$wizard             = new cmplz_wizard();
+				self::$export_settings    = new cmplz_export_settings();
+				self::$tour               = new cmplz_tour();
+				self::$rsp_upgrade_to_pro = new rsp_upgrade_to_pro();
 			}
 
 			self::$proof_of_consent = new cmplz_proof_of_consent();
@@ -107,7 +108,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			self::$cookie_admin     = new cmplz_cookie_admin();
 			self::$document         = new cmplz_document();
 
-			self::$rsp_upgrade_to_pro   = new rsp_upgrade_to_pro();
 		}
 
 		/**
@@ -184,6 +184,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'class-export.php' );
 				require_once( cmplz_path . 'shepherd/tour.php' );
 				require_once( cmplz_path . 'grid/grid.php' );
+				require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
 			}
 
 			if (is_admin() || wp_doing_cron() ) {
@@ -197,8 +198,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			require_once( cmplz_path . 'DNSMPD/class-DNSMPD.php' );
 			require_once( cmplz_path . 'config/class-config.php' );
 			require_once( cmplz_path . 'class-cookie-blocker.php' );
-
-			require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
 		}
 
 		private function hooks() {
