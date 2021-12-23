@@ -275,6 +275,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Google Maps',
 		'firstparty_marketing' => false,
 	),
+
 	'woocommerce' => array(
 			'constant_or_function' => 'WC_PLUGIN_FILE',
 			'label'                => 'Woocommerce',
@@ -401,12 +402,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
 		'firstparty_marketing' => false,
-	),
-
-	'easy-digital-downloads' => array(
-			'constant_or_function' => 'EDD_VERSION',
-			'label'                => 'Easy Digital Downloads',
-			'firstparty_marketing' => false,
 	),
 ) );
 

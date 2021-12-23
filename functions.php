@@ -48,17 +48,6 @@ if ( !function_exists('cmplz_upgraded_to_current_version')){
 	}
 }
 
-if ( ! function_exists('cmplz_subscription_type') ) {
-    /**
-     * Get subscription type
-     * @return string
-     */
-    function cmplz_subscription_type()
-    {
-        return defined('cmplz_free') ? 'free' : 'premium';
-    }
-}
-
 if ( ! function_exists( 'cmplz_get_template' ) ) {
 	/**
 	 * Get a template based on filename, overridable in theme dir
@@ -98,6 +87,12 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 		}
 
 		return $contents;
+	}
+}
+
+if ( ! function_exists( 'cmplz_uses_google_tagmanager_or_analytics' ) ) {
+	function cmplz_uses_google_tagmanager_or_analytics(){
+		return COMPLIANZ::$cookie_admin->uses_google_analytics() || COMPLIANZ::$cookie_admin->uses_google_tagmanager();
 	}
 }
 
@@ -631,6 +626,33 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 		return false;
 	}
 }
+
+if ( ! function_exists( 'cmplz_targeting_multiple_regions' ) ) {
+	function cmplz_targeting_multiple_regions(){
+
+//		$regions = cmplz_get_regions();
+//		$multiple_languages = COMPLIANZ::$cookie_admin->get_supported_languages(true) > 1 ? true : false;
+//		$get_locale = get_locale();
+//		$lang_is_english = strpos($get_locale, 'en') === 0 ? true : false;
+//		$lang_is_brazilian_portugese = strpos($get_locale, 'pt') === 0 ? true : false;
+//
+//		if ($multiple_languages) return true;
+//		if ( array_key_exists('uk', $regions) && ! $lang_is_english ) return true;
+//		if ( array_key_exists('us', $regions) && ! $lang_is_english ) return true;
+//		if ( array_key_exists('au', $regions) && ! $lang_is_english ) return true;
+//
+//		if ( array_key_exists('br', $regions) && ! $lang_is_brazilian_portugese ) return true;
+//		if ( array_key_exists('eu', $regions) && $lang_is_english ) return true;
+//		if ( array_key_exists('za', $regions) && ! $lang_is_english && $get_locale !== 'af') return true;
+//		if ( array_key_exists('ca', $regions) && ! $lang_is_english && $get_locale !== 'fr_FR' && $get_locale !== 'fr_BE') return true;
+
+		if ( defined("POLYLANG_VERSION" ) ) return true;
+		if ( defined("WPML_PLUGIN_BASENAME" ) ) return true;
+
+		return false;
+	}
+}
+
 if ( ! function_exists( 'cmplz_intro' ) ) {
 
 	/**
@@ -971,6 +993,30 @@ if ( ! function_exists( 'cmplz_uses_statistics' ) ) {
 if ( ! function_exists( 'cmplz_uses_only_functional_cookies' ) ) {
 	function cmplz_uses_only_functional_cookies() {
 		return COMPLIANZ::$cookie_admin->uses_only_functional_cookies();
+	}
+}
+
+if ( ! function_exists( 'cmplz_uses_ad_cookies' ) ) {
+	function cmplz_uses_ad_cookies() {
+		$wizard_settings = get_option('complianz_options_wizard');
+		return isset( $wizard_settings['uses_ad_cookies'] ) ? $wizard_settings['uses_ad_cookies'] === 'yes' : false;
+	}
+}
+
+if ( ! function_exists( 'cmplz_uses_ad_cookies_personalized' ) ) {
+	function cmplz_uses_ad_cookies_personalized() {
+		$wizard_settings = get_option('complianz_options_wizard');
+		return isset( $wizard_settings['uses_ad_cookies_personalized'] ) ? $wizard_settings['uses_ad_cookies_personalized'] === 'yes' : false;
+	}
+}
+
+if ( ! function_exists( 'cmplz_ecommerce_legal' ) ) {
+	function cmplz_ecommerce_legal() {
+
+		//check Woo and EDD constants
+		$ecommerce_enabled = defined('WC_PLUGIN_FILE') || defined('EDD_VERSION');
+
+		return $ecommerce_enabled;
 	}
 }
 
@@ -1363,14 +1409,10 @@ if (!function_exists('cmplz_read_more')) {
 	 * @return string
 	 */
 	function cmplz_read_more( $url, $add_space = true ) {
-		$html
-			= sprintf( __( "For more information, please read this %sarticle%s.",
-			'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">',
-			'</a>' );
+		$html = sprintf( __( "For more information, please read this %sarticle%s.", 'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">', '</a>' );
 		if ( $add_space ) {
 			$html = '&nbsp;' . $html;
 		}
-
 		return $html;
 	}
 }

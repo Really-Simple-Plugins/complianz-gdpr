@@ -2,6 +2,7 @@
 
 <?php $progress = COMPLIANZ::$wizard->wizard_percentage_complete(); ?>
 <?php $premium = ( ! defined( 'cmplz_premium' ) ) ? true : false; ?>
+<?php $orange = $progress < 80 ? 'orange' : ''; ?>
 
 	<style>
 		@keyframes cmplz-load-progress-bar {
@@ -10,7 +11,7 @@
 		}
 	</style>
 	<div class="cmplz-progress-bar">
-		<div class="cmplz-progress-bar-value"></div>
+		<div class="cmplz-progress-bar-value <?php echo $orange ?>"></div>
 	</div>
 	<div class="cmplz-grid-progress">
 		<div class="cmplz-progress-percentage">
@@ -19,7 +20,16 @@
 		<div class="cmplz-progress-description">
 			<?php if ( $progress < 100
 			) {
-				_e( 'Your website is not ready for your selected regions yet.', 'complianz-gdpr' );
+				$warnings = COMPLIANZ::$admin->get_warnings( array(
+						'status' => array('urgent', 'open'),
+				) );
+				$warning_count = count( $warnings );
+				echo __( 'Consent Management is activated on your site.',  'complianz-gdpr' );
+				if ($warning_count > 0) {
+					echo ' ' . sprintf( _n( "You still have %s task open.", "You still have %s tasks open.", $warning_count, 'complianz-gdpr' ), $warning_count );
+				}
+
+
 			} else {
 				if ( $premium ) {
 					_e( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' );
@@ -88,7 +98,7 @@
 						<?php } ?>
 					</div>
 					<div>
-						<?php if ( $status === 'open' ) { ?>
+						<?php if ( $warning['dismissible'] ) { ?>
 						<button type="button" class="cmplz-dismiss-warning" data-warning_id="<?php echo $id?>">
 							<span class="cmplz-close-warning-x">X</span>
 						</button>

@@ -108,6 +108,10 @@
   height: 20px;
   width: 0;
 }
+#cmplz-dashboard .cmplz-progress-bar .cmplz-progress-bar-value.orange,
+#cmplz-dashboard .cmplz-sync-progress-bar .cmplz-progress-bar-value.orange {
+  background-color: #f39c12;
+}
 #cmplz-dashboard .cmplz-progress-percentage,
 #cmplz-dashboard .cmplz-progress-description {
   float: left;
