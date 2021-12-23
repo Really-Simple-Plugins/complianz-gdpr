@@ -140,6 +140,8 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			define( 'cmplz_url', plugin_dir_url( __FILE__ ) );
 			define( 'cmplz_path', plugin_dir_path( __FILE__ ) );
 			define( 'cmplz_plugin', plugin_basename( __FILE__ ) );
+			//for auto upgrade functionality
+			define( 'cmplz_plugin_free', plugin_basename( __FILE__ ) );
 			$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? time() : '';
 			define( 'cmplz_version', '6.0.0.1' . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
