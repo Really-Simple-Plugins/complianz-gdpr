@@ -159,6 +159,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 6.0.0 =
 * Important: Cookie Banner has changed significantly. Please check your Cookie Banner after updating.
 * New: Consent per Service and real-time cookie control with the CookieShredder.
+* Improvement: allow both consent per category and consent per service on the custom consent area shortcode
+* Improvement: show summary of detected cookies instead of full list on the scan page
 * Improvement: new Script Center, with option to add dependencies and placeholders
 * Improvement: complete rewrite of the cookiebanner code, faster, modular, easily customizable.
 * Improvement: removed jquery as dependency from the cookiebanner javascript
@@ -166,6 +168,15 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: allow both consent per category and consent per service on the custom consent area shortcode
 * Improvement: show summary of detected cookies instead of full list on the scan page
 * Improvement: drop h1 and h2 from banner to prevent styling issues with styles from overriding themes
+* Improvement: Oxygen builder support
+* Improvement: add more info to system status
+* Improvement: Gtag does not need anonymize ip, as this is the default
+* Improvement: company country in impressum
+* Improvement: cache queries for front-end to prevent duplicate queries
+* Fix: Open StreetMaps / OSM plugin integration
+* Fix: updated all statistics integrations
+* Fix: WP Google Maps integration
+* Fix: statistics consent when the questions "do you want to ask consent for statistics" has been answered with yes
 * Fix: new array structure for cookiebanner settings causing error with translations.
 * Fix: load tcf stub als first action on page
 * Fix: catastrophic backtracking with regex on iframes that do not contain a URL, props @ajoah https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/320
@@ -176,6 +187,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: {url} links detected by automatic tools
 * Fix: css fix: limit category classes to banner only
 * Fix: separate cookies with same name and different services in cookie list (Facebook/Instagram)
+* Fix: custom 'other purpose' translatable
 
 = 5.5.2 =
 * Fix: regex pattern in placeholder code should allow for linebreaks props @ajoah
