@@ -23,6 +23,7 @@ class rsp_upgrade_to_pro {
     private $slug        = "";
     private $health_check_timeout = 5;
     private $plugin_name = "";
+    private $plugin = "";
 
     /**
      * Class constructor.
@@ -44,6 +45,7 @@ class rsp_upgrade_to_pro {
 
         if ( isset($_GET['plugin']) ) {
             $plugin = sanitize_title($_GET['plugin']);
+			$this->plugin = $plugin;
             switch ($plugin) {
                 case "rsssl_pro":
                     $this->pro_prefix = "rsssl_pro_";
@@ -54,11 +56,11 @@ class rsp_upgrade_to_pro {
                     $this->pro_prefix = "cmplz_";
                     $this->slug = "complianz/complianz-gpdr-premium.php";
                     $this->plugin_name = "Complianz";
-                    break;
+					break;
                 case "brst_pro":
                     $this->pro_prefix = "brst_pro_";
                     $this->slug = "burst";
-                    break;
+					break;
             }
         }
 
@@ -81,7 +83,8 @@ class rsp_upgrade_to_pro {
         add_action( 'wp_ajax_rsp_upgrade_package_information', array($this, 'process_ajax_package_information') );
         add_action( 'wp_ajax_rsp_upgrade_install_plugin', array($this, 'process_ajax_install_plugin') );
         add_action( 'wp_ajax_rsp_upgrade_activate_plugin', array($this, 'process_ajax_activate_plugin') );
-        add_action( 'wp_ajax_rsp_upgrade_deactivate_plugin', array($this, 'process_ajax_deactivate_plugin') );
+		add_action( 'wp_ajax_rsp_upgrade_activate_license_plugin', array($this, 'process_ajax_activate_license_plugin') );
+		add_action( 'wp_ajax_rsp_upgrade_deactivate_plugin', array($this, 'process_ajax_deactivate_plugin') );
     }
 
     /**
@@ -199,7 +202,7 @@ class rsp_upgrade_to_pro {
         return (bool) apply_filters( 'edd_sl_api_request_verify_ssl', true, $this );
     }
 
-    
+
     /**
      * Prints a modal with bullets for each step of the install process
      */
@@ -295,125 +298,6 @@ class rsp_upgrade_to_pro {
 
 
     /**
-     * Activate the license on the websites url at EDD
-     *
-     * Stores values in database:
-     * - {$this->pro_prefix}license_activations_left
-     * - {$this->pro_prefix}license_expires
-     * - {$this->pro_prefix}license_activation_limit
-     *
-     * @param $license
-     * @param $item_id
-     *
-     * @return array [license status, response message]
-     */
-    function activate_license( $license, $item_id ) {
-	    if ( !current_user_can('manage_options') ) {
-		    return array();
-	    }
-        $message = "";
-
-        // data to send in our API request
-        $api_params = array(
-            'edd_action' => 'activate_license',
-            'license'    => $license,
-            'item_id'    => $item_id,
-            'url'        => home_url()
-        );
-
-        // Call the custom API.
-        $response = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
-        // make sure the response came back okay
-        if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
-            if ( is_wp_error( $response ) ) {
-                $message = $response->get_error_message();
-            } else {
-                $message = __( 'An error occurred, please try again.' );
-            }
-
-        } else {
-            $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-            if ( false === $license_data->success ) {
-                switch( $license_data->error ) {
-                    case 'expired' :
-                        $message = sprintf(
-                            __( 'Your license key expired on %s.' ),
-                            date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-                        );
-                        break;
-
-                    case 'disabled' :
-                    case 'revoked' :
-
-                        $message = __( 'Your license key has been disabled.' );
-                        break;
-
-                    case 'missing' :
-
-                        $message = __( 'Invalid license.' );
-                        break;
-
-                    case 'invalid' :
-                    case 'site_inactive' :
-
-                        $message = __( 'Your license is not active for this URL.' );
-                        break;
-
-                    case 'item_name_mismatch' :
-
-                        $message = sprintf( __( 'This appears to be an invalid license key for %s.' ), EDD_SAMPLE_ITEM_NAME );
-                        break;
-
-                    case 'no_activations_left':
-
-                        update_site_option("{$this->pro_prefix}license_activations_left", 0);
-                        $message = __( 'Your license key has reached its activation limit.' );
-                        break;
-
-                    default :
-
-                        $message = __( 'An error occurred, please try again.' );
-                        break;
-                }
-
-            } else {
-
-                if ( isset($license_data->expires) ) {
-                    $date = $license_data->expires;
-                    if ( $date !== 'lifetime' ) {
-                        if (!is_numeric($date)) $date = strtotime($date);
-                        $date = date(get_option('date_format'), $date);
-                    }
-                    update_site_option("{$this->pro_prefix}license_expires", $date);
-                }
-
-                if ( isset($license_data->license_limit) ) update_site_option("{$this->pro_prefix}license_activation_limit", $license_data->license_limit);
-                if ( isset($license_data->activations_left) ) update_site_option("{$this->pro_prefix}license_activations_left", $license_data->activations_left);
-            }
-        }
-
-        if ( empty($message) ) {
-            $response = [
-                'status' => $license_data->license,
-                'message' => "",
-            ];
-
-            set_site_transient("{$this->pro_prefix}license_status", $license_data->license, WEEK_IN_SECONDS);
-        } else {
-            $response = [
-                'status' => "error",
-                'message' => $message,
-            ];
-            set_site_transient("{$this->pro_prefix}license_status", 'error', WEEK_IN_SECONDS);
-        }
-
-        return $response;
-    }
-
-
-    /**
      * Ajax GET request
      *
      * Checks if the destination folder already exists
@@ -473,14 +357,136 @@ class rsp_upgrade_to_pro {
 
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
             $license  = sanitize_title($_GET['license']);
-            $item_id  = intval($_GET['item_id']);
-            $response = $this->activate_license($license, $item_id);
+			$item_id = intval($_GET['item_id']);
+			$this->validate($license, $item_id);
+			$response = [
+					'success' => true,
+			];
+
             $response = json_encode($response);
             header("Content-Type: application/json");
             echo $response;
             exit;
         }
     }
+
+
+	/**
+	 * Activate the license on the websites url at EDD
+	 *
+	 * Stores values in database:
+	 * - {$this->pro_prefix}license_activations_left
+	 * - {$this->pro_prefix}license_expires
+	 * - {$this->pro_prefix}license_activation_limit
+	 *
+	 * @param $license
+	 * @param $item_id
+	 *
+	 * @return array [license status, response message]
+	 */
+
+	function validate( $license, $item_id ) {
+		if ( !current_user_can('manage_options') ) {
+			return array();
+		}
+		$message = "";
+
+		// data to send in our API request
+		$api_params = array(
+				'edd_action' => 'check_license',
+				'license'    => $license,
+				'item_id'    => $item_id,
+				'url'        => home_url()
+		);
+
+		// Call the custom API.
+		$response = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+
+		// make sure the response came back okay
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+
+			if ( is_wp_error( $response ) ) {
+				$message = $response->get_error_message();
+			} else {
+				$message = __( 'An error occurred, please try again.' );
+			}
+
+		} else {
+			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+			if ( false === $license_data->success ) {
+				switch( $license_data->error ) {
+					case 'expired' :
+						$message = sprintf(
+								__( 'Your license key expired on %s.' ),
+								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+						);
+						break;
+
+					case 'disabled' :
+					case 'revoked' :
+
+						$message = __( 'Your license key has been disabled.' );
+						break;
+
+					case 'missing' :
+
+						$message = __( 'Invalid license.' );
+						break;
+
+					case 'invalid' :
+					case 'site_inactive' :
+
+						$message = __( 'Your license is not active for this URL.' );
+						break;
+
+					case 'item_name_mismatch' :
+
+						$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), EDD_SAMPLE_ITEM_NAME );
+						break;
+
+					case 'no_activations_left':
+
+						update_site_option("{$this->pro_prefix}license_activations_left", 0);
+						$message = __( 'Your license key has reached its activation limit.' );
+						break;
+
+					default :
+
+						$message = __( 'An error occurred, please try again.' );
+						break;
+				}
+
+			} else {
+
+				if ( isset($license_data->expires) ) {
+					$date = $license_data->expires;
+					if ( $date !== 'lifetime' ) {
+						if (!is_numeric($date)) $date = strtotime($date);
+						$date = date(get_option('date_format'), $date);
+					}
+					update_site_option("{$this->pro_prefix}license_expires", $date);
+				}
+
+				if ( isset($license_data->license_limit) ) update_site_option("{$this->pro_prefix}license_activation_limit", $license_data->license_limit);
+				if ( isset($license_data->activations_left) ) update_site_option("{$this->pro_prefix}license_activations_left", $license_data->activations_left);
+			}
+		}
+
+		if ( empty($message) ) {
+			$response = [
+					'status' => $license_data->license,
+					'message' => "",
+			];
+		} else {
+			$response = [
+					'status' => "error",
+					'message' => $message,
+			];
+			set_site_transient("{$this->pro_prefix}license_status", 'error', WEEK_IN_SECONDS);
+		}
+
+		return $response;
+	}
 
 
     /**
@@ -610,6 +616,45 @@ class rsp_upgrade_to_pro {
     }
 
 
+	public function process_ajax_activate_license_plugin()
+    {
+	    if ( !current_user_can('manage_options') ) {
+		    return false;
+	    }
+		if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) ) {
+			$license  = sanitize_title($_GET['license']);
+
+			if ($this->plugin==='cmplz_pro') {
+				$_POST['cmplz_nonce'] = wp_create_nonce( 'complianz_save' );
+				$_POST['cmplz_license_key'] = $license;
+				COMPLIANZ::$license->activate_license();
+				$status = COMPLIANZ::$license->get_license_status();
+			}
+
+			if ($this->plugin==='rsssl_pro'){
+				$_POST['rsssl_pro_nonce'] = wp_create_nonce( 'rsssl_pro_nonce' );
+				$_POST['rsssl_pro_license_key'] = $license;
+				RSSSL_PRO()->rsssl_licensing->activate_license();
+				$status = RSSSL_PRO()->rsssl_licensing->get_license_status();
+			}
+
+            if ( $status === 'valid' ) {
+                $response = [
+                    'success' => true,
+                ];
+            } else {
+                $response = [
+                    'success' => false,
+                ];
+            }
+            $response = json_encode($response);
+            header("Content-Type: application/json");
+            echo $response;
+            exit;
+        }
+    }
+
+
     /**
      * Ajax GET request
      *
@@ -627,7 +672,11 @@ class rsp_upgrade_to_pro {
 	    }
 
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') ) {
-            deactivate_plugins(cmplz_plugin);
+			if (defined('cmplz_plugin_free')) {
+				deactivate_plugins(cmplz_plugin_free);
+				delete_plugins(array(cmplz_plugin_free));
+			}
+
             $response = [
                 'success' => true,
             ];

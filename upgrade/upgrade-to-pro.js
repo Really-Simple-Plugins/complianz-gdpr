@@ -28,7 +28,7 @@ function rsp_install_pro_destination_clear() {
 
             if ( data.success ) {
                 step_color[0].innerHTML = "<div class='rsp-green rsp-bullet'></div>";
-                step_text[0].innerHTML = "<span>Destination clear</span>";
+                step_text[0].innerHTML = "<span>Able to create destination folder</span>";
                 rsp_progress_bar_finish();
 
                 rsp_install_pro_activate_licence();
@@ -137,7 +137,7 @@ function rsp_install_pro_get_package_information() {
 
             if ( data.success ) {
                 step_color[0].innerHTML = "<div class='rsp-green rsp-bullet'></div>";
-                step_text[0].innerHTML = "<span>Package information gathered</span>";
+                step_text[0].innerHTML = "<span>Package information retrieved</span>";
                 rsp_progress_bar_finish();
 
                 rsp_install_pro_install_plugin( data.download_link );
@@ -252,26 +252,10 @@ function rsp_install_pro_activate_license_plugin() {
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-
-    if ( urlParams.get('plugin') == 'cmplz_pro' ) {
-        var data = {
-            'cmplz_nonce'  : rsp_upgrade.cmplz_nonce,
-            'cmplz_license_activate'  : true,
-            'cmplz_license_save'  : true,
-            'cmplz_license_key'       : urlParams.get('license'),
-            'install_pro' : true,
-        };
-    }
-
-    if ( urlParams.get('license') == 'rsssl_pro' ) {
-        var data = {
-            'action' : 'rsp_upgrade_activate_plugin',
-            'rsssl_pro_nonce'  : rsp_upgrade.rsssl_pro_nonce,
-            'rsssl_pro_license_activate'  : true,
-            'rsssl_pro_license_key'       : urlParams.get('license'),
-            'install_pro' : true,
-        };
-    }
+	var data = {
+		'action' : 'rsp_upgrade_activate_plugin',
+		'license' : urlParams.get('license'),
+	};
 
     ajax.post(rsp_upgrade.admin_url, data, function(response) {
         var step_activate_license_plugin = document.getElementsByClassName("step-activate-license-plugin");
