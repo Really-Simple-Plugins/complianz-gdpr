@@ -81,20 +81,30 @@ Complianz offers full support on the WordPress.org [Forum](https://wordpress.org
 Complianz offers a Full Privacy Suite for WordPress on [Complianz.io](https://complianz.io) with even more features:
 
 = Cookie Consent Notice =
-* Elementor Pro
+
+* Elementor Pro - Create a Cookie Banner with Elementor Pop Ups and use Complianz's Consent Management
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 
 = Consent Management =
-* Records of Consent: Keep record of your consent management changes and user's consent registration.
-* Respects the Do Not Track settings in end-users browsers.
 
+* Records of Consent: Keep record of your consent management changes and user's consent registration. Integrates with Proof of Consent
+* Respects the Do Not Track settings and Global Privacy Controls in end-users browsers.
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
-* Google Consent Mode
+* Google Consent Mode - Use Consent Mode by Google with Google Tag Manager or Google Analytics. No further set-up needed.
 * Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
+
 = Privacy Laws & Guidelines =
-* Simultaneously select USA, CA, UK, AU, ZA, BR and EU as target regions with conditional Consent and dedicated Cookie Banners.
+
+Simultaneously select USA, Canada, United Kingdom, Australie, South Africa, Brazil and the EU as targeted regions with conditional Consent and dedicated Cookie Banners.
+
+* Support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
+* Support for PIPEDA and CASL - Canada.
+* Support for Privacy Act 1988 & Australian Privacy Principles
+* Support for POPIA, the South African Protection of Personal Information Act
+* Supports The “Marco Civil” and the Brazilian General Data Protection Law (LGPD)
 
 = Legal Documents =
+
 * Privacy statements (EU, CA, UK, AU, ZA, BR & USA). 
 * Cookie policy (EU, UK, CA, AU, ZA, BR & US).
 * Impressum (Germany & Austria) & Imprint for world wide use.
@@ -104,15 +114,11 @@ Complianz offers a Full Privacy Suite for WordPress on [Complianz.io](https://co
 * Supports CCPA Consent and Legal documents.
 * COPPA ready with Children's Privacy Policy (US)
 * Children's Privacy Policy (UK,CA & AU)
-* Support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
-* Support for PIPEDA and CASL - Canada.
-* Support for Privacy Act 1988 & Australian Privacy Principles
-* Support for POPIA, the South African Protection of Personal Information Act
-* Supports The “Marco Civil” and the Brazilian General Data Protection Law (LGPD)
-= Integrations =
+
+= Support & Updates =
 
 * Premium Support from our amazing team.
-* Premium Updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
+* Premium updates, new languages, features, regions and more to create the Ultimate Privacy Suite for WordPress.
 
 == About Complianz ==
 
@@ -123,7 +129,7 @@ Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr
 IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 Complianz needs to connect with Cookiedatabase.org to collect and synchronize with the most recent descriptions for cookies and related services. This will ensure that your cookie policy always contains the most up to date cookie descriptions. Cookiedatabase.org is being operated by Complianz BV and the offered service can be used for free within our plugin under the following [Terms of Use](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
-[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io).
+[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io). Leave your feature requests [here]().
 
 == Installation ==
 * Go to “Plugins” in your WordPress Dashboard, and click “Add new”.
