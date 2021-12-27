@@ -1152,16 +1152,18 @@ function cmplz_get_cookie_domain(){
 window.cmplz_set_consent = function (category, value){
 	cmplz_set_accepted_cookie_policy_id();
 	var previous_value = cmplz_get_cookie(category);
-	//do not trigger a change event if nothing has changed.
-	if ( previous_value === value ) {
-		return;
-	}
 
 	//keep checkboxes in banner and on cookie policy in sync
+	//do this before the change check to ensure sync: https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/324
 	var checked = value === 'allow';
 	document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 		obj.checked = checked;
 	});
+
+	//do not trigger a change event if nothing has changed.
+	if ( previous_value === value ) {
+		return;
+	}
 
 	cmplz_set_cookie(category, value);
 	if ( value === 'allow' ) {
@@ -1501,6 +1503,10 @@ function cmplz_set_up_auto_dismiss() {
 	}
 }
 
+/**
+ * Fire a event wich passes all consented categories
+ * Separated from the actual category consent because we want to bundle it in one event
+ */
 function cmplz_fire_categories_event(){
 	let details = new Object();
 	details.category = cmplz_highest_accepted_category();
