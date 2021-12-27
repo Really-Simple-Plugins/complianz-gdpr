@@ -54,7 +54,7 @@ class rsp_upgrade_to_pro {
                     break;
                 case "cmplz_pro":
                     $this->pro_prefix = "cmplz_";
-                    $this->slug = "complianz/complianz-gpdr-premium.php";
+                    $this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
                     $this->plugin_name = "Complianz";
 					break;
                 case "brst_pro":
@@ -83,8 +83,6 @@ class rsp_upgrade_to_pro {
         add_action( 'wp_ajax_rsp_upgrade_package_information', array($this, 'process_ajax_package_information') );
         add_action( 'wp_ajax_rsp_upgrade_install_plugin', array($this, 'process_ajax_install_plugin') );
         add_action( 'wp_ajax_rsp_upgrade_activate_plugin', array($this, 'process_ajax_activate_plugin') );
-		add_action( 'wp_ajax_rsp_upgrade_activate_license_plugin', array($this, 'process_ajax_activate_license_plugin') );
-		add_action( 'wp_ajax_rsp_upgrade_deactivate_plugin', array($this, 'process_ajax_deactivate_plugin') );
     }
 
     /**
@@ -99,7 +97,7 @@ class rsp_upgrade_to_pro {
             wp_enqueue_style( 'rsp-upgrade-css' );
 
             wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax$minified.js", array(), $this->version.time(), true );
-            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.js", array(), $this->version.time(), true );
+            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro.js", array(), $this->version.time(), true );
             wp_localize_script(
                 'rsp-upgrade-js',
                 'rsp_upgrade',
@@ -232,7 +230,7 @@ class rsp_upgrade_to_pro {
                                 <div class="rsp-grey rsp-bullet"></div>
                             </div>
                             <div class="step-text">
-                                <span><?php echo __("Checking if destination for plugin is clear", "really-simple-ssl") ?></span>
+                                <span><?php echo __("Checking if plugin folder exists", "really-simple-ssl") ?></span>
                             </div>
                         </div>
                         <div class="install-step step-activate-license">
@@ -240,7 +238,7 @@ class rsp_upgrade_to_pro {
                                 <div class="rsp-grey rsp-bullet"></div>
                             </div>
                             <div class="step-text">
-                                <span><?php echo __("Activate license", "really-simple-ssl") ?></span>
+                                <span><?php echo __("Validate license", "really-simple-ssl") ?></span>
                             </div>
                         </div>
                         <div class="install-step step-package-information">
@@ -267,22 +265,7 @@ class rsp_upgrade_to_pro {
                                 <span><?php echo __("Activate plugin", "really-simple-ssl") ?></span>
                             </div>
                         </div>
-                        <div class="install-step step-activate-license-plugin">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Activate license plugin", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
-                        <div class="install-step step-deactivate-plugin">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Deactivate free plugin", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
+
                     </div>
                     <a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
                         <?php echo __("Visit Dashboard", "really-simple-ssl") ?>
@@ -358,12 +341,13 @@ class rsp_upgrade_to_pro {
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
             $license  = sanitize_title($_GET['license']);
 			$item_id = intval($_GET['item_id']);
-			$this->validate($license, $item_id);
-			$response = [
-					'success' => true,
-			];
+			$response = $this->validate($license, $item_id);
+			update_site_option('rsp_auto_installed_license', $license);
+			if ( $this->plugin==='cmplz_pro' ) {
+				update_site_option('rsp_delete_free', true );
+			}
 
-            $response = json_encode($response);
+			$response = json_encode($response);
             header("Content-Type: application/json");
             echo $response;
             exit;
@@ -393,7 +377,7 @@ class rsp_upgrade_to_pro {
 
 		// data to send in our API request
 		$api_params = array(
-				'edd_action' => 'check_license',
+				'edd_action' => 'activate_license',
 				'license'    => $license,
 				'item_id'    => $item_id,
 				'url'        => home_url()
@@ -608,78 +592,6 @@ class rsp_upgrade_to_pro {
                     'success' => false,
                 ];
             }
-            $response = json_encode($response);
-            header("Content-Type: application/json");
-            echo $response;
-            exit;
-        }
-    }
-
-
-	public function process_ajax_activate_license_plugin()
-    {
-	    if ( !current_user_can('manage_options') ) {
-		    return false;
-	    }
-		if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) ) {
-			$license  = sanitize_title($_GET['license']);
-
-			if ($this->plugin==='cmplz_pro') {
-				$_POST['cmplz_nonce'] = wp_create_nonce( 'complianz_save' );
-				$_POST['cmplz_license_key'] = $license;
-				COMPLIANZ::$license->activate_license();
-				$status = COMPLIANZ::$license->get_license_status();
-			}
-
-			if ($this->plugin==='rsssl_pro'){
-				$_POST['rsssl_pro_nonce'] = wp_create_nonce( 'rsssl_pro_nonce' );
-				$_POST['rsssl_pro_license_key'] = $license;
-				RSSSL_PRO()->rsssl_licensing->activate_license();
-				$status = RSSSL_PRO()->rsssl_licensing->get_license_status();
-			}
-
-            if ( $status === 'valid' ) {
-                $response = [
-                    'success' => true,
-                ];
-            } else {
-                $response = [
-                    'success' => false,
-                ];
-            }
-            $response = json_encode($response);
-            header("Content-Type: application/json");
-            echo $response;
-            exit;
-        }
-    }
-
-
-    /**
-     * Ajax GET request
-     *
-     * Deactivate the free plugin (Only for Complianz)
-     *
-     * Requires from GET:
-     * - 'token' => wp_nonce 'upgrade_to_pro_nonce'
-     *
-     * Echoes array [success]
-     */
-    public function process_ajax_deactivate_plugin()
-    {
-	    if ( !current_user_can('manage_options') ) {
-		    return false;
-	    }
-
-        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') ) {
-			if (defined('cmplz_plugin_free')) {
-				deactivate_plugins(cmplz_plugin_free);
-				delete_plugins(array(cmplz_plugin_free));
-			}
-
-            $response = [
-                'success' => true,
-            ];
             $response = json_encode($response);
             header("Content-Type: application/json");
             echo $response;

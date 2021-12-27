@@ -34,7 +34,6 @@ if ( !function_exists('cmplz_upgraded_to_current_version')){
 	 */
 
 	function cmplz_upgraded_to_current_version() {
-		return true;
 		$first_version = get_option( 'cmplz_first_version' );
 		//if there's no first version yet, we assume it's not upgraded
 		if ( !$first_version ) {
