@@ -184,6 +184,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: Gtag does not need anonymize ip, as this is the default
 * Improvement: company country in impressum
 * Improvement: cache queries for front-end to prevent duplicate queries
+* Fix: link for white listing documentation, props @scheinercc
 * Fix: Open StreetMaps / OSM plugin integration
 * Fix: updated all statistics integrations
 * Fix: WP Google Maps integration
