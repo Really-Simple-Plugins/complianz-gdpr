@@ -10,6 +10,7 @@ function cmplz_pixelyoursite_script( $tags ) {
 		'placeholder' => 'facebook',
 		'urls' => array(
 			'pixelyoursite/dist',
+			'pys-js-extra',
 		),
 	);
 	return $tags;

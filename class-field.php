@@ -2988,7 +2988,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                            value="' . esc_html( $value['name'] ) . '">
                 </div>
                 <div>
-                    <label>' . __( 'URLs that should be whitelisted.' , 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/script-center#whitelist' ). '</label>
+                    <label>' . __( 'URLs that should be whitelisted.' , 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/whitelisting-inline-script/' ). '</label>
                 </div>
                       <div>
                       <div class="cmplz-hidden cmplz-url-template">
