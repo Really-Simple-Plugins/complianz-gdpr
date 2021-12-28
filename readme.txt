@@ -190,16 +190,13 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: WP Google Maps integration
 * Fix: statistics consent when the questions "do you want to ask consent for statistics" has been answered with yes
 * Fix: new array structure for cookiebanner settings causing error with translations.
-* Fix: load tcf stub als first action on page
 * Fix: catastrophic backtracking with regex on iframes that do not contain a URL, props @ajoah https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/320
 * Fix: WP Google Maps integration
-* Fix: records of consent could track a duplicate hit if two requests were triggered at the same time
 * Fix: statistics consent when the questions "do you want to ask consent for statistics" has been answered with yes
 * Fix: cmplz-document class on body when soft cookie wall was enabled
 * Fix: {url} links detected by automatic tools
 * Fix: css fix: limit category classes to banner only
 * Fix: separate cookies with same name and different services in cookie list (Facebook/Instagram)
-* Fix: custom 'other purpose' translatable
 
 = 5.5.2 =
 * Fix: regex pattern in placeholder code should allow for linebreaks props @ajoah
