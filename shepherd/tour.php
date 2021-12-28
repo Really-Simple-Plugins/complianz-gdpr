@@ -108,7 +108,7 @@ class cmplz_tour {
 				array(
 					'title'  => __( "Let's start the Wizard", 'complianz-gdpr' ),
 					'text'   => __( "You are ready to start the Wizard. For more information, FAQ, and support, please visit Complianz.io.", 'complianz-gdpr' ),
-					'attach' => '.field-group.regions',
+					'attach' => '.cmplz-wizard-intro',
 					'position' => 'bottom',
 					'link'   => add_query_arg(array("page" => 'cmplz-wizard'), admin_url( "admin.php" ) ),
 				),
