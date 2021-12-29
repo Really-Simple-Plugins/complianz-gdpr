@@ -19,11 +19,10 @@ class rsp_upgrade_to_pro {
     private $api_url     = "";
     private $license     = "";
     private $item_id     = "";
-    private $pro_prefix  = "";
     private $slug        = "";
     private $health_check_timeout = 5;
     private $plugin_name = "";
-    private $plugin = "";
+	private $steps;
 
     /**
      * Class constructor.
@@ -45,24 +44,53 @@ class rsp_upgrade_to_pro {
 
         if ( isset($_GET['plugin']) ) {
             $plugin = sanitize_title($_GET['plugin']);
-			$this->plugin = $plugin;
             switch ($plugin) {
                 case "rsssl_pro":
-                    $this->pro_prefix = "rsssl_pro_";
                     $this->slug = "really-simple-ssl-pro/really-simple-ssl-pro.php";
                     $this->plugin_name = "Really Simple SSL Pro";
                     break;
                 case "cmplz_pro":
-                    $this->pro_prefix = "cmplz_";
-                    $this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
+                    $this->slug = "complianz-gdpr-premiumx/complianz-gpdr-premium.php";
                     $this->plugin_name = "Complianz";
 					break;
                 case "brst_pro":
-                    $this->pro_prefix = "brst_pro_";
                     $this->slug = "burst";
 					break;
             }
         }
+
+		$this->steps = array(
+			array(
+				'action' => 'rsp_upgrade_destination_clear',
+				'doing' => __("Checking if plugin folder exists...", "complianz-gdpr"),
+				'success' => __("Able to create destination folder", "complianz-gdpr"),
+				'error' => __("Destination folder already exists", "complianz-gdpr")
+			),
+			array(
+				'action' => 'rsp_upgrade_activate_license',
+				'doing' => __("Validating license...", "complianz-gdpr"),
+				'success' => __("License valid", "complianz-gdpr"),
+				'error' => __("License invalid", "complianz-gdpr")
+			),
+			array(
+				'action' => 'rsp_upgrade_package_information',
+				'doing' => __("Retrieving package information...", "complianz-gdpr"),
+				'success' => __("Package information retrieved", "complianz-gdpr"),
+				'error' => __("Failed to gather package information", "complianz-gdpr")
+			),
+			array(
+				'action' => 'rsp_upgrade_install_plugin',
+				'doing' => __("Installing plugin...", "complianz-gdpr"),
+				'success' => __("Plugin installed", "complianz-gdpr"),
+				'error' => __("Failed to install plugin", "complianz-gdpr")
+			),
+			array(
+				'action' => 'rsp_upgrade_activate_plugin',
+				'doing' => __("Activating plugin...", "complianz-gdpr"),
+				'success' => __("Plugin activated", "complianz-gdpr"),
+				'error' => __("Failed to activate plugin", "complianz-gdpr")
+			)
+		);
 
         // Set up hooks.
         $this->init();
@@ -102,6 +130,7 @@ class rsp_upgrade_to_pro {
                 'rsp-upgrade-js',
                 'rsp_upgrade',
                 array(
+					'steps' => $this->steps,
                     'admin_url' => admin_url( 'admin-ajax.php' ),
                     'token'     => wp_create_nonce( 'upgrade_to_pro_nonce'),
                     'cmplz_nonce'     => wp_create_nonce( 'complianz_save'),
@@ -216,55 +245,25 @@ class rsp_upgrade_to_pro {
             $plugins_url = admin_url( "plugins.php" );
 
             ?>
-            <div class="modal-transparent-background">
-                <div class="install-plugin-modal" style="">
+			<div id="rsp-step-template">
+				<div class="rsp-install-step {step}">
+					<div class="rsp-step-color">
+						<div class="rsp-grey rsp-bullet"></div>
+					</div>
+					<div class="rsp-step-text">
+						<span>{doing}</span>
+					</div>
+				</div>
+			</div>
+            <div class="rsp-modal-transparent-background">
+                <div class="rsp-install-plugin-modal" style="">
                     <h3><?php echo __("Installing", "really-simple-ssl") . " " . $this->plugin_name ?></h3>
-                    <div class="progress-bar-container">
-                        <div class="progress rsp-grey">
-                            <div class="bar rsp-green" style="width:0%"></div>
+                    <div class="rsp-progress-bar-container">
+                        <div class="rsp-progress rsp-grey">
+                            <div class="rsp-bar rsp-green" style="width:0%"></div>
                         </div>
                     </div>
-                    <div class="install-steps">
-                        <div class="install-step step-destination-clear">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Checking if plugin folder exists", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
-                        <div class="install-step step-activate-license">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Validate license", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
-                        <div class="install-step step-package-information">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Get package information", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
-                        <div class="install-step step-install-plugin">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Install plugin", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
-                        <div class="install-step step-activate-plugin">
-                            <div class="step-color">
-                                <div class="rsp-grey rsp-bullet"></div>
-                            </div>
-                            <div class="step-text">
-                                <span><?php echo __("Activate plugin", "really-simple-ssl") ?></span>
-                            </div>
-                        </div>
+                    <div class="rsp-install-steps">
 
                     </div>
                     <a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
@@ -293,27 +292,26 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_destination_clear()
     {
+		$error = false;
+		$response = [
+				'success' => false,
+		];
 	    if ( !current_user_can('manage_options') ) {
-		    return false;
+		    $error = true;
 	    }
 
-        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
-
+        if ( !$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
             if ( !file_exists(WP_PLUGIN_DIR . '/' . $this->slug) ) {
                 $response = [
                     'success' => true,
                 ];
-            } else {
-                $response = [
-                    'success' => false,
-                ];
             }
-
-            $response = json_encode($response);
-            header("Content-Type: application/json");
-            echo $response;
-            exit;
         }
+
+		$response = json_encode($response);
+		header("Content-Type: application/json");
+		echo $response;
+		exit;
     }
 
 
@@ -334,24 +332,27 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_activate_license()
     {
-	    if ( !current_user_can('manage_options') ) {
-		    return false;
-	    }
+		$error = false;
+		$response = [
+				'success' => false,
+				'message' => '',
+		];
 
-        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
+		if ( !current_user_can('manage_options') ) {
+			$error = true;
+		}
+
+        if (!$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
             $license  = sanitize_title($_GET['license']);
 			$item_id = intval($_GET['item_id']);
 			$response = $this->validate($license, $item_id);
 			update_site_option('rsp_auto_installed_license', $license);
-			if ( $this->plugin==='cmplz_pro' ) {
-				update_site_option('rsp_delete_free', true );
-			}
-
-			$response = json_encode($response);
-            header("Content-Type: application/json");
-            echo $response;
-            exit;
         }
+
+		$response = json_encode($response);
+		header("Content-Type: application/json");
+		echo $response;
+		exit;
     }
 
 
@@ -369,18 +370,23 @@ class rsp_upgrade_to_pro {
 	 * @return array [license status, response message]
 	 */
 
-	function validate( $license, $item_id ) {
-		if ( !current_user_can('manage_options') ) {
-			return array();
-		}
+	private function validate( $license, $item_id ) {
 		$message = "";
+		$success = false;
+
+		if ( !current_user_can('manage_options') ) {
+			return [
+				'success' => $success,
+				'message' => $message,
+			];
+		}
 
 		// data to send in our API request
 		$api_params = array(
-				'edd_action' => 'activate_license',
-				'license'    => $license,
-				'item_id'    => $item_id,
-				'url'        => home_url()
+			'edd_action' => 'activate_license',
+			'license'    => $license,
+			'item_id'    => $item_id,
+			'url'        => home_url()
 		);
 
 		// Call the custom API.
@@ -388,86 +394,53 @@ class rsp_upgrade_to_pro {
 
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
-				$message = __( 'An error occurred, please try again.' );
+				$message = __( 'An error occurred, please try again.', "complianz-gdpr");
 			}
-
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 			if ( false === $license_data->success ) {
 				switch( $license_data->error ) {
 					case 'expired' :
 						$message = sprintf(
-								__( 'Your license key expired on %s.' ),
+								__( 'Your license key expired on %s.', 'complianz-gdpr'),
 								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 						);
 						break;
-
 					case 'disabled' :
 					case 'revoked' :
-
-						$message = __( 'Your license key has been disabled.' );
+						$message = __( 'Your license key has been disabled.', 'complianz-gdpr');
 						break;
-
 					case 'missing' :
-
-						$message = __( 'Invalid license.' );
+						$message = __('Missing license.', 'complianz-gdpr');
 						break;
-
 					case 'invalid' :
+						$message = __( 'Invalid license.', 'complianz-gdpr');
+						break;
 					case 'site_inactive' :
-
-						$message = __( 'Your license is not active for this URL.' );
+						$message = __( 'Your license is not active for this URL.', 'complianz-gdpr' );
 						break;
-
 					case 'item_name_mismatch' :
-
-						$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), EDD_SAMPLE_ITEM_NAME );
+						$message = __( 'This appears to be an invalid license key for this plugin.', 'complianz-gdpr' );
 						break;
-
 					case 'no_activations_left':
-
-						update_site_option("{$this->pro_prefix}license_activations_left", 0);
-						$message = __( 'Your license key has reached its activation limit.' );
+						$message = __( 'Your license key has reached its activation limit.', 'complianz-gdpr');
 						break;
-
 					default :
-
-						$message = __( 'An error occurred, please try again.' );
+						$message = __( 'An error occurred, please try again.', 'complianz-gdpr' );
 						break;
 				}
-
 			} else {
-
-				if ( isset($license_data->expires) ) {
-					$date = $license_data->expires;
-					if ( $date !== 'lifetime' ) {
-						if (!is_numeric($date)) $date = strtotime($date);
-						$date = date(get_option('date_format'), $date);
-					}
-					update_site_option("{$this->pro_prefix}license_expires", $date);
-				}
-
-				if ( isset($license_data->license_limit) ) update_site_option("{$this->pro_prefix}license_activation_limit", $license_data->license_limit);
-				if ( isset($license_data->activations_left) ) update_site_option("{$this->pro_prefix}license_activations_left", $license_data->activations_left);
+				$success = $license_data->license === 'valid';
 			}
 		}
 
-		if ( empty($message) ) {
-			$response = [
-					'status' => $license_data->license,
-					'message' => "",
-			];
-		} else {
-			$response = [
-					'status' => "error",
-					'message' => $message,
-			];
-			set_site_transient("{$this->pro_prefix}license_status", 'error', WEEK_IN_SECONDS);
-		}
+		$response = [
+				'success' => $success,
+				'message' => $message,
+		];
 
 		return $response;
 	}
@@ -528,8 +501,13 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_install_plugin()
     {
+		$message = '';
+
 	    if ( !current_user_can('manage_options') ) {
-		    return false;
+		    return [
+			    'success' => false,
+			    'message' => $message,
+		    ];
 	    }
 
         if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['download_link']) ) {
@@ -547,17 +525,20 @@ class rsp_upgrade_to_pro {
                     'success' => true,
                 ];
             } else {
+				_log($result);
+	            if ( is_wp_error($result) ){
+		            $message = $result->get_error_message();
+	            }
                 $response = [
                     'success' => false,
+	                'message' => $message,
                 ];
             }
 
             $response = json_encode($response);
-
             header("Content-Type: application/json");
             echo $response;
             exit;
-
         }
     }
 
