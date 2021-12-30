@@ -1,7 +1,7 @@
 
-var ajax = {};
+var rsp_ajax = {};
 
-ajax.x = function () {
+rsp_ajax.x = function () {
     if (typeof XMLHttpRequest !== 'undefined') {
         return new XMLHttpRequest();
     }
@@ -25,11 +25,11 @@ ajax.x = function () {
     return xhr;
 };
 
-ajax.send = function (url, callback, method, data, async) {
+rsp_ajax.send = function (url, callback, method, data, async) {
     if (async === undefined) {
         async = true;
     }
-    var x = ajax.x();
+    var x = rsp_ajax.x();
     x.open(method, url, async);
     x.onreadystatechange = function () {
         if (x.readyState == 4) {
@@ -42,18 +42,10 @@ ajax.send = function (url, callback, method, data, async) {
     x.send(data)
 };
 
-ajax.get = function (url, data, callback, async) {
+rsp_ajax.get = function (url, data, callback, async) {
     var query = [];
     for (var key in data) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
     }
-    ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
-};
-
-ajax.post = function (url, data, callback, async) {
-    var query = [];
-    for (var key in data) {
-        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-    }
-    ajax.send(url, callback, 'POST', query.join('&'), async)
+    rsp_ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
 };

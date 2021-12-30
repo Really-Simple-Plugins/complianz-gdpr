@@ -1,13 +1,42 @@
+@import '../assets/css/variables.less';
 
-@grey-light: #dadada;
-@rsp-green: #22932e;
-@rsp-red: #D7263D;
-@rsp-yellow: #f8be2e;
-.rsp-step-template {
+.rsp-step-template, .rsp-plugin-suggestion-template {
   display:none;
 }
-.rsp-plugin-suggestion-template {
-
+.rsp-recommended {
+  padding-bottom:10px;
+}
+.rsp-plugin-suggestion {
+  display:flex;
+  gap:10px;
+  padding:20px 10px;
+  background-color: #f0f6fc;
+  .rsp-title {
+	font-weight:bold;
+  }
+  .rsp-description-short{
+	font-weight: bold;
+	font-size:10px;
+  }
+  .rsp-icon img {
+	width:50px;
+	height:inherit;
+  }
+  .rsp-description {
+	color:@grey-dark;
+	font-size: 11px;
+	line-height: 13px;
+	width:300px;
+  }
+  .button-secondary {
+	font-size: 20px;
+	padding: 5px 20px;
+  }
+  .star-rating .star {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+  }
 }
 .rsp-modal-transparent-background {
 
@@ -31,10 +60,14 @@
     transform: translateX(-50%) translateY(-50%);
     width: fit-content;
     height: fit-content;
+	min-width: 700px;
     padding: 25px;
     background-color: white;
     border-radius: 10px;
-
+	h3 {
+	  font-size:23px;
+	  margin: 0 0 20px 0;
+	}
     .rsp-progress-bar-container {
       margin: 0 0 15px 0;
 
@@ -42,7 +75,7 @@
         overflow: hidden;
         height: 10px;
         border-radius: 5px;
-        width: 500px;
+        width: 100%;
 
         .rsp-bar {
           height: 100%;
@@ -63,33 +96,45 @@
       }
 
     }
+	.rsp-footer {
+	  display:flex;
+	  gap:20px;
+	  align-items: center;
+	  .rsp-error-message {
+		color:@rsp-red;
+		font-weight:14px;
+		a {
+		  color:@rsp-red;
+		}
+	  }
+	  .rsp-btn {
+		width: fit-content;
+		margin: 0;
 
-    .rsp-btn {
-      width: fit-content;
-      margin: 0 0 25px 0;
+		&.rsp-yellow {
+		  background-color: @rsp-yellow;
+		  color: #333;
+		  font-size:17px;
+		  border: 1px solid @rsp-yellow;
 
-      &.rsp-yellow {
-        background-color: @rsp-yellow;
-        color: white;
-        border: 1px solid @rsp-yellow;
+		  &:hover {
+			background-color: @rsp-yellow;
+			border: 1px solid @rsp-yellow;
+		  }
+		}
 
-        &:hover {
-          background-color: @rsp-yellow;
-          border: 1px solid @rsp-yellow;
-        }
-      }
+		&.rsp-red {
+		  background-color: @rsp-red;
+		  color: white;
+		  border: 1px solid @rsp-red;
 
-      &.rsp-red {
-        background-color: @rsp-red;
-        color: white;
-        border: 1px solid @rsp-red;
-
-        &:hover {
-          background-color: @rsp-red;
-          border: 1px solid @rsp-red;
-        }
-      }
-    }
+		  &:hover {
+			background-color: @rsp-red;
+			border: 1px solid @rsp-red;
+		  }
+		}
+	  }
+	}
 
     .rsp-bullet {
       height: 13px;

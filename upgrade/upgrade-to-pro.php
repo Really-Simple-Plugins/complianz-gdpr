@@ -97,6 +97,20 @@ class rsp_upgrade_to_pro {
         $this->init();
     }
 
+	private function get_suggested_plugin($attr){
+		//default
+		$suggestion = [
+			'icon_url' => 'https://ps.w.org/really-simple-ssl/assets/icon-128x128.png',
+			'title' => 'Really Simple SSL',
+			'description_short' => __('One click SSL optimization', "complianz-gdpr"),
+			'rating' => 5,
+			'description' => __('Really Simple SSL automatically detects your settings and configures your website to run over HTTPS. To keep it lightweight, we kept the options to a minimum. Your website will move to SSL with one click.', "complianz-gdpr"),
+			'install_url' => 'ssl%20really%20simple%20plugins%20complianz+HSTS&tab=search&type=term',
+		];
+
+		return $suggestion[$attr];
+	}
+
     /**
      * Set up WordPress filters to hook into WP's update process.
      *
@@ -135,6 +149,7 @@ class rsp_upgrade_to_pro {
                     'admin_url' => admin_url( 'admin-ajax.php' ),
                     'token'     => wp_create_nonce( 'upgrade_to_pro_nonce'),
                     'cmplz_nonce'     => wp_create_nonce( 'complianz_save'),
+					'finished_title' => __("Installation finished", "complianz-gdpr"),
                 )
             );
         }
@@ -244,7 +259,6 @@ class rsp_upgrade_to_pro {
 
             $dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
             $plugins_url = admin_url( "plugins.php" );
-
             ?>
 			<div id="rsp-step-template">
 				<div class="rsp-install-step {step}">
@@ -257,15 +271,16 @@ class rsp_upgrade_to_pro {
 				</div>
 			</div>
 			<div id="rsp-plugin-suggestion-template">
+				<div class="rsp-recommended"><?php _e("Recommended by Really Simple Plugins","complianz-gdpr")?></div>
 				<div class="rsp-plugin-suggestion">
-					<div class="rsp-icon"><img alt="suggested plugin icon" src="{icon_url}"></div>
-					<div class="rsp-description">
-						<div class="rsp-title">{suggested_plugin_title}</div>
-						<div class="rsp-description_short">{suggested_plugin_description_short}</div>
-						<div class="rsp-rating">{suggested_plugin_rating}</div>
+					<div class="rsp-icon"><img alt="suggested plugin icon" src="<?=$this->get_suggested_plugin('icon_url')?>"></div>
+					<div class="rsp-summary">
+						<div class="rsp-title"><?=$this->get_suggested_plugin('title')?></div>
+						<div class="rsp-description_short"><?=$this->get_suggested_plugin('description_short')?></div>
+						<div class="rsp-rating"><?php wp_star_rating(['rating' => $this->get_suggested_plugin('rating')] )?></div>
 					</div>
-					<div class="rsp-description">{suggested_plugin_description}</div>
-					<div class="rsp-install-button"><a class="button-secondary" href="{suggested_plugin_install_url}"><?php _e("Install", "complianz-gdpr")?></a></div>
+					<div class="rsp-description"><?=$this->get_suggested_plugin('description')?></div>
+					<div class="rsp-install-button"><a class="button-secondary" href="<?=admin_url('plugin-install.php?s=').$this->get_suggested_plugin('install_url')?>"><?php _e("Install", "complianz-gdpr")?></a></div>
 				</div>
 			</div>
             <div class="rsp-modal-transparent-background">
@@ -279,12 +294,15 @@ class rsp_upgrade_to_pro {
                     <div class="rsp-install-steps">
 
                     </div>
-                    <a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
-                        <?php echo __("Visit Dashboard", "complianz-gdpr") ?>
-                    </a>
-                    <a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
-                        <?php echo __("Cancel", "complianz-gdpr") ?>
-                    </a>
+					<div class="rsp-footer">
+						<a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
+							<?php echo __("Visit Dashboard", "complianz-gdpr") ?>
+						</a>
+						<a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
+							<?php echo __("Cancel", "complianz-gdpr") ?>
+						</a>
+						<div class="rsp-error-message rsp-hidden"><?php printf(__('An Error Occurred: Install %sManually%s',"complianz-gdpr"), '<a target="_blank" href="https://complianz.io/how-to-install-complianz-gdpr-premium-plugin/">','</a>')?></div>
+					</div>
                 </div>
             </div>
             <?php

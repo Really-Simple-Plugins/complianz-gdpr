@@ -8,25 +8,51 @@ let rsp_progress_bar = {
 };
 
 //set up steps html
-let template = document.getElementById('rsp-step-template').innerHTML;
-let totalStepHtml = '';
+let rsp_template = document.getElementById('rsp-step-template').innerHTML;
+let rsp_total_step_html = '';
 rsp_steps.forEach( (step, i) =>	{
-	let stepHtml = template;
+	let stepHtml = rsp_template;
 	stepHtml = stepHtml.replace('{doing}', step.doing);
 	stepHtml = stepHtml.replace('{step}', 'rsp-step-'+i);
-	totalStepHtml += stepHtml;
+	rsp_total_step_html += stepHtml;
 });
-document.querySelector('.rsp-install-steps').innerHTML = totalStepHtml;
+document.querySelector('.rsp-install-steps').innerHTML = rsp_total_step_html;
 
-const rsp_show_plugin_suggestion = () => {
-	let templateHtml = document.getElementById('rsp-plugin-suggestion-template').innerHTML;
-	document.querySelector('.rsp-install-steps').innerHTML = templateHtml;
+const rsp_progress_bar_start = () => {
+	rsp_progress_bar['speed'] = 0.25;
+	rsp_progress_bar_move();
 }
 
-rsp_show_plugin_suggestion();
+const rsp_progress_bar_finish = () => {
+	rsp_progress_bar['speed'] = 1;
+}
 
-// rsp_process_step(0);
-function rsp_process_step(current_step){
+const rsp_progress_bar_stop = () => {
+	rsp_progress_bar['speed'] = 0;
+}
+
+const rsp_progress_bar_move = () => {
+	let to = rsp_progress_bar.current_step * 100 / rsp_progress_bar.total_steps;
+	rsp_progress_bar['progress_procentage'] = Math.min(rsp_progress_bar.progress_procentage + rsp_progress_bar.speed, to);
+	let progress_bar_container = document.querySelector(".rsp-progress-bar-container");
+	let progress = progress_bar_container.querySelector(".rsp-progress");
+	let bar = progress.querySelector(".rsp-bar");
+	bar.style = "width: " + rsp_progress_bar.progress_procentage + "%;";
+
+	if ( rsp_progress_bar.speed != 0 && rsp_progress_bar.progress_procentage < to ) {
+		setTimeout(rsp_progress_bar_move, 25 / rsp_progress_bar.speed);
+	} else {
+		if ( rsp_progress_bar.speed == 0 ) {
+			bar.style = "width: 100%;";
+			bar.classList.remove('rsp-green');
+			bar.classList.add('rsp-red');
+		} else {
+			rsp_progress_bar.current_step++;
+		}
+	}
+}
+
+const rsp_process_step = (current_step) => {
 	rsp_progress_bar['current_step'] = current_step;
 	let step = rsp_steps[current_step];
 	let error = step['error'];
@@ -48,7 +74,7 @@ function rsp_process_step(current_step){
 		'install_pro': true,
 	};
 
-	ajax.get(rsp_upgrade.admin_url, data, function(response) {
+	rsp_ajax.get(rsp_upgrade.admin_url, data, function(response) {
 		let step_element = document.querySelector(".rsp-step-"+current_step);
 		if ( !step_element ) return;
 
@@ -63,8 +89,10 @@ function rsp_process_step(current_step){
 			step_text.innerHTML = "<span>"+step.success+"</span>";
 			rsp_progress_bar_finish();
 			if ( current_step == rsp_steps.length - 1 ) {
-				rsp_show_plugin_suggestion();
-				document.getElementsByClassName("rsp-btn rsp-visit-dashboard")[0].classList.remove("rsp-hidden");
+				let templateHtml = document.getElementById('rsp-plugin-suggestion-template').innerHTML;
+				document.querySelector('.rsp-install-steps').innerHTML = templateHtml;
+				document.querySelector('.rsp-install-plugin-modal h3').innerText = rsp_upgrade.finished_title;
+				document.querySelector(".rsp-btn.rsp-visit-dashboard").classList.remove("rsp-hidden");
 			} else {
 				rsp_process_step( current_step+1 );
 			}
@@ -75,42 +103,12 @@ function rsp_process_step(current_step){
 			}
 			step_text.innerHTML = "<span>"+step.error+"</span>";
 			rsp_progress_bar_stop();
-			document.getElementsByClassName("rsp-btn rsp-cancel")[0].classList.remove("rsp-hidden");
+			document.querySelector(".rsp-btn.rsp-cancel").classList.remove("rsp-hidden");
+			document.querySelector(".rsp-error-message").classList.remove("rsp-hidden");
 		}
 	});
 }
+rsp_process_step(0);
 
-function rsp_progress_bar_start() {
-    rsp_progress_bar['speed'] = 0.25;
-    rsp_progress_bar_move();
-}
 
-function rsp_progress_bar_finish() {
-    rsp_progress_bar['speed'] = 1;
-}
-
-function rsp_progress_bar_stop() {
-    rsp_progress_bar['speed'] = 0;
-}
-
-function rsp_progress_bar_move() {
-    var to = rsp_progress_bar.current_step * 100 / rsp_progress_bar.total_steps;
-    rsp_progress_bar['progress_procentage'] = Math.min(rsp_progress_bar.progress_procentage + rsp_progress_bar.speed, to);
-    var progress_bar_container = document.querySelector(".rsp-progress-bar-container");
-    var progress = progress_bar_container.querySelector(".rsp-progress");
-    var bar = progress.querySelector(".rsp-bar");
-    bar.style = "width: " + rsp_progress_bar.progress_procentage + "%;";
-
-    if ( rsp_progress_bar.speed != 0 && rsp_progress_bar.progress_procentage < to ) {
-        setTimeout(rsp_progress_bar_move, 25 / rsp_progress_bar.speed);
-    } else {
-        if ( rsp_progress_bar.speed == 0 ) {
-            bar.style = "width: 100%;";
-            bar.classList.remove('rsp-green');
-            bar.classList.add('rsp-red');
-        } else {
-            rsp_progress_bar.current_step++;
-        }
-    }
-}
 
