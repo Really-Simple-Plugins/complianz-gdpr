@@ -1,6 +1,4 @@
 <?php
-
-// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -11,11 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 if ( !class_exists('rsp_upgrade_to_pro')){
 class rsp_upgrade_to_pro {
-
-    // Version for css and js files
-    private $version     = "1.0";
-
-    // Change these values to correspond to values for this plugin
+	private $version     = cmplz_version;
     private $api_url     = "";
     private $license     = "";
     private $item_id     = "";
@@ -103,7 +97,7 @@ class rsp_upgrade_to_pro {
 			'icon_url' => 'https://ps.w.org/really-simple-ssl/assets/icon-128x128.png',
 			'title' => 'Really Simple SSL',
 			'description_short' => __('One click SSL optimization', "complianz-gdpr"),
-			'rating' => 5,
+			'slug' => 'really-simple-ssl',
 			'description' => __('Really Simple SSL automatically detects your settings and configures your website to run over HTTPS. To keep it lightweight, we kept the options to a minimum. Your website will move to SSL with one click.', "complianz-gdpr"),
 			'install_url' => 'ssl%20really%20simple%20plugins%20complianz+HSTS&tab=search&type=term',
 		];
@@ -136,11 +130,10 @@ class rsp_upgrade_to_pro {
         if ( $hook === "plugins.php" && isset($_GET['install-pro']) ) {
 	        $minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-	        wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.css", false, $this->version.time() );
+	        wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.css", false, $this->version );
             wp_enqueue_style( 'rsp-upgrade-css' );
-
-            wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax$minified.js", array(), $this->version.time(), true );
-            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro.js", array(), $this->version.time(), true );
+            wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax$minified.js", array(), $this->version, true );
+            wp_enqueue_script( 'rsp-upgrade-js', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.js", array(), $this->version, true );
             wp_localize_script(
                 'rsp-upgrade-js',
                 'rsp_upgrade',
@@ -277,7 +270,18 @@ class rsp_upgrade_to_pro {
 					<div class="rsp-summary">
 						<div class="rsp-title"><?=$this->get_suggested_plugin('title')?></div>
 						<div class="rsp-description_short"><?=$this->get_suggested_plugin('description_short')?></div>
-						<div class="rsp-rating"><?php wp_star_rating(['rating' => $this->get_suggested_plugin('rating')] )?></div>
+						<div class="rsp-rating"><?php
+							$plugin_info = $this->get_plugin_info($this->get_suggested_plugin('slug'));
+							if (!is_wp_error($plugin_info) && !empty($plugin_info->rating)) {
+								wp_star_rating([
+										'rating' => $plugin_info->rating,
+										'type' => 'percent',
+										'number' => $plugin_info->num_ratings
+									]
+								);
+							}
+
+							?></div>
 					</div>
 					<div class="rsp-description"><?=$this->get_suggested_plugin('description')?></div>
 					<div class="rsp-install-button"><a class="button-secondary" href="<?=admin_url('plugin-install.php?s=').$this->get_suggested_plugin('install_url')?>"><?php _e("Install", "complianz-gdpr")?></a></div>
@@ -309,6 +313,28 @@ class rsp_upgrade_to_pro {
         }
     }
 
+
+	/**
+	 * Retrieve plugin info for rating use
+	 *
+	 * @uses plugins_api() Get the plugin data
+	 *
+	 * @param  string $slug The WP.org directory repo slug of the plugin
+	 *
+	 * @version 1.0
+	 */
+	private function get_plugin_info($slug = '')
+	{
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+		$plugin_info = get_transient('rsp_'.$slug . '_plugin_info');
+		if ( empty($plugin_info) ) {
+			$plugin_info = plugins_api('plugin_information', array('slug' => $slug));
+			if (!is_wp_error($plugin_info)) {
+				set_transient('rsp_'.$slug . '_plugin_info', $plugin_info, WEEK_IN_SECONDS);
+			}
+		}
+		return $plugin_info;
+	}
 
     /**
      * Ajax GET request
