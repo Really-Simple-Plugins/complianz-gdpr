@@ -50,12 +50,13 @@ class rsp_upgrade_to_pro {
                     $this->plugin_name = "Really Simple SSL Pro";
                     break;
                 case "cmplz_pro":
-                    $this->slug = "complianz-gdpr-premiumx/complianz-gpdr-premium.php";
+                    $this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
                     $this->plugin_name = "Complianz";
 					break;
                 case "brst_pro":
                     $this->slug = "burst";
-					break;
+	                $this->plugin_name = "Burst";
+	                break;
             }
         }
 
@@ -255,9 +256,21 @@ class rsp_upgrade_to_pro {
 					</div>
 				</div>
 			</div>
+			<div id="rsp-plugin-suggestion-template">
+				<div class="rsp-plugin-suggestion">
+					<div class="rsp-icon"><img alt="suggested plugin icon" src="{icon_url}"></div>
+					<div class="rsp-description">
+						<div class="rsp-title">{suggested_plugin_title}</div>
+						<div class="rsp-description_short">{suggested_plugin_description_short}</div>
+						<div class="rsp-rating">{suggested_plugin_rating}</div>
+					</div>
+					<div class="rsp-description">{suggested_plugin_description}</div>
+					<div class="rsp-install-button"><a class="button-secondary" href="{suggested_plugin_install_url}"><?php _e("Install", "complianz-gdpr")?></a></div>
+				</div>
+			</div>
             <div class="rsp-modal-transparent-background">
-                <div class="rsp-install-plugin-modal" style="">
-                    <h3><?php echo __("Installing", "really-simple-ssl") . " " . $this->plugin_name ?></h3>
+                <div class="rsp-install-plugin-modal">
+                    <h3><?php echo __("Installing", "complianz-gdpr") . " " . $this->plugin_name ?></h3>
                     <div class="rsp-progress-bar-container">
                         <div class="rsp-progress rsp-grey">
                             <div class="rsp-bar rsp-green" style="width:0%"></div>
@@ -267,10 +280,10 @@ class rsp_upgrade_to_pro {
 
                     </div>
                     <a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
-                        <?php echo __("Visit Dashboard", "really-simple-ssl") ?>
+                        <?php echo __("Visit Dashboard", "complianz-gdpr") ?>
                     </a>
                     <a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
-                        <?php echo __("Cancel", "really-simple-ssl") ?>
+                        <?php echo __("Cancel", "complianz-gdpr") ?>
                     </a>
                 </div>
             </div>
@@ -525,7 +538,6 @@ class rsp_upgrade_to_pro {
                     'success' => true,
                 ];
             } else {
-				_log($result);
 	            if ( is_wp_error($result) ){
 		            $message = $result->get_error_message();
 	            }

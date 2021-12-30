@@ -1,3 +1,6 @@
+.rsp-step-template {
+  display: none;
+}
 .rsp-modal-transparent-background {
   position: fixed;
   width: 100%;

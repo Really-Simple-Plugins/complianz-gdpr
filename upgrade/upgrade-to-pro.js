@@ -18,7 +18,14 @@ rsp_steps.forEach( (step, i) =>	{
 });
 document.querySelector('.rsp-install-steps').innerHTML = totalStepHtml;
 
-rsp_process_step(0);
+const rsp_show_plugin_suggestion = () => {
+	let templateHtml = document.getElementById('rsp-plugin-suggestion-template').innerHTML;
+	document.querySelector('.rsp-install-steps').innerHTML = templateHtml;
+}
+
+rsp_show_plugin_suggestion();
+
+// rsp_process_step(0);
 function rsp_process_step(current_step){
 	rsp_progress_bar['current_step'] = current_step;
 	let step = rsp_steps[current_step];
@@ -55,7 +62,8 @@ function rsp_process_step(current_step){
 			step_color.innerHTML = "<div class='rsp-green rsp-bullet'></div>";
 			step_text.innerHTML = "<span>"+step.success+"</span>";
 			rsp_progress_bar_finish();
-			if ( current_step == rsp_steps.length ) {
+			if ( current_step == rsp_steps.length - 1 ) {
+				rsp_show_plugin_suggestion();
 				document.getElementsByClassName("rsp-btn rsp-visit-dashboard")[0].classList.remove("rsp-hidden");
 			} else {
 				rsp_process_step( current_step+1 );
