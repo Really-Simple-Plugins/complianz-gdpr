@@ -767,7 +767,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$link = admin_url() . "plugin-install.php?s=".$item['search']."&tab=search&type=term";
 				$text = __('Install', 'complianz-gdpr');
 				$status = "<a href=$link>$text</a>";
-			} elseif ($item['constant_free'] == 'wpsi_plugin' || defined($item['constant_premium'] ) ) {
+			} elseif (defined($item['constant_premium'] ) ) {
 				$status = __("Installed", "complianz-gdpr");
 			} elseif (defined($item['constant_free']) && !defined($item['constant_premium'])) {
 				$link = $item['website'];
