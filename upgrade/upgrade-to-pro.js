@@ -31,7 +31,7 @@ const rsp_progress_bar_stop = () => {
 }
 
 const rsp_progress_bar_move = () => {
-	let to = 100 * ( (parseInt(rsp_progress_bar.current_step)+1)  / rsp_steps.length );
+	let to = 100 * ( (parseInt(rsp_progress_bar.current_step)+1)  / (parseInt(rsp_steps.length)+1) );
 	rsp_progress_bar['progress_procentage'] = Math.min(rsp_progress_bar.progress_procentage + rsp_progress_bar.speed, to);
 	let progress_bar_container = document.querySelector(".rsp-progress-bar-container");
 	let progress = progress_bar_container.querySelector(".rsp-progress");
@@ -100,12 +100,12 @@ const rsp_process_step = (current_step) => {
 		} else {
 			step_color.innerHTML = "<div class='rsp-red rsp-bullet'></div>";
 			if ( data.message ) {
-				step.error += '<br>'+data.message;
+				document.querySelector(".rsp-error-message.rsp-"+step['type']+" span").innerText = data.message;
 			}
 			step_text.innerHTML = "<span>"+step.error+"</span>";
 			rsp_progress_bar_stop();
 			document.querySelector(".rsp-btn.rsp-cancel").classList.remove("rsp-hidden");
-			document.querySelector(".rsp-error-message").classList.remove("rsp-hidden");
+			document.querySelector(".rsp-error-message.rsp-"+step['type']).classList.remove("rsp-hidden");
 		}
 	});
 }

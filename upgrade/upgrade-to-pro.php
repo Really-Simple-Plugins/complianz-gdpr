@@ -59,31 +59,37 @@ class rsp_upgrade_to_pro {
 				'action' => 'rsp_upgrade_destination_clear',
 				'doing' => __("Checking if plugin folder exists...", "complianz-gdpr"),
 				'success' => __("Able to create destination folder", "complianz-gdpr"),
-				'error' => __("Destination folder already exists", "complianz-gdpr")
+				'error' => __("Destination folder already exists", "complianz-gdpr"),
+				'type' => 'folder',
 			),
 			array(
 				'action' => 'rsp_upgrade_activate_license',
 				'doing' => __("Validating license...", "complianz-gdpr"),
 				'success' => __("License valid", "complianz-gdpr"),
-				'error' => __("License invalid", "complianz-gdpr")
+				'error' => __("License invalid", "complianz-gdpr"),
+				'type' => 'license',
+
 			),
 			array(
 				'action' => 'rsp_upgrade_package_information',
 				'doing' => __("Retrieving package information...", "complianz-gdpr"),
 				'success' => __("Package information retrieved", "complianz-gdpr"),
-				'error' => __("Failed to gather package information", "complianz-gdpr")
+				'error' => __("Failed to gather package information", "complianz-gdpr"),
+				'type' => 'package',
 			),
 			array(
 				'action' => 'rsp_upgrade_install_plugin',
 				'doing' => __("Installing plugin...", "complianz-gdpr"),
 				'success' => __("Plugin installed", "complianz-gdpr"),
-				'error' => __("Failed to install plugin", "complianz-gdpr")
+				'error' => __("Failed to install plugin", "complianz-gdpr"),
+				'type' => 'install',
 			),
 			array(
 				'action' => 'rsp_upgrade_activate_plugin',
 				'doing' => __("Activating plugin...", "complianz-gdpr"),
 				'success' => __("Plugin activated", "complianz-gdpr"),
-				'error' => __("Failed to activate plugin", "complianz-gdpr")
+				'error' => __("Failed to activate plugin", "complianz-gdpr"),
+				'type' => 'activate',
 			)
 		);
 
@@ -104,7 +110,9 @@ class rsp_upgrade_to_pro {
 			'install_url' => 'ssl%20really%20simple%20plugins%20complianz+HSTS&tab=search&type=term',
 		];
 
+		$suggestion['install_url'] = admin_url('plugin-install.php?s=').$suggestion['install_url'];
 		if (defined($suggestion['constant'])){
+			$suggestion['install_url'] = '#';
 			$suggestion['button_text'] = __("Installed", "complianz-gdpr");
 			$suggestion['disabled'] = 'disabled';
 		}
@@ -290,7 +298,7 @@ class rsp_upgrade_to_pro {
 							?></div>
 					</div>
 					<div class="rsp-description"><?=$this->get_suggested_plugin('description')?></div>
-					<div class="rsp-install-button"><a class="button-secondary" <?=$this->get_suggested_plugin('disabled')?> href="<?=admin_url('plugin-install.php?s=').$this->get_suggested_plugin('install_url')?>"><?=$this->get_suggested_plugin('button_text')?></a></div>
+					<div class="rsp-install-button"><a class="button-secondary" <?=$this->get_suggested_plugin('disabled')?> href="<?=$this->get_suggested_plugin('install_url')?>"><?=$this->get_suggested_plugin('button_text')?></a></div>
 				</div>
 			</div>
             <div class="rsp-modal-transparent-background">
@@ -311,7 +319,8 @@ class rsp_upgrade_to_pro {
 						<a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
 							<?php echo __("Cancel", "complianz-gdpr") ?>
 						</a>
-						<div class="rsp-error-message rsp-hidden"><?php printf(__('An Error Occurred: Install %sManually%s',"complianz-gdpr"), '<a target="_blank" href="https://complianz.io/how-to-install-complianz-gdpr-premium-plugin/">','</a>')?></div>
+						<div class="rsp-error-message rsp-folder rsp-package rsp-install rsp-activate rsp-hidden"><span><?php _e('An Error Occurred:',"complianz-gdpr")?></span>&nbsp;<?php printf(__('Install %sManually%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="https://complianz.io/how-to-install-complianz-gdpr-premium-plugin/">','</a>')?></div>
+						<div class="rsp-error-message rsp-license rsp-hidden"><span><?php _e('An Error Occurred:',"complianz-gdpr")?></span>&nbsp;<?php printf(__('Check your %slicense%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="https://complianz.io/account/">','</a>')?></div>
 					</div>
                 </div>
             </div>
