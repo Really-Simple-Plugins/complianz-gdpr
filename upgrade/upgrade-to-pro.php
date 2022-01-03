@@ -92,15 +92,22 @@ class rsp_upgrade_to_pro {
     }
 
 	private function get_suggested_plugin($attr){
-		//default
 		$suggestion = [
 			'icon_url' => 'https://ps.w.org/really-simple-ssl/assets/icon-128x128.png',
+			'constant' => 'rsssl_version',
 			'title' => 'Really Simple SSL',
 			'description_short' => __('One click SSL optimization', "complianz-gdpr"),
+			'disabled' => '',
+			'button_text' => __("Install", "complianz-gdpr"),
 			'slug' => 'really-simple-ssl',
 			'description' => __('Really Simple SSL automatically detects your settings and configures your website to run over HTTPS. To keep it lightweight, we kept the options to a minimum. Your website will move to SSL with one click.', "complianz-gdpr"),
 			'install_url' => 'ssl%20really%20simple%20plugins%20complianz+HSTS&tab=search&type=term',
 		];
+
+		if (defined($suggestion['constant'])){
+			$suggestion['button_text'] = __("Installed", "complianz-gdpr");
+			$suggestion['disabled'] = 'disabled';
+		}
 
 		return $suggestion[$attr];
 	}
@@ -129,7 +136,6 @@ class rsp_upgrade_to_pro {
     public function enqueue_assets( $hook ) {
         if ( $hook === "plugins.php" && isset($_GET['install-pro']) ) {
 	        $minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-
 	        wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.css", false, $this->version );
             wp_enqueue_style( 'rsp-upgrade-css' );
             wp_enqueue_script( 'rsp-ajax-js', plugin_dir_url(__FILE__) . "ajax$minified.js", array(), $this->version, true );
@@ -284,7 +290,7 @@ class rsp_upgrade_to_pro {
 							?></div>
 					</div>
 					<div class="rsp-description"><?=$this->get_suggested_plugin('description')?></div>
-					<div class="rsp-install-button"><a class="button-secondary" href="<?=admin_url('plugin-install.php?s=').$this->get_suggested_plugin('install_url')?>"><?php _e("Install", "complianz-gdpr")?></a></div>
+					<div class="rsp-install-button"><a class="button-secondary" <?=$this->get_suggested_plugin('disabled')?> href="<?=admin_url('plugin-install.php?s=').$this->get_suggested_plugin('install_url')?>"><?=$this->get_suggested_plugin('button_text')?></a></div>
 				</div>
 			</div>
             <div class="rsp-modal-transparent-background">

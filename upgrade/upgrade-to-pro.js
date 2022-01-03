@@ -2,7 +2,6 @@ const rsp_steps = rsp_upgrade.steps;
 let rsp_download_link = '';
 let rsp_progress_bar = {
 	current_step: 1,
-	total_steps: rsp_steps.length+1,
 	progress_procentage: 0,
 	speed: 1,
 };
@@ -32,7 +31,7 @@ const rsp_progress_bar_stop = () => {
 }
 
 const rsp_progress_bar_move = () => {
-	let to = rsp_progress_bar.current_step * 100 / rsp_progress_bar.total_steps;
+	let to = 100 * ( (parseInt(rsp_progress_bar.current_step)+1)  / rsp_steps.length );
 	rsp_progress_bar['progress_procentage'] = Math.min(rsp_progress_bar.progress_procentage + rsp_progress_bar.speed, to);
 	let progress_bar_container = document.querySelector(".rsp-progress-bar-container");
 	let progress = progress_bar_container.querySelector(".rsp-progress");
@@ -52,7 +51,9 @@ const rsp_progress_bar_move = () => {
 	}
 }
 
+
 const rsp_process_step = (current_step) => {
+	current_step = parseInt(current_step);
 	rsp_progress_bar['current_step'] = current_step;
 	let step = rsp_steps[current_step];
 	let error = step['error'];
@@ -88,7 +89,7 @@ const rsp_process_step = (current_step) => {
 			step_color.innerHTML = "<div class='rsp-green rsp-bullet'></div>";
 			step_text.innerHTML = "<span>"+step.success+"</span>";
 			rsp_progress_bar_finish();
-			if ( current_step == rsp_steps.length - 1 ) {
+			if ( current_step + 1 == rsp_steps.length ) {
 				let templateHtml = document.getElementById('rsp-plugin-suggestion-template').innerHTML;
 				document.querySelector('.rsp-install-steps').innerHTML = templateHtml;
 				document.querySelector('.rsp-install-plugin-modal h3').innerText = rsp_upgrade.finished_title;

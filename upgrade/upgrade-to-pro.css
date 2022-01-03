@@ -1,6 +1,6 @@
 @gridblock _height_big: calc(auto + 20px);
-.rsp-step-template,
-.rsp-plugin-suggestion-template {
+#rsp-step-template,
+#rsp-plugin-suggestion-template {
   display: none;
 }
 .rsp-recommended {
