@@ -72,9 +72,9 @@ class rsp_upgrade_to_pro {
 			),
 			array(
 				'action' => 'rsp_upgrade_package_information',
-				'doing' => __("Retrieving package information...", "complianz-gdpr"),
-				'success' => __("Package information retrieved", "complianz-gdpr"),
-				'error' => __("Failed to gather package information", "complianz-gdpr"),
+				'doing' => __("Copying files...", "complianz-gdpr"),
+				'success' => __("Files copied", "complianz-gdpr"),
+				'error' => __("Failed to copy files", "complianz-gdpr"),
 				'type' => 'package',
 			),
 			array(
