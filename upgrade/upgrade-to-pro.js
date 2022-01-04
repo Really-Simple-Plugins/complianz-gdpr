@@ -1,10 +1,6 @@
 const rsp_steps = rsp_upgrade.steps;
 let rsp_download_link = '';
-let rsp_progress_bar = {
-	current_step: 1,
-	progress_procentage: 0,
-	speed: 1,
-};
+let rsp_progress = 0;
 
 //set up steps html
 let rsp_template = document.getElementById('rsp-step-template').innerHTML;
@@ -17,48 +13,51 @@ rsp_steps.forEach( (step, i) =>	{
 });
 document.querySelector('.rsp-install-steps').innerHTML = rsp_total_step_html;
 
-const rsp_progress_bar_start = () => {
-	rsp_progress_bar['speed'] = 0.25;
-	rsp_progress_bar_move();
-}
-
-const rsp_progress_bar_finish = () => {
-	rsp_progress_bar['speed'] = 1;
-}
-
-const rsp_progress_bar_stop = () => {
-	rsp_progress_bar['speed'] = 0;
-}
-
-const rsp_progress_bar_move = () => {
-	let to = 100 * ( (parseInt(rsp_progress_bar.current_step)+1)  / (parseInt(rsp_steps.length)+1) );
-	rsp_progress_bar['progress_procentage'] = Math.min(rsp_progress_bar.progress_procentage + rsp_progress_bar.speed, to);
+const rsp_set_progress = () => {
+	if ( rsp_progress>=100 ) rsp_progress=100;
 	let progress_bar_container = document.querySelector(".rsp-progress-bar-container");
-	let progress = progress_bar_container.querySelector(".rsp-progress");
-	let bar = progress.querySelector(".rsp-bar");
-	bar.style = "width: " + rsp_progress_bar.progress_procentage + "%;";
+	let progressEl = progress_bar_container.querySelector(".rsp-progress");
+	let bar = progressEl.querySelector(".rsp-bar");
+	bar.style = "width: " + rsp_progress + "%;";
 
-	if ( rsp_progress_bar.speed != 0 && rsp_progress_bar.progress_procentage < to ) {
-		setTimeout(rsp_progress_bar_move, 25 / rsp_progress_bar.speed);
-	} else {
-		if ( rsp_progress_bar.speed == 0 ) {
-			bar.style = "width: 100%;";
-			bar.classList.remove('rsp-green');
-			bar.classList.add('rsp-red');
-		} else {
-			rsp_progress_bar.current_step++;
-		}
+	if ( rsp_progress == 100 ) {
+		clearInterval(window.rsp_interval);
 	}
+}
+
+const rsp_stop_progress = () => {
+	let progressEl = progress_bar_container.querySelector(".rsp-progress");
+	var bar = progressEl.querySelector(".rsp-bar");
+	bar.style = "width: 100%;";
+	bar.classList.remove('rsp-green');
+	bar.classList.add('rsp-red');
+	clearInterval(window.rsp_interval);
 }
 
 
 const rsp_process_step = (current_step) => {
+	let previous_progress = current_step * Math.ceil(100/(rsp_upgrade.steps.length));
+	let progress_step = (current_step+1) * Math.ceil(100/(rsp_upgrade.steps.length));
+
+	clearInterval(window.rsp_interval);
+	window.rsp_interval = setInterval(function () {
+		let inc = 0.5;
+		//very slow if we're close to the target progress for this step.
+		if ( ( rsp_progress > progress_step-1 ) ) {
+			inc = 0.01;
+		}
+
+		rsp_progress += inc;
+		if (rsp_progress >= 100) {
+			rsp_progress = 100;
+		}
+		rsp_set_progress();
+	}, 100);
+
 	current_step = parseInt(current_step);
-	rsp_progress_bar['current_step'] = current_step;
 	let step = rsp_steps[current_step];
 	let error = step['error'];
 	let success = step['success'];
-	rsp_progress_bar_start();
 
 	// Get arguments from url
 	const query_string = window.location.search;
@@ -82,19 +81,24 @@ const rsp_process_step = (current_step) => {
 		let step_color = step_element.querySelector(".rsp-step-color");
 		let step_text = step_element.querySelector(".rsp-step-text");
 		let data = JSON.parse(response);
+
 		if ( data.success ) {
 			if ( data.download_link ){
 				rsp_download_link = data.download_link;
 			}
 			step_color.innerHTML = "<div class='rsp-green rsp-bullet'></div>";
 			step_text.innerHTML = "<span>"+step.success+"</span>";
-			rsp_progress_bar_finish();
+
 			if ( current_step + 1 == rsp_steps.length ) {
 				let templateHtml = document.getElementById('rsp-plugin-suggestion-template').innerHTML;
 				document.querySelector('.rsp-install-steps').innerHTML = templateHtml;
 				document.querySelector('.rsp-install-plugin-modal h3').innerText = rsp_upgrade.finished_title;
 				document.querySelector(".rsp-btn.rsp-visit-dashboard").classList.remove("rsp-hidden");
+				rsp_progress = 100;
+				rsp_set_progress();
 			} else {
+				rsp_progress = progress_step;
+				rsp_set_progress(progress_step);
 				rsp_process_step( current_step+1 );
 			}
 		} else {
@@ -103,7 +107,7 @@ const rsp_process_step = (current_step) => {
 				document.querySelector(".rsp-error-message.rsp-"+step['type']+" span").innerText = data.message;
 			}
 			step_text.innerHTML = "<span>"+step.error+"</span>";
-			rsp_progress_bar_stop();
+			rsp_stop_progress();
 			document.querySelector(".rsp-btn.rsp-cancel").classList.remove("rsp-hidden");
 			document.querySelector(".rsp-error-message.rsp-"+step['type']).classList.remove("rsp-hidden");
 		}

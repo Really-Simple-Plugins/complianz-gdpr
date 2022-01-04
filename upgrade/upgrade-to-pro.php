@@ -16,6 +16,7 @@ class rsp_upgrade_to_pro {
     private $slug        = "";
     private $health_check_timeout = 5;
     private $plugin_name = "";
+    private $plugin_constant = "";
 	private $steps;
 
     /**
@@ -42,14 +43,17 @@ class rsp_upgrade_to_pro {
                 case "rsssl_pro":
                     $this->slug = "really-simple-ssl-pro/really-simple-ssl-pro.php";
                     $this->plugin_name = "Really Simple SSL Pro";
+                    $this->plugin_constant = "rsssl_pro";
                     break;
                 case "cmplz_pro":
                     $this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
                     $this->plugin_name = "Complianz";
+                    $this->plugin_constant = "cmplz_premium";
 					break;
                 case "brst_pro":
                     $this->slug = "burst";
 	                $this->plugin_name = "Burst";
+	                $this->plugin_constant = "burst_premium";
 	                break;
             }
         }
@@ -72,9 +76,9 @@ class rsp_upgrade_to_pro {
 			),
 			array(
 				'action' => 'rsp_upgrade_package_information',
-				'doing' => __("Copying files...", "complianz-gdpr"),
-				'success' => __("Files copied", "complianz-gdpr"),
-				'error' => __("Failed to copy files", "complianz-gdpr"),
+				'doing' => __("Retrieving package information...", "complianz-gdpr"),
+				'success' => __("Package information retrieved", "complianz-gdpr"),
+				'error' => __("Failed to gather package information", "complianz-gdpr"),
 				'type' => 'package',
 			),
 			array(
@@ -142,7 +146,7 @@ class rsp_upgrade_to_pro {
      * @todo minification
      */
     public function enqueue_assets( $hook ) {
-        if ( $hook === "plugins.php" && isset($_GET['install-pro']) ) {
+        if ( $hook === "plugins.php" && isset($_GET['install_pro']) ) {
 	        $minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 	        wp_register_style( 'rsp-upgrade-css', plugin_dir_url(__FILE__) . "upgrade-to-pro$minified.css", false, $this->version );
             wp_enqueue_style( 'rsp-upgrade-css' );
@@ -262,7 +266,7 @@ class rsp_upgrade_to_pro {
 		    return false;
 	    }
 
-        if ( is_admin() && isset($_GET['install-pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
+        if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
 
             $dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
             $plugins_url = admin_url( "plugins.php" );
@@ -371,6 +375,14 @@ class rsp_upgrade_to_pro {
 	    if ( !current_user_can('manage_options') ) {
 		    $error = true;
 	    }
+
+		if (defined($this->plugin_constant)) {
+			$error = true;
+			$response = [
+					'success' => false,
+					'message' => __("Plugin already installed!", "complianz-gdpr"),
+			];
+		}
 
         if ( !$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['plugin']) ) {
             if ( !file_exists(WP_PLUGIN_DIR . '/' . $this->slug) ) {
