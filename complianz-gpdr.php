@@ -143,7 +143,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			//for auto upgrade functionality
 			define( 'cmplz_plugin_free', plugin_basename( __FILE__ ) );
 			$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? time() : '';
-			define( 'cmplz_version', '6.0.0.1' . $debug );
+			define( 'cmplz_version', '6.0.0' . $debug );
 			define( 'cmplz_plugin_file', __FILE__ );
 		}
 
