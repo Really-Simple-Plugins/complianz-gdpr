@@ -1,7 +1,7 @@
 <?php
 /*100% match*/
 
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 if ( ! class_exists( "cmplz_field" ) ) {
 	class cmplz_field {
@@ -3068,7 +3068,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		public
 		function use_logo_custom($args)
 		{
-			$src = cmplz_url . '/assets/images/s.png';
+			$src = cmplz_url . '/assets/images/placeholders/default-light.jpg';
 			$attachment_id = $this->get_value( $args['fieldname'], false );
 			if ( $attachment_id ) {
 				$src = wp_get_attachment_image_url( $attachment_id, 'cmplz_banner_image' );

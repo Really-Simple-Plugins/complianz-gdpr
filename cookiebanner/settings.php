@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
  function cmplz_banner_color_schemes(){
 	$schemes = array(
@@ -231,7 +231,7 @@ function cmplz_add_cookiebanner_settings($fields){
 					'hide'    	=> __( "Hide", 'complianz-gdpr' ),
 					'site'  	=> __( "Use Site Logo", 'complianz-gdpr' ),
 					'complianz' => __( "Use \"Powered by Complianz\"", 'complianz-gdpr' ),
-					'custom' 	=> __( "Upload Custom Logo", 'complianz-gdpr' ).' (300px x 100px)',
+					'custom' 	=> __( "Upload Custom Logo", 'complianz-gdpr' ).' (2 : 1)',
 				),
 				'default' => 'hide',
 			),

@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_filter( 'cmplz_set_cookies_on_consent', 'cmplz_wp_donottrack_add_cookie' );
 function cmplz_wp_donottrack_add_cookie( $cookies ) {

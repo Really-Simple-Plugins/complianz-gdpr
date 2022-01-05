@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+<?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 	class CMPLZ_COOKIE {
 		private $ID = false;

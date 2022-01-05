@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 /**
  * Install cookiebanner table
@@ -887,10 +887,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		{
 			$logo = "";
 			if ($all_variants) {
+				$custom_image = wp_get_attachment_image($this->logo_attachment_id, 'cmplz_banner_image', false, ['alt' => get_bloginfo('name') ]);
+				if (empty($custom_image)) {
+					$custom_image = '<img src="'.cmplz_url.'/assets/images/placeholders/default-light.jpg" class="attachment-cmplz_banner_image size-cmplz_banner_image" alt="placeholder" loading="lazy" />';
+				}
 				return array(
 					'complianz' => file_get_contents(trailingslashit(cmplz_path) . 'assets/images/poweredbycomplianz.svg'),
 					'site' => get_custom_logo(),
-					'custom' => wp_get_attachment_image($this->logo_attachment_id, 'cmplz_banner_image', false, ['alt' => get_bloginfo('name') ]),
+					'custom' => $custom_image,
 				);
 			}
 			switch ($this->use_logo) {
@@ -902,6 +906,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					break;
 				case 'custom':
 					$logo = wp_get_attachment_image($this->logo_attachment_id, 'cmplz_banner_image', false, ['alt' => get_bloginfo('name') ]);
+
 			}
 
 			return $logo;

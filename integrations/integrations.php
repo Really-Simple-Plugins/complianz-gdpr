@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( is_admin() ) {
 	require_once( 'integrations-menu.php' );
 }
@@ -275,13 +275,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Google Maps',
 		'firstparty_marketing' => false,
 	),
-
-	'woocommerce' => array(
-			'constant_or_function' => 'WC_PLUGIN_FILE',
-			'label'                => 'Woocommerce',
-			'firstparty_marketing' => false,
-	),
-
 	'wp-google-map-plugin'            => array(
 		'constant_or_function' => 'WPGMP_VERSION',
 		'label'                => 'WP Google Map Plugin',

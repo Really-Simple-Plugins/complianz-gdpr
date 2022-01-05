@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_compile_statistics' );
 function cmplz_compile_statistics() {

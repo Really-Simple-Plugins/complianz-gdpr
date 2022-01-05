@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 	class cmplz_cookie_admin {
@@ -451,7 +451,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			     && strlen( $cookie->slug ) !== 0
 			) {
 				$service_slug = ( strlen( $cookie->service ) === 0 ) ? 'unknown-service' : $cookie->service;
-				$link         = '<a target="_blank" href="https://cookiedatabase.org/cookie/' . $service_slug . '/' . $cookie->slug . '">'
+				$link         = '<a target="_blank" href="https://cookiedatabase.org/cookie/' . $service_slug . '/' . $cookie->slug . '/">'
 				                . __( "View cookie on cookiedatabase.org", "complianz-gdpr" ) .
 				                '</a>';
 			}
@@ -577,7 +577,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			     && strlen( $service->slug ) !== 0
 			     && $service->slug !== 'unknown-service'
 			) {
-				$link = '<a target="_blank" href="https://cookiedatabase.org/service/' . $service->slug . '">'
+				$link = '<a target="_blank" href="https://cookiedatabase.org/service/' . $service->slug . '/">'
 				        . __( "View service on cookiedatabase.org", "complianz-gdpr" ) .
 				        '</a>';
 			}

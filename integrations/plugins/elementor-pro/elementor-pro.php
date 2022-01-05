@@ -3,7 +3,7 @@
 use Elementor\Controls_Manager;
 use \Elementor\TemplateLibrary\Source_Local;
 
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 
 /**

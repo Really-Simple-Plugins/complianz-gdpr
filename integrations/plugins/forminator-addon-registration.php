@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 add_action( 'forminator_addons_loaded', 'cmplz_load_forminator_addon' );
 function cmplz_load_forminator_addon() {
 	require_once dirname( __FILE__ ) . '/forminator-addon-class.php';

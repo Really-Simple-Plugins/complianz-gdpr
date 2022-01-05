@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 function cmplz_consent_box_required_on_form() {
 	$contact = cmplz_forms_used_on_sites();

@@ -1331,6 +1331,12 @@ jQuery(document).ready(function ($) {
 				if (!image) {
 					image = images[iii].attributes.sizes['medium'];
 				}
+				if (!image) {
+					image = images[iii].attributes.sizes['thumbnail'];
+				}
+				if (!image) {
+					image = images[iii].attributes.sizes['full'];
+				}
 
 				if ( image ) {
 					var image_url = image['url'];

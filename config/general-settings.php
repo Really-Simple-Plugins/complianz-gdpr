@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 $this->fields = $this->fields + array(
 
@@ -42,8 +42,8 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ),
 			  'comment' => sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
 					'complianz-gdpr' ),
-					'<a target="_blank" href="https://cookiedatabase.org">', '</a>',
-					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement">',
+					'<a target="_blank" href="https://cookiedatabase.org/">', '</a>',
+					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement/">',
 					'</a>' ),
 		),
 

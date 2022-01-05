@@ -750,7 +750,17 @@ function cmplz_check_upgrade() {
 			$wizard_settings['compile_statistics'] = 'yes';
 			update_option( 'complianz_options_wizard', $wizard_settings );
 		}
+	}
 
+	if ( $prev_version && version_compare( $prev_version, '6.0.0', '>=' ) ) {
+		$warning_id = 'upgraded_to_6';
+		$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
+		if ( !in_array($warning_id, $dismissed_warnings) ) {
+			$dismissed_warnings[] = $warning_id;
+			update_option('cmplz_dismissed_warnings', $dismissed_warnings );
+			delete_transient('complianz_warnings');
+			delete_transient('complianz_warnings_admin_notices');
+		}
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.0.2', '<' ) ) {
