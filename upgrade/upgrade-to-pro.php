@@ -19,6 +19,7 @@ class rsp_upgrade_to_pro {
     private $plugin_constant = "";
 	private $steps;
 	private $prefix;
+	private $dashboard_url;
 
     /**
      * Class constructor.
@@ -38,29 +39,32 @@ class rsp_upgrade_to_pro {
             $this->api_url = esc_url_raw($_GET['api_url']);
         }
 
-        if ( isset($_GET['plugin']) ) {
-            $plugin = sanitize_title($_GET['plugin']);
-            switch ($plugin) {
-                case "rsssl_pro":
-                    $this->slug = "really-simple-ssl-pro/really-simple-ssl-pro.php";
-                    $this->plugin_name = "Really Simple SSL Pro";
-                    $this->plugin_constant = "rsssl_pro";
-                    $this->prefix = "rsssl_";
-                    break;
-                case "cmplz_pro":
-                    $this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
-                    $this->plugin_name = "Complianz";
-                    $this->plugin_constant = "cmplz_premium";
+		if ( isset($_GET['plugin']) ) {
+			$plugin = sanitize_title($_GET['plugin']);
+			switch ($plugin) {
+				case "rsssl_pro":
+					$this->slug = "really-simple-ssl-pro/really-simple-ssl-pro.php";
+					$this->plugin_name = "Really Simple SSL Pro";
+					$this->plugin_constant = "rsssl_pro";
+					$this->prefix = "rsssl_";
+					$this->dashboard_url = add_query_arg(["page" => "rlrsssl_really_simple_ssl"], admin_url( "admin.php/options-general.php" ));
+					break;
+				case "cmplz_pro":
+					$this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
+					$this->plugin_name = "Complianz";
+					$this->plugin_constant = "cmplz_premium";
 					$this->prefix = "cmplz_";
+					$this->dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
 					break;
-                case "brst_pro":
-                    $this->slug = "burst";
-	                $this->plugin_name = "Burst";
-	                $this->plugin_constant = "burst_premium";
+				case "brst_pro":
+					$this->slug = "burst";
+					$this->plugin_name = "Burst";
+					$this->plugin_constant = "burst_premium";
 					$this->prefix = "burst_";
+					$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "admin.php" ));
 					break;
-            }
-        }
+			}
+		}
 
 		$this->steps = array(
 			array(
@@ -140,7 +144,7 @@ class rsp_upgrade_to_pro {
 
 		if ( $plugin_to_be_installed === 'really-simple-ssl' ){
 			$suggestion = [
-					'icon_url' => $dir_url.'really-simple-ssl.png',
+					'icon_url' => $dir_url.'complianz-gdpr.gif',
 					'constant' => 'cmplz_version',
 					'title' => 'Complianz GDPR/CCPA',
 					'description_short' => __('GDPR/CCPA Privacy Suite', "complianz-gdpr"),
@@ -157,7 +161,7 @@ class rsp_upgrade_to_pro {
 
 		if ( $plugin_to_be_installed === 'complianz-gdpr' ){
 			$suggestion = [
-					'icon_url' => $dir_url.'complianz-gdpr.gif',
+					'icon_url' => $dir_url.'really-simple-ssl.png',
 					'constant' => 'rsssl_version',
 					'title' => 'Really Simple SSL',
 					'description_short' => __('One click SSL optimization', "complianz-gdpr"),
@@ -325,8 +329,7 @@ class rsp_upgrade_to_pro {
 	    }
 
         if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
-
-            $dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
+            $dashboard_url = $this->dashboard_url;
             $plugins_url = admin_url( "plugins.php" );
             ?>
 			<div id="rsp-step-template">

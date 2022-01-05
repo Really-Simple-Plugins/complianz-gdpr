@@ -80,7 +80,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		public static $support;
 		public static $proof_of_consent;
 		public static $records_of_consent;
-		public static $rsp_upgrade_to_pro;
 
 		private function __construct() {
 			self::setup_constants();
@@ -100,9 +99,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$wizard             = new cmplz_wizard();
 				self::$export_settings    = new cmplz_export_settings();
 				self::$tour               = new cmplz_tour();
-				if ( isset($_GET['install_pro'])) {
-					self::$rsp_upgrade_to_pro = new rsp_upgrade_to_pro();
-				}
 			}
 
 			self::$proof_of_consent = new cmplz_proof_of_consent();
