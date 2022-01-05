@@ -124,9 +124,10 @@ class rsp_upgrade_to_pro {
 		} else if (strpos($path, 'burst')!==false){
 			$current_plugin = 'burst';
 		}
+		$dir_url = plugin_dir_url(__FILE__).'img/';
 
 		$fallback_suggestion = [
-				'icon_url' => 'https://ps.w.org/definitions-internal-linkbuilding/assets/icon-128x128.png',
+				'icon_url' => $dir_url.'definitions.png',
 				'constant' => 'RSPDEF_VERSION',
 				'title' => 'Definitions – Internal Linkbuilding',
 				'description_short' => __('Simple internal link building for SEO', "complianz-gdpr"),
@@ -139,7 +140,7 @@ class rsp_upgrade_to_pro {
 
 		if ( $plugin_to_be_installed === 'really-simple-ssl' ){
 			$suggestion = [
-					'icon_url' => 'https://ps.w.org/complianz-gdpr/assets/icon-128x128.png',
+					'icon_url' => $dir_url.'really-simple-ssl.png',
 					'constant' => 'cmplz_version',
 					'title' => 'Complianz GDPR/CCPA',
 					'description_short' => __('GDPR/CCPA Privacy Suite', "complianz-gdpr"),
@@ -156,7 +157,7 @@ class rsp_upgrade_to_pro {
 
 		if ( $plugin_to_be_installed === 'complianz-gdpr' ){
 			$suggestion = [
-					'icon_url' => 'https://ps.w.org/complianz-gdpr/assets/icon-256x256.gif',
+					'icon_url' => $dir_url.'complianz-gdpr.gif',
 					'constant' => 'rsssl_version',
 					'title' => 'Really Simple SSL',
 					'description_short' => __('One click SSL optimization', "complianz-gdpr"),
