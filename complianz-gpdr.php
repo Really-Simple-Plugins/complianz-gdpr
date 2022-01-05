@@ -100,7 +100,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$wizard             = new cmplz_wizard();
 				self::$export_settings    = new cmplz_export_settings();
 				self::$tour               = new cmplz_tour();
-				if ( sanitize_title($_GET['plugin'])==='cmplz_pro' ) {
+				if ( isset($_GET['install_pro'])) {
 					self::$rsp_upgrade_to_pro = new rsp_upgrade_to_pro();
 				}
 			}
@@ -188,7 +188,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				require_once( cmplz_path . 'class-export.php' );
 				require_once( cmplz_path . 'shepherd/tour.php' );
 				require_once( cmplz_path . 'grid/grid.php' );
-				if ( sanitize_title($_GET['plugin'])==='cmplz_pro' ) {
+				if ( isset($_GET['install_pro'])) {
 					require_once( cmplz_path . 'upgrade/upgrade-to-pro.php' );
 				}
 			}
