@@ -33,10 +33,8 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 * Custom integrations for plugins, themes and services are automatically detected. 
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames e.g. Instagram, Facebook et al.
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per (social) service.
-* The CookieShredder: A unique feature for real-time cookie control. Read more about our CookieShredder [here](https://complianz.io/introducing-the-cookieshredder/)
 * Script Center to control scripts, iFrames and plugins per category or service. With dependency functionality and placheholders. 
 * Proof of Consent: User consent registration that respects the GDPR data minimization guideline.
-* Consent per Category as default. Use Consent per Service and our CookieShredder for ultimate control over cookies.
 * Periodical Cookie Scan for changes in Cookies, Plugins and 3rd Party services. 
 * Automatically detects if you need a Cookie Notice (also called a Cookie Banner or Pop-Up).
 * Automatically anonymizes personal data for integrated statistics tools if needed.
