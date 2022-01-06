@@ -311,6 +311,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$new = $total_match;
 						$new = $this->add_data( $new, 'img', 'src-cmplz', $image_url );
 						$new = $this->add_data( $new, 'img', 'service', $service_name );
+						$new = $this->add_data( $new, 'img', 'category', 'marketing' );
 						//remove lazy loading for images, as it is breaking on activation
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
 						$new = $this->add_class( $new, 'img', apply_filters( 'cmplz_image_class', 'cmplz-image', $total_match, $found ) );

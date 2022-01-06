@@ -326,7 +326,8 @@ function cmplz_set_blocked_content_container() {
 		if ( obj.classList.contains('cmplz-processed') ) {
 			return;
 		}
-		obj.classList.add('cmplz-processed' )
+		obj.classList.add('cmplz-processed' );
+		let service = obj.getAttribute('data-service');
 		let blocked_image_container = obj.parentElement;
 		blocked_image_container.classList.add('cmplz-blocked-content-container');
 		let curIndex = blocked_image_container.getAttribute('data-placeholder_class_index');
@@ -336,16 +337,27 @@ function cmplz_set_blocked_content_container() {
 			obj.setAttribute('deferlazy', 1);
 		}
 
-		//insert placeholder text
-		if ( blocked_image_container.querySelector(".cmplz-blocked-content-notice" ) == null) {
-			let placeholderText = complianz.placeholdertext;
-			if (typeof placeholderText !== 'undefined') {
-				let btn = cmplz_create_element('button', placeholderText);
-				btn.classList.add('cmplz-blocked-content-notice');
-				btn.classList.add('cmplz-accept-marketing');
-				blocked_image_container.appendChild( btn );
+		if ( curIndex == null ) {
+			cmplz_placeholder_class_index++;
+			blocked_image_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
+			blocked_image_container.classList.add('cmplz-blocked-content-container');
+			blocked_image_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
+			//insert placeholder text
+			if ( blocked_image_container.querySelector(".cmplz-blocked-content-notice" ) == null) {
+				let placeholderText = complianz.placeholdertext;
+				if (typeof placeholderText !== 'undefined') {
+					let btn = cmplz_create_element('button', '');
+					btn.innerText = placeholderText;
+					btn.classList.add('cmplz-blocked-content-notice');
+					btn.classList.add('cmplz-accept-marketing');
+					btn.setAttribute('data-service', service );
+					btn.setAttribute('aria-label', service );
+					blocked_image_container.appendChild( btn );
+				}
 			}
 		}
+
+
 	});
 
 	document.querySelectorAll('.cmplz-placeholder-element').forEach(obj => {
@@ -467,7 +479,6 @@ if ( complianz.block_ajax_content == 1 ) {
  * */
 
 function cmplz_enable_category(category, service) {
-
 	if ( complianz.tm_categories == 1 && category !== '') {
 		cmplz_run_tm_event(category);
 	}
@@ -478,7 +489,6 @@ function cmplz_enable_category(category, service) {
 	if ( category === 'functional' ) {
 		return;
 	}
-
 	//enable cookies for integrations
 	if ( category === 'marketing' ) {
 		cmplz_set_integrations_cookies();
@@ -510,7 +520,7 @@ function cmplz_enable_category(category, service) {
 			obj.classList.add('cmplz-activated' );
 			let src = obj.getAttribute('data-href');
 			cmplz_load_css( src, category);
-		} else if (tagName ==='IMAGE'){
+		} else if (tagName ==='IMG'){
 			obj.classList.add('cmplz-activated' );
 			let src = obj.getAttribute('data-src-cmplz');
 			obj.setAttribute('src', src);
@@ -518,6 +528,10 @@ function cmplz_enable_category(category, service) {
 			if ( obj.getAttribute('data-deferlazy') ) {
 				obj.setAttribute('loading', 'lazy');
 			}
+			let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
+			let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
+			blocked_content_container.classList.remove('cmplz-blocked-content-container');
+			blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
 		} else if (tagName==='IFRAME'){
 			obj.classList.add('cmplz-activated' );
 			let src = obj.getAttribute('data-src-cmplz');
@@ -561,7 +575,7 @@ function cmplz_enable_category(category, service) {
 	 * Let's activate the scripts
 	 */
 
-	//create list of waiting scripts
+		//create list of waiting scripts
 	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
@@ -899,7 +913,6 @@ window.show_cookie_banner = function () {
 	let event = new CustomEvent('cmplz_cookie_warning_loaded', {detail: complianz.region});
 	document.dispatchEvent(event);
 }
-
 /**
  * Get the status of the banner: dismissed | show
  * @returns {string}
@@ -1324,6 +1337,7 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	} else {
+		cmplz_enable_category('', 'general');
 		cmplz_set_consent('marketing', 'allow' );
 	}
 	cmplz_set_banner_status('dismissed');
