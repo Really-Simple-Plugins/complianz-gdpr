@@ -182,6 +182,11 @@ jQuery(document).ready(function ($) {
 						if ($('#cmplz-tcf-js').length ) {
 							$(this).addClass('tcf');
 						}
+
+						$(this).removeClass('cmplz-categories-type-no');
+						$(this).removeClass('cmplz-categories-type-view-preferences');
+						$(this).removeClass('cmplz-categories-type-save-preferences');
+						$(this).addClass('cmplz-categories-type-'+$('select[name=cmplz_use_categories]').val());
 					});
 
 					css_file = css_file.replace('type', consenttype ).replace('banner_id', banner_id);
@@ -296,6 +301,7 @@ jQuery(document).ready(function ($) {
 	$(document).on('keyup', "input[name='cmplz_preferences_text[text]']", function () {
 		$(".cmplz-preferences .cmplz-description").html($(this).val());
 	});
+
 	$(document).on('keyup', "input[name='cmplz_statistics_text[text]']", function () {
 		$(".cmplz-statistics .cmplz-description").html($(this).val());
 	});
@@ -510,12 +516,12 @@ jQuery(document).ready(function ($) {
 	$(document).on('click', '.cmplz-view-preferences', function(){
 		var banner = $(this).closest('.cmplz-cookiebanner');
 		if ( $('.cmplz-categories').hasClass('cmplz-fade-in')) {
-			banner.addClass('categories-visible');
+			banner.remove('cmplz-categories-visible');
 			banner.find('.cmplz-categories').removeClass('cmplz-fade-in');
 			banner.find('.cmplz-view-preferences').show();
 			banner.find('.cmplz-save-preferences').hide();
 		} else {
-			banner.addClass('categories-visible');
+			banner.addClass('cmplz-categories-visible');
 			banner.find('.cmplz-categories').addClass('cmplz-fade-in');
 			banner.find('.cmplz-view-preferences').hide();
 			banner.find('.cmplz-save-preferences').show();

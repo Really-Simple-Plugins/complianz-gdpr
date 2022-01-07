@@ -4,7 +4,7 @@
   --cmplz_banner_border_color:#f2f2f2;
   --cmplz_banner_border_width:1px;
   --cmplz_banner_border_radius:10px;
-  --cmplz_banner_margin:20px;
+  --cmplz_banner_margin:10px;
   --cmplz_categories-height:161px;
 
   --cmplz_title_font_size:15px;
@@ -210,8 +210,8 @@
 	  grid-column-start: 3;
 	  font-size: 20px;
 	  cursor: pointer;
-	  width: 20px;
-	  height: 20px;
+	  width: 24px;
+	  height: 24px;
 	  color: var(--cmplz_text_color);
 	  svg {
 		width:20px;
@@ -408,12 +408,6 @@
 	  padding:initial;
 	}
   }
-  //fix for browser not supporting the gap property
-  @supports not (display: flex; gap: 1em) {
-	.cmplz-buttons .cmplz-btn {
-	  margin-bottom:10px;
-	}
-  }
 
   // ---------------------------------------------------- Links ----------------------------------------------------- //
 
@@ -451,13 +445,6 @@
 	  }
 	}
   }
-
-	//fix for browsers not supporting the gap property
-	@supports not (display: flex; gap: 1em) {
-	  .cmplz-links .cmplz-link + .cmplz-link {
-		margin-left:10px;
-	  }
-	}
 }
 /* The categories are also used on the cookie policy, so this needs to be outside the banner class */
 .cmplz-categories {

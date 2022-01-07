@@ -1551,7 +1551,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_label_html' , $args );?>
             <?php do_action( 'complianz_after_label', $args ); ?>
             <?php
-
+			$values = wp_parse_args($values, array(
+					'top' => '',
+					'right' => '',
+					'bottom' => '',
+					'left' => '',
+			));
             $args['fields'] = array(
                 array(
                     'fieldname' => $fieldname . '[top]',

@@ -4,7 +4,7 @@
   --cmplz_banner_border_color: #f2f2f2;
   --cmplz_banner_border_width: 1px;
   --cmplz_banner_border_radius: 10px;
-  --cmplz_banner_margin: 20px;
+  --cmplz_banner_margin: 10px;
   --cmplz_categories-height: 161px;
   --cmplz_title_font_size: 15px;
   --cmplz_text_font_size: 12px;
@@ -173,8 +173,8 @@
   grid-column-start: 3;
   font-size: 20px;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   color: var(--cmplz_text_color);
 }
 .cmplz-cookiebanner .cmplz-close svg {
@@ -341,11 +341,6 @@
   justify-content: center;
   padding: initial;
 }
-@supports not (display: flex; gap: 1em) {
-  .cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
-    margin-bottom: 10px;
-  }
-}
 .cmplz-cookiebanner .cmplz-links.cmplz-information {
   display: none;
 }
@@ -367,11 +362,6 @@
 }
 .cmplz-cookiebanner .cmplz-links .cmplz-link.cmplz-read-more-purposes {
   display: none;
-}
-@supports not (display: flex; gap: 1em) {
-  .cmplz-cookiebanner .cmplz-links .cmplz-link + .cmplz-link {
-    margin-left: 10px;
-  }
 }
 /* The categories are also used on the cookie policy, so this needs to be outside the banner class */
 .cmplz-categories .cmplz-category .cmplz-description-statistics-anonymous {

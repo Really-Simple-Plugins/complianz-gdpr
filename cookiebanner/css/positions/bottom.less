@@ -15,7 +15,12 @@
 
 @media (min-width: 1024px ) {
   .cmplz-cookiebanner {
-	&.categories-visible .cmplz-body{
+	&.cmplz-categories-type-save-preferences .cmplz-body{
+	  & > div{
+		width: 49%;
+	  }
+	}
+	&.cmplz-categories-visible .cmplz-body{
 	  & > div{
 		width: 49%;
 	  }
@@ -86,12 +91,12 @@
 	  height: 160px;
 	}
 
-	&.view-preferences, &.no {
+	&.cmplz-categories-type-view-preferences, &.cmplz-categories-type-no {
 	  .cmplz-buttons {
 		flex-direction: row-reverse;
 	  }
 
-	  &.categories-visible {
+	  &.cmplz-categories-visible {
 		.cmplz-buttons {
 		  flex-direction: column;
 		}

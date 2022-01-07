@@ -250,7 +250,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 									$this->{$fieldname}['type'] = $defaults['type'];
 								}
 								if ( ! isset( $this->{$fieldname}[ $key ] ) ) {
-									$this->{$fieldname}[ $key ] = 0;
+									$this->{$fieldname}[ $key ] = $key ==='text' ? '' : 0;
 								}
 							}
 						}

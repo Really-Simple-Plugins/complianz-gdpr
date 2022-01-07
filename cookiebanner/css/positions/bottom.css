@@ -23,7 +23,10 @@
     top: initial;
     transform: initial;
   }
-  .cmplz-cookiebanner.categories-visible .cmplz-body > div {
+  .cmplz-cookiebanner.cmplz-categories-type-save-preferences .cmplz-body > div {
+    width: 49%;
+  }
+  .cmplz-cookiebanner.cmplz-categories-visible .cmplz-body > div {
     width: 49%;
   }
   .cmplz-cookiebanner .cmplz-body {
@@ -73,12 +76,12 @@
   .cmplz-cookiebanner .cmplz-categories.cmplz-tcf {
     height: 160px;
   }
-  .cmplz-cookiebanner.view-preferences .cmplz-buttons,
-  .cmplz-cookiebanner.no .cmplz-buttons {
+  .cmplz-cookiebanner.cmplz-categories-type-view-preferences .cmplz-buttons,
+  .cmplz-cookiebanner.cmplz-categories-type-no .cmplz-buttons {
     flex-direction: row-reverse;
   }
-  .cmplz-cookiebanner.view-preferences.categories-visible .cmplz-buttons,
-  .cmplz-cookiebanner.no.categories-visible .cmplz-buttons {
+  .cmplz-cookiebanner.cmplz-categories-type-view-preferences.cmplz-categories-visible .cmplz-buttons,
+  .cmplz-cookiebanner.cmplz-categories-type-no.cmplz-categories-visible .cmplz-buttons {
     flex-direction: column;
   }
 }

@@ -107,7 +107,6 @@
 }
 #cmplz-content-area .cmplz-wizard-menu .cmplz-step .cmplz-step-header.active:hover a {
   background: white;
-  pointer-events: none;
 }
 #cmplz-content-area .cmplz-wizard-menu .cmplz-step .cmplz-section {
   display: grid;

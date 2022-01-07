@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2021-12-30 18:09+0100\n"
-"PO-Revision-Date: 2021-12-30 18:09+0100\n"
+"POT-Creation-Date: 2022-01-07 10:52+0100\n"
+"PO-Revision-Date: 2022-01-07 10:52+0100\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -339,8 +339,8 @@ msgstr ""
 
 #: class-admin.php:344 class-admin.php:716 class-admin.php:717
 #: class-admin.php:941 cookiebanner/settings.php:468
-#: integrations/integrations-menu.php:50 pro/class-licensing.php:425
-#: pro/class-licensing.php:524 templates/dashboard/tools.php:46
+#: integrations/integrations-menu.php:50 pro/class-licensing.php:441
+#: pro/class-licensing.php:545 templates/dashboard/tools.php:46
 msgid "Settings"
 msgstr ""
 
@@ -381,10 +381,12 @@ msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
 #: class-admin.php:768 templates/dashboard/documents-conditional.php:41
+#: upgrade/upgrade-to-pro.php:139 upgrade/upgrade-to-pro.php:152
+#: upgrade/upgrade-to-pro.php:169
 msgid "Install"
 msgstr ""
 
-#: class-admin.php:771
+#: class-admin.php:771 upgrade/upgrade-to-pro.php:182
 msgid "Installed"
 msgstr ""
 
@@ -797,7 +799,7 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: class-field.php:2494 class-field.php:2820 integrations/integrations.php:646
+#: class-field.php:2494 class-field.php:2820 integrations/integrations.php:639
 msgid "Placeholder"
 msgstr ""
 
@@ -5261,12 +5263,12 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:677
+#: integrations/integrations.php:670
 #, php-format
 msgid "We have enabled the %s integration."
 msgstr ""
 
-#: integrations/integrations.php:812
+#: integrations/integrations.php:805
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -5932,28 +5934,28 @@ msgstr ""
 msgid "Activate your license"
 msgstr ""
 
-#: pro/class-licensing.php:110
+#: pro/class-licensing.php:120
 #, php-format
 msgid "Please %senter your license key%s to activate your license."
 msgstr ""
 
-#: pro/class-licensing.php:117
+#: pro/class-licensing.php:127
 msgid "Your license is activated and valid."
 msgstr ""
 
-#: pro/class-licensing.php:123
+#: pro/class-licensing.php:133
 #, php-format
 msgid "Please check your %slicense status%s."
 msgstr ""
 
-#: pro/class-licensing.php:140 pro/class-licensing.php:418
-#: pro/class-licensing.php:520 pro/class-licensing.php:593
-#: pro/class-licensing.php:599 pro/class-licensing.php:618
-#: pro/class-licensing.php:680
+#: pro/class-licensing.php:150 pro/class-licensing.php:434
+#: pro/class-licensing.php:541 pro/class-licensing.php:614
+#: pro/class-licensing.php:620 pro/class-licensing.php:639
+#: pro/class-licensing.php:701
 msgid "License"
 msgstr ""
 
-#: pro/class-licensing.php:478
+#: pro/class-licensing.php:499
 #, php-format
 msgid ""
 "Welcome to Complianz Privacy Suite! Before you start, please activate your "
@@ -5961,134 +5963,134 @@ msgid ""
 "%ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:484 pro/templates/license/footer.php:7
+#: pro/class-licensing.php:505 pro/templates/license/footer.php:7
 msgid "Activate license"
 msgstr ""
 
-#: pro/class-licensing.php:488
+#: pro/class-licensing.php:509
 #, php-format
 msgid "%sDocumentation%s"
 msgstr ""
 
-#: pro/class-licensing.php:527
+#: pro/class-licensing.php:548
 #, php-format
 msgid ""
 "Complianz Privacy Suite includes GeoLite2 data created by MaxMind, available "
 "from %shttp://www.maxmind.com%s"
 msgstr ""
 
-#: pro/class-licensing.php:549
+#: pro/class-licensing.php:570
 msgid "unlimited"
 msgstr ""
 
-#: pro/class-licensing.php:553
+#: pro/class-licensing.php:574
 msgid "Not available"
 msgstr ""
 
-#: pro/class-licensing.php:555
+#: pro/class-licensing.php:576
 msgid "You have a lifetime license."
 msgstr ""
 
-#: pro/class-licensing.php:555
+#: pro/class-licensing.php:576
 #, php-format
 msgid "Valid until %s."
 msgstr ""
 
-#: pro/class-licensing.php:561
+#: pro/class-licensing.php:582
 #, php-format
 msgid "Upgrade to a %s5 sites or Agency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:564
+#: pro/class-licensing.php:585
 #, php-format
 msgid "Upgrade to an %sAgency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:567
+#: pro/class-licensing.php:588
 #, php-format
 msgid "You can renew your license on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:572
+#: pro/class-licensing.php:593
 msgid "Unlimited activations available."
 msgstr ""
 
-#: pro/class-licensing.php:574 pro/class-licensing.php:681
+#: pro/class-licensing.php:595 pro/class-licensing.php:702
 #, php-format
 msgid "%s/%s activations available."
 msgstr ""
 
-#: pro/class-licensing.php:587
+#: pro/class-licensing.php:608
 msgid "Valid"
 msgstr ""
 
-#: pro/class-licensing.php:594
+#: pro/class-licensing.php:615
 #, php-format
 msgid "Valid license for %s."
 msgstr ""
 
-#: pro/class-licensing.php:606
+#: pro/class-licensing.php:627
 msgid "Multisite"
 msgstr ""
 
-#: pro/class-licensing.php:607
+#: pro/class-licensing.php:628
 #, php-format
 msgid "Multisite detected. Please consider upgrading to %smultisite%s."
 msgstr ""
 
-#: pro/class-licensing.php:627
+#: pro/class-licensing.php:648
 msgid "No response"
 msgstr ""
 
-#: pro/class-licensing.php:628
+#: pro/class-licensing.php:649
 msgid ""
 "The license information could not be retrieved at this moment. Please try "
 "again at a later time."
 msgstr ""
 
-#: pro/class-licensing.php:634 pro/class-licensing.php:643
+#: pro/class-licensing.php:655 pro/class-licensing.php:664
 #: templates/dashboard/progress.php:80
 msgid "Open"
 msgstr ""
 
-#: pro/class-licensing.php:635
+#: pro/class-licensing.php:656
 #, php-format
 msgid "Please enter your license key. Available in your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:644
+#: pro/class-licensing.php:665
 msgid "Please activate your license key."
 msgstr ""
 
-#: pro/class-licensing.php:650 pro/class-licensing.php:657
-#: pro/class-licensing.php:665 pro/class-licensing.php:672
-#: pro/class-licensing.php:687
+#: pro/class-licensing.php:671 pro/class-licensing.php:678
+#: pro/class-licensing.php:686 pro/class-licensing.php:693
+#: pro/class-licensing.php:708
 msgid "Warning"
 msgstr ""
 
-#: pro/class-licensing.php:651
+#: pro/class-licensing.php:672
 #, php-format
 msgid "Your license has been revoked. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:658
+#: pro/class-licensing.php:679
 #, php-format
 msgid ""
 "Your license could not be found in our system. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:666
+#: pro/class-licensing.php:687
 #, php-format
 msgid "This license is not valid. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:673
+#: pro/class-licensing.php:694
 #, php-format
 msgid ""
 "This license is not valid for this product. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:688
+#: pro/class-licensing.php:709
 #, php-format
 msgid ""
 "Your license key has expired. Please renew your license key on your %saccount"
@@ -13340,10 +13342,10 @@ msgid ""
 "currently not possbile."
 msgstr ""
 
-#: pro/functions.php:109
+#: pro/functions.php:117
 msgid ""
-"You have installed Complianz Privacy Suite. We have deactivated the free "
-"plugin, it can be safely removed."
+"You have installed Complianz Privacy Suite. We have deactivated and removed "
+"the free plugin."
 msgstr ""
 
 #: pro/records-of-consent/class-records-of-consent-table.php:71
@@ -14204,6 +14206,169 @@ msgstr ""
 
 #: templates/wizard/content.php:11
 msgid "Notifications"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:72
+msgid "Checking if plugin folder exists..."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:73
+msgid "Able to create destination folder"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:74
+msgid "Destination folder already exists"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:79
+msgid "Validating license..."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:80
+msgid "License valid"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:81
+msgid "License invalid"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:87
+msgid "Retrieving package information..."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:88
+msgid "Package information retrieved"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:89
+msgid "Failed to gather package information"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:94
+msgid "Installing plugin..."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:95
+msgid "Plugin installed"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:96
+msgid "Failed to install plugin"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:101
+msgid "Activating plugin..."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:102
+msgid "Plugin activated"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:103
+msgid "Failed to activate plugin"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:137
+msgid "Simple internal link building for SEO"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:141
+msgid ""
+"A lightweight SEO tool we use for internal linkbuilding in our knowledge "
+"base, but can be adapted to your needs."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:150
+msgid "GDPR/CCPA Privacy Suite"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:154
+msgid ""
+"Configure your Cookie Notice, Cookie Consent and Cookie Policy with our "
+"Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA "
+"and PIPEDA."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:167
+msgid "One click SSL optimization"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:171
+msgid ""
+"Really Simple SSL automatically detects your settings and configures your "
+"website to run over HTTPS. To keep it lightweight, we kept the options to a "
+"minimum. Your website will move to SSL with one click."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:225
+msgid "Installation finished"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:346
+msgid "Recommended by Really Simple Plugins"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:372
+msgid "Installing"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:383
+msgid "Visit Dashboard"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:386
+msgid "Cancel"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:388 upgrade/upgrade-to-pro.php:389
+msgid "An Error Occurred:"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:388
+#, php-format
+msgid "Install %sManually%s."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:389
+#, php-format
+msgid "Check your %slicense%s."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:445
+msgid "Plugin already installed!"
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:546 upgrade/upgrade-to-pro.php:578
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:554
+#, php-format
+msgid "Your license key expired on %s."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:560
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:563
+msgid "Missing license."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:566
+msgid "Invalid license."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:569
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:572
+msgid "This appears to be an invalid license key for this plugin."
+msgstr ""
+
+#: upgrade/upgrade-to-pro.php:575
+msgid "Your license key has reached its activation limit."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
