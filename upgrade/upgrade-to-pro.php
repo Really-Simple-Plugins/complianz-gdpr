@@ -35,10 +35,6 @@ class rsp_upgrade_to_pro {
             $this->item_id = sanitize_title($_GET['item_id']);
         }
 
-        if ( isset($_GET['api_url']) ) {
-            $this->api_url = esc_url_raw($_GET['api_url']);
-        }
-
 		if ( isset($_GET['plugin']) ) {
 			$plugin = sanitize_title($_GET['plugin']);
 			switch ($plugin) {
@@ -47,21 +43,25 @@ class rsp_upgrade_to_pro {
 					$this->plugin_name = "Really Simple SSL Pro";
 					$this->plugin_constant = "rsssl_pro";
 					$this->prefix = "rsssl_";
+					$this->api_url = "https://really-simple-plugins.com";
 					$this->dashboard_url = add_query_arg(["page" => "rlrsssl_really_simple_ssl"], admin_url( "admin.php/options-general.php" ));
-					break;
-				case "cmplz_pro":
-					$this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
-					$this->plugin_name = "Complianz";
-					$this->plugin_constant = "cmplz_premium";
-					$this->prefix = "cmplz_";
-					$this->dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
 					break;
 				case "brst_pro":
 					$this->slug = "burst";
 					$this->plugin_name = "Burst";
 					$this->plugin_constant = "burst_premium";
 					$this->prefix = "burst_";
+					$this->api_url = "https://burst-statistics.com";
 					$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "admin.php" ));
+					break;
+				case "cmplz_pro":
+				default:
+					$this->slug = "complianz-gdpr-premium/complianz-gpdr-premium.php";
+					$this->plugin_name = "Complianz";
+					$this->plugin_constant = "cmplz_premium";
+					$this->prefix = "cmplz_";
+					$this->api_url = "https://complianz.io";
+					$this->dashboard_url = add_query_arg(["page" => "complianz"], admin_url( "admin.php" ));
 					break;
 			}
 		}
@@ -130,7 +130,7 @@ class rsp_upgrade_to_pro {
 		}
 		$dir_url = plugin_dir_url(__FILE__).'img/';
 
-		$fallback_suggestion = [
+		$suggestion = $fallback_suggestion = [
 				'icon_url' => $dir_url.'definitions.png',
 				'constant' => 'RSPDEF_VERSION',
 				'title' => 'Definitions – Internal Linkbuilding',
@@ -243,24 +243,18 @@ class rsp_upgrade_to_pro {
         }
         global $edd_plugin_url_available;
 
-        $verify_ssl = $this->verify_ssl();
-
         // Do a quick status check on this domain if we haven't already checked it.
         $store_hash = md5( $this->api_url );
         if ( ! is_array( $edd_plugin_url_available ) || ! isset( $edd_plugin_url_available[ $store_hash ] ) ) {
             $test_url_parts = parse_url( $this->api_url );
-
-            $scheme = ! empty( $test_url_parts['scheme'] ) ? $test_url_parts['scheme']     : 'http';
-            $host   = ! empty( $test_url_parts['host'] )   ? $test_url_parts['host']       : '';
-            $port   = ! empty( $test_url_parts['port'] )   ? ':' . $test_url_parts['port'] : '';
-
-            if ( empty( $host ) ) {
-                $edd_plugin_url_available[ $store_hash ] = false;
-            } else {
-                $test_url = $scheme . '://' . $host . $port;
-                $response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => $verify_ssl ) );
-                $edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
-            }
+			$port   = ! empty( $test_url_parts['port'] ) ? ':' . $test_url_parts['port'] : '';
+			$host   = ! empty( $test_url_parts['host'] ) ? $test_url_parts['host'] : '';
+			$test_url = 'https://' . $host . $port;
+			error_log($test_url);
+			$response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => true ) );
+			error_log("test url");
+			error_log(print_r($response, true));
+			$edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
         }
 
         if ( false === $edd_plugin_url_available[ $store_hash ] ) {
@@ -277,9 +271,10 @@ class rsp_upgrade_to_pro {
             'item_id'    => isset( $this->item_id ) ? $this->item_id : false,
             'url'        => home_url(),
         );
-
-        $request    = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => $verify_ssl, 'body' => $api_params ) );
-
+		error_log(print_r($api_params, true));
+        $request    = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
+		error_log("result url");
+		error_log(print_r($request, true));
         if ( ! is_wp_error( $request ) ) {
             $request = json_decode( wp_remote_retrieve_body( $request ) );
         }
@@ -307,18 +302,6 @@ class rsp_upgrade_to_pro {
         return $request;
     }
 
-
-    /**
-     * Returns if the SSL of the store should be verified.
-     *
-     * @since  1.6.13
-     * @return bool
-     */
-    private function verify_ssl() {
-        return (bool) apply_filters( 'edd_sl_api_request_verify_ssl', true, $this );
-    }
-
-
     /**
      * Prints a modal with bullets for each step of the install process
      */
@@ -328,7 +311,7 @@ class rsp_upgrade_to_pro {
 		    return false;
 	    }
 
-        if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) && isset($_GET['plugin']) ) {
+        if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
             $dashboard_url = $this->dashboard_url;
             $plugins_url = admin_url( "plugins.php" );
             ?>
@@ -464,13 +447,12 @@ class rsp_upgrade_to_pro {
     /**
      * Ajax GET request
      *
-     * Links the license on the website 'api_url' to this site
+     * Links the license on the website to this site
      *
      * Requires from GET:
      * - 'token' => wp_nonce 'upgrade_to_pro_nonce'
      * - 'license'
      * - 'item_id'
-     * - 'api_url'
      *
      * (Without this link you cannot download the pro package from the website)
      *
@@ -488,7 +470,7 @@ class rsp_upgrade_to_pro {
 			$error = true;
 		}
 
-        if (!$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
+        if (!$error && isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) ) {
             $license  = sanitize_title($_GET['license']);
 			$item_id = intval($_GET['item_id']);
 			$response = $this->validate($license, $item_id);
@@ -601,7 +583,6 @@ class rsp_upgrade_to_pro {
      * - 'token' => wp_nonce 'upgrade_to_pro_nonce'
      * - 'license'
      * - 'item_id'
-     * - 'api_url'
      *
      * Echoes array [success, download_link]
      */
@@ -611,7 +592,7 @@ class rsp_upgrade_to_pro {
 		    return false;
 	    }
 
-        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['api_url']) ) {
+        if ( isset($_GET['token']) && wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') && isset($_GET['license']) && isset($_GET['item_id']) ) {
             $api = $this->api_request();
             if ( $api && isset($api->download_link) ) {
                 $response = [
@@ -641,7 +622,7 @@ class rsp_upgrade_to_pro {
      * Requires from GET:
      * - 'token' => wp_nonce 'upgrade_to_pro_nonce'
      * - 'download_link'
-     * (Linked license on the website 'api_url' to this site)
+     * (Linked license on the website to this site)
      *
      * Echoes array [success]
      */
