@@ -250,10 +250,7 @@ class rsp_upgrade_to_pro {
 			$port   = ! empty( $test_url_parts['port'] ) ? ':' . $test_url_parts['port'] : '';
 			$host   = ! empty( $test_url_parts['host'] ) ? $test_url_parts['host'] : '';
 			$test_url = 'https://' . $host . $port;
-			error_log($test_url);
 			$response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => true ) );
-			error_log("test url");
-			error_log(print_r($response, true));
 			$edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
         }
 
@@ -271,10 +268,7 @@ class rsp_upgrade_to_pro {
             'item_id'    => isset( $this->item_id ) ? $this->item_id : false,
             'url'        => home_url(),
         );
-		error_log(print_r($api_params, true));
         $request    = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => true, 'body' => $api_params ) );
-		error_log("result url");
-		error_log(print_r($request, true));
         if ( ! is_wp_error( $request ) ) {
             $request = json_decode( wp_remote_retrieve_body( $request ) );
         }
