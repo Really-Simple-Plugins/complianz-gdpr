@@ -622,6 +622,16 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => true,
 					'dismissible' => false,
 				),
+				'uploads-folder-writable' => array(
+					'success_conditions'  => array(
+						'cmplz_uploads_folder_writable',
+					),
+					'plus_one' => true,
+					'urgent' => __( 'Your uploads folder is not writable. Complianz needs this folder to save the cookie banner CSS.', 'complianz-gdpr' ).
+					cmplz_read_more('https://complianz.io/folder-permissions/'),
+					'include_in_progress' => true,
+					'dismissible' => false,
+				),
 				'custom-google-maps' => array(
 					'warning_condition' => 'cmplz_uses_google_maps',
 					'success_conditions'  => array(
@@ -687,4 +697,3 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 	} //class closure
 }
-

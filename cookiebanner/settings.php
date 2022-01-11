@@ -83,6 +83,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
 				'tooltip'        => __( 'For internal use only', 'complianz-gdpr' ),
+				'help'   => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
 			),
 
             'revoke' => array(
@@ -129,7 +130,6 @@ function cmplz_add_cookiebanner_settings($fields){
                 'type'    => 'checkbox',
                 'label'   => __( "Use Custom CSS", 'complianz-gdpr' ),
                 'default' => false,
-                'help'   => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
                 'comment'   => __("The custom CSS editor will appear at the bottom of this page when enabled.","complianz-gdpr"),
             ),
 
@@ -140,7 +140,7 @@ function cmplz_add_cookiebanner_settings($fields){
 				'post_get' => '',
 				'action'  => 'reset_cookie_banner',
 				'label'   => __( "Reset to default values", 'complianz-gdpr' ),
-				'tooltip'   => __("If you want to start from the default values, you can use the reset button.","complianz-gdpr").'&nbsp;'.__("Texts will also get reset.","complianz-gdpr"),
+				'help'   => __("If you want to start from the default values, you can use the reset button.","complianz-gdpr").'&nbsp;'.__("Texts will also get reset.","complianz-gdpr"),
 				'default' => false,
 			),
 

@@ -276,6 +276,25 @@ function cmplz_check_upgrade() {
 				$result = $wpdb->get_row( $sql );
 
 				if ( $result ) {
+					//reset to arrays
+					if (!is_array($banner->colorpalette_background)) {
+						$banner->colorpalette_background = array();
+					}
+					if (!is_array($banner->colorpalette_text)) {
+						$banner->colorpalette_text = array();
+					}
+					if (!is_array($banner->colorpalette_toggles)) {
+						$banner->colorpalette_toggles = array();
+					}
+					if (!is_array($banner->colorpalette_button_accept)) {
+						$banner->colorpalette_button_accept = array();
+					}
+					if (!is_array($banner->colorpalette_button_deny)) {
+						$banner->colorpalette_button_deny = array();
+					}
+					if (!is_array($banner->colorpalette_button_settings)) {
+						$banner->colorpalette_button_settings = array();
+					}
 					$banner->colorpalette_background['color']   = empty( $result->popup_background_color ) ? '#f1f1f1' : $result->popup_background_color;
 					$banner->colorpalette_background['border']  = empty( $result->popup_background_color ) ? '#f1f1f1' : $result->popup_background_color;
 					$banner->colorpalette_text['color']         = empty( $result->popup_text_color ) ? '#191e23' : $result->popup_text_color;

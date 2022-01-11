@@ -1684,7 +1684,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
             <?php $pages = COMPLIANZ::$document->get_required_pages();
 			if (count($pages)==0){ ?>
-				<?php cmplz_sidebar_notice(__("You haven't selected any legal documents to create. You can skip this step", "complianz-gdpr"), "warning"); ?>
+				<?php cmplz_sidebar_notice(__("You haven't selected any legal documents to create.", "complianz-gdpr")."&nbsp;".__("You can continue to the next step.", "complianz-gdpr"), "warning"); ?>
 			<?php } else {
 				$missing_pages = false;
 				?>

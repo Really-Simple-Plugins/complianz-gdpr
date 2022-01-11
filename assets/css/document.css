@@ -5,6 +5,7 @@
   display: none;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary {
+  display: block;
   cursor: pointer;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary::-webkit-details-marker,
@@ -34,6 +35,7 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown summary,
 #cmplz-document .cmplz-dropdown summary {
+  display: block;
   cursor: pointer;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary::-webkit-details-marker,
@@ -59,6 +61,10 @@
 #cmplz-cookies-overview .cmplz-dropdown summary div:after,
 #cmplz-document .cmplz-dropdown summary div:after {
   grid-area: chevron;
+}
+#cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary,
+#cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary {
+  display: block;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
@@ -374,6 +380,7 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown summary,
 #cmplz-document .cmplz-dropdown summary {
+  display: block;
   background-color: rgba(239, 239, 239, 0.5);
   margin: 5px 0;
   padding: 5px 10px;

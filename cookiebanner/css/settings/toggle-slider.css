@@ -21,6 +21,7 @@
   box-shadow: 0 0 0 2px #245fcc;
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox input.cmplz-consent-checkbox:checked + .cmplz-label::before {
+  display: block;
   background-color: var(--cmplz_slider_active_color);
   content: "";
   padding-left: 6px;
@@ -42,6 +43,7 @@
   transition: background-color 0.3s, left 0.3s;
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox .cmplz-label:before {
+  display: block;
   content: "";
   color: #fff;
   box-sizing: border-box;
@@ -59,6 +61,7 @@
   border-radius: 10px;
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox .cmplz-label:after {
+  display: block;
   content: "";
   letter-spacing: 20px;
   background: var(--cmplz_slider_bullet_color);

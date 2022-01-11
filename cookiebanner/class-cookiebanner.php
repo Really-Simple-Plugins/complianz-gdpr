@@ -423,10 +423,17 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @return string
 		 */
 
-		private function get_default( $fieldname ) {
-			return
-				isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] )
-				? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
+		private function get_default( $fieldname, $key=false ) {
+			if ($key) {
+				return
+					isset( COMPLIANZ::$config->fields[ $fieldname ]['default'][$key] )
+						? COMPLIANZ::$config->fields[ $fieldname ]['default'][$key] : '';
+			} else {
+				return
+					isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] )
+						? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
+			}
+
 		}
 
 		/**
@@ -906,7 +913,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					break;
 				case 'custom':
 					$logo = wp_get_attachment_image($this->logo_attachment_id, 'cmplz_banner_image', false, ['alt' => get_bloginfo('name') ]);
-
 			}
 
 			return $logo;
@@ -997,7 +1003,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->marketing_text['show']) && !$this->marketing_text['show'] )  $css_files[] = "settings/categories/hide-marketing_text$minified.css";
 
-			if ( $consent_type==='optout' && isset($this->accept_informational['show']) &&!$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
+			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
 			if ( isset($this->dismiss['show']) &&!$this->dismiss['show'] ) $css_files[] = "settings/hide-deny$minified.css";
 			if ( isset($this->header['show']) &&!$this->header['show'] ) $css_files[] = "settings/hide-title$minified.css";
 			if ( isset($this->revoke['show']) &&!$this->revoke['show'] ) $css_files[] = "settings/hide-revoke$minified.css";
@@ -1028,29 +1034,30 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		public function get_css_settings() {
 			$output = array(
-				"banner_background_color" => $this->colorpalette_background['color'],
-				"banner_border_color" => $this->colorpalette_background['border'],
+				"banner_background_color" => isset($this->colorpalette_background['color']) ?$this->colorpalette_background['color']: $this->get_default('colorpalette_background', 'color'),
+				"banner_border_color" => isset($this->colorpalette_background['border']) ?$this->colorpalette_background['border']: $this->get_default('colorpalette_background', 'border'),
 				"banner_border_width" => $this->get_border_width(),
 				"banner_width" => $this->banner_width.'px',
 				"banner_border_radius" => $this->get_border_radius($this->colorpalette_border_radius),
-				"text_color" => $this->colorpalette_text['color'],
-				"hyperlink_color" => $this->colorpalette_text['hyperlink'],
+				"text_color" => isset($this->colorpalette_text['color']) ?$this->colorpalette_text['color']: $this->get_default('colorpalette_text', 'color'),
+				"hyperlink_color" => isset($this->colorpalette_text['hyperlink']) ? $this->colorpalette_text['hyperlink']: $this->get_default('colorpalette_text', 'hyperlink'),
 				"category_header_always_active_color" => "green",
-				"button_accept_background_color" => $this->colorpalette_button_accept['background'],
-				"button_accept_border_color" => $this->colorpalette_button_accept['border'],
-				"button_accept_text_color" => $this->colorpalette_button_accept['text'],
-				"button_deny_background_color" => $this->colorpalette_button_deny['background'],
-				"button_deny_border_color" => $this->colorpalette_button_deny['border'],
-				"button_deny_text_color" => $this->colorpalette_button_deny['text'],
-				"button_settings_background_color" => $this->colorpalette_button_settings['background'],
-				"button_settings_border_color" => $this->colorpalette_button_settings['border'],
-				"button_settings_text_color" => $this->colorpalette_button_settings['text'],
+				"button_accept_background_color" => isset($this->colorpalette_button_accept['background']) ? $this->colorpalette_button_accept['background']: $this->get_default('colorpalette_button_accept', 'background'),
+				"button_accept_border_color" => isset($this->colorpalette_button_accept['border']) ? $this->colorpalette_button_accept['border'] : $this->get_default('colorpalette_button_accept', 'border'),
+				"button_accept_text_color" => isset($this->colorpalette_button_accept['text']) ? $this->colorpalette_button_accept['text'] : $this->get_default('colorpalette_button_accept', 'text'),
+				"button_deny_background_color" => isset($this->colorpalette_button_deny['background']) ? $this->colorpalette_button_deny['background'] : $this->get_default('colorpalette_button_deny', 'background'),
+				"button_deny_border_color" => isset($this->colorpalette_button_deny['border']) ? $this->colorpalette_button_deny['border'] : $this->get_default('colorpalette_button_deny', 'border'),
+				"button_deny_text_color" => isset($this->colorpalette_button_deny['text']) ? $this->colorpalette_button_deny['text'] : $this->get_default('colorpalette_button_deny', 'text'),
+				"button_settings_background_color" => isset($this->colorpalette_button_settings['background']) ? $this->colorpalette_button_settings['background'] : $this->get_default('colorpalette_button_settings', 'background'),
+				"button_settings_border_color" => isset($this->colorpalette_button_settings['border']) ? $this->colorpalette_button_settings['border'] : $this->get_default('colorpalette_button_settings', 'border'),
+				"button_settings_text_color" => isset($this->colorpalette_button_settings['text']) ? $this->colorpalette_button_settings['text'] : $this->get_default('colorpalette_button_settings', 'text'),
 				"button_border_radius" => $this->get_border_radius($this->buttons_border_radius),
-				"slider_active_color" => $this->colorpalette_toggles['background'],
-				"slider_inactive_color" => $this->colorpalette_toggles['inactive'],
-				"slider_bullet_color" => $this->colorpalette_toggles['bullet'],
+				"slider_active_color" => isset($this->colorpalette_toggles['background']) ? $this->colorpalette_toggles['background'] : $this->get_default('colorpalette_toggles', 'background'),
+				"slider_inactive_color" => isset($this->colorpalette_toggles['inactive']) ? $this->colorpalette_toggles['inactive'] : $this->get_default('colorpalette_toggles', 'inactive'),
+				"slider_bullet_color" => isset($this->colorpalette_toggles['bullet']) ? $this->colorpalette_toggles['bullet'] : $this->get_default('colorpalette_toggles', 'bullet'),
 				"category_open_icon_url" => "url(".trailingslashit( cmplz_url)."assets/images/down.png)",
 			);
+
 			$output = apply_filters( 'cmplz_cookiebanner_settings_css', $output, $this );
 			return apply_filters( 'cmplz_cookiebanner_settings', $output, $this );
 		}
@@ -1063,10 +1070,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		{
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
-			if ( ! file_exists( $upload_dir . '/complianz' ) ) {
+			if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
 				mkdir( $upload_dir . '/complianz' );
 			}
-			if ( ! file_exists( $upload_dir . '/complianz/css' ) ) {
+			if ( ! file_exists( $upload_dir . '/complianz/css' ) && is_writable($upload_dir . '/complianz') ) {
 				mkdir( $upload_dir . '/complianz/css' );
 			}
 
@@ -1116,9 +1123,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				} else {
 					$file = "$upload_dir/complianz/css/banner-{$banner_id}-$consent_type.css";
 				}
-				$handle = fopen($file, "w");
-				fwrite($handle, $css);
-				fclose($handle);
+
+				if (file_exists("$upload_dir/complianz/css") && is_writable("$upload_dir/complianz/css")){
+					$handle = fopen($file, "w");
+					fwrite($handle, $css);
+					fclose($handle);
+				}
 			}
 		}
 

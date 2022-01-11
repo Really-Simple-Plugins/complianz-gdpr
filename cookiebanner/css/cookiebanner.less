@@ -43,6 +43,7 @@
 
 #cmplz-manage-consent {
   .cmplz-manage-consent {
+	margin:unset;
 	//make sure the popup is over the revoke button.
 	z-index: 9998;
 	color:var(--cmplz_text_color);
@@ -58,6 +59,7 @@
 	right: 40px;
 	padding:15px;
 	cursor:pointer;
+
 
 	//transform: translate3d(0,100%,0);
 	&:active {
@@ -320,7 +322,9 @@
 		  transform: rotate(180deg);
 		}
 	  }
-
+	  summary {
+		display:block;
+	  }
 	  // Remove default marker
 	  summary::marker {
 		display: none;
@@ -370,6 +374,7 @@
 	  font-size:var(--cmplz_button_font_size);
 	  font-weight:500;
 	  text-decoration: none;
+	  line-height: 20px;
 	  text-align: center;
 	  &:hover{
 		text-decoration: none;

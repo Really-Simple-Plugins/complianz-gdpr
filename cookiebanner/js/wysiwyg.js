@@ -116,13 +116,13 @@ jQuery(document).ready(function ($) {
 		}
 
 		let btn_width = 0;
-		document.querySelectorAll('.cmplz-buttons .cmplz-btn').forEach(obj => {
-			if (obj.offsetWidth > 0) {
-				btn_width = parseInt(btn_width) + parseInt(obj.offsetWidth) + 20;
-			}
-		});
+		btn_width = document.querySelectorAll('.cmplz-buttons .cmplz-btn').offsetWidth;
+		// document.querySelectorAll('.cmplz-buttons .cmplz-btn').forEach(obj => {
+		// 	if (obj.offsetWidth > 0) {
+		// 		btn_width = parseInt(btn_width) + parseInt(obj.offsetWidth) + 20;
+		// 	}
+		// });
 
-		btn_width = btn_width + 20;
 		if (btn_width > message_width) {
 			let difference = btn_width - 42 - message_width;
 			new_width_btns = parseInt(btn_width) + parseInt(difference);
@@ -135,7 +135,9 @@ jQuery(document).ready(function ($) {
 			new_width = new_width_cats;
 		}
 
+		console.log("new width "+new_width);
 		if ( new_width > banner_width && new_width < max_banner_change ) {
+
 			if(new_width % 2 != 0) new_width++;
 			document.querySelector('input[name=cmplz_banner_width]').value = new_width;
 		}
