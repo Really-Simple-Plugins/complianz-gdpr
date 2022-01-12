@@ -798,6 +798,19 @@ function cmplz_check_upgrade() {
 		update_option('complianz_enable_dismissible_premium_warnings', true);
 	}
 
+	if ( $prev_version && version_compare( $prev_version, '6.0.8', '<' ) ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				if ( $banner->use_categories === 'hidden' ) {
+					$banner->use_categories = 'view-preferences';
+					$banner->save();
+				}
+			}
+		}
+	}
+
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
 		foreach ( $banners as $banner_item ) {

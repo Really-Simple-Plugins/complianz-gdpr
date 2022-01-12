@@ -31,7 +31,6 @@
 				$title     .= '<div class="cmplz-selectable cmplz-shortcode" id="'.$type.'">' . $shortcode . '</div>';
 				$generated = $checked_date = date( cmplz_short_date_format(), get_option( 'cmplz_documents_update_date' ) );
 				if ( ! COMPLIANZ::$document->page_required( $page, $region ) ) {
-
 					$args = array(
 						'status' => 'error',
 						'title' => $title,

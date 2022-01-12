@@ -78,7 +78,7 @@
   }
   .cmplz-cookiebanner.cmplz-categories-type-view-preferences .cmplz-buttons,
   .cmplz-cookiebanner.cmplz-categories-type-no .cmplz-buttons {
-    flex-direction: row-reverse;
+    flex-direction: initial;
   }
   .cmplz-cookiebanner.cmplz-categories-type-view-preferences.cmplz-categories-visible .cmplz-buttons,
   .cmplz-cookiebanner.cmplz-categories-type-no.cmplz-categories-visible .cmplz-buttons {

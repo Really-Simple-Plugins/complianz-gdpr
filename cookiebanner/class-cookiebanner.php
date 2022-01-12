@@ -1149,6 +1149,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			foreach ( $pages as $region => $region_pages ) {
 				foreach ( $region_pages as $type => $page ) {
+					if ( !$page['public'] ) continue;
 					$title = COMPLIANZ::$document->get_page_title( $type, $region );
 					$url = COMPLIANZ::$document->get_page_url( $type, $region );
 					if ( $url !== '#') {
@@ -1161,7 +1162,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//now, make sure the general documents are added to each region: they're generic, so each region should have them.
 			if ( isset($page_links['all']) ) {
 				foreach ( $pages as $region => $region_pages ) {
-					if ( $region === 'all' ) continue;
+					if ( $region === 'all' ) continue; //don't add the page to the 'all' region, only the an actual region
 					foreach ($page_links['all'] as $type => $general_pages ) {
 						$page_links[$region][$type] = $general_pages;
 					}

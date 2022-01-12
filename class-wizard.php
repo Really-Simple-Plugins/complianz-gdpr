@@ -209,7 +209,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				if ( ! empty( $banners ) ) {
 					foreach ( $banners as $banner ) {
 						$banner                 = new CMPLZ_COOKIEBANNER( $banner->ID );
-						$banner->use_categories = 'hidden';
+						$banner->use_categories = 'view-preferences';
 						$banner->save();
 					}
 				}

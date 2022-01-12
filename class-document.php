@@ -273,30 +273,23 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				foreach (
 					$conditions as $condition_question => $condition_answer
 				) {
-
-					$value  = cmplz_get_value( $condition_question, false,
-						false, $use_default = false );
+					$value  = cmplz_get_value( $condition_question, false, false, $use_default = false );
 					$invert = false;
 					if ( ! is_array( $condition_answer )
 					     && strpos( $condition_answer, 'NOT ' ) !== false
 					) {
-						$condition_answer = str_replace( 'NOT ', '',
-							$condition_answer );
+						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
 					}
 
-					$condition_answer = is_array( $condition_answer )
-						? $condition_answer : array( $condition_answer );
+					$condition_answer = is_array( $condition_answer ) ? $condition_answer : array( $condition_answer );
 					foreach ( $condition_answer as $answer_item ) {
 						if ( is_array( $value ) ) {
-							if ( ! isset( $value[ $answer_item ] )
-							     || ! $value[ $answer_item ]
-							) {
+							if ( ! isset( $value[ $answer_item ] ) || ! $value[ $answer_item ] ) {
 								$condition_met = false;
 							} else {
 								$condition_met = true;
 							}
-
 						} else {
 							$condition_met = ( $value == $answer_item );
 						}
