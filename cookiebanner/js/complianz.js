@@ -52,6 +52,10 @@ function cmplz_is_hidden(el) {
 	return (el.offsetParent === null)
 }
 
+function cmplz_html_decode(input) {
+	var doc = new DOMParser().parseFromString(input, "text/html");
+	return doc.documentElement.textContent;
+}
 /**
  * If an anchor is passed for an element which may load only after an ajax call, make sure it will scroll into view.
  */
@@ -892,7 +896,7 @@ window.show_cookie_banner = function () {
 				if (pageLinks.hasOwnProperty(pageType) && docElement.classList.contains(pageType)) {
 					docElement.setAttribute('href', pageLinks[pageType]['url'] + docElement.getAttribute('data-relative_url'));
 					if (docElement.innerText === '{title}') {
-						docElement.innerText = pageLinks[pageType]['title'];
+						docElement.innerText = cmplz_html_decode(pageLinks[pageType]['title']);
 					}
 					docElement.classList.remove('cmplz-hidden');
 				}
