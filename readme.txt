@@ -171,7 +171,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: catch PHP 8.1 errors
 * Improvement: catch not writable uploads folder
 * Fix: auto adjust banner width code "walking"
-* Fix: TCF for CCPA dismissed banner on pageload
+* Improvement: allow custom privacy statement and impressum documents on banner in free version
+* Fix: auto adjust banner width code "walking"
+* Fix: hidden category type enabled on wizard changes
 
 = 6.0.0 =
 * Important: Cookie Banner has changed significantly. Please check your Cookie Banner after updating.
