@@ -1,6 +1,5 @@
 <?php
 defined( 'ABSPATH' ) or die();
-
 add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
 
 /**
@@ -8,7 +7,6 @@ add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
  */
 function cmplz_check_upgrade() {
 	$prev_version = get_option( 'cmplz-current-version', false );
-
 	if ( $prev_version === cmplz_version ) {
 		return;
 	}
@@ -705,12 +703,7 @@ function cmplz_check_upgrade() {
 						$banner->checkbox_style = 'slider';
 				}
 
-				$banner->revoke = array(
-					'text' => $banner_item->revoke,
-					'show' => !$banner_item->hide_revoke,
-				);
-
-				if ( !is_array($banner->border_width) ) {
+				if ( !is_serialized($banner->border_width) ) {
 					$banner->border_width = array(
 						'top'    => 0,
 						'right'  => 0,
@@ -718,48 +711,64 @@ function cmplz_check_upgrade() {
 						'left'   => 0,
 					);
 				}
+
 				if ( !isset($banner->border_width['top']) ) $banner->border_width['top'] = 0;
 				if ( !isset($banner->border_width['right']) ) $banner->border_width['right'] = 0;
 				if ( !isset($banner->border_width['bottom']) ) $banner->border_width['bottom'] = 0;
 				if ( !isset($banner->border_width['left']) ) $banner->border_width['left'] = 0;
 
-				$banner->dismiss = array(
-					'text' => $banner_item->dismiss,
-					'show' => true,
-				);
-
-				if ( strlen($banner_item->header)<4 ) {
-					$banner->header = array(
-						'text' => '',
-						'show' => false,
+				if (!is_serialized($banner_item->dismiss)) {
+					$banner->revoke = array(
+						'text' => $banner_item->revoke,
+						'show' => ! $banner_item->hide_revoke,
 					);
-				} else {
-					$banner->header = array(
-						'text' => $banner_item->header,
+				}
+
+				if (!is_serialized($banner_item->header) ) {
+					if ( strlen($banner_item->header)<4 ) {
+						$banner->header = array(
+							'text' => '',
+							'show' => false,
+						);
+					} else {
+						$banner->header = array(
+							'text' => $banner_item->header,
+							'show' => true,
+						);
+					}
+				}
+
+				if (!is_serialized($banner_item->accept_informational)) {
+					$banner->accept_informational = array(
+						'text' => $banner_item->accept_informational,
 						'show' => true,
 					);
 				}
 
-				$banner->accept_informational = array(
-					'text' => $banner_item->accept_informational,
-					'show' => true,
-				);
+				if (!is_serialized($banner_item->category_prefs)) {
+					$banner->category_prefs       = array(
+						'text' => $banner_item->category_prefs,
+						'show' => true,
+					);
+				}
+
+				if (!is_serialized($banner_item->category_stats)) {
+					$banner->category_stats = array(
+						'text' => $banner_item->category_stats,
+						'show' => true,
+					);
+				}
+
+				if (!is_serialized($banner_item->category_all)) {
+					$banner->category_all = array(
+						'text' => $banner_item->category_all,
+						'show' => true,
+					);
+				}
+
 				$banner->use_box_shadow = true;
 				$banner->use_logo = 'hide';
 				$banner->close_button = false;
-
-				$banner->category_prefs       = array(
-					'text' => $banner_item->category_prefs,
-					'show' => true,
-				);
-				$banner->category_stats       = array(
-					'text' => $banner_item->category_stats,
-					'show' => true,
-				);
-				$banner->category_all         = array(
-					'text' => $banner_item->category_all,
-					'show' => true,
-				);
 				$banner->save();
 			}
 		}
