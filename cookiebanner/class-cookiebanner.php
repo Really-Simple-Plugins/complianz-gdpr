@@ -298,8 +298,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function get_value( $fieldname, $value ){
-			if (is_serialized($value )) {
+			if ( is_serialized($value ) ) {
 				$value = unserialize($value);
+				$stop_check = false;
+				foreach ($value as $key => $key_value ) {
+					if ( $stop_check ) continue;
+					if ( is_serialized( $key_value )) {
+						$value = $this->get_default( $fieldname );
+						$stop_check = true;
+					}
+				}
 			}
 
 			if ($fieldname === 'custom_css' ) {
@@ -307,7 +315,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			//strip out empty values in arrays, so the default gets set.
-			if (is_array($value)) {
+			if ( is_array($value) ) {
 				$value = array_filter($value);
 			}
 
