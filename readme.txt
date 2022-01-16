@@ -167,6 +167,11 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.0.3 =
+* Improvement: when some updates were skipped, old varchar columns could cause row size too large issues, causing banner settings not to get saved.
+* Improvement: if obsolete categories type 'hidden' still was in use, force override to 'view-preferences'
+* Improvement: fallback to default css if custom generated css wasn't available due to file write permissions or skipped upgrade
+* Fix: When text fields are empty, like the deny button, fallback to default value.
+
 = 6.0.2 =
 * Fix: catch double upgrade issues
 
