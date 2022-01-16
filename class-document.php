@@ -2827,9 +2827,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
-				$id = apply_filters( 'wpml_object_id', $id,
-					'page', true, substr( get_locale(), 0, 2 ) );
-				return intval( $id ) == 0
+				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
+				return intval( $id ) == 0 || !get_permalink( $id )
 					? '#'
 					: esc_url_raw( get_permalink( $id ) );
 			} else if ( cmplz_get_value( $type ) === 'url' ) {
@@ -2839,8 +2838,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
 
 				//get correct translated id
-				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id,
-					'page', true, substr( get_locale(), 0, 2 ) );
+				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
 
 				return get_permalink( $policy_page_id );
 			}
