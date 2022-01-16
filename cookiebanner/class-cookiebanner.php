@@ -69,8 +69,34 @@ function cmplz_install_cookiebanner_table() {
               PRIMARY KEY  (ID)
             ) $charset_collate;";
 		dbDelta( $sql );
-		update_option( 'cmplz_cbdb_version', cmplz_version );
 
+		/*
+		 * use_categories_optinstats- border_color are obsolete
+		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
+		*/
+		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
+		if (count($columns)>0) {
+			$sql        = "CREATE TABLE $table_name (
+				`use_categories_optinstats` text NOT NULL,
+	            `popup_background_color` text NOT NULL,
+	            `popup_text_color` text NOT NULL,
+	            `slider_background_color` text NOT NULL,
+	            `button_background_color` text NOT NULL,
+	            `slider_background_color_inactive` text NOT NULL,
+	            `slider_bullet_color` text NOT NULL,
+	            `button_text_color` text NOT NULL,
+	            `accept_all_background_color` text NOT NULL,
+	            `accept_all_border_color` text NOT NULL,
+	            `accept_all_text_color` text NOT NULL,
+	            `functional_background_color` text NOT NULL,
+	            `functional_text_color` text NOT NULL,
+	            `functional_border_color` text NOT NULL,
+	            `border_color` text NOT NULL,
+              PRIMARY KEY  (ID)
+            ) $charset_collate;";
+			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
+		}
+		update_option( 'cmplz_cbdb_version', cmplz_version );
 	}
 }
 
@@ -267,6 +293,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//in case there's no cookiebanner, we do this outside the loop
 			if ( $this->set_defaults ) {
 				foreach ( $this as $fieldname => $value ) {
+					if ( isset( $this->{$fieldname}['text'] ) && empty($this->{$fieldname}['text']) ) {
+						$this->{$fieldname}['text'] = $this->get_default($fieldname, 'text');
+					}
+
 					//0 is a possible value
 					if ( is_numeric($value ) && $value == 0) {
 						continue;
@@ -280,6 +310,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						}
 					}
 				}
+			}
+
+			if ( $this->use_categories === 'hidden' ) {
+				$this->use_categories = 'view-preferences';
 			}
 
 			//if empty, set a default title
@@ -474,6 +508,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$statistics   = serialize( $this->statistics );
+
+			if ( $this->use_categories === 'hidden' ) {
+				$this->use_categories = 'view-preferences';
+			}
 
 			$update_array = array(
 				'position'                     => sanitize_title( $this->position ),
@@ -1074,7 +1112,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * Generate the css file for the banner
 		 * @param bool $preview
 		 */
-		function generate_css( $preview = false )
+		public function generate_css( $preview = false )
 		{
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
@@ -1150,7 +1188,19 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
+			$css_file = $upload_url . '/complianz/css/banner-banner_id-type.css';
+
 			$pages = COMPLIANZ::$config->pages;
+			//check if the css file exists. if not, use default.
+			$upload_dir = $uploads['basedir'];
+			$consent_types = cmplz_get_used_consenttypes();
+			$banner_id = $this->id;
+			foreach ( $consent_types as $consent_type ) {
+				$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
+				if ( ! file_exists( $upload_dir . $file ) ) {
+					$css_file = cmplz_url . "cookiebanner/css/defaults/banner-$consent_type.css";
+				}
+			}
 
 			$page_links = array();
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
@@ -1166,7 +1216,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 			}
-
 			//now, make sure the general documents are added to each region: they're generic, so each region should have them.
 			if ( isset($page_links['all']) ) {
 				foreach ( $pages as $region => $region_pages ) {
@@ -1205,7 +1254,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'cookie_path'          => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => cmplz_get_value( 'blocked_content_text' ),
-				'css_file'             => $upload_url . '/complianz/css/banner-banner_id-type.css?v='.$this->banner_version.$script_debug,
+				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
