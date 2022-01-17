@@ -270,7 +270,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						//if partially empty
 						$defaults = $this->get_default( $fieldname );
 						//we cannot use parse_args, as that will also set values when it's 0.
-						if ( is_array( $this->{$fieldname} ) && is_array( $defaults ) ) {
+						if ( is_array( $defaults ) ) {
 							foreach ( $defaults as $key => $default_arr_value ) {
 								if ( isset( $defaults['type'] ) && ! isset( $this->{$fieldname}['type'] ) ) {
 									$this->{$fieldname}['type'] = $defaults['type'];
@@ -293,8 +293,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//in case there's no cookiebanner, we do this outside the loop
 			if ( $this->set_defaults ) {
 				foreach ( $this as $fieldname => $value ) {
-					if ( isset( $this->{$fieldname}['text'] ) && empty($this->{$fieldname}['text']) ) {
+					if ( isset( $this->{$fieldname}['text'] )  ) {
 						$this->{$fieldname}['text'] = $this->get_default($fieldname, 'text');
+						if ( $this->is_translatable( $fieldname ) ) {
+							$this->{$fieldname . '_x'} = $this->get_default( $fieldname, 'text' );
+						}
 					}
 
 					//0 is a possible value
@@ -1198,7 +1201,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			foreach ( $consent_types as $consent_type ) {
 				$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
 				if ( ! file_exists( $upload_dir . $file ) ) {
-					$css_file = cmplz_url . "cookiebanner/css/defaults/banner-$consent_type.css";
+					$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
 				}
 			}
 
