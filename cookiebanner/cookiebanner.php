@@ -343,7 +343,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 		}
 	}
 
-	$cookiesettings = $banner->get_front_end_settings();
+	$cookiesettings = $banner->get_front_end_settings(true);
 	$cookiesettings['logo_options'] = $banner->get_banner_logo(true);
 	$cookiesettings['admin_url'] = add_query_arg('lang',  substr( get_locale(), 0, 2 ), admin_url( 'admin-ajax.php' ) );
 	$cookiesettings['regions'] = array();

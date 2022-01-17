@@ -271,35 +271,45 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						$defaults = $this->get_default( $fieldname );
 						//we cannot use parse_args, as that will also set values when it's 0.
 						if ( is_array( $defaults ) ) {
+							$default = $this->get_default($fieldname);
+							if ( $this->is_translatable( $fieldname ) ) {
+								$this->{$fieldname.'_x'} = $default;
+							}
+							if ( !is_array($this->{$fieldname}) ){
+								$this->{$fieldname} = $default;
+							}
+
 							foreach ( $defaults as $key => $default_arr_value ) {
 								if ( isset( $defaults['type'] ) && ! isset( $this->{$fieldname}['type'] ) ) {
 									$this->{$fieldname}['type'] = $defaults['type'];
 								}
 								if ( ! isset( $this->{$fieldname}[ $key ] ) ) {
-									$this->{$fieldname}[ $key ] = $key ==='text' ? '' : 0;
+									$this->{$fieldname}[ $key ] = $key ==='text' ? $this->get_default($fieldname, 'text') : 0;
 								}
 							}
 						}
 					}
+				}
+			}
 
-					foreach ( $this as $fieldname => $value ) {
-						if ( $this->is_translatable( $fieldname ) ) {
-							$this->{$fieldname . '_x'} = $this->translate( $value, $fieldname );
-						}
+			/**
+			 * translate
+			 */
+			
+			foreach ( $this as $fieldname => $value ) {
+				if ( $this->is_translatable( $fieldname ) ) {
+					if ( is_array( $value ) && isset( $value['text'] ) ) {
+						$this->{$fieldname . '_x'}['text'] = $this->translate( $value['text'], $fieldname );
+					} else if ( ! is_array( $value ) ) {
+						$this->{$fieldname . '_x'} = $this->translate( $value, $fieldname );
 					}
 				}
 			}
 
 			//in case there's no cookiebanner, we do this outside the loop
 			if ( $this->set_defaults ) {
-				foreach ( $this as $fieldname => $value ) {
-					if ( isset( $this->{$fieldname}['text'] )  ) {
-						$this->{$fieldname}['text'] = $this->get_default($fieldname, 'text');
-						if ( $this->is_translatable( $fieldname ) ) {
-							$this->{$fieldname . '_x'} = $this->get_default( $fieldname, 'text' );
-						}
-					}
 
+				foreach ( $this as $fieldname => $value ) {
 					//0 is a possible value
 					if ( is_numeric($value ) && $value == 0) {
 						continue;
@@ -384,6 +394,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function translate( $value, $fieldname ) {
+			//todo, remove this, as it's obsolete
 			if ( isset($value['text']) ) {
 				$value = $value['text'];
 			}
@@ -1050,6 +1061,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			if ( isset($this->preferences_text['show']) && !$this->preferences_text['show'] )  $css_files[] = "settings/categories/hide-preferences_text$minified.css";
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
+			if ( isset($this->statistics_text_anonymous['show']) && !$this->statistics_text_anonymous['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->marketing_text['show']) && !$this->marketing_text['show'] )  $css_files[] = "settings/categories/hide-marketing_text$minified.css";
 
 			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
@@ -1186,7 +1198,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 *
 		 * @return array
 		 */
-		public function get_front_end_settings() {
+		public function get_front_end_settings( $preview = false ) {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
@@ -1194,14 +1206,17 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$css_file = $upload_url . '/complianz/css/banner-banner_id-type.css';
 
 			$pages = COMPLIANZ::$config->pages;
+
 			//check if the css file exists. if not, use default.
-			$upload_dir = $uploads['basedir'];
-			$consent_types = cmplz_get_used_consenttypes();
-			$banner_id = $this->id;
-			foreach ( $consent_types as $consent_type ) {
-				$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
-				if ( ! file_exists( $upload_dir . $file ) ) {
-					$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
+			if ( !$preview ) {
+				$upload_dir = $uploads['basedir'];
+				$consent_types = cmplz_get_used_consenttypes();
+				$banner_id = $this->id;
+				foreach ( $consent_types as $consent_type ) {
+					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
+					if ( ! file_exists( $upload_dir . $file ) ) {
+						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
+					}
 				}
 			}
 

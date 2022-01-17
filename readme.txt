@@ -167,7 +167,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.0.4 =
-* Fix: configuration which could cause empty buttons fixed.
+* Fix: allow for configuration which could cause empty buttons.
+* Fix: anonymous statistics description toggle showing when field is disabled props @kaznim, @puregraphx.
 
 = 6.0.3 =
 * Improvement: when some updates were skipped, old varchar columns could cause row size too large issues, causing banner settings not to get saved.
