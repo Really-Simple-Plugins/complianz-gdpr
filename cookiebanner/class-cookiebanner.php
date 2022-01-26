@@ -13,6 +13,36 @@ function cmplz_install_cookiebanner_table() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
+
+
+		/*
+		 * use_categories_optinstats- border_color are obsolete
+		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
+		*/
+		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
+		if (count($columns)>0) {
+			$sql        = "CREATE TABLE $table_name (
+				`use_categories_optinstats` text NOT NULL,
+	            `popup_background_color` text NOT NULL,
+	            `popup_text_color` text NOT NULL,
+	            `slider_background_color` text NOT NULL,
+	            `button_background_color` text NOT NULL,
+	            `slider_background_color_inactive` text NOT NULL,
+	            `slider_bullet_color` text NOT NULL,
+	            `button_text_color` text NOT NULL,
+	            `accept_all_background_color` text NOT NULL,
+	            `accept_all_border_color` text NOT NULL,
+	            `accept_all_text_color` text NOT NULL,
+	            `functional_background_color` text NOT NULL,
+	            `functional_text_color` text NOT NULL,
+	            `functional_border_color` text NOT NULL,
+	            `border_color` text NOT NULL,
+              PRIMARY KEY  (ID)
+            ) $charset_collate;";
+			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
+		}
+
+		
 		$sql        = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,
              `banner_version` int(11) NOT NULL,
@@ -70,32 +100,6 @@ function cmplz_install_cookiebanner_table() {
             ) $charset_collate;";
 		dbDelta( $sql );
 
-		/*
-		 * use_categories_optinstats- border_color are obsolete
-		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
-		*/
-		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
-		if (count($columns)>0) {
-			$sql        = "CREATE TABLE $table_name (
-				`use_categories_optinstats` text NOT NULL,
-	            `popup_background_color` text NOT NULL,
-	            `popup_text_color` text NOT NULL,
-	            `slider_background_color` text NOT NULL,
-	            `button_background_color` text NOT NULL,
-	            `slider_background_color_inactive` text NOT NULL,
-	            `slider_bullet_color` text NOT NULL,
-	            `button_text_color` text NOT NULL,
-	            `accept_all_background_color` text NOT NULL,
-	            `accept_all_border_color` text NOT NULL,
-	            `accept_all_text_color` text NOT NULL,
-	            `functional_background_color` text NOT NULL,
-	            `functional_text_color` text NOT NULL,
-	            `functional_border_color` text NOT NULL,
-	            `border_color` text NOT NULL,
-              PRIMARY KEY  (ID)
-            ) $charset_collate;";
-			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
-		}
 		update_option( 'cmplz_cbdb_version', cmplz_version );
 	}
 }
@@ -295,7 +299,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			/**
 			 * translate
 			 */
-			
+
 			foreach ( $this as $fieldname => $value ) {
 				if ( $this->is_translatable( $fieldname ) ) {
 					if ( is_array( $value ) && isset( $value['text'] ) ) {
@@ -494,8 +498,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		/**
 		 * Save the edited data in the object
-		 *
-		 * @param bool $is_default
 		 *
 		 * @return void
 		 */
@@ -1154,7 +1156,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $this->use_custom_cookie_css ) {
-					$css .= htmlspecialchars( $this->custom_css );
+					$css .=  $this->custom_css;
 				}
 
 				$category_count = 3;//functional is always available, so does not count here
@@ -1169,7 +1171,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 				$remove_count = 3 - $category_count;//functional always exists
 				$height = 216 - $remove_count * 53;
-
 				$settings['categories-height'] = $height.'px';
 				foreach ($settings as $setting => $value) {
 					$css = preg_replace("/--cmplz_$setting:[^;]*;/", "--cmplz_$setting: $value;", $css, 1);

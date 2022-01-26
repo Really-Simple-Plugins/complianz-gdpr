@@ -864,26 +864,27 @@ if ( ! function_exists( 'cmplz_panel' ) ) {
 			return '';
 		}
 
-		$open_class = $open ? 'style="display: block;"' : '';
+		$open_class = $open ? 'open' : '';
 
 		$output = '
-        <div class="cmplz-panel cmplz-slide-panel cmplz-toggle-active">
-            <div class="cmplz-panel-title">
+        <details class="cmplz-panel cmplz-slide-panel cmplz-toggle-active" ' . $open_class . '>
+        	<summary>
+				<div class="cmplz-panel-title">
 
-                <span class="cmplz-panel-toggle">
-                    '. cmplz_icon('arrow-right', 'success') .'
-                    <span class="cmplz-title">' . $title . '</span>
-                 </span>
+					<span class="cmplz-title">' . $title . '</span>
 
-                <span>' . $validate . '</span>
+					<span>' . $validate . '</span>
 
-                <span>' . $custom_btn . '</span>
+					<span class="cmplz-custom-btns">' . $custom_btn . '</span>
 
-            </div>
-            <div class="cmplz-panel-content" ' . $open_class . '>
+					<div class="cmplz-icon cmplz-open"></div>
+
+				</div>
+            </summary>
+            <div class="cmplz-panel-content">
                 ' . $html . '
             </div>
-        </div>';
+        </details>';
 
 		if ( $echo ) {
 			echo $output;
@@ -1348,14 +1349,15 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		$preview = false;
 		global $wp_customize;
 		if ( isset( $wp_customize ) || isset( $_GET['fb-edit'] )
-		     || isset( $_GET['et_pb_preview'] )
-		     || isset( $_GET['et_fb'] )
+		     || isset( $_GET['et_pb_preview'] ) //divi
+		     || isset( $_GET['et_fb'] ) //divi
 		     || isset( $_GET['elementor-preview'] )
 		     || isset( $_GET['vc_action'] )
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
-		     || isset( $_GET['ct_builder'] )
+		     || isset( $_GET['ct_builder'] ) //oxygen
+			 || isset( $_GET['tatsu'] ) //tatsu
 		) {
 			$preview = true;
 		}
@@ -1392,7 +1394,7 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
-		return apply_filters( 'cmplz_tcf_active', false );
+		return cmplz_get_value('uses_ad_cookies_personalized', false, 'wizard') === 'tcf';
 	}
 }
 

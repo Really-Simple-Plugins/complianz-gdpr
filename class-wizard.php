@@ -308,9 +308,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			/**
-			 * If TCF was just disabled, regenerate the css.
+			 * If TCF was just disabled or enabled, regenerate the css.
 			 */
-			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
+			if ( $fieldname === 'uses_ad_cookies_personalized' ) {
 				$generate_css = true;
 			}
 

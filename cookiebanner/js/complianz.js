@@ -1199,8 +1199,7 @@ window.cmplz_set_consent = function (category, value){
 	details.categories = cmplz_accepted_categories();
 	var event = new CustomEvent('cmplz_status_change', { detail: details });
 	document.dispatchEvent(event);
-
-	if ( category === 'marketing' && value === 'deny' ) {
+	if ( category === 'marketing' && value === 'deny' && previous_value === 'allow' ) {
 		cmplz_integrations_revoke();
 		//give the code some time to finish, so our track status code can send a signal to the backend.
 		setTimeout(function(){

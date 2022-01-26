@@ -144,9 +144,11 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 				}
 			}
 			$postPromptUI = $is_policy ? '"cmplz-post-consent-ui"' : 'false';
+			$revoke_text = $this->banner->revoke_x['text'];
+			$dismiss_text = $this->banner->dismiss_x['text'];
 			$revoke       = $is_policy
 				? '<div id="cmplz-post-consent-ui"><button on="tap:consent-element.prompt" role="button">'
-				  . $this->banner->revoke_x . '</button></div>' : "";
+				  . $revoke_text . '</button></div>' : "";
 			$html         = '
             <amp-geo layout="nodisplay">
 			  <script type="application/json">
@@ -177,7 +179,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
                     <button on="tap:consent-element.accept" role="button">'
 			                . $this->banner->accept_x . '</button>
                     <button on="tap:consent-element.reject" role="button">'
-			                . $this->banner->dismiss_x . '</button>
+			                . $dismiss_text . '</button>
                 </div>
                 ' . $revoke . '
 

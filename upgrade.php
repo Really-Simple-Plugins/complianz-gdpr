@@ -821,6 +821,10 @@ function cmplz_check_upgrade() {
 		}
 	}
 
+	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
+		set_transient( 'cmplz_vendorlist_downloaded_once', true, HOUR_IN_SECONDS );
+	}
+
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
 		foreach ( $banners as $banner_item ) {

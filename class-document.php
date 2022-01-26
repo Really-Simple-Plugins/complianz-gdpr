@@ -1510,15 +1510,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function obfuscate_email( $email ) {
 			$alwaysEncode = array( '.', ':', '@' );
-
 			$result = '';
-
+			$email = strrev($email);
 			// Encode string using oct and hex character codes
 			for ( $i = 0; $i < strlen( $email ); $i ++ ) {
 				// Encode 25% of characters including several that always should be encoded
-				if ( in_array( $email[ $i ], $alwaysEncode )
-				     || mt_rand( 1, 100 ) < 25
-				) {
+				if ( in_array( $email[ $i ], $alwaysEncode ) || mt_rand( 1, 100 ) < 25 ) {
 					if ( mt_rand( 0, 1 ) ) {
 						$result .= '&#' . ord( $email[ $i ] ) . ';';
 					} else {
@@ -1528,12 +1525,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$result .= $email[ $i ];
 				}
 			}
-
-			//make clickable
-
-			$result = '<a href="mailto:'.$result.'">'.$result.'</a>';
-
-			return $result;
+			return '<span class="cmplz-obfuscate" >'.$result.'</span>';
 		}
 
 

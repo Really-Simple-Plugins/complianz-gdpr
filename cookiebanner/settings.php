@@ -82,19 +82,20 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'        => 'text',
 				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
-				'tooltip'        => __( 'For internal use only', 'complianz-gdpr' ),
-				'help'   => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
+				'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
+				'help'        => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
 			),
 
-            'revoke' => array(
-                'source'    => 'CMPLZ_COOKIEBANNER',
-                'step'      => 'general',
-                'type'      => 'text_checkbox',
-                'default'   => ['text' => __( "Manage consent", 'complianz-gdpr' ), 'show' => true ],
-                'placeholder' => __( "Manage consent", 'complianz-gdpr' ),
-                'label'     => __( "Text on the manage consent tab", 'complianz-gdpr' ),
-                'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
-            ),
+      'revoke' => array(
+          'source'       => 'CMPLZ_COOKIEBANNER',
+          'step'         => 'general',
+          'type'         => 'text_checkbox',
+          'default'      => ['text' => __( "Manage consent", 'complianz-gdpr' ), 'show' => true ],
+          'placeholder'  => __( "Manage consent", 'complianz-gdpr' ),
+          'label'        => __( "Text on the manage consent tab", 'complianz-gdpr' ),
+          'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
+          'comment'      => __("The tab will not show on mobile devices for UX optimization. You can use CSS to revert this.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/show-settings-button-on-mobile/' ),
+      ),
 
             'disable_cookiebanner' => array(
                 'source'  => 'CMPLZ_COOKIEBANNER',

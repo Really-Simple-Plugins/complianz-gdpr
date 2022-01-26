@@ -355,7 +355,6 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	$cookiesettings['defaults'] = $defaults;
 	wp_enqueue_script( 'cmplz-wysiwyg',cmplz_url . "cookiebanner/js/wysiwyg$minified.js", array( 'jquery' ), cmplz_version, true );
 	wp_localize_script( 'cmplz-wysiwyg', 'complianz', $cookiesettings );
-
 	wp_register_style( 'wysiwyg', cmplz_url . "cookiebanner/css/wysiwyg$minified.css", false, cmplz_version );
 	wp_enqueue_style( 'wysiwyg' );
 	do_action('cmplz_enqueue_banner_editor');
