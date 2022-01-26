@@ -168,6 +168,16 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 = 6.0.7 =
 * Changed database upgrade order
+* Improvement: catch Tatsu pagebuilder preview
+* Improvement: auto enable GEO ip if records of consent enabled
+* Fix: only reload on a deny action if marketing was accepted props @dasisdormax
+* Fix: allow mappress en google maps enabled at the same time
+* Fix: allow quotes in custom css
+* Fix: export filtered dataset from Records of Consent
+* Improvement: allow saving of empty script center blocks
+* Improvement: on switch to TCF banner, regenerate the banner css
+* Improvement: obfuscate email address also with css
+* Improvement: remove condition on categories settings in cookie banner setting, to allow for manage consent area configuration in cookie policy
 
 = 6.0.6 =
 * Bumped tested up to
