@@ -32,23 +32,18 @@ function cmplz_filter_field_types( $fields ) {
 						),
 
 					);
-
 			}
-
 		}
-
 	}
 
 	return $fields;
-
 }
 
-add_filter( 'cmplz_fields', 'cmplz_filter_fields', 10, 1 );
-function cmplz_filter_fields( $fields ) {
-	if (!cmplz_uses_preferences_cookies()) {
-		unset( $fields['category_prefs'] );
+function cmplz_filter_fields(  ) {
+	if ( cmplz_get_value( 'compile_statistics' )==='matomo' && cmplz_get_value( 'matomo_anonymized' ) === 'yes' ) {
+		COMPLIANZ::$config->fields['configuration_by_complianz']['disabled'] = array('no');
+		COMPLIANZ::$config->fields['configuration_by_complianz']['default'] = 'yes';
+		COMPLIANZ::$config->fields['configuration_by_complianz']['comment'] = __( "With Matomo cookieless tracking, configuration by Complianz is required.", 'complianz-gdpr' );
 	}
-
-	return $fields;
-
 }
+add_filter( 'plugins_loaded', 'cmplz_filter_fields', 20, 1 );

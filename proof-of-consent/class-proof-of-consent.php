@@ -373,7 +373,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				$settings_html = '<div><h1>' . __( 'Cookie consent settings', 'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html ) . '</ul></div>';
 				$intro         = '<h1>' . __( "Proof of Consent",
 						"complianz-gdpr" ) . '</h1>
-                     <p>' . sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
+                     <p>' . cmplz_sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the Cookie Policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
                             to %shttps://complianz.io/consent%s.",

@@ -269,31 +269,41 @@ function cmplz_load_css( path ) {
 
 function cmplz_run_script( script, category, type ) {
 	let fileref = document.createElement("script");
-	fileref.setAttribute("type", "text/javascript");
+	fileref.setAttribute("type", "text/javascript")
 	if ( type !== 'inline' ) {
 		fileref.setAttribute("src", script);
 	} else {
 		if (typeof script !== 'string') {
 			script = script.innerHTML;
 		}
-		fileref.innerHTML = script;
+		fileref.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
 	}
 	//check if already fired
 	if ( cmplz_in_array( script, cmplz_fired_scripts) ) {
 		return;
 	}
 
-	fileref.onload = function () {
-		cmplz_maybe_run_waiting_scripts(script, category);
-		cmplz_run_after_all_scripts(category);
-	}
-
 	try {
-		document.getElementsByTagName("head")[0].appendChild(fileref);
-		cmplz_fired_scripts.push(script);
+		if (type!=='inline') {
+			fileref.onload = function () {
+				cmplz_maybe_run_waiting_scripts(script, category);
+				cmplz_run_after_all_scripts(category);
+				return;
+			}
+		} else {
+			window.cmplzScriptLoaded = function() {
+				cmplz_maybe_run_waiting_scripts(script, category);
+				cmplz_run_after_all_scripts(category);
+				return;
+			}
+		}
+		let header = document.getElementsByTagName("head")[0];
+		header.appendChild(fileref);
+
 	} catch(exception) {
 		throw "Something went wrong " + exception + " while loading "+path;
 	}
+	//only runs when all scripts have fired
 	cmplz_run_after_all_scripts(category);
 }
 
@@ -338,7 +348,7 @@ function cmplz_set_blocked_content_container() {
 		//handle browser native lazy load feature
 		if (obj.getAttribute('loading') === 'lazy' ) {
 			obj.removeAttribute('loading');
-			obj.setAttribute('deferlazy', 1);
+			obj.setAttribute('data-deferlazy', 1);
 		}
 
 		if ( curIndex == null ) {
@@ -377,7 +387,7 @@ function cmplz_set_blocked_content_container() {
 			//handle browser native lazy load feature
 			if ( obj.getAttribute('loading') === 'lazy' ) {
 				obj.removeAttribute('loading');
-				obj.setAttribute('deferlazy', 1);
+				obj.setAttribute('data-deferlazy', 1);
 			}
 			blocked_content_container = obj.parentElement;
 		} else {
@@ -583,6 +593,7 @@ function cmplz_enable_category(category, service) {
 	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
+
 		let src = obj.getAttribute('src');
 		if ( waitfor ) {
 			if ( src ) {
@@ -877,10 +888,7 @@ window.show_cookie_banner = function () {
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
-	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);
-	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
-		console.log('Fallback default css file used. Please re-save banner settings, or check file writing permissions in uploads directory');
-	}
+	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);;
 	link.href = css_file_url;
 	link.type = "text/css";
 	link.rel = "stylesheet";
@@ -962,7 +970,7 @@ window.cmplz_set_banner_status = function ( status ){
 		cmplz_banner_container.classList.add('cmplz-'+status );
 		cmplz_banner_container.classList.add('cmplz-soft-cookiewall');
 	}
-	var event = new CustomEvent('cmplz_banner_status', { detail: status });
+	let event = new CustomEvent('cmplz_banner_status', { detail: status });
 	document.dispatchEvent(event);
 }
 
@@ -1192,14 +1200,17 @@ window.cmplz_set_consent = function (category, value){
 		cmplz_wp_set_consent('statistics-anonymous', 'allow');
 	}
 
-	var details = new Object();
+	let details = new Object();
 	details.category = category;
 	details.value = value;
 	details.region = complianz.region;
 	details.categories = cmplz_accepted_categories();
-	var event = new CustomEvent('cmplz_status_change', { detail: details });
+	//when the status is changed, we may need to fire scripts again, so we reset it.
+	cmplz_all_scripts_hook_fired = false;
+	let event = new CustomEvent('cmplz_status_change', { detail: details });
 	document.dispatchEvent(event);
-	if ( category === 'marketing' && value === 'deny' && previous_value === 'allow' ) {
+
+	if ( category === 'marketing' && value === 'deny' ) {
 		cmplz_integrations_revoke();
 		//give the code some time to finish, so our track status code can send a signal to the backend.
 		setTimeout(function(){
@@ -1309,7 +1320,7 @@ window.cmplz_deny_all = function(){
 	cmplz_fire_categories_event();
 	cmplz_track_status();
 
-	var event = new CustomEvent('cmplz_revoke', { detail: reload });
+	let event = new CustomEvent('cmplz_revoke', { detail: reload });
 	document.dispatchEvent(event);
 
 	//we need to let the iab extension handle the reload, otherwise the consent revoke might not be ready yet.
@@ -1831,7 +1842,7 @@ function cmplz_load_manage_consent_container() {
 			let nojavascript = document.querySelector('#cmplz-manage-consent-container-nojavascript')
 			nojavascript.style.display = 'none';
 			manage_consent_container.style.display = 'block';
-			event = new CustomEvent('cmplz_manage_consent_container_loaded');
+			let event = new CustomEvent('cmplz_manage_consent_container_loaded');
 			document.dispatchEvent(event);
 		};
 	}

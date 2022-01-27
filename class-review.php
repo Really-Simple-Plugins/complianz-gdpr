@@ -80,7 +80,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 																			  alt="review-logo">
 					</div>
 					<div style="margin-left:30px">
-						<p><?php printf( __( 'Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.',
+						<p><?php cmplz_sprintf( __( 'Hi, you have been using Complianz | GDPR cookie consent for a month now, awesome! If you have a moment, please consider leaving a review on WordPress.org to spread the word. We greatly appreciate it! If you have any questions or feedback, leave us a %smessage%s.',
 									'complianz-gdpr' ),
 									'<a href="https://complianz.io/contact" target="_blank">',
 									'</a>' ); ?></p>

@@ -14,18 +14,18 @@
 				'page'    => 'cmplz-wizard',
 				'step'    => STEP_COOKIES,
 				'section' => 4 ), admin_url( 'admin.php' ) ) . '">';
-		cmplz_settings_overlay( sprintf( __( '%s are marked as not being used on your website in the %swizard%s.', 'complianz-gdpr' ), $not_used, $link, '</a>' ) );
+		cmplz_settings_overlay( cmplz_sprintf( __( '%s are marked as not being used on your website in the %swizard%s.', 'complianz-gdpr' ), $not_used, $link, '</a>' ) );
 	}
 
-	cmplz_notice( sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ),
+	cmplz_notice( cmplz_sprintf( __( "Enabled %s will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.", 'complianz-gdpr' ),
 				__( "services", "complianz-gdpr" ) ) . cmplz_read_more( "https://complianz.io/blocking-recaptcha-manually/" ) );
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		if ( defined( 'cmplz_free' ) && cmplz_free ) {
-			cmplz_notice( sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ", 'complianz-gdpr' ),
+			cmplz_notice( cmplz_sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ", 'complianz-gdpr' ),
 					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">', '</a>' ) );
 		} else {
-			cmplz_notice( sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ", 'complianz-gdpr' ),
+			cmplz_notice( cmplz_sprintf( __( "reCaptcha is connected and will be blocked before consent. To change your settings, please visit %sIntegrations%s in the wizard. ", 'complianz-gdpr' ),
 					'<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ) . '">', '</a>' ) );
 		}
 	}

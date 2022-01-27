@@ -52,7 +52,7 @@ function cmplz_show_compile_statistics_notice( $args ) {
 		$type = reset( $stats );
 		$type = COMPLIANZ::$config->stats[ $type ];
 
-		cmplz_sidebar_notice( sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ) );
+		cmplz_sidebar_notice( cmplz_sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ) );
 	}
 }
 
@@ -66,7 +66,7 @@ function cmplz_uses_social_media_notice() {
 				= COMPLIANZ::$config->thirdparty_socialmedia[ $social_medium ];
 		}
 		$social_media = implode( ', ', $social_media );
-		cmplz_sidebar_notice( sprintf( __( "The scan found social media buttons or widgets for %s on your site, which means the answer should be yes",
+		cmplz_sidebar_notice( cmplz_sprintf( __( "The scan found social media buttons or widgets for %s on your site, which means the answer should be yes",
 			'complianz-gdpr' ), $social_media ) );
 	}
 }
@@ -89,7 +89,7 @@ function cmplz_uses_thirdparty_services_notice() {
 			$thirdparties[ $key ] = COMPLIANZ::$config->thirdparty_services[ $thirdparty ];
 		}
 		$thirdparties = implode( ', ', $thirdparties );
-		cmplz_sidebar_notice( sprintf( __( "The scan found third-party services on your website: %s, this means the answer should be yes.",
+		cmplz_sidebar_notice( cmplz_sprintf( __( "The scan found third-party services on your website: %s, this means the answer should be yes.",
 			'complianz-gdpr' ), $thirdparties ) );
 	}
 }
@@ -143,7 +143,7 @@ function cmplz_google_fonts_recommendation() {
 				continue;
 			}
 			if ( $thirdparty === 'google-fonts' ) {
-				cmplz_sidebar_notice( sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
+				cmplz_sidebar_notice( cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
 					'complianz-gdpr' ),
 					'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">',
 					'</a>' ) );
@@ -173,7 +173,7 @@ function cmplz_used_cookies_notice() {
 		return;
 	}
 
-	cmplz_sidebar_notice( sprintf( __( "Because your site uses third-party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s",
+	cmplz_sidebar_notice( cmplz_sprintf( __( "Because your site uses third-party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the %sintegrations section%s, or you can disable the cookie blocker entirely on the %ssettings page%s",
 		'complianz-gdpr' ),
 		'<a href="' . admin_url( 'admin.php?page=cmplz-script-center' ) . '">',
 		'</a>',
@@ -233,13 +233,13 @@ function cmplz_notice_add_pages_to_menu() {
 	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
 	if ( $pages_not_in_menu ) {
 		if ( cmplz_ccpa_applies() ) {
-			cmplz_sidebar_notice( sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
+			cmplz_sidebar_notice( cmplz_sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
 					'complianz-gdpr' ),
 					cmplz_us_cookie_statement_title() ) );
 		}
 
 		$docs = implode( ", ", $pages_not_in_menu );
-		cmplz_sidebar_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+		cmplz_sidebar_notice( cmplz_sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				'Not all generated documents have been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
 				'warning' );

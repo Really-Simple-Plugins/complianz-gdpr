@@ -58,7 +58,7 @@ function cmplz_wpforms_add_consent_checkbox( $form_id ) {
 	$wpforms_settings['gdpr'] = true;
 	update_option( 'wpforms_settings', $wpforms_settings );
 	$label
-		= sprintf( __( 'To submit this form, you need to accept our %sPrivacy Statement%s',
+		= cmplz_sprintf( __( 'To submit this form, you need to accept our %sPrivacy Statement%s',
 		'complianz-gdpr' ),
 		'<a href="' . COMPLIANZ::$document->get_permalink( 'privacy-statement',
 			'eu', true ) . '">', '</a>' );

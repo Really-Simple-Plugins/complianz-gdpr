@@ -48,7 +48,7 @@ add_filter( 'cmplz_default_value', 'cmplz_gadwp_set_default', 20, 2 );
  */
 
 function cmplz_gadwp_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'ExactMetrics' ) );
+	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'ExactMetrics' ) );
 }
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_gadwp_show_compile_statistics_notice', 10, 1 );
 
@@ -109,11 +109,11 @@ add_action( 'admin_init', 'cmplz_gadwp_remove_actions' );
  */
 function cmplz_gadwp_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_sidebar_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
+		cmplz_sidebar_notice( cmplz_sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_sidebar_notice( sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
+		cmplz_sidebar_notice( cmplz_sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 }

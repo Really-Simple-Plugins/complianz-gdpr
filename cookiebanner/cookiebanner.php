@@ -3,6 +3,21 @@
  * Regenerate css and update banner version for all banners
  */
 
+if ( ! function_exists( 'cmplz_cookiebanner_should_load' ) ) {
+	function cmplz_cookiebanner_should_load( $check_banner_disabled = false ) {
+		$wizard_completed = COMPLIANZ::$wizard->wizard_completed_once();
+		$needs_cookie_warning = COMPLIANZ::$cookie_admin->site_needs_cookie_warning();
+		if ( $check_banner_disabled ) {
+			$default_banner = cmplz_get_default_banner_id();
+			$banner = new CMPLZ_COOKIEBANNER($default_banner);
+			return $wizard_completed && $needs_cookie_warning && !$banner->disable_cookiebanner ;
+		} else {
+			return $wizard_completed && $needs_cookie_warning;
+		}
+
+	}
+}
+
 if ( !function_exists('cmplz_update_all_banners') ) {
 	function cmplz_update_all_banners() {
 		$banners = cmplz_get_cookiebanners();
@@ -343,7 +358,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 		}
 	}
 
-	$cookiesettings = $banner->get_front_end_settings(true);
+	$cookiesettings = $banner->get_front_end_settings();
 	$cookiesettings['logo_options'] = $banner->get_banner_logo(true);
 	$cookiesettings['admin_url'] = add_query_arg('lang',  substr( get_locale(), 0, 2 ), admin_url( 'admin-ajax.php' ) );
 	$cookiesettings['regions'] = array();
@@ -355,6 +370,7 @@ function cmplz_enqueue_cookiebanner_wysiwyg_assets( $hook ) {
 	$cookiesettings['defaults'] = $defaults;
 	wp_enqueue_script( 'cmplz-wysiwyg',cmplz_url . "cookiebanner/js/wysiwyg$minified.js", array( 'jquery' ), cmplz_version, true );
 	wp_localize_script( 'cmplz-wysiwyg', 'complianz', $cookiesettings );
+
 	wp_register_style( 'wysiwyg', cmplz_url . "cookiebanner/css/wysiwyg$minified.css", false, cmplz_version );
 	wp_enqueue_style( 'wysiwyg' );
 	do_action('cmplz_enqueue_banner_editor');
@@ -389,7 +405,7 @@ function cmplz_add_hide_cookiebanner_meta_box($post_type)
 	if ( !is_post_type_viewable( $post_type )) return;
 	if ( !cmplz_user_can_manage() ) return;
 
-	add_meta_box('cmplz_edit_meta_box', __('Cookiebanner', 'complianz-gdpr'), 'cmplz_hide_cookiebanner_metabox', null, 'side', 'default', array());
+	add_meta_box('cmplz_hide_banner_meta_box', __('Cookiebanner', 'complianz-gdpr'), 'cmplz_hide_cookiebanner_metabox', null, 'side', 'default', array());
 }
 add_action('add_meta_boxes', 'cmplz_add_hide_cookiebanner_meta_box');
 
@@ -398,7 +414,6 @@ add_action('add_meta_boxes', 'cmplz_add_hide_cookiebanner_meta_box');
  */
 
 function cmplz_hide_cookiebanner_metabox(){
-
 	if ( !cmplz_user_can_manage() ) return;
 
 	wp_nonce_field('cmplz_cookiebanner_hide_nonce', 'cmplz_cookiebanner_hide_nonce');
@@ -410,8 +425,12 @@ function cmplz_hide_cookiebanner_metabox(){
 	if ( strlen($post->post_name)==0 ) return;
 
 	$option_label = __("Disable Complianz on this page", "complianz-gdpr");
-	$checked = get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
-	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" />' . $option_label . '</label>';
+	$disabled = cmplz_page_is_of_type('cookie-statement') ? 'disabled' : false;
+	$checked = !$disabled && get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
+
+	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" '.$disabled.' />' . $option_label ;
+	if ($disabled) echo '<br><i>'.__("On a cookie policy, the banner will be minimized by default", "complianz-gdpr").'</i>';
+	echo '</label>';
 }
 
 /**

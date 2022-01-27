@@ -145,6 +145,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'flexible-map'               => array(
+			'constant_or_function' => 'FLXMAP_PLUGIN_VERSION',
+			'label'                => 'Flexible Map',
+			'firstparty_marketing' => false,
+	),
+
 	'activecampaign'               => array(
 		'constant_or_function' => 'ACTIVECAMPAIGN_URL',
 		'label'                => 'Active Campaign',
@@ -550,7 +556,9 @@ function cmplz_integrations() {
 	if ( $statistics === 'google-analytics' ) {
 		require_once( 'statistics/google-analytics.php' );
 	}
-
+	if ( $statistics === 'matomo' && cmplz_get_value('configuration_by_complianz') !=='yes' ) {
+		require_once( 'statistics/matomo.php' );
+	}
 }
 
 add_action( 'plugins_loaded', 'cmplz_integrations', 10 );
@@ -667,7 +675,7 @@ function cmplz_notify_of_plugin_integrations( $warnings ){
 	foreach ($fields as $id => $field ) {
 		if ($field['disabled']) continue;
 		$warnings[$id] = array(
-			'open' => sprintf(__( 'We have enabled the %s integration.', 'complianz-gdpr' ), $field['label']).cmplz_read_more("https://complianz.io/enabled-integration"),
+			'open' => cmplz_sprintf(__( 'We have enabled the %s integration.', 'complianz-gdpr' ), $field['label']).cmplz_read_more("https://complianz.io/enabled-integration"),
 			'include_in_progress' => false,
 		);
 	}

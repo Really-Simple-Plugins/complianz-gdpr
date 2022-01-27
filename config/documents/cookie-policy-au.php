@@ -7,11 +7,11 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['au']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i><br>',
+        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i><br>',
     ),
     array(
         'title' => 'Introduction',
-        'content' => sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]', '[article-cookie_names]'),
+        'content' => cmplz_sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]', '[article-cookie_names]'),
     ),
 
     array(
@@ -67,7 +67,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     //ads
     array(
         'subtitle' => 'Advertising cookies',
-        'content' => sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
+        'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to personalize the advertisements for you, and we (and third parties) gain insights into the campaign results. This happens based on a profile we create based on your click and surfing on and outside %s. With these cookies you, as website visitor are linked to a unique ID, so you do not see the same ad more than once for example.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
             'uses_ad_cookies_personalized' => 'NOT no'
@@ -76,7 +76,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 
     array(
         'subtitle' => 'Advertising cookies',
-        'content' => sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behavior and interests to serve personalized ads.', '[domain]'),
+        'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behavior and interests to serve personalized ads.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
             'uses_ad_cookies_personalized' => 'no'
@@ -101,12 +101,12 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 
     array(
         'subtitle' => 'Social media buttons',
-        'content' => sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'content' => cmplz_sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
     array(
-        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.sprintf( _n( '%s is located in Australia.', '%s are located in Australia.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '. cmplz_sprintf( _n( '%s is located in Australia.', '%s are located in Australia.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
@@ -149,7 +149,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

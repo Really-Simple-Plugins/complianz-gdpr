@@ -73,7 +73,7 @@ add_action( 'admin_init', 'cmplz_wc_google_analytics_integration_remove_actions'
  * @param $args
  */
 function cmplz_wc_google_analytics_integration_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'WooCommerce Google Analytics Integration' ) );
+	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'WooCommerce Google Analytics Integration' ) );
 }
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_integration_show_compile_statistics_notice', 10, 1 );
 

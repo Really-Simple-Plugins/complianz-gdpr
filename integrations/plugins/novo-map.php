@@ -17,6 +17,7 @@ function cmplz_novo_map_script( $tags ) {
 			'placeholder_class' => 'novo-map-container',
 			'enable_dependency' => '1',
 			'dependency' => [
+					//'wait-for-this-script' => 'script-that-should-wait'
 					'maps.googleapis.com' => 'new google.maps',
 					'new google.maps' => 'infobox.js',
 			],

@@ -174,7 +174,7 @@ class CMPLZ_Elementor_Pro {
 	public function cmplz_filter_elementor_pro_fields( $fields ) {
 		$link = add_query_arg(["post_type" => "elementor_library", "tabs_group" => 'popup', "elementor_library_type" => 'popup'], admin_url('edit.php'));
 		if ($this->banner_active) {
-			$fields['category_functional']['help'] = __( "The Elementor Cookie Banner integration has been enabled.","complianz-gdpr").'&nbsp;'. sprintf(__("You can edit your banner in the %sElementor popup templates%s.", 'complianz-gdpr' ), '<a href="'.$link.'">', "</a>");
+			$fields['category_functional']['help'] = __( "The Elementor Cookie Banner integration has been enabled.","complianz-gdpr").'&nbsp;'. cmplz_sprintf(__("You can edit your banner in the %sElementor popup templates%s.", 'complianz-gdpr' ), '<a href="'.$link.'">', "</a>");
 		}
 
 		$fields['create_banner_elementor'] = array(
@@ -185,7 +185,7 @@ class CMPLZ_Elementor_Pro {
 			'source' => 'wizard',
 			'type' => 'radio',
 			'options' => [
-				'yes' => sprintf(__('Yes (Available in %sPremium%s)', "complianz-gdpr"),'<a href="https://complianz.io/premium" target="_blank">', '</a>'), //@todo url
+				'yes' => cmplz_sprintf(__('Yes (Available in %sPremium%s)', "complianz-gdpr"),'<a href="https://complianz.io/premium" target="_blank">', '</a>'), //@todo url
 				'no'  => __('No', "complianz-gdpr"),
 			],
 			'disabled' => array('yes'),
@@ -228,7 +228,7 @@ class CMPLZ_Elementor_Pro {
 				'source' => 'CMPLZ_COOKIEBANNER',
 				'step' => 'categories',
 				'type' => 'notice',
-				'comment' => sprintf(__('You enabled the Elementor cookie banner, %sConfigure your banner via Elementor%s or disable the Elementor cookie banner.', 'complianz-gdpr'), "<a target='_blank' href='" . add_query_arg(["post" => $post_id, "action" => "elementor"], admin_url('post.php')) . "'>", "</a>"),
+				'comment' => cmplz_sprintf(__('You enabled the Elementor cookie banner, %sConfigure your banner via Elementor%s or disable the Elementor cookie banner.', 'complianz-gdpr'), "<a target='_blank' href='" . add_query_arg(["post" => $post_id, "action" => "elementor"], admin_url('post.php')) . "'>", "</a>"),
 				'required' => false,
 			);
 			$fields = array_merge($field, $fields);

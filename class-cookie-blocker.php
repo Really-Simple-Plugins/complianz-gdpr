@@ -71,6 +71,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$formatted_custom_script_tags[$blocked_script['editor']] = $blocked_script;
 				}
 			}
+			//set transient so we can also access this data before the arrays are loaded
+			set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
 			return $formatted_custom_script_tags;
 		}
 
@@ -133,7 +135,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				$blocked_scripts = array_merge($blocked_scripts, $added_scripts);
 			}
 			$blocked_scripts = array_filter( $blocked_scripts, function ( $script ) {
-				return $script['enable_dependency'] == 1 && !empty($script['dependency']);
+				return isset($script['enable_dependency']) && $script['enable_dependency'] == 1 && !empty($script['dependency']);
 			} );
 
 			$flat = array();

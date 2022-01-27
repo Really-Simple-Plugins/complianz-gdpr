@@ -37,7 +37,7 @@ add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
  * @param $args
  */
 function cmplz_beehive_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Beehive' ) );
+	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Beehive' ) );
 }
 add_action( 'cmplz_notice_compile_statistics', 'cmplz_beehive_show_compile_statistics_notice', 10, 1 );
 

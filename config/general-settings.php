@@ -40,7 +40,7 @@ $this->fields = $this->fields + array(
 			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),
 			'help'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ",
 					'complianz-gdpr' ),
-			  'comment' => sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
+			  'comment' => cmplz_sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule. For more information, read the %sPrivacy Statement%s",
 					'complianz-gdpr' ),
 					'<a target="_blank" href="https://cookiedatabase.org/">', '</a>',
 					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement/">',
@@ -158,7 +158,7 @@ $this->fields = $this->fields + array(
 			'step'    => 'cookie-blocker',
 			'label'   => __( "Enable safe mode", 'complianz-gdpr' ),
 			'default' => false,
-			'comment'    => sprintf( __( 'When safe mode is enabled, all integrations will be disabled temporarily, please read %sthese instructions%s to debug the issue or ask support if needed.',
+			'comment'    => cmplz_sprintf( __( 'When safe mode is enabled, all integrations will be disabled temporarily, please read %sthese instructions%s to debug the issue or ask support if needed.',
 				'complianz-gdpr' ),
 				'<a  target="_blank" href="https://complianz.io/debugging-issues/">', '</a>' )
 		),
@@ -219,7 +219,7 @@ $this->fields = $this->fields + array(
 				'disable_cookie_block' => false,
 			),
 			'callback_condition' => array(
-				'thirdparty_services_on_site' => 'google-maps',
+				'thirdparty_services_on_site' => 'google-maps,openstreetmaps',
 			),
 			'comment'=> __( "If you select custom, you need to add your custom image to your site.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/changing-the-google-maps-placeholder/'),
 		),
@@ -295,7 +295,7 @@ $this->fields = $this->fields + array(
 			'type'     => 'upload',
 			'action'   => 'cmplz_import_settings',
 			'label'    => __( "Import settings", 'complianz-gdpr' ),
-			'comment'  => sprintf( __( 'If you want to import your settings, please check out the %spremium version%s',
+			'comment'  => cmplz_sprintf( __( 'If you want to import your settings, please check out the %spremium version%s',
 				'complianz-gdpr' ),
 				'<a target="_blank" href="https://complianz.io">', "</a>" ),
 		),
@@ -378,7 +378,7 @@ $this->fields = $this->fields + array(
                 . "\n" . '#cmplz-cookies-overview .cmplz-service-header {} /* service header in cookie policy */'
                 . "\n" . '#cmplz-cookies-overview .cmplz-service-desc {} /* service description */'
                 . "\n" . '#cmplz-document.impressum, #cmplz-document.cookie-statement, #cmplz-document.privacy-statement {} /* styles for impressum */',
-            'help'      => sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
+            'help'      => cmplz_sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
             'condition' => array( 'use_custom_document_css' => true ),
         ),
 	);

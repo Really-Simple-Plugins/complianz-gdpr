@@ -50,7 +50,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			} else {
 				$link = '<a href="' . admin_url( 'admin.php?page=cmplz-wizard' )
 				        . '">';
-				cmplz_notice( sprintf( __( "The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.",
+				cmplz_notice( cmplz_sprintf( __( "The wizard isn't completed yet. If you have answered all required questions, you just need to click 'finish' to complete it. In the wizard some general data is entered which is needed for this document. %sPlease complete the wizard first%s.",
 					'complianz-gdpr' ), $link, "</a>" ), 'warning' );
 			}
 		}
@@ -107,7 +107,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                 echo '</div>';
 
 				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_sidebar_notice( sprintf( __( "The cookie banner and cookie blocker are enabled. Please check your website if your configuration is working properly. Please read %sthese instructions%s to debug any issues while in safe mode. Safe mode is available under settings.","complianz-gdpr").'&nbsp;'.__("You will find tips and tricks on your dashboard after you have configured your cookie banner.", 'complianz-gdpr' ),
+					cmplz_sidebar_notice( cmplz_sprintf( __( "The cookie banner and cookie blocker are enabled. Please check your website if your configuration is working properly. Please read %sthese instructions%s to debug any issues while in safe mode. Safe mode is available under settings.","complianz-gdpr").'&nbsp;'.__("You will find tips and tricks on your dashboard after you have configured your cookie banner.", 'complianz-gdpr' ),
                         '<a  target="_blank" href="https://complianz.io/debugging-manual">', '</a>'),
                         'warning');
 				}
@@ -308,9 +308,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			/**
-			 * If TCF was just disabled or enabled, regenerate the css.
+			 * If TCF was just disabled, regenerate the css.
 			 */
-			if ( $fieldname === 'uses_ad_cookies_personalized' ) {
+			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
 				$generate_css = true;
 			}
 
@@ -451,7 +451,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
                 cmplz_notice(sprintf(__("The wizard is currently being edited by %s",
                         'complianz-gdpr'), $user->user_nicename) . '<br>'
-                    . sprintf(__("If this user stops editing, the lock will expire after %s minutes.",
+                    . cmplz_sprintf(__("If this user stops editing, the lock will expire after %s minutes.",
                         'complianz-gdpr'), $lock_time), 'warning');
 
                 return;

@@ -1,5 +1,7 @@
 'use strict';
 jQuery(document).ready(function ($) {
+	let reset_button = document.querySelector('.reset_cookie_banner');
+	let reset_button_html = reset_button.innerHTML;
 	var bannerVisible = true;
 	var cssGenerationActive = false;
 	var processingReset = false;
@@ -86,12 +88,24 @@ jQuery(document).ready(function ($) {
 	/**
 	 * We want to apply the current settings, then recalculate the banner width, then apply the settings again.
 	 */
+
 	function cmplz_validate_banner_width(){
 		cmplz_apply_style(cmplz_validate_banner_width_after);
 	}
 
 	function cmplz_validate_banner_width_after(){
-		if ($('select[name=cmplz_position]').val() === 'bottom' ) return;
+		if ($('select[name=cmplz_position]').val() === 'bottom' ) {
+			return;
+		}
+
+		if ($('#cmplz-tcf-js').length ) {
+			return;
+		}
+
+		if ( $('input[name="cmplz_disable_width_correction"]').is(':checked') ) {
+			return;
+		}
+
 		//check if cats width is ok
 		let cats_width = document.querySelector('.cmplz-categories').offsetWidth;
 		let message_width = document.querySelector('.cmplz-message').offsetWidth;
@@ -117,12 +131,6 @@ jQuery(document).ready(function ($) {
 
 		let btn_width = 0;
 		btn_width = document.querySelectorAll('.cmplz-buttons .cmplz-btn').offsetWidth;
-		// document.querySelectorAll('.cmplz-buttons .cmplz-btn').forEach(obj => {
-		// 	if (obj.offsetWidth > 0) {
-		// 		btn_width = parseInt(btn_width) + parseInt(obj.offsetWidth) + 20;
-		// 	}
-		// });
-
 		if (btn_width > message_width) {
 			let difference = btn_width - 42 - message_width;
 			new_width_btns = parseInt(btn_width) + parseInt(difference);
@@ -135,7 +143,6 @@ jQuery(document).ready(function ($) {
 			new_width = new_width_cats;
 		}
 
-		console.log("new width "+new_width);
 		if ( new_width > banner_width && new_width < max_banner_change ) {
 
 			if(new_width % 2 != 0) new_width++;
@@ -156,6 +163,7 @@ jQuery(document).ready(function ($) {
 		cssGenerationActive = true;
 		$('.cmplz-cookiebanner').addClass('reloading');
 
+		console.log("apply style");
 		$.ajax({
 			type: 'POST',
 			url: complianz_admin.admin_url,
@@ -169,6 +177,7 @@ jQuery(document).ready(function ($) {
 				$('.cmplz-cookiebanner').removeClass('reloading');
 
 				if (response.success) {
+
 					var link = document.createElement("link");
 					var css_file = complianz.css_file;
 					css_file = css_file+Math.random();
@@ -207,7 +216,8 @@ jQuery(document).ready(function ($) {
 						cssIndex++;
 						if (typeof callback == "function") callback();
 					}
-
+					reset_button.disabled = false;
+					reset_button.innerHTML = reset_button_html;
 				}
 				cssGenerationActive = false;
 			}
@@ -336,6 +346,7 @@ jQuery(document).ready(function ($) {
 		'select[name=cmplz_position], ' +
 		'select[name=cmplz_checkbox_style], ' +
 		'input[name=cmplz_close_button], ' +
+		'input[name=cmplz_font_size], ' +
 		'input[name="cmplz_header[show]"], ' +
 		'input[name="cmplz_dismiss[show]"], ' +
 		'input[name="cmplz_accept_informational[show]"], ' +
@@ -407,11 +418,39 @@ jQuery(document).ready(function ($) {
 		}
 	);
 
+
+	function cmplz_set_disabled(callback){
+		reset_button.setAttribute("disabled", "disabled");
+		reset_button.innerHTML = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+		var observer = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				if (mutation.type == "attributes") {
+					callback()
+				}
+			});
+		});
+		observer.observe(reset_button, {
+			attributes: true //configure it to listen to attribute changes
+		});
+	}
+
+
 	$(document).on( 'click', '.reset_cookie_banner', function(){
+		if (processingReset) return;
 		processingReset = true;
+		cmplz_set_disabled(function(){
+			cmplz_load_defaults(function(){
+				cmplzUpdatePreviewFields( function(){
+					processingReset = false;
+					cmplz_apply_style();
+				});
+			});
+		});
+	});
+
+	function cmplz_load_defaults(callback){
 		var defaults = complianz.defaults;
 		for (var default_field in defaults) {
-
 			var fieldGroup = $(".field-group."+default_field);
 			if (fieldGroup.hasClass('cmplz-colorpicker') ) {
 				if (defaults[default_field].hasOwnProperty("color")) {
@@ -460,21 +499,19 @@ jQuery(document).ready(function ($) {
 					$(".field-group."+default_field+' select').val( defaults[default_field] );
 				}
 			} else if (fieldGroup.hasClass('cmplz-editor')){
-					var editor_id = 'cmplz_message_' + consenttype;
-					var textarea_id = 'cmplz_message_' + consenttype;
-					$(".cmplz-message").html(defaults[default_field] );
-					if ($('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
-						tinyMCE.get(editor_id).setContent(defaults[default_field]);
-					} else {
-						$('#' + textarea_id).val(defaults[default_field]);
-					}
+				var editor_id = 'cmplz_message_' + consenttype;
+				var textarea_id = 'cmplz_message_' + consenttype;
+				$(".cmplz-message").html(defaults[default_field] );
+				if ($('#wp-' + editor_id + '-wrap').hasClass('tmce-active') && tinyMCE.get(editor_id)) {
+					tinyMCE.get(editor_id).setContent(defaults[default_field]);
+				} else {
+					$('#' + textarea_id).val(defaults[default_field]);
+				}
 			}
 			$('select[name=cmplz_use_logo]').trigger('change');
 		}
-		processingReset = false;
-		cmplzUpdatePreviewFields();
-		cmplz_apply_style();
-	});
+		callback();
+	}
 
 	/**
 	 * TinyMCE Editor
@@ -560,7 +597,7 @@ jQuery(document).ready(function ($) {
 		cmplz_apply_style();
 	});
 
-	function cmplzUpdatePreviewFields(){
+	function cmplzUpdatePreviewFields(callback){
 		$(".cmplz-header .cmplz-title").html($("input[name='cmplz_header[text]']").val());
 		$(".cmplz-manage-consent").html($("input[name='cmplz_revoke[text]']").val());
 		$(".optin button.cmplz-accept").html($("input[name='cmplz_accept']").val());
@@ -576,6 +613,7 @@ jQuery(document).ready(function ($) {
 		$(".cmplz-statistics .cmplz-description-statistics").html($("input[name='cmplz_statistics_text[text]']").val());
 		$(".cmplz-statistics .cmplz-description-statistics-anonymous").html($("input[name='cmplz_statistics_anonymous_text[text]']").val());
 		$(".cmplz-marketing .cmplz-description").html($("input[name='cmplz_marketing_text[text]']").val());
+		callback();
 	}
 
 	/**

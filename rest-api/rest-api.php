@@ -138,7 +138,7 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 	$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
 	if ( $do_not_track ) {
 		$html
-			= sprintf( _x( "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.",
+			= cmplz_sprintf( _x( "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.",
 			"cookie policy", "complianz-gdpr" ), site_url() );
 	} else {
 		$consent_type = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );

@@ -17,7 +17,7 @@
   Dashboard tour
  */
 .shepherd-element {
-  z-index: 110;
+  z-index: 2;
 }
 .shepherd-element.shepherd-theme-arrows.shepherd-has-title .shepherd-content header {
   background-color: #29b6f6;

@@ -320,7 +320,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			if ( strpos( $this->name, 'cmplz' ) !== false
 			     || strpos( $this->name, 'complianz' ) !== false
 			) {
-				$this->retention = sprintf( __( "%s days", "complianz-gdpr" ),
+				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ),
 					cmplz_get_value( 'cookie_expiry' ) );
 			}
 
@@ -375,7 +375,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			if ( strpos( $this->name, 'cmplz' ) !== false
 			     || strpos( $this->name, 'complianz' ) !== false
 			) {
-				$this->retention = sprintf( __( "%s days", "complianz-gdpr" ),
+				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ),
 					cmplz_get_value( 'cookie_expiry' ) );
 			}
 

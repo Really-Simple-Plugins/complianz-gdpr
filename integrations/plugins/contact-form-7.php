@@ -186,7 +186,7 @@ function cmplz_contactform7_add_consent_checkbox( $form_id ) {
 
 	$warning = 'acceptance_as_validation: on';
 	$label
-	         = sprintf( __( 'To submit this form, you need to accept our %sPrivacy Statement%s',
+	         = cmplz_sprintf( __( 'To submit this form, you need to accept our %sPrivacy Statement%s',
 		'complianz-gdpr' ),
 		'<a href="' . COMPLIANZ::$document->get_permalink( 'privacy-statement',
 			'eu', true ) . '">', '</a>' );

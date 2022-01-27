@@ -8,12 +8,12 @@
   --cmplz_categories-height:161px;
 
   --cmplz_title_font_size:15px;
-  --cmplz_text_font_size:12px;
   --cmplz_text_line_height: calc( var(--cmplz_text_font_size) * 1.5 );
   --cmplz_text_color:black;
   --cmplz_hyperlink_color:black;
+  --cmplz_text_font_size:12px;
   --cmplz_link_font_size:12px;
-
+  --cmplz_category_body_font_size:12px;
   --cmplz_button_accept_background_color:#1e73be;
   --cmplz_button_accept_border_color:#1e73be;
   --cmplz_button_accept_text_color:#fff;
@@ -26,7 +26,7 @@
   --cmplz_button_border_radius:5px;
   --cmplz_button_font_size:15px;
   --cmplz_category_header_always_active_color:green;
-  --cmplz_category_body_font_size:12px;
+
   --cmplz_category_header_title_font_size:14px;
   --cmplz_category_header_active_font_size:12px;
   --cmplz_category_open_icon_url:url(https://complianz.io/banner-defaults/down.png);
@@ -375,6 +375,7 @@
 	  text-decoration: none;
 	  line-height: 20px;
 	  text-align: center;
+	  flex: initial;//prevent theme override of flex property
 	  &:hover{
 		text-decoration: none;
 	  }

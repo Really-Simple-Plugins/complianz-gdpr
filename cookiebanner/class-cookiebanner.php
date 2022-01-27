@@ -14,7 +14,6 @@ function cmplz_install_cookiebanner_table() {
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
 
-
 		/*
 		 * use_categories_optinstats- border_color are obsolete
 		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
@@ -42,7 +41,6 @@ function cmplz_install_cookiebanner_table() {
 			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
 		}
 
-		
 		$sql        = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,
              `banner_version` int(11) NOT NULL,
@@ -88,6 +86,7 @@ function cmplz_install_cookiebanner_table() {
             `colorpalette_toggles` text NOT NULL,
             `colorpalette_border_radius` text NOT NULL,
             `border_width` text NOT NULL,
+            `font_size` text NOT NULL,
             `colorpalette_button_accept` text NOT NULL,
             `colorpalette_button_deny` text NOT NULL,
             `colorpalette_button_settings` text NOT NULL,
@@ -96,11 +95,12 @@ function cmplz_install_cookiebanner_table() {
             `use_box_shadow` int(11) NOT NULL,
             `header_footer_shadow` int(11) NOT NULL,
             `hide_preview` int(11) NOT NULL,
+            `disable_width_correction` int(11) NOT NULL,
               PRIMARY KEY  (ID)
             ) $charset_collate;";
 		dbDelta( $sql );
-
 		update_option( 'cmplz_cbdb_version', cmplz_version );
+
 	}
 }
 
@@ -126,6 +126,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
         public $colorpalette_toggles;
         public $colorpalette_border_radius;
         public $border_width;
+        public $font_size;
         public $colorpalette_button_accept;
         public $colorpalette_button_deny;
         public $colorpalette_button_settings;
@@ -150,14 +151,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $category_stats;
 		public $category_prefs;
 		public $use_categories;
-
 		public $disable_cookiebanner;
 		public $banner_width;
 		public $soft_cookiewall;
 		public $dismiss_on_scroll;
 		public $dismiss_on_timeout;
 		public $dismiss_timeout;
-
 		public $save_preferences_x;
 		public $view_preferences_x;
 		public $category_functional_x;
@@ -184,6 +183,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $marketing_text;
 		public $marketing_text_x;
 		public $set_defaults;
+		public $disable_width_correction;
 
         function __construct( $id = false, $set_defaults = true ) {
 	        $this->translation_id = $this->get_translation_id();
@@ -268,64 +268,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$this->title          = $cookiebanner->title;
 					$this->default        = $cookiebanner->default;
 					$this->archived       = $cookiebanner->archived;
-
 					foreach ( $cookiebanner as $fieldname => $value ) {
-						$this->{$fieldname} = $this->get_value( $fieldname, $value );
-						//if partially empty
-						$defaults = $this->get_default( $fieldname );
-						//we cannot use parse_args, as that will also set values when it's 0.
-						if ( is_array( $defaults ) ) {
-							$default = $this->get_default($fieldname);
-							if ( $this->is_translatable( $fieldname ) ) {
-								$this->{$fieldname.'_x'} = $default;
-							}
-							if ( !is_array($this->{$fieldname}) ){
-								$this->{$fieldname} = $default;
-							}
-
-							foreach ( $defaults as $key => $default_arr_value ) {
-								if ( isset( $defaults['type'] ) && ! isset( $this->{$fieldname}['type'] ) ) {
-									$this->{$fieldname}['type'] = $defaults['type'];
-								}
-								if ( ! isset( $this->{$fieldname}[ $key ] ) ) {
-									$this->{$fieldname}[ $key ] = $key ==='text' ? $this->get_default($fieldname, 'text') : 0;
-								}
-							}
-						}
+						$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 					}
 				}
-			}
-
-			/**
-			 * translate
-			 */
-
-			foreach ( $this as $fieldname => $value ) {
-				if ( $this->is_translatable( $fieldname ) ) {
-					if ( is_array( $value ) && isset( $value['text'] ) ) {
-						$this->{$fieldname . '_x'}['text'] = $this->translate( $value['text'], $fieldname );
-					} else if ( ! is_array( $value ) ) {
-						$this->{$fieldname . '_x'} = $this->translate( $value, $fieldname );
-					}
-				}
-			}
-
-			//in case there's no cookiebanner, we do this outside the loop
-			if ( $this->set_defaults ) {
-
+			} else {
+				//in case there's no cookiebanner yet (new)
 				foreach ( $this as $fieldname => $value ) {
-					//0 is a possible value
-					if ( is_numeric($value ) && $value == 0) {
-						continue;
-					}
-
-					//all false values now should be empty.
-					if ( $value == false ) {
-						$this->{$fieldname} = $this->get_default( $fieldname );
-						if ( $this->is_translatable( $fieldname ) ) {
-							$this->{$fieldname . '_x'} = $this->get_default( $fieldname );
-						}
-					}
+					$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 				}
 			}
 
@@ -343,31 +293,71 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * Get a value, with default if available
 		 * @param string $fieldname
 		 * @param string $value
-		 * @param object $row
 		 *
 		 * @return mixed
 		 */
 
-		private function get_value( $fieldname, $value ){
-			if ( is_serialized($value ) ) {
-				$value = unserialize($value);
-				$stop_check = false;
-				foreach ($value as $key => $key_value ) {
-					if ( $stop_check ) continue;
-					if ( is_serialized( $key_value )) {
-						$value = $this->get_default( $fieldname );
-						$stop_check = true;
+		private function parse_value( $fieldname, $value ){
+			$set_defaults = $this->set_defaults;
+			//get type of field
+			$type = $this->get_field_type($fieldname);
+			$default = $this->get_default( $fieldname );
+			//treat as string
+			if ( $type === 'text' || $type === 'select' || $type === 'editor' ) {
+				if ( empty($value) && $set_defaults ) {
+					$value = $default;
+				}
+			} else if ( $type === 'checkbox' ) {
+				if ( $value === false && $set_defaults ) {
+					$value = $default;
+				}
+			} else if ( $type === 'number' || $type === 'logo_attachment_id' ) {
+				if ( empty($value) ) {
+					$value = $default;
+				} else {
+					$value = intval($value);
+				}
+			} else if ( $type === 'text_checkbox' || $type === 'colorpicker' || $type === 'borderradius' || $type === 'borderwidth') {
+				//array types
+				if ( is_serialized($value ) ) {
+					$value = unserialize($value);
+					//code to prevent duplicate upgrades
+					$stop_check = false;
+					foreach ($value as $key => $key_value ) {
+						if ( $stop_check ) continue;
+						if ( is_serialized( $key_value )) {
+							$value = $this->get_default( $fieldname );
+							$stop_check = true;
+						}
 					}
+				}
+
+				//strip out empty values in arrays, so the default gets set.
+				if ( is_array($value) ) {
+					$value = array_filter($value);
+				} else {
+					$value = array();
+				}
+				foreach ( $default as $key => $default_arr_value ) {
+					//if the key is not set, we set the default
+					if ( !isset($value[$key]) ) {
+						$value[$key] = $default_arr_value;
+					} else {
+						//key is set. We only set the default, if it's empty and set_defaults is true
+						if ( $key !== 'show' && $value[$key] === '' && $set_defaults ) {
+							$value[$key] = $default_arr_value;
+						}
+					}
+				}
+			} else if ( $type === 'css' ) {
+				$value = htmlspecialchars_decode( $value );
+				if (empty($value) && $set_defaults) {
+					$value = $default;
 				}
 			}
 
-			if ($fieldname === 'custom_css' ) {
-				$value = htmlspecialchars_decode( $value );
-			}
-
-			//strip out empty values in arrays, so the default gets set.
-			if ( is_array($value) ) {
-				$value = array_filter($value);
+			if ( $this->is_translatable( $fieldname ) ) {
+				$this->{$fieldname . '_x'} = $this->translate($value, $fieldname);
 			}
 
 			return $value;
@@ -394,30 +384,35 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @param string|array $value
 		 * @param string $fieldname
 		 *
-		 * @return string
+		 * @return string|array
 		 */
 
 		private function translate( $value, $fieldname ) {
-			//todo, remove this, as it's obsolete
-			if ( isset($value['text']) ) {
-				$value = $value['text'];
+			$translate_string = $value;
+			if ( is_array($value) && isset($value['text']) ) {
+				$translate_string = $value['text'];
 			}
 
 			//e.g. When elementor integration is active, preferences may pass an array without the text entry here, causing an error with WPML
-			if ( is_array( $value ) ) {
+			if ( is_array( $translate_string ) ) {
 				return '';
 			}
 
 			$key = $this->translation_id;
 			if ( function_exists( 'pll__' ) ) {
-				$value = pll__( $value );
+				$translate_string = pll__( $translate_string );
 			}
 
 			if ( function_exists( 'icl_translate' ) ) {
-				$value = icl_translate( 'complianz', $fieldname . $key, $value );
+				$translate_string = icl_translate( 'complianz', $fieldname . $key, $translate_string );
 			}
 
-			return apply_filters( 'wpml_translate_single_string', $value, 'complianz', $fieldname . $key );
+			$translate_string = apply_filters( 'wpml_translate_single_string', $translate_string, 'complianz', $fieldname . $key );
+
+			if ( is_array($value) && isset($value['text']) ) {
+				$value['text'] = $translate_string;
+			}
+			return $value;
 		}
 
 		/**
@@ -480,7 +475,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 *
 		 * @param $fieldname
 		 *
-		 * @return string
+		 * @return mixed
 		 */
 
 		private function get_default( $fieldname, $key=false ) {
@@ -493,11 +488,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] )
 						? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
 			}
+		}
 
+		private function get_field_type( $fieldname ) {
+			return isset(COMPLIANZ::$config->fields[ $fieldname ]) ? COMPLIANZ::$config->fields[ $fieldname ]['type'] : 'none';
 		}
 
 		/**
 		 * Save the edited data in the object
+		 *
+		 * @param bool $is_default
 		 *
 		 * @return void
 		 */
@@ -524,10 +524,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$statistics   = serialize( $this->statistics );
-
-			if ( $this->use_categories === 'hidden' ) {
-				$this->use_categories = 'view-preferences';
-			}
 
 			$update_array = array(
 				'position'                     => sanitize_title( $this->position ),
@@ -557,6 +553,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'dismiss_on_scroll'            => intval( $this->dismiss_on_scroll ),
 				'dismiss_on_timeout'           => intval( $this->dismiss_on_timeout ),
 				'dismiss_timeout'              => intval( $this->dismiss_timeout ),
+				'font_size'                    => intval( $this->font_size ),
 				'accept_informational'         => $this->sanitize_text_checkbox( $this->accept_informational ),
 				'message_optout'               => wp_kses( $this->message_optout, cmplz_allowed_html() ),
 				'use_custom_cookie_css'        => intval( $this->use_custom_cookie_css ),
@@ -580,6 +577,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'use_box_shadow'               => intval( $this->use_box_shadow ),
 				'header_footer_shadow'         => intval( $this->header_footer_shadow ),
 				'hide_preview'                 => intval( $this->hide_preview ),
+				'disable_width_correction'     => intval( $this->disable_width_correction ),
 			);
 
 			global $wpdb;
@@ -647,14 +645,14 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * @return int|array
 		 */
 		public function sanitize_int_array( $int ) {
-			$store_int = false;
+			$store_type = false;
 			if ( is_array($int) ) {
 				if (isset($int['type'])) {
-					$store_int = $int['type'];
+					$store_type = $int['type'];
 				}
 				$int = array_map('intval', $int );
-				if ($store_int){
-					$int['type'] = $store_int;
+				if ($store_type){
+					$int['type'] = $store_type;
 				}
 				$int = serialize(  $int );
 			} else {
@@ -1063,7 +1061,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			if ( isset($this->preferences_text['show']) && !$this->preferences_text['show'] )  $css_files[] = "settings/categories/hide-preferences_text$minified.css";
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
-			if ( isset($this->statistics_text_anonymous['show']) && !$this->statistics_text_anonymous['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->marketing_text['show']) && !$this->marketing_text['show'] )  $css_files[] = "settings/categories/hide-marketing_text$minified.css";
 
 			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
@@ -1095,29 +1092,41 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			return apply_filters('cmplz_banner_css_files', $css_files);
 		}
 
+		public function get_array_value($field, $key = false ){
+			if ( $key ) {
+				$value = isset($this->{$field}[$key]) ? $this->{$field}[$key] : $this->get_default($field, $key);
+			} else {
+				$value = $this->{$field};
+			}
+			return $value;
+		}
+
 		public function get_css_settings() {
 			$output = array(
-				"banner_background_color" => isset($this->colorpalette_background['color']) ?$this->colorpalette_background['color']: $this->get_default('colorpalette_background', 'color'),
-				"banner_border_color" => isset($this->colorpalette_background['border']) ?$this->colorpalette_background['border']: $this->get_default('colorpalette_background', 'border'),
+				"banner_background_color" => $this->colorpalette_background['color'],
+				"banner_border_color" => $this->colorpalette_background['border'],
 				"banner_border_width" => $this->get_border_width(),
 				"banner_width" => $this->banner_width.'px',
+				"text_font_size" => $this->font_size.'px',
+				"link_font_siz" => $this->font_size.'px',
+				"category_body_font_size" => $this->font_size.'px',
 				"banner_border_radius" => $this->get_border_radius($this->colorpalette_border_radius),
-				"text_color" => isset($this->colorpalette_text['color']) ?$this->colorpalette_text['color']: $this->get_default('colorpalette_text', 'color'),
-				"hyperlink_color" => isset($this->colorpalette_text['hyperlink']) ? $this->colorpalette_text['hyperlink']: $this->get_default('colorpalette_text', 'hyperlink'),
+				"text_color" => $this->colorpalette_text['color'],
+				"hyperlink_color" => $this->colorpalette_text['hyperlink'],
 				"category_header_always_active_color" => "green",
-				"button_accept_background_color" => isset($this->colorpalette_button_accept['background']) ? $this->colorpalette_button_accept['background']: $this->get_default('colorpalette_button_accept', 'background'),
-				"button_accept_border_color" => isset($this->colorpalette_button_accept['border']) ? $this->colorpalette_button_accept['border'] : $this->get_default('colorpalette_button_accept', 'border'),
-				"button_accept_text_color" => isset($this->colorpalette_button_accept['text']) ? $this->colorpalette_button_accept['text'] : $this->get_default('colorpalette_button_accept', 'text'),
-				"button_deny_background_color" => isset($this->colorpalette_button_deny['background']) ? $this->colorpalette_button_deny['background'] : $this->get_default('colorpalette_button_deny', 'background'),
-				"button_deny_border_color" => isset($this->colorpalette_button_deny['border']) ? $this->colorpalette_button_deny['border'] : $this->get_default('colorpalette_button_deny', 'border'),
-				"button_deny_text_color" => isset($this->colorpalette_button_deny['text']) ? $this->colorpalette_button_deny['text'] : $this->get_default('colorpalette_button_deny', 'text'),
-				"button_settings_background_color" => isset($this->colorpalette_button_settings['background']) ? $this->colorpalette_button_settings['background'] : $this->get_default('colorpalette_button_settings', 'background'),
-				"button_settings_border_color" => isset($this->colorpalette_button_settings['border']) ? $this->colorpalette_button_settings['border'] : $this->get_default('colorpalette_button_settings', 'border'),
-				"button_settings_text_color" => isset($this->colorpalette_button_settings['text']) ? $this->colorpalette_button_settings['text'] : $this->get_default('colorpalette_button_settings', 'text'),
+				"button_accept_background_color" => $this->colorpalette_button_accept['background'],
+				"button_accept_border_color" => $this->colorpalette_button_accept['border'],
+				"button_accept_text_color" => $this->colorpalette_button_accept['text'],
+				"button_deny_background_color" => $this->colorpalette_button_deny['background'],
+				"button_deny_border_color" => $this->colorpalette_button_deny['border'],
+				"button_deny_text_color" => $this->colorpalette_button_deny['text'],
+				"button_settings_background_color" => $this->colorpalette_button_settings['background'],
+				"button_settings_border_color" => $this->colorpalette_button_settings['border'],
+				"button_settings_text_color" => $this->colorpalette_button_settings['text'],
 				"button_border_radius" => $this->get_border_radius($this->buttons_border_radius),
-				"slider_active_color" => isset($this->colorpalette_toggles['background']) ? $this->colorpalette_toggles['background'] : $this->get_default('colorpalette_toggles', 'background'),
-				"slider_inactive_color" => isset($this->colorpalette_toggles['inactive']) ? $this->colorpalette_toggles['inactive'] : $this->get_default('colorpalette_toggles', 'inactive'),
-				"slider_bullet_color" => isset($this->colorpalette_toggles['bullet']) ? $this->colorpalette_toggles['bullet'] : $this->get_default('colorpalette_toggles', 'bullet'),
+				"slider_active_color" => $this->colorpalette_toggles['background'],
+				"slider_inactive_color" => $this->colorpalette_toggles['inactive'],
+				"slider_bullet_color" => $this->colorpalette_toggles['bullet'],
 				"category_open_icon_url" => "url(".trailingslashit( cmplz_url)."assets/images/down.png)",
 			);
 
@@ -1129,7 +1138,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * Generate the css file for the banner
 		 * @param bool $preview
 		 */
-		public function generate_css( $preview = false )
+		function generate_css( $preview = false )
 		{
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
@@ -1156,7 +1165,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $this->use_custom_cookie_css ) {
-					$css .=  $this->custom_css;
+					$css .= htmlspecialchars( $this->custom_css );
 				}
 
 				$category_count = 3;//functional is always available, so does not count here
@@ -1171,6 +1180,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 				$remove_count = 3 - $category_count;//functional always exists
 				$height = 216 - $remove_count * 53;
+
 				$settings['categories-height'] = $height.'px';
 				foreach ($settings as $setting => $value) {
 					$css = preg_replace("/--cmplz_$setting:[^;]*;/", "--cmplz_$setting: $value;", $css, 1);
@@ -1199,27 +1209,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 *
 		 * @return array
 		 */
-		public function get_front_end_settings( $preview = false ) {
+		public function get_front_end_settings() {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
-			$css_file = $upload_url . '/complianz/css/banner-banner_id-type.css';
-
 			$pages = COMPLIANZ::$config->pages;
-
-			//check if the css file exists. if not, use default.
-			if ( !$preview ) {
-				$upload_dir = $uploads['basedir'];
-				$consent_types = cmplz_get_used_consenttypes();
-				$banner_id = $this->id;
-				foreach ( $consent_types as $consent_type ) {
-					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
-					if ( ! file_exists( $upload_dir . $file ) ) {
-						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
-					}
-				}
-			}
 
 			$page_links = array();
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
@@ -1235,6 +1230,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 			}
+
 			//now, make sure the general documents are added to each region: they're generic, so each region should have them.
 			if ( isset($page_links['all']) ) {
 				foreach ( $pages as $region => $region_pages ) {
@@ -1273,7 +1269,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'cookie_path'          => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => cmplz_get_value( 'blocked_content_text' ),
-				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
+				'css_file'             => $upload_url . '/complianz/css/banner-banner_id-type.css?v='.$this->banner_version.$script_debug,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
@@ -1317,4 +1313,3 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
         }
 	}
 }
-

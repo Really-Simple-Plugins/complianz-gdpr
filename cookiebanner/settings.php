@@ -82,20 +82,19 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'        => 'text',
 				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
-				'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
-				'help'        => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
+				'tooltip'        => __( 'For internal use only', 'complianz-gdpr' ),
+				'help'   => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
 			),
 
-      'revoke' => array(
-          'source'       => 'CMPLZ_COOKIEBANNER',
-          'step'         => 'general',
-          'type'         => 'text_checkbox',
-          'default'      => ['text' => __( "Manage consent", 'complianz-gdpr' ), 'show' => true ],
-          'placeholder'  => __( "Manage consent", 'complianz-gdpr' ),
-          'label'        => __( "Text on the manage consent tab", 'complianz-gdpr' ),
-          'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
-          'comment'      => __("The tab will not show on mobile devices for UX optimization. You can use CSS to revert this.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/show-settings-button-on-mobile/' ),
-      ),
+            'revoke' => array(
+                'source'    => 'CMPLZ_COOKIEBANNER',
+                'step'      => 'general',
+                'type'      => 'text_checkbox',
+                'default'   => ['text' => __( "Manage consent", 'complianz-gdpr' ), 'show' => true ],
+                'placeholder' => __( "Manage consent", 'complianz-gdpr' ),
+                'label'     => __( "Text on the manage consent tab", 'complianz-gdpr' ),
+                'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
+            ),
 
             'disable_cookiebanner' => array(
                 'source'  => 'CMPLZ_COOKIEBANNER',
@@ -507,11 +506,21 @@ function cmplz_add_cookiebanner_settings($fields){
 
             /* ----- Custom CSS ----- */
 
+			'disable_width_correction' => array(
+				'source'  => 'CMPLZ_COOKIEBANNER',
+				'step'    => 'custom_css',
+				'type'    => 'checkbox',
+				'label'   => __( "Disable width auto correction", 'complianz-gdpr' ),
+				'default' => false,
+				'callback_condition' => 'NOT cmplz_tcf_active',
+				'tooltip' => __('This will disable a back-end javascript to keep the banner width aligned with other elements.','complianz-gdpr'),
+			),
+
 			'custom_css' => array(
 				'source'    => 'CMPLZ_COOKIEBANNER',
 				'step'      => 'custom_css',
 				'type'      => 'css',
-				'help'      => sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
+				'help'      => cmplz_sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
 				'label'     => '',
 				'default'   => '.cmplz-message{}'
 				               . "\n".' /* styles for the message box */'
@@ -627,6 +636,14 @@ function cmplz_add_cookiebanner_settings($fields){
                 'placeholder'        => __( "To provide the best experiences, we use technologies like cookies to store and/or access device information. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' ),
                 'condition'     => array( 'consenttype' => 'optin' ),
             ),
+
+			'font_size' => array(
+				'source'        => 'CMPLZ_COOKIEBANNER',
+				'step'          => 'settings',
+				'type'          => 'number',
+				'default'       => 12,
+				'label'         => __( "Font size", 'complianz-gdpr' ),
+			),
 
 			'documents' => array(
 				'step'               => 'settings',

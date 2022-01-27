@@ -275,7 +275,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function plugin_update_message($plugin_data, $response){
 			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
-				echo '<br><b>' . '&nbsp'.sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+				echo '<br><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
 
@@ -672,8 +672,8 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'plus_ones' => true,
 			) );
 			$warning_count = count( $warnings );
-			$warning_title = esc_attr( sprintf( '%d plugin warnings', $warning_count ) );
-			$menu_label    = sprintf( __( 'Complianz %s', 'complianz-gdpr' ),
+			$warning_title = esc_attr( cmplz_sprintf( '%d plugin warnings', $warning_count ) );
+			$menu_label    = cmplz_sprintf( __( 'Complianz %s', 'complianz-gdpr' ),
 				"<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>"
 				. number_format_i18n( $warning_count ) . "</span></span>" );
 
@@ -749,7 +749,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					COMPLIANZ::$wizard->wizard( 'wizard' );
 				} else {
 					$link = '<a href="'.add_query_arg(array('page'=>'cmplz-settings#license'), admin_url('admin.php')).'">';
-					cmplz_admin_notice( sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
+					cmplz_admin_notice( cmplz_sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
 				} ?>
 			</div>
 			<?php
@@ -788,9 +788,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'status' => array('urgent', 'open'),
 					) ) );
 			$tasks = '<span class="cmplz-task active" href="'.add_query_arg( array('page' => 'complianz'), admin_url('admin.php') ).'">'
-					. sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-all">'.$all_count.'</span>')
+					. cmplz_sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-all">'.$all_count.'</span>')
 					. '</span><span class="cmplz-task" href="'.add_query_arg( array('page' => 'complianz', 'cmplz-status' => 'remaining'), admin_url('admin.php') ).'">'
-					. sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-remaining">'.$remaining_count .'</span>')
+					. cmplz_sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-remaining">'.$remaining_count .'</span>')
 					. '</span>';
 			$grid_items =
 				array(

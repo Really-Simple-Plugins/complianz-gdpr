@@ -11,6 +11,13 @@
     max-width: 100%;
   }
 }
+@media (max-width: 1023px) {
+  .cmplz-cookiebanner {
+    transform: translateX(-50%);
+    bottom: 0;
+    top: initial;
+  }
+}
 @media (min-width: 1024px) {
   .cmplz-cookiebanner {
     margin: 10px;

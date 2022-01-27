@@ -114,7 +114,7 @@ if ( ! function_exists( 'cmplz_cookiebanner_category_conditional_helptext' ) ) {
 		if ( cmplz_get_value('country_company') == "FR"
 		) {
 			$text
-				= sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept - Deny - View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
+				= cmplz_sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept - Deny - View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
                     'complianz-gdpr' ),
                     '<a href="https://complianz.io/cnil-updated-privacy-guidelines/" target="_blank">', "</a>" );
 		}
@@ -296,10 +296,10 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 			</script>";
 		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom">' . $text
 		        . '</button>&nbsp;<span class="cmplz-status-accepted">'
-		        . sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
+		        . cmplz_sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
 				__( "Accepted", 'complianz-gdpr' ) )
 		        . '</span><span class="cmplz-status-denied">'
-		        . sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
+		        . cmplz_sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
 				__( "Denied", 'complianz-gdpr' ) ) . '</span>';
 
 		return apply_filters( 'cmplz_revoke_link', $html );
@@ -864,27 +864,26 @@ if ( ! function_exists( 'cmplz_panel' ) ) {
 			return '';
 		}
 
-		$open_class = $open ? 'open' : '';
+		$open_class = $open ? 'style="display: block;"' : '';
 
 		$output = '
-        <details class="cmplz-panel cmplz-slide-panel cmplz-toggle-active" ' . $open_class . '>
-        	<summary>
-				<div class="cmplz-panel-title">
+        <div class="cmplz-panel cmplz-slide-panel cmplz-toggle-active">
+            <div class="cmplz-panel-title">
 
-					<span class="cmplz-title">' . $title . '</span>
+                <span class="cmplz-panel-toggle">
+                    '. cmplz_icon('arrow-right', 'success') .'
+                    <span class="cmplz-title">' . $title . '</span>
+                 </span>
 
-					<span>' . $validate . '</span>
+                <span>' . $validate . '</span>
 
-					<span class="cmplz-custom-btns">' . $custom_btn . '</span>
+                <span>' . $custom_btn . '</span>
 
-					<div class="cmplz-icon cmplz-open"></div>
-
-				</div>
-            </summary>
-            <div class="cmplz-panel-content">
+            </div>
+            <div class="cmplz-panel-content" ' . $open_class . '>
                 ' . $html . '
             </div>
-        </details>';
+        </div>';
 
 		if ( $echo ) {
 			echo $output;
@@ -974,6 +973,27 @@ if ( ! function_exists( 'cmplz_update_option' ) ) {
 		if ( ! empty( $options ) ) {
 			update_option( 'complianz_options_' . $page, $options );
 		}
+	}
+}
+if ( ! function_exists( 'cmplz_page_is_of_type' ) ) {
+	/**
+	 * Save a complianz option
+	 * @param string $type
+	 * @return bool
+	 */
+	function cmplz_page_is_of_type( $type ) {
+		$regions = cmplz_get_regions();
+		global $post;
+		if ( !$post ) return false;
+
+		$post_id = $post->ID;
+		foreach ( $regions as $region => $label ) {
+			$policy_id = COMPLIANZ::$document->get_shortcode_page_id( $type, $region );
+			if ( $policy_id == $post_id ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
@@ -1175,13 +1195,7 @@ if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 		}
 
 		if ( $matomo ) {
-			if ( cmplz_get_value( 'matomo_anonymized', false, 'wizard' )
-			     === 'yes'
-			) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 
 		return false;
@@ -1198,7 +1212,7 @@ if (!function_exists('cmplz_get_console_errors')){
 		$location = isset($errors[2]) && strlen($errors[2])>0 ? $errors[2] : __('the page source', 'complianz-gdpr');
 		$line_no = isset($errors[1]) ? $errors[1] : 0;
 		if ( $errors && isset($errors[0]) && $line_no>1 ) {
-			return sprintf(__('%s on line %s of %s', 'complianz-gdpr'), $errors[0], $errors[1], $location);
+			return cmplz_sprintf(__('%s on line %s of %s', 'complianz-gdpr'), $errors[0], $errors[1], $location);
 		}
 
 		return false;
@@ -1349,15 +1363,14 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		$preview = false;
 		global $wp_customize;
 		if ( isset( $wp_customize ) || isset( $_GET['fb-edit'] )
-		     || isset( $_GET['et_pb_preview'] ) //divi
-		     || isset( $_GET['et_fb'] ) //divi
+		     || isset( $_GET['et_pb_preview'] )
+		     || isset( $_GET['et_fb'] )
 		     || isset( $_GET['elementor-preview'] )
 		     || isset( $_GET['vc_action'] )
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
-		     || isset( $_GET['ct_builder'] ) //oxygen
-			 || isset( $_GET['tatsu'] ) //tatsu
+		     || isset( $_GET['ct_builder'] )
 		) {
 			$preview = true;
 		}
@@ -1394,7 +1407,7 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
-		return cmplz_get_value('uses_ad_cookies_personalized', false, 'wizard') === 'tcf';
+		return apply_filters( 'cmplz_tcf_active', false );
 	}
 }
 
@@ -1408,7 +1421,7 @@ if (!function_exists('cmplz_read_more')) {
 	 * @return string
 	 */
 	function cmplz_read_more( $url, $add_space = true ) {
-		$html = sprintf( __( "For more information, please read this %sarticle%s.", 'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">', '</a>' );
+		$html = cmplz_sprintf( __( "For more information, please read this %sarticle%s.", 'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">', '</a>' );
 		if ( $add_space ) {
 			$html = '&nbsp;' . $html;
 		}
@@ -1939,12 +1952,12 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				$link = '<a target="_blank" rel="noopener noreferrer" href="https://complianz.io/legal/privacy-statement/">';
 				$sharing = __( 'This data is not shared with third parties.', 'complianz-gdpr' )
 						.'&nbsp;'
-						.sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
+						. cmplz_sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
 			} else if ( $service->sharesData  ) {
 				$attributes = "noopener noreferrer nofollow";
 				if ( strlen( $service->privacyStatementURL ) != 0 ) {
 					$link    = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
-					$sharing = sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
+					$sharing = cmplz_sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
 				}
 			} elseif ( strlen( $service->name )>0 ) { //don't state sharing info on misc services
 				$sharing = __( 'This data is not shared with third parties.', 'complianz-gdpr' );
@@ -1952,7 +1965,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				$sharing = __( 'Sharing of data is pending investigation', 'complianz-gdpr' );
 			}
 			$purposeDescription = ( ( strlen( $service_name ) > 0 ) && ( strlen( $service->serviceType ) > 0 ) )
-				? sprintf( _x( "We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr' ), $service_name, $service->serviceType ) : '';
+				? cmplz_sprintf( _x( "We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr' ), $service_name, $service->serviceType ) : '';
 
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
 			     && strlen( $service->slug ) !== 0
@@ -2748,4 +2761,41 @@ if (!function_exists('array_key_first')) {
 		reset($array);
 		return key($array);
     }
+}
+
+if ( ! function_exists( 'cmplz_sprintf' ) ) {
+	/**
+	 * Wrapper function for sprintf to prevent fatal errors when the %s variables in source and target do not match
+	 * @param string $format
+	 * @param mixed $values
+	 * @return string
+	 */
+	function cmplz_sprintf(){
+		$args = func_get_args();
+		$count = substr_count($args[0], '%s');
+		$args_count = count($args) - 1;
+		if ($args_count === $count){
+			return call_user_func_array('sprintf', $args);
+		}
+		return $args[0] .  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+	}
+}
+
+if ( ! function_exists( 'cmplz_printf' ) ) {
+	/**
+	 * Wrapper function for printf to prevent fatal errors when the %s variables in source and target do not match
+	 * @param string $format
+	 * @param mixed $values
+	 * @echo string
+	 */
+	function cmplz_printf(){
+		$args = func_get_args();
+		$count = substr_count($args[0], '%s');
+		$args_count = count($args) - 1;
+		if ($args_count === $count){
+			echo call_user_func_array('sprintf', $args);
+		} else {
+			return $args[0] .  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+		}
+	}
 }

@@ -91,4 +91,3 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 
 add_filter( 'cmplz_placeholder_youtube', 'cmplz_youtube_placeholder', 10, 2 );
 
-
