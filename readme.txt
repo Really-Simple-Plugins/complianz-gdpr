@@ -167,13 +167,15 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.1.0 =
+
+* New: Consent per Service in combination with CookieShredder.
+* New: Matomo cookieless tracking
 * CSS: simplify scrollbar in dashboard css
 * CSS: drop overflow: auto on header
 * CSS: drop min-width 300px below 350px
 * CSS: set bottom banner to bottom on mobile as well
 * CSS: padding on links in legal pages
 * CSS: override theme flex property on buttons in banner
-* Improvement: matomo cookieless tracking
 * Improvement: hide not required fields if no documents are selected, props @paaljoachim
 * Improvement: allow for time zone offset when saving consent in records of consent
 * Improvement: keep categories in sync https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/324 props @antonellon
