@@ -1525,7 +1525,7 @@ function cmplz_fire_categories_event(){
 	details.category = cmplz_highest_accepted_category();
 	details.categories = cmplz_accepted_categories();
 	details.region = complianz.region;
-	event = new CustomEvent('cmplz_fire_categories', { detail: details });
+	let event = new CustomEvent('cmplz_fire_categories', { detail: details });
 	document.dispatchEvent(event);
 }
 /**
