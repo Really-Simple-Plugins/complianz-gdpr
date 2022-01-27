@@ -195,6 +195,9 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: new option to disable width auto correction
 * Improvement: ratio option for placeholders on openstreetmap
 * Improvement: added Flexible Maps integration
+* Improvement: drop title element from svg in banner, props @alexbosch
+* Improvement: p elements on all paragraphs in legal documents
+* Improvement: added Flexible Maps integration
 * Fix: Novo Maps integration
 * Fix: catch not set enable dependency key
 * Fix: preview cookiebanner not always correctly updated.
