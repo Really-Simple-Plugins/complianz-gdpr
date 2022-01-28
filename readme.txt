@@ -209,7 +209,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: allow mappress en google maps enabled at the same time
 * Fix: allow quotes in custom css
 * Fix: export filtered dataset from Records of Consent
-* Fix: in cmplz_fire_categories, declare event as local variable, fixing theme conflicts with global declared variables props @jrt341.
+* Fix: in cmplz_fire_categories, declare event as local variable, fixing theme conflicts with global declared variables props @jrt341 and @skydivider
 
 = 6.0.7 =
 * Changed database upgrade order
