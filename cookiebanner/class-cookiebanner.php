@@ -19,8 +19,8 @@ function cmplz_install_cookiebanner_table() {
 		 * use_categories_optinstats- border_color are obsolete
 		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
 		*/
-		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
-		if (count($columns)>0) {
+//		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
+//		if (count($columns)>0) {
 			$sql        = "CREATE TABLE $table_name (
 				`use_categories_optinstats` text NOT NULL,
 	            `popup_background_color` text NOT NULL,
@@ -40,7 +40,7 @@ function cmplz_install_cookiebanner_table() {
               PRIMARY KEY  (ID)
             ) $charset_collate;";
 			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
-		}
+//		}
 
 
 		$sql        = "CREATE TABLE $table_name (
