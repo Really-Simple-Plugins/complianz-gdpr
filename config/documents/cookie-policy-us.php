@@ -172,6 +172,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
   array(
     'subtitle' => 'Manage your opt-out preferences',
     'content' => '[cmplz-manage-consent]',
+    'p' => false,
   ),
 
   array(

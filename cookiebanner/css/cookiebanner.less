@@ -144,7 +144,6 @@
 	grid-column: span 3;
 	overflow-y: auto;
 	overflow-x:hidden;
-	min-width: 300px;
 	max-height: 55vh;
 	&::-webkit-scrollbar-track {
 	  border-radius: 10px;
@@ -160,6 +159,12 @@
 	&::-webkit-scrollbar-thumb {
 	  background-color: var(--cmplz_button_accept_background_color);
 	  border-radius: 10px;
+	}
+  }
+  //set a min-width above 350px.
+  @media (min-width:350px) {
+	.cmplz-body {
+	  min-width: 300px;
 	}
   }
 
@@ -182,7 +187,6 @@
 	  align-items: center;
 	  display: grid;
 	  grid-column: span 3;
-	  overflow:auto;
 	}
 
 	.cmplz-logo {
@@ -416,17 +420,13 @@
 
   // ---------------------------------------------------- Links ----------------------------------------------------- //
 
-  //disabled until consent per services on cookie policy is released
-  .cmplz-links.cmplz-information {
-	  display:none;
+  @media (max-width:425px) {
+	//stack links on small screens
+	.cmplz-links.cmplz-information {
+	  display:initial;
+	  text-align:center;
+	}
   }
-  //@media (max-width:425px) {
-	////stack links on small screens
-	//.cmplz-links.cmplz-information {
-	//  display:initial;
-	//  text-align:center;
-	//}
-  //}
 
   .cmplz-links {
 	&.cmplz-information {

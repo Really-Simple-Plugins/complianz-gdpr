@@ -450,6 +450,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->save();
 				}
 			}
+			wp_cache_delete('cmplz_cookie_shredder_list', 'complianz');
 		}
 
 

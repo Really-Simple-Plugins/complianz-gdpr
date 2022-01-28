@@ -226,11 +226,11 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 	public function date_select() {
 		// Month Select
 		$selected = false;
-		if ( isset( $_GET['cmplz-month-select'] ) ) {
-			if ( isset( $_GET['cmplz-year-select'] ) &&  $_GET['cmplz-year-select'] == 0) {
+		if ( isset( $_GET['cmplz_month_select'] ) ) {
+			if ( isset( $_GET['cmplz_year_select'] ) &&  $_GET['cmplz_year_select'] == 0) {
 				$selected = 0;
 			} else {
-				$selected = intval($_GET['cmplz-month-select']);
+				$selected = intval($_GET['cmplz_month_select']);
 			}
 		}
 		$months = array(
@@ -248,7 +248,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 				__( 'November' ),
 				__( 'December' )
 		);
-		echo '<select style="float:right" name="cmplz-month-select" id="cmplz-month-select" class="cmplz-month-select">';
+		echo '<select style="float:right" name="cmplz_month_select" id="cmplz_month_select" class="cmplz_month_select">';
 		foreach($months as $value => $label) {
 			echo '<option value="' . $value . '" ' . ($selected==$value ? 'selected' : '') . '>' . $label . '</option>';
 		}
@@ -256,11 +256,11 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 
 		// Year Select
 		$selected = false;
-		if ( isset( $_GET['cmplz-year-select'] ) ) {
-			if (isset($_GET['cmplz-month-select']) && $_GET['cmplz-month-select'] == 0) {
+		if ( isset( $_GET['cmplz_year_select'] ) ) {
+			if (isset($_GET['cmplz_month_select']) && $_GET['cmplz_month_select'] == 0) {
 				$selected = 0;
 			} else {
-				$selected = intval($_GET['cmplz-year-select']);
+				$selected = intval($_GET['cmplz_year_select']);
 			}
 		}
 		if (! empty($this->all) ) {
@@ -271,7 +271,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 			$years = array();
 		}
 
-		echo '<select style="float:right" name="cmplz-year-select" id="cmplz-year-select" class="cmplz-year-select">';
+		echo '<select style="float:right" name="cmplz_year_select" id="cmplz_year_select" class="cmplz_year_select">';
 		echo '<option value="0" ' . ($selected==0 ? 'selected' : '') . '>'.__("Year","complianz-gdpr").'</option>';
 		foreach($years as $year) {
 			echo '<option value="' . $year . '" ' . ($selected==$year ? 'selected' : '') . '>' . $year . '</option>';
@@ -326,10 +326,10 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 				'search'  => $search,
 		);
 
-		if ( isset( $_GET['cmplz-month-select'] ) && isset( $_GET['cmplz-year-select'] )
-			 && $_GET['cmplz-month-select'] != 0 && $_GET['cmplz-year-select'] != 0 ) {
-			$args['start_date']  = COMPLIANZ::$proof_of_consent->get_time_stamp_for_date($_GET['cmplz-year-select'], $_GET['cmplz-month-select'], 'start_date');
-			$args['end_date']  = COMPLIANZ::$proof_of_consent->get_time_stamp_for_date($_GET['cmplz-year-select'], $_GET['cmplz-month-select'], 'end_date');
+		if ( isset( $_GET['cmplz_month_select'] ) && isset( $_GET['cmplz_year_select'] )
+			 && $_GET['cmplz_month_select'] != 0 && $_GET['cmplz_year_select'] != 0 ) {
+			$args['start_date']  = COMPLIANZ::$proof_of_consent->get_time_stamp_for_date($_GET['cmplz_year_select'], $_GET['cmplz_month_select'], 'start_date');
+			$args['end_date']  = COMPLIANZ::$proof_of_consent->get_time_stamp_for_date($_GET['cmplz_year_select'], $_GET['cmplz_month_select'], 'end_date');
 		}
 
 		$this->args = $args;

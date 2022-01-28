@@ -72,6 +72,7 @@
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 5;
+    display: flex;
     justify-content: flex-end;
   }
   .cmplz-cookiebanner .cmplz-links.cmplz-documents {

@@ -114,7 +114,7 @@ function cmplz_notice_cookie_scan() {
 		   && $_SERVER['HTTP_DNT'] == 1 )
 		 || isset( $_SERVER['HTTP_SEC_GPC'] )
 	) {
-		cmplz_sidebar_notice( __( "You have Do Not Track or Global Privacy Control enabled. This will prevent most cookies from being placed. Please run the scan with these options disabled.", 'complianz-gdpr' ), 'warning' );
+		cmplz_sidebar_notice( __( "Your browser has the Do Not Track or Global Privacy Control setting enabled.","complianz-gdpr")."&nbsp;".__("This will prevent most cookies from being placed.","complianz-gdpr")."&nbsp;".__("Please run the scan with these browser options disabled.", 'complianz-gdpr' ), 'warning' );
 	}
 	?>
 

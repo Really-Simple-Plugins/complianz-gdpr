@@ -126,7 +126,6 @@
   grid-column: span 3;
   overflow-y: auto;
   overflow-x: hidden;
-  min-width: 300px;
   max-height: 55vh;
 }
 .cmplz-cookiebanner .cmplz-body::-webkit-scrollbar-track {
@@ -142,6 +141,11 @@
   background-color: var(--cmplz_button_accept_background_color);
   border-radius: 10px;
 }
+@media (min-width: 350px) {
+  .cmplz-cookiebanner .cmplz-body {
+    min-width: 300px;
+  }
+}
 .cmplz-cookiebanner .cmplz-divider {
   margin-left: -20px;
   margin-right: -20px;
@@ -151,7 +155,6 @@
   align-items: center;
   display: grid;
   grid-column: span 3;
-  overflow: auto;
 }
 .cmplz-cookiebanner .cmplz-logo svg {
   max-height: 35px;
@@ -347,8 +350,11 @@
   justify-content: center;
   padding: initial;
 }
-.cmplz-cookiebanner .cmplz-links.cmplz-information {
-  display: none;
+@media (max-width: 425px) {
+  .cmplz-cookiebanner .cmplz-links.cmplz-information {
+    display: initial;
+    text-align: center;
+  }
 }
 .cmplz-cookiebanner .cmplz-links {
   display: flex;

@@ -2911,9 +2911,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate=0)',
 					intval( $settings['lastUpdatedDate'] ) );
 			}
-			$cookies
-				= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where "
-				                      . $sql );
+
+			$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
 
 			//make sure service data is added
 			foreach ( $cookies as $index => $cookie ) {

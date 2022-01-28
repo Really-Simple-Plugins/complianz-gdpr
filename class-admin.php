@@ -677,7 +677,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				"<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>"
 				. number_format_i18n( $warning_count ) . "</span></span>" );
 
-
 			global $cmplz_admin_page;
 			$cmplz_admin_page = add_menu_page(
 				__( 'Complianz', 'complianz-gdpr' ),

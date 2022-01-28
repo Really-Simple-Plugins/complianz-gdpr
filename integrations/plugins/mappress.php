@@ -10,7 +10,7 @@ if ( !defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE') ) define('CMPLZ_GOOGLE_MAP
  */
 function cmplz_mappress_script( $tags ) {
 	$tags[] = array(
-			'name' => 'google-maps',
+			'name' => 'mappress',
 			'category' => 'marketing',
 			'placeholder' => 'google-maps',
 			'urls' => array(
@@ -60,3 +60,10 @@ function cmplz_mappress_detected_services( $services ) {
 }
 
 add_filter( 'cmplz_detected_services', 'cmplz_mappress_detected_services' );
+
+
+function cmplz_mappress_whitelist($tags){
+	$tags[] = 'var mappl10n';
+	return $tags;
+}
+add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_mappress_whitelist');

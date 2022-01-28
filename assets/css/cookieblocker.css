@@ -26,6 +26,10 @@
   height: inherit;
   position: relative;
 }
+.cmplz-blocked-content-container.gmw-map-cover {
+  max-height: 100%;
+  position: absolute;
+}
 .cmplz-blocked-content-container.cmplz-video-placeholder {
   padding-bottom: initial;
 }
@@ -36,11 +40,6 @@
 .cmplz-blocked-content-container div div {
   display: none;
 }
-.cmplz-blocked-content-container.gmw-map-cover {
-  max-height: 100%;
-  position: absolute;
-}
-.cmplz-blocked-content-container .cmplz-blocked-content-notice,
 .cmplz-blocked-content-container .cmplz-custom-accept-btn {
   white-space: normal;
   text-transform: initial;
@@ -62,9 +61,38 @@
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
 }
-.cmplz-blocked-content-container .cmplz-blocked-content-notice:focus,
 .cmplz-blocked-content-container .cmplz-custom-accept-btn:focus {
   border: 1px dotted #cecece;
+}
+.cmplz-blocked-content-container .cmplz-blocked-content-notice {
+  white-space: normal;
+  text-transform: initial;
+  position: absolute !important;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 300px;
+  font-size: 14px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Black background with opacity */
+  color: #fff;
+  text-align: center;
+  /*make sure the container is on top of the iframe, but below our cookie notice */
+  z-index: 98;
+  /*We need some lineheight, for example Elementor will force a lineheight of 0*/
+  line-height: 23px;
+}
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links {
+  display: block;
+  margin-bottom: 10px;
+}
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links a {
+  color: #fff;
+}
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-blocked-content-notice-body {
+  display: block;
 }
 @keyframes cmplz-fadein {
   0% {

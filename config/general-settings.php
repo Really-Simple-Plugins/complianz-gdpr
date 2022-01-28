@@ -69,19 +69,6 @@ $this->fields = $this->fields + array(
 			'default'  => false,
 		),
 
-        'blocked_content_text' => array(
-            'step'         => 'general',
-            'source'       => 'settings',
-            'type'         => 'text',
-            'translatable' => true,
-            'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-            'default'      => _x( 'Click to accept marketing cookies and enable this content', 'Accept cookies on blocked content', 'complianz-gdpr' ),
-            'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
-            'condition'    => array(
-                'disable_cookie_block' => false,
-            )
-        ),
-
 		'a_b_testing_duration' => array(
 			'source'    => 'settings',
 			'step'      => 'general',
@@ -222,19 +209,6 @@ $this->fields = $this->fields + array(
 				'thirdparty_services_on_site' => 'google-maps,openstreetmaps',
 			),
 			'comment'=> __( "If you select custom, you need to add your custom image to your site.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/changing-the-google-maps-placeholder/'),
-		),
-
-		'blocked_content_text' => array(
-			'step'      => 'cookie-blocker',
-			'source'       => 'settings',
-			'type'         => 'text',
-			'translatable' => true,
-			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-			'default'      => __( 'Click to accept the cookies for this service', 'complianz-gdpr' ),
-			'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
-			'condition'    => array(
-				'disable_cookie_block' => false,
-			)
 		),
 
         'set_cookies_on_root' => array(

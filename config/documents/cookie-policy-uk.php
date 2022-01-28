@@ -115,12 +115,14 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
 
     'revoke_btn' => array(
+	    'p' => false,
 	    'subtitle' => 'Manage your consent settings',
 	    'content' => '[cmplz-manage-consent]',
 	    'callback_condition' => 'cmplz_uk_site_needs_cookie_warning',
     ),
 
 	array(
+		'p' => false,
 		'subtitle' => _x('Vendors', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'content' => '[cmplz-tcf-vendors]',
 		'callback_condition' => 'cmplz_tcf_active',

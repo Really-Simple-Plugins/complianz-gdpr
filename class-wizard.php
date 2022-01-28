@@ -308,9 +308,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			/**
-			 * If TCF was just disabled, regenerate the css.
+			 * If TCF was just disabled or enabled, regenerate the css.
 			 */
-			if ( $fieldname === 'uses_ad_cookies_personalized' && $fieldvalue !== 'tcf' && $prev_value === 'tcf' ) {
+			if ( $fieldname === 'uses_ad_cookies_personalized' ) {
 				$generate_css = true;
 			}
 
@@ -699,9 +699,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( strpos( $hook, 'toplevel_page_complianz' ) !== false ) {
 				wp_register_style( 'cmplz-dashboard', cmplz_url . "assets/css/dashboard$minified.css", false, cmplz_version );
 				wp_enqueue_style( 'cmplz-dashboard' );
-				wp_register_style( 'cmplz-simple-scroll', cmplz_url . "assets/simple-scrollbar/simple-scrollbar$minified.css", false, cmplz_version );
-				wp_enqueue_style( 'cmplz-simple-scroll' );
-				wp_enqueue_script( 'cmplz-simple-scroll', cmplz_url . "assets/simple-scrollbar/simple-scrollbar.min.js", array( 'jquery' ), cmplz_version, true );
 			}
 
 			if ( strpos( $hook, 'cmplz-wizard' ) === false &&

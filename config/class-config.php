@@ -457,7 +457,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'upgraded_to_6' => array(
 					'warning_condition'  => 'cmplz_upgraded_to_current_version',
 					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ).'&nbsp;'.
-					          '<br><br>'.sprintf(__('We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s.','complianz-gdpr'),'<a href="'.$banner_url.'">','</a>').'&nbsp;'.
+					          '<br><br>'.cmplz_sprintf(__('We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s.','complianz-gdpr'),'<a href="'.$banner_url.'">','</a>').'&nbsp;'.
 					          __('You can reset to default values, if needed.','complianz-gdpr'),
 					'admin_notice' => true,
 				),
@@ -616,7 +616,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 						'document->pretty_permalinks_enabled',
 					),
 					'plus_one' => true,
-					'urgent' => __( 'Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz.', 'complianz-gdpr' ),
+					'urgent' => __( 'Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz.', 'complianz-gdpr' ).'&nbsp;<a href="'.admin_url('options-permalink.php').'">'.__("Enable", "complianz-gdpr").'</a>',
 					'include_in_progress' => true,
 					'dismissible' => false,
 				),

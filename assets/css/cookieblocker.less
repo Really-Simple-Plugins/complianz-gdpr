@@ -27,19 +27,6 @@
 .cmplz-blocked-content-container {
   animation-name: cmplz-fadein;
   animation-duration: 600ms;
-  &.cmplz-video-placeholder {
-	padding-bottom: initial;
-  }
-
-  iframe {
-	max-height: 100%;
-	border: 0 !important;
-  }
-
-  div div {
-	display: none
-  }
-
   background: #FFF;
   border: 0;
   border-radius: 3px;
@@ -56,9 +43,20 @@
 	max-height: 100%;
 	position: absolute;
   }
+  &.cmplz-video-placeholder {
+	padding-bottom: initial;
+  }
 
-  .cmplz-blocked-content-notice, .cmplz-custom-accept-btn {
+  iframe {
+	max-height: 100%;
+	border: 0 !important;
+  }
 
+  div div {
+	display: none
+  }
+
+  .cmplz-custom-accept-btn {
 	&:focus {
 	  border: 1px dotted #cecece;
 	}
@@ -81,6 +79,36 @@
 	z-index: 98;
 	/*We need some lineheight, for example Elementor will force a lineheight of 0*/
 	line-height: 23px;
+  }
+
+  .cmplz-blocked-content-notice {
+	white-space: normal;
+	text-transform: initial;
+	position: absolute !important;
+	width: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 300px;
+	font-size: 14px;
+	padding: 10px;
+	background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+	color: #fff;
+	text-align: center;
+	/*make sure the container is on top of the iframe, but below our cookie notice */
+	z-index: 98;
+	/*We need some lineheight, for example Elementor will force a lineheight of 0*/
+	line-height: 23px;
+	.cmplz-links {
+	  display:block;
+	  margin-bottom:10px;
+	  a {
+	  	color:#fff;
+	  }
+	}
+	.cmplz-blocked-content-notice-body {
+	  display:block;
+	}
   }
 }
 

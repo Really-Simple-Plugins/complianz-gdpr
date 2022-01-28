@@ -33,6 +33,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
     array(
 	    'subtitle' => 'Manage your consent settings',
+	    'p' => false,
 	    'content' => '[cmplz-manage-consent]',
     ),
 	array(

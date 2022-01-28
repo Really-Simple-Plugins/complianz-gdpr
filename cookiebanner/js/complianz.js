@@ -269,7 +269,7 @@ function cmplz_load_css( path ) {
 
 function cmplz_run_script( script, category, type ) {
 	let fileref = document.createElement("script");
-	fileref.setAttribute("type", "text/javascript")
+	fileref.setAttribute("type", "text/javascript");
 	if ( type !== 'inline' ) {
 		fileref.setAttribute("src", script);
 	} else {
@@ -356,22 +356,8 @@ function cmplz_set_blocked_content_container() {
 			blocked_image_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
 			blocked_image_container.classList.add('cmplz-blocked-content-container');
 			blocked_image_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
-			//insert placeholder text
-			if ( blocked_image_container.querySelector(".cmplz-blocked-content-notice" ) == null) {
-				let placeholderText = complianz.placeholdertext;
-				if (typeof placeholderText !== 'undefined') {
-					let btn = cmplz_create_element('button', '');
-					btn.innerText = placeholderText;
-					btn.classList.add('cmplz-blocked-content-notice');
-					btn.classList.add('cmplz-accept-marketing');
-					btn.setAttribute('data-service', service );
-					btn.setAttribute('aria-label', service );
-					blocked_image_container.appendChild( btn );
-				}
-			}
+			cmplz_insert_placeholder_text(blocked_image_container, service);
 		}
-
-
 	});
 
 	document.querySelectorAll('.cmplz-placeholder-element').forEach(obj => {
@@ -401,18 +387,7 @@ function cmplz_set_blocked_content_container() {
 			blocked_content_container.classList.add('cmplz-blocked-content-container');
 			blocked_content_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
 			//insert placeholder text
-			if ( blocked_content_container.querySelector( ".cmplz-blocked-content-notice" ) == null ) {
-				let placeholderText = complianz.placeholdertext;
-				if (typeof placeholderText !== 'undefined') {
-					let btn = cmplz_create_element('button', '');
-					btn.innerText = placeholderText;
-					btn.classList.add('cmplz-blocked-content-notice');
-					btn.classList.add('cmplz-accept-marketing');
-					btn.setAttribute('data-service', service );
-					btn.setAttribute('aria-label', service );
-					blocked_content_container.appendChild( btn );
-				}
-			}
+			cmplz_insert_placeholder_text(blocked_content_container, service);
 
 			//handle image size for video
 			let src = obj.getAttribute('data-placeholder-image');
@@ -432,7 +407,35 @@ function cmplz_set_blocked_content_container() {
 	if ( cmplz_has_consent('marketing') ) {
 		cmplz_enable_category('marketing');
 	}
+}
 
+function cmplz_insert_placeholder_text(container, service){
+	if ( !container.querySelector( ".cmplz-blocked-content-notice" ) ) {
+		let placeholder_text = complianz.placeholdertext;
+
+		if ( typeof placeholder_text !== 'undefined' ) {
+			//make service human readable
+			let service_nicename = service.replace('-', ' ');
+			service_nicename = service_nicename.charAt(0).toUpperCase() + service_nicename.slice(1);
+			placeholder_text = placeholder_text.replace('%s', service_nicename);
+			let body = cmplz_create_element('div', placeholder_text);
+			body.innerHTML = placeholder_text;
+			body.classList.add('cmplz-blocked-content-notice');
+			let btn = body.querySelector('button');
+			btn.setAttribute('data-service', service );
+			btn.setAttribute('aria-label', service );
+			let pageLinks = complianz.page_links[complianz.region];
+			let link = body.querySelector('.cmplz-links a');
+			if ( pageLinks.hasOwnProperty('cookie-statement') ) {
+				link.setAttribute('href', pageLinks['cookie-statement']['url']);
+				if (link.innerText === '{title}') {
+					link.innerText = pageLinks['cookie-statement']['title'];
+				}
+			}
+
+			container.appendChild( body );
+		}
+	}
 }
 
 /**
@@ -509,8 +512,8 @@ function cmplz_enable_category(category, service) {
 	}
 
 	//remove accept cookie notice overlay
-	document.querySelectorAll('.cmplz-blocked-content-notice.cmplz-accept-'+category+', .cmplz-blocked-content-notice[data-service='+service+']').forEach(obj => {
-		obj.parentNode.removeChild(obj);
+	document.querySelectorAll('.cmplz-blocked-content-notice .cmplz-accept-'+category+', .cmplz-blocked-content-notice [data-service='+service+']').forEach(obj => {
+		obj.parentNode.remove(obj);
 	});
 
 	document.querySelectorAll('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
@@ -839,7 +842,6 @@ window.conditionally_show_banner = function() {
 			//on other consent types, all scripts are enabled by default.
 			cmplz_accept_all();
 		}
-
 	} else {
 		cmplz_track_status( 'do_not_track' );
 	}
@@ -888,7 +890,10 @@ window.show_cookie_banner = function () {
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
-	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);;
+	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);
+	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
+		console.log('Fallback default css file used. Please re-save banner settings, or check file writing permissions in uploads directory');
+	}
 	link.href = css_file_url;
 	link.type = "text/css";
 	link.rel = "stylesheet";
@@ -972,6 +977,7 @@ window.cmplz_set_banner_status = function ( status ){
 	}
 	let event = new CustomEvent('cmplz_banner_status', { detail: status });
 	document.dispatchEvent(event);
+	cmplz_start_clean();
 }
 
 /**
@@ -1179,16 +1185,18 @@ function cmplz_get_cookie_domain(){
 window.cmplz_set_consent = function (category, value){
 	cmplz_set_accepted_cookie_policy_id();
 	var previous_value = cmplz_get_cookie(category);
-	//do not trigger a change event if nothing has changed.
-	if ( previous_value === value ) {
-		return;
-	}
 
 	//keep checkboxes in banner and on cookie policy in sync
+	//do this before the change check to ensure sync: https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/324
 	var checked = value === 'allow';
 	document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 		obj.checked = checked;
 	});
+
+	//do not trigger a change event if nothing has changed.
+	if ( previous_value === value ) {
+		return;
+	}
 
 	cmplz_set_cookie(category, value);
 	if ( value === 'allow' ) {
@@ -1209,8 +1217,7 @@ window.cmplz_set_consent = function (category, value){
 	cmplz_all_scripts_hook_fired = false;
 	let event = new CustomEvent('cmplz_status_change', { detail: details });
 	document.dispatchEvent(event);
-
-	if ( category === 'marketing' && value === 'deny' ) {
+	if ( category === 'marketing' && value === 'deny' && previous_value === 'allow' ) {
 		cmplz_integrations_revoke();
 		//give the code some time to finish, so our track status code can send a signal to the backend.
 		setTimeout(function(){
@@ -1296,6 +1303,19 @@ document.addEventListener('cmplz_consent_action', function (e) {
 });
 
 /**
+ * Accept all categories
+ */
+window.cmplz_accept_all = function(){
+	cmplz_clear_all_service_consents();
+	for (var key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'allow');
+		}
+	}
+	cmplz_sync_category_checkboxes();
+}
+
+/**
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
@@ -1310,7 +1330,7 @@ window.cmplz_deny_all = function(){
 	if (consentLevel !== 'functional' || cmplz_exists_service_consent() ) {
 		reload = true;
 	}
-	if ( cmplz_clear_all_complianz_cookies('cmplz_service') ) {
+	if ( cmplz_clear_cookies('cmplz_service') ) {
 		reload = true;
 	}
 
@@ -1361,8 +1381,6 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	cmplz_track_status();
 });
 
-
-
 /**
  * Accept a specific service
  */
@@ -1381,19 +1399,35 @@ cmplz_add_event('click', '.cmplz-accept-service', function(e){
 	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
-
 /**
  * Accept a specific service
  */
 cmplz_add_event('change', '.cmplz-accept-service', function(e){
 	let obj = e.target;
+	let tagName = obj.tagName;
 	let service = obj.getAttribute('data-service');
-	if ( typeof service !== 'undefined' ){
-		if ( obj.checked ){
-			cmplz_set_service_consent(service, true);
-			cmplz_enable_category('', service);
+
+	// //that is for the change event, for input checkboxes
+	if ( typeof service !== 'undefined' ) {
+		//inputs are from the consent per service option on the cookie policy.
+		if ( tagName === 'INPUT' ) {
+			if ( obj.checked ){
+				cmplz_set_service_consent(service, true);
+				cmplz_enable_category('', service);
+			} else {
+				cmplz_set_service_consent(service, false);
+				//give our track status time to finish
+				setTimeout(function(){
+					location.reload()
+				}, 500);			}
+		//if not input, it's a placeholder
 		} else {
 			cmplz_set_service_consent(service, false);
+			e.preventDefault();
+			cmplz_set_service_consent(service, true);
+			cmplz_enable_category('', 'general');
+			cmplz_enable_category('', service);
+
 			//give our track status time to finish
 			setTimeout(function(){
 				location.reload()
@@ -1531,6 +1565,10 @@ function cmplz_set_up_auto_dismiss() {
 	}
 }
 
+/**
+ * Fire a event wich passes all consented categories
+ * Separated from the actual category consent because we want to bundle it in one event
+ */
 function cmplz_fire_categories_event(){
 	let details = new Object();
 	details.category = cmplz_highest_accepted_category();
@@ -1548,7 +1586,7 @@ function cmplz_track_status( status ) {
 	var cats = [];
 	status = typeof status !== 'undefined' ? status : false;
 
-	var event = new CustomEvent('cmplz_track_status', { detail: status });
+	let event = new CustomEvent('cmplz_track_status', { detail: status });
 	document.dispatchEvent(event);
 
 	if ( !status ) {
@@ -1632,6 +1670,23 @@ function cmplz_sync_category_checkboxes() {
 				});
 			}
 		}
+
+		document.querySelectorAll('.cmplz-accept-service').forEach(obj => {
+			let service = obj.getAttribute('data-service');
+			if ( cmplz_has_service_consent( service ) ) {
+				obj.checked = true;
+			} else if ( cmplz_is_service_denied( service ) ) {
+				obj.checked = false;
+			} else {
+				//no consent on service level, check if it's category has consent.
+				let category = obj.getAttribute('data-category' );
+				if (  cmplz_has_consent( category ) ) {
+					obj.checked = true;
+				} else {
+					obj.checked = false;
+				}
+			}
+		});
 	}
 }
 
@@ -1666,7 +1721,7 @@ function cmplz_merge_object(userdata, ajax_data) {
 function cmplz_check_cookie_policy_id() {
 	var user_policy_id = cmplz_get_cookie('policy_id');
 	if (user_policy_id && (complianz.current_policy_id !== user_policy_id) ) {
-		cmplz_clear_all_complianz_cookies('cmplz');
+		cmplz_clear_cookies('cmplz');
 	}
 }
 
@@ -1675,7 +1730,7 @@ function cmplz_check_cookie_policy_id() {
  *
  *
  */
-function cmplz_clear_all_complianz_cookies(cookie_part){
+function cmplz_clear_cookies(cookie_part){
 	var foundCookie = false;
 
 	if (typeof document === 'undefined') {
@@ -1760,7 +1815,7 @@ function cmplz_integrations_revoke() {
 		if (cookiesToSet.hasOwnProperty(key)) {
 			cmplz_set_cookie(key, cookiesToSet[key][1], false);
 			if ( cookiesToSet[key][1] == false ){
-				cmplz_clear_all_complianz_cookies(key);
+				cmplz_clear_cookies(key);
 			}
 		}
 	}
@@ -1824,6 +1879,75 @@ function cmplz_wp_set_consent(type, value) {
 	}
 }
 
+var cmplz_cookie_data = [];
+function cmplz_start_clean(){
+	if ( complianz.clean_cookies == 1 ) {
+		//check if it's already stored
+		if (typeof (Storage) !== "undefined" ) {
+			cmplz_cookie_data = JSON.parse( sessionStorage.getItem('cmplz_cookie_data') );
+		}
+		//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
+		if ( !cmplz_cookie_data || cmplz_cookie_data.length == 0 ) {
+			var request = new XMLHttpRequest();
+			request.open('GET', complianz.url+'cookie_data', true);
+			request.setRequestHeader('Content-type', 'application/json');
+			request.send();
+			request.onload = function() {
+				cmplz_cookie_data = JSON.parse(request.response);
+				sessionStorage.setItem('cmplz_cookie_data', JSON.stringify(cmplz_cookie_data) );
+				cmplz_clean();
+			};
+		} else {
+			cmplz_clean();
+		}
+	}
+}
+
+function cmplz_clean(){
+	// if the cookie data array is empty, return, nothing to do.
+	if ( !cmplz_cookie_data ) {
+		return;
+	}
+	setTimeout(function(){
+		let consent_categories = [
+			'preferences',
+			'statistics',
+			'marketing',
+		];
+		for (var i in consent_categories) {
+			let category = consent_categories[i];
+			if ( !cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category) ) {
+				let services = cmplz_cookie_data[category];
+				for (var service in services) {
+					if ( !cmplz_has_service_consent(service) ) {
+						let cookies = services[service];
+						for (var j in cookies) {
+							let item = cookies[j];
+							cmplz_clear_cookies(item);
+							cmplz_clear_storage(item);
+						}
+					}
+				}
+			}
+		}
+
+	}, 1000 );
+}
+
+/**
+ * Clear an item from either session or localstorage
+ * @param cookie
+ */
+function cmplz_clear_storage(item){
+	if (typeof (Storage) !== "undefined" ) {
+		if ( localStorage.item ) {
+			localStorage.removeItem(item);
+		}
+		if ( sessionStorage.item ) {
+			sessionStorage.removeItem(item);
+		}
+	}
+}
 /**
  * Load revoke options
  */

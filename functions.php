@@ -864,26 +864,27 @@ if ( ! function_exists( 'cmplz_panel' ) ) {
 			return '';
 		}
 
-		$open_class = $open ? 'style="display: block;"' : '';
+		$open_class = $open ? 'open' : '';
 
 		$output = '
-        <div class="cmplz-panel cmplz-slide-panel cmplz-toggle-active">
-            <div class="cmplz-panel-title">
+        <details class="cmplz-panel cmplz-slide-panel cmplz-toggle-active" ' . $open_class . '>
+        	<summary>
+				<div class="cmplz-panel-title">
 
-                <span class="cmplz-panel-toggle">
-                    '. cmplz_icon('arrow-right', 'success') .'
-                    <span class="cmplz-title">' . $title . '</span>
-                 </span>
+					<span class="cmplz-title">' . $title . '</span>
 
-                <span>' . $validate . '</span>
+					<span>' . $validate . '</span>
 
-                <span>' . $custom_btn . '</span>
+					<span class="cmplz-custom-btns">' . $custom_btn . '</span>
 
-            </div>
-            <div class="cmplz-panel-content" ' . $open_class . '>
+					<div class="cmplz-icon cmplz-open"></div>
+
+				</div>
+            </summary>
+            <div class="cmplz-panel-content">
                 ' . $html . '
             </div>
-        </div>';
+        </details>';
 
 		if ( $echo ) {
 			echo $output;
@@ -1363,14 +1364,15 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		$preview = false;
 		global $wp_customize;
 		if ( isset( $wp_customize ) || isset( $_GET['fb-edit'] )
-		     || isset( $_GET['et_pb_preview'] )
-		     || isset( $_GET['et_fb'] )
+		     || isset( $_GET['et_pb_preview'] ) //divi
+		     || isset( $_GET['et_fb'] ) //divi
 		     || isset( $_GET['elementor-preview'] )
 		     || isset( $_GET['vc_action'] )
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
-		     || isset( $_GET['ct_builder'] )
+		     || isset( $_GET['ct_builder'] ) //oxygen
+			 || isset( $_GET['tatsu'] ) //tatsu
 		) {
 			$preview = true;
 		}
@@ -1407,7 +1409,7 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
-		return apply_filters( 'cmplz_tcf_active', false );
+		return cmplz_get_value('uses_ad_cookies_personalized', false, 'wizard') === 'tcf';
 	}
 }
 
@@ -1903,20 +1905,23 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		}
 
 		$cookies = COMPLIANZ::$cookie_admin->get_cookies_by_service( $args );
+		$use_cdb_links = cmplz_get_value( 'use_cdb_links' ) === 'yes';
+		$consent_per_service = cmplz_get_value( 'consent_per_service' ) === 'yes';
+		$cookie_list = COMPLIANZ::$cookie_blocker->cookie_list;
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
+			$serviceCheckboxClass = $consent_per_service ? '' : 'cmplz-hidden';
 			$has_empty_cookies = false;
 			$allPurposes = array();
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
             $cookieHTML = "";
 			foreach ( $serviceData as $purpose => $service_cookies ) {
-
 				$cookies_per_purpose_HTML = "";
 				foreach ( $service_cookies as $cookie ) {
 					$has_empty_cookies = $has_empty_cookies || strlen( $cookie->retention ) == 0;
 					$link_open         = $link_close = '';
 
-					if ( cmplz_get_value( 'use_cdb_links' ) === 'yes' && strlen( $cookie->slug ) !== 0
+					if ( $use_cdb_links && strlen( $cookie->slug ) !== 0
 					) {
 						$service_slug = ( strlen( $service->slug ) === 0 ) ? 'unknown-service' : $service->slug;
 						$link_open
@@ -1945,7 +1950,11 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				array_push($allPurposes, $purpose);
 			}
 
-			$service_name = $service->ID && strlen( $service->name ) > 0 ? $service->name : __( 'Miscellaneous', 'complianz-gdpr' );
+			$service_name = $service->name;
+			if (!$service->ID || strlen( $service->name ) == 0){
+				$service_name = __( 'Miscellaneous', 'complianz-gdpr' );
+				$serviceCheckboxClass = 'cmplz-hidden';
+			}
 
 			$sharing = '';
 			if ( $service_name === 'Complianz' ) {
@@ -1967,7 +1976,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$purposeDescription = ( ( strlen( $service_name ) > 0 ) && ( strlen( $service->serviceType ) > 0 ) )
 				? cmplz_sprintf( _x( "We use %s for %s.", 'Legal document cookie policy', 'complianz-gdpr' ), $service_name, $service->serviceType ) : '';
 
-			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
+			if ( $use_cdb_links
 			     && strlen( $service->slug ) !== 0
 			     && $service->slug !== 'unknown-service'
 			) {
@@ -1978,28 +1987,58 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 				$p_key = array_search(__( 'Purpose pending investigation', 'complianz-gdpr' ), $allPurposes);
 				if ($p_key!==false) unset($allPurposes[$p_key]);
 			}
+
 			$allPurposes = implode (", ", $allPurposes);
 			$service_slug = str_replace(' ', '-', strtolower($service_name));
+			if ( isset($cookie_list['marketing'][sanitize_title($service->name)]) ){
+				$topCategory = 'marketing';
+			} else if ( isset($cookie_list['statistics'][sanitize_title($service->name)]) ) {
+				$topCategory = 'statistics';
+			} else if ( isset($cookie_list['preferences'][sanitize_title($service->name)]) ) {
+				$topCategory = 'preferences';
+			} else {
+				$topCategory = 'functional';
+			}
+
 			$servicesHTML .= str_replace( array(
 				'{service}',
 				'{service_slug}',
 				'{sharing}',
 				'{purposeDescription}',
 				'{cookies}',
-				'{allPurposes}'
+				'{allPurposes}',
+				'{serviceCheckboxClass}',
+				'{topCategory}'
 			), array(
 				$service_name,
 				$service_slug,
 				$sharing,
 				$purposeDescription,
 				$cookieHTML,
-				$allPurposes
+				$allPurposes,
+				$serviceCheckboxClass,
+				$topCategory
 			), $services_template );
 		}
 
 		$servicesHTML = '<div id="cmplz-cookies-overview">'.$servicesHTML.'</div>';
 
 		return str_replace( '{plugin_url}',cmplz_url, $servicesHTML);
+	}
+}
+
+if ( !function_exists('cmplz_uses_complianz_documents') ) {
+	function cmplz_uses_complianz_documents(){
+		$types = [];
+		$required_pages = COMPLIANZ::$document->get_required_pages();
+		if ( is_array( $required_pages ) ) {
+			foreach ( $required_pages as $region => $region_documents ) {
+				foreach ( $region_documents as $type => $document ) {
+					$types[] = $type;
+				}
+			}
+		}
+		return count(array_unique($types))>0;
 	}
 }
 

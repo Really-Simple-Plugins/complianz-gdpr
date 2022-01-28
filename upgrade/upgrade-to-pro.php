@@ -526,7 +526,7 @@ class rsp_upgrade_to_pro {
 			if ( false === $license_data->success ) {
 				switch( $license_data->error ) {
 					case 'expired' :
-						$message = sprintf(
+						$message = cmplz_sprintf(
 								__( 'Your license key expired on %s.', 'complianz-gdpr'),
 								date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 						);

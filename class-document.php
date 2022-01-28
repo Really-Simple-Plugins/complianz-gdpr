@@ -1226,7 +1226,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			// override default attributes with user attributes
 			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
 
-			$accept_text = $atts['text'] ?: apply_filters( 'cmplz_accept_cookies_blocked_content', cmplz_get_value( 'blocked_content_text' ) );
+			$accept_text = $atts['text'] ?: __("Click to accept marketing cookies", "complianz-gdpr");
 			$html = '<div class="cmplz-custom-accept-btn cmplz-accept"><a href="#">' . $accept_text . '</a></div>';
 			echo $html;
 
@@ -1510,15 +1510,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function obfuscate_email( $email ) {
 			$alwaysEncode = array( '.', ':', '@' );
-
 			$result = '';
-
+			$email = strrev($email);
 			// Encode string using oct and hex character codes
 			for ( $i = 0; $i < strlen( $email ); $i ++ ) {
 				// Encode 25% of characters including several that always should be encoded
-				if ( in_array( $email[ $i ], $alwaysEncode )
-				     || mt_rand( 1, 100 ) < 25
-				) {
+				if ( in_array( $email[ $i ], $alwaysEncode ) || mt_rand( 1, 100 ) < 25 ) {
 					if ( mt_rand( 0, 1 ) ) {
 						$result .= '&#' . ord( $email[ $i ] ) . ';';
 					} else {
@@ -1528,12 +1525,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$result .= $email[ $i ];
 				}
 			}
-
-			//make clickable
-
-			$result = '<a href="mailto:'.$result.'">'.$result.'</a>';
-
-			return $result;
+			return '<span class="cmplz-obfuscate" >'.$result.'</span>';
 		}
 
 
@@ -2827,9 +2819,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
-				$id = apply_filters( 'wpml_object_id', $id,
-					'page', true, substr( get_locale(), 0, 2 ) );
-				return intval( $id ) == 0
+				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
+				return intval( $id ) == 0 || !get_permalink( $id )
 					? '#'
 					: esc_url_raw( get_permalink( $id ) );
 			} else if ( cmplz_get_value( $type ) === 'url' ) {
@@ -2839,8 +2830,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
 
 				//get correct translated id
-				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id,
-					'page', true, substr( get_locale(), 0, 2 ) );
+				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
 
 				return get_permalink( $policy_page_id );
 			}

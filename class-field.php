@@ -564,7 +564,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 										   $cmplz_hidden );
 
 			echo '<div class="field-group ' .
-                    esc_attr( $args['fieldname'] . ' ' .
                     esc_attr( $cols_class ) . ' ' .
                     esc_attr( $col_class ) . ' ' .
                     esc_attr( $colspan_class ) . ' ' .
@@ -572,7 +571,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                     $hidden_class . ' ' .
                     $first_class . ' ' .
                     $condition_class . ' ' .
-                    $cmplz_hidden )
+                    $cmplz_hidden
                  . '" ';
 
             echo $condition_question;
@@ -2419,8 +2418,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             );
 
             $value = wp_parse_args( $value, $default_index );
-			$enabled_hidden = $value['enable'] ? '' : 'cmplz-hidden';
-			$disabled_hidden = $value['enable'] ? 'cmplz-hidden' : '';
+			$enabled = $value['enable'] ? 'checked="checked"' : '';
+			$action  = $value['enable'] ? 'disable' : 'enable';
 
             $html = '
                     <div class="multiple-field">
@@ -2441,7 +2440,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <input type="text"
                                    class="cmplz_name"
                                    data-name="name"
-                                   required
                                    name="cmplz_add_script['.$i.'][name]"
                                    value="' . esc_html( $value['name'] ) . '">
                         </div>
@@ -2487,7 +2485,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
                         <label class="cmplz-radio-container">' . __( 'Statistics', 'complianz-gdpr' ) . '
                             <input
-                                required
                                 data-name="category"
                                 type="radio"
                                 id="statistics"
@@ -2499,7 +2496,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         </label>
                         <label class="cmplz-radio-container">' . __( 'Marketing', 'complianz-gdpr' ) . '
                             <input
-                                required
                                 type="radio"
 								data-name="category"
                                 id="marketing"
@@ -2507,7 +2503,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="cmplz_add_script['.$i.'][category]"
                                 value="marketing"
                                 ' . (($value['category'] === 'marketing') ? 'checked' : '') . '>
-                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'success') . '</div>
                         </label>
 
                         <div>
@@ -2550,15 +2546,23 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
                         <div class="cmplz-multiple-field-button-footer">
                             <button class="button button-primary cmplz_script_save" type="button" data-id="'.$i.'" data-type="add_script" data-action="save">' . __( 'Save', 'complianz-gdpr' ) . '</button>
-                            <button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="add_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
-							<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="add_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
-                            <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="add_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
+                           <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="add_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
                         </div>
                     </div>';
 
 			$title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
-			$title .= '<span class="cmplz_script_enabled '.$enabled_hidden.'">('.__('Enabled','complianz-gdpr').')</span><span class="cmplz_script_disabled '.$disabled_hidden.'">('.__('Disabled','complianz-gdpr').')</span>';
-			return cmplz_panel( $title, $html, '', '', false, $open );
+
+			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="add_script" data-id="'.$i.'">
+								<input type="checkbox"
+									   id="cmplz-enable"
+									   class="cmplz-checkbox"
+									   size="40"
+									   value="1"
+									   '.$enabled.'/>
+								<label class="cmplz-label" for="cmplz-enable" tabindex="0"></label>
+							</div>';
+
+			return cmplz_panel( $title, $html, $custom_button, '', false, $open );
         }
 
 		/**
@@ -2760,8 +2764,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 'enable' => '1',
             );
             $value = wp_parse_args( $value, $default_index );
-			$enabled_hidden = $value['enable'] ? '' : 'cmplz-hidden';
-			$disabled_hidden = $value['enable'] ? 'cmplz-hidden' : '';
+			$enabled = $value['enable'] ? 'checked="checked"' : '';
+			$action  = $value['enable'] ? 'disable' : 'enable';
 
 			$html = '
                     <div class="multiple-field">
@@ -2814,7 +2818,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         <label class="cmplz-radio-container">' . __( 'Statistics', 'complianz-gdpr' ) . '
                             <input
                             	data-name="category"
-                                required
                                 type="radio"
                                 id="statistics"
                                 name="cmplz_block_script['.$i.'][category]"
@@ -2826,14 +2829,13 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         <label class="cmplz-radio-container">' . __( 'Marketing', 'complianz-gdpr' ) . '
                             <input
                             	data-name="category"
-                                required
                                 type="radio"
                                 id="marketing"
                                 name="cmplz_block_script['.$i.'][category]"
                                 class="cmplz_block_script['.$i.'][category]"
                                 value="marketing"
                                 ' . (($value['category'] === 'marketing') ? 'checked' : '') . '>
-                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'success') . '</div>
                         </label>
 
                         <div>
@@ -2932,15 +2934,22 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
                         <div class="cmplz-multiple-field-button-footer">
                             <button class="button button-primary cmplz_script_save" type="button" data-id="'.$i.'" data-type="block_script" data-action="save">' . __( 'Save', 'complianz-gdpr' ) . '</button>
-							<button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
-							<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="block_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
-                            <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="block_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
+							<button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="block_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
                         </div>
                     </div>';
 
             $title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
-            $title .= '<span class="cmplz_script_enabled '.$enabled_hidden.'">('.__('Enabled','complianz-gdpr').')</span><span class="cmplz_script_disabled '.$disabled_hidden.'">('.__('Disabled','complianz-gdpr').')</span>';
-            return cmplz_panel( $title, $html, '', '', false, $open );
+			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="block_script" data-id="'.$i.'">
+								<input type="checkbox"
+									   id="cmplz-enable"
+									   class="cmplz-checkbox"
+									   size="40"
+									   value="1"
+									   '.$enabled.'/>
+								<label class="cmplz-label" for="cmplz-enable" tabindex="0"></label>
+							</div>';
+
+			return cmplz_panel( $title, $html, $custom_button, '', false, $open );
         }
 
 		/**
@@ -2987,8 +2996,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
             );
 
             $value = wp_parse_args( $value, $default_index );
-			$enabled_hidden = $value['enable'] ? '' : 'cmplz-hidden';
-			$disabled_hidden = $value['enable'] ? 'cmplz-hidden' : '';
+			$enabled = $value['enable'] ? 'checked="checked"' : '';
+			$action  = $value['enable'] ? 'disable' : 'enable';
+
             $html = '
             <div class="multiple-field">
                 <div>
@@ -3035,15 +3045,22 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$html.= '</div>
                 <div class="cmplz-multiple-field-button-footer">
                     <button class="button button-primary cmplz_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="save">' . __( 'Save', 'complianz-gdpr' ) . '</button>
-					<button class="button button-secondary cmplz_script_save '.$enabled_hidden.'" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="disable">' . __( 'Disable', 'complianz-gdpr' ) . '</button>
-					<button class="button button-secondary cmplz_script_save '.$disabled_hidden.'" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="enable">' . __( 'Enable', 'complianz-gdpr' ) . '</button>
-                    <button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
+					<button class="button button-primary button-red cmplz_script_save" type="button" data-id="'.$i.'" data-type="whitelist_script" data-action="remove">' . __( "Remove", 'complianz-gdpr' ) . '</button>
                 </div>
             </div>';
 
 			$title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
-			$title .= '<span class="cmplz_script_enabled '.$enabled_hidden.'">('.__('Enabled','complianz-gdpr').')</span><span class="cmplz_script_disabled '.$disabled_hidden.'">('.__('Disabled','complianz-gdpr').')</span>';
-			return cmplz_panel( $title, $html, '', '', false, $open );
+			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="whitelist_script" data-id="'.$i.'">
+								<input type="checkbox"
+									   id="cmplz-enable"
+									   class="cmplz-checkbox"
+									   size="40"
+									   value="1"
+									   '.$enabled.'/>
+								<label class="cmplz-label" for="cmplz-enable" tabindex="0"></label>
+							</div>';
+
+			return cmplz_panel( $title, $html, $custom_button, '', false, $open );
         }
 
 
@@ -3224,8 +3241,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		 * @return bool
 		 */
 
-		public
-		function sanitize_fieldname(
+		public function sanitize_fieldname(
 			$fieldname
 		) {
 			$fields = COMPLIANZ::$config->fields();
@@ -3244,8 +3260,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			if ( ! isset( $args['comment'] ) ) {
 				return;
 			}
+			$warning_class = '';
+			if (isset( $args['comment_status']) && $args['comment_status']==='warning'){
+				$warning_class='cmplz-comment-warning';
+			}
 			?>
-			<div class="cmplz-comment"><?php echo $args['comment'] ?></div>
+			<div class="cmplz-comment <?=$warning_class?>"><?php echo $args['comment'] ?></div>
 			<?php
 		}
 

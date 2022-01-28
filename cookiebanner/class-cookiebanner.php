@@ -14,6 +14,7 @@ function cmplz_install_cookiebanner_table() {
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
 
+
 		/*
 		 * use_categories_optinstats- border_color are obsolete
 		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
@@ -40,6 +41,7 @@ function cmplz_install_cookiebanner_table() {
             ) $charset_collate;";
 			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
 		}
+
 
 		$sql        = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -99,8 +101,8 @@ function cmplz_install_cookiebanner_table() {
               PRIMARY KEY  (ID)
             ) $charset_collate;";
 		dbDelta( $sql );
-		update_option( 'cmplz_cbdb_version', cmplz_version );
 
+		update_option( 'cmplz_cbdb_version', cmplz_version );
 	}
 }
 
@@ -272,8 +274,24 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 					}
 				}
-			} else {
-				//in case there's no cookiebanner yet (new)
+			}
+
+			/**
+			 * translate
+			 */
+
+			foreach ( $this as $fieldname => $value ) {
+				if ( $this->is_translatable( $fieldname ) ) {
+					if ( is_array( $value ) && isset( $value['text'] ) ) {
+						$this->{$fieldname . '_x'}['text'] = $this->translate( $value['text'], $fieldname );
+					} else if ( ! is_array( $value ) ) {
+						$this->{$fieldname . '_x'} = $this->translate( $value, $fieldname );
+					}
+				}
+			}
+
+			//in case there's no cookiebanner, we do this outside the loop
+			if ( $this->set_defaults ) {
 				foreach ( $this as $fieldname => $value ) {
 					$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 				}
@@ -411,6 +429,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			if ( is_array($value) && isset($value['text']) ) {
 				$value['text'] = $translate_string;
+			} else {
+				$value = $translate_string;
 			}
 			return $value;
 		}
@@ -497,8 +517,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		/**
 		 * Save the edited data in the object
 		 *
-		 * @param bool $is_default
-		 *
 		 * @return void
 		 */
 
@@ -524,6 +542,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$statistics   = serialize( $this->statistics );
+
+			if ( $this->use_categories === 'hidden' ) {
+				$this->use_categories = 'view-preferences';
+			}
 
 			$update_array = array(
 				'position'                     => sanitize_title( $this->position ),
@@ -1042,6 +1064,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 
+			if (cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
+				$css_files[] = "settings/hide-manage-services$minified.css";
+			}
+
 			if ( cmplz_tcf_active() ) {
 				$css_files[] = "tcf$minified.css";
 			}
@@ -1053,7 +1079,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$css_files[] = "settings/animation/{$this->animation}$minified.css";
 				}
 			}
-
 			if ( isset($this->functional_text['show']) && !$this->functional_text['show'] )  $css_files[] = "settings/categories/hide-functional_text$minified.css";
 			if ( isset($this->category_prefs['show']) && !$this->category_prefs['show'] || !cmplz_uses_preferences_cookies() ) $css_files[] = "settings/categories/hide-preferences$minified.css";
 			if ( isset($this->category_stats['show']) && !$this->category_stats['show'] || !cmplz_uses_statistic_cookies() ) $css_files[] = "settings/categories/hide-statistics$minified.css";
@@ -1061,6 +1086,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			if ( isset($this->preferences_text['show']) && !$this->preferences_text['show'] )  $css_files[] = "settings/categories/hide-preferences_text$minified.css";
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
+			if ( isset($this->statistics_text_anonymous['show']) && !$this->statistics_text_anonymous['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->marketing_text['show']) && !$this->marketing_text['show'] )  $css_files[] = "settings/categories/hide-marketing_text$minified.css";
 
 			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
@@ -1138,7 +1164,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * Generate the css file for the banner
 		 * @param bool $preview
 		 */
-		function generate_css( $preview = false )
+		public function generate_css( $preview = false )
 		{
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
@@ -1165,7 +1191,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				if ( $this->use_custom_cookie_css ) {
-					$css .= htmlspecialchars( $this->custom_css );
+					$css .=  $this->custom_css;
 				}
 
 				$category_count = 3;//functional is always available, so does not count here
@@ -1180,7 +1206,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 				$remove_count = 3 - $category_count;//functional always exists
 				$height = 216 - $remove_count * 53;
-
 				$settings['categories-height'] = $height.'px';
 				foreach ($settings as $setting => $value) {
 					$css = preg_replace("/--cmplz_$setting:[^;]*;/", "--cmplz_$setting: $value;", $css, 1);
@@ -1206,19 +1231,45 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		/**
 		 * Get array to output to front-end
-		 *
+		 * @param bool $preview
 		 * @return array
 		 */
-		public function get_front_end_settings() {
+		public function get_front_end_settings( $preview = false ) {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
-			$pages = COMPLIANZ::$config->pages;
+
+			//check if the css file exists. if not, use default.
+			$css_file = $upload_url . '/complianz/css/banner-banner_id-type.css';
+			if ( !$preview ) {
+				$upload_dir = $uploads['basedir'];
+				$consent_types = cmplz_get_used_consenttypes();
+				$banner_id = $this->id;
+				foreach ( $consent_types as $consent_type ) {
+					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
+					if ( ! file_exists( $upload_dir . $file ) ) {
+						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
+					}
+				}
+			}
+
+			//check if the css file exists. if not, use default.
+			if ( !$preview ) {
+				$upload_dir = $uploads['basedir'];
+				$consent_types = cmplz_get_used_consenttypes();
+				$banner_id = $this->id;
+				foreach ( $consent_types as $consent_type ) {
+					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
+					if ( ! file_exists( $upload_dir . $file ) ) {
+						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
+					}
+				}
+			}
 
 			$page_links = array();
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
-
+			$pages = COMPLIANZ::$config->pages;
 			foreach ( $pages as $region => $region_pages ) {
 				foreach ( $region_pages as $type => $page ) {
 					if ( !$page['public'] ) continue;
@@ -1230,7 +1281,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 			}
-
 			//now, make sure the general documents are added to each region: they're generic, so each region should have them.
 			if ( isset($page_links['all']) ) {
 				foreach ( $pages as $region => $region_pages ) {
@@ -1268,8 +1318,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'current_policy_id'    => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 				'cookie_path'          => COMPLIANZ::$cookie_admin->get_cookie_path(),
 				'tcf_active'           => cmplz_tcf_active(),
-				'placeholdertext'      => cmplz_get_value( 'blocked_content_text' ),
-				'css_file'             => $upload_url . '/complianz/css/banner-banner_id-type.css?v='.$this->banner_version.$script_debug,
+				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
+				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),

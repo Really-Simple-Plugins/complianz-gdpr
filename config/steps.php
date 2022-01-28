@@ -26,8 +26,7 @@ $this->steps = array(
 						'id' => 'impressum_info',
 						'title' => __( 'Website information',
 							'complianz-gdpr' ),
-						'intro' => '<p>'._x( 'We need some information to be able to generate your documents.',
-							'intro company info', 'complianz-gdpr' ).'</p>',
+						'intro' => '<p>'._x( 'We need some information to be able to generate your documents.', 'intro company info', 'complianz-gdpr' ).'</p>',
 					),
 					4 => array(
 						'id' => 'impressum_info',

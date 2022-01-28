@@ -4,6 +4,10 @@
 #cmplz-manage-consent-container {
   display: none;
 }
+.cmplz-obfuscate {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary {
   display: block;
   cursor: pointer;
@@ -20,10 +24,6 @@
   display: inline-block;
   width: calc(50% - 35px);
   vertical-align: top;
-}
-#cmplz-cookies-overview .cmplz-dropdown .cmplz-service-header .cmplz-accept-service,
-#cmplz-document .cmplz-dropdown .cmplz-service-header .cmplz-accept-service {
-  display: none;
 }
 @media only screen and (max-width: 600px) {
   #cmplz-cookies-overview .cmplz-dropdown .cmplz-service-description,
