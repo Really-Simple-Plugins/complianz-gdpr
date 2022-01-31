@@ -2816,7 +2816,13 @@ if ( ! function_exists( 'cmplz_sprintf' ) ) {
 		if ($args_count === $count){
 			return call_user_func_array('sprintf', $args);
 		}
-		return $args[0] .  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+		error_log("Translation error detected");
+		error_log( print_r($args, true) );
+		if (is_admin()) {
+			return $args[0] . '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+		} else {
+			return $args[0];
+		}
 	}
 }
 

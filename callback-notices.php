@@ -239,7 +239,8 @@ function cmplz_notice_add_pages_to_menu() {
 		}
 
 		$docs = implode( ", ", $pages_not_in_menu );
-		cmplz_sidebar_notice( cmplz_sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
+		//not using cmplz_sprintf( here, as one variant does not include a %s, causing a translation error notice 
+		cmplz_sidebar_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				'Not all generated documents have been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
 				'warning' );

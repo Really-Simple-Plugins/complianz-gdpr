@@ -11,7 +11,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
     ),
     array(
         'title' => 'Introduction',
-        'content' => cmplz_sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]', '[article-cookie_names]'),
+        'content' => cmplz_sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]'),
     ),
 
     array(

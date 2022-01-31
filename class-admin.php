@@ -672,7 +672,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'plus_ones' => true,
 			) );
 			$warning_count = count( $warnings );
-			$warning_title = esc_attr( cmplz_sprintf( '%d plugin warnings', $warning_count ) );
+			$warning_title = esc_attr( cmplz_sprintf( '%s plugin warnings', $warning_count ) );
 			$menu_label    = cmplz_sprintf( __( 'Complianz %s', 'complianz-gdpr' ),
 				"<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>"
 				. number_format_i18n( $warning_count ) . "</span></span>" );

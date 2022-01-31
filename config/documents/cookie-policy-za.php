@@ -7,7 +7,7 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 	),
 	'introduction' => array(
 		'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => cmplz_sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]', '[article-cookie_names]'),
+		'content' => cmplz_sprintf(_x('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain]' ),
 	),
 	'what-are-cookies' => array(
 		'title' => _x('What are cookies?', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
