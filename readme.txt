@@ -167,7 +167,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.1.0 =
-
 * New: Consent per Service in combination with CookieShredder.
 * New: Matomo cookieless tracking
 * CSS: simplify scrollbar in dashboard css
@@ -201,6 +200,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: p elements on all paragraphs in legal documents
 * Improvement: added Flexible Maps integration
 * Fix: Novo Maps integration
+* Fix: domains with 'type' in the url could not load the css file props @nimdaweb
 * Fix: catch not set enable dependency key
 * Fix: preview cookiebanner not always correctly updated.
 * Fix: paging in integrations
