@@ -890,7 +890,7 @@ window.show_cookie_banner = function () {
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
-	let css_file_url = complianz.css_file.replace('type', complianz.consenttype ).replace('banner_id', complianz.user_banner_id);
+	let css_file_url = complianz.css_file.replace('{type}', complianz.consenttype ).replace('{banner_id}', complianz.user_banner_id);
 	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
 		console.log('Fallback default css file used. Please re-save banner settings, or check file writing permissions in uploads directory');
 	}

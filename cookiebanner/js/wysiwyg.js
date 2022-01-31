@@ -199,7 +199,7 @@ jQuery(document).ready(function ($) {
 						$(this).addClass('cmplz-categories-type-'+$('select[name=cmplz_use_categories]').val());
 					});
 
-					css_file = css_file.replace('type', consenttype ).replace('banner_id', banner_id);
+					css_file = css_file.replace('{type}', consenttype ).replace('{banner_id}', banner_id);
 					link.href = css_file;
 					link.type = "text/css";
 					link.rel = "stylesheet";

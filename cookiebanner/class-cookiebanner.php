@@ -1241,7 +1241,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
 
 			//check if the css file exists. if not, use default.
-			$css_file = $upload_url . '/complianz/css/banner-banner_id-type.css';
+			$css_file = $upload_url . '/complianz/css/banner-{banner_id}-{type}.css';
 			if ( !$preview ) {
 				$upload_dir = $uploads['basedir'];
 				$consent_types = cmplz_get_used_consenttypes();
@@ -1249,20 +1249,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				foreach ( $consent_types as $consent_type ) {
 					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
 					if ( ! file_exists( $upload_dir . $file ) ) {
-						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
-					}
-				}
-			}
-
-			//check if the css file exists. if not, use default.
-			if ( !$preview ) {
-				$upload_dir = $uploads['basedir'];
-				$consent_types = cmplz_get_used_consenttypes();
-				$banner_id = $this->id;
-				foreach ( $consent_types as $consent_type ) {
-					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
-					if ( ! file_exists( $upload_dir . $file ) ) {
-						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-type.css";
+						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-{type}.css";
 					}
 				}
 			}
