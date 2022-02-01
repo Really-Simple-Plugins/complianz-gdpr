@@ -3198,7 +3198,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$detected = __( "No cookies detected", 'complianz-gdpr' );
 			} else {
 				$cookie_count = $this->scan_complete() ? count($cookies) : 0;
-				$detected = cmplz_sprintf( _n( 'The scan found 1 cookie on your domain.', 'The scan found %s cookies on your domain.', $cookie_count, 'complianz-gdpr' ), '<span class="cmplz-scan-count">'.number_format_i18n( $cookie_count ).'</span>' )	;
+				$detected = cmplz_sprintf( _n( 'The scan found %s cookie on your domain.', 'The scan found %s cookies on your domain.', $cookie_count, 'complianz-gdpr' ), '<span class="cmplz-scan-count">'.number_format_i18n( $cookie_count ).'</span>' )	;
 				$detected .= ' '.__('Continue the wizard to categorize cookies and configure consent.', 'complianz-gdpr');
 
 				/**

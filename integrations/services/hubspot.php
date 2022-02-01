@@ -50,8 +50,10 @@ add_action( 'wp_enqueue_scripts', 'cmplz_hubspot_clicker', PHP_INT_MAX);
  */
 function cmplz_hubspot_css() {
 	if (cmplz_get_value('block_hubspot_service') === 'yes'){ ?>
-		div#hs-eu-cookie-confirmation {display: none;}
+		<style>
+			div#hs-eu-cookie-confirmation {display: none;}
+		</style>
 	<?php
 	}
 }
-add_action( 'cmplz_banner_css', 'cmplz_hubspot_css' );
+add_action( 'wp_footer', 'cmplz_hubspot_css' );

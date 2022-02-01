@@ -167,7 +167,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.1.0 =
-
 * New: Consent per Service in combination with CookieShredder.
 * New: Matomo cookieless tracking
 * CSS: simplify scrollbar in dashboard css
@@ -201,6 +200,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: p elements on all paragraphs in legal documents
 * Improvement: added Flexible Maps integration
 * Fix: Novo Maps integration
+* Fix: domains with 'type' in the url could not load the css file props @nimdaweb
 * Fix: catch not set enable dependency key
 * Fix: preview cookiebanner not always correctly updated.
 * Fix: paging in integrations
@@ -210,6 +210,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: allow quotes in custom css
 * Fix: export filtered dataset from Records of Consent
 * Fix: in cmplz_fire_categories, declare event as local variable, fixing theme conflicts with global declared variables props @jrt341 and @skydivider
+* Fix: fix revert to defaults for text_checkbox booleans @puregraphx
 
 = 6.0.7 =
 * Changed database upgrade order
