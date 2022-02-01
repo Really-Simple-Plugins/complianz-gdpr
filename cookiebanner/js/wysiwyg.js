@@ -345,6 +345,7 @@ jQuery(document).ready(function ($) {
 		'select[name=cmplz_position], ' +
 		'select[name=cmplz_checkbox_style], ' +
 		'input[name=cmplz_close_button], ' +
+		'input[name=cmplz_legal_documents], ' +
 		'input[name=cmplz_font_size], ' +
 		'input[name="cmplz_header[show]"], ' +
 		'input[name="cmplz_dismiss[show]"], ' +

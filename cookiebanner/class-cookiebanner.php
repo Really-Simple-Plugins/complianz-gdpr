@@ -98,6 +98,7 @@ function cmplz_install_cookiebanner_table() {
             `header_footer_shadow` int(11) NOT NULL,
             `hide_preview` int(11) NOT NULL,
             `disable_width_correction` int(11) NOT NULL,
+            `legal_documents` int(11) NOT NULL,
               PRIMARY KEY  (ID)
             ) $charset_collate;";
 		dbDelta( $sql );
@@ -186,6 +187,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $marketing_text_x;
 		public $set_defaults;
 		public $disable_width_correction;
+		public $legal_documents;
 
         function __construct( $id = false, $set_defaults = true ) {
 	        $this->translation_id = $this->get_translation_id();
@@ -276,7 +278,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			} else if ( $this->set_defaults ) {
 				//in case there's no cookiebanner, we do this outside the loop
 				foreach ( $this as $fieldname => $value ) {
-					$this->{$fieldname} = $this->parse_value( $fieldname, $value );
+					$this->{$fieldname} = $this->parse_value( $fieldname, $value, true );
 				}
 			}
 
@@ -308,11 +310,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 * Get a value, with default if available
 		 * @param string $fieldname
 		 * @param string $value
+		 * @param bool $force_defaults
 		 *
 		 * @return mixed
 		 */
 
-		private function parse_value( $fieldname, $value ){
+		private function parse_value( $fieldname, $value, $force_defaults=false ){
 			$set_defaults = $this->set_defaults;
 			//get type of field
 			$type = $this->get_field_type($fieldname);
@@ -324,7 +327,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$value = $default;
 				}
 			} else if ( $type === 'checkbox' ) {
-				if ( $value === false && $set_defaults ) {
+				if ( ( $value === false && $set_defaults) || $force_defaults ) {
 					$value = $default;
 				}
 			} else if ( $type === 'number' || $type === 'logo_attachment_id' ) {
@@ -335,7 +338,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			} else if ( $type === 'text_checkbox' || $type === 'colorpicker' || $type === 'borderradius' || $type === 'borderwidth') {
 				//array types
-
 				if ( is_serialized($value ) ) {
 					$value = unserialize($value);
 					//code to prevent duplicate upgrades
@@ -352,9 +354,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				//strip out empty values in arrays, so the default gets set.
 				if ( is_array($value) ) {
 					//store 'show' index, to prevent losing the 'false' settings
-					if ( $type === 'text_checkbox') {
-						if (empty($value['text']) ) unset($value['text']);
-					} else {
+					if ( $type !== 'text_checkbox') {
 						$value = array_filter($value);
 					}
 				} else {
@@ -605,6 +605,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'header_footer_shadow'         => intval( $this->header_footer_shadow ),
 				'hide_preview'                 => intval( $this->hide_preview ),
 				'disable_width_correction'     => intval( $this->disable_width_correction ),
+				'legal_documents'                   => intval( $this->legal_documents ),
 			);
 
 			global $wpdb;
@@ -1071,7 +1072,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 
-			if (cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
+			if ( cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
 				$css_files[] = "settings/hide-manage-services$minified.css";
 			}
 
@@ -1103,6 +1104,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( $this->use_logo === "hide" ) 	        $css_files[] = "settings/hide-logo$minified.css";
 			if ( !$this->close_button ) 		 	    $css_files[] = "settings/hide-close$minified.css";
 			if ( $this->checkbox_style === "slider" )   $css_files[] = "settings/toggle-slider$minified.css";
+			if ( !$this->legal_documents ) $css_files[] = "settings/hide-links$minified.css";
 
 			// Soft cookie wall
 			if ( $this->soft_cookiewall ) $css_files[] = "settings/soft-cookie-wall$minified.css";
@@ -1318,7 +1320,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
 				'preview'              => false,
-				'clean_cookies'           => cmplz_get_value( 'disable_cookie_block' ) != 1 && cmplz_get_value( 'consent_per_service' ) === 'yes',
+				'clean_cookies'        => cmplz_get_value( 'disable_cookie_block' ) != 1 && cmplz_get_value( 'consent_per_service' ) === 'yes',
 			);
 
 			$output = apply_filters( 'cmplz_cookiebanner_settings_front_end', $output, $this );

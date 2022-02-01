@@ -646,12 +646,13 @@ function cmplz_add_cookiebanner_settings($fields){
 				'label'         => __( "Font size", 'complianz-gdpr' ),
 			),
 
-			'documents' => array(
-				'step'               => 'settings',
-				'source'             => 'CMPLZ_COOKIEBANNER',
-				'type'               => 'notice',
-				'label'              => __( "Documents", 'complianz-gdpr' ),
-				'comment'            => __( 'On the cookie banner the generated documents are shown. The title is based on the actual post title.', 'complianz-gdpr' ),
+			'legal_documents' => array(
+				'source'        => 'CMPLZ_COOKIEBANNER',
+				'step'          => 'settings',
+				'type'          => 'checkbox',
+				'default'       => true,
+				'label'         => __( "Legal document links on banner", 'complianz-gdpr' ),
+				'comment'       => __( 'On the cookie banner the generated documents are shown. The title is based on the actual post title.', 'complianz-gdpr' ),
 			),
 
 			/* ----- Categories ----- */

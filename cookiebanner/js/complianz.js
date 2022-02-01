@@ -414,26 +414,35 @@ function cmplz_insert_placeholder_text(container, service){
 		let placeholder_text = complianz.placeholdertext;
 
 		if ( typeof placeholder_text !== 'undefined' ) {
-			//make service human readable
-			let service_nicename = service.replace('-', ' ');
-			service_nicename = service_nicename.charAt(0).toUpperCase() + service_nicename.slice(1);
-			placeholder_text = placeholder_text.replace('%s', service_nicename);
-			let body = cmplz_create_element('div', placeholder_text);
-			body.innerHTML = placeholder_text;
-			body.classList.add('cmplz-blocked-content-notice');
-			let btn = body.querySelector('button');
-			btn.setAttribute('data-service', service );
-			btn.setAttribute('aria-label', service );
-			let pageLinks = complianz.page_links[complianz.region];
-			let link = body.querySelector('.cmplz-links a');
-			if ( pageLinks.hasOwnProperty('cookie-statement') ) {
-				link.setAttribute('href', pageLinks['cookie-statement']['url']);
-				if (link.innerText === '{title}') {
-					link.innerText = pageLinks['cookie-statement']['title'];
+			if ( complianz.clean_cookies == 1 ) {
+				//make service human readable
+				let service_nicename = service.replace('-', ' ');
+				service_nicename = service_nicename.charAt(0).toUpperCase() + service_nicename.slice(1);
+				placeholder_text = placeholder_text.replace('%s', service_nicename);
+				let body = cmplz_create_element('div', placeholder_text);
+				body.innerHTML = placeholder_text;
+				body.classList.add('cmplz-blocked-content-notice');
+				let btn = body.querySelector('button');
+				btn.setAttribute('data-service', service);
+				btn.setAttribute('aria-label', service);
+				let pageLinks = complianz.page_links[complianz.region];
+				let link = body.querySelector('.cmplz-links a');
+				if (pageLinks.hasOwnProperty('cookie-statement')) {
+					link.setAttribute('href', pageLinks['cookie-statement']['url']);
+					if (link.innerText === '{title}') {
+						link.innerText = pageLinks['cookie-statement']['title'];
+					}
 				}
+				container.appendChild(body);
+			} else {
+				let btn = cmplz_create_element('button', '');
+				btn.innerText = placeholder_text;
+				btn.classList.add('cmplz-blocked-content-notice');
+				btn.classList.add('cmplz-accept-marketing');
+				btn.setAttribute('data-service', service );
+				btn.setAttribute('aria-label', service );
+				container.appendChild( btn );
 			}
-
-			container.appendChild( body );
 		}
 	}
 }

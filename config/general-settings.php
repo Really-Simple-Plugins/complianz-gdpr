@@ -69,6 +69,18 @@ $this->fields = $this->fields + array(
 			'default'  => false,
 		),
 
+		'blocked_content_text' => array(
+			'step'         => 'general',
+			'source'       => 'settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
+			'default'      => _x( 'Click to accept marketing cookies and enable this content', 'Accept cookies on blocked content', 'complianz-gdpr' ),
+			'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'condition'    => array(
+				'disable_cookie_block' => false,
+			)
+		),
 		'a_b_testing_duration' => array(
 			'source'    => 'settings',
 			'step'      => 'general',
