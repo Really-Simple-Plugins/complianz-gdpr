@@ -246,7 +246,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$this->{$property} = $post[ 'cmplz_' . $property ];
 				}
 			}
-
 			$this->save();
 			return true;
 		}
@@ -274,6 +273,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 						$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 					}
 				}
+			} else if ( $this->set_defaults ) {
+				//in case there's no cookiebanner, we do this outside the loop
+				foreach ( $this as $fieldname => $value ) {
+					$this->{$fieldname} = $this->parse_value( $fieldname, $value );
+				}
 			}
 
 			/**
@@ -287,13 +291,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					} else if ( ! is_array( $value ) ) {
 						$this->{$fieldname . '_x'} = $this->translate( $value, $fieldname );
 					}
-				}
-			}
-
-			//in case there's no cookiebanner, we do this outside the loop
-			if ( $this->set_defaults ) {
-				foreach ( $this as $fieldname => $value ) {
-					$this->{$fieldname} = $this->parse_value( $fieldname, $value );
 				}
 			}
 
@@ -320,6 +317,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//get type of field
 			$type = $this->get_field_type($fieldname);
 			$default = $this->get_default( $fieldname );
+
 			//treat as string
 			if ( $type === 'text' || $type === 'select' || $type === 'editor' ) {
 				if ( empty($value) && $set_defaults ) {
@@ -337,6 +335,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			} else if ( $type === 'text_checkbox' || $type === 'colorpicker' || $type === 'borderradius' || $type === 'borderwidth') {
 				//array types
+
 				if ( is_serialized($value ) ) {
 					$value = unserialize($value);
 					//code to prevent duplicate upgrades
@@ -352,10 +351,16 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 				//strip out empty values in arrays, so the default gets set.
 				if ( is_array($value) ) {
-					$value = array_filter($value);
+					//store 'show' index, to prevent losing the 'false' settings
+					if ( $type === 'text_checkbox') {
+						if (empty($value['text']) ) unset($value['text']);
+					} else {
+						$value = array_filter($value);
+					}
 				} else {
 					$value = array();
 				}
+
 				foreach ( $default as $key => $default_arr_value ) {
 					//if the key is not set, we set the default
 					if ( !isset($value[$key]) ) {
@@ -524,11 +529,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
-
 			if ( ! $this->id ) {
 				$this->add();
 			}
 			$this->banner_version++;
+
 
 			//register translations fields
 			foreach ( $this as $fieldname => $value ) {
@@ -542,10 +547,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$statistics   = serialize( $this->statistics );
-
 			if ( $this->use_categories === 'hidden' ) {
 				$this->use_categories = 'view-preferences';
 			}
+
 
 			$update_array = array(
 				'position'                     => sanitize_title( $this->position ),
@@ -657,6 +662,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					'show' => true,
 				];
 			}
+
+
 			return serialize($text_checkbox);
 		}
 

@@ -210,6 +210,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: allow quotes in custom css
 * Fix: export filtered dataset from Records of Consent
 * Fix: in cmplz_fire_categories, declare event as local variable, fixing theme conflicts with global declared variables props @jrt341 and @skydivider
+* Fix: fix revert to defaults for text_checkbox booleans @puregraphx
 
 = 6.0.7 =
 * Changed database upgrade order
