@@ -663,7 +663,7 @@ function cmplz_check_upgrade() {
 			];
 		}
 		update_option( 'complianz_options_custom-scripts', $scripts );
-		
+
 		$general_settings                      = get_option( 'complianz_options_settings' );
 		$general_settings['enable_migrate_js'] = true;
 		update_option( 'complianz_options_settings', $general_settings );
@@ -823,6 +823,17 @@ function cmplz_check_upgrade() {
 
 	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
 		set_transient( 'cmplz_vendorlist_downloaded_once', true, HOUR_IN_SECONDS );
+	}
+
+	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner->legal_documents = true;
+				$banner->save();
+			}
+		}
 	}
 
 	$banners = cmplz_get_cookiebanners();

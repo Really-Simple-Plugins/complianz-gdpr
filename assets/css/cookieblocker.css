@@ -7,6 +7,9 @@
 .cmplz-video.cmplz-hidden {
   visibility: hidden !important;
 }
+.cmplz-blocked-content-notice {
+  display: none;
+}
 .cmplz-optin .cmplz-blocked-content-container .cmplz-blocked-content-notice,
 .cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice {
   display: block;

@@ -1379,6 +1379,16 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 			$preview = true;
 		}
 
+		//exclude widgets, and don't exclude banner api
+		$request_url = isset($_SERVER['REQUEST_URI']) ? esc_url_raw($_SERVER['REQUEST_URI']) : '';
+		if ( strpos($request_url, 'wp-json/complianz/')===false && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return true;
+		}
+
+		if (isset($_GET['context']) &&  $_GET['context']==='edit') {
+			return true;
+		}
+
 		return apply_filters( 'cmplz_is_preview', $preview );
 	}
 }
@@ -1912,10 +1922,20 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$cookie_list = COMPLIANZ::$cookie_blocker->cookie_list;
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
+			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
+			if ( isset($cookie_list['marketing'][sanitize_title($service->name)]) ){
+				$topCategory = 'marketing';
+			} else if ( isset($cookie_list['statistics'][sanitize_title($service->name)]) ) {
+				$topCategory = 'statistics';
+			} else if ( isset($cookie_list['preferences'][sanitize_title($service->name)]) ) {
+				$topCategory = 'preferences';
+			} else {
+				$topCategory = 'functional';
+			}
+
 			$serviceCheckboxClass = $consent_per_service ? '' : 'cmplz-hidden';
 			$has_empty_cookies = false;
 			$allPurposes = array();
-			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
             $cookieHTML = "";
 			foreach ( $serviceData as $purpose => $service_cookies ) {
 				$cookies_per_purpose_HTML = "";
@@ -1992,15 +2012,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 
 			$allPurposes = implode (", ", $allPurposes);
 			$service_slug = str_replace(' ', '-', strtolower($service_name));
-			if ( isset($cookie_list['marketing'][sanitize_title($service->name)]) ){
-				$topCategory = 'marketing';
-			} else if ( isset($cookie_list['statistics'][sanitize_title($service->name)]) ) {
-				$topCategory = 'statistics';
-			} else if ( isset($cookie_list['preferences'][sanitize_title($service->name)]) ) {
-				$topCategory = 'preferences';
-			} else {
-				$topCategory = 'functional';
-			}
+
 
 			$servicesHTML .= str_replace( array(
 				'{service}',
@@ -2394,7 +2406,7 @@ if ( ! function_exists( 'cmplz_uses_preferences_cookies' ) ) {
      */
     function cmplz_uses_preferences_cookies()
     {
-        return cmplz_consent_mode() || cmplz_consent_api_active();
+        return cmplz_consent_mode() || cmplz_consent_api_active() || cmplz_get_value( 'consent_per_service' ) === 'yes';
     }
 }
 
