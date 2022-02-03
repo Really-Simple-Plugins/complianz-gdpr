@@ -62,11 +62,11 @@ $grid_items = array(
         'index' => '14',
         'controls' => $controls,
     ),
-    'categories' => array(
+    'banner-categories' => array(
         'page' => 'CMPLZ_COOKIEBANNER',
-        'name' => 'categories',
+        'name' => 'banner-categories',
         'header' => __('Categories', 'complianz-gdpr'),
-        'class' => 'big condition-check-1',
+        'class' => 'big',
         'index' => '15',
     ),
     'custom_css' => array(
