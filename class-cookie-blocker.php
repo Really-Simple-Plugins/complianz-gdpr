@@ -31,7 +31,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
-			$cookie_list = wp_cache_get('cmplz_cookie_shredder_list', 'complianz');
+			$cookie_list = get_transient('cmplz_cookie_shredder_list' );
 			if ( !$cookie_list ) {
 				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
 					'ignored'           => false,
@@ -40,7 +40,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					'deleted'           => false,
 					'isMembersOnly'     => cmplz_get_value( 'wp_admin_access_users' ) === 'yes' ? 'all' : false,
 				) );
-				wp_cache_set('cmplz_cookie_shredder_list', $cookie_list, 'complianz', HOUR_IN_SECONDS);
+				set_transient('cmplz_cookie_shredder_list', $cookie_list, HOUR_IN_SECONDS);
 			}
 
 			$this->get_cookies($cookie_list, 'preferences');

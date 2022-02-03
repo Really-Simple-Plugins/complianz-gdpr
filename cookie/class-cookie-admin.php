@@ -360,7 +360,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return;
 			}
 
-			$html = '<option value="0" >' . esc_html( __( 'Select a purpose',
+			$html = '<option value="" >' . esc_html( __( 'Select a purpose',
 					'complianz-gdpr' ) ) . '</option>';
 
 			$cookiePurposes = get_transient( 'cmplz_purposes_' . $language );
@@ -2805,13 +2805,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_cookies_by_service( $settings = array() ) {
 			$cookies = COMPLIANZ::$cookie_admin->get_cookies( $settings );
-
 			$grouped_by_service = array();
 			$topServiceID       = 0;
 			foreach ( $cookies as $cookie ) {
 				$serviceID    = $cookie->serviceID ?: 999999999;
 				$topServiceID   = $serviceID > $topServiceID ? $serviceID : $topServiceID;
-				$purpose  = $cookie->purpose == 0 || strlen( $cookie->purpose ) == 0
+				$purpose = $cookie->purpose === 0 || strlen( $cookie->purpose ) == 0
 					? __( 'Purpose pending investigation', 'complianz-gdpr' )
 					: $cookie->purpose;
 				$grouped_by_service[ $serviceID ][ $purpose ][] = $cookie;
@@ -2824,7 +2823,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $misc ) {
 				$grouped_by_service[ $topServiceID + 1 ] = $misc;
 			}
-
 			return $grouped_by_service;
 		}
 
