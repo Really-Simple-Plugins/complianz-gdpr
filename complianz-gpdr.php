@@ -57,7 +57,6 @@ if ( ! function_exists( 'cmplz_activation_check' ) ) {
 require_once( plugin_dir_path( __FILE__ ) . 'functions.php' );
 if ( ! class_exists( 'COMPLIANZ' ) ) {
 	class COMPLIANZ {
-		//
 		public static $instance;
 		public static $config;
 		public static $company;
