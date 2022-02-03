@@ -2811,7 +2811,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			foreach ( $cookies as $cookie ) {
 				$serviceID    = $cookie->serviceID ?: 999999999;
 				$topServiceID   = $serviceID > $topServiceID ? $serviceID : $topServiceID;
-				$purpose  = strlen( $cookie->purpose ) == 0
+				$purpose  = $cookie->purpose == 0 || strlen( $cookie->purpose ) == 0
 					? __( 'Purpose pending investigation', 'complianz-gdpr' )
 					: $cookie->purpose;
 				$grouped_by_service[ $serviceID ][ $purpose ][] = $cookie;
@@ -2913,7 +2913,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
-
 			//make sure service data is added
 			foreach ( $cookies as $index => $cookie ) {
 				$cookie            = new CMPLZ_COOKIE( $cookie->ID );

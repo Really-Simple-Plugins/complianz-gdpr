@@ -1111,11 +1111,12 @@ a.button.cmplz-open-modal {
 
   .cmplz-panel-title {
 	display: grid;
-	grid-template-columns: 1fr 100px 300px 25px;
+	grid-template-columns: 1fr 50px 250px 25px;
 	grid-template-rows: 25px;
 	align-items: center;
 	grid-gap: 0;
 	padding: 10px;
+	cursor: pointer;
 
 	.cmplz-custom-btns {
 	  display: flex;
@@ -1221,7 +1222,7 @@ a.button.cmplz-open-modal {
 	grid-column-start: 4;
 	cursor: pointer;
 	content: '';
-	background: url(https://complianz.io/banner-defaults/down.png) no-repeat;
+	background: url(../images/down.png) no-repeat;
 	transform: rotate(0deg);
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
@@ -1251,10 +1252,6 @@ a.button.cmplz-open-modal {
 
   &.cmplz-deleted {
 	background-color: #FFa5aa;
-  }
-
-  .cmplz-panel-title {
-	cursor: pointer;
   }
 
   .cmplz-field > div {
@@ -1494,7 +1491,10 @@ html .mceContentBody {
 	font-size:12px;
   	margin-top: 5px;
   &.cmplz-comment-warning{
-	color:@rsp-red;
+	color: @rsp-red;
+	border: 1px solid @rsp-red;
+	margin-top: 20px;
+	padding: 5px;
   }
 }
 

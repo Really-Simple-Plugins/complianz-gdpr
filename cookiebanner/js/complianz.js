@@ -286,14 +286,14 @@ function cmplz_run_script( script, category, type ) {
 	try {
 		if (type!=='inline') {
 			fileref.onload = function () {
-				cmplz_maybe_run_waiting_scripts(script, category);
 				cmplz_run_after_all_scripts(category);
+				cmplz_maybe_run_waiting_scripts(script, category);
 				return;
 			}
 		} else {
 			window.cmplzScriptLoaded = function() {
-				cmplz_maybe_run_waiting_scripts(script, category);
 				cmplz_run_after_all_scripts(category);
+				cmplz_maybe_run_waiting_scripts(script, category);
 				return;
 			}
 		}
@@ -301,10 +301,11 @@ function cmplz_run_script( script, category, type ) {
 		header.appendChild(fileref);
 
 	} catch(exception) {
-		throw "Something went wrong " + exception + " while loading "+path;
+		//only runs in case of error
+		cmplz_run_after_all_scripts(category);
+		throw "Something went wrong " + exception + " while loading "+script;
 	}
-	//only runs when all scripts have fired
-	cmplz_run_after_all_scripts(category);
+
 }
 
 
@@ -324,8 +325,6 @@ function cmplz_maybe_run_waiting_scripts( script, category ){
 	if (waiting_inline_script) {
 		cmplz_run_script(waiting_inline_script, category, 'inline');
 	}
-
-	cmplz_run_after_all_scripts(category);
 }
 
 /**
@@ -425,9 +424,10 @@ function cmplz_insert_placeholder_text(container, service){
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
 				btn.setAttribute('aria-label', service);
+				console.log(complianz.region);
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
-				if (pageLinks.hasOwnProperty('cookie-statement')) {
+				if (pageLinks && pageLinks.hasOwnProperty('cookie-statement')) {
 					link.setAttribute('href', pageLinks['cookie-statement']['url']);
 					if (link.innerText === '{title}') {
 						link.innerText = pageLinks['cookie-statement']['title'];
@@ -499,6 +499,14 @@ if ( complianz.block_ajax_content == 1 ) {
 	}, 2000);
 }
 
+/**
+ * Check if there are any blocked scripts on the page
+ * @returns {boolean}
+ */
+function cmplz_has_blocked_scripts(){
+	let scriptElements = document.querySelectorAll('script[data-category], script[data-service]');
+	return scriptElements.length>0;
+}
 /**
  * Enable scripts that were blocked
  *
@@ -601,11 +609,10 @@ function cmplz_enable_category(category, service) {
 	 * Let's activate the scripts
 	 */
 
-		//create list of waiting scripts
+	//create list of waiting scripts
 	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
-
 		let src = obj.getAttribute('src');
 		if ( waitfor ) {
 			if ( src ) {
@@ -659,11 +666,12 @@ function cmplz_enable_category(category, service) {
 	details.region = complianz.region;
 	let event = new CustomEvent('cmplz_enable_category', { detail: details });
 	document.dispatchEvent(event);
-
 	//if there are no blockable scripts at all, we still want to provide a hook
-	//in most cases, this script fires too early, and won't run yet. In that
+	//in most cases, there are blocked scripts, and this code won't run yet. In that
 	//case it's run from the script activation callbacks.
-	cmplz_run_after_all_scripts(category);
+	if ( !cmplz_has_blocked_scripts() ) {
+		cmplz_run_after_all_scripts(category);
+	}
 }
 
 
@@ -903,6 +911,7 @@ window.show_cookie_banner = function () {
 	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
 		console.log('Fallback default css file used. Please re-save banner settings, or check file writing permissions in uploads directory');
 	}
+
 	link.href = css_file_url;
 	link.type = "text/css";
 	link.rel = "stylesheet";
@@ -917,10 +926,10 @@ window.show_cookie_banner = function () {
 		cmplz_banner.querySelectorAll('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)').forEach(obj => {
 			let docElement = obj;
 			docElement.classList.add('cmplz-hidden');
-			for (let pageType in pageLinks) {
+			for (let pageType in pageLinks ) {
 				if (pageLinks.hasOwnProperty(pageType) && docElement.classList.contains(pageType)) {
 					docElement.setAttribute('href', pageLinks[pageType]['url'] + docElement.getAttribute('data-relative_url'));
-					if (docElement.innerText === '{title}') {
+					if ( docElement.innerText === '{title}') {
 						docElement.innerText = cmplz_html_decode(pageLinks[pageType]['title']);
 					}
 					docElement.classList.remove('cmplz-hidden');
@@ -1394,11 +1403,12 @@ cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
  * Accept a specific service
  */
 cmplz_add_event('click', '.cmplz-accept-service', function(e){
-	e.preventDefault();
 	let obj = e.target;
 	//that is for the change event, for input checkboxes
 	let tagName = obj.tagName;
-	if ( tagName === 'INPUT' ) return;
+	if ( tagName === 'INPUT' ) {
+		return;
+	}
 	let service = obj.getAttribute('data-service');
 	if ( typeof service !== 'undefined' ){
 		cmplz_set_service_consent(service, true);
@@ -1844,9 +1854,10 @@ function cmplz_set_integrations_cookies() {
 	}
 }
 
-
 function cmplz_get_url_parameter(sPageURL, sParam) {
-	if (typeof sPageURL === 'undefined') return false;
+	if ( !sPageURL || typeof sPageURL === 'undefined' ) {
+		return false;
+	}
 
 	var queryString = sPageURL.split('?');
 	if (queryString.length == 1) return false;

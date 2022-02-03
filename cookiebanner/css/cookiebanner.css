@@ -27,7 +27,7 @@
   --cmplz_category_header_always_active_color: green;
   --cmplz_category_header_title_font_size: 14px;
   --cmplz_category_header_active_font_size: 12px;
-  --cmplz_category_open_icon_url: url(https://complianz.io/banner-defaults/down.png);
+  --cmplz_category_open_icon_url: url(../../assets/images/down.png);
   --cmplz-manage-consent-height: 50px;
   --cmplz-manage-consent-offset: -35px;
   --cmplz_slider_active_color: #29b6f6;

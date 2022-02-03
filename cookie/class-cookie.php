@@ -439,14 +439,29 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				//keep all translations in sync
 				$translationIDS = $this->get_translations();
 				foreach ( $translationIDS as $translationID ) {
-
 					if ( $this->ID == $translationID ) {
 						continue;
 					}
 					$translation                 = new CMPLZ_COOKIE( $translationID );
-					$translation->name           = $this->name;
-					$translation->serviceID      = $this->serviceID;
-					$translation->sync           = $this->sync;
+					$translation->name                  = $this->name;
+					$translation->serviceID             = $this->serviceID;
+					$translation->sync                  = $this->sync;
+					$translation->isPersonalData        = $this->isPersonalData;
+					$translation->isMembersOnly         = $this->isMembersOnly;
+					$translation->slug                  = $this->slug;
+					$translation->showOnPolicy          = $this->showOnPolicy;
+					$translation->deleted               = $this->deleted;
+					$translation->ignored               = $this->ignored;
+
+					//translated data, only when not synced
+					if ( !$this->sync ) {
+						$translation->purpose               = $this->purpose;
+						$translation->cookieFunction        = $this->cookieFunction;
+						$translation->retention             = $this->retention;
+						$translation->type                  = $this->type;
+						$translation->collectedPersonalData = $this->collectedPersonalData;
+					}
+
 					$translation->save();
 				}
 			}

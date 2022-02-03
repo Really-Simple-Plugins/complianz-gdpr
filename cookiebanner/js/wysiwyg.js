@@ -200,6 +200,7 @@ jQuery(document).ready(function ($) {
 					});
 
 					css_file = css_file.replace('{type}', consenttype ).replace('{banner_id}', banner_id);
+					console.log(css_file);
 					link.href = css_file;
 					link.type = "text/css";
 					link.rel = "stylesheet";
@@ -455,13 +456,17 @@ jQuery(document).ready(function ($) {
 	});
 
 	function cmplz_load_defaults(callback){
+		console.log("load defaults");
 		var defaults = complianz.defaults;
+		console.log(defaults);
 		for (var default_field in defaults) {
-			var fieldGroup = $(".field-group."+default_field);
+			var fieldGroup = $(".field-group[data-fieldname="+default_field+"]");
 			if (fieldGroup.hasClass('cmplz-colorpicker') ) {
 				if (defaults[default_field].hasOwnProperty("color")) {
 					fieldGroup.find('.cmplz-color-picker data[hidden-input=cmplz_'+default_field+'_color]').wpColorPicker('color', defaults[default_field]['color']);
 					var inputField = $("input[name='cmplz_" + default_field + "[color]']");
+					console.log('cmplz_' + default_field);
+					console.log(defaults[default_field]['color']);
 					inputField.val(defaults[default_field]['color']);
 					inputField.closest('.cmplz-color-picker-wrap').find('.wp-color-result').css('background-color', defaults[default_field]['color']);
 				}
@@ -496,10 +501,10 @@ jQuery(document).ready(function ($) {
 					inputField.closest('.cmplz-color-picker-wrap').find('.wp-color-result').css('background-color', defaults[default_field]['inactive']);
 				}
 			} else if (fieldGroup.hasClass('cmplz-text_checkbox') ) {
-				$(".field-group."+default_field+' input[type=text]').val( defaults[default_field]['text'] );
-				$(".field-group."+default_field+' input[type=checkbox]').prop('checked', defaults[default_field]['show'] );
+				$(".field-group[data-fieldname="+default_field+'] input[type=text]').val( defaults[default_field]['text'] );
+				$(".field-group[data-fieldname="+default_field+'] input[type=checkbox]').prop('checked', defaults[default_field]['show'] );
 			} else if ( fieldGroup.hasClass('cmplz-text') ) {
-				$(".field-group."+default_field+' input').val( defaults[default_field] );
+				$(".field-group[data-fieldname="+default_field+'] input').val( defaults[default_field] );
 			} else if (fieldGroup.hasClass('cmplz-borderradius') || fieldGroup.hasClass('cmplz-borderwidth')) {
 				$("input[name='cmplz_"+default_field+"[top]']").val(defaults[default_field]['top']);
 				$("input[name='cmplz_"+default_field+"[right]']").val(defaults[default_field]['right']);
@@ -509,12 +514,13 @@ jQuery(document).ready(function ($) {
 					$("input[name='cmplz_"+default_field+"[type]']").val(defaults[default_field]['type']);
 				}
 			} else if (fieldGroup.hasClass('cmplz-number')){
-				$(".field-group."+default_field+' input').val( defaults[default_field] );
+				$(".field-group[data-fieldname="+default_field+'] input').val( defaults[default_field] );
 			} else if (fieldGroup.hasClass('cmplz-checkbox')) {
-				$(".field-group." + default_field + ' input').prop('checked', defaults[default_field]);
+				var checked = defaults[default_field] ? 'checked' : '';
+				$(".field-group[data-fieldname="+default_field+'] input').prop('checked', checked);
 			} else if (fieldGroup.hasClass('cmplz-select')){
 				if (default_field!=='position') {
-					$(".field-group."+default_field+' select').val( defaults[default_field] );
+					$(".field-group[data-fieldname="+default_field+'] select').val( defaults[default_field] );
 				}
 			} else if (fieldGroup.hasClass('cmplz-editor')){
 				var editor_id = 'cmplz_message_' + consenttype;

@@ -1114,11 +1114,12 @@ a.button.cmplz-open-modal {
 }
 .cmplz-panel .cmplz-panel-title {
   display: grid;
-  grid-template-columns: 1fr 100px 300px 25px;
+  grid-template-columns: 1fr 50px 250px 25px;
   grid-template-rows: 25px;
   align-items: center;
   grid-gap: 0;
   padding: 10px;
+  cursor: pointer;
 }
 .cmplz-panel .cmplz-panel-title .cmplz-custom-btns {
   display: flex;
@@ -1209,7 +1210,7 @@ a.button.cmplz-open-modal {
   grid-column-start: 4;
   cursor: pointer;
   content: '';
-  background: url(https://complianz.io/banner-defaults/down.png) no-repeat;
+  background: url(../images/down.png) no-repeat;
   transform: rotate(0deg);
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -1232,9 +1233,6 @@ a.button.cmplz-open-modal {
 }
 .cmplz-panel.cmplz-deleted {
   background-color: #FFa5aa;
-}
-.cmplz-panel .cmplz-panel-title {
-  cursor: pointer;
 }
 .cmplz-panel .cmplz-field > div {
   margin: 10px 0;
@@ -1439,6 +1437,9 @@ html .mceContentBody {
 }
 .cmplz-comment.cmplz-comment-warning {
   color: #D7263D;
+  border: 1px solid #D7263D;
+  margin-top: 20px;
+  padding: 5px;
 }
 .cmplz-cookie-field .cmplz-cookie-header {
   border-bottom: 1px solid #b6b7b8;
