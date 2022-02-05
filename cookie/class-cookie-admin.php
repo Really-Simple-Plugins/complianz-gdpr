@@ -2113,7 +2113,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $statistics === 'google-analytics' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
-				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
+				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymize_ip': true" : "";
 				if ( substr( strtoupper($code), 0, 2) === 'G-' ) {
 					$anonymize_ip = '';
 				}
