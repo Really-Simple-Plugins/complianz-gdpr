@@ -1372,7 +1372,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( ! $error ) {
-				if ( isset( $result->en ) ) {
+				if ( is_object( $result) && property_exists($result, 'en') ) {
 					$services = $result->en;
 
 					$isTranslationFrom = array();
@@ -1380,14 +1380,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$services as $original_service_name =>
 						$service_and_cookies
 					) {
-						if ( ! isset( $service_and_cookies->service ) ) {
+						if ( !is_object( $service_and_cookies) || !property_exists( $service_and_cookies, 'service') ){
 							continue;
 						}
 
 						$service_object = $service_and_cookies->service;
 
 						//sync service data
-						if ( ! isset( $service_object->name ) ) {
+						if ( !is_object( $service_object) || !property_exists( $service_object, 'name') ) {
 							continue;
 						}
 
@@ -1432,14 +1432,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$services as $original_service_name =>
 						$service_and_cookies
 					) {
-						if ( ! isset( $service_and_cookies->service ) ) {
+						if ( !is_object( $service_and_cookies) || !property_exists( $service_and_cookies, 'service') ){
 							continue;
 						}
 						$service_object = $service_and_cookies->service;
 
-						if ( ! isset( $service_object->name ) ) {
+						if ( !is_object( $service_object) || !property_exists( $service_object, 'name') ){
 							continue;
 						}
+
 						$service                  = new CMPLZ_SERVICE( $original_service_name, $language );
 						$service->name = $service_object->name;
 						$service->privacyStatementURL = $service_object->privacyStatementURL;
