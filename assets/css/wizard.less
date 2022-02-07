@@ -1110,9 +1110,7 @@ a.button.cmplz-open-modal {
 .cmplz-panel {
 
   .cmplz-panel-title {
-	display: grid;
-	grid-template-columns: 1fr 50px 250px 25px;
-	grid-template-rows: 25px;
+	display: flex;
 	align-items: center;
 	grid-gap: 0;
 	padding: 10px;
@@ -1122,11 +1120,15 @@ a.button.cmplz-open-modal {
 	  display: flex;
 	  align-content: center;
 	  justify-content: flex-end;
+	  margin-left:auto;
+
 	  svg {
 		width: 15px;
 		height: 15px;
 		padding-top: 1px;
 	  }
+	}
+	.cmplz-icon.cmplz-open {
 	}
   }
 

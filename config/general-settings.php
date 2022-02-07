@@ -211,9 +211,9 @@ $this->fields = $this->fields + array(
 				'custom' => __("Custom",'complianz-gdpr'),
 			),
 			'step'      => 'cookie-blocker',
-			'label'     => __( "Google Maps placeholder format", 'complianz-gdpr' ),
+			'label'     => __( "Placeholder ratio", 'complianz-gdpr' ),
 			'default'   => '1280x920',
-			'tooltip'      => __( "Select the optimal Google Maps placeholder ratio for your site.", 'complianz-gdpr' ),
+			'tooltip'      => __( "Select the optimal placeholder ratio for your site.", 'complianz-gdpr' ),
 			'condition' => array(
 				'disable_cookie_block' => false,
 			),

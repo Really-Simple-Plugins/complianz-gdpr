@@ -2405,8 +2405,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					cmplz_update_option( 'wizard', 'UA_code', sanitize_text_field( $matches[2] ) );
 					cmplz_update_option( 'wizard', 'compile_statistics', 'google-analytics' );
 				}
-
-				$pattern = '/\'anonymizeIp\':[ ]{0,1}true/i';
+				$pattern = '/\'anonymizeIp|anonymize_ip\'|:[ ]{0,1}true/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches ) {
 					$value = cmplz_get_value( 'compile_statistics_more_info' );
