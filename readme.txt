@@ -195,10 +195,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: cookiebanner required feedback
 * Improvement: new option to disable width auto correction
 * Improvement: ratio option for placeholders on openstreetmap
-* Improvement: added Flexible Maps integration
 * Improvement: drop title element from svg in banner, props @alexbosch
 * Improvement: p elements on all paragraphs in legal documents
 * Improvement: added Flexible Maps integration
+* Improvement: add toggle to hide the legal document links on the banner
 * Fix: Novo Maps integration
 * Fix: domains with 'type' in the url could not load the css file props @nimdaweb
 * Fix: catch not set enable dependency key
@@ -211,6 +211,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: export filtered dataset from Records of Consent
 * Fix: in cmplz_fire_categories, declare event as local variable, fixing theme conflicts with global declared variables props @jrt341 and @skydivider
 * Fix: fix revert to defaults for text_checkbox booleans @puregraphx
+* Fix: Due to change from google-analytics.js to gtag.js, anonymizeIp has changed to anonymize_ip, props @ccalislar35
 
 = 6.0.7 =
 * Changed database upgrade order
