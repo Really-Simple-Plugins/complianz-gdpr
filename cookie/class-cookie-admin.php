@@ -1056,7 +1056,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! $error ) {
 
 				//make sure we have an en cookie
-				if ( isset( $result->en ) ) {
+				if ( is_object( $result ) && property_exists($result, 'en') ) {
 					$services           = $result->en;
 					foreach ($services as $service => $cookies ) {
 						$service_name = ($service !== 'no-service-set') ? $service : false;
@@ -1064,7 +1064,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						foreach (
 							$cookies as $original_cookie_name => $cookie_object
 						) {
-							if ( ! isset( $cookie_object->name ) ) {
+							if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
 								continue;
 							}
 
@@ -1096,9 +1096,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							foreach (
 								$cookies as $original_cookie_name => $cookie_object
 							) {
-								if ( ! isset( $cookie_object->name ) ) {
+								if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
 									continue;
 								}
+
 								$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language, $service_name);
 								$cookie->name                  = $cookie_object->name;
 								$cookie->retention             = $cookie_object->retention;
@@ -1127,7 +1128,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						}
 					}
 				}
-
 				$this->update_sync_date();
 			}
 
@@ -1140,7 +1140,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $msg;
 		}
 
-
+		/**
+		 * Get list of services to be synced
+		 *
+		 * @return array
+		 */
 		public function get_syncable_services() {
 			$languages = $this->get_supported_languages();
 			$data      = array();
