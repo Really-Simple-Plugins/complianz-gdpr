@@ -899,15 +899,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
-			if ( ! isset( $_GET['step'] ) || $_GET['step'] != STEP_COOKIES ) {
-				return;
-			}
-			if ( ! isset( $_GET['section'] ) || $_GET['section'] != 5 ) {
+
+			$step = isset($_REQUEST['step']) ? $_REQUEST['step'] : '1';
+			if ( $step != STEP_COOKIES ) {
 				return;
 			}
 
 			$data = $this->get_syncable_cookies( true );
-
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
 				return;
@@ -1000,7 +998,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$data            = apply_filters( 'cmplz_api_data', $data );
 				$json            = json_encode( $data );
 				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v2/cookies/';
-
 				$ch = curl_init();
 
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
@@ -1015,7 +1012,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-
 				if ( $result === false ) {
 					$error = true;
 				}
@@ -3411,13 +3407,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					<div class="cmplz-progress-bar"></div>
 				</div>
 				<br>
-
 				<div class="detected-cookies">
 					<?php echo $this->get_detected_cookies_table(); ?>
 				</div>
 			</div>
-
-
 			<?php
 		}
 
