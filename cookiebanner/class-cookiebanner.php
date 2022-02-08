@@ -1143,7 +1143,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				"banner_border_width" => $this->get_border_width(),
 				"banner_width" => $this->banner_width.'px',
 				"text_font_size" => $this->font_size.'px',
-				"link_font_siz" => $this->font_size.'px',
+				"link_font_size" => $this->font_size.'px',
 				"category_body_font_size" => $this->font_size.'px',
 				"banner_border_radius" => $this->get_border_radius($this->colorpalette_border_radius),
 				"text_color" => $this->colorpalette_text['color'],

@@ -378,13 +378,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							if ( strlen( $cookiePurpose ) == 0 ) {
 								continue;
 							}
-							cmplz_register_translation( $cookiePurpose,
-								$cookiePurpose );
+							cmplz_register_translation( $cookiePurpose, $cookiePurpose );
 						}
 					}
 
-					set_transient( 'cmplz_purposes_' . $language,
-						$cookiePurposes, WEEK_IN_SECONDS );
+					set_transient( 'cmplz_purposes_' . $language, $cookiePurposes, WEEK_IN_SECONDS );
 				}
 			}
 
