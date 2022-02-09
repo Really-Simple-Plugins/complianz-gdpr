@@ -318,7 +318,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 
 					set_transient( 'cmplz_serviceTypes_' . $language,
-						$serviceTypes, WEEK_IN_SECONDS );
+						$serviceTypes, MONTH_IN_SECONDS );
 				}
 			}
 			if ( $serviceTypes ) {
@@ -382,7 +382,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						}
 					}
 
-					set_transient( 'cmplz_purposes_' . $language, $cookiePurposes, WEEK_IN_SECONDS );
+					set_transient( 'cmplz_purposes_' . $language, $cookiePurposes, MONTH_IN_SECONDS );
 				}
 			}
 
