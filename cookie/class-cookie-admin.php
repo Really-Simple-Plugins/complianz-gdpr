@@ -1916,13 +1916,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return apply_filters( 'cmplz_cookie_path', '/' );
 			}
 
-			$domain      = site_url();
+			$domain      = home_url();
 			$parse       = parse_url( $domain );
 			$root_domain = $parse['host'];
 			$path        = str_replace( array( 'http://', 'https://', $root_domain ), '', $domain );
 
 			return apply_filters( 'cmplz_cookie_path', trailingslashit( $path ) );
 		}
+	
 
 		/**
 		 * The category that is passed to the statistics script determine if these are executed immediately or not.

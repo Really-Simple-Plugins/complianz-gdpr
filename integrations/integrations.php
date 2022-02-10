@@ -31,6 +31,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'themify-builder' => array(
+			'constant_or_function' => 'themify_builder_theme_check',
+			'label'                => 'Themify Builder',
+			'firstparty_marketing' => false,
+	),
+
 	'meks-easy-maps' => array(
 			'constant_or_function' => 'MKS_MAP_VER',
 			'label'                => 'Meks Easy Maps',
@@ -73,6 +79,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'wpadverts' => array(
+		'constant_or_function' => 'ADVERTS_PATH',
+		'label'                => 'WP Adverts',
+		'firstparty_marketing' => false,
+	),
+	
 	'citadela-directory' => array(
 			'constant_or_function' => 'CITADELA_DIRECTORY_LITE_PLUGIN',
 			'label'                => 'Citadela Directory',
@@ -394,6 +406,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'wp-store-locator' => array(
 		'constant_or_function' => 'WPSL_VERSION_NUM',
 		'label'                => 'WP Store Locator',
+		'firstparty_marketing' => false,
+	),
+	'thrive' => array(
+		'constant_or_function' => 'Thrive_Product_Manager',
+		'label'                => 'Thrive',
 		'firstparty_marketing' => false,
 	),
 

@@ -1,4 +1,6 @@
 <?php
+defined( 'ABSPATH' ) or die();
+
 add_filter( 'cmplz_known_script_tags', 'cmplz_theeventscalendar_script' );
 function cmplz_theeventscalendar_script( $tags ) {
 	$tags[] = array(
