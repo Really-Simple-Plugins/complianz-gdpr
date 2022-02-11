@@ -1146,7 +1146,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$count_all    = 0;
 			$one_week_ago = strtotime( "-1 week" );
 			foreach ( $languages as $language ) {
-				$args = array( 'sync' => true, 'language' => $language );
+				$args = array( 'sync' => true, 'language' => $language, 'includeServicesWithoutCookies' => true );
 				if ( ! wp_doing_cron()
 				     && ! defined( 'CMPLZ_SKIP_WEEK_CHECK' )
 				) {
@@ -1923,7 +1923,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			return apply_filters( 'cmplz_cookie_path', trailingslashit( $path ) );
 		}
-	
+
 
 		/**
 		 * The category that is passed to the statistics script determine if these are executed immediately or not.
@@ -2946,20 +2946,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_services( $settings = array() ) {
 			global $wpdb;
-			$result
-				= $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
+			$result = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
 			if ( empty( $result ) ) {
 				return array();
 			}
 
 			$defaults = array(
-				'language'        => false,
-				'hideEmpty'       => false,
-				'category'        => 'all',
-				'lastUpdatedDate' => false,
+					'language'                      => false,
+					'hideEmpty'                     => false,
+					'category'                      => 'all',
+					'lastUpdatedDate'               => false,
+					'includeServicesWithoutCookies' => false,
 			);
 			$settings = wp_parse_args( $settings, $defaults );
-
 			$sql = ' 1=1 ';
 
 			if ( $settings['language'] ) {
@@ -2988,12 +2987,25 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$settings['language'] );
 			}
 
+			$no_cookies_where = $sql;
+
 			if ( $settings['lastUpdatedDate'] ) {
 				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate = 0 )',
-					intval( $settings['lastUpdatedDate'] ) );
+						intval( $settings['lastUpdatedDate'] ) );
 			}
 			$sql      = "select * from {$wpdb->prefix}cmplz_services where " . $sql;
 			$services = $wpdb->get_results( $sql );
+
+			if ( $settings['includeServicesWithoutCookies'] ) {
+				$sql = "select * from ( select * from {$wpdb->prefix}cmplz_services where NOT ID in (select DISTINCT services.ID from {$wpdb->prefix}cmplz_services as services inner join {$wpdb->prefix}cmplz_cookies on services.ID = {$wpdb->prefix}cmplz_cookies.serviceID)) as services where $no_cookies_where";
+				$services_no_cookies = $wpdb->get_results( $sql );
+				$service_ids = wp_list_pluck($services, 'ID');
+				foreach ( $services_no_cookies as $service_no_cookies ) {
+					if ( !in_array( $service_no_cookies->ID ,$service_ids) ){
+						$services[] = $service_no_cookies;
+					}
+				}
+			}
 
 			return $services;
 		}
