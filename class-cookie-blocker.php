@@ -125,7 +125,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 		public function blocked_content_text(){
 			if (cmplz_get_value( 'consent_per_service' ) === 'yes') {
-				$placeholdertext = '<div class="cmplz-blocked-content-notice-body">'.__("Click to accept cookies for %s.", "complianz-gdpr").'&nbsp;<div class="cmplz-links"><a href="#" class="cmplz-link cookie-statement">'.__("Read more.", "complianz-gdpr").'</a></div></div><button class="cmplz-accept-service">'.__("Accept", "complianz-gdpr").'</button>';
+				$placeholdertext = cmplz_get_value( 'blocked_content_text_per_service' );
+				$placeholdertext = '<div class="cmplz-blocked-content-notice-body">'.$placeholdertext.'&nbsp;<div class="cmplz-links"><a href="#" class="cmplz-link cookie-statement">{title}</a></div></div><button class="cmplz-accept-service">'.__("I Agree", "complianz-gdpr").'</button>';
 			} else {
 				$placeholdertext = cmplz_get_value( 'blocked_content_text' );
 			}
