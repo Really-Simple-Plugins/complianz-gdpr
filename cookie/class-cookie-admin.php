@@ -318,7 +318,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					}
 
 					set_transient( 'cmplz_serviceTypes_' . $language,
-						$serviceTypes, WEEK_IN_SECONDS );
+						$serviceTypes, MONTH_IN_SECONDS );
 				}
 			}
 			if ( $serviceTypes ) {
@@ -360,7 +360,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return;
 			}
 
-			$html = '<option value="0" >' . esc_html( __( 'Select a purpose',
+			$html = '<option value="" >' . esc_html( __( 'Select a purpose',
 					'complianz-gdpr' ) ) . '</option>';
 
 			$cookiePurposes = get_transient( 'cmplz_purposes_' . $language );
@@ -378,13 +378,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							if ( strlen( $cookiePurpose ) == 0 ) {
 								continue;
 							}
-							cmplz_register_translation( $cookiePurpose,
-								$cookiePurpose );
+							cmplz_register_translation( $cookiePurpose, $cookiePurpose );
 						}
 					}
 
-					set_transient( 'cmplz_purposes_' . $language,
-						$cookiePurposes, WEEK_IN_SECONDS );
+					set_transient( 'cmplz_purposes_' . $language, $cookiePurposes, MONTH_IN_SECONDS );
 				}
 			}
 
@@ -901,15 +899,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
-			if ( ! isset( $_GET['step'] ) || $_GET['step'] != STEP_COOKIES ) {
-				return;
-			}
-			if ( ! isset( $_GET['section'] ) || $_GET['section'] != 5 ) {
+
+			$step = isset($_REQUEST['step']) ? $_REQUEST['step'] : '1';
+			if ( $step != STEP_COOKIES ) {
 				return;
 			}
 
 			$data = $this->get_syncable_cookies( true );
-
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
 				return;
@@ -1002,7 +998,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$data            = apply_filters( 'cmplz_api_data', $data );
 				$json            = json_encode( $data );
 				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v2/cookies/';
-
 				$ch = curl_init();
 
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
@@ -1017,7 +1012,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
-
 				if ( $result === false ) {
 					$error = true;
 				}
@@ -1056,7 +1050,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! $error ) {
 
 				//make sure we have an en cookie
-				if ( isset( $result->en ) ) {
+				if ( is_object( $result ) && property_exists($result, 'en') ) {
 					$services           = $result->en;
 					foreach ($services as $service => $cookies ) {
 						$service_name = ($service !== 'no-service-set') ? $service : false;
@@ -1064,7 +1058,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						foreach (
 							$cookies as $original_cookie_name => $cookie_object
 						) {
-							if ( ! isset( $cookie_object->name ) ) {
+							if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
 								continue;
 							}
 
@@ -1096,9 +1090,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 							foreach (
 								$cookies as $original_cookie_name => $cookie_object
 							) {
-								if ( ! isset( $cookie_object->name ) ) {
+								if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
 									continue;
 								}
+
 								$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language, $service_name);
 								$cookie->name                  = $cookie_object->name;
 								$cookie->retention             = $cookie_object->retention;
@@ -1127,7 +1122,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						}
 					}
 				}
-
 				$this->update_sync_date();
 			}
 
@@ -1140,7 +1134,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $msg;
 		}
 
-
+		/**
+		 * Get list of services to be synced
+		 *
+		 * @return array
+		 */
 		public function get_syncable_services() {
 			$languages = $this->get_supported_languages();
 			$data      = array();
@@ -1148,7 +1146,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$count_all    = 0;
 			$one_week_ago = strtotime( "-1 week" );
 			foreach ( $languages as $language ) {
-				$args = array( 'sync' => true, 'language' => $language );
+				$args = array( 'sync' => true, 'language' => $language, 'includeServicesWithoutCookies' => true );
 				if ( ! wp_doing_cron()
 				     && ! defined( 'CMPLZ_SKIP_WEEK_CHECK' )
 				) {
@@ -1368,7 +1366,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( ! $error ) {
-				if ( isset( $result->en ) ) {
+				if ( is_object( $result) && property_exists($result, 'en') ) {
 					$services = $result->en;
 
 					$isTranslationFrom = array();
@@ -1376,14 +1374,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$services as $original_service_name =>
 						$service_and_cookies
 					) {
-						if ( ! isset( $service_and_cookies->service ) ) {
+						if ( !is_object( $service_and_cookies) || !property_exists( $service_and_cookies, 'service') ){
 							continue;
 						}
 
 						$service_object = $service_and_cookies->service;
 
 						//sync service data
-						if ( ! isset( $service_object->name ) ) {
+						if ( !is_object( $service_object) || !property_exists( $service_object, 'name') ) {
 							continue;
 						}
 
@@ -1428,14 +1426,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$services as $original_service_name =>
 						$service_and_cookies
 					) {
-						if ( ! isset( $service_and_cookies->service ) ) {
+						if ( !is_object( $service_and_cookies) || !property_exists( $service_and_cookies, 'service') ){
 							continue;
 						}
 						$service_object = $service_and_cookies->service;
 
-						if ( ! isset( $service_object->name ) ) {
+						if ( !is_object( $service_object) || !property_exists( $service_object, 'name') ){
 							continue;
 						}
+
 						$service                  = new CMPLZ_SERVICE( $original_service_name, $language );
 						$service->name = $service_object->name;
 						$service->privacyStatementURL = $service_object->privacyStatementURL;
@@ -1917,13 +1916,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return apply_filters( 'cmplz_cookie_path', '/' );
 			}
 
-			$domain      = site_url();
+			$domain      = home_url();
 			$parse       = parse_url( $domain );
 			$root_domain = $parse['host'];
 			$path        = str_replace( array( 'http://', 'https://', $root_domain ), '', $domain );
 
 			return apply_filters( 'cmplz_cookie_path', trailingslashit( $path ) );
 		}
+
 
 		/**
 		 * The category that is passed to the statistics script determine if these are executed immediately or not.
@@ -2113,7 +2113,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $statistics === 'google-analytics' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$code         = esc_attr( cmplz_get_value( "UA_code" ) );
-				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymizeIp': true" : "";
+				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymize_ip': true" : "";
 				if ( substr( strtoupper($code), 0, 2) === 'G-' ) {
 					$anonymize_ip = '';
 				}
@@ -2405,8 +2405,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					cmplz_update_option( 'wizard', 'UA_code', sanitize_text_field( $matches[2] ) );
 					cmplz_update_option( 'wizard', 'compile_statistics', 'google-analytics' );
 				}
-
-				$pattern = '/\'anonymizeIp\':[ ]{0,1}true/i';
+				$pattern = '/\'anonymizeIp|anonymize_ip\'|:[ ]{0,1}true/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches ) {
 					$value = cmplz_get_value( 'compile_statistics_more_info' );
@@ -2805,13 +2804,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_cookies_by_service( $settings = array() ) {
 			$cookies = COMPLIANZ::$cookie_admin->get_cookies( $settings );
-
 			$grouped_by_service = array();
 			$topServiceID       = 0;
 			foreach ( $cookies as $cookie ) {
 				$serviceID    = $cookie->serviceID ?: 999999999;
 				$topServiceID   = $serviceID > $topServiceID ? $serviceID : $topServiceID;
-				$purpose  = $cookie->purpose == 0 || strlen( $cookie->purpose ) == 0
+				$purpose = $cookie->purpose === 0 || strlen( $cookie->purpose ) == 0
 					? __( 'Purpose pending investigation', 'complianz-gdpr' )
 					: $cookie->purpose;
 				$grouped_by_service[ $serviceID ][ $purpose ][] = $cookie;
@@ -2824,7 +2822,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $misc ) {
 				$grouped_by_service[ $topServiceID + 1 ] = $misc;
 			}
-
 			return $grouped_by_service;
 		}
 
@@ -2949,20 +2946,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_services( $settings = array() ) {
 			global $wpdb;
-			$result
-				= $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
+			$result = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
 			if ( empty( $result ) ) {
 				return array();
 			}
 
 			$defaults = array(
-				'language'        => false,
-				'hideEmpty'       => false,
-				'category'        => 'all',
-				'lastUpdatedDate' => false,
+					'language'                      => false,
+					'hideEmpty'                     => false,
+					'category'                      => 'all',
+					'lastUpdatedDate'               => false,
+					'includeServicesWithoutCookies' => false,
 			);
 			$settings = wp_parse_args( $settings, $defaults );
-
 			$sql = ' 1=1 ';
 
 			if ( $settings['language'] ) {
@@ -2991,12 +2987,25 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$settings['language'] );
 			}
 
+			$no_cookies_where = $sql;
+
 			if ( $settings['lastUpdatedDate'] ) {
 				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate = 0 )',
-					intval( $settings['lastUpdatedDate'] ) );
+						intval( $settings['lastUpdatedDate'] ) );
 			}
 			$sql      = "select * from {$wpdb->prefix}cmplz_services where " . $sql;
 			$services = $wpdb->get_results( $sql );
+
+			if ( $settings['includeServicesWithoutCookies'] ) {
+				$sql = "select * from ( select * from {$wpdb->prefix}cmplz_services where NOT ID in (select DISTINCT services.ID from {$wpdb->prefix}cmplz_services as services inner join {$wpdb->prefix}cmplz_cookies on services.ID = {$wpdb->prefix}cmplz_cookies.serviceID)) as services where $no_cookies_where";
+				$services_no_cookies = $wpdb->get_results( $sql );
+				$service_ids = wp_list_pluck($services, 'ID');
+				foreach ( $services_no_cookies as $service_no_cookies ) {
+					if ( !in_array( $service_no_cookies->ID ,$service_ids) ){
+						$services[] = $service_no_cookies;
+					}
+				}
+			}
 
 			return $services;
 		}
@@ -3411,13 +3420,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					<div class="cmplz-progress-bar"></div>
 				</div>
 				<br>
-
 				<div class="detected-cookies">
 					<?php echo $this->get_detected_cookies_table(); ?>
 				</div>
 			</div>
-
-
 			<?php
 		}
 

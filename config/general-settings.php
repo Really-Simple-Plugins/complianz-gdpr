@@ -75,10 +75,30 @@ $this->fields = $this->fields + array(
 			'type'         => 'text',
 			'translatable' => true,
 			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-			'default'      => _x( 'Click to accept marketing cookies and enable this content', 'Accept cookies on blocked content', 'complianz-gdpr' ),
-			'tooltip'         => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'default'      => __( 'Click to accept marketing cookies and enable this content', 'complianz-gdpr' ),
+			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
 			'condition'    => array(
 				'disable_cookie_block' => false,
+			),
+			'callback_condition' => array(
+				'consent_per_service' => 'no',
+			)
+		),
+
+		'blocked_content_text_per_service' => array(
+			'step'         => 'general',
+			'source'       => 'settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
+			'default'      => cmplz_sprintf(__( "Click 'I agree' to enable %s", 'complianz-gdpr' ), '{service}'),
+			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'help'      => __( 'Do not change or translate the {service} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the service that is blocked.', 'complianz-gdpr' ),
+			'condition'    => array(
+				'disable_cookie_block' => false,
+			),
+			'callback_condition' => array(
+				'consent_per_service' => 'yes',
 			)
 		),
 		'a_b_testing_duration' => array(
@@ -211,9 +231,9 @@ $this->fields = $this->fields + array(
 				'custom' => __("Custom",'complianz-gdpr'),
 			),
 			'step'      => 'cookie-blocker',
-			'label'     => __( "Google Maps placeholder format", 'complianz-gdpr' ),
+			'label'     => __( "Placeholder ratio", 'complianz-gdpr' ),
 			'default'   => '1280x920',
-			'tooltip'      => __( "Select the optimal Google Maps placeholder ratio for your site.", 'complianz-gdpr' ),
+			'tooltip'      => __( "Select the optimal placeholder ratio for your site.", 'complianz-gdpr' ),
 			'condition' => array(
 				'disable_cookie_block' => false,
 			),

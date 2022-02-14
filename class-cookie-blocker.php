@@ -31,7 +31,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
-			$cookie_list = wp_cache_get('cmplz_cookie_shredder_list', 'complianz');
+			$cookie_list = get_transient('cmplz_cookie_shredder_list' );
 			if ( !$cookie_list ) {
 				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
 					'ignored'           => false,
@@ -40,7 +40,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					'deleted'           => false,
 					'isMembersOnly'     => cmplz_get_value( 'wp_admin_access_users' ) === 'yes' ? 'all' : false,
 				) );
-				wp_cache_set('cmplz_cookie_shredder_list', $cookie_list, 'complianz', HOUR_IN_SECONDS);
+				set_transient('cmplz_cookie_shredder_list', $cookie_list, HOUR_IN_SECONDS);
 			}
 
 			$this->get_cookies($cookie_list, 'preferences');
@@ -125,7 +125,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 		public function blocked_content_text(){
 			if (cmplz_get_value( 'consent_per_service' ) === 'yes') {
-				$placeholdertext = '<div class="cmplz-blocked-content-notice-body">'.__("Click to accept cookies for %s.", "complianz-gdpr").'&nbsp;<div class="cmplz-links"><a href="#" class="cmplz-link cookie-statement">'.__("Read more.", "complianz-gdpr").'</a></div></div><button class="cmplz-accept-marketing">'.__("Accept", "complianz-gdpr").'</button>';
+				$placeholdertext = cmplz_get_value( 'blocked_content_text_per_service' );
+				$placeholdertext = '<div class="cmplz-blocked-content-notice-body">'.$placeholdertext.'&nbsp;<div class="cmplz-links"><a href="#" class="cmplz-link cookie-statement">{title}</a></div></div><button class="cmplz-accept-service">'.__("I Agree", "complianz-gdpr").'</button>';
 			} else {
 				$placeholdertext = cmplz_get_value( 'blocked_content_text' );
 			}

@@ -2,8 +2,8 @@
  * Script to test site for cookies. Never inserted for visitors, only for admin.
  */
 	//create an element we can click on to accept cookies
-	let html = '<div id="cmplz_test_cookies_div" class="cmplz-accept-cookies"></div>';
-	document.body.insertAdjacentHTML('beforeend', html);
+	let cmplz_html = '<div id="cmplz_test_cookies_div" class="cmplz-accept-cookies"></div>';
+	document.body.insertAdjacentHTML('beforeend', cmplz_html);
 
 	/**
 	 * Force all cookies to be accepted, starting with complianz
@@ -14,21 +14,21 @@
 		document.querySelector('.cmplz-accept-cookies').click();
 	}
 
-	var cookies = get_cookies_array();
-	var lstorage = get_localstorage_array();
-	var request = new XMLHttpRequest();
-	request.open('POST', '{admin_url}' + 'store_cookies', true);
-	request.setRequestHeader('X-WP-Nonce', '{nonce}');
+	var cmplz_cookies = get_cookies_array();
+	var cmplz_lstorage = get_localstorage_array();
+	var cmplz_request = new XMLHttpRequest();
+	cmplz_request.open('POST', '{admin_url}' + 'store_cookies', true);
+	cmplz_request.setRequestHeader('X-WP-Nonce', '{nonce}');
 
-	var data = {
-		'cookies': cookies,
-		'lstorage': lstorage,
+	var cmplz_data = {
+		'cookies': cmplz_cookies,
+		'lstorage': cmplz_lstorage,
 		'token': '{token}',
 		'complianz_id': '{id}'
 	};
 
-	request.setRequestHeader('Content-type', 'application/json');
-	request.send(JSON.stringify(data));
+	cmplz_request.setRequestHeader('Content-type', 'application/json');
+	cmplz_request.send(JSON.stringify(cmplz_data));
 
 	function get_localstorage_array() {
 		var lstorage = {};
@@ -54,11 +54,8 @@
 				cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
 			}
 		}
-
 		return cookies;
-
 	}
-
 
 	function cmplz_function_exists(function_name) {
 		if (typeof function_name == 'string') {

@@ -1943,8 +1943,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 					$has_empty_cookies = $has_empty_cookies || strlen( $cookie->retention ) == 0;
 					$link_open         = $link_close = '';
 
-					if ( $use_cdb_links && strlen( $cookie->slug ) !== 0
-					) {
+					if ( $use_cdb_links && strlen( $cookie->slug ) !== 0 ) {
 						$service_slug = ( strlen( $service->slug ) === 0 ) ? 'unknown-service' : $service->slug;
 						$link_open
 						              = '<a target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/cookie/'

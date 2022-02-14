@@ -836,13 +836,6 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	$banners = cmplz_get_cookiebanners();
-	if ( $banners ) {
-		foreach ( $banners as $banner_item ) {
-			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-			$banner->save();
-		}
-	}
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');

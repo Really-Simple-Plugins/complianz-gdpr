@@ -265,9 +265,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$cookies = wp_list_pluck( $cookies, 'name', 'ID' );
 				$cookie_id = $this->get_fuzzy_match( $cookies, $this->name );
 				if ( $cookie_id ) {
-					$cookie
-						= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s",
-						$cookie_id ) );
+					$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s", $cookie_id ) );
 				}
 			}
 
@@ -293,12 +291,8 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->lastAddDate           = $cookie->lastAddDate;
 				$this->firstAddDate          = $cookie->firstAddDate;
 				$this->slug                  = $cookie->slug;
-				$this->synced                = $cookie->lastUpdatedDate > 0
-					? true : false;
-				$this->old                   = $cookie->lastAddDate
-				                               < strtotime( '-3 months' )
-				                               && $cookie->lastAddDate > 0
-					? true : false;
+				$this->synced                = $cookie->lastUpdatedDate > 0 ? true : false;
+				$this->old                   = $cookie->lastAddDate < strtotime( '-3 months' ) && $cookie->lastAddDate > 0 ? true : false;
 			}
 
 			/**
@@ -412,7 +406,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'lastAddDate'           => intval( $this->lastAddDate ),
 				'slug'                  => sanitize_title( $this->slug ),
 			);
-
 			if ( strlen( $this->firstAddDate ) == 0 ) {
 				$update_array['firstAddDate'] = time();
 			}
