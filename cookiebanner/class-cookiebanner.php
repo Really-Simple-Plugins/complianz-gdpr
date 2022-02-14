@@ -14,13 +14,13 @@ function cmplz_install_cookiebanner_table() {
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
 
-
 		/*
 		 * use_categories_optinstats- border_color are obsolete
 		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
 		*/
-		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
-		if (count($columns)>0) {
+		$columns_1 = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'use_categories_optinstats'");
+		$columns_2 = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
+		if (count($columns_1)>0 || count($columns_2)>0) {
 			$sql        = "CREATE TABLE $table_name (
 				`use_categories_optinstats` text NOT NULL,
 	            `popup_background_color` text NOT NULL,

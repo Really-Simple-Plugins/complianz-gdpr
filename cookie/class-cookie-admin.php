@@ -1764,25 +1764,28 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return $tag;
 		}
 
+		/**
+		 * Enqueue cookie banner javascript
+		 *
+		 * @return void
+		 */
 		public function enqueue_assets( ) {
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			$banner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
 			$cookiesettings = $banner->get_front_end_settings();
-			if ( ! isset( $_GET['complianz_scan_token'] ) ) {
-				$deps = array();
-				if ( cmplz_tcf_active() ) {
-					$deps[] = 'cmplz-tcf';
-				}
-				if ( get_option('cmplz_post_scribe_required') ) {
-					$deps[] = 'cmplz-postscribe';
-					wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), cmplz_version, true );
-				}
-				wp_enqueue_script( 'cmplz-cookiebanner', cmplz_url . "cookiebanner/js/complianz$minified.js", $deps, cmplz_version, true );
-				wp_localize_script( 'cmplz-cookiebanner', 'complianz', $cookiesettings );
+			$deps = array();
+			if ( cmplz_tcf_active() ) {
+				$deps[] = 'cmplz-tcf';
+			}
+			if ( get_option('cmplz_post_scribe_required') ) {
+				$deps[] = 'cmplz-postscribe';
+				wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), cmplz_version, true );
+			}
+			wp_enqueue_script( 'cmplz-cookiebanner', cmplz_url . "cookiebanner/js/complianz$minified.js", $deps, cmplz_version, true );
+			wp_localize_script( 'cmplz-cookiebanner', 'complianz', $cookiesettings );
 
-				if ( cmplz_get_value( 'enable_migrate_js' ) ) {
-					wp_enqueue_script( 'cmplz-migrate', cmplz_url . "cookiebanner/js/migrate$minified.js", array('cmplz-cookiebanner'), cmplz_version, true );
-				}
+			if ( cmplz_get_value( 'enable_migrate_js' ) ) {
+				wp_enqueue_script( 'cmplz-migrate', cmplz_url . "cookiebanner/js/migrate$minified.js", array('cmplz-cookiebanner'), cmplz_version, true );
 			}
 		}
 
@@ -1840,8 +1843,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 															   . "\n");
 			echo   $comment .
 				   '<style>.cmplz-hidden{display:none!important;}</style>
-					<div id="cmplz-cookiebanner-container">'.$banner_html.'</div>
-					<div id="cmplz-manage-consent" data-nosnippet="true">'.$manage_consent_html.'</div>';
+					<div id="cmplz-cookiebanner-container">'.apply_filters("cmplz_banner_html", $banner_html).'</div>
+					<div id="cmplz-manage-consent" data-nosnippet="true">'.apply_filters("cmplz_manage_consent_html", $manage_consent_html).'</div>';
 		}
 
 		/**

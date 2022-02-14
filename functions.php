@@ -2669,6 +2669,10 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 			$sql = 'AND cdb.archived = false';
 		}
 
+		if ( isset($args['ID']) ) {
+			$sql = 'AND cdb.ID = '.intval($args['ID']);
+		}
+
 		if ( isset( $args['default'] ) && $args['default'] == true ) {
 			$sql = 'AND cdb.default = true LIMIT 1';
 		}

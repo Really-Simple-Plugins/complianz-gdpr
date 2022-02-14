@@ -272,10 +272,6 @@
 #cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field .button {
   margin-top: 10px;
 }
-#cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field .button.reset_cookie_banner {
-  background-color: #297A31;
-  color: #fff;
-}
 #cmplz-content-area .cmplz-section-content .cmplz-form .field-group .cmplz-field select {
   font-size: 13px;
 }

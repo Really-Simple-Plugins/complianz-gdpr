@@ -37,15 +37,21 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 				$wizard   = get_option( 'complianz_options_wizard' );
 				unset( $wizard['used_cookies'] );
 
-				$json = json_encode( array(
-					'settings' => $settings,
-					'wizard'   => $wizard,
-					'banners'  => cmplz_get_cookiebanners(),
-					'errors'  => cmplz_get_console_errors(),
-				) );
-
-				$json = $json . '#--COMPLIANZ--#'
-				        . strlen( utf8_decode( $json ) );
+				if (isset($_GET['export_type']) && $_GET['export_type']==='cookiebanner') {
+					$banner_id = intval($_GET['id']);
+					$args = array(
+						'banners'  => cmplz_get_cookiebanners(array('ID'=>$banner_id)),
+					);
+				} else {
+					$args = array(
+						'settings' => $settings,
+						'wizard'   => $wizard,
+						'banners'  => cmplz_get_cookiebanners(),
+						'errors'  => cmplz_get_console_errors(),
+					);
+				}
+				$json = json_encode($args);
+				$json = $json . '#--COMPLIANZ--#' . strlen( utf8_decode( $json ) );
 
 				header( 'Content-disposition: attachment; filename=complianz-export.json' );
 				header( 'Content-type: application/json' );

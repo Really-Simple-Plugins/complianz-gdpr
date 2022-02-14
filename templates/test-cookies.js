@@ -1,22 +1,15 @@
-/**
- * Script to test site for cookies. Never inserted for visitors, only for admin.
- */
-	//create an element we can click on to accept cookies
-	let cmplz_html = '<div id="cmplz_test_cookies_div" class="cmplz-accept-cookies"></div>';
-	document.body.insertAdjacentHTML('beforeend', cmplz_html);
 
 	/**
-	 * Force all cookies to be accepted, starting with complianz
+	 * Script to test site for cookies. Never inserted for visitors, only for admin.
 	 */
-	document.addEventListener("cmplz_cookie_warning_loaded", cmplzForceAcceptCookies);
 
-	function cmplzForceAcceptCookies(consentData) {
-		document.querySelector('.cmplz-accept-cookies').click();
-	}
+	document.addEventListener("cmplz_cookie_warning_loaded", function (consentData) {
+		document.querySelector('.cmplz-accept').click();
+	});
+	let cmplz_cookies = get_cookies_array();
+	let cmplz_lstorage = get_localstorage_array();
+	let cmplz_request = new XMLHttpRequest();
 
-	var cmplz_cookies = get_cookies_array();
-	var cmplz_lstorage = get_localstorage_array();
-	var cmplz_request = new XMLHttpRequest();
 	cmplz_request.open('POST', '{admin_url}' + 'store_cookies', true);
 	cmplz_request.setRequestHeader('X-WP-Nonce', '{nonce}');
 
@@ -31,7 +24,7 @@
 	cmplz_request.send(JSON.stringify(cmplz_data));
 
 	function get_localstorage_array() {
-		var lstorage = {};
+		let lstorage = {};
 		for (i = 0; i < localStorage.length; i++) {
 
 			lstorage[localStorage.key(i)] = localStorage.key(i);
@@ -39,14 +32,12 @@
 		for (i = 0; i < sessionStorage.length; i++) {
 			lstorage[sessionStorage.key(i)] = sessionStorage.key(i);
 		}
-
-
 		return lstorage;
 	}
 
 	function get_cookies_array() {
-		var cookies = {};
-		if (document.cookie && document.cookie != '') {
+		let cookies = {};
+		if ( document.cookie && document.cookie != '' ) {
 			var split = document.cookie.split(';');
 			for (var i = 0; i < split.length; i++) {
 				var name_value = split[i].split("=");
@@ -70,4 +61,3 @@
 			document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
 		});
 	}
-

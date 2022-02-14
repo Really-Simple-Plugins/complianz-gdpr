@@ -460,7 +460,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 				$dismissed_warnings = get_option('cmplz_dismissed_warnings', array() );
 				foreach ( $warning_types as $id => $warning ) {
-					if ( in_array( $id, $dismissed_warnings) ) {
+					if ( in_array( sanitize_title($id), $dismissed_warnings) ) {
 						continue;
 					}
 

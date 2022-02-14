@@ -1024,12 +1024,11 @@ jQuery(document).ready(function ($) {
         container.find(':input').each(function () {
             if ($(this).attr('type') === 'button') return;
             if ( typeof $(this).attr('name') === 'undefined') return;
+			if (!$(this).data('name')) return;
             if ($(this).attr('type')==='checkbox' ) {
                 data[$(this).data('name')] = $(this).is(":checked");
             } else if ( $(this).attr('type')==='radio' ) {
-				if ($(this).is(":checked")) {
-					data[$(this).data('name')] = $(this).val();
-				}
+				data[$(this).data('name')] = $(this).is(":checked");
 			} else if ($(this).data('name')==='urls'){
 				let curValue = data[$(this).data('name')];
 				if (typeof curValue === 'undefined' ) curValue = [];
@@ -1046,14 +1045,7 @@ jQuery(document).ready(function ($) {
             }
         });
 
-        // Enable / Disable
-        if ( action === 'enable' ) {
-            data['enable'] = 1;
-        } else if ( action === 'disable' ) {
-            data['enable'] = 0;
-        }
-
-        $.ajax({
+		$.ajax({
             type: "POST",
             url: complianz_admin.admin_url,
             data: ({
@@ -1066,12 +1058,6 @@ jQuery(document).ready(function ($) {
             }),
             success: function (response) {
                 if (response.success) {
-                    if ( action === 'enable' ) {
-                    	btn.data('action', 'disable');
-                    }
-                    if ( action === 'disable' ) {
-						btn.data('action', 'enable');
-					}
                     if ( action === 'save' ) {
                         btn.html(btn_html);
                     }

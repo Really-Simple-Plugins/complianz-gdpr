@@ -137,6 +137,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					}
 				}
 
+
 				//add multiple field
 				if ( isset( $_POST['cmplz_add_multiple'] ) ) {
 					$fieldname = $this->sanitize_fieldname( $_POST['cmplz_add_multiple'] );
@@ -2427,11 +2428,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <label>' . __( 'Name', 'complianz-gdpr' ) . '</label>
                         </div>
                         <div>
-							<input type="hidden"
-                                   class="cmplz_enable"
-                                   data-name="enable"
-                                   name="cmplz_add_script['.$i.'][enable]"
-                                   value="' . esc_html( $value['enable'] ) . '">
                            <input type="hidden"
                                    class="cmplz_iframe"
                                    data-name="iframe"
@@ -2553,11 +2549,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
 
 			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="add_script" data-id="'.$i.'">
+								<input type="hidden"
+									   value="0"
+										name="cmplz_add_script['.$i.'][enable]">
 								<input type="checkbox"
-									   id="cmplz-enable"
+									   data-name="enable"
 									   class="cmplz-checkbox"
 									   size="40"
 									   value="1"
+										name="cmplz_add_script['.$i.'][enable]"
 									   '.$enabled.'/>
 								<label class="cmplz-label" for="cmplz-enable" tabindex="0"></label>
 							</div>';
@@ -2773,11 +2773,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <label>' . __( 'Name', 'complianz-gdpr' ) . '</label>
                         </div>
                         <div>
-							<input type="hidden"
-							   class="cmplz_enable"
-							   data-name="enable"
-							   name="cmplz_block_script['.$i.'][enable]"
-							   value="' . esc_html( $value['enable'] ) . '">
                             <input type="text"
 									data-name="name"
                                     class="cmplz_name"
@@ -2940,8 +2935,12 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
             $title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
 			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="block_script" data-id="'.$i.'">
+								<input type="hidden"
+									   value="0"
+										name="cmplz_block_script['.$i.'][enable]">
 								<input type="checkbox"
-									   id="cmplz-enable"
+									   data-name="enable"
+									   name="cmplz_block_script['.$i.'][enable]"
 									   class="cmplz-checkbox"
 									   size="40"
 									   value="1"
@@ -3005,11 +3004,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
                     <label>' . __( 'Name', 'complianz-gdpr' ) . '</label>
                 </div>
                 <div>
-					<input type="hidden"
-						   class="cmplz_enable"
-						   data-name="enable"
-						   name="cmplz_whitelist_script['.$i.'][enable]"
-						   value="' . esc_html( $value['enable'] ) . '">
                     <input type="text"
                     		data-name="name"
                            class="cmplz_name"
@@ -3051,11 +3045,15 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 			$title = esc_html( $value['name'] ) !== '' ? esc_html( $value['name'] ) : __( 'New entry', 'complianz-gdpr' ) ;
 			$custom_button = '<div class="cmplz-checkbox cmplz_script_save" data-action="'.$action.'" data-type="whitelist_script" data-id="'.$i.'">
+								<input type="hidden"
+									   value="0"
+										name="cmplz_whitelist_script['.$i.'][enable]">
 								<input type="checkbox"
-									   id="cmplz-enable"
-									   class="cmplz-checkbox"
+									   name="cmplz_whitelist_script['.$i.'][enable]"
+									   class="cmplz-checkbox cmplz-enable"
 									   size="40"
 									   value="1"
+									   data-name="enable"
 									   '.$enabled.'/>
 								<label class="cmplz-label" for="cmplz-enable" tabindex="0"></label>
 							</div>';

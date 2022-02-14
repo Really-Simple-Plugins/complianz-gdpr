@@ -730,7 +730,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			                                      . '"' : '';
 
 			if (isset($element['p']) && !$element['p']) {
-				return $content.'&nbsp;';
+				if (substr($content, -4) !== '</p>'){
+					$content .= '&nbsp;';
+				}
+				return $content;
 			}
 			return "<p $class>" . $content . "</p>";
 		}
