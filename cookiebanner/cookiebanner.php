@@ -51,7 +51,22 @@ if ( ! function_exists( 'cmplz_uploads_folder_not_writable' ) ) {
  */
 function cmplz_register_banner_logo_size()
 {
-	if (function_exists('add_image_size')) {
+	if ( !cmplz_user_can_manage() ) {
+		return;
+	}
+	$add_image_size = false;
+	if (isset($_POST['action']) && $_POST['action']==='upload-attachment') {
+		$add_image_size = true;
+	}
+	if (isset($_GET['page']) && $_GET['page']==='cmplz-cookiebanner') {
+		$add_image_size = true;
+	}
+
+	if ( isset($_POST['cmplz-save']) ) {
+		$add_image_size = true;
+	}
+
+	if ( $add_image_size && function_exists('add_image_size')) {
 		add_image_size('cmplz_banner_image', 350, 100, true);
 	}
 }

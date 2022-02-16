@@ -33,9 +33,15 @@ if ( current_user_can( 'manage_options' ) ) {
 	$multisite = is_multisite() ? 'yes' : 'no';
 	echo "Multisite: " . $multisite . "\n";
 	echo "\n";
-	$plugins         = get_option( 'active_plugins' );
+
+	$plugins = wp_get_active_and_valid_plugins();
 	echo "Active plugins: " . "\n";
 	echo implode( "\n", $plugins ) . "\n";
+	if ( is_multisite() ) {
+		echo "Network active plugins: " . "\n";
+		$network_plugins = wp_get_active_network_plugins();
+		echo implode( "\n", $network_plugins ) . "\n";
+	}
 
 	$settings = get_option( 'complianz_options_settings' );
 	echo "\n"."General settings" . "\n";

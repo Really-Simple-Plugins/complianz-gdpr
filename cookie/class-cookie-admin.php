@@ -27,12 +27,14 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script' ), PHP_INT_MAX - 50 );
 					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
 					add_filter( 'script_loader_tag', array( $this, 'add_asyncdefer_attribute' ), 10, 2 );
+					add_action( 'wp_head', array( $this, 'cookiebanner_css') );
 					add_action( 'wp_footer', array( $this, 'cookiebanner_html') );
 				} else {
 					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script_no_warning' ), 10, 2 );
 				}
 			} else if (isset( $_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' ) {
 				if ( isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] == 'new' ) ) {
+					add_action( 'admin_footer', array( $this, 'cookiebanner_css' ) );
 					add_action( 'admin_footer', array( $this, 'cookiebanner_html' ) );
 				}
 			}
@@ -1790,6 +1792,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		}
 
 		/**
+		 * Inline css to default hide the banner until fully loaded
+		 * @return void
+		 */
+		public function cookiebanner_css(){
+			?><style>.cmplz-hidden{display:none!important;}</style><?php
+		}
+		/**
 		 * Load the cookie banner html for each consenttype
 		 */
 		public function cookiebanner_html(){
@@ -1842,8 +1851,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 															   . "<!-- Consent Management powered by Complianz | GDPR/CCPA Cookie Consent https://wordpress.org/plugins/complianz-gdpr -->"
 															   . "\n");
 			echo   $comment .
-				   '<style>.cmplz-hidden{display:none!important;}</style>
-					<div id="cmplz-cookiebanner-container">'.apply_filters("cmplz_banner_html", $banner_html).'</div>
+					'<div id="cmplz-cookiebanner-container">'.apply_filters("cmplz_banner_html", $banner_html).'</div>
 					<div id="cmplz-manage-consent" data-nosnippet="true">'.apply_filters("cmplz_manage_consent_html", $manage_consent_html).'</div>';
 		}
 

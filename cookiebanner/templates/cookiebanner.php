@@ -20,10 +20,10 @@
 			<div class="cmplz-categories">
 				<details class="cmplz-category cmplz-functional" >
 					<summary>
-						<div class="cmplz-category-header">
-							<div class="cmplz-category-title">{category_functional}</div>
-							<div class='cmplz-always-active'>
-								<div class="cmplz-banner-checkbox">
+						<span class="cmplz-category-header">
+							<span class="cmplz-category-title">{category_functional}</span>
+							<span class='cmplz-always-active'>
+								<span class="cmplz-banner-checkbox">
 									<input type="checkbox"
 										   aria-checked="true"
 										   id="cmplz-functional-{consent_type}"
@@ -32,11 +32,11 @@
 										   size="40"
 										   value="1"/>
 									<label class="cmplz-label" for="cmplz-functional-{consent_type}" tabindex="0"><span>{category_functional}</span></label>
-								</div>
+								</span>
 								<?php _e("Always active","complianz-gdpr")?>
-							</div>
-							<div class="cmplz-icon cmplz-open"></div>
-						</div>
+							</span>
+							<span class="cmplz-icon cmplz-open"></span>
+						</span>
 					</summary>
 					<div class="cmplz-description">
 						<span class="cmplz-description-functional">{functional_text}</span>
@@ -45,9 +45,9 @@
 
 				<details class="cmplz-category cmplz-preferences" >
 					<summary>
-						<div class="cmplz-category-header">
-							<div class="cmplz-category-title">{category_preferences}</div>
-							<div class="cmplz-banner-checkbox">
+						<span class="cmplz-category-header">
+							<span class="cmplz-category-title">{category_preferences}</span>
+							<span class="cmplz-banner-checkbox">
 								<input type="checkbox"
 									   id="cmplz-preferences-{consent_type}"
 									   data-category="cmplz_preferences"
@@ -55,9 +55,9 @@
 									   size="40"
 									   value="1"/>
 								<label class="cmplz-label" for="cmplz-preferences-{consent_type}" tabindex="0"><span>{category_preferences}</span></label>
-							</div>
-							<div class="cmplz-icon cmplz-open"></div>
-						</div>
+							</span>
+							<span class="cmplz-icon cmplz-open"></span>
+						</span>
 					</summary>
 					<div class="cmplz-description">
 						<span class="cmplz-description-preferences">{preferences_text}</span>
@@ -66,9 +66,9 @@
 
 				<details class="cmplz-category cmplz-statistics" >
 					<summary>
-						<div class="cmplz-category-header">
-							<div class="cmplz-category-title">{category_statistics}</div>
-							<div class="cmplz-banner-checkbox">
+						<span class="cmplz-category-header">
+							<span class="cmplz-category-title">{category_statistics}</span>
+							<span class="cmplz-banner-checkbox">
 								<input type="checkbox"
 									   id="cmplz-statistics-{consent_type}"
 									   data-category="cmplz_statistics"
@@ -76,21 +76,20 @@
 									   size="40"
 									   value="1"/>
 								<label class="cmplz-label" for="cmplz-statistics-{consent_type}" tabindex="0"><span>{category_statistics}</span></label>
-							</div>
-							<div class="cmplz-icon cmplz-open"></div>
-						</div>
+							</span>
+							<span class="cmplz-icon cmplz-open"></span>
+						</span>
 					</summary>
 					<div class="cmplz-description">
 						<span class="cmplz-description-statistics">{statistics_text}</span>
 						<span class="cmplz-description-statistics-anonymous">{statistics_text_anonymous}</span>
 					</div>
 				</details>
-
 				<details class="cmplz-category cmplz-marketing" >
 					<summary>
-						<div class="cmplz-category-header">
-							<div class="cmplz-category-title">{category_marketing}</div>
-								<div class="cmplz-banner-checkbox">
+						<span class="cmplz-category-header">
+							<span class="cmplz-category-title">{category_marketing}</span>
+								<span class="cmplz-banner-checkbox">
 									<input type="checkbox"
 										   id="cmplz-marketing-{consent_type}"
 										   data-category="cmplz_marketing"
@@ -98,9 +97,9 @@
 										   size="40"
 										   value="1"/>
 									<label class="cmplz-label" for="cmplz-marketing-{consent_type}" tabindex="0"><span>{category_marketing}</span></label>
-								</div>
-							<div class="cmplz-icon cmplz-open"></div>
-						</div>
+								</span>
+							<span class="cmplz-icon cmplz-open"></span>
+						</span>
 					</summary>
 					<div class="cmplz-description">
 						<span class="cmplz-description-marketing">{marketing_text}</span>

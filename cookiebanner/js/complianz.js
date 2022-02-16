@@ -265,6 +265,7 @@ function cmplz_load_css( path ) {
  * Run script, src or inline
  * @param script //src or inline script
  * @param category
+ * @param type
  */
 
 function cmplz_run_script( script, category, type ) {
@@ -288,13 +289,11 @@ function cmplz_run_script( script, category, type ) {
 			fileref.onload = function () {
 				cmplz_run_after_all_scripts(category);
 				cmplz_maybe_run_waiting_scripts(script, category);
-				return;
 			}
 		} else {
 			window.cmplzScriptLoaded = function() {
 				cmplz_run_after_all_scripts(category);
 				cmplz_maybe_run_waiting_scripts(script, category);
-				return;
 			}
 		}
 		let header = document.getElementsByTagName("head")[0];
@@ -562,33 +561,24 @@ function cmplz_enable_category(category, service) {
 			if ( obj.getAttribute('data-deferlazy') ) {
 				obj.setAttribute('loading', 'lazy');
 			}
-			let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-			let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
-			blocked_content_container.classList.remove('cmplz-blocked-content-container');
-			blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
+			cmplz_remove_placeholder(obj);
 		} else if (tagName==='IFRAME'){
 			obj.classList.add('cmplz-activated' );
 			let src = obj.getAttribute('data-src-cmplz');
-			//check if there's an autoplay value we need to pass on
-			let autoplay = cmplz_get_url_parameter(obj.getAttribute('src'), 'autoplay');
+			let srcAttribute = obj.getAttribute('data-cmplz-target') ? obj.getAttribute('data-cmplz-target') : 'src';
+
+			//check if there's an autoplay value we need to pass on, if it's added later on by javascript
+			let autoplay = cmplz_get_url_parameter(obj.getAttribute(srcAttribute), 'autoplay');
 			if ( autoplay === '1' ) src = src + '&autoplay=1';
+			//handle browser native lazy load feature
+			if ( obj.getAttribute('data-deferlazy') ) {
+				obj.setAttribute('loading', 'lazy');
+			}
 
-			obj.addEventListener('load', (event) => {
-				//handle browser native lazy load feature
-				if ( obj.getAttribute('data-deferlazy') ) {
-					obj.setAttribute('loading', 'lazy');
-				}
-
-				//we get the closest, not the parent, because a script could have inserted a div in the meantime.
-				let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-				let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
-				blocked_content_container.classList.remove('cmplz-blocked-content-container');
-				blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
-				obj.classList.remove('cmplz-iframe-styles');
-				obj.classList.remove('cmplz-iframe');
-				obj.classList.remove('video-wrap');
+			obj.addEventListener('load', () => {
+				cmplz_remove_placeholder(obj);
 			});
-			obj.setAttribute('src', src);
+			obj.setAttribute(srcAttribute, src);
 		} else if (obj.classList.contains('cmplz-placeholder-element')) {
 			obj.classList.add('cmplz-activated' );
 			//other services, no iframe, with placeholders
@@ -606,6 +596,24 @@ function cmplz_enable_category(category, service) {
 	});
 
 	/**
+	 * remove added classes from the blocked content container
+	 *
+	 * @param obj
+	 */
+	function cmplz_remove_placeholder(obj){
+		//we get the closest, not the parent, because a script could have inserted a div in the meantime.
+		let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
+		if (blocked_content_container) {
+			let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
+			blocked_content_container.classList.remove('cmplz-blocked-content-container');
+			blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
+		}
+		obj.classList.remove('cmplz-iframe-styles');
+		obj.classList.remove('cmplz-iframe');
+		obj.classList.remove('video-wrap');
+	}
+
+	/**
 	 * Let's activate the scripts
 	 */
 
@@ -620,6 +628,11 @@ function cmplz_enable_category(category, service) {
 			} else if ( obj.innerText.length > 0 ) {
 				cmplz_waiting_inline_scripts[waitfor] = obj;
 			}
+		}
+
+		//cleanup after adding it to our waiting or scriptElements list. 
+		if (obj.parentElement) {
+			obj.parentElement.removeChild(obj);
 		}
 	});
 
@@ -683,20 +696,13 @@ function cmplz_enable_category(category, service) {
  * @returns {*}
  */
 
-function cmplz_get_waiting_script(waiting_scripts, src) {
-	for (let waitfor in waiting_scripts) {
+function cmplz_get_waiting_script( waiting_scripts, src ) {
+	for ( let waitfor in waiting_scripts ) {
 		if ( waiting_scripts.hasOwnProperty(waitfor)) {
-			let waitingScript;//recaptcha/api.js, waitfor="gregaptcha"
-			if (waiting_scripts.hasOwnProperty(waitfor)) {
-				waitingScript = waiting_scripts[waitfor];
-				if (typeof waitingScript !== 'string') {
-					waitingScript = waitingScript.innerText;
-				}
-				if (src.indexOf(waitfor) !== -1) {
-					let output = waiting_scripts[waitfor];
-					delete waiting_scripts[waitfor];
-					return output;
-				}
+			if ( src.indexOf(waitfor) !== -1 ) {
+				let output = waiting_scripts[waitfor];
+				delete waiting_scripts[waitfor];
+				return output;
 			}
 		}
 	}
@@ -1007,11 +1013,7 @@ function cmplz_is_bot(){
 	var botPattern = "(googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
 	var reBot = new RegExp(botPattern, 'i');
 	var userAgent = navigator.userAgent;
-	if ( reBot.test(userAgent) ) {
-		return true;
-	} else {
-		return false;
-	}
+	return reBot.test(userAgent);
 }
 /**
  * Check if current visitor is a speedbot
@@ -1022,12 +1024,7 @@ function cmplz_is_speedbot(){
 	var userAgent = navigator.userAgent;
 	var speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
 	var speedBot = new RegExp(speedBotPattern, 'i');
-
-	if ( speedBot.test(userAgent) ) {
-		return true;
-	} else {
-		return false;
-	}
+	return speedBot.test(userAgent);
 }
 
 /**
@@ -1385,6 +1382,7 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
+	console.log('test');
 	var service = obj.getAttribute('data-service');
 	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
@@ -1859,6 +1857,10 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
 		return false;
 	}
 
+	if ( sPageURL.indexOf('?')==-1) {
+		return false;
+	}
+
 	var queryString = sPageURL.split('?');
 	if (queryString.length == 1) return false;
 
@@ -1998,7 +2000,17 @@ function cmplz_load_manage_consent_container() {
 
 cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
 	var keycode = (e.keyCode ? e.keyCode : e.which);
-	if (keycode == '32') {
+	if (keycode == 32) {
+		document.activeElement.click();
+	}
+});
+
+/**
+ * Make close button closable with enter
+ */
+cmplz_add_event('keypress', '.cmplz-cookiebanner .cmplz-header .cmplz-close', function(e){
+	var keycode = (e.keyCode ? e.keyCode : e.which);
+	if ( keycode == 13 ) {
 		document.activeElement.click();
 	}
 });

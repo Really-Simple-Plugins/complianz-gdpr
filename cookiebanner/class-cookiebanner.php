@@ -9,7 +9,6 @@ add_action( 'plugins_loaded', 'cmplz_install_cookiebanner_table', 10 );
 function cmplz_install_cookiebanner_table() {
 	if ( get_option( 'cmplz_cbdb_version' ) !== cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 		$table_name = $wpdb->prefix . 'cmplz_cookiebanners';
@@ -18,30 +17,21 @@ function cmplz_install_cookiebanner_table() {
 		 * use_categories_optinstats- border_color are obsolete
 		 * for data integrity, we do not delete them, but change them to text to prevent row size issues.
 		*/
-		$columns_1 = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'use_categories_optinstats'");
-		$columns_2 = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'popup_background_color'");
-		if (count($columns_1)>0 || count($columns_2)>0) {
-			$sql        = "CREATE TABLE $table_name (
-				`use_categories_optinstats` text NOT NULL,
-	            `popup_background_color` text NOT NULL,
-	            `popup_text_color` text NOT NULL,
-	            `slider_background_color` text NOT NULL,
-	            `button_background_color` text NOT NULL,
-	            `slider_background_color_inactive` text NOT NULL,
-	            `slider_bullet_color` text NOT NULL,
-	            `button_text_color` text NOT NULL,
-	            `accept_all_background_color` text NOT NULL,
-	            `accept_all_border_color` text NOT NULL,
-	            `accept_all_text_color` text NOT NULL,
-	            `functional_background_color` text NOT NULL,
-	            `functional_text_color` text NOT NULL,
-	            `functional_border_color` text NOT NULL,
-	            `border_color` text NOT NULL,
-              PRIMARY KEY  (ID)
-            ) $charset_collate;";
-			dbDelta( $sql );/*use_categories_optinstats- border_color are obsolete*/
+
+		$columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name ");
+		$upgrade_sql = [];
+		foreach ($columns as $column) {
+			if (strpos($column->Type, 'varchar')!==false){
+				$upgrade_sql[]="`".$column->Field."` text NOT NULL";
+			}
 		}
 
+		if (count($upgrade_sql)>0) {
+			$sql = implode(','."\n",$upgrade_sql);
+			$sql = "CREATE TABLE $table_name ($sql
+					) $charset_collate;";
+			dbDelta( $sql );
+		}
 
 		$sql        = "CREATE TABLE $table_name (
              `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -1175,6 +1165,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 		public function generate_css( $preview = false )
 		{
+			if (get_transient('cmplz_generate_css_active')) {
+				return;
+			}
+			set_transient('cmplz_generate_css_active', true, 10 );
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
 			if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
@@ -1236,6 +1230,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					fclose($handle);
 				}
 			}
+			delete_transient('cmplz_generate_css_active' );
 		}
 
 		/**

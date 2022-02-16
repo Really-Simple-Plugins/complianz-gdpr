@@ -391,6 +391,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'lazy-loader' => array(
+		'constant_or_function' => 'FlorianBrinkmann\LazyLoadResponsiveImages\Plugin',
+		'label'                => 'Lazy Loader',
+		'firstparty_marketing' => false,
+	),
+
 	'osm' => array(
 		'constant_or_function' => 'OSM_PLUGIN_URL',
 		'label'                => 'OSM - OpenStreetMap',

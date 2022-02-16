@@ -496,7 +496,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$is_video = $this->is_video( $iframe_src );
 						$service_name = sanitize_title($tag['name']);
 						$new         = $total_match;
-						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
+						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-cmplz-target="'.apply_filters('cmplz_data_target', 'src').'" data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
 						//remove lazy loading for iframes, as it is breaking on activation
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );
