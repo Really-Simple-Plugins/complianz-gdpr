@@ -153,6 +153,9 @@
 .cmplz-grid .cmplz-other-plugins .item-container .cmplz-other-plugin.cmplz-rsssl .cmplz-bullet {
   background-color: #f8be2e;
 }
+.cmplz-grid .cmplz-other-plugins .item-container .cmplz-other-plugin.cmplz-burst .cmplz-bullet {
+  background-color: #22932e;
+}
 .cmplz-grid .cmplz-other-plugins .item-container .plugin-status {
   margin-left: auto;
 }

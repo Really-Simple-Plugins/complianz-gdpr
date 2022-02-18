@@ -770,7 +770,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$status = __("Installed", "complianz-gdpr");
 			} elseif (defined($item['constant_free']) && !defined($item['constant_premium'])) {
 				$link = $item['website'];
-				$text = __('Upgrade to pro', 'complianz-gdpr');
+				$text = __('Upgrade to Pro', 'complianz-gdpr');
 				$status = "<a href=$link>$text</a>";
 			}
 			return $status;

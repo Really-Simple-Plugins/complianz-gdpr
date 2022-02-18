@@ -108,7 +108,7 @@ function cmplz_forminator_css() {
 	?>
 		.cmplz-blocked-content-container.forminator-g-recaptcha {
 			max-width: initial !important;
-			height: 70px !important
+			height: 90px !important
 		}
 
 		@media only screen and (max-width: 400px) {
@@ -118,7 +118,9 @@ function cmplz_forminator_css() {
 		}
 
 		.cmplz-blocked-content-container.forminator-g-recaptcha .cmplz-blocked-content-notice {
-			top: 2px
+			top: unset;
+			left: unset;
+			transform: unset;
 		}
 	<?php
 }

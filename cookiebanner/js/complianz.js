@@ -528,8 +528,8 @@ function cmplz_enable_category(category, service) {
 	}
 
 	//remove accept cookie notice overlay
-	document.querySelectorAll('.cmplz-blocked-content-notice .cmplz-accept-'+category+', .cmplz-blocked-content-notice [data-service='+service+']').forEach(obj => {
-		obj.parentNode.remove(obj);
+	document.querySelectorAll('.cmplz-blocked-content-notice.cmplz-accept-'+category+', .cmplz-blocked-content-notice [data-service='+service+']').forEach(obj => {
+		obj.parentNode.removeChild(obj);
 	});
 
 	document.querySelectorAll('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
@@ -630,7 +630,7 @@ function cmplz_enable_category(category, service) {
 			}
 		}
 
-		//cleanup after adding it to our waiting or scriptElements list. 
+		//cleanup after adding it to our waiting or scriptElements list.
 		if (obj.parentElement) {
 			obj.parentElement.removeChild(obj);
 		}

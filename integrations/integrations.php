@@ -25,6 +25,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'burst-statistics' => array(
+			'constant_or_function' => 'burst_version',
+			'label'                => 'Burst Statistics',
+			'firstparty_marketing' => false,
+	),
+
 	'theeventscalendar' => array(
 			'constant_or_function' => 'TRIBE_EVENTS_FILE',
 			'label'                => 'The Events Calendar',
@@ -84,7 +90,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'WP Adverts',
 		'firstparty_marketing' => false,
 	),
-	
+
 	'citadela-directory' => array(
 			'constant_or_function' => 'CITADELA_DIRECTORY_LITE_PLUGIN',
 			'label'                => 'Citadela Directory',

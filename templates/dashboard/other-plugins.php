@@ -3,13 +3,13 @@
 <?php
 
 $plugins = array(
-	'ZIP' => array(
-			'constant_free' => 'ZRDN_PLUGIN_BASENAME',
-			'constant_premium' => 'ZRDN_PREMIUM',
-			'website' => 'https://ziprecipes.net/premium/',
-			'search' => 'zip+recipes+recipe+maker+really+simple+plugins+complianz',
-			'url' => 'https://wordpress.org/plugins/zip-recipes/?src=complianz-plugin',
-			'title' => 'Zip Recipes - '. __("Beautiful recipes optimized for Google", "complianz-gdpr"),
+	'BURST' => array(
+			'constant_free' => 'burst_version',
+			'constant_premium' => 'burst_version',
+			'website' => 'https://burst-statistics.com/',
+			'search' => 'burst+statistics+really+simple+plugins+self-hosted',
+			'url' => 'https://wordpress.org/plugins/burst-statistics/?src=complianz-plugin',
+			'title' => 'Burst Statistics - '. __("Self-hosted, Privacy-friendly analytics tool.", "complianz-gdpr"),
 	),
 	'RSSSL' => array(
 			'constant_free' => 'rsssl_version',
