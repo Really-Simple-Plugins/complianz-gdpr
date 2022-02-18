@@ -168,6 +168,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 = 6.1.0.1 =
 * Fix: upgrade tables for older versions
+* Fix: Recaptcha integration issue, props @delanthear @peopleinside @soydelia for reporting the issue
+
 
 = 6.1.0 =
 * New: Consent per Service in combination with CookieShredder.
