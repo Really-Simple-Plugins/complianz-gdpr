@@ -166,10 +166,11 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-= 6.1.0.1 =
-* Fix: upgrade tables for older versions
-* Fix: Recaptcha integration issue, props @delanthear @peopleinside @soydelia for reporting the issue
+= 6.1.1 =
+* Improvement: upgrade tables for older versions
 
+= 6.1.0.1 =
+* Fix: Recaptcha integration issue, props @delanthear @peopleinside @soydelia for reporting the issue
 
 = 6.1.0 =
 * New: Consent per Service in combination with CookieShredder.
