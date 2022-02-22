@@ -1312,7 +1312,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
 				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
 				'page_links'           => $page_links,
-				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager(),
+				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager() || (cmplz_get_value('compile_statistics')==='matomo-tag-manager'),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
 				'preview'              => false,
 				'clean_cookies'        => cmplz_get_value( 'disable_cookie_block' ) != 1 && cmplz_get_value( 'consent_per_service' ) === 'yes',

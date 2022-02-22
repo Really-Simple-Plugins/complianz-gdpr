@@ -243,7 +243,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( $fieldname === 'configuration_by_complianz'
 			     || $fieldname === 'GTM_code'
 			     || $fieldname === 'matomo_url'
+					 || $fieldname === 'matomo_tag_url'
 			     || $fieldname === 'matomo_site_id'
+					 || $fieldname === 'matomo_container_id'
 			     || $fieldname === 'UA_code'
 			) {
 				delete_option( 'cmplz_detected_stats_data' );

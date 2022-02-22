@@ -100,4 +100,3 @@ function cmplz_wpforms_css() {
 		}
 	<?php
 }
-;

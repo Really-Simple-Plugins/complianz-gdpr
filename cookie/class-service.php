@@ -185,7 +185,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 					$translation->sharesData   = $this->sharesData;
 					$translation->showOnPolicy = $this->showOnPolicy;
 					$translation->lastUpdatedDate = $this->lastUpdatedDate;
-					$translation->save();
+					$translation->save(false, false);
 				}
 			}
 		}
@@ -247,7 +247,6 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 
 		}
 
-
 		/**
 		 * Keep services in sync with the services in the list of the wizard.
 		 *
@@ -255,7 +254,6 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 		 */
 
 		private function add_to_wizard( $service ) {
-
 			$slug                = $this->get_service_slug( $service );
 			$wizard_settings     = get_option( 'complianz_options_wizard' );
 			$registered_services = COMPLIANZ::$config->thirdparty_services;
@@ -351,7 +349,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( ! $this->ID ) {
 				$this->sync     = $sync_on;
 				$this->category = $category;
-				$this->save();
+				$this->save(false, false );
 			}
 
 			$parent_ID = $this->ID;

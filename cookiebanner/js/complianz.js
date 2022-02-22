@@ -423,7 +423,6 @@ function cmplz_insert_placeholder_text(container, service){
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
 				btn.setAttribute('aria-label', service);
-				console.log(complianz.region);
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
 				if (pageLinks && pageLinks.hasOwnProperty('cookie-statement')) {
@@ -588,30 +587,12 @@ function cmplz_enable_category(category, service) {
 			obj.classList.remove('cmplz-placeholder-' + cssIndex);
 		}
 
-		let details = new Object();
+		let details = {};
 		details.category = category;
 		details.service = service;
 		let event = new CustomEvent('cmplz_category_enabled', { detail: details });
 		document.dispatchEvent(event);
 	});
-
-	/**
-	 * remove added classes from the blocked content container
-	 *
-	 * @param obj
-	 */
-	function cmplz_remove_placeholder(obj){
-		//we get the closest, not the parent, because a script could have inserted a div in the meantime.
-		let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-		if (blocked_content_container) {
-			let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
-			blocked_content_container.classList.remove('cmplz-blocked-content-container');
-			blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
-		}
-		obj.classList.remove('cmplz-iframe-styles');
-		obj.classList.remove('cmplz-iframe');
-		obj.classList.remove('video-wrap');
-	}
 
 	/**
 	 * Let's activate the scripts
@@ -638,7 +619,7 @@ function cmplz_enable_category(category, service) {
 
 	//scripts: set to text/javascript
 	scriptElements.forEach(obj => {
-		if ( obj.classList.contains('cmplz-activated') ) {
+		if ( obj.classList.contains('cmplz-activated') || obj.getAttribute('type') === 'text/javascript' ) {
 			return;
 		}
 		obj.classList.add('cmplz-activated' );
@@ -672,7 +653,7 @@ function cmplz_enable_category(category, service) {
 	});
 
 	//fire an event so custom scripts can hook into this.
-	let details = new Object();
+	let details = {};
 	details.category = category;
 	details.categories = cmplz_accepted_categories();
 	details.services = cmplz_get_all_service_consents();
@@ -687,7 +668,23 @@ function cmplz_enable_category(category, service) {
 	}
 }
 
-
+/**
+ * remove added classes from the blocked content container
+ *
+ * @param obj
+ */
+function cmplz_remove_placeholder(obj){
+	//we get the closest, not the parent, because a script could have inserted a div in the meantime.
+	let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
+	if (blocked_content_container) {
+		let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
+		blocked_content_container.classList.remove('cmplz-blocked-content-container');
+		blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
+	}
+	obj.classList.remove('cmplz-iframe-styles');
+	obj.classList.remove('cmplz-iframe');
+	obj.classList.remove('video-wrap');
+}
 
 /**
  * check if the passed source has a waiting script that should be executed, and return it if so.
@@ -1382,7 +1379,6 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
-	console.log('test');
 	var service = obj.getAttribute('data-service');
 	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
@@ -1958,7 +1954,7 @@ function cmplz_clean(){
 
 /**
  * Clear an item from either session or localstorage
- * @param cookie
+ * @param item
  */
 function cmplz_clear_storage(item){
 	if (typeof (Storage) !== "undefined" ) {

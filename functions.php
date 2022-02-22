@@ -179,7 +179,8 @@ if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
 			 $stats === 'matomo' ||
 			 $stats === 'yandex' ||
 			 $stats === 'clicky' ||
-			 $stats === 'google-tag-manager'
+			 $stats === 'google-tag-manager' ||
+			 $stats === 'matomo-tag-manager'
 		){
 			return true;
 		}
@@ -207,6 +208,8 @@ if ( ! function_exists( 'cmplz_get_stats_tool_nice' ) ) {
 				return "Yandex";
 			case 'google-tag-manager':
 				return "Google Tag Manager";
+			case 'matomo-tag-manager':
+				return "Matomo Tag Manager";
 			default:
 				return __("Not found","complianz-gdpr");
 		}

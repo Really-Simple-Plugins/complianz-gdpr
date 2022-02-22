@@ -1622,21 +1622,15 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 			}
 
-			$thirdparty = ( cmplz_get_value( 'uses_thirdparty_services' )
-			                === 'yes' ) ? true : false;
+			$thirdparty = ( cmplz_get_value( 'uses_thirdparty_services' ) === 'yes' ) ? true : false;
 			if ( $thirdparty ) {
-				$thirdparty_types
-					= cmplz_get_value( 'thirdparty_services_on_site' );
+				$thirdparty_types = cmplz_get_value( 'thirdparty_services_on_site' );
 				foreach ( $thirdparty_types as $slug => $active ) {
 					if ( $active == 1 ) {
 						$service = new CMPLZ_SERVICE();
 						//add for all languages
-						$service_name
-							= $thirdparty_services
-							= COMPLIANZ::$config->thirdparty_services[ $slug ];
-						$service->add( $service_name,
-							$this->get_supported_languages(), false,
-							'service' );
+						$service_name = $thirdparty_services = COMPLIANZ::$config->thirdparty_services[ $slug ];
+						$service->add( $service_name, $this->get_supported_languages(), false, 'service' );
 					} else {
 						$service = new CMPLZ_SERVICE( $slug );
 						$service->delete();
@@ -1879,13 +1873,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_active_policy_id() {
-			if ( is_multisite() ) {
-				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
-			} else {
-				$policy_id = get_option( 'complianz_active_policy_id', 1 );
-			}
-
-			return $policy_id;
+			return get_site_option( 'complianz_active_policy_id', 1 );
 		}
 
 		/**
@@ -1897,17 +1885,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function upgrade_active_policy_id() {
-			if ( is_multisite() ) {
-				$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
-			} else {
-				$policy_id = get_option( 'complianz_active_policy_id', 1 );
-			}
+			$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
 			$policy_id++;
-			if ( is_multisite() ) {
-				update_site_option( 'complianz_active_policy_id', $policy_id );
-			} else {
-				update_option( 'complianz_active_policy_id', $policy_id );
-			}
+			update_site_option( 'complianz_active_policy_id', $policy_id );
 		}
 
 		/**
@@ -1990,7 +1970,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$stats_comment  = '<!-- Statistics script Complianz GDPR/CCPA -->' . "\n";
 			if ( $configured_by_complianz ) {
 				echo $stats_comment;
-				if ( $statistics === 'google-tag-manager' ) {
+				if ( $statistics === 'google-tag-manager' || $statistics === 'matomo-tag-manager' ) {
 					?>
 					<script type="text/javascript" data-category="<?php echo esc_attr($category) ?>">
 						<?php do_action( 'cmplz_tagmanager_script' ); ?>
@@ -2097,14 +2077,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( cmplz_get_value( 'configuration_by_complianz' ) !== 'yes' ) {
 				return;
 			}
-
+			$script = '';
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			if ( $statistics === 'google-tag-manager' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$script = cmplz_get_template( "statistics/google-tag-manager$consent_mode.js" );
 				$script = str_replace( '{GTM_code}', esc_attr( cmplz_get_value( "GTM_code" ) ), $script );
-				echo apply_filters( 'cmplz_script_filter', $script );
+			} elseif ( $statistics === 'matomo-tag-manager' ) {
+				$script = cmplz_get_template( 'statistics/matomo-tag-manager.js' );
+				$script = str_replace( '{container_id}', esc_attr( cmplz_get_value( 'matomo_container_id' ) ), $script );
+				$script = str_replace( '{matomo_url}', esc_url_raw( trailingslashit( cmplz_get_value( 'matomo_tag_url' ) ) ), $script );
 			}
+			echo apply_filters( 'cmplz_script_filter', $script );
+
 		}
 
 		/**

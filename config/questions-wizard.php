@@ -284,6 +284,7 @@ $this->fields = $this->fields + array(
 			'label'                   => __( "Do you compile statistics of this website?", 'complianz-gdpr' ),
 			'options'                 => array(
 				'google-tag-manager' => __( 'Yes, and Google Tag Manager fires this script', 'complianz-gdpr' ),
+				'matomo-tag-manager' => __( 'Yes, and Matomo Tag Manager fires this script', 'complianz-gdpr' ),
 				'google-analytics'   => __( 'Yes, with Google Analytics', 'complianz-gdpr' ),
 				'matomo'             => __( 'Yes, with Matomo', 'complianz-gdpr' ),
 				'clicky'             => __( 'Yes, with Clicky', 'complianz-gdpr' ),
@@ -466,6 +467,7 @@ $this->fields = $this->fields + array(
 			),
 		),
 
+// Matomo Classic
 
 		'matomo_url' => array(
 			'step'                    => STEP_COOKIES,
@@ -479,8 +481,8 @@ $this->fields = $this->fields + array(
 				'complianz-gdpr' ),
 			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
-			'help'                    => __( "e.g. https://domain.com/stats",
-				'complianz-gdpr' ),
+			'comment'                 => __( "The URL depends on your configuration of Matomo.", 'complianz-gdpr' )
+			               							. cmplz_read_more( 'https://complianz.io/configuring-matomo-for-wordpress-with-complianz/' ),
 		),
 
 		'matomo_site_id' => array(
@@ -494,6 +496,38 @@ $this->fields = $this->fields + array(
 			'label'                   => __( "Enter your Matomo site ID", 'complianz-gdpr' ),
 			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
 			'callback_condition'      => array( 'compile_statistics' => 'matomo' ),
+		),
+
+// Matomo Tag Manager
+
+		'matomo_tag_url' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'url',
+			'placeholder'             => 'https://domain.com/stats/js',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Enter the URL of Matomo",
+				'complianz-gdpr' ),
+			'callback_condition'      => array( 'compile_statistics' => 'matomo-tag-manager' ),
+			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
+			'comment'                 => __( "The URL depends on your configuration of Matomo.", 'complianz-gdpr' )
+																	. cmplz_read_more( 'https://complianz.io/configuring-matomo-for-wordpress-with-complianz/' ),
+		),
+
+		'matomo_container_id' => array(
+			'step'                    => STEP_COOKIES,
+			'section'                 => 3,
+			'source'                  => 'wizard',
+			'type'                    => 'text',
+			'default'                 => '',
+			'placeholder'							=> 'Aaa1bBBB',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'label'                   => __( "Enter your Matomo container ID", 'complianz-gdpr' ),
+			'condition'               => array( 'configuration_by_complianz' => 'yes' ),
+			'callback_condition'      => array( 'compile_statistics' => 'matomo-tag-manager' ),
 		),
 
 		'clicky_site_id' => array(
