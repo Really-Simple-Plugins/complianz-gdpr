@@ -101,6 +101,22 @@ $this->fields = $this->fields + array(
 				'consent_per_service' => 'yes',
 			)
 		),
+
+		'agree_text_per_service' => array(
+			'step'         => 'general',
+			'source'       => 'settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Text on 'I agree' button", 'complianz-gdpr' ),
+			'default'      => __( "I agree", 'complianz-gdpr' ),
+			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'condition'    => array(
+				'disable_cookie_block' => false,
+			),
+			'callback_condition' => array(
+				'consent_per_service' => 'yes',
+			)
+		),
 		'a_b_testing_duration' => array(
 			'source'    => 'settings',
 			'step'      => 'general',

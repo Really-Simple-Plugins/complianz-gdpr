@@ -209,6 +209,9 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 			'delete' => '<a class="cmplz-delete-banner" data-id="' . $item['ID']
 			            . '" href="#">' . __( 'Delete', 'complianz-gdpr' )
 			            . '</a>',
+			'duplicate' => '<a class="cmplz-duplicate-banner" data-id="' . $item['ID']
+						. '" href="#">' . __( 'Duplicate', 'complianz-gdpr' )
+						. '</a>',
 			'export' => '<a class="cmplz-export-banner" data-id="' . $item['ID']
 			            . '" href="'.add_query_arg( array( 'page'=>'cmplz-cookiebanner','action' => 'cmplz_export_settings', 'export_type' => 'cookiebanner', 'id'=> intval($item['ID'])), admin_url( 'admin.php') ).'">' . __( 'Export', 'complianz-gdpr' )
 			            . '</a>',
@@ -217,6 +220,9 @@ class cmplz_CookieBanner_Table extends WP_List_Table {
 		$banner_count = count( cmplz_get_cookiebanners() );
 		if ( !$this->ab_testing_enabled || $banner_count == 1 ) {
 			unset( $actions['delete'] );
+		}
+		if ( !$this->ab_testing_enabled ) {
+			unset( $actions['duplicate'] );
 		}
 
 		return $name . $this->row_actions( $actions );

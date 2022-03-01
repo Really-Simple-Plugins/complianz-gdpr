@@ -1618,7 +1618,7 @@ function cmplz_track_status( status ) {
 		return;
 	}
 
-	if ( complianz.store_consent != 1 ) {
+	if ( complianz.store_consent != 1 || cmplz_is_bot() || cmplz_is_speedbot() ) {
 		return;
 	}
 

@@ -254,7 +254,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			}
 
 			if ( $this->ID ) {
-				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ", $this->ID ) );
+				$cookie = wp_cache_get('cmplz_cookie_'.$this->ID, 'complianz');
+				if ( !$cookie ) {
+					$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ", $this->ID ) );
+					wp_cache_set('cmplz_cookie_'.$this->ID, $cookie, 'complianz', HOUR_IN_SECONDS);
+				}
 			} else {
 				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s $sql", $this->name, $this->language ) );
 			}

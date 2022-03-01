@@ -2685,9 +2685,13 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		if ( isset( $args['limit'] ) && $args['limit'] !== false ) {
 			$sql = ' LIMIT '.intval($args['limit']);
 		}
-		$cookiebanners
-			= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql" );
 
+		$sql_string = sanitize_title($sql);
+		$cookiebanners = wp_cache_get('cmplz_cookiebanners_'.$sql_string, 'complianz');
+		if ( !$cookiebanners ){
+			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql" );
+			wp_cache_set('cmplz_cookiebanners_'.$sql_string, $cookiebanners, 'complianz');
+		}
 
 		return $cookiebanners;
 	}

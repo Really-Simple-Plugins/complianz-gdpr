@@ -310,7 +310,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//get type of field
 			$type = $this->get_field_type($fieldname);
 			$default = $this->get_default( $fieldname );
-
 			//treat as string
 			if ( $type === 'text' || $type === 'select' || $type === 'editor' ) {
 				if ( empty($value) && $set_defaults ) {
@@ -345,7 +344,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				if ( is_array($value) ) {
 					//store 'show' index, to prevent losing the 'false' settings
 					if ( $type !== 'text_checkbox') {
-						$value = array_filter($value);
+						$value = array_filter($value, function($arr_value) {
+							return ($arr_value !== null && $arr_value !== false && $arr_value !== '');
+						});
 					}
 				} else {
 					$value = array();

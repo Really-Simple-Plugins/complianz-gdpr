@@ -211,6 +211,32 @@ function cmplz_delete_cookiebanner() {
 	}
 }
 
+add_action( 'wp_ajax_cmplz_duplicate_cookiebanner', 'cmplz_duplicate_cookiebanner' );
+function cmplz_duplicate_cookiebanner() {
+	if ( ! cmplz_user_can_manage() ) {
+		return;
+	}
+
+	if ( isset( $_POST['cookiebanner_id'] ) ) {
+		$banner   = new CMPLZ_COOKIEBANNER( intval( $_POST['cookiebanner_id'] ) );
+		$new_banner = new CMPLZ_COOKIEBANNER();
+		$new_banner->save();
+		//store id
+		$new_banner_id = $new_banner->id;
+		//copy data
+		$new_banner = $banner;
+		$new_banner->id = $new_banner_id;
+		$new_banner->save();
+		$response = json_encode( array(
+				'success' => true,
+				'banner_id' => $new_banner_id,
+		) );
+		header( "Content-Type: application/json" );
+		echo $response;
+		exit;
+	}
+}
+
 /**
  * This function is hooked to the plugins_loaded, prio 10 hook, as otherwise there is some escaping we don't want.
  *
@@ -278,7 +304,6 @@ function cmplz_cookiebanner_overview() {
 		<script>
 			jQuery(document).ready(function ($) {
 				$(document).on('click', '.cmplz-delete-banner', function (e) {
-
 					e.preventDefault();
 					var btn = $(this);
 					btn.closest('tr').css('background-color', 'red');
@@ -295,6 +320,31 @@ function cmplz_cookiebanner_overview() {
 							if (response.success) {
 								btn.closest('tr').remove();
 							}
+						}
+					});
+				});
+				$(document).on('click', '.cmplz-duplicate-banner', function (e) {
+					e.preventDefault();
+					var btn = $(this);
+					var duplicate_banner_id = btn.data('id');
+					$.ajax({
+						type: "POST",
+						url: '<?php echo admin_url( 'admin-ajax.php' )?>',
+						dataType: 'json',
+						data: ({
+							action: 'cmplz_duplicate_cookiebanner',
+							cookiebanner_id: duplicate_banner_id
+						}),
+						success: function (response) {
+							var tr = btn.closest('tr');
+							var clone = tr.clone();
+							clone.html(function(i, clone) {
+								var regex1 = new RegExp('(id=")('+duplicate_banner_id+')', 'g');
+								var regex2 = new RegExp('(id=)('+duplicate_banner_id+')', 'g');
+								return clone.replace(regex1, "$1"+response.banner_id).replace(regex2, "$1"+response.banner_id);
+							});
+							clone.find('td:first-child').css('border-left', '5px solid green');
+							tr.after(clone);
 						}
 					});
 

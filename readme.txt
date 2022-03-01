@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 6.1.0.2
+Stable tag: 6.1.2
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
@@ -166,8 +166,26 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-= 6.1.1 =
+= 6.1.2 =
+* New: Matomo Tag Manager / WP Piwik
+* Improvement: editable "I Agree" button for consent per service/Cookie Shredder
+* Improvement: cache get and cache set on database queries on the cookie policy and cookie shredder, removing duplicate queries, props David
+* Improvement: export banner settings option
+* Improvement: remove space after empty text, causing unnecessary paragraphs
+* Improvement: use close button with enter, props @benqwerty
+* Improvement: limit banner image size to banner editor only, props @bkwineper
+* Improvement: lazy load integration for WP Rocket and LazyLoader plugin, props @Lofesa
+* Improvement: change divs in banner to spans, props @kbelimpassakis
+* Improvement: move inline css to head, props @kbelimpassakis
+* Improvement: lock css file on css generation in banner
+* Improvement: clean up blocked scripts after activation, props @puregraphx
+* Improvement: run load_plugin_textdomain for Loco Translate compatibility props @peterforensys
 * Improvement: upgrade tables for older versions
+* Fix: localhost reference in default css, props @toxicum
+* Fix: saving of border radius of 0 in cookie banner
+* Fix: save/enable on integrations slider
+* Fix: dismiss Elementor pro activated notice
+* Fix: fixed accidentally re-activating deactivated services on cookiedatabase.org sync
 
 = 6.1.0.1 =
 * Fix: Recaptcha integration issue, props @delanthear @peopleinside @soydelia for reporting the issue

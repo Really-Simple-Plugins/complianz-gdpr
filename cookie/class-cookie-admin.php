@@ -2829,9 +2829,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_cookies( $settings = array() ) {
 			global $wpdb;
-			$result
-				= $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
-			if ( empty( $result ) ) {
+			$table_exists = wp_cache_get('cmplz_cookie_table_exists', 'complianz');
+			if ( !$table_exists ){
+				$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
+				wp_cache_set('cmplz_cookie_table_exists', $table_exists, 'complianz');
+			}
+			if ( empty( $table_exists ) ) {
 				return array();
 			}
 
@@ -2905,7 +2908,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					intval( $settings['lastUpdatedDate'] ) );
 			}
 
-			$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
+			//stringyfy select args.
+			$settings_args = sanitize_title(json_encode($settings));
+			$cookies = wp_cache_get('cmplz_cookies_'.$settings_args, 'complianz');
+			if ( !$cookies ){
+				$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
+				wp_cache_set('cmplz_cookies_'.$settings_args, $cookies, 'complianz');
+			}
 			//make sure service data is added
 			foreach ( $cookies as $index => $cookie ) {
 				$cookie            = new CMPLZ_COOKIE( $cookie->ID );

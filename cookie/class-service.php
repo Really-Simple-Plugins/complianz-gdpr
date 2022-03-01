@@ -61,9 +61,11 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				return array();
 			}
 			global $wpdb;
-			$cookies
-				= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where serviceID = %s ",
-				$this->ID ) );
+			$cookies = wp_cache_get('cmplz_service_cookies_'.$this->ID, 'complianz');
+			if ( !$cookies ) {
+				$cookies = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where serviceID = %s ", $this->ID ) );
+				wp_cache_set('cmplz_service_cookies_'.$this->ID, $cookies, 'complianz', HOUR_IN_SECONDS);
+			}
 
 			return $cookies;
 		}
@@ -86,13 +88,13 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			}
 
 			if ( $this->ID ) {
-				$service
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where ID = %s ",
-					$this->ID ) );
+				$service = wp_cache_get('cmplz_service_'.$this->ID, 'complianz');
+				if ( !$service ) {
+					$service = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where ID = %s ", $this->ID ) );
+					wp_cache_set('cmplz_service_'.$this->ID, $service, 'complianz', HOUR_IN_SECONDS);
+				}
 			} else {
-				$service
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where name = %s and language = %s "
-					                                  . $sql, $this->name,
+				$service = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where name = %s and language = %s " . $sql, $this->name,
 					$this->language ) );
 			}
 
