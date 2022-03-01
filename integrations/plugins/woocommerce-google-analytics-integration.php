@@ -52,6 +52,7 @@ function cmplz_wc_google_analytics_integration_script( $tags ) {
 			'_gaq.push',
 			'stats.g.doubleclick.net/dc.js',
 			'gaProperty',
+			'ga_orders',
 		),
 	);
 	return $tags;

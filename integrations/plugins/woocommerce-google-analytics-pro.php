@@ -65,6 +65,7 @@ function cmplz_wc_google_analytics_pro_stats_markers( $tags ) {
 			'GoogleAnalyticsObject',
 			'add_to_cart_button',
 			'wc_ga_pro',
+			'ga_orders',
 		),
 	);
 	return $tags;
