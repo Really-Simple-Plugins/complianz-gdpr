@@ -181,6 +181,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: clean up blocked scripts after activation, props @puregraphx
 * Improvement: run load_plugin_textdomain for Loco Translate compatibility props @peterforensys
 * Improvement: upgrade tables for older versions
+* Fix: Woocommerce Google Analytics - Enhanced Ecommerce integration
 * Fix: localhost reference in default css, props @toxicum
 * Fix: saving of border radius of 0 in cookie banner
 * Fix: save/enable on integrations slider
