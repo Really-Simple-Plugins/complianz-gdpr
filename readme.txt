@@ -54,7 +54,7 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 
 * Detected Cookie Data is prefilled from cookiedatabase.org, with clear and transparent cookie descriptions, which are continuously updated.
 * Integrated with WordPress Privacy features. Export and erase personal data from our dashboard.
-* Implementation of Google Tag Manager, Google Analytics, Matomo, Clicky, Yandex, Jetpack and Burst Statistics
+* Implementation of Google Tag Manager, Google Analytics, Matomo, Matomo Tag Manager, Clicky, Yandex, Jetpack and Burst Statistics
 * Categorize your Cookies with Tag Manager or our Script Center, if needed.
 * Integration with the [WP Consent API](https://wpconsentapi.org/)
 
