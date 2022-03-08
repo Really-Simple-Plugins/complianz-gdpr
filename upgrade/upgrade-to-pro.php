@@ -138,7 +138,7 @@ class rsp_upgrade_to_pro {
 				'disabled' => '',
 				'button_text' => __("Install", "complianz-gdpr"),
 				'slug' => 'burst-statistics',
-				'description' => __("Get detailed insights into visitors' behaviour with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins.", "complianz-gdpr"),
+				'description' => __("Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins.", "complianz-gdpr"),
 				'install_url' => 'burst%20statistics%20hesseldejong%20%20burst-statistics.com&tab=search&type=term',
 		];
 

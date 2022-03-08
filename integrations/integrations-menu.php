@@ -72,6 +72,7 @@ function process_integrations_services_save() {
 			unset( $thirdparty_services['google-fonts'] );
 
 			$active_services = cmplz_get_value( 'thirdparty_services_on_site' );
+			if ( !is_array($active_services) ) $active_services = array();
 			foreach ( $thirdparty_services as $service => $label ) {
 				if ( isset( $_POST[ 'cmplz_' . $service ] ) && $_POST[ 'cmplz_' . $service ] == 1 ) {
 					$active_services[ $service ] = 1;
@@ -85,6 +86,7 @@ function process_integrations_services_save() {
 			cmplz_update_option( 'wizard', 'thirdparty_services_on_site', $active_services );
 			$socialmedia        = COMPLIANZ::$config->thirdparty_socialmedia;
 			$active_socialmedia = cmplz_get_value( 'socialmedia_on_site' );
+			if ( !is_array($active_socialmedia) ) $active_socialmedia = array();
 			foreach ( $socialmedia as $service => $label ) {
 				if ( isset( $_POST[ 'cmplz_' . $service ] )
 				     && $_POST[ 'cmplz_' . $service ] == 1

@@ -3774,12 +3774,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//no statistics at all, it's privacy friendly
 			if ( $statistics === 'no' ) {
-				return true;
+				return apply_filters('cmplz_statistics_privacy_friendly', true);
 			}
 
 			//not anonymous stats.
 			if ( $statistics === 'yes' ) {
-				return false;
+				return apply_filters('cmplz_statistics_privacy_friendly', false);
 			}
 
 			$tagmanager                                = $statistics === 'google-tag-manager';
@@ -3791,11 +3791,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$no_sharing                                = false;
 
 			if ( $clicky ) {
-				return false;
+				return apply_filters('cmplz_statistics_privacy_friendly', false);
 			}
 
 			if ( $matomo ) {
-				return false;
+				return apply_filters('cmplz_statistics_privacy_friendly', false);
 			}
 
 			if ( $google_analytics || $tagmanager ) {
@@ -3810,13 +3810,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			          || ! $ip_anonymous
 			          || ! $no_sharing )
 			) {
-				return false;
+				return apply_filters('cmplz_statistics_privacy_friendly', false);
 			}
 
 
 
 			//everything set up privacy friendly!
-			return true;
+			return apply_filters('cmplz_statistics_privacy_friendly', true);
 		}
 
 

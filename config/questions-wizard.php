@@ -354,6 +354,7 @@ $this->fields = $this->fields + array(
 		'consent_for_anonymous_stats' => array(
 			'step'               => STEP_COOKIES,
 			'section'            => 3,
+			'order'             => 10,
 			'source'             => 'wizard',
 			'type'               => 'radio',
 			'default'            => 'yes',

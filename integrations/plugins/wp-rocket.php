@@ -28,7 +28,6 @@ function cmplz_wprocket_convert_data_src() {
 		?>
 		<script>
 			document.addEventListener("cmplz_category_enabled", function(){
-				console.log("cat enabled wp rocket integrations");
 				document.querySelectorAll('[data-rocket-lazyload]').forEach(obj => {
 					obj.setAttribute('src', obj.getAttribute('data-lazy-src'));
 				});
