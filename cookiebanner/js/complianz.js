@@ -414,7 +414,7 @@ function cmplz_insert_placeholder_text(container, service){
 		if ( typeof placeholder_text !== 'undefined' ) {
 			if ( complianz.clean_cookies == 1 ) {
 				//make service human readable
-				let service_nicename = service.replace('-', ' ');
+				let service_nicename = service ? service.replace('-', ' ') : '';
 				service_nicename = service_nicename.charAt(0).toUpperCase() + service_nicename.slice(1);
 				placeholder_text = placeholder_text.replace('{service}', service_nicename);
 				let body = cmplz_create_element('div', placeholder_text);

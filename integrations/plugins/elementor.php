@@ -53,7 +53,7 @@ function cmplz_elementor_cookieblocker( $output ){
 					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
 				}
 
-				$new_match = str_replace('data-settings', $placeholder.'data-cmplz-elementor-settings', $total_match);
+				$new_match = str_replace('data-settings', 'data-category="marketing" data-service="youtube" '.$placeholder.'data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('elementor-widget-video', 'elementor-widget-video cmplz-placeholder-element', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
