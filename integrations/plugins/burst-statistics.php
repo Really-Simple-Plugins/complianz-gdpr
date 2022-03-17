@@ -28,6 +28,7 @@ function cmplz_burst_statistics_activate_burst() {
 					if ( src ) {
 						obj.setAttribute('type', 'text/javascript');
 						cmplz_run_script(src, 'statistics', 'src');
+						obj.parentNode.removeChild(obj);
 					}
 				});
 			}
