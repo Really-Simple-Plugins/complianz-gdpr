@@ -1751,11 +1751,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @param string $tag
 		 * @param string $handle
 		 *
-		 * @return array|mixed|string|string[]
+		 * @return string
 		 */
 		public function add_asyncdefer_attribute($tag, $handle) {
 			if ( $handle === 'cmplz-cookiebanner' || $handle === 'cmplz-tcf' ) {
-				return str_replace( '<script ', '<script defer ', $tag );
+				return preg_replace( '/^<script /', '<script defer ', $tag );
 			}
 			return $tag;
 		}
