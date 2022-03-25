@@ -207,7 +207,7 @@ class CMPLZ_Link extends Widget_Base {
                 ],
                 'default' => '',
                 'title' => esc_html__( 'Add your custom id WITHOUT the Pound key. e.g: my-id', 'elementor' ),
-                'description' => cmplz_sprintf(
+                'description' => sprintf(
                 /* translators: %1$s Code open tag, %2$s: Code close tag. */
                     esc_html__( 'Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows %1$sA-z 0-9%2$s & underscore chars without spaces.', 'elementor' ),
                     '<code>',
@@ -499,7 +499,7 @@ class CMPLZ_Link extends Widget_Base {
      * @since 1.5.0
      * @access protected
      */
-    protected function render_text() {
+    protected function render_text(Widget_Base $instance = null) {
         $settings = $this->get_settings_for_display();
 
         $migrated = isset( $settings['__fa4_migrated']['selected_icon'] );

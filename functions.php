@@ -2690,7 +2690,7 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		$cookiebanners = wp_cache_get('cmplz_cookiebanners_'.$sql_string, 'complianz');
 		if ( !$cookiebanners ){
 			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql" );
-			wp_cache_set('cmplz_cookiebanners_'.$sql_string, $cookiebanners, 'complianz');
+			wp_cache_set('cmplz_cookiebanners_'.$sql_string, $cookiebanners, 'complianz', HOUR_IN_SECONDS);
 		}
 
 		return $cookiebanners;

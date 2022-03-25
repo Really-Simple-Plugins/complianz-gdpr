@@ -14,6 +14,7 @@ function cmplz_user_registration_script( $tags ) {
 	if ( 'yes' == $recaptcha_enabled ) {
 		$tags[] = 'user-registration.min.js';
 		$tags[] = 'user-registration.js';
+		$tags[] = 'user-registration-form-validator.min.js';
 	}
 
 	return $tags;
@@ -31,7 +32,7 @@ function cmplz_userregistration_dependencies( $tags ) {
 		'no' );
 
 	if ( 'yes' == $recaptcha_enabled ) {
-		$tags['recaptcha/api.js'] = 'user-registration.min.js';
+		$tags['recaptcha/api.js'] = 'user-registration-form-validator.min.js';
 	}
 
 	return $tags;

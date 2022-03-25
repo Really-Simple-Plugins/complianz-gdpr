@@ -1143,6 +1143,14 @@ function cmplz_set_service_consent( service, consented ){
 	}
 	consented_services[service] = consented;
 	cmplz_set_cookie('consented_services', JSON.stringify(consented_services) );
+	let details = new Object();
+	details.service = service;
+	details.value = consented;
+	details.region = complianz.region;
+	//when the status is changed, we may need to fire scripts again, so we reset it.
+	cmplz_all_scripts_hook_fired = false;
+	let event = new CustomEvent('cmplz_status_change_service', { detail: details });
+	document.dispatchEvent(event);
 }
 
 /**

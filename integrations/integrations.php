@@ -24,6 +24,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'lead-forensics' => array(
+			'constant_or_function' => 'LFRTrackingCode',
+			'label'                => 'Lead Forensics',
+			'firstparty_marketing' => false,
+	),
+
 	'burst-statistics' => array(
 			'constant_or_function' => 'burst_version',
 			'label'                => 'Burst Statistics',
@@ -230,6 +236,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'user-registration' => array(
 		'constant_or_function' => 'UR',
 		'label'                => 'User Registration',
+		'firstparty_marketing' => false,
+	),
+
+	'user-registration-pro' => array(
+		'constant_or_function' => 'User_Registration_Pro_Shortcodes',
+		'label'                => 'User Registration Pro',
 		'firstparty_marketing' => false,
 	),
 

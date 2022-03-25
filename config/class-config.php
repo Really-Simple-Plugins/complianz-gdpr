@@ -481,6 +481,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'open' => cmplz_sprintf( __( 'Do Not Track and Global Privacy Control are not yet respected. - (%spremium%s)', 'complianz-gdpr' ), '<a  target="_blank" href="https://complianz.io/browser-privacy-controls/">', '</a>' ),
 				),
 
+				'drop-elementor-banner' => array(
+					'plus_one' => true,
+					'success_conditions' => array(
+						'NOT get_option_cmplz_elementor_banner_dropped'
+					),
+					'urgent' => __( 'We have dropped support for creating a cookie banner with Elementor Pro. Your banner defaults to a standard cookie banner.', 'complianz-gdpr' ).cmplz_read_more("https://complianz.io/elementor-pro-support"),
+				),
+
 				'has_formal' => array(
 					'success_conditions'  => array(
 						'NOT document->locale_has_formal_variant',

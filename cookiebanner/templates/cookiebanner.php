@@ -25,7 +25,6 @@
 							<span class='cmplz-always-active'>
 								<span class="cmplz-banner-checkbox">
 									<input type="checkbox"
-										   aria-checked="true"
 										   id="cmplz-functional-{consent_type}"
 										   data-category="cmplz_functional"
 										   class="cmplz-consent-checkbox cmplz-functional"

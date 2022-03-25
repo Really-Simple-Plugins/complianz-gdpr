@@ -526,11 +526,11 @@ class CMPLZ_Accept_Button extends Widget_Button {
      * Render button text.
      *
      * Render button widget text.
-     *
+     * @param \Elementor\Widget_Base|null $instance
      * @since 1.5.0
      * @access protected
      */
-    protected function render_text() {
+    protected function render_text(Widget_Base $instance = null) {
         $settings = $this->get_settings_for_display();
 
         $migrated = isset( $settings['__fa4_migrated']['selected_icon'] );
