@@ -521,6 +521,7 @@ function cmplz_enable_category(category, service) {
 	if ( category === 'functional' ) {
 		return;
 	}
+
 	//enable cookies for integrations
 	if ( category === 'marketing' ) {
 		cmplz_set_integrations_cookies();
@@ -528,6 +529,10 @@ function cmplz_enable_category(category, service) {
 
 	//remove accept cookie notice overlay
 	document.querySelectorAll('.cmplz-blocked-content-notice.cmplz-accept-'+category+', .cmplz-blocked-content-notice [data-service='+service+']').forEach(obj => {
+		//in cookie shredder mode, the found obj is two levels down.
+		if ( complianz.clean_cookies==1 ){
+			obj = obj.parentNode;
+		}
 		obj.parentNode.removeChild(obj);
 	});
 
