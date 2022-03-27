@@ -1901,41 +1901,43 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			$this->clear_assigned_menu_items();
 			$assigned_menu = $_POST['cmplz_assigned_menu'][$type];
-            foreach (
-	            $assigned_menu as $page_id => $menu_id
-            ) {
-                if ( empty( $menu_id ) ) {
-                    continue;
-                }
+			if ( is_array($assigned_menu) ) {
+				foreach (
+					$assigned_menu as $page_id => $menu_id
+				) {
+					if ( empty( $menu_id ) ) {
+						continue;
+					}
 
-                if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
-                    continue;
-                }
+					if ( $this->is_assigned_this_menu( $page_id, $menu_id ) ) {
+						continue;
+					}
 
-                if (is_numeric($page_id) ) {
-                    $page = get_post( $page_id );
-                    wp_update_nav_menu_item( $menu_id, 0, array(
-                            'menu-item-title'     => get_the_title( $page ),
-                            'menu-item-object-id' => $page->ID,
-                            'menu-item-object'    => get_post_type( $page ),
-                            'menu-item-status'    => 'publish',
-                            'menu-item-type'      => 'post_type',
-                    ) );
+					if ( is_numeric( $page_id ) ) {
+						$page = get_post( $page_id );
+						wp_update_nav_menu_item( $menu_id, 0, array(
+							'menu-item-title'     => get_the_title( $page ),
+							'menu-item-object-id' => $page->ID,
+							'menu-item-object'    => get_post_type( $page ),
+							'menu-item-status'    => 'publish',
+							'menu-item-type'      => 'post_type',
+						) );
 
-                } else {
-	                $title = COMPLIANZ::$config->generic_documents_list[$page_id]['title'];
-                    $page_id = $this->get_page_id_for_generic_document( $page_id );
-                    $url = add_query_arg( array('cmplz_region_redirect'=> 'true'), get_permalink($page_id) );
+					} else {
+						$title   = COMPLIANZ::$config->generic_documents_list[ $page_id ]['title'];
+						$page_id = $this->get_page_id_for_generic_document( $page_id );
+						$url     = add_query_arg( array( 'cmplz_region_redirect' => 'true' ), get_permalink( $page_id ) );
 
-                    wp_update_nav_menu_item( $menu_id, 0, array(
-                            'menu-item-title'     => $title,
-                            'menu-item-object'    => 'object',
-                            'menu-item-status'    => 'publish',
-                            'menu-item-type'      => 'custom',
-                            'menu-item-url'       => $url,
-                    ) );
-                }
-            }
+						wp_update_nav_menu_item( $menu_id, 0, array(
+							'menu-item-title'  => $title,
+							'menu-item-object' => 'object',
+							'menu-item-status' => 'publish',
+							'menu-item-type'   => 'custom',
+							'menu-item-url'    => $url,
+						) );
+					}
+				}
+			}
 		}
 
 
