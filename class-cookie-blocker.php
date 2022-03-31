@@ -431,6 +431,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 * */
 			$image_tags = apply_filters( 'cmplz_image_tags', array() );
+
 			$image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/s'; //matches multiline with s operater, for FB pixel
 			if ( preg_match_all( $image_pattern, $output, $matches, PREG_PATTERN_ORDER )
 			) {
@@ -438,9 +439,9 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$total_match = $matches[0][ $key ];
 					$found = cmplz_strpos_arr( $image_url, $image_tags );
 					if ( $found !== false ) {
-						$placeholder = cmplz_placeholder( false, $image_url );
 						$service_name = cmplz_get_service_by_src( $image_url );
 						$service_name = !$service_name ? 'general' :$service_name;
+						$placeholder = cmplz_placeholder( $service_name, $image_url );
 						$new = $total_match;
 						$new = $this->add_data( $new, 'img', 'src-cmplz', $image_url );
 						$new = $this->add_data( $new, 'img', 'service', $service_name );

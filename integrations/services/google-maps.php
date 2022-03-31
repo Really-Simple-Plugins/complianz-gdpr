@@ -17,11 +17,11 @@ function cmplz_googlemaps_script( $tags ) {
 	return $tags;
 }
 
-add_filter( 'cmplz_image_tags', 'cmplz_googlemaps_imagetags' );
 function cmplz_googlemaps_imagetags( $tags ) {
 	$tags[] = 'maps.googleapis.com/maps/api/staticmap';
 	return $tags;
 }
+add_filter( 'cmplz_image_tags', 'cmplz_googlemaps_imagetags' );
 
 /**
  * Declare a placeholder
@@ -30,8 +30,8 @@ function cmplz_googlemaps_imagetags( $tags ) {
  *
  * @return mixed|string
  */
-function cmplz_google_maps_placeholder( $new_src, $src ) {
 
+function cmplz_google_maps_placeholder( $new_src, $src ) {
 	$key_pattern = '/maps\.googleapis\.com\/maps\/api\/staticmap/i';
 	if ( preg_match( $key_pattern, $src, $matches ) ) {
 		$id = str_replace(array('http://', 'https://','maps.googleapis.com/maps/api/staticmap'), '', $src);
@@ -46,8 +46,4 @@ function cmplz_google_maps_placeholder( $new_src, $src ) {
 	}
 	return $new_src;
 }
-
 add_filter( 'cmplz_placeholder_google-maps', 'cmplz_google_maps_placeholder', 10, 2 );
-
-
-

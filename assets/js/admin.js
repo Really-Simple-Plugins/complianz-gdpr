@@ -1,5 +1,36 @@
 jQuery(document).ready(function ($) {
     'use strict';
+	$(document).on('click','.cmplz-install-burst', function(){
+		var btn =  $('button.cmplz-install-burst');
+		var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
+		btn.html(loader);
+		btn.attr('disabled', 'disabled');
+
+		$.ajax({
+			type: "GET",
+			url: complianz_admin.admin_url,
+			dataType: 'json',
+			data: ({
+				step: 'download',
+				action: 'cmplz_install_plugin',
+			}),
+			success: function (response) {
+				$.ajax({
+					type: "GET",
+					url: complianz_admin.admin_url,
+					dataType: 'json',
+					data: ({
+						step: 'activate',
+						action: 'cmplz_install_plugin',
+					}),
+					success: function (response) {
+						let completed_text = $('.cmplz-completed-text').html();
+						btn.html(completed_text);
+					}
+				});
+			}
+		});
+	});
 
 	// other_region_behaviour
 	$(document).on('click', '.regions .cmplz-checkbox-container input', function(){

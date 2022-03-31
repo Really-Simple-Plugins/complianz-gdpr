@@ -111,6 +111,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'new google.maps.',
 					'google.com/maps',
 					'maps.google.com',
+					'maps.googleapis.com',
 					'wp-google-maps',
 					'new google.maps.InfoWindow',
 					'new google.maps.Marker',

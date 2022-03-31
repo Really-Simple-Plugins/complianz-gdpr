@@ -36,13 +36,60 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_dismiss_admin_notice', array( $this, 'dismiss_warning' ) );
 			add_action( 'admin_notices', array( $this, 'show_admin_notice' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'insert_dismiss_admin_notice_script' ) );
-
+			add_action( 'cmplz_install_burst', array( $this, 'install_burst_html' ), 10, 1 );
+			add_action( 'wp_ajax_cmplz_install_plugin', array( $this, 'maybe_install_suggested_plugins' ) );
 		}
 
 		static function this() {
 			return self::$_this;
 		}
 
+		public function install_burst_html(){
+			$burst_installed = class_exists('BURST');
+			require_once( cmplz_path . 'class-installer.php' );
+			$installer = new cmplz_installer( 'burst-statistics' );
+			$plugin_info = $installer->get_plugin_info();
+			?>
+				<div class="cmplz-suggested-plugin">
+					<img class="cmplz-suggested-plugin-img" src="<?php echo cmplz_url?>/upgrade/img/burst.png">
+					<div class="cmplz-suggested-plugin-desc-group">
+						<div class="cmplz-suggested-plugin-title"><?php _e("Burst Statistics from Complianz", 'complianz-gdpr')?></div>
+						<div class="cmplz-suggested-plugin-desc"><?php _e("Self-hosted and privacy-friendly analytics tool", 'complianz-gdpr')?></div>
+						<div class="cmplz-suggested-plugin-rating">
+							<?php
+							wp_star_rating([
+									'rating' => $plugin_info->rating,
+									'type' => 'percent',
+									'number' => $plugin_info->num_ratings
+									]
+							);?>
+						</div>
+					</div>
+					<div class="cmplz-suggested-plugin-desc-long">
+						<?php _e("Get detailed insights into visitors' behaviour with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins", 'complianz-gdpr')?>
+					</div>
+					<div><button type="button" <?php echo $burst_installed ? 'disabled' : ''?> class="button-secondary cmplz-install-burst"><?php echo $burst_installed ? __("Installed","complianz-gdpr") : __("Install","complianz-gdpr")?></button>
+						<div class="cmplz-hidden cmplz-completed-text"><?php _e("Installed", "complianz-gdpr")?></div>
+					</div>
+				</div>
+			<?php
+		}
+
+		public function maybe_install_suggested_plugins(){
+			$error = true;
+			if ( current_user_can('install_plugins')) {
+				$error = false;
+				$step = isset($_GET['step']) ? sanitize_title($_GET['step']) : 'download';
+				require_once( cmplz_path . 'class-installer.php' );
+				$installer = new cmplz_installer( 'burst-statistics' );
+				$installer->install($step);
+			}
+
+			$response = json_encode( [ 'success' => $error ] );
+			header( "Content-Type: application/json" );
+			echo $response;
+			exit;
+		}
 		/**
 		 * Check if current day falls within required date range.
 		 *
@@ -441,7 +488,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$warnings = $cache ? get_transient( 'complianz_warnings'.$admin_notice ) : false;
 			//re-check if there are no warnings, or if the transient has expired
 			if ( ! $warnings ) {
-
+				$warnings = [];
 				$warning_type_defaults = array(
 					'plus_one' => false,
 					'warning_condition' => '_true_',

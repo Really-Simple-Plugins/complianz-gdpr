@@ -189,7 +189,7 @@ class CMPLZ_Elementor_Pro {
 				'no'  => __('No', "complianz-gdpr"),
 			],
 			'required' => false,
-			'comment' => __('If you choose to create your Legal Hub with Elementor Pro we will import our default template.', 'complianz-gdpr').cmplz_read_more('https://complianz.io/integrations/elementor-pro'),//@todo url
+			'comment' => __('If you choose to create your Legal Hub with Elementor Pro we will import our default template.', 'complianz-gdpr').cmplz_read_more('https://complianz.io/creating-the-legal-hub/'),//@todo url
 		);
 
 //		if ( cmplz_get_value('create_banner_elementor')==='yes' ) {
