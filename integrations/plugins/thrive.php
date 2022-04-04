@@ -14,3 +14,16 @@ function cmplz_thrive_whitelist($tags){
 	return $tags;
 }
 add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_thrive_whitelist');
+
+/**
+ * Add inline css, as Thrive removes it
+ *
+ * @param string $html
+ *
+ * @return string
+ */
+function cmplz_thrive_inline_css( $html ) {
+	$html .= '<style> .cmplz-hidden{display:none !important;}</style>';
+	return $html;
+}
+add_filter( "cmplz_banner_html", 'cmplz_thrive_inline_css' );

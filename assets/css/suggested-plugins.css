@@ -1,0 +1,28 @@
+.cmplz-suggested-plugin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+.cmplz-suggested-plugin .cmplz-suggested-plugin-desc-group .cmplz-suggested-plugin-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+.cmplz-suggested-plugin .cmplz-suggested-plugin-desc-group .cmplz-suggested-plugin-desc {
+  white-space: nowrap;
+}
+.cmplz-suggested-plugin .cmplz-suggested-plugin-desc-group .cmplz-suggested-plugin-desc-long {
+  font-size: 10px;
+  font-weight: 400;
+}
+.cmplz-suggested-plugin .cmplz-suggested-plugin-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
+}
+/*# sourceMappingURL=suggested-plugins.css.map */

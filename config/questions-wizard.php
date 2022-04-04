@@ -267,10 +267,17 @@ $this->fields = $this->fields + array(
 			'section'  => 1,
 			'source'   => 'wizard',
 			'type'     => 'radio',
-			'options'  => $this->yes_no,
 			'label'    => '',
 			'callback' => 'cookie_scan',
 			'help'     => __( "If you want to clear all cookies from the plugin, you can do so here. You'll need to run a scan again afterwards. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.", "complianz-gdpr" ),
+		),
+
+		'install_burst' => array(
+			'step'     => STEP_COOKIES,
+			'section'  => 2,
+			'source'   => 'wizard',
+			'callback' => 'install_burst',
+			'label'    => '',
 		),
 
 		'compile_statistics' => array(

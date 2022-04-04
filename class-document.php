@@ -487,6 +487,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			$elements         = COMPLIANZ::$config->pages[ $region ][ $type ]["document_elements"];
+			$elements =  is_array($elements) ? $elements : [];
 			$html             = "";
 			$paragraph        = 0;
 			$sub_paragraph    = 0;
@@ -1296,7 +1297,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @return array
 		 */
 		public function add_post_state($post_states, $post) {
-			if ( $this->is_complianz_page( $post->ID ) ) {
+			if ( $post && $this->is_complianz_page( $post->ID ) ) {
 				$post_states['page_for_privacy_policy'] = __("Legal Document", "complianz-gdpr");
 			}
 			return $post_states;
@@ -1913,27 +1914,27 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						continue;
 					}
 
-					if ( is_numeric( $page_id ) ) {
+					if (is_numeric($page_id) ) {
 						$page = get_post( $page_id );
 						wp_update_nav_menu_item( $menu_id, 0, array(
-							'menu-item-title'     => get_the_title( $page ),
-							'menu-item-object-id' => $page->ID,
-							'menu-item-object'    => get_post_type( $page ),
-							'menu-item-status'    => 'publish',
-							'menu-item-type'      => 'post_type',
+								'menu-item-title'     => get_the_title( $page ),
+								'menu-item-object-id' => $page->ID,
+								'menu-item-object'    => get_post_type( $page ),
+								'menu-item-status'    => 'publish',
+								'menu-item-type'      => 'post_type',
 						) );
 
 					} else {
-						$title   = COMPLIANZ::$config->generic_documents_list[ $page_id ]['title'];
+						$title = COMPLIANZ::$config->generic_documents_list[$page_id]['title'];
 						$page_id = $this->get_page_id_for_generic_document( $page_id );
-						$url     = add_query_arg( array( 'cmplz_region_redirect' => 'true' ), get_permalink( $page_id ) );
+						$url = add_query_arg( array('cmplz_region_redirect'=> 'true'), get_permalink($page_id) );
 
 						wp_update_nav_menu_item( $menu_id, 0, array(
-							'menu-item-title'  => $title,
-							'menu-item-object' => 'object',
-							'menu-item-status' => 'publish',
-							'menu-item-type'   => 'custom',
-							'menu-item-url'    => $url,
+								'menu-item-title'     => $title,
+								'menu-item-object'    => 'object',
+								'menu-item-status'    => 'publish',
+								'menu-item-type'      => 'custom',
+								'menu-item-url'       => $url,
 						) );
 					}
 				}

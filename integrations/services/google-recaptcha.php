@@ -7,7 +7,7 @@ function cmplz_recaptcha_script( $tags ) {
 
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$tags[] = array(
-				'name' => 'recaptcha',
+				'name' => 'google-recaptcha',
 				'placeholder' => 'google-recaptcha',
 				'category' => 'marketing',
 				'urls' => array(

@@ -61,3 +61,26 @@ function cmplz_burst_statistics_privacy_friendly($is_privacy_friendly){
 }
 add_filter('cmplz_cookie_warning_required_stats', 'cmplz_burst_statistics_privacy_friendly');
 add_filter('cmplz_statistics_privacy_friendly', 'cmplz_burst_statistics_privacy_friendly');
+
+
+/**
+ * Add a script to the blocked list
+ * @param array $tags
+ *
+ * @return array
+ */
+function cmplz_burst_script( $tags ) {
+	$tags[] = array(
+			'name' => 'burst',
+			'category' => 'statistics',
+			'urls' => array(
+					'assets/js/burst.js',
+					'assets/js/burst.min.js',
+			),
+			'enable_placeholder' => '0',
+			'enable_dependency' => '0',
+	);
+
+	return $tags;
+}
+add_filter( 'cmplz_known_script_tags', 'cmplz_burst_script' );
