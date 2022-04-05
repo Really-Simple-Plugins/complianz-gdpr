@@ -27,3 +27,10 @@ function cmplz_twitter_css() {
 		.twitter-tweet.cmplz-blocked-content-container {padding: 10px 40px;}
 	<?php
 }
+
+/**
+ * This empty function ensures Complianz recognizes that this integration has a placeholder
+ * @return void
+ *
+ */
+function cmplz_twitter_placeholder(){}

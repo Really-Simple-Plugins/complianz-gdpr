@@ -2,33 +2,61 @@
 defined( 'ABSPATH' ) or die();
 
 function cmplz_elementor_initDomContentLoaded() {
-	if ( cmplz_uses_thirdparty('youtube') ) {
+	if ( cmplz_uses_thirdparty('youtube') || cmplz_uses_thirdparty('facebook') || cmplz_uses_thirdparty('twitter') ) {
 		ob_start();
 		?>
 		<script>
 			document.addEventListener("cmplz_enable_category", function(consentData) {
 				var category = consentData.detail.category;
-				if (category==='marketing') {
-					var blockedContentContainers = [];
-					document.querySelectorAll('[data-cmplz-elementor-settings]').forEach(obj => {
-						if (obj.classList.contains('cmplz-activated')) return;
-						obj.classList.add('cmplz-activated');
-						obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
-						blockedContentContainers.push(obj);
-					});
-
-					for (var key in blockedContentContainers) {
-						if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined) {
-							let blockedContentContainer = blockedContentContainers[key];
-							if (elementorFrontend.elementsHandler) {
-								elementorFrontend.elementsHandler.runReadyTrigger(blockedContentContainer)
-							}
-							var cssIndex = blockedContentContainer.getAttribute('data-placeholder_class_index');
-							blockedContentContainer.classList.remove('cmplz-blocked-content-container');
-							blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
-						}
+				var services = consentData.detail.services;
+				var blockedContentContainers = [];
+				let selectorVideo = '.elementor-widget-video[data-category="'+category+'"]';
+				let selectorGeneric = '[data-cmplz-elementor-href][data-category="'+category+'"]';
+				for (var key in services) {
+					if (services.hasOwnProperty(key)) {
+						let service = key;
+						selectorVideo +=',.elementor-widget-video[data-service="'+service+'"]';
+						selectorGeneric +=',[data-cmplz-elementor-href][data-service="'+service+'"]';
 					}
 				}
+
+				document.querySelectorAll(selectorVideo).forEach(obj => {
+					let elementService = obj.getAttribute('data-service');
+					if ( cmplz_is_service_denied(elementService) ) {
+						return;
+					}
+					if (obj.classList.contains('cmplz-elementor-activated')) return;
+					obj.classList.add('cmplz-elementor-activated');
+					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
+					blockedContentContainers.push(obj);
+				});
+
+				document.querySelectorAll(selectorGeneric).forEach(obj => {
+					let elementService = obj.getAttribute('data-service');
+					if ( cmplz_is_service_denied(elementService) ) {
+						return;
+					}
+					if (obj.classList.contains('cmplz-elementor-activated')) return;
+					obj.classList.add('cmplz-elementor-activated');
+					obj.setAttribute('data-href', obj.getAttribute('data-cmplz-elementor-href'));
+					blockedContentContainers.push(obj.closest('.elementor-widget'));
+				});
+
+				/**
+				 * Trigger the widgets in Elementor
+				 */
+				for (var key in blockedContentContainers) {
+					if (blockedContentContainers.hasOwnProperty(key) && blockedContentContainers[key] !== undefined) {
+						let blockedContentContainer = blockedContentContainers[key];
+						if (elementorFrontend.elementsHandler) {
+							elementorFrontend.elementsHandler.runReadyTrigger(blockedContentContainer)
+						}
+						var cssIndex = blockedContentContainer.getAttribute('data-placeholder_class_index');
+						blockedContentContainer.classList.remove('cmplz-blocked-content-container');
+						blockedContentContainer.classList.remove('cmplz-placeholder-' + cssIndex);
+					}
+				}
+
 			});
 		</script>
 		<?php
@@ -42,7 +70,9 @@ add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded',PHP_INT
 /**
  * Filter cookie blocker output
  */
+
 function cmplz_elementor_cookieblocker( $output ){
+
 	if ( cmplz_uses_thirdparty('youtube') ) {
 		$iframe_pattern = '/elementor-widget-video.*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
@@ -53,8 +83,28 @@ function cmplz_elementor_cookieblocker( $output ){
 					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
 				}
 
-				$new_match = str_replace('data-settings', 'data-category="marketing" data-service="youtube" '.$placeholder.'data-cmplz-elementor-settings', $total_match);
+				$new_match = str_replace('data-settings', $placeholder.'data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('elementor-widget-video', 'elementor-widget-video cmplz-placeholder-element', $new_match);
+				$output = str_replace($total_match, $new_match, $output);
+			}
+		}
+	}
+
+	if ( cmplz_uses_thirdparty('facebook') ) {
+		$iframe_pattern = '/elementor-widget-facebook-.*?(data-href=".*?")/is';
+		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
+			foreach ( $matches[0] as $key => $total_match ) {
+				$new_match = str_replace('data-href="', 'data-cmplz-elementor-href="', $total_match);
+				$output = str_replace($total_match, $new_match, $output);
+			}
+		}
+	}
+
+	if ( cmplz_uses_thirdparty('twitter') ) {
+		$iframe_pattern = '/elementor-widget-twitter-.*?(data-href=".*?")/is';
+		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
+			foreach ( $matches[0] as $key => $total_match ) {
+				$new_match = str_replace('data-href="', 'data-cmplz-elementor-href="', $total_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
@@ -63,3 +113,29 @@ function cmplz_elementor_cookieblocker( $output ){
 	return $output;
 }
 add_filter('cmplz_cookie_blocker_output', 'cmplz_elementor_cookieblocker');
+
+add_action( 'cmplz_banner_css', 'cmplz_elementor_recaptcha_css' );
+function cmplz_elementor_recaptcha_css() {
+	?>
+	.cmplz-blocked-content-container.elementor-g-recaptcha  {
+		max-width: initial !important;
+		height: 80px !important;
+		margin-bottom: 20px;
+	}
+
+	@media only screen and (max-width: 400px) {
+		.cmplz-blocked-content-container.elementor-g-recaptcha{
+			height: 100px !important
+		}
+	}
+
+	.cmplz-blocked-content-container.elementor-g-recaptcha .cmplz-blocked-content-notice {
+		max-width: initial;
+		padding: 7px;
+		position:relative !important;
+		transform:initial;
+		top:initial;
+		left:initial;
+	}
+	<?php
+}

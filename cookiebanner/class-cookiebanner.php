@@ -1082,12 +1082,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( isset($this->category_prefs['show']) && !$this->category_prefs['show'] || !cmplz_uses_preferences_cookies() ) $css_files[] = "settings/categories/hide-preferences$minified.css";
 			if ( isset($this->category_stats['show']) && !$this->category_stats['show'] || !cmplz_uses_statistic_cookies() ) $css_files[] = "settings/categories/hide-statistics$minified.css";
 			if ( isset($this->category_all['show']) && !$this->category_all['show'] || !cmplz_uses_marketing_cookies() )  $css_files[] = "settings/categories/hide-marketing$minified.css";
-
 			if ( isset($this->preferences_text['show']) && !$this->preferences_text['show'] )  $css_files[] = "settings/categories/hide-preferences_text$minified.css";
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->statistics_text_anonymous['show']) && !$this->statistics_text_anonymous['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->marketing_text['show']) && !$this->marketing_text['show'] )  $css_files[] = "settings/categories/hide-marketing_text$minified.css";
-
 			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
 			if ( isset($this->dismiss['show']) &&!$this->dismiss['show'] ) $css_files[] = "settings/hide-deny$minified.css";
 			if ( isset($this->header['show']) &&!$this->header['show'] ) $css_files[] = "settings/hide-title$minified.css";

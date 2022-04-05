@@ -26,3 +26,10 @@ function cmplz_tiktok_css() {
 		.tiktok-embed.cmplz-placeholder-element > div { max-width: 100%;}
 	<?php
 }
+
+/**
+ * This empty function ensures Complianz recognizes that this integration has a placeholder
+ * @return void
+ *
+ */
+function cmplz_tiktok_placeholder(){}

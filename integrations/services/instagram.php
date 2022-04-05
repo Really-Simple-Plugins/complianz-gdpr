@@ -36,3 +36,10 @@ function cmplz_instagram_css() {
 		}
 	<?php
 }
+
+/**
+ * This empty function ensures Complianz recognizes that this integration has a placeholder
+ * @return void
+ *
+ */
+function cmplz_instagram_placeholder(){}

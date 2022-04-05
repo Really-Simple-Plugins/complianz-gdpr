@@ -17,3 +17,10 @@ function cmplz_calendly_script( $tags ) {
 	return $tags;
 }
 
+/**
+ * This empty function ensures Complianz recognizes that this integration has a placeholder
+ * @return void
+ *
+ */
+function cmplz_calendly_placeholder(){}
+

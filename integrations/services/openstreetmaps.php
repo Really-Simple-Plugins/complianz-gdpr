@@ -18,6 +18,4 @@ function cmplz_openstreetmaps_iframetags( $tags ) {
  * function to let complianz detect this integration as having placeholders.
  */
 
-function cmplz_openstreetmaps_placeholder() {
-
-}
+function cmplz_openstreetmaps_placeholder() {}

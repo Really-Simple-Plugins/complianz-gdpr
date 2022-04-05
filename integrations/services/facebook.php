@@ -9,6 +9,7 @@ function cmplz_facebook_script( $tags ) {
 					'connect.facebook.net',
 					'facebook.com/plugins',
 				),
+				'placeholder' => 'facebook',
 				'enable_placeholder' => '1',
 				'placeholder_class' => 'fb-page,fb-post',
 		);
@@ -27,3 +28,10 @@ function cmplz_facebook_css() {
 		}
 	<?php
 }
+
+/**
+ * This empty function ensures Complianz recognizes that this integration has a placeholder
+ * @return void
+ *
+ */
+function cmplz_facebook_placeholder(){}
