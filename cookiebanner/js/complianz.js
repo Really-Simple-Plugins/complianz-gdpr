@@ -408,6 +408,7 @@ function cmplz_set_blocked_content_container() {
 }
 
 function cmplz_insert_placeholder_text(container, service){
+	console.log(container);
 	if ( !container.querySelector( ".cmplz-blocked-content-notice" ) ) {
 		let placeholder_text = complianz.placeholdertext;
 
@@ -432,7 +433,12 @@ function cmplz_insert_placeholder_text(container, service){
 						link.innerText = pageLinks['cookie-statement']['title'];
 					}
 				}
-				container.appendChild(body);
+				if (container.tagName==='video') {
+					container.appendChild(body);
+				} else{
+					container.parentElement.appendChild(body);
+				}
+
 			} else {
 				let btn = cmplz_create_element('button', '');
 				btn.innerText = placeholder_text;
@@ -440,7 +446,11 @@ function cmplz_insert_placeholder_text(container, service){
 				btn.classList.add('cmplz-accept-marketing');
 				btn.setAttribute('data-service', service );
 				btn.setAttribute('aria-label', service );
-				container.appendChild( btn );
+				if (container.tagName==='video') {
+					container.appendChild(btn);
+				} else{
+					container.parentElement.appendChild(btn);
+				}
 			}
 		}
 	}
@@ -791,6 +801,24 @@ function cmplz_run_tm_event(category) {
 	}
 }
 
+/**
+ * Function to handle backward compatibility
+ *
+ */
+
+function cmplz_legacy(){
+	let has_recaptcha = false;
+	document.querySelectorAll('[data-service=recaptcha]').forEach(obj => {
+		obj.setAttribute('data-service', 'google-recaptcha');
+		has_recaptcha=true;
+	});
+
+	if ( has_recaptcha ) {
+		console.log('recaptcha as service name is deprecated. Please rename the service in your custom html to google-recaptcha');
+		document.body.classList.add( 'cmplz-google-recaptcha' );
+	}
+}
+
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
@@ -798,6 +826,7 @@ window.conditionally_show_banner = function() {
 	//check if we need to redirect to another legal document, for a specific region
 	cmplz_maybe_auto_redirect();
 	cmplz_set_blocked_content_container();
+	cmplz_legacy();
 
 	/**
 	 * Integration with WordPress, tell what kind of consent type we're using, then fire an event
@@ -907,7 +936,6 @@ function cmplz_get_services_on_page(){
  * Run the actual cookie warning
  *
  * */
-
 
 window.show_cookie_banner = function () {
 	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
@@ -2069,11 +2097,32 @@ if ('undefined' != typeof window.jQuery) {
 	// jQuery present
 	jQuery(document).ready(function ($) {
 		/**
-		 * Activate fitvids on the parent element if active
-		 *  a.o. Beaverbuilder
+		 * WordPress legacy shortcode
 		 */
-		$(document).on("cmplz_category_enabled", cmplz_enable_fitvids);
-		function cmplz_enable_fitvids(data) {
+		document.addEventListener("cmplz_category_enabled", function(consentData) {
+			var category = consentData.detail.category;
+			var service = consentData.detail.service;
+			document.querySelectorAll('.cmplz-wp-video-shortcode[data-category=' + category + '], .cmplz-wp-video-shortcode[data-service=' + service + ']').forEach(obj => {
+				//if a category is activated, but this specific service is denied, skip.
+				let elementService = obj.getAttribute('data-service');
+				if (cmplz_is_service_denied(elementService)) {
+					return;
+				}
+
+				//if native class is included, it isn't blocked, so will have run already
+				if (obj.getAttribute('data-category') === 'functional') {
+					return;
+				}
+
+				obj.setAttribute('controls', 'controls');
+				obj.classList.add('wp-video-shortcode');
+				window.wp.mediaelement.initialize();
+				obj.classList.remove('cmplz-wp-video-shortcode');
+			});
+			/**
+			 * Activate fitvids on the parent element if active
+			 *  a.o. Beaverbuilder
+			 */
 			document.querySelectorAll('.cmplz-video').forEach(obj => {
 				//turn obj into jquery object
 				let $obj = $(obj);
@@ -2081,7 +2130,7 @@ if ('undefined' != typeof window.jQuery) {
 					$obj.parent().fitVids();
 				}
 			});
-		}
+		});
 	});
 }
 

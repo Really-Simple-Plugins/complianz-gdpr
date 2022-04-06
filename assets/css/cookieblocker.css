@@ -1,6 +1,9 @@
 /**
 * Cookie blocker css
  */
+.cmplz-wp-video-shortcode {
+  width: 100%;
+}
 .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;
 }
@@ -11,7 +14,9 @@
   display: none;
 }
 .cmplz-optin .cmplz-blocked-content-container .cmplz-blocked-content-notice,
-.cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+.cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice,
+.cmplz-optin .wp-video .cmplz-blocked-content-notice,
+.cmplz-optout .wp-video .cmplz-blocked-content-notice {
   display: block;
 }
 .cmplz-blocked-content-container {
