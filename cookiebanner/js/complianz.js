@@ -683,6 +683,7 @@ function cmplz_enable_category(category, service) {
 	//fire an event so custom scripts can hook into this.
 	let details = {};
 	details.category = category;
+	details.service = service;
 	details.categories = cmplz_accepted_categories();
 	details.services = cmplz_get_all_service_consents();
 	details.region = complianz.region;
@@ -2099,9 +2100,10 @@ if ('undefined' != typeof window.jQuery) {
 		/**
 		 * WordPress legacy shortcode
 		 */
-		document.addEventListener("cmplz_category_enabled", function(consentData) {
+		document.addEventListener("cmplz_enable_category", function(consentData) {
 			var category = consentData.detail.category;
 			var service = consentData.detail.service;
+			let should_initialize_video = false;
 			document.querySelectorAll('.cmplz-wp-video-shortcode[data-category=' + category + '], .cmplz-wp-video-shortcode[data-service=' + service + ']').forEach(obj => {
 				//if a category is activated, but this specific service is denied, skip.
 				let elementService = obj.getAttribute('data-service');
@@ -2110,15 +2112,19 @@ if ('undefined' != typeof window.jQuery) {
 				}
 
 				//if native class is included, it isn't blocked, so will have run already
-				if (obj.getAttribute('data-category') === 'functional') {
+				if ( obj.getAttribute('data-category') === 'functional') {
 					return;
 				}
-
+				should_initialize_video = true;
 				obj.setAttribute('controls', 'controls');
 				obj.classList.add('wp-video-shortcode');
-				window.wp.mediaelement.initialize();
 				obj.classList.remove('cmplz-wp-video-shortcode');
 			});
+
+			if ( should_initialize_video ) {
+				window.wp.mediaelement.initialize();
+			}
+
 			/**
 			 * Activate fitvids on the parent element if active
 			 *  a.o. Beaverbuilder

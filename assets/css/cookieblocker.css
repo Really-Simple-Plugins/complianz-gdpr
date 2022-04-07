@@ -1,8 +1,15 @@
 /**
 * Cookie blocker css
  */
-.cmplz-wp-video-shortcode {
+.wp-video {
+  position: relative;
+}
+.wp-video .cmplz-wp-video-shortcode {
   width: 100%;
+}
+.wp-video .cmplz-blocked-content-notice {
+  position: absolute;
+  top: 0;
 }
 .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;

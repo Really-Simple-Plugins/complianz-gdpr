@@ -8,7 +8,7 @@ function cmplz_vimeo_iframetags( $tags ) {
 		'placeholder' => 'vimeo',
 		'category' => 'marketing',
 		'urls' => array(
-			'player.vimeo.com',
+			'vimeo.com',
 			'i.vimeocdn.com',
 		),
 	);

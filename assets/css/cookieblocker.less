@@ -3,9 +3,19 @@
 /**
 * Cookie blocker css
  */
-.cmplz-wp-video-shortcode {
-  width:100%;
+
+//wordpress video shortcode css
+.wp-video {
+  position:relative;
+  .cmplz-wp-video-shortcode {
+	width:100%;
+  }
+  .cmplz-blocked-content-notice {
+	position:absolute;
+	top:0;
+  }
 }
+
 
 //this class should not be contained in blocked content container class, to ensure it applies also before the complianz script has added the blocked content class
 .cmplz-video {

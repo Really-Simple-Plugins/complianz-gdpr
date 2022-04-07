@@ -535,16 +535,15 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			$iframe_pattern = '/<video class="wp-video-shortcode".*?<(source) type="video.*?src="(.*?)" \/>.*?<\/video>/is';
 			if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[0] as $key => $total_match ) {
+
 					$iframe_src = $matches[2][ $key ];
 					if ( ( $tag_key = cmplz_strpos_arr($iframe_src, array_keys($blocked_scripts)) ) !== false ) {
 						$tag = $blocked_scripts[$tag_key];
 						if ($tag['category']==='functional') {
 							continue;
 						}
-
 						$service_name = sanitize_title($tag['name']);
 						$new         = $total_match;
-
 						//check if we can skip blocking this array if a specific string is included
 						if ( cmplz_strpos_arr($total_match, $whitelisted_script_tags) ) continue;
 						$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video' );
