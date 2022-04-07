@@ -4,22 +4,6 @@
 * Cookie blocker css
  */
 
-//wordpress video shortcode css
-.wp-video {
-  position:relative;
-  .cmplz-placeholder-element{
-	width: 100%;
-	height: inherit;
-  }
-
-  .cmplz-blocked-content-notice {
-	position:absolute;
-	bottom:0;
-	font-size:13px;
-  }
-}
-
-
 //this class should not be contained in blocked content container class, to ensure it applies also before the complianz script has added the blocked content class
 .cmplz-video {
   //prevent theme's from hiding the placeholder image with a background color
@@ -44,7 +28,7 @@
   }
 }
 
-.cmplz-blocked-content-container {
+.cmplz-blocked-content-container, .wp-video {
   animation-name: cmplz-fadein;
   animation-duration: 600ms;
   background: #FFF;
@@ -70,10 +54,6 @@
   iframe {
 	max-height: 100%;
 	border: 0 !important;
-  }
-
-  div div {
-	display: none
   }
 
   .cmplz-custom-accept-btn {
@@ -129,6 +109,21 @@
 	.cmplz-blocked-content-notice-body {
 	  display:block;
 	}
+  }
+}
+
+//cannot apply to wp-video as well.
+.cmplz-blocked-content-container {
+  div div {
+	display: none
+  }
+}
+
+//should only apply to wp-video
+.wp-video {
+  .cmplz-placeholder-element{
+	width: 100%;
+	height: inherit;
   }
 }
 

@@ -2119,6 +2119,7 @@ if ('undefined' != typeof window.jQuery) {
 				obj.setAttribute('controls', 'controls');
 				obj.classList.add('wp-video-shortcode');
 				obj.classList.remove('cmplz-wp-video-shortcode');
+				// obj.classList.remove('cmplz-blocked-content-container');
 			});
 
 			if ( should_initialize_video ) {
