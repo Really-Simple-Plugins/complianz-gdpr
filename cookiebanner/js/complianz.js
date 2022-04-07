@@ -791,6 +791,24 @@ function cmplz_run_tm_event(category) {
 	}
 }
 
+/**
+ * Function to handle backward compatibility
+ *
+ */
+
+function cmplz_legacy(){
+	let has_recaptcha = false;
+	document.querySelectorAll('[data-service=recaptcha]').forEach(obj => {
+		obj.setAttribute('data-service', 'google-recaptcha');
+		has_recaptcha=true;
+	});
+
+	if ( has_recaptcha ) {
+		console.log('recaptcha as service name is deprecated. Please rename the service in your custom html to google-recaptcha');
+		document.body.classList.add( 'cmplz-google-recaptcha' );
+	}
+}
+
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
@@ -798,6 +816,7 @@ window.conditionally_show_banner = function() {
 	//check if we need to redirect to another legal document, for a specific region
 	cmplz_maybe_auto_redirect();
 	cmplz_set_blocked_content_container();
+	cmplz_legacy();
 
 	/**
 	 * Integration with WordPress, tell what kind of consent type we're using, then fire an event
@@ -907,7 +926,6 @@ function cmplz_get_services_on_page(){
  * Run the actual cookie warning
  *
  * */
-
 
 window.show_cookie_banner = function () {
 	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
