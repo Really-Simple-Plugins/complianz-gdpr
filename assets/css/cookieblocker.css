@@ -4,12 +4,14 @@
 .wp-video {
   position: relative;
 }
-.wp-video .cmplz-wp-video-shortcode {
+.wp-video .cmplz-placeholder-element {
   width: 100%;
+  height: inherit;
 }
 .wp-video .cmplz-blocked-content-notice {
   position: absolute;
-  top: 0;
+  bottom: 0;
+  font-size: 13px;
 }
 .cmplz-video.cmplz-iframe-styles {
   background-color: transparent;
