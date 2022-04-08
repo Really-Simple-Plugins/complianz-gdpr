@@ -2095,28 +2095,41 @@ function cmplz_equals (array_1, array_2) {
 /**
  * Hooked into jquery
  */
-if ('undefined' != typeof window.jQuery) {
-	let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
-	let cmplz_marketing_or_service_consented = false;
-	if ( cmplz_has_wp_video ) {
-		document.addEventListener("cmplz_enable_category", function (consentData) {
-			console.log(consentData.detail.service);
-			if (consentData.detail.service!=='do_not_match' || consentData.detail.category==='marketing') {
-				cmplz_marketing_or_service_consented = true;
-			}
-		});
-	}
+let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
+let cmplz_marketing_or_service_consented = false;
+if ( cmplz_has_wp_video ) {
+	console.log("wp video detected");
+	document.addEventListener("cmplz_enable_category", function (consentData) {
+		console.log("enable cat event fired "+consentData.detail.service);
+		if (consentData.detail.service!=='do_not_match' || consentData.detail.category==='marketing') {
+			console.log("set marketing or service detected true");
+			cmplz_marketing_or_service_consented = true;
+		}
+	});
+} else {
+	console.log("wp video not detected");
+}
 
+if ('undefined' != typeof window.jQuery) {
+	console.log("jquery detected");
 	jQuery(document).ready(function ($) {
+		console.log("jquery loaded");
 		if ( cmplz_has_wp_video ) {
+			console.log("has wp video");
 			var interval = setInterval(function(){
 				if (cmplz_marketing_or_service_consented) {
+					console.log("consented to marketing");
 					cmplz_activate_wp_video();
+				} else {
+					console.log("not consented to marketing");
 				}
 			}, 500);
+		} else {
+			console.log("does not have wp video");
 		}
 
 		function cmplz_activate_wp_video() {
+			console.log("activate wp video function fired");
 			/**
 			 * WordPress legacy shortcode
 			 */
