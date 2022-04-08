@@ -2096,34 +2096,48 @@ function cmplz_equals (array_1, array_2) {
  * Hooked into jquery
  */
 if ('undefined' != typeof window.jQuery) {
-	// jQuery present, set event listener
-	console.log("add enable category event listener");
+	let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
+	let cmplz_marketing_or_service_consented = false;
+	if ( cmplz_has_wp_video ) {
+		document.addEventListener("cmplz_enable_category", function (consentData) {
+			console.log(consentData.detail.service);
+			if (consentData.detail.service!=='do_not_match' || consentData.detail.category==='marketing') {
+				cmplz_marketing_or_service_consented = true;
+			}
+		});
+	}
 
-	document.addEventListener("cmplz_enable_category", function(consentData) {
-		jQuery(document).ready(function ($) {
+	jQuery(document).ready(function ($) {
+		if ( cmplz_has_wp_video ) {
+			var interval = setInterval(function(){
+				if (cmplz_marketing_or_service_consented) {
+					cmplz_activate_wp_video();
+				}
+			}, 500);
+		}
+
+		function cmplz_activate_wp_video() {
 			/**
 			 * WordPress legacy shortcode
 			 */
+			let category='cmplz-no-activate';
+			let services = cmplz_get_all_service_consents();
+			if ( cmplz_has_consent('marketing') ) {
+				category='marketing';
+			}
+			let selectorVideo = '.cmplz-wp-video-shortcode[data-category=' + category + ']';
+			for (var key in services) {
+				if (services.hasOwnProperty(key)) {
+					let service = key;
+					console.log(service);
+					selectorVideo +=', .cmplz-wp-video-shortcode[data-service=' + service + ']';
+				}
+			}
+			console.log(selectorVideo);
 
-			console.log("fire event in jquery");
-
-			var category = consentData.detail.category;
-			var service = consentData.detail.service;
 			let should_initialize_video = false;
 			console.log("activate video for category " + category);
-			console.log("activate video for service " + service);
-			document.querySelectorAll('.cmplz-wp-video-shortcode[data-category=' + category + '], .cmplz-wp-video-shortcode[data-service=' + service + ']').forEach(obj => {
-				//if a category is activated, but this specific service is denied, skip.
-				let elementService = obj.getAttribute('data-service');
-				if (cmplz_is_service_denied(elementService)) {
-					return;
-				}
-
-				//if native class is included, it isn't blocked, so will have run already
-				if (obj.getAttribute('data-category') === 'functional') {
-					return;
-				}
-
+			document.querySelectorAll(selectorVideo).forEach(obj => {
 				console.log("initialize the video object:");
 				console.log(obj);
 				should_initialize_video = true;
@@ -2135,19 +2149,18 @@ if ('undefined' != typeof window.jQuery) {
 			if (should_initialize_video) {
 				window.wp.mediaelement.initialize();
 			}
+		}
 
-			/**
-			 * Activate fitvids on the parent element if active
-			 *  a.o. Beaverbuilder
-			 */
-			document.querySelectorAll('.cmplz-video').forEach(obj => {
-				//turn obj into jquery object
-				let $obj = $(obj);
-				if (typeof $obj.parent().fitVids == 'function') {
-					$obj.parent().fitVids();
-				}
-			});
-
+		/**
+		 * Activate fitvids on the parent element if active
+		 *  a.o. Beaverbuilder
+		 */
+		document.querySelectorAll('.cmplz-video').forEach(obj => {
+			//turn obj into jquery object
+			let $obj = $(obj);
+			if (typeof $obj.parent().fitVids == 'function') {
+				$obj.parent().fitVids();
+			}
 		});
 
 	});
