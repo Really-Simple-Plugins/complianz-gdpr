@@ -122,15 +122,15 @@ if ( ! function_exists( 'cmplz_cookiebanner_category_conditional_helptext' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_stats_privacy_friendly' ) ) {
+if ( ! function_exists( 'cmplz_statistics_privacy_friendly' ) ) {
 
 	/**
 	 * Checks if statistics are configured privacy friendly
 	 *
 	 * @return bool
 	 */
-
-	function cmplz_stats_privacy_friendly() {
+	function cmplz_statistics_privacy_friendly()
+	{
 		return COMPLIANZ::$cookie_admin->statistics_privacy_friendly();
 	}
 }
@@ -2444,18 +2444,7 @@ if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_statistics_privacy_friendly' ) ) {
 
-	/**
-	 * Check if the site uses preferences cookies
-	 *
-	 * @return bool
-	 */
-	function cmplz_statistics_privacy_friendly()
-	{
-		return COMPLIANZ::$cookie_admin->statistics_privacy_friendly();
-	}
-}
 
 if ( ! function_exists( 'cmplz_impressum_required' ) ) {
 
