@@ -1283,7 +1283,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$region = COMPLIANZ::$company->get_default_region();
-			$disable_cookiebanner = boolval($this->disable_cookiebanner) || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
+			$disable_cookiebanner = boolval($this->disable_cookiebanner) || isset($_GET["cmplz_safe_mode"]);
 			$output = array(
 				'prefix'               => COMPLIANZ::$cookie_admin->get_cookie_prefix(),
 				'user_banner_id'       => apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ),

@@ -1766,6 +1766,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @return void
 		 */
 		public function enqueue_assets( ) {
+			if ( cmplz_is_pagebuilder_preview() ) {
+				return;
+			}
+
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			$banner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
 			$cookiesettings = $banner->get_front_end_settings();
@@ -1796,6 +1800,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Load the cookie banner html for each consenttype
 		 */
 		public function cookiebanner_html(){
+			if ( cmplz_is_pagebuilder_preview() ) {
+				return;
+			}
+
 			$editor = $new = false;
 			if (is_admin() && isset($_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' && cmplz_user_can_manage() ) {
 				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] == 'new' );

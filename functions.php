@@ -1378,6 +1378,9 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
 			 || isset( $_GET['tatsu-footer'] ) //tatsu
+			 || isset( $_GET['fb-edit'] ) //fusion builder/avada
+			 || isset( $_GET['builder'] ) //fusion builder/avada
+			 || (function_exists('fusion_is_builder_frame') && fusion_is_builder_frame() )
 		) {
 			$preview = true;
 		}
