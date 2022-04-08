@@ -687,6 +687,7 @@ function cmplz_enable_category(category, service) {
 	details.categories = cmplz_accepted_categories();
 	details.services = cmplz_get_all_service_consents();
 	details.region = complianz.region;
+	console.log("fire enable category event");
 	let event = new CustomEvent('cmplz_enable_category', { detail: details });
 	document.dispatchEvent(event);
 	//if there are no blockable scripts at all, we still want to provide a hook
@@ -2095,15 +2096,22 @@ function cmplz_equals (array_1, array_2) {
  * Hooked into jquery
  */
 if ('undefined' != typeof window.jQuery) {
-	// jQuery present
-	jQuery(document).ready(function ($) {
-		/**
-		 * WordPress legacy shortcode
-		 */
-		document.addEventListener("cmplz_enable_category", function(consentData) {
+	// jQuery present, set event listener
+	console.log("add enable category event listener");
+
+	document.addEventListener("cmplz_enable_category", function(consentData) {
+		jQuery(document).ready(function ($) {
+			/**
+			 * WordPress legacy shortcode
+			 */
+
+			console.log("fire event in jquery");
+
 			var category = consentData.detail.category;
 			var service = consentData.detail.service;
 			let should_initialize_video = false;
+			console.log("activate video for category " + category);
+			console.log("activate video for service " + service);
 			document.querySelectorAll('.cmplz-wp-video-shortcode[data-category=' + category + '], .cmplz-wp-video-shortcode[data-service=' + service + ']').forEach(obj => {
 				//if a category is activated, but this specific service is denied, skip.
 				let elementService = obj.getAttribute('data-service');
@@ -2112,17 +2120,19 @@ if ('undefined' != typeof window.jQuery) {
 				}
 
 				//if native class is included, it isn't blocked, so will have run already
-				if ( obj.getAttribute('data-category') === 'functional') {
+				if (obj.getAttribute('data-category') === 'functional') {
 					return;
 				}
+
+				console.log("initialize the video object:");
+				console.log(obj);
 				should_initialize_video = true;
 				obj.setAttribute('controls', 'controls');
 				obj.classList.add('wp-video-shortcode');
 				obj.classList.remove('cmplz-wp-video-shortcode');
-				// obj.classList.remove('cmplz-blocked-content-container');
 			});
 
-			if ( should_initialize_video ) {
+			if (should_initialize_video) {
 				window.wp.mediaelement.initialize();
 			}
 
@@ -2137,7 +2147,9 @@ if ('undefined' != typeof window.jQuery) {
 					$obj.parent().fitVids();
 				}
 			});
+
 		});
+
 	});
 }
 
