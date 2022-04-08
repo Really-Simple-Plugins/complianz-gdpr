@@ -1985,10 +1985,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
 					if ( cmplz_consent_mode() ) {
 						?>
-						<script type="text/javascript" data-category="functional"><?php echo $script; ?></script><?php
+						<script type="text/javascript" data-service="google-ads" data-category="functional"><?php echo $script; ?></script><?php
 					} else {
 						?>
-						<script type="text/plain" data-category="marketing"><?php echo $script; ?></script><?php
+						<script type="text/plain" data-service="google-ads" data-category="marketing"><?php echo $script; ?></script><?php
 					}
 				}
 			}
