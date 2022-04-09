@@ -384,12 +384,11 @@ function cmplz_set_blocked_content_container() {
 			blocked_content_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
 			blocked_content_container.classList.add('cmplz-blocked-content-container');
 			blocked_content_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
-			//insert placeholder text
 			cmplz_insert_placeholder_text(blocked_content_container, service);
 
 			//handle image size for video
 			let src = obj.getAttribute('data-placeholder-image');
-			if (typeof src !== 'undefined' && src.length ) {
+			if (src && typeof src !== 'undefined' && src.length ) {
 				src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 				cmplz_append_css('.cmplz-placeholder-' + cmplz_placeholder_class_index + ' {background-image: url(' + src + ') !important;}');
 				cmplz_set_blocked_content_container_aspect_ratio(obj, src, cmplz_placeholder_class_index);
@@ -408,6 +407,7 @@ function cmplz_set_blocked_content_container() {
 }
 
 function cmplz_insert_placeholder_text(container, service){
+	console.log("insert placeholder text");
 	console.log(container);
 	if ( !container.querySelector( ".cmplz-blocked-content-notice" ) ) {
 		let placeholder_text = complianz.placeholdertext;
@@ -687,7 +687,7 @@ function cmplz_enable_category(category, service) {
 	details.categories = cmplz_accepted_categories();
 	details.services = cmplz_get_all_service_consents();
 	details.region = complianz.region;
-	console.log("fire enable category event");
+	console.log("fire enable category event  "+category+" "+service);
 	let event = new CustomEvent('cmplz_enable_category', { detail: details });
 	document.dispatchEvent(event);
 	//if there are no blockable scripts at all, we still want to provide a hook
@@ -704,8 +704,12 @@ function cmplz_enable_category(category, service) {
  * @param obj
  */
 function cmplz_remove_placeholder(obj){
+	console.log("remove placeholder");
+	console.log(obj);
 	//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 	let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
+	console.log("blocked content container");
+	console.log(blocked_content_container);
 	if (blocked_content_container) {
 		let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
 		blocked_content_container.classList.remove('cmplz-blocked-content-container');
@@ -2096,70 +2100,96 @@ function cmplz_equals (array_1, array_2) {
  * Hooked into jquery
  */
 let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
-let cmplz_marketing_or_service_consented = false;
-if ( cmplz_has_wp_video ) {
-	console.log("wp video detected");
-	document.addEventListener("cmplz_enable_category", function (consentData) {
-		console.log("enable cat event fired "+consentData.detail.service);
-		if (consentData.detail.service!=='do_not_match' || consentData.detail.category==='marketing') {
-			console.log("set marketing or service detected true");
-			cmplz_marketing_or_service_consented = true;
-		}
-	});
-} else {
-	console.log("wp video not detected");
-}
-
+let cmplz_times_checked = 0;
 if ('undefined' != typeof window.jQuery) {
 	console.log("jquery detected");
 	jQuery(document).ready(function ($) {
 		console.log("jquery loaded");
 		if ( cmplz_has_wp_video ) {
 			console.log("has wp video");
+
+			document.addEventListener("cmplz_enable_category", function (consentData) {
+				console.log("enable cat event fired for wp video");
+				console.log(consentData);
+				cmplz_activate_wp_video();
+			});
+
 			var interval = setInterval(function(){
-				if (cmplz_marketing_or_service_consented) {
-					console.log("consented to marketing");
+				console.log("run interval");
+				cmplz_times_checked+=1;
+				console.log("has shortcode");
+				console.log(document.querySelector('.cmplz-wp-video-shortcode'));
+				if ( document.querySelector('.cmplz-wp-video-shortcode') && cmplz_times_checked<100) {
+					console.log("not done yet");
 					cmplz_activate_wp_video();
 				} else {
-					console.log("not consented to marketing");
+					console.log("clear interval, we're done here");
+					clearInterval(interval);
 				}
 			}, 500);
 		} else {
 			console.log("does not have wp video");
 		}
 
-		function cmplz_activate_wp_video() {
-			console.log("activate wp video function fired");
-			/**
-			 * WordPress legacy shortcode
-			 */
-			let category='cmplz-no-activate';
-			let services = cmplz_get_all_service_consents();
-			if ( cmplz_has_consent('marketing') ) {
-				category='marketing';
+		/**
+		 * WordPress legacy shortcode
+		 */
+		function cmplz_activate_wp_video(again) {
+			if ( !document.querySelector('.cmplz-wp-video-shortcode') ) {
+				console.log("everything already activated");
+				return;
+			} else {
+				console.log("not all activated yet");
 			}
-			let selectorVideo = '.cmplz-wp-video-shortcode[data-category=' + category + ']';
-			for (var key in services) {
-				if (services.hasOwnProperty(key)) {
-					let service = key;
-					console.log(service);
-					selectorVideo +=', .cmplz-wp-video-shortcode[data-service=' + service + ']';
+			let categories = cmplz_accepted_categories();
+			console.log(categories);
+
+			let services = cmplz_get_all_service_consents();
+			console.log(services);
+			console.log("activate wp video function fired");
+			let selectorVideo = '';
+			let selectorVideos = [];
+			for (var c_key in categories) {
+				if (categories.hasOwnProperty(c_key)) {
+					let category = categories[c_key];
+					if (category==='functional') {
+						break;
+					}
+					console.log(category);
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-category='+category+']');
 				}
 			}
-			console.log(selectorVideo);
-
+			for (var s_key in services) {
+				if (services.hasOwnProperty(s_key)) {
+					let service = s_key;
+					console.log(service);
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-service=' + service + ']');
+				}
+			}
+			selectorVideo = selectorVideos.join(',');
 			let should_initialize_video = false;
-			console.log("activate video for category " + category);
-			document.querySelectorAll(selectorVideo).forEach(obj => {
-				console.log("initialize the video object:");
-				console.log(obj);
-				should_initialize_video = true;
-				obj.setAttribute('controls', 'controls');
-				obj.classList.add('wp-video-shortcode');
-				obj.classList.remove('cmplz-wp-video-shortcode');
-			});
+			console.log("activate video for selector " + selectorVideo);
+			if ( selectorVideo.length>0 ) {
+				document.querySelectorAll(selectorVideo).forEach(obj => {
+					console.log("initialize the video object:");
+					should_initialize_video = true;
+					obj.setAttribute('controls', 'controls');
+					obj.classList.add('wp-video-shortcode');
+					obj.classList.add('cmplz-processed');
+					obj.classList.remove('cmplz-wp-video-shortcode');
+					console.log(obj)
+					let blocked_notice = obj.closest('.wp-video').querySelector('.cmplz-blocked-content-notice');
+					console.log("blocked notice container");
+					console.log(blocked_notice);
+					if (blocked_notice) {
+						blocked_notice.parentElement.removeChild(blocked_notice);
+					}
+					obj.classList.remove('cmplz-blocked-content-container');
+				});
+			}
 
-			if (should_initialize_video) {
+			if ( should_initialize_video ) {
+				console.log("init video with wp core function");
 				window.wp.mediaelement.initialize();
 			}
 		}

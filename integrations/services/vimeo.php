@@ -6,7 +6,7 @@ function cmplz_vimeo_iframetags( $tags ) {
 	$tags[] = array(
 		'name' => 'vimeo',
 		'placeholder' => 'vimeo',
-		'category' => 'marketing',
+		'category' => 'statistics',
 		'urls' => array(
 			'vimeo.com',
 			'i.vimeocdn.com',
