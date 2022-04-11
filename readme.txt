@@ -165,6 +165,9 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.1.5 =
+* Fix: 'NOT' condition not loading correctly, props @rickvanleeuwen
+
 = 6.1.4 =
 * Improvement: integration which fixes bug in Thrive theme which removes other plugin's inline css
 * Improvement: Use category as fallback for service consent
