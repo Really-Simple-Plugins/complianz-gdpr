@@ -80,7 +80,6 @@ Complianz offers a Full Privacy Suite for WordPress on [Complianz.io](https://co
 
 = Cookie Consent Notice =
 
-* Elementor Pro - Create a Cookie Banner with Elementor Pop Ups and use Complianz's Consent Management
 * Improve conversion with A/B Testing: which cookie banner has the best consent ratio? Run tests and measure what works best for your site.
 
 = Consent Management =
