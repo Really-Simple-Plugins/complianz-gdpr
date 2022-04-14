@@ -593,6 +593,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					          __( 'After the issue has been resolved, please re-run a scan to clear this message.', 'complianz-gdpr' )
 					                 . cmplz_read_more( 'https://complianz.io/duplicate-implementation-of-analytics/' ),
 					'include_in_progress' => true,
+					'dismissible' => true,
 				),
 
 				'console-errors' => array(

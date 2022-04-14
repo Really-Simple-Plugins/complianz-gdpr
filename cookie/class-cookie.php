@@ -382,12 +382,12 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 */
 
 			if ( !defined('POLYLANG_VERSION') ) {
-				cmplz_register_translation($this->retention, 'cookie_retention');
-				cmplz_register_translation($this->type, 'cookie_storage_type');
-				cmplz_register_translation($this->cookieFunction, 'cookie_function');
-				cmplz_register_translation($this->purpose, 'cookie_purpose');
-				cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+				cmplz_register_translation( $this->purpose, 'cookie_purpose' );
 			}
+			cmplz_register_translation($this->retention, 'cookie_retention');
+			cmplz_register_translation($this->type, 'cookie_storage_type');
+			cmplz_register_translation($this->cookieFunction, 'cookie_function');
+			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
 
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
