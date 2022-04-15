@@ -381,7 +381,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
 			 */
 
-			if ( !defined('POLYLANG_VERSION') ) {
+			if ( !defined('POLYLANG_VERSION') || !$this->sync ) {
 				cmplz_register_translation( $this->purpose, 'cookie_purpose' );
 			}
 			cmplz_register_translation($this->retention, 'cookie_retention');
@@ -450,14 +450,15 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->deleted               = $this->deleted;
 					$translation->ignored               = $this->ignored;
 
-					//translated data, only when not synced
-					if ( !$this->sync ) {
-						$translation->purpose               = $this->purpose;
-						$translation->cookieFunction        = $this->cookieFunction;
-						$translation->retention             = $this->retention;
-						$translation->type                  = $this->type;
-						$translation->collectedPersonalData = $this->collectedPersonalData;
-					}
+//                  dot not update all translations for these fields, even when not synced.
+//					//translated data, only when not synced
+//					if ( !$this->sync ) {
+//						$translation->purpose               = $this->purpose;
+//						$translation->cookieFunction        = $this->cookieFunction;
+//						$translation->retention             = $this->retention;
+//						$translation->type                  = $this->type;
+//						$translation->collectedPersonalData = $this->collectedPersonalData;
+//					}
 
 					$translation->save();
 				}
