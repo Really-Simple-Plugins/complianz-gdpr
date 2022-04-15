@@ -2587,6 +2587,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				unset( $post_types['cmplz-processing'] );
 				unset( $post_types['user_request'] );
 				unset( $post_types['cookie'] );
+				unset( $post_types['product'] );
 				$post_types = apply_filters('cmplz_cookiescan_post_types',$post_types );
 
 				//from each post type, get one, for faster results.
