@@ -1,0 +1,133 @@
+/* The categories are also used on the cookie policy, so this needs to be outside the banner class */
+.cmplz-categories {
+  .cmplz-category {
+	.cmplz-description-statistics-anonymous {
+	  display: none;
+	}
+
+	.cmplz-description-statistics {
+	  display: block;
+	}
+  }
+}
+
+
+  .cmplz-categories {
+	&.cmplz-tcf .cmplz-category .cmplz-category-header {
+	  grid-template-columns: 1fr auto;
+	}
+
+	.cmplz-category {
+	  &:not(:last-child) {
+		margin-bottom: 10px;
+	  }
+
+	  background-color: rgba(239, 239, 239, .5);
+
+	  .cmplz-category-header {
+		display: grid;
+		grid-template-columns: 1fr auto 25px;
+		grid-template-rows: minmax(0, 1fr);
+		align-items: center;
+		grid-gap: 0;
+		padding: 10px;
+
+		.cmplz-category-title {
+		  font-weight: 500;
+		  grid-column-start: 1;
+		  justify-self: start;
+		  font-size: var(--cmplz_category_header_title_font_size);
+		  color: var(--cmplz_text_color);
+		  margin: 0;
+		}
+
+		// Always active
+		.cmplz-always-active {
+		  font-size: var(--cmplz_category_header_active_font_size);
+		  font-weight: 500;
+		  color: var(--cmplz_category_header_always_active_color);
+
+		  label {
+			display: none;
+		  }
+		}
+
+		// Center checkbox
+		.cmplz-banner-checkbox {
+		  display: flex;
+		  align-items: center;
+		  margin: 0;
+
+		  label > span {
+			display: none;
+		  }
+
+		  input[data-category=cmplz_functional] {
+			display: none;
+		  }
+		}
+
+		// Complianz marker
+		.cmplz-icon.cmplz-open {
+		  grid-column-start: 3;
+		  cursor: pointer;
+		  content: '';
+		  background: var(--cmplz_category_open_icon_url) no-repeat;
+		  transform: rotate(0deg);
+		  -webkit-transition: all 0.5s ease;
+		  -moz-transition: all 0.5s ease;
+		  -o-transition: all 0.5s ease;
+		  transition: all 0.5s ease;
+		  background-size: cover;
+		  height: 25px;
+		  width: 25px;
+		  margin: 0 5px;
+		}
+
+	  }
+
+	  // Rotate marker on open
+	  &[open] {
+		.cmplz-icon.cmplz-open {
+		  transform: rotate(180deg);
+		}
+	  }
+
+	  summary {
+		display: block;
+	  }
+
+	  // Remove default marker
+	  summary::marker {
+		display: none;
+		content: '';
+	  }
+
+	  summary::-webkit-details-marker {
+		display: none;
+		content: '';
+	  }
+
+
+	  .cmplz-description {
+		font-size: var(--cmplz_category_body_font_size);
+		color: var(--cmplz_text_color);
+		margin: 0;
+		max-width: 100%;
+		padding: 10px;
+	  }
+	}
+  }
+
+  //always active label should be stacked
+  @media (max-width: 425px) {
+	.cmplz-category .cmplz-category-header {
+	  grid-template-columns: 1fr !important;
+	}
+  }
+  @media (max-width: 425px) {
+	.cmplz-message {
+	  margin-right: 5px;
+	}
+  }
+

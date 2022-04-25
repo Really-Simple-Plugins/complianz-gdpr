@@ -1370,6 +1370,8 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['et_pb_preview'] ) //divi
 		     || isset( $_GET['et_fb'] ) //divi
 		     || isset( $_GET['elementor-preview'] )
+		     || isset( $_GET['elementor_library'] )
+		     || isset( $_GET['elementor-app'] )
 		     || isset( $_GET['vc_action'] )
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
