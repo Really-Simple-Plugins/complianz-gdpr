@@ -11,7 +11,7 @@
  */
 
 /*
-    Copyright 2021  Complianz BV  (email : support@complianz.io)
+    Copyright 2022  Complianz BV  (email : support@complianz.io)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
