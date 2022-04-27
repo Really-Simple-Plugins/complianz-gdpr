@@ -12,9 +12,9 @@ function cmplz_elementor_initDomContentLoaded() {
 				var blockedContentContainers = [];
 				let selectorVideo = '.elementor-widget-video[data-category="'+category+'"]';
 				let selectorGeneric = '[data-cmplz-elementor-href][data-category="'+category+'"]';
-				for (var key in services) {
-					if (services.hasOwnProperty(key)) {
-						let service = key;
+				for (var skey in services) {
+					if (services.hasOwnProperty(skey)) {
+						let service = skey;
 						selectorVideo +=',.elementor-widget-video[data-service="'+service+'"]';
 						selectorGeneric +=',[data-cmplz-elementor-href][data-service="'+service+'"]';
 					}
@@ -37,6 +37,12 @@ function cmplz_elementor_initDomContentLoaded() {
 						return;
 					}
 					if (obj.classList.contains('cmplz-elementor-activated')) return;
+
+					if (obj.classList.contains('cmplz-fb-video')) {
+						obj.classList.remove('cmplz-fb-video');
+						obj.classList.add('fb-video');
+					}
+
 					obj.classList.add('cmplz-elementor-activated');
 					obj.setAttribute('data-href', obj.getAttribute('data-cmplz-elementor-href'));
 					blockedContentContainers.push(obj.closest('.elementor-widget'));
@@ -61,7 +67,7 @@ function cmplz_elementor_initDomContentLoaded() {
 		</script>
 		<?php
 		$script = ob_get_clean();
-		$script = str_replace(array('<script>', '</script>'), '', $script);
+		$script = str_replace(array('<script data-cfasync="false" >', '</script>'), '', $script);
 		wp_add_inline_script( 'cmplz-cookiebanner', $script);
 	}
 }
@@ -74,7 +80,7 @@ add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded',PHP_INT
 function cmplz_elementor_cookieblocker( $output ){
 
 	if ( cmplz_uses_thirdparty('youtube') ) {
-		$iframe_pattern = '/elementor-widget-video.*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
+		$iframe_pattern = '/elementor-widget elementor-widget-video.*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 			foreach ( $matches[0] as $key => $total_match ) {
 				$placeholder = '';
@@ -83,7 +89,7 @@ function cmplz_elementor_cookieblocker( $output ){
 					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
 				}
 
-				$new_match = str_replace('data-settings', $placeholder.'data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
+				$new_match = str_replace('data-settings', $placeholder.' data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('elementor-widget-video', 'elementor-widget-video cmplz-placeholder-element', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
@@ -91,20 +97,32 @@ function cmplz_elementor_cookieblocker( $output ){
 	}
 
 	if ( cmplz_uses_thirdparty('facebook') ) {
-		$iframe_pattern = '/elementor-widget-facebook-.*?(data-href=".*?")/is';
+		$iframe_pattern = '/elementor-widget-facebook-.*?data-href="(.*?)"/is';
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 			foreach ( $matches[0] as $key => $total_match ) {
-				$new_match = str_replace('data-href="', 'data-cmplz-elementor-href="', $total_match);
+				$placeholder = '';
+
+				if ( cmplz_use_placeholder('facebook') ) {
+					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( 'facebook' ).'" ';
+				}
+				$new_match = str_replace('data-href="', $placeholder.'data-category="marketing" data-service="facebook" data-cmplz-elementor-href="', $total_match);
+				$new_match = str_replace('fb-video', 'cmplz-fb-video', $new_match);
+
+				$new_match = str_replace('elementor-facebook-widget', 'elementor-facebook-widget cmplz-placeholder-element', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
 	}
 
 	if ( cmplz_uses_thirdparty('twitter') ) {
-		$iframe_pattern = '/elementor-widget-twitter-.*?(data-href=".*?")/is';
+		$iframe_pattern = '/elementor-widget-twitter-.*?data-href="(.*?)"/is';
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 			foreach ( $matches[0] as $key => $total_match ) {
-				$new_match = str_replace('data-href="', 'data-cmplz-elementor-href="', $total_match);
+				$placeholder = '';
+				if ( cmplz_use_placeholder('twitter') ) {
+					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( 'twitter' ).'" ';
+				}
+				$new_match = str_replace('data-href="', $placeholder.'data-category="marketing" data-service="twitter" data-cmplz-elementor-href="', $total_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
@@ -114,9 +132,9 @@ function cmplz_elementor_cookieblocker( $output ){
 }
 add_filter('cmplz_cookie_blocker_output', 'cmplz_elementor_cookieblocker');
 
-add_action( 'cmplz_banner_css', 'cmplz_elementor_recaptcha_css' );
-function cmplz_elementor_recaptcha_css() {
-	?>
+add_action( 'cmplz_banner_css', 'cmplz_elementor_css' );
+function cmplz_elementor_css() {
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){ ?>
 	.cmplz-blocked-content-container.elementor-g-recaptcha  {
 		max-width: initial !important;
 		height: 80px !important;
@@ -128,7 +146,6 @@ function cmplz_elementor_recaptcha_css() {
 			height: 100px !important
 		}
 	}
-
 	.cmplz-blocked-content-container.elementor-g-recaptcha .cmplz-blocked-content-notice {
 		max-width: initial;
 		padding: 7px;
@@ -137,5 +154,5 @@ function cmplz_elementor_recaptcha_css() {
 		top:initial;
 		left:initial;
 	}
-	<?php
+	<?php }
 }

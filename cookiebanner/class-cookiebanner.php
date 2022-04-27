@@ -443,7 +443,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			//e.g. When elementor integration is active, preferences may pass an array without the text entry here, causing an error with WPML
-			if ( is_array( $string ) ) {
+			if ( is_array( $string ) || is_serialized($string)) {
 				return;
 			}
 
@@ -1307,6 +1307,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'cookie_domain'        => COMPLIANZ::$cookie_admin->get_cookie_domain(),
 				'current_policy_id'    => COMPLIANZ::$cookie_admin->get_active_policy_id(),
 				'cookie_path'          => COMPLIANZ::$cookie_admin->get_cookie_path(),
+				'categories'           => ['statistics'=> _x("statistics","as in: click to accept statistics cookies","complianz-gdpr"), 'marketing'=> _x("marketing","as in: click to accept marketing cookies","complianz-gdpr")],
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
 				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,

@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2022-04-05 13:47+0200\n"
-"PO-Revision-Date: 2022-04-05 13:47+0200\n"
+"POT-Creation-Date: 2022-04-25 10:37+0200\n"
+"PO-Revision-Date: 2022-04-25 10:37+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,8 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:165 DNSMPD/csv.php:61 class-field.php:2426
-#: class-field.php:2771 class-field.php:3002
+#: DNSMPD/class-DNSMPD-table.php:165 DNSMPD/csv.php:61 class-field.php:2429
+#: class-field.php:2774 class-field.php:3005
 #: cookiebanner/class-cookiebanner-table.php:240
 #: pro/config/questions-wizard.php:431 pro/config/questions-wizard.php:488
 #: pro/config/questions-wizard.php:554 pro/config/questions-wizard.php:610
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Do Not Sell My Personal Info Requests"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:63 config/general-settings.php:308
+#: DNSMPD/class-DNSMPD.php:63 config/general-settings.php:309
 #: cookiebanner/class-cookiebanner-table.php:216
 #: templates/dashboard/tools.php:26
 msgid "Export"
@@ -382,7 +382,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:404 class-admin.php:776 config/class-config.php:668
+#: class-admin.php:404 class-admin.php:776 config/class-config.php:669
 msgid "Upgrade to premium"
 msgstr ""
 
@@ -657,11 +657,11 @@ msgstr ""
 msgid "None selected"
 msgstr ""
 
-#: class-field.php:1496 class-field.php:1576
+#: class-field.php:1499 class-field.php:1579
 msgid "Top"
 msgstr ""
 
-#: class-field.php:1501 class-field.php:1581
+#: class-field.php:1504 class-field.php:1584
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-accept-button-widget.php:140
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-deny-button-widget.php:139
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:134
@@ -671,11 +671,11 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: class-field.php:1506 class-field.php:1586 cookiebanner/settings.php:157
+#: class-field.php:1509 class-field.php:1589 cookiebanner/settings.php:157
 msgid "Bottom"
 msgstr ""
 
-#: class-field.php:1511 class-field.php:1591
+#: class-field.php:1514 class-field.php:1594
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-accept-button-widget.php:132
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-deny-button-widget.php:131
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:126
@@ -685,133 +685,133 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: class-field.php:1835 cookiebanner/edit.php:25
+#: class-field.php:1838 cookiebanner/edit.php:25
 msgid "Choose an option"
 msgstr ""
 
-#: class-field.php:1934
+#: class-field.php:1937
 msgid "Choose file"
 msgstr ""
 
-#: class-field.php:1940
+#: class-field.php:1943
 msgid "Import"
 msgstr ""
 
-#: class-field.php:1942
+#: class-field.php:1945
 msgid "No file chosen"
 msgstr ""
 
-#: class-field.php:1961 class-field.php:2217 class-field.php:2328
-#: class-field.php:2542 class-field.php:2929 class-field.php:3039
+#: class-field.php:1964 class-field.php:2220 class-field.php:2331
+#: class-field.php:2545 class-field.php:2932 class-field.php:3042
 #: class-wizard.php:671 templates/CMPLZ_COOKIEBANNER/footer.php:3
 #: templates/cookie_settings.php:87 templates/integrations/footer.php:3
 #: templates/service_settings.php:49 templates/settings/footer.php:3
 msgid "Save"
 msgstr ""
 
-#: class-field.php:1982 class-field.php:2390 class-field.php:2735
-#: class-field.php:2982 pro/framework/post-types.php:172
+#: class-field.php:1985 class-field.php:2393 class-field.php:2738
+#: class-field.php:2985 pro/framework/post-types.php:172
 #: pro/framework/post-types.php:173 pro/framework/post-types.php:212
 #: pro/framework/post-types.php:213
 msgid "Add new"
 msgstr ""
 
-#: class-field.php:1992
+#: class-field.php:1995
 msgid "Description"
 msgstr ""
 
-#: class-field.php:2004 class-field.php:2221 class-field.php:2332
-#: class-field.php:2543 class-field.php:2930 class-field.php:3040
+#: class-field.php:2007 class-field.php:2224 class-field.php:2335
+#: class-field.php:2546 class-field.php:2933 class-field.php:3043
 msgid "Remove"
 msgstr ""
 
-#: class-field.php:2034
+#: class-field.php:2037
 msgid "Add new cookie"
 msgstr ""
 
-#: class-field.php:2049 cookie/class-cookie-admin.php:3507
+#: class-field.php:2052 cookie/class-cookie-admin.php:3508
 #, php-format
 msgid "Cookies in %s"
 msgstr ""
 
-#: class-field.php:2049 cookie/class-cookie-admin.php:3507
+#: class-field.php:2052 cookie/class-cookie-admin.php:3508
 #, php-format
 msgid "Services in %s"
 msgstr ""
 
-#: class-field.php:2097
+#: class-field.php:2100
 msgid "Add new service"
 msgstr ""
 
-#: class-field.php:2146
+#: class-field.php:2149
 #, php-format
 msgid "Name of the %s with whom you share the data"
 msgstr ""
 
-#: class-field.php:2157
+#: class-field.php:2160
 #, php-format
 msgid ""
 "Select the Processing Agreement you made with this %s, or %screate one%s"
 msgstr ""
 
-#: class-field.php:2166
+#: class-field.php:2169
 msgid "No agreement selected"
 msgstr ""
 
-#: class-field.php:2169
+#: class-field.php:2172
 msgid "A Processing Agreement outside Complianz Privacy Suite"
 msgstr ""
 
-#: class-field.php:2180
+#: class-field.php:2183
 #, php-format
 msgid "%s country"
 msgstr ""
 
-#: class-field.php:2192 class-field.php:2306 config/steps.php:37
+#: class-field.php:2195 class-field.php:2309 config/steps.php:37
 #: pro/config/steps.php:41 templates/cookie_settings.php:34
 msgid "Purpose"
 msgstr ""
 
-#: class-field.php:2204 class-field.php:2316
+#: class-field.php:2207 class-field.php:2319
 msgid "What type of data is shared"
 msgstr ""
 
-#: class-field.php:2228 class-field.php:2338 class-field.php:2409
-#: class-field.php:2547 class-field.php:2753 class-field.php:2934
-#: class-field.php:2990 class-field.php:3044
+#: class-field.php:2231 class-field.php:2341 class-field.php:2412
+#: class-field.php:2550 class-field.php:2756 class-field.php:2937
+#: class-field.php:2993 class-field.php:3047
 msgid "New entry"
 msgstr ""
 
-#: class-field.php:2242
+#: class-field.php:2245
 #, php-format
 msgid "Add new %s"
 msgstr ""
 
-#: class-field.php:2281
+#: class-field.php:2284
 msgid "Name of the Third Party with whom you share the data"
 msgstr ""
 
-#: class-field.php:2293
+#: class-field.php:2296
 msgid "Third Party country"
 msgstr ""
 
-#: class-field.php:2348
+#: class-field.php:2351
 msgid "Add new Third Party"
 msgstr ""
 
-#: class-field.php:2370 class-field.php:2713 class-field.php:2967
+#: class-field.php:2373 class-field.php:2716 class-field.php:2970
 msgid "Example"
 msgstr ""
 
-#: class-field.php:2460
+#: class-field.php:2463
 msgid "This script contains an async attribute."
 msgstr ""
 
-#: class-field.php:2477 class-field.php:2808 pro/class-statistics.php:580
+#: class-field.php:2480 class-field.php:2811 pro/class-statistics.php:580
 msgid "Category"
 msgstr ""
 
-#: class-field.php:2480 class-field.php:2811 config/steps.php:62
+#: class-field.php:2483 class-field.php:2814 config/steps.php:62
 #: cookiebanner/class-cookiebanner.php:817 cookiebanner/settings.php:703
 #: cookiebanner/settings.php:704 cookiebanner/settings.php:705
 #: pro/tcf/tcf.php:735 pro/tcf/tcf.php:742 pro/templates/cookiebanner-tcf.php:6
@@ -819,7 +819,7 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: class-field.php:2491 class-field.php:2822
+#: class-field.php:2494 class-field.php:2825
 #: cookiebanner/class-cookiebanner.php:821 cookiebanner/settings.php:740
 #: cookiebanner/settings.php:741 cookiebanner/settings.php:742
 #: pro/tcf/tcf.php:737 pro/tcf/tcf.php:745
@@ -827,52 +827,52 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: class-field.php:2504 class-field.php:2835 integrations/integrations.php:687
+#: class-field.php:2507 class-field.php:2838 integrations/integrations.php:693
 msgid "Placeholder"
 msgstr ""
 
-#: class-field.php:2507 class-field.php:2838
+#: class-field.php:2510 class-field.php:2841
 msgid "Enable placeholder"
 msgstr ""
 
-#: class-field.php:2523 class-field.php:2871
+#: class-field.php:2526 class-field.php:2874
 msgid "Enter the div class that should be targeted."
 msgstr ""
 
-#: class-field.php:2781
+#: class-field.php:2784
 msgid "URLs that should be blocked before consent."
 msgstr ""
 
-#: class-field.php:2854
+#: class-field.php:2857
 msgid "The blocked content is an iframe"
 msgstr ""
 
-#: class-field.php:2890
+#: class-field.php:2893
 msgid "Dependency"
 msgstr ""
 
-#: class-field.php:2894
+#: class-field.php:2897
 msgid "Enable dependency"
 msgstr ""
 
-#: class-field.php:2917
+#: class-field.php:2920
 msgid "No dependency"
 msgstr ""
 
-#: class-field.php:2923
+#: class-field.php:2926
 #, php-format
 msgid "waits for %s"
 msgstr ""
 
-#: class-field.php:3012
+#: class-field.php:3015
 msgid "URLs that should be whitelisted."
 msgstr ""
 
-#: class-field.php:3083
+#: class-field.php:3086
 msgid "No site logo configured."
 msgstr ""
 
-#: class-field.php:3116 cookiebanner/class-cookiebanner-table.php:208
+#: class-field.php:3119 cookiebanner/class-cookiebanner-table.php:208
 #: pro/framework/post-types.php:441
 msgid "Edit"
 msgstr ""
@@ -1016,7 +1016,7 @@ msgid ""
 "acceptance ratio, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:276 config/general-settings.php:217
+#: config/class-config.php:276 config/general-settings.php:218
 #: cookiebanner/class-cookiebanner-table.php:246
 msgid "Default"
 msgstr ""
@@ -1153,83 +1153,91 @@ msgid ""
 "message."
 msgstr ""
 
-#: config/class-config.php:603
+#: config/class-config.php:604
 msgid ""
 "Javascript errors are detected on the front-end of your site. This may break "
 "the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:604
+#: config/class-config.php:605
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:616
+#: config/class-config.php:617
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:617
+#: config/class-config.php:618
 msgid "Your site is not configured to show a cookie banner at the moment."
 msgstr ""
 
-#: config/class-config.php:627
+#: config/class-config.php:628
 msgid ""
 "Pretty permalinks are not enabled on your site. This can cause issues with "
 "the REST API, used by Complianz."
 msgstr ""
 
-#: config/class-config.php:627
+#: config/class-config.php:628
 msgid "Enable"
 msgstr ""
 
-#: config/class-config.php:636
+#: config/class-config.php:637
 msgid ""
 "Your uploads folder is not writable. Complianz needs this folder to save the "
 "cookie banner CSS."
 msgstr ""
 
-#: config/class-config.php:647
+#: config/class-config.php:648
 msgid ""
 "We see you have enabled Google Maps as a service, but we can't find an "
 "integration. You can integrate manually if needed."
 msgstr ""
 
-#: config/class-config.php:655
+#: config/class-config.php:656
 #, php-format
 msgid "We have detected the %s plugin on your website."
 msgstr ""
 
-#: config/class-config.php:655
+#: config/class-config.php:656
 msgid ""
 "As Complianz handles all the functionality this plugin provides, you should "
 "disable this plugin to prevent unexpected behaviour."
 msgstr ""
 
-#: config/class-config.php:662
+#: config/class-config.php:663
 msgid "Are you showing ads on your site? Consider implementing TCF."
 msgstr ""
 
-#: config/class-config.php:668
+#: config/class-config.php:669
 msgid "Synchronize your Privacy Statement with Complianz."
 msgstr ""
 
-#: config/class-config.php:676
+#: config/class-config.php:677
 msgid "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!"
 msgstr ""
 
-#: config/class-config.php:676
+#: config/class-config.php:677
 msgid "Learn more."
 msgstr ""
 
-#: config/class-config.php:682
+#: config/class-config.php:683
 msgid "Legal compliance for webshops."
 msgstr ""
 
-#: config/class-config.php:689
+#: config/class-config.php:690
 msgid "Learn more about Google Consent Mode."
 msgstr ""
 
-#: config/class-config.php:696
+#: config/class-config.php:697
 msgid "Are you targeting multiple regions?"
+msgstr ""
+
+#: config/class-config.php:703
+msgid "Statistics without Consent. Meet Burst Statistics from Complianz."
+msgstr ""
+
+#: config/class-config.php:703
+msgid "Install directly from our wizard."
 msgstr ""
 
 #: config/countries.php:51
@@ -1237,7 +1245,7 @@ msgid "US"
 msgstr ""
 
 #: config/countries.php:52 config/countries.php:369
-#: pro/config/dynamic-fields.php:377
+#: pro/config/dynamic-fields.php:381
 msgid "United States"
 msgstr ""
 
@@ -2973,7 +2981,9 @@ msgstr ""
 #: config/documents/cookie-policy-eu.php:6
 #, php-format
 msgctxt "Legal document cookie policy"
-msgid "This Cookie Policy was last updated on %s."
+msgid ""
+"This Cookie Policy was last updated on %s and applies to citizens and legal "
+"permanent residents of the European Economic Area and Switzerland"
 msgstr ""
 
 #: config/documents/cookie-policy-eu.php:144
@@ -3167,7 +3177,7 @@ msgstr ""
 msgid "Enable A/B testing"
 msgstr ""
 
-#: config/general-settings.php:27 pro/config/dynamic-fields.php:357
+#: config/general-settings.php:27 pro/config/dynamic-fields.php:361
 msgid ""
 "If enabled, the plugin will track which cookie banner has the best "
 "conversion rate."
@@ -3215,126 +3225,135 @@ msgid ""
 "high contrast."
 msgstr ""
 
-#: config/general-settings.php:77 config/general-settings.php:93
+#: config/general-settings.php:77 config/general-settings.php:94
 msgid "Blocked content text"
 msgstr ""
 
 #: config/general-settings.php:78
-msgid "Click to accept marketing cookies and enable this content"
+#, php-format
+msgid "Click to accept %s cookies and enable this content"
 msgstr ""
 
-#: config/general-settings.php:79 config/general-settings.php:95
-#: config/general-settings.php:112
+#: config/general-settings.php:79 config/general-settings.php:96
+#: config/general-settings.php:113
 msgid ""
 "The blocked content text appears when for example a Youtube video is "
 "embedded."
 msgstr ""
 
-#: config/general-settings.php:94
+#: config/general-settings.php:80
+msgid "Do not change or translate the {category} string."
+msgstr ""
+
+#: config/general-settings.php:80 config/general-settings.php:97
+msgid "You may remove it if you want."
+msgstr ""
+
+#: config/general-settings.php:80
+msgid "It will be replaced with the name of the category that is blocked."
+msgstr ""
+
+#: config/general-settings.php:95
 #, php-format
 msgid "Click 'I agree' to enable %s"
 msgstr ""
 
-#: config/general-settings.php:96
+#: config/general-settings.php:97
 msgid "Do not change or translate the {service} string."
 msgstr ""
 
-#: config/general-settings.php:96
-msgid "You may remove it if you want."
-msgstr ""
-
-#: config/general-settings.php:96
+#: config/general-settings.php:97
 msgid "It will be replaced with the name of the service that is blocked."
 msgstr ""
 
-#: config/general-settings.php:110
+#: config/general-settings.php:111
 msgid "Text on 'I agree' button"
 msgstr ""
 
-#: config/general-settings.php:111
+#: config/general-settings.php:112
 msgid "I agree"
 msgstr ""
 
-#: config/general-settings.php:124
+#: config/general-settings.php:125
 msgid "Duration in days of the A/B testing period"
 msgstr ""
 
-#: config/general-settings.php:134
+#: config/general-settings.php:135
 msgid "Use document CSS by Complianz"
 msgstr ""
 
-#: config/general-settings.php:136
+#: config/general-settings.php:137
 msgid "Disable to let your theme take over."
 msgstr ""
 
-#: config/general-settings.php:143
+#: config/general-settings.php:144
 msgid "Enable advanced features"
 msgstr ""
 
-#: config/general-settings.php:145
+#: config/general-settings.php:146
 msgid ""
 "Enable if you want to add custom CSS for the documents, or enable migrate.js "
 "for Complianz"
 msgstr ""
 
-#: config/general-settings.php:152
+#: config/general-settings.php:153
 msgid "Notification sender email address"
 msgstr ""
 
-#: config/general-settings.php:154
+#: config/general-settings.php:155
 msgid ""
 "When emails are sent, you can choose the sender email address here. Please "
 "note that it should have this website's domain as sender domain, otherwise "
 "the server might block the email from being sent."
 msgstr ""
 
-#: config/general-settings.php:155
+#: config/general-settings.php:156
 msgid ""
 "Email address used for Do Not Sell My Personal Information email "
 "notifications."
 msgstr ""
 
-#: config/general-settings.php:164
+#: config/general-settings.php:165
 msgid "Notification email subject"
 msgstr ""
 
-#: config/general-settings.php:165
+#: config/general-settings.php:166
 msgid "Your request has been processed"
 msgstr ""
 
-#: config/general-settings.php:166
+#: config/general-settings.php:167
 msgid ""
 "Subject used for Do Not Sell My Personal Information email notifications."
 msgstr ""
 
-#: config/general-settings.php:176
+#: config/general-settings.php:177
 msgid "Notification email content"
 msgstr ""
 
-#: config/general-settings.php:178
+#: config/general-settings.php:179
 msgid "Hi {name}"
 msgstr ""
 
-#: config/general-settings.php:180
+#: config/general-settings.php:181
 msgid "Your request has been processed successfully."
 msgstr ""
 
-#: config/general-settings.php:180
+#: config/general-settings.php:181
 msgctxt "email signature"
 msgid "Regards,"
 msgstr ""
 
-#: config/general-settings.php:182
+#: config/general-settings.php:183
 msgid ""
 "Email content used for Do Not Sell My Personal Information email "
 "notifications."
 msgstr ""
 
-#: config/general-settings.php:194
+#: config/general-settings.php:195
 msgid "Enable safe mode"
 msgstr ""
 
-#: config/general-settings.php:196
+#: config/general-settings.php:197
 #, php-format
 msgid ""
 "When safe mode is enabled, all integrations will be disabled temporarily, "
@@ -3342,146 +3361,146 @@ msgid ""
 "needed."
 msgstr ""
 
-#: config/general-settings.php:205
+#: config/general-settings.php:206
 msgid "Disable placeholder insertion"
 msgstr ""
 
-#: config/general-settings.php:207
+#: config/general-settings.php:208
 msgid ""
 "If you experience styling issues with videos or iFrames you can disable the "
 "placeholder insertion, which in some themes can conflict with theme styling."
 msgstr ""
 
-#: config/general-settings.php:218
+#: config/general-settings.php:219
 msgid "Light"
 msgstr ""
 
-#: config/general-settings.php:219
+#: config/general-settings.php:220
 msgid "Full Color"
 msgstr ""
 
-#: config/general-settings.php:220
+#: config/general-settings.php:221
 msgid "Dark Mode"
 msgstr ""
 
-#: config/general-settings.php:221 config/general-settings.php:247
+#: config/general-settings.php:222 config/general-settings.php:248
 msgid "Custom"
 msgstr ""
 
-#: config/general-settings.php:230
+#: config/general-settings.php:231
 msgid "Placeholder style"
 msgstr ""
 
-#: config/general-settings.php:232
+#: config/general-settings.php:233
 msgid "You can choose your favorite placeholder style here."
 msgstr ""
 
-#: config/general-settings.php:233
+#: config/general-settings.php:234
 msgid ""
 "You can change your placeholders manually or use Premium to do it for you."
 msgstr ""
 
-#: config/general-settings.php:250
+#: config/general-settings.php:251
 msgid "Placeholder ratio"
 msgstr ""
 
-#: config/general-settings.php:252
+#: config/general-settings.php:253
 msgid "Select the optimal placeholder ratio for your site."
 msgstr ""
 
-#: config/general-settings.php:259
+#: config/general-settings.php:260
 msgid "If you select custom, you need to add your custom image to your site."
 msgstr ""
 
-#: config/general-settings.php:287
+#: config/general-settings.php:288
 msgid "Cookie banner expiration in days"
 msgstr ""
 
-#: config/general-settings.php:295
+#: config/general-settings.php:296
 msgid "Disable the automatic cookie scan."
 msgstr ""
 
-#: config/general-settings.php:296
+#: config/general-settings.php:297
 msgid ""
 "You can disable the monthly automatic cookie scan here, and do only manual "
 "cookie scans."
 msgstr ""
 
-#: config/general-settings.php:309
+#: config/general-settings.php:310
 msgid "You can use this to export your settings to another site"
 msgstr ""
 
-#: config/general-settings.php:319
+#: config/general-settings.php:320
 msgid "Import settings"
 msgstr ""
 
-#: config/general-settings.php:320
+#: config/general-settings.php:321
 #, php-format
 msgid ""
 "If you want to import your settings, please check out the %spremium version%s"
 msgstr ""
 
-#: config/general-settings.php:327
+#: config/general-settings.php:328
 msgid "Are you sure? This will remove all Complianz data."
 msgstr ""
 
-#: config/general-settings.php:333
+#: config/general-settings.php:334
 msgid "Reset"
 msgstr ""
 
-#: config/general-settings.php:335
+#: config/general-settings.php:336
 msgid ""
 "This will reset all settings to defaults. All data in the Complianz plugin "
 "will be deleted"
 msgstr ""
 
-#: config/general-settings.php:343
+#: config/general-settings.php:344
 msgid "Clear all data from Complianz on uninstall"
 msgstr ""
 
-#: config/general-settings.php:346
+#: config/general-settings.php:347
 msgid ""
 "Enabling this option will delete all your settings, and the Complianz tables "
 "when you deactivate and remove Complianz."
 msgstr ""
 
-#: config/general-settings.php:356
+#: config/general-settings.php:357
 msgid "Restart plugin tour"
 msgstr ""
 
-#: config/general-settings.php:363
+#: config/general-settings.php:364
 msgid "Disable notifications"
 msgstr ""
 
-#: config/general-settings.php:364
+#: config/general-settings.php:365
 msgid "Disable all plus ones and warnings on your dashboard."
 msgstr ""
 
-#: config/general-settings.php:376
+#: config/general-settings.php:377
 msgid "Enable migrate.js"
 msgstr ""
 
-#: config/general-settings.php:378
+#: config/general-settings.php:379
 msgid ""
 "If you use legacy events and hooks, you can enable this script to restore "
 "these legacy hooks."
 msgstr ""
 
-#: config/general-settings.php:385
+#: config/general-settings.php:386
 msgid "Enable cookie blocker for ajax loaded content"
 msgstr ""
 
-#: config/general-settings.php:388
+#: config/general-settings.php:389
 msgid ""
 "When content is loaded with ajax, for example with a load more button or "
 "lightbox, this option could help blocking the service correctly"
 msgstr ""
 
-#: config/general-settings.php:395
+#: config/general-settings.php:396
 msgid "Custom document CSS"
 msgstr ""
 
-#: config/general-settings.php:403 cookiebanner/settings.php:524
+#: config/general-settings.php:404 cookiebanner/settings.php:524
 #, php-format
 msgid ""
 "You can add additional custom CSS here. For tips and CSS lessons, check out "
@@ -3808,7 +3827,7 @@ msgid "Indicate for what purpose personal data is processed via your website:"
 msgstr ""
 
 #: config/questions-wizard.php:226
-msgid "Extend Proof of Consent with Records of Consent (Premium)"
+msgid "Extend Proof of Consent with Records of Consent"
 msgstr ""
 
 #: config/questions-wizard.php:233
@@ -3818,7 +3837,7 @@ msgid ""
 msgstr ""
 
 #: config/questions-wizard.php:244
-msgid "Respect Do Not Track and Global Privacy Control with Premium"
+msgid "Respect Do Not Track and Global Privacy Control?"
 msgstr ""
 
 #: config/questions-wizard.php:245
@@ -3977,7 +3996,7 @@ msgid ""
 "configuration by Complianz is required."
 msgstr ""
 
-#: config/questions-wizard.php:417
+#: config/questions-wizard.php:417 pro/config/dynamic-fields.php:264
 msgid "Do you want to enable Google Consent Mode?"
 msgstr ""
 
@@ -4161,7 +4180,7 @@ msgstr ""
 msgid "Does your website use cookies for advertising?"
 msgstr ""
 
-#: config/questions-wizard.php:740 pro/config/dynamic-fields.php:283
+#: config/questions-wizard.php:740 pro/config/dynamic-fields.php:287
 msgid "Enable TCF"
 msgstr ""
 
@@ -4302,7 +4321,7 @@ msgstr ""
 msgid "Consent"
 msgstr ""
 
-#: config/steps.php:56 cookie/class-cookie-admin.php:3421
+#: config/steps.php:56 cookie/class-cookie-admin.php:3422
 msgid "Cookie scan"
 msgstr ""
 
@@ -4576,59 +4595,59 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2807 functions.php:2011
+#: cookie/class-cookie-admin.php:2808 functions.php:2023
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3097
+#: cookie/class-cookie-admin.php:3098
 #, php-format
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3119
+#: cookie/class-cookie-admin.php:3120
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3209
+#: cookie/class-cookie-admin.php:3210
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3212
+#: cookie/class-cookie-admin.php:3213
 #, php-format
 msgid "The scan found %s cookie on your domain."
 msgid_plural "The scan found %s cookies on your domain."
 msgstr[0] ""
 msgstr[1] ""
 
-#: cookie/class-cookie-admin.php:3213
+#: cookie/class-cookie-admin.php:3214
 msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3225
+#: cookie/class-cookie-admin.php:3226
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3408
+#: cookie/class-cookie-admin.php:3409
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3415
+#: cookie/class-cookie-admin.php:3416
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3416
+#: cookie/class-cookie-admin.php:3417
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3456
+#: cookie/class-cookie-admin.php:3457
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3476
+#: cookie/class-cookie-admin.php:3477
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3479
+#: cookie/class-cookie-admin.php:3480
 msgid "Syncing..."
 msgstr ""
 
@@ -4711,6 +4730,16 @@ msgstr ""
 #: cookiebanner/class-cookiebanner.php:813 cookiebanner/settings.php:680
 #: cookiebanner/settings.php:681 cookiebanner/settings.php:682
 msgid "Preferences"
+msgstr ""
+
+#: cookiebanner/class-cookiebanner.php:1310
+msgctxt "as in: click to accept statistics cookies"
+msgid "statistics"
+msgstr ""
+
+#: cookiebanner/class-cookiebanner.php:1310
+msgctxt "as in: click to accept marketing cookies"
+msgid "marketing"
 msgstr ""
 
 #: cookiebanner/cookiebanner.php:188 cookiebanner/cookiebanner.php:189
@@ -5325,44 +5354,44 @@ msgstr ""
 msgid "Denied"
 msgstr ""
 
-#: functions.php:1216
+#: functions.php:1226
 msgid "the page source"
 msgstr ""
 
-#: functions.php:1219
+#: functions.php:1229
 #, php-format
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1441
+#: functions.php:1453
 #, php-format
 msgid "For more information, please read this %sarticle%s."
 msgstr ""
 
-#: functions.php:1979
+#: functions.php:1991
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1986 functions.php:1996
+#: functions.php:1998 functions.php:2008
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1988 functions.php:1993
+#: functions.php:2000 functions.php:2005
 #, php-format
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:1998
+#: functions.php:2010
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2001
+#: functions.php:2013
 #, php-format
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2008 pro/records-of-consent/class-records-of-consent.php:378
+#: functions.php:2020 pro/records-of-consent/class-records-of-consent.php:378
 #: proof-of-consent/class-proof-of-consent.php:261
 #: templates/dashboard/documents-conditional.php:63
 #: templates/dashboard/documents-conditional.php:75
@@ -5373,19 +5402,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2510
+#: functions.php:2511
 #: pro/records-of-consent/class-records-of-consent-table.php:236
 #: pro/tcf/tcf.php:944
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2512
+#: functions.php:2513
 #: pro/records-of-consent/class-records-of-consent-table.php:239
 #: pro/tcf/tcf.php:943
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2514
+#: functions.php:2515
 msgid "All consent types"
 msgstr ""
 
@@ -5394,12 +5423,12 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:718
+#: integrations/integrations.php:724
 #, php-format
 msgid "We have enabled the %s integration."
 msgstr ""
 
-#: integrations/integrations.php:853
+#: integrations/integrations.php:859
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -11958,80 +11987,80 @@ msgid ""
 "browsers?"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:289
+#: pro/config/dynamic-fields.php:293
 msgid "You have not selected a TCF region at the moment"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:316
+#: pro/config/dynamic-fields.php:320
 msgid ""
 "A Privacy Statement is required to inform your visitors about the way you "
 "deal with the privacy of website visitors. A link to this document is placed "
 "on your Cookie Banner."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:322
+#: pro/config/dynamic-fields.php:326
 msgid ""
 "An Imprint provides general contact information about the organization "
 "behind this website and might be required in your region."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:332
+#: pro/config/dynamic-fields.php:336
 msgid ""
 "A Disclaimer is commonly used to exclude or limit liability or to make "
 "statements about the content of the website. Having a Disclaimer is not "
 "legally required."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:341
+#: pro/config/dynamic-fields.php:345
 msgid "With records of consent enabled, GEO IP can not be turned off."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:346
+#: pro/config/dynamic-fields.php:350
 msgid ""
 "If enabled, the cookie banner will not show for countries without a cookie "
 "law, and will adjust the warning type depending on supported privacy laws"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:354
+#: pro/config/dynamic-fields.php:358
 msgid "With TCF enabled, A/B testing is not possible."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:368
+#: pro/config/dynamic-fields.php:372
 #, php-format
 msgid ""
 "To be able to select multiple regions, you should enable Geo IP in the "
 "%sgeneral settings%s"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:371
+#: pro/config/dynamic-fields.php:375
 msgid "Which region(s) do you target with your website?"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:373
+#: pro/config/dynamic-fields.php:377
 msgid "European Union (GDPR)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:375
+#: pro/config/dynamic-fields.php:379
 msgid "United Kingdom (UK-GDPR, PECR, Data Protection Act)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:378
+#: pro/config/dynamic-fields.php:382
 msgid "Canada (PIPEDA)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:379
+#: pro/config/dynamic-fields.php:383
 msgid "Australia (Privacy Act 1988)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:380
+#: pro/config/dynamic-fields.php:384
 msgid "South Africa (POPIA)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:381
+#: pro/config/dynamic-fields.php:385
 msgid "Brazil (LGPD)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:402
+#: pro/config/dynamic-fields.php:406
 msgid "You can use this to import your settings from another site"
 msgstr ""
 

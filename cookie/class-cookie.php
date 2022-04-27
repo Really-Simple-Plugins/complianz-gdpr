@@ -381,13 +381,13 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
 			 */
 
-			if ( !defined('POLYLANG_VERSION') ) {
-				cmplz_register_translation($this->retention, 'cookie_retention');
-				cmplz_register_translation($this->type, 'cookie_storage_type');
-				cmplz_register_translation($this->cookieFunction, 'cookie_function');
-				cmplz_register_translation($this->purpose, 'cookie_purpose');
-				cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+			if ( !defined('POLYLANG_VERSION') || !$this->sync ) {
+				cmplz_register_translation( $this->purpose, 'cookie_purpose' );
 			}
+			cmplz_register_translation($this->retention, 'cookie_retention');
+			cmplz_register_translation($this->type, 'cookie_storage_type');
+			cmplz_register_translation($this->cookieFunction, 'cookie_function');
+			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
 
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
@@ -450,14 +450,15 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->deleted               = $this->deleted;
 					$translation->ignored               = $this->ignored;
 
-					//translated data, only when not synced
-					if ( !$this->sync ) {
-						$translation->purpose               = $this->purpose;
-						$translation->cookieFunction        = $this->cookieFunction;
-						$translation->retention             = $this->retention;
-						$translation->type                  = $this->type;
-						$translation->collectedPersonalData = $this->collectedPersonalData;
-					}
+//                  dot not update all translations for these fields, even when not synced.
+//					//translated data, only when not synced
+//					if ( !$this->sync ) {
+//						$translation->purpose               = $this->purpose;
+//						$translation->cookieFunction        = $this->cookieFunction;
+//						$translation->retention             = $this->retention;
+//						$translation->type                  = $this->type;
+//						$translation->collectedPersonalData = $this->collectedPersonalData;
+//					}
 
 					$translation->save();
 				}

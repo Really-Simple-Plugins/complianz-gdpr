@@ -223,7 +223,7 @@ $this->fields = $this->fields + array(
 
 		'records_of_consent' => array(
 			'source'  => 'wizard',
-			'label'   => __( "Extend Proof of Consent with Records of Consent (Premium)", 'complianz-gdpr' ),
+			'label'   => __( "Extend Proof of Consent with Records of Consent", 'complianz-gdpr' ).' (Premium)',
 			'step'    => STEP_COMPANY,
 			'section' => 11,
 			'type'    => 'radio',
@@ -241,7 +241,7 @@ $this->fields = $this->fields + array(
 			'type' => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
-			'label' => __("Respect Do Not Track and Global Privacy Control with Premium", 'complianz-gdpr'),
+			'label' => __("Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr').' (Premium)',
 			'tooltip' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
 		),
 
@@ -414,7 +414,7 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'radio',
 			'default'            => 'no',
-			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ),
+			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ).' (Premium)',
 			'options'            => array(
 				'yes'          => __( 'Yes', 'complianz-gdpr' ),
 				'no'           => __( 'No', 'complianz-gdpr' ),
@@ -737,7 +737,7 @@ $this->fields = $this->fields + array(
 			'options'                 => array(
 				'yes' => __("Yes", "complianz-gdpr"),
 				'no' => __("No", "complianz-gdpr"),
-				'tcf' => __("Enable TCF", "complianz-gdpr").' (premium)',
+				'tcf' => __("Enable TCF", "complianz-gdpr").' (Premium)',
 			),
 			'default'                 => 'no',
 			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),

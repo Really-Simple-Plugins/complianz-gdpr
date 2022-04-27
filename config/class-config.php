@@ -698,7 +698,11 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => false,
 					'dismissible' => false,
 				),
-
+				'install-burst' => array(
+					'warning_condition' => 'cmplz_show_install_burst_warning',
+					'open' => __( 'Statistics without Consent. Meet Burst Statistics from Complianz.', 'complianz-gdpr' ) . ' <a href="'. admin_url('admin.php?page=cmplz-wizard&step=2&section=2') .'">' . __('Install directly from our wizard.', 'complianz-gdpr') . '</a>',
+					'include_in_progress' => false,
+				),
 
 			) );
 		}

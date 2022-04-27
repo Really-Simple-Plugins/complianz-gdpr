@@ -24,6 +24,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'advanced-ads' => array(
+			'constant_or_function' => 'ADVADS_VERSION',
+			'label'                => 'Advanced Ads',
+			'firstparty_marketing' => false,
+	),
+
 	'lead-forensics' => array(
 			'constant_or_function' => 'LFRTrackingCode',
 			'label'                => 'Lead Forensics',
