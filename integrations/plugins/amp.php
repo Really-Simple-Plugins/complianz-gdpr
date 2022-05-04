@@ -207,6 +207,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 
 			printf(
 				'
+					.cmplz-hidden{display:none!important;}
 					.cmplz-revoke-custom {
 						display:none;
 					}

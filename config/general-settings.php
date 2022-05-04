@@ -75,8 +75,9 @@ $this->fields = $this->fields + array(
 			'type'         => 'text',
 			'translatable' => true,
 			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-			'default'      => __( 'Click to accept marketing cookies and enable this content', 'complianz-gdpr' ),
+			'default'      => cmplz_sprintf(__( 'Click to accept %s cookies and enable this content', 'complianz-gdpr' ), '{category}'),
 			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
+			'help'      => __( 'Do not change or translate the {category} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the category that is blocked.', 'complianz-gdpr' ),
 			'condition'    => array(
 				'disable_cookie_block' => false,
 			),

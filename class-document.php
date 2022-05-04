@@ -1280,7 +1280,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @param bool $update
 		 */
 		public function register_document_title_for_translations($post_ID, $post, $update) {
-			if ( $this->is_complianz_page($post_ID)) {
+			if ( is_admin() && $this->is_complianz_page($post_ID)) {
 				$pattern = '/type="(.*?)"/i';
 				if ( preg_match( $pattern, $post->post_content, $matches )
 				) {

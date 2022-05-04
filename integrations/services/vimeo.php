@@ -6,9 +6,9 @@ function cmplz_vimeo_iframetags( $tags ) {
 	$tags[] = array(
 		'name' => 'vimeo',
 		'placeholder' => 'vimeo',
-		'category' => 'marketing',
+		'category' => 'statistics',
 		'urls' => array(
-			'player.vimeo.com',
+			'vimeo.com',
 			'i.vimeocdn.com',
 		),
 	);
@@ -33,11 +33,8 @@ function cmplz_vimeo_placeholder( $placeholder_src, $src ) {
 			$data = json_decode( file_get_contents( 'http://vimeo.com/api/oembed.json?url=' . $src ) );
 			if (!empty($data) ) {
 				$placeholder_src = $data->thumbnail_url;
-				$placeholder_src = cmplz_download_to_site( $placeholder_src,
-					'vimeo' . $vimeo_id );
-
-				set_transient( "cmplz_vimeo_image_$vimeo_id", $placeholder_src,
-					WEEK_IN_SECONDS );
+				$placeholder_src = cmplz_download_to_site( $placeholder_src, 'vimeo' . $vimeo_id );
+				set_transient( "cmplz_vimeo_image_$vimeo_id", $placeholder_src, WEEK_IN_SECONDS );
 			}
 		} else {
 			$placeholder_src = $new_src;

@@ -1012,6 +1012,16 @@ if ( ! function_exists( 'cmplz_uses_statistics' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_show_install_burst_warning' ) ) {
+	function cmplz_show_install_burst_warning() {
+		if ( cmplz_get_value('consent_for_anonymous_stats') == 'yes' && !defined( 'burst_version' ) ) {
+			return true;
+		}
+		return false;
+	}
+}
+
+
 if ( ! function_exists( 'cmplz_uses_only_functional_cookies' ) ) {
 	function cmplz_uses_only_functional_cookies() {
 		return COMPLIANZ::$cookie_admin->uses_only_functional_cookies();

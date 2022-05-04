@@ -340,6 +340,7 @@ function cmplz_set_blocked_content_container() {
 		}
 		obj.classList.add('cmplz-processed' );
 		let service = obj.getAttribute('data-service');
+		let category = obj.getAttribute('data-category');
 		let blocked_image_container = obj.parentElement;
 		blocked_image_container.classList.add('cmplz-blocked-content-container');
 		let curIndex = blocked_image_container.getAttribute('data-placeholder_class_index');
@@ -354,7 +355,7 @@ function cmplz_set_blocked_content_container() {
 			blocked_image_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
 			blocked_image_container.classList.add('cmplz-blocked-content-container');
 			blocked_image_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
-			cmplz_insert_placeholder_text(blocked_image_container, service);
+			cmplz_insert_placeholder_text(blocked_image_container, category, service);
 		}
 	});
 
@@ -364,6 +365,7 @@ function cmplz_set_blocked_content_container() {
 		}
 		obj.classList.add('cmplz-processed' );
 		let service = obj.getAttribute('data-service');
+		let category = obj.getAttribute('data-category');
 
 		//we set this element as container with placeholder image
 		let blocked_content_container;
@@ -384,12 +386,10 @@ function cmplz_set_blocked_content_container() {
 			blocked_content_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
 			blocked_content_container.classList.add('cmplz-blocked-content-container');
 			blocked_content_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
-			//insert placeholder text
-			cmplz_insert_placeholder_text(blocked_content_container, service);
-
+			cmplz_insert_placeholder_text(blocked_content_container, category, service);
 			//handle image size for video
 			let src = obj.getAttribute('data-placeholder-image');
-			if (typeof src !== 'undefined' && src.length ) {
+			if (src && typeof src !== 'undefined' && src.length ) {
 				src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 				cmplz_append_css('.cmplz-placeholder-' + cmplz_placeholder_class_index + ' {background-image: url(' + src + ') !important;}');
 				cmplz_set_blocked_content_container_aspect_ratio(obj, src, cmplz_placeholder_class_index);
@@ -399,49 +399,69 @@ function cmplz_set_blocked_content_container() {
 
 	/**
 	 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
-	 * We're assuming that statistics scripts won't be loaded with ajax, so we only load marketing level scripts
 	 *
 	 */
+	if ( cmplz_has_consent('statistics') ) {
+		cmplz_enable_category('statistics');
+	}
+
 	if ( cmplz_has_consent('marketing') ) {
 		cmplz_enable_category('marketing');
 	}
 }
 
-function cmplz_insert_placeholder_text(container, service){
+function cmplz_insert_placeholder_text(container, category, service ){
 	if ( !container.querySelector( ".cmplz-blocked-content-notice" ) ) {
 		let placeholder_text = complianz.placeholdertext;
-
+		category = category ? category : 'marketing';
+		let body;
 		if ( typeof placeholder_text !== 'undefined' ) {
 			if ( complianz.clean_cookies == 1 ) {
 				//make service human readable
 				let service_nicename = service ? service.replace('-', ' ') : '';
 				service_nicename = service_nicename.charAt(0).toUpperCase() + service_nicename.slice(1);
 				placeholder_text = placeholder_text.replace('{service}', service_nicename);
-				let body = cmplz_create_element('div', placeholder_text);
+				body = cmplz_create_element('div', placeholder_text);
 				body.innerHTML = placeholder_text;
 				body.classList.add('cmplz-blocked-content-notice');
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
-				btn.setAttribute('data-category', 'marketing');
+				btn.setAttribute('data-category', category);
 				btn.setAttribute('aria-label', service);
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
-				if (pageLinks && pageLinks.hasOwnProperty('cookie-statement')) {
+				if ( pageLinks && pageLinks.hasOwnProperty('cookie-statement') ) {
 					link.setAttribute('href', pageLinks['cookie-statement']['url']);
 					if (link.innerText === '{title}') {
 						link.innerText = pageLinks['cookie-statement']['title'];
 					}
 				}
-				container.appendChild(body);
 			} else {
 				let btn = cmplz_create_element('button', '');
+				let category_nicename = 'marketing';
+				if (complianz.categories.hasOwnProperty(category)){
+					category_nicename = complianz.categories[category];
+				}
+
+				placeholder_text = placeholder_text.replace('{category}', category_nicename);
 				btn.innerText = placeholder_text;
 				btn.classList.add('cmplz-blocked-content-notice');
-				btn.classList.add('cmplz-accept-marketing');
+				btn.classList.add('cmplz-accept-category');
+
+				//deprecated
+				btn.classList.add('cmplz-accept-'+category);
 				btn.setAttribute('data-service', service );
+				btn.setAttribute('data-category', category );
 				btn.setAttribute('aria-label', service );
-				container.appendChild( btn );
+				body=btn;
 			}
+
+			if ( container.tagName!=='VIDEO' ) {
+				container.appendChild(body);
+			} else{
+				container.parentElement.appendChild(body);
+			}
+
 		}
 	}
 }
@@ -673,6 +693,7 @@ function cmplz_enable_category(category, service) {
 	//fire an event so custom scripts can hook into this.
 	let details = {};
 	details.category = category;
+	details.service = service;
 	details.categories = cmplz_accepted_categories();
 	details.services = cmplz_get_all_service_consents();
 	details.region = complianz.region;
@@ -1415,17 +1436,21 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
  *  Accept marketing cookies by clicking any other link cookie acceptance from a custom link
  */
 
-cmplz_add_event('click', '.cmplz-accept-marketing', function(e){
+//cmplz-accept-marketing is deprecated
+cmplz_add_event('click', '.cmplz-accept-category, .cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
 	var service = obj.getAttribute('data-service');
+	var category = obj.getAttribute('data-category');
+	category = category ? category : 'marketing';
 	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
 		cmplz_enable_category('', 'general');
 		cmplz_enable_category('', service);
 	} else {
-		cmplz_enable_category('', 'general');
-		cmplz_set_consent('marketing', 'allow' );
+		//we're activating a category, so do not need service activation here.
+		// cmplz_enable_category('', 'general');
+		cmplz_set_consent( category, 'allow' );
 	}
 	cmplz_set_banner_status('dismissed');
 	cmplz_fire_categories_event();
@@ -2083,23 +2108,85 @@ function cmplz_equals (array_1, array_2) {
 /**
  * Hooked into jquery
  */
+let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
+let cmplz_times_checked = 0;
 if ('undefined' != typeof window.jQuery) {
-	// jQuery present
 	jQuery(document).ready(function ($) {
+		if ( cmplz_has_wp_video ) {
+			document.addEventListener("cmplz_enable_category", function (consentData) {
+				cmplz_activate_wp_video();
+			});
+
+			var interval = setInterval(function(){
+				cmplz_times_checked+=1;
+				if ( document.querySelector('.cmplz-wp-video-shortcode') && cmplz_times_checked<100) {
+					cmplz_activate_wp_video();
+				} else {
+					clearInterval(interval);
+				}
+			}, 500);
+		}
+
+		/**
+		 * WordPress legacy shortcode
+		 */
+		function cmplz_activate_wp_video(again) {
+			if ( !document.querySelector('.cmplz-wp-video-shortcode') ) {
+				return;
+			}
+			let categories = cmplz_accepted_categories();
+			let services = cmplz_get_all_service_consents();
+			let selectorVideo = '';
+			let selectorVideos = [];
+			for (var c_key in categories) {
+				if (categories.hasOwnProperty(c_key)) {
+					let category = categories[c_key];
+					if (category==='functional') {
+						break;
+					}
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-category='+category+']');
+				}
+			}
+			for (var s_key in services) {
+				if (services.hasOwnProperty(s_key)) {
+					let service = s_key;
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-service=' + service + ']');
+				}
+			}
+			selectorVideo = selectorVideos.join(',');
+			let should_initialize_video = false;
+			if ( selectorVideo.length>0 ) {
+				document.querySelectorAll(selectorVideo).forEach(obj => {
+					should_initialize_video = true;
+					obj.setAttribute('controls', 'controls');
+					obj.classList.add('wp-video-shortcode');
+					obj.classList.add('cmplz-processed');
+					obj.classList.remove('cmplz-wp-video-shortcode');
+					let blocked_notice = obj.closest('.wp-video').querySelector('.cmplz-blocked-content-notice');
+					if (blocked_notice) {
+						blocked_notice.parentElement.removeChild(blocked_notice);
+					}
+					obj.classList.remove('cmplz-blocked-content-container');
+				});
+			}
+
+			if ( should_initialize_video ) {
+				window.wp.mediaelement.initialize();
+			}
+		}
+
 		/**
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
-		$(document).on("cmplz_category_enabled", cmplz_enable_fitvids);
-		function cmplz_enable_fitvids(data) {
-			document.querySelectorAll('.cmplz-video').forEach(obj => {
-				//turn obj into jquery object
-				let $obj = $(obj);
-				if (typeof $obj.parent().fitVids == 'function') {
-					$obj.parent().fitVids();
-				}
-			});
-		}
+		document.querySelectorAll('.cmplz-video').forEach(obj => {
+			//turn obj into jquery object
+			let $obj = $(obj);
+			if (typeof $obj.parent().fitVids == 'function') {
+				$obj.parent().fitVids();
+			}
+		});
+
 	});
 }
 

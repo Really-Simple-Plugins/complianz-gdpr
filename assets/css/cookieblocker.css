@@ -11,10 +11,13 @@
   display: none;
 }
 .cmplz-optin .cmplz-blocked-content-container .cmplz-blocked-content-notice,
-.cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice {
+.cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice,
+.cmplz-optin .wp-video .cmplz-blocked-content-notice,
+.cmplz-optout .wp-video .cmplz-blocked-content-notice {
   display: block;
 }
-.cmplz-blocked-content-container {
+.cmplz-blocked-content-container,
+.wp-video {
   animation-name: cmplz-fadein;
   animation-duration: 600ms;
   background: #FFF;
@@ -29,21 +32,22 @@
   height: inherit;
   position: relative;
 }
-.cmplz-blocked-content-container.gmw-map-cover {
+.cmplz-blocked-content-container.gmw-map-cover,
+.wp-video.gmw-map-cover {
   max-height: 100%;
   position: absolute;
 }
-.cmplz-blocked-content-container.cmplz-video-placeholder {
+.cmplz-blocked-content-container.cmplz-video-placeholder,
+.wp-video.cmplz-video-placeholder {
   padding-bottom: initial;
 }
-.cmplz-blocked-content-container iframe {
+.cmplz-blocked-content-container iframe,
+.wp-video iframe {
   max-height: 100%;
   border: 0 !important;
 }
-.cmplz-blocked-content-container div div {
-  display: none;
-}
-.cmplz-blocked-content-container .cmplz-custom-accept-btn {
+.cmplz-blocked-content-container .cmplz-custom-accept-btn,
+.wp-video .cmplz-custom-accept-btn {
   white-space: normal;
   text-transform: initial;
   cursor: pointer;
@@ -64,10 +68,12 @@
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
 }
-.cmplz-blocked-content-container .cmplz-custom-accept-btn:focus {
+.cmplz-blocked-content-container .cmplz-custom-accept-btn:focus,
+.wp-video .cmplz-custom-accept-btn:focus {
   border: 1px dotted #cecece;
 }
-.cmplz-blocked-content-container .cmplz-blocked-content-notice {
+.cmplz-blocked-content-container .cmplz-blocked-content-notice,
+.wp-video .cmplz-blocked-content-notice {
   white-space: normal;
   text-transform: initial;
   position: absolute !important;
@@ -87,15 +93,25 @@
   /*We need some lineheight, for example Elementor will force a lineheight of 0*/
   line-height: 23px;
 }
-.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links {
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links,
+.wp-video .cmplz-blocked-content-notice .cmplz-links {
   display: block;
   margin-bottom: 10px;
 }
-.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links a {
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-links a,
+.wp-video .cmplz-blocked-content-notice .cmplz-links a {
   color: #fff;
 }
-.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-blocked-content-notice-body {
+.cmplz-blocked-content-container .cmplz-blocked-content-notice .cmplz-blocked-content-notice-body,
+.wp-video .cmplz-blocked-content-notice .cmplz-blocked-content-notice-body {
   display: block;
+}
+.cmplz-blocked-content-container div div {
+  display: none;
+}
+.wp-video .cmplz-placeholder-element {
+  width: 100%;
+  height: inherit;
 }
 @keyframes cmplz-fadein {
   0% {
