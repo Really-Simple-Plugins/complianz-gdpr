@@ -59,20 +59,24 @@ function cmplz_gtm4wp_options() {
 	}
 
 	//handle sharing of data
-	if ( isset( $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] ) ) {
-		if ( cmplz_statistics_no_sharing_allowed()
-		     && $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ]
-		) {
-			$save                                               = true;
-			$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = false;
+	//since 1.15.1 remarketing constant has been removed
+	if (defined('GTM4WP_OPTION_INCLUDE_REMARKETING')) {
+		if ( isset( $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] ) ) {
+			if ( cmplz_statistics_no_sharing_allowed()
+			     && $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ]
+			) {
+				$save                                               = true;
+				$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = false;
 
-		} elseif ( ! cmplz_statistics_no_sharing_allowed()
-		           && ! $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ]
-		) {
-			$save                                               = true;
-			$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = true;
+			} elseif ( ! cmplz_statistics_no_sharing_allowed()
+			           && ! $storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ]
+			) {
+				$save                                               = true;
+				$storedoptions[ GTM4WP_OPTION_INCLUDE_REMARKETING ] = true;
+			}
 		}
 	}
+
 
 	if ( $save ) {
 		update_option( GTM4WP_OPTIONS, $storedoptions );
