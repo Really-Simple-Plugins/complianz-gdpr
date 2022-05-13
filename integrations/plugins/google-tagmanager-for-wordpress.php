@@ -43,7 +43,7 @@ add_action( 'cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statis
  * Configure options for GTM4WP
  */
 function cmplz_gtm4wp_options() {
-	if ( !defined(GTM4WP_OPTIONS)) {
+	if ( !defined('GTM4WP_OPTIONS')) {
 		return;
 	}
 
