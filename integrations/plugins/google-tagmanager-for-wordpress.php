@@ -43,18 +43,24 @@ add_action( 'cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statis
  * Configure options for GTM4WP
  */
 function cmplz_gtm4wp_options() {
+	if ( !defined(GTM4WP_OPTIONS)) {
+		return;
+	}
+
 	$storedoptions = (array) get_option( GTM4WP_OPTIONS );
 	$save          = false;
 
-	if ( isset( $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) ) {
-		if ( cmplz_no_ip_addresses() && $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
-		) {
-			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = false;
-			$save                                              = true;
-		} elseif ( ! cmplz_no_ip_addresses() && ! ! $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
-		) {
-			$save                                              = true;
-			$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = true;
+	if ( defined('GTM4WP_OPTION_INCLUDE_VISITOR_IP' ) ) {
+		if ( isset( $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) ) {
+			if ( cmplz_no_ip_addresses() && $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
+			) {
+				$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = false;
+				$save                                              = true;
+			} elseif ( ! cmplz_no_ip_addresses() && ! ! $storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ]
+			) {
+				$save                                              = true;
+				$storedoptions[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] = true;
+			}
 		}
 	}
 
