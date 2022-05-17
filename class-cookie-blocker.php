@@ -526,35 +526,43 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 								$new = '<div>' . $new . '</div>';
 							}
 						}
-
 						$output = str_replace( $total_match, $new, $output );
 					}
 				}
 			}
 
-			$iframe_pattern = '/<video class="wp-video-shortcode".*?<(source) type="video.*?src="(.*?)" \/>.*?<\/video>/is';
+			/**
+			 * specific classic wp video shortcode integration
+			 */
+
+			$iframe_pattern = '/<video class="wp-video-shortcode".*?<(source) type="video.*?src="(.*?)".*?>.*?<\/video>/is';
 			if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 				foreach ( $matches[0] as $key => $total_match ) {
-
 					$iframe_src = $matches[2][ $key ];
-					if ( ( $tag_key = cmplz_strpos_arr($iframe_src, array_keys($blocked_scripts)) ) !== false ) {
-						$tag = $blocked_scripts[$tag_key];
-						if ($tag['category']==='functional') {
+					if ( ( $tag_key = cmplz_strpos_arr( $iframe_src, array_keys( $blocked_scripts ) ) ) !== false ) {
+						$tag = $blocked_scripts[ $tag_key ];
+						if ( $tag['category'] === 'functional' ) {
 							continue;
 						}
-						$service_name = sanitize_title($tag['name']);
-						$new         = $total_match;
+						$service_name = sanitize_title( $tag['name'] );
+						$new          = $total_match;
 						//check if we can skip blocking this array if a specific string is included
-						if ( cmplz_strpos_arr($total_match, $whitelisted_script_tags) ) continue;
+						if ( cmplz_strpos_arr( $total_match, $whitelisted_script_tags ) ) {
+							continue;
+						}
+						//we add an additional class to make it possible to link some css to the blocked html.
+						$video_class_pattern = '/(["| ])(wp-video)(["| ])/is';
+						$output = preg_replace( $video_class_pattern, '$1wp-video cmplz-wp-video$3', $output );
+
 						$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video' );
-						$new = $this->add_class( $new, 'video', " $video_class " );
-						$new = $this->add_data( $new, 'video', 'service', $service_name );
-						$new = $this->add_data( $new, 'video', 'category', $tag['category'] );
-						$new = str_replace(array('wp-video-shortcode', 'controls="controls"'), array('cmplz-wp-video-shortcode',''), $new);
+						$new         = $this->add_class( $new, 'video', " $video_class " );
+						$new         = $this->add_data( $new, 'video', 'service', $service_name );
+						$new         = $this->add_data( $new, 'video', 'category', $tag['category'] );
+						$new         = str_replace( array( 'wp-video-shortcode', 'controls="controls"' ), array( 'cmplz-wp-video-shortcode', '' ), $new );
 						if ( cmplz_use_placeholder( $iframe_src ) ) {
-							$placeholder = cmplz_placeholder($tag['placeholder'], $iframe_src );
-							$new = $this->add_class( $new, 'video', "cmplz-placeholder-element" );
-							$new = $this->add_data( $new, 'video', 'placeholder-image', $placeholder );
+							$placeholder = cmplz_placeholder( $tag['placeholder'], $iframe_src );
+							$new         = $this->add_class( $new, 'video', "cmplz-placeholder-element" );
+							$new         = $this->add_data( $new, 'video', 'placeholder-image', $placeholder );
 							//allow for integrations to override html
 							$new = apply_filters( 'cmplz_source_html', $new );
 						}
@@ -735,14 +743,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			return $script;
 		}
 
-		private function remove_src( $script ) {
-			$pattern
-				    = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
-			$script = preg_replace( $pattern, '', $script );
-
-			return $script;
-		}
-
 		/**
 		 * replace the src attribute with a placeholder of choice
 		 *
@@ -753,8 +753,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 
 		private function replace_src( $script, $new_src ) {
-			$pattern
-				     = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\w.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
+
+			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wäöüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
 			$new_src = ' src="' . $new_src . '" ';
 			preg_match( $pattern, $script, $matches );
 			$script = preg_replace( $pattern, $new_src, $script );

@@ -80,7 +80,7 @@ class cmplz_tour {
 					'title'  => __( "The Wizard", "complianz-gdpr" ),
 					'text'   => __( "This is where everything regarding cookies is configured. We will come back to the Wizard soon.", 'complianz-gdpr' ),
 					'link'   => add_query_arg( array( "page" => "cmplz-wizard", "step" => STEP_COOKIES ), admin_url( "admin.php" ) ),
-					'attach' => '.cookie_scan .cmplz-label',
+					'attach' => '.detected-cookies',
 					'position' => 'bottom',
 				),
 				array(
@@ -108,7 +108,7 @@ class cmplz_tour {
 				array(
 					'title'  => __( "Let's start the Wizard", 'complianz-gdpr' ),
 					'text'   => __( "You are ready to start the Wizard. For more information, FAQ, and support, please visit Complianz.io.", 'complianz-gdpr' ),
-					'attach' => '.cmplz-wizard-intro',
+					'attach' => '[data-fieldname=regions]',
 					'position' => 'bottom',
 					'link'   => add_query_arg(array("page" => 'cmplz-wizard'), admin_url( "admin.php" ) ),
 				),

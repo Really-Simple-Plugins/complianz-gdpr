@@ -237,18 +237,19 @@
   min-width: 100px;
   display: inline-block;
 }
-#cmplz-document .alert {
+#cmplz-document .cmplz-alert {
+  display: none;
   padding: 7px;
   color: white;
   margin: 10px 0;
 }
-#cmplz-document .alert.error {
+#cmplz-document .cmplz-alert.cmplz-error {
   background-color: #f44336;
 }
-#cmplz-document .alert.success {
+#cmplz-document .cmplz-alert.cmplz-success {
   background-color: green;
 }
-#cmplz-document .close {
+#cmplz-document .cmplz-close {
   margin-left: 15px;
   color: white;
   font-weight: bold;
@@ -258,7 +259,7 @@
   cursor: pointer;
   transition: 0.3s;
 }
-#cmplz-document .close:hover {
+#cmplz-document .cmplz-close:hover {
   color: black;
 }
 #cmplz-document h2,

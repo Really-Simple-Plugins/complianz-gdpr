@@ -963,12 +963,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
                     'index' => '12',
                     'controls' => '',
                 ),
+
                 'cookie-blocker' => array(
                     'page' => 'settings',
                     'name' => 'cookie-blocker',
                     'header' => __('Cookies', 'complianz-gdpr'),
                     'class' => 'medium',
-                    'index' => '13',
+                    'index' => '14',
                     'controls' => '',
                 ),
                 'document-styling' => array(
@@ -976,7 +977,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
                     'name' => 'document-styling',
                     'header' => __('Advanced features', 'complianz-gdpr'),
                     'class' => 'big condition-check-1',
-                    'index' => '14',
+                    'index' => '15',
                     'controls' => '',
                     'conditions' => 'data-condition-question-1="use_custom_document_css" data-condition-answer-1="1"',
                 ),

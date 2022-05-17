@@ -30,6 +30,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'bb-powerpack' => array(
+			'constant_or_function' => 'BB_PowerPack',
+			'label'                => 'Beaver Builder Power Pack',
+			'firstparty_marketing' => false,
+	),
+
 	'lead-forensics' => array(
 			'constant_or_function' => 'LFRTrackingCode',
 			'label'                => 'Lead Forensics',
@@ -431,7 +437,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'SiteOrigin Widgets Bundle',
 		'firstparty_marketing' => false,
 	),
-
+	
+	'superfly-menu' => array(
+		'constant_or_function' => 'SFM_VERSION_KEY',
+		'label'                => 'Superfly Menu',
+		'firstparty_marketing' => false,
+	),
+	
 	'wp-store-locator' => array(
 		'constant_or_function' => 'WPSL_VERSION_NUM',
 		'label'                => 'WP Store Locator',

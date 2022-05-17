@@ -1151,11 +1151,14 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php
 		}
 
-
+		/**
+		 * Check if this field should be visible
+		 * @param $args
+		 *
+		 * @return bool
+		 */
 		public function show_field( $args ) {
-			$show = ( $this->condition_applies( $args, 'callback_condition' ) );
-
-			return $show;
+			return ( $this->condition_applies( $args, 'callback_condition' ) );
 		}
 
 

@@ -21,14 +21,14 @@
 //show the notice when the banner is loaded completely
 //it's hidden by default, with an inline css snippet to make sure it's loaded instantly
 .cmplz-optin, .cmplz-optout {
-  .cmplz-blocked-content-container, .wp-video {
+  .cmplz-blocked-content-container, .cmplz-wp-video {
 	.cmplz-blocked-content-notice {
 	  display: block;
 	}
   }
 }
 
-.cmplz-blocked-content-container, .wp-video {
+.cmplz-blocked-content-container, .cmplz-wp-video {
   animation-name: cmplz-fadein;
   animation-duration: 600ms;
   background: #FFF;
@@ -120,7 +120,8 @@
 }
 
 //should only apply to wp-video
-.wp-video {
+.cmplz-wp-video {
+  position:unset;
   .cmplz-placeholder-element{
 	width: 100%;
 	height: inherit;
