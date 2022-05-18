@@ -69,7 +69,10 @@ Complianz offers full support on the WordPress.org [Forum](https://wordpress.org
 == Useful Links ==
 
 * [Support Forum](https://wordpress.org/support/plugin/complianz-gdpr/)
+* [Github](https://github.com/Really-Simple-Plugins/complianz-gdpr/)
+* [MU Plugins](https://github.com/Really-Simple-Plugins/complianz-integrations)
 * [Documentation](https://complianz.io/docs/)
+* [Developer's Guide](https://complianz.io/developers-guide-for-third-party-integrations/)
 * [Wizard Manual](https://complianz.io/manual/)
 * [Legal Definitions](https://complianz.io/definitions/)
 * [Translate Complianz](https://translate.wordpress.org/projects/wp-plugins/complianz-gdpr/)
@@ -89,11 +92,14 @@ Complianz offers a Full Privacy Suite for WordPress on [Complianz.io](https://co
 * Geo IP Cookie Consent: Cookie Consent is different everywhere. Show the correct Cookie Notice based on IP location, but only if a banner is needed.
 * Google Consent Mode - Use Consent Mode by Google with Google Tag Manager or Google Analytics. No further set-up needed.
 * Integration with TCF v2.0. An IAB Europe Consent Framework for Publishers. Registered CMP ID: 332
+* Data Request Forms and Registration
+
 
 = Privacy Laws & Guidelines =
 
 Simultaneously select USA, Canada, United Kingdom, Australie, South Africa, Brazil and the EU as targeted regions with conditional Consent and dedicated Cookie Banners.
 
+* Support for GDPR / ePrivacy - European Union with Extension for Switzerland.
 * Support for UK-GDPR / PECR and ICO Guidelines - United Kingdom.
 * Support for PIPEDA and CASL - Canada.
 * Support for Privacy Act 1988 & Australian Privacy Principles
@@ -105,7 +111,8 @@ Simultaneously select USA, Canada, United Kingdom, Australie, South Africa, Braz
 * Privacy statements (EU, CA, UK, AU, ZA, BR & USA). 
 * Cookie policy (EU, UK, CA, AU, ZA, BR & US).
 * Impressum (Germany & Austria) & Imprint for world wide use.
-* Disclaimer. 
+* Disclaimer
+* Terms & Conditions Integration
 * Processing agreements (EU, UK, CA, AU, ZA, BR & US). 
 * Dataleak reporting tools (EU, UK, CA, AU, ZA, BR & US). 
 * Supports CCPA Consent and Legal documents.
@@ -165,12 +172,26 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.2.0 =
+* New: Beaver Builder Power Pack
+* New: Superfly integration
+* Improvement: DNSMPI / Opt-out Form & Registration
+* Improvement: Support for Switzerland
+* Improvement: change A tag of close button in banner to div, for WCAG
+* Improvement: add maps.google.de to blocklist
+* Improvement: wp bakery front end editor exclude cookie banner
+* Fix: Guide skips steps
+* Fix: Livetube fatal error props @ltglobal
+* Fix: British word changed to US default
+* Fix: php error php 8 when generating POC
+* Fix: Compatibility with Menu Block editor for legal pages 
+
 = 6.1.6 =
 * Fix: elementor fix for inline css, matching regex made more specific
 * Fix: catch serialized string in PolyLang
 * Fix: allow string translations in Polylang, except for purposes. Prevent syncing translatable strings across languages. props @bosendorfer
 * New: WP adverts Google Maps integration, props @titusb
-* New: Advanced Ads Integration
+* Improvement: Advanced Ads Integration
 * Improvement: prevent weird Avada bug triggering save_post hook on front-end, causing issues with Woocommerce PayPal integration, causing order key stripped
 * Improvement: elementor fix for inline css, matching regex made more specific
 * Improvement: extend is_pagebuilder_preview function with more Elementor $_GET variables
