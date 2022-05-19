@@ -66,7 +66,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						</div>
 					</div>
 					<div class="cmplz-suggested-plugin-desc-long">
-						<?php _e("Get detailed insights into visitors' behaviour with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins", 'complianz-gdpr')?>
+						<?php _e("Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins", 'complianz-gdpr')?>
 					</div>
 					<div><button type="button" <?php echo $burst_installed ? 'disabled' : ''?> class="button-secondary cmplz-install-burst"><?php echo $burst_installed ? __("Installed","complianz-gdpr") : __("Install","complianz-gdpr")?></button>
 						<div class="cmplz-hidden cmplz-completed-text"><?php _e("Installed", "complianz-gdpr")?></div>
@@ -963,12 +963,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
                     'index' => '12',
                     'controls' => '',
                 ),
+
                 'cookie-blocker' => array(
                     'page' => 'settings',
                     'name' => 'cookie-blocker',
                     'header' => __('Cookies', 'complianz-gdpr'),
                     'class' => 'medium',
-                    'index' => '13',
+                    'index' => '14',
                     'controls' => '',
                 ),
                 'document-styling' => array(
@@ -976,7 +977,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
                     'name' => 'document-styling',
                     'header' => __('Advanced features', 'complianz-gdpr'),
                     'class' => 'big condition-check-1',
-                    'index' => '14',
+                    'index' => '15',
                     'controls' => '',
                     'conditions' => 'data-condition-question-1="use_custom_document_css" data-condition-answer-1="1"',
                 ),

@@ -147,44 +147,45 @@ $this->fields = $this->fields + array(
         ),
 
         'notification_from_email' => array(
-            'step'               => 'general',
+            'step'               => 'data-requests',
             'source'             => 'settings',
             'type'               => 'email',
             'label'              => __( "Notification sender email address", 'complianz-gdpr' ),
             'default'            => false,
             'tooltip'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.", 'complianz-gdpr' ),
-            'help' => __( "Email address used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
+            'help' => __( "Email address used for Data Request email notifications.", 'complianz-gdpr' ),
             'callback_condition' => array(
-                'cmplz_dnsmpi_required',
+	            'cmplz_datarequests_or_dnsmpi_active'
             ),
         ),
-		'notification_email_subject' => array(
-			'step'               => 'general',
-			'source'             => 'settings',
-			'type'               => 'text',
-			'label'              => __( "Notification email subject", 'complianz-gdpr' ),
-			'default'            => __( 'Your request has been processed', 'complianz-gdpr' ),
-			'tooltip' => __( "Subject used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
-			'callback_condition' => array(
-				'cmplz_dnsmpi_required',
-			),
-		),
 
-		'notification_email_content' => array(
-			'step'               => 'general',
-			'source'             => 'settings',
-			'type'               => 'editor',
-			'label'              => __( "Notification email content",
-				'complianz-gdpr' ),
-			'default'            => __( 'Hi {name}', 'complianz-gdpr' )
-			                        . "<br><br>"
-			                        . __( 'Your request has been processed successfully.', 'complianz-gdpr' ) . "<br><br>" . _x( 'Regards,', 'email signature', 'complianz-gdpr' )
-			                        . '<br><br>{blogname}',
-			'tooltip' => __( "Email content used for Do Not Sell My Personal Information email notifications.", 'complianz-gdpr' ),
-			'callback_condition' => array(
-				'cmplz_dnsmpi_required',
-			),
-		),
+				'notification_email_subject' => array(
+					'step'               => 'data-requests',
+					'source'             => 'settings',
+					'type'               => 'text',
+					'label'              => __( "Notification email subject", 'complianz-gdpr' ),
+					'default'            => __( 'We have received your request', 'complianz-gdpr' ),
+					'tooltip' => __( "Subject used for Data Request email notifications.", 'complianz-gdpr' ),
+					'callback_condition' => array(
+						'cmplz_datarequests_or_dnsmpi_active',
+					),
+				),
+
+				'notification_email_content' => array(
+					'step'               => 'data-requests',
+					'source'             => 'settings',
+					'type'               => 'editor',
+					'label'              => __( "Notification email content",
+						'complianz-gdpr' ),
+					'default'            => __( 'Hi {name}', 'complianz-gdpr' )
+					                        . "<br><br>"
+					                        . __( 'We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.', 'complianz-gdpr' ) . "<br><br>" . _x( 'Kind regards,', 'email signature', 'complianz-gdpr' )
+					                        . '<br><br>{blogname}',
+					'tooltip' => __( "Email content used for Data Request email notifications.", 'complianz-gdpr' ),
+					'callback_condition' => array(
+						'cmplz_datarequests_or_dnsmpi_active',
+					),
+				),
 
         // ---------------- Cookie Blocker ----------------- //
 

@@ -309,18 +309,6 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_do_not_sell_personal_data_form' ) ) {
-	/**
-	 * Shortcode for DNSMPI form
-	 * @return string
-	 */
-	function cmplz_do_not_sell_personal_data_form() {
-
-		$html = cmplz_get_template( 'do-not-sell-my-personal-data-form.php' );
-
-		return $html;
-	}
-}
 if ( ! function_exists( 'cmplz_sells_personal_data' ) ) {
 	function cmplz_sells_personal_data() {
 		$purposes = cmplz_get_value( 'purpose_personaldata' , false, 'wizard');
@@ -1383,6 +1371,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['elementor_library'] )
 		     || isset( $_GET['elementor-app'] )
 		     || isset( $_GET['vc_action'] )
+		     || isset( $_GET['vc_editable'] )
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
@@ -1418,6 +1407,29 @@ if (!function_exists('cmplz_dnsmpi_required')) {
 		return cmplz_has_region( 'us' ) && cmplz_sells_personal_data();
 	}
 }
+
+if (!function_exists('cmplz_datarequests_active')) {
+	/**
+	 * Check if the site requires DNSMPI logic
+	 *
+	 * @return bool
+	 */
+	function cmplz_datarequests_active() {
+		return cmplz_get_value( 'datarequest' ) === 'yes';
+	}
+}
+
+if (!function_exists('cmplz_datarequests_or_dnsmpi_active')) {
+	/**
+	 * Check if the site requires data requests OR dnsmpi logic
+	 *
+	 * @return bool
+	 */
+	function cmplz_datarequests_or_dnsmpi_active() {
+		return cmplz_datarequests_active() || cmplz_dnsmpi_required();
+	}
+}
+
 if (!function_exists('cmplz_file_exists_on_url')) {
 	function cmplz_file_exists_on_url($url){
 		$uploads    = wp_upload_dir();
@@ -1678,6 +1690,7 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 			'input'      => array(
 				'type'        => array(),
 				'class'       => array(),
+				'name'        => array(),
 				'id'          => array(),
 				'required'    => array(),
 				'value'       => array(),
@@ -1755,6 +1768,9 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 			'ul'         => array(
 				'class' => array(),
 				'id'    => array(),
+			),
+			'form'         => array(
+					'id'    => array(),
 			),
 		);
 

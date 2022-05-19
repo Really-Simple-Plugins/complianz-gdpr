@@ -33,6 +33,15 @@ $this->eu_countries = array(
 	"CZ",
 	"VL",
 	"SE",
+	// Extended to Switzerland
+	"CH",
+	// Extended to Reunion etc
+	"RE",
+	"GP",
+	"MQ",
+	"GY",
+	"YT",
+	"MF",
 );
 
 $this->formal_languages = array(

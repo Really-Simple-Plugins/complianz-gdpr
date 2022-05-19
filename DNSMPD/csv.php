@@ -42,16 +42,11 @@ function array_to_csv_download(
 	}
 }
 
-$file_title = "cmplz-export-" . date( "j" ) . " " . __( date( "F" ) ) . " "
-              . date( "Y" );
-array_to_csv_download(
-	export_array(),
-	$file_title . ".csv"
-);
+$file_title = "cmplz-export-" . date( "j" ) . " " . __( date( "F" ) ) . " " . date( "Y" );
+array_to_csv_download( export_array(), $file_title . ".csv" );
 
 function export_array() {
-
-	$users = COMPLIANZ::$DNSMPD->get_users( array(
+	$requests = COMPLIANZ::$DNSMPD->get_requests( array(
 		'orderby' => 'ID',
 		'order'   => 'DESC'
 	) );
@@ -59,10 +54,24 @@ function export_array() {
 	$output = array();
 	$output[] = array(
 		__( "Name", 'complianz-gdpr' ),
-		__( "Email", 'complianz-gdpr' )
+		__( "Email", 'complianz-gdpr' ),
+		__( "Resolved", 'complianz-gdpr' ),
+		__( "Data request", 'complianz-gdpr' ),
+		__( "Date", 'complianz-gdpr' ),
 	);
-	foreach ( $users as $user ) {
-		$output[] = array( $user->name, $user->email );
+
+	foreach ( $requests as $request ) {
+		$datarequest='';
+		$options = apply_filters( 'cmplz_datarequest_options', [] );
+		foreach ($options as $fieldname => $label ) {
+			if ( $request->{$fieldname}==1 ) {
+				$datarequest = $label['short'];
+			}
+		}
+		$time = date( get_option( 'time_format' ), $request->request_date );
+		$date = cmplz_localize_date(date(get_option('date_format'),$request->request_date));
+		$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
+		$output[] = array( $request->name, $request->email, $request->resolved, $datarequest, $date );
 	}
 
 	return $output;

@@ -26,7 +26,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 	public $per_page = 30;
 
 	/**
-	 * Number of customers found
+	 * Number of results found
 	 *
 	 * @var int
 	 * @since 1.7
@@ -34,7 +34,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 	public $count = 0;
 
 	/**
-	 * Total customers
+	 * Total results
 	 *
 	 * @var int
 	 * @since 1.95
@@ -124,31 +124,29 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 	 */
 	public function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
-
-			case 'request_date' :
-				$value = date_i18n( get_option( 'date_format' ),
-					strtotime( $item['request_date'] ) );
+			case 'resolved' :
+				$value = $item['resolved'] ? __('Resolved','complianz-gdpr') : __('Open','complianz-gdpr');
 				break;
-
 			default:
-				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ]
-					: null;
+				$value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : null;
 				break;
 		}
-
-		return apply_filters( 'cmplz_dnsmpd_column_' . $column_name, $value,
-			$item['ID'] );
+		return apply_filters( 'cmplz_dnsmpd_column_' . $column_name, $value, $item['ID'] );
 	}
+
+	/**
+	 * Column name
+	 * @param array $item
+	 *
+	 * @return string
+	 */
 
 	public function column_name( $item ) {
 		$name    = '#' . $item['ID'] . ' ';
-		$name    .= ! empty( $item['name'] ) ? $item['name']
-			: '<em>' . __( 'Unnamed user', 'complianz-gdpr' ) . '</em>';
+		$name    .= ! empty( $item['name'] ) ? $item['name'] : '<em>' . __( 'Unnamed user', 'complianz-gdpr' ) . '</em>';
 		$actions = array(
-			'delete' => '<a href="'
-			            . admin_url( 'admin.php?page=cmplz_dnsmpd&action=delete&id='
-			                         . $item['ID'] ) . '">' . __( 'Delete',
-					'complianz-gdpr' ) . '</a>'
+			'resolve' => '<a href="' . admin_url( 'admin.php?page=cmplz-datarequests&action=resolve&id=' . $item['ID'] ) . '">' . __( 'Resolve', 'complianz-gdpr' ) . '</a>',
+			'delete' => '<a href="' . admin_url( 'admin.php?page=cmplz-datarequests&action=delete&id=' . $item['ID'] ) . '">' . __( 'Delete', 'complianz-gdpr' ) . '</a>',
 		);
 
 		return $name . $this->row_actions( $actions );
@@ -164,6 +162,10 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 		$columns = array(
 			'name'  => __( 'Name', 'complianz-gdpr' ),
 			'email' => __( 'Email', 'complianz-gdpr' ),
+			'region' => __( 'Region', 'complianz-gdpr' ),
+			'resolved' => __( 'Status', 'complianz-gdpr' ),
+			'datarequest' => __( 'Data request', 'complianz-gdpr' ),
+			'date' => __( 'Date', 'complianz-gdpr' ),
 		);
 
 		return apply_filters( 'cmplz_report_customer_columns', $columns );
@@ -178,10 +180,13 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array(
-			'request_date' => array( 'request_date', true ),
-			'name'         => array( 'name', true ),
-			'email'        => array( 'email', true ),
-
+				'request_date' => array( 'request_date', true ),
+				'name'         => array( 'name', true ),
+				'region'       => array( 'region', true ),
+				'email'        => array( 'email', true ),
+				'resolved'     => array( 'resolved', true ),
+				'date'         => array( 'date', true ),
+				'datarequest'  => array( 'datarequest', true ),
 		);
 	}
 
@@ -215,6 +220,25 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 		return ! empty( $_GET['s'] ) ? urldecode( trim( $_GET['s'] ) ) : false;
 	}
 
+
+	public function resolved_select() {
+		// Month Select
+		$options = [
+				1 => __('Resolved',"complianz-gdpr"),
+				0 => __('Unresolved',"complianz-gdpr"),
+		];
+		$selected = 0;
+		if ( isset($_GET['cmplz_resolved_select'])		) {
+			$selected = intval($_GET['cmplz_resolved_select']);
+		}
+
+		echo '<select style="float:right" name="cmplz_resolved_select" id="cmplz_resolved_select" class="cmplz_resolved_select">';
+		foreach($options as $value => $label) {
+			echo '<option value="' . $value . '" ' . ($selected==$value ? 'selected' : '') . '>' . $label . '</option>';
+		}
+		echo '</select>';
+	}
+
 	/**
 	 * Build all the reports data
 	 *
@@ -223,6 +247,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 	 *                      Database API
 	 * @since 1.5
 	 */
+
 	public function reports_data() {
 
 		$data    = array();
@@ -247,18 +272,34 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 			$args['name'] = $search;
 		}
 
+		if ( isset( $_GET['cmplz_resolved_select'] ) ) {
+			$args['resolved'] = intval($_GET['cmplz_resolved_select']);
+		}
+
 		$this->args = $args;
-		$customers  = COMPLIANZ::$DNSMPD->get_users( $args );
-
-		if ( $customers ) {
-
-			foreach ( $customers as $customer ) {
-
+		$requests  = COMPLIANZ::$DNSMPD->get_requests( $args );
+		if ( $requests ) {
+			foreach ( $requests as $request ) {
+				$datarequest='';
+				$options = apply_filters( 'cmplz_datarequest_options', [] );
+				foreach ($options as $fieldname => $label ) {
+					if ( $request->{$fieldname}==1 ) {
+						$datarequest = '<a href="https://complianz.io/'.$label['slug'].'" target="_blank">'.$label['short'].'</a>';
+					}
+				}
+				$time = date( get_option( 'time_format' ), $request->request_date );
+				$date = cmplz_localize_date(date(get_option('date_format'),$request->request_date));
+				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
+//				$region = isset(COMPLIANZ::$config->regions[$request->region]['label_full']) ? COMPLIANZ::$config->regions[$request->region]['label_full'] :;
+				$region = cmplz_region_icon( $request->region, 25);;
 				$data[] = array(
-					'ID'           => $customer->ID,
-					'name'         => $customer->name,
-					'email'        => $customer->email,
-					'request_date' => $customer->request_date,
+						'ID'          => $request->ID,
+						'name'        => $request->name,
+						'email'       => $request->email,
+						'region'      => $region,
+						'resolved'    => $request->resolved,
+						'datarequest' => $datarequest,
+						'date'       => $date,
 				);
 			}
 		}
@@ -266,24 +307,19 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 		return $data;
 	}
 
-
+	/**
+	 * Prepare items for the table
+	 *
+	 * @return void
+	 */
 	public function prepare_items() {
-
 		$columns  = $this->get_columns();
 		$hidden   = array(); // No hidden columns
 		$sortable = $this->get_sortable_columns();
-
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-
 		$this->items = $this->reports_data();
-
-		$this->total = COMPLIANZ::$DNSMPD->count_users( $this->args );
-
-		// Add condition to be sure we don't divide by zero.
-		// If $this->per_page is 0, then set total pages to 1.
-		$total_pages = $this->per_page ? ceil( (int) $this->total
-		                                       / (int) $this->per_page ) : 1;
-
+		$this->total = COMPLIANZ::$DNSMPD->count_requests( $this->args );
+		$total_pages = $this->per_page ? ceil( (int) $this->total / (int) $this->per_page ) : 1;
 		$this->set_pagination_args( array(
 			'total_items' => $this->total,
 			'per_page'    => $this->per_page,

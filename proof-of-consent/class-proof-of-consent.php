@@ -341,26 +341,10 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
                     'colorpalette_button_settings',
                     'buttons_border_radius',
 				);
-				$cats_pattern = '/data-category="(.*?)"/i';
-				if (isset($settings['categories'])) {
-					if ( preg_match_all( $cats_pattern, $settings['categories'],
-						$matches )
-					) {
-						$categories = $matches[1];
-						foreach($categories as $index => $category ) {
-							$category = str_replace('cmplz_', '', $category);
-							if (is_numeric(intval($category))) {
-								$category = 'Custom event ' . $category;
-							}
-							$categories[$index] = $category;
-						}
-						$settings['categories'] =  implode(', ', $categories);
-					}
-				}
 
+				$settings['categories'] =  isset($settings['categories']) ? implode(', ', $settings['categories']) : '';
 				unset( $settings["readmore_url"] );
 				$settings = apply_filters( 'cmplz_cookie_policy_snapshot_settings' ,$settings );
-
 				foreach ( $settings as $key => $value ) {
 
 					if ( in_array( $key, $skip ) ) {

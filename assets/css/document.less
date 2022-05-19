@@ -38,21 +38,20 @@
 	display:inline-block
   }
 
-  .alert {
+  .cmplz-alert {
+	display:none;
     padding: 7px;
     color: white;
     margin: 10px 0;
+	&.cmplz-error {
+	  background-color: #f44336;
+	}
+	&.cmplz-success {
+	  background-color: green;
+	}
   }
 
-  .alert.error {
-    background-color: #f44336;
-  }
-
-  .alert.success {
-    background-color: green;
-  }
-
-  .close {
+  .cmplz-close {
     margin-left: 15px;
     color: white;
     font-weight: bold;
@@ -61,11 +60,11 @@
     line-height: 20px;
     cursor: pointer;
     transition: 0.3s;
+	&:hover {
+	  color: black;
+	}
   }
 
-  .close:hover {
-    color: black;
-  }
   h2, h3 {
     font-size: 22px;
     text-align: left;
