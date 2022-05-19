@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 6.0
-Stable tag: 6.1.6
+Stable tag: 6.1.6.1
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
@@ -184,7 +184,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: Livetube fatal error props @ltglobal
 * Fix: British word changed to US default
 * Fix: php error php 8 when generating POC
-* Fix: Compatibility with Menu Block editor for legal pages 
+* Fix: Compatibility with Menu Block editor for legal pages
+
+= 6.1.6.1 =
+* Fix: usage of dropped constants in GTM4WP causing fatal error, props @shecky
 
 = 6.1.6 =
 * Fix: elementor fix for inline css, matching regex made more specific
