@@ -1,16 +1,16 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2022-04-25 10:37+0200\n"
+"POT-Creation-Date: 2022-05-25 09:20+0200\n"
 "PO-Revision-Date: 2022-04-25 10:37+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: complianz-gpdr-premium.php\n"
@@ -29,11 +29,25 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+#: DNSMPD/class-DNSMPD-table.php:128 DNSMPD/class-DNSMPD-table.php:227
+#: DNSMPD/csv.php:58
+msgid "Resolved"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD-table.php:128 pro/class-licensing.php:683
+#: pro/class-licensing.php:692 templates/dashboard/progress.php:80
+msgid "Open"
+msgstr ""
+
 #: DNSMPD/class-DNSMPD-table.php:146
 msgid "Unnamed user"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:150
+#: DNSMPD/class-DNSMPD-table.php:148
+msgid "Resolve"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD-table.php:149
 #: cookiebanner/class-cookiebanner-table.php:210 pro/class-statistics.php:578
 #: pro/records-of-consent/class-records-of-consent-table.php:150
 #: pro/records-of-consent/class-records-of-consent-table.php:276
@@ -42,66 +56,156 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:165 DNSMPD/csv.php:61 class-field.php:2429
-#: class-field.php:2774 class-field.php:3005
+#: DNSMPD/class-DNSMPD-table.php:163 DNSMPD/class-DNSMPD.php:482
+#: DNSMPD/class-DNSMPD.php:484 DNSMPD/csv.php:56 class-field.php:2432
+#: class-field.php:2777 class-field.php:3008
 #: cookiebanner/class-cookiebanner-table.php:240
 #: pro/config/questions-wizard.php:431 pro/config/questions-wizard.php:488
 #: pro/config/questions-wizard.php:554 pro/config/questions-wizard.php:610
-#: templates/cookie_settings.php:4 templates/cookiepolicy/cookies_row.php:2
-#: templates/do-not-sell-my-personal-data-form.php:15
-#: templates/do-not-sell-my-personal-data-form.php:17
-#: templates/service_settings.php:3
+#: pro/datarequests/class-datarequests.php:70
+#: pro/datarequests/class-datarequests.php:74 templates/cookie_settings.php:4
+#: templates/cookiepolicy/cookies_row.php:2 templates/service_settings.php:3
 msgid "Name"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:166 DNSMPD/csv.php:62
-#: pro/config/questions-wizard.php:446 pro/config/questions-wizard.php:503
-#: pro/config/questions-wizard.php:568 pro/config/questions-wizard.php:625
-#: pro/framework/post-types.php:447
-#: templates/do-not-sell-my-personal-data-form.php:19
+#: DNSMPD/class-DNSMPD-table.php:164 DNSMPD/class-DNSMPD.php:488
+#: DNSMPD/csv.php:57 pro/config/questions-wizard.php:446
+#: pro/config/questions-wizard.php:503 pro/config/questions-wizard.php:568
+#: pro/config/questions-wizard.php:625
+#: pro/datarequests/class-datarequests.php:78 pro/framework/post-types.php:447
 msgid "Email"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:42 DNSMPD/class-DNSMPD.php:43
-msgid "DNSMPI"
+#: DNSMPD/class-DNSMPD-table.php:165 pro/framework/post-types.php:256
+#: pro/framework/post-types.php:328 pro/framework/post-types.php:443
+#: pro/records-of-consent/class-records-of-consent-table.php:295
+msgid "Region"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:57
-msgid "Do Not Sell My Personal Info Requests"
+#: DNSMPD/class-DNSMPD-table.php:166
+msgid "Status"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:63 config/general-settings.php:309
+#: DNSMPD/class-DNSMPD-table.php:167 DNSMPD/csv.php:59
+msgid "Data request"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD-table.php:168 DNSMPD/csv.php:60
+#: pro/records-of-consent/class-records-of-consent-table.php:292
+#: pro/records-of-consent/class-records-of-consent.php:180
+msgid "Date"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD-table.php:228
+msgid "Unresolved"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD-table.php:292 DNSMPD/csv.php:73
+#: cookie/class-cookie-admin.php:3098
+#, php-format
+msgid "%s at %s"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:40 DNSMPD/class-DNSMPD.php:167
+msgid "Data Requests"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:62
+msgid "You have open data requests."
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:62
+#, php-format
+msgid "Please check the data requests <a href=\"%s\">overview page</a>."
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:92
+msgid "Global opt-out"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:93
+msgid ""
+"Global opt-out from selling and sharing my personal information and limiting "
+"the use or disclosure of sensitive personal information."
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:97
+msgid "Do not sell my info"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:98
+msgid ""
+"Do not sell my personal information for cross-context behavioral advertising"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:102
+msgid "Limit sensitive data"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:103
+msgid "Limit the use of my sensitive personal information"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:148 DNSMPD/class-DNSMPD.php:149
+#: templates/dashboard/tools-conditional.php:35
+msgid "Data requests"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:168 config/general-settings.php:310
 #: cookiebanner/class-cookiebanner-table.php:216
 #: templates/dashboard/tools.php:26
 msgid "Export"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:68
-msgid "Search Customers"
+#: DNSMPD/class-DNSMPD.php:172
+msgid "Search requests"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:130
+#: DNSMPD/class-DNSMPD.php:333
+#, php-format
+msgid "You have received a new data request on %s"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:334
+#, php-format
+msgid "Please check the data request on %s"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:401
 msgid "Sorry, it looks like you're a bot"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:136
+#: DNSMPD/class-DNSMPD.php:406
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:142
+#: DNSMPD/class-DNSMPD.php:411
 msgid "Please enter your name"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:148
+#: DNSMPD/class-DNSMPD.php:416
 msgid "That's a long name you got there. Please try to shorten the name."
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:170
+#: DNSMPD/class-DNSMPD.php:452
 msgid "Your request has been processed successfully!"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD.php:173
+#: DNSMPD/class-DNSMPD.php:454
 msgid "Your email address was already registered!"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:485 pro/datarequests/class-datarequests.php:75
+msgid "Your name"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:489 pro/datarequests/class-datarequests.php:79
+msgid "email@email.com"
+msgstr ""
+
+#: DNSMPD/class-DNSMPD.php:502 pro/datarequests/class-datarequests.php:91
+#: pro/templates/dashboard/support-footer.php:4
+msgid "Send"
 msgstr ""
 
 #: assets/icons.php:21 assets/icons.php:26
@@ -342,7 +446,7 @@ msgstr ""
 
 #: class-admin.php:69
 msgid ""
-"Get detailed insights into visitors' behaviour with Burst Statistics, the "
+"Get detailed insights into visitors' behavior with Burst Statistics, the "
 "privacy-friendly analytics dashboard from Really Simple Plugins"
 msgstr ""
 
@@ -371,7 +475,7 @@ msgid ""
 msgstr ""
 
 #: class-admin.php:391 class-admin.php:762 class-admin.php:763
-#: class-admin.php:987 cookiebanner/settings.php:469
+#: class-admin.php:988 cookiebanner/settings.php:469
 #: integrations/integrations-menu.php:50 pro/class-licensing.php:469
 #: pro/class-licensing.php:573 templates/dashboard/tools.php:46
 msgid "Settings"
@@ -453,7 +557,7 @@ msgid "Other plugins"
 msgstr ""
 
 #: class-admin.php:953 config/steps.php:8 cookiebanner/edit.php:39
-#: cookiebanner/settings.php:316 functions.php:573 pro/config/steps.php:6
+#: cookiebanner/settings.php:316 functions.php:561 pro/config/steps.php:6
 #: pro/config/steps.php:107 pro/dataleak/steps.php:11 pro/dataleak/steps.php:30
 #: pro/dataleak/steps.php:55 pro/grid-functions.php:8
 msgid "General"
@@ -463,11 +567,11 @@ msgstr ""
 msgid "Data"
 msgstr ""
 
-#: class-admin.php:969
+#: class-admin.php:970
 msgid "Cookies"
 msgstr ""
 
-#: class-admin.php:977
+#: class-admin.php:978
 msgid "Advanced features"
 msgstr ""
 
@@ -554,73 +658,73 @@ msgstr ""
 msgid "Click to accept marketing cookies"
 msgstr ""
 
-#: class-document.php:1301
+#: class-document.php:1300
 msgid "Legal Document"
 msgstr ""
 
-#: class-document.php:1317
+#: class-document.php:1316
 msgid "Document status"
 msgstr ""
 
-#: class-document.php:1339
+#: class-document.php:1338
 msgid "Synchronize document with Complianz"
 msgstr ""
 
-#: class-document.php:1343
+#: class-document.php:1342
 msgid "Edit document and stop synchronization"
 msgstr ""
 
-#: class-document.php:1632 class-document.php:1719
+#: class-document.php:1598 class-document.php:1685
 msgid "Update pages"
 msgstr ""
 
-#: class-document.php:1668
+#: class-document.php:1634
 msgid ""
 "The pages marked with X should be added to your website. You can create "
 "these pages with a shortcode, a Gutenberg block or use the below \"Create "
 "missing pages\" button."
 msgstr ""
 
-#: class-document.php:1670
+#: class-document.php:1636
 msgid ""
 "All necessary pages have been created already. You can update the page "
 "titles here if you want, then click the \"Update pages\" button."
 msgstr ""
 
-#: class-document.php:1676
+#: class-document.php:1642
 msgid "You haven't selected any legal documents to create."
 msgstr ""
 
-#: class-document.php:1676
+#: class-document.php:1642
 msgid "You can continue to the next step."
 msgstr ""
 
-#: class-document.php:1710 templates/dashboard/documents-conditional.php:38
+#: class-document.php:1676 templates/dashboard/documents-conditional.php:38
 #: templates/dashboard/documents.php:46
 msgid "Click to copy the document shortcode"
 msgstr ""
 
-#: class-document.php:1717
+#: class-document.php:1683
 msgid "Create missing pages"
 msgstr ""
 
-#: class-document.php:1745 class-document.php:1805
+#: class-document.php:1711 class-document.php:1771
 msgid ""
 "Your WordPress version does not support the functions needed for this step. "
 "You can upgrade to the latest WordPress version, or add the pages manually "
 "to a menu."
 msgstr ""
 
-#: class-document.php:1756 class-document.php:1816
+#: class-document.php:1722 class-document.php:1782
 #, php-format
 msgid "No menus were found. Skip this step, or %screate a menu%s first."
 msgstr ""
 
-#: class-document.php:1774 class-document.php:1845 class-document.php:1867
+#: class-document.php:1740 class-document.php:1811 class-document.php:1833
 msgid "Select a menu"
 msgstr ""
 
-#: class-document.php:2463
+#: class-document.php:2429
 msgid "Click to accept the cookies for this service"
 msgstr ""
 
@@ -657,11 +761,11 @@ msgstr ""
 msgid "None selected"
 msgstr ""
 
-#: class-field.php:1499 class-field.php:1579
+#: class-field.php:1502 class-field.php:1582
 msgid "Top"
 msgstr ""
 
-#: class-field.php:1504 class-field.php:1584
+#: class-field.php:1507 class-field.php:1587
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-accept-button-widget.php:140
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-deny-button-widget.php:139
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:134
@@ -671,11 +775,11 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: class-field.php:1509 class-field.php:1589 cookiebanner/settings.php:157
+#: class-field.php:1512 class-field.php:1592 cookiebanner/settings.php:157
 msgid "Bottom"
 msgstr ""
 
-#: class-field.php:1514 class-field.php:1594
+#: class-field.php:1517 class-field.php:1597
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-accept-button-widget.php:132
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-deny-button-widget.php:131
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:126
@@ -685,133 +789,133 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: class-field.php:1838 cookiebanner/edit.php:25
+#: class-field.php:1841 cookiebanner/edit.php:25
 msgid "Choose an option"
 msgstr ""
 
-#: class-field.php:1937
+#: class-field.php:1940
 msgid "Choose file"
 msgstr ""
 
-#: class-field.php:1943
+#: class-field.php:1946
 msgid "Import"
 msgstr ""
 
-#: class-field.php:1945
+#: class-field.php:1948
 msgid "No file chosen"
 msgstr ""
 
-#: class-field.php:1964 class-field.php:2220 class-field.php:2331
-#: class-field.php:2545 class-field.php:2932 class-field.php:3042
+#: class-field.php:1967 class-field.php:2223 class-field.php:2334
+#: class-field.php:2548 class-field.php:2935 class-field.php:3045
 #: class-wizard.php:671 templates/CMPLZ_COOKIEBANNER/footer.php:3
 #: templates/cookie_settings.php:87 templates/integrations/footer.php:3
 #: templates/service_settings.php:49 templates/settings/footer.php:3
 msgid "Save"
 msgstr ""
 
-#: class-field.php:1985 class-field.php:2393 class-field.php:2738
-#: class-field.php:2985 pro/framework/post-types.php:172
+#: class-field.php:1988 class-field.php:2396 class-field.php:2741
+#: class-field.php:2988 pro/framework/post-types.php:172
 #: pro/framework/post-types.php:173 pro/framework/post-types.php:212
 #: pro/framework/post-types.php:213
 msgid "Add new"
 msgstr ""
 
-#: class-field.php:1995
+#: class-field.php:1998
 msgid "Description"
 msgstr ""
 
-#: class-field.php:2007 class-field.php:2224 class-field.php:2335
-#: class-field.php:2546 class-field.php:2933 class-field.php:3043
+#: class-field.php:2010 class-field.php:2227 class-field.php:2338
+#: class-field.php:2549 class-field.php:2936 class-field.php:3046
 msgid "Remove"
 msgstr ""
 
-#: class-field.php:2037
+#: class-field.php:2040
 msgid "Add new cookie"
 msgstr ""
 
-#: class-field.php:2052 cookie/class-cookie-admin.php:3508
+#: class-field.php:2055 cookie/class-cookie-admin.php:3508
 #, php-format
 msgid "Cookies in %s"
 msgstr ""
 
-#: class-field.php:2052 cookie/class-cookie-admin.php:3508
+#: class-field.php:2055 cookie/class-cookie-admin.php:3508
 #, php-format
 msgid "Services in %s"
 msgstr ""
 
-#: class-field.php:2100
+#: class-field.php:2103
 msgid "Add new service"
 msgstr ""
 
-#: class-field.php:2149
+#: class-field.php:2152
 #, php-format
 msgid "Name of the %s with whom you share the data"
 msgstr ""
 
-#: class-field.php:2160
+#: class-field.php:2163
 #, php-format
 msgid ""
 "Select the Processing Agreement you made with this %s, or %screate one%s"
 msgstr ""
 
-#: class-field.php:2169
+#: class-field.php:2172
 msgid "No agreement selected"
 msgstr ""
 
-#: class-field.php:2172
+#: class-field.php:2175
 msgid "A Processing Agreement outside Complianz Privacy Suite"
 msgstr ""
 
-#: class-field.php:2183
+#: class-field.php:2186
 #, php-format
 msgid "%s country"
 msgstr ""
 
-#: class-field.php:2195 class-field.php:2309 config/steps.php:37
+#: class-field.php:2198 class-field.php:2312 config/steps.php:37
 #: pro/config/steps.php:41 templates/cookie_settings.php:34
 msgid "Purpose"
 msgstr ""
 
-#: class-field.php:2207 class-field.php:2319
+#: class-field.php:2210 class-field.php:2322
 msgid "What type of data is shared"
 msgstr ""
 
-#: class-field.php:2231 class-field.php:2341 class-field.php:2412
-#: class-field.php:2550 class-field.php:2756 class-field.php:2937
-#: class-field.php:2993 class-field.php:3047
+#: class-field.php:2234 class-field.php:2344 class-field.php:2415
+#: class-field.php:2553 class-field.php:2759 class-field.php:2940
+#: class-field.php:2996 class-field.php:3050
 msgid "New entry"
 msgstr ""
 
-#: class-field.php:2245
+#: class-field.php:2248
 #, php-format
 msgid "Add new %s"
 msgstr ""
 
-#: class-field.php:2284
+#: class-field.php:2287
 msgid "Name of the Third Party with whom you share the data"
 msgstr ""
 
-#: class-field.php:2296
+#: class-field.php:2299
 msgid "Third Party country"
 msgstr ""
 
-#: class-field.php:2351
+#: class-field.php:2354
 msgid "Add new Third Party"
 msgstr ""
 
-#: class-field.php:2373 class-field.php:2716 class-field.php:2970
+#: class-field.php:2376 class-field.php:2719 class-field.php:2973
 msgid "Example"
 msgstr ""
 
-#: class-field.php:2463
+#: class-field.php:2466
 msgid "This script contains an async attribute."
 msgstr ""
 
-#: class-field.php:2480 class-field.php:2811 pro/class-statistics.php:580
+#: class-field.php:2483 class-field.php:2814 pro/class-statistics.php:580
 msgid "Category"
 msgstr ""
 
-#: class-field.php:2483 class-field.php:2814 config/steps.php:62
+#: class-field.php:2486 class-field.php:2817 config/steps.php:62
 #: cookiebanner/class-cookiebanner.php:817 cookiebanner/settings.php:703
 #: cookiebanner/settings.php:704 cookiebanner/settings.php:705
 #: pro/tcf/tcf.php:735 pro/tcf/tcf.php:742 pro/templates/cookiebanner-tcf.php:6
@@ -819,7 +923,7 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: class-field.php:2494 class-field.php:2825
+#: class-field.php:2497 class-field.php:2828
 #: cookiebanner/class-cookiebanner.php:821 cookiebanner/settings.php:740
 #: cookiebanner/settings.php:741 cookiebanner/settings.php:742
 #: pro/tcf/tcf.php:737 pro/tcf/tcf.php:745
@@ -827,52 +931,52 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: class-field.php:2507 class-field.php:2838 integrations/integrations.php:693
+#: class-field.php:2510 class-field.php:2841 integrations/integrations.php:705
 msgid "Placeholder"
 msgstr ""
 
-#: class-field.php:2510 class-field.php:2841
+#: class-field.php:2513 class-field.php:2844
 msgid "Enable placeholder"
 msgstr ""
 
-#: class-field.php:2526 class-field.php:2874
+#: class-field.php:2529 class-field.php:2877
 msgid "Enter the div class that should be targeted."
 msgstr ""
 
-#: class-field.php:2784
+#: class-field.php:2787
 msgid "URLs that should be blocked before consent."
 msgstr ""
 
-#: class-field.php:2857
+#: class-field.php:2860
 msgid "The blocked content is an iframe"
 msgstr ""
 
-#: class-field.php:2893
+#: class-field.php:2896
 msgid "Dependency"
 msgstr ""
 
-#: class-field.php:2897
+#: class-field.php:2900
 msgid "Enable dependency"
 msgstr ""
 
-#: class-field.php:2920
+#: class-field.php:2923
 msgid "No dependency"
 msgstr ""
 
-#: class-field.php:2926
+#: class-field.php:2929
 #, php-format
 msgid "waits for %s"
 msgstr ""
 
-#: class-field.php:3015
+#: class-field.php:3018
 msgid "URLs that should be whitelisted."
 msgstr ""
 
-#: class-field.php:3086
+#: class-field.php:3089
 msgid "No site logo configured."
 msgstr ""
 
-#: class-field.php:3119 cookiebanner/class-cookiebanner-table.php:208
+#: class-field.php:3122 cookiebanner/class-cookiebanner-table.php:208
 #: pro/framework/post-types.php:441
 msgid "Edit"
 msgstr ""
@@ -990,7 +1094,8 @@ msgstr ""
 #: config/class-config.php:260 config/questions-wizard.php:401
 #: config/questions-wizard.php:419 config/questions-wizard.php:738
 #: integrations/plugins/elementor-pro/elementor-pro.php:188
-#: pro/config/questions-wizard.php:725 pro/tcf/tcf.php:708 pro/tcf/tcf.php:712
+#: pro/config/questions-wizard.php:725 pro/config/questions-wizard.php:864
+#: pro/tcf/tcf.php:708 pro/tcf/tcf.php:712
 msgid "Yes"
 msgstr ""
 
@@ -999,7 +1104,7 @@ msgstr ""
 #: config/questions-wizard.php:739
 #: integrations/plugins/elementor-pro/elementor-pro.php:189
 #: pro/config/questions-wizard.php:726 pro/config/questions-wizard.php:794
-#: pro/tcf/tcf.php:708 pro/tcf/tcf.php:712
+#: pro/config/questions-wizard.php:865 pro/tcf/tcf.php:708 pro/tcf/tcf.php:712
 msgid "No"
 msgstr ""
 
@@ -1016,9 +1121,15 @@ msgid ""
 "acceptance ratio, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:276 config/general-settings.php:218
+#: config/class-config.php:276 config/general-settings.php:219
 #: cookiebanner/class-cookiebanner-table.php:246
 msgid "Default"
+msgstr ""
+
+#: config/class-config.php:452
+msgid ""
+"New Feature: Data requests for Privacy Statements. For more information, "
+"read this article."
 msgstr ""
 
 #: config/class-config.php:459
@@ -1240,1116 +1351,1116 @@ msgstr ""
 msgid "Install directly from our wizard."
 msgstr ""
 
-#: config/countries.php:51
+#: config/countries.php:60
 msgid "US"
 msgstr ""
 
-#: config/countries.php:52 config/countries.php:369
-#: pro/config/dynamic-fields.php:381
+#: config/countries.php:61 config/countries.php:378
+#: pro/config/dynamic-fields.php:383
 msgid "United States"
 msgstr ""
 
-#: config/countries.php:54
+#: config/countries.php:63
 msgid "CCPA"
 msgstr ""
 
-#: config/countries.php:61
+#: config/countries.php:70
 msgid "CA"
 msgstr ""
 
-#: config/countries.php:62 config/countries.php:176
+#: config/countries.php:71 config/countries.php:185
 msgid "Canada"
 msgstr ""
 
-#: config/countries.php:64
+#: config/countries.php:73
 msgid "PIPEDA"
 msgstr ""
 
-#: config/countries.php:71
+#: config/countries.php:80
 msgid "EU"
 msgstr ""
 
-#: config/countries.php:72
+#: config/countries.php:81
 msgid "European Union"
 msgstr ""
 
-#: config/countries.php:74
+#: config/countries.php:83
 msgid "GDPR"
 msgstr ""
 
-#: config/countries.php:81
+#: config/countries.php:90
 msgid "UK"
 msgstr ""
 
-#: config/countries.php:82 config/countries.php:368
+#: config/countries.php:91 config/countries.php:377
 msgid "United Kingdom"
 msgstr ""
 
-#: config/countries.php:84
+#: config/countries.php:93
 msgid "UK-GDPR"
 msgstr ""
 
-#: config/countries.php:91
+#: config/countries.php:100
 msgid "AU"
 msgstr ""
 
-#: config/countries.php:92 config/countries.php:151
+#: config/countries.php:101 config/countries.php:160
 msgid "Australia"
 msgstr ""
 
-#: config/countries.php:94
+#: config/countries.php:103
 msgid "APA"
 msgstr ""
 
-#: config/countries.php:101
+#: config/countries.php:110
 msgid "ZA"
 msgstr ""
 
-#: config/countries.php:102 config/countries.php:340
+#: config/countries.php:111 config/countries.php:349
 msgid "South Africa"
 msgstr ""
 
-#: config/countries.php:104
+#: config/countries.php:113
 msgid "POPIA"
 msgstr ""
 
-#: config/countries.php:111
+#: config/countries.php:120
 msgid "BR"
 msgstr ""
 
-#: config/countries.php:112 config/countries.php:168
+#: config/countries.php:121 config/countries.php:177
 msgid "Brazil"
 msgstr ""
 
-#: config/countries.php:114
+#: config/countries.php:123
 msgid "LGPD"
 msgstr ""
 
-#: config/countries.php:123
+#: config/countries.php:132
 msgid "GDPR (European Union)"
 msgstr ""
 
-#: config/countries.php:124
+#: config/countries.php:133
 msgid "UK-GDPR, PECR, Data Protection Act (United Kingdom)"
 msgstr ""
 
-#: config/countries.php:125
+#: config/countries.php:134
 msgid "CCPA / United States"
 msgstr ""
 
-#: config/countries.php:126
+#: config/countries.php:135
 msgid "PIPEDA (Canada)"
 msgstr ""
 
-#: config/countries.php:127
+#: config/countries.php:136
 msgid "Privacy Act 1988 (Australia)"
 msgstr ""
 
-#: config/countries.php:128
+#: config/countries.php:137
 msgid "POPIA (South Africa)"
 msgstr ""
 
-#: config/countries.php:129
+#: config/countries.php:138
 msgid "LGPD (Brazil)"
 msgstr ""
 
-#: config/countries.php:138
+#: config/countries.php:147
 msgid "Afghanistan"
 msgstr ""
 
-#: config/countries.php:139
+#: config/countries.php:148
 msgid "Aland Islands"
 msgstr ""
 
-#: config/countries.php:140
+#: config/countries.php:149
 msgid "Albania"
 msgstr ""
 
-#: config/countries.php:141
+#: config/countries.php:150
 msgid "Algeria"
 msgstr ""
 
-#: config/countries.php:142
+#: config/countries.php:151
 msgid "American Samoa"
 msgstr ""
 
-#: config/countries.php:143
+#: config/countries.php:152
 msgid "Andorra"
 msgstr ""
 
-#: config/countries.php:144
+#: config/countries.php:153
 msgid "Angola"
 msgstr ""
 
-#: config/countries.php:145
+#: config/countries.php:154
 msgid "Anguilla"
 msgstr ""
 
-#: config/countries.php:146
+#: config/countries.php:155
 msgid "Antarctica"
 msgstr ""
 
-#: config/countries.php:147
+#: config/countries.php:156
 msgid "Antigua And Barbuda"
 msgstr ""
 
-#: config/countries.php:148
+#: config/countries.php:157
 msgid "Argentina"
 msgstr ""
 
-#: config/countries.php:149
+#: config/countries.php:158
 msgid "Armenia"
 msgstr ""
 
-#: config/countries.php:150
+#: config/countries.php:159
 msgid "Aruba"
 msgstr ""
 
-#: config/countries.php:152
+#: config/countries.php:161
 msgid "Austria"
 msgstr ""
 
-#: config/countries.php:153
+#: config/countries.php:162
 msgid "Azerbaijan"
 msgstr ""
 
-#: config/countries.php:154
+#: config/countries.php:163
 msgid "Bahamas"
 msgstr ""
 
-#: config/countries.php:155
+#: config/countries.php:164
 msgid "Bahrain"
 msgstr ""
 
-#: config/countries.php:156
+#: config/countries.php:165
 msgid "Bangladesh"
 msgstr ""
 
-#: config/countries.php:157
+#: config/countries.php:166
 msgid "Barbados"
 msgstr ""
 
-#: config/countries.php:158
+#: config/countries.php:167
 msgid "Belarus"
 msgstr ""
 
-#: config/countries.php:159
+#: config/countries.php:168
 msgid "Belgium"
 msgstr ""
 
-#: config/countries.php:160
+#: config/countries.php:169
 msgid "Belize"
 msgstr ""
 
-#: config/countries.php:161
+#: config/countries.php:170
 msgid "Benin"
 msgstr ""
 
-#: config/countries.php:162
+#: config/countries.php:171
 msgid "Bermuda"
 msgstr ""
 
-#: config/countries.php:163
+#: config/countries.php:172
 msgid "Bhutan"
 msgstr ""
 
-#: config/countries.php:164
+#: config/countries.php:173
 msgid "Bolivia"
 msgstr ""
 
-#: config/countries.php:165
+#: config/countries.php:174
 msgid "Bosnia And Herzegovina"
 msgstr ""
 
-#: config/countries.php:166
+#: config/countries.php:175
 msgid "Botswana"
 msgstr ""
 
-#: config/countries.php:167
+#: config/countries.php:176
 msgid "Bouvet Island"
 msgstr ""
 
-#: config/countries.php:169
+#: config/countries.php:178
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: config/countries.php:170
+#: config/countries.php:179
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: config/countries.php:171
+#: config/countries.php:180
 msgid "Bulgaria"
 msgstr ""
 
-#: config/countries.php:172
+#: config/countries.php:181
 msgid "Burkina Faso"
 msgstr ""
 
-#: config/countries.php:173
+#: config/countries.php:182
 msgid "Burundi"
 msgstr ""
 
-#: config/countries.php:174
+#: config/countries.php:183
 msgid "Cambodia"
 msgstr ""
 
-#: config/countries.php:175
+#: config/countries.php:184
 msgid "Cameroon"
 msgstr ""
 
-#: config/countries.php:177
+#: config/countries.php:186
 msgid "Cape Verde"
 msgstr ""
 
-#: config/countries.php:178
+#: config/countries.php:187
 msgid "Cayman Islands"
 msgstr ""
 
-#: config/countries.php:179
+#: config/countries.php:188
 msgid "Central African Republic"
 msgstr ""
 
-#: config/countries.php:180
+#: config/countries.php:189
 msgid "Chad"
 msgstr ""
 
-#: config/countries.php:181
+#: config/countries.php:190
 msgid "Chile"
 msgstr ""
 
-#: config/countries.php:182
+#: config/countries.php:191
 msgid "China"
 msgstr ""
 
-#: config/countries.php:183
+#: config/countries.php:192
 msgid "Christmas Island"
 msgstr ""
 
-#: config/countries.php:184
+#: config/countries.php:193
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: config/countries.php:185
+#: config/countries.php:194
 msgid "Colombia"
 msgstr ""
 
-#: config/countries.php:186
+#: config/countries.php:195
 msgid "Comoros"
 msgstr ""
 
-#: config/countries.php:187
+#: config/countries.php:196
 msgid "Congo"
 msgstr ""
 
-#: config/countries.php:188
+#: config/countries.php:197
 msgid "Congo, Democratic Republic"
 msgstr ""
 
-#: config/countries.php:189
+#: config/countries.php:198
 msgid "Cook Islands"
 msgstr ""
 
-#: config/countries.php:190
+#: config/countries.php:199
 msgid "Costa Rica"
 msgstr ""
 
-#: config/countries.php:191
+#: config/countries.php:200
 msgid "Cote D'Ivoire"
 msgstr ""
 
-#: config/countries.php:192
+#: config/countries.php:201
 msgid "Croatia"
 msgstr ""
 
-#: config/countries.php:193
+#: config/countries.php:202
 msgid "Cuba"
 msgstr ""
 
-#: config/countries.php:194
+#: config/countries.php:203
 msgid "Cyprus"
 msgstr ""
 
-#: config/countries.php:195
+#: config/countries.php:204
 msgid "Czech Republic"
 msgstr ""
 
-#: config/countries.php:196
+#: config/countries.php:205
 msgid "Denmark"
 msgstr ""
 
-#: config/countries.php:197
+#: config/countries.php:206
 msgid "Djibouti"
 msgstr ""
 
-#: config/countries.php:198
+#: config/countries.php:207
 msgid "Dominica"
 msgstr ""
 
-#: config/countries.php:199
+#: config/countries.php:208
 msgid "Dominican Republic"
 msgstr ""
 
-#: config/countries.php:200
+#: config/countries.php:209
 msgid "Ecuador"
 msgstr ""
 
-#: config/countries.php:201
+#: config/countries.php:210
 msgid "Egypt"
 msgstr ""
 
-#: config/countries.php:202
+#: config/countries.php:211
 msgid "El Salvador"
 msgstr ""
 
-#: config/countries.php:203
+#: config/countries.php:212
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: config/countries.php:204
+#: config/countries.php:213
 msgid "Eritrea"
 msgstr ""
 
-#: config/countries.php:205
+#: config/countries.php:214
 msgid "Estonia"
 msgstr ""
 
-#: config/countries.php:206
+#: config/countries.php:215
 msgid "Ethiopia"
 msgstr ""
 
-#: config/countries.php:207
+#: config/countries.php:216
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: config/countries.php:208
+#: config/countries.php:217
 msgid "Faroe Islands"
 msgstr ""
 
-#: config/countries.php:209
+#: config/countries.php:218
 msgid "Fiji"
 msgstr ""
 
-#: config/countries.php:210
+#: config/countries.php:219
 msgid "Finland"
 msgstr ""
 
-#: config/countries.php:211
+#: config/countries.php:220
 msgid "France"
 msgstr ""
 
-#: config/countries.php:212
+#: config/countries.php:221
 msgid "French Guiana"
 msgstr ""
 
-#: config/countries.php:213
+#: config/countries.php:222
 msgid "French Polynesia"
 msgstr ""
 
-#: config/countries.php:214
+#: config/countries.php:223
 msgid "French Southern Territories"
 msgstr ""
 
-#: config/countries.php:215
+#: config/countries.php:224
 msgid "Gabon"
 msgstr ""
 
-#: config/countries.php:216
+#: config/countries.php:225
 msgid "Gambia"
 msgstr ""
 
-#: config/countries.php:217
+#: config/countries.php:226
 msgid "Georgia"
 msgstr ""
 
-#: config/countries.php:218
+#: config/countries.php:227
 msgid "Germany"
 msgstr ""
 
-#: config/countries.php:219
+#: config/countries.php:228
 msgid "Ghana"
 msgstr ""
 
-#: config/countries.php:220
+#: config/countries.php:229
 msgid "Gibraltar"
 msgstr ""
 
-#: config/countries.php:221
+#: config/countries.php:230
 msgid "Greece"
 msgstr ""
 
-#: config/countries.php:222
+#: config/countries.php:231
 msgid "Greenland"
 msgstr ""
 
-#: config/countries.php:223
+#: config/countries.php:232
 msgid "Grenada"
 msgstr ""
 
-#: config/countries.php:224
+#: config/countries.php:233
 msgid "Guadeloupe"
 msgstr ""
 
-#: config/countries.php:225
+#: config/countries.php:234
 msgid "Guam"
 msgstr ""
 
-#: config/countries.php:226
+#: config/countries.php:235
 msgid "Guatemala"
 msgstr ""
 
-#: config/countries.php:227
+#: config/countries.php:236
 msgid "Guernsey"
 msgstr ""
 
-#: config/countries.php:228
+#: config/countries.php:237
 msgid "Guinea"
 msgstr ""
 
-#: config/countries.php:229
+#: config/countries.php:238
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: config/countries.php:230
+#: config/countries.php:239
 msgid "Guyana"
 msgstr ""
 
-#: config/countries.php:231
+#: config/countries.php:240
 msgid "Haiti"
 msgstr ""
 
-#: config/countries.php:232
+#: config/countries.php:241
 msgid "Heard Island & Mcdonald Islands"
 msgstr ""
 
-#: config/countries.php:233
+#: config/countries.php:242
 msgid "Holy See (Vatican City State)"
 msgstr ""
 
-#: config/countries.php:234
+#: config/countries.php:243
 msgid "Honduras"
 msgstr ""
 
-#: config/countries.php:235
+#: config/countries.php:244
 msgid "Hong Kong"
 msgstr ""
 
-#: config/countries.php:236
+#: config/countries.php:245
 msgid "Hungary"
 msgstr ""
 
-#: config/countries.php:237
+#: config/countries.php:246
 msgid "Iceland"
 msgstr ""
 
-#: config/countries.php:238
+#: config/countries.php:247
 msgid "India"
 msgstr ""
 
-#: config/countries.php:239
+#: config/countries.php:248
 msgid "Indonesia"
 msgstr ""
 
-#: config/countries.php:240
+#: config/countries.php:249
 msgid "Iran, Islamic Republic Of"
 msgstr ""
 
-#: config/countries.php:241
+#: config/countries.php:250
 msgid "Iraq"
 msgstr ""
 
-#: config/countries.php:242
+#: config/countries.php:251
 msgid "Ireland"
 msgstr ""
 
-#: config/countries.php:243
+#: config/countries.php:252
 msgid "Isle Of Man"
 msgstr ""
 
-#: config/countries.php:244
+#: config/countries.php:253
 msgid "Israel"
 msgstr ""
 
-#: config/countries.php:245
+#: config/countries.php:254
 msgid "Italy"
 msgstr ""
 
-#: config/countries.php:246
+#: config/countries.php:255
 msgid "Jamaica"
 msgstr ""
 
-#: config/countries.php:247
+#: config/countries.php:256
 msgid "Japan"
 msgstr ""
 
-#: config/countries.php:248
+#: config/countries.php:257
 msgid "Jersey"
 msgstr ""
 
-#: config/countries.php:249
+#: config/countries.php:258
 msgid "Jordan"
 msgstr ""
 
-#: config/countries.php:250
+#: config/countries.php:259
 msgid "Kazakhstan"
 msgstr ""
 
-#: config/countries.php:251
+#: config/countries.php:260
 msgid "Kenya"
 msgstr ""
 
-#: config/countries.php:252
+#: config/countries.php:261
 msgid "Kiribati"
 msgstr ""
 
-#: config/countries.php:253
+#: config/countries.php:262
 msgid "Korea"
 msgstr ""
 
-#: config/countries.php:254
+#: config/countries.php:263
 msgid "Kuwait"
 msgstr ""
 
-#: config/countries.php:255
+#: config/countries.php:264
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: config/countries.php:256
+#: config/countries.php:265
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: config/countries.php:257
+#: config/countries.php:266
 msgid "Latvia"
 msgstr ""
 
-#: config/countries.php:258
+#: config/countries.php:267
 msgid "Lebanon"
 msgstr ""
 
-#: config/countries.php:259
+#: config/countries.php:268
 msgid "Lesotho"
 msgstr ""
 
-#: config/countries.php:260
+#: config/countries.php:269
 msgid "Liberia"
 msgstr ""
 
-#: config/countries.php:261
+#: config/countries.php:270
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: config/countries.php:262
+#: config/countries.php:271
 msgid "Liechtenstein"
 msgstr ""
 
-#: config/countries.php:263
+#: config/countries.php:272
 msgid "Lithuania"
 msgstr ""
 
-#: config/countries.php:264
+#: config/countries.php:273
 msgid "Luxembourg"
 msgstr ""
 
-#: config/countries.php:265
+#: config/countries.php:274
 msgid "Macao"
 msgstr ""
 
-#: config/countries.php:266
+#: config/countries.php:275
 msgid "North Macedonia"
 msgstr ""
 
-#: config/countries.php:267
+#: config/countries.php:276
 msgid "Madagascar"
 msgstr ""
 
-#: config/countries.php:268
+#: config/countries.php:277
 msgid "Malawi"
 msgstr ""
 
-#: config/countries.php:269
+#: config/countries.php:278
 msgid "Malaysia"
 msgstr ""
 
-#: config/countries.php:270
+#: config/countries.php:279
 msgid "Maldives"
 msgstr ""
 
-#: config/countries.php:271
+#: config/countries.php:280
 msgid "Mali"
 msgstr ""
 
-#: config/countries.php:272
+#: config/countries.php:281
 msgid "Malta"
 msgstr ""
 
-#: config/countries.php:273
+#: config/countries.php:282
 msgid "Marshall Islands"
 msgstr ""
 
-#: config/countries.php:274
+#: config/countries.php:283
 msgid "Martinique"
 msgstr ""
 
-#: config/countries.php:275
+#: config/countries.php:284
 msgid "Mauritania"
 msgstr ""
 
-#: config/countries.php:276
+#: config/countries.php:285
 msgid "Mauritius"
 msgstr ""
 
-#: config/countries.php:277
+#: config/countries.php:286
 msgid "Mayotte"
 msgstr ""
 
-#: config/countries.php:278
+#: config/countries.php:287
 msgid "Mexico"
 msgstr ""
 
-#: config/countries.php:279
+#: config/countries.php:288
 msgid "Micronesia, Federated States Of"
 msgstr ""
 
-#: config/countries.php:280
+#: config/countries.php:289
 msgid "Moldova"
 msgstr ""
 
-#: config/countries.php:281
+#: config/countries.php:290
 msgid "Monaco"
 msgstr ""
 
-#: config/countries.php:282
+#: config/countries.php:291
 msgid "Mongolia"
 msgstr ""
 
-#: config/countries.php:283
+#: config/countries.php:292
 msgid "Montenegro"
 msgstr ""
 
-#: config/countries.php:284
+#: config/countries.php:293
 msgid "Montserrat"
 msgstr ""
 
-#: config/countries.php:285
+#: config/countries.php:294
 msgid "Morocco"
 msgstr ""
 
-#: config/countries.php:286
+#: config/countries.php:295
 msgid "Mozambique"
 msgstr ""
 
-#: config/countries.php:287
+#: config/countries.php:296
 msgid "Myanmar"
 msgstr ""
 
-#: config/countries.php:288
+#: config/countries.php:297
 msgid "Namibia"
 msgstr ""
 
-#: config/countries.php:289
+#: config/countries.php:298
 msgid "Nauru"
 msgstr ""
 
-#: config/countries.php:290
+#: config/countries.php:299
 msgid "Nepal"
 msgstr ""
 
-#: config/countries.php:291
+#: config/countries.php:300
 msgid "Netherlands"
 msgstr ""
 
-#: config/countries.php:292
+#: config/countries.php:301
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: config/countries.php:293
+#: config/countries.php:302
 msgid "New Caledonia"
 msgstr ""
 
-#: config/countries.php:294
+#: config/countries.php:303
 msgid "New Zealand"
 msgstr ""
 
-#: config/countries.php:295
+#: config/countries.php:304
 msgid "Nicaragua"
 msgstr ""
 
-#: config/countries.php:296
+#: config/countries.php:305
 msgid "Niger"
 msgstr ""
 
-#: config/countries.php:297
+#: config/countries.php:306
 msgid "Nigeria"
 msgstr ""
 
-#: config/countries.php:298
+#: config/countries.php:307
 msgid "Niue"
 msgstr ""
 
-#: config/countries.php:299
+#: config/countries.php:308
 msgid "Norfolk Island"
 msgstr ""
 
-#: config/countries.php:300
+#: config/countries.php:309
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: config/countries.php:301
+#: config/countries.php:310
 msgid "Norway"
 msgstr ""
 
-#: config/countries.php:302
+#: config/countries.php:311
 msgid "Oman"
 msgstr ""
 
-#: config/countries.php:303
+#: config/countries.php:312
 msgid "Pakistan"
 msgstr ""
 
-#: config/countries.php:304
+#: config/countries.php:313
 msgid "Palau"
 msgstr ""
 
-#: config/countries.php:305
+#: config/countries.php:314
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#: config/countries.php:306
+#: config/countries.php:315
 msgid "Panama"
 msgstr ""
 
-#: config/countries.php:307
+#: config/countries.php:316
 msgid "Papua New Guinea"
 msgstr ""
 
-#: config/countries.php:308
+#: config/countries.php:317
 msgid "Paraguay"
 msgstr ""
 
-#: config/countries.php:309
+#: config/countries.php:318
 msgid "Peru"
 msgstr ""
 
-#: config/countries.php:310
+#: config/countries.php:319
 msgid "Philippines"
 msgstr ""
 
-#: config/countries.php:311
+#: config/countries.php:320
 msgid "Pitcairn"
 msgstr ""
 
-#: config/countries.php:312
+#: config/countries.php:321
 msgid "Poland"
 msgstr ""
 
-#: config/countries.php:313
+#: config/countries.php:322
 msgid "Portugal"
 msgstr ""
 
-#: config/countries.php:314
+#: config/countries.php:323
 msgid "Puerto Rico"
 msgstr ""
 
-#: config/countries.php:315
+#: config/countries.php:324
 msgid "Qatar"
 msgstr ""
 
-#: config/countries.php:316
+#: config/countries.php:325
 msgid "Reunion"
 msgstr ""
 
-#: config/countries.php:317
+#: config/countries.php:326
 msgid "Romania"
 msgstr ""
 
-#: config/countries.php:318
+#: config/countries.php:327
 msgid "Russian Federation"
 msgstr ""
 
-#: config/countries.php:319
+#: config/countries.php:328
 msgid "Rwanda"
 msgstr ""
 
-#: config/countries.php:320
+#: config/countries.php:329
 msgid "Saint Barthelemy"
 msgstr ""
 
-#: config/countries.php:321
+#: config/countries.php:330
 msgid "Saint Helena"
 msgstr ""
 
-#: config/countries.php:322
+#: config/countries.php:331
 msgid "Saint Kitts And Nevis"
 msgstr ""
 
-#: config/countries.php:323
+#: config/countries.php:332
 msgid "Saint Lucia"
 msgstr ""
 
-#: config/countries.php:324
+#: config/countries.php:333
 msgid "Saint Martin"
 msgstr ""
 
-#: config/countries.php:325
+#: config/countries.php:334
 msgid "Saint Pierre And Miquelon"
 msgstr ""
 
-#: config/countries.php:326
+#: config/countries.php:335
 msgid "Saint Vincent And Grenadines"
 msgstr ""
 
-#: config/countries.php:327
+#: config/countries.php:336
 msgid "Samoa"
 msgstr ""
 
-#: config/countries.php:328
+#: config/countries.php:337
 msgid "San Marino"
 msgstr ""
 
-#: config/countries.php:329
+#: config/countries.php:338
 msgid "Sao Tome And Principe"
 msgstr ""
 
-#: config/countries.php:330
+#: config/countries.php:339
 msgid "Saudi Arabia"
 msgstr ""
 
-#: config/countries.php:331
+#: config/countries.php:340
 msgid "Senegal"
 msgstr ""
 
-#: config/countries.php:332
+#: config/countries.php:341
 msgid "Serbia"
 msgstr ""
 
-#: config/countries.php:333
+#: config/countries.php:342
 msgid "Seychelles"
 msgstr ""
 
-#: config/countries.php:334
+#: config/countries.php:343
 msgid "Sierra Leone"
 msgstr ""
 
-#: config/countries.php:335
+#: config/countries.php:344
 msgid "Singapore"
 msgstr ""
 
-#: config/countries.php:336
+#: config/countries.php:345
 msgid "Slovakia"
 msgstr ""
 
-#: config/countries.php:337
+#: config/countries.php:346
 msgid "Slovenia"
 msgstr ""
 
-#: config/countries.php:338
+#: config/countries.php:347
 msgid "Solomon Islands"
 msgstr ""
 
-#: config/countries.php:339
+#: config/countries.php:348
 msgid "Somalia"
 msgstr ""
 
-#: config/countries.php:341
+#: config/countries.php:350
 msgid "South Georgia And Sandwich Isl."
 msgstr ""
 
-#: config/countries.php:342
+#: config/countries.php:351
 msgid "Spain"
 msgstr ""
 
-#: config/countries.php:343
+#: config/countries.php:352
 msgid "Sri Lanka"
 msgstr ""
 
-#: config/countries.php:344
+#: config/countries.php:353
 msgid "Sudan"
 msgstr ""
 
-#: config/countries.php:345
+#: config/countries.php:354
 msgid "Suriname"
 msgstr ""
 
-#: config/countries.php:346
+#: config/countries.php:355
 msgid "Svalbard And Jan Mayen"
 msgstr ""
 
-#: config/countries.php:347
+#: config/countries.php:356
 msgid "Swaziland"
 msgstr ""
 
-#: config/countries.php:348
+#: config/countries.php:357
 msgid "Sweden"
 msgstr ""
 
-#: config/countries.php:349
+#: config/countries.php:358
 msgid "Switzerland"
 msgstr ""
 
-#: config/countries.php:350
+#: config/countries.php:359
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: config/countries.php:351
+#: config/countries.php:360
 msgid "Taiwan"
 msgstr ""
 
-#: config/countries.php:352
+#: config/countries.php:361
 msgid "Tajikistan"
 msgstr ""
 
-#: config/countries.php:353
+#: config/countries.php:362
 msgid "Tanzania"
 msgstr ""
 
-#: config/countries.php:354
+#: config/countries.php:363
 msgid "Thailand"
 msgstr ""
 
-#: config/countries.php:355
+#: config/countries.php:364
 msgid "Timor-Leste"
 msgstr ""
 
-#: config/countries.php:356
+#: config/countries.php:365
 msgid "Togo"
 msgstr ""
 
-#: config/countries.php:357
+#: config/countries.php:366
 msgid "Tokelau"
 msgstr ""
 
-#: config/countries.php:358
+#: config/countries.php:367
 msgid "Tonga"
 msgstr ""
 
-#: config/countries.php:359
+#: config/countries.php:368
 msgid "Trinidad And Tobago"
 msgstr ""
 
-#: config/countries.php:360
+#: config/countries.php:369
 msgid "Tunisia"
 msgstr ""
 
-#: config/countries.php:361
+#: config/countries.php:370
 msgid "Turkey"
 msgstr ""
 
-#: config/countries.php:362
+#: config/countries.php:371
 msgid "Turkmenistan"
 msgstr ""
 
-#: config/countries.php:363
+#: config/countries.php:372
 msgid "Turks And Caicos Islands"
 msgstr ""
 
-#: config/countries.php:364
+#: config/countries.php:373
 msgid "Tuvalu"
 msgstr ""
 
-#: config/countries.php:365
+#: config/countries.php:374
 msgid "Uganda"
 msgstr ""
 
-#: config/countries.php:366
+#: config/countries.php:375
 msgid "Ukraine"
 msgstr ""
 
-#: config/countries.php:367
+#: config/countries.php:376
 msgid "United Arab Emirates"
 msgstr ""
 
-#: config/countries.php:370
+#: config/countries.php:379
 msgid "United States Outlying Islands"
 msgstr ""
 
-#: config/countries.php:371
+#: config/countries.php:380
 msgid "Uruguay"
 msgstr ""
 
-#: config/countries.php:372
+#: config/countries.php:381
 msgid "Uzbekistan"
 msgstr ""
 
-#: config/countries.php:373
+#: config/countries.php:382
 msgid "Vanuatu"
 msgstr ""
 
-#: config/countries.php:374
+#: config/countries.php:383
 msgid "Venezuela"
 msgstr ""
 
-#: config/countries.php:375
+#: config/countries.php:384
 msgid "Viet Nam"
 msgstr ""
 
-#: config/countries.php:376
+#: config/countries.php:385
 msgid "Virgin Islands, British"
 msgstr ""
 
-#: config/countries.php:377
+#: config/countries.php:386
 msgid "Virgin Islands, U.S."
 msgstr ""
 
-#: config/countries.php:378
+#: config/countries.php:387
 msgid "Wallis And Futuna"
 msgstr ""
 
-#: config/countries.php:379
+#: config/countries.php:388
 msgid "Western Sahara"
 msgstr ""
 
-#: config/countries.php:380
+#: config/countries.php:389
 msgid "Yemen"
 msgstr ""
 
-#: config/countries.php:381
+#: config/countries.php:390
 msgid "Zambia"
 msgstr ""
 
-#: config/countries.php:382
+#: config/countries.php:391
 msgid "Zimbabwe"
 msgstr ""
 
-#: config/countries.php:390
+#: config/countries.php:399
 msgid "English"
 msgstr ""
 
-#: config/countries.php:391
+#: config/countries.php:400
 msgid "Danish"
 msgstr ""
 
-#: config/countries.php:392
+#: config/countries.php:401
 msgid "German"
 msgstr ""
 
-#: config/countries.php:393
+#: config/countries.php:402
 msgid "Greek"
 msgstr ""
 
-#: config/countries.php:394
+#: config/countries.php:403
 msgid "Spanish"
 msgstr ""
 
-#: config/countries.php:395
+#: config/countries.php:404
 msgid "Estonian"
 msgstr ""
 
-#: config/countries.php:396
+#: config/countries.php:405
 msgid "French"
 msgstr ""
 
-#: config/countries.php:397
+#: config/countries.php:406
 msgid "Italian"
 msgstr ""
 
-#: config/countries.php:398
+#: config/countries.php:407
 msgid "Dutch"
 msgstr ""
 
-#: config/countries.php:399
+#: config/countries.php:408
 msgid "Norwegian"
 msgstr ""
 
-#: config/countries.php:400
+#: config/countries.php:409
 msgid "Swedish"
 msgstr ""
 
@@ -3177,7 +3288,7 @@ msgstr ""
 msgid "Enable A/B testing"
 msgstr ""
 
-#: config/general-settings.php:27 pro/config/dynamic-fields.php:361
+#: config/general-settings.php:27 pro/config/dynamic-fields.php:363
 msgid ""
 "If enabled, the plugin will track which cookie banner has the best "
 "conversion rate."
@@ -3308,52 +3419,49 @@ msgid ""
 msgstr ""
 
 #: config/general-settings.php:156
-msgid ""
-"Email address used for Do Not Sell My Personal Information email "
-"notifications."
-msgstr ""
-
-#: config/general-settings.php:165
-msgid "Notification email subject"
+msgid "Email address used for Data Request email notifications."
 msgstr ""
 
 #: config/general-settings.php:166
-msgid "Your request has been processed"
+msgid "Notification email subject"
 msgstr ""
 
 #: config/general-settings.php:167
-msgid ""
-"Subject used for Do Not Sell My Personal Information email notifications."
+msgid "We have received your request"
 msgstr ""
 
-#: config/general-settings.php:177
+#: config/general-settings.php:168
+msgid "Subject used for Data Request email notifications."
+msgstr ""
+
+#: config/general-settings.php:178
 msgid "Notification email content"
 msgstr ""
 
-#: config/general-settings.php:179
+#: config/general-settings.php:180
 msgid "Hi {name}"
 msgstr ""
 
-#: config/general-settings.php:181
-msgid "Your request has been processed successfully."
-msgstr ""
-
-#: config/general-settings.php:181
-msgctxt "email signature"
-msgid "Regards,"
-msgstr ""
-
-#: config/general-settings.php:183
+#: config/general-settings.php:182
 msgid ""
-"Email content used for Do Not Sell My Personal Information email "
-"notifications."
+"We have received your request on {blogname}. Depending on the specific "
+"request and legal obligations we might follow-up."
 msgstr ""
 
-#: config/general-settings.php:195
+#: config/general-settings.php:182
+msgctxt "email signature"
+msgid "Kind regards,"
+msgstr ""
+
+#: config/general-settings.php:184
+msgid "Email content used for Data Request email notifications."
+msgstr ""
+
+#: config/general-settings.php:196
 msgid "Enable safe mode"
 msgstr ""
 
-#: config/general-settings.php:197
+#: config/general-settings.php:198
 #, php-format
 msgid ""
 "When safe mode is enabled, all integrations will be disabled temporarily, "
@@ -3361,146 +3469,146 @@ msgid ""
 "needed."
 msgstr ""
 
-#: config/general-settings.php:206
+#: config/general-settings.php:207
 msgid "Disable placeholder insertion"
 msgstr ""
 
-#: config/general-settings.php:208
+#: config/general-settings.php:209
 msgid ""
 "If you experience styling issues with videos or iFrames you can disable the "
 "placeholder insertion, which in some themes can conflict with theme styling."
 msgstr ""
 
-#: config/general-settings.php:219
+#: config/general-settings.php:220
 msgid "Light"
 msgstr ""
 
-#: config/general-settings.php:220
+#: config/general-settings.php:221
 msgid "Full Color"
 msgstr ""
 
-#: config/general-settings.php:221
+#: config/general-settings.php:222
 msgid "Dark Mode"
 msgstr ""
 
-#: config/general-settings.php:222 config/general-settings.php:248
+#: config/general-settings.php:223 config/general-settings.php:249
 msgid "Custom"
 msgstr ""
 
-#: config/general-settings.php:231
+#: config/general-settings.php:232
 msgid "Placeholder style"
 msgstr ""
 
-#: config/general-settings.php:233
+#: config/general-settings.php:234
 msgid "You can choose your favorite placeholder style here."
 msgstr ""
 
-#: config/general-settings.php:234
+#: config/general-settings.php:235
 msgid ""
 "You can change your placeholders manually or use Premium to do it for you."
 msgstr ""
 
-#: config/general-settings.php:251
+#: config/general-settings.php:252
 msgid "Placeholder ratio"
 msgstr ""
 
-#: config/general-settings.php:253
+#: config/general-settings.php:254
 msgid "Select the optimal placeholder ratio for your site."
 msgstr ""
 
-#: config/general-settings.php:260
+#: config/general-settings.php:261
 msgid "If you select custom, you need to add your custom image to your site."
 msgstr ""
 
-#: config/general-settings.php:288
+#: config/general-settings.php:289
 msgid "Cookie banner expiration in days"
 msgstr ""
 
-#: config/general-settings.php:296
+#: config/general-settings.php:297
 msgid "Disable the automatic cookie scan."
 msgstr ""
 
-#: config/general-settings.php:297
+#: config/general-settings.php:298
 msgid ""
 "You can disable the monthly automatic cookie scan here, and do only manual "
 "cookie scans."
 msgstr ""
 
-#: config/general-settings.php:310
+#: config/general-settings.php:311
 msgid "You can use this to export your settings to another site"
 msgstr ""
 
-#: config/general-settings.php:320
+#: config/general-settings.php:321
 msgid "Import settings"
 msgstr ""
 
-#: config/general-settings.php:321
+#: config/general-settings.php:322
 #, php-format
 msgid ""
 "If you want to import your settings, please check out the %spremium version%s"
 msgstr ""
 
-#: config/general-settings.php:328
+#: config/general-settings.php:329
 msgid "Are you sure? This will remove all Complianz data."
 msgstr ""
 
-#: config/general-settings.php:334
+#: config/general-settings.php:335
 msgid "Reset"
 msgstr ""
 
-#: config/general-settings.php:336
+#: config/general-settings.php:337
 msgid ""
 "This will reset all settings to defaults. All data in the Complianz plugin "
 "will be deleted"
 msgstr ""
 
-#: config/general-settings.php:344
+#: config/general-settings.php:345
 msgid "Clear all data from Complianz on uninstall"
 msgstr ""
 
-#: config/general-settings.php:347
+#: config/general-settings.php:348
 msgid ""
 "Enabling this option will delete all your settings, and the Complianz tables "
 "when you deactivate and remove Complianz."
 msgstr ""
 
-#: config/general-settings.php:357
+#: config/general-settings.php:358
 msgid "Restart plugin tour"
 msgstr ""
 
-#: config/general-settings.php:364
+#: config/general-settings.php:365
 msgid "Disable notifications"
 msgstr ""
 
-#: config/general-settings.php:365
+#: config/general-settings.php:366
 msgid "Disable all plus ones and warnings on your dashboard."
 msgstr ""
 
-#: config/general-settings.php:377
+#: config/general-settings.php:378
 msgid "Enable migrate.js"
 msgstr ""
 
-#: config/general-settings.php:379
+#: config/general-settings.php:380
 msgid ""
 "If you use legacy events and hooks, you can enable this script to restore "
 "these legacy hooks."
 msgstr ""
 
-#: config/general-settings.php:386
+#: config/general-settings.php:387
 msgid "Enable cookie blocker for ajax loaded content"
 msgstr ""
 
-#: config/general-settings.php:389
+#: config/general-settings.php:390
 msgid ""
 "When content is loaded with ajax, for example with a load more button or "
 "lightbox, this option could help blocking the service correctly"
 msgstr ""
 
-#: config/general-settings.php:396
+#: config/general-settings.php:397
 msgid "Custom document CSS"
 msgstr ""
 
-#: config/general-settings.php:404 cookiebanner/settings.php:524
+#: config/general-settings.php:405 cookiebanner/settings.php:524
 #, php-format
 msgid ""
 "You can add additional custom CSS here. For tips and CSS lessons, check out "
@@ -4180,7 +4288,7 @@ msgstr ""
 msgid "Does your website use cookies for advertising?"
 msgstr ""
 
-#: config/questions-wizard.php:740 pro/config/dynamic-fields.php:287
+#: config/questions-wizard.php:740 pro/config/dynamic-fields.php:289
 msgid "Enable TCF"
 msgstr ""
 
@@ -4595,13 +4703,8 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2808 functions.php:2023
+#: cookie/class-cookie-admin.php:2808 functions.php:2039
 msgid "Purpose pending investigation"
-msgstr ""
-
-#: cookie/class-cookie-admin.php:3098
-#, php-format
-msgid "%s at %s"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:3120
@@ -5354,44 +5457,44 @@ msgstr ""
 msgid "Denied"
 msgstr ""
 
-#: functions.php:1226
+#: functions.php:1214
 msgid "the page source"
 msgstr ""
 
-#: functions.php:1229
+#: functions.php:1217
 #, php-format
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1453
+#: functions.php:1465
 #, php-format
 msgid "For more information, please read this %sarticle%s."
 msgstr ""
 
-#: functions.php:1991
+#: functions.php:2007
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1998 functions.php:2008
+#: functions.php:2014 functions.php:2024
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2000 functions.php:2005
+#: functions.php:2016 functions.php:2021
 #, php-format
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2010
+#: functions.php:2026
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2013
+#: functions.php:2029
 #, php-format
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2020 pro/records-of-consent/class-records-of-consent.php:378
+#: functions.php:2036 pro/records-of-consent/class-records-of-consent.php:378
 #: proof-of-consent/class-proof-of-consent.php:261
 #: templates/dashboard/documents-conditional.php:63
 #: templates/dashboard/documents-conditional.php:75
@@ -5399,22 +5502,23 @@ msgstr ""
 #: templates/dashboard/tools-conditional.php:19
 #: templates/dashboard/tools-conditional.php:29
 #: templates/dashboard/tools-conditional.php:39
+#: templates/dashboard/tools-conditional.php:49
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2511
+#: functions.php:2527
 #: pro/records-of-consent/class-records-of-consent-table.php:236
 #: pro/tcf/tcf.php:944
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2513
+#: functions.php:2529
 #: pro/records-of-consent/class-records-of-consent-table.php:239
 #: pro/tcf/tcf.php:943
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2515
+#: functions.php:2531
 msgid "All consent types"
 msgstr ""
 
@@ -5423,12 +5527,12 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:724
+#: integrations/integrations.php:736
 #, php-format
 msgid "We have enabled the %s integration."
 msgstr ""
 
-#: integrations/integrations.php:859
+#: integrations/integrations.php:871
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -5473,7 +5577,7 @@ msgid "(Contact form 7)"
 msgstr ""
 
 #: integrations/plugins/contact-form-7.php:189
-#: integrations/plugins/wpforms.php:61
+#: integrations/plugins/wpforms.php:60
 #, php-format
 msgid "To submit this form, you need to accept our %sPrivacy Statement%s"
 msgstr ""
@@ -5825,7 +5929,7 @@ msgid "Privacy"
 msgstr ""
 
 #: integrations/plugins/google-analytics-dashboard-for-wp.php:112
-#: integrations/plugins/google-tagmanager-for-wordpress.php:124
+#: integrations/plugins/google-tagmanager-for-wordpress.php:134
 #, php-format
 msgid ""
 "You have selected you anonymize IP addresses. This setting is now enabled in "
@@ -5853,7 +5957,7 @@ msgid ""
 "Manager."
 msgstr ""
 
-#: integrations/plugins/google-tagmanager-for-wordpress.php:128
+#: integrations/plugins/google-tagmanager-for-wordpress.php:138
 #, php-format
 msgid ""
 "You have selected you do not share data with third-party networks. "
@@ -6159,11 +6263,6 @@ msgstr ""
 msgid ""
 "The license information could not be retrieved at this moment. Please try "
 "again at a later time."
-msgstr ""
-
-#: pro/class-licensing.php:683 pro/class-licensing.php:692
-#: templates/dashboard/progress.php:80
-msgid "Open"
 msgstr ""
 
 #: pro/class-licensing.php:684
@@ -6766,7 +6865,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:180
 #: pro/config/US/questions-processing.php:180
 #: pro/config/ZA/questions-processing.php:180
-#: pro/config/questions-wizard.php:883
+#: pro/config/questions-wizard.php:903
 msgid "Username and Password"
 msgstr ""
 
@@ -6777,7 +6876,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:181
 #: pro/config/US/questions-processing.php:181
 #: pro/config/ZA/questions-processing.php:181
-#: pro/config/questions-wizard.php:884
+#: pro/config/questions-wizard.php:904
 msgid "DNSSEC"
 msgstr ""
 
@@ -6788,7 +6887,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:182
 #: pro/config/US/questions-processing.php:182
 #: pro/config/ZA/questions-processing.php:182
-#: pro/config/questions-wizard.php:885
+#: pro/config/questions-wizard.php:905
 msgid "TLS / SSL"
 msgstr ""
 
@@ -6799,7 +6898,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:183
 #: pro/config/US/questions-processing.php:183
 #: pro/config/ZA/questions-processing.php:183
-#: pro/config/questions-wizard.php:886
+#: pro/config/questions-wizard.php:906
 msgid "DKIM, SPF en DMARC"
 msgstr ""
 
@@ -6810,7 +6909,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:184
 #: pro/config/US/questions-processing.php:184
 #: pro/config/ZA/questions-processing.php:184
-#: pro/config/questions-wizard.php:887
+#: pro/config/questions-wizard.php:907
 msgid "Physical security measures of systems which contain personal  data."
 msgstr ""
 
@@ -6821,7 +6920,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:185
 #: pro/config/US/questions-processing.php:185
 #: pro/config/ZA/questions-processing.php:185
-#: pro/config/questions-wizard.php:888
+#: pro/config/questions-wizard.php:908
 msgid "Security software"
 msgstr ""
 
@@ -6832,7 +6931,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:186
 #: pro/config/US/questions-processing.php:186
 #: pro/config/ZA/questions-processing.php:186
-#: pro/config/questions-wizard.php:889
+#: pro/config/questions-wizard.php:909
 msgid "ISO27001/27002 certified"
 msgstr ""
 
@@ -6843,7 +6942,7 @@ msgstr ""
 #: pro/config/UK/questions-processing.php:194
 #: pro/config/US/questions-processing.php:194
 #: pro/config/ZA/questions-processing.php:194
-#: pro/config/questions-wizard.php:897
+#: pro/config/questions-wizard.php:917
 msgid "STARTTLS and DANE"
 msgstr ""
 
@@ -7913,7 +8012,7 @@ msgstr ""
 #: pro/config/documents/BR/privacy-policy-children.php:173
 #: pro/config/documents/BR/privacy-policy.php:95
 #: pro/config/documents/CA/privacy-policy-children.php:161
-#: pro/config/documents/EU/privacy-policy.php:85
+#: pro/config/documents/EU/privacy-policy.php:84
 #: pro/config/documents/ZA/privacy-policy-children.php:178
 #: pro/config/documents/ZA/privacy-policy.php:104
 #, php-format
@@ -7934,7 +8033,7 @@ msgstr ""
 #: pro/config/documents/AU/privacy-policy-children.php:164
 #: pro/config/documents/CA/privacy-policy-children.php:166
 #: pro/config/documents/CA/privacy-policy.php:94
-#: pro/config/documents/EU/privacy-policy.php:122
+#: pro/config/documents/EU/privacy-policy.php:121
 msgctxt "Legal document privacy statement"
 msgid ""
 "We are committed to the security of personal data. We take appropriate "
@@ -7949,7 +8048,7 @@ msgstr ""
 #: pro/config/documents/BR/privacy-policy.php:142
 #: pro/config/documents/CA/privacy-policy-children.php:170
 #: pro/config/documents/CA/privacy-policy.php:97
-#: pro/config/documents/EU/privacy-policy.php:125
+#: pro/config/documents/EU/privacy-policy.php:124
 #: pro/config/documents/ZA/privacy-policy-children.php:187
 #: pro/config/documents/ZA/privacy-policy.php:150
 msgctxt "Legal document privacy statement"
@@ -7978,7 +8077,7 @@ msgstr ""
 #: pro/config/documents/BR/privacy-policy-children.php:198
 #: pro/config/documents/BR/privacy-policy.php:217
 #: pro/config/documents/CA/privacy-policy-children.php:186
-#: pro/config/documents/EU/privacy-policy.php:181
+#: pro/config/documents/EU/privacy-policy.php:180
 #: pro/config/documents/ZA/privacy-policy-children.php:203
 #: pro/config/documents/ZA/privacy-policy.php:227
 msgctxt "Legal document privacy statement"
@@ -7989,7 +8088,7 @@ msgstr ""
 #: pro/config/documents/BR/privacy-policy-children.php:199
 #: pro/config/documents/BR/privacy-policy.php:218
 #: pro/config/documents/CA/privacy-policy-children.php:187
-#: pro/config/documents/EU/privacy-policy.php:182
+#: pro/config/documents/EU/privacy-policy.php:181
 #: pro/config/documents/ZA/privacy-policy-children.php:204
 #: pro/config/documents/ZA/privacy-policy.php:228
 msgctxt "Legal document privacy statement"
@@ -8004,9 +8103,20 @@ msgctxt "Legal document privacy statement:paragraph title"
 msgid "Disclosure practices"
 msgstr ""
 
-#: pro/config/documents/AU/privacy-policy.php:173
-#: pro/config/documents/CA/privacy-policy.php:153
-#: pro/config/documents/ZA/privacy-policy.php:232
+#: pro/config/documents/AU/privacy-policy.php:175
+#: pro/config/documents/BR/privacy-policy.php:223
+#: pro/config/documents/CA/privacy-policy.php:156
+#: pro/config/documents/EU/privacy-policy.php:187
+#: pro/config/documents/ZA/privacy-policy.php:235
+msgctxt "Legal document"
+msgid ""
+"For the most frequently submitted requests, we also offer you the "
+"possibility to use our data request form"
+msgstr ""
+
+#: pro/config/documents/AU/privacy-policy.php:179
+#: pro/config/documents/CA/privacy-policy.php:161
+#: pro/config/documents/ZA/privacy-policy.php:240
 msgctxt "Legal document privacy statement"
 msgid ""
 "We have appointed a contact person for the organization’s policies and "
@@ -9171,8 +9281,8 @@ msgstr ""
 #: pro/config/documents/BR/privacy-policy.php:94
 #: pro/config/documents/BR/privacy-policy.php:102
 #: pro/config/documents/CA/privacy-policy.php:73
-#: pro/config/documents/EU/privacy-policy.php:84
-#: pro/config/documents/EU/privacy-policy.php:91
+#: pro/config/documents/EU/privacy-policy.php:83
+#: pro/config/documents/EU/privacy-policy.php:90
 #: pro/config/documents/UK/privacy-policy.php:88
 #: pro/config/documents/ZA/privacy-policy.php:103
 #: pro/config/documents/ZA/privacy-policy.php:112
@@ -9181,7 +9291,7 @@ msgid "Cookies"
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:103
-#: pro/config/documents/EU/privacy-policy.php:92
+#: pro/config/documents/EU/privacy-policy.php:91
 #: pro/config/documents/UK/privacy-policy.php:89
 #: pro/config/documents/ZA/privacy-policy.php:113
 #, php-format
@@ -9197,7 +9307,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:110
-#: pro/config/documents/EU/privacy-policy.php:99
+#: pro/config/documents/EU/privacy-policy.php:98
 #: pro/config/documents/UK/privacy-policy.php:96
 #: pro/config/documents/ZA/privacy-policy.php:120
 #, php-format
@@ -9223,7 +9333,7 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:128
 #: pro/config/documents/CA/privacy-policy.php:83
-#: pro/config/documents/EU/privacy-policy.php:111
+#: pro/config/documents/EU/privacy-policy.php:110
 #: pro/config/documents/ZA/privacy-policy.php:134
 msgctxt "Legal document privacy statement"
 msgid "Google may not use the data for any other Google services."
@@ -9231,7 +9341,7 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:133
 #: pro/config/documents/CA/privacy-policy.php:88
-#: pro/config/documents/EU/privacy-policy.php:116
+#: pro/config/documents/EU/privacy-policy.php:115
 #: pro/config/documents/ZA/privacy-policy.php:140
 msgctxt "Legal document privacy statement"
 msgid "The inclusion of full IP addresses is blocked by us."
@@ -9239,7 +9349,7 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:138
 #: pro/config/documents/CA/privacy-policy.php:93
-#: pro/config/documents/EU/privacy-policy.php:121
+#: pro/config/documents/EU/privacy-policy.php:120
 #: pro/config/documents/ZA/privacy-policy.php:146
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Security"
@@ -9257,14 +9367,14 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:150
-#: pro/config/documents/EU/privacy-policy.php:133
+#: pro/config/documents/EU/privacy-policy.php:132
 #: pro/config/documents/ZA/privacy-policy.php:160
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Third-party websites"
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:151
-#: pro/config/documents/EU/privacy-policy.php:134
+#: pro/config/documents/EU/privacy-policy.php:133
 #: pro/config/documents/ZA/privacy-policy.php:161
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -9276,7 +9386,7 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:154
 #: pro/config/documents/CA/privacy-policy.php:109
-#: pro/config/documents/EU/privacy-policy.php:137
+#: pro/config/documents/EU/privacy-policy.php:136
 #: pro/config/documents/ZA/privacy-policy.php:165
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Amendments to this privacy statement"
@@ -9284,7 +9394,7 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:155
 #: pro/config/documents/CA/privacy-policy.php:110
-#: pro/config/documents/EU/privacy-policy.php:138
+#: pro/config/documents/EU/privacy-policy.php:137
 #: pro/config/documents/ZA/privacy-policy.php:166
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -9365,7 +9475,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:173
-#: pro/config/documents/EU/privacy-policy.php:153
+#: pro/config/documents/EU/privacy-policy.php:152
 #: pro/config/documents/ZA/privacy-policy.php:180
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -9374,7 +9484,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:177
-#: pro/config/documents/EU/privacy-policy.php:157
+#: pro/config/documents/EU/privacy-policy.php:156
 #: pro/config/documents/ZA/privacy-policy.php:185
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Automated decision-making"
@@ -9390,7 +9500,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:188
-#: pro/config/documents/EU/privacy-policy.php:168
+#: pro/config/documents/EU/privacy-policy.php:167
 #: pro/config/documents/ZA/privacy-policy.php:197
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Submitting a complaint"
@@ -9437,15 +9547,23 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:213
 #: pro/config/documents/CA/privacy-policy.php:143
-#: pro/config/documents/EU/privacy-policy.php:177
+#: pro/config/documents/EU/privacy-policy.php:176
 #: pro/config/documents/ZA/privacy-policy.php:223
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Contact details"
 msgstr ""
 
-#: pro/config/documents/BR/privacy-policy.php:224
-#: pro/config/documents/CA/privacy-policy.php:159
-#: pro/config/documents/ZA/privacy-policy.php:240
+#: pro/config/documents/BR/privacy-policy.php:222
+#: pro/config/documents/CA/privacy-policy.php:155
+#: pro/config/documents/EU/privacy-policy.php:186
+#: pro/config/documents/ZA/privacy-policy.php:234
+msgctxt "Legal document"
+msgid "Data requests"
+msgstr ""
+
+#: pro/config/documents/BR/privacy-policy.php:228
+#: pro/config/documents/CA/privacy-policy.php:167
+#: pro/config/documents/ZA/privacy-policy.php:248
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Annex"
 msgstr ""
@@ -10169,7 +10287,7 @@ msgid ""
 msgstr ""
 
 #: pro/config/documents/CA/privacy-policy.php:78
-#: pro/config/documents/EU/privacy-policy.php:106
+#: pro/config/documents/EU/privacy-policy.php:105
 msgctxt "Legal document privacy statement"
 msgid "We have concluded a data Processing Agreement with Google."
 msgstr ""
@@ -10683,12 +10801,12 @@ msgctxt "Legal document privacy statement"
 msgid "Processors"
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:141
+#: pro/config/documents/EU/privacy-policy.php:140
 msgctxt "Legal document privacy statement"
 msgid "Accessing and modifying your data"
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:144
+#: pro/config/documents/EU/privacy-policy.php:143
 #: pro/config/documents/ZA/privacy-policy.php:172
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10697,7 +10815,7 @@ msgid ""
 "You have the following rights:"
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:146
+#: pro/config/documents/EU/privacy-policy.php:145
 #: pro/config/documents/ZA/privacy-policy.php:174
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10705,7 +10823,7 @@ msgid ""
 "happen to it, and how long it will be retained for."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:147
+#: pro/config/documents/EU/privacy-policy.php:146
 #: pro/config/documents/ZA/privacy-policy.php:175
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10713,7 +10831,7 @@ msgid ""
 "known to us."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:148
+#: pro/config/documents/EU/privacy-policy.php:147
 #: pro/config/documents/ZA/privacy-policy.php:176
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10721,7 +10839,7 @@ msgid ""
 "deleted or blocked your personal data whenever you wish."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:149
+#: pro/config/documents/EU/privacy-policy.php:148
 #: pro/config/documents/ZA/privacy-policy.php:177
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10729,7 +10847,7 @@ msgid ""
 "revoke that consent and to have your personal data deleted."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:150
+#: pro/config/documents/EU/privacy-policy.php:149
 msgctxt "Legal document privacy statement"
 msgid ""
 "Right to transfer your data: you have the right to request all your personal "
@@ -10737,7 +10855,7 @@ msgid ""
 "controller."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:151
+#: pro/config/documents/EU/privacy-policy.php:150
 #: pro/config/documents/ZA/privacy-policy.php:178
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10745,7 +10863,7 @@ msgid ""
 "with this, unless there are justified grounds for processing."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:158
+#: pro/config/documents/EU/privacy-policy.php:157
 msgctxt "Legal document privacy statement"
 msgid ""
 "We make decisions on the basis of automated processing with respect to "
@@ -10753,7 +10871,7 @@ msgid ""
 "decisions taken by computer programs or systems without human intervention."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:169
+#: pro/config/documents/EU/privacy-policy.php:168
 msgctxt "Legal document privacy statement"
 msgid ""
 "If you are not satisfied with the way in which we handle (a complaint about) "
@@ -10761,12 +10879,12 @@ msgid ""
 "complaint to the Data Protection Authority."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:172
+#: pro/config/documents/EU/privacy-policy.php:171
 msgctxt "Legal document privacy statement:paragraph title"
 msgid "Data Protection Officer"
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:173
+#: pro/config/documents/EU/privacy-policy.php:172
 #, php-format
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10776,7 +10894,7 @@ msgid ""
 "may contact %s, via %s or %s"
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:186
+#: pro/config/documents/EU/privacy-policy.php:194
 #, php-format
 msgctxt "Legal document privacy statement"
 msgid ""
@@ -10785,7 +10903,7 @@ msgid ""
 "representative, you may contact %s, via %s, %s or by telephone on %s."
 msgstr ""
 
-#: pro/config/documents/EU/privacy-policy.php:191
+#: pro/config/documents/EU/privacy-policy.php:199
 msgctxt "Legal document privacy statement"
 msgid "Annex"
 msgstr ""
@@ -11987,80 +12105,80 @@ msgid ""
 "browsers?"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:293
+#: pro/config/dynamic-fields.php:295
 msgid "You have not selected a TCF region at the moment"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:320
+#: pro/config/dynamic-fields.php:322
 msgid ""
 "A Privacy Statement is required to inform your visitors about the way you "
 "deal with the privacy of website visitors. A link to this document is placed "
 "on your Cookie Banner."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:326
+#: pro/config/dynamic-fields.php:328
 msgid ""
 "An Imprint provides general contact information about the organization "
 "behind this website and might be required in your region."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:336
+#: pro/config/dynamic-fields.php:338
 msgid ""
 "A Disclaimer is commonly used to exclude or limit liability or to make "
 "statements about the content of the website. Having a Disclaimer is not "
 "legally required."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:345
+#: pro/config/dynamic-fields.php:347
 msgid "With records of consent enabled, GEO IP can not be turned off."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:350
+#: pro/config/dynamic-fields.php:352
 msgid ""
 "If enabled, the cookie banner will not show for countries without a cookie "
 "law, and will adjust the warning type depending on supported privacy laws"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:358
+#: pro/config/dynamic-fields.php:360
 msgid "With TCF enabled, A/B testing is not possible."
 msgstr ""
 
-#: pro/config/dynamic-fields.php:372
+#: pro/config/dynamic-fields.php:374
 #, php-format
 msgid ""
 "To be able to select multiple regions, you should enable Geo IP in the "
 "%sgeneral settings%s"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:375
+#: pro/config/dynamic-fields.php:377
 msgid "Which region(s) do you target with your website?"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:377
+#: pro/config/dynamic-fields.php:379
 msgid "European Union (GDPR)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:379
+#: pro/config/dynamic-fields.php:381
 msgid "United Kingdom (UK-GDPR, PECR, Data Protection Act)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:382
+#: pro/config/dynamic-fields.php:384
 msgid "Canada (PIPEDA)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:383
+#: pro/config/dynamic-fields.php:385
 msgid "Australia (Privacy Act 1988)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:384
+#: pro/config/dynamic-fields.php:386
 msgid "South Africa (POPIA)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:385
+#: pro/config/dynamic-fields.php:387
 msgid "Brazil (LGPD)"
 msgstr ""
 
-#: pro/config/dynamic-fields.php:406
+#: pro/config/dynamic-fields.php:408
 msgid "You can use this to import your settings from another site"
 msgstr ""
 
@@ -12426,116 +12544,126 @@ msgid ""
 "collects personal data requires a checkbox."
 msgstr ""
 
-#: pro/config/questions-wizard.php:864
+#: pro/config/questions-wizard.php:862
+msgid "Do you want to enable Data Request Forms?"
+msgstr ""
+
+#: pro/config/questions-wizard.php:873
+msgid ""
+"This feature will enable data request forms in your privacy statement and "
+"enable a new menu item."
+msgstr ""
+
+#: pro/config/questions-wizard.php:884
 msgid ""
 "Do you want to provide a detailed list of security measures in your Privacy "
 "Statement?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:866
+#: pro/config/questions-wizard.php:886
 msgid "No, provide a general explanation"
 msgstr ""
 
-#: pro/config/questions-wizard.php:867
+#: pro/config/questions-wizard.php:887
 msgid "Yes, we will list our security measures"
 msgstr ""
 
-#: pro/config/questions-wizard.php:881
+#: pro/config/questions-wizard.php:901
 msgid "Which security measures did you take?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:901
+#: pro/config/questions-wizard.php:921
 #, php-format
 msgid ""
 "Quickly want to implement most of these security headers? Check out %sReally "
 "Simple SSL Pro%s."
 msgstr ""
 
-#: pro/config/questions-wizard.php:915
+#: pro/config/questions-wizard.php:936
 msgid ""
 "Do you offer financial incentives, including payments to consumers as "
 "compensation, for the collection of personal information, the sale of "
 "personal information, or the deletion of personal information?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:927
+#: pro/config/questions-wizard.php:948
 msgid "https://your-terms-page.com"
 msgstr ""
 
-#: pro/config/questions-wizard.php:932
+#: pro/config/questions-wizard.php:953
 msgid "Enter the URL of the terms & conditions page for the incentives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:933 pro/config/questions-wizard.php:1176
+#: pro/config/questions-wizard.php:954 pro/config/questions-wizard.php:1197
 #, php-format
 msgid "Also see our free %sTerms & Conditions%s plugin"
 msgstr ""
 
-#: pro/config/questions-wizard.php:940
+#: pro/config/questions-wizard.php:961
 msgid ""
 "Please note that the consumer explicitly has to consent to these terms, and "
 "that the consumer must be able to revoke this consent. "
 msgstr ""
 
-#: pro/config/questions-wizard.php:950
+#: pro/config/questions-wizard.php:971
 msgid ""
 "Is your website designed to attract children and/or is it your intent to "
 "collect personal data from children under the age of 13?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:966
+#: pro/config/questions-wizard.php:987
 msgid ""
 "How do you obtain verifiable parental consent for the collection, use, or "
 "disclosure of personal information from children?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:968
+#: pro/config/questions-wizard.php:989
 msgid "We seek a parent or guardian's consent by email"
 msgstr ""
 
-#: pro/config/questions-wizard.php:969
+#: pro/config/questions-wizard.php:990
 msgid "We seek a high level of consent by asking for a creditcard verification"
 msgstr ""
 
-#: pro/config/questions-wizard.php:970
+#: pro/config/questions-wizard.php:991
 msgid "We use telephone or Videochat  to talk to the parent or guardian"
 msgstr ""
 
-#: pro/config/questions-wizard.php:986
+#: pro/config/questions-wizard.php:1007
 msgid "Is your website included in a COPPA Safe Harbor Certification Program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1004
+#: pro/config/questions-wizard.php:1025
 msgid "What is the name of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1022
+#: pro/config/questions-wizard.php:1043
 msgid "What is the URL of the program?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1040
+#: pro/config/questions-wizard.php:1061
 msgid ""
 "For what potential activities on your website do you collect personal "
 "information from a child?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1042
+#: pro/config/questions-wizard.php:1063
 msgid "Registration"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1043
+#: pro/config/questions-wizard.php:1064
 msgid "Content created by a child and publicly shared"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1044
+#: pro/config/questions-wizard.php:1065
 msgid "Chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1045
+#: pro/config/questions-wizard.php:1066
 msgid "Email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1061
+#: pro/config/questions-wizard.php:1082
 #, php-format
 msgid ""
 "You have indicated that your website is not included in a COPPA Safe Harbor "
@@ -12543,140 +12671,140 @@ msgid ""
 "children on your website."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1078
+#: pro/config/questions-wizard.php:1099
 msgid "Information collected for registration "
 msgstr ""
 
-#: pro/config/questions-wizard.php:1097
+#: pro/config/questions-wizard.php:1118
 msgid "Information collected for content created by a child"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1116
+#: pro/config/questions-wizard.php:1137
 msgid "Information collected for chat/messageboard"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1135
+#: pro/config/questions-wizard.php:1156
 msgid "Information collected for email contact"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1156
+#: pro/config/questions-wizard.php:1177
 msgid "Which themes would you like to include in your Disclaimer?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1158
+#: pro/config/questions-wizard.php:1179
 msgid "Liability"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1159
+#: pro/config/questions-wizard.php:1180
 msgid "Reference to terms of use"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1160
+#: pro/config/questions-wizard.php:1181
 msgid "How you will answer inquiries"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1161
+#: pro/config/questions-wizard.php:1182
 msgid "Privacy and reference to the privacy statement"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1162
+#: pro/config/questions-wizard.php:1183
 msgid "Not liable when security is breached"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1163
+#: pro/config/questions-wizard.php:1184
 msgid "Not liable for third-party content"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1164
+#: pro/config/questions-wizard.php:1185
 msgid "Accessibility of the website for the disabled"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1175
+#: pro/config/questions-wizard.php:1196
 msgid "What is the URL of the Terms of Use?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1188
+#: pro/config/questions-wizard.php:1209
 msgid "Is your website built according to WCAG 2.1 level AA guidelines?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1204
+#: pro/config/questions-wizard.php:1225
 msgid "Who made the content of the website?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1206
+#: pro/config/questions-wizard.php:1227
 msgid "The content is being developed by ourselves"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1207
+#: pro/config/questions-wizard.php:1228
 msgid "The content is being developed or posted by Third Parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1208
+#: pro/config/questions-wizard.php:1229
 msgid "The content is being developed by ourselves and other parties"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1221
+#: pro/config/questions-wizard.php:1242
 msgid "What do you want to do with any intellectual property claims?"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1223
+#: pro/config/questions-wizard.php:1244
 msgid "All rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1224
+#: pro/config/questions-wizard.php:1245
 msgid "No rights reserved"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1225
+#: pro/config/questions-wizard.php:1246
 msgid "Creative Commons - Attribution"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1226
+#: pro/config/questions-wizard.php:1247
 msgid "Creative Commons - Share a like"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1227
+#: pro/config/questions-wizard.php:1248
 msgid "Creative Commons - No derivatives"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1228
+#: pro/config/questions-wizard.php:1249
 msgid "Creative Commons - Noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1229
+#: pro/config/questions-wizard.php:1250
 msgid "Creative Commons - Share a like, noncommercial"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1232
+#: pro/config/questions-wizard.php:1253
 msgid ""
 "Creative Commons (CC) is an American non-profit organization devoted to "
 "expanding the range of creative works available for others to build upon "
 "legally and to share."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1236
+#: pro/config/questions-wizard.php:1257
 msgid "Privacy statements from plugins"
 msgstr ""
 
-#: pro/config/questions-wizard.php:1243
+#: pro/config/questions-wizard.php:1264
 msgid ""
 "Please note that you should customize these texts for your website: the text "
 "should generally not be copied as is."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1244
+#: pro/config/questions-wizard.php:1265
 msgid ""
 "Plugins and themes can add their own suggested privacy paragraphs here. You "
 "can choose to add these to the Annex of your Privacy Statement."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1245
+#: pro/config/questions-wizard.php:1266
 msgid ""
 "You can also add additional custom texts to the Annex of your Privacy "
 "Statement if you like."
 msgstr ""
 
-#: pro/config/questions-wizard.php:1256
+#: pro/config/questions-wizard.php:1277
 msgid "Annex of your Privacy Statement"
 msgstr ""
 
@@ -13271,6 +13399,31 @@ msgid ""
 "Through which email address can customers make inquiries about your system?"
 msgstr ""
 
+#: pro/datarequests/class-datarequests.php:35
+msgid "Request for access"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:36
+msgid "Submit a request for access to the data we process about you."
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:40
+msgid "Right to be forgotten"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:41
+msgid "Submit a request for deletion of the data if it is no longer relevant."
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:45
+msgid "Right to data portability"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:46
+msgid ""
+"Submit a request to receive an export file of the data we process about you."
+msgstr ""
+
 #: pro/filters-actions.php:17
 msgid ""
 "This website uses the Privacy Suite for WordPress from Complianz to collect "
@@ -13387,12 +13540,6 @@ msgstr ""
 msgid "Dataleaks"
 msgstr ""
 
-#: pro/framework/post-types.php:256 pro/framework/post-types.php:328
-#: pro/framework/post-types.php:443
-#: pro/records-of-consent/class-records-of-consent-table.php:295
-msgid "Region"
-msgstr ""
-
 #: pro/framework/post-types.php:283
 msgid "All regions"
 msgstr ""
@@ -13461,11 +13608,6 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent-table.php:292
-#: pro/records-of-consent/class-records-of-consent.php:180
-msgid "Date"
-msgstr ""
-
 #: pro/records-of-consent/class-records-of-consent-table.php:296
 msgid "Consented services"
 msgstr ""
@@ -13475,7 +13617,7 @@ msgid "Consent type"
 msgstr ""
 
 #: pro/records-of-consent/class-records-of-consent-table.php:298
-#: proof-of-consent/class-proof-of-consent.php:374 shepherd/tour.php:102
+#: proof-of-consent/class-proof-of-consent.php:358 shepherd/tour.php:102
 msgid "Proof of Consent"
 msgstr ""
 
@@ -13847,11 +13989,6 @@ msgstr ""
 msgid "Select Proof of Consent"
 msgstr ""
 
-#: pro/templates/dashboard/support-footer.php:4
-#: templates/do-not-sell-my-personal-data-form.php:21
-msgid "Send"
-msgstr ""
-
 #: pro/templates/dashboard/support.php:2
 msgid ""
 "When you send this form we will attach the following information: license "
@@ -13921,11 +14058,11 @@ msgstr ""
 msgid "Generate now"
 msgstr ""
 
-#: proof-of-consent/class-proof-of-consent.php:373
+#: proof-of-consent/class-proof-of-consent.php:357
 msgid "Cookie consent settings"
 msgstr ""
 
-#: proof-of-consent/class-proof-of-consent.php:376
+#: proof-of-consent/class-proof-of-consent.php:360
 #, php-format
 msgid ""
 "This document was generated to show efforts made to comply with privacy "
@@ -14181,7 +14318,7 @@ msgstr ""
 msgid "Create a Data Leak Inventory"
 msgstr ""
 
-#: templates/dashboard/tools-conditional.php:35
+#: templates/dashboard/tools-conditional.php:45
 msgid "Create A/B Tests"
 msgstr ""
 
@@ -14212,14 +14349,6 @@ msgstr ""
 
 #: templates/dashboard/tools.php:43
 msgid "Webshop privacy"
-msgstr ""
-
-#: templates/do-not-sell-my-personal-data-form.php:17
-msgid "Your name"
-msgstr ""
-
-#: templates/do-not-sell-my-personal-data-form.php:19
-msgid "email@email.com"
 msgstr ""
 
 #: templates/integrations/custom-scripts.php:2
