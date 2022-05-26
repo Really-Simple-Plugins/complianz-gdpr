@@ -1470,6 +1470,24 @@ if (!function_exists('cmplz_read_more')) {
 	}
 }
 
+if (!function_exists('cmplz_upgrade_to_premium')) {
+	/**
+	 * Standardization upgrade process
+	 *
+	 * @param string $url
+	 * @param bool   $add_space
+	 *
+	 * @return string
+	 */
+	function cmplz_upgrade_to_premium( $url, $add_space = true ) {
+		$html = cmplz_sprintf( __( "%sUpgrade%s", 'complianz-gdpr' ), '<a class="cmplz-upgrade-to-premium" target="_blank" href="' . $url . '">', '</a>' );
+		if ( $add_space ) {
+			$html = '&nbsp;' . $html;
+		}
+		return $html;
+	}
+}
+
 if (!function_exists('cmplz_settings_overlay')) {
 	function cmplz_settings_overlay($msg) {
 		echo '<div class="cmplz-settings-overlay"><div class="cmplz-settings-overlay-message">'.$msg.'</div></div>';

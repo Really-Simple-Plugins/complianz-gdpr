@@ -230,8 +230,22 @@ $this->fields = $this->fields + array(
 			'options' => $this->yes_no,
 			'default' => 'no',
 			'disabled' => array('yes'),
-			'comment'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
+			'help'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
 		),
+
+		'data_request_forms' => array(
+			'source'  => 'wizard',
+			'label'   => __( "Do you want to enable Data Request Forms?", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing?datarequests'),
+			'step'    => STEP_COMPANY,
+			'section' => 11,
+			'type'    => 'radio',
+			'options' => $this->yes_no,
+			'default' => 'no',
+			'disabled' => array('yes'),
+			'help'  => __( "This will enable Data Requests Forms for your Privacy Statements.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/data-requests-forms/' ),
+		),
+
+
 
 		'respect_dnt' => array(
 			'step' => STEP_COMPANY,
