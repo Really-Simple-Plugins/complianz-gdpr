@@ -25,33 +25,38 @@
 
 			$title     = $page['title'];
 			if ( COMPLIANZ::$document->page_exists( $type, $region ) ) {
-
 				$title     = '<a href="' . get_permalink( COMPLIANZ::$document->get_shortcode_page_id( $type, $region ) ) . '">' . $page['title'] . '</a>';
-				$shortcode = COMPLIANZ::$document->get_shortcode( $type, $region, $force_classic = true );
-				$title     .= '<div class="cmplz-selectable cmplz-shortcode" id="'.$type.'">' . $shortcode . '</div>';
-				$generated = $checked_date = date( cmplz_short_date_format(), get_option( 'cmplz_documents_update_date' ) );
 				if ( ! COMPLIANZ::$document->page_required( $page, $region ) ) {
 					$args = array(
 						'status' => 'error',
 						'title' => $title,
-						'page_exists' => cmplz_icon('bullet', 'disabled'),
+						'page_exists' => cmplz_icon('circle-check', 'disabled'),
 						'sync_icon' => cmplz_icon('sync', 'disabled'),
 						'shortcode_icon' => cmplz_icon('shortcode', 'disabled'),
 						'generated' => __( "Obsolete", 'complianz-gdpr' ),
 					);
 				} else {
+					$shortcode = COMPLIANZ::$document->get_shortcode( $type, $region, $force_classic = true );
+					$generated = $checked_date = date( cmplz_short_date_format(), get_option( 'cmplz_documents_update_date' ) );
 					$sync_status = COMPLIANZ::$document->syncStatus( COMPLIANZ::$document->get_shortcode_page_id( $type, $region ) );
 					$status = $sync_status === 'sync' ? "success" : "disabled";
-					$sync_icon = cmplz_icon( 'sync', $status );
-					$shortcode_icon = cmplz_icon( 'shortcode', $status , __( 'Click to copy the document shortcode', 'complianz-gdpr' ));
+
+					if ($status === 'success'){
+						$sync_icon = cmplz_icon( 'sync', $status, __( 'Document is kept up to date by Complianz', 'complianz-gdpr' ) );
+					} else {
+						$sync_icon = cmplz_icon( 'sync', $status, __( 'Document is not kept up to date by Complianz', 'complianz-gdpr' ) );
+					}
+
 					if ( $sync_status === 'sync' ) {
-						$shortcode_icon = '<span class="cmplz-copy-shortcode">' . $shortcode_icon . '</span>';
+						$shortcode_icon = cmplz_icon( 'shortcode', 'default' , __( 'Click to copy the document shortcode', 'complianz-gdpr' ), 15, $type, $shortcode);
+					} else {
+						$shortcode_icon = cmplz_icon( 'shortcode', $status , __( 'Click to copy the document shortcode', 'complianz-gdpr' ), 15);
 					}
 
 					$args = array(
 						'status' => $status.' shortcode-container',
 						'title' => $title,
-						'page_exists' => cmplz_icon('bullet', 'success'),
+						'page_exists' => cmplz_icon('circle-check', 'success', __( 'Validated', 'complianz-gdpr' )),
 						'sync_icon' => $sync_icon,
 						'shortcode_icon' => $shortcode_icon,
 						'generated' => $generated,

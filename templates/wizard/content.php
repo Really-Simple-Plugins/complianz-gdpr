@@ -6,9 +6,9 @@
 		<input type="hidden" value="{section}" name="section">
 		<?php wp_nonce_field( 'complianz_save', 'cmplz_nonce' ); ?>
 
-        <div class="cmplz-wizard-title cmplz-section-content-title-header">{title}{flags}</div>
+		<div class="cmplz-wizard-title cmplz-section-content-title-header"><h2 class="h4">{title}</h2>{flags}</div>
         <div class="cmplz-wizard-title cmplz-section-content-notifications-header">
-			<?php _e("Notifications", "complianz-gdpr")?>
+			<h2 class="h4"><?php _e("Notifications", "complianz-gdpr")?></h2>
 		</div>
 	    {learn_notice}
 	    {intro}

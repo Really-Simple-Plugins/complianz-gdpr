@@ -29,7 +29,6 @@
 
   --cmplz_category_header_title_font_size:14px;
   --cmplz_category_header_active_font_size:12px;
-  --cmplz_category_open_icon_url:url(../../assets/images/down.png);
   --cmplz-manage-consent-height:50px;
   --cmplz-manage-consent-offset:-35px;
 
@@ -218,8 +217,8 @@
 	  grid-column-start: 3;
 	  font-size: 20px;
 	  cursor: pointer;
-	  width: 24px;
-	  height: 24px;
+	  width: 20px;
+	  height: 20px;
 	  color: var(--cmplz_text_color);
 	  svg {
 		width:20px;
@@ -266,10 +265,10 @@
 	  background-color: rgba(239, 239, 239, .5);
 	  .cmplz-category-header {
 		display: grid;
-		grid-template-columns: 1fr auto 25px;
+		grid-template-columns: 1fr auto 15px;
 		grid-template-rows: minmax(0, 1fr);
 		align-items: center;
-		grid-gap: 0;
+		grid-gap: 10px;
 		padding: 10px;
 		.cmplz-category-title {
 		  font-weight: 500;
@@ -308,16 +307,14 @@
 		  grid-column-start: 3;
 		  cursor: pointer;
 		  content: '';
-		  background: var(--cmplz_category_open_icon_url) no-repeat;
 		  transform: rotate(0deg);
 		  -webkit-transition: all 0.5s ease;
 		  -moz-transition: all 0.5s ease;
 		  -o-transition: all 0.5s ease;
 		  transition: all 0.5s ease;
 		  background-size: cover;
-		  height: 25px;
-		  width: 25px;
-		  margin: 0 5px;
+		  height: 15px;
+		  width: 15px;
 		}
 
 	  }

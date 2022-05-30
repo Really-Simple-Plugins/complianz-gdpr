@@ -3,27 +3,6 @@
 // Import Complianz LESS Variables
 @import 'variables.less';
 
-.box-shadow-top {
-  box-shadow: 0 -5px 5px -5px rgba(222, 222, 222, 0.2);
-}
-
-.box-shadow-right {
-  box-shadow: 5px 0 5px -5px rgba(222, 222, 222, 0.2);
-}
-
-.box-shadow-bottom {
-  box-shadow: 0 5px 5px -5px rgba(222, 222, 222, 0.2);
-}
-
-.box-shadow-left {
-
-  box-shadow: -5px 0 5px -5px rgba(222, 222, 222, 0.2);
-}
-
-.all {
-  box-shadow: 0 0 5px #333;
-}
-
 /**
 * class to add a triangle pointer to each div
 */
@@ -41,14 +20,15 @@
   }
 }
 @media only screen and (max-width: 1400px) {
-  #cmplz-content-area {
+  .cmplz-content-area {
 	grid-template-columns: 24% auto;
   }
 }
 
-#cmplz-content-area {
+.cmplz-content-area {
   display: grid;
   grid-template-columns: 22% auto;
+  gap: var(--rsp-grid-gap);
   h1 {
     padding: 0;
   }
@@ -62,15 +42,14 @@
   }
 
   .cmplz-wizard-title {
-    padding: @green-gap;
-    border-bottom: 1px solid @input-border-color;
+	padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
     display: flex;
 	font-size:17px;
 	font-weight:600;
     justify-content: space-between;
     align-content: center;
+	border-radius: var(--rsp-border-radius) var(--rsp-border-radius) 0 0;
 	&.cmplz-section-content-notifications-header {
-	  border-bottom: 1px solid @input-border-color;
 	  h1{
 		font-weight:normal;
 	  }
@@ -84,23 +63,22 @@
 
   .cmplz-wizard-menu {
     background-color: white;
-	margin: 0.5 * @green-gap;
-	margin-bottom:30px;
-    padding-bottom: @green-gap;
-	box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+	box-shadow: var(--rsp-box-shadow);
+	border-radius: var(--rsp-border-radius);
+
 	// sticky menu
-	top: 50px;
-	//max-height: calc(100vh - 87px);
-	height: 100%;
-	min-height: 480px;
+	//top: 50px;
+	////max-height: calc(100vh - 87px);
+	//height: 100%;
+	//min-height: 480px;
 
     .cmplz-wizard-progress-bar {
       background: @grey-light;
       height: 15px;
-      margin: @green-gap @green-gap 0 @green-gap;
+	  margin: var(--rsp-spacing-xs) var(--rsp-spacing-l);
       .cmplz-wizard-progress-bar-value {
         height: 100%;
-        background: #61CE70;
+        background: var(--rsp-green);
 		border-radius: 4px;
       }
     }
@@ -108,17 +86,17 @@
     .cmplz-step {
       .cmplz-step-header {
 		&.incomplete a h2 {
-		  color: @grey;
+		  color: var(--rsp-text-color);
 		}
 		&.active a h2{
-		  color: @brand-primary;
+		  color: var(--rsp-wp-blue);
 		}
         text-decoration: none;
         a {
           display: inline-block;
-          padding: 5px @green-gap;
+		  padding: var(--rsp-spacing-xxs) var(--rsp-spacing-l);
           text-decoration: none;
-          width: calc(100% - (@green-gap + @green-gap));
+          width: 100%;
           h2 {
             font-size: 15px;
 			font-weight:500;
@@ -135,56 +113,45 @@
         }
       }
 
-      .cmplz-section {
-        display: grid;
-        grid-template-columns: @green-gap 1fr;
-
-        span {
-          align-self: center;
-          justify-self: center;
-        }
-
-        margin: 0 @green-gap;
-        a {
+	  .cmplz-section {
+		display: grid;
+		grid-template-columns: var(--rsp-spacing-m) 1fr;
+		margin: 0 var(--rsp-spacing-l);
+		a {
+		  display: inline-block;
+		  text-decoration: none;
+		  padding: 3px 5px;
 		  h3{
-			color: @grey ;
+			font-size: 13px;
+			font-weight: 400;
+			margin: 0;
 		  }
 		  &:visited h3{
 			color:initial ;
 		  }
-          display: inline-block;
-          text-decoration: none;
-          padding: 3px 5px;
-          h3 {
-            font-size: 13px;
-            font-weight: 400;
-            margin: 0;
-          }
-        }
+		  &:hover h3{
+			text-decoration:underline;
+		  }
+		}
+
 		&.cmplz-done a h3 {
 		  color: @rsp-black ;
 		}
-
-        &.active a h3 {
-          color: @brand-primary !important;
-        }
-
-        &:hover a {
-          h3 {
-			text-decoration:underline;
-          }
-        }
-        &.active:hover a {
-          background: white;
-          pointer-events: none;
-        }
-      }
+		&.active a h3 {
+		  color: var(--rsp-wp-blue);
+		}
+		&.active:hover a {
+		  background: white;
+		  pointer-events: none;
+		}
+		&.active svg path {
+		  fill: var(--rsp-wp-blue);
+		}
+	  }
     }
   }
 
   .cmplz-section-content {
-	margin: 0.5 * @green-gap;
-	margin-bottom: 30px;
 	p {
 	  margin: 0;
 	}
@@ -193,7 +160,7 @@
 	}
 	.cmplz-master-label {
 	  >div {
-		padding:0 @green-gap;
+		padding: 0 var(--rsp-spacing-l);
 		background-color: #fff;
 	  }
 	}
@@ -202,35 +169,31 @@
       display: grid;
 	  grid-template-columns: auto 325px;
       grid-column-gap: @red-gap;
-	  .cmplz-wizard-intro, .cmplz-field, .cmplz-section-content-title-header, .cmplz-section-footer {
-		.box-shadow-left;
-		.box-shadow-right;
-	  }
 
-	  .cmplz-section-content-title-header {
-		.box-shadow-top;
-	  }
 	  .cmplz-section-footer {
-		.box-shadow-bottom;
 		.cmplz-panel-wrap {margin:0}
 	  }
       .cmplz-section-content-title-header {
         background-color: white;
       }
 	  .cmplz-wizard-intro {
-		padding: @intro-gap;
+		padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
+		padding-top: var(--rsp-spacing-xxs);
 		background-color: #fff;
+		& > *:not(:first-child){ // select all descendant elements but not the first child
+		  margin-top: var(--rsp-spacing-s);
+		}
 	  }
 
-    .cmplz-wizard-intro ul {
-      list-style: inherit;
-      margin-left: 15px;
-    }
+	  .cmplz-wizard-intro ul {
+		list-style: inherit;
+		margin-left: 15px;
+	  }
 
-	  //if an intro is nested in a field, we don't need the padding, as the field already has padding
-	.cmplz-field .cmplz-wizard-intro {
-	  padding:0 0 @green-gap 0;
-	}
+		//if an intro is nested in a field, we don't need the padding, as the field already has padding
+	  .cmplz-field .cmplz-wizard-intro {
+		padding:0 0 @green-gap 0;
+	  }
 
       .field-group {
         grid-column: span 2;
@@ -239,12 +202,7 @@
         grid-column-gap: @red-gap;
 
         .cmplz-field {
-		  .button {
-			margin-top:10px;
-
-		  }
-
-          grid-column-start: 1;
+		  grid-column-start: 1;
 		  select {
 			font-size:13px;
 		  }
@@ -256,17 +214,18 @@
       .cmplz-section-footer {
         grid-column-start: 1;
         background-color: white;
-        padding: 40px 5px 20px 20px;
+        padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
         display: grid;
         align-items: center;
         grid-template-columns: 1fr auto;
+		border-radius: 0 0 var(--rsp-border-radius) var(--rsp-border-radius);
+		box-shadow: var(--rsp-box-shadow);
 
         .cmplz-buttons-container {
+		  display: flex;
+		  gap: var(--rsp-spacing-s);
+		  flex-wrap: wrap;
           grid-column-start: 2;
-          input {
-			margin-right: @green-gap;
-
-          }
         }
       }
     }
@@ -299,8 +258,7 @@
 	  .cmplz-upload .cmplz-field {
 		display: flex;
 		justify-content: space-between;
-		align-content: center;
-		padding: @green-gap @green-gap 0 @green-gap;
+		align-items: center;
 	  }
 
 	  .cmplz-upload .cmplz-field {
@@ -325,12 +283,6 @@
 	  .cmplz-multiple-field-button-footer .button.button-primary {
 		min-width: 0px;
 		margin-right: 5px;
-	  }
-
-	  .button.button-cmplz-tertiary {
-		background-color:@color-warning;
-		color:#fff;
-		border-color:@color-warning;
 	  }
 
 	  .upload_button {
@@ -446,20 +398,9 @@
 		}
 	  }
 
-	  .cmplz-field {
-		padding: 10px @green-gap 0 @green-gap;
-	  }
-
 	  .cmplz-borderradius,
 	  .cmplz-borderwidth {
 		grid-column: span 1;
-	  }
-
-	  .cmplz-master-label h2 {
-		grid-column: span 2;
-		margin: 0;
-		padding: @green-gap @green-gap 0 @green-gap;
-		font-size: 18px;
 	  }
 
 	  .cmplz-sublabel label {
@@ -504,12 +445,12 @@
 	  position: relative;
 	  #services, #plugins {
 		.cmplz-field {
+		  display: grid;
+		  grid-template-columns: 2.5fr 1fr auto;
 		  label.cmplz-checkbox-container {
 			margin:0;
 			min-width:75px;
 		  }
-		  display: flex;
-		  justify-content: flex-end;
 		  .cmplz-label {
 			margin-right: auto;
 		  }
@@ -521,20 +462,6 @@
 
 	  .cmplz-settings-item {
 		margin-top:@green-gap;
-		.cmplz-settings-title {
-		  .box-shadow-top;
-		  .box-shadow-left;
-		}
-		.cmplz-settings-controls {
-		  .box-shadow-right;
-		  .box-shadow-top;
-		}
-		.cmplz-settings-footer {
-		  .box-shadow-left;
-		  .box-shadow-right;
-		  .box-shadow-bottom;
-
-		}
 
 		.cmplz-field {
 		  flex-flow: row wrap;
@@ -558,13 +485,14 @@
 			display: grid;
 			grid-template-columns: 340px 340px;
 			.cmplz-settings-title, .cmplz-settings-controls {
-			  padding:@green-gap;
+			  padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
 			  background-color:#fff;
-			  border-bottom:1px solid @grey-light;
 			}
 			.cmplz-settings-title {
-			  font-size:17px;
-			  font-weight:600;
+			  border-radius: var(--rsp-border-radius) 0 0 0;
+			}
+			.cmplz-settings-controls{
+			  border-radius: 0 var(--rsp-border-radius) 0 0;
 			}
 		  }
 		}
@@ -576,8 +504,13 @@
 		  grid-template-columns: 680px auto;
 		  grid-column-gap: 0;
 		  .cmplz-settings-footer {
+			width: 100%;
 			background-color:#fff;
-			padding:@green-gap;
+			padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
+			border-radius: 0 0 var(--rsp-border-radius) var(--rsp-border-radius);
+			display: flex;
+			gap: var(--rsp-spacing-xs);
+			box-shadow: var(--rsp-box-shadow);
 		  }
 		}
 
@@ -601,7 +534,7 @@
 			  background-color: #fff;
 			  padding: @red-gap;
 			  margin:@green-gap;
-			  box-shadow: 0 0 5px 5px rgba(223,222,222,0.4);
+			  box-shadow: var(--rsp-box-shadow);
 			}
 		  }
 		  @media screen and (max-width: 960px) {
@@ -617,16 +550,15 @@
   }
 
   .cmplz-add-pages-table  {
-
 	  display: grid;
-	  grid-template-columns: auto auto;
-	  grid-gap: 5px;
+	grid-template-columns: auto auto;
+	  gap: var(--rsp-spacing-xs);
 	  align-items: center;
-	  margin-bottom: @green-gap;
+	  margin-bottom: var(--rsp-spacing-l);
 
-    span {
-      text-align: justify;
-    }
+    .cmplz-copy-shortcode{
+	  justify-content: flex-start;
+	}
   }
 
   .cmplz-link-to-menu-table {
@@ -663,82 +595,15 @@
     }
   }
 }
-
-#cmplz-wizard, #cmplz-settings {
-  /* ----------- Icons ----------- */
-
-  .cmplz-field .cmplz-icon, .cmplz-step .cmplz-icon {
-	border-radius: 50%;
-	&.dashicons-before:before {
-	  font-size:18px;
-	  height:20px;
-	  width:20px;
-	  margin-top:2px;
-	}
-	&.cmplz-empty {
-	  visibility:hidden;
-	}
-    &.cmplz-success {
-      color: #333;
-      svg {
-        fill: #333;
-        stroke: #333;
-      }
-    }
-
-    &.cmplz-green {
-      color: #61ce70;
-      svg {
-        fill: #61ce70;
-        stroke: #61ce70;
-      }
-    }
-
-    &.cmplz-disabled {
-      color: #ababab;
-      svg {
-        fill: #ababab;
-        stroke: #ababab;
-      }
-    }
-
-    &.cmplz-error {
-      color: #d7263d;
-      svg {
-        fill: #d7263d;
-        stroke: #d7263d;
-      }
-    }
-
-    &.arrow-right-alt2::before {
-      font-size: 17px;
-    }
-  }
-
-  .cmplz-circle-green {
-    height: 12px;
-    width: 12px;
-    border-radius: 12px;
-    background-color: #61ce70;
-  }
-  .cmplz-circle-red {
-    height: 12px;
-    width: 12px;
-    border-radius: 12px;
-    background-color: #d7263d;
-  }
-
+.cmplz-wizard, .cmplz-settings {
   /* ----------- Fields ----------- */
-
-  /* Checkbox */
-
-
 
   /* Customize the label (the container) */
   .cmplz-checkbox-container {
     display: block;
     position: relative;
-    padding-left: 35px;
+    padding-left: 32px;
+	margin: var(--rsp-spacing-xs) 0;
 
     /* Hide the browser's default checkbox */
     input {
@@ -754,10 +619,11 @@
       position: absolute;
       top: -2px;
       left: 0;
-      height: 20px;
-      width: 20px;
+      height: 22px;
+      width: 22px;
       border-radius: 5px;
       border: 1px solid @input-border-color;
+	  box-sizing: border-box;
     }
 
     /* Checkmark (hidden when not checked) */
@@ -770,8 +636,8 @@
     /* Show the checkmark when checked */
     input:checked ~ .checkmark svg {
       display: block;
-      fill: @brand-primary;
-      stroke: @brand-primary;
+      fill: var(--rsp-wp-blue);
+      stroke: var(--rsp-wp-blue);
     }
 
     /* Style the checkmark/indicator */
@@ -790,16 +656,16 @@
     }
 
     /* Disabled option */
-    //&.cmplz-disabled {
-    //  pointer-events: none;
-    //  .checkmark {
-    //    background-color: #eee;
-    //    svg {
-    //      stroke: #eee !important;
-    //      fill: #eee !important;
-    //    }
-    //  }
-    //}
+    &.cmplz-disabled {
+      pointer-events: none;
+      .checkmark {
+        background-color: #eee;
+        svg {
+          stroke: #eee !important;
+          fill: #eee !important;
+        }
+      }
+    }
   }
 
 
@@ -809,7 +675,8 @@
   .cmplz-radio-container {
     display: block;
     position: relative;
-    padding-left: 35px;
+    padding-left: 32px;
+	margin: var(--rsp-spacing-xs) 0;
 	.radiobtn .cmplz-success {
 	  background-color:initial;
 	}
@@ -825,12 +692,15 @@
 
     /* Create a custom radio */
     .radiobtn {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
       position: absolute;
       top: -2px;
       left: 0;
-      height: 20px;
-      width: 20px;
-      border-radius: 20px;
+      height: 22px;
+      width: 22px;
+      border-radius: 100%;
       border: 1px solid @input-border-color;
 	  &.disabled {
 		cursor: not-allowed;
@@ -838,29 +708,26 @@
     }
 
     /* Check icon (hidden when not checked) */
-    .radiobtn span .cmplz-icon {
+    .radiobtn .cmplz-icon {
       content: "";
       position: absolute;
       display: none;
+	  svg{
+		fill: transparent;
+	  }
     }
 
     /* Show check icon when checked */
     input:checked ~ .radiobtn .cmplz-icon {
-      display: block;
-      background-color: @brand-primary;
-    }
-
-    /* Style the check icon */
-    .radiobtn .cmplz-icon {
-      left: 5px;
-      top: 2px;
-      width: 10px;
-      height: 10px;
+      display: flex;
+	  svg{
+		fill: var(--rsp-wp-blue);
+	  }
     }
 
     /* Show the default checkmark when default */
     .radiobtn.cmplz-default .cmplz-icon {
-      display: block;
+      display: flex;
       background-color: #eee;
     }
 
@@ -869,7 +736,7 @@
       .radiobtn.disabled {
         background-color: #eee;
         .cmplz-icon {
-          background-color: lighten(@brand-primary, 25) !important;
+          background-color: var(--rsp-wp-blue-faded);
         }
       }
 
@@ -883,7 +750,7 @@
   input[type="text"].cmplz-deleted-page {
     position: relative;
     padding-left: 25px;
-    ~ span .cmplz-icon {
+    ~ .cmplz-icon {
       display: block;
       position: absolute;
       padding-left: 7px;
@@ -897,8 +764,8 @@
   }
 
   textarea.validation {
-	&:invalid ~ span .cmplz-icon,
-	&:valid ~ span .cmplz-icon {
+	&:invalid ~ .cmplz-icon,
+	&:valid ~ .cmplz-icon {
 	  margin-top:-143px;
 	}
   }
@@ -906,10 +773,10 @@
   textarea.validation,
   input[type="text"].validation,
   input[type="email"].validation {
-    &:valid ~ span .cmplz-failed {
+    &:valid ~ .cmplz-icon-times {
       display: none;
     }
-    &:invalid ~ span .cmplz-success {
+    &:invalid ~ .cmplz-icon-check {
       display: none;
     }
   }
@@ -954,6 +821,9 @@
     min-width: 0;
   }
 }
+.cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-multiple-field-button-footer .button.button-primary{
+  margin-top: var(--rsp-spacing-m);
+}
 
 .cmplz-hidden {
   display: none !important;
@@ -969,47 +839,31 @@
   //display: flex; // make use of Flexbox
   align-items: center; // does vertically center the desired content
   .cmplz-help-modal {
-	.cmplz-pointer;
-  	z-index: 1;
-	//position:absolute;
+	line-height: 1.5;
+	font-size: var(--rsp-fs-300);
+	margin: var(--rsp-spacing-xs) 0 0 var(--rsp-spacing-m);
+	padding: 10px 15px;
+	background-color: var(--rsp-blue-faded);
+	color: var(--rsp-text-color);
+	text-align: left;
 
 	&.cmplz-notice {
-	  background-color: @brand-primary;
-	  &:after {
-		border-right: 15px solid @brand-primary;
-	  }
-	  color: #fff;
-	  padding: @green-gap;
-	}
-
-	&.cmplz-success {
-	  background-color: white;
-	  color: #61ce70;
-	  border: none;
-	  padding: 0;
+	  background-color: var(--rsp-dark-blue-faded);
+	  padding: var(--rsp-spacing-s) var(--rsp-spacing-m);
+	  border-radius: var(--rsp-border-radius);
+	  box-shadow: var(--rsp-box-shadow);
 	}
 
 	&.cmplz-warning {
 	  &:after {
 		border-right: 15px solid #f8be2e;
 	  }
-	  color: #333333;
-	  background-color: #f8be2e;
-	  border-color: #f8be2e;
+	  color: var(--rsp-text-color);
+	  background-color: var(--rsp-yellow-faded);
+	  border-color: var(--rsp-yellow-faded);
 	}
-
-	margin: @small-margin 0 0 @green-gap;
-	padding: 10px 15px;
-	color: #fff;
-	background-color: @brand-primary;
-	text-align: left;
-
 	&:empty {
 	  background-color: #f1f1f1;
-	}
-
-	a {
-	  color: #333;
 	}
   }
 }
@@ -1109,32 +963,40 @@ a.button.cmplz-open-modal {
   align-items: center;
 }
 
-.cmplz-panel + .cmplz-panel {
-  margin-top:10px;
+.cmplz-panel{
+  background: var(--rsp-white);
+  padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
+  padding-top: var(--rsp-spacing-xxs);
 }
-.cmplz-panel {
+.cmplz-slide-panel {
+  margin: var(--rsp-spacing-s) 0;
+  color: #383d41;
+  background-color: var(--rsp-grey-200);;
+  padding: 10px 15px;
+  border-radius: var(--rsp-border-radius-s);
+  border: 1px solid #f2f2f2;
 
   .cmplz-panel-title {
 	display: flex;
 	align-items: center;
 	grid-gap: 0;
-	padding: 10px;
+	padding: var(--rsp-spacing-s) var(--rsp-spacing-m);
 	cursor: pointer;
 
 	.cmplz-custom-btns {
 	  display: flex;
+	  gap: var(--rsp-spacing-xs);
 	  align-content: center;
 	  justify-content: flex-end;
 	  margin-left:auto;
-
-	  svg {
-		width: 15px;
-		height: 15px;
-		padding-top: 1px;
-	  }
 	}
-	.cmplz-icon.cmplz-open {
-	}
+  }
+  .cmplz-panel-content {
+	background-color: #fff;
+	border-radius: var(--rsp-border-radius);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	padding: 10px 15px;
   }
 
   // Remove default marker
@@ -1170,7 +1032,7 @@ a.button.cmplz-open-modal {
 
 	  &:checked + .cmplz-label {
 		&::before {
-		  background-color: @rsp-blue;
+		  background-color: var(--rsp-wp-blue);
 		  content: "";
 		  padding-left: 6px;
 		}
@@ -1229,16 +1091,15 @@ a.button.cmplz-open-modal {
 	grid-column-start: 4;
 	cursor: pointer;
 	content: '';
-	background: url(../images/down.png) no-repeat;
+	background: url(../images/chevron-down.svg) no-repeat;
 	transform: rotate(0deg);
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
-	background-size: cover;
-	height: 25px;
-	width: 25px;
-	margin: 0 5px;
+	height: 15px;
+	width: 15px;
+	margin: 0 0 0 var(--rsp-spacing-xs);
   }
 
   // Rotate marker on open
@@ -1293,15 +1154,6 @@ a.button.cmplz-open-modal {
 	}
   }
 
-  .cmplz-panel-content {
-	background-color: #fff;
-	border: 1px solid @input-border-color;
-	border-top: 0;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	padding: 10px 15px;
-  }
-
   h1 {
 	font-size: 22px;
   }
@@ -1312,18 +1164,13 @@ a.button.cmplz-open-modal {
 	font-size: 13px !important;
   }
 
-  color: #383d41;
-  background-color: #F2F2F2;
-  border: 1px solid @input-border-color;
-  padding: 10px 15px;
-  border-radius: 0;
-  margin: 0;
+
 
   &.cmplz-notice {
 	background-color: #fff;
 	border: 0;
 	color: black;
-	padding: @green-gap;
+	padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
   }
 
   &.cmplz-success {
@@ -1496,18 +1343,18 @@ html .mceContentBody {
 
 .cmplz-comment {
 	font-size:12px;
-  	margin-top: 5px;
   &.cmplz-comment-warning{
-	color: @rsp-red;
-	border: 1px solid @rsp-red;
+	color: var(--rsp-red);
+	border: 1px solid var(--rsp-red);
+	background: var(--rsp-red-faded);
+	border-radius: var(--rsp-border-radius-input);
 	margin-top: 20px;
-	padding: 5px;
+	padding: var(--rsp-spacing-xs) var(--rsp-spacing-s);
   }
 }
 
 .cmplz-cookie-field {
   .cmplz-cookie-header {
-	border-bottom: 1px solid #b6b7b8;
 	margin-bottom: 25px;
   }
 
@@ -1531,7 +1378,7 @@ html .mceContentBody {
 
   .cmplz-progress-bar, .cmplz-sync-progress-bar {
 	height: 20px;
-	background-color: @brand-primary;
+	background-color: var(--rsp-wp-blue);
 	transition: width 0.5s;
 	-webkit-transition: width 0.5s;
 	font-weight: bold;
@@ -1545,7 +1392,7 @@ html .mceContentBody {
   }
 }
 
-#cmplz-wizard, #cookie-policy-snapshots, #cmplz-settings {
+.cmplz-wizard, .cookie-policy-snapshots, .cmplz-settings {
   h1, h2, h3, h4, .cmplz-menu-item, .cmplz-step-title, .cmplz-button {
 	font-variant: normal;
   }
@@ -1557,8 +1404,10 @@ html .mceContentBody {
   .field-group {
 	position: relative;
 	.cmplz-field {
-	  padding: 0.5 * @green-gap @green-gap @red-gap @green-gap;
       background-color: white;
+	  align-self: stretch;
+	  padding: var(--rsp-spacing-xxs) var(--rsp-spacing-l) var(--rsp-spacing-s) var(--rsp-spacing-l);
+
 	}
 
 	.cmplz-label {
@@ -1568,6 +1417,8 @@ html .mceContentBody {
 		font-size:15px;
         font-weight: 500;
 		cursor: default;
+		gap: 3px;
+		padding-bottom: var(--rsp-spacing-xs);
       }
 	}
 
@@ -1596,57 +1447,16 @@ html .mceContentBody {
 	.cmplz-field label {
 	  margin-top:0;
 	}
-	.cmplz-switch {
-	  margin-right:@red-gap;
-	}
   }
 
   /*body */
-  .cmplz-body, #cmplz-content-area {
+  .cmplz-body, .cmplz-content-area {
 	input[type="text"].cmplz-document-custom-url {
 	  width: 250px;
 	}
 
 	.cmplz-document-custom-url, .cmplz-document-custom-page {
 	  margin-top: 5px;
-	}
-
-    input.button {
-      min-width: 100px;
-      &.button-red {
-        background-color: @color-warning;
-        color: white;
-        border-color: @color-warning;
-      }
-      &.button-black {
-        background-color: black;
-        color: white;
-        border-color: black;
-      }
-      &.button-link {
-        text-align: center;
-		min-width:initial;
-		&:hover {
-		  background-color:initial;
-		  text-decoration: none;
-		}
-
-      }
-    }
-
-    button {
-      &.button-red {
-        background-color: @color-warning;
-        color: white;
-        border-color: @color-warning;
-      }
-    }
-
-	.cmplz-master-label h2 {
-      margin: 0;
-	  padding: @green-gap @green-gap 0 0;
-	  font-size: 18px;
-      background-color: white;
 	}
 
 	//Add some styling to the remove, rescan and add new cookie buttons to override the default WordPress button styling
@@ -1662,23 +1472,6 @@ html .mceContentBody {
 	  padding: 0;
 	}
 
-	/* CSS for the sections menu */
-
-	.cmplz-menu-item.active {
-	  i {
-		color: black;
-		font-size: 1.35em;
-		float: left;
-	  }
-
-	  a {
-		color: #000;
-		font-weight: 900;
-		padding-left: 7px;
-		text-decoration: underline;
-	  }
-	}
-
 	.cmplz-done a {
 	  text-decoration: none;
 	  color: white;
@@ -1690,6 +1483,9 @@ html .mceContentBody {
 	  font-size: 14px;
 	  text-decoration: none;
 	  opacity: 0.6;
+	}
+	.cmplz-to-do.active a {
+	  opacity: 1;
 	}
 
 	//Reset the vertical-align: middle that WordPress applies. The vertical-align middle presses the next and previous icons downwards
@@ -1709,7 +1505,6 @@ html .mceContentBody {
 
   label {
 	font-weight: normal;
-	margin: 10px 0 2px;
   }
   .cmplz-color-picker.wp-color-picker {
 	margin-top: -11px !important;
@@ -1726,7 +1521,8 @@ html .mceContentBody {
   }
 
   select {
-	border-color: @input-background-color;
+	border-color: var(--rsp-input-border-color);
+	background-color: var(--rsp-input-background-color);
     vertical-align: initial;
   }
 
@@ -1754,12 +1550,14 @@ html .mceContentBody {
 
   .cmplz-buttons-row-left {
     display: flex;
+	gap: 10px;
     align-items: center;
     height: auto;
-    input, select, div {
-      margin-right: 20px;
-    }
-    margin-bottom: 10px;
+	label, input{
+	  margin: 0;
+	  margin-top: 0;
+	  margin-right: 0;
+	}
   }
 
   button[name=cmplz_add_multiple],
@@ -1838,7 +1636,8 @@ input.current-page {
 }
 
 .cmplz-wizard-menu-menus {
-  padding-top: 10px;
+  padding: 10px 0;
+  padding-top: 0;
 }
 
 .cmplz-settings-content {
@@ -1855,10 +1654,11 @@ input.current-page {
 //  padding-bottom: 0;
 //}
 
-#cmplz-settings {
-
+.cmplz-settings {
   .cmplz-footer-contents {
 	display:flex;
+	align-items: center;
+	width: 100% !important;
     border-top: none;
   }
 
@@ -1910,22 +1710,16 @@ input.current-page {
     opacity: 1;
   }
 }
-
-.wrap {
-  margin: 0;
-}
-
 #cmplz-proof-of-consent,
 #cmplz-cookie-banner {
 
-  #cmplz-content-area {
+  .cmplz-content-area {
     display: block;
 
     h1 {
       background-color: white;
       padding: @green-gap;
       //margin: @red-gap;
-      border-bottom: 1px solid @grey-light;
       width: -webkit-fill-available;
     }
 
@@ -1978,40 +1772,36 @@ input.current-page {
 
 .cmplz-status-info {
   display:flex;
+  align-items: center;
   > div {
 	padding: 10px 10px 10px 0;
-  }
-  .cmplz-license-notice-text {
-	margin-top:3px;
   }
   .cmplz-license-status-container {
 
 	.cmplz-license-status {
 	  display: block;
-	  min-width: 60px;
+	  min-width: 86px;
 	  text-align: center;
 	  border-radius: 15px;
-	  padding: 4px 8px 4px 8px;
-	  font-size: 0.8em;
+	  padding: 4px 8px;
+	  font-size: var(--rsp-fs-100);
 	  font-weight: 600;
-	  height: 17px;
-	  line-height: 17px;
 
 	  &.cmplz-premium {
-		background-color: @brand-primary;
+		background-color: var(--rsp-brand-primary);
 		color: white;
 	  }
 	  &.cmplz-success {
-		background-color: @color-success;
+		background-color: var(--rsp-green);
 		color: white;
 	  }
 
 	  &.cmplz-open {
-		background-color: @color-open;
+		background-color: var(--rsp-color-open);
 	  }
 
 	  &.cmplz-warning {
-		background-color: @color-warning;
+		background-color: var(--rsp-color-warning);
 		color: white;
 	  }
 	}
@@ -2088,7 +1878,8 @@ input.current-page {
   left: 50%;
   transform: translateX(-50%);
   text-align: left;
-  box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+  box-shadow: var(--rsp-box-shadow);
+  border-radius: var(--rsp-border-radius-input);
   svg{
 	margin: 2px 17px;
 	margin-right: 7px;
@@ -2243,7 +2034,7 @@ input.current-page {
 // responsive settings
 
 @media screen and (max-width: 960px) {
-  #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
+  .cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
 	.cmplz-settings-controls{
 	  &:empty{
 		display: none;
@@ -2261,27 +2052,28 @@ input.current-page {
 	  margin-bottom:0;
 	}
 
-	#cmplz-content-area {
+	.cmplz-content-area {
 	  grid-template-columns: 100%;
 	}
   }
 }
 
 @media screen and (max-width: 960px) {
+
   #cmplz-wizard, #cmplz-settings {
 	.cmplz-wizard-menu {
 	  width:100%;
 	}
 	.cmplz-help-warning-wrap,
-	#cmplz-content-area .cmplz-section-content-notifications-header {
+	.cmplz-content-area .cmplz-section-content-notifications-header {
 	  display: none;
 	}
 
-	#cmplz-content-area {
+	.cmplz-content-area {
 	  grid-template-columns: 100%;
 	}
 
-	#cmplz-content-area .cmplz-section-content .cmplz-form {
+	.cmplz-content-area .cmplz-section-content .cmplz-form {
 	  display: grid;
 	  grid-template-columns: 100%;
 
@@ -2291,7 +2083,7 @@ input.current-page {
 	  }
 	}
   }
-  #cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
+  .cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-settings-item{
 	.cmplz-settings-body .cmplz-panel-wrap, .field-group, .cmplz-settings-header-container, .cmplz-settings-footer-container {
 	  grid-template-columns: 100%;
 	}

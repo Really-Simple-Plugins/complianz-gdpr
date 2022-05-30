@@ -68,7 +68,7 @@ foreach ($docs as $index => $doc) {
 
 $args = array(
 	'status' => 'header',
-	'title' => '<h3>'.__("Other regions", "complianz-gdpr").'</h3>',
+	'title' => '<h3 class="h4">'.__("Other regions", "complianz-gdpr").'</h3>',
 	'page_exists' => '',
 	'sync_icon' => '',
 	'shortcode_icon' => '',

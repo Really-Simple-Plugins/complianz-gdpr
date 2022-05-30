@@ -352,23 +352,22 @@ function cmplz_cookiebanner_overview() {
 			});
 		</script>
 
-		<div class="wrap cookie-warning">
-			<h1><?php _e( "Cookie banner settings", 'complianz-gdpr' ) ?>
-				<?php do_action( 'cmplz_after_cookiebanner_title' ); ?>
-			</h1>
-			<?php
-			if ( ! COMPLIANZ::$wizard->wizard_completed_once() ) {
-				cmplz_notice( __( 'Please complete the wizard to check if you need a cookie banner.', 'complianz-gdpr' ), 'warning' );
-			} else {
-				if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.', 'complianz-gdpr' ) );
+		<div class="cookie-warning cmplz-block">
+				<h1><?php _e( "Cookie banner settings", 'complianz-gdpr' ) ?>
+					<?php do_action( 'cmplz_after_cookiebanner_title' ); ?>
+				</h1>
+				<?php
+				if ( ! COMPLIANZ::$wizard->wizard_completed_once() ) {
+					cmplz_notice( __( 'Please complete the wizard to check if you need a cookie banner.', 'complianz-gdpr' ), 'warning' );
 				} else {
-					cmplz_notice( __( 'Your website requires a cookie banner, click edit below the cookie banner title to determine how the popup will look.', 'complianz-gdpr' ) );
+					if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
+						cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.', 'complianz-gdpr' ) );
+					} else {
+						cmplz_notice( __( 'Your website requires a cookie banner, click edit below the cookie banner title to determine how the popup will look.', 'complianz-gdpr' ) );
+					}
 				}
-			}
-
-			do_action( 'cmplz_before_cookiebanner_list' );
 			?>
+			<?php do_action( 'cmplz_before_cookiebanner_list' ); ?>
 
 			<form id="cmplz-cookiebanner-filter" method="get" action="">
 				<?php

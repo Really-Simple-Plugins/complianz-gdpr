@@ -1151,7 +1151,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				"slider_active_color" => $this->colorpalette_toggles['background'],
 				"slider_inactive_color" => $this->colorpalette_toggles['inactive'],
 				"slider_bullet_color" => $this->colorpalette_toggles['bullet'],
-				"category_open_icon_url" => "url(".trailingslashit( cmplz_url)."assets/images/down.png)",
+				"category_open_icon_url" => "url(".trailingslashit( cmplz_url)."assets/images/chevron-down.svg)",
 			);
 
 			$output = apply_filters( 'cmplz_cookiebanner_settings_css', $output, $this );

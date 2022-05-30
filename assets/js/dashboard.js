@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
 		var warning_id = $(this).data('warning_id');
 		var btn = $(this);
 		btn.attr('disabled', 'disabled');
-		var task_count = parseInt($('.cmplz-task-count').html());
+		var task_count = parseInt($('.cmplz-task-switcher-count').html());
 		var container = $(this).closest('.cmplz-progress-warning-container');
 		container.animate({
 			position: 'relative',
@@ -27,7 +27,11 @@ jQuery(document).ready(function ($) {
 				btn.removeAttr('disabled');
 				if (response.success) {
 					// container.remove();
-					var remainingContainer = $('.cmplz-task-count.cmplz-remaining');
+					var remainingContainer = $('.cmplz-task-switcher-count.cmplz-remaining');
+					var curValue = parseInt( remainingContainer.html() );
+					remainingContainer.html(curValue-1)
+
+					var remainingContainer = $('.cmplz-task-switcher-count.cmplz-all');
 					var curValue = parseInt( remainingContainer.html() );
 					remainingContainer.html(curValue-1)
 				}
@@ -42,8 +46,8 @@ jQuery(document).ready(function ($) {
 	});
 
 	function cmplzLoadGridBlock(data, obj) {
-		var template = obj.closest('.item-container').data('template');
-		var container = obj.closest('.item-container').find('.item-content');
+		var template = obj.closest('.cmplz-grid-container').data('template');
+		var container = obj.closest('.cmplz-grid-container').find('.cmplz-grid-content');
 		data['action'] = 'cmplz_load_gridblock';
 		data['template'] = template;
 
@@ -61,15 +65,22 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
-	$(document).on('click', '.cmplz-task', function(){
+	$(document).on('click', '.cmplz-task-switcher', function(){
 		var status = 'remaining';
-		if ($(this).find('.cmplz-task-count').hasClass('cmplz-all')) {
+		if ($(this).find('.cmplz-task-switcher-count').hasClass('cmplz-all')) {
 			status = 'all';
 		}
-		if ( $('.cmplz-'+status).closest('.cmplz-task').hasClass('active')) return;
-		var container = $(this).closest('.item-container').find('.item-content');
+		if ( $('.cmplz-'+status).closest('.cmplz-task-switcher').hasClass('active')) return;
+		var container = $(this).closest('.cmplz-grid-container').find('.cmplz-grid-content');
 
 		//container.html(cmplz_loader );
+		if (status === 'all') {
+			$('.cmplz-all').closest('.cmplz-task-switcher').addClass('active');
+			$('.cmplz-remaining').closest('.cmplz-task-switcher').removeClass('active');
+		} else {
+			$('.cmplz-all').closest('.cmplz-task-switcher').removeClass('active');
+			$('.cmplz-remaining').closest('.cmplz-task-switcher').addClass('active');
+		}
 		 container.html('<div class="cmplz-skeleton"></div>' );
 		$.ajax({
 			type: "GET",
@@ -82,13 +93,6 @@ jQuery(document).ready(function ($) {
 			success: function (response) {
 				if (response.success) {
 					container.html(response.html);
-					if (status === 'all') {
-						$('.cmplz-all').closest('.cmplz-task').addClass('active');
-						$('.cmplz-remaining').closest('.cmplz-task').removeClass('active');
-					} else {
-						$('.cmplz-all').closest('.cmplz-task').removeClass('active');
-						$('.cmplz-remaining').closest('.cmplz-task').addClass('active');
-					}
 					//fire this to trigger the scroll plugin
 					window.document.dispatchEvent(new Event("DOMContentLoaded", {
 						bubbles: true,

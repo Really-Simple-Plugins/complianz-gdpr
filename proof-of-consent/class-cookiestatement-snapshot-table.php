@@ -248,7 +248,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 				__( 'November' ),
 				__( 'December' )
 		);
-		echo '<select style="float:right" name="cmplz_month_select" id="cmplz_month_select" class="cmplz_month_select">';
+		echo '<select name="cmplz_month_select" id="cmplz_month_select" class="cmplz_month_select">';
 		foreach($months as $value => $label) {
 			echo '<option value="' . $value . '" ' . ($selected==$value ? 'selected' : '') . '>' . $label . '</option>';
 		}
@@ -271,7 +271,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 			$years = array();
 		}
 
-		echo '<select style="float:right" name="cmplz_year_select" id="cmplz_year_select" class="cmplz_year_select">';
+		echo '<select name="cmplz_year_select" id="cmplz_year_select" class="cmplz_year_select">';
 		echo '<option value="0" ' . ($selected==0 ? 'selected' : '') . '>'.__("Year","complianz-gdpr").'</option>';
 		foreach($years as $year) {
 			echo '<option value="' . $year . '" ' . ($selected==$year ? 'selected' : '') . '>' . $year . '</option>';

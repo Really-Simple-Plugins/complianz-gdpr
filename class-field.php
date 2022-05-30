@@ -600,7 +600,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			}
 			?>
 			<div class="cmplz-master-label field-group <?php echo $classes?> <?php echo $args['fieldname']?>">
-				<div><h2><?php echo esc_html( $args['master_label'] ) ?></h2></div>
+				<div><h2 class="h4"><?php echo esc_html( $args['master_label'] ) ?></h2></div>
 			</div>
 			<?php
 		}
@@ -626,7 +626,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				<div>
 					<?php
 					if ( isset($args['tooltip']) ) {
-						echo cmplz_icon('help', 'normal', $args['tooltip']);
+						echo cmplz_icon('help', 'default', $args['tooltip']);
 					}
 					?>
 				</div>
@@ -664,8 +664,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success', '', 10);
-            $times_icon = cmplz_icon('check', 'failed', '', 10);
+            $check_icon = cmplz_icon('check', 'success');
+            $times_icon = cmplz_icon('times');
             ?>
 
 			<?php do_action( 'complianz_before_label', $args ); ?>
@@ -698,8 +698,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success', '', 10);
-            $times_icon = cmplz_icon('check', 'failed', '', 10);
+            $check_icon = cmplz_icon('check', 'success'); ;
+            $times_icon = cmplz_icon('times');
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -731,8 +731,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success', '', 10);
-            $times_icon = cmplz_icon('check', 'failed', '', 10);
+            $check_icon = cmplz_icon('check', 'success');
+            $times_icon = cmplz_icon('times');
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -763,8 +763,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $value     = $this->get_value( $args['fieldname'], $args['default'] );
             $required = $args['required'] ? 'required' : '';
             $is_required = $args['required'] ? 'is-required' : '';
-            $check_icon = cmplz_icon('check', 'success', '', 10);
-            $times_icon = cmplz_icon('check', 'failed', '', 10);
+            $check_icon = cmplz_icon('check', 'success');
+            $times_icon = cmplz_icon('times');
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -900,7 +900,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 $validate = $args['required'] ? 'class="cmplz-validate-multicheckbox"' : '';
 
                 // Check icon
-                $check_icon = cmplz_icon('check', 'success', '', 10);
+                $check_icon = cmplz_icon('check');
             }
 
 			?>
@@ -953,7 +953,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$value         = $this->get_value( $args['fieldname'], $args['default'] );
 			$options       = $args['options'];
 			$required      = $args['required'] ? 'required' : '';
-			$check_icon    = cmplz_icon( 'bullet', 'success');
+			$check_icon    = cmplz_icon( 'bullet', 'default', '', 10);
             ?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
@@ -1008,7 +1008,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $none       = $value == 'none'      ? 'checked' : '';
 
             // Check icon
-            $check_icon = cmplz_icon('bullet', 'success');
+            $check_icon = cmplz_icon('bullet', 'default', '', 10);
 
             // Labels
             if ($fieldname === 'cmplz_cookie-statement'){
@@ -1298,8 +1298,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$args
 		) {
 			$fieldname = 'cmplz_' . $args['fieldname'];
-			$check_icon = cmplz_icon('check', 'success', '', 10);
-			$times_icon = cmplz_icon('check', 'failed', '', 10);
+			$check_icon = cmplz_icon('check', 'success');
+			$times_icon = cmplz_icon('times');
 			$value = $this->get_value( $args['fieldname'], $args['default'] );
 			if ( ! $this->show_field( $args ) ) {
 				return;
@@ -2492,7 +2492,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="cmplz_add_script['.$i.'][category]"
                                 value="statistics"
                                 ' . (($value['category'] === 'statistics') ? 'checked' : '') . '>
-                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'default', '', 10) . '</div>
                         </label>
                         <label class="cmplz-radio-container">' . __( 'Marketing', 'complianz-gdpr' ) . '
                             <input
@@ -2503,7 +2503,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="cmplz_add_script['.$i.'][category]"
                                 value="marketing"
                                 ' . (($value['category'] === 'marketing') ? 'checked' : '') . '>
-                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'default', '', 10) . '</div>
                         </label>
 
                         <div>
@@ -2790,7 +2790,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                       	<div><input type="text"
 							   data-name="urls"
 							   name="cmplz_block_script['.$i.'][urls][]"
-							   value=""><button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'success').'</button></div></div>
+							   value=""><button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'default').'</button></div></div>
                         <div>';
 							$counter = 0;
 							if ( empty($value['urls'])) $value['urls'] = array(' ');
@@ -2802,9 +2802,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 									   name="cmplz_block_script['.$i.'][urls][]"
 									   value="' . esc_html( $url ) . '">';
 								if ($counter==1){
-									$html .= '<button type="button" class="cmplz_add_url">'.cmplz_icon('plus', 'success').'</button>';
+									$html .= '<button type="button" class="cmplz_add_url">'.cmplz_icon('plus', 'default').'</button>';
 								} else {
-									$html .= '<button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'success').'</button>';
+									$html .= '<button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'default').'</button>';
 								}
 								$html.='</div>';
 							}
@@ -2823,7 +2823,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="cmplz_block_script['.$i.'][category]"
                                 value="statistics"
                                 ' . (($value['category'] === 'statistics') ? 'checked' : '') . '>
-                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn" required>' . cmplz_icon( 'bullet', 'default', '', 10) . '</div>
                         </label>
                         <label class="cmplz-radio-container">' . __( 'Marketing', 'complianz-gdpr' ) . '
                             <input
@@ -2834,7 +2834,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                                 class="cmplz_block_script['.$i.'][category]"
                                 value="marketing"
                                 ' . (($value['category'] === 'marketing') ? 'checked' : '') . '>
-                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'success') . '</div>
+                            <div class="radiobtn">' . cmplz_icon( 'bullet', 'default', '', 10) . '</div>
                         </label>
 
                         <div>
@@ -3022,7 +3022,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                       	<div><input type="text"
 							   data-name="urls"
 							   name="cmplz_whitelist_script['.$i.'][urls][]"
-							   value=""><button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'success').'</button></div></div>
+							   value=""><button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'default').'</button></div></div>
                       ';
 					$counter = 0;
 					if ( empty($value['urls'])) $value['urls'] = array(' ');
@@ -3033,9 +3033,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 											   name="cmplz_whitelist_script['.$i.'][urls][]"
 											   value="' . esc_html( $url ) . '">';
 						if ($counter==1){
-							$html .= '<button type="button" class="cmplz_add_url">'.cmplz_icon('plus', 'success').'</button>';
+							$html .= '<button type="button" class="cmplz_add_url">'.cmplz_icon('plus', 'default').'</button>';
 						} else {
-							$html .= '<button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'success').'</button>';
+							$html .= '<button type="button" class="cmplz_remove_url">'.cmplz_icon('minus', 'default').'</button>';
 						}
 						$html.= '</div>';
 					}
@@ -3149,7 +3149,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			$required = $args['required'] ? 'required' : '';
 			$is_required = $args['required'] ? 'is-required' : '';
 			$check_icon = cmplz_icon('check', 'success');
-			$times_icon = cmplz_icon('check', 'failed');
+			$times_icon = cmplz_icon('times');
 
 			?>
 
