@@ -2558,7 +2558,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$url = str_replace( "http://", "https://", $url );
 			}
 
-			return $url;
+			return apply_filters("cmplz_next_page_url", $url);
 		}
 
 
