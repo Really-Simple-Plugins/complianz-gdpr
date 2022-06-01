@@ -32,6 +32,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"livechat"         => 'LiveChat',
 				"hubspot"          => 'HubSpot',
 				"calendly"         => 'Calendly',
+                "twitch"           => 'Twitch',
 			);
 
 		public $thirdparty_socialmedia
@@ -158,6 +159,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
 				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net','track.hubspot.com','js.hs-analytics.net'),
 				"calendly"         => array( 'assets.calendly.com' ),
+                "twitch"          => array(
+                    'twitch.tv',
+                    'player.twitch.tv'
+                ),
 			);
 		public $stats
 			= array(
