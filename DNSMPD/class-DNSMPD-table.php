@@ -291,7 +291,7 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 				$date = cmplz_localize_date(date(get_option('date_format'),$request->request_date));
 				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
 //				$region = isset(COMPLIANZ::$config->regions[$request->region]['label_full']) ? COMPLIANZ::$config->regions[$request->region]['label_full'] :;
-				$region = cmplz_region_icon( $request->region, 25);;
+				$region = cmplz_region_icon( $request->region, 25);
 				$data[] = array(
 						'ID'          => $request->ID,
 						'name'        => $request->name,

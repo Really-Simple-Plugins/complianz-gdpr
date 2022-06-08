@@ -57,7 +57,7 @@ foreach ($docs as $index => $doc) {
 		$args = array(
 			'status' => 'missing',
 			'title' => $doc['title'],
-			'page_exists' => '',
+			'page_exists' => '<span></span>',
 			'sync_icon' => cmplz_icon( 'sync', 'disabled' ),
 			'shortcode_icon' => cmplz_icon( 'shortcode', 'disabled' ),
 			'generated' => '<a href="'.$doc['read-more'].'" target="_blank" class="cmplz-premium">'.__("Read more","complianz-gdpr").'</a>',
@@ -66,15 +66,8 @@ foreach ($docs as $index => $doc) {
 	}
 }
 
-$args = array(
-	'status' => 'header',
-	'title' => '<h3>'.__("Other regions", "complianz-gdpr").'</h3>',
-	'page_exists' => '',
-	'sync_icon' => '',
-	'shortcode_icon' => '',
-	'generated' => '<a href="https://complianz.io/features/" target="_blank" >'.__("Read more", "complianz-gdpr").'</a>',
-);
-echo cmplz_get_template('dashboard/documents-row.php', $args);
+;
+echo '<div class="cmplz-document-header"><h3 class="h4">'.__("Other regions", "complianz-gdpr").'</h3><a href="https://complianz.io/features/" target="_blank" >'.__("Read more", "complianz-gdpr").'</a></div>';
 
 foreach ($docs as $key => $doc) {
 	if ( $key === 'disclaimer' || $key === 'impressum' ) continue;

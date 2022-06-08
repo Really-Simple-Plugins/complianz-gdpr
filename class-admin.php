@@ -370,6 +370,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'admin_url'    => admin_url( 'admin-ajax.php' ),
 					'progress'     => $progress,
 					'syncProgress' => $sync_progress,
+					'copy_text'	   => __('Copied!', 'complianz-gdpr')
 				)
 			);
 		}
@@ -790,14 +791,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function wizard_page() {
 			?>
-			<div class="wrap">
 				<?php if ( apply_filters( 'cmplz_show_wizard_page', true ) ) {
 					COMPLIANZ::$wizard->wizard( 'wizard' );
 				} else {
 					$link = '<a href="'.add_query_arg(array('page'=>'cmplz-settings#license'), admin_url('admin.php')).'">';
 					cmplz_admin_notice( cmplz_sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
 				} ?>
-			</div>
 			<?php
 		}
 
@@ -833,24 +832,24 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'cache' => false,
 					'status' => array('urgent', 'open'),
 					) ) );
-			$tasks = '<span class="cmplz-task active" href="'.add_query_arg( array('page' => 'complianz'), admin_url('admin.php') ).'">'
-					. cmplz_sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-all">'.$all_count.'</span>')
-					. '</span><span class="cmplz-task" href="'.add_query_arg( array('page' => 'complianz', 'cmplz-status' => 'remaining'), admin_url('admin.php') ).'">'
-					. cmplz_sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-remaining">'.$remaining_count .'</span>')
-					. '</span>';
+			$tasks = '<div class="cmplz-task-switcher-container"><span class="cmplz-task-switcher active" href="'.add_query_arg( array('page' => 'complianz'), admin_url('admin.php') ).'">'
+					. sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-switcher-count cmplz-all">'.$all_count.'</span>')
+					. '</span><span class="cmplz-task-switcher" href="'.add_query_arg( array('page' => 'complianz', 'cmplz-status' => 'remaining'), admin_url('admin.php') ).'">'
+					. sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-switcher-count cmplz-remaining">'.$remaining_count .'</span>')
+					. '</span></div>';
 			$grid_items =
 				array(
 					array(
                         'name'  => 'progress',
                         'header' => __("Your progress", "complianz-gdpr"),
-						'class' => '',
+						'class' => 'column-2 row-2',
 						'page' => 'dashboard',
 						'controls' => $tasks,
 					),
 					array(
                         'name'  => 'documents',
                         'header' => __("Documents", "complianz-gdpr"),
-						'class' => 'small',
+						'class' => 'row-2',
 						'page' => 'dashboard',
 						'controls' => __("Last update", "complianz-gdpr"),
 					),
@@ -858,7 +857,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
                         'name'  => 'tools',
                         'header' => __("Tools", "complianz-gdpr"),
-						'class' => 'small',
+						'class' => 'row-2',
 						'page' => 'dashboard',
 						'controls' => '',
 					),
@@ -866,7 +865,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
 							'name'  => 'tips-tricks',
 							'header' => __("Tips & Tricks", "complianz-gdpr"),
-							'class' => 'half-height',
+							'class' => 'column-2',
 							'page' => 'dashboard',
 							'controls' => '',
 					),
@@ -874,11 +873,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
 						'name'  => 'other-plugins',
 						'header' => __("Other plugins", "complianz-gdpr"),
-						'class' => 'half-height',
+						'class' => 'column-2 no-border no-background',
 						'page' => 'dashboard',
-						'controls' => '<a href="https://really-simple-plugins.com/" target="_blank">
-										<img src="'.cmplz_url.'/assets/images/really-simple-plugins.svg" alt="Really Simple Plugins">
-										</a>',
+							'controls' => '<div class="rsp-logo"><a href="https://really-simple-plugins.com/"><img src="' . trailingslashit(cmplz_url) . 'assets/images/really-simple-plugins.svg" alt="Really Simple Plugins" /></a></div>',
 					),
 
 				);
@@ -928,15 +925,18 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * Get the html output for a help tip
 		 *
 		 * @param $str
+		 * @param $content
 		 */
 
-		public function get_help_tip( $str ) {
+		public function get_help_tip( $str, $content = false ) {
+			$content = !$content ? cmplz_icon('help') : $content;
+			ob_start();
 			?>
-			<span class="cmplz-tooltip-right tooltip-right"
-			      data-cmplz-tooltip="<?php echo esc_attr($str) ?>">
-              <span class="dashicons dashicons-editor-help"></span>
-            </span>
+			<span class="cmplz-tooltip" cmplz-tooltip="<?php echo esc_attr($str) ?>">
+				<?php echo $content ?>
+			</span>
 			<?php
+			echo ob_get_clean();
 		}
 
 		/**

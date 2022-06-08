@@ -1,7 +1,5 @@
 <div class="cmplz-wizard-menu">
-    <div class="cmplz-wizard-title">
-		{title}
-	</div>
+	<div class="cmplz-wizard-title"><h2 class="h4">{title}</h2></div>
     <div class="cmplz-wizard-progress-bar">
         <div class="cmplz-wizard-progress-bar-value" style="width: {percentage-complete}%"></div>
     </div>

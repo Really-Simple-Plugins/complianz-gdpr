@@ -43,7 +43,7 @@ $this->fields = $this->fields + array(
 					'complianz-gdpr' ) . " "
 			              . cmplz_sprintf( __( "If you want to dynamically apply privacy laws based on the visitor's location, consider upgrading to the %spremium version%s, which allows you to apply a privacy law specific for that region.",
 					'complianz-gdpr' ),
-					'<a href="https://complianz.io" target="_blank">', '</a>' ),
+					'<a href="https://complianz.io/pricing/" target="_blank">', '</a>' ),
 			'required' => true,
 		),
 
@@ -223,15 +223,29 @@ $this->fields = $this->fields + array(
 
 		'records_of_consent' => array(
 			'source'  => 'wizard',
-			'label'   => __( "Extend Proof of Consent with Records of Consent", 'complianz-gdpr' ).' (Premium)',
+			'label'   => __( "Extend Proof of Consent with Records of Consent", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			'step'    => STEP_COMPANY,
 			'section' => 11,
 			'type'    => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
 			'disabled' => array('yes'),
-			'comment'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
+			'help'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
 		),
+
+		'data_request_forms' => array(
+			'source'  => 'wizard',
+			'label'   => __( "Do you want to enable Data Request Forms?", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing?datarequests'),
+			'step'    => STEP_COMPANY,
+			'section' => 11,
+			'type'    => 'radio',
+			'options' => $this->yes_no,
+			'default' => 'no',
+			'disabled' => array('yes'),
+			'help'  => __( "This will enable Data Requests Forms for your Privacy Statements.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/data-requests-forms/' ),
+		),
+
+
 
 		'respect_dnt' => array(
 			'step' => STEP_COMPANY,
@@ -241,7 +255,7 @@ $this->fields = $this->fields + array(
 			'type' => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
-			'label' => __("Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr').' (Premium)',
+			'label' => __("Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr').cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			'tooltip' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
 		),
 
@@ -414,7 +428,7 @@ $this->fields = $this->fields + array(
 			'source'             => 'wizard',
 			'type'               => 'radio',
 			'default'            => 'no',
-			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ).' (Premium)',
+			'label'              => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			'options'            => array(
 				'yes'          => __( 'Yes', 'complianz-gdpr' ),
 				'no'           => __( 'No', 'complianz-gdpr' ),
@@ -737,7 +751,7 @@ $this->fields = $this->fields + array(
 			'options'                 => array(
 				'yes' => __("Yes", "complianz-gdpr"),
 				'no' => __("No", "complianz-gdpr"),
-				'tcf' => __("Enable TCF", "complianz-gdpr").' (Premium)',
+				'tcf' => __("Enable TCF", "complianz-gdpr").cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			),
 			'default'                 => 'no',
 			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),

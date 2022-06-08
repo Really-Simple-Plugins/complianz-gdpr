@@ -28,6 +28,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			add_filter( 'cmplz_warning_types', array($this, 'new_datarequests_notice') );
 			add_filter( 'cmplz_settings_items', array($this, 'add_settings_block') );
 		}
+
 		static function this() {
 			return self::$_this;
 		}
@@ -177,6 +178,13 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				</form>
 			</div>
 			<?php
+
+			$content = ob_get_clean();
+			$args = array(
+					'page' => 'do-not-sell-my-personal-information',
+					'content' => $content,
+			);
+			echo cmplz_get_template('admin_wrap.php', $args );
 		}
 
 		/**

@@ -1,0 +1,130 @@
+/* field styles */
+.cmplz {
+  input{
+	background: var(--rsp-input-background-color);
+	color: var(--rsp-input-text-color);
+	border-color: var(--rsp-input-border-color);
+	&[type=checkbox]:disabled{
+		cursor: not-allowed;
+	}
+	&:disabled + .cmplz-slider{
+	  cursor: not-allowed;
+	}
+	&[type=text]:disabled{
+	  background-color: #eee;
+	  color: #ababab;
+	}
+  }
+  select{
+	background: var(--rsp-input-background-color) url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%;
+	color: var(--rsp-input-text-color);
+	border-color: var(--rsp-input-border-color);
+  }
+  .field-group {
+	.cmplz-label {
+	  text-align: left;
+	  margin: 0 var(--rsp-spacing-xs) 0 0;
+	}
+
+	&.first .cmplz-label {
+	  padding-top: 0;
+	}
+
+	.cmplz-checkbox {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	}
+  }
+  /*
+      cool checkbox sliders
+  */
+
+  .cmplz-switch {
+	margin-top: 0;
+	margin-bottom: 0;
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 21px;
+	input {
+	  display: none !important;
+	}
+	&:disabled{
+	  cursor: not-allowed;
+	}
+  }
+
+  .cmplz-slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+
+	&:before {
+	  position: absolute;
+	  content: "";
+	  height: 15px;
+	  width: 15px;
+	  left: 4px;
+	  bottom: 3px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+
+	&.cmplz-round {
+	  border-radius: 20px;
+	}
+
+	&.cmplz-round:before {
+	  border-radius: 50%;
+	}
+  }
+
+  .cmplz-slider-na {
+	padding: 2px 8px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+
+	&:before {
+	  position: absolute;
+	  content: "N/A";
+	  color: white;
+	}
+
+	&.cmplz-round {
+	  border-radius: 20px;
+	}
+  }
+
+  input:checked + .cmplz-slider {
+	background-color: var(--rsp-wp-blue);
+
+	&:before {
+	  -webkit-transform: translateX(17px);
+	  -ms-transform: translateX(17px);
+	  transform: translateX(17px);
+	}
+  }
+
+  input:checked:disabled + .cmplz-slider {
+	background-color: var(--rsp-wp-blue-faded);
+  }
+
+
+  input:focus + .cmplz-slider {
+	box-shadow: 0 0 1px var(--rsp-wp-blue);
+  }
+}

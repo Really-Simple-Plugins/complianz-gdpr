@@ -1,4 +1,6 @@
-<h3><?php _e( "Other tools", "complianz-gdpr" ) ?></h3>
+<div class="cmplz-document-header">
+	<h3 class="h4"><?php _e( "Other tools", "complianz-gdpr" ) ?></h3>
+</div>
 
 <div class="cmplz-tools-row">
 	<div>

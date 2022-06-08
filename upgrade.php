@@ -852,7 +852,15 @@ function cmplz_check_upgrade() {
 			wp_update_post($args);
 		}
 	}
-
+	
+	//regenerate css
+	$banners = cmplz_get_cookiebanners();
+	if ( $banners ) {
+		foreach ( $banners as $banner_item ) {
+			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+			$banner->save();
+		}
+	}
 
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
