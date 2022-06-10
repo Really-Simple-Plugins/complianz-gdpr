@@ -56,7 +56,7 @@
         .item-container {
             background-color: #fff;
             position: relative;
-            box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+            box-shadow: var(--rsp-box-shadow);
 		  	width: @gridblock_width - 2 * @grid-margin;
             height: @gridblock_height - 2 * @grid-margin;
             .item-content {
@@ -74,6 +74,7 @@
 				}
             }
 		  .item-footer {
+			width: 100%;
 			>div {
 			  border-top:1px solid @box_shadow_color;
 			  padding: 20px 0;
@@ -82,7 +83,6 @@
 				  .button {
 					margin-top: -4px;
 				  }
-				  display:flex;
 				  .cmplz-legend {
 					flex-grow:0;
 					&.cmplz-stretch {

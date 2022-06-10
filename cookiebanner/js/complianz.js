@@ -2179,6 +2179,8 @@ if ('undefined' != typeof window.jQuery) {
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
+
+
 		document.querySelectorAll('.cmplz-video').forEach(obj => {
 			//turn obj into jquery object
 			let $obj = $(obj);
@@ -2186,6 +2188,21 @@ if ('undefined' != typeof window.jQuery) {
 				$obj.parent().fitVids();
 			}
 		});
+
+		/**
+		 * Activate fitvids on the parent element if active
+		 *  a.o. Beaverbuilder
+		 */
+		$(document).on("cmplz_category_enabled", cmplz_enable_fitvids);
+		function cmplz_enable_fitvids(data) {
+			document.querySelectorAll('.cmplz-video').forEach(obj => {
+				//turn obj into jquery object
+				let $obj = $(obj);
+				if (typeof $obj.parent().fitVids == 'function') {
+					$obj.parent().fitVids();
+				}
+			});
+		}
 
 	});
 }

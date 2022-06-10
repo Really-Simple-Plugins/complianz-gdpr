@@ -49,7 +49,7 @@
 #cmplz-document .cmplz-dropdown summary div {
   display: grid;
   grid-template: "heading chevron";
-  grid-template-columns: 2fr 35px;
+  grid-template-columns: 2fr 25px;
   grid-gap: 15px;
   align-items: center;
 }
@@ -73,7 +73,7 @@
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
   grid-template: "heading paragraph checkbox chevron";
-  grid-template-columns: 2fr auto auto 35px;
+  grid-template-columns: 2fr auto auto 25px;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p {
@@ -202,7 +202,24 @@
   height: 25px;
   width: 25px;
 }
-#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] .cmplz-icon.cmplz-open {
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header:after {
+  cursor: pointer;
+  content: '';
+  background: url(../images/chevron-down.svg) no-repeat;
+  transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-size: cover;
+  height: 18px;
+  width: 18px;
+  margin: 3px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] {
+  padding-bottom: 1px;
+}
+#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-category-header:after {
   transform: rotate(180deg);
 }
 .postbox #cmplz-document {
@@ -269,7 +286,6 @@
   margin-top: 15px;
   text-transform: initial;
   padding-bottom: 10px;
-  border-bottom: 1px solid #c6c6c6;
   margin-bottom: 10px;
 }
 #cmplz-document.impressum h2,
@@ -408,16 +424,16 @@
 #cmplz-document .cmplz-dropdown summary div:after {
   cursor: pointer;
   content: '';
-  background: url(../images/down.png) no-repeat;
+  background: url(../images/chevron-down.svg) no-repeat;
   transform: rotate(0deg);
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
-  height: 25px;
-  width: 25px;
-  margin: 5px;
+  height: 18px;
+  width: 18px;
+  margin: 3px;
 }
 #cmplz-cookies-overview .cmplz-dropdown[open],
 #cmplz-document .cmplz-dropdown[open] {

@@ -3,7 +3,7 @@
 		<div class="cmplz-settings-item {class}" data-id="{index}" {conditions}>
 			<div class="cmplz-settings-header-container">
 				<div class="cmplz-settings-header">
-					<div class="cmplz-settings-title">{header}</div>
+					<h2 class="cmplz-settings-title h4">{header}</h2>
 					<div class="cmplz-settings-controls">{controls}</div>
 				</div>
 			</div>

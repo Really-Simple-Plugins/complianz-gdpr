@@ -110,7 +110,7 @@ class cmplz_tour {
 					'text'   => __( "You are ready to start the Wizard. For more information, FAQ, and support, please visit Complianz.io.", 'complianz-gdpr' ),
 					'attach' => '[data-fieldname=regions]',
 					'position' => 'bottom',
-					'link'   => add_query_arg(array("page" => 'cmplz-wizard'), admin_url( "admin.php" ) ),
+					'link'   => add_query_arg(array("page" => 'cmplz-wizard', "step" => "1"), admin_url( "admin.php" ) ),
 				),
 
 			);

@@ -1,0 +1,151 @@
+#complianz{
+  *:focus-visible{
+	outline-offset: 4px;
+  }
+}
+
+// High contrast
+#complianz.wrap.cmplz-high-contrast {
+
+  .cmplz-grid-controls {
+	color: var(--rsp-black);
+	a {
+	  color: var(--rsp-black);
+	}
+  }
+
+
+  button {
+	.cmplz-close-warning-x {
+	  color: var(--rsp-black);
+	}
+  }
+
+  .cmplz-progress-status.cmplz-completed {
+	color: var(--rsp-black);
+  }
+
+  .cmplz-step {
+	.cmplz-step-header {
+	  &.incomplete a h2 {
+		color: var(--rsp-black);
+	  }
+	}
+
+	.cmplz-section {
+	  display: grid;
+	  grid-template-columns: @green-gap 1fr;
+
+	  span {
+		align-self: center;
+		justify-self: center;
+	  }
+
+	  margin: 0 @green-gap;
+	  a {
+		h3 {
+		  color: var(--rsp-black) ;
+		}
+		display: inline-block;
+		text-decoration: none;
+		padding: 3px 5px;
+
+	  }
+	  &.cmplz-done a h3 {
+		color: var(--rsp-black) ;
+	  }
+
+	  &.active a h3 {
+		color: var(--rsp-black) !important;
+	  }
+	}
+  }
+
+  .cmplz-help-warning-wrap {
+	.cmplz-help-modal {
+	  z-index: 1;
+
+	  &.cmplz-notice {
+		background-color: var(--rsp-black);
+		&:after {
+		  border-right: 15px solid var(--rsp-black);
+		}
+	  }
+	  &.cmplz-warning a{
+		color: var(--rsp-black)!important;
+	  }
+	  &.cmplz-warning {
+		color: var(--rsp-black)!important;
+		background-color: var(--rsp-yellow);
+		&:after {
+		  border-right: 15px solid var(--rsp-yellow);
+		}
+	  }
+
+	  a {
+		color: #fff;
+	  }
+	}
+  }
+
+  .cmplz-panel.cmplz-toggle-disabled {
+	color: var(--rsp-black);
+  }
+
+  /* Disabled option */
+
+
+  input:disabled {
+	cursor:not-allowed;
+  }
+
+  .cmplz-sublabel label {
+	color: var(--rsp-black);
+	font-size: 13px;
+  }
+
+  /* Placeholders */
+
+  ::placeholder {
+	color: var(--rsp-black);
+  }
+  ::placeholder/* Chrome/Opera/Safari */ {
+	color: var(--rsp-black);
+  }
+
+  ::-moz-placeholder /* Firefox 19+ */ {
+	color: var(--rsp-black);
+  }
+
+  :-ms-input-placeholder  /* IE 10+ */ {
+	color: var(--rsp-black);
+  }
+  :-moz-placeholder /* Firefox 18- */ {
+	color: var(--rsp-black);
+  }
+
+  /* License */
+
+  .cmplz-status-info {
+	display:flex;
+	> div {
+	  padding: 10px 10px 10px 0;
+	}
+	.cmplz-license-status-container {
+	  .cmplz-license-status {
+		display: block;
+
+		&.cmplz-premium {
+		  background-color: var(--rsp-black);
+		}
+		&.cmplz-success {
+		  color: var(--rsp-black);
+		}
+		&.cmplz-warning {
+		  color: var(--rsp-black);
+		}
+	  }
+	}
+  }
+  /* Ending */
+}

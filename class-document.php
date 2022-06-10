@@ -1652,7 +1652,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
                                 if ( ! $current_page_id ) {
                                     $missing_pages = true;
                                     $title         = $page['title'];
-                                    $icon          = cmplz_icon('check', 'failed', '', 10);
+                                    $icon          = cmplz_icon('times', 'error', '', 10);
                                     $class         = 'cmplz-deleted-page';
                                 } else {
                                     $post          = get_post( $current_page_id );
@@ -1672,8 +1672,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 												value="<?php echo $title ?>">
 										<?php echo $icon ?>
 									</div>
-									<div class="cmplz-shortcode" id="<?php echo $type . '-' . $region ?>"><?php echo $shortcode?></div>
-									<span class="cmplz-copy-shortcode"><?php echo cmplz_icon('shortcode', 'success', __( 'Click to copy the document shortcode', 'complianz-gdpr' ) ); ?></span>
+									<?php echo cmplz_icon('shortcode', 'default', __( 'Click to copy the document shortcode', 'complianz-gdpr' ), 15, $type . '-' . $region, $shortcode ); ?>
 								</div>
                                 <?php
                             }

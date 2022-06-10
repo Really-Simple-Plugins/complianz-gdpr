@@ -1,0 +1,32 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+	--rsp-background-block-color: #282828;
+	--rsp-background-color: #333333f2; //#f0f0f1 is the default wordpress bg color
+
+	--rsp-text-color: rgba(255, 255, 255, 0.9);
+
+	--rsp-text-color-invert: rgba(26, 26, 26, 0.9);
+	--rsp-text-color-light: rgba(233, 233, 255, 0.9);
+
+	--rsp-input-background-color: #282828;
+	--rsp-input-text-color: var(--rsp-text-color);
+	--rsp-input-border-color: var(--rsp-white);
+
+	--rsp-grey-200: #fafafa;
+	--rsp-grey-300: #ededed;
+	--rsp-grey-400: #c6c6c6;
+	--rsp-grey-500: #737373;
+	--rsp-grey-600: #696969;
+  }
+  img {
+	opacity: .75;
+	transition: opacity .5s ease-in-out;
+  }
+  img:hover {
+	opacity: 1;
+  }
+  body{
+	background: var(--rsp-background-color);
+	color: var(--rsp-text-color);
+  }
+}

@@ -491,9 +491,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$membersOnly = ( !$cookie->ignored && cmplz_get_value( 'wp_admin_access_users' ) === 'no' && $cookie->isMembersOnly );
 
 			if ( $cookie->complete || $cookie->ignored || $membersOnly) {
-				$icons .= cmplz_icon( 'check', 'green', __( "The data for this cookie is complete", "complianz-gdpr" ), 10 );
+				$icons .= cmplz_icon( 'check', 'success', __( "The data for this cookie is complete", "complianz-gdpr" ));
 			} else {
-				$icons .= cmplz_icon( 'check', 'error', __( "This cookie has missing fields", "complianz-gdpr" ), 10 );
+				$icons .= cmplz_icon( 'times', 'error', __( "This cookie has missing fields", "complianz-gdpr" ));
 			}
 
 			if ( ! $cookie->sync ) {
@@ -501,19 +501,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			} elseif ( $cookie->synced ) {
 				$icons .= cmplz_icon( 'sync', 'success', __( "This cookie has been synchronized with cookiedatabase.org.",'complianz-gdpr').'&nbsp;'.__( "Our moderators will keep the cookies up-to-date.", "complianz-gdpr" ) );
 			} else {
-				$icons .= cmplz_icon( 'sync', 'error', __( "This cookie is not yet synchronized with cookiedatabase.org.",'complianz-gdpr').'&nbsp;'.__( "Either try again, or if this fails; our moderators will investigate further and automatically update the descriptions.", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'sync-error', 'error', __( "This cookie is not yet synchronized with cookiedatabase.org.",'complianz-gdpr').'&nbsp;'.__( "Either try again, or if this fails; our moderators will investigate further and automatically update the descriptions.", "complianz-gdpr" ) );
 			}
 
 			if ( $cookie->showOnPolicy && ! $cookie->ignored ) {
 				$icons .= cmplz_icon( 'file', 'success', __( "This cookie will be on your Cookie Policy", "complianz-gdpr" ) );
 			} else {
-				$icons .= cmplz_icon( 'file', 'disabled', __( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'file-disabled', 'disabled', __( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" ) );
 			}
 
 			if ( ! $cookie->old ) {
 				$icons .= cmplz_icon( 'calendar', 'success', __( "This cookie has recently been detected", "complianz-gdpr" ) );
 			} else {
-				$icons .= cmplz_icon( 'calendar', 'error', __( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" ) );
+				$icons .= cmplz_icon( 'calendar-error', 'error', __( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" ) );
 			}
 
 			$notice      = ( $cookie->old ) ? cmplz_notice( __( 'This cookie has not been found in the scan for three months. Please check if you are still using this cookie',
@@ -610,9 +610,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$icons = '';
 
 			if ( $service->complete ) {
-				$icons .= cmplz_icon( 'check', 'green', __( "The data for this service is complete", "complianz-gdpr" ), 10 );
+				$icons .= cmplz_icon( 'check', 'success', __( "The data for this service is complete", "complianz-gdpr" ) );
 			} else {
-				$icons .= cmplz_icon( 'check', 'error', __( "This service has missing fields", "complianz-gdpr" ), 10 );
+				$icons .= cmplz_icon( 'times', 'error', __( "This service has missing fields", "complianz-gdpr" ) );
 			}
 
 			if ( ! $service->sync ) {
@@ -1144,18 +1144,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function get_syncable_services() {
 			$languages = $this->get_supported_languages();
 			$data      = array();
-
 			$count_all    = 0;
-			$one_week_ago = strtotime( "-1 week" );
+			$one_week_ago = strtotime( "-1 month" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language, 'includeServicesWithoutCookies' => true );
 				if ( ! wp_doing_cron()
-				     && ! defined( 'CMPLZ_SKIP_WEEK_CHECK' )
+				     && ! defined( 'CMPLZ_SKIP_MONTH_CHECK' )
 				) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}
 				$services = $this->get_services( $args );
-
 				$services          = wp_list_pluck( $services, 'name' );
 				$data[ $language ] = $services;
 				$count_all         += count( $services );
@@ -1184,11 +1182,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$count_all            = 0;
 			$ownDomainCookies = $this->get_cookies(array('isOwnDomainCookie'=>true));
 			$hasOwnDomainCookies = count($ownDomainCookies) >0 ;
-			$one_week_ago = strtotime( "-1 week" );
+			$one_week_ago = strtotime( "-1 month" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language );
 				if ( ! $ignore_time_limit && ! wp_doing_cron()
-				     && ! defined( 'CMPLZ_SKIP_WEEK_CHECK' )
+				     && ! defined( 'CMPLZ_SKIP_MONTH_CHECK' )
 				) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}

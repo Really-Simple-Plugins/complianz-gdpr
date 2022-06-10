@@ -5,7 +5,6 @@ jQuery(document).ready(function ($) {
 		var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';
 		btn.html(loader);
 		btn.attr('disabled', 'disabled');
-
 		$.ajax({
 			type: "GET",
 			url: complianz_admin.admin_url,
@@ -56,24 +55,33 @@ jQuery(document).ready(function ($) {
 	}
 
 	$(document).on('click', '.cmplz-copy-shortcode', function () {
-		var element_id = $(this).closest('.shortcode-container').find('.cmplz-shortcode').attr('id');
-		var element = document.getElementById(element_id);
-		var sel = window.getSelection();
-		sel.removeAllRanges();
-		var range = document.createRange();
-		range.selectNodeContents(element);
-		sel.addRange(range);
-		var success;
+		let clicked_element = $(this);
+		let success;
+		let shortcode_text = $(this).children('.cmplz-copy-shortcode-text');
+		// add class to this element to show the animation
+		$(this).addClass('cmplz-click-animation');
+		let $temp = $("<input>"); // Create a temporary element
+		$("body").append($temp); // Add the temporary element to the DOM
+		$temp.val(shortcode_text.text()).select(); // Select the text
 		try {
 			success = document.execCommand("copy");
 		} catch (e) {
 			success = false;
 		}
-
+		$temp.remove(); // Remove the temporary element
 		if (success) {
-			var icon = $(this).find('.cmplz-tooltip-icon');
-			icon.addClass('copied');
-			setTimeout(function(){ icon.removeClass('copied') }, 1000);
+			console.log('success');
+			// change cmpl-tooltip attribute to show success message
+			let tooltip = $(this).children('.cmplz-tooltip');
+			let saved_attr = tooltip.attr('cmplz-tooltip');
+			tooltip.attr('cmplz-tooltip', complianz_admin.copy_text);
+			console.log($(this).children('.cmplz-tooltip'));
+			setTimeout(function(){
+				// remove class from clicked item
+				console.log(this);
+				clicked_element.removeClass('cmplz-click-animation');
+				tooltip.attr('cmplz-tooltip', saved_attr);
+			}, 2000);
 		}
 	});
 
@@ -101,11 +109,12 @@ jQuery(document).ready(function ($) {
 	});
 
 	$(document).on('change', '.cmplz-download-document-selector', function(){
-		var sel =  $(this);
-		if ($(this).find(":selected").val().length!=0) {
-			sel.closest('.cmplz-document').find('.cmplz-download-document').attr('disabled', false);
+		var sel = $(this);
+		if (sel.find(":selected").val().length!=0) {
+			sel.closest('.cmplz-document').find('button').attr('disabled', false);
+			document.querySelector('.cmplz-dataleak-btn-href').href = sel.find(":selected").val();
 		} else {
-			sel.closest('.cmplz-document').find('.cmplz-download-document').attr('disabled', true);
+			sel.closest('.cmplz-document').find('button').attr('disabled', true);
 		}
 	});
 

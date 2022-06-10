@@ -1,4 +1,4 @@
-#cmplz-cookiebanner-container .cmplz-cookiebanner {
+.cmplz-cookiebanner-container .cmplz-cookiebanner {
   bottom: -50vh;
   -webkit-animation: slideIn 1s forwards;
   -webkit-animation-delay: 0s;

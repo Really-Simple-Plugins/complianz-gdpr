@@ -1,13 +1,8 @@
-<div class="cmplz-grid-item grid-active {class}" data-id="{index}" {conditions}>
-    <div class="item-container" data-template="{name}">
-        <div class="cmplz-grid-header">
-            <div class="cmplz-grid-header-container">
-                <div class="cmplz-grid-title">{header}</div>
-                <div class="cmplz-grid-controls">{controls}</div>
-            </div>
-        </div>
-        <div class="item-content">{body}</div>
-        {footer}
-    </div>
+<div class="cmplz-grid-container grid-active {class}" data-id="{index}" data-template="{name}" {conditions}>
+	<div class="cmplz-grid-header">
+		<h2 class="cmplz-grid-title h4">{header}</h2>
+		<div class="cmplz-grid-controls">{controls}</div>
+	</div>
+	<div class="cmplz-grid-content">{body}</div>
+	<div class="cmplz-grid-footer">{footer}</div>
 </div>
-

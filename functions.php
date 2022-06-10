@@ -360,7 +360,7 @@ if ( ! function_exists( 'cmplz_get_value' ) ) {
 
 		//if  a post id is passed we retrieve the data from the post
 		if ( ! $page ) {
-			$page = COMPLIANZ::$config->fields[ $fieldname ]['source'];
+			$page = isset(COMPLIANZ::$config->fields[ $fieldname ]['source']) ? COMPLIANZ::$config->fields[ $fieldname ]['source'] : false;
 		}
 		if ( $post_id && ( $page !== 'wizard' ) ) {
 			$value = get_post_meta( $post_id, $fieldname, true );
@@ -1463,6 +1463,24 @@ if (!function_exists('cmplz_read_more')) {
 	 */
 	function cmplz_read_more( $url, $add_space = true ) {
 		$html = cmplz_sprintf( __( "For more information, please read this %sarticle%s.", 'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">', '</a>' );
+		if ( $add_space ) {
+			$html = '&nbsp;' . $html;
+		}
+		return $html;
+	}
+}
+
+if (!function_exists('cmplz_upgrade_to_premium')) {
+	/**
+	 * Standardization upgrade process
+	 *
+	 * @param string $url
+	 * @param bool   $add_space
+	 *
+	 * @return string
+	 */
+	function cmplz_upgrade_to_premium( $url, $add_space = true ) {
+		$html = cmplz_sprintf( __( "%sUpgrade%s", 'complianz-gdpr' ), '<a class="cmplz-upgrade-to-premium" target="_blank" href="' . $url . '">', '</a>' );
 		if ( $add_space ) {
 			$html = '&nbsp;' . $html;
 		}

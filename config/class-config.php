@@ -454,7 +454,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 				'datarequests' => array(
 					'warning_condition' => 'cmplz_upgraded_to_current_version',
-					'open' => __( 'New Feature: Data requests for Privacy Statements. For more information, read this article.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/data-requests/'),
+					'open' => __( 'New Feature: Data requests for Privacy Statements.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/data-requests/'),
 					'plus_one' => true,
 					'include_in_progress' => false,
 				),
