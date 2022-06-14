@@ -185,6 +185,9 @@
 
 		// Complianz marker
 		.cmplz-icon.cmplz-open {
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
 		  grid-column-start: 3;
 		  cursor: pointer;
 		  content: '';
@@ -198,28 +201,14 @@
 		  height: 25px;
 		  width: 25px;
 		}
-
-		&:after {
-		  cursor: pointer;
-		  content: '';
-		  background: url(../images/chevron-down.svg) no-repeat;
-		  transform: rotate(0deg);
-		  -webkit-transition: all 0.5s ease;
-		  -moz-transition: all 0.5s ease;
-		  -o-transition: all 0.5s ease;
-		  transition: all 0.5s ease;
-		  background-size: cover;
-		  height: 18px;
-		  width: 18px;
-		  margin: 3px;
-		}
 	  }
 
 	  &[open]{
 		padding-bottom: 1px;
-		summary .cmplz-category-header:after {
+		summary .cmplz-category-header:after, summary .cmplz-icon.cmplz-open {
 		  transform: rotate(180deg);
 		}
+
 	  }
 	}
   }

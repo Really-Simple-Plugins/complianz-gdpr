@@ -18,15 +18,24 @@
 }
 .cmplz-blocked-content-container,
 .wp-video {
-  animation-name: cmplz-fadein;
-  animation-duration: 600ms;
+  -webkit-animation-name: cmplz-fadein;
+          animation-name: cmplz-fadein;
+  -webkit-animation-duration: 600ms;
+          animation-duration: 600ms;
   background: #FFF;
   border: 0;
   border-radius: 3px;
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5), 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   height: inherit;
@@ -55,7 +64,8 @@
   width: 100%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   max-width: 200px;
   font-size: 14px;
   padding: 10px;
@@ -80,7 +90,8 @@
   width: 100%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   max-width: 300px;
   font-size: 14px;
   padding: 10px;
@@ -112,6 +123,14 @@
 .wp-video .cmplz-placeholder-element {
   width: 100%;
   height: inherit;
+}
+@-webkit-keyframes cmplz-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes cmplz-fadein {
   0% {

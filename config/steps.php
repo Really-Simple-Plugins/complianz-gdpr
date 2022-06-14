@@ -81,7 +81,7 @@ $this->steps = array(
 						'intro' => '<p>'
 						           .__( 'Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org.','complianz-gdpr')
 						           ."&nbsp;"
-						           . __('We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date at a weekly schedule.','complianz-gdpr')
+						           . __('We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.','complianz-gdpr')
 					                .cmplz_read_more("https://complianz.io/our-cookiedatabase-a-new-initiative/")
 						           .'</p>',
 
