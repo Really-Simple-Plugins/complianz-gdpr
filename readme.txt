@@ -185,6 +185,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: British word changed to US default
 * Fix: php error php 8 when generating POC
 * Fix: Compatibility with Menu Block editor for legal pages
+* Fix: FitVids not activating on category_enabled hook, props @goretex34
 
 = 6.1.6.1 =
 * Fix: usage of dropped constants in GTM4WP causing fatal error, props @shecky
