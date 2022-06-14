@@ -288,18 +288,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				cmplz_update_option( 'wizard', 'children-safe-harbor', 'no' );
 			}
 
-            // Skip one step if 'No' is selected under Statistics
-            if ($fieldname === 'compile_statistics' &&
-                isset($_POST['step']) &&
-                $_POST['step'] == 2 &&
-                isset($_POST['section']) &&
-                $_POST['section'] == 2 &&
-                isset($_POST['cmplz_compile_statistics']) &&
-                $_POST['cmplz_compile_statistics'] == 'no'
-            ) {
-                wp_redirect(admin_url( 'admin.php?page=cmplz-wizard&step=2&section=4' ));
-            }
-
 			if ( $fieldvalue === $prev_value ) {
 				return;
 			}

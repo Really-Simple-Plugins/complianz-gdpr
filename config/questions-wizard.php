@@ -368,7 +368,10 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
 			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/google-analytics' ),
-			'callback_condition' => 'cmplz_statistics_privacy_friendly'
+			'callback_condition' => [
+                'compile_statistics' => 'NOT no',
+                'cmplz_statistics_privacy_friendly'
+            ]
 		),
 
 		'script_center_button' => array(
