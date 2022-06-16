@@ -13,7 +13,6 @@ $this->steps = array(
 				               _x('There are a few things to assist you during configuration:','intro first step', 'complianz-gdpr') .'<ul>'.
 				               '<li>' . _x('Hover over the question mark behind certain questions for more information.', 'intro first step', 'complianz-gdpr').'</li>' .
 		                   '<li>' . _x('Important notices and relevant articles are shown in the right column.', 'intro first step', 'complianz-gdpr').'</li>' .
-		                   '<li>' . cmplz_sprintf(_x('Our %sinstructions manual%s contains more detailed background information about every section and question in the wizard.','intro first step', 'complianz-gdpr'),'<a target="_blank" href="https://complianz.io/manual">', '</a>') .'</li>' .
 		                   '<li>' . cmplz_sprintf(_x('You can always %slog a support ticket%s if you need further assistance.','intro first step', 'complianz-gdpr'),'<a target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr/">', '</a>') .'</li></ul>',
 
 			    ),

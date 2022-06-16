@@ -232,8 +232,7 @@ $this->fields = $this->fields + array(
 			'disabled' => array('yes'),
 			'help'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).cmplz_read_more( 'https://complianz.io/records-of-consent' ),
 		),
-
-		'data_request_forms' => array(
+		'datarequest' => array(
 			'source'  => 'wizard',
 			'label'   => __( "Do you want to enable Data Request Forms?", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing?datarequests'),
 			'step'    => STEP_COMPANY,

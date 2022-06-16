@@ -852,7 +852,16 @@ function cmplz_check_upgrade() {
 			wp_update_post($args);
 		}
 	}
-	
+
+	if ( $prev_version && version_compare( $prev_version, '6.2.2', '<' ) ) {
+		$wizard_settings = get_option( 'complianz_options_wizard' );
+		if ( isset( $wizard_settings['data_request_forms'] ) ) {
+			$wizard_settings['datarequest'] = $wizard_settings['data_request_forms'];
+			unset($wizard_settings['data_request_forms']);
+			update_option( 'complianz_options_wizard', $wizard_settings );
+		}
+	}
+
 	//regenerate css
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {

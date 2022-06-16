@@ -78,7 +78,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
 	'ultimate-addons-elementor' => array(
 			'constant_or_function' => 'UAEL_FILE',
-			'label'                => 'Ultimate Addons for Elementor',
+			'label'                => 'Ultimate Addons for Elementor - Google Maps',
 			'firstparty_marketing' => false,
 	),
 
@@ -435,13 +435,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'SiteOrigin Widgets Bundle',
 		'firstparty_marketing' => false,
 	),
-	
+
 	'superfly-menu' => array(
 		'constant_or_function' => 'SFM_VERSION_KEY',
 		'label'                => 'Superfly Menu',
 		'firstparty_marketing' => false,
 	),
-	
+
 	'wp-store-locator' => array(
 		'constant_or_function' => 'WPSL_VERSION_NUM',
 		'label'                => 'WP Store Locator',

@@ -734,7 +734,8 @@ Admin notice
   margin-left: 6px;
   margin-top: 20px;
 }
-.cmplz .cmplz-dnsmpi {
+.cmplz .cmplz-dnsmpi,
+.cmplz .cmplz-datarequests {
   -ms-grid-column: 1;
       grid-column-start: 1;
   -ms-grid-column-span: 2;
@@ -745,11 +746,13 @@ Admin notice
   border-radius: var(--rsp-border-radius);
   padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
 }
-.cmplz .cmplz-dnsmpi .search-box {
+.cmplz .cmplz-dnsmpi .search-box,
+.cmplz .cmplz-datarequests .search-box {
   margin: var(--rsp-spacing-xs) 0;
   float: left;
 }
-.cmplz .cmplz-dnsmpi .tablenav {
+.cmplz .cmplz-dnsmpi .tablenav,
+.cmplz .cmplz-datarequests .tablenav {
   display: none;
 }
 .cmplz #cmplz-dnsmpi-export {

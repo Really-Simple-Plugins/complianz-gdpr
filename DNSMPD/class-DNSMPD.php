@@ -160,11 +160,12 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 * @return void
 		 */
 		public function data_requests_overview() {
+			ob_start();
 			include( dirname( __FILE__ ) . '/class-DNSMPD-table.php' );
 			$datarequests = new cmplz_DNSMPD_Table();
 			$datarequests->prepare_items();
 			?>
-			<div class="wrap">
+			<div class="cmplz-datarequests">
 				<h1 class="wp-heading-inline"><?php _e( 'Data Requests', 'complianz-gdpr' ); ?>
 					<a href="<?php echo esc_url_raw( cmplz_url . "DNSMPD/csv.php?nonce=" . wp_create_nonce( 'cmplz_csv_nonce' ) ) ?>" target="_blank" class="button button-primary"><?php _e("Export", "complianz-gdpr")?></a>
 				</h1>
