@@ -175,7 +175,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 6.2.0 =
 * New: Beaver Builder Power Pack
 * New: Superfly integration
-* Improvement: DNSMPI / Opt-out Form & Registration
 * Improvement: Support for Switzerland
 * Improvement: change A tag of close button in banner to div, for WCAG
 * Improvement: add maps.google.de to blocklist
