@@ -517,7 +517,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function save() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( !current_user_can( 'manage_options' ) && !wp_doing_cron() ) {
 				return;
 			}
 			if ( ! $this->id ) {
