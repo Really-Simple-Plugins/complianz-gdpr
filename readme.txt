@@ -173,6 +173,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.2.4 =
+* Improvement: Get ready for cookieless tracking in Burst Statistics/Analytics
 * Improvement: shepherd css class
 * Improvement: move ace to vendor dir, to prevent translation scan, props @tobifjellner
 * Improvement: No data requests notice if no datarequests available

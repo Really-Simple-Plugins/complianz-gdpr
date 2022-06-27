@@ -29,7 +29,7 @@ function cmplz_qtranslatex_options($options){
 	);
 
 	foreach($keys as $key){
-		if(isset($options[$key])){
+		if( isset($options[$key]) ){
 			$options[$key] = __($options[$key]);
 		}
 	}

@@ -458,6 +458,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Gravity Forms',
 		'firstparty_marketing' => false,
 	),
+	'qtranslate'               => array(
+			'constant_or_function' => 'QTX_VERSION',
+			'label'                => 'qTranslate-XT',
+			'firstparty_marketing' => false,
+	),
 ) );
 
 

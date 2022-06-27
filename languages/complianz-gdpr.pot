@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2022-06-27 09:31+0200\n"
+"POT-Creation-Date: 2022-06-27 13:26+0200\n"
 "PO-Revision-Date: 2022-04-25 10:37+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
@@ -921,7 +921,7 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: class-field.php:2508 class-field.php:2839 integrations/integrations.php:703
+#: class-field.php:2508 class-field.php:2839 integrations/integrations.php:708
 msgid "Placeholder"
 msgstr ""
 
@@ -5528,12 +5528,12 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:734
+#: integrations/integrations.php:739
 #, php-format
 msgid "We have enabled the %s integration."
 msgstr ""
 
-#: integrations/integrations.php:869
+#: integrations/integrations.php:874
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -9263,7 +9263,6 @@ msgstr ""
 #: pro/config/documents/CA/privacy-policy.php:73
 #: pro/config/documents/EU/privacy-policy.php:83
 #: pro/config/documents/EU/privacy-policy.php:90
-#: pro/config/documents/UK/privacy-policy.php:88
 #: pro/config/documents/ZA/privacy-policy.php:103
 #: pro/config/documents/ZA/privacy-policy.php:112
 msgctxt "Legal document privacy statement:paragraph title"
@@ -9287,7 +9286,6 @@ msgstr ""
 
 #: pro/config/documents/BR/privacy-policy.php:110
 #: pro/config/documents/EU/privacy-policy.php:98
-#: pro/config/documents/UK/privacy-policy.php:96
 #: pro/config/documents/ZA/privacy-policy.php:120
 #, php-format
 msgctxt "Legal document privacy statement"
@@ -11386,19 +11384,6 @@ msgstr ""
 #: pro/config/documents/EU/processing-agreement.php:461
 msgctxt "Legal document processing agreement:paragraph title"
 msgid "Service Provider:"
-msgstr ""
-
-#: pro/config/documents/UK/privacy-policy.php:89
-#, php-format
-msgctxt "Legal document privacy statement"
-msgid ""
-"To provide the best experiences, we and our partners use technologies like "
-"cookies to store and/or access device information. Consenting to these "
-"technologies will allow us and our partners to process personal data such as "
-"browsing behaviour or unique IDs on this site. Not consenting or withdrawing "
-"consent, may adversely affect certain features and functions. For more "
-"information about these technologies and partners, please refer to our "
-"%sCookie Policy%s."
 msgstr ""
 
 #: pro/config/documents/ZA/privacy-policy-children.php:10
