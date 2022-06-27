@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 6.0
-Stable tag: 6.2.0
+Stable tag: 6.2.4
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.
 
@@ -172,6 +172,16 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.2.4 =
+* Improvement: shepherd css class
+* Improvement: move ace to vendor dir, to prevent translation scan, props @tobifjellner
+* Improvement: No data requests notice if no datarequests available
+* Improvement: Elementor video playlist integration
+* Improvement: less option updates in integrations
+* Improvement: new filter for compatibility with qTranslate
+* Improvement: drop text/javascript from scripts, as it is default
+* Improvement: no defer on inline scripts, props @Lofesa
+
 = 6.2.0 =
 * New: Beaver Builder Power Pack
 * New: Superfly integration
