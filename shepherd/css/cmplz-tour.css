@@ -19,7 +19,7 @@
 .shepherd-element {
   z-index: 110;
 }
-.shepherd-element.shepherd-theme-arrows.shepherd-has-title .shepherd-content header {
+.shepherd-element.shepherd-theme-arrows.shepherd-has-title.cmplz-shepherd .shepherd-content header {
   background-color: #29b6f6;
   display: inline-block;
   width: 100%;
@@ -43,22 +43,13 @@
 }
 .cmplz-tour-logo-text {
   height: 70px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .cmplz-tour-text {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   margin-left: 25px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  justify-content: center;
+  flex-direction: column;
 }
 .shepherd-button {
   text-transform: none !important;

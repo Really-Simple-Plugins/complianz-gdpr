@@ -270,7 +270,6 @@ function cmplz_load_css( path ) {
 
 function cmplz_run_script( script, category, type ) {
 	let fileref = document.createElement("script");
-	fileref.setAttribute("type", "text/javascript");
 	if ( type !== 'inline' ) {
 		fileref.setAttribute("src", script);
 	} else {
@@ -655,15 +654,17 @@ function cmplz_enable_category(category, service) {
 		}
 	});
 
-	//scripts: set to text/javascript
+	//scripts: remove text/plain
 	scriptElements.forEach(obj => {
-		if ( obj.classList.contains('cmplz-activated') || obj.getAttribute('type') === 'text/javascript' ) {
+		//we don't want already activate scripts to fire, but also we don't want scripts that weren't blocked to fire. Hence the check for type
+		let script_mime_type = obj.getAttribute('type');
+		if ( obj.classList.contains('cmplz-activated') || ( !script_mime_type || script_mime_type==='text/javascript' ) ) {
 			return;
 		}
 		obj.classList.add('cmplz-activated' );
 		let src = obj.getAttribute('src');
 		if ( src ) {
-			obj.setAttribute('type', 'text/javascript');
+			obj.removeAttribute('type');
 			//check if this src or txt is in a waiting script. If so, skip.
 			if ( cmplz_is_waiting_script(cmplz_waiting_scripts, src) ) {
 				return;

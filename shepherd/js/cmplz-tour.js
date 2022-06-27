@@ -70,7 +70,7 @@ jQuery(document).ready(function($) {
 						};
 
 					tour.addStep(key, {
-						classes: 'shepherd-theme-arrows zrdn-shepherd shepherd-has-cancel-link shepherd-step-' + key,
+						classes: 'shepherd-theme-arrows cmplz-shepherd shepherd-has-cancel-link shepherd-step-' + key,
 						attachTo: step.attach + ' ' + step.position,
 						title: step.title,
 						text: cmplz_tour.html.replace('{content}', step.text),

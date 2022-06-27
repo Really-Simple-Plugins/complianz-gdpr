@@ -47,28 +47,19 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div,
 #cmplz-document .cmplz-dropdown summary div {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-rows: ;
-      grid-template: "heading chevron";
-  -ms-grid-columns: 2fr 15px 25px;
+  grid-template: "heading chevron";
   grid-template-columns: 2fr 25px;
   grid-gap: 15px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div h3,
 #cmplz-document .cmplz-dropdown summary div h3 {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
   grid-area: heading;
   margin: 0;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div:after,
 #cmplz-document .cmplz-dropdown summary div:after {
-  -ms-grid-row: 1;
-  -ms-grid-column: 3;
   grid-area: chevron;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary div input[data-category="functional"],
@@ -81,31 +72,23 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
-  -ms-grid-rows: ;
-      grid-template: "heading paragraph checkbox chevron";
-  -ms-grid-columns: 2fr 15px auto 15px auto 15px 25px;
+  grid-template: "heading paragraph checkbox chevron";
   grid-template-columns: 2fr auto auto 25px;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p {
-  -ms-grid-row: 1;
-  -ms-grid-column: 3;
   grid-area: paragraph;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose {
-  display: -ms-grid;
   display: grid;
 }
 @media only screen and (min-width: 600px) {
   #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose,
   #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose {
-    -ms-grid-column-span: 2;
     grid-column: span 2;
-    -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    -ms-grid-rows: auto auto;
-        grid-template: "purpose purpose purpose" "header1 header2 header3" auto;
+    grid-template: "purpose purpose purpose" "header1 header2 header3" auto;
   }
   #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose,
   #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose {
@@ -124,38 +107,13 @@
     grid-area: header3;
   }
 }
-@media only screen and (min-width: 600px) {
-  #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose,
-  #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose {
-    -ms-grid-row: 1;
-    -ms-grid-column: 1;
-    -ms-grid-column-span: 3;
-  }
-  #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .name-header,
-  #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .name-header {
-    -ms-grid-row: 2;
-    -ms-grid-column: 1;
-  }
-  #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .retention-header,
-  #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .retention-header {
-    -ms-grid-row: 2;
-    -ms-grid-column: 2;
-  }
-  #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .function-header,
-  #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .function-header {
-    -ms-grid-row: 2;
-    -ms-grid-column: 3;
-  }
-}
 @media only screen and (max-width: 600px) {
   #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose,
   #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose {
-    -ms-grid-columns: 100px 1fr;
     grid-template-columns: 100px 1fr;
   }
   #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose,
   #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy .cookies-per-purpose .purpose {
-    -ms-grid-column-span: 2;
     grid-column: span 2;
   }
 }
@@ -186,40 +144,21 @@
   margin-bottom: 5px;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 10px auto 10px 25px;
   grid-template-columns: 1fr auto 25px;
-  -ms-grid-rows: auto;
   grid-template-rows: auto;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   grid-gap: 10px;
   padding: 5px 10px;
   background-color: rgba(239, 239, 239, 0.5);
-}
-#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header > *:nth-child(1) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-}
-#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header > *:nth-child(2) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 3;
-}
-#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header > *:nth-child(3) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 5;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header section {
   padding: initial;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header h2 {
-  -ms-grid-column: 1;
-      grid-column-start: 1;
+  grid-column-start: 1;
   width: 100%;
-  -ms-grid-column-align: start;
-      justify-self: start;
+  justify-self: start;
   font-size: 18px;
   text-align: left;
   margin-top: 8px;
@@ -244,33 +183,23 @@
   display: none;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-banner-checkbox {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   margin: 0;
   padding: initial;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-icon.cmplz-open {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-grid-column: 3;
-      grid-column-start: 3;
+  align-items: center;
+  justify-content: center;
+  grid-column-start: 3;
   cursor: pointer;
   content: '';
   background: var(--cmplz_category_open_icon_url) no-repeat;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
+  transform: rotate(0deg);
   -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 25px;
@@ -281,8 +210,7 @@
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-category-header:after,
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-icon.cmplz-open {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .postbox #cmplz-document {
   margin: auto auto;
@@ -336,7 +264,6 @@
   font-size: 22px;
   line-height: 20px;
   cursor: pointer;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 #cmplz-document .cmplz-close:hover {
@@ -466,9 +393,7 @@
   background-color: rgba(239, 239, 239, 0.5);
   margin: 5px 0;
   padding: 5px 10px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   justify-items: stretch;
 }
 #cmplz-cookies-overview .cmplz-dropdown summary h3,
@@ -490,9 +415,10 @@
   cursor: pointer;
   content: '';
   background: url(../images/chevron-down.svg) no-repeat;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
+  transform: rotate(0deg);
   -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 18px;
@@ -505,8 +431,7 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown[open] summary div:after,
 #cmplz-document .cmplz-dropdown[open] summary div:after {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 #cmplz-cookies-overview .cmplz-dropdown h4,
 #cmplz-document .cmplz-dropdown h4 {

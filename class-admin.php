@@ -358,7 +358,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			wp_register_style( 'cmplz', trailingslashit( cmplz_url ) . "assets/css/admin$minified.css", "", cmplz_version );
 			wp_enqueue_style( 'cmplz' );
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'cmplz-ace', cmplz_url . "assets/ace/ace.js", array(), cmplz_version, false );
+			wp_enqueue_script( 'cmplz-ace', cmplz_url . "assets/vendor/ace/ace.js", array(), cmplz_version, false );
 			wp_enqueue_script( 'cmplz-dashboard', cmplz_url . "assets/js/dashboard$minified.js", array( 'jquery' ), cmplz_version, true );
 			wp_enqueue_script( 'cmplz-admin', cmplz_url . "assets/js/admin$minified.js", array( 'jquery', 'wp-color-picker' ), cmplz_version, true );
 			$sync_progress = COMPLIANZ::$cookie_admin->get_sync_progress();

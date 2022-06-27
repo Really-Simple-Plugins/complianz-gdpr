@@ -73,9 +73,13 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 */
 
 		public function has_open_requests(){
-			global $wpdb;
-			$count = $wpdb->get_var( "SELECT count(*) from {$wpdb->prefix}cmplz_dnsmpd WHERE NOT resolved = 1" );
-			return $count>0;
+			$has_requests = false;
+			if ( cmplz_dnsmpi_required() || cmplz_datarequests_active() ) {
+				global $wpdb;
+				$count        = $wpdb->get_var( "SELECT count(*) from {$wpdb->prefix}cmplz_dnsmpd WHERE NOT resolved = 1" );
+				$has_requests = $count > 0;
+			}
+			return $has_requests;
 		}
 
 		/**

@@ -560,9 +560,9 @@ function cmplz_integrations() {
 			}
 		}
 	}
-	update_option('cmplz_active_integrations',  $actual_integrations_count);
 
 	if ( $stored_integrations_count != $actual_integrations_count) {
+		update_option('cmplz_active_integrations',  $actual_integrations_count);
 		update_option('cmplz_integrations_changed', true );
 	}
 

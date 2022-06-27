@@ -116,7 +116,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$nonce = wp_create_nonce( 'cmplz-detect-errors' );
 			?>
-			<script type="text/javascript">
+			<script>
 				var request = new XMLHttpRequest();
 				var error_ocurred = false;
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
@@ -1749,11 +1749,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * @param string $tag
 		 * @param string $handle
 		 *
-		 * @return array|mixed|string|string[]
+		 * @return string
 		 */
 		public function add_asyncdefer_attribute($tag, $handle) {
 			if ( $handle === 'cmplz-cookiebanner' || $handle === 'cmplz-tcf' ) {
-				return str_replace( '<script ', '<script defer ', $tag );
+				return preg_replace( '/^<script /', '<script defer ', $tag );
 			}
 			return $tag;
 		}
@@ -1961,7 +1961,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			do_action( 'cmplz_before_statistics_script' );
 
 			/**
-			 * Tag manager needs to be included with text/javascript, as it always needs to fire.
+			 * Tag manager needs to be included as text/javascript (omitted as it's default), as it always needs to fire.
 			 * All other scripts will be included with the appropriate tags, and fired when possible
 			 */
 
@@ -1970,12 +1970,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				echo $stats_comment;
 				if ( $statistics === 'google-tag-manager' || $statistics === 'matomo-tag-manager' ) {
 					?>
-					<script type="text/javascript" data-category="<?php echo esc_attr($category) ?>">
+					<script data-category="<?php echo esc_attr($category) ?>">
 						<?php do_action( 'cmplz_tagmanager_script' ); ?>
 					</script><?php
 				} else {
 					?>
-					<script type="<?php echo $category==='functional' ? 'text/javascript' : 'text/plain' ?>" data-category="<?php echo esc_attr($category) ?>"><?php do_action( 'cmplz_statistics_script' ); ?></script><?php
+					<script <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo esc_attr($category) ?>"><?php do_action( 'cmplz_statistics_script' ); ?></script><?php
 				}
 
 				if ( !empty($aw_code ) ) {
@@ -1983,7 +1983,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
 					if ( cmplz_consent_mode() ) {
 						?>
-						<script type="text/javascript" data-category="functional"><?php echo $script; ?></script><?php
+						<script data-category="functional"><?php echo $script; ?></script><?php
 					} else {
 						?>
 						<script type="text/plain" data-category="marketing"><?php echo $script; ?></script><?php
@@ -2044,9 +2044,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			if ( $statistics === 'clicky' ) {
 				$category = $this->get_statistics_category();
-				$type = $category === 'functional' ? 'text/javascript' : 'text/plain';
 				?>
-				<script async type='<?php echo $type?>' data-category="<?php echo $category ?>" src="//static.getclicky.com/js"></script>
+				<script async <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo $category ?>" src="//static.getclicky.com/js"></script>
 				<?php
 			}
 		}
@@ -2058,7 +2057,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function inline_cookie_script_no_warning() {
 			do_action( 'cmplz_before_statistics_script' );
 			?>
-			<script type='text/javascript' data-category="functional">
+			<script data-category="functional">
 				<?php do_action( 'cmplz_statistics_script' );?>
 				<?php do_action( 'cmplz_tagmanager_script' );?>
 			</script>

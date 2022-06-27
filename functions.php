@@ -1373,6 +1373,8 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['vc_action'] )
 		     || isset( $_GET['vc_editable'] )
 		     || isset( $_GET['vcv-action'] )
+		     || isset( $_GET['zion_builder_active'])
+		     || isset( $_GET['zionbuilder-preview'])
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
 		     || isset( $_GET['ct_builder'] ) //oxygen

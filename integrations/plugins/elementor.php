@@ -10,16 +10,15 @@ function cmplz_elementor_initDomContentLoaded() {
 				var category = consentData.detail.category;
 				var services = consentData.detail.services;
 				var blockedContentContainers = [];
-				let selectorVideo = '.elementor-widget-video[data-category="'+category+'"]';
+				let selectorVideo = '.cmplz-elementor-widget-video-playlist[data-category="'+category+'"],.elementor-widget-video[data-category="'+category+'"]';
 				let selectorGeneric = '[data-cmplz-elementor-href][data-category="'+category+'"]';
 				for (var skey in services) {
 					if (services.hasOwnProperty(skey)) {
 						let service = skey;
-						selectorVideo +=',.elementor-widget-video[data-service="'+service+'"]';
+						selectorVideo +=',.cmplz-elementor-widget-video-playlist[data-service="'+service+'"],.elementor-widget-video[data-service="'+service+'"]';
 						selectorGeneric +=',[data-cmplz-elementor-href][data-service="'+service+'"]';
 					}
 				}
-
 				document.querySelectorAll(selectorVideo).forEach(obj => {
 					let elementService = obj.getAttribute('data-service');
 					if ( cmplz_is_service_denied(elementService) ) {
@@ -27,6 +26,16 @@ function cmplz_elementor_initDomContentLoaded() {
 					}
 					if (obj.classList.contains('cmplz-elementor-activated')) return;
 					obj.classList.add('cmplz-elementor-activated');
+
+					if ( obj.hasAttribute('data-cmplz_elementor_widget_type') ){
+						let attr = obj.getAttribute('data-cmplz_elementor_widget_type');
+						obj.classList.removeAttribute('data-cmplz_elementor_widget_type');
+						obj.classList.setAttribute('data-widget_type', attr);
+					}
+					if (obj.classList.contains('cmplz-elementor-widget-video-playlist')) {
+						obj.classList.remove('cmplz-elementor-widget-video-playlist');
+						obj.classList.add('elementor-widget-video-playlist');
+					}
 					obj.setAttribute('data-settings', obj.getAttribute('data-cmplz-elementor-settings'));
 					blockedContentContainers.push(obj);
 				});
@@ -80,7 +89,7 @@ add_action( 'wp_enqueue_scripts', 'cmplz_elementor_initDomContentLoaded',PHP_INT
 function cmplz_elementor_cookieblocker( $output ){
 
 	if ( cmplz_uses_thirdparty('youtube') ) {
-		$iframe_pattern = '/elementor-widget elementor-widget-video.*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
+		$iframe_pattern = '/elementor-widget elementor-widget-video[ |\"].*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
 		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 			foreach ( $matches[0] as $key => $total_match ) {
 				$placeholder = '';
@@ -91,6 +100,24 @@ function cmplz_elementor_cookieblocker( $output ){
 
 				$new_match = str_replace('data-settings', $placeholder.' data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('elementor-widget-video', 'elementor-widget-video cmplz-placeholder-element', $new_match);
+				$output = str_replace($total_match, $new_match, $output);
+			}
+		}
+		/**
+		 * Playlist
+		 */
+		$iframe_pattern = '/elementor-widget elementor-widget-video-playlist.*?data-settings=.*?youtube_url.*?&quot;:&quot;(.*?)&quot;/is';
+		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
+			foreach ( $matches[0] as $key => $total_match ) {
+				$placeholder = '';
+				if ( cmplz_use_placeholder('youtube') && isset($matches[1][$key]) ) {
+					$youtube_url = $matches[1][$key];
+					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
+				}
+
+				$new_match = str_replace('data-settings', $placeholder.' data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
+				$new_match = str_replace('data-widget_type', 'data-cmplz_elementor_widget_type', $new_match);
+				$new_match = str_replace('elementor-widget-video-playlist', 'cmplz-elementor-widget-video-playlist cmplz-placeholder-element', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
