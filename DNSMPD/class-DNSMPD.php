@@ -280,6 +280,18 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		}
 
 		/**
+		 * Enqueue back-end assets
+		 * @param $hook
+		 */
+
+		public function admin_enqueue($hook){
+			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz-datarequests' ) return;
+			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
+			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
+			wp_enqueue_style('cmplz-posttypes');
+		}
+
+		/**
 		 * Check if the table needs to be created or updated
 		 * @return void
 		 */

@@ -698,11 +698,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-			if ( strpos( $hook, 'toplevel_page_complianz' ) !== false ) {
-				wp_register_style( 'cmplz-dashboard', cmplz_url . "assets/css/dashboard$minified.css", false, cmplz_version );
-				wp_enqueue_style( 'cmplz-dashboard' );
-			}
-
 			if ( strpos( $hook, 'cmplz-wizard' ) === false &&
 			     strpos( $hook, 'cmplz-cookiebanner' ) === false &&
 			     strpos( $hook, 'cmplz-proof-of-consent' ) === false &&
