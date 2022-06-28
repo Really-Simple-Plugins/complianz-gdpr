@@ -18,7 +18,6 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			}
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 			add_action( 'rest_api_init', array($this, 'register_rest_route') );
-			add_action( 'admin_enqueue_scripts', array($this, 'admin_enqueue'));
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
 			add_action( 'admin_init', array( $this, 'process_resolve' ) );
 			add_action( 'activated_plugin', array( $this, 'update_db_check' ), 10, 2 );
