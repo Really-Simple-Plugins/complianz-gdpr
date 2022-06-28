@@ -18,7 +18,6 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			}
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 			add_action( 'rest_api_init', array($this, 'register_rest_route') );
-			add_action( 'admin_enqueue_scripts', array($this, 'admin_enqueue'));
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
 			add_action( 'admin_init', array( $this, 'process_resolve' ) );
 			add_action( 'activated_plugin', array( $this, 'update_db_check' ), 10, 2 );
@@ -277,18 +276,6 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				$paged = isset( $_GET['paged'] ) ? 'paged=' . intval( $_GET['paged'] ) : '';
 				wp_redirect( admin_url( 'admin.php?page=cmplz-datarequests' . $paged ) );
 			}
-		}
-
-		/**
-		 * Enqueue back-end assets
-		 * @param $hook
-		 */
-
-		public function admin_enqueue($hook){
-			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz-datarequests' ) return;
-			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
-			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
-			wp_enqueue_style('cmplz-posttypes');
 		}
 
 		/**

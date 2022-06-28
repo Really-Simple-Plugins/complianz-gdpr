@@ -1019,7 +1019,7 @@ Admin notice
 }
 .cmplz-plusone {
   border-radius: 50%;
-  background-color: x;
+  background-color: #d63638;
   color: #fff;
   padding: 2px 6px;
   font-size: 10px;
@@ -1179,8 +1179,6 @@ Admin notice
 }
 .cmplz-dashboard .cmplz-progress-percentage,
 .cmplz-dashboard .cmplz-progress-description {
-  float: left;
-  margin-top: 20px;
   font-weight: 600;
   font-size: 18px;
 }
@@ -1193,6 +1191,10 @@ Admin notice
   display: grid;
   -ms-grid-columns: 125px auto;
   grid-template-columns: 125px auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
 }
 .cmplz-dashboard .cmplz-task-switcher-container {
   display: -webkit-box;
