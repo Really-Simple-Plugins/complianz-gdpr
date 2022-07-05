@@ -38,6 +38,16 @@
 		</div>
 	</div>
 
+	<div class="cmplz-tools-row">
+		<div><?php _e( "Records of consent", 'complianz-gdpr' ); ?></div>
+		<div>
+			<a href="https://complianz.io/records-of-consent/">
+				<?php _e( "Read more",
+					'complianz-gdpr' ); ?>
+			</a>
+		</div>
+	</div>
+
 	<?php if ( class_exists( 'WooCommerce' ) ) { ?>
 	<div class="cmplz-tools-row">
 		<div><?php _e( "Webshop privacy", 'complianz-gdpr' ); ?></div>

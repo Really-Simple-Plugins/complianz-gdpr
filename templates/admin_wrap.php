@@ -8,7 +8,12 @@
 				<img alt="Complianz-GDPR/CCPA" src="<?php echo trailingslashit(cmplz_url)?>assets/images/cmplz-logo.svg">
 				<div class="cmplz-header-right">
 					<a href="https://complianz.io/docs/" class="link-black" target="_blank"><?php _e("Documentation", "complianz-gdpr")?></a>
-					<a href="<?php echo apply_filters('cmplz_support_link', 'https://wordpress.org/support/plugin/complianz-gdpr/')?>" class="button button-black" target="_blank"><?php _e("Support", "complianz-gdpr") ?></a>
+					<?php if ( defined("cmplz_premium" ) ) {
+						$text = __("Premium", "complianz-gdpr");
+					} else {
+						$text = __("Get Premium", "complianz-gdpr");
+					} ?>
+					<a href="https://complianz.io/pricing" class="button button-black" target="_blank"><?php echo $text ?></a>
 				</div>
 			</div>
 		</div>

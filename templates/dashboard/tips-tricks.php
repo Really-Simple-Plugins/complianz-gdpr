@@ -5,8 +5,8 @@ $items = array(
 				'link'    => 'https://complianz.io/docs/customization/',
 		),
 		2 => array(
-				'content' => "Exclude your website in Chrome's new cookieless tracking",
-				'link' => 'https://complianz.io/about-floc/',
+				'content' => "Why WordPress Plugins are better in Consent Management",
+				'link' => 'https://complianz.io/consent-management-wordpress-native-plugin-versus-cloud-solution/',
 		),
 		3 => array(
 				'content' => "Do I need a checkbox on my contact form?",

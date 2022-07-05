@@ -48,6 +48,8 @@ if (!class_exists('COMPLIANZ_TC') ) {
 		'generated' => $generated,
 	);
 	echo cmplz_get_template('dashboard/documents-row.php', $args);
+} else if (class_exists('COMPLIANZ_TC') ) {
+	COMPLIANZ_TC::$document->add_docs_to_cmplz_dashboard( 'all' );
 }
 
 foreach ($docs as $index => $doc) {

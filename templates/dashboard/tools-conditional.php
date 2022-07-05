@@ -34,7 +34,7 @@
 </div>
 <div class="cmplz-tools-row">
 	<div>
-		<?php _e( "Data requests", 'complianz-gdpr' ); ?>
+		<?php _e( "Data request processing", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
 		<a target="_blank" href="https://complianz.io/definition/what-is-a-data-request/" class="cmplz-premium">
