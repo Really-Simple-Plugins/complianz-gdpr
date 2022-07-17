@@ -430,6 +430,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'primavera' => array(
+		'constant_or_function' => 'Primavera',
+		'label'                => 'Primavera Theme',
+		'firstparty_marketing' => false,
+	),
+
 	'so-widgets-bundle' => array(
 		'constant_or_function' => 'SOW_BUNDLE_VERSION',
 		'label'                => 'SiteOrigin Widgets Bundle',
@@ -724,7 +730,7 @@ function cmplz_add_placeholder_checkbox( $args ) {
 				<div
 						class="checkmark <?php echo $disabled ? 'cmplz-disabled' : '' ?>"
 						<?php checked( 1, $value, true ) ?>
-				><?php echo cmplz_icon('check', 'success', '', 10); ?></div>
+				><?php echo cmplz_icon('check', 'default', '', 10); ?></div>
 			</label>
 			<?php
 		}

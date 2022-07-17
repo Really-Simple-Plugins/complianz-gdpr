@@ -155,11 +155,13 @@ $this->pages['br']['cookie-statement']['document_elements'] = array(
     ),
 	'complaints-address' => array(
 		'p' => false,
-		'content' => 	'<br>Esplanade of Ministries,
-						<br>Block C,
-						<br>2nd floor,
+		'content' => 	'<br>Autoridade Nacional de Proteção de Dados
+						<br>
+						<br>Esplanada dos Ministérios,
+						<br>Bloco C,
+						<br>2º andar,
 						<br>CEP 70297-400 - Brasília – DF.
-						<br>'. _x('Complaints email:', 'Legal document privacy statement', 'complianz-gdpr') . 'anpd@anpd.gov.br',
+						<br><a href="https://www.gov.br/anpd/pt-br/canais_atendimento/" target="_blank">'. _x('Website', 'Legal document', 'complianz-gdpr') . '</a>',
 	),
 
     'enable-disable-removal-cookies' => array(

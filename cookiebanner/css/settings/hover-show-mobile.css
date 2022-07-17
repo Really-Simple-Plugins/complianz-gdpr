@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+  #cmplz-manage-consent .cmplz-manage-consent {
+    animation: mc_slideIn 0s forwards;
+  }
+}
+/*# sourceMappingURL=hover-show-mobile.css.map */

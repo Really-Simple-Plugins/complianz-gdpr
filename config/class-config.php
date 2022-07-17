@@ -23,6 +23,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"videopress"       => 'VideoPress',
 				"dailymotion"      => 'Dailymotion',
 				"soundcloud"       => 'SoundCloud',
+				"twitch"         	 => 'Twitch',
 				"paypal"           => 'PayPal',
 				"spotify"          => 'Spotify',
 				"hotjar"           => 'Hotjar',
@@ -158,7 +159,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
 				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net','track.hubspot.com','js.hs-analytics.net'),
 				"calendly"         => array( 'assets.calendly.com' ),
+				"twitch"          => array( 'twitch.tv', 'player.twitch.tv'),
 			);
+
 		public $stats
 			= array(
 				'google-analytics'   => 'Google Analytics',
@@ -622,7 +625,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 				'pretty-permalinks-error' => array(
 					'success_conditions'  => array(
-						'document->pretty_permalinks_enabled',
+						'get_option_permalink_structure',
 					),
 					'plus_one' => true,
 					'urgent' => __( 'Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz.', 'complianz-gdpr' ).'&nbsp;<a href="'.admin_url('options-permalink.php').'">'.__("Enable", "complianz-gdpr").'</a>',

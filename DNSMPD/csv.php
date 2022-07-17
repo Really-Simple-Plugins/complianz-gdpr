@@ -69,7 +69,7 @@ function export_array() {
 			}
 		}
 		$time = date( get_option( 'time_format' ), $request->request_date );
-		$date = cmplz_localize_date(date(get_option('date_format'),$request->request_date));
+		$date = cmplz_localize_date($request->request_date);
 		$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
 		$output[] = array( $request->name, $request->email, $request->resolved, $datarequest, $date );
 	}

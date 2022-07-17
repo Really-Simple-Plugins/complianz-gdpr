@@ -26,6 +26,7 @@ function cmplz_install_cookiebanner_table() {
             `logo_attachment_id` text NOT NULL,
 			`close_button` text NOT NULL,
             `revoke` text NOT NULL,
+            `manage_consent_options` text NOT NULL,
             `header` text NOT NULL,
             `dismiss` text NOT NULL,
             `save_preferences` text NOT NULL,
@@ -93,7 +94,7 @@ function cmplz_install_cookiebanner_table() {
 			dbDelta( $sql );
 		}
 
-		update_option( 'cmplz_cbdb_version', cmplz_version );
+		update_option( 'cmplz_cbdb_version', cmplz_version , false );
 	}
 }
 
@@ -132,6 +133,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		/* texts */
         public $header;
 		public $revoke;
+		public $manage_consent_options;
 		public $dismiss;
 		public $accept;
 		public $message_optin;
@@ -364,7 +366,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 			} else if ( $type === 'css' ) {
-				$value = htmlspecialchars_decode( $value );
+				$value = !empty($value) ? htmlspecialchars_decode( $value ) : '';
 				if (empty($value) && $set_defaults) {
 					$value = $default;
 				}
@@ -559,7 +561,8 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'category_all'                 => $this->sanitize_text_checkbox( $this->category_all ),
 				'header'                       => $this->sanitize_text_checkbox( $this->header ),
 				'dismiss'                      => $this->sanitize_text_checkbox( $this->dismiss ),
-				'revoke'                       => $this->sanitize_text_checkbox( $this->revoke ),
+				'revoke'                       => sanitize_text_field( $this->revoke ),
+				'manage_consent_options'       => sanitize_title( $this->manage_consent_options ),
 				'save_preferences'             => sanitize_text_field( $this->save_preferences ),
 				'view_preferences'             => sanitize_text_field( $this->view_preferences ),
 				'accept'                       => sanitize_text_field( $this->accept ),
@@ -606,7 +609,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			);
 
 			if ( $updated === 0 ) {
-				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time() );
+				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time(), false );
 			}
 
 			//get database value for "default"
@@ -1029,6 +1032,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'marketing_text'            => $this->marketing_text_x,
 				'category_marketing'        => $this->category_all_x,
 				'position'                  => $this->position,
+				'manage_consent_options'    => $this->manage_consent_options,
 				'use_categories'            => $this->use_categories,
 			);
 			$output = apply_filters( 'cmplz_cookiebanner_settings_html', $output, $this );
@@ -1089,7 +1093,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( $consent_type==='optout' && isset($this->accept_informational['show']) && !$this->accept_informational['show'] ) $css_files[] = "settings/hide-accept$minified.css";
 			if ( isset($this->dismiss['show']) &&!$this->dismiss['show'] ) $css_files[] = "settings/hide-deny$minified.css";
 			if ( isset($this->header['show']) &&!$this->header['show'] ) $css_files[] = "settings/hide-title$minified.css";
-			if ( isset($this->revoke['show']) &&!$this->revoke['show'] ) $css_files[] = "settings/hide-revoke$minified.css";
+			$css_files[] = "settings/$this->manage_consent_options$minified.css";
 			if ( $this->use_logo === "hide" ) 	        $css_files[] = "settings/hide-logo$minified.css";
 			if ( !$this->close_button ) 		 	    $css_files[] = "settings/hide-close$minified.css";
 			if ( $this->checkbox_style === "slider" )   $css_files[] = "settings/toggle-slider$minified.css";
@@ -1292,7 +1296,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'banner_version'       => $this->banner_version,
 				'version'              => cmplz_version,
 				'store_consent'        => $store_consent,
-				'do_not_track'         => apply_filters( 'cmplz_dnt_enabled', false ),
+				'do_not_track'         => cmplz_dnt_enabled(),
 				'consenttype'          => COMPLIANZ::$company->get_default_consenttype(),
 				'region'               => $region,
 				'geoip'                => cmplz_geoip_enabled(),

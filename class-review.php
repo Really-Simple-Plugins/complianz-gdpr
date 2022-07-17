@@ -17,8 +17,8 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			self::$_this = $this;
 
 			//uncomment for testing
-//			update_option('cmplz_review_notice_shown', false);
-//			update_option( 'cmplz_activation_time', strtotime( "-2 month" ) );
+//			update_option('cmplz_review_notice_shown', false, false);
+//			update_option( 'cmplz_activation_time', strtotime( "-2 month" ), false );
 			//show review notice, only to free users
 			if ( ! defined( "cmplz_premium" ) && ! is_multisite() ) {
 				if ( ! get_option( 'cmplz_review_notice_shown' )
@@ -33,7 +33,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 
 				//set a time for users who didn't have it set yet.
 				if ( ! get_option( 'cmplz_activation_time' ) ) {
-					update_option( 'cmplz_activation_time', time() );
+					update_option( 'cmplz_activation_time', time() , false );
 				}
 			}
 
@@ -155,11 +155,11 @@ if ( ! class_exists( "cmplz_review" ) ) {
 			$type = isset( $_POST['type'] ) ? $_POST['type'] : false;
 
 			if ( $type === 'dismiss' ) {
-				update_option( 'cmplz_review_notice_shown', true );
+				update_option( 'cmplz_review_notice_shown', true, false );
 			}
 			if ( $type === 'later' ) {
 				//Reset activation timestamp, notice will show again in one month.
-				update_option( 'cmplz_activation_time', time() );
+				update_option( 'cmplz_activation_time', time(), false );
 			}
 
 			wp_die(); // this is required to terminate immediately and return a proper response
@@ -171,7 +171,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 
 		public function process_get_review_dismiss(){
 			if (isset( $_GET['cmplz_dismiss_review'] ) ){
-				update_option( 'cmplz_review_notice_shown', true );
+				update_option( 'cmplz_review_notice_shown', true, false );
 			}
 		}
 	}

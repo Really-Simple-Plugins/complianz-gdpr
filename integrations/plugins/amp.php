@@ -231,7 +231,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 				$this->banner->colorpalette_button_accept['background'],
 				$this->banner->colorpalette_button_accept['text']
 			);
-			if ( $this->banner->use_custom_cookie_css && strlen( $this->banner->custom_css ) > 0) {
+			if ( $this->banner->use_custom_cookie_css && !empty( $this->banner->custom_css ) ) {
 				echo $this->banner->custom_css;
 			}
 		}

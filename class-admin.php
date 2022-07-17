@@ -138,7 +138,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				if ( !in_array($warning_id, $dismissed_warnings) ) {
 					$dismissed_warnings[] = $warning_id;
 				}
-				update_option('cmplz_dismissed_warnings', $dismissed_warnings );
+				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 				delete_transient('complianz_warnings');
 				delete_transient('complianz_warnings_admin_notices');
 			}
@@ -227,7 +227,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function filter_cookie_domain( $fieldvalue, $fieldname ){
 			if (!current_user_can('manage_options')) return $fieldvalue;
 			//sanitize the cookie domain
-			if ( ( $fieldname === 'cmplz_cookie_domain' && strlen($fieldvalue)>0 )
+			if ( ( $fieldname === 'cmplz_cookie_domain' && !empty($fieldvalue) )
 			) {
 				$fieldvalue = str_replace(array("https://", "http://", "www."), "", $fieldvalue);
 			}

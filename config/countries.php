@@ -131,11 +131,20 @@ $this->regions = array(
 $this->supported_regions = array(
 	'eu' => __( 'GDPR (European Union)', 'complianz-gdpr' ),
 	'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)', 'complianz-gdpr' ),
-	'us' => __( 'CCPA / United States', 'complianz-gdpr' ),
+	'us' => __( 'General Privacy Guidelines (United States)', 'complianz-gdpr' ),
 	'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
 	'au' => __( 'Privacy Act 1988 (Australia)', 'complianz-gdpr' ),
 	'za' => __( 'POPIA (South Africa)', 'complianz-gdpr' ),
 	'br' => __( 'LGPD (Brazil)', 'complianz-gdpr' ),
+);
+
+$this->supported_states = array(
+	'cal' => __( 'California (DNSMPI, CPRA)' ),
+	'col' => __( 'Colorado (CPA)' ),
+	'con' => __( 'Connecticut (CTDPA)' ),
+	'nev' => __( 'Nevada (NRS 603A)' ),
+	'uta' => __( 'Utah (UCPA)' ),
+	'vir' => __( 'Virginia (CDPA)'),
 );
 
 $this->cookie_consent_converter = array(

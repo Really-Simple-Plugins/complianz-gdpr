@@ -132,9 +132,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 	 *
 	 */
 	public function column_default( $item, $column_name ) {
-
-		$date  = date( get_option( 'date_format' ), $item['time'] );
-		$date  = cmplz_localize_date( $date );
+		$date  = cmplz_localize_date( $item['time'] );
 		$time  = date( get_option( 'time_format' ), $item['time'] );
 		$value = $date . " " . $time;
 

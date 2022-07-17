@@ -2150,8 +2150,7 @@ if ('undefined' != typeof window.jQuery) {
 			}
 			for (var s_key in services) {
 				if (services.hasOwnProperty(s_key)) {
-					let service = s_key;
-					selectorVideos.push('.cmplz-wp-video-shortcode[data-service=' + service + ']');
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-service=' + s_key + ']');
 				}
 			}
 			selectorVideo = selectorVideos.join(',');
@@ -2163,6 +2162,8 @@ if ('undefined' != typeof window.jQuery) {
 					obj.classList.add('wp-video-shortcode');
 					obj.classList.add('cmplz-processed');
 					obj.classList.remove('cmplz-wp-video-shortcode');
+					obj.closest('.cmplz-wp-video').classList.remove('cmplz-wp-video');
+
 					let blocked_notice = obj.closest('.wp-video').querySelector('.cmplz-blocked-content-notice');
 					if (blocked_notice) {
 						blocked_notice.parentElement.removeChild(blocked_notice);
@@ -2172,7 +2173,16 @@ if ('undefined' != typeof window.jQuery) {
 			}
 
 			if ( should_initialize_video ) {
-				window.wp.mediaelement.initialize();
+				//in normal setup, this should work. e.g. with primavera theme not, then we init per element.
+				if (window.wp.mediaelement) {
+					window.wp.mediaelement.initialize()
+				} else {
+					let settings={};
+					settings.videoWidth='100%';
+					settings.videoHeight='100%';
+					settings.enableAutosize=true;
+					$( '.wp-video-shortcode' ).mediaelementplayer( settings );
+				}
 			}
 		}
 

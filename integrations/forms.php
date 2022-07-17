@@ -38,7 +38,7 @@ function cmplz_site_uses_contact_forms() {
 function cmplz_forms_maybe_add_consent_checkbox() {
 	//preload form options. Otherwise we could get conflicts with custom form fields
 	$preload_forms = apply_filters( 'cmplz_get_forms', array() );
-	update_option( 'cmplz_detected_forms', $preload_forms );
+	update_option( 'cmplz_detected_forms', $preload_forms, false );
 
 	$forms = cmplz_get_value( 'add_consent_to_forms' );
 	if ( ! $forms || ! is_array( $forms ) ) {

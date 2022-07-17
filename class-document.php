@@ -398,7 +398,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$type  = $fields[ $question ]['type'];
 					$value = cmplz_get_value( $question, $post_id );
 					if ($condition_answer === 'NOT EMPTY') {
-						if ( strlen( $value )===0 ) {
+						if ( empty( $value ) ) {
 							return false;
 						} else {
 							return true;
@@ -406,7 +406,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 
 					if ($condition_answer === 'EMPTY') {
-						if ( strlen( $value )===0 ) {
+						if ( empty( $value ) ) {
 							return true;
 						} else {
 							return false;
@@ -416,6 +416,24 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
 						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
+					}
+
+					//check for emptiness af a value. in case of arrays, it is also empty if all values are 0.
+					if ($condition_answer === 'EMPTY') {
+						if (!empty($value) && is_array($value)){
+							$is_empty = true;
+							foreach($value as $key => $arr_val ) {
+								if ($arr_val==1) {
+									$is_empty = false;
+									break;
+								}
+							}
+						} else {
+							$is_empty = empty($value);
+						}
+
+						if ($invert) $is_empty = !$is_empty;
+						return $is_empty;
 					}
 
 					if ( $type == 'multicheckbox' ) {
@@ -496,34 +514,22 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$paragraph_id_arr = array();
 			foreach ( $elements as $id => $element ) {
 				//count paragraphs
-				if ( $this->insert_element( $element, $post_id )
-				     || $this->is_loop_element( $element )
-				) {
-
-					if ( isset( $element['title'] )
-					     && ( ! isset( $element['numbering'] )
-					          || $element['numbering'] )
-					) {
+				if ( $this->insert_element( $element, $post_id ) || $this->is_loop_element( $element ) ) {
+					if ( isset( $element['title'] ) && ( ! isset( $element['numbering'] ) || $element['numbering'] ) ) {
 						$sub_paragraph = 0;
 						$paragraph ++;
 						$paragraph_id_arr[ $id ]['main'] = $paragraph;
 					}
 
 					//count subparagraphs
-					if ( isset( $element['subtitle'] ) && $paragraph > 0
-					     && ( ! isset( $element['numbering'] )
-					          || $element['numbering'] )
-					) {
-						$sub_paragraph ++;
+					if ( isset( $element['subtitle'] ) && $paragraph > 0 && ( ! isset( $element['numbering'] ) || $element['numbering'] ) ) {
+						$sub_paragraph++;
 						$paragraph_id_arr[ $id ]['main'] = $paragraph;
 						$paragraph_id_arr[ $id ]['sub']  = $sub_paragraph;
 					}
 
 					//count dropdowns as sub parapgraphs
-					if ( isset( $element['dropdown-open'] ) && $paragraph > 0
-					     && ( ! isset( $element['numbering'] )
-					          || $element['numbering'] )
-					) {
+					if ( isset( $element['dropdown-open'] ) && $paragraph > 0 && ( ! isset( $element['numbering'] ) || $element['numbering'] ) ) {
 						$sub_paragraph ++;
 						$paragraph_id_arr[ $id ]['main'] = $paragraph;
 						$paragraph_id_arr[ $id ]['sub']  = $sub_paragraph;
@@ -535,8 +541,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$annex_arr[ $id ] = $annex;
 					}
 				}
-				if ( $this->is_loop_element( $element ) && $this->insert_element( $element, $post_id )
-				) {
+				if ( $this->is_loop_element( $element ) && $this->insert_element( $element, $post_id ) ) {
 					$fieldname    = key( $element['condition'] );
 					$values       = cmplz_get_value( $fieldname, $post_id );
 					$loop_content = '';
@@ -546,24 +551,19 @@ if ( ! class_exists( "cmplz_document" ) ) {
 								$value = array( $value );
 							}
 							$fieldnames = array_keys( $value );
-							if ( count( $fieldnames ) == 1 && $fieldnames[0] == 'key'
-							) {
+							if ( count( $fieldnames ) == 1 && $fieldnames[0] == 'key' ) {
 								continue;
 							}
 
 							$loop_section = $element['content'];
 							foreach ( $fieldnames as $c_fieldname ) {
 								$field_value = ( isset( $value[ $c_fieldname ] ) ) ? $value[ $c_fieldname ] : '';
-								if ( ! empty( $field_value ) && is_array( $field_value )
-								) {
+								if ( ! empty( $field_value ) && is_array( $field_value ) ) {
 									$field_value = implode( ', ', $field_value );
 								}
-
 								$loop_section = str_replace( '[' . $c_fieldname . ']', $field_value, $loop_section );
 							}
-
 							$loop_content .= $loop_section;
-
 						}
 						$html .= $this->wrap_header( $element, $paragraph, $sub_paragraph, $annex );
 						$html .= $this->wrap_content( $loop_content );
@@ -644,27 +644,19 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( isset( $element['subtitle'] ) ) {
-				if ( $paragraph > 0 && $sub_paragraph > 0
-				     && $this->is_numbered_element( $element )
-				) {
+				if ( $paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element( $element ) ) {
 					$nr = $paragraph . "." . $sub_paragraph . " ";
 				}
-
-				return '<p class="cmplz-subtitle">' . esc_html( $nr )
-				       . esc_html( $element['subtitle'] ) . '</p>';
+				return '<p class="cmplz-subtitle">' . esc_html( $nr ) . esc_html( $element['subtitle'] ) . '</p>';
 			}
 
 
 			// Adds a dropdown to the Privacy Statement. Opens a div and should be closed with dropdown-close
 			if ( isset( $element['dropdown-open'] ) ) {
-
-				if ( $paragraph > 0 && $sub_paragraph > 0
-				     && $this->is_numbered_element( $element )
-				) {
+				if ( $paragraph > 0 && $sub_paragraph > 0 && $this->is_numbered_element( $element ) ) {
 					$nr = $paragraph . "." . $sub_paragraph . " ";
 				}
 				$dp_class = isset($element['dropdown-class']) ? $element['dropdown-class'] : '';
-
 				$html .= '<details class="cmplz-dropdown '.$dp_class.'">';
 				if ( isset( $element['dropdown-title'] ) ) {
 					$html .= '<summary><div><h3>'. esc_html( $nr ) . esc_html( $element['dropdown-title'] ) . '</h3></div></summary>';
@@ -794,23 +786,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$cookie_policy_title = esc_html( $this->get_document_title( 'cookie-statement', $region ) );
 			$html = str_replace( '[cookie-statement-title]', $cookie_policy_title, $html );
 
-			$date = $post_id
-				? get_the_date( '', $post_id )
-				: date( get_option( 'date_format' ),
-					get_option( 'cmplz_publish_date' ) );
+			$date = $post_id ? strtotime(get_the_date( 'd F Y', $post_id )) : get_option( 'cmplz_publish_date' );//use default date format, to ensure that strtotime works.
 			$date = cmplz_localize_date( $date );
 			$html = str_replace( "[publish_date]", esc_html( $date ), $html );
 
 			$html = str_replace( "[sync_date]", esc_html( COMPLIANZ::$cookie_admin->get_last_cookie_sync_date() ), $html );
-
-			$checked_date = date( get_option( 'date_format' ), get_option( 'cmplz_documents_update_date' ) );
-			$checked_date = cmplz_localize_date( $checked_date );
+			$checked_date = cmplz_localize_date( get_option( 'cmplz_documents_update_date' ) );
 			$html         = str_replace( "[checked_date]", esc_html( $checked_date ), $html );
 
 			//because the phonenumber is not required, we need to allow for an empty phonenr, making a dynamic string necessary.
 			$contact_dpo = cmplz_get_value( 'email_dpo' );
 			$phone_dpo   = cmplz_get_value( 'phone_dpo' );
-			if ( strlen( $phone_dpo ) !== 0 ) {
+			if ( !empty( $phone_dpo ) ) {
 				$contact_dpo .= " " . cmplz_sprintf( _x( "or by telephone on %s",
 						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo );
 			}
@@ -818,7 +805,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			$contact_dpo_uk = cmplz_get_value( 'email_dpo_uk' );
 			$phone_dpo_uk   = cmplz_get_value( 'phone_dpo_uk' );
-			if ( strlen( $phone_dpo ) !== 0 ) {
+			if ( !empty( $phone_dpo ) ) {
 				$contact_dpo_uk .= " " . cmplz_sprintf( _x( "or by telephone on %s",
 						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo_uk );
 			}
@@ -868,27 +855,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'url' ) {
 				$value = '<a href="' . $value . '" target="_blank">';
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
-			           == 'email'
-			) {
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'email' ) {
 				$value = apply_filters( 'cmplz_document_email', $value );
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
-			           == 'radio'
-			) {
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'radio' ) {
 				$options = COMPLIANZ::$config->fields[ $fieldname ]['options'];
-				$value   = isset( $options[ $value ] ) ? $options[ $value ]
-					: '';
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type']
-			           == 'textarea'
-			) {
+				$value   = isset( $options[ $value ] ) ? $options[ $value ] : '';
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'textarea' ) {
 				//preserve linebreaks
 				$value = nl2br( $value );
 			} elseif ( is_array( $value ) ) {
 				$options = COMPLIANZ::$config->fields[ $fieldname ]['options'];
 				//array('3' => 1 );
-				$value = array_filter( $value, function ( $item ) {
-					return $item == 1;
-				} );
+				$value = array_filter( $value, function ( $item ) {return $item == 1;} );
 				$value = array_keys( $value );
 				//array (1, 4, 6)
 				$labels = "";
@@ -899,8 +877,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 
 					if ( $list_style ) {
-						$labels .= "<li>" . esc_html( $options[ $index ] )
-						           . '</li>';
+						$labels .= "<li>" . esc_html( $options[ $index ] ) . '</li>';
 					} else {
 						$labels .= $options[ $index ] . ', ';
 					}
@@ -1127,7 +1104,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function documents_need_updating() {
-			if ( cmplz_has_region( 'us' )
+			if ( cmplz_has_region('us')
 			     && $this->not_updated_in( MONTH_IN_SECONDS * 12 )
 			) {
 				return true;
@@ -1187,6 +1164,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function manage_consent_html( $atts = array(), $content = null, $tag = ''
 		) {
+
 			$html = '<div id="cmplz-manage-consent-container-nojavascript">'.
 					_x( "You have loaded the Cookie Policy without javascript support.", "cookie policy", "complianz-gdpr" ).'&nbsp;'.
 					_x( "On AMP, you can use the manage consent button on the bottom of the page.", "cookie policy", "complianz-gdpr" ).
@@ -1782,28 +1760,27 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				return;
 			}
 			$page_types = $this->get_created_pages( false, true );
-			if ( cmplz_ccpa_applies() ) {
-				//if only us, and ccpa, the default cookie policy is a DNSMPI document, which should not get region redirected.
-				$regions = cmplz_get_regions();
-				unset($regions['us']);
-				if ( count($regions)==0 ) {
-					$key = array_search('cookie-statement', $page_types);
-					unset( $page_types[$key]);
-				}
-			}
-
+//			if ( cmplz_has_region('us') ) {
+//				//if only us, and ccpa, the default cookie policy is a DNSMPI document, which should not get region redirected.
+//				$regions = cmplz_get_regions();
+//				unset($regions['us']);
+//				if ( count($regions)==0 ) {
+//					$key = array_search('cookie-statement', $page_types);
+//					unset( $page_types[$key]);
+//				}
+//			}
 
             echo '<div class="cmplz-field">';
             echo '<div class="cmplz-link-to-menu-table">';
 			if ( count( $page_types ) > 0 ) {
 				foreach ( $page_types as $key => $page_type ) {
-					if (!$mapping_array[$page_type]['can_region_redirect']) {
+					if ( !$mapping_array[$page_type]['can_region_redirect'] ) {
 						continue;
 					}
-					//if ccpa, the DNSMPI page should always be added separately to the menu.
-					if ( !cmplz_ccpa_applies() || $page_type !== 'cookie-statement' ) {
-						unset($page_types[$key]);
-					}
+//					//if ccpa, the DNSMPI page should always be added separately to the menu.
+//					if (!cmplz_ccpa_applies() || $page_type !== 'cookie-statement' ) {
+//						unset($page_types[$key]);
+//					}
 
 					echo '<span>' . $mapping_array[$page_type]['title'] . '</span>'; ?>
 					<select name="cmplz_assigned_menu[redirected][<?php echo $page_type ?>]">
@@ -1820,11 +1797,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//if not all pages were in the generic document list, these should not be region redirected.
 			if (count($page_types)>0){
 				foreach ($page_types as $page_type ) {
-					if ( cmplz_ccpa_applies() && $page_type === 'cookie-statement' ) {
-						$page_id = $this->get_shortcode_page_id('cookie-statement', 'us', false);
-					} else {
+//					if ( cmplz_has_region('us') && $page_type === 'cookie-statement' ) {
+//						$page_id = $this->get_shortcode_page_id('cookie-statement', 'us', false);
+//					} else {
 						$page_id = $this->get_page_id_for_generic_document($page_type);
-					}
+//					}
 					if ( $page_id ) {
 						echo '<span>' . get_the_title( $page_id ) . '</span>';
 						?>
@@ -2543,16 +2520,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		}
 
 		/**
-		 * check if pretty permalinks are enabled
-		 *
-		 * @return false
-		 */
-		public function pretty_permalinks_enabled(){
-			return get_option('permalink_structure');
-		}
-
-
-		/**
 		 * checks if the current page contains the shortcode.
 		 *
 		 * @param int|bool $post_id
@@ -3045,12 +3012,31 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 				$output_mode = $save_to_file ? 'F' : 'I';
 				$mpdf->Output( $file_title . ".pdf", $output_mode );
+				//clean up temp dir
+				$this->delete_files_directories_recursively($temp_dir);
 			} else {
 				$_POST['cmplz_generate_snapshot_error'] = true;
 				unset( $_POST['cmplz_generate_snapshot'] );
 			}
 		}
+
+		/**
+		 * @param string $dir
+		 * Delete files and directories recursively. Used to clear the tmp folder
+		 * @since 6.3.0
+		 */
+
+		private function delete_files_directories_recursively( $dir ) {
+			if ( strpos( $dir, 'complianz/tmp' ) !== false ) {
+				foreach ( glob( $dir . '/*' ) as $file ) {
+					if ( is_dir( $file ) ) {
+						$this->delete_files_directories_recursively( $file );
+					} else {
+						unlink( $file );
+					}
+				}
+				rmdir( $dir );
+			}
+		}
 	}
-
-
-} //class closure
+}

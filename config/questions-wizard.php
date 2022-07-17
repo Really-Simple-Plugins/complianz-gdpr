@@ -70,19 +70,17 @@ $this->fields = $this->fields + array(
 			'required'  => true,
 		),
 
-		'california' => array(
+		'us_states' => array(
 			'step'      => STEP_COMPANY,
 			'section'   => 1,
 			'source'    => 'wizard',
-			'default'   => 'yes',
-			'type'      => 'radio',
-			'options'   => $this->yes_no,
+			'type'      => 'multicheckbox',
+			'options'   => $this->supported_states,
 			'condition' => array( 'regions' => 'us' ),
-			'label'     => __( "Do you target visitors from California?",
-				'complianz-gdpr' ),
-			'tooltip'      => __( "There are some rules which only apply to California.",
-				'complianz-gdpr' ),
-			'required'  => true,
+			'help'			=> __( "If you choose California you will be able to generate a DNSMPI page.", 'complianz-gdpr' ).cmplz_read_more( "https://complianz.io/privacy-in-the-united-states/"),
+			'label'     => __( "Do you specifically target visitors from these states?", 'complianz-gdpr' ),
+			'tooltip'   => __( "There are some laws that only apply to one, or more states and are described seperately if needed.", 'complianz-gdpr' ),
+			'required'  => false,
 		),
 
 		'wp_admin_access_users' => array(
@@ -102,10 +100,12 @@ $this->fields = $this->fields + array(
 			'section'  => 2,
 			'source'   => 'wizard',
 			'default'  => 'generated',
+			'comment'  => __( 'Depending on your region and settings, the cookie policy will be changed to a DNSMPI Page or Opt-out Preferences, respectively.',
+				"complianz-gdpr" ),
 			'type'     => 'document',
 			'label'    => __( "Cookie Policy", 'complianz-gdpr' ),
 			'required' => true,
-			'tooltip'     => __( 'A Cookie Policy is required to inform your visitors about the way cookies and similar techniques are used on your website. A link to this document is placed on your cookie banner.',
+			'tooltip'     => __( 'A Cookie Policy is required to inform your visitors about the way cookies and similar techniques are used on your website.',
 				"complianz-gdpr" ),
 		),
 
@@ -250,11 +250,10 @@ $this->fields = $this->fields + array(
 			'step' => STEP_COMPANY,
 			'section' => 11,
 			'source' => 'wizard',
-			'disabled' => array('yes'),
 			'type' => 'radio',
 			'options' => $this->yes_no,
 			'default' => 'no',
-			'label' => __("Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr').cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
+			'label' => __("Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr'),
 			'tooltip' => __('If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.','complianz-gdpr'),
 		),
 
@@ -381,7 +380,10 @@ $this->fields = $this->fields + array(
 			'label'              => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 			'options'            => $this->yes_no,
 			'help'               => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/google-analytics' ),
-			'callback_condition' => 'cmplz_statistics_privacy_friendly'
+			'callback_condition' => [
+				'compile_statistics' => 'NOT no',
+				'cmplz_statistics_privacy_friendly'
+			]
 		),
 
 		'script_center_button' => array(
@@ -859,9 +861,9 @@ $this->fields = $this->fields + array(
 				'yes',
 			),
 			'default' => 'no',
-			'comment' =>  cmplz_sprintf(__("GEO IP based redirect is available in %spremium%s", "complianz-gdpr"), '<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>'),
+			'comment' =>  cmplz_sprintf(__("GEO IP based redirect is available in %sPremium%s", "complianz-gdpr"), '<a href="https://complianz.io/l/pricing/" target="_blank">', '</a>'),
 			'source'   => 'wizard',
-			'label'    => __("Do you want to use region redirect on the relevant documents?", 'complianz-gdpr'),
+			'label'    => __("Do you want to use region redirect on the relevant documents?", 'complianz-gdpr').cmplz_upgrade_to_premium('https://complianz.io/pricing'),
 		),
 
 		'add_pages_to_menu' => array(

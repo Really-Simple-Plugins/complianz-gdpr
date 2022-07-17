@@ -9,7 +9,7 @@ $this->fields = $this->fields + array(
 			'step'     => 'general',
 			'source'   => 'settings',
 			'type'     => 'checkbox',
-			'label'    => __( "Enable GEO IP", 'complianz-gdpr' ),
+			'label'    => __( "Enable GEO IP", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing'),
 			'comment'  => $this->premium_geo_ip
 			              . __( 'If enabled, the cookie warning will not show for countries without a cookie law, and will adjust consent management depending on supported privacy laws',
 					'complianz-gdpr' ),
@@ -22,7 +22,7 @@ $this->fields = $this->fields + array(
 			'source'   => 'settings',
 			'step'     => 'general',
 			'type'     => 'checkbox',
-			'label'    => __( "Enable A/B testing", 'complianz-gdpr' ),
+			'label'    => __( "Enable A/B testing", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing'),
 			'comment'  => $this->premium_ab_testing
 			              . __( 'If enabled, the plugin will track which cookie banner has the best conversion rate.', 'complianz-gdpr' ),
 			'disabled' => true,
@@ -175,12 +175,11 @@ $this->fields = $this->fields + array(
 					'step'               => 'data-requests',
 					'source'             => 'settings',
 					'type'               => 'editor',
-					'label'              => __( "Notification email content",
-						'complianz-gdpr' ),
-					'default'            => __( 'Hi {name}', 'complianz-gdpr' )
-					                        . "<br><br>"
-					                        . __( 'We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.', 'complianz-gdpr' ) . "<br><br>" . _x( 'Kind regards,', 'email signature', 'complianz-gdpr' )
-					                        . '<br><br>{blogname}',
+					'label'              => __( "Notification email content", 'complianz-gdpr' ),
+					'default'            => '<p>' .  __( 'Hi {name}', 'complianz-gdpr' ) . '</p>'
+					                        . '<p>' .  __( 'We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.', 'complianz-gdpr' ) . '</p>'
+											. '<br>' . '<p>' . _x( 'Kind regards,' , 'email signature', 'complianz-gdpr' ) . '</p>'
+					                        . '<br>' . '<p>' . '{blogname} ' . '</p>',
 					'tooltip' => __( "Email content used for Data Request email notifications.", 'complianz-gdpr' ),
 					'callback_condition' => array(
 						'cmplz_datarequests_or_dnsmpi_active',

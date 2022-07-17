@@ -75,27 +75,44 @@ function cmplz_add_cookiebanner_settings($fields){
 
 	$fields = $fields + array(
 
-	        /* ----- General ----- */
-			'title' => array(
-				'step'        => 'general',
-				'source'      => 'CMPLZ_COOKIEBANNER',
-				'type'        => 'text',
-				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
-				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
-				'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
-				'help'        => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
-			),
+        /* ----- General ----- */
+		'title' => array(
+			'step'        => 'general',
+			'source'      => 'CMPLZ_COOKIEBANNER',
+			'type'        => 'text',
+			'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
+			'placeholder' => __( 'Descriptive title of the cookiebanner' ),
+			'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
+			'help'        => __("You can customize the cookie banner with custom CSS for endless possibilities.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/docs/customization/' ),
+		),
 
       'revoke' => array(
           'source'       => 'CMPLZ_COOKIEBANNER',
           'step'         => 'general',
-          'type'         => 'text_checkbox',
-          'default'      => ['text' => __( "Manage consent", 'complianz-gdpr' ), 'show' => true ],
+          'type'         => 'text',
+          'default'      => __( "Manage consent", 'complianz-gdpr' ),
           'placeholder'  => __( "Manage consent", 'complianz-gdpr' ),
           'label'        => __( "Text on the manage consent tab", 'complianz-gdpr' ),
           'tooltip'      => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
-          'comment'      => __("The tab will not show on mobile devices for UX optimization. You can use CSS to revert this.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/show-settings-button-on-mobile/' ),
+//          'comment'      => __("The default will not show on mobile devices for UX optimization.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/show-settings-button-on-mobile/' ),
       ),
+
+		'manage_consent_options' => array(
+          'source'       => 'CMPLZ_COOKIEBANNER',
+          'step'         => 'general',
+          'type'         => 'select',
+          'placeholder'  => __( "Manage consent", 'complianz-gdpr' ),
+          'label'        => __( "Manage consent display options", 'complianz-gdpr' ),
+          'tooltip'      => __( 'Select how the manage consent text should appear.', 'complianz-gdpr' ),
+          'comment'      => __("The default will not show on mobile devices for UX optimization.","complianz-gdpr") . cmplz_read_more( 'https://complianz.io/show-settings-button-on-mobile/' ),
+          'options'   => array(
+			  'hover-hide-mobile' => __('Hover on Desktop - Hide on Mobile (Default)', 'complianz-gdpr'),
+			  'hover-show-mobile' => __('Hover on Desktop - Show on Mobile', 'complianz-gdpr'),
+			  'show-everywhere'   => __('Show everywhere', 'complianz-gdpr'),
+			  'hide-everywhere'   => __('Hide everywhere', 'complianz-gdpr'),
+          ),
+          'default'      => 'hover-hide-mobile',
+		),
 
             'disable_cookiebanner' => array(
                 'source'  => 'CMPLZ_COOKIEBANNER',

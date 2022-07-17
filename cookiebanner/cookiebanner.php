@@ -352,7 +352,7 @@ function cmplz_cookiebanner_overview() {
 			});
 		</script>
 
-		<div class="cookie-warning cmplz-block">
+		<div class="cmplz-banner-editor cmplz-block">
 				<h1><?php _e( "Cookie banner settings", 'complianz-gdpr' ) ?>
 					<?php do_action( 'cmplz_after_cookiebanner_title' ); ?>
 				</h1>
@@ -485,7 +485,7 @@ function cmplz_hide_cookiebanner_metabox(){
 	if (!$post) return;
 
 	//if there's no slug, don't offer this option
-	if ( strlen($post->post_name)==0 ) return;
+	if ( empty($post->post_name) ) return;
 
 	$option_label = __("Disable Complianz on this page", "complianz-gdpr");
 	$disabled = cmplz_page_is_of_type('cookie-statement') ? 'disabled' : false;

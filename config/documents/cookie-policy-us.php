@@ -2,7 +2,9 @@
 /*
  * This document is intentionally not translatable, as it is intended to be for US citizens, and should therefore always be in English
  *
- * */
+ *
+ */
+
 defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['us']['cookie-statement']['document_elements'] = array(
@@ -14,28 +16,28 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'content' => cmplz_sprintf('Our website, %s (hereinafter: "the website") uses cookies and other related technologies (for convenience all technologies are referred to as "cookies"). Cookies are also placed by third parties we have engaged. In the document below we inform you about the use of cookies on our website.', '[domain]'),
     ),
 
-    array(
-        'p' => false,
-        'content' => "We also use the website to collect and sell your personal information. In the document below we explain which data we have sold in the last 12 months, and we give you the possibility to opt-out.",
-        'callback_condition' => 'cmplz_sells_personal_data',
-        'condition' => array(
-            'california' => 'yes',
-        ),
-    ),
-
 	array(
 		'title' => 'Selling data to third parties',
 		'callback_condition' => 'cmplz_sells_personal_data',
 		'condition' => array(
-			'california' => 'yes',
+			'us_states' => 'NOT EMPTY',
 		),
 	),
+
+	array(
+		'content' => "Our privacy statement describes the limited circumstances under which we share or sell personal information to third parties and if we use or disclose sensitive personal information. You may request that we exclude your personal information from such arrangements, or direct us to limit the use and disclosure of possible sensitive personal information, by entering your name and email address below. You may need to provide additional identifying information before we can process your request.",
+		'callback_condition' => 'cmplz_sells_personal_data',
+		'condition' => array(
+			'us_states' => 'NOT EMPTY',
+		),
+	),
+
 	array(
 		'subtitle' => 'Categories of data',
 		'content' => 'The following categories of data are sold to third parties',
 		'callback_condition' => 'cmplz_sells_personal_data',
 		'condition' => array(
-			'california' => 'yes',
+			'us_states' => 'NOT EMPTY',
 		),
 	),
 
@@ -43,53 +45,29 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 		'content' => '[selling-data-thirdparty_data_purpose_us]',
 		'callback_condition' => 'cmplz_sells_personal_data',
 		'condition' => array(
-			'california' => 'yes',
+			'us_states' => 'NOT EMPTY',
 		),
 	),
 
-	array(
-		'title' => 'Selling data to third parties',
-		'content' => 'We do not sell data to third parties',
-		'callback_condition' => 'NOT cmplz_sells_personal_data',
-		'condition' => array(
-			'california' => 'yes',
-		),
-	),
-
-	array(
-		'subtitle' => 'Object to selling of personal data to third parties',
-		'content' => 'You can object to our selling of your personal data by entering your email address and name here. We will then remove your data from the databases we sell to third parties.',
-		'callback_condition' => 'cmplz_sells_personal_data',
-		'condition' => array(
-			'california' => 'yes',
-		),
-	),
+  array(
+      'content' => "We do not sell or share personal information to third parties for monetary consideration; however, we may disclose certain personal information to third parties under circumstances that might be deemed a “sale” or ”Sharing” for residents of [comma_us_states].
+We respect and understand that you may want to be sure that your personal information is not being sold or shared. You may request that we exclude your personal information from such arrangements, or direct us to limit the use and disclosure of possible sensitive personal information, by entering your name and email address below. You may need to provide additional identifying information before we can process your request.",
+      'callback_condition' => 'NOT cmplz_sells_personal_data',
+      'condition' => array(
+          'us_states' => 'NOT EMPTY',
+      ),
+  ),
 
 	array(
 		'content' => '[cmplz-dnsmpi-request]',
-		'callback_condition' => 'cmplz_sells_personal_data',
 		'condition' => array(
-			'california' => 'yes',
+			'us_states' => 'NOT EMPTY',
 		),
 	),
 
-
-    array(
-        'title' => 'What are cookies?',
-        'content' => 'A cookie is a small simple file that is sent along with pages of this website and stored by your browser on the hard drive of your computer or another device. The information stored therein may be returned to our servers or to the servers of the relevant third parties during a subsequent visit.',
-    ),
-    array(
-        'title' => 'What are scripts?',
-        'content' => 'A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
-    ),
-    array(
-        'title' => 'What is a web beacon?',
-        'content' => 'A web beacon (or a pixel tag) is a small, invisible piece of text or image on a website that is used to monitor traffic on a website. In order to do this, various data about you is stored using web beacons.',
-        'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
-    ),
-
     array(
         'title' => 'Cookies',
+        'content' => 'When you visit our website it can be necessary to store and/or read certain data from your device by using technologies such as cookies.',
     ),
     array(
         'subtitle' => 'Technical or functional cookies',
@@ -150,13 +128,21 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
-	'cookie_names' => array(
+	  'cookie_names' => array(
 		'title' => 'Placed cookies',
+    'content' =>
+                '<p>Most of these technologies have a function, a purpose, and an expiration period.</p>' .
+                '<ol class="alphabetic>
+                      <li>A function is a particular task a technology has. So a function can be to "store certain data."</li>
+                      <li>Purpose is "the Why" behind the function. Maybe the data is stored because it is needed for statistics.</li>
+                      <li>The expiration period shows the length of the period the used technology can “store or read certain data."</li>
+                  </ol>',
+
 		'callback' => 'cmplz_used_cookies',
 	),
 
   array(
-      'title' => 'Consent',
+      'title' => 'Browser and Device based Consent',
       'content' => 'When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',
   ),
   array(
@@ -166,7 +152,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
         'p' => false,
         'callback_condition' => 'cmplz_tcf_active',
         'condition' => array(
-        	'california' => 'yes',
+        	'us_states' => 'NOT EMPTY',
         )
   ),
   array(
@@ -190,7 +176,18 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
                 <li>you may request an overview, in a commonly used format, of the data we process about you;</li>
                 <li>you may request correction or deletion of the data if it is incorrect or not or no longer relevant, or to ask to restrict the processing of the data.</li>
             </ul>' .
-            '<p>To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you.</p>',
+            '<p>To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you.</p>'
+          ),
+    /* Privacy Statement */
+    array(
+      'content' => cmplz_sprintf('For more information about your rights with respect to personal data, please refer to our %sprivacy Statement%s', '<a href="[privacy-statement-url]" target="_blank">', '</a>'),
+        'condition' => array('privacy-statement' => 'NOT no'),
+    ),
+
+    /* No Privacy Statement */
+    array(
+      'content' => 'For more information about your rights with respect to personal data, please refer to our Privacy Statement',
+        'condition' => array('privacy-statement' => 'no'),
     ),
 
     array(
@@ -205,11 +202,11 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 
     array(
         'content' => '[organisation_name]<br>
-                    [address_company]<br>
-                    [country_company]<br>
-                    Website: [domain] <br>
-                    Email: [email_company] <br>
-                    [telephone_company]',
+                      [address_company]<br>
+                      [country_company]<br>
+                      Website: [domain] <br>
+                      Email: [email_company] <br>
+                      [telephone_company]',
     ),
 
     array(

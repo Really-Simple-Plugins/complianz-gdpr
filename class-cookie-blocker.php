@@ -113,7 +113,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if (is_array($cookie_list)) {
 				foreach ( $cookie_list as $cookie ) {
 					if ( stripos( $cookie->purpose, $category ) !== false ) {
-						$this->cookie_list[ $category ][ sanitize_title( $cookie->service ) ][] = str_replace( '*', '', $cookie->name );
+						$this->cookie_list[ $category ][ $this->sanitize_service_name( $cookie->service ) ][] = str_replace( '*', '', $cookie->name );
 					}
 				}
 			}
@@ -193,7 +193,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			$formatted_custom_script_tags = [];
 			foreach ( $blocked_scripts as $blocked_script ) {
-				$blocked_script['name'] = sanitize_title($blocked_script['name']);
+				$blocked_script['name'] = $this->sanitize_service_name($blocked_script['name']);
 				if ( isset($blocked_script['urls']) ) {
 					foreach ($blocked_script['urls'] as $url ) {
 						$formatted_custom_script_tags[$url] = $blocked_script;
@@ -205,6 +205,23 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//set transient so we can also access this data before the arrays are loaded
 			set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
 			return $formatted_custom_script_tags;
+		}
+
+		/**
+		 * @param $title
+		 *
+		 * @return array|string|string[]
+		 */
+		public function sanitize_service_name($title) {
+			if (empty($title)) {
+				return 'general';
+			}
+			$title = preg_replace( '/&.+?;/', '', $title );
+			$title = str_replace( '.', '-', $title );
+			$title = preg_replace( '/[^%a-zA-Z0-9 _-]/', '', $title );
+			$title = preg_replace( '/\s+/', '-', $title );
+			$title = preg_replace( '|-+|', '-', $title );
+			return str_replace(' ', '-', sanitize_text_field(remove_accents($title)));
 		}
 
 		/**
@@ -220,7 +237,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//force into new structure
 			foreach ( $placeholder_markers as $name => $placeholders ) {
 				foreach ( $placeholders as $class ) {
-					$name = sanitize_title($name);
+					$name = $this->sanitize_service_name($name);
 					$blocked_scripts[] = [
 						'name' => $name,
 						'placeholder' => $name,
@@ -495,7 +512,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						}
 
 						$is_video = $this->is_video( $iframe_src );
-						$service_name = sanitize_title($tag['name']);
+						$service_name = $this->sanitize_service_name($tag['name']);
 						$new         = $total_match;
 						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-cmplz-target="'.apply_filters('cmplz_data_target', 'src').'" data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
@@ -531,34 +548,44 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 			}
 
-			$iframe_pattern = '/<video class="wp-video-shortcode".*?<(source) type="video.*?src="(.*?)" \/>.*?<\/video>/is';
-			if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
-				foreach ( $matches[0] as $key => $total_match ) {
+			/**
+			 * specific classic wp video shortcode integration
+			 */
+			if ( cmplz_uses_thirdparty('youtube') || cmplz_uses_thirdparty('vimeo') ) {
+				$iframe_pattern = '/<video class="wp-video-shortcode".*?<(source) type="video.*?src="(.*?)".*?>.*?<\/video>/is';
+				if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
+					foreach ( $matches[0] as $key => $total_match ) {
+						$iframe_src = $matches[2][ $key ];
+						if ( ( $tag_key = cmplz_strpos_arr( $iframe_src, array_keys( $blocked_scripts ) ) ) !== false ) {
+							$tag = $blocked_scripts[ $tag_key ];
+							if ( $tag['category'] === 'functional' ) {
+								continue;
+							}
+							$service_name = sanitize_title( $tag['name'] );
+							$new          = $total_match;
+							//check if we can skip blocking this array if a specific string is included
+							if ( cmplz_strpos_arr( $total_match, $whitelisted_script_tags ) ) {
+								continue;
+							}
+							//we add an additional class to make it possible to link some css to the blocked html.
+							$video_class_pattern = '/(["| ])(wp-video)(["| ])/is';
+							$output              = preg_replace( $video_class_pattern, '$1wp-video cmplz-wp-video$3', $output );
 
-					$iframe_src = $matches[2][ $key ];
-					if ( ( $tag_key = cmplz_strpos_arr($iframe_src, array_keys($blocked_scripts)) ) !== false ) {
-						$tag = $blocked_scripts[$tag_key];
-						if ($tag['category']==='functional') {
-							continue;
-						}
-						$service_name = sanitize_title($tag['name']);
-						$new         = $total_match;
-						//check if we can skip blocking this array if a specific string is included
-						if ( cmplz_strpos_arr($total_match, $whitelisted_script_tags) ) continue;
-						$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video' );
-						$new = $this->add_class( $new, 'video', " $video_class " );
-						$new = $this->add_data( $new, 'video', 'service', $service_name );
-						$new = $this->add_data( $new, 'video', 'category', $tag['category'] );
-						$new = str_replace(array('wp-video-shortcode', 'controls="controls"'), array('cmplz-wp-video-shortcode',''), $new);
-						if ( cmplz_use_placeholder( $iframe_src ) ) {
-							$placeholder = cmplz_placeholder($tag['placeholder'], $iframe_src );
-							$new = $this->add_class( $new, 'video', "cmplz-placeholder-element" );
-							$new = $this->add_data( $new, 'video', 'placeholder-image', $placeholder );
-							//allow for integrations to override html
-							$new = apply_filters( 'cmplz_source_html', $new );
-						}
+							$video_class = apply_filters( 'cmplz_video_class', 'cmplz-video' );
+							$new         = $this->add_class( $new, 'video', " $video_class " );
+							$new         = $this->add_data( $new, 'video', 'service', $service_name );
+							$new         = $this->add_data( $new, 'video', 'category', $tag['category'] );
+							$new         = str_replace( array( 'wp-video-shortcode', 'controls="controls"' ), array( 'cmplz-wp-video-shortcode', '' ), $new );
+							if ( cmplz_use_placeholder( $iframe_src ) ) {
+								$placeholder = cmplz_placeholder( $tag['placeholder'], $iframe_src );
+								$new         = $this->add_class( $new, 'video', "cmplz-placeholder-element" );
+								$new         = $this->add_data( $new, 'video', 'placeholder-image', $placeholder );
+								//allow for integrations to override html
+								$new = apply_filters( 'cmplz_source_html', $new );
+							}
 
-						$output = str_replace( $total_match, $new, $output );
+							$output = str_replace( $total_match, $new, $output );
+						}
 					}
 				}
 			}
@@ -572,7 +599,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					//placeholder class can be comma separated list e.g. facebook service integration
 					$classes = array_map('trim', explode(',',$placeholder['placeholder_class']) );
 					foreach ( $classes as $placeholder_class ) {
-						$placeholder_pattern = '/<(a|section|div|blockquote|twitter-widget)*[^>]*class=[\'" ]*[^>]*(' . $placeholder_class . ')[\'" ].*?>/is';
+						$placeholder_pattern = '/<(a|section|div|blockquote|twitter-widget)*[^>]*(id|class)=[\'" ]*[^>]*(' . $placeholder_class . ')[\'" ].*?>/is';
 						if ( preg_match_all( $placeholder_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
 							foreach ( $matches[0] as $key => $html_match ) {
 								$el = $matches[1][ $key ];
@@ -627,7 +654,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						if ( $found !== false ) {
 
                             $match = $blocked_scripts[$found];
-							$service_name = sanitize_title($match['name']);
+							$service_name = $this->sanitize_service_name($match['name']);
 							$new = $total_match;
 							$category = apply_filters_deprecated( 'cmplz_script_class', array($match['category'], $total_match, $found), '6.0.0', 'cmplz_service_category', 'The cmplz_script_class filter has been deprecated since 6.0');
 							$category = apply_filters('cmplz_service_category', $category, $total_match, $found);
@@ -658,7 +685,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 							if ( $found !== false ) {
                                 $match = $blocked_scripts[$found];
                                 $new = $total_match;
-								$service_name = sanitize_title($match['name']);
+								$service_name = $this->sanitize_service_name($match['name']);
 								$category = apply_filters_deprecated( 'cmplz_script_class', array($match['category'], $total_match, $found), '6.0.0', 'cmplz_service_category', 'The cmplz_script_class filter has been deprecated since 6.0');
 	                            $new = $this->add_data( $new, 'script', 'category', apply_filters('cmplz_service_category', $category, $total_match, $found) );
 								$new = $this->add_data( $new, 'script', 'service', $service_name );

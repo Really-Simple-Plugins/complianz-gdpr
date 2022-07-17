@@ -1,22 +1,26 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
+	/**
+	 * All properties are public, because otherwise the empty check on a property fails, and requires an intermediate variable assignment.
+	 * https://stackoverflow.com/questions/16918973/php-emptystring-return-true-but-string-is-not-empty
+	 */
 	class CMPLZ_SERVICE {
-		private $ID = false;
-		private $name;
-		private $serviceType;
-		private $category;
-		private $sharesData;
-		private $thirdParty;
-		private $secondParty; //service that share data, but have cookies on the sites domain
-		private $sync;
-		private $synced;
-		private $privacyStatementURL;
-		private $isTranslationFrom;
-		private $lastUpdatedDate;
-		private $language;
-		private $languages;
-		private $complete;
-		private $slug;
+		public $ID = false;
+		public $name;
+		public $serviceType;
+		public $category;
+		public $sharesData;
+		public $thirdParty;
+		public $secondParty; //service that share data, but have cookies on the sites domain
+		public $sync;
+		public $synced;
+		public $privacyStatementURL;
+		public $isTranslationFrom;
+		public $lastUpdatedDate;
+		public $language;
+		public $languages;
+		public $complete;
+		public $slug;
 
 		function __construct( $ID = false, $language = 'en' ) {
 			$this->language = cmplz_sanitize_language( $language );
@@ -116,12 +120,11 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				$this->synced              = $service->lastUpdatedDate > 0 ? true : false;
 				$this->slug                = $service->slug;
 
-				$this->complete = ! ( strlen( $this->name ) == 0
-				                      || ( strlen( $this->privacyStatementURL )
-				                           == 0
+				$this->complete = ! ( empty( $this->name )
+				                      || ( empty( $this->privacyStatementURL )
 				                           && $this->sharesData )
-				                      || strlen( $this->serviceType ) == 0
-				                      || strlen( $this->name ) == 0 );
+				                      || empty( $this->serviceType )
+				                      || empty( $this->name ) );
 			}
 
 		}
@@ -132,7 +135,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 		 * @param bool   $forceWizardUpdate
 		 */
 		public function save( $updateAllLanguages = false, $forceWizardUpdate = true) {
-			if ( strlen( $this->name ) == 0 ) {
+			if ( empty( $this->name ) ) {
 				return;
 			}
 

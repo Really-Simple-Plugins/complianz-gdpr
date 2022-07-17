@@ -89,7 +89,7 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	$data['region']             = $region;
 	$data['version']            = cmplz_version;
 	$data['forceEnableStats']   = !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region );
-	$data['do_not_track']       = apply_filters( 'cmplz_dnt_enabled', false );
+	$data['do_not_track']       = cmplz_dnt_enabled();
 	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 	unset( $data["set_cookies"] );
 	$banner_id              = cmplz_get_default_banner_id();
@@ -135,7 +135,7 @@ function cmplz_rest_api_documents( WP_REST_Request $request ) {
 function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 {
 	$html = '';
-	$do_not_track = apply_filters( 'cmplz_dnt_enabled', false );
+	$do_not_track = cmplz_dnt_enabled();
 	if ( $do_not_track ) {
 		$html
 			= cmplz_sprintf( _x( "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings.",
@@ -176,13 +176,9 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		return;
 	}
 
-	if ( isset( $params['token'] )
-	     && ( sanitize_title( $params['token'] )
-	          == get_option( 'complianz_scan_token' ) )
+	if ( isset( $params['token'] ) && ( sanitize_title( $params['token'] ) == get_option( 'complianz_scan_token' ) )
 	) {
-		$post_cookies = isset( $params['cookies'] )
-		                && is_array( $params['cookies'] )
-			? $params['cookies'] : array();
+		$post_cookies = isset( $params['cookies'] ) && is_array( $params['cookies'] ) ? $params['cookies'] : array();
 		$cookies      = array_map( function ( $el ) {
 			return sanitize_title( $el );
 		}, $post_cookies );
@@ -212,7 +208,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		}
 
 		//add cookies
-		$cookies = array_merge( $cookies, $_COOKIE );
+		$cookies = apply_filters('cmplz_detected_cookies',array_merge( $cookies, $_COOKIE ));
 		$cookies = array_map( 'sanitize_text_field', $cookies );
 		foreach ( $cookies as $key => $value ) {
 			//let's skip cookies with this site url in the name
@@ -226,12 +222,8 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		}
 
 		//clear token
-		update_option( 'complianz_scan_token', false );
+		update_option( 'complianz_scan_token', false, false );
 		//store current requested page
 		COMPLIANZ::$cookie_admin->set_page_as_processed( $params['complianz_id'] );
 	}
 }
-
-
-
-

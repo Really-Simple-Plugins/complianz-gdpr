@@ -361,7 +361,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 
-			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false );
+			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false, false );
 		}
 	}
 } //class closure

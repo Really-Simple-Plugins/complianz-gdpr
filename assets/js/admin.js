@@ -1,5 +1,48 @@
 jQuery(document).ready(function ($) {
     'use strict';
+
+	/**
+	 * Toggle Load more buttons in multi checkboxes.
+	 *
+	 */
+	if ( document.querySelector('.cmplz-multicheckbox-loadmore') ){
+		document.querySelectorAll('.cmplz-multicheckbox-loadmore').forEach(obj => {
+			obj.setAttribute('data-loadmore-state', 'hidden');
+			cmplz_toggle_loadmore(false, obj);
+		});
+
+		function cmplz_toggle_loadmore(show, obj){
+			let count = 0;
+			let load_more_count = obj.getAttribute('data-cmplz_loadmore_count');
+			obj.querySelectorAll('.cmplz-checkbox-container').forEach(checkbox_obj => {
+				count++;
+				if (show) {
+					obj.querySelector('.cmplz_load_more .cmplz-load-less').style.display='block';
+					obj.querySelector('.cmplz_load_more .cmplz-load-more').style.display='none';
+					checkbox_obj.style.display='block';
+				} else if (count>load_more_count) {
+					obj.querySelector('.cmplz_load_more .cmplz-load-more').style.display='block';
+					obj.querySelector('.cmplz_load_more .cmplz-load-less').style.display='none';
+					checkbox_obj.style.display='none';
+				}
+			});
+
+		}
+
+		document.addEventListener('click', e => {
+			if ( e.target.closest('.cmplz_load_more') ) {
+				e.preventDefault();
+				let obj = e.target;
+				obj = obj.closest('.cmplz-multicheckbox-loadmore');
+				let state = obj.getAttribute('data-loadmore-state');
+				let show = state==='hidden';
+				state = show ? 'visible' : 'hidden';
+				obj.setAttribute('data-loadmore-state', state);
+				cmplz_toggle_loadmore(show, obj );
+			}
+		});
+	}
+
 	$(document).on('click','.cmplz-install-burst', function(){
 		var btn =  $('button.cmplz-install-burst');
 		var loader = '<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>';

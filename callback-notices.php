@@ -10,8 +10,6 @@ function cmplz_compile_statistics() {
 	}
 }
 
-
-
 function cmplz_notice_cookiedatabase_sync(){
 	if (!COMPLIANZ::$cookie_admin->use_cdb_api() ) {
 		cmplz_sidebar_notice(__("Cookiedatabase.org synchronization disabled.", "complianz-gdpr"),'warning');
@@ -97,10 +95,9 @@ function cmplz_uses_thirdparty_services_notice() {
 
 add_action( 'cmplz_notice_purpose_personaldata', 'cmplz_purpose_personaldata_notice' );
 function cmplz_purpose_personaldata_notice() {
-	if ( cmplz_has_region( 'us' )
-	     && COMPLIANZ::$cookie_admin->site_shares_data()
+	if ( cmplz_has_region('us') && COMPLIANZ::$cookie_admin->site_shares_data()
 	) {
-		cmplz_sidebar_notice( __( "The cookie scan detected cookies from services that share data with Third Parties. According to the CCPA, your website is considered to sell personal data in terms of the CCPA if it collects and shares with a Third Party any personal data in return for money or services. This includes services like Google Analytics.",
+		cmplz_sidebar_notice( __( "The cookie scan detected cookies from services that share data with Third Parties. According to US privacy laws, your website is considered to sell personal data if it collects and shares any personal data in return for money or services. This includes a service like Google Analytics.",
 			'complianz-gdpr' ) );
 	}
 }
@@ -232,14 +229,9 @@ function cmplz_notice_add_pages_to_menu() {
 	$created_pages = COMPLIANZ::$document->get_created_pages();
 	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
 	if ( $pages_not_in_menu ) {
-		if ( cmplz_ccpa_applies() ) {
-			cmplz_sidebar_notice( cmplz_sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.',
-					'complianz-gdpr' ),
-					cmplz_us_cookie_statement_title() ) );
-		}
-
+		cmplz_sidebar_notice( cmplz_sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.', 'complianz-gdpr' ), cmplz_us_cookie_statement_title() ) );
 		$docs = implode( ", ", $pages_not_in_menu );
-		//not using cmplz_sprintf( here, as one variant does not include a %s, causing a translation error notice 
+		//not using cmplz_sprintf( here, as one variant does not include a %s, causing a translation error notice
 		cmplz_sidebar_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				'Not all generated documents have been assigned to a menu yet, you can do this now, or skip this step and do it later.',
 				count( $pages_not_in_menu ), 'complianz-gdpr' ) ), $docs ),
@@ -318,7 +310,7 @@ function cmplz_set_default( $value, $fieldname ) {
 	}
 
 	if ( $fieldname == 'purpose_personaldata' ) {
-		if ( cmplz_has_region( 'us' )
+		if ( cmplz_has_region('us')
 		     && COMPLIANZ::$cookie_admin->site_shares_data()
 		) {
 			//possibly not an array yet, when it's empty

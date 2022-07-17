@@ -13,7 +13,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 
 			self::$_this = $this;
 
-			if ( cmplz_dnsmpi_required() ) {
+			if ( cmplz_has_region('us') ) {
 				add_shortcode( 'cmplz-dnsmpi-request', array($this, 'datarequest_form') );
 			}
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -21,7 +21,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
 			add_action( 'admin_init', array( $this, 'process_resolve' ) );
 			add_action( 'activated_plugin', array( $this, 'update_db_check' ), 10, 2 );
-			add_action( 'admin_init', array( $this, 'update_db_check' ), 10 );
+			add_action( 'plugins_loaded', array( $this, 'update_db_check' ), 10 );
 			add_action( 'cmplz_admin_menu', array( $this, 'admin_menu' ) );
 			add_filter( 'cmplz_datarequest_options', array( $this, 'datarequest_options' ), 20 );
 			add_filter( 'cmplz_warning_types', array($this, 'new_datarequests_notice') );
@@ -33,7 +33,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		}
 
 		public function add_settings_block($items){
-			if (cmplz_dnsmpi_required() || cmplz_datarequests_active() ) {
+			if ( cmplz_datarequests_or_dnsmpi_active() ) {
 				$items['data-requests'] = [
 						'page' => 'settings',
 						'name' => 'data-requests',
@@ -73,7 +73,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 
 		public function has_open_requests(){
 			$has_requests = false;
-			if ( cmplz_dnsmpi_required() || cmplz_datarequests_active() ) {
+			if ( cmplz_has_region('us') || cmplz_datarequests_active() ) {
 				global $wpdb;
 				$count        = $wpdb->get_var( "SELECT count(*) from {$wpdb->prefix}cmplz_dnsmpd WHERE NOT resolved = 1" );
 				$has_requests = $count > 0;
@@ -120,7 +120,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				return;
 			}
 
-			if ( !cmplz_dnsmpi_required() && !cmplz_datarequests_active() ) {
+			if ( !cmplz_has_region('us') && !cmplz_datarequests_active() ) {
 				return;
 			}
 
@@ -143,7 +143,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				return;
 			}
 
-			if ( !cmplz_dnsmpi_required() && !cmplz_datarequests_active() ) {
+			if ( !cmplz_has_region('us') && !cmplz_datarequests_active() ) {
 				return;
 			}
 
@@ -302,7 +302,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				) $charset_collate;";
 
 				dbDelta( $sql );
-				update_option( 'cmplz_dnsmpd_db_version', cmplz_version );
+				update_option( 'cmplz_dnsmpd_db_version', cmplz_version, false );
 			}
 		}
 
@@ -406,7 +406,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				$message = __( "Please enter a valid email address.", 'complianz-gdpr' );
 			}
 
-			if ( ! isset($params['cmplz_datarequest_name']) || strlen( $params['cmplz_datarequest_name'] ) == 0 ) {
+			if ( ! isset($params['cmplz_datarequest_name']) || empty( $params['cmplz_datarequest_name'] ) ) {
 				$error   = true;
 				$message = __( "Please enter your name", 'complianz-gdpr' );
 			}
@@ -416,7 +416,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				$message = __( "That's a long name you got there. Please try to shorten the name.", 'complianz-gdpr' );
 			}
 
-			if ( ! isset($params['cmplz_datarequest_region']) || strlen( $params['cmplz_datarequest_region'] ) == 0 ) {
+			if ( ! isset($params['cmplz_datarequest_region']) || empty( $params['cmplz_datarequest_region'] ) ) {
 				$region = 'us';
 			}
 
@@ -451,7 +451,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 					$this->send_notification_mail();
 					$message = __( "Your request has been processed successfully!", 'complianz-gdpr' );
 				} else {
-					$message = __( "Your email address was already registered!", 'complianz-gdpr' );
+					$message = __( "Your request could not be processed. A request is already in progress for this email address or the form is not complete.", 'complianz-gdpr' );
 				}
 			}
 

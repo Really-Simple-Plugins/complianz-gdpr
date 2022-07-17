@@ -79,6 +79,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				'order'				 => 100,
 				"type"               => 'text',
 				"required"           => false,
+				"loadmore"           => false,
 				'default'            => '',
 				'label'              => '',
 				'table'              => false,
@@ -866,8 +867,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $default_index = array();
             $disabled_index = array();
             $value_index = array();
-			$validate = '';
+			$classes = '';
             $check_icon = '';
+			$loadmore = false;
 
             if ( ! empty( $args['options'] ) )
             {
@@ -897,20 +899,19 @@ if ( ! class_exists( "cmplz_field" ) ) {
                 }
 
                 // Required
-                $validate = $args['required'] ? 'class="cmplz-validate-multicheckbox"' : '';
+                $classes = $args['required'] ? 'cmplz-validate-multicheckbox' : '';
 
                 // Check icon
                 $check_icon = cmplz_icon('check');
+				if ( $args['loadmore'] ) $classes.= ' cmplz-multicheckbox-loadmore';
             }
-
 			?>
 			<?php do_action( 'complianz_before_label', $args ); ?>
 			<?php do_action( 'complianz_label_html' , $args );?>
 			<?php do_action( 'complianz_after_label', $args ); ?>
-            <div <?php echo $validate ?>>
-
+            <div class="<?php echo $classes ?>" data-cmplz_loadmore_count="<?php echo $args['loadmore']?>">
 			<?php if ( ! empty( $args['options'] ) ) {
-                foreach ($args['options'] as $option_key => $option_label)
+                foreach ( $args['options'] as $option_key => $option_label )
                 { ?>
                     <label tabindex="0" role="button" aria-pressed="false" class="cmplz-checkbox-container <?php echo esc_html($disabled_index[$option_key]) ?>"><?php echo esc_html( $option_label ) ?>
                         <input
@@ -937,7 +938,9 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			} else {
 				cmplz_notice( __( 'No options found', 'complianz-gdpr' ) );
 			} ?>
-
+			<?php if ( $args['loadmore'] ) { ?>
+				<button class="button cmplz_load_more"><span class="cmplz-load-more"><?php _e("More options", "complianz-gdpr")?></span><span class="cmplz-load-less"><?php _e("Less options", "complianz-gdpr")?></span></button>
+			<?php }?>
             </div>
 
 			<?php do_action( 'complianz_after_field', $args );

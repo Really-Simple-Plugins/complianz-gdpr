@@ -1,37 +1,41 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
+	/**
+	 * All properties are public, because otherwise the empty check on a property fails, and requires an intermediate variable assignment.
+	 * https://stackoverflow.com/questions/16918973/php-emptystring-return-true-but-string-is-not-empty
+	 */
 	class CMPLZ_COOKIE {
-		private $ID = false;
-		private $name;
+		public $ID = false;
+		public $name;
 
 		/**
 		 * Sync should the cookie stay in sync or not
 		 *
 		 * @var bool
 		 */
-		private $sync = true;
+		public $sync = true;
 
 		/**
 		 * Retention period
 		 *
 		 * @var string
 		 */
-		private $retention;
-		private $type;
-		private $service;
-		private $serviceID;
-		private $collectedPersonalData;
-		private $cookieFunction;
-		private $purpose;
-		private $isTranslationFrom;
-		private $lastUpdatedDate;
-		private $lastAddDate;
-		private $firstAddDate;
-		private $synced;
-		private $complete;
-		private $slug = '';
-		private $old;
-		private $isOwnDomainCookie=false;
+		public $retention;
+		public $type;
+		public $service;
+		public $serviceID;
+		public $collectedPersonalData;
+		public $cookieFunction;
+		public $purpose;
+		public $isTranslationFrom;
+		public $lastUpdatedDate;
+		public $lastAddDate;
+		public $firstAddDate;
+		public $synced;
+		public $complete;
+		public $slug = '';
+		public $old;
+		public $isOwnDomainCookie=false;
 
 		/**
 		 * in CDB, we can mark a cookie as not relevant to users.
@@ -329,10 +333,10 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->service = $service->name;
 			}
 
-			$this->complete = ( strlen( $this->name ) != 0
-			                    && strlen( $this->purpose ) != 0
-			                    && strlen( $this->retention ) != 0
-			                    && strlen( $this->service ) != 0
+			$this->complete = ( !empty( $this->name )
+			                    && !empty( $this->purpose )
+			                    && !empty( $this->retention )
+			                    && !empty( $this->service )
 			);
 
 		}
@@ -352,11 +356,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 		public function save( $updateAllLanguages = false ) {
 			//don't save empty items.
-			if ( strlen( $this->name ) == 0 ) {
+			if ( empty( $this->name ) ) {
 				return;
 			}
 			//get serviceid from service name
-			if ( strlen( $this->service ) != 0 ) {
+			if ( !empty( $this->service ) ) {
 				$service = new CMPLZ_SERVICE( $this->service, $this->language );
 				if ( ! $service->ID ) {
 					$languages       = $this->get_used_languages();
@@ -410,7 +414,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'lastAddDate'           => intval( $this->lastAddDate ),
 				'slug'                  => sanitize_title( $this->slug ),
 			);
-			if ( strlen( $this->firstAddDate ) == 0 ) {
+			if ( empty( $this->firstAddDate) ) {
 				$update_array['firstAddDate'] = time();
 			}
 
@@ -653,7 +657,7 @@ function cmplz_install_cookie_table() {
                 ) $charset_collate;";
 		dbDelta( $sql );
 
-		update_option( 'cmplz_cookietable_version', cmplz_version );
+		update_option( 'cmplz_cookietable_version', cmplz_version, false );
 
 	}
 }

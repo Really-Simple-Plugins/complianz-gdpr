@@ -38,8 +38,7 @@ $this->steps = array(
 					8 => array(
 						'region' => array( 'us' ),
 						'id'     => 'details_per_purpose_us',
-						'title'  => __( 'Details per purpose',
-							'complianz-gdpr' ),
+						'title'  => __( 'Details per purpose', 'complianz-gdpr' ),
 					),
 					11 => array(
 						'title' => __('Security & Consent', 'complianz-gdpr'),

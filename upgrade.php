@@ -16,7 +16,7 @@ function cmplz_check_upgrade() {
 	 * Set a "first version" variable, so we can check if some notices need to be shown
 	 */
 	if ( ! $prev_version ) {
-		update_option( 'cmplz_first_version', cmplz_version );
+		update_option( 'cmplz_first_version', cmplz_version, false );
 	}
 
 	/*
@@ -103,7 +103,7 @@ function cmplz_check_upgrade() {
 		//reset scan, delayed
 		COMPLIANZ::$cookie_admin->reset_pages_list( true );
 		//initialize a sync
-		update_option( 'cmplz_run_cdb_sync_once', true );
+		update_option( 'cmplz_run_cdb_sync_once', true, false );
 	}
 
 	/**
@@ -253,7 +253,7 @@ function cmplz_check_upgrade() {
 	if ( $prev_version
 	     && version_compare( $prev_version, '4.9.7', '<' )
 	) {
-		update_option( 'cmplz_show_terms_conditions_notice', time() );
+		update_option( 'cmplz_show_terms_conditions_notice', time(), false );
 	}
 
 	/**
@@ -261,7 +261,7 @@ function cmplz_check_upgrade() {
 	 */
 
 	if ( $prev_version && version_compare( $prev_version, '5.0.0', '<' ) ) {
-		update_option( 'cmplz_upgraded_to_five', true );
+		update_option( 'cmplz_upgraded_to_five', true, false );
 
 		//clear notices cache, as the array structure has changed
 		delete_transient( 'complianz_warnings' );
@@ -382,11 +382,11 @@ function cmplz_check_upgrade() {
 				$dismissed_warnings[] = $warning_id;
 			}
 		}
-		update_option( 'cmplz_dismissed_warnings', $dismissed_warnings );
+		update_option( 'cmplz_dismissed_warnings', $dismissed_warnings, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {
-		update_option( 'cmplz_first_version', '5.0.0' );
+		update_option( 'cmplz_first_version', '5.0.0', false );
 	}
 
 	/**
@@ -862,6 +862,85 @@ function cmplz_check_upgrade() {
 		}
 	}
 
+	// 6.3 United States Upgrade
+	if ( $prev_version && version_compare( $prev_version, '6.3.0', '<' ) ) {
+		$wizard_settings = get_option( 'complianz_options_wizard' );
+		if ( isset( $wizard_settings['california'] ) && $wizard_settings['california'] === 'yes' ) {
+			unset( $wizard_settings['california'] );
+			$wizard_settings['us_states']['cal'] = 1;
+		}
+
+		$mapping_array = [
+			'1'  => [ 'first-lastname', 'address' ],
+			'2'  => [ 'marital-status' ],
+			'5'  => [ 'date-of-birth' ],
+			'6'  => [ 'accountname-alias' ],
+			'7'  => [ 'sex' ],
+			'3'  => [ 'email' ],
+			'15' => [ 'phone' ],
+			'8'  => [ 'ip' ],
+			'4'  => [ 'financial-information' ],
+			'10' => [ 'medical' ],
+			'11' => [ 'internet' ],
+			'9'  => [ 'geo' ],
+			'12' => [ 'photos' ],
+			'13' => [ 'social-media' ],
+			'14' => [ 'criminal' ],
+		];
+		foreach ( COMPLIANZ::$config->purposes as $key => $label ) {
+			if ( !isset($wizard_settings[$key . '_retain_data']) ) {
+				$wizard_settings[$key . '_retain_data'] = '1';
+			}
+
+			if (isset($wizard_settings[$key . '_data_purpose']) ) {
+				$values = $wizard_settings[$key . '_data_purpose'];
+				foreach ($values as $value => $enabled) {
+					$enabled = $enabled==='1';
+					if ( $enabled && isset($mapping_array[ $value ])) {
+						$new_values = $mapping_array[ $value ];
+						foreach ($new_values as $new_value ) {
+							$wizard_settings[$key . '_data_purpose_us'][$new_value] = 1;
+						}
+					}
+				}
+				unset($wizard_settings[$key . '_data_purpose']);
+			}
+			if ( isset($wizard_settings[$key . '_data_purpose_us'] ) ) {
+				$values = $wizard_settings[$key . '_data_purpose_us'];
+				foreach ($values as $value => $enabled) {
+					$enabled = $enabled==='1';
+					if ($enabled && $value === 'any-other') {
+						unset($wizard_settings[$key . '_data_purpose_us'][$value]);
+					}
+				}
+			}
+		}
+		update_option( 'complianz_options_wizard', $wizard_settings );
+
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$revoke = $banner_item->revoke;
+				if ( is_serialized( $revoke ) ) {
+					$revoke = unserialize( $revoke );
+				}
+				if ( isset( $revoke['text'] ) ) {
+					$banner->revoke = $revoke['text'];
+				}
+				if ( isset( $revoke['show'] ) ) {
+					if ( $revoke['show'] == '1' ) {
+						$banner->manage_consent_options = 'hover-hide-mobile';
+					} else {
+						$banner->manage_consent_options = 'hide-everywhere';
+					}
+				}
+				$banner->save();
+			}
+		}
+
+	}
+
 	//regenerate css
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
@@ -877,8 +956,3 @@ function cmplz_check_upgrade() {
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', cmplz_version );
 }
-
-
-
-
-

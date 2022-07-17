@@ -6,31 +6,30 @@ function cmplz_filter_field_types( $fields ) {
 	 * Add dynamic purposes
 	 *
 	 * */
-	if ( cmplz_has_region( 'us' )
-	     || ( cmplz_has_region( 'ca' )
-	          && cmplz_get_value( 'privacy-statement' ) === 'generated' )
-	     || ( cmplz_has_region( 'au' )
-	          && cmplz_get_value( 'privacy-statement' ) === 'generated' )
-	) {
+	if ( cmplz_has_region('us') || cmplz_get_value( 'privacy-statement' ) === 'generated' ) {
+		$index = 10;
 		foreach ( COMPLIANZ::$config->purposes as $key => $label ) {
-
 			if ( ! empty( COMPLIANZ::$config->details_per_purpose_us ) ) {
-				$fields = $fields + array(
-						$key . '_data_purpose_us' => array(
-							'master_label' => __( "Purpose:", 'complianz-gdpr' ) . " " . $label,
-							'step' => STEP_COMPANY,
-							'section' => 8,
-							'source' => 'wizard',
-							'type' => 'multicheckbox',
-							'default' => '',
-							'label' => __( "What data do you collect for this purpose?", 'complianz-gdpr' ),
-							'required' => true,
-							'callback_condition' => array(
-								'purpose_personaldata' => $key
-							),
-							'options' => COMPLIANZ::$config->details_per_purpose_us,
-						),
+				$index += 10;
 
+				$fields = $fields +
+			          array(
+							$key . '_data_purpose_us' => array(
+								'master_label' => __( "Purpose:", 'complianz-gdpr' ) . " " . $label,
+								'step' => STEP_COMPANY,
+								'order' => $index,
+								'section' => 8,
+								'source' => 'wizard',
+								'type' => 'multicheckbox',
+								'loadmore' => 13,
+								'default' => '',
+								'label' => __( "Specify the types of data you collect", 'complianz-gdpr' ),
+								'required' => true,
+								'callback_condition' => array(
+									'purpose_personaldata' => $key
+								),
+								'options' => COMPLIANZ::$config->details_per_purpose_us,
+							)
 					);
 			}
 		}

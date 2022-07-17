@@ -259,7 +259,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			            . esc_html( __( 'Select or add a service',
 					'complianz-gdpr' ) ) . '</option>';
 			foreach ( $services as $service ) {
-				if ( strlen( $service->name ) == 0 ) {
+				if ( empty( $service->name ) ) {
 					continue;
 				}
 
@@ -270,7 +270,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				         . '</option>';
 			}
 
-			if ( strlen( $html ) == 0 ) {
+			if ( empty( $html ) ) {
 				$html = '<option value="">'
 				        . esc_html( __( 'No services listed',
 						'complianz-gdpr' ) ) . '</option>';
@@ -311,7 +311,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$serviceTypes = $body->data;
 					if ( $language === 'en' ) {
 						foreach ( $serviceTypes as $serviceType ) {
-							if ( strlen( $serviceType ) == 0 ) {
+							if ( empty( $serviceType ) ) {
 								continue;
 							}
 							cmplz_register_translation( $serviceType,
@@ -327,7 +327,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 				foreach ( $serviceTypes as $serviceType ) {
 
-					if ( strlen( $serviceType ) == 0 ) {
+					if ( empty( $serviceType ) ) {
 						continue;
 					}
 					$sel  = ( $selected_value == $serviceType )
@@ -338,7 +338,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 			}
 
-			if ( strlen( $html ) == 0 ) {
+			if ( empty( $html ) ) {
 				$html = '<option value="">'
 				        . esc_html( __( 'No service types listed',
 						'complianz-gdpr' ) ) . '</option>';
@@ -377,7 +377,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookiePurposes = $body->data;
 					if ( $language === 'en' ) {
 						foreach ( $cookiePurposes as $cookiePurpose ) {
-							if ( strlen( $cookiePurpose ) == 0 ) {
+							if ( empty( $cookiePurpose ) ) {
 								continue;
 							}
 							cmplz_register_translation( $cookiePurpose, $cookiePurpose );
@@ -391,7 +391,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $cookiePurposes ) {
 				foreach ( $cookiePurposes as $cookiePurpose ) {
 
-					if ( strlen( $cookiePurpose ) == 0 ) {
+					if ( empty( $cookiePurpose ) ) {
 						continue;
 					}
 					$sel  = ( $selected_value == $cookiePurpose )
@@ -402,7 +402,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 			}
 
-			if ( strlen( $html ) == 0 ) {
+			if ( empty( $html ) ) {
 				$html = '<option value="">'
 				        . esc_html( __( 'No purposes listed',
 						'complianz-gdpr' ) ) . '</option>';
@@ -443,9 +443,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$link = '';
 			if ( cmplz_get_value( 'use_cdb_links' ) === 'yes'
-			     && strlen( $cookie->slug ) !== 0
+			     && !empty( $cookie->slug )
 			) {
-				$service_slug = ( strlen( $cookie->service ) === 0 ) ? 'unknown-service' : $cookie->service;
+				$service_slug = ( empty( $cookie->service ) ) ? 'unknown-service' : $cookie->service;
 				$link         = '<a target="_blank" href="https://cookiedatabase.org/cookie/' . $service_slug . '/' . $cookie->slug . '/">'
 				                . __( "View cookie on cookiedatabase.org", "complianz-gdpr" ) .
 				                '</a>';
@@ -665,7 +665,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				//group by service
 				$grouped_by_service = array();
 				foreach ( $items as $cookie ) {
-					$service = strlen( $cookie->service ) !== 0 ? $cookie->service : 'no-service';
+					$service = !empty( $cookie->service ) ? $cookie->service : 'no-service';
 					$grouped_by_service[ $service ][] = $cookie;
 				}
 
@@ -1145,7 +1145,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$languages = $this->get_supported_languages();
 			$data      = array();
 			$count_all    = 0;
-			$one_week_ago = strtotime( "-1 month" );
+			$scan_interval = apply_filters('cmplz_sync_interval', 3);
+			$one_week_ago = strtotime( "-".$scan_interval." month" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language, 'includeServicesWithoutCookies' => true );
 				if ( ! wp_doing_cron()
@@ -1181,8 +1182,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$localstorage_cookies = array();
 			$count_all            = 0;
 			$ownDomainCookies = $this->get_cookies(array('isOwnDomainCookie'=>true));
-			$hasOwnDomainCookies = count($ownDomainCookies) >0 ;
-			$one_week_ago = strtotime( "-1 month" );
+			$hasOwnDomainCookies = count($ownDomainCookies) >0;
+			$scan_interval = apply_filters('cmplz_sync_interval', 3);
+			$one_week_ago = strtotime( "-".$scan_interval." month" );
 			foreach ( $languages as $language ) {
 				$args = array( 'sync' => true, 'language' => $language );
 				if ( ! $ignore_time_limit && ! wp_doing_cron()
@@ -1200,7 +1202,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						if (!in_array($cookie->name, $localstorage_cookies) ) $localstorage_cookies[] = $cookie->name;
 					}
 					//need to pass a service here.
-					if ( strlen( $c->service ) != 0 ) {
+					if ( !empty( $c->service ) ) {
 						$service = new CMPLZ_SERVICE( $c->service );
 
 						//deprecated as of 5.3. Use only if no own domain cookie property has ever been saved
@@ -1978,7 +1980,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					<script <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo esc_attr($category) ?>"><?php do_action( 'cmplz_statistics_script' ); ?></script><?php
 				}
 
-				if ( !empty($aw_code ) ) {
+				if ( !empty($aw_code ) && $statistics === 'google-analytics' ) {
 					$script = str_replace( '{AW_code}', $aw_code, cmplz_get_template( "statistics/gtag-remarketing.js" ) );
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
 					if ( cmplz_consent_mode() ) {
@@ -2241,7 +2243,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//if the last cookie scan date is more than a month ago, we re-scan.
 			$last_scan_date = $this->get_last_cookie_scan_date( true );
-			$one_month_ago  = apply_filters( 'cmplz_scan_frequency', strtotime( '-1 month' ) );
+			$scan_interval = apply_filters( 'cmplz_scan_interval', 3 );
+			$one_month_ago = strtotime( "-".$scan_interval." month" );
 			if ( $this->scan_complete()
 			     && ( $one_month_ago > $last_scan_date )
 			     && ! $this->automatic_cookiescan_disabled()
@@ -3023,8 +3026,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_supported_languages( $count = false ) {
 			$site_locale = cmplz_sanitize_language( get_locale() );
-
 			$languages = array( $site_locale => $site_locale );
+
+			//QTranslate
+			if ( defined('QTX_VERSION') ) {
+				$enabled_languages = get_option( 'qtranslate_enabled_languages' );
+				if (is_array($enabled_languages)) {
+					foreach ( $enabled_languages as $language_code ) {
+						if ( ! in_array( $language_code, $languages ) ) {
+							$languages[ $language_code ] = $language_code;
+						}
+					}
+				}
+			}
 
 			if ( function_exists( 'icl_register_string' ) ) {
 				$wpml = apply_filters( 'wpml_active_languages', null,
@@ -3089,11 +3103,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( $last_scan_date ) {
-				$date = date( get_option( 'date_format' ), $last_scan_date );
-				$date = cmplz_localize_date( $date );
+				$date = cmplz_localize_date( $last_scan_date );
 				$time = date( get_option( 'time_format' ), $last_scan_date );
-				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date,
-					$time );
+				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
 			} else {
 				$date = false;
 			}
@@ -3111,8 +3123,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function get_last_cookie_sync_date() {
 			$last_sync_date = get_option( 'cmplz_last_cookie_sync' );
 			if ( $last_sync_date ) {
-				$date = date( get_option( 'date_format' ), $last_sync_date );
-				$date = cmplz_localize_date( $date );
+				$date = cmplz_localize_date( $last_sync_date );
 			} else {
 				$date = __( '(not synced yet)', 'complianz-gdpr' );
 			}

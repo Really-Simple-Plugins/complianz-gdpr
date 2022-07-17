@@ -174,7 +174,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			$fieldname, $fieldvalue, $prev_value, $type
 		) {
 
-			update_option( 'cmplz_documents_update_date', time() );
+			update_option( 'cmplz_documents_update_date', time(), false );
 
 			//only run when changes have been made
 			if ( $fieldvalue === $prev_value ) {
@@ -237,7 +237,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			     && $field['revoke_consent_onchange']
 			) {
 				COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
-				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time() );
+				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time(), false );
 			}
 
 			if ( $fieldname === 'configuration_by_complianz'
@@ -278,7 +278,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 		public function after_save_wizard_option( $fieldname, $fieldvalue, $prev_value, $type ) {
 			$generate_css = false;
-			if ( $fieldname == 'california' || $fieldname == 'purpose_personaldata' ) {
+			if ( $fieldname == 'us_states' || $fieldname == 'purpose_personaldata' ) {
 				add_action( 'shutdown', 'cmplz_update_cookie_policy_title', 12 );
 			}
 
@@ -858,7 +858,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				}
 			}
 
-			if ( strlen( $intro ) > 0 ) {
+			if ( !empty( $intro ) ) {
 				$intro = '<div class="cmplz-wizard-intro">'
 				         . $intro
 				         . '</div>';
@@ -933,7 +933,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 
 		public function set_wizard_completed_once() {
-			update_option( 'cmplz_wizard_completed_once', true );
+			update_option( 'cmplz_wizard_completed_once', true, false );
 		}
 
 		public function step( $page = false ) {
