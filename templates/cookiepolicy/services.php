@@ -2,7 +2,8 @@
 	<summary class="cmplz-service-header"><div>
 		<h3>{service}</h3>
 		<p>{allPurposes}</p>
-		<input type="checkbox" class="cmplz-accept-service {serviceCheckboxClass}" data-service="{service_slug}" data-category="{topCategory}"></div>
+		<label class="{serviceCheckboxClass}">{service}
+		<input type="checkbox" class="cmplz-accept-service {serviceCheckboxClass}" data-service="{service_slug}" data-category="{topCategory}"></label></div>
 	</summary>
 	<div class="cmplz-service-description">
 		<h4><?php _ex("Usage", 'cookie policy', 'complianz-gdpr') ?></h4>
