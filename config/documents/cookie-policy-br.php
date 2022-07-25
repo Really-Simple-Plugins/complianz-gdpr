@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['br']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of Brazil.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br>',
+        'content' => '<em>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of Brazil.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</em><br>',
     ),
     array(
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),

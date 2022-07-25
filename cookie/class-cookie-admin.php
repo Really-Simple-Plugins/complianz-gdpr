@@ -519,8 +519,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$notice      = ( $cookie->old ) ? cmplz_notice( __( 'This cookie has not been found in the scan for three months. Please check if you are still using this cookie',
 				'complianz-gdpr' ), 'warning', false ) : '';
 			$cookie_html = $notice . $cookie_html;
-			$ignored     = ( $cookie->ignored ) ? ' <i>' . __( '(Administrator cookie, will be ignored)', 'complianz-gdpr' ) . '</i>' : '';
-			$membersOnly =  $membersOnly ? ' <i>' . __( '(Logged in users only, will be ignored)', 'complianz-gdpr' ) . '</i>' : '';
+			$ignored     = ( $cookie->ignored ) ? ' <em>' . __( '(Administrator cookie, will be ignored)', 'complianz-gdpr' ) . '</em>' : '';
+			$membersOnly =  $membersOnly ? ' <em>' . __( '(Logged in users only, will be ignored)', 'complianz-gdpr' ) . '</em>' : '';
 
 			$html = cmplz_panel( cmplz_sprintf( __( 'Cookie "%s"%s%s', 'complianz-gdpr' ), $cookie->name, $ignored, $membersOnly ),
 				$cookie_html, $icons, false, false );

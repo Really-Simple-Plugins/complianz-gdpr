@@ -508,7 +508,7 @@ class CMPLZ_Deny_Button extends Widget_Button {
 						<# if ( ( migrated || ! settings.icon ) && iconHTML.rendered ) { #>
 							{{{ iconHTML.value }}}
 						<# } else { #>
-							<i class="{{ settings.icon }}" aria-hidden="true"></i>
+							<i class="{{ settings.icon }}" aria-hidden="true"></em>
 						<# } #>
 					</span>
 					<# } #>
@@ -563,7 +563,7 @@ class CMPLZ_Deny_Button extends Widget_Button {
 				<?php if ( $is_new || $migrated ) :
                     Icons_Manager::render_icon( $settings['selected_icon'], [ 'aria-hidden' => 'true' ] );
                 else : ?>
-                    <i class="<?php echo esc_attr( $settings['icon'] ); ?>" aria-hidden="true"></i>
+                    <i class="<?php echo esc_attr( $settings['icon'] ); ?>" aria-hidden="true"></em>
                 <?php endif; ?>
 			</span>
             <?php endif; ?>

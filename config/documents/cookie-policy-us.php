@@ -9,7 +9,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['us']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of the United States. ", '[publish_date]', '[checked_date]') . '</i><br>',
+        'content' => '<em>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of the United States. ", '[publish_date]', '[checked_date]') . '</em><br>',
     ),
     array(
         'title' => 'Introduction',

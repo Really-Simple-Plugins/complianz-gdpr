@@ -908,7 +908,7 @@ class CMPLZ_View_Save_Preferences_Button extends Widget_Button {
 						<# if ( ( view_migrated || ! settings.view_icon ) && view_iconHTML.rendered ) { #>
 							{{{ view_iconHTML.value }}}
 						<# } else { #>
-							<i class="{{ settings.view_icon }}" aria-hidden="true"></i>
+							<i class="{{ settings.view_icon }}" aria-hidden="true"></em>
 						<# } #>
 					</span>
 					<# } #>
@@ -927,7 +927,7 @@ class CMPLZ_View_Save_Preferences_Button extends Widget_Button {
 						<# if ( ( save_migrated || ! settings.save_icon ) && save_iconHTML.rendered ) { #>
 							{{{ save_iconHTML.value }}}
 						<# } else { #>
-							<i class="{{ settings.save_icon }}" aria-hidden="true"></i>
+							<i class="{{ settings.save_icon }}" aria-hidden="true"></em>
 						<# } #>
 					</span>
 					<# } #>
@@ -983,7 +983,7 @@ class CMPLZ_View_Save_Preferences_Button extends Widget_Button {
 				<?php if ( $is_new || $migrated ) :
                     Icons_Manager::render_icon( $settings[$prefix.'selected_icon'], [ 'aria-hidden' => 'true' ] );
                 else : ?>
-                    <i class="<?php echo esc_attr( $settings[$prefix.'icon'] ); ?>" aria-hidden="true"></i>
+                    <i class="<?php echo esc_attr( $settings[$prefix.'icon'] ); ?>" aria-hidden="true"></em>
                 <?php endif; ?>
 			</span>
             <?php endif; ?>

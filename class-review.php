@@ -84,7 +84,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 									'complianz-gdpr' ),
 									'<a href="https://complianz.io/contact" target="_blank">',
 									'</a>' ); ?></p>
-						<i>- Rogier</i>
+						<em>- Rogier</em>
 						<div class="cmplz-buttons-row">
 							<a class="button button-primary" target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review', 'complianz-gdpr' ); ?></a>
 
