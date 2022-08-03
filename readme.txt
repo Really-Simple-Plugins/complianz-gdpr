@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 5.6
 Tested up to: 6.0
-Stable tag: 6.2.4
+Stable tag: 6.3.0
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,24 +175,25 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-
 = 6.3.0 =
-* New: Support for US States that differ from general or CCPA/CPRA legislation
-* New: More options for the manage consent button
-* New: add div placeholder by id, not just class
-* New: Twitch integration
+* Improvement: United States update
 * Improvement: added filter cmplz_detected_cookies to enable directly adding cookies to detection
 * Improvement: add languages by qTranslate to languages list for cookie translations, props @pmoh
+* Improvement: more options for the manage consent button
 * Improvement: updated Brazilian contact information ANPD
-* Improvement: date localization in cmplz_localize_date function, props @leoay
+* Improvement: date localization in cmplz_localize_date function props @leoay
 * Improvement: preserve uppercase in service names
+* Improvement: disable autoload for back-end options, lowering front-end memory usage
+* Improvement: PHP 8.1 compatibility
 * Improvement: Ghostery conflict in cookie banner editor
 * Improvement: Skip statistics wizard step when no statistics selected
 * Improvement: Drop AW script after switch from google-analytics to other statistics tool
+* New: add div placeholder by id, not just class
+* New: Twitch integration
 * Fix: cmplz-revoke-link shortcode not working due to changed classes, props @rana-rene
+* Fix: minification error due to minifier stripping of '%', props @wpjamg
 * Fix: clear pdf generation tmp directory after usage, props @kernvy
 * Fix: [video] shortcode integration compatibility with Bold Builder + primavera
-
 
 = 6.2.4 =
 * Improvement: Get ready for cookieless tracking in Burst Statistics/Analytics
