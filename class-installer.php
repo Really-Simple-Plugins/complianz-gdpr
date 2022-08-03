@@ -121,7 +121,7 @@ if ( !class_exists('cmplz_installer') ){
 		public function get_plugin_info()
 		{
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-			$plugin_info = false;get_transient('cmplz_'.$this->slug . '_plugin_info');
+			$plugin_info = get_transient('cmplz_'.$this->slug . '_plugin_info');
 			if ( empty($plugin_info) ) {
 				$plugin_info = plugins_api('plugin_information', array('slug' => $this->slug));
 				if (!is_wp_error($plugin_info)) {

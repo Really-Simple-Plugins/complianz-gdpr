@@ -1985,11 +1985,11 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
-			if ( isset($cookie_list['marketing'][sanitize_title($service->name)]) ){
+			if ( isset($cookie_list['marketing'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ){
 				$topCategory = 'marketing';
-			} else if ( isset($cookie_list['statistics'][sanitize_title($service->name)]) ) {
+			} else if ( isset($cookie_list['statistics'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ) {
 				$topCategory = 'statistics';
-			} else if ( isset($cookie_list['preferences'][sanitize_title($service->name)]) ) {
+			} else if ( isset($cookie_list['preferences'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ) {
 				$topCategory = 'preferences';
 			} else {
 				$topCategory = 'functional';
