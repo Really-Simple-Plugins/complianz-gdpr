@@ -4,7 +4,7 @@ Donate link: https://paypal.me/complianz
 Tags: GDPR, Cookie, Cookie Notice, DSGVO, CPRA, Consent, RGPD, LGPD, Privacy, PIPEDA, Cookie Policy, Opt-in
 Requires at least: 4.9
 License: GPL2
-Requires PHP: 5.6
+Requires PHP: 7.2
 Tested up to: 6.0
 Stable tag: 6.3.0
 
@@ -194,6 +194,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: minification error due to minifier stripping of '%', props @wpjamg
 * Fix: clear pdf generation tmp directory after usage, props @kernvy
 * Fix: [video] shortcode integration compatibility with Bold Builder + primavera
+* New: updated minimum PHP version to 7.2
 
 = 6.2.4 =
 * Improvement: Get ready for cookieless tracking in Burst Statistics/Analytics
