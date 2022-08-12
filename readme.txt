@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.0
-Stable tag: 6.3.0
+Stable tag: 6.3.1
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,14 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.3.1 =
+* Improvement: Catch php 5.6 error for geo ip
+* Improvement: space after missing p tag removed
+* Improvement: Consent per Service banner reappearing when making changes in service consent on the cookie policy
+* Improvement: Burst integration not compatible with caching/defer
+* Improvement: option to override the region by passing a parameter in the URL.
+* Improvement: UK legal docs text improvements
+
 = 6.3.0 =
 * Improvement: United States update
 * Improvement: added filter cmplz_detected_cookies to enable directly adding cookies to detection
