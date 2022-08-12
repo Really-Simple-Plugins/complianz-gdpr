@@ -622,17 +622,21 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$used_regions = cmplz_get_regions();
-		foreach ( $regions as $key => $region ) {
-			if ( !array_key_exists( $key, $used_regions )) {
-				unset($regions[$key]);
+
+		//do not unset a not used region if it's a manual override.
+		if ( !isset($_GET['cmplz_user_region']) ) {
+			foreach ( $regions as $key => $region ) {
+				if ( !array_key_exists( $key, $used_regions )) {
+					unset($regions[$key]);
+				}
 			}
 		}
 
-		$actual_region = cmplz_get_region_for_country( $country_code );
+		$actual_region = apply_filters('cmplz_user_region', cmplz_get_region_for_country( $country_code ));
 		if ( isset( $regions[ $actual_region ]) && isset( $regions[ $actual_region ]['type'] ) ) {
-			return apply_filters( 'cmplz_consenttype', $regions[ $actual_region ]['type'], $actual_region );
+			$consenttype = apply_filters( 'cmplz_consenttype', $regions[ $actual_region ]['type'], $actual_region );
+			return $consenttype;
 		}
-
 		return false;
 	}
 }
@@ -1604,6 +1608,15 @@ if ( ! function_exists( 'cmplz_add_query_arg' ) ) {
 	}
 }
 
+if ( !function_exists('cmplz_has_recommended_phpversion')) {
+	function cmplz_has_recommended_phpversion(){
+		if (version_compare(PHP_VERSION, '7.2','>=')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 
 if ( ! function_exists( 'cmplz_array_filter_multidimensional' ) ) {
 	function cmplz_array_filter_multidimensional(
@@ -2417,6 +2430,7 @@ if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 	function cmplz_get_used_consenttypes( $add_labels = false ) {
 		//get all regions in use on this site
 		$regions       = cmplz_get_regions();
+		//if manuanl override detected, add that region's consenttype here.
 		$consent_types = array();
 		//for each region, get the consenttype
 		foreach ( $regions as $region => $label ) {
@@ -2426,9 +2440,15 @@ if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 
 			$consent_types[] = apply_filters( 'cmplz_consenttype', COMPLIANZ::$config->regions[ $region ]['type'], $region );
 		}
+
+		//there's no way we can simply find the consenttype for the manually added region, due to fallback complexity. So we add all of them in that case.
+		if ( isset( $_GET['cmplz_user_region']) ) {
+			$consent_types[] = 'optin';
+			$consent_types[] = 'optout';
+		}
+
 		//remove duplicates
 		$consent_types = array_unique( $consent_types );
-
 		if ( $add_labels ) {
 			$consent_types_labelled = array();
 			foreach ( $consent_types as $consent_type ) {

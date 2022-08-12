@@ -83,7 +83,7 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	 *
 	 * */
 
-	$region = apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
+	$region 					= apply_filters( 'cmplz_user_region', COMPLIANZ::$company->get_default_region() );
 	$data                       = apply_filters( 'cmplz_user_data', array() );
 	$data['consenttype']        = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 	$data['region']             = $region;

@@ -1312,8 +1312,11 @@ if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
 
 //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 if ( complianz.geoip == 1 && (cmplz_user_data.length == 0 || (cmplz_user_data.version !== complianz.version) || (cmplz_user_data.banner_version !== complianz.banner_version)) ) {
+
 	var request = new XMLHttpRequest();
-	request.open('GET', complianz.url+'banner?'+complianz.locale, true);
+	let cmplzUserRegion = cmplz_get_url_parameter(window.location.href, 'cmplz_user_region');
+	cmplzUserRegion = cmplzUserRegion ? '&cmplz_user_region=' + cmplzUserRegion : '';
+	request.open('GET', complianz.url+'banner?'+complianz.locale+cmplzUserRegion, true);
 	request.setRequestHeader('Content-type', 'application/json');
 	request.send();
 	request.onload = function() {
@@ -1487,6 +1490,7 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 	if ( typeof service !== 'undefined' ) {
 		//inputs are from the consent per service option on the cookie policy.
 		if ( tagName === 'INPUT' ) {
+			cmplz_set_banner_status('dismissed');
 			if ( obj.checked ){
 				cmplz_set_service_consent(service, true);
 				cmplz_enable_category('', service);
@@ -1689,9 +1693,11 @@ function cmplz_track_status( status ) {
 	cmplz_set_cookie('saved_categories', JSON.stringify(cats));
 	cmplz_set_cookie('saved_services', JSON.stringify(consented_services));
 	cmplz_consent_stored_once = true;
+
+	let data;
 	var request = new XMLHttpRequest();
 	request.open('POST', complianz.url+'track', true);
-	var data = {
+	data = {
 		'consented_categories': cats,
 		'consented_services':consented_services,
 		'consenttype': window.wp_consent_type,//store the source consenttype, as our complianz.consenttype will not include optinstats.

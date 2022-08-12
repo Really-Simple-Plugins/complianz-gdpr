@@ -77,7 +77,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 
     array(
         'subtitle' => 'Advertising cookies',
-        'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behavior and interests to serve personalized ads.', '[domain]'),
+        'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behaviour on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behaviour and interests to serve personalised ads.', '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
             'uses_ad_cookies_personalized' => 'no'
@@ -102,12 +102,12 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 
     array(
         'subtitle' => 'Social media buttons',
-        'content' => cmplz_sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+        'content' => cmplz_sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalised advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
     array(
-        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '. cmplz_sprintf( _n( '%s is located in Australia.', '%s are located in Australia.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+        'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anomymised as much as possible.'.' '. cmplz_sprintf( _n( '%s is located in Australia.', '%s are located in Australia.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
         'condition' => array('uses_social_media' => 'yes'),
     ),
 
@@ -150,7 +150,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

@@ -723,8 +723,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			                                      . '"' : '';
 
 			if (isset($element['p']) && !$element['p']) {
-				if (substr($content, -4) !== '</p>'){
-					$content .= '&nbsp;';
+				//ensure there is a space between two sequential paragraphs if there is no p tag.
+				if ( substr($content, -4) !== '</p>' ){
+					//$content .= '&nbsp;';
 				}
 				return $content;
 			}

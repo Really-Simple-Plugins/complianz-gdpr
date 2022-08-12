@@ -457,6 +457,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => false,
 				),
 
+				'phpversion' => array(
+					'warning_condition' => 'NOT cmplz_has_recommended_phpversion',
+					'urgent' => __( 'Your PHP version is lower than the recommended PHP version. Some features are not available. Support for this PHP version will be dropped soon.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/php-version/'),
+					'plus_one' => true,
+					'include_in_progress' => true,
+				),
+
 				'upgraded_to_6' => array(
 					'warning_condition'  => 'cmplz_upgraded_to_current_version',
 					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ).'&nbsp;'.

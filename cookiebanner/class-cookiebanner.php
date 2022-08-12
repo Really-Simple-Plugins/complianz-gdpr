@@ -186,6 +186,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 	        $this->id             = $id;
 	        $this->set_defaults   = $set_defaults;
 	        $this->get();
+
         }
 
 		/**
@@ -1286,7 +1287,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				unset($page_links['all']);
 			}
 
-			$region = COMPLIANZ::$company->get_default_region();
+			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );
 			$disable_cookiebanner = boolval($this->disable_cookiebanner) || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
 			$output = array(
 				'prefix'               => COMPLIANZ::$cookie_admin->get_cookie_prefix(),
