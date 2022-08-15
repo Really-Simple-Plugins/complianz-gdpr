@@ -34,7 +34,7 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 * Custom integrations for plugins, themes and services are automatically detected. 
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames e.g. Instagram, Facebook et al.
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per (social) service.
-* Script Center to control scripts, iFrames and plugins per category or service. With dependency functionality and placheholders. 
+* Script Center to control scripts, iFrames and plugins per category or service. With dependency functionality and placeholders.
 * Proof of Consent: User consent registration that respects the GDPR data minimization guideline.
 * Periodical Cookie Scan for changes in Cookies, Plugins and 3rd Party services. 
 * Automatically detects if you need a Cookie Notice (also called a Cookie Banner or Pop-Up).
