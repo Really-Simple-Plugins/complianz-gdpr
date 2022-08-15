@@ -37,14 +37,14 @@ if ( ! function_exists( 'cmplz_activation_check' ) ) {
 	 * @since 2.1.5
 	 */
 	function cmplz_activation_check() {
-		if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
+		if ( version_compare( PHP_VERSION, '7.2', '<' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die( __( 'Complianz GDPR cannot be activated. The plugin requires PHP 5.6 or higher',
 				'complianz-gdpr' ) );
 		}
 
 		global $wp_version;
-		if ( version_compare( $wp_version, '4.6', '<' ) ) {
+		if ( version_compare( $wp_version, '4.9', '<' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die( __( 'Complianz GDPR cannot be activated. The plugin requires WordPress 4.6 or higher',
 				'complianz-gdpr' ) );
