@@ -3802,7 +3802,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( $matomo ) {
-				return apply_filters('cmplz_statistics_privacy_friendly', false);
+				$matomo_cookieless = cmplz_get_value('matomo_anonymized')==='yes';
+				return apply_filters('cmplz_statistics_privacy_friendly', $matomo_cookieless);
 			}
 
 			if ( $google_analytics || $tagmanager ) {
