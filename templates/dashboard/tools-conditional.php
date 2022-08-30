@@ -34,11 +34,19 @@
 </div>
 <div class="cmplz-tools-row">
 	<div>
-		<?php _e( "Data requests", 'complianz-gdpr' ); ?>
+		<?php _e( "Records of consent", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
-		<a target="_blank" href="https://complianz.io/definition/what-is-a-data-request/" class="cmplz-premium">
-			<?php _e( 'Read more', 'complianz-gdpr' ) ?>
+		<?php
+		if ( cmplz_get_value('records_of_consent') === 'yes' ) {
+			$text = __( 'View', 'complianz-gdpr' );
+			$link = add_query_arg(array('page' => 'cmplz-proof-of-consent'), admin_url('admin.php') );
+		} else {
+			$text = __( 'Read more', 'complianz-gdpr' );
+			$link = "https://complianz.io/records-of-consent/";
+		} ?>
+		<a target="_blank" href="<?php echo $link ?>" class="cmplz-premium">
+			<?php echo $text ?>
 		</a>
 	</div>
 </div>

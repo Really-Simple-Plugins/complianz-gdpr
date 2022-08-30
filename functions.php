@@ -25,6 +25,24 @@ if ( ! function_exists( 'cmplz_consent_mode' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_uses_social_media' ) ) {
+
+	/**
+	 * Check if site uses social media
+	 * @return bool
+	 */
+
+	function cmplz_uses_social_media() {
+		$socialmedia_list = cmplz_get_value( 'socialmedia_on_site' );
+		foreach ($socialmedia_list as $socialmedia => $enabled ) {
+			if ($enabled === 1 ) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
 if ( !function_exists('cmplz_upgraded_to_current_version')){
 
 	/**
@@ -1578,7 +1596,7 @@ if ( ! function_exists( 'cmplz_add_query_arg' ) ) {
 
 			if ( $post && property_exists( $post, 'post_content' ) ) {
 				$pattern = '/cmplz-document.*type=".*?".*region="(.*?)"/i';
-				$pattern_gutenberg = '/<!-- wp:complianz\/document {.*?selectedDocument":"(.*?)"} \/-->/i';
+				$pattern_gutenberg = '/<!-- wp:complianz\/document {.*?"selectedDocument":"[^\"](.*?)\".*?} \/-->/i';
 				if ( preg_match_all( $pattern, $post->post_content, $matches,
 						PREG_PATTERN_ORDER )
 				) {

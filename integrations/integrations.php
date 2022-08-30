@@ -335,6 +335,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Woocommerce Google Analytics Integration',
 		'firstparty_marketing' => false,
 	),
+		'woocommerce' => array(
+				'constant_or_function' => 'WC_PLUGIN_FILE',
+				'label'                => 'WooCommerce',
+				'firstparty_marketing' => false,
+		),
+
 	'geo-my-wp' => array(
 		'constant_or_function' => 'GMW_VERSION',
 		'label'                => 'Geo My WP',

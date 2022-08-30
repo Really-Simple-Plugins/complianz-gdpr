@@ -540,30 +540,56 @@ function cmplz_add_cookiebanner_settings($fields){
 				'type'      => 'css',
 				'help'      => cmplz_sprintf(__('You can add additional custom CSS here. For tips and CSS lessons, check out our %sdocumentation%s', 'complianz-gdpr'), '<a target="_blank" href="https://complianz.io/?s=css">', '</a>'),
 				'label'     => '',
-				'default'   => '.cmplz-message{}'
-				               . "\n".' /* styles for the message box */'
-				               . "\n". '.cmplz-deny{}'
-				               . "\n".' /* styles for the dismiss button */'
-				               . "\n". '.cmplz-btn{}'
-				               . "\n".' /* styles for buttons */'
-				               . "\n" . '.cmplz-accept{} '
-				               . "\n".'/* styles for the accept button */'
-				               . "\n" . '.cmplz-cookiebanner{} '
-				               . "\n".'/* styles for the popup banner */'
-				               . "\n" . '.cmplz-cookiebanner .cmplz-category{} '
-				               . "\n".'/* styles for categories*/'
-				               . "\n" . '.cmplz-manage-consent{} '
-				               . "\n".'/* styles for the settings popup */'
-				               . "\n" . '.cmplz-soft-cookiewall{} '
-				               . "\n".'/* styles for the soft cookie wall */'
-                               . "\n"
-                               . "\n" . "/* styles for the AMP notice */"
-                               . "\n" . '#cmplz-consent-ui, #cmplz-post-consent-ui {} '
-				               . "\n".'/* styles for entire banner */'
-                               . "\n" . '#cmplz-consent-ui .cmplz-consent-message {} '
-				               . "\n".'/* styles for the message area */'
-                               . "\n" . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {} '
-				               . "\n".'/* styles for the buttons */',
+				'default'   => '/* Container */'
+                       . "\n" . '.cmplz-cookiebanner{}'
+                       . "\n"
+                       . "\n". '/* Logo */'
+                       . "\n". '.cmplz-cookiebanner .cmplz-logo{}'
+                       . "\n". '/* Title */'
+                       . "\n". '.cmplz-cookiebanner .cmplz-title{}'
+                       . "\n". '/* Close icon */'
+                       . "\n". '.cmplz-cookiebanner .cmplz-close{}'
+                       . "\n"
+                       . "\n". '/* Message */'
+				               . "\n". '.cmplz-cookiebanner .cmplz-message{}'
+                       . "\n"
+                       . "\n".' /* All buttons */'
+                       . "\n". '.cmplz-buttons .cmplz-btn{}'
+                       . "\n".'/* Accept button */'
+                       . "\n" . '.cmplz-btn .cmplz-accept{} '
+                       . "\n".' /* Deny button */'
+				               . "\n". '.cmplz-btn .cmplz-deny{}'
+                       . "\n".' /* Save preferences button */'
+                       . "\n". '.cmplz-btn .cmplz-deny{}'
+                       . "\n".' /* View preferences button */'
+                       . "\n". '.cmplz-btn .cmplz-deny{}'
+                       . "\n"
+                       . "\n".' /* Document hyperlinks */'
+                       . "\n". '.cmplz-links .cmplz-documents{}'
+                       . "\n"
+                       . "\n".' /* Categories */'
+                       . "\n" . '.cmplz-cookiebanner .cmplz-category{}'
+                       . "\n" . '.cmplz-cookiebanner .cmplz-category-title{} '
+                       . "\n"
+                       . "\n".'/* Manage consent tab */'
+                       . "\n" . '#cmplz-manage-consent .cmplz-manage-consent{} '
+                       . "\n"
+                       . "\n".'/* Soft cookie wall */'
+                       . "\n" . '.cmplz-soft-cookiewall{}'
+                       . "\n"
+                       . "\n".'/* Placeholder button - Per category */'
+                       . "\n" . '.cmplz-blocked-content-container .cmplz-blocked-content-notice{}'
+                       . "\n"
+                       . "\n".'/* Placeholder button & message - Per service */'
+                       . "\n" . '.cmplz-blocked-content-container .cmplz-blocked-content-notice, .cmplz-blocked-content-notice{}'
+                       . "\n" . 'button.cmplz-accept-service{}'
+                       . "\n"
+                       . "\n" . "/* Styles for the AMP notice */"
+                       . "\n" . '#cmplz-consent-ui, #cmplz-post-consent-ui {}'
+                       . "\n" . '/* Message */'
+                       . "\n" . '#cmplz-consent-ui .cmplz-consent-message {}'
+                       . "\n" . '/* Buttons */'
+                       . "\n" . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {}',
 				'condition' => array( 'use_custom_cookie_css' => true ),
 			),
 

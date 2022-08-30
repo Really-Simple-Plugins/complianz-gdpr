@@ -18,17 +18,40 @@ $this->fields = $this->fields + array(
 			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 		),
 
+		/*
+		** a_b_testing = consent statistics
+		** a_b_testing_buttons = buttons to add banners
+		** easier, not prettier
+		*/
+
 		'a_b_testing' => array(
 			'source'   => 'settings',
 			'step'     => 'general',
 			'type'     => 'checkbox',
-			'label'    => __( "Enable A/B testing", 'complianz-gdpr' ).cmplz_upgrade_to_premium('https://complianz.io/pricing'),
+			'label'    => __( "Enable consent statistics", 'complianz-gdpr' ),
 			'comment'  => $this->premium_ab_testing
-			              . __( 'If enabled, the plugin will track which cookie banner has the best conversion rate.', 'complianz-gdpr' ),
+										. __( 'If enabled, the plugin will visualize stored records of consent.', 'complianz-gdpr' ),
 			'disabled' => true,
 			'default'  => false,
 			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
 		),
+
+		'a_b_testing_buttons' => array(
+			'source'   => 'settings',
+			'step'     => 'general',
+			'type'     => 'checkbox',
+			'label'    => __( "Enable A/B testing", 'complianz-gdpr' ),
+			'comment'  => $this->premium_ab_testing_buttons
+										. __( 'If enabled, the plugin will track which cookie banner has the best conversion rate.', 'complianz-gdpr' ),
+			'disabled' => true,
+			'default'  => false,
+			'condition'    => array(
+				'a_b_testing' => true,
+			),
+			//setting this to true will set it always to true, as the get_cookie settings will see an empty value
+		),
+
+
 
 		'use_cdb_api' => array(
 			'source'   => 'settings',

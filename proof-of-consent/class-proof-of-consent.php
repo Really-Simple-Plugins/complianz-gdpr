@@ -305,6 +305,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					'version',
 					'banner_version',
 					'a_b_testing',
+					'a_b_testing_buttons',
 					'title',
 					'privacy_link',
 					'nonce',

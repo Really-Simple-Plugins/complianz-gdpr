@@ -32,7 +32,7 @@ $docs = array(
 	),
 );
 
-if (!class_exists('COMPLIANZ_TC') ) {
+if ( ! class_exists('COMPLIANZ_TC') && ! defined('cmplz_premium') ) {
 	$title = __("Terms and Conditions",'complianz-gdpr');
 	$status = 'disabled';
 	$shortcode_icon = cmplz_icon( 'shortcode', 'disabled' , __( 'Click to copy the document shortcode', 'complianz-gdpr' ));
@@ -48,6 +48,8 @@ if (!class_exists('COMPLIANZ_TC') ) {
 		'generated' => $generated,
 	);
 	echo cmplz_get_template('dashboard/documents-row.php', $args);
+} else if (class_exists('COMPLIANZ_TC') && ! defined('cmplz_premium') ) {
+	COMPLIANZ_TC::$document->add_docs_to_cmplz_dashboard( 'all' );
 }
 
 foreach ($docs as $index => $doc) {

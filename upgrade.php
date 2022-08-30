@@ -938,8 +938,17 @@ function cmplz_check_upgrade() {
 				$banner->save();
 			}
 		}
-
 	}
+
+	if ( $prev_version && version_compare( $prev_version, '6.3.2', '<' ) ) {
+		//upgrade statistics a/b testing
+		$general_settings = get_option( 'complianz_options_settings' );
+		if ( isset( $general_settings['a_b_testing'] ) && $general_settings['a_b_testing'] ) {
+			$general_settings['a_b_testing_buttons'] = true;
+		}
+		update_option( 'complianz_options_settings', $general_settings );
+	}
+
 
 	//regenerate css
 	$banners = cmplz_get_cookiebanners();

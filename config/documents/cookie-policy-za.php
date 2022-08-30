@@ -82,14 +82,36 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'subtitle' => _x('Social media buttons', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => cmplz_sprintf(_x('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalized advertisement can be shown to you.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
-		'condition' => array('uses_social_media' => 'yes'),
+		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => _x('On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'EMPTY',
+		),
+	),
+	array(
+		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => cmplz_sprintf(_x('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'NOT EMPTY',
+		),
 	),
 
 	array(
 		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr').' '.cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
-		'condition' => array('uses_social_media' => 'yes'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'NOT EMPTY',
+		),
+	),
+
+	array(
+		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'EMPTY',
+		),
 	),
 
 	array(
@@ -129,6 +151,16 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 		'callback_condition' => 'cmplz_tcf_active',
 	),
 
+	array(
+		'title' => 'Enabling/disabling and deleting cookies',
+		'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
+	),
+
+	'enable-disable-removal-cookies-2' => array(
+		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'Legal document cookie policy', 'complianz-gdpr'),
+	),
+
+
 	'your-rights' =>array(
 		'title' => _x('Your rights with respect to personal data', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'content' =>
@@ -149,16 +181,7 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 		'content' =>
 			_x("To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the Information Regulator South Africa: P.O Box 31533, Braamfontein, Johannesburg, 2017 Complaints email: complaints.IR@justice.gov.za", 'Legal document cookie policy', 'complianz-gdpr'),
 	),
-
-	'enable-disable-removal-cookies' => array(
-		'title' => _x('Enabling/disabling and deleting cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => _x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',  'Legal document cookie policy','complianz-gdpr'),
-	),
-
-	'enable-disable-removal-cookies-2' => array(
-		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'Legal document cookie policy', 'complianz-gdpr'),
-	),
-
+	
 	'contact-details' => array(
 		'title' => _x('Contact details', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'content' => _x('For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:', 'Legal document cookie policy', 'complianz-gdpr'),

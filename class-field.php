@@ -2527,7 +2527,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                             <div class="checkmark">' . cmplz_icon('check', 'success') . '</div>
                         </label>
                         <div class="condition-check-1 '. (!$value['enable_placeholder'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="1" data-condition-question-1="add_script['.$i.'][enable_placeholder]">
-                            <label>' . __( 'Enter the div class that should be targeted.', 'complianz-gdpr' ) .cmplz_read_more('https://complianz.io/script-center#placeholder/'). '</label>
+                            <label>' . __( 'Enter the div class or ID that should be targeted.', 'complianz-gdpr' ) .cmplz_read_more('https://complianz.io/script-center#placeholder/'). '</label>
                         </div>
                         <div class="condition-check-1 '. (!$value['enable_placeholder'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="1" data-condition-question-1="add_script['.$i.'][enable_placeholder]">
                             <input type="text"
@@ -2875,7 +2875,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
                         </label>
                         </div>
                         <div class="condition-check-1 '. ($value['iframe'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]">
-                            <label>' . __( 'Enter the div class that should be targeted.' , 'complianz-gdpr' ) .cmplz_read_more('https://complianz.io/script-center#placeholder/'). '</label>
+                            <label>' . __( 'Enter the div class or ID that should be targeted.' , 'complianz-gdpr' ) .cmplz_read_more('https://complianz.io/script-center#placeholder/'). '</label>
                         </div>
                         <div class="condition-check-1 '. ($value['iframe'] ? 'cmplz-hidden' : '') .'" data-condition-answer-1="" data-condition-question-1="block_script['.$i.'][iframe]">
                             <input type="text"

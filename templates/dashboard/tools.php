@@ -1,21 +1,21 @@
 <?php defined( 'ABSPATH' ) or die( "you do not have access to this page!" ); ?>
 	<div class="cmplz-tools-row">
 		<div>
-			<a href="<?php echo add_query_arg( array('page' => 'cmplz-proof-of-consent'), admin_url( 'admin.php' ) ) ?>">
-				<?php _e( "Proof of consent", 'complianz-gdpr' ); ?>
-			</a>
+			<?php _e( "Data request processing", 'complianz-gdpr' ); ?>
 		</div>
-		<div class="cmplz-last-updated-poc"><?php
-			$docs = COMPLIANZ::$document->get_cookie_snapshot_list();
-			if ( empty($docs) ) {
-				_e("Not generated yet", "complianz-gdpr");
+		<div>
+			<?php
+			$wizard_settings = get_option( 'complianz_options_wizard' );
+			if ( $wizard_settings['datarequest'] === 'yes' ) {
+				$text = __( 'View', 'complianz-gdpr' );
+				$link = add_query_arg(array('page' => 'cmplz-processing-agreements'), admin_url('admin.php') );
 			} else {
-				$last_cookie_statement = reset($docs );
-				$time = $last_cookie_statement['time'];
-				$last_updated = date( cmplz_short_date_format(), $time );
-				printf(__('Last update %s', "complianz-gdpr"), $last_updated );
-			}
-			?>
+				$text = __( 'Read more', 'complianz-gdpr' );
+				$link = "https://complianz.io/definition/what-is-a-data-request/";
+			} ?>
+			<a target="_blank" href="<?php echo $link ?>" class="cmplz-premium">
+				<?php echo $text ?>
+			</a>
 		</div>
 	</div>
 
@@ -35,6 +35,26 @@
 				<?php _e( "Erase",
 					'complianz-gdpr' ); ?>
 			</a>
+		</div>
+	</div>
+
+	<div class="cmplz-tools-row">
+		<div>
+			<a href="<?php echo add_query_arg( array('page' => 'cmplz-proof-of-consent'), admin_url( 'admin.php' ) ) ?>">
+				<?php _e( "Proof of consent", 'complianz-gdpr' ); ?>
+			</a>
+		</div>
+		<div class="cmplz-last-updated-poc"><?php
+			$docs = COMPLIANZ::$document->get_cookie_snapshot_list();
+			if ( empty($docs) ) {
+				_e("Not generated yet", "complianz-gdpr");
+			} else {
+				$last_cookie_statement = reset($docs );
+				$time = $last_cookie_statement['time'];
+				$last_updated = date( cmplz_short_date_format(), $time );
+				printf(__('Last update %s', "complianz-gdpr"), $last_updated );
+			}
+			?>
 		</div>
 	</div>
 

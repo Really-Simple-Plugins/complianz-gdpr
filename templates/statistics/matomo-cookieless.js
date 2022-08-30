@@ -9,7 +9,7 @@ _paq.push(['requireCookieConsent']);
 	_paq.push(['setSiteId', '{site_id}']);
 	_paq.push(['setSecureCookie', window.location.protocol === "https:" ]);
 	var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-	g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+	g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
 })();
 
 document.addEventListener("cmplz_fire_categories", function (e) {

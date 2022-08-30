@@ -193,6 +193,9 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 					$translation->save(false, false);
 				}
 			}
+
+			wp_cache_delete('cmplz_service_cookies_'.$this->ID, 'complianz');
+			wp_cache_delete('cmplz_service_'.$this->ID, 'complianz');
 		}
 
 

@@ -15,7 +15,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
     'what-are-scripts' => array(
         'title' => 'What are scripts?',
-        'content' => 'A script is a piece of programme code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
+        'content' => 'A script is a piece of program code that is used to make our website function properly and interactively. This code is executed on our server or on your device.',
     ),
     'what-is-a-webbeacon' => array(
         'title' => 'What is a web beacon?',
@@ -59,7 +59,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
     array(
 	    'subtitle' => 'Advertising cookies',
-	    'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behaviour on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behaviour and interests to serve personalised ads.', '[domain]'),
+	    'content' => cmplz_sprintf('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behaviour on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behaviour and interests to serve personalized ads.', '[domain]'),
 	    'condition' => array(
 		    'uses_ad_cookies' => 'yes',
 		    'uses_ad_cookies_personalized' => 'no'
@@ -80,16 +80,38 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 		'callback_condition' => 'cmplz_uses_marketing_cookies',
 	),
 
-    array(
-	    'subtitle' => 'Social media buttons',
-	    'content' => cmplz_sprintf('On our website we have included buttons for %s to promote webpages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. These buttons work using pieces of code coming from %s themselves. This code places cookies. These social media buttons also can store and process certain information, so a personalised advertisement can be shown to you.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
-	    'condition' => array('uses_social_media' => 'yes'),
-    ),
+	array(
+		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => _x('On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'EMPTY',
+		),
+	),
+	array(
+		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => cmplz_sprintf(_x('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'NOT EMPTY',
+		),
+	),
 
-    array(
-	    'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anomymised as much as possible.'.' '. cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
-	    'condition' => array('uses_social_media' => 'yes'),
-    ),
+	array(
+		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr').' '.cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'NOT EMPTY',
+		),
+	),
+
+	array(
+		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr'),
+		'condition' => array(
+			'uses_social_media' => 'yes',
+			'socialmedia_on_site' => 'EMPTY',
+		),
+	),
 
     'cookie_names' => array(
 	    'title' => 'Placed cookies',
@@ -128,7 +150,17 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 		'callback_condition' => 'cmplz_tcf_active',
 	),
 
-    'your-rights' => array(
+	'enable-disable-removal-cookies' => array(
+		'title' => _x('Enabling/disabling and deleting cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'content' => _x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',  'Legal document cookie policy','complianz-gdpr'),
+	),
+
+	'enable-disable-removal-cookies-2' => array(
+		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'Legal document cookie policy', 'complianz-gdpr'),
+	),
+
+
+	'your-rights' => array(
         'title' => 'Your rights with respect to personal data',
         'content' =>
             'You have the following rights with respect to your personal data:',
@@ -148,15 +180,6 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'your-rights-3' => array(
         'content' =>
             "To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Information Commissioner's Office (ICO)).",
-    ),
-
-    'enable-disable-removal-cookies' => array(
-        'title' => 'Enabling/disabling and deleting cookies',
-        'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
-    ),
-
-    'enable-disable-removal-cookies-2' => array(
-        'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.',
     ),
 
     'contact-details' => array(

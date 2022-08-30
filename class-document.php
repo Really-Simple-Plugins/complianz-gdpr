@@ -397,22 +397,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 					$type  = $fields[ $question ]['type'];
 					$value = cmplz_get_value( $question, $post_id );
-					if ($condition_answer === 'NOT EMPTY') {
-						if ( empty( $value ) ) {
-							return false;
-						} else {
-							return true;
-						}
-					}
-
-					if ($condition_answer === 'EMPTY') {
-						if ( empty( $value ) ) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
 						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
@@ -450,14 +434,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$current_condition_met = $invert ? !$current_condition_met : $current_condition_met;
 					$condition_met = $condition_met && $current_condition_met;
 				}
-
 				return $condition_met;
 
 			}
 
 			return true;
 		}
-
 
 		/**
 		 * Check if this element should loop through dynamic multiple values
@@ -906,7 +888,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( $front_end_label && ! empty( $value ) ) {
-				$value = $front_end_label . $value . "<br>";
+				$value = $front_end_label . $value;
 			}
 
 			return $value;
@@ -2169,7 +2151,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( $type === 'classic' && ! $legacy ) {
 				return '/\[cmplz\-document.*?type="(.*?)".*?region="(.*?)".*?]/i';
 			} else {
-				return '/<!-- wp:complianz\/document {.*?"selectedDocument":"(.*?)"} \/-->/i';
+				return '/<!-- wp:complianz\/document {.*?"selectedDocument":"[^\"](.*?)\".*?} \/-->/i';
 			}
 		}
 

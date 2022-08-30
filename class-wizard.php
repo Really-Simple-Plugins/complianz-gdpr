@@ -196,7 +196,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			//when ab testing is just enabled icw TM, cats should be enabled for each banner.
-			if ( ( $fieldname == 'a_b_testing' && $fieldvalue === true
+			if ( ( $fieldname == 'a_b_testing_buttons' && $fieldvalue === true
 			       && $prev_value == false )
 			) {
 				if ( $uses_tagmanager ) {
