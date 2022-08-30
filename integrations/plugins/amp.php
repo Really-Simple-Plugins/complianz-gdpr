@@ -126,7 +126,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 			//check if we're on cookie policy page. If so, we offer a revoke option
 			$is_policy = cmplz_page_is_of_type('cookie-statement');
 			$postPromptUI = $is_policy ? '"cmplz-post-consent-ui"' : 'false';
-			$revoke_text = $this->banner->revoke_x['text'];
+			$revoke_text = $this->banner->revoke_x;
 			$dismiss_text = $this->banner->dismiss_x['text'];
 			$revoke       = $is_policy
 				? '<div id="cmplz-post-consent-ui"><button on="tap:consent-element.prompt" role="button">'
