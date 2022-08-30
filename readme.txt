@@ -176,24 +176,19 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.3.2 =
-* Improvement: Enable consent statistics without A/B testing
 * Improvement: some small dashboard changes
 * Improvement: Prevent duplicate cookies in consent per service array
 * Improvement: caching improvements
 * Improvement: sharing of data multicheckbox with "more options" button
 * Improvement: stricter shortcode pattern for gutenberg prevents non intentional redirect to english version when shortcode contains custom class with 'us' string, props @sami54000
-* Improvement: prevent empty sharing with other parties statements in privacy policy
 * Improvement: stricter regex pattern for youtube in elementor, preventing issues when video is self hosted, props @hatchjaw
 * Improvement: extend custom css examples
 * Improvement: catch situation where user selects that social media are used, but does not select any social media
 * Improvement: drop defer from matomo js, as it is deprecated in favor of async
 * Fix: changes in manage consent button option causing issue in AMP integration, props @tarbyonline
 * Fix: typo in cookie policy
-* Fix: conflict with older geo ip library in GEO Ip Detect plugin
-* Fix: numbering in TCF policy incorrect
 * Fix: Woocommerce analytics integration icw Stripe, props @xbaeza
 * Fix: string change: for placeholders, you can now use a DIV class or an ID
-* Fix: glitch in cookie banner statistics when hovering
 
 = 6.3.1 =
 * Improvement: Catch php 5.6 error for geo ip
