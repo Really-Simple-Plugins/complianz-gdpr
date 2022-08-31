@@ -315,6 +315,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$default = $this->get_default( $fieldname );
 			//treat as string
 			if ( $type === 'text' || $type === 'select' || $type === 'editor' ) {
+				//on some websites, the previous value seems to be cached. We try to catch that here.
+				//should be removed at some future point
+				if ( $fieldname==='revoke' && is_serialized($value) ){
+					$value = unserialize($value);
+					$value = isset($value['text']) ? $value['text'] :__( "Manage consent", 'complianz-gdpr' );
+				}
 				if ( empty($value) && $set_defaults ) {
 					$value = $default;
 				}
