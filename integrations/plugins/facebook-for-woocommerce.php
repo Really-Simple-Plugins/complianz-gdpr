@@ -9,7 +9,8 @@ function cmplz_facebookforwoocommerce_script( $tags ) {
 		'placeholder' => 'facebook',
 		'urls' => array(
 			'connect.facebook.net',
-			'fbq',
+			'fbq(',
+			'f.fbq=function',
 		),
 	);
 
