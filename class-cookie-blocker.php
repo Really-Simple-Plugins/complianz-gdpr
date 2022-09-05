@@ -33,6 +33,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			}
 			$this->cookie_list = get_transient('cmplz_cookie_shredder_list' );
 			if ( !$this->cookie_list ) {
+				$this->cookie_list = [];
 				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
 					'ignored'           => false,
 					'hideEmpty'         => false,
