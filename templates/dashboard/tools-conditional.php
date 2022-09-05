@@ -52,7 +52,7 @@
 </div>
 <div class="cmplz-tools-row">
 	<div>
-		<?php _e( "Create A/B Tests", 'complianz-gdpr' ); ?>
+		<?php _e( "Consent Statistics & A/B Testing", 'complianz-gdpr' ); ?>
 	</div>
 	<div>
 		<a target="_blank" href="https://complianz.io/a-quick-introduction-to-a-b-testing/" class="cmplz-premium">

@@ -5,16 +5,16 @@ $items = array(
 				'link'    => 'https://complianz.io/docs/customization/',
 		),
 		2 => array(
-				'content' => "Why WordPress Plugins are better in Consent Management",
+				'content' => "Why plugins are better in consent management",
 				'link' => 'https://complianz.io/consent-management-wordpress-native-plugin-versus-cloud-solution/',
 		),
 		3 => array(
-				'content' => "Do I need a checkbox on my contact form?",
-				'link' => 'https://complianz.io/do-i-need-a-checkbox-on-my-contact-form',
+				'content' => "Configure Tag Manager with Complianz",
+				'link' => 'https://complianz.io/definitive-guide-to-tag-manager-and-complianz/',
 		),
 		4 => array(
-				'content' => "Configuring Google Analytics for your region",
-				'link' => 'https://complianz.io/?s=Configure+Google+Analytics',
+				'content' => "Self-hosting Google Fonts",
+				'link' => 'https://complianz.io/self-hosting-google-fonts-for-wordpress/',
 		),
 		5 => array(
 				'content' => "Translating your cookie notice and legal documents",

@@ -493,7 +493,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 						'get_value_respect_dnt==yes'
 					),
 					'completed'    => __( 'Do Not Track and Global Privacy Control are respected.', 'complianz-gdpr' ),
-					'open' => cmplz_sprintf( __( 'Do Not Track and Global Privacy Control are not yet respected. - (%spremium%s)', 'complianz-gdpr' ), '<a  target="_blank" href="https://complianz.io/browser-privacy-controls/">', '</a>' ),
+					'open' => __( 'Do Not Track and Global Privacy Control are not yet respected.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/browser-privacy-controls/'),
 				),
 
 				'drop-elementor-banner' => array(

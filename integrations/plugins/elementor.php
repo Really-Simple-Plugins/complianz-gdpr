@@ -183,3 +183,14 @@ function cmplz_elementor_css() {
 	}
 	<?php }
 }
+
+/**
+ * Whitelist Elementor Add on
+ *
+ */
+
+function cmplz_elementor_whitelist($tags){
+	$tags[] = 'elementorFrontendConfig';
+	return $tags;
+}
+add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_elementor_whitelist');
