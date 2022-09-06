@@ -384,19 +384,21 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( isset( $element['condition'] ) ) {
 				$fields        = COMPLIANZ::$config->fields;
 				$condition_met = true;
-				$invert        = false;
 
 				foreach (
 					$element['condition'] as $question => $condition_answer
 				) {
+					$invert        = false;
 					if ( $condition_answer === 'loop' ) {
 						continue;
 					}
 					if ( ! isset( $fields[ $question ]['type'] ) ) {
 						return false;
 					}
+
 					$type  = $fields[ $question ]['type'];
 					$value = cmplz_get_value( $question, $post_id );
+
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {
 						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
 						$invert           = true;
@@ -415,19 +417,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						} else {
 							$is_empty = empty($value);
 						}
-
-						if ($invert) $is_empty = !$is_empty;
-						return $is_empty;
-					}
-
-					if ( $type == 'multicheckbox' ) {
+						$current_condition_met = $is_empty;
+					} else if ( $type === 'multicheckbox' ) {
 						if ( ! isset( $value[ $condition_answer ] ) || ! $value[ $condition_answer ] )
 						{
 							$current_condition_met = false;
 						} else {
 							$current_condition_met = true;
 						}
-
 					} else {
 						$current_condition_met = $value == $condition_answer ;
 					}
