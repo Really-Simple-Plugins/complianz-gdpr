@@ -2151,7 +2151,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( $type === 'classic' && ! $legacy ) {
 				return '/\[cmplz\-document.*?type="(.*?)".*?region="(.*?)".*?]/i';
 			} else {
-				return '/<!-- wp:complianz\/document {.*?"selectedDocument":"[^\"](.*?)\".*?} \/-->/i';
+				return '/<!-- wp:complianz\/document {.*?"selectedDocument":"([^\"].*?)\".*?} \/-->/i';
 			}
 		}
 
