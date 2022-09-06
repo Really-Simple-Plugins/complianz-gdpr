@@ -177,6 +177,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 = 6.3.2.1 =
 * Fix: catch empty array during cookie list generation for cookie shredder/consent per service
+* Fix: shortcode pattern for Gutenberg shortcode recognition didn't include first character
 
 = 6.3.2 =
 * Improvement: some small dashboard changes
