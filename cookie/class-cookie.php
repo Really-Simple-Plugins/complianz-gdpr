@@ -453,6 +453,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->showOnPolicy          = $this->showOnPolicy;
 					$translation->deleted               = $this->deleted;
 					$translation->ignored               = $this->ignored;
+					$translation->isOwnDomainCookie     = $this->isOwnDomainCookie;
 
 //                  dot not update all translations for these fields, even when not synced.
 //					//translated data, only when not synced
