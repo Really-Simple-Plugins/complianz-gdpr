@@ -1182,10 +1182,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$uploads    = wp_upload_dir();
 			$upload_dir = $uploads['basedir'];
 			if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
-				mkdir( $upload_dir . '/complianz' );
+				mkdir( $upload_dir . '/complianz' ,0755);
 			}
 			if ( ! file_exists( $upload_dir . '/complianz/css' ) && is_writable($upload_dir . '/complianz') ) {
-				mkdir( $upload_dir . '/complianz/css' );
+				mkdir( $upload_dir . '/complianz/css',0755 );
 			}
 
 			$consent_types = cmplz_get_used_consenttypes();

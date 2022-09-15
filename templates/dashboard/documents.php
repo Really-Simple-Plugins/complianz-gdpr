@@ -71,7 +71,7 @@
 						'page_exists' => cmplz_icon('bullet', 'disabled'),
 						'sync_icon' => cmplz_icon('sync', 'disabled'),
 						'shortcode_icon' => cmplz_icon('shortcode', 'disabled'),
-						'generated' => '<a href="'.add_query_arg( array('page'=>'cmplz-wizard', 'step'=>STEP_MENU),  admin_url('admin.php') ).'">'.__( "create", 'complianz-gdpr' ).'</a>',
+						'generated' => '<a href="'.add_query_arg( array('page'=>'cmplz-wizard', 'step'=>STEP_MENU),  admin_url('admin.php') ).'">'.__( "Create", 'complianz-gdpr' ).'</a>',
 				);
 				echo cmplz_get_template('dashboard/documents-row.php', $args);
 			}

@@ -1943,15 +1943,15 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		$upload_dir = $uploads['basedir'];
 
 		if ( ! file_exists( $upload_dir ) ) {
-			mkdir( $upload_dir );
+			mkdir( $upload_dir,0755 );
 		}
 
 		if ( ! file_exists( $upload_dir . "/complianz" ) ) {
-			mkdir( $upload_dir . "/complianz" );
+			mkdir( $upload_dir . "/complianz",0755 );
 		}
 
 		if ( ! file_exists( $upload_dir . "/complianz/placeholders" ) ) {
-			mkdir( $upload_dir . "/complianz/placeholders" );
+			mkdir( $upload_dir . "/complianz/placeholders",0755 );
 		}
 
 		//set the path

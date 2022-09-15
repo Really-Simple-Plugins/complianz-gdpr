@@ -5,7 +5,6 @@
 		</div>
 		<div>
 			<?php
-			$wizard_settings = get_option( 'complianz_options_wizard' );
 			if ( cmplz_datarequests_active() ) {
 				$text = __( 'View', 'complianz-gdpr' );
 				$link = add_query_arg(array('page' => 'cmplz-processing-agreements'), admin_url('admin.php') );

@@ -1674,8 +1674,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//get list of menus
 			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
 
-			$link = '<a href="https://complianz.io/how-to-create-a-menu-in-wordpress/" target="_blank">';
 			if ( empty( $menus ) ) {
+				if ( current_theme_supports( 'menus' ) ) {
+					$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
+				} else {
+					$link = '<a href="https://complianz.io/how-to-create-a-menu-in-wordpress/" target="_blank">';
+				}
 				cmplz_notice( cmplz_sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
 				return;
 			}
@@ -1734,21 +1738,16 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//get list of menus
 			$menus = wp_list_pluck( wp_get_nav_menus(), 'name', 'term_id' );
 			$mapping_array = COMPLIANZ::$config->generic_documents_list;
-			$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
 			if ( empty( $menus ) ) {
+				if ( current_theme_supports( 'menus' ) ) {
+					$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
+				} else {
+					$link = '<a href="https://complianz.io/how-to-create-a-menu-in-wordpress/" target="_blank">';
+				}
 				cmplz_notice( cmplz_sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
 				return;
 			}
 			$page_types = $this->get_created_pages( false, true );
-//			if ( cmplz_has_region('us') ) {
-//				//if only us, and ccpa, the default cookie policy is a DNSMPI document, which should not get region redirected.
-//				$regions = cmplz_get_regions();
-//				unset($regions['us']);
-//				if ( count($regions)==0 ) {
-//					$key = array_search('cookie-statement', $page_types);
-//					unset( $page_types[$key]);
-//				}
-//			}
 
             echo '<div class="cmplz-field">';
             echo '<div class="cmplz-link-to-menu-table">';
@@ -1757,10 +1756,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					if ( !$mapping_array[$page_type]['can_region_redirect'] ) {
 						continue;
 					}
-//					//if ccpa, the DNSMPI page should always be added separately to the menu.
-//					if (!cmplz_ccpa_applies() || $page_type !== 'cookie-statement' ) {
-//						unset($page_types[$key]);
-//					}
 
 					echo '<span>' . $mapping_array[$page_type]['title'] . '</span>'; ?>
 					<select name="cmplz_assigned_menu[redirected][<?php echo $page_type ?>]">
@@ -1771,17 +1766,15 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						} ?>
 					</select>
 					<?php
+					//if the document was found and can be redirected, we remove it from the pages list.
+					unset($page_types[$key]);
 				}
 			}
 
 			//if not all pages were in the generic document list, these should not be region redirected.
 			if (count($page_types)>0){
 				foreach ($page_types as $page_type ) {
-//					if ( cmplz_has_region('us') && $page_type === 'cookie-statement' ) {
-//						$page_id = $this->get_shortcode_page_id('cookie-statement', 'us', false);
-//					} else {
-						$page_id = $this->get_page_id_for_generic_document($page_type);
-//					}
+					$page_id = $this->get_page_id_for_generic_document($page_type);
 					if ( $page_id ) {
 						echo '<span>' . get_the_title( $page_id ) . '</span>';
 						?>
@@ -2938,18 +2931,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( ! $error ) {
 				if ( ! file_exists( $upload_dir . '/complianz' ) ) {
-					mkdir( $upload_dir . '/complianz' );
+					mkdir( $upload_dir . '/complianz',0755 );
 				}
 				if ( ! file_exists( $upload_dir . '/complianz/tmp' ) ) {
-					mkdir( $upload_dir . '/complianz/tmp' );
+					mkdir( $upload_dir . '/complianz/tmp',0755 );
 				}
 				if ( ! file_exists( $upload_dir . '/complianz/snapshots' ) ) {
-					mkdir( $upload_dir . '/complianz/snapshots' );
+					mkdir( $upload_dir . '/complianz/snapshots',0755 );
 				}
 				$save_dir = $upload_dir . '/complianz/snapshots/';
 				$temp_dir = $upload_dir . '/complianz/tmp/' . $token;
 				if ( ! file_exists( $temp_dir ) ) {
-					mkdir( $temp_dir );
+					mkdir( $temp_dir,0755 );
 				}
 			}
 

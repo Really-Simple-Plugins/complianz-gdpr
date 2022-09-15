@@ -23,7 +23,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"videopress"       => 'VideoPress',
 				"dailymotion"      => 'Dailymotion',
 				"soundcloud"       => 'SoundCloud',
-				"twitch"         	 => 'Twitch',
+				"twitch"           => 'Twitch',
 				"paypal"           => 'PayPal',
 				"spotify"          => 'Spotify',
 				"hotjar"           => 'Hotjar',

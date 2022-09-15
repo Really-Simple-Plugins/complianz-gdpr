@@ -40,6 +40,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'mailchimp-woocommerce' => array(
+			'constant_or_function' => 'MAILCHIMP_WOOCOMMERCE_NEWSLETTER_VERSION',
+			'label'                => 'Mailchimp for Woocommerce',
+			'firstparty_marketing' => false,
+	),
+
 	'burst-statistics' => array(
 			'constant_or_function' => 'burst_version',
 			'label'                => 'Burst Statistics',
@@ -464,15 +470,24 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Thrive',
 		'firstparty_marketing' => false,
 	),
-
 	'gravity-forms' => array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
 		'firstparty_marketing' => false,
 	),
 	'qtranslate'               => array(
-			'constant_or_function' => 'QTX_VERSION',
-			'label'                => 'qTranslate-XT',
+		'constant_or_function' => 'QTX_VERSION',
+		'label'                => 'qTranslate-XT',
+		'firstparty_marketing' => false,
+	),
+	'welaunch-store-locator'   => array(
+		'constant_or_function' => 'run_WordPress_Store_Locator',
+		'label'                => 'WeLaunch Store Locator',
+		'firstparty_marketing' => false,
+	),
+	'presto-player'               => array(
+			'constant_or_function' => 'PRESTO_PLAYER_PLUGIN_FILE',
+			'label'                => 'Presto Player',
 			'firstparty_marketing' => false,
 	),
 ) );
