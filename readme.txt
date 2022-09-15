@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.0
-Stable tag: 6.3.2.1
+Stable tag: 6.3.3
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,23 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.3.3 =
+* Improvement: fallback for manage consent button, in case of upgrade issue
+* Improvement: conditionally offer link to create menu page
+* Improvement: remove unnecessary translatable strings from policy UK and AU
+* Improvement: remove unnecessary slash in matomo script
+* Improvement: email obfuscation when line break in the email prevented reversal of email
+* Improvement: block activation of plugin below php version 7.2
+* Improvement: dynamically adjust banner text based on advertising settings
+* Improvement: no script tags when there's no actual script to add for statistics
+* New: WordPress store locator integration
+* New: Presto Player integration
+* Fix: changes in manage consent button option causing issue in AMP integration, props @tarbyonline
+* Fix: document options in region redirect menu not correctly filtered
+* Fix: prevent error in system status when wizard not started yet
+* Fix: NOT EMPTY condition on imprint statement
+* Fix: no javascript error report unless script debug enabled
+
 = 6.3.2.1 =
 * Fix: catch empty array during cookie list generation for cookie shredder/consent per service
 * Fix: shortcode pattern for Gutenberg shortcode recognition didn't include first character

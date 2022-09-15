@@ -1,6 +1,21 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
+/**
+ * Whitelist Elementor Add on
+ *
+ */
+
+function cmplz_elementor_whitelist($tags){
+	$tags[] = 'elementorFrontendConfig';
+	return $tags;
+}
+add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_elementor_whitelist');
+
+/**
+ *
+ */
+
 function cmplz_elementor_initDomContentLoaded() {
 	if ( cmplz_uses_thirdparty('youtube') || cmplz_uses_thirdparty('facebook') || cmplz_uses_thirdparty('twitter') ) {
 		ob_start();
@@ -183,14 +198,3 @@ function cmplz_elementor_css() {
 	}
 	<?php }
 }
-
-/**
- * Whitelist Elementor Add on
- *
- */
-
-function cmplz_elementor_whitelist($tags){
-	$tags[] = 'elementorFrontendConfig';
-	return $tags;
-}
-add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_elementor_whitelist');

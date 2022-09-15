@@ -111,6 +111,12 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                         '<a  target="_blank" href="https://complianz.io/debugging-manual">', '</a>'),
                         'warning');
 				}
+
+				if ( cmplz_get_value('uses_ad_cookies_personalized') === 'yes' ) {
+					global $wpdb;
+					$banner_text = __( "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
+					$wpdb->query( "UPDATE {$wpdb->prefix}cmplz_cookiebanners SET message_optin = '$banner_text'" );
+				}
 			}
 		}
 
@@ -319,7 +325,14 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			if ( $generate_css ){
 				cmplz_update_all_banners();
 			}
-		}
+
+			// Disable German imprint appendix option when eu_consent_regions is no
+			if ( $fieldname === 'eu_consent_regions'
+				&& cmplz_get_value('eu_consent_regions') === 'no'
+				&& cmplz_get_value('german_imprint_appendix') === 'yes') {
+					cmplz_update_option('wizard' , 'german_imprint_appendix', 'no');
+				}
+			}
 
 		/**
 		 * Get the next step with fields in it

@@ -1196,7 +1196,7 @@ function cmplz_set_service_consent( service, consented ){
 	}
 	consented_services[service] = consented;
 	cmplz_set_cookie('consented_services', JSON.stringify(consented_services) );
-	let details = new Object();
+	let details = {};
 	details.service = service;
 	details.value = consented;
 	details.region = complianz.region;

@@ -37,7 +37,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	    'content' => '[cmplz-manage-consent]',
     ),
 	array(
-		'subtitle' => _x('Vendors', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+		'subtitle' => 'Vendors',
 		'p' => false,
 		'content' => '[cmplz-tcf-vendors]',
 		'callback_condition' => array(
@@ -101,16 +101,16 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => _x('On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'),
+		'subtitle' => 'Social media', 'Legal document cookie policy:paragraph title',
+		'content' => 'On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.',
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'EMPTY',
 		),
 	),
 	array(
-		'subtitle' => _x('Social media', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => cmplz_sprintf(_x('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', 'complianz-gdpr'), '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+		'subtitle' => 'Social media', 'Legal document cookie policy:paragraph title',
+		'content' => cmplz_sprintf('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -118,7 +118,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr').' '.cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -126,7 +126,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => __('Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.','complianz-gdpr'),
+		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.',
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'EMPTY',
@@ -138,14 +138,13 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 		'callback' => 'cmplz_used_cookies',
 	),
 
-
 	array(
 		'title' => 'Enabling/disabling and deleting cookies',
 		'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
 	),
 
 	'enable-disable-removal-cookies-2' => array(
-		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'Legal document cookie policy', 'complianz-gdpr'),
+		'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.',
 	),
 
     array(
@@ -178,7 +177,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s','<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

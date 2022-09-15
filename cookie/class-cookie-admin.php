@@ -41,8 +41,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
-			add_action( 'wp_footer', array( $this, 'detect_conflicts' ), PHP_INT_MAX );
-			add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
+
+			if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+				add_action( 'wp_footer', array( $this, 'detect_conflicts' ), PHP_INT_MAX );
+				add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
+			}
+
 			add_action( 'wp_ajax_load_detected_cookies', array( $this, 'load_detected_cookies' ) );
 			add_action( 'wp_ajax_cmplz_get_scan_progress', array( $this, 'get_scan_progress' ) );
 			add_action( 'wp_ajax_cmplz_run_sync', array( $this, 'run_sync' ) );
@@ -1968,16 +1972,28 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			 */
 
 			$stats_comment  = '<!-- Statistics script Complianz GDPR/CCPA -->' . "\n";
-			if ( $configured_by_complianz ) {
-				echo $stats_comment;
+			if ( $configured_by_complianz && $statistics !== 'no' ) {
+				
 				if ( $statistics === 'google-tag-manager' || $statistics === 'matomo-tag-manager' ) {
-					?>
-					<script data-category="<?php echo esc_attr($category) ?>">
-						<?php do_action( 'cmplz_tagmanager_script' ); ?>
-					</script><?php
+					ob_start();
+					do_action( 'cmplz_tagmanager_script' );
+					$statistics_script = ob_get_clean();
+					if ( !empty($statistics_script) ) {
+						echo $stats_comment;
+						?>
+						<script data-category="<?php echo esc_attr($category) ?>">
+							<?php echo $statistics_script; ?>
+						</script><?php
+					}
 				} else {
-					?>
-					<script <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo esc_attr($category) ?>"><?php do_action( 'cmplz_statistics_script' ); ?></script><?php
+					ob_start();
+					do_action( 'cmplz_statistics_script' );
+					$statistics_script = ob_get_clean();
+					if ( !empty($statistics_script) ) {
+						echo $stats_comment;
+						?>
+						<script <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo esc_attr($category) ?>"><?php echo $statistics_script; ?></script><?php
+					}
 				}
 
 				if ( !empty($aw_code ) && $statistics === 'google-analytics' ) {
@@ -2008,6 +2024,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$added_scripts = apply_filters('cmplz_added_scripts', $added_scripts );
             foreach ( $added_scripts as $script ) {
+				if ( !isset($script['editor']) || empty( $script['editor']) ) continue;
+
                 echo "<!-- Script Center {$script['category']} script Complianz GDPR/CCPA -->\n";
 				$async = $script['async']== 1 ? 'async' : '';
                 ?>

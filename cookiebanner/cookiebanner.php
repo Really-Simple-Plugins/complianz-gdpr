@@ -362,8 +362,6 @@ function cmplz_cookiebanner_overview() {
 				} else {
 					if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
 						cmplz_notice( __( 'Your website does not require a cookie banner, so these settings do not apply.', 'complianz-gdpr' ) );
-					} else {
-						cmplz_notice( __( '', 'complianz-gdpr' ) );
 					}
 				}
 			?>

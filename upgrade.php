@@ -949,7 +949,6 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $general_settings );
 	}
 
-
 	//regenerate css
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {
