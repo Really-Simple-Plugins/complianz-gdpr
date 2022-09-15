@@ -176,7 +176,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.3.3 =
-* Improvement: fallback for manage consent button, in case of upgrade issue
 * Improvement: conditionally offer link to create menu page
 * Improvement: remove unnecessary translatable strings from policy UK and AU
 * Improvement: remove unnecessary slash in matomo script
