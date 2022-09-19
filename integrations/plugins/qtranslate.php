@@ -8,7 +8,6 @@
 function cmplz_qtranslatex_options($options){
 	$keys = array(
 		'header',
-		'categories',
 		'accept_optin',
 		'accept_optout',
 		'manage_consent',
@@ -29,7 +28,9 @@ function cmplz_qtranslatex_options($options){
 	);
 
 	foreach($keys as $key){
-		if( isset($options[$key]) ){
+		if ( isset($options[$key]['text']) && is_string($options[$key]['text']) ){
+			$options[$key]['text'] = __($options[$key]['text']);
+		} else if ( isset($options[$key]) && is_string($options[$key]) ) {
 			$options[$key] = __($options[$key]);
 		}
 	}
