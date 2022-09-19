@@ -190,6 +190,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: prevent error in system status when wizard not started yet
 * Fix: NOT EMPTY condition on imprint statement
 * Fix: no javascript error report unless script debug enabled
+* Fix: update qTranslate integration to allow for banner fields with $field['text'] strings, props @sviluppomania
+* Fix: cookie policy UK not replacing the cookiedatabase.org link because of too many arguments in sprintf
 
 = 6.3.2.1 =
 * Fix: catch empty array during cookie list generation for cookie shredder/consent per service
