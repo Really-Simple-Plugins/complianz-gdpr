@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.0
-Stable tag: 6.3.3
+Stable tag: 6.3.4
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,28 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.3.4 =
+* New: Google Maps colibri integration
+* New: WP Google Maps OpenLayers Integration
+* New: Content Views Plugin integration to allow for ajax loaded content
+* New: ActiveCampaign
+* Improvement: some optimizations to make the cookie shredder perform better
+* Improvement: extend translation options for cookies that are not synced with cookiedatabase when using polylang
+* Improvement: use custom thrive hook in certain custom thrive implementations
+* Improvement: also copy 'owndomain' property when creating a cookie in a new language
+* Improvement: regenerate proof of consent pdf on plugin update
+* Improvement: do not offer checkbox on cookie policy for Google Fonts
+* Improvement: extend Matomo Tag Manager integration
+* Improvement: for created directories, set permissions default to 755
+* Improvement: add filter cmplz_banner_html to manage consent area as well, to offer consistent editing of the html
+* Improvement: also change banner status with custom revoke button on status change
+* Improvement: force redirect in firefox to reload with full consent withdrawal, as firefox seems to cache loaded scripts
+* Improvement: bundle integration activation notices
+* Improvement: Updated Google Maps Easy integration
+* Fix: Incorrect sorting of Proof of Consent files prevented them from showing up in the list
+* Fix: update qTranslate integration to allow for banner fields with $field['text'] strings, props @sviluppomania
+* Fix: cookie policy UK not replacing the cookiedatabase.org link because of too many arguments in sprintf
+
 = 6.3.3 =
 * Improvement: conditionally offer link to create menu page
 * Improvement: remove unnecessary translatable strings from policy UK and AU
