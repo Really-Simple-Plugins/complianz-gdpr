@@ -300,6 +300,7 @@
 .cmplz .cmplz-grid {
   display: grid;
   grid-template-columns: repeat(4, calc(25% - var(--rsp-spacing-s)) [col-start]);
+  grid-auto-rows: -webkit-max-content;
   grid-auto-rows: max-content;
   gap: var(--rsp-grid-gap);
   min-height: calc(100vh - 32px - 80px - 20px - var(--rsp-grid-gap));
@@ -501,7 +502,22 @@
   transition: transform 0.1s ease-in;
 }
 .cmplz-copy-shortcode.cmplz-click-animation .cmplz-icon {
-  animation: beat 0.4s ease-out;
+  -webkit-animation: beat 0.4s ease-out;
+          animation: beat 0.4s ease-out;
+}
+@-webkit-keyframes beat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  95% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes beat {
   0% {
@@ -734,7 +750,6 @@ Admin notice
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz .cmplz-slider:before {
@@ -745,7 +760,6 @@ Admin notice
   left: 4px;
   bottom: 3px;
   background-color: white;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz .cmplz-slider.cmplz-round {
@@ -762,7 +776,6 @@ Admin notice
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz .cmplz-slider-na:before {
@@ -777,8 +790,6 @@ Admin notice
   background-color: var(--rsp-wp-blue);
 }
 .cmplz input:checked + .cmplz-slider:before {
-  -webkit-transform: translateX(17px);
-  -ms-transform: translateX(17px);
   transform: translateX(17px);
 }
 .cmplz input:checked:disabled + .cmplz-slider {
@@ -812,8 +823,20 @@ Admin notice
 .cmplz .cmplz-bullet.rsp-blue-yellow {
   background: var(--rsp-blue);
   background: linear-gradient(77deg, #29b6f6 0%, #29b6f6 30%, #f4bf3e 70%, #f4bf3e 100%);
-  animation: gradient 2s ease infinite;
+  -webkit-animation: gradient 2s ease infinite;
+          animation: gradient 2s ease infinite;
   background-size: 200% 200%;
+}
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @keyframes gradient {
   0% {
@@ -873,11 +896,9 @@ Admin notice
   /* iOS Safari */
   -webkit-user-select: all;
   /* Safari */
-  -khtml-user-select: all;
   /* Konqueror HTML */
   -moz-user-select: all;
   /* Firefox */
-  -ms-user-select: all;
   /* Internet Explorer/Edge */
   user-select: all;
   /* Chrome and Opera */
@@ -984,7 +1005,8 @@ Admin notice
 .cmplz-dashboard .cmplz-progress-bar .cmplz-progress-bar-value,
 .cmplz-dashboard .cmplz-sync-progress-bar .cmplz-progress-bar-value {
   border-radius: 5px;
-  animation: cmplz-load-progress-bar 3s normal forwards;
+  -webkit-animation: cmplz-load-progress-bar 3s normal forwards;
+          animation: cmplz-load-progress-bar 3s normal forwards;
   box-shadow: 0 10px 40px -10px #fff;
   background: var(--rsp-color-success);
   height: 20px;
@@ -1186,7 +1208,13 @@ Admin notice
   color: var(--rsp-black);
   font-size: 13px;
 }
+#complianz.wrap.cmplz-high-contrast ::-moz-placeholder {
+  color: var(--rsp-black);
+}
 #complianz.wrap.cmplz-high-contrast ::placeholder {
+  color: var(--rsp-black);
+}
+#complianz.wrap.cmplz-high-contrast ::-moz-placeholder {
   color: var(--rsp-black);
 }
 #complianz.wrap.cmplz-high-contrast ::placeholder {
@@ -1230,7 +1258,9 @@ Admin notice
 [cmplz-tooltip]::after {
   text-transform: none;
   font-size: 13px;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   pointer-events: none;
   position: absolute;
   display: none;
@@ -1333,10 +1363,22 @@ Admin notice
   min-width: 150px;
 }
 /* KEYFRAMES */
+@-webkit-keyframes tooltips-vert {
+  to {
+    opacity: 0.9;
+    transform: translate(-50%, 0);
+  }
+}
 @keyframes tooltips-vert {
   to {
     opacity: 0.9;
     transform: translate(-50%, 0);
+  }
+}
+@-webkit-keyframes tooltips-horz {
+  to {
+    opacity: 0.9;
+    transform: translate(0, -50%);
   }
 }
 @keyframes tooltips-horz {
@@ -1358,7 +1400,8 @@ Admin notice
 [cmplz-tooltip][flow^="down"]:focus::before,
 [cmplz-tooltip][flow^="down"]:hover::after,
 [cmplz-tooltip][flow^="down"]:focus::after {
-  animation: tooltips-vert 300ms ease-out forwards;
+  -webkit-animation: tooltips-vert 300ms ease-out forwards;
+          animation: tooltips-vert 300ms ease-out forwards;
 }
 [cmplz-tooltip][flow^="left"]:hover::before,
 [cmplz-tooltip][flow^="left"]:focus::before,
@@ -1368,7 +1411,8 @@ Admin notice
 [cmplz-tooltip][flow^="right"]:focus::before,
 [cmplz-tooltip][flow^="right"]:hover::after,
 [cmplz-tooltip][flow^="right"]:focus::after {
-  animation: tooltips-horz 300ms ease-out forwards;
+  -webkit-animation: tooltips-horz 300ms ease-out forwards;
+          animation: tooltips-horz 300ms ease-out forwards;
 }
 .cmplz .cmplz-other-plugins .rsp-logo img {
   height: 34px;
@@ -1410,6 +1454,8 @@ Admin notice
   --rsp-other-plugins-color: var(--rsp-yellow);
 }
 .cmplz .cmplz-other-plugins-container .cmplz-other-plugins-element a {
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
   color: var(--rsp-text-color-light);
   transition: color 0.3s ease;
@@ -1439,6 +1485,8 @@ Admin notice
   text-overflow: ellipsis;
 }
 .cmplz .cmplz-other-plugins-container .cmplz-other-plugins-element .cmplz-other-plugin-status {
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
   min-width: fit-content;
 }
 .cmplz-suggested-plugin {
@@ -1569,7 +1617,13 @@ Admin notice
   background-position: 0 0, /* highlight */ 1px 1px, 1px 40px, 1px 79px, 1px 118px;
   background-color: #d6d8db;
   border-right: 1px solid #d6d8db;
-  animation: shine 2.5s infinite;
+  -webkit-animation: shine 2.5s infinite;
+          animation: shine 2.5s infinite;
+}
+@-webkit-keyframes shine {
+  to {
+    background-position: 100% 0, /* move highlight to right */ 1px 1px, 1px 40px, 1px 79px, 1px 118px;
+  }
 }
 @keyframes shine {
   to {
@@ -1641,4 +1695,3 @@ Admin notice
   --rsp-brand-secondary: var(--rsp-yellow);
   --rsp-brand-primary-faded: var(--rsp-blue-faded);
 }
-/*# sourceMappingURL=admin.css.map */

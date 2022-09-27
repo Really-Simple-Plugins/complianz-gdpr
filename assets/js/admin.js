@@ -113,15 +113,12 @@ jQuery(document).ready(function ($) {
 		}
 		$temp.remove(); // Remove the temporary element
 		if (success) {
-			console.log('success');
 			// change cmpl-tooltip attribute to show success message
 			let tooltip = $(this).children('.cmplz-tooltip');
 			let saved_attr = tooltip.attr('cmplz-tooltip');
 			tooltip.attr('cmplz-tooltip', complianz_admin.copy_text);
-			console.log($(this).children('.cmplz-tooltip'));
 			setTimeout(function(){
 				// remove class from clicked item
-				console.log(this);
 				clicked_element.removeClass('cmplz-click-animation');
 				tooltip.attr('cmplz-tooltip', saved_attr);
 			}, 2000);

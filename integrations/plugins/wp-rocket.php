@@ -49,10 +49,10 @@ add_action( 'wp_enqueue_scripts', 'cmplz_wprocket_convert_data_src',PHP_INT_MAX 
  * @return string
  */
 
-function cmplz_wprocket_data_target($target){
+function cmplz_wprocket_data_target($target, $total_match){
 	if ( cmplz_wprocket_activate_integration() ) {
 		return 'data-lazy-src';
 	}
 	return $target;
 }
-add_filter('cmplz_data_target', 'cmplz_wprocket_data_target', 100);
+add_filter('cmplz_data_target', 'cmplz_wprocket_data_target', 100, 2);

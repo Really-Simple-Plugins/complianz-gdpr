@@ -31,7 +31,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
-			$this->cookie_list = get_transient('cmplz_cookie_shredder_list' );
+			$this->cookie_list = false;//get_transient('cmplz_cookie_shredder_list' );
 			if ( !$this->cookie_list ) {
 				$this->cookie_list = [];
 				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
@@ -515,7 +515,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 						$is_video = $this->is_video( $iframe_src );
 						$service_name = $this->sanitize_service_name($tag['name']);
 						$new         = $total_match;
-						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-cmplz-target="'.apply_filters('cmplz_data_target', 'src').'" data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
+						$new         = preg_replace( '~<iframe\\s~i', '<iframe data-cmplz-target="'.apply_filters('cmplz_data_target', 'src', $total_match).'" data-src-cmplz="' . $iframe_src . '" ', $new , 1 ); // make sure we replace it only once
 
 						//remove lazy loading for iframes, as it is breaking on activation
 						$new = str_replace('loading="lazy"', 'data-deferlazy="1"', $new );

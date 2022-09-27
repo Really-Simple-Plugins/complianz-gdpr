@@ -295,7 +295,7 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	 * @return string
 	 */
 	function cmplz_revoke_link( $text = false ) {
-		$text = $text ? : __( 'Manage Consent', 'complianz-gdpr' );
+		$text = $text ? : __( 'Revoke', 'complianz-gdpr' );
 		$text = apply_filters( 'cmplz_revoke_button_text', $text );
 		$css
 		      = "<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>
@@ -307,15 +307,25 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 				    } else {
 						document.querySelector('.cmplz-status-accepted').style.display = 'none';
 				        document.querySelector('.cmplz-status-denied').style.display = 'block';
+						document.querySelector('.cmplz-revoke-custom').setAttribute('disabled', true);
+
 				    }
                     document.addEventListener('click', e => {
 						if ( e.target.closest('.cmplz-revoke-custom') ) {
-							document.querySelector('.cmplz-deny').setAttribute('disabled', true);;
+							document.querySelector('.cmplz-revoke-custom').setAttribute('disabled', true);
+                            cmplz_set_banner_status('dismissed');
+						}
+					});
+                    document.addEventListener('click', e => {
+						if ( e.target.closest('.cmplz-accept') ) {
+                            document.querySelector('.cmplz-status-accepted').style.display = 'block';
+				        	document.querySelector('.cmplz-status-denied').style.display = 'none';
+							document.querySelector('.cmplz-revoke-custom').removeAttribute('disabled');
 						}
 					});
 				});
 			</script>";
-		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom cmplz-manage-consent">' . $text
+		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom">' . $text
 		        . '</button>&nbsp;<span class="cmplz-status-accepted">'
 		        . cmplz_sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
 				__( "Accepted", 'complianz-gdpr' ) )
@@ -1943,15 +1953,15 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		$upload_dir = $uploads['basedir'];
 
 		if ( ! file_exists( $upload_dir ) ) {
-			mkdir( $upload_dir );
+			mkdir( $upload_dir,0755 );
 		}
 
 		if ( ! file_exists( $upload_dir . "/complianz" ) ) {
-			mkdir( $upload_dir . "/complianz" );
+			mkdir( $upload_dir . "/complianz",0755 );
 		}
 
 		if ( ! file_exists( $upload_dir . "/complianz/placeholders" ) ) {
-			mkdir( $upload_dir . "/complianz/placeholders" );
+			mkdir( $upload_dir . "/complianz/placeholders",0755 );
 		}
 
 		//set the path

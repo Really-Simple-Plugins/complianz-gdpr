@@ -223,14 +223,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 
 	public function date_select() {
 		// Month Select
-		$selected = false;
-		if ( isset( $_GET['cmplz_month_select'] ) ) {
-			if ( isset( $_GET['cmplz_year_select'] ) &&  $_GET['cmplz_year_select'] == 0) {
-				$selected = 0;
-			} else {
-				$selected = intval($_GET['cmplz_month_select']);
-			}
-		}
+		$selected = isset($_GET['cmplz_month_select']) ? intval($_GET['cmplz_month_select']) : 0;
 		$months = array(
 				__('Month',"complianz-gdpr"),
 				__( 'January' ),
@@ -253,14 +246,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		echo '</select>';
 
 		// Year Select
-		$selected = false;
-		if ( isset( $_GET['cmplz_year_select'] ) ) {
-			if (isset($_GET['cmplz_month_select']) && $_GET['cmplz_month_select'] == 0) {
-				$selected = 0;
-			} else {
-				$selected = intval($_GET['cmplz_year_select']);
-			}
-		}
+		$selected = isset($_GET['cmplz_year_select']) ? intval($_GET['cmplz_year_select']) : 0;
 		if (! empty($this->all) ) {
 			$first_year = date("Y", $this->get_oldest_snapshot_time());
 			$end_year = date("Y", $this->get_newest_snapshot_time());
@@ -308,8 +294,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		}
 
 		$data    = array();
-		$paged   = $this->get_paged();
-		$offset  = $this->per_page * ( $paged - 1 );
+		$offset   = $this->get_paged();
 		$search  = $this->get_search();
 		$order   = isset( $_GET['order'] )
 				? sanitize_text_field( $_GET['order'] ) : 'DESC';
@@ -341,7 +326,7 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->items = $this->reports_data();
-		$this->all   = COMPLIANZ::$proof_of_consent->get_cookie_snapshot_list();
+		$this->all   = COMPLIANZ::$proof_of_consent->get_cookie_snapshot_list(['number'=>-1]);
 		$this->total = is_array( $this->all ) ? count( $this->all ) : 0;
 		// Add condition to be sure we don't divide by zero.
 		// If $this->per_page is 0, then set total pages to 1.

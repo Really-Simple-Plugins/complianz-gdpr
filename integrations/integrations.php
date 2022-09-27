@@ -33,6 +33,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Beaver Builder Power Pack',
 			'firstparty_marketing' => false,
 	),
+	'content-views-plugin' => array(
+			'constant_or_function' => 'PT_CV_VERSION',
+			'label'                => 'Content Views – Post Grid & Filter for WordPress',
+			'firstparty_marketing' => false,
+	),
 
 	'lead-forensics' => array(
 			'constant_or_function' => 'LFRTrackingCode',
@@ -249,6 +254,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'colibriwp'          => array(
+		'constant_or_function' => 'COLIBRI_PAGE_BUILDER_VERSION',
+		'label'                => 'ColibriWP Page Builder',
+		'firstparty_marketing' => false,
+	),
+
 	'user-registration' => array(
 		'constant_or_function' => 'UR',
 		'label'                => 'User Registration',
@@ -323,7 +334,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	),
 	'wp-google-maps'            => array(
 		'constant_or_function' => 'WPGMZA_VERSION',
-		'label'                => 'WP Google Maps',
+		'label'                => 'WP Go Maps',
 		'firstparty_marketing' => false,
 	),
 	'wp-google-map-plugin'            => array(
@@ -758,19 +769,26 @@ function cmplz_add_placeholder_checkbox( $args ) {
 	}
 }
 
+
 function cmplz_notify_of_plugin_integrations( $warnings ){
 	$fields = COMPLIANZ::$config->fields( 'integrations' );
 	foreach ($fields as $id => $field ) {
 		if ($field['disabled']) continue;
-		$warnings[$id] = array(
-			'open' => cmplz_sprintf(__( 'We have enabled the %s integration.', 'complianz-gdpr' ), $field['label']).cmplz_read_more("https://complianz.io/enabled-integration"),
+		$warnings['integration_enabled'] = array(
+			'open' => __('We have enabled integrations for plugins and services, please double-check your configuration.', 'complianz-gdpr' ) . cmplz_read_more("https://complianz.io/enabled-integration"),
 			'include_in_progress' => false,
 		);
+	
+		break;
+	
 	}
 
 	return $warnings;
 }
 add_filter( 'cmplz_warning_types', 'cmplz_notify_of_plugin_integrations' );
+
+
+
 
 
 /**

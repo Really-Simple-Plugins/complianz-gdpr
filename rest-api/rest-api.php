@@ -144,7 +144,7 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 		$consent_type = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
 		$path = trailingslashit( cmplz_path ).'cookiebanner/templates/';
 		$banner_html = cmplz_get_template( "cookiebanner.php", array( 'consent_type' => $consent_type ), $path);
-
+		$banner_html = apply_filters("cmplz_banner_html", $banner_html);
 		if ( preg_match( '/<!-- categories start -->(.*?)<!-- categories end -->/s', $banner_html,  $matches ) ) {
 			$html      = $matches[0];
 			$banner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );

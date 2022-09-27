@@ -14,6 +14,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 		public $thirdparty_services
 			= array(
+				'activecampaign'   => 'Active Campaign',
 				'google-fonts'     => 'Google Fonts',
 				'google-recaptcha' => 'Google reCAPTCHA',
 				"google-maps"      => 'Google Maps',

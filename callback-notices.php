@@ -229,7 +229,6 @@ function cmplz_notice_add_pages_to_menu() {
 	$created_pages = COMPLIANZ::$document->get_created_pages();
 	$pages_not_in_menu = COMPLIANZ::$document->pages_not_in_menu();
 	if ( $pages_not_in_menu ) {
-		cmplz_sidebar_notice( cmplz_sprintf( __( 'You are required to put the "%s" page clearly visible on your homepage.', 'complianz-gdpr' ), cmplz_us_cookie_statement_title() ) );
 		$docs = implode( ", ", $pages_not_in_menu );
 		//not using cmplz_sprintf( here, as one variant does not include a %s, causing a translation error notice
 		cmplz_sidebar_notice( sprintf( esc_html( _n( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.',

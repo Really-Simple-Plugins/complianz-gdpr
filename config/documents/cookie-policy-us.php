@@ -233,7 +233,7 @@ We respect and understand that you may want to be sure that your personal inform
     ),
 
     array(
-        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', '<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

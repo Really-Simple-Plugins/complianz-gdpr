@@ -7,6 +7,7 @@
 .cmplz-obfuscate {
   direction: rtl;
   unicode-bidi: bidi-override;
+  white-space: nowrap;
 }
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary {
   display: block;
@@ -62,6 +63,8 @@
 #cmplz-document .cmplz-dropdown summary div:after {
   grid-area: chevron;
 }
+#cmplz-cookies-overview .cmplz-dropdown summary div input[data-service="google-fonts"],
+#cmplz-document .cmplz-dropdown summary div input[data-service="google-fonts"],
 #cmplz-cookies-overview .cmplz-dropdown summary div input[data-category="functional"],
 #cmplz-document .cmplz-dropdown summary div input[data-category="functional"] {
   visibility: hidden;
@@ -197,9 +200,6 @@
   content: '';
   background: var(--cmplz_category_open_icon_url) no-repeat;
   transform: rotate(0deg);
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 25px;
@@ -212,4 +212,3 @@
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-icon.cmplz-open {
   transform: rotate(180deg);
 }
-/*# sourceMappingURL=document-grid.css.map */

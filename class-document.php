@@ -1153,6 +1153,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return $html;
 		}
 
+
 		public function revoke_link( $atts = array(), $content = null, $tag = ''
 		) {
 			// normalize attribute keys, lowercase
@@ -2931,18 +2932,18 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( ! $error ) {
 				if ( ! file_exists( $upload_dir . '/complianz' ) ) {
-					mkdir( $upload_dir . '/complianz' );
+					mkdir( $upload_dir . '/complianz',0755 );
 				}
 				if ( ! file_exists( $upload_dir . '/complianz/tmp' ) ) {
-					mkdir( $upload_dir . '/complianz/tmp' );
+					mkdir( $upload_dir . '/complianz/tmp',0755 );
 				}
 				if ( ! file_exists( $upload_dir . '/complianz/snapshots' ) ) {
-					mkdir( $upload_dir . '/complianz/snapshots' );
+					mkdir( $upload_dir . '/complianz/snapshots',0755 );
 				}
 				$save_dir = $upload_dir . '/complianz/snapshots/';
 				$temp_dir = $upload_dir . '/complianz/tmp/' . $token;
 				if ( ! file_exists( $temp_dir ) ) {
-					mkdir( $temp_dir );
+					mkdir( $temp_dir,0755 );
 				}
 			}
 

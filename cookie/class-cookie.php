@@ -304,15 +304,16 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			}
 
 			/**
-			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 * Don't translate purpose with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
 			 * To prevent newly added cookies from getting translated, only translate when not in admin or cron, leaving front-end, where cookies aren't saved.
 			 */
-			if ( !defined('POLYLANG_VERSION') && $this->language !== 'en' && !is_admin() && !wp_doing_cron() ) {
-				if (!empty($this->retention) ) $this->retention = cmplz_translate($this->retention, 'cookie_retention');
-				//type should not be translated
-				if (!empty($this->cookieFunction) ) $this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
-				if (!empty($this->purpose) ) $this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
-				if (!empty($this->collectedPersonalData) ) $this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
+			if ( $this->language !== 'en' && !is_admin() && !wp_doing_cron() ) {
+				if ( !defined('POLYLANG_VERSION') || !$this->sync ) {
+					if (!empty($this->purpose) ) $this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
+				}
+				if (!empty( $this->retention ) ) $this->retention = cmplz_translate( $this->retention, 'cookie_retention' );
+				if (!empty( $this->cookieFunction) ) $this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
+				if (!empty( $this->collectedPersonalData) ) $this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
 			}
 
 			/**
@@ -389,7 +390,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				cmplz_register_translation( $this->purpose, 'cookie_purpose' );
 			}
 			cmplz_register_translation($this->retention, 'cookie_retention');
-			cmplz_register_translation($this->type, 'cookie_storage_type');
 			cmplz_register_translation($this->cookieFunction, 'cookie_function');
 			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
 
@@ -453,6 +453,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->showOnPolicy          = $this->showOnPolicy;
 					$translation->deleted               = $this->deleted;
 					$translation->ignored               = $this->ignored;
+					$translation->isOwnDomainCookie     = $this->isOwnDomainCookie;
 
 //                  dot not update all translations for these fields, even when not synced.
 //					//translated data, only when not synced

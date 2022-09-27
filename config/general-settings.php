@@ -147,7 +147,7 @@ $this->fields = $this->fields + array(
 			'type'      => 'number',
 			'label'     => __( "Duration in days of the A/B testing period", 'complianz-gdpr' ),
 			'disabled'  => true,
-			'condition' => array( 'a_b_testing' => true ),
+			'condition' => array( 'a_b_testing_buttons' => true ),
 			'default'   => 30,
 		),
 

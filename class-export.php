@@ -35,6 +35,9 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 			) {
 				$settings = get_option( 'complianz_options_settings' );
 				$wizard   = get_option( 'complianz_options_wizard' );
+				//disable A/B testing
+				$settings['a_b_testing'] = false;
+				$settings['a_b_testing_buttons'] = false;
 				unset( $wizard['used_cookies'] );
 
 				if (isset($_GET['export_type']) && $_GET['export_type']==='cookiebanner') {

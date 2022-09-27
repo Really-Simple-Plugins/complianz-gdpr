@@ -949,6 +949,8 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $general_settings );
 	}
 
+	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
+
 	//regenerate css
 	$banners = cmplz_get_cookiebanners();
 	if ( $banners ) {

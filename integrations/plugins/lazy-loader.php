@@ -31,7 +31,7 @@ add_action( 'wp_enqueue_scripts', 'cmplz_lazyloader_convert_data_src',PHP_INT_MA
  * @return string
  */
 
-function cmplz_lazyloader_data_target($target){
+function cmplz_lazyloader_data_target($target, $total_match){
 	return 'data-src';
 }
-add_filter('cmplz_data_target', 'cmplz_lazyloader_data_target', 100);
+add_filter('cmplz_data_target', 'cmplz_lazyloader_data_target', 100, 2);

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium\n"
-"POT-Creation-Date: 2022-09-05 12:52+0200\n"
+"POT-Creation-Date: 2022-09-15 10:11+0200\n"
 "PO-Revision-Date: 2022-04-25 10:37+0200\n"
 "Last-Translator: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
 "Language-Team: Rogier Lankhorst <rogierlankhorst@gmail.com>\n"
@@ -155,7 +155,7 @@ msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:173 config/general-settings.php:332
 #: cookiebanner/class-cookiebanner-table.php:216
-#: templates/dashboard/tools.php:26
+#: templates/dashboard/tools.php:25
 msgid "Export"
 msgstr ""
 
@@ -468,7 +468,7 @@ msgstr ""
 #: class-admin.php:392 class-admin.php:763 class-admin.php:764
 #: class-admin.php:988 cookiebanner/settings.php:492
 #: integrations/integrations-menu.php:50 pro/class-licensing.php:469
-#: pro/class-licensing.php:573 templates/dashboard/tools.php:66
+#: pro/class-licensing.php:573 templates/dashboard/tools.php:65
 msgid "Settings"
 msgstr ""
 
@@ -5614,7 +5614,7 @@ msgstr ""
 #: templates/dashboard/tools-conditional.php:31
 #: templates/dashboard/tools-conditional.php:45
 #: templates/dashboard/tools-conditional.php:59
-#: templates/dashboard/tools.php:13
+#: templates/dashboard/tools.php:12
 msgid "Read more"
 msgstr ""
 
@@ -5643,12 +5643,13 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:766
-#, php-format
-msgid "We have enabled the %s integration."
+#: integrations/integrations.php:767
+msgid ""
+"We have enabled integrations for plugins and services, please double-check "
+"your configuration."
 msgstr ""
 
-#: integrations/integrations.php:901
+#: integrations/integrations.php:908
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -5796,8 +5797,7 @@ msgstr ""
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-view-save-preferences-button-widget.php:205
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-view-save-preferences-button-widget.php:347
 #: pro/templates/dashboard/tools-conditional.php:8
-#: templates/dashboard/tools-conditional.php:42
-#: templates/dashboard/tools.php:10
+#: templates/dashboard/tools-conditional.php:42 templates/dashboard/tools.php:9
 msgid "View"
 msgstr ""
 
@@ -14178,7 +14178,7 @@ msgstr ""
 #: proof-of-consent/class-proof-of-consent.php:195
 #: proof-of-consent/class-proof-of-consent.php:196
 #: proof-of-consent/class-proof-of-consent.php:241
-#: templates/dashboard/tools.php:44
+#: templates/dashboard/tools.php:43
 msgid "Proof of consent"
 msgstr ""
 
@@ -14474,28 +14474,28 @@ msgstr ""
 msgid "Data request processing"
 msgstr ""
 
-#: templates/dashboard/tools.php:23
+#: templates/dashboard/tools.php:22
 msgid "Export personal data"
 msgstr ""
 
-#: templates/dashboard/tools.php:32
+#: templates/dashboard/tools.php:31
 msgid "Erase personal data"
 msgstr ""
 
-#: templates/dashboard/tools.php:35
+#: templates/dashboard/tools.php:34
 msgid "Erase"
 msgstr ""
 
-#: templates/dashboard/tools.php:50
+#: templates/dashboard/tools.php:49
 msgid "Not generated yet"
 msgstr ""
 
-#: templates/dashboard/tools.php:55
+#: templates/dashboard/tools.php:54
 #, php-format
 msgid "Last update %s"
 msgstr ""
 
-#: templates/dashboard/tools.php:63
+#: templates/dashboard/tools.php:62
 msgid "Webshop privacy"
 msgstr ""
 

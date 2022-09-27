@@ -794,8 +794,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				<?php if ( apply_filters( 'cmplz_show_wizard_page', true ) ) {
 					COMPLIANZ::$wizard->wizard( 'wizard' );
 				} else {
-					$link = '<a href="'.add_query_arg(array('page'=>'cmplz-settings#license'), admin_url('admin.php')).'">';
-					cmplz_admin_notice( cmplz_sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
+					$link_account_page = '<a href="https://complianz.io/account">';
+					$link_admin = '<a href="'.add_query_arg(array('page'=>'cmplz-settings#license'), admin_url('admin.php')).'">';
+					if ( cmplz_is_multisite_plugin_on_non_multisite_installation() ) {
+						cmplz_admin_notice( cmplz_sprintf(__( 'You have activated the Multisite plugin on a non-Multisite environment. Please download the regular Complianz Premium plugin %svia your account%s and install it instead', 'complianz-gdpr' ), $link_account_page, '</a>' ));
+					} else {
+						cmplz_admin_notice( cmplz_sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link_admin, '</a>' ));
+					}
 				} ?>
 			<?php
 		}

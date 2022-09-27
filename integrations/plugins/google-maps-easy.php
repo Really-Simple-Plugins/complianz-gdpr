@@ -11,6 +11,10 @@ function cmplz_google_maps_easy_script( $tags ) {
 		'urls' => array(
 			'google-maps-easy',
 			'maps.googleapis.com',
+			'frontend.gmap.js',
+			'frontend.gmap-js-extra',
+			
+			
 		),
 		'enable_placeholder' => '1',
 		'placeholder_class' => 'gmpMapDetailsContainer',
@@ -18,6 +22,8 @@ function cmplz_google_maps_easy_script( $tags ) {
 		'dependency' => [
 			//'wait-for-this-script' => 'script-that-should-wait'
 			'maps.googleapis.com' => 'google-maps-easy',
+			'maps.googleapis.com' => 'frontend.gmap.js',
+			'maps.googleapis.com' => 'frontend.gmap-js-extra',			
 		],
 	);
 	return $tags;

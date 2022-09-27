@@ -55,7 +55,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 
 		public function get_cookie_snapshot_list( $args = array() ) {
 			$defaults   = array(
-				'number' => 10,
+				'number' => 30,
 				'region' => false,
 				'offset' => 0,
 				'order'  => 'DESC',
@@ -84,12 +84,14 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 
 							if ( empty( $args['search'] ) || strpos( $file, $args['search'] ) !== false) {
 								$index++;
+								$parsed_index = sprintf('%02d', $index);
 								if ($args['start_date'] < filemtime( $file ) && filemtime( $file ) < $args['end_date'] ) {
-									$filelist[filemtime($file) . $index]["path"] = $file;
-									$filelist[filemtime($file) . $index]["url"]  = trailingslashit($url).basename($file);
-									$filelist[filemtime($file) . $index]["file"] = basename($file);
-									$filelist[filemtime($file) . $index]["time"] = filemtime($file);
+									$filelist[filemtime($file).$parsed_index]["path"] = $file;
+									$filelist[filemtime($file).$parsed_index]["url"]  = trailingslashit($url).basename($file);
+									$filelist[filemtime($file).$parsed_index]["file"] = basename($file);
+									$filelist[filemtime($file).$parsed_index]["time"] = filemtime($file);
 								}
+
 							}
 						}
 					}
@@ -102,23 +104,25 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			} else {
 				ksort( $filelist );
 			}
-
 			if ( empty( $filelist ) ) {
 				return false;
 			}
 
 			$page       = (int) $args['offset'];
 			$total      = count( $filelist ); //total items in array
-			$limit      = $args['number'];
-			$totalPages = ceil( $total / $limit ); //calculate total pages
+			$limit      = intval($args['number']);
+
+			$totalPages = $limit===-1 ? 1 : ceil( $total / $limit ); //calculate total pages
 			$page       = max( $page, 1 ); //get 1 page when $_GET['page'] <= 0
 			$page       = min( $page, $totalPages ); //get last page when $_GET['page'] > $totalPages
 			$offset     = ( $page - 1 ) * $limit;
 			if ( $offset < 0 ) {
 				$offset = 0;
 			}
-
-			$filelist = array_slice( $filelist, $offset, $limit );
+			if ($limit!=-1) {
+				error_log("slide list from $offset to $limit");
+				$filelist = array_slice( $filelist, $offset, $limit, true );
+			}
 
 			if ( empty( $filelist ) ) {
 				return false;
