@@ -678,7 +678,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					}
 
 					//when script contains src
-					$script_src_pattern = '/<script [^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/is';
+					$script_src_pattern = '/<script[^>]*?src=[\'"]' . $url_pattern . '[\'"].*?>/is';
 					if ( preg_match_all( $script_src_pattern, $total_match, $src_matches, PREG_PATTERN_ORDER ) ) {
 						foreach ( $src_matches[1] as $src_key => $script_src ) {
 							$script_src = $src_matches[1][ $src_key ];
