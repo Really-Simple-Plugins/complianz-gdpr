@@ -139,7 +139,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"youtube"          => array(
 					'youtube.com',
 					'youtube-nocookie.com',
-					'youtu.be'
+					'youtu.be',
+					'yotuwp',
 				),
 				"videopress"       => array(
 					'videopress.com/embed',
