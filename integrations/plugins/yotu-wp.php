@@ -71,6 +71,19 @@ function cmplz_yotuwp_handle_youtube() {
 }
 add_action( 'wp_enqueue_scripts', 'cmplz_yotuwp_handle_youtube',PHP_INT_MAX );
 
+add_filter( 'cmplz_known_script_tags', 'cmplz_yotuwp_iframetags' );
+function cmplz_yotuwp_iframetags( $tags ) {
+	$tags[] = array(
+		'name' => 'youtube',
+		'placeholder' => 'youtube',
+		'category' => 'marketing',
+		'urls' => array(
+			'yotuwp-easy-youtube-embed',
+		),
+	);
+	return $tags;
+}
+
 /**
  * Add services to the list of detected items, so it will get set as default, and will be added to the notice about it
  *
