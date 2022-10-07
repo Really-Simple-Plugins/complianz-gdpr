@@ -15,7 +15,7 @@ function cmplz_yotuwp_cookieblocker( $output ){
 				}
 
 				$new_match = str_replace('yotu-playlist', 'cmplz-yotu-playlist cmplz-placeholder-element ', $total_match);
-				$new_match = str_replace('data-page=', $placeholder.'data-page=', $new_match);
+				$new_match = str_replace('data-page=', $placeholder.' data-service="youtube" data-page=', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
@@ -43,23 +43,33 @@ add_action( 'cmplz_banner_css', 'cmplz_yotu_css' );
  * @return void
  */
 function cmplz_yotuwp_handle_youtube() {
-	if ( cmplz_uses_thirdparty('youtube') ) {
+	if ( cmplz_uses_thirdparty('youtube') || 1==1) {
 		ob_start();
 		?>
 		<script>
+			function cmplz_maybe_trigger_yotuwp(){
+				//if not defined, wait a bit
+				if (typeof yotuwp === 'undefined') {
+					setTimeout(cmplz_maybe_trigger_yotuwp, 500);
+				} else {
+					yotuwp.init();
+				}
+			}
 			document.addEventListener("cmplz_enable_category", function(consentData) {
 				var category = consentData.detail.category;
+				var service = consentData.detail.service;
 				let selectorVideo = '.cmplz-yotu-playlist';
-				if (category!=='marketing' && cmplz_is_service_denied('youtube')) {
+				if (category!=='marketing' && service !== 'youtube' ) {
 					return;
 				}
+				dispatchEvent(new Event('load'));
 				document.querySelectorAll(selectorVideo).forEach(obj => {
 					obj.classList.remove('cmplz-yotu-playlist');
 					obj.classList.remove('cmplz-blocked-content-container');
 					obj.classList.add('yotu-playlist');
 					let index = obj.getAttribute('data-placeholder_class_index');
 					obj.classList.remove('cmplz-placeholder-'+index);
-					yotuwp.init();
+					cmplz_maybe_trigger_yotuwp();
 				});
 			});
 		</script>
@@ -70,7 +80,12 @@ function cmplz_yotuwp_handle_youtube() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'cmplz_yotuwp_handle_youtube',PHP_INT_MAX );
+function cmplz_yotuwp_whitelist($tags){
+	$tags[] = 'cmplz_maybe_trigger_yotuwp';
 
+	return $tags;
+}
+add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_yotuwp_whitelist');
 add_filter( 'cmplz_known_script_tags', 'cmplz_yotuwp_iframetags' );
 function cmplz_yotuwp_iframetags( $tags ) {
 	$tags[] = array(
@@ -79,6 +94,8 @@ function cmplz_yotuwp_iframetags( $tags ) {
 		'category' => 'marketing',
 		'urls' => array(
 			'yotuwp-easy-youtube-embed',
+			'yotuwp.data',
+			'var yotujs',
 		),
 	);
 	return $tags;
