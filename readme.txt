@@ -196,7 +196,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: Incorrect sorting of Proof of Consent files prevented them from showing up in the list
 * Fix: update qTranslate integration to allow for banner fields with $field['text'] strings, props @sviluppomania
 * Fix: cookie policy UK not replacing the cookiedatabase.org link because of too many arguments in sprintf
-* Fix: prepare string from translation files when updating banner text.
+* Fix: prepare string from translation files when updating banner text, props @saggre
 
 = 6.3.3 =
 * Improvement: conditionally offer link to create menu page
