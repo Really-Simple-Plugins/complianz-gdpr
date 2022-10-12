@@ -501,6 +501,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Presto Player',
 			'firstparty_marketing' => false,
 	),
+	'easy-swipebox'               => array(
+			'constant_or_function' => 'run_easy_swipebox',
+			'label'                => 'Easy SwipeBox',
+			'firstparty_marketing' => false,
+	),
 ) );
 
 
@@ -778,9 +783,9 @@ function cmplz_notify_of_plugin_integrations( $warnings ){
 			'open' => __('We have enabled integrations for plugins and services, please double-check your configuration.', 'complianz-gdpr' ) . cmplz_read_more("https://complianz.io/enabled-integration"),
 			'include_in_progress' => false,
 		);
-	
+
 		break;
-	
+
 	}
 
 	return $warnings;
