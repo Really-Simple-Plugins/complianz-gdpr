@@ -44,6 +44,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 
 		public function is_wizard_completed_callback() {
+			if (!cmplz_user_can_manage()) return;
+
 			if ( $this->wizard_completed_once() ) {
 				cmplz_notice( __( "Great, the main wizard is completed. This means the general data is already in the system, and you can continue with the next question. This will start a new, empty document.",
 						'complianz-gdpr' ) );
@@ -57,6 +59,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 
 		public function process_custom_hooks() {
+			if (!cmplz_user_can_manage()) return;
+
 			$wizard_type = ( isset( $_POST['wizard_type'] ) )
 				? sanitize_title( $_POST['wizard_type'] ) : '';
 			do_action( "cmplz_wizard_$wizard_type" );
@@ -67,6 +71,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @param $page
 		 */
 		public function initialize( $page ) {
+			if (!cmplz_user_can_manage()) return;
+
 			$this->last_section = $this->last_section( $page, $this->step() );
 			$this->page_url     = admin_url( 'admin.php?page=cmplz-' . $page );
 			//if a post id was passed, we copy the contents of that page to the wizard settings.
@@ -93,6 +99,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * Some actions after the last step has been completed
 		 */
 		public function wizard_last_step_callback() {
+			if (!cmplz_user_can_manage()) return;
+
 			$page = $this->wizard_type();
 			cmplz_update_all_banners();
 
@@ -179,7 +187,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		public function before_save_wizard_option(
 			$fieldname, $fieldvalue, $prev_value, $type
 		) {
-
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 			update_option( 'cmplz_documents_update_date', time(), false );
 
 			//only run when changes have been made
@@ -267,6 +277,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 
 		public function after_saved_all_fields($posted_fields){
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 			//if the region is not EU anymore, and it was previously enabled for EU / eu_consent_regions, reset impressum
 			if ( array_key_exists('cmplz_regions', $posted_fields) && cmplz_get_value('eu_consent_regions') === 'yes' && !cmplz_has_region('eu')
 			) {
@@ -283,6 +296,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 
 		public function after_save_wizard_option( $fieldname, $fieldvalue, $prev_value, $type ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 			$generate_css = false;
 			if ( $fieldname == 'us_states' || $fieldname == 'purpose_personaldata' ) {
 				add_action( 'shutdown', 'cmplz_update_cookie_policy_title', 12 );
@@ -342,6 +358,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @return int
 		 */
 		public function get_next_not_empty_step( $page, $step ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
 			if ( ! COMPLIANZ::$field->step_has_fields( $page, $step ) ) {
 				if ( $step >= $this->total_steps( $page ) ) {
 					return $step;
@@ -540,6 +559,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
 		public function wizard_menu( $page, $wizard_title, $active_step, $active_section )
         {
+	        if ( ! cmplz_user_can_manage() ) {
+		        return '';
+	        }
             $args_menu['steps'] = "";
             for ($i = 1; $i <= $this->total_steps($page); $i++)
             {
@@ -571,7 +593,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 */
         public function wizard_sections( $page, $step, $active_section ) {
             $sections = "";
-
+	        if ( ! cmplz_user_can_manage() ) {
+		        return '';
+	        }
 	        if ( COMPLIANZ::$config->has_sections( $page, $step )) {
 
 		        for ($i = $this->first_section( $page, $step ); $i <= $this->last_section( $page, $step ); $i ++) {
@@ -613,6 +637,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
         }
 
 		public function wizard_content( $page, $step, $section ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return '';
+			}
 			$regions = $this->get_section_regions( $page, $step, $section );
 			$args = array(
 				'title' => '',
@@ -745,6 +772,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 
 		public function required_fields_completed( $page, $step, $section ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			//get all required fields for this section, and check if they're filled in
 			$fields = COMPLIANZ::$config->fields( $page, $step, $section );
 
@@ -767,6 +797,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		}
 
 		public function all_required_fields_completed_wizard(){
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			return $this->all_required_fields_completed('wizard');
 		}
 
@@ -777,7 +810,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * */
 
 		public function all_required_fields_completed( $page ) {
-
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			$total_fields     = 0;
 			$completed_fields = 0;
 			$total_steps      = $this->total_steps( $page );
@@ -832,6 +867,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @return string
 		 */
 		public function wizard_type() {
+			if ( ! cmplz_user_can_manage() ) {
+				return '';
+			}
 			$wizard_type = 'wizard';
 			if ( isset( $_POST['wizard_type'] )
 			     || isset( $_POST['wizard_type'] )
@@ -891,6 +929,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		 * @return array|bool
 		 */
 		public function get_section_regions( $page, $step, $section ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			//only show when in action
 			$regions = array();
 
@@ -950,6 +991,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		}
 
 		public function step( $page = false ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			$step = 1;
 			if ( ! $page ) {
 				$page = $this->wizard_type();
@@ -977,6 +1021,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		}
 
 		public function section() {
+			if ( ! cmplz_user_can_manage() ) {
+				return false;
+			}
 			$section = 1;
 			if ( isset( $_GET["section"] ) ) {
 				$section = intval( $_GET['section'] );
