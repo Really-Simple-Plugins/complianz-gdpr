@@ -1800,6 +1800,24 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Load the cookie banner html for each consenttype
 		 */
 		public function cookiebanner_html(){
+			global $post;
+			$type = '';
+			if ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "gutenberg" ), $post->post_content, $matches ) ) {
+				$type      = $matches[1];
+				$region    = cmplz_get_region_from_legacy_type( $type );
+				$type      = str_replace( '-' . $region, '', $type );
+			} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern(), $post->post_content, $matches ) ) {
+				$type      = $matches[1];
+			} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "classic", true ), $post->post_content, $matches ) ) {
+				$type      = $matches[1];
+				$region    = cmplz_get_region_from_legacy_type( $type );
+				$type      = str_replace( '-' . $region, '', $type );
+			}
+
+			if ( $type ==='cookie-statement' ){
+				return;
+			}
+
 			$editor = $new = false;
 			if (is_admin() && isset($_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' && cmplz_user_can_manage() ) {
 				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] == 'new' );
