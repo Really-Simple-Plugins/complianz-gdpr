@@ -31,7 +31,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if ( cmplz_get_value( 'disable_cookie_block' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
-			$this->cookie_list = false;//get_transient('cmplz_cookie_shredder_list' );
+			$this->cookie_list = get_transient('cmplz_cookie_shredder_list' );
 			if ( !$this->cookie_list ) {
 				$this->cookie_list = [];
 				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
