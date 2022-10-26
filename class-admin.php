@@ -90,22 +90,24 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			echo $response;
 			exit;
 		}
+
 		/**
 		 * Check if current day falls within required date range.
 		 *
 		 * @return bool
 		 */
+
 		public function is_bf(){
 			if ( defined("cmplz_premium" ) ) {
 				return false;
 			}
-			$start_day = 22;
-			$end_day = 29;
+			$start_day = 21;
+			$end_day = 28;
 			$current_year = date("Y");//e.g. 2021
 			$current_month = date("n");//e.g. 3
 			$current_day = date("j");//e.g. 4
 
-			if ( $current_year == 2021 &&
+			if ( $current_year == 2022 &&
 				 $current_month == 11 &&
 				 $current_day >=$start_day &&
 				 $current_day <= $end_day
@@ -159,7 +161,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$error   = false;
 			$html = '';
 			$remaining_count = $all_count = 0;
-			if ( ! is_user_logged_in() ) {
+			if ( ! cmplz_user_can_manage() ) {
 				$error = true;
 			}
 
@@ -195,7 +197,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function ajax_load_gridblock() {
 			$error   = false;
 			$html = '';
-			if ( ! is_user_logged_in() ) {
+			if ( ! cmplz_user_can_manage() ) {
 				$error = true;
 			}
 
@@ -225,7 +227,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function filter_cookie_domain( $fieldvalue, $fieldname ){
-			if (!current_user_can('manage_options')) return $fieldvalue;
+			if ( ! cmplz_user_can_manage() ) {
+				return $fieldvalue;
+			}
+
 			//sanitize the cookie domain
 			if ( ( $fieldname === 'cmplz_cookie_domain' && !empty($fieldvalue) )
 			) {
@@ -245,7 +250,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				return;
 			}
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -472,6 +477,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function get_warnings( $args = array() ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return [];
+			}
 			$defaults = array(
 				'cache' => true,
 				'status' => 'all',
