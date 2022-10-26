@@ -22,11 +22,7 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 		}
 
 		public function process_export_action() {
-			if ( ! is_user_logged_in() ) {
-				return;
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 

@@ -159,7 +159,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$error   = false;
 			$html = '';
 			$remaining_count = $all_count = 0;
-			if ( ! is_user_logged_in() ) {
+			if ( ! cmplz_user_can_manage() ) {
 				$error = true;
 			}
 
@@ -195,7 +195,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function ajax_load_gridblock() {
 			$error   = false;
 			$html = '';
-			if ( ! is_user_logged_in() ) {
+			if ( ! cmplz_user_can_manage() ) {
 				$error = true;
 			}
 
@@ -225,7 +225,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function filter_cookie_domain( $fieldvalue, $fieldname ){
-			if (!current_user_can('manage_options')) return $fieldvalue;
+			if ( ! cmplz_user_can_manage() ) {
+				return $fieldvalue;
+			}
+
 			//sanitize the cookie domain
 			if ( ( $fieldname === 'cmplz_cookie_domain' && !empty($fieldvalue) )
 			) {
@@ -245,7 +248,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				return;
 			}
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -472,6 +475,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function get_warnings( $args = array() ) {
+			if ( ! cmplz_user_can_manage() ) {
+				return [];
+			}
 			$defaults = array(
 				'cache' => true,
 				'status' => 'all',
