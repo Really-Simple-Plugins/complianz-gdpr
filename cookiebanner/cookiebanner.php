@@ -20,6 +20,9 @@ if ( ! function_exists( 'cmplz_cookiebanner_should_load' ) ) {
 
 if ( !function_exists('cmplz_update_all_banners') ) {
 	function cmplz_update_all_banners() {
+		if ( !cmplz_user_can_manage() ) {
+			return;
+		}
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
@@ -103,7 +106,7 @@ add_filter ( 'wp_prepare_attachment_for_js',  'cmplz_image_sizes_js' , 10, 3  );
 add_action('wp_ajax_cmplz_generate_preview_css', 'cmplz_generate_preview_css');
 function cmplz_generate_preview_css(){
 	$error   = false;
-	if ( ! is_user_logged_in() ) {
+	if ( ! cmplz_user_can_manage() ) {
 		$error = true;
 	}
 	if (!isset($_POST['formData'])) {

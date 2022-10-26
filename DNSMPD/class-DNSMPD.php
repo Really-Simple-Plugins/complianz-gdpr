@@ -236,7 +236,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 */
 
 		public function process_resolve() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
 			if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'cmplz-datarequests' )
@@ -262,7 +262,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 */
 
 		public function process_delete() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
 

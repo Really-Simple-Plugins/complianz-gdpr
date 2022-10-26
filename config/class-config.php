@@ -139,7 +139,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"youtube"          => array(
 					'youtube.com',
 					'youtube-nocookie.com',
-					'youtu.be'
+					'youtu.be',
+					'yotuwp',
 				),
 				"videopress"       => array(
 					'videopress.com/embed',
@@ -687,7 +688,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'dismissible' => false,
 				),
 
-				'bf-notice' => array(
+				'bf-notice2022' => array(
 					'warning_condition'  => 'admin->is_bf',
 					'plus_one' => true,
 					'open' => __( "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',

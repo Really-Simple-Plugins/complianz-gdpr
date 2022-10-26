@@ -97,6 +97,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		public function add(
 			$name, $languages = array( 'en' ), $return_language = false, $service_name = false, $sync_on = true
 		) {
+			if ( !cmplz_user_can_manage() ) {
+				return 0;
+			}
 			$this->name = $this->sanitize_cookie( $name );
 
 			//the parent cookie gets "en" as default language
@@ -169,7 +172,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function delete() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			if ( ! $this->ID ) {
@@ -192,7 +195,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function restore() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			if ( ! $this->ID ) {
@@ -356,6 +359,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function save( $updateAllLanguages = false ) {
+			if ( !cmplz_user_can_manage() ) {
+				return;
+			}
 			//don't save empty items.
 			if ( empty( $this->name ) ) {
 				return;
@@ -603,7 +609,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
  * Install cookies table
  * */
 
-add_action( 'admin_init', 'cmplz_install_cookie_table' );
+add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
 	if ( get_option( 'cmplz_cookietable_version' ) != cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

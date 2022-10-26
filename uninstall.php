@@ -7,7 +7,6 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 $general_settings = get_option('complianz_options_settings');
 if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['clear_data_on_uninstall']) {
-
 	$options = array(
 		'cmplz_activation_time',
 		'cmplz_review_notice_shown',
@@ -56,9 +55,7 @@ if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['cl
 		'cmplz_documents_update_date',
 		'cmplz_import_geoip_on_activation',
 		'cmplz_dnsmpd_db_version',
-
 	);
-
 
 	foreach ($options as $option_name) {
 		delete_option($option_name);
@@ -78,9 +75,6 @@ if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['cl
 		$sql = "DROP TABLE IF EXISTS $table_name";
 		$wpdb->query($sql);
 	}
-
-
-
 }
 
 
