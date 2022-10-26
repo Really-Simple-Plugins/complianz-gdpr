@@ -278,6 +278,38 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'disable-and-remove-google-fonts'    => array(
+		'constant_or_function' => 'drgf_dequeueu_fonts',
+		'label'                => 'Disable and remove Google Fonts',
+		'firstparty_marketing' => false,
+	),
+	'embed-google-fonts'    => array(
+		'constant_or_function' => 'Embed_Google_Fonts_Proxy',
+		'label'                => 'Embed Google Fonts',
+		'firstparty_marketing' => false,
+	),
+
+	'omgf'    => array(
+		'constant_or_function' => 'OMGF_PLUGIN_DIR',
+		'label'                => 'OMGF',
+		'firstparty_marketing' => false,
+	),
+	'local-google-fonts'    => array(
+		'constant_or_function' => 'LGF_PLUGIN_FILE',
+		'label'                => 'Local Google Fonts',
+		'firstparty_marketing' => false,
+	),
+	'olympus-google-fonts'    => array(
+		'constant_or_function' => 'ogf_initiate',
+		'label'                => 'Fonts Plugin | Google Fonts Typography',
+		'firstparty_marketing' => false,
+	),
+	'use-any-font'    => array(
+		'constant_or_function' => 'UAF_FILE_PATH',
+		'label'                => 'Use Any Font',
+		'firstparty_marketing' => false,
+	),
+
 	'facebook-for-wordpress' => array(
 		'constant_or_function' => 'FacebookPixelPlugin\\FacebookForWordpress',
 		'label'                => 'Official Facebook Pixel',
@@ -778,9 +810,9 @@ function cmplz_notify_of_plugin_integrations( $warnings ){
 			'open' => __('We have enabled integrations for plugins and services, please double-check your configuration.', 'complianz-gdpr' ) . cmplz_read_more("https://complianz.io/enabled-integration"),
 			'include_in_progress' => false,
 		);
-	
+
 		break;
-	
+
 	}
 
 	return $warnings;

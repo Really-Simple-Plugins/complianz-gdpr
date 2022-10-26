@@ -2023,9 +2023,15 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$use_cdb_links = cmplz_get_value( 'use_cdb_links' ) === 'yes';
 		$consent_per_service = cmplz_get_value( 'consent_per_service' ) === 'yes';
 		$cookie_list = COMPLIANZ::$cookie_blocker->cookie_list;
+		$google_fonts = new CMPLZ_SERVICE('Google Fonts');
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
+
+			//if google fonts is self hosted, don't include in the cookie policy
+			if ( cmplz_get_value('self_host_google_fonts') === 'yes' && ($serviceID == $google_fonts->ID || $service->isTranslationFrom == $google_fonts->ID) ) {
+				continue;
+			}
 			if ( isset($cookie_list['marketing'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ){
 				$topCategory = 'marketing';
 			} else if ( isset($cookie_list['statistics'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ) {

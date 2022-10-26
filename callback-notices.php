@@ -127,29 +127,6 @@ function cmplz_notice_cookie_scan() {
 add_action( 'cmplz_notice_cookie_scan', 'cmplz_notice_cookie_scan' );
 
 
-add_action( 'cmplz_notice_thirdparty_services_on_site', 'cmplz_google_fonts_recommendation' );
-function cmplz_google_fonts_recommendation() {
-	if ( ! cmplz_has_region( 'eu' ) ) {
-		return;
-	}
-
-	$thirdparties = cmplz_get_value( 'thirdparty_services_on_site' );
-	if ( $thirdparties ) {
-		foreach ( $thirdparties as $thirdparty => $key ) {
-			if ( $key != 1 ) {
-				continue;
-			}
-			if ( $thirdparty === 'google-fonts' ) {
-				cmplz_sidebar_notice( cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s",
-					'complianz-gdpr' ),
-					'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">',
-					'</a>' ) );
-
-			}
-		}
-	}
-}
-
 function cmplz_google_fonts_warning() {
     //Divi specific notice
     if (function_exists('et_setup_theme')) {

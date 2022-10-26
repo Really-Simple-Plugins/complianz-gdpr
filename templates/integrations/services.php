@@ -34,8 +34,6 @@
 
 	if ( $thirdparty_active ) {
 		$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
-		unset( $thirdparty_services['google-fonts'] );
-
 		if (cmplz_get_value('block_recaptcha_service') !== 'yes'){
 			unset( $thirdparty_services['google-recaptcha'] );
 		}

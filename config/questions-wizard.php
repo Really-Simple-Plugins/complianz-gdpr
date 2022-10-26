@@ -610,7 +610,7 @@ $this->fields = $this->fields + array(
 			'help'               => __( "For a granular approach you can enable 'consent per service', a unique way to control cookies real-time.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-per-service/'),
 			'help_status'        => 'warning',
 			'comment'            => __("This feature includes real-time cookie removal with the CookieShredder.","complianz-gdpr").' '.__("This could break website functionality.", 'complianz-gdpr').cmplz_read_more('https://complianz.io/consent-per-service/'),
-			'comment_status'     => 'warning',
+//			'comment_status'     => 'warning',
 			'callback_condition' => 'NOT cmplz_uses_only_functional_cookies'
 		),
 
@@ -651,6 +651,25 @@ $this->fields = $this->fields + array(
 			'default'   => 'no',
 			'condition' => array( 'thirdparty_services_on_site' => 'google-recaptcha' ),
 			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?", 'complianz-gdpr' ),
+		),
+
+		'self_host_google_fonts' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 4,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'options' => [
+				'self-host'   => __( 'Yes (recommended)', "complianz-gdpr" ),
+				'block'       => __( 'No', "complianz-gdpr" ),
+				'no-blocking' => __( 'Do nothing', "complianz-gdpr" ),
+			],
+			'default'   => 'no-blocking',
+			'help'      => cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr' ), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>' ),
+			'comment'   => __("If you choose 'No', Complianz will block all known Google Fonts sources.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s why self-hosting Google Fonts is recommended.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>'),
+			'condition' => array( 'thirdparty_services_on_site' => 'google-fonts' ),
+			'callback_condition' => array( 'eu_consent_regions' => 'yes' ),
+			'label'     => __( "Will you self-host Google Fonts?", 'complianz-gdpr' ),
+			'comment_status'     => 'warning',
 		),
 
 		'block_hubspot_service' => array(

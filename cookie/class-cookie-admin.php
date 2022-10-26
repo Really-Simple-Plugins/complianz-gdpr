@@ -2835,6 +2835,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( $misc ) {
 				$grouped_by_service[ $topServiceID + 1 ] = $misc;
 			}
+
 			return $grouped_by_service;
 		}
 
