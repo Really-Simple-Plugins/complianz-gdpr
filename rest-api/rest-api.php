@@ -42,7 +42,7 @@ function cmplz_documents_rest_route() {
 		'methods'  => 'POST',
 		'callback' => 'cmplz_store_detected_cookies',
 		'permission_callback' => function () {
-			return current_user_can( 'manage_options' );
+			return cmplz_user_can_manage();
 		}
 
 	) );
@@ -172,7 +172,7 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 function cmplz_store_detected_cookies(WP_REST_Request $request) {
 	$params = $request->get_json_params();
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
 

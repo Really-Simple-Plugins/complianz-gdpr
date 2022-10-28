@@ -1283,7 +1283,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 *
 		 */
 		function metabox_unlink_from_complianz() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			wp_nonce_field( 'cmplz_unlink_nonce', 'cmplz_unlink_nonce' );
@@ -1355,7 +1355,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * Save data posted from the metabox
 		 */
 		public function save_metabox_data() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			// check if this isn't an auto save
@@ -1525,7 +1525,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function ajax_create_pages(){
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			$error   = false;
@@ -1534,12 +1534,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if (!$error){
-				$pages = json_decode(stripslashes($_POST['pages']));
-				foreach ($pages as $region => $pages ){
-					foreach($pages as $type => $title) {
+				$posted_pages = json_decode(stripslashes($_POST['pages']));
+				foreach ( $posted_pages as $region => $pages ){
+					foreach( $pages as $type => $title ) {
 						$current_page_id = $this->get_shortcode_page_id($type, $region, false );
-						if (!$current_page_id){
-							$this->create_page( $type, $region );
+						if ( !$current_page_id ){
+							$this->create_page( $type, $region, $title );
 						} else {
 							//if the page already exists, just update it with the title
 							$page = array(
@@ -1802,7 +1802,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function assign_documents_to_menu() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -2027,8 +2027,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @since 1.0
 		 */
 
-		public function create_page( $type, $region ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+		public function create_page( $type, $region, $title ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return false;
 			}
 			$pages = COMPLIANZ::$config->pages;
@@ -2041,11 +2041,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$page_id = $this->get_shortcode_page_id( $type, $region, false );
 			if ( ! $page_id ) {
 
-				$page = $pages[ $region ][ $type ];
-
-
 				$page = array(
-					'post_title'   => $page['title'],
+					'post_title'   => $title,
 					'post_type'    => "page",
 					'post_content' => $this->get_shortcode( $type, $region ),
 					'post_status'  => 'publish',
@@ -2070,7 +2067,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function delete_page( $type, $region ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -2519,6 +2516,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( $post ) {
+				//terms conditions has it's own shortcode.
+				if (strpos($post->post_content, '[cmplz-terms-conditions') !== FALSE ) {
+					return false;
+				}
 				if ( cmplz_uses_gutenberg() && has_block( $block, $post ) ) {
 					return true;
 				}
@@ -2528,10 +2529,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				if ( has_shortcode( $post->post_content, $cookies_shortcode ) ) {
 					return true;
 				}
-
 				if (strpos($post->post_content, '[cmplz-') !== FALSE ) {
 					return true;
 				}
+
 			}
 			return false;
 		}
@@ -2835,11 +2836,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$intro = '', $append = ''
 		) {
 			if ( ! defined( 'DOING_CRON' ) ) {
-				if ( ! is_user_logged_in() ) {
-					die( "invalid command" );
-				}
-
-				if ( ! current_user_can( 'manage_options' ) ) {
+				if ( ! cmplz_user_can_manage() ) {
 					die( "invalid command" );
 				}
 			}

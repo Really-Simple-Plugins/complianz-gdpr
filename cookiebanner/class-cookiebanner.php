@@ -194,7 +194,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		private function add() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return false;
 			}
 			$array = array(
@@ -223,7 +223,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 		public function process_form( $post ) {
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return false;
 			}
 
@@ -526,7 +526,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function save() {
-			if ( !current_user_can( 'manage_options' ) && !wp_doing_cron() ) {
+			if ( !cmplz_user_can_manage() && !wp_doing_cron() ) {
 				return;
 			}
 			if ( ! $this->id ) {
@@ -717,7 +717,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function delete( $force = false ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return false;
 			}
 
@@ -755,7 +755,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function archive() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			//don't archive the last one
@@ -791,7 +791,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function restore() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -843,7 +843,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function remove_default() {
-			if ( current_user_can( 'manage_options' ) ) {
+			if ( cmplz_user_can_manage() ) {
 
 				global $wpdb;
 				//first, set one  of the other banners random to default.
@@ -870,7 +870,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function enable_default() {
-			if ( current_user_can( 'manage_options' ) ) {
+			if ( cmplz_user_can_manage() ) {
 
 				global $wpdb;
 				//first set the current default to false

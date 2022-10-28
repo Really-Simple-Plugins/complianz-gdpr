@@ -57,7 +57,7 @@ function cmplz_integrations_page() {
 
 function process_integrations_services_save() {
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! cmplz_user_can_manage() ) {
 		return;
 	}
 	if ( isset( $_POST['cmplz_save_integrations_type_plugins'] ) || isset($_POST["cmplz_save_integrations_type_services"]) ) {

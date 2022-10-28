@@ -254,11 +254,11 @@ function cmplz_append_css(css){
 }
 
 function cmplz_load_css( path ) {
-	let fileref = document.createElement("link")
-	fileref.setAttribute("rel", "stylesheet")
-	fileref.setAttribute("type", "text/css")
-	fileref.setAttribute("href", path)
-	document.getElementsByTagName("head")[0].appendChild(fileref)
+	let targetObj = document.createElement("link")
+	targetObj.setAttribute("rel", "stylesheet")
+	targetObj.setAttribute("type", "text/css")
+	targetObj.setAttribute("href", path)
+	document.getElementsByTagName("head")[0].appendChild(targetObj)
 }
 
 /**
@@ -268,35 +268,37 @@ function cmplz_load_css( path ) {
  * @param type
  */
 
-function cmplz_run_script( script, category, type ) {
-	let fileref = document.createElement("script");
+function cmplz_run_script( script, category, type, sourceObj ) {
+	let targetObj = document.createElement("script");
 	if ( type !== 'inline' ) {
-		fileref.setAttribute("src", script);
+		targetObj.setAttribute("src", script);
 	} else {
 		if (typeof script !== 'string') {
 			script = script.innerHTML;
 		}
-		fileref.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
+		targetObj.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
 	}
 	//check if already fired
 	if ( cmplz_in_array( script, cmplz_fired_scripts) ) {
 		return;
 	}
 
+	cmplzCopyAttributes(sourceObj, targetObj);
+
 	try {
 		if (type!=='inline') {
-			fileref.onload = function () {
+			targetObj.onload = function () {
 				cmplz_run_after_all_scripts(category);
-				cmplz_maybe_run_waiting_scripts(script, category);
+				cmplz_maybe_run_waiting_scripts(script, category, sourceObj);
 			}
 		} else {
 			window.cmplzScriptLoaded = function() {
 				cmplz_run_after_all_scripts(category);
-				cmplz_maybe_run_waiting_scripts(script, category);
+				cmplz_maybe_run_waiting_scripts(script, category, sourceObj);
 			}
 		}
 		let header = document.getElementsByTagName("head")[0];
-		header.appendChild(fileref);
+		header.appendChild(targetObj);
 
 	} catch(exception) {
 		//only runs in case of error
@@ -313,15 +315,15 @@ function cmplz_run_script( script, category, type ) {
  * @param category
  */
 
-function cmplz_maybe_run_waiting_scripts( script, category ){
+function cmplz_maybe_run_waiting_scripts( script, category, sourceObj ){
 	let waitingScript = cmplz_get_waiting_script(cmplz_waiting_scripts, script);
 	if ( waitingScript ) {
-		cmplz_run_script( waitingScript, category, 'src' );
+		cmplz_run_script( waitingScript, category, 'src', sourceObj );
 	}
 
 	let waiting_inline_script = cmplz_get_waiting_script(cmplz_waiting_inline_scripts, script);
 	if (waiting_inline_script) {
-		cmplz_run_script(waiting_inline_script, category, 'inline');
+		cmplz_run_script(waiting_inline_script, category, 'inline', sourceObj);
 	}
 }
 
@@ -654,6 +656,7 @@ function cmplz_enable_category(category, service) {
 		}
 	});
 
+
 	//scripts: remove text/plain
 	scriptElements.forEach(obj => {
 		//we don't want already activate scripts to fire, but also we don't want scripts that weren't blocked to fire. Hence the check for type
@@ -678,7 +681,7 @@ function cmplz_enable_category(category, service) {
 					postscribe(psID, '<script src=' + src + '></script>');
 				}
 			} else {
-				cmplz_run_script(src, category, 'src' );
+				cmplz_run_script(src, category, 'src', obj );
 			}
 
 		} else if (obj.innerText.length > 0 ) {
@@ -687,7 +690,7 @@ function cmplz_enable_category(category, service) {
 				return;
 			}
 
-			cmplz_run_script( obj.innerText, category, 'inline' );
+			cmplz_run_script( obj.innerText, category, 'inline', obj );
 		}
 	});
 
@@ -970,6 +973,9 @@ window.show_cookie_banner = function () {
 	let pageLinks = complianz.page_links[complianz.region];
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
+	if ( !cmplz_banner ) {
+		return;
+	}
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
 	let css_file_url = complianz.css_file.replace('{type}', complianz.consenttype ).replace('{banner_id}', complianz.user_banner_id);
 	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
@@ -2131,7 +2137,17 @@ function cmplz_equals (array_1, array_2) {
 	return true;
 }
 
-
+/*
+* Copy all element atributes to the new element
+*/
+function cmplzCopyAttributes(source, target) {
+  return Array.from(source.attributes).forEach(attribute => {
+    target.setAttribute(
+      attribute.nodeName === 'id' ? 'data-id' : attribute.nodeName,
+      attribute.nodeValue,
+    );
+  });
+}
 
 /**
  * Hooked into jquery

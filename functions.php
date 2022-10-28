@@ -1014,6 +1014,9 @@ if ( ! function_exists( 'cmplz_update_option' ) ) {
 	 * @param mixed $value
 	 */
 	function cmplz_update_option( $page, $fieldname, $value ) {
+		if ( !cmplz_user_can_manage() ) {
+			return;
+		}
 		$options               = get_option( 'complianz_options_' . $page, [] );
 		$options[ $fieldname ] = $value;
 		if ( ! empty( $options ) ) {
@@ -1402,7 +1405,7 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 
 if ( !function_exists('cmplz_is_loading_pdf')) {
 	function cmplz_is_loading_pdf() {
-		return is_user_logged_in() && isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz_pdf_nonce' );
+		return cmplz_user_can_manage() && isset( $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'cmplz_pdf_nonce' );
 	}
 }
 
@@ -2723,23 +2726,19 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 
 if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 	function cmplz_user_can_manage() {
-		if ( ! is_user_logged_in() ) {
-			return false;
-		}
-
-		if ( !is_multisite() && cmplz_wp_privacy_version()
-		     && ! current_user_can( 'manage_privacy_options' )
+		if ( cmplz_wp_privacy_version() && current_user_can( 'manage_privacy_options' )
 		) {
-			return false;
+			return true;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
+		if ( current_user_can('manage_options') ) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }
+
 if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 
 	/**

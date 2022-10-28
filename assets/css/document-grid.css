@@ -75,8 +75,8 @@
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div {
-  grid-template: "heading paragraph checkbox chevron";
-  grid-template-columns: 2fr auto auto 25px;
+  grid-template: "heading paragraph label checkbox chevron";
+  grid-template-columns: 2fr auto 0 auto 25px;
 }
 #cmplz-cookies-overview .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p,
 #cmplz-document .cmplz-dropdown.cmplz-dropdown-cookiepolicy summary div p {
@@ -182,9 +182,6 @@
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-always-active input {
   display: none;
 }
-#cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header label > span {
-  display: none;
-}
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-banner-checkbox {
   display: flex;
   align-items: center;
@@ -200,6 +197,9 @@
   content: '';
   background: var(--cmplz_category_open_icon_url) no-repeat;
   transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 25px;
@@ -212,3 +212,4 @@
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-icon.cmplz-open {
   transform: rotate(180deg);
 }
+/*# sourceMappingURL=document-grid.css.map */
