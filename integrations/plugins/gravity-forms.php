@@ -121,6 +121,7 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 			$complianz_field_exists = true;
 		};
 	}
+
 	$new_field_id ++;
 
 	if ( ! $complianz_field_exists ) {
@@ -158,3 +159,40 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 
 add_action( "cmplz_add_consent_box_gravity-forms",
 	'cmplz_gravityforms_add_consent_checkbox' );
+
+/**
+ * Update form permalink on last wizard step
+ * Fixes an issue where permalink is empty after checkbox has been created but wizard hasn't been completed
+ * @return void
+ */
+function cmplz_gravityforms_update_consent_checkbox() {
+
+	$forms = cmplz_get_value( 'add_consent_to_forms' );
+
+	if ( ! $forms || ! is_array( $forms ) ) {
+		return;
+	}
+
+	foreach ( $forms as $form_id => $checked ) {
+
+		// Skip when not a GF form
+		if ( stripos( $form_id, 'gf_' ) === false ) continue;
+
+		$form_id = str_replace( 'gf_', '', $form_id );
+		$form                   = GFAPI::get_form( $form_id );
+
+		foreach ( $form['fields'] as $field ) {
+			if ( $field->adminLabel === 'complianz_consent') {
+				$field->description = '<a href="'
+				. COMPLIANZ::$document->get_permalink( 'privacy-statement',
+						'eu', true ) . '">' . __( "Privacy Statement",
+						"complianz-gdpr" ) . '</a>';
+			}
+		}
+
+		GFAPI::update_form( $form );
+	}
+}
+
+add_action( "cmplz_wizard_last_step",
+	'cmplz_gravityforms_update_consent_checkbox' );

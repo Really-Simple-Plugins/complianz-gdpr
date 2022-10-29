@@ -101,7 +101,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		}
 
 		public function process_save() {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
 			if ( isset( $_POST['cmplz_nonce'] ) ) {
@@ -250,7 +250,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 
 		public function save_multiple( $fieldnames ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -306,7 +306,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		 */
 
 		public function save_field( $fieldname, $fieldvalue ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 			$fieldvalue = apply_filters("cmplz_fieldvalue", $fieldvalue, $fieldname);
@@ -355,7 +355,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
 
 		public function add_multiple_field( $fieldname, $cookie_type = false ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -413,7 +413,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 		 * @return array|bool|int|string|void
 		 */
 		public function sanitize( $value, $type ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! cmplz_user_can_manage() ) {
 				return false;
 			}
 			switch ( $type ) {
@@ -2580,7 +2580,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
             $html = "";
             $error = false;
 
-            if ( ! current_user_can( 'manage_options' ) ) {
+            if ( ! cmplz_user_can_manage() ) {
             	$error = true;
             }
             if ( ! isset($_POST['type']) || ($_POST['type'] !== 'add_script' && $_POST['type'] !== 'block_script' && $_POST['type'] !== 'whitelist_script') ) {
@@ -2670,7 +2670,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
         public function ajax_script_save()
         {
             $error = false;
-            if ( ! current_user_can( 'manage_options' ) ) $error = true;
+            if ( ! cmplz_user_can_manage() ) $error = true;
             if ( ! isset($_POST['data']) ) $error = true;
             if ( ! isset($_POST['id']) ) $error = true;
             if ( ! isset($_POST['type']) ) $error = true;

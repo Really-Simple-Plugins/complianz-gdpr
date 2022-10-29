@@ -16,7 +16,7 @@ require_once( BASE_PATH . 'wp-includes/class-phpass.php' );
 require_once( BASE_PATH . 'wp-admin/includes/image.php' );
 require_once( BASE_PATH . 'wp-admin/includes/plugin.php');
 
-if ( current_user_can( 'manage_options' ) ) {
+if ( cmplz_user_can_manage() ) {
 	ob_start();
 	echo 'Domain:' . esc_url_raw( site_url() ) . "\n";
 	$console_errors = cmplz_get_console_errors();

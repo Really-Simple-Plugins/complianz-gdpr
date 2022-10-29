@@ -314,12 +314,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
-	'mappress' => array(
-		'constant_or_function' => 'Mappress',
-		'label'                => 'MapPress Maps for WordPress',
-		'firstparty_marketing' => false,
-	),
-
 	'map-multi-marker' => array(
 		'constant_or_function' => 'MapMultiMarker',
 		'label'                => 'Map Multi Marker',
@@ -424,6 +418,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+	'uncode' => array(
+		'constant_or_function' => 'UncodeCore_Plugin',
+		'label'                => 'Uncode Google Maps',
+		'firstparty_marketing' => false,
+	),
+
 	'forminator' => array(
 		'constant_or_function' => 'FORMINATOR_VERSION',
 		'label'                => 'Forminator',
@@ -499,6 +499,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'presto-player'               => array(
 			'constant_or_function' => 'PRESTO_PLAYER_PLUGIN_FILE',
 			'label'                => 'Presto Player',
+			'firstparty_marketing' => false,
+	),
+	'yotu-wp'               => array(
+			'constant_or_function' => 'YOTUWP_VERSION',
+			'label'                => 'Video Gallery – YouTube Playlist, Channel Gallery by YotuWP',
 			'firstparty_marketing' => false,
 	),
 ) );
@@ -778,9 +783,9 @@ function cmplz_notify_of_plugin_integrations( $warnings ){
 			'open' => __('We have enabled integrations for plugins and services, please double-check your configuration.', 'complianz-gdpr' ) . cmplz_read_more("https://complianz.io/enabled-integration"),
 			'include_in_progress' => false,
 		);
-	
+
 		break;
-	
+
 	}
 
 	return $warnings;

@@ -72,7 +72,6 @@ function cmplz_get_banner_color_scheme_options(){
 
 add_filter('cmplz_fields_load_types', 'cmplz_add_cookiebanner_settings');
 function cmplz_add_cookiebanner_settings($fields){
-
 	if ( cmplz_get_value('uses_ad_cookies_personalized') === 'yes' ) {
 		$banner_text = __( "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
 	} else {
@@ -587,7 +586,7 @@ function cmplz_add_cookiebanner_settings($fields){
                        . "\n" . '.cmplz-blocked-content-container .cmplz-blocked-content-notice{}'
                        . "\n"
                        . "\n".'/* Placeholder button & message - Per service */'
-                       . "\n" . '.cmplz-blocked-content-container .cmplz-blocked-content-notice,' . 
+                       . "\n" . '.cmplz-blocked-content-container .cmplz-blocked-content-notice,' .
 					   	 "\n" . '.cmplz-blocked-content-notice{}'
                        . "\n" . 'button.cmplz-accept-service{}'
                        . "\n"

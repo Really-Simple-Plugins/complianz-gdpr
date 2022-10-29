@@ -160,7 +160,7 @@ class cmplz_tour {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! cmplz_user_can_manage() ) {
 			return;
 		}
 

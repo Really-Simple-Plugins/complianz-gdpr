@@ -120,7 +120,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				$offset = 0;
 			}
 			if ($limit!=-1) {
-				error_log("slide list from $offset to $limit");
 				$filelist = array_slice( $filelist, $offset, $limit, true );
 			}
 
