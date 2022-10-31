@@ -60,7 +60,7 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 * Categorize your Cookies with Tag Manager or our Script Center, if needed.
 * Integration with the [WP Consent API](https://wpconsentapi.org/)
 
-* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, HappyForms, Contact Form 7 <5.4 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, CAOS | Host Google Analytics Locally and other popular plugins.
+* Integrates seamlessly with Gutenberg, Elementor, Divi, Forminator, WPBakery, Monsterinsights, GADWP, Beehive, WPForms, Gravity Forms, HappyForms, Contact Form 7 <5.4 (CF7), Woocommerce, Easy Digital Downloads, WP Google Maps, Google Maps Widget, Local Google Fonts, CAOS | Host Google Analytics Locally and other popular plugins.
 * Tested with popular themes en page builders.
 * Gutenberg Blocks enabled.
 
