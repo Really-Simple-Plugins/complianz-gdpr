@@ -102,7 +102,7 @@ $this->fields = $this->fields + array(
 			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
 			'help'      => __( 'Do not change or translate the {category} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the category that is blocked.', 'complianz-gdpr' ),
 			'condition'    => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 			'callback_condition' => array(
 				'consent_per_service' => 'no',
@@ -119,7 +119,7 @@ $this->fields = $this->fields + array(
 			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
 			'help'      => __( 'Do not change or translate the {service} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the service that is blocked.', 'complianz-gdpr' ),
 			'condition'    => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 			'callback_condition' => array(
 				'consent_per_service' => 'yes',
@@ -135,7 +135,7 @@ $this->fields = $this->fields + array(
 			'default'      => __( "I agree", 'complianz-gdpr' ),
 			'tooltip'      => __( 'The blocked content text appears when for example a Youtube video is embedded.', 'complianz-gdpr' ),
 			'condition'    => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 			'callback_condition' => array(
 				'consent_per_service' => 'yes',
@@ -211,7 +211,7 @@ $this->fields = $this->fields + array(
 
         // ---------------- Cookie Blocker ----------------- //
 
-		'disable_cookie_block' => array(
+		'safe_mode' => array(
 			'source'  => 'settings',
 			'type'    => 'checkbox',
 			'step'    => 'cookie-blocker',
@@ -230,7 +230,7 @@ $this->fields = $this->fields + array(
 			'default'   => false,
 			'tooltip'      => __( "If you experience styling issues with videos or iFrames you can disable the placeholder insertion, which in some themes can conflict with theme styling.", 'complianz-gdpr' ),
 			'condition' => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 		),
 
@@ -257,7 +257,7 @@ $this->fields = $this->fields + array(
 			'comment'      => __( "You can change your placeholders manually or use Premium to do it for you.", 'complianz-gdpr' ).
 			                  cmplz_read_more('https://complianz.io/changing-the-default-social-placeholders/'),
 			'condition' => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 		),
 
@@ -275,7 +275,7 @@ $this->fields = $this->fields + array(
 			'default'   => '1280x920',
 			'tooltip'      => __( "Select the optimal placeholder ratio for your site.", 'complianz-gdpr' ),
 			'condition' => array(
-				'disable_cookie_block' => false,
+				'safe_mode' => false,
 			),
 			'callback_condition' => array(
 				'thirdparty_services_on_site' => 'google-maps,openstreetmaps',

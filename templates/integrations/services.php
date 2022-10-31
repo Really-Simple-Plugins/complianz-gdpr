@@ -1,6 +1,6 @@
 <?php
 
-	if ( cmplz_get_value( 'disable_cookie_block' ) == 1 ) {
+	if ( cmplz_get_value( 'safe_mode' ) == 1 ) {
 		cmplz_settings_overlay( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
 	}
 
@@ -34,8 +34,6 @@
 
 	if ( $thirdparty_active ) {
 		$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
-		unset( $thirdparty_services['google-fonts'] );
-
 		if (cmplz_get_value('block_recaptcha_service') !== 'yes'){
 			unset( $thirdparty_services['google-recaptcha'] );
 		}

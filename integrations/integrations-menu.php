@@ -69,8 +69,6 @@ function process_integrations_services_save() {
 		if ( isset($_POST["cmplz_save_integrations_type_services"])    ) {
 
 			$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
-			unset( $thirdparty_services['google-fonts'] );
-
 			$active_services = cmplz_get_value( 'thirdparty_services_on_site' );
 			if ( !is_array($active_services) ) $active_services = array();
 			foreach ( $thirdparty_services as $service => $label ) {

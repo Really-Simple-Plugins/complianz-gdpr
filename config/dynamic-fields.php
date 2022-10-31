@@ -39,6 +39,11 @@ function cmplz_filter_field_types( $fields ) {
 }
 
 function cmplz_filter_fields(  ) {
+	if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ){
+		COMPLIANZ::$config->fields['enable_cookie_banner']['disabled']=false;
+		COMPLIANZ::$config->fields['enable_cookie_blocker']['disabled']=false;
+	}
+
 	if ( cmplz_get_value( 'compile_statistics' )==='matomo' && cmplz_get_value( 'matomo_anonymized' ) === 'yes' ) {
 		COMPLIANZ::$config->fields['configuration_by_complianz']['disabled'] = array('no');
 		COMPLIANZ::$config->fields['configuration_by_complianz']['default'] = 'yes';
