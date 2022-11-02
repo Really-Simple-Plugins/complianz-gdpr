@@ -332,7 +332,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				if ( empty($value) ) {
 					$value = $default;
 				} else {
-					$value = intval($value);
+					$value = (int) $value;
 				}
 			} else if ( $type === 'text_checkbox' || $type === 'colorpicker' || $type === 'borderradius' || $type === 'borderwidth') {
 				//array types
@@ -396,9 +396,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		private function is_translatable($fieldname) {
 			if (property_exists($this, $fieldname.'_x')) {
 				return true;
-			} else {
-				return false;
 			}
+
+			return false;
 		}
 
 		/**
@@ -551,6 +551,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$this->use_categories = 'view-preferences';
 			}
 
+			if ( !$this->disable_cookiebanner && cmplz_get_value('enable_cookie_banner') === 'no' ) {
+				cmplz_update_option('wizard','enable_cookie_banner', 'yes');
+			}
 
 			$update_array = array(
 				'position'                     => sanitize_title( $this->position ),
@@ -1090,9 +1093,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 			if ( isset($this->functional_text['show']) && !$this->functional_text['show'] )  $css_files[] = "settings/categories/hide-functional_text$minified.css";
-			if ( isset($this->category_prefs['show']) && !$this->category_prefs['show'] || !cmplz_uses_preferences_cookies() ) $css_files[] = "settings/categories/hide-preferences$minified.css";
-			if ( isset($this->category_stats['show']) && !$this->category_stats['show'] || !cmplz_uses_statistic_cookies() ) $css_files[] = "settings/categories/hide-statistics$minified.css";
-			if ( isset($this->category_all['show']) && !$this->category_all['show'] || !cmplz_uses_marketing_cookies() )  $css_files[] = "settings/categories/hide-marketing$minified.css";
+			if ( ( isset( $this->category_prefs['show'] ) && ! $this->category_prefs['show'] ) || !cmplz_uses_preferences_cookies() ) $css_files[] = "settings/categories/hide-preferences$minified.css";
+			if ( ( isset( $this->category_stats['show'] ) && ! $this->category_stats['show'] ) || !cmplz_uses_statistic_cookies() ) $css_files[] = "settings/categories/hide-statistics$minified.css";
+			if ( ( isset( $this->category_all['show'] ) && ! $this->category_all['show'] ) || !cmplz_uses_marketing_cookies() )  $css_files[] = "settings/categories/hide-marketing$minified.css";
 			if ( isset($this->preferences_text['show']) && !$this->preferences_text['show'] )  $css_files[] = "settings/categories/hide-preferences_text$minified.css";
 			if ( isset($this->statistics_text['show']) && !$this->statistics_text['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
 			if ( isset($this->statistics_text_anonymous['show']) && !$this->statistics_text_anonymous['show'] )  $css_files[] = "settings/categories/hide-statistics_text$minified.css";
@@ -1129,7 +1132,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		public function get_array_value($field, $key = false ){
 			if ( $key ) {
-				$value = isset($this->{$field}[$key]) ? $this->{$field}[$key] : $this->get_default($field, $key);
+				$value = $this->{$field}[ $key ] ?? $this->get_default( $field, $key );
 			} else {
 				$value = $this->{$field};
 			}
@@ -1326,7 +1329,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager() || (cmplz_get_value('compile_statistics')==='matomo-tag-manager'),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
 				'preview'              => false,
-				'clean_cookies'        => cmplz_get_value( 'disable_cookie_block' ) != 1 && cmplz_get_value( 'consent_per_service' ) === 'yes',
+				'clean_cookies'        => cmplz_get_value( 'safe_mode' ) != 1 && cmplz_get_value( 'consent_per_service' ) === 'yes',
 			);
 
 			$output = apply_filters( 'cmplz_cookiebanner_settings_front_end', $output, $this );

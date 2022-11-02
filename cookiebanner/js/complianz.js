@@ -584,7 +584,7 @@ function cmplz_enable_category(category, service) {
 		}
 
 		let tagName = obj.tagName;
-		if (tagName==='STYLE'){
+		if (tagName==='LINK'){
 			obj.classList.add('cmplz-activated' );
 			let src = obj.getAttribute('data-href');
 			cmplz_load_css( src, category);

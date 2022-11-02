@@ -515,6 +515,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'include_in_progress' => true,
 
 				),
+				'google-fonts' => array(
+					'plus_one' => true,
+					'warning_condition' => 'cookie_admin->show_google_fonts_notice',
+					'success_conditions'  => array(
+					),
+					'open' => __( 'Google Fonts requires your attention.', 'complianz-gdpr' ) ." ". cmplz_sprintf(__( 'We have added additional support and recommend reviewing your %ssettings%s.', 'complianz-gdpr' ), '<a href="'. admin_url('admin.php?page=cmplz-wizard&step=2&section=4') .'">','</a>')." " . cmplz_sprintf( __( 'Please read this %sarticle%s to read our position on self-hosting Google Fonts and Privacy by Design.', 'complianz-gdpr' ),  '<a href="http://complianz.io/self-hosting-google-fonts-for-wordpress/" target="_blank">', '</a>'),
+					'include_in_progress' => true,
+				),
 
 				'cookies-changed' => array(
 					'plus_one' => true,

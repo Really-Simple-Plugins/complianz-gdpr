@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 * */
 
 // MY COMPANY SECTION
-$this->fields = $this->fields + array(
+$this->fields += array(
 
 		'regions'                     => array(
 			'step'     => STEP_COMPANY,
@@ -273,7 +273,7 @@ $this->fields = $this->fields + array(
 		),
 	);
 
-$this->fields = $this->fields + array(
+$this->fields += array(
 		'cookie_scan' => array(
 			'step'     => STEP_COOKIES,
 			'section'  => 1,
@@ -610,7 +610,7 @@ $this->fields = $this->fields + array(
 			'help'               => __( "For a granular approach you can enable 'consent per service', a unique way to control cookies real-time.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/consent-per-service/'),
 			'help_status'        => 'warning',
 			'comment'            => __("This feature includes real-time cookie removal with the CookieShredder.","complianz-gdpr").' '.__("This could break website functionality.", 'complianz-gdpr').cmplz_read_more('https://complianz.io/consent-per-service/'),
-			'comment_status'     => 'warning',
+//			'comment_status'     => 'warning',
 			'callback_condition' => 'NOT cmplz_uses_only_functional_cookies'
 		),
 
@@ -651,6 +651,23 @@ $this->fields = $this->fields + array(
 			'default'   => 'no',
 			'condition' => array( 'thirdparty_services_on_site' => 'google-recaptcha' ),
 			'label'     => __( "Do you want to block reCAPTCHA before consent, and when consent is revoked?", 'complianz-gdpr' ),
+		),
+
+		'self_host_google_fonts' => array(
+			'step'      => STEP_COOKIES,
+			'section'   => 4,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'options' => [
+				'self-host'   => __( 'Yes (recommended)', "complianz-gdpr" ),
+				'block'       => __( 'No', "complianz-gdpr" ),
+			],
+			'help'      => cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr' ), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>' ),
+			'comment'   => __("If you choose 'No', Complianz will block all known Google Fonts sources.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s why self-hosting Google Fonts is recommended.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>'),
+			'condition' => array( 'thirdparty_services_on_site' => 'google-fonts' ),
+			'callback_condition' => array( 'regions' => ['eu'] ),
+			'label'     => __( "Will you self-host Google Fonts?", 'complianz-gdpr' ),
+			'comment_status'     => 'warning',
 		),
 
 		'block_hubspot_service' => array(
@@ -893,5 +910,37 @@ $this->fields = $this->fields + array(
 			'source'   => 'wizard',
 			'callback' => 'wizard_last_step',
 			'label'    => '',
+			'help'     => cmplz_sprintf( __( "If you encounter any issues after enabling the cookie blocker, please read %sthese instructions%s to debug any issues while in safe mode.","complianz-gdpr"),
+				'<a  target="_blank" href="https://complianz.io/debugging-issues/">', '</a>'),
+		),
+
+		'enable_cookie_banner' => array(
+			'step'                    => STEP_FINISH,
+			'source'                  => 'wizard',
+			'section'                 => 1,
+			'type'                    => 'radio',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'disabled'                => true,
+			'options'                 => $this->yes_no,
+			'default'                 => 'yes',
+			'label'                   => __( "Enable Cookie Banner", 'complianz-gdpr' ),
+			'tooltip'                 => __( "If you enable this setting, a cookie banner will be enabled, if needed.", 'complianz-gdpr' ),
+			'comment'                 => __( "You can always enable and disable the Cookie Banner when styling the Cookie Banner, under Cookie Banner settings.", 'complianz-gdpr' ),
+		),
+
+		'enable_cookie_blocker' => array(
+			'step'                    => STEP_FINISH,
+			'source'                  => 'wizard',
+			'section'                 => 1,
+			'type'                    => 'radio',
+			'required'                => true,
+			'revoke_consent_onchange' => true,
+			'disabled'                => true,
+			'options'                 => $this->yes_no,
+			'default'                 => 'yes',
+			'label'                   => __( "Enable Cookie Blocker", 'complianz-gdpr' ),
+			'tooltip' 				  => __( "The Cookie Blocker will, among others, block any tracking and third-party scripts configured by the wizard, automatic configuration or our script center.", 'complianz-gdpr' ),
+			'comment' 				  => __( "If the Cookie Blocker causes an issue, you can enable Safe Mode under settings. Disabling Safe Mode will activate the Cookie Blocker.", 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/debugging-issues/'),
 		),
 	);

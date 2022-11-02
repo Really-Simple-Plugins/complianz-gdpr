@@ -63,8 +63,6 @@
 #cmplz-document .cmplz-dropdown summary div:after {
   grid-area: chevron;
 }
-#cmplz-cookies-overview .cmplz-dropdown summary div input[data-service="google-fonts"],
-#cmplz-document .cmplz-dropdown summary div input[data-service="google-fonts"],
 #cmplz-cookies-overview .cmplz-dropdown summary div input[data-category="functional"],
 #cmplz-document .cmplz-dropdown summary div input[data-category="functional"] {
   visibility: hidden;

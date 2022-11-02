@@ -44,7 +44,7 @@ class rsp_upgrade_to_pro {
 					$this->plugin_constant = "rsssl_pro";
 					$this->prefix = "rsssl_";
 					$this->api_url = "https://really-simple-plugins.com";
-					$this->dashboard_url = add_query_arg(["page" => "rlrsssl_really_simple_ssl"], admin_url( "admin.php/options-general.php" ));
+					$this->dashboard_url = add_query_arg(["page" => "really-simple-security"], admin_url( "options-general.php" ));
 					break;
 				case "brst_pro":
 					$this->slug = "burst";

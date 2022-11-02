@@ -159,7 +159,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				add_action( 'wp_head', array( $this, 'inline_styles' ), 100 );
 			}
 
-			if ( cmplz_get_value( 'disable_cookie_block' ) !== 1 ) {
+			if ( cmplz_get_value( 'safe_mode' ) !== 1 ) {
 				wp_register_style( 'cmplz-general', cmplz_url . "assets/css/cookieblocker$min.css", false, cmplz_version );
 				wp_enqueue_style( 'cmplz-general' );
 			}
@@ -2553,7 +2553,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( ! $page_id ) {
 				$pages = get_pages();
-				$type_region = ( $region == 'eu' ) ? $type : $type . '-' . $region;
+				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
 				/**
 				 * Gutenberg block check

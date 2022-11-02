@@ -1,9 +1,8 @@
 <?php
 	$wizard_completed = COMPLIANZ::$wizard->wizard_completed_once();
-	$cookieblocker_status = $wizard_completed && cmplz_get_value( 'disable_cookie_block' ) != 1 ? 'success' : 'warning';
+	$cookieblocker_status = $wizard_completed && cmplz_can_run_cookie_blocker(true) ? 'success' : 'warning';
 	$placeholder_status = $wizard_completed && cmplz_get_value( 'dont_use_placeholders' ) != 1 ? 'success' : 'warning';
 	$cookiebanner_status = cmplz_cookiebanner_should_load(true) ? 'success' : 'warning';
-
 	$cookieblocker_icon = 	$cookieblocker_status === 'success' ?
 							cmplz_icon('circle-check', $cookieblocker_status) :
 							cmplz_icon('error', $cookieblocker_status, __('Cookie blocker is disabled', 'complianz-gdpr'));

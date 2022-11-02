@@ -32,6 +32,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			add_action( 'admin_init', array( $this, 'process_custom_hooks' ) );
 			add_action( 'complianz_before_save_wizard_option', array( $this, 'before_save_wizard_option' ), 10, 4 );
 			add_action( 'complianz_after_save_wizard_option', array( $this, 'after_save_wizard_option' ), 10, 4 );
+			add_action( 'complianz_after_save_settings_option', array( $this, 'after_save_settings_option' ), 10, 4 );
 			add_action( 'cmplz_after_saved_all_fields', array( $this, 'after_saved_all_fields' ), 10, 1 );
 
 			//dataleaks:
@@ -110,14 +111,14 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                 echo '</div>';
 			} else {
 			    echo '<div class="cmplz-wizard-intro">';
-				printf( '<p>' . __( "Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr' ). '</p>',
-					__( "Finish", 'complianz-gdpr' ) );
+				printf( '<p>' . __( "Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr' ). '</p>', __( "Save", 'complianz-gdpr' ) );
                 echo '</div>';
 
 				if ( COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
-					cmplz_sidebar_notice( cmplz_sprintf( __( "The cookie banner and cookie blocker are enabled. Please check your website if your configuration is working properly. Please read %sthese instructions%s to debug any issues while in safe mode. Safe mode is available under settings.","complianz-gdpr").'&nbsp;'.__("You will find tips and tricks on your dashboard after you have configured your cookie banner.", 'complianz-gdpr' ),
-                        '<a  target="_blank" href="https://complianz.io/debugging-manual">', '</a>'),
-                        'warning');
+					'<p>'._e( "The cookie banner and the cookie blocker are now ready to be enabled.", "complianz-gdpr"). '</p>'.
+					'<p>'._e( "Please check your website after finishing the wizard to verify that your configuration is working properly.", "complianz-gdpr").'</p>';
+				} else {
+					'<p>'._e( "Your site does not require a cookie banner. If you think you need a cookie banner, please review your wizard settings.", "complianz-gdpr").'</p>';
 				}
 
 				if ( cmplz_get_value('uses_ad_cookies_personalized') === 'yes' ) {
@@ -126,6 +127,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 					$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->prefix}cmplz_cookiebanners SET message_optin = %s", $banner_text) );
 				}
 			}
+
 		}
 
 
@@ -287,6 +289,16 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 		}
 
+		public function after_save_settings_option( $fieldname, $fieldvalue, $prev_value, $type ){
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
+			if ( $fieldname ==='safe_mode' ) {
+				$enable_blocker = $fieldvalue ? 'no' : 'yes';
+				cmplz_update_option('wizard', 'enable_cookie_blocker', $enable_blocker);
+			}
+
+		}
 		/**
 		 * Handle some custom options after saving the wizard options
 		 * @param string $fieldname
@@ -347,8 +359,26 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				&& cmplz_get_value('eu_consent_regions') === 'no'
 				&& cmplz_get_value('german_imprint_appendix') === 'yes') {
 					cmplz_update_option('wizard' , 'german_imprint_appendix', 'no');
+			}
+
+			if ( $fieldname ==='enable_cookie_banner' ) {
+				$banners = cmplz_get_cookiebanners();
+				$disable = $fieldvalue === 'no';
+				if ( $banners ) {
+					foreach ( $banners as $banner_item ) {
+						$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+						$banner->disable_cookiebanner = $disable;
+						$banner->save();
+					}
 				}
 			}
+
+			if ( $fieldname ==='enable_cookie_blocker' ) {
+				$disable_blocker = $fieldvalue === 'no';
+				cmplz_update_option('settings', 'safe_mode', $disable_blocker);
+			}
+
+		}
 
 		/**
 		 * Get the next step with fields in it
@@ -700,7 +730,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
                 if ( $page == 'wizard' && COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
 					$target = apply_filters('cmplz_finish_wizard_target', 'cmplz-cookiebanner-settings');
-					$args['cookie_or_finish_button'] = '<input class="button button-primary '.$target.'" type="submit" name="'.$target.'" value="'. __( "Finish and check cookie banner settings", 'complianz-gdpr' ) . '">';
+					$args['cookie_or_finish_button'] = '<input class="button button-primary '.$target.'" type="submit" name="'.$target.'" value="'. __( "Save and Style Cookie Banner", 'complianz-gdpr' ) . '">';
                 } else {
                     $args['cookie_or_finish_button'] = '<input class="button button-primary cmplz-finish" type="submit" name="cmplz-finish" value="'. $label . '">';
                 }

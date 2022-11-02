@@ -461,6 +461,16 @@ if ( ! function_exists( 'cmplz_get_value' ) ) {
 	}
 }
 
+if ( ! function_exists( 'cmplz_site_needs_cookie_warning' ) ) {
+	/**
+	 * Check if site needs a cookie warning
+	 *
+	 * @return bool
+	 */
+	function cmplz_site_needs_cookie_warning() {
+		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning();
+	}
+}
 if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning' ) ) {
 	/**
 	 * Check if EU targeted site needs a cookie warning
@@ -1331,33 +1341,45 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
-	function cmplz_init_cookie_blocker() {
 
-		if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning()
-		) {
-			return;
+	/**
+	 * Check if the Cookie Blocker should run
+	 * @param bool $admin_test
+	 * @return bool
+	 */
+
+	function cmplz_can_run_cookie_blocker( $admin_test = false ){
+		if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
+			return false;
 		}
 
-		//only admin when ajax
-		if ( ! wp_doing_ajax() && is_admin() ) {
-			return;
+		if ( cmplz_get_value('enable_cookie_blocker') !== 'yes' ) {
+			return false;
+		}
+
+		//we can pass a variable $admin_test=true if we want to test cookieblocker availability from admin
+		if ( !$admin_test ) {
+			//only allow cookieblocker on admin when it's an ajax request
+			if ( ! wp_doing_ajax() && is_admin() ) {
+				return false;
+			}
 		}
 
 		if ( is_feed() ) {
-			return;
+			return false;
 		}
 
 		//don't fire on the back-end
 		if ( is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]) ) {
-			return;
+			return false;
 		}
 
 		if ( defined( 'CMPLZ_DO_NOT_BLOCK' ) && CMPLZ_DO_NOT_BLOCK ) {
-			return;
+			return false;
 		}
 
-		if ( cmplz_get_value( 'disable_cookie_block' ) ) {
-			return;
+		if ( cmplz_get_value( 'safe_mode' ) ) {
+			return false;
 		}
 
 		/* Do not block when visitors are from outside EU or US, if geoip is enabled */
@@ -1367,17 +1389,27 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 
 		//do not block cookies during the scan
 		if ( isset( $_GET['complianz_scan_token'] )
-		     && ( sanitize_title( $_GET['complianz_scan_token'] )
-		          == get_option( 'complianz_scan_token' ) )
+			 && ( sanitize_title( $_GET['complianz_scan_token'] )
+				  == get_option( 'complianz_scan_token' ) )
 		) {
-			return;
+			return false;
 		}
 
-		/* Do not fix mixed content when call is coming from wp_api or from xmlrpc or feed */
+		/* Do not fix block when call is coming from wp_api or from xmlrpc or feed */
 		if ( defined( 'JSON_REQUEST' ) && JSON_REQUEST ) {
-			return;
+			return false;
 		}
 		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+			return false;
+		}
+		return true;
+	}
+}
+
+if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
+	function cmplz_init_cookie_blocker() {
+
+		if ( !cmplz_can_run_cookie_blocker() ) {
 			return;
 		}
 
@@ -2026,9 +2058,17 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$use_cdb_links = cmplz_get_value( 'use_cdb_links' ) === 'yes';
 		$consent_per_service = cmplz_get_value( 'consent_per_service' ) === 'yes';
 		$cookie_list = COMPLIANZ::$cookie_blocker->cookie_list;
+		$google_fonts = new CMPLZ_SERVICE('Google Fonts');
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
+
+			//if google fonts is self hosted, don't include in the cookie policy
+			if ( cmplz_get_value('self_host_google_fonts') === 'yes'
+				 && defined('CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE')
+				 && ($serviceID == $google_fonts->ID || $service->isTranslationFrom == $google_fonts->ID) ) {
+				continue;
+			}
 			if ( isset($cookie_list['marketing'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ){
 				$topCategory = 'marketing';
 			} else if ( isset($cookie_list['statistics'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ) {

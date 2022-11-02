@@ -302,7 +302,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				) $charset_collate;";
 
 				dbDelta( $sql );
-				update_option( 'cmplz_dnsmpd_db_version', cmplz_version, false );
+				update_option( 'cmplz_dnsmpd_db_version', cmplz_version, true );
 			}
 		}
 
