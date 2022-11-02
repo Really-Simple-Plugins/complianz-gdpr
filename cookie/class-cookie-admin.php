@@ -1816,8 +1816,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$editor = $new = false;
 			if (is_admin() && isset($_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' && cmplz_user_can_manage() ) {
-				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] == 'new' );
-				$new = isset( $_GET['action'] ) && $_GET['action'] == 'new' ;
+				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] === 'new' );
+				$new = isset( $_GET['action'] ) && $_GET['action'] === 'new' ;
 			}
 
 			$consent_types = cmplz_get_used_consenttypes();

@@ -2550,8 +2550,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function get_shortcode_page_id( $type, $region , $cache = true) {
 			$shortcode = 'cmplz-document';
 			$page_id   = $cache ? get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
-
 			if ( ! $page_id ) {
+				//ensure a transient, in case none is found. This prevents continuing requests on the page list
+				set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
 				$pages = get_pages();
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
