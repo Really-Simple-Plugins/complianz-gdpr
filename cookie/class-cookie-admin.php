@@ -1795,19 +1795,21 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function cookiebanner_html(){
 			global $post;
 			$type = '';
-			if ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "gutenberg" ), $post->post_content, $matches ) ) {
-				$type      = $matches[1];
-				$region    = cmplz_get_region_from_legacy_type( $type );
-				$type      = str_replace( '-' . $region, '', $type );
-			} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern(), $post->post_content, $matches ) ) {
-				$type      = $matches[1];
-			} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "classic", true ), $post->post_content, $matches ) ) {
-				$type      = $matches[1];
-				$region    = cmplz_get_region_from_legacy_type( $type );
-				$type      = str_replace( '-' . $region, '', $type );
+			if ( $post ) {
+				if ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "gutenberg" ), $post->post_content, $matches ) ) {
+					$type      = $matches[1];
+					$region    = cmplz_get_region_from_legacy_type( $type );
+					$type      = str_replace( '-' . $region, '', $type );
+				} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern(), $post->post_content, $matches ) ) {
+					$type      = $matches[1];
+				} elseif ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "classic", true ), $post->post_content, $matches ) ) {
+					$type      = $matches[1];
+					$region    = cmplz_get_region_from_legacy_type( $type );
+					$type      = str_replace( '-' . $region, '', $type );
+				}
 			}
 
-			if ( $type ==='cookie-statement' ){
+			if ( $type === 'cookie-statement' ){
 				return;
 			}
 
