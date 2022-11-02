@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 6.3.4
+Stable tag: 6.3.5
 
 Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,22 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.3.5 =
+* Fix: Change legal document page name on generate, not only on update
+* Fix: remove error_log in proof of consent
+* Fix: prevent duplicate document status field when Terms & conditions is activated
+* Fix: re-enable caching for cookie list when cookie shredder is enabled, props @mkarena
+* Fix: uses_statistics function now also checks if vimeo is used, which is a service using statistics cookies
+* Improvement: drop Mappress integration, as Mappress has implemented the integration on their end
+* Improvement: Extended Google Fonts support
+* Improvement: Explicitly let users enable the cookie banner and cookie blocker
+* Improvement: allow for linebreak in blocked scripts, which fixes ExactMetrics integration
+* Improvement: when checkbox is inserted in Gravity Forms, but the wizard is not completed yet, the privacy statement url will now be updated on the last step of the wizard
+* WCAG: don't add cookie banner html to cookie policy page, to prevent duplicate id issues
+* WCAG: add labels with screen-reader-text class instead of hiding them with display:none, props @sophieweb
+* New: Uncode maps integration
+* New: YotuWP integration
+
 = 6.3.4 =
 * New: Google Maps colibri integration
 * New: WP Google Maps OpenLayers Integration
