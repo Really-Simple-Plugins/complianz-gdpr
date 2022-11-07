@@ -664,7 +664,7 @@ function cmplz_install_cookie_table() {
                 ) $charset_collate;";
 		dbDelta( $sql );
 
-		update_option( 'cmplz_cookietable_version', cmplz_version, false );
+		update_option( 'cmplz_cookietable_version', cmplz_version );
 
 	}
 }

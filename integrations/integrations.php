@@ -566,8 +566,6 @@ foreach ( $cmplz_integrations_list as $plugin => $details ) {
 
 	if ( file_exists( $file ) ) {
 		require_once( $file );
-	} else {
-		error_log( "searched for $plugin integration at $file, but did not find it" );
 	}
 }
 
@@ -635,8 +633,6 @@ function cmplz_integrations() {
 			$file = apply_filters( 'cmplz_integration_path', cmplz_path . "integrations/plugins/$plugin.php", $plugin );
 			if ( file_exists( $file ) ) {
 				require_once( $file );
-			} else {
-				error_log( "searched for $plugin integration at $file, but did not find it" );
 			}
 		}
 	}

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.3.7.1\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.3.7.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-01T14:37:05+00:00\n"
+"POT-Creation-Date: 2022-11-07T09:47:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -660,12 +660,12 @@ msgid "Add new cookie"
 msgstr ""
 
 #: class-field.php:2056
-#: cookie/class-cookie-admin.php:3585
+#: cookie/class-cookie-admin.php:3587
 msgid "Cookies in %s"
 msgstr ""
 
 #: class-field.php:2056
-#: cookie/class-cookie-admin.php:3585
+#: cookie/class-cookie-admin.php:3587
 msgid "Services in %s"
 msgstr ""
 
@@ -4085,7 +4085,7 @@ msgid "Consent"
 msgstr ""
 
 #: config/steps.php:54
-#: cookie/class-cookie-admin.php:3494
+#: cookie/class-cookie-admin.php:3496
 msgid "Cookie scan"
 msgstr ""
 
@@ -4335,60 +4335,60 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2875
+#: cookie/class-cookie-admin.php:2877
 #: functions.php:2153
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3175
+#: cookie/class-cookie-admin.php:3177
 #: DNSMPD/class-DNSMPD-table.php:292
 #: DNSMPD/csv.php:73
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3195
+#: cookie/class-cookie-admin.php:3197
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3283
+#: cookie/class-cookie-admin.php:3285
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3286
+#: cookie/class-cookie-admin.php:3288
 msgid "The scan found %s cookie on your domain."
 msgid_plural "The scan found %s cookies on your domain."
 msgstr[0] ""
 msgstr[1] ""
 
-#: cookie/class-cookie-admin.php:3287
+#: cookie/class-cookie-admin.php:3289
 msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3299
+#: cookie/class-cookie-admin.php:3301
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3481
+#: cookie/class-cookie-admin.php:3483
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3488
+#: cookie/class-cookie-admin.php:3490
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3489
+#: cookie/class-cookie-admin.php:3491
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3533
+#: cookie/class-cookie-admin.php:3535
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3553
+#: cookie/class-cookie-admin.php:3555
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3556
+#: cookie/class-cookie-admin.php:3558
 msgid "Syncing..."
 msgstr ""
 

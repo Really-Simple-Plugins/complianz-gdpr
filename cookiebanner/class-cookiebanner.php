@@ -94,7 +94,7 @@ function cmplz_install_cookiebanner_table() {
 			dbDelta( $sql );
 		}
 
-		update_option( 'cmplz_cbdb_version', cmplz_version , false );
+		update_option( 'cmplz_cbdb_version', cmplz_version );
 	}
 }
 
@@ -1201,8 +1201,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$file_path = trailingslashit(cmplz_path) . "cookiebanner/css/$css_file";
 					if ( file_exists($file_path) ) {
 						$css .= file_get_contents($file_path) . "\n";
-					} else {
-						error_log("missing file $file_path");
 					}
 				}
 
