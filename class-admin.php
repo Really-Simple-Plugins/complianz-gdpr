@@ -737,7 +737,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$cmplz_admin_page = add_menu_page(
 				__( 'Complianz', 'complianz-gdpr' ),
 				$menu_label,
-				'manage_options',
+				'manage_privacy_options',
 				'complianz',
 				array( $this, 'dashboard' ),
 				cmplz_url . 'assets/images/menu-icon.svg',
@@ -748,7 +748,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Dashboard', 'complianz-gdpr' ),
 				__( 'Dashboard', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'complianz',
 				array( $this, 'dashboard' )
 			);
@@ -757,7 +757,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Wizard', 'complianz-gdpr' ),
 				__( 'Wizard', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'cmplz-wizard',
 				array( $this, 'wizard_page' )
 			);
@@ -770,7 +770,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Settings' ),
 				__( 'Settings' ),
-				'manage_options',
+				'manage_privacy_options',
 				"cmplz-settings",
 				array( $this, 'settings' )
 			);
@@ -783,7 +783,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$highest_index = count($submenu['complianz']);
 				$submenu['complianz'][] = array(
 						__( 'Upgrade to premium', 'complianz-gdpr' ),
-						'manage_options',
+						'manage_privacy_options',
 						'https://complianz.io/l/pricing'
 				);
 				if ( isset( $submenu['complianz'][$highest_index] ) ) {

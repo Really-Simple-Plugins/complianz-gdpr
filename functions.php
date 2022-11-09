@@ -2771,7 +2771,7 @@ if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 			return true;
 		}
 
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can('manage_privacy_options') ) {
 			return true;
 		}
 

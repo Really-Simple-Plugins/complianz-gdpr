@@ -151,7 +151,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				'complianz',
 				__( 'Data requests', 'complianz-gdpr' ),
 				__( 'Data requests', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'cmplz-datarequests',
 				array( $this, 'data_requests_overview' )
 			);
