@@ -2729,24 +2729,28 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( cmplz_get_value( $type ) === 'none' ) {
 				return '#';
-			} else if ( cmplz_get_value( $type ) === 'custom' ) {
+			}
+
+			if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
 				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
-				return intval( $id ) == 0 || !get_permalink( $id )
+				return (int) $id == 0 || !get_permalink( $id )
 					? '#'
-					: esc_url_raw( get_permalink( $id ) );
-			} else if ( cmplz_get_value( $type ) === 'url' ) {
-					$url = get_option("cmplz_".$type."_custom_page_url");
-					return esc_url_raw( $url );
-			} else {
-				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
-
-				//get correct translated id
-				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
-
-				return get_permalink( $policy_page_id );
+					: cmplz_translate(esc_url_raw( get_permalink( $id ) ), 'cmplz_url_'.$type);
 			}
+
+			if ( cmplz_get_value( $type ) === 'url' ) {
+					$url = cmplz_translate(get_option("cmplz_".$type."_custom_page_url"), 'cmplz_url_'.$type);
+					return cmplz_translate( esc_url_raw( $url ), 'cmplz_url_'.$type);
+			}
+
+			$policy_page_id = $this->get_shortcode_page_id( $type, $region );
+
+			//get correct translated id
+			$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
+
+			return cmplz_translate(get_permalink( $policy_page_id ), 'cmplz_url_' . $type);
 		}
 
 		/**
@@ -2761,7 +2765,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ($region && $region !== $primary_region) return;
 
-			if ($type == 'privacy-statement') {
+			if ($type === 'privacy-statement') {
 				update_option('wp_page_for_privacy_policy', intval($page_id));
 			}
 

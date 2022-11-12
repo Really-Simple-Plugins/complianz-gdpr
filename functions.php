@@ -2278,8 +2278,7 @@ if ( ! function_exists( 'cmplz_translate' ) ) {
 			$value = icl_translate( 'complianz', $fieldname, $value );
 		}
 
-		$value = apply_filters( 'wpml_translate_single_string', $value,
-			'complianz', $fieldname );
+		$value = apply_filters( 'wpml_translate_single_string', $value, 'complianz', $fieldname );
 
 		return $value;
 
