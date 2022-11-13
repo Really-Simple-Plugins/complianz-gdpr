@@ -2896,6 +2896,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_cookies( $settings = array() ) {
+			global $wpdb;
+
 			$defaults = array(
 					'ignored'           => 'all',
 					'new'               => false,
@@ -2970,7 +2972,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$settings_args = sanitize_title(json_encode($settings));
 			$cookies = get_transient('cmplz_cookies_'.$settings_args);
 			if ( !$cookies || cmplz_user_can_manage() ){
-				global $wpdb;
 				$table_exists = get_transient('cmplz_cookie_table_exists');
 				if ( !$table_exists ){
 					$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
