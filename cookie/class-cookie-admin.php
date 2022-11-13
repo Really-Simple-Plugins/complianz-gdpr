@@ -2896,16 +2896,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_cookies( $settings = array() ) {
-			global $wpdb;
-			$table_exists = wp_cache_get('cmplz_cookie_table_exists', 'complianz');
-			if ( !$table_exists ){
-				$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
-				wp_cache_set('cmplz_cookie_table_exists', $table_exists, 'complianz');
-			}
-			if ( empty( $table_exists ) ) {
-				return array();
-			}
-
 			$defaults = array(
 					'ignored'           => 'all',
 					'new'               => false,
@@ -2978,17 +2968,26 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//stringyfy select args.
 			$settings_args = sanitize_title(json_encode($settings));
-			$cookies = wp_cache_get('cmplz_cookies_'.$settings_args, 'complianz');
-			if ( !$cookies || is_admin() ){
+			$cookies = get_transient('cmplz_cookies_'.$settings_args);
+			if ( !$cookies || cmplz_user_can_manage() ){
+				global $wpdb;
+				$table_exists = get_transient('cmplz_cookie_table_exists');
+				if ( !$table_exists ){
+					$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
+					set_transient('cmplz_cookie_table_exists', $table_exists );
+				}
+				if ( empty( $table_exists ) ) {
+					return array();
+				}
 				$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
-				wp_cache_set('cmplz_cookies_'.$settings_args, $cookies, 'complianz', HOUR_IN_SECONDS);
-			}
-			//make sure service data is added
-			foreach ( $cookies as $index => $cookie ) {
-				$cookie            = new CMPLZ_COOKIE( $cookie->ID );
-				$cookies[ $index ] = $cookie;
-			}
+				//make sure service data is added
+				foreach ( $cookies as $index => $cookie ) {
+					$cookie            = new CMPLZ_COOKIE( $cookie->ID );
+					$cookies[ $index ] = $cookie;
+				}
 
+				set_transient('cmplz_cookies_'.$settings_args, $cookies, HOUR_IN_SECONDS);
+			}
 			return $cookies;
 		}
 

@@ -64,7 +64,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			$name = false, $language = 'en', $service_name = false
 		) {
 			if ( is_numeric( $name ) ) {
-				$this->ID = intval( $name );
+				$this->ID = (int) $name;
 			} else {
 				$this->name = $this->sanitize_cookie( $name );
 			}
