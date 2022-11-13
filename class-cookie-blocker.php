@@ -448,7 +448,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * Get script tags, including custom user scripts
              *
              * */
-			$blocked_scripts = false;//get_transient('cmplz_blocked_scripts');
+			$blocked_scripts = get_transient('cmplz_blocked_scripts');
 			if ( defined('WP_DEBUG') && WP_DEBUG ) {
 				$blocked_scripts = false;
 			}
