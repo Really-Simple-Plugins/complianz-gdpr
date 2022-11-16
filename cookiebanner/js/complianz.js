@@ -1840,13 +1840,17 @@ function cmplz_clear_cookies(cookie_part){
 	let pathname = location.pathname;
 	let pathParts = pathname.replace(/^\/|\/$/g, '').split('/');
 
+	//loop through all cookies
 	for (var i = 0; i < cookies.length; i++) {
 		let cookieName = cookies[i].split(";")[0].split("=")[0];
 		let host = window.location.hostname;
 		var domainParts = host.split(".");
 		//if we have more than one result in the array, we can skip the last one, as it will be the .com/.org extension
 		let skip_last = domainParts.length > 1;
+		//if the cookie contains cookie_part, try to delete it
+		console.log("check " +cookieName);
 		if ( cookieName.indexOf(cookie_part) !==-1 ) {
+			console.log(cookieName+" contains "+cookie_part);
 			foundCookie = true;
 			let cookieBaseDomain = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=;path=';
 			document.cookie = cookieBaseDomain + '/';
@@ -1861,6 +1865,7 @@ function cmplz_clear_cookies(cookie_part){
 			};
 			while ( domainParts.length > 0) {
 				let cookieBase 		 = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=.' + domainParts.join('.') + ';path=';
+				console.log("overwrite cookie with "+cookieBase);
 				document.cookie = cookieBase+ '/';
 				while (pathParts.length > 0) {
 					var path = pathParts.join('/');
@@ -2031,6 +2036,7 @@ function cmplz_clean(){
 						let cookies = services[service];
 						for (var j in cookies) {
 							let item = cookies[j];
+							console.log("no consent for "+item+" delete");
 							cmplz_clear_cookies(item);
 							cmplz_clear_storage(item);
 						}
@@ -2220,7 +2226,6 @@ if ('undefined' != typeof window.jQuery) {
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
-
 
 		document.querySelectorAll('.cmplz-video').forEach(obj => {
 			//turn obj into jquery object

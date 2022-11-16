@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-07T09:47:35+00:00\n"
+"POT-Creation-Date: 2022-11-16T08:36:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -779,8 +779,8 @@ msgstr ""
 #: cookiebanner/settings.php:755
 #: cookiebanner/settings.php:756
 #: pro/class-statistics.php:761
-#: pro/tcf/tcf.php:741
-#: pro/tcf/tcf.php:748
+#: pro/tcf/tcf.php:740
+#: pro/tcf/tcf.php:747
 #: pro/templates/cookiebanner-tcf.php:6
 #: pro/templates/tcf-categories.php:6
 msgid "Statistics"
@@ -792,8 +792,8 @@ msgstr ""
 #: cookiebanner/settings.php:791
 #: cookiebanner/settings.php:792
 #: cookiebanner/settings.php:793
-#: pro/tcf/tcf.php:743
-#: pro/tcf/tcf.php:751
+#: pro/tcf/tcf.php:742
+#: pro/tcf/tcf.php:750
 #: pro/templates/cookiebanner-tcf.php:13
 #: pro/templates/tcf-categories.php:14
 msgid "Marketing"
@@ -801,7 +801,7 @@ msgstr ""
 
 #: class-field.php:2511
 #: class-field.php:2842
-#: integrations/integrations.php:783
+#: integrations/integrations.php:779
 msgid "Placeholder"
 msgstr ""
 
@@ -961,8 +961,8 @@ msgstr ""
 #: config/questions-wizard.php:770
 #: integrations/plugins/elementor-pro/elementor-pro.php:188
 #: pro/config/questions-wizard.php:725
-#: pro/tcf/tcf.php:714
-#: pro/tcf/tcf.php:718
+#: pro/tcf/tcf.php:713
+#: pro/tcf/tcf.php:717
 msgid "Yes"
 msgstr ""
 
@@ -975,8 +975,8 @@ msgstr ""
 #: integrations/plugins/elementor-pro/elementor-pro.php:189
 #: pro/config/questions-wizard.php:726
 #: pro/config/questions-wizard.php:796
-#: pro/tcf/tcf.php:714
-#: pro/tcf/tcf.php:718
+#: pro/tcf/tcf.php:713
+#: pro/tcf/tcf.php:717
 msgid "No"
 msgstr ""
 
@@ -4079,8 +4079,8 @@ msgstr ""
 
 #: config/steps.php:50
 #: pro/records-of-consent/class-records-of-consent-table.php:292
-#: pro/tcf/tcf.php:696
-#: pro/tcf/tcf.php:739
+#: pro/tcf/tcf.php:695
+#: pro/tcf/tcf.php:738
 msgid "Consent"
 msgstr ""
 
@@ -4468,12 +4468,12 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1324
+#: cookiebanner/class-cookiebanner.php:1322
 msgctxt "as in: click to accept statistics cookies"
 msgid "statistics"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1324
+#: cookiebanner/class-cookiebanner.php:1322
 msgctxt "as in: click to accept marketing cookies"
 msgid "marketing"
 msgstr ""
@@ -5264,13 +5264,13 @@ msgstr ""
 
 #: functions.php:2642
 #: pro/records-of-consent/class-records-of-consent-table.php:235
-#: pro/tcf/tcf.php:950
+#: pro/tcf/tcf.php:949
 msgid "Opt-in"
 msgstr ""
 
 #: functions.php:2644
 #: pro/records-of-consent/class-records-of-consent-table.php:238
-#: pro/tcf/tcf.php:949
+#: pro/tcf/tcf.php:948
 msgid "Opt-out"
 msgstr ""
 
@@ -5289,11 +5289,11 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:815
+#: integrations/integrations.php:811
 msgid "We have enabled integrations for plugins and services, please double-check your configuration."
 msgstr ""
 
-#: integrations/integrations.php:956
+#: integrations/integrations.php:952
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -11519,163 +11519,163 @@ msgstr ""
 msgid "You can change your settings at any time, including withdrawing your consent, by using the toggles on the Cookie Policy, or by clicking on the manage consent button at the bottom of the screen."
 msgstr ""
 
-#: pro/tcf/tcf.php:421
+#: pro/tcf/tcf.php:420
 msgid "Transparency Consent Framework"
 msgstr ""
 
-#: pro/tcf/tcf.php:422
+#: pro/tcf/tcf.php:421
 msgid "The below questions will help you configure a vendor list of your choosing. Only vendors that adhere to the purposes and special features you configure will be able to serve ads."
 msgstr ""
 
-#: pro/tcf/tcf.php:495
+#: pro/tcf/tcf.php:494
 msgid "Configuring your TCF cookie banner is limited due to IAB guidelines."
 msgstr ""
 
-#: pro/tcf/tcf.php:508
+#: pro/tcf/tcf.php:507
 msgid "Your site will show vendors with the purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:509
+#: pro/tcf/tcf.php:508
 msgid "To get a better understanding of vendors, purposes and features please read this definitions guide."
 msgstr ""
 
-#: pro/tcf/tcf.php:524
+#: pro/tcf/tcf.php:523
 msgid "Your site will show vendors with the special purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:526
+#: pro/tcf/tcf.php:525
 msgid "These special purposes should be enabled for best performance. These purposes are set based on legitimate interest of the vendor, one of the legal bases of data processing."
 msgstr ""
 
-#: pro/tcf/tcf.php:538
+#: pro/tcf/tcf.php:537
 msgid "Your site will show vendors with the features selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:550
+#: pro/tcf/tcf.php:549
 msgid "Your site will show vendors with the special features selected here"
 msgstr ""
 
-#: pro/tcf/tcf.php:562
+#: pro/tcf/tcf.php:561
 msgid "Have you signed the IAB Privacy, LLC’s Limited Service Provider Agreement (LSPA)?"
 msgstr ""
 
-#: pro/tcf/tcf.php:650
+#: pro/tcf/tcf.php:649
 msgid "Opt out"
 msgstr ""
 
-#: pro/tcf/tcf.php:656
-#: pro/tcf/tcf.php:732
+#: pro/tcf/tcf.php:655
+#: pro/tcf/tcf.php:731
 msgid "The TCF vendorlist is not available when javascript is disabled, like on AMP."
 msgstr ""
 
-#: pro/tcf/tcf.php:687
+#: pro/tcf/tcf.php:686
 msgid "Privacy Policy"
 msgstr ""
 
-#: pro/tcf/tcf.php:692
+#: pro/tcf/tcf.php:691
 msgid "Legal bases"
 msgstr ""
 
-#: pro/tcf/tcf.php:700
+#: pro/tcf/tcf.php:699
 msgid "Legitimate interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:705
+#: pro/tcf/tcf.php:704
 msgid "Maximum cookie expiration:"
 msgstr ""
 
-#: pro/tcf/tcf.php:707
+#: pro/tcf/tcf.php:706
 msgid "Session Storage"
 msgstr ""
 
-#: pro/tcf/tcf.php:708
+#: pro/tcf/tcf.php:707
 msgid "%s Days"
 msgstr ""
 
-#: pro/tcf/tcf.php:709
+#: pro/tcf/tcf.php:708
 msgid "%s Seconds"
 msgstr ""
 
-#: pro/tcf/tcf.php:713
+#: pro/tcf/tcf.php:712
 msgid "Non-cookie storage and access:"
 msgstr ""
 
-#: pro/tcf/tcf.php:717
+#: pro/tcf/tcf.php:716
 msgid "Cookie Refresh:"
 msgstr ""
 
-#: pro/tcf/tcf.php:721
+#: pro/tcf/tcf.php:720
 msgid "Purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:729
+#: pro/tcf/tcf.php:728
 msgid "Select all"
 msgstr ""
 
-#: pro/tcf/tcf.php:729
+#: pro/tcf/tcf.php:728
 msgid "Deselect all"
 msgstr ""
 
-#: pro/tcf/tcf.php:735
+#: pro/tcf/tcf.php:734
 msgid "These are the partners we share data with. By clicking into each partner, you can see which purposes they are requesting consent and/or which purposes they are claiming legitimate interest for."
 msgstr ""
 
-#: pro/tcf/tcf.php:737
+#: pro/tcf/tcf.php:736
 msgid "You can provide or withdraw consent, and object to legitimate interest purposes for processing your personal data. However, please note that by disabling all data processing, some site functionality may be affected."
 msgstr ""
 
-#: pro/tcf/tcf.php:740
+#: pro/tcf/tcf.php:739
 msgid "Below you can give and withdraw your consent on a per purpose basis."
 msgstr ""
 
-#: pro/tcf/tcf.php:746
+#: pro/tcf/tcf.php:745
 msgid "Legitimate Interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:747
+#: pro/tcf/tcf.php:746
 msgid "Some Vendors set purposes with legitimate interest, a legal basis under the GDPR for data processing. You have the \"Right to Object\" to this data processing and can do so below per purpose."
 msgstr ""
 
-#: pro/tcf/tcf.php:754
+#: pro/tcf/tcf.php:753
 msgid "Special features and purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:756
+#: pro/tcf/tcf.php:755
 msgid "Special features"
 msgstr ""
 
-#: pro/tcf/tcf.php:757
+#: pro/tcf/tcf.php:756
 msgid "For some of the purposes we and/or our partners use below features."
 msgstr ""
 
-#: pro/tcf/tcf.php:762
+#: pro/tcf/tcf.php:761
 msgid "Special purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:763
+#: pro/tcf/tcf.php:762
 msgid "We and/or our partners have a legitimate interest for the following two purposes:"
 msgstr ""
 
-#: pro/tcf/tcf.php:768
+#: pro/tcf/tcf.php:767
 #: pro/templates/cookiebanner-tcf.php:21
 #: pro/templates/tcf-categories.php:22
 msgid "Features"
 msgstr ""
 
-#: pro/tcf/tcf.php:769
+#: pro/tcf/tcf.php:768
 msgid "For some of the purposes above we and our partners"
 msgstr ""
 
-#: pro/tcf/tcf.php:773
+#: pro/tcf/tcf.php:772
 msgid "Vendors"
 msgstr ""
 
-#: pro/tcf/tcf.php:925
+#: pro/tcf/tcf.php:924
 msgid "The vendor list can be found at %s"
 msgstr ""
 
+#: pro/tcf/tcf.php:948
 #: pro/tcf/tcf.php:949
-#: pro/tcf/tcf.php:950
 msgid "TCF"
 msgstr ""
 
