@@ -1990,6 +1990,7 @@ function cmplz_wp_set_consent(type, value) {
 }
 
 var cmplz_cookie_data = [];
+var cmplzCleanCookieInterval;
 function cmplz_start_clean(){
 	if ( complianz.clean_cookies == 1 ) {
 		//check if it's already stored
@@ -2005,16 +2006,44 @@ function cmplz_start_clean(){
 			request.onload = function() {
 				cmplz_cookie_data = JSON.parse(request.response);
 				sessionStorage.setItem('cmplz_cookie_data', JSON.stringify(cmplz_cookie_data) );
-				cmplz_clean();
+				cmplz_setup_clean_interval();
 			};
 		} else {
-			cmplz_clean();
+			cmplz_setup_clean_interval();
 		}
 	}
 }
 
-let cmplzCleanCookieInterval;
-function cmplz_clean(){
+/*
+* Execute the cleanup of cookies
+*/
+function cmplz_do_cleanup(){
+	let consent_categories = [
+		'preferences',
+		'statistics',
+		'marketing',
+	];
+	for (var i in consent_categories) {
+
+		let category = consent_categories[i];
+		if ( !cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category) ) {
+			let services = cmplz_cookie_data[category];
+			for (var service in services) {
+				if ( !cmplz_has_service_consent(service, category) ) {
+					let cookies = services[service];
+					for (var j in cookies) {
+						let item = cookies[j];
+						cmplz_clear_cookies(item);
+						cmplz_clear_storage(item);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+function cmplz_setup_clean_interval(){
 	// if the cookie data array is empty, return, nothing to do.
 	if ( !cmplz_cookie_data ) {
 		return;
@@ -2023,32 +2052,11 @@ function cmplz_clean(){
 	if ( cmplzCleanCookieInterval ) {
 		return;
 	}
-	cmplzCleanCookieInterval = setInterval(function(){
-		let consent_categories = [
-			'preferences',
-			'statistics',
-			'marketing',
-		];
-		for (var i in consent_categories) {
-
-			let category = consent_categories[i];
-			if ( !cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category) ) {
-				let services = cmplz_cookie_data[category];
-				for (var service in services) {
-					if ( !cmplz_has_service_consent(service, category) ) {
-						let cookies = services[service];
-						for (var j in cookies) {
-							let item = cookies[j];
-							cmplz_clear_cookies(item);
-							cmplz_clear_storage(item);
-						}
-					}
-				}
-			}
-		}
-
-	}, 1000 );
+	//one straight away, then every second
+	cmplz_do_cleanup();
+	cmplzCleanCookieInterval = setInterval(cmplz_do_cleanup, 1000 );
 }
+
 
 /**
  * Clear an item from either session or localstorage
