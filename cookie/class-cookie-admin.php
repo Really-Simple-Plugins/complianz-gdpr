@@ -3390,6 +3390,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				if ( $progress >= 75 && $progress < 100 ) {
 					$this->maybe_sync_cookies( true );
 					$this->clear_double_cookienames();
+					//clean up cache
+					delete_transient('cmplz_cookie_shredder_list' );
+
 				}
 
 				$attempts = $attempts + 1;

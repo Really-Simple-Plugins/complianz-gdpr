@@ -1848,9 +1848,7 @@ function cmplz_clear_cookies(cookie_part){
 		//if we have more than one result in the array, we can skip the last one, as it will be the .com/.org extension
 		let skip_last = domainParts.length > 1;
 		//if the cookie contains cookie_part, try to delete it
-		console.log("check " +cookieName);
 		if ( cookieName.indexOf(cookie_part) !==-1 ) {
-			console.log(cookieName+" contains "+cookie_part);
 			foundCookie = true;
 			let cookieBaseDomain = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=;path=';
 			document.cookie = cookieBaseDomain + '/';
@@ -1865,7 +1863,6 @@ function cmplz_clear_cookies(cookie_part){
 			};
 			while ( domainParts.length > 0) {
 				let cookieBase 		 = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=.' + domainParts.join('.') + ';path=';
-				console.log("overwrite cookie with "+cookieBase);
 				document.cookie = cookieBase+ '/';
 				while (pathParts.length > 0) {
 					var path = pathParts.join('/');
@@ -2016,18 +2013,24 @@ function cmplz_start_clean(){
 	}
 }
 
+let cmplzCleanCookieInterval;
 function cmplz_clean(){
 	// if the cookie data array is empty, return, nothing to do.
 	if ( !cmplz_cookie_data ) {
 		return;
 	}
-	setTimeout(function(){
+	//check if it's already activated
+	if ( cmplzCleanCookieInterval ) {
+		return;
+	}
+	cmplzCleanCookieInterval = setInterval(function(){
 		let consent_categories = [
 			'preferences',
 			'statistics',
 			'marketing',
 		];
 		for (var i in consent_categories) {
+
 			let category = consent_categories[i];
 			if ( !cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category) ) {
 				let services = cmplz_cookie_data[category];
@@ -2036,7 +2039,6 @@ function cmplz_clean(){
 						let cookies = services[service];
 						for (var j in cookies) {
 							let item = cookies[j];
-							console.log("no consent for "+item+" delete");
 							cmplz_clear_cookies(item);
 							cmplz_clear_storage(item);
 						}
