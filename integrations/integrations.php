@@ -38,7 +38,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Content Views – Post Grid & Filter for WordPress',
 			'firstparty_marketing' => false,
 	),
-
+	'divi' => array(
+			'constant_or_function' => 'Divi',
+			'label'                => 'Divi',
+			'firstparty_marketing' => false,
+	),
 	'lead-forensics' => array(
 			'constant_or_function' => 'LFRTrackingCode',
 			'label'                => 'Lead Forensics',
