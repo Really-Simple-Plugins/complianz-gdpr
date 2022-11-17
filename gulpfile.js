@@ -65,14 +65,6 @@ function jsTask(cb) {
    .pipe(jsuglify())
    .pipe(gulp.dest('./assets/js'));
   cb();
-
-    gulp.src('cookiebanner/js/complianz.js')
-     .pipe(concat('complianz.js'))
-     .pipe(gulp.dest('./cookiebanner/js'))
-     .pipe(concat('complianz.min.js'))
-     .pipe(jsuglify())
-     .pipe(gulp.dest('./cookiebanner/js'));
-    cb();
 }
 exports.js = jsTask
 

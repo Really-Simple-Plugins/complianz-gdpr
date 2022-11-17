@@ -195,6 +195,9 @@
   content: '';
   background: var(--cmplz_category_open_icon_url) no-repeat;
   transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 25px;
@@ -411,6 +414,9 @@
   content: '';
   background: url(../images/chevron-down.svg) no-repeat;
   transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 18px;
@@ -486,3 +492,4 @@
     background-color: #f7f7f7;
   }
 }
+/*# sourceMappingURL=document.css.map */
