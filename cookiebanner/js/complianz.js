@@ -1,5 +1,5 @@
 'use strict';
-/**
+/*
  * Opt in (e.g. EU):
  * default all scripts disabled.
  * cookie banner
@@ -16,7 +16,7 @@
  * For examples to edit the behaviour of the banner, please see https://github.com/really-Simple-Plugins/complianz-integrations
  * */
 
-/**
+/*
  * Create an element
  * @param el
  * @param content
@@ -28,7 +28,7 @@ function cmplz_create_element(el, content) {
 	return obj;
 }
 
-/**
+/*
  * Add an event
  * @param event
  * @param selector
@@ -43,7 +43,7 @@ function cmplz_add_event(event, selector, callback ) {
 	});
 }
 
-/**
+/*
  * Check if the element is hidden
  * @param el
  * @returns {boolean}
@@ -56,7 +56,7 @@ function cmplz_html_decode(input) {
 	var doc = new DOMParser().parseFromString(input, "text/html");
 	return doc.documentElement.textContent;
 }
-/**
+/*
  * If an anchor is passed for an element which may load only after an ajax call, make sure it will scroll into view.
  */
 document.addEventListener('cmplz_manage_consent_container_loaded', function(e){
@@ -72,12 +72,12 @@ document.addEventListener('cmplz_manage_consent_container_loaded', function(e){
 	}
 });
 
-/**
+/*
  * prevent caching of the WP Rest API by varnish or other caching tools
  */
 complianz.locale = complianz.locale + '&token='+Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
-/**
+/*
  * CustomEvent() polyfill
  * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill
  */
@@ -109,7 +109,7 @@ let cmplz_categories = [
 	'marketing',
 ];
 
-/**
+/*
  * Get a cookie by name
  * @param name
  * @returns {string}
@@ -130,7 +130,7 @@ window.cmplz_get_cookie = function(name) {
 	return "";
 }
 
-/**
+/*
  * set a cookie
  * @param name
  * @param value
@@ -162,7 +162,7 @@ window.cmplz_set_cookie = function(name, value, use_prefix) {
 	document.cookie = prefix+name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path="+cmplz_get_cookie_path();
 }
 
-/**
+/*
  * Check if needle occurs in the haystack
  * @param needle
  * @param haystack
@@ -176,7 +176,7 @@ window.cmplz_in_array = function(needle, haystack) {
 	return false;
 }
 
-/**
+/*
  * Retrieve the highest level of consent that has been given
  *
  * */
@@ -198,7 +198,7 @@ window.cmplz_highest_accepted_category = function() {
 	return 'functional';
 }
 
-/**
+/*
  * Accept all categories
  */
 window.cmplz_accept_all = function(){
@@ -209,7 +209,7 @@ window.cmplz_accept_all = function(){
 	}
 }
 
-/**
+/*
  * Sets all accepted categories as class in body
  */
 
@@ -261,7 +261,7 @@ function cmplz_load_css( path ) {
 	document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 
-/**
+/*
  * Run script, src or inline
  * @param script //src or inline script
  * @param category
@@ -307,7 +307,7 @@ function cmplz_run_script( script, category, type ) {
 }
 
 
-/**
+/*
  * Check if there are waiting scripts, and if so, run them.
  * @param script //src or inline script
  * @param category
@@ -325,7 +325,7 @@ function cmplz_maybe_run_waiting_scripts( script, category ){
 	}
 }
 
-/**
+/*
  * Set placeholder image as background on the parent div, set notice, and handle height.
  *
  * */
@@ -396,7 +396,7 @@ function cmplz_set_blocked_content_container() {
 		}
 	});
 
-	/**
+	/*
 	 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
 	 *
 	 */
@@ -465,7 +465,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 	}
 }
 
-/**
+/*
  * Set the height of an image relative to the width, depending on the image widht/height aspect ratio.
  *
  *
@@ -496,7 +496,7 @@ function cmplz_set_blocked_content_container_aspect_ratio(container, src, placeh
 	});
 	img.src = src;
 }
-/**
+/*
  * Keep window aspect ratio in sync when window resizes
  * To lower the number of times this code is executed, it is done with a timeout.
  *
@@ -508,7 +508,7 @@ window.addEventListener('resize', function(event) {
 	cmplzResizeTimer = setTimeout( cmplz_set_blocked_content_container, 500);
 }, true);
 
-/**
+/*
  * 	we run this function also on an interval, because with ajax loaded content, the placeholders would otherwise not be handled.
  */
 if ( complianz.block_ajax_content == 1 ) {
@@ -517,7 +517,7 @@ if ( complianz.block_ajax_content == 1 ) {
 	}, 2000);
 }
 
-/**
+/*
  * Check if there are any blocked scripts on the page
  * @returns {boolean}
  */
@@ -525,7 +525,7 @@ function cmplz_has_blocked_scripts(){
 	let scriptElements = document.querySelectorAll('script[data-category], script[data-service]');
 	return scriptElements.length>0;
 }
-/**
+/*
  * Enable scripts that were blocked
  *
  * */
@@ -631,7 +631,7 @@ function cmplz_enable_category(category, service) {
 		document.dispatchEvent(event);
 	});
 
-	/**
+	/*
 	 * Let's activate the scripts
 	 */
 
@@ -708,7 +708,7 @@ function cmplz_enable_category(category, service) {
 	}
 }
 
-/**
+/*
  * remove added classes from the blocked content container
  *
  * @param obj
@@ -726,7 +726,7 @@ function cmplz_remove_placeholder(obj){
 	obj.classList.remove('video-wrap');
 }
 
-/**
+/*
  * check if the passed source has a waiting script that should be executed, and return it if so.
  * @param waiting_scripts
  * @param src
@@ -747,7 +747,7 @@ function cmplz_get_waiting_script( waiting_scripts, src ) {
 	return false;
 }
 
-/**
+/*
  * Because we need a key=>value array in javascript, the .length check for an empty array doesn't work.
  * @param arr
  * @returns {boolean}
@@ -762,7 +762,7 @@ function cmplz_array_is_empty(arr) {
 	return true;
 }
 
-/**
+/*
  * Check if the passed src or script is waiting for another script and should not execute
  * @param waiting_scripts
  * @param srcOrScript
@@ -782,7 +782,7 @@ function cmplz_is_waiting_script(waiting_scripts, srcOrScript) {
 	return false;
 }
 
-/**
+/*
  * if all scripts have been executed, fire a hook.
  */
 
@@ -794,7 +794,7 @@ function cmplz_run_after_all_scripts(category) {
 	}
 }
 
-/**
+/*
  * Fire an event in Tag Manager
  *
  *
@@ -813,7 +813,7 @@ function cmplz_run_tm_event(category) {
 	}
 }
 
-/**
+/*
  * Function to handle backward compatibility
  *
  */
@@ -840,7 +840,7 @@ window.conditionally_show_banner = function() {
 	cmplz_set_blocked_content_container();
 	cmplz_legacy();
 
-	/**
+	/*
 	 * Integration with WordPress, tell what kind of consent type we're using, then fire an event
 	 */
 
@@ -925,7 +925,7 @@ window.conditionally_show_banner = function() {
 	}
 }
 
-/**
+/*
  * Get list of services active on the page
  * @returns {*[]}
  */
@@ -944,7 +944,7 @@ function cmplz_get_services_on_page(){
 	return services;
 }
 
-/**
+/*
  * Run the actual cookie warning
  *
  * */
@@ -971,7 +971,7 @@ window.show_cookie_banner = function () {
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
 	if ( !cmplz_banner ) {
-		return;
+		disableCookiebanner = true;
 	}
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
 	let css_file_url = complianz.css_file.replace('{type}', complianz.consenttype ).replace('{banner_id}', complianz.user_banner_id);
@@ -1017,7 +1017,7 @@ window.show_cookie_banner = function () {
 	let event = new CustomEvent('cmplz_cookie_warning_loaded', {detail: complianz.region});
 	document.dispatchEvent(event);
 }
-/**
+/*
  * Get the status of the banner: dismissed | show
  * @returns {string}
  */
@@ -1025,7 +1025,7 @@ window.cmplz_get_banner_status = function (){
 	return cmplz_get_cookie('banner-status');
 }
 
-/**
+/*
  * Set the banner status so it will be either shown or dismissed, and store it in a cookie.
  * @param status (optional)
  */
@@ -1065,7 +1065,7 @@ window.cmplz_set_banner_status = function ( status ){
 	cmplz_start_clean();
 }
 
-/**
+/*
  * Check if current visitor is a bot
  *
  * @returns {boolean}
@@ -1076,7 +1076,7 @@ function cmplz_is_bot(){
 	var userAgent = navigator.userAgent;
 	return reBot.test(userAgent);
 }
-/**
+/*
  * Check if current visitor is a speedbot
  *
  * @returns {boolean}
@@ -1088,7 +1088,7 @@ function cmplz_is_speedbot(){
 	return speedBot.test(userAgent);
 }
 
-/**
+/*
  * Check if there is consent for a category or service
  * @param category
  * @returns {boolean}
@@ -1101,7 +1101,7 @@ window.cmplz_has_consent = function ( category ){
 	if ( category === 'functional' ) return true;
 	var has_consent, value;
 
-	/**
+	/*
 	 * categories
 	 */
 	value = cmplz_get_cookie(category);
@@ -1116,7 +1116,7 @@ window.cmplz_has_consent = function ( category ){
 	return has_consent;
 }
 
-/**
+/*
  * Check if a service has consent
  * @param service
  * @returns {boolean|*}
@@ -1138,7 +1138,7 @@ window.cmplz_is_service_denied = function ( service ) {
 	}
 }
 
-/**
+/*
  * Check if a service has consent
  * @param service
  * @param category
@@ -1162,7 +1162,7 @@ window.cmplz_has_service_consent = function ( service, category ) {
 	}
 }
 
-/**
+/*
  * check if there's at least one service with consent
  * @returns {boolean}
  */
@@ -1184,7 +1184,7 @@ function cmplz_exists_service_consent(){
 	return false;
 }
 
-/**
+/*
  * Set consent for a service
  * @param service
  * @param consented
@@ -1209,14 +1209,14 @@ function cmplz_set_service_consent( service, consented ){
 	document.dispatchEvent(event);
 }
 
-/**
+/*
  * Remove all service consents
  */
 function cmplz_clear_all_service_consents(){
 	cmplz_set_cookie('consented_services', '');
 }
 
-/**
+/*
  * Get all consented or denied services
  */
 
@@ -1230,7 +1230,7 @@ function cmplz_get_all_service_consents(){
 	}
 	return consented_services;
 }
-/**
+/*
  * Get cookie path
  * @returns {*}
  */
@@ -1238,7 +1238,7 @@ function cmplz_get_cookie_path(){
 	return typeof complianz.cookie_path !== 'undefined' && complianz.cookie_path !== '' ? complianz.cookie_path : '/';
 }
 
-/**
+/*
  * retrieve domain to set the cookies on
  * @returns {string}
  */
@@ -1253,7 +1253,7 @@ function cmplz_get_cookie_domain(){
 	return domain;
 }
 
-/**
+/*
  * Set consent for a category
  * @param category
  * @param value
@@ -1315,7 +1315,7 @@ function cmplz_reload_browser_compatible(){
     }
 }
 
-/**
+/*
  * We use ajax to check the consenttype based on region, otherwise caching could prevent the user specific warning
  *
  * */
@@ -1344,7 +1344,7 @@ if ( complianz.geoip == 1 && (cmplz_user_data.length == 0 || (cmplz_user_data.ve
 	conditionally_show_banner();
 }
 
-/**
+/*
  *  when ab testing, or using records of consent, we want to keep track of the unique user id
  */
 
@@ -1385,7 +1385,7 @@ function cmplz_track_status_end(){
 	}
 }
 
-/**
+/*
  * This creates an API which devs can use to trigger actions in complianz.
  */
 document.addEventListener('cmplz_consent_action', function (e) {
@@ -1394,7 +1394,7 @@ document.addEventListener('cmplz_consent_action', function (e) {
 	cmplz_track_status();
 });
 
-/**
+/*
  * Accept all categories
  */
 window.cmplz_accept_all = function(){
@@ -1407,7 +1407,7 @@ window.cmplz_accept_all = function(){
 	cmplz_sync_category_checkboxes();
 }
 
-/**
+/*
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
@@ -1441,7 +1441,7 @@ window.cmplz_deny_all = function(){
 	}
 }
 
-/**
+/*
  * For both opt-in and opt-out, clicking cmplz-accept should result in accepting all categories
  */
 cmplz_add_event('click', '.cmplz-accept', function(e){
@@ -1452,7 +1452,7 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 	cmplz_track_status();
 });
 
-/**
+/*
  *  Accept marketing cookies by clicking any other link cookie acceptance from a custom link
  */
 
@@ -1477,7 +1477,7 @@ cmplz_add_event('click', '.cmplz-accept-category, .cmplz-accept-marketing', func
 	cmplz_track_status();
 });
 
-/**
+/*
  * Accept a specific service
  */
 cmplz_add_event('click', '.cmplz-accept-service', function(e){
@@ -1496,7 +1496,7 @@ cmplz_add_event('click', '.cmplz-accept-service', function(e){
 	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
-/**
+/*
  * Accept a specific service
  */
 cmplz_add_event('change', '.cmplz-accept-service', function(e){
@@ -1536,7 +1536,7 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 
 
 
-/**
+/*
  * On the banner, clicking a category should fire the category only after the save button is clicked.
  *
  */
@@ -1580,7 +1580,7 @@ cmplz_add_event('click', '.cmplz-view-preferences', function(e){
 		cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'block';
 	}
 });
-/**
+/*
  * On the cookie policy, clicking a category should fire the category immediately
  *
  */
@@ -1632,7 +1632,7 @@ cmplz_add_event('click', 'button.cmplz-manage-consent', function(e){
 	cmplz_set_banner_status('show');
 });
 
-/**
+/*
  * Handle dismiss on scroll and dismiss on timeout
  */
 function cmplz_set_up_auto_dismiss() {
@@ -1661,7 +1661,7 @@ function cmplz_set_up_auto_dismiss() {
 	}
 }
 
-/**
+/*
  * Fire a event wich passes all consented categories
  * Separated from the actual category consent because we want to bundle it in one event
  */
@@ -1673,7 +1673,7 @@ function cmplz_fire_categories_event(){
 	let event = new CustomEvent('cmplz_fire_categories', { detail: details });
 	document.dispatchEvent(event);
 }
-/**
+/*
  * Track the status of current consent
  * @param status
  */
@@ -1724,7 +1724,7 @@ function cmplz_track_status( status ) {
 
 }
 
-/**
+/*
  * Get accepted categories
  *
  * @returns {string}
@@ -1749,7 +1749,7 @@ function cmplz_accepted_categories() {
 	return consentedCategories;
 }
 
-/**
+/*
  * Enable the checkbox for each category which was enabled
  *
  * */
@@ -1785,7 +1785,7 @@ function cmplz_sync_category_checkboxes() {
 	}
 }
 
-/**
+/*
  * Merge two objects
  *
  * */
@@ -1808,7 +1808,7 @@ function cmplz_merge_object(userdata, ajax_data) {
 	return output;
 }
 
-/**
+/*
  * If current cookie policy has changed, reset cookie consent
  *
  * */
@@ -1883,7 +1883,7 @@ function cmplz_clear_cookies(cookie_part){
 	return foundCookie;
 }
 
-/**
+/*
  *
  * If a policy is accepted, save this in the user policy id
  *
@@ -1893,7 +1893,7 @@ function cmplz_set_accepted_cookie_policy_id() {
 	cmplz_set_cookie('policy_id', complianz.current_policy_id);
 }
 
-/**
+/*
  * For supported integrations, initialize the not consented state
  *
  * */
@@ -1908,7 +1908,7 @@ function cmplz_integrations_init() {
 	}
 }
 
-/**
+/*
  * For supported integrations, revoke consent
  *
  * */
@@ -1924,7 +1924,7 @@ function cmplz_integrations_revoke() {
 	}
 }
 
-/**
+/*
  * For supported integrations, set consent
  *
  * */
@@ -1964,7 +1964,7 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
 	return false;
 }
 
-/**
+/*
  * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
  */
 function cmplz_maybe_auto_redirect() {
@@ -1975,7 +1975,7 @@ function cmplz_maybe_auto_redirect() {
 	}
 }
 
-/**
+/*
  * wrapper to set consent for wp consent API. If consent API is not active, do nothing
  * @param type
  * @param value
@@ -2042,7 +2042,7 @@ function cmplz_clean(){
 	}, 1000 );
 }
 
-/**
+/*
  * Clear an item from either session or localstorage
  * @param item
  */
@@ -2056,7 +2056,7 @@ function cmplz_clear_storage(item){
 		}
 	}
 }
-/**
+/*
  * Load revoke options
  */
 
@@ -2080,7 +2080,7 @@ function cmplz_load_manage_consent_container() {
 	}
 }
 
-/**
+/*
  * Make slider radio's tabable
  */
 
@@ -2091,7 +2091,7 @@ cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
 	}
 });
 
-/**
+/*
  * Make close button closable with enter
  */
 cmplz_add_event('keypress', '.cmplz-cookiebanner .cmplz-header .cmplz-close', function(e){
@@ -2136,7 +2136,7 @@ function cmplz_equals (array_1, array_2) {
 
 
 
-/**
+/*
  * Hooked into jquery
  */
 let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
@@ -2158,7 +2158,7 @@ if ('undefined' != typeof window.jQuery) {
 			}, 500);
 		}
 
-		/**
+		/*
 		 * WordPress legacy shortcode
 		 */
 		function cmplz_activate_wp_video(again) {
@@ -2216,7 +2216,7 @@ if ('undefined' != typeof window.jQuery) {
 			}
 		}
 
-		/**
+		/*
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
@@ -2230,7 +2230,7 @@ if ('undefined' != typeof window.jQuery) {
 			}
 		});
 
-		/**
+		/*
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
