@@ -1814,6 +1814,16 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 				'src'    => array(),
 				'width'  => array(),
 			),
+			'iframe'        => array(
+					'alt'    => array(),
+					'class'  => array(),
+					'height' => array(),
+					'src'    => array(),
+					'width'  => array(),
+					'title'  => array(),
+					'allow'  => array(),
+					'frameborder'  => array(),
+			),
 			'label'      => array(
 				'for' => array(),
 				'class' => array(),
