@@ -828,7 +828,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 		private function replace_src( $script, $new_src ) {
 
-			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wäöüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
+			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wêëèéēėęàáâæãåāäöôòóœøüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
 			$new_src = ' src="' . $new_src . '" ';
 			preg_match( $pattern, $script, $matches );
 			$script = preg_replace( $pattern, $new_src, $script );

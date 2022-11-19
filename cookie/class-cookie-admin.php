@@ -1815,9 +1815,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			$editor = $new = false;
-			if (is_admin() && isset($_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' && cmplz_user_can_manage() ) {
-				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] == 'new' );
-				$new = isset( $_GET['action'] ) && $_GET['action'] == 'new' ;
+			if (isset($_GET['page'] ) && $_GET['page'] === 'cmplz-cookiebanner' && is_admin() && cmplz_user_can_manage() ) {
+				$editor = isset( $_GET['id'] ) ||  ( isset( $_GET['action'] ) && $_GET['action'] === 'new' );
+				$new = isset( $_GET['action'] ) && $_GET['action'] === 'new' ;
 			}
 
 			$consent_types = cmplz_get_used_consenttypes();
@@ -1832,7 +1832,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					if ($new) {
 						$banner_ids = array(false);
 					} else {
-						$banner_ids = array(intval($_GET['id']));
+						$banner_ids = array( (int) $_GET['id'] );
 					}
 				} else {
 					if ( cmplz_ab_testing_enabled() ) {
