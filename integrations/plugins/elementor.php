@@ -25,12 +25,12 @@ function cmplz_elementor_initDomContentLoaded() {
 				var category = consentData.detail.category;
 				var services = consentData.detail.services;
 				var blockedContentContainers = [];
-				let selectorVideo = '.cmplz-elementor-widget-video-playlist[data-category="'+category+'"],.elementor-widget-video[data-category="'+category+'"]';
+				let selectorVideo = '.cmplz-elementor-video_background[data-category="'+category+'"], .cmplz-elementor-widget-video-playlist[data-category="'+category+'"],.elementor-widget-video[data-category="'+category+'"]';
 				let selectorGeneric = '[data-cmplz-elementor-href][data-category="'+category+'"]';
 				for (var skey in services) {
 					if (services.hasOwnProperty(skey)) {
 						let service = skey;
-						selectorVideo +=',.cmplz-elementor-widget-video-playlist[data-service="'+service+'"],.elementor-widget-video[data-service="'+service+'"]';
+						selectorVideo +=',.cmplz-elementor-video_background[data-service="'+service+'"],.cmplz-elementor-widget-video-playlist[data-service="'+service+'"],.elementor-widget-video[data-service="'+service+'"]';
 						selectorGeneric +=',[data-cmplz-elementor-href][data-service="'+service+'"]';
 					}
 				}
@@ -133,6 +133,25 @@ function cmplz_elementor_cookieblocker( $output ){
 				$new_match = str_replace('data-settings', $placeholder.' data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
 				$new_match = str_replace('data-widget_type', 'data-cmplz_elementor_widget_type', $new_match);
 				$new_match = str_replace('elementor-widget-video-playlist', 'cmplz-elementor-widget-video-playlist cmplz-placeholder-element', $new_match);
+				$output = str_replace($total_match, $new_match, $output);
+			}
+		}
+
+		/**
+		 * Video background
+		 */
+		$iframe_pattern = '/[^>]section class=.*?data-settings="[^"]+?background_video_link[^;]*?&quot;:&quot;(https:.*?youtu.+?(?=&quot;))&quot;/is';
+		if ( preg_match_all( $iframe_pattern, $output, $matches, PREG_PATTERN_ORDER ) ) {
+			foreach ( $matches[0] as $key => $total_match ) {
+				$placeholder = '';
+				if ( cmplz_use_placeholder('youtube') && isset($matches[1][$key]) ) {
+					$youtube_url = $matches[1][$key];
+					$placeholder = 'data-placeholder-image="'.cmplz_placeholder( false, stripcslashes($youtube_url) ).'" ';
+				}
+
+				$new_match = str_replace('data-settings', $placeholder.' data-category="marketing" data-service="youtube" data-cmplz-elementor-settings', $total_match);
+				$new_match = str_replace('data-widget_type', 'data-cmplz_elementor_widget_type', $new_match);
+				$new_match = str_replace('class="', 'class="cmplz-elementor-video_background cmplz-placeholder-element ', $new_match);
 				$output = str_replace($total_match, $new_match, $output);
 			}
 		}
