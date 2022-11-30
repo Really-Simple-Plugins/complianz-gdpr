@@ -7,6 +7,9 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_action( 'plugins_loaded', 'cmplz_install_cookiebanner_table', 10 );
 function cmplz_install_cookiebanner_table() {
+	if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
+		return;
+	}
 	if ( get_option( 'cmplz_cbdb_version' ) !== cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		global $wpdb;
@@ -252,11 +255,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		private function get() {
 			global $wpdb;
-			if ( intval( $this->id ) > 0 ) {
-				$cookiebanner = wp_cache_get('cmplz_cookiebanner_'.$this->id, 'complianz');
+			if ( (int) $this->id > 0 ) {
+				$cookiebanner = get_transient('cmplz_cookiebanner_'.$this->id);
 				if ( !$cookiebanner ){
 					$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->id ) ) );
-					wp_cache_set('cmplz_cookiebanner_'.$this->id, $cookiebanner, 'complianz', HOUR_IN_SECONDS);
+					set_transient('cmplz_cookiebanner_'.$this->id, $cookiebanner, HOUR_IN_SECONDS);
 				}
 
 				if ( $cookiebanner ) {
@@ -482,10 +485,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_translation_id() {
 			//if this is the banner with the lowest ID's, no ID
 			global $wpdb;
-			$lowest = wp_cache_get('cmplz_min_banner_id', 'complianz');
+			$lowest = get_transient('cmplz_min_banner_id');
 			if ( !$lowest ){
 				$lowest = $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
-				wp_cache_set('cmplz_min_banner_id', $lowest,  'complianz', HOUR_IN_SECONDS );
+				set_transient('cmplz_min_banner_id', $lowest, HOUR_IN_SECONDS );
 			}
 
 			if ( $lowest == $this->id ) {
@@ -605,11 +608,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'colorpalette_button_settings' => $this->sanitize_hex_array( $this->colorpalette_button_settings ),
 				'buttons_border_radius'        => $this->sanitize_int_array( $this->buttons_border_radius ),
 				'animation'                    => sanitize_title( $this->animation ),
-				'use_box_shadow'               => intval( $this->use_box_shadow ),
-				'header_footer_shadow'         => intval( $this->header_footer_shadow ),
-				'hide_preview'                 => intval( $this->hide_preview ),
-				'disable_width_correction'     => intval( $this->disable_width_correction ),
-				'legal_documents'                   => intval( $this->legal_documents ),
+				'use_box_shadow'               => (int) $this->use_box_shadow,
+				'header_footer_shadow'         => (int) $this->header_footer_shadow,
+				'hide_preview'                 => (int) $this->hide_preview,
+				'disable_width_correction'     => (int) $this->disable_width_correction,
+				'legal_documents'                   => (int) $this->legal_documents,
 			);
 
 			global $wpdb;
@@ -631,8 +634,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			} elseif ( ! $this->default && $db_default ) {
 				$this->remove_default();
 			}
-			wp_cache_delete('cmplz_cookiebanner_'.$this->id, 'complianz');
-			wp_cache_delete('cmplz_min_banner_id', 'complianz');
+			delete_transient('cmplz_cookiebanner_'.$this->id);
+			delete_transient('cmplz_min_banner_id');
+			delete_transient('cmplz_default_banner_id');
 
 			$this->generate_css();
 		}

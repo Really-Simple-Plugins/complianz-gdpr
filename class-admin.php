@@ -107,15 +107,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$current_month = date("n");//e.g. 3
 			$current_day = date("j");//e.g. 4
 
-			if ( $current_year == 2022 &&
-				 $current_month == 11 &&
-				 $current_day >=$start_day &&
-				 $current_day <= $end_day
-			) {
-				return true;
-			} else {
-				return false;
-			}
+			return $current_year == 2022
+				   && $current_month == 11
+				   && $current_day >= $start_day
+				   && $current_day <= $end_day;
 		}
 
 		/**
@@ -737,7 +732,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$cmplz_admin_page = add_menu_page(
 				__( 'Complianz', 'complianz-gdpr' ),
 				$menu_label,
-				'manage_options',
+				'manage_privacy_options',
 				'complianz',
 				array( $this, 'dashboard' ),
 				cmplz_url . 'assets/images/menu-icon.svg',
@@ -748,7 +743,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Dashboard', 'complianz-gdpr' ),
 				__( 'Dashboard', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'complianz',
 				array( $this, 'dashboard' )
 			);
@@ -757,20 +752,19 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Wizard', 'complianz-gdpr' ),
 				__( 'Wizard', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'cmplz-wizard',
 				array( $this, 'wizard_page' )
 			);
 
 			do_action( 'cmplz_cookiebanner_menu' );
-
 			do_action( 'cmplz_integrations_menu' );
 
 			add_submenu_page(
 				'complianz',
 				__( 'Settings' ),
 				__( 'Settings' ),
-				'manage_options',
+				'manage_privacy_options',
 				"cmplz-settings",
 				array( $this, 'settings' )
 			);
@@ -779,19 +773,22 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 			if ( defined( 'cmplz_free' ) && cmplz_free ) {
 				global $submenu;
-				$class                  = 'cmplz-submenu';
-				$highest_index = count($submenu['complianz']);
-				$submenu['complianz'][] = array(
-						__( 'Upgrade to premium', 'complianz-gdpr' ),
-						'manage_options',
-						'https://complianz.io/l/pricing'
-				);
-				if ( isset( $submenu['complianz'][$highest_index] ) ) {
-					if (! isset ($submenu['complianz'][$highest_index][4])) $submenu['complianz'][$highest_index][4] = '';
-					$submenu['complianz'][$highest_index][4] .= ' ' . $class;
+				if ( isset($submenu['complianz']) ) {
+					$class                  = 'cmplz-submenu';
+					$highest_index          = count( $submenu['complianz'] );
+					$submenu['complianz'][] = array(
+							__( 'Upgrade to premium', 'complianz-gdpr' ),
+							'manage_privacy_options',
+							'https://complianz.io/l/pricing'
+					);
+					if ( isset( $submenu['complianz'][ $highest_index ] ) ) {
+						if ( ! isset ( $submenu['complianz'][ $highest_index ][4] ) ) {
+							$submenu['complianz'][ $highest_index ][4] = '';
+						}
+						$submenu['complianz'][ $highest_index ][4] .= ' ' . $class;
+					}
 				}
 			}
-
 		}
 
 		/**

@@ -15,6 +15,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $thirdparty_services
 			= array(
 				'activecampaign'   => 'Active Campaign',
+				"adobe-fonts"    => 'Adobe Fonts',
 				'google-fonts'     => 'Google Fonts',
 				'google-recaptcha' => 'Google reCAPTCHA',
 				"google-maps"      => 'Google Maps',
@@ -162,6 +163,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net','track.hubspot.com','js.hs-analytics.net'),
 				"calendly"         => array( 'assets.calendly.com' ),
 				"twitch"          => array( 'twitch.tv', 'player.twitch.tv'),
+				"adobe-fonts"    => array( 'p.typekit.net', 'use.typekit.net'),
 			);
 
 		public $stats

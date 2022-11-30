@@ -448,7 +448,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * Get script tags, including custom user scripts
              *
              * */
-			$blocked_scripts = false;//get_transient('cmplz_blocked_scripts');
+			$blocked_scripts = get_transient('cmplz_blocked_scripts');
 			if ( defined('WP_DEBUG') && WP_DEBUG ) {
 				$blocked_scripts = false;
 			}
@@ -749,6 +749,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 								if ( strpos( $new, 'data-category="functional"' ) === false
 								) {
 									$new = $this->set_javascript_to_plain( $new );
+									$new = str_replace( 'src=', 'data-cmplz-src=', $new );
+
 									if ( cmplz_strpos_arr( $found, $post_scribe_list )
 									) {
 										//will be to late for the first page load, but will enable post scribe on next page load
@@ -828,7 +830,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 		private function replace_src( $script, $new_src ) {
 
-			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wäöüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
+			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wêëèéēėęàáâæãåāäöôòóœøüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
 			$new_src = ' src="' . $new_src . '" ';
 			preg_match( $pattern, $script, $matches );
 			$script = preg_replace( $pattern, $new_src, $script );

@@ -1464,6 +1464,8 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['vcv-action'] )
 		     || isset( $_GET['zion_builder_active'])
 		     || isset( $_GET['zionbuilder-preview'])
+		     || isset( $_GET['tb-preview']) //themify
+		     || isset( $_GET['tb-id']) //themify
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
 		     || isset( $_GET['ct_builder'] ) //oxygen
@@ -2740,38 +2742,36 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 	 *
 	 * @return int default_ID
 	 */
-	global $cmplz_default_banner_id;
 	function cmplz_get_default_banner_id() {
-		global $cmplz_default_banner_id;
-		if (!empty($cmplz_default_banner_id)) {
-			return $cmplz_default_banner_id;
-		}
-		global $wpdb;
-		$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
+		$banner_id = get_transient('cmplz_default_banner_id');
+		if ( !$banner_id ){
+			global $wpdb;
+			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
 
-		//if nothing, try the first entry
-		if ( empty( $cookiebanners ) ) {
-			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners" );
-		}
+			//if nothing, try the first entry
+			if ( empty( $cookiebanners ) ) {
+				$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners" );
+			}
 
-		if ( ! empty( $cookiebanners ) ) {
-			$cmplz_default_banner_id = $cookiebanners[0]->ID;
-			return $cmplz_default_banner_id;
+			if ( ! empty( $cookiebanners ) ) {
+				$banner_id = $cookiebanners[0]->ID;
+			}
+			set_transient('cmplz_default_banner_id', $banner_id, HOUR_IN_SECONDS);
 		}
-
-		return false;
-		//nothing yet, return false
+		return $banner_id;
 	}
 }
 
 if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 	function cmplz_user_can_manage() {
+		if ( !is_admin() ) return false;
+
 		if ( cmplz_wp_privacy_version() && current_user_can( 'manage_privacy_options' )
 		) {
 			return true;
 		}
 
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can('manage_privacy_options') ) {
 			return true;
 		}
 

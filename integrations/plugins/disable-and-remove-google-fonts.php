@@ -1,6 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die();
-define("CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE", true);
+if ( !defined("CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE") ) define("CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE", true);
 
 
 function cmplz_disable_and_remove_gf_filter_pro_fields($fields) {

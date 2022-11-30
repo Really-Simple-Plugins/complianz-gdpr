@@ -833,14 +833,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				? COMPLIANZ::$config->fields[ $fieldname ]['document_label']
 				: false;
 
-			if ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'url' ) {
+			if ( COMPLIANZ::$config->fields[ $fieldname ]['type'] === 'url' ) {
 				$value = '<a href="' . $value . '" target="_blank">';
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'email' ) {
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] === 'email' ) {
 				$value = apply_filters( 'cmplz_document_email', $value );
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'radio' ) {
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] === 'radio' ) {
 				$options = COMPLIANZ::$config->fields[ $fieldname ]['options'];
 				$value   = isset( $options[ $value ] ) ? $options[ $value ] : '';
-			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] == 'textarea' ) {
+			} elseif ( COMPLIANZ::$config->fields[ $fieldname ]['type'] === 'textarea' ) {
 				//preserve linebreaks
 				$value = nl2br( $value );
 			} elseif ( is_array( $value ) ) {
@@ -2550,8 +2550,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function get_shortcode_page_id( $type, $region , $cache = true) {
 			$shortcode = 'cmplz-document';
 			$page_id   = $cache ? get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
-
 			if ( ! $page_id ) {
+				//ensure a transient, in case none is found. This prevents continuing requests on the page list
+				set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
 				$pages = get_pages();
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
@@ -2691,7 +2692,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( cmplz_get_value( $type ) === 'none' ) {
 				return '#';
-			} else if ( cmplz_get_value( $type ) === 'custom' ) {
+			}
+
+			if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
 				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
@@ -2729,7 +2732,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ( cmplz_get_value( $type ) === 'none' ) {
 				return '#';
-			} else if ( cmplz_get_value( $type ) === 'custom' ) {
+			}
+
+			if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
 				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
@@ -2761,7 +2766,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			if ($region && $region !== $primary_region) return;
 
-			if ($type == 'privacy-statement') {
+			if ($type === 'privacy-statement') {
 				update_option('wp_page_for_privacy_policy', intval($page_id));
 			}
 
