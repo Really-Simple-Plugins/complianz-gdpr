@@ -238,7 +238,7 @@ class rsp_upgrade_to_pro {
      * @return false|object
      */
     private function api_request() {
-        if ( !current_user_can('manage_options') ) {
+        if ( !current_user_can('manage_privacy_options') ) {
             return false;
         }
         global $edd_plugin_url_available;
@@ -301,7 +301,7 @@ class rsp_upgrade_to_pro {
      */
     public function print_install_modal()
     {
-	    if ( !current_user_can('manage_options') ) {
+	    if ( !current_user_can('manage_privacy_options') ) {
 		    return false;
 	    }
 
@@ -411,7 +411,7 @@ class rsp_upgrade_to_pro {
 		$response = [
 				'success' => false,
 		];
-	    if ( !current_user_can('manage_options') ) {
+	    if ( !current_user_can('manage_privacy_options') ) {
 		    $error = true;
 	    }
 
@@ -460,7 +460,7 @@ class rsp_upgrade_to_pro {
 				'message' => '',
 		];
 
-		if ( !current_user_can('manage_options') ) {
+		if ( !current_user_can('manage_privacy_options') ) {
 			$error = true;
 		}
 
@@ -496,7 +496,7 @@ class rsp_upgrade_to_pro {
 		$message = "";
 		$success = false;
 
-		if ( !current_user_can('manage_options') ) {
+		if ( !current_user_can('manage_privacy_options') ) {
 			return [
 				'success' => $success,
 				'message' => $message,
@@ -582,7 +582,7 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_package_information()
     {
-	    if ( !current_user_can('manage_options') ) {
+	    if ( !current_user_can('manage_privacy_options') ) {
 		    return false;
 	    }
 
@@ -624,7 +624,7 @@ class rsp_upgrade_to_pro {
     {
 		$message = '';
 
-	    if ( !current_user_can('manage_options') ) {
+	    if ( !current_user_can('manage_privacy_options') ) {
 		    return [
 			    'success' => false,
 			    'message' => $message,
@@ -676,7 +676,7 @@ class rsp_upgrade_to_pro {
      */
     public function process_ajax_activate_plugin()
     {
-	    if ( !current_user_can('manage_options') ) {
+	    if ( !current_user_can('manage_privacy_options') ) {
 		    return false;
 	    }
 

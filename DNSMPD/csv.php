@@ -22,7 +22,7 @@ if ( isset( $_GET['nonce'] ) ) {
 	die( "2 invalid command" );
 }
 
-if ( ! current_user_can('manage_options') ) {
+if ( ! current_user_can('manage_privacy_options') ) {
 	die( "no permission here, invalid command" );
 }
 

@@ -64,7 +64,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			$name = false, $language = 'en', $service_name = false
 		) {
 			if ( is_numeric( $name ) ) {
-				$this->ID = intval( $name );
+				$this->ID = (int) $name;
 			} else {
 				$this->name = $this->sanitize_cookie( $name );
 			}
@@ -124,13 +124,13 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			//we now should have an ID, which will be the parent item
 			$parent_ID = $this->ID;
 
-			if ( $return_language == 'en' ) {
+			if ( $return_language === 'en' ) {
 				$return_id = $this->ID;
 			}
 
 			//make sure each language is available
 			foreach ( $this->languages as $language ) {
-				if ( $language == 'en' ) {
+				if ( $language === 'en' ) {
 					continue;
 				}
 				$translated_cookie = new CMPLZ_COOKIE( $name, $language, $service_name );
@@ -611,6 +611,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
+	if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
+		return;
+	}
 	if ( get_option( 'cmplz_cookietable_version' ) != cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		global $wpdb;

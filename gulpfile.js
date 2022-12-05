@@ -51,26 +51,32 @@ function lessTask(cb) {
 exports.less = lessTask
 
 function jsTask(cb) {
-  gulp.src('assets/js/admin.js')
-   .pipe(concat('admin.js'))
-   .pipe(gulp.dest('./assets/js'))
-   .pipe(concat('admin.min.js'))
-   .pipe(jsuglify())
-   .pipe(gulp.dest('./assets/js'));
-
-  gulp.src('assets/js/dashboard.js')
-   .pipe(concat('dashboard.js'))
-   .pipe(gulp.dest('./assets/js'))
-   .pipe(concat('dashboard.min.js'))
-   .pipe(jsuglify())
-   .pipe(gulp.dest('./assets/js'));
-  cb();
+	gulp.src('assets/js/admin.js')
+	.pipe(concat('admin.js'))
+	.pipe(gulp.dest('./assets/js'))
+	.pipe(concat('admin.min.js'))
+	.pipe(jsuglify())
+	.pipe(gulp.dest('./assets/js'));
+	gulp.src('assets/js/dashboard.js')
+	.pipe(concat('dashboard.js'))
+	.pipe(gulp.dest('./assets/js'))
+	.pipe(concat('dashboard.min.js'))
+	.pipe(jsuglify())
+	.pipe(gulp.dest('./assets/js'));
+	gulp.src('cookiebanner/js/complianz.js')
+	 .pipe(concat('complianz.js'))
+	 .pipe(gulp.dest('./cookiebanner/js'))
+	 .pipe(concat('complianz.min.js'))
+	 .pipe(jsuglify())
+	 .pipe(gulp.dest('./cookiebanner/js'));
+	cb();
 }
 exports.js = jsTask
 
 function defaultTask(cb) {
-  gulp.watch('./assets/css/**/*.less', { ignoreInitial: false }, lessTask);
-  gulp.watch('./assets/js/**/*.js', { ignoreInitial: false }, jsTask);
+  gulp.watch('./assets/css/*.less', { ignoreInitial: false }, lessTask);
+  gulp.watch('./assets/js/*.js', { ignoreInitial: false }, jsTask);
+  gulp.watch('./cookiebanner/js/*.js', { ignoreInitial: false }, jsTask);
 //   spawn('npm', ['start'], { cwd: 'settings', stdio: 'inherit' })
   cb();
 }

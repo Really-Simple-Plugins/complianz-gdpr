@@ -949,17 +949,16 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $general_settings );
 	}
 
-	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
-
 	if ( $prev_version && version_compare( $prev_version, '6.3.7', '<' ) ) {
-		$wizard_settings = get_option( 'complianz_options_wizard' );
+		$wizard_settings = get_option( 'complianz_options_wizard', [] );
 		$wizard_settings['enable_cookie_banner']='yes';
 		$wizard_settings['enable_cookie_blocker']='yes';
-		$settings = get_option( 'complianz_options_settings' );
+		update_option( 'complianz_options_wizard', $wizard_settings );
+		
+		$settings = get_option( 'complianz_options_settings', [] );
 		$settings['safe_mode'] = $settings['disable_cookie_block'];
 		unset($settings['disable_cookie_block']);
-		get_option( 'complianz_options_settings', $settings );
-		update_option( 'complianz_options_wizard', $wizard_settings );
+		update_option( 'complianz_options_settings', $settings );
 	}
 
 	//  regenerate css
@@ -970,6 +969,9 @@ function cmplz_check_upgrade() {
 	//			$banner->save();
 	//		}
 	//	}
+
+	#regenerate cookie policy snapshot.
+	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
 
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');

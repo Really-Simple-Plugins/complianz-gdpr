@@ -1601,6 +1601,9 @@ Admin notice
 .cmplz .row-actions {
   left: 0;
 }
+#custom-scripts .cmplz-footer-contents {
+  display: none !important;
+}
 .cmplz {
   /*skeleton*/
   /*loader*/

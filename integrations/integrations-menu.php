@@ -7,7 +7,7 @@ function cmplz_add_integrations_menu() {
 		'complianz',
 		__( 'Integrations', 'complianz-gdpr' ),
 		__( 'Integrations', 'complianz-gdpr' ),
-		'manage_options',
+		'manage_privacy_options',
 		"cmplz-script-center",
 		'cmplz_integrations_page'
 	);

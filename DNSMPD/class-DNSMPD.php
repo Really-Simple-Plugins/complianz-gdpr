@@ -151,7 +151,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				'complianz',
 				__( 'Data requests', 'complianz-gdpr' ),
 				__( 'Data requests', 'complianz-gdpr' ),
-				'manage_options',
+				'manage_privacy_options',
 				'cmplz-datarequests',
 				array( $this, 'data_requests_overview' )
 			);
@@ -283,6 +283,9 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 * @return void
 		 */
 		public function update_db_check() {
+			if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
+				return;
+			}
 			if ( get_option( 'cmplz_dnsmpd_db_version' ) != cmplz_version ) {
 				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				global $wpdb;
