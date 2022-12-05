@@ -181,7 +181,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: error on multisite upgrade
 * Fix: catch error when multiple fonts plugins are installed at the same time, props @rkwp
 * Fix: catch missing menu for user roles without manage privacy capability, props @nicmare, @omniafausta
-* Fix: error in multisite copy of settings to subsites
 * Fix: load cookiebanner css on cookie policy, to ensure hiding of obsolete categories, props @troglos
 * Fix: cookieshredder on setInterval instead of setTimeout, to ensure continuous cleaning, props @path0
 * Fix: set a legal document transient if no Complianz shortcodes are used at all
@@ -191,6 +190,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: consistency in use of capabilities, changed all caps to manage_privacy
 * Improvement: Allow é in google maps address, props @nicmare
 * Improvement: performance improvements, props @paaljoachim
+* Improvement: copy data attributes in script when enabling scripts, props @thebrandonallen
 
 = 6.3.5 =
 * Fix: Change legal document page name on generate, not only on update
