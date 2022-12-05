@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 6.3.5
+Stable tag: 6.3.6
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,23 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.3.6 =
+* Fix: translatable strings, props @bonaldi
+* Fix: only allow saving script center
+* Fix: error on multisite upgrade
+* Fix: catch error when multiple fonts plugins are installed at the same time, props @rkwp
+* Fix: catch missing menu for user roles without manage privacy capability, props @nicmare, @omniafausta
+* Fix: error in multisite copy of settings to subsites
+* Fix: load cookiebanner css on cookie policy, to ensure hiding of obsolete categories, props @troglos
+* Fix: cookieshredder on setInterval instead of setTimeout, to ensure continuous cleaning, props @path0
+* Fix: set a legal document transient if no Complianz shortcodes are used at all
+* New: Adobe Typekit integration
+* New: Divi Google Maps integration, props @satzundmore
+* Improvement: move script sources to data attribute, to prevent Safari from preloading
+* Improvement: consistency in use of capabilities, changed all caps to manage_privacy
+* Improvement: Allow é in google maps address, props @nicmare
+* Improvement: performance improvements, props @paaljoachim
+
 = 6.3.5 =
 * Fix: Change legal document page name on generate, not only on update
 * Fix: remove error_log in proof of consent
