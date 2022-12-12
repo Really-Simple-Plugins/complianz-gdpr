@@ -949,14 +949,14 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $general_settings );
 	}
 
-	if ( $prev_version && version_compare( $prev_version, '6.3.7', '<' ) ) {
+	if ( $prev_version && version_compare( $prev_version, '6.3.5', '<' ) ) {
 		$wizard_settings = get_option( 'complianz_options_wizard', [] );
 		$wizard_settings['enable_cookie_banner']='yes';
 		$wizard_settings['enable_cookie_blocker']='yes';
 		update_option( 'complianz_options_wizard', $wizard_settings );
 		
 		$settings = get_option( 'complianz_options_settings', [] );
-		$settings['safe_mode'] = $settings['disable_cookie_block'];
+		$settings['safe_mode'] = $settings['disable_cookie_block'] ?? false;
 		unset($settings['disable_cookie_block']);
 		update_option( 'complianz_options_settings', $settings );
 	}
