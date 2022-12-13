@@ -957,7 +957,9 @@ function cmplz_check_upgrade() {
 		
 		$settings = get_option( 'complianz_options_settings', [] );
 		$settings['safe_mode'] = $settings['disable_cookie_block'] ?? false;
-		unset($settings['disable_cookie_block']);
+		if ( isset($settings['disable_cookie_block']) ) {
+			unset($settings['disable_cookie_block']);
+		}
 		update_option( 'complianz_options_settings', $settings );
 	}
 
