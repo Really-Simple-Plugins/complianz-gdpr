@@ -3,29 +3,18 @@
 namespace Mpdf\Image;
 
 use Mpdf\Cache;
-
 use Mpdf\Color\ColorConverter;
 use Mpdf\Color\ColorModeConverter;
-
 use Mpdf\CssManager;
-
 use Mpdf\File\StreamWrapperChecker;
-
 use Mpdf\Gif\Gif;
-
 use Mpdf\Language\LanguageToFontInterface;
 use Mpdf\Language\ScriptToLanguageInterface;
-
 use Mpdf\Log\Context as LogContext;
-
 use Mpdf\Mpdf;
-
 use Mpdf\Otl;
-
 use Mpdf\RemoteContentFetcher;
-
 use Mpdf\SizeConverter;
-
 use Psr\Log\LoggerInterface;
 
 class ImageProcessor implements \Psr\Log\LoggerAwareInterface
@@ -231,7 +220,7 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 				$type = $this->guesser->guess($data);
 			}
 
-			if (!$data && $check = @fopen($file, 'rb')) {
+			if ($file && !$data && $check = @fopen($file, 'rb')) {
 				fclose($check);
 				$this->logger->debug(sprintf('Fetching (file_get_contents) content of file "%s" with non-local basepath', $file), ['context' => LogContext::REMOTE_CONTENT]);
 				$data = file_get_contents($file);
@@ -844,10 +833,13 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 					} else {
 						return $this->imageError($file, $firsttime, 'Error parsing PNG image data');
 					}
+
 				} while ($n);
+
 				if (!$pngdata) {
 					return $this->imageError($file, $firsttime, 'Error parsing PNG image data - no IDAT data found');
 				}
+
 				if ($colspace === 'Indexed' && empty($pal)) {
 					return $this->imageError($file, $firsttime, 'Error parsing PNG image data - missing colour palette');
 				}
@@ -877,11 +869,9 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 
 		} elseif ($type === 'gif') { // GIF
 
-			if (function_exists('gd_info')) {
-				$gd = gd_info();
-			} else {
-				$gd = [];
-			}
+			$gd = function_exists('gd_info')
+				? gd_info()
+				: [];
 
 			if (isset($gd['GIF Read Support']) && $gd['GIF Read Support']) {
 
@@ -1031,11 +1021,9 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 
 		} else { // UNKNOWN TYPE - try GD imagecreatefromstring
 
-			if (function_exists('gd_info')) {
-				$gd = gd_info();
-			} else {
-				$gd = [];
-			}
+			$gd = function_exists('gd_info')
+				? gd_info()
+				: [];
 
 			if (isset($gd['PNG Support']) && $gd['PNG Support']) {
 
@@ -1082,6 +1070,10 @@ class ImageProcessor implements \Psr\Log\LoggerAwareInterface
 
 	private function convertImage(&$data, $colspace, $targetcs, $w, $h, $dpi, $mask, $gamma_correction = false, $pngcolortype = false)
 	{
+		if (!function_exists('gd_info')) {
+			return $this->imageError($file, $firsttime, 'GD library needed to parse image files');
+		}
+
 		if ($this->mpdf->PDFA || $this->mpdf->PDFX) {
 			$mask = false;
 		}

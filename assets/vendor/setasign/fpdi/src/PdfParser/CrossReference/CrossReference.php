@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -21,8 +22,6 @@ use setasign\Fpdi\PdfParser\Type\PdfTypeException;
  * Class CrossReference
  *
  * This class processes the standard cross reference of a PDF document.
- *
- * @package setasign\Fpdi\PdfParser\CrossReference
  */
 class CrossReference
 {
@@ -31,7 +30,7 @@ class CrossReference
      *
      * @var int
      */
-    static public $trailerSearchLength = 5500;
+    public static $trailerSearchLength = 5500;
 
     /**
      * @var int
@@ -206,7 +205,7 @@ class CrossReference
         $this->parser->getStreamReader()->reset($offset);
         $this->parser->getTokenizer()->clearStack();
         $initValue = $this->parser->readValue();
-        
+
         return $this->initReaderInstance($initValue);
     }
 
@@ -235,8 +234,15 @@ class CrossReference
         }
 
         if ($initValue instanceof PdfIndirectObject) {
-            // check for encryption
-            $stream = PdfStream::ensure($initValue->value);
+            try {
+                $stream = PdfStream::ensure($initValue->value);
+            } catch (PdfTypeException $e) {
+                throw new CrossReferenceException(
+                    'Invalid object type at xref reference offset.',
+                    CrossReferenceException::INVALID_DATA,
+                    $e
+                );
+            }
 
             $type = PdfDictionary::get($stream->value, 'Type');
             if ($type->value !== 'XRef') {

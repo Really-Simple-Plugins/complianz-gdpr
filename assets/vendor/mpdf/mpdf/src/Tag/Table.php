@@ -163,7 +163,7 @@ class Table extends Tag
 		}
 
 		if (isset($attr['ALIGN']) && array_key_exists(strtolower($attr['ALIGN']), self::ALIGN)) {
-			$table['a'] = self::ALIGN[strtolower($attr['ALIGN'])];
+			$table['a'] = $this->getAlign($attr['ALIGN']);
 		}
 		if (!$table['a']) {
 			if ($table['direction'] === 'rtl') {
@@ -182,18 +182,27 @@ class Table extends Tag
 		}
 
 		if (isset($properties['BACKGROUND-COLOR'])) {
+			if ($table['bgcolor'] === false) { // @todo cleaner initialization
+				$table['bgcolor'] = [];
+			}
 			$table['bgcolor'][-1] = $properties['BACKGROUND-COLOR'];
 		} elseif (isset($properties['BACKGROUND'])) {
+			if ($table['bgcolor'] === false) {
+				$table['bgcolor'] = [];
+			}
 			$table['bgcolor'][-1] = $properties['BACKGROUND'];
 		} elseif (isset($attr['BGCOLOR'])) {
+			if ($table['bgcolor'] === false) {
+				$table['bgcolor'] = [];
+			}
 			$table['bgcolor'][-1] = $attr['BGCOLOR'];
 		}
 
 		if (isset($properties['VERTICAL-ALIGN']) && array_key_exists(strtolower($properties['VERTICAL-ALIGN']), self::ALIGN)) {
-			$table['va'] = self::ALIGN[strtolower($properties['VERTICAL-ALIGN'])];
+			$table['va'] = $this->getAlign($properties['VERTICAL-ALIGN']);
 		}
 		if (isset($properties['TEXT-ALIGN']) && array_key_exists(strtolower($properties['TEXT-ALIGN']), self::ALIGN)) {
-			$table['txta'] = self::ALIGN[strtolower($properties['TEXT-ALIGN'])];
+			$table['txta'] = $this->getAlign($properties['TEXT-ALIGN']);
 		}
 
 		if (!empty($properties['AUTOSIZE']) && $this->mpdf->tableLevel == 1) {

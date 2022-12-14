@@ -31,11 +31,15 @@ class RemoteContentFetcher implements \Psr\Log\LoggerAwareInterface
 
 		$ch = curl_init($url);
 
-		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1'); // mPDF 5.7.4
+		curl_setopt($ch, CURLOPT_USERAGENT, $this->mpdf->curlUserAgent);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_NOBODY, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->mpdf->curlTimeout);
+
+		if ($this->mpdf->curlExecutionTimeout) {
+			curl_setopt($ch, CURLOPT_TIMEOUT, $this->mpdf->curlExecutionTimeout);
+		}
 
 		if ($this->mpdf->curlFollowLocation) {
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -46,7 +50,7 @@ class RemoteContentFetcher implements \Psr\Log\LoggerAwareInterface
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		}
 
-		if (is_file($this->mpdf->curlCaCertificate)) {
+		if ($this->mpdf->curlCaCertificate && is_file($this->mpdf->curlCaCertificate)) {
 			curl_setopt($ch, CURLOPT_CAINFO, $this->mpdf->curlCaCertificate);
 		}
 

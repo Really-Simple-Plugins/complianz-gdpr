@@ -1,10 +1,12 @@
-mPDF 8.1.x
-===========================
-
-
 mPDF 8.0.x
 ===========================
 
+* Ability to customize User-Agent header in the HTTP requests sent by cURL (@samuelecat, #1229)
+* Add Page Number Myanmar Language Support (@MinKyawNyunt, #1201)
+* new `Mpdf\Exception\FontException` extending base `MpdfException` was introduced and is thrown on Font manipulation
+* A bit cleaner exception messages for font-related errors
+* Use atomic cache writing. (@PATROMO, #1186)
+* Fix: "Undefined index: group" when calling MultiCell when using font without OTL data (@Kekos, #1213, #941)
 * Add C128RAW barcode type to create any barcode (ex: subtype change in middle of barcode) (#1124)
 * Add proxy support to curl
 * Fixed date and time format in the informations dictionary (#1083, @peterdevpl)
@@ -19,6 +21,19 @@ mPDF 8.0.x
 * Fixed skipping ordered list numbering with page-break-inside: avoid (#339)
 * Compound classes selector support, like `.one.two` or `div.message.special` (#538, @peterdevpl)
 * Fixed CMYK colors in text-shadow (#1115, @lexilya)
+* Skip non supported wrappers when resolving paths (#1204, @MarkVaughn)
+* Fixed SVGs using a style tag, has styles ignored ( Requires ext-dom ) (#450, @antman3351)
+* Allows `{nb}`, `{nbpg}`, `{PAGENO}` and `{DATE ...}` substitution in body (#172 and #267, @Dasc3er)
+* Cache now creates a dedicated subdirectory `/mpdf`.
+* It is possible to disable automatic cache cleanup with `cacheCleanupInterval` config variable
+* PHP 8.0 is supported since 8.0.10 (#1263)
+* Fix: First header of named page is added twice (@antman3351, #1320)
+* Added `curlExecutionTimeout` configuration variable allowing to `CURLOPT_TIMEOUT` when fetching remote content
+* Fix: Not all combinations were generated for more than three compound classes (@JeppeKnockaert)
+* Added `quiet_zone_left` and `quiet_zone_right` to barcodes which support quiet zones in order to customize its width
+* Updated `CssManager` to use the `RemoteContentFetcher` class instead of `curl` natively (@greew)
+* Added optional `continue2pages` parameter to `SetDocTemplate` method, allowing a template to continue the last 2 pages alternately (@bmg-ruudv)
+* Ensure that all digits of a string are hexadecimal before decoding in ColorConverter (@derklaro)
 
 mPDF 8.0.0
 ===========================

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Type;
 
 /**
  * Class representing a boolean PDF object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfBoolean extends PdfType
 {
@@ -24,8 +23,8 @@ class PdfBoolean extends PdfType
      */
     public static function create($value)
     {
-        $v = new self;
-        $v->value = (boolean) $value;
+        $v = new self();
+        $v->value = (bool) $value;
         return $v;
     }
 

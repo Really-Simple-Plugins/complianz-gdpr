@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -15,8 +16,6 @@ use setasign\Fpdi\PdfParser\Tokenizer;
 
 /**
  * Class representing an indirect object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfIndirectObject extends PdfType
 {
@@ -50,7 +49,7 @@ class PdfIndirectObject extends PdfType
             $tokenizer->pushStack($nextToken);
         }
 
-        $v = new self;
+        $v = new self();
         $v->objectNumber = (int) $objectNumberToken;
         $v->generationNumber = (int) $objectGenerationNumberToken;
         $v->value = $value;
@@ -68,7 +67,7 @@ class PdfIndirectObject extends PdfType
      */
     public static function create($objectNumber, $generationNumber, PdfType $value)
     {
-        $v = new self;
+        $v = new self();
         $v->objectNumber = (int) $objectNumber;
         $v->generationNumber = (int) $generationNumber;
         $v->value = $value;

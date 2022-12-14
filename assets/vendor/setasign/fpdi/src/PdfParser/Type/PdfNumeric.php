@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Type;
 
 /**
  * Class representing a numeric PDF object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfNumeric extends PdfType
 {
@@ -24,7 +23,7 @@ class PdfNumeric extends PdfType
      */
     public static function create($value)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $value + 0;
 
         return $v;
