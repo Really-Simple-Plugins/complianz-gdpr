@@ -2377,6 +2377,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			// override default attributes with user attributes
 			$atts   = shortcode_atts( array(
 				'cache_redirect'   => false,
+				'scroll_into_view'   => true,
 				'service'   => 'general',
 				'category'   => false,
 				'text'   => $blocked_text,
@@ -2386,6 +2387,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else {
 				$cache_redirect = false;
 			}
+			$scroll_into_view = $atts['scroll_into_view']==="true" || $atts['scroll_into_view']=== 1 || $atts['scroll_into_view'] === true;
 			$category = $atts['category'] ? sanitize_text_field($atts['category']) : 'no-category';
 			$service = $atts['category'] ? 'no-service' : sanitize_text_field($atts['service']);
 			$blocked_text = sanitize_text_field( $atts['text'] );
@@ -2408,6 +2410,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else {
 				//no consent
 				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
+				$redirect_uri = $scroll_into_view ? 'cmplz_consent=1#cmplz_consent_area_anchor' : 'cmplz_consent=1';
 				if ( $cache_redirect ) { ?>
 				<script>
 					var url = window.location.href;
@@ -2430,7 +2433,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						if ( cmplz_has_service_consent('<?=$service?>' ) || cmplz_has_consent('<?=$category?>' )){
 							if (url.indexOf('cmplz_consent=1') === -1 ) {
 								if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
-								url += 'cmplz_consent=1#cmplz_consent_area_anchor';
+								url += '<?php echo $redirect_uri?>';
 								window.location.replace(url);
 							}
 						}
