@@ -181,18 +181,18 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 		'content' =>
 			_x("To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the Information Regulator South Africa: P.O Box 31533, Braamfontein, Johannesburg, 2017 Complaints email: complaints.IR@justice.gov.za", 'Legal document cookie policy', 'complianz-gdpr'),
 	),
-	
+
 	'contact-details' => array(
 		'title' => _x('Contact details', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'content' => _x('For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:', 'Legal document cookie policy', 'complianz-gdpr'),
 	),
 	'contact-details-2' => array(
-		'content' => '[organisation_name]<br>
-                    [address_company]<br>
-                    [country_company]<br>
-                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' [domain] <br>
-                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' [email_company] <br>
-                    [telephone_company]',
+		'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
+                    <span class="cmplz-contact-address">[address_company]</span><br>
+                    <span class="cmplz-contact-country">[country_company]</span><br>
+                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-domain">[domain]</span><br>
+                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-email">[email_company]</span><br>
+                    <span class="cmplz-contact-telephone">[telephone_company]</span>',
 	),
 
 	'last-sync' => array(

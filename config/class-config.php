@@ -15,7 +15,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $thirdparty_services
 			= array(
 				'activecampaign'   => 'Active Campaign',
-				"adobe-fonts"    => 'Adobe Fonts',
+				"adobe-fonts"    	 => 'Adobe Fonts',
 				'google-fonts'     => 'Google Fonts',
 				'google-recaptcha' => 'Google reCAPTCHA',
 				"google-maps"      => 'Google Maps',
@@ -35,6 +35,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"livechat"         => 'LiveChat',
 				"hubspot"          => 'HubSpot',
 				"calendly"         => 'Calendly',
+				"microsoftads"     => 'Microsoft Ads'
 			);
 
 		public $thirdparty_socialmedia
@@ -159,6 +160,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addthis"          => array( 'addthis.com' ),
 				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
 				"sharethis"        => array( 'sharethis.com' ),
+				"microsoftads"     => array('bat.bing.com'),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
 				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net','track.hubspot.com','js.hs-analytics.net'),
 				"calendly"         => array( 'assets.calendly.com' ),
@@ -173,6 +175,8 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'matomo'             => 'Matomo',
 				'clicky'             => 'Clicky',
 				'yandex'             => 'Yandex',
+				'clarity'            => 'Clarity',
+
 			);
 		public $stats_markers = array(
 				'google-analytics'   => array(
@@ -188,6 +192,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'matomo' => array( 'piwik.js', 'matomo.js' ),
 				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
 				'yandex' => array( 'mc.yandex.ru/metrika/watch.js' ),
+				'clarity' => array( 'clarity.ms' ),
 			);
 
 		public $amp_tags

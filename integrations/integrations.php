@@ -215,6 +215,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Google Site Kit',
 	),
 
+	'clarity'               => array(
+		'constant_or_function' => 'clarity_add_origins',
+		'label'                => 'Microsoft Clarity',
+	),
+
 	'beehive'           => array(
 		'constant_or_function' => 'BEEHIVE_PRO',
 		'label'                => 'Beehive',

@@ -2738,20 +2738,22 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
 				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
-				return intval( $id ) == 0 || !get_permalink( $id )
+				return (int) $id == 0 || !get_permalink( $id )
 					? '#'
 					: esc_url_raw( get_permalink( $id ) );
-			} else if ( cmplz_get_value( $type ) === 'url' ) {
-					$url = get_option("cmplz_".$type."_custom_page_url");
-					return esc_url_raw( $url );
-			} else {
-				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
-
-				//get correct translated id
-				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
-
-				return get_permalink( $policy_page_id );
 			}
+
+			if ( cmplz_get_value( $type ) === 'url' ) {
+					$url = get_option("cmplz_".$type."_custom_page_url");
+					return esc_url_raw( cmplz_translate( $url, "cmplz_".$type."_custom_page_url") );
+			}
+
+			$policy_page_id = $this->get_shortcode_page_id( $type, $region );
+
+			//get correct translated id
+			$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
+
+			return get_permalink( $policy_page_id );
 		}
 
 		/**

@@ -196,6 +196,7 @@ if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
 		if ( $stats === 'google-analytics' ||
 			 $stats === 'matomo' ||
 			 $stats === 'yandex' ||
+			 $stats === 'clarity' ||
 			 $stats === 'clicky' ||
 			 $stats === 'google-tag-manager' ||
 			 $stats === 'matomo-tag-manager'
@@ -228,6 +229,8 @@ if ( ! function_exists( 'cmplz_get_stats_tool_nice' ) ) {
 				return "Google Tag Manager";
 			case 'matomo-tag-manager':
 				return "Matomo Tag Manager";
+				case 'clarity':
+					return "Clarity";
 			default:
 				return __("Not found","complianz-gdpr");
 		}
@@ -2280,8 +2283,7 @@ if ( ! function_exists( 'cmplz_translate' ) ) {
 			$value = icl_translate( 'complianz', $fieldname, $value );
 		}
 
-		$value = apply_filters( 'wpml_translate_single_string', $value,
-			'complianz', $fieldname );
+		$value = apply_filters( 'wpml_translate_single_string', $value, 'complianz', $fieldname );
 
 		return $value;
 
