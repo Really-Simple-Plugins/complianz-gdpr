@@ -182,6 +182,8 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: add filter to allow filtering data-request email recipient 'cmplz_datarequest_email'
 * Improvement: translatable URLs in polylang
 * New: Microsoft Ads/Microsoft Clarity integration
+* Fix: some scripts not executing properly because of copying data-service & data-category attributes props @sophiaknows, @hamil1
+* Fix: new added query added to cookie block exclude to ensure Avada live builder works, props @franck_b, @markusand
 
 = 6.3.6.1 =
 * Fix: unsetting non existing array key in upgrade
