@@ -1456,7 +1456,9 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 	function cmplz_is_pagebuilder_preview() {
 		$preview = false;
 		global $wp_customize;
-		if ( isset( $wp_customize ) || isset( $_GET['fb-edit'] )
+		if ( isset( $wp_customize )
+			 || isset( $_GET['fb-edit'] ) //avada
+			 || isset( $_GET['builder_id'] ) //avada
 		     || isset( $_GET['et_pb_preview'] ) //divi
 		     || isset( $_GET['et_fb'] ) //divi
 		     || isset( $_GET['elementor-preview'] )

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-21T09:00:43+00:00\n"
+"POT-Creation-Date: 2022-12-23T10:38:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -4344,7 +4344,7 @@ msgid "Create"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:2892
-#: functions.php:2158
+#: functions.php:2160
 msgid "Purpose pending investigation"
 msgstr ""
 
@@ -5224,38 +5224,38 @@ msgstr ""
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1550
+#: functions.php:1552
 msgid "For more information, please read this %sarticle%s."
 msgstr ""
 
-#: functions.php:1568
+#: functions.php:1570
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2126
+#: functions.php:2128
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2133
-#: functions.php:2143
+#: functions.php:2135
+#: functions.php:2145
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2135
-#: functions.php:2140
+#: functions.php:2137
+#: functions.php:2142
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2145
+#: functions.php:2147
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2148
+#: functions.php:2150
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2155
+#: functions.php:2157
 #: pro/records-of-consent/class-records-of-consent.php:380
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:251
@@ -5270,19 +5270,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2646
+#: functions.php:2648
 #: pro/records-of-consent/class-records-of-consent-table.php:235
 #: pro/tcf/tcf.php:949
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2648
+#: functions.php:2650
 #: pro/records-of-consent/class-records-of-consent-table.php:238
 #: pro/tcf/tcf.php:948
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2650
+#: functions.php:2652
 msgid "All consent types"
 msgstr ""
 
