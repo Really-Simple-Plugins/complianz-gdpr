@@ -2156,10 +2156,11 @@ function cmplzCopyAttributes(source, target) {
   return Array.from(source.attributes).forEach(attribute => {
   	//don't copy the type attribute
   	if ( attribute.nodeName!=='type' && attribute.nodeName!=='data-service' && attribute.nodeName!=='data-category' ) {
-  	    target.setAttribute(
-          attribute.nodeName,
-          attribute.nodeValue,
-        );
+		  console.log("copy attribute to script element: "+attribute.nodeName);
+		 target.setAttribute(
+		  attribute.nodeName,
+		  attribute.nodeValue,
+		);
   	}
 
   });
