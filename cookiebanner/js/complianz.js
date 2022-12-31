@@ -2155,13 +2155,14 @@ function cmplz_equals (array_1, array_2) {
 function cmplzCopyAttributes(source, target) {
   return Array.from(source.attributes).forEach(attribute => {
   	//don't copy the type attribute
-  	if ( attribute.nodeName!=='type' && attribute.nodeName!=='data-service' && attribute.nodeName!=='data-category' ) {
+    let excludes = ['type', 'data-service', 'data-category', 'async'];
+	if ( !excludes.includes(attribute.nodeName) ) {
 		  console.log("copy attribute to script element: "+attribute.nodeName);
 		 target.setAttribute(
 		  attribute.nodeName,
 		  attribute.nodeValue,
 		);
-  	}
+	}
 
   });
 }
