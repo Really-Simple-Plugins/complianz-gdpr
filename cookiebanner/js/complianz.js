@@ -283,7 +283,7 @@ function cmplz_run_script( script, category, type, sourceObj ) {
 		return;
 	}
 
-	cmplzCopyAttributes(sourceObj, targetObj);
+	//cmplzCopyAttributes(sourceObj, targetObj);
 
 	try {
 		if (type!=='inline') {
