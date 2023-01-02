@@ -246,6 +246,7 @@ if ( ! function_exists( 'cmplz_start_tour' ) ) {
 		if ( ! get_site_option( 'cmplz_tour_shown_once' ) ) {
 			update_site_option( 'cmplz_tour_started', true );
 		}
+		do_action('cmplz_activation');
 	}
 
 	register_activation_hook( __FILE__, 'cmplz_start_tour' );
