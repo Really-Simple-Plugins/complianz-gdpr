@@ -2164,9 +2164,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			} elseif ( $statistics === 'clicky' ) {
 				$script = cmplz_get_template( 'statistics/clicky.js' );
 				$script = str_replace( '{site_ID}', esc_attr( cmplz_get_value( 'clicky_site_id' ) ), $script );
-			} elseif ( $statistics === 'clarity' ) {
-				$script = cmplz_get_template( 'statistics/clarity.js' );
-				$script = str_replace( '{site_ID}', esc_attr( cmplz_get_value( 'clarity_id' ) ), $script );
 			} elseif ( $statistics === 'yandex' ) {
 				$script = cmplz_get_template( 'statistics/yandex.js' );
 				$data_layer = cmplz_get_value('yandex_ecommerce') === 'yes';

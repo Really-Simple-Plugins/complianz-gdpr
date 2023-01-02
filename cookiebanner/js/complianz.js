@@ -2155,7 +2155,7 @@ function cmplz_equals (array_1, array_2) {
 function cmplzCopyAttributes(source, target) {
   return Array.from(source.attributes).forEach(attribute => {
   	//don't copy the type attribute
-  	if ( attribute.nodeName!=='type' && attribute.nodeName!=='data-service' && attribute.nodeName!=='data-category' ) {
+  	if ( attribute.nodeName!=='type' ) {
   	    target.setAttribute(
           attribute.nodeName,
           attribute.nodeValue,

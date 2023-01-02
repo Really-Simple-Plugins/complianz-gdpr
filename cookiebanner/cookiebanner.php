@@ -190,7 +190,7 @@ function cmplz_cookiebanner_admin_menu() {
 		'complianz',
 		__( 'Cookie banner', 'complianz-gdpr' ),
 		__( 'Cookie banner', 'complianz-gdpr' ),
-		'manage_privacy_options',
+		apply_filters('cmplz_capability','manage_privacy_options'),
 		'cmplz-cookiebanner',
 		'cmplz_cookiebanner_overview'
 	);

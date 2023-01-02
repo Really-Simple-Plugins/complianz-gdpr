@@ -308,7 +308,6 @@ $this->fields += array(
 				'matomo'             => __( 'Yes, with Matomo', 'complianz-gdpr' ),
 				'clicky'             => __( 'Yes, with Clicky', 'complianz-gdpr' ),
 				'yandex'             => __( 'Yes, with Yandex', 'complianz-gdpr' ),
-				'clarity'            => __( 'Yes, with Clarity', 'complianz-gdpr' ),
 				'yes'                => __( 'Yes, but not with any of the above services', 'complianz-gdpr' ),
 				'no'                 => __( 'No', 'complianz-gdpr' ),
 			),
@@ -569,20 +568,6 @@ $this->fields += array(
 			'help'                    => __( "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required.", 'complianz-gdpr' ) . cmplz_read_more( 'https://complianz.io/configuring-clicky-for-gdpr/' ),
 		),
 
-		'clarity_id' => array(
-			'step'                    => STEP_COOKIES,
-			'section'                 => 3,
-			'source'                  => 'wizard',
-			'type'                    => 'text',
-			'default'                 => '',
-			'required'                => true,
-			'revoke_consent_onchange' => true,
-			'label'                   => __( "Enter your Clarity project ID", 'complianz-gdpr' ),
-			'callback_condition'               => array(
-				'compile_statistics' => 'clarity',
-			),
-		),
-
 		'yandex_id' => array(
 			'step'                    => STEP_COOKIES,
 			'section'                 => 3,
@@ -611,8 +596,6 @@ $this->fields += array(
 				'compile_statistics' => 'yandex',
 			),
 		),
-
-
 
 		'consent_per_service' => array(
 			'step'               => STEP_COOKIES,

@@ -196,7 +196,6 @@ if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
 		if ( $stats === 'google-analytics' ||
 			 $stats === 'matomo' ||
 			 $stats === 'yandex' ||
-			 $stats === 'clarity' ||
 			 $stats === 'clicky' ||
 			 $stats === 'google-tag-manager' ||
 			 $stats === 'matomo-tag-manager'
@@ -229,8 +228,6 @@ if ( ! function_exists( 'cmplz_get_stats_tool_nice' ) ) {
 				return "Google Tag Manager";
 			case 'matomo-tag-manager':
 				return "Matomo Tag Manager";
-				case 'clarity':
-					return "Clarity";
 			default:
 				return __("Not found","complianz-gdpr");
 		}
@@ -1456,9 +1453,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 	function cmplz_is_pagebuilder_preview() {
 		$preview = false;
 		global $wp_customize;
-		if ( isset( $wp_customize )
-			 || isset( $_GET['fb-edit'] ) //avada
-			 || isset( $_GET['builder_id'] ) //avada
+		if ( isset( $wp_customize ) || isset( $_GET['fb-edit'] )
 		     || isset( $_GET['et_pb_preview'] ) //divi
 		     || isset( $_GET['et_fb'] ) //divi
 		     || isset( $_GET['elementor-preview'] )
@@ -2285,7 +2280,8 @@ if ( ! function_exists( 'cmplz_translate' ) ) {
 			$value = icl_translate( 'complianz', $fieldname, $value );
 		}
 
-		$value = apply_filters( 'wpml_translate_single_string', $value, 'complianz', $fieldname );
+		$value = apply_filters( 'wpml_translate_single_string', $value,
+			'complianz', $fieldname );
 
 		return $value;
 
@@ -2768,12 +2764,12 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 
 if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 	function cmplz_user_can_manage() {
-		if ( cmplz_wp_privacy_version() && current_user_can( 'manage_privacy_options' )
+		if ( cmplz_wp_privacy_version() && current_user_can( apply_filters('cmplz_capability','manage_privacy_options') )
 		) {
 			return true;
 		}
 
-		if ( current_user_can('manage_privacy_options') ) {
+		if ( cmplz_user_can_manage() ) {
 			return true;
 		}
 

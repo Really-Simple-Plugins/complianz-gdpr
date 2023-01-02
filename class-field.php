@@ -167,7 +167,6 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					}
 					if (isset($_POST["cmplz_".$document."_custom_page_url"])){
 						$url = esc_url_raw($_POST["cmplz_".$document."_custom_page_url"]);
-						cmplz_register_translation($url, "cmplz_".$document."_custom_page_url");
 						update_option("cmplz_".$document."_custom_page_url", $url );
 					}
 				}

@@ -180,12 +180,12 @@ array(
     ),
 
     array(
-        'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
-                    <span class="cmplz-contact-address">[address_company]</span><br>
-                    <span class="cmplz-contact-country">[country_company]</span><br>
-                    Website: <span class="cmplz-contact-domain">[domain]</span><br>
-                    Email: <span class="cmplz-contact-email">[email_company]</span><br>
-                    <span class="cmplz-contact-telephone">[telephone_company]</span>',
+        'content' => '[organisation_name]<br>
+                    [address_company]<br>
+                    [country_company]<br>
+                    Website: [domain] <br>
+                    Email: [email_company] <br>
+                    [telephone_company]',
     ),
 
     array(
