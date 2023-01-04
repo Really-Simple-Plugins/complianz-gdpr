@@ -400,8 +400,9 @@ function cmplz_set_blocked_content_container() {
 
 	/*
 	 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
-	 *
+	 * In case of an opt-out region and Do Not Track, a consent check will return 'allow', because it doesn't take DNT into account
 	 */
+
 	if ( cmplz_has_consent('statistics') ) {
 		cmplz_enable_category('statistics');
 	}
@@ -409,6 +410,7 @@ function cmplz_set_blocked_content_container() {
 	if ( cmplz_has_consent('marketing') ) {
 		cmplz_enable_category('marketing');
 	}
+
 }
 
 function cmplz_insert_placeholder_text(container, category, service ){
@@ -533,7 +535,6 @@ function cmplz_has_blocked_scripts(){
  * */
 
 function cmplz_enable_category(category, service) {
-
 	if ( complianz.tm_categories == 1 && category !== '') {
 		cmplz_run_tm_event(category);
 	}
@@ -557,7 +558,6 @@ function cmplz_enable_category(category, service) {
 	} else {
 		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category='+category+']';
 	}
-
 	document.querySelectorAll(selector).forEach(obj => {
 		let blockedElementService = obj.getAttribute('data-service');
 		if (obj.parentNode.classList.contains('cmplz-blocked-content-notice')) {
@@ -859,12 +859,11 @@ window.conditionally_show_banner = function() {
 	for (let key in rev_cats) {
 		if ( rev_cats.hasOwnProperty(key) ) {
 			let category = cmplz_categories[key];
-			if (cmplz_has_consent(category)) {
+			if ( cmplz_has_consent(category) ) {
 				cmplz_enable_category(category);
 			}
 		}
 	}
-
 	if ( cmplz_exists_service_consent() ) {
 		//if any service is enabled, allow the general services also, because some services are partially 'general'
 		cmplz_enable_category('', 'general');
@@ -899,7 +898,7 @@ window.conditionally_show_banner = function() {
 		//for Non optin/optout visitors, and DNT users, we just track the no-warning option
 		if ( complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout' ) {
 			cmplz_track_status( 'no_warning' );
-		} else if ( complianz.do_not_track ) {
+		} else if ( cmplz_do_not_track() ) {
 			cmplz_track_status('do_not_track' );
 		}
 	}
@@ -907,7 +906,7 @@ window.conditionally_show_banner = function() {
 	cmplz_set_category_as_body_class();
 	//fire cats event, but do not fire a track, as we do this on exit.
 	cmplz_fire_categories_event();
-	if (!complianz.do_not_track) {
+	if (!cmplz_do_not_track()) {
 		if (complianz.consenttype === 'optin') {
 			if (complianz.forceEnableStats) {
 				cmplz_enable_category('statistics');
@@ -925,6 +924,16 @@ window.conditionally_show_banner = function() {
 	} else {
 		cmplz_track_status( 'do_not_track' );
 	}
+}
+
+/**
+ * Check if User has set either GPC or DNT in the browser.
+ * @returns {boolean}
+ */
+function cmplz_do_not_track(){
+	let dnt = 'doNotTrack' in navigator && navigator.doNotTrack === '1';
+	let gpc = 'globalPrivacyControl' in navigator && navigator.globalPrivacyControl;
+	return !!(complianz.do_not_track_enabled && (gpc || dnt));
 }
 
 /*
@@ -1101,6 +1110,8 @@ window.cmplz_has_consent = function ( category ){
 	}
 
 	if ( category === 'functional' ) return true;
+
+	if ( cmplz_do_not_track() ) return false;
 	var has_consent, value;
 
 	/*

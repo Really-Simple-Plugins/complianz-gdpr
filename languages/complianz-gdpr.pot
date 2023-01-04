@@ -1,15 +1,15 @@
-# Copyright (C) 2022 Really Simple Plugins
+# Copyright (C) 2023 Really Simple Plugins
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.3.9\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-23T10:38:37+00:00\n"
+"POT-Creation-Date: 2023-01-03T15:33:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -11822,7 +11822,7 @@ msgid ""
 "                            to %shttps://complianz.io/consent%s."
 msgstr ""
 
-#: rest-api/rest-api.php:141
+#: rest-api/rest-api.php:140
 msgctxt "cookie policy"
 msgid "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings."
 msgstr ""
@@ -12223,7 +12223,7 @@ msgid "Self-hosted and privacy-friendly analytics tool."
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:148
-msgid "Get detailed insights into visitors' behaviour with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins."
+msgid "Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins."
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:157

@@ -89,7 +89,6 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	$data['region']             = $region;
 	$data['version']            = cmplz_version;
 	$data['forceEnableStats']   = !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region );
-	$data['do_not_track']       = cmplz_dnt_enabled();
 	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 	unset( $data["set_cookies"] );
 	$banner_id              = cmplz_get_default_banner_id();
