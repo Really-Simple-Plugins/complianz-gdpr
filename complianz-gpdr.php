@@ -250,3 +250,21 @@ if ( ! function_exists( 'cmplz_start_tour' ) ) {
 
 	register_activation_hook( __FILE__, 'cmplz_start_tour' );
 }
+
+if ( ! function_exists('cmplz_add_manage_privacy_capability')){
+	/**
+	 * Add a user capability to WordPress and add to admin and editor role
+	 */
+	function cmplz_add_manage_privacy_capability(){
+		$capability = 'manage_privacy';
+		$roles = array('administrator');
+		foreach( $roles as $role ){
+			$role = get_role( $role );
+			if( $role && !$role->has_cap( $capability ) ){
+				$role->add_cap( $capability );
+			}
+		}
+	}
+
+	register_activation_hook( __FILE__, 'cmplz_add_manage_privacy_capability' );
+}
