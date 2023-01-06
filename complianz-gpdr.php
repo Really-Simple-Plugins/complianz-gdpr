@@ -255,16 +255,37 @@ if ( ! function_exists('cmplz_add_manage_privacy_capability')){
 	/**
 	 * Add a user capability to WordPress and add to admin and editor role
 	 */
-	function cmplz_add_manage_privacy_capability(){
+	function cmplz_add_manage_privacy_capability($handle_subsites = true ){
 		$capability = 'manage_privacy';
-		$roles = array('administrator');
-		foreach( $roles as $role ){
-			$role = get_role( $role );
-			if( $role && !$role->has_cap( $capability ) ){
-				$role->add_cap( $capability );
+		$role = get_role( 'administrator' );
+		if( $role && !$role->has_cap( $capability ) ){
+			$role->add_cap( $capability );
+		}
+
+		//we need to add this role across subsites as well.
+		if ( $handle_subsites && is_multisite() ) {
+			$sites = get_sites();
+			if (count($sites)>0) {
+				foreach ($sites as $site) {
+					switch_to_blog($site->blog_id);
+					cmplz_add_manage_privacy_capability(false);
+					restore_current_blog();
+				}
 			}
 		}
 	}
-
 	register_activation_hook( __FILE__, 'cmplz_add_manage_privacy_capability' );
+
+	/**
+	 * When a new site is added, add our capability
+	 * @param $site
+	 *
+	 * @return void
+	 */
+	function cmplz_add_role_to_subsite($site) {
+		switch_to_blog($site->blog_id);
+		cmplz_add_manage_privacy_capability(false);
+		restore_current_blog();
+	}
+	add_action('wp_initialize_site', 'cmplz_add_role_to_subsite', 10, 1);
 }
