@@ -1308,7 +1308,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'banner_version'       => $this->banner_version,
 				'version'              => cmplz_version,
 				'store_consent'        => $store_consent,
-				'do_not_track'         => cmplz_dnt_enabled(),
+				'do_not_track_enabled' => cmplz_get_value('respect_dnt') !== 'no',
 				'consenttype'          => COMPLIANZ::$company->get_default_consenttype(),
 				'region'               => $region,
 				'geoip'                => cmplz_geoip_enabled(),

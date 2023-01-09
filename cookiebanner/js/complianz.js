@@ -400,8 +400,9 @@ function cmplz_set_blocked_content_container() {
 
 	/*
 	 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
-	 *
+	 * In case of an opt-out region and Do Not Track, a consent check will return 'allow', because it doesn't take DNT into account
 	 */
+
 	if ( cmplz_has_consent('statistics') ) {
 		cmplz_enable_category('statistics');
 	}
@@ -409,6 +410,7 @@ function cmplz_set_blocked_content_container() {
 	if ( cmplz_has_consent('marketing') ) {
 		cmplz_enable_category('marketing');
 	}
+
 }
 
 function cmplz_insert_placeholder_text(container, category, service ){
@@ -899,7 +901,7 @@ window.conditionally_show_banner = function() {
 		//for Non optin/optout visitors, and DNT users, we just track the no-warning option
 		if ( complianz.consenttype !== 'optin' && complianz.consenttype !== 'optout' ) {
 			cmplz_track_status( 'no_warning' );
-		} else if ( complianz.do_not_track ) {
+		} else if ( cmplz_do_not_track() ) {
 			cmplz_track_status('do_not_track' );
 		}
 	}
@@ -907,7 +909,7 @@ window.conditionally_show_banner = function() {
 	cmplz_set_category_as_body_class();
 	//fire cats event, but do not fire a track, as we do this on exit.
 	cmplz_fire_categories_event();
-	if (!complianz.do_not_track) {
+	if (!cmplz_do_not_track()) {
 		if (complianz.consenttype === 'optin') {
 			if (complianz.forceEnableStats) {
 				cmplz_enable_category('statistics');
@@ -925,6 +927,16 @@ window.conditionally_show_banner = function() {
 	} else {
 		cmplz_track_status( 'do_not_track' );
 	}
+}
+
+/**
+ * Check if User has set either GPC or DNT in the browser.
+ * @returns {boolean}
+ */
+function cmplz_do_not_track(){
+	let dnt = 'doNotTrack' in navigator && navigator.doNotTrack === '1';
+	let gpc = 'globalPrivacyControl' in navigator && navigator.globalPrivacyControl;
+	return !!(complianz.do_not_track_enabled && (gpc || dnt));
 }
 
 /*
@@ -1101,6 +1113,8 @@ window.cmplz_has_consent = function ( category ){
 	}
 
 	if ( category === 'functional' ) return true;
+
+	if ( cmplz_do_not_track() ) return false;
 	var has_consent, value;
 
 	/*
@@ -1124,6 +1138,7 @@ window.cmplz_has_consent = function ( category ){
  * @returns {boolean|*}
  */
 window.cmplz_is_service_denied = function ( service ) {
+	if ( cmplz_do_not_track() ) return true;
 	//Check if it's in the consented services cookie
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
@@ -1147,6 +1162,8 @@ window.cmplz_is_service_denied = function ( service ) {
  * @returns {boolean|*}
  */
 window.cmplz_has_service_consent = function ( service, category ) {
+	if ( cmplz_do_not_track() ) return false;
+
 	//Check if it's in the consented services cookie
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
@@ -1169,6 +1186,8 @@ window.cmplz_has_service_consent = function ( service, category ) {
  * @returns {boolean}
  */
 function cmplz_exists_service_consent(){
+	if ( cmplz_do_not_track() ) return false;
+
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
 	try {

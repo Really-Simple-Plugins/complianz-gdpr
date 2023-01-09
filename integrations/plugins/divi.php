@@ -71,6 +71,10 @@ if ( !function_exists('cmplz_divi_map_script')) {
 						})
 					}
 				}
+
+				function cmplz_divi_fire_domContentLoadedEvent() {
+					dispatchEvent(new Event('load'));
+				}
 		</script>
 		<?php
 		$script = ob_get_clean();

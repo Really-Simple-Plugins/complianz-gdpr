@@ -11,7 +11,7 @@ function cmplz_microsoftads_script( $tags ) {
 
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_microsoftads_iframetags' );
-function cmplz_amicrosoftads_iframetags( $tags ) {
+function cmplz_microsoftads_iframetags( $tags ) {
 	$tags[] = 'bing.com';
 
 	return $tags;

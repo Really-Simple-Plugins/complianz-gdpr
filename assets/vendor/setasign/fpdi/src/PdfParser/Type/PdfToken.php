@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of FPDI
  *
@@ -11,8 +12,6 @@ namespace setasign\Fpdi\PdfParser\Type;
 
 /**
  * Class representing PDF token object
- *
- * @package setasign\Fpdi\PdfParser\Type
  */
 class PdfToken extends PdfType
 {
@@ -24,7 +23,7 @@ class PdfToken extends PdfType
      */
     public static function create($token)
     {
-        $v = new self;
+        $v = new self();
         $v->value = $token;
 
         return $v;

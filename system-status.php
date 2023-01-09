@@ -43,6 +43,10 @@ if ( cmplz_user_can_manage() ) {
 	}
 	echo "---------\n\n";
 
+	if (get_option('cmplz_curl_error')) {
+		echo 'CURL error detected: '.get_option('cmplz_curl_error'). "\n";;
+	}
+
 	$plugins = wp_get_active_and_valid_plugins();
 	echo "Active plugins: " . "\n";
 	echo implode( "\n", $plugins ) . "\n";

@@ -1,15 +1,15 @@
-# Copyright (C) 2022 Really Simple Plugins
+# Copyright (C) 2023 Really Simple Plugins
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.3.9\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-23T10:38:37+00:00\n"
+"POT-Creation-Date: 2023-01-09T10:50:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -660,12 +660,12 @@ msgid "Add new cookie"
 msgstr ""
 
 #: class-field.php:2057
-#: cookie/class-cookie-admin.php:3605
+#: cookie/class-cookie-admin.php:3623
 msgid "Cookies in %s"
 msgstr ""
 
 #: class-field.php:2057
-#: cookie/class-cookie-admin.php:3605
+#: cookie/class-cookie-admin.php:3623
 msgid "Services in %s"
 msgstr ""
 
@@ -4093,7 +4093,7 @@ msgid "Consent"
 msgstr ""
 
 #: config/steps.php:54
-#: cookie/class-cookie-admin.php:3514
+#: cookie/class-cookie-admin.php:3532
 msgid "Cookie scan"
 msgstr ""
 
@@ -4310,29 +4310,29 @@ msgid "Cookies without selected service"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:949
-#: cookie/class-cookie-admin.php:1279
+#: cookie/class-cookie-admin.php:1292
 msgid "You haven't accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes."
 msgstr ""
 
 #: cookie/class-cookie-admin.php:964
-#: cookie/class-cookie-admin.php:1294
+#: cookie/class-cookie-admin.php:1307
 msgid "A request is already running. Please be patient until the current request finishes"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1003
-#: cookie/class-cookie-admin.php:1334
+#: cookie/class-cookie-admin.php:1016
+#: cookie/class-cookie-admin.php:1352
 msgid "Could not connect to cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1542
+#: cookie/class-cookie-admin.php:1560
 msgid "Processing Agreements"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1544
+#: cookie/class-cookie-admin.php:1562
 msgid "A Processor or Service Provider is the party that processes personal data on behalf of a responsible organization or person. If you are this organization or person, you should probably sign a Processing Agreement with them. You can use a Processing Agreement outside of Complianz, or generate one here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1555
+#: cookie/class-cookie-admin.php:1573
 #: pro/framework/post-types.php:56
 #: pro/templates/dashboard/documents-conditional.php:44
 #: pro/templates/dashboard/documents-conditional.php:79
@@ -4343,60 +4343,60 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2892
+#: cookie/class-cookie-admin.php:2910
 #: functions.php:2160
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3192
+#: cookie/class-cookie-admin.php:3210
 #: DNSMPD/class-DNSMPD-table.php:292
 #: DNSMPD/csv.php:73
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3212
+#: cookie/class-cookie-admin.php:3230
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3300
+#: cookie/class-cookie-admin.php:3318
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3303
+#: cookie/class-cookie-admin.php:3321
 msgid "The scan found %s cookie on your domain."
 msgid_plural "The scan found %s cookies on your domain."
 msgstr[0] ""
 msgstr[1] ""
 
-#: cookie/class-cookie-admin.php:3304
+#: cookie/class-cookie-admin.php:3322
 msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3316
+#: cookie/class-cookie-admin.php:3334
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3501
+#: cookie/class-cookie-admin.php:3519
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3508
+#: cookie/class-cookie-admin.php:3526
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3509
+#: cookie/class-cookie-admin.php:3527
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3553
+#: cookie/class-cookie-admin.php:3571
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3573
+#: cookie/class-cookie-admin.php:3591
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3576
+#: cookie/class-cookie-admin.php:3594
 msgid "Syncing..."
 msgstr ""
 
@@ -11822,7 +11822,7 @@ msgid ""
 "                            to %shttps://complianz.io/consent%s."
 msgstr ""
 
-#: rest-api/rest-api.php:141
+#: rest-api/rest-api.php:140
 msgctxt "cookie policy"
 msgid "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings."
 msgstr ""
@@ -12223,7 +12223,7 @@ msgid "Self-hosted and privacy-friendly analytics tool."
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:148
-msgid "Get detailed insights into visitors' behaviour with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins."
+msgid "Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins."
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:157

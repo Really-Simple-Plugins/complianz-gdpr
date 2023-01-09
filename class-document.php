@@ -2377,6 +2377,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			// override default attributes with user attributes
 			$atts   = shortcode_atts( array(
 				'cache_redirect'   => false,
+				'scroll_into_view'   => true,
 				'service'   => 'general',
 				'category'   => false,
 				'text'   => $blocked_text,
@@ -2386,6 +2387,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else {
 				$cache_redirect = false;
 			}
+			$scroll_into_view = $atts['scroll_into_view']==="true" || $atts['scroll_into_view']=== 1 || $atts['scroll_into_view'] === true;
 			$category = $atts['category'] ? sanitize_text_field($atts['category']) : 'no-category';
 			$service = $atts['category'] ? 'no-service' : sanitize_text_field($atts['service']);
 			$blocked_text = sanitize_text_field( $atts['text'] );
@@ -2408,52 +2410,53 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else {
 				//no consent
 				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
+				$redirect_uri = $scroll_into_view ? 'cmplz_consent=1#cmplz_consent_area_anchor' : 'cmplz_consent=1';
 				if ( $cache_redirect ) { ?>
-				<script>
-					var url = window.location.href;
-					var consented_area_visible = document.getElementById('cmplz_consent_area_anchor');
-					if (url.indexOf('cmplz_consent=1') !== -1 && !consented_area_visible ) {
-						url = url.replace('cmplz_consent=1', '');
-						url = url.replace('#cmplz_consent_area_anchor', '');
-						url = url.replace('?&', '?');
-						url = url.replace('&&', '?');
-						//if last character is ? or &, drop it
-						if (url.substring(url.length-1) == "&" || url.substring(url.length-1) == "?")
-						{
-							url = url.substring(0, url.length-1);
-						}
-						window.location.replace(url);
-					}
-
-					document.addEventListener("cmplz_enable_category", cmplzEnableCustomBlockedContent);
-					function cmplzEnableCustomBlockedContent(e) {
-						if ( cmplz_has_service_consent('<?=$service?>' ) || cmplz_has_consent('<?=$category?>' )){
-							if (url.indexOf('cmplz_consent=1') === -1 ) {
-								if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
-								url += 'cmplz_consent=1#cmplz_consent_area_anchor';
-								window.location.replace(url);
+					<script>
+						var url = window.location.href;
+						var consented_area_visible = document.getElementById('cmplz_consent_area_anchor');
+						if (url.indexOf('cmplz_consent=1') !== -1 && !consented_area_visible ) {
+							url = url.replace('cmplz_consent=1', '');
+							url = url.replace('#cmplz_consent_area_anchor', '');
+							url = url.replace('?&', '?');
+							url = url.replace('&&', '?');
+							//if last character is ? or &, drop it
+							if (url.substring(url.length-1) === "&" || url.substring(url.length-1) === "?")
+							{
+								url = url.substring(0, url.length-1);
 							}
+							window.location.replace(url);
 						}
-					}
-				</script>
-				<?php } else { ?>
-				<script>
+
 						document.addEventListener("cmplz_enable_category", cmplzEnableCustomBlockedContent);
 						function cmplzEnableCustomBlockedContent(e) {
-							if ( cmplz_has_service_consent('<?=$service?>' ) && !document.getElementById("cmplz_consent_area_anchor") ){
-								location.reload();
-							}
-							if ( e.detail.category === '<?=$category?>' && !document.getElementById("cmplz_consent_area_anchor") ){
-								location.reload();
+							if ( cmplz_has_service_consent('<?=$service?>' ) || cmplz_has_consent('<?=$category?>' )){
+								if (url.indexOf('cmplz_consent=1') === -1 ) {
+									if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
+									url += '<?php echo $redirect_uri?>';
+									window.location.replace(url);
+								}
 							}
 						}
-				</script>
+					</script>
+				<?php } else { ?>
+					<script>
+							document.addEventListener("cmplz_enable_category", cmplzEnableCustomBlockedContent);
+							function cmplzEnableCustomBlockedContent(e) {
+								if ( cmplz_has_service_consent('<?php echo $service?>', 'marketing' ) && !document.getElementById("cmplz_consent_area_anchor") ){
+									location.reload();
+								}
+								if ( e.detail.category === '<?php echo $category?>' && !document.getElementById("cmplz_consent_area_anchor") ){
+									location.reload();
+								}
+							}
+					</script>
 				<?php } ?>
 				<div class="cmplz-consent-area">
 					<?php if ($atts['category']) {?>
-						<a href="#" data-category="<?=$category?>" class="cmplz-accept-marketing <?php echo ' cmplz_'.sanitize_title( $category );?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
+						<a href="#" data-category="<?=$category?>" class="cmplz-accept-category <?php echo ' cmplz_'. $category;?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
 					<?php } else {?>
-						<a href="#" data-service="<?=$service?>" class="cmplz-accept-service <?php echo ' cmplz_'.sanitize_title( $service );?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
+						<a href="#" data-service="<?=$service?>" class="cmplz-accept-service <?php echo ' cmplz_'. $service;?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
 					<?php }?>
 				</div>
 				<?php
@@ -2753,7 +2756,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//get correct translated id
 			$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
 
-			return get_permalink( $policy_page_id );
+			$permalink = get_permalink( $policy_page_id );
+			return $permalink ?: '#';
 		}
 
 		/**

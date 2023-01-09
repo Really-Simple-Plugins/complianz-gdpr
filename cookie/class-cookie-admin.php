@@ -982,6 +982,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
 				curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
 				curl_setopt( $ch, CURLOPT_POST, 1 );
+				#in case of local SSL issues, allow for skipping
+				$ssl_verification = apply_filters('cmplz_ssl_verify', get_site_option('cmplz_ssl_verify', 'true' )==='true' );
+				if ( !$ssl_verification ) {
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
 				curl_setopt( $ch, CURLOPT_POSTFIELDS, $json );
 				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 				curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
@@ -991,6 +997,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
+				if (curl_errno($ch)) {
+					$error_msg = curl_error($ch);
+					update_option('cmplz_curl_error', $error_msg, false );
+//					if ( strpos($error_msg, 'SSL certificate problem' )!==false ){
+//						update_site_option('cmplz_ssl_verify', 'false');
+//					}
+				}
 				if ( $result === false ) {
 					$error = true;
 				}
@@ -1312,6 +1325,11 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
 				curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
 				curl_setopt( $ch, CURLOPT_POST, 1 );
+				$ssl_verification = apply_filters('cmplz_ssl_verify', get_site_option('cmplz_ssl_verify', 'true' )==='true' );
+				if ( !$ssl_verification ) {
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
 				curl_setopt( $ch, CURLOPT_POSTFIELDS, $json );
 				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 				curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
