@@ -535,7 +535,6 @@ function cmplz_has_blocked_scripts(){
  * */
 
 function cmplz_enable_category(category, service) {
-
 	if ( complianz.tm_categories == 1 && category !== '') {
 		cmplz_run_tm_event(category);
 	}
@@ -559,7 +558,6 @@ function cmplz_enable_category(category, service) {
 	} else {
 		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category='+category+']';
 	}
-
 	document.querySelectorAll(selector).forEach(obj => {
 		let blockedElementService = obj.getAttribute('data-service');
 		if (obj.parentNode.classList.contains('cmplz-blocked-content-notice')) {
@@ -861,12 +859,11 @@ window.conditionally_show_banner = function() {
 	for (let key in rev_cats) {
 		if ( rev_cats.hasOwnProperty(key) ) {
 			let category = cmplz_categories[key];
-			if (cmplz_has_consent(category)) {
+			if ( cmplz_has_consent(category) ) {
 				cmplz_enable_category(category);
 			}
 		}
 	}
-
 	if ( cmplz_exists_service_consent() ) {
 		//if any service is enabled, allow the general services also, because some services are partially 'general'
 		cmplz_enable_category('', 'general');
@@ -925,6 +922,7 @@ window.conditionally_show_banner = function() {
 			cmplz_accept_all();
 		}
 	} else {
+		console.log('global privacy control or do not track detected: no banner.');
 		cmplz_track_status( 'do_not_track' );
 	}
 }
@@ -1138,7 +1136,6 @@ window.cmplz_has_consent = function ( category ){
  * @returns {boolean|*}
  */
 window.cmplz_is_service_denied = function ( service ) {
-	if ( cmplz_do_not_track() ) return true;
 	//Check if it's in the consented services cookie
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
@@ -1162,8 +1159,6 @@ window.cmplz_is_service_denied = function ( service ) {
  * @returns {boolean|*}
  */
 window.cmplz_has_service_consent = function ( service, category ) {
-	if ( cmplz_do_not_track() ) return false;
-
 	//Check if it's in the consented services cookie
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
@@ -1186,8 +1181,6 @@ window.cmplz_has_service_consent = function ( service, category ) {
  * @returns {boolean}
  */
 function cmplz_exists_service_consent(){
-	if ( cmplz_do_not_track() ) return false;
-
 	var consented_services_json = cmplz_get_cookie('consented_services');
 	var consented_services;
 	try {
