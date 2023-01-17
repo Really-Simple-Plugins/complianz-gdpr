@@ -962,18 +962,29 @@ function cmplz_get_services_on_page(){
  * */
 
 window.show_cookie_banner = function () {
+	console.log("starting show cookie banner function...");
+
 	let disableCookiebanner = complianz.disable_cookiebanner || cmplz_is_speedbot();
+	if (complianz.disable_cookiebanner){
+		console.log("banner disabled in the settings");
+
+	}
+	if (cmplz_is_speedbot()){
+		console.log("speedbot detected");
+	}
 	//do not show banner when manage consent area on cookie policy is visible
 	//when users use only the shortcode, the manage consent container is not active, but the dropdown cookie policy class is.
 	//when the complianz shortcode is used, the dropdown cookie policy class is loaded late because it's loaded with javascript.
 	let tmpDismissCookiebanner = false;
 	if ( document.querySelector('#cmplz-manage-consent-container') || document.querySelector('.cmplz-dropdown-cookiepolicy') ) {
+		console.log("detected cookie policy, dismiss banner temporarily");
 		tmpDismissCookiebanner = true;
 	}
 
 	var fragment = document.createDocumentFragment();
 	let container = document.getElementById('cmplz-cookiebanner-container');
 	if (container) {
+		console.log("found banner container");
 		fragment.appendChild(container);
 		document.body.prepend(fragment);
 	}
@@ -983,6 +994,7 @@ window.show_cookie_banner = function () {
 	//get correct banner, based on banner_id
 	cmplz_banner = document.querySelector('.cmplz-cookiebanner.banner-'+complianz.user_banner_id+'.'+complianz.consenttype);
 	if ( !cmplz_banner ) {
+		console.log("no banner html detected");
 		disableCookiebanner = true;
 	}
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
@@ -995,9 +1007,16 @@ window.show_cookie_banner = function () {
 	link.type = "text/css";
 	link.rel = "stylesheet";
 	link.onload = function () {
+		console.log("CSS file loading completed");
+
 		if ( !disableCookiebanner ) {
+			console.log("remove hidden class from banner");
+
 			cmplz_banner.classList.remove('cmplz-hidden');
 			cmplz_manage_consent_button.classList.remove('cmplz-hidden');
+		} else {
+			console.log("banner is disabled");
+
 		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(link);
@@ -1019,13 +1038,18 @@ window.show_cookie_banner = function () {
 		cmplz_set_banner_status();
 		//we don't use the setBannerStatus function here, as we don't want to save it in a cookie now.
 		if ( tmpDismissCookiebanner ) {
+			console.log("tmp dismiss banner, remove show class, add dismissed class");
+
 			cmplz_banner.classList.remove('cmplz-show');
 			cmplz_banner.classList.add('cmplz-dismissed');
 			cmplz_manage_consent_button.classList.remove('cmplz-dismissed');
 			cmplz_manage_consent_button.classList.add('cmplz-show');
+		} else {
+			console.log("NOT tmp dismiss banner");
+
 		}
 	}
-
+	console.log("Finished show banner");
 	let event = new CustomEvent('cmplz_cookie_warning_loaded', {detail: complianz.region});
 	document.dispatchEvent(event);
 }
