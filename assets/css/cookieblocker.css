@@ -18,10 +18,8 @@
 }
 .cmplz-blocked-content-container,
 .cmplz-wp-video {
-  -webkit-animation-name: cmplz-fadein;
-          animation-name: cmplz-fadein;
-  -webkit-animation-duration: 600ms;
-          animation-duration: 600ms;
+  animation-name: cmplz-fadein;
+  animation-duration: 600ms;
   background: #FFF;
   border: 0;
   border-radius: 3px;
@@ -114,14 +112,6 @@
 .cmplz-wp-video .cmplz-placeholder-element {
   width: 100%;
   height: inherit;
-}
-@-webkit-keyframes cmplz-fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 @keyframes cmplz-fadein {
   from {
