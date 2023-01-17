@@ -190,8 +190,8 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 		'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
                     <span class="cmplz-contact-address">[address_company]</span><br>
                     <span class="cmplz-contact-country">[country_company]</span><br>
-                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-domain">[domain]</span><br>
-                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-email">[email_company]</span><br>
+                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' <span class="cmplz-contact-domain">[domain]</span><br>
+                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' <span class="cmplz-contact-email">[email_company]</span><br>
                     <span class="cmplz-contact-telephone">[telephone_company]</span>',
 	),
 
