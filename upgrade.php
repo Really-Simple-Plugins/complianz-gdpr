@@ -977,7 +977,7 @@ function cmplz_check_upgrade() {
 	//	}
 
 	//ensure new capability
-	if ( $prev_version && version_compare( $prev_version, '6.4.0', '<' ) ) {
+	if ( $prev_version && version_compare( $prev_version, '6.4.1', '<' ) ) {
 		cmplz_add_manage_privacy_capability();
 	}
 
