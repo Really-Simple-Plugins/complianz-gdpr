@@ -176,6 +176,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.4.0 =
+* Fix: function name error in microsoft ads integrations, props @mustafauysal
 * Fix: GPC & DNT in opt out regions not respected, props @ahegyes
 * Improvement: conditional scroll into view on consent area shortcode, props @falkemediawy
 * Improvement: MPDF update, props @sviluppomania
