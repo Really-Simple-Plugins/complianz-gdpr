@@ -1,0 +1,19 @@
+{
+  "name": "complianz-gdpr",
+  "version": "6.0.0",
+  "description": "Gutenberg block for Complianz GDPR",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rogierlankhorst",
+  "license": "GPL-2.0-only",
+  "devDependencies": {
+    "@wordpress/scripts": "^22.0.1"
+  },
+  "dependencies": {
+    "react-native-html-parser": "^0.1.0"
+  }
+}
