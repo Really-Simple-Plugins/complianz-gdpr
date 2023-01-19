@@ -2088,8 +2088,11 @@ function cmplz_clear_storage(item){
  */
 
 function cmplz_load_manage_consent_container() {
+	//don't load manage html code in the block editor
 	let manage_consent_container = document.querySelector('.cmplz-manage-consent-container');
-	if ( manage_consent_container ) {
+	let is_block_editor = false;//document.querySelector('.wp-admin .cmplz-unlinked-mode');
+	if ( manage_consent_container && !is_block_editor ) {
+
 		var request = new XMLHttpRequest();
 		request.open('GET', complianz.url+'manage_consent_html?'+complianz.locale, true);
 		request.setRequestHeader('Content-type', 'application/json');
@@ -2173,7 +2176,6 @@ function cmplzCopyAttributes(source, target) {
           attribute.nodeValue,
         );
   	}
-
   });
 }
 

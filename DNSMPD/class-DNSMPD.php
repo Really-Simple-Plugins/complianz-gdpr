@@ -334,7 +334,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		private function send_notification_mail(  ) {
 			$email   = sanitize_email( apply_filters('cmplz_datarequest_email',get_option( 'admin_email' )) );
 			$subject = cmplz_sprintf(__("You have received a new data request on %s", "complianz-gdpr") , get_bloginfo( 'name' ) );
-			$message = $subject.'<br>'.cmplz_sprintf(__("Please check the data request on %s", "complianz-gdpr"), '<a href="'.site_url().'" target="_blank">'.site_url().'</a>');
+			$message = $subject.'<br />'.cmplz_sprintf(__("Please check the data request on %s", "complianz-gdpr"), '<a href="'.site_url().'" target="_blank">'.site_url().'</a>');
 			$this->send_mail( $email, $subject, $message );
 		}
 

@@ -970,7 +970,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					MINUTE_IN_SECONDS );
 				//add the plugins list to the data
 				$plugins         = get_option( 'active_plugins' );
-				$data['plugins'] = "<pre>" . implode( "<br>", $plugins )
+				$data['plugins'] = "<pre>" . implode( "<br />", $plugins )
 				                   . "</pre>";
 				$data['website'] = '<a href="' . esc_url_raw( site_url() )
 				                   . '">' . esc_url_raw( site_url() ) . '</a>';
@@ -3528,12 +3528,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						name="clear"
 					>
 				</div>
-				<br>
+				<br />
 				<div class="cmplz-label"><label><?php _e( "Cookie scan", "complianz-gdpr" ) ?></label></div>
 				<div id="cmplz-scan-progress">
 					<div class="cmplz-progress-bar"></div>
 				</div>
-				<br>
+				<br />
 				<div class="detected-cookies">
 					<?php echo $this->get_detected_cookies_table(); ?>
 				</div>

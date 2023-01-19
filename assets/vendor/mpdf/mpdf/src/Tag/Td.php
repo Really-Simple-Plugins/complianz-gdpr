@@ -441,7 +441,7 @@ class Td extends Tag
 				$this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['maxs'] = $this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['s'];
 			}
 
-			// Remove last <br> if at end of cell
+			// Remove last <br /> if at end of cell
 			$ntb = 0;
 			if (isset($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['textbuffer'])) {
 				$ntb = count($this->mpdf->cell[$this->mpdf->row][$this->mpdf->col]['textbuffer']);

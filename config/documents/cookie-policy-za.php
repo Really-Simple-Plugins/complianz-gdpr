@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['za']['cookie-statement']['document_elements'] = array(
 	'last-updated' => array(
-		'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of South Africa.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br>',
+		'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of South Africa.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br />',
 	),
 	'introduction' => array(
 		'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -187,11 +187,11 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 		'content' => _x('For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:', 'Legal document cookie policy', 'complianz-gdpr'),
 	),
 	'contact-details-2' => array(
-		'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
-                    <span class="cmplz-contact-address">[address_company]</span><br>
-                    <span class="cmplz-contact-country">[country_company]</span><br>
-                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' <span class="cmplz-contact-domain">[domain]</span><br>
-                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . ' <span class="cmplz-contact-email">[email_company]</span><br>
+		'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br />
+                    <span class="cmplz-contact-address">[address_company]</span><br />
+                    <span class="cmplz-contact-country">[country_company]</span><br />
+                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-domain">[domain]</span><br />
+                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . '<span class="cmplz-contact-email">[email_company]</span><br />
                     <span class="cmplz-contact-telephone">[telephone_company]</span>',
 	),
 

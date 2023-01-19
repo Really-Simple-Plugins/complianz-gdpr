@@ -493,7 +493,7 @@ function cmplz_hide_cookiebanner_metabox(){
 	$checked = !$disabled && get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
 
 	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" '.$disabled.' />' . $option_label ;
-	if ($disabled) echo '<br><i>'.__("On a cookie policy, the banner will be minimized by default", "complianz-gdpr").'</i>';
+	if ($disabled) echo '<br /><i>'.__("On a cookie policy, the banner will be minimized by default", "complianz-gdpr").'</i>';
 	echo '</label>';
 }
 

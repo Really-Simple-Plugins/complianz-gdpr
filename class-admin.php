@@ -322,7 +322,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function plugin_update_message($plugin_data, $response){
 			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
-				echo '<br><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
 
@@ -459,7 +459,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( !isset($warning['open'])) {
 				return;
 			}
-			$dismiss_btn = '<br><br><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
+			$dismiss_btn = '<br /><br /><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
 			cmplz_admin_notice($warning['open'].$dismiss_btn, $id);
 		}
 
