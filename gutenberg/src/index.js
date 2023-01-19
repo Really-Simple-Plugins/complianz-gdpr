@@ -385,14 +385,4 @@ registerBlockType('complianz/document', {
 		// Rendering in PHP
 		return null;
 	},
-
-	// save: () => {
-	// 	const blockProps = useBlockProps.save();
-	//
-	// 	return (
-	// 		<div { ...blockProps }>
-	// 			<InnerBlocks.Content />
-	// 		</div>
-	// 	);
-	// },
 });
