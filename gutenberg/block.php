@@ -1,5 +1,4 @@
 <?php
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -14,7 +13,7 @@ function cmplz_editor_assets() {
 	$asset_file = include( plugin_dir_path( __FILE__ ) . 'build/index.asset.php');
 	wp_enqueue_script(
 		'cmplz-block',
-		plugins_url( 'gutenberg/build/index.js', dirname( __FILE__ ) ),
+		plugins_url( 'gutenberg/build/index.js', __DIR__ ),
 		$asset_file['dependencies'],
 		$asset_file['version'],
 		true
