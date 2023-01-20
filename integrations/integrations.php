@@ -48,6 +48,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Divi Plugin',
 			'firstparty_marketing' => false,
 	),
+	'agile-store-locator' => array(
+			'constant_or_function' => 'ASL_PLUGIN_PATH',
+			'label'                => 'Agile Store Locator',
+			'firstparty_marketing' => false,
+	),
 	'lead-forensics' => array(
 			'constant_or_function' => 'LFRTrackingCode',
 			'label'                => 'Lead Forensics',

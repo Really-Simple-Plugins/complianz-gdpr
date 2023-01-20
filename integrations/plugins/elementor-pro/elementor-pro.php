@@ -63,7 +63,7 @@ class CMPLZ_Elementor_Pro {
 ////		}
 //	}
 	public function after_save_wizard_option( $fieldname, $fieldvalue, $prev_value, $type ) {
-		if (!current_user_can('manage_privacy_options')) return;
+		if (!cmplz_user_can_manage()) return;
 		if ($prev_value === $fieldvalue) return;
 		if ($fieldname==='create_legal_hub_elementor' && $fieldvalue==='yes'){
 			$this->create_legal_hub = true;

@@ -9,6 +9,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $steps = array();
 		public $formal_languages = array();
 		public $generic_documents_list;
+		public $supported_states;
+		public $cookie_consent_converter;
+		public $language_codes;
 
 		public $supported_regions;
 

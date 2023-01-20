@@ -944,6 +944,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			$msg   = '';
 			$error = false;
 			$data  = $this->get_syncable_cookies();
+			error_log("cookies");
+			error_log(print_r($data, true));
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
 				$msg   = __( 'You haven\'t accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes.', 'complianz-gdpr' );
@@ -997,6 +999,8 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				);
 
 				$result = curl_exec( $ch );
+				error_log("response");
+				error_log(print_r($result, true));
 				if (curl_errno($ch)) {
 					$error_msg = curl_error($ch);
 					update_option('cmplz_curl_error', $error_msg, false );

@@ -2768,12 +2768,8 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 
 if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 	function cmplz_user_can_manage() {
-		if ( cmplz_wp_privacy_version() && current_user_can( 'manage_privacy_options' )
+		if ( current_user_can( apply_filters('cmplz_capability','manage_privacy') )
 		) {
-			return true;
-		}
-
-		if ( current_user_can('manage_privacy_options') ) {
 			return true;
 		}
 

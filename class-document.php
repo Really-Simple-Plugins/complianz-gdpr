@@ -1817,7 +1817,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			$this->clear_assigned_menu_items();
-			$assigned_menu = $_POST['cmplz_assigned_menu'][$type];
+			$assigned_menu = $_POST['cmplz_assigned_menu'][ $type ] ?? false;
 			if ( is_array($assigned_menu) ) {
 				foreach (
 					$assigned_menu as $page_id => $menu_id

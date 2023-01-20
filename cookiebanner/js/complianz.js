@@ -115,20 +115,19 @@ let cmplz_categories = [
  * @returns {string}
  */
 
-window.cmplz_get_cookie = function(name) {
-	if (typeof document === 'undefined') {
-		return '';
+window.cmplz_get_cookie = function (name) {
+	if (typeof document === "undefined") {
+		return "";
 	}
-	name = complianz.prefix+name + "=";
-	let cArr = document.cookie.split(';');
-	for (let i = 0; i < cArr.length; i++) {
-		let c = cArr[i].trim();
-		if (c.indexOf(name) == 0)
-			return c.substring(name.length, c.length);
+	name = complianz.prefix + name;
+	const value = "; " + document.cookie;
+	const parts = value.split("; " + name + "=");
+	if ( parts.length === 2 ) {
+		return parts.pop().split(";").shift();
 	}
 
 	return "";
-}
+};
 
 /*
  * set a cookie
@@ -2167,12 +2166,14 @@ function cmplz_equals (array_1, array_2) {
 function cmplzCopyAttributes(source, target) {
   return Array.from(source.attributes).forEach(attribute => {
   	//don't copy the type attribute
-  	if ( attribute.nodeName!=='type' && attribute.nodeName!=='data-service' && attribute.nodeName!=='data-category' ) {
-  	    target.setAttribute(
-          attribute.nodeName,
-          attribute.nodeValue,
-        );
-  	}
+    let excludes = ['type', 'data-service', 'data-category', 'async'];
+	if ( !excludes.includes(attribute.nodeName) ) {
+		  console.log("copy attribute to script element: "+attribute.nodeName);
+		 target.setAttribute(
+		  attribute.nodeName,
+		  attribute.nodeValue,
+		);
+	}
 
   });
 }

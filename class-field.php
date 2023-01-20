@@ -2145,7 +2145,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 					);
 
 					$value  = wp_parse_args( $value, $default_index );
-					$create_processing_agreement_link = '<a href="' . admin_url( "edit.php?post_type=cmplz-processing" ) . '">';
+					$create_processing_agreement_link = '<a href="' . admin_url( "admin.php?page=cmplz-processing-agreements" ) . '">';
 
 					$processing_agreement_outside_c = floatval( ( $value['processing_agreement'] ) == - 1 ) ? 'selected' : '';
 					$html = '<div class="multiple-field">
