@@ -624,6 +624,7 @@ function cmplz_integration_plugin_is_active( $plugin ){
 			   || function_exists( $details['constant_or_function'] )
 			   || class_exists( $details['constant_or_function'] )
 			   || ( $theme && ($theme->name === $details['constant_or_function']) )
+			   || ( $theme && $theme->parent() !== false && $theme->parent()->name === $details['constant_or_function'] )
 			)
 	     	&& $enabled
 	) {
