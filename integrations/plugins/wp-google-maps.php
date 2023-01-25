@@ -5,6 +5,8 @@ if ( !defined('CMPLZ_GOOGLE_MAPS_INTEGRATION_ACTIVE') ) define('CMPLZ_GOOGLE_MAP
 function cmplz_wp_google_maps_whitelist($tags){
 	$tags[] = 'WPGMZA_localized_data';
 	$tags[] = 'maps.google.com';
+	$tags[] = 'maps.googleapis.com';
+	$tags[] = 'openstreetmap.org';
 
 	return $tags;
 }
@@ -24,7 +26,8 @@ function cmplz_wp_google_maps_script( $tags ) {
 			'category' => 'marketing',
 			'placeholder' => 'google-maps',
 			'urls' => array(
-					'wp-google-maps',
+					'wp-google-maps/js/',
+					'wp-google-maps-pro',
 			),
 			'enable_placeholder' => '1',
 			'placeholder_class' => 'wpgmza_map',
@@ -81,5 +84,3 @@ function cmplz_wp_google_maps_detected_services( $services ) {
 	return $services;
 }
 add_filter( 'cmplz_detected_services', 'cmplz_wp_google_maps_detected_services' );
-
-
