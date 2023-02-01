@@ -28,8 +28,14 @@ function cmplz_wp_google_maps_script( $tags ) {
 			'urls' => array(
 					'wp-google-maps/js/',
 					'wp-google-maps-pro',
+					'wp-google-maps-gold',
 			),
 			'enable_placeholder' => '1',
+			'enable_dependency' => '1',
+			'dependency' => [
+				//'wait-for-this-script' => 'script-that-should-wait'
+				'wp-google-maps/js/' => 'wp-google-maps-gold'
+			],
 			'placeholder_class' => 'wpgmza_map',
 	);
 	return $tags;
