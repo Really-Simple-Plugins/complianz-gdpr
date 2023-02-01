@@ -12,8 +12,7 @@
     "phpcompatibility/phpcompatibility-wp": "^2.0",
     "yoast/phpunit-polyfills": "^1.0",
     "phpunit/phpunit": "^9",
-    "wp-cli/wp-cli-bundle": "^2.7",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5"
+    "wp-cli/wp-cli-bundle": "^2.7"
   },
 
   "minimum-stability": "dev",
@@ -24,8 +23,5 @@
     ]
   },
   "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
   }
 }
