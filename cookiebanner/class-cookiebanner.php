@@ -103,7 +103,7 @@ function cmplz_install_cookiebanner_table() {
 
 if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 	class CMPLZ_COOKIEBANNER {
-		public $id = false;
+		public $ID = false;
 		public $banner_version = 0;
 		public $title;
 		public $default = false;
@@ -184,9 +184,9 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $disable_width_correction;
 		public $legal_documents;
 
-        function __construct( $id = false, $set_defaults = true ) {
+        function __construct( $ID = false, $set_defaults = true ) {
 	        $this->translation_id = $this->get_translation_id();
-	        $this->id             = $id;
+	        $this->ID             = $ID;
 	        $this->set_defaults   = $set_defaults;
 	        $this->get();
 
@@ -215,7 +215,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$wpdb->prefix . 'cmplz_cookiebanners',
 				$array
 			);
-			$this->id = $wpdb->insert_id;
+			$this->ID = $wpdb->insert_id;
 		}
 
 		/**
@@ -255,11 +255,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		private function get() {
 			global $wpdb;
-			if ( (int) $this->id > 0 ) {
-				$cookiebanner = get_transient('cmplz_cookiebanner_'.$this->id);
+			if ( (int) $this->ID > 0 ) {
+				$cookiebanner = get_transient('cmplz_cookiebanner_'.$this->ID);
 				if ( !$cookiebanner ){
-					$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->id ) ) );
-					set_transient('cmplz_cookiebanner_'.$this->id, $cookiebanner, HOUR_IN_SECONDS);
+					$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->ID ) ) );
+					set_transient('cmplz_cookiebanner_'.$this->ID, $cookiebanner, HOUR_IN_SECONDS);
 				}
 
 				if ( $cookiebanner ) {
@@ -491,10 +491,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				set_transient('cmplz_min_banner_id', $lowest, HOUR_IN_SECONDS );
 			}
 
-			if ( $lowest == $this->id ) {
+			if ( $lowest == $this->ID ) {
 				return '';
 			} else {
-				return $this->id;
+				return $this->ID;
 			}
 		}
 
@@ -532,7 +532,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( !cmplz_user_can_manage() && !wp_doing_cron() ) {
 				return;
 			}
-			if ( ! $this->id ) {
+			if ( ! $this->ID ) {
 				$this->add();
 			}
 			$this->banner_version++;
@@ -618,7 +618,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			global $wpdb;
 			$updated = $wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 				$update_array,
-				array( 'ID' => $this->id )
+				array( 'ID' => $this->ID )
 			);
 
 			if ( $updated === 0 ) {
@@ -628,13 +628,13 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			//get database value for "default"
 			$db_default
 				= $wpdb->get_var( $wpdb->prepare( "select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s",
-				$this->id ) );
+				$this->ID ) );
 			if ( $this->default && ! $db_default ) {
 				$this->enable_default();
 			} elseif ( ! $this->default && $db_default ) {
 				$this->remove_default();
 			}
-			delete_transient('cmplz_cookiebanner_'.$this->id);
+			delete_transient('cmplz_cookiebanner_'.$this->ID);
 			delete_transient('cmplz_min_banner_id');
 			delete_transient('cmplz_default_banner_id');
 
@@ -744,11 +744,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 
 				$wpdb->delete( $wpdb->prefix . 'cmplz_cookiebanners', array(
-					'ID' => $this->id,
+					'ID' => $this->ID,
 				) );
 
 				//clear all statistics regarding this banner
-				$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}cmplz_statistics SET cookiebanner_id = 0 where poc_url=%s", $this->id) ;
+				$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}cmplz_statistics SET cookiebanner_id = 0 where poc_url=%s", $this->ID) ;
 				$wpdb->query($sql);
 			}
 
@@ -866,7 +866,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				//now set this one to not default and save
 				$wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 					array( 'default' => false ),
-					array( 'ID' => $this->id )
+					array( 'ID' => $this->ID )
 				);
 
 			}
@@ -892,7 +892,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				//now set this one to default
 				$wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 					array( 'default' => true ),
-					array( 'ID' => $this->id )
+					array( 'ID' => $this->ID )
 				);
 			}
 
@@ -978,7 +978,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$sql = $wpdb->prepare("SELECT count(*) from {$wpdb->prefix}cmplz_statistics WHERE time> %s $category_sql $consenttype_sql" , $ab_testing_start_time );
 
 			if ( cmplz_ab_testing_enabled() ) {
-				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s", $this->id );
+				$sql = $wpdb->prepare( $sql . " AND cookiebanner_id=%s", $this->ID );
 			}
 			return $wpdb->get_var( $sql );
 		}
@@ -1025,7 +1025,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 		public function get_html_settings() {
 			$output = array(
-				'id'                        => $this->id,
+				'id'                        => $this->ID,
 				'logo'                      => $this->get_banner_logo(),
 				'header'                    => $this->header_x,
 				'accept_optin'              => $this->accept_x,
@@ -1197,7 +1197,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			$consent_types = cmplz_get_used_consenttypes();
 			$settings = $this->get_css_settings();
-			$banner_id = $this->id ?: 'new';
+			$banner_id = $this->ID ?: 'new';
 			foreach ( $consent_types as $consent_type ) {
 				$css_files = $this->get_css_file_modules($consent_type, $preview);
 				$css = "";
@@ -1264,7 +1264,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			if ( !$preview ) {
 				$upload_dir = $uploads['basedir'];
 				$consent_types = cmplz_get_used_consenttypes();
-				$banner_id = $this->id;
+				$banner_id = $this->ID;
 				foreach ( $consent_types as $consent_type ) {
 					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
 					if ( ! file_exists( $upload_dir . $file ) ) {

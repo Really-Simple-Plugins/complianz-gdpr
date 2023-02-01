@@ -1689,17 +1689,11 @@ if ( !function_exists('cmplz_has_recommended_phpversion')) {
 }
 
 if ( ! function_exists( 'cmplz_array_filter_multidimensional' ) ) {
-	function cmplz_array_filter_multidimensional(
-		$array, $filter_key, $filter_value
-	) {
-		$new = array_filter( $array,
-			function ( $var ) use ( $filter_value, $filter_key ) {
-				return isset( $var[ $filter_key ] ) ? ( $var[ $filter_key ]
-				                                        == $filter_value )
-					: false;
+	function cmplz_array_filter_multidimensional( $array, $filter_key, $filter_value ): array {
+		return array_filter( $array,
+			static function ( $var ) use ( $filter_value, $filter_key ) {
+				return isset( $var[ $filter_key ] ) && $var[ $filter_key ] === $filter_value;
 			} );
-
-		return $new;
 	}
 }
 
@@ -1770,121 +1764,118 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 
 		$allowed_tags = array(
 			'a'          => array(
-				'class'  => array(),
-				'href'   => array(),
-				'rel'    => array(),
-				'title'  => array(),
-				'target' => array(),
-				'id' => array(),
+				'class'  => [],
+				'href'   => [],
+				'rel'    => [],
+				'title'  => [],
+				'target' => [],
+				'id' => [],
 			),
 			'button'     => array(
-				'id'  => array(),
-				'class'  => array(),
-				'href'   => array(),
-				'rel'    => array(),
-				'title'  => array(),
-				'target' => array(),
+				'id'  => [],
+				'class'  => [],
+				'href'   => [],
+				'rel'    => [],
+				'title'  => [],
+				'target' => [],
 			),
-			'b'          => array(),
-			'br'         => array(),
+			'b'          => [],
+			'br'         => [],
 			'blockquote' => array(
-				'cite' => array(),
+				'cite' => [],
 			),
-			'div'        => array(
-				'class' => array(),
-				'id'    => array(),
+			'div' => array(
+				'class' => [],
+				'id'    => [],
 			),
-			'h1'         => array(),
+			'h1'         => [],
 			'h2'         => array(),
-			'h3'         => array(),
-			'h4'         => array(),
-			'h5'         => array(),
-			'h6'         => array(),
-			'i'          => array(),
+			'h3'         => [],
+			'h4'         => [],
+			'h5'         => [],
+			'h6'         => [],
+			'i'          => [],
 			'input'      => array(
-				'type'        => array(),
-				'class'       => array(),
-				'name'        => array(),
-				'id'          => array(),
-				'required'    => array(),
-				'value'       => array(),
-				'placeholder' => array(),
-				'data-category' => array(),
-				'data-service' => array(),
+				'type'        => [],
+				'class'       => [],
+				'name'        => [],
+				'id'          => [],
+				'required'    => [],
+				'value'       => [],
+				'placeholder' => [],
+				'data-category' => [],
+				'data-service' => [],
 				'style' => array(
-					'color' => array(),
+					'color' => [],
 				),			),
 			'img'        => array(
-				'alt'    => array(),
-				'class'  => array(),
-				'height' => array(),
-				'src'    => array(),
-				'width'  => array(),
+				'alt'    => [],
+				'class'  => [],
+				'height' => [],
+				'src'    => [],
+				'width'  => [],
 			),
 			'label'      => array(
-				'for' => array(),
-				'class' => array(),
+				'for' => [],
+				'class' => [],
 				'style' => array(
-					'visibility' => array(),
+					'visibility' => [],
 				),
 			),
 			'li'         => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'ol'         => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'p'          => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'span'       => array(
-				'class' => array(),
-				'title' => array(),
+				'class' => [],
+				'title' => [],
 				'style' => array(
-					'color' => array(),
-					'display' => array(),
+					'color' => [],
+					'display' => [],
 				),
-				'id'    => array(),
+				'id'    => [],
 			),
-			'strong'     => array(),
+			'strong'     => [],
 			'table'      => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
-			'tr'         => array(),
+			'tr'         => [],
 			'details' => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'summary' => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'svg'         => array(
-				'width' => array(),
-				'height' => array(),
-				'viewBox' => array(),
+				'width' => [],
+				'height' => [],
+				'viewBox' => [],
 			),
 			'polyline'    => array(
-				'points' => array(),
-
+				'points' => [],
 			),
 			'path'    => array(
-				'd' => array(),
+				'd' => [],
 
 			),
-			'style'      => array(),
-			'td'         => array( 'colspan' => array(), 'scope' => array() ),
-			'th'         => array( 'scope' => array() ),
+			'style'      => [],
 			'ul'         => array(
-				'class' => array(),
-				'id'    => array(),
+				'class' => [],
+				'id'    => [],
 			),
 			'form'         => array(
-					'id'    => array(),
+					'id'    => [],
 			),
 		);
 
@@ -2057,6 +2048,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			'hideEmpty'    => true,
 			'ignored'      => false
 		);
+
 		if ( cmplz_get_value( 'wp_admin_access_users' ) === 'yes' ) {
 			$args['isMembersOnly'] = 'all';
 		}
@@ -2118,9 +2110,8 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						$link_close
 					), $cookies_row );
 				}
-                $cookieHTML .= str_replace( array( '{purpose}' ), array( $purpose ), $purpose_row );
-				$cookieHTML = str_replace(array('{cookies_per_purpose}'), array($cookies_per_purpose_HTML), $cookieHTML);
-				array_push($allPurposes, $purpose);
+				$cookieHTML = str_replace( array( '{purpose}', '{cookies_per_purpose}' ), array( $purpose, $cookies_per_purpose_HTML ), $purpose_row );
+				$allPurposes[] = $purpose;
 			}
 
 			$service_name = $service->name;
@@ -2137,7 +2128,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						. cmplz_sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
 			} else if ( $service->sharesData  ) {
 				$attributes = "noopener noreferrer nofollow";
-				if ( strlen( $service->privacyStatementURL ) != 0 ) {
+				if ( $service->privacyStatementURL !== '' ) {
 					$link    = '<a target="_blank" rel="'.$attributes.'" href="' . $service->privacyStatementURL . '">';
 					$sharing = cmplz_sprintf( __( 'For more information, please read the %s%s Privacy Statement%s.', 'complianz-gdpr' ), $link, $service_name, '</a>' );
 				}
@@ -2768,12 +2759,8 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 
 if ( ! function_exists( 'cmplz_user_can_manage' ) ) {
 	function cmplz_user_can_manage() {
-		if ( cmplz_wp_privacy_version() && current_user_can( 'manage_privacy_options' )
+		if ( current_user_can( apply_filters('cmplz_capability','manage_privacy') )
 		) {
-			return true;
-		}
-
-		if ( current_user_can('manage_privacy_options') ) {
 			return true;
 		}
 

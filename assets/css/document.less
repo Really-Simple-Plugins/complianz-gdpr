@@ -4,7 +4,7 @@
   margin: auto auto;
 }
 
-#cmplz-document {
+#cmplz-document, .editor-styles-wrapper .cmplz-unlinked-mode {
   font-size: 14px;
   margin-top: 0;
   max-width: 800px;
@@ -36,33 +36,6 @@
 	margin-right:20px;
 	min-width:100px;
 	display:inline-block
-  }
-
-  .cmplz-alert {
-	display:none;
-    padding: 7px;
-    color: white;
-    margin: 10px 0;
-	&.cmplz-error {
-	  background-color: #f44336;
-	}
-	&.cmplz-success {
-	  background-color: green;
-	}
-  }
-
-  .cmplz-close {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-	&:hover {
-	  color: black;
-	}
   }
 
   h2, h3 {
@@ -155,7 +128,8 @@
   }
 }
 //needs to apply both to separate cookie shortcode, cookie policy and privacy policy
-#cmplz-cookies-overview .cmplz-dropdown, #cmplz-document .cmplz-dropdown{
+#cmplz-cookies-overview, #cmplz-document,.editor-styles-wrapper .cmplz-unlinked-mode{
+.cmplz-dropdown {
   background-color: rgba(239, 239, 239, 0.25);
   h4 {
 	font-size: 18px;
@@ -282,4 +256,5 @@
 	  }
 	}
   }
+}
 }

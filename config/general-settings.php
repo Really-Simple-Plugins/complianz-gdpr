@@ -201,8 +201,8 @@ $this->fields = $this->fields + array(
 					'label'              => __( "Notification email content", 'complianz-gdpr' ),
 					'default'            => '<p>' .  __( 'Hi {name}', 'complianz-gdpr' ) . '</p>'
 					                        . '<p>' .  __( 'We have received your request on {blogname}. Depending on the specific request and legal obligations we might follow-up.', 'complianz-gdpr' ) . '</p>'
-											. '<br>' . '<p>' . _x( 'Kind regards,' , 'email signature', 'complianz-gdpr' ) . '</p>'
-					                        . '<br>' . '<p>' . '{blogname} ' . '</p>',
+											. '<br />' . '<p>' . _x( 'Kind regards,' , 'email signature', 'complianz-gdpr' ) . '</p>'
+					                        . '<br />' . '<p>' . '{blogname} ' . '</p>',
 					'tooltip' => __( "Email content used for Data Request email notifications.", 'complianz-gdpr' ),
 					'callback_condition' => array(
 						'cmplz_datarequests_or_dnsmpi_active',
