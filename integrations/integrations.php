@@ -28,6 +28,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'omnisend' => array(
+			'constant_or_function' => 'OMNISEND_SETTINGS_PAGE',
+			'label'                => 'Email Marketing for WooCommerce by Omnisend',
+			'firstparty_marketing' => false,
+	),
+
 	'bb-powerpack' => array(
 			'constant_or_function' => 'BB_PowerPack',
 			'label'                => 'Beaver Builder Power Pack',
@@ -46,6 +52,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'divi-plugin' => array(
 			'constant_or_function' => 'ET_BUILDER_PLUGIN_DIR',
 			'label'                => 'Divi Plugin',
+			'firstparty_marketing' => false,
+	),
+	'agile-store-locator' => array(
+			'constant_or_function' => 'ASL_PLUGIN_PATH',
+			'label'                => 'Agile Store Locator',
 			'firstparty_marketing' => false,
 	),
 	'lead-forensics' => array(

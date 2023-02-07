@@ -169,7 +169,6 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 		);
 
 		return apply_filters( 'cmplz_report_customer_columns', $columns );
-
 	}
 
 	/**
@@ -290,7 +289,6 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 				$time = date( get_option( 'time_format' ), $request->request_date );
 				$date = cmplz_localize_date($request->request_date);
 				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
-//				$region = isset(COMPLIANZ::$config->regions[$request->region]['label_full']) ? COMPLIANZ::$config->regions[$request->region]['label_full'] :;
 				$region = cmplz_region_icon( $request->region, 25);
 				$data[] = array(
 						'ID'          => $request->ID,
@@ -301,10 +299,11 @@ class cmplz_DNSMPD_Table extends WP_List_Table {
 						'datarequest' => $datarequest,
 						'date'       => $date,
 				);
+
 			}
 		}
 
-		return $data;
+		return apply_filters('cmplz_datarequest_data', $data);
 	}
 
 	/**

@@ -197,7 +197,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				'complianz',
 				__( 'Proof of consent', 'complianz-gdpr' ),
 				__( 'Proof of consent', 'complianz-gdpr' ),
-				'manage_privacy_options',
+				apply_filters('cmplz_capability','manage_privacy'),
 				"cmplz-proof-of-consent",
 				array( $this, 'cookie_statement_snapshots' )
 			);

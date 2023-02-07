@@ -115,20 +115,19 @@ let cmplz_categories = [
  * @returns {string}
  */
 
-window.cmplz_get_cookie = function(name) {
-	if (typeof document === 'undefined') {
-		return '';
+window.cmplz_get_cookie = function (name) {
+	if (typeof document === "undefined") {
+		return "";
 	}
-	name = complianz.prefix+name + "=";
-	let cArr = document.cookie.split(';');
-	for (let i = 0; i < cArr.length; i++) {
-		let c = cArr[i].trim();
-		if (c.indexOf(name) == 0)
-			return c.substring(name.length, c.length);
+	name = complianz.prefix + name;
+	const value = "; " + document.cookie;
+	const parts = value.split("; " + name + "=");
+	if ( parts.length === 2 ) {
+		return parts.pop().split(";").shift();
 	}
 
 	return "";
-}
+};
 
 /*
  * set a cookie
@@ -1274,11 +1273,13 @@ function cmplz_get_cookie_domain(){
  */
 window.cmplz_set_consent = function (category, value){
 	cmplz_set_accepted_cookie_policy_id();
-	var previous_value = cmplz_get_cookie(category);
+	//functional is always allow
+	value = category==='functional' ? 'allow' : value;
+	let previous_value = cmplz_get_cookie(category);
 
 	//keep checkboxes in banner and on cookie policy in sync
 	//do this before the change check to ensure sync: https://github.com/Really-Simple-Plugins/complianz-gdpr/issues/324
-	var checked = value === 'allow';
+	let checked = value === 'allow';
 	document.querySelectorAll('input.cmplz-'+category).forEach(obj => {
 		obj.checked = checked;
 	});
@@ -2088,8 +2089,11 @@ function cmplz_clear_storage(item){
  */
 
 function cmplz_load_manage_consent_container() {
+	//don't load manage html code in the block editor
 	let manage_consent_container = document.querySelector('.cmplz-manage-consent-container');
-	if ( manage_consent_container ) {
+	let is_block_editor = false;//document.querySelector('.wp-admin .cmplz-unlinked-mode');
+	if ( manage_consent_container && !is_block_editor ) {
+
 		var request = new XMLHttpRequest();
 		request.open('GET', complianz.url+'manage_consent_html?'+complianz.locale, true);
 		request.setRequestHeader('Content-type', 'application/json');
@@ -2167,13 +2171,13 @@ function cmplz_equals (array_1, array_2) {
 function cmplzCopyAttributes(source, target) {
   return Array.from(source.attributes).forEach(attribute => {
   	//don't copy the type attribute
-  	if ( attribute.nodeName!=='type' && attribute.nodeName!=='data-service' && attribute.nodeName!=='data-category' ) {
-  	    target.setAttribute(
-          attribute.nodeName,
-          attribute.nodeValue,
-        );
-  	}
-
+    let excludes = ['type', 'data-service', 'data-category', 'async'];
+	if ( !excludes.includes(attribute.nodeName) ) {
+		 target.setAttribute(
+		  attribute.nodeName,
+		  attribute.nodeValue,
+		);
+	}
   });
 }
 
