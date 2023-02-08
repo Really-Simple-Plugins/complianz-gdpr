@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['br']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of Brazil.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br>',
+        'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of Brazil.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br />',
     ),
     array(
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -186,13 +186,13 @@ $this->pages['br']['cookie-statement']['document_elements'] = array(
     ),
 	'complaints-address' => array(
 		'p' => false,
-		'content' => 	'<br>Autoridade Nacional de Proteção de Dados
-						<br>
-						<br>Esplanada dos Ministérios,
-						<br>Bloco C,
-						<br>2º andar,
-						<br>CEP 70297-400 - Brasília – DF.
-						<br><a href="https://www.gov.br/anpd/pt-br/canais_atendimento/" target="_blank">'. _x('Website', 'Legal document', 'complianz-gdpr') . '</a>',
+		'content' => 	'<br />Autoridade Nacional de Proteção de Dados
+						<br />
+						<br />Esplanada dos Ministérios,
+						<br />Bloco C,
+						<br />2º andar,
+						<br />CEP 70297-400 - Brasília – DF.
+						<br /><a href="https://www.gov.br/anpd/pt-br/canais_atendimento/" target="_blank">'. _x('Website', 'Legal document', 'complianz-gdpr') . '</a>',
 	),
 
     'contact-details' => array(

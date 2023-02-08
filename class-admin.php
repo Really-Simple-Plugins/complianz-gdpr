@@ -16,6 +16,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			self::$_this = $this;
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 			add_action( 'admin_menu', array( $this, 'register_admin_page' ), 20 );
+			add_action( 'cmplz_activation', array( $this, 'activation' ), 20 );
 
 			$plugin = cmplz_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
@@ -42,6 +43,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 		static function this() {
 			return self::$_this;
+		}
+
+		public function activation(){
 		}
 
 		public function install_burst_html(){
@@ -322,7 +326,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function plugin_update_message($plugin_data, $response){
 			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
-				echo '<br><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
 
@@ -459,7 +463,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( !isset($warning['open'])) {
 				return;
 			}
-			$dismiss_btn = '<br><br><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
+			$dismiss_btn = '<br /><br /><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
 			cmplz_admin_notice($warning['open'].$dismiss_btn, $id);
 		}
 
@@ -732,7 +736,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$cmplz_admin_page = add_menu_page(
 				__( 'Complianz', 'complianz-gdpr' ),
 				$menu_label,
-				'manage_privacy_options',
+				apply_filters('cmplz_capability','manage_privacy'),
 				'complianz',
 				array( $this, 'dashboard' ),
 				cmplz_url . 'assets/images/menu-icon.svg',
@@ -743,7 +747,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Dashboard', 'complianz-gdpr' ),
 				__( 'Dashboard', 'complianz-gdpr' ),
-				'manage_privacy_options',
+				apply_filters('cmplz_capability','manage_privacy'),
 				'complianz',
 				array( $this, 'dashboard' )
 			);
@@ -752,7 +756,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Wizard', 'complianz-gdpr' ),
 				__( 'Wizard', 'complianz-gdpr' ),
-				'manage_privacy_options',
+				apply_filters('cmplz_capability','manage_privacy'),
 				'cmplz-wizard',
 				array( $this, 'wizard_page' )
 			);
@@ -764,7 +768,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz',
 				__( 'Settings' ),
 				__( 'Settings' ),
-				'manage_privacy_options',
+				apply_filters('cmplz_capability','manage_privacy'),
 				"cmplz-settings",
 				array( $this, 'settings' )
 			);
@@ -778,7 +782,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					$highest_index          = count( $submenu['complianz'] );
 					$submenu['complianz'][] = array(
 							__( 'Upgrade to premium', 'complianz-gdpr' ),
-							'manage_privacy_options',
+							apply_filters('cmplz_capability','manage_privacy'),
 							'https://complianz.io/l/pricing'
 					);
 					if ( isset( $submenu['complianz'][ $highest_index ] ) ) {

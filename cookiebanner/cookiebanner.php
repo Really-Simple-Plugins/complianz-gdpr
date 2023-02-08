@@ -190,7 +190,7 @@ function cmplz_cookiebanner_admin_menu() {
 		'complianz',
 		__( 'Cookie banner', 'complianz-gdpr' ),
 		__( 'Cookie banner', 'complianz-gdpr' ),
-		'manage_privacy_options',
+		apply_filters('cmplz_capability','manage_privacy'),
 		'cmplz-cookiebanner',
 		'cmplz_cookiebanner_overview'
 	);
@@ -225,10 +225,10 @@ function cmplz_duplicate_cookiebanner() {
 		$new_banner = new CMPLZ_COOKIEBANNER();
 		$new_banner->save();
 		//store id
-		$new_banner_id = $new_banner->id;
+		$new_banner_id = $new_banner->ID;
 		//copy data
 		$new_banner = $banner;
-		$new_banner->id = $new_banner_id;
+		$new_banner->ID = $new_banner_id;
 		$new_banner->save();
 		$response = json_encode( array(
 				'success' => true,
@@ -268,7 +268,7 @@ function cmplz_cookiebanner_form_submit() {
 	$banner->process_form( $_POST );
 
 	if ( isset( $_POST['cmplz_add_new'] ) ) {
-		wp_redirect( admin_url( 'admin.php?page=cmplz-cookiebanner&id=' . $banner->id ) );
+		wp_redirect( admin_url( 'admin.php?page=cmplz-cookiebanner&id=' . $banner->ID ) );
 		exit;
 	}
 }
@@ -493,7 +493,7 @@ function cmplz_hide_cookiebanner_metabox(){
 	$checked = !$disabled && get_post_meta($post->ID, 'cmplz_hide_cookiebanner', true) ? 'checked' : '';
 
 	echo '<label><input type="checkbox" ' . $checked . ' name="cmplz_hide_cookiebanner" value="1" '.$disabled.' />' . $option_label ;
-	if ($disabled) echo '<br><i>'.__("On a cookie policy, the banner will be minimized by default", "complianz-gdpr").'</i>';
+	if ($disabled) echo '<br /><i>'.__("On a cookie policy, the banner will be minimized by default", "complianz-gdpr").'</i>';
 	echo '</label>';
 }
 

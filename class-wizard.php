@@ -514,7 +514,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                         2 * MINUTE_IN_SECONDS) / 60;
 
                 cmplz_notice(sprintf(__("The wizard is currently being edited by %s",
-                        'complianz-gdpr'), $user->user_nicename) . '<br>'
+                        'complianz-gdpr'), $user->user_nicename) . '<br />'
                     . cmplz_sprintf(__("If this user stops editing, the lock will expire after %s minutes.",
                         'complianz-gdpr'), $lock_time), 'warning');
 

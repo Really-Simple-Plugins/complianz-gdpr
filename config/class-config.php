@@ -9,6 +9,9 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public $steps = array();
 		public $formal_languages = array();
 		public $generic_documents_list;
+		public $supported_states;
+		public $cookie_consent_converter;
+		public $language_codes;
 
 		public $supported_regions;
 
@@ -306,7 +309,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'tiktok' => 'Tik Tok'
 			);
 
-				/* config files */
+			/* config files */
 			require_once( cmplz_path . '/config/countries.php' );
 			require_once( cmplz_path . '/config/purpose.php' );
 			require_once( cmplz_path . '/config/steps.php' );
@@ -321,7 +324,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/documents/cookie-policy-au.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-za.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-br.php' );
-			require_once(cmplz_path . '/cookiebanner/settings.php' );
+			require_once( cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
 				require_once( cmplz_path . '/pro/config/includes.php' );
@@ -481,7 +484,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'upgraded_to_6' => array(
 					'warning_condition'  => 'cmplz_upgraded_to_current_version',
 					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-6-0/'),'6.0.0' ).'&nbsp;'.
-					          '<br><br>'.cmplz_sprintf(__('We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s.','complianz-gdpr'),'<a href="'.$banner_url.'">','</a>').'&nbsp;'.
+					          '<br /><br />'.cmplz_sprintf(__('We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s.','complianz-gdpr'),'<a href="'.$banner_url.'">','</a>').'&nbsp;'.
 					          __('You can reset to default values, if needed.','complianz-gdpr'),
 					'admin_notice' => true,
 				),
@@ -634,7 +637,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 						'NOT cmplz_get_console_errors',
 					),
 					'open' => __( 'Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality.', 'complianz-gdpr' )
-					                 . '<br>'.__("Last error in the console:", "complianz-gdpr")
+					                 . '<br />'.__("Last error in the console:", "complianz-gdpr")
 					                 .'<div style="color:red">'
 					                 . cmplz_get_console_errors()
 					                 .'</div>'
