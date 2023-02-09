@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.3.9.1\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-11T09:12:43+00:00\n"
+"POT-Creation-Date: 2023-02-08T12:02:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
@@ -163,27 +163,27 @@ msgstr ""
 msgid "You have selected options that indicate your site processes sensitive, personal data. You should select 'Yes'"
 msgstr ""
 
-#: class-admin.php:56
+#: class-admin.php:60
 msgid "Burst Statistics from Complianz"
 msgstr ""
 
-#: class-admin.php:57
+#: class-admin.php:61
 msgid "Self-hosted and privacy-friendly analytics tool"
 msgstr ""
 
-#: class-admin.php:69
+#: class-admin.php:73
 msgid "Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins"
 msgstr ""
 
-#: class-admin.php:71
-#: class-admin.php:72
-#: class-admin.php:826
+#: class-admin.php:75
+#: class-admin.php:76
+#: class-admin.php:830
 #: upgrade/upgrade-to-pro.php:190
 msgid "Installed"
 msgstr ""
 
-#: class-admin.php:71
-#: class-admin.php:823
+#: class-admin.php:75
+#: class-admin.php:827
 #: pro/templates/dashboard/documents-conditional.php:10
 #: templates/dashboard/documents-conditional.php:41
 #: upgrade/upgrade-to-pro.php:146
@@ -192,16 +192,16 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: class-admin.php:314
+#: class-admin.php:318
 msgid "Data successfully cleared"
 msgstr ""
 
-#: class-admin.php:373
+#: class-admin.php:377
 msgid "Copied!"
 msgstr ""
 
-#: class-admin.php:392
-#: class-admin.php:998
+#: class-admin.php:396
+#: class-admin.php:1002
 #: cookiebanner/settings.php:491
 #: integrations/integrations-menu.php:50
 #: pro/class-licensing.php:475
@@ -210,71 +210,71 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:399
+#: class-admin.php:403
 #: templates/dashboard/tools-footer.php:1
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:405
-#: class-admin.php:780
-#: config/class-config.php:701
+#: class-admin.php:409
+#: class-admin.php:784
+#: config/class-config.php:704
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:462
+#: class-admin.php:466
 msgid "Dismiss"
 msgstr ""
 
-#: class-admin.php:727
+#: class-admin.php:731
 msgid "Complianz %s"
 msgstr ""
 
-#: class-admin.php:733
+#: class-admin.php:737
 msgid "Complianz"
 msgstr ""
 
-#: class-admin.php:744
-#: class-admin.php:745
+#: class-admin.php:748
+#: class-admin.php:749
 #: shepherd/tour.php:73
 msgid "Dashboard"
 msgstr ""
 
-#: class-admin.php:753
-#: class-admin.php:754
+#: class-admin.php:757
+#: class-admin.php:758
 msgid "Wizard"
 msgstr ""
 
-#: class-admin.php:805
+#: class-admin.php:809
 #: pro/class-licensing.php:141
 #: pro/dataleak/class-dataleak.php:550
 #: pro/processing-agreements/class-processing.php:239
 msgid "You have activated the Multisite plugin on a non-Multisite environment. Please download the regular Complianz Premium plugin %svia your account%s and install it instead"
 msgstr ""
 
-#: class-admin.php:807
+#: class-admin.php:811
 #: pro/class-processing.php:116
 #: pro/dataleak/class-dataleak.php:552
 #: pro/processing-agreements/class-processing.php:241
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:829
+#: class-admin.php:833
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: class-admin.php:846
+#: class-admin.php:850
 msgid "All tasks (%s)"
 msgstr ""
 
-#: class-admin.php:848
+#: class-admin.php:852
 msgid "Remaining tasks (%s)"
 msgstr ""
 
-#: class-admin.php:854
+#: class-admin.php:858
 msgid "Your progress"
 msgstr ""
 
-#: class-admin.php:861
+#: class-admin.php:865
 #: config/steps.php:21
 #: config/steps.php:98
 #: pro/config/steps.php:21
@@ -282,23 +282,23 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: class-admin.php:864
+#: class-admin.php:868
 msgid "Last update"
 msgstr ""
 
-#: class-admin.php:869
+#: class-admin.php:873
 msgid "Tools"
 msgstr ""
 
-#: class-admin.php:877
+#: class-admin.php:881
 msgid "Tips & Tricks"
 msgstr ""
 
-#: class-admin.php:885
+#: class-admin.php:889
 msgid "Other plugins"
 msgstr ""
 
-#: class-admin.php:963
+#: class-admin.php:967
 #: config/steps.php:8
 #: cookiebanner/edit.php:39
 #: cookiebanner/settings.php:338
@@ -312,16 +312,16 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: class-admin.php:971
+#: class-admin.php:975
 #: pro/config/steps.php:105
 msgid "Data"
 msgstr ""
 
-#: class-admin.php:980
+#: class-admin.php:984
 msgid "Cookies"
 msgstr ""
 
-#: class-admin.php:988
+#: class-admin.php:992
 msgid "Advanced features"
 msgstr ""
 
@@ -401,115 +401,115 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: class-document.php:483
+#: class-document.php:481
 msgid "Region %s not activated for %s."
 msgstr ""
 
-#: class-document.php:597
+#: class-document.php:590
 msgid "Annex"
 msgstr ""
 
-#: class-document.php:733
+#: class-document.php:720
 msgid "(See paragraph %s)"
 msgstr ""
 
-#: class-document.php:739
+#: class-document.php:726
 msgid "(See annex %s)"
 msgstr ""
 
-#: class-document.php:781
-#: class-document.php:789
+#: class-document.php:768
+#: class-document.php:776
 msgctxt "if phonenumber is entered, this string is part of the sentence \"you may contact %s, via %s or by telephone via %s\""
 msgid "or by telephone on %s"
 msgstr ""
 
-#: class-document.php:871
+#: class-document.php:858
 msgid "and"
 msgstr ""
 
-#: class-document.php:978
+#: class-document.php:965
 msgid "This website uses the Privacy Suite for WordPress by Complianz to collect and record Browser and Device-based Consent. For this functionality, your IP address is anonymized and stored in our database."
 msgstr ""
 
-#: class-document.php:980
+#: class-document.php:967
 msgid "This service does not process any personally identifiable information and does not share any data with the service provider."
 msgstr ""
 
-#: class-document.php:983
+#: class-document.php:970
 #: pro/filters-actions.php:33
 msgid "For more information, see the Complianz %sPrivacy Statement%s."
 msgstr ""
 
-#: class-document.php:1111
+#: class-document.php:1098
 msgctxt "Subject in notification email"
 msgid "Your legal documents on %s need to be updated."
 msgstr ""
 
-#: class-document.php:1118
+#: class-document.php:1105
 msgctxt "notification email"
 msgid "Your legal documents on %s have not been updated in 12 months. Please log in and run the %swizard%s in the Complianz plugin to check if everything is up to date."
 msgstr ""
 
-#: class-document.php:1122
+#: class-document.php:1109
 msgid "This message was generated by Complianz GDPR/CCPA."
 msgstr ""
 
-#: class-document.php:1149
+#: class-document.php:1136
 msgctxt "cookie policy"
 msgid "You have loaded the Cookie Policy without javascript support."
 msgstr ""
 
-#: class-document.php:1150
+#: class-document.php:1137
 msgctxt "cookie policy"
 msgid "On AMP, you can use the manage consent button on the bottom of the page."
 msgstr ""
 
-#: class-document.php:1192
+#: class-document.php:1179
 msgid "Click to accept marketing cookies"
 msgstr ""
 
-#: class-document.php:1259
+#: class-document.php:1246
 msgid "Legal Document"
 msgstr ""
 
-#: class-document.php:1275
+#: class-document.php:1262
 msgid "Document status"
 msgstr ""
 
-#: class-document.php:1297
+#: class-document.php:1284
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:142
+#: gutenberg/src/index.js:186
 msgid "Synchronize document with Complianz"
 msgstr ""
 
-#: class-document.php:1301
+#: class-document.php:1288
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:143
+#: gutenberg/src/index.js:187
 msgid "Edit document and stop synchronization"
 msgstr ""
 
-#: class-document.php:1557
-#: class-document.php:1643
+#: class-document.php:1544
+#: class-document.php:1630
 msgid "Update pages"
 msgstr ""
 
-#: class-document.php:1593
+#: class-document.php:1580
 msgid "The pages marked with X should be added to your website. You can create these pages with a shortcode, a Gutenberg block or use the below \"Create missing pages\" button."
 msgstr ""
 
-#: class-document.php:1595
+#: class-document.php:1582
 msgid "All necessary pages have been created already. You can update the page titles here if you want, then click the \"Update pages\" button."
 msgstr ""
 
-#: class-document.php:1601
+#: class-document.php:1588
 msgid "You haven't selected any legal documents to create."
 msgstr ""
 
-#: class-document.php:1601
+#: class-document.php:1588
 msgid "You can continue to the next step."
 msgstr ""
 
-#: class-document.php:1634
+#: class-document.php:1621
 #: pro/templates/dashboard/documents-conditional.php:7
 #: templates/dashboard/documents-conditional.php:38
 #: templates/dashboard/documents.php:51
@@ -517,22 +517,22 @@ msgstr ""
 msgid "Click to copy the document shortcode"
 msgstr ""
 
-#: class-document.php:1641
+#: class-document.php:1628
 msgid "Create missing pages"
 msgstr ""
 
-#: class-document.php:1669
-#: class-document.php:1733
+#: class-document.php:1656
+#: class-document.php:1720
 msgid "Your WordPress version does not support the functions needed for this step. You can upgrade to the latest WordPress version, or add the pages manually to a menu."
 msgstr ""
 
-#: class-document.php:1702
-#: class-document.php:1763
-#: class-document.php:1783
+#: class-document.php:1689
+#: class-document.php:1750
+#: class-document.php:1770
 msgid "Select a menu"
 msgstr ""
 
-#: class-document.php:2376
+#: class-document.php:2363
 msgid "Click to accept the cookies for this service"
 msgstr ""
 
@@ -751,8 +751,8 @@ msgstr ""
 #: pro/config/questions-wizard.php:488
 #: pro/config/questions-wizard.php:554
 #: pro/config/questions-wizard.php:610
-#: pro/datarequests/class-datarequests.php:70
-#: pro/datarequests/class-datarequests.php:74
+#: pro/datarequests/class-datarequests.php:169
+#: pro/datarequests/class-datarequests.php:173
 #: templates/cookiepolicy/cookies_row.php:2
 #: templates/cookie_settings.php:4
 #: templates/do-not-sell-my-personal-data-form.php:15
@@ -801,7 +801,7 @@ msgstr ""
 
 #: class-field.php:2512
 #: class-field.php:2843
-#: integrations/integrations.php:793
+#: integrations/integrations.php:804
 msgid "Placeholder"
 msgstr ""
 
@@ -955,7 +955,7 @@ msgstr ""
 msgid "Complianz GDPR cannot be activated. The plugin requires WordPress 4.9 or higher"
 msgstr ""
 
-#: config/class-config.php:273
+#: config/class-config.php:276
 #: config/questions-wizard.php:417
 #: config/questions-wizard.php:435
 #: config/questions-wizard.php:787
@@ -966,7 +966,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: config/class-config.php:274
+#: config/class-config.php:277
 #: config/questions-wizard.php:313
 #: config/questions-wizard.php:418
 #: config/questions-wizard.php:436
@@ -980,218 +980,218 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: config/class-config.php:278
+#: config/class-config.php:281
 msgid "To enable the warning only for countries with a cookie law, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:283
-#: config/class-config.php:289
+#: config/class-config.php:286
+#: config/class-config.php:292
 msgid "If you want to run a/b testing to track which banner gets the highest acceptance ratio, %sget premium%s."
 msgstr ""
 
-#: config/class-config.php:295
+#: config/class-config.php:298
 #: config/general-settings.php:241
 #: cookiebanner/class-cookiebanner-table.php:246
 msgid "Default"
 msgstr ""
 
-#: config/class-config.php:469
+#: config/class-config.php:472
 msgid "New Feature: Data requests for Privacy Statements."
 msgstr ""
 
-#: config/class-config.php:476
+#: config/class-config.php:479
 msgid "Your PHP version is lower than the recommended PHP version. Some features are not available. Support for this PHP version will be dropped soon."
 msgstr ""
 
-#: config/class-config.php:483
+#: config/class-config.php:486
 msgid "Complianz GDPR/CCPA %s. Learn more about our newest release."
 msgstr ""
 
-#: config/class-config.php:484
+#: config/class-config.php:487
 msgid "We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s."
 msgstr ""
 
-#: config/class-config.php:485
+#: config/class-config.php:488
 msgid "You can reset to default values, if needed."
 msgstr ""
 
-#: config/class-config.php:493
+#: config/class-config.php:496
 msgid "The wizard has been completed."
 msgstr ""
 
-#: config/class-config.php:494
+#: config/class-config.php:497
 msgid "Not all fields have been entered, or you have not clicked the \"finish\" button yet."
 msgstr ""
 
-#: config/class-config.php:504
+#: config/class-config.php:507
 msgid "Do Not Track and Global Privacy Control are respected."
 msgstr ""
 
-#: config/class-config.php:505
+#: config/class-config.php:508
 msgid "Do Not Track and Global Privacy Control are not yet respected."
 msgstr ""
 
-#: config/class-config.php:513
+#: config/class-config.php:516
 msgid "We have dropped support for creating a cookie banner with Elementor Pro. Your banner defaults to a standard cookie banner."
 msgstr ""
 
-#: config/class-config.php:520
+#: config/class-config.php:523
 msgid "You have currently selected an informal language, which will result in informal use of language on the legal documents. If you prefer the formal style, you can activate this in the %sgeneral settings%s."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:533
 msgid "Google Fonts requires your attention."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:533
 msgid "We have added additional support and recommend reviewing your %ssettings%s."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:533
 msgid "Please read this %sarticle%s to read our position on self-hosting Google Fonts and Privacy by Design."
 msgstr ""
 
-#: config/class-config.php:539
+#: config/class-config.php:542
 msgid "No cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:540
+#: config/class-config.php:543
 msgid "Cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:540
+#: config/class-config.php:543
 msgid "Please review step %s of the wizard for changes in cookies."
 msgstr ""
 
-#: config/class-config.php:547
+#: config/class-config.php:550
 msgid "Last cookie scan completed on %s."
 msgstr ""
 
-#: config/class-config.php:548
+#: config/class-config.php:551
 msgid "No cookie scan has been completed yet."
 msgstr ""
 
-#: config/class-config.php:558
+#: config/class-config.php:561
 msgid "All required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:559
+#: config/class-config.php:562
 msgid "Not all required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:567
+#: config/class-config.php:570
 msgid "Great! You're already on SSL!"
 msgstr ""
 
-#: config/class-config.php:568
+#: config/class-config.php:571
 msgid "You don't have SSL on your site yet. Install SSL for Free with %sReally Simple SSL%s"
 msgstr ""
 
-#: config/class-config.php:578
+#: config/class-config.php:581
 msgid "Google Analytics is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:587
+#: config/class-config.php:590
 msgid "Google Tag Manager is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:596
+#: config/class-config.php:599
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:603
+#: config/class-config.php:606
 msgid "Your documents have not been updated in the past 12 months. Run the wizard to check your settings."
 msgstr ""
 
-#: config/class-config.php:611
+#: config/class-config.php:614
 msgid "You have cookies with incomplete descriptions."
 msgstr ""
 
-#: config/class-config.php:612
+#: config/class-config.php:615
 msgid "Enable the cookiedatabase.org API for automatic descriptions, or add these %smanually%s."
 msgstr ""
 
-#: config/class-config.php:624
+#: config/class-config.php:627
 msgid "You have a duplicate implementation of your statistics tool on your site."
 msgstr ""
 
-#: config/class-config.php:625
+#: config/class-config.php:628
 msgid "After the issue has been resolved, please re-run a scan to clear this message."
 msgstr ""
 
-#: config/class-config.php:636
+#: config/class-config.php:639
 msgid "Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:637
+#: config/class-config.php:640
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:649
+#: config/class-config.php:652
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:650
+#: config/class-config.php:653
 msgid "Your site is not configured to show a cookie banner at the moment."
 msgstr ""
 
-#: config/class-config.php:660
+#: config/class-config.php:663
 msgid "Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz."
 msgstr ""
 
-#: config/class-config.php:660
+#: config/class-config.php:663
 msgid "Enable"
 msgstr ""
 
-#: config/class-config.php:669
+#: config/class-config.php:672
 msgid "Your uploads folder is not writable. Complianz needs this folder to save the cookie banner CSS."
 msgstr ""
 
-#: config/class-config.php:680
+#: config/class-config.php:683
 msgid "We see you have enabled Google Maps as a service, but we can't find an integration. You can integrate manually if needed."
 msgstr ""
 
-#: config/class-config.php:688
+#: config/class-config.php:691
 msgid "We have detected the %s plugin on your website."
 msgstr ""
 
-#: config/class-config.php:688
+#: config/class-config.php:691
 msgid "As Complianz handles all the functionality this plugin provides, you should disable this plugin to prevent unexpected behaviour."
 msgstr ""
 
-#: config/class-config.php:695
+#: config/class-config.php:698
 msgid "Are you showing ads on your site? Consider implementing TCF."
 msgstr ""
 
-#: config/class-config.php:701
+#: config/class-config.php:704
 msgid "Create a Privacy Statement and other Legal Documents with Complianz."
 msgstr ""
 
-#: config/class-config.php:709
+#: config/class-config.php:712
 msgid "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!"
 msgstr ""
 
-#: config/class-config.php:709
+#: config/class-config.php:712
 msgid "Learn more."
 msgstr ""
 
-#: config/class-config.php:715
+#: config/class-config.php:718
 msgid "Legal compliance for webshops."
 msgstr ""
 
-#: config/class-config.php:722
+#: config/class-config.php:725
 msgid "Learn more about Google Consent Mode."
 msgstr ""
 
-#: config/class-config.php:729
+#: config/class-config.php:732
 msgid "Are you targeting multiple regions?"
 msgstr ""
 
-#: config/class-config.php:735
+#: config/class-config.php:738
 msgid "Statistics without Consent. Meet Burst Statistics from Complianz."
 msgstr ""
 
-#: config/class-config.php:735
+#: config/class-config.php:738
 msgid "Install directly from our wizard."
 msgstr ""
 
@@ -2871,7 +2871,7 @@ msgstr ""
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:546
 #: templates/dashboard/documents-conditional.php:10
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:266
+#: gutenberg/src/index.js:299
 msgid "Cookie Policy"
 msgstr ""
 
@@ -2883,7 +2883,7 @@ msgstr ""
 #: integrations/plugins/gravity-forms.php:148
 #: integrations/plugins/gravity-forms.php:188
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:265
+#: gutenberg/src/index.js:298
 msgid "Privacy Statement"
 msgstr ""
 
@@ -2903,7 +2903,7 @@ msgstr ""
 #: pro/config/documents/documents.php:84
 #: pro/config/steps.php:71
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:267
+#: gutenberg/src/index.js:300
 msgid "Disclaimer"
 msgstr ""
 
@@ -4344,12 +4344,12 @@ msgid "Create"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:2910
-#: functions.php:2160
+#: functions.php:2151
 msgid "Purpose pending investigation"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:3210
-#: DNSMPD/class-DNSMPD-table.php:292
+#: DNSMPD/class-DNSMPD-table.php:291
 #: DNSMPD/csv.php:73
 msgid "%s at %s"
 msgstr ""
@@ -5022,7 +5022,7 @@ msgid "Users"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD-table.php:128
-#: DNSMPD/class-DNSMPD-table.php:227
+#: DNSMPD/class-DNSMPD-table.php:226
 #: DNSMPD/csv.php:58
 msgid "Resolved"
 msgstr ""
@@ -5049,7 +5049,7 @@ msgstr ""
 #: pro/config/questions-wizard.php:503
 #: pro/config/questions-wizard.php:568
 #: pro/config/questions-wizard.php:625
-#: pro/datarequests/class-datarequests.php:78
+#: pro/datarequests/class-datarequests.php:177
 #: pro/framework/post-types.php:322
 #: templates/do-not-sell-my-personal-data-form.php:19
 msgid "Email"
@@ -5082,7 +5082,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: DNSMPD/class-DNSMPD-table.php:228
+#: DNSMPD/class-DNSMPD-table.php:227
 msgid "Unresolved"
 msgstr ""
 
@@ -5165,19 +5165,19 @@ msgid "Your request could not be processed. A request is already in progress for
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:488
-#: pro/datarequests/class-datarequests.php:75
+#: pro/datarequests/class-datarequests.php:174
 #: templates/do-not-sell-my-personal-data-form.php:17
 msgid "Your name"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:492
-#: pro/datarequests/class-datarequests.php:79
+#: pro/datarequests/class-datarequests.php:178
 #: templates/do-not-sell-my-personal-data-form.php:19
 msgid "email@email.com"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:505
-#: pro/datarequests/class-datarequests.php:91
+#: pro/datarequests/class-datarequests.php:190
 #: pro/templates/dashboard/support-footer.php:2
 #: templates/do-not-sell-my-personal-data-form.php:21
 msgid "Send"
@@ -5232,30 +5232,30 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2128
+#: functions.php:2119
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2135
-#: functions.php:2145
+#: functions.php:2126
+#: functions.php:2136
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2137
-#: functions.php:2142
+#: functions.php:2128
+#: functions.php:2133
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2147
+#: functions.php:2138
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2150
+#: functions.php:2141
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2157
+#: functions.php:2148
 #: pro/records-of-consent/class-records-of-consent.php:380
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:251
@@ -5270,19 +5270,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2648
+#: functions.php:2639
 #: pro/records-of-consent/class-records-of-consent-table.php:235
 #: pro/tcf/tcf.php:949
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2650
+#: functions.php:2641
 #: pro/records-of-consent/class-records-of-consent-table.php:238
 #: pro/tcf/tcf.php:948
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2652
+#: functions.php:2643
 msgid "All consent types"
 msgstr ""
 
@@ -5297,11 +5297,11 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:825
+#: integrations/integrations.php:836
 msgid "We have enabled integrations for plugins and services, please double-check your configuration."
 msgstr ""
 
-#: integrations/integrations.php:966
+#: integrations/integrations.php:977
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -11323,27 +11323,39 @@ msgstr ""
 msgid "Through which email address can customers make inquiries about your system?"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:35
-msgid "Request for access"
+#: pro/datarequests/class-datarequests.php:30
+msgid "No data reported by WordPress"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:36
-msgid "Submit a request for access to the data we process about you."
-msgstr ""
-
-#: pro/datarequests/class-datarequests.php:40
-msgid "Right to be forgotten"
-msgstr ""
-
-#: pro/datarequests/class-datarequests.php:41
-msgid "Submit a request for deletion of the data if it is no longer relevant."
-msgstr ""
-
-#: pro/datarequests/class-datarequests.php:45
-msgid "Right to data portability"
+#: pro/datarequests/class-datarequests.php:32
+msgid "Manage personal data"
 msgstr ""
 
 #: pro/datarequests/class-datarequests.php:46
+msgid "Reported data"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:60
+msgid "Request for access"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:61
+msgid "Submit a request for access to the data we process about you."
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:65
+msgid "Right to be forgotten"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:66
+msgid "Submit a request for deletion of the data if it is no longer relevant."
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:70
+msgid "Right to data portability"
+msgstr ""
+
+#: pro/datarequests/class-datarequests.php:71
 msgid "Submit a request to receive an export file of the data we process about you."
 msgstr ""
 
@@ -12313,45 +12325,44 @@ msgid "Your license key has reached its activation limit."
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:256
+#: gutenberg/src/index.js:289
 msgid "Legal document - Complianz"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:137
-#: gutenberg/src/index.js:191
-#: gutenberg/src/index.js:214
+#: gutenberg/src/index.js:183
+#: gutenberg/src/index.js:224
+#: gutenberg/src/index.js:248
 msgid "Select a document"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:138
+#: gutenberg/src/index.js:184
+#: gutenberg/src/index.js:239
 msgid "Loading..."
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:147
+#: gutenberg/src/index.js:191
 msgid "No documents found. Please finish the Complianz Privacy Suite wizard to generate documents"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:163
-msgid "Select a document type from the dropdownlist"
-msgstr ""
-
-#: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:161
-msgid "Click this block to show the options"
-msgstr ""
-
-#: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:187
-#: gutenberg/src/index.js:210
+#: gutenberg/src/index.js:220
+#: gutenberg/src/index.js:244
 msgid "Document settings"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:196
-#: gutenberg/src/index.js:220
+#: gutenberg/src/index.js:230
+#: gutenberg/src/index.js:255
 msgid "Document sync status"
+msgstr ""
+
+#: gutenberg/src/index.js:202
+msgid "Select a document type from the dropdownlist"
+msgstr ""
+
+#: gutenberg/src/index.js:202
+msgid "Click this block to show the options"
 msgstr ""

@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 6.4.0
+Stable tag: 6.4.1
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,23 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.1 =
+* Improvement: do not copy over async attribute to prevent issues re-initializing scripts in some setups
+* Improvement: get_cookie() function performance, props @lucastello
+* Improvement: add space behind contact details on policy
+* Improvement: add our own 'manage_privacy' capability, as the wordpress core manage_privacy_options is not implemented consistently with other capabilities
+* Improvement: catch not set array class-document.php 1820
+* Improvement: hide blocked iframes until they're consented to, for better UX
+* Improvement: PHP 8.2 compatibility
+* Improvement: export datarequests on symlinked folder setups (BASE_PATH -> ABSPATH)
+* Fix: links to processing agreement create page broken
+* Fix: Divi Recaptcha support
+* Fix: WP Go Maps Pro update
+* Fix: cosmetic change: cmplz_functional should always be allow, props @jidwictut9
+* Fix: when editing consent in unsynced mode in Gutenberg, content went missing because of automatically wrapping with divs by gutenberg and missing key props
+* New: Agile Store Locator integration
+* New: Omnisend Connect integration
+
 = 6.4.0 =
 * Fix: function name error in microsoft ads integrations, props @mustafauysal
 * Fix: GPC & DNT in opt out regions not respected, props @ahegyes

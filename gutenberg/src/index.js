@@ -6,15 +6,14 @@
  */
 
 import * as api from './utils/api';
-
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { InspectorControls } = wp.editor;
+const { InspectorControls } = wp.blockEditor;
 const { SelectControl } = wp.components;
 const { PanelBody, PanelRow } = wp.components;
-const { RichText } = wp.editor;
-const { Component } = wp.element;
+const { RichText } = wp.blockEditor;
 const el = wp.element.createElement;
+import {useState, useEffect, useRef} from "@wordpress/element";
 
 /**
  *  Set custom Complianz Icon
@@ -28,210 +27,244 @@ const iconEl =
 		el('path', { d: "M47.09,45H68.71L85,28.79H47.09a6.6,6.6,0,0,0-6.58,6.58v3A6.6,6.6,0,0,0,47.09,45Z" } ),
 	);
 
+const selectDocument = ({ className, isSelected, attributes, setAttributes }) => {
+	const [documents, setDocuments] = useState([]);
+	const [documentDataLoaded, setDocumentDataLoaded] = useState(false);
+	const [selectedDocument, setSelectedDocument] = useState(attributes.selectedDocument);
+	const [documentSyncStatus, setDocumentSyncStatus] = useState(attributes.documentSyncStatus);
+	const [customDocumentHtml, setCustomDocumentHtml] = useState('');
+	const divAttributes = useRef([]);
 
-class selectDocument extends Component {
-	// Method for setting the initial state.
-	static getInitialState(attributes) {
-		return {
-			documents: [],
-			selectedDocument: attributes.selectedDocument,
-			customDocument: attributes.customDocument,
-			documentSyncStatus : attributes.documentSyncStatus,
-			document: {},
-			hasDocuments: true,
-			preview: false,
-		};
-	}
 
-	// Constructing our component. With super() we are setting everything to 'this'.
-	// Now we can access the attributes with this.props.attributes
-	constructor() {
-		super(...arguments);
-		// Maybe we have a previously selected document. Try to load it.
-		this.state = this.constructor.getInitialState(this.props.attributes);
-	}
-
-	/**
-	 * Use a "lifecycle method" to prevent not yet mounted warning on setstate function
-	 * https://stackoverflow.com/questions/50162522/cant-call-setstate-on-a-component-that-is-not-yet-mounted
-	 */
-	componentWillMount() {
-		this.getDocuments();
-
-		// Bind so we can use 'this' inside the method.
-		this.getDocuments = this.getDocuments.bind(this);
-		this.onChangeSelectDocument = this.onChangeSelectDocument.bind(this);
-		this.onChangeSelectDocumentSyncStatus = this.onChangeSelectDocumentSyncStatus.bind(this);
-		this.onChangeCustomDocument = this.onChangeCustomDocument.bind(this);
-	}
-
-	getDocuments(args = {}) {
-		return (api.getDocuments()).then( ( response ) => {
+	useEffect(() => {
+		api.getDocuments().then( ( response ) => {
 			let documents = response.data;
-			if( documents && 0 !== this.state.selectedDocument ) {
+			setDocuments(documents);
+			setDocumentDataLoaded(true);
+			let documentData = false;
+			if ( documents && 0 !== selectedDocument ) {
 				// If we have a selected document, find that document and add it.
-				const document = documents.find( ( item ) => { return item.id == this.state.selectedDocument } );
+				documentData = documents.find( ( item ) => { return item.id === selectedDocument } );
 				if (documents.length === 0) {
-					this.setState({hasDocuments: false});
-					this.props.setAttributes({
+					setAttributes({
 						hasDocuments: false,
 					});
 				}
-
-				// This is the same as { document: document, documents: documents }
-				this.setState( { document, documents } );
-			} else {
-				// this.state.documents = documents;
-				this.setState({ documents });
 			}
-		});
-	}
 
-	onChangeSelectDocument(value) {
-		const document = this.state.documents.find((item) => {
-			return item.id === value
+			let tempHtml = '';
+			if ( documentData ) {
+				tempHtml = documentData.content;
+			}
+			if ( attributes.customDocument && attributes.customDocument.length>0 ){
+				tempHtml = attributes.customDocument;
+			}
+			tempHtml = convertHtmlForBlock(tempHtml);
+			setCustomDocumentHtml(tempHtml);
 		});
+	}, [])
 
+	const onChangeSelectDocument = (value) => {
 		// Set the state
-		this.setState({selectedDocument: value, document});
+		setSelectedDocument(value);
 
 		// Set the attributes
-		this.props.setAttributes({
+		setAttributes({
 			selectedDocument: value,
 		});
-
 	}
 
-	onChangeCustomDocument(value){
-		this.setState({customDocument: value});
-		// Set the attributes
-		this.props.setAttributes({
-			customDocument: value,
+	const onChangeCustomDocument = (html) => {
+		setCustomDocumentHtml(html);
+	}
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			let html = convertBlockToHtml(customDocumentHtml);
+			setAttributes( {
+				customDocument: html,
+			} );		}, 500)
+
+		return () => clearTimeout(timer)
+	}, [customDocumentHtml])
+
+	/**
+	 * The html in the block is stripped of some divs, and the root div. We put this back here.
+	 * @param html
+	 * @returns {string}
+	 */
+	const convertBlockToHtml = (html) => {
+		const fragment = document.createRange().createContextualFragment(html);
+		//restore manage consent divs
+		fragment.querySelectorAll('span#cmplz-manage-consent-container-nojavascript, span#cmplz-manage-consent-container, span.cmplz-datarequest').forEach(obj => {
+			let div = document.createElement('div');
+			div.innerHTML = obj.innerHTML;
+			//copy attributes
+			Array.from(obj.attributes).forEach(attribute => {
+				div.setAttribute(
+					attribute.nodeName,
+					attribute.nodeValue,
+				);
+			});
+			obj.replaceWith( div )
 		});
+
+		let divContainer = document.createElement('div');
+		divContainer.appendChild( fragment.cloneNode(true) );
+		//add root div again.
+		Array.from(divAttributes.current).forEach(attribute => {
+			divContainer.setAttribute(
+				attribute.nodeName,
+				attribute.nodeValue,
+			);
+		});
+		let rootContainer = document.createElement('div');
+		rootContainer.appendChild( divContainer );
+		return rootContainer.innerHTML;
 	}
 
-	onChangeSelectDocumentSyncStatus(value){
-		this.setState({documentSyncStatus: value});
-		// Set the attributes
-		this.props.setAttributes({
+	/**
+	 * Convert our document html to html we can use in the block, without a root div, and removed divs in the manage html
+	 *
+	 * @param html
+	 * @returns {string}
+	 */
+	const convertHtmlForBlock = (html) => {
+		let fragment = document.createRange().createContextualFragment(html);
+		//first, get html from root element, if exists. Otherwise the root div gets replicated by gutenberg.
+		fragment.querySelectorAll('div#cmplz-document').forEach(obj => {
+			html = obj.innerHTML;
+			divAttributes.current = obj.attributes;
+			fragment = document.createRange().createContextualFragment(html);
+		});
+		//add keys
+		let counter = 0;
+		fragment.querySelectorAll('details,li').forEach(obj => {
+			counter++;
+			obj.setAttribute('key', counter )
+		});
+		//remove manage consent divs to prevent weird layout issues
+		fragment.querySelectorAll('div#cmplz-manage-consent-container-nojavascript, div#cmplz-manage-consent-container, div.cmplz-datarequest').forEach(obj => {
+			let span = document.createElement('span');
+			span.innerHTML = obj.innerHTML;
+			//copy attributes
+			Array.from(obj.attributes).forEach(attribute => {
+				span.setAttribute(
+					attribute.nodeName,
+					attribute.nodeValue,
+				);
+			});
+			obj.replaceWith( span )
+		});
+
+		//put back
+		let div = document.createElement('div');
+		div.appendChild( fragment.cloneNode(true) );
+		return div.innerHTML;
+	}
+
+	const onChangeSelectDocumentSyncStatus = (value) =>{
+		setDocumentSyncStatus(value);
+		setAttributes({
 			documentSyncStatus: value,
 		});
 
-		if (value==='sync'){
-			//when sync is turned back on, we reset the customDocument data
-			let output = this.state.document.content;
-
-			this.setState({customDocument: output});
-			// this.state.customDocument = output;
-
-			// Set the attributes
-			this.props.setAttributes({
-				customDocument: output,
-			});
-		}
+		//we reset the customDocument data
+		const selectedDocumentData = documents.find((item) => {
+			return item.id === selectedDocument
+		});
+		let html = convertHtmlForBlock(selectedDocumentData.content);
+		setCustomDocumentHtml(html);
+		setAttributes({
+			customDocument: selectedDocumentData.content,
+		});
 	}
 
-	render() {
-		const { className, attributes: {} = {} } = this.props;
+	let options = [{value: 0, label: __('Select a document', 'complianz-gdpr')}];
+	let output = __('Loading...', 'complianz-gdpr');
+	let document_status_options = [
+		{value: 'sync', label: __('Synchronize document with Complianz', 'complianz-gdpr')},
+		{value: 'unlink', label: __('Edit document and stop synchronization', 'complianz-gdpr')},
+	];
 
-		let options = [{value: 0, label: __('Select a document', 'complianz-gdpr')}];
-		let output = __('Loading...', 'complianz-gdpr');
-		let id = 'document-title';
-		let documentSyncStatus = 'sync';
-		let document_status_options = [
-			{value: 'sync', label: __('Synchronize document with Complianz', 'complianz-gdpr')},
-			{value: 'unlink', label: __('Edit document and stop synchronization', 'complianz-gdpr')},
-		];
+	if ( !attributes.hasDocuments ){
+		output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz-gdpr');
+	}
 
-		if (!this.props.attributes.hasDocuments){
-			output = __('No documents found. Please finish the Complianz Privacy Suite wizard to generate documents', 'complianz-gdpr');
-			id = 'no-documents';
-		}
+	//preview
+	if ( attributes.preview ) {
+		return(
+			<img alt="preview" src={complianz.cmplz_preview} />
+		);
+	}
 
-		//preview
-		if (this.props.attributes.preview){
-			return(
-				<img src={complianz.cmplz_preview} />
-			);
-		}
+	if ( documentDataLoaded ) {
+		output = isSelected ? __("Select a document type from the dropdownlist", 'complianz-gdpr') : __('Click this block to show the options', 'complianz-gdpr');
+		documents.forEach((item) => {
+			options.push({value: item.id, label: item.title});
+		});
+	}
 
-		//build options
-		if (this.state.documents.length > 0) {
-			if (!this.props.isSelected){
-				output = __('Click this block to show the options', 'complianz-gdpr');
-			} else {
-				output = __('Select a document type from the dropdownlist', 'complianz-gdpr');
-			}
-			this.state.documents.forEach((document) => {
-				options.push({value: document.id, label: document.title});
-			});
-		}
+	//load content
+	if ( attributes.selectedDocument!==0 && documentDataLoaded && attributes.selectedDocument.length>0 ) {
+		const documentData = documents.find((item) => {
+			return item.id === attributes.selectedDocument
+		});
+		if (documentData) output = documentData.content;
+	}
 
-		//load content
-		if (this.props.attributes.selectedDocument!==0 && this.state.document && this.state.document.hasOwnProperty('title')) {
-			output = this.state.document.content;
-			id = this.props.attributes.selectedDocument;
-			documentSyncStatus = this.props.attributes.documentSyncStatus;
-		}
-
-		let customDocument = output;
-		if (this.props.attributes.customDocument.length>0){
-			customDocument = this.props.attributes.customDocument;
-		}
-
-		if (documentSyncStatus==='sync') {
-
-			return [
-				!!this.props.isSelected && (
-					<InspectorControls key='inspector'>
-						<PanelBody title={ __('Document settings', 'complianz-gdpr' ) }initialOpen={ true } >
-							<PanelRow>
-								<SelectControl onChange={this.onChangeSelectDocument}
-											   value={this.props.attributes.selectedDocument}
-											   label={__('Select a document', 'complianz-gdpr')}
-											   options={options}/>
-							</PanelRow><PanelRow>
-							<SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
-										   value={this.props.attributes.documentSyncStatus}
-										   label={__('Document sync status', 'complianz-gdpr')}
-										   options={document_status_options}/>
+	if ( documentSyncStatus==='sync' ) {
+		return [
+			!!isSelected && (
+				<InspectorControls key='inspector-document'>
+					<PanelBody title={ __('Document settings', 'complianz-gdpr' ) } initialOpen={ true } >
+						<PanelRow key="1">
+							<SelectControl onChange={ (e) => onChangeSelectDocument(e) }
+										   value={ selectedDocument }
+										   label={__('Select a document', 'complianz-gdpr')}
+										   options={options}/>
 						</PanelRow>
-						</PanelBody>
-
-					</InspectorControls>
-				),
-
-				<div key={id} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
-			]
-		} else {
-			return [
-				!!this.props.isSelected && (
-					<InspectorControls key='inspector'>
-						<PanelBody title={ __('Document settings', 'complianz-gdpr' ) }initialOpen={ true } >
-							<PanelRow>
-								<SelectControl onChange={this.onChangeSelectDocument}
-											   value={this.props.attributes.selectedDocument}
-											   label={__('Select a document', 'complianz-gdpr')}
-											   options={options}/>
-							</PanelRow><PanelRow>
-
-							<SelectControl onChange={this.onChangeSelectDocumentSyncStatus}
-										   value={this.props.attributes.documentSyncStatus}
-										   label={__('Document sync status', 'complianz-gdpr')}
-										   options={document_status_options}/>
+						<PanelRow key="2">
+							<SelectControl onChange={(e) => onChangeSelectDocumentSyncStatus(e) }
+									   value={documentSyncStatus}
+									   label={__('Document sync status', 'complianz-gdpr')}
+									   options={document_status_options}/>
 						</PanelRow>
-						</PanelBody>
-					</InspectorControls>
-				),
+					</PanelBody>
+				</InspectorControls>
+			),
+			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
+		]
+	} else {
+		let html = documentDataLoaded ? customDocumentHtml : __('Loading...', 'complianz-gdpr');
+		let syncClassName = className + ' cmplz-unlinked-mode';
+		return [
+			!!isSelected && (
+				<InspectorControls key='inspector-document-settings'>
+					<PanelBody title={ __('Document settings', 'complianz-gdpr' ) } initialOpen={ true } >
+						<PanelRow key="1">
+							<SelectControl onChange={(e) => onChangeSelectDocument(e) }
+										   value={attributes.selectedDocument}
+										   label={__('Select a document', 'complianz-gdpr')}
+										   options={options}/>
+						</PanelRow>
+						<PanelRow key="2">
 
-				<RichText
-					className={className}
-					value={customDocument}
-					autoFocus
-					onChange={this.onChangeCustomDocument}
-				/>
-			]
-		}
+							<SelectControl onChange={ (e) => onChangeSelectDocumentSyncStatus(e) }
+									   value={documentSyncStatus}
+									   label={__('Document sync status', 'complianz-gdpr')}
+									   options={document_status_options}/>
+						</PanelRow>
+					</PanelBody>
+				</InspectorControls>
+			),
+
+			<RichText key="rich-text-cmplz"
+				className={syncClassName}
+				value={html}
+				onChange={ (e) => onChangeCustomDocument(e) }
+			/>
+		]
 	}
 
 }
@@ -324,4 +357,14 @@ registerBlockType('complianz/document', {
 		// Rendering in PHP
 		return null;
 	},
+
+	// save: () => {
+	// 	const blockProps = useBlockProps.save();
+	//
+	// 	return (
+	// 		<div { ...blockProps }>
+	// 			<InnerBlocks.Content />
+	// 		</div>
+	// 	);
+	// },
 });

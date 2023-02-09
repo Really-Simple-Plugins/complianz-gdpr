@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['au']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i><br>',
+        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens of Australia. ", '[publish_date]', '[checked_date]') . '</i><br />',
     ),
     array(
         'title' => 'Introduction',
@@ -168,11 +168,11 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
-                    <span class="cmplz-contact-address">[address_company]</span><br>
-                  <span class="cmplz-contact-country">[country_company]</span><br>
-                    Website: <span class="cmplz-contact-domain">[domain]</span><br>
-                    Email: <span class="cmplz-contact-email">[email_company]</span><br>
+        'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br />
+                    <span class="cmplz-contact-address">[address_company]</span><br />
+                  <span class="cmplz-contact-country">[country_company]</span><br />
+                    Website: <span class="cmplz-contact-domain">[domain]</span><br />
+                    Email: <span class="cmplz-contact-email">[email_company]</span><br />
                     <span class="cmplz-contact-telephone">[telephone_company]</span>',
     ),
 

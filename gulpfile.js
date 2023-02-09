@@ -17,31 +17,31 @@ function lessTask(cb) {
                 .pipe(gulpautoprefixer())
                 .pipe(gulp.dest(temp));
 
-	  var srcfile = './assets/css/cookieblocker.less';
-	  var temp = './assets/css';
+	   srcfile = './assets/css/cookieblocker.less';
+	   temp = './assets/css';
 		gulp
 				 .src(srcfile)
 				 .pipe(gulpless())
 				.pipe(gulpautoprefixer())
 				.pipe(gulp.dest(temp));
 
-	  var srcfile = './assets/css/document.less';
-	  var temp = './assets/css';
+	   srcfile = './assets/css/document.less';
+	   temp = './assets/css';
 		gulp
 				 .src(srcfile)
 				 .pipe(gulpless())
 				.pipe(gulpautoprefixer())
 				.pipe(gulp.dest(temp));
-	  var srcfile = './assets/css/document-grid.less';
-	  var temp = './assets/css';
+	   srcfile = './assets/css/document-grid.less';
+	   temp = './assets/css';
 		gulp
 				 .src(srcfile)
 				 .pipe(gulpless())
 				.pipe(gulpautoprefixer())
 				.pipe(gulp.dest(temp));
 
-	  var srcfile = './assets/css/wizard.less';
-	  var temp = './assets/css';
+	   srcfile = './assets/css/wizard.less';
+	   temp = './assets/css';
 		gulp
 				 .src(srcfile)
 				 .pipe(gulpless())

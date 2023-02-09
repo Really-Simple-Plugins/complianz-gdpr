@@ -9,7 +9,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['us']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of the United States. ", '[publish_date]', '[checked_date]') . '</i><br>',
+        'content' => '<i>' . cmplz_sprintf("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of the United States. ", '[publish_date]', '[checked_date]') . '</i><br />',
     ),
     array(
         'title' => 'Introduction',
@@ -208,7 +208,7 @@ We respect and understand that you may want to be sure that your personal inform
           ),
     /* Privacy Statement */
     array(
-      'content' => cmplz_sprintf('For more information about your rights with respect to personal data, please refer to our %sprivacy Statement%s', '<a href="[privacy-statement-url]" target="_blank">', '</a>'),
+      'content' => cmplz_sprintf('For more information about your rights with respect to personal data, please refer to our %sPrivacy Statement%s', '<a href="[privacy-statement-url]" target="_blank">', '</a>'),
         'condition' => array('privacy-statement' => 'NOT no'),
     ),
 
@@ -224,11 +224,11 @@ We respect and understand that you may want to be sure that your personal inform
     ),
 
     array(
-        'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br>
-                      <span class="cmplz-contact-address">[address_company]</span><br>
-                      <span class="cmplz-contact-country">[country_company]</span><br>
-                      Website: <span class="cmplz-contact-domain">[domain]</span><br>
-                      Email: <span class="cmplz-contact-email">[email_company]</span><br>
+        'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br />
+                      <span class="cmplz-contact-address">[address_company]</span><br />
+                      <span class="cmplz-contact-country">[country_company]</span><br />
+                      Website: <span class="cmplz-contact-domain">[domain]</span><br />
+                      Email: <span class="cmplz-contact-email">[email_company]</span><br />
                       <span class="cmplz-contact-telephone">[telephone_company]</span>',
     ),
 

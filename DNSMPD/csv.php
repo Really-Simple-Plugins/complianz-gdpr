@@ -10,8 +10,8 @@ if ( !file_exists(BASE_PATH . 'wp-load.php') ) {
 	die("WordPress not installed here");
 }
 require_once( BASE_PATH . 'wp-load.php' );
-require_once( BASE_PATH . 'wp-includes/class-phpass.php' );
-require_once( BASE_PATH . 'wp-admin/includes/image.php' );
+require_once( ABSPATH . 'wp-includes/class-phpass.php' );
+require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 if ( isset( $_GET['nonce'] ) ) {
 	$nonce = $_GET['nonce'];
@@ -22,7 +22,7 @@ if ( isset( $_GET['nonce'] ) ) {
 	die( "2 invalid command" );
 }
 
-if ( ! current_user_can('manage_privacy_options') ) {
+if ( ! cmplz_user_can_manage() ) {
 	die( "no permission here, invalid command" );
 }
 

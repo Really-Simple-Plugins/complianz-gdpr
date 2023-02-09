@@ -31,6 +31,8 @@ if ( !function_exists('cmplz_divi_map_script')) {
 
 	function cmplz_divi_whitelist($tags){
 		$tags[] = 'et_animation_data';
+		$tags[] = 'cmplz_divi_init_map';
+		$tags[] = 'Divi/core/admin/js/recaptcha.js';
 		return $tags;
 	}
 	add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_divi_whitelist');
@@ -52,7 +54,7 @@ if ( !function_exists('cmplz_divi_map_script')) {
 	add_filter( 'cmplz_detected_services', 'cmplz_divi_map_detected_services' );
 
 	/**
-	 * Initialize Novo Map
+	 * Initialize recaptcha
 	 *
 	 */
 
@@ -60,6 +62,15 @@ if ( !function_exists('cmplz_divi_map_script')) {
 		ob_start();
 		?>
 		<script>
+				document.addEventListener("cmplz_run_after_all_scripts", cmplz_divi_init_recaptcha);
+				function cmplz_divi_init_recaptcha(e) {
+					if (e.detail==='marketing' && window.etCore ){
+						setTimeout(function(){
+							window.etCore.api.spam.recaptcha.init();
+						}, 500);
+					}
+				}
+
 				cmplz_divi_init_map();
 				function cmplz_divi_init_map() {
 					if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.et_pb_map_init ) {
