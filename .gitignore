@@ -1,0 +1,16 @@
+node_modules
+pro/tcf/node_modules
+.idea/workspace.xml
+.DS_Store
+assets/css/wizard.min.css.map
+assets/css/admin.min.css.map
+powerpack
+prepros.config
+*.config
+.idea/vcs.xml
+.idea/php.xml
+.idea/modules.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/complianz.iml
+integrations/.DS_Store
+/vendor

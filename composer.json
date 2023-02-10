@@ -10,7 +10,9 @@
     "squizlabs/php_codesniffer": "^3.0",
     "wp-coding-standards/wpcs": "^2",
     "phpcompatibility/phpcompatibility-wp": "^2.0",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5"
+    "yoast/phpunit-polyfills": "^1.0",
+    "phpunit/phpunit": "^9",
+    "wp-cli/wp-cli-bundle": "^2.7"
   },
 
   "minimum-stability": "dev",
@@ -19,5 +21,7 @@
     "phpcs": [
       "phpcs -p -s *.php"
     ]
+  },
+  "config": {
   }
 }

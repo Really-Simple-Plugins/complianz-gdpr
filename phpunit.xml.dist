@@ -8,7 +8,7 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite name="complianzphp composer.phar require --dev phpunit/phpunit ^9">
+		<testsuite name="complianz-gdpr">
 			<directory prefix="test-" suffix=".php">./tests/</directory>
 			<exclude>./tests/test-sample.php</exclude>
 		</testsuite>
