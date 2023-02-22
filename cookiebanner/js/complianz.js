@@ -905,7 +905,7 @@ window.conditionally_show_banner = function() {
 	cmplz_set_category_as_body_class();
 	//fire cats event, but do not fire a track, as we do this on exit.
 	cmplz_fire_categories_event();
-	if (!cmplz_do_not_track()) {
+	if ( !cmplz_do_not_track() ) {
 		if (complianz.consenttype === 'optin') {
 			if (complianz.forceEnableStats) {
 				cmplz_enable_category('statistics');
@@ -919,6 +919,7 @@ window.conditionally_show_banner = function() {
 			console.log('other consent type, no cookie warning');
 			//on other consent types, all scripts are enabled by default.
 			cmplz_accept_all();
+			// cmplz_fire_categories_event();
 		}
 	} else {
 		console.log('global privacy control or do not track detected: no banner.');
@@ -1109,16 +1110,17 @@ window.cmplz_has_consent = function ( category ){
 		return true;
 	}
 
-	if ( category === 'functional' ) return true;
+	if ( category === 'functional' ) {
+		return true;
+	}
 
-	if ( cmplz_do_not_track() ) return false;
-	var has_consent, value;
+	let has_consent, value;
 
 	/*
 	 * categories
 	 */
 	value = cmplz_get_cookie(category);
-	if (complianz.consenttype === 'optout' && value === '') {
+	if ( (complianz.consenttype === 'optout' || complianz.consenttype === 'other') && value === '') {
 		//if it's opt out and no cookie is set we should return true
 		has_consent = true;
 	} else {

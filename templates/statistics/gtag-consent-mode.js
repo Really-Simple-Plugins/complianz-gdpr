@@ -40,13 +40,10 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 	});
 });
 
-document.addEventListener("cmplz_cookie_warning_loaded", function (e) {
-
-	gtag('js', new Date());
-	gtag('config', '{G_code}', {
-		cookie_flags:'secure;samesite=none',
-	{anonymize_ip}
-	});
+gtag('js', new Date());
+gtag('config', '{G_code}', {
+	cookie_flags:'secure;samesite=none',
+{anonymize_ip}
 });
 
 document.addEventListener("cmplz_revoke", function (e) {

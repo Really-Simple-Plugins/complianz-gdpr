@@ -4,7 +4,10 @@
 	 */
 
 	document.addEventListener("cmplz_cookie_warning_loaded", function (consentData) {
-		document.querySelector('.cmplz-accept').click();
+		let acceptBtn = document.querySelector('.cmplz-accept');
+		if ( acceptBtn ) {
+			acceptBtn.click();
+		}
 	});
 	let cmplz_cookies = get_cookies_array();
 	let cmplz_lstorage = get_localstorage_array();
