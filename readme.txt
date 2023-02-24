@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 6.4.1
+Stable tag: 6.4.2
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,20 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.2 =
+* Fix: disable cookie banner option in wizard didn't load the complianz.js scripts, causing placeholders not to work when activated.
+* Fix: After switching to unlinked status in a legal document, purpose paragraph got dropped
+* Fix: not all categories within services showing in cookie policy overview
+* Fix: isset check on get_field_type function, props @moxymore
+* Fix: not translatable VAT ID string
+* Fix: With Global Privacy Control or Do Not Track enabled, and the user accepting an embedded service, the service was blocked again after a pageload.
+* Improvement: allow custom directory for cookie banner css generation
+* Improvement: catch open basedir restriction
+* Improvement: catch not existing accept button during initial cookie scan (no banner active yet)
+* Improvement: function cmplz_has_consent() in 'other' region returned false when no cookies present, while it should return true in that case.
+* New: Buttonizer integration
+* New: hCatpcha for WordPress
+
 = 6.4.1 =
 * Improvement: do not copy over async attribute to prevent issues re-initializing scripts in some setups
 * Improvement: get_cookie() function performance, props @lucastello
