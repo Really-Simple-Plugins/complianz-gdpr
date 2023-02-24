@@ -2082,8 +2082,9 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$has_empty_cookies = false;
 			$allPurposes = array();
             $cookieHTML = "";
-			$cookies_per_purpose_HTML = "";
+
 			foreach ( $serviceData as $purpose => $service_cookies ) {
+				$cookies_per_purpose_HTML = "";
 				foreach ( $service_cookies as $cookie ) {
 					$has_empty_cookies = $has_empty_cookies || strlen( $cookie->retention ) == 0;
 					$link_open         = $link_close = '';
@@ -2110,7 +2111,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						$link_close
 					), $cookies_row );
 				}
-				$cookieHTML = str_replace( array( '{purpose}', '{cookies_per_purpose}' ), array( $purpose, $cookies_per_purpose_HTML ), $purpose_row );
+				$cookieHTML .= str_replace( array( '{purpose}', '{cookies_per_purpose}' ), array( $purpose, $cookies_per_purpose_HTML ), $purpose_row );
 				$allPurposes[] = $purpose;
 			}
 
