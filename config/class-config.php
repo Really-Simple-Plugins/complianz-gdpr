@@ -448,17 +448,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		public function init() {
 			$this->steps = apply_filters('cmplz_steps', $this->steps );
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
-			if ( ! is_admin() ) {
-				$regions = cmplz_get_regions(true);
-				foreach ( $regions as $region => $label ) {
-					if ( !isset( $this->pages[ $region ] ) ) continue;
+			$regions = cmplz_get_regions(true);
+			foreach ( $regions as $region => $label ) {
+				if ( !isset( $this->pages[ $region ] ) ) continue;
 
-					foreach ( $this->pages[ $region ] as $type => $data ) {
-						$this->pages[ $region ][ $type ]['document_elements']
-							= apply_filters( 'cmplz_document_elements',
-							$this->pages[ $region ][ $type ]['document_elements'],
-							$region, $type, $this->fields() );
-					}
+				foreach ( $this->pages[ $region ] as $type => $data ) {
+					$this->pages[ $region ][ $type ]['document_elements'] = apply_filters( 'cmplz_document_elements',
+						$this->pages[ $region ][ $type ]['document_elements'],
+						$region, $type, $this->fields() );
 				}
 			}
 		}

@@ -1,29 +1,29 @@
 # Copyright (C) 2023 Really Simple Plugins
-# This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
+# This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.4.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-08T12:02:47+00:00\n"
+"POT-Creation-Date: 2023-02-09T08:39:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: complianz-gdpr\n"
 
 #. Plugin Name of the plugin
-msgid "Complianz Privacy Suite (GDPR/CCPA) premium multisite"
+msgid "Complianz Privacy Suite (GDPR/CCPA) premium"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://complianz.io/download/complianz-gdpr-premium"
+msgid "https://complianz.io/pricing"
 msgstr ""
 
 #. Description of the plugin
-msgid "Plugin to help you make your website GDPR/CCPa compliant, multisite edition"
+msgid "Plugin to help you make your website GDPR/CCPa compliant"
 msgstr ""
 
 #. Author of the plugin
@@ -252,7 +252,6 @@ msgid "You have activated the Multisite plugin on a non-Multisite environment. P
 msgstr ""
 
 #: class-admin.php:811
-#: pro/class-processing.php:116
 #: pro/dataleak/class-dataleak.php:552
 #: pro/processing-agreements/class-processing.php:241
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
@@ -323,82 +322,6 @@ msgstr ""
 
 #: class-admin.php:992
 msgid "Advanced features"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:67
-#: cookiebanner/class-cookiebanner-table.php:73
-#: cookiebanner/cookiebanner.php:472
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:67
-msgid "Cookiebanner"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:68
-#: cookiebanner/class-cookiebanner-table.php:74
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:68
-msgid "Cookiebanners"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:102
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:103
-msgid "Search"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:120
-#: cookiebanner/class-cookiebanner-table.php:137
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:121
-msgid "name"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:146
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:144
-msgid "File not found"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:154
-#: pro/dataleak/class-dataleak-table.php:186
-#: pro/framework/post-types.php:327
-#: pro/processing-agreements/class-processing-table.php:177
-#: pro/records-of-consent/class-records-of-consent-table.php:267
-#: pro/records-of-consent/class-records-of-consent.php:116
-#: pro/templates/dashboard/documents-conditional.php:53
-#: pro/templates/dashboard/documents-conditional.php:85
-#: pro/templates/dashboard/documents-conditional.php:113
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:152
-msgid "Download"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:156
-#: cookiebanner/class-cookiebanner-table.php:210
-#: DNSMPD/class-DNSMPD-table.php:149
-#: pro/class-statistics.php:586
-#: pro/records-of-consent/class-records-of-consent-table.php:150
-#: pro/records-of-consent/class-records-of-consent-table.php:275
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:154
-#: templates/cookie_settings.php:90
-#: templates/service_settings.php:52
-msgid "Delete"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:172
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:170
-msgid "File"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:173
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:171
-msgid "Created"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:237
-#: pro/records-of-consent/class-records-of-consent-table.php:351
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:228
-msgid "Month"
-msgstr ""
-
-#: class-cookiestatement-snapshot-table.php:275
-#: pro/records-of-consent/class-records-of-consent-table.php:390
-#: proof-of-consent/class-cookiestatement-snapshot-table.php:259
-msgid "Year"
 msgstr ""
 
 #: class-document.php:481
@@ -755,8 +678,6 @@ msgstr ""
 #: pro/datarequests/class-datarequests.php:173
 #: templates/cookiepolicy/cookies_row.php:2
 #: templates/cookie_settings.php:4
-#: templates/do-not-sell-my-personal-data-form.php:15
-#: templates/do-not-sell-my-personal-data-form.php:17
 #: templates/service_settings.php:3
 msgid "Name"
 msgstr ""
@@ -880,7 +801,6 @@ msgid "The wizard isn't completed yet. If you have answered all required questio
 msgstr ""
 
 #: class-wizard.php:110
-#: pro/class-processing.php:129
 #: pro/processing-agreements/class-processing.php:254
 msgid "Not all required fields are completed yet. Please check the steps to complete all required questions"
 msgstr ""
@@ -929,7 +849,6 @@ msgid "Save and Continue"
 msgstr ""
 
 #: class-wizard.php:723
-#: pro/class-processing.php:132
 #: pro/processing-agreements/class-processing.php:257
 msgid "View document"
 msgstr ""
@@ -947,12 +866,12 @@ msgstr ""
 msgid "Save and Style Cookie Banner"
 msgstr ""
 
-#: complianz-gpdr-premium.php:34
-msgid "Complianz GDPR cannot be activated. The plugin requires PHP 7.2 or higher"
+#: complianz-gpdr-premium.php:31
+msgid "Complianz cannot be activated. The plugin requires PHP 7.2 or higher"
 msgstr ""
 
-#: complianz-gpdr-premium.php:40
-msgid "Complianz GDPR cannot be activated. The plugin requires WordPress 4.9 or higher"
+#: complianz-gpdr-premium.php:37
+msgid "Complianz cannot be activated. The plugin requires WordPress 4.9 or higher"
 msgstr ""
 
 #: config/class-config.php:276
@@ -4405,12 +4324,28 @@ msgstr ""
 msgid "%s days"
 msgstr ""
 
+#: cookiebanner/class-cookiebanner-table.php:73
+#: cookiebanner/cookiebanner.php:472
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:67
+msgid "Cookiebanner"
+msgstr ""
+
+#: cookiebanner/class-cookiebanner-table.php:74
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:68
+msgid "Cookiebanners"
+msgstr ""
+
 #: cookiebanner/class-cookiebanner-table.php:115
 msgid "Active cookiebanners"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner-table.php:118
 msgid "Archived cookiebanners"
+msgstr ""
+
+#: cookiebanner/class-cookiebanner-table.php:137
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:121
+msgid "name"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner-table.php:177
@@ -4425,6 +4360,17 @@ msgstr ""
 
 #: cookiebanner/class-cookiebanner-table.php:202
 msgid "Unnamed cookie banner"
+msgstr ""
+
+#: cookiebanner/class-cookiebanner-table.php:210
+#: DNSMPD/class-DNSMPD-table.php:149
+#: pro/class-statistics.php:586
+#: pro/records-of-consent/class-records-of-consent-table.php:150
+#: pro/records-of-consent/class-records-of-consent-table.php:275
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:154
+#: templates/cookie_settings.php:90
+#: templates/service_settings.php:52
+msgid "Delete"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner-table.php:213
@@ -4997,22 +4943,6 @@ msgstr ""
 msgid "Read more about these purposes"
 msgstr ""
 
-#: copy-settings-multisite.php:17
-msgid "Are you sure? This will overwrite the settings in all your subsites with the Complianz settings of this site."
-msgstr ""
-
-#: copy-settings-multisite.php:23
-msgid "Copy settings to subsites"
-msgstr ""
-
-#: copy-settings-multisite.php:25
-msgid "This will overwrite the Complianz settings in all your subsites with the settings of the current site."
-msgstr ""
-
-#: copy-settings-multisite.php:231
-msgid "Complianz is currently copying settings of site %s to %s of %s sites. Each pageload will run a batch."
-msgstr ""
-
 #: DNSMPD/class-DNSMPD-table.php:63
 msgid "User"
 msgstr ""
@@ -5051,7 +4981,6 @@ msgstr ""
 #: pro/config/questions-wizard.php:625
 #: pro/datarequests/class-datarequests.php:177
 #: pro/framework/post-types.php:322
-#: templates/do-not-sell-my-personal-data-form.php:19
 msgid "Email"
 msgstr ""
 
@@ -5166,20 +5095,17 @@ msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:488
 #: pro/datarequests/class-datarequests.php:174
-#: templates/do-not-sell-my-personal-data-form.php:17
 msgid "Your name"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:492
 #: pro/datarequests/class-datarequests.php:178
-#: templates/do-not-sell-my-personal-data-form.php:19
 msgid "email@email.com"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:505
 #: pro/datarequests/class-datarequests.php:190
 #: pro/templates/dashboard/support-footer.php:2
-#: templates/do-not-sell-my-personal-data-form.php:21
 msgid "Send"
 msgstr ""
 
@@ -5743,27 +5669,6 @@ msgstr ""
 
 #: pro/class-licensing.php:743
 msgid "Your license key has expired. Please renew your license key on your %saccount%s."
-msgstr ""
-
-#: pro/class-processing.php:113
-#: pro/processing-agreements/class-processing.php:234
-msgctxt "Title on page"
-msgid "Processing Agreement (%s)"
-msgstr ""
-
-#: pro/class-processing.php:132
-#: pro/processing-agreements/class-processing.php:257
-msgid "Click %s to complete the configuration and create a Processing Agreement."
-msgstr ""
-
-#: pro/class-processing.php:134
-#: pro/processing-agreements/class-processing.php:259
-msgid "You can come back to change your configuration at any time."
-msgstr ""
-
-#: pro/class-processing.php:150
-#: pro/processing-agreements/class-processing.php:275
-msgid "Processing Agreement %s"
 msgstr ""
 
 #: pro/class-statistics.php:48
@@ -10849,6 +10754,18 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
+#: pro/dataleak/class-dataleak-table.php:186
+#: pro/framework/post-types.php:327
+#: pro/processing-agreements/class-processing-table.php:177
+#: pro/records-of-consent/class-records-of-consent-table.php:267
+#: pro/records-of-consent/class-records-of-consent.php:116
+#: pro/templates/dashboard/documents-conditional.php:53
+#: pro/templates/dashboard/documents-conditional.php:85
+#: pro/templates/dashboard/documents-conditional.php:113
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:152
+msgid "Download"
+msgstr ""
+
 #: pro/dataleak/class-dataleak-table.php:187
 msgid "Email sent"
 msgstr ""
@@ -11478,6 +11395,23 @@ msgstr ""
 msgid "Processing agreements"
 msgstr ""
 
+#: pro/processing-agreements/class-processing.php:234
+msgctxt "Title on page"
+msgid "Processing Agreement (%s)"
+msgstr ""
+
+#: pro/processing-agreements/class-processing.php:257
+msgid "Click %s to complete the configuration and create a Processing Agreement."
+msgstr ""
+
+#: pro/processing-agreements/class-processing.php:259
+msgid "You can come back to change your configuration at any time."
+msgstr ""
+
+#: pro/processing-agreements/class-processing.php:275
+msgid "Processing Agreement %s"
+msgstr ""
+
 #: pro/records-of-consent/class-records-of-consent-table.php:71
 msgid "record"
 msgstr ""
@@ -11510,6 +11444,16 @@ msgstr ""
 #: proof-of-consent/class-proof-of-consent.php:354
 #: shepherd/tour.php:102
 msgid "Proof of Consent"
+msgstr ""
+
+#: pro/records-of-consent/class-records-of-consent-table.php:351
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:228
+msgid "Month"
+msgstr ""
+
+#: pro/records-of-consent/class-records-of-consent-table.php:390
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:259
+msgid "Year"
 msgstr ""
 
 #: pro/records-of-consent/class-records-of-consent.php:326
@@ -11809,6 +11753,22 @@ msgstr ""
 
 #: pro/templates/license/license.php:3
 msgid "Enter your license key"
+msgstr ""
+
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:103
+msgid "Search"
+msgstr ""
+
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:144
+msgid "File not found"
+msgstr ""
+
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:170
+msgid "File"
+msgstr ""
+
+#: proof-of-consent/class-cookiestatement-snapshot-table.php:171
+msgid "Created"
 msgstr ""
 
 #: proof-of-consent/class-proof-of-consent.php:198

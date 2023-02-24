@@ -1287,12 +1287,14 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			return true;
 		}
 
-		public function get_field_type( $fieldname ) {
-			if ( ! isset( COMPLIANZ::$config->fields[ $fieldname ] ) ) {
-				return false;
-			}
-
-			return COMPLIANZ::$config->fields[ $fieldname ]['type'];
+		/**
+		 * Get current field type
+		 * @param string $fieldname
+		 *
+		 * @return false|string
+		 */
+		public function get_field_type( string $fieldname ) {
+			return COMPLIANZ::$config->fields[ $fieldname ]['type'] ?? false;
 		}
 
 		public

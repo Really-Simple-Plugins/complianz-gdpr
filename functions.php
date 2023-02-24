@@ -2082,8 +2082,8 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$has_empty_cookies = false;
 			$allPurposes = array();
             $cookieHTML = "";
+			$cookies_per_purpose_HTML = "";
 			foreach ( $serviceData as $purpose => $service_cookies ) {
-				$cookies_per_purpose_HTML = "";
 				foreach ( $service_cookies as $cookie ) {
 					$has_empty_cookies = $has_empty_cookies || strlen( $cookie->retention ) == 0;
 					$link_open         = $link_close = '';
@@ -2154,7 +2154,6 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 
 			$allPurposes = implode (", ", $allPurposes);
 			$service_slug = str_replace(' ', '-', strtolower($service_name));
-
 
 			$servicesHTML .= str_replace( array(
 				'{service}',

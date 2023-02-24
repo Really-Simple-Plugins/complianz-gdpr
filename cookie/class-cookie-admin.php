@@ -23,7 +23,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( ! is_admin() ) {
-				if ( cmplz_get_value('enable_cookie_banner')==='yes' && $this->site_needs_cookie_warning() ) {
+				if ( $this->site_needs_cookie_warning() ) {
 					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script' ), PHP_INT_MAX - 50 );
 					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
 					add_filter( 'script_loader_tag', array( $this, 'add_asyncdefer_attribute' ), 10, 2 );

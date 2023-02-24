@@ -28,6 +28,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
+	'hcaptcha' => array(
+			'constant_or_function' => 'HCAPTCHA_VERSION',
+			'label'                => 'hCaptcha for WordPress',
+			'firstparty_marketing' => false,
+	),
+
 	'omnisend' => array(
 			'constant_or_function' => 'OMNISEND_SETTINGS_PAGE',
 			'label'                => 'Email Marketing for WooCommerce by Omnisend',
@@ -561,6 +567,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'yotu-wp'               => array(
 			'constant_or_function' => 'YOTUWP_VERSION',
 			'label'                => 'Video Gallery – YouTube Playlist, Channel Gallery by YotuWP',
+			'firstparty_marketing' => false,
+	),
+	'buttonizer'               => array(
+			'constant_or_function' => 'BUTTONIZER_VERSION',
+			'label'                => 'Buttonizer',
 			'firstparty_marketing' => false,
 	),
 ) );

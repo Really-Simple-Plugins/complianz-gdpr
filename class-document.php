@@ -2490,11 +2490,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function is_complianz_page( $post_id = false ) {
-			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', true );
-			if ( $post_meta ) {
-				return true;
-			}
-
 			$shortcode = 'cmplz-document';
 			$block     = 'complianz/document';
 			$cookies_shortcode = 'cmplz-cookies';
@@ -2503,6 +2498,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$post = get_post( $post_id );
 			} else {
 				global $post;
+				$post_id = $post ? $post->ID : false;
+			}
+
+			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', true );
+			if ( $post_meta ) {
+				return true;
 			}
 
 			if ( $post ) {

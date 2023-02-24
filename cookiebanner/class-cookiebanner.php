@@ -1186,13 +1186,19 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				return;
 			}
 			set_transient('cmplz_generate_css_active', true, 10 );
-			$uploads    = wp_upload_dir();
-			$upload_dir = $uploads['basedir'];
-			if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
-				mkdir( $upload_dir . '/complianz' ,0755);
-			}
-			if ( ! file_exists( $upload_dir . '/complianz/css' ) && is_writable($upload_dir . '/complianz') ) {
-				mkdir( $upload_dir . '/complianz/css',0755 );
+
+			if ( defined('CMPLZ_CSS_DIR' ) ) {
+				$css_dir = CMPLZ_CSS_DIR;
+			} else {
+				$uploads    = wp_upload_dir();
+				$upload_dir = $uploads['basedir'];
+				if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
+					mkdir( $upload_dir . '/complianz' ,0755);
+				}
+				if ( ! file_exists( $upload_dir . '/complianz/css' ) && is_writable($upload_dir . '/complianz') ) {
+					mkdir( $upload_dir . '/complianz/css',0755 );
+				}
+				$css_dir = $upload_dir . '/complianz/css';
 			}
 
 			$consent_types = cmplz_get_used_consenttypes();
@@ -1234,12 +1240,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				$css .= "\n" . ob_get_clean()."\n";
 				$css = $this->sanitize_css( apply_filters('cmplz_cookiebanner_css', $css) );
 				if ( $preview ) {
-					$file = "$upload_dir/complianz/css/banner-preview-{$banner_id}-$consent_type.css";
+					$file = "$css_dir/banner-preview-{$banner_id}-$consent_type.css";
 				} else {
-					$file = "$upload_dir/complianz/css/banner-{$banner_id}-$consent_type.css";
+					$file = "$css_dir/banner-{$banner_id}-$consent_type.css";
 				}
 
-				if (file_exists("$upload_dir/complianz/css") && is_writable("$upload_dir/complianz/css")){
+				if (file_exists($css_dir) && is_writable( $css_dir )){
 					$handle = fopen($file, "w");
 					fwrite($handle, $css);
 					fclose($handle);
@@ -1258,23 +1264,24 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$uploads    = wp_upload_dir();
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
+			$css_url = defined('CMPLZ_CSS_URL') ? CMPLZ_CSS_URL : $upload_url . "/complianz/css";
 
 			//check if the css file exists. if not, use default.
-			$css_file = $upload_url . '/complianz/css/banner-{banner_id}-{type}.css';
+			$css_file = "$css_url/banner-{banner_id}-{type}.css";
 			if ( !$preview ) {
 				$upload_dir = $uploads['basedir'];
+				$css_path = defined('CMPLZ_CSS_DIR') ? CMPLZ_CSS_DIR : "$upload_dir/complianz/css";
+
 				$consent_types = cmplz_get_used_consenttypes();
 				$banner_id = $this->ID;
 				foreach ( $consent_types as $consent_type ) {
-					$file =  "/complianz/css/banner-$banner_id-$consent_type.css";
-					if ( ! file_exists( $upload_dir . $file ) ) {
+					if ( ! file_exists( $css_path . "/banner-$banner_id-$consent_type.css" ) ) {
 						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-{type}.css";
 					}
 				}
 			}
 
-			$page_links = array();
-			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
+			$page_links = [];
 			$pages = COMPLIANZ::$config->pages;
 			foreach ( $pages as $region => $region_pages ) {
 				foreach ( $region_pages as $type => $page ) {
@@ -1326,7 +1333,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'categories'           => ['statistics'=> _x("statistics","as in: click to accept statistics cookies","complianz-gdpr"), 'marketing'=> _x("marketing","as in: click to accept marketing cookies","complianz-gdpr")],
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
-				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
+				'css_file'             => $css_file . '?v='.$this->banner_version,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager() || (cmplz_get_value('compile_statistics')==='matomo-tag-manager'),
 				'forceEnableStats'     => !COMPLIANZ::$cookie_admin->cookie_warning_required_stats( $region ),
