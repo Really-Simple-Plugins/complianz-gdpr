@@ -176,7 +176,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.4.2 =
-* Security update: [cmplz-consent-area] shortcode did not correctly escape category and service attributes
 * Fix: disable cookie banner option in wizard didn't load the complianz.js scripts, causing placeholders not to work when activated.
 * Fix: After switching to unlinked status in a legal document, purpose paragraph got dropped
 * Fix: not all categories within services showing in cookie policy overview
