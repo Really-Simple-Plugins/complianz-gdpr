@@ -496,9 +496,9 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				$options = $this->datarequest_options();
 				foreach ( $options as $id => $label ) { ?>
 					<div class="cmplz_datarequest cmplz_datarequest_<?php echo $id?>">
-						<label for="cmplz_datarequest_<?php echo $id?>">
-							<input type="checkbox" value="1" name="cmplz_datarequest_<?php echo $id?>" id="cmplz_datarequest_<?php echo $id?>"/>
-							<?php echo $label['long']?>
+						<label for="cmplz_datarequest_<?php echo esc_attr($id)?>">
+							<input type="checkbox" value="1" name="cmplz_datarequest_<?php echo esc_attr($id)?>" id="cmplz_datarequest_<?php echo esc_attr($id)?>"/>
+							<?php echo esc_html($label['long'])?>
 						</label>
 					</div>
 				<?php } ?>
@@ -513,9 +513,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				}
 			</style>
 			<?php
-			$output = ob_get_contents();
-			ob_end_clean();
-			return $output;
+			return ob_get_clean();
 		}
 	} //class closure
 }

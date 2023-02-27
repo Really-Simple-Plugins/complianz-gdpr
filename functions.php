@@ -298,7 +298,7 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 	 * @return string
 	 */
 	function cmplz_revoke_link( $text = false ) {
-		$text = $text ? : __( 'Revoke', 'complianz-gdpr' );
+		$text = sanitize_text_field($text) ? : __( 'Revoke', 'complianz-gdpr' );
 		$text = apply_filters( 'cmplz_revoke_button_text', $text );
 		$css
 		      = "<style>.cmplz-status-accepted,.cmplz-status-denied {display: none;}</style>
@@ -328,7 +328,7 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 					});
 				});
 			</script>";
-		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom">' . $text
+		$html = $css . '<button class="cmplz-deny cmplz-revoke-custom">' . esc_html($text)
 		        . '</button>&nbsp;<span class="cmplz-status-accepted">'
 		        . cmplz_sprintf( __( 'Current status: %s', 'complianz-gdpr' ),
 				__( "Accepted", 'complianz-gdpr' ) )
@@ -2302,6 +2302,16 @@ if ( !function_exists('cmplz_get_server') ) {
 		} else { //unsupported server
 			return 'Not recognized';
 		}
+	}
+}
+
+if (!function_exists('cmplz_sanitize_category')) {
+	function cmplz_sanitize_category($category){
+		$cats = ['functional','preferences', 'statistics', 'marketing'];
+		if ( !in_array( $category, $cats, true ) ) {
+			$category = 'marketing';
+		}
+		return $category;
 	}
 }
 

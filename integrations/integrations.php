@@ -28,11 +28,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'firstparty_marketing' => false,
 	),
 
-	'hcaptcha' => array(
-			'constant_or_function' => 'HCAPTCHA_VERSION',
-			'label'                => 'hCaptcha for WordPress',
-			'firstparty_marketing' => false,
-	),
+//	'hcaptcha' => array(
+//			'constant_or_function' => 'HCAPTCHA_VERSION',
+//			'label'                => 'hCaptcha for WordPress',
+//			'firstparty_marketing' => false,
+//	),
 
 	'omnisend' => array(
 			'constant_or_function' => 'OMNISEND_SETTINGS_PAGE',
