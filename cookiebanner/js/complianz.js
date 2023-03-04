@@ -553,9 +553,9 @@ function cmplz_enable_category(category, service) {
 	//remove accept cookie notice overlay
 	let selector;
 	if (service !== 'do_not_match') {
-		selector = '.cmplz-blocked-content-notice [data-service="'+service+'"]';
+		selector = '.cmplz-blocked-content-notice [data-service='+service+']';
 	} else {
-		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category="'+category+'"]';
+		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category='+category+']';
 	}
 	document.querySelectorAll(selector).forEach(obj => {
 		let blockedElementService = obj.getAttribute('data-service');
@@ -568,7 +568,7 @@ function cmplz_enable_category(category, service) {
 		}
 	});
 
-	document.querySelectorAll('[data-category="'+category+'"], [data-service="'+service+'"]').forEach(obj => {
+	document.querySelectorAll('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
 		//if a category is activated, but this specific service is denied, skip.
 		let elementService = obj.getAttribute('data-service');
 		if ( cmplz_is_service_denied(elementService) ) {
@@ -637,7 +637,7 @@ function cmplz_enable_category(category, service) {
 	 */
 
 	//create list of waiting scripts
-	let scriptElements = document.querySelectorAll('script[data-category="'+category+'"], script[data-service="'+service+'"]');
+	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
 		let src = obj.getAttribute('data-cmplz-src');
@@ -2222,7 +2222,7 @@ if ('undefined' != typeof window.jQuery) {
 					if (category==='functional') {
 						break;
 					}
-					selectorVideos.push('.cmplz-wp-video-shortcode[data-category="'+category+'"]');
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-category='+category+']');
 				}
 			}
 			for (var s_key in services) {
