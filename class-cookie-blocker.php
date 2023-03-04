@@ -76,6 +76,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					}
 				}
 			}
+			//ensure there are no duplicate arrays
+			$this->delete_cookies_list = array_unique($this->delete_cookies_list);
 		}
 
 		/**
@@ -83,7 +85,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return void
 		 */
 		public function delete_cookies(){
+			$max = 20;
+			$count=0;
 			foreach ($this->delete_cookies_list as $name ) {
+				//limit header size by limiting number of cookies to delete in one go.
+				if ($count>$max) {
+					continue;
+				}
+				$count++;
 				unset($_COOKIE[$name]);
 				setcookie($name, null, -1, COMPLIANZ::$cookie_admin->get_cookie_path() );
 				setcookie($name, null, -1, '/' );
