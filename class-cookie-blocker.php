@@ -76,7 +76,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					}
 				}
 			}
-			//ensure there are no duplicate arrays
+			//ensure there are no duplicate arrays, to prevent header issues
 			$this->delete_cookies_list = array_unique($this->delete_cookies_list);
 		}
 
