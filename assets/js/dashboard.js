@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
 
 	// Color bullet in support forum block
 	$(".cmplz-trick a").hover(function() {
-		$(this).find('.cmplz-bullet').css("background-color","#29b6f6");
+		$(this).find('.cmplz-bullet').css("background-color","#009fff");
 	}, function() {
 		$(this).find('.cmplz-bullet').css("background-color",""); //to remove property set it to ''
 	});

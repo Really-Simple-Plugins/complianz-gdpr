@@ -41,7 +41,7 @@
   --rsp-black: #333;
   --rsp-white: #fff;
   --rsp-yellow: #f4bf3e;
-  --rsp-blue: #29b6f6;
+  --rsp-blue: #009fff;
   --rsp-dark-blue: #1E73BE;
   --rsp-green: #2e8a37;
   --rsp-red: #D7263D;
@@ -292,7 +292,7 @@
   }
 }
 .cmplz .cmplz-content-area {
-  margin-top: calc(var(--rsp-grid-margin) * 2);
+  margin-top: calc(var(--rsp-spacing-xs) * 2);
 }
 .cmplz .cmplz-header-container {
   background: var(--rsp-background-block-color);
@@ -408,81 +408,13 @@
 }
 .cmplz .cmplz-grid-footer .cmplz-legend span {
   padding-left: 5px;
+  padding-right: 10px;
 }
 .cmplz .cmplz-flex-push-right {
   margin-left: auto;
 }
 .cmplz .cmplz-flex-push-left {
   margin-right: auto;
-}
-.cmplz a.button,
-.cmplz button.button,
-.cmplz input.button {
-  font-size: var(--rsp-fs-300);
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-}
-.cmplz a.button.button-black,
-.cmplz button.button.button-black,
-.cmplz input.button.button-black {
-  border: 0 solid transparent;
-  background: var(--rsp-black);
-  color: var(--rsp-text-color-white);
-}
-.cmplz a.button.button-black:hover,
-.cmplz button.button.button-black:hover,
-.cmplz input.button.button-black:hover,
-.cmplz a.button.button-black:focus,
-.cmplz button.button.button-black:focus,
-.cmplz input.button.button-black:focus,
-.cmplz a.button.button-black:active,
-.cmplz button.button.button-black:active,
-.cmplz input.button.button-black:active {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rsp-black);
-}
-.cmplz a.button.button-tertiary,
-.cmplz button.button.button-tertiary,
-.cmplz input.button.button-tertiary,
-.cmplz a.button.button-red,
-.cmplz button.button.button-red,
-.cmplz input.button.button-red {
-  border: 0 solid transparent;
-  background: var(--rsp-red);
-  color: var(--rsp-text-color-white);
-}
-.cmplz a.button.button-tertiary:hover,
-.cmplz button.button.button-tertiary:hover,
-.cmplz input.button.button-tertiary:hover,
-.cmplz a.button.button-red:hover,
-.cmplz button.button.button-red:hover,
-.cmplz input.button.button-red:hover,
-.cmplz a.button.button-tertiary:focus,
-.cmplz button.button.button-tertiary:focus,
-.cmplz input.button.button-tertiary:focus,
-.cmplz a.button.button-red:focus,
-.cmplz button.button.button-red:focus,
-.cmplz input.button.button-red:focus,
-.cmplz a.button.button-tertiary:active,
-.cmplz button.button.button-tertiary:active,
-.cmplz input.button.button-tertiary:active,
-.cmplz a.button.button-red:active,
-.cmplz button.button.button-red:active,
-.cmplz input.button.button-red:active {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rsp-red);
-  background: var(--rsp-red);
-  color: var(--rsp-text-color-white);
-}
-/* Documents overview */
-.cmplz-shortcode {
-  right: 10000px;
-  position: absolute;
-  background-color: #fff;
-  padding: 0;
-  white-space: nowrap;
-}
-.shortcode {
-  cursor: pointer;
 }
 .cmplz-icon,
 .cmplz-icon-tooltip {
@@ -806,7 +738,7 @@ Admin notice
 }
 .cmplz .cmplz-bullet.rsp-blue-yellow {
   background: var(--rsp-blue);
-  background: linear-gradient(77deg, #29b6f6 0%, #29b6f6 30%, #f4bf3e 70%, #f4bf3e 100%);
+  background: linear-gradient(77deg, rgba(0, 159, 255) 0%, #009fff 30%, #f4bf3e 70%, #f4bf3e 100%);
   animation: gradient 2s ease infinite;
   background-size: 200% 200%;
 }
@@ -1558,6 +1490,75 @@ Admin notice
 }
 #custom-scripts .cmplz-footer-contents {
   display: none !important;
+}
+.cmplz a.button,
+.cmplz button.button,
+.cmplz input.button {
+  font-size: var(--rsp-fs-300);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+.cmplz a.button.button-black,
+.cmplz button.button.button-black,
+.cmplz input.button.button-black {
+  border: 0 solid transparent;
+  background: var(--rsp-black);
+  color: var(--rsp-text-color-white);
+}
+.cmplz a.button.button-black:hover,
+.cmplz button.button.button-black:hover,
+.cmplz input.button.button-black:hover,
+.cmplz a.button.button-black:focus,
+.cmplz button.button.button-black:focus,
+.cmplz input.button.button-black:focus,
+.cmplz a.button.button-black:active,
+.cmplz button.button.button-black:active,
+.cmplz input.button.button-black:active {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rsp-black);
+}
+.cmplz a.button.button-tertiary,
+.cmplz button.button.button-tertiary,
+.cmplz input.button.button-tertiary,
+.cmplz a.button.button-red,
+.cmplz button.button.button-red,
+.cmplz input.button.button-red {
+  border: 0 solid transparent;
+  background: var(--rsp-red);
+  color: var(--rsp-text-color-white);
+}
+.cmplz a.button.button-tertiary:hover,
+.cmplz button.button.button-tertiary:hover,
+.cmplz input.button.button-tertiary:hover,
+.cmplz a.button.button-red:hover,
+.cmplz button.button.button-red:hover,
+.cmplz input.button.button-red:hover,
+.cmplz a.button.button-tertiary:focus,
+.cmplz button.button.button-tertiary:focus,
+.cmplz input.button.button-tertiary:focus,
+.cmplz a.button.button-red:focus,
+.cmplz button.button.button-red:focus,
+.cmplz input.button.button-red:focus,
+.cmplz a.button.button-tertiary:active,
+.cmplz button.button.button-tertiary:active,
+.cmplz input.button.button-tertiary:active,
+.cmplz a.button.button-red:active,
+.cmplz button.button.button-red:active,
+.cmplz input.button.button-red:active {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rsp-red);
+  background: var(--rsp-red);
+  color: var(--rsp-text-color-white);
+}
+/* Documents overview */
+.cmplz-shortcode {
+  right: 10000px;
+  position: absolute;
+  background-color: #fff;
+  padding: 0;
+  white-space: nowrap;
+}
+.shortcode {
+  cursor: pointer;
 }
 .cmplz {
   /*skeleton*/

@@ -16,7 +16,7 @@
   --rsp-black: #333;
   --rsp-white: #fff;
   --rsp-yellow: #f4bf3e;
-  --rsp-blue: #29b6f6;
+  --rsp-blue: #009fff;
   --rsp-dark-blue: #1E73BE;
   --rsp-green: #2e8a37;
   --rsp-red: #D7263D;
@@ -1226,7 +1226,7 @@ a.button.cmplz-open-modal {
   border-radius: 20px;
 }
 input:checked + .cmplz-slider {
-  background-color: #29b6f6;
+  background-color: #009fff;
 }
 input:checked + .cmplz-slider:before {
   transform: translateX(17px);
@@ -1235,7 +1235,7 @@ input:disabled + .cmplz-slider {
   opacity: 0.4;
 }
 input:focus + .cmplz-slider {
-  box-shadow: 0 0 1px #29b6f6;
+  box-shadow: 0 0 1px #009fff;
 }
 #complete_wizard_first_notice {
   position: fixed;
@@ -1255,7 +1255,7 @@ input:focus + .cmplz-slider {
 #complete_wizard_first_notice p {
   border-radius: 0px;
   font-size: 16px;
-  background-color: #29b6f6;
+  background-color: #009fff;
   color: white;
   position: relative;
   /* height: 100px; */
@@ -1592,7 +1592,7 @@ a.cmplz.button,
 button.cmplz.button,
 input.cmplz.button {
   box-shadow: 0 0 0 #fff;
-  background-color: #29b6f6;
+  background-color: #009fff;
   color: #fff;
   padding-right: 20px;
   border: 0;
@@ -1602,7 +1602,7 @@ input.cmplz.button {
 a.cmplz.button:hover,
 button.cmplz.button:hover,
 input.cmplz.button:hover {
-  background-color: #5ac7f8;
+  background-color: #33b2ff;
   color: white;
 }
 a.cmplz.button .fa-angle-right,
@@ -1618,7 +1618,7 @@ input.cmplz.button .fa-angle-right {
   color: black;
 }
 #complianz .dashboard .fa-check {
-  color: #29b6f6;
+  color: #009fff;
 }
 input.current-page {
   width: initial;

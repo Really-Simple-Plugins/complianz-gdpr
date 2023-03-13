@@ -1,12 +1,12 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
-const cssbeautify = require('gulp-cssbeautify');
-const cssuglify = require('gulp-uglifycss');
+var uglifycss = require('gulp-uglifycss');
 const jsuglify = require('gulp-uglify');
 const spawn = require('child_process').spawn;
 var gulpless = require('gulp-less');
 var gulpautoprefixer = require('gulp-autoprefixer');
   //Creating a Style task that convert LESS to CSS
+const minify = require('gulp-minify');
 
 function lessTask(cb) {
       var srcfile = './assets/css/admin.less';
@@ -24,7 +24,6 @@ function lessTask(cb) {
 				 .pipe(gulpless())
 				.pipe(gulpautoprefixer())
 				.pipe(gulp.dest(temp));
-
 	   srcfile = './assets/css/document.less';
 	   temp = './assets/css';
 		gulp
@@ -47,6 +46,13 @@ function lessTask(cb) {
 				 .pipe(gulpless())
 				.pipe(gulpautoprefixer())
 				.pipe(gulp.dest(temp));
+
+	gulp.task('css', function () {
+		gulp.src('./assets/css/*.css')
+			.pipe(uglifycss({
+			}))
+			.pipe(gulp.dest('./assets/css'));
+	});
 }
 exports.less = lessTask
 
