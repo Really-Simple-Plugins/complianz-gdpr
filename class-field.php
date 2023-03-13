@@ -2591,6 +2591,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             }
 
             if ( !$error ) {
+				//clear cache 
+				delete_transient('cmplz_blocked_scripts');
                 $scripts = get_option("complianz_options_custom-scripts");
 
                 if (!is_array($scripts)) {
@@ -2677,6 +2679,8 @@ if ( ! class_exists( "cmplz_field" ) ) {
             if ( ! isset($_POST['data']) ) $error = true;
             if ( ! isset($_POST['id']) ) $error = true;
             if ( ! isset($_POST['type']) ) $error = true;
+			//clear transients when updating script
+			delete_transient('cmplz_blocked_scripts');
             if ( $_POST['type'] !== 'add_script' && $_POST['type'] !== 'block_script' && $_POST['type'] !== 'whitelist_script' ) $error = true;
             if ( ! isset($_POST['button_action']) ) $error = true;
             if ( $_POST['button_action'] !== 'save' && $_POST['button_action'] !== 'enable' && $_POST['button_action'] !== 'disable' && $_POST['button_action'] !== 'remove') $error = true;
