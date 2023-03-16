@@ -29,7 +29,8 @@ function cmplz_filter_integration_fields( $fields ) {
 			       || function_exists( $details['constant_or_function'] )
 			       || class_exists( $details['constant_or_function'] )
 			       || ($theme && ($theme->name === $details['constant_or_function']) )
-				) {
+				   || ($theme->parent() !== false && trim( $theme->parent()->Name ) === trim( $details['constant_or_function'] ) )
+			) {
 				$plugin_fields[ $plugin ]['disabled'] = false;
 				$plugin_fields[ $plugin ]['default']  = true;
 				$enabled_plugin_fields[ $plugin ]

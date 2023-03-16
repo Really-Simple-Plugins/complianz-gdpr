@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 6.4.2.1
+Stable tag: 6.4.3
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,14 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.3 =
+* Improvement: add exclude cookies filter
+* Improvement: add support for parent/child themes, props @dominiccarrington
+* Improvement: incorrect bold paragraphs in Privacy Statement for Children
+* Improvement: clear blocked scripts cache on ajax save in script center
+* Improvement: hubspot integration improved
+* fix: cmplz-consent-area shortcode reload loop because of hardcoded marketing category, @matthiaswagner
+
 = 6.4.2.1 =
 * New: branding update
 

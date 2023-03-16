@@ -177,7 +177,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => cmplz_sprintf('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s','<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf('This Cookie Policy was synchronised with %scookiedatabase.org%s on %s.','<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

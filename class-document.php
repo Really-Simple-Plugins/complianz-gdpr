@@ -2359,7 +2359,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				'category'   => false,
 				'text'   => $blocked_text,
 			), $atts, $tag );
-			if ($atts['cache_redirect']==="true" || $atts['cache_redirect']=== 1 || $atts['cache_redirect'] === true) {
+			if ($atts['cache_redirect']==="true" || $atts['cache_redirect']=== 1 || $atts['cache_redirect']=== "1" || $atts['cache_redirect'] === true) {
 				$cache_redirect = true;
 			} else {
 				$cache_redirect = false;
@@ -2370,7 +2370,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$service = $atts['category'] ? 'no-service' : COMPLIANZ::$cookie_blocker->sanitize_service_name($atts['service']);
 			$blocked_text = sanitize_text_field( $atts['text'] );
 
-			if ( cmplz_has_service_consent($service) || cmplz_has_consent('marketing') ) {
+			if ( cmplz_has_service_consent($service) || cmplz_has_consent($category) ) {
 				if ($cache_redirect) {
 					//redirect if not on redirect url, to prevent caching issues
 					?>
@@ -2380,6 +2380,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 							if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
 							url += 'cmplz_consent=1';
 							window.location.replace(url);
+						} else{
+							console.log("already on redirect url");
 						}
 					</script>
 					<?php
@@ -2389,7 +2391,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				//no consent
 				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
 				$redirect_uri = $scroll_into_view ? 'cmplz_consent=1#cmplz_consent_area_anchor' : 'cmplz_consent=1';
-				if ( $cache_redirect ) { ?>
+				if ( $cache_redirect ) {
+					?>
 					<script>
 						var url = window.location.href;
 						var consented_area_visible = document.getElementById('cmplz_consent_area_anchor');

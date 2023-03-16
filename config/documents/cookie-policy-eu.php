@@ -3,7 +3,7 @@ defined('ABSPATH') or die("you do not have access to this page!");
 
 $this->pages['eu']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the European Economic Area and Switzerland', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br>',
+        'content' => '<i>' . cmplz_sprintf(_x('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the European Economic Area and Switzerland.', 'Legal document cookie policy', 'complianz-gdpr'), '[publish_date]') . '</i><br>',
     ),
     array(
         'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -199,7 +199,7 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
     ),
 
     'last-sync' => array(
-        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
+        'content' => cmplz_sprintf(_x('This Cookie Policy was synchronized with %scookiedatabase.org%s on %s.', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://cookiedatabase.org/" target="_blank">', '</a>', '[sync_date]'),
         'callback_condition' => array(
 	        'cmplz_cdb_reference_in_policy',
         )

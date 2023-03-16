@@ -198,6 +198,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		foreach ( $localstorage as $key => $value ) {
 			//let's skip cookies with this site url in the name
 			if ( strpos($key, site_url())!==false ) continue;
+			if (apply_filters('cmplz_exclude_from_scan', false, $key, 'localstorage')) continue;
 
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
@@ -212,6 +213,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		foreach ( $cookies as $key => $value ) {
 			//let's skip cookies with this site url in the name
 			if ( strpos($key, site_url())!==false ) continue;
+			if (apply_filters('cmplz_exclude_from_scan', false, $key, 'cookie')) continue;
 
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
