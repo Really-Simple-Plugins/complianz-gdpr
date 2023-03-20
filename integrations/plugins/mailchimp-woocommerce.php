@@ -10,7 +10,10 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 
 function cmplz_custom_cookie_callback_function($mailchimp_landing_site) {
-    return false;
+	return false;
 }
 
-add_filter( 'mailchimp_allowed_to_use_cookie', 'cmplz_custom_cookie_callback_function', 10, 1 );
+// Only add filter when no marketing consent has been given
+if ( ! cmplz_has_consent('marketing') ) {
+	add_filter( 'mailchimp_allowed_to_use_cookie', 'cmplz_custom_cookie_callback_function', 10, 1 );
+}
