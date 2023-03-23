@@ -63,7 +63,7 @@ $this->fields = $this->fields + array(
 			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),
 			'help'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ",
 					'complianz-gdpr' ),
-			  'comment' => cmplz_sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the %sPrivacy Statement%s",
+			  'comment' => cmplz_sprintf( __( "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookie scan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the %sPrivacy Statement%s",
 					'complianz-gdpr' ),
 					'<a target="_blank" href="https://cookiedatabase.org/">', '</a>',
 					'<a target="_blank" href="https://cookiedatabase.org/privacy-statement/">',

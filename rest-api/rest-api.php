@@ -196,6 +196,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		//add local storage data
 		$localstorage = array_map( 'sanitize_text_field', $localstorage );
 		foreach ( $localstorage as $key => $value ) {
+
 			//let's skip cookies with this site url in the name
 			if ( strpos($key, site_url())!==false ) continue;
 			if (apply_filters('cmplz_exclude_from_scan', false, $key, 'localstorage')) continue;
@@ -203,7 +204,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
 			$cookie->type = 'localstorage';
-			$cookie->isOwnDomainCookie = true;
+			$cookie->domain = 'self';
 			$cookie->save( true );
 		}
 
@@ -218,7 +219,8 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
 			$cookie->type = 'cookie';
-			$cookie->isOwnDomainCookie = true;
+			//what we detect here is only on the own domain
+			$cookie->domain = 'self';
 			$cookie->save( true );
 		}
 

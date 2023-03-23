@@ -267,7 +267,7 @@ function cmplz_load_css( path ) {
  * @param type
  */
 
-function cmplz_run_script( script, category, type, sourceObj ) {
+function cmplz_run_script( script, category, service, type, sourceObj ) {
 	let targetObj = document.createElement("script");
 	if ( type !== 'inline' ) {
 		targetObj.setAttribute("src", script);
@@ -287,13 +287,13 @@ function cmplz_run_script( script, category, type, sourceObj ) {
 	try {
 		if (type!=='inline') {
 			targetObj.onload = function () {
-				cmplz_run_after_all_scripts(category);
-				cmplz_maybe_run_waiting_scripts(script, category, sourceObj);
+				cmplz_run_after_all_scripts(category, service);
+				cmplz_maybe_run_waiting_scripts(script, category, service, sourceObj);
 			}
 		} else {
 			window.cmplzScriptLoaded = function() {
-				cmplz_run_after_all_scripts(category);
-				cmplz_maybe_run_waiting_scripts(script, category, sourceObj);
+				cmplz_run_after_all_scripts(category, service);
+				cmplz_maybe_run_waiting_scripts(script, category, service, sourceObj);
 			}
 		}
 		let header = document.getElementsByTagName("head")[0];
@@ -301,7 +301,7 @@ function cmplz_run_script( script, category, type, sourceObj ) {
 
 	} catch(exception) {
 		//only runs in case of error
-		cmplz_run_after_all_scripts(category);
+		cmplz_run_after_all_scripts(category, service);
 		throw "Something went wrong " + exception + " while loading "+script;
 	}
 
@@ -314,15 +314,15 @@ function cmplz_run_script( script, category, type, sourceObj ) {
  * @param category
  */
 
-function cmplz_maybe_run_waiting_scripts( script, category, sourceObj ){
+function cmplz_maybe_run_waiting_scripts( script, category, service, sourceObj ){
 	let waitingScript = cmplz_get_waiting_script(cmplz_waiting_scripts, script);
 	if ( waitingScript ) {
-		cmplz_run_script( waitingScript, category, 'src', sourceObj );
+		cmplz_run_script( waitingScript, category, service, 'src', sourceObj );
 	}
 
 	let waiting_inline_script = cmplz_get_waiting_script(cmplz_waiting_inline_scripts, script);
 	if (waiting_inline_script) {
-		cmplz_run_script(waiting_inline_script, category, 'inline', sourceObj);
+		cmplz_run_script(waiting_inline_script, category, service, 'inline', sourceObj);
 	}
 }
 
@@ -553,9 +553,9 @@ function cmplz_enable_category(category, service) {
 	//remove accept cookie notice overlay
 	let selector;
 	if (service !== 'do_not_match') {
-		selector = '.cmplz-blocked-content-notice [data-service='+service+']';
+		selector = '.cmplz-blocked-content-notice [data-service="'+service+'"]';
 	} else {
-		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category='+category+']';
+		selector = complianz.clean_cookies!=1 ? '.cmplz-blocked-content-notice.cmplz-accept-'+category : '.cmplz-blocked-content-notice [data-category="'+category+'"]';
 	}
 	document.querySelectorAll(selector).forEach(obj => {
 		let blockedElementService = obj.getAttribute('data-service');
@@ -568,7 +568,7 @@ function cmplz_enable_category(category, service) {
 		}
 	});
 
-	document.querySelectorAll('[data-category='+category+'], [data-service='+service+']').forEach(obj => {
+	document.querySelectorAll('[data-category="'+category+'"], [data-service="'+service+'"]').forEach(obj => {
 		//if a category is activated, but this specific service is denied, skip.
 		let elementService = obj.getAttribute('data-service');
 		if ( cmplz_is_service_denied(elementService) ) {
@@ -624,12 +624,6 @@ function cmplz_enable_category(category, service) {
 			obj.classList.remove('cmplz-blocked-content-container');
 			obj.classList.remove('cmplz-placeholder-' + cssIndex);
 		}
-
-		let details = {};
-		details.category = category;
-		details.service = service;
-		let event = new CustomEvent('cmplz_category_enabled', { detail: details });
-		document.dispatchEvent(event);
 	});
 
 	/*
@@ -637,7 +631,7 @@ function cmplz_enable_category(category, service) {
 	 */
 
 	//create list of waiting scripts
-	let scriptElements = document.querySelectorAll('script[data-category='+category+'], script[data-service='+service+']');
+	let scriptElements = document.querySelectorAll('script[data-category="'+category+'"], script[data-service="'+service+'"]');
 	scriptElements.forEach(obj => {
 		let waitfor = obj.getAttribute('data-waitfor');
 		let src = obj.getAttribute('data-cmplz-src');
@@ -679,7 +673,7 @@ function cmplz_enable_category(category, service) {
 					postscribe(psID, '<script src=' + src + '></script>');
 				}
 			} else {
-				cmplz_run_script(src, category, 'src', obj );
+				cmplz_run_script(src, category, service, 'src', obj );
 			}
 
 		} else if (obj.innerText.length > 0 ) {
@@ -688,24 +682,15 @@ function cmplz_enable_category(category, service) {
 				return;
 			}
 
-			cmplz_run_script( obj.innerText, category, 'inline', obj );
+			cmplz_run_script( obj.innerText, category, service, 'inline', obj );
 		}
 	});
 
-	//fire an event so custom scripts can hook into this.
-	let details = {};
-	details.category = category;
-	details.service = service;
-	details.categories = cmplz_accepted_categories();
-	details.services = cmplz_get_all_service_consents();
-	details.region = complianz.region;
-	let event = new CustomEvent('cmplz_enable_category', { detail: details });
-	document.dispatchEvent(event);
 	//if there are no blockable scripts at all, we still want to provide a hook
 	//in most cases, there are blocked scripts, and this code won't run yet. In that
 	//case it's run from the script activation callbacks.
 	if ( !cmplz_has_blocked_scripts() ) {
-		cmplz_run_after_all_scripts(category);
+		cmplz_run_after_all_scripts(category, service);
 	}
 }
 
@@ -744,7 +729,6 @@ function cmplz_get_waiting_script( waiting_scripts, src ) {
 			}
 		}
 	}
-
 	return false;
 }
 
@@ -753,13 +737,13 @@ function cmplz_get_waiting_script( waiting_scripts, src ) {
  * @param arr
  * @returns {boolean}
  */
+
 function cmplz_array_is_empty(arr) {
 	for (let key in arr) {
 		if (arr.hasOwnProperty(key)) {
 			return false;
 		}
 	}
-
 	return true;
 }
 
@@ -787,9 +771,19 @@ function cmplz_is_waiting_script(waiting_scripts, srcOrScript) {
  * if all scripts have been executed, fire a hook.
  */
 
-function cmplz_run_after_all_scripts(category) {
-	if (!cmplz_all_scripts_hook_fired && cmplz_array_is_empty(cmplz_waiting_inline_scripts) && cmplz_array_is_empty(cmplz_waiting_scripts) ) {
-		let event = new CustomEvent('cmplz_run_after_all_scripts', { detail: category });
+function cmplz_run_after_all_scripts(category, service) {
+	//fire an event so custom scripts can hook into this.
+	let details = {};
+	details.category = category;
+	details.service = service;
+	details.categories = cmplz_accepted_categories();
+	details.services = cmplz_get_all_service_consents();
+	details.region = complianz.region;
+	let event = new CustomEvent('cmplz_enable_category', { detail: details });
+	document.dispatchEvent(event);
+
+	if ( !cmplz_all_scripts_hook_fired && cmplz_array_is_empty(cmplz_waiting_inline_scripts) && cmplz_array_is_empty(cmplz_waiting_scripts) ) {
+		let event = new CustomEvent('cmplz_run_after_all_scripts', { detail: category, service:service});
 		document.dispatchEvent(event);
 		cmplz_all_scripts_hook_fired = true;
 	}
@@ -1112,6 +1106,11 @@ window.cmplz_has_consent = function ( category ){
 
 	if ( category === 'functional' ) {
 		return true;
+	}
+
+	//if consent is given on service level, this should be handled by cmplz_has_service_consent
+	if ( cmplz_do_not_track() ){
+		return false;
 	}
 
 	let has_consent, value;
@@ -2222,7 +2221,7 @@ if ('undefined' != typeof window.jQuery) {
 					if (category==='functional') {
 						break;
 					}
-					selectorVideos.push('.cmplz-wp-video-shortcode[data-category='+category+']');
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-category="'+category+'"]');
 				}
 			}
 			for (var s_key in services) {
@@ -2267,29 +2266,22 @@ if ('undefined' != typeof window.jQuery) {
 		 * Activate fitvids on the parent element if active
 		 *  a.o. Beaverbuilder
 		 */
-
-		document.querySelectorAll('.cmplz-video').forEach(obj => {
-			//turn obj into jquery object
-			let $obj = $(obj);
-			if (typeof $obj.parent().fitVids == 'function') {
-				$obj.parent().fitVids();
-			}
+		document.querySelectorAll('.cmplz-video.cmplz-activated').forEach(obj => {
+			cmplz_activate_fitvids(obj);
 		});
 
-		/*
-		 * Activate fitvids on the parent element if active
-		 *  a.o. Beaverbuilder
-		 */
-		$(document).on("cmplz_category_enabled", cmplz_enable_fitvids);
-		function cmplz_enable_fitvids(data) {
-			document.querySelectorAll('.cmplz-video').forEach(obj => {
-				//turn obj into jquery object
-				let $obj = $(obj);
-				if (typeof $obj.parent().fitVids == 'function') {
-					$obj.parent().fitVids();
-				}
+		document.addEventListener("cmplz_enable_category", function (e) {
+			document.querySelectorAll('.cmplz-video.cmplz-activated').forEach(obj => {
+				cmplz_activate_fitvids(obj);
 			});
+		});
+		
+		function cmplz_activate_fitvids(obj){
+			//turn obj into jquery object
+			let $obj = $(obj);
+			if (typeof $obj.parent().fitVids === 'function') {
+				$obj.parent().fitVids();
+			}
 		}
-
 	});
 }

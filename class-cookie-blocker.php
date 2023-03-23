@@ -76,6 +76,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					}
 				}
 			}
+			//ensure there are no duplicate arrays
+			$this->delete_cookies_list = array_unique($this->delete_cookies_list);
 		}
 
 		/**
@@ -83,7 +85,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return void
 		 */
 		public function delete_cookies(){
+			$max = 20;
+			$count=0;
 			foreach ($this->delete_cookies_list as $name ) {
+				//limit header size by limiting number of cookies to delete in one go.
+				if ($count>$max) {
+					continue;
+				}
+				$count++;
 				unset($_COOKIE[$name]);
 				setcookie($name, null, -1, COMPLIANZ::$cookie_admin->get_cookie_path() );
 				setcookie($name, null, -1, '/' );
@@ -898,16 +907,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			$content = esc_attr( $content );
 			$id      = esc_attr( $id );
 
-			//don't add if it's already included
-			if ( strpos($html, 'data-'.$id) !== false ) {
-				return $html;
-			}
-
-			$pos = strpos( $html, "<$el" );
-			if ( $pos !== false ) {
-				$html = substr_replace( $html,
-					'<' . $el . ' data-' . $id . '="' . $content . '"', $pos,
-					strlen( "<$el" ) );
+			$pattern = '/<'.$el.'[^>].*?\K(data-'.$id.'=[\'|\"]'.$content.'[\'|\"])(?=.*>)/i';
+			preg_match( $pattern, $html, $matches );
+			if ( !$matches ) {
+				$pos = strpos( $html, "<$el" );
+				if ( $pos !== false ) {
+					$html = substr_replace( $html, '<' . $el . ' data-' . $id . '="' . $content . '"', $pos, strlen( "<$el" ) );
+				}
 			}
 
 			return $html;

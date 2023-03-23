@@ -31,7 +31,6 @@ if ( !function_exists('cmplz_divi_map_script')) {
 
 	function cmplz_divi_whitelist($tags){
 		$tags[] = 'et_animation_data';
-		$tags[] = 'cmplz_divi_init_map';
 		$tags[] = 'Divi/core/admin/js/recaptcha.js';
 		return $tags;
 	}
@@ -58,34 +57,69 @@ if ( !function_exists('cmplz_divi_map_script')) {
 	 *
 	 */
 
-	function cmplz_divi_init_maps() {
+	function cmplz_divi_init_recaptcha() {
+		if ( !cmplz_uses_thirdparty('google-recaptcha') ){
+			return;
+		}
 		ob_start();
 		?>
 		<script>
-				document.addEventListener("cmplz_run_after_all_scripts", cmplz_divi_init_recaptcha);
-				function cmplz_divi_init_recaptcha(e) {
-					if (e.detail==='marketing' && window.etCore ){
-						setTimeout(function(){
-							window.etCore.api.spam.recaptcha.init();
-						}, 500);
-					}
+			document.addEventListener("cmplz_enable_category", function (e) {
+				if (!cmplz_activated_divi_maps && (e.detail.category==='marketing' || e.detail.service === 'google-maps') ){
+					cmplz_divi_init_recaptcha();
 				}
+			});
 
-				cmplz_divi_init_map();
-				function cmplz_divi_init_map() {
-					if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.et_pb_map_init ) {
-						setTimeout(cmplz_divi_fire_domContentLoadedEvent, 500);
-					} else {
-						let map_container = jQuery(".et_pb_map_container");
-						map_container.each(function () {
-							window.et_pb_map_init(jQuery(this));
-						})
-					}
+			function cmplz_divi_init_recaptcha() {
+				if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.etCore ) {
+					console.log("jquery or map divi function not found yet, set timeout ");
+					setTimeout(cmplz_divi_init_recaptcha, 500);
+				} else {
+					console.log("init recaptcha");
+					window.etCore.api.spam.recaptcha.init();
 				}
+			}
 
-				function cmplz_divi_fire_domContentLoadedEvent() {
-					dispatchEvent(new Event('load'));
+		</script>
+		<?php
+		$script = ob_get_clean();
+		$script = str_replace(array('<script>', '</script>'), '', $script);
+		wp_add_inline_script( 'cmplz-cookiebanner', $script );
+	}
+	add_action( 'wp_enqueue_scripts', 'cmplz_divi_init_recaptcha',PHP_INT_MAX );
+
+	/**
+	 * Init Google Maps
+	 *
+	 * @return void
+	 */
+	function cmplz_divi_init_maps() {
+		if ( !cmplz_uses_thirdparty('google-maps') ) {
+			return;
+		}
+
+		ob_start();
+		?>
+		<script>
+			let cmplz_activated_divi_maps = false;
+			document.addEventListener("cmplz_enable_category", function (e) {
+				if (!cmplz_activated_divi_maps && (e.detail.category==='marketing' || e.detail.service === 'google-maps') ){
+					cmplz_divi_init_map();
 				}
+			});
+
+			function cmplz_divi_init_map() {
+				if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.et_pb_map_init ) {
+					setTimeout(cmplz_divi_init_map, 500);
+				} else {
+					let map_container = jQuery(".et_pb_map_container");
+					map_container.each(function () {
+						window.et_pb_map_init(jQuery(this));
+						cmplz_activated_divi_maps = true;
+					})
+				}
+			}
+
 		</script>
 		<?php
 		$script = ob_get_clean();

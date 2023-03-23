@@ -1778,6 +1778,8 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 				'rel'    => [],
 				'title'  => [],
 				'target' => [],
+				'aria-expanded' => [],
+				'aria-controls' => [],
 			),
 			'b'          => [],
 			'br'         => [],
