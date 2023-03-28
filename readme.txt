@@ -181,7 +181,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: incorrect bold paragraphs in Privacy Statement for Children
 * Improvement: clear blocked scripts cache on ajax save in script center
 * Improvement: hubspot integration improved
-* fix: cmplz-consent-area shortcode reload loop because of hardcoded marketing category, @matthiaswagner
+* fix: cmplz-consent-area shortcode reload loop because of hardcoded marketing category, props @matthiaswagner
 
 = 6.4.2.1 =
 * New: branding update
