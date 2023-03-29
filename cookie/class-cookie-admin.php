@@ -65,11 +65,20 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_edit_item', array( $this, 'ajax_edit_item' ) );
 			add_action( 'wp_ajax_cmplz_get_list', array( $this, 'ajax_get_list' ) );
 			add_filter( 'cmplz_consenttype', array( $this, 'maybe_filter_consenttype' ), 10, 2 );
+//			add_filter( 'admin_init', array( $this, 'scan_cookies' ), 10, 1 );
 		}
 
 		static function this() {
 			return self::$_this;
 		}
+
+		/**
+		 * Run our remote cookie scan for third party cookies
+		 *
+		 * @return void
+		 */
+
+
 
 		/**
 		 * Front end javascript error detection.
@@ -884,18 +893,19 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return;
 			}
 
-			$data = $this->get_syncable_cookies( true );
-			//if no syncable cookies are found, exit.
-			if ( $data['count'] == 0 ) {
-				return;
-			}
+			$data = $this->get_syncable_cookies( true, true );
 
 			if ( ! isset( $data['en'] ) ) {
 				return;
 			}
 
+			//if no syncable cookies are found, exit.
+			if ( $data['count'] == 0 ) {
+				return;
+			}
+
 			//get english cookies
-			$en_cookie_data = $data['en'];
+			$cookie_data = $data['en'];
 			$languages      = $this->get_supported_languages();
 			foreach ( $languages as $language ) {
 
@@ -904,24 +914,21 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				}
 
 				//make sure each cookie is available in all languages
-				foreach ( $en_cookie_data as $service_name => $en_cookies ) {
-					foreach ( $en_cookies as $cookie_name ) {
-						$en_cookie         = new CMPLZ_COOKIE( $cookie_name );
-						$translated_cookie = new CMPLZ_COOKIE( $cookie_name, $language );
-						if ( ! $translated_cookie->ID ) {
-							$translated_cookie->isTranslationFrom = $en_cookie->ID;
-							$translated_cookie->sync              = $en_cookie->sync;
-							$translated_cookie->showOnPolicy      = $en_cookie->showOnPolicy;
-							$translated_cookie->name              = $cookie_name;
-							$translated_cookie->isPersonalData    = $en_cookie->isPersonalData;
-							$translated_cookie->isMembersOnly     = $en_cookie->isMembersOnly;
-							$translated_cookie->serviceID         = $en_cookie->serviceID;
-							$translated_cookie->service           = $en_cookie->service;
-							$translated_cookie->slug              = $en_cookie->slug;
-							$translated_cookie->ignored           = $en_cookie->ignored;
-							$translated_cookie->lastAddDate       = time();
-							$translated_cookie->save();
-						}
+				foreach ( $cookie_data as $cookie ) {
+					$translated_cookie = new CMPLZ_COOKIE( $cookie->name, $language );
+					if ( ! $translated_cookie->ID ) {
+						$translated_cookie->isTranslationFrom = $cookie->ID;
+						$translated_cookie->sync              = $cookie->sync;
+						$translated_cookie->showOnPolicy      = $cookie->showOnPolicy;
+						$translated_cookie->name              = $cookie->name;
+						$translated_cookie->isPersonalData    = $cookie->isPersonalData;
+						$translated_cookie->isMembersOnly     = $cookie->isMembersOnly;
+						$translated_cookie->serviceID         = $cookie->serviceID;
+						$translated_cookie->service           = $cookie->service;
+						$translated_cookie->slug              = $cookie->slug;
+						$translated_cookie->ignored           = $cookie->ignored;
+						$translated_cookie->lastAddDate       = time();
+						$translated_cookie->save();
 					}
 				}
 			}
@@ -943,6 +950,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 			$msg   = '';
 			$error = false;
+			$result = false;
 			$data  = $this->get_syncable_cookies();
 			if ( ! $this->use_cdb_api() ) {
 				$error = true;
@@ -955,8 +963,6 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$msg   = "No cookies";
 				$error = true;
 			}
-
-			unset( $data['count'] );
 
 			if ( get_transient( 'cmplz_cookiedatabase_request_active' ) ) {
 				$error = true;
@@ -972,11 +978,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$plugins         = get_option( 'active_plugins' );
 				$data['plugins'] = "<pre>" . implode( "<br />", $plugins )
 				                   . "</pre>";
-				$data['website'] = '<a href="' . esc_url_raw( site_url() )
-				                   . '">' . esc_url_raw( site_url() ) . '</a>';
+				$data['website'] = '<a href="' . esc_url_raw( site_url() ) . '">' . esc_url_raw( site_url() ) . '</a>';
 				$data            = apply_filters( 'cmplz_api_data', $data );
 				$json            = json_encode( $data );
-				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v2/cookies/';
+				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v3/cookies/';
 				$ch = curl_init();
 
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
@@ -1038,79 +1043,66 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$error = true;
 			}
 
-			//first, add "en" as base cookie, and get ID
-			if ( ! $error ) {
 
-				//make sure we have an en cookie
+			if ( ! $error ) {
+				//make sure we have an 'en' cookie
 				if ( is_object( $result ) && property_exists($result, 'en') ) {
-					$services           = $result->en;
-					foreach ($services as $service => $cookies ) {
-						$service_name = ($service !== 'no-service-set') ? $service : false;
-						$isTranslationFrom = array();
-						foreach (
-							$cookies as $original_cookie_name => $cookie_object
-						) {
+
+					//first, add "en" as base cookie, and get ID
+					$cookies           = $result->en;
+					$isTranslationFrom = [];
+					foreach ( $cookies as $cookie_object ) {
+						if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
+							continue;
+						}
+						$cookie                        = new CMPLZ_COOKIE( $cookie_object->original_name, 'en', $cookie_object->service );
+						$cookie->name                  = $cookie_object->name;
+						$cookie->retention             = $cookie_object->retention;
+						$cookie->type                  = $cookie_object->type;
+						$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
+						$cookie->cookieFunction        = $cookie_object->cookieFunction;
+						$cookie->purpose               = $cookie_object->purpose;
+						$cookie->isPersonalData        = $cookie_object->isPersonalData;
+						$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
+						$cookie->service               = $cookie_object->service;
+						$cookie->ignored               = $cookie_object->ignore;
+						$cookie->slug                  = $cookie_object->slug;
+						$cookie->lastUpdatedDate       = time();
+						$cookie->save();
+						$isTranslationFrom[ $cookie->name ] = $cookie->ID;
+					}
+
+					foreach ( $result as $language => $cookies ) {
+						if ($language === 'en') {
+							continue;
+						}
+						foreach ( $cookies as $cookie_object ) {
 							if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
 								continue;
 							}
 
-							$cookie                        = new CMPLZ_COOKIE( $original_cookie_name, 'en', $service_name );
+							$cookie                  	   = new CMPLZ_COOKIE( $cookie_object->original_name, $language, $cookie_object->service);
 							$cookie->name                  = $cookie_object->name;
 							$cookie->retention             = $cookie_object->retention;
-							$cookie->type                  = $cookie_object->type;
 							$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
 							$cookie->cookieFunction        = $cookie_object->cookieFunction;
 							$cookie->purpose               = $cookie_object->purpose;
 							$cookie->isPersonalData        = $cookie_object->isPersonalData;
 							$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
 							$cookie->service               = $cookie_object->service;
-							$cookie->ignored               = $cookie_object->ignore;
 							$cookie->slug                  = $cookie_object->slug;
-							$cookie->lastUpdatedDate       = time();
-							$cookie->save();
-							$isTranslationFrom[ $cookie->name ] = $cookie->ID;
-						}
-					}
+							$cookie->ignored               = $cookie_object->ignore;
+							$cookie->lastUpdatedDate     = time();
 
-					foreach ( $result as $language => $services ) {
-						if ( $language === 'en' ) {
-							continue;
-						}
-
-						foreach ($services as $service => $cookies ) {
-							$service_name = ($service !== 'no-service-set') ? $service : false;
-							foreach (
-								$cookies as $original_cookie_name => $cookie_object
-							) {
-								if ( !is_object( $cookie_object ) || !property_exists($cookie_object, 'name') ) {
-									continue;
-								}
-
-								$cookie                  	   = new CMPLZ_COOKIE( $original_cookie_name, $language, $service_name);
-								$cookie->name                  = $cookie_object->name;
-								$cookie->retention             = $cookie_object->retention;
-								$cookie->collectedPersonalData = $cookie_object->collectedPersonalData;
-								$cookie->cookieFunction        = $cookie_object->cookieFunction;
-								$cookie->purpose               = $cookie_object->purpose;
-								$cookie->isPersonalData        = $cookie_object->isPersonalData;
-								$cookie->isMembersOnly         = $cookie_object->isMembersOnly;
-								$cookie->service               = $cookie_object->service;
-								$cookie->slug                  = $cookie_object->slug;
-								$cookie->ignored               = $cookie_object->ignore;
-								$cookie->lastUpdatedDate     = time();
-
-								//when there's no en cookie, create one.
-								if ( ! isset( $isTranslationFrom[ $cookie->name ] )
-									 && $language !== 'en'
-								) {
-									$parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
-									$parent_cookie->save();
-									$isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
-								}
-
-								$cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
-								$cookie->save();
+							//when there's no en cookie, create one.
+							if ( ! isset( $isTranslationFrom[ $cookie->name ] ) ) {
+								$parent_cookie = new CMPLZ_COOKIE( $cookie->name, 'en' );
+								$parent_cookie->save();
+								$isTranslationFrom[ $cookie->name ] = $parent_cookie->ID;
 							}
+
+							$cookie->isTranslationFrom = $isTranslationFrom[ $cookie->name ];
+							$cookie->save();
 						}
 					}
 				}
@@ -1163,85 +1155,40 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 * Get cookies to be synced
 		 *
 		 * @param false $ignore_time_limit
+		 * @param false $include_ignored_cookies
 		 *
 		 * @return array
 		 */
 
-		public function get_syncable_cookies( $ignore_time_limit = false ) {
+		public function get_syncable_cookies( bool $ignore_time_limit = false, bool $include_ignored_cookies = false ): array {
 			if ( ! wp_doing_cron() && ! cmplz_user_can_manage() ) {
 				return [];
 			}
 			$languages            = $this->get_supported_languages();
-			$data                 = array();
-			$index                = array();
-			$thirdparty_cookies   = array();
-			$localstorage_cookies = array();
-			$count_all            = 0;
-			$ownDomainCookies = $this->get_cookies(array('isOwnDomainCookie'=>true));
-			$hasOwnDomainCookies = count($ownDomainCookies) >0;
+			$data                 = [];
+			$count_all = 0;
 			$scan_interval = apply_filters('cmplz_sync_interval', 3);
 			$one_week_ago = strtotime( "-".$scan_interval." month" );
 			foreach ( $languages as $language ) {
-				$args = array( 'sync' => true, 'language' => $language );
+				$args = [
+					'sync' => true,
+					'language' => $language,
+					'ignored' => false,
+				];
+				//ignored/admin cookies
+				if ($include_ignored_cookies) unset($args['ignored']);
 				if ( ! $ignore_time_limit && ! wp_doing_cron()
 				     && ! defined( 'CMPLZ_SKIP_MONTH_CHECK' )
 				) {
 					$args['lastUpdatedDate'] = $one_week_ago;
 				}
 				$cookies   = $this->get_cookies( $args );
-				$index[$language]     = 0;
-				foreach ( $cookies as $c_index => $cookie ) {
-					$c    = new CMPLZ_COOKIE( $cookie->name, $language, $cookie->service );
-					$slug = $c->slug ?: $index[$language];
-					//pass the type to the CDB
-					if ( $c->type === 'localstorage' ) {
-						if (!in_array($cookie->name, $localstorage_cookies) ) $localstorage_cookies[] = $cookie->name;
-					}
-					//need to pass a service here.
-					if ( !empty( $c->service ) ) {
-						$service = new CMPLZ_SERVICE( $c->service );
-
-						//deprecated as of 5.3. Use only if no own domain cookie property has ever been saved
-						if ( !$hasOwnDomainCookies ) {
-							if ( $service->thirdParty || $service->secondParty ) {
-								if (!in_array($cookie->name, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
-							}
-						}
-
-						$data[ $language ][ $c->service ][ $slug ] = $cookie->name;
-						//make sure the cookie is available in en as well.
-						if (!isset($data[ 'en' ][ $c->service ][ $slug ])) {
-							$data[ 'en' ][ $c->service ][ $slug ] = $cookie->name;
-						}
-					} else {
-						$data[ $language ]['no-service-set'][ $slug ] = $cookie->name;
-						if (!isset($data[ 'en' ]['no-service-set'][ $slug ])) {
-							$data[ 'en' ]['no-service-set'][ $slug ] = $cookie->name;
-						}
-					}
-
-					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced onlly with non own domain cookies.
-					if ( $hasOwnDomainCookies ) {
-						if ( !$c->isOwnDomainCookie ) {
-							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
-						}
-					}
-
-					$index[$language] ++;
+				foreach ( $cookies as $cookie ) {
+					$data[ $language ][] = new CMPLZ_COOKIE( $cookie->name, $language, $cookie->service );
 				}
+				$count_all += count( $cookies );
 			}
-
-			//now count the "EN" cookies
-			if ( isset($data['en']) && is_array($data['en']) ) {
-				foreach ($data['en'] as $service => $cookies ){
-					$count_all += is_array($cookies) ? count($cookies) : 0;
-				}
-			}
-
-			$data['count']               = $count_all;
-			$data['thirdpartyCookies']   = $thirdparty_cookies;
-			$data['localstorageCookies'] = $localstorage_cookies;
-
+			$data['count'] = $count_all;
 			return $data;
 		}
 
@@ -1303,23 +1250,16 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			if ( get_transient( 'cmplz_cookiedatabase_request_active' ) ) {
 				$error = true;
-				$msg
-				       = __( "A request is already running. Please be patient until the current request finishes",
-					"complianz-gdpr" );
+				$msg = __( "A request is already running. Please be patient until the current request finishes", "complianz-gdpr" );
 			}
 
 			if ( ! $error ) {
-				set_transient( 'cmplz_cookiedatabase_request_active', true,
-					MINUTE_IN_SECONDS );
+				set_transient( 'cmplz_cookiedatabase_request_active', true, MINUTE_IN_SECONDS );
 
 				//clear, for further use of this variable.
-				$services = array();
 				$data     = apply_filters( 'cmplz_api_data', $data );
-
 				$json     = json_encode( $data );
-				$endpoint = trailingslashit( CMPLZ_COOKIEDATABASE_URL )
-				            . 'v1/services/';
-
+				$endpoint = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/services/';
 				$ch = curl_init();
 
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
@@ -1371,18 +1311,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( ! $error ) {
 				if ( is_object( $result) && property_exists($result, 'en') ) {
 					$services = $result->en;
-
 					$isTranslationFrom = array();
-					foreach (
-						$services as $original_service_name =>
-						$service_and_cookies
-					) {
+					foreach ( $services as $original_service_name => $service_and_cookies ) {
 						if ( !is_object( $service_and_cookies) || !property_exists( $service_and_cookies, 'service') ){
 							continue;
 						}
-
 						$service_object = $service_and_cookies->service;
-
 						//sync service data
 						if ( !is_object( $service_object) || !property_exists( $service_object, 'name') ) {
 							continue;
@@ -1401,10 +1335,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 						$isTranslationFrom[ $service->name ] = $service->ID;
 
 						//get the cookies only if it's third party service. Otherwise, just sync the service itself.
-						if ( $service->thirdParty
-						     || $service->secondParty
-						        && isset( $service_and_cookies->cookies )
-						) {
+						if ( ($service->thirdParty || $service->secondParty) && property_exists( $service_and_cookies, 'cookies' ) ) {
 							$cookies = $service_and_cookies->cookies;
 							if ( ! is_array( $cookies ) ) {
 								continue;
@@ -1412,9 +1343,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 							foreach ( $cookies as $cookie_name ) {
 								$cookie = new CMPLZ_COOKIE( $cookie_name, 'en', $service->name );
-								$cookie->add( $cookie_name,
-									$this->get_supported_languages(), false,
-									$service->name );
+								$cookie->add( $cookie_name, $this->get_supported_languages(), false, $service->name );
 							}
 						}
 					}
@@ -2619,6 +2548,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				return false;
 			}
 
+			//run our remote scan for this batch, only on the third request, when processed pages is 2.
+			$processed_pages_list = $this->get_processed_pages_list();
+
+			if ( count($processed_pages_list)==2 ) {
+				do_action('cmplz_remote_cookie_scan');
+			}
+
 			$id_to_process = reset( $pages );
 			$this->set_page_as_processed( $id_to_process );
 			switch ( $id_to_process ) {
@@ -2635,6 +2571,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				"complianz_scan_token" => $token,
 				'complianz_id'         => $id_to_process
 			), $url );
+
 			if ( is_ssl() ) {
 				$url = str_replace( "http://", "https://", $url );
 			}
@@ -2642,6 +2579,75 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			return apply_filters("cmplz_next_page_url", $url);
 		}
 
+		/**
+		 * Get the list of posttypes to process
+		 * @return array
+		 */
+
+		public function get_scannable_post_types(){
+			$args       = array(
+					'public' => true,
+			);
+			$post_types = get_post_types( $args );
+			unset(
+					$post_types['elementor_font'],
+					$post_types['attachment'],
+					$post_types['revision'],
+					$post_types['nav_menu_item'],
+					$post_types['custom_css'],
+					$post_types['customize_changeset'],
+					$post_types['cmplz-dataleak'],
+					$post_types['cmplz-processing'],
+					$post_types['user_request'],
+					$post_types['cookie'],
+					$post_types['product']
+			);
+			return apply_filters('cmplz_cookiescan_post_types',$post_types );
+		}
+
+		/**
+		 *
+		 * Get list of page id's that we want to process this set of scan requests, which weren't included in the scan before
+		 *
+		 * @return string $url
+		 * *@since 1.0
+		 */
+
+		public function get_remote_scan_url() {
+			if ( !cmplz_user_can_manage() ) {
+				return false;
+			}
+
+			//homepage is not always a post.
+			if ( !get_option('cmplz_remote_homepage_scanned') ) {
+				update_option('cmplz_remote_homepage_scanned', true, false);
+				return site_url();
+			}
+
+			//from each post type, get one, for faster results.
+			$post_types = $this->get_scannable_post_types();
+			$args      = array(
+				'post_type'      => $post_types,
+				'posts_per_page' => 1,
+				'meta_query'     => array(
+					array(
+						'key'     => '_cmplz_remote_scanned_post',
+						'compare' => 'NOT EXISTS'
+					),
+				)
+			);
+			$posts = get_posts( $args );
+
+			if ( count( $posts ) > 0 ) {
+				$post = reset( $posts );
+				update_post_meta( $post->ID, '_cmplz_remote_scanned_post', true );
+				return get_permalink( $post->ID );
+			}
+
+			//reset all posts, so we can start over.
+			delete_post_meta_by_key( '_cmplz_remote_scanned_post' );
+			return site_url();
+		}
 
 		/**
 		 *
@@ -2657,27 +2663,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 			$posts = get_transient( 'cmplz_pages_list' );
 			if ( ! $posts ) {
-				$args       = array(
-					'public' => true,
-				);
-				$post_types = get_post_types( $args );
-				unset(
-					$post_types['elementor_font'],
-					$post_types['attachment'],
-					$post_types['revision'],
-					$post_types['nav_menu_item'],
-					$post_types['custom_css'],
-					$post_types['customize_changeset'],
-					$post_types['cmplz-dataleak'],
-					$post_types['cmplz-processing'],
-					$post_types['user_request'],
-					$post_types['cookie'],
-					$post_types['product']
-				);
-				$post_types = apply_filters('cmplz_cookiescan_post_types',$post_types );
-
+				$post_types = $this->get_scannable_post_types();
 				//from each post type, get one, for faster results.
-				$all_types_posts = $all_types_array = array();
+				$all_types_posts = array();
 				foreach ( $post_types as $post_type ) {
 					$args      = array(
 							'post_type'      => $post_type,
@@ -2968,8 +2956,12 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			if ( $settings['isOwnDomainCookie'] !== 'all' ) {
-				$sql .= ' AND isOwnDomainCookie = '
-						. $this->bool_string( $settings['isOwnDomainCookie'] );
+				if ( $settings['isOwnDomainCookie']) {
+					//legacy support for owndomain cookie value
+					$sql .= " AND (domain = 'self' OR isOwnDomainCookie = true) ";
+				} else {
+					$sql .= " AND (domain != 'self') ";
+				}
 			}
 
 			if ( ! $settings['language'] ) {
@@ -4056,7 +4048,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function get_progress_count() {
 			$done  = $this->get_processed_pages_list();
-			$total = COMPLIANZ::$cookie_admin->get_pages_list_single_run();
+			$total = $this->get_pages_list_single_run();
 
 			$progress = 100 * ( count( $done ) / count( $total ) );
 			if ( $progress > 100 ) {

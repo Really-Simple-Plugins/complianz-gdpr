@@ -26,6 +26,7 @@ function cmplz_editor_assets() {
 		array(
 			'site_url' => get_rest_url(),
 			'cmplz_preview' => cmplz_url.  'assets/images/gutenberg-preview.png',
+			'user_can_unfiltered_html' => current_user_can('unfiltered_html'),
 		)
 	);
 
@@ -47,20 +48,34 @@ function cmplz_editor_assets() {
 }
 add_action( 'enqueue_block_editor_assets', 'cmplz_editor_assets' );
 
-/**
- * Register our block
- */
-function cmplz_editor_register_block(){
-
-}
-add_action( 'init', 'cmplz_editor_register_block' );
-
-
-
 register_block_type('complianz/document', array(
 	'render_callback' => 'cmplz_render_document_block',
 ));
+register_block_type('complianz/consent-area', array(
+	'render_callback' => 'cmplz_render_consent_area_block',
+));
 
+/**
+ * Handles the front end rendering of the complianz consent area block
+ *
+ * @param array $attributes
+ * @param string $content
+ * @return string
+ */
+
+function cmplz_render_consent_area_block($attributes, $content)
+{
+	$category = isset($attributes['category']) ? cmplz_sanitize_category( $attributes['category'] ) : 'marketing';
+	$service = isset($attributes['service']) ? COMPLIANZ::$cookie_blocker->sanitize_service_name( $attributes['service'] ) : 'general';
+	$post_id = (int)  $attributes['postId'];
+	$block_id = sanitize_title($attributes['blockId']);
+	$placholder_content = $attributes['placeholderContent'];
+	ob_start();
+	?><div class="cmplz-consent-area cmplz-placeholder" data-post_id="<?php echo esc_attr($post_id)?>" data-block_id="<?php echo esc_attr($block_id)?>" data-category="<?php echo esc_attr($category); ?>" data-service="<?php echo esc_attr($service); ?>">
+		<?php echo wp_kses_post($placholder_content) ?>
+	</div><?php
+	return  ob_get_clean();
+}
 /**
  * Handles the front end rendering of the complianz block
  *
@@ -68,8 +83,7 @@ register_block_type('complianz/document', array(
  * @param $content
  * @return string
  */
-function cmplz_render_document_block($attributes, $content)
-{
+function cmplz_render_document_block($attributes, $content): string {
 	$html = '';
 	if (isset($attributes['selectedDocument'])) {
 		if (isset($attributes['documentSyncStatus']) && $attributes['documentSyncStatus']==='unlink' && isset($attributes['customDocument'])){
@@ -86,3 +100,7 @@ function cmplz_render_document_block($attributes, $content)
 
 	return $html;
 }
+
+
+
+

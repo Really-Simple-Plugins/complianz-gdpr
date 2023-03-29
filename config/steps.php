@@ -53,7 +53,7 @@ $this->steps = array(
 					1 => array(
 						'title' => __( 'Cookie scan', 'complianz-gdpr' ),
 						'intro' =>
-                            '<p>'.__( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ) . '&nbsp;' .
+                            '<p>'.__( 'Complianz will scan several pages of your website for cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ) . '&nbsp;' .
                                   cmplz_sprintf( __( 'For more information, %sread our 5 tips%s about the cookie scan.', 'complianz-gdpr'), '<a href="https://complianz.io/cookie-scan-results/" target="_blank">','</a>').'</p>',
 					),
 					2 => array(
@@ -79,7 +79,7 @@ $this->steps = array(
 						'intro' => '<p>'
 						           .__( 'Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org.','complianz-gdpr')
 						           ."&nbsp;"
-						           . __('We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.','complianz-gdpr')
+						           . __('We connect to this open-source database using an external API, which sends the results of the cookie scan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.','complianz-gdpr')
 					                .cmplz_read_more("https://complianz.io/our-cookiedatabase-a-new-initiative/")
 						           .'</p>',
 

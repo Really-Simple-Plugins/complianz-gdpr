@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
 			$('.cmplz-all').closest('.cmplz-task-switcher').removeClass('active');
 			$('.cmplz-remaining').closest('.cmplz-task-switcher').addClass('active');
 		}
-		 container.html('<div class="cmplz-skeleton"></div>' );
+		container.html('<div class="cmplz-skeleton"></div>' );
 		$.ajax({
 			type: "GET",
 			url: complianz_admin.admin_url,

@@ -1778,6 +1778,8 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 				'rel'    => [],
 				'title'  => [],
 				'target' => [],
+				'aria-expanded' => [],
+				'aria-controls' => [],
 			),
 			'b'          => [],
 			'br'         => [],
@@ -2041,7 +2043,6 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$cookies_row    = cmplz_get_template( 'cookiepolicy/cookies_row.php' );
 		$purpose_row    = cmplz_get_template( 'cookiepolicy/purpose_row.php' );
 		$language       = substr( get_locale(), 0, 2 );
-
 		$args = array(
 			'language'     => $language,
 			'showOnPolicy' => true,
@@ -2097,6 +2098,8 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 						                . '">';
 						$link_close   = '</a>';
 					}
+					$cookie_function = apply_filters('cmplz_cookie_function', ucfirst( $cookie->cookieFunction ), $cookie );
+
                     $cookies_per_purpose_HTML .= str_replace( array(
 						'{name}',
 						'{retention}',
@@ -2106,7 +2109,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 					), array(
 						$cookie->name,
 						$cookie->retention,
-						ucfirst( $cookie->cookieFunction ),
+						$cookie_function,
 						$link_open,
 						$link_close
 					), $cookies_row );

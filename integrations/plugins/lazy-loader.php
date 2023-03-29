@@ -8,7 +8,7 @@ function cmplz_lazyloader_convert_data_src() {
 	ob_start();
 	?>
 	<script>
-		document.addEventListener("cmplz_category_enabled", function(){
+		document.addEventListener("cmplz_enable_category", function(){
 			document.querySelectorAll('.lazyloaded').forEach(obj => {
 				obj.classList.remove('lazyloaded');
 				obj.classList.add('lazyload');

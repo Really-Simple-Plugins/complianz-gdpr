@@ -27,7 +27,7 @@ function cmplz_wprocket_convert_data_src() {
 		ob_start();
 		?>
 		<script>
-			document.addEventListener("cmplz_category_enabled", function(){
+			document.addEventListener("cmplz_enable_category", function(){
 				document.querySelectorAll('[data-rocket-lazyload]').forEach(obj => {
 					obj.setAttribute('src', obj.getAttribute('data-lazy-src'));
 				});

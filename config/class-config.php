@@ -486,6 +486,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'admin_notice' => true,
 				),
 
+				'new_gutenberg_consentarea' => array(
+					'warning_condition'  => 'cmplz_upgraded_to_current_version',
+					'open' => __( 'New: Gutenberg Block with consent capabilities.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/gutenberg-block-consent/'),
+					'admin_notice' => false,
+					'plus_one' => true,
+				),
+
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
 						'wizard->all_required_fields_completed_wizard'

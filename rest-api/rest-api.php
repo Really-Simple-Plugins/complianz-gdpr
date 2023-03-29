@@ -46,6 +46,38 @@ function cmplz_documents_rest_route() {
 		}
 
 	) );
+
+	$id_pattern = '([0-9]+)';
+	$string_pattern = '([a-z0-9]+)';
+	register_rest_route( 'complianz/v1', 'consent-area/(?P<post_id>'.$id_pattern.')/(?P<block_id>'.$string_pattern.')', array(
+		'methods'             => 'GET',
+		'callback'            => 'cmplz_rest_consented_content',
+		'permission_callback' => '__return_true',
+	) );
+}
+
+/**
+ * Output category consent checkboxes html
+ */
+function cmplz_rest_consented_content( WP_REST_Request $request ) {
+	$html         = '';
+	$post_id = (int) ($request->get_param('post_id'));
+	$block_id = sanitize_title($request->get_param('block_id'));
+	$post = get_post($post_id);
+	if (!$post) {
+		return '';
+	}
+	$blocks = parse_blocks($post->post_content);
+	foreach($blocks as $block){
+		if ($block['blockName']==='complianz/consent-area' && $block['attrs']['blockId']===$block_id){
+			$html = $block['attrs']['consentedContent'];
+		}
+	}
+
+	$response = json_encode( $html );
+	header( "Content-Type: application/json" );
+	echo $response;
+	exit;
 }
 
 /**
@@ -196,6 +228,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 		//add local storage data
 		$localstorage = array_map( 'sanitize_text_field', $localstorage );
 		foreach ( $localstorage as $key => $value ) {
+
 			//let's skip cookies with this site url in the name
 			if ( strpos($key, site_url())!==false ) continue;
 			if (apply_filters('cmplz_exclude_from_scan', false, $key, 'localstorage')) continue;
@@ -203,7 +236,7 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
 			$cookie->type = 'localstorage';
-			$cookie->isOwnDomainCookie = true;
+			$cookie->domain = 'self';
 			$cookie->save( true );
 		}
 
@@ -218,7 +251,8 @@ function cmplz_store_detected_cookies(WP_REST_Request $request) {
 			$cookie = new CMPLZ_COOKIE();
 			$cookie->add( $key, COMPLIANZ::$cookie_admin->get_supported_languages() );
 			$cookie->type = 'cookie';
-			$cookie->isOwnDomainCookie = true;
+			//what we detect here is only on the own domain
+			$cookie->domain = 'self';
 			$cookie->save( true );
 		}
 

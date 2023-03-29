@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium multisite plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.3\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium multisite 6.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-13T17:51:26+00:00\n"
+"POT-Creation-Date: 2023-03-27T17:13:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -217,7 +217,7 @@ msgstr ""
 
 #: class-admin.php:409
 #: class-admin.php:784
-#: config/class-config.php:701
+#: config/class-config.php:708
 msgid "Upgrade to premium"
 msgstr ""
 
@@ -362,7 +362,7 @@ msgstr ""
 #: pro/records-of-consent/class-records-of-consent.php:116
 #: pro/templates/dashboard/documents-conditional.php:53
 #: pro/templates/dashboard/documents-conditional.php:85
-#: pro/templates/dashboard/documents-conditional.php:113
+#: pro/templates/dashboard/documents-conditional.php:114
 #: proof-of-consent/class-cookiestatement-snapshot-table.php:152
 msgid "Download"
 msgstr ""
@@ -478,13 +478,13 @@ msgstr ""
 
 #: class-document.php:1284
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:186
+#: gutenberg/src/index.js:198
 msgid "Synchronize document with Complianz"
 msgstr ""
 
 #: class-document.php:1288
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:187
+#: gutenberg/src/index.js:199
 msgid "Edit document and stop synchronization"
 msgstr ""
 
@@ -660,12 +660,12 @@ msgid "Add new cookie"
 msgstr ""
 
 #: class-field.php:2059
-#: cookie/class-cookie-admin.php:3623
+#: cookie/class-cookie-admin.php:3638
 msgid "Cookies in %s"
 msgstr ""
 
 #: class-field.php:2059
-#: cookie/class-cookie-admin.php:3623
+#: cookie/class-cookie-admin.php:3638
 msgid "Services in %s"
 msgstr ""
 
@@ -768,6 +768,8 @@ msgstr ""
 #: class-field.php:2487
 #: class-field.php:2822
 #: pro/class-statistics.php:588
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:440
 msgid "Category"
 msgstr ""
 
@@ -783,6 +785,8 @@ msgstr ""
 #: pro/tcf/tcf.php:747
 #: pro/templates/cookiebanner-tcf.php:6
 #: pro/templates/tcf-categories.php:6
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:444
 msgid "Statistics"
 msgstr ""
 
@@ -796,12 +800,16 @@ msgstr ""
 #: pro/tcf/tcf.php:750
 #: pro/templates/cookiebanner-tcf.php:13
 #: pro/templates/tcf-categories.php:14
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:445
 msgid "Marketing"
 msgstr ""
 
 #: class-field.php:2514
 #: class-field.php:2849
 #: integrations/integrations.php:817
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:464
 msgid "Placeholder"
 msgstr ""
 
@@ -992,6 +1000,8 @@ msgstr ""
 #: config/class-config.php:298
 #: config/general-settings.php:241
 #: cookiebanner/class-cookiebanner-table.php:246
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:465
 msgid "Default"
 msgstr ""
 
@@ -1015,183 +1025,187 @@ msgstr ""
 msgid "You can reset to default values, if needed."
 msgstr ""
 
-#: config/class-config.php:493
+#: config/class-config.php:491
+msgid "New: Gutenberg Block with consent capabilities."
+msgstr ""
+
+#: config/class-config.php:500
 msgid "The wizard has been completed."
 msgstr ""
 
-#: config/class-config.php:494
+#: config/class-config.php:501
 msgid "Not all fields have been entered, or you have not clicked the \"finish\" button yet."
 msgstr ""
 
-#: config/class-config.php:504
+#: config/class-config.php:511
 msgid "Do Not Track and Global Privacy Control are respected."
 msgstr ""
 
-#: config/class-config.php:505
+#: config/class-config.php:512
 msgid "Do Not Track and Global Privacy Control are not yet respected."
 msgstr ""
 
-#: config/class-config.php:513
+#: config/class-config.php:520
 msgid "We have dropped support for creating a cookie banner with Elementor Pro. Your banner defaults to a standard cookie banner."
 msgstr ""
 
-#: config/class-config.php:520
+#: config/class-config.php:527
 msgid "You have currently selected an informal language, which will result in informal use of language on the legal documents. If you prefer the formal style, you can activate this in the %sgeneral settings%s."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:537
 msgid "Google Fonts requires your attention."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:537
 msgid "We have added additional support and recommend reviewing your %ssettings%s."
 msgstr ""
 
-#: config/class-config.php:530
+#: config/class-config.php:537
 msgid "Please read this %sarticle%s to read our position on self-hosting Google Fonts and Privacy by Design."
 msgstr ""
 
-#: config/class-config.php:539
+#: config/class-config.php:546
 msgid "No cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:540
+#: config/class-config.php:547
 msgid "Cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:540
+#: config/class-config.php:547
 msgid "Please review step %s of the wizard for changes in cookies."
 msgstr ""
 
-#: config/class-config.php:547
+#: config/class-config.php:554
 msgid "Last cookie scan completed on %s."
 msgstr ""
 
-#: config/class-config.php:548
+#: config/class-config.php:555
 msgid "No cookie scan has been completed yet."
 msgstr ""
 
-#: config/class-config.php:558
+#: config/class-config.php:565
 msgid "All required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:559
+#: config/class-config.php:566
 msgid "Not all required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:567
+#: config/class-config.php:574
 msgid "Great! You're already on SSL!"
 msgstr ""
 
-#: config/class-config.php:568
+#: config/class-config.php:575
 msgid "You don't have SSL on your site yet. Install SSL for Free with %sReally Simple SSL%s"
 msgstr ""
 
-#: config/class-config.php:578
+#: config/class-config.php:585
 msgid "Google Analytics is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:587
+#: config/class-config.php:594
 msgid "Google Tag Manager is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:596
+#: config/class-config.php:603
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:603
+#: config/class-config.php:610
 msgid "Your documents have not been updated in the past 12 months. Run the wizard to check your settings."
 msgstr ""
 
-#: config/class-config.php:611
+#: config/class-config.php:618
 msgid "You have cookies with incomplete descriptions."
 msgstr ""
 
-#: config/class-config.php:612
+#: config/class-config.php:619
 msgid "Enable the cookiedatabase.org API for automatic descriptions, or add these %smanually%s."
 msgstr ""
 
-#: config/class-config.php:624
+#: config/class-config.php:631
 msgid "You have a duplicate implementation of your statistics tool on your site."
 msgstr ""
 
-#: config/class-config.php:625
+#: config/class-config.php:632
 msgid "After the issue has been resolved, please re-run a scan to clear this message."
 msgstr ""
 
-#: config/class-config.php:636
+#: config/class-config.php:643
 msgid "Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:637
+#: config/class-config.php:644
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:649
+#: config/class-config.php:656
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:650
+#: config/class-config.php:657
 msgid "Your site is not configured to show a cookie banner at the moment."
 msgstr ""
 
-#: config/class-config.php:660
+#: config/class-config.php:667
 msgid "Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz."
 msgstr ""
 
-#: config/class-config.php:660
+#: config/class-config.php:667
 msgid "Enable"
 msgstr ""
 
-#: config/class-config.php:669
+#: config/class-config.php:676
 msgid "Your uploads folder is not writable. Complianz needs this folder to save the cookie banner CSS."
 msgstr ""
 
-#: config/class-config.php:680
+#: config/class-config.php:687
 msgid "We see you have enabled Google Maps as a service, but we can't find an integration. You can integrate manually if needed."
 msgstr ""
 
-#: config/class-config.php:688
+#: config/class-config.php:695
 msgid "We have detected the %s plugin on your website."
 msgstr ""
 
-#: config/class-config.php:688
+#: config/class-config.php:695
 msgid "As Complianz handles all the functionality this plugin provides, you should disable this plugin to prevent unexpected behaviour."
 msgstr ""
 
-#: config/class-config.php:695
+#: config/class-config.php:702
 msgid "Are you showing ads on your site? Consider implementing TCF."
 msgstr ""
 
-#: config/class-config.php:701
+#: config/class-config.php:708
 msgid "Create a Privacy Statement and other Legal Documents with Complianz."
 msgstr ""
 
-#: config/class-config.php:709
+#: config/class-config.php:716
 msgid "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!"
 msgstr ""
 
-#: config/class-config.php:709
+#: config/class-config.php:716
 msgid "Learn more."
 msgstr ""
 
-#: config/class-config.php:715
+#: config/class-config.php:722
 msgid "Legal compliance for webshops."
 msgstr ""
 
-#: config/class-config.php:722
+#: config/class-config.php:729
 msgid "Learn more about Google Consent Mode."
 msgstr ""
 
-#: config/class-config.php:729
+#: config/class-config.php:736
 msgid "Are you targeting multiple regions?"
 msgstr ""
 
-#: config/class-config.php:735
+#: config/class-config.php:742
 msgid "Statistics without Consent. Meet Burst Statistics from Complianz."
 msgstr ""
 
-#: config/class-config.php:735
+#: config/class-config.php:742
 msgid "Install directly from our wizard."
 msgstr ""
 
@@ -2871,7 +2885,7 @@ msgstr ""
 #: integrations/plugins/elementor-pro/custom-widgets/cmplz-link-widget.php:546
 #: templates/dashboard/documents-conditional.php:10
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:299
+#: gutenberg/src/index.js:311
 msgid "Cookie Policy"
 msgstr ""
 
@@ -2883,7 +2897,7 @@ msgstr ""
 #: integrations/plugins/gravity-forms.php:148
 #: integrations/plugins/gravity-forms.php:188
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:298
+#: gutenberg/src/index.js:310
 msgid "Privacy Statement"
 msgstr ""
 
@@ -2903,7 +2917,7 @@ msgstr ""
 #: pro/config/documents/documents.php:84
 #: pro/config/steps.php:71
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:300
+#: gutenberg/src/index.js:312
 msgid "Disclaimer"
 msgstr ""
 
@@ -3013,7 +3027,7 @@ msgid "Without the API, you will have to manually describe all found cookies, th
 msgstr ""
 
 #: config/general-settings.php:66
-msgid "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the %sPrivacy Statement%s"
+msgid "Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by %scookiedatabase.org%s. We connect to this open-source database using an external API, which sends the results of the cookie scan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the %sPrivacy Statement%s"
 msgstr ""
 
 #: config/general-settings.php:81
@@ -4093,12 +4107,12 @@ msgid "Consent"
 msgstr ""
 
 #: config/steps.php:54
-#: cookie/class-cookie-admin.php:3532
+#: cookie/class-cookie-admin.php:3547
 msgid "Cookie scan"
 msgstr ""
 
 #: config/steps.php:56
-msgid "Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!"
+msgid "Complianz will scan several pages of your website for cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!"
 msgstr ""
 
 #: config/steps.php:57
@@ -4150,7 +4164,7 @@ msgid "Complianz provides your Cookie Policy with comprehensive cookie descripti
 msgstr ""
 
 #: config/steps.php:82
-msgid "We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis."
+msgid "We connect to this open-source database using an external API, which sends the results of the cookie scan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis."
 msgstr ""
 
 #: config/steps.php:88
@@ -4188,151 +4202,151 @@ msgstr ""
 msgid "It's possible to use region redirect when GEO IP is enabled, and you have multiple policies and statements."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:236
+#: cookie/class-cookie-admin.php:318
 msgid "Select or add a service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:252
+#: cookie/class-cookie-admin.php:334
 msgid "No services listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:275
+#: cookie/class-cookie-admin.php:357
 msgid "Select a service type"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:320
+#: cookie/class-cookie-admin.php:402
 msgid "No service types listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:342
+#: cookie/class-cookie-admin.php:424
 msgid "Select a purpose"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:384
+#: cookie/class-cookie-admin.php:466
 msgid "No purposes listed"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:427
+#: cookie/class-cookie-admin.php:509
 msgid "View cookie on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:471
+#: cookie/class-cookie-admin.php:553
 msgid "The data for this cookie is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:473
+#: cookie/class-cookie-admin.php:555
 msgid "This cookie has missing fields"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:477
+#: cookie/class-cookie-admin.php:559
 msgid "Synchronization with cookiedatabase.org is not enabled for this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:479
+#: cookie/class-cookie-admin.php:561
 msgid "This cookie has been synchronized with cookiedatabase.org."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:479
+#: cookie/class-cookie-admin.php:561
 msgid "Our moderators will keep the cookies up-to-date."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:481
+#: cookie/class-cookie-admin.php:563
 msgid "This cookie is not yet synchronized with cookiedatabase.org."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:481
+#: cookie/class-cookie-admin.php:563
 msgid "Either try again, or if this fails; our moderators will investigate further and automatically update the descriptions."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:485
+#: cookie/class-cookie-admin.php:567
 msgid "This cookie will be on your Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:487
+#: cookie/class-cookie-admin.php:569
 msgid "This cookie is not shown on the Cookie Policy"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:491
+#: cookie/class-cookie-admin.php:573
 msgid "This cookie has recently been detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:493
+#: cookie/class-cookie-admin.php:575
 msgid "This cookie has not been detected on your site in the last three months"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:496
+#: cookie/class-cookie-admin.php:578
 msgid "This cookie has not been found in the scan for three months. Please check if you are still using this cookie"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:499
+#: cookie/class-cookie-admin.php:581
 msgid "(Administrator cookie, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:500
+#: cookie/class-cookie-admin.php:582
 msgid "(Logged in users only, will be ignored)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:502
+#: cookie/class-cookie-admin.php:584
 msgid "Cookie \"%s\"%s%s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:553
+#: cookie/class-cookie-admin.php:635
 msgid "View service on cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:590
+#: cookie/class-cookie-admin.php:672
 msgid "The data for this service is complete"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:592
+#: cookie/class-cookie-admin.php:674
 msgid "This service has missing fields"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:596
+#: cookie/class-cookie-admin.php:678
 msgid "Synchronization with cookiedatabase.org is not enabled for this service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:598
+#: cookie/class-cookie-admin.php:680
 msgid "This service has been synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:600
+#: cookie/class-cookie-admin.php:682
 msgid "This service is not synchronized with cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:603
+#: cookie/class-cookie-admin.php:685
 msgid "Service \"%s\""
 msgstr ""
 
-#: cookie/class-cookie-admin.php:655
-#: cookie/class-cookie-admin.php:782
+#: cookie/class-cookie-admin.php:737
+#: cookie/class-cookie-admin.php:864
 msgid "Cookies without selected service"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:949
-#: cookie/class-cookie-admin.php:1292
+#: cookie/class-cookie-admin.php:1030
+#: cookie/class-cookie-admin.php:1312
 msgid "You haven't accepted the usage of the cookiedatabase.org API. To automatically complete your cookie descriptions, please choose yes."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:964
-#: cookie/class-cookie-admin.php:1307
+#: cookie/class-cookie-admin.php:1043
+#: cookie/class-cookie-admin.php:1326
 msgid "A request is already running. Please be patient until the current request finishes"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1016
-#: cookie/class-cookie-admin.php:1352
+#: cookie/class-cookie-admin.php:1094
+#: cookie/class-cookie-admin.php:1365
 msgid "Could not connect to cookiedatabase.org"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1560
+#: cookie/class-cookie-admin.php:1562
 msgid "Processing Agreements"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1562
+#: cookie/class-cookie-admin.php:1564
 msgid "A Processor or Service Provider is the party that processes personal data on behalf of a responsible organization or person. If you are this organization or person, you should probably sign a Processing Agreement with them. You can use a Processing Agreement outside of Complianz, or generate one here."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:1573
+#: cookie/class-cookie-admin.php:1575
 #: pro/framework/post-types.php:56
 #: pro/templates/dashboard/documents-conditional.php:44
 #: pro/templates/dashboard/documents-conditional.php:79
@@ -4343,65 +4357,65 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:2910
-#: functions.php:2152
+#: cookie/class-cookie-admin.php:2921
+#: functions.php:2154
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3210
+#: cookie/class-cookie-admin.php:3225
 #: DNSMPD/class-DNSMPD-table.php:291
 #: DNSMPD/csv.php:73
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3230
+#: cookie/class-cookie-admin.php:3245
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3318
+#: cookie/class-cookie-admin.php:3333
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3321
+#: cookie/class-cookie-admin.php:3336
 msgid "The scan found %s cookie on your domain."
 msgid_plural "The scan found %s cookies on your domain."
 msgstr[0] ""
 msgstr[1] ""
 
-#: cookie/class-cookie-admin.php:3322
+#: cookie/class-cookie-admin.php:3337
 msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3334
+#: cookie/class-cookie-admin.php:3349
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3519
+#: cookie/class-cookie-admin.php:3534
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3526
+#: cookie/class-cookie-admin.php:3541
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3527
+#: cookie/class-cookie-admin.php:3542
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3571
+#: cookie/class-cookie-admin.php:3586
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3591
+#: cookie/class-cookie-admin.php:3606
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3594
+#: cookie/class-cookie-admin.php:3609
 msgid "Syncing..."
 msgstr ""
 
-#: cookie/class-cookie.php:329
-#: cookie/class-cookie.php:387
+#: cookie/class-cookie.php:353
+#: cookie/class-cookie.php:415
 msgid "%s days"
 msgstr ""
 
@@ -4473,6 +4487,8 @@ msgstr ""
 #: cookiebanner/settings.php:731
 #: cookiebanner/settings.php:732
 #: cookiebanner/settings.php:733
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:443
 msgid "Preferences"
 msgstr ""
 
@@ -5232,30 +5248,30 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2120
+#: functions.php:2122
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2127
-#: functions.php:2137
+#: functions.php:2129
+#: functions.php:2139
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2129
-#: functions.php:2134
+#: functions.php:2131
+#: functions.php:2136
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2139
+#: functions.php:2141
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2142
+#: functions.php:2144
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2149
+#: functions.php:2151
 #: pro/records-of-consent/class-records-of-consent.php:380
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:251
@@ -5270,19 +5286,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2649
+#: functions.php:2651
 #: pro/records-of-consent/class-records-of-consent-table.php:235
 #: pro/tcf/tcf.php:949
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2651
+#: functions.php:2653
 #: pro/records-of-consent/class-records-of-consent-table.php:238
 #: pro/tcf/tcf.php:948
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2653
+#: functions.php:2655
 msgid "All consent types"
 msgstr ""
 
@@ -11773,15 +11789,15 @@ msgstr ""
 msgid "No data breach reports"
 msgstr ""
 
-#: pro/templates/dashboard/documents-conditional.php:92
+#: pro/templates/dashboard/documents-conditional.php:93
 msgid "No proof of consent documents"
 msgstr ""
 
-#: pro/templates/dashboard/documents-conditional.php:96
+#: pro/templates/dashboard/documents-conditional.php:97
 msgid "Generate"
 msgstr ""
 
-#: pro/templates/dashboard/documents-conditional.php:99
+#: pro/templates/dashboard/documents-conditional.php:100
 msgid "Select Proof of Consent"
 msgstr ""
 
@@ -11840,7 +11856,7 @@ msgid ""
 "                            to %shttps://complianz.io/consent%s."
 msgstr ""
 
-#: rest-api/rest-api.php:140
+#: rest-api/rest-api.php:172
 msgctxt "cookie policy"
 msgid "We have received a privacy signal from your browser. For this reason we have set your privacy settings on this website to strictly necessary. If you want to have full functionality, please consider excluding %s from your privacy settings."
 msgstr ""
@@ -11934,6 +11950,8 @@ msgid "Sharing data"
 msgstr ""
 
 #: templates/cookie_settings.php:11
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:453
 msgid "Service"
 msgstr ""
 
@@ -12331,44 +12349,60 @@ msgid "Your license key has reached its activation limit."
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:289
+#: gutenberg/src/index.js:301
 msgid "Legal document - Complianz"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:183
-#: gutenberg/src/index.js:224
-#: gutenberg/src/index.js:248
+#: gutenberg/src/index.js:195
+#: gutenberg/src/index.js:236
+#: gutenberg/src/index.js:260
 msgid "Select a document"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:184
-#: gutenberg/src/index.js:239
+#: gutenberg/src/index.js:196
+#: gutenberg/src/index.js:251
 msgid "Loading..."
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:191
+#: gutenberg/src/index.js:203
 msgid "No documents found. Please finish the Complianz Privacy Suite wizard to generate documents"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:220
-#: gutenberg/src/index.js:244
+#: gutenberg/src/index.js:232
+#: gutenberg/src/index.js:256
+#: gutenberg/src/index.js:436
 msgid "Document settings"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: gutenberg/src/index.js:230
-#: gutenberg/src/index.js:255
+#: gutenberg/src/index.js:242
+#: gutenberg/src/index.js:267
 msgid "Document sync status"
 msgstr ""
 
-#: gutenberg/src/index.js:202
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:494
+msgid "You do not have sufficient permissions to edit this block."
+msgstr ""
+
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:500
+msgid "You can add custom HTML to create your own placeholder. This placeholder is visible before consent."
+msgstr ""
+
+#: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:510
+msgid "You can add custom HTML that requires consent. In the right-side bar you will find the options for this custom block. For instructions, please go to complianz.io/gutenberg for more information."
+msgstr ""
+
+#: gutenberg/src/index.js:214
 msgid "Select a document type from the dropdownlist"
 msgstr ""
 
-#: gutenberg/src/index.js:202
+#: gutenberg/src/index.js:214
 msgid "Click this block to show the options"
 msgstr ""
