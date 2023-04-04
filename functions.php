@@ -1473,6 +1473,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['tb-id']) //themify
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
+		     || isset( $_GET['bricks'] )
 		     || isset( $_GET['ct_builder'] ) //oxygen
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
