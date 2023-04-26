@@ -5,10 +5,9 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_addtoany_script' );
 function cmplz_addtoany_script( $tags ) {
 	$tags[] = array(
 		'name' => 'addtoany',
-		'category' => 'marketing',
+		'category' => 'functional',
 		'urls' => array(
-			'window.a2a_config',
-			'addtoany.min.js',
+			'static.addtoany.com/menu/page.js',
 		),
 		'enable_placeholder' => '0',
 	);
