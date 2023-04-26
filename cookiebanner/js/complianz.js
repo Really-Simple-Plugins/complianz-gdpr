@@ -59,19 +59,20 @@ function cmplz_html_decode(input) {
 /**
  * Consent Area management for shortcode and block editor
  */
-let cmplzConsentArea = document.querySelector('.cmplz-consent-area.cmplz-placeholder');
-if ( cmplzConsentArea ) {
+document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(cmplzConsentArea => {
 	cmplzConsentArea.addEventListener('click', e => {
 		let container = e.target;
 		if ( !container.classList.contains('cmplz-consent-area') ) {
 			container = e.target.closest('.cmplz-consent-area.cmplz-placeholder');
 		}
+		if (container) {
+			let consentedService = container.getAttribute('data-service');
+			cmplz_set_service_consent(consentedService, true);
+			cmplzLoadConsentAreaContent(false, consentedService);
+			cmplz_enable_category(null, consentedService);
+			cmplz_set_banner_status('dismissed');
+		}
 
-		let consentedService = container.getAttribute('data-service');
-		cmplz_set_service_consent(consentedService, true);
-		cmplzLoadConsentAreaContent(false, consentedService);
-		cmplz_enable_category(null, consentedService);
-		cmplz_set_banner_status('dismissed');
 	});
 
 	document.addEventListener("cmplz_enable_category", function(consentData) {
@@ -79,7 +80,7 @@ if ( cmplzConsentArea ) {
 		var consentedService = consentData.detail.service;
 		cmplzLoadConsentAreaContent(consentedCategory, consentedService)
 	});
-}
+});
 
 function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 	document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(obj => {
@@ -87,13 +88,7 @@ function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 		let service = obj.getAttribute('data-service');
 		let postId = obj.getAttribute('data-post_id');
 		let blockId = obj.getAttribute('data-block_id');
-		console.log("consentedCategory", consentedCategory);
-		console.log("category", category);
-		console.log("constedService", consentedService);
-		console.log("service", service);
-
 		if ( consentedCategory === category || consentedService === service ) {
-			console.log("load "+category+" "+service);
 			//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 			var request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'consent-area/'+postId+'/'+blockId, true);
@@ -255,17 +250,6 @@ window.cmplz_highest_accepted_category = function() {
 }
 
 /*
- * Accept all categories
- */
-window.cmplz_accept_all = function(){
-	for (var key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'allow');
-		}
-	}
-}
-
-/*
  * Sets all accepted categories as class in body
  */
 
@@ -334,6 +318,11 @@ function cmplz_run_script( script, category, service, type, sourceObj ) {
 		}
 		targetObj.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
 	}
+
+	if (script.includes("import") ) {
+		targetObj.setAttribute("type", "module");
+	}
+
 	//check if already fired
 	if ( cmplz_in_array( script, cmplz_fired_scripts) ) {
 		return;
@@ -486,7 +475,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
 				btn.setAttribute('data-category', category);
-				btn.setAttribute('aria-label', service);
+				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{service}', service_nicename) );
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
 				if ( pageLinks && pageLinks.hasOwnProperty('cookie-statement') ) {
@@ -601,7 +590,6 @@ function cmplz_enable_category(category, service) {
 	if ( category === 'functional' ) {
 		return;
 	}
-
 	//enable cookies for integrations
 	if ( category === 'marketing' ) {
 		cmplz_set_integrations_cookies();
@@ -758,7 +746,7 @@ function cmplz_enable_category(category, service) {
 function cmplz_remove_placeholder(obj){
 	//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 	let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-	if (blocked_content_container) {
+	if ( blocked_content_container ) {
 		let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
 		blocked_content_container.classList.remove('cmplz-blocked-content-container');
 		blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
@@ -833,11 +821,9 @@ function cmplz_run_after_all_scripts(category, service) {
 	let enableCategory = category!=='do_not_match' && !cmplz_in_array( category, cmplz_fired_category_events );
 	if ( enableCategory ||  enableService ) {
 		if (enableCategory) {
-			console.log("enable category "+category);
 			cmplz_fired_category_events.push(category);
 		}
 		if (enableService) {
-			console.log("enable service "+service);
 			cmplz_fired_service_events.push(service);
 		}
 		let details = {};
@@ -846,6 +832,7 @@ function cmplz_run_after_all_scripts(category, service) {
 		details.categories = cmplz_accepted_categories();
 		details.services = cmplz_get_all_service_consents();
 		details.region = complianz.region;
+
 		let event = new CustomEvent('cmplz_enable_category', { detail: details });
 		document.dispatchEvent(event);
 	}
@@ -1342,6 +1329,7 @@ function cmplz_get_cookie_domain(){
  */
 window.cmplz_set_consent = function (category, value){
 	cmplz_set_accepted_cookie_policy_id();
+
 	//functional is always allow
 	value = category==='functional' ? 'allow' : value;
 	let previous_value = cmplz_get_cookie(category);
@@ -1390,13 +1378,13 @@ window.cmplz_set_consent = function (category, value){
 * In some browsers, like firefox, the reload does not force reload, but keeps cached data, causing e.g. Google Maps to load anyway.
 */
 function cmplz_reload_browser_compatible(){
-  	if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
+	if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
 		const url = new URL(window.location.href);
 		url.searchParams.set('cmplz-force-reload', Date.now().toString());
 		window.location.href = url.toString();
-    } else {
-    	window.location.reload();
-    }
+	} else {
+		window.location.reload();
+	}
 }
 
 /*
@@ -2238,16 +2226,16 @@ function cmplz_equals (array_1, array_2) {
 * Copy all element atributes to the new element
 */
 function cmplzCopyAttributes(source, target) {
-  return Array.from(source.attributes).forEach(attribute => {
-  	//don't copy the type attribute
-    let excludes = ['type', 'data-service', 'data-category', 'async'];
-	if ( !excludes.includes(attribute.nodeName) ) {
-		 target.setAttribute(
-		  attribute.nodeName,
-		  attribute.nodeValue,
-		);
-	}
-  });
+	return Array.from(source.attributes).forEach(attribute => {
+		//don't copy the type attribute
+		let excludes = ['type', 'data-service', 'data-category', 'async'];
+		if ( !excludes.includes(attribute.nodeName) ) {
+			target.setAttribute(
+				attribute.nodeName,
+				attribute.nodeValue,
+			);
+		}
+	});
 }
 
 /*

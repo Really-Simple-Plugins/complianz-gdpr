@@ -7,6 +7,10 @@ if ( !function_exists('cmplz_divi_map_script')) {
 
 	add_filter( 'cmplz_known_script_tags', 'cmplz_divi_map_script' );
 	function cmplz_divi_map_script( $tags ) {
+		if ( !cmplz_uses_thirdparty('google-maps') ) {
+			return $tags;
+		}
+
 		$tags[] = array(
 			'name' => 'google-maps',
 			'category' => 'marketing',

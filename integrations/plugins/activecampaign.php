@@ -6,14 +6,16 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  */
 function cmplz_activecampaign_event() {
 	 ?>
-    <script>
-        document.addEventListener("cmplz_fire_categories", function (e) {
-            var consentedCategories = e.detail.categories;
-                if (cmplz_in_array( 'marketing', consentedCategories )) {
-                vgo('process', 'allowTracking');
-        }
-    });
-</script>
+	<script>
+		if ( typeof vgo === 'function' ) {
+			document.addEventListener("cmplz_fire_categories", function (e) {
+				var consentedCategories = e.detail.categories;
+				if (cmplz_in_array('marketing', consentedCategories)) {
+					vgo('process', 'allowTracking');
+				}
+			});
+		}
+	</script>
 	<?php
 }
 add_action( 'wp_footer', 'cmplz_activecampaign_event' );

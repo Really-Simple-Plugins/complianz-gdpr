@@ -529,19 +529,19 @@ jQuery(document).ready(function ($) {
 		cmplz_interval = 3000;
 	}
 
-	function checkIframeLoaded() {
-		// Get a handle to the iframe element
-		var iframe = document.getElementById('cmplz_cookie_scan_frame');
-		var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-		if (!cookieContainer.find('.cmplz-loader').length && progress < 100) {
-			// cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
-			// cookieContainer.addClass('loader');
-		}
-		// Check if loading is complete
-		iframe.onload = function () {
-			// The loading is complete, call the function we want executed once the iframe is loaded
-			if (progress >= 100) return;
+    function checkIframeLoaded() {
+        // Get a handle to the iframe element
+        var iframe = document.getElementById('cmplz_cookie_scan_frame');
+        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
+        if ( !cookieContainer.find('.cmplz-loader').length && progress < 100 ) {
+            // cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
+            // cookieContainer.addClass('loader');
+        }
+        // Check if loading is complete
+        iframe.onload = function () {
+            // The loading is complete, call the function we want executed once the iframe is loaded
+            if (progress >= 100) return;
 			$.get(
 				complianz_admin.admin_url,
 				{
@@ -554,25 +554,22 @@ jQuery(document).ready(function ($) {
 						var cookies = obj.cookies;
 						$('.detected-cookies .cmplz-cookies-table').html(cookies.join("<br>"));
 						$('.cmplz-scan-count').html(cookies.length);
-						progress = parseInt(obj['progress']);
-						var next_page = obj['next_page'];
-						if (progress >= 100) {
-							progress = 100;
-							progressBar.css({width: progress + '%'});
-						} else {
-							progressBar.css({width: progress + '%'});
-							$("#cmplz_cookie_scan_frame").attr('src', next_page);
-							window.setTimeout(checkIframeLoaded, cmplz_interval);
-						}
-					}
-				}
-			);
-			return;
-		}
-
-		// If we are here, it is not loaded. Set things up so we check the status again
-		window.setTimeout(checkIframeLoaded, cmplz_interval);
-	}
+                        progress = parseInt(obj['progress']);
+                        var next_page = obj['next_page'];
+                        if (progress >= 100) {
+                            progress = 100;
+                            progressBar.css({width: progress + '%'});
+                        } else {
+                            progressBar.css({width: progress + '%'});
+                            $("#cmplz_cookie_scan_frame").attr('src', next_page);
+                            window.setTimeout(checkIframeLoaded, cmplz_interval);
+                        }
+                    }
+                }
+            );
+            return;
+        }
+    }
 
 	if ($('#cmplz_cookie_scan_frame').length) {
 		checkIframeLoaded();

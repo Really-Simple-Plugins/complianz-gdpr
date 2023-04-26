@@ -144,7 +144,7 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	'enable-disable-removal-cookies-2' => array(
-		'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.',
+		'content' => 'Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our website again.',
 	),
 
     array(

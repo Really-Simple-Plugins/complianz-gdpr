@@ -116,7 +116,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		public function enqueue_assets( $hook ) {
 
 			global $post;
-			if ( $post && !COMPLIANZ::$document->is_complianz_page($post->ID ) ) {
+			if ( $post && isset($post->ID) && !COMPLIANZ::$document->is_complianz_page($post->ID ) ) {
 				return;
 			}
 

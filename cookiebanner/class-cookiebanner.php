@@ -1333,6 +1333,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'categories'           => ['statistics'=> _x("statistics","as in: click to accept statistics cookies","complianz-gdpr"), 'marketing'=> _x("marketing","as in: click to accept marketing cookies","complianz-gdpr")],
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
+				'aria_label'           => cmplz_get_value( 'blocked_content_text_per_service' ),
 				'css_file'             => $css_file . '?v='.$this->banner_version,
 				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$cookie_admin->uses_google_tagmanager() || (cmplz_get_value('compile_statistics')==='matomo-tag-manager'),
