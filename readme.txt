@@ -75,7 +75,6 @@ Complianz offers full support on the WordPress.org [Forum](https://wordpress.org
 * [MU Plugins](https://github.com/Really-Simple-Plugins/complianz-integrations)
 * [Documentation](https://complianz.io/docs/)
 * [Developer's Guide](https://complianz.io/developers-guide-for-third-party-integrations/)
-* [Wizard Manual](https://complianz.io/manual/)
 * [Legal Definitions](https://complianz.io/definitions/)
 * [Translate Complianz](https://translate.wordpress.org/projects/wp-plugins/complianz-gdpr/)
 
