@@ -120,7 +120,9 @@ if ( !function_exists('cmplz_divi_map_script')) {
 
 		</script>
 		<script>
+		if (!cmplz_activated_divi_maps && (e.detail.category==='marketing' || e.detail.service === 'google-maps') ){
 			setTimeout(cmplz_divi_init_map, 300);
+		}
 		</script>
 		<?php
 		$script = ob_get_clean();
