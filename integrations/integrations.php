@@ -236,7 +236,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'constant_or_function' => 'clarity_add_origins',
 		'label'                => 'Microsoft Clarity',
 	),
-
+	
+	'easy-liveblogs' => array(
+		'constant_or_function' => 'ELB_NAME',
+		'label'                => 'Easy Liveblogs',
+		'firstparty_marketing' => false,
+	),
+	
 	'beehive'           => array(
 		'constant_or_function' => 'BEEHIVE_PRO',
 		'label'                => 'Beehive',
