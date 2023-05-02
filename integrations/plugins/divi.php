@@ -119,6 +119,9 @@ if ( !function_exists('cmplz_divi_map_script')) {
 			}
 
 		</script>
+		<script>
+			setTimeout(cmplz_divi_init_map, 300);
+		</script>
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace(array('<script>', '</script>'), '', $script);
