@@ -24,7 +24,7 @@ function cmplz_wpsl_googlemaps_script( $tags ) {
 		'enable_dependency' => '1',
 		'dependency' => [
 			//'wait-for-this-script' => 'script-that-should-wait'
-			'maps.google.com/maps/api/js' => 'wpsl-gmap'
+			'wpsl-gmap' => 'maps.google.com/maps/api/js'
 		],
 	);
 	return $tags;

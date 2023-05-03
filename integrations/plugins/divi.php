@@ -112,7 +112,7 @@ if ( !function_exists('cmplz_divi_map_script')) {
 
 			function cmplz_divi_init_map() {
 				if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.et_pb_map_init ) {
-					setTimeout(cmplz_divi_init_map, 500);
+					setTimeout(cmplz_divi_init_map, 1000);
 				} else {
 					let map_container = jQuery(".et_pb_map_container");
 					map_container.each(function () {
@@ -121,8 +121,9 @@ if ( !function_exists('cmplz_divi_map_script')) {
 					})
 				}
 			}
-
+			setTimeout(cmplz_divi_init_map, 300);
 		</script>
+
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace(array('<script>', '</script>'), '', $script);

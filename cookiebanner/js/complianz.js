@@ -475,7 +475,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
 				btn.setAttribute('data-category', category);
-				btn.setAttribute('aria-label', service);
+				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{service}', service_nicename) );
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
 				if ( pageLinks && pageLinks.hasOwnProperty('cookie-statement') ) {
@@ -500,7 +500,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				btn.classList.add('cmplz-accept-'+category);
 				btn.setAttribute('data-service', service );
 				btn.setAttribute('data-category', category );
-				btn.setAttribute('aria-label', service );
+				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{category}', category) );
 				body=btn;
 			}
 
