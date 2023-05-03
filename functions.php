@@ -58,8 +58,10 @@ function cmplz_create_missing_directories_recursively( string $path) {
 	$dir = '';
 	foreach ($parts as $part) {
 		$dir .= $part . '/';
-		if (!is_dir($dir) && strlen($dir) > 0 && is_writable(dirname($dir, 1))) {
-			mkdir($dir);
+		if ( !is_dir($dir) && $dir!=='' && is_writable(dirname($dir, 1)) ) {
+			if ( ! mkdir( $dir ) && ! is_dir( $dir ) ) {
+				throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $dir ) );
+			}
 		}
 	}
 }
