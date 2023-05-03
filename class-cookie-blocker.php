@@ -811,22 +811,29 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return string
 		 */
 
-		private function set_javascript_to_plain( $script ) {
+		private function set_javascript_to_plain( string $script ): string {
 			//check if it's already set to plain
-			if ( strpos( $script, 'text/plain')!== false ) return $script;
+			if ( strpos( $script, 'text/plain')!== false ) {
+				return $script;
+			}
 
+			// Check text/javascript
 			$pattern = '/<script[^>].*?\K(type=[\'|\"]text\/javascript[\'|\"])(?=.*>)/i';
 			preg_match( $pattern, $script, $matches );
 			if ( $matches ) {
-				$script = preg_replace( $pattern, 'type="text/plain"', $script,
-					1 );
-			} else {
-				$pos = strpos( $script, "<script" );
-				if ( $pos !== false ) {
-					$script = substr_replace( $script,
-						'<script type="text/plain"', $pos,
-						strlen( "<script" ) );
-				}
+				return preg_replace( $pattern, 'type="text/plain"', $script, 1 );
+			}
+
+			// Check type="module"
+			$pattern_module = '/(<script[^>]*?)(type=[\'|\"]module[\'|\"])([^>]*?>)/i';
+			preg_match($pattern_module, $script, $matches_module);
+			if ($matches_module) {
+				return preg_replace($pattern_module, '$1 type="text/plain" data-script-type="module" $3', $script, 1);
+			}
+
+			$pos = strpos( $script, "<script" );
+			if ( $pos !== false ) {
+				return substr_replace( $script, '<script type="text/plain"', $pos, strlen( "<script" ) );
 			}
 
 			return $script;

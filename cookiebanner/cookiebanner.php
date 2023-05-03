@@ -39,13 +39,7 @@ if ( ! function_exists( 'cmplz_uploads_folder_not_writable' ) ) {
 	 * @return bool
 	 */
 	function cmplz_uploads_folder_writable() {
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-		if ( !is_writable($upload_dir) ){
-			return false;
-		} else {
-			return true;
-		}
+		return is_writable(cmplz_upload_dir());
 	}
 }
 

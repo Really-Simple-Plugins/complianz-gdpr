@@ -150,11 +150,12 @@ array(
 
 	array(
 		'title' => _x('Enabling/disabling and deleting cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-		'content' => _x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser. Or you can indicate your preferences on the following page: https://youradchoices.ca ' ,'Legal document cookie policy', 'complianz-gdpr'),
+      'content' => cmplz_sprintf(_x('You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser. Or you can indicate your preferences on the following page: %syouradchoices.ca%s', 'Legal document cookie policy', 'complianz-gdpr'),'<a href="https://youradchoices.ca" rel="noopener noreferrer nofollow" target="_blank">', '</a>'),
+
 	),
 
 	'enable-disable-removal-cookies-2' => array(
-		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our websites again.', 'Legal document cookie policy', 'complianz-gdpr'),
+		'content' => _x('Please note that our website may not work properly if all cookies are disabled. If you do delete the cookies in your browser, they will be placed again after your consent when you visit our website again.', 'Legal document cookie policy', 'complianz-gdpr'),
 	),
 
     array(

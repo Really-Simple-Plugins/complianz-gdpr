@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 6.4.3
+Stable tag: 6.4.4
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -175,6 +175,19 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.4 =
+* Fix: catch not existing post_data if post structure is not following WordPress standards
+* Fix: exclude bricks builder from cookie blocker
+* Improvement: AddToAny integration updated, props @micropat
+* Improvement: wording and links in Canadian Cookie Policy
+* Improvement: mailchimp woocommerce integration feature activation after consent
+* Improvement: updated classic consent area to the same new structure as the new Gutenberg consent area
+* Improvement: script type module support in cookie blocker
+* Improvement: exclude cornerstone builder from cookieblocker
+* Improvement: prevent duplicate entries in statistics table
+* Improvement: new cmplz_upload_dir and cmplz_upload_url filters, to allow overrides of the plugin folders.
+* Dropped: Ultimate Add ons for Elementor integration, due to incompatibility issues
+
 = 6.4.3 =
 * Improvement: add exclude cookies filter
 * Improvement: add support for parent/child themes, props @dominiccarrington

@@ -1016,7 +1016,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			return $logo;
 		}
 
-
 		/**
 		 * Get array to output to front-end
 		 *
@@ -1186,21 +1185,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				return;
 			}
 			set_transient('cmplz_generate_css_active', true, 10 );
-
-			if ( defined('CMPLZ_CSS_DIR' ) ) {
-				$css_dir = CMPLZ_CSS_DIR;
-			} else {
-				$uploads    = wp_upload_dir();
-				$upload_dir = $uploads['basedir'];
-				if ( ! file_exists( $upload_dir . '/complianz' ) && is_writable($upload_dir) ) {
-					mkdir( $upload_dir . '/complianz' ,0755);
-				}
-				if ( ! file_exists( $upload_dir . '/complianz/css' ) && is_writable($upload_dir . '/complianz') ) {
-					mkdir( $upload_dir . '/complianz/css',0755 );
-				}
-				$css_dir = $upload_dir . '/complianz/css';
-			}
-
+			$upload_dir = cmplz_upload_dir('css');
 			$consent_types = cmplz_get_used_consenttypes();
 			$settings = $this->get_css_settings();
 			$banner_id = $this->ID ?: 'new';
@@ -1239,14 +1224,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				do_action("cmplz_banner_css");
 				$css .= "\n" . ob_get_clean()."\n";
 				$css = $this->sanitize_css( apply_filters('cmplz_cookiebanner_css', $css) );
-				if ( $preview ) {
-					$file = "$css_dir/banner-preview-{$banner_id}-$consent_type.css";
-				} else {
-					$file = "$css_dir/banner-{$banner_id}-$consent_type.css";
-				}
+				$file = $preview ? "{$upload_dir}banner-preview-{$banner_id}-$consent_type.css" : "{$upload_dir}banner-{$banner_id}-$consent_type.css";
 
-				if (file_exists($css_dir) && is_writable( $css_dir )){
-					$handle = fopen($file, "w");
+				if ( file_exists($upload_dir) && is_writable($upload_dir) ){
+					$handle = fopen($file, 'wb' );
 					fwrite($handle, $css);
 					fclose($handle);
 				}
@@ -1262,20 +1243,17 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_front_end_settings( $preview = false ) {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_value('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
-			$uploads    = wp_upload_dir();
-			$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
-			$css_url = defined('CMPLZ_CSS_URL') ? CMPLZ_CSS_URL : $upload_url . "/complianz/css";
+			$upload_url = is_ssl() ? str_replace('http://', 'https://', cmplz_upload_url()) : cmplz_upload_url();
 
 			//check if the css file exists. if not, use default.
-			$css_file = "$css_url/banner-{banner_id}-{type}.css";
+			$css_file = $upload_url . 'css/banner-{banner_id}-{type}.css';
 			if ( !$preview ) {
-				$upload_dir = $uploads['basedir'];
-				$css_path = defined('CMPLZ_CSS_DIR') ? CMPLZ_CSS_DIR : "$upload_dir/complianz/css";
-
+				$upload_dir = cmplz_upload_dir();
 				$consent_types = cmplz_get_used_consenttypes();
 				$banner_id = $this->ID;
 				foreach ( $consent_types as $consent_type ) {
-					if ( ! file_exists( $css_path . "/banner-$banner_id-$consent_type.css" ) ) {
+					$file =  "css/banner-$banner_id-$consent_type.css";
+					if ( ! file_exists( $upload_dir . $file ) ) {
 						$css_file = cmplz_url . "cookiebanner/css/defaults/banner-{type}.css";
 					}
 				}
@@ -1306,7 +1284,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );
-			$disable_cookiebanner = boolval($this->disable_cookiebanner) || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
+			$disable_cookiebanner = $this->disable_cookiebanner || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
 			$output = array(
 				'prefix'               => COMPLIANZ::$cookie_admin->get_cookie_prefix(),
 				'user_banner_id'       => apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ),

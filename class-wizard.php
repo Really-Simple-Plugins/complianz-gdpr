@@ -123,7 +123,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 				if ( cmplz_get_value('uses_ad_cookies_personalized') === 'yes' ) {
 					global $wpdb;
-					$banner_text = __( "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
+					$banner_text = __( "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show (non-) personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
 					$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->prefix}cmplz_cookiebanners SET message_optin = %s", $banner_text) );
 				}
 			}

@@ -25,6 +25,60 @@ if ( ! function_exists( 'cmplz_consent_mode' ) ) {
 	}
 }
 
+if ( ! function_exists('cmplz_upload_dir')) {
+	/**
+	 * Get the upload dir
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function cmplz_upload_dir( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_dir = trailingslashit( apply_filters( 'cmplz_upload_dir', $uploads['basedir'] ) ).'complianz/'.$path;
+		if ( !is_dir( $upload_dir)  ) {
+			cmplz_create_missing_directories_recursively($upload_dir);
+		}
+
+		return trailingslashit( $upload_dir );
+	}
+}
+
+/**
+ * Create directories recursively
+ *
+ * @param string $path
+ */
+
+function cmplz_create_missing_directories_recursively( string $path) {
+	if ( !cmplz_user_can_manage() ){
+		return;
+	}
+	$parts = explode('/', $path);
+	$dir = '';
+	foreach ($parts as $part) {
+		$dir .= $part . '/';
+		if (!is_dir($dir) && strlen($dir) > 0 && is_writable(dirname($dir, 1))) {
+			mkdir($dir);
+		}
+	}
+}
+
+if ( ! function_exists('cmplz_upload_url')) {
+	/**
+	 * Get the upload url
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function cmplz_upload_url( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_url = $uploads['baseurl'];
+		return trailingslashit( apply_filters('cmplz_upload_url', $upload_url) ).'complianz/'.$path;
+	}
+}
+
 if ( ! function_exists( 'cmplz_uses_social_media' ) ) {
 
 	/**
@@ -1473,10 +1527,12 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['tb-id']) //themify
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
+			 || isset( $_GET['bricks'] ) //bricks builder
 		     || isset( $_GET['ct_builder'] ) //oxygen
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
 			 || isset( $_GET['tatsu-footer'] ) //tatsu
+			 || strpos( $_SERVER['REQUEST_URI'], 'cornerstone/edit') !== false
 		) {
 			$preview = true;
 		}
@@ -1519,9 +1575,8 @@ if (!function_exists('cmplz_datarequests_or_dnsmpi_active')) {
 
 if (!function_exists('cmplz_file_exists_on_url')) {
 	function cmplz_file_exists_on_url($url){
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-		$upload_url = $uploads['baseurl'];
+		$upload_dir = cmplz_upload_dir();
+		$upload_url = cmplz_upload_url();
 		$path        = str_replace( $upload_url, $upload_dir, $url );
 		return file_exists($path);
 	}
@@ -1982,31 +2037,15 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		if ( ! $id ) {
 			$id = time();
 		}
-
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-
-		if ( ! file_exists( $upload_dir ) ) {
-			mkdir( $upload_dir,0755 );
-		}
-
-		if ( ! file_exists( $upload_dir . "/complianz" ) ) {
-			mkdir( $upload_dir . "/complianz",0755 );
-		}
-
-		if ( ! file_exists( $upload_dir . "/complianz/placeholders" ) ) {
-			mkdir( $upload_dir . "/complianz/placeholders",0755 );
-		}
+		$upload_dir = cmplz_upload_dir('placeholders');
 
 		//set the path
 		$filename = $use_filename ? "-" . basename( $src ) : '.jpg';
-		$file     = $upload_dir . "/complianz/placeholders/" . $id . $filename;
+		$file     = $upload_dir . $id . $filename;
 
 		//set the url
-		$new_src = $uploads['baseurl'] . "/complianz/placeholders/" . $id
-		           . $filename;
-
+		$new_src = cmplz_upload_url( "placeholders") .  $id.$filename;
 		//download file
 		$tmpfile = download_url( $src, $timeout = 25 );
 

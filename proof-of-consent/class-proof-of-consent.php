@@ -63,11 +63,8 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				'end_date'      => 9999999999999,
 			);
 			$args       = wp_parse_args( $args, $defaults );
-			$uploads    = wp_upload_dir();
-			$upload_dir = $uploads['basedir'];
-			$upload_url = $uploads['baseurl'];
-			$path       = $upload_dir . '/complianz/snapshots/';
-			$url        = $upload_url . '/complianz/snapshots/';
+			$path       =  cmplz_upload_dir('snapshots');
+			$url        = cmplz_upload_url('snapshots');
 			$filelist   = array();
 			$extensions = array( "pdf" );
 			$index = 0;
@@ -110,7 +107,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 
 			$page       = (int) $args['offset'];
 			$total      = count( $filelist ); //total items in array
-			$limit      = intval($args['number']);
+			$limit      = (int) $args['number'];
 
 			$totalPages = $limit===-1 ? 1 : ceil( $total / $limit ); //calculate total pages
 			$page       = max( $page, 1 ); //get 1 page when $_GET['page'] <= 0
@@ -181,9 +178,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				return;
 			}
 
-			$uploads    = wp_upload_dir();
-			$upload_dir = $uploads['basedir'];
-			$path       = $upload_dir . '/complianz/snapshots/';
+			$path = cmplz_upload_dir('snapshots/');
 			$success    = unlink( $path . sanitize_file_name( $filename ) );
 		}
 

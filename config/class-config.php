@@ -161,7 +161,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				),
 				"disqus"           => array( 'disqus.com' ),
 				"addthis"          => array( 'addthis.com' ),
-				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
+				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config', 'static.addtoany.com' ),
 				"sharethis"        => array( 'sharethis.com' ),
 				"microsoftads"     => array('bat.bing.com'),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),

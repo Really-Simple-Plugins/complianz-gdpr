@@ -30,14 +30,14 @@ if ( !class_exists('cmplz_installer') ){
 		 * @return bool
 		 */
 
-		private function plugin_is_downloaded(){
+		public function plugin_is_downloaded(){
 			return file_exists(trailingslashit(WP_PLUGIN_DIR).$this->get_activation_slug() );
 		}
 		/**
 		 * Check if plugin is activated
 		 * @return bool
 		 */
-		private function plugin_is_activated(){
+		public function plugin_is_activated(){
 			return is_plugin_active($this->get_activation_slug() );
 		}
 
@@ -84,7 +84,7 @@ if ( !class_exists('cmplz_installer') ){
 
 		/**
 		 * Download the plugin
-		 * @return void
+		 * @return bool
 		 */
 		public function download_plugin() {
 			if ( !current_user_can('install_plugins')) return;
@@ -96,22 +96,56 @@ if ( !class_exists('cmplz_installer') ){
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 				include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
-				$skin     = new WP_Ajax_Upgrader_Skin();
-				$upgrader = new Plugin_Upgrader( $skin );
-				$upgrader->install( $download_link );
+				$skin = new WP_Ajax_Upgrader_Skin();
+				$upgrader = new Plugin_Upgrader($skin);
+
+				$result = $upgrader->install($download_link);
+
+				if (is_wp_error($result)) {
+					return false;
+				}
+
 				delete_transient("cmplz_plugin_download_active");
 			}
+
+			return true;
 		}
 
 		/**
 		 * Activate the plugin
 		 *
-		 * @return void
+		 * @return bool
 		 */
-		public function activate_plugin() {
-			if ( !current_user_can('install_plugins')) return;
-			activate_plugin( $this->get_activation_slug() );
+		public function activate_plugin(): bool
+		{
+			if (!current_user_can('install_plugins')) {
+				return false;
+			}
+
+			$slug = $this->get_activation_slug();
+			$plugin_file_path = trailingslashit(WP_PLUGIN_DIR) . $slug;
+
+			// Make sure the plugin file exists before trying to activate it
+			if (!file_exists($plugin_file_path)) {
+				return false;
+			}
+
+			// Use plugin_basename to generate the correct slug, considering the WP_PLUGIN_DIR
+			$plugin_slug = plugin_basename($plugin_file_path);
+
+			$networkwide = is_multisite();
+
+			if (!defined('DOING_CRON')) {
+				define('DOING_CRON', true);
+			}
+
+			$result = activate_plugin($plugin_slug, '', $networkwide);
+			if (is_wp_error($result)) {
+				return false;
+			}
+
 			$this->cancel_tour();
+			return true;
 		}
 
 		/**

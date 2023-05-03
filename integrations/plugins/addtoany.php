@@ -7,8 +7,7 @@ function cmplz_addtoany_script( $tags ) {
 		'name' => 'addtoany',
 		'category' => 'marketing',
 		'urls' => array(
-			'window.a2a_config',
-			'addtoany.min.js',
+			'static.addtoany.com/menu/page.js',
 		),
 		'enable_placeholder' => '0',
 	);

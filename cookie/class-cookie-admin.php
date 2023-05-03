@@ -1742,7 +1742,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function cookiebanner_html(){
 			global $post;
 			$type = '';
-			if ( $post ) {
+			if ( $post && ( $post->ID ?? false ) ) {
 				if ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "gutenberg" ), $post->post_content, $matches ) ) {
 					$type      = $matches[1];
 					$region    = cmplz_get_region_from_legacy_type( $type );
@@ -4015,7 +4015,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			foreach ( $cookies as $cookie ) {
-				$cookie_service = sanitize_title( $cookie->service );
+				$cookie_service = !empty($cookie->service) ? sanitize_title( $cookie->service ) :  false;
 				$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
 				if ( $cookie_service === 'google-analytics'
 				     || $cookie_service === 'matomo'
