@@ -184,7 +184,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Improvement: updated classic consent area to the same new structure as the new Gutenberg consent area
 * Improvement: script type module support in cookie blocker
 * Improvement: exclude cornerstone builder from cookieblocker
-* Improvement: prevent duplicate entries in statistics table
 * Improvement: new cmplz_upload_dir and cmplz_upload_url filters, to allow overrides of the plugin folders.
 * Dropped: Ultimate Add ons for Elementor integration, due to incompatibility issues
 
