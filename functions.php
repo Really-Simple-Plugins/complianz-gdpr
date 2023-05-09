@@ -43,25 +43,41 @@ if ( ! function_exists('cmplz_upload_dir')) {
 		return trailingslashit( $upload_dir );
 	}
 }
+if ( ! function_exists('cmplz_create_missing_directories_recursively')) {
 
-/**
- * Create directories recursively
- *
- * @param string $path
- */
+	/**
+	 * Create directories recursively
+	 *
+	 * @param string $path
+	 */
 
-function cmplz_create_missing_directories_recursively( string $path) {
-	if ( !cmplz_user_can_manage() ){
-		return;
+	function cmplz_create_missing_directories_recursively( string $path ) {
+		if ( ! cmplz_user_can_manage() ) {
+			return;
+		}
+		$parts = explode( '/', $path );
+		$dir   = '';
+		foreach ( $parts as $part ) {
+			$dir .= $part . '/';
+			if ( !cmplz_has_open_basedir_restriction($dir) && !is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
+				mkdir($dir);
+			}
+		}
 	}
-	$parts = explode('/', $path);
-	$dir = '';
-	foreach ($parts as $part) {
-		$dir .= $part . '/';
-		if (!is_dir($dir) && strlen($dir) > 0 && is_writable(dirname($dir, 1))) {
-			if ( ! mkdir( $dir ) && ! is_dir( $dir ) ) {
-				throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $dir ) );
-			}		}
+}
+
+if (!function_exists('cmplz_has_open_basedir_restriction')) {
+	function cmplz_has_open_basedir_restriction($path) {
+		// Default error handler is required
+		set_error_handler(null);
+		// Clean last error info.
+		error_clear_last();
+		// Testing...
+		@file_exists($path);
+		// Restore previous error handler
+		restore_error_handler();
+		// Return `true` if error has occurred
+		return ($error = error_get_last()) && $error['message'] !== '__clean_error_info';
 	}
 }
 
@@ -76,7 +92,8 @@ if ( ! function_exists('cmplz_upload_url')) {
 	function cmplz_upload_url( string $path=''): string {
 		$uploads    = wp_upload_dir();
 		$upload_url = $uploads['baseurl'];
-		return trailingslashit( apply_filters('cmplz_upload_url', $upload_url) ).'complianz/'.$path;
+		$upload_url = trailingslashit( apply_filters('cmplz_upload_url', $upload_url) );
+		return trailingslashit($upload_url.'complianz/'.$path);
 	}
 }
 
