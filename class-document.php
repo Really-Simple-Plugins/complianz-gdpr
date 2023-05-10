@@ -2338,7 +2338,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @return false|string
 		 */
 
-		public function show_consent_area(
+		public function show_consent_area_clientside(
 			$atts = array(), $content = null, $tag = ''
 		) {
 			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
@@ -2372,6 +2372,129 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			<?php
 			return  ob_get_clean();
 		}
+
+
+		/**
+		 * Show content conditionally, based on consent
+		 * @param array  $atts
+		 * @param null   $content
+		 * @param string $tag
+		 *
+		 * @return false|string
+		 */
+
+		public function show_consent_area(
+			$atts = array(), $content = null, $tag = ''
+		) {
+			// normalize attribute keys, lowercase
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+			ob_start();
+
+			//should always be wrapped in closing tag
+			if (empty($content)) return '';
+			$blocked_text = __('Click to accept the cookies for this service', 'complianz-gdpr');
+			// override default attributes with user attributes
+			$atts   = shortcode_atts( array(
+				'clientside' => false,
+				'cache_redirect'   => false,
+				'scroll_into_view'   => true,
+				'service'   => 'general',
+				'category'   => false,
+				'text'   => $blocked_text,
+			), $atts, $tag );
+
+			//new option: clientside rendering of consent area, like in gutenberg.
+			if ($atts['clientside']) {
+				return $this->show_consent_area_clientside($atts, $content, $tag);
+			}
+
+			if ($atts['cache_redirect']==="true" || $atts['cache_redirect']=== 1 || $atts['cache_redirect']=== "1" || $atts['cache_redirect'] === true) {
+				$cache_redirect = true;
+			} else {
+				$cache_redirect = false;
+			}
+			$scroll_into_view = $atts['scroll_into_view']==="true" || $atts['scroll_into_view']=== 1 || $atts['scroll_into_view'] === true;
+			$category = $atts['category'] ? cmplz_sanitize_category($atts['category']) : 'no-category';
+
+			$service = $atts['category'] ? 'no-service' : COMPLIANZ::$cookie_blocker->sanitize_service_name($atts['service']);
+			$blocked_text = sanitize_text_field( $atts['text'] );
+
+			if ( cmplz_has_service_consent($service) || cmplz_has_consent($category) ) {
+				if ($cache_redirect) {
+					//redirect if not on redirect url, to prevent caching issues
+					?>
+                    <script>
+                        var url = window.location.href;
+                        if (url.indexOf('cmplz_consent=1') === -1) {
+                            if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
+                            url += 'cmplz_consent=1';
+                            window.location.replace(url);
+                        } else{
+                            console.log("already on redirect url");
+                        }
+                    </script>
+					<?php
+				}
+				echo '<a id="cmplz_consent_area_anchor"></a>'.do_shortcode($content);
+			} else {
+				//no consent
+				$blocked_text = apply_filters( 'cmplz_accept_cookies_blocked_content', $blocked_text );
+				$redirect_uri = $scroll_into_view ? 'cmplz_consent=1#cmplz_consent_area_anchor' : 'cmplz_consent=1';
+				if ( $cache_redirect ) {
+					?>
+                    <script>
+                        var url = window.location.href;
+                        var consented_area_visible = document.getElementById('cmplz_consent_area_anchor');
+                        if (url.indexOf('cmplz_consent=1') !== -1 && !consented_area_visible ) {
+                            url = url.replace('cmplz_consent=1', '');
+                            url = url.replace('#cmplz_consent_area_anchor', '');
+                            url = url.replace('?&', '?');
+                            url = url.replace('&&', '?');
+                            //if last character is ? or &, drop it
+                            if (url.substring(url.length-1) === "&" || url.substring(url.length-1) === "?")
+                            {
+                                url = url.substring(0, url.length-1);
+                            }
+                            window.location.replace(url);
+                        }
+
+                        document.addEventListener("cmplz_enable_category", cmplzEnableCustomBlockedContent);
+                        function cmplzEnableCustomBlockedContent(e) {
+                            if ( cmplz_has_service_consent('<?php echo esc_attr($service)?>' ) || cmplz_has_consent('<?php echo esc_attr($category)?>' )){
+                                if (url.indexOf('cmplz_consent=1') === -1 ) {
+                                    if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
+                                    url += '<?php echo $redirect_uri?>';
+                                    window.location.replace(url);
+                                }
+                            }
+                        }
+                    </script>
+				<?php } else { ?>
+                    <script>
+                        document.addEventListener("cmplz_enable_category", cmplzEnableCustomBlockedContent);
+                        function cmplzEnableCustomBlockedContent(e) {
+                            if ( cmplz_has_service_consent('<?php echo esc_attr($service)?>', 'marketing' ) && !document.getElementById("cmplz_consent_area_anchor") ){
+                                location.reload();
+                            }
+                            if ( e.detail.category === '<?php echo esc_attr($category)?>' && !document.getElementById("cmplz_consent_area_anchor") ){
+                                location.reload();
+                            }
+                        }
+                    </script>
+				<?php } ?>
+                <div class="cmplz-consent-area">
+					<?php if ($atts['category']) {?>
+                        <a href="#" data-category="<?php echo esc_attr($category)?>" class="cmplz-accept-category <?php echo ' cmplz_'. esc_attr($category);?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
+					<?php } else {?>
+                        <a href="#" data-service="<?php echo esc_attr($service)?>" class="cmplz-accept-service <?php echo ' cmplz_'. esc_attr($service);?>_consentarea" ><?php echo wp_kses_post($blocked_text)?></a>
+					<?php }?>
+                </div>
+				<?php
+			}
+
+			return ob_get_clean();
+		}
+
 
 		/**
 		 * Check if we should use caching
