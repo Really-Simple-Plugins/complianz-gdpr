@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 6.4.4
+Stable tag: 6.4.5
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -174,6 +174,10 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.5 =
+* Security: CSRF fixed
+* Fix: new shortcode handling for consent area not working for some plugin shortcodes, split in two options: default, the old one, optionally the clientside version.
+
 = 6.4.4 =
 * Fix: catch not existing post_data if post structure is not following WordPress standards
 * Fix: exclude bricks builder from cookie blocker
