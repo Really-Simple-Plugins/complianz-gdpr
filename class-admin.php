@@ -80,6 +80,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		}
 
 		public function maybe_install_suggested_plugins(){
+			if (!isset($_GET['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_GET['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			$error = true;
 			if ( current_user_can('install_plugins')) {
 				$error = false;
@@ -372,6 +379,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz_admin',
 				array(
 					'admin_url'    => admin_url( 'admin-ajax.php' ),
+					'nonce'	=> wp_create_nonce( 'complianz_save' ),
 					'progress'     => $progress,
 					'syncProgress' => $sync_progress,
 					'copy_text'	   => __('Copied!', 'complianz-gdpr')

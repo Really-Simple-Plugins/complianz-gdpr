@@ -154,6 +154,13 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 
 		public function ajax_delete_snapshot() {
 
+			if (!isset($_POST['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
@@ -222,7 +229,8 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 							dataType: 'json',
 							data: ({
 								action: 'cmplz_delete_snapshot',
-								snapshot_id: delete_snapshot_id
+								snapshot_id: delete_snapshot_id,
+								nonce: '<?php echo wp_create_nonce( "complianz_save" )?>'
 							}),
 							success: function (response) {
 								if (response.success) {

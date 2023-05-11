@@ -2580,6 +2580,13 @@ if ( ! class_exists( "cmplz_field" ) ) {
         public function ajax_script_add()
         {
 
+			if (!isset($_POST['nonce']) ) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')){
+				return;
+			}
+
             $html = "";
             $error = false;
 
@@ -2674,11 +2681,18 @@ if ( ! class_exists( "cmplz_field" ) ) {
 
         public function ajax_script_save()
         {
+			if (!isset($_POST['nonce']) ) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')){
+				return;
+			}
             $error = false;
             if ( ! cmplz_user_can_manage() ) $error = true;
             if ( ! isset($_POST['data']) ) $error = true;
             if ( ! isset($_POST['id']) ) $error = true;
             if ( ! isset($_POST['type']) ) $error = true;
+
 			//clear transients when updating script
 			delete_transient('cmplz_blocked_scripts');
             if ( $_POST['type'] !== 'add_script' && $_POST['type'] !== 'block_script' && $_POST['type'] !== 'whitelist_script' ) $error = true;

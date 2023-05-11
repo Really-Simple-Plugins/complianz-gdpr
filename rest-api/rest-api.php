@@ -88,6 +88,7 @@ function cmplz_rest_consented_content( WP_REST_Request $request ) {
 		}
 	}
 
+	$output = do_shortcode($output);
 	$response = json_encode( $output );
 	header( "Content-Type: application/json" );
 	echo $response;

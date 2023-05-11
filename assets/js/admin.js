@@ -55,6 +55,7 @@ jQuery(document).ready(function ($) {
 			data: ({
 				step: 'download',
 				action: 'cmplz_install_plugin',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				$.ajax({
@@ -64,6 +65,7 @@ jQuery(document).ready(function ($) {
 					data: ({
 						step: 'activate',
 						action: 'cmplz_install_plugin',
+						nonce: complianz_admin.nonce,
 					}),
 					success: function (response) {
 						let completed_text = $('.cmplz-completed-text').html();
@@ -611,6 +613,7 @@ jQuery(document).ready(function ($) {
 			{
 				action: 'cmplz_run_sync',
 				restart: restart,
+				nonce: complianz_admin.nonce,
 			},
 			function (response) {
 				var obj;
@@ -984,6 +987,7 @@ jQuery(document).ready(function ($) {
 				cmplz_action : action,
 				language:language,
 				action: 'cmplz_edit_item',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {
@@ -1056,6 +1060,7 @@ jQuery(document).ready(function ($) {
 			data: ({
 				action: 'cmplz_script_add',
 				type: type,
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {
@@ -1131,6 +1136,7 @@ jQuery(document).ready(function ($) {
 				type: type,
 				button_action: action,
 				id: id,
+				nonce: complianz_admin.nonce,
 				data: JSON.stringify(data),
 			}),
 			success: function (response) {
@@ -1239,7 +1245,8 @@ jQuery(document).ready(function ($) {
 			dataType: 'json',
 			data: ({
 				pages: JSON.stringify(pageTitles),
-				action: 'cmplz_create_pages'
+				action: 'cmplz_create_pages',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {

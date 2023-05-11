@@ -705,6 +705,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function ajax_edit_item() {
 
+			if (!isset($_POST['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
@@ -3435,6 +3442,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
+			if (!isset($_GET['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_GET['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( isset( $_GET['restart'] ) && $_GET['restart'] == 'true' ) {
 				$this->resync();
 			}

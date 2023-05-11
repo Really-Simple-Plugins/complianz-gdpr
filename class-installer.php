@@ -19,10 +19,7 @@ if ( !class_exists('cmplz_installer') ){
 				$this->action = 'cmplz_activate_plugin';
 			}
 
-			if (!$this->plugin_is_downloaded() || !$this->plugin_is_activated() ) {
-				add_action( 'wp_ajax_cmplz_download_plugin', array($this, 'download_plugin') );
-				add_action( 'wp_ajax_cmplz_activate_plugin', array($this, 'activate_plugin') );
-			}
+//
 		}
 
 		/**
@@ -48,6 +45,7 @@ if ( !class_exists('cmplz_installer') ){
 		 * @return void
 		 */
 		public function install($step){
+
 			if ( !current_user_can('install_plugins')) return;
 
 			if ( $step === 'download' ) {
