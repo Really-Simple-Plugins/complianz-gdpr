@@ -176,6 +176,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 = 6.4.5 =
 * Security: CSRF fixed
+* Fix: type=module support for scripts other than inline scripts
 * Fix: new shortcode handling for consent area not working for some plugin shortcodes, split in two options: default, the old one, optionally the clientside version.
 
 = 6.4.4 =
