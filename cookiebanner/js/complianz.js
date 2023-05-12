@@ -319,7 +319,7 @@ function cmplz_run_script( script, category, service, type, sourceObj ) {
 		targetObj.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
 	}
 
-	if (script.includes("import") ) {
+	if ( script.includes("import") ) {
 		targetObj.setAttribute("type", "module");
 	}
 
@@ -2229,6 +2229,11 @@ function cmplzCopyAttributes(source, target) {
 	return Array.from(source.attributes).forEach(attribute => {
 		//don't copy the type attribute
 		let excludes = ['type', 'data-service', 'data-category', 'async'];
+		if (  attribute.nodeName === 'data-script-type' && attribute.nodeValue === 'module' ) {
+			target.setAttribute('type', 'module',);
+			target.removeAttribute('data-script-type');
+		}
+
 		if ( !excludes.includes(attribute.nodeName) ) {
 			target.setAttribute(
 				attribute.nodeName,
