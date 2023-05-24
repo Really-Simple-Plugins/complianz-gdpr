@@ -416,28 +416,34 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 		{
 			$error = false;
 			$response = [
-					'success' => false,
+				'success' => false,
 			];
 
 			if ( !current_user_can('activate_plugins') ) {
 				$error = true;
 			}
 
-			if ( defined($this->plugin_constant) ) {
-				deactivate_plugins( $this->slug );
+			if ( !isset($_GET['token']) || !wp_verify_nonce($_GET['token'], 'upgrade_to_pro_nonce') ) {
+				$error = true;
 			}
 
-			$file = trailingslashit(WP_CONTENT_DIR).'plugins/'.$this->slug;
-			if ( file_exists($file ) ) {
-				$dir = dirname($file);
-				$new_dir = $dir.'_'.time();
-				set_transient('cmplz_upgrade_dir', $new_dir, WEEK_IN_SECONDS);
-				rename($dir, $new_dir);
-				//prevent uninstalling code by previous plugin
-				unlink(trailingslashit($new_dir).'uninstall.php');
+			if (!$error ) {
+				if ( defined( $this->plugin_constant ) ) {
+					deactivate_plugins( $this->slug );
+				}
+
+				$file = trailingslashit( WP_CONTENT_DIR ) . 'plugins/' . $this->slug;
+				if ( file_exists( $file ) ) {
+					$dir     = dirname( $file );
+					$new_dir = $dir . '_' . time();
+					set_transient( 'cmplz_upgrade_dir', $new_dir, WEEK_IN_SECONDS );
+					rename( $dir, $new_dir );
+					//prevent uninstalling code by previous plugin
+					unlink( trailingslashit( $new_dir ) . 'uninstall.php' );
+				}
 			}
 
-			if ( file_exists($file ) ) {
+			if ( !$error && file_exists($file ) ) {
 				$error = true;
 				$response = [
 						'success' => false,
