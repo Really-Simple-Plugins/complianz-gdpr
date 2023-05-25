@@ -2,7 +2,7 @@
 
 require( 'class-installer.php' );
 
-class RssslInstallerTest extends WP_UnitTestCase {
+class CmplzInstallerTest extends WP_UnitTestCase {
     /**
      * @throws Exception
      */
