@@ -1998,7 +1998,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$async = $script['async']== 1 ? 'async' : '';
                 ?>
                 <script <?php echo $async?> type="text/plain" data-category="<?php echo esc_attr($script['category'])?>">
-                    <?php echo $script['editor'] ?>
+                    <?php echo ($script['editor']) ?>
                 </script>
                 <?php
             }

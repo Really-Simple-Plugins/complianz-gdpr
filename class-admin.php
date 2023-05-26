@@ -140,6 +140,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$error = true;
 			}
 
+			$nonce = $_POST['nonce'] ?? false;
+			if (!wp_verify_nonce($nonce, 'complianz_save')){
+				$error = true;
+			}
 			if ( !$error ) {
 				$warning_id = sanitize_title($_POST['id']);
 				$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
