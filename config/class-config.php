@@ -628,6 +628,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'success_conditions'  => array(
 						'NOT get_option_cmplz_double_stats',
 					),
+					'warning_condition' => 'cmplz_uses_statistics',
 					'open' => __( 'You have a duplicate implementation of your statistics tool on your site.', 'complianz-gdpr' ) .
 					          __( 'After the issue has been resolved, please re-run a scan to clear this message.', 'complianz-gdpr' )
 					                 . cmplz_read_more( 'https://complianz.io/duplicate-implementation-of-analytics/' ),

@@ -1214,6 +1214,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			add_action( 'wp_ajax_cmplz_create_pages', array( $this, 'ajax_create_pages' ) );
 
 			add_action('save_post', array($this, 'register_document_title_for_translations'), 10, 3);
+			add_filter( 'the_content', array( $this, 'revert_divs_to_summary' ) );
+
 		}
 
 		/**
@@ -1368,8 +1370,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//prevent looping
 			remove_action( 'save_post', array( $this, 'save_metabox_data' ) );
 
-			$sync = sanitize_text_field( $_POST['cmplz_document_status'] )
-			        == 'unlink' ? 'unlink' : 'sync';
+			$sync = sanitize_text_field( $_POST['cmplz_document_status'] ) == 'unlink' ? 'unlink' : 'sync';
 
 			//save the document's shortcode in a meta field
 
@@ -1401,13 +1402,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 				if ( $shortcode ) {
 					//store shortcode
-					update_post_meta( $post->ID, 'cmplz_shortcode',
-						$post->post_content );
-					$document_html
-						  = COMPLIANZ::$document->get_document_html( $type,
-						$region );
+					update_post_meta( $post->ID, 'cmplz_shortcode', $post->post_content );
+					$document_html = COMPLIANZ::$document->get_document_html( $type, $region );
 					$args = array(
-						'post_content' => $document_html,
+						'post_content' => $this->convert_summary_to_div($document_html, $post->ID),
 						'ID'           => $post->ID,
 					);
 					wp_update_post( $args );
@@ -3052,6 +3050,79 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				}
 				rmdir( $dir );
 			}
+		}
+
+		/**
+		 * Replace custom summary shortcode back to summary tags
+		 *
+		 * @return string
+		 */
+		public function revert_divs_to_summary( $content ): string {
+			//only on front-end
+			if ( is_admin() ) {
+				return $content;
+			}
+
+			// only for classic.
+			if ( cmplz_uses_gutenberg() ) {
+				return $content;
+			}
+
+			// Return $data if this is not a Complianz document
+			global $post;
+			if ( !$post ) {
+				return $content;
+			}
+
+			if ( !COMPLIANZ::$document->is_complianz_page($post->ID ) ) {
+				return $content;
+			}
+
+			// Check if post is unlinked, otherwise return
+			if ( get_post_meta($post->ID, 'cmplz_document_status', true	) !== 'unlink') {
+				return $content;
+			}
+
+			//quotest get encoded for some strange reason. Decode.
+			$content = str_replace( '&#8221;', '"', $content );
+			$content = preg_replace('/\[cmplz-details-open([^>]*?)\]/', '<details $1>', $content);
+
+			$content = preg_replace('/\[cmplz-details-close\]/', '</details>', $content);
+			// Replace <summary> tags with custom <div>
+			$content = preg_replace('/\[cmplz-summary-open([^>]*?)\]/', '<summary $1>', $content);
+			$content =  preg_replace('/\[cmplz-summary-close\]/', '</summary>', $content);
+			return $content;
+		}
+		/**
+		 * Replace <summary> tags with summary shortcode to fix the issue with tinyMce, which drops summary because it is not supported.
+		 *
+		 * @param string $content
+		 * @param int    $post_id
+		 *
+		 * @return string
+		 */
+		public function convert_summary_to_div( string $content, int $post_id): string {
+			//only on back-end
+			if (!cmplz_user_can_manage()) {
+				return $content;
+			}
+
+			// only for classic.
+			if ( cmplz_uses_gutenberg() ) {
+				return $content;
+			}
+
+			// Return content if this is not a Complianz document
+			if ( !COMPLIANZ::$document->is_complianz_page($post_id ) ) {
+				return $content;
+			}
+
+			$content = preg_replace('/<details([^>]*?)>/', '[cmplz-details-open$1]', $content);
+			$content = preg_replace('/<\/details>/', '[cmplz-details-close]', $content);
+
+			// Replace <summary> tags with custom <div>
+			$content = preg_replace('/<summary([^>]*?)>/', '[cmplz-summary-open$1]', $content);
+			return preg_replace('/<\/summary>/', '[cmplz-summary-close]', $content);
 		}
 	}
 }

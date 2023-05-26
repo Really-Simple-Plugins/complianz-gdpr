@@ -574,6 +574,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Buttonizer',
 			'firstparty_marketing' => false,
 	),
+	'easy-liveblogs' => array(
+		'constant_or_function' => 'ELB_NAME',
+		'label'                => 'Easy Liveblogs',
+		'firstparty_marketing' => false,
+	),
 ) );
 
 

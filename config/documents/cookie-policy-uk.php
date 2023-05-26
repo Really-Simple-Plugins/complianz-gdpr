@@ -182,6 +182,13 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
             "To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Information Commissioner's Office (ICO)).",
     ),
 
+    'your-rights-4' => array(
+        'content' =>  "For Jersey residents, please contact the Jersey Office of The Information Commissioner. Guernsey residents can contact the Office of the Data Protection Authority in Guernsey.",
+        'condition' => array(
+        'uk_consent_regions' => 'yes',
+      )
+    ),
+
     'contact-details' => array(
         'title' => 'Contact details',
         'content' => 'For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:',
