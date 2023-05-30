@@ -2434,8 +2434,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 							if (url.indexOf('?') !== -1) {url += '&';} else {url += '?';}
 							url += 'cmplz_consent=1';
 							window.location.replace(url);
-						} else{
-							console.log("already on redirect url");
 						}
 					</script>
 					<?php
