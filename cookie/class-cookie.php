@@ -338,7 +338,10 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				if ( !defined('POLYLANG_VERSION') || !$this->sync ) {
 					if (!empty($this->purpose) ) $this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
 				}
-				if (!empty( $this->retention ) ) $this->retention = cmplz_translate( $this->retention, 'cookie_retention' );
+				if ( ! defined( 'POLYLANG_VERSION' ) ) {
+					if ( ! empty( $this->retention ) ) { $this->retention = cmplz_translate( $this->retention, 'cookie_retention' );
+					}
+				}
 				if (!empty( $this->cookieFunction) ) $this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
 				if (!empty( $this->collectedPersonalData) ) $this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
 			}
