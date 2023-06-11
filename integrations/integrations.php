@@ -361,7 +361,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
 	'jetpack' => array(
 		'constant_or_function' => 'JETPACK__VERSION',
-		'label'                => 'JetPack',
+		'label'                => 'Jetpack',
 		'firstparty_marketing' => false,
 	),
 
