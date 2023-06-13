@@ -2988,7 +2988,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$mpdf = new Mpdf\Mpdf( array(
 					'setAutoTopMargin'  => 'stretch',
 					'autoMarginPadding' => 5,
-					'tempDir'           => $temp_dir,
+					//'tempDir'           => $temp_dir,
 					'margin_left'       => 20,
 					'margin_right'      => 20,
 					'margin_top'        => 30,
