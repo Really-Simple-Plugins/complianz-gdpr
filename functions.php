@@ -2358,7 +2358,7 @@ if ( !function_exists('cmplz_get_server') ) {
 		} elseif ( strpos( $server_raw, 'nginx' ) !== false ) {
 			return 'NGINX';
 		} elseif ( strpos( $server_raw, 'litespeed' ) !== false ) {
-			return 'Litespeed';
+			return 'LiteSpeed';
 		} else { //unsupported server
 			return 'Not recognized';
 		}

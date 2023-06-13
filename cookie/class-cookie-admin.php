@@ -2017,7 +2017,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
-			if ( $statistics === 'google-analytics' ) {
+			if ( $statistics === 'google-analytics' && !empty($gtag_code) ) {
 				$category = $this->get_statistics_category();
 				?>
 				<script async data-category="<?php echo $category ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php

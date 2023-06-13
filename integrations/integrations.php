@@ -70,16 +70,20 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Lead Forensics',
 			'firstparty_marketing' => false,
 	),
-
 	'mailchimp-woocommerce' => array(
 			'constant_or_function' => 'MAILCHIMP_WOOCOMMERCE_NEWSLETTER_VERSION',
 			'label'                => 'Mailchimp for Woocommerce',
 			'firstparty_marketing' => false,
 	),
-
 	'burst-statistics' => array(
 			'constant_or_function' => 'burst_version',
 			'label'                => 'Burst Statistics',
+			'firstparty_marketing' => false,
+	),
+
+	'beaver-builder' => array(
+			'constant_or_function' => 'FL_BUILDER_VERSION',
+			'label'                => 'Beaver Builder',
 			'firstparty_marketing' => false,
 	),
 
@@ -361,7 +365,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
 	'jetpack' => array(
 		'constant_or_function' => 'JETPACK__VERSION',
-		'label'                => 'JetPack',
+		'label'                => 'Jetpack',
 		'firstparty_marketing' => false,
 	),
 

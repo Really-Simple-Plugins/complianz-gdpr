@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.4.8\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.4.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-26T15:41:54+00:00\n"
+"POT-Creation-Date: 2023-06-13T18:51:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -729,7 +729,7 @@ msgstr ""
 
 #: class-field.php:2514
 #: class-field.php:2863
-#: integrations/integrations.php:822
+#: integrations/integrations.php:826
 #: gutenberg/build/index.js:1
 #: gutenberg/src/index.js:463
 msgid "Placeholder"
@@ -2252,7 +2252,6 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:103
 #: config/documents/cookie-policy-ca.php:104
 #: config/documents/cookie-policy-eu.php:103
-#: config/documents/cookie-policy-uk.php:101
 #: config/documents/cookie-policy-us.php:138
 #: config/documents/cookie-policy-za.php:102
 msgid "%s is located in the United States."
@@ -2442,8 +2441,6 @@ msgstr ""
 #: config/documents/cookie-policy-ca.php:95
 #: config/documents/cookie-policy-eu.php:86
 #: config/documents/cookie-policy-eu.php:94
-#: config/documents/cookie-policy-uk.php:84
-#: config/documents/cookie-policy-uk.php:92
 #: config/documents/cookie-policy-us.php:121
 #: config/documents/cookie-policy-us.php:129
 #: config/documents/cookie-policy-za.php:85
@@ -2455,7 +2452,6 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:87
 #: config/documents/cookie-policy-ca.php:88
 #: config/documents/cookie-policy-eu.php:87
-#: config/documents/cookie-policy-uk.php:85
 #: config/documents/cookie-policy-us.php:122
 #: config/documents/cookie-policy-za.php:86
 msgctxt "Legal document cookie policy"
@@ -2465,7 +2461,6 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:95
 #: config/documents/cookie-policy-ca.php:96
 #: config/documents/cookie-policy-eu.php:95
-#: config/documents/cookie-policy-uk.php:93
 #: config/documents/cookie-policy-us.php:130
 #: config/documents/cookie-policy-za.php:94
 msgctxt "Legal document cookie policy"
@@ -2478,8 +2473,6 @@ msgstr ""
 #: config/documents/cookie-policy-ca.php:112
 #: config/documents/cookie-policy-eu.php:103
 #: config/documents/cookie-policy-eu.php:111
-#: config/documents/cookie-policy-uk.php:101
-#: config/documents/cookie-policy-uk.php:109
 #: config/documents/cookie-policy-us.php:138
 #: config/documents/cookie-policy-us.php:146
 #: config/documents/cookie-policy-za.php:102
@@ -2531,7 +2524,6 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:148
 #: config/documents/cookie-policy-ca.php:137
 #: config/documents/cookie-policy-eu.php:150
-#: config/documents/cookie-policy-uk.php:148
 #: config/documents/cookie-policy-za.php:149
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Vendors"
@@ -2540,14 +2532,12 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:155
 #: config/documents/cookie-policy-ca.php:152
 #: config/documents/cookie-policy-eu.php:157
-#: config/documents/cookie-policy-uk.php:154
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Enabling/disabling and deleting cookies"
 msgstr ""
 
 #: config/documents/cookie-policy-br.php:156
 #: config/documents/cookie-policy-eu.php:158
-#: config/documents/cookie-policy-uk.php:155
 msgctxt "Legal document cookie policy"
 msgid "You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser."
 msgstr ""
@@ -2555,7 +2545,6 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:160
 #: config/documents/cookie-policy-ca.php:158
 #: config/documents/cookie-policy-eu.php:162
-#: config/documents/cookie-policy-uk.php:159
 #: config/documents/cookie-policy-us.php:192
 #: config/documents/cookie-policy-za.php:160
 msgctxt "Legal document cookie policy"
@@ -2978,7 +2967,7 @@ msgstr ""
 #: config/general-settings.php:102
 #: config/general-settings.php:119
 #: config/general-settings.php:136
-msgid "The blocked content text appears when for example a Youtube video is embedded."
+msgid "The blocked content text appears when for example a YouTube video is embedded."
 msgstr ""
 
 #: config/general-settings.php:103
@@ -5248,11 +5237,11 @@ msgstr ""
 msgid "Integrations"
 msgstr ""
 
-#: integrations/integrations.php:854
+#: integrations/integrations.php:858
 msgid "We have enabled integrations for plugins and services, please double-check your configuration."
 msgstr ""
 
-#: integrations/integrations.php:995
+#: integrations/integrations.php:999
 msgid "No required integrations detected yet."
 msgstr ""
 
@@ -5515,23 +5504,23 @@ msgstr ""
 msgid "As of WordPress 4.9.6, plugins and themes can add their own suggested statements about cookie usage and privacy here. To use this functionality, please upgrade to the latest WordPress version."
 msgstr ""
 
-#: pro/class-document.php:89
+#: pro/class-document.php:93
 msgid "Add to annex of Privacy Statement"
 msgstr ""
 
-#: pro/class-document.php:107
+#: pro/class-document.php:111
 msgid "Conforms to the Consent API"
 msgstr ""
 
-#: pro/class-document.php:108
+#: pro/class-document.php:112
 msgid "Does not conform with the Consent API"
 msgstr ""
 
-#: pro/class-document.php:115
+#: pro/class-document.php:119
 msgid "No plugins with suggested statements found."
 msgstr ""
 
-#: pro/class-geoip.php:373
+#: pro/class-geoip.php:374
 msgid "Required directory does not exist:"
 msgstr ""
 

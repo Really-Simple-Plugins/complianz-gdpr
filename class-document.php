@@ -3056,6 +3056,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 * @return string
 		 */
 		public function revert_divs_to_summary( $content ): string {
+			// Make sure content is a string
+			$content = $content ?? '';
+			
 			//only on front-end
 			if ( is_admin() ) {
 				return $content;

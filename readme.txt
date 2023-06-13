@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 6.4.6
+Stable tag: 6.4.7
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -174,6 +174,13 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.4.7 =
+* June 14th, 2023
+* Fix: WordPress 6.2 version moved the Privacy Policy function to a different file. Added fallback for older versions.
+* Fix: The fix for the Classic Editor bug which removes summary/details html elements, caused an issue when the post content is empty.
+* Improvement: if configuration by Complianz is set to false, the gtag id was added anyway, but empty.
+* Improvement: strings in UK cookie policy translatable, which shouldn't be the case.
+
 = 6.4.6 =
 * Improvement: unhide pagination on data requests page.
 * Improvement: Jersey and Guernsey included
