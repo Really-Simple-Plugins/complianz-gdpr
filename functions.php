@@ -2093,6 +2093,82 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		return $new_src;
 	}
 }
+if (!function_exists('cmplz_get_transient')) {
+
+/**
+ * We user our own transient, as the wp transient is not always persistent
+ * Specifically made for license transients, as it stores on network level if multisite.
+ *
+ * @param string $name
+ *
+ * @return mixed
+ */
+function cmplz_get_transient( string $name ){
+	$value = false;
+	$now = time();
+	$transients = get_option('cmplz_transients', array());
+
+	if ( isset($transients[$name]) ) {
+		$data = $transients[$name];
+		$expires = isset($data['expires']) ? $data['expires'] : 0;
+		$value = isset($data['value']) ? $data['value'] : false;
+		if ( $expires < $now ) {
+			unset($transients[$name]);
+
+			update_option('cmplz_transients', $transients);
+			$value = false;
+		}
+	}
+	return $value;
+}
+}
+
+if (!function_exists('cmplz_delete_transient')) {
+	/**
+	 * We user our own transient, as the wp transient is not always persistent
+	 * Specifically made for license transients, as it stores on network level if multisite.
+	 *
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	function cmplz_delete_transient( string $name ): void {
+		$transients = get_option( 'cmplz_transients', array() );
+		if ( !is_array( $transients ) ) {
+			$transients = array();
+		}
+
+		if (isset($transients[$name])) {
+			unset($transients[$name]);
+		}
+
+		update_option( 'cmplz_transients', $transients );
+	}
+}
+if (!function_exists('cmplz_set_transient')) {
+	/**
+	 * We user our own transient, as the wp transient is not always persistent
+	 * Specifically made for license transients, as it stores on network level if multisite.
+	 *
+	 * @param string $name
+	 * @param mixed  $value
+	 * @param int    $expiration
+	 *
+	 * @return void
+	 */
+	function cmplz_set_transient( string $name, $value, $expiration ) {
+		$transients = get_option( 'cmplz_transients', array() );
+		if ( ! is_array( $transients ) ) {
+			$transients = array();
+		}
+
+		$transients[ $name ] = array(
+				'value'   => is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value),
+				'expires' => time() + (int) $expiration,
+		);
+		update_option( 'cmplz_transients', $transients );
+	}
+}
 
 if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 	function cmplz_used_cookies() {
@@ -2808,7 +2884,7 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 	 * @return int default_ID
 	 */
 	function cmplz_get_default_banner_id() {
-		$banner_id = get_transient('cmplz_default_banner_id');
+		$banner_id = cmplz_get_transient('cmplz_default_banner_id');
 		if ( !$banner_id ){
 			global $wpdb;
 			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
@@ -2821,7 +2897,7 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 			if ( ! empty( $cookiebanners ) ) {
 				$banner_id = $cookiebanners[0]->ID;
 			}
-			set_transient('cmplz_default_banner_id', $banner_id, HOUR_IN_SECONDS);
+			cmplz_set_transient('cmplz_default_banner_id', $banner_id, HOUR_IN_SECONDS);
 		}
 		return $banner_id;
 	}

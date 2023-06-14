@@ -64,7 +64,7 @@ function process_integrations_services_save() {
 		if ( ! isset( $_POST['cmplz_nonce'] ) || ! wp_verify_nonce( $_POST['cmplz_nonce'], 'complianz_save' ) ) {
 			return;
 		}
-		delete_transient('cmplz_blocked_scripts');
+		cmplz_delete_transient('cmplz_blocked_scripts');
 
 		if ( isset($_POST["cmplz_save_integrations_type_services"])    ) {
 

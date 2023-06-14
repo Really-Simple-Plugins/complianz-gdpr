@@ -261,7 +261,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 			}
 			//set transient so we can also access this data before the arrays are loaded
-			set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
+			cmplz_set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
 			return $formatted_custom_script_tags;
 		}
 
@@ -461,14 +461,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * Get script tags, including custom user scripts
              *
              * */
-			$blocked_scripts = get_transient('cmplz_blocked_scripts');
+			$blocked_scripts = cmplz_get_transient('cmplz_blocked_scripts');
 			if ( defined('WP_DEBUG') && WP_DEBUG ) {
 				$blocked_scripts = false;
 			}
 
 			if ( !$blocked_scripts ) {
 				$blocked_scripts = $this->blocked_scripts();
-				set_transient('cmplz_blocked_scripts', $blocked_scripts, 5 * MINUTE_IN_SECONDS );
+				cmplz_set_transient('cmplz_blocked_scripts', $blocked_scripts, 5 * MINUTE_IN_SECONDS );
 			}
 
 			/**

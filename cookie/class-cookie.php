@@ -625,10 +625,10 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
-	if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
+	if ( !wp_doing_cron() && !cmplz_user_can_manage() ) {
 		return;
 	}
-	if ( get_option( 'cmplz_cookietable_version' ) != cmplz_version ) {
+	if ( get_option( 'cmplz_cookietable_version' ) !== cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();

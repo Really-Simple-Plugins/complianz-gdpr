@@ -256,11 +256,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		private function get() {
 			global $wpdb;
 			if ( (int) $this->ID > 0 ) {
-				$cookiebanner = get_transient('cmplz_cookiebanner_'.$this->ID);
-				if ( !$cookiebanner ){
-					$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->ID ) ) );
-					set_transient('cmplz_cookiebanner_'.$this->ID, $cookiebanner, HOUR_IN_SECONDS);
-				}
+				$cookiebanner = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", intval( $this->ID ) ) );
 
 				if ( $cookiebanner ) {
 					$this->banner_version = $cookiebanner->banner_version;
@@ -485,10 +481,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_translation_id() {
 			//if this is the banner with the lowest ID's, no ID
 			global $wpdb;
-			$lowest = get_transient('cmplz_min_banner_id');
+			$lowest = cmplz_get_transient('cmplz_min_banner_id');
 			if ( !$lowest ){
 				$lowest = $wpdb->get_var( "select min(ID) from {$wpdb->prefix}cmplz_cookiebanners" );
-				set_transient('cmplz_min_banner_id', $lowest, HOUR_IN_SECONDS );
+				cmplz_set_transient('cmplz_min_banner_id', $lowest, HOUR_IN_SECONDS );
 			}
 
 			if ( $lowest == $this->ID ) {

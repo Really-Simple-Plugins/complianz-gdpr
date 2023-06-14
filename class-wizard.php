@@ -327,7 +327,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			//clear blocked scripts transient on wizard edits.
-			delete_transient('cmplz_blocked_scripts');
+			cmplz_delete_transient('cmplz_blocked_scripts');
 
 			//keep services in sync
 			if ( $fieldname === 'socialmedia_on_site' || $fieldname === 'thirdparty_services_on_site' ) {

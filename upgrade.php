@@ -982,6 +982,14 @@ function cmplz_check_upgrade() {
 	}
 
 
+	if ( $prev_version && version_compare( $prev_version, '6.5.0', '<' ) ) {
+		if ( !is_multisite() ) {
+			$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
+			update_option( 'complianz_active_policy_id', $policy_id);
+		}
+	}
+
+
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
 

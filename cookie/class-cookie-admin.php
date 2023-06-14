@@ -1845,7 +1845,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function get_active_policy_id() {
-			return get_site_option( 'complianz_active_policy_id', 1 );
+			return is_multisite() ? get_site_option( 'complianz_active_policy_id', 1 ) : get_option( 'complianz_active_policy_id', 1 );
 		}
 
 		/**
@@ -1857,9 +1857,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		 */
 
 		public function upgrade_active_policy_id() {
-			$policy_id = get_site_option( 'complianz_active_policy_id', 1 );
+			$policy_id = $this->get_active_policy_id();
 			$policy_id++;
-			update_site_option( 'complianz_active_policy_id', $policy_id );
+			if (is_multisite()) {
+				update_site_option( 'complianz_active_policy_id', $policy_id );
+			} else {
+				update_option( 'complianz_active_policy_id', $policy_id );
+			}
 		}
 
 		/**
@@ -3002,16 +3006,10 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			//stringyfy select args.
 			$settings_args = sanitize_title(json_encode($settings));
-			$cookies = get_transient('cmplz_cookies_'.$settings_args);
+			//hash $settings_args
+			$settings_args = md5($settings_args);
+			$cookies = cmplz_get_transient('cmplz_cookies_'.$settings_args);
 			if ( !$cookies || cmplz_user_can_manage() ){
-				$table_exists = get_transient('cmplz_cookie_table_exists');
-				if ( !$table_exists ){
-					$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
-					set_transient('cmplz_cookie_table_exists', $table_exists );
-				}
-				if ( empty( $table_exists ) ) {
-					return array();
-				}
 				$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
 				//make sure service data is added
 				foreach ( $cookies as $index => $cookie ) {
@@ -3019,7 +3017,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 					$cookies[ $index ] = $cookie;
 				}
 
-				set_transient('cmplz_cookies_'.$settings_args, $cookies, HOUR_IN_SECONDS);
+				cmplz_set_transient('cmplz_cookies_'.$settings_args, $cookies, HOUR_IN_SECONDS);
 			}
 			return $cookies;
 		}
@@ -3969,7 +3967,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			/**
 			 * Script Center
 			 */
-			$blocked_scripts = get_transient('cmplz_blocked_scripts');
+			$blocked_scripts = cmplz_get_transient('cmplz_blocked_scripts');
 			$blocked_scripts = $blocked_scripts ?: COMPLIANZ::$cookie_blocker->blocked_scripts();
 			$thirdparty_scripts = is_array($blocked_scripts) && count( $blocked_scripts ) > 0;
 			$ad_cookies   = ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' ) ? true : false;

@@ -2589,14 +2589,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function get_shortcode_page_id( $type, $region , $cache = true) {
 			$shortcode = 'cmplz-document';
-			$page_id   = $cache ? get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
+			$page_id   = $cache ? cmplz_get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
 			if ( $page_id === 'none') {
 				return false;
 			}
 
 			if ( ! $page_id ) {
 				//ensure a transient, in case none is found. This prevents continuing requests on the page list
-				set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
+				cmplz_set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
 				$pages = get_pages();
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
@@ -2617,7 +2617,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						$matches )
 					) {
 						if ( $matches[1] === $type_region ) {
-							set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
+							cmplz_set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
 							return $page->ID;
 						}
 					}
@@ -2640,7 +2640,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					if ( has_shortcode( $html, $shortcode ) && strpos( $html, 'type="' . $type . '"' ) !== false
 					     && strpos( $html, 'region="' . $region . '"' ) !== false
 					) {
-						set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
+						cmplz_set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
 						return $page->ID;
 					}
 				}
@@ -2663,7 +2663,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					}
 
 					if ( has_shortcode( $html, $shortcode ) && strpos( $html, 'type="' . $type_region . '"' ) !== false ) {
-						set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
+						cmplz_set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
 						return $page->ID;
 					}
 				}
@@ -3058,7 +3058,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function revert_divs_to_summary( $content ): string {
 			// Make sure content is a string
 			$content = $content ?? '';
-			
+
 			//only on front-end
 			if ( is_admin() ) {
 				return $content;
