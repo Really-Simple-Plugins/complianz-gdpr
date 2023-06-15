@@ -625,6 +625,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
+	//only load on front-end if it's a cron job
+	if ( !is_admin() && !wp_doing_cron() ) {
+		return;
+	}
+
 	if ( !wp_doing_cron() && !cmplz_user_can_manage() ) {
 		return;
 	}

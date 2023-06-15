@@ -1859,7 +1859,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function upgrade_active_policy_id() {
 			$policy_id = $this->get_active_policy_id();
 			$policy_id++;
-			if (is_multisite()) {
+			if ( is_multisite() ) {
 				update_site_option( 'complianz_active_policy_id', $policy_id );
 			} else {
 				update_option( 'complianz_active_policy_id', $policy_id );

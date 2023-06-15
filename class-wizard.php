@@ -502,7 +502,6 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 		public function wizard( $page, $wizard_title = '' )
         {
-
             if (!cmplz_user_can_manage()) {
                 return;
             }
