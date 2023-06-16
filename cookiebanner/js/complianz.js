@@ -881,6 +881,19 @@ function cmplz_legacy(){
 	}
 }
 
+/*
+ * Accept all categories
+ */
+window.cmplz_accept_all = function(){
+	cmplz_clear_all_service_consents();
+	for (var key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'allow');
+		}
+	}
+	cmplz_sync_category_checkboxes();
+}
+
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
@@ -1465,19 +1478,6 @@ document.addEventListener('cmplz_consent_action', function (e) {
 	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
-
-/*
- * Accept all categories
- */
-window.cmplz_accept_all = function(){
-	cmplz_clear_all_service_consents();
-	for (var key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'allow');
-		}
-	}
-	cmplz_sync_category_checkboxes();
-}
 
 /*
  * Deny all categories, and reload if needed.
