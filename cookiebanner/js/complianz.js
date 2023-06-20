@@ -1162,13 +1162,14 @@ window.cmplz_has_consent = function ( category ){
 	if ( category === 'functional' ) {
 		return true;
 	}
-
-	//if consent is given on service level, this should be handled by cmplz_has_service_consent
-	if ( cmplz_do_not_track() ){
-		return false;
-	}
-
 	let has_consent, value;
+
+	//if DNT is detected, we should only return the actual cookie value, and not look at the consenttype
+	if ( cmplz_do_not_track() ){
+		value = cmplz_get_cookie(category);
+		has_consent = (value === 'allow');
+		return has_consent;
+	}
 
 	/*
 	 * categories
