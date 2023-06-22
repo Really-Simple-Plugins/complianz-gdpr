@@ -10,7 +10,7 @@ function cmplz_caos_script( $tags ) {
 			'gtag.js',
 			'ga.js',
 			'caos-analytics',
-			CAOS_OPT_CACHE_DIR,
+			'uploads/caos',
 			'caosLocalGa',
 			'CaosGtag',
 		),
