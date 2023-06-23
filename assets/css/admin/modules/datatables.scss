@@ -1,0 +1,182 @@
+.cmplz-datatable-search {
+  margin-top:10px;
+}
+
+.cmplz-no-documents {
+  padding:20px;
+}
+.cmplz-processing-agreements, .cmplz-data-breach-reports {
+  //title
+  [data-column-id="2"]{
+	min-width:100px;
+  }
+  //show edit and region column smaller
+  [data-column-id="3"], [data-column-id="4"]{
+	max-width:70px;
+	min-width:30px;
+  }
+  //service, date
+  [data-column-id="5"]{
+	max-width:150px;
+	min-width:50px;
+  }
+  [data-column-id="6"]{
+	max-width:160px;
+	min-width:50px;
+  }
+}
+
+.cmplz-records-of-consent {
+  //user id column
+  [data-column-id="2"]{
+	max-width:70px;
+	min-width:30px;
+  }
+  //ip address
+  [data-column-id="3"]{
+	max-width:120px;
+	min-width:30px;
+  }
+
+  //region
+   [data-column-id="4"]{
+	max-width:70px;
+	min-width:30px;
+  }
+  //services
+  [data-column-id="5"]{
+	max-width:70px;
+	min-width:30px;
+  }
+  //consent column
+  [data-column-id="6"]{
+	max-width:80px;
+	min-width:60px;
+  }
+  //categories column
+  [data-column-id="7"]{
+	min-width:50px;
+  }
+  //date column
+  [data-column-id="8"]{
+	max-width:100px;
+	min-width:50px;
+  }
+}
+
+.cmplz-proof-of-consent, {
+  [data-column-id="2"]{
+	min-width:150px;
+  }
+  //region
+  [data-column-id="3"]{
+	max-width:70px;
+	min-width:30px;
+  }
+  //consent column
+  [data-column-id="4"]{
+	max-width:80px;
+	min-width:60px;
+  }
+  //date column
+  [data-column-id="5"]{
+	max-width:140px;
+	min-width:50px;
+  }
+}
+
+.cmplz-processing-agreements, .cmplz-data-breach-reports, .cmplz-records-of-consent, .cmplz-proof-of-consent, .cmplz-datarequests {
+  .rdt_TableHeadRow, .rdt_TableRow {
+	input[type="checkbox"] {
+	  margin-left: 10px;
+	  //prevent cutoff of checkbox because of overflow hidden
+	  height: 14px;
+	  width: 14px;
+	  min-width: initial;
+	}
+  }
+
+  .rdt_TableCol, .rdt_TableCell{
+	&:first-child {
+	  width: 35px;
+	  min-width: 35px !important;
+	  flex: initial;
+	}
+  }
+}
+
+.cmplz-field-wrap {
+    .rdt_TableCol:last-child {
+
+    }
+  .rdt_TableRow {
+    &:nth-child(odd){
+      background-color:var(--rsp-grey-200)
+    }
+    padding:var(--rsp-spacing-xs) 0;
+
+    .cmplz-status-allowed, .cmplz-status-revoked{
+      min-width:110px;
+      margin-right:20px;
+    }
+  }
+
+  .cmplz-csp-revoked >div:nth-child(-n+3) {
+    opacity:0.3;
+  }
+}
+
+
+.cmplz-content_security_policy .cmplz-field-wrap {
+  .rdt_TableHeadRow {
+    .rdt_TableCol:last-child {
+      flex-grow:0;
+      min-width:initial;
+    }
+    .rdt_TableCol:nth-last-child(2) {
+      //flex-direction: row-reverse;
+    }
+  }
+
+
+  .rdt_TableRow {
+    .cmplz-status-allowed, .cmplz-status-revoked, .cmplz-learning-mode-delete{
+      //margin-right:0;
+    }
+    .rdt_TableCell:last-child {
+      flex-grow:0;
+      min-width:initial;
+    }
+    .rdt_TableCell:nth-last-child(2) {
+      //flex-direction: row-reverse;
+      //margin-right:10px;
+    }
+  }
+
+  .cmplz-csp-revoked >div:nth-child(-n+3) {
+    opacity:0.3;
+  }
+}
+
+//wp-core also adds an svg for the select dropdown, so we hide the one from the react datatables component
+nav.rdt_Pagination>div>svg {
+  display:none !important;
+}
+
+.cmplz-content_security_policy, .cmplz-xml_rpc {
+  .cmplz-field-wrap >div >div {
+    overflow-x:inherit;
+    overflow-y:inherit;
+  }
+}
+
+.cmplz-permissions_policy {
+  .rdt_TableRow {
+    .rdt_TableCell:last-child {
+      min-width:150px;
+      .components-input-control__container {
+        min-width: 150px;
+      }
+    }
+  }
+}

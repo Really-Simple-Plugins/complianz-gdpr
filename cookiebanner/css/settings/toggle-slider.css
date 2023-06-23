@@ -36,6 +36,7 @@
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox .cmplz-label:before,
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-banner-checkbox .cmplz-label:after {
+  box-sizing: border-box;
   position: absolute;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

@@ -73,7 +73,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 
 		public function handle_anonymous_settings( $amp_tags ) {
 
-			if ( COMPLIANZ::$cookie_admin->statistics_privacy_friendly() ) {
+			if ( COMPLIANZ::$banner_loader->statistics_privacy_friendly() ) {
 				unset( $amp_tags['amp-analytics'] );
 			}
 
@@ -182,8 +182,8 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 			//check global cookie warning requirement
 			//we currently check only for EU region. In other regions, the banner is not shown, using geo ip from Google AMP (free feature).
 			$active
-				= COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'eu' )
-				  || COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'uk' );
+				= COMPLIANZ::$banner_loader->site_needs_cookie_warning( 'eu' )
+				  || COMPLIANZ::$banner_loader->site_needs_cookie_warning( 'uk' );
 			//
 			//check if this user's region reguires a cookie warning
 			$payload

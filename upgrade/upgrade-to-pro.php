@@ -313,7 +313,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				return false;
 			}
 
-			if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
+			if ( cmplz_admin_logged_in() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
 				$dashboard_url = $this->dashboard_url;
 				$plugins_url = admin_url( "plugins.php" );
 				?>
@@ -416,7 +416,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 		{
 			$error = false;
 			$response = [
-				'success' => false,
+					'success' => false,
 			];
 
 			if ( !current_user_can('activate_plugins') ) {

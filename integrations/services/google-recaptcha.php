@@ -5,7 +5,7 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_recaptcha_script' );
 function cmplz_recaptcha_script( $tags ) {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		$tags[] = array(
 				'name' => 'google-recaptcha',
 				'placeholder' => 'google-recaptcha',

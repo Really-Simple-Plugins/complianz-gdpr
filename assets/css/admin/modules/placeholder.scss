@@ -1,0 +1,115 @@
+@function randomNum($min, $max) {
+	$rand: random();
+	$randomNum: $min + floor($rand * (($max - $min) + 1));
+
+	@return $randomNum;
+}
+
+$base-color: #ddd;
+$shine-color: #e8e8e8;
+$animation-duration: 1.6s;
+@mixin background-gradient {
+	background-image: linear-gradient(90deg, $base-color 0, $shine-color 40px, $base-color 80px);
+	background-size: 600px;
+}
+
+.cmplz-placeholder {
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	margin: 0;
+	padding-bottom: 24px;
+	color: #1e1e1e;
+	-webkit-font-smoothing: subpixel-antialiased;
+	border-radius: 2px;
+	background-color: #fff;
+	flex-grow: 100;
+	.cmplz-placeholder-line {
+		float: left;
+		width: 100%;
+		height: 16px;
+		margin-top: 12px;
+		border-radius: 7px;
+
+		&:last-of-type {
+			margin-bottom: 24px;
+		}
+
+		@include background-gradient;
+		animation: shine-lines $animation-duration infinite linear;
+		@for $i from 1 through 20 {
+			&:nth-of-type( #{$i} ) {
+				width: ( random(40) + 60 ) * 1%;
+			}
+		}
+	}
+
+	.cmplz-placeholder-line ~ .cmplz-placeholder-line {
+		background-color: #ddd;
+	}
+
+  //placeholder css for field component loading placeholder.
+	&-count-1 {
+	  padding-bottom:0;
+	  .cmplz-placeholder-line {
+		margin:0;
+		background-image: linear-gradient(90deg, #f9f9f9 0, #f9f9f9 40px, #f9f9f9 80px);
+		&:last-of-type{
+		  margin-bottom:0;
+		}
+	  }
+	}
+
+}
+
+@keyframes shine-lines {
+	0% {
+		background-position: - 400px;
+	}
+	100% {
+		background-position: 220px;
+	}
+}
+
+.cmplz-page-placeholder .cmplz-grid-item, .cmplz-grid-item-placeholder {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+
+	&:after {
+		content: '';
+		top: 0;
+		overflow: hidden;
+		transform: translateX(100%);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		display: inline-block;
+		z-index: 1;
+		animation: slide 1s infinite;
+		background: linear-gradient(103deg, rgba(228, 229, 232, 0) 25%, rgba(228, 229, 232, 0.35) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 75%); /* W3C */
+	}
+}
+.cmplz-grid-item-placeholder{
+	min-height: 300px;
+}
+
+/* animation */
+
+@keyframes slide {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.cmplz-loading-container {
+	transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out;
+
+	&.cmplz-loading {
+		opacity: 0.3;
+		//filter: blur(1px);
+	}
+}

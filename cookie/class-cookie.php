@@ -49,17 +49,16 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 *
 		 * @var
 		 */
-		private $deleted;
+		public $deleted;
 		/**
 		 * give user the possibility to hide a cookie
 		 *
 		 * @var bool
 		 */
-		private $showOnPolicy = true;
-		private $isPersonalData;
-		private $isMembersOnly;
+		public $showOnPolicy = true;
+		public $isMembersOnly;
 		private $languages;
-		private $language;
+		public $language;
 
 		function __construct( $name = false, $language = 'en', $service_name = false ) {
 			if ( is_numeric( $name ) ) {
@@ -92,7 +91,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function add(
-			$name, $languages = array( 'en' ), $return_language = false, $service_name = false, $sync_on = true
+			$name, $languages = array( 'en' ), $return_language = false, $service_name = false, bool $sync_on = true
 		) {
 			//don't add cookies with the site url in the name
 			if ( strpos($name, site_url())!==false ) {
@@ -146,7 +145,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$translated_cookie->service           = $service_name;
 				$translated_cookie->lastAddDate       = time();
 				$translated_cookie->save();
-				if ( $return_language && $language == $return_language ) {
+				if ( $return_language && $language === $return_language ) {
 					$return_id = $translated_cookie->ID;
 				}
 
@@ -299,20 +298,20 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->ID                    = $cookie->ID;
 				$this->name                  = substr($cookie->name, 0, 200); //maximize cookie name length
 				$this->serviceID             = $cookie->serviceID;
-				$this->sync                  = $cookie->sync;
+				$this->sync                  = (bool) $cookie->sync;
 				$this->language              = $cookie->language;
-				$this->ignored               = $cookie->ignored;
-				$this->deleted               = $cookie->deleted;
+				$this->ignored               = (bool) $cookie->ignored;
+				$this->deleted               = (bool) $cookie->deleted;
 				$this->retention             = $cookie->retention;
 				$this->type                  = $cookie->type;
+				$this->isOwnDomainCookie     = (bool) $cookie->isOwnDomainCookie;
 				$this->domain                = $cookie->domain;
 				$this->cookieFunction        = $cookie->cookieFunction;
 				$this->purpose               = $cookie->purpose;
-				$this->isPersonalData        = $cookie->isPersonalData;
-				$this->isMembersOnly         = $cookie->isMembersOnly;
+				$this->isMembersOnly         = $cookie->isMembersOnly && cmplz_get_option('wp_admin_access_users') === 'yes';
 				$this->collectedPersonalData = $cookie->collectedPersonalData;
 				$this->isTranslationFrom     = $cookie->isTranslationFrom;
-				$this->showOnPolicy          = $cookie->showOnPolicy;
+				$this->showOnPolicy          = (bool) $cookie->showOnPolicy;
 				$this->lastUpdatedDate       = $cookie->lastUpdatedDate;
 				$this->lastAddDate           = $cookie->lastAddDate;
 				$this->firstAddDate          = $cookie->firstAddDate;
@@ -347,17 +346,15 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 * complianz cookie retention can be retrieved form this site
 			 */
 
-			if ( strpos( $this->name, 'cmplz' ) !== false
-			     || strpos( $this->name, 'complianz' ) !== false
+			if ( strpos( $this->name, 'cmplz' ) !== false || strpos( $this->name, 'complianz' ) !== false
 			) {
 				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ),
-					cmplz_get_value( 'cookie_expiry' ) );
+					cmplz_get_option( 'cookie_expiry' ) );
 			}
 
 			//get serviceid from service name
 			if ( $this->serviceID ) {
-				$service       = new CMPLZ_SERVICE( $this->serviceID,
-					$this->language );
+				$service       = new CMPLZ_SERVICE( $this->serviceID, $this->language );
 				$this->service = $service->name;
 			}
 
@@ -408,11 +405,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			}
 
 			/**
-			 * complianz cookie retention can be retrieved form this site
+			 * complianz cookie retention can be retrieved from this site
 			 */
 
 			if ( strpos( $this->name, 'cmplz' ) !== false || strpos( $this->name, 'complianz' ) !== false ) {
-				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ), cmplz_get_value( 'cookie_expiry' ) );
+				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ), cmplz_get_option( 'cookie_expiry' ) );
 			}
 
 			/**
@@ -438,27 +435,26 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'name'                  => sanitize_text_field( $this->name ),
 				'retention'             => sanitize_text_field( $this->retention ),
 				'type'                  => sanitize_text_field( $this->type ),
+				'isOwnDomainCookie'     => (bool) $this->isOwnDomainCookie,
+				'serviceID'             => (int) $this->serviceID,
 				'domain'                => sanitize_text_field( $this->domain ),
-				'serviceID'             => intval( $this->serviceID ),
 				'cookieFunction'        => sanitize_text_field( $this->cookieFunction ),
 				'purpose'               => sanitize_text_field( $this->purpose ),
-				'isPersonalData'        => boolval( $this->isPersonalData ),
-				'isMembersOnly'         => boolval( $this->isMembersOnly ),
+				'isMembersOnly'         => (bool) $this->isMembersOnly,
 				'collectedPersonalData' => sanitize_text_field( $this->collectedPersonalData ),
-				'sync'                  => boolval( $this->sync ),
-				'ignored'               => boolval( $this->ignored ),
-				'deleted'               => boolval( $this->deleted ),
+				'sync'                  => $this->sync,
+				'ignored'               => (bool) $this->ignored,
+				'deleted'               => (bool) $this->deleted,
 				'language'              => cmplz_sanitize_language( $this->language ),
-				'isTranslationFrom'     => intval( $this->isTranslationFrom ),
-				'showOnPolicy'          => boolval( $this->showOnPolicy ),
-				'lastUpdatedDate'       => intval( $this->lastUpdatedDate ),
-				'lastAddDate'           => intval( $this->lastAddDate ),
+				'isTranslationFrom'     => (int) $this->isTranslationFrom,
+				'showOnPolicy'          => $this->showOnPolicy,
+				'lastUpdatedDate'       => (int) $this->lastUpdatedDate,
+				'lastAddDate'           => (int) $this->lastAddDate,
 				'slug'                  => sanitize_title( $this->slug ),
 			);
 			if ( empty( $this->firstAddDate) ) {
 				$update_array['firstAddDate'] = time();
 			}
-
 
 			global $wpdb;
 			//if we have an ID, we update the existing value
@@ -480,7 +476,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->name                  = $this->name;
 					$translation->serviceID             = $this->serviceID;
 					$translation->sync                  = $this->sync;
-					$translation->isPersonalData        = $this->isPersonalData;
 					$translation->isMembersOnly         = $this->isMembersOnly;
 					$translation->slug                  = $this->slug;
 					$translation->showOnPolicy          = $this->showOnPolicy;
@@ -539,7 +534,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		private function is_valid_cookie( $id ) {
-			if ( ! is_string( $id ) ) {
+			if ( ! is_string( $id ) || empty($id) ) {
 				return false;
 			}
 
@@ -625,6 +620,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
+	//only load on front-end if it's a cron job
+	if ( !is_admin() && !wp_doing_cron() ) {
+		return;
+	}
+
 	if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
 		return;
 	}
@@ -647,7 +647,6 @@ function cmplz_install_cookie_table() {
             `purpose` text NOT NULL,
             `language` varchar(6) NOT NULL,
             `isTranslationFrom` int(11) NOT NULL,
-            `isPersonalData` int(11) NOT NULL,
             `isOwnDomainCookie` int(11) NOT NULL,
             `domain` text NOT NULL,
             `deleted` int(11) NOT NULL,

@@ -31,7 +31,6 @@ if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['cl
 		'cmplz_sync_services_complete',
 		'cmplz_detected_social_media',
 		'cmplz_detected_thirdparty_services',
-		'cmplz_run_cdb_sync_once',
 		'cmplz_cookietable_version',
 		'cmplz_last_cookie_sync',
 		'cmplz_synced_cookiedatabase_once',

@@ -54,7 +54,6 @@ $this->formal_languages = array(
  * Dataleak type 3: CA, AU, ZA
  *
  */
-
 $this->regions = array(
 	'us' => array(
 		'label'     => __( 'US', 'complianz-gdpr' ),
@@ -129,13 +128,13 @@ $this->regions = array(
 );
 
 $this->supported_regions = array(
-	'eu' => __( 'GDPR (European Union)', 'complianz-gdpr' ),
-	'uk' => __( 'UK-GDPR, PECR, Data Protection Act (United Kingdom)', 'complianz-gdpr' ),
-	'us' => __( 'General Privacy Guidelines (United States)', 'complianz-gdpr' ),
-	'ca' => __( 'PIPEDA (Canada)', 'complianz-gdpr' ),
-	'au' => __( 'Privacy Act 1988 (Australia)', 'complianz-gdpr' ),
-	'za' => __( 'POPIA (South Africa)', 'complianz-gdpr' ),
-	'br' => __( 'LGPD (Brazil)', 'complianz-gdpr' ),
+	'eu' => __( 'European Union (GDPR)', 'complianz-gdpr' ),
+	'uk' => __( 'United Kingdom (UK-GDPR, PECR, Data Protection Act)', 'complianz-gdpr' ),
+	'us' => __( 'United States', 'complianz-gdpr' ),
+	'ca' => __( 'Canada (PIPEDA)', 'complianz-gdpr' ),
+	'au' => __( 'Australia (Privacy Act 1988)', 'complianz-gdpr' ),
+	'za' => __( 'South Africa (POPIA)', 'complianz-gdpr' ),
+	'br' => __( 'Brazil (LGPD)', 'complianz-gdpr' ),
 );
 
 $this->supported_states = array(

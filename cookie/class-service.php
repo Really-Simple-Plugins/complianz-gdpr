@@ -117,7 +117,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				$this->category            = $service->category;
 				$this->isTranslationFrom   = $service->isTranslationFrom;
 				$this->lastUpdatedDate     = $service->lastUpdatedDate;
-				$this->synced              = $service->lastUpdatedDate > 0 ? true : false;
+				$this->synced              = $this->sync && $service->lastUpdatedDate > 0 ? true : false;
 				$this->slug                = $service->slug;
 
 				$this->complete = ! ( empty( $this->name )
@@ -149,18 +149,18 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 
 			$update_array = array(
 				'name'                => sanitize_text_field( $this->name ),
-				'thirdParty'          => boolval( $this->sharesData ),
+				'thirdParty'          => (bool) $this->sharesData,
 				//legacy, sharesData was first called third party.
-				'sharesData'          => boolval( $this->sharesData ),
+				'sharesData'          => (bool) $this->sharesData,
 				//fluid upgrade
-				'secondParty'         => boolval( $this->secondParty ),
-				'sync'                => boolval( $this->sync ),
+				'secondParty'         => (bool) $this->secondParty,
+				'sync'                => (bool) $this->sync,
 				'serviceType'         => sanitize_text_field( $this->serviceType ),
 				'privacyStatementURL' => sanitize_text_field( $this->privacyStatementURL ),
 				'language'            => cmplz_sanitize_language( $this->language ),
 				'category'            => sanitize_text_field( $this->category ),
 				'isTranslationFrom'   => sanitize_text_field( $this->isTranslationFrom ),
-				'lastUpdatedDate'     => intval( $this->lastUpdatedDate ),
+				'lastUpdatedDate'     => (int) $this->lastUpdatedDate,
 				'slug'                => sanitize_title( $this->slug ),
 
 			);
@@ -214,7 +214,6 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( ! $this->ID ) {
 				return;
 			}
-
 			//get all related cookies, and delete them.
 			$cookies = $this->get_cookies();
 			foreach ( $cookies as $service_cookie ) {

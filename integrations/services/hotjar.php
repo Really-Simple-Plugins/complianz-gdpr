@@ -10,8 +10,8 @@ function cmplz_hotjar_script( $tags ) {
 	 * - privacy friendly AND Germany (eu_consent_regions = yes)
 	 */
 
-	if ( cmplz_get_value( 'eu_consent_regions' ) === 'yes'
-	     || cmplz_get_value( 'hotjar_privacyfriendly' ) !== 'yes'
+	if ( cmplz_get_option( 'eu_consent_regions' ) === 'yes'
+	     || cmplz_get_option( 'hotjar_privacyfriendly' ) !== 'yes'
 	) {
 		$tags[] = 'static.hotjar.com';
 	}

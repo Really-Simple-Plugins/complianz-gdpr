@@ -1,0 +1,12 @@
+.cmplz-measures-container {
+  padding: 10px;
+  background-color: var(--rsp-grey-300);
+}
+ul.cmplz-measure {
+  list-style: disc;
+  margin-left: 30px;
+  margin-top: 10px;
+  .cmplz-measure-disabled {
+	color: var(--rsp-grey-400);
+  }
+}

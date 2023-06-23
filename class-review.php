@@ -152,11 +152,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		 */
 
 		public function dismiss_review_notice_callback() {
-			$type = $_POST['type'] ?? false;
-			$nonce = $_POST['token'] ?? false;
-			if (!wp_verify_nonce( $nonce, 'cmplz_dismiss_review' ) ) {
-				wp_die( 'Invalid nonce specified' );
-			}
+			$type = isset( $_POST['type'] ) ? $_POST['type'] : false;
 
 			if ( $type === 'dismiss' ) {
 				update_option( 'cmplz_review_notice_shown', true, false );

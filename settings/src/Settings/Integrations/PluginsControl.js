@@ -1,0 +1,185 @@
+import useIntegrations from "./IntegrationsData";
+import {useState, useEffect} from "@wordpress/element";
+import { __ } from '@wordpress/i18n';
+import useFields from "../Fields/FieldsData";
+import readMore from "../../utils/readMore";
+import {ToggleControl} from "@wordpress/components";
+import {memo} from "react";
+
+const PluginsControl = () => {
+	const {updatePlaceholderStatus, updatePluginStatus, integrationsLoaded, plugins, fetchIntegrationsData} = useIntegrations();
+	const [ searchValue, setSearchValue ] = useState( '' );
+	const [ disabled, setDisabled ] = useState( false );
+	const [ disabledText, setDisabledText ] = useState( '' );
+	const { getFieldValue} = useFields();
+
+	const [DataTable, setDataTable] = useState(null);
+	useEffect( () => {
+		import('react-data-table-component').then(({ default: DataTable }) => {
+			setDataTable(() => DataTable);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (!integrationsLoaded) fetchIntegrationsData();
+
+		if (integrationsLoaded) {
+			//filter enabled plugins
+			if ( getFieldValue( 'safe_mode' ) == 1 ) {
+				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+				setDisabled( true );
+			} else if ( plugins.length===0 ) {
+				setDisabledText( __( 'No active plugins detected in the integrations list.', 'complianz-gdpr' ) );
+				setDisabled( true );
+			}
+		}
+	}, [integrationsLoaded])
+
+	useEffect(() => {
+
+	}, [plugins])
+
+
+
+	const customStyles = {
+		headCells: {
+			style: {
+				paddingLeft: '0',
+				paddingRight: '0',
+			},
+		},
+		cells: {
+			style: {
+				paddingLeft: '0',
+				paddingRight: '0',
+			},
+		},
+	};
+
+	const onChangePlaceholderHandler = async (plugin, enabled) => {
+		await updatePlaceholderStatus(plugin.id, enabled, true);
+	}
+
+	const onChangeHandler = async (plugin, enabled) => {
+		await updatePluginStatus(plugin.id, enabled);
+		await fetchIntegrationsData();
+	}
+
+	const enabledDisabledPlaceholderSort = (rowA, rowB) => {
+		const a = rowA.placeholder;
+		const b = rowB.placeholder;
+		if (a > b) {
+			return 1;
+		}
+		if (b > a) {
+			return -1;
+		}
+		return 0;
+	}
+
+	const enabledDisabledSort = (rowA, rowB) => {
+		const a = rowA.enabled;
+		const b = rowB.enabled;
+		if (a > b) {
+			return 1;
+		}
+		if (b > a) {
+			return -1;
+		}
+		return 0;
+	}
+
+	const columns = [
+		{
+			name: __('Plugin',"complianz-gdpr"),
+			selector: row => row.label,
+			sortable: true,
+
+		},
+		{
+			name: __('Placeholder',"complianz-gdpr"),
+			selector: row => row.placeholderControl,
+			sortable: true,
+			sortFunction: enabledDisabledPlaceholderSort
+		},
+		{
+			name: __('Status',"complianz-gdpr"),
+			selector: row => row.enabledControl,
+			sortable: true,
+			sortFunction: enabledDisabledSort
+		},
+	];
+
+	//filter the plugins by search value
+	let filteredPlugins = plugins.filter(plugin => {
+		return plugin.label.toLowerCase().includes(searchValue.toLowerCase());
+	})
+
+	//sort the plugins alphabetically by label
+	filteredPlugins.sort((a, b) => {
+		if (a.label < b.label) {
+			return -1;
+		}
+		if (a.label > b.label) {
+			return 1;
+		}
+		return 0;
+	});
+
+	//add the controls to the plugins
+	let outputPlugins = [];
+	filteredPlugins.forEach(plugin => {
+		let pluginCopy = {...plugin}
+		pluginCopy.enabledControl = <ToggleControl
+			checked= { plugin.enabled }
+			onChange={ ( fieldValue ) => onChangeHandler(plugin, fieldValue) }
+		/>
+		pluginCopy.placeholderControl = <ToggleControl
+			label={plugin.placeholder==='none' ? __('N/A',"complianz-gdpr") : __("Placeholder", "complianz-gdpr")}
+			disabled = {plugin.placeholder==='none'}
+			checked = { plugin.placeholder==='enabled' }
+			onChange = { ( fieldValue ) => onChangePlaceholderHandler(plugin, fieldValue) }
+		/>
+		outputPlugins.push(pluginCopy);
+
+	});
+
+	return (
+		<>
+			<p>
+				{__( 'Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list.', 'complianz-gdpr' ) }
+				{ readMore('https://complianz.io/developers-guide-for-third-party-integrations')}
+				{__( "Enabled plugins will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking.",
+				'complianz-gdpr' )}
+				{readMore( "https://complianz.io/blocking-recaptcha-manually/" )}
+			</p>
+			<div className="cmplz-table-header">
+				{plugins.length>5 && <input type="text" placeholder={__("Search", "complianz-gdpr")} value={searchValue} onChange={ ( e ) => setSearchValue(e.target.value) } /> }
+			</div>
+			{ (disabled || filteredPlugins.length===0) && <>
+				<div className="cmplz-settings-overlay">
+					<div className="cmplz-settings-overlay-message">{disabledText}</div>
+				</div>
+			</>}
+			{ (outputPlugins.length===0) && <>
+				<div className="cmplz-integrations-placeholder">
+					<div></div><div></div><div></div><div></div><div></div><div></div>
+				</div>
+			</>}
+			{!disabled && outputPlugins.length>0 && DataTable && <>
+				<DataTable
+					columns={columns}
+					data={outputPlugins}
+					dense
+					pagination
+					paginationPerPage={5}
+					noDataComponent={<div className="cmplz-no-documents">{__("No plugins", "complianz-gdpr")}</div>}
+					persistTableHead
+					theme="really-simple-plugins"
+					customStyles={customStyles}
+				/></>
+			}
+		</>
+	)
+}
+export default memo(PluginsControl)

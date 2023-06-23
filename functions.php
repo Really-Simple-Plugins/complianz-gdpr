@@ -1,6 +1,152 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
+if ( ! function_exists( 'cmplz_get_option' ) ) {
+	/**
+	 * Get a Really Simple SSL option by name
+	 *
+	 * @param string $name
+	 * @param mixed  $default
+	 *
+	 * @return mixed
+	 */
+	function cmplz_get_option( string $id, $default=true ) {
+		$id = cmplz_sanitize_title_preserve_uppercase($id);
+		//to ensure the fields function only runs once, we store it here, and check if it's filled in the next request.
+		$fields = false;
+		if ( is_multisite() && cmplz_is_networkwide_active() ) {
+			$options = get_site_option( 'cmplz_options', [] );
+		} else {
+			$options = get_option( 'cmplz_options', [] );
+		}
+		$value = $options[ $id ] ?? false;
+		if ( $value===false && $default!==false ) {
+			$fields = COMPLIANZ::$config->fields ?? [];
+			$keys   = array_keys( array_column( $fields, 'id' ), $id );
+			$key    = reset( $keys );
+			if (isset($fields[$key]) ) {
+				$default = $fields[ $key ]['default'] ?? false;
+				$value  = apply_filters( 'cmplz_default_value', $default, $id, $fields[$key] );
+			}
+
+		}
+
+		/*
+		 * Translate output
+		 *
+		 * */
+		if ( function_exists('pll__') || function_exists('icl_translate') || defined("WPML_PLUGIN_BASENAME" ) ) {
+			$fields = $fields ?: COMPLIANZ::$config->fields;
+			$keys   = array_keys( array_column( $fields, 'id' ), $id );
+			$key    = reset( $keys );
+			if ( $key ) {
+				$type         = $fields[ $key ]['type'];
+				$translatable = $fields[ $key ]['translatable'] ?? false;
+				if ($translatable) {
+					if ( is_array( $value ) && ( $type === 'thirdparties' || $type === 'processors' ) ) {
+						foreach ( $value as $item_key => $item ) {
+							//contains the values of an item
+							foreach ( $item as $key => $key_value ) {
+								if ( function_exists( 'pll__' ) ) {
+									$value[ $item_key ][ $key ] = pll__( $item_key . '_' . $id . "_" . $key );
+								}
+								if ( function_exists( 'icl_translate' ) ) {
+									$value[ $item_key ][ $key ] = icl_translate( 'complianz', $item_key . '_' . $id . "_" . $key, $key_value );
+								}
+
+								$value[ $item_key ][ $key ] = apply_filters( 'wpml_translate_single_string', $key_value, 'complianz', $item_key . '_' . $id . "_" . $key );
+							}
+						}
+					} else {
+						if ( function_exists( 'pll__' ) ) {
+							$value = pll__( $value );
+						}
+						if ( function_exists( 'icl_translate' ) ) {
+							$value = icl_translate( 'complianz', $id, $value );
+						}
+						$value = apply_filters( 'wpml_translate_single_string', $value, 'complianz', $id );
+					}
+				}
+			}
+		}
+		return apply_filters("cmplz_option_$id", $value, $id);
+	}
+}
+
+if (!function_exists('cmplz_get_field')) {
+	function cmplz_get_field($id){
+		$fields        = COMPLIANZ::$config->fields;
+		$keys = array_keys( array_column( $fields, 'id' ), $id );
+		$key  = reset( $keys );
+		if ( $key === false ) {
+			return false;
+		}
+		return $fields[ $key ] ?? false;
+	}
+}
+if (!function_exists('cmplz_get_field_index')) {
+	function cmplz_get_field_index($id){
+		$fields        = COMPLIANZ::$config->fields;
+		$keys = array_keys( array_column( $fields, 'id' ), $id );
+		return reset( $keys );
+	}
+}
+
+if (!function_exists('cmplz_remove_field')) {
+	function cmplz_remove_field($fields, $ids){
+		if (!is_array($ids)) $ids = array($ids);
+		$field_ids = array_column($fields, 'id');
+		foreach ($ids as $id){
+			$drop_index = array_search( $id, $field_ids, true );
+			unset($fields[$drop_index]);
+		}
+
+		return $fields;
+	}
+}
+
+
+
+if ( !function_exists('cmplz_sanitize_title_preserve_uppercase')) {
+	/**
+	 * @param string $title
+	 *
+	 * @return string
+	 */
+	function cmplz_sanitize_title_preserve_uppercase($title) {
+		if (empty($title)) {
+			return '';
+		}
+		$title = preg_replace( '/&.+?;/', '', $title );
+		$title = str_replace( '.', '-', $title );
+		$title = preg_replace( '/[^%a-zA-Z0-9 _-]/', '', $title );
+		$title = preg_replace( '/\s+/', '-', $title );
+		$title = preg_replace( '|-+|', '-', $title );
+		return str_replace(' ', '-', sanitize_text_field(remove_accents($title)));
+	}
+}
+
+if ( ! function_exists( 'rsssl_is_networkwide_active' ) ) {
+	/**
+	 * Check if we should treat the plugin as networkwide or not.
+	 * Note that this function returns false for single sites! Always use icw is_multisite()
+	 *
+	 * @return bool
+	 */
+	function cmplz_is_networkwide_active(){
+		if ( !is_multisite() ) {
+			return false;
+		}
+		if ( !function_exists('is_plugin_active_for_network') )
+			require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+
+		if ( is_plugin_active_for_network(cmplz_plugin) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 if ( ! function_exists( 'cmplz_uses_google_analytics' ) ) {
 
 	/**
@@ -9,7 +155,7 @@ if ( ! function_exists( 'cmplz_uses_google_analytics' ) ) {
 	 */
 
 	function cmplz_uses_google_analytics() {
-		return COMPLIANZ::$cookie_admin->uses_google_analytics();
+		return COMPLIANZ::$banner_loader->uses_google_analytics();
 	}
 }
 
@@ -21,7 +167,7 @@ if ( ! function_exists( 'cmplz_consent_mode' ) ) {
 	 */
 
 	function cmplz_consent_mode() {
-		return cmplz_get_value( 'consent-mode' ) === 'yes';
+		return cmplz_get_option( 'consent-mode' ) === 'yes';
 	}
 }
 
@@ -43,14 +189,14 @@ if ( ! function_exists('cmplz_upload_dir')) {
 		return trailingslashit( $upload_dir );
 	}
 }
-if ( ! function_exists('cmplz_create_missing_directories_recursively')) {
 
-	/**
-	 * Create directories recursively
-	 *
-	 * @param string $path
-	 */
+/**
+ * Create directories recursively
+ *
+ * @param string $path
+ */
 
+if ( !function_exists('cmplz_create_missing_directories_recursively') ) {
 	function cmplz_create_missing_directories_recursively( string $path ) {
 		if ( ! cmplz_user_can_manage() ) {
 			return;
@@ -59,12 +205,15 @@ if ( ! function_exists('cmplz_create_missing_directories_recursively')) {
 		$dir   = '';
 		foreach ( $parts as $part ) {
 			$dir .= $part . '/';
-			if ( !cmplz_has_open_basedir_restriction($dir) && !is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
-				mkdir($dir);
+			if ( ! is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
+				if ( ! mkdir( $dir ) && ! is_dir( $dir ) ) {
+					throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $dir ) );
+				}
 			}
 		}
 	}
 }
+
 
 if (!function_exists('cmplz_has_open_basedir_restriction')) {
 	function cmplz_has_open_basedir_restriction($path) {
@@ -105,13 +254,8 @@ if ( ! function_exists( 'cmplz_uses_social_media' ) ) {
 	 */
 
 	function cmplz_uses_social_media() {
-		$socialmedia_list = cmplz_get_value( 'socialmedia_on_site' );
-		foreach ($socialmedia_list as $socialmedia => $enabled ) {
-			if ($enabled === 1 ) {
-				return true;
-			}
-		}
-		return false;
+		$socialmedia_list = cmplz_get_option( 'socialmedia_on_site' );
+		return is_array( $socialmedia_list ) && count( array_filter( $socialmedia_list ) ) > 0;
 	}
 }
 
@@ -179,7 +323,7 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 
 if ( ! function_exists( 'cmplz_uses_google_tagmanager_or_analytics' ) ) {
 	function cmplz_uses_google_tagmanager_or_analytics(){
-		return COMPLIANZ::$cookie_admin->uses_google_analytics() || COMPLIANZ::$cookie_admin->uses_google_tagmanager();
+		return COMPLIANZ::$banner_loader->uses_google_analytics() || COMPLIANZ::$banner_loader->uses_google_tagmanager();
 	}
 }
 
@@ -187,27 +331,12 @@ if ( ! function_exists( 'cmplz_tagmanager_conditional_helptext' ) ) {
 
 	function cmplz_tagmanager_conditional_helptext() {
 
-		if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats() ) {
+		if ( !COMPLIANZ::$banner_loader->consent_required_for_anonymous_stats() ) {
 			$text = __( "Based on your Analytics configuration you should fire Analytics on event cmplz_functional.", 'complianz-gdpr' );
 		} else {
 			$text = __( "Based on your Analytics configuration you should fire Analytics on event cmplz_statistics.", 'complianz-gdpr' );
 		}
 
-		return $text;
-	}
-}
-
-if ( ! function_exists( 'cmplz_cookiebanner_category_conditional_helptext' ) ) {
-
-	function cmplz_cookiebanner_category_conditional_helptext() {
-		$text = '';
-		if ( cmplz_get_value('country_company') == "FR"
-		) {
-			$text
-				= cmplz_sprintf( __( "Due to the French CNIL guidelines we suggest using the Accept - Deny - View preferences template. For more information, read about the CNIL updated privacy guidelines in this %sarticle%s.",
-                    'complianz-gdpr' ),
-                    '<a href="https://complianz.io/cnil-updated-privacy-guidelines/" target="_blank">', "</a>" );
-		}
 		return $text;
 	}
 }
@@ -221,7 +350,7 @@ if ( ! function_exists( 'cmplz_statistics_privacy_friendly' ) ) {
 	 */
 	function cmplz_statistics_privacy_friendly()
 	{
-		return COMPLIANZ::$cookie_admin->statistics_privacy_friendly();
+		return COMPLIANZ::$banner_loader->statistics_privacy_friendly();
 	}
 }
 
@@ -234,7 +363,7 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 	 */
 
 	function cmplz_manual_stats_config_possible() {
-		$stats = cmplz_get_value( 'compile_statistics' );
+		$stats = cmplz_get_option( 'compile_statistics' );
 		if ( $stats === 'matomo' && cmplz_no_ip_addresses() ) {
 			return true;
 		}
@@ -245,36 +374,12 @@ if ( ! function_exists( 'cmplz_manual_stats_config_possible' ) ) {
 		}
 
 		if ( $stats === 'google-analytics' ) {
-			if ( !COMPLIANZ::$cookie_admin->consent_required_for_anonymous_stats()
+			if ( !COMPLIANZ::$banner_loader->consent_required_for_anonymous_stats()
 			) {
 				return true;
 			}
 		}
 
-		return false;
-	}
-}
-
-if ( ! function_exists( 'cmplz_complianz_can_configure_stats' ) ) {
-
-	/**
-	 * Checks if the plugin can configure this type of statistics automatically
-	 *
-	 * @return bool
-	 */
-
-	function cmplz_complianz_can_configure_stats() {
-		$stats = cmplz_get_value( 'compile_statistics' );
-		if ( $stats === 'google-analytics' ||
-			 $stats === 'matomo' ||
-			 $stats === 'yandex' ||
-			 $stats === 'clarity' ||
-			 $stats === 'clicky' ||
-			 $stats === 'google-tag-manager' ||
-			 $stats === 'matomo-tag-manager'
-		){
-			return true;
-		}
 		return false;
 	}
 }
@@ -285,8 +390,7 @@ if ( ! function_exists( 'cmplz_get_stats_tool_nice' ) ) {
 		if ( isset($_POST['cmplz_compile_statistics'])) {
 			$stats = sanitize_text_field($_POST['cmplz_compile_statistics']);
 		} else {
-			$stats = cmplz_get_value( 'compile_statistics', false, 'wizard', false );
-
+			$stats = cmplz_get_option( 'compile_statistics' );
 		}
 		switch ( $stats ){
 			case 'google-analytics':
@@ -414,7 +518,7 @@ if ( ! function_exists( 'cmplz_revoke_link' ) ) {
 
 if ( ! function_exists( 'cmplz_sells_personal_data' ) ) {
 	function cmplz_sells_personal_data() {
-		$purposes = cmplz_get_value( 'purpose_personaldata' , false, 'wizard');
+		$purposes = cmplz_get_option( 'purpose_personaldata');
 		if ( isset( $purposes['selling-data-thirdparty'] )
 		     && $purposes['selling-data-thirdparty']
 		) {
@@ -435,107 +539,6 @@ if ( ! function_exists( 'cmplz_disclosed_data_12months' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_get_value' ) ) {
-
-	/**
-	 * Get value for an a complianz option
-	 * For usage very early in the execution order, use the $page option. This bypasses the class usage.
-	 *
-	 * @param string $fieldname
-	 * @param bool|int $post_id
-	 * @param bool|string $page
-	 * @param bool $use_default
-	 * @param bool $use_translate
-	 *
-	 * @return array|bool|mixed|string
-	 */
-
-	function cmplz_get_value(
-		$fieldname, $post_id = false, $page = false, $use_default = true, $use_translate = true
-	) {
-		if ( ! is_numeric( $post_id ) ) {
-			$post_id = false;
-		}
-
-		if ( ! $page && ! isset( COMPLIANZ::$config->fields[ $fieldname ] ) ) {
-			return false;
-		}
-
-		//if  a post id is passed we retrieve the data from the post
-		if ( ! $page ) {
-			$page = isset(COMPLIANZ::$config->fields[ $fieldname ]['source']) ? COMPLIANZ::$config->fields[ $fieldname ]['source'] : false;
-		}
-		if ( $post_id && ( $page !== 'wizard' ) ) {
-			$value = get_post_meta( $post_id, $fieldname, true );
-		} else {
-			$fields = get_option( 'complianz_options_' . $page );
-
-			$default = ( $use_default && $page && isset( COMPLIANZ::$config->fields[ $fieldname ]['default'] ) )
-                ? COMPLIANZ::$config->fields[ $fieldname ]['default'] : '';
-            //@todo $default = apply_filters( 'cmplz_default_value', $default, $fieldname );
-
-			$value   = isset( $fields[ $fieldname ] ) ? $fields[ $fieldname ] : $default;
-		}
-
-		/*
-         * Translate output
-         *
-         * */
-        if ($use_translate) {
-
-            $type = isset(COMPLIANZ::$config->fields[$fieldname]['type'])
-                ? COMPLIANZ::$config->fields[$fieldname]['type'] : false;
-            if ($type === 'cookies' || $type === 'thirdparties'
-                || $type === 'processors'
-            ) {
-                if (is_array($value)) {
-
-                    //this is for example a cookie array, like ($item = cookie("name"=>"_ga")
-
-                    foreach ($value as $item_key => $item) {
-                        //contains the values of an item
-                        foreach ($item as $key => $key_value) {
-                            if (function_exists('pll__')) {
-                                $value[$item_key][$key] = pll__($item_key . '_'
-                                    . $fieldname
-                                    . "_" . $key);
-                            }
-                            if (function_exists('icl_translate')) {
-                                $value[$item_key][$key]
-                                    = icl_translate('complianz',
-                                    $item_key . '_' . $fieldname . "_" . $key,
-                                    $key_value);
-                            }
-
-                            $value[$item_key][$key]
-                                = apply_filters('wpml_translate_single_string',
-                                $key_value, 'complianz',
-                                $item_key . '_' . $fieldname . "_" . $key);
-                        }
-                    }
-                }
-            } else {
-                if (isset(COMPLIANZ::$config->fields[$fieldname]['translatable'])
-                    && COMPLIANZ::$config->fields[$fieldname]['translatable']
-                ) {
-                    if (function_exists('pll__')) {
-                        $value = pll__($value);
-                    }
-                    if (function_exists('icl_translate')) {
-                        $value = icl_translate('complianz', $fieldname, $value);
-                    }
-
-                    $value = apply_filters('wpml_translate_single_string', $value,
-                        'complianz', $fieldname);
-                }
-            }
-
-        }
-
-		return $value;
-	}
-}
-
 if ( ! function_exists( 'cmplz_site_needs_cookie_warning' ) ) {
 	/**
 	 * Check if site needs a cookie warning
@@ -543,7 +546,7 @@ if ( ! function_exists( 'cmplz_site_needs_cookie_warning' ) ) {
 	 * @return bool
 	 */
 	function cmplz_site_needs_cookie_warning() {
-		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning();
+		return COMPLIANZ::$banner_loader->site_needs_cookie_warning();
 	}
 }
 if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning' ) ) {
@@ -553,7 +556,7 @@ if ( ! function_exists( 'cmplz_eu_site_needs_cookie_warning' ) ) {
 	 * @return bool
 	 */
 	function cmplz_eu_site_needs_cookie_warning() {
-		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'eu' );
+		return COMPLIANZ::$banner_loader->site_needs_cookie_warning( 'eu' );
 	}
 }
 
@@ -564,7 +567,7 @@ if ( ! function_exists( 'cmplz_za_site_needs_cookie_warning' ) ) {
 	 * @return bool
 	 */
 	function cmplz_za_site_needs_cookie_warning() {
-		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'za' );
+		return COMPLIANZ::$banner_loader->site_needs_cookie_warning( 'za' );
 	}
 }
 
@@ -575,7 +578,7 @@ if ( ! function_exists( 'cmplz_uk_site_needs_cookie_warning' ) ) {
 	 * @return bool
 	 */
 	function cmplz_uk_site_needs_cookie_warning() {
-		return COMPLIANZ::$cookie_admin->site_needs_cookie_warning( 'uk' );
+		return COMPLIANZ::$banner_loader->site_needs_cookie_warning( 'uk' );
 	}
 }
 
@@ -606,7 +609,7 @@ if ( ! function_exists( 'cmplz_company_located_in_region' ) ) {
 	 * @return bool
 	 */
 	function cmplz_company_located_in_region( $region ) {
-		$country_code = cmplz_get_value( 'country_company' );
+		$country_code = cmplz_get_option( 'country_company' );
 
 		return ( cmplz_get_region_for_country( $country_code ) === $region );
 	}
@@ -622,7 +625,7 @@ if ( ! function_exists( 'cmplz_has_region' ) ) {
 	 */
 	function cmplz_has_region( $code ) {
 		$regions = cmplz_get_regions(true);
-		if ( isset( $regions[ $code ] ) ) {
+		if ( in_array( $code, $regions ) ) {
 			return true;
 		}
 
@@ -644,7 +647,7 @@ if ( ! function_exists( 'cmplz_has_state' ) ) {
 			return false;
 		}
 
-		$states = cmplz_get_value('us_states');
+		$states = cmplz_get_option('us_states');
 		if ( isset( $states[ $code ] ) ) {
 			return true;
 		}
@@ -670,33 +673,48 @@ if ( ! function_exists( 'cmplz_get_region_from_legacy_type' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_get_regions' ) ) {
-	function cmplz_get_regions( $ad_all_category = false, $use_full_label = false ) {
-		$regions = cmplz_get_value( 'regions', false, 'wizard' );
-
-		if ( ! is_array( $regions ) && ! empty( $regions ) ) {
-			$regions = array( $regions => 1 );
+if (!function_exists('cmplz_format_as_javascript_array')) {
+	function cmplz_format_as_javascript_array($array) {
+		$out = [];
+		foreach ($array as $key => $label){
+			$out[] = [
+					'id' => $key,
+					'label' => $label,
+			];
 		}
-		$output = array();
-		if ( ! empty( $regions ) ) {
-			foreach ( $regions as $region => $enabled ) {
-				if ( ! $enabled ) {
-					continue;
-				}
-				if ($use_full_label) {
+		return $out;
+	}
+}
+
+if ( ! function_exists( 'cmplz_get_regions' ) ) {
+	function cmplz_get_regions( $ad_all_category = false, $label_type = false ) {
+		$regions = cmplz_get_option( 'regions' );
+		if ( ! is_array( $regions ) ) {
+			$regions = !empty( $regions ) ? array( $regions ) :  [];
+		}
+
+		if ( $label_type && ! empty( $regions ) ) {
+			$output = array();
+			foreach ( $regions as $region ) {
+				if ($label_type==='full') {
 					$label = isset( COMPLIANZ::$config->regions[ $region ] ) ? COMPLIANZ::$config->regions[ $region ]['label_full'] : '';
 				} else {
 					$label = isset( COMPLIANZ::$config->regions[ $region ] ) ? COMPLIANZ::$config->regions[ $region ]['label'] : '';
 				}
 				$output[ $region ] = $label;
 			}
+		} else {
+			$output = $regions;
 		}
 
 		if ( $ad_all_category ) {
-			$output['all'] = __( 'General', 'complianz-gdpr' );
+			if ($label_type) {
+				$output['all'] = __( 'General', 'complianz-gdpr' );
+			} else {
+				$output[] = 'all';
+			}
 		}
-
-		return $output;
+		return array_filter($output);
 	}
 }
 
@@ -718,7 +736,6 @@ if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 
 	function cmplz_get_region_for_country( $country_code ) {
 		$region = false;
-
 		$regions = COMPLIANZ::$config->regions;
 		foreach ( $regions as $region_code => $region_data ) {
 			if ( in_array( $country_code, $region_data['countries'] ) ) {
@@ -726,7 +743,6 @@ if ( ! function_exists( 'cmplz_get_region_for_country' ) ) {
 				break;
 			}
 		}
-
 		return apply_filters( "cmplz_region_for_country", $region, $country_code );
 	}
 }
@@ -735,12 +751,11 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 	function cmplz_get_consenttype_for_country( $country_code ) {
 		$regions       = COMPLIANZ::$config->regions;
 		$used_regions = cmplz_get_regions();
-
 		//do not unset a not used region if it's a manual override.
 		if ( !isset($_GET['cmplz_user_region']) ) {
-			foreach ( $regions as $key => $region ) {
-				if ( !array_key_exists( $key, $used_regions )) {
-					unset($regions[$key]);
+			foreach ( $regions as $region => $region_data ) {
+				if ( empty($used_regions) || !in_array( $region, $used_regions )) {
+					unset($regions[$region]);
 				}
 			}
 		}
@@ -756,143 +771,10 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_country' ) ) {
 
 if ( ! function_exists( 'cmplz_targeting_multiple_regions' ) ) {
 	function cmplz_targeting_multiple_regions(){
-
-//		$regions = cmplz_get_regions();
-//		$multiple_languages = COMPLIANZ::$cookie_admin->get_supported_languages(true) > 1 ? true : false;
-//		$get_locale = get_locale();
-//		$lang_is_english = strpos($get_locale, 'en') === 0 ? true : false;
-//		$lang_is_brazilian_portugese = strpos($get_locale, 'pt') === 0 ? true : false;
-//
-//		if ($multiple_languages) return true;
-//		if ( array_key_exists('uk', $regions) && ! $lang_is_english ) return true;
-//		if ( array_key_exists('us', $regions) && ! $lang_is_english ) return true;
-//		if ( array_key_exists('au', $regions) && ! $lang_is_english ) return true;
-//
-//		if ( array_key_exists('br', $regions) && ! $lang_is_brazilian_portugese ) return true;
-//		if ( array_key_exists('eu', $regions) && $lang_is_english ) return true;
-//		if ( array_key_exists('za', $regions) && ! $lang_is_english && $get_locale !== 'af') return true;
-//		if ( array_key_exists('ca', $regions) && ! $lang_is_english && $get_locale !== 'fr_FR' && $get_locale !== 'fr_BE') return true;
-
 		if ( defined("POLYLANG_VERSION" ) ) return true;
 		if ( defined("WPML_PLUGIN_BASENAME" ) ) return true;
 
 		return false;
-	}
-}
-
-if ( ! function_exists( 'cmplz_intro' ) ) {
-
-	/**
-	 * @param string $msg
-	 *
-	 * @return string|void
-	 */
-
-	function cmplz_intro( $msg ) {
-		if ( $msg == '' ) {
-			return;
-		}
-		$html = "<div class='cmplz-panel cmplz-notification cmplz-intro'>{$msg}</div>";
-
-		echo $html;
-
-	}
-}
-
-if ( ! function_exists( 'cmplz_notice' ) ) {
-	/**
-	 * Notification without arrow on the left. Should be used outside notifications center
-	 * @param string $msg
-	 * @param string $type notice | warning | success
-	 * @param bool   $echo
-	 *
-	 * @return string|void
-	 */
-	function cmplz_notice( $msg, $type = 'notice', $echo = true ) {
-		if ( $msg == '' ) {
-			return;
-		}
-
-		$html = "<div class='cmplz-panel-wrap'><div class='cmplz-panel cmplz-notification cmplz-{$type}'><div>{$msg}</div></div></div>";
-
-		if ( $echo ) {
-			echo $html;
-		} else {
-			return $html;
-		}
-	}
-}
-
-if ( ! function_exists( 'cmplz_conclusion' ) ) {
-	/**
-	 * Conclusion list drop down
-	 * @param string $msg
-	 * @param string $type notice | warning | success
-	 * @param bool   $echo
-	 *
-	 * @return string|void
-	 */
-	function cmplz_conclusion( $title, $conclusions, $animate = true, $echo = true ) {
-		if ( is_array( $conclusions ) == false ) {
-			return;
-		}
-
-		ob_start();
-
-		 echo '<div id="cmplz-conclusion"><h3>' . $title . '</h3><ul class="cmplz-conclusion__list">';
-				foreach($conclusions as $conclusion) {
-					$icon = $animate ? 'icon-loading' : 'icon-' . $conclusion['report_status'];
-					$displayOpac = $animate ? 'style="opacity: 0"' : '';
-					$display = $animate ? 'style="display: none"' : '';
-					echo '<li ' . $displayOpac . 'class="cmplz-conclusion__check '  .$icon . '" data-status="' . $conclusion['report_status'] . '">';
-						if ($animate) echo '<p class="cmplz-conclusion__check--check-text">' . $conclusion['check_text'] . '</p>';
-						echo '<p ' . $display . ' class="cmplz-conclusion__check--report-text">' . $conclusion['report_text'] . '</p>';
-					echo '</li>';
-				}
-		echo '</ul></div>';
-		if ($animate) {
-			?>
-			<script>
-				jQuery('.cmplz-conclusion__check--report-text').hide();
-				// We initialise this to the first text element
-				var firstText = jQuery(".cmplz-conclusion__check:first-child");
-				var time = 0;
-				var timeSmall = 0;
-
-				jQuery(".cmplz-conclusion__check").each(function(){
-					jQuery(firstText).css('opacity', 1);
-					var that = this;
-					time += getRandomInt(5, 10) * 100;;
-					setTimeout( function(){
-						setTimeout( function() {
-
-							//jQuery(that).text(jQuery(that).data('text'));
-
-							jQuery(that).removeClass('icon-loading').addClass('icon-' + jQuery(that).data('status'));
-							jQuery(that).find('.cmplz-conclusion__check--check-text').hide();
-							jQuery(that).find('.cmplz-conclusion__check--report-text').show();
-							jQuery(that).next().css('opacity', 1);
-						}, timeSmall );
-						timeSmall = getRandomInt(5, 10) * 100;
-					}, time);
-				});
-
-				function getRandomInt(min, max) {
-					min = Math.ceil(min);
-					max = Math.floor(max);
-					return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-				}
-
-			</script>
-			<?php
-		}
-		$html = ob_get_clean();
-
-		if ( $echo ) {
-			echo $html;
-		} else {
-			return $html;
-		}
 	}
 }
 
@@ -1091,24 +973,6 @@ if ( ! function_exists( 'cmplz_scan_detected_stats' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_update_option' ) ) {
-	/**
-	 * Save a complianz option
-	 * @param string $page
-	 * @param string $fieldname
-	 * @param mixed $value
-	 */
-	function cmplz_update_option( $page, $fieldname, $value ) {
-		if ( !cmplz_user_can_manage() ) {
-			return;
-		}
-		$options               = get_option( 'complianz_options_' . $page, [] );
-		$options[ $fieldname ] = $value;
-		if ( ! empty( $options ) ) {
-			update_option( 'complianz_options_' . $page, $options );
-		}
-	}
-}
 if ( ! function_exists( 'cmplz_page_is_of_type' ) ) {
 	/**
 	 * Save a complianz option
@@ -1121,9 +985,9 @@ if ( ! function_exists( 'cmplz_page_is_of_type' ) ) {
 		if ( !$post ) return false;
 
 		$post_id = $post->ID;
-		foreach ( $regions as $region => $label ) {
+		foreach ( $regions as $region ) {
 			$policy_id = COMPLIANZ::$document->get_shortcode_page_id( $type, $region );
-			if ( $policy_id == $post_id ) {
+			if ( $policy_id === $post_id ) {
 				return true;
 			}
 		}
@@ -1133,7 +997,7 @@ if ( ! function_exists( 'cmplz_page_is_of_type' ) ) {
 
 if ( ! function_exists( 'cmplz_uses_statistics' ) ) {
 	function cmplz_uses_statistics() {
-		$stats = cmplz_get_value( 'compile_statistics' );
+		$stats = cmplz_get_option( 'compile_statistics' );
 		if ( $stats !== 'no' ) {
 			return true;
 		}
@@ -1144,7 +1008,7 @@ if ( ! function_exists( 'cmplz_uses_statistics' ) ) {
 
 if ( ! function_exists( 'cmplz_show_install_burst_warning' ) ) {
 	function cmplz_show_install_burst_warning() {
-		if ( cmplz_get_value('consent_for_anonymous_stats') == 'yes' && !defined( 'burst_version' ) ) {
+		if ( cmplz_get_option('consent_for_anonymous_stats') === 'yes' && !defined( 'burst_version' ) ) {
 			return true;
 		}
 		return false;
@@ -1154,7 +1018,13 @@ if ( ! function_exists( 'cmplz_show_install_burst_warning' ) ) {
 
 if ( ! function_exists( 'cmplz_uses_only_functional_cookies' ) ) {
 	function cmplz_uses_only_functional_cookies() {
-		return COMPLIANZ::$cookie_admin->uses_only_functional_cookies();
+		return COMPLIANZ::$banner_loader->uses_only_functional_cookies();
+	}
+}
+
+if ( !function_exists('cmplz_scan_in_progress')) {
+	function cmplz_scan_in_progress(){
+		return isset( $_GET['complianz_scan_token'] ) && wp_verify_nonce( $_GET['complianz_scan_token'], 'complianz_scan_token');
 	}
 }
 
@@ -1162,13 +1032,6 @@ if ( ! function_exists( 'cmplz_uses_ad_cookies' ) ) {
 	function cmplz_uses_ad_cookies() {
 		$wizard_settings = get_option('complianz_options_wizard');
 		return isset( $wizard_settings['uses_ad_cookies'] ) ? $wizard_settings['uses_ad_cookies'] === 'yes' : false;
-	}
-}
-
-if ( ! function_exists( 'cmplz_uses_ad_cookies_personalized' ) ) {
-	function cmplz_uses_ad_cookies_personalized() {
-		$wizard_settings = get_option('complianz_options_wizard');
-		return isset( $wizard_settings['uses_ad_cookies_personalized'] ) ? $wizard_settings['uses_ad_cookies_personalized'] === 'yes' : false;
 	}
 }
 
@@ -1188,7 +1051,7 @@ if ( ! function_exists( 'cmplz_site_shares_data' ) ) {
 	 * @return bool
 	 */
 	function cmplz_site_shares_data() {
-		return COMPLIANZ::$cookie_admin->site_shares_data();
+		return COMPLIANZ::$banner_loader->site_shares_data();
 	}
 }
 
@@ -1243,22 +1106,13 @@ if (!function_exists('cmplz_strpos_arr')) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_wp_privacy_version' ) ) {
-
-	function cmplz_wp_privacy_version() {
-		global $wp_version;
-
-		return ( $wp_version >= '4.9.6' );
-	}
-}
-
 /**
  * callback for privacy document Check if there is a text entered in the custom privacy statement text
  *
  * */
 if ( ! function_exists( 'cmplz_has_custom_privacy_policy' ) ) {
 	function cmplz_has_custom_privacy_policy() {
-		$policy = cmplz_get_value( 'custom_privacy_policy_text' );
+		$policy = cmplz_get_option( 'custom_privacy_policy_text' );
 		if ( empty( $policy ) ) {
 			return false;
 		}
@@ -1274,7 +1128,7 @@ if ( ! function_exists( 'cmplz_has_custom_privacy_policy' ) ) {
 if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
 	function cmplz_statistics_no_sharing_allowed() {
 
-		$statistics       = cmplz_get_value( 'compile_statistics', false,
+		$statistics       = cmplz_get_option( 'compile_statistics', false,
 			'wizard' );
 		$tagmanager       = ( $statistics === 'google-tag-manager' ) ? true
 			: false;
@@ -1283,10 +1137,8 @@ if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
 
 		if ( $google_analytics || $tagmanager ) {
 			$thirdparty = $google_analytics
-				? cmplz_get_value( 'compile_statistics_more_info', false,
-					'wizard' )
-				: cmplz_get_value( 'compile_statistics_more_info_tag_manager',
-					false, 'wizard' );
+				? cmplz_get_option( 'compile_statistics_more_info' )
+				: cmplz_get_option( 'compile_statistics_more_info_tag_manager');
 
 			$no_sharing = ( isset( $thirdparty['no-sharing'] )
 			                && ( $thirdparty['no-sharing'] == 1 ) ) ? true
@@ -1309,7 +1161,7 @@ if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
  * */
 if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 	function cmplz_no_ip_addresses() {
-		$statistics = cmplz_get_value( 'compile_statistics', false, 'wizard' );
+		$statistics = cmplz_get_option( 'compile_statistics');
 
 		//not anonymous stats.
 		if ( $statistics === 'yes' ) {
@@ -1324,10 +1176,8 @@ if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 
 		if ( $google_analytics || $tagmanager ) {
 			$thirdparty   = $google_analytics
-				? cmplz_get_value( 'compile_statistics_more_info', false,
-					'wizard' )
-				: cmplz_get_value( 'compile_statistics_more_info_tag_manager',
-					false, 'wizard' );
+				? cmplz_get_option( 'compile_statistics_more_info')
+				: cmplz_get_option( 'compile_statistics_more_info_tag_manager');
 			$ip_anonymous = ( isset( $thirdparty['ip-addresses-blocked'] )
 			                  && ( $thirdparty['ip-addresses-blocked'] == 1 ) )
 				? true : false;
@@ -1365,19 +1215,19 @@ if (!function_exists('cmplz_get_console_errors')){
 
 if ( ! function_exists( 'cmplz_cookie_warning_required_stats_eu' ) ) {
 	function cmplz_cookie_warning_required_stats_eu() {
-		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('eu');
+		return COMPLIANZ::$banner_loader->cookie_warning_required_stats('eu');
 	}
 }
 
 if ( ! function_exists( 'cmplz_cookie_warning_required_stats_uk' ) ) {
 	function cmplz_cookie_warning_required_stats_uk() {
-		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('uk');
+		return COMPLIANZ::$banner_loader->cookie_warning_required_stats('uk');
 	}
 }
 
 if ( ! function_exists( 'cmplz_cookie_warning_required_stats_za' ) ) {
 	function cmplz_cookie_warning_required_stats_za() {
-		return COMPLIANZ::$cookie_admin->cookie_warning_required_stats('za');
+		return COMPLIANZ::$banner_loader->cookie_warning_required_stats('za');
 	}
 }
 
@@ -1386,8 +1236,7 @@ if ( ! function_exists( 'cmplz_cookie_warning_required_stats_za' ) ) {
 
 if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 	function cmplz_accepted_processing_agreement() {
-		$statistics       = cmplz_get_value( 'compile_statistics', false,
-			'wizard' );
+		$statistics       = cmplz_get_option( 'compile_statistics' );
 		$tagmanager       = ( $statistics === 'google-tag-manager' ) ? true
 			: false;
 		$google_analytics = ( $statistics === 'google-analytics' ) ? true
@@ -1395,10 +1244,8 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 
 		if ( $google_analytics || $tagmanager ) {
 			$thirdparty = $google_analytics
-				? cmplz_get_value( 'compile_statistics_more_info', false,
-					'wizard' )
-				: cmplz_get_value( 'compile_statistics_more_info_tag_manager',
-					false, 'wizard' );
+				? cmplz_get_option( 'compile_statistics_more_info' )
+				: cmplz_get_option( 'compile_statistics_more_info_tag_manager' );
 			$accepted_google_data_processing_agreement
 			            = ( isset( $thirdparty['accepted'] )
 			                && ( $thirdparty['accepted'] == 1 ) ) ? true
@@ -1424,11 +1271,11 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 	 */
 
 	function cmplz_can_run_cookie_blocker( $admin_test = false ){
-		if ( ! COMPLIANZ::$cookie_admin->site_needs_cookie_warning() ) {
+		if ( ! COMPLIANZ::$banner_loader->site_needs_cookie_warning() ) {
 			return false;
 		}
 
-		if ( cmplz_get_value('enable_cookie_blocker') !== 'yes' ) {
+		if ( cmplz_get_option('enable_cookie_blocker') !== 'yes' ) {
 			return false;
 		}
 
@@ -1453,7 +1300,7 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 			return false;
 		}
 
-		if ( cmplz_get_value( 'safe_mode' ) ) {
+		if ( cmplz_get_option( 'safe_mode' ) ) {
 			return false;
 		}
 
@@ -1463,10 +1310,7 @@ if ( ! function_exists( 'cmplz_init_cookie_blocker' ) ) {
 		//if (!defined('wp_cache') && class_exists('cmplz_geoip') && COMPLIANZ::$geoip->geoip_enabled() && (COMPLIANZ::$geoip->region() !== 'eu') && (COMPLIANZ::$geoip->region() !== 'us')) return;
 
 		//do not block cookies during the scan
-		if ( isset( $_GET['complianz_scan_token'] )
-			 && ( sanitize_title( $_GET['complianz_scan_token'] )
-				  == get_option( 'complianz_scan_token' ) )
-		) {
+		if ( cmplz_scan_in_progress() ) {
 			return false;
 		}
 
@@ -1576,7 +1420,7 @@ if (!function_exists('cmplz_datarequests_active')) {
 	 * @return bool
 	 */
 	function cmplz_datarequests_active() {
-		return cmplz_get_value( 'datarequest' ) === 'yes';
+		return cmplz_get_option( 'datarequest' ) === 'yes';
 	}
 }
 
@@ -1608,25 +1452,84 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
-		return cmplz_get_value('uses_ad_cookies_personalized', false, 'wizard') === 'tcf';
+		return cmplz_get_option('uses_ad_cookies_personalized') === 'tcf' || cmplz_get_option('uses_ad_cookies_personalized') === 'yes';
 	}
 }
 
-if (!function_exists('cmplz_read_more')) {
+if ( !function_exists('cmplz_get_transient') ) {
+
 	/**
-	 * Create a generic read more text with link for help texts.
+	 * We user our own transient, as the wp transient is not always persistent
+	 * Specifically made for license transients, as it stores on network level if multisite.
 	 *
-	 * @param string $url
-	 * @param bool   $add_space
+	 * @param string $name
 	 *
-	 * @return string
+	 * @return mixed
 	 */
-	function cmplz_read_more( $url, $add_space = true ) {
-		$html = cmplz_sprintf( __( "For more information, please read this %sarticle%s.", 'complianz-gdpr' ), '<a target="_blank" href="' . $url . '">', '</a>' );
-		if ( $add_space ) {
-			$html = '&nbsp;' . $html;
+	function cmplz_get_transient( string $name ){
+		$value = false;
+		$now = time();
+		$transients = get_option('cmplz_transients', array());
+
+		if ( isset($transients[$name]) ) {
+			$data = $transients[$name];
+			$expires = isset($data['expires']) ? $data['expires'] : 0;
+			$value = isset($data['value']) ? $data['value'] : false;
+			if ( $expires < $now ) {
+				unset($transients[$name]);
+
+				update_option('cmplz_transients', $transients);
+				$value = false;
+			}
 		}
-		return $html;
+		return $value;
+	}
+}
+
+if (!function_exists('cmplz_delete_transient')) {
+	/**
+	 * We user our own transient, as the wp transient is not always persistent
+	 * Specifically made for license transients, as it stores on network level if multisite.
+	 *
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	function cmplz_delete_transient( string $name ): void {
+		$transients = get_option( 'cmplz_transients', array() );
+		if ( !is_array( $transients ) ) {
+			$transients = array();
+		}
+
+		if (isset($transients[$name])) {
+			unset($transients[$name]);
+		}
+
+		update_option( 'cmplz_transients', $transients );
+	}
+}
+if (!function_exists('cmplz_set_transient')) {
+	/**
+	 * We user our own transient, as the wp transient is not always persistent
+	 * Specifically made for license transients, as it stores on network level if multisite.
+	 *
+	 * @param string $name
+	 * @param mixed  $value
+	 * @param int    $expiration
+	 *
+	 * @return void
+	 */
+	function cmplz_set_transient( string $name, $value, $expiration ) {
+		$transients = get_option( 'cmplz_transients', array() );
+		if ( ! is_array( $transients ) ) {
+			$transients = array();
+		}
+
+		$transients[ $name ] = array(
+				'value'   => is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value),
+				'expires' => time() + (int) $expiration,
+		);
+		update_option( 'cmplz_transients', $transients );
 	}
 }
 
@@ -1645,12 +1548,6 @@ if (!function_exists('cmplz_upgrade_to_premium')) {
 			$html = '&nbsp;' . $html;
 		}
 		return $html;
-	}
-}
-
-if (!function_exists('cmplz_settings_overlay')) {
-	function cmplz_settings_overlay($msg) {
-		echo '<div class="cmplz-settings-overlay"><div class="cmplz-settings-overlay-message">'.$msg.'</div></div>';
 	}
 }
 
@@ -1958,40 +1855,6 @@ if ( ! function_exists( 'cmplz_allowed_html' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_flag' ) ) {
-	/**
-	 * Get URL for a flag image
-	 *
-	 * @param $regions
-	 *
-	 * @return string
-	 */
-
-	function cmplz_flag( $regions, $echo = true ) {
-		if ( ! $regions ) {
-		    if ($echo) {
-                return;
-            } else {
-		        return '';
-            }
-		}
-		if (!is_array( $regions ) ) $regions = array($regions);
-
-		$html = '<div class="cmplz-region-indicator">';
-		foreach ( $regions as $region ) {
-            $html .= cmplz_region_icon($region);
-		}
-        $html .= '</div>';
-
-		if ($echo) {
-		    echo $html;
-        } else {
-		    return $html;
-        }
-	}
-}
-
-
 if ( ! function_exists( 'cmplz_placeholder' ) ) {
 	/**
 	 * Get placeholder for any type of blocked content
@@ -2021,17 +1884,18 @@ if ( ! function_exists( 'cmplz_count_socialmedia' ) ) {
 	 * @return int
 	 */
 	function cmplz_count_socialmedia() {
-		$sm = cmplz_get_value( 'socialmedia_on_site', false, 'wizard' );
+		$sm = cmplz_get_option( 'socialmedia_on_site' );
 		if ( ! $sm ) {
 			return 0;
 		}
 		if ( ! is_array( $sm ) ) {
 			return 1;
-		} else {
-			return count( array_filter( $sm ) );
 		}
+
+		return count( array_filter( $sm ) );
 	}
 }
+
 
 if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 	/**
@@ -2048,7 +1912,7 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 	 */
 	function cmplz_download_to_site( $src, $id = false, $use_filename = true ) {
 		if ( strpos( $src, "https://" ) === false
-		     && strpos( $src, "http://" ) === false
+			 && strpos( $src, "http://" ) === false
 		) {
 			$src = str_replace( '//', 'https://', $src );
 		}
@@ -2086,11 +1950,46 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 			unlink( $tmpfile );
 		} // must unlink afterwards
 
+		try {
+			$new_src = cmplz_create_webp($file, $new_src);
+		} catch ( Exception $e ) {
+			if ( defined('WP_DEBUG') && WP_DEBUG ) {
+				error_log( $e->getMessage() );
+			}
+		}
+
 		if ( ! file_exists( $file ) ) {
 			return cmplz_default_placeholder();
 		}
 
 		return $new_src;
+	}
+}
+
+if (!function_exists('cmplz_create_webp')){
+	function cmplz_create_webp($file, $new_src) {
+		switch ( $file ) {
+			case str_contains( $file, '.jpeg' ):
+			case str_contains( $file, '.jpg' ):
+				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
+				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
+				$image = imagecreatefromjpeg( $file );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			case str_contains( $file, 'png' ):
+				$webp_file = str_replace( '.png', ".webp", $file );
+				$webp_new_src = str_replace( '.png', ".webp", $new_src );
+				$image = imagecreatefrompng( $file );
+				imagepalettetotruecolor( $image );
+				imagealphablending( $image, true );
+				imagesavealpha( $image, true );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			default:
+				return $new_src;
+		}
 	}
 }
 
@@ -2107,13 +2006,13 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			'ignored'      => false
 		);
 
-		if ( cmplz_get_value( 'wp_admin_access_users' ) === 'yes' ) {
+		if ( cmplz_get_option( 'wp_admin_access_users' ) === 'yes' ) {
 			$args['isMembersOnly'] = 'all';
 		}
 
-		$cookies = COMPLIANZ::$cookie_admin->get_cookies_by_service( $args );
-		$use_cdb_links = cmplz_get_value( 'use_cdb_links' ) === 'yes';
-		$consent_per_service = cmplz_get_value( 'consent_per_service' ) === 'yes';
+		$cookies = COMPLIANZ::$banner_loader->get_cookies_by_service( $args );
+		$use_cdb_links = cmplz_get_option( 'use_cdb_links' ) === 'yes';
+		$consent_per_service = cmplz_get_option( 'consent_per_service' ) === 'yes';
 		$cookie_list = COMPLIANZ::$cookie_blocker->cookie_list;
 		$google_fonts = new CMPLZ_SERVICE('Google Fonts');
 		$servicesHTML = '';
@@ -2121,7 +2020,7 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
 
 			//if google fonts is self hosted, don't include in the cookie policy
-			if ( cmplz_get_value('self_host_google_fonts') === 'yes'
+			if ( cmplz_get_option('self_host_google_fonts') === 'yes'
 				 && defined('CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE')
 				 && ($serviceID == $google_fonts->ID || $service->isTranslationFrom == $google_fonts->ID) ) {
 				continue;
@@ -2266,7 +2165,7 @@ if (!function_exists('cmplz_has_consent')) {
 	 */
 	function cmplz_has_consent( $category ) {
 		$consent_type     = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
-		$prefix           = COMPLIANZ::$cookie_admin->get_cookie_prefix();
+		$prefix           = COMPLIANZ::$banner_loader->get_cookie_prefix();
 		$cookie_name      = "{$prefix}{$category}";
 		if ( ! $consent_type ) {
 			// If consent_type is not set, there's no consent management, we should
@@ -2297,7 +2196,7 @@ if (!function_exists('cmplz_has_service_consent')) {
 	 */
 	function cmplz_has_service_consent( $service ) {
 		$consent_type     = apply_filters( 'cmplz_user_consenttype', COMPLIANZ::$company->get_default_consenttype() );
-		$prefix           = COMPLIANZ::$cookie_admin->get_cookie_prefix();
+		$prefix           = COMPLIANZ::$banner_loader->get_cookie_prefix();
 		$cookie_name      = "{$prefix}consented_services";
 		$consented_services = isset($_COOKIE[ $cookie_name ]) ? json_decode(stripslashes($_COOKIE[ $cookie_name ])) : false;
 		if ( ! $consent_type ) {
@@ -2383,7 +2282,7 @@ if (!function_exists('cmplz_sanitize_category')) {
 
 if ( ! function_exists( 'cmplz_cdb_reference_in_policy' ) ) {
 	function cmplz_cdb_reference_in_policy() {
-        $use_reference = COMPLIANZ::$cookie_admin->use_cdb_api();
+        $use_reference = COMPLIANZ::$banner_loader->use_cdb_api();
 		return apply_filters( 'cmplz_use_cdb_reference', $use_reference );
 	}
 }
@@ -2428,8 +2327,8 @@ if ( ! function_exists( 'cmplz_default_placeholder' ) ) {
 			$type = 'google-maps';
 		}
 
-		$style = cmplz_get_value('placeholder_style');
-		$ratio = $type === 'google-maps' ? cmplz_get_value( 'google-maps-format' ) : '';
+		$style = cmplz_get_option('placeholder_style');
+		$ratio = $type === 'google-maps' ? cmplz_get_option( 'google-maps-format' ) : '';
 		$path = cmplz_path . "assets/images/placeholders";
 		//check if this type exists as placeholder
 		if ( file_exists( "$path/$type-$style-$ratio.jpg" ) ) {
@@ -2536,7 +2435,7 @@ if ( ! function_exists( 'cmplz_detected_firstparty_marketing' )) {
 		global $cmplz_integrations_list;
 		$active_plugins = array();
 		foreach ( $cmplz_integrations_list as $plugin => $details ) {
-			if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+			if ( cmplz_integration_plugin_is_enabled( $plugin ) ) {
 				$active_plugins[$plugin] = $details;
 			}
 		}
@@ -2571,11 +2470,10 @@ if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 		//if manuanl override detected, add that region's consenttype here.
 		$consent_types = array();
 		//for each region, get the consenttype
-		foreach ( $regions as $region => $label ) {
+		foreach ( $regions as $region ) {
 			if ( ! isset( COMPLIANZ::$config->regions[ $region ]['type'] ) ) {
 				continue;
 			}
-
 			$consent_types[] = apply_filters( 'cmplz_consenttype', COMPLIANZ::$config->regions[ $region ]['type'], $region );
 		}
 
@@ -2618,7 +2516,7 @@ if ( ! function_exists( 'cmplz_uses_preferences_cookies' ) ) {
      */
     function cmplz_uses_preferences_cookies()
     {
-        return cmplz_consent_mode() || cmplz_consent_api_active() || cmplz_get_value( 'consent_per_service' ) === 'yes';
+        return cmplz_consent_mode() || cmplz_consent_api_active() || cmplz_get_option( 'consent_per_service' ) === 'yes';
     }
 }
 
@@ -2631,7 +2529,7 @@ if ( ! function_exists( 'cmplz_uses_statistic_cookies' ) ) {
 	 */
 	function cmplz_uses_statistic_cookies()
 	{
-		return cmplz_get_value( 'compile_statistics' ) !== 'no' || cmplz_uses_thirdparty('vimeo');
+		return cmplz_get_option( 'compile_statistics' ) !== 'no' || cmplz_uses_thirdparty('vimeo');
 	}
 }
 
@@ -2645,10 +2543,10 @@ if ( ! function_exists( 'cmplz_uses_marketing_cookies' ) ) {
 	function cmplz_uses_marketing_cookies() {
 
 		$uses_marketing_cookies
-				= cmplz_get_value( 'uses_ad_cookies' ) === 'yes'
-				  || cmplz_get_value( 'uses_firstparty_marketing_cookies' ) === 'yes'
-				  || cmplz_get_value( 'uses_thirdparty_services' ) === 'yes'
-				  || cmplz_get_value( 'uses_social_media' ) === 'yes';
+				= cmplz_get_option( 'uses_ad_cookies' ) === 'yes'
+				  || cmplz_get_option( 'uses_firstparty_marketing_cookies' ) === 'yes'
+				  || cmplz_get_option( 'uses_thirdparty_services' ) === 'yes'
+				  || cmplz_get_option( 'uses_social_media' ) === 'yes';
 
 		return apply_filters( 'cmplz_uses_marketing_cookies', $uses_marketing_cookies );
 	}
@@ -2664,7 +2562,7 @@ if ( ! function_exists( 'cmplz_impressum_required' ) ) {
      * @return bool
      */
     function cmplz_impressum_required() {
-        return cmplz_get_value( 'eu_consent_regions' ) === 'yes' && cmplz_get_value( 'impressum' ) !== 'none' ;
+        return cmplz_get_option( 'eu_consent_regions' ) === 'yes' && cmplz_get_option( 'impressum' ) !== 'none' ;
     }
 }
 
@@ -2676,6 +2574,11 @@ if ( ! function_exists( 'cmplz_uses_optin' ) ) {
 	 * @return bool
 	 */
 	function cmplz_uses_optin() {
+		$regions = cmplz_get_regions();
+		//ensure a default in case of no regions, to prevent weird cookie banner wysiwyg issues.
+		if (count($regions)===0) {
+			return true;
+		}
 		return ( in_array( 'optin', cmplz_get_used_consenttypes() )
 		         || in_array( 'optinstats', cmplz_get_used_consenttypes() ) );
 	}
@@ -2732,7 +2635,7 @@ if ( ! function_exists( 'cmplz_uses_sensitive_data' ) ) {
 
 			if ( ! empty( COMPLIANZ::$config->details_per_purpose_us ) ) {
 				foreach ( $special_data as $special_data_key ) {
-					$value = cmplz_get_value( $key . '_data_purpose_us' );
+					$value = cmplz_get_option( $key . '_data_purpose_us' );
 					if ( isset( $value[ $special_data_key ] )
 					     && $value[ $special_data_key ]
 					) {
@@ -2764,7 +2667,6 @@ if ( ! function_exists( 'cmplz_get_consenttype_for_region' ) ) {
 		} else {
 			$consenttype = COMPLIANZ::$config->regions[ $region ]['type'];
 		}
-
 		return apply_filters( 'cmplz_consenttype', $consenttype, $region );
 	}
 }
@@ -2788,8 +2690,8 @@ if ( ! function_exists( 'cmplz_uses_consenttype' ) ) {
 		} else {
 			//check if any region has a consenttype $check_consenttype
 			$regions = cmplz_get_regions();
-			foreach ( $regions as $region => $label ) {
-				$consenttype = cmplz_get_consenttype_for_region( $region );
+			foreach ( $regions as $k_region ) {
+				$consenttype = cmplz_get_consenttype_for_region( $k_region );
 				if ( $consenttype === $check_consenttype ) {
 					return true;
 				}
@@ -2808,7 +2710,7 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 	 * @return int default_ID
 	 */
 	function cmplz_get_default_banner_id() {
-		$banner_id = get_transient('cmplz_default_banner_id');
+		$banner_id = cmplz_get_transient('cmplz_default_banner_id');
 		if ( !$banner_id ){
 			global $wpdb;
 			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
@@ -2821,7 +2723,7 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 			if ( ! empty( $cookiebanners ) ) {
 				$banner_id = $cookiebanners[0]->ID;
 			}
-			set_transient('cmplz_default_banner_id', $banner_id, HOUR_IN_SECONDS);
+			cmplz_set_transient('cmplz_default_banner_id', $banner_id, HOUR_IN_SECONDS);
 		}
 		return $banner_id;
 	}
@@ -2860,17 +2762,17 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		}
 
 		if ( isset($args['ID']) ) {
-			$sql = 'AND cdb.ID = '.intval($args['ID']);
+			$sql = 'AND cdb.ID = ' . (int) $args['ID'];
 		}
 
-		if ( isset( $args['default'] ) && $args['default'] == true ) {
+		if ( isset( $args['default'] ) && $args['default'] === true ) {
 			$sql = 'AND cdb.default = true LIMIT 1';
 		}
 		if ( isset( $args['default'] ) && $args['default'] === false ) {
 			$sql = 'AND cdb.default = false';
 		}
 		if ( isset( $args['limit'] ) && $args['limit'] !== false ) {
-			$sql = ' LIMIT '.intval($args['limit']);
+			$sql = ' LIMIT ' . (int) $args['limit'];
 		}
 
 		$sql_string = sanitize_title($sql);
@@ -3028,7 +2930,7 @@ if ( ! function_exists( 'cmplz_sprintf' ) ) {
 			return call_user_func_array('sprintf', $args);
 		} else {
 			$output = $args[0];
-			if ( is_admin() ){
+			if ( cmplz_admin_logged_in() ){
 				$output .=  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
 			}
 			return $output;
@@ -3045,7 +2947,7 @@ if ( !function_exists('cmplz_dnt_enabled') ) {
 	function cmplz_dnt_enabled()
 	{
 		//only if the user has explicitly enabled this
-		if ( cmplz_get_value('respect_dnt') !== 'no' ) {
+		if ( cmplz_get_option('respect_dnt') !== 'no' ) {
 			return ( ( isset($_SERVER['HTTP_DNT']) && $_SERVER['HTTP_DNT'] == 1 ) || isset($_SERVER['HTTP_SEC_GPC']) );
 		}
 		return false;
@@ -3067,7 +2969,7 @@ if ( ! function_exists( 'cmplz_printf' ) ) {
 			echo call_user_func_array('sprintf', $args);
 		} else {
 			$output = $args[0];
-			if ( is_admin() ){
+			if ( cmplz_admin_logged_in() ){
 				$output .=  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
 			}
 			echo $output;

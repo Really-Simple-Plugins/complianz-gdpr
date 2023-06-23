@@ -75,9 +75,6 @@ $this->pages['za']['cookie-statement']['document_elements'] = array(
 	array(
 		'subtitle' => _x('Marketing/Tracking cookies', 'cookie policy', 'complianz-gdpr'),
 		'content' => _x('Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.', 'cookie policy', 'complianz-gdpr'),
-//		'condition' => array(
-//			'uses_ad_cookies' => 'no',
-//		),
 		'callback_condition' => 'cmplz_uses_marketing_cookies',
 	),
 

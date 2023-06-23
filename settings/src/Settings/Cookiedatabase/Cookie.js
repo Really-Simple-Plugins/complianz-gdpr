@@ -1,0 +1,142 @@
+import Icon from "../../utils/Icon";
+import { __ } from '@wordpress/i18n';
+import Panel from "../Panel";
+import {UseSyncData} from "./SyncData";
+import useFields from "../../Settings/Fields/FieldsData";
+
+const CookieDetails = (cookie) => {
+	const {getFieldValue, showSavedSettingsNotice} = useFields();
+	const {saving, purposesOptions, services, updateCookie, toggleDeleteCookie, saveCookie} = UseSyncData();
+	let data = {id:'',type:'',value:''};
+	//allow for both '0'/'1' and false/true.
+	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
+	let sync = useCdbApi ? cookie.sync==1 : false;
+	let disabled = sync;
+	if (saving) {
+		disabled = true;
+	}
+	let cdbLink = false;
+	if ( cookie.slug.length>0 ) {
+		let service_slug = !cookie.service ? 'unknown-service' : cookie.service;
+		cdbLink = 'https://cookiedatabase.org/cookie/' + service_slug + '/' + cookie.slug;
+	}
+
+	const onSaveHandler = async (id) => {
+		await saveCookie(id);
+		showSavedSettingsNotice(__("Saved cookie", "complianz-gd[r"));
+	}
+
+	const onDeleteHandler = async (id) => {
+		await toggleDeleteCookie(id);
+	}
+
+	const onChangeHandler = (e, id, type) => {
+		updateCookie(id, type, e.target.value);
+	}
+
+	const onCheckboxChangeHandler = (e, id, type) => {
+		updateCookie(id, type, e.target.checked);
+	}
+
+	let retentionDisabled = cookie.name.indexOf('cmplz_')!==-1 ? true:sync;
+	let deletedClass = cookie.deleted!=1 ? 'cmplz-reset-button':'';
+	return (
+		<>
+			<div className="cmplz-details-row cmplz-details-row__checkbox">
+				<label>{__("Sync cookie with cookiedatabase.org", "complianz-gdpr")}</label>
+				<input disabled={!useCdbApi} onChange={ ( e ) => onCheckboxChangeHandler(e, cookie.ID, 'sync') } type="checkbox" checked={sync} />
+			</div>
+			<div className="cmplz-details-row cmplz-details-row__checkbox">
+				<label>{__("Show cookie on Cookie Policy", "complianz-gdpr")}</label>
+				<input disabled={disabled} onChange={ ( e ) => onCheckboxChangeHandler(e, cookie.ID, 'showOnPolicy') } type="checkbox"  checked={cookie.showOnPolicy} />
+			</div>
+			<div className="cmplz-details-row">
+				<label>{__("Name", "complianz-gdpr")}</label>
+				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={cookie.name} />
+			</div>
+			<div className="cmplz-details-row">
+				<label>{__("Service", "complianz-gdpr")}</label>
+				<select disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'serviceID') } value={cookie.serviceID} >
+					<option key={-1} value={0}>{__("Select a service","complianz-gdpr")}</option>
+					{ services.map((service, i) => <option key={i} value={service.ID}>{service.name}</option>)}
+				</select>
+			</div>
+			<div className="cmplz-details-row">
+				<label>{__("Expiration", "complianz-gdpr")}</label>
+				<input disabled={retentionDisabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'retention') } type="text" placeholder={__("1 year", "complianz-gdpr")}  value={cookie.retention} />
+			</div>
+			<div className="cmplz-details-row">
+				<label>{__("Cookie function", "complianz-gdpr")}</label>
+				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'cookieFunction') } type="text" placeholder={__("e.g. store user ID", "complianz-gdpr")}  value={cookie.cookieFunction} />
+			</div>
+			<div className="cmplz-details-row">
+				<label>{__("Purpose", "complianz-gdpr")}</label>
+				<select disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'purpose') } value={cookie.purpose} >
+					<option key={-1} value={0}>{__("Select a purpose","complianz-gdpr")}</option>
+					{ purposesOptions.map((purpose, i) => <option key={i} value={purpose.name}>{purpose.name}</option>)}
+				</select>
+			</div>
+			{cdbLink &&
+				<div className="cmplz-details-row">
+					<a href={cdbLink} target="_blank">{__( "View cookie on cookiedatabase.org", "complianz-gdpr" )}</a>
+				</div>
+			}
+			<div className="cmplz-details-row cmplz-details-row__buttons">
+				<button disabled={saving} onClick={ ( e ) => onSaveHandler(cookie.ID) } className="button button-default">{__("Save", "complianz-gdpr")}</button>
+				<button className={"button button-default "+ deletedClass } onClick={ ( e ) => onDeleteHandler(cookie.ID) }>
+					{cookie.deleted==1 && __("Restore", "complianz-gdpr")}
+					{cookie.deleted!=1 && __("Delete", "complianz-gdpr")}
+				</button>
+			</div>
+		</>
+	);
+}
+/**
+ * Render a help notice in the sidebar
+ */
+const Cookie = (props) => {
+	const Icons = () => {
+		return (
+			<>
+				{props.cookie.complete && <Icon tooltip={__( "The data for this cookie is complete", "complianz-gdpr" )} name = 'success' color = 'green' />}
+				{!props.cookie.complete && <Icon tooltip={__( "This cookie has missing fields", "complianz-gdpr" )} name = 'times' color = 'red' />}
+				{props.cookie.sync && props.cookie.synced && <Icon tooltip={__( "This cookie has been synchronized with cookiedatabase.org.",'complianz-gdpr')} name = 'rotate' color = 'green'/>}
+				{!props.cookie.synced || !props.cookie.sync && <Icon tooltip={__( "This cookie is not synchronized with cookiedatabase.org.",'complianz-gdpr')} name = 'rotate-error' color = 'red'/>}
+
+				{props.cookie.showOnPolicy && <Icon tooltip={__( "This cookie will be on your Cookie Policy", "complianz-gdpr" )} name = 'file' color = 'green'/>}
+				{!props.cookie.showOnPolicy && <Icon tooltip={__( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" )}  name = 'file-disabled' color = 'grey'/>}
+
+				{props.cookie.old && <Icon tooltip={__( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" )} name = 'calendar-error' color = 'red' />}
+				{!props.cookie.old && <Icon tooltip={__( "This cookie has recently been detected", "complianz-gdpr" )} name = 'calendar' color = 'green' />}
+			</>
+		)
+	}
+
+	const getStyles = () => {
+		if (props.cookie.deleted!=1) return;
+
+		return Object.assign(
+			{},
+			{"backgroundColor": "var(--rsp-red-faded)"},
+		);
+	}
+
+	let comment = '';
+	if (props.cookie.deleted==1) {
+		comment =  " | "+__( 'Deleted', 'complianz-gdpr' );
+	} else if ( !props.cookie.showOnPolicy ) {
+		comment =  " | "+__( 'Admin, ignored', 'complianz-gdpr' );
+	} else if (props.cookie.isMembersOnly) {
+		comment = " | "+__( 'Logged in users only, ignored', 'complianz-gdpr' );
+	}
+	let description = props.cookie.name
+	return (
+		<>
+			<Panel summary={description} comment={comment} icons={Icons()} details={CookieDetails(props.cookie)} style={getStyles()}/>
+		</>
+
+	);
+
+}
+
+export default Cookie

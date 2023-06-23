@@ -33,13 +33,13 @@ add_filter( 'exactmetrics_get_option', 'cmplz_gadwp_options' , 10, 3 );
  * Set analytics as suggested stats tool in the wizard
  */
 
-function cmplz_gadwp_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+function cmplz_gadwp_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-analytics";
 	}
 	return $value;
 }
-add_filter( 'cmplz_default_value', 'cmplz_gadwp_set_default', 20, 2 );
+add_filter( 'cmplz_default_value', 'cmplz_gadwp_set_default', 20, 3 );
 
 /**
  * Add notice to tell a user to choose Analytics
@@ -76,13 +76,16 @@ add_filter( 'cmplz_warning_types', 'cmplz_gadwp_filter_warnings' );
  */
 
 function cmplz_gadwp_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
 
-	return $fields;
+	$index = cmplz_get_field_index('compile_statistics_more_info');
+	unset($fields[$index]['help']);
+	return  cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'UA_code',
+			'AW_code',
+			'consent-mode'
+		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_gadwp_filter_fields', 20, 1 );
 
@@ -90,7 +93,7 @@ add_filter( 'cmplz_fields', 'cmplz_gadwp_filter_fields', 20, 1 );
  * We remove some actions to integrate fully
  * */
 function cmplz_gadwp_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$banner_loader, 'get_statistics_script' ), 10 );
 }
 add_action( 'after_setup_theme', 'cmplz_gadwp_remove_scripts_others' );
 

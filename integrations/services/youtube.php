@@ -1,6 +1,5 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
-
 add_filter( 'cmplz_known_script_tags', 'cmplz_youtube_script' );
 function cmplz_youtube_script( $tags ) {
 	$tags[] = array(
@@ -59,11 +58,11 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 			if ( preg_match( $series_pattern, $src, $matches ) ) {
 				$series_id = $matches[1];
 
-				$youtube_id = get_transient("cmplz_youtube_videoseries_video_id_$series_id");
+				$youtube_id = cmplz_get_transient("cmplz_youtube_videoseries_video_id_$series_id");
 				if (!$youtube_id){
 					//we do a get on the url to retrieve the first video
 					$youtube_id = cmplz_youtube_get_video_id_from_series($src);
-					set_transient( "cmplz_youtube_videoseries_video_id_$series_id", $youtube_id, WEEK_IN_SECONDS );
+					cmplz_set_transient( "cmplz_youtube_videoseries_video_id_$series_id", $youtube_id, WEEK_IN_SECONDS );
 				}
 			} else{
 				$youtube_id = cmplz_youtube_get_video_id_from_series($src);
@@ -75,14 +74,14 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 		 * To lower the number of file exists checks, we cache the result.
 		 *
 		 * */
-		$new_src = get_transient( "cmplz_youtube_image_$youtube_id" );
+		$new_src = cmplz_get_transient( "cmplz_youtube_image_$youtube_id" );
 		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			$new_src = "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
 			if ( ! cmplz_remote_file_exists( $new_src ) ) {
 				$new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
 			}
 			$new_src = cmplz_download_to_site( $new_src, 'youtube' . $youtube_id );
-			set_transient( "cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS );
+			cmplz_set_transient( "cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS );
 		}
 	}
 

@@ -4,12 +4,21 @@
 }
 
 .cmplz-cookiebanner {
+  .optin {
+	.cmplz-categories.cmplz-tcf {
+	  display:block;
+	}
+  }
+  .optout {
+	.cmplz-categories.cmplz-tcf {
+	  display:none;
+	}
+  }
   .cmplz-categories:not(.cmplz-tcf),
   .cmplz-manage-third-parties,
   .cmplz-save-preferences,
   .cmplz-view-preferences,
-  .cmplz-manage-options,
-  .cmplz-deny {
+  .cmplz-manage-options {
 	display: none;
   }
   .cmplz-categories .cmplz-category .cmplz-category-header {

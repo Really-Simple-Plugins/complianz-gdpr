@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  *
  */
 
-if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 	add_filter( 'cmplz_known_script_tags', 'cmplz_happyforms_script' );
 	function cmplz_happyforms_script( $tags ) {
 		$tags[] = 'recaptchav3/frontend.js';

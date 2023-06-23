@@ -10,7 +10,7 @@ function cmplz_caos_script( $tags ) {
 			'gtag.js',
 			'ga.js',
 			'caos-analytics',
-			CAOS_OPT_CACHE_DIR,
+			'uploads/caos',
 			'caosLocalGa',
 			'CaosGtag',
 		),
@@ -24,7 +24,7 @@ function cmplz_caos_script( $tags ) {
  * */
 
 function cmplz_caos_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$banner_loader, 'get_statistics_script' ), 10 );
 }
 
 add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
@@ -39,20 +39,23 @@ add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
  */
 
 function cmplz_caos_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
-	return $fields;
+	$index = cmplz_get_field_index('compile_statistics_more_info');
+	unset($fields[$index]['help']);
+	return  cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'UA_code',
+			'AW_code',
+			'consent-mode'
+		]);
 }
 
 add_filter( 'cmplz_fields', 'cmplz_caos_filter_fields' );
 
 
-add_filter( 'cmplz_default_value', 'cmplz_caos_set_default', 20, 2 );
-function cmplz_caos_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+add_filter( 'cmplz_default_value', 'cmplz_caos_set_default', 20, 3 );
+function cmplz_caos_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-analytics";
 	}
 

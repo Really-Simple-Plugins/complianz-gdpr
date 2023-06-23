@@ -19,9 +19,9 @@ add_filter('cmplz_cookie_warning_required_stats', 'cmplz_wc_google_analytics_pro
  * Set analytics as suggested stats tool in the wizard
  */
 
-add_filter( 'cmplz_default_value', 'cmplz_wc_google_analytics_pro_set_default', 20, 2 );
-function cmplz_wc_google_analytics_pro_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+add_filter( 'cmplz_default_value', 'cmplz_wc_google_analytics_pro_set_default', 20, 3 );
+function cmplz_wc_google_analytics_pro_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-analytics";
 	}
 
@@ -101,12 +101,15 @@ add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_pro_sh
  */
 
 function cmplz_wc_google_analytics_pro_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
-	return $fields;
+	$index = cmplz_get_field_index('compile_statistics_more_info');
+	unset($fields[$index]['help']);
+	return  cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'UA_code',
+			'AW_code',
+			'consent-mode'
+		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_pro_filter_fields' );
 

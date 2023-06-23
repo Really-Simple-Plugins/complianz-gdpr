@@ -2,12 +2,17 @@
   --cmplz_bottom_banner_breakpoint: 768px;
   display: block;
 }
+.cmplz-cookiebanner .optin .cmplz-categories.cmplz-tcf {
+  display: block;
+}
+.cmplz-cookiebanner .optout .cmplz-categories.cmplz-tcf {
+  display: none;
+}
 .cmplz-cookiebanner .cmplz-categories:not(.cmplz-tcf),
 .cmplz-cookiebanner .cmplz-manage-third-parties,
 .cmplz-cookiebanner .cmplz-save-preferences,
 .cmplz-cookiebanner .cmplz-view-preferences,
-.cmplz-cookiebanner .cmplz-manage-options,
-.cmplz-cookiebanner .cmplz-deny {
+.cmplz-cookiebanner .cmplz-manage-options {
   display: none;
 }
 .cmplz-cookiebanner .cmplz-categories .cmplz-category .cmplz-category-header .cmplz-title {

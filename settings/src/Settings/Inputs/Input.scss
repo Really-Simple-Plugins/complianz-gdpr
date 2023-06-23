@@ -1,0 +1,31 @@
+.cmplz {
+	&-input-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rsp-spacing-xs);
+	}
+  //we don't want the border radius of radio buttons to change.
+  input:not([type="radio"]) {
+	border-radius: var(--rsp-border-radius-xs);
+  }
+	input {
+		//all: unset;
+		border: 1px solid var(--rsp-input-border-color);
+		padding: var(--rsp-spacing-xxs) var(--rsp-spacing-xs);
+		font-size: var(--rsp-fs-300);
+		line-height: 1.5;
+		color: var(--rsp-text-color-light);
+		background-color: var(--rsp-white);
+		outline: none;
+
+		&:focus {
+			border-color: var(--rsp-dark-blue);
+			box-shadow: 0 0 0 2px var(--rsp-dark-blue);
+		}
+
+		&:disabled {
+			background-color: var(--rsp-grey-200);
+			color: var(--rsp-grey-400);
+		}
+	}
+}
