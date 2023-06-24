@@ -18,13 +18,14 @@ const Statistics = () => {
 	},[]);
 
 	useEffect(() => {
-		if (consentType==='' || !loaded ) {
+		if ( consentType==='' || !loaded ) {
 			return;
 		}
 
-		if (!statisticsData.hasOwnProperty(consentType)) {
+		if ( !statisticsData || !statisticsData.hasOwnProperty(consentType) ) {
 			return;
 		}
+
 		let temp = [ ...statisticsData[consentType]['labels'] ];
 		//get categories
 		let categories = statisticsData[consentType]['categories'];
@@ -46,11 +47,11 @@ const Statistics = () => {
 		setLabels(temp);
 	},[loaded, consentType])
 
-
 	useEffect(() => {
-		if (consentType==='' || !loaded ) {
+		if ( consentType==='' || !loaded || !statisticsData ) {
 			return;
 		}
+
 		let data = statisticsData[consentType]['datasets'];
 		//get the dataset with default flag
 		let defaultDatasets = data.filter((dataset) => dataset.default);

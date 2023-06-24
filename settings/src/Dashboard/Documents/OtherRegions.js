@@ -1,5 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import Icon from "../../utils/Icon";
 import useDocuments from "./DocumentsData";
 const SingleDocument = ({document}) => {
 	const {region } = useDocuments();

@@ -126,7 +126,7 @@ if ( !function_exists('cmplz_sanitize_title_preserve_uppercase')) {
 	}
 }
 
-if ( ! function_exists( 'rsssl_is_networkwide_active' ) ) {
+if ( ! function_exists( 'cmplz_is_networkwide_active' ) ) {
 	/**
 	 * Check if we should treat the plugin as networkwide or not.
 	 * Note that this function returns false for single sites! Always use icw is_multisite()

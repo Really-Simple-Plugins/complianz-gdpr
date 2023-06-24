@@ -1,0 +1,53 @@
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/Settings/Inputs/CheckboxGroup.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
+.cmplz .cmplz-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rsp-spacing-xs);
+}
+.cmplz .cmplz-checkbox-group__item {
+  display: flex;
+  gap: var(--rsp-spacing-xs);
+  background-color: transparent;
+  align-items: flex-start;
+}
+.cmplz .cmplz-checkbox-group__item.cmplz-hidden {
+  display: none;
+}
+.cmplz .cmplz-checkbox-group__checkbox {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+  outline: 1px solid var(--rsp-input-border-color);
+  transition: background-color 0.2s ease-in-out;
+  margin-top: 2px;
+}
+.cmplz .cmplz-checkbox-group__checkbox:hover {
+  background-color: var(--rsp-dark-blue-faded);
+}
+.cmplz .cmplz-checkbox-group__checkbox:focus {
+  box-shadow: 0 0 0 3px var(--rsp-background-color), 0 0 0 5px var(--rsp-dark-blue);
+}
+.cmplz .cmplz-checkbox-group__checkbox:disabled {
+  background-color: var(--rsp-grey-300);
+  cursor: not-allowed;
+}
+.cmplz .cmplz-checkbox-group__checkbox:disabled + label {
+  cursor: not-allowed;
+}
+.cmplz .cmplz-checkbox-group__label {
+  font-size: var(--rsp-fs-300);
+  color: var(--rsp-text-color-light);
+}
+.cmplz .cmplz-checkbox-group .cmplz-button {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+/*# sourceMappingURL=src_Settings_Inputs_CheckboxGroup_scss.css.map*/

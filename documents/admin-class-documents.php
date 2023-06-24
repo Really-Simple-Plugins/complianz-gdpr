@@ -318,21 +318,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					];
 				}
 			}
-			$documents = apply_filters( 'cmplz_documents_block_data', $documents );
-			$processingAgreements = [];
-			$docs = get_posts(
-					array(
-							'post_type' => 'cmplz-processing',
-							'post_status' => 'publish',
-					)
-			);
-			foreach ( $docs as $doc ) {
-				$processingAgreements[] = [
-						'label' => $doc->post_title,
-						'value' => COMPLIANZ::$processing->download_url($doc->ID),
-				];
-			}
 
+			$documents = apply_filters( 'cmplz_documents_block_data', $documents );
 			$proofOfConsentDocuments = [];
 			$docs = COMPLIANZ::$document->get_cookie_snapshot_list();
 			foreach ( $docs as $doc ) {
@@ -347,28 +334,11 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				];
 			}
 
-			$dataBreachDocuments = [];
-			$docs = get_posts( array(
-					'post_type' => 'cmplz-dataleak',
-					'post_status' => 'publish',
-				)
-			);
-
-			foreach ( $docs as $doc ) {
-				if ( !COMPLIANZ::$dataleak->dataleak_has_to_be_reported_to_involved($doc->ID) ) {
-					continue;
-				}
-				$dataBreachDocuments[] = [
-						'label' => $doc->post_title,
-						'value' => COMPLIANZ::$dataleak->download_url($doc->ID),
-				];
-			}
-
 			return [
 					'documents' => $documents,
-					'processingAgreementOptions' => $processingAgreements,
+					'processingAgreementOptions' => apply_filters('cmplz_tools_processing_agreements', []),
 					'proofOfConsentOptions' => $proofOfConsentDocuments,
-					'dataBreachOptions' => $dataBreachDocuments,
+					'dataBreachOptions' => apply_filters('cmplz_tools_databreaches', []),
 				];
 		}
 

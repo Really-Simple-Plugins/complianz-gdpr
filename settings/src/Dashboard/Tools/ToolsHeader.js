@@ -26,7 +26,7 @@ const ToolsHeader = () => {
 				{ !consentStatisticsEnabled && __( "Tools", 'complianz-gdpr' ) }
 			</h3>
 			<div className="cmplz-grid-item-controls">
-				{consentStatisticsEnabled && consentTypes.length>1 && <select onChange={(e) => setConsentType(e.target.value)} value={consentType}>
+				{consentStatisticsEnabled && consentTypes && consentTypes.length>1 && <select onChange={(e) => setConsentType(e.target.value)} value={consentType}>
 					{consentTypes.map((type, i) =>
 						<option key={i} value={type.id} >{type.label}</option>)}
 				</select>}

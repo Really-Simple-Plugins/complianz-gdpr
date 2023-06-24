@@ -1,0 +1,26 @@
+/*!******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/Settings/ColorPicker/ColorPicker.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************/
+.cmplz-color-picker-control button {
+  margin-right: 10px;
+  background-color: transparent;
+  border-radius: 6px;
+  border: 1px solid var(--rsp-grey-400);
+  min-width: 140px;
+  font-size: 13px;
+}
+.cmplz-color-picker-control .cmplz-color-picker-control-item {
+  cursor: pointer;
+  display: flex;
+  padding: 5px;
+  gap: 14px;
+  align-items: center;
+}
+.cmplz-color-picker-control .cmplz-color-picker-control-item .cmplz-color-picker-color {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--rsp-grey-300);
+}
+
+/*# sourceMappingURL=src_Settings_ColorPicker_ColorPicker_scss.css.map*/

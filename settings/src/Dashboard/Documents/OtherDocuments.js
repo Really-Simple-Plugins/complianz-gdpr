@@ -4,7 +4,6 @@ import {
 } from '@wordpress/element';
 import useDocuments from "./DocumentsData";
 import useFields from "../../Settings/Fields/FieldsData";
-import useOtherPlugins from "../OtherPlugins/OtherPluginsData";
 import SingleDocument from "./SingleDocument";
 
 const OtherDocuments = () => {
