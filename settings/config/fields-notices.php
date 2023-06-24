@@ -196,7 +196,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 			];
 		}
 
-		if (  cmplz_iab_is_enabled() ) {
+		if (  cmplz_tcf_active() ) {
 			$notices[] = [
 				'field_id' => 'cookie-statement',
 				'label'    => 'default',

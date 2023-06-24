@@ -98,6 +98,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$documents_admin = new cmplz_documents_admin();
 				self::$wizard          = new cmplz_wizard();
 				self::$onboarding      = new cmplz_onboarding();
+				self::$sync               = new cmplz_sync();
 			}
 
 			if (cmplz_admin_logged_in() || cmplz_scan_in_progress() ) {

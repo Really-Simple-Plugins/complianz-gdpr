@@ -1,1 +1,0 @@
-{"version":3,"file":"src_Settings_PlaceholderPreview_PlaceholderPreview_js.css","mappings":";;;AAAA;EACC;AACD;AAAE;EACD;EACA;AAED,C","sources":["webpack://complianz-gdpr/./src/Settings/PlaceholderPreview/PlaceholderPreview.scss"],"sourcesContent":[".cmplz-placeholder-preview {\n\tdisplay:flex;\n  img {\n\twidth:400px;\n\tmargin:auto;\n  }\n}\n"],"names":[],"sourceRoot":""}

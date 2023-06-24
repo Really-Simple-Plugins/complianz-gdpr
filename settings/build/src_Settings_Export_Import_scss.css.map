@@ -1,1 +1,0 @@
-{"version":3,"file":"src_Settings_Export_Import_scss.css","mappings":";;;AAAA;EACE;AACF;AAAE;EACD;EACA;EACA;AAED,C","sources":["webpack://complianz-gdpr/./src/Settings/Export/Import.scss"],"sourcesContent":[".cmplz-import-form{\n  display:flex;\n  .cmplz-import-button-container{\n\tmargin-left: auto;\n\tdisplay: flex;\n\tgap: 10px;  }\n}\n"],"names":[],"sourceRoot":""}

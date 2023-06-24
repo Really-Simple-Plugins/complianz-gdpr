@@ -8,7 +8,6 @@ function cmplz_integrations_services_fields($fields){
 			'id'                      => 'integrations-services',
 			'menu_id'                 => 'integrations-services',
 			'type'                    => 'integrations-services',
-			'label'                   => __( "Services", 'complianz-gdpr' ),
 			'help'             => [
 				'label' => 'default',
 				'title' => __( "Developers and custom implementations", 'complianz-gdpr' ),
@@ -20,13 +19,11 @@ function cmplz_integrations_services_fields($fields){
 			'id'                      => 'integrations-plugins',
 			'menu_id'                 => 'integrations-plugins',
 			'type'                    => 'integrations-plugins',
-			'label'                   => __( "Plugins", 'complianz-gdpr' ),
 		],
 		[
 			'id'                      => 'integrations-script-center',
 			'menu_id'                 => 'integrations-script-center',
 			'type'                    => 'integrations-script-center',
-			'label'                   => __( "Script Center", 'complianz-gdpr' ),
 		],
 
 	]);

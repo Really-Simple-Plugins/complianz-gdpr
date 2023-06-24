@@ -311,8 +311,10 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 			</div>
 		);
 	}
-	if (Component == null) {
-		return <div>Not found field type {field.type}.</div>;
+
+	if ( Component == null ) {
+		return <div></div>;
 	}
+
 };
 export default React.memo(Field);

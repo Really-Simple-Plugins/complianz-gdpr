@@ -1,24 +1,23 @@
 import { __ } from '@wordpress/i18n';
 import useDocuments from "./DocumentsData";
-const SingleDocument = ({document}) => {
+const SingleDocument = ({document, index}) => {
 	const {region } = useDocuments();
 	let regions = document.regions.filter( (docRegion) => docRegion !== region);
 
 	return (
-		<>
-			<div className="cmplz-single-document-other-regions">
-					<a href={document.readmore} target="_blank">{document.title}</a>
-					{ regions.map( (region, i)=> <>
-						<div key={i} className="cmplz-region-indicator">
-							<img alt={region} width="16px" height="16px" src={cmplz_settings.plugin_url + "/assets/images/"+region+".svg"} />
-						</div>
-					</> )}
-			</div>
-		</>
+
+		<div key={index} className="cmplz-single-document-other-regions">
+				<a href={document.readmore} target="_blank">{document.title}</a>
+				{ regions.map( (region, i)=> <>
+					<div key={i} className="cmplz-region-indicator">
+						<img alt={region} width="16px" height="16px" src={cmplz_settings.plugin_url + "/assets/images/"+region+".svg"} />
+					</div>
+				</> )}
+		</div>
+
 	);
 }
-const OtherRegions = (props) => {
-
+const OtherRegions = () => {
 	const documents = [
 		{
 			id: 'privacy-statement',
@@ -58,7 +57,7 @@ const OtherRegions = (props) => {
 			<div className="cmplz-document-header">
 				<h3 className="cmplz-h4">{__("Other regions")}</h3><a href="https://complianz.io/features/" target="_blank">{__("Read more","complianz-gdpr")}</a>
 			</div>
-			{ documents.map( (document, i)=> <SingleDocument key={i} document={document}/> )}
+			{ documents.map( (document, i)=> <SingleDocument key={i} index={i} document={document}/> )}
 		</>
 
 	)

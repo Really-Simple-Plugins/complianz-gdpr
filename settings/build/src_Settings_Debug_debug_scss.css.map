@@ -1,1 +1,0 @@
-{"version":3,"file":"src_Settings_Debug_debug_scss.css","mappings":";;;AAAA;EACE;EACA;AACF,C","sources":["webpack://complianz-gdpr/./src/Settings/Debug/debug.scss"],"sourcesContent":[".cmplz-debug-data-container {\n  padding: 10px;\n  background-color: var(--rsp-grey-300);\n}\n"],"names":[],"sourceRoot":""}

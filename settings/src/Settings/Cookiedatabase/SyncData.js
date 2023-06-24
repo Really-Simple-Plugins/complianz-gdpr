@@ -55,8 +55,8 @@ export const UseSyncData = create(( set, get ) => ({
 		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages} = await fetchSyncProgressData(false);
 
 		let language = get().language ? get().language : defaultLanguage;
-		let purposesByLanguage = purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
-		let serviceTypesByLanguage = serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
+		let purposesByLanguage = purposesOptions && purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
+		let serviceTypesByLanguage = serviceTypeOptions && serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
 		set({
 			loadingSyncData: false,
 			language: language,
@@ -336,6 +336,7 @@ const fetchSyncProgressData = (restart) => {
 	}
 
 	return cmplz_api.doAction('sync', data).then((response) => {
+		console.log(response);
 		let syncProgress = response.progress;
 		let curlExists = response.curl_exists;
 		let cookies = response.cookies;

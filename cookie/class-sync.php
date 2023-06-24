@@ -1018,7 +1018,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			$languages = COMPLIANZ::$banner_loader->get_supported_languages();
 			$out = [];
 			foreach ($languages as $language ) {
-				$cookiePurposes = false;//get_option( "cmplz_purposes_$language" );
+				$cookiePurposes = get_option( "cmplz_purposes_$language" );
 
 				if ( !$cookiePurposes ) {
 					$endpoint = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/cookiepurposes/' . $language;
