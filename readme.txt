@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 6.4.7
+Stable tag: 6.5.0
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -174,6 +174,14 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.5.0 =
+* New: placeholders converted to wepb, loaded with lazyloading
+* Fix: CAOS host analytics locally integration fixed after constant was dropped
+* Fix: DNT caused wp_has_consent to always return false, which should not be the case if consent is given on a service specifically
+* Fix: no rt_ prefix on Tag Manager events
+* Fix: PHP 8.2 warnings of dynamically created properties
+* Fix: When TCF active, in some cases this could cause a cmpmlz_accept_all not defined error
+
 = 6.4.7 =
 * June 14th, 2023
 * Fix: WordPress 6.2 version moved the Privacy Policy function to a different file. Added fallback for older versions.
