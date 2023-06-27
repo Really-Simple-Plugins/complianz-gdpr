@@ -175,6 +175,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.5.0 =
+* 04-07-2023
 * New: placeholders converted to wepb, loaded with lazyloading, props @james-feaver, @asafm7
 * Fix: CAOS host analytics locally integration fixed after constant was dropped
 * Fix: DNT caused wp_has_consent to always return false, which should not be the case if consent is given on a service specifically
