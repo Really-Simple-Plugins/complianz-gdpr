@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.4.9\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-13T18:51:55+00:00\n"
+"POT-Creation-Date: 2023-06-27T09:23:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -584,12 +584,12 @@ msgid "Add new cookie"
 msgstr ""
 
 #: class-field.php:2059
-#: cookie/class-cookie-admin.php:3629
+#: cookie/class-cookie-admin.php:3632
 msgid "Cookies in %s"
 msgstr ""
 
 #: class-field.php:2059
-#: cookie/class-cookie-admin.php:3629
+#: cookie/class-cookie-admin.php:3632
 msgid "Services in %s"
 msgstr ""
 
@@ -698,7 +698,7 @@ msgstr ""
 #: class-field.php:2490
 #: class-field.php:2839
 #: config/steps.php:60
-#: cookiebanner/class-cookiebanner.php:834
+#: cookiebanner/class-cookiebanner.php:843
 #: cookiebanner/settings.php:754
 #: cookiebanner/settings.php:755
 #: cookiebanner/settings.php:756
@@ -714,7 +714,7 @@ msgstr ""
 
 #: class-field.php:2501
 #: class-field.php:2850
-#: cookiebanner/class-cookiebanner.php:838
+#: cookiebanner/class-cookiebanner.php:847
 #: cookiebanner/settings.php:791
 #: cookiebanner/settings.php:792
 #: cookiebanner/settings.php:793
@@ -4020,7 +4020,7 @@ msgid "Consent"
 msgstr ""
 
 #: config/steps.php:54
-#: cookie/class-cookie-admin.php:3538
+#: cookie/class-cookie-admin.php:3541
 msgid "Cookie scan"
 msgstr ""
 
@@ -4271,59 +4271,59 @@ msgid "Create"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:2905
-#: functions.php:2212
+#: functions.php:2248
 msgid "Purpose pending investigation"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3209
+#: cookie/class-cookie-admin.php:3212
 #: DNSMPD/class-DNSMPD-table.php:291
 #: DNSMPD/csv.php:73
 msgid "%s at %s"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3229
+#: cookie/class-cookie-admin.php:3232
 msgid "(not synced yet)"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3317
+#: cookie/class-cookie-admin.php:3320
 msgid "No cookies detected"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3320
+#: cookie/class-cookie-admin.php:3323
 msgid "The scan found %s cookie on your domain."
 msgid_plural "The scan found %s cookies on your domain."
 msgstr[0] ""
 msgstr[1] ""
 
-#: cookie/class-cookie-admin.php:3321
+#: cookie/class-cookie-admin.php:3324
 msgid "Continue the wizard to categorize cookies and configure consent."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3333
+#: cookie/class-cookie-admin.php:3336
 msgid "Nothing found yet."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3525
+#: cookie/class-cookie-admin.php:3528
 msgid "Scan"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3532
+#: cookie/class-cookie-admin.php:3535
 msgid "Are you sure? This will permanently delete the list of cookies."
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3533
+#: cookie/class-cookie-admin.php:3536
 msgid "Clear cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3577
+#: cookie/class-cookie-admin.php:3580
 msgid "Sync"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3597
+#: cookie/class-cookie-admin.php:3600
 msgid "Show deleted cookies"
 msgstr ""
 
-#: cookie/class-cookie-admin.php:3600
+#: cookie/class-cookie-admin.php:3603
 msgid "Syncing..."
 msgstr ""
 
@@ -4393,37 +4393,37 @@ msgstr ""
 msgid "conversion"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:204
+#: cookiebanner/class-cookiebanner.php:213
 msgid "New cookie banner"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:325
+#: cookiebanner/class-cookiebanner.php:334
 #: cookiebanner/settings.php:98
 #: cookiebanner/settings.php:99
 #: cookiebanner/settings.php:109
 msgid "Manage consent"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:819
+#: cookiebanner/class-cookiebanner.php:828
 msgid "Do Not Track"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:820
+#: cookiebanner/class-cookiebanner.php:829
 msgid "No choice"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:824
+#: cookiebanner/class-cookiebanner.php:833
 msgid "No warning"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:827
+#: cookiebanner/class-cookiebanner.php:836
 #: cookiebanner/settings.php:714
 #: cookiebanner/settings.php:715
 #: cookiebanner/settings.php:716
 msgid "Functional"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:830
+#: cookiebanner/class-cookiebanner.php:839
 #: cookiebanner/settings.php:731
 #: cookiebanner/settings.php:732
 #: cookiebanner/settings.php:733
@@ -4432,17 +4432,17 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1311
+#: cookiebanner/class-cookiebanner.php:1320
 msgctxt "as in: click to accept statistics cookies"
 msgid "statistics"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1311
+#: cookiebanner/class-cookiebanner.php:1320
 msgctxt "as in: click to accept marketing cookies"
 msgid "marketing"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1314
+#: cookiebanner/class-cookiebanner.php:1323
 msgid "Click button to enable {service}"
 msgstr ""
 
@@ -5172,30 +5172,30 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2180
+#: functions.php:2216
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2187
-#: functions.php:2197
+#: functions.php:2223
+#: functions.php:2233
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2189
-#: functions.php:2194
+#: functions.php:2225
+#: functions.php:2230
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2199
+#: functions.php:2235
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2202
+#: functions.php:2238
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2209
+#: functions.php:2245
 #: pro/records-of-consent/class-records-of-consent.php:374
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:254
@@ -5210,19 +5210,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2709
+#: functions.php:2745
 #: pro/records-of-consent/class-records-of-consent-table.php:235
 #: pro/tcf/tcf.php:929
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2711
+#: functions.php:2747
 #: pro/records-of-consent/class-records-of-consent-table.php:238
 #: pro/tcf/tcf.php:928
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2713
+#: functions.php:2749
 msgid "All consent types"
 msgstr ""
 

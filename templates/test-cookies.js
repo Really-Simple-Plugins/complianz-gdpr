@@ -28,11 +28,11 @@
 
 	function get_localstorage_array() {
 		let lstorage = {};
-		for (i = 0; i < localStorage.length; i++) {
+		for (let i = 0; i < localStorage.length; i++) {
 
 			lstorage[localStorage.key(i)] = localStorage.key(i);
 		}
-		for (i = 0; i < sessionStorage.length; i++) {
+		for (let i = 0; i < sessionStorage.length; i++) {
 			lstorage[sessionStorage.key(i)] = sessionStorage.key(i);
 		}
 		return lstorage;
@@ -42,7 +42,7 @@
 		let cookies = {};
 		if ( document.cookie && document.cookie != '' ) {
 			var split = document.cookie.split(';');
-			for (var i = 0; i < split.length; i++) {
+			for (let i = 0; i < split.length; i++) {
 				var name_value = split[i].split("=");
 				name_value[0] = name_value[0].replace(/^ /, '');
 				cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);

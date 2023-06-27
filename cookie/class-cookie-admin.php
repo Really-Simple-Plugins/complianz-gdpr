@@ -3144,6 +3144,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( function_exists( 'icl_register_string' ) ) {
 				$wpml = apply_filters( 'wpml_active_languages', null,
 					array( 'skip_missing' => 0 ) );
+				if ( !is_array($wpml) ){
+					$wpml = [];
+				}
 				/**
 				 * WPML has changed the index from 'language_code' to 'code' so
 				 * we check for both.

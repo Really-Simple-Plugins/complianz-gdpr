@@ -183,6 +183,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $set_defaults;
 		public $disable_width_correction;
 		public $legal_documents;
+		public $accept_all;
+		public $readmore_optin;
+		public $tagmanager_categories;
+		public $use_categories_optinstats;
+		public $hide_revoke;
+		public $readmore_optout;
+		public $readmore_optout_dnsmpi;
+		public $readmore_privacy;
+		public $readmore_impressum;
 
         function __construct( $ID = false, $set_defaults = true ) {
 	        $this->translation_id = $this->get_translation_id();

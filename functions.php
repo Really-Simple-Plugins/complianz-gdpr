@@ -2086,11 +2086,47 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 			unlink( $tmpfile );
 		} // must unlink afterwards
 
+		try {
+			$new_src = cmplz_create_webp($file, $new_src);
+		} catch ( Exception $e ) {
+			if ( defined('WP_DEBUG') && WP_DEBUG ) {
+				error_log( $e->getMessage() );
+			}
+		}
+
 		if ( ! file_exists( $file ) ) {
 			return cmplz_default_placeholder();
 		}
 
 		return $new_src;
+	}
+}
+
+if (!function_exists('cmplz_create_webp')){
+	function cmplz_create_webp($file, $new_src) {
+		switch ( $file ) {
+			case str_contains( $file, '.jpeg' ):
+			case str_contains( $file, '.jpg' ):
+				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
+				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
+				error_log("create jpg webp");
+				$image = imagecreatefromjpeg( $file );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			case str_contains( $file, 'png' ):
+				$webp_file = str_replace( '.png', ".webp", $file );
+				$webp_new_src = str_replace( '.png', ".webp", $new_src );
+				$image = imagecreatefrompng( $file );
+				imagepalettetotruecolor( $image );
+				imagealphablending( $image, true );
+				imagesavealpha( $image, true );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			default:
+				return $new_src;
+		}
 	}
 }
 

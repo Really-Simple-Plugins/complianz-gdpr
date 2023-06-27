@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 if ( !class_exists('cmplz_installer') ){
 	class cmplz_installer {
 		private $slug = '';
+		public string $action;
+
 		public function __construct($slug) {
 			if ( !current_user_can('install_plugins')) return;
 
