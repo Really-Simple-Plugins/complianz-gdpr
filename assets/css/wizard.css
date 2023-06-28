@@ -811,14 +811,8 @@
 .cmplz-settings textarea {
   padding: 10px;
 }
-.cmplz-wizard ::-moz-placeholder, .cmplz-settings ::-moz-placeholder {
-  color: #dadada;
-}
 .cmplz-wizard ::placeholder,
 .cmplz-settings ::placeholder {
-  color: #dadada;
-}
-.cmplz-wizard ::-moz-placeholder, .cmplz-settings ::-moz-placeholder {
   color: #dadada;
 }
 .cmplz-wizard ::placeholder,
@@ -1036,6 +1030,8 @@ a.button.cmplz-open-modal {
 .cmplz-slide-panel .cmplz-checkbox .cmplz-label:before,
 .cmplz-slide-panel .cmplz-checkbox .cmplz-label:after {
   position: absolute;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border-radius: 10px;
   transition: background-color 0.3s, left 0.3s;
 }
@@ -1052,6 +1048,8 @@ a.button.cmplz-open-modal {
   top: -7px;
   height: 15px;
   width: 28px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border-radius: 10px;
 }
 .cmplz-slide-panel .cmplz-checkbox .cmplz-label:after {
@@ -1069,6 +1067,9 @@ a.button.cmplz-open-modal {
   content: '';
   background: url(../images/chevron-down.svg) no-repeat;
   transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   height: 18px;
   width: 18px;
@@ -1133,7 +1134,6 @@ a.button.cmplz-open-modal {
   border: #61CE70;
   margin-left: -20px;
   padding: 5px 15px 5px 5px;
-  width: -moz-fit-content;
   width: fit-content;
 }
 .cmplz-slide-panel.cmplz-warning {
@@ -1189,6 +1189,7 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #ccc;
+  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz-slider:before {
@@ -1199,6 +1200,7 @@ a.button.cmplz-open-modal {
   left: 4px;
   bottom: 3px;
   background-color: white;
+  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz-slider.cmplz-round {
@@ -1215,6 +1217,7 @@ a.button.cmplz-open-modal {
   right: 0;
   bottom: 0;
   background-color: #ccc;
+  -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 .cmplz-slider-na:before {
@@ -1229,6 +1232,8 @@ input:checked + .cmplz-slider {
   background-color: #009fff;
 }
 input:checked + .cmplz-slider:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
   transform: translateX(17px);
 }
 input:disabled + .cmplz-slider {
@@ -1657,18 +1662,22 @@ input.current-page {
 }
 @keyframes slideInUpCenter {
   from {
+    -webkit-transform: translate3d(0, 150%, 0);
     transform: translate3d(0, 150%, 0);
   }
   to {
+    -webkit-transform: translate3d(0, -50%, 0);
     transform: translate3d(0, -50%, 0);
   }
 }
 @keyframes slideOutUpCenter {
   to {
+    -webkit-transform: translate3d(0, 150%, 0);
     transform: translate3d(0, 150%, 0);
     opacity: 1;
   }
   from {
+    -webkit-transform: translate3d(0, -50%, 0);
     transform: translate3d(0, -50%, 0);
     opacity: 1;
   }
@@ -1720,9 +1729,6 @@ input.current-page {
 #cmplz-proof-of-consent .cmplz-content-area .wp-list-table th a,
 #cmplz-cookie-banner .cmplz-content-area .wp-list-table th a {
   padding: 15px;
-}
-#cmplz_license_key {
-  margin-bottom: 20px;
 }
 .cmplz-status-info {
   display: flex;
@@ -1850,7 +1856,91 @@ input.current-page {
 }
 .cmplz-settings-saved.cmplz-settings-saved--fade-in {
   display: block;
+  -webkit-animation: fadeInFromNone 5s ease-in-out;
+  -moz-animation: fadeInFromNone 5s ease-in-out;
+  -o-animation: fadeInFromNone 5s ease-in-out;
   animation: fadeInFromNone 5s ease-in-out;
+}
+@-webkit-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
+  5% {
+    display: block;
+    opacity: 0;
+    top: -10px;
+  }
+  15% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  90% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
+}
+@-moz-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
+  5% {
+    display: block;
+    opacity: 0;
+    top: -10px;
+  }
+  15% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  90% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
+}
+@-o-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
+  5% {
+    display: block;
+    opacity: 0;
+    top: -10px;
+  }
+  15% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  90% {
+    display: block;
+    opacity: 1;
+    top: 20px;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+    top: 20px;
+  }
 }
 @keyframes fadeInFromNone {
   0% {
@@ -1931,3 +2021,4 @@ input.current-page {
     grid-template-columns: 100%;
   }
 }
+/*# sourceMappingURL=wizard.css.map */

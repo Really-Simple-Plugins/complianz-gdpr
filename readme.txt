@@ -181,7 +181,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: DNT caused wp_has_consent to always return false, which should not be the case if consent is given on a service specifically
 * Fix: no rt_ prefix on Tag Manager events
 * Fix: PHP 8.2 warnings of dynamically created properties
-* Fix: When TCF active, in some cases this could cause a cmpmlz_accept_all not defined error
+* Fix: When TCF active, in some cases this could cause a cmlz_accept_all not defined error
 * Fix: Fatal error in Wizard when using "Falang", props @chabass
 * Fix: cookies can not able to run in some cases due to missing variable declarations, props @sira1967
 

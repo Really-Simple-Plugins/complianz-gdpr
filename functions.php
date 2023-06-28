@@ -2109,7 +2109,6 @@ if (!function_exists('cmplz_create_webp')){
 			case str_contains( $file, '.jpg' ):
 				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
 				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
-				error_log("create jpg webp");
 				$image = imagecreatefromjpeg( $file );
 				imagewebp( $image, $webp_file, 80 );
 				imagedestroy( $image );

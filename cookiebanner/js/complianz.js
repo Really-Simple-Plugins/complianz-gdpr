@@ -882,7 +882,16 @@ function cmplz_run_tm_event(category) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
 		window.dataLayer.push({
-			'event': complianz.prefix+'event_'+category
+			'event': complianz.prefix+'event_'+category,
+		});
+
+		//deprecated notice for 7.0
+		if (complianz.prefix.indexOf('rt_')!==-1) {
+			console.log('Tag Manager events with prefix rt_ will be deprecated in 7.0. The rt_ prefix will be dropped.');
+		}
+
+		window.dataLayer.push({
+			'event': 'event_'+category
 		});
 		let event = new CustomEvent('cmplz_tag_manager_event', { detail: category });
 		document.dispatchEvent(event);
