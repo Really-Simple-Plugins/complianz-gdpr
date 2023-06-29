@@ -384,7 +384,6 @@ const cmplzLazyLoader = () => {
 				const element = entry.target;
 				let src = element.getAttribute('data-placeholder-image');
 				let index = element.getAttribute('data-placeholder_class_index');
-				console.log('load image',src);
 				cmplz_append_css('.cmplz-placeholder-' + index + ' {background-image: url(' + src + ') !important;}');
 				cmplz_set_blocked_content_container_aspect_ratio(element, src, index);
 				// Stop observing the element
@@ -881,17 +880,16 @@ function cmplz_run_tm_event(category) {
 	if (cmplz_fired_events.indexOf(category) === -1) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
-		window.dataLayer.push({
-			'event': complianz.prefix+'event_'+category,
-		});
-
 		//deprecated notice for 7.0
 		if (complianz.prefix.indexOf('rt_')!==-1) {
-			console.log('Tag Manager events with prefix rt_ will be deprecated in 7.0. The rt_ prefix will be dropped.');
+			window.dataLayer.push({
+				'event': complianz.prefix+'event_'+category,
+			});
+			console.log('Tag Manager events with prefix rt_ will be deprecated in 7.0. The rt_ prefix will be dropped from Tag Manager events.');
 		}
 
 		window.dataLayer.push({
-			'event': 'event_'+category
+			'event': 'cmplz_event_'+category
 		});
 		let event = new CustomEvent('cmplz_tag_manager_event', { detail: category });
 		document.dispatchEvent(event);

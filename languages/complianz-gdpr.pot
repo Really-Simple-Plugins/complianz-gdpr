@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-27T09:44:19+00:00\n"
+"POT-Creation-Date: 2023-06-28T11:55:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -177,13 +177,13 @@ msgstr ""
 
 #: class-admin.php:75
 #: class-admin.php:76
-#: class-admin.php:842
+#: class-admin.php:847
 #: upgrade/upgrade-to-pro.php:190
 msgid "Installed"
 msgstr ""
 
 #: class-admin.php:75
-#: class-admin.php:839
+#: class-admin.php:844
 #: pro/templates/dashboard/documents-conditional.php:10
 #: templates/dashboard/documents-conditional.php:41
 #: upgrade/upgrade-to-pro.php:146
@@ -196,84 +196,84 @@ msgstr ""
 msgid "Data successfully cleared"
 msgstr ""
 
-#: class-admin.php:389
+#: class-admin.php:394
 msgid "Copied!"
 msgstr ""
 
-#: class-admin.php:408
-#: class-admin.php:1014
+#: class-admin.php:413
+#: class-admin.php:1019
 #: cookiebanner/settings.php:491
 #: integrations/integrations-menu.php:50
-#: pro/class-licensing.php:475
-#: pro/class-licensing.php:579
+#: pro/class-licensing.php:505
+#: pro/class-licensing.php:609
 #: templates/dashboard/tools.php:65
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:415
+#: class-admin.php:420
 #: templates/dashboard/tools-footer.php:1
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:421
-#: class-admin.php:796
-#: config/class-config.php:709
+#: class-admin.php:426
+#: class-admin.php:801
+#: config/class-config.php:693
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:478
+#: class-admin.php:483
 msgid "Dismiss"
 msgstr ""
 
-#: class-admin.php:743
+#: class-admin.php:748
 msgid "Complianz %s"
 msgstr ""
 
-#: class-admin.php:749
+#: class-admin.php:754
 msgid "Complianz"
 msgstr ""
 
-#: class-admin.php:760
-#: class-admin.php:761
+#: class-admin.php:765
+#: class-admin.php:766
 #: shepherd/tour.php:73
 msgid "Dashboard"
 msgstr ""
 
-#: class-admin.php:769
-#: class-admin.php:770
+#: class-admin.php:774
+#: class-admin.php:775
 msgid "Wizard"
 msgstr ""
 
-#: class-admin.php:821
+#: class-admin.php:826
 #: pro/class-licensing.php:141
 #: pro/dataleak/class-dataleak.php:551
 #: pro/processing-agreements/class-processing.php:240
 msgid "You have activated the Multisite plugin on a non-Multisite environment. Please download the regular Complianz Premium plugin %svia your account%s and install it instead"
 msgstr ""
 
-#: class-admin.php:823
+#: class-admin.php:828
 #: pro/dataleak/class-dataleak.php:553
 #: pro/processing-agreements/class-processing.php:242
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:845
+#: class-admin.php:850
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: class-admin.php:862
+#: class-admin.php:867
 msgid "All tasks (%s)"
 msgstr ""
 
-#: class-admin.php:864
+#: class-admin.php:869
 msgid "Remaining tasks (%s)"
 msgstr ""
 
-#: class-admin.php:870
+#: class-admin.php:875
 msgid "Your progress"
 msgstr ""
 
-#: class-admin.php:877
+#: class-admin.php:882
 #: config/steps.php:21
 #: config/steps.php:98
 #: pro/config/steps.php:21
@@ -281,23 +281,23 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: class-admin.php:880
+#: class-admin.php:885
 msgid "Last update"
 msgstr ""
 
-#: class-admin.php:885
+#: class-admin.php:890
 msgid "Tools"
 msgstr ""
 
-#: class-admin.php:893
+#: class-admin.php:898
 msgid "Tips & Tricks"
 msgstr ""
 
-#: class-admin.php:901
+#: class-admin.php:906
 msgid "Other plugins"
 msgstr ""
 
-#: class-admin.php:979
+#: class-admin.php:984
 #: config/steps.php:8
 #: cookiebanner/edit.php:39
 #: cookiebanner/settings.php:338
@@ -311,16 +311,16 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: class-admin.php:987
+#: class-admin.php:992
 #: pro/config/steps.php:105
 msgid "Data"
 msgstr ""
 
-#: class-admin.php:996
+#: class-admin.php:1001
 msgid "Cookies"
 msgstr ""
 
-#: class-admin.php:1004
+#: class-admin.php:1009
 msgid "Advanced features"
 msgstr ""
 
@@ -547,6 +547,7 @@ msgstr ""
 #: class-field.php:3067
 #: class-wizard.php:114
 #: class-wizard.php:741
+#: pro/templates/license/footer.php:2
 #: templates/CMPLZ_COOKIEBANNER/footer.php:2
 #: templates/cookie_settings.php:87
 #: templates/integrations/footer.php:3
@@ -703,8 +704,8 @@ msgstr ""
 #: cookiebanner/settings.php:755
 #: cookiebanner/settings.php:756
 #: pro/class-statistics.php:782
-#: pro/tcf/tcf.php:720
-#: pro/tcf/tcf.php:727
+#: pro/tcf/tcf.php:724
+#: pro/tcf/tcf.php:731
 #: pro/templates/cookiebanner-tcf.php:6
 #: pro/templates/tcf-categories.php:6
 #: gutenberg/build/index.js:1
@@ -718,8 +719,8 @@ msgstr ""
 #: cookiebanner/settings.php:791
 #: cookiebanner/settings.php:792
 #: cookiebanner/settings.php:793
-#: pro/tcf/tcf.php:722
-#: pro/tcf/tcf.php:730
+#: pro/tcf/tcf.php:726
+#: pro/tcf/tcf.php:734
 #: pro/templates/cookiebanner-tcf.php:13
 #: pro/templates/tcf-categories.php:14
 #: gutenberg/build/index.js:1
@@ -889,8 +890,8 @@ msgstr ""
 #: config/questions-wizard.php:799
 #: integrations/plugins/elementor-pro/elementor-pro.php:188
 #: pro/config/questions-wizard.php:725
-#: pro/tcf/tcf.php:693
-#: pro/tcf/tcf.php:697
+#: pro/tcf/tcf.php:695
+#: pro/tcf/tcf.php:699
 msgid "Yes"
 msgstr ""
 
@@ -903,8 +904,8 @@ msgstr ""
 #: integrations/plugins/elementor-pro/elementor-pro.php:189
 #: pro/config/questions-wizard.php:726
 #: pro/config/questions-wizard.php:796
-#: pro/tcf/tcf.php:693
-#: pro/tcf/tcf.php:697
+#: pro/tcf/tcf.php:695
+#: pro/tcf/tcf.php:699
 msgid "No"
 msgstr ""
 
@@ -925,207 +926,199 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: config/class-config.php:469
-msgid "New Feature: Data requests for Privacy Statements."
-msgstr ""
-
-#: config/class-config.php:476
+#: config/class-config.php:467
 msgid "Your PHP version is lower than the recommended PHP version. Some features are not available. Support for this PHP version will be dropped soon."
 msgstr ""
 
-#: config/class-config.php:483
+#: config/class-config.php:474
 msgid "Complianz GDPR/CCPA %s. Learn more about our newest release."
 msgstr ""
 
-#: config/class-config.php:484
+#: config/class-config.php:475
 msgid "We have changed our Cookie Banner template for future capabilities, please check your %sCookie Banner settings%s."
 msgstr ""
 
-#: config/class-config.php:485
+#: config/class-config.php:476
 msgid "You can reset to default values, if needed."
 msgstr ""
 
-#: config/class-config.php:491
-msgid "New: Gutenberg Block with consent capabilities."
-msgstr ""
-
-#: config/class-config.php:500
+#: config/class-config.php:484
 msgid "The wizard has been completed."
 msgstr ""
 
-#: config/class-config.php:501
+#: config/class-config.php:485
 msgid "Not all fields have been entered, or you have not clicked the \"finish\" button yet."
 msgstr ""
 
-#: config/class-config.php:511
+#: config/class-config.php:495
 msgid "Do Not Track and Global Privacy Control are respected."
 msgstr ""
 
-#: config/class-config.php:512
+#: config/class-config.php:496
 msgid "Do Not Track and Global Privacy Control are not yet respected."
 msgstr ""
 
-#: config/class-config.php:520
+#: config/class-config.php:504
 msgid "We have dropped support for creating a cookie banner with Elementor Pro. Your banner defaults to a standard cookie banner."
 msgstr ""
 
-#: config/class-config.php:527
+#: config/class-config.php:511
 msgid "You have currently selected an informal language, which will result in informal use of language on the legal documents. If you prefer the formal style, you can activate this in the %sgeneral settings%s."
 msgstr ""
 
-#: config/class-config.php:537
+#: config/class-config.php:521
 msgid "Google Fonts requires your attention."
 msgstr ""
 
-#: config/class-config.php:537
+#: config/class-config.php:521
 msgid "We have added additional support and recommend reviewing your %ssettings%s."
 msgstr ""
 
-#: config/class-config.php:537
+#: config/class-config.php:521
 msgid "Please read this %sarticle%s to read our position on self-hosting Google Fonts and Privacy by Design."
 msgstr ""
 
-#: config/class-config.php:546
+#: config/class-config.php:530
 msgid "No cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:547
+#: config/class-config.php:531
 msgid "Cookie changes have been detected."
 msgstr ""
 
-#: config/class-config.php:547
+#: config/class-config.php:531
 msgid "Please review step %s of the wizard for changes in cookies."
 msgstr ""
 
-#: config/class-config.php:554
+#: config/class-config.php:538
 msgid "Last cookie scan completed on %s."
 msgstr ""
 
-#: config/class-config.php:555
+#: config/class-config.php:539
 msgid "No cookie scan has been completed yet."
 msgstr ""
 
-#: config/class-config.php:565
+#: config/class-config.php:549
 msgid "All required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:566
+#: config/class-config.php:550
 msgid "Not all required pages have been generated."
 msgstr ""
 
-#: config/class-config.php:574
+#: config/class-config.php:558
 msgid "Great! You're already on SSL!"
 msgstr ""
 
-#: config/class-config.php:575
+#: config/class-config.php:559
 msgid "You don't have SSL on your site yet. Install SSL for Free with %sReally Simple SSL%s"
 msgstr ""
 
-#: config/class-config.php:585
+#: config/class-config.php:569
 msgid "Google Analytics is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:594
+#: config/class-config.php:578
 msgid "Google Tag Manager is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:603
+#: config/class-config.php:587
 msgid "Matomo is being used, but is not configured in Complianz."
 msgstr ""
 
-#: config/class-config.php:610
+#: config/class-config.php:594
 msgid "Your documents have not been updated in the past 12 months. Run the wizard to check your settings."
 msgstr ""
 
-#: config/class-config.php:618
+#: config/class-config.php:602
 msgid "You have cookies with incomplete descriptions."
 msgstr ""
 
-#: config/class-config.php:619
+#: config/class-config.php:603
 msgid "Enable the cookiedatabase.org API for automatic descriptions, or add these %smanually%s."
 msgstr ""
 
-#: config/class-config.php:632
+#: config/class-config.php:616
 msgid "You have a duplicate implementation of your statistics tool on your site."
 msgstr ""
 
-#: config/class-config.php:633
+#: config/class-config.php:617
 msgid "After the issue has been resolved, please re-run a scan to clear this message."
 msgstr ""
 
-#: config/class-config.php:644
+#: config/class-config.php:628
 msgid "Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality."
 msgstr ""
 
-#: config/class-config.php:645
+#: config/class-config.php:629
 msgid "Last error in the console:"
 msgstr ""
 
-#: config/class-config.php:657
+#: config/class-config.php:641
 msgid "Your site requires a cookie banner, which has been enabled."
 msgstr ""
 
-#: config/class-config.php:658
+#: config/class-config.php:642
 msgid "Your site is not configured to show a cookie banner at the moment."
 msgstr ""
 
-#: config/class-config.php:668
+#: config/class-config.php:652
 msgid "Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz."
 msgstr ""
 
-#: config/class-config.php:668
+#: config/class-config.php:652
 msgid "Enable"
 msgstr ""
 
-#: config/class-config.php:677
+#: config/class-config.php:661
 msgid "Your uploads folder is not writable. Complianz needs this folder to save the cookie banner CSS."
 msgstr ""
 
-#: config/class-config.php:688
+#: config/class-config.php:672
 msgid "We see you have enabled Google Maps as a service, but we can't find an integration. You can integrate manually if needed."
 msgstr ""
 
-#: config/class-config.php:696
+#: config/class-config.php:680
 msgid "We have detected the %s plugin on your website."
 msgstr ""
 
-#: config/class-config.php:696
+#: config/class-config.php:680
 msgid "As Complianz handles all the functionality this plugin provides, you should disable this plugin to prevent unexpected behaviour."
 msgstr ""
 
-#: config/class-config.php:703
+#: config/class-config.php:687
 msgid "Are you showing ads on your site? Consider implementing TCF."
 msgstr ""
 
-#: config/class-config.php:709
+#: config/class-config.php:693
 msgid "Create a Privacy Statement and other Legal Documents with Complianz."
 msgstr ""
 
-#: config/class-config.php:717
+#: config/class-config.php:701
 msgid "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!"
 msgstr ""
 
-#: config/class-config.php:717
+#: config/class-config.php:701
 msgid "Learn more."
 msgstr ""
 
-#: config/class-config.php:723
+#: config/class-config.php:707
 msgid "Legal compliance for webshops."
 msgstr ""
 
-#: config/class-config.php:730
+#: config/class-config.php:714
 msgid "Learn more about Google Consent Mode."
 msgstr ""
 
-#: config/class-config.php:737
+#: config/class-config.php:721
 msgid "Are you targeting multiple regions?"
 msgstr ""
 
-#: config/class-config.php:743
+#: config/class-config.php:727
 msgid "Statistics without Consent. Meet Burst Statistics from Complianz."
 msgstr ""
 
-#: config/class-config.php:743
+#: config/class-config.php:727
 msgid "Install directly from our wizard."
 msgstr ""
 
@@ -4014,8 +4007,8 @@ msgstr ""
 
 #: config/steps.php:50
 #: pro/records-of-consent/class-records-of-consent-table.php:292
-#: pro/tcf/tcf.php:675
-#: pro/tcf/tcf.php:718
+#: pro/tcf/tcf.php:677
+#: pro/tcf/tcf.php:722
 msgid "Consent"
 msgstr ""
 
@@ -4271,7 +4264,7 @@ msgid "Create"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:2905
-#: functions.php:2248
+#: functions.php:2247
 msgid "Purpose pending investigation"
 msgstr ""
 
@@ -4972,8 +4965,8 @@ msgid "Resolved"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD-table.php:128
-#: pro/class-licensing.php:689
-#: pro/class-licensing.php:698
+#: pro/class-licensing.php:719
+#: pro/class-licensing.php:728
 #: templates/dashboard/progress.php:80
 msgid "Open"
 msgstr ""
@@ -5172,30 +5165,30 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2216
+#: functions.php:2215
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2223
-#: functions.php:2233
+#: functions.php:2222
+#: functions.php:2232
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2225
-#: functions.php:2230
+#: functions.php:2224
+#: functions.php:2229
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2235
+#: functions.php:2234
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2238
+#: functions.php:2237
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2245
+#: functions.php:2244
 #: pro/records-of-consent/class-records-of-consent.php:374
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:254
@@ -5210,19 +5203,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2745
+#: functions.php:2744
 #: pro/records-of-consent/class-records-of-consent-table.php:235
-#: pro/tcf/tcf.php:929
+#: pro/tcf/tcf.php:934
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2747
+#: functions.php:2746
 #: pro/records-of-consent/class-records-of-consent-table.php:238
-#: pro/tcf/tcf.php:928
+#: pro/tcf/tcf.php:933
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2749
+#: functions.php:2748
 msgid "All consent types"
 msgstr ""
 
@@ -5573,123 +5566,131 @@ msgstr ""
 msgid "Please check your %slicense status%s."
 msgstr ""
 
-#: pro/class-licensing.php:166
-#: pro/class-licensing.php:468
-#: pro/class-licensing.php:575
-#: pro/class-licensing.php:648
-#: pro/class-licensing.php:654
-#: pro/class-licensing.php:673
-#: pro/class-licensing.php:735
+#: pro/class-licensing.php:159
+msgid "New: you can sign up for beta releases on the %slicense page%s."
+msgstr ""
+
+#: pro/class-licensing.php:167
+msgid "Great! You have activated beta releases. %sPlease let us know your experiences%s."
+msgstr ""
+
+#: pro/class-licensing.php:186
+#: pro/class-licensing.php:498
+#: pro/class-licensing.php:605
+#: pro/class-licensing.php:678
+#: pro/class-licensing.php:684
+#: pro/class-licensing.php:703
+#: pro/class-licensing.php:765
 msgid "License"
 msgstr ""
 
-#: pro/class-licensing.php:533
+#: pro/class-licensing.php:563
 msgid "Welcome to Complianz Privacy Suite! Before you start, please activate your license. For more information, please check our documentation, or ask %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:539
-#: pro/templates/license/footer.php:6
+#: pro/class-licensing.php:569
+#: pro/templates/license/footer.php:7
 msgid "Activate license"
 msgstr ""
 
-#: pro/class-licensing.php:543
+#: pro/class-licensing.php:573
 msgid "%sDocumentation%s"
 msgstr ""
 
-#: pro/class-licensing.php:582
+#: pro/class-licensing.php:612
 msgid "Complianz Privacy Suite includes GeoLite2 data created by MaxMind, available from %shttp://www.maxmind.com%s"
 msgstr ""
 
-#: pro/class-licensing.php:604
+#: pro/class-licensing.php:634
 msgid "unlimited"
 msgstr ""
 
-#: pro/class-licensing.php:610
+#: pro/class-licensing.php:640
 msgid "You have a lifetime license."
 msgstr ""
 
-#: pro/class-licensing.php:610
+#: pro/class-licensing.php:640
 msgid "Valid until %s."
 msgstr ""
 
-#: pro/class-licensing.php:616
+#: pro/class-licensing.php:646
 msgid "Upgrade to a %s5 sites or Agency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:619
+#: pro/class-licensing.php:649
 msgid "Upgrade to an %sAgency%s license."
 msgstr ""
 
-#: pro/class-licensing.php:622
+#: pro/class-licensing.php:652
 msgid "You can renew your license on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:627
+#: pro/class-licensing.php:657
 msgid "Unlimited activations available."
 msgstr ""
 
-#: pro/class-licensing.php:629
-#: pro/class-licensing.php:736
+#: pro/class-licensing.php:659
+#: pro/class-licensing.php:766
 msgid "%s/%s activations available."
 msgstr ""
 
-#: pro/class-licensing.php:642
+#: pro/class-licensing.php:672
 msgid "Valid"
 msgstr ""
 
-#: pro/class-licensing.php:649
+#: pro/class-licensing.php:679
 msgid "Valid license for %s."
 msgstr ""
 
-#: pro/class-licensing.php:661
+#: pro/class-licensing.php:691
 msgid "Multisite"
 msgstr ""
 
-#: pro/class-licensing.php:662
+#: pro/class-licensing.php:692
 msgid "Multisite detected. Please consider upgrading to %smultisite%s."
 msgstr ""
 
-#: pro/class-licensing.php:682
+#: pro/class-licensing.php:712
 msgid "No response"
 msgstr ""
 
-#: pro/class-licensing.php:683
+#: pro/class-licensing.php:713
 msgid "The license information could not be retrieved at this moment. Please try again at a later time."
 msgstr ""
 
-#: pro/class-licensing.php:690
+#: pro/class-licensing.php:720
 msgid "Please enter your license key. Available in your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:699
+#: pro/class-licensing.php:729
 msgid "Please activate your license key."
 msgstr ""
 
-#: pro/class-licensing.php:705
-#: pro/class-licensing.php:712
-#: pro/class-licensing.php:720
-#: pro/class-licensing.php:727
+#: pro/class-licensing.php:735
 #: pro/class-licensing.php:742
+#: pro/class-licensing.php:750
+#: pro/class-licensing.php:757
+#: pro/class-licensing.php:772
 msgid "Warning"
 msgstr ""
 
-#: pro/class-licensing.php:706
+#: pro/class-licensing.php:736
 msgid "Your license has been revoked. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:713
+#: pro/class-licensing.php:743
 msgid "Your license could not be found in our system. Please contact %ssupport%s."
 msgstr ""
 
-#: pro/class-licensing.php:721
+#: pro/class-licensing.php:751
 msgid "This license is not valid. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:728
+#: pro/class-licensing.php:758
 msgid "This license is not valid for this product. Find out why on your %saccount%s."
 msgstr ""
 
-#: pro/class-licensing.php:743
+#: pro/class-licensing.php:773
 msgid "Your license key has expired. Please renew your license key on your %saccount%s."
 msgstr ""
 
@@ -11590,118 +11591,118 @@ msgid "Opt out"
 msgstr ""
 
 #: pro/tcf/tcf.php:635
-#: pro/tcf/tcf.php:711
-msgid "The TCF vendorlist is not available when javascript is disabled, like on AMP."
+#: pro/tcf/tcf.php:713
+msgid "The TCF vendorlist is not available when javascript is disabled or are dismissed by browser privacy preferences."
 msgstr ""
 
-#: pro/tcf/tcf.php:666
+#: pro/tcf/tcf.php:668
 msgid "Privacy Policy"
 msgstr ""
 
-#: pro/tcf/tcf.php:671
+#: pro/tcf/tcf.php:673
 msgid "Legal bases"
 msgstr ""
 
-#: pro/tcf/tcf.php:679
+#: pro/tcf/tcf.php:681
 msgid "Legitimate interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:684
+#: pro/tcf/tcf.php:686
 msgid "Maximum cookie expiration:"
 msgstr ""
 
-#: pro/tcf/tcf.php:686
+#: pro/tcf/tcf.php:688
 msgid "Session Storage"
 msgstr ""
 
-#: pro/tcf/tcf.php:687
+#: pro/tcf/tcf.php:689
 msgid "%s Days"
 msgstr ""
 
-#: pro/tcf/tcf.php:688
+#: pro/tcf/tcf.php:690
 msgid "%s Seconds"
 msgstr ""
 
-#: pro/tcf/tcf.php:692
+#: pro/tcf/tcf.php:694
 msgid "Non-cookie storage and access:"
 msgstr ""
 
-#: pro/tcf/tcf.php:696
+#: pro/tcf/tcf.php:698
 msgid "Cookie Refresh:"
 msgstr ""
 
-#: pro/tcf/tcf.php:700
+#: pro/tcf/tcf.php:702
 msgid "Purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:708
+#: pro/tcf/tcf.php:710
 msgid "Select all"
 msgstr ""
 
-#: pro/tcf/tcf.php:708
+#: pro/tcf/tcf.php:710
 msgid "Deselect all"
 msgstr ""
 
-#: pro/tcf/tcf.php:714
+#: pro/tcf/tcf.php:718
 msgid "These are the partners we share data with. By clicking into each partner, you can see which purposes they are requesting consent and/or which purposes they are claiming legitimate interest for."
 msgstr ""
 
-#: pro/tcf/tcf.php:716
+#: pro/tcf/tcf.php:720
 msgid "You can provide or withdraw consent, and object to legitimate interest purposes for processing your personal data. However, please note that by disabling all data processing, some site functionality may be affected."
 msgstr ""
 
-#: pro/tcf/tcf.php:719
+#: pro/tcf/tcf.php:723
 msgid "Below you can give and withdraw your consent on a per purpose basis."
 msgstr ""
 
-#: pro/tcf/tcf.php:725
+#: pro/tcf/tcf.php:729
 msgid "Legitimate Interest"
 msgstr ""
 
-#: pro/tcf/tcf.php:726
+#: pro/tcf/tcf.php:730
 msgid "Some Vendors set purposes with legitimate interest, a legal basis under the GDPR for data processing. You have the \"Right to Object\" to this data processing and can do so below per purpose."
 msgstr ""
 
-#: pro/tcf/tcf.php:733
+#: pro/tcf/tcf.php:737
 msgid "Special features and purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:735
+#: pro/tcf/tcf.php:739
 msgid "Special features"
 msgstr ""
 
-#: pro/tcf/tcf.php:736
+#: pro/tcf/tcf.php:740
 msgid "For some of the purposes we and/or our partners use below features."
 msgstr ""
 
-#: pro/tcf/tcf.php:741
+#: pro/tcf/tcf.php:745
 msgid "Special purposes"
 msgstr ""
 
-#: pro/tcf/tcf.php:742
+#: pro/tcf/tcf.php:746
 msgid "We and/or our partners have a legitimate interest for the following two purposes:"
 msgstr ""
 
-#: pro/tcf/tcf.php:747
+#: pro/tcf/tcf.php:751
 #: pro/templates/cookiebanner-tcf.php:21
 #: pro/templates/tcf-categories.php:22
 msgid "Features"
 msgstr ""
 
-#: pro/tcf/tcf.php:748
+#: pro/tcf/tcf.php:752
 msgid "For some of the purposes above we and our partners"
 msgstr ""
 
-#: pro/tcf/tcf.php:752
+#: pro/tcf/tcf.php:756
 msgid "Vendors"
 msgstr ""
 
-#: pro/tcf/tcf.php:904
+#: pro/tcf/tcf.php:909
 msgid "The vendor list can be found at %s"
 msgstr ""
 
-#: pro/tcf/tcf.php:928
-#: pro/tcf/tcf.php:929
+#: pro/tcf/tcf.php:933
+#: pro/tcf/tcf.php:934
 msgid "TCF"
 msgstr ""
 
@@ -11779,11 +11780,19 @@ msgstr ""
 msgid "Visit"
 msgstr ""
 
-#: pro/templates/license/footer.php:4
+#: pro/templates/license/footer.php:5
 msgid "Deactivate license"
 msgstr ""
 
 #: pro/templates/license/license.php:3
+msgid "Enable beta releases"
+msgstr ""
+
+#: pro/templates/license/license.php:16
+msgid "License key"
+msgstr ""
+
+#: pro/templates/license/license.php:17
 msgid "Enter your license key"
 msgstr ""
 
