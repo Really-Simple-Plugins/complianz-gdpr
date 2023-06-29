@@ -1,8 +1,17 @@
 import Error from '../utils/Error';
 import {__} from "@wordpress/i18n";
+import {useEffect, useState} from "react";
 
 const PagePlaceholder = (props) => {
     let plugin_url = cmplz_settings.plugin_url;
+	const [ToastContainer, setToastContainer] = useState(null);
+
+	useEffect(() => {
+		import('react-toastify').then((module) => {
+			const ToastContainer = module.ToastContainer;
+			setToastContainer(() => ToastContainer);
+		});
+	}, []);
     return (
         <>
           <div className="cmplz-header-container">
@@ -26,6 +35,19 @@ const PagePlaceholder = (props) => {
             <div className="cmplz-grid-item cmplz-row-2"></div>
             <div className="cmplz-grid-item  cmplz-column-2"></div>
           </div>
+			{ToastContainer && (
+				<ToastContainer
+					position="bottom-right"
+					autoClose={2000}
+					limit={3}
+					hideProgressBar
+					newestOnTop
+					closeOnClick
+					pauseOnFocusLoss
+					pauseOnHover
+					theme="light"
+				/>
+			)}
         </>
     );
 }

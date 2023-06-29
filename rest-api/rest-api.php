@@ -44,7 +44,6 @@ function cmplz_documents_rest_route() {
 		'permission_callback' => function () {
 			return cmplz_user_can_manage();
 		}
-
 	) );
 
 	$id_pattern = '([0-9]+)';
@@ -77,7 +76,7 @@ function cmplz_rest_consented_content( WP_REST_Request $request ) {
 				break;
 			}
 		}
-	} else if (strpos($html, '[cmplz-consent-area')!==false) {
+	} else if ( strpos($html, '[cmplz-consent-area')!==false ) {
 		//get content of the shortcode.
 		$pattern = '/\[cmplz-consent-area[^\]]*?id=[\"\']'.$block_id.'[\"\'][^\]]*?\](.*?)\[\/cmplz-consent-area\]/is';
 		if ( $block_id==='default' ) {
@@ -89,10 +88,10 @@ function cmplz_rest_consented_content( WP_REST_Request $request ) {
 	}
 
 	$output = do_shortcode($output);
-	$response = json_encode( $output );
-	header( "Content-Type: application/json" );
-	echo $response;
-	exit;
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
+	return $output;
 }
 
 /**
@@ -111,12 +110,13 @@ function cmplz_rest_api_ajax_track_status( WP_REST_Request $request ) {
 	}
 	do_action( 'cmplz_store_consent', $consented_categories, $consented_services, $consenttype );
 
-	$response = json_encode( array(
+	$response = array(
 		'success' => true,
-	) );
-	header( "Content-Type: application/json" );
-	echo $response;
-	exit;
+	);
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
+	return $response;
 }
 
 /**
@@ -142,10 +142,11 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
 	$data['banner_version'] = $banner->banner_version;
 	$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
-	$response               = json_encode( $data );
-	header( "Content-Type: application/json" );
-	echo $response;
-	exit;
+
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
+	return $data;
 }
 
 /**
@@ -170,7 +171,9 @@ function cmplz_rest_api_documents( WP_REST_Request $request ) {
 			}
 		}
 	}
-
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
 	return $output;
 }
 
@@ -204,10 +207,10 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 			}
 		}
 	}
-	$response = json_encode( $html );
-	header( "Content-Type: application/json" );
-	echo $response;
-	exit;
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
+	return $html;
 }
 
 

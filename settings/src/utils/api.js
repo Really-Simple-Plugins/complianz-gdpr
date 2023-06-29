@@ -17,7 +17,7 @@ const ajaxRequest = async (method, path, requestData = null) => {
 			options.body = JSON.stringify({ rest_action:path, data: requestData }, stripControls);
 		}
 		const response = await fetch(url, options);
-		if (!response.ok) {
+		if ( !response.ok ) {
 			generateError(response, response.statusText);
 			return invalidDataError(error, 'error', 'invalid_data');
 		}
@@ -25,14 +25,14 @@ const ajaxRequest = async (method, path, requestData = null) => {
 		const responseData = await response.json();
 		if (!responseData || !responseData.hasOwnProperty('request_success')) {
 			generateError(responseData, 'Invalid data error');
-			return invalidDataError('invalid_data', 'error', 'Server return invalid data. Please check if enabled, please disable debugging','complianz-gdpr');
+			return invalidDataError('invalid_data', 'error', 'The server returned invalid data. If debugging is enabled, please disable it to check if that helps.','complianz-gdpr');
 		}
 
 		delete responseData.request_success;
 		return responseData;
 	} catch (error) {
 		generateError(false, error);
-		return invalidDataError(error, 'error', 'Server return invalid data. Please check if enabled, please disable debugging','complianz-gdpr');
+		return invalidDataError(error, 'error', 'The server returned invalid data. If debugging is enabled, please disable it to check if that helps.','complianz-gdpr');
 	}
 }
 
@@ -108,11 +108,18 @@ const apiPost = (path, data) => {
 			return ajaxRequest('POST', path, data);
 		});
 	} else {
-		return apiFetch( {
+		return apiFetch(  {
 			path: path,
 			method: 'POST',
 			data: data,
-		} ).catch((error) => {
+		} ).then((response) => {
+			if ( !response.request_success ) {
+				console.log("apiFetch failed, trying with ajaxPost");
+				return ajaxRequest('POST', path, data);
+			}
+			return response;
+		}).catch((error) => {
+			//try with admin-ajax
 			return ajaxRequest('POST', path, data);
 		});
 	}

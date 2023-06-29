@@ -316,6 +316,9 @@ function cmplz_rest_api_fallback(){
 			$response = cmplz_do_action($request );
 		}
 	}
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
 	header( "Content-Type: application/json" );
 	echo json_encode($response);
 	exit;
@@ -398,6 +401,9 @@ function cmplz_do_action($request){
 			$data = apply_filters("cmplz_do_action", [], $action, $request);
 	}
 	$data['request_success'] = true;
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
 	return $data;
 }
 
@@ -661,8 +667,11 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 	if ($finish){
 		do_action('cmplz_finish_wizard');
 	}
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
 	return [
-            'success' => true,
+            'request_success' => true,
             'fields' => cmplz_fields(true),
     ];
 }
@@ -770,6 +779,9 @@ function cmplz_rest_api_fields_get(): array {
 	$output['fields'] = $fields;
 	$output['request_success'] = true;
 	$output['locked_by'] = COMPLIANZ::$wizard->get_lock_user() ? COMPLIANZ::$wizard->get_lock_user() : get_current_user_id();
+	if ( ob_get_length() ) {
+		ob_clean();
+	}
     return apply_filters('cmplz_rest_api_fields_get', $output);
 }
 

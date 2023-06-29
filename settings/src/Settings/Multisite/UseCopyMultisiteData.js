@@ -12,7 +12,6 @@ const UseCopyMultisiteData = create(( set, get ) => ({
 			active:true,
 		});
 		const {start, next, total} = await cmplz_api.doAction('copy_multisite', data).then( ( response ) => {
-			console.log(response);
 			return response});
 		let progress = Math.round((next/total)*100);
 		set({
@@ -21,9 +20,7 @@ const UseCopyMultisiteData = create(( set, get ) => ({
 			next:next,
 			total:total,
 		});
-		console.log(progress)
 		if (progress>=100) {
-			console.log("done");
 			set({active:false});
 		}
 	},

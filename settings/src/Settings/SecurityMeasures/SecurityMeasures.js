@@ -27,7 +27,6 @@ const SecurityMeasures = () => {
 		getMeasuresData();
 	},[pluginAction]);
 
-	console.log(pluginAction);
 	let status = statusLoaded ? pluginAction : 'loading';
 	if ( statusLoaded && status!=='installed' && status!=='upgrade-to-premium') {
 		let notice  = status === 'activate' ? __("Please activate Really Simple SSL to unlock this feature.", "complianz-gdpr") : __("Please install Really Simple SSL to unlock this feature.", "complianz-gdpr");

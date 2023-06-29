@@ -6,7 +6,6 @@ import readMore from "../../utils/readMore";
 import {ToggleControl} from "@wordpress/components";
 import useMenu from "../../Menu/MenuData";
 import {memo} from "react";
-import Hyperlink from "../../utils/Hyperlink";
 
 const ServicesControl = () => {
 	const { updatePlaceholderStatus, integrationsLoaded, services, fetchIntegrationsData} = useIntegrations();
@@ -16,7 +15,7 @@ const ServicesControl = () => {
 	const [ disabledText, setDisabledText ] = useState( '' );
 	const [ disabledReadmore, setDisabledReadmore ] = useState( '' );
 	const { updateField, getField, getFieldValue, saveFields, setChangedField, addHelpNotice} = useFields();
-	const {selectedSubMenuItem} = useMenu();
+	const { selectedSubMenuItem } = useMenu();
 
 	const [DataTable, setDataTable] = useState(null);
 	useEffect( () => {
@@ -101,13 +100,6 @@ const ServicesControl = () => {
 
 	const onChangeHandler = async (service, enabled) => {
 		let field = getField(service.source);
-		if (service.source.indexOf('service')!==-1) {
-			updateField('uses_thirdparty_services', enabled ? 'yes' : 'no');
-			setChangedField('uses_thirdparty_services', enabled ? 'yes' : 'no');
-		} else if (service.source.indexOf('social_media')!==-1) {
-			updateField('uses_social_media', enabled ? 'yes' : 'no');
-			setChangedField('uses_social_media', enabled ? 'yes' : 'no');
-		}
 		let value;
 		if ( field.type==='multicheckbox' ) {
 			value = [...field.value];
@@ -123,12 +115,37 @@ const ServicesControl = () => {
 
 		updateField(service.source, value);
 		setChangedField(service.source, value);
+		//check if any of the services is enabled. If not, disable the services field. If yes, enable it.
+
 		saveFields(selectedSubMenuItem, false).then(() => {
 			fetchIntegrationsData().then(() => {
 				syncServicesWithFields();
 			});
 		});
 	}
+
+	useEffect(() => {
+		if (updatedServices.length===0) return;
+		let servicesEnabled = 'yes';
+		if (updatedServices.filter(item => item.enabled===true && item.source==='thirdparty_services_on_site').length === 0) {
+			servicesEnabled = 'no';
+		}
+
+		if (getFieldValue('uses_thirdparty_services')!== servicesEnabled) {
+			updateField('uses_thirdparty_services', servicesEnabled);
+			setChangedField('uses_thirdparty_services', servicesEnabled);
+		}
+
+		let socialMediaEnabled = 'yes';
+		if (updatedServices.filter(item => item.enabled===true && item.source==='thirdparty_services_on_site').length === 0) {
+			socialMediaEnabled = 'no';
+		}
+
+		if (getFieldValue('uses_social_media')!== socialMediaEnabled) {
+			updateField('uses_social_media', socialMediaEnabled);
+			setChangedField('uses_social_media', socialMediaEnabled);
+		}
+	},[updatedServices]);
 
 	const enabledDisabledPlaceholderSort = (rowA, rowB) => {
 		const a = rowA.placeholder;

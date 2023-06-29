@@ -34,8 +34,6 @@ const CopyMultisite = () => {
 			removeHelpNotice('copy-multisite');
 		}
 	},[progress] );
-	console.log("progress", progress);
-	console.log("active", active);
 	return (
 		<>
 			<div className="cmplz-export-container">
