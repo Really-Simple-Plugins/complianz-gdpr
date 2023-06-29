@@ -3,8 +3,7 @@ import Icon from "../../utils/Icon";
 import useFields from "../../Settings/Fields/FieldsData";
 import {useEffect, useState} from "@wordpress/element";
 
-const ProgressFooter = (props) => {
-    // const {setShowOnBoardingModal} = useOnboardingData();
+const ProgressFooter = () => {
 	const {fields, getFieldValue} = useFields();
 	const [cookieBlockerColor, setCookieBlockerColor] = useState(false);
 	const [placeholderColor, setPlaceholderColor] = useState(false);

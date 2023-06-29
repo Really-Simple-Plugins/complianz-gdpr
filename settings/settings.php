@@ -43,25 +43,26 @@ function cmplz_fix_rest_url_for_wpml( $url, $path, $blog_id, $scheme)  {
 	return $url;
 }
 add_filter( 'rest_url', 'cmplz_fix_rest_url_for_wpml', 10, 4 );
-function cmplz_get_block_editor_settings() {
-	$settings = array(
-			'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-			'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-		// 'imageSizes'             => $available_image_sizes,
-			'isRTL'                  => is_rtl(),
-		// 'maxUploadFileSize'      => $max_upload_size,
-	);
-	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
-	list( $font_sizes, )    = (array) get_theme_support( 'editor-font-sizes' );
-	if ( false !== $color_palette ) {
-		$settings['colors'] = $color_palette;
-	}
-	if ( false !== $font_sizes ) {
-		$settings['fontSizes'] = $font_sizes;
-	}
 
-	return $settings;
-}
+//function cmplz_get_block_editor_settings() {
+//	$settings = array(
+//			'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
+//			'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
+//		// 'imageSizes'             => $available_image_sizes,
+//			'isRTL'                  => is_rtl(),
+//		// 'maxUploadFileSize'      => $max_upload_size,
+//	);
+//	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
+//	list( $font_sizes, )    = (array) get_theme_support( 'editor-font-sizes' );
+//	if ( false !== $color_palette ) {
+//		$settings['colors'] = $color_palette;
+//	}
+//	if ( false !== $font_sizes ) {
+//		$settings['fontSizes'] = $font_sizes;
+//	}
+//
+//	return $settings;
+//}
 
 /**
  * @return void
@@ -81,25 +82,54 @@ function cmplz_fix_duplicate_menu_item() {
 	<?php
 }
 add_action('admin_footer', 'cmplz_fix_duplicate_menu_item');
+/**
+ * WordPress doesn't allow for translation of chunks resulting of code splitting.
+ * Several workarounds have popped up in JetPack and Woocommerce: https://developer.wordpress.com/2022/01/06/wordpress-plugin-i18n-webpack-and-composer/
+ * Below is mainly based on the Woocommerce solution, which seems to be the most simple approach. Simplicity is king here.
+ *
+ * @return array
+ */
+function cmplz_get_chunk_translations() {
+	//get all files from the settings/build folder
+	$files = scandir(cmplz_path . 'settings/build');
+	$json_translations = [];
+	foreach ($files as $file) {
+		//get relative path to this file
+		$relative_path =  'settings/build/' . $file;
+		//create md5 hash of the relative path. The hash is used by wordpress to create the json file name.
+		$hash = md5($relative_path);
+		$chunk_handle = 'cmplz-chunk-'.$hash;
+		//temporarily register the script, so we can get a translations object.
+		wp_register_script( $chunk_handle, plugins_url('build/'.$file, __FILE__), [], true );
+		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr' );
+		if (!empty($localeData)){
+			$json_translations[] = $localeData;
+		}
+		wp_deregister_script( $chunk_handle );
+	}
+	return $json_translations;
+}
 
 function cmplz_plugin_admin_scripts() {
 	$script_asset_path = __DIR__."/build/index.asset.php";
 	$script_asset = require( $script_asset_path );
+	$handle = 'cmplz-settings';
 	wp_enqueue_media();
 	wp_enqueue_script(
-		'cmplz-settings',
+			$handle,
 		plugins_url( 'build/index.js', __FILE__ ),
 		$script_asset['dependencies'],
 		$script_asset['version']
 	);
-	wp_set_script_translations( 'cmplz-wizard-plugin-block-editor', 'complianz-gdpr' );
-	$settings = cmplz_get_block_editor_settings();
-	wp_add_inline_script( 'cmplz-settings', 'window.getdaveSbeSettings = ' . wp_json_encode( $settings ) . ';' );
+	wp_set_script_translations($handle, 'complianz-gdpr');
+//	$settings = cmplz_get_block_editor_settings();
+//	wp_add_inline_script( 'cmplz-settings', 'window.getdaveSbeSettings = ' . wp_json_encode( $settings ) . ';' );
 
 	wp_localize_script(
         'cmplz-settings',
         'cmplz_settings',
         apply_filters('cmplz_localize_script',[
+				'json_translations' => cmplz_get_chunk_translations(),
 				'site_url'      => get_rest_url(),
 				'admin_url' 	=> admin_url(),
 				'admin_ajax_url' => add_query_arg(
@@ -108,7 +138,7 @@ function cmplz_plugin_admin_scripts() {
 								'action' => 'cmplz_rest_api_fallback'
 						),
 						admin_url( 'admin-ajax.php' ) ),
-				'dashboard_url' => add_query_arg( [ 'page' => 'complianz' ], cmplz_admin_url() ),
+				'dashboard_url' => cmplz_admin_url(),
 				'upgrade_link'  => 'https://complianz.io/pricing',
 				'plugin_url'    => cmplz_url,
 				'network_link'  => network_site_url( 'plugins.php' ),
@@ -128,7 +158,14 @@ function cmplz_plugin_admin_scripts() {
  * @return string|null
  */
 function cmplz_admin_url(){
-	return is_multisite() && is_network_admin() ? network_admin_url('settings.php') : admin_url("options-general.php");
+	if (is_network_admin()) {
+		switch_to_blog(get_main_site_id());
+	}
+	$url = add_query_arg(array('page' => 'complianz'), admin_url('admin.php') );
+	if (is_network_admin()) {
+		restore_current_blog();
+	}
+	return $url;
 }
 
 /**
@@ -138,11 +175,6 @@ function cmplz_admin_url(){
  */
 function cmplz_add_option_menu() {
 	if ( !cmplz_user_can_manage() ) {
-        return;
-	}
-
-	//hides the settings page the plugin is network activated. The settings can be found on the network settings menu.
-	if ( is_multisite() ) {
         return;
 	}
 
@@ -608,11 +640,8 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 		$fields[$index] = cmplz_maybe_convert_to_source($value, $field);
 	}
 
-	if ( is_multisite() && cmplz_is_networkwide_active() ) {
-		$options = get_site_option( 'cmplz_options', [] );
-	} else {
-		$options = get_option( 'cmplz_options', [] );
-	}
+	$options = get_option( 'cmplz_options', [] );
+
 	//build a new options array
     foreach ( $fields as $field ) {
         $prev_value = $options[ $field['id'] ] ?? false;
@@ -621,11 +650,7 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
     }
 
     if ( ! empty( $options ) ) {
-        if ( is_multisite() && cmplz_is_networkwide_active() ) {
-	        update_site_option( 'cmplz_options', $options );
-        } else {
-	        update_option( 'cmplz_options', $options );
-        }
+		update_option( 'cmplz_options', $options );
     }
 
 	foreach ( $fields as $field ) {
@@ -669,11 +694,9 @@ function cmplz_update_option( string $name, $value, $force_type=false ) {
     if ( !$type ) {
 	    return;
     }
-	if ( is_multisite() && cmplz_is_networkwide_active() ) {
-		$options = get_site_option( 'cmplz_options', [] );
-	} else {
-		$options = get_option( 'cmplz_options', [] );
-	}
+
+	$options = get_option( 'cmplz_options', [] );
+
     if ( !is_array($options) ) $options = [];
 	/*
 	 * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
@@ -688,11 +711,7 @@ function cmplz_update_option( string $name, $value, $force_type=false ) {
 	$value = cmplz_sanitize_field( $field['value'], $type, $name );
 	$value = apply_filters("cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase($name), $type);
 	$options[$name] = $value;
-	if ( is_multisite() && cmplz_is_networkwide_active() ) {
-		update_site_option( 'cmplz_options', $options );
-	} else {
-		update_option( 'cmplz_options', $options );
-	}
+	update_option( 'cmplz_options', $options );
 
 	do_action( "cmplz_after_save_field", $name, $value, $prev_value, $type );
 }

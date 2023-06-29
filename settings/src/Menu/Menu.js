@@ -21,7 +21,7 @@ import MenuPlaceholder from "../Placeholder/MenuPlaceholder";
 			</div>
 				<div className="cmplz-wizard-menu-items">
 					{subMenu.menu_items.map((menuItem, i) => {
-						return <MenuItem key={i} index={i + 1} menuItem={menuItem} isMain={true} />;
+						return <MenuItem key={menuItem.id} index={i + 1} menuItem={menuItem} isMain={true} />;
 					})
 					}
 					{ hasPremiumItems && cmplz_settings.is_premium &&

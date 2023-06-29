@@ -62,7 +62,7 @@ const ThirdPartyScript = (props) => {
 					<div className="cmplz-details-row">
 						<AceEditorControl
 							disabled={fetching}
-							onChangeHandler={ (value) => onEditorChangeHandler(value)	}
+							onChange={ (value) => onEditorChangeHandler(value)	}
 							placeholder = "console.log('marketing enabled')"
 							value= { script.editor }/>
 					</div>

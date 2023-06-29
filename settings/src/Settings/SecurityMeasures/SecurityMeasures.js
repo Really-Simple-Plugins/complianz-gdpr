@@ -15,12 +15,19 @@ const SecurityMeasures = () => {
 			startPluginAction(slug);
 		}
 	}, [])
+	//initial
 	useEffect ( () => {
 		if (!measuresDataLoaded) {
 			getMeasuresData();
 		}
 	},[]);
 
+	//on update of plugin status
+	useEffect ( () => {
+		getMeasuresData();
+	},[pluginAction]);
+
+	console.log(pluginAction);
 	let status = statusLoaded ? pluginAction : 'loading';
 	if ( statusLoaded && status!=='installed' && status!=='upgrade-to-premium') {
 		let notice  = status === 'activate' ? __("Please activate Really Simple SSL to unlock this feature.", "complianz-gdpr") : __("Please install Really Simple SSL to unlock this feature.", "complianz-gdpr");
@@ -30,7 +37,7 @@ const SecurityMeasures = () => {
 		return (
 			<div className="cmplz-locked">
 				<div className="cmplz-locked-overlay">
-					<span className="cmplz-task-status cmplz-warning">{__("Not installed", "complianz-gdpr")}</span>
+					<span className="cmplz-task-status cmplz-open">{__("Not installed", "complianz-gdpr")}</span>
 					<span>
 					{notice}
 				</span>

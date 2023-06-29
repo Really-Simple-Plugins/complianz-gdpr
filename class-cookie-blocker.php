@@ -66,6 +66,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			$current_cookies = array_keys($_COOKIE);
 			foreach ( $this->cookie_list as $category => $cookies){
 				if ( cmplz_has_consent( $category)) continue;
+
+				if (!is_array($cookies) ) {
+					continue;
+				}
+
 				foreach ($cookies as $service => $cookie_list ) {
 					if (cmplz_has_service_consent($service)) continue;
 					foreach ($current_cookies as $key => $current_cookie ) {

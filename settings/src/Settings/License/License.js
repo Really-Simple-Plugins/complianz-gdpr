@@ -59,16 +59,15 @@ const License = (props) => {
 				<button className="button button-default" disabled={processing}
 								onClick={() => toggleActivation()}>
 					{licenseStatus === 'valid' &&
-						<>{__('Deactivate', 'really-simple-ssl')}</>}
+						__('Deactivate', 'really-simple-ssl') }
 					{licenseStatus !== 'valid' &&
-						<>{__('Activate', 'really-simple-ssl')}</>}
+						__('Activate', 'really-simple-ssl')}
 				</button>
 			</div>
 			{!noticesLoaded && <Placeholder></Placeholder>}
 			{noticesLoaded && <div className={processingClass}>
 				{licenseNotices.map(
-					(notice, i) => <TaskElement key={i} index={i} notice={notice}
-																			highLightField=""/>)}
+					(notice, i) => <TaskElement key={i} index={i} notice={notice} highLightField=""/>)}
 			</div>}
 		</div>
 	);

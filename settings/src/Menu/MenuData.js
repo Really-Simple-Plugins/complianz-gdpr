@@ -51,10 +51,12 @@ const useMenu = create(( set, get ) => ({
 		let menuItems = get().subMenu.menu_items;
 		let selectedSubMenuItem = get().selectedSubMenuItem;
 		let menu = getMenuItemByName(selectedSubMenuItem, menuItems);
+		let regions = [];
 		if (menu.hasOwnProperty('region')) {
-			return menu.region;
+			regions = menu.region;
 		}
-		return [];
+		//
+		return regions;
 	}
 }));
 export default useMenu;

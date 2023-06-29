@@ -36,6 +36,7 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 	}
 
 	if ( $action === 'get_banner_data' ) {
+		cmplz_check_minimum_one_banner();
 		$banners = cmplz_get_cookiebanners();
 		$uploads    = wp_upload_dir();
 		$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
@@ -222,15 +223,10 @@ function cmplz_image_sizes_js( $response, $attachment, $meta ){
 add_filter ( 'wp_prepare_attachment_for_js',  'cmplz_image_sizes_js' , 10, 3  );
 
 function cmplz_check_minimum_one_banner() {
-	if ( ! cmplz_user_can_manage() ) {
-		return;
-	}
+	$admin_get_request = cmplz_admin_logged_in() && isset( $_GET['page'] ) && strpos( $_GET['page'], 'complianz' ) !== false;
+	$rest_request = cmplz_is_logged_in_rest();
 
-	if ( !isset($_GET['page'])){
-		return;
-	}
-
-	if ( strpos($_GET['page'], 'complianz')===false ) {
+	if ( !$admin_get_request && !$rest_request ) {
 		return;
 	}
 

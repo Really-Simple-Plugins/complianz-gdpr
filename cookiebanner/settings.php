@@ -149,12 +149,6 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'placeholder' => __( "Manage consent", 'complianz-gdpr' ),
 				'label'       => __( "Manage consent display options", 'complianz-gdpr' ),
 				'tooltip'     => __( 'Select how the manage consent text should appear.', 'complianz-gdpr' ),
-				'help'        => [
-					'label' => 'default',
-					'title' => __( "Manage consent tab", 'complianz-gdpr' ),
-					'text'  => __( "The default will not show on mobile devices for UX optimization.", "complianz-gdpr" ),
-					'url'   => 'https://complianz.io/show-settings-button-on-mobile/',
-				],
 				'options'     => array(
 					'hover-hide-mobile' => __( 'Hover on Desktop - Hide on Mobile (Default)', 'complianz-gdpr' ),
 					'hover-show-mobile' => __( 'Hover on Desktop - Show on Mobile', 'complianz-gdpr' ),
@@ -699,6 +693,13 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 					'title' => __( "Custom CSS", 'complianz-gdpr' ),
 					'text'  => __( 'You can add additional custom CSS here. For tips and CSS lessons, check out our documentation', 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/?s=css',
+				],
+				'condition_action' => 'disable',
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'use_custom_cookie_css' => true,
+					]
 				],
 				'label'            => '',
 				'default'          => '/* Container */'

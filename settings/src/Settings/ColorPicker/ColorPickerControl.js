@@ -27,21 +27,19 @@ const ColorPickerElement = (props) => {
 	}
 
 	return (
-		<>
-			<Popover.Root>
-				<Popover.Trigger >
-					<div className="cmplz-color-picker-control-item" onClick={handleClick} >
-						<div className="cmplz-color-picker-color" style={{backgroundColor: colorValue}}></div>
-						{colorName}
-					</div>
-				</Popover.Trigger>
-				<Popover.Portal>
-					<Popover.Content>
-						<ColorPicker colorValue={colorValue} onChangeComplete={handleColorChange} />
-					</Popover.Content>
-				</Popover.Portal>
-			</Popover.Root>
-		</>
+		<Popover.Root>
+			<Popover.Trigger >
+				<div className="cmplz-color-picker-control-item" onClick={handleClick} >
+					<div className="cmplz-color-picker-color" style={{backgroundColor: colorValue}}></div>
+					{colorName}
+				</div>
+			</Popover.Trigger>
+			<Popover.Portal>
+				<Popover.Content>
+					<ColorPicker colorValue={colorValue} onChangeComplete={handleColorChange} />
+				</Popover.Content>
+			</Popover.Portal>
+		</Popover.Root>
 	)
 }
 

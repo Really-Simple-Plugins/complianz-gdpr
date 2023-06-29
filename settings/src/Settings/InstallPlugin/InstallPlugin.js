@@ -5,7 +5,7 @@ import useInstallPluginData from "./InstallPluginData";
 import {memo} from "react";
 
 const InstallPlugin = ( {field} ) => {
-	const {statusLoaded, startPluginAction, apiRequestActive, pluginAction, rating} = useInstallPluginData();
+	const {statusLoaded, startPluginAction, apiRequestActive, pluginAction, rating, upgradeUrl} = useInstallPluginData();
 	const slug = field.plugin_data.slug;
 	const title = field.plugin_data.title;
 	const summary = field.plugin_data.summary;
@@ -85,12 +85,18 @@ const InstallPlugin = ( {field} ) => {
 				{ description }
 			</div>
 			<div>
-				<button type="button" disabled={disabled} onClick={ ( e ) => onClickHandler(e) } className="button-secondary cmplz-install-plugin">
-					{ buttonString }
-					{ apiRequestActive && <Icon name = "loading" color = 'grey' /> }
-				</button>
-
-			</div>
+				{pluginAction!=='upgrade-to-premium' &&
+					<button type="button" disabled={disabled} onClick={ ( e ) => onClickHandler(e) } className="button-secondary cmplz-install-plugin">
+						{ buttonString }
+						{ apiRequestActive && <Icon name = "loading" color = 'grey' /> }
+					</button>
+				}
+				{pluginAction ==='upgrade-to-premium' &&
+					<a target="_blank" href={upgradeUrl} type="button" className="button-secondary cmplz-install-plugin">
+						{ buttonString }
+					</a>
+				}
+				</div>
 		</div>
 	)
 }

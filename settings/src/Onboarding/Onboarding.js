@@ -101,7 +101,7 @@ const Onboarding = () => {
 
 						<div className="cmplz-onboarding-item">
 							<Icon name={waiting ? 'loading' : 'circle-check'} color={waiting ? 'grey' : 'green'} size={14} />
-							{ ( waiting || !loaded )  &&<>{__("Upgrading", "complianz-gdpr")}</>}
+							{ ( waiting || !loaded )  && __("Upgrading", "complianz-gdpr") }
 							{ !waiting && loaded && <>
 								{isUpgrade && __("Thanks for updating!", "complianz-gdpr")}
 								{!isUpgrade && __("Thanks for installing!", "complianz-gdpr")}

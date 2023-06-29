@@ -336,7 +336,6 @@ const fetchSyncProgressData = (restart) => {
 	}
 
 	return cmplz_api.doAction('sync', data).then((response) => {
-		console.log(response);
 		let syncProgress = response.progress;
 		let curlExists = response.curl_exists;
 		let cookies = response.cookies;

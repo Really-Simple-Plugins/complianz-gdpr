@@ -28,7 +28,7 @@ const TourInstance = ({ShepherdTourContext}) => {
 		if (tour) tour.start();
 	}, [tour]);
 
-	return <></>;
+	return null;
 }
 
 const newSteps = [

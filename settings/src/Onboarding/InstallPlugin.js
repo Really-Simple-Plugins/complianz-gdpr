@@ -25,15 +25,15 @@ const InstallPlugin = ({plugin, processing}) => {
 		<div className="cmplz-onboarding-item">
 			<Icon name={iconName} color={iconColor} size={14} />
 			{plugin.description}&nbsp;
-			{ plugin.status==='not-installed' && <><a href="#" onClick={(e) => installPlugin(plugin.slug) }>
+			{ plugin.status==='not-installed' && <a href="#" onClick={(e) => installPlugin(plugin.slug) }>
 				{!plugin.processing && __("Install", "complianz-gdpr")}
 				{plugin.processing && __("installing...", "complianz-gdpr")}
-			</a></>}
-			{ plugin.status==='installed' && <><a href="#" onClick={(e) => activatePlugin(plugin.slug) }>
+			</a>}
+			{ plugin.status==='installed' && <a href="#" onClick={(e) => activatePlugin(plugin.slug) }>
 				{!plugin.processing && __("Activate", "complianz-gdpr")}
 				{plugin.processing && __("activating...", "complianz-gdpr")}
-			</a></>}
-			{ plugin.status==='activated' && <>{__("Installed!", "complianz-gdpr")}</>}
+			</a>}
+			{ plugin.status==='activated' && __("Installed!", "complianz-gdpr")}
 		</div>
 	)
 }

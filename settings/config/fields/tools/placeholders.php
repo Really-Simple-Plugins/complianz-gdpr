@@ -1,33 +1,9 @@
 <?php
+defined( 'ABSPATH' ) or die();
 
 add_filter( 'cmplz_fields', 'cmplz_placeholders_fields', 100 );
 function cmplz_placeholders_fields($fields){
 	return array_merge($fields, [
-		[
-			'id'                      => 'blocked_content_text',
-			'menu_id'                 => 'placeholders',
-			'group_id'                => 'placeholders-settings',
-			'type'         => 'text',
-			'translatable' => true,
-			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
-			'default'      => cmplz_sprintf(__( 'Click to accept %s cookies and enable this content', 'complianz-gdpr' ), '{category}'),
-			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
-			'help'             => [
-				'label' => 'default',
-				'title' => __( "Blocked content text", 'complianz-gdpr' ),
-				'text'  => __( 'Do not change or translate the {category} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the category that is blocked.', 'complianz-gdpr' ),
-				'url'   => 'https://cookiedatabase.org/privacy-statement/',
-			],
-			'condition_action' => 'disable',
-			'react_conditions' => [
-				'relation' => 'AND',
-				[
-					'safe_mode' => false,
-					'consent_per_service' => 'no',
-				]
-			],
-		],
-
 		[
 			'id'                      => 'dont_use_placeholders',
 			'menu_id'                 => 'placeholders',
@@ -42,6 +18,71 @@ function cmplz_placeholders_fields($fields){
 				'relation' => 'AND',
 				[
 					'safe_mode' => false,
+				]
+			],
+		],
+		[
+			'id'                      => 'blocked_content_text',
+			'menu_id'                 => 'placeholders',
+			'group_id'                => 'placeholders-settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
+			'default'      => cmplz_sprintf(__( 'Click to accept %s cookies and enable this content', 'complianz-gdpr' ), '{category}'),
+			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
+			'help'             => [
+				'label' => 'default',
+				'title' => __( "Blocked content text", 'complianz-gdpr' ),
+				'text'  => __( 'Do not change or translate the {category} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the category that is blocked.', 'complianz-gdpr' ),
+			],
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'safe_mode' => false,
+					'consent_per_service' => 'no',
+					'dont_use_placeholders' => false,
+				]
+			],
+		],
+		[
+			'id'                      => 'blocked_content_text_per_service',
+			'menu_id'                 => 'placeholders',
+			'group_id'                => 'placeholders-settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Blocked content text", 'complianz-gdpr' ),
+			'default'      => cmplz_sprintf(__( "Click 'I agree' to enable %s", 'complianz-gdpr' ), '{service}'),
+			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
+			'help'             => [
+				'label' => 'default',
+				'title' => __( "Blocked content text", 'complianz-gdpr' ),
+				'text'      => __( 'Do not change or translate the {service} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the service that is blocked.', 'complianz-gdpr' ),
+			],
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'safe_mode' => false,
+					'consent_per_service' => 'yes',
+					'dont_use_placeholders' => false,
+
+				]
+			],
+		],
+		[
+			'id'                      => 'agree_text_per_service',
+			'menu_id'                 => 'placeholders',
+			'group_id'                => 'placeholders-settings',
+			'type'         => 'text',
+			'translatable' => true,
+			'label'        => __( "Text on 'I agree' button", 'complianz-gdpr' ),
+			'default'      => __( "I agree", 'complianz-gdpr' ),
+			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'safe_mode' => false,
+					'consent_per_service' => 'yes',
+					'dont_use_placeholders' => false,
 				]
 			],
 		],
@@ -117,7 +158,7 @@ function cmplz_placeholders_fields($fields){
 				'500x500' => "500 x 500",
 				'custom' => __("Custom",'complianz-gdpr'),
 			),
-			'label'     => __( "Placeholder ratio", 'complianz-gdpr' ),
+			'label'     => __( "Google Maps placeholder ratio", 'complianz-gdpr' ),
 			'default'   => '1280x920',
 			'tooltip'      => __( "Select the optimal placeholder ratio for your site.", 'complianz-gdpr' ),
 			'react_conditions' => [
@@ -129,28 +170,9 @@ function cmplz_placeholders_fields($fields){
 			],
 			'help' => [
 				'label' => 'default',
-				'title' => __( "Google Maps", 'complianz-gdpr' ),
+				'title' => __( "Custom ratio for Google Maps", 'complianz-gdpr' ),
 				'text'  => __( "If you select custom, you need to add your custom image to your site.", 'complianz-gdpr'),
 				'url'   => 'https://complianz.io/changing-the-google-maps-placeholder/',
-			],
-		],
-
-		[
-			'id'                 => 'agree_text_per_service',
-			'menu_id'                 => 'placeholders',
-			'group_id'                => 'placeholders-settings',
-			'type'         => 'text',
-			'translatable' => true,
-			'label'        => __( "Text on 'I agree' button", 'complianz-gdpr' ),
-			'default'      => __( "I agree", 'complianz-gdpr' ),
-			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
-			'condition_action' => 'disable',
-			'react_conditions' => [
-				'relation' => 'AND',
-				[
-					'safe_mode' => false,
-					'consent_per_service' => 'yes',
-				]
 			],
 		],
 

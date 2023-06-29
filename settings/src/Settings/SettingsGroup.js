@@ -10,14 +10,19 @@ import UseBannerData from "./CookieBannerPreview/CookieBannerData";
  * Render a grouped block of settings
  */
 const SettingsGroup = (props) => {
-	const { highLightField} = useFields();
-	//@todo uncomment uselicense
+	const { highLightField, getFieldValue} = useFields();
 	const {licenseStatus} = useLicense();
 	const { bannerDataLoaded} = UseBannerData();
 	let upgrade='https://complianz.io/pricing/';
 	const {subMenu, getMenuRegions, selectedSubMenuItem} = useMenu();
 
 	let regions = getMenuRegions();
+	//get selected regions from the regions field
+	let selectedRegions = getFieldValue('regions');
+	if (!Array.isArray(selectedRegions)) selectedRegions = [selectedRegions];
+	//filter out regions from 'regions' that do not exist in selectedRegions
+	regions = regions.filter(region => selectedRegions.includes(region));
+
 	const [Field, setField] = useState(null);
 	useEffect( () => {
 		import("./Fields/Field").then(({ default: Field }) => {
@@ -57,7 +62,7 @@ const SettingsGroup = (props) => {
 	}
 
 	if ( !activeGroup ) {
-		return (<></>);
+		return null;
 	}
 	let msg = activeGroup.premium_text ? activeGroup.premium_text : __("Learn more about %sPremium%s", "complianz-gdpr");
 	if ( cmplz_settings.is_premium ) {
@@ -69,6 +74,9 @@ const SettingsGroup = (props) => {
 	}
 
 	let disabled = licenseStatus !=='valid' && activeGroup.premium;
+	//but if this is the premium plugin, it's always disabled if the license is not valid. Sorry!
+	disabled = cmplz_settings.is_premium && licenseStatus !=='valid' && activeGroup.id !== 'license';
+
 	//if a feature can only be used on networkwide or single site setups, pass that info here.
 	upgrade = activeGroup.upgrade ? activeGroup.upgrade : upgrade;
 	let helplinkText = activeGroup.helpLink_text ? activeGroup.helpLink_text : __("Instructions","complianz-gdpr");

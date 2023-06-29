@@ -66,7 +66,7 @@ function cmplz_get_system_status(){
 		echo implode( "\n", $network_plugins ) . "\n";
 	}
 
-	$wizard   = is_multisite() ? get_site_option( 'cmplz_options' ) : get_option( 'cmplz_options' );
+	$wizard   = get_option( 'cmplz_options' );
 
 	if ( is_array( $wizard ) ) {
 		echo "\n\n" . "Settings" . "\n";

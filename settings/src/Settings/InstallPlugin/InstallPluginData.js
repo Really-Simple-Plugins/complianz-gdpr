@@ -4,6 +4,7 @@ const UseInstallPluginData = create(( set, get ) => ({
 	apiRequestActive:false,
 	pluginAction: 'status',
 	wordPressUrl: '#',
+	upgradeUrl: '#',
 	rating: [],
 	statusLoaded:false,
 	startPluginAction: (slug, action) => {
@@ -15,12 +16,13 @@ const UseInstallPluginData = create(( set, get ) => ({
 		if (data.pluginAction === 'download') {
 			nextAction = 'activate';
 		}
+
 		cmplz_api.doAction('plugin_actions', data).then( ( response ) => {
 			set({
 				pluginAction:response.pluginAction,
 				wordPressUrl:response.wordpress_url,
+				upgradeUrl:response.upgrade_url,
 			});//'installed', 'download', 'activate', 'upgrade-to-premium'
-
 			//convert to percentage
 			let p = Math.round( response.star_rating.rating / 10, 0 ) / 2;
 			set({
@@ -30,8 +32,8 @@ const UseInstallPluginData = create(( set, get ) => ({
 				statusLoaded:true,
 			});
 			//if the plugin is installed, go ahead and activate as well
-			if (nextAction === 'activate' && response.pluginAction!=='installed' ) {
-				get().startPluginAction(response.pluginAction);
+			if ( nextAction === 'activate' && response.pluginAction!=='installed' ) {
+				get().startPluginAction(slug, response.pluginAction);
 			}
 
 		});

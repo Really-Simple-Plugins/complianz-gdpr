@@ -16,7 +16,6 @@ const CreateProcessingAgreements = () => {
 	const [step, setStep] = useState(0);
 	const {allRequiredFieldsCompleted, fetchAllFieldsCompleted, fieldsLoaded, addHelpNotice, showSavedSettingsNotice, removeHelpNotice} = useFields();
 
-	// const {addNotice,fetchProgressData, progressLoaded} = useProgress();
 	let scrollAnchor = React.createRef();
 	const [file, setFile] = useState(false)
 	const [uploading, setUploading] = useState(false);

@@ -20,7 +20,6 @@ const CheckboxControl = (props) => {
 	let is_disabled = props.disabled ? 'is-disabled' : '';
 
 	return (
-		<>
 			<div className="components-base-control components-toggle-control">
 				<div className="components-base-control__field">
 					<div data-wp-component="HStack" className="components-flex components-h-stack">
@@ -41,7 +40,6 @@ const CheckboxControl = (props) => {
 					</div>
 				</div>
 			</div>
-		</>
 	);
 }
 export default CheckboxControl

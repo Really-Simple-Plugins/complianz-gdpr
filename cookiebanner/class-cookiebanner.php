@@ -1049,7 +1049,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'position'                  => $this->position,
 				'manage_consent_options'    => $this->manage_consent_options,
 				'use_categories'            => $this->use_categories,
-				'aria_label'                => cmplz_get_option( 'consent_per_service' ) === 'yes' ? __( "Click button to enable {service}", 'complianz-gdpr' ) : cmplz_get_option( 'blocked_content_text' ),
 			);
 			$output = apply_filters( 'cmplz_cookiebanner_settings_html', $output, $this );
 			return apply_filters( 'cmplz_cookiebanner_settings', $output, $this );
@@ -1298,6 +1297,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'forceEnableStats'     => !COMPLIANZ::$banner_loader->cookie_warning_required_stats( $region ),
 				'preview'              => false,
 				'clean_cookies'        => cmplz_get_option( 'safe_mode' ) != 1 && cmplz_get_option( 'consent_per_service' ) === 'yes',
+				'aria_label'           => cmplz_get_option( 'consent_per_service' ) === 'yes' ? __( "Click button to enable {service}", 'complianz-gdpr' ) : cmplz_get_option( 'blocked_content_text' ),
 			);
 
 			$output = apply_filters( 'cmplz_cookiebanner_settings_front_end', $output, $this );

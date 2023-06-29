@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) or die();
 
 add_filter( 'cmplz_fields', 'cmplz_processing_agreement_fields', 100 );
 function cmplz_processing_agreement_fields($fields){

@@ -387,7 +387,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 				'upgraded_to_7' => array(
 					'warning_condition'  => 'cmplz_upgraded_to_current_version',
-					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA. Learn more about our newest release.', 'complianz-gdpr' ),'7.0'),
+					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ),'7.0'),
 					'url' => 'https://complianz.io/meet-complianz-7-0/',
 					'admin_notice' => true,
 				),
@@ -653,7 +653,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'warning_condition' => 'cmplz_show_install_burst_warning',
 					'open' => __( 'Statistics without Consent. Meet Burst Statistics from Complianz.', 'complianz-gdpr' ),
 					'include_in_progress' => false,
-					'url' => '#wizard/statistics',
+					'url' => '#wizard/consent-statistics',
 				),
 
 			) );

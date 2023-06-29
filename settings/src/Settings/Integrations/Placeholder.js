@@ -41,19 +41,17 @@ const Category = (props) => {
 				}
 
 				{ !script.iframe &&
-					<>
-						<div className="cmplz-details-row cmplz-details-row">
-							<>{__('Enter the div class or ID that should be targeted.','complianz-gdpr')}
-								{readMore('https://complianz.io/integrating-plugins/#placeholder/')}</>
-							<TextInput
-								disabled={fetching}
-								value={script.placeholder_class || ''}
-								onChange={(value)=>onChangeHandler(value || '', 'placeholder_class')}
-								name={"placeholder_class"}
-								placeholder={__("Your CSS class", "complianz-gdpr")}
-							/>
-						</div>
-					</>
+					<div className="cmplz-details-row cmplz-details-row">
+						<>{__('Enter the div class or ID that should be targeted.','complianz-gdpr')}
+							{readMore('https://complianz.io/integrating-plugins/#placeholder/')}</>
+						<TextInput
+							disabled={fetching}
+							value={script.placeholder_class || ''}
+							onChange={(value)=>onChangeHandler(value || '', 'placeholder_class')}
+							name={"placeholder_class"}
+							placeholder={__("Your CSS class", "complianz-gdpr")}
+						/>
+					</div>
 				}
 
 				<div className="cmplz-details-row cmplz-details-row__checkbox">

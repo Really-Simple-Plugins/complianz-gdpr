@@ -109,21 +109,16 @@ const CookieBannerPreview = () => {
 	}
 
 	useEffect(() => {
-		console.log("banner data tcf");
 		if (!tcfActive) return;
-		console.log("banner data tcf 2");
 
 		const rootElement = rootRef.current;
 		if (!rootRef.current) {
 			return;
 		}
-		console.log("banner data tcf 3");
 
 		// Query the DOM using the root element
 		//if tcf, insert categories
 		if ( consentType === 'optin' && rootElement) {
-			console.log("banner data tcf 4");
-
 			let purposesField = getField('tcf_purposes');
 			let purposes = filterArray(purposesField.options, purposesField.value);
 			const srcMarketingPurposes = getPurposes('marketing', false);
@@ -131,8 +126,6 @@ const CookieBannerPreview = () => {
 			const srcStatisticsPurposes = getPurposes('statistics', false);
 			const marketingPurposes = filterArray(purposes, srcMarketingPurposes);
 			const statisticsPurposes = filterArray(purposes, srcStatisticsPurposes);
-			console.log('marketingPurposes');
-			console.log(marketingPurposes);
 			let featuresField = getField('tcf_features');
 			let features = filterArray(featuresField.options, featuresField.value);
 
@@ -200,7 +193,7 @@ const CookieBannerPreview = () => {
 		if (cmplz_manage_consent) cmplz_manage_consent.style.display = 'none';
 
 		//only do this on updates.
-		if (cmplz_banner && update ) {
+		if (cmplz_banner && update && consentType === 'optin' && getFieldValue('use_categories') ==='view-preferences') {
 			cmplz_banner.querySelector('.cmplz-view-preferences' ).style.display = 'block';
 			cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'none';
 		}
@@ -327,6 +320,7 @@ const CookieBannerPreview = () => {
 			'use_logo': 'logo',
 			'category_all': 'category_marketing',
 			'category_stats': 'category_statistics',
+			'category_prefs': 'category_preferences',
 			'accept_informational': 'accept_optout',
 			'accept': 'accept_optin',
 			'view_preferences': 'manage_options',

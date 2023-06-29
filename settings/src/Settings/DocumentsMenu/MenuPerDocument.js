@@ -7,7 +7,7 @@ const MenuPerDocument = (props) => {
 	//filter out this region from the documents
 	let regionDocuments = createdDocuments.filter( document => document.region === props.region.id );
 	if ( regionDocuments.length===0 ) {
-		return <></>
+		return null
 	}
 
 	return (

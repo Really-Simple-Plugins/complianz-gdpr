@@ -108,7 +108,7 @@ function cmplz_menu() {
 							'helpLink' => 'https://complianz.io/cookie-scan-results/',
 						],
 						[
-							'id' => 'statistics',
+							'id' => 'consent-statistics',
 							'title' => __('Statistics', 'complianz-gdpr' ),
 							'intro' => __('Below you can choose to implement your statistics tooling with Complianz. We will add the needed snippets and control consent at the same time', 'complianz-gdpr' ),
 							'helpLink' => 'https://complianz.io/statistics-implementation',
@@ -206,7 +206,7 @@ function cmplz_menu() {
 				],
 				[
 					'id'       => 'banner-texts',
-					'title'    => __( 'Banner Texts',  'complianz-gdpr'  ),
+					'title'    => __( 'Texts',  'complianz-gdpr'  ),
 					'intro'    => __( 'Here you can edit the texts on your banner.',  'complianz-gdpr'  ),
 					'helpLink' => 'https://complianz.io/social-media-on-a-cookiebanner/',
 				],
@@ -225,19 +225,16 @@ function cmplz_menu() {
 					'id'       => 'integrations-services',
 					'title'    => __( 'Services',  'complianz-gdpr'  ),
 					'helpLink' => 'https://complianz.io/integrating-plugins/',
-					"save_buttons_required" => false,
 				],
 				[
 					'id'       => 'integrations-plugins',
 					'title'    => __( 'Plugins',  'complianz-gdpr'  ),
 					'helpLink' => 'https://complianz.io/integrating-plugins/',
-					"save_buttons_required" => false,
 				],
 				[
 					'id'       => 'integrations-script-center',
 					'title'    => __( 'Script Center',  'complianz-gdpr'  ),
 					'helpLink' => 'https://complianz.io/integrating-plugins/',
-					"save_buttons_required" => false,
 				],
 			],
 		],
@@ -316,6 +313,7 @@ function cmplz_menu() {
 						[
 							'id'       => 'placeholders-appearance',
 							'title'    => __( 'Placeholder Style',  'complianz-gdpr'  ),
+							'helpLink' => 'https://complianz.io/changing-the-default-social-placeholders/',
 						],
 						[
 							'id'       => 'placeholders-settings',
@@ -456,6 +454,7 @@ function cmplz_menu() {
 				[
 					'id'       => 'security',
 					'title'    => __( 'Security',  'complianz-gdpr'  ),
+					"save_buttons_required" => false,
 					'groups'   => [
 						[
 							'id'       => 'security-install',
@@ -475,6 +474,17 @@ function cmplz_menu() {
 					'groups'   => [
 						[
 							'id'       => 'settings-data',
+							'title'    => __( 'Data',  'complianz-gdpr'  ),
+						],
+					],
+				],
+				[
+					'id'       => 'tools-multisite',
+					'group_id' => 'tools-multisite',
+					'title'    => __( 'Multisite',  'complianz-gdpr'  ),
+					'groups'   => [
+						[
+							'id'       => 'tools-multisite',
 							'title'    => __( 'Data',  'complianz-gdpr'  ),
 						],
 					],

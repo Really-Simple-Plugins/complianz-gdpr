@@ -1,61 +1,41 @@
 import apiFetch from '@wordpress/api-fetch';
 import axios from 'axios';
+import {toast} from "react-toastify";
+import {__} from '@wordpress/i18n';
+const ajaxRequest = async (method, path, requestData = null) => {
+	try {
+		const url = method === 'GET'
+			? `${siteUrl('ajax')}&rest_action=${path.replace('?', '&')}`
+			: siteUrl('ajax');
 
-const ajaxPost = (path, requestData) => {
-	return new Promise(function (resolve, reject) {
-		let url = siteUrl('ajax');
-		let xhr = new XMLHttpRequest();
-		xhr.open('POST', url );
-		xhr.onload = function () {
-			let response = JSON.parse(xhr.response);
-			if (xhr.status >= 200 && xhr.status < 300) {
-				resolve(response);
-			} else {
-				resolve(invalidDataError(xhr.response, xhr.status, xhr.statusText) );
-			}
-		};
-		xhr.onerror = function () {
-			resolve(invalidDataError(xhr.response, xhr.status, xhr.statusText) );
+		const options = {
+			method,
+			headers: { 'Content-Type': 'application/json; charset=UTF-8' },
 		};
 
-		let data = {};
-		data['rest_action'] = path;
-		data['data'] = requestData;
-		data = JSON.stringify(data, stripControls);
-		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-		xhr.send(data);
-	});
+		if (method === 'POST') {
+			options.body = JSON.stringify({ rest_action:path, data: requestData }, stripControls);
+		}
+		const response = await fetch(url, options);
+		if (!response.ok) {
+			generateError(response, response.statusText);
+			return invalidDataError(error, 'error', 'invalid_data');
+		}
+
+		const responseData = await response.json();
+		if (!responseData || !responseData.hasOwnProperty('request_success')) {
+			generateError(responseData, 'Invalid data error');
+			return invalidDataError('invalid_data', 'error', 'Server return invalid data. Please check if enabled, please disable debugging','complianz-gdpr');
+		}
+
+		delete responseData.request_success;
+		return responseData;
+	} catch (error) {
+		generateError(false, error);
+		return invalidDataError(error, 'error', 'Server return invalid data. Please check if enabled, please disable debugging','complianz-gdpr');
+	}
 }
-const ajaxGet = (path) => {
 
-	return new Promise(function (resolve, reject) {
-		let url = siteUrl('ajax');
-		url+='&rest_action='+path.replace('?', '&');
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', url);
-		xhr.onload = function () {
-			let response;
-			try {
-				response = JSON.parse(xhr.response);
-			} catch (error) {
-				resolve(invalidDataError(xhr.response, 500, 'invalid_data') );
-			}
-			if (xhr.status >= 200 && xhr.status < 300) {
-				if ( !response.hasOwnProperty('request_success') ) {
-					resolve(invalidDataError(xhr.response, 500, 'invalid_data') );
-				}
-				resolve(response);
-			} else {
-				resolve(invalidDataError(xhr.response, xhr.status, xhr.statusText) );
-			}
-		};
-		xhr.onerror = function () {
-			resolve(invalidDataError(xhr.response, xhr.status, xhr.statusText) );
-		};
-		xhr.send();
-	});
-
-}
 /**
  * All data elements with 'Control' in the name are dropped, to prevent:
  * TypeError: Converting circular structure to JSON
@@ -86,6 +66,7 @@ const invalidDataError = (apiResponse, status, code ) => {
 }
 
 const apiGet = (path) => {
+
 	if ( usesPlainPermalinks() ) {
 		let config = {
 			headers: {
@@ -95,24 +76,24 @@ const apiGet = (path) => {
 		return axios.get(siteUrl()+path, config ).then(
 			( response ) => {
 				if (!response.data.request_success) {
-					return ajaxGet(path);
+					return ajaxRequest('GET', path);
 				}
 				return response.data;
 			}
 		).catch((error) => {
 			//try with admin-ajax
-			return ajaxGet(path);
+			return ajaxRequest('GET', path);
 		});
 	} else {
 		return apiFetch( { path: path } ).then((response) => {
 			if ( !response.request_success ) {
 				console.log("apiFetch failed, trying with ajaxGet");
-				return ajaxGet(path);
+				return ajaxRequest('GET', path);
 			}
 			return response;
 		}).catch((error) => {
-			console.log("apiFetch failed with catch error, trying with ajaxGet");
-			return ajaxGet(path);
+			//try with admin-ajax
+			return ajaxRequest('GET', path);
 		});
 	}
 }
@@ -124,7 +105,7 @@ const apiPost = (path, data) => {
 			}
 		}
 		return axios.post(siteUrl()+path, data, config ).then( ( response ) => {return response.data;}).catch((error) => {
-			return ajaxPost(path, data);
+			return ajaxRequest('POST', path, data);
 		});
 	} else {
 		return apiFetch( {
@@ -132,7 +113,7 @@ const apiPost = (path, data) => {
 			method: 'POST',
 			data: data,
 		} ).catch((error) => {
-			return ajaxPost(path, data);
+			return ajaxRequest('POST', path, data);
 		});
 	}
 }
@@ -194,4 +175,31 @@ const siteUrl = (type) => {
 		return url.replace('http://', 'https://');
 	}
 	return  url;
+}
+let errorShown = false;
+const generateError = (response, errorMsg) => {
+	let error = __("Unexpected error", "burst-statistics");
+	if (response && response.errors) {
+		//get first entry of the errors object.
+		//This is the error message
+		for (let key in response.errors) {
+			if (response.errors.hasOwnProperty(key) && typeof response.errors[key] === 'string' && response.errors[key].length > 0) {
+				error = response.errors[key];
+				break;
+			}
+		}
+	} else if (errorMsg) {
+		error = errorMsg;
+	}
+
+	//only show once
+	if (errorShown) {
+		return;
+	}
+	errorShown = true;
+	toast.error(
+		__('Server error', 'complianz-gdpr') + ': ' + error,
+		{
+			autoClose: 15000,
+		});
 }

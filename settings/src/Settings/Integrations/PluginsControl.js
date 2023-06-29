@@ -156,16 +156,14 @@ const PluginsControl = () => {
 			<div className="cmplz-table-header">
 				{plugins.length>5 && <input type="text" placeholder={__("Search", "complianz-gdpr")} value={searchValue} onChange={ ( e ) => setSearchValue(e.target.value) } /> }
 			</div>
-			{ (disabled || filteredPlugins.length===0) && <>
+			{ (disabled || filteredPlugins.length===0) &&
 				<div className="cmplz-settings-overlay">
 					<div className="cmplz-settings-overlay-message">{disabledText}</div>
 				</div>
-			</>}
-			{ (outputPlugins.length===0) && <>
-				<div className="cmplz-integrations-placeholder">
-					<div></div><div></div><div></div><div></div><div></div><div></div>
-				</div>
-			</>}
+			}
+			{ (outputPlugins.length===0) &&
+				<></>
+			}
 			{!disabled && outputPlugins.length>0 && DataTable && <>
 				<DataTable
 					columns={columns}

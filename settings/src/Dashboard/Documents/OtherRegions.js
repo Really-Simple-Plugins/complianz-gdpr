@@ -8,11 +8,11 @@ const SingleDocument = ({document, index}) => {
 
 		<div key={index} className="cmplz-single-document-other-regions">
 				<a href={document.readmore} target="_blank">{document.title}</a>
-				{ regions.map( (region, i)=> <>
+				{ regions.map( (region, i)=>
 					<div key={i} className="cmplz-region-indicator">
 						<img alt={region} width="16px" height="16px" src={cmplz_settings.plugin_url + "/assets/images/"+region+".svg"} />
 					</div>
-				</> )}
+				 )}
 		</div>
 
 	);

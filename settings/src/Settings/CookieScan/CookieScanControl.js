@@ -143,8 +143,8 @@ const CookieScanControl = () => {
 	return (
 		<>
 			<div className="cmplz-table-header">
-			<button disabled={scanDisabled} className="button button-default" onClick={ (e) => Start(e) }>{__("Scan","complianz-gdpr")}</button>
-			<button disabled={scanDisabled} className="button button-default cmplz-reset-button" onClick={ (e) => clearCookies(e) }>{__("Clear Cookies","complianz-gdpr")}</button>
+				<button disabled={scanDisabled} className="button button-default" onClick={ (e) => Start(e) }>{__("Scan","complianz-gdpr")}</button>
+				<button disabled={scanDisabled} className="button button-default cmplz-reset-button" onClick={ (e) => clearCookies(e) }>{__("Clear Cookies","complianz-gdpr")}</button>
 			</div>
 			<div id="cmplz-scan-progress">
 				<div className='cmplz-progress-bar' style={getStyles()}></div>

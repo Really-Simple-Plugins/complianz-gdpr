@@ -242,7 +242,7 @@ const useStatistics = create(( set, get ) => ({
 	regions:[],
 	defaultConsentType: 'optin',
 	loaded:false,
-	statisticsData: defaultData,
+	statisticsData: complianz.is_premium ? defaultData : emptyData,
 	emptyStatisticsData: emptyData,
 	bestPerformerEnabled:false,
 	daysLeft:'',

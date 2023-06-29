@@ -14,11 +14,7 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 		$id = cmplz_sanitize_title_preserve_uppercase($id);
 		//to ensure the fields function only runs once, we store it here, and check if it's filled in the next request.
 		$fields = false;
-		if ( is_multisite() && cmplz_is_networkwide_active() ) {
-			$options = get_site_option( 'cmplz_options', [] );
-		} else {
-			$options = get_option( 'cmplz_options', [] );
-		}
+		$options = get_option( 'cmplz_options', [] );
 		$value = $options[ $id ] ?? false;
 		if ( $value===false && $default!==false ) {
 			$fields = COMPLIANZ::$config->fields ?? [];
@@ -126,27 +122,6 @@ if ( !function_exists('cmplz_sanitize_title_preserve_uppercase')) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_is_networkwide_active' ) ) {
-	/**
-	 * Check if we should treat the plugin as networkwide or not.
-	 * Note that this function returns false for single sites! Always use icw is_multisite()
-	 *
-	 * @return bool
-	 */
-	function cmplz_is_networkwide_active(){
-		if ( !is_multisite() ) {
-			return false;
-		}
-		if ( !function_exists('is_plugin_active_for_network') )
-			require_once(ABSPATH . '/wp-admin/includes/plugin.php');
-
-		if ( is_plugin_active_for_network(cmplz_plugin) ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
 if ( ! function_exists( 'cmplz_uses_google_analytics' ) ) {
 
 	/**
@@ -289,12 +264,11 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 	 */
 
 	function cmplz_get_template( $filename , $args = array(), $path = false ) {
-		$path = $path ? $path : trailingslashit( cmplz_path ) . 'templates/';
+		$path = $path ? trailingslashit($path) : trailingslashit( cmplz_path ) . 'templates/';
 		$file = apply_filters('cmplz_template_file', $path . $filename, $filename);
 		$theme_file = trailingslashit( get_stylesheet_directory() )
 		              . trailingslashit( basename( cmplz_path ) )
 		              . 'templates/' . $filename;
-
 		if ( !file_exists( $file ) ) {
 		    return false;
         }
@@ -302,7 +276,6 @@ if ( ! function_exists( 'cmplz_get_template' ) ) {
 		if ( file_exists( $theme_file ) ) {
 			$file = $theme_file;
 		}
-
 		if ( strpos( $file, '.php' ) !== false ) {
 			ob_start();
 			require $file;

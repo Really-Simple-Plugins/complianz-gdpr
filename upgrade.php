@@ -958,7 +958,7 @@ function cmplz_check_upgrade() {
 			}
 
 			$license = get_site_option( 'cmplz_license_key' );
-			if ( $license ) {
+			if ( $license && !is_multisite() ) {
 				cmplz_update_option( 'license', $license );
 //				delete_site_option( 'cmplz_license_key' );
 			}

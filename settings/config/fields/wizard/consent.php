@@ -30,15 +30,15 @@ function cmplz_wizard_consent_fields( $fields ) {
 					'image' => "burst.png"
 
 				],
-				'menu_id'  => 'statistics',
-				'group_id' => 'statistics',
+				'menu_id'  => 'consent-statistics',
+				'group_id' => 'consent-statistics',
 				'label'    => '',
 			],
 
 			[
 				'id'                      => 'compile_statistics',
 				'type'                    => 'radio',
-				'menu_id'                 => 'statistics',
+				'menu_id'                 => 'consent-statistics',
 				'required'                => true,
 				'default'                 => '',
 				'revoke_consent_onchange' => true,
@@ -57,7 +57,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			],
 			[
 				'id'                      => 'compile_statistics_more_info',
-				'menu_id'                 => 'statistics',
+				'menu_id'                 => 'consent-statistics',
 				'type'                    => 'multicheckbox',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',
@@ -86,7 +86,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			],
 			[
 				'id'                      => 'compile_statistics_more_info_tag_manager',
-				'menu_id'                 => 'statistics',
+				'menu_id'                 => 'consent-statistics',
 				'type'                    => 'multicheckbox',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',
@@ -112,7 +112,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			],
 			[
 				'id'                      => 'matomo_anonymized',
-				'menu_id'                 => 'statistics',
+				'menu_id'                 => 'consent-statistics',
 				'type'                    => 'select',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',

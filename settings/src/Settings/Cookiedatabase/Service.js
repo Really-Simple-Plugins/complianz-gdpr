@@ -11,7 +11,7 @@ const ServiceDetails = (service) => {
 	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 
 	if (!service) {
-		return (<></>);
+		return null;
 	}
 	//allow for both '0'/'1' and false/true.
 	let sync = useCdbApi ? service.sync==1 : false;

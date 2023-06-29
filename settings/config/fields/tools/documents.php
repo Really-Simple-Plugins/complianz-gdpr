@@ -42,6 +42,13 @@ function cmplz_tools_documents_fields( $fields ) {
 				'text'  => __( "You can add additional custom CSS here. For tips and CSS lessons, check out our documentation.", 'complianz-gdpr'),
 				'url'   => 'https://complianz.io/?s=css',
 			],
+			'condition_action' => 'disable',
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'use_custom_document_css' => true,
+				]
+			],
 		],
 	] );
 

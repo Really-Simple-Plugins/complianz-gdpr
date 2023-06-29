@@ -146,7 +146,7 @@ class cmplz_integrations {
 			$scripts = $this->sanitize_scripts($scripts);
 			update_option( 'complianz_options_custom-scripts', $scripts );
 		} else if ( $action === 'get_security_measures_data' ) {
-			$is_7 = version_compare(    rsssl_version,'7','>=' ) ? true : false;
+			$is_7 = defined('rsssl_version') && version_compare(    rsssl_version,'7','>=' ) ? true : false;
 			$measures = [];
 			$measures[] = [
 				'id' => 'vulnerability_detection',

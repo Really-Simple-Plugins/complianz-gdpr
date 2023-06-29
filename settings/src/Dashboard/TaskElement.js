@@ -7,14 +7,14 @@ import useFields from "../Settings/Fields/FieldsData";
 import useProgress from "./Progress/ProgressData";
 import useMenu from "../Menu/MenuData";
 
-const TaskElement = (props) => {
+const TaskElement = ({notice, index}) => {
 	const {dismissNotice, fetchProgressData} = useProgress();
 	const {getField, setHighLightField, fetchFieldsData} = useFields();
 	const {setSelectedSubMenuItem} = useMenu();
 
 	const handleClick = async () => {
-		setHighLightField(props.notice.highlight_field_id);
-		let highlightField = getField(props.notice.highlight_field_id);
+		setHighLightField(notice.highlight_field_id);
+		let highlightField = getField(notice.highlight_field_id);
 		await setSelectedSubMenuItem(highlightField.menu_id);
 	}
 
@@ -39,13 +39,12 @@ const TaskElement = (props) => {
 		});
 	}
 
-	let notice = props.notice;
 	let premium = notice.icon==='premium';
 	//treat links to complianz.io and internal links different.
 	let urlIsExternal = notice.url && notice.url.indexOf('complianz.io') !== -1;
 	let statusNice =  notice.status.charAt(0).toUpperCase() +  notice.status.slice(1);
 	return(
-		<div className="cmplz-task-element">
+		<div key={index} className="cmplz-task-element">
 			<span className={'cmplz-task-status cmplz-' + notice.status}>{ statusNice }</span>
 			<p className="cmplz-task-message" dangerouslySetInnerHTML={{__html: notice.message}}></p>
 			{urlIsExternal && notice.url && <a target="_blank" href={notice.url}>{__("More info", "complianz-gdpr")}</a> }

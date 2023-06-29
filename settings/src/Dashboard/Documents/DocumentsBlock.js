@@ -51,7 +51,6 @@ const SingleDocument = (props) => {
 	let createLink = document.create_link ? document.create_link : '#wizard/manage-documents';
 	let plugin = pluginData ? pluginData.find(plugin => plugin.slug === 'complianz-terms-conditions') : false;
 	return (
-		<>
 			<div className="cmplz-single-document">
 				<div className="cmplz-single-document-title" key={1}>
 					{ document.permalink && <a href={document.permalink}>{document.title}</a>}
@@ -62,7 +61,7 @@ const SingleDocument = (props) => {
 				<div onClick={ (e) => onClickhandler(e, document.shortcode) } key={4}><Icon name={'shortcode'} color={existsColor}  tooltip={shortcodeTooltip} size={14} /></div>
 				<div className="cmplz-single-document-generated" key={5}>
 					{!document.install && <>
-						{ document.readmore && <><a href={document.readmore}>{__("Read more", "complianz-gdpr")}</a></>}
+						{ document.readmore && <a href={document.readmore}>{__("Read more", "complianz-gdpr")}</a>}
 						{ !document.readmore &&
 							<>
 								{ !document.required && __("Obsolete","complianz-gdpr")}
@@ -86,8 +85,7 @@ const SingleDocument = (props) => {
 
 				</div>
 			</div>
-		</>
-	);
+		);
 }
 
 const DocumentsBlock = () => {

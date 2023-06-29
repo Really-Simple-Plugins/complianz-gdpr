@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from 'react';
+import {Fragment, memo, useEffect, useState} from 'react';
 import {__} from '@wordpress/i18n';
 import Icon from '../../utils/Icon';
 import './BorderInput.scss';
@@ -61,10 +61,10 @@ const BorderInput = ({ label, id, value, onChange, required, defaultValue, disab
 					const side = sides[key];
 					const sideValue = value.hasOwnProperty(key) ? value[key] : defaultValue[key];
 					return (
-						<>
+						<Fragment key={key}>
 							<input className={'cmplz-border-input-side'} type="number" key={key} onChange={(e) => handleChange(e.target.value, key)} value={sideValue}/>
 							<p className={'cmplz-border-input-side-label'}>{side}</p>
-						</>
+						</Fragment>
 					)
 				})
 			}

@@ -67,9 +67,8 @@ function cmplz_fields( $load_values = true ): array {
 	if ( ! cmplz_user_can_manage() ) {
 		return [];
 	}
-	if ($load_values) $stored_options = is_multisite() ? get_site_option( 'cmplz_options' ) : get_option( 'cmplz_options' );
+	if ($load_values) $stored_options = get_option( 'cmplz_options' );
 	$fields = COMPLIANZ::$config->fields;
-
 
 	$default_order_index = 10;
 	foreach ( $fields as $key => $field ) {

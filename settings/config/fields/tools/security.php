@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) or die();
 
 add_filter( 'cmplz_fields', 'cmplz_security_fields', 100 );
 function cmplz_security_fields($fields){

@@ -179,11 +179,9 @@ const Settings = () => {
 						}
 
 					{ selectedMainMenuItem ==='wizard' && selectedSubMenuItem === menuItems[menuItems.length-1].id &&
-						<>
-							<a disabled={nextButtonDisabled} className="button button-primary" href={finishLink} onClick={ ( e ) => saveData(true, false) }>
-								{ __( 'Finish', 'complianz-gdpr' ) }
-							</a>
-						</>
+						<a disabled={nextButtonDisabled} className="button button-primary" href={finishLink} onClick={ ( e ) => saveData(true, false) }>
+							{ __( 'Finish', 'complianz-gdpr' ) }
+						</a>
 					}
 					</div>
 				</div>

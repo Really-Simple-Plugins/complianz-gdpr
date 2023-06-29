@@ -238,11 +238,7 @@ function cmplz_services_fields( $fields ) {
 
 					]
 				],
-				'help' => [
-					'label' => 'warning',
-					'title' => __( "About advertising frameworks", 'complianz-gdpr' ),
-					'text'  => __( "If you only use Google for advertising, and have activated the option to use only non personalized ads, you can select no here.", 'complianz-gdpr' ),
-				],
+	
 				'disabled' => [
 					'tcf'
 				],

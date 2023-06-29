@@ -30,11 +30,11 @@ const ScriptCenterControl = () => {
 				{__( "The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s.", 'complianz-gdpr' ) }
 				{ readMore('https://complianz.io/script-center/')}
 			</p>
-			{ (disabled ) && <>
+			{ (disabled ) &&
 				<div className="cmplz-settings-overlay">
 					<div className="cmplz-settings-overlay-message">{disabledText}</div>
 				</div>
-			</>}
+			}
 			<h3>{__("Add a third-party script", 'complianz-gdpr' ) }</h3>
 			{!integrationsLoaded &&  <> <ThirdPartyScript type='add_script' /></>}
 			{integrationsLoaded && scripts.add_script.length>0 && scripts.add_script.map((script, i) => <ThirdPartyScript type='add_script' script={script} key={i} />)}

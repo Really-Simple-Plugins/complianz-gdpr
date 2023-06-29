@@ -142,7 +142,6 @@ const useFields = create(( set, get ) => ({
 		let saveFields = fields.filter(field => {
 			const fieldIsIncluded = changedFields.some(changedField => changedField.id === field.id );
 			const isRadioOrSelect = field.default && ['radio', 'select', 'document', 'multicheckbox', 'license'].includes(field.type);
-			console.log("fieldIsIncluded", fieldIsIncluded, "id", field.id, "isRadioOrSelect",isRadioOrSelect, "never saved",field.never_saved);
 			return fieldIsIncluded || (isRadioOrSelect && field.never_saved);
 		});
 
@@ -176,7 +175,13 @@ const useFields = create(( set, get ) => ({
 			});
 		}
 		if (showSavedNotice && saveFields.length === 0) {
-			toast.info(__('Settings have not been changed','complianz-gdpr'));
+			//nothing to save. show instant success.
+			toast.promise(
+				Promise.resolve(),
+				{
+					success: __('Settings saved', 'complianz-gdpr'),
+				}
+			);
 		}
 	},
 

@@ -121,7 +121,7 @@ const UseBannerData = create(( set, get ) => ({
 			if ( sessionStorage.cmplzBannerPreviewConsentType ) {
 				//only use from local storage if the consent type is still valid
 				let storedConsentType = sessionStorage.cmplzBannerPreviewConsentType;
-				if (Object.values(consentTypes).includes(storedConsentType)) {
+				if (Object.keys(consentTypes).includes(storedConsentType)) {
 					consentType = storedConsentType;
 				}
 			}

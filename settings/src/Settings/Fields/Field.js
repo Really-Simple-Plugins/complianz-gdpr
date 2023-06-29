@@ -171,6 +171,9 @@ const COMPONENT_MAP = {
 	},
 	'install-plugin': {
 		componentPath: 'Settings/InstallPlugin/InstallPlugin',
+	},
+	'copy-multisite': {
+		componentPath: 'Settings/Multisite/CopyMultisite',
 	}
 };
 
@@ -291,9 +294,8 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 						{...customProps}
 					/>
 				)}
-				{ ! Component && (<>
+				{ ! Component && (
 						<Placeholder lines="1"></Placeholder>
-					</>
 				)}
 				{field.comment && (
 					<div
@@ -311,9 +313,8 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 			</div>
 		);
 	}
-
-	if ( Component == null ) {
-		return <div></div>;
+	if (Component == null) {
+		return null;
 	}
 
 };

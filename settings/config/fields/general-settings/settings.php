@@ -19,13 +19,14 @@ function cmplz_settings_fields($fields){
 		],
 
 		[
-			'id'                      => 'use_hybrid_scan',
+			'id'                      => 'use_hybrid_scan1',
 			'menu_id'                 => 'settings-cd',
 			'group_id'                => 'settings-cd',
 			'type'      => 'radio',
 			'required'  => false,
+			'disabled' => true,
 			'premium'                 => [
-				'description' => __( "The hybrid cookie scan uses the free, default WordPress focused cookie scan and a cookiescan from an external server, simulating website visits. ", 'complianz-gdpr' ),
+				'disabled' => false,
 			],
 			'default'   => 'yes',
 			'options'   => COMPLIANZ::$config->yes_no,
@@ -36,6 +37,8 @@ function cmplz_settings_fields($fields){
 				'text'  => __( "The hybrid cookie scan uses advantages of both WordPress focused cookie scan, unavailable to cloud solutions, and a second external cookie scan simulating website visits.", 'complianz-gdpr'),
 				'url'   => 'https://cookiedatabase.org/privacy-statement/',
 			],
+			'comment' => __( "The hybrid cookie scan uses the free, default WordPress focused cookie scan and a cookiescan from an external server, simulating website visits. ", 'complianz-gdpr' ),
+
 		],
 
 		[
@@ -146,6 +149,39 @@ function cmplz_settings_fields($fields){
 			'default'  => false,
 			'tooltip'  => __( "When content is loaded with ajax, for example with a load more button or lightbox, this option could help blocking the service correctly", 'complianz-gdpr' ),
 		],
+				[
+			'id'       => 'set_cookies_on_root',
+			'menu_id'  => 'settings-general',
+			'group_id' => 'settings-general',
+
+			'type'    => 'checkbox',
+			'default' => false,
+			'label'   => __( "Set cookiebanner cookies on the root domain", 'complianz-gdpr' ),
+			'help'             => [
+				'label' => 'default',
+				'title' => __( 'Cookies on Root Domain', 'complianz-gdpr' ),
+				'text'    => __( "This is useful if you have a multisite, or several sites as subdomains on a main site", 'complianz-gdpr' ),
+			],
+		],
+		[
+			'id'       => 'cookie_domain',
+			'menu_id'  => 'settings-general',
+			'group_id' => 'settings-general',
+			'type'      => 'text',
+			'default'   => false,
+			'label'     => __( "Domain to set the cookies on", 'complianz-gdpr' ),
+			'help'             => [
+				'label' => 'default',
+				'title' => __( 'Cookie Domain', 'complianz-gdpr' ),
+				'text'  => __( "This should be your main, root domain.", 'complianz-gdpr' ),
+			],
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'set_cookies_on_root' => true,
+				]
+			],
+		]
 	]);
 
 

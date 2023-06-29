@@ -11,6 +11,7 @@ import SettingsPlaceholder from "./Placeholder/SettingsPlaceholder";
 import {UseSyncData} from "./Settings/Cookiedatabase/SyncData";
 import useProgress from "./Dashboard/Progress/ProgressData";
 import PreloadFields from "./Settings/Fields/PreloadFields";
+import {setLocaleData} from "@wordpress/i18n";
 
 const Page = () => {
 	const {fetchProgressData} = useProgress();
@@ -24,6 +25,17 @@ const Page = () => {
 	const [Onboarding, setOnboarding] = useState(null);
 	const [CookieScanControl, setCookieScanControl] = useState(null);
 	const [ToastContainer, setToastContainer] = useState(null);
+
+	//load the chunk translations passed to us from the cmplz_settings object
+	//only works in build mode, not in dev mode.
+	useEffect(() => {
+		cmplz_settings.json_translations.forEach( (translationsString) => {
+			let translations = JSON.parse(translationsString);
+			let localeData = translations.locale_data[ 'complianz-gdpr' ] || translations.locale_data.messages;
+			localeData[""].domain = 'complianz-gdpr';
+			setLocaleData( localeData, 'complianz-gdpr' );
+		});
+	},[]);
 
 	let showTour = window.location.href.indexOf('tour') !==-1;
 	useEffect ( () => {
@@ -104,16 +116,12 @@ const Page = () => {
 
 	if (error) {
 		return (
-			<>
-				<PagePlaceholder error={error}></PagePlaceholder>
-			</>
+			<PagePlaceholder error={error}></PagePlaceholder>
 		)
 	}
 	if ( parseInt(lockedByUser) !== parseInt(cmplz_settings.user_id) ) {
 		return (
-			<>
 				<PagePlaceholder lockedByUser={lockedByUser}></PagePlaceholder>
-			</>
 		)
 	}
 
@@ -122,7 +130,7 @@ const Page = () => {
 			<>
 				<Header/>
 				{ showTour && Tour && <Tour />}
-				{ showOnboarding && Onboarding && <Onboarding />}
+				{/*{ showOnboarding && Onboarding && <Onboarding />}*/}
 
 				<div className={"cmplz-content-area cmplz-grid cmplz-" + selectedMainMenuItem}>
 					{ selectedMainMenuItem !== 'dashboard' &&

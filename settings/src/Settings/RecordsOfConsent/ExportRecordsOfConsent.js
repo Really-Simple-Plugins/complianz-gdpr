@@ -25,6 +25,7 @@ const ExportRecordsOfConsent = () => {
 			fetchExportRecordsOfConsentProgress(false, startDate, endDate);
 		}
 	}, [progress]);
+
 	return (
 		<>
 			<div className={'cmplz-field-button cmplz-table-header'}>
@@ -41,10 +42,11 @@ const ExportRecordsOfConsent = () => {
 					{!noData && __("Your Records Of Consent Export has been completed.","complianz-gdpr")}
 					{noData && __("Your selection does not contain any data.","complianz-gdpr")}
 					<div className="cmplz-selected-document-controls">
-						{!noData && <a className="button button-default" href={exportLink}>{__("Download","complianz-gdpr")}</a>}
+						{!noData && <a className="button button-default" download href={exportLink}>{__("Download","complianz-gdpr")}</a>}
 					</div>
 				</div>
 			}
+
 		</>
 	)
 }

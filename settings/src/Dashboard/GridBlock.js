@@ -33,13 +33,13 @@ var dynamicComponents = {
     "OtherPlugins": OtherPlugins,
 };
 
-const GridBlock = (props) => {
-	const blockData = props.block;
+const GridBlock = ({block}) => {
+	const blockData = block;
 	const className = "cmplz-grid-item "+blockData.class+" cmplz-"+blockData.id;
-	const footer =props.block.footer ? props.block.footer.data : false;
+	const footer =block.footer ? block.footer.data : false;
 
 	return (
-		<div  key={"block-"+blockData.id} className={className}>
+		<div key={"block-"+blockData.id} className={className}>
 			<div className="cmplz-grid-item-header">
 				{blockData.header.type==='text' && <>
 					<h3 className="cmplz-grid-title cmplz-h4">{ blockData.header.data }</h3>
@@ -52,10 +52,10 @@ const GridBlock = (props) => {
 					{ wp.element.createElement(dynamicComponents[blockData.header.data])}
 				</>}
 			</div>
-			 <div className="cmplz-grid-item-content">{wp.element.createElement(dynamicComponents[props.block.content.data])}</div>
+			 <div className="cmplz-grid-item-content">{wp.element.createElement(dynamicComponents[block.content.data])}</div>
 
 			{!footer && <div className="cmplz-grid-item-footer"></div>}
-			{footer && <div className="cmplz-grid-item-footer">{wp.element.createElement(dynamicComponents[props.block.footer.data])}</div>}
+			{footer && <div className="cmplz-grid-item-footer">{wp.element.createElement(dynamicComponents[block.footer.data])}</div>}
 
 		</div>
 	);

@@ -90,7 +90,7 @@ const ProgressBlock = () => {
             </div>
 
             <div className="cmplz-scroll-container">
-                {noticesOutput.map((notice, i) => <TaskElement key={i} notice={notice}/>)}
+                {noticesOutput.map((notice, i) => <TaskElement key={i} index={i} notice={notice}/>)}
             </div>
         </div>
     );

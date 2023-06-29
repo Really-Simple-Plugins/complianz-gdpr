@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) or die();
 
 add_filter( 'cmplz_fields', 'cmplz_proof_of_consent_fields', 110 );
 function cmplz_proof_of_consent_fields($fields){

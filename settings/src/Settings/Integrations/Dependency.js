@@ -57,7 +57,7 @@ const Dependency = (props) => {
 				/>
 				<label>{__("Dependency", "complianz-gdpr")}</label>
 			</div>
-			{ !!script.enable_dependency && <>
+			{ !!script.enable_dependency &&
 				<div className="cmplz-details-row cmplz-details-row">
 					{ urls.map( ([index, waitFor], i)=>
 						<div key={i} className="cmplz-scriptcenter-dependencies" >
@@ -72,7 +72,7 @@ const Dependency = (props) => {
 						</div>
 					)}
 				</div>
-			</>}
+			}
 		</>
 	);
 }

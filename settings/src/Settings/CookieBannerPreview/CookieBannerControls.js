@@ -2,7 +2,6 @@ import useFields from "../Fields/FieldsData";
 import UseBannerData from "./CookieBannerData";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
-import {useEffect} from "react";
 
 /**
  * Switch between banner variations

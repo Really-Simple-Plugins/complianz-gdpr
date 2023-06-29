@@ -1104,43 +1104,43 @@
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(1) {
-    width: 86%;
+    width: 84%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(2) {
-    width: 96%;
+    width: 86%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(3) {
-    width: 65%;
+    width: 75%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(4) {
-    width: 63%;
+    width: 74%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(5) {
-    width: 99%;
+    width: 75%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(6) {
-    width: 62%;
+    width: 74%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(7) {
-    width: 61%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
     width: 100%;
 }
 
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
     width: 69%;
 }
 
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
+    width: 98%;
+}
+
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(10) {
-    width: 96%;
+    width: 93%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(11) {
@@ -1148,39 +1148,39 @@
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(12) {
-    width: 99%;
+    width: 87%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(13) {
-    width: 99%;
+    width: 90%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(14) {
-    width: 73%;
+    width: 94%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(15) {
-    width: 86%;
+    width: 73%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(16) {
-    width: 85%;
+    width: 61%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(17) {
-    width: 70%;
+    width: 75%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(18) {
-    width: 64%;
+    width: 77%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(19) {
-    width: 69%;
+    width: 89%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(20) {
-    width: 81%;
+    width: 65%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line ~ .cmplz-placeholder-line {
@@ -2046,7 +2046,7 @@
     padding-left: 0;
 }
 
-#complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-checkbox, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-banner-reset-button, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-export, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-button {
+#complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-checkbox, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-banner-reset-button, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-copy-multisite, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-export, #complianz div[class^=cmplz-wizard-] .cmplz-field-wrap.cmplz-button {
     display: flex;
     align-items: center;
     flex-direction: row;

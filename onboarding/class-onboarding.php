@@ -133,7 +133,7 @@ class cmplz_onboarding {
 				$onboarding_dismissed = false;//get_site_option('cmplz_onboarding_dismissed');
 				if ( !$onboarding_dismissed ) {
 					update_site_option('cmplz_onboarding_dismissed', true);
-					wp_redirect( add_query_arg(array('page' => 'complianz', 'onboarding' => 1), cmplz_admin_url() ) );
+					wp_redirect( cmplz_admin_url() );
 					exit;
 				}
 				wp_redirect( add_query_arg(array('page' => 'complianz'), cmplz_admin_url() ) );

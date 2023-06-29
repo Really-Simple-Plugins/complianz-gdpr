@@ -81,10 +81,12 @@ const DatarequestsControl = () => {
 
 		setTimer(newTimer)
 	}
+
 	const handlePerRowsChange = async (newPerPage, page) => {
 		setPagination({ ...pagination, currentPage: page });
 		fetchData(newPerPage, page, orderBy, order);
 	};
+
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
 		fetchData(paginationPerPage, pagination.currentPage, orderBy, order);
@@ -212,8 +214,8 @@ const DatarequestsControl = () => {
 					columns={columns}
 					data={data}
 					dense
-					progressPending={fetching}
-					progressComponent=<progressComponent/>
+					// progressPending={fetching}
+					// progressComponent=<progressComponent/>
 					pagination
 					paginationServer
 					noDataComponent={<div className="cmplz-no-documents">{__("No records", "really-simple-ssl")}</div>}
