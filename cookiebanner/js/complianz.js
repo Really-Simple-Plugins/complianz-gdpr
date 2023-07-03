@@ -881,11 +881,11 @@ function cmplz_run_tm_event(category) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
 		//deprecated notice for 7.0
-		if (complianz.prefix.indexOf('rt_')!==-1) {
+		if ( complianz.prefix.indexOf('rt_')!==-1 ) {
 			window.dataLayer.push({
 				'event': complianz.prefix+'event_'+category,
 			});
-			console.log('Tag Manager events with prefix rt_ will be deprecated in 7.0. The rt_ prefix will be dropped from Tag Manager events.');
+			console.log('Tag Manager events with prefix cmplz_rt_ will be deprecated in 7.0. The cmplz_rt_ prefix will be dropped from Tag Manager events.');
 		}
 
 		window.dataLayer.push({
