@@ -3058,7 +3058,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		public function revert_divs_to_summary( $content ): string {
 			// Make sure content is a string
 			$content = $content ?? '';
-			
+
 			//only on front-end
 			if ( is_admin() ) {
 				return $content;
@@ -3071,7 +3071,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			// Return $data if this is not a Complianz document
 			global $post;
-			if ( !$post ) {
+			if ( !$post || !property_exists($post, 'ID')) {
 				return $content;
 			}
 

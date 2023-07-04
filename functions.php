@@ -2086,11 +2086,13 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 			unlink( $tmpfile );
 		} // must unlink afterwards
 
-		try {
-			$new_src = cmplz_create_webp($file, $new_src);
-		} catch ( Exception $e ) {
-			if ( defined('WP_DEBUG') && WP_DEBUG ) {
-				error_log( $e->getMessage() );
+		if ( file_exists( $file ) ) {
+			try {
+				$new_src = cmplz_create_webp( $file, $new_src );
+			} catch ( Exception $e ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( $e->getMessage() );
+				}
 			}
 		}
 
