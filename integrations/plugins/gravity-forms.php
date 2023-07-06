@@ -157,8 +157,7 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 	}
 }
 
-add_action( "cmplz_add_consent_box_gravity-forms",
-	'cmplz_gravityforms_add_consent_checkbox' );
+add_action( "cmplz_add_consent_box_gravity-forms", 'cmplz_gravityforms_add_consent_checkbox' );
 
 /**
  * Update form permalink on last wizard step
@@ -194,5 +193,4 @@ function cmplz_gravityforms_update_consent_checkbox() {
 	}
 }
 
-add_action( "cmplz_wizard_last_step",
-	'cmplz_gravityforms_update_consent_checkbox' );
+add_action( "cmplz_finish_wizard", 'cmplz_gravityforms_update_consent_checkbox' );

@@ -19,12 +19,40 @@ const useMenu = create(( set, get ) => ({
 			window.location.hash = '#' + selectedMainMenuItem;
 		}
 	},
+	getMenuLinkById: (id) => {
+		let wizardMenu = getSubMenu(get().menu, 'wizard');
+		let menuItems = wizardMenu.menu_items;
+		for (let i = 0; i < menuItems.length; i++) {
+			const menuItem = menuItems[i];
+
+			if (menuItem.id === id) {
+				return '#wizard/' + menuItem.id;
+			}
+
+			if (menuItem.menu_items) {
+				for (let j = 0; j < menuItem.menu_items.length; j++) {
+					const subMenuItem = menuItem.menu_items[j];
+					if (subMenuItem.id === id) {
+						return '#wizard/' + subMenuItem.id;
+					}
+				}
+			}
+		}
+
+		return '#general';
+	},
 	saveButtonsRequired: () => {
 		let selectedSubMenuItem = get().selectedSubMenuItem;
 		let subMenu = get().subMenu.menu_items;
 		let menuItem = subMenu.filter((item) => {return (item.id===selectedSubMenuItem)});
-		if (menuItem.length===0) return true;
+
+		if (menuItem.length===0) {
+			//check also if menuItem.menu_items contains the current selectedSubMenuItem
+			subMenu = getMenuItemByName(selectedSubMenuItem, subMenu);
+			return subMenu.save_buttons_required !== false;
+		}
 		menuItem = menuItem[0];
+
 		return menuItem.save_buttons_required !== false;
 	},
 	fetchSelectedSubMenuItem: async () => {

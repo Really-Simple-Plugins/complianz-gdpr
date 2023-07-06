@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 if ( !class_exists('cmplz_installer') ){
 	class cmplz_installer {
 		private $slug = '';
-		public string $action;
+		public $action;
 		public function __construct($slug) {
 			if (!function_exists('is_plugin_active')) {
 				include_once(ABSPATH . 'wp-admin/includes/plugin.php');

@@ -53,10 +53,21 @@
     @import 'admin/modules/wizard/suggested-plugins.scss';
     @import 'admin/modules/wizard/premium-fields.scss';
     @import 'admin/modules/wizard/documents-menu.scss';
-    @import 'admin/modules/wizard/finish.scss';
     @import 'admin/modules/wizard/editor.scss';
     @import 'admin/modules/wizard/processors-thirdparties.scss';
 	@import 'admin/modules/toast/main.scss';
+	// inputs
+	@import 'admin/modules/inputs/Input.scss';
+	@import 'admin/modules/inputs/BorderInput.scss';
+	@import 'admin/modules/inputs/CheckboxGroup.scss';
+	@import 'admin/modules/inputs/Buttons.scss';
+	@import 'admin/modules/inputs/RadioGroup.scss';
+	@import 'admin/modules/inputs/SelectInput.scss';
+	@import 'admin/modules/inputs/SwitchInput.scss';
+	@import 'admin/modules/inputs/TextSwitchInput.scss';
+	@import 'admin/modules/inputs/TextAreaInput.scss';
+
+	  @import 'admin/modules/CookieBannerPreview.scss';
 
   @import 'admin/modules/cookiescan.scss';
   @import 'admin/modules/notices.scss';

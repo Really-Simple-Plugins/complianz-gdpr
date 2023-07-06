@@ -388,7 +388,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'upgraded_to_7' => array(
 					'warning_condition'  => 'cmplz_upgraded_to_current_version',
 					'open' => cmplz_sprintf(__( 'Complianz GDPR/CCPA %s. Learn more about our newest release.', 'complianz-gdpr' ),'7.0'),
-					'url' => 'https://complianz.io/meet-complianz-7-0/',
+					'url' => 'https://complianz.io/meet-complianz-7/',
 					'admin_notice' => true,
 				),
 				'migrate_js' => array(

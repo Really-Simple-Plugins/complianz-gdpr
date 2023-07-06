@@ -3,16 +3,16 @@ import UseBannerData from "./CookieBannerData";
 import {useEffect, useState, useRef} from "@wordpress/element";
 import {useUpdateEffect} from 'react-use';
 import {getPurposes, filterArray, concatenateString} from "./tcf";
-import './CookieBannerPreview.scss';
+// import './CookieBannerPreview.scss';
 /**
  * Render a help notice in the sidebar
  */
 const CookieBannerPreview = () => {
 	const rootRef = useRef(null);
 	const {fields, updateField, getFieldValue, getField, setChangedField} = useFields();
-	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, fetchBannerData, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount, setBannerFieldsSynced} = UseBannerData();
+	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount} = UseBannerData();
 	const [timer, setTimer] = useState(null)
-	const [bannerInitialized, setBannerInitialized] = useState(false)
+	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
 	const [tcfActive, setTcfActive] = useState(false);
 	const [InitialCssGenerated, setInitialCssGenerated] = useState(false);
 
@@ -43,69 +43,104 @@ const CookieBannerPreview = () => {
 		}
 	}, [consentType])
 
-	useEffect (  () => {
-		if ( bannerDataLoaded ) {
-			// fill fields with data from selected banner, default the default banner
-			let bannerFields = getBannerFields();
-			for ( const field of bannerFields ) {
-				if ( selectedBanner.hasOwnProperty(field.id) ) {
-					//load defaults
-					let value = selectedBanner[field.id];
-					if ( value.length===0 || ( value.hasOwnProperty('text') && value['text'].length===0) ) {
-						value = field.default;
-					}
-					updateField(field.id, value )
-				}
-			}
-			updateField('manage_consent', selectedBanner['revoke'] );
-
-			setBannerInitialized(true);
-		}
-
-	}, [selectedBannerId, bannerDataLoaded ] )
-
-	//should run after banner initialized .
+	//if TCF changes, reload the banner
 	useEffect ( () => {
-		const run = async () => {
-			if ( bannerInitialized && !cssLoading ) {
-				updateField('consent_type', consentType )
-				await updatePreview();
+		setBannerDataLoaded(false);
+		setBannerDataUpdated(bannerDataUpdated+1);
+	}, [getFieldValue('uses_ad_cookies_personalized')])
 
-				if ( consentType === 'optin' ) {
-					let widthChanged = validateBannerWidth();
-					if ( widthChanged ) {
-						await updatePreview();
-					}
+	//keep consenttype in sync
+	useEffect ( () => {
+		updateField('consent_type', consentType )
+	}, [consentType])
+
+	/**
+	 * On fields change, update the values in the banner objects
+	 */
+
+	useEffect (  () => {
+		syncFieldsToBanner();
+		setBannerDataUpdated(bannerDataUpdated+1);
+	}, [fields] )
+
+	useEffect (  () => {
+		if ( selectedBannerId>0 ) {
+			syncBannerToFields();
+			setBannerDataUpdated(bannerDataUpdated+1);
+		}
+	},[selectedBannerId, consentType, bannerDataLoaded, tcfActive]);
+
+	useEffect (  () => {
+		if ( selectedBannerId>0 ) {
+			loadBannerPreview();
+		}
+	},	[bannerDataUpdated]);
+
+	/**
+	 * Fill fields with data from the selected banner
+	 */
+	const syncBannerToFields = () => {
+		// fill fields with data from selected banner, default the default banner
+		let bannerFields = getBannerFields();
+		for ( const field of bannerFields ) {
+			if ( selectedBanner.hasOwnProperty(field.id) ) {
+				//load defaults
+				let value = selectedBanner[field.id];
+				if ( value.length===0 || ( value.hasOwnProperty('text') && value['text'].length===0) ) {
+					value = field.default;
 				}
-				if ( getFieldValue('soft_cookiewall')==1 ) {
-					setBannerContainerClass('cmplz-soft-cookiewall');
-					setTimeout(function(){
-						setBannerContainerClass('');
-					}, 4000)
-				}
-				setupClickEvents(true);
+				updateField(field.id, value )
 			}
 		}
-		run();
-
-	}, [fields, consentType, selectedBannerId, bannerInitialized])
-
+		updateField('manage_consent', selectedBanner['revoke'] );
+	}
+	/**
+	 * Update selected banner with changed fields data
+	 */
+	const syncFieldsToBanner = () => {
+		// fill fields with data from selected banner, default the default banner
+		let bannerFields = getBannerFields();
+		for ( const field of bannerFields ) {
+			if ( selectedBanner.hasOwnProperty(field.id) ) {
+				selectedBanner[field.id] = field.value;
+			}
+		}
+	}
 
 	/**
 	 * delay rendering the preview if the user is still typing
 	 */
-	const updatePreview = () => {
+	const updatePreview = async () => {
 		clearTimeout(timer);
 		let bannerFields =  getBannerFields();
 		if ( !InitialCssGenerated ) {
-			generatePreviewCss(bannerFields);
+			await generatePreviewCss(bannerFields);
 			setInitialCssGenerated(true);
 		} else {
-			const newTimer = setTimeout(() => {
-				generatePreviewCss(bannerFields);
+			const newTimer = setTimeout(async () => {
+				await generatePreviewCss(bannerFields);
 			}, 500)
 			setTimer(newTimer)
 		}
+	}
+
+	const loadBannerPreview = async () => {
+		await updatePreview();
+
+		if ( consentType === 'optin' ) {
+			let widthChanged = validateBannerWidth();
+			if ( widthChanged ) {
+				await updatePreview();
+			}
+		}
+
+		if ( getFieldValue('soft_cookiewall')==1 ) {
+			setBannerContainerClass('cmplz-soft-cookiewall');
+			setTimeout(function(){
+				setBannerContainerClass('');
+			}, 4000)
+		}
+		setupClickEvents(true);
 	}
 
 	useEffect(() => {
@@ -157,23 +192,7 @@ const CookieBannerPreview = () => {
 			if (specialFeaturesContainer) specialFeaturesContainer.innerHTML = concatenateString(specialFeatures);
 			if (specialPurposesContainer) specialPurposesContainer.innerHTML = concatenateString(specialPurposes);
 		}
-	}, [tcfActive, bannerInitialized, bannerDataLoaded, consentType, cssLoading, fields ]);
-
-	/**
-	 * On fields change, update the values in the banner objects
-	 */
-	useEffect (  () => {
-		if ( bannerInitialized ) {
-			// fill fields with data from selected banner, default the default banner
-			let bannerFields = getBannerFields();
-			for ( const field of bannerFields ) {
-				if ( selectedBanner.hasOwnProperty(field.id) ) {
-					selectedBanner[field.id] = field.value;
-				}
-			}
-			setBannerFieldsSynced(true);
-		}
-	}, [fields] )
+	}, [tcfActive, bannerDataUpdated, bannerDataLoaded, consentType, cssLoading, fields ]);
 
 	const replace = (string, find, replace) => {
 		let re = new RegExp(find, 'g');
@@ -200,23 +219,23 @@ const CookieBannerPreview = () => {
 
 		document.addEventListener('click', e => {
 			if ( e.target.closest('.cmplz-manage-consent' ) ) {
-				cmplz_banner.style.display = 'block';
+				if (cmplz_banner) cmplz_banner.style.display = 'block';
 				if (cmplz_manage_consent) cmplz_manage_consent.style.display = 'none';
 			}
 
 			if (e.target.closest('.cmplz-close') || e.target.closest('.cmplz-accept') || e.target.closest('.cmplz-deny') ) {
-				cmplz_banner.style.display = 'none';
+				if (cmplz_banner) cmplz_banner.style.display = 'none';
 				if (cmplz_manage_consent) cmplz_manage_consent.style.display = 'block';
 			}
 
-			if ( e.target.closest('.cmplz-view-preferences') ) {
+			if ( cmplz_banner && e.target.closest('.cmplz-view-preferences') ) {
 				cmplz_banner.classList.add('cmplz-categories-visible');
 				cmplz_banner.querySelector('.cmplz-categories' ).style.display = 'block';
 				cmplz_banner.querySelector('.cmplz-categories' ).classList.add('cmplz-fade-in');
 				cmplz_banner.querySelector('.cmplz-view-preferences' ).style.display = 'none';
 				cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'block';
 			}
-			if ( e.target.closest('.cmplz-save-preferences') ) {
+			if ( cmplz_banner && e.target.closest('.cmplz-save-preferences') ) {
 				cmplz_banner.classList.remove('cmplz-categories-visible');
 				cmplz_banner.querySelector('.cmplz-categories' ).style.display = 'none';
 				cmplz_banner.querySelector('.cmplz-categories' ).classList.remove('cmplz-fade-in');

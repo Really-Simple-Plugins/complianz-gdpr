@@ -3,15 +3,16 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useFields from "../Fields/FieldsData";
 import readMore from "../../utils/readMore";
-import {ToggleControl} from "@wordpress/components";
 import useMenu from "../../Menu/MenuData";
 import {memo} from "react";
+import SwitchInput from '../Inputs/SwitchInput';
 
 const ServicesControl = () => {
 	const { updatePlaceholderStatus, integrationsLoaded, services, fetchIntegrationsData} = useIntegrations();
 	const [ updatedServices, setUpdatedServices ] = useState( [] );
 	const [ searchValue, setSearchValue ] = useState( '' );
 	const [ disabled, setDisabled ] = useState( false );
+	const [ updatingServices, setUpdatingServices ] = useState( false );
 	const [ disabledText, setDisabledText ] = useState( '' );
 	const [ disabledReadmore, setDisabledReadmore ] = useState( '' );
 	const { updateField, getField, getFieldValue, saveFields, setChangedField, addHelpNotice} = useFields();
@@ -30,7 +31,7 @@ const ServicesControl = () => {
 		if (integrationsLoaded) {
 			//filter enabled services
 			if ( getFieldValue( 'safe_mode' ) == 1 ) {
-				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode under Tools - Support.', 'complianz-gdpr' ) );
 				setDisabled( true );
 			} else if (
 				getFieldValue( 'uses_thirdparty_services' ) !== 'yes' &&
@@ -90,15 +91,18 @@ const ServicesControl = () => {
 
 
 	const onChangePlaceholderHandler = async (service, enabled) => {
+		setUpdatingServices(true);
 		//set placeholder to 'disabled' or 'enabled' in updatedServices
 		let services = [...updatedServices];
 		let serviceIndex = services.findIndex(item => item.id === service.id);
 		services[serviceIndex].placeholder = enabled ? 'enabled' : 'disabled';
 		setUpdatedServices(services);
 		await updatePlaceholderStatus(service.id, enabled);
+		setUpdatingServices(false);
 	}
 
 	const onChangeHandler = async (service, enabled) => {
+		setUpdatingServices(true);
 		let field = getField(service.source);
 		let value;
 		if ( field.type==='multicheckbox' ) {
@@ -120,6 +124,7 @@ const ServicesControl = () => {
 		saveFields(selectedSubMenuItem, false).then(() => {
 			fetchIntegrationsData().then(() => {
 				syncServicesWithFields();
+				setUpdatingServices(false);
 			});
 		});
 	}
@@ -176,20 +181,22 @@ const ServicesControl = () => {
 			name: __('Service',"complianz-gdpr"),
 			selector: row => row.label,
 			sortable: true,
+			grow: 5,
 		},
 		{
 			name: __('Placeholder',"complianz-gdpr"),
 			selector: row => row.placeholderControl,
 			sortable: true,
-			sortFunction: enabledDisabledPlaceholderSort
-
+			sortFunction: enabledDisabledPlaceholderSort,
+			grow: 2,
 		},
 		{
 			name: __('Status',"complianz-gdpr"),
 			selector: row => row.enabledControl,
 			sortable: true,
-			sortFunction: enabledDisabledSort
-
+			sortFunction: enabledDisabledSort,
+			grow: 1,
+			right: true,
 		},
 	];
 
@@ -217,16 +224,18 @@ const ServicesControl = () => {
 			service.enabled = value === 'yes';
 		}
 
-		service.enabledControl = <ToggleControl
-			checked= { service.enabled }
+		service.enabledControl = <SwitchInput
+			disabled = {updatingServices}
+			value= { service.enabled }
 			onChange={ ( fieldValue ) => onChangeHandler(service, fieldValue) }
+			className={"cmplz-switch-input-tiny"}
 		/>
-		service.placeholderControl = <ToggleControl
-			label={service.placeholder==='none' ? __('N/A',"complianz-gdpr") : __("Placeholder", "complianz-gdpr")}
-			disabled = {service.placeholder==='none'}
-			checked = { service.placeholder==='enabled' }
+		service.placeholderControl = <> {service.placeholder!=='none' && <><SwitchInput
+			disabled = {service.placeholder==='none' || updatingServices}
+			value = { service.placeholder==='enabled' }
 			onChange = { ( fieldValue ) => onChangePlaceholderHandler(service, fieldValue) }
-		/>
+			className={"cmplz-switch-input-tiny"}
+		/></>}</>
 	});
 
 	return (

@@ -5,7 +5,6 @@ import {memo} from "react";
 // import * as Checkbox from '@radix-ui/react-checkbox';
 // import Icon from '../../utils/Icon';
 import './ProofOfConsentControl.scss';
-import '../Inputs/Input.scss';
 
 const ProofOfConsentControl = () => {
 	const { documents, downloadUrl, deleteDocuments, documentsLoaded, fetchData} = useProofOfConsentData();
@@ -90,8 +89,8 @@ const ProofOfConsentControl = () => {
 		await downloadNext();
 		setBtnDisabled(false);
 	};
-	const handleSelectEntirePage = (e) => {
-		let selected = e.target.checked;
+	const handleSelectEntirePage = (value) => {
+		let selected = value;
 		if ( selected ) {
 			setEntirePageSelected(true);
 			//add all records on this page to the selectedRecords array
@@ -159,41 +158,37 @@ const ProofOfConsentControl = () => {
 	}
 	const columns = [
 		{
-			name: <input type="checkbox" className={indeterminate? 'indeterminate' : ''} checked={entirePageSelected} onChange={(e) => handleSelectEntirePage(e)} />,
-			// name: (<div className={'cmplz-checkbox-group'}>
-			// 	<div className={'cmplz-checkbox-group__item'} >
-			// 		<Checkbox.Root
-			// 			className={indeterminate? 'cmplz-checkbox-group__checkbox indeterminate' : 'cmplz-checkbox-group__checkbox'}
-			// 			onCheckedChange={handleSelectEntirePage}
-			// 		>
-			// 			<Checkbox.Indicator className="cmplz-checkbox-group__indicator">
-			// 				{indeterminate && <Icon className={'bullet'} size={14} color={'dark-blue'} />}
-			// 				{!indeterminate && entirePageSelected && 	<Icon name={'check'} size={14} color={'dark-blue'} />}
-			// 			</Checkbox.Indicator>
-			// 		</Checkbox.Root>
-			// 	</div>
-			// </div>),
+			name: <CheckboxGroup options={{true: ''}} className={indeterminate? 'indeterminate' : ''} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
+			grow: 1,
+			minWidth: '50px',
 		},
 		{
 			name: __('Document',"complianz-gdpr"),
 			selector: row => row.file,
 			sortable: true,
+			grow: 6,
 		},
 		{
 			name: __('Region',"complianz-gdpr"),
 			selector: row => <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} />,
 			sortable: true,
+			grow: 2,
+			right: true,
 		},
 		{
 			name: __('Consent',"complianz-gdpr"),
 			selector: row => row.consent,
 			sortable: true,
+			grow: 2,
+			right: true,
 		},
 		{
 			name: __('Date',"complianz-gdpr"),
 			selector: row => row.time,
 			sortable: true,
+			grow: 4,
+			right: true,
 		},
 	];
 	let filteredDocuments = [...documents];
@@ -203,19 +198,7 @@ const ProofOfConsentControl = () => {
 	let data = [];
 	filteredDocuments.forEach(document => {
 		let documentCopy = {...document}
-		documentCopy.selectControl = <input type="checkbox" checked={selectedDocuments.includes(documentCopy.id)} onChange={(e) => onSelectDocument( !selectedDocuments.includes(documentCopy.id), documentCopy.id )} />;
-		// documentCopy.selectControl = (<div className={'cmplz-checkbox-group'}>
-		// 	<div className={'cmplz-checkbox-group__item'} >
-		// 		<Checkbox.Root
-		// 			className={indeterminate? 'cmplz-checkbox-group__checkbox indeterminate' : 'cmplz-checkbox-group__checkbox'}
-		// 			onCheckedChange={() => onSelectDocument(selectedDocuments.includes(documentCopy.id), documentCopy.id)}
-		// 		>
-		// 			<Checkbox.Indicator className="cmplz-checkbox-group__indicator">
-		// 				{indeterminate && <Icon className={'check'} size={14} color={'dark-blue'} />}
-		// 			</Checkbox.Indicator>
-		// 		</Checkbox.Root>
-		// 	</div>
-		// </div>);
+		documentCopy.selectControl = <CheckboxGroup value={selectedDocuments.includes(documentCopy.id)} options={{true: ''}} onChange={(e) => onSelectDocument( !selectedDocuments.includes(documentCopy.id), documentCopy.id )} />;
 		data.push(documentCopy);
 	});
 

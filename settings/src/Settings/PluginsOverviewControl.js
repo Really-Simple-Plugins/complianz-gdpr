@@ -57,10 +57,8 @@ const PluginsOverviewControl = () => {
 	return (
 		<div className="cmplz-plugins_overview">
 			<div className="cmplz-panel__list">
-			{<Panel summary={__("We found %s active plugin integrations","complianz-gdpr").replace('%s', pluginsCount)} details={integrationsList(plugins)}/>}
-			</div>
-			<div className="cmplz-panel__list">
-				{<Panel summary={__("We found %s active service integrations","complianz-gdpr").replace('%s', servicesCount)} details={integrationsList(activeServices)}/>}
+				<Panel summary={__("We found %s active plugin integrations","complianz-gdpr").replace('%s', pluginsCount)} details={integrationsList(plugins)} icon={'plugin'}/>
+				<Panel summary={__("We found %s active service integrations","complianz-gdpr").replace('%s', servicesCount)} details={integrationsList(activeServices)} icon={'services'}/>
 			</div>
 		 </div>
 	);

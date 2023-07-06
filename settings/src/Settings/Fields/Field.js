@@ -92,7 +92,7 @@ const COMPONENT_MAP = {
 		componentPath: 'Settings/CookieScan/CookieScanControl',
 	},
 	'finish': {
-		componentPath: 'Settings/FinishControl',
+		componentPath: 'Settings/Finish/FinishControl',
 	},
 	'cookiedatabase_sync': {
 		componentPath: 'Settings/Cookiedatabase/CookieDatabaseSyncControl',

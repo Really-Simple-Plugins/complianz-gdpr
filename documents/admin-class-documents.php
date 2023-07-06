@@ -184,45 +184,6 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			return $data;
 		}
 
-
-
-		/**
-		 * Get list of pages with created status, region, shortcode, etc.
-		 * Create missing pages if the "generated" variable is true
-		 *
-		 * @param WP_REST_Request $request
-		 *
-		 * @return array
-		 */
-		private function get_documents_data( WP_REST_Request $request): array {
-			if ( !cmplz_user_can_manage() ) {
-				return [];
-			}
-			$generate = (bool) $request->get_param('generate');
-			if ($generate) {
-				$documents = $request->get_param('documents');
-				foreach ($documents as  $document ){
-					$page_id = (int) $document['page_id'];
-					$page_obj = get_post($page_id);
-					if ( !$page_obj ){
-						$this->create_page( sanitize_title($document['type']), sanitize_title($document['region']), sanitize_text_field($document['title']) );
-					} else {
-						//if the page already exists, just update it with the title
-						$data = array(
-							'ID'           => $page_id,
-							'post_title'   => sanitize_text_field($document['title']),
-							'post_type'    => "page",
-						);
-						wp_update_post( $data );
-					}
-				}
-				$this->clear_shortcode_transients();
-			}
-			return [
-				'required_pages' => $this->required_pages_flattened(),
-			];
-		}
-
 		/**
 		 * Format required pages for javascript usage
 		 * @return array
@@ -258,6 +219,44 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			return $pages_flat;
 		}
 
+
+		/**
+		 * Get list of pages with created status, region, shortcode, etc.
+		 * Create missing pages if the "generated" variable is true
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return array
+		 */
+		private function get_documents_data( WP_REST_Request $request): array {
+			if ( !cmplz_user_can_manage() ) {
+				return [];
+			}
+			$generate = (bool) $request->get_param('generate');
+			if ($generate) {
+				$documents = $request->get_param('documents');
+				foreach ($documents as  $document ){
+					$page_id = (int) $document['page_id'];
+					$page_obj = get_post($page_id);
+					if ( !$page_obj ){
+						$this->create_page( sanitize_title($document['type']), sanitize_title($document['region']), sanitize_text_field($document['title']) );
+					} else {
+						//if the page already exists, just update it with the title
+						$data = array(
+								'ID'           => $page_id,
+								'post_title'   => sanitize_text_field($document['title']),
+								'post_type'    => "page",
+						);
+						wp_update_post( $data );
+					}
+				}
+				$this->clear_shortcode_transients();
+			}
+			return [
+					'required_pages' => $this->required_pages_flattened(),
+			];
+		}
+
 		/**
 		 * Documents array for dashboard documents block
 		 *
@@ -281,7 +280,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					//make title generic
 					$page_data['title'] = $generic_documents_list[ $type ]['title'] ?? $page_data['title'];
 					$page_data['type'] = $type;
-					$page_id = COMPLIANZ::$document->get_shortcode_page_id( $type, $region );
+					$page_id = COMPLIANZ::$document->get_shortcode_page_id( $type, $region, false );
+					//check if post is trashed
 					$page_data['permalink'] = get_permalink( $page_id );
 					$page_data['exists'] = $this->page_exists( $type, $region ) ;
 					$page_data['required'] = $this->page_required( $type, $region );
@@ -295,6 +295,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 						'documents' =>$docs,
 				];
 			}
+
 
 			//maybe add T&C
 			if ( ! class_exists('COMPLIANZ_TC') ) {

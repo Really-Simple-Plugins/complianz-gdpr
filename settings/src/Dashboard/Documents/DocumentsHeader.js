@@ -4,7 +4,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import useDocuments from "./DocumentsData";
-import {SelectControl} from "@wordpress/components";
+import SelectInput from '../../Settings/Inputs/SelectInput';
 
 const DocumentsHeader = (props) => {
 	const {getFieldValue, fieldsLoaded} = useFields();
@@ -42,13 +42,8 @@ const DocumentsHeader = (props) => {
 		<>
 			<h3 className="cmplz-grid-title cmplz-h4">{ __( "Documents", 'complianz-gdpr' ) }</h3>
 			<div className="cmplz-grid-item-controls">
-				<SelectControl
-					onChange={ ( fieldValue ) => setRegion(fieldValue) }
-					value= { region }
-					options={ regionsOptions }
-				/>
+				<SelectInput defaultValue={'all'} canBeEmpty={false} onChange={(value) => setRegion(value)} value={region} options={regionsOptions} />
 			</div>
-
 		</>
 	);
 

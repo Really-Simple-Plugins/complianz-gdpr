@@ -1,6 +1,4 @@
 import {memo, useEffect, useRef, useState} from 'react';
-import './Input.scss';
-import './TextAreaInput.scss';
 
 const TextAreaInput = ({
 	value,

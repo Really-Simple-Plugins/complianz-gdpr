@@ -17,7 +17,7 @@ const ScriptCenterControl = () => {
 		if (!integrationsLoaded) fetchIntegrationsData();
 		if (integrationsLoaded) {
 				if ( getFieldValue( 'safe_mode' ) == 1 ) {
-				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode under Tools - Support.', 'complianz-gdpr' ) );
 				setDisabled( true );
 			}
 		}
@@ -35,17 +35,17 @@ const ScriptCenterControl = () => {
 					<div className="cmplz-settings-overlay-message">{disabledText}</div>
 				</div>
 			}
-			<h3>{__("Add a third-party script", 'complianz-gdpr' ) }</h3>
+			<h5>{__("Add a third-party script", 'complianz-gdpr' ) }</h5>
 			{!integrationsLoaded &&  <> <ThirdPartyScript type='add_script' /></>}
 			{integrationsLoaded && scripts.add_script.length>0 && scripts.add_script.map((script, i) => <ThirdPartyScript type='add_script' script={script} key={i} />)}
 			<div><button onClick={()=>addScript('add_script') } className="button button-default">{__("Add new","complianz-gdpr")}</button></div>
 
-			<h3>{__("Block a script, iframe or plugin", 'complianz-gdpr' ) }</h3>
+			<h5>{__("Block a script, iframe or plugin", 'complianz-gdpr' ) }</h5>
 			{!integrationsLoaded &&<> <ThirdPartyScript type='block_script' /></>}
 			{integrationsLoaded && scripts.block_script.length>0 && scripts.block_script.map((script, i) => <ThirdPartyScript type='block_script' script={script} key={i} />)}
 			<div><button onClick={()=>addScript('block_script')} className="button button-default">{__("Add new","complianz-gdpr")}</button></div>
 
-			<h3>{__("Whitelist a script, iframe or plugin\n", 'complianz-gdpr' ) }</h3>
+			<h5>{__("Whitelist a script, iframe or plugin\n", 'complianz-gdpr' ) }</h5>
 			{!integrationsLoaded &&<> <ThirdPartyScript type='whitelist_script' /></>}
 			{integrationsLoaded && scripts.whitelist_script.length>0 && scripts.whitelist_script.map((script, i) => <ThirdPartyScript type='whitelist_script' script={script} key={i} />)}
 			<div><button onClick={()=>addScript('whitelist_script')} className="button button-default">{__("Add new","complianz-gdpr")}</button></div>

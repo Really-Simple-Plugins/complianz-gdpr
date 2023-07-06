@@ -19,6 +19,7 @@ export const UseSyncData = create(( set, get ) => ({
 	cookies: [],
 	services: [],
 	saving:false,
+	adding:false,
 	servicesAndCookies:[],
 	showDeletedCookies:false,
 	setShowDeletedCookies: (showDeletedCookies) => set({showDeletedCookies}),
@@ -134,83 +135,61 @@ export const UseSyncData = create(( set, get ) => ({
 				const cookieIndex = state.cookies.findIndex(cookie => {
 					return cookie.ID===id;
 				});
-
 				if ( cookieIndex!==-1 ){
-					const newCookie = {...state.cookies[cookieIndex]};
-					newCookie[type] = value;
-					state.cookies.splice(cookieIndex, 1);
-					state.cookies.push(newCookie);
+					state.cookies[cookieIndex][type] = value;
 				}
 			})
 		)
 	},
-	addCookie: (serviceID, serviceName) => {
-		let languages = get().languages;
-		let addedIds = get().addedIds;
-		let newAddedIds = [...addedIds];
+	addCookie: async (serviceID, serviceName) => {
+		set({adding:true });
+
+		let data = {};
+		data.service = serviceName;
+		data.cookieName = get().cookies.length;//we pass a unique id.
+		const {cookies} = await cmplz_api.doAction('add_cookie', data).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.error(error);
+		});
+
 		set(
 			produce((state) => {
-				languages.forEach(function(language, i) {
-					//keep track of unique ID's for new added cookies with the newAddedIds array
-					let nextId = getNextId(newAddedIds);
-					newAddedIds.push(nextId);
-					state.addedIds = newAddedIds;
-					const cookie = {
-						ID: nextId,
-						name: 'new_cookie',
-						slug: 'new_cookie',
-						deleted:0,
-						thirdParty:0,
-						isMembersOnly:0,
-						showOnPolicy:0,
-						retention:'',
-						cookieFunction:'',
-						purpose:'',
-						service:serviceName,
-						serviceID: serviceID,
-						sync:0,
-						privacyStatementURL:'',
-						language:language
-					};
+				cookies.forEach(function(cookie, i) {
 					state.cookies.push(cookie);
-
 				});
 			})
 		)
+		set({adding:false });
+
 	},
 	saveCookie: async (id) => {
 		set({saving:true });
-		let cookies = get().cookies;
-		const cookieIndex = cookies.findIndex(cookie => {
+		const cookieIndex = get().cookies.findIndex(cookie => {
 			return cookie.ID===id;
 		});
 
-		if (cookieIndex!==-1){
+		if (cookieIndex!==-1) {
 			let data = {};
-			data.cookie = cookies[cookieIndex];
-			await cmplz_api.doAction('update_cookie', data).then((response) => {
-				//if cookie was added new, update the ID here as well.
-				if (id<0) {
-					set(
-						produce((state) => {
-							const cookieIndex = state.cookies.findIndex(cookie => {
-								return cookie.ID===id;
-							});
-
-							if ( cookieIndex!==-1 ){
-								const newCookie = {...state.cookies[cookieIndex]};
-								newCookie.ID = response.ID;
-								state.cookies.splice(cookieIndex, 1);
-								state.cookies.push(newCookie);
-							}
-						})
-					)
-				}
-				set({ saving:false});
+			data.cookie = get().cookies[cookieIndex];
+			const {cookies} = await cmplz_api.doAction('update_cookie', data).then((response) => {
 				return response;
 			}).catch((error) => {
 				console.error(error);
 			});
+
+			set(
+				produce((state) => {
+					cookies.forEach(function(cookie, i) {
+						//find the cookie in the state with the same ID as the cookie we just updated
+						let cookieIndex = state.cookies.findIndex(stateCookie => {
+							return stateCookie.ID===cookie.ID;
+						});
+						state.cookies[cookieIndex] = cookie;
+					});
+				})
+			)
+			set({saving: false});
 		}
 	},
 	addService: () => {
@@ -222,7 +201,7 @@ export const UseSyncData = create(( set, get ) => ({
 				//keep track of unique ID's for new added items with the newAddedIds array
 				let nextId = getNextId(newAddedIds);
 				newAddedIds.push(nextId);
-				const service = {ID: nextId, name: 'New Service', slug: 'new_service',sync:0,privacyStatementURL:'',language:language};
+				const service = {ID: nextId, name: 'New Service', slug: 'new_service',sync:false,privacyStatementURL:'',language:language};
 				state.services.push(service);
 				state.addedIds = newAddedIds;
 			})
@@ -286,29 +265,25 @@ export const UseSyncData = create(( set, get ) => ({
 		});
 	},
 	deleteService: async (ID) => {
-		let services = get().services;
-		const serviceIndex = services.findIndex(service => {
-			return service.ID===ID;
-		});
-		services.splice(serviceIndex, 1);
-		//remove also all cookies with this service
-		let cookies = get().cookies;
-		let newCookies = [];
-
-		cookies.forEach(function(cookie, i) {
-			if (cookie.serviceID !== ID) {
-				newCookies.push(cookie);
-			}
-		});
-
 		let data = {};
 		data.id = ID;
-		set( {services:services, cookies:newCookies } );
 		await cmplz_api.doAction('delete_service', data).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
 		});
+
+		set(
+			produce((state) => {
+				state.cookies = state.cookies.filter(function(cookie) {
+					return parseInt(cookie.serviceID) !== parseInt(ID);
+				});
+
+				state.services = state.services.filter(function(service) {
+					return parseInt(service.ID) !== parseInt(ID);
+				});
+			})
+		)
 	},
 	updateService: (id, type, value) => {
 		let services = get().services;
@@ -364,7 +339,6 @@ const htmlDecode = (input) => {
 	var doc = new DOMParser().parseFromString(input, "text/html");
 	return doc.documentElement.textContent;
 }
-
 const getNextId = (newAddedIds) => {
 	let nextId;
 	if (newAddedIds.length===0) {

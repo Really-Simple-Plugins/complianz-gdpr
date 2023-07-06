@@ -1,8 +1,6 @@
 import {memo} from 'react';
 import * as Select from '@radix-ui/react-select';
 import Icon from '../../utils/Icon';
-import './Input.scss';
-import './SelectInput.scss';
 import { __ } from '@wordpress/i18n';
 
 const SelectInput = ({
@@ -12,10 +10,32 @@ const SelectInput = ({
 	defaultValue,
 	disabled,
 	options = {},
+	canBeEmpty = true,
+	label,
 	 innerRef,
 }) => {
+	// convert options to object if array
+	if (Array.isArray(options)) {
+		let newOptions = {};
+		options.map((option) => {
+			newOptions[option.value] = option.label;
+		});
+		options = newOptions;
+	}
+	// add empty option
+	if (canBeEmpty) {
+		options = {
+			0: __('Select an option', 'complianz-gdpr'),
+			...options,
+		};
+	} else {
+		// set first option as default
+		if (!value) {
+			value = Object.keys(options)[0];
+		}
+	}
 	return (
-		<div className="cmplz-input-group cmplz-select-group">
+		<div className="cmplz-input-group cmplz-select-group" key={label}>
 			<Select.Root
 				//ref={innerRef}
 				value={value}
@@ -38,9 +58,6 @@ const SelectInput = ({
 						</Select.ScrollUpButton>
 						<Select.Viewport className="cmplz-select-group__viewport">
 							<Select.Group>
-								<Select.Item className={'cmplz-select-group__item'} key={0} value="">
-									<Select.ItemText>{__("Select an option","complianz-gdpr")}</Select.ItemText>
-								</Select.Item>
 								{Object.entries(options).map(([optionValue, optionText]) => (
 									<Select.Item
 										disabled={Array.isArray(disabled) && disabled.includes(optionValue) }

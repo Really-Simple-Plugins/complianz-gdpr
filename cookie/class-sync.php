@@ -138,6 +138,11 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				);
 
 				$result = curl_exec( $ch );
+				if (curl_errno($ch)) {
+					$error_msg = curl_error($ch);
+					update_option('cmplz_curl_error', $error_msg, false );
+				}
+
 				if ( $result === false ) {
 					$error = true;
 				}
@@ -701,16 +706,29 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			if (!cmplz_user_can_manage()) {
 				return [];
 			}
-
-			if ( $action === 'update_cookie' ) {
+			if ( $action === 'add_cookie' ) {
+				$service = sanitize_text_field($request->get_param( 'service' ) );
+				$name = sanitize_text_field($request->get_param( 'cookieName' ) );
+				$name = __("New cookie", "complianz-gdpr").' '.$name ;
+				$cookie = new CMPLZ_COOKIE($name, 'en', $service);
+				$cookie->type   = 'cookie';
+				$cookie->domain = 'self';
+				$languages = COMPLIANZ::$banner_loader->get_supported_languages();
+				$cookie->add($name, $languages, false, $service, false);
+				$new_ids = $cookie->get_translations();
+				$new_cookies = [];
+				foreach ($new_ids as $id) {
+					$new_cookies[] = new CMPLZ_COOKIE($id);
+				}
+				$data = [
+					'cookies' => $new_cookies,
+				];
+			} else if ( $action === 'update_cookie' ) {
 				$data = [];
 				$cookie_item = $request->get_param( 'cookie' );
 				$id          = $cookie_item['ID'] ?? false;
 				$id          = (int) $id;
-				if ( $id !== 0 ) {
-					if ( $id<0 ) {
-						$id = sanitize_text_field( $cookie_item['name'] );
-					}
+				if ( $id > 0 ) {
 					$cookie = new CMPLZ_COOKIE( $id );
 					if ( isset( $cookie_item['name'] ) ) {
 						$cookie->name = sanitize_text_field( $cookie_item['name'] );
@@ -737,8 +755,16 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 					if ( isset( $cookie_item['showOnPolicy'] ) ) {
 						$cookie->showOnPolicy = (int) $cookie_item['showOnPolicy'];
 					}
-					$cookie->save();
-					$data = ['ID'=> $cookie->ID];
+					$cookie->save(true);
+					//update in all languages, then return all cookies to ensure they're all updated
+					$new_ids = $cookie->get_translations();
+					$new_cookies = [];
+					foreach ($new_ids as $id) {
+						$new_cookies[] = new CMPLZ_COOKIE($id);
+					}
+					$data = [
+						'cookies' => $new_cookies,
+					];
 				}
 
 			}
@@ -783,6 +809,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			if ( $action === 'delete_service' ) {
 				$id = (int) $request->get_param('id');
 				$service = new CMPLZ_SERVICE($id);
+
 				$service->delete();
 				$data = [];
 			}

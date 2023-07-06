@@ -1,5 +1,4 @@
 import {memo, useEffect, useState} from 'react';
-import './Input.scss';
 
 const PhoneInput = ({
 	value,

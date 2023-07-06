@@ -218,7 +218,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			$cookies = $this->get_cookies();
 			foreach ( $cookies as $service_cookie ) {
 				$cookie = new CMPLZ_COOKIE( $service_cookie->ID );
-				$cookie->delete();
+				$cookie->delete(true);
 			}
 
 			$this->drop_from_wizard( $this->name );

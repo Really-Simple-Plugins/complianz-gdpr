@@ -121,6 +121,7 @@ const useIntegrations = create(( set, get ) => ({
 		});
 	},
 	updatePluginStatus: async (pluginId, enabled) => {
+		set({fetching:true});
 		set(
 			produce((state) => {
 				const index = state.plugins.findIndex(plugin => {
@@ -129,13 +130,17 @@ const useIntegrations = create(( set, get ) => ({
 				if (index!==-1) state.plugins[index].enabled = enabled;
 			})
 		)
-		return cmplz_api.doAction('update_plugin_status', {plugin: pluginId, enabled: enabled}).then((response) => {
+		const response = await cmplz_api.doAction('update_plugin_status', {plugin: pluginId, enabled: enabled}).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
 		});
+		set({fetching:false});
+		return response;
 	},
 	updatePlaceholderStatus: async (id, enabled, isPlugin) => {
+		set({fetching:true});
+
 		if (isPlugin) {
 			set(
 				produce((state) => {
@@ -146,11 +151,14 @@ const useIntegrations = create(( set, get ) => ({
 				})
 			)
 		}
-		return cmplz_api.doAction('update_placeholder_status', {id: id, enabled: enabled}).then((response) => {
+		const response = await cmplz_api.doAction('update_placeholder_status', {id: id, enabled: enabled}).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
 		});
+		set({fetching:false});
+
+		return response;
 	}
 }));
 

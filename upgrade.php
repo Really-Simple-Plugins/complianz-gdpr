@@ -345,22 +345,6 @@ function cmplz_check_upgrade() {
 		unset( $wizard_settings['thirdparty_iframes'] );
 		update_option( 'complianz_options_custom-scripts', $custom_scripts );
 		update_option( 'complianz_options_wizard', $wizard_settings );
-
-		/**
-		 * we dismiss the integrations enabled notices
-		 */
-
-		$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
-		$fields             = COMPLIANZ::$config->fields( 'integrations' );
-		foreach ( $fields as $warning_id => $field ) {
-			if ( $field['disabled'] ) {
-				continue;
-			}
-			if ( ! in_array( $warning_id, $dismissed_warnings ) ) {
-				$dismissed_warnings[] = $warning_id;
-			}
-		}
-		update_option( 'cmplz_dismissed_warnings', $dismissed_warnings, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {

@@ -137,11 +137,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function plugin_update_message($plugin_data, $response){
 //			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '7.0.0' && !cmplz_get_option("beta") ) {
-//				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after update.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-7-0/">','</a>');
+//				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after update.", "complianz-gdpr").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-7-0/">','</a>');
 //			}
 
 			if ( strpos($response->slug , 'complianz') !==false && strpos($response->new_version, 'beta.')!==false && cmplz_get_value("beta") ) {
-				echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.").'</b>';
+				echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.", "complianz-gdpr").'</b>';
 			}
 		}
 		/**
@@ -154,7 +154,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-			if ( strpos($item->slug , 'complianz') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
+			if ( isset( $item->slug ) && strpos($item->slug , 'complianz') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
 				return false;
 			}
 			return $update;
@@ -257,11 +257,64 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$keys = array_keys($warnings);
 			$id = $keys[0];
 			$warning = $warnings[$id];
-			if ( !isset($warning['open'])) {
+			$this->admin_notice($warning, $id);
+		}
+
+		/**
+		 * @param array $warning
+		 */
+		public function admin_notice( $warning, $id='', ) {
+			if (!isset($warning['open'])) {
 				return;
 			}
-			$dismiss_btn = '<br /><br /><button class="cmplz-btn-dismiss-notice button-secondary">'.__("Dismiss","complianz-gdpr").'</button>';
-			cmplz_admin_notice($warning['open'].$dismiss_btn, $id);
+			/**
+			 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
+			 *
+			 * */
+
+			$screen = get_current_screen();
+			if ( $screen && $screen->parent_base === 'edit' ) {
+				return;
+			}
+			?>
+			<style>
+				#message.cmplz-admin-notice {
+					margin-left:10px !important;
+				}
+				.cmplz-admin-notice-container {
+					display:flex;
+				}
+				.cmplz-admin-notice-logo {
+					margin:20px 10px;
+				}
+				.cmplz-admin-notice-content {
+					margin: 20px 30px;
+				}
+			</style>
+			<div id="message"
+				 class="updated fade notice is-dismissible cmplz-admin-notice really-simple-plugins"
+				 data-admin_notice_id="<?php echo $id?>"
+				 style="border-left:4px solid #333">
+				<div class="cmplz-admin-notice-container">
+					<div class="cmplz-admin-notice-logo"><img width=80px"
+															  src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
+															  alt="logo">
+					</div>
+					<div class="cmplz-admin-notice-content">
+						<p><?php echo wp_kses_post($warning['open']) ?>
+						<?php
+							if (isset($warning['url'])) {
+								$target = str_contains( $warning['url'], 'complianz.io' ) ? 'target="_blank"' : '';
+								?><a href="<?php echo esc_url_raw($warning['url'])?>" <?php echo $target?>><?php _e("Read more", "complianz-gdpr")?></a><?php
+							}
+						?>
+						</p>
+						<br /><button class="cmplz-btn-dismiss-notice button-secondary"><?php _e("Dismiss","complianz-gdpr")?></button>
+					</div>
+				</div>
+			</div>
+			<?php
+
 		}
 
 		/**

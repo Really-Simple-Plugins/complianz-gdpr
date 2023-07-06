@@ -70,7 +70,7 @@ const Tools = () => {
 		},
 		{
 			title: __("Premium Support", "complianz-gdpr"),
-			viewLink: "https://complianz.io/support/",
+			viewLink: "#tools/support",
 			link: "https://complianz.io/about-premium-support/",
 		},
 		{

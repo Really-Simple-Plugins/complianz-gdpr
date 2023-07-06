@@ -92,43 +92,28 @@ const Statistics = () => {
 	}
 
 	return (
-		<div className="cmplz-tools-statistics">
-			<div className={"cmplz-statistics-container"}>
-				<div className="cmplz-main-consent">
-					<div className="cmplz-main-consent-count cmplz-full-consent">
-						<Icon name = "dial-max-light" color={"green"} size="22"/>
-						{fullConsent}
-						<div>{__("Full Consent","complianz-gdpr")}</div>
-					</div>
-					<div className={"cmplz-main-consent-count  cmplz-no-consent"}>
-						<Icon name = "dial-min-light"  color={"red"} size="22" />
-						{noConsent}
-						<div>{__("No Consent","complianz-gdpr")}</div>
-					</div>
+		<div className="cmplz-statistics">
+			<div className="cmplz-statistics-select">
+				<div className="cmplz-statistics-select-item">
+					<Icon name = "dial-max-light" color={"green"} size="22"/>
+					<h2>{fullConsent}</h2>
+					<span><Icon name="dial-max-light" size="12" color={'green'}/> {__('Full Consent', 'complianz-gdpr')}</span>
+				</div>
+				<div className="cmplz-statistics-select-item">
+					<Icon name = "dial-min-light"  color={"red"} size="22" />
+					<h2>{noConsent}</h2>
+					<span><Icon name="dial-min-light" size="12" color={'red'}/> {__('No Consent', 'complianz-gdpr')}</span>
 				</div>
 			</div>
-			{labels.length===0 &&
-				<div className="cmplz-details">
-					<div className="cmplz-detail-icon">
-						{getRowIcon(0)}
-					</div>
-					<div className="cmplz-detail">
-						<div className="cmplz-detail-name">...</div>
-						<div className="cmplz-detail-data">0%</div>
-					</div>
-				</div>
-			}
-			{labels.length>0 && labels.map((label, index) =>
-				<div key={index} className="cmplz-details">
-					<div className="cmplz-detail-icon">
+			<div className="cmplz-statistics-list">
+				{labels.length>0 && labels.map((label, index) =>
+					<div className="cmplz-statistics-list-item" key={index}>
 						{getRowIcon(index)}
+						<p className="cmplz-statistics-list-item-text">{label}</p>
+						<p className="cmplz-statistics-list-item-number">{data.hasOwnProperty(index) ? getPercentage(data[index]) : 0}%</p>
 					</div>
-					<div className="cmplz-detail">
-						<div className="cmplz-detail-name">{label}</div>
-						<div className="cmplz-detail-data">{data.hasOwnProperty(index) ? getPercentage(data[index]) : 0}%</div>
-					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</div>
 	)
 }

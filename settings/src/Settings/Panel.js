@@ -4,7 +4,8 @@ const Panel = (props) => {
 	  <div className="cmplz-panel__list__item" key={props.id} style={props.style ? props.style : {}}>
 		<details>
 		  <summary>
-			<div className="cmplz-panel__list__item__title">{props.summary}</div>
+				{props.icon && <Icon name={props.icon} />}
+			<h5 className="cmplz-panel__list__item__title">{props.summary}</h5>
 			<div className="cmplz-panel__list__item__comment">{props.comment}</div>
 			<div className="cmplz-panel__list__item__icons">{props.icons}</div>
 			<Icon name={'chevron-down'} size={18} />

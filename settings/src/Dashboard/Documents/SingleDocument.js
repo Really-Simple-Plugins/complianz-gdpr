@@ -1,10 +1,10 @@
-import {SelectControl} from "@wordpress/components";
 import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 
 import {
 	useState, useEffect
 } from '@wordpress/element';
+import SelectInput from '../../Settings/Inputs/SelectInput';
 const SingleDocument = (props) => {
 	const [url, setUrl] = useState(false);
 	const [disabled, setDisabled] = useState(false);
@@ -28,7 +28,7 @@ const SingleDocument = (props) => {
 	}, [props.options] );
 
 	const Download = () => {
-		if (disabled) return;
+		if (disabled || !url || url===0) return;
 		setDisabled(true);
 		let request = new XMLHttpRequest();
 		request.responseType = 'blob';
@@ -56,11 +56,7 @@ const SingleDocument = (props) => {
 	}
 	return (
 		<div className="cmplz-single-document-other-documents">
-			<SelectControl
-				onChange={ ( fieldValue ) => setUrl(fieldValue) }
-				value= { url }
-				options={ options }
-			/>
+			<SelectInput onChange={ (value) => setUrl(value) } defaultValue={'0'} canBeEmpty={false} value={url} options={options} />
 			<div onClick={()=> Download()}>
 				<Icon name={'file-download'} color={ (url!=0 && !disabled) ? 'black' : 'grey'} tooltip={__("Download file","complianz-gdpr")} size={14} />
 			</div>

@@ -3,11 +3,14 @@ import { __ } from '@wordpress/i18n';
 import Panel from "../Panel";
 import {UseSyncData} from "./SyncData";
 import useFields from "../../Settings/Fields/FieldsData";
+import {useEffect, useState} from "react";
 
 const CookieDetails = (cookie) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
 	const {saving, purposesOptions, services, updateCookie, toggleDeleteCookie, saveCookie} = UseSyncData();
-	let data = {id:'',type:'',value:''};
+	const [name, setName] = useState({ID:cookie.ID, value:cookie.name});
+	const [retention, setRetention] = useState({ID:cookie.ID, value:cookie.retention});
+	const [cookieFunction, setCookieFunction] = useState({ID:cookie.ID, value:cookie.cookieFunction});
 	//allow for both '0'/'1' and false/true.
 	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 	let sync = useCdbApi ? cookie.sync==1 : false;
@@ -21,6 +24,8 @@ const CookieDetails = (cookie) => {
 		cdbLink = 'https://cookiedatabase.org/cookie/' + service_slug + '/' + cookie.slug;
 	}
 
+
+
 	const onSaveHandler = async (id) => {
 		await saveCookie(id);
 		showSavedSettingsNotice(__("Saved cookie", "complianz-gd[r"));
@@ -32,6 +37,50 @@ const CookieDetails = (cookie) => {
 
 	const onChangeHandler = (e, id, type) => {
 		updateCookie(id, type, e.target.value);
+	}
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			updateCookie(name.ID, 'name', name.value);
+		}, 500);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [name]);
+
+	const onNameChangeHandler = (e, id, type) => {
+		let obj = {ID:id, value:e.target.value};
+		setName(obj);
+	}
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			updateCookie(cookieFunction.ID, 'cookieFunction', cookieFunction.value);
+		}, 500);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [cookieFunction]);
+	const onFunctionChangeHandler = (e, id, type) => {
+		let obj = {ID:id, value:e.target.value};
+		setCookieFunction(obj);
+	}
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			updateCookie(retention.ID, 'retention', retention.value);
+		}, 700);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [retention]);
+
+	const onRetentionChangeHandler = (e, id, type) => {
+		let obj = {ID:id, value:e.target.value};
+		setRetention(obj);
 	}
 
 	const onCheckboxChangeHandler = (e, id, type) => {
@@ -52,7 +101,7 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Name", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={cookie.name} />
+				<input disabled={disabled} onChange={ ( e ) =>  onNameChangeHandler(e, cookie.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={name.value} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Service", "complianz-gdpr")}</label>
@@ -63,11 +112,11 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Expiration", "complianz-gdpr")}</label>
-				<input disabled={retentionDisabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'retention') } type="text" placeholder={__("1 year", "complianz-gdpr")}  value={cookie.retention} />
+				<input disabled={retentionDisabled} onChange={ ( e ) =>  onRetentionChangeHandler(e, cookie.ID, 'retention') } type="text" placeholder={__("1 year", "complianz-gdpr")}  value={retention.value} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Cookie function", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'cookieFunction') } type="text" placeholder={__("e.g. store user ID", "complianz-gdpr")}  value={cookie.cookieFunction} />
+				<input disabled={disabled} onChange={ ( e ) =>  onFunctionChangeHandler(e, cookie.ID, 'cookieFunction') } type="text" placeholder={__("e.g. store user ID", "complianz-gdpr")}  value={cookieFunction.value} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Purpose", "complianz-gdpr")}</label>
@@ -94,26 +143,26 @@ const CookieDetails = (cookie) => {
 /**
  * Render a help notice in the sidebar
  */
-const Cookie = (props) => {
+const Cookie = ({cookie}) => {
 	const Icons = () => {
 		return (
 			<>
-				{props.cookie.complete && <Icon tooltip={__( "The data for this cookie is complete", "complianz-gdpr" )} name = 'success' color = 'green' />}
-				{!props.cookie.complete && <Icon tooltip={__( "This cookie has missing fields", "complianz-gdpr" )} name = 'times' color = 'red' />}
-				{props.cookie.sync && props.cookie.synced && <Icon tooltip={__( "This cookie has been synchronized with cookiedatabase.org.",'complianz-gdpr')} name = 'rotate' color = 'green'/>}
-				{!props.cookie.synced || !props.cookie.sync && <Icon tooltip={__( "This cookie is not synchronized with cookiedatabase.org.",'complianz-gdpr')} name = 'rotate-error' color = 'red'/>}
+				{cookie.complete && <Icon tooltip={__( "The data for this cookie is complete", "complianz-gdpr" )} name = 'success' color = 'green' />}
+				{!cookie.complete && <Icon tooltip={__( "This cookie has missing fields", "complianz-gdpr" )} name = 'times' color = 'red' />}
+				{cookie.sync && cookie.synced && <Icon name='rotate' color = 'green'/>}
+				{!cookie.synced || !cookie.sync && <Icon tooltip={__( "This cookie is not synchronized with cookiedatabase.org.",'complianz-gdpr')} name = 'rotate-error' color = 'red'/>}
 
-				{props.cookie.showOnPolicy && <Icon tooltip={__( "This cookie will be on your Cookie Policy", "complianz-gdpr" )} name = 'file' color = 'green'/>}
-				{!props.cookie.showOnPolicy && <Icon tooltip={__( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" )}  name = 'file-disabled' color = 'grey'/>}
+				{cookie.showOnPolicy && <Icon tooltip={__( "This cookie will be on your Cookie Policy", "complianz-gdpr" )} name = 'file' color = 'green'/>}
+				{!cookie.showOnPolicy && <Icon tooltip={__( "This cookie is not shown on the Cookie Policy", "complianz-gdpr" )}  name = 'file-disabled' color = 'grey'/>}
 
-				{props.cookie.old && <Icon tooltip={__( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" )} name = 'calendar-error' color = 'red' />}
-				{!props.cookie.old && <Icon tooltip={__( "This cookie has recently been detected", "complianz-gdpr" )} name = 'calendar' color = 'green' />}
+				{cookie.old && <Icon tooltip={__( "This cookie has not been detected on your site in the last three months", "complianz-gdpr" )} name = 'calendar-error' color = 'red' />}
+				{!cookie.old && <Icon tooltip={__( "This cookie has recently been detected", "complianz-gdpr" )} name = 'calendar' color = 'green' />}
 			</>
 		)
 	}
 
 	const getStyles = () => {
-		if (props.cookie.deleted!=1) return;
+		if (!cookie.deleted) return;
 
 		return Object.assign(
 			{},
@@ -122,17 +171,17 @@ const Cookie = (props) => {
 	}
 
 	let comment = '';
-	if (props.cookie.deleted==1) {
+	if (cookie.deleted) {
 		comment =  " | "+__( 'Deleted', 'complianz-gdpr' );
-	} else if ( !props.cookie.showOnPolicy ) {
+	} else if ( cookie.showOnPolicy ) {
 		comment =  " | "+__( 'Admin, ignored', 'complianz-gdpr' );
-	} else if (props.cookie.isMembersOnly) {
+	} else if (cookie.isMembersOnly) {
 		comment = " | "+__( 'Logged in users only, ignored', 'complianz-gdpr' );
 	}
-	let description = props.cookie.name
+	let description = cookie.name
 	return (
 		<>
-			<Panel summary={description} comment={comment} icons={Icons()} details={CookieDetails(props.cookie)} style={getStyles()}/>
+			<Panel summary={description} comment={comment} icons={Icons()} details={CookieDetails(cookie)} style={getStyles()}/>
 		</>
 
 	);

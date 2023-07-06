@@ -658,8 +658,8 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 			/* ----- Custom CSS ----- */
 			[
 				'id'                => 'disable_width_correction',
-				'menu_id'           => 'custom_css',
-				'group_id'          => 'custom_css',
+				'menu_id'           => 'custom-css',
+				'group_id'          => 'custom-css',
 				'data_target'       => 'banner',
 				'type'              => 'checkbox',
 				'label'             => __( "Disable width auto correction", 'complianz-gdpr' ),

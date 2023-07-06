@@ -31,6 +31,7 @@ const ServiceDetails = (service) => {
 	}
 
 	const onDeleteHandler = async (id) => {
+		console.log("delete service", id);
 		await deleteService(id);
 	}
 
@@ -82,11 +83,14 @@ const ServiceDetails = (service) => {
 }
 
 const Service = (props) => {
+	const {adding} = UseSyncData();
 
 	const onAddCookieHandler = (serviceID, serviceName) => {
 		props.addCookie(serviceID,serviceName);
 	}
-
+	const serviceIsSaved = props.service && props.service.ID>0 && props.service.hasOwnProperty('name');
+	const isUnknownService = !props.service || props.service.ID<=0;
+	const serviceName = props.service && props.service.name ? props.service.name : __("New Service", "complianz-gdpr");
 	const Details = () =>{
 
 		return (
@@ -99,11 +103,15 @@ const Service = (props) => {
 						{props.cookies.map((cookie, i) => <Cookie key={i} cookie={cookie}/>)}
 					</div>
 				}
-				{ props.service && props.service.ID>0 && props.service.hasOwnProperty('name') && <div>
-					<button onClick={ (e) => onAddCookieHandler(props.service.ID, props.service.name) } className="button button-default">
-					{__("Add cookie to %s", "complianz-gdpr").replace("%s", props.service.name) }
-					</button>
-				</div> }
+				{!isUnknownService &&
+					<div>
+						<button disabled={adding || !serviceIsSaved} onClick={ (e) => onAddCookieHandler(props.service.ID, serviceName) } className="button button-default">
+							{__("Add cookie to %s", "complianz-gdpr").replace("%s", serviceName) }
+							{adding && <Icon name = "loading" color = 'grey' />}
+						</button>
+						{!serviceIsSaved && <div className="cmplz-comment">{__("Save service to be able to add cookies", "complianz-gdpr")}</div>}
+					</div>
+				}
 			</>
 		);
 	}

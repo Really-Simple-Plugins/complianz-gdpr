@@ -182,27 +182,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			return $filelist;
-
-		}
-
-
-		/**
-		 * Forces generation of a snapshot for today, triggered by the button
-		 *
-		 */
-
-		public function force_snapshot_generation() {
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-
-			if ( isset( $_POST["cmplz_generate_snapshot"] )
-			     && isset( $_POST["cmplz_nonce"] )
-			     && wp_verify_nonce( $_POST['cmplz_nonce'],
-					'cmplz_generate_snapshot' )
-			) {
-				COMPLIANZ::$proof_of_consent->generate_cookie_policy_snapshot( $force = true );
-			}
 		}
 
 		/**
@@ -215,6 +194,10 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			$path = cmplz_upload_dir('snapshots/');
+
+			//don't allow \ and / in the filename, to prevent path traversal, replace them with ''
+			$filename = str_replace( array( '/', '\\' ), '', $filename );
+
 			unlink( $path . sanitize_file_name( $filename ) );
 		}
 
@@ -293,8 +276,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				}
 
 				$settings_html = '<div><h1>' . __( 'Cookie consent settings', 'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html ) . '</ul></div>';
-				$intro         = '<h1>' . __( "Proof of Consent",
-						"complianz-gdpr" ) . '</h1>
+				$intro         = '<h1>' . __( "Proof of Consent", "complianz-gdpr" ) . '</h1>
                      <p>' . cmplz_sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the Cookie Policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go

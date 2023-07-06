@@ -2,7 +2,6 @@ import TextInput from './TextInput';
 import SwitchInput from './SwitchInput';
 import {__} from '@wordpress/i18n';
 import {memo, useEffect, useState} from 'react';
-import './TextSwitchInput.scss';
 
 const TextSwitchInput = ({
 	label,

@@ -179,7 +179,14 @@ if ( !function_exists('cmplz_create_missing_directories_recursively') ) {
 		$parts = explode( '/', $path );
 		$dir   = '';
 		foreach ( $parts as $part ) {
+			if ( empty($part) ) {
+				continue;
+			}
+
 			$dir .= $part . '/';
+			if (cmplz_has_open_basedir_restriction($dir)) {
+				continue;
+			}
 			if ( ! is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
 				if ( ! mkdir( $dir ) && ! is_dir( $dir ) ) {
 					throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $dir ) );
@@ -783,100 +790,6 @@ if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
 		}
 
 		echo "<div class='cmplz-help-modal cmplz-notice cmplz-{$type} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}>{$msg}</div>";
-	}
-}
-
-if ( !function_exists('cmplz_admin_notice')) {
-	/**
-	 * @param string $msg
-	 */
-	function cmplz_admin_notice( $msg, $id='' ) {
-		/**
-		 * Prevent notice from being shown on Gutenberg page, as it strips off the class we need for the ajax callback.
-		 *
-		 * */
-		$screen = get_current_screen();
-		if ( $screen && $screen->parent_base === 'edit' ) {
-			return;
-		}
-		?>
-		<style>
-			#message.cmplz-admin-notice {
-				margin-left:10px !important;
-			}
-			.cmplz-admin-notice-container {
-				display:flex;
-			}
-			.cmplz-admin-notice-logo {
-				margin:20px 10px;
-			}
-			.cmplz-admin-notice-content {
-				margin: 20px 30px;
-			}
-		</style>
-		<div id="message"
-			 class="updated fade notice is-dismissible cmplz-admin-notice really-simple-plugins"
-			 data-admin_notice_id="<?php echo $id?>"
-			 style="border-left:4px solid #333">
-			<div class="cmplz-admin-notice-container">
-				<div class="cmplz-admin-notice-logo"><img width=80px"
-													 src="<?php echo cmplz_url ?>assets/images/icon-logo.svg"
-													 alt="logo">
-				</div>
-				<div class="cmplz-admin-notice-content">
-					<p><?php echo wp_kses_post($msg) ?></p>
-				</div>
-			</div>
-		</div>
-		<?php
-
-	}
-}
-
-if ( ! function_exists( 'cmplz_panel' ) ) {
-	/**
-	 * @param string $title
-	 * @param string $html
-	 * @param string $custom_btn
-	 * @param string $validate
-	 * @param bool   $echo
-	 * @param false  $open
-	 *
-	 * @return string|void
-	 */
-	function cmplz_panel($title, $html, $custom_btn = '', $validate = '', $echo = true, $open = false) {
-		if ( $title == '' ) {
-			return '';
-		}
-
-		$open_class = $open ? 'open' : '';
-
-		$output = '
-        <details class="cmplz-panel cmplz-slide-panel cmplz-toggle-active" ' . $open_class . '>
-        	<summary>
-				<div class="cmplz-panel-title">
-
-					<span class="cmplz-title">' . $title . '</span>
-
-					<span>' . $validate . '</span>
-
-					<span class="cmplz-custom-btns">' . $custom_btn . '</span>
-
-					<div class="cmplz-icon cmplz-open"></div>
-
-				</div>
-            </summary>
-            <div class="cmplz-panel-content">
-                ' . $html . '
-            </div>
-        </details>';
-
-		if ( $echo ) {
-			echo $output;
-		} else {
-			return $output;
-		}
-
 	}
 }
 
@@ -1923,11 +1836,13 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 			unlink( $tmpfile );
 		} // must unlink afterwards
 
-		try {
-			$new_src = cmplz_create_webp($file, $new_src);
-		} catch ( Exception $e ) {
-			if ( defined('WP_DEBUG') && WP_DEBUG ) {
-				error_log( $e->getMessage() );
+		if ( file_exists( $file ) ) {
+			try {
+				$new_src = cmplz_create_webp( $file, $new_src );
+			} catch ( Exception $e ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( $e->getMessage() );
+				}
 			}
 		}
 
@@ -1941,6 +1856,17 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 
 if (!function_exists('cmplz_create_webp')){
 	function cmplz_create_webp($file, $new_src) {
+		if (
+				!function_exists('imagecreatefromjpeg') ||
+				!function_exists('imagecreatefrompng') ||
+				!function_exists('imagewebp') ||
+				!function_exists('imagedestroy') ||
+				!function_exists('imagepalettetotruecolor') ||
+				!function_exists('imagealphablending') ||
+				!function_exists('imagesavealpha')
+		){
+			return $new_src;
+		}
 		switch ( $file ) {
 			case str_contains( $file, '.jpeg' ):
 			case str_contains( $file, '.jpg' ):
@@ -2223,7 +2149,7 @@ if ( !function_exists('cmplz_get_server') ) {
 	 */
 
 	function cmplz_get_server() {
-		$server_raw = strtolower( filter_var( $_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING ) );
+		$server_raw = strtolower( sanitize_text_field($_SERVER['SERVER_SOFTWARE']) );
 		//figure out what server they're using
 		if ( strpos( $server_raw, 'apache' ) !== false ) {
 			return 'Apache';

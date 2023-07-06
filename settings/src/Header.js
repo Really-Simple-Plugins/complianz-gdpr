@@ -27,9 +27,9 @@ const Header = () => {
 				<div className="cmplz-header-right">
 					<a className="cmplz-knowledge-base-link" href="https://complianz.io/knowledge-base" target="_blank">{__("Documentation", "complianz-gdpr")}</a>
 					{cmplz_settings.is_premium &&
-						<a href="https://wordpress.org/support/plugin/complianz-gdpr/"
+						<a href="#tools/support"
 						   className="button button-black"
-						   target="_blank">{__("Support", "complianz-gdpr")}</a>
+						   >{__("Support", "complianz-gdpr")}</a>
 					}
 					{!cmplz_settings.is_premium &&
 						<a href={cmplz_settings.upgrade_link}

@@ -107,7 +107,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			//the parent cookie gets "en" as default language
 			$this->language = 'en';
 			$return_id      = 0;
-
 			$this->languages = cmplz_sanitize_languages( $languages );
 
 			//check if there is a parent cookie for this name
@@ -173,7 +172,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 * Delete this cookie, and all translations linked to it.
 		 */
 
-		public function delete() {
+		public function delete($permanently=false) {
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
@@ -184,11 +183,15 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			$translations = $this->get_translations();
 			global $wpdb;
 			foreach ( $translations as $ID ) {
-				$wpdb->update(
-					$wpdb->prefix . 'cmplz_cookies',
-					array( 'deleted' => true ),
-					array( 'ID' => $ID )
-				);
+				if ($permanently){
+					$wpdb->delete($wpdb->prefix . 'cmplz_cookies', array('ID' => $ID));
+				} else {
+					$wpdb->update(
+						$wpdb->prefix . 'cmplz_cookies',
+						array( 'deleted' => true ),
+						array( 'ID' => $ID )
+					);
+				}
 			}
 		}
 

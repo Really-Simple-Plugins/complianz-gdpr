@@ -1579,7 +1579,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( ! $page_id ) {
 				//ensure a transient, in case none is found. This prevents continuing requests on the page list
 				cmplz_set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
-				$pages = get_pages();
+				$pages = get_pages(
+						[
+								'post_status' => ['publish','draft']
+						]
+				);
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
 				/**
@@ -2006,7 +2010,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			// Return $data if this is not a Complianz document
 			global $post;
-			if ( !$post ) {
+			if ( !$post || !property_exists($post, 'ID')) {
 				return $content;
 			}
 

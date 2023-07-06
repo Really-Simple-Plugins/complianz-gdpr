@@ -3,6 +3,7 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import {memo} from "react";
+import CheckboxGroup from '../Inputs/CheckboxGroup';
 
 const ProcessingAgreementsControl = () => {
 	const { documents, documentsLoaded, fetchData, deleteDocuments, editDocument} = useProcessingAgreementsData();
@@ -93,8 +94,8 @@ const ProcessingAgreementsControl = () => {
 		setBtnDisabled(false);
 	};
 
-	const handleSelectEntirePage = (e) => {
-		let selected = e.target.checked;
+	const handleSelectEntirePage = (value) => {
+		let selected = value
 		if ( selected ) {
 			setEntirePageSelected(true);
 			//add all records on this page to the selectedRecords array
@@ -110,8 +111,8 @@ const ProcessingAgreementsControl = () => {
 		setIndeterminate(false);
 	}
 
-	const onSelectDocument = (e, id) => {
-		let selected = e.target.checked;
+	const onSelectDocument = (value, id) => {
+		let selected = value;
 		let docs = [...selectedDocuments];
 		if (selected) {
 			if ( !docs.includes(id) ){
@@ -169,32 +170,44 @@ const ProcessingAgreementsControl = () => {
 
 	const columns = [
 		{
-			name: <input type="checkbox" className={indeterminate? 'indeterminate' : ''} checked={entirePageSelected} onChange={(e) => handleSelectEntirePage(e)} />,
+			name: <CheckboxGroup options={{true: ''}} className={indeterminate? 'indeterminate' : ''} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
+			grow: 1,
+			minWidth: '50px',
 		},
 		{
 			name: __('Document',"complianz-gdpr"),
 			selector: row => row.title,
 			sortable: true,
+			grow: 6,
 		},
 		{
 			name: __('Edit',"complianz-gdpr"),
 			selector: row => row.editControl,
+			grow: 2,
+			right: true,
 		},
 		{
 			name: __('Region',"complianz-gdpr"),
 			selector: row => <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} />,
 			sortable: true,
+			grow: 2,
+			right: true,
 		},
 		{
 			name: __('Service',"complianz-gdpr"),
 			selector: row => row.service,
 			sortable: true,
+			grow: 2,
+			right: true,
 		},
 		{
 			name: __('Date',"complianz-gdpr"),
 			selector: row => row.date,
 			sortable: true,
+			grow: 4,
+			minWidth: '200px',
+			right: true,
 		},
 	];
 
@@ -203,7 +216,7 @@ const ProcessingAgreementsControl = () => {
 	let data = [];
 	filteredDocuments.forEach(document => {
 		let documentCopy = {...document}
-		documentCopy.selectControl = <input type="checkbox" checked={selectedDocuments.includes(documentCopy.id)} onChange={(e) => onSelectDocument(e,documentCopy.id)} />
+		documentCopy.selectControl = <CheckboxGroup value={selectedDocuments.includes(documentCopy.id)} options={{true: ''}} onChange={(value) => onSelectDocument(value,documentCopy.id)} />
 		documentCopy.editControl = <a href="#" onClick={(e) => editDocument(e, documentCopy.id)}>{__("Edit","complianz-gdpr")}</a>
 		data.push(documentCopy);
 	});

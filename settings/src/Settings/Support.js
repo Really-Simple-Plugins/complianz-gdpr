@@ -23,7 +23,7 @@ const Support = () => {
 				+ '&website=' + response.domain
 				+ '&license=' + encodeURIComponent(response.license_key)
 				+ '&question=' + encodeURIComponent(encodedMessage)
-				+ '&details=' + response.system_status;
+				+ '&details=' + encodeURIComponent(response.system_status);
 			window.location.assign(url);
 		});
 	}

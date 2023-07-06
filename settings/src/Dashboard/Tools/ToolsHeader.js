@@ -4,6 +4,7 @@ import {
 	useEffect, useState
 } from '@wordpress/element';
 import useStatistics from "../../Statistics/StatisticsData";
+import SelectInput from '../../Settings/Inputs/SelectInput';
 const ToolsHeader = () => {
 	const {consentType, setConsentType, consentTypes, fetchStatisticsData, loaded} = useStatistics();
 	const {fields, getFieldValue} = useFields();
@@ -18,6 +19,17 @@ const ToolsHeader = () => {
 			fetchStatisticsData();
 		}
 	},[consentStatisticsEnabled])
+	let consentTypesOptions = [];
+
+	// change the key 'id' to the key 'value' for all consent types in consentTypes array
+	if (consentTypes) {
+		consentTypesOptions = consentTypes.map((consentType) => {
+			return {
+				value: consentType.id,
+				label: consentType.label,
+			}
+		})
+	}
 
 	return (
 		<>
@@ -26,10 +38,8 @@ const ToolsHeader = () => {
 				{ !consentStatisticsEnabled && __( "Tools", 'complianz-gdpr' ) }
 			</h3>
 			<div className="cmplz-grid-item-controls">
-				{consentStatisticsEnabled && consentTypes && consentTypes.length>1 && <select onChange={(e) => setConsentType(e.target.value)} value={consentType}>
-					{consentTypes.map((type, i) =>
-						<option key={i} value={type.id} >{type.label}</option>)}
-				</select>}
+				{consentStatisticsEnabled && consentTypesOptions && consentTypesOptions.length>1 &&
+					<SelectInput canBeEmpty={false} onChange={(value) => setConsentType(value)} options={consentTypesOptions} />}
 			</div>
 		</>
 

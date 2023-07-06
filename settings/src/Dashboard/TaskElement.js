@@ -49,9 +49,9 @@ const TaskElement = ({notice, index}) => {
 			<p className="cmplz-task-message" dangerouslySetInnerHTML={{__html: notice.message}}></p>
 			{urlIsExternal && notice.url && <a target="_blank" href={notice.url}>{__("More info", "complianz-gdpr")}</a> }
 			{notice.clear_cache_id && <span className="cmplz-task-enable button button-secondary" onClick={ () => handleClearCache(notice.clear_cache_id ) }>{__("Re-check", "complianz-gdpr")}</span> }
-			{!premium && !urlIsExternal && notice.url && <a className="cmplz-task-enable button button-secondary" href={notice.url}>{__("Fix", "complianz-gdpr")}</a> }
-			{!premium && notice.highlight_field_id && <span className="cmplz-task-enable button button-secondary" onClick={() => handleClick()}>{__("Fix", "complianz-gdpr")}</span> }
-			{notice.plusone && <span className='cmplz-plusone'>1</span>}
+			{!premium && !urlIsExternal && notice.url && <a className="cmplz-task-enable button button-secondary" href={notice.url}>{__("View", "complianz-gdpr")}</a> }
+			{!premium && notice.highlight_field_id && <span className="cmplz-task-enable button button-secondary" onClick={() => handleClick()}>{__("View", "complianz-gdpr")}</span> }
+			{notice.plus_one && <span className='cmplz-plusone'>1</span>}
 			{notice.dismissible && notice.status!=='completed' &&
 				<div className="cmplz-task-dismiss">
 					<button type='button' onClick={(e) => dismissNotice(notice.id) }>

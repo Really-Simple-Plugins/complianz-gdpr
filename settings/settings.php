@@ -94,11 +94,10 @@ function cmplz_get_chunk_translations() {
 	$files = scandir(cmplz_path . 'settings/build');
 	$json_translations = [];
 	foreach ($files as $file) {
-		//get relative path to this file
-		$relative_path =  'settings/build/' . $file;
-		//create md5 hash of the relative path. The hash is used by wordpress to create the json file name.
-		$hash = md5($relative_path);
-		$chunk_handle = 'cmplz-chunk-'.$hash;
+		if (strpos($file, '.js') === false) {
+			continue;
+		}
+		$chunk_handle = 'cmplz-chunk-'.$file;
 		//temporarily register the script, so we can get a translations object.
 		wp_register_script( $chunk_handle, plugins_url('build/'.$file, __FILE__), [], true );
 		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr' );
@@ -111,46 +110,69 @@ function cmplz_get_chunk_translations() {
 }
 
 function cmplz_plugin_admin_scripts() {
-	$script_asset_path = __DIR__."/build/index.asset.php";
-	$script_asset = require( $script_asset_path );
-	$handle = 'cmplz-settings';
-	wp_enqueue_media();
-	wp_enqueue_script(
-			$handle,
-		plugins_url( 'build/index.js', __FILE__ ),
-		$script_asset['dependencies'],
-		$script_asset['version']
-	);
-	wp_set_script_translations($handle, 'complianz-gdpr');
-//	$settings = cmplz_get_block_editor_settings();
-//	wp_add_inline_script( 'cmplz-settings', 'window.getdaveSbeSettings = ' . wp_json_encode( $settings ) . ';' );
 
-	wp_localize_script(
-        'cmplz-settings',
-        'cmplz_settings',
-        apply_filters('cmplz_localize_script',[
-				'json_translations' => cmplz_get_chunk_translations(),
-				'site_url'      => get_rest_url(),
-				'admin_url' 	=> admin_url(),
-				'admin_ajax_url' => add_query_arg(
-						array(
-								'type'   => 'errors',
-								'action' => 'cmplz_rest_api_fallback'
-						),
-						admin_url( 'admin-ajax.php' ) ),
-				'dashboard_url' => cmplz_admin_url(),
-				'upgrade_link'  => 'https://complianz.io/pricing',
-				'plugin_url'    => cmplz_url,
-				'network_link'  => network_site_url( 'plugins.php' ),
-				'blocks'        => cmplz_blocks(),
-				'is_premium'    => defined( 'cmplz_premium' ),
-				'nonce'         => wp_create_nonce( 'wp_rest' ),//to authenticate the logged in user
-				'cmplz_nonce'   => wp_create_nonce( 'cmplz_react' ),
-				'menu'          => cmplz_menu(),
-				'regions'       => COMPLIANZ::$config->regions,
-				'user_id' 		=> get_current_user_id(),
-        ])
-	);
+	// replace with the actual path to your build directory
+	$buildDirPath = plugin_dir_path( __FILE__ ) . '/build';
+
+	// get the filenames in the build directory
+	$filenames = scandir( $buildDirPath );
+
+	// filter the filenames to get the JavaScript and asset filenames
+	$jsFilename    = '';
+	$assetFilename = '';
+	foreach ( $filenames as $filename ) {
+		if ( strpos( $filename, 'index.' ) === 0 ) {
+			if ( substr( $filename, - 3 ) === '.js' ) {
+				$jsFilename = $filename;
+			} elseif ( substr( $filename, - 10 ) === '.asset.php' ) {
+				$assetFilename = $filename;
+			}
+		}
+	}
+
+	// check if the necessary files are found
+	if ( $jsFilename !== '' && $assetFilename !== '' ) {
+		$assetFilePath     = $buildDirPath . '/' . $assetFilename;
+		$assetFile         = require( $assetFilePath );
+		$handle            = 'cmplz-settings';
+		wp_enqueue_media();
+		wp_enqueue_script( $handle);
+		wp_enqueue_script(
+				$handle,
+				plugins_url( 'build/' . $jsFilename, __FILE__ ),
+				$assetFile['dependencies'],
+				$assetFile['version'],
+				true
+		);
+		wp_set_script_translations( $handle, 'complianz-gdpr' );
+
+		wp_localize_script(
+				'cmplz-settings',
+				'cmplz_settings',
+				apply_filters( 'cmplz_localize_script', [
+						'json_translations' => cmplz_get_chunk_translations(),
+						'site_url'          => get_rest_url(),
+						'admin_url'         => admin_url(),
+						'admin_ajax_url'    => add_query_arg(
+								array(
+										'type'   => 'errors',
+										'action' => 'cmplz_rest_api_fallback'
+								),
+								admin_url( 'admin-ajax.php' ) ),
+						'dashboard_url'     => cmplz_admin_url(),
+						'upgrade_link'      => 'https://complianz.io/pricing',
+						'plugin_url'        => cmplz_url,
+						'network_link'      => network_site_url( 'plugins.php' ),
+						'blocks'            => cmplz_blocks(),
+						'is_premium'        => defined( 'cmplz_premium' ),
+						'nonce'             => wp_create_nonce( 'wp_rest' ),//to authenticate the logged in user
+						'cmplz_nonce'       => wp_create_nonce( 'cmplz_react' ),
+						'menu'              => cmplz_menu(),
+						'regions'           => COMPLIANZ::$config->regions,
+						'user_id'           => get_current_user_id(),
+				] )
+		);
+	}
 }
 
 /**
@@ -670,9 +692,10 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 	if ( ob_get_length() ) {
 		ob_clean();
 	}
+	$fields = cmplz_fields(true);
 	return [
             'request_success' => true,
-            'fields' => cmplz_fields(true),
+            'fields' => $fields,
     ];
 }
 
@@ -685,46 +708,50 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
  *
  * @return void
  */
+if (!function_exists('cmplz_update_option')) {
+	function cmplz_update_option( string $name, $value, $force_type = false ) {
+		if ( ! cmplz_user_can_manage() ) {
+			return;
+		}
+		$config_fields      = COMPLIANZ::$config->fields;
+		$config_ids         = array_column( $config_fields, 'id' );
+		$config_field_index = array_search( $name, $config_ids );
+		$config_field       = $config_fields[ $config_field_index ];
+		if ( $config_field_index === false ) {
+			return;
+		}
 
-function cmplz_update_option( string $name, $value, $force_type=false ) {
-	if ( !cmplz_user_can_manage() ) {
-		return;
+		$type = isset( $config_field['type'] ) ? $config_field['type'] : false;
+		if ( $force_type ) {
+			$type = $force_type;
+		}
+		if ( ! $type ) {
+			return;
+		}
+
+		$options = get_option( 'cmplz_options', [] );
+
+		if ( ! is_array( $options ) ) {
+			$options = [];
+		}
+		/*
+		 * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
+		 * This function will get the value as its mapped value in the related field.
+		 * Then the value is saved in that related field
+		 */
+
+		$field            = cmplz_maybe_convert_to_source( $value, $config_field );
+		$prev_value       = $options[ $name ] ?? false;
+		$name             = cmplz_sanitize_title_preserve_uppercase( $name );
+		$type             = cmplz_sanitize_field_type( $type );
+		$value            = cmplz_sanitize_field( $field['value'], $type, $name );
+		$value            = apply_filters( "cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
+		$options[ $name ] = $value;
+		update_option( 'cmplz_options', $options );
+
+		do_action( "cmplz_after_save_field", $name, $value, $prev_value, $type );
 	}
-	$config_fields = COMPLIANZ::$config->fields;
-	$config_ids = array_column($config_fields, 'id');
-	$config_field_index = array_search($name, $config_ids);
-	$config_field = $config_fields[$config_field_index];
-	if ( $config_field_index === false ){
-		return;
-	}
-
-	$type = isset( $config_field['type'] ) ? $config_field['type'] : false;
-	if ( $force_type ) $type = $force_type;
-    if ( !$type ) {
-	    return;
-    }
-
-	$options = get_option( 'cmplz_options', [] );
-
-    if ( !is_array($options) ) $options = [];
-	/*
-	 * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
-	 * This function will get the value as its mapped value in the related field.
-	 * Then the value is saved in that related field
-	 */
-
-	$field = cmplz_maybe_convert_to_source($value, $config_field);
-	$prev_value = $options[ $name ] ?? false;
-    $name = cmplz_sanitize_title_preserve_uppercase($name);
-	$type = cmplz_sanitize_field_type($type);
-	$value = cmplz_sanitize_field( $field['value'], $type, $name );
-	$value = apply_filters("cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase($name), $type);
-	$options[$name] = $value;
-	update_option( 'cmplz_options', $options );
-
-	do_action( "cmplz_after_save_field", $name, $value, $prev_value, $type );
 }
-
 /**
  * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
  * This function will convert the value to equivalent value in the related field.

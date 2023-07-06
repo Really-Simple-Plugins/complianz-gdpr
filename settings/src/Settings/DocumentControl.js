@@ -6,6 +6,7 @@ import {useUpdateEffect} from 'react-use';
 import Icon from "../utils/Icon";
 import { memo } from 'react';
 import useFields from "./Fields/FieldsData";
+import RadioGroup from './Inputs/RadioGroup';
 
 const DocumentControl = ({id, value, options, defaultValue, disabled}) => {
     const [pageId, setPageId] = useState(false);
@@ -101,16 +102,16 @@ const DocumentControl = ({id, value, options, defaultValue, disabled}) => {
         setTimer(newTimer)
 	}
 
+	const formattedOptions = {};
+	for (const key in options) {
+		const item = options[key];
+		formattedOptions[item.value] = item.label;
+	}
+
 	return (
 		<>
-			{
-				options.map((option, i) =>
-					<div key={'container_'+i} className="components-radio-control__option">
-						<input type="radio" disabled={Array.isArray(disabled) && disabled.indexOf(option.value) != -1} checked = {value==option.value} key={i} index={i} onChange={ ( e ) => onChangeHandler(option.value) } />
-						<label key={'label_'+i} htmlFor={option.value} index={i}>{option.label}</label>
-					</div>
-				)
-			}
+
+			<RadioGroup id={id} options={formattedOptions} value={value} onChange={onChangeHandler} disabled={disabled} />
 			{ value==='custom' && !pagesListLoaded &&
 				<div className="cmplz-documents-loader">
 					<div><Icon name = "loading" color = 'grey' /></div><div>{__("Loading...", "complianz-gdpr")}</div>

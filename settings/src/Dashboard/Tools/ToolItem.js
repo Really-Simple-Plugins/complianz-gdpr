@@ -42,11 +42,10 @@ const ToolItem = (props) => {
 
 	//not a plugin condition.
 	let isPremiumUser = cmplz_settings.is_premium && licenseStatus === 'valid'
-
-
 	let linkText = __("Read more","complianz-gdpr");
 	let link = item.link;
-	if (isPremiumUser) {
+
+	if ( isPremiumUser ) {
 		if ( !fieldEnabled && item.enableLink ) {
 			linkText = __("Enable","complianz-gdpr");
 			link = item.enableLink;
@@ -57,16 +56,17 @@ const ToolItem = (props) => {
 		}
 	}
 	let isExternal = link.indexOf('https://') !== -1;
+
 	let target = isExternal ? '_blank' : '_self';
 	let icon = isExternal ? 'external-link' : 'circle-chevron-right';
 
 	return (
 		<div className="cmplz-tool">
 			<div className="cmplz-tool-title">{item.title}
-				{item.plusone && item.plusone}
+				{item.plusone && item.plusone }
 			</div>
 			<div className="cmplz-tool-link">
-				<a href={link} target={target}>{linkText}{<Icon name={icon} color="black" size={14} />}</a>
+				<a href={link} target={target}>{isExternal && linkText}{!isExternal && <Icon name={icon} color="black" size={14} />}</a>
 			</div>
 		</div>
 	);

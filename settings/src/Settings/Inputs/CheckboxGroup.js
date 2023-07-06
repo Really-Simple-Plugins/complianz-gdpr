@@ -1,11 +1,11 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import {memo, useState} from 'react';
 import { __ } from '@wordpress/i18n';
-import './CheckboxGroup.scss';
 import Icon from '../../utils/Icon';
 import Button from '../Inputs/Button';
 
 const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options = {} }) => {
+
 	let valueValidated = value;
 	if ( !Array.isArray(valueValidated) ){
 		valueValidated = valueValidated === '' ? [] : [valueValidated];
@@ -22,10 +22,14 @@ const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options
 	}
 
 	const handleCheckboxChange = (e, option) => {
-		const newSelected = selected.includes(option)
-			? selected.filter((item) => item !== option)
-			: [...selected, option];
-		onChange(newSelected);
+		if (Object.keys(options).length === 1) {
+			onChange(!value);
+		} else {
+			const newSelected = selected.includes(option)
+				? selected.filter((item) => item !== option)
+				: [...selected, option];
+			onChange(newSelected);
+		}
 	};
 
 	const isEnabled = (id) => {
@@ -48,7 +52,7 @@ const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options
 					<Checkbox.Root
 						className="cmplz-checkbox-group__checkbox"
 						id={id + '_' + key}
-						checked={ isEnabled(key) }
+						checked={Object.keys(options).length === 1 ? value : isEnabled(key)} // if there is only one option, we use the value as a boolean
 						aria-label={label}
 						disabled={allDisabled || (Array.isArray(disabled) && disabled.includes(key)) }
 						required={required}
@@ -58,7 +62,7 @@ const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options
 							<Icon name={'check'} size={14} color={'dark-blue'} />
 						</Checkbox.Indicator>
 					</Checkbox.Root>
-					<label className="cmplz-checkbox-label" htmlFor={id + '_' + key}>
+					<label className="cmplz-checkbox-group__label" htmlFor={id + '_' + key}>
 						{optionLabel}
 					</label>
 				</div>

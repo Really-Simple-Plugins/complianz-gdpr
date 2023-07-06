@@ -106,6 +106,7 @@ function cmplz_menu() {
 							'title' => __('Cookie scan', 'complianz-gdpr' ),
 							'intro' => __( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ).' '. cmplz_sprintf( __( 'For more information, %sread our 5 tips%s about the cookie scan.', 'complianz-gdpr'), '<a href="https://complianz.io/cookie-scan-results/" target="_blank">','</a>'),
 							'helpLink' => 'https://complianz.io/cookie-scan-results/',
+							'save_buttons_required' => false,
 						],
 						[
 							'id' => 'consent-statistics',
@@ -143,6 +144,7 @@ function cmplz_menu() {
 							'intro' => __( 'Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org.','complianz-gdpr') ." "
 							. __('We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.','complianz-gdpr'),
 							'helpLink' => 'https://complianz.io/our-cookiedatabase-a-new-initiative/',
+							'save_buttons_required' => false,
 						],
 					],
 				],

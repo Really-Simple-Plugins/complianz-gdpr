@@ -73,11 +73,7 @@ const MenuItem = ({ index, menuItem, isMain }) => {
 		return (
 			<>
 				<a {...attributes} className={`cmplz-wizard-menu-item ${menuClass}`}>
-					{isMain ? (
-						index + '. '
-					) : (
-						<Icon name={icon} size={11} color={iconColor} />
-					)}
+					{!isMain && <Icon name={icon} size={11} color={iconColor} />}
 					{menuItem.title}
 					{menuItem.featured && (
 						<span className="cmplz-menu-item-featured-pill">

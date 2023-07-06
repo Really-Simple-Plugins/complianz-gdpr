@@ -262,6 +262,28 @@ const IconHtml = React.forwardRef(function IconHtml(props, ref){
 
 	}
 
+	if (name === 'plugin') {
+		renderedIcon =
+			<svg aria-hidden="true" focusable="false" role="img"
+					 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+					 height={size}>
+				<path fill={iconColors[color]}
+						d="M128 24c0-13.3-10.7-24-24-24S80 10.7 80 24v88h48V24zm176 0c0-13.3-10.7-24-24-24s-24 10.7-24 24v88h48V24zM24 144c-13.3 0-24 10.7-24 24s10.7 24 24 24h8v64c0 80.2 59 146.6 136 158.2V488c0 13.3 10.7 24 24 24s24-10.7 24-24V414.2c77-11.6 136-78 136-158.2V192h8c13.3 0 24-10.7 24-24s-10.7-24-24-24h-8H304 80 32 24zM192 368c-61.9 0-112-50.1-112-112V192H304v64c0 61.9-50.1 112-112 112z"/>
+			</svg>
+	}
+
+	if (name === 'services') {
+		renderedIcon =
+			<svg aria-hidden="true" focusable="false" role="img"
+					 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"
+					 height={size}>
+				<path fill={iconColors[color]}
+					d="M410.8 134.2c-19.3 8.6-42 3.5-55.9-12.5C332.8 96.1 300.3 80 264 80c-66.3 0-120 53.7-120 120c0 0 0 0 0 0s0 0 0 0l0 .2c0 20.4-12.8 38.5-32 45.3C74.6 258.7 48 294.3 48 336c0 53 43 96 96 96H504h3.3c.6-.1 1.3-.1 1.9-.2c46.2-2.7 82.8-41 82.8-87.8c0-36-21.6-67.1-52.8-80.7c-20.1-8.8-31.6-30-28.1-51.7c.6-3.8 .9-7.7 .9-11.7c0-39.8-32.2-72-72-72c-10.5 0-20.4 2.2-29.2 6.2zM512 479.8v.2h-8H464 144C64.5 480 0 415.5 0 336c0-62.7 40.1-116 96-135.8l0-.2c0-92.8 75.2-168 168-168c50.9 0 96.4 22.6 127.3 58.3C406.2 83.7 422.6 80 440 80c66.3 0 120 53.7 120 120c0 6.6-.5 13-1.5 19.3c48 21 81.5 68.9 81.5 124.7c0 72.4-56.6 131.6-128 135.8z"/>
+			</svg>
+	}
+
+
+
 	if (name === 'sync') {
 		renderedIcon =
 				<svg aria-hidden="true" focusable="false" role="img"

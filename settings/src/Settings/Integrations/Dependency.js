@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import SwitchInput from "../Inputs/SwitchInput";
 import SelectInput from "../Inputs/SelectInput";
 import useIntegrations from "./IntegrationsData";
+import CheckboxGroup from '../Inputs/CheckboxGroup';
 
 const Dependency = (props) => {
 	const { setScript, blockedScripts, fetching } = useIntegrations();
@@ -46,20 +47,21 @@ const Dependency = (props) => {
 		return copyOptions
 	}
 
-	let urls = Object.entries(script.urls);
+	let urls = script.hasOwnProperty('urls') ? Object.entries(script.urls) : [''];
 	return (
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
-				<SwitchInput
+				<CheckboxGroup
+					id={script.id + 'dependency'}
 					disabled={fetching}
 					value={script.enable_dependency}
 					onChange={(value)=>onChangeHandler(value, 'enable_dependency')}
+					options={{'dependency': __('Enable dependency', 'complianz-gdpr')}}
 				/>
-				<label>{__("Dependency", "complianz-gdpr")}</label>
 			</div>
 			{ !!script.enable_dependency &&
 				<div className="cmplz-details-row cmplz-details-row">
-					{ urls.map( ([index, waitFor], i)=>
+					{ urls.length>1 && urls.map( ([index, waitFor], i)=>
 						<div key={i} className="cmplz-scriptcenter-dependencies" >
 							<SelectInput
 								disabled={fetching}
@@ -71,6 +73,7 @@ const Dependency = (props) => {
 								{ waitFor ? waitFor : __("Empty URL","complianz-gdpr")}</div>
 						</div>
 					)}
+					{urls.length<=1 && <>{__("Add a URL to create a dependency between two URLs", "complianz-gdpr")}</>}
 				</div>
 			}
 		</>

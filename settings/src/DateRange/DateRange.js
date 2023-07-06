@@ -11,7 +11,7 @@ import Icon from '../utils/Icon';
 import {__} from '@wordpress/i18n';
 import {useDate} from './useDateStore';
 
-const DateRange = (props) => {
+const DateRange = () => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 	const startDate = useDate((state) => state.startDate);

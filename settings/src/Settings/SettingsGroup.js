@@ -82,7 +82,7 @@ const SettingsGroup = (props) => {
 	let helplinkText = activeGroup.helpLink_text ? activeGroup.helpLink_text : __("Instructions","complianz-gdpr");
 	let disabledClass = disabled ? 'cmplz-disabled' : '';
 	return (
-		<div className={"cmplz-grid-item cmplz-"+activeGroup.id + ' ' +  disabledClass}>
+		<div className={"cmplz-grid-item cmplz-"+activeGroup.id + ' ' +  disabledClass} key={activeGroup.id}>
 			{activeGroup.title && <div className="cmplz-grid-item-header">
 				<h3 className="cmplz-h4">{activeGroup.title}</h3>
 				{regions.length>0 && <div className="cmplz-grid-item-controls">

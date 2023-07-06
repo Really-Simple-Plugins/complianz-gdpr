@@ -10,7 +10,6 @@ const AceEditorControl = (props) => {
 	let height=props.height?props.height:'200px';
 	let placeholder = props.field && props.field.default ? props.field.default : props.placeholder;
 	const [inputValue, setInputValue] = useState(props.value);
-	console.log(props);
 	//because an update on the entire Fields array is costly, we only update after the user has stopped typing
 	useEffect(() => {
 		const typingTimer = setTimeout(() => {
@@ -36,7 +35,7 @@ const AceEditorControl = (props) => {
 				width="100%"
 				height={height}
 				onChange={(value) => handleChange(value)}
-				fontSize={14}
+				fontSize={12}
 				showPrintMargin={true}
 				showGutter={true}
 				highlightActiveLine={true}

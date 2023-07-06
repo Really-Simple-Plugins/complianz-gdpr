@@ -3,11 +3,11 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useFields from "../Fields/FieldsData";
 import readMore from "../../utils/readMore";
-import {ToggleControl} from "@wordpress/components";
 import {memo} from "react";
+import SwitchInput from '../Inputs/SwitchInput';
 
 const PluginsControl = () => {
-	const {updatePlaceholderStatus, updatePluginStatus, integrationsLoaded, plugins, fetchIntegrationsData} = useIntegrations();
+	const {updatePlaceholderStatus, fetching, updatePluginStatus, integrationsLoaded, plugins, fetchIntegrationsData} = useIntegrations();
 	const [ searchValue, setSearchValue ] = useState( '' );
 	const [ disabled, setDisabled ] = useState( false );
 	const [ disabledText, setDisabledText ] = useState( '' );
@@ -26,7 +26,7 @@ const PluginsControl = () => {
 		if (integrationsLoaded) {
 			//filter enabled plugins
 			if ( getFieldValue( 'safe_mode' ) == 1 ) {
-				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode in the general settings.', 'complianz-gdpr' ) );
+				setDisabledText( __( 'Safe Mode enabled. To manage integrations, disable Safe Mode under Tools - Support.', 'complianz-gdpr' ) );
 				setDisabled( true );
 			} else if ( plugins.length===0 ) {
 				setDisabledText( __( 'No active plugins detected in the integrations list.', 'complianz-gdpr' ) );
@@ -94,19 +94,22 @@ const PluginsControl = () => {
 			name: __('Plugin',"complianz-gdpr"),
 			selector: row => row.label,
 			sortable: true,
-
+			grow: 5,
 		},
 		{
 			name: __('Placeholder',"complianz-gdpr"),
 			selector: row => row.placeholderControl,
 			sortable: true,
-			sortFunction: enabledDisabledPlaceholderSort
+			sortFunction: enabledDisabledPlaceholderSort,
+			grow: 2,
 		},
 		{
 			name: __('Status',"complianz-gdpr"),
 			selector: row => row.enabledControl,
 			sortable: true,
-			sortFunction: enabledDisabledSort
+			sortFunction: enabledDisabledSort,
+			grow: 1,
+			right: true,
 		},
 	];
 
@@ -130,16 +133,18 @@ const PluginsControl = () => {
 	let outputPlugins = [];
 	filteredPlugins.forEach(plugin => {
 		let pluginCopy = {...plugin}
-		pluginCopy.enabledControl = <ToggleControl
-			checked= { plugin.enabled }
+		pluginCopy.enabledControl = <SwitchInput
+			disabled={fetching}
+			className={"cmplz-switch-input-tiny"}
+			value= { plugin.enabled }
 			onChange={ ( fieldValue ) => onChangeHandler(plugin, fieldValue) }
 		/>
-		pluginCopy.placeholderControl = <ToggleControl
-			label={plugin.placeholder==='none' ? __('N/A',"complianz-gdpr") : __("Placeholder", "complianz-gdpr")}
-			disabled = {plugin.placeholder==='none'}
-			checked = { plugin.placeholder==='enabled' }
+		pluginCopy.placeholderControl = <>{plugin.placeholder!=='none' && <><SwitchInput
+			className={"cmplz-switch-input-tiny"}
+			disabled = {plugin.placeholder==='none' || fetching}
+			value = { plugin.placeholder==='enabled' }
 			onChange = { ( fieldValue ) => onChangePlaceholderHandler(plugin, fieldValue) }
-		/>
+		/></>}</>
 		outputPlugins.push(pluginCopy);
 
 	});

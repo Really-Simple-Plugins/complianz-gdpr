@@ -130,7 +130,7 @@ const Page = () => {
 			<>
 				<Header/>
 				{ showTour && Tour && <Tour />}
-				{/*{ showOnboarding && Onboarding && <Onboarding />}*/}
+				{ showOnboarding && Onboarding && <Onboarding />}
 
 				<div className={"cmplz-content-area cmplz-grid cmplz-" + selectedMainMenuItem}>
 					{ selectedMainMenuItem !== 'dashboard' &&

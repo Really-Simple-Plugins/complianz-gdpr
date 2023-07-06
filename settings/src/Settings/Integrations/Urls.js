@@ -35,8 +35,7 @@ const Urls = (props) => {
 		copyScript.urls = urls;
 		setScript(copyScript, props.type);
 	}
-
-	let urls = Object.entries(script.urls);
+	let urls = script.hasOwnProperty('urls') ? Object.entries(script.urls) : [''];
 	return (
 		<div className="cmplz-details-row">
 			<label>

@@ -12,13 +12,8 @@
 	align-items: center;
 	.cmplz-select-group {
 	  margin-right:10px;
-	}
-  }
-
-  .cmplz-details-row {
-	&__checkbox {
-	  grid-template-columns: auto minmax(0, 1fr);
-	  grid-gap: 17px;
+	  margin-bottom:10px;
+	  min-width: max(250px, 50%);
 	}
   }
 }

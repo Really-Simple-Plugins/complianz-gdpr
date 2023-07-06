@@ -153,6 +153,21 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				$generate_css = true;
 			}
 
+			if ($field_id==='uses_ad_cookies_personalized' && ($field_value !== 'tcf' && $field_value!=='yes') ) {
+				delete_option("cmplz_tcf_initialized");
+			}
+			if ( $field_id === 'uses_ad_cookies' && $field_value === 'no' ) {
+				delete_option("cmplz_tcf_initialized");
+				cmplz_update_option( 'uses_ad_cookies_personalized', 'no');
+			}
+
+			if ($field_id==='uses_ad_cookies_personalized' && ($field_value === 'tcf' && $field_value==='yes') ) {
+				if (file_exists(cmplz_path . 'pro/tcf/class-tcf-admin.php')) {
+					require_once cmplz_path . 'pro/tcf/class-tcf-admin.php';
+					cmplz_tcf_change_settings();
+				}
+			}
+
 			//when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
 			if ( $generate_css || $field_id === 'privacy-statement' || $field_id === 'regions' || $field_id === 'cookie-statement' ) {
 				cmplz_update_all_banners();

@@ -2,6 +2,7 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useDatarequestsData from "./useDatarequestsData";
 import {memo} from "react";
+import CheckboxGroup from "../Inputs/CheckboxGroup";
 const progressComponent = () => {
 	return (
 		<div>
@@ -54,8 +55,7 @@ const DatarequestsControl = () => {
 		await deleteRecords(ids);
 	}
 
-	const handleSelectEntirePage = (e) => {
-		let selected = e.target.checked;
+	const handleSelectEntirePage = (selected) => {
 		if ( selected ) {
 			setEntirePageSelected(true);
 			//add all records on this page to the selectedRecords array
@@ -98,8 +98,7 @@ const DatarequestsControl = () => {
 		fetchData(paginationPerPage, pagination.currentPage, orderBy.orderId, order);
 	};
 
-	const onSelectRecord = (e, id) => {
-		let selected = e.target.checked;
+	const onSelectRecord = (selected, id) => {
 		let docs = [...selectedRecords];
 		if (selected) {
 			if ( !docs.includes(id) ){
@@ -137,7 +136,7 @@ const DatarequestsControl = () => {
 
 	const columns = [
 		{
-			name: <input type="checkbox" className={indeterminate? 'indeterminate' : ''} checked={entirePageSelected} onChange={(e) => handleSelectEntirePage(e)} />,
+			name: <CheckboxGroup options={{true: ''}} className={indeterminate? 'indeterminate' : ''} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
 			orderId:'select',
 		},
@@ -180,6 +179,7 @@ const DatarequestsControl = () => {
 			selector: row => row.type ? <a target="_blank" href={"https://complianz.io/"+row.type.slug}>{row.type.short}</a> : '',
 			sortable: true,
 			orderId:'resolved',
+			right: true,
 		},
 	];
 	let filteredRecords = [...records];
@@ -188,7 +188,7 @@ const DatarequestsControl = () => {
 	let data = [];
 	filteredRecords.forEach(record => {
 		let recordCopy = {...record}
-		recordCopy.selectControl = <input type="checkbox" checked={selectedRecords.includes(recordCopy.ID)} onChange={(e) => onSelectRecord(e,recordCopy.ID )} />
+		recordCopy.selectControl = <CheckboxGroup value={selectedRecords.includes(recordCopy.ID)} options={{true: ''}} onChange={(value) => onSelectRecord(value, recordCopy.ID)} />
 		data.push(recordCopy);
 	});
 	return (

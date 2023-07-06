@@ -90,6 +90,8 @@ const SingleDocument = (props) => {
 
 const DocumentsBlock = () => {
 	const {region, documentDataLoaded, getDocuments, documents } = useDocuments();
+	const {documentsChanged} = useFields();
+
 	const [regionDocuments, setRegionDocuments] = useState([]);
 	const premiumDocuments = [
 		{
@@ -107,6 +109,10 @@ const DocumentsBlock = () => {
 			getDocuments();
 		}
 	},[]);
+
+	useEffect( () => {
+		getDocuments();
+	},[documentsChanged]);
 
 	useEffect( () => {
 		let docs = documents.filter( (document) => document['region'] ===region)[0];

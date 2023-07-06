@@ -1,6 +1,4 @@
 import * as RadioGroupRadix from '@radix-ui/react-radio-group';
-import './RadioGroup.scss';
-import './Input.scss';
 import {memo} from 'react';
 
 const RadioGroup = ({ label, id, value, onChange, required, defaultValue, disabled, options = {} }) => {

@@ -6,9 +6,7 @@ import { __ } from '@wordpress/i18n';
 const UseBannerData = create(( set, get ) => ({
 	bannerDataLoaded:false,
 	setBannerDataLoaded: (bannerDataLoaded) => set({ bannerDataLoaded }),
-	bannerFieldsSynced:false,
 	setCssLoading: (cssLoading) => set({ cssLoading }),
-	setBannerFieldsSynced: (bannerFieldsSynced) => set({ bannerFieldsSynced }),
 	customizeUrl:'#',
 	cssLoaded:false,
 	bannerHtml:'',
@@ -38,7 +36,8 @@ const UseBannerData = create(( set, get ) => ({
 			sessionStorage.cmplzBannerPreviewBannerID = bannerId;
 		}
 		let selectedBanner = banners.filter( (banner) => banner.ID === bannerId )[0];
-		set({ selectedBanner:selectedBanner,selectedBannerId:bannerId })
+
+		set({ selectedBanner:selectedBanner,selectedBannerId:bannerId, bannerFieldsSynced:false })
 	},
 	saveBanner: (fields) => {
 		let selectedBanner = get().selectedBanner;

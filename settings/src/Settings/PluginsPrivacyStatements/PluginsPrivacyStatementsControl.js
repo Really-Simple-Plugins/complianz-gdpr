@@ -47,9 +47,9 @@ const PluginsPrivacyStatementsControl = () => {
 				}
 				{
 					privacyStatementGenerated &&
-					<>
-						{ Array.isArray(privacyStatements) && privacyStatements.map( (plugin, i) => <SinglePrivacyStatement key={i} plugin={plugin}/> )}
-					</>
+					<div className={'cmplz-panel__list'}>
+						{ Array.isArray(privacyStatements) && privacyStatements.map( (plugin, i) => <SinglePrivacyStatement key={i} plugin={plugin} icon={'plugin'}/> )}
+					</div>
 
 				}
 			</div>

@@ -9,14 +9,15 @@ import Category from "./Category"
 import Placeholder from "./Placeholder"
 import Dependency from "./Dependency"
 import Urls from "./Urls"
+import CheckboxGroup from '../Inputs/CheckboxGroup';
 
 const ThirdPartyScript = (props) => {
-	const { setScript, saveScript, deleteScript } = useIntegrations();
+	const { setScript, fetching, saveScript, deleteScript } = useIntegrations();
 	const script = props.script;
 	const checkboxControl = (script) => {
 		return (
 			<>
-				<input onChange={ ( e ) =>  onChangeEnabledHandler(e.target.checked, 'enable') }  type="checkbox" checked={script.enable}/>
+				<SwitchInput className={"cmplz-switch-input-tiny"} onChange={ ( value ) =>  onChangeEnabledHandler(value, 'enable') } value={script.enable}/>
 			</>
 		)
 	}
@@ -44,8 +45,7 @@ const ThirdPartyScript = (props) => {
 	const onEditorChangeHandler = (value) => {
 		onChangeHandler(value, 'editor');
 	}
-
-		const ScriptDetails = (script, type) => {
+	const ScriptDetails = (script, type) => {
 		const { fetching } = useIntegrations();
 
 		return (
@@ -63,8 +63,8 @@ const ThirdPartyScript = (props) => {
 						<AceEditorControl
 							disabled={fetching}
 							onChange={ (value) => onEditorChangeHandler(value)	}
-							placeholder = "console.log('marketing enabled')"
-							value= { script.editor }/>
+							placeholder = "Enter your script here"
+							value= { script.editor ? script.editor : console.log('marketing enabled') }/>
 					</div>
 				}
 
@@ -75,12 +75,13 @@ const ThirdPartyScript = (props) => {
 				{ type!=='whitelist_script' &&
 					<>
 						<div className="cmplz-details-row cmplz-details-row__checkbox">
-							<SwitchInput
+							<CheckboxGroup
+								id={script.id}
 								disabled={fetching}
 								value={script.async}
-								onChange={(value)=>onChangeHandler(value, 'async')}
+								onChange={(value)=> onChangeHandler(value, 'async')}
+								options={{'async': 'This script contains an async attribute.'}}
 							/>
-							<label>{__("This script contains an async attribute.", "complianz-gdpr")}</label>
 						</div>
 						<div className="cmplz-details-row">
 							<Category script={script} type={type} />
@@ -90,9 +91,10 @@ const ThirdPartyScript = (props) => {
 				}
 
 				{type==='block_script' &&
-					<>
+					<div className="cmplz-details-row cmplz-details-row__checkbox">
+						<label>{__('Dependency', 'complianz-gdpr')}</label>
 						<Dependency script={script} type={type} />
-					</>
+					</div>
 				}
 
 				<div className="cmplz-details-row cmplz-details-row__buttons">
@@ -117,4 +119,3 @@ const ThirdPartyScript = (props) => {
 	)
 }
 export default memo(ThirdPartyScript)
-

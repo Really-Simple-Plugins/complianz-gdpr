@@ -24,6 +24,34 @@
 }
 
 
+.cmplz-button-icon {
+	background: transparent;
+	background: var(--rsp-grey-300);
+	color: #2271b1;
+	border: 1px solid transparent;
+	border-radius: 50%;
+	width: 1em;
+	height: 1em;
+	padding: 10px;
+	margin: 5px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	cursor: pointer;
+	&:hover {
+		padding: 15px;
+		margin: 0;
+	}
+	&--delete{
+		&:hover{
+			background: var(--rsp-red-faded);
+			svg path{
+				fill: var(--rsp-red);
+			}
+		}
+	}
+}
 
 
 

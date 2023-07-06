@@ -21,7 +21,6 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'group_id'                => 'finish',
 				'type'                    => 'finish',
 				'disabled'                => false,
-				'label'                   => __('Almost there!',"complianz-gdpr"),
 			],
 			[
 				'id'                      => 'enable_cookie_banner',

@@ -1,6 +1,4 @@
 import {memo, useEffect, useState} from 'react';
-import './Input.scss';
-
 const TextInput = ({
 	value,
 	onChange,

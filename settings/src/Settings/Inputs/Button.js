@@ -1,4 +1,3 @@
-import './Buttons.scss'
 import {memo, useState} from 'react';
 import * as cmplz_api from '../../utils/api';
 import useFields from '../Fields/FieldsData';
@@ -6,7 +5,6 @@ import useMenu from '../../Menu/MenuData';
 import {
 	__experimentalConfirmDialog as ConfirmDialog
 } from '@wordpress/components';
-// import AreYouSureModal from '../AreYouSureModal';
 
 const Button = ({
 	type = 'action',

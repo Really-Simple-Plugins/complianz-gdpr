@@ -28,8 +28,8 @@ const emptyData = {
 					"0",
 					"0"
 				],
-				"backgroundColor": "rgba(255, 99, 132, 1)",
-				"borderColor": "rgba(255, 99, 132, 1)",
+				"backgroundColor": "rgba(46, 138, 55, 1)",
+				"borderColor": "rgba(46, 138, 55, 1)",
 				"label": "A (default)",
 				"fill": "false",
 				"borderDash": [
@@ -46,8 +46,8 @@ const emptyData = {
 					"0",
 					"0"
 				],
-				"backgroundColor": "rgba(255, 159, 64, 1)",
-				"borderColor": "rgba(255, 159, 64, 1)",
+				"backgroundColor": "rgba(244, 191, 62, 1)",
+				"borderColor": "rgba(244, 191, 62, 1)",
 				"label": "B",
 				"fill": "false",
 				"borderDash": [
@@ -85,8 +85,8 @@ const emptyData = {
 					"0",
 					"0"
 				],
-				"backgroundColor": "rgba(255, 99, 132, 1)",
-				"borderColor": "rgba(255, 99, 132, 1)",
+				"backgroundColor": "rgba(46, 138, 55, 1)",
+				"borderColor": "rgba(46, 138, 55, 1)",
 				"label": "A (default)",
 				"fill": "false",
 				"borderDash": [
@@ -103,8 +103,8 @@ const emptyData = {
 					"0",
 					"0"
 				],
-				"backgroundColor": "rgba(255, 159, 64, 1)",
-				"borderColor": "rgba(255, 159, 64, 1)",
+				"backgroundColor": "rgba(244, 191, 62, 1)",
+				"borderColor": "rgba(244, 191, 62, 1)",
 				"label": "B",
 				"fill": "false",
 				"borderDash": [
@@ -144,8 +144,8 @@ const defaultData = {
 					"30",
 					"10"
 				],
-				"backgroundColor": "rgba(255, 99, 132, 1)",
-				"borderColor": "rgba(255, 99, 132, 1)",
+				"backgroundColor": "rgba(46, 138, 55, 1)",
+				"borderColor": "rgba(46, 138, 55, 1)",
 				"label": "Demo A (default)",
 				"fill": "false",
 				"borderDash": [
@@ -162,8 +162,8 @@ const defaultData = {
 					"45",
 					"32"
 				],
-				"backgroundColor": "rgba(255, 159, 64, 1)",
-				"borderColor": "rgba(255, 159, 64, 1)",
+				"backgroundColor": "rgba(244, 191, 62, 1)",
+				"borderColor": "rgba(244, 191, 62, 1)",
 				"label": "Demo B",
 				"fill": "false",
 				"borderDash": [
@@ -201,8 +201,8 @@ const defaultData = {
 					"30",
 					"10"
 				],
-				"backgroundColor": "rgba(255, 99, 132, 1)",
-				"borderColor": "rgba(255, 99, 132, 1)",
+				"backgroundColor": "rgba(46, 138, 55, 1)",
+				"borderColor": "rgba(46, 138, 55, 1)",
 				"label": "A (default)",
 				"fill": "false",
 				"borderDash": [
@@ -219,8 +219,8 @@ const defaultData = {
 					"45",
 					"32"
 				],
-				"backgroundColor": "rgba(255, 159, 64, 1)",
-				"borderColor": "rgba(255, 159, 64, 1)",
+				"backgroundColor": "rgba(244, 191, 62, 1)",
+				"borderColor": "rgba(244, 191, 62, 1)",
 				"label": "Demo B",
 				"fill": "false",
 				"borderDash": [

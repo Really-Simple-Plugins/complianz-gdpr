@@ -2,6 +2,7 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useRecordsOfConsentData from "./useRecordsOfConsentData";
 import {memo} from "react";
+import CheckboxGroup from '../Inputs/CheckboxGroup';
 const RecordsOfConsentControl = () => {
 	const paginationPerPage = 10;
 	const [ searchValue, setSearchValue ] = useState( '' );
@@ -86,8 +87,7 @@ const RecordsOfConsentControl = () => {
 		setBtnDisabled(false);
 	};
 
-	const handleSelectEntirePage = (e) => {
-		let selected = e.target.checked;
+	const handleSelectEntirePage = (selected) => {
 		if ( selected ) {
 			setEntirePageSelected(true);
 			//add all records on this page to the selectedRecords array
@@ -102,8 +102,7 @@ const RecordsOfConsentControl = () => {
 		setIndeterminate(false);
 	}
 
-	const onSelectRecord = (e, id) => {
-		let selected = e.target.checked;
+	const onSelectRecord = (selected, id) => {
 		let docs = [...selectedRecords];
 		if (selected) {
 			if ( !docs.includes(id) ){
@@ -187,43 +186,54 @@ const RecordsOfConsentControl = () => {
 
 	const columns = [
 		{
-			name: <input type="checkbox" className={indeterminate? 'indeterminate' : ''} checked={entirePageSelected} onChange={(e) => handleSelectEntirePage(e)} />,
+			name: <CheckboxGroup options={{true: ''}} className={indeterminate? 'indeterminate' : ''} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
+			grow: 1,
+			minWidth: '50px',
 		},
 		{
 			name: __('User ID',"complianz-gdpr"),
 			selector: row => row.id,
 			sortable: true,
+			grow: 3,
 		},
 		{
-			name: __('IP Adress',"complianz-gdpr"),
+			name: __('IP Address',"complianz-gdpr"),
 			selector: row => row.ip,
 			sortable: true,
+			grow: 4,
 		},
 		{
 			name: __('Region',"complianz-gdpr"),
 			selector: row => row.region!=='' ? <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} /> : '',
 			sortable: true,
+			grow: 2,
 		},
 		{
 			name: __('Services',"complianz-gdpr"),
 			selector: row => row.services,
 			sortable: true,
+			grow: 5,
 		},
 		{
 			name: __('Consent',"complianz-gdpr"),
 			selector: row => row.consenttype ? consentLabels[row.consenttype] : '',
 			sortable: true,
+			grow: 3,
 		},
 		{
 			name: __('Categories',"complianz-gdpr"),
 			selector: row => getCategories(row),
 			sortable: true,
+			grow: 6,
 		},
 		{
 			name: __('Date',"complianz-gdpr"),
 			selector: row => row.time,
 			sortable: true,
+			grow: 4,
+			minWidth: '200px',
+			right: true,
 		},
 	];
 	let filteredRecords = [...records];
@@ -233,7 +243,7 @@ const RecordsOfConsentControl = () => {
 	let data = [];
 	filteredRecords.forEach(record => {
 		let recordCopy = {...record}
-		recordCopy.selectControl = <input type="checkbox" checked={selectedRecords.includes(recordCopy.id)} onChange={(e) => onSelectRecord(e,recordCopy.id )} />
+		recordCopy.selectControl = <CheckboxGroup value={selectedRecords.includes(recordCopy.id)} options={{true: ''}} onChange={(value) => onSelectRecord(value,recordCopy.id)} />
 		data.push(recordCopy);
 	});
 	return (
