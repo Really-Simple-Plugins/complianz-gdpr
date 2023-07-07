@@ -174,7 +174,7 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-* 07-07-2023
+* 10-07-2023
 * Improvement: restore php 7.2 support in burst installer
 * Improvement: catch server configurations not supporting webp
 * Improvement: catch not existing file when generating webp
