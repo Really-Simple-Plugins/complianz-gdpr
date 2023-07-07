@@ -4,7 +4,7 @@
  * Plugin URI: https://www.wordpress.org/plugins/complianz-gdpr
  * Description: Complianz Privacy Suite for GDPR, CaCPA, DSVGO, AVG with a conditional cookie warning and customized cookie policy
  * Version: 7.0.0-beta.1
- * Requires at least: 4.9
+ * Requires at least: 5.8
  * Requires PHP: 7.2
  * Text Domain: complianz-gdpr
  * Domain Path: /languages
