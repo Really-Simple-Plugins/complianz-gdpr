@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.5.0\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 6.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-28T11:55:13+00:00\n"
+"POT-Creation-Date: 2023-07-07T11:57:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
 
 #. Plugin Name of the plugin
@@ -177,13 +177,13 @@ msgstr ""
 
 #: class-admin.php:75
 #: class-admin.php:76
-#: class-admin.php:847
+#: class-admin.php:848
 #: upgrade/upgrade-to-pro.php:190
 msgid "Installed"
 msgstr ""
 
 #: class-admin.php:75
-#: class-admin.php:844
+#: class-admin.php:845
 #: pro/templates/dashboard/documents-conditional.php:10
 #: templates/dashboard/documents-conditional.php:41
 #: upgrade/upgrade-to-pro.php:146
@@ -196,12 +196,12 @@ msgstr ""
 msgid "Data successfully cleared"
 msgstr ""
 
-#: class-admin.php:394
+#: class-admin.php:395
 msgid "Copied!"
 msgstr ""
 
-#: class-admin.php:413
-#: class-admin.php:1019
+#: class-admin.php:414
+#: class-admin.php:1020
 #: cookiebanner/settings.php:491
 #: integrations/integrations-menu.php:50
 #: pro/class-licensing.php:505
@@ -210,70 +210,70 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:420
+#: class-admin.php:421
 #: templates/dashboard/tools-footer.php:1
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:426
-#: class-admin.php:801
+#: class-admin.php:427
+#: class-admin.php:802
 #: config/class-config.php:693
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:483
+#: class-admin.php:484
 msgid "Dismiss"
 msgstr ""
 
-#: class-admin.php:748
+#: class-admin.php:749
 msgid "Complianz %s"
 msgstr ""
 
-#: class-admin.php:754
+#: class-admin.php:755
 msgid "Complianz"
 msgstr ""
 
-#: class-admin.php:765
 #: class-admin.php:766
+#: class-admin.php:767
 #: shepherd/tour.php:73
 msgid "Dashboard"
 msgstr ""
 
-#: class-admin.php:774
 #: class-admin.php:775
+#: class-admin.php:776
 msgid "Wizard"
 msgstr ""
 
-#: class-admin.php:826
+#: class-admin.php:827
 #: pro/class-licensing.php:141
 #: pro/dataleak/class-dataleak.php:551
 #: pro/processing-agreements/class-processing.php:240
 msgid "You have activated the Multisite plugin on a non-Multisite environment. Please download the regular Complianz Premium plugin %svia your account%s and install it instead"
 msgstr ""
 
-#: class-admin.php:828
+#: class-admin.php:829
 #: pro/dataleak/class-dataleak.php:553
 #: pro/processing-agreements/class-processing.php:242
 msgid "Your license needs to be %sactivated%s to unlock the wizard"
 msgstr ""
 
-#: class-admin.php:850
+#: class-admin.php:851
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: class-admin.php:867
+#: class-admin.php:868
 msgid "All tasks (%s)"
 msgstr ""
 
-#: class-admin.php:869
+#: class-admin.php:870
 msgid "Remaining tasks (%s)"
 msgstr ""
 
-#: class-admin.php:875
+#: class-admin.php:876
 msgid "Your progress"
 msgstr ""
 
-#: class-admin.php:882
+#: class-admin.php:883
 #: config/steps.php:21
 #: config/steps.php:98
 #: pro/config/steps.php:21
@@ -281,23 +281,23 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: class-admin.php:885
+#: class-admin.php:886
 msgid "Last update"
 msgstr ""
 
-#: class-admin.php:890
+#: class-admin.php:891
 msgid "Tools"
 msgstr ""
 
-#: class-admin.php:898
+#: class-admin.php:899
 msgid "Tips & Tricks"
 msgstr ""
 
-#: class-admin.php:906
+#: class-admin.php:907
 msgid "Other plugins"
 msgstr ""
 
-#: class-admin.php:984
+#: class-admin.php:985
 #: config/steps.php:8
 #: cookiebanner/edit.php:39
 #: cookiebanner/settings.php:338
@@ -311,16 +311,16 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: class-admin.php:992
+#: class-admin.php:993
 #: pro/config/steps.php:105
 msgid "Data"
 msgstr ""
 
-#: class-admin.php:1001
+#: class-admin.php:1002
 msgid "Cookies"
 msgstr ""
 
-#: class-admin.php:1009
+#: class-admin.php:1010
 msgid "Advanced features"
 msgstr ""
 
@@ -4264,7 +4264,7 @@ msgid "Create"
 msgstr ""
 
 #: cookie/class-cookie-admin.php:2905
-#: functions.php:2247
+#: functions.php:2262
 msgid "Purpose pending investigation"
 msgstr ""
 
@@ -5165,30 +5165,30 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:2215
+#: functions.php:2230
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:2222
-#: functions.php:2232
+#: functions.php:2237
+#: functions.php:2247
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:2224
-#: functions.php:2229
+#: functions.php:2239
+#: functions.php:2244
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:2234
+#: functions.php:2249
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2237
+#: functions.php:2252
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2244
+#: functions.php:2259
 #: pro/records-of-consent/class-records-of-consent.php:374
 #: pro/templates/dashboard/tools-conditional.php:11
 #: proof-of-consent/class-proof-of-consent.php:254
@@ -5203,19 +5203,19 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: functions.php:2744
+#: functions.php:2759
 #: pro/records-of-consent/class-records-of-consent-table.php:235
 #: pro/tcf/tcf.php:934
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2746
+#: functions.php:2761
 #: pro/records-of-consent/class-records-of-consent-table.php:238
 #: pro/tcf/tcf.php:933
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2748
+#: functions.php:2763
 msgid "All consent types"
 msgstr ""
 

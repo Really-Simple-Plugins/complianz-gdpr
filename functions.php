@@ -2106,6 +2106,19 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 
 if (!function_exists('cmplz_create_webp')){
 	function cmplz_create_webp($file, $new_src) {
+		//check webp availability
+		if (
+				!function_exists('imagecreatefromjpeg') ||
+				!function_exists('imagecreatefrompng') ||
+				!function_exists('imagewebp') ||
+				!function_exists('imagedestroy') ||
+				!function_exists('imagepalettetotruecolor') ||
+				!function_exists('imagealphablending') ||
+				!function_exists('imagesavealpha')
+		){
+			return $new_src;
+		}
+
 		switch ( $file ) {
 			case str_contains( $file, '.jpeg' ):
 			case str_contains( $file, '.jpg' ):
