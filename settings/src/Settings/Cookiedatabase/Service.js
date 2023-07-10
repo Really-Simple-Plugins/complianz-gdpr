@@ -4,6 +4,8 @@ import {UseSyncData} from "./SyncData";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import useFields from "../../Settings/Fields/FieldsData";
+import CheckboxGroup from "../Inputs/CheckboxGroup";
+import SelectInput from "../Inputs/SelectInput";
 
 const ServiceDetails = (service) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
@@ -35,37 +37,50 @@ const ServiceDetails = (service) => {
 		await deleteService(id);
 	}
 
-	const onChangeHandler = (e, id, type) => {
-		updateService(id, type, e.target.value);
+	const onChangeHandler = (value, id, type) => {
+		updateService(id, type, value);
 	}
-	const onCheckboxChangeHandler = (e, id, type) => {
-		updateService(id, type, e.target.checked);
+	const onCheckboxChangeHandler = (checked, id, type) => {
+		updateService(id, type, checked);
 	}
-
+	console.log('service', service)
 	return (
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
-				<label>{__("Data is shared with this service", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onCheckboxChangeHandler(e, service.ID, 'thirdParty') } type="checkbox"  checked={service.thirdParty} />
+				<CheckboxGroup
+					id={service.ID+'thirdParty'}
+					disabled={disabled}
+					value={service.thirdParty}
+					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'thirdParty')}
+					options={{'thirdParty': __('Data is shared with this service', 'complianz-gdpr')}}
+				/>
 			</div>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
-				<label>{__("Sync service with cookiedatabase.org", "complianz-gdpr")}</label>
-				<input disabled={!useCdbApi} onChange={ ( e ) => onCheckboxChangeHandler(e, service.ID, 'sync') } type="checkbox"  checked={sync} />
+				<CheckboxGroup
+					id={service.ID+'sync'}
+					disabled={!useCdbApi}
+					value={sync}
+					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'sync')}
+					options={{'sync': __('Sync service with cookiedatabase.org', 'complianz-gdpr')}}
+				/>
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Name", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, service.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={service.name} />
+				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={service.name} />
 			</div>
+
 			<div className="cmplz-details-row">
 				<label>{__("Service Types", "complianz-gdpr")}</label>
-				<select disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, service.ID, 'serviceType') } value={service.serviceType} >
-					<option key={-1} value={0}>{__("Select a service","complianz-gdpr")}</option>
-					{ serviceTypeOptions.map((serviceType, i) => <option key={i} value={serviceType.name}>{serviceType.name}</option>)}
-				</select>
+				<SelectInput
+					disabled={disabled}
+					value={service.serviceType}
+					options={serviceTypeOptions}
+					onChange={(value) => onChangeHandler(value, service.ID, 'serviceType')}
+				/>
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Privacy Statement URL", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, service.ID, 'privacyStatementURL') } type="text" placeholder={__("https://domain.com/privacy", "complianz-gdpr")} value={service.privacyStatementURL} />
+				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'privacyStatementURL') } type="text" placeholder={__("https://domain.com/privacy", "complianz-gdpr")} value={service.privacyStatementURL} />
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">

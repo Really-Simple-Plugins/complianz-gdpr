@@ -130,10 +130,10 @@ class cmplz_onboarding {
 		if ( get_transient('cmplz_redirect_to_settings_page' ) ) {
 			delete_transient('cmplz_redirect_to_settings_page' );
 			if ( !isset($_GET['page']) || $_GET['page'] !== 'complianz' ) {
-				$onboarding_dismissed = false;//get_site_option('cmplz_onboarding_dismissed');
+				$onboarding_dismissed = get_option('cmplz_onboarding_dismissed');
 				if ( !$onboarding_dismissed ) {
-					update_site_option('cmplz_onboarding_dismissed', true);
-					wp_redirect( cmplz_admin_url() );
+					update_option('cmplz_onboarding_dismissed', true, false);
+					wp_redirect( add_query_arg(['onboarding' =>1], cmplz_admin_url()) );
 					exit;
 				}
 				wp_redirect( add_query_arg(array('page' => 'complianz'), cmplz_admin_url() ) );

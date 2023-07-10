@@ -4,6 +4,8 @@ import Panel from "../Panel";
 import {UseSyncData} from "./SyncData";
 import useFields from "../../Settings/Fields/FieldsData";
 import {useEffect, useState} from "react";
+import CheckboxGroup from "../Inputs/CheckboxGroup";
+import SelectInput from "../Inputs/SelectInput";
 
 const CookieDetails = (cookie) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
@@ -35,8 +37,8 @@ const CookieDetails = (cookie) => {
 		await toggleDeleteCookie(id);
 	}
 
-	const onChangeHandler = (e, id, type) => {
-		updateCookie(id, type, e.target.value);
+	const onChangeHandler = (value, id, type) => {
+		updateCookie(id, type, value);
 	}
 
 	useEffect(() => {
@@ -83,21 +85,34 @@ const CookieDetails = (cookie) => {
 		setRetention(obj);
 	}
 
-	const onCheckboxChangeHandler = (e, id, type) => {
-		updateCookie(id, type, e.target.checked);
+	const onCheckboxChangeHandler = (checked, id, type) => {
+		updateCookie(id, type, checked);
 	}
 
 	let retentionDisabled = cookie.name.indexOf('cmplz_')!==-1 ? true:sync;
 	let deletedClass = cookie.deleted!=1 ? 'cmplz-reset-button':'';
+	let servicesOptions = services.map((service, i) => {
+		return {value:service.ID, label:service.name};
+	});
 	return (
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
-				<label>{__("Sync cookie with cookiedatabase.org", "complianz-gdpr")}</label>
-				<input disabled={!useCdbApi} onChange={ ( e ) => onCheckboxChangeHandler(e, cookie.ID, 'sync') } type="checkbox" checked={sync} />
+				<CheckboxGroup
+					id={cookie.ID+'_cdb_api'}
+					disabled={!useCdbApi}
+					value={sync}
+					onChange={(value) => onCheckboxChangeHandler(value, cookie.ID, 'sync')}
+					options={{'sync': __('Sync cookie with cookiedatabase.org', 'complianz-gdpr')}}
+				/>
 			</div>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
-				<label>{__("Show cookie on Cookie Policy", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) => onCheckboxChangeHandler(e, cookie.ID, 'showOnPolicy') } type="checkbox"  checked={cookie.showOnPolicy} />
+				<CheckboxGroup
+					id={cookie.ID+'showOnPolicy'}
+					disabled={disabled}
+					value={cookie.showOnPolicy}
+					onChange={(value) => onCheckboxChangeHandler(value, cookie.ID, 'showOnPolicy')}
+					options={{'showOnPolicy': __('Show cookie on Cookie Policy', 'complianz-gdpr')}}
+				/>
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Name", "complianz-gdpr")}</label>
@@ -105,10 +120,12 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Service", "complianz-gdpr")}</label>
-				<select disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'serviceID') } value={cookie.serviceID} >
-					<option key={-1} value={0}>{__("Select a service","complianz-gdpr")}</option>
-					{ services.map((service, i) => <option key={i} value={service.ID}>{service.name}</option>)}
-				</select>
+				<SelectInput
+					disabled={disabled}
+					value={cookie.serviceID}
+					options={servicesOptions}
+					onChange={(value) => onChangeHandler(value, cookie.ID, 'serviceID')}
+				/>
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Expiration", "complianz-gdpr")}</label>
@@ -120,10 +137,12 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Purpose", "complianz-gdpr")}</label>
-				<select disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e, cookie.ID, 'purpose') } value={cookie.purpose} >
-					<option key={-1} value={0}>{__("Select a purpose","complianz-gdpr")}</option>
-					{ purposesOptions.map((purpose, i) => <option key={i} value={purpose.name}>{purpose.name}</option>)}
-				</select>
+				<SelectInput
+					disabled={disabled}
+					value={cookie.purpose}
+					options={purposesOptions}
+					onChange={(value) => onChangeHandler(value, cookie.ID, 'purpose')}
+				/>
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">

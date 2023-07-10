@@ -992,13 +992,13 @@ function cmplz_check_upgrade() {
 					}
 				}
 			}
-			if ($migrate_js_enabled) {
+
+			if ( $migrate_js_enabled ) {
 				$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
 				if ( ! in_array( 'migrate_js', $dismissed_warnings ) ) {
 					$dismissed_warnings[] = 'migrate_js';
 					update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 				}
-
 			}
 
 			update_option('cmplz_upgraded_to_7', true, false);

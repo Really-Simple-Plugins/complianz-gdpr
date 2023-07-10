@@ -1016,7 +1016,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						$s = $serviceTypes;
 						$serviceTypes = [];
 						foreach ( $s as $id => $serviceType ) {
-							$serviceTypes[] = ['id' => $id, 'name'=>$serviceType];
+							$serviceTypes[] = ['value' => $id, 'label'=>$serviceType];
 						}
 						update_option( "cmplz_serviceTypes_stored", true, false );
 						update_option( 'cmplz_serviceTypes_' . $language, $serviceTypes, false );
@@ -1067,7 +1067,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						$c = $cookiePurposes;
 						$cookiePurposes = [];
 						foreach ($c as $id => $cookiePurpose) {
-							$cookiePurposes[] = ['id' => $id, 'name'=>$cookiePurpose];
+							$cookiePurposes[] = ['value' => $id, 'label'=>$cookiePurpose];
 						}
 						update_option( "cmplz_purposes_stored", true, false );
 						update_option( "cmplz_purposes_$language", $cookiePurposes, false );

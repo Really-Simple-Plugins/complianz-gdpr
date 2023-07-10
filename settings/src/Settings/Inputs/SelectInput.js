@@ -34,6 +34,7 @@ const SelectInput = ({
 			value = Object.keys(options)[0];
 		}
 	}
+
 	return (
 		<div className="cmplz-input-group cmplz-select-group" key={label}>
 			<Select.Root

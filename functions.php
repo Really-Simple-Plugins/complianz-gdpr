@@ -176,13 +176,10 @@ if ( !function_exists('cmplz_create_missing_directories_recursively') ) {
 		if ( ! cmplz_user_can_manage() ) {
 			return;
 		}
+
 		$parts = explode( '/', $path );
 		$dir   = '';
 		foreach ( $parts as $part ) {
-			if ( empty($part) ) {
-				continue;
-			}
-
 			$dir .= $part . '/';
 			if (cmplz_has_open_basedir_restriction($dir)) {
 				continue;

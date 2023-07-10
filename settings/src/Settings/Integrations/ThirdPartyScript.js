@@ -1,7 +1,6 @@
 import Panel from "../Panel";
 import { __ } from '@wordpress/i18n';
 import useIntegrations from "./IntegrationsData";
-import {useState} from "@wordpress/element";
 import AceEditorControl from "../Editor/AceEditorControl";
 import SwitchInput from "../../Settings/Inputs/SwitchInput";
 import {memo} from "react";

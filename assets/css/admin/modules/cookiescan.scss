@@ -37,13 +37,8 @@
 		display: flex;
 		gap: 10px;
 		margin-bottom: 10px;
-
-		label {
-			margin: auto 0;
-
-			input {
-				margin-left: 10px;
-			}
+		.cmplz-checkbox-group {
+		  margin-top:4px;
 		}
 
 		details summary {

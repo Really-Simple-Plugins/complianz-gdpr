@@ -58,6 +58,12 @@ export const UseSyncData = create(( set, get ) => ({
 		let language = get().language ? get().language : defaultLanguage;
 		let purposesByLanguage = purposesOptions && purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
 		let serviceTypesByLanguage = serviceTypeOptions && serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
+		serviceTypesByLanguage = serviceTypesByLanguage.map(serviceType => {
+			return {label:serviceType.label,value:serviceType.label};
+		});
+		purposesByLanguage = purposesByLanguage.map(purpose => {
+			return {label:purpose.label,value:purpose.label};
+		});
 		set({
 			loadingSyncData: false,
 			language: language,
@@ -108,13 +114,21 @@ export const UseSyncData = create(( set, get ) => ({
 		set({servicesAndCookies:servicesAndCookies });
 	},
 	restart: async () => {
-		set((state) => ({loadingSyncData:true,syncDataLoaded:false }));
-		let data = {};
+		set(() => ({loadingSyncData:true,syncDataLoaded:false }));
 		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages, errorMessage} = await fetchSyncProgressData(true);
 		let language = get().language ? get().language : defaultLanguage;
 		let purposesByLanguage = purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
 		let serviceTypesByLanguage = serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
-		set((state) => ({
+		//convert value/label array to label/label array
+		serviceTypesByLanguage = serviceTypesByLanguage.map(serviceType => {
+			return {label:serviceType.label,value:serviceType.label};
+		});
+		purposesByLanguage = purposesByLanguage.map(purpose => {
+			return {label:purpose.label,value:purpose.label};
+		});
+		console.log("service types by lang");
+		console.log(serviceTypesByLanguage);
+		set(() => ({
 			loadingSyncData: false,
 			language: language,
 			languages: languages,

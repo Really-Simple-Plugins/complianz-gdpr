@@ -4,9 +4,10 @@ import Service from './Service';
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import {memo} from "react";
+import CheckboxGroup from "../Inputs/CheckboxGroup";
 
 const CookieDatabaseSyncControl = () => {
-	const {buildServicesCookiesArray, setShowDeletedCookies, servicesAndCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
+	const {buildServicesCookiesArray, showDeletedCookies, setShowDeletedCookies, servicesAndCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
 	const {addHelpNotice, getFieldValue} = useFields();
 	const [disabled, setDisabled] = useState(false);
 
@@ -113,7 +114,12 @@ const CookieDatabaseSyncControl = () => {
 						{languages.map((language, i) => <option key={i} value={language}>{language}</option>)}
 					</select>
 				}
-				<label>{__("Show deleted cookies","complianz-gdpr")}<input type="checkbox" onClick={(e)=> setShowDeletedCookies(e.target.checked)} /></label>
+				<CheckboxGroup
+					id={'show_deleted_cookies'}
+					value={showDeletedCookies}
+					onChange={(value) => setShowDeletedCookies(value)}
+					options={{'sync': __('Show deleted cookies', 'complianz-gdpr')}}
+				/>
 			</div>
 			<div id="cmplz-scan-progress">
 				<div className='cmplz-progress-bar' style={getStyles()}></div>
