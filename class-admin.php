@@ -357,7 +357,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function override_auto_updates( $update, $item ) {
 			if (!$item) return $update;
-			if ( strpos($item->slug , 'complianz' ) !==false && version_compare($item->new_version, '7.0.0', '>=') ) {
+
+            if (!isset($item->slug)) return $update;
+
+            if ( strpos($item->slug , 'complianz' ) !==false && version_compare($item->new_version, '7.0.0', '>=') ) {
 				return false;
 			}
 			return $update;
