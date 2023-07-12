@@ -955,7 +955,7 @@ function cmplz_check_upgrade() {
 				$settings = get_option( $option, [] );
 				foreach ( $settings as $id => $value ) {
 					//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
-
+					$id = strtolower($id);
 					$field = cmplz_get_field( $id );
 					if ( $field ) {
 						$type = $field['type'];

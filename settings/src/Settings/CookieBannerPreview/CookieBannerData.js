@@ -63,7 +63,6 @@ const UseBannerData = create(( set, get ) => ({
 		if (get().cssLoading ) {
 			return;
 		}
-
 		set( {
 			cssLoading: true,
 		} );

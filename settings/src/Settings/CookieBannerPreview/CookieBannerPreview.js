@@ -3,13 +3,12 @@ import UseBannerData from "./CookieBannerData";
 import {useEffect, useState, useRef} from "@wordpress/element";
 import {useUpdateEffect} from 'react-use';
 import {getPurposes, filterArray, concatenateString} from "./tcf";
-// import './CookieBannerPreview.scss';
 /**
  * Render a help notice in the sidebar
  */
 const CookieBannerPreview = () => {
 	const rootRef = useRef(null);
-	const {fields, updateField, getFieldValue, getField, setChangedField} = useFields();
+	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields} = useFields();
 	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount} = UseBannerData();
 	const [timer, setTimer] = useState(null)
 	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
@@ -19,7 +18,7 @@ const CookieBannerPreview = () => {
 	useEffect(() => {
 		let active = getFieldValue('uses_ad_cookies_personalized') === 'tcf' || getFieldValue('uses_ad_cookies_personalized') === 'yes';
 		setTcfActive(active);
-	}, [fields]);
+	}, [ getFieldValue('uses_ad_cookies_personalized') ]);
 
 	useEffect (  () => {
 		if ( !bannerDataLoaded ) {
@@ -61,7 +60,7 @@ const CookieBannerPreview = () => {
 	useEffect (  () => {
 		syncFieldsToBanner();
 		setBannerDataUpdated(bannerDataUpdated+1);
-	}, [fields] )
+	}, [changedFields] )
 
 	useEffect (  () => {
 		if ( selectedBannerId>0 ) {
@@ -243,8 +242,6 @@ const CookieBannerPreview = () => {
 				cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'none';
 			}
 		});
-
-
 	}
 
 	const setUpBanner = () => {
@@ -275,7 +272,11 @@ const CookieBannerPreview = () => {
 			return false;
 		}
 
-		//@todo: if TCF, skip
+		// if TCF, skip
+		if (tcfActive) {
+			return false;
+		}
+
 		if ( getFieldValue('disable_width_correction') === true ) {
 			return false;
 		}
@@ -328,10 +329,8 @@ const CookieBannerPreview = () => {
 			updateField('banner_width', new_width);
 			return true;
 		}
-
 		return false;
 	}
-
 
 	const convertLegacyFields = (fieldId) => {
 		//conversion of legacy fieldnames
@@ -345,6 +344,7 @@ const CookieBannerPreview = () => {
 			'view_preferences': 'manage_options',
 			'save_preferences': 'save_settings',
 		}
+
 		if (mapping.hasOwnProperty(fieldId)) {
 			return mapping[fieldId];
 		}
@@ -394,7 +394,6 @@ const CookieBannerPreview = () => {
 		return (<></>)
 	}
 
-	//load css file
 	return (
 		<>
 			<div id="cmplz-preview-banner-container" ref={rootRef}>

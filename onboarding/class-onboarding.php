@@ -62,9 +62,11 @@ class cmplz_onboarding {
 				];
 				break;
 			case 'update_email':
+				error_log("onboarding mail");
 				$data = $request->get_json_params();
 				$email = sanitize_email($data['email']);
 				if  (is_email($email )) {
+					error_log("send test email");
 					cmplz_update_option('notifications_email_address', $email );
 					cmplz_update_option('send_notifications_email', 1 );
 					if ( $data['sendTestEmail'] ) {
@@ -72,6 +74,7 @@ class cmplz_onboarding {
 						$mailer->send_test_mail();
 					}
 					if ( $data['includeTips'] ) {
+						error_log("sign up for mailinglist");
 						$this->signup_for_mailinglist( $email );
 					}
 				}

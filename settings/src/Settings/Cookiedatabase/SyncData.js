@@ -126,8 +126,7 @@ export const UseSyncData = create(( set, get ) => ({
 		purposesByLanguage = purposesByLanguage.map(purpose => {
 			return {label:purpose.label,value:purpose.label};
 		});
-		console.log("service types by lang");
-		console.log(serviceTypesByLanguage);
+
 		set(() => ({
 			loadingSyncData: false,
 			language: language,

@@ -680,7 +680,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'type'        => 'checkbox',
 				'label'       => __( "Use Custom CSS", 'complianz-gdpr' ),
 				'default'     => false,
-				'comment'     => __( "The custom CSS editor will appear below when enabled. It's not recommended for publishers that use TCF and additional frameworks due to strict guidelines.", "complianz-gdpr" ),
+				'comment'     => __( "Custom CSS is not recommended for publishers that use TCF and additional frameworks due to strict guidelines.", "complianz-gdpr" ),
 			],
 			[
 				'id'               => 'custom_css',

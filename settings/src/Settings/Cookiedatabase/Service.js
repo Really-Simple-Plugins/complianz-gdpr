@@ -33,7 +33,6 @@ const ServiceDetails = (service) => {
 	}
 
 	const onDeleteHandler = async (id) => {
-		console.log("delete service", id);
 		await deleteService(id);
 	}
 
@@ -43,7 +42,6 @@ const ServiceDetails = (service) => {
 	const onCheckboxChangeHandler = (checked, id, type) => {
 		updateService(id, type, checked);
 	}
-	console.log('service', service)
 	return (
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">

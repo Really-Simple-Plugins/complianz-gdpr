@@ -13,7 +13,7 @@ const PlaceholderPreview = () => {
 		setPlaceholderStyle(style);
 	},[getFieldValue('placeholder_style')]);
 
-	let safeModeEnabled = getFieldValue('safe_mode');
+	let safeModeEnabled = getFieldValue('safe_mode')==1;
 
 	const url = cmplz_settings.plugin_url + 'assets/images/placeholders/default-' + placeholderStyle + '.jpg';
 	return (

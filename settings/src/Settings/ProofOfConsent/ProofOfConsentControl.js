@@ -1,9 +1,8 @@
 import {useState, useEffect} from "@wordpress/element";
+import CheckboxGroup from '../Inputs/CheckboxGroup';
 import { __ } from '@wordpress/i18n';
 import useProofOfConsentData from "./useProofOfConsentData";
 import {memo} from "react";
-// import * as Checkbox from '@radix-ui/react-checkbox';
-// import Icon from '../../utils/Icon';
 import './ProofOfConsentControl.scss';
 
 const ProofOfConsentControl = () => {
@@ -89,8 +88,7 @@ const ProofOfConsentControl = () => {
 		await downloadNext();
 		setBtnDisabled(false);
 	};
-	const handleSelectEntirePage = (value) => {
-		let selected = value;
+	const handleSelectEntirePage = (selected) => {
 		if ( selected ) {
 			setEntirePageSelected(true);
 			//add all records on this page to the selectedRecords array
@@ -158,7 +156,7 @@ const ProofOfConsentControl = () => {
 	}
 	const columns = [
 		{
-			name: <CheckboxGroup options={{true: ''}} className={indeterminate? 'indeterminate' : ''} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
+			name: <CheckboxGroup options={{true: ''}} indeterminate={indeterminate} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
 			grow: 1,
 			minWidth: '50px',
@@ -167,7 +165,7 @@ const ProofOfConsentControl = () => {
 			name: __('Document',"complianz-gdpr"),
 			selector: row => row.file,
 			sortable: true,
-			grow: 6,
+			grow: 5,
 		},
 		{
 			name: __('Region',"complianz-gdpr"),

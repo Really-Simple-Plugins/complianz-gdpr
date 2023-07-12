@@ -6,69 +6,6 @@ import Icon from '../../utils/Icon';
 /**
  * Switch between banner variations
  */
-const CookieBannerControls2 = () => {
-	const {getFieldValue} = useFields();
-	const {
-		selectedBannerId,
-		setBannerId,
-		banners,
-		consentType,
-		consentTypes,
-		setConsentType,
-		cssLoading,
-		bannerDataLoaded,
-	} = UseBannerData();
-
-	let options = [];
-	for (var key in consentTypes) {
-		if (consentTypes.hasOwnProperty(key)) {
-			let item = {};
-			item.label = consentTypes[key];
-			item.value = key;
-			options.push(item);
-		}
-	}
-
-	const handleConsentTypeChange = (value) => {
-		if (cssLoading) {
-			return;
-		}
-		setConsentType(value);
-	};
-
-	const handleBannerChange = (value) => {
-		if (cssLoading) {
-			return;
-		}
-		setBannerId(value);
-	};
-
-	const getConsentTypeClass = (option) => {
-		let ctClass = cssLoading || !bannerDataLoaded ? 'loading' : 'loaded';
-		ctClass += option.value === consentType ? ' active' : ' inactive';
-		return ctClass;
-	};
-
-	let ab_testing_enabled = getFieldValue('a_b_testing_buttons') == true;
-	return (
-		<div className="cmplz-cookiebanner-preview-controls">
-			<h4>{__('Select banner to edit', 'complianz-gdpr')}</h4>
-			<ul>
-				{options.length > 1 && options.map((option, i) =>
-					<li key={i} className={getConsentTypeClass(option)}
-							onClick={() => handleConsentTypeChange(option.value)}>
-						{option.value === consentType &&
-							<Icon name="circle-check" color="green"/>}
-						{option.value !== consentType &&
-							<Icon name="circle-times" color="grey"/>}
-						{option.value === consentType ? __('Editing %s Banner',
-							'complianz-gdpr').replace('%s', option.label) : __(
-							'Edit %s Banner', 'complianz-gdpr').replace('%s', option.label)}
-					</li>)}
-			</ul>
-		</div>
-	);
-};
 
 const CookieBannerControls = () => {
 	const {getFieldValue} = useFields();

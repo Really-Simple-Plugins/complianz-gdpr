@@ -1852,40 +1852,29 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 }
 
 if (!function_exists('cmplz_create_webp')){
+
 	function cmplz_create_webp($file, $new_src) {
-		if (
-				!function_exists('imagecreatefromjpeg') ||
-				!function_exists('imagecreatefrompng') ||
-				!function_exists('imagewebp') ||
-				!function_exists('imagedestroy') ||
-				!function_exists('imagepalettetotruecolor') ||
-				!function_exists('imagealphablending') ||
-				!function_exists('imagesavealpha')
-		){
-			return $new_src;
-		}
 		switch ( $file ) {
 			case str_contains( $file, '.jpeg' ):
 			case str_contains( $file, '.jpg' ):
-				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
-				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
-				$image = imagecreatefromjpeg( $file );
-				imagewebp( $image, $webp_file, 80 );
-				imagedestroy( $image );
-				return file_exists($webp_file) ? $webp_new_src : $new_src;
+				$ext = array(".jpeg", '.jpg');
+				break;
 			case str_contains( $file, 'png' ):
-				$webp_file = str_replace( '.png', ".webp", $file );
-				$webp_new_src = str_replace( '.png', ".webp", $new_src );
-				$image = imagecreatefrompng( $file );
-				imagepalettetotruecolor( $image );
-				imagealphablending( $image, true );
-				imagesavealpha( $image, true );
-				imagewebp( $image, $webp_file, 80 );
-				imagedestroy( $image );
-				return file_exists($webp_file) ? $webp_new_src : $new_src;
+				$ext = '.png';
+				break;
 			default:
 				return $new_src;
 		}
+		//@todo: new filename is returned by save, so can be used for output instead of brute force extension replace.
+		$webp_file = str_replace( $ext, ".webp", $file );
+		$webp_new_src = str_replace( $ext, ".webp", $new_src );
+		$image = wp_get_image_editor($file);
+		$result = $image->save($webp_file, 'image/webp');
+		if ( is_wp_error( $result ) ) {
+			return $new_src;
+		}
+
+		return file_exists($webp_file) ? $webp_new_src : $new_src;
 	}
 }
 

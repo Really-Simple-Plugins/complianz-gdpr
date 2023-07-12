@@ -4,12 +4,15 @@ import './AceEditor.scss';
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
+import {__} from "@wordpress/i18n";
+import Icon from "../../utils/Icon";
 
 const AceEditorControl = (props) => {
 	let mode = props.mode ? props.mode : 'css';
 	let height=props.height?props.height:'200px';
 	let placeholder = props.field && props.field.default ? props.field.default : props.placeholder;
 	const [inputValue, setInputValue] = useState(props.value);
+	const [scriptWarning, setScriptWarning] = useState(false);
 	//because an update on the entire Fields array is costly, we only update after the user has stopped typing
 	useEffect(() => {
 		const typingTimer = setTimeout(() => {
@@ -22,14 +25,28 @@ const AceEditorControl = (props) => {
 	}, [inputValue]);
 
 	const handleChange = ( value ) => {
+		//strip off <script> tags
+		if (value.includes('<script>') || value.includes('</script>')) {
+			setScriptWarning(true);
+		}
+		value = value.replace(/<script>/gi, "");
+		console.log(value);
+		value = value.replace(/<\/script>/gi, "");
 		setInputValue(value);
 	};
 	let editorClass = props.disabled ? 'cmplz-editor-disabled' : '';
+
 	return (
 		<div className={editorClass}>
+			{scriptWarning &&
+				<div className="cmplz-error-text">
+					<Icon name={'error'} size={13} color={'red'}/>
+					<p>{__('Write your javascript without wrapping it in script tags.', 'complianz-gdpr')}</p>
+				</div>
+			}
 			{ <AceEditor
 				readOnly={props.disabled}
-				placeholder={placeholder}
+				placeholder={'//'+placeholder} //make it look like a comment
 				mode={mode}
 				theme="monokai"
 				width="100%"

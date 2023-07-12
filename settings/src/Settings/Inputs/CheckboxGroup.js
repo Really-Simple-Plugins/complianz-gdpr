@@ -4,11 +4,15 @@ import { __ } from '@wordpress/i18n';
 import Icon from '../../utils/Icon';
 import Button from '../Inputs/Button';
 
-const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options = {} }) => {
+const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, disabled, options = {} }) => {
 
 	let valueValidated = value;
 	if ( !Array.isArray(valueValidated) ){
 		valueValidated = valueValidated === '' ? [] : [valueValidated];
+	}
+
+	if (indeterminate){
+		value = true;
 	}
 
 	const selected = valueValidated;
@@ -59,7 +63,7 @@ const CheckboxGroup = ({ label, value, id, onChange, required, disabled, options
 						onCheckedChange={(e) => handleCheckboxChange(e, key)}
 					>
 						<Checkbox.Indicator className="cmplz-checkbox-group__indicator">
-							<Icon name={'check'} size={14} color={'dark-blue'} />
+							<Icon name={indeterminate ? 'indeterminate' : 'check'} size={14} color={'dark-blue'} />
 						</Checkbox.Indicator>
 					</Checkbox.Root>
 					<label className="cmplz-checkbox-group__label" htmlFor={id + '_' + key}>

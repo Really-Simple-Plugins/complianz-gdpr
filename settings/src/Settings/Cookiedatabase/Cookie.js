@@ -192,7 +192,7 @@ const Cookie = ({cookie}) => {
 	let comment = '';
 	if (cookie.deleted) {
 		comment =  " | "+__( 'Deleted', 'complianz-gdpr' );
-	} else if ( cookie.showOnPolicy ) {
+	} else if ( !cookie.showOnPolicy ) {
 		comment =  " | "+__( 'Admin, ignored', 'complianz-gdpr' );
 	} else if (cookie.isMembersOnly) {
 		comment = " | "+__( 'Logged in users only, ignored', 'complianz-gdpr' );
