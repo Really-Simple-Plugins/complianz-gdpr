@@ -11,12 +11,31 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 			self::$_this = $this;
 			add_filter( 'cmplz_do_action', array( $this, 'get_proof_of_consent_data' ), 10, 3 );
+            add_action( 'cmplz_every_day_hook', array( $this, 'delete_old_records_of_consent' ) );
 
 		}
 
 		static function this() {
 			return self::$_this;
 		}
+
+        /**
+         * Delete old records after X days
+         *
+         * @return void
+         */
+        public function delete_old_records_of_consent() {
+            global $wpdb;
+
+            $clear_after_days = apply_filters('cmplz_clear_records_of_consent_after_days', 365);
+
+            $wpdb->query(
+                $wpdb->prepare(
+                    "DELETE FROM {$wpdb->prefix}cmplz_statistics WHERE CAST(time AS UNSIGNED) <= UNIX_TIMESTAMP() - %d",
+                    $clear_after_days * DAY_IN_SECONDS
+                )
+            );
+        }
 
 		/**
 		 * Get start or end date timestamp
