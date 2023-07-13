@@ -28,6 +28,17 @@ function cmplz_twitter_css() {
 	<?php
 }
 
+function cmplz_add_twitter_js() {
+    ob_start();
+    $script = "
+        document.querySelector('.cmplz-blocked-content-notice').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    ";
+    wp_add_inline_script( 'cmplz-cookiebanner', $script);
+}
+add_action( 'wp_enqueue_scripts', 'cmplz_add_twitter_js', PHP_INT_MAX);
+
 /**
  * This empty function ensures Complianz recognizes that this integration has a placeholder
  * @return void
