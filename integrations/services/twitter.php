@@ -3,18 +3,18 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_twitter_script' );
 function cmplz_twitter_script( $tags ) {
-	$tags[] = array(
-			'name' => 'twitter',
-			'placeholder' => 'twitter',
-			'category' => 'marketing',
-			'urls' => array(
-					'platform.twitter.com',
-					'twitter-widgets.js',
-			),
-			'enable_placeholder' => '1',
-			'placeholder_class' => 'twitter-tweet,twitter-timeline',
-	);
-	return $tags;
+    $tags[] = array(
+        'name' => 'twitter',
+        'placeholder' => 'twitter',
+        'category' => 'marketing',
+        'urls' => array(
+            'platform.twitter.com',
+            'twitter-widgets.js',
+        ),
+        'enable_placeholder' => '1',
+        'placeholder_class' => 'twitter-tweet,twitter-timeline',
+    );
+    return $tags;
 }
 
 /**
@@ -23,10 +23,21 @@ function cmplz_twitter_script( $tags ) {
 
 add_action( 'cmplz_banner_css', 'cmplz_twitter_css' );
 function cmplz_twitter_css() {
-	?>
-		.twitter-tweet.cmplz-blocked-content-container {padding: 10px 40px;}
-	<?php
+    ?>
+    .twitter-tweet.cmplz-blocked-content-container {padding: 10px 40px;}
+    <?php
 }
+
+function cmplz_add_twitter_js() {
+    ob_start();
+    $script = "
+        document.querySelector('.cmplz-blocked-content-notice').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    ";
+    wp_add_inline_script( 'cmplz-cookiebanner', $script);
+}
+add_action( 'wp_enqueue_scripts', 'cmplz_add_twitter_js', PHP_INT_MAX);
 
 /**
  * This empty function ensures Complianz recognizes that this integration has a placeholder
