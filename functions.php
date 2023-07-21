@@ -2065,10 +2065,14 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		//set the url
 		$new_src = cmplz_upload_url( "placeholders") .  $id.$filename;
 		//download file
+		error_log("attempt to download url $src");
 		$tmpfile = download_url( $src, $timeout = 25 );
+		error_log("download result:");
+		error_log(print_r($tmpfile, true));
 
 		//check for errors
 		if ( is_wp_error( $tmpfile ) ) {
+			error_log("error, using default placeholder");
 			$new_src = cmplz_default_placeholder();
 		} else {
 			//remove current file
@@ -2087,8 +2091,10 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		} // must unlink afterwards
 
 		if ( file_exists( $file ) ) {
+			error_log("file exists, creating webp");
 			try {
 				$new_src = cmplz_create_webp( $file, $new_src );
+				error_log("webp result $new_src");
 			} catch ( Exception $e ) {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					error_log( $e->getMessage() );

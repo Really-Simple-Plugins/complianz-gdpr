@@ -51,6 +51,7 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 	$youtube_pattern = '/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/videoseries\?list=RD|embed\/|watch\?v=)([^#\&\?]*).*/i';
 	if ( preg_match( $youtube_pattern, $src, $matches ) ) {
 		$youtube_id = $matches[1];
+		error_log("youtube id $youtube_id");
 		//check if it's a video series. If so, we get the first video
 		if ( $youtube_id === 'videoseries' ) {
 			//get the videoseries id
@@ -77,11 +78,15 @@ function cmplz_youtube_placeholder( $new_src, $src ) {
 		 * */
 		$new_src = get_transient( "cmplz_youtube_image_$youtube_id" );
 		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
+			error_log("no cached src youtube ".$new_src);
 			$new_src = "https://img.youtube.com/vi/$youtube_id/maxresdefault.jpg";
 			if ( ! cmplz_remote_file_exists( $new_src ) ) {
 				$new_src = "https://img.youtube.com/vi/$youtube_id/hqdefault.jpg";
 			}
+			error_log("attempt download from: ".$new_src);
+
 			$new_src = cmplz_download_to_site( $new_src, 'youtube' . $youtube_id );
+			error_log("new downloaded src youtube ".$new_src);
 			set_transient( "cmplz_youtube_image_$youtube_id", $new_src, WEEK_IN_SECONDS );
 		}
 	}
