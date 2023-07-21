@@ -2108,39 +2108,40 @@ if (!function_exists('cmplz_create_webp')){
 	function cmplz_create_webp($file, $new_src) {
 		//check webp availability
 		if (
-				!function_exists('imagecreatefromjpeg') ||
-				!function_exists('imagecreatefrompng') ||
-				!function_exists('imagewebp') ||
-				!function_exists('imagedestroy') ||
-				!function_exists('imagepalettetotruecolor') ||
-				!function_exists('imagealphablending') ||
-				!function_exists('imagesavealpha')
-		){
+			!function_exists('imagecreatefromjpeg') ||
+			!function_exists('imagecreatefrompng') ||
+			!function_exists('imagewebp') ||
+			!function_exists('imagedestroy') ||
+			!function_exists('imagepalettetotruecolor') ||
+			!function_exists('imagealphablending') ||
+			!function_exists('imagesavealpha')
+		) {
 			return $new_src;
 		}
 
-		switch ( $file ) {
-			case str_contains( $file, '.jpeg' ):
-			case str_contains( $file, '.jpg' ):
-				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
-				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
-				$image = imagecreatefromjpeg( $file );
-				imagewebp( $image, $webp_file, 80 );
-				imagedestroy( $image );
-				return file_exists($webp_file) ? $webp_new_src : $new_src;
-			case str_contains( $file, 'png' ):
-				$webp_file = str_replace( '.png', ".webp", $file );
-				$webp_new_src = str_replace( '.png', ".webp", $new_src );
-				$image = imagecreatefrompng( $file );
-				imagepalettetotruecolor( $image );
-				imagealphablending( $image, true );
-				imagesavealpha( $image, true );
-				imagewebp( $image, $webp_file, 80 );
-				imagedestroy( $image );
-				return file_exists($webp_file) ? $webp_new_src : $new_src;
-			default:
-				return $new_src;
+		if ( stripos( $file, '.jpeg' ) !== false || stripos( $file, '.jpg' ) !== false ) {
+			$webp_file    = str_replace( array( ".jpeg", '.jpg' ), ".webp", $file );
+			$webp_new_src = str_replace( array( ".jpeg", '.jpg' ), ".webp", $new_src );
+			$image        = imagecreatefromjpeg( $file );
+			imagewebp( $image, $webp_file, 80 );
+			imagedestroy( $image );
+
+			return file_exists( $webp_file ) ? $webp_new_src : $new_src;
+		} elseif ( stripos( $file, '.png' ) !== false ) {
+			$webp_file    = str_replace( '.png', ".webp", $file );
+			$webp_new_src = str_replace( '.png', ".webp", $new_src );
+			$image        = imagecreatefrompng( $file );
+			imagepalettetotruecolor( $image );
+			imagealphablending( $image, true );
+			imagesavealpha( $image, true );
+			imagewebp( $image, $webp_file, 80 );
+			imagedestroy( $image );
+
+			return file_exists( $webp_file ) ? $webp_new_src : $new_src;
+		} else {
+			return $new_src;
 		}
+
 	}
 }
 
