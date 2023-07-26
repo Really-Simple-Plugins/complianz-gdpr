@@ -66,7 +66,19 @@ $this->fields += array(
 			'type'      => 'radio',
 			'options'   => $this->yes_no,
 			'condition' => array( 'regions' => 'eu' ),
-			'label'     => __( "Do you target visitors from Germany, Austria, Belgium and/or Spain?", 'complianz-gdpr' ),
+			'label'     => __( "Do you target visitors from Germany, Austria, Belgium or Spain?", 'complianz-gdpr' ),
+			'required'  => true,
+		),
+
+		'uk_consent_regions' => array(
+			'step'      => STEP_COMPANY,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'default'   => 'no',
+			'type'      => 'radio',
+			'options'   => $this->yes_no,
+			'condition' => array( 'regions' => 'uk' ),
+			'label'     => __( "Do you target visitors from Jersey or Guernsey?", 'complianz-gdpr' ),
 			'required'  => true,
 		),
 

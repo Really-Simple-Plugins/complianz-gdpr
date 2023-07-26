@@ -59,19 +59,20 @@ function cmplz_html_decode(input) {
 /**
  * Consent Area management for shortcode and block editor
  */
-let cmplzConsentArea = document.querySelector('.cmplz-consent-area.cmplz-placeholder');
-if ( cmplzConsentArea ) {
+document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(cmplzConsentArea => {
 	cmplzConsentArea.addEventListener('click', e => {
 		let container = e.target;
 		if ( !container.classList.contains('cmplz-consent-area') ) {
 			container = e.target.closest('.cmplz-consent-area.cmplz-placeholder');
 		}
+		if (container) {
+			let consentedService = container.getAttribute('data-service');
+			cmplz_set_service_consent(consentedService, true);
+			cmplzLoadConsentAreaContent(false, consentedService);
+			cmplz_enable_category(null, consentedService);
+			cmplz_set_banner_status('dismissed');
+		}
 
-		let consentedService = container.getAttribute('data-service');
-		cmplz_set_service_consent(consentedService, true);
-		cmplzLoadConsentAreaContent(false, consentedService);
-		cmplz_enable_category(null, consentedService);
-		cmplz_set_banner_status('dismissed');
 	});
 
 	document.addEventListener("cmplz_enable_category", function(consentData) {
@@ -79,7 +80,7 @@ if ( cmplzConsentArea ) {
 		var consentedService = consentData.detail.service;
 		cmplzLoadConsentAreaContent(consentedCategory, consentedService)
 	});
-}
+});
 
 function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 	document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(obj => {
@@ -87,13 +88,7 @@ function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 		let service = obj.getAttribute('data-service');
 		let postId = obj.getAttribute('data-post_id');
 		let blockId = obj.getAttribute('data-block_id');
-		console.log("consentedCategory", consentedCategory);
-		console.log("category", category);
-		console.log("constedService", consentedService);
-		console.log("service", service);
-
 		if ( consentedCategory === category || consentedService === service ) {
-			console.log("load "+category+" "+service);
 			//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 			var request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'consent-area/'+postId+'/'+blockId, true);
@@ -255,17 +250,6 @@ window.cmplz_highest_accepted_category = function() {
 }
 
 /*
- * Accept all categories
- */
-window.cmplz_accept_all = function(){
-	for (var key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'allow');
-		}
-	}
-}
-
-/*
  * Sets all accepted categories as class in body
  */
 
@@ -334,6 +318,11 @@ function cmplz_run_script( script, category, service, type, sourceObj ) {
 		}
 		targetObj.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
 	}
+
+	if ( script.includes("import") ) {
+		targetObj.setAttribute("type", "module");
+	}
+
 	//check if already fired
 	if ( cmplz_in_array( script, cmplz_fired_scripts) ) {
 		return;
@@ -381,6 +370,33 @@ function cmplz_maybe_run_waiting_scripts( script, category, service, sourceObj )
 	if (waiting_inline_script) {
 		cmplz_run_script(waiting_inline_script, category, service, 'inline', sourceObj);
 	}
+}
+
+const cmplzLazyLoader = () => {
+	// Get all elements with the "lazy-load" class
+	const cmplzLazyLoadElements = document.querySelectorAll('.cmplz-blocked-content-container');
+
+	// Create an Intersection Observer instance
+	const cmplzObserver = new IntersectionObserver((entries, observer) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				// When the element is in view, load the background image
+				const element = entry.target;
+				let src = element.getAttribute('data-placeholder-image');
+				let index = element.getAttribute('data-placeholder_class_index');
+				cmplz_append_css('.cmplz-placeholder-' + index + ' {background-image: url(' + src + ') !important;}');
+				cmplz_set_blocked_content_container_aspect_ratio(element, src, index);
+				// Stop observing the element
+				observer.unobserve(element);
+			}
+
+		});
+	});
+
+	// Start observing each lazy-load element
+	cmplzLazyLoadElements.forEach((element) => {
+		cmplzObserver.observe(element);
+	});
 }
 
 /*
@@ -447,12 +463,13 @@ function cmplz_set_blocked_content_container() {
 			//handle image size for video
 			let src = obj.getAttribute('data-placeholder-image');
 			if (src && typeof src !== 'undefined' && src.length ) {
-				src = src.replace('url(', '').replace(')', '').replace(/\"/gi, "");
-				cmplz_append_css('.cmplz-placeholder-' + cmplz_placeholder_class_index + ' {background-image: url(' + src + ') !important;}');
-				cmplz_set_blocked_content_container_aspect_ratio(obj, src, cmplz_placeholder_class_index);
+				//move src to parent, if needed.
+				blocked_content_container.setAttribute('data-placeholder-image', src);
 			}
 		}
 	});
+
+	cmplzLazyLoader();
 
 	/*
 	 * In some cases, like ajax loaded content, the placeholders are initialized again. In that case, the scripts may need to be fired again as well.
@@ -486,7 +503,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				let btn = body.querySelector('button');
 				btn.setAttribute('data-service', service);
 				btn.setAttribute('data-category', category);
-				btn.setAttribute('aria-label', service);
+				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{service}', service_nicename) );
 				let pageLinks = complianz.page_links[complianz.region];
 				let link = body.querySelector('.cmplz-links a');
 				if ( pageLinks && pageLinks.hasOwnProperty('cookie-statement') ) {
@@ -511,7 +528,7 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				btn.classList.add('cmplz-accept-'+category);
 				btn.setAttribute('data-service', service );
 				btn.setAttribute('data-category', category );
-				btn.setAttribute('aria-label', service );
+				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{category}', category) );
 				body=btn;
 			}
 
@@ -534,9 +551,6 @@ function cmplz_insert_placeholder_text(container, category, service ){
 function cmplz_set_blocked_content_container_aspect_ratio(container, src, placeholder_class_index) {
 	if ( container == null ) return;
 
-	//we set the first parent div as container with placeholder image
-	let blocked_content_container = container.parentElement;
-
 	//handle image size for video
 	let img = new Image();
 	img.addEventListener("load", function () {
@@ -545,7 +559,7 @@ function cmplz_set_blocked_content_container_aspect_ratio(container, src, placeh
 
 		//prevent division by zero.
 		if (imgWidth === 0) imgWidth = 1;
-		let w = blocked_content_container.clientWidth;
+		let w = container.clientWidth;
 		let h = imgHeight * (w / imgWidth);
 
 		let heightCSS = '';
@@ -601,7 +615,6 @@ function cmplz_enable_category(category, service) {
 	if ( category === 'functional' ) {
 		return;
 	}
-
 	//enable cookies for integrations
 	if ( category === 'marketing' ) {
 		cmplz_set_integrations_cookies();
@@ -758,7 +771,7 @@ function cmplz_enable_category(category, service) {
 function cmplz_remove_placeholder(obj){
 	//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 	let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-	if (blocked_content_container) {
+	if ( blocked_content_container ) {
 		let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
 		blocked_content_container.classList.remove('cmplz-blocked-content-container');
 		blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
@@ -833,11 +846,9 @@ function cmplz_run_after_all_scripts(category, service) {
 	let enableCategory = category!=='do_not_match' && !cmplz_in_array( category, cmplz_fired_category_events );
 	if ( enableCategory ||  enableService ) {
 		if (enableCategory) {
-			console.log("enable category "+category);
 			cmplz_fired_category_events.push(category);
 		}
 		if (enableService) {
-			console.log("enable service "+service);
 			cmplz_fired_service_events.push(service);
 		}
 		let details = {};
@@ -846,6 +857,7 @@ function cmplz_run_after_all_scripts(category, service) {
 		details.categories = cmplz_accepted_categories();
 		details.services = cmplz_get_all_service_consents();
 		details.region = complianz.region;
+
 		let event = new CustomEvent('cmplz_enable_category', { detail: details });
 		document.dispatchEvent(event);
 	}
@@ -868,8 +880,16 @@ function cmplz_run_tm_event(category) {
 	if (cmplz_fired_events.indexOf(category) === -1) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
+		//deprecated notice for 7.0
+		if ( complianz.prefix.indexOf('rt_')!==-1 ) {
+			window.dataLayer.push({
+				'event': complianz.prefix+'event_'+category,
+			});
+			console.log('Tag Manager events with prefix cmplz_rt_ will be deprecated in 7.0. The cmplz_rt_ prefix will be dropped from Tag Manager events.');
+		}
+
 		window.dataLayer.push({
-			'event': complianz.prefix+'event_'+category
+			'event': 'cmplz_event_'+category
 		});
 		let event = new CustomEvent('cmplz_tag_manager_event', { detail: category });
 		document.dispatchEvent(event);
@@ -892,6 +912,19 @@ function cmplz_legacy(){
 		console.log('recaptcha as service name is deprecated. Please rename the service in your custom html to google-recaptcha');
 		document.body.classList.add( 'cmplz-google-recaptcha' );
 	}
+}
+
+/*
+ * Accept all categories
+ */
+window.cmplz_accept_all = function(){
+	cmplz_clear_all_service_consents();
+	for (var key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'allow');
+		}
+	}
+	cmplz_sync_category_checkboxes();
 }
 
 window.conditionally_show_banner = function() {
@@ -1175,13 +1208,14 @@ window.cmplz_has_consent = function ( category ){
 	if ( category === 'functional' ) {
 		return true;
 	}
-
-	//if consent is given on service level, this should be handled by cmplz_has_service_consent
-	if ( cmplz_do_not_track() ){
-		return false;
-	}
-
 	let has_consent, value;
+
+	//if DNT is detected, we should only return the actual cookie value, and not look at the consenttype
+	if ( cmplz_do_not_track() ){
+		value = cmplz_get_cookie(category);
+		has_consent = (value === 'allow');
+		return has_consent;
+	}
 
 	/*
 	 * categories
@@ -1342,6 +1376,7 @@ function cmplz_get_cookie_domain(){
  */
 window.cmplz_set_consent = function (category, value){
 	cmplz_set_accepted_cookie_policy_id();
+
 	//functional is always allow
 	value = category==='functional' ? 'allow' : value;
 	let previous_value = cmplz_get_cookie(category);
@@ -1390,13 +1425,13 @@ window.cmplz_set_consent = function (category, value){
 * In some browsers, like firefox, the reload does not force reload, but keeps cached data, causing e.g. Google Maps to load anyway.
 */
 function cmplz_reload_browser_compatible(){
-  	if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
+	if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
 		const url = new URL(window.location.href);
 		url.searchParams.set('cmplz-force-reload', Date.now().toString());
 		window.location.href = url.toString();
-    } else {
-    	window.location.reload();
-    }
+	} else {
+		window.location.reload();
+	}
 }
 
 /*
@@ -1477,19 +1512,6 @@ document.addEventListener('cmplz_consent_action', function (e) {
 	cmplz_fire_categories_event();
 	cmplz_track_status();
 });
-
-/*
- * Accept all categories
- */
-window.cmplz_accept_all = function(){
-	cmplz_clear_all_service_consents();
-	for (var key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'allow');
-		}
-	}
-	cmplz_sync_category_checkboxes();
-}
 
 /*
  * Deny all categories, and reload if needed.
@@ -2238,16 +2260,21 @@ function cmplz_equals (array_1, array_2) {
 * Copy all element atributes to the new element
 */
 function cmplzCopyAttributes(source, target) {
-  return Array.from(source.attributes).forEach(attribute => {
-  	//don't copy the type attribute
-    let excludes = ['type', 'data-service', 'data-category', 'async'];
-	if ( !excludes.includes(attribute.nodeName) ) {
-		 target.setAttribute(
-		  attribute.nodeName,
-		  attribute.nodeValue,
-		);
-	}
-  });
+	return Array.from(source.attributes).forEach(attribute => {
+		//don't copy the type attribute
+		let excludes = ['type', 'data-service', 'data-category', 'async'];
+		if (  attribute.nodeName === 'data-script-type' && attribute.nodeValue === 'module' ) {
+			target.setAttribute('type', 'module',);
+			target.removeAttribute('data-script-type');
+		}
+
+		if ( !excludes.includes(attribute.nodeName) ) {
+			target.setAttribute(
+				attribute.nodeName,
+				attribute.nodeValue,
+			);
+		}
+	});
 }
 
 /*

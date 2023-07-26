@@ -4,9 +4,9 @@
 
 $plugins = array(
 	'BURST' => array(
-			'constant_free' => 'burst_version',
-			'constant_premium' => 'burst_version',
-			'website' => 'https://burst-statistics.com/',
+			'constant_free' => 'burst_free',
+			'constant_premium' => 'burst_pro',
+			'website' => 'https://burst-statistics.com/pricing?src=complianz-plugin',
 			'search' => 'burst+statistics+really+simple+plugins+self-hosted',
 			'url' => 'https://wordpress.org/plugins/burst-statistics/?src=complianz-plugin',
 			'title' => 'Burst Statistics - '. __("Self-hosted, Privacy-friendly analytics tool.", "complianz-gdpr"),

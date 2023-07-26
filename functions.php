@@ -25,6 +25,78 @@ if ( ! function_exists( 'cmplz_consent_mode' ) ) {
 	}
 }
 
+if ( ! function_exists('cmplz_upload_dir')) {
+	/**
+	 * Get the upload dir
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function cmplz_upload_dir( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_dir = trailingslashit( apply_filters( 'cmplz_upload_dir', $uploads['basedir'] ) ).'complianz/'.$path;
+		if ( !is_dir( $upload_dir)  ) {
+			cmplz_create_missing_directories_recursively($upload_dir);
+		}
+
+		return trailingslashit( $upload_dir );
+	}
+}
+if ( ! function_exists('cmplz_create_missing_directories_recursively')) {
+
+	/**
+	 * Create directories recursively
+	 *
+	 * @param string $path
+	 */
+
+	function cmplz_create_missing_directories_recursively( string $path ) {
+		if ( ! cmplz_user_can_manage() ) {
+			return;
+		}
+		$parts = explode( '/', $path );
+		$dir   = '';
+		foreach ( $parts as $part ) {
+			$dir .= $part . '/';
+			if ( !cmplz_has_open_basedir_restriction($dir) && !is_dir( $dir ) && strlen( $dir ) > 0 && is_writable( dirname( $dir, 1 ) ) ) {
+				mkdir($dir);
+			}
+		}
+	}
+}
+
+if (!function_exists('cmplz_has_open_basedir_restriction')) {
+	function cmplz_has_open_basedir_restriction($path) {
+		// Default error handler is required
+		set_error_handler(null);
+		// Clean last error info.
+		error_clear_last();
+		// Testing...
+		@file_exists($path);
+		// Restore previous error handler
+		restore_error_handler();
+		// Return `true` if error has occurred
+		return ($error = error_get_last()) && $error['message'] !== '__clean_error_info';
+	}
+}
+
+if ( ! function_exists('cmplz_upload_url')) {
+	/**
+	 * Get the upload url
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	function cmplz_upload_url( string $path=''): string {
+		$uploads    = wp_upload_dir();
+		$upload_url = $uploads['baseurl'];
+		$upload_url = trailingslashit( apply_filters('cmplz_upload_url', $upload_url) );
+		return trailingslashit($upload_url.'complianz/'.$path);
+	}
+}
+
 if ( ! function_exists( 'cmplz_uses_social_media' ) ) {
 
 	/**
@@ -1473,10 +1545,12 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		     || isset( $_GET['tb-id']) //themify
 		     || isset( $_GET['fl_builder'] )
 		     || isset( $_GET['tve'] )
+			 || isset( $_GET['bricks'] ) //bricks builder
 		     || isset( $_GET['ct_builder'] ) //oxygen
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
 			 || isset( $_GET['tatsu-footer'] ) //tatsu
+			 || strpos( $_SERVER['REQUEST_URI'], 'cornerstone/edit') !== false
 		) {
 			$preview = true;
 		}
@@ -1519,9 +1593,8 @@ if (!function_exists('cmplz_datarequests_or_dnsmpi_active')) {
 
 if (!function_exists('cmplz_file_exists_on_url')) {
 	function cmplz_file_exists_on_url($url){
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-		$upload_url = $uploads['baseurl'];
+		$upload_dir = cmplz_upload_dir();
+		$upload_url = cmplz_upload_url();
 		$path        = str_replace( $upload_url, $upload_dir, $url );
 		return file_exists($path);
 	}
@@ -1982,31 +2055,15 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 		if ( ! $id ) {
 			$id = time();
 		}
-
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-
-		if ( ! file_exists( $upload_dir ) ) {
-			mkdir( $upload_dir,0755 );
-		}
-
-		if ( ! file_exists( $upload_dir . "/complianz" ) ) {
-			mkdir( $upload_dir . "/complianz",0755 );
-		}
-
-		if ( ! file_exists( $upload_dir . "/complianz/placeholders" ) ) {
-			mkdir( $upload_dir . "/complianz/placeholders",0755 );
-		}
+		$upload_dir = cmplz_upload_dir('placeholders');
 
 		//set the path
 		$filename = $use_filename ? "-" . basename( $src ) : '.jpg';
-		$file     = $upload_dir . "/complianz/placeholders/" . $id . $filename;
+		$file     = $upload_dir . $id . $filename;
 
 		//set the url
-		$new_src = $uploads['baseurl'] . "/complianz/placeholders/" . $id
-		           . $filename;
-
+		$new_src = cmplz_upload_url( "placeholders") .  $id.$filename;
 		//download file
 		$tmpfile = download_url( $src, $timeout = 25 );
 
@@ -2029,11 +2086,61 @@ if ( ! function_exists( 'cmplz_download_to_site' ) ) {
 			unlink( $tmpfile );
 		} // must unlink afterwards
 
+		if ( file_exists( $file ) ) {
+			try {
+				$new_src = cmplz_create_webp( $file, $new_src );
+			} catch ( Exception $e ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( $e->getMessage() );
+				}
+			}
+		}
+
 		if ( ! file_exists( $file ) ) {
 			return cmplz_default_placeholder();
 		}
 
 		return $new_src;
+	}
+}
+
+if (!function_exists('cmplz_create_webp')){
+	function cmplz_create_webp($file, $new_src) {
+		//check webp availability
+		if (
+				!function_exists('imagecreatefromjpeg') ||
+				!function_exists('imagecreatefrompng') ||
+				!function_exists('imagewebp') ||
+				!function_exists('imagedestroy') ||
+				!function_exists('imagepalettetotruecolor') ||
+				!function_exists('imagealphablending') ||
+				!function_exists('imagesavealpha')
+		){
+			return $new_src;
+		}
+
+		switch ( $file ) {
+			case str_contains( $file, '.jpeg' ):
+			case str_contains( $file, '.jpg' ):
+				$webp_file = str_replace( array(".jpeg", '.jpg'), ".webp", $file );
+				$webp_new_src = str_replace( array(".jpeg", '.jpg'), ".webp", $new_src );
+				$image = imagecreatefromjpeg( $file );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			case str_contains( $file, 'png' ):
+				$webp_file = str_replace( '.png', ".webp", $file );
+				$webp_new_src = str_replace( '.png', ".webp", $new_src );
+				$image = imagecreatefrompng( $file );
+				imagepalettetotruecolor( $image );
+				imagealphablending( $image, true );
+				imagesavealpha( $image, true );
+				imagewebp( $image, $webp_file, 80 );
+				imagedestroy( $image );
+				return file_exists($webp_file) ? $webp_new_src : $new_src;
+			default:
+				return $new_src;
+		}
 	}
 }
 
@@ -2301,7 +2408,7 @@ if ( !function_exists('cmplz_get_server') ) {
 		} elseif ( strpos( $server_raw, 'nginx' ) !== false ) {
 			return 'NGINX';
 		} elseif ( strpos( $server_raw, 'litespeed' ) !== false ) {
-			return 'Litespeed';
+			return 'LiteSpeed';
 		} else { //unsupported server
 			return 'Not recognized';
 		}

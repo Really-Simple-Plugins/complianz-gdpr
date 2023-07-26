@@ -55,6 +55,7 @@ jQuery(document).ready(function ($) {
 			data: ({
 				step: 'download',
 				action: 'cmplz_install_plugin',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				$.ajax({
@@ -64,6 +65,7 @@ jQuery(document).ready(function ($) {
 					data: ({
 						step: 'activate',
 						action: 'cmplz_install_plugin',
+						nonce: complianz_admin.nonce,
 					}),
 					success: function (response) {
 						let completed_text = $('.cmplz-completed-text').html();
@@ -533,7 +535,8 @@ jQuery(document).ready(function ($) {
 		// Get a handle to the iframe element
 		var iframe = document.getElementById('cmplz_cookie_scan_frame');
 		var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-		if (!cookieContainer.find('.cmplz-loader').length && progress < 100) {
+
+		if ( !cookieContainer.find('.cmplz-loader').length && progress < 100 ) {
 			// cookieContainer.html('<div class="cmplz-loader"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div>');
 			// cookieContainer.addClass('loader');
 		}
@@ -541,7 +544,6 @@ jQuery(document).ready(function ($) {
 		iframe.onload = function () {
 			// The loading is complete, call the function we want executed once the iframe is loaded
 			if (progress >= 100) return;
-
 			$.get(
 				complianz_admin.admin_url,
 				{
@@ -569,9 +571,6 @@ jQuery(document).ready(function ($) {
 			);
 			return;
 		}
-
-		// If we are here, it is not loaded. Set things up so we check the status again
-		window.setTimeout(checkIframeLoaded, cmplz_interval);
 	}
 
 	if ($('#cmplz_cookie_scan_frame').length) {
@@ -614,6 +613,7 @@ jQuery(document).ready(function ($) {
 			{
 				action: 'cmplz_run_sync',
 				restart: restart,
+				nonce: complianz_admin.nonce,
 			},
 			function (response) {
 				var obj;
@@ -987,6 +987,7 @@ jQuery(document).ready(function ($) {
 				cmplz_action : action,
 				language:language,
 				action: 'cmplz_edit_item',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {
@@ -1059,6 +1060,7 @@ jQuery(document).ready(function ($) {
 			data: ({
 				action: 'cmplz_script_add',
 				type: type,
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {
@@ -1134,6 +1136,7 @@ jQuery(document).ready(function ($) {
 				type: type,
 				button_action: action,
 				id: id,
+				nonce: complianz_admin.nonce,
 				data: JSON.stringify(data),
 			}),
 			success: function (response) {
@@ -1242,7 +1245,8 @@ jQuery(document).ready(function ($) {
 			dataType: 'json',
 			data: ({
 				pages: JSON.stringify(pageTitles),
-				action: 'cmplz_create_pages'
+				action: 'cmplz_create_pages',
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				if (response.success) {

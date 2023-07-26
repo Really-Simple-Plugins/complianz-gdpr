@@ -69,9 +69,7 @@ function cmplz_clear_scheduled_hooks() {
  */
 function cmplz_cron_clean_placeholders() {
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	$uploads = wp_upload_dir();
-	$dirname = $uploads['basedir'] . "/complianz/placeholders";
-
+	$dirname = cmplz_upload_dir("placeholders");
 	array_map( 'unlink', glob( "$dirname/*.*" ) );
 }
 

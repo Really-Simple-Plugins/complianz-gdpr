@@ -21,8 +21,8 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$plugin = cmplz_plugin;
 			add_filter( "plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
 
-			//add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
-			//add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
+			add_action( "in_plugin_update_message-{$plugin}", array( $this, 'plugin_update_message'), 10, 2 );
+			add_filter( "auto_update_plugin", array( $this, 'override_auto_updates'), 99, 2 );
 
 			//multisite
 			add_filter( "network_admin_plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ) );
@@ -80,6 +80,13 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		}
 
 		public function maybe_install_suggested_plugins(){
+			if (!isset($_GET['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_GET['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			$error = true;
 			if ( current_user_can('install_plugins')) {
 				$error = false;
@@ -133,6 +140,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$error = true;
 			}
 
+			$nonce = $_POST['nonce'] ?? false;
+			if (!wp_verify_nonce($nonce, 'complianz_save')){
+				$error = true;
+			}
 			if ( !$error ) {
 				$warning_id = sanitize_title($_POST['id']);
 				$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
@@ -325,14 +336,19 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @param $response
 		 */
 		public function plugin_update_message($plugin_data, $response){
-			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
-				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+			if ( strpos($response->slug , 'complianz') !==false && ( version_compare($response->new_version, '7.0.0', '>=') || strpos($response->new_version, 'beta.')!==false ) ) {
+				if (cmplz_get_value("beta", false, 'settings')) {
+					echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.").'</b>';
+
+				} else {
+					echo '<br /><b>' . '&nbsp'.__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after updating.").cmplz_read_more('https://complianz.io/meet-complianz-7/').'</b>';
+				}
 			}
 		}
 
 		/**
-		 * If this update is to 6, don't auto update
-		 * Deactivated as of 6.0
+		 * If this update is to 7, don't auto update
+		 * Deactivated as of 7.0
 		 *
 		 * @param $update
 		 * @param $item
@@ -340,7 +356,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return false|mixed
 		 */
 		public function override_auto_updates( $update, $item ) {
-			if ( strpos($item->slug , 'complianz') !==false && version_compare($item->new_version, '6.0.0', '>=') ) {
+			if (!$item) return $update;
+			if (!isset($item->slug)) return $update;
+			if ( strpos($item->slug , 'complianz' ) !==false && version_compare($item->new_version, '7.0.0', '>=') ) {
 				return false;
 			}
 			return $update;
@@ -372,6 +390,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'complianz_admin',
 				array(
 					'admin_url'    => admin_url( 'admin-ajax.php' ),
+					'nonce'	=> wp_create_nonce( 'complianz_save' ),
 					'progress'     => $progress,
 					'syncProgress' => $sync_progress,
 					'copy_text'	   => __('Copied!', 'complianz-gdpr')

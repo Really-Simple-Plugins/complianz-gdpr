@@ -555,10 +555,6 @@ Admin notice
   margin: var(--rsp-spacing-xs) 0;
   float: left;
 }
-.cmplz .cmplz-dnsmpi .tablenav,
-.cmplz .cmplz-datarequests .tablenav {
-  display: none;
-}
 .cmplz #cmplz-dnsmpi-export {
   display: flex;
   align-items: center;

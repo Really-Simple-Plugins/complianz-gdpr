@@ -143,16 +143,12 @@ class cmplz_CookieStatement_Snapshots_Table extends WP_List_Table {
 		$name = ! empty( $item['file'] ) ? $item['file']
 				: '<em>' . __( 'File not found', 'complianz-gdpr' ) . '</em>';
 
-		$uploads    = wp_upload_dir();
-		$upload_dir = $uploads['basedir'];
-		$upload_url = $uploads['baseurl'];
+		$upload_dir = cmplz_upload_dir();
+		$upload_url = cmplz_upload_url();
 		$url        = str_replace( $upload_dir, $upload_url, $item['path'] );
 		$actions    = array(
-				'download' => '<a href="' . $url . '" target="_blank">'
-							  . __( 'Download', 'complianz-gdpr' ) . '</a>',
-				'delete'   => '<a class="cmplz-delete-snapshot" data-id="'
-							  . $item['file'] . '" href="#">' . __( 'Delete',
-								'complianz-gdpr' ) . '</a>'
+				'download' => '<a href="' . $url . '" target="_blank">' . __( 'Download', 'complianz-gdpr' ) . '</a>',
+				'delete'   => '<a class="cmplz-delete-snapshot" data-id="' . $item['file'] . '" href="#">' . __( 'Delete', 'complianz-gdpr' ) . '</a>'
 		);
 
 		return $name . $this->row_actions( $actions );

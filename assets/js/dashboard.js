@@ -22,6 +22,7 @@ jQuery(document).ready(function ($) {
 			data: ({
 				action: 'cmplz_dismiss_warning',
 				id: warning_id,
+				nonce: complianz_admin.nonce,
 			}),
 			success: function (response) {
 				btn.removeAttr('disabled');

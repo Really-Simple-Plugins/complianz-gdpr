@@ -705,6 +705,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 		public function ajax_edit_item() {
 
+			if (!isset($_POST['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
@@ -1742,7 +1749,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 		public function cookiebanner_html(){
 			global $post;
 			$type = '';
-			if ( $post ) {
+			if ( $post && ( $post->ID ?? false ) ) {
 				if ( preg_match( COMPLIANZ::$document->get_shortcode_pattern( "gutenberg" ), $post->post_content, $matches ) ) {
 					$type      = $matches[1];
 					$region    = cmplz_get_region_from_legacy_type( $type );
@@ -1991,7 +1998,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 				$async = $script['async']== 1 ? 'async' : '';
                 ?>
                 <script <?php echo $async?> type="text/plain" data-category="<?php echo esc_attr($script['category'])?>">
-                    <?php echo $script['editor'] ?>
+                    <?php echo ($script['editor']) ?>
                 </script>
                 <?php
             }
@@ -2010,7 +2017,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 
 			$statistics = cmplz_get_value( 'compile_statistics' );
 			$gtag_code  = esc_attr( cmplz_get_value( "UA_code" ) );
-			if ( $statistics === 'google-analytics' ) {
+			if ( $statistics === 'google-analytics' && !empty($gtag_code) ) {
 				$category = $this->get_statistics_category();
 				?>
 				<script async data-category="<?php echo $category ?>" src="https://www.googletagmanager.com/gtag/js?id=<?php echo $gtag_code ?>"></script><?php
@@ -3137,6 +3144,9 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( function_exists( 'icl_register_string' ) ) {
 				$wpml = apply_filters( 'wpml_active_languages', null,
 					array( 'skip_missing' => 0 ) );
+				if ( !is_array($wpml) ){
+					$wpml = [];
+				}
 				/**
 				 * WPML has changed the index from 'language_code' to 'code' so
 				 * we check for both.
@@ -3435,6 +3445,13 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
+			if (!isset($_GET['nonce'])) {
+				return;
+			}
+			if (!wp_verify_nonce($_GET['nonce'], 'complianz_save')) {
+				return;
+			}
+
 			if ( isset( $_GET['restart'] ) && $_GET['restart'] == 'true' ) {
 				$this->resync();
 			}
@@ -4015,7 +4032,7 @@ if ( ! class_exists( "cmplz_cookie_admin" ) ) {
 			}
 
 			foreach ( $cookies as $cookie ) {
-				$cookie_service = sanitize_title( $cookie->service );
+				$cookie_service = !empty($cookie->service) ? sanitize_title( $cookie->service ) :  false;
 				$has_optinstats = cmplz_uses_consenttype( 'optinstats' );
 				if ( $cookie_service === 'google-analytics'
 				     || $cookie_service === 'matomo'
