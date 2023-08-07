@@ -477,6 +477,14 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'admin_notice' => true,
 				),
 
+				'enable_quebec_region' => array(
+					'warning_condition'  => 'cmplz_requires_quebec_notice',
+					'open' => cmplz_quebec_notice(),
+					'url' => 'https://complianz.io/lorem-ipsum/',
+					'admin_notice' => true,
+					'dismissible' => true,
+				),
+
 				'wizard-incomplete'  => array(
 					'success_conditions'  => array(
 						'wizard->all_required_fields_completed_wizard'

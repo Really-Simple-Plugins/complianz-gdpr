@@ -124,6 +124,16 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
   array(
       'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
       'content' => _x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',"Legal document cookie policy","complianz-gdpr"),
+      'condition' => array(
+		  'ca_targets_quebec' => 'no',
+      )  ,
+  ),
+	array(
+      'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+      'content' => cmplz_sprintf(_x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on "%s", you consent to us using all cookies and plug-ins as described in the pop-up and this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'Legal document cookie policy', 'complianz-gdpr'), '[cookie_accept_text]'),
+      'condition' => array(
+		  'ca_targets_quebec' => 'yes',
+      ) ,
   ),
   array(
 	  'p' => false,

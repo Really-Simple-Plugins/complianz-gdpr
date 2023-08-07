@@ -130,6 +130,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function dismiss_warning() {
+
 			$error   = false;
 
 			if ( !cmplz_user_can_manage() ) {
@@ -141,9 +142,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			$nonce = $_POST['nonce'] ?? false;
-			if (!wp_verify_nonce($nonce, 'complianz_save')){
+
+			if ( ! wp_verify_nonce( $nonce, 'complianz_save' ) && ! wp_verify_nonce( $nonce, 'complianz_dismiss_admin_notice' ) ) {
 				$error = true;
 			}
+
 			if ( !$error ) {
 				$warning_id = sanitize_title($_POST['id']);
 				$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
@@ -338,10 +341,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		public function plugin_update_message($plugin_data, $response){
 			if ( strpos($response->slug , 'complianz') !==false && ( version_compare($response->new_version, '7.0.0', '>=') || strpos($response->new_version, 'beta.')!==false ) ) {
 				if (cmplz_get_value("beta", false, 'settings')) {
-					echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.").'</b>';
+					echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.", "complianz-gdpr").'</b>';
 
 				} else {
-					echo '<br /><b>' . '&nbsp'.__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after updating.").cmplz_read_more('https://complianz.io/meet-complianz-7/').'</b>';
+					echo '<br /><b>' . '&nbsp'.__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after updating.", "complianz-gdpr").cmplz_read_more('https://complianz.io/meet-complianz-7/').'</b>';
 				}
 			}
 		}
@@ -444,7 +447,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 
 		public function insert_dismiss_admin_notice_script() {
-			$ajax_nonce = wp_create_nonce( "cmplz_dismiss_admin_notice" );
+			$ajax_nonce = wp_create_nonce( "complianz_dismiss_admin_notice" );
 			?>
 			<script type='text/javascript'>
 				jQuery(document).ready(function ($) {
@@ -453,7 +456,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						var data = {
 							'action': 'cmplz_dismiss_admin_notice',
 							'id': id,
-							'token': '<?php echo $ajax_nonce; ?>'
+							'nonce': '<?php echo $ajax_nonce; ?>'
 						};
 						$.post(ajaxurl, data, function (response) {
 							$(".cmplz-admin-notice.notice.is-dismissible").remove();

@@ -94,7 +94,19 @@ $this->fields += array(
 			'tooltip'   => __( "There are some laws that only apply to one, or more states and are described seperately if needed.", 'complianz-gdpr' ),
 			'required'  => false,
 		),
-
+		'ca_targets_quebec' => array(
+			'step'      => STEP_COMPANY,
+			'section'   => 1,
+			'source'    => 'wizard',
+			'type'      => 'radio',
+			'default'   => '',
+			'options'   => $this->yes_no,
+			'condition' => array( 'regions' => 'ca' ),
+			'help'      => cmplz_read_more( "https://complianz.io/quebec-bill-64/" ),
+			'label'     => __( "Do you specifically target visitors from Quebec?", 'complianz-gdpr' ),
+			'tooltip'   => __( "This will apply an opt-in mechanism for all visitors from Canada, as required by Quebec bill 64.", 'complianz-gdpr' ),
+			'required'  => false,
+		),
 		'wp_admin_access_users' => array(
 			'step'     => STEP_COMPANY,
 			'section'  => 1,
