@@ -102,7 +102,7 @@ $this->fields += array(
 			'default'   => '',
 			'options'   => $this->yes_no,
 			'condition' => array( 'regions' => 'ca' ),
-			'help'      => cmplz_read_more( "https://complianz.io/quebec-bill-64/" ),
+			'help'      => __( "Quebec is taking deliberate steps toward modernized privacy legislation.", 'complianz-gdpr' ).cmplz_read_more( "https://complianz.io/quebec-bill-64/" ),
 			'label'     => __( "Do you specifically target visitors from Quebec?", 'complianz-gdpr' ),
 			'tooltip'   => __( "This will apply an opt-in mechanism for all visitors from Canada, as required by Quebec bill 64.", 'complianz-gdpr' ),
 			'required'  => false,

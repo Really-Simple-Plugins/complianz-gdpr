@@ -480,7 +480,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				'enable_quebec_region' => array(
 					'warning_condition'  => 'cmplz_requires_quebec_notice',
 					'open' => cmplz_quebec_notice(),
-					'url' => 'https://complianz.io/lorem-ipsum/',
+					'url' => 'https://complianz.io/quebec-bill-64/',
 					'admin_notice' => true,
 					'dismissible' => true,
 				),
