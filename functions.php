@@ -3130,7 +3130,7 @@ if ( ! function_exists('cmplz_quebec_notice')) {
 	function cmplz_quebec_notice() {
 
 		$text = cmplz_sprintf( __( "In September 2023, Quebec Bill 64 will be enforced in Canada. To keep your site compliant, opt-in must be implemented for Canada %sif you specifically target Quebec%s. Please navigate to the %swizard%s and answer the question about Quebec.", "complianz-gdpr" ), '<strong>', '</strong>' , '<a href="' . admin_url( 'admin.php?page=cmplz-wizard&step=1' ) . '">', '</a>' ) . "<br><br>";
-		$text .= __( "Please be aware that this will activate opt-in for Canada, altering the banner and blocking non-functional scripts and cookies prior to consent. Please check the front-end of your site after activating opt-in.", "complianz-gdpr" );
+		$text .= __( "Please be aware that answering 'Yes' will activate opt-in for Canada, altering the banner and blocking non-functional scripts and cookies prior to consent. Please check the front-end of your site after activating opt-in.", "complianz-gdpr" );
 
 		return $text;
 	}
