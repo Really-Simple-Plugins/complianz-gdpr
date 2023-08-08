@@ -3151,9 +3151,10 @@ if ( ! function_exists('cmplz_requires_quebec_notice') ) {
 }
 
 if ( ! function_exists('cmplz_targets_quebec') ) {
-	if ( cmplz_get_value('ca_targets_quebec') === 'yes') {
-		return true;
+	function cmplz_targets_quebec() {
+		if ( cmplz_get_value('ca_targets_quebec') === 'yes') {
+			return true;
+		}
+		return false;
 	}
-
-	return false;
 }
