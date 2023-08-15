@@ -133,7 +133,7 @@ Check out other plugins developed by Really Simple Plugins as well: [Really Simp
 Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr) as well!
 
 IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
-Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org(https://cookiedatabase.org), operated by Complianz B.V. We connect to this open-source database using an external API, which sends the results of the site scan to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the [privacy statement](https://cookiedatabase.org/privacy) and the terms and conditions of the [public license](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
+Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by [cookiedatabase.org](https://cookiedatabase.org), operated by Complianz B.V. We connect to this open-source database using an external API, which sends the results of the site scan to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. For more information, read the [privacy statement](https://cookiedatabase.org/privacy) and the terms and conditions of the [public license](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io). Leave your feature requests [here]().
 
