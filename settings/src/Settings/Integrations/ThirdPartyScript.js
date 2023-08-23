@@ -79,7 +79,7 @@ const ThirdPartyScript = (props) => {
 								disabled={fetching}
 								value={script.async}
 								onChange={(value)=> onChangeHandler(value, 'async')}
-								options={{'async': 'This script contains an async attribute.'}}
+								options={{true: 'This script contains an async attribute.'}}
 							/>
 						</div>
 						<div className="cmplz-details-row">

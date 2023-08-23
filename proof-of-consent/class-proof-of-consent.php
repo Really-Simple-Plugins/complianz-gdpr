@@ -11,31 +11,12 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 			self::$_this = $this;
 			add_filter( 'cmplz_do_action', array( $this, 'get_proof_of_consent_data' ), 10, 3 );
-            add_action( 'cmplz_every_day_hook', array( $this, 'delete_old_records_of_consent' ) );
 
 		}
 
 		static function this() {
 			return self::$_this;
 		}
-
-        /**
-         * Delete old records after X days
-         *
-         * @return void
-         */
-        public function delete_old_records_of_consent() {
-            global $wpdb;
-
-            $clear_after_days = apply_filters('cmplz_clear_records_of_consent_after_days', 365);
-
-            $wpdb->query(
-                $wpdb->prepare(
-                    "DELETE FROM {$wpdb->prefix}cmplz_statistics WHERE CAST(time AS UNSIGNED) <= UNIX_TIMESTAMP() - %d",
-                    $clear_after_days * DAY_IN_SECONDS
-                )
-            );
-        }
 
 		/**
 		 * Get start or end date timestamp
@@ -92,7 +73,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				}
 
 				//strip key from the array
-				$documents = array_values($documents);
+				$documents = empty($documents) ? [] : array_values($documents);
 				$data = [
 					'documents' => $documents,
 					'regions' => $regions,
@@ -117,10 +98,10 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 		 * Get list of cookie statement snapshots
 		 * @param array $args
 		 *
-		 * @return array|false
+		 * @return array
 		 */
 
-		public function get_cookie_snapshot_list( $args = array() ) {
+		public function get_cookie_snapshot_list( $args = array() ): array {
 			if ( ! cmplz_user_can_manage() ) {
 				return [];
 			}
@@ -140,7 +121,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			$index = 0;
 			if ( file_exists( $path ) && $handle = opendir( $path ) ) {
 				while ( false !== ( $file = readdir( $handle ) ) ) {
-					if ( $file != "." && $file != ".." ) {
+					if ( $file !== "." && $file !== ".." ) {
 						$file = $path . $file;
 						$ext  = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
 						if ( is_file( $file ) && in_array( $ext, $extensions ) ) {
@@ -178,7 +159,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				ksort( $filelist );
 			}
 			if ( empty( $filelist ) ) {
-				return false;
+				return [];
 			}
 
 			$page       = (int) $args['offset'];
@@ -197,7 +178,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			if ( empty( $filelist ) ) {
-				return false;
+				return [];
 			}
 
 			return $filelist;

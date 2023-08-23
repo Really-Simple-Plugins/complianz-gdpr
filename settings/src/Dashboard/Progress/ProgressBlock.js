@@ -9,7 +9,7 @@ import useProgress from "./ProgressData";
 import useFields from "../../Settings/Fields/FieldsData";
 
 const ProgressBlock = () => {
-    const {percentageCompleted, filter, notices, progressLoaded, fetchProgressData, error, addNotice} = useProgress();
+    const {percentageCompleted, filter, notices, progressLoaded, fetchProgressData, error} = useProgress();
 	const {fetchAllFieldsCompleted, allRequiredFieldsCompleted, fields} = useFields();
 
     useEffect( () => {
@@ -39,6 +39,7 @@ const ProgressBlock = () => {
             <Placeholder lines='9' error={error}></Placeholder>
         );
     }
+
     let noticesOutput = notices;
     if ( filter==='remaining' ) {
         noticesOutput = noticesOutput.filter(function (notice) {
@@ -67,7 +68,7 @@ const ProgressBlock = () => {
 			return (a.status < b.status) ? 1 : -1;
 		}
 	});
-
+	let openNotices = noticesOutput.filter(notice => notice.status==='open' || notice.status==='urgent');
     return (
         <div className="cmplz-progress-block">
             <div className="cmplz-progress-bar">
@@ -82,8 +83,8 @@ const ProgressBlock = () => {
                 </h1>
                 <h5 className="cmplz-progress-text-span">
                     {percentageCompleted < 100 && __( 'Consent Management is activated on your site.',  'complianz-gdpr' )+' ' }
-                    {percentageCompleted< 100 && notices.length===1 && __( 'You still have 1 task open.', 'complianz-gdpr' )}
-                    {percentageCompleted<100 && notices.length>1 && __( 'You still have %s tasks open.','complianz-gdpr' ).replace('%s', notices.length) }
+                    {percentageCompleted< 100 && openNotices.length===1 && __( 'You still have 1 task open.', 'complianz-gdpr' )}
+                    {percentageCompleted < 100 && openNotices.length>1 && __( 'You still have %s tasks open.','complianz-gdpr' ).replace('%s', openNotices.length) }
 					{percentageCompleted===100  && __( 'Well done! Your website is ready for your selected regions.', 'complianz-gdpr' )}
 
                 </h5>

@@ -9,7 +9,8 @@ import {__experimentalConfirmDialog as ConfirmDialog} from "@wordpress/component
 const ResetBannerButton = () => {
 	const { cssLoading, selectedBanner } = UseBannerData();
 	const [active, setActive] = useState(false);
-	const {updateField, setChangedField} = useFields();
+	const [disabled, setDisabled] = useState(false);
+	const {updateField, setChangedField, fields} = useFields();
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	//set active to false when css is loaded.
@@ -19,13 +20,15 @@ const ResetBannerButton = () => {
 		}
 	}, [cssLoading] );
 
+	//make sure the button is disabled until any data changes again.
+	useEffect( () => {
+		if (!active) setDisabled(false);
+	},[fields]);
+
 	const handleConfirm = async () => {
 		setIsOpen( false );
+		setDisabled(true);
 		await setDefaults();
-	};
-
-	const handleCancel = () => {
-		setIsOpen( false );
 	};
 
 	const setDefaults = () => {
@@ -51,7 +54,7 @@ const ResetBannerButton = () => {
 			>
 				{__('Are you sure you want to reset this banner to the default settings?', 'complianz-gdpr')}
 			</ConfirmDialog>
-			<button disabled={active}
+			<button disabled={disabled || active}
 					onClick={() => setIsOpen( true )}
 					className="button button-default"
 			>

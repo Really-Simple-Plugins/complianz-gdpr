@@ -26,8 +26,8 @@ const SingleDocument = (props) => {
 	let existsColor = document.exists ? 'green' : 'grey';
 	let existsTooltip = document.exists ? __( 'Validated', 'complianz-gdpr' ) : __( 'Missing document', 'complianz-gdpr' );
 	let shortcodeTooltip = document.required ? __( 'Click to copy the document shortcode', 'complianz-gdpr' ) : __( 'Not enabled', 'complianz-gdpr' );
-	//if we have a not required document here, it exists, so is obsolete. Not existing docs are already filtered out.
-	if ( !document.required ){
+	//if we have a not required document here, it exists, so is obsolete.
+	if ( !document.required || !document.exists ) {
 		existsColor = syncColor = 'grey';
 		existsTooltip = syncTooltip = __( 'Not enabled', 'complianz-gdpr' );
 	}
@@ -52,38 +52,13 @@ const SingleDocument = (props) => {
 	let plugin = pluginData ? pluginData.find(plugin => plugin.slug === 'complianz-terms-conditions') : false;
 	return (
 			<div className="cmplz-single-document">
-				<div className="cmplz-single-document-title" key={1}>
+				<div className="cmplz-single-document-title" >
 					{ document.permalink && <a href={document.permalink}>{document.title}</a>}
-					{ !document.permalink && document.title}
+					{ !document.permalink && <a href={document.readmore}>{document.title}</a>}
 				</div>
-				<Icon name={'sync'} color={syncColor} tooltip={syncTooltip} size={14} key={2}/>
-				<Icon name={'circle-check'} color={existsColor} tooltip={existsTooltip} size={14} key={3}/>
-				<div onClick={ (e) => onClickhandler(e, document.shortcode) } key={4}><Icon name={'shortcode'} color={existsColor}  tooltip={shortcodeTooltip} size={14} /></div>
-				<div className="cmplz-single-document-generated" key={5}>
-					{!document.install && <>
-						{ document.readmore && <a href={document.readmore}>{__("Read more", "complianz-gdpr")}</a>}
-						{ !document.readmore &&
-							<>
-								{ !document.required && __("Obsolete","complianz-gdpr")}
-								{
-									document.required && <>
-										{ !missing && document.generated}
-										{ missing && <a href={createLink} >{__("Create","complianz-gdpr")}</a>}
-									</>
-								}
-							</>
-						}
-					</>}
-					{plugin && document.install && <>
-						{ plugin.pluginAction!=='installed' &&
-							<a href="#" onClick={ (e) => pluginActions(plugin.slug, plugin.pluginAction, e) } >{plugin.pluginActionNice}</a>
-						}
-						{plugin.pluginAction==='installed' &&
-								<a href={plugin.create}>{__("Create", "complianz-gdpr")}</a>
-						}
-					</>}
-
-				</div>
+				<Icon name={'sync'} color={syncColor} tooltip={syncTooltip} size={14} />
+				<Icon name={'circle-check'} color={existsColor} tooltip={existsTooltip} size={14} />
+				<div onClick={ (e) => onClickhandler(e, document.shortcode) } ><Icon name={'shortcode'} color={existsColor}  tooltip={shortcodeTooltip} size={14} /></div>
 			</div>
 		);
 }
@@ -116,9 +91,9 @@ const DocumentsBlock = () => {
 
 	useEffect( () => {
 		let docs = documents.filter( (document) => document['region'] ===region)[0];
-		//filter out documents which do not exist AND are not required
 		if ( docs ) {
 			docs = docs['documents'];
+			//filter out documents which do not exist AND are not required
 			//docs = docs.filter( (document) => document.exists || document.required );
 			if ( !cmplz_settings.is_premium ) {
 				premiumDocuments.forEach((premiumDocument) => {
@@ -128,7 +103,6 @@ const DocumentsBlock = () => {
 			setRegionDocuments(docs);
 		}
 	}, [region, documents] );
-
 
 	if ( !documentDataLoaded ) {
 		return (

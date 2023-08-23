@@ -1,14 +1,18 @@
 import Panel from "./../Panel";
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo} from "react";
+import {memo, useEffect} from "react";
 import { __ } from '@wordpress/i18n';
 import useMenu from "../../Menu/MenuData";
 
 const ThirdPartyElement = (props) => {
 	const {updateField, setChangedField} = useFields();
 	const {selectedMainMenuItem} = useMenu();
+	const [name, setName] = wp.element.useState(props.thirdParty.name ? props.thirdParty.name : '');
+	const [purpose, setPurpose] = wp.element.useState(props.thirdParty.purpose ? props.thirdParty.purpose : '');
+	const [country, setCountry] = wp.element.useState(props.thirdParty.country ? props.thirdParty.country : '');
+	const [data, setData] = wp.element.useState(props.thirdParty.data ? props.thirdParty.data : '');
 
-	const onChangeHandler = (e, id) => {
+	const onChangeHandler = (value, id) => {
 		let thirdParties = [...props.field.value];
 		if ( !Array.isArray(thirdParties) ) {
 			thirdParties = [];
@@ -16,11 +20,47 @@ const ThirdPartyElement = (props) => {
 
 		//update thirdParty with index props.index
 		let currentThirdParty = {...thirdParties[props.index]};
-		currentThirdParty[id] = e.target.value;
+		currentThirdParty[id] = value;
 		thirdParties[props.index] = currentThirdParty;
 		updateField(props.field.id, thirdParties);
 		setChangedField(props.field.id, thirdParties);
 	}
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(name, 'name');
+		}, 500);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [name]);
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(data, 'data');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [data]);
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(country, 'country');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [country]);
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(purpose, 'purpose');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [purpose]);
+
 
 	const onDeleteHandler = async (e) => {
 		let thirdParties = props.field.value;
@@ -40,24 +80,24 @@ const ThirdPartyElement = (props) => {
 		await saveFields( selectedMainMenuItem, false, false );
 	}
 
-	const Details = (thirdParty) => {
+	const Details = () => {
 		return (
 			<>
 				<div className="cmplz-details-row">
 					<label>{__("Name", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={thirdParty.name} />
+					<input onChange={ ( e ) => setName(e.target.value) } type="text" placeholder={__("Name", "complianz-gdpr")} value={name} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Country", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'country') } type="text" placeholder={__("Country", "complianz-gdpr")}  value={thirdParty.country} />
+					<input onChange={ ( e ) => setCountry(e.target.value) } type="text" placeholder={__("Country", "complianz-gdpr")}  value={country} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Purpose", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'purpose') } type="text" placeholder={__("Purpose", "complianz-gdpr")}  value={thirdParty.purpose} />
+					<input onChange={ ( e ) => setPurpose(e.target.value) } type="text" placeholder={__("Purpose", "complianz-gdpr")}  value={purpose} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Data", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'data') } type="text" placeholder={__("Data", "complianz-gdpr")}  value={thirdParty.data} />
+					<input onChange={ ( e ) => setData(e.target.value) } type="text" placeholder={__("Data", "complianz-gdpr")}  value={data} />
 				</div>
 				<div className="cmplz-details-row__buttons">
 					<button className="button button-default cmplz-reset-button" onClick={ ( e ) => onDeleteHandler(e) }>{__("Delete", "complianz-gdpr")}</button>
@@ -66,14 +106,8 @@ const ThirdPartyElement = (props) => {
 		);
 	}
 
-	//ensure defaults
-	let thirdParty = {...props.thirdParty};
-	if (!thirdParty.name) thirdParty.name = '';
-	if (!thirdParty.purpose) thirdParty.purpose = '';
-	if (!thirdParty.country) thirdParty.country = '';
-	if (!thirdParty.data) thirdParty.data = '';
 	return (
-		<><Panel summary={thirdParty.name} details={Details(thirdParty)}/></>
+		<><Panel summary={name} details={Details()}/></>
 	);
 }
 export default memo(ThirdPartyElement);

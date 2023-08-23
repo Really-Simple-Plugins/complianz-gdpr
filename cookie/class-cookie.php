@@ -453,7 +453,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				'showOnPolicy'          => $this->showOnPolicy,
 				'lastUpdatedDate'       => (int) $this->lastUpdatedDate,
 				'lastAddDate'           => (int) $this->lastAddDate,
-				'slug'                  => sanitize_title( $this->slug ),
+				'slug'                  => empty($this->slug) ? '' : sanitize_title( $this->slug ),
 			);
 			if ( empty( $this->firstAddDate) ) {
 				$update_array['firstAddDate'] = time();
@@ -488,6 +488,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					$translation->save();
 				}
 			}
+			cmplz_delete_transient('cmplz_cookie_shredder_list');
 			wp_cache_delete('cmplz_cookie_'.$this->ID, 'complianz');
 		}
 
@@ -576,7 +577,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				//a partial match is enough on this type
 
 				//$str2: match should end with this string
-				if ( strlen( $str1 ) == 0 ) {
+				if ( strlen( $str1 ) === 0 ) {
 					$len     = strlen( $search ); //"*test" : 5
 					$pos     = strpos( $search, $str2 ); //"*test" : 1
 					$sub_len = strlen( $str2 ); // 4
@@ -585,7 +586,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 						$new_match        = $post_id;
 					}
 					//match should start with this string
-				} elseif ( strlen( $str2 ) == 0 ) {
+				} elseif ( strlen( $str2 ) === 0 ) {
 
 					$pos = strpos( $search, $str1 );
 					if ( $pos === 0 ) {

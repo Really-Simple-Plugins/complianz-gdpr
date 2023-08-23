@@ -3,6 +3,7 @@ import * as cmplz_api from "../../utils/api";
 
 export const UseCookieScanData = create((set, get) => ({
 	initialLoadCompleted: false,
+	setInitialLoadCompleted: (initialLoadCompleted) => set({initialLoadCompleted}),
 	iframeLoaded: false,
 	loading: false,
 	nextPage: false,

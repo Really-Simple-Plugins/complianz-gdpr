@@ -14,6 +14,7 @@ const fetchFields = () => {
 
 const useFields = create(( set, get ) => ({
 	fieldsLoaded: false,
+	saving:false,
 	preloadFields:[],
 	error:false,
 	fields: [],
@@ -137,16 +138,20 @@ const useFields = create(( set, get ) => ({
 
 	saveFields: async (selectedSubMenuItem, showSavedNotice = true, finish = false) => {
 		let fields = get().fields.filter(field => field.data_target !== 'banner');
-
+		set({saving:true})
 		const changedFields = get().changedFields;
 		let saveFields = fields.filter(field => {
-			const fieldIsIncluded = changedFields.some(changedField => changedField.id === field.id );
-			const isRadioOrSelect = field.default && ['radio', 'select', 'document', 'multicheckbox', 'license'].includes(field.type);
-			return fieldIsIncluded || (isRadioOrSelect && field.never_saved);
+			const fieldIsChanged = changedFields.some(changedField => changedField.id === field.id );
+			// const isRadioOrSelect = field.default && ['radio', 'select', 'document', 'license'].includes(field.type);
+			//check if this field has the current subMenuItem as menu_id: we include all visible fields
+			const fieldIsVisible = field.menu_id && field.menu_id === selectedSubMenuItem;
+			return fieldIsChanged || fieldIsVisible;
 		});
-
 		if (saveFields.length > 0 || finish) {
-			const response = cmplz_api.setFields(saveFields, finish);
+			let response = cmplz_api.setFields(saveFields, finish).then((response) => {
+				return response;
+			});
+
 			if (showSavedNotice) {
 				toast.promise(
 					response,
@@ -157,7 +162,6 @@ const useFields = create(( set, get ) => ({
 					}
 				);
 			}
-
 			await response.then((response) => {
 				fields = response.fields;
 				let fieldsWithPremium = applyPremiumSettings(fields);
@@ -170,6 +174,7 @@ const useFields = create(( set, get ) => ({
 						state.changedFields = [];
 						state.fields = conditionallyEnabledFields;
 						state.selectedFields = selectedFields;
+						state.saving = false;
 					})
 				);
 			});
@@ -301,6 +306,9 @@ const handleShowSavedSettingsNotice = (text) => {
 }
 
 const isCompletableField = (field) => {
+	if (field.group_id === 'finish') {
+		return false;
+	}
 	return field.type ==='radio' ||
 		field.type === 'select' ||
 		field.type === 'checkbox' ||

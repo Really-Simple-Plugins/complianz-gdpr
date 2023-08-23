@@ -1,4 +1,4 @@
-export const validateConditions = (conditions, fields, fieldId) => {
+export const validateConditions = (conditions, fields, fieldId, isSub=false) => {
 	let relation = conditions.relation === 'OR' ? 'OR' : 'AND';
 	let conditionApplies = relation==='AND';
 	for (const key in conditions) {
@@ -7,16 +7,11 @@ export const validateConditions = (conditions, fields, fieldId) => {
 			let subConditionsArray = conditions[key];
 			//check if there's a subcondition
 			if ( subConditionsArray.hasOwnProperty('relation') ) {
-				thisConditionApplies = validateConditions(subConditionsArray, fields, fieldId);
-				//now drop the 'relation' key and the subconditions, so we can continue with the next condition
-				delete subConditionsArray['relation'];
-				//delete array from the subConditionsArray that belongs to this relation.
-				for ( let subConditionField in subConditionsArray ) {
-					if ( subConditionsArray.hasOwnProperty(subConditionField) ) {
-						if ( Array.isArray(subConditionsArray[subConditionField]) ) {
-							delete subConditionsArray[subConditionField];
-						}
-					}
+				thisConditionApplies = validateConditions(subConditionsArray, fields, fieldId, true)===1;
+				if ( relation === 'AND' ) {
+					conditionApplies = conditionApplies && thisConditionApplies;
+				} else {
+					conditionApplies = conditionApplies || thisConditionApplies;
 				}
 			}
 			for ( let conditionField in subConditionsArray ) {
@@ -87,7 +82,6 @@ export const validateConditions = (conditions, fields, fieldId) => {
 			} else {
 				conditionApplies = conditionApplies || thisConditionApplies;
 			}
-
 		}
 	}
 

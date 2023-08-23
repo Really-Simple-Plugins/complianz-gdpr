@@ -19,13 +19,13 @@ const Header = () => {
 					<nav className="cmplz-header-menu">
 						<ul>
 							{menuItems.map((menu_item, i) =>
-							  <li key={i}><a className={ selectedMainMenuItem === menu_item.id ? 'active' : '' } href={"#" + menu_item.id.toString()} >{menu_item.title}</a></li>)}
+							  <li key={i}><a className={ selectedMainMenuItem === menu_item.id ? 'cmplz-main active' : 'cmplz-main' } href={"#" + menu_item.id.toString()} >{menu_item.title}</a></li>)}
 
 						</ul>
 					</nav>
 				</div>
 				<div className="cmplz-header-right">
-					<a className="cmplz-knowledge-base-link" href="https://complianz.io/knowledge-base" target="_blank">{__("Documentation", "complianz-gdpr")}</a>
+					<a className="cmplz-knowledge-base-link" href="https://complianz.io/docs" target="_blank">{__("Documentation", "complianz-gdpr")}</a>
 					{cmplz_settings.is_premium &&
 						<a href="#tools/support"
 						   className="button button-black"

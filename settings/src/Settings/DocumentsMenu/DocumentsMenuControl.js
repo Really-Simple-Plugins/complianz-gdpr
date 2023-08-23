@@ -39,7 +39,7 @@ const DocumentsMenuControl = (props) => {
 			text = __("No menus were found. Skip this step, or create a menu first.","complianz-gdpr");
 			addHelpNotice( field_id, 'warning', text, title, emptyMenuLink);
 		} else if ( documentsNotInMenu.length>0 ) {
-			title = __("Missing pages.","complianz-gdpr");
+			title = __("Pages not included in a menu","complianz-gdpr");
 			if (documentsNotInMenu.length===1) {
 				let document = documentsNotInMenu[0];
 				text = __( 'The generated document %s has not been assigned to a menu yet, you can do this now, or skip this step and do it later.','complianz-gdpr').replace('%s',document);

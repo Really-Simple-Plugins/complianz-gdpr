@@ -48,7 +48,6 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 		foreach ( $banners as $banner ){
 			$object_banners[] = new CMPLZ_COOKIEBANNER($banner->ID, true, true);
 		}
-
 		$path = trailingslashit( cmplz_path ).'cookiebanner/templates/';
 		$banner_html = cmplz_get_template( "cookiebanner.php", [], $path);
 		$manage_consent_html = cmplz_get_template( "manage-consent.php", false, $path);
@@ -63,6 +62,7 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 			'css_file' => $css_file,
 			'page_links' => $page_links[ $region ] ?? [],
 			'customize_url' => wp_customize_url(),
+			'tcf_active' => cmplz_tcf_active(),
 		];
 	}
 
@@ -100,7 +100,11 @@ function cmplz_banner_adjustments_for_wizard_changes( string $name, $value, $pre
 		return;
 	}
 
-	if ( $name ==='uses_ad_cookies_personalized' && $value === 'yes' ) {
+	if ($value === $prev_value){
+		return;
+	}
+
+	if ( $name ==='uses_ad_cookies_personalized' && ( $value === 'yes' || $value === 'tcf' ) ) {
 		$banner_text = __( "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show (non-) personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
@@ -115,8 +119,15 @@ function cmplz_banner_adjustments_for_wizard_changes( string $name, $value, $pre
 	//if a/b testing is enabled, ensure that there are two banners.
 	if ( $name === 'a_b_testing_buttons' && $value){
 		$banners = cmplz_get_cookiebanners();
+		if ( count($banners) < 1 ) {
+			$banner = new CMPLZ_COOKIEBANNER();
+			$banner->title = __( 'Banner A', 'complianz-gdpr' );
+			$banner->save();
+		}
+
 		if ( count($banners) < 2 ) {
 			$banner = new CMPLZ_COOKIEBANNER();
+			$banner->title = __( 'Banner B', 'complianz-gdpr' );
 			$banner->save();
 		}
 	}
@@ -235,6 +246,7 @@ function cmplz_check_minimum_one_banner() {
 	$added_banner = false;
 	if ( count( $cookiebanners ) < 1 ) {
 		$banner = new CMPLZ_COOKIEBANNER();
+		$banner->title = __( 'Banner A', 'complianz-gdpr' );
 		$banner->save();
 		$added_banner = true;
 	}

@@ -11,20 +11,20 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  */
 function cmplz_gadwp_options( $value, $key, $default ) {
 
-	if ( $key == 'anonymize_ips' ) {
+	if ( $key === 'anonymize_ips' ) {
 		if (cmplz_no_ip_addresses()){
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
-	if ( $key == 'demographics' ) {
+	if ( $key === 'demographics' ) {
 		if (cmplz_statistics_no_sharing_allowed()){
 			return false;
-		} else {
-			return true;
 		}
+
+		return true;
 	}
 	return $value;
 }
@@ -82,8 +82,8 @@ function cmplz_gadwp_filter_fields( $fields ) {
 	return  cmplz_remove_field( $fields,
 		[
 			'configuration_by_complianz',
-			'UA_code',
-			'AW_code',
+			'ua_code',
+			'aw_code',
 			'consent-mode'
 		]);
 }

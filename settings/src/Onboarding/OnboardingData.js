@@ -14,6 +14,7 @@ const useOnboardingData = create(( set, get ) => ({
 		},
 		{
 			'slug' :'burst-statistics',
+			'premium' :'burst-pro',
 			'description':__("Privacy-Friendly Analytics? Here you go!","complianz-gdpr"),
 			'status': 'not-installed',
 			'processing': false,

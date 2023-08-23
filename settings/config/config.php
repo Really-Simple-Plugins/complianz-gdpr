@@ -111,7 +111,6 @@ function cmplz_fields( $load_values = true ): array {
 	}
 
 	$fields = apply_filters( 'cmplz_fields_values', $fields );
-
 	uasort($fields, function($a, $b) {
 		return $a["order"] - $b["order"];
 	});
@@ -139,8 +138,12 @@ function cmplz_maybe_get_from_source($value, $field ){
 		return $value;
 	}
 	$source_field = $config_fields[$config_field_index];
-	$value        = cmplz_get_option( $source_field['id'], false );
-	if (!$value) $value = $source_field['default'];
+	$options = get_option( 'cmplz_options' );
+	$value        = $options[ $source_field['id'] ] ?? 'not-set';//the mapped value could be false.
+	if ( $value !=='not-set' && isset($source_field['default']) ) {
+		$value = $source_field['default'];
+	}
+
 	//map to source_mapping
 	if ( isset($field['source_mapping']) ) {
 		$source_mapping = $field['source_mapping'];

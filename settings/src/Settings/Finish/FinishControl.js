@@ -31,13 +31,13 @@ const FinishControl = () => {
 	useEffect ( () => {
 		if ( cookiebannerRequired ) {
 			let explanation =
-				__( "The cookie banner and cookie blocker are required on your website.","complianz-gdpr")
+				__( "The consent banner and cookie blocker are required on your website.","complianz-gdpr")
 				+" "+__( "You can enable them both here, then you should check your website if your configuration is working properly.","complianz-gdpr")
 				+" "+__("Please read the below article to debug any issues while in safe mode. Safe mode is available under settings.","complianz-gdpr")
-				+' '+__("You will find tips and tricks on your dashboard after you have configured your cookie banner.", 'complianz-gdpr' )
+				+' '+__("You will find tips and tricks on your dashboard after you have configured your consent banner.", 'complianz-gdpr' )
 			addHelpNotice('last-step-feedback', 'default', explanation, __('A consent banner is required', 'complianz-gdpr'), 'https://complianz.io/debugging-manual');
 		} else {
-			let explanation = __( "Your site does not require a cookie banner. If you think you need a cookie banner, please review your wizard settings.","complianz-gdpr")
+			let explanation = __( "Your site does not require a consent banner. If you think you need a consent banner, please review your wizard settings.","complianz-gdpr")
 			addHelpNotice('last-step-feedback', 'warning', explanation, __('A consent banner is not required', 'complianz-gdpr'));
 		}
 	},[ cookiebannerRequired, changedFields ]);//we cannot use the "fields" dependency, as it will create an infinite loop. changedfields works fine to keep the notice in the sidebar.
@@ -50,7 +50,7 @@ const FinishControl = () => {
 				<p>{__( "Click '%s' to complete the configuration. You can come back to change your configuration at any time.", 'complianz-gdpr' ).replace('%s', __( "Finish", 'complianz-gdpr' ) ) }</p>
 
 				{ cookiebannerRequired && <p>{
-					__( "The cookie banner and the cookie blocker are now ready to be enabled.", "complianz-gdpr") + ' ' +
+					__( "The consent banner and the cookie blocker are now ready to be enabled.", "complianz-gdpr") + ' ' +
 					__( "Please check your website after finishing the wizard to verify that your configuration is working properly.", "complianz-gdpr")
 				}
 				</p> }

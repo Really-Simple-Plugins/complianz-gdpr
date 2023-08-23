@@ -138,7 +138,7 @@ $this->supported_regions = array(
 );
 
 $this->supported_states = array(
-	'cal' => __( 'California (DNSMPI, CPRA)' ),
+	'cal' => __( 'California (CPRA)' ),
 	'col' => __( 'Colorado (CPA)' ),
 	'con' => __( 'Connecticut (CTDPA)' ),
 	'nev' => __( 'Nevada (NRS 603A)' ),

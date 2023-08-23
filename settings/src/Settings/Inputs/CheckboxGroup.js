@@ -3,13 +3,18 @@ import {memo, useState} from 'react';
 import { __ } from '@wordpress/i18n';
 import Icon from '../../utils/Icon';
 import Button from '../Inputs/Button';
+import {useEffect} from "react";
 
 const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, disabled, options = {} }) => {
-
+	const [isBoolean, setIsBoolean] = useState(false);
 	let valueValidated = value;
 	if ( !Array.isArray(valueValidated) ){
 		valueValidated = valueValidated === '' ? [] : [valueValidated];
 	}
+	useEffect (() => {
+		let isBool = (Object.keys(options).length === 1) && Object.keys(options)[0] === 'true';//absolute comparison does not work here
+		setIsBoolean(isBool);
+	},[]);
 
 	if (indeterminate){
 		value = true;
@@ -26,7 +31,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 	}
 
 	const handleCheckboxChange = (e, option) => {
-		if (Object.keys(options).length === 1) {
+		if (isBoolean) {
 			onChange(!value);
 		} else {
 			const newSelected = selected.includes(option)
@@ -37,13 +42,20 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 	};
 
 	const isEnabled = (id) => {
-		return selected.includes(id);
+		return isBoolean ? value : selected.includes(id) // if there is only one option, we use the value as a boolean
 	};
 
 	const loadMoreHandler = () => {
 		setLoadMoreExpanded(!loadMoreExpanded);
 	};
 	let allDisabled = disabled && !Array.isArray(disabled);
+
+	if (options.length===0){
+		return (
+			<>{__("No options found", "complianz-gdpr")}</>
+		)
+	}
+
 	return (
 		<div className={'cmplz-checkbox-group'}>
 			{Object.entries(options).map(([key, optionLabel], i) => (
@@ -56,7 +68,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 					<Checkbox.Root
 						className="cmplz-checkbox-group__checkbox"
 						id={id + '_' + key}
-						checked={Object.keys(options).length === 1 ? value : isEnabled(key)} // if there is only one option, we use the value as a boolean
+						checked={isEnabled(key)}
 						aria-label={label}
 						disabled={allDisabled || (Array.isArray(disabled) && disabled.includes(key)) }
 						required={required}

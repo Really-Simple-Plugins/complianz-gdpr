@@ -11,8 +11,8 @@ function cmplz_integrations_services_fields($fields){
 			'help'             => [
 				'label' => 'default',
 				'title' => __( "Developers and custom implementations", 'complianz-gdpr' ),
-				'text'  => __( "Complianz is built to be easily configured, with automatic background processes, integrations and a wizard for specific questions. But this is WordPress, and million different configurations sometimes ask for custom implementations. We have collected many custom implementations from our contributors, and written an article for anyone who wants to make their own integration.", 'complianz-gdpr'),
-				'url'   => 'https://cookiedatabase.org/privacy-statement/',
+				'text'  => __( "Complianz is built to be easily configured, with automatic background processes, integrations and a wizard for specific questions. But this is WordPress, a million different configurations sometimes ask for custom implementations. We have collected many custom implementations from our contributors, and have written an article for anyone who wants to make their own integration.", 'complianz-gdpr'),
+				'url'   => 'https://complianz.io/developers-guide-for-third-party-integrations/',
 			],
 		],
 		[

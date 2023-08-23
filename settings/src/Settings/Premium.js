@@ -11,7 +11,7 @@ const Premium = ({premium, id}) => {
 	}
 
 	let url = premium.url ? premium.url : 'https://complianz.io/pricing';
-	url+='?'+id;
+	url+='?ref='+id;
 	return (
 			<div className="cmplz-premium">
 				<a target="_blank" href={url}>{__("Upgrade", "complianz-gdpr")}</a>

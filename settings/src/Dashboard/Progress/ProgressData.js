@@ -6,6 +6,10 @@ const useProgress = create(( set, get ) => ({
     error:false,
     percentageCompleted:0,
     progressLoaded:false,
+	setProgressLoaded(loaded) {
+		set(state => ({ progressLoaded:loaded }));
+	},
+	showCookieBanner:false,
     setFilter: (filter) => {
         sessionStorage.cmplz_task_filter = filter;
         set(state => ({ filter }))
@@ -17,10 +21,10 @@ const useProgress = create(( set, get ) => ({
         }
     },
     fetchProgressData: async () => {
-        const {notices} = await cmplz_api.doAction('get_notices').then( ( response ) => {
+        const {notices, show_cookiebanner} = await cmplz_api.doAction('get_notices').then( ( response ) => {
             return response;
         });
-		set(state => ({ notices:notices, percentageCompleted:get().getPercentageCompleted(notices),progressLoaded:true}));
+		set(state => ({ notices:notices, percentageCompleted:get().getPercentageCompleted(notices),showCookieBanner:show_cookiebanner,progressLoaded:true}));
     },
     dismissNotice: async (noticeId) => {
         let notices = get().notices;

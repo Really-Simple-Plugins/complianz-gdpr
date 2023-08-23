@@ -5,9 +5,10 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 
-$general_settings = get_option('complianz_options_settings');
-if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['clear_data_on_uninstall']) {
+$cmplz_settings = get_option( 'cmplz_options', [] );
+if (isset($cmplz_settings['clear_data_on_uninstall']) && $cmplz_settings['clear_data_on_uninstall']) {
 	$options = array(
+		'cmplz_options',
 		'cmplz_activation_time',
 		'cmplz_review_notice_shown',
 		"cmplz_wizard_completed_once",

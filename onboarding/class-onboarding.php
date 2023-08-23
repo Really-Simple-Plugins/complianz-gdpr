@@ -7,7 +7,7 @@ class cmplz_onboarding {
 
 	function __construct() {
 		if ( isset( self::$_this ) ) {
-			wp_die( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'really-simple-ssl' ), get_class( $this ) ) );
+			wp_die( sprintf( __( '%s is a singleton class and you cannot create a second instance.', 'complianz-gdpr' ), get_class( $this ) ) );
 		}
 
 		self::$_this = $this;
@@ -62,19 +62,16 @@ class cmplz_onboarding {
 				];
 				break;
 			case 'update_email':
-				error_log("onboarding mail");
 				$data = $request->get_json_params();
 				$email = sanitize_email($data['email']);
 				if  (is_email($email )) {
-					error_log("send test email");
-					cmplz_update_option('notifications_email_address', $email );
-					cmplz_update_option('send_notifications_email', 1 );
+					cmplz_update_option_no_hooks('notifications_email_address', $email );
+					cmplz_update_option_no_hooks('send_notifications_email', 1 );
 					if ( $data['sendTestEmail'] ) {
 						$mailer = new cmplz_mailer();
 						$mailer->send_test_mail();
 					}
 					if ( $data['includeTips'] ) {
-						error_log("sign up for mailinglist");
 						$this->signup_for_mailinglist( $email );
 					}
 				}
@@ -88,14 +85,28 @@ class cmplz_onboarding {
 	public function get_recommended_plugins_status($plugins){
 		foreach ($plugins as $index => $plugin ){
 			$slug = sanitize_title($plugin['slug']);
+			$premium = $plugin['premium'] ?? false;
+			$premium = $premium ? sanitize_title($premium) : false;
 			//check if plugin is downloaded
 			$installer = new cmplz_installer($slug);
-			if (!$installer->plugin_is_downloaded()) {
+			if ( !$installer->plugin_is_downloaded() ) {
 				$plugins[$index]['status'] = 'not-installed';
 			} else if ($installer->plugin_is_activated()) {
 				$plugins[$index]['status'] = 'activated';
 			} else {
 				$plugins[$index]['status'] = 'installed';
+			}
+
+			//If not found, check for premium
+			//if free is activated, skip this step
+			//don't update is the premium status is not-installed. Then we leave it as it is.
+			if ( $premium && $plugins[$index]['status'] !== 'activated' ) {
+				$installer = new cmplz_installer($premium);
+				 if ($installer->plugin_is_activated()) {
+					$plugins[$index]['status'] = 'activated';
+				} else if ($installer->plugin_is_downloaded()) {
+					$plugins[$index]['status'] = 'installed';
+				}
 			}
 		}
 		return $plugins;

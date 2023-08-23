@@ -48,7 +48,7 @@ $this->pages = array(
 	),
 	'us' => array(
 		'cookie-statement' => array(
-			'title' => cmplz_us_cookie_statement_title(),
+			'title' => 'Opt-out preferences',
 			'public' => true,
 			'document_elements' => '',
 			'condition' => array(

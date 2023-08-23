@@ -11,7 +11,7 @@ function cmplz_wizard_fields($fields){
 			'premium' => [
 				'label' => __( "Which region(s) do you target with your website?","complianz-gdpr"),
 				'url' => 'https://complianz.io/pricing/',
-				'comment'  => __( "The plugin will apply the above-selected region's settings to all visitors worldwide.", 'complianz-gdpr' ),
+				 'comment'  => ' ',//an empty string doesn't override the premium string
 			],
 			'menu_id'          => 'visitors',
 			'type'             => 'radio',
@@ -23,7 +23,6 @@ function cmplz_wizard_fields($fields){
 				'text'  => __( "You don’t need to configure your website for ‘accidental’ visitors. Only choose the regions your website is intended for.", 'complianz-gdpr'),
 				'url'   => 'https://complianz.io/what-regions-do-i-target/',
 			],
-
 			'default'          => false,
 			'revoke_consent_onchange' => true,
 			'required' => true,
@@ -77,16 +76,33 @@ function cmplz_wizard_fields($fields){
 			]
 		],
 		[
+			'id'               => 'ca_targets_quebec',
+			'menu_id'          => 'visitors',
+			'type'             => 'radio',
+			'default'  => '',
+			'label'     => __( "Do you target visitors from Quebec?", 'complianz-gdpr' ),
+			'options'   => COMPLIANZ::$config->yes_no,
+			'revoke_consent_onchange' => true,
+			'tooltip'          => __( "This will apply an opt-in mechanism for all visitors from Canada, as required by Quebec bill 64.", 'complianz-gdpr' ),
+			'required'  => false,
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'regions' => ['ca'],
+				]
+			]
+		],
+		[
 			'id'               => 'us_states',
 			'menu_id'          => 'visitors',
 			'type'             => 'multicheckbox',
 			'options'          => COMPLIANZ::$config->supported_states,
-			'help'             => [
-				'label' => 'default',
-				'title' => __( "Do Not Sell My Personal Information", 'complianz-gdpr' ),
-				'text'  => __( "If you choose California you will be able to generate a DNSMPI page.", 'complianz-gdpr' ),
-				'url'   => 'https://complianz.io/privacy-in-the-united-states/',
-			],
+			// 'help'             => [
+			// 	'label' => 'default',
+			// 	'title' => __( "Do Not Sell My Personal Information", 'complianz-gdpr' ),
+			// 	'text'  => __( "If you choose California you will be able to generate a DNSMPI page.", 'complianz-gdpr' ),
+			// 	'url'   => 'https://complianz.io/privacy-in-the-united-states/',
+			// ],
 			'label'            => __( "Do you specifically target visitors from these states?", 'complianz-gdpr' ),
 			'tooltip'          => __( "There are some laws that only apply to one or more states and are described separately if needed.", 'complianz-gdpr' ),
 			'required'         => false,
@@ -107,12 +123,10 @@ function cmplz_wizard_fields($fields){
 			'required' => false,
 			'options'  => COMPLIANZ::$config->yes_no,
 		],
-
 		[
 			'id'       => 'cookie-statement',
 			'menu_id'  => 'documents',
 			'default'  => 'generated',
-			'comment'  => __( 'Depending on your region and settings, the cookie policy will be changed to a DNSMPI Page or Opt-out Preferences, respectively.', "complianz-gdpr" ),
 			'type'     => 'document',
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
@@ -142,7 +156,7 @@ function cmplz_wizard_fields($fields){
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
 			'required' => true,
-			'tooltip' => __("A Privacy Statement is required to inform your visitors about the way you deal with the privacy of website visitors. A link to this document is placed on your Cookie Banner.", 'complianz-gdpr'),
+			'tooltip' => __("A Privacy Statement is required to inform your visitors about the way you deal with the privacy of website visitors. A link to this document is placed on your consent banner.", 'complianz-gdpr'),
 		],
 
 		[
@@ -370,7 +384,7 @@ function cmplz_wizard_fields($fields){
 			'options' => COMPLIANZ::$config->yes_no,
 			'default' => 'no',
 			'label'   => __( "Respect Do Not Track and Global Privacy Control?", 'complianz-gdpr' ),
-			'tooltip' => __( 'If you enable this option, Complianz will not show the cookie banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.', 'complianz-gdpr' ),
+			'tooltip' => __( 'If you enable this option, Complianz will not show the consent banner to users that enabled a ‘Do Not Track’ or \'Global Privacy Control\' setting in their browsers and their default consent status is set to ‘denied’.', 'complianz-gdpr' ),
 		],
 		[
 			'id'   => 'sensitive_information_processed',

@@ -5,6 +5,8 @@ import useMenu from '../../Menu/MenuData';
 import {
 	__experimentalConfirmDialog as ConfirmDialog
 } from '@wordpress/components';
+import {UseCookieScanData} from "../CookieScan/CookieScanData";
+import useProgress from "../../Dashboard/Progress/ProgressData";
 
 const Button = ({
 	type = 'action',
@@ -23,6 +25,9 @@ const Button = ({
 	const buttonLabel = field && field.button_text ? field.button_text : label;
 	const content = buttonLabel ? buttonLabel : children;
 	const {fetchFieldsData, showSavedSettingsNotice} = useFields();
+	const {setInitialLoadCompleted, setProgress} = UseCookieScanData();
+	const {setProgressLoaded} = useProgress();
+
 	const {selectedSubMenuItem } = useMenu();
 	const [ isOpen, setIsOpen ] = useState( false );
 	const classes = `button cmplz-button button--${style} button-${type}`;
@@ -57,6 +62,13 @@ const Button = ({
 		await cmplz_api.doAction(field.action, data).then((response) => {
 			if (response.success) {
 				fetchFieldsData(selectedSubMenuItem);
+				//some custom actions
+				if (response.id === 'reset_settings') {
+					setInitialLoadCompleted(false);
+					setProgress(0);
+					setProgressLoaded(false);
+
+				}
 				showSavedSettingsNotice(response.message);
 			}
 		});

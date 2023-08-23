@@ -41,7 +41,7 @@ const Support = () => {
 					disabled={disabled}
 					variant="secondary"
 					onClick={ ( e ) => onClickHandler(e) }>
-					{ __( 'Send', 'really-simple-ssl' ) }
+					{ __( 'Send', 'complianz-gdpr' ) }
 				</Button>
 			</div>
 		</>

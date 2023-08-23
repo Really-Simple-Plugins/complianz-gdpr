@@ -69,6 +69,7 @@ const Settings = () => {
 	};
 
 	const finish = () => {
+		if (nextButtonDisabled) return;
 		setIsExploding(true);
 		//wait 2 seconds, then run saveData
 		setTimeout(() => {
@@ -88,11 +89,9 @@ const Settings = () => {
 		if (selectedSubMenuItem === 'document-menu') {
 			await saveFields(selectedSubMenuItem, showNotice, false);
 			await saveDocumentsMenu(changedFields.length > 0, showNotice);
-		}
-		else if (selectedMainMenuItem === 'banner') {
+		} else if (selectedMainMenuItem === 'banner') {
 			await saveBanner(fields);
-		}
-		else {
+		} else {
 			await saveFields(selectedSubMenuItem, showNotice, finish);
 			await fetchProgressData();
 		}
@@ -112,8 +111,6 @@ const Settings = () => {
 			groups.push(selectedField.group_id);
 		}
 	}
-	let btnSaveText = __('Save', 'complianz-gdpr');
-
 	let helpNotices = [];
 
 	//add some notices conditionally for fields
@@ -170,13 +167,12 @@ const Settings = () => {
 	let cookiebannerEnabled = fields.filter(
 		field => field.id === 'enable_cookie_banner' && field.value ===
 			'yes').length > 0;
-	let continueLink = nextButtonDisabled
-		? `#${selectedMainMenuItem}/${selectedSubMenuItem}`
-		: nextMenuItem;
+	let continueLink = nextButtonDisabled ? `#${selectedMainMenuItem}/${selectedSubMenuItem}` : nextMenuItem;
 	let finishLink = cookiebannerEnabled ? `#banner` : `#dashboard`;
+	finishLink = nextButtonDisabled ? `#${selectedMainMenuItem}/${selectedSubMenuItem}` : finishLink;
 	return (
 		<>
-			{isExploding && ConfettiExplosion && <div className="cmplz-confetti"><ConfettiExplosion /></div>}
+			{isExploding && ConfettiExplosion && <div className="cmplz-confetti"><ConfettiExplosion zIndex={999999}/></div>}
 			<div className="cmplz-wizard-settings cmplz-column-2">
 				{groups.map((group, i) =>
 					<SettingsGroup key={i} index={i} group={group}
@@ -209,7 +205,7 @@ const Settings = () => {
 								<button
 									className="button button-default"
 									onClick={(e) => saveData(false, true)}>
-									{btnSaveText}
+									{__('Save', 'complianz-gdpr')}
 								</button>
 							}
 							{/*This will be shown only if current step is not the last one*/}
@@ -240,7 +236,7 @@ const Settings = () => {
 
 							{selectedMainMenuItem === 'wizard' && selectedSubMenuItem ===
 								menuItems[menuItems.length - 1].id &&
-								<a disabled={nextButtonDisabled}
+								<a disabled={nextButtonDisabled }
 									 className="button button-primary" href={finishLink}
 									 onClick={(e) => finish()}>
 									{__('Finish', 'complianz-gdpr')}

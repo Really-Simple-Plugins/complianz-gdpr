@@ -675,6 +675,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//some custom elements
 			$html = str_replace( "[cookie_accept_text]", $banner->accept_x, $html );
 			$html = str_replace( "[cookie_save_preferences_text]", $banner->save_preferences_x, $html );
+
 			$html = str_replace( "[domain]", '<a href="' . esc_url_raw( get_home_url() ) . '">' . esc_url_raw( get_home_url() ) . '</a>', $html );
 			$html = str_replace( "[cookie-statement-url]", cmplz_get_document_url( 'cookie-statement', $region ), $html );
 			$html = str_replace( "[privacy-statement-url]", $this->get_page_url( 'privacy-statement', $region ), $html );
@@ -1086,23 +1087,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function obfuscate_email( $email ) {
-			$alwaysEncode = array( '.', ':', '@' );
-			$result = '';
-			$email = strrev($email);
-			// Encode string using oct and hex character codes
-			for ( $i = 0, $iMax = strlen( $email ); $i < $iMax; $i ++ ) {
-				// Encode 25% of characters including several that always should be encoded
-				if ( in_array( $email[ $i ], $alwaysEncode ) || mt_rand( 1, 100 ) < 25 ) {
-					if ( random_int( 0, 1 ) ) {
-						$result .= '&#' . ord( $email[ $i ] ) . ';';
-					} else {
-						$result .= '&#x' . dechex( ord( $email[ $i ] ) ) . ';';
-					}
-				} else {
-					$result .= $email[ $i ];
-				}
-			}
-			return '<span class="cmplz-obfuscate" >'.$result.'</span>';
+			return antispambot( $email );
 		}
 
 		/**

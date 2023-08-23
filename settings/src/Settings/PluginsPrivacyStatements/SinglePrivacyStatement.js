@@ -33,12 +33,14 @@ const SinglePrivacyStatement = (props) => {
 				<button className={'cmplz-button-icon'} onClick = { (e) => addPolicyHandler(props.plugin.policy_text, e) }>
 					<Icon tooltip={__( "Add to annex of Privacy Statement", "complianz-gdpr" )} name = 'plus'  />
 				</button>
+
 				{ props.plugin.consent_api !== 'na' &&
 					<>
+						<button className={'cmplz-button-icon'} >
 						{ !props.plugin.consent_api && <Icon tooltip={__( "Does not conform with the Consent API", "complianz-gdpr" )} name = 'circle' color="red"  />}
 						{ props.plugin.consent_api && <Icon tooltip={__( "Conforms to the Consent API", "complianz-gdpr" )} name = 'circle' color="green"  /> }
+						</button>
 					</>
-
 				}
 			</>
 		)

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkcomplianz_gdpr=self.webpackChunkcomplianz_gdpr||[]).push([[2418],{22418:(p,c,e)=>{e.r(c)}}]);

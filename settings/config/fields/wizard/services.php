@@ -9,7 +9,6 @@ function cmplz_services_fields( $fields ) {
 			[
 				'id'                => 'consent_per_service',
 				'menu_id'           => 'services',
-				'translatable'      => true,
 				'type'              => 'radio',
 				'options'           => COMPLIANZ::$config->yes_no,
 				'default'           => 'no',
@@ -238,7 +237,7 @@ function cmplz_services_fields( $fields ) {
 
 					]
 				],
-	
+
 				'disabled' => [
 					'tcf'
 				],

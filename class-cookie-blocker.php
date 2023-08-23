@@ -99,8 +99,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 				$count++;
 				unset($_COOKIE[$name]);
-				setcookie($name, null, -1, COMPLIANZ::$banner_loader->get_cookie_path() );
-				setcookie($name, null, -1, '/' );
+				setcookie($name, "", -1, COMPLIANZ::$banner_loader->get_cookie_path() );
+				setcookie($name, "", -1, '/' );
 			}
 		}
 
@@ -119,12 +119,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		/**
 		 * Add cookies to list by category
 		 *
-		 * @param array $cookie_list
+		 * @param array  $cookie_list
 		 * @param string $category
 		 *
 		 * @return void
 		 */
-		public function get_cookies($cookie_list, $category) {
+		public function get_cookies( $cookie_list, $category) {
 			if (is_array($cookie_list)) {
 				foreach ( $cookie_list as $cookie ) {
 					if ( stripos( $cookie->purpose, $category ) !== false ) {
@@ -265,8 +265,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$formatted_custom_script_tags[$blocked_script['editor']] = $blocked_script;
 				}
 			}
-			//set transient so we can also access this data before the arrays are loaded
-			set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
 			return $formatted_custom_script_tags;
 		}
 
@@ -310,18 +308,21 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//add script center data. add_script arrays aren't included in the "known_script_tags" function
 			$scripts = get_option("complianz_options_custom-scripts");
 			if ( is_array($scripts) && isset($scripts['add_script']) && is_array($scripts['add_script'] ) ) {
-				$added_scripts = array_filter( $scripts['add_script'], function ( $script ) {
+				$added_scripts = array_filter( $scripts['add_script'], static function ( $script ) {
 					return $script['enable'] == 1;
 				} );
 				if (!empty($added_scripts)) $blocked_scripts = array_merge($blocked_scripts, $added_scripts);
 			}
 
 			//filter out non-iframe and disabled placeholders.
-			//add_script items do not have an iframe
-			$blocked_scripts = array_filter( $blocked_scripts, function($script) {
-				return $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
+			//'add_script' items do not have an iframe
+			return array_filter( $blocked_scripts, static function($script) {
+				if (!isset($script['enable_placeholder'])) {
+					error_log('missing key enable_placeholder');
+					error_log(print_r($script, true));
+				}
+				return isset($script['enable_placeholder']) && $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
 			});
-			return $blocked_scripts;
 		}
 
 		/**

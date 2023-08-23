@@ -97,12 +97,12 @@ const Statistics = () => {
 				<div className="cmplz-statistics-select-item">
 					<Icon name = "dial-max-light" color={"green"} size="22"/>
 					<h2>{fullConsent}</h2>
-					<span><Icon name="dial-max-light" size="12" color={'green'}/> {__('Full Consent', 'complianz-gdpr')}</span>
+					<span>{__('Full Consent', 'complianz-gdpr')}</span>
 				</div>
 				<div className="cmplz-statistics-select-item">
-					<Icon name = "dial-min-light"  color={"red"} size="22" />
+					<Icon name = "dial-min-light" color={"red"} size="22"/>
 					<h2>{noConsent}</h2>
-					<span><Icon name="dial-min-light" size="12" color={'red'}/> {__('No Consent', 'complianz-gdpr')}</span>
+					<span>{__('No Consent', 'complianz-gdpr')}</span>
 				</div>
 			</div>
 			<div className="cmplz-statistics-list">

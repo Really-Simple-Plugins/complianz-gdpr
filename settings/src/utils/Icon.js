@@ -1,4 +1,6 @@
-import Tooltip from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
+// import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 const IconHtml = React.forwardRef(function IconHtml(props, ref){
 	const {name, color, size} = props;
 	const iconColors = {
@@ -504,19 +506,19 @@ const Icon = ({name, color, size, tooltip}) => {
 	}
 
 	let tooltipClass = tooltip ? 'tooltip-' : '';
-	if (tooltip) {
+	let randomId= Math.floor(Math.random() * 1000000000);
+	if ( tooltip ) {
 		return (
 			<div className={'cmplz-' + tooltipClass + 'icon cmplz-icon-' + iconName + ' cmplz-' + iconColor}>
-				<Tooltip arrow title={tooltip} enterDelay={200}>
-					<IconHtml name={iconName} color={iconColor} size={iconSize}/>
-				</Tooltip>
+				<IconHtml name={iconName} color={iconColor} size={iconSize} id={randomId} className={"cmplz-"+randomId} data-tooltip-delay-hide={200}/>
+				<Tooltip place="bottom" anchorSelect={".cmplz-"+randomId} content={tooltip} />
 			</div>
 		);
 	}
 
 	return (
 		<div className={'cmplz-' + tooltipClass + 'icon cmplz-icon-' + iconName + ' cmplz-' + iconColor}>
-			<IconHtml name={iconName} color={iconColor} size={iconSize}/>
+			<IconHtml name={iconName} color={iconColor} size={iconSize} />
 		</div>
 	);
 }

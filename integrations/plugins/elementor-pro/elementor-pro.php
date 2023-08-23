@@ -67,6 +67,9 @@ class CMPLZ_Elementor_Pro {
 		if ( !cmplz_user_can_manage() ) {
 			return;
 		}
+		if ($value === $prev_value){
+			return;
+		}
 
 		if ( $name==='create_legal_hub_elementor' && $value==='yes'){
 			$this->create_legal_hub = true;

@@ -17,7 +17,7 @@
 					width: 16px;
 					height: 16px;
 					aspect-ratio: 1 / 1;
-					outline: 1px solid var(--rsp-input-border-color);
+					border: 1px solid var(--rsp-input-border-color);
 					transition: background-color 0.2s ease-in-out;
 
 					&:hover {

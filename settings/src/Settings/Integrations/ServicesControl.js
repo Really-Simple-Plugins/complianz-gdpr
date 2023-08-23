@@ -89,7 +89,6 @@ const ServicesControl = () => {
 		},
 	};
 
-
 	const onChangePlaceholderHandler = async (service, enabled) => {
 		setUpdatingServices(true);
 		//set placeholder to 'disabled' or 'enabled' in updatedServices
@@ -106,7 +105,9 @@ const ServicesControl = () => {
 		let field = getField(service.source);
 		let value;
 		if ( field.type==='multicheckbox' ) {
-			value = [...field.value];
+			let fieldValue = field.value;
+			if (!Array.isArray(fieldValue)) fieldValue = [];
+			value = [...fieldValue];
 			if (!Array.isArray(value)) value = [];
 			if (enabled) {
 				value.push(service.id);
@@ -121,12 +122,9 @@ const ServicesControl = () => {
 		setChangedField(service.source, value);
 		//check if any of the services is enabled. If not, disable the services field. If yes, enable it.
 
-		saveFields(selectedSubMenuItem, false).then(() => {
-			fetchIntegrationsData().then(() => {
-				syncServicesWithFields();
-				setUpdatingServices(false);
-			});
-		});
+		await saveFields(selectedSubMenuItem, false);
+		await fetchIntegrationsData();
+		setUpdatingServices(false);
 	}
 
 	useEffect(() => {
@@ -142,7 +140,7 @@ const ServicesControl = () => {
 		}
 
 		let socialMediaEnabled = 'yes';
-		if (updatedServices.filter(item => item.enabled===true && item.source==='thirdparty_services_on_site').length === 0) {
+		if (updatedServices.filter(item => item.enabled===true && item.source==='socialmedia_on_site').length === 0) {
 			socialMediaEnabled = 'no';
 		}
 
@@ -204,7 +202,6 @@ const ServicesControl = () => {
 	let filteredServices = updatedServices.filter(service => {
 		return service.label.toLowerCase().includes(searchValue.toLowerCase());
 	})
-
 	//sort the services alphabetically by label
 	filteredServices.sort((a, b) => {
 		if (a.label < b.label) {
@@ -215,7 +212,6 @@ const ServicesControl = () => {
 		}
 		return 0;
 	});
-
 	filteredServices.forEach(service => {
 		let value = getFieldValue(service.source);
 		if ( Array.isArray(value) ) {
@@ -230,8 +226,8 @@ const ServicesControl = () => {
 			onChange={ ( fieldValue ) => onChangeHandler(service, fieldValue) }
 			className={"cmplz-switch-input-tiny"}
 		/>
-		service.placeholderControl = <> {service.placeholder!=='none' && <><SwitchInput
-			disabled = {service.placeholder==='none' || updatingServices}
+		service.placeholderControl = <> {service.placeholder!=='none' && service.enabled && <><SwitchInput
+			disabled = {updatingServices}
 			value = { service.placeholder==='enabled' }
 			onChange = { ( fieldValue ) => onChangePlaceholderHandler(service, fieldValue) }
 			className={"cmplz-switch-input-tiny"}

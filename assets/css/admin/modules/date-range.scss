@@ -1,3 +1,7 @@
+//ensure the datepicker hovers over the wp menu.
+#wpwrap .MuiPopover-root {
+  z-index:999999;
+}
 #cmplz-date-range-picker-container {
   flex: 1 1 auto;
   flex-wrap: wrap;

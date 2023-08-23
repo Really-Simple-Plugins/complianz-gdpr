@@ -44,26 +44,6 @@ function cmplz_fix_rest_url_for_wpml( $url, $path, $blog_id, $scheme)  {
 }
 add_filter( 'rest_url', 'cmplz_fix_rest_url_for_wpml', 10, 4 );
 
-//function cmplz_get_block_editor_settings() {
-//	$settings = array(
-//			'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-//			'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-//		// 'imageSizes'             => $available_image_sizes,
-//			'isRTL'                  => is_rtl(),
-//		// 'maxUploadFileSize'      => $max_upload_size,
-//	);
-//	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
-//	list( $font_sizes, )    = (array) get_theme_support( 'editor-font-sizes' );
-//	if ( false !== $color_palette ) {
-//		$settings['colors'] = $color_palette;
-//	}
-//	if ( false !== $font_sizes ) {
-//		$settings['fontSizes'] = $font_sizes;
-//	}
-//
-//	return $settings;
-//}
-
 /**
  * @return void
 * as we can't append #dashboard to the first menu item, we leave it at 'complianz', and replace the text. This is a bit hacky, but it works.
@@ -73,13 +53,94 @@ function cmplz_fix_duplicate_menu_item() {
 	?>
 	<script>
 		window.addEventListener("load", () => {
-			let mainMenuItem = document.querySelector('li.wp-has-submenu.toplevel_page_complianz a.wp-first-item');
-			if (mainMenuItem) {
-				mainMenuItem.innerHTML = mainMenuItem.innerHTML.replace('Complianz', '<?php _e( 'Dashboard', 'complianz-gdpr')?>');
+			let cmplzMain = document.querySelector('li.wp-has-submenu.toplevel_page_complianz a.wp-first-item');
+			if (cmplzMain) {
+				cmplzMain.innerHTML = cmplzMain.innerHTML.replace('Complianz', '<?php _e( 'Dashboard', 'complianz-gdpr')?>');
 			}
 		});
 	</script>
+
 	<?php
+	/**
+	 * Ensure the items are selected in sync with the complianz react menu.
+	 */
+	if(isset($_GET['page']) && $_GET['page']==='complianz') {
+		?>
+			<script>
+				const cmplzSetActive = (obj) => {
+					obj.classList.add('current');
+					obj.parentNode.classList.add('current');
+				}
+
+				window.addEventListener("load", () => {
+					let cmplzMain = document.querySelector('li.wp-has-submenu.toplevel_page_complianz a.wp-first-item');
+					if (cmplzMain) {
+						cmplzMain.href = '#';
+					}
+				});
+				//get the hash from the current url
+				let cmplzHash = window.location.hash;
+				//strip off anything after a /
+				if ( cmplzHash.indexOf('/') !== -1 ) {
+					cmplzHash = cmplzHash.substring(0, cmplzHash.indexOf('/'));
+				}
+				if ( !cmplzHash ) {
+					let cmplzMain = document.querySelector('li.wp-has-submenu.toplevel_page_complianz a.wp-first-item');
+					cmplzSetActive(cmplzMain);
+				} else {
+					let cmplzMenuItems = document.querySelector('li.wp-has-submenu.toplevel_page_complianz').querySelectorAll('a');
+					for (const link of cmplzMenuItems) {
+						if (cmplzHash && link.href.indexOf(cmplzHash) !== -1) {
+							cmplzSetActive(link);
+						} else {
+							link.classList.remove('current');
+							link.parentNode.classList.remove('current');
+						}
+					}
+				}
+
+				window.addEventListener('click', (e) => {
+					const cmplzTargetHref = e.target && e.target.href;
+					let cmplzIsMainMenu = false;
+					let cmplzIsWpMenu = false;
+					if (cmplzTargetHref && e.target.classList.contains('cmplz-main')) {
+						cmplzIsMainMenu = true;
+					} else if (cmplzTargetHref && cmplzTargetHref.indexOf('admin.php')!==-1) {
+						cmplzIsWpMenu = true;
+					}
+					if (!cmplzIsWpMenu && !cmplzIsMainMenu) {
+						return;
+					}
+					if (cmplzIsWpMenu) {
+						if (cmplzTargetHref && cmplzTargetHref.indexOf('page=complianz') !== -1) {
+							const parentElement = e.target.parentNode.parentNode;
+							const childLinks = parentElement.querySelectorAll('li, a');
+							// Loop through each 'a' element and add the class
+							for (const link of childLinks) {
+								link.classList.remove('current');
+							}
+							e.target.classList.add('current');
+							e.target.parentNode.classList.add('current');
+						}
+					} else {
+						//find cmplzTargetHref in wordpress menu
+						let cmplzMenuItems = document.querySelector('li.wp-has-submenu.toplevel_page_complianz').querySelectorAll('a');
+						for (const link of cmplzMenuItems) {
+							//check if last character of link.href is '#'
+							if (cmplzTargetHref.indexOf('dashboard')!==-1 && link.href.charAt(link.href.length - 1) === '#'){
+								cmplzSetActive(link);
+							} else if (cmplzTargetHref && link.href.indexOf(cmplzTargetHref) !== -1) {
+								cmplzSetActive(link);
+							} else {
+								link.classList.remove('current');
+								link.parentNode.classList.remove('current');
+							}
+						}
+					}
+				});
+			</script>
+		<?php
+	}
 }
 add_action('admin_footer', 'cmplz_fix_duplicate_menu_item');
 /**
@@ -440,6 +501,7 @@ function cmplz_reset_settings() {
 		return [];
 	}
 
+	COMPLIANZ::$scan->reset_pages_list(false, true);
 	$options = array(
 			'cmplz_post_scribe_required',
 			'cmplz_activation_time',
@@ -456,9 +518,11 @@ function cmplz_reset_settings() {
 			'cmplz_deleted_cookies',
 			'cmplz_reported_cookies',
 			'cmplz_sync_cookies_complete',
+			'cmplz_sync_cookies_after_services_complete',
 			'cmplz_sync_services_complete',
 			'cmplz_detected_social_media',
 			'cmplz_detected_thirdparty_services',
+//			'cmplz_vendorlist_downloaded_once',
 	);
 
 
@@ -485,7 +549,9 @@ function cmplz_reset_settings() {
 		$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
 		$banner->delete( true );
 	}
-	return [ 'success'=> true, 'message' => __( 'Data successfully cleared', 'complianz-gdpr' ) ];
+	//ensure the activation will run again
+	update_option( 'cmplz_run_activation', true, false );
+	return [ 'success'=> true, 'id'=>'reset_settings','message' => __( 'Data successfully cleared', 'complianz-gdpr' ) ];
 }
 
 /**
@@ -665,7 +731,6 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
         $type = cmplz_sanitize_field_type($field['type']);
         $field_id = cmplz_sanitize_title_preserve_uppercase($field['id']);
 		$value = cmplz_sanitize_field( $field['value'] , $type,  $field_id);
-		$fields[$index] = cmplz_maybe_convert_to_source($value, $field);
 	}
 
 	$options = get_option( 'cmplz_options', [] );
@@ -675,6 +740,7 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
         $prev_value = $options[ $field['id'] ] ?? false;
         do_action( "cmplz_before_save_option", $field['id'], $field['value'], $prev_value, $field['type'] );
         $options[ $field['id'] ] = $field['value'];
+		$options = cmplz_maybe_add_source_option($options, $field['value'], $field);
     }
 
     if ( ! empty( $options ) ) {
@@ -704,13 +770,66 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
  *
  * @param string $name
  * @param mixed  $value
- * @param bool|string  $force_type //force a type. Some fields can have multiple types, like regions.
  *
  * @return void
  */
 if (!function_exists('cmplz_update_option')) {
-	function cmplz_update_option( string $name, $value, $force_type = false ) {
-		if ( ! cmplz_user_can_manage() ) {
+	function cmplz_update_option( string $name, $value ) {
+		if ( ! cmplz_admin_logged_in() ) {
+			return;
+		}
+		$config_fields      = COMPLIANZ::$config->fields;
+		$config_ids         = array_column( $config_fields, 'id' );
+
+		$config_field_index = array_search( $name, $config_ids );
+		$config_field       = $config_fields[ $config_field_index ] ?? false;
+		if ( $config_field_index === false ) {
+			return;
+		}
+
+		$type = isset( $config_field['type'] ) ? $config_field['type'] : false;
+		if ( ! $type ) {
+			return;
+		}
+
+		$options = get_option( 'cmplz_options', [] );
+
+		if ( ! is_array( $options ) ) {
+			$options = [];
+		}
+
+		/*
+		 * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
+		 * This function will get the value as its mapped value in the related field.
+		 * Then the value is saved in that related field
+		 */
+
+		$prev_value       = $options[ $name ] ?? false;
+		$name             = cmplz_sanitize_title_preserve_uppercase( $name );
+		$type             = cmplz_sanitize_field_type( $type );
+		$value            = cmplz_sanitize_field( $value, $type, $name );
+		$value            = apply_filters( "cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
+		$options[ $name ] = $value;
+		$options            = cmplz_maybe_add_source_option( $options, $value, $config_field );
+
+		update_option( 'cmplz_options', $options );
+
+		do_action( "cmplz_after_save_field", $name, $value, $prev_value, $type );
+	}
+}
+
+/**
+ * Update a complianz option without running the hooks
+ * This is needed to prevent infinite loops, when used in the hook callback itself.
+ *
+ * @param string $name
+ * @param mixed  $value
+ *
+ * @return void
+ */
+if (!function_exists('cmplz_update_option_no_hooks')) {
+	function cmplz_update_option_no_hooks( string $name, $value ) {
+		if ( ! cmplz_admin_logged_in() ) {
 			return;
 		}
 		$config_fields      = COMPLIANZ::$config->fields;
@@ -722,9 +841,6 @@ if (!function_exists('cmplz_update_option')) {
 		}
 
 		$type = isset( $config_field['type'] ) ? $config_field['type'] : false;
-		if ( $force_type ) {
-			$type = $force_type;
-		}
 		if ( ! $type ) {
 			return;
 		}
@@ -734,52 +850,43 @@ if (!function_exists('cmplz_update_option')) {
 		if ( ! is_array( $options ) ) {
 			$options = [];
 		}
-		/*
-		 * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
-		 * This function will get the value as its mapped value in the related field.
-		 * Then the value is saved in that related field
-		 */
 
-		$field            = cmplz_maybe_convert_to_source( $value, $config_field );
-		$prev_value       = $options[ $name ] ?? false;
 		$name             = cmplz_sanitize_title_preserve_uppercase( $name );
 		$type             = cmplz_sanitize_field_type( $type );
-		$value            = cmplz_sanitize_field( $field['value'], $type, $name );
-		$value            = apply_filters( "cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
+		$value            = cmplz_sanitize_field( $value, $type, $name );
+		$value            = apply_filters( "cmplz_fieldvalue", $value, $name , $type );
 		$options[ $name ] = $value;
 		update_option( 'cmplz_options', $options );
-
-		do_action( "cmplz_after_save_field", $name, $value, $prev_value, $type );
 	}
 }
 /**
  * Some fields are duplicate, but opposite, like safe_mode vs 'enable_cookie_blocker'.
  * This function will convert the value to equivalent value in the related field.
+ * @param $options
  * @param $value
  * @param $field
  *
  * @return int|mixed|string
  */
-function cmplz_maybe_convert_to_source($value, $field){
-
+function cmplz_maybe_add_source_option($options, $value, $field){
 	if (!isset($field['source_id'])) {
-		$field['value'] = $value;
-		return $field;
+		return $options;
 	}
-
 	//convert value to mapped source value
 	$source_mapping = array_flip($field['source_mapping']);
-	if ( isset($source_mapping[$value]) ) {
-		$value = $source_mapping[$value];
+	if ( !isset($source_mapping[$value]) ) {
+		return $options;
 	}
+
+	$mapped_value = $source_mapping[$value];
 
 	//get the source field, and update the value in that field.
 	$config_fields = COMPLIANZ::$config->fields;;
 	$config_ids = array_column($config_fields, 'id');
 	$source_field_index = array_search( $field['source_id'], $config_ids, true );
 	$source_field = $config_fields[$source_field_index];
-	$source_field['value'] = $value;
-	return $source_field;
+	$options[$source_field['id']] = $mapped_value;
+	return $options;
 }
 
 /**

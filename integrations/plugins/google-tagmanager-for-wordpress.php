@@ -119,8 +119,8 @@ function cmplz_gtm4wp_filter_fields( $fields ) {
 	return  cmplz_remove_field( $fields,
 		[
 			'configuration_by_complianz',
-			'UA_code',
-			'AW_code',
+			'ua_code',
+			'aw_code',
 			'consent-mode'
 		]);
 }

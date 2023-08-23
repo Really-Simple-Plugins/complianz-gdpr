@@ -150,7 +150,7 @@ const CreateProcessingAgreements = () => {
 								  label={__("Service name","complianz-gdpr")}
 								  required={true} type={'text'}/>
 					<TextInput
-						placeholder={ __("e.g. Marketing Agency", "complianz-gdpr") }
+						placeholder={ __("e.g. Alphabet Inc", "complianz-gdpr") }
 						onChange={ ( fieldValue ) => setServiceName(fieldValue) }
 						value= { serviceName ? serviceName : '' }
 						disabled={updating}

@@ -235,7 +235,7 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 		}
 	}
 
-	if (!field.conditionallyDisabled && ComponentInfo) {
+	if ( !field.conditionallyDisabled && ComponentInfo) {
 		const errorClass = error ? 'cmplz-error' : '';
 		const highLightClass = highLightField === field.id ? 'cmplz-field-wrap cmplz-highlight' : 'cmplz-field-wrap';
 		const fieldClass = highLightClass + ' ' + errorClass + ' cmplz-' + field.type;

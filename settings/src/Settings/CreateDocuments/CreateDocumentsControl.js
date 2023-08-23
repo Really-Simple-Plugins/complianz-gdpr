@@ -5,24 +5,31 @@ import {useEffect} from "@wordpress/element";
 import useFields from "../../Settings/Fields/FieldsData";
 import Placeholder from '../../Placeholder/Placeholder';
 import Icon from "../../utils/Icon";
-import {memo} from "react";
+import {memo, useState} from "react";
 
 /**
  * Render a help notice in the sidebar
  */
 const CreateDocumentsControl = () => {
 	const {saveDocuments, saving, documentsChanged, documentsDataLoaded, hasMissingPages, fetchDocumentsData, requiredPages } = UseDocumentsData();
-	const {fields, addHelpNotice, showSavedSettingsNotice, setDocumentSettingsChanged} = useFields();
-
+	const {fields, addHelpNotice, removeHelpNotice, showSavedSettingsNotice, setDocumentSettingsChanged} = useFields();
+	const [hasNoDocumentsNotice, setHasNoDocumentsNotice] = useState(false);
 
 	useEffect (  () => {
 		fetchDocumentsData();
 	}, [ fields, documentsDataLoaded ])
 
 	useEffect (  () => {
-		if (documentsDataLoaded && requiredPages.length === 0) {
+		if (!documentsDataLoaded) return;
+
+		if ( requiredPages.length === 0) {
 			let explanation = __("You haven't selected any legal documents to create.", "complianz-gdpr") + " " + __("You can continue to the next step.", "complianz-gdpr");
 			addHelpNotice('create-documents', 'warning', explanation, __('No required documents', 'complianz-gdpr'));
+			setHasNoDocumentsNotice(true);
+		} else {
+			if (hasNoDocumentsNotice) {
+				removeHelpNotice('create-documents');
+			}
 		}
 	}, [ requiredPages, documentsDataLoaded ])
 

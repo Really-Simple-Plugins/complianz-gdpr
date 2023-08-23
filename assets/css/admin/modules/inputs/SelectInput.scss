@@ -3,6 +3,10 @@
 .cmplz {
 	.cmplz {
 		&-select-group {
+		  .cmplz-icon > div {
+			margin-top: 2px;
+			margin-bottom: -2px;
+		  }
 			&__trigger {
 				padding: var(--rsp-spacing-xxs) var(--rsp-spacing-xs);
 				font-size: var(--rsp-fs-300);

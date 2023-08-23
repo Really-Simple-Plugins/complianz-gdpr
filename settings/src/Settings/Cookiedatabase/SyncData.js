@@ -17,6 +17,7 @@ export const UseSyncData = create(( set, get ) => ({
 	serviceTypeOptions:[],
 	syncProgress: 0,
 	cookies: [],
+	cookieCount: 1,
 	services: [],
 	saving:false,
 	adding:false,
@@ -115,7 +116,7 @@ export const UseSyncData = create(( set, get ) => ({
 	},
 	restart: async () => {
 		set(() => ({loadingSyncData:true,syncDataLoaded:false }));
-		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages, errorMessage} = await fetchSyncProgressData(true);
+		const {syncProgress, cookieCount, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages, errorMessage} = await fetchSyncProgressData(true);
 		let language = get().language ? get().language : defaultLanguage;
 		let purposesByLanguage = purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
 		let serviceTypesByLanguage = serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
@@ -136,6 +137,7 @@ export const UseSyncData = create(( set, get ) => ({
 			services: services,
 			syncProgress: syncProgress,
 			cookies: cookies,
+			cookieCount: cookieCount,
 			curlExists: curlExists,
 			hasSyncableData: hasSyncableData,
 			errorMessage: errorMessage,
@@ -319,6 +321,7 @@ export const UseSyncData = create(( set, get ) => ({
 
 const fetchSyncProgressData = (restart) => {
 	let data = {}
+	data.scan_action = 'get_progress';
 	if ( restart ) {
 		data.scan_action = 'restart';
 	}
@@ -343,7 +346,8 @@ const fetchSyncProgressData = (restart) => {
 		let purposesOptions = response.purposes_options;
 		let serviceTypeOptions = response.serviceType_options;
 		let defaultLanguage = response.default_language;
-		return {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages: response.languages, errorMessage};
+		let cookieCount = cookies.length;
+		return {syncProgress, cookies, cookieCount, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages: response.languages, errorMessage};
 	}).catch((error) => {
 		console.error(error);
 	});

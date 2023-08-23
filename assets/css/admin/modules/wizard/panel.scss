@@ -93,11 +93,11 @@
 				}
 
 				&[open] {
-					summary {
+					&>summary {
 						//padding-bottom: var(--rsp-spacing-s);
 						border-bottom: 1px solid var(--rsp-grey-300);
 
-						.cmplz-icon-chevron-down {
+						&>.cmplz-icon-chevron-down {
 							transform: rotate(180deg);
 						}
 					}

@@ -99,6 +99,9 @@ a.button, button.button, input.button {
 	justify-content: center;
 	transition: all 0.3s ease;
 	cursor: pointer;
+   .cmplz-tooltip-icon {
+	 padding-top:3px;
+   }
 	&:hover {
 		padding: 15px;
 		margin: 0;
@@ -112,3 +115,5 @@ a.button, button.button, input.button {
 		}
 	}
 }
+
+

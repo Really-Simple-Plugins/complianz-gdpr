@@ -9,13 +9,15 @@ import useMenu from "../../Menu/MenuData";
 import useFields from "../Fields/FieldsData";
 import {Details} from "./Details";
 import {memo} from "react";
+import useProgress from "../../Dashboard/Progress/ProgressData";
 
 const CookieScanControl = () => {
-	const { loadingSyncData, syncProgress, setSyncProgress, fetchSyncProgressData} = UseSyncData();
-	const {initialLoadCompleted, loading, nextPage, progress, setProgress, cookies, fetchProgress, hasSyncableData, lastLoadedIframe, setLastLoadedIframe} = UseCookieScanData();
+	const {setSyncProgress, fetchSyncProgressData} = UseSyncData();
+	const {initialLoadCompleted, loading, nextPage, progress, setProgress, cookies, fetchProgress, lastLoadedIframe, setLastLoadedIframe} = UseCookieScanData();
 	const [iframeLoading, setIframeLoading] = useState(false);
 	const {addHelpNotice, fieldsLoaded} = useFields();
 	const {selectedSubMenuItem } = useMenu();
+	const {setProgressLoaded} = useProgress();
 
 	useEffect ( () => {
 		if (lastLoadedIframe === nextPage) return;
@@ -28,7 +30,6 @@ const CookieScanControl = () => {
 		if ( !iframeLoading && !loading && progress <100 ) {
 			fetchProgress();
 		} else if ( !iframeLoading && !loading && progress === 100 ) {
-
 		}
 	}, [iframeLoading, loading, progress]);
 
@@ -96,7 +97,7 @@ const CookieScanControl = () => {
 		await fetchProgress()
 		if (progress===100) {
 			await fetchSyncProgressData();
-			if (hasSyncableData){
+			if ( cookies.length>0 ){
 				setSyncProgress(1);
 			}
 		}
@@ -109,8 +110,10 @@ const CookieScanControl = () => {
 		await cmplz_api.doAction('scan', data);
 		await fetchProgress()
 		if (progress===100) {
+			//ensure a reload of the progress notices
+			setProgressLoaded(false);
 			await fetchSyncProgressData();
-			if (hasSyncableData){
+			if (cookies.length>0){
 				setSyncProgress(1);
 			}
 		}

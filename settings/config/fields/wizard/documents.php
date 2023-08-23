@@ -23,7 +23,6 @@ function cmplz_wizard_document_fields( $fields ) {
 				'premium' => [
 					'url' => 'https://complianz.io/pricing',
 					'default' => 'yes',
-					'comment' => __( "This feature requires GEO IP", 'complianz-gdpr' ),
 					'disabled' => false,
 				],
 				'disabled' => true,

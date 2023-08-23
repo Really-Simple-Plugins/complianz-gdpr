@@ -80,8 +80,8 @@ if ( ! class_exists( "cmplz_company" ) ) {
 			$region = $this->get_default_region();
 			$selected_regions = cmplz_get_regions();
 			if (!empty($selected_regions) && !in_array( $region, $selected_regions, true )) {
-				reset($selected_regions);
-				$region = $selected_regions;
+				//get the first value in the array if it exists
+				$region = $selected_regions[0] ?? 'eu';
 			}
 			return apply_filters('cmplz_default_consenttype', cmplz_get_consenttype_for_region( $region ));
 		}

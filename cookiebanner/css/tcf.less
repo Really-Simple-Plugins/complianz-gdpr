@@ -170,11 +170,33 @@
   padding:10px;
   .cmplz-tcf-vendor-container {
 	margin-bottom:20px;
+	&.cmplz-vendortype-tcf {
+	  .cmplz-vendortype-label {
+		display:none;
+	  }
+	}
+
+	label {
+	  display: flex;
+	  gap: 10px;
+	  .cmplz-vendortype-label {
+		background-color: #f8be2e;
+		color: #333;
+		padding: 2px 10px;
+		border-radius: 7px;
+	  }
+	}
   }
 
   .cmplz-tcf-checkbox-container{
 	input {
 	  margin-right: 5px;
+	}
+
+	&.cmplz-vendortype-ac {
+	  .cmplz-tcf-info .cmplz-tcf-info-content:not(:first-child) {
+		display: none;
+	  }
 	}
 
 	.cmplz-tcf-links {

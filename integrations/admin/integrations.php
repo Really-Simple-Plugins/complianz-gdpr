@@ -28,7 +28,7 @@ class cmplz_integrations {
 	}
 
 	public function hardening(){
-		return function_exists('rsssl_get_option') && rsssl_get_option('disable_anyone_can_register') &&
+		return function_exists('rsssl_get_option') &&
 		             rsssl_get_option('disable_file_editing') &&
 		             rsssl_get_option('block_code_execution_uploads') &&
 		             rsssl_get_option('hide_wordpress_version') &&
@@ -59,7 +59,7 @@ class cmplz_integrations {
 		return $value;
 	}
 
-		/**
+	/**
 	 * Keep services in the settings in sync with services in the database
 	 * @return void
 	 */
@@ -68,8 +68,10 @@ class cmplz_integrations {
 			$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
 			foreach ( $thirdparty_services as $service => $label ) {
 				$service_obj = new CMPLZ_SERVICE($service);
-				if ( !$service_obj->ID && cmplz_uses_thirdparty($service) ) {
-					$service_obj->add( $label, COMPLIANZ::$banner_loader->get_supported_languages(), false, 'utility' );
+				if ( cmplz_uses_thirdparty($service) ) {
+					if (!$service_obj->ID ) {
+						$service_obj->add( $label, COMPLIANZ::$banner_loader->get_supported_languages(), false, 'utility' );
+					}
 				} else if ($service_obj) {
 					$service_obj->delete();
 				}
@@ -80,8 +82,10 @@ class cmplz_integrations {
 			$socialmedia = COMPLIANZ::$config->thirdparty_socialmedia;
 			foreach ( $socialmedia as $service => $label ) {
 				$service_obj = new CMPLZ_SERVICE( $service );
-				if ( ! $service_obj->ID && cmplz_uses_thirdparty( $service ) ) {
-					$service_obj->add( $label, COMPLIANZ::$banner_loader->get_supported_languages(), false, 'social' );
+				if ( cmplz_uses_thirdparty( $service ) ) {
+					if (!$service_obj->ID ){
+						$service_obj->add( $label, COMPLIANZ::$banner_loader->get_supported_languages(), false, 'social' );
+					}
 				} else if ( $service_obj ) {
 					$service_obj->delete();
 				}
@@ -110,15 +114,15 @@ class cmplz_integrations {
 			];
 		} else if ( $action === 'update_placeholder_status' ) {
 			$data = $request->get_json_params();
-			$id = sanitize_title($data['id']) ?? '';
+			$id = isset($data['id']) ? sanitize_title($data['id']) : '';
 			$enabled = $data['enabled'] ?? false;
 			$disabled_placeholders = get_option( 'cmplz_disabled_placeholders', array() );
 			if ( $enabled ) {
-				$key = array_search( $id, $disabled_placeholders );
+				$key = array_search( $id, $disabled_placeholders, true );
 				if ( $key !== false ) {
 					unset( $disabled_placeholders[ $key ] );
 				}
-			} else if ( !in_array( $id, $disabled_placeholders ) ) {
+			} else if ( ! in_array( $id, $disabled_placeholders, true ) ) {
 				$disabled_placeholders[] = $id;
 			}
 			update_option( 'cmplz_disabled_placeholders', $disabled_placeholders );
@@ -127,7 +131,7 @@ class cmplz_integrations {
 			];
 		} else if ( $action === 'update_plugin_status' ){
 			$data = $request->get_json_params('plugin');
-			$plugin = sanitize_title($data['plugin']) ?? '';
+			$plugin = isset($data['plugin']) ? sanitize_title($data['plugin']) : '';
 			$enabled = $data['enabled'] ?? false;
 			$plugins = get_option( 'complianz_options_integrations', [] );
 			$plugins[ $plugin ] = (bool) $enabled;
@@ -222,10 +226,47 @@ class cmplz_integrations {
 			'add_script' => [],
 			'whitelist_script' => [],
 		];
+
+		$default_values_add_script = array(
+			array(
+				'name' => __("Example", 'complianz-gdpr'),
+				'editor' => 'console.log("fire marketing script")',
+				'async' => '0',
+				'category' => 'marketing',
+				'enable_placeholder' => '1',
+				'placeholder_class' => 'your-css-class',
+				'placeholder' => 'default',
+				'enable' => '0',
+			),
+		);
+
+		$default_values_block_script = array(
+			array(
+				'name' => __("Example", 'complianz-gdpr'),
+				'urls' => array('https://block-example.com'),
+				'category' => 'marketing',
+				'enable_placeholder' => '1',
+				'iframe' => '1',
+				'placeholder_class' => 'your-css-class',
+				'placeholder' => 'default',
+				'enable_dependency' => '1',
+				'dependency' => array(),
+				'enable' => '0',
+			),
+		);
+
+		$default_values_whitelist_script = array(
+			array(
+				'name' => __("Example", 'complianz-gdpr'),
+				'urls' => array('https://block-example.com'),
+				'enable' => '0',
+			),
+		);
+
 		$scripts = wp_parse_args( $scripts, $defaults );
 		foreach ( $scripts as $type => $script ) {
-			if ( !is_array( $script ) ) {
-				$scripts[ $type ] = [];
+			if ( empty( $script ) ) {
+				$scripts[ $type ] = ${"default_values_$type"};
 			}
 			foreach ( $script as $key => $value ) {
 				$scripts[ $type ][ $key ] = wp_parse_args( $value, ${"defaults_$type"} );

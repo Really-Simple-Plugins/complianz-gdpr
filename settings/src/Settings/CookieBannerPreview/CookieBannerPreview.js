@@ -8,15 +8,19 @@ import {getPurposes, filterArray, concatenateString} from "./tcf";
  */
 const CookieBannerPreview = () => {
 	const rootRef = useRef(null);
-	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields} = useFields();
-	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount} = UseBannerData();
+	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields, fetchFieldsData, fieldsLoaded} = useFields();
+	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, tcfActiveServerside, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount} = UseBannerData();
 	const [timer, setTimer] = useState(null)
 	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
+	const [bannerToFieldsSynced, setBannerToFieldsSynced] = useState(false)
 	const [tcfActive, setTcfActive] = useState(false);
 	const [InitialCssGenerated, setInitialCssGenerated] = useState(false);
 
 	useEffect(() => {
 		let active = getFieldValue('uses_ad_cookies_personalized') === 'tcf' || getFieldValue('uses_ad_cookies_personalized') === 'yes';
+		if (getFieldValue('uses_ad_cookies') === 'no') {
+			active = false;
+		}
 		setTcfActive(active);
 	}, [ getFieldValue('uses_ad_cookies_personalized') ]);
 
@@ -25,6 +29,44 @@ const CookieBannerPreview = () => {
 			fetchBannerData();
 		}
 	}, [bannerDataLoaded])
+
+	useEffect (  () => {
+		if ( !fieldsLoaded ) {
+			fetchFieldsData();
+		}
+	}, [fieldsLoaded])
+
+	//reload fields if tcfActive status has changed
+	useEffect (  () => {
+		fetchBannerData();
+	}, [tcfActive])
+
+	useEffect (  () => {
+		if (tcfActive === tcfActiveServerside) {
+			return;
+		}
+
+		const run = async () => {
+			await fetchBannerData();
+			await fetchFieldsData();
+			setBannerDataUpdated(bannerDataUpdated+1);
+		}
+		run();
+	}, [tcfActive, tcfActiveServerside, selectedBanner])
+
+	useEffect (  () => {
+		if (tcfActive === tcfActiveServerside) {
+			return;
+		}
+
+		const run = async () => {
+			await fetchBannerData();
+			setBannerDataUpdated(bannerDataUpdated+1);
+			await fetchFieldsData();
+
+		}
+		run();
+	}, [selectedBanner])
 
 	//also reload if ab testing is enabled, to get the second banner that may have been added just now.
 	useEffect (  () => {
@@ -42,12 +84,6 @@ const CookieBannerPreview = () => {
 		}
 	}, [consentType])
 
-	//if TCF changes, reload the banner
-	useEffect ( () => {
-		setBannerDataLoaded(false);
-		setBannerDataUpdated(bannerDataUpdated+1);
-	}, [getFieldValue('uses_ad_cookies_personalized')])
-
 	//keep consenttype in sync
 	useEffect ( () => {
 		updateField('consent_type', consentType )
@@ -64,16 +100,19 @@ const CookieBannerPreview = () => {
 
 	useEffect (  () => {
 		if ( selectedBannerId>0 ) {
+
 			syncBannerToFields();
 			setBannerDataUpdated(bannerDataUpdated+1);
 		}
 	},[selectedBannerId, consentType, bannerDataLoaded, tcfActive]);
 
 	useEffect (  () => {
-		if ( selectedBannerId>0 ) {
+
+		//with with generating the preview until we have synced the data at least once.
+		if ( selectedBannerId>0 && bannerToFieldsSynced ) {
 			loadBannerPreview();
 		}
-	},	[bannerDataUpdated]);
+	},	[bannerDataUpdated, selectedBannerId, tcfActive, bannerToFieldsSynced]);
 
 	/**
 	 * Fill fields with data from the selected banner
@@ -91,6 +130,7 @@ const CookieBannerPreview = () => {
 				updateField(field.id, value )
 			}
 		}
+		setBannerToFieldsSynced(true);
 		updateField('manage_consent', selectedBanner['revoke'] );
 	}
 	/**
@@ -207,11 +247,10 @@ const CookieBannerPreview = () => {
 		//default hide manage consent button
 		let cmplz_manage_consent = document.querySelector('.cmplz-manage-consent');
 		let cmplz_banner = document.querySelector('#cmplz-cookiebanner-container .cmplz-cookiebanner');
-
 		if (cmplz_manage_consent) cmplz_manage_consent.style.display = 'none';
 
 		//only do this on updates.
-		if (cmplz_banner && update && consentType === 'optin' && getFieldValue('use_categories') ==='view-preferences') {
+		if (!tcfActive && cmplz_banner && update && consentType === 'optin' && getFieldValue('use_categories') ==='view-preferences') {
 			cmplz_banner.querySelector('.cmplz-view-preferences' ).style.display = 'block';
 			cmplz_banner.querySelector('.cmplz-save-preferences' ).style.display = 'none';
 		}

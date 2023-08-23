@@ -105,8 +105,8 @@ const newSteps = [
 		// attachTo: { element: '.cmplz-cookie-scan', on: 'auto' },
 	},
 	{
-		title: __( 'Cookie Banner', 'complianz-gdpr' ),
-		text: '<p>' + __( 'Here you can configure and style your cookie banner if the Wizard is completed. An extra tab will be added with region-specific settings.', 'complianz-gdpr' ) + '</p>',
+		title: __( 'Consent Banner', 'complianz-gdpr' ),
+		text: '<p>' + __( 'Here you can configure and style your consent banner if the Wizard is completed. An extra tab will be added with region-specific settings.', 'complianz-gdpr' ) + '</p>',
 		classes: 'cmplz-shepherd',
 		buttons: [
 			{

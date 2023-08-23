@@ -247,7 +247,11 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 * @return void
 		 */
 		public function show_admin_notice(){
-			delete_transient( 'complianz_warnings' );
+			//delete_transient( 'complianz_warnings' );
+			if ( cmplz_get_option( 'disable_notifications' ) ) {
+				return;
+			}
+
 			$warnings = $this->get_warnings( [ 'admin_notices' => true] );
 			if (count($warnings)==0) {
 				return;
@@ -263,7 +267,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		/**
 		 * @param array $warning
 		 */
-		public function admin_notice( $warning, $id='', ) {
+		public function admin_notice( $warning, $id='' ) {
 			if (!isset($warning['open'])) {
 				return;
 			}
@@ -329,6 +333,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return [];
 			}
+			$disable_notifications = cmplz_get_option( 'disable_notifications' );
 			$defaults = array(
 				'cache' => true,
 				'status' => 'all',
@@ -337,9 +342,14 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				'admin_notices' => false,
 			);
 			$args = wp_parse_args($args, $defaults);
+
+//			if ($disable_notifications) {
+//				$args['status'] = 'urgent';
+//			}
 			$admin_notice =  $args['admin_notices'] ? '_admin_notices' : '';
+
 			$cache = $args['cache'];
-			if (isset($_GET['page']) && ($_GET['page']==='complianz' || strpos($_GET['page'],'cmplz') !== false ) ) {
+			if ( cmplz_is_logged_in_rest() ) {
 				$cache = false;
 			}
 
@@ -358,7 +368,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'admin_notice' => false,
 				);
 
-				$warning_types = COMPLIANZ::$config->load_warning_types();
+				$warning_types = cmplz_load_warning_types();
 				if (empty($warning_types)) {
 
 					return [];
@@ -442,7 +452,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			//filter by plus ones
 			if ($args['plus_ones']) {
 				//if notifications disabled, we return an empty array when the plus ones are requested.
-				if ( cmplz_get_option( 'disable_notifications' ) ) {
+				if ( $disable_notifications ) {
 					return array();
 				}
 

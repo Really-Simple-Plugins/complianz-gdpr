@@ -23,11 +23,15 @@ const SelectInput = ({
 		options = newOptions;
 	}
 	// add empty option
-	if (canBeEmpty) {
-		options = {
-			0: __('Select an option', 'complianz-gdpr'),
-			...options,
-		};
+	if ( canBeEmpty ) {
+		//only add this if no value is selected yet.
+		let valueIsEmpty = value === '' || value === false || value === 0;
+		if (valueIsEmpty) {
+			options = {
+				0: __('Select an option', 'complianz-gdpr'),
+				...options,
+			};
+		}
 	} else {
 		// set first option as default
 		if (!value) {

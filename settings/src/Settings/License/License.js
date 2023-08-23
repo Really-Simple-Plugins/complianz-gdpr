@@ -3,11 +3,14 @@ import Placeholder from '../../Placeholder/Placeholder';
 import {__} from '@wordpress/i18n';
 import useFields from './../Fields/FieldsData';
 import useLicense from './LicenseData';
-import {useEffect, useState} from '@wordpress/element';
+import {useEffect} from '@wordpress/element';
 import {memo} from "react";
+import useProgress from "../../Dashboard/Progress/ProgressData";
 
 const License = (props) => {
 	const {fields, setChangedField, updateField} = useFields();
+	const {setProgressLoaded} = useProgress();
+
 	const {
 		licenseStatus,
 		licenseNotices,
@@ -32,13 +35,14 @@ const License = (props) => {
 		updateField(field.id, fieldValue);
 	};
 
-	const toggleActivation = () => {
+	const toggleActivation = async () => {
 		if (licenseStatus === 'valid') {
-			deactivateLicense();
+			await deactivateLicense();
+		} else {
+			await activateLicense(props.field.value);
 		}
-		else {
-			activateLicense(props.field.value);
-		}
+		//ensure a reload of the progress notices
+		setProgressLoaded(false);
 	};
 
 	let field = props.field;
@@ -59,9 +63,9 @@ const License = (props) => {
 				<button className="button button-default" disabled={processing}
 								onClick={() => toggleActivation()}>
 					{licenseStatus === 'valid' &&
-						__('Deactivate', 'really-simple-ssl') }
+						__('Deactivate', 'complianz-gdpr') }
 					{licenseStatus !== 'valid' &&
-						__('Activate', 'really-simple-ssl')}
+						__('Activate', 'complianz-gdpr')}
 				</button>
 			</div>
 			{!noticesLoaded && <Placeholder></Placeholder>}

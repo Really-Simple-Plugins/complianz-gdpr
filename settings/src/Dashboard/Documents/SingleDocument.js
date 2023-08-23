@@ -13,12 +13,12 @@ const SingleDocument = (props) => {
 	useEffect( () => {
 		let options = props.options;
 		if ( options.length===0) {
-			let emptyOption = {label:__("Generate a %s","complianz-gdpr").replace('%s',props.name), value:0};
+			let emptyOption = {label:props.name, value:0};
 			options.unshift(emptyOption);
 		} else {
 			//if options does not include an option with value 0, add it.
 			if ( !options.filter( (option) => option.value === 0).length>0 ) {
-				let emptyOption = {label:__("Select a %s","complianz-gdpr").replace('%s',props.name), value:0};
+				let emptyOption = {label:props.name, value:0};
 				options.unshift(emptyOption);
 			}
 

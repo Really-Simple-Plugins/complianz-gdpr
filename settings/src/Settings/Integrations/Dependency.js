@@ -56,7 +56,7 @@ const Dependency = (props) => {
 					disabled={fetching}
 					value={script.enable_dependency}
 					onChange={(value)=>onChangeHandler(value, 'enable_dependency')}
-					options={{'dependency': __('Enable dependency', 'complianz-gdpr')}}
+					options={{true: __('Enable dependency', 'complianz-gdpr')}}
 				/>
 			</div>
 			{ !!script.enable_dependency &&

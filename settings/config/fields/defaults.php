@@ -2,7 +2,16 @@
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_filter( 'cmplz_default_value', 'cmplz_set_default', 10, 3 );
+/**
+ * Values used if 'never_saved', which is the case when the id is not set in the array
+ * @param $value
+ * @param $fieldname
+ * @param $field
+ *
+ * @return array|false|mixed|string
+ */
 function cmplz_set_default( $value, $fieldname, $field ) {
+
 	if ( $fieldname === 'compile_statistics' ) {
 		$stats = cmplz_scan_detected_stats();
 		if ( $stats ) {
@@ -63,7 +72,7 @@ function cmplz_set_default( $value, $fieldname, $field ) {
 		if ( $social_media ) {
 			$current_social_media = array();
 			foreach ( $social_media as $key ) {
-				$current_social_media[ $key ] = 1;
+				$current_social_media[] = $key;
 			}
 
 			return $current_social_media;
@@ -71,18 +80,20 @@ function cmplz_set_default( $value, $fieldname, $field ) {
 	}
 
 	if ( $fieldname === 'uses_thirdparty_services' ) {
-		$blocked_scripts = COMPLIANZ::$cookie_blocker->blocked_scripts();
+		//don't call the cookieblocker blocked_script functions here, as this can cause infinite loops
+		$blocked_scripts = cmplz_get_transient( 'cmplz_blocked_scripts' );
 		$custom_thirdparty_scripts = is_array($blocked_scripts) && count( $blocked_scripts ) > 0;
 		if ( cmplz_scan_detected_thirdparty_services() || $custom_thirdparty_scripts ) {
 			return 'yes';
 		}
 	}
-	if ( $fieldname === 'thirdparty_services_on_site' ) {
+
+	if ($fieldname === 'thirdparty_services_on_site' ) {
 		$thirdparty = cmplz_scan_detected_thirdparty_services();
 		if ( $thirdparty ) {
 			$current_thirdparty = array();
 			foreach ( $thirdparty as $key ) {
-				$current_thirdparty[ $key ] = 1;
+				$current_thirdparty[] = $key;
 			}
 
 			return $current_thirdparty;
@@ -90,18 +101,18 @@ function cmplz_set_default( $value, $fieldname, $field ) {
 	}
 
 	if ( $fieldname === 'data_disclosed_us' || $fieldname === 'data_sold_us' ) {
-		if ( COMPLIANZ::$banner_loader->site_shares_data() ) {
+		if ( empty($value) && COMPLIANZ::$banner_loader->site_shares_data() ) {
 			//possibly not an array yet.
 			if ( ! is_array( $value ) ) {
-				$value = array();
+				$value = [];
 			}
-			$value['internet'] = 1;
+			$value[] = 'internet';
 
 			return $value;
 		}
 	}
 
-	if ( $fieldname === 'uses_firstparty_marketing_cookies' ) {
+	if ( $fieldname === 'uses_firstparty_marketing_cookies' && empty($value) ) {
 		if ( cmplz_detected_firstparty_marketing() ) {
 			return 'yes';
 		}
@@ -114,16 +125,6 @@ function cmplz_set_default( $value, $fieldname, $field ) {
 			if ($page_id) {
 				return get_permalink($page_id);
 			}
-		}
-	}
-
-	if ( $fieldname === 'dpo_or_gdpr' ) {
-		if (cmplz_has_region('eu') &&  ! cmplz_company_located_in_region( 'eu' ) ) {
-			return 'gdpr_rep';
-		}
-
-		if (cmplz_has_region('uk') && !cmplz_company_located_in_region('uk')) {
-			return 'uk_gdpr_rep';
 		}
 	}
 

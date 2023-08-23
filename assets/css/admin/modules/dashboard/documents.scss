@@ -15,7 +15,7 @@
 
   .cmplz-single-document{
 	display: grid;
-	grid-template-columns: 2fr auto auto auto 1fr;
+	grid-template-columns: 2fr auto auto auto;
 	grid-gap: var(--rsp-spacing-xs);
 	margin: 0;
 	padding: 8px var(--rsp-spacing-l);

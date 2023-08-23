@@ -47,16 +47,25 @@ const useIntegrations = create(( set, get ) => ({
 		set({fetching:true});
 		const { services, plugins, scripts, placeholders, blocked_scripts}   = await fetchData();
 		let scriptsWithId = scripts;
+
 		//add a unique id to each script
-		scriptsWithId.block_script.forEach((script, i) => {
-			script.id = i;
-		})
-		scriptsWithId.add_script.forEach((script, i) => {
-			script.id = i;
-		})
-		scriptsWithId.whitelist_script.forEach((script, i) => {
-			script.id = i;
-		})
+		if (scriptsWithId.block_script && scriptsWithId.block_script.length>0 ) {
+			scriptsWithId.block_script.forEach((script, i) => {
+				script.id = i;
+			})
+		}
+
+		if (scriptsWithId.add_script && scriptsWithId.add_script.length>0 ) {
+			scriptsWithId.add_script.forEach((script, i) => {
+				script.id = i;
+			})
+		}
+
+		if (scriptsWithId.whitelist_script && scriptsWithId.whitelist_script.length>0 ) {
+			scriptsWithId.whitelist_script.forEach((script, i) => {
+				script.id = i;
+			})
+		}
 		set(() => ({
 			integrationsLoaded: true,
 			services: services,

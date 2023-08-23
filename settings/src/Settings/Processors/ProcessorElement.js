@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import Panel from "./../Panel";
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo} from "react";
+import {memo, useEffect} from "react";
 import useProcessingAgreementsData from "../ProcessingAgreements/ProcessingAgreementsData";
 import useMenu from "../../Menu/MenuData";
 
@@ -10,8 +10,12 @@ const ProcessorElement = (props) => {
 	const {updateField, setChangedField, saveFields} = useFields();
 	const {documentsLoaded, documents} = useProcessingAgreementsData();
 	const {selectedMainMenuItem} = useMenu();
+	const [name, setName] = wp.element.useState(props.processor.name ? props.processor.name : '');
+	const [purpose, setPurpose] = wp.element.useState(props.processor.purpose ? props.processor.purpose : '');
+	const [country, setCountry] = wp.element.useState(props.processor.country ? props.processor.country : '');
+	const [data, setData] = wp.element.useState(props.processor.data ? props.processor.data : '');
 
-	const onChangeHandler = (e, id) => {
+	const onChangeHandler = (value, id) => {
 		let processors = [...props.field.value];
 		if ( !Array.isArray(processors) ) {
 			processors = [];
@@ -19,11 +23,46 @@ const ProcessorElement = (props) => {
 
 		//update processor with index props.index
 		let currentProcessor = {...processors[props.index]};
-		currentProcessor[id] = e.target.value;
+		currentProcessor[id] = value;
 		processors[props.index] = currentProcessor;
 		updateField(props.field.id, processors);
 		setChangedField(props.field.id, processors);
 	}
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(name, 'name');
+		}, 500);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [name]);
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(data, 'data');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [data]);
+
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(country, 'country');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [country]);
+	useEffect(() => {
+		const typingTimer = setTimeout(() => {
+			onChangeHandler(purpose, 'purpose');
+		}, 500);
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [purpose]);
 
 	const onDeleteHandler = async (e) => {
 		let processors = props.field.value;
@@ -46,24 +85,24 @@ const ProcessorElement = (props) => {
 			<>
 				<div className="cmplz-details-row">
 					<label>{__("Name", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={processor.name} />
+					<input onChange={ ( e ) => setName(e.target.value) } type="text" placeholder={__("Name", "complianz-gdpr")} value={name} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Country", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'country') } type="text" placeholder={__("Country", "complianz-gdpr")}  value={processor.country} />
+					<input onChange={ ( e ) => setCountry(e.target.value) } type="text" placeholder={__("Country", "complianz-gdpr")}  value={country} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Purpose", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'purpose') } type="text" placeholder={__("Purpose", "complianz-gdpr")}  value={processor.purpose} />
+					<input onChange={ ( e ) => setPurpose(e.target.value) } type="text" placeholder={__("Purpose", "complianz-gdpr")}  value={purpose} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Data", "complianz-gdpr")}</label>
-					<input onChange={ ( e ) => onChangeHandler(e, 'data') } type="text" placeholder={__("Data", "complianz-gdpr")}  value={processor.data} />
+					<input onChange={ ( e ) => setData(e.target.value) } type="text" placeholder={__("Data", "complianz-gdpr")}  value={data} />
 				</div>
 				<div className="cmplz-details-row">
 					<label>{__("Processing Agreement", "complianz-gdpr")}</label>
 					{documentsLoaded &&
-						<select onChange={ ( e ) => onChangeHandler(e, 'processing_agreement') } value={processor.processing_agreement}>
+						<select onChange={ ( e ) => onChangeHandler(e.target.value, 'processing_agreement') } value={processor.processing_agreement}>
 							<option value="0">{__("Select an option", "complianz-gdpr")}</option>
 							{processingAgreements.map((processingAgreement, i) =>
 								<option key={i} value={processingAgreement.id}>{processingAgreement.title}</option>
@@ -85,14 +124,9 @@ const ProcessorElement = (props) => {
 
 	//ensure defaults
 	let processor = {...props.processor};
-
-	if (!processor.name) processor.name = '';
-	if (!processor.purpose) processor.purpose = '';
-	if (!processor.country) processor.country = '';
 	if (!processor.processing_agreement) processor.processing_agreement = 0;
-	if (!processor.data) processor.data = '';
 	return (
-		<><Panel summary={processor.name} details={Details(processor)}/></>
+		<><Panel summary={name} details={Details(processor)}/></>
 	);
 }
 export default memo(ProcessorElement);

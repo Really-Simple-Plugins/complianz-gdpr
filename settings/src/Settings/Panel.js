@@ -1,5 +1,6 @@
 import Icon from "../utils/Icon";
 const Panel = (props) => {
+	let hasContent = true;//not working properly yet. props.details.length > 0;
 	return (
 	  <div className="cmplz-panel__list__item" key={props.id} style={props.style ? props.style : {}}>
 		<details>
@@ -8,11 +9,11 @@ const Panel = (props) => {
 			<h5 className="cmplz-panel__list__item__title">{props.summary}</h5>
 			<div className="cmplz-panel__list__item__comment">{props.comment}</div>
 			<div className="cmplz-panel__list__item__icons">{props.icons}</div>
-			<Icon name={'chevron-down'} size={18} />
+			  {hasContent && <Icon name={'chevron-down'} size={18} /> }
 		  </summary>
-		  <div className="cmplz-panel__list__item__details">
+			{hasContent && <div className="cmplz-panel__list__item__details">
 			{props.details}
-		  </div>
+		  </div> }
 		</details>
 	  </div>
 	);

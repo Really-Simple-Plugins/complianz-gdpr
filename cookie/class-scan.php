@@ -51,7 +51,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		 */
 
 		public function set_cookies_changed() {
-			update_option( 'cmplz_changed_cookies', 1 );
+			update_option( 'cmplz_changed_cookies', 1 , false);
 
 		}
 
@@ -100,6 +100,11 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			if ( $this->scan_complete() ) {
 				return;
 			}
+
+			if (!isset($_GET['complianz_scan_token']) || !isset($_GET['complianz_id'])){
+				return;
+			}
+
 			$token     = sanitize_title( $_GET['complianz_scan_token'] );
 			$id        = sanitize_title( $_GET['complianz_id'] );
 			$admin_url = esc_url_raw( rest_url('complianz/v1/') );
@@ -174,7 +179,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		 * */
 
 		public function run_cookie_scan() {
-			if ( ! cmplz_user_can_manage() ) {
+			if ( ! cmplz_admin_logged_in() ) {
 				return;
 			}
 
@@ -222,56 +227,57 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 					$response = wp_remote_get( $url );
 					if ( ! is_wp_error( $response ) ) {
 						$html = $response['body'];
-
-						$stored_social_media = cmplz_scan_detected_social_media();
-						if ( ! $stored_social_media ) {
-							$stored_social_media = array();
-						}
-						$social_media = COMPLIANZ::$banner_loader->parse_for_social_media( $html );
-						$social_media = array_unique( array_merge( $stored_social_media, $social_media ), SORT_REGULAR );
-						update_option( 'cmplz_detected_social_media', $social_media );
-
-						$stored_thirdparty_services = cmplz_scan_detected_thirdparty_services();
-						if ( ! $stored_thirdparty_services ) {
-							$stored_thirdparty_services = array();
-						}
-						$thirdparty = $this->parse_for_thirdparty_services( $html );
-						$thirdparty = array_unique( array_merge( $stored_thirdparty_services, $thirdparty ), SORT_REGULAR );
-						update_option( 'cmplz_detected_thirdparty_services', $thirdparty );
-
-						//parse for google analytics and tagmanager, but only if the wizard wasn't completed before.
-						//with this data we prefill the settings and give warnings when tracking is doubled
-						if ( ! COMPLIANZ::$banner_loader->wizard_completed_once() ) {
-							$this->parse_for_statistics_settings( $html );
-						}
-
-						if ( preg_match_all( '/ga\.js/', $html ) > 1
-						     || preg_match_all( '/analytics\.js/', $html ) > 1
-						     || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
-						     || preg_match_all( '/piwik\.js/', $html ) > 1
-						     || preg_match_all( '/matomo\.js/', $html ) > 1
-						     || preg_match_all( '/getclicky\.com\/js/', $html ) > 1
-						     || preg_match_all( '/mc\.yandex\.ru\/metrika\/watch\.js/', $html ) > 1
-						) {
-							update_option( 'cmplz_double_stats', true );
-						} else {
-							delete_option( 'cmplz_double_stats' );
-						}
-
-						$stored_stats = cmplz_scan_detected_stats();
-						if ( ! $stored_stats ) {
-							$stored_stats = array();
-						}
-						$stats = $this->parse_for_stats( $html );
-						$stats = array_unique( array_merge( $stored_stats,
-							$stats ), SORT_REGULAR );
-						update_option( 'cmplz_detected_stats', $stats );
-
+						$this->parse_html($html);
 					}
 				}
 				//load in iframe so the scripts run.
 				echo '<iframe id="cmplz_cookie_scan_frame" class="hidden" src="' . $url . '"></iframe>';
 			}
+		}
+
+		private function parse_html($html){
+			$stored_social_media = cmplz_scan_detected_social_media();
+			if ( ! $stored_social_media ) {
+				$stored_social_media = array();
+			}
+			$social_media = COMPLIANZ::$banner_loader->parse_for_social_media( $html );
+			$social_media = array_unique( array_merge( $stored_social_media, $social_media ), SORT_REGULAR );
+			update_option( 'cmplz_detected_social_media', $social_media );
+
+			$stored_thirdparty_services = cmplz_scan_detected_thirdparty_services();
+			if ( ! $stored_thirdparty_services ) {
+				$stored_thirdparty_services = array();
+			}
+			$thirdparty = $this->parse_for_thirdparty_services( $html );
+			$thirdparty = array_unique( array_merge( $stored_thirdparty_services, $thirdparty ), SORT_REGULAR );
+			update_option( 'cmplz_detected_thirdparty_services', $thirdparty );
+
+			//parse for google analytics and tagmanager, but only if the wizard wasn't completed before.
+			//with this data we prefill the settings and give warnings when tracking is doubled
+			if ( ! COMPLIANZ::$banner_loader->wizard_completed_once() ) {
+				$this->parse_for_statistics_settings( $html );
+			}
+
+			if ( preg_match_all( '/ga\.js/', $html ) > 1
+				 || preg_match_all( '/analytics\.js/', $html ) > 1
+				 || preg_match_all( '/googletagmanager\.com\/gtm\.js/', $html ) > 1
+				 || preg_match_all( '/piwik\.js/', $html ) > 1
+				 || preg_match_all( '/matomo\.js/', $html ) > 1
+				 || preg_match_all( '/getclicky\.com\/js/', $html ) > 1
+				 || preg_match_all( '/mc\.yandex\.ru\/metrika\/watch\.js/', $html ) > 1
+			) {
+				update_option( 'cmplz_double_stats', true );
+			} else {
+				delete_option( 'cmplz_double_stats' );
+			}
+
+			$stored_stats = cmplz_scan_detected_stats();
+			if ( ! $stored_stats ) {
+				$stored_stats = array();
+			}
+			$stats = $this->parse_for_stats( $html );
+			$stats = array_unique( array_merge( $stored_stats, $stats ), SORT_REGULAR );
+			update_option( 'cmplz_detected_stats', $stats );
 		}
 
 		/**
@@ -323,7 +329,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				$pattern = '/(\'|")(GTM-[A-Z]{7})(\'|")/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches && isset( $matches[2] ) ) {
-					cmplz_update_option('GTM_code',
+					cmplz_update_option_no_hooks('gtm_code',
 						sanitize_text_field( $matches[2] ) );
 					update_option( 'cmplz_detected_stats_data', true );
 					cmplz_update_option('compile_statistics', 'google-tag-manager' );
@@ -336,7 +342,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				$pattern = '/(\'|")(UA-[0-9]{8}-[0-9]{1})(\'|")/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches && isset( $matches[2] ) ) {
-					cmplz_update_option('UA_code', sanitize_text_field( $matches[2] ) );
+					cmplz_update_option('ua_code', sanitize_text_field( $matches[2] ) );
 					cmplz_update_option('compile_statistics', 'google-analytics' );
 				}
 
@@ -344,7 +350,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				$pattern = '/(\'|")(G-[0-9a-zA-Z]{10})(\'|")/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches && isset( $matches[2] ) ) {
-					cmplz_update_option('UA_code', sanitize_text_field( $matches[2] ) );
+					cmplz_update_option('ua_code', sanitize_text_field( $matches[2] ) );
 					cmplz_update_option('compile_statistics', 'google-analytics' );
 				}
 				$pattern = '/\'anonymizeIp|anonymize_ip\'|:[ ]{0,1}true/i';
@@ -354,7 +360,9 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 					if ( ! is_array( $value ) ) {
 						$value = array();
 					}
-					$value['ip-addresses-blocked'] = 1;
+					if ( !in_array( 'ip-addresses-blocked', $value, true )) {
+						$value[] = 'ip-addresses-blocked';
+					}
 					cmplz_update_option('compile_statistics_more_info', $value );
 				}
 			}
@@ -759,6 +767,12 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				if ($next_url==='remote') {
 					do_action('cmplz_remote_cookie_scan');
 					$next_url = $this->get_next_page_url();
+				} else if ( strpos( $next_url, 'complianz_id' ) !== false ) {
+					$response = wp_remote_get( $next_url );
+					if ( ! is_wp_error( $response ) ) {
+						$html = $response['body'];
+						$this->parse_html($html);
+					}
 				}
 
 				$args = array(

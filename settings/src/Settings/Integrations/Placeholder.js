@@ -26,7 +26,7 @@ const Category = (props) => {
 					disabled={fetching}
 					value={script.enable_placeholder}
 					onChange={(value) => onChangeHandler(value, 'enable_placeholder')}
-					options={{'placeholder': __('Enable placeholder',
+					options={{true: __('Enable placeholder',
 							'complianz-gdpr')}}
 				/>
 			</div>
@@ -40,7 +40,7 @@ const Category = (props) => {
 							disabled={fetching}
 							value={script.iframe || ''}
 							onChange={(value) => onChangeHandler(value || '', 'iframe')}
-							options={{'iframe': __('The blocked content is an iframe',
+							options={{true: __('The blocked content is an iframe',
 								'complianz-gdpr')}}
 						/>
 					</div>

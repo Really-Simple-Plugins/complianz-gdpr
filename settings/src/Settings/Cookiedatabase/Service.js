@@ -50,7 +50,7 @@ const ServiceDetails = (service) => {
 					disabled={disabled}
 					value={service.thirdParty}
 					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'thirdParty')}
-					options={{'thirdParty': __('Data is shared with this service', 'complianz-gdpr')}}
+					options={{true: __('Data is shared with this service', 'complianz-gdpr')}}
 				/>
 			</div>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
@@ -59,7 +59,7 @@ const ServiceDetails = (service) => {
 					disabled={!useCdbApi}
 					value={sync}
 					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'sync')}
-					options={{'sync': __('Sync service with cookiedatabase.org', 'complianz-gdpr')}}
+					options={{true: __('Sync service with cookiedatabase.org', 'complianz-gdpr')}}
 				/>
 			</div>
 			<div className="cmplz-details-row">

@@ -200,16 +200,19 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 * When special data is processed, Canada requires optin consenttype
 		 *
 		 * @param string $consenttype
-		 * @param string $region
+		 * @param $region
 		 *
 		 * @return string $consenttype
 		 */
 
-		public function maybe_filter_consenttype( string $consenttype, string $region ): string {
+		public function maybe_filter_consenttype( string $consenttype, $region ): string {
 			if ( $region === 'ca'
 				 && cmplz_site_shares_data()
 			     && cmplz_get_option( 'sensitive_information_processed' ) === 'yes'
 			) {
+				$consenttype = 'optin';
+			} elseif ( $region === 'ca'
+					   && cmplz_get_option('ca_targets_quebec') === 'yes' ) {
 				$consenttype = 'optin';
 			}
 			if ( $region === 'au'
@@ -261,52 +264,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			}
 
 			return 'cmplz_';
-		}
-
-		public function processing_agreements() {
-			ob_start();
-			//include( cmplz_path . '/class-processing-table.php' );
-
-			$processing_agreements_table = new WP_List_Table();
-			$processing_agreements_table->prepare_items();
-
-			?>
-
-			<div id="processing_agreements" class="wrap processing_agreements">
-				<h1><?php _e( "Processing Agreements", 'complianz-gdpr' ) ?></h1>
-				<?php
-				cmplz_notice( __( 'A Processor or Service Provider is the party that processes personal data on behalf of a responsible organization or person. ' .
-				                  'If you are this organization or person, you should probably sign a Processing Agreement with them. ' .
-				                  'You can use a Processing Agreement outside of Complianz, or generate one here.', 'complianz-gdpr' ) ) ?>
-
-				<form id="cmplz-processing-agreements-create" method="POST" action="">
-					<?php echo wp_nonce_field( 'cmplz_processing_agreements', 'cmplz_nonce' ); ?>
-					<select>
-						<option id="eu">EU</option>
-					</select>
-					<input type="submit" class="button button-primary"
-					       name="cmplz_create_processing_agreement"
-					       value="<?php _e( "Create", "complianz-gdpr" ) ?>"/>
-				</form>
-				<form id="cmplz-processing-agreements-filter" method="get" action="">
-
-					<?php
-					$processing_agreements_table->display();
-					?>
-					<input type="hidden" name="page" value="cmplz-processing-agreements"/>
-
-				</form>
-				<?php do_action( 'cmplz_after_cookiesnapshot_list' ); ?>
-			</div>
-
-			<?php
-
-			$content = ob_get_clean();
-			$args    = array(
-				'page'    => 'processing-agreements',
-				'content' => $content,
-			);
-			echo cmplz_get_template( 'admin_wrap.php', $args );
 		}
 
 		/**
@@ -504,7 +461,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			//based on the script classes, the statistics will get added on consent, or without consent
 			$category    = $this->get_statistics_category();
 			$statistics = cmplz_get_option( 'compile_statistics' );
-			$aw_code    = cmplz_get_option( 'AW_code' );
+			$aw_code    = cmplz_get_option( 'aw_code' );
 			$configured_by_complianz = cmplz_get_option( 'configuration_by_complianz' ) === 'yes';
 			do_action( 'cmplz_before_statistics_script' );
 
@@ -537,9 +494,8 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 						<script <?php echo $category==='functional' ? '' : 'type="text/plain"' ?> data-category="<?php echo esc_attr($category) ?>"><?php echo $statistics_script; ?></script><?php
 					}
 				}
-
 				if ( !empty($aw_code ) && $statistics === 'google-analytics' ) {
-					$script = str_replace( '{AW_code}', $aw_code, cmplz_get_template( "statistics/gtag-remarketing.js" ) );
+					$script = str_replace( '{aw_code}', $aw_code, cmplz_get_template( "statistics/gtag-remarketing.js" ) );
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
 					if ( cmplz_consent_mode() ) {
 						?>
@@ -590,7 +546,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			}
 
 			$statistics = cmplz_get_option( 'compile_statistics' );
-			$gtag_code  = esc_attr( cmplz_get_option( "UA_code" ) );
+			$gtag_code  = esc_attr( cmplz_get_option( "ua_code" ) );
 			if ( $statistics === 'google-analytics' && !empty($gtag_code)  ) {
 				$category = $this->get_statistics_category();
 				?>
@@ -641,7 +597,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			if ( $statistics === 'google-tag-manager' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
 				$script = cmplz_get_template( "statistics/google-tag-manager$consent_mode.js" );
-				$script = str_replace( '{GTM_code}', esc_attr( cmplz_get_option( "GTM_code" ) ), $script );
+				$script = str_replace( '{gtm_code}', esc_attr( cmplz_get_option( "gtm_code" ) ), $script );
 			} elseif ( $statistics === 'matomo-tag-manager' ) {
 				$script = cmplz_get_template( 'statistics/matomo-tag-manager.js' );
 				$script = str_replace( '{container_id}', esc_attr( cmplz_get_option( 'matomo_container_id' ) ), $script );
@@ -667,7 +623,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			$script     = '';
 			if ( $statistics === 'google-analytics' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
-				$code         = esc_attr( cmplz_get_option( "UA_code" ) );
+				$code         = esc_attr( cmplz_get_option( "ua_code" ) );
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymize_ip': true" : "";
 				if ( substr( strtoupper($code), 0, 2) === 'G-' ) {
 					$anonymize_ip = '';
@@ -899,7 +855,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			}
 
 			//stringyfy select args.
-			$settings_args = sanitize_title(json_encode($settings));
+			$settings_args = empty($settings) ? 'default' : sanitize_title(json_encode($settings));
 			$cookies = wp_cache_get('cmplz_cookies_'.$settings_args, 'complianz');
 			if ( !$cookies || cmplz_admin_logged_in() ){
 				$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
@@ -1183,11 +1139,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 		public function uses_matomo() {
 			$statistics = cmplz_get_option( 'compile_statistics' );
-			if ( $statistics === 'matomo' ) {
-				return true;
-			}
-
-			return false;
+			return $statistics === 'matomo';
 		}
 
 
@@ -1196,7 +1148,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			if ( cmplz_get_option( 'configuration_by_complianz' ) === 'no' ) {
 				return true;
 			}
-			$UA_code = cmplz_get_option( 'UA_code' );
+			$UA_code = cmplz_get_option( 'ua_code' );
 			return $UA_code !== '';
 		}
 
@@ -1205,8 +1157,8 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			if ( cmplz_get_option( 'configuration_by_complianz' ) === 'no' ) {
 				return true;
 			}
-			$GTM_code = cmplz_get_option( 'GTM_code' );
-			return $GTM_code !== '';
+			$gtm_code = cmplz_get_option( 'gtm_code' );
+			return $gtm_code !== '';
 		}
 
 		public function matomo_configured() {
@@ -1231,6 +1183,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 *
 		 */
 		public function site_needs_cookie_warning( $region = false ) {
+
 			/**
 			 * default is false
 			 */
@@ -1405,9 +1358,10 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 			if ( $google_analytics || $tagmanager ) {
 				$thirdparty = $google_analytics ? cmplz_get_option( 'compile_statistics_more_info' ) : cmplz_get_option( 'compile_statistics_more_info_tag_manager' );
-				$accepted_google_data_processing_agreement = ( isset( $thirdparty['accepted'] ) && ( $thirdparty['accepted'] == 1 ) ) ? true : false;
-				$ip_anonymous = ( isset( $thirdparty['ip-addresses-blocked'] ) && ( $thirdparty['ip-addresses-blocked'] == 1 ) ) ? true : false;
-				$no_sharing = ( isset( $thirdparty['no-sharing'] ) && ( $thirdparty['no-sharing'] == 1 ) ) ? true : false;
+				if (!is_array($thirdparty)) $thirdparty = [];
+				$accepted_google_data_processing_agreement = in_array( 'accepted', $thirdparty, true );
+				$ip_anonymous = in_array( 'ip-addresses-blocked', $thirdparty, true );
+				$no_sharing = in_array( 'no-sharing', $thirdparty, true );
 			}
 
 			if ( ( $tagmanager || $google_analytics )
@@ -1417,8 +1371,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			) {
 				return apply_filters('cmplz_statistics_privacy_friendly', false);
 			}
-
-
 
 			//everything set up privacy friendly!
 			return apply_filters('cmplz_statistics_privacy_friendly', true);
@@ -1432,11 +1384,10 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		public function google_analytics_always_block_ip() {
 			$statistics       = cmplz_get_option( 'compile_statistics' );
 			$google_analytics = $statistics === 'google-analytics';
-
 			if ( $google_analytics ) {
-				$thirdparty = cmplz_get_option( 'compile_statistics_more_info' );
-				$always_block_ip = isset( $thirdparty['ip-addresses-blocked'] ) && ( $thirdparty['ip-addresses-blocked'] == 1 );
-				if ( $always_block_ip ) {
+				$thirdparty = cmplz_get_option( 'compile_statistics_more_info');
+				if (!is_array($thirdparty)) $thirdparty = [];
+				if ( in_array( 'ip-addresses-blocked', $thirdparty, true ) ) {
 					return true;
 				}
 			}

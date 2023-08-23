@@ -935,24 +935,30 @@ function cmplz_check_upgrade() {
 	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
 		if ( !get_option('cmplz_upgraded_to_7') ) {
 			set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
+			//create new options array
+			$options = get_option( 'cmplz_options', [] );
+			if ( ! is_array( $options ) ) {
+				$options = [];
+			}
+
 			$default_id = cmplz_get_default_banner_id();
 			$banner     = new CMPLZ_COOKIEBANNER( $default_id );
 			if ( $banner->disable_cookiebanner ) {
-				cmplz_update_option( 'enable_cookie_banner', 'no' );
+				cmplz_update_option_no_hooks( 'enable_cookie_banner', 'no' );
 			}
 
 			$license = get_site_option( 'cmplz_license_key' );
 			if ( $license && !is_multisite() ) {
-				cmplz_update_option( 'license', $license );
+				$options[ 'license' ] = $license;
 //				delete_site_option( 'cmplz_license_key' );
 			}
 
 			$migrate_js_enabled = false;
-			$options = [ 'complianz_options_settings', 'complianz_options_wizard' ];
+			$old_settings_array = [ 'complianz_options_settings', 'complianz_options_wizard' ];
 			$wiz = get_option('complianz_options_settings');
 			$use_country = $wiz['use_country'] ?? false;
-			foreach ( $options as $option ) {
-				$settings = get_option( $option, [] );
+			foreach ( $old_settings_array as $old_setting ) {
+				$settings = get_option( $old_setting, [] );
 				foreach ( $settings as $id => $value ) {
 					//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
 					$id = strtolower($id);
@@ -985,12 +991,16 @@ function cmplz_check_upgrade() {
 							}
 							$value = $new;
 						}
-						cmplz_update_option( $id, $value, $type );
+						$options[ $id ] = $value;
 					}
 					if ($id === 'enable_migrate_js' && $value) {
 						$migrate_js_enabled = true;
 					}
 				}
+			}
+
+			if ( !empty($options) ){
+				update_option( 'cmplz_options', $options );
 			}
 
 			if ( $migrate_js_enabled ) {
@@ -1004,7 +1014,6 @@ function cmplz_check_upgrade() {
 			update_option('cmplz_upgraded_to_7', true, false);
 		}
 	}
-
 
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);

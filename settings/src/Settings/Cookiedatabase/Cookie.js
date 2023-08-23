@@ -102,7 +102,7 @@ const CookieDetails = (cookie) => {
 					disabled={!useCdbApi}
 					value={sync}
 					onChange={(value) => onCheckboxChangeHandler(value, cookie.ID, 'sync')}
-					options={{'sync': __('Sync cookie with cookiedatabase.org', 'complianz-gdpr')}}
+					options={{true: __('Sync cookie with cookiedatabase.org', 'complianz-gdpr')}}
 				/>
 			</div>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
@@ -111,7 +111,7 @@ const CookieDetails = (cookie) => {
 					disabled={disabled}
 					value={cookie.showOnPolicy}
 					onChange={(value) => onCheckboxChangeHandler(value, cookie.ID, 'showOnPolicy')}
-					options={{'showOnPolicy': __('Show cookie on Cookie Policy', 'complianz-gdpr')}}
+					options={{true: __('Show cookie on Cookie Policy', 'complianz-gdpr')}}
 				/>
 			</div>
 			<div className="cmplz-details-row">

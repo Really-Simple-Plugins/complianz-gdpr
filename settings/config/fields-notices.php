@@ -33,7 +33,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 				'field_id' => 'compile_statistics',
 				'label'    => 'default',
 				'title'    => __( "Detected statistics", 'complianz-gdpr' ),
-				'text'     => cmplz_sprintf( __( "The cookie scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ),
+				'text'     => cmplz_sprintf( __( "The site scan detected %s on your site, which means the answer to this question should be %s.", 'complianz-gdpr' ), $type, $type ),
 			];
 		}
 
@@ -81,7 +81,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 				'field_id' => 'purpose_personaldata',
 				'label'    => 'default',
 				'title'    => __( "Selling personal data", 'complianz-gdpr' ),
-				'text'     => __( "The cookie scan detected cookies from services that share data with Third Parties. According to US privacy laws, your website is considered to sell personal data if it collects and shares any personal data in return for money or services. This includes a service like Google Analytics.", 'complianz-gdpr' ),
+				'text'     => __( "The site scan detected cookies from services that share data with Third Parties. According to US privacy laws, your website is considered to sell personal data if it collects and shares any personal data in return for money or services. This includes a service like Google Analytics.", 'complianz-gdpr' ),
 			];
 		}
 
@@ -110,7 +110,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 				'field_id' => 'data_disclosed_us',
 				'label'    => 'default',
 				'title'    => __( "Third-party cookies", 'complianz-gdpr' ),
-				'text'     => __( "The cookie scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+				'text'     => __( "The site scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 					'complianz-gdpr' ),
 			];
 		}
@@ -120,7 +120,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 		// 		'field_id' => 'data_sold_us',
 		// 		'label'    => 'default',
 		// 		'title'    => __( "Data sharing", 'complianz-gdpr' ),
-		// 		'text'     => __( "The cookie scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
+		// 		'text'     => __( "The site scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
 		// 			'complianz-gdpr' ),
 		// 	];
 		// }
@@ -152,7 +152,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 				'field_id' => 'privacy-statement',
 				'label'    => 'default',
 				'title'    => __( "Privacy Statement", 'complianz-gdpr' ),
-				'text'     => __( "It is recommended to select a Privacy Statement.", 'complianz-gdpr' )." ".__("The link to the Privacy Statement is used in the cookie banner and in your Cookie Policy.", 'complianz-gdpr' ),
+				'text'     => __( "It is recommended to select a Privacy Statement.", 'complianz-gdpr' )." ".__("The link to the Privacy Statement is used in the consent banner and in your Cookie Policy.", 'complianz-gdpr' ),
 			];
 		} else {
 			$notices[] = [

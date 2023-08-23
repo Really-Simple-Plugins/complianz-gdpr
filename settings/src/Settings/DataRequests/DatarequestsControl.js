@@ -116,7 +116,7 @@ const DatarequestsControl = () => {
 		let allSelected = true;
 		let hasOneSelected = false;
 		recordsOnPage.forEach(record => {
-			if ( !docs.includes(record.id) ) {
+			if ( !docs.includes(record.ID) ) {
 				allSelected = false;
 			} else {
 				hasOneSelected = true;

@@ -56,6 +56,7 @@ if ( !class_exists('cmplz_installer') ){
 		 */
 		public function get_activation_slug(){
 			$slugs = [
+				'burst-pro' => 'burst-pro/burst-pro.php',
 				'burst-statistics' => 'burst-statistics/burst.php',
 				'really-simple-ssl' => 'really-simple-ssl/rlrsssl-really-simple-ssl.php',
 				'complianz-terms-conditions' => 'complianz-terms-conditions/complianz-terms-conditions.php',
@@ -69,6 +70,7 @@ if ( !class_exists('cmplz_installer') ){
 		 */
 		public function cancel_tour(){
 			$prefixes = [
+				'burst-pro' => 'burst',
 				'burst-statistics' => 'burst',
 				'really-simple-ssl' => 'rsssl',
 				'complianz-terms-conditions' => 'cmplz_tc',

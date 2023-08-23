@@ -1,27 +1,12 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
+/**
+ * Currently only in use for TCF banner resets
+ * @return array
+ */
 function cmplz_banner_color_schemes() {
 	$schemes = array(
-		'Wordpress' => array(
-			'slider_background_color'          => '#1e73be',
-			'slider_bullet_color'              => '#f9f9f9',
-			'slider_background_color_inactive' => '#F56E28',
-			'accept_all_background_color'      => '#1e73be',
-			'accept_all_text_color'            => '#fff',
-			'accept_all_border_color'          => '#1e73be',
-			'functional_background_color'      => '#fff',
-			'functional_text_color'            => '#1e73be',
-			'functional_border_color'          => '#ffffff',
-			'colorpalette_background_color'    => '#fff',
-			'colorpalette_text_color'          => '#191e23',
-			'button_background_color'          => '#fff',
-			'button_text_color'                => '#1e73be',
-			'border_color'                     => '#1e73be',
-			'theme'                            => 'minimal',
-		),
-
-		//keep this one
 		'tcf'       => array(
 			'colorpalette_background' => array(
 				'color'  => '#ffffff',
@@ -82,7 +67,7 @@ function cmplz_update_banner_text($field, $field_id){
 	return $field;
 }
 
-add_filter( 'cmplz_fields', 'cmplz_add_cookiebanner_settings' );
+add_filter( 'cmplz_fields', 'cmplz_add_cookiebanner_settings', 10 );
 function cmplz_add_cookiebanner_settings( $fields ) {
 	$banner_text = __( "To provide the best experiences, we use technologies like cookies to store and/or access device information. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.", 'complianz-gdpr' );
 	$category_help = cmplz_get_option( 'country_company' ) === "FR" ? [
@@ -93,7 +78,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 		'url'   => "https://complianz.io/cnil-updated-privacy-guidelines/",
 	] : false;
 
-	return array_merge( $fields,
+	$fields = array_merge( $fields,
 		[
 			/* ----- General ----- */
 
@@ -107,7 +92,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 			],
 			[
 				'id'          => 'title',
-				'label'       => __( "Cookie banner title", 'complianz-gdpr' ),
+				'label'       => __( "Consent banner title", 'complianz-gdpr' ),
 				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
 				'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
 				'menu_id'     => 'banner-general',
@@ -158,17 +143,6 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'default'     => 'hover-hide-mobile',
 			],
 			[
-				'id'          => 'revoke',
-				'menu_id'     => 'banner-general',
-				'group_id'    => 'banner-general',
-				'data_target' => 'banner',
-				'type'        => 'text',
-				'default'     => __( "Manage consent", 'complianz-gdpr' ),
-				'placeholder' => __( "Manage consent", 'complianz-gdpr' ),
-				'label'       => __( "Text on the manage consent tab", 'complianz-gdpr' ),
-				'tooltip'     => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the cookie banner reappear.', 'complianz-gdpr' ),
-			],
-			[
 				'id'          => 'disable_cookiebanner',
 				'source_id' => 'enable_cookie_banner',
 				'source_mapping' => [
@@ -192,7 +166,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'help'             => [
 					'label' => 'default',
 					'title' => __( "Default consent banner", 'complianz-gdpr' ),
-					'text'  => __( 'When enabled, this is the cookie banner that is used for all visitors. Enabling it will disable this setting on the current default banner. Disabling it will enable randomly a different default banner.',
+					'text'  => __( 'When enabled, this is the consent banner that is used for all visitors. Enabling it will disable this setting on the current default banner. Disabling it will enable randomly a different default banner.',
 						"complianz-gdpr" ),
 				],
 				'default'          => false,
@@ -241,7 +215,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'data_target'      => 'banner',
 				'type'             => 'checkbox',
 				'label'            => __( "Dismiss on scroll", 'complianz-gdpr' ),
-				'tooltip'          => __( 'When dismiss on scroll is enabled, the cookie banner will be dismissed as soon as the user scrolls.', 'complianz-gdpr' ),
+				'tooltip'          => __( 'When dismiss on scroll is enabled, the consent banner will be dismissed as soon as the user scrolls.', 'complianz-gdpr' ),
 				'default'          => false,
 				'react_conditions' => [
 					'relation' => 'AND',
@@ -257,7 +231,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'data_target'      => 'banner',
 				'type'             => 'checkbox',
 				'label'            => __( "Dismiss on time out", 'complianz-gdpr' ),
-				'tooltip'          => __( 'When dismiss on time out is enabled, the cookie banner will be dismissed after 10 seconds, or the time you choose below.', 'complianz-gdpr' ),
+				'tooltip'          => __( 'When dismiss on time out is enabled, the consent banner will be dismissed after 10 seconds, or the time you choose below.', 'complianz-gdpr' ),
 				'default'          => false,
 				'react_conditions' => [
 					'relation' => 'AND',
@@ -337,7 +311,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'data_target'      => 'banner',
 				'type'             => 'select',
 				'label'            => __( "Checkbox style", 'complianz-gdpr' ),
-				'tooltip'          => __( "This style is for the checkboxes on the cookie banner, as well as on your policy for managing consent.", 'complianz-gdpr' ),
+				'tooltip'          => __( "This style is for the checkboxes on the consent banner, as well as on your policy for managing consent.", 'complianz-gdpr' ),
 				'options'          => [
 					'classic' => __( "Classic", 'complianz-gdpr' ),
 					'slider'  => __( "Slider", 'complianz-gdpr' ),
@@ -358,7 +332,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'type'        => 'checkbox',
 				'default'     => true,
 				'label'       => __( "Legal document links on banner", 'complianz-gdpr' ),
-				'comment'     => __( 'On the cookie banner the generated documents are shown. The title is based on the actual post title.', 'complianz-gdpr' ),
+				'comment'     => __( 'On the consent banner the generated documents are shown. The title is based on the actual post title.', 'complianz-gdpr' ),
 			],
 			[
 				'id'          => 'use_logo',
@@ -391,7 +365,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'data_target' => 'banner',
 				'type'        => 'checkbox',
 				'label'       => __( "Close button", 'complianz-gdpr' ),
-				'tooltip'     => __( "If enabled, a close icon will be shown on your cookie banner.", 'complianz-gdpr' ),
+				'tooltip'     => __( "If enabled, a close icon will be shown on your consent banner.", 'complianz-gdpr' ),
 				'default'     => true,
 			],
 			[
@@ -400,6 +374,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'group_id'    => 'appearance',
 				'data_target' => 'banner',
 				'type'        => 'checkbox',
+				'default'     => true,
 				'label'       => __( "Box shadow", 'complianz-gdpr' ),
 			],
 			[
@@ -755,6 +730,17 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				                      . "\n" . '#cmplz-consent-ui button, #cmplz-post-consent-ui button {}',
 			],
 			[
+				'id'          => 'revoke',
+				'menu_id'     => 'banner-texts',
+				'group_id'    => 'banner-texts',
+				'data_target' => 'banner',
+				'type'        => 'text',
+				'default'     => __( "Manage consent", 'complianz-gdpr' ),
+				'placeholder' => __( "Manage consent", 'complianz-gdpr' ),
+				'label'       => __( "Text on the manage consent tab", 'complianz-gdpr' ),
+				'tooltip'     => __( 'The tab will show after the visitor interacted with the banner, and can be used to make the consent banner reappear.', 'complianz-gdpr' ),
+			],
+			[
 				'id'          => 'header',
 				'menu_id'     => 'banner-texts',
 				'group_id'    => 'banner-texts',
@@ -810,7 +796,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'help'             => [
 					'label' => 'default',
 					'title' => __( 'Deny button', 'complianz-gdpr' ),
-					'text'  => __( 'This button will reject all cookies except necessary cookies, and dismisses the cookie banner.', 'complianz-gdpr' ),
+					'text'  => __( 'This button will reject all cookies except necessary cookies, and dismisses the consent banner.', 'complianz-gdpr' ),
 				],
 				'react_conditions' => [
 					'relation' => 'AND',
@@ -896,8 +882,8 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 
 			[
 				'id'          => 'functional_text',
-				'menu_id'     => 'banner-categories',
-				'group_id'    => 'banner-categories',
+				'menu_id'     => 'banner-texts',
+				'group_id'    => 'banner-texts',
 				'data_target' => 'banner',
 				'type'        => 'text_checkbox',
 				'default'     => [
@@ -1058,4 +1044,5 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 			],
 		]
 	);
+	return apply_filters('cmplz_banner_fields', $fields);
 }

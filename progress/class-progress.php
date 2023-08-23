@@ -21,7 +21,10 @@ class cmplz_progress {
 		}
 
 		if ( $action === 'get_notices' ) {
-			$data = ['notices' => $this->notices() ];
+			$data = [
+				'notices' => $this->notices(),
+				'show_cookiebanner' => cmplz_cookiebanner_should_load(true),
+			];
 		}
 
 		return $data;

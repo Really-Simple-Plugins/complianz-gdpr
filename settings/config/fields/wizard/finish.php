@@ -31,7 +31,6 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'revoke_consent_onchange' => true,
 				'disabled'                => false,
 				'options'                 => COMPLIANZ::$config->yes_no,
-				'default'                 => 'yes',
 				'label'                   => __( "Show Consent Banner", 'complianz-gdpr' ),
 				'tooltip'                 => __( "If you enable this setting, a consent banner will be enabled, if needed.", 'complianz-gdpr' ),
 				'comment'                 => __( "You can always enable and disable the Consent Banner when styling the Consent Banner, under Consent Banner settings.", 'complianz-gdpr' ),
@@ -51,8 +50,7 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'revoke_consent_onchange' => true,
 				'disabled'                => false,
 				'options'                 => COMPLIANZ::$config->yes_no,
-				'default'                 => 'yes',
-				'label'                   => __( "Disable Safe Mode", 'complianz-gdpr' ),
+				'label'                   => __( "Enable cookie and script blocker", 'complianz-gdpr' ),
 				'tooltip'                 => __( "The Cookie Blocker will, among others, block any tracking and third-party scripts configured by the wizard, automatic configuration or our script center.",
 					'complianz-gdpr' ),
 				'help'                    => [
@@ -66,6 +64,12 @@ function cmplz_wizard_finish_fields( $fields ) {
 					[
 						'cookie_banner_required' => true,
 					]
+				],
+				'source_id' => 'safe_mode',
+				'source_mapping' => [
+					//source value => target value
+					1 => 'no',
+					0 => 'yes',
 				],
 			],
 		]

@@ -55,7 +55,7 @@ const Tools = () => {
 			link: "https://complianz.io/definition/what-is-a-processing-agreement/",
 		},
 		{
-			title: __("Statistics", "complianz-gdpr"),
+			title: __("Consent Statistics", "complianz-gdpr"),
 			viewLink: "#tools/ab-testing",
 			link: "https://complianz.io/a-quick-introduction-to-a-b-testing/",
 		},

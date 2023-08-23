@@ -34,7 +34,7 @@ function cmplz_abtesting_fields($fields){
 				'url'     => 'https://complianz.io/pricing',
 				'disabled' => false,
 			],
-			'comment'  => __( 'If enabled, the plugin will track which cookie banner has the best conversion rate.', 'complianz-gdpr' ),
+			'comment'  => __( 'If enabled, the plugin will track which consent banner has the best conversion rate.', 'complianz-gdpr' ),
 			'disabled' => true,
 			'default'  => false,
 			'condition_action' => 'disable',

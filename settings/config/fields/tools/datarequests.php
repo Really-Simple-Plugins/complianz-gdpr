@@ -17,7 +17,7 @@ function cmplz_tools_fields( $fields ) {
 			'group_id'    => 'settings',
 			'type'        => 'button',
 			'url'         => admin_url( 'export-personal-data.php' ),
-			'button_text' => __( "Export", 'complianz-gdpr' ),
+			'button_text' => __( "View export options", 'complianz-gdpr' ),
 			'label'       => __( "Export personal data", 'complianz-gdpr' ),
 		],
 		[
@@ -26,7 +26,7 @@ function cmplz_tools_fields( $fields ) {
 			'group_id'    => 'settings',
 			'type'        => 'button',
 			'url'         => admin_url( 'erase-personal-data.php' ),
-			'button_text' => __( "Erase", 'complianz-gdpr' ),
+			'button_text' => __( "View erase options", 'complianz-gdpr' ),
 			'label'       => __( "Erase personal data", 'complianz-gdpr' ),
 		],
 		[
@@ -34,7 +34,7 @@ function cmplz_tools_fields( $fields ) {
 			'menu_id'  => 'data-requests',
 			'group_id' => 'settings',
 			'type'     => 'export-datarequests',
-			'label'    => '',
+			'label'    => __( "Export Data Requests", 'complianz-gdpr' ),
 		],
 		[
 			'id'                 => 'notification_from_email',

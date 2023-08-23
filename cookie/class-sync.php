@@ -126,6 +126,12 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				$endpoint        = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v2/cookies/';
 				$ch = curl_init();
 
+				$ssl_verification = apply_filters('cmplz_ssl_verify', get_site_option('cmplz_ssl_verify', 'true' )==='true' );
+				if ( !$ssl_verification ) {
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
+
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
 				curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
 				curl_setopt( $ch, CURLOPT_POST, 1 );
@@ -287,7 +293,6 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 
 			}
 			$data['count'] = $count_all;
-
 			return $data;
 
 		}
@@ -422,6 +427,11 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 
 				$ch = curl_init();
 
+				$ssl_verification = apply_filters('cmplz_ssl_verify', get_site_option('cmplz_ssl_verify', 'true' )==='true' );
+				if ( !$ssl_verification ) {
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+					curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
 				curl_setopt( $ch, CURLOPT_URL, $endpoint );
 				curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
 				curl_setopt( $ch, CURLOPT_POST, 1 );
@@ -861,19 +871,20 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		public function reset_cookies_changed() {
 			update_option( 'cmplz_cookie_data_verified_date', time() );
 			delete_transient( 'cmplz_cookie_settings_cache' );
-			update_option( 'cmplz_changed_cookies', - 1 );
+			delete_option( 'cmplz_changed_cookies' );
 		}
 
 		/**
 		 * Run or reset a sync
-		 * @param $data
-		 * @param $action
-		 * @param $request
+		 *
+		 * @param array           $data
+		 * @param string          $action
+		 * @param WP_REST_Request $request
 		 *
 		 * @return array
 		 */
 
-		public function get_sync_data($data, $action, $request) {
+		public function get_sync_data( array $data, string $action, WP_REST_Request $request) {
 			if ( $action === 'sync' ) {
 				$this->reset_cookies_changed();
 				$scan_action = sanitize_title($request->get_param('scan_action'));
@@ -946,6 +957,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				$this->maybe_sync_cookies( true );
 				$this->clear_double_cookienames();
 			}
+			cmplz_delete_transient('cmplz_cookie_shredder_list');
 			return $msg;
 		}
 

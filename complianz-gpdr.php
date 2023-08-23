@@ -176,6 +176,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'rest-api/rest-api.php';
 
 			if ( cmplz_admin_logged_in() ) {
+				require_once( cmplz_path . 'config/warnings.php' );
 				require_once( cmplz_path . 'settings/settings.php' );
 				require_once( cmplz_path . 'class-admin.php' );
 				require_once( cmplz_path . 'class-review.php' );

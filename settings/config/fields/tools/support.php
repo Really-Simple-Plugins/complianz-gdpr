@@ -16,7 +16,6 @@ function cmplz_support_fields($fields){
 			],
 			'type'    => 'checkbox',
 			'label'   => __( "Enable safe mode", 'complianz-gdpr' ),
-			'default' => false,
 			'help' => [
 				'label' => 'default',
 				'title' => __( "Safe mode", 'complianz-gdpr' ),

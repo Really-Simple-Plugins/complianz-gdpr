@@ -84,7 +84,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				}
 				//reset the case in case we removed plugins, like wordpress. Otherwise we get an error in react.
 				$data = [
-						'privacyStatements' => array_values($data)
+						'privacyStatements' => empty($data) ? []: array_values($data)
 				];
 			}
 			return $data;
@@ -304,7 +304,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				$page_data['title'] = __("Terms and Conditions",'complianz-gdpr');
 				$page_data['permalink'] = false;
 				$page_data['exists'] = false;
-				$page_data['required'] = true;
+				$page_data['required'] = false;
 				$page_data['shortcode'] = false;
 				$page_data['generated'] = '';
 				$page_data['status'] = 'unlink';
@@ -801,7 +801,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 
 
 		/**
-		 * Check if all required pages are creatd
+		 * Check if all required pages are created
 		 */
 		public function all_required_pages_created(): bool {
 			$pages = $this->get_required_pages();
@@ -846,7 +846,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				return [];
 			}
 			$type = sanitize_title($request->get_param('type'));
-			$url = get_option('cmplz_'.$type.'_custom_page_url');
+			$url = get_option('cmplz_'.$type.'_custom_page_url', '');
 			return [
 				'pageUrl' => $url,
 			];

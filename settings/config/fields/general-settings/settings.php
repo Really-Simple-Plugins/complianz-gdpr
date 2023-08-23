@@ -19,7 +19,7 @@ function cmplz_settings_fields($fields){
 		],
 
 		[
-			'id'                      => 'use_hybrid_scan1',
+			'id'                      => 'use_hybrid_scan',
 			'menu_id'                 => 'settings-cd',
 			'group_id'                => 'settings-cd',
 			'type'      => 'radio',
@@ -30,15 +30,13 @@ function cmplz_settings_fields($fields){
 			],
 			'default'   => 'yes',
 			'options'   => COMPLIANZ::$config->yes_no,
-			'label'     => __( "Do you want to use the hybrid cookie scan?", 'complianz-gdpr' ),
+			'label'     => __( "Do you want to use the hybrid site scan?", 'complianz-gdpr' ),
 			'help'             => [
 				'label' => 'default',
-				'title' => __( "About the hybrid cookie scan", 'complianz-gdpr' ),
-				'text'  => __( "The hybrid cookie scan uses advantages of both WordPress focused cookie scan, unavailable to cloud solutions, and a second external cookie scan simulating website visits.", 'complianz-gdpr'),
+				'title' => __( "About the hybrid site scan", 'complianz-gdpr' ),
+				'text'  => __( "The hybrid site scan uses advantages of both WordPress focused site scan, unavailable to cloud solutions, and a second external site scan simulating website visits.", 'complianz-gdpr'),
 				'url'   => 'https://cookiedatabase.org/privacy-statement/',
 			],
-			'comment' => __( "The hybrid cookie scan uses the free, default WordPress focused cookie scan and a cookiescan from an external server, simulating website visits. ", 'complianz-gdpr' ),
-
 		],
 
 		[
@@ -128,16 +126,15 @@ function cmplz_settings_fields($fields){
 			'group_id'                => 'settings-general',
 			'type'    => 'number',
 			'default' => 365,
-			'label'   => __( "Cookie banner expiration in days", 'complianz-gdpr' ),
+			'label'   => __( "Consent banner expiration in days", 'complianz-gdpr' ),
 		],
-
 		[
 			'id'       => 'disable_automatic_cookiescan',
 			'menu_id'  => 'settings-cd',
 			'group_id' => 'settings-cd',
 			'type'     => 'checkbox',
 			'default'  => false,
-			'label'    => __( "Disable the monthly cookie scan, and subsequent sync with cookiedatabase.org.", "complianz-gdpr" ),
+			'label'    => __( "Disable the monthly site scan, and subsequent sync with cookiedatabase.org.", "complianz-gdpr" ),
 		],
 		[
 			'id'       => 'enable_cookieblocker_ajax',

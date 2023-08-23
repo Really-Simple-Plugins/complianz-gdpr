@@ -54,9 +54,13 @@ const Statistics = () => {
 	useEffect(() => {
 		//initial values
 		if (licenseStatus==='valid' && abTestingEnabled) {
-			setData(emptyStatisticsData[consentType]);
+			if (emptyStatisticsData.hasOwnProperty(consentType)) {
+				setData(emptyStatisticsData[consentType]);
+			}
 		} else {
-			setData(statisticsData[consentType]);
+			if (statisticsData.hasOwnProperty(consentType)) {
+				setData(statisticsData[consentType]);
+			}
 		}
 
 	},[])

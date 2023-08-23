@@ -1,4 +1,4 @@
-	console.log("running cookie scan");
+	console.log("running site scan");
 	/**
 	 * Script to test site for cookies. Never inserted for visitors, only for admin.
 	 */

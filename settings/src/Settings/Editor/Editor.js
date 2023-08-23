@@ -15,7 +15,7 @@ const toolbarConfig = {
 	],
 }
 
-const Editor = ({ value, field, label }) => {
+const Editor = ({ value, onChange }) => {
 	const [editorState, setEditorState] = useState(null);
 	const [isEditorLoaded, setEditorLoaded] = useState(false);
 
@@ -27,7 +27,7 @@ const Editor = ({ value, field, label }) => {
 		});
 	}, []);
 
-	const {changedFields, updateField, setChangedField} = useFields();
+	const {changedFields} = useFields();
 
 	useEffect(() => {
 		if (isEditorLoaded) {
@@ -36,12 +36,17 @@ const Editor = ({ value, field, label }) => {
 	}, [changedFields, isEditorLoaded]);
 
 	useEffect(() => {
-		setChangedField(field.id, value);
-	}, [])
+		const typingTimer = setTimeout(() => {
+			onChange(editorState.toString('html'));
+		}, 500);
+
+		return () => {
+			clearTimeout(typingTimer);
+		};
+	}, [editorState]);
 
 	function editorChangeHandler(editorValue) {
 		setEditorState(editorValue)
-		updateField(field.id, editorValue.toString('html'));
 	}
 
 	if (!isEditorLoaded) {

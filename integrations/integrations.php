@@ -33,6 +33,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 //			'firstparty_marketing' => false,
 //	),
 
+
+	'wp-consent-api' => array(
+			'constant_or_function' => 'WP_CONSENT_API_VERSION',
+			'label'                => 'WP Consent API',
+			'firstparty_marketing' => false,
+	),
+
 	'omnisend' => array(
 			'constant_or_function' => 'OMNISEND_SETTINGS_PAGE',
 			'label'                => 'Email Marketing for WooCommerce by Omnisend',
@@ -719,6 +726,7 @@ add_action( 'plugins_loaded', 'cmplz_integrations', 10 );
 function cmplz_uses_thirdparty( $name ) {
 	if ( cmplz_get_option( 'uses_thirdparty_services' ) === 'yes' ) {
 		$thirdparty_types = cmplz_get_option( 'thirdparty_services_on_site' );
+
 		if ( is_array($thirdparty_types) && in_array( $name, $thirdparty_types) ) {
 			return true;
 		}
@@ -726,7 +734,7 @@ function cmplz_uses_thirdparty( $name ) {
 
 	if ( cmplz_get_option( 'uses_social_media' ) === 'yes' ) {
 		$social_media_types = cmplz_get_option( 'socialmedia_on_site' );
-		if ( is_array($social_media_types) && isset( $name, $social_media_types) ) {
+		if ( is_array($social_media_types) && in_array( $name, $social_media_types) ) {
 			return true;
 		}
 	}
@@ -867,4 +875,3 @@ function cmplz_maybe_update_css(){
 	update_option('cmplz_integrations_changed', false );
 }
 add_action('admin_init', 'cmplz_maybe_update_css');
-

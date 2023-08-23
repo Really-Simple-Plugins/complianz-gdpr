@@ -19,6 +19,7 @@ const UseBannerData = create(( set, get ) => ({
 	manageConsentHtml:'',
 	bannerContainerClass:'',
 	vendorCount:1,
+	tcfActiveServerside:false,
 	setBannerContainerClass: (bannerContainerClass) => set({ bannerContainerClass }),
 	consentTypes:[],
 	consentType:'',
@@ -79,7 +80,6 @@ const UseBannerData = create(( set, get ) => ({
 		});
 		let cssFile = get().cssFile;
 		let cssIndex = get().cssIndex;
-
 		let link = document.createElement("link");
 		cssFile = cssFile+'?'+Math.random();
 
@@ -109,17 +109,23 @@ const UseBannerData = create(( set, get ) => ({
 		}
 	},
 	fetchBannerData: async () => {
-		const { cssFile, bannerHtml, manageConsentHtml, consentTypes, defaultConsentType, banners, pageLinks, customizeUrl, vendorCount } = await fetchBannerData();
+		const {customize_url, css_file, banner_html, manage_consent_html, consent_types, default_consent_type, banners, page_links, vendor_count, tcf_active} = await cmplz_api.doAction('get_banner_data', {}).then((response) => {
+			return response;
+		}).catch((error) => {
+			console.error(error);
+
+		});
 		let defaultBanners = banners.filter( (banner) => banner.default === "1" );
 		let defaultBanner = defaultBanners.length === 0 ? banners[0] : defaultBanners[0];
-		let consentType = defaultConsentType;
+
+		let consentType = default_consent_type;
 		let selectedBannerId = defaultBanner.ID;
 		let selectedBanner = defaultBanner;
 		if (typeof (Storage) !== "undefined"){
 			if ( sessionStorage.cmplzBannerPreviewConsentType ) {
 				//only use from local storage if the consent type is still valid
 				let storedConsentType = sessionStorage.cmplzBannerPreviewConsentType;
-				if (Object.keys(consentTypes).includes(storedConsentType)) {
+				if (Object.keys(consent_types).includes(storedConsentType)) {
 					consentType = storedConsentType;
 				}
 			}
@@ -134,19 +140,21 @@ const UseBannerData = create(( set, get ) => ({
 		}
 
 		set( {
-			customizeUrl: customizeUrl,
+			customizeUrl: customize_url,
 			selectedBannerId: selectedBannerId,
 			selectedBanner: selectedBanner,
 			bannerDataLoaded: true,
-			bannerHtml: bannerHtml,
-			cssFile: cssFile,
+			bannerHtml: banner_html,
+			cssFile: css_file,
 			banners: banners,
-			manageConsentHtml: manageConsentHtml,
-			consentTypes: consentTypes,
+			manageConsentHtml: manage_consent_html,
+			consentTypes: consent_types,
 			consentType:consentType,
-			pageLinks: pageLinks,
-			vendorCount: vendorCount,
+			pageLinks: page_links,
+			vendorCount: vendor_count,
+			tcfActiveServerside: tcf_active,
 		} );
+		return true;
 	},
 	setSelectedBanner:(selectedBannerId) => {
 		let banners = get().banners;
@@ -159,22 +167,5 @@ const UseBannerData = create(( set, get ) => ({
 }));
 export default UseBannerData;
 
-const fetchBannerData = () => {
-	let data = {}
-	return cmplz_api.doAction('get_banner_data', data).then((response) => {
-		let bannerHtml = response.banner_html;
-		let banners = response.banners;
-		let manageConsentHtml = response.manage_consent_html;
-		let consentTypes = response.consent_types;
-		let defaultConsentType= response.default_consent_type;
-		let cssFile = response.css_file;
-		let pageLinks = response.page_links;
-		let customizeUrl = response.customize_url;
-		let vendorCount = response.vendor_count;
-		return {customizeUrl, cssFile, bannerHtml, manageConsentHtml, consentTypes, defaultConsentType, banners, pageLinks, vendorCount};
-	}).catch((error) => {
-		console.error(error);
-	});
-}
 
 

@@ -33,7 +33,7 @@ function cmplz_menu() {
 						[
 							'id' => 'website-information',
 							'title' => __('Website information', 'complianz-gdpr' ),
-							'intro' => __('We need some information to be able to generate your documents and configure your cookie banner.', 'complianz-gdpr'),
+							'intro' => __('We need some information to be able to generate your documents and configure your consent banner.', 'complianz-gdpr'),
 						],
 						[
 							'id' => 'impressum',
@@ -86,7 +86,6 @@ function cmplz_menu() {
 						[
 							'id' => 'sharing-of-data',
 							'title' => __('Sharing of Data', 'complianz-gdpr'),
-							'intro' => __('In this section, we need you to fill in information about Processors, Service Providers and Third Parties you’re working with.', 'complianz-gdpr'),
 							'region' => array('eu','us', 'uk', 'au', 'za', 'br'),
 
 						],
@@ -103,8 +102,8 @@ function cmplz_menu() {
 					'menu_items' => [
 						[
 							'id' => 'cookie-scan',
-							'title' => __('Cookie scan', 'complianz-gdpr' ),
-							'intro' => __( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ).' '. cmplz_sprintf( __( 'For more information, %sread our 5 tips%s about the cookie scan.', 'complianz-gdpr'), '<a href="https://complianz.io/cookie-scan-results/" target="_blank">','</a>'),
+							'title' => __('Site scan', 'complianz-gdpr' ),
+							'intro' => __( 'Complianz will scan several pages of your website for first-party cookies and known third-party scripts. The scan will be recurring monthly to keep you up-to-date!', 'complianz-gdpr' ).' '. cmplz_sprintf( __( 'For more information, %sread our 5 tips%s about the site scan.', 'complianz-gdpr'), '<a href="https://complianz.io/cookie-scan-results/" target="_blank">','</a>'),
 							'helpLink' => 'https://complianz.io/cookie-scan-results/',
 							'save_buttons_required' => false,
 						],
@@ -182,7 +181,7 @@ function cmplz_menu() {
 				[
 					'id'       => 'banner-general',
 					'title'    => __( 'General',  'complianz-gdpr'  ),
-					'intro'    => __( 'These are the main options to customize your cookie banner. To go even further you can use our documentation on complianz.io for CSS Lessons, or even start from scratch and create your own with just HTML and CSS.',  'complianz-gdpr'  ),
+					'intro'    => __( 'These are the main options to customize your consent banner. To go even further you can use our documentation on complianz.io for CSS Lessons, or even start from scratch and create your own with just HTML and CSS.',  'complianz-gdpr'  ),
 				],
 				[
 					'id'       => 'appearance',
@@ -356,7 +355,7 @@ function cmplz_menu() {
 							'intro'    => __( 'Here you can create and upload processing agreements. These are necessary when you allow other third parties to process your data.',  'complianz-gdpr'  ),
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "Create Processing Agreements with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "Create Processing Agreements with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 						[
 							'id'       => 'processing-agreements',
@@ -364,7 +363,7 @@ function cmplz_menu() {
 							'helpLink' => 'https://complianz.io/definition/what-is-a-processing-agreement/',
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "View and manage Processing Agreements with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "View and manage Processing Agreements with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 					],
 				],
@@ -381,14 +380,14 @@ function cmplz_menu() {
 							'intro'    => __( 'Do you think your data might have been compromised? Did you experience a security incident or are not sure who had access to personal data for a period of time? Create a data breach report below to see what you need to do.',  'complianz-gdpr'  ),
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "Create Data Breach Reports with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "Create Data Breach Reports with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 						[
 							'id'       => 'data-breach-reports',
 							'title'    => __( 'Data Breach Reports',  'complianz-gdpr'  ),
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "View and manage Data Breach Reports with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "View and manage Data Breach Reports with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 					],
 				],
@@ -422,14 +421,14 @@ function cmplz_menu() {
 							'helpLink' => 'https://complianz.io/records-of-consent/',
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 						[
 							'id'       => 'records-of-consent',
 							'title'    => __( 'Records of Consent',  'complianz-gdpr'  ),
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 					],
 				],
@@ -449,7 +448,7 @@ function cmplz_menu() {
 							'title'    => __( 'Statistics',  'complianz-gdpr'  ),
 							'premium'      => true,
 							'upgrade'     => 'https://complianz.io/pricing',
-							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'really-simple-ssl' ),
+							'premium_text' => __( "View and manage Records of Consent with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 					],
 				],
@@ -464,7 +463,7 @@ function cmplz_menu() {
 						],
 						[
 							'id'       => 'security-privacy',
-							'title'    => __( 'Privacy',  'complianz-gdpr'  ),
+							'title'    => __( 'Privacy Statement',  'complianz-gdpr'  ),
 							'intro'    => __( 'Below text is meant for your Privacy Statement, and is created by using Really Simple SSL. The text is automatically added to the Privacy Statement from Complianz Premium.',  'complianz-gdpr'  ),
 						],
 					],

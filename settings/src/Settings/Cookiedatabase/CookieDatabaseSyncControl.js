@@ -7,9 +7,10 @@ import {memo} from "react";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 
 const CookieDatabaseSyncControl = () => {
-	const {buildServicesCookiesArray, showDeletedCookies, setShowDeletedCookies, servicesAndCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
-	const {addHelpNotice, getFieldValue} = useFields();
+	const {buildServicesCookiesArray, showDeletedCookies, setShowDeletedCookies, servicesAndCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, cookieCount, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
+	const {addHelpNotice, removeHelpNotice, getFieldValue} = useFields();
 	const [disabled, setDisabled] = useState(false);
+	const [noCookieNoticeShown, setNoCookieNoticeShown] = useState(false);
 
 	useEffect ( () => {
 		if ( !loadingSyncData && syncProgress <100 ) {
@@ -18,72 +19,39 @@ const CookieDatabaseSyncControl = () => {
 	},[syncProgress]);
 
 	useEffect ( () => {
+
 		let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 		if ( !useCdbApi ) {
 			setDisabled(true) ;
 			let explanation = __("You have opted out of the use of the Cookiedatabase.org synchronisation.", "complianz-gdpr");
 			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
-		}
-
-	},[]);
-
-	useEffect ( () => {
-		if ( !curlExists ) {
+		} else if ( !curlExists ) {
 			setDisabled(true) ;
 			let explanation = __("CURL is not enabled on your site, which is required for the Cookiedatabase sync to function.", "complianz-gdpr");
 			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
-		}
-	},[ curlExists]);
-
-	useEffect ( () => {
-		let useCdbApi = getFieldValue('use_cdb_api')==='yes';
-		if ( !useCdbApi ) {
-			setDisabled(true) ;
-			let explanation = __("You have opted out of the use of the Cookiedatabase.org synchronisation.", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
-		}
-	},[getFieldValue('use_cdb_api')]);
-
-	useEffect ( () => {
-
-		if ( errorMessage!=='' ) {
+		} else if ( errorMessage!=='' ) {
 			setDisabled(true) ;
 			addHelpNotice('cookiedatabase_sync', 'warning', errorMessage, __('Cookiedatabase', 'complianz-gdpr') );
-		}
-	},[errorMessage]);
-
-	useEffect ( () => {
-		if ( !hasSyncableData ) {
+		} else if ( !hasSyncableData ) {
 			setDisabled(true);
 			let explanation = __("Synchronization disabled: All detected cookies and services have been synchronised.", "complianz-gdpr");
 			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
+		} else if ( syncDataLoaded ) {
+			if ( cookieCount === 0) {
+				setNoCookieNoticeShown(true);
+				let explanation = __("No cookies have been found currently. Please try another site scan, or check the most common causes in the article below ", "complianz-gdpr");
+				addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('No cookies found', 'complianz-gdpr'), 'https://complianz.io/cookie-scan-results/' );
+			} else if ( noCookieNoticeShown ) {
+				removeHelpNotice('cookiedatabase_sync')
+			}
 		}
-
-		if ( syncProgress<100 && syncProgress>0) {
-			setDisabled(true) ;
-		}
-	},[syncProgress, hasSyncableData]);
-
-	useEffect ( () => {
-		if ( !hasSyncableData ) {
-			setDisabled(true);
-			let explanation = __("Synchronization disabled: All detected cookies and services have been synchronised.", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
-		}
-	},[hasSyncableData]);
+	},[getFieldValue('use_cdb_api'), curlExists, errorMessage, hasSyncableData, servicesAndCookies, syncDataLoaded, cookies ]);
 
 	useEffect ( () => {
 		if ( syncProgress<100 && syncProgress>0) {
 			setDisabled(true) ;
 		}
 	},[syncProgress]);
-
-	useEffect ( () => {
-		if ( syncDataLoaded && servicesAndCookies.length === 0) {
-			let explanation = __("No cookies have been found currently. Please try another cookie scan, or check the most common causes in the article below ", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('No cookies found', 'complianz-gdpr'), 'https://complianz.io/cookie-scan-results/' );
-		}
-	},[servicesAndCookies, syncDataLoaded]);
 
 	useEffect ( () => {
 		buildServicesCookiesArray()
@@ -118,7 +86,7 @@ const CookieDatabaseSyncControl = () => {
 					id={'show_deleted_cookies'}
 					value={showDeletedCookies}
 					onChange={(value) => setShowDeletedCookies(value)}
-					options={{'sync': __('Show deleted cookies', 'complianz-gdpr')}}
+					options={{true: __('Show deleted cookies', 'complianz-gdpr')}}
 				/>
 			</div>
 			<div id="cmplz-scan-progress">

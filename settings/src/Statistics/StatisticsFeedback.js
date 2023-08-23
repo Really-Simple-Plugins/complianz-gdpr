@@ -57,7 +57,7 @@ const StatisticsFeedback = () => {
 	return (
 		<>
 			{ bestPerformerEnabled &&
-				Notice('circle-check', 'green',__('The cookie banner with the best results has been enabled as default banner.', 'complianz-gdpr') )
+				Notice('circle-check', 'green',__('The consent banner with the best results has been enabled as default banner.', 'complianz-gdpr') )
 			}
 
 			{ !bestPerformerEnabled && consentStatisticsEnabled && !abTestingEnabled &&
@@ -84,4 +84,3 @@ const StatisticsFeedback = () => {
 };
 
 export default memo(StatisticsFeedback);
-

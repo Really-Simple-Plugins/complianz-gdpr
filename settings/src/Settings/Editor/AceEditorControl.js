@@ -30,7 +30,6 @@ const AceEditorControl = (props) => {
 			setScriptWarning(true);
 		}
 		value = value.replace(/<script>/gi, "");
-		console.log(value);
 		value = value.replace(/<\/script>/gi, "");
 		setInputValue(value);
 	};

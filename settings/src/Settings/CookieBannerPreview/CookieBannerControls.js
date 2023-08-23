@@ -65,17 +65,16 @@ const CookieBannerControls = () => {
 			</div>
 
 			{options.length > 1 &&
-				<h6>{__('Switch consent types', 'complianz-gdpr')}</h6>}
-			<div className="cmplz-cookiebanner-preview-controls-buttons">
-				{options.length > 1 && options.map((option, i) =>
-					<button key={i} className={getConsentTypeClass(option)}
-									onClick={() => handleConsentTypeChange(option.value)}>
-						{option.label}
-					</button>,
-				)}
-				{cssLoading && <Icon name="loading"/>}
-			</div>
-
+				<h6>{__('Edit consent types', 'complianz-gdpr')}</h6>}
+				<div className="cmplz-cookiebanner-preview-controls-buttons">
+					{options.length > 1 && options.map((option, i) =>
+						<button key={i} className={getConsentTypeClass(option)}
+										onClick={() => handleConsentTypeChange(option.value)}>
+							{option.label}
+						</button>,
+					)}
+					{cssLoading && <Icon name="loading"/>}
+				</div>
 		</div>
 	);
 };

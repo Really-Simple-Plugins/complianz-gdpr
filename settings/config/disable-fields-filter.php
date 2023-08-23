@@ -8,7 +8,7 @@ defined('ABSPATH') or die();
  * @return mixed
  */
 function cmplz_remove_fields($field, $field_id){
-	if ( $field_id === 'regions' && cmplz_get_option('use_country')===1 ) {
+	if ( $field_id === 'regions' && cmplz_get_option('use_country') ) {
 		$field['type']= 'multicheckbox';
 	}
 

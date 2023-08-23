@@ -87,10 +87,10 @@ const Onboarding = () => {
 							</svg>
 						</button>
 					</div>
-					{steps[modalStep] === 'plugins' && <p>{__("A lot has changed, you can take a quick to tour to familiar yourself or discover on your own pace. If you have any questions, let us know, but for now: ","complianz-gdpr")}
-						&nbsp;<a href="https://complianz.io/meet-complianz-7" target="_blank">{__("Meet Complianz 7.0","complianz-gdpr")}</a>
+					{steps[modalStep] === 'plugins' && <p>{__("Take a quick tour to familiarise yourself with Complianz, or discover on your own pace. If you have any questions, let us know, but for now: ","complianz-gdpr")}
+						&nbsp;<a href="https://complianz.io/meet-complianz-7/ref/76/?campaign=onboarding-zero" target="_blank">{__("Meet Complianz 7.0","complianz-gdpr")}</a>
 					</p>}
-					{steps[modalStep] === 'email' && <p>{__("We use email notification to explain important updates in plugin settings. Add your email address below.","complianz-gdpr")}</p>}
+					{steps[modalStep] === 'email' && <p>{__("We use email notifications to explain important updates in your plugin settings. Add your email address below.","complianz-gdpr")}</p>}
 				</div>
 
 				<div className={"cmplz-modal-content "+processingClass}>
@@ -103,8 +103,8 @@ const Onboarding = () => {
 							<Icon name={waiting ? 'loading' : 'circle-check'} color={waiting ? 'grey' : 'green'} size={14} />
 							{ ( waiting || !loaded )  && __("Upgrading", "complianz-gdpr") }
 							{ !waiting && loaded && <>
-								{isUpgrade && __("Thanks for updating!", "complianz-gdpr")}
-								{!isUpgrade && __("Thanks for installing!", "complianz-gdpr")}
+								{ isUpgrade && __("Thanks for updating!", "complianz-gdpr")}
+								{ !isUpgrade && __("Thanks for installing!", "complianz-gdpr")}
 							</>}
 						</div>
 					</>}
@@ -113,7 +113,7 @@ const Onboarding = () => {
 						<div>
 							<input type="email"  className={emailClass} value={email} placeholder={__("Your email address", "complianz-gdpr")} onChange={(e) => setEmail(e.target.value)} />
 						</div><div>
-						<label><input onChange={ (e) => setIncludeTips(e.target.checked)} type="checkbox" checked={includeTips} />{__("Include 6 Tips & Tricks to get started with Complianz GDPR.","complianz-gdpr")}&nbsp;<a href="https://complianz.io/legal/privacy-statement/" target="_blank">{__("Privacy Statement", "complianz-gdpr")}</a></label>
+						<label><input onChange={ (e) => setIncludeTips(e.target.checked)} type="checkbox" checked={includeTips} />{__("Include 8 Tips & Tricks to get started with Complianz GDPR.","complianz-gdpr")}&nbsp;<a href="https://complianz.io/legal/privacy-statement/" target="_blank">{__("Privacy Statement", "complianz-gdpr")}</a></label>
 					</div><div>
 						<label><input onChange={ (e) => setSendTestEmail(e.target.checked)} type="checkbox" checked={sendTestEmail} />{__("Send a notification test email - Notification emails are sent from your server.","complianz-gdpr")}</label>
 					</div>
@@ -125,7 +125,7 @@ const Onboarding = () => {
 					<button type="button" className="button button-default" onClick={() => dismissModal() }>{__("Dismiss","complianz-gdpr")}</button>
 					{modalStep<(steps.length-1) && <button disabled={nextDisabled} className="button button-primary" onClick={(e)=> setModalStep(modalStep+1)}>{__("Next", "complianz-gdpr")}</button>}
 					{modalStep===(steps.length-1) && <a disabled={nextDisabled} href="#" onClick={(e) => goToWizard(e)} className="button button-primary" >{__("Start wizard", "complianz-gdpr")}</a>}
-					<a href="#" onClick={(e) => startTour(e)}>{__("Take a tour","complianz-gdpr")}</a>
+					{modalStep===(steps.length-1) && <a href="#" onClick={(e) => startTour(e)}>{__("Take a tour","complianz-gdpr")}</a>}
 				</div>
 			</div>
 		</>

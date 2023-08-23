@@ -13,7 +13,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'group_id' => 'cookie-scan',
 				'help'     => [
 					'label' => 'default',
-					'title' => __( "Cookie scan", 'complianz-gdpr' ),
+					'title' => __( "Site scan", 'complianz-gdpr' ),
 					'text'  => __( "If you want to clear all cookies from the plugin, you can do so here. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.",
 						"complianz-gdpr" ),
 					'url'   => 'https://complianz.io/cookie-scan-results/',
@@ -39,6 +39,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'id'                      => 'compile_statistics',
 				'type'                    => 'radio',
 				'menu_id'                 => 'consent-statistics',
+				'group_id' => 'consent-statistics',
 				'required'                => true,
 				'default'                 => '',
 				'revoke_consent_onchange' => true,
@@ -58,6 +59,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			[
 				'id'                      => 'compile_statistics_more_info',
 				'menu_id'                 => 'consent-statistics',
+				'group_id' => 'consent-statistics',
 				'type'                    => 'multicheckbox',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',
@@ -87,6 +89,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			[
 				'id'                      => 'compile_statistics_more_info_tag_manager',
 				'menu_id'                 => 'consent-statistics',
+				'group_id' => 'consent-statistics',
 				'type'                    => 'multicheckbox',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',
@@ -113,6 +116,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			[
 				'id'                      => 'matomo_anonymized',
 				'menu_id'                 => 'consent-statistics',
+				'group_id' => 'consent-statistics',
 				'type'                    => 'select',
 				'revoke_consent_onchange' => true,
 				'default'                 => '',
@@ -188,7 +192,6 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'type'             => 'radio',
 				'default'          => 'yes',
 				'label'            => cmplz_sprintf(__( "Do you want Complianz to add %s to your website?", 'complianz-gdpr' ), '{cmplz_dynamic_content=compile_statistics}' ),
-//				'label'            => cmplz_sprintf( __( "Do you want Complianz to add the statistics script to your website?", 'complianz-gdpr' ) ),
 				'options'          => array(
 					'yes' => __( 'Yes', 'complianz-gdpr' ),
 					'no'  => __( 'No', 'complianz-gdpr' ),
@@ -230,7 +233,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				],
 			],
 			[
-				'id'                      => 'UA_code',
+				'id'                      => 'ua_code',
 				'menu_id'                 => 'statistics-configuration',
 				'type'                    => 'text',
 				'default'                 => '',
@@ -275,7 +278,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'tooltip'                 => __( "For the Google Tag Manager code, log in and you will immediatly see your container codes. The one next to your website name is the code you will need to fill in here, the container ID.", 'complianz-gdpr' ),
 			],
 			[
-				'id'                      => 'AW_code',
+				'id'                      => 'aw_code',
 				'menu_id'                 => 'statistics-configuration',
 				'source'                  => 'wizard',
 				'type'                    => 'text',
