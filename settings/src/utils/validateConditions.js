@@ -15,6 +15,10 @@ export const validateConditions = (conditions, fields, fieldId, isSub=false) => 
 				}
 			}
 			for ( let conditionField in subConditionsArray ) {
+				if (conditionField==='hidden') {
+					thisConditionApplies = false;
+					continue;
+				}
 				let invert = conditionField.indexOf('!')===0;
 				if ( subConditionsArray.hasOwnProperty(conditionField) ) {
 					let conditionValue = subConditionsArray[conditionField];

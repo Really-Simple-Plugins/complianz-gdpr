@@ -582,6 +582,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				cmplz_update_option_no_hooks('enable_cookie_banner', 'yes');
 			}
 
+			if ( cmplz_iab_is_enabled() ) {
+				$this->dismiss['show'] = 1;
+			}
+
 			$update_array = array(
 				'title'                        => sanitize_text_field( $this->title ),
 				'position'                     => $this->sanitize_position( $this->position ),

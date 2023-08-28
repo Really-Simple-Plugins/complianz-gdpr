@@ -83,8 +83,7 @@ if (!function_exists('cmplz_get_field')) {
 	}
 }
 if (!function_exists('cmplz_get_field_index')) {
-	function cmplz_get_field_index($id){
-		$fields        = COMPLIANZ::$config->fields;
+	function cmplz_get_field_index($id, $fields){
 		$keys = array_keys( array_column( $fields, 'id' ), $id );
 		return reset( $keys );
 	}
@@ -757,41 +756,6 @@ if ( ! function_exists( 'cmplz_targeting_multiple_regions' ) ) {
 	}
 }
 
-if ( ! function_exists( 'cmplz_sidebar_notice' ) ) {
-	/**
-	 * @param string $msg
-	 * @param string $type notice | warning | success
-	 * @param bool|array  $condition
-	 *
-	 * @return string|void
-	 */
-
-	function cmplz_sidebar_notice( $msg, $type = 'notice', $condition = false ) {
-		if ( $msg == '' ) {
-			return;
-		}
-
-		// Condition
-		$condition_check = "";
-		$condition_question = "";
-		$condition_answer = "";
-		$cmplz_hidden = "";
-		if ($condition) {
-			//get first
-			$questions = array_keys($condition);
-			$question = reset($questions);
-			$answer = reset($condition);
-			$condition_check = "condition-check-1";
-			$condition_question = "data-condition-question-1='{$question}'";
-			$condition_answer = "data-condition-answer-1='{$answer}'";
-			$args = array('condition'=> $condition);
-			$cmplz_hidden = cmplz_field::this()->condition_applies( $args ) ? "" : "cmplz-hidden";;
-		}
-
-		echo "<div class='cmplz-help-modal cmplz-notice cmplz-{$type} {$cmplz_hidden} {$condition_check}' {$condition_question} {$condition_answer}>{$msg}</div>";
-	}
-}
-
 /**
  * Check if the scan detected social media on the site.
  *
@@ -1319,6 +1283,10 @@ if ( !function_exists('cmplz_get_transient') ) {
 	 * @return mixed
 	 */
 	function cmplz_get_transient( string $name ){
+		if ( isset($_GET['cmplz_nocache']) ) {
+			return false;
+		}
+
 		$value = false;
 		$now = time();
 		$transients = get_option('cmplz_transients', array());

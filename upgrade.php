@@ -397,7 +397,7 @@ function cmplz_check_upgrade() {
 	     && version_compare( $prev_version, '5.2.6.1', '<' )
 	) {
 		if ( cmplz_tcf_active() ) {
-			cmplz_delete_transient( 'cmplz_vendorlist_downloaded_once' );
+			delete_option( 'cmplz_vendorlist_downloaded_once' );
 		}
 	}
 
@@ -777,7 +777,7 @@ function cmplz_check_upgrade() {
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
-		cmplz_set_transient( 'cmplz_vendorlist_downloaded_once', true, HOUR_IN_SECONDS );
+		update_option( 'cmplz_vendorlist_downloaded_once', strtotime('-1 week') + HOUR_IN_SECONDS, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
@@ -973,12 +973,19 @@ function cmplz_check_upgrade() {
 							$value = array_filter( $value, static function ( $item ) {return $item == 1;} );
 							$value = array_keys( $value );
 						}
-
 						if ($id === 'which_personal_data_secure') {
 							$new = [];
-
-							if ( isset($value['4']) ) {
+							if ( isset($value['1']) || isset($value['16']) ) {
+								$new[] = '1';
+							}
+							if ( isset($value['2']) || isset($value['4'])) {
 								$new[] = '2';
+							}
+							if ( isset($value['3']) || isset($value['15']) ) {
+								$new[] = '3';
+							}
+							if ( isset($value['6']) ) {
+								$new[] = '5';
 							}
 							if ( isset($value['5']) ) {
 								$new[] = '7';
@@ -986,7 +993,7 @@ function cmplz_check_upgrade() {
 							if ( isset($value['7']) ) {
 								$new[] = '8';
 							}
-							if ( isset($value['8']) || isset($value['9']) || isset($value['10']) || isset($value['11']) || isset($value['14']) ) {
+							if ( isset($value['8']) || isset($value['9']) || isset($value['10']) || isset($value['11']) || isset($value['14']) || isset($value['17']) ) {
 								$new[] = '4';
 							}
 							$value = $new;

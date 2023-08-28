@@ -53,7 +53,7 @@ function cmplz_is_hidden(el) {
 }
 
 function cmplz_html_decode(input) {
-	var doc = new DOMParser().parseFromString(input, "text/html");
+	let doc = new DOMParser().parseFromString(input, "text/html");
 	return doc.documentElement.textContent;
 }
 /**
@@ -76,8 +76,8 @@ document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(cmplz
 	});
 
 	document.addEventListener("cmplz_enable_category", function(consentData) {
-		var consentedCategory = consentData.detail.category;
-		var consentedService = consentData.detail.service;
+		let consentedCategory = consentData.detail.category;
+		let consentedService = consentData.detail.service;
 		cmplzLoadConsentAreaContent(consentedCategory, consentedService)
 	});
 });
@@ -90,7 +90,7 @@ function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 		let blockId = obj.getAttribute('data-block_id');
 		if ( consentedCategory === category || consentedService === service ) {
 			//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-			var request = new XMLHttpRequest();
+			let request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'consent-area/'+postId+'/'+blockId, true);
 			request.setRequestHeader('Content-type', 'application/json');
 			request.send();
@@ -113,7 +113,7 @@ document.addEventListener('cmplz_manage_consent_container_loaded', function(e){
 	let url = window.location.href;
 	if ( url.indexOf('#') != -1 ) {
 		let end_pos = url.lastIndexOf("?") != -1 ? url.lastIndexOf("?") : undefined;
-		var anchor = url.substring(url.indexOf("#") + 1, end_pos);
+		let anchor = url.substring(url.indexOf("#") + 1, end_pos);
 		const element = document.getElementById(anchor);
 		if (element) {
 			const y = element.getBoundingClientRect().top + window.pageYOffset - 200;
@@ -135,7 +135,7 @@ complianz.locale = complianz.locale + '&token='+Math.random().toString(36).repla
 	if (typeof window.CustomEvent === 'function') return false;
 	function CustomEvent(event, params) {
 		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		var evt = document.createEvent('CustomEvent');
+		let evt = document.createEvent('CustomEvent');
 		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
 		return evt;
 	}
@@ -143,18 +143,18 @@ complianz.locale = complianz.locale + '&token='+Math.random().toString(36).repla
 	window.CustomEvent = CustomEvent;
 })();
 
-let cmplz_banner;//look this one up when the cookiebanner loads.
-let cmplz_banner_container = document.getElementById('cmplz-cookiebanner-container');
-let cmplz_manage_consent_button;
-let cmplz_waiting_inline_scripts = [];
-let cmplz_waiting_scripts = [];
-let cmplz_fired_scripts = [];
-let cmplz_placeholder_class_index = 0;
-let cmplz_all_scripts_hook_fired = false;
-let cmplz_consent_stored_once = false;
-let cmplz_fired_category_events = ['functional'];
-let cmplz_fired_service_events = [];
-let cmplz_categories = [
+var cmplz_banner;//look this one up when the cookiebanner loads.
+var cmplz_banner_container = document.getElementById('cmplz-cookiebanner-container');
+var cmplz_manage_consent_button;
+var cmplz_waiting_inline_scripts = [];
+var cmplz_waiting_scripts = [];
+var cmplz_fired_scripts = [];
+var cmplz_placeholder_class_index = 0;
+var cmplz_all_scripts_hook_fired = false;
+var cmplz_consent_stored_once = false;
+var cmplz_fired_category_events = ['functional'];
+var cmplz_fired_service_events = [];
+var cmplz_categories = [
 	'functional',
 	'preferences',
 	'statistics',
@@ -828,7 +828,7 @@ function cmplz_run_after_all_scripts(category, service) {
  *
  * */
 
-let cmplz_fired_events = [];
+var cmplz_fired_events = [];
 function cmplz_run_tm_event(category) {
 	if (cmplz_fired_events.indexOf(category) === -1) {
 		cmplz_fired_events.push(category);
@@ -846,7 +846,7 @@ function cmplz_run_tm_event(category) {
  */
 window.cmplz_accept_all = function(){
 	cmplz_clear_all_service_consents();
-	for (var key in cmplz_categories) {
+	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			cmplz_set_consent(cmplz_categories[key], 'allow');
 		}
@@ -1100,9 +1100,9 @@ window.cmplz_set_banner_status = function ( status ){
  * @returns {boolean}
  */
 function cmplz_is_bot(){
-	var botPattern = "(googlebot\/|Googlebot-Mobile|Google-InspectionTool|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
-	var reBot = new RegExp(botPattern, 'i');
-	var userAgent = navigator.userAgent;
+	let botPattern = "(googlebot\/|Googlebot-Mobile|Google-InspectionTool|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
+	let reBot = new RegExp(botPattern, 'i');
+	let userAgent = navigator.userAgent;
 	return reBot.test(userAgent);
 }
 /*
@@ -1111,9 +1111,9 @@ function cmplz_is_bot(){
  * @returns {boolean}
  */
 function cmplz_is_speedbot(){
-	var userAgent = navigator.userAgent;
-	var speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
-	var speedBot = new RegExp(speedBotPattern, 'i');
+	let userAgent = navigator.userAgent;
+	let speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
+	let speedBot = new RegExp(speedBotPattern, 'i');
 	return speedBot.test(userAgent);
 }
 
@@ -1162,8 +1162,8 @@ window.cmplz_has_consent = function ( category ){
  */
 window.cmplz_is_service_denied = function ( service ) {
 	//Check if it's in the consented services cookie
-	var consented_services_json = cmplz_get_cookie('consented_services');
-	var consented_services;
+	let consented_services_json = cmplz_get_cookie('consented_services');
+	let consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1185,8 +1185,8 @@ window.cmplz_is_service_denied = function ( service ) {
  */
 window.cmplz_has_service_consent = function ( service, category ) {
 	//Check if it's in the consented services cookie
-	var consented_services_json = cmplz_get_cookie('consented_services');
-	var consented_services;
+	let consented_services_json = cmplz_get_cookie('consented_services');
+	let consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1206,8 +1206,8 @@ window.cmplz_has_service_consent = function ( service, category ) {
  * @returns {boolean}
  */
 function cmplz_exists_service_consent(){
-	var consented_services_json = cmplz_get_cookie('consented_services');
-	var consented_services;
+	let consented_services_json = cmplz_get_cookie('consented_services');
+	let consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 		for (const key in consented_services) {
@@ -1229,8 +1229,8 @@ function cmplz_exists_service_consent(){
  * @param consented
  */
 function cmplz_set_service_consent( service, consented ){
-	var consented_services_json = cmplz_get_cookie('consented_services');
-	var consented_services;
+	let consented_services_json = cmplz_get_cookie('consented_services');
+	let consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1260,8 +1260,8 @@ function cmplz_clear_all_service_consents(){
  */
 
 function cmplz_get_all_service_consents(){
-	var consented_services_json = cmplz_get_cookie('consented_services');
-	var consented_services;
+	let consented_services_json = cmplz_get_cookie('consented_services');
+	let consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1367,7 +1367,7 @@ if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
 //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 if ( complianz.geoip == 1 && (cmplz_user_data.length == 0 || (cmplz_user_data.version !== complianz.version) || (cmplz_user_data.banner_version !== complianz.banner_version)) ) {
 
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 	let cmplzUserRegion = cmplz_get_url_parameter(window.location.href, 'cmplz_user_region');
 	cmplzUserRegion = cmplzUserRegion ? '&cmplz_user_region=' + cmplzUserRegion : '';
 	request.open('GET', complianz.url+'banner?'+complianz.locale+cmplzUserRegion, true);
@@ -1436,13 +1436,13 @@ document.addEventListener('cmplz_consent_action', function (e) {
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
-	for (var key in cmplz_categories) {
+	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			cmplz_set_consent(cmplz_categories[key], 'deny');
 		}
 	}
-	var consentLevel = cmplz_highest_accepted_category();
-	var reload = false;
+	let consentLevel = cmplz_highest_accepted_category();
+	let reload = false;
 
 	if (consentLevel !== 'functional' || cmplz_exists_service_consent() ) {
 		reload = true;
@@ -1485,8 +1485,8 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 cmplz_add_event('click', '.cmplz-accept-category, .cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
-	var service = obj.getAttribute('data-service');
-	var category = obj.getAttribute('data-category');
+	let service = obj.getAttribute('data-service');
+	let category = obj.getAttribute('data-category');
 	category = category ? category : 'marketing';
 	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
@@ -1568,10 +1568,10 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
 	cmplz_banner = obj.closest('.cmplz-cookiebanner');
-	for (var key in cmplz_categories) {
+	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			var category = cmplz_categories[key];
-			var categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
+			let category = cmplz_categories[key];
+			let categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
 			if (categoryElement) {
 				if (categoryElement.checked) {
 					cmplz_set_consent(category, 'allow');
@@ -1610,10 +1610,10 @@ cmplz_add_event('click', '.cmplz-view-preferences', function(e){
  *
  */
 cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', function(e){
-	for (var key in cmplz_categories) {
+	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			var category = cmplz_categories[key];
-			var categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-' + category);
+			let category = cmplz_categories[key];
+			let categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-' + category);
 			if (categoryElement) {
 				if (categoryElement.checked) {
 					cmplz_set_consent(category, 'allow');
@@ -1638,9 +1638,9 @@ cmplz_add_event('click', '.cmplz-deny', function(e){
 
 cmplz_add_event('click', 'button.cmplz-manage-settings', function(e){
 	e.preventDefault();
-	var catsContainer = document.querySelector('.cmplz-cookiebanner .cmplz-categories');
-	var saveSettings = document.querySelector('.cmplz-save-settings');
-	var manageSettings = document.querySelector('button.cmplz-manage-settings');
+	let catsContainer = document.querySelector('.cmplz-cookiebanner .cmplz-categories');
+	let saveSettings = document.querySelector('.cmplz-save-settings');
+	let manageSettings = document.querySelector('button.cmplz-manage-settings');
 	if ( !cmplz_is_hidden(catsContainer) ){
 		saveSettings.style.display='none';
 		manageSettings.style.display = 'block';
@@ -1663,7 +1663,7 @@ cmplz_add_event('click', 'button.cmplz-manage-consent', function(e){
 function cmplz_set_up_auto_dismiss() {
 	if ( complianz.consenttype === 'optout' ) {
 		if ( complianz.dismiss_on_scroll==1 ) {
-			var onWindowScroll = function(evt) {
+			let onWindowScroll = function(evt) {
 				if (window.pageYOffset > Math.floor(400)) {
 					cmplz_set_banner_status('dismissed');
 					cmplz_fire_categories_event();
@@ -1675,9 +1675,9 @@ function cmplz_set_up_auto_dismiss() {
 			window.addEventListener('scroll', onWindowScroll);
 		}
 
-		var delay = parseInt(complianz.dismiss_timeout);
+		let delay = parseInt(complianz.dismiss_timeout);
 		if ( delay > 0 ) {
-			var cmplzDismissTimeout = window.setTimeout(function () {
+			window.setTimeout(function () {
 				cmplz_set_banner_status('dismissed');
 				cmplz_fire_categories_event();
 				cmplz_track_status();
@@ -1704,7 +1704,7 @@ function cmplz_fire_categories_event(){
  */
 
 function cmplz_track_status( status ) {
-	var cats = [];
+	let cats = [];
 	status = typeof status !== 'undefined' ? status : false;
 
 	let event = new CustomEvent('cmplz_track_status', { detail: status });
@@ -1716,10 +1716,10 @@ function cmplz_track_status( status ) {
 		cats = [status];
 	}
 	cmplz_set_category_as_body_class();
-	var saved_cats, saved_services;
+	let saved_cats, saved_services;
 	try {saved_cats = JSON.parse(cmplz_get_cookie('saved_categories'));} catch (e) {saved_cats = {};}
 	try {saved_services = JSON.parse(cmplz_get_cookie('saved_services'));} catch (e) {saved_services = {};}
-	var consented_services = cmplz_get_all_service_consents();
+	let consented_services = cmplz_get_all_service_consents();
 
 	//compare current cats with saved cats. When there are no changes, do nothing.
 	if (cmplz_equals(saved_cats, cats) && cmplz_equals(saved_services, consented_services)) {
@@ -1736,7 +1736,7 @@ function cmplz_track_status( status ) {
 	cmplz_consent_stored_once = true;
 
 	let data;
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 	request.open('POST', complianz.url+'track', true);
 	data = {
 		'consented_categories': cats,
@@ -1755,13 +1755,13 @@ function cmplz_track_status( status ) {
  * @returns {string}
  */
 function cmplz_accepted_categories() {
-	var consentedCategories = cmplz_categories;
-	var consentedTemp = [];
+	let consentedCategories = cmplz_categories;
+	let consentedTemp = [];
 
 	//because array filter changes keys, we make a temp arr
-	for (var key in consentedCategories) {
+	for (let key in consentedCategories) {
 		if ( consentedCategories.hasOwnProperty(key) ) {
-			var category = consentedCategories[key];
+			let category = consentedCategories[key];
 			if (cmplz_has_consent(category)) {
 				consentedTemp.push(category);
 			}
@@ -1780,9 +1780,9 @@ function cmplz_accepted_categories() {
  * */
 
 function cmplz_sync_category_checkboxes() {
-	for ( var key in cmplz_categories ) {
+	for ( let key in cmplz_categories ) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			var category = cmplz_categories[key];
+			let category = cmplz_categories[key];
 			if ( cmplz_has_consent(category) || category === 'functional' ) {
 				document.querySelectorAll('input.cmplz-' + category).forEach(obj => {
 					obj.checked = true;
@@ -1816,7 +1816,7 @@ function cmplz_sync_category_checkboxes() {
  * */
 
 function cmplz_merge_object(userdata, ajax_data) {
-	var output = {};
+	let output = {};
 	//first, we fill the important data.
 	for (let key in ajax_data) {
 		if (ajax_data.hasOwnProperty(key)) output[key] = ajax_data[key];
@@ -1839,7 +1839,7 @@ function cmplz_merge_object(userdata, ajax_data) {
  * */
 
 function cmplz_check_cookie_policy_id() {
-	var user_policy_id = cmplz_get_cookie('policy_id');
+	let user_policy_id = cmplz_get_cookie('policy_id');
 	if (user_policy_id && (parseInt(complianz.current_policy_id) !== parseInt(user_policy_id) ) ) {
 		cmplz_clear_cookies('cmplz');
 	}
@@ -1855,36 +1855,36 @@ function cmplz_clear_cookies (cookie_part) {
 		return false;
 	}
 
-	var foundCookie = false;
-	var secure = window.location.protocol === 'https:' ? ';secure' : '';
-	var expires = 'expires=' + new Date().toGMTString();
-	var pathParts = location.pathname.replace(/^\/|\/$/g, '').split('/');
+	let foundCookie = false;
+	let secure = window.location.protocol === 'https:' ? ';secure' : '';
+	let expires = 'expires=' + new Date().toGMTString();
+	let pathParts = location.pathname.replace(/^\/|\/$/g, '').split('/');
 
 	// Loop through all cookies
 	document.cookie.split('; ').forEach(function(cookie) {
-		var cookieName = cookie.split(';')[0].split('=')[0];
+		let cookieName = cookie.split(';')[0].split('=')[0];
 
 		// If the cookie contains cookie_part, try to delete it
 		if (cookieName.indexOf(cookie_part) !== -1) {
 			foundCookie = true;
-			var domainParts = window.location.hostname.split('.');
-			var skipLast = domainParts.length > 1;
+			let domainParts = window.location.hostname.split('.');
+			let skipLast = domainParts.length > 1;
 
 			// Clear cookies on root path and subpaths
 			pathParts.forEach(function(pathPart) {
-				var path = '/' + pathPart;
+				let path = '/' + pathPart;
 				document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=.' + domainParts.join('.') + ';path=' + path;
 				document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=.' + domainParts.join('.') + ';path=' + path + '/';
 			});
 
 			// Clear cookies on parent domains
 			while (domainParts.length > 0) {
-				var domain = '.' + domainParts.join('.');
+				let domain = '.' + domainParts.join('.');
 				domainParts.shift();
 				if (skipLast && domainParts.length === 1) domainParts.shift();
 
 				pathParts.forEach(function(pathPart) {
-					var path = '/' + pathPart;
+					let path = '/' + pathPart;
 					document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=' + domain + ';path=' + path;
 					document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=' + domain + ';path=' + path + '/';
 				});
@@ -1914,9 +1914,9 @@ function cmplz_set_accepted_cookie_policy_id() {
  * */
 
 function cmplz_integrations_init() {
-	var cookiesToSet = complianz.set_cookies;
+	let cookiesToSet = complianz.set_cookies;
 	//check if we have scripts that need to be set to true on init.
-	for (var key in cookiesToSet) {
+	for (let key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key) && cookiesToSet[key][1] === '1') {
 			cmplz_set_cookie(key, cookiesToSet[key][1], false);
 		}
@@ -1928,8 +1928,8 @@ function cmplz_integrations_init() {
  *
  * */
 function cmplz_integrations_revoke() {
-	var cookiesToSet = complianz.set_cookies;
-	for (var key in cookiesToSet) {
+	let cookiesToSet = complianz.set_cookies;
+	for (let key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key)) {
 			cmplz_set_cookie(key, cookiesToSet[key][1], false);
 			if ( cookiesToSet[key][1] == false ){
@@ -1945,8 +1945,8 @@ function cmplz_integrations_revoke() {
  * */
 
 function cmplz_set_integrations_cookies() {
-	var cookiesToSet = complianz.set_cookies;
-	for (var key in cookiesToSet) {
+	let cookiesToSet = complianz.set_cookies;
+	for (let key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key)) {
 			cmplz_set_cookie(key, cookiesToSet[key][0], false);
 		}
@@ -1976,8 +1976,8 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
  * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
  */
 function cmplz_maybe_auto_redirect() {
-	var redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
-	var region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
+	let redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
+	let region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
 	if (redirect && !region) {
 		window.location.href = window.location.href + '&cmplz-region=' + complianz.region;
 	}
@@ -2005,7 +2005,7 @@ function cmplz_start_clean(){
 		}
 		//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 		if ( !cmplz_cookie_data || cmplz_cookie_data.length === 0 ) {
-			var request = new XMLHttpRequest();
+			let request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'cookie_data', true);
 			request.setRequestHeader('Content-type', 'application/json');
 			request.send();
@@ -2082,7 +2082,7 @@ function cmplz_load_manage_consent_container() {
 	let is_block_editor = false;//document.querySelector('.wp-admin .cmplz-unlinked-mode');
 	if ( manage_consent_container && !is_block_editor ) {
 
-		var request = new XMLHttpRequest();
+		let request = new XMLHttpRequest();
 		request.open('GET', complianz.url+'manage_consent_html?'+complianz.locale, true);
 		request.setRequestHeader('Content-type', 'application/json');
 		request.send();
@@ -2104,7 +2104,7 @@ function cmplz_load_manage_consent_container() {
  */
 
 cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
-	var keycode = (e.keyCode ? e.keyCode : e.which);
+	let keycode = (e.keyCode ? e.keyCode : e.which);
 	if (keycode == 32) {
 		document.activeElement.click();
 	}
@@ -2114,7 +2114,7 @@ cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
  * Make close button closable with enter
  */
 cmplz_add_event('keypress', '.cmplz-cookiebanner .cmplz-header .cmplz-close', function(e){
-	var keycode = (e.keyCode ? e.keyCode : e.which);
+	let keycode = (e.keyCode ? e.keyCode : e.which);
 	if ( keycode == 13 ) {
 		document.activeElement.click();
 	}
@@ -2171,8 +2171,8 @@ function cmplzCopyAttributes(source, target) {
 /*
  * Hooked into jquery
  */
-let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
-let cmplz_times_checked = 0;
+var cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
+var cmplz_times_checked = 0;
 if ('undefined' != typeof window.jQuery) {
 	jQuery(document).ready(function ($) {
 		if ( cmplz_has_wp_video ) {
@@ -2180,7 +2180,7 @@ if ('undefined' != typeof window.jQuery) {
 				cmplz_activate_wp_video();
 			});
 
-			var cmplzInterval = setInterval(function(){
+			let cmplzInterval = setInterval(function(){
 				cmplz_times_checked+=1;
 				if ( document.querySelector('.cmplz-wp-video-shortcode') && cmplz_times_checked<100) {
 					cmplz_activate_wp_video();
@@ -2201,7 +2201,7 @@ if ('undefined' != typeof window.jQuery) {
 			let services = cmplz_get_all_service_consents();
 			let selectorVideo = '';
 			let selectorVideos = [];
-			for (var c_key in categories) {
+			for (let c_key in categories) {
 				if (categories.hasOwnProperty(c_key)) {
 					let category = categories[c_key];
 					if (category==='functional') {
@@ -2210,7 +2210,7 @@ if ('undefined' != typeof window.jQuery) {
 					selectorVideos.push('.cmplz-wp-video-shortcode[data-category="'+category+'"]');
 				}
 			}
-			for (var s_key in services) {
+			for (let s_key in services) {
 				if (services.hasOwnProperty(s_key)) {
 					selectorVideos.push('.cmplz-wp-video-shortcode[data-service="' + s_key + '"]');
 				}

@@ -94,6 +94,39 @@ const CookieDetails = (cookie) => {
 	let servicesOptions = services.map((service, i) => {
 		return {value:service.ID, label:service.name};
 	});
+
+	//convert legacy marketing/tracking label to marketing, if found.
+	let purposesHasSlash = false;
+	let purposeMarketing = 'Marketing';
+	purposesOptions.forEach(function(purpose, i) {
+		if (purpose.value.indexOf('/')!==-1){
+			purposesHasSlash = true;
+			purposeMarketing = purpose.value;
+			//strip off string after slash, including the slash
+			purposeMarketing = purposeMarketing.substring(0, purposeMarketing.indexOf('/'));
+		}
+	});
+	let cookieHasSlash =  cookie.purpose.indexOf('/')!==-1;
+	if (cookieHasSlash){
+		purposeMarketing = cookie.purpose.substring(0, cookie.purpose.indexOf('/'));
+	}
+
+	if (purposesHasSlash && !cookieHasSlash) {
+		//find the first purpose with a slash in purposeOptions, and change it to purposeMarketing
+		purposesOptions.forEach(function(purpose, i) {
+			if (purpose.value.indexOf('/')!==-1){
+				purpose.value = purposeMarketing;
+				purpose.label = purposeMarketing;
+				purposesOptions[i] = purpose;
+			}
+		});
+	}
+
+	let cookiePurpose = cookie.purpose;
+	if ( !purposesHasSlash && cookieHasSlash ) {
+		cookiePurpose = purposeMarketing;
+	}
+
 	return (
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
@@ -139,7 +172,7 @@ const CookieDetails = (cookie) => {
 				<label>{__("Purpose", "complianz-gdpr")}</label>
 				<SelectInput
 					disabled={disabled}
-					value={cookie.purpose}
+					value={cookiePurpose}
 					options={purposesOptions}
 					onChange={(value) => onChangeHandler(value, cookie.ID, 'purpose')}
 				/>

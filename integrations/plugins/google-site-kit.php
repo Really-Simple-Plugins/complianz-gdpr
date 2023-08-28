@@ -49,8 +49,8 @@ add_filter( 'cmplz_warning_types', 'cmplz_google_site_filter_warnings' );
  */
 
 function cmplz_google_site_kit_filter_fields( $fields ) {
-	$index = cmplz_get_field_index('compile_statistics_more_info');
-	unset($fields[$index]['help']);
+	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
+	if ($index!==false) unset($fields[$index]['help']);
 	return  cmplz_remove_field( $fields,
 		[
 			'configuration_by_complianz',
@@ -59,21 +59,4 @@ function cmplz_google_site_kit_filter_fields( $fields ) {
 			'consent-mode'
 		]);
 }
-add_filter( 'cmplz_fields', 'cmplz_google_site_kit_filter_fields', 20, 1 );
-
-/**
- * We remove some actions to integrate fully
- * */
-function cmplz_google_site_kit_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$banner_loader, 'get_statistics_script' ), 10 );
-}
-add_action( 'after_setup_theme', 'cmplz_google_site_kit_remove_scripts_others' );
-/**
- * Remove stuff which is not necessary anymore
- *
- * */
-
-function cmplz_google_site_kit_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
-}
-add_action( 'admin_init', 'cmplz_google_site_kit_remove_actions' );
+add_filter( 'cmplz_fields', 'cmplz_google_site_kit_filter_fields', 200, 1 );

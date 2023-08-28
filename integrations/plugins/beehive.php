@@ -13,17 +13,6 @@ function cmplz_beehive_set_default( $value, $fieldname, $field ) {
 }
 
 /**
- * Remove notice
- *
- * */
-
-function cmplz_beehive_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
-}
-add_action( 'init', 'cmplz_beehive_remove_actions' );
-
-
-/**
  * We remove some actions to integrate fully
  * */
 function cmplz_beehive_remove_scripts_others() {
@@ -32,15 +21,43 @@ function cmplz_beehive_remove_scripts_others() {
 add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
 
 /**
- * Add notice to tell a user to choose Analytics
+ * Remove stats
  *
- * @param $args
- */
-function cmplz_beehive_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Beehive' ) );
-}
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_beehive_show_compile_statistics_notice', 10, 1 );
+ * */
+function cmplz_beehive_show_compile_statistics_notice($notices) {
+	//find notice with field_id 'compile_statistics' and replace it with our own
+	$text = '';
+	if ( cmplz_no_ip_addresses() ) {
+		$text .= __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
+			'complianz-gdpr' );
+	}
+	if ( cmplz_statistics_no_sharing_allowed() ) {
+		$text .=  __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
+			'complianz-gdpr' );
+	}
+	$notice = [
+		'field_id' => 'compile_statistics',
+		'label'    => 'default',
+		'title'    => __( "Statistics plugin detected", 'complianz-gdpr' ),
+		'text'     => cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'Beehive' )
+		              .' '.$text,
+	];
 
+	$found_key = false;
+	foreach ($notices as $key=>$notice) {
+		if ($notice['field_id']==='compile_statistics') {
+			$found_key = $key;
+		}
+	}
+	if ($found_key){
+		$notices[$found_key] = $notice;
+	} else {
+		$notices[] = $notice;
+	}
+	return $notices;
+
+}
+add_filter( 'cmplz_field_notices', 'cmplz_beehive_show_compile_statistics_notice' );
 
 add_filter( 'beehive_get_options', 'cmplz_beehive_options', 10, 2 );
 function cmplz_beehive_options( $options, $network ) {
@@ -80,8 +97,8 @@ add_filter( 'cmplz_warning_types', 'cmplz_beehive_filter_warnings' );
  */
 
 function cmplz_beehive_filter_fields( $fields ) {
-	$index = cmplz_get_field_index('compile_statistics_more_info');
-	unset($fields[$index]['help']);
+	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
+	if ($index!==false) unset($fields[$index]['help']);
 	return  cmplz_remove_field( $fields,
 		[
 			'configuration_by_complianz',
@@ -91,20 +108,4 @@ function cmplz_beehive_filter_fields( $fields ) {
 		]);
 }
 
-add_filter( 'cmplz_fields', 'cmplz_beehive_filter_fields', 20, 1 );
-
-/**
- * Tell the user the consequences of choices made
- */
-function cmplz_beehive_compile_statistics_more_info_notice() {
-	if ( cmplz_no_ip_addresses() ) {
-		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
-			'complianz-gdpr' ) );
-	}
-	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
-			'complianz-gdpr' ) );
-	}
-}
-
-add_action( 'cmplz_notice_compile_statistics_more_info', 'cmplz_beehive_compile_statistics_more_info_notice' );
+add_filter( 'cmplz_fields', 'cmplz_beehive_filter_fields', 200, 1 );

@@ -21,7 +21,7 @@
 				gap: var(--rsp-spacing-xxs);
 
 				&:hover:not([disabled]) {
-					background-color: var(--rsp-dark-blue-faded);
+					background-color: var(--rsp-blue-faded);
 				}
 
 				&:focus {
@@ -71,7 +71,7 @@
 
 				&[data-highlighted] {
 					outline: none;
-					background-color: var(--rsp-dark-blue-faded);
+					background-color: var(--rsp-blue-faded);
 					color: var(--rsp-text-color);
 				}
 			}

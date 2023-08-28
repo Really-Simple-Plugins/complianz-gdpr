@@ -26,7 +26,7 @@ class CMPLZ_Elementor_Pro {
 	 */
 	public function __construct() {
 		add_action( 'elementor/init', array( $this, 'maybe_import_templates' ), 10 );
-		add_filter( 'cmplz_fields', [ $this, 'filter_elementor_pro_fields' ], 100, 1);
+		add_filter( 'cmplz_fields', [ $this, 'filter_elementor_pro_fields' ], 200, 1);
 		add_action( "cmplz_after_save_field", [$this, "update_legal_banner" ], 10, 4 );
 	}
 

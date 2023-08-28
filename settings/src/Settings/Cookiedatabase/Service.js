@@ -78,7 +78,7 @@ const ServiceDetails = (service) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Privacy Statement URL", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'privacyStatementURL') } type="text" placeholder={__("https://domain.com/privacy", "complianz-gdpr")} value={service.privacyStatementURL} />
+				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'privacyStatementURL') } type="text" value={service.privacyStatementURL} />
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">

@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
-add_filter( 'cmplz_fields', 'cmplz_wizard_consent_fields', 1000 );
+add_filter( 'cmplz_fields', 'cmplz_wizard_consent_fields', 100 );
 function cmplz_wizard_consent_fields( $fields ) {
 
 	$fields = array_merge( $fields,
@@ -102,8 +102,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'help'                    => [
 					'label' => 'default',
 					'title' => "Configuring Google Tag Manager",
-					'text'  => __( 'You can configure Google Tag Manager for Complianz, and, if applicable, adjust configuration for Google Analytics for GDPR and other opt-in based privacy laws.',
-						'complianz-gdpr' ),
+					'text'  => __( 'You can configure Google Tag Manager for Complianz, and, if applicable, adjust configuration for Google Analytics for GDPR and other opt-in based privacy laws.', 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/how-to-configure-tag-manager-for-gdpr/',
 				],
 				'react_conditions'        => [

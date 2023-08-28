@@ -87,19 +87,6 @@ function cmplz_placeholders_fields($fields){
 			],
 		],
 		[
-			'id'                      => 'placeholder_preview',
-			'menu_id'                 => 'placeholders',
-			'group_id'                => 'placeholders-appearance',
-			'type'      => 'placeholder_preview',
-			'condition_action' => 'disable',
-			'react_conditions' => [
-				'relation' => 'AND',
-				[
-					'safe_mode' => false,
-				]
-			],
-		],
-		[
 			'id'                      => 'placeholder_style',
 			'menu_id'                 => 'placeholders',
 			'group_id'                => 'placeholders-appearance',
@@ -145,7 +132,19 @@ function cmplz_placeholders_fields($fields){
 				]
 			],
 		],
-
+			[
+				'id'                      => 'placeholder_preview',
+				'menu_id'                 => 'placeholders',
+				'group_id'                => 'placeholders-appearance',
+				'type'      => 'placeholder_preview',
+				'condition_action' => 'disable',
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'safe_mode' => false,
+					]
+				],
+			],
 		[
 			'id'                      => 'google-maps-format',
 			'menu_id'                 => 'placeholders',

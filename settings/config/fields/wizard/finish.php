@@ -1,7 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die();
 
-add_filter( 'cmplz_fields', 'cmplz_wizard_finish_fields', 1000 );
+add_filter( 'cmplz_fields', 'cmplz_wizard_finish_fields', 100 );
 function cmplz_wizard_finish_fields( $fields ) {
 
 	$fields = array_merge( $fields,

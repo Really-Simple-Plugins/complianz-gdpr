@@ -597,7 +597,7 @@ function cmplz_other_plugins_data($slug=false){
 			'constant_premium' => 'burst_pro',
 			'website' => 'https://burst-statistics.com/pricing?src=complianz-plugin',
 			'wordpress_url' => 'https://wordpress.org/plugins/burst-statistics/',
-			'upgrade_url' => 'https://burst-statistics.com/?src=cmplz-plugin',
+			'upgrade_url' => 'https://burst-statistics.com/pricing?src=cmplz-plugin',
 			'title' => 'Burst Statistics - '. __("Self-hosted, Privacy-friendly analytics tool.", "complianz-gdpr"),
 		],
 		[

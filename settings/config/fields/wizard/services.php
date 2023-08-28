@@ -225,7 +225,7 @@ function cmplz_services_fields( $fields ) {
 				'options'                 => [
 					'no' => __("Don't use an additional framework.", "complianz-gdpr"),
 					'yes' =>  __("Enable TCF, without support for Google Advertising Products.", "complianz-gdpr"),
-					'tcf' => __("Enable TCF & Google CMP Certified Consent Mode with support for Google Advertising Products.", "complianz-gdpr"),
+					'tcf' => __("Enable TCF & Google CMP Certified Consent Management with support for Google Advertising Products", "complianz-gdpr"),
 					],
 				'default'                 => 'no',
 				'label'                   => __( "Choose the appropriate frameworks needed for your configuration.", 'complianz-gdpr' ),

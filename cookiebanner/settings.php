@@ -145,6 +145,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 			[
 				'id'          => 'disable_cookiebanner',
 				'source_id' => 'enable_cookie_banner',
+				'data_target' => 'banner',
 				'source_mapping' => [
 					//source value => target value
 					'no' => 1,
@@ -173,7 +174,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'react_conditions' => [
 					'relation' => 'AND',
 					[
-						'a_b_testing' => '1',
+						'a_b_testing_buttons' => '1',
 					]
 				],
 			],

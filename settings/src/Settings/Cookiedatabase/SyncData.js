@@ -347,6 +347,7 @@ const fetchSyncProgressData = (restart) => {
 		let serviceTypeOptions = response.serviceType_options;
 		let defaultLanguage = response.default_language;
 		let cookieCount = cookies.length;
+
 		return {syncProgress, cookies, cookieCount, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages: response.languages, errorMessage};
 	}).catch((error) => {
 		console.error(error);

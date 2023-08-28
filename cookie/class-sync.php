@@ -1009,6 +1009,9 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			$out = [];
 			foreach ($languages as $language ) {
 				$serviceTypes = get_option( 'cmplz_serviceTypes_' . $language );
+				if (isset($_GET['cmplz_nocache'])) {
+					$serviceTypes = false;
+				}
 				if ( ! $serviceTypes ) {
 					$endpoint = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/servicetypes/' . $language;
 					$response = wp_remote_get( $endpoint );
@@ -1054,17 +1057,21 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return [];
 			}
+
 			$languages = COMPLIANZ::$banner_loader->get_supported_languages();
 			$out = [];
 			foreach ($languages as $language ) {
 				$cookiePurposes = get_option( "cmplz_purposes_$language" );
+				if ( isset($_GET['cmplz_nocache']) ) {
+					$cookiePurposes = false;
+				}
 
 				if ( !$cookiePurposes ) {
 					$endpoint = trailingslashit( CMPLZ_COOKIEDATABASE_URL ) . 'v1/cookiepurposes/' . $language;
 					$response = wp_remote_get( $endpoint );
 					$status   = wp_remote_retrieve_response_code( $response );
 					$body     = wp_remote_retrieve_body( $response );
-					if ( $status == 200 ) {
+					if ( $status === 200 ) {
 						$body           = json_decode( $body );
 						$cookiePurposes = $body->data;
 						if ( $language === 'en' ) {

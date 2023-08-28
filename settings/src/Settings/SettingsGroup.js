@@ -81,6 +81,12 @@ const SettingsGroup = (props) => {
 	upgrade = activeGroup.upgrade ? activeGroup.upgrade : upgrade;
 	let helplinkText = activeGroup.helpLink_text ? activeGroup.helpLink_text : __("Instructions","complianz-gdpr");
 	let disabledClass = disabled ? 'cmplz-disabled' : '';
+
+	//if all fields are conditionally disabled, hide the entire group
+	if ( selectedFields.filter((field)=> ( field.conditionallyDisabled && field.conditionallyDisabled===false ) || field.disabled===false || (field.visible && field.visible===true)).length===0 ) {
+		return null;
+	}
+
 	return (
 		<div className={"cmplz-grid-item cmplz-"+activeGroup.id + ' ' +  disabledClass} key={activeGroup.id}>
 			{activeGroup.title && <div className="cmplz-grid-item-header">

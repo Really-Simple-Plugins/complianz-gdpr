@@ -66,7 +66,7 @@
   @include cmplz-block;
   border-radius: var(--rsp-border-radius-s);
   height: fit-content;
-  background-color: var(--rsp-dark-blue-faded);
+  background-color: var(--rsp-blue-faded);
   &.cmplz-warning {
     background-color: var(--rsp-yellow-faded);
   }

@@ -5,22 +5,26 @@ import useInstallPluginData from "./InstallPluginData";
 import {memo} from "react";
 
 const InstallPlugin = ( {field} ) => {
-	const {statusLoaded, startPluginAction, apiRequestActive, pluginAction, rating, upgradeUrl} = useInstallPluginData();
-	const slug = field.plugin_data.slug;
+	const {statusLoaded, startPluginAction, apiRequestActive, pluginAction, rating, upgradeUrl, setStatusLoaded} = useInstallPluginData();
 	const title = field.plugin_data.title;
 	const summary = field.plugin_data.summary;
 	const description = field.plugin_data.description;
 	const image = field.plugin_data.image;
+	console.log(field.plugin_data.slug);
 
     useEffect(() => {
     	//get initial data
 		if (!statusLoaded) {
-			startPluginAction(slug);
+			startPluginAction(field.plugin_data.slug);
 		}
-    }, [])
+    }, [statusLoaded])
+
+	useEffect(() => {
+		setStatusLoaded(false);
+	}, [field.plugin_data.slug])
 
 	const onClickHandler = () => {
-		startPluginAction(slug);
+		startPluginAction(field.plugin_data.slug);
 	}
 
 	const wpStarRating = () => {

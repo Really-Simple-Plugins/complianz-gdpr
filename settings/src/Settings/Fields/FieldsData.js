@@ -78,6 +78,7 @@ const useFields = create(( set, get ) => ({
 					}
 				});
 				if (index!==false) {
+					if (id==='title') console.log("update fields state for field: "+id+" with value: "+value+" and index: "+index)
 					state.fields[index].value = value;
 					let field = state.fields[index];
 					if (field.type==='document' || field.id==='regions'){

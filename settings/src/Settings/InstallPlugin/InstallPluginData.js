@@ -7,13 +7,16 @@ const UseInstallPluginData = create(( set, get ) => ({
 	upgradeUrl: '#',
 	rating: [],
 	statusLoaded:false,
+	setStatusLoaded: (status) => {
+		set({statusLoaded:status})
+	},
 	startPluginAction: (slug, action) => {
 		let data = {};
 		set({apiRequestActive:true});
 		data.pluginAction = typeof action !== 'undefined' ? action : get().pluginAction;
 		data.slug = slug;
 		let nextAction = false;
-		if (data.pluginAction === 'download') {
+		if ( data.pluginAction === 'download' ) {
 			nextAction = 'activate';
 		}
 

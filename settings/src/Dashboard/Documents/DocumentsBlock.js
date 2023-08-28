@@ -13,14 +13,14 @@ import useOtherPlugins from "../OtherPlugins/OtherPluginsData";
 const SingleDocument = (props) => {
 	const {document} = props;
 	const {showSavedSettingsNotice} = useFields();
-	const {dataLoaded, pluginData, pluginActions, fetchOtherPluginsData, error} = useOtherPlugins();
-	useEffect(() => {
-		if (!dataLoaded) {
-			fetchOtherPluginsData();
-		}
-	}, [] )
+	// const {dataLoaded, fetchOtherPluginsData} = useOtherPlugins();
+	// useEffect(() => {
+	// 	if (!dataLoaded) {
+	// 		fetchOtherPluginsData();
+	// 	}
+	// }, [] )
 
-	let missing = document.required && !document.exists;
+	// let missing = document.required && !document.exists;
 	let syncColor = document.status === 'sync' ? 'green' : 'grey';
 	let syncTooltip = document.status === 'sync' ? __( 'Document is kept up to date by Complianz', 'complianz-gdpr' ) : __( 'Document is not kept up to date by Complianz', 'complianz-gdpr' );
 	let existsColor = document.exists ? 'green' : 'grey';
@@ -48,8 +48,8 @@ const SingleDocument = (props) => {
 			showSavedSettingsNotice(__("Copied shortcode", "complianz-gdpr"));
 		}
 	}
-	let createLink = document.create_link ? document.create_link : '#wizard/manage-documents';
-	let plugin = pluginData ? pluginData.find(plugin => plugin.slug === 'complianz-terms-conditions') : false;
+	// let createLink = document.create_link ? document.create_link : '#wizard/manage-documents';
+	// let plugin = pluginData ? pluginData.find(plugin => plugin.slug === 'complianz-terms-conditions') : false;
 	return (
 			<div className="cmplz-single-document">
 				<div className="cmplz-single-document-title" >
@@ -93,11 +93,11 @@ const DocumentsBlock = () => {
 		let docs = documents.filter( (document) => document['region'] ===region)[0];
 		if ( docs ) {
 			docs = docs['documents'];
-			//filter out documents which do not exist AND are not required
-			//docs = docs.filter( (document) => document.exists || document.required );
 			if ( !cmplz_settings.is_premium ) {
 				premiumDocuments.forEach((premiumDocument) => {
-					docs.push(premiumDocument);
+					if (!docs.find((doc) => doc.title === premiumDocument.title)){
+						docs.push(premiumDocument);
+					}
 				});
 			}
 			setRegionDocuments(docs);

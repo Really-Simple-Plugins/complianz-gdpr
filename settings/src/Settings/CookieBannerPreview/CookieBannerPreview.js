@@ -14,15 +14,21 @@ const CookieBannerPreview = () => {
 	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
 	const [bannerToFieldsSynced, setBannerToFieldsSynced] = useState(false)
 	const [tcfActive, setTcfActive] = useState(false);
+	const [tcfStatusValidated, setTcfStatusValidated] = useState(false);
 	const [InitialCssGenerated, setInitialCssGenerated] = useState(false);
 
 	useEffect(() => {
+		if ( !fieldsLoaded || !bannerDataLoaded ) {
+			return;
+		}
+
 		let active = getFieldValue('uses_ad_cookies_personalized') === 'tcf' || getFieldValue('uses_ad_cookies_personalized') === 'yes';
 		if (getFieldValue('uses_ad_cookies') === 'no') {
 			active = false;
 		}
 		setTcfActive(active);
-	}, [ getFieldValue('uses_ad_cookies_personalized') ]);
+		setTcfStatusValidated(true);
+	}, [ fieldsLoaded, bannerDataLoaded, getFieldValue('uses_ad_cookies_personalized') ]);
 
 	useEffect (  () => {
 		if ( !bannerDataLoaded ) {
@@ -38,14 +44,19 @@ const CookieBannerPreview = () => {
 
 	//reload fields if tcfActive status has changed
 	useEffect (  () => {
+		if (!tcfStatusValidated) {
+			return;
+		}
 		fetchBannerData();
 	}, [tcfActive])
 
 	useEffect (  () => {
+		if (!tcfStatusValidated) {
+			return;
+		}
 		if (tcfActive === tcfActiveServerside) {
 			return;
 		}
-
 		const run = async () => {
 			await fetchBannerData();
 			await fetchFieldsData();
@@ -55,6 +66,9 @@ const CookieBannerPreview = () => {
 	}, [tcfActive, tcfActiveServerside, selectedBanner])
 
 	useEffect (  () => {
+		if (!tcfStatusValidated) {
+			return;
+		}
 		if (tcfActive === tcfActiveServerside) {
 			return;
 		}
@@ -63,7 +77,6 @@ const CookieBannerPreview = () => {
 			await fetchBannerData();
 			setBannerDataUpdated(bannerDataUpdated+1);
 			await fetchFieldsData();
-
 		}
 		run();
 	}, [selectedBanner])

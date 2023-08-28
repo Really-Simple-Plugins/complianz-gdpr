@@ -22,7 +22,7 @@
 				color: var(--rsp-text-color);
 				&.cmplz-active{
 					color: rgb(46 134 199); // @todo deze kleuren bespreken met Aert
-					background-color: var(--rsp-dark-blue-faded);
+					background-color: var(--rsp-blue-faded);
 				    box-shadow: var(--rsp-box-shadow);
 				}
 			}
@@ -86,7 +86,7 @@
 //	  }
 //	  &.cmplz-main.cmplz-active {
 //		> a {
-//		  background-color: var(--rsp-dark-blue-faded);
+//		  background-color: var(--rsp-blue-faded);
 //		}
 //	  }
 //	  &.cmplz-active{
@@ -97,7 +97,7 @@
 //	  &.cmplz-featured{
 //		a{
 //		  //padding-block: var(--rsp-spacing-m);
-//		  //background: var(--rsp-dark-blue-faded);
+//		  //background: var(--rsp-blue-faded);
 //		  font-weight: 600;
 //		  flex-wrap: wrap;
 //		  .cmplz-menu-item-featured-pill{
@@ -113,7 +113,7 @@
 //
 //	  &.cmplz-premium{
 //		a{
-//		  background: var(--rsp-dark-blue-faded);
+//		  background: var(--rsp-blue-faded);
 //		  flex-wrap: wrap;
 //		  .cmplz-menu-item-featured-pill{
 //			background: var(--rsp-dark-blue);
@@ -127,7 +127,7 @@
 //	}
 //
 //	.cmplz-premium-menu-item {
-//	  background: var(--rsp-dark-blue-faded);
+//	  background: var(--rsp-blue-faded);
 //	  div {
 //		display: flex;
 //		align-items: center;
