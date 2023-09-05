@@ -68,8 +68,9 @@ if ( !function_exists('cmplz_divi_map_script')) {
 		ob_start();
 		?>
 		<script>
+			let cmplz_activated_divi_recaptcha = false;
 			document.addEventListener("cmplz_enable_category", function (e) {
-				if (!cmplz_activated_divi_maps && (e.detail.category==='marketing' || e.detail.service === 'google-maps') ){
+				if (!cmplz_activated_divi_recaptcha && (e.detail.category==='marketing' || e.detail.service === 'google-recaptcha') ){
 					cmplz_divi_init_recaptcha();
 				}
 			});
@@ -79,6 +80,7 @@ if ( !function_exists('cmplz_divi_map_script')) {
 					setTimeout(cmplz_divi_init_recaptcha, 500);
 				} else {
 					window.etCore.api.spam.recaptcha.init();
+					cmplz_activated_divi_recaptcha = true;
 				}
 			}
 

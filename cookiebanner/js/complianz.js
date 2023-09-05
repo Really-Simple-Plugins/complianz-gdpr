@@ -90,7 +90,7 @@ function cmplzLoadConsentAreaContent(consentedCategory, consentedService){
 		let blockId = obj.getAttribute('data-block_id');
 		if ( consentedCategory === category || consentedService === service ) {
 			//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-			var request = new XMLHttpRequest();
+			let request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'consent-area/'+postId+'/'+blockId, true);
 			request.setRequestHeader('Content-type', 'application/json');
 			request.send();
@@ -1448,7 +1448,7 @@ if (typeof (Storage) !== "undefined" && sessionStorage.cmplz_user_data) {
 //if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 if ( complianz.geoip == 1 && (cmplz_user_data.length == 0 || (cmplz_user_data.version !== complianz.version) || (cmplz_user_data.banner_version !== complianz.banner_version)) ) {
 
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 	let cmplzUserRegion = cmplz_get_url_parameter(window.location.href, 'cmplz_user_region');
 	cmplzUserRegion = cmplzUserRegion ? '&cmplz_user_region=' + cmplzUserRegion : '';
 	request.open('GET', complianz.url+'banner?'+complianz.locale+cmplzUserRegion, true);
@@ -1817,7 +1817,7 @@ function cmplz_track_status( status ) {
 	cmplz_consent_stored_once = true;
 
 	let data;
-	var request = new XMLHttpRequest();
+	let request = new XMLHttpRequest();
 	request.open('POST', complianz.url+'track', true);
 	data = {
 		'consented_categories': cats,
@@ -2105,7 +2105,7 @@ function cmplz_start_clean(){
 		}
 		//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
 		if ( !cmplz_cookie_data || cmplz_cookie_data.length == 0 ) {
-			var request = new XMLHttpRequest();
+			let request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'cookie_data', true);
 			request.setRequestHeader('Content-type', 'application/json');
 			request.send();
@@ -2185,7 +2185,7 @@ function cmplz_load_manage_consent_container() {
 	let is_block_editor = false;//document.querySelector('.wp-admin .cmplz-unlinked-mode');
 	if ( manage_consent_container && !is_block_editor ) {
 
-		var request = new XMLHttpRequest();
+		let request = new XMLHttpRequest();
 		request.open('GET', complianz.url+'manage_consent_html?'+complianz.locale, true);
 		request.setRequestHeader('Content-type', 'application/json');
 		request.send();

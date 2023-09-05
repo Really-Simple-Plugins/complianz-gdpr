@@ -303,7 +303,7 @@ class ConfigVariables
 			// Specify whether kerning should be used when CSS font-kerning="auto" used for HTML,
 			// Also whether kerning should be used in any direct writing e.g. $mpdf->Text(),
 			'useKerning' => false,
-			// In justified text, <br /> does not cause the preceding text to be justified in browsers
+			// In justified text, <BR> does not cause the preceding text to be justified in browsers
 			// Change to true to force justification (as in MS Word)
 			'justifyB4br' => false,
 

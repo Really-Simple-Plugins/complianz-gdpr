@@ -10,7 +10,6 @@ function cmplz_check_upgrade() {
 	if ( !is_admin() && !wp_doing_cron() ) {
 		return;
 	}
-
 	$prev_version = get_option( 'cmplz-current-version', false );
 	if ( $prev_version === cmplz_version ) {
 		return;
@@ -439,7 +438,7 @@ function cmplz_check_upgrade() {
 	     && version_compare( $prev_version, '5.2.6.1', '<' )
 	) {
 		if ( cmplz_tcf_active() ) {
-			delete_transient( 'cmplz_vendorlist_downloaded_once' );
+			delete_option( 'cmplz_vendorlist_downloaded_once' );
 		}
 	}
 
@@ -826,7 +825,7 @@ function cmplz_check_upgrade() {
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
-		set_transient( 'cmplz_vendorlist_downloaded_once', true, HOUR_IN_SECONDS );
+		update_option( 'cmplz_vendorlist_downloaded_once', strtotime('-1 week') + HOUR_IN_SECONDS, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
@@ -967,24 +966,29 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $settings );
 	}
 
-	//  regenerate css
-	//	$banners = cmplz_get_cookiebanners();
-	//	if ( $banners ) {
-	//		foreach ( $banners as $banner_item ) {
-	//			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-	//			$banner->save();
-	//		}
-	//	}
 
 	//ensure new capability
 	if ( $prev_version && version_compare( $prev_version, '6.4.1', '<' ) ) {
 		cmplz_add_manage_privacy_capability();
 	}
 
+	//update for TCF GVL 3
+	//regenerate css
+	//set manage consent tab
+	if ( $prev_version && version_compare( $prev_version, '6.5.4', '<' ) ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner->manage_consent_options = 'show-everywhere';
+				$banner->dismiss['show'] = '1';
+				$banner->save();
+			}
+		}
+	}
 
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
-
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');

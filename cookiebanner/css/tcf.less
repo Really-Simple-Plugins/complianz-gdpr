@@ -3,13 +3,28 @@
   display:block;
 }
 
+/**
+* Hack to hide banner header on smaller screens on safari only.
+ */
+/*Do not preprocess the below */
+
+//<compile-ignore>
+@media (max-width:425px) {
+  @media not all and (min-resolution:.001dpcm)
+  { @supports (-webkit-appearance:none) {
+	  .cmplz-cookiebanner .cmplz-header {
+		display:none;
+	  }
+  	}
+  }
+}
+//</compile-ignore>
 .cmplz-cookiebanner {
   .cmplz-categories:not(.cmplz-tcf),
   .cmplz-manage-third-parties,
   .cmplz-save-preferences,
   .cmplz-view-preferences,
-  .cmplz-manage-options,
-  .cmplz-deny {
+  .cmplz-manage-options {
 	display: none;
   }
   .cmplz-categories .cmplz-category .cmplz-category-header {
@@ -69,22 +84,6 @@
   }
 }
 
-@media (max-width:768px) {
-  .cmplz-cookiebanner {
-	//stack buttons on smaller screen than usual.
-	.cmplz-buttons {
-	  flex-direction: row;
-	}
-  }
-}
-@media (max-width:425px) {
-  .cmplz-cookiebanner {
-	.cmplz-buttons {
-	  flex-direction: column;
-	}
-  }
-}
-
 //for bottom variation, stack buttons always
 .cmplz-cookiebanner.cmplz-bottom .cmplz-buttons {
   flex-direction: column;
@@ -100,6 +99,11 @@
 
 .cmplz-tcf-type-description {
   display:none;
+  margin:20px;
+  .cmplz-tcf-type-desc__example-title {
+	font-weight:bold;
+	margin-top:6px;
+  }
 }
 
 #cmplz-document {
@@ -161,11 +165,39 @@
   padding:10px;
   .cmplz-tcf-vendor-container {
 	margin-bottom:20px;
+	&.cmplz-vendortype-tcf {
+	  .cmplz-vendortype-label {
+		display:none;
+	  }
+	}
+
+	label {
+	  display: flex;
+	  gap: 10px;
+	  align-items: center;
+	  .cmplz-vendortype-label {
+		background-color: #333;
+		color: white;
+		font-size: 12px;
+		padding: 5px 10px;
+		border-radius: 3px;
+	  }
+	}
+
   }
 
   .cmplz-tcf-checkbox-container{
 	input {
 	  margin-right: 5px;
+	}
+
+	&.cmplz-vendortype-ac {
+	  .cmplz-tcf-info .cmplz-tcf-info-content:not(:first-child) {
+		display: none;
+	  }
+	  .cmplz-tcf-info {
+	  	display: none;
+	  }
 	}
 
 	.cmplz-tcf-links {
@@ -179,6 +211,7 @@
 		margin-left:20px;
 	  }
 	}
+
 
 	.cmplz-tcf-info{
 	  display:none;

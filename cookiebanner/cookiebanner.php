@@ -249,7 +249,7 @@ function cmplz_duplicate_cookiebanner() {
 /**
  * This function is hooked to the plugins_loaded, prio 10 hook, as otherwise there is some escaping we don't want.
  *
- * @todo fix the escaping
+ *
  */
 add_action( 'plugins_loaded', 'cmplz_cookiebanner_form_submit', 10 );
 function cmplz_cookiebanner_form_submit() {
@@ -271,6 +271,7 @@ function cmplz_cookiebanner_form_submit() {
 		$id     = intval( $_GET['id'] );
 		$banner = new CMPLZ_COOKIEBANNER( $id );
 	}
+
 	$banner->process_form( $_POST );
 
 	if ( isset( $_POST['cmplz_add_new'] ) ) {

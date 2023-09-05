@@ -8,9 +8,9 @@
 import * as api from './utils/api';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { InspectorControls, RichText, BlockControls, useBlockProps} = wp.blockEditor;
+const { InspectorControls, BlockControls, useBlockProps} = wp.blockEditor;
 const { PanelBody, PanelRow, SelectControl, TextControl, TextareaControl, ToolbarButton, ToolbarGroup, Icon} = wp.components;
-import {useState, useEffect, useRef} from "@wordpress/element";
+import {useState, useEffect} from "@wordpress/element";
 
 /**
  *  Set custom Complianz Icon
@@ -37,16 +37,12 @@ const iconEl = () => (
 );
 
 
-
-
 const selectDocument = ({ className, isSelected, attributes, setAttributes }) => {
 	const [documents, setDocuments] = useState([]);
 	const [documentDataLoaded, setDocumentDataLoaded] = useState(false);
 	const [selectedDocument, setSelectedDocument] = useState(attributes.selectedDocument);
 	const [documentSyncStatus, setDocumentSyncStatus] = useState(attributes.documentSyncStatus);
 	const [customDocumentHtml, setCustomDocumentHtml] = useState('');
-	const divAttributes = useRef([]);
-
 
 	useEffect(() => {
 		api.getDocuments().then( ( response ) => {
@@ -71,7 +67,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 			if ( attributes.customDocument && attributes.customDocument.length>0 ){
 				tempHtml = attributes.customDocument;
 			}
-			tempHtml = convertHtmlForBlock(tempHtml);
 			setCustomDocumentHtml(tempHtml);
 		});
 	}, [])
@@ -79,7 +74,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 	const onChangeSelectDocument = (value) => {
 		// Set the state
 		setSelectedDocument(value);
-
 		// Set the attributes
 		setAttributes({
 			selectedDocument: value,
@@ -87,92 +81,9 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 	}
 
 	const onChangeCustomDocument = (html) => {
-		setCustomDocumentHtml(html);
-	}
-
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			let html = convertBlockToHtml(customDocumentHtml);
-			setAttributes( {
-				customDocument: html,
-			} );		}, 500)
-
-		return () => clearTimeout(timer)
-	}, [customDocumentHtml])
-
-	/**
-	 * The html in the block is stripped of some divs, and the root div. We put this back here.
-	 * @param html
-	 * @returns {string}
-	 */
-	const convertBlockToHtml = (html) => {
-		const fragment = document.createRange().createContextualFragment(html);
-		//restore manage consent divs
-		fragment.querySelectorAll('span#cmplz-manage-consent-container-nojavascript, span#cmplz-manage-consent-container, span.cmplz-datarequest').forEach(obj => {
-			let div = document.createElement('div');
-			div.innerHTML = obj.innerHTML;
-			//copy attributes
-			Array.from(obj.attributes).forEach(attribute => {
-				div.setAttribute(
-					attribute.nodeName,
-					attribute.nodeValue,
-				);
-			});
-			obj.replaceWith( div )
+		setAttributes({
+			customDocument: html,
 		});
-
-		let divContainer = document.createElement('div');
-		divContainer.appendChild( fragment.cloneNode(true) );
-		//add root div again.
-		Array.from(divAttributes.current).forEach(attribute => {
-			divContainer.setAttribute(
-				attribute.nodeName,
-				attribute.nodeValue,
-			);
-		});
-		let rootContainer = document.createElement('div');
-		rootContainer.appendChild( divContainer );
-		return rootContainer.innerHTML;
-	}
-
-	/**
-	 * Convert our document html to html we can use in the block, without a root div, and removed divs in the manage html
-	 *
-	 * @param html
-	 * @returns {string}
-	 */
-	const convertHtmlForBlock = (html) => {
-		let fragment = document.createRange().createContextualFragment(html);
-		//first, get html from root element, if exists. Otherwise the root div gets replicated by gutenberg.
-		fragment.querySelectorAll('div#cmplz-document').forEach(obj => {
-			html = obj.innerHTML;
-			divAttributes.current = obj.attributes;
-			fragment = document.createRange().createContextualFragment(html);
-		});
-		//add keys
-		let counter = 0;
-		fragment.querySelectorAll('details,li').forEach(obj => {
-			counter++;
-			obj.setAttribute('key', counter )
-		});
-		//remove manage consent divs to prevent weird layout issues
-		fragment.querySelectorAll('div#cmplz-manage-consent-container-nojavascript, div#cmplz-manage-consent-container, div.cmplz-datarequest').forEach(obj => {
-			let span = document.createElement('span');
-			span.innerHTML = obj.innerHTML;
-			//copy attributes
-			Array.from(obj.attributes).forEach(attribute => {
-				span.setAttribute(
-					attribute.nodeName,
-					attribute.nodeValue,
-				);
-			});
-			obj.replaceWith( span )
-		});
-
-		//put back
-		let div = document.createElement('div');
-		div.appendChild( fragment.cloneNode(true) );
-		return div.innerHTML;
 	}
 
 	const onChangeSelectDocumentSyncStatus = (value) =>{
@@ -185,8 +96,7 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 		const selectedDocumentData = documents.find((item) => {
 			return item.id === selectedDocument
 		});
-		let html = convertHtmlForBlock(selectedDocumentData.content);
-		setCustomDocumentHtml(html);
+		setCustomDocumentHtml(selectedDocumentData.content);
 		setAttributes({
 			customDocument: selectedDocumentData.content,
 		});
@@ -248,7 +158,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
 		]
 	} else {
-		let html = documentDataLoaded ? customDocumentHtml : __('Loading...', 'complianz-gdpr');
 		let syncClassName = className + ' cmplz-unlinked-mode';
 		return [
 			!!isSelected && (
@@ -271,11 +180,15 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 				</InspectorControls>
 			),
 
-			<RichText key="rich-text-cmplz"
-					  className={syncClassName}
-					  value={html}
-					  onChange={ (e) => onChangeCustomDocument(e) }
-			/>
+			// <RichText key="rich-text-cmplz"
+			// 		  className={syncClassName}
+			// 		  value={html}
+			// 		  onChange={ (e) => onChangeCustomDocument(e) }
+			// />
+			<div contentEditable={true} onInput={(e)=>onChangeCustomDocument(e.currentTarget.innerHTML)}
+				 dangerouslySetInnerHTML={{__html: customDocumentHtml}}
+				 className={syncClassName}
+			></div>
 		]
 	}
 

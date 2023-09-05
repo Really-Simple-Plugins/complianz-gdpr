@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.3
-Stable tag: 6.5.3
+Stable tag: 6.5.4
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -185,6 +185,14 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.5.4 =
+* September 5th, 2023
+* Improvement: upgrade MPDF version to 8.1.3
+* Improvement: prefix 'request' to prevent conflicts with weglot
+* Fix: bug in Divi Recaptcha integration
+* Fix: Block Editor dropping styles when in unsynced mode
+* Fix: Consent Mode moved to banner_loaded hook to ensure loading
+* TCF GVL updates
 
 = 6.5.3 =
 * 08-08-2023
