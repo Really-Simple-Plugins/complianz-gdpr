@@ -186,13 +186,12 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.5.4 =
-* September 5th, 2023
+* September 12th, 2023
 * Improvement: upgrade MPDF version to 8.1.3
 * Improvement: prefix 'request' to prevent conflicts with weglot
 * Fix: bug in Divi Recaptcha integration
 * Fix: Block Editor dropping styles when in unsynced mode
 * Fix: Consent Mode moved to banner_loaded hook to ensure loading
-* TCF GVL updates
 
 = 6.5.3 =
 * 08-08-2023
