@@ -240,7 +240,7 @@ function cmplz_load_warning_types() {
 			'premium' => __( 'Create a Privacy Statement and other Legal Documents with Complianz.', 'complianz-gdpr' ),
 			'include_in_progress' => false,
 			'dismissible' => false,
-			'url' => 'https://complianz.io/l/pricing/?src=cmplz-plugin',
+			'url' => 'https://complianz.io/pricing/?src=cmplz-plugin',
 		),
 
 		'bf-notice2022' => array(

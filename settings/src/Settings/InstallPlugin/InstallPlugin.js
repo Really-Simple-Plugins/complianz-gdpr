@@ -10,12 +10,10 @@ const InstallPlugin = ( {field} ) => {
 	const summary = field.plugin_data.summary;
 	const description = field.plugin_data.description;
 	const image = field.plugin_data.image;
-	console.log(field.plugin_data.slug);
-
     useEffect(() => {
     	//get initial data
 		if (!statusLoaded) {
-			startPluginAction(field.plugin_data.slug);
+			startPluginAction(field.plugin_data.slug, 'status');
 		}
     }, [statusLoaded])
 
@@ -55,8 +53,7 @@ const InstallPlugin = ( {field} ) => {
     }
 
 	let disabled = apiRequestActive;
-	let installed = pluginAction==='installed';
-	let buttonString = '';
+	let buttonString;
 
 	switch(pluginAction) {
       case 'upgrade-to-premium':
@@ -70,10 +67,8 @@ const InstallPlugin = ( {field} ) => {
 		break;
       default:
       	disabled = true;
-        buttonString = __("Installed","complianz-gdpr");
+        buttonString = !statusLoaded ? __("Checking status","complianz-gdpr") : __("Installed","complianz-gdpr");
     }
-
-
 
 	return (
 		<div className="cmplz-suggested-plugin">

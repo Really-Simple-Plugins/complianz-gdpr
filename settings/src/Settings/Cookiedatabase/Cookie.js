@@ -9,10 +9,12 @@ import SelectInput from "../Inputs/SelectInput";
 
 const CookieDetails = (cookie) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
-	const {saving, purposesOptions, services, updateCookie, toggleDeleteCookie, saveCookie} = UseSyncData();
+	const {language, saving, purposesOptions, services, updateCookie, toggleDeleteCookie, saveCookie} = UseSyncData();
 	const [name, setName] = useState({ID:cookie.ID, value:cookie.name});
 	const [retention, setRetention] = useState({ID:cookie.ID, value:cookie.retention});
 	const [cookieFunction, setCookieFunction] = useState({ID:cookie.ID, value:cookie.cookieFunction});
+	const [purposesByLanguage, setPurposesByLanguage] = useState([]);
+
 	//allow for both '0'/'1' and false/true.
 	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 	let sync = useCdbApi ? cookie.sync==1 : false;
@@ -25,6 +27,11 @@ const CookieDetails = (cookie) => {
 		let service_slug = !cookie.service ? 'unknown-service' : cookie.service;
 		cdbLink = 'https://cookiedatabase.org/cookie/' + service_slug + '/' + cookie.slug;
 	}
+
+	useEffect(() => {
+		setRetention({ID:cookie.ID, value:cookie.retention});
+		setCookieFunction({ID:cookie.ID, value:cookie.cookieFunction});
+	},[cookie]);
 
 
 
@@ -80,6 +87,14 @@ const CookieDetails = (cookie) => {
 		};
 	}, [retention]);
 
+	useEffect (() => {
+		let purposes = purposesOptions && purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
+		purposes = purposes.map(purpose => {
+			return {label:purpose.label,value:purpose.label};
+		});
+		setPurposesByLanguage(purposes);
+	},[language, purposesOptions]);
+
 	const onRetentionChangeHandler = (e, id, type) => {
 		let obj = {ID:id, value:e.target.value};
 		setRetention(obj);
@@ -98,8 +113,8 @@ const CookieDetails = (cookie) => {
 	//convert legacy marketing/tracking label to marketing, if found.
 	let purposesHasSlash = false;
 	let purposeMarketing = 'Marketing';
-	purposesOptions.forEach(function(purpose, i) {
-		if (purpose.value.indexOf('/')!==-1){
+	purposesByLanguage.forEach(function(purpose, i) {
+		if (purpose.value && purpose.value.indexOf('/')!==-1){
 			purposesHasSlash = true;
 			purposeMarketing = purpose.value;
 			//strip off string after slash, including the slash
@@ -113,11 +128,11 @@ const CookieDetails = (cookie) => {
 
 	if (purposesHasSlash && !cookieHasSlash) {
 		//find the first purpose with a slash in purposeOptions, and change it to purposeMarketing
-		purposesOptions.forEach(function(purpose, i) {
-			if (purpose.value.indexOf('/')!==-1){
+		purposesByLanguage.forEach(function(purpose, i) {
+			if (purpose.value && purpose.value.indexOf('/')!==-1){
 				purpose.value = purposeMarketing;
 				purpose.label = purposeMarketing;
-				purposesOptions[i] = purpose;
+				purposesByLanguage[i] = purpose;
 			}
 		});
 	}
@@ -173,7 +188,7 @@ const CookieDetails = (cookie) => {
 				<SelectInput
 					disabled={disabled}
 					value={cookiePurpose}
-					options={purposesOptions}
+					options={purposesByLanguage}
 					onChange={(value) => onChangeHandler(value, cookie.ID, 'purpose')}
 				/>
 			</div>

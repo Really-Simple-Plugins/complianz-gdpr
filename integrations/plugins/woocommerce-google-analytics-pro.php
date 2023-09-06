@@ -117,7 +117,8 @@ function cmplz_wc_google_analytics_pro_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
-			'consent-mode'
+			'consent-mode',
+			'gtm_code',
 		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_pro_filter_fields', 200 );

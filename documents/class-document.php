@@ -673,8 +673,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$active_cookiebanner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
 			$banner = new CMPLZ_COOKIEBANNER($active_cookiebanner_id);
 			//some custom elements
-			$html = str_replace( "[cookie_accept_text]", $banner->accept_x, $html );
-			$html = str_replace( "[cookie_save_preferences_text]", $banner->save_preferences_x, $html );
+			$html = str_replace( "[cookie_accept_text]", ( $banner->accept_x ?? ''), $html );
+			$html = str_replace( "[cookie_save_preferences_text]", ($banner->save_preferences_x ?? ''), $html );
 
 			$html = str_replace( "[domain]", '<a href="' . esc_url_raw( get_home_url() ) . '">' . esc_url_raw( get_home_url() ) . '</a>', $html );
 			$html = str_replace( "[cookie-statement-url]", cmplz_get_document_url( 'cookie-statement', $region ), $html );

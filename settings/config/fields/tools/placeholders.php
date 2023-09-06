@@ -35,6 +35,7 @@ function cmplz_placeholders_fields($fields){
 				'title' => __( "Blocked content text", 'complianz-gdpr' ),
 				'text'  => __( 'Do not change or translate the {category} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the category that is blocked.', 'complianz-gdpr' ),
 			],
+			'condition_action' => 'disable',
 			'react_conditions' => [
 				'relation' => 'AND',
 				[
@@ -58,6 +59,7 @@ function cmplz_placeholders_fields($fields){
 				'title' => __( "Blocked content text", 'complianz-gdpr' ),
 				'text'      => __( 'Do not change or translate the {service} string.', 'complianz-gdpr' ).'&nbsp;'.__( 'You may remove it if you want.', 'complianz-gdpr' ).'&nbsp;'.__( 'It will be replaced with the name of the service that is blocked.', 'complianz-gdpr' ),
 			],
+			'condition_action' => 'disable',
 			'react_conditions' => [
 				'relation' => 'AND',
 				[
@@ -77,6 +79,7 @@ function cmplz_placeholders_fields($fields){
 			'label'        => __( "Text on 'I agree' button", 'complianz-gdpr' ),
 			'default'      => __( "I agree", 'complianz-gdpr' ),
 			'tooltip'      => __( 'The blocked content text appears when for example a YouTube video is embedded.', 'complianz-gdpr' ),
+			'condition_action' => 'disable',
 			'react_conditions' => [
 				'relation' => 'AND',
 				[
@@ -132,19 +135,19 @@ function cmplz_placeholders_fields($fields){
 				]
 			],
 		],
-			[
-				'id'                      => 'placeholder_preview',
-				'menu_id'                 => 'placeholders',
-				'group_id'                => 'placeholders-appearance',
-				'type'      => 'placeholder_preview',
-				'condition_action' => 'disable',
-				'react_conditions' => [
-					'relation' => 'AND',
-					[
-						'safe_mode' => false,
-					]
-				],
+		[
+			'id'                      => 'placeholder_preview',
+			'menu_id'                 => 'placeholders',
+			'group_id'                => 'placeholders-appearance',
+			'type'      => 'placeholder_preview',
+			'condition_action' => 'disable',
+			'react_conditions' => [
+				'relation' => 'AND',
+				[
+					'safe_mode' => false,
+				]
 			],
+		],
 		[
 			'id'                      => 'google-maps-format',
 			'menu_id'                 => 'placeholders',

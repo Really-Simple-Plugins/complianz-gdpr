@@ -22,7 +22,7 @@ const TextInput = ({
 		// skip first render
 		const typingTimer = setTimeout(() => {
 			onChange(inputValue);
-		}, 500);
+		}, 400);
 
 		return () => {
 			clearTimeout(typingTimer);

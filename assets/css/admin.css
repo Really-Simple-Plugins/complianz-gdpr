@@ -1001,83 +1001,83 @@ button.button .cmplz-icon.cmplz-icon-loading > div {
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(1) {
-    width: 89%;
+    width: 67%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(2) {
-    width: 80%;
+    width: 88%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(3) {
-    width: 98%;
+    width: 87%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(4) {
-    width: 73%;
+    width: 76%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(5) {
-    width: 93%;
+    width: 70%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(6) {
-    width: 76%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(7) {
-    width: 71%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
-    width: 69%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
-    width: 97%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(10) {
-    width: 100%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(11) {
-    width: 91%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(12) {
-    width: 87%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(13) {
-    width: 76%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(14) {
-    width: 78%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(15) {
     width: 98%;
 }
 
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(16) {
-    width: 93%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(17) {
-    width: 76%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(18) {
-    width: 87%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(19) {
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(7) {
     width: 78%;
 }
 
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(20) {
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
+    width: 86%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
+    width: 83%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(10) {
+    width: 63%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(11) {
+    width: 72%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(12) {
+    width: 77%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(13) {
+    width: 73%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(14) {
     width: 65%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(15) {
+    width: 63%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(16) {
+    width: 83%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(17) {
+    width: 89%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(18) {
+    width: 61%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(19) {
+    width: 86%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(20) {
+    width: 81%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line ~ .cmplz-placeholder-line {
@@ -2217,6 +2217,10 @@ button.button .cmplz-icon.cmplz-icon-loading > div {
     display: none;
 }
 
+#complianz .cmplz-panel__list__item details summary > .cmplz-icon {
+    padding-top: 5px;
+}
+
 #complianz .cmplz-panel__list__item details summary h5 {
     font-weight: 500;
     font-size: var(--rsp-fs-200);
@@ -2244,6 +2248,11 @@ button.button .cmplz-icon.cmplz-icon-loading > div {
     grid-column: -2;
     display: flex;
     gap: var(--rsp-spacing-xxs);
+}
+
+#complianz .cmplz-panel__list__item details summary .cmplz-panel__list__item__icons .cmplz-button-icon .cmplz-tooltip-icon {
+    padding-top: 5px;
+    padding-left: 2px;
 }
 
 #complianz .cmplz-panel__list__item details[open] > summary {
@@ -2345,6 +2354,7 @@ button.button .cmplz-icon.cmplz-icon-loading > div {
 
 .cmplz-suggested-plugin button.cmplz-install-plugin .cmplz-icon {
     margin-left: 10px;
+    margin-top: 5px;
 }
 
 .cmplz-label-container .cmplz-premium a {
@@ -3508,7 +3518,7 @@ a.button--error:hover, button.button--error:hover, input.button--error:hover {
     border: 1px solid var(--rsp-input-border-color);
     border-top: none;
     box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
-    z-index: 5;
+    z-index: 14;
 }
 
 .cmplz .cmplz-select-group__item {

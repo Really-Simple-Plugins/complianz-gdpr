@@ -14,7 +14,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			self::$_this = $this;
 			//callback from settings
 			add_action( 'cmplz_finish_wizard', array( $this, 'finish_wizard' ), 10, 1 );
-			add_action( "cmplz_after_save_field", array($this,"cmplz_after_save_field"), 10, 4 );
+			add_action( "cmplz_before_save_options", array($this,"before_save_options"), 10, 5 );
 			add_action( "admin_init", array($this,"activation"), 10);
 		}
 
@@ -25,6 +25,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 		public function activation(){
 			if ( get_option( 'cmplz_run_activation' ) ) {
 				cmplz_update_option_no_hooks( 'use_cdb_api', 'yes' );
+				COMPLIANZ::$documents_admin->preload_privacy_info();
 				delete_option( 'cmplz_run_activation' );
 			}
 		}
@@ -45,25 +46,30 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 
 		/**
 		 * Do stuff when a field in the wizard is saved
-		 *
+		 * @return array
 		 * */
-		public function cmplz_after_save_field( $field_id = false, $field_value = false, $prev_value = false, $type = false ): void {
+		public function before_save_options( $options=[], $field_id = false, $field_value = false, $prev_value = false, $type = false ): array {
 			if ( ! cmplz_admin_logged_in() ) {
-				return;
+				return $options;
 			}
 
 			//clear cookieshredder list, if cps is enabled
-			if ( cmplz_get_option( 'consent_per_service' ) === 'yes' ) {
+			if ( $field_id === 'consent_per_service' && $field_value === 'yes' ) {
 				cmplz_delete_transient('cmplz_cookie_shredder_list');
 			}
 
 			if ( $field_value === $prev_value ) {
-				return;
+				return $options;
+			}
+
+			//if these values are changed, ensure that the services sync starts again.
+			if ($field_id === 'uses_thirdparty_services' || $field_id === 'uses_social_media') {
+				COMPLIANZ::$sync->resync();
 			}
 
 			update_option( 'cmplz_documents_update_date', time() );
 			$enable_categories = false;
-			$uses_tagmanager   = cmplz_get_option( 'compile_statistics' ) === 'google-tag-manager' ? true : false;
+			$uses_tagmanager = ($options['compile_statistics'] ?? false) === 'google-tag-manager';
 
 			//if the cookie banner is enabled by the user, add complianz cookies to the cookies array
 			if ($field_id === 'enable_cookie_banner' && $field_value==='yes'){
@@ -89,7 +95,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			if ( $field_id === 'a_b_testing' && !$field_value ) {
-				cmplz_update_option_no_hooks('a_b_testing_buttons', false );
+				$options['a_b_testing_buttons'] = false;
 			}
 
 			//when ab testing is just enabled icw TM, cats should be enabled for each banner.
@@ -117,8 +123,8 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			//if the fieldname is from the "revoke cookie consent on change" list, change the policy if it's changed
 
 			$ids = array_column($fields, 'id');
-			$index = array_search($field_id, $ids);
-			$field = isset($fields[$index]) ? $fields[$index] : false;
+			$index = array_search( $field_id, $ids, true );
+			$field = $fields[ $index ] ?? false;
 			if ( $field && isset( $field['revoke_consent_onchange'] ) && $field['revoke_consent_onchange'] ) {
 				COMPLIANZ::$banner_loader->upgrade_active_policy_id();
 				if ( !get_option( 'cmplz_generate_new_cookiepolicy_snapshot') ) update_option( 'cmplz_generate_new_cookiepolicy_snapshot', time(), false );
@@ -139,9 +145,9 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			//if the region is not EU anymore, and it was previously enabled for EU / eu_consent_regions, reset impressum
 			if ( ( $field_id === 'regions' ) && cmplz_get_option('eu_consent_regions') === 'yes' ) {
 				if ( is_array($field_value) && !in_array('eu', $field_value)) {
-					cmplz_update_option_no_hooks('eu_consent_regions', 'no' );
+					$options['eu_consent_regions'] = 'no';
 				} elseif (is_string($field_value) && $field_value !== 'eu') {
-					cmplz_update_option_no_hooks('eu_consent_regions', 'no' );
+					$options['eu_consent_regions'] = 'no';
 				}
 			}
 
@@ -163,18 +169,11 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			if ( $field_id === 'uses_ad_cookies' && $field_value === 'no' ) {
-				cmplz_update_option_no_hooks( 'uses_ad_cookies_personalized', 'no');
-			}
-
-			if ($field_id==='uses_ad_cookies_personalized' && ($field_value === 'tcf' && $field_value==='yes') ) {
-				if (file_exists(cmplz_path . 'pro/tcf/class-tcf-admin.php')) {
-					require_once cmplz_path . 'pro/tcf/class-tcf-admin.php';
-					cmplz_tcf_change_settings();
-				}
+				$options['uses_ad_cookies_personalized'] = 'no';
 			}
 
 			if ( $field_id === 'children-safe-harbor' && cmplz_get_option( 'targets-children' ) === 'no' ) {
-				cmplz_update_option_no_hooks( 'children-safe-harbor', 'no' );
+				$options['children-safe-harbor'] = 'no';
 			}
 
 			//when region or policy generation type is changed, update cookiebanner version to ensure the changed banner is loaded
@@ -183,11 +182,13 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			// Disable German imprint appendix option when eu_consent_regions is no
+			$german_imprint = ($options['german_imprint_appendix'] ?? false) === 'yes';
 			if ( $field_id === 'eu_consent_regions'
 			     && $field_value === 'no'
-			     && cmplz_get_option('german_imprint_appendix') === 'yes') {
-				cmplz_update_option_no_hooks( 'german_imprint_appendix', 'no');
+			     && $german_imprint ) {
+				$options['german_imprint_appendix'] = 'no';
 			}
+			return $options;
 		}
 
 		/**

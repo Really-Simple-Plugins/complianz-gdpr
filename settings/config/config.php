@@ -63,11 +63,15 @@ require_once( __DIR__ .'/fields/integrations/services.php' );
 require_once( __DIR__ .'/disable-fields-filter.php' );
 require_once( __DIR__ . '/fields/defaults.php' );
 
-function cmplz_fields( $load_values = true ): array {
+function cmplz_fields( $load_values = true, $options=false ): array {
 	if ( ! cmplz_user_can_manage() ) {
 		return [];
 	}
-	if ($load_values) $stored_options = get_option( 'cmplz_options' );
+	$stored_options = [];
+	if ($load_values) {
+		$stored_options = $options ?: get_option( 'cmplz_options' );
+	}
+
 	$fields = COMPLIANZ::$config->fields;
 
 	$default_order_index = 10;
@@ -131,7 +135,7 @@ function cmplz_maybe_get_from_source($value, $field ){
 	}
 
 	//get value from source
-	$config_fields = COMPLIANZ::$config->fields;;
+	$config_fields = COMPLIANZ::$config->fields;
 	$config_ids = array_column($config_fields, 'id');
 	$config_field_index = array_search( $field['source_id'], $config_ids);
 	if ( $config_field_index === false ){

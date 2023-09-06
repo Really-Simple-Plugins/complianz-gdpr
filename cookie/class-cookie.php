@@ -310,7 +310,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$this->isOwnDomainCookie     = (bool) $cookie->isOwnDomainCookie;
 				$this->domain                = $cookie->domain;
 				$this->cookieFunction        = $cookie->cookieFunction;
-				$this->purpose               = $cookie->purpose;
+				$this->purpose               = html_entity_decode($cookie->purpose);
 				$this->isMembersOnly         = $cookie->isMembersOnly && cmplz_get_option('wp_admin_access_users') === 'yes';
 				$this->collectedPersonalData = $cookie->collectedPersonalData;
 				$this->isTranslationFrom     = $cookie->isTranslationFrom;
@@ -349,10 +349,10 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 * complianz cookie retention can be retrieved form this site
 			 */
 
-			if ( strpos( $this->name, 'cmplz' ) !== false || strpos( $this->name, 'complianz' ) !== false
-			) {
-				$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ),
-					cmplz_get_option( 'cookie_expiry' ) );
+			if ( !empty( $this->name) ) {
+				if ( strpos( $this->name, 'cmplz' ) !== false || strpos( $this->name, 'complianz' ) !== false ) {
+					$this->retention = cmplz_sprintf( __( "%s days", "complianz-gdpr" ), cmplz_get_option( 'cookie_expiry' ) );
+				}
 			}
 
 			//get serviceid from service name

@@ -78,7 +78,6 @@ const useFields = create(( set, get ) => ({
 					}
 				});
 				if (index!==false) {
-					if (id==='title') console.log("update fields state for field: "+id+" with value: "+value+" and index: "+index)
 					state.fields[index].value = value;
 					let field = state.fields[index];
 					if (field.type==='document' || field.id==='regions'){
@@ -153,7 +152,7 @@ const useFields = create(( set, get ) => ({
 				return response;
 			});
 
-			if (showSavedNotice) {
+			if (showSavedNotice ) {
 				toast.promise(
 					response,
 					{
@@ -194,13 +193,20 @@ const useFields = create(( set, get ) => ({
 	updateFieldsData: (selectedSubMenuItem) => {
 		let fields = get().fields;
 		fields = updateFieldsListWithConditions(fields);
-		const nextButtonDisabled = isNextButtonDisabled(fields, selectedSubMenuItem);
+		get().isNextButtonDisabled(fields, selectedSubMenuItem);
 		set(
 			produce((state) => {
 				state.fields = fields;
-				state.nextButtonDisabled = nextButtonDisabled;
 			})
 		)
+	},
+	//check if all required fields have been enabled. If so, enable save/continue button
+	isNextButtonDisabled: (fields, selectedMenuItem) => {
+		//get all fields with group_id this.props.group_id
+		let fieldsOnPage = fields.filter(field => field.menu_id === selectedMenuItem);
+		let requiredFields = fieldsOnPage.filter(field => field.required && !field.conditionallyDisabled && ( field.value.length===0 || !field.value ) );
+		set({nextButtonDisabled: requiredFields.length > 0});
+		return requiredFields.length > 0;
 	},
 	getFieldNotices: async () => {
 		let data = {};
@@ -254,13 +260,7 @@ const useFields = create(( set, get ) => ({
 
 export default useFields;
 
-//check if all required fields have been enabled. If so, enable save/continue button
-const isNextButtonDisabled = (fields, selectedMenuItem) => {
-	//get all fields with group_id this.props.group_id
-	let fieldsOnPage = fields.filter(field => field.menu_id === selectedMenuItem);
-	let requiredFields = fieldsOnPage.filter(field => field.required && !field.conditionallyDisabled && ( field.value.length===0 || !field.value ) );
-	return requiredFields.length > 0;
-}
+
 
 const applyPremiumSettings = (fields) => {
 	if ( cmplz_settings.is_premium ) {
@@ -278,6 +278,8 @@ const applyPremiumSettings = (fields) => {
 	}
 	return fields;
 }
+
+
 
 const applyDefaults = (fields) => {
 	//foreach field, set the value to the default value if it's empty

@@ -34,6 +34,7 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'label'                   => __( "Show Consent Banner", 'complianz-gdpr' ),
 				'tooltip'                 => __( "If you enable this setting, a consent banner will be enabled, if needed.", 'complianz-gdpr' ),
 				'comment'                 => __( "You can always enable and disable the Consent Banner when styling the Consent Banner, under Consent Banner settings.", 'complianz-gdpr' ),
+				'condition_action'        => 'disable',
 				'react_conditions'        => [
 					'relation' => 'AND',
 					[
@@ -51,14 +52,14 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'disabled'                => false,
 				'options'                 => COMPLIANZ::$config->yes_no,
 				'label'                   => __( "Enable cookie and script blocker", 'complianz-gdpr' ),
-				'tooltip'                 => __( "The Cookie Blocker will, among others, block any tracking and third-party scripts configured by the wizard, automatic configuration or our script center.",
-					'complianz-gdpr' ),
+				'tooltip'                 => __( "The Cookie Blocker will, among others, block any tracking and third-party scripts configured by the wizard, automatic configuration or our script center.", 'complianz-gdpr' ),
 				'help'                    => [
 					'label' => 'warning',
 					'title' => __( "Using Safe Mode", 'complianz-gdpr' ),
 					'text'  => __( "If the Cookie Blocker causes an issue, you can enable Safe Mode under settings. Disabling Safe Mode will activate the Cookie Blocker.", 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/debugging-issues/',
 				],
+				'condition_action'        => 'disable',
 				'react_conditions'        => [
 					'relation' => 'AND',
 					[

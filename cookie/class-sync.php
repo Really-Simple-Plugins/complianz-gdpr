@@ -20,6 +20,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 
 			add_action( 'admin_init', array( $this, 'ensure_cookies_in_all_languages' ) );
 			add_action( 'admin_init', array( $this, 'do_sync_batch' ) );
+			add_action( 'cmplz_every_hour_hook', array( $this, 'do_sync_batch' ) );
 		}
 
 		static function this() {
@@ -104,7 +105,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
 				update_option( 'cmplz_sync_cookies_complete', true, false );
-				$msg   = "No cookies";
+				$msg   = "";
 				$error = true;
 			}
 
@@ -903,7 +904,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						'deleted' => 'all',
 				);
 				$cookie_objects  = COMPLIANZ::$banner_loader->get_cookies( $settings );
-				$services = COMPLIANZ::$banner_loader->get_services();
+				$services = COMPLIANZ::$banner_loader->get_services(['language' => 'all']);
 				$service_objects = [];
 				foreach ($services as $service) {
 					$service_objects[] = new CMPLZ_SERVICE($service->ID);
@@ -926,15 +927,32 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		}
 
 		/**
-		 *
+		 * Runs on cron, on complianz page, or on rest request
 		 */
+
 		public function do_sync_batch($request_from_sync = false){
 			//we leave rest requests to the react app to handle.
-			if ( cmplz_is_logged_in_rest() && !$request_from_sync ) {
+			$is_complianz_page = isset($_GET['page']) && $_GET['page'] === 'complianz';
+			if ( !$is_complianz_page && !wp_doing_cron() && !cmplz_is_logged_in_rest()  ) {
 				return '';
 			}
+
+			//we only want to start the sync if the sync has been started from the react app at least once.
+			if (!$request_from_sync && !get_option('cmplz_first_sync_started')) {
+				return '';
+			}
+
+			if ($request_from_sync){
+				update_option('cmplz_first_sync_started', true, false);
+			}
+
+			if ( !$request_from_sync && cmplz_is_logged_in_rest() ){
+				return '';
+			}
+
 			$msg      = "";
 			$progress = $this->get_sync_progress();
+
 			if ( $progress===100 ) {
 				return "";
 			}
@@ -1037,6 +1055,10 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						update_option( 'cmplz_serviceTypes_' . $language, $serviceTypes, false );
 					}
 				}
+				//unescape label
+				foreach ($serviceTypes as $index => $serviceType){
+					$serviceTypes[$index]['label'] = html_entity_decode($serviceType['label']);
+				}
 				$out[$language] = $serviceTypes;
 			}
 
@@ -1091,6 +1113,10 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						update_option( "cmplz_purposes_stored", true, false );
 						update_option( "cmplz_purposes_$language", $cookiePurposes, false );
 					}
+				}
+				//unescape label
+				foreach ($cookiePurposes as $index => $cookiePurpose){
+					$cookiePurpose[$index]['label'] = html_entity_decode($cookiePurpose['label']);
 				}
 				$out[$language] = $cookiePurposes;
 			}

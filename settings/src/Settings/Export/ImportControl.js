@@ -8,9 +8,12 @@ import { __ } from '@wordpress/i18n';
 import {upload} from "../../utils/upload";
 import {memo} from "react";
 import './Import.scss';
+import useMenu from "../../Menu/MenuData";
 
 function ImportControl() {
-	const {removeHelpNotice, addHelpNotice, showSavedSettingsNotice} = useFields();
+	const {removeHelpNotice, addHelpNotice, fetchFieldsData, showSavedSettingsNotice} = useFields();
+	const {selectedSubMenuItem } = useMenu();
+
 	const [file, setFile] = useState(false)
 	const [disabled, setDisabled] = useState(true);
 	const [uploading, setUploading] = useState(false);
@@ -32,7 +35,9 @@ function ImportControl() {
 
 		upload('import_settings', file).then((response) => {
 			if (response.data.success) {
-				showSavedSettingsNotice(__("Settings imported", "complianz-gdpr"));
+				fetchFieldsData(selectedSubMenuItem).then(() => {
+					showSavedSettingsNotice(__("Settings imported", "complianz-gdpr"));
+				});
 			} else {
 				addHelpNotice('import_settings', 'warning', __("You can only upload .json files","complianz-gdpr"), __("Incorrect extension","complianz-gdpr"),false);
 			}

@@ -104,7 +104,8 @@ function cmplz_beehive_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
-			'consent-mode'
+			'consent-mode',
+			'gtm_code',
 		]);
 }
 

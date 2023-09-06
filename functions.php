@@ -33,12 +33,12 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 		 * */
 		if ( function_exists('pll__') || function_exists('icl_translate') || defined("WPML_PLUGIN_BASENAME" ) ) {
 			//check if Complianz::$config has property fields
-			$config_fields = isset( COMPLIANZ::$config->fields) ? COMPLIANZ::$config->fields : [];
+			$config_fields = COMPLIANZ::$config->fields ?? [];
 			$fields = $fields ?: $config_fields;
 			$keys   = array_keys( array_column( $fields, 'id' ), $id );
 			$key    = reset( $keys );
-			if ( $key ) {
-				$type         = $fields[ $key ]['type'];
+			if ( $key !== false ) {
+				$type         = $fields[ $key ]['type'] ?? false;
 				$translatable = $fields[ $key ]['translatable'] ?? false;
 				if ($translatable) {
 					if ( is_array( $value ) && ( $type === 'thirdparties' || $type === 'processors' ) ) {
@@ -73,29 +73,43 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 
 if (!function_exists('cmplz_get_field')) {
 	function cmplz_get_field($id){
-		$fields        = COMPLIANZ::$config->fields;
-		$keys = array_keys( array_column( $fields, 'id' ), $id );
-		$key  = reset( $keys );
-		if ( $key === false ) {
-			return false;
+		$fields = COMPLIANZ::$config->fields;
+		foreach ($fields as $field) {
+			if (isset($field['id']) && $field['id'] === $id) {
+				return $field;
+			}
 		}
-		return $fields[ $key ] ?? false;
+		return false;
 	}
 }
 if (!function_exists('cmplz_get_field_index')) {
 	function cmplz_get_field_index($id, $fields){
-		$keys = array_keys( array_column( $fields, 'id' ), $id );
-		return reset( $keys );
+		foreach ($fields as $index => $field) {
+			if (isset($field['id']) && $field['id'] === $id) {
+				return $index;
+			}
+		}
+		return false;
 	}
 }
 
-if (!function_exists('cmplz_remove_field')) {
-	function cmplz_remove_field($fields, $ids){
-		if (!is_array($ids)) $ids = array($ids);
+if ( !function_exists('cmplz_remove_field') ) {
+	/**
+	 * @param array        $fields
+	 * @param $ids
+	 *
+	 * @return array
+	 */
+	function cmplz_remove_field( array $fields, $ids): array {
+		if (!is_array($ids)) {
+			$ids = array($ids);
+		}
 		$field_ids = array_column($fields, 'id');
 		foreach ($ids as $id){
 			$drop_index = array_search( $id, $field_ids, true );
-			unset($fields[$drop_index]);
+			if ($drop_index!==false) {
+				unset($fields[$drop_index]);
+			}
 		}
 
 		return $fields;
@@ -2578,12 +2592,6 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		$args = wp_parse_args( $args, array( 'status' => 'active' ) );
 		$sql  = '';
 		global $wpdb;
-		if ( $args['status'] === 'archived' ) {
-			$sql = 'AND cdb.archived = true';
-		}
-		if ( $args['status'] === 'active' ) {
-			$sql = 'AND cdb.archived = false';
-		}
 
 		if ( isset($args['ID']) ) {
 			$sql = 'AND cdb.ID = ' . (int) $args['ID'];

@@ -26,7 +26,6 @@ function cmplz_install_cookiebanner_table() {
              `title` text NOT NULL,
              `banner_version` int(11) NOT NULL,
              `default` int(11) NOT NULL,
-             `archived` int(11) NOT NULL,
             `position` text NOT NULL,
             `checkbox_style` text NOT NULL,
             `use_logo` text NOT NULL,
@@ -147,7 +146,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $banner_version = 0;
 		public $title;
 		public $default = false;
-		public $archived = false;
 
 		/* styling */
 		public $position;
@@ -273,7 +271,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				if ( $cookiebanner ) {
 					$this->banner_version = $cookiebanner->banner_version;
 					$this->default        = $cookiebanner->default;
-					$this->archived       = $cookiebanner->archived;
 					foreach ( $cookiebanner as $fieldname => $value ) {
 						//check if $this->{$fieldname} exists
 						if ( property_exists( $this, $fieldname ) ) {
@@ -590,7 +587,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'title'                        => sanitize_text_field( $this->title ),
 				'position'                     => $this->sanitize_position( $this->position ),
 				'banner_version'               => $this->banner_version,
-				'archived'                     => (int) $this->archived,
 				'checkbox_style'               => $this->sanitize_checkbox_style( $this->checkbox_style ),
 				'use_logo'                     => sanitize_text_field( $this->use_logo ),
 				'logo_attachment_id'           => (int) $this->logo_attachment_id,
@@ -652,9 +648,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 
 			//get database value for "default"
-			$db_default
-				= $wpdb->get_var( $wpdb->prepare( "select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s",
-				$this->ID ) );
+			$db_default = $wpdb->get_var( $wpdb->prepare( "select cdb.default from {$wpdb->prefix}cmplz_cookiebanners as cdb where cdb.ID=%s", $this->ID ) );
 			if ( $this->default && ! $db_default ) {
 				$this->enable_default();
 			} elseif ( ! $this->default && $db_default ) {
@@ -827,57 +821,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		}
 
 		/**
-		 * Archive this cookie banner
-		 *
-		 * @return void
-		 */
-
-		public function archive() {
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-			//don't archive the last one
-			if ( count( cmplz_get_cookiebanners() ) === 1 ) {
-				return;
-			}
-
-			$statuses            = $this->get_available_categories();
-			$consenttypes        = cmplz_get_used_consenttypes();
-			$consenttypes['all'] = "all";
-
-			$stats = array();
-			foreach ( $consenttypes as $consenttype => $label ) {
-				foreach ( $statuses as $status ) {
-					$count                            = $this->get_count( $status, $consenttype );
-					$stats[ $consenttype ][ $status ] = $count;
-				}
-			}
-			$this->archived   = true;
-			$this->statistics = $stats;
-
-			$this->save();
-
-			if ( $this->default ) {
-				$this->remove_default();
-			}
-		}
-
-		/**
-		 * Restore this cookiebanner
-		 *
-		 * @return void
-		 */
-
-		public function restore() {
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-
-			$this->archived = false;
-			$this->save();
-		}
-
-		/**
 		 * Get available categories
 		 * @param bool $labels
 		 * @param bool $exclude_no_warning
@@ -924,8 +867,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 				global $wpdb;
 				//first, set one  of the other banners random to default.
-				$cookiebanners
-					= $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false and cb.archived=false LIMIT 1" );
+				$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = false LIMIT 1" );
 				if ( ! empty( $cookiebanners ) ) {
 					$wpdb->update( $wpdb->prefix . 'cmplz_cookiebanners',
 						array( 'default' => true ),
@@ -986,36 +928,15 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		 */
 
 		public function conversion_percentage( $filter_consenttype ) {
-			if ( $this->archived ) {
-				if ( ! isset( $this->statistics[ $filter_consenttype ] ) ) {
-					return 0;
-				}
-				$total = 0;
-				$all   = 0;
-				foreach (
-					$this->statistics[ $filter_consenttype ] as $status =>
-					$count
-				) {
-					$total += $count;
-					if ( $status === 'all' ) {
-						$all = $count;
-					}
-				}
 
-				$total = ( $total == 0 ) ? 1 : $total;
-				$score = ROUND( 100 * ( $all / $total ) );
-			} else {
-				$categories = $this->get_available_categories();
-				$revers_arr = array_reverse($categories);
-				$highest_level_cat = array_key_first($revers_arr);
-				$conversion_count = $this->get_count( $highest_level_cat, $filter_consenttype );
-				$total = $this->get_count( 'all', $filter_consenttype );
-				$total = ( $total == 0 ) ? 1 : $total;
-				$score = ROUND( 100 * ( $conversion_count / $total ) );
-				return $score;
-			}
+			$categories = $this->get_available_categories();
+			$revers_arr = array_reverse($categories);
+			$highest_level_cat = array_key_first($revers_arr);
+			$conversion_count = $this->get_count( $highest_level_cat, $filter_consenttype );
+			$total = $this->get_count( 'all', $filter_consenttype );
+			$total = ( $total == 0 ) ? 1 : $total;
+			return ROUND( 100 * ( $conversion_count / $total ) );
 
-			return $score;
 		}
 
 		/**

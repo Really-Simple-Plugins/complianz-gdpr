@@ -90,20 +90,21 @@ add_filter( 'cmplz_field_notices', 'cmplz_wc_google_analytics_integration_show_c
 /**
  * Hide the stats configuration options when wc_google_analytics_integration is enabled.
  *
- * @param $fields
+ * @param array $fields
  *
- * @return mixed
+ * @return array
  */
 
-function cmplz_wc_google_analytics_integration_filter_fields( $fields ) {
+function cmplz_wc_google_analytics_integration_filter_fields( array $fields ): array {
 	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
 	if ($index!==false) unset($fields[$index]['help']);
-	return  cmplz_remove_field( $fields,
+	return cmplz_remove_field( $fields,
 		[
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
-			'consent-mode'
+			'consent-mode',
+			'gtm_code',
 		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_integration_filter_fields', 200 );

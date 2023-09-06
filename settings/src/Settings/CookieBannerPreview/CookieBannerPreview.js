@@ -9,7 +9,7 @@ import {getPurposes, filterArray, concatenateString} from "./tcf";
 const CookieBannerPreview = () => {
 	const rootRef = useRef(null);
 	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields, fetchFieldsData, fieldsLoaded} = useFields();
-	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, tcfActiveServerside, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType, vendorCount} = UseBannerData();
+	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, tcfActiveServerside, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType} = UseBannerData();
 	const [timer, setTimer] = useState(null)
 	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
 	const [bannerToFieldsSynced, setBannerToFieldsSynced] = useState(false)
@@ -415,6 +415,7 @@ const CookieBannerPreview = () => {
 	let bannerFields = getBannerFields();
 	resultHtml = replace( resultHtml, '{consent_type}', consentType );
 	resultHtml = replace( resultHtml, '{id}', selectedBanner.ID );
+	let vendorCount = consentType==='optin' ? 643 : '';
 	resultHtml = replace( resultHtml, '{vendor_count}', vendorCount );
 	resultManageConsentHtml = replace( resultManageConsentHtml, '{id}', selectedBanner.ID );
 	let hidePreview = getFieldValue('hide_preview')==1 || getFieldValue('disable_cookiebanner')==1;

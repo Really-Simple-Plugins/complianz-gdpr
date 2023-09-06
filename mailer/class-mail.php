@@ -56,7 +56,7 @@ if ( !class_exists('cmplz_mailer') ) {
 				[
 					'title' => __("About notifications","complianz-gdpr"),
 					'message' => __("Email notifications are only sent for important updates, changes or when certain features are enabled.","complianz-gdpr"),
-					'url' => 'https://complianz.io/email-notifications/',
+					'url' => 'https://complianz.io/instructions/about-email-notifications/',
 				]
 			];
 			$success = $this->send_mail(true);

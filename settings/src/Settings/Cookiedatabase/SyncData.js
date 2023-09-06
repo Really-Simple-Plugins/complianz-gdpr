@@ -2,7 +2,6 @@ import {create} from 'zustand';
 import * as cmplz_api from "../../utils/api";
 import Icon from "../../utils/Icon";
 import produce from "immer";
-import { __ } from '@wordpress/i18n';
 
 export const UseSyncData = create(( set, get ) => ({
 	addedIds:[],
@@ -57,20 +56,12 @@ export const UseSyncData = create(( set, get ) => ({
 		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages} = await fetchSyncProgressData(false);
 
 		let language = get().language ? get().language : defaultLanguage;
-		let purposesByLanguage = purposesOptions && purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
-		let serviceTypesByLanguage = serviceTypeOptions && serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
-		serviceTypesByLanguage = serviceTypesByLanguage.map(serviceType => {
-			return {label:serviceType.label,value:serviceType.label};
-		});
-		purposesByLanguage = purposesByLanguage.map(purpose => {
-			return {label:purpose.label,value:purpose.label};
-		});
 		set({
 			loadingSyncData: false,
 			language: language,
 			languages: languages,
-			purposesOptions: purposesByLanguage,
-			serviceTypeOptions: serviceTypesByLanguage,
+			purposesOptions: purposesOptions,
+			serviceTypeOptions: serviceTypeOptions,
 			services: services,
 			syncProgress: syncProgress,
 			cookies: cookies,
@@ -79,61 +70,16 @@ export const UseSyncData = create(( set, get ) => ({
 			syncDataLoaded:true,
 		});
 	},
-	buildServicesCookiesArray: () => {
-		let cookies = get().cookies;
-		let services = get().services;
-		let filteredCookies = [...cookies]
-			.filter(cookie => cookie.language === get().language && (get().showDeletedCookies || !get().showDeletedCookies && cookie.deleted != 1))
-			.sort((a, b) => a.name.localeCompare(b.name));
-
-		const servicesMap = {};
-		[...services]
-			.sort((a, b) => a.name.localeCompare(b.name))
-			.forEach(function(service) {
-				servicesMap[service.ID] = {
-					id: service.ID,
-					name: service.name,
-					service: service,
-					cookies: []
-				};
-			});
-
-		filteredCookies.forEach(function(cookie) {
-			let serviceID = cookie.service ? cookie.serviceID : 0;
-			if (!servicesMap[serviceID]) {
-				servicesMap[serviceID] = {
-					id: serviceID,
-					name: !cookie.service ? __("Unknown Service","complianz-gdpr") : cookie.service,
-					service: services.filter(service => service.ID === serviceID)[0],
-					cookies: []
-				};
-			}
-			servicesMap[serviceID].cookies.push(cookie);
-		});
-
-		let servicesAndCookies = Object.values(servicesMap);
-		set({servicesAndCookies:servicesAndCookies });
-	},
 	restart: async () => {
 		set(() => ({loadingSyncData:true,syncDataLoaded:false }));
 		const {syncProgress, cookieCount, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages, errorMessage} = await fetchSyncProgressData(true);
 		let language = get().language ? get().language : defaultLanguage;
-		let purposesByLanguage = purposesOptions.hasOwnProperty(language) ? purposesOptions[language] : [];
-		let serviceTypesByLanguage = serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
-		//convert value/label array to label/label array
-		serviceTypesByLanguage = serviceTypesByLanguage.map(serviceType => {
-			return {label:serviceType.label,value:serviceType.label};
-		});
-		purposesByLanguage = purposesByLanguage.map(purpose => {
-			return {label:purpose.label,value:purpose.label};
-		});
-
 		set(() => ({
 			loadingSyncData: false,
 			language: language,
 			languages: languages,
-			purposesOptions: purposesByLanguage,
-			serviceTypeOptions: serviceTypesByLanguage,
+			purposesOptions: purposesOptions,
+			serviceTypeOptions: serviceTypeOptions,
 			services: services,
 			syncProgress: syncProgress,
 			cookies: cookies,
@@ -301,21 +247,19 @@ export const UseSyncData = create(( set, get ) => ({
 		)
 	},
 	updateService: (id, type, value) => {
-		let services = get().services;
-		//update array
-		let newServices = [];
-		services.forEach(function(service, i) {
-			const newService = {...service};
-			if ( service.ID === id ){
-				newService[type]=value;
-				if (type==='sync' && !value){
-					newService['synced']=value;
+		set(
+			produce((state) => {
+				const serviceIndex = state.services.findIndex(service => {
+					return service.ID===id;
+				});
+				if ( serviceIndex!==-1 ){
+					state.services[serviceIndex][type] = value;
+					if (type==='sync' && !value){
+						state.services[serviceIndex]['synced'] = value;
+					}
 				}
-			}
-			newServices.push(newService);
-		});
-		//set state
-		set({services:newServices});
+			})
+		)
 	},
 }));
 

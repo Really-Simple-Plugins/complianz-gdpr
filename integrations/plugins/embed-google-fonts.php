@@ -5,6 +5,7 @@ if ( !defined("CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE") ) define("CMPLZ_SELF_HOSTED_PLU
 function cmplz_embed_google_fonts_filter_pro_fields($fields) {
 	$index = cmplz_get_field_index('self_host_google_fonts', $fields);
 	$fields[$index]['help'] = [
+		'label' => 'default',
 		'title' => __('self-hosting Google Fonts', 'complianz-gdpr'),
 		'text' => sprintf( __("You have %s installed. We recommend saying 'Yes' to self-hosting Google Fonts", "complianz-gdpr") ,"Embed Google Fonts"),
 	];

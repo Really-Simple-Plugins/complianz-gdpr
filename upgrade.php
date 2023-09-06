@@ -12,7 +12,12 @@ function cmplz_check_upgrade() {
 	}
 
 	$prev_version = get_option( 'cmplz-current-version', false );
-	if ( $prev_version === cmplz_version ) {
+	$new_version = cmplz_version;
+	//strip off everything after '#'
+	if ( strpos( $new_version, '#' ) !== false ) {
+		$new_version = substr( $new_version, 0, strpos( $new_version, '#' ) );
+	}
+	if ( $prev_version === $new_version ) {
 		return;
 	}
 
@@ -20,7 +25,7 @@ function cmplz_check_upgrade() {
 	 * Set a "first version" variable, so we can check if some notices need to be shown
 	 */
 	if ( ! $prev_version ) {
-		update_option( 'cmplz_first_version', cmplz_version, false );
+		update_option( 'cmplz_first_version', $new_version, false );
 	}
 
 	/*
@@ -390,14 +395,6 @@ function cmplz_check_upgrade() {
 					$banner->save();
 				}
 			}
-		}
-	}
-
-	if ( $prev_version
-	     && version_compare( $prev_version, '5.2.6.1', '<' )
-	) {
-		if ( cmplz_tcf_active() ) {
-			delete_option( 'cmplz_vendorlist_downloaded_once' );
 		}
 	}
 
@@ -776,10 +773,6 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
-		update_option( 'cmplz_vendorlist_downloaded_once', strtotime('-1 week') + HOUR_IN_SECONDS, false );
-	}
-
 	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
@@ -933,92 +926,88 @@ function cmplz_check_upgrade() {
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
-		if ( !get_option('cmplz_upgraded_to_7') ) {
-			set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
-			//create new options array
-			$options = get_option( 'cmplz_options', [] );
-			if ( ! is_array( $options ) ) {
-				$options = [];
-			}
+		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
+		//create new options array
+		$options = get_option( 'cmplz_options', [] );
+		if ( ! is_array( $options ) ) {
+			$options = [];
+		}
 
-			$default_id = cmplz_get_default_banner_id();
-			$banner     = new CMPLZ_COOKIEBANNER( $default_id );
-			if ( $banner->disable_cookiebanner ) {
-				cmplz_update_option_no_hooks( 'enable_cookie_banner', 'no' );
-			}
+		$default_id = cmplz_get_default_banner_id();
+		$banner     = new CMPLZ_COOKIEBANNER( $default_id );
+		if ( $banner->disable_cookiebanner ) {
+			cmplz_update_option_no_hooks( 'enable_cookie_banner', 'no' );
+		}
 
-			$license = get_site_option( 'cmplz_license_key' );
-			if ( $license && !is_multisite() ) {
-				$options[ 'license' ] = $license;
+		$license = get_site_option( 'cmplz_license_key' );
+		if ( $license && !is_multisite() ) {
+			$options[ 'license' ] = $license;
 //				delete_site_option( 'cmplz_license_key' );
-			}
+		}
 
-			$migrate_js_enabled = false;
-			$old_settings_array = [ 'complianz_options_settings', 'complianz_options_wizard' ];
-			$wiz = get_option('complianz_options_settings');
-			$use_country = $wiz['use_country'] ?? false;
-			foreach ( $old_settings_array as $old_setting ) {
-				$settings = get_option( $old_setting, [] );
-				foreach ( $settings as $id => $value ) {
-					//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
-					$id = strtolower($id);
-					$field = cmplz_get_field( $id );
-					if ( $field ) {
-						$type = $field['type'];
-						//regions is default radio, but multicheckbox when use_country is enabled
-						if ($id === 'regions' && $use_country) {
-							$type = 'multicheckbox';
-						}
-						if ($type === 'multicheckbox' && is_array( $value )) {
-							$value = array_filter( $value, static function ( $item ) {return $item == 1;} );
-							$value = array_keys( $value );
-						}
-						if ($id === 'which_personal_data_secure') {
-							$new = [];
-							if ( isset($value['1']) || isset($value['16']) ) {
-								$new[] = '1';
-							}
-							if ( isset($value['2']) || isset($value['4'])) {
-								$new[] = '2';
-							}
-							if ( isset($value['3']) || isset($value['15']) ) {
-								$new[] = '3';
-							}
-							if ( isset($value['6']) ) {
-								$new[] = '5';
-							}
-							if ( isset($value['5']) ) {
-								$new[] = '7';
-							}
-							if ( isset($value['7']) ) {
-								$new[] = '8';
-							}
-							if ( isset($value['8']) || isset($value['9']) || isset($value['10']) || isset($value['11']) || isset($value['14']) || isset($value['17']) ) {
-								$new[] = '4';
-							}
-							$value = $new;
-						}
-						$options[ $id ] = $value;
+		$migrate_js_enabled = false;
+		$old_settings_array = [ 'complianz_options_settings', 'complianz_options_wizard' ];
+		$wiz = get_option('complianz_options_settings');
+		$use_country = $wiz['use_country'] ?? false;
+		foreach ( $old_settings_array as $old_setting ) {
+			$settings = get_option( $old_setting, [] );
+			foreach ( $settings as $id => $value ) {
+				//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
+				$id = strtolower($id);
+				$field = cmplz_get_field( $id );
+				if ( $field ) {
+					$type = $field['type'];
+					//regions is default radio, but multicheckbox when use_country is enabled
+					if ($id === 'regions' && $use_country) {
+						$type = 'multicheckbox';
 					}
-					if ($id === 'enable_migrate_js' && $value) {
-						$migrate_js_enabled = true;
+					if ($type === 'multicheckbox' && is_array( $value )) {
+						$value = array_filter( $value, static function ( $item ) {return $item == 1;} );
+						$value = array_keys( $value );
 					}
+					if ($id === 'which_personal_data_secure') {
+						$new = [];
+						if ( isset($value['1']) || isset($value['16']) ) {
+							$new[] = '1';
+						}
+						if ( isset($value['2']) || isset($value['4'])) {
+							$new[] = '2';
+						}
+						if ( isset($value['3']) || isset($value['15']) ) {
+							$new[] = '3';
+						}
+						if ( isset($value['6']) ) {
+							$new[] = '5';
+						}
+						if ( isset($value['5']) ) {
+							$new[] = '7';
+						}
+						if ( isset($value['7']) ) {
+							$new[] = '8';
+						}
+						if ( isset($value['8']) || isset($value['9']) || isset($value['10']) || isset($value['11']) || isset($value['14']) || isset($value['17']) ) {
+							$new[] = '4';
+						}
+						$value = $new;
+					}
+					$options[ $id ] = $value;
+				}
+				if ($id === 'enable_migrate_js' && $value) {
+					$migrate_js_enabled = true;
 				}
 			}
+		}
 
-			if ( !empty($options) ){
-				update_option( 'cmplz_options', $options );
+		if ( !empty($options) ){
+			update_option( 'cmplz_options', $options );
+		}
+
+		if ( $migrate_js_enabled ) {
+			$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
+			if ( ! in_array( 'migrate_js', $dismissed_warnings ) ) {
+				$dismissed_warnings[] = 'migrate_js';
+				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 			}
-
-			if ( $migrate_js_enabled ) {
-				$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
-				if ( ! in_array( 'migrate_js', $dismissed_warnings ) ) {
-					$dismissed_warnings[] = 'migrate_js';
-					update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
-				}
-			}
-
-			update_option('cmplz_upgraded_to_7', true, false);
 		}
 	}
 
@@ -1029,5 +1018,5 @@ function cmplz_check_upgrade() {
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
-	update_option( 'cmplz-current-version', cmplz_version, false );
+	update_option( 'cmplz-current-version', $new_version, false );
 }

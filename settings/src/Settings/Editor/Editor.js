@@ -36,6 +36,8 @@ const Editor = ({ value, onChange }) => {
 	}, [changedFields, isEditorLoaded]);
 
 	useEffect(() => {
+		if (!editorState) return;
+
 		const typingTimer = setTimeout(() => {
 			onChange(editorState.toString('html'));
 		}, 500);

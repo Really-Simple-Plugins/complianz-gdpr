@@ -11,24 +11,32 @@ import './Finish.scss';
  * Render a help notice in the sidebar
  */
 const FinishControl = () => {
-	const {fields, updateField, changedFields, setChangedField, updateFieldsData, addHelpNotice, fetchAllFieldsCompleted, allRequiredFieldsCompleted, notCompletedRequiredFields} = useFields();
+	const {fieldsLoaded, fields, updateField, getFieldValue, changedFields, setChangedField, updateFieldsData, addHelpNotice, fetchAllFieldsCompleted, allRequiredFieldsCompleted, notCompletedRequiredFields} = useFields();
 	const {getMenuLinkById } = useMenu();
 	const {cookiebannerRequired, getCookieBannerRequired} = useFinishData();
 
 	useEffect ( () => {
+		if (!fieldsLoaded) return;
 		getCookieBannerRequired();
-	},[fields]);
+	},[fieldsLoaded, fields]);
 
 	useEffect ( () => {
+		if (!fieldsLoaded) return;
 		fetchAllFieldsCompleted();
-	}, [ fields ]);
-	useEffect ( () => {
-		updateField('cookie_banner_required', cookiebannerRequired);
-		setChangedField('cookie_banner_required', cookiebannerRequired);
-		updateFieldsData();
-	}, [cookiebannerRequired])
+	}, [ fieldsLoaded, fields ]);
 
 	useEffect ( () => {
+		if (!fieldsLoaded) return;
+		let currentValue = getFieldValue('cookie_banner_required');
+		if ( currentValue !== cookiebannerRequired ) {
+			updateField('cookie_banner_required', cookiebannerRequired);
+			setChangedField('cookie_banner_required', cookiebannerRequired);
+			updateFieldsData();
+		}
+	}, [fieldsLoaded, cookiebannerRequired])
+
+	useEffect ( () => {
+		if (!fieldsLoaded) return;
 		if ( cookiebannerRequired ) {
 			let explanation =
 				__( "The consent banner and cookie blocker are required on your website.","complianz-gdpr")
@@ -40,7 +48,7 @@ const FinishControl = () => {
 			let explanation = __( "Your site does not require a consent banner. If you think you need a consent banner, please review your wizard settings.","complianz-gdpr")
 			addHelpNotice('last-step-feedback', 'warning', explanation, __('A consent banner is not required', 'complianz-gdpr'));
 		}
-	},[ cookiebannerRequired, changedFields ]);//we cannot use the "fields" dependency, as it will create an infinite loop. changedfields works fine to keep the notice in the sidebar.
+	},[ fieldsLoaded, cookiebannerRequired, changedFields ]);//we cannot use the "fields" dependency, as it will create an infinite loop. changedfields works fine to keep the notice in the sidebar.
 
 	return (
 		<>

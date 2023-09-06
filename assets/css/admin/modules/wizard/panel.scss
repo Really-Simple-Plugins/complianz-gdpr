@@ -64,6 +64,9 @@
 					&::marker {
 						display: none;
 					}
+				  	>.cmplz-icon {
+					  padding-top: 5px;
+					}
 
 					h5 {
 						font-weight: 500;
@@ -89,6 +92,10 @@
 						grid-column: -2;
 						display: flex;
 						gap: var(--rsp-spacing-xxs);
+						.cmplz-button-icon .cmplz-tooltip-icon {
+						  padding-top: 5px;
+						  padding-left: 2px;
+						}
 					}
 				}
 

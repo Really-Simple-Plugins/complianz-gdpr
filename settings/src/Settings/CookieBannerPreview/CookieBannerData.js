@@ -18,7 +18,6 @@ const UseBannerData = create(( set, get ) => ({
 	banners:[],
 	manageConsentHtml:'',
 	bannerContainerClass:'',
-	vendorCount:1,
 	tcfActiveServerside:false,
 	setBannerContainerClass: (bannerContainerClass) => set({ bannerContainerClass }),
 	consentTypes:[],
@@ -109,7 +108,7 @@ const UseBannerData = create(( set, get ) => ({
 		}
 	},
 	fetchBannerData: async () => {
-		const {customize_url, css_file, banner_html, manage_consent_html, consent_types, default_consent_type, banners, page_links, vendor_count, tcf_active} = await cmplz_api.doAction('get_banner_data', {}).then((response) => {
+		const {customize_url, css_file, banner_html, manage_consent_html, consent_types, default_consent_type, banners, page_links, tcf_active} = await cmplz_api.doAction('get_banner_data', {}).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
@@ -151,7 +150,6 @@ const UseBannerData = create(( set, get ) => ({
 			consentTypes: consent_types,
 			consentType:consentType,
 			pageLinks: page_links,
-			vendorCount: vendor_count,
 			tcfActiveServerside: tcf_active,
 		} );
 		return true;

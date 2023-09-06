@@ -875,3 +875,20 @@ function cmplz_maybe_update_css(){
 	update_option('cmplz_integrations_changed', false );
 }
 add_action('admin_init', 'cmplz_maybe_update_css');
+
+/**
+ * Check if this plugin's integration is enabled
+ *
+ * @param string $plugin_name
+ *
+ * @return bool
+ */
+function cmplz_is_integration_enabled( string $plugin_name ): bool {
+	global $cmplz_integrations_list;
+	if ( ! array_key_exists( $plugin_name, $cmplz_integrations_list ) ) {
+		return false;
+	}
+	$fields = get_option( 'complianz_options_integrations' );
+	//default enabled, which means it's enabled when not set.
+	return ! ( isset( $fields[ $plugin_name ] ) && $fields[ $plugin_name ] != 1 );
+}

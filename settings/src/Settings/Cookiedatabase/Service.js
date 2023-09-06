@@ -6,11 +6,21 @@ import Icon from "../../utils/Icon";
 import useFields from "../../Settings/Fields/FieldsData";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 import SelectInput from "../Inputs/SelectInput";
+import {useEffect, useState} from "react";
 
 const ServiceDetails = (service) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
-	const {saving, deleteService, serviceTypeOptions, updateService, saveService} = UseSyncData();
+	const {language, saving, deleteService, serviceTypeOptions, updateService, saveService} = UseSyncData();
 	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
+	const [serviceTypesByLanguage, setServiceTypesByLanguage] = useState([]);
+
+	useEffect (() => {
+		let serviceTypesByLanguage = serviceTypeOptions && serviceTypeOptions.hasOwnProperty(language) ? serviceTypeOptions[language] : [];
+		serviceTypesByLanguage = serviceTypesByLanguage.map(serviceType => {
+			return {label:serviceType.label,value:serviceType.label};
+		});
+		setServiceTypesByLanguage(serviceTypesByLanguage);
+	},[language, serviceTypeOptions]);
 
 	if (!service) {
 		return null;
@@ -72,7 +82,7 @@ const ServiceDetails = (service) => {
 				<SelectInput
 					disabled={disabled}
 					value={service.serviceType}
-					options={serviceTypeOptions}
+					options={serviceTypesByLanguage}
 					onChange={(value) => onChangeHandler(value, service.ID, 'serviceType')}
 				/>
 			</div>

@@ -6,6 +6,7 @@ function cmplz_local_google_fonts_filter_pro_fields($fields) {
 	$index = cmplz_get_field_index('self_host_google_fonts', $fields);
 	if ($index!==false) {
 		$fields[ $index ]['help'] = [
+			'label' => 'default',
 			'title' => __( 'self-hosting Google Fonts', 'complianz-gdpr' ),
 			'text'  => sprintf( __( "You have %s installed. We recommend saying 'Yes' to self-hosting Google Fonts", "complianz-gdpr" ), "Local Google Fonts" ),
 		];

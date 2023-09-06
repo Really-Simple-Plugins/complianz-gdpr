@@ -912,7 +912,9 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			$settings = wp_parse_args( $settings, $defaults );
 			$sql = ' 1=1 ';
 
-			if ( $settings['language'] ) {
+			if ( ! $settings['language'] ) {
+				$sql .= ' and isTranslationFrom = false ';
+			} else if ($settings['language']!=='all') {
 				$lang = cmplz_sanitize_language( $settings['language'] );
 				$sql  .= " AND language = '$lang' ";
 			}
@@ -931,15 +933,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 					$settings['category'] );
 			}
 
-			if ( ! $settings['language'] ) {
-				$sql .= ' and isTranslationFrom = false ';
-			} else {
-				$sql .= $wpdb->prepare( ' and language = %s',
-					$settings['language'] );
-			}
-
 			$no_cookies_where = $sql;
-
 			if ( $settings['lastUpdatedDate'] ) {
 				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate = 0 )',
 						(int) $settings['lastUpdatedDate'] );
@@ -948,8 +942,8 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			$services = $wpdb->get_results( $sql );
 
 			if ( $settings['includeServicesWithoutCookies'] ) {
-				$sql = "select * from ( select * from {$wpdb->prefix}cmplz_services where NOT ID in (select DISTINCT services.ID from {$wpdb->prefix}cmplz_services as services inner join {$wpdb->prefix}cmplz_cookies on services.ID = {$wpdb->prefix}cmplz_cookies.serviceID)) as services where $no_cookies_where";
-				$services_no_cookies = $wpdb->get_results( $sql );
+                $sql = "select * from ( select * from {$wpdb->prefix}cmplz_services where NOT ID in (select DISTINCT services.ID from {$wpdb->prefix}cmplz_services as services inner join {$wpdb->prefix}cmplz_cookies on services.ID = {$wpdb->prefix}cmplz_cookies.serviceID)) as services where $no_cookies_where";
+                $services_no_cookies = $wpdb->get_results( $sql );
 				$service_ids = wp_list_pluck($services, 'ID');
 				foreach ( $services_no_cookies as $service_no_cookies ) {
 					if ( !in_array( $service_no_cookies->ID ,$service_ids) ){

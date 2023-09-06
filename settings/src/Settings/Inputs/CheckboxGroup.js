@@ -12,7 +12,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 		valueValidated = valueValidated === '' ? [] : [valueValidated];
 	}
 	useEffect (() => {
-		let isBool = (Object.keys(options).length === 1) && Object.keys(options)[0] === 'true';//absolute comparison does not work here
+		let isBool = (Object.keys(options).length === 1) && Object.keys(options)[0] === 'true';
 		setIsBoolean(isBool);
 	},[]);
 
@@ -34,15 +34,17 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 		if (isBoolean) {
 			onChange(!value);
 		} else {
-			const newSelected = selected.includes(option)
-				? selected.filter((item) => item !== option)
+			const newSelected = selected.includes(""+option) || selected.includes(parseInt(option))
+				? selected.filter((item) => item !== ""+option && item !== parseInt(option) )
 				: [...selected, option];
 			onChange(newSelected);
 		}
 	};
 
 	const isEnabled = (id) => {
-		return isBoolean ? value : selected.includes(id) // if there is only one option, we use the value as a boolean
+		// if there is only one option, we use the value as a boolean
+		//selected can both be array of strings or integers.
+		return isBoolean ? value : selected.includes(""+id) || selected.includes(parseInt(id));
 	};
 
 	const loadMoreHandler = () => {

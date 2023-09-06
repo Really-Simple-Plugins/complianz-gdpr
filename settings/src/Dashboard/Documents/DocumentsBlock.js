@@ -54,7 +54,8 @@ const SingleDocument = (props) => {
 			<div className="cmplz-single-document">
 				<div className="cmplz-single-document-title" >
 					{ document.permalink && <a href={document.permalink}>{document.title}</a>}
-					{ !document.permalink && <a href={document.readmore}>{document.title}</a>}
+					{ !document.permalink && document.readmore && <a href={document.readmore}>{document.title}</a>}
+					{ !document.permalink && !document.readmore && document.title }
 				</div>
 				<Icon name={'sync'} color={syncColor} tooltip={syncTooltip} size={14} />
 				<Icon name={'circle-check'} color={existsColor} tooltip={existsTooltip} size={14} />

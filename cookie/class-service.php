@@ -105,7 +105,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( $service ) {
 				$this->ID                  = $service->ID;
 				$this->name                = $service->name;
-				$this->serviceType         = $service->serviceType;
+				$this->serviceType         = html_entity_decode($service->serviceType);
 				$this->sharesData
 				                           = $service->thirdParty; //legacy, sharesData was first called thirdparty
 				$this->secondParty         = $service->secondParty;

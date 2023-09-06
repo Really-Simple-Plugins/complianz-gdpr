@@ -522,9 +522,8 @@ function cmplz_reset_settings() {
 			'cmplz_sync_services_complete',
 			'cmplz_detected_social_media',
 			'cmplz_detected_thirdparty_services',
-//			'cmplz_vendorlist_downloaded_once',
+			//'cmplz_vendorlist_downloaded_once',
 	);
-
 
 	foreach ( $options as $option_name ) {
 		delete_option( $option_name );
@@ -551,6 +550,8 @@ function cmplz_reset_settings() {
 	}
 	//ensure the activation will run again
 	update_option( 'cmplz_run_activation', true, false );
+
+
 	return [ 'success'=> true, 'id'=>'reset_settings','message' => __( 'Data successfully cleared', 'complianz-gdpr' ) ];
 }
 
@@ -726,28 +727,35 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 		$config_field_index = in_array( $field['id'], $config_ids, true );
 		if ( $config_field_index===false ){
 			unset($fields[$index]);
-			continue;
 		}
-        $type = cmplz_sanitize_field_type($field['type']);
-        $field_id = cmplz_sanitize_title_preserve_uppercase($field['id']);
-		$value = cmplz_sanitize_field( $field['value'] , $type,  $field_id);
 	}
 
 	$options = get_option( 'cmplz_options', [] );
-
 	//build a new options array
-    foreach ( $fields as $field ) {
-        $prev_value = $options[ $field['id'] ] ?? false;
-        do_action( "cmplz_before_save_option", $field['id'], $field['value'], $prev_value, $field['type'] );
-        $options[ $field['id'] ] = $field['value'];
-		$options = cmplz_maybe_add_source_option($options, $field['value'], $field);
+    foreach ( $fields as $index => $field ) {
+		$prev_value = $options[ $field['id'] ] ?? false;
+
+		$value = cmplz_sanitize_field( $field['value'] , $field['type'],  $field['id']);
+		$fields[$index]['value'] = $value;
+		$fields[$index]['prev_value'] = $prev_value;
+		$fields[$index]['type'] = cmplz_sanitize_field_type($field['type']);
+		$fields[$index]['id'] = cmplz_sanitize_title_preserve_uppercase($field['id']);
+
+        do_action( "cmplz_before_save_option", $fields[$index]['id'], $value, $prev_value, $fields[$index]['type'] );
+        $options[ $field['id'] ] = $value;
+		$options = cmplz_maybe_add_source_option($options, $value, $field );
     }
+
+	foreach ( $fields as $field ) {
+		$options = apply_filters( 'cmplz_before_save_options', $options, $field['id'], $field['value'], $field['prev_value'], $field['type'] );
+	}
 
     if ( ! empty( $options ) ) {
 		update_option( 'cmplz_options', $options );
     }
 
 	foreach ( $fields as $field ) {
+		$prev_value = $options[ $field['id'] ] ?? false;
         do_action( "cmplz_after_save_field", $field['id'], $field['value'], $prev_value, $field['type'] );
     }
 	do_action('cmplz_after_saved_fields', $fields );
@@ -758,7 +766,7 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 	if ( ob_get_length() ) {
 		ob_clean();
 	}
-	$fields = cmplz_fields(true);
+	$fields = cmplz_fields(true, $options);
 	return [
             'request_success' => true,
             'fields' => $fields,
@@ -811,6 +819,7 @@ if (!function_exists('cmplz_update_option')) {
 		$value            = apply_filters( "cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
 		$options[ $name ] = $value;
 		$options            = cmplz_maybe_add_source_option( $options, $value, $config_field );
+		$options = apply_filters( 'cmplz_before_save_options', $options, $name, $value, $prev_value, $type );
 
 		update_option( 'cmplz_options', $options );
 
@@ -856,6 +865,7 @@ if (!function_exists('cmplz_update_option_no_hooks')) {
 		$value            = cmplz_sanitize_field( $value, $type, $name );
 		$value            = apply_filters( "cmplz_fieldvalue", $value, $name , $type );
 		$options[ $name ] = $value;
+		error_log(print_r($options, true		));
 		update_option( 'cmplz_options', $options );
 	}
 }
@@ -910,6 +920,7 @@ function cmplz_rest_api_fields_get(): array {
 
 	$output = array();
 	$fields = cmplz_fields();
+	error_log(print_r($fields, true));
 	$output['fields'] = $fields;
 	$output['request_success'] = true;
 	$output['locked_by'] = COMPLIANZ::$wizard->get_lock_user() ? COMPLIANZ::$wizard->get_lock_user() : get_current_user_id();

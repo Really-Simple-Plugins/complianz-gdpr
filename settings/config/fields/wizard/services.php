@@ -15,12 +15,6 @@ function cmplz_services_fields( $fields ) {
 				'label'             => __( "Do you want to use 'Consent per Service'?", 'complianz-gdpr' ),
 				'tooltip'           => __( "The default configuration is 'Consent per Category'. This is currently compliant with your selected regions.", 'complianz-gdpr' ),
 				'comment'           => __( "For a granular approach you can enable 'consent per service', a unique way to control cookies real-time.", 'complianz-gdpr' ),
-				'server_conditions' => [
-					'relation' => 'AND',
-					[
-						'cmplz_uses_only_functional_cookies()' => false,
-					]
-				],
 				'help'              => [
 					'label' => 'default',
 					'title' => __( "Cookie Shredder", 'complianz-gdpr' ),

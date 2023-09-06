@@ -24,7 +24,7 @@ const ajaxRequest = async (method, path, requestData = null) => {
 
 		const responseData = await response.json();
 		if (!responseData || !responseData.hasOwnProperty('request_success')) {
-			generateError(responseData, 'Invalid data error');
+			generateError(responseData, 'Connection to the server lost. Please try reloading this page.', 'complianz-gdpr');
 			return invalidDataError('invalid_data', 'error', 'The server returned invalid data. If debugging is enabled, please disable it to check if that helps.','complianz-gdpr');
 		}
 
@@ -205,7 +205,7 @@ const generateError = (response, errorMsg) => {
 	}
 	errorShown = true;
 	toast.error(
-		__('Server error', 'complianz-gdpr') + ': ' + error,
+		error,
 		{
 			autoClose: 15000,
 		});

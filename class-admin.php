@@ -140,7 +140,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 //				echo '<br /><b>' . '&nbsp'.cmplz_sprintf(__("This is a major release and while tested thoroughly you might experience conflicts or lost data. We recommend you back up your data before updating and check your configuration after update.", "complianz-gdpr").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-7-0/">','</a>');
 //			}
 
-			if ( strpos($response->slug , 'complianz') !==false && strpos($response->new_version, 'beta.')!==false && cmplz_get_value("beta") ) {
+			if ( strpos($response->slug , 'complianz') !==false && strpos($response->new_version, 'beta.')!==false && cmplz_get_option("beta") ) {
 				echo '<br /><b>' . '&nbsp'.__("It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback.", "complianz-gdpr").'</b>';
 			}
 		}

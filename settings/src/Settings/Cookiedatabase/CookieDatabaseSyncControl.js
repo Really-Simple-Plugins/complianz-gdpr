@@ -7,10 +7,11 @@ import {memo} from "react";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 
 const CookieDatabaseSyncControl = () => {
-	const {buildServicesCookiesArray, showDeletedCookies, setShowDeletedCookies, servicesAndCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, cookieCount, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
+	const {showDeletedCookies, setShowDeletedCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, cookieCount, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
 	const {addHelpNotice, removeHelpNotice, getFieldValue} = useFields();
 	const [disabled, setDisabled] = useState(false);
 	const [noCookieNoticeShown, setNoCookieNoticeShown] = useState(false);
+	const [servicesAndCookies, setServicesAndCookies] = useState([]);
 
 	useEffect ( () => {
 		if ( !loadingSyncData && syncProgress <100 ) {
@@ -54,8 +55,38 @@ const CookieDatabaseSyncControl = () => {
 	},[syncProgress]);
 
 	useEffect ( () => {
-		buildServicesCookiesArray()
-	},[services,cookies]);
+		let filteredCookies = [...cookies]
+			.filter(cookie => cookie.language === language && (showDeletedCookies || !showDeletedCookies && cookie.deleted != 1))
+			.sort((a, b) => a.name.localeCompare(b.name));
+
+		const servicesMap = {};
+		[...services]
+			.filter(service => service.language === language )
+			.sort((a, b) => a.name.localeCompare(b.name))
+			.forEach(function(service) {
+				servicesMap[service.ID] = {
+					id: service.ID,
+					name: service.name,
+					service: service,
+					cookies: []
+				};
+			});
+		filteredCookies.forEach(function(cookie) {
+			let serviceID = cookie.service ? cookie.serviceID : 0;
+			if (!servicesMap[serviceID]) {
+				servicesMap[serviceID] = {
+					id: serviceID,
+					name: !cookie.service ? __("Unknown Service","complianz-gdpr") : cookie.service,
+					service: services.filter(service => service.ID === serviceID)[0],
+					cookies: []
+				};
+			}
+			servicesMap[serviceID].cookies.push(cookie);
+		});
+
+		setServicesAndCookies(Object.values(servicesMap) );
+
+	},[services, cookies, language, showDeletedCookies]);
 
 	const onAddServiceHandler = () => {
 		addService();

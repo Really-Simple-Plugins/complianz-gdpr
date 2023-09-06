@@ -21,25 +21,23 @@ const useMenuItem = (menuItem, isMain) => {
 	const [completed, setCompleted] = useState(false);
 
 	useEffect (  () => {
-		if (!documentsDataLoaded) {
+		if (selectedSubMenuItem ==='create-documents' && !documentsDataLoaded) {
 			fetchDocumentsData();
 		}
-	}, [])
+	}, [menuItem.id])
 
 	useEffect(() => {
-		const menuId = menuItem.id;
 		if (fieldsLoaded && !isMain) {
-			if (menuItem.id==='create-documents') {
+			if (menuItem.id ==='create-documents') {
 				setCompleted(!hasMissingPages);
 			} else {
 				const notCompletedFieldsOnPage = notCompletedRequiredFields.filter(
-					(field) => field.menu_id === menuId
+					(field) => field.menu_id === menuItem.id
 				);
-
 				setCompleted(notCompletedFieldsOnPage.length === 0);
 			}
 		}
-	}, [notCompletedRequiredFields]);
+	}, [notCompletedRequiredFields, hasMissingPages, documentsDataLoaded, selectedSubMenuItem]);
 
 	useEffect(() => {
 		fetchAllFieldsCompleted();
@@ -58,7 +56,6 @@ const MenuItem = ({ index, menuItem, isMain }) => {
 		selectedSubMenuItem,
 		selectedMainMenuItem,
 	} = useMenuItem(menuItem, isMain);
-
 	const menuIsSelected = isSelectedMenuItem(selectedSubMenuItem, menuItem);
 	const menuClass = getMenuClass(menuItem, isMain, menuIsSelected);
 	const { icon, iconColor } = getIconProps(menuIsSelected, completed);
@@ -69,7 +66,9 @@ const MenuItem = ({ index, menuItem, isMain }) => {
 		selectedSubMenuItem,
 	);
 
-	if (menuItem.visible) {
+	if (menuItem.visible
+		//&& menuHasFields
+		) {
 		return (
 			<>
 				<a {...attributes} className={`cmplz-wizard-menu-item ${menuClass}`}>
@@ -113,7 +112,8 @@ const isSelectedMenuItemChild = (menuItem, selectedSubMenuItem) => {
 
 /**
  * Utility function to check if selected menu item is the current menu item or a child of the current menu item
- * @param props
+ * @param selectedSubMenuItem
+ * @param menuItem
  * @returns {boolean}
  */
 const isSelectedMenuItem = (selectedSubMenuItem, menuItem) => {
@@ -180,7 +180,7 @@ const getIconProps = (menuIsSelected, completed) => {
 
 /**
  * Utility function to get the attributes for the menu item
- * @param props
+ * @param menuItem
  * @param selectedMainMenuItem
  * @param selectedSubMenuItem
  * @returns {{}}

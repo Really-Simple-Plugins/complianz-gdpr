@@ -350,13 +350,16 @@ if ( ! class_exists( "cmplz_config" ) ) {
 
 			if (cmplz_get_option( 'disclaimer' ) === 'generated') $files[] = '/pro/config/documents/disclaimer.php';
 			if (cmplz_get_option( 'impressum' ) === 'generated') $files[] = '/pro/config/documents/impressum.php';
+
 			foreach ($files as $file) {
 				if ( file_exists( cmplz_path . $file ) ) {
 					require_once( cmplz_path . $file );
 				}
 			}
+
 			$this->stats_markers = apply_filters( 'cmplz_stats_markers', $this->stats_markers );
-			$this->fields = apply_filters( 'cmplz_fields', [] );
+			//ensure that indexes are sequential with array_values
+			$this->fields = array_values(apply_filters( 'cmplz_fields', [] ));
 		}
 
 		public function load_pages(){

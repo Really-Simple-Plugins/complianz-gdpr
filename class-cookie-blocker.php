@@ -317,10 +317,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//filter out non-iframe and disabled placeholders.
 			//'add_script' items do not have an iframe
 			return array_filter( $blocked_scripts, static function($script) {
-				if (!isset($script['enable_placeholder'])) {
-					error_log('missing key enable_placeholder');
-					error_log(print_r($script, true));
-				}
 				return isset($script['enable_placeholder']) && $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
 			});
 		}

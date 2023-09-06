@@ -32,6 +32,7 @@ const Settings = () => {
 		fields,
 		fetchAllFieldsCompleted,
 		nextButtonDisabled,
+		isNextButtonDisabled,
 	} = useFields();
 	const {
 		subMenuLoaded,
@@ -63,6 +64,24 @@ const Settings = () => {
 		getFieldNotices();
 		fetchAllFieldsCompleted();
 	}, [fields]);
+
+	useEffect(() => {
+		//start an interval to check the disabled state of the next button
+		//in some edge cases the button is not enabled after all fields have been entered.
+		let interval = false;
+		if ( nextButtonDisabled ) {
+			interval = setInterval(() => {
+				isNextButtonDisabled(fields, selectedSubMenuItem);
+			}, 3000);
+		} else {
+			if (interval) {
+				clearInterval(interval)
+			}
+		}
+
+		//clear the interval
+		return () => clearInterval(interval);
+	},[nextButtonDisabled]);
 
 	const toggleNotices = () => {
 		setNoticesExpanded(!noticesExpanded);

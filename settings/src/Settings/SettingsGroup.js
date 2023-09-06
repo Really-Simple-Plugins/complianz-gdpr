@@ -83,7 +83,7 @@ const SettingsGroup = (props) => {
 	let disabledClass = disabled ? 'cmplz-disabled' : '';
 
 	//if all fields are conditionally disabled, hide the entire group
-	if ( selectedFields.filter((field)=> ( field.conditionallyDisabled && field.conditionallyDisabled===false ) || field.disabled===false || (field.visible && field.visible===true)).length===0 ) {
+	if ( selectedFields.filter((field)=> ( field.conditionallyDisabled && field.conditionallyDisabled===true ) || (field.visible && field.visible===false) ).length===selectedFields.length ) {
 		return null;
 	}
 

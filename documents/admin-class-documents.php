@@ -19,7 +19,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			add_filter( 'display_post_states', array( $this, 'add_post_state') , 10, 2);
 			add_action( 'save_post', array( $this, 'clear_shortcode_transients' ), 10, 1 );
 			add_action( 'save_post', array($this, 'register_document_title_for_translations'), 10, 3);
-			add_action( 'admin_init', array( $this, 'preload_privacy_info' ) );
+			add_action( 'upgrader_process_complete', array( $this, 'preload_privacy_info' ) );
+			add_action( 'activated_plugin', array( $this, 'preload_privacy_info' ) );
 			add_action( 'admin_init', array( $this, 'add_privacy_info' ) );
 		}
 

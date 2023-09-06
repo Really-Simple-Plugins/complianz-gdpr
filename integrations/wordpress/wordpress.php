@@ -84,9 +84,7 @@ function cmplz_wordpress_comment_form_hide_cookies_consent( $fields ) {
  * Consent API
  */
 function cmplz_consent_api_add_consent_types( $consenttypes ) {
-	$consenttypes = cmplz_get_used_consenttypes();
-
-	return $consenttypes;
+	return cmplz_get_used_consenttypes();
 }
 
 add_filter( 'wp_consent_types', 'cmplz_consent_api_add_consent_types' );
