@@ -1,7 +1,8 @@
-	console.log("running site scan");
+
 	/**
 	 * Script to test site for cookies. Never inserted for visitors, only for admin.
 	 */
+
 	document.addEventListener("cmplz_cookie_warning_loaded", function (consentData) {
 		let acceptBtn = document.querySelector('.cmplz-accept');
 		if ( acceptBtn ) {
@@ -28,18 +29,19 @@
 	function get_localstorage_array() {
 		let lstorage = {};
 		for (let i = 0; i < localStorage.length; i++) {
+
 			lstorage[localStorage.key(i)] = localStorage.key(i);
 		}
-		for (let j = 0; j < sessionStorage.length; j++) {
-			lstorage[sessionStorage.key(j)] = sessionStorage.key(j);
+		for (let i = 0; i < sessionStorage.length; i++) {
+			lstorage[sessionStorage.key(i)] = sessionStorage.key(i);
 		}
 		return lstorage;
 	}
 
 	function get_cookies_array() {
 		let cookies = {};
-		if ( document.cookie && document.cookie !== '' ) {
-			let split = document.cookie.split(';');
+		if ( document.cookie && document.cookie != '' ) {
+			var split = document.cookie.split(';');
 			for (let i = 0; i < split.length; i++) {
 				var name_value = split[i].split("=");
 				name_value[0] = name_value[0].replace(/^ /, '');

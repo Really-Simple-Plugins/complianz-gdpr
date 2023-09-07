@@ -1,33 +1,74 @@
 const gulp = require('gulp');
-const rtlcss = require('gulp-rtlcss');
 const concat = require('gulp-concat');
-const cssbeautify = require('gulp-cssbeautify');
-const cssuglify = require('gulp-uglifycss');
+var uglifycss = require('gulp-uglifycss');
 const jsuglify = require('gulp-uglify');
-const sass = require('gulp-sass')(require('sass'));
 const spawn = require('child_process').spawn;
+var gulpless = require('gulp-less');
+var gulpautoprefixer = require('gulp-autoprefixer');
+  //Creating a Style task that convert LESS to CSS
+const minify = require('gulp-minify');
 
-function scssTask(cb) {
-  // compile scss to css and minify
-  gulp.src('./assets/css/admin.scss')
-  .pipe(sass(({outputStyle: 'expanded'})).on('error', sass.logError))
-  .pipe(cssbeautify())
-  .pipe(gulp.dest('./assets/css'))
-  .pipe(cssuglify())
-  .pipe(concat('admin.min.css'))
-  .pipe(gulp.dest('./assets/css'))
-  .pipe(rtlcss())
-  .pipe(gulp.dest('./assets/css/rtl'));
+function lessTask(cb) {
+      var srcfile = './assets/css/admin.less';
+      var temp = './assets/css';
+        gulp
+                 .src(srcfile)
+                 .pipe(gulpless())
+                .pipe(gulpautoprefixer())
+                .pipe(gulp.dest(temp));
 
-   cb();
+	   srcfile = './assets/css/cookieblocker.less';
+	   temp = './assets/css';
+		gulp
+				 .src(srcfile)
+				 .pipe(gulpless())
+				.pipe(gulpautoprefixer())
+				.pipe(gulp.dest(temp));
+	   srcfile = './assets/css/document.less';
+	   temp = './assets/css';
+		gulp
+				 .src(srcfile)
+				 .pipe(gulpless())
+				.pipe(gulpautoprefixer())
+				.pipe(gulp.dest(temp));
+	   srcfile = './assets/css/document-grid.less';
+	   temp = './assets/css';
+		gulp
+				 .src(srcfile)
+				 .pipe(gulpless())
+				.pipe(gulpautoprefixer())
+				.pipe(gulp.dest(temp));
+
+	   srcfile = './assets/css/wizard.less';
+	   temp = './assets/css';
+		gulp
+				 .src(srcfile)
+				 .pipe(gulpless())
+				.pipe(gulpautoprefixer())
+				.pipe(gulp.dest(temp));
+
+	gulp.task('css', function () {
+		gulp.src('./assets/css/*.css')
+			.pipe(uglifycss({
+			}))
+			.pipe(gulp.dest('./assets/css'));
+	});
 }
-exports.scss = scssTask
+exports.less = lessTask
 
-gulp.task('default', function () {
-	return
-});
 function jsTask(cb) {
-  cb();
+	gulp.src('assets/js/admin.js')
+	.pipe(concat('admin.js'))
+	.pipe(gulp.dest('./assets/js'))
+	.pipe(concat('admin.min.js'))
+	.pipe(jsuglify())
+	.pipe(gulp.dest('./assets/js'));
+	gulp.src('assets/js/dashboard.js')
+	.pipe(concat('dashboard.js'))
+	.pipe(gulp.dest('./assets/js'))
+	.pipe(concat('dashboard.min.js'))
+	.pipe(jsuglify())
+	.pipe(gulp.dest('./assets/js'));
 	gulp.src('cookiebanner/js/complianz.js')
 	 .pipe(concat('complianz.js'))
 	 .pipe(gulp.dest('./cookiebanner/js'))
@@ -39,11 +80,11 @@ function jsTask(cb) {
 exports.js = jsTask
 
 function defaultTask(cb) {
-	gulp.watch('./assets/css/**/*.scss', { ignoreInitial: false }, scssTask);
-	gulp.watch('./assets/js/*.js', { ignoreInitial: false }, jsTask);
-	gulp.watch('./cookiebanner/js/*.js', { ignoreInitial: false }, jsTask);
-  spawn('npm', ['start'], { cwd: 'settings', stdio: 'inherit' })
-	cb();
+  gulp.watch('./assets/css/*.less', { ignoreInitial: false }, lessTask);
+  gulp.watch('./assets/js/*.js', { ignoreInitial: false }, jsTask);
+  gulp.watch('./cookiebanner/js/*.js', { ignoreInitial: false }, jsTask);
+//   spawn('npm', ['start'], { cwd: 'settings', stdio: 'inherit' })
+  cb();
 }
 exports.default = defaultTask
 

@@ -1,0 +1,99 @@
+.cmplz-hidden {
+  display: none;
+}
+.optout .cmplz-region {
+  display: none;
+}
+.optout .cmplz-view-preferences {
+  display: none;
+}
+.cmplz-category .cmplz-category-header {
+  display: grid;
+  grid-template-columns: 1fr auto 25px;
+  grid-template-rows: auto;
+  align-items: center;
+  grid-gap: 0;
+}
+.cmplz-category .cmplz-category-header h2 {
+  font-weight: 500;
+  font-size: 14px;
+  margin: initial;
+}
+.cmplz-category .cmplz-category-header .cmplz-active .cmplz-banner-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cmplz-category .cmplz-category-header .cmplz-icon.cmplz-open {
+  grid-column-start: 3;
+  cursor: pointer;
+  content: '';
+  background: url(https://complianz.io/banner-defaults/chevron-down.svg) no-repeat;
+  transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin: 0 5px;
+}
+.cmplz-category summary::marker {
+  display: none;
+  content: '';
+}
+.cmplz-category summary::-webkit-details-marker {
+  display: none;
+  content: '';
+}
+.cmplz-category[open] .cmplz-icon.cmplz-open {
+  transform: rotate(180deg);
+}
+.cmplz-category .cmplz-body {
+  font-weight: 500;
+  font-size: 12px;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label {
+  display: grid;
+  align-items: center;
+  margin: 0;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label .cmplz-banner-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 21px;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label .cmplz-banner-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label .cmplz-banner-slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 3px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label .cmplz-banner-slider.cmplz-round {
+  border-radius: 20px;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label .cmplz-banner-slider.cmplz-round:before {
+  border-radius: 50%;
+}
+.cmplz-categories .cmplz-category .cmplz-category-header label input:checked + .cmplz-banner-slider:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
+}
+/*# sourceMappingURL=categories.css.map */

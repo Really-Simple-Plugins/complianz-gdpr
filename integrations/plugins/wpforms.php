@@ -36,7 +36,7 @@ add_filter( 'cmplz_get_forms', 'cmplz_wpforms_get_plugin_forms', 10, 1 );
 
 add_filter( 'cmplz_dependencies', 'cmplz_wpforms_dependencies' );
 function cmplz_wpforms_dependencies( $tags ) {
-	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		$site_key   = wpforms_setting( 'recaptcha-site-key', '' );
 		$secret_key = wpforms_setting( 'recaptcha-secret-key', '' );
 

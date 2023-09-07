@@ -158,7 +158,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 						'disabled' => '',
 						'button_text' => __("Install", "complianz-gdpr"),
 						'slug' => 'complianz-gdpr',
-						'description' => __('Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Site Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "complianz-gdpr"),
+						'description' => __('Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "complianz-gdpr"),
 						'install_url' => 'complianz+gdpr+POPIA&tab=search&type=term',
 				];
 				if ($current_plugin==='complianz-gdpr') {
@@ -313,7 +313,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				return false;
 			}
 
-			if ( cmplz_admin_logged_in() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
+			if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
 				$dashboard_url = $this->dashboard_url;
 				$plugins_url = admin_url( "plugins.php" );
 				?>
@@ -416,7 +416,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 		{
 			$error = false;
 			$response = [
-					'success' => false,
+				'success' => false,
 			];
 
 			if ( !current_user_can('activate_plugins') ) {

@@ -53,7 +53,7 @@ function cmplz_is_hidden(el) {
 }
 
 function cmplz_html_decode(input) {
-	let doc = new DOMParser().parseFromString(input, "text/html");
+	var doc = new DOMParser().parseFromString(input, "text/html");
 	return doc.documentElement.textContent;
 }
 /**
@@ -76,8 +76,8 @@ document.querySelectorAll('.cmplz-consent-area.cmplz-placeholder').forEach(cmplz
 	});
 
 	document.addEventListener("cmplz_enable_category", function(consentData) {
-		let consentedCategory = consentData.detail.category;
-		let consentedService = consentData.detail.service;
+		var consentedCategory = consentData.detail.category;
+		var consentedService = consentData.detail.service;
 		cmplzLoadConsentAreaContent(consentedCategory, consentedService)
 	});
 });
@@ -113,7 +113,7 @@ document.addEventListener('cmplz_manage_consent_container_loaded', function(e){
 	let url = window.location.href;
 	if ( url.indexOf('#') != -1 ) {
 		let end_pos = url.lastIndexOf("?") != -1 ? url.lastIndexOf("?") : undefined;
-		let anchor = url.substring(url.indexOf("#") + 1, end_pos);
+		var anchor = url.substring(url.indexOf("#") + 1, end_pos);
 		const element = document.getElementById(anchor);
 		if (element) {
 			const y = element.getBoundingClientRect().top + window.pageYOffset - 200;
@@ -135,7 +135,7 @@ complianz.locale = complianz.locale + '&token='+Math.random().toString(36).repla
 	if (typeof window.CustomEvent === 'function') return false;
 	function CustomEvent(event, params) {
 		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		let evt = document.createEvent('CustomEvent');
+		var evt = document.createEvent('CustomEvent');
 		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
 		return evt;
 	}
@@ -143,18 +143,18 @@ complianz.locale = complianz.locale + '&token='+Math.random().toString(36).repla
 	window.CustomEvent = CustomEvent;
 })();
 
-var cmplz_banner;//look this one up when the cookiebanner loads.
-var cmplz_banner_container = document.getElementById('cmplz-cookiebanner-container');
-var cmplz_manage_consent_button;
-var cmplz_waiting_inline_scripts = [];
-var cmplz_waiting_scripts = [];
-var cmplz_fired_scripts = [];
-var cmplz_placeholder_class_index = 0;
-var cmplz_all_scripts_hook_fired = false;
-var cmplz_consent_stored_once = false;
-var cmplz_fired_category_events = ['functional'];
-var cmplz_fired_service_events = [];
-var cmplz_categories = [
+let cmplz_banner;//look this one up when the cookiebanner loads.
+let cmplz_banner_container = document.getElementById('cmplz-cookiebanner-container');
+let cmplz_manage_consent_button;
+let cmplz_waiting_inline_scripts = [];
+let cmplz_waiting_scripts = [];
+let cmplz_fired_scripts = [];
+let cmplz_placeholder_class_index = 0;
+let cmplz_all_scripts_hook_fired = false;
+let cmplz_consent_stored_once = false;
+let cmplz_fired_category_events = ['functional'];
+let cmplz_fired_service_events = [];
+let cmplz_categories = [
 	'functional',
 	'preferences',
 	'statistics',
@@ -192,20 +192,25 @@ window.cmplz_set_cookie = function(name, value, use_prefix) {
 	if (typeof document === 'undefined') {
 		return;
 	}
-
-	use_prefix = typeof use_prefix !== 'undefined' ? use_prefix : true;
-	const secure = window.location.protocol === "https:" ? ";secure" : '';
-	const date = new Date();
+	if (typeof use_prefix === 'undefined') {
+		use_prefix = true;
+	}
+	let secure = ";secure";
+	let date = new Date();
 	date.setTime(date.getTime() + (complianz.cookie_expiry * 24 * 60 * 60 * 1000));
-	const expires = ";expires=" + date.toGMTString();
+	let expires = ";expires=" + date.toGMTString();
 
-	const domain = cmplz_get_cookie_domain();
-	const domainString = domain.length > 0 ? `;domain=${domain}` : '';
+	if (window.location.protocol !== "https:") secure = '';
 
-	const prefix = use_prefix ? complianz.prefix : '';
-	const cookiePath = cmplz_get_cookie_path();
-
-	document.cookie = `${prefix}${name}=${value};SameSite=Lax${secure}${expires}${domainString};path=${cookiePath}`;
+	let domain = cmplz_get_cookie_domain();
+	if (domain.length > 0) {
+		domain = ";domain=" + domain;
+	}
+	let prefix = '';
+	if ( use_prefix ) {
+		prefix = complianz.prefix;
+	}
+	document.cookie = prefix+name + "=" + value + ";SameSite=Lax" + secure + expires + domain + ";path="+cmplz_get_cookie_path();
 }
 
 /*
@@ -215,7 +220,11 @@ window.cmplz_set_cookie = function(name, value, use_prefix) {
  * @returns {boolean}
  */
 window.cmplz_in_array = function(needle, haystack) {
-	return haystack.includes(needle);
+	let length = haystack.length;
+	for(let i = 0; i < length; i++) {
+		if(haystack[i] == needle) return true;
+	}
+	return false;
 }
 
 /*
@@ -224,14 +233,19 @@ window.cmplz_in_array = function(needle, haystack) {
  * */
 
 window.cmplz_highest_accepted_category = function() {
-	const consentedCategories = cmplz_accepted_categories();
-	const priorityCategories = ['marketing', 'statistics', 'preferences'];
-
-	for (let i = 0; i < priorityCategories.length; i++) {
-		if (cmplz_in_array(priorityCategories[i], consentedCategories)) {
-			return priorityCategories[i];
-		}
+	var consentedCategories = cmplz_accepted_categories();
+	if (cmplz_in_array( 'marketing', consentedCategories )) {
+		return 'marketing';
 	}
+
+	if (cmplz_in_array( 'statistics', consentedCategories )) {
+		return 'statistics';
+	}
+
+	if (cmplz_in_array( 'preferences', consentedCategories )) {
+		return 'preferences';
+	}
+
 	return 'functional';
 }
 
@@ -239,44 +253,52 @@ window.cmplz_highest_accepted_category = function() {
  * Sets all accepted categories as class in body
  */
 
-const cmplz_set_category_as_body_class = () => {
-	const classList = document.body.classList;
-	for (let i = classList.length - 1; i >= 0; i--) {
-		if (classList[i].startsWith('cmplz-') && classList[i] !== 'cmplz-document') {
-			classList.remove(classList[i]);
+function cmplz_set_category_as_body_class() {
+	let classList = document.body.className.split(/\s+/);
+	for (let i = 0; i < classList.length; i++) {
+		if ( classList[i].indexOf('cmplz-') !== -1 && classList[i] !== 'cmplz-document' ) {
+			document.body.classList.remove( classList[i] );
 		}
 	}
-	const cats = cmplz_accepted_categories();
-	Object.values(cats).forEach(category => {
-		classList.add('cmplz-' + category);
-	});
-	const services = cmplz_get_all_service_consents();
-	Object.entries(services).forEach(([service, consent]) => {
-		if (consent) {
-			classList.add('cmplz-' + service);
-		}
-	});
 
-	classList.add('cmplz-' + complianz.region, 'cmplz-' + complianz.consenttype);
-	const event = new CustomEvent('cmplz_set_category_as_bodyclass');
+	let cats = cmplz_accepted_categories();
+	for (let i in cats) {
+		if ( cats.hasOwnProperty(i) ) {
+			document.body.classList.add('cmplz-' + cats[i]);
+		}
+	}
+
+	let services = cmplz_get_all_service_consents();
+	for (let service in services) {
+		if ( services.hasOwnProperty(service) && services[service]) {
+			document.body.classList.add('cmplz-' + service);
+		}
+	}
+
+	document.body.classList.add('cmplz-' + complianz.region);
+	document.body.classList.add('cmplz-' + complianz.consenttype);
+	let event = new CustomEvent('cmplz_set_category_as_bodyclass');
 	document.dispatchEvent(event);
 }
 
-const cmplz_append_css = (css) => {
-	const head = document.head || document.getElementsByTagName('head')[0];
-	const style = document.createElement('style');
+function cmplz_append_css(css){
+	let head = document.getElementsByTagName('head')[0];
+	let style = document.createElement('style');
 	style.setAttribute('type', 'text/css');
-	style.appendChild(document.createTextNode(css));
+	if (style.styleSheet) {   // IE
+		style.styleSheet.cssText = css;
+	} else {                // the world
+		style.appendChild(document.createTextNode(css));
+	}
 	head.appendChild(style);
 }
 
-const cmplz_load_css = (path) => {
-	const head = document.head || document.getElementsByTagName("head")[0];
-	const targetObj = document.createElement("link");
-	targetObj.rel = "stylesheet";
-	targetObj.type = "text/css";
-	targetObj.href = path;
-	head.appendChild(targetObj);
+function cmplz_load_css( path ) {
+	let targetObj = document.createElement("link")
+	targetObj.setAttribute("rel", "stylesheet")
+	targetObj.setAttribute("type", "text/css")
+	targetObj.setAttribute("href", path)
+	document.getElementsByTagName("head")[0].appendChild(targetObj)
 }
 
 /*
@@ -289,12 +311,16 @@ const cmplz_load_css = (path) => {
 function cmplz_run_script( script, category, service, type, sourceObj ) {
 	let targetObj = document.createElement("script");
 	if ( type !== 'inline' ) {
-		targetObj.src = script;
+		targetObj.setAttribute("src", script);
 	} else {
 		if (typeof script !== 'string') {
 			script = script.innerHTML;
 		}
 		targetObj.innerHTML = [script, 'cmplzScriptLoaded();'].join('\n');
+	}
+
+	if ( script.includes("import") ) {
+		targetObj.setAttribute("type", "module");
 	}
 
 	//check if already fired
@@ -303,6 +329,7 @@ function cmplz_run_script( script, category, service, type, sourceObj ) {
 	}
 
 	cmplzCopyAttributes(sourceObj, targetObj);
+
 	try {
 		if (type!=='inline') {
 			targetObj.onload = function () {
@@ -315,14 +342,17 @@ function cmplz_run_script( script, category, service, type, sourceObj ) {
 				cmplz_maybe_run_waiting_scripts(script, category, service, sourceObj);
 			}
 		}
-		document.head.appendChild(targetObj);
+		let header = document.getElementsByTagName("head")[0];
+		header.appendChild(targetObj);
 
 	} catch(exception) {
 		//only runs in case of error
 		cmplz_run_after_all_scripts(category, service);
 		throw "Something went wrong " + exception + " while loading "+script;
 	}
+
 }
+
 
 /*
  * Check if there are waiting scripts, and if so, run them.
@@ -353,12 +383,9 @@ const cmplzLazyLoader = () => {
 				// When the element is in view, load the background image
 				const element = entry.target;
 				let src = element.getAttribute('data-placeholder-image');
-				if ( src ) {
-					const index = element.getAttribute('data-placeholder_class_index');
-					cmplz_append_css('.cmplz-placeholder-' + index + ' {background-image: url(' + src + ') !important;}');
-					cmplz_set_blocked_content_container_aspect_ratio(element, src, index);
-				}
-
+				let index = element.getAttribute('data-placeholder_class_index');
+				cmplz_append_css('.cmplz-placeholder-' + index + ' {background-image: url(' + src + ') !important;}');
+				cmplz_set_blocked_content_container_aspect_ratio(element, src, index);
 				// Stop observing the element
 				observer.unobserve(element);
 			}
@@ -398,7 +425,8 @@ function cmplz_set_blocked_content_container() {
 
 		if ( curIndex == null ) {
 			cmplz_placeholder_class_index++;
-			blocked_image_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index, 'cmplz-blocked-content-container');
+			blocked_image_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
+			blocked_image_container.classList.add('cmplz-blocked-content-container');
 			blocked_image_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
 			cmplz_insert_placeholder_text(blocked_image_container, category, service);
 		}
@@ -426,9 +454,10 @@ function cmplz_set_blocked_content_container() {
 		}
 		let curIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
 		//if the blocked content container class is already added, don't add it again
-		if ( curIndex === null ) {
+		if ( curIndex == null ) {
 			cmplz_placeholder_class_index++;
-			blocked_content_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index, 'cmplz-blocked-content-container');
+			blocked_content_container.classList.add('cmplz-placeholder-' + cmplz_placeholder_class_index);
+			blocked_content_container.classList.add('cmplz-blocked-content-container');
 			blocked_content_container.setAttribute('data-placeholder_class_index', cmplz_placeholder_class_index);
 			cmplz_insert_placeholder_text(blocked_content_container, category, service);
 			//handle image size for video
@@ -454,12 +483,13 @@ function cmplz_set_blocked_content_container() {
 	if ( cmplz_has_consent('marketing') ) {
 		cmplz_enable_category('marketing');
 	}
+
 }
 
 function cmplz_insert_placeholder_text(container, category, service ){
 	if ( !container.querySelector( ".cmplz-blocked-content-notice" ) ) {
 		let placeholder_text = complianz.placeholdertext;
-		category = category || 'marketing';
+		category = category ? category : 'marketing';
 		let body;
 		if ( typeof placeholder_text !== 'undefined' ) {
 			if ( complianz.clean_cookies == 1 ) {
@@ -484,10 +514,18 @@ function cmplz_insert_placeholder_text(container, category, service ){
 				}
 			} else {
 				let btn = cmplz_create_element('button', '');
-				let category_nicename = complianz.categories.hasOwnProperty(category) ? complianz.categories[category] : 'marketing';
-				btn.innerText = placeholder_text.replace('{category}', category_nicename);
-				btn.classList.add('cmplz-blocked-content-notice', 'cmplz-accept-category', 'cmplz-accept-'+category); //'cmplz-accept-'+category is deprecated
+				let category_nicename = 'marketing';
+				if (complianz.categories.hasOwnProperty(category)){
+					category_nicename = complianz.categories[category];
+				}
 
+				placeholder_text = placeholder_text.replace('{category}', category_nicename);
+				btn.innerText = placeholder_text;
+				btn.classList.add('cmplz-blocked-content-notice');
+				btn.classList.add('cmplz-accept-category');
+
+				//deprecated
+				btn.classList.add('cmplz-accept-'+category);
 				btn.setAttribute('data-service', service );
 				btn.setAttribute('data-category', category );
 				btn.setAttribute( 'aria-label', complianz.aria_label.replace('{category}', category) );
@@ -511,23 +549,27 @@ function cmplz_insert_placeholder_text(container, category, service ){
  * */
 
 function cmplz_set_blocked_content_container_aspect_ratio(container, src, placeholder_class_index) {
-	if (container == null) return;
+	if ( container == null ) return;
 
-	// Handle image size for video
+	//handle image size for video
 	let img = new Image();
-	img.addEventListener("load", function() {
-		let imgWidth = this.naturalWidth || 1;
+	img.addEventListener("load", function () {
+		let imgWidth = this.naturalWidth;
 		let imgHeight = this.naturalHeight;
 
+		//prevent division by zero.
+		if (imgWidth === 0) imgWidth = 1;
 		let w = container.clientWidth;
 		let h = imgHeight * (w / imgWidth);
 
-		let heightCSS = src.indexOf('placeholder.jpg') === -1 ? 'height:' + h + 'px;' : '';
+		let heightCSS = '';
+		if (src.indexOf('placeholder.jpg') === -1) {
+			heightCSS = 'height:' + h + 'px;';
+		}
 		cmplz_append_css('.cmplz-placeholder-' + placeholder_class_index + ' {' + heightCSS + '}');
 	});
 	img.src = src;
 }
-
 /*
  * Keep window aspect ratio in sync when window resizes
  * To lower the number of times this code is executed, it is done with a timeout.
@@ -649,7 +691,8 @@ function cmplz_enable_category(category, service) {
 			//other services, no iframe, with placeholders
 			//remove the added classes
 			let cssIndex = obj.getAttribute('data-placeholder_class_index');
-			obj.classList.remove('cmplz-blocked-content-container', 'cmplz-placeholder-' + cssIndex);
+			obj.classList.remove('cmplz-blocked-content-container');
+			obj.classList.remove('cmplz-placeholder-' + cssIndex);
 		}
 	});
 
@@ -725,13 +768,17 @@ function cmplz_enable_category(category, service) {
  *
  * @param obj
  */
-function cmplz_remove_placeholder(obj) {
+function cmplz_remove_placeholder(obj){
+	//we get the closest, not the parent, because a script could have inserted a div in the meantime.
 	let blocked_content_container = obj.closest('.cmplz-blocked-content-container');
-	if (blocked_content_container) {
+	if ( blocked_content_container ) {
 		let cssIndex = blocked_content_container.getAttribute('data-placeholder_class_index');
-		blocked_content_container.classList.remove('cmplz-blocked-content-container', 'cmplz-placeholder-' + cssIndex);
+		blocked_content_container.classList.remove('cmplz-blocked-content-container');
+		blocked_content_container.classList.remove('cmplz-placeholder-' + cssIndex);
 	}
-	obj.classList.remove('cmplz-iframe-styles', 'cmplz-iframe', 'video-wrap');
+	obj.classList.remove('cmplz-iframe-styles');
+	obj.classList.remove('cmplz-iframe');
+	obj.classList.remove('video-wrap');
 }
 
 /*
@@ -828,11 +875,19 @@ function cmplz_run_after_all_scripts(category, service) {
  *
  * */
 
-var cmplz_fired_events = [];
+let cmplz_fired_events = [];
 function cmplz_run_tm_event(category) {
 	if (cmplz_fired_events.indexOf(category) === -1) {
 		cmplz_fired_events.push(category);
 		window.dataLayer = window.dataLayer || [];
+		//deprecated notice for 7.0
+		if ( complianz.prefix.indexOf('rt_')!==-1 ) {
+			window.dataLayer.push({
+				'event': complianz.prefix+'event_'+category,
+			});
+			console.log('Tag Manager events with prefix cmplz_rt_ will be deprecated in 7.0. The cmplz_rt_ prefix will be dropped from Tag Manager events.');
+		}
+
 		window.dataLayer.push({
 			'event': 'cmplz_event_'+category
 		});
@@ -842,11 +897,29 @@ function cmplz_run_tm_event(category) {
 }
 
 /*
+ * Function to handle backward compatibility
+ *
+ */
+
+function cmplz_legacy(){
+	let has_recaptcha = false;
+	document.querySelectorAll('[data-service=recaptcha]').forEach(obj => {
+		obj.setAttribute('data-service', 'google-recaptcha');
+		has_recaptcha=true;
+	});
+
+	if ( has_recaptcha ) {
+		console.log('recaptcha as service name is deprecated. Please rename the service in your custom html to google-recaptcha');
+		document.body.classList.add( 'cmplz-google-recaptcha' );
+	}
+}
+
+/*
  * Accept all categories
  */
 window.cmplz_accept_all = function(){
 	cmplz_clear_all_service_consents();
-	for (let key in cmplz_categories) {
+	for (var key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			cmplz_set_consent(cmplz_categories[key], 'allow');
 		}
@@ -861,6 +934,7 @@ window.conditionally_show_banner = function() {
 	//check if we need to redirect to another legal document, for a specific region
 	cmplz_maybe_auto_redirect();
 	cmplz_set_blocked_content_container();
+	cmplz_legacy();
 
 	/*
 	 * Integration with WordPress, tell what kind of consent type we're using, then fire an event
@@ -893,7 +967,7 @@ window.conditionally_show_banner = function() {
 				let service = services[key].service;
 				let category = services[key].category;
 				if ( cmplz_has_service_consent( service, category )) {
-					document.querySelectorAll('.cmplz-accept-service[data-service="' + service + '"]').forEach(obj => {
+					document.querySelectorAll('.cmplz-accept-service[data-service=' + service + ']').forEach(obj => {
 						obj.checked = true;
 					});
 					cmplz_enable_category('', service);
@@ -940,6 +1014,7 @@ window.conditionally_show_banner = function() {
 			console.log('other consent type, no cookie warning');
 			//on other consent types, all scripts are enabled by default.
 			cmplz_accept_all();
+			// cmplz_fire_categories_event();
 		}
 	} else {
 		console.log('global privacy control or do not track detected: no banner.');
@@ -991,9 +1066,11 @@ window.show_cookie_banner = function () {
 		tmpDismissCookiebanner = true;
 	}
 
-	const container = document.getElementById('cmplz-cookiebanner-container');
+	var fragment = document.createDocumentFragment();
+	let container = document.getElementById('cmplz-cookiebanner-container');
 	if (container) {
-		document.body.prepend(container);
+		fragment.appendChild(container);
+		document.body.prepend(fragment);
 	}
 
 	let link = document.createElement("link");
@@ -1005,7 +1082,7 @@ window.show_cookie_banner = function () {
 	}
 	cmplz_manage_consent_button = document.querySelector('#cmplz-manage-consent .cmplz-manage-consent.manage-consent-'+complianz.user_banner_id);
 	let css_file_url = complianz.css_file.replace('{type}', complianz.consenttype ).replace('{banner_id}', complianz.user_banner_id);
-	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') !== -1 ) {
+	if ( complianz.css_file.indexOf('cookiebanner/css/defaults/banner') != -1 ) {
 		console.log('Fallback default css file used. Please re-save banner settings, or check file writing permissions in uploads directory');
 	}
 
@@ -1087,7 +1164,8 @@ window.cmplz_set_banner_status = function ( status ){
 
 	if ( cmplz_banner_container && complianz.soft_cookiewall ) {
 		cmplz_banner_container.classList.remove('cmplz-'+prevStatus);
-		cmplz_banner_container.classList.add('cmplz-'+status, 'cmplz-soft-cookiewall' );
+		cmplz_banner_container.classList.add('cmplz-'+status );
+		cmplz_banner_container.classList.add('cmplz-soft-cookiewall');
 	}
 	let event = new CustomEvent('cmplz_banner_status', { detail: status });
 	document.dispatchEvent(event);
@@ -1100,9 +1178,9 @@ window.cmplz_set_banner_status = function ( status ){
  * @returns {boolean}
  */
 function cmplz_is_bot(){
-	let botPattern = "(googlebot\/|Googlebot-Mobile|Google-InspectionTool|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
-	let reBot = new RegExp(botPattern, 'i');
-	let userAgent = navigator.userAgent;
+	var botPattern = "(googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
+	var reBot = new RegExp(botPattern, 'i');
+	var userAgent = navigator.userAgent;
 	return reBot.test(userAgent);
 }
 /*
@@ -1111,9 +1189,9 @@ function cmplz_is_bot(){
  * @returns {boolean}
  */
 function cmplz_is_speedbot(){
-	let userAgent = navigator.userAgent;
-	let speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
-	let speedBot = new RegExp(speedBotPattern, 'i');
+	var userAgent = navigator.userAgent;
+	var speedBotPattern = "(GTmetrix|pingdom|pingbot|Lighthouse)";
+	var speedBot = new RegExp(speedBotPattern, 'i');
 	return speedBot.test(userAgent);
 }
 
@@ -1122,7 +1200,6 @@ function cmplz_is_speedbot(){
  * @param category
  * @returns {boolean}
  */
-
 window.cmplz_has_consent = function ( category ){
 	if ( cmplz_is_bot() ) {
 		return true;
@@ -1162,8 +1239,8 @@ window.cmplz_has_consent = function ( category ){
  */
 window.cmplz_is_service_denied = function ( service ) {
 	//Check if it's in the consented services cookie
-	let consented_services_json = cmplz_get_cookie('consented_services');
-	let consented_services;
+	var consented_services_json = cmplz_get_cookie('consented_services');
+	var consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1185,8 +1262,8 @@ window.cmplz_is_service_denied = function ( service ) {
  */
 window.cmplz_has_service_consent = function ( service, category ) {
 	//Check if it's in the consented services cookie
-	let consented_services_json = cmplz_get_cookie('consented_services');
-	let consented_services;
+	var consented_services_json = cmplz_get_cookie('consented_services');
+	var consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1206,8 +1283,8 @@ window.cmplz_has_service_consent = function ( service, category ) {
  * @returns {boolean}
  */
 function cmplz_exists_service_consent(){
-	let consented_services_json = cmplz_get_cookie('consented_services');
-	let consented_services;
+	var consented_services_json = cmplz_get_cookie('consented_services');
+	var consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 		for (const key in consented_services) {
@@ -1229,8 +1306,8 @@ function cmplz_exists_service_consent(){
  * @param consented
  */
 function cmplz_set_service_consent( service, consented ){
-	let consented_services_json = cmplz_get_cookie('consented_services');
-	let consented_services;
+	var consented_services_json = cmplz_get_cookie('consented_services');
+	var consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1260,8 +1337,8 @@ function cmplz_clear_all_service_consents(){
  */
 
 function cmplz_get_all_service_consents(){
-	let consented_services_json = cmplz_get_cookie('consented_services');
-	let consented_services;
+	var consented_services_json = cmplz_get_cookie('consented_services');
+	var consented_services;
 	try {
 		consented_services = JSON.parse(consented_services_json);
 	} catch (e) {
@@ -1281,11 +1358,15 @@ function cmplz_get_cookie_path(){
  * retrieve domain to set the cookies on
  * @returns {string}
  */
-function cmplz_get_cookie_domain() {
-	if (complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length > 3 && !complianz.cookie_domain.includes('localhost')) {
-		return complianz.cookie_domain;
+function cmplz_get_cookie_domain(){
+	var domain = '';
+	if ( complianz.set_cookies_on_root == 1 && complianz.cookie_domain.length>3){
+		domain = complianz.cookie_domain;
 	}
-	return '';
+	if (domain.indexOf('localhost') !== -1 ) {
+		domain = '';
+	}
+	return domain;
 }
 
 /*
@@ -1436,13 +1517,13 @@ document.addEventListener('cmplz_consent_action', function (e) {
  * Deny all categories, and reload if needed.
  */
 window.cmplz_deny_all = function(){
-	for (let key in cmplz_categories) {
+	for (var key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			cmplz_set_consent(cmplz_categories[key], 'deny');
 		}
 	}
-	let consentLevel = cmplz_highest_accepted_category();
-	let reload = false;
+	var consentLevel = cmplz_highest_accepted_category();
+	var reload = false;
 
 	if (consentLevel !== 'functional' || cmplz_exists_service_consent() ) {
 		reload = true;
@@ -1485,8 +1566,8 @@ cmplz_add_event('click', '.cmplz-accept', function(e){
 cmplz_add_event('click', '.cmplz-accept-category, .cmplz-accept-marketing', function(e){
 	e.preventDefault();
 	let obj = e.target;
-	let service = obj.getAttribute('data-service');
-	let category = obj.getAttribute('data-category');
+	var service = obj.getAttribute('data-service');
+	var category = obj.getAttribute('data-category');
 	category = category ? category : 'marketing';
 	if ( complianz.clean_cookies == 1 && typeof service !== 'undefined' && service ){
 		cmplz_set_service_consent(service, true);
@@ -1568,10 +1649,10 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
 	cmplz_banner = obj.closest('.cmplz-cookiebanner');
-	for (let key in cmplz_categories) {
+	for (var key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			let category = cmplz_categories[key];
-			let categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
+			var category = cmplz_categories[key];
+			var categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
 			if (categoryElement) {
 				if (categoryElement.checked) {
 					cmplz_set_consent(category, 'allow');
@@ -1610,10 +1691,10 @@ cmplz_add_event('click', '.cmplz-view-preferences', function(e){
  *
  */
 cmplz_add_event('change', '.cmplz-manage-consent-container .cmplz-category', function(e){
-	for (let key in cmplz_categories) {
+	for (var key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			let category = cmplz_categories[key];
-			let categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-' + category);
+			var category = cmplz_categories[key];
+			var categoryElement = document.querySelector('.cmplz-manage-consent-container input.cmplz-' + category);
 			if (categoryElement) {
 				if (categoryElement.checked) {
 					cmplz_set_consent(category, 'allow');
@@ -1638,9 +1719,9 @@ cmplz_add_event('click', '.cmplz-deny', function(e){
 
 cmplz_add_event('click', 'button.cmplz-manage-settings', function(e){
 	e.preventDefault();
-	let catsContainer = document.querySelector('.cmplz-cookiebanner .cmplz-categories');
-	let saveSettings = document.querySelector('.cmplz-save-settings');
-	let manageSettings = document.querySelector('button.cmplz-manage-settings');
+	var catsContainer = document.querySelector('.cmplz-cookiebanner .cmplz-categories');
+	var saveSettings = document.querySelector('.cmplz-save-settings');
+	var manageSettings = document.querySelector('button.cmplz-manage-settings');
 	if ( !cmplz_is_hidden(catsContainer) ){
 		saveSettings.style.display='none';
 		manageSettings.style.display = 'block';
@@ -1663,7 +1744,7 @@ cmplz_add_event('click', 'button.cmplz-manage-consent', function(e){
 function cmplz_set_up_auto_dismiss() {
 	if ( complianz.consenttype === 'optout' ) {
 		if ( complianz.dismiss_on_scroll==1 ) {
-			let onWindowScroll = function(evt) {
+			var onWindowScroll = function(evt) {
 				if (window.pageYOffset > Math.floor(400)) {
 					cmplz_set_banner_status('dismissed');
 					cmplz_fire_categories_event();
@@ -1675,9 +1756,9 @@ function cmplz_set_up_auto_dismiss() {
 			window.addEventListener('scroll', onWindowScroll);
 		}
 
-		let delay = parseInt(complianz.dismiss_timeout);
+		var delay = parseInt(complianz.dismiss_timeout);
 		if ( delay > 0 ) {
-			window.setTimeout(function () {
+			var cmplzDismissTimeout = window.setTimeout(function () {
 				cmplz_set_banner_status('dismissed');
 				cmplz_fire_categories_event();
 				cmplz_track_status();
@@ -1704,7 +1785,7 @@ function cmplz_fire_categories_event(){
  */
 
 function cmplz_track_status( status ) {
-	let cats = [];
+	var cats = [];
 	status = typeof status !== 'undefined' ? status : false;
 
 	let event = new CustomEvent('cmplz_track_status', { detail: status });
@@ -1716,10 +1797,10 @@ function cmplz_track_status( status ) {
 		cats = [status];
 	}
 	cmplz_set_category_as_body_class();
-	let saved_cats, saved_services;
+	var saved_cats, saved_services;
 	try {saved_cats = JSON.parse(cmplz_get_cookie('saved_categories'));} catch (e) {saved_cats = {};}
 	try {saved_services = JSON.parse(cmplz_get_cookie('saved_services'));} catch (e) {saved_services = {};}
-	let consented_services = cmplz_get_all_service_consents();
+	var consented_services = cmplz_get_all_service_consents();
 
 	//compare current cats with saved cats. When there are no changes, do nothing.
 	if (cmplz_equals(saved_cats, cats) && cmplz_equals(saved_services, consented_services)) {
@@ -1755,13 +1836,13 @@ function cmplz_track_status( status ) {
  * @returns {string}
  */
 function cmplz_accepted_categories() {
-	let consentedCategories = cmplz_categories;
-	let consentedTemp = [];
+	var consentedCategories = cmplz_categories;
+	var consentedTemp = [];
 
 	//because array filter changes keys, we make a temp arr
-	for (let key in consentedCategories) {
+	for (var key in consentedCategories) {
 		if ( consentedCategories.hasOwnProperty(key) ) {
-			let category = consentedCategories[key];
+			var category = consentedCategories[key];
 			if (cmplz_has_consent(category)) {
 				consentedTemp.push(category);
 			}
@@ -1780,9 +1861,9 @@ function cmplz_accepted_categories() {
  * */
 
 function cmplz_sync_category_checkboxes() {
-	for ( let key in cmplz_categories ) {
+	for ( var key in cmplz_categories ) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
-			let category = cmplz_categories[key];
+			var category = cmplz_categories[key];
 			if ( cmplz_has_consent(category) || category === 'functional' ) {
 				document.querySelectorAll('input.cmplz-' + category).forEach(obj => {
 					obj.checked = true;
@@ -1816,14 +1897,14 @@ function cmplz_sync_category_checkboxes() {
  * */
 
 function cmplz_merge_object(userdata, ajax_data) {
-	let output = {};
+	var output = [];
 	//first, we fill the important data.
-	for (let key in ajax_data) {
+	for (key in ajax_data) {
 		if (ajax_data.hasOwnProperty(key)) output[key] = ajax_data[key];
 	}
 
 	//conditionally add static data
-	for (let key in userdata) {
+	for (var key in userdata) {
 		//only add if not in ajax_data
 		if (!ajax_data.hasOwnProperty(key) || typeof ajax_data[key] === 'undefined') {
 			if (userdata.hasOwnProperty(key)) output[key] = userdata[key];
@@ -1839,8 +1920,8 @@ function cmplz_merge_object(userdata, ajax_data) {
  * */
 
 function cmplz_check_cookie_policy_id() {
-	let user_policy_id = cmplz_get_cookie('policy_id');
-	if (user_policy_id && (parseInt(complianz.current_policy_id) !== parseInt(user_policy_id) ) ) {
+	var user_policy_id = cmplz_get_cookie('policy_id');
+	if (user_policy_id && (complianz.current_policy_id !== user_policy_id) ) {
 		cmplz_clear_cookies('cmplz');
 	}
 }
@@ -1850,51 +1931,63 @@ function cmplz_check_cookie_policy_id() {
  *
  *
  */
-function cmplz_clear_cookies (cookie_part) {
+function cmplz_clear_cookies(cookie_part){
+	var foundCookie = false;
+
 	if (typeof document === 'undefined') {
-		return false;
+		return foundCookie;
 	}
+	var secure = ";secure";
+	var date = new Date();
+	date.setTime(date.getTime() - (24 * 60 * 60 * 1000));
+	var expires = ";expires=" + date.toGMTString();
+	if (window.location.protocol !== "https:") secure = '';
+	let cookies = document.cookie.split("; ");
+	let pathname = location.pathname;
+	let pathParts = pathname.replace(/^\/|\/$/g, '').split('/');
 
-	let foundCookie = false;
-	let secure = window.location.protocol === 'https:' ? ';secure' : '';
-	let expires = 'expires=' + new Date().toGMTString();
-	let pathParts = location.pathname.replace(/^\/|\/$/g, '').split('/');
-
-	// Loop through all cookies
-	document.cookie.split('; ').forEach(function(cookie) {
-		let cookieName = cookie.split(';')[0].split('=')[0];
-
-		// If the cookie contains cookie_part, try to delete it
-		if (cookieName.indexOf(cookie_part) !== -1) {
+	//loop through all cookies
+	for (var i = 0; i < cookies.length; i++) {
+		let cookieName = cookies[i].split(";")[0].split("=")[0];
+		let host = window.location.hostname;
+		var domainParts = host.split(".");
+		//if we have more than one result in the array, we can skip the last one, as it will be the .com/.org extension
+		let skip_last = domainParts.length > 1;
+		//if the cookie contains cookie_part, try to delete it
+		if ( cookieName.indexOf(cookie_part) !==-1 ) {
 			foundCookie = true;
-			let domainParts = window.location.hostname.split('.');
-			let skipLast = domainParts.length > 1;
+			let cookieBaseDomain = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=;path=';
+			document.cookie = cookieBaseDomain + '/';
+			//and on paths on root
+			while ( pathParts.length > 0) {
+				var path = pathParts.join('/');
+				if ( path.length>0 ) {
+					document.cookie = cookieBaseDomain + '/' + path;
+					document.cookie = cookieBaseDomain + '/' + path + '/';
+				}
+				pathParts.pop();
+			};
+			while ( domainParts.length > 0) {
+				let cookieBase 		 = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + expires +';domain=.' + domainParts.join('.') + ';path=';
+				document.cookie = cookieBase+ '/';
+				while (pathParts.length > 0) {
+					var path = pathParts.join('/');
+					if ( path.length>0 ) {
+						document.cookie = cookieBase + '/' + path;
+						document.cookie = cookieBase + '/' + path + '/';
+					}
+					pathParts.pop();
+				};
 
-			// Clear cookies on root path and subpaths
-			pathParts.forEach(function(pathPart) {
-				let path = '/' + pathPart;
-				document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=.' + domainParts.join('.') + ';path=' + path;
-				document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=.' + domainParts.join('.') + ';path=' + path + '/';
-			});
-
-			// Clear cookies on parent domains
-			while (domainParts.length > 0) {
-				let domain = '.' + domainParts.join('.');
 				domainParts.shift();
-				if (skipLast && domainParts.length === 1) domainParts.shift();
-
-				pathParts.forEach(function(pathPart) {
-					let path = '/' + pathPart;
-					document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=' + domain + ';path=' + path;
-					document.cookie = encodeURIComponent(cookieName) + '=;SameSite=Lax' + secure + ';' + expires + ';domain=' + domain + ';path=' + path + '/';
-				});
+				//prevents setting cookies on .com/.org
+				if (skip_last && domainParts.length==1) domainParts.shift();
 			}
 		}
-	});
+	}
 
-	// To prevent a double reload, we preserve the cookie policy id
+	//to prevent a double reload, we preserve the cookie policy id.
 	cmplz_set_accepted_cookie_policy_id();
-
 	return foundCookie;
 }
 
@@ -1914,9 +2007,9 @@ function cmplz_set_accepted_cookie_policy_id() {
  * */
 
 function cmplz_integrations_init() {
-	let cookiesToSet = complianz.set_cookies;
+	var cookiesToSet = complianz.set_cookies;
 	//check if we have scripts that need to be set to true on init.
-	for (let key in cookiesToSet) {
+	for (var key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key) && cookiesToSet[key][1] === '1') {
 			cmplz_set_cookie(key, cookiesToSet[key][1], false);
 		}
@@ -1928,8 +2021,8 @@ function cmplz_integrations_init() {
  *
  * */
 function cmplz_integrations_revoke() {
-	let cookiesToSet = complianz.set_cookies;
-	for (let key in cookiesToSet) {
+	var cookiesToSet = complianz.set_cookies;
+	for (var key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key)) {
 			cmplz_set_cookie(key, cookiesToSet[key][1], false);
 			if ( cookiesToSet[key][1] == false ){
@@ -1945,8 +2038,8 @@ function cmplz_integrations_revoke() {
  * */
 
 function cmplz_set_integrations_cookies() {
-	let cookiesToSet = complianz.set_cookies;
-	for (let key in cookiesToSet) {
+	var cookiesToSet = complianz.set_cookies;
+	for (var key in cookiesToSet) {
 		if (cookiesToSet.hasOwnProperty(key)) {
 			cmplz_set_cookie(key, cookiesToSet[key][0], false);
 		}
@@ -1954,21 +2047,28 @@ function cmplz_set_integrations_cookies() {
 }
 
 function cmplz_get_url_parameter(sPageURL, sParam) {
-	if (!sPageURL || typeof sPageURL === 'undefined' || sPageURL.indexOf('?') === -1) {
+	if ( !sPageURL || typeof sPageURL === 'undefined' ) {
 		return false;
 	}
 
-	const queryString = sPageURL.split('?')[1];
-	if (!queryString) return false;
-
-	const sURLVariables = queryString.split('&');
-	for (let i = 0; i < sURLVariables.length; i++) {
-		const sParameterName = sURLVariables[i].split('=');
-		if (sParameterName[0] === sParam) {
-			return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-		}
+	if ( sPageURL.indexOf('?')==-1) {
+		return false;
 	}
 
+	var queryString = sPageURL.split('?');
+	if (queryString.length == 1) return false;
+
+	var sURLVariables = queryString[1].split('&'),
+		sParameterName,
+		i;
+	for (i = 0; i < sURLVariables.length; i++) {
+		if ( sURLVariables.hasOwnProperty(i) ) {
+			sParameterName = sURLVariables[i].split('=');
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+			}
+		}
+	}
 	return false;
 }
 
@@ -1976,8 +2076,8 @@ function cmplz_get_url_parameter(sPageURL, sParam) {
  * If the parameter cmplz_region_redirect =true is passed, find the user's region, and redirect.
  */
 function cmplz_maybe_auto_redirect() {
-	let redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
-	let region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
+	var redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
+	var region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
 	if (redirect && !region) {
 		window.location.href = window.location.href + '&cmplz-region=' + complianz.region;
 	}
@@ -2004,7 +2104,7 @@ function cmplz_start_clean(){
 			cmplz_cookie_data = JSON.parse( sessionStorage.getItem('cmplz_cookie_data') );
 		}
 		//if not stored yet, load. As features in the user object can be changed on updates, we also check for the version
-		if ( !cmplz_cookie_data || cmplz_cookie_data.length === 0 ) {
+		if ( !cmplz_cookie_data || cmplz_cookie_data.length == 0 ) {
 			let request = new XMLHttpRequest();
 			request.open('GET', complianz.url+'cookie_data', true);
 			request.setRequestHeader('Content-type', 'application/json');
@@ -2023,17 +2123,21 @@ function cmplz_start_clean(){
 /*
 * Execute the cleanup of cookies
 */
-function cmplz_do_cleanup() {
-	const consent_categories = ['preferences', 'statistics', 'marketing'];
-	for (const category of consent_categories) {
-		if (!cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category)) {
-			const services = cmplz_cookie_data[category];
-
-			for (const service in services) {
-				if (!cmplz_has_service_consent(service, category)) {
-					const cookies = services[service];
-
-					for (const item of cookies) {
+function cmplz_do_cleanup(){
+	let consent_categories = [
+		'preferences',
+		'statistics',
+		'marketing',
+	];
+	for (var i in consent_categories) {
+		let category = consent_categories[i];
+		if ( !cmplz_has_consent(category) && cmplz_cookie_data.hasOwnProperty(category) ) {
+			let services = cmplz_cookie_data[category];
+			for (var service in services) {
+				if ( !cmplz_has_service_consent(service, category) ) {
+					let cookies = services[service];
+					for (var j in cookies) {
+						let item = cookies[j];
 						cmplz_clear_cookies(item);
 						cmplz_clear_storage(item);
 					}
@@ -2042,7 +2146,6 @@ function cmplz_do_cleanup() {
 		}
 	}
 }
-
 
 function cmplz_setup_clean_interval(){
 	// if the cookie data array is empty, return, nothing to do.
@@ -2104,7 +2207,7 @@ function cmplz_load_manage_consent_container() {
  */
 
 cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
-	let keycode = (e.keyCode ? e.keyCode : e.which);
+	var keycode = (e.keyCode ? e.keyCode : e.which);
 	if (keycode == 32) {
 		document.activeElement.click();
 	}
@@ -2114,7 +2217,7 @@ cmplz_add_event('keypress', '.cmplz-banner-slider label', function(e){
  * Make close button closable with enter
  */
 cmplz_add_event('keypress', '.cmplz-cookiebanner .cmplz-header .cmplz-close', function(e){
-	let keycode = (e.keyCode ? e.keyCode : e.which);
+	var keycode = (e.keyCode ? e.keyCode : e.which);
 	if ( keycode == 13 ) {
 		document.activeElement.click();
 	}
@@ -2135,17 +2238,18 @@ function cmplz_equals (array_1, array_2) {
 		return false;
 
 	// compare lengths - can save a lot of time
-	if (array_1.length !== array_2.length)
+	if (array_1.length != array_2.length)
 		return false;
 
-	for (let i = 0, l=array_1.length; i < l; i++) {
+	for (var i = 0, l=array_1.length; i < l; i++) {
 		// Check if we have nested arrays
 		if (array_1[i] instanceof Array && array_2[i] instanceof Array) {
 			// recurse into the nested arrays
 			if (!cmplz_equals(array_1[i], array_2[i]))
 				return false;
 		}
-		else if (array_1[i] !== array_2[i]) {
+		else if (array_1[i] != array_2[i]) {
+			// Warning - two different object instances will never be equal: {x:20} != {x:20}
 			return false;
 		}
 	}
@@ -2156,23 +2260,28 @@ function cmplz_equals (array_1, array_2) {
 * Copy all element atributes to the new element
 */
 function cmplzCopyAttributes(source, target) {
-	const excludes = ['type', 'data-service', 'data-category', 'async'];
-	Array.from(source.attributes).forEach(attribute => {
-		if (attribute.nodeName === 'data-script-type' && attribute.nodeValue === 'module') {
-			target.setAttribute('type', 'module');
+	return Array.from(source.attributes).forEach(attribute => {
+		//don't copy the type attribute
+		let excludes = ['type', 'data-service', 'data-category', 'async'];
+		if (  attribute.nodeName === 'data-script-type' && attribute.nodeValue === 'module' ) {
+			target.setAttribute('type', 'module',);
 			target.removeAttribute('data-script-type');
-		} else if (!excludes.includes(attribute.nodeName)) {
-			target.setAttribute(attribute.nodeName, attribute.nodeValue);
+		}
+
+		if ( !excludes.includes(attribute.nodeName) ) {
+			target.setAttribute(
+				attribute.nodeName,
+				attribute.nodeValue,
+			);
 		}
 	});
 }
 
-
 /*
  * Hooked into jquery
  */
-var cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
-var cmplz_times_checked = 0;
+let cmplz_has_wp_video = document.querySelector('.cmplz-wp-video-shortcode');
+let cmplz_times_checked = 0;
 if ('undefined' != typeof window.jQuery) {
 	jQuery(document).ready(function ($) {
 		if ( cmplz_has_wp_video ) {
@@ -2180,7 +2289,7 @@ if ('undefined' != typeof window.jQuery) {
 				cmplz_activate_wp_video();
 			});
 
-			let cmplzInterval = setInterval(function(){
+			var cmplzInterval = setInterval(function(){
 				cmplz_times_checked+=1;
 				if ( document.querySelector('.cmplz-wp-video-shortcode') && cmplz_times_checked<100) {
 					cmplz_activate_wp_video();
@@ -2201,7 +2310,7 @@ if ('undefined' != typeof window.jQuery) {
 			let services = cmplz_get_all_service_consents();
 			let selectorVideo = '';
 			let selectorVideos = [];
-			for (let c_key in categories) {
+			for (var c_key in categories) {
 				if (categories.hasOwnProperty(c_key)) {
 					let category = categories[c_key];
 					if (category==='functional') {
@@ -2210,9 +2319,9 @@ if ('undefined' != typeof window.jQuery) {
 					selectorVideos.push('.cmplz-wp-video-shortcode[data-category="'+category+'"]');
 				}
 			}
-			for (let s_key in services) {
+			for (var s_key in services) {
 				if (services.hasOwnProperty(s_key)) {
-					selectorVideos.push('.cmplz-wp-video-shortcode[data-service="' + s_key + '"]');
+					selectorVideos.push('.cmplz-wp-video-shortcode[data-service=' + s_key + ']');
 				}
 			}
 			selectorVideo = selectorVideos.join(',');
@@ -2221,7 +2330,8 @@ if ('undefined' != typeof window.jQuery) {
 				document.querySelectorAll(selectorVideo).forEach(obj => {
 					should_initialize_video = true;
 					obj.setAttribute('controls', 'controls');
-					obj.classList.add('wp-video-shortcode', 'cmplz-processed');
+					obj.classList.add('wp-video-shortcode');
+					obj.classList.add('cmplz-processed');
 					obj.classList.remove('cmplz-wp-video-shortcode');
 					obj.closest('.cmplz-wp-video').classList.remove('cmplz-wp-video');
 

@@ -36,6 +36,7 @@ const iconEl = () => (
 		 } />
 );
 
+
 const selectDocument = ({ className, isSelected, attributes, setAttributes }) => {
 	const [documents, setDocuments] = useState([]);
 	const [documentDataLoaded, setDocumentDataLoaded] = useState(false);
@@ -73,7 +74,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 	const onChangeSelectDocument = (value) => {
 		// Set the state
 		setSelectedDocument(value);
-
 		// Set the attributes
 		setAttributes({
 			selectedDocument: value,
@@ -158,7 +158,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
 		]
 	} else {
-		let html = documentDataLoaded ? customDocumentHtml : __('Loading...', 'complianz-gdpr');
 		let syncClassName = className + ' cmplz-unlinked-mode';
 		return [
 			!!isSelected && (
@@ -181,6 +180,11 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 				</InspectorControls>
 			),
 
+			// <RichText key="rich-text-cmplz"
+			// 		  className={syncClassName}
+			// 		  value={html}
+			// 		  onChange={ (e) => onChangeCustomDocument(e) }
+			// />
 			<div contentEditable={true} onInput={(e)=>onChangeCustomDocument(e.currentTarget.innerHTML)}
 				 dangerouslySetInnerHTML={{__html: customDocumentHtml}}
 				 className={syncClassName}
@@ -333,6 +337,7 @@ registerBlockType( 'complianz/consent-area', {
 				setAttributes( { blockId: blockId } );
 			}
 		}, [attributes] );
+
 
 		const blockProps = useBlockProps();
 		let disabled = !complianz.user_can_unfiltered_html;

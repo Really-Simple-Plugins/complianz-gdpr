@@ -69,6 +69,10 @@ final class CMPLZ_Forminator_Addon extends Forminator_Addon_Abstract {
 
 	}
 
+//    public function setup_connect() {
+//        cmplz_update_option( 'integrations','forminator',1);
+//    }
+
 	/**
 	 * Flag for check if and addon connected to a form(form settings suchs as list name completed)
 	 *

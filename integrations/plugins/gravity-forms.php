@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  * Add some custom css for the recaptcha integration
  */
 function cmplz_gravityforms_recaptcha_css() {
-	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		?>
 			.cmplz-gf-recaptcha {
 				background-image:url(<?php echo cmplz_placeholder('google-recaptcha')?>) !important;
@@ -41,7 +41,7 @@ add_action( 'cmplz_banner_css', 'cmplz_gravityforms_recaptcha_css' );
  */
 
 function cmplz_gravifyforms_initform() {
-	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
 		ob_start();
 		?>
 		<script>
@@ -157,7 +157,8 @@ function cmplz_gravityforms_add_consent_checkbox( $form_id ) {
 	}
 }
 
-add_action( "cmplz_add_consent_box_gravity-forms", 'cmplz_gravityforms_add_consent_checkbox' );
+add_action( "cmplz_add_consent_box_gravity-forms",
+	'cmplz_gravityforms_add_consent_checkbox' );
 
 /**
  * Update form permalink on last wizard step
@@ -166,7 +167,7 @@ add_action( "cmplz_add_consent_box_gravity-forms", 'cmplz_gravityforms_add_conse
  */
 function cmplz_gravityforms_update_consent_checkbox() {
 
-	$forms = cmplz_get_option( 'add_consent_to_forms' );
+	$forms = cmplz_get_value( 'add_consent_to_forms' );
 
 	if ( ! $forms || ! is_array( $forms ) ) {
 		return;
@@ -193,4 +194,5 @@ function cmplz_gravityforms_update_consent_checkbox() {
 	}
 }
 
-add_action( "cmplz_finish_wizard", 'cmplz_gravityforms_update_consent_checkbox' );
+add_action( "cmplz_wizard_last_step",
+	'cmplz_gravityforms_update_consent_checkbox' );

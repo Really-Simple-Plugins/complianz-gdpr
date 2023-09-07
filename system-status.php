@@ -1,32 +1,22 @@
 <?php
-//when loaded from the support form, wordpress is already loaded,
-if (!isset($_GET['support_form'])) {
-	# No need for the template engine
-	if (!defined('WP_USE_THEMES') ) {
-		define( 'WP_USE_THEMES', false );
-	}
-
+# No need for the template engine
+define( 'WP_USE_THEMES', false );
 //we set wp admin to true, so the backend features get loaded.
-	if (!defined('CMPLZ_DOING_SYSTEM_STATUS')){
-		define( 'CMPLZ_DOING_SYSTEM_STATUS' , true);
-	}
+if (!defined('CMPLZ_DOING_SYSTEM_STATUS')) define( 'CMPLZ_DOING_SYSTEM_STATUS' , true);
 
 #find the base path
-	if (!defined('BASE_PATH') ) {
-		define( 'BASE_PATH', find_wordpress_base_path() . "/" );
-	}
+define( 'BASE_PATH', find_wordpress_base_path()."/" );
 
 # Load WordPress Core
-	if ( !file_exists(BASE_PATH . 'wp-load.php') ) {
-		die("WordPress not installed here");
-	}
-	require_once( BASE_PATH . 'wp-load.php' );
-	require_once( ABSPATH . 'wp-includes/class-phpass.php' );
-	require_once( ABSPATH . 'wp-admin/includes/image.php' );
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php');
+if ( !file_exists(BASE_PATH . 'wp-load.php') ) {
+	die("WordPress not installed here");
 }
+require_once( BASE_PATH . 'wp-load.php' );
+require_once( ABSPATH . 'wp-includes/class-phpass.php' );
+require_once( ABSPATH . 'wp-admin/includes/image.php' );
+require_once( ABSPATH . 'wp-admin/includes/plugin.php');
 
-function cmplz_get_system_status(){
+if ( cmplz_user_can_manage() ) {
 	ob_start();
 	echo 'Domain:' . esc_url_raw( site_url() ) . "\n";
 	$console_errors = cmplz_get_console_errors();
@@ -46,7 +36,7 @@ function cmplz_get_system_status(){
 	$auto_updating_plugins = get_option('auto_update_plugins');
 	echo "\n\n"."WordPress settings" . "\n";
 	if ( is_array( $auto_updating_plugins ) && ( in_array('complianz-gdpr-premium/complianz-gpdr-premium.php', $auto_updating_plugins )
-	                                             || in_array('complianz-gdpr/complianz-gpdr.php', $auto_updating_plugins ) ) ) {
+	     || in_array('complianz-gdpr/complianz-gpdr.php', $auto_updating_plugins ) ) ) {
 		echo "auto_update_plugins enabled" . "\n";
 	} else {
 		echo "auto_update_plugins disabled" . "\n";
@@ -66,10 +56,15 @@ function cmplz_get_system_status(){
 		echo implode( "\n", $network_plugins ) . "\n";
 	}
 
-	$wizard   = get_option( 'cmplz_options' );
+	$settings = get_option( 'complianz_options_settings' );
+	echo "\n"."General settings" . "\n";
+	echo "---------\n";
+
+	echo implode_array_recursive($settings);
+	$wizard   = get_option( 'complianz_options_wizard' );
 
 	if ( is_array( $wizard ) ) {
-		echo "\n\n" . "Settings" . "\n";
+		echo "\n\n" . "Wizard settings" . "\n";
 		echo "---------\n";
 		$t = array_keys( $wizard );
 		echo implode_array_recursive( $wizard );
@@ -78,41 +73,33 @@ function cmplz_get_system_status(){
 	}
 
 	do_action( "cmplz_system_status" );
-	return ob_get_clean();
-}
+	$content = ob_get_clean();
 
-//only run this when downloaded directly
-if (!isset($_GET['support_form'])) {
-
-	if ( cmplz_user_can_manage() ) {
-		$content = cmplz_get_system_status();
-
-		if ( function_exists( 'mb_strlen' ) ) {
-			$fsize = mb_strlen( $content, '8bit' );
-		} else {
-			$fsize = strlen( $content );
-		}
-		$file_name = 'complianz-system-status.txt';
-		header( "Content-type: application/octet-stream" );
-
-		//direct download
-		header( "Content-Disposition: attachment; filename=\"" . $file_name . "\"" );
-
-		//open in browser
-		header( "Content-length: $fsize" );
-		header( "Cache-Control: private", false ); // required for certain browsers
-		header( "Pragma: public" ); // required
-		header( "Expires: 0" );
-		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-		header( "Content-Transfer-Encoding: binary" );
-
-		echo $content;
-
+	if ( function_exists( 'mb_strlen' ) ) {
+		$fsize = mb_strlen( $content, '8bit' );
 	} else {
-		//should not be here, so redirect to home
-		wp_redirect( home_url() );
-		exit;
+		$fsize = strlen( $content );
 	}
+	$file_name = 'complianz-system-status.txt';
+	header( "Content-type: application/octet-stream" );
+
+	//direct download
+	header( "Content-Disposition: attachment; filename=\"" . $file_name . "\"" );
+
+	//open in browser
+	header( "Content-length: $fsize" );
+	header( "Cache-Control: private", false ); // required for certain browsers
+	header( "Pragma: public" ); // required
+	header( "Expires: 0" );
+	header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+	header( "Content-Transfer-Encoding: binary" );
+
+	echo $content;
+
+} else {
+	//should not be here, so redirect to home
+	wp_redirect( home_url() );
+	exit;
 }
 
 /**
@@ -121,7 +108,7 @@ if (!isset($_GET['support_form'])) {
  */
 function find_wordpress_base_path()
 {
-	$path = __DIR__;
+	$path = dirname(__FILE__);
 
 	do {
 		if (file_exists($path . "/wp-config.php")) {

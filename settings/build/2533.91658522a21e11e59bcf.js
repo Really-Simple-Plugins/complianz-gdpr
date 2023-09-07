@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkcomplianz_gdpr=self.webpackChunkcomplianz_gdpr||[]).push([[2533],{32533:function(e,n,r){r.r(n);var i=r(30270),o=r(48399);const a=(0,i.Ue)(((e,n)=>({cookiebannerRequired:!1,getCookieBannerRequired:async()=>{const{required:n}=await o.doAction("get_cookiebanner_required",{}).then((e=>e));e({cookiebannerRequired:n})}})));n.default=a}}]);

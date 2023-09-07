@@ -2,7 +2,6 @@
   --cmplz_bottom_banner_breakpoint: 768px;
   display: block;
 }
-/*Do not preprocess the below */
 /**
 * Hack to hide banner header on smaller screens on safari only.
  */
@@ -15,12 +14,6 @@
 		}
 	}
 	}
-}
-.cmplz-cookiebanner .optin .cmplz-categories.cmplz-tcf {
-  display: block;
-}
-.cmplz-cookiebanner .optout .cmplz-categories.cmplz-tcf {
-  display: none;
 }
 .cmplz-cookiebanner .cmplz-categories:not(.cmplz-tcf),
 .cmplz-cookiebanner .cmplz-manage-third-parties,
@@ -76,8 +69,12 @@
   display: none;
 }
 .cmplz-tcf-type-description {
-  margin: 20px;
   display: none;
+  margin: 20px;
+}
+.cmplz-tcf-type-description .cmplz-tcf-type-desc__example-title {
+  font-weight: bold;
+  margin-top: 6px;
 }
 #cmplz-document .cmplz-tcf-rm:after {
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>') no-repeat;
@@ -136,8 +133,8 @@
 }
 .cmplz-tcf-container .cmplz-tcf-vendor-container label {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 .cmplz-tcf-container .cmplz-tcf-vendor-container label .cmplz-vendortype-label {
   background-color: #333;
@@ -150,6 +147,9 @@
   margin-right: 5px;
 }
 .cmplz-tcf-container .cmplz-tcf-checkbox-container.cmplz-vendortype-ac .cmplz-tcf-info .cmplz-tcf-info-content:not(:first-child) {
+  display: none;
+}
+.cmplz-tcf-container .cmplz-tcf-checkbox-container.cmplz-vendortype-ac .cmplz-tcf-info {
   display: none;
 }
 .cmplz-tcf-container .cmplz-tcf-checkbox-container .cmplz-tcf-links {

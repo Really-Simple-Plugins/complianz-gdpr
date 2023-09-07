@@ -31,7 +31,7 @@ function cmplz_editor_assets() {
 	);
 
 	wp_set_script_translations( 'cmplz-block', 'complianz-gdpr' , cmplz_path . '/languages');
-	$load_css = cmplz_get_option('use_document_css', true );
+	$load_css = cmplz_get_value('use_document_css');
 	if ($load_css) {
 		wp_enqueue_style(
 			'cmplz-block', // Handle.

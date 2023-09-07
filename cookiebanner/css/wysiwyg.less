@@ -1,0 +1,52 @@
+#cmplz-cookiebanner-container {
+  .cmplz-cookiebanner.reloading {
+	//opacity: 0.7;
+  }
+  .cmplz-cookiebanner.cmplz-bottom {
+	margin-right:20px;
+	width:calc( 100% - 50px );
+  }
+
+  .cmplz-cookiebanner.cmplz-bottom-left, .cmplz-cookiebanner.cmplz-bottom-right{
+	left:initial;
+	right:0;
+	@media ( max-width:1800px) {
+	  transform: translateX( calc(~"0.5 * var(--cmplz_banner_width)" ) );
+	  &:hover {
+	    animation: slideBannerIn 1s forwards;
+	    animation-delay: 0s;
+	  }
+	}
+  }
+
+  .cmplz-cookiebanner.cmplz-center {
+	right:0;
+	left: initial;
+	transform: initial;
+	//this causes issues with the fade in center variant
+	top:initial;
+	bottom:50px;
+	@media (max-width:1800px) {
+	  transform: translateX( calc(~"0.5 * var(--cmplz_banner_width)" ) );
+	  &:hover {
+		animation: slideBannerIn 1s forwards;
+		animation-delay: 0s;
+	  }
+	}
+
+  }
+
+
+  @-webkit-keyframes slideBannerIn {
+	100% {
+	  transform: inherit;
+	}
+  }
+
+  @keyframes slideBannerIn {
+	100% {
+	  transform: inherit;
+	}
+  }
+
+}

@@ -1,0 +1,50 @@
+.cmplz-banner-editor {
+  gap: var(--rsp-spacing-l);
+  padding: var(--rsp-spacing-m) var(--rsp-spacing-xl);
+  grid-column-start: 1;
+  grid-column-end: 3;
+  .cmplz-graph-container {
+	margin: 0;
+	width: 100%;
+	min-width: 350px;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: var(--rsp-spacing-m);
+	background: var(--rsp-grey-200);
+	border-radius: var(--rsp-border-radius-s);
+	border: 1px solid #f2f2f2;
+
+	div{
+	  width: 100%;
+	}
+  }
+  .cmplz-block{
+	padding: var(--rsp-spacing-m);
+  }
+  .cmplz-panel-wrap{
+	margin: var(--rsp-spacing-s) 0;
+  }
+  .cmplz-panel.cmplz-notice{
+	padding: 0;
+  }
+  .cmplz-document-button {
+	margin-top: 0;
+  }
+}
+
+.cmplz-insights {
+  .cmplz-graph-container {
+	//width:100%;
+	//position:relative;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+  }
+
+  canvas.cmplz-graph {
+	height:85px !important;
+  }
+}
+
