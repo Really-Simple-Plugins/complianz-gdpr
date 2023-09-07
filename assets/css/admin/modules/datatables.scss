@@ -1,0 +1,122 @@
+.cmplz-datatable-search {
+	margin-top: 10px;
+}
+
+.cmplz-no-documents {
+	padding: 20px;
+}
+
+.cmplz-processing-agreements, .cmplz-data-breach-reports, .cmplz-records-of-consent, .cmplz-proof-of-consent, .cmplz-datarequests {
+	.rdt_TableHeadRow, .rdt_TableRow {
+	  .rdt_TableCell {
+		line-height:unset;
+	  }
+	  input[type="checkbox"] {
+		margin-left: 10px;
+		//prevent cutoff of checkbox because of overflow hidden
+		height: 14px;
+		width: 14px;
+		min-width: initial;
+
+		&:checked::before {
+		  margin: -0.25rem 0 0 -0.33rem;
+		}
+	  }
+
+	}
+
+	.rdt_TableCol, .rdt_TableCell {
+		&:first-child {
+			width: 35px;
+			min-width: 35px !important;
+		}
+	}
+}
+
+.cmplz-field-wrap {
+	.rdt_TableRow {
+		&:nth-child(odd) {
+			background-color: var(--rsp-grey-200)
+		}
+
+		padding: var(--rsp-spacing-xs) 0;
+	}
+
+	.cmplz-csp-revoked > div:nth-child(-n+3) {
+		opacity: 0.3;
+	}
+}
+
+.cmplz-field-wrap {
+	.rdt_TableCol, .rdt_TableCell {
+		min-width: 50px;
+	}
+
+	.rdt_TableHeadRow {
+		//.rdt_TableCol:last-child {
+		//	flex-grow: 1;
+		//	flex-direction: row-reverse;
+		//	//margin-right: 20px;
+		//}
+	}
+
+	.rdt_TableRow {
+		&:nth-child(odd) {
+			background-color: var(--rsp-grey-200)
+		}
+
+		padding: var(--rsp-spacing-xs) 0;
+
+		.cmplz-status-allowed, .cmplz-status-revoked {
+			min-width: 110px;
+			margin-right: 20px;
+		}
+	}
+
+	.cmplz-csp-revoked > div:nth-child(-n+3) {
+		opacity: 0.3;
+	}
+}
+
+
+//wp-core also adds an svg for the select dropdown, so we hide the one from the react datatables component
+nav.rdt_Pagination > div > svg {
+	display: none !important;
+}
+
+.cmplz-field-wrap {
+	&.cmplz-integrations-services,
+	&.cmplz-integrations-plugins,
+	&.cmplz-datarequests,
+	&.cmplz-processing-agreements,
+	&.cmplz-data-breach-reports,
+	&.cmplz-records-of-consent,
+	&.cmplz-proof-of-consent {
+		gap: 0 !important;
+		margin-left: CALC(-1 * var(--rsp-spacing-l));
+		margin-right: CALC(-1 * var(--rsp-spacing-l));
+		@media(max-width: $rsp-break-m) { // 1280px
+			margin-left: CALC(-1 * var(--rsp-spacing-m));
+			margin-right: CALC(-1 * var(--rsp-spacing-m));
+		}
+		@media(max-width: $rsp-break-s) { // 1280px
+			margin-left: CALC(-1 * var(--rsp-spacing-s));
+			margin-right: CALC(-1 * var(--rsp-spacing-s));
+		}
+		//should be s on <1280px
+		> p,
+		> div.cmplz-table-header {
+			margin: var(--rsp-spacing-xs) var(--rsp-spacing-l);
+		}
+	}
+
+	.rdt_TableCell, .rdt_TableCol {
+		&:first-child {
+			padding-left: var(--rsp-spacing-l);
+		}
+
+		&:last-child {
+			padding-right: var(--rsp-spacing-l);
+		}
+	}
+}

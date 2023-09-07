@@ -1,0 +1,68 @@
+/* reset */
+button {
+	all: unset;
+}
+.cmplz-field-wrap.cmplz-checkbox .cmplz-comment{
+	width: 100%;
+}
+.cmplz-input-group.cmplz-switch-group{
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+}
+.cmplz-switch-root {
+	width: 42px;
+	height: 25px;
+	background-color: var(--rsp-blue-faded);
+	border-radius: 9999px;
+	position: relative;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	margin: 5px;
+	border: 1px solid #a4b1d2;
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+.cmplz-switch-root:focus {
+	box-shadow:  0 0 0 3px var(--rsp-white),  0 0 0 5px var(--rsp-dark-blue);
+}
+.cmplz-switch-root[data-state='checked'] {
+	background-color: var(--rsp-dark-blue);
+}
+
+.cmplz-switch-thumb {
+	display: block;
+	width: 21px;
+	height: 21px;
+	background-color: var(--rsp-white);
+	border-radius: 9999px;
+	box-shadow: 0 2px 2px var(--rsp-dark-blue);
+	transition: transform 100ms;
+	transform: translateX(2px);
+	will-change: transform;
+}
+.cmplz-switch-thumb[data-state='checked'] {
+	transform: translateX(19px);
+}
+
+// tiny switch
+.cmplz-switch-root.cmplz-switch-input-tiny{
+	width: 35px;
+	height: 20px;
+	margin: 3px;
+	.cmplz-switch-thumb {
+ 		width: 15px;
+		height: 15px;
+		box-shadow: 0 1px 1px var(--rsp-dark-blue);
+		transform: translateX(2px) translateY(-1px);
+		&[data-state='checked'] {
+			transform: translateX(16px) translateY(-1px)
+		}
+	}
+	&:focus{
+		box-shadow:  0 0 0 1px var(--rsp-white),  0 0 0 2px var(--rsp-dark-blue);
+	}
+}
+
+

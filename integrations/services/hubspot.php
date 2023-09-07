@@ -14,7 +14,7 @@ function cmplz_hs_tracking_script( $tags ) {
  */
 
 function cmplz_hubspot_clicker() {
-	if ( cmplz_get_value('block_hubspot_service') === 'yes' ) {
+	if ( cmplz_get_option('block_hubspot_service') === 'yes' ) {
 		ob_start();
 		?>
 		<script>
@@ -50,7 +50,7 @@ add_action( 'wp_enqueue_scripts', 'cmplz_hubspot_clicker', PHP_INT_MAX);
  * Add custom hubspot css
  */
 function cmplz_hubspot_css() {
-	if ( cmplz_get_value('block_hubspot_service') === 'yes' ){ ?>
+	if ( cmplz_get_option('block_hubspot_service') === 'yes' ){ ?>
 		<style>
 			div#hs-eu-cookie-confirmation {display: none;}
 		</style>

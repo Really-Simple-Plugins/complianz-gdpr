@@ -1,0 +1,34 @@
+#complianz .cmplz-modal.cmplz-onboarding {
+  .cmplz-header-logo {
+    height: 26px;
+  }
+  .cmplz-modal-content{
+    padding-top: var(--rsp-spacing-xs);
+    line-height: 2.2;
+	&.cmplz-processing {
+	  opacity:0.5;
+	}
+	.cmplz-onboarding-item {
+	  display:flex;
+	  align-items:flex-start;
+	  .cmplz-icon{
+		margin-top:3px;
+		margin-right:7px;
+	  }
+	  a {
+		margin-top:-2px;
+	  }
+	}
+	input[type="email"]{
+	  width: 100%;
+	  margin-bottom: var(--rsp-spacing-m);
+	  border: 2px solid;
+	  height: 50px;
+	  border-color: var(--rsp-grey-300);
+	  &.cmplz-invalid {
+		background-color:var(--rsp-red-faded);
+	  }
+	}
+  }
+
+}

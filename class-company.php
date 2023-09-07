@@ -35,7 +35,7 @@ if ( ! class_exists( "cmplz_company" ) ) {
 
 			if ( is_array( $regions ) ) {
 				$multiple_regions = count( $regions ) > 1;
-				foreach ( $regions as $region_code => $label ) {
+				foreach ( $regions as $region_code ) {
 
 					//if we have one region, just return the first result
 					if ( ! $multiple_regions ) {
@@ -78,6 +78,11 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		public function get_default_consenttype() {
 			//check default region
 			$region = $this->get_default_region();
+			$selected_regions = cmplz_get_regions();
+			if (!empty($selected_regions) && !in_array( $region, $selected_regions, true )) {
+				//get the first value in the array if it exists
+				$region = $selected_regions[0] ?? 'eu';
+			}
 			return apply_filters('cmplz_default_consenttype', cmplz_get_consenttype_for_region( $region ));
 		}
 
@@ -89,7 +94,11 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		 * */
 
 		public function get_company_region_code() {
-			$country_code = cmplz_get_value( 'country_company' );
+			$country_code = cmplz_get_option( 'country_company' );
+			$countries = COMPLIANZ::$config->countries;
+			if ( !isset($countries[$country_code]) ) {
+				$country_code = 'US';
+			}
 			$region       = cmplz_get_region_for_country( $country_code );
 			if ( $region ) {
 				return $region;
@@ -108,7 +117,7 @@ if ( ! class_exists( "cmplz_company" ) ) {
 				return false;
 			}
 
-			$cats = cmplz_get_value( 'data_sold_us' );
+			$cats = cmplz_get_option( 'data_sold_us' );
 			if ( ! empty( $cats ) ) {
 				foreach ( $cats as $cat => $value ) {
 					if ( $value == 1 ) {
@@ -128,7 +137,7 @@ if ( ! class_exists( "cmplz_company" ) ) {
 		 *
 		 */
 		public function disclosed_data_12months() {
-			$cats = cmplz_get_value( 'data_disclosed_us' );
+			$cats = cmplz_get_option( 'data_disclosed_us' );
 			if ( ! empty( $cats ) ) {
 				foreach ( $cats as $cat => $value ) {
 					if ( $value == 1 ) {

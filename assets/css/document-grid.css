@@ -4,11 +4,6 @@
 #cmplz-manage-consent-container {
   display: none;
 }
-.cmplz-obfuscate {
-  direction: rtl;
-  unicode-bidi: bidi-override;
-  white-space: nowrap;
-}
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories summary {
   display: block;
   cursor: pointer;
@@ -242,6 +237,9 @@
   content: '';
   background: var(--cmplz_category_open_icon_url) no-repeat;
   transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   background-size: cover;
   height: 25px;
@@ -254,3 +252,4 @@
 #cmplz-manage-consent-container.cmplz-manage-consent-container .cmplz-categories .cmplz-category[open] summary .cmplz-icon.cmplz-open {
   transform: rotate(180deg);
 }
+/*# sourceMappingURL=document-grid.css.map */

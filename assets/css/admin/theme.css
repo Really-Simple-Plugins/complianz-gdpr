@@ -1,0 +1,5 @@
+#complianz {
+  --rsp-brand-primary: var(--rsp-dark-blue);
+  --rsp-brand-secondary: var(--rsp-blue);
+  --rsp-brand-primary-faded: var(--rsp-dark-blue-faded);
+}

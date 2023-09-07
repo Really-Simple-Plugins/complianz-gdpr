@@ -37,12 +37,12 @@ function cmplz_google_maps_placeholder( $new_src, $src ) {
 	if ( preg_match( $key_pattern, $src, $matches ) ) {
 		$id = str_replace(array('http://', 'https://','maps.googleapis.com/maps/api/staticmap'), '', $src);
 		//to prevent issues with the url as ID, we create a separate ID, and look it up by the url of this image
-		$new_src = get_transient('cmplz_googlemaps_image_' . sanitize_title( $id )  );
+		$new_src = cmplz_get_transient('cmplz_googlemaps_image_' . sanitize_title( $id )  );
 
 		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			$guid = time();
 			$new_src = cmplz_download_to_site( html_entity_decode( $src ), sanitize_title( 'cmplz_googlemaps_image_'.$guid ), false );
-			set_transient( 'cmplz_googlemaps_image_' . sanitize_title( $id ) , $new_src, MONTH_IN_SECONDS );
+			cmplz_set_transient( 'cmplz_googlemaps_image_' . sanitize_title( $id ) , $new_src, MONTH_IN_SECONDS );
 		}
 	}
 	return $new_src;

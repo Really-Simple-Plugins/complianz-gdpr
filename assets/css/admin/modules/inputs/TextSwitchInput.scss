@@ -1,0 +1,6 @@
+.cmplz-text-checkbox-input{
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: var(--rsp-spacing-xs);
+	align-content: center;
+}

@@ -24,7 +24,7 @@
   --rsp-orange: #f39c12;
   --rsp-wp-blue: #007cba;
   --rsp-yellow-faded: #f2e6c9;
-  --rsp-blue-faded: #ecf8fe;
+  --rsp-blue-faded: #ebf2f9;
   --rsp-dark-blue-faded: #ebf2f9;
   --rsp-green-faded: #ecf4ed;
   --rsp-red-faded: #fbebed;
@@ -36,10 +36,10 @@
   --rsp-input-background-color: #fff;
   --rsp-input-text-color: var(--rsp-text-color);
   --rsp-input-border-color: var(--rsp-grey-400);
-  --rsp-text-color: rgba(26, 26, 26, 0.9);
+  --rsp-text-color: rgba(15, 23, 42, 0.95);
   --rsp-text-color-invert: rgba(255, 255, 255, 0.9);
   --rsp-text-color-white: rgba(255, 255, 255, 0.9);
-  --rsp-text-color-light: rgba(69, 69, 82, 0.9);
+  --rsp-text-color-light: rgba(15, 23, 42, 0.85);
   --rsp-grey-100: #fafafa;
   --rsp-grey-200: #f9f9f9;
   --rsp-grey-300: #ededed;

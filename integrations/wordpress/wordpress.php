@@ -35,8 +35,8 @@ function cmplz_consent_api_active() {
 
 function cmplz_wordpress_maybe_disable_wordpress_personaldata_storage() {
 	if ( ! cmplz_consent_mode() ) {
-		if ( cmplz_get_value( 'uses_wordpress_comments' ) === 'yes'
-		     && cmplz_get_value( 'block_wordpress_comment_cookies' ) === 'yes'
+		if ( cmplz_get_option( 'uses_wordpress_comments' ) === 'yes'
+		     && cmplz_get_option( 'block_wordpress_comment_cookies' ) === 'yes'
 		) {
 			add_filter( 'pre_comment_user_ip',
 				'cmplz_wordpress_remove_commentsip' );
@@ -84,16 +84,14 @@ function cmplz_wordpress_comment_form_hide_cookies_consent( $fields ) {
  * Consent API
  */
 function cmplz_consent_api_add_consent_types( $consenttypes ) {
-	$consenttypes = cmplz_get_used_consenttypes();
-
-	return $consenttypes;
+	return cmplz_get_used_consenttypes();
 }
 
 add_filter( 'wp_consent_types', 'cmplz_consent_api_add_consent_types' );
 
 
 function cmplz_consent_api_set_cookie_expiry( $expiry ) {
-	$expiry = cmplz_get_value( 'cookie_expiry' );
+	$expiry = cmplz_get_option( 'cookie_expiry' );
 
 	return $expiry;
 }

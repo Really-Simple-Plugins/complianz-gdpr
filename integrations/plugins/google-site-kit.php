@@ -1,20 +1,29 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
+
 /**
- * Add notice to tell a user to choose Analytics
+ * Conditional notices for fields
  *
- * @param $args
+ * @param array           $notices
+ *
+ * @return array
  */
+function cmplz_google_site_kit_show_compile_statistics_notice(array $notices): array {
+	if ( ! cmplz_user_can_manage() ) {
+		return [];
+	}
 
-function cmplz_google_site_kit_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice(
-		 cmplz_sprintf( __( "Because you're using %s, you can choose which plugin should insert the relevant snippet.", 'complianz-gdpr' ), "Google Site Kit" )
-		. cmplz_read_more( "https://complianz.io/configuring-google-site-kit/" ),
-	'warning' );
+	$notices[] = [
+		'field_id' => 'compile_statistics_google_site_kit',
+		'label'    => 'warning',
+		'url' => 'https://complianz.io/configuring-google-site-kit/',
+		'title'    => "Google Site Kit",
+		'text'     =>  cmplz_sprintf( __( "Because you're using %s, you can choose which plugin should insert the relevant snippet.", 'complianz-gdpr' ), "Google Site Kit" ),
+	];
+
+	return $notices;
 }
-
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_google_site_kit_show_compile_statistics_notice', 10, 1 );
-
+add_filter( 'cmplz_field_notices', 'cmplz_google_site_kit_show_compile_statistics_notice', 10, 1 );
 
 /**
  * Make sure there's no warning about configuring GA anymore
@@ -40,29 +49,15 @@ add_filter( 'cmplz_warning_types', 'cmplz_google_site_filter_warnings' );
  */
 
 function cmplz_google_site_kit_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
-
-	return $fields;
+	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
+	if ($index!==false) unset($fields[$index]['help']);
+	return  cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'ua_code',
+			'aw_code',
+			'consent-mode',
+			'gtm_code',
+		]);
 }
-add_filter( 'cmplz_fields', 'cmplz_google_site_kit_filter_fields', 20, 1 );
-
-/**
- * We remove some actions to integrate fully
- * */
-function cmplz_google_site_kit_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
-}
-add_action( 'after_setup_theme', 'cmplz_google_site_kit_remove_scripts_others' );
-/**
- * Remove stuff which is not necessary anymore
- *
- * */
-
-function cmplz_google_site_kit_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
-}
-add_action( 'admin_init', 'cmplz_google_site_kit_remove_actions' );
+add_filter( 'cmplz_fields', 'cmplz_google_site_kit_filter_fields', 200, 1 );

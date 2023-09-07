@@ -18,9 +18,9 @@ add_filter('cmplz_cookie_warning_required_stats', 'cmplz_wc_google_analytics_int
  * Set analytics as suggested stats tool in the wizard
  */
 
-add_filter( 'cmplz_default_value', 'cmplz_wc_google_analytics_integration_set_default', 20, 2 );
-function cmplz_wc_google_analytics_integration_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+add_filter( 'cmplz_default_value', 'cmplz_wc_google_analytics_integration_set_default', 20, 3 );
+function cmplz_wc_google_analytics_integration_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-analytics";
 	}
 	return $value;
@@ -59,42 +59,55 @@ function cmplz_wc_google_analytics_integration_script( $tags ) {
 }
 
 /**
- * Remove stuff which is not necessary anymore
- *
- * */
-
-function cmplz_wc_google_analytics_integration_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
-}
-add_action( 'admin_init', 'cmplz_wc_google_analytics_integration_remove_actions' );
-
-/**
  * Add notice to tell a user to choose Analytics
  *
- * @param $args
+ * @param $notices
+ * @return array
  */
-function cmplz_wc_google_analytics_integration_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'WooCommerce Google Analytics Integration' ) );
+function cmplz_wc_google_analytics_integration_show_compile_statistics_notice($notices) {
+	//find notice with field_id 'compile_statistics' and replace it with our own
+	$found_key = false;
+	foreach ($notices as $key=>$notice) {
+		if ($notice['field_id']==='compile_statistics') {
+			$found_key = $key;
+		}
+	}
+	$notice = [
+		'field_id' => 'compile_statistics',
+		'label'    => 'default',
+		'title'    => __( "Statistics plugin detected", 'complianz-gdpr' ),
+		'text'     => cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'WooCommerce Google Analytics Integration' ),
+	];
+	if ($found_key){
+		$notices[$found_key] = $notice;
+	} else {
+		$notices[] = $notice;
+	}
+	return $notices;
 }
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_wc_google_analytics_integration_show_compile_statistics_notice', 10, 1 );
+add_filter( 'cmplz_field_notices', 'cmplz_wc_google_analytics_integration_show_compile_statistics_notice' );
 
 /**
  * Hide the stats configuration options when wc_google_analytics_integration is enabled.
  *
- * @param $fields
+ * @param array $fields
  *
- * @return mixed
+ * @return array
  */
 
-function cmplz_wc_google_analytics_integration_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
-	return $fields;
+function cmplz_wc_google_analytics_integration_filter_fields( array $fields ): array {
+	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
+	if ($index!==false) unset($fields[$index]['help']);
+	return cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'ua_code',
+			'aw_code',
+			'consent-mode',
+			'gtm_code',
+		]);
 }
-add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_integration_filter_fields' );
+add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_integration_filter_fields', 200 );
 
 /**
  * Make sure there's no warning about configuring GA anymore

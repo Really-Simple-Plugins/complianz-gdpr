@@ -1,0 +1,64 @@
+.cmplz {
+	.cmplz-checkbox-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--rsp-spacing-xs);
+
+		&__item {
+			display: flex;
+			gap: var(--rsp-spacing-xs);
+			background-color: transparent;
+			align-items: flex-start;
+		    .cmplz-icon-check {
+			  margin-top:5px;
+			}
+
+			&.cmplz-hidden {
+				display: none;
+			}
+		}
+
+		&__checkbox {
+			display: flex;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+			border-radius: 3px;
+			width: 16px;
+			height: 16px;
+			aspect-ratio: 1 / 1;
+			outline: 1px solid var(--rsp-input-border-color);
+			transition: background-color 0.2s ease-in-out;
+			margin-top: 2px;
+
+			&:hover {
+				background-color: var(--rsp-blue-faded);
+			}
+
+			&:focus {
+				box-shadow: 0 0 0 3px var(--rsp-background-color), 0 0 0 5px var(--rsp-dark-blue);
+			}
+			&:disabled {
+				background-color: var(--rsp-grey-300);
+				cursor: not-allowed;
+				& + label {
+					cursor: not-allowed;
+				}
+			}
+		}
+
+		&__label {
+			font-size: var(--rsp-fs-300);
+			color: var(--rsp-text-color-light);
+			margin: 0 !important;
+		}
+
+		.cmplz-button{
+			margin-right: auto;
+			margin-left: 0;
+		}
+	}
+	.rdt_Table .cmplz-checkbox-group__item{
+		padding: 5px;
+	}
+}

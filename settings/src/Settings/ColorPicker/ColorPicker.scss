@@ -1,0 +1,29 @@
+.cmplz-color-picker-control {
+  button {
+	margin-right:10px;
+	background-color: transparent;
+	border-radius: 6px;
+	border: 1px solid var(--rsp-grey-400);
+	min-width:140px;
+	font-size:13px;
+  }
+  .cmplz-color-picker-control-item {
+	cursor: pointer;
+	display: flex;
+	padding: 5px;
+	gap: 14px;
+	align-items: center;
+
+	.cmplz-color-picker-color {
+	  border-radius: 50%;
+	  width: 20px;
+	  height: 20px;
+	  border: 1px solid var(--rsp-grey-300);
+
+	}
+  }
+}
+  [data-radix-popper-content-wrapper] {
+	z-index: 20 !important;
+  }
+

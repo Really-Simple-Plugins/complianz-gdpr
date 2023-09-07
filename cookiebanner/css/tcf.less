@@ -1,5 +1,6 @@
 .cmplz-cookiebanner .tcf {
   --cmplz_bottom_banner_breakpoint: 768px;
+
   display:block;
 }
 
@@ -12,14 +13,25 @@
 @media (max-width:425px) {
   @media not all and (min-resolution:.001dpcm)
   { @supports (-webkit-appearance:none) {
-	  .cmplz-cookiebanner .cmplz-header {
-		display:none;
-	  }
-  	}
+	.cmplz-cookiebanner .cmplz-header {
+	  display:none;
+	}
+  }
   }
 }
 //</compile-ignore>
+
 .cmplz-cookiebanner {
+  .optin {
+	.cmplz-categories.cmplz-tcf {
+	  display:block;
+	}
+  }
+  .optout {
+	.cmplz-categories.cmplz-tcf {
+	  display:none;
+	}
+  }
   .cmplz-categories:not(.cmplz-tcf),
   .cmplz-manage-third-parties,
   .cmplz-save-preferences,
@@ -98,12 +110,8 @@
 }
 
 .cmplz-tcf-type-description {
-  display:none;
   margin:20px;
-  .cmplz-tcf-type-desc__example-title {
-	font-weight:bold;
-	margin-top:6px;
-  }
+  display:none;
 }
 
 #cmplz-document {
@@ -173,8 +181,8 @@
 
 	label {
 	  display: flex;
-	  gap: 10px;
 	  align-items: center;
+	  gap: 10px;
 	  .cmplz-vendortype-label {
 		background-color: #333;
 		color: white;
@@ -183,7 +191,6 @@
 		border-radius: 3px;
 	  }
 	}
-
   }
 
   .cmplz-tcf-checkbox-container{
@@ -194,9 +201,6 @@
 	&.cmplz-vendortype-ac {
 	  .cmplz-tcf-info .cmplz-tcf-info-content:not(:first-child) {
 		display: none;
-	  }
-	  .cmplz-tcf-info {
-	  	display: none;
 	  }
 	}
 
@@ -211,7 +215,6 @@
 		margin-left:20px;
 	  }
 	}
-
 
 	.cmplz-tcf-info{
 	  display:none;

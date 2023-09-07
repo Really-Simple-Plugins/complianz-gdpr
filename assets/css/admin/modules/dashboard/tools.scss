@@ -1,0 +1,28 @@
+.cmplz-tools {
+  .cmplz-grid-item-content {
+	.cmplz-tool {
+	  display: flex;
+	  padding: 8px var(--rsp-spacing-l);
+	  &:nth-child(odd) {
+		background-color: var(--rsp-grey-200)
+	  }
+
+	  .cmplz-plusone {
+		margin-left: 10px;
+	  }
+
+	  &-link {
+		margin-left: auto;
+
+		a {
+		  display: flex;
+
+		  .cmplz-icon {
+			margin-left: 10px;
+		  }
+		}
+	  }
+	}
+  }
+
+}

@@ -4,9 +4,9 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 /**
  * Set analytics as suggested stats tool in the wizard
  */
-add_filter( 'cmplz_default_value', 'cmplz_gtm4wp_set_default', 20, 2 );
-function cmplz_gtm4wp_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+add_filter( 'cmplz_default_value', 'cmplz_gtm4wp_set_default', 20, 3 );
+function cmplz_gtm4wp_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-tag-manager";
 	}
 	return $value;
@@ -16,28 +16,40 @@ function cmplz_gtm4wp_set_default( $value, $fieldname ) {
  * Remove stats
  *
  * */
-function cmplz_gtm4wp_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics', 'cmplz_show_compile_statistics_notice', 10 );
-}
-add_action( 'admin_init', 'cmplz_gtm4wp_remove_actions' );
+function cmplz_gtm4wp_show_compile_statistics_notice($notices) {
+	$text = '';
+	if ( cmplz_no_ip_addresses() ) {
+		$text .=  cmplz_sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.", 'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) ;
+	}
+	if ( cmplz_statistics_no_sharing_allowed() ) {
+		$text .= cmplz_sprintf( __( "You have selected you do not share data with third-party networks. Remarketing is now disabled in %s.", 'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) ;
+	}
+	//find notice with field_id 'compile_statistics' and replace it with our own
+	$found_key = false;
+	foreach ($notices as $key=>$notice) {
+		if ($notice['field_id']==='compile_statistics') {
+			$found_key = $key;
+		}
+	}
 
-/**
- * We remove some actions to integrate fully
- * */
-function cmplz_gtm4wp_remove_scripts_statistics() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
-}
-add_action( 'after_setup_theme', 'cmplz_gtm4wp_remove_scripts_statistics' );
+	$notice = [
+		'field_id' => 'compile_statistics',
+		'label'    => 'default',
+		'title'    => __( "Statistics plugin detected", 'complianz-gdpr' ),
+		'text'     => cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.", 'complianz-gdpr' ), 'Google Tag Manager for WordPress' )
+		              .' '.$text,
+	];
 
-/**
- * Add notice to tell a user to choose Analytics
- *
- * @param $args
- */
-function cmplz_gtm4wp_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Tag Manager.", 'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
+	if ($found_key){
+		$notices[$found_key] = $notice;
+	} else {
+		$notices[] = $notice;
+	}
+	return $notices;
+
 }
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_gtm4wp_show_compile_statistics_notice', 10, 1 );
+add_filter( 'cmplz_field_notices', 'cmplz_gtm4wp_show_compile_statistics_notice' );
+
 
 /**
  * Configure options for GTM4WP
@@ -114,31 +126,20 @@ add_filter( 'cmplz_warning_types', 'cmplz_gtm4wp_filter_warnings' );
  */
 
 function cmplz_gtm4wp_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['GTM_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
+	$index = cmplz_get_field_index('compile_statistics_more_info_tag_manager', $fields);
+	if ( $index!==false ) {
+		unset($fields[$index]['help']);
+	}
 
-	return $fields;
+	return cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'ua_code',
+			'aw_code',
+			'gtm_code',
+			'consent-mode'
+		]);
 }
 
-add_filter( 'cmplz_fields', 'cmplz_gtm4wp_filter_fields', 20, 1 );
+add_filter( 'cmplz_fields', 'cmplz_gtm4wp_filter_fields', 2000, 1 );
 
-
-/**
- * Tell the user the consequences of choices made
- */
-function cmplz_gtm4wp_compile_statistics_more_info_notice() {
-	if ( cmplz_no_ip_addresses() ) {
-		cmplz_sidebar_notice( cmplz_sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
-			'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
-	}
-	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_sidebar_notice( cmplz_sprintf( __( "You have selected you do not share data with third-party networks. Remarketing is now disabled in %s.",
-			'complianz-gdpr' ), 'Google Tag Manager for WordPress' ) );
-	}
-}
-
-add_action( 'cmplz_notice_compile_statistics_more_info',
-	'cmplz_gtm4wp_compile_statistics_more_info_notice' );

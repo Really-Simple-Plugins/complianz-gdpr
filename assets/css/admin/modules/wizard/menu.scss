@@ -1,0 +1,147 @@
+.cmplz {
+	.cmplz-wizard-menu {
+		&-header{
+			min-height: calc(30px + var(--rsp-spacing-s) * 2);
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: var(--rsp-spacing-xs) var(--rsp-spacing-s) 0 var(--rsp-spacing-s);
+		}
+		&-item {
+			text-decoration: none;
+			padding: var(--rsp-spacing-xs) var(--rsp-spacing-s);
+			color: var(--rsp-text-color);
+			display: flex;
+			align-items: center;
+			border-radius: var(--rsp-border-radius-s);
+
+			&.cmplz-main{
+				font-size: var(--rsp-fs-400);
+				font-weight: 700;
+				color: var(--rsp-text-color);
+				&.cmplz-active{
+					color: rgb(46 134 199); // @todo deze kleuren bespreken met Aert
+					background-color: var(--rsp-blue-faded);
+				    box-shadow: var(--rsp-box-shadow);
+				}
+			}
+			&[href]:hover{
+				text-decoration: underline;
+			}
+		}
+		.cmplz-submenu-items{
+			margin: var(--rsp-spacing-xs) 0;
+			.cmplz-wizard-menu-item{
+				gap: var(--rsp-spacing-xs);
+				padding: var(--rsp-spacing-xxs) var(--rsp-spacing-s);
+				color: var(--rsp-text-color-light);
+				font-size: var(--rsp-fs-300);
+				line-height: var(--rsp-fs-500);
+
+				&.cmplz-active{
+					color: rgb(46 134 199);
+				}
+			}
+
+		}
+	}
+}
+//  .cmplz-wizard-menu{
+//	height: fit-content;
+//	background-color: transparent;
+//	box-shadow: inherit;
+//	.cmplz-grid-item-content{
+//	  padding: 0;
+//	  padding-bottom: var(--rsp-spacing-l);
+//	}
+//  }
+//  .cmplz-wizard-menu-items {
+//	.cmplz-menu-item{
+//	  a{
+//		display: flex;
+//		align-items: center;
+//		gap: var(--rsp-spacing-xs);
+//		text-decoration: none;
+//		color: var(--rsp-text-color);
+//		font-size: var(--rsp-fs-400);
+//		padding-block: var(--rsp-spacing-xs);
+//		transition: all 0.2s ease-in-out;
+//	  	padding-left: var(--rsp-spacing-l);
+//		&:hover{
+//		  text-decoration:underline;
+//		}
+//		.cmplz-submenu-item{
+//		  a{
+//			font-size: var(--rsp-fs-300);
+//		  }
+//		}
+//	  }
+//	  &.cmplz-active {
+//		> a {
+//		  color: var(--rsp-blue);
+//		  text-decoration: none;
+//
+//		}
+//	  }
+//	  &.cmplz-main.cmplz-active {
+//		> a {
+//		  background-color: var(--rsp-blue-faded);
+//		}
+//	  }
+//	  &.cmplz-active{
+//		> a{
+//		  font-weight: 600;
+//		}
+//	  }
+//	  &.cmplz-featured{
+//		a{
+//		  //padding-block: var(--rsp-spacing-m);
+//		  //background: var(--rsp-blue-faded);
+//		  font-weight: 600;
+//		  flex-wrap: wrap;
+//		  .cmplz-menu-item-featured-pill{
+//			background: var(--rsp-green);
+//			color: var(--rsp-text-color-white);
+//			padding: 2px 9px;
+//			border-radius: var(--rsp-border-radius);
+//			font-size: var(--rsp-fs-100);
+//		  }
+//		}
+//	  }
+//
+//
+//	  &.cmplz-premium{
+//		a{
+//		  background: var(--rsp-blue-faded);
+//		  flex-wrap: wrap;
+//		  .cmplz-menu-item-featured-pill{
+//			background: var(--rsp-dark-blue);
+//			color: var(--rsp-text-color-white);
+//			padding: 2px 9px;
+//			border-radius: var(--rsp-border-radius);
+//			font-size: var(--rsp-fs-100);
+//		  }
+//		}
+//	  }
+//	}
+//
+//	.cmplz-premium-menu-item {
+//	  background: var(--rsp-blue-faded);
+//	  div {
+//		display: flex;
+//		align-items: center;
+//		gap: var(--rsp-spacing-xs);
+//		text-decoration: none;
+//		color: var(--rsp-text-color);
+//		font-size: var(--rsp-fs-400);
+//		padding-block: var(--rsp-spacing-xs);
+//		@include cmplz-inline-block-padding;
+//		transition: all 0.2s ease-in-out;
+//		border-left: 4px solid transparent;
+//	  }
+//	}
+//
+//
+//  }
+//}

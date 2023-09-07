@@ -50,7 +50,7 @@ function cmplz_wp_google_maps_script( $tags ) {
  * @return mixed
  */
 function cmplz_wp_google_maps_settings() {
-	if ( is_admin() && cmplz_user_can_manage() ) {
+	if ( cmplz_admin_logged_in() ) {
 		$settings = json_decode( get_option( 'wpgmza_global_settings' ) );
 		if ( property_exists($settings, 'wpgmza_gdpr_require_consent_before_load') && $settings->wpgmza_gdpr_require_consent_before_load === 'on' ) {
 			$settings->wpgmza_gdpr_require_consent_before_load = false;

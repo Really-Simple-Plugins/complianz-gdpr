@@ -11,7 +11,7 @@ $this->generic_documents_list = array(
 	),
 	'privacy-statement-children' =>  array(
 		'can_region_redirect' => true,
-		'title' => __("Privacy Statement for Children", "complianz-gdpr"),
+		'title' => __("Children's statement", "complianz-gdpr"),
 	),
 	'impressum' =>  array(
 		'can_region_redirect' => false,
@@ -48,7 +48,7 @@ $this->pages = array(
 	),
 	'us' => array(
 		'cookie-statement' => array(
-			'title' => cmplz_us_cookie_statement_title(),
+			'title' => 'Opt-out preferences',
 			'public' => true,
 			'document_elements' => '',
 			'condition' => array(
@@ -163,6 +163,7 @@ $this->pages = array(
 			'condition' => array(
 				'impressum' => 'generated',
 			),
-		)
+		),
+
 	),
 );

@@ -74,7 +74,6 @@ We respect and understand that you may want to be sure that your personal inform
         'content' => 'Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid. We may place these cookies without your consent.',
     ),
 
-    //statistics
     array(
         'subtitle' => 'Statistics cookies',
         'content' => 'We use statistics cookies to optimize the website experience for our users. With these statistics cookies we get insights in the usage of our website.',

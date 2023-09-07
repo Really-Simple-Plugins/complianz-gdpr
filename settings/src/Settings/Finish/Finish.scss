@@ -1,0 +1,16 @@
+#complianz {
+  .cmplz-finish {
+
+	ul {
+	  margin: 10px 20px;
+	  list-style: disc;
+
+	  li {
+		font-weight: bold;
+		>div{
+		  display:flex;
+		}
+	  }
+	}
+  }
+}

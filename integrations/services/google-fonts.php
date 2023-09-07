@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 /**
- * Do not activate if any of these plugins is active, or if the user has not explicitly chosen to block 
+ * Do not activate if any of these plugins is active, or if the user has not explicitly chosen to block
  */
- if ( !defined('CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE') && cmplz_get_value('self_host_google_fonts') === 'block' ) {
+ if ( !defined('CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE') && cmplz_get_option('self_host_google_fonts') === 'block' ) {
 	 add_filter( 'cmplz_known_script_tags', 'cmplz_google_fonts_script' );
 	 add_filter( 'cmplz_known_style_tags', 'cmplz_google_fonts_style' );
  }

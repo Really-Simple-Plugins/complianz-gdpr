@@ -1,0 +1,20 @@
+#complianz .cmplz-integrations-script-center {
+  .cmplz-scriptcenter-url{
+	display:flex;
+	padding-bottom: 10px;
+	.cmplz-input-group {
+	  flex-grow:1;
+	  margin-right:10px;
+	}
+  }
+  .cmplz-scriptcenter-dependencies {
+	display:flex;
+	align-items: center;
+	.cmplz-select-group {
+	  margin-right:10px;
+	  margin-bottom:10px;
+	  min-width: max(250px, 50%);
+	}
+  }
+}
+

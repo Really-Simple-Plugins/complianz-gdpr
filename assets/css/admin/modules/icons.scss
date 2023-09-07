@@ -1,0 +1,33 @@
+.cmplz-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg{
+    fill: currentColor;
+  }
+  &-loading svg{
+	animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+  }
+
+  &.cmplz-click-animation{
+	animation: beat 0.4s ease-out;
+  }
+}
+
+.cmplz-icon-shortcode{
+  cursor:pointer;
+}
+
+//loaders in buttons
+button.button .cmplz-icon.cmplz-icon-loading {
+  padding-top: 6px;
+  >div {line-height: inherit;}
+}
+
+
+

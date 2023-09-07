@@ -34,7 +34,7 @@ add_filter( 'cmplz_detected_services',
 	'cmplz_hcaptcha_detected_services' );
 
 
-if (cmplz_integration_plugin_is_active( 'wpforms' )) {
+if (cmplz_integration_plugin_is_enabled( 'wpforms' )) {
 
 add_action( 'cmplz_banner_css', 'cmplz_hcaptcha_css' );
 function cmplz_hcaptcha_css() {
