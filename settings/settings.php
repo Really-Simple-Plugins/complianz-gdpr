@@ -865,7 +865,6 @@ if (!function_exists('cmplz_update_option_no_hooks')) {
 		$value            = cmplz_sanitize_field( $value, $type, $name );
 		$value            = apply_filters( "cmplz_fieldvalue", $value, $name , $type );
 		$options[ $name ] = $value;
-		error_log(print_r($options, true		));
 		update_option( 'cmplz_options', $options );
 	}
 }
@@ -920,7 +919,6 @@ function cmplz_rest_api_fields_get(): array {
 
 	$output = array();
 	$fields = cmplz_fields();
-	error_log(print_r($fields, true));
 	$output['fields'] = $fields;
 	$output['request_success'] = true;
 	$output['locked_by'] = COMPLIANZ::$wizard->get_lock_user() ? COMPLIANZ::$wizard->get_lock_user() : get_current_user_id();

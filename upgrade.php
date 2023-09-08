@@ -942,6 +942,7 @@ function cmplz_check_upgrade() {
 		}
 	}
 
+
 	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
 		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
 		//create new options array
@@ -972,6 +973,11 @@ function cmplz_check_upgrade() {
 				//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
 				$id = strtolower($id);
 				$field = cmplz_get_field( $id );
+				//tcf fields are not loaded yet, because the upgrade is not completed, so iab_enabled will always return false.
+				//as a workaround we check if the id starts with tcf_
+				if (strpos($id, 'tcf_') !==false){
+					$field = $id==='tcf_lspact' ? ['type'=>'radio'] : ['type'=>'multicheckbox'];
+				}
 				if ( $field ) {
 					$type = $field['type'];
 					//regions is default radio, but multicheckbox when use_country is enabled
@@ -979,6 +985,7 @@ function cmplz_check_upgrade() {
 						$type = 'multicheckbox';
 					}
 					if ($type === 'multicheckbox' && is_array( $value )) {
+
 						$value = array_filter( $value, static function ( $item ) {return $item == 1;} );
 						$value = array_keys( $value );
 					}
