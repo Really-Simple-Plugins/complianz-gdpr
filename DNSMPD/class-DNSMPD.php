@@ -129,7 +129,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				'cmplz-dnsmpd',
 				'cmplz_datarequests',
 				array(
-						'url' => get_rest_url().'complianz/v1/datarequests',
+						'url' => get_rest_url('complianz/v1/datarequests'),
 				)
 			);
 		}
