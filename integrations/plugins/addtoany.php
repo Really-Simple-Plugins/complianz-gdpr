@@ -3,14 +3,17 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_addtoany_script' );
 function cmplz_addtoany_script( $tags ) {
-	$tags[] = array(
-		'name' => 'addtoany',
-		'category' => 'marketing',
-		'urls' => array(
-			'static.addtoany.com/menu/page.js',
-		),
-		'enable_placeholder' => '0',
-	);
+	//addtoany has an integration with wp consent api.
+	if ( !cmplz_consent_api_active() ) {
+		$tags[] = array(
+			'name'               => 'addtoany',
+			'category'           => 'marketing',
+			'urls'               => array(
+				'static.addtoany.com/menu/page.js',
+			),
+			'enable_placeholder' => '0',
+		);
+	}
 	return $tags;
 }
 

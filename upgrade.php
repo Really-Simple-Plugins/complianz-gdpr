@@ -976,15 +976,32 @@ function cmplz_check_upgrade() {
 	//regenerate css
 	//set manage consent tab
 	if ( $prev_version && version_compare( $prev_version, '6.5.4', '<' ) ) {
-		$banners = cmplz_get_cookiebanners();
-		if ( $banners ) {
-			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-				$banner->manage_consent_options = 'show-everywhere';
-				$banner->dismiss['show'] = '1';
-				$banner->save();
+		update_option('cmplz_completed_upgrade_with_condition', true, false);
+		if ( cmplz_tcf_active() ) {
+			$banners = cmplz_get_cookiebanners();
+			if ( $banners ) {
+				foreach ( $banners as $banner_item ) {
+					$banner                         = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+					$banner->save();
+				}
 			}
 		}
+	}
+
+	if ( $prev_version && version_compare( $prev_version, '6.5.4', '=' ) ) {
+		//if the previous update already was executed without the TCF condition, put it back to default.
+		//this is the case for prev_version = 6.5.4 and not free
+		if ( !get_option('cmplz_completed_upgrade_with_condition') && !defined('cmplz_free') && !cmplz_tcf_active() ){
+			$banners = cmplz_get_cookiebanners();
+			if ( $banners ) {
+				foreach ( $banners as $banner_item ) {
+					$banner                         = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+					$banner->manage_consent_options = 'hover-hide-mobile';
+					$banner->save();
+				}
+			}
+		}
+		delete_option('cmplz_completed_upgrade_with_condition');
 	}
 
 	#regenerate cookie policy snapshot.

@@ -253,10 +253,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					$this->{$property} = $post[ 'cmplz_' . $property ];
 				}
 			}
-			//prevent disabling deny button
-			if (cmplz_iab_is_enabled()){
-				$this->dismiss['show']=1;
-			}
 			$this->save();
 			return true;
 		}
