@@ -528,7 +528,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 						if ( cmplz_use_placeholder( $image_url ) ) {
 							$new = $this->add_class( $new, 'img', " cmplz-placeholder-element " );
-							$new = '<div>' . $new . '</div>';
+							$new = '<div class="cmplz-placeholder-parent">' . $new . '</div>';
 						}
 						$output = str_replace( $total_match, $new, $output );
 					}
@@ -609,7 +609,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 							if ( ! $is_video
 							     && ! $this->no_div( $iframe_src )
 							) {
-								$new = '<div>' . $new . '</div>';
+								$new = '<div class="cmplz-placeholder-parent">' . $new . '</div>';
 							}
 						}
 						$output = str_replace( $total_match, $new, $output );

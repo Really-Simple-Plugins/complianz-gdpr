@@ -1,6 +1,8 @@
 <?php
 defined('ABSPATH') or die("you do not have access to this page!");
 
+$social_media_format = (cmplz_count_socialmedia() === 1) ? '%s is located in the United States.' : '%s are located in the United States.';
+
 $this->pages['uk']['cookie-statement']['document_elements'] = array(
     'last-updated' => array(
         'content' => '<i>' . cmplz_sprintf('This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the United Kingdom.', '[publish_date]') . '</i><br>',
@@ -72,7 +74,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
     ),
 
 	array(
-		'subtitle' => 'Marketing/Tracking cookies', 'cookie policy',
+		'subtitle' => 'Marketing/Tracking cookies',
 		'content' => 'Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.',
 //		'condition' => array(
 //			'uses_ad_cookies' => 'no',
@@ -90,7 +92,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	),
 	array(
 		'subtitle' => 'Social media', 'Legal document cookie policy:paragraph title',
-		'content' => cmplz_sprintf('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+		'content' => cmplz_sprintf('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -98,7 +100,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.' . ' '.cmplz_sprintf( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(),'[comma_socialmedia_on_site]' ),
+		'content' => 'Please read the privacy statement of these social networks.' .' ' . cmplz_sprintf($social_media_format, '[comma_socialmedia_on_site]'),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',

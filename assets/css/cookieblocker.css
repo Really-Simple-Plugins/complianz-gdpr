@@ -10,6 +10,9 @@
 .cmplz-blocked-content-notice {
   display: none;
 }
+.cmplz-placeholder-parent {
+  height: inherit;
+}
 .cmplz-optin .cmplz-blocked-content-container .cmplz-blocked-content-notice,
 .cmplz-optout .cmplz-blocked-content-container .cmplz-blocked-content-notice,
 .cmplz-optin .cmplz-wp-video .cmplz-blocked-content-notice,
@@ -122,3 +125,4 @@
     opacity: 1;
   }
 }
+/*# sourceMappingURL=cookieblocker.css.map */
