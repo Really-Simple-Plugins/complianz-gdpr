@@ -8,17 +8,10 @@ import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import Placeholder from "../../Placeholder/Placeholder";
-import useOtherPlugins from "../OtherPlugins/OtherPluginsData";
 
 const SingleDocument = (props) => {
 	const {document} = props;
 	const {showSavedSettingsNotice} = useFields();
-	// const {dataLoaded, fetchOtherPluginsData} = useOtherPlugins();
-	// useEffect(() => {
-	// 	if (!dataLoaded) {
-	// 		fetchOtherPluginsData();
-	// 	}
-	// }, [] )
 
 	// let missing = document.required && !document.exists;
 	let syncColor = document.status === 'sync' ? 'green' : 'grey';

@@ -579,10 +579,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				cmplz_update_option_no_hooks('enable_cookie_banner', 'yes');
 			}
 
-			if ( cmplz_iab_is_enabled() ) {
-				$this->dismiss['show'] = 1;
-			}
-
 			$update_array = array(
 				'title'                        => sanitize_text_field( $this->title ),
 				'position'                     => $this->sanitize_position( $this->position ),
@@ -847,10 +843,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			//get all categories
 			$available_cats['do_not_track'] = __("Do Not Track", "complianz-gdpr");
-			$available_cats['no_choice'] = __("No choice", "complianz-gdpr");
+			$available_cats['no_choice'] = __("No Choice", "complianz-gdpr");
 
 			if ( ! $exclude_no_warning && cmplz_get_option( 'use_country' )) {
-				$available_cats['no_warning'] = __("No warning", "complianz-gdpr");
+				$available_cats['no_warning'] = __("No Warning", "complianz-gdpr");
 			}
 			if ( !$labels ) {
 				$available_cats = array_keys( $available_cats );
@@ -1275,7 +1271,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'soft_cookiewall'      => (bool) $this->soft_cookiewall,
 				'dismiss_on_scroll'    => (bool) $this->dismiss_on_scroll,
 				'cookie_expiry'        => cmplz_get_option( 'cookie_expiry' ),
-				'url'                  => get_rest_url() . 'complianz/v1/',
+				'url'                  => get_rest_url('complianz/v1/'),
 				'locale'               => 'lang='.substr( get_locale(), 0, 2 ).'&locale='.get_locale(),
 				'set_cookies_on_root'  => cmplz_get_option( 'set_cookies_on_root' ),
 				'cookie_domain'        => COMPLIANZ::$banner_loader->get_cookie_domain(),

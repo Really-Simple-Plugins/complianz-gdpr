@@ -1,16 +1,18 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
-import {memo, useState} from 'react';
 import { __ } from '@wordpress/i18n';
 import Icon from '../../utils/Icon';
-import Button from '../Inputs/Button';
-import {useEffect} from "react";
+import {useEffect, useState, memo} from "@wordpress/element";
+import Button from "../Inputs/Button";
 
 const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, disabled, options = {} }) => {
 	const [isBoolean, setIsBoolean] = useState(false);
+	const [loadMoreExpanded, setLoadMoreExpanded] = useState(false);
+
 	let valueValidated = value;
 	if ( !Array.isArray(valueValidated) ){
 		valueValidated = valueValidated === '' ? [] : [valueValidated];
 	}
+
 	useEffect (() => {
 		let isBool = (Object.keys(options).length === 1) && Object.keys(options)[0] === 'true';
 		setIsBoolean(isBool);
@@ -22,7 +24,6 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 
 	const selected = valueValidated;
 	const loadMoreCount = 10;
-	const [loadMoreExpanded, setLoadMoreExpanded] = useState(false);
 
 	// check if there are more options than the loadmore count
 	let loadMoreEnabled = false;
@@ -52,7 +53,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 	};
 	let allDisabled = disabled && !Array.isArray(disabled);
 
-	if (options.length===0){
+	if (Object.keys(options).length===0){
 		return (
 			<>{__("No options found", "complianz-gdpr")}</>
 		)
@@ -86,12 +87,12 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 				</div>
 			))}
 			{!loadMoreExpanded && loadMoreEnabled && (
-				<Button onClick={loadMoreHandler}>
+				<Button onClick={()=>loadMoreHandler()}>
 					{__('Show more', 'complianz-gdpr')}
 				</Button>
 			)}
 			{loadMoreExpanded && loadMoreEnabled && (
-				<Button onClick={loadMoreHandler}>
+				<Button onClick={() => loadMoreHandler()}>
 					{__('Show less', 'complianz-gdpr')}
 				</Button>
 			)}

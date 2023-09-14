@@ -6,7 +6,7 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import './integrations.scss';
 
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 const ScriptCenterControl = () => {
 	const { scripts, addScript, saveScript, integrationsLoaded, fetchIntegrationsData} = useIntegrations();
 	const [ disabled, setDisabled ] = useState( false );

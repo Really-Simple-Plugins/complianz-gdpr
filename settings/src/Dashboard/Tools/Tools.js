@@ -35,7 +35,7 @@ const Tools = () => {
 	},[fields])
 	const tools = [
 		{
-			title: __("Data requests", "complianz-gdpr"),
+			title: __("Data Requests", "complianz-gdpr"),
 			viewLink: "#tools/data-requests",
 			enableLink: "#wizard/security-consent",
 			field: {name:"datarequest",value: 'yes'},
@@ -50,7 +50,7 @@ const Tools = () => {
 			link: "https://complianz.io/records-of-consent/",
 		},
 		{
-			title: __("Processing agreements", "complianz-gdpr"),
+			title: __("Processing Agreements", "complianz-gdpr"),
 			viewLink: "#tools/processing-agreements",
 			link: "https://complianz.io/definition/what-is-a-processing-agreement/",
 		},
@@ -74,7 +74,7 @@ const Tools = () => {
 			link: "https://complianz.io/about-premium-support/",
 		},
 		{
-			title: __("WooCommerce", "complianz-gdpr"),
+			title: "WooCommerce",
 			plugin: "woocommerce",
 			link: cmplz_settings.admin_url+'admin.php?page=wc-settings&tab=account',
 		},

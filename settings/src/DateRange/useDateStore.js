@@ -2,7 +2,7 @@ import {create} from 'zustand';
 import {endOfDay, format, startOfDay, subDays} from 'date-fns';
 
 // define the store
-export const useDate = create(set => ({
+const useDate = create(set => ({
 	startDate: format(startOfDay(subDays(new Date(), 7)), 'yyyy-MM-dd'),
 	setStartDate: (startDate) => set(state => ({ startDate })),
 	endDate: format(endOfDay(subDays(new Date(), 1)), 'yyyy-MM-dd'),

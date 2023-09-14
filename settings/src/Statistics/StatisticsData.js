@@ -7,8 +7,8 @@ const emptyData = {
 			"Statistics",
 			"Marketing",
 			"Do Not Track",
-			"No choice",
-			"No warning",
+			"No Choice",
+			"No Warning",
 		],
 		"categories": [
 			"functional",
@@ -64,8 +64,8 @@ const emptyData = {
 			"Statistics",
 			"Marketing",
 			"Do Not Track",
-			"No choice",
-			"No warning",
+			"No Choice",
+			"No Warning",
 		],
 		"categories": [
 			"functional",
@@ -123,8 +123,8 @@ const defaultData = {
 			"Statistics",
 			"Marketing",
 			"Do Not Track",
-			"No choice",
-			"No warning",
+			"No Choice",
+			"No Warning",
 		],
 		"categories": [
 			"functional",
@@ -180,8 +180,8 @@ const defaultData = {
 			"Statistics",
 			"Marketing",
 			"Do Not Track",
-			"No choice",
-			"No warning",
+			"No Choice",
+			"No Warning",
 		],
 		"categories": [
 			"functional",

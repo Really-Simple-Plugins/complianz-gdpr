@@ -1,5 +1,5 @@
 import UseCopyMultisiteData from "./UseCopyMultisiteData";
-import {memo, useEffect, useState} from "react";
+import {memo, useEffect, useState} from "@wordpress/element";;
 import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 

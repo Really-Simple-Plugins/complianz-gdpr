@@ -42,8 +42,8 @@ const BorderRadiusControl = (props) => {
 					<input type="number" key="4" onChange={(e) => handleChange('left', e.target.value)} value={left}/>
 				</div>
 				<div className="cmplz-borderradius-inputtype">
-					<div className={"cmplz-borderradius-inputtype-pixel "+pxClass} onClick={() => handleChange('type', 'px')}>{__("px", "complianz-gdpr")}</div>
-					<div className={"cmplz-borderradius-inputtype-percent "+pcClass} onClick={() => handleChange('type', '%')}>{__("%", "complianz-gdpr")}</div>
+					<div className={"cmplz-borderradius-inputtype-pixel "+pxClass} onClick={() => handleChange('type', 'px')}>px</div>
+					<div className={"cmplz-borderradius-inputtype-percent "+pcClass} onClick={() => handleChange('type', '%')}>%</div>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import FieldTooltip from "./FieldTooltip";
 import Premium from "../Premium";
 import {__} from '@wordpress/i18n';

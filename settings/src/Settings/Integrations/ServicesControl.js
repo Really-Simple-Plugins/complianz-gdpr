@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import useFields from "../Fields/FieldsData";
 import readMore from "../../utils/readMore";
 import useMenu from "../../Menu/MenuData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import SwitchInput from '../Inputs/SwitchInput';
 
 const ServicesControl = () => {
@@ -248,7 +248,7 @@ const ServicesControl = () => {
 			{ (disabled || filteredServices.length===0) && <>
 				<div className="cmplz-settings-overlay">
 					<div className="cmplz-settings-overlay-message" >{disabledText}
-						{disabledReadmore && <>&nbsp;<a href={disabledReadmore} >{__('View services.', 'complianz-gdpr')}</a></>}
+						{disabledReadmore && <>&nbsp;<a href={disabledReadmore} >{__('View services', 'complianz-gdpr')}</a></>}
 					</div>
 				</div>
 			</>}
@@ -264,7 +264,7 @@ const ServicesControl = () => {
 					dense
 					pagination
 					paginationPerPage={5}
-					noDataComponent={<div className="cmplz-no-documents">{__("No services", "really-simple-ssl")}</div>}
+					noDataComponent={<div className="cmplz-no-documents">{__("No services", "complianz-gdpr")}</div>}
 					persistTableHead
 					theme="really-simple-plugins"
 					customStyles={customStyles}

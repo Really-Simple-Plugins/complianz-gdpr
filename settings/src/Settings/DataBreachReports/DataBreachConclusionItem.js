@@ -1,6 +1,6 @@
 import {useState, useEffect} from "@wordpress/element";
 import Icon from "../../utils/Icon";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const DataBreachConclusionItem = ({conclusion, delay}) => {
 	const [generating, setGenerating] = useState(true);

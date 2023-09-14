@@ -4,7 +4,7 @@ import {__} from '@wordpress/i18n';
 import useFields from './../Fields/FieldsData';
 import useLicense from './LicenseData';
 import {useEffect} from '@wordpress/element';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import useProgress from "../../Dashboard/Progress/ProgressData";
 
 const License = (props) => {

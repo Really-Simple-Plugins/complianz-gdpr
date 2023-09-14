@@ -5,7 +5,7 @@ import Field from "../Fields/Field";
 import useFields from "../Fields/FieldsData";
 import Icon from "../../utils/Icon";
 import DataBreachConclusion from "./DataBreachConclusion";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import LabelWrapper from "../Fields/LabelWrapper";
 import SelectInput from "../Inputs/SelectInput";
 

@@ -5,14 +5,6 @@ if ( cmplz_admin_logged_in() ) {
 }
 require_once( trailingslashit(cmplz_path) . 'integrations/forms.php' );
 
-function cmplz_enqueue_integrations_assets( $hook ) {
-	if ( strpos($hook, "cmplz-script-center")===false  ) return;
-
-	wp_register_script( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.min.js', array( "jquery" ), cmplz_version );
-	wp_enqueue_script( ' cmplz-pagify' );
-}
-add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_integrations_assets' );
-
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'advanced-nocaptcha-recaptcha' => array(

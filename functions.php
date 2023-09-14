@@ -1847,11 +1847,11 @@ if (!function_exists('cmplz_create_webp')){
 
 	function cmplz_create_webp($file, $new_src) {
 		switch ( $file ) {
-			case str_contains( $file, '.jpeg' ):
-			case str_contains( $file, '.jpg' ):
+			case strpos( $file, '.jpeg' )!==false:
+			case strpos( $file, '.jpg' )!==false:
 				$ext = array(".jpeg", '.jpg');
 				break;
-			case str_contains( $file, 'png' ):
+			case strpos( $file, 'png' )!==false:
 				$ext = '.png';
 				break;
 			default:

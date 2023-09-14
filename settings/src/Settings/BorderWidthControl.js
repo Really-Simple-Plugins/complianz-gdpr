@@ -38,7 +38,7 @@ const BorderWidthControl = (props) => {
 					<input type="number" key="4" onChange={(e) => handleChange('left', e.target.value)} value={left}/>
 				</div>
 				<div className="cmplz-borderradius-inputtype">
-					<div className={"cmplz-borderradius-inputtype-pixel "} >{__("px", "complianz-gdpr")}</div>
+					<div className={"cmplz-borderradius-inputtype-pixel "} >px</div>
 				</div>
 			</div>
 		</div>

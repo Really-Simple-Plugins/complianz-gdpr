@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo} from "@wordpress/element";
 import * as Switch from '@radix-ui/react-switch';
 
 const SwitchInput = ({

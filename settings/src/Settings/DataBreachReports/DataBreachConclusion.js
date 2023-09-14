@@ -3,7 +3,7 @@ import {useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useFields from "../Fields/FieldsData";
 import DataBreachConclusionItem from "./DataBreachConclusionItem";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const DataBreachConclusion = () => {
 	const {

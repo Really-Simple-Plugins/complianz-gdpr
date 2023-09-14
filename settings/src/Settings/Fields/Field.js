@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback, memo, Suspense} from 'react';
+import {useState, useEffect, memo} from "@wordpress/element";
 import useFields from '../../Settings/Fields/FieldsData';
 import {__} from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
@@ -199,7 +199,9 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 		if (COMPONENT_MAP[field.type]) {
 			import(`../../${COMPONENT_MAP[field.type].componentPath}`).then(
 				(component) => {
-					setComponent(component.default);
+					if (component.default) {
+						setComponent(component.default);
+					}
 				}
 			).catch((error) => {
 				console.error(`Error loading component of type ${field.type}: ${error}`);
@@ -262,6 +264,9 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 					<LabelWrapper
 						id={field.id}
 						label={field.parent_label}
+						tooltip={field.tooltip}
+						premium={field.premium}
+						required={field.required}
 						type={field.type}
 						isParentLabel={true}
 					/>
@@ -275,6 +280,7 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 						premium={field.premium}
 						required={field.required}
 						type={field.type}
+						isParentLabel={false}
 					/>
 				}
 				{Component && (
@@ -313,9 +319,6 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 			</div>
 		);
 	}
-	if (Component == null) {
-		return null;
-	}
-
+	return null;
 };
-export default React.memo(Field);
+export default memo(Field);

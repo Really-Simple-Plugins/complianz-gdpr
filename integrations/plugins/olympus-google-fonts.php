@@ -7,7 +7,7 @@ function cmplz_ogf_filter_pro_fields($fields) {
 	if ($index!==false) {
 		$fields[ $index ]['help'] = [
 			'label' => 'default',
-			'title' => __( 'self-hosting Google Fonts', 'complianz-gdpr' ),
+			'title' => __( 'Self-hosting Google Fonts', 'complianz-gdpr' ),
 			'text'  => sprintf( __( "You have %s installed. We recommend saying 'Yes' to self-hosting Google Fonts", "complianz-gdpr" ), "Fonts Plugin | Google Fonts Typography" ),
 		];
 	}

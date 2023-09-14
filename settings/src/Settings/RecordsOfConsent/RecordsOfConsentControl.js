@@ -1,7 +1,7 @@
 import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useRecordsOfConsentData from "./useRecordsOfConsentData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import CheckboxGroup from '../Inputs/CheckboxGroup';
 const RecordsOfConsentControl = () => {
 	const paginationPerPage = 10;
@@ -276,7 +276,7 @@ const RecordsOfConsentControl = () => {
 					data={data}
 					dense
 					pagination
-					noDataComponent={<div className="cmplz-no-documents">{__("No records", "really-simple-ssl")}</div>}
+					noDataComponent={<div className="cmplz-no-documents">{__("No records", "complianz-gdpr")}</div>}
 					persistTableHead
 					theme="really-simple-plugins"
 					customStyles={customStyles}

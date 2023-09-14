@@ -1,6 +1,6 @@
 import Error from '../utils/Error';
 import {__} from "@wordpress/i18n";
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "@wordpress/element";;
 
 const PagePlaceholder = (props) => {
     let plugin_url = cmplz_settings.plugin_url;

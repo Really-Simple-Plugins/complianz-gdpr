@@ -1,7 +1,7 @@
 import Panel from "../Panel";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import useFields from "../Fields/FieldsData";
 /**
  * Render a help notice in the sidebar

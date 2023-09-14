@@ -1,6 +1,6 @@
 import {useState} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 function ExportControl({ field, label }) {
 	const [disabled, setDisabled] = useState(false);

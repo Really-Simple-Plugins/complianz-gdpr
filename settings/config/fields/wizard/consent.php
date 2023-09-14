@@ -24,9 +24,9 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'type'     => 'install-plugin',
 				'plugin_data' => [
 					'title' => __("Burst Statistics from Complianz", 'complianz-gdpr'),
-					'summary' => __("Self-hosted and privacy-friendly analytics tool", 'complianz-gdpr'),
+					'summary' => __("Self-hosted and privacy-friendly analytics tool.", 'complianz-gdpr'),
 					'slug' => 'burst-statistics',
-					'description' => __("Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins", 'complianz-gdpr'),
+					'description' => "Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins.",
 					'image' => "burst.png"
 
 				],
@@ -226,7 +226,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				],
 				'help'             => [
 					'label' => 'default',
-					'title' => __( "Consent Mode", "complianz-gdpr" ),
+					'title' => "Consent Mode",
 					'text'  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/consent-mode/',
 				],

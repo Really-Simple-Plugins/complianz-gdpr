@@ -70,11 +70,11 @@ export default useOtherPlugins;
 
 const pluginActionNice = (pluginAction) => {
     const statuses = {
-        'download': __("Install", "really-simple-ssl"),
-        'activate': __("Activate", "really-simple-ssl"),
-        'activating': __("Activating...", "really-simple-ssl"),
-        'downloading': __("Downloading...", "really-simple-ssl"),
-        'upgrade-to-premium': __("Downloading...", "really-simple-ssl"),
+        'download': __("Install", "complianz-gdpr"),
+        'activate': __("Activate", "complianz-gdpr"),
+        'activating': __("Activating...", "complianz-gdpr"),
+        'downloading': __("Downloading...", "complianz-gdpr"),
+        'upgrade-to-premium': __("Downloading...", "complianz-gdpr"),
     };
     return statuses[pluginAction];
 }

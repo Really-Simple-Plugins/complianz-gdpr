@@ -2,7 +2,7 @@ import useFields from "../Settings/Fields/FieldsData";
 import useStatistics from "./StatisticsData";
 import { useState, useEffect } from "@wordpress/element";
 import useLicense from "../Settings/License/LicenseData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 // import { useMemo } from 'react';
 const Statistics = () => {
 

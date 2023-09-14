@@ -1,7 +1,7 @@
 import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useDatarequestsData from "./useDatarequestsData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 const progressComponent = () => {
 	return (
@@ -153,7 +153,7 @@ const DatarequestsControl = () => {
 			orderId:'name',
 		},
 		{
-			name: __('E-mail',"complianz-gdpr"),
+			name: __('Email',"complianz-gdpr"),
 			selector: row => row.email,
 			sortable: true,
 			orderId:'email',
@@ -218,7 +218,7 @@ const DatarequestsControl = () => {
 					// progressComponent=<progressComponent/>
 					pagination
 					paginationServer
-					noDataComponent={<div className="cmplz-no-documents">{__("No records", "really-simple-ssl")}</div>}
+					noDataComponent={<div className="cmplz-no-documents">{__("No records", "complianz-gdpr")}</div>}
 					persistTableHead
 					theme="really-simple-plugins"
 					customStyles={customStyles}

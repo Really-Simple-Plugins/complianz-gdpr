@@ -3,7 +3,7 @@ import * as cmplz_api from "../../utils/api";
 import Icon from "../../utils/Icon";
 import produce from "immer";
 
-export const UseSyncData = create(( set, get ) => ({
+const UseSyncData = create(( set, get ) => ({
 	addedIds:[],
 	loadingSyncData: false,
 	syncDataLoaded:false,
@@ -262,6 +262,7 @@ export const UseSyncData = create(( set, get ) => ({
 		)
 	},
 }));
+export default UseSyncData;
 
 const fetchSyncProgressData = (restart) => {
 	let data = {}

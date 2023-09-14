@@ -1,6 +1,6 @@
 /*Ensure preloading of most important fields*/
 import Field from "./Field";
-import {memo, useEffect, useState} from "react";
+import {memo, useEffect, useState} from "@wordpress/element";;
 import useFields from "./FieldsData";
 
 const PreloadFields = () => {

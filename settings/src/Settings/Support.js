@@ -2,7 +2,7 @@ import {Button, TextareaControl,} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import * as cmplz_api from "../utils/api";
 import {useState} from "@wordpress/element";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const Support = () => {
 	const [message, setMessage] = useState('');
@@ -33,7 +33,7 @@ const Support = () => {
 		<>
 			<TextareaControl
 				disabled={sending}
-				placeholder={__("Type your question here","really-simple-ssl")}
+				placeholder={__("Type your question here","complianz-gdpr")}
 				onChange={ ( message ) => onChangeHandler(message) }
 			/>
 			<div>

@@ -5,7 +5,7 @@ import {useEffect} from "@wordpress/element";
 import useFields from "../../Settings/Fields/FieldsData";
 import Placeholder from '../../Placeholder/Placeholder';
 import Icon from "../../utils/Icon";
-import {memo, useState} from "react";
+import {memo, useState} from "@wordpress/element";
 
 /**
  * Render a help notice in the sidebar

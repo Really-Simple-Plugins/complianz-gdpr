@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import Panel from "./../Panel";
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo, useEffect} from "react";
+import {memo, useEffect} from "@wordpress/element";
 import useProcessingAgreementsData from "../ProcessingAgreements/ProcessingAgreementsData";
 import useMenu from "../../Menu/MenuData";
 

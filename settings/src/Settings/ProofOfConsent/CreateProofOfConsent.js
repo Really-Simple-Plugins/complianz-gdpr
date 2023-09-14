@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import useProofOfConsentData from "./useProofOfConsentData";
 import Icon from "../../utils/Icon";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 const CreateProofOfConsent = ({label, field}) => {
 	const { generateProofOfConsent, generating} = useProofOfConsentData();
 

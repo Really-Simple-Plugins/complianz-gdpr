@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from "react";
+import {memo, useEffect, useState} from "@wordpress/element";;
 import useFields from "../Fields/FieldsData";
 import './PlaceholderPreview.scss'
 import {__} from "@wordpress/i18n";

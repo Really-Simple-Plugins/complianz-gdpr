@@ -2,7 +2,7 @@ import {useEffect} from "@wordpress/element";
 import Icon from "../../utils/Icon";
 import {__} from '@wordpress/i18n';
 import useInstallPluginData from "./InstallPluginData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const InstallPlugin = ( {field} ) => {
 	const {statusLoaded, startPluginAction, apiRequestActive, pluginAction, rating, upgradeUrl, setStatusLoaded} = useInstallPluginData();

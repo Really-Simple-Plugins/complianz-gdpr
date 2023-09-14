@@ -168,7 +168,7 @@ function cmplz_contactform7_get_plugin_forms( $input_forms ) {
 	$forms = get_posts( array( 'post_type' => 'wpcf7_contact_form' ) );
 	$forms = wp_list_pluck( $forms, "post_title", "ID" );
 	foreach ( $forms as $id => $title ) {
-		$input_forms[ 'cf7_' . $id ] = $title . " " . __( '(Contact form 7)', 'complianz-gdpr' );
+		$input_forms[ 'cf7_' . $id ] = $title . " " . '(Contact form 7)';
 	}
 
 	return $input_forms;

@@ -32,7 +32,7 @@
 										   value="1"/>
 									<label class="cmplz-label" for="cmplz-functional-{consent_type}" tabindex="0"><span class="screen-reader-text">{category_functional}</span></label>
 								</span>
-								<?php _e("Always active","complianz-gdpr")?>
+								<?php esc_html_e(__("Always active","complianz-gdpr"))?>
 							</span>
 							<span class="cmplz-icon cmplz-open">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"  height="18" ><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
@@ -117,10 +117,10 @@
 	</div>
 
 	<div class="cmplz-links cmplz-information">
-		<a class="cmplz-link cmplz-manage-options cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container"><?php _e("Manage options","complianz-gdpr")?></a>
-		<a class="cmplz-link cmplz-manage-third-parties cookie-statement" href="#" data-relative_url="#cmplz-cookies-overview"><?php _e("Manage services","complianz-gdpr")?></a>
-		<a class="cmplz-link cmplz-manage-vendors tcf cookie-statement" href="#" data-relative_url="#cmplz-tcf-wrapper"><?php printf(__("Manage %s vendors","complianz-gdpr"),'{vendor_count}')?></a>
-		<a class="cmplz-link cmplz-external cmplz-read-more-purposes tcf" target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/tcf/purposes/"><?php _e("Read more about these purposes","complianz-gdpr")?></a>
+		<a class="cmplz-link cmplz-manage-options cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container"><?php esc_html_e(__("Manage options","complianz-gdpr"))?></a>
+		<a class="cmplz-link cmplz-manage-third-parties cookie-statement" href="#" data-relative_url="#cmplz-cookies-overview"><?php esc_html_e(__("Manage services","complianz-gdpr"))?></a>
+		<a class="cmplz-link cmplz-manage-vendors tcf cookie-statement" href="#" data-relative_url="#cmplz-tcf-wrapper"><?php esc_html_e(sprintf(__("Manage %s vendors","complianz-gdpr"),'{vendor_count}'))?></a>
+		<a class="cmplz-link cmplz-external cmplz-read-more-purposes tcf" target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/tcf/purposes/"><?php esc_html_e(__("Read more about these purposes","complianz-gdpr"))?></a>
 		<?php do_action("cmplz_after_links")?>
 	</div>
 

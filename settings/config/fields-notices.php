@@ -128,7 +128,7 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 			$notices[] = [
 				'field_id' => 'category_all',
 				'label'    => 'warning',
-				'title'    => __( "Google Tag Manager", 'complianz-gdpr' ),
+				'title'    => "Google Tag Manager",
 				'text'     => __( "You're using Google Tag Manager. This means you need to configure Tag Manager to use the below categories.", 'complianz-gdpr' ),
 				'url' => 'https://complianz.io/definitive-guide-to-tag-manager-and-complianz/',
 			];

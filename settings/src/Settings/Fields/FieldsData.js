@@ -303,7 +303,7 @@ const applyDefaults = (fields) => {
 
 const handleShowSavedSettingsNotice = (text) => {
 	if (typeof text === 'undefined') {
-		text = __( 'Settings Saved', 'complianz-gdpr' );
+		text = __( 'Settings saved', 'complianz-gdpr' );
 	}
 	toast.success(text);
 }

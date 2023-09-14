@@ -1,9 +1,9 @@
 import {useEffect, useState} from "@wordpress/element";
-import {UseSyncData} from './SyncData';
+import UseSyncData from './SyncData';
 import Service from './Service';
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 
 const CookieDatabaseSyncControl = () => {

@@ -2,8 +2,7 @@ import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import UseBannerData from "./CookieBannerData";
 import Icon from "../../utils/Icon";
-import {useState, useEffect} from "@wordpress/element";
-import {memo} from 'react';
+import {useState, useEffect, memo} from "@wordpress/element";
 import {__experimentalConfirmDialog as ConfirmDialog} from "@wordpress/components";
 
 const ResetBannerButton = () => {

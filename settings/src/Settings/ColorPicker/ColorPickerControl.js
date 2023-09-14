@@ -1,4 +1,4 @@
-import {useState, useEffect, memo} from 'react';
+import {useState, useEffect, memo} from "@wordpress/element";
 import ColorPicker from '../Inputs/ColorPicker';
 import * as Popover from '@radix-ui/react-popover';
 import './ColorPicker.scss'

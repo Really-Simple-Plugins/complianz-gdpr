@@ -42,13 +42,13 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			if ( !cmplz_has_region('us') && !cmplz_datarequests_active() ) {
 				return;
 			}
-
-			wp_enqueue_script( 'cmplz-dnsmpd', cmplz_url . "DNSMPD/script.min.js", array( 'jquery' ), cmplz_version, true );
+			$v = filemtime(cmplz_path . "DNSMPD/script.min.js");
+			wp_enqueue_script( 'cmplz-dnsmpd', cmplz_url . "DNSMPD/script.min.js", array( 'jquery' ), $v, true );
 			wp_localize_script(
 					'cmplz-dnsmpd',
 					'cmplz_datarequests',
 					array(
-							'url' => get_rest_url().'complianz/v1/datarequests',
+							'url' => get_rest_url('complianz/v1/datarequests'),
 					)
 			);
 		}
@@ -275,12 +275,12 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 
 				<label for="cmplz_datarequest_firstname" class="cmplz-first-name"><?php echo esc_html(__('Name','complianz-gdpr'))?><input type="search" class="dnsmpd-firstname" value="" placeholder="your first name" id="cmplz_datarequest_firstname" name="cmplz_datarequest_firstname"></label>
 				<div>
-					<label for="cmplz_datarequest_name"><?php echo esc_html(__('Name','complianz-gdpr') )?></label>
+					<label for="cmplz_datarequest_name"><?php esc_html_e(__('Name','complianz-gdpr') )?></label>
 					<input type="text" required value="" placeholder="<?php echo esc_html(__('Your name','complianz-gdpr') )?>" id="cmplz_datarequest_name" name="cmplz_datarequest_name">
 				</div>
 				<div>
-					<label for="cmplz_datarequest_email"><?php echo esc_html(__('Email','complianz-gdpr'))?></label>
-					<input type="email" required value="" placeholder="<?php echo esc_html(__('email@email.com','complianz-gdpr'))?>" id="cmplz_datarequest_email" name="cmplz_datarequest_email">
+					<label for="cmplz_datarequest_email"><?php esc_html_e(__('Email','complianz-gdpr'))?></label>
+					<input type="email" required value="" placeholder="email@email.com" id="cmplz_datarequest_email" name="cmplz_datarequest_email">
 				</div>
 
 				<?php
@@ -293,7 +293,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 						</label>
 					</div>
 				<?php } ?>
-				<input type="button" id="cmplz-datarequest-submit" name="cmplz-datarequest-submit" value="<?php echo esc_html(__('Send','complianz-gdpr'))?>">
+				<input type="button" id="cmplz-datarequest-submit" name="cmplz-datarequest-submit" value="<?php esc_html_e(__('Send','complianz-gdpr'))?>">
 			</form>
 
 			<style>

@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import ThirdPartyElement from "./ThirdPartyElement";
 
 const ThirdPartyControl = (props) => {

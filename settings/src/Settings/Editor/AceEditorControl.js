@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from "react";
+import {memo, useEffect, useState} from "@wordpress/element";;
 import AceEditor from "react-ace";
 import './AceEditor.scss';
 import "ace-builds/src-noconflict/mode-css";
@@ -40,7 +40,7 @@ const AceEditorControl = (props) => {
 			{scriptWarning &&
 				<div className="cmplz-error-text">
 					<Icon name={'error'} size={13} color={'red'}/>
-					<p>{__('Write your javascript without wrapping it in script tags.', 'complianz-gdpr')}</p>
+					<p>{__('Write your JavaScript without wrapping it in script tags.', 'complianz-gdpr')}</p>
 				</div>
 			}
 			{ <AceEditor

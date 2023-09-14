@@ -925,24 +925,6 @@ function cmplz_check_upgrade() {
 		cmplz_add_manage_privacy_capability();
 	}
 
-	//update for TCF GVL 3
-	//regenerate css
-	//set manage consent tab
-	if ( $prev_version && version_compare( $prev_version, '6.5.4', '<' ) ) {
-		if ( cmplz_tcf_active() ) {
-			$banners = cmplz_get_cookiebanners();
-			if ( $banners ) {
-				foreach ( $banners as $banner_item ) {
-					$banner                         = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-					$banner->manage_consent_options = 'show-everywhere';
-					$banner->dismiss['show']        = '1';
-					$banner->save();
-				}
-			}
-		}
-	}
-
-
 	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
 		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
 		//create new options array
@@ -960,7 +942,6 @@ function cmplz_check_upgrade() {
 		$license = get_site_option( 'cmplz_license_key' );
 		if ( $license && !is_multisite() ) {
 			$options[ 'license' ] = $license;
-//				delete_site_option( 'cmplz_license_key' );
 		}
 
 		$migrate_js_enabled = false;
@@ -975,7 +956,7 @@ function cmplz_check_upgrade() {
 				$field = cmplz_get_field( $id );
 				//tcf fields are not loaded yet, because the upgrade is not completed, so iab_enabled will always return false.
 				//as a workaround we check if the id starts with tcf_
-				if (strpos($id, 'tcf_') !==false){
+				if ( strpos($id, 'tcf_') !== false ){
 					$field = $id==='tcf_lspact' ? ['type'=>'radio'] : ['type'=>'multicheckbox'];
 				}
 				if ( $field ) {

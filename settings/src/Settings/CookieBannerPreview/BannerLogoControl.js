@@ -2,7 +2,7 @@ import SelectInput from "../Inputs/SelectInput";
 import UseBannerData from "./CookieBannerData";
 import useFields from "../Fields/FieldsData";
 import { __ } from '@wordpress/i18n';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const BannerLogoControl = (props) => {
 	const { customizeUrl, selectedBanner, bannerDataLoaded} = UseBannerData();

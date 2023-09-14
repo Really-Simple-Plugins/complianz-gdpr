@@ -1,7 +1,7 @@
 import {
 	useState,
 	useRef,
-} from 'react';
+} from "@wordpress/element";
 import Popover from '@mui/material/Popover';
 
 // date range picker and date fns
@@ -9,7 +9,7 @@ import { DateRangePicker } from 'react-date-range';
 import {format, parseISO, startOfYear, endOfYear, addYears, addDays, addMonths, isSameDay, startOfDay, endOfDay, startOfMonth, endOfMonth} from 'date-fns'
 import Icon from '../utils/Icon';
 import {__} from '@wordpress/i18n';
-import {useDate} from './useDateStore';
+import useDate from './useDateStore';
 
 const DateRange = () => {
 	const [anchorEl, setAnchorEl] = useState(null);

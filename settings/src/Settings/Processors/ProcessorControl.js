@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import ProcessorElement from "./ProcessorElement";
 import useFields from "../../Settings/Fields/FieldsData";
-import {memo, useEffect} from "react";
+import {memo, useEffect} from "@wordpress/element";
 import useProcessingAgreementsData from "../ProcessingAgreements/ProcessingAgreementsData";
 
 const ProcessorControl = (props) => {

@@ -2,7 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import useFields from "../Fields/FieldsData";
 import {useEffect} from "@wordpress/element";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import useMenu from "../../Menu/MenuData";
 import Icon from "../../utils/Icon";
 import useFinishData from "./useFinishData";

@@ -308,12 +308,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 						<p><?php echo wp_kses_post($warning['open']) ?>
 						<?php
 							if (isset($warning['url'])) {
-								$target = str_contains( $warning['url'], 'complianz.io' ) ? 'target="_blank"' : '';
-								?><a href="<?php echo esc_url_raw($warning['url'])?>" <?php echo $target?>><?php _e("Read more", "complianz-gdpr")?></a><?php
+								$target = strpos( $warning['url'], 'complianz.io' )!==false ? 'target="_blank"' : '';
+								?><a href="<?php echo esc_url_raw($warning['url'])?>" <?php echo $target?>><?php esc_html_e(__("Read more", "complianz-gdpr"))?></a><?php
 							}
 						?>
 						</p>
-						<br /><button class="cmplz-btn-dismiss-notice button-secondary"><?php _e("Dismiss","complianz-gdpr")?></button>
+						<br /><button class="cmplz-btn-dismiss-notice button-secondary"><?php esc_html_e(__("Dismiss","complianz-gdpr"))?></button>
 					</div>
 				</div>
 			</div>

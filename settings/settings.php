@@ -55,7 +55,7 @@ function cmplz_fix_duplicate_menu_item() {
 		window.addEventListener("load", () => {
 			let cmplzMain = document.querySelector('li.wp-has-submenu.toplevel_page_complianz a.wp-first-item');
 			if (cmplzMain) {
-				cmplzMain.innerHTML = cmplzMain.innerHTML.replace('Complianz', '<?php _e( 'Dashboard', 'complianz-gdpr')?>');
+				cmplzMain.innerHTML = cmplzMain.innerHTML.replace('Complianz', '<?php esc_html_e(__( 'Dashboard', 'complianz-gdpr'))?>');
 			}
 		});
 	</script>
@@ -268,8 +268,8 @@ function cmplz_add_option_menu() {
 	$warning_title = esc_attr( cmplz_sprintf( '%s plugin warnings', $warning_count ) );
 	$plus_one = " <span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>" . number_format_i18n( $warning_count ) . "</span></span>";
 	$page_hook_suffix = add_menu_page(
-			__( 'Complianz', 'complianz-gdpr' ),
-			__( 'Complianz', 'complianz-gdpr' ).$plus_one,
+			'Complianz',
+			'Complianz'.$plus_one,
 			apply_filters('cmplz_capability','manage_privacy'),
 			'complianz',
 			'cmplz_settings_page',
@@ -599,7 +599,7 @@ function cmplz_other_plugins_data($slug=false){
 			'website' => 'https://burst-statistics.com/pricing?src=complianz-plugin',
 			'wordpress_url' => 'https://wordpress.org/plugins/burst-statistics/',
 			'upgrade_url' => 'https://burst-statistics.com/pricing?src=cmplz-plugin',
-			'title' => 'Burst Statistics - '. __("Self-hosted, Privacy-friendly analytics tool.", "complianz-gdpr"),
+			'title' => 'Burst Statistics - '. __("Self-hosted and privacy-friendly analytics tool.", "complianz-gdpr"),
 		],
 		[
 			'slug' => 'really-simple-ssl',
@@ -615,7 +615,7 @@ function cmplz_other_plugins_data($slug=false){
 			'create' => admin_url('admin.php?page=terms-conditions'),
 			'wordpress_url' => 'https://wordpress.org/plugins/complianz-terms-conditions/',
 			'upgrade_url' => 'https://complianz.io?src=cmplz-plugin',
-			'title' => 'Complianz - '. __("Terms and Conditions", "complianz-gdpr"),
+			'title' => 'Complianz - '. __("Terms & Conditions", "complianz-gdpr"),
 		],
 	);
 
@@ -816,7 +816,7 @@ if (!function_exists('cmplz_update_option')) {
 		$name             = cmplz_sanitize_title_preserve_uppercase( $name );
 		$type             = cmplz_sanitize_field_type( $type );
 		$value            = cmplz_sanitize_field( $value, $type, $name );
-		$value            = apply_filters( "cmplz_fieldvalue", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
+		$value            = apply_filters( "cmplz_field_value", $value, cmplz_sanitize_title_preserve_uppercase( $name ), $type );
 		$options[ $name ] = $value;
 		$options            = cmplz_maybe_add_source_option( $options, $value, $config_field );
 		$options = apply_filters( 'cmplz_before_save_options', $options, $name, $value, $prev_value, $type );
@@ -863,7 +863,7 @@ if (!function_exists('cmplz_update_option_no_hooks')) {
 		$name             = cmplz_sanitize_title_preserve_uppercase( $name );
 		$type             = cmplz_sanitize_field_type( $type );
 		$value            = cmplz_sanitize_field( $value, $type, $name );
-		$value            = apply_filters( "cmplz_fieldvalue", $value, $name , $type );
+		$value            = apply_filters( "cmplz_field_value", $value, $name , $type );
 		$options[ $name ] = $value;
 		update_option( 'cmplz_options', $options );
 	}

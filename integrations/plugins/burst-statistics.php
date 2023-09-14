@@ -16,7 +16,7 @@ function cmplz_burst_statistics_integration_show_compile_statistics_notice(array
 	$notices[] = [
 			'field_id' => 'install-burst',
 			'label' => 'default',
-			'title' => __( "Burst Statistics", 'complianz-gdpr' ),
+			'title' => "Burst Statistics",
 			'text'  => __( "Burst Statistics will be configured automatically.", "complianz-gdpr" ),
 	];
 

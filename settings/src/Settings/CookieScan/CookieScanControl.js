@@ -1,14 +1,13 @@
-import {useEffect, useState} from "@wordpress/element";
+import {useEffect, useState, memo} from "@wordpress/element";
 import * as cmplz_api from "../../utils/api";
 import {UseCookieScanData} from './CookieScanData';
 import { __ } from '@wordpress/i18n';
 import Panel from "../Panel";
 import Icon from "../../utils/Icon";
-import {UseSyncData} from "../Cookiedatabase/SyncData";
+import UseSyncData from "../Cookiedatabase/SyncData";
 import useMenu from "../../Menu/MenuData";
 import useFields from "../Fields/FieldsData";
-import {Details} from "./Details";
-import {memo} from "react";
+import Details from "./Details";
 import useProgress from "../../Dashboard/Progress/ProgressData";
 
 const CookieScanControl = () => {

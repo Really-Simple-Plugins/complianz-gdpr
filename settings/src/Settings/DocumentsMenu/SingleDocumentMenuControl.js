@@ -1,6 +1,6 @@
 import {UseMenuData} from "./MenuData";
 import { __ } from '@wordpress/i18n';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const SingleDocumentMenuControl = (props) => {
 	const { menu, updateMenu } = UseMenuData();

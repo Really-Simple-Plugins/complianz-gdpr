@@ -183,26 +183,26 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function enqueue_assets() {
-			$min      = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+			$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			if ( $this->is_complianz_page() ) {
 				$load_css = cmplz_get_option( 'use_document_css' );
 				if ( $load_css ) {
+					$v = filemtime(cmplz_path . "assets/css/document$min.css");
 					wp_register_style( 'cmplz-document',
 						cmplz_url . "assets/css/document$min.css", false,
-						cmplz_version );
+						$v );
 					wp_enqueue_style( 'cmplz-document' );
 				} else {
-                    wp_register_style( 'cmplz-document-grid',
-                        cmplz_url . "assets/css/document-grid$min.css", false,
-                        cmplz_version );
+					$v = filemtime(cmplz_path . "assets/css/document-grid$min.css");
+                    wp_register_style( 'cmplz-document-grid', cmplz_url . "assets/css/document-grid$min.css", false, $v );
                     wp_enqueue_style( 'cmplz-document-grid' );
                 }
-
 				add_action( 'wp_head', array( $this, 'inline_styles' ), 100 );
 			}
 
 			if ( cmplz_get_option( 'disable_cookie_block' ) !== 1 ) {
-				wp_register_style( 'cmplz-general', cmplz_url . "assets/css/cookieblocker$min.css", false, cmplz_version );
+				$v = filemtime(cmplz_path . "assets/css/cookieblocker$min.css");
+				wp_register_style( 'cmplz-general', cmplz_url . "assets/css/cookieblocker$min.css", false, $v );
 				wp_enqueue_style( 'cmplz-general' );
 			}
 

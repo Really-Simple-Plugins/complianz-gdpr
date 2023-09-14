@@ -1,10 +1,9 @@
 import AsyncSelect from 'react-select/async';
 import { __ } from '@wordpress/i18n';
 import * as cmplz_api from "../utils/api";
-import {useState, useEffect, useRef} from "@wordpress/element";
+import {useState, useEffect, useRef, memo} from "@wordpress/element";
 import {useUpdateEffect} from 'react-use';
 import Icon from "../utils/Icon";
-import { memo } from 'react';
 import useFields from "./Fields/FieldsData";
 import RadioGroup from './Inputs/RadioGroup';
 

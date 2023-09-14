@@ -302,7 +302,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			if ( ! class_exists('COMPLIANZ_TC') ) {
 				$page_data = [];
 				$page_data['type'] = 'terms-conditions';
-				$page_data['title'] = __("Terms and Conditions",'complianz-gdpr');
+				$page_data['title'] = __("Terms & Conditions",'complianz-gdpr');
 				$page_data['permalink'] = false;
 				$page_data['exists'] = false;
 				$page_data['required'] = false;
@@ -946,12 +946,12 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			<select name="cmplz_document_status">
 				<option value="sync" <?php echo $sync === 'sync'
 					? 'selected="selected"'
-					: '' ?>><?php _e( "Synchronize document with Complianz",
-						"complianz-gdpr" ); ?></option>
+					: '' ?>><?php esc_html_e(__( "Synchronize document with Complianz",
+						"complianz-gdpr" )); ?></option>
 				<option value="unlink" <?php echo $sync === 'unlink'
 					? 'selected="selected"'
-					: '' ?>><?php _e( "Edit document and stop synchronization",
-						"complianz-gdpr" ); ?></option>
+					: '' ?>><?php esc_html_e(__( "Edit document and stop synchronization",
+						"complianz-gdpr" )); ?></option>
 			</select>
 			<?php
 

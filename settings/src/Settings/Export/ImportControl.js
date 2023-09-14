@@ -6,7 +6,7 @@ import useFields from "../../Settings/Fields/FieldsData";
 import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 import {upload} from "../../utils/upload";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import './Import.scss';
 import useMenu from "../../Menu/MenuData";
 

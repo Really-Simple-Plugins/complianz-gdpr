@@ -5,7 +5,7 @@ import usePrivacyStatementData from "./PluginsPrivacyStatementsData";
 import SinglePrivacyStatement from "./SinglePrivacyStatement";
 import { __ } from '@wordpress/i18n';
 import Placeholder from "../../Placeholder/Placeholder";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const PluginsPrivacyStatementsControl = () => {
 	const [privacyStatementGenerated, setPrivacyStatementGenerated] = useState(true);

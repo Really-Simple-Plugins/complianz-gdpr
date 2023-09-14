@@ -1,6 +1,6 @@
-import {useEffect} from "react";
+import {useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import './debug.scss'
 
 import useDebugData from "./useDebugData";

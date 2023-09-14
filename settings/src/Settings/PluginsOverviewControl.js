@@ -3,7 +3,7 @@ import {useState, useEffect} from "@wordpress/element";
 import Panel from "./Panel";
 import useIntegrations from "./Integrations/IntegrationsData";
 import useFields from "./Fields/FieldsData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 
 const PluginsOverviewControl = () => {
 	const { services, integrationsLoaded, plugins, fetchIntegrationsData} = useIntegrations();

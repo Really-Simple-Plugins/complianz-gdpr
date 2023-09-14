@@ -131,7 +131,7 @@ function cmplz_wizard_fields($fields){
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
 				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
-				[ 'label' => __('Url','complianz-gdpr'), 'value'=> 'url' ],
+				[ 'label' => 'URL', 'value'=> 'url' ],
 			],
 			'label'    => __( "Cookie Policy", 'complianz-gdpr' ),
 			'required' => true,
@@ -152,7 +152,7 @@ function cmplz_wizard_fields($fields){
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
 				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
-				[ 'label' => __('Url','complianz-gdpr'), 'value'=> 'url' ],
+				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
 			'required' => true,
@@ -172,7 +172,7 @@ function cmplz_wizard_fields($fields){
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
 				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
-				[ 'label' => __('Url','complianz-gdpr'), 'value'=> 'url' ],
+				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
 			'required' => true,
@@ -190,7 +190,7 @@ function cmplz_wizard_fields($fields){
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
 				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
-				[ 'label' => __('Url','complianz-gdpr'), 'value'=> 'url' ],
+				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
 			'label'    => __( "Disclaimer", 'complianz-gdpr' ),
@@ -349,7 +349,7 @@ function cmplz_wizard_fields($fields){
 			'disabled' => true,
 			'help' => [
 				'label' => 'default',
-				'title' => __( "Records of consent", 'complianz-gdpr' ),
+				'title' => __( "Records of Consent", 'complianz-gdpr' ),
 				'text'  => __( "Enabling this option will extend our Proof of Consent method with user consent registration.", 'complianz-gdpr' ).' '.
 					__( "This option is recommended in combination with TCF and will store consent data in your database.", 'complianz-gdpr' ),
 				'url'   => 'https://complianz.io/records-of-consent',

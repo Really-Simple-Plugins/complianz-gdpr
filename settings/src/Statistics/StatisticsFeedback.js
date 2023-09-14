@@ -3,7 +3,7 @@ import useStatistics from "./StatisticsData";
 import { useState, useEffect } from "@wordpress/element";
 import Icon from "../utils/Icon";
 import { __ } from "@wordpress/i18n";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 const StatisticsFeedback = () => {
 
 	const {fields, getFieldValue, addHelpNotice} = useFields();

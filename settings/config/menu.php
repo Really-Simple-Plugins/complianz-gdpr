@@ -139,7 +139,7 @@ function cmplz_menu() {
 						],
 						[
 							'id' => 'cookie-descriptions',
-							'title' => __('Cookiedatabase.org', 'complianz-gdpr' ),
+							'title' => 'Cookiedatabase.org',
 							'intro' => __( 'Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org.','complianz-gdpr') ." "
 							. __('We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.','complianz-gdpr'),
 							'helpLink' => 'https://complianz.io/our-cookiedatabase-a-new-initiative/',
@@ -260,11 +260,11 @@ function cmplz_menu() {
 				[
 					'id'       => 'settings-cd',
 					'group_id' => 'settings-cd',
-					'title'    => __( 'Cookiedatabase.org',  'complianz-gdpr'  ),
+					'title'    => 'Cookiedatabase.org',
 					'groups'   => [
 						[
 							'id'       => 'settings-cd',
-							'title'    => __( 'Cookiedatabase.org',  'complianz-gdpr'  ),
+							'title'    => 'Cookiedatabase.org',
 
 						],
 					],
@@ -464,7 +464,7 @@ function cmplz_menu() {
 						[
 							'id'       => 'security-privacy',
 							'title'    => __( 'Privacy Statement',  'complianz-gdpr'  ),
-							'intro'    => __( 'Below text is meant for your Privacy Statement, and is created by using Really Simple SSL. The text is automatically added to the Privacy Statement from Complianz Premium.',  'complianz-gdpr'  ),
+							'intro'    => __( 'Below text is meant for your Privacy Statement, and is created by using Really Simple SSL. In Complianz Premium the text will be automatically added to the Privacy Statement.',  'complianz-gdpr'  ),
 						],
 					],
 				],

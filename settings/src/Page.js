@@ -8,7 +8,7 @@ import Menu from "./Menu/Menu";
 import PagePlaceholder from "./Placeholder/PagePlaceholder";
 import MenuPlaceholder from "./Placeholder/MenuPlaceholder";
 import SettingsPlaceholder from "./Placeholder/SettingsPlaceholder";
-import {UseSyncData} from "./Settings/Cookiedatabase/SyncData";
+import UseSyncData from "./Settings/Cookiedatabase/SyncData";
 import useProgress from "./Dashboard/Progress/ProgressData";
 import PreloadFields from "./Settings/Fields/PreloadFields";
 import {setLocaleData} from "@wordpress/i18n";

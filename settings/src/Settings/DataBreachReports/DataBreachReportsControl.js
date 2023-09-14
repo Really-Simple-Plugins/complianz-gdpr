@@ -2,7 +2,7 @@ import useDataBreachReportsData from "./DataBreachReportsData";
 import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import CheckboxGroup from '../Inputs/CheckboxGroup';
 
 const DataBreachReportsControl = () => {

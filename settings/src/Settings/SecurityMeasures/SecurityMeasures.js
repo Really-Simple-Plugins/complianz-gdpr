@@ -1,6 +1,6 @@
-import {useEffect} from "react";
+import {useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import './measures.scss'
 
 import useSecurityMeasuresData from "./useSecurityMeasuresData";
@@ -46,7 +46,7 @@ const SecurityMeasures = () => {
 	}
 
 	const measuresList = {
-		vulnerability_detection : __("Vulnerability detection",'complianz-gdpr'),
+		vulnerability_detection : __("Vulnerability Detection",'complianz-gdpr'),
 		recommended_headers : __("HTTP Strict Transport Security and related security headers",'complianz-gdpr'),
 		ssl : __("TLS / SSL",'complianz-gdpr'),
 		hardening : __("Recommended site hardening features",'complianz-gdpr'),

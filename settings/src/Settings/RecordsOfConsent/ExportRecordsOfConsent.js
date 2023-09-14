@@ -3,7 +3,7 @@ import {useState, useEffect} from "@wordpress/element";
 import useRecordsOfConsentData from "./useRecordsOfConsentData";
 import Icon from "../../utils/Icon";
 import useDate from "../../DateRange/useDateStore";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 const ExportRecordsOfConsent = () => {
 	const { noData, startExport, exportLink, fetchExportRecordsOfConsentProgress, generating, progress} = useRecordsOfConsentData();
 	const [DateRange, setDateRange] = useState(null);

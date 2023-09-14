@@ -567,6 +567,8 @@ function cmplz_enable_category(category, service) {
 		cmplz_run_tm_event(category);
 	}
 
+
+
 	service = typeof service !== 'undefined' ? service : 'do_not_match';
 	if ( category === '' ) category = 'do_not_match';
 
@@ -2064,10 +2066,10 @@ function cmplz_setup_clean_interval(){
  */
 function cmplz_clear_storage(item){
 	if (typeof (Storage) !== "undefined" ) {
-		if ( localStorage.item ) {
+		if ( localStorage.getItem(item) ) {
 			localStorage.removeItem(item);
 		}
-		if ( sessionStorage.item ) {
+		if ( sessionStorage.getItem(item) ) {
 			sessionStorage.removeItem(item);
 		}
 	}

@@ -3,7 +3,7 @@ import {useState, useEffect} from "@wordpress/element";
 import useDatarequestsData from "./useDatarequestsData";
 import Icon from "../../utils/Icon";
 import useDate from "../../DateRange/useDateStore";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 const ExportDatarequests = () => {
 	const { noData, startExport, exportLink, fetchExportDatarequestsProgress, generating, progress} = useDatarequestsData();
 	const [DateRange, setDateRange] = useState(null);

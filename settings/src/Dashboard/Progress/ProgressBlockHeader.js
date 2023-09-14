@@ -24,11 +24,11 @@ const ProgressHeader = () => {
 			<div className="cmplz-grid-item-controls">
 				<div className={"cmplz-task-switcher-container cmplz-active-filter-"+filter}>
 				<a href="#" className={"cmplz-task-switcher cmplz-all-tasks"} onClick={() => setFilter('all')} data-filter="all">
-					{ __( "All tasks", "really-simple-ssl" ) }
+					{ __( "All tasks", "complianz-gdpr" ) }
 				<span className="rsssl_task_count">({all_task_count})</span>
 				</a>
 					<a href="#" className={"cmplz-task-switcher cmplz-remaining-tasks"} onClick={() => setFilter('remaining')} data-filter="remaining">
-                    	{ __( "Remaining tasks", "really-simple-ssl" )}
+                    	{ __( "Remaining tasks", "complianz-gdpr" )}
 						<span className="rsssl_task_count">({open_task_count})</span>
 					</a>
 				</div>

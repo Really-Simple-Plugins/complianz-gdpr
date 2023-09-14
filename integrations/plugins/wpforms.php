@@ -20,7 +20,7 @@ function cmplz_wpforms_get_plugin_forms( $input_forms ) {
 	if ( is_array( $forms ) ) {
 		$forms = wp_list_pluck( $forms, "post_title", "ID" );
 		foreach ( $forms as $id => $title ) {
-			$input_forms[ 'wpf_' . $id ] = $title . " " . __( '(WP Forms)', 'complianz-gdpr' );
+			$input_forms[ 'wpf_' . $id ] = $title . " " . '(WP Forms)';
 		}
 	}
 

@@ -18,7 +18,7 @@ function cmplz_support_fields($fields){
 			'label'   => __( "Enable safe mode", 'complianz-gdpr' ),
 			'help' => [
 				'label' => 'default',
-				'title' => __( "Safe mode", 'complianz-gdpr' ),
+				'title' => __( "Safe Mode", 'complianz-gdpr' ),
 				'text'  => __( "When safe mode is enabled, all integrations will be disabled temporarily, please read the instructions to debug the issue or ask support if needed.", 'complianz-gdpr'),
 				'url'   => 'https://complianz.io/debugging-issues/',
 			],

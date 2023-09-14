@@ -295,9 +295,11 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			}
 			if ( get_option('cmplz_post_scribe_required') ) {
 				$deps[] = 'cmplz-postscribe';
-				wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), cmplz_version, true );
+				$v = filemtime(cmplz_path . "assets/js/postscribe.min.js");
+				wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), $v, true );
 			}
-			wp_enqueue_script( 'cmplz-cookiebanner', cmplz_url . "cookiebanner/js/complianz$minified.js", $deps, cmplz_version, true );
+			$v = filemtime(cmplz_path . "cookiebanner/js/complianz$minified.js");
+			wp_enqueue_script( 'cmplz-cookiebanner', cmplz_url . "cookiebanner/js/complianz$minified.js", $deps, $v, true );
 			wp_localize_script( 'cmplz-cookiebanner', 'complianz', $cookiesettings );
 		}
 

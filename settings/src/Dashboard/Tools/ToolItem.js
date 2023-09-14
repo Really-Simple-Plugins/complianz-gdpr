@@ -1,7 +1,7 @@
 import useFields from "../../Settings/Fields/FieldsData";
 import useIntegrations from "../../Settings/Integrations/IntegrationsData";
 import Icon from "../../utils/Icon";
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "@wordpress/element";;
 import { __ } from '@wordpress/i18n';
 import useLicense from "../../Settings/License/LicenseData";
 

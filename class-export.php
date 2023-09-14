@@ -27,7 +27,7 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 			if ( isset( $_GET['action'] )
 			     && $_GET['action'] === 'cmplz_export_settings'
 			) {
-				$settings = is_multisite() ? get_site_option( 'cmplz_options' ) : get_option( 'cmplz_options' );
+				$settings = get_option( 'cmplz_options' );
 				//disable A/B testing
 				$settings['a_b_testing'] = false;
 				$settings['a_b_testing_buttons'] = false;
@@ -46,7 +46,8 @@ if ( ! class_exists( "cmplz_export_settings" ) ) {
 				}
 
 				$json = json_encode($args);
-				$json = $json . '#--COMPLIANZ--#' . strlen( utf8_decode( $json ) );
+				$json = $json . '#--COMPLIANZ--#';
+
 				ob_clean();
 				header( 'Content-disposition: attachment; filename=complianz-export.json' );
 				header( 'Content-type: application/json' );

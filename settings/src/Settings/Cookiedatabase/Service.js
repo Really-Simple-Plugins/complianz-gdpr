@@ -1,12 +1,12 @@
 import Cookie from './Cookie';
 import Panel from "../Panel";
-import {UseSyncData} from "./SyncData";
+import UseSyncData from "./SyncData";
 import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import useFields from "../../Settings/Fields/FieldsData";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 import SelectInput from "../Inputs/SelectInput";
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "@wordpress/element";;
 
 const ServiceDetails = (service) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();

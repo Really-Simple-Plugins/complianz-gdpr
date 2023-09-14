@@ -72,7 +72,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'subtitle' => 'Marketing/Tracking cookies', 'cookie policy',
+		'subtitle' => 'Marketing/Tracking cookies',
 		'content' => 'Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.',
 //		'condition' => array(
 //			'uses_ad_cookies' => 'no',
@@ -82,15 +82,15 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 
 	array(
 		'subtitle' => 'Social media',
-		'content' => 'On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy',
+		'content' => 'On our website, we have included content to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks. This content is embedded with code derived from third parties and places cookies. This content might store and process certain information for personalized advertising.',
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'EMPTY',
 		),
 	),
 	array(
-		'subtitle' => 'Social media', 'Legal document cookie policy:paragraph title',
-		'content' => cmplz_sprintf('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', 'Legal document cookie policy', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
+		'subtitle' => 'Social media',
+		'content' => cmplz_sprintf('On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising.', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]', '[comma_socialmedia_on_site]'),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -98,7 +98,8 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.' . ' '.cmplz_sprintf( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(),'[comma_socialmedia_on_site]' ),
+		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.' . ' '.
+		             cmplz_count_socialmedia()===1 ? cmplz_sprintf( '%s is located in the United States.','[comma_socialmedia_on_site]') : cmplz_sprintf('%s are located in the United States.', '[comma_socialmedia_on_site]' ),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -151,7 +152,7 @@ $this->pages['uk']['cookie-statement']['document_elements'] = array(
 	),
 
 	'enable-disable-removal-cookies' => array(
-		'title' => 'Enabling/disabling and deleting cookies', 'Legal document cookie policy:paragraph title',
+		'title' => 'Enabling/disabling and deleting cookies',
 		'content' => 'You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser.',
 	),
 

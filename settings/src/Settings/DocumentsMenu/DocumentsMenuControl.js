@@ -6,7 +6,8 @@ import MenuPerDocument from "./MenuPerDocument";
 import MenuPerDocumentType from "./MenuPerDocumentType";
 import Placeholder from '../../Placeholder/Placeholder';
 import SingleDocumentMenuControl from "./SingleDocumentMenuControl";
-import {memo, useState} from "react";
+import {memo} from "@wordpress/element";
+import {useState} from "@wordpress/element";
 
 /**
  * Render a help notice in the sidebar

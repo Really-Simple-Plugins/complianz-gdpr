@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import useIntegrations from "./IntegrationsData";
 import AceEditorControl from "../Editor/AceEditorControl";
 import SwitchInput from "../../Settings/Inputs/SwitchInput";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import Category from "./Category"
 import Placeholder from "./Placeholder"
 import Dependency from "./Dependency"

@@ -2,7 +2,7 @@ import {useState, useEffect} from "@wordpress/element";
 import CheckboxGroup from '../Inputs/CheckboxGroup';
 import { __ } from '@wordpress/i18n';
 import useProofOfConsentData from "./useProofOfConsentData";
-import {memo} from "react";
+import {memo} from "@wordpress/element";
 import './ProofOfConsentControl.scss';
 
 const ProofOfConsentControl = () => {
@@ -228,7 +228,7 @@ const ProofOfConsentControl = () => {
 					paginationPerPage={paginationPerPage}
 					onChangePage={handlePageChange}
 					paginationState={pagination}
-					noDataComponent={<div className="cmplz-no-documents">{__("No documents", "really-simple-ssl")}</div>}
+					noDataComponent={<div className="cmplz-no-documents">{__("No documents", "complianz-gdpr")}</div>}
 					persistTableHead
 					theme="really-simple-plugins"
 					customStyles={customStyles}

@@ -1,9 +1,9 @@
 import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 import Panel from "../Panel";
-import {UseSyncData} from "./SyncData";
+import UseSyncData from "./SyncData";
 import useFields from "../../Settings/Fields/FieldsData";
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "@wordpress/element";;
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 import SelectInput from "../Inputs/SelectInput";
 
