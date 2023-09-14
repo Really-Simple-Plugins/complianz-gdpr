@@ -1291,7 +1291,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 				unset($page_links['all']);
 			}
-
 			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );
 			$disable_cookiebanner = $this->disable_cookiebanner || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
 			$output = array(
@@ -1311,7 +1310,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'soft_cookiewall'      => boolval($this->soft_cookiewall),
 				'dismiss_on_scroll'    => boolval($this->dismiss_on_scroll),
 				'cookie_expiry'        => cmplz_get_value( 'cookie_expiry' ),
-				'url'                  => get_rest_url('complianz/v1/'),
+				'url'                  => get_rest_url( null, 'complianz/v1/' ),
 				'locale'               => 'lang='.substr( get_locale(), 0, 2 ).'&locale='.get_locale(),
 				'set_cookies_on_root'  => cmplz_get_value( 'set_cookies_on_root' ),
 				'cookie_domain'        => COMPLIANZ::$cookie_admin->get_cookie_domain(),
