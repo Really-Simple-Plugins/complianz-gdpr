@@ -1271,7 +1271,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'soft_cookiewall'      => (bool) $this->soft_cookiewall,
 				'dismiss_on_scroll'    => (bool) $this->dismiss_on_scroll,
 				'cookie_expiry'        => cmplz_get_option( 'cookie_expiry' ),
-				'url'                  => get_rest_url('complianz/v1/'),
+				'url'                  => get_rest_url(null, 'complianz/v1/'),
 				'locale'               => 'lang='.substr( get_locale(), 0, 2 ).'&locale='.get_locale(),
 				'set_cookies_on_root'  => cmplz_get_option( 'set_cookies_on_root' ),
 				'cookie_domain'        => COMPLIANZ::$banner_loader->get_cookie_domain(),
