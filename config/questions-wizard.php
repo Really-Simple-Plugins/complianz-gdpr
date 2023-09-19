@@ -810,7 +810,7 @@ $this->fields += array(
 			'options'                 => array(
 				'yes' => __("Yes", "complianz-gdpr"),
 				'no' => __("No", "complianz-gdpr"),
-				'tcf' => __("Enable TCF", "complianz-gdpr").cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
+				'tcf' => __("Enable TCF and Google CMP", "complianz-gdpr").cmplz_upgrade_to_premium('https://complianz.io/pricing/'),
 			),
 			'default'                 => 'no',
 			'label'                   => __( "Are any of your advertising cookies used to show personalized ads?", 'complianz-gdpr' ),
