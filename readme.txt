@@ -186,7 +186,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.5.4 =
-* September 12th, 2023
+* September 20th, 2023
 * Improvement: upgrade MPDF version to 8.1.3
 * Improvement: prefix 'request' to prevent conflicts with weglot
 * Fix: bug in Divi Recaptcha integration
