@@ -169,7 +169,7 @@ function cmplz_load_warning_types() {
 			'success_conditions'  => array(
 				'NOT cmplz_get_console_errors',
 			),
-			'open' => __( 'Javascript errors are detected on the front-end of your site. This may break the consent banner functionality.', 'complianz-gdpr' )
+			'open' => __( 'JavaScript errors are detected on the front-end of your site. This may break the consent banner functionality.', 'complianz-gdpr' )
 			          . '<br />'.__("Last error in the console:", "complianz-gdpr")
 			          .'<div style="color:red">'
 			          . cmplz_get_console_errors()

@@ -155,13 +155,15 @@ function cmplz_get_chunk_translations() {
 	$files = scandir(cmplz_path . 'settings/build');
 	$json_translations = [];
 	foreach ($files as $file) {
-		if (strpos($file, '.js') === false) {
+		if ( strpos($file, '.js') === false ) {
 			continue;
 		}
+
 		$chunk_handle = 'cmplz-chunk-'.$file;
 		//temporarily register the script, so we can get a translations object.
 		wp_register_script( $chunk_handle, plugins_url('build/'.$file, __FILE__), [], true );
-		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr' );
+        $path = defined('cmplz_premium') ? cmplz_path . 'languages' : '';
+		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr', $path );
 		if (!empty($localeData)){
 			$json_translations[] = $localeData;
 		}
@@ -925,7 +927,8 @@ function cmplz_rest_api_fields_get(): array {
 	if ( ob_get_length() ) {
 		ob_clean();
 	}
-    return apply_filters('cmplz_rest_api_fields_get', $output);
+
+	return apply_filters('cmplz_rest_api_fields_get', $output);
 }
 
 /**

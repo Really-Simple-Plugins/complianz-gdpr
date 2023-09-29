@@ -1,45 +1,22 @@
-import { useState, useEffect, memo } from 'react';
-import useFields from "../../Settings/Fields/FieldsData";
-
-let SimpleRichTextEditor;
-const toolbarConfig = {
-	display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'HISTORY_BUTTONS'],
-	INLINE_STYLE_BUTTONS: [
-		{ label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
-		{ label: 'Italic', style: 'ITALIC' },
-		{ label: 'Underline', style: 'UNDERLINE' },
-	],
-	BLOCK_TYPE_BUTTONS: [
-		{ label: 'UL', style: 'unordered-list-item' },
-		{ label: 'OL', style: 'ordered-list-item' },
-	],
-}
-
-const Editor = ({ value, onChange }) => {
-	const [editorState, setEditorState] = useState(null);
-	const [isEditorLoaded, setEditorLoaded] = useState(false);
+import { useState, useEffect, memo } from "@wordpress/element";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import useFields from "../Fields/FieldsData";
+const Editor = ({id, value, onChange }) => {
+	const [editorState, setEditorState] = useState(value);
+	const {getFieldValue, updateField, setChangedField} = useFields();
 
 	useEffect(() => {
-		import('react-rte').then(({default: loadedSimpleRichTextEditor}) => {
-			SimpleRichTextEditor = loadedSimpleRichTextEditor;
-			setEditorState(loadedSimpleRichTextEditor.createValueFromString(value, 'html'));
-			setEditorLoaded(true);
-		});
-	}, []);
-
-	const {changedFields} = useFields();
-
-	useEffect(() => {
-		if (isEditorLoaded) {
-			setEditorState(SimpleRichTextEditor.createValueFromString(value, 'html'));
+		if (!editorState) {
+			console.log("editor state");
+			return;
 		}
-	}, [changedFields, isEditorLoaded]);
-
-	useEffect(() => {
-		if (!editorState) return;
 
 		const typingTimer = setTimeout(() => {
-			onChange(editorState.toString('html'));
+			console.log("set new editor state");
+			updateField(id, editorState);
+			setChangedField(id, editorState);
+			onChange(editorState);
 		}, 500);
 
 		return () => {
@@ -47,20 +24,24 @@ const Editor = ({ value, onChange }) => {
 		};
 	}, [editorState]);
 
-	function editorChangeHandler(editorValue) {
-		setEditorState(editorValue)
-	}
-
-	if (!isEditorLoaded) {
-		return null;  // or return a loader
-	}
+	useEffect(() => {
+		setEditorState(value);
+	},[getFieldValue(id)] );
 
 	return (
-			<SimpleRichTextEditor
-				value={editorState}
-				onChange={editorChangeHandler}
-				toolbarConfig={toolbarConfig}
-			/>
+			<>
+				<CKEditor
+					editor={ ClassicEditor }
+					config={{
+						toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+					}}
+					data={editorState}
+					onChange={ ( event, editor ) => {
+						const data = editor.getData();
+						setEditorState(data)
+					} }
+				/>
+			</>
 	)
 }
 

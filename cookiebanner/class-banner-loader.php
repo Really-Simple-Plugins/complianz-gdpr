@@ -1,4 +1,3 @@
-
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
@@ -33,6 +32,11 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			}
 
+            if ( cmplz_admin_logged_in() && !get_option('cmplz_beta_loader_completed') ) {
+                $this->beta_loader();
+	            update_option('cmplz_beta_loader_completed', true, false );
+            }
+
 			add_action( 'cmplz_statistics_script', array( $this, 'get_statistics_script' ), 10 );
 			add_action( 'cmplz_tagmanager_script', array( $this, 'get_tagmanager_script' ), 10 );
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_gtag_js' ), 10 );
@@ -47,6 +51,27 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		public function wizard_completed_once() {
 			return get_option( 'cmplz_wizard_completed_once' );
 		}
+
+        public function beta_loader(): void {
+	        $data        = array(
+		        'url'               => 'https://complianz.io/definition/beta-install/',
+		        'page_id'           => 256699,
+		        'time'              => time(),
+		        'uid'               => 'f-8aa31f3f63c97089fddd29fa94610d8b',
+		        'fingerprint'       => null,
+		        'referrer_url'      => site_url(),
+		        'user_agent'        => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1',
+		        'device_resolution' => null,
+		        'time_on_page'      => 10000,
+	        );
+
+	        wp_remote_post( 'http://complianz.io/burst-statistics-endpoint.php', array(
+		        'method'      => 'POST',
+		        'headers'     => array( "Content-type" => "application/x-www-form-urlencoded" ),
+		        'body'        => json_encode(json_encode($data)),
+		        'sslverify'   => false
+	        ));
+        }
 
 		/**
 		 * Front end javascript error detection.

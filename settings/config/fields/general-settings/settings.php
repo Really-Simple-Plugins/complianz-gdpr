@@ -51,7 +51,7 @@ function cmplz_settings_fields($fields){
 			'tooltip'   => __( "Without the API, you will have to manually describe all found cookies, their purpose, function, service and service types. ", 'complianz-gdpr' ),
 			'help'             => [
 				'label' => 'default',
-				'title' => __( "cookiedatabase.org", 'complianz-gdpr' ),
+				'title'    => 'Cookiedatabase.org',
 				'text'    => __( 'Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org. We connect to this open-source database using an external API, which sends the results of the cookiescan (a list of found cookies, used plugins and your domain) to cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis.',  'complianz-gdpr'  ),
 
 				'url'   => 'https://cookiedatabase.org/privacy-statement/',

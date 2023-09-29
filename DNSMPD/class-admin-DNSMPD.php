@@ -22,6 +22,11 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 			return self::$_this;
 		}
 
+		public function sanitize_status($status){
+			$statuses = array('open', 'resolved', 'all');
+			if (in_array($status, $statuses)) return $status;
+			return 'open';
+		}
 		/**
 		 * Get a list of processors
 		 * @param array $data
@@ -42,42 +47,49 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 				$search = $data['search'] ?? false;
 				$order = $data['order'] ?? 'ASC';
 				$orderby = $data['orderBy'] ?? 'id';
+				$status = $data['status'] ?? 'open';
 				$offset  = $per_page * ( $page - 1 );
 				$args = array(
 					'number'  => $per_page,
 					'offset'  => $offset,
 					'order'   => $order,
-					'orderby' => $orderby
+					'orderby' => $orderby,
+					'status' => $this->sanitize_status( $status)
 				);
+
 
 				if ( is_email( $search ) ) {
 					$args['email'] = $search;
 				} else {
 					$args['name'] = $search;
 				}
-
 				$records  = $this->get_requests( $args );
 				foreach ($records as $key => $record ) {
 					$records[ $key ]->type = $this->get_request_type( $record );
 					$records[ $key ]->request_date = date_i18n( get_option( 'date_format' ), $record->request_date );;
 				}
 				$open_args = $args;
-				$open_args['resolved'] = false;
+				$open_args['status'] = 'open';
 				$data = [
 					'records' => $records,
 					'totalRecords' => $this->count_requests($args),
 					'totalOpen' => $this->count_requests($open_args),
 				];
+				return $data;
 			} else if ($action==='delete_datarequests') {
 				$records = $request->get_param('records');
 				foreach ($records as $record) {
 					$this->delete($record['ID']);
 				}
+				$data = [];
 			} else if ($action==='resolve_datarequests') {
 				$records = $request->get_param('records');
 				foreach ($records as $record) {
+
 					$this->resolve($record['ID']);
 				}
+				$data = [];
+
 			} else if ( $action === 'export_datarequests' ) {
 				$data = $request->get_params();
 				$dateStart = $data['startDate'] ?? false;
@@ -169,7 +181,10 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 			$sql        = "SELECT * from {$wpdb->prefix}cmplz_dnsmpd WHERE request_date>0 ";
 			$sql     .= $args['end_date'] ? $wpdb->prepare( " AND request_date> %s AND request_date < %s", (int) $args['start_date'], (int) $args['end_date'] ) : "";
 			$sql     .= $args['search'] ? " AND (name like='%".esc_sql( $args['search'])."%' OR email like='%".esc_sql( $args['search'])."%' )" : "";
-			$sql .= isset($args['resolved']) ? $wpdb->prepare( " AND resolved = %d ", (int) $args['resolved'] ) : "";
+//			$sql .= isset($args['resolved']) ? $wpdb->prepare( " AND resolved = %d ", (int) $args['resolved'] ) : "";
+			if ( 'all' !== $args['status'] ) {
+				$sql .= $wpdb->prepare( " AND resolved = %d ", $args['status']==='resolved' ? 1 : 0 );
+			}
 			$limit   = (int) $args['number'];
 			$orderby = $args['orderby'] ?? 'ID';
 			$order = $args['order'] ?? 'ASC';

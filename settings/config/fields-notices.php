@@ -95,16 +95,6 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 			];
 		}
 
-		if (  !cmplz_uses_only_functional_cookies() && cmplz_can_run_cookie_blocker()) {
-			$notices[] = [
-				'field_id' => 'used_cookies',
-				'label'    => 'default',
-				'title'    => __( "Cookie blocker activated", 'complianz-gdpr' ),
-				'text'     => __( "Because your site uses third-party cookies, the cookie blocker is now activated. If you experience issues on the front-end of your site due to blocked scripts, you can disable specific services or plugin integrations in the integrations section, or you can disable the cookie blocker entirely in the last step of the wizard",
-					'complianz-gdpr' ),
-			];
-		}
-
 		if ( COMPLIANZ::$banner_loader->site_shares_data() ) {
 			$notices[] = [
 				'field_id' => 'data_disclosed_us',
@@ -114,16 +104,6 @@ function cmplz_field_notices(array $data, string $action, WP_REST_Request $reque
 					'complianz-gdpr' ),
 			];
 		}
-		// Aert Hulsebos - Dubbele melding, bijna gelijke conditie
-		// if ( COMPLIANZ::$banner_loader->site_shares_data() ) {
-		// 	$notices[] = [
-		// 		'field_id' => 'data_sold_us',
-		// 		'label'    => 'default',
-		// 		'title'    => __( "Data sharing", 'complianz-gdpr' ),
-		// 		'text'     => __( "The site scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'",
-		// 			'complianz-gdpr' ),
-		// 	];
-		// }
 		if ( COMPLIANZ::$banner_loader->uses_google_tagmanager() ) {
 			$notices[] = [
 				'field_id' => 'category_all',

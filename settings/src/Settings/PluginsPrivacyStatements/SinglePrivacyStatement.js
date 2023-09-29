@@ -19,10 +19,10 @@ const SinglePrivacyStatement = (props) => {
 		);
 	}
 
-	const addPolicyHandler = (text, e) => {
+	const addPolicyHandler = (title, text, e) => {
 		e.preventDefault();
 		let newText = getFieldValue('custom_privacy_policy_text');
-		newText += text;
+		newText += '<h1>'+title+'</h1>'+text;
 		updateField('custom_privacy_policy_text', newText);
 		setChangedField('custom_privacy_policy_text', newText);
 	}
@@ -30,7 +30,7 @@ const SinglePrivacyStatement = (props) => {
 	const Icons = () => {
 		return (
 			<>
-				<button className={'cmplz-button-icon'} onClick = { (e) => addPolicyHandler(props.plugin.policy_text, e) }>
+				<button className={'cmplz-button-icon'} onClick = { (e) => addPolicyHandler(props.plugin.plugin_name, props.plugin.policy_text, e) }>
 					<Icon tooltip={__( "Add to annex of Privacy Statement", "complianz-gdpr" )} name = 'plus'  />
 				</button>
 

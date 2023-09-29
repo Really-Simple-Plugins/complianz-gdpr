@@ -9,6 +9,7 @@ import {UseMenuData} from './DocumentsMenu/MenuData';
 import UseBannerData from './CookieBannerPreview/CookieBannerData';
 import useProgress from '../Dashboard/Progress/ProgressData';
 import SettingsPlaceholder from '../Placeholder/SettingsPlaceholder';
+import ErrorBoundary from '../utils/ErrorBoundary';
 
 /**
  * Renders the selected settings
@@ -194,8 +195,9 @@ const Settings = () => {
 			{isExploding && ConfettiExplosion && <div className="cmplz-confetti"><ConfettiExplosion zIndex={999999}/></div>}
 			<div className="cmplz-wizard-settings cmplz-column-2">
 				{groups.map((group, i) =>
-					<SettingsGroup key={i} index={i} group={group}
-												 fields={selectedFields}/>)
+					<ErrorBoundary key={"groups-"+i} fallback={"Could not load: Banner preview"}>
+						<SettingsGroup key={i} index={i} group={group} fields={selectedFields}/>
+					</ErrorBoundary>)
 				}
 				<div className="cmplz-grid-item-footer-container">
 					<ScrollProgress/>
@@ -276,11 +278,10 @@ const Settings = () => {
 					</div>
 				</div>
 				{helpNotices.map(
-					(field, i) => <Help key={i} noticesExpanded={noticesExpanded}
-															help={field} fieldId={field.id}/>)}
+					(field, i) => <ErrorBoundary key={"field-"+i} fallback={"Could not load: Help notices"}><Help key={i} noticesExpanded={noticesExpanded} help={field} fieldId={field.id}/></ErrorBoundary>)}
 			</div>
 			{selectedMainMenuItem === 'banner' && CookieBannerPreview &&
-				<CookieBannerPreview/>}
+				<ErrorBoundary fallback={"Could not load: Banner preview"}><CookieBannerPreview/></ErrorBoundary>}
 		</>
 	);
 

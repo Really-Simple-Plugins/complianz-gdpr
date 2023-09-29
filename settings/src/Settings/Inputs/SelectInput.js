@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo} from "@wordpress/element";
 import * as Select from '@radix-ui/react-select';
 import Icon from '../../utils/Icon';
 import { __ } from '@wordpress/i18n';

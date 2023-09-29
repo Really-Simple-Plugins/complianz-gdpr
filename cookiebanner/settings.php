@@ -667,7 +667,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 				'help'             => [
 					'label' => 'default',
 					'title' => __( "Custom CSS", 'complianz-gdpr' ),
-					'text'  => __( 'You can add additional custom CSS here. For tips and CSS lessons, check out our documentation', 'complianz-gdpr' ),
+					'text'  => __( 'You can add additional custom CSS here. For tips and CSS lessons, check out our documentation.', 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/?s=css',
 				],
 				'condition_action' => 'disable',

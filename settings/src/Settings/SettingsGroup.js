@@ -5,7 +5,7 @@ import useLicense from "./License/LicenseData";
 import {useEffect,useState} from '@wordpress/element';
 import useFields from './Fields/FieldsData';
 import UseBannerData from "./CookieBannerPreview/CookieBannerData";
-
+import ErrorBoundary from "../utils/ErrorBoundary";
 /**
  * Render a grouped block of settings
  */
@@ -93,7 +93,7 @@ const SettingsGroup = (props) => {
 				<h3 className="cmplz-h4">{activeGroup.title}</h3>
 				{regions.length>0 && <div className="cmplz-grid-item-controls">
 					{regions.map((region, i) =>
-						<div key={i}><img className="cmplz-settings-region" src={cmplz_settings.plugin_url+'/assets/images/'+region+'.svg'} /></div>
+						<div key={i}><img className="cmplz-settings-region" src={cmplz_settings.plugin_url+'/assets/images/'+region+'.svg'}  alt="region"/></div>
 					)}
 				</div>}
 
@@ -104,7 +104,7 @@ const SettingsGroup = (props) => {
 			<div className="cmplz-grid-item-content">
 				{activeGroup.intro && <div className="cmplz-settings-block-intro" dangerouslySetInnerHTML={{__html:activeGroup.intro}}></div>}
 				{Field && selectedFields.map((field, i) =>
-					<Field key={field.id} field={field} highLightField={highLightField} />)
+					<ErrorBoundary key={"field-"+field.id} fallback={"Could not load field "+field.id}><Field key={field.id} field={field} highLightField={highLightField} /></ErrorBoundary>)
 				}
 			</div>
 			{ disabled && <div className="cmplz-locked">
@@ -117,8 +117,7 @@ const SettingsGroup = (props) => {
 				</div>
 			</div>}
 			{ subMenu.id==='banner' && !bannerDataLoaded && <div className="cmplz-locked">
-				<div className="cmplz-locked-overlay">
-				</div>
+				<div className="cmplz-locked-overlay"></div>
 			</div>}
 		</div>
 	)

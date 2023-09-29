@@ -143,14 +143,13 @@ class cmplz_onboarding {
 	public function maybe_redirect_to_settings_page() {
 		if ( get_transient('cmplz_redirect_to_settings_page' ) ) {
 			delete_transient('cmplz_redirect_to_settings_page' );
+			if ( ! get_option('cmplz_onboarding_dismissed') && ! isset( $_GET['onboarding'] ) ) {
+				update_option( 'cmplz_onboarding_dismissed', true, false );
+				wp_redirect( add_query_arg( [ 'onboarding' => 1 ], cmplz_admin_url() ) );
+				exit;
+			}
 			if ( !isset($_GET['page']) || $_GET['page'] !== 'complianz' ) {
-				$onboarding_dismissed = get_option('cmplz_onboarding_dismissed');
-				if ( !$onboarding_dismissed ) {
-					update_option('cmplz_onboarding_dismissed', true, false);
-					wp_redirect( add_query_arg(['onboarding' =>1], cmplz_admin_url()) );
-					exit;
-				}
-				wp_redirect( add_query_arg(array('page' => 'complianz'), cmplz_admin_url() ) );
+				wp_redirect( add_query_arg( array( 'page' => 'complianz' ), cmplz_admin_url() ) );
 				exit;
 			}
 		}

@@ -27,7 +27,6 @@ function cmplz_abtesting_fields($fields){
 			'menu_id'                 => 'ab-testing',
 			'group_id'                => 'statistics-settings',
 			'source'   => 'settings',
-			'step'     => 'general',
 			'type'     => 'checkbox',
 			'label'    => __( "Enable A/B testing", 'complianz-gdpr' ),
 			'premium'          => [

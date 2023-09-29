@@ -24,19 +24,19 @@ const CookieDatabaseSyncControl = () => {
 		let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 		if ( !useCdbApi ) {
 			setDisabled(true) ;
-			let explanation = __("You have opted out of the use of the Cookiedatabase.org synchronisation.", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
+			let explanation = __("You have opted out of the use of the Cookiedatabase.org synchronization.", "complianz-gdpr");
+			addHelpNotice('cookiedatabase_sync', 'warning', explanation, 'Cookiedatabase', 'complianz-gdpr');
 		} else if ( !curlExists ) {
 			setDisabled(true) ;
 			let explanation = __("CURL is not enabled on your site, which is required for the Cookiedatabase sync to function.", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
+			addHelpNotice('cookiedatabase_sync', 'warning', explanation, 'Cookiedatabase', 'complianz-gdpr');
 		} else if ( errorMessage!=='' ) {
 			setDisabled(true) ;
-			addHelpNotice('cookiedatabase_sync', 'warning', errorMessage, __('Cookiedatabase', 'complianz-gdpr') );
+			addHelpNotice('cookiedatabase_sync', 'warning', errorMessage, 'Cookiedatabase', 'complianz-gdpr');
 		} else if ( !hasSyncableData ) {
 			setDisabled(true);
 			let explanation = __("Synchronization disabled: All detected cookies and services have been synchronised.", "complianz-gdpr");
-			addHelpNotice('cookiedatabase_sync', 'warning', explanation, __('Cookiedatabase', 'complianz-gdpr') );
+			addHelpNotice('cookiedatabase_sync', 'warning', explanation, 'Cookiedatabase', 'complianz-gdpr');
 		} else if ( syncDataLoaded ) {
 			if ( cookieCount === 0) {
 				setNoCookieNoticeShown(true);

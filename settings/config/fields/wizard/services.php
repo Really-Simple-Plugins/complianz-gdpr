@@ -98,12 +98,17 @@ function cmplz_services_fields( $fields ) {
 				'react_conditions' => [
 					'relation' => 'AND',
 					[
-						'regions' => ['eu'],
 						'thirdparty_services_on_site' =>'google-fonts'
 					]
 				],
 				'label'     => __( "Will you self-host Google Fonts?", 'complianz-gdpr' ),
 				'comment_status'     => 'warning',
+				'server_conditions'  => [
+					'relation' => 'AND',
+					[
+						'cmplz_uses_optin()'  => true,
+					]
+				],
 			],
 			[
 				'id'               => 'block_hubspot_service',

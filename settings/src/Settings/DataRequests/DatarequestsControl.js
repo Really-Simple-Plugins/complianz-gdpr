@@ -14,16 +14,32 @@ const progressComponent = () => {
 }
 
 const DatarequestsControl = () => {
-	const paginationPerPage = 10;
-	const [ pagination, setPagination] = useState({});
-	const [ indeterminate, setIndeterminate] = useState(false);
-	const [ orderBy, setOrderBy] = useState('ID');
-	const [ order, setOrder] = useState('DESC');
 	const [ entirePageSelected, setEntirePageSelected ] = useState( false );
 	const [timer, setTimer] = useState(null)
-	const { records, searchValue, setSearchValue, deleteRecords, recordsLoaded, fetchData,resolveRecords, totalRecords, fetching} = useDatarequestsData();
-	const [ btnDisabled, setBtnDisabled ] = useState( '' );
-	const [ selectedRecords, setSelectedRecords ] = useState( [] );
+    const {
+        records,
+        searchValue,
+        setSearchValue,
+        deleteRecords,
+        recordsLoaded,
+        fetchData,
+        status,
+        setStatus,
+        resolveRecords,
+        totalRecords,
+        fetching,
+        paginationPerPage,
+        pagination,
+        setPagination,
+        orderBy,
+        setOrderBy,
+        order,
+        setOrder,
+        selectedRecords,
+		setSelectedRecords,
+		setIndeterminate,
+		indeterminate,
+    } = useDatarequestsData();
 	const [DataTable, setDataTable] = useState(null);
 	useEffect( () => {
 		import('react-data-table-component').then(({ default: DataTable }) => {
@@ -80,6 +96,13 @@ const DatarequestsControl = () => {
 		}, 500)
 
 		setTimer(newTimer)
+	}
+
+	const handleStatusFilter = (status) => {
+		setStatus(status);
+		const newTimer = setTimeout(() => {
+			fetchData(paginationPerPage, 1, orderBy, order);
+		}, 500)
 	}
 
 	const handlePerRowsChange = async (newPerPage, page) => {
@@ -188,13 +211,18 @@ const DatarequestsControl = () => {
 	let data = [];
 	filteredRecords.forEach(record => {
 		let recordCopy = {...record}
-		recordCopy.selectControl = <CheckboxGroup value={selectedRecords.includes(recordCopy.ID)} options={{true: ''}} onChange={(value) => onSelectRecord(value, recordCopy.ID)} />
+		recordCopy.selectControl = <CheckboxGroup disabled={fetching} value={selectedRecords.includes(recordCopy.ID)} options={{true: ''}} onChange={(value) => onSelectRecord(value, recordCopy.ID)} />
 		data.push(recordCopy);
 	});
 	return (
 		<>
 			<div className="cmplz-table-header">
 				<div className="cmplz-table-header-controls">
+					<select value={status} onChange={(e) => handleStatusFilter(e.target.value)}>
+						<option value='all'>{__('All',"complianz-gdpr")}</option>
+						<option value='open'>{__('Open',"complianz-gdpr")}</option>
+						<option value='resolved'>{__('Resolved',"complianz-gdpr")}</option>
+					</select>
 					<input className="cmplz-datatable-search" type="text" placeholder={__("Search", "complianz-gdpr")} value={searchValue} onChange={ ( e ) => handleSearch(e.target.value) } />
 				</div>
 			</div>
@@ -204,8 +232,8 @@ const DatarequestsControl = () => {
 					{selectedRecords.length>1 && __("%s items selected", "complianz-gdpr").replace("%s", selectedRecords.length)}
 					{selectedRecords.length===1 && __("1 item selected", "complianz-gdpr")}
 					<div className="cmplz-selected-document-controls">
-						{records.filter((record) => {return selectedRecords.includes(record.ID) && record.resolved!=1 }).length>0 && <button disabled={btnDisabled} className="button button-default" onClick={() => resolveRecords(selectedRecords)}>{__("Mark as resolved", "complianz-gdpr")}</button> }
-						<button className="button button-default cmplz-reset-button" onClick={() => onDeleteRecords(selectedRecords)}>{__("Delete", "complianz-gdpr")}</button>
+						{records.filter((record) => {return selectedRecords.includes(record.ID) && record.resolved!=1 }).length>0 && <button disabled={fetching} className="button button-default" onClick={() => resolveRecords(selectedRecords)}>{__("Mark as resolved", "complianz-gdpr")}</button> }
+						<button disabled={fetching} className="button button-default cmplz-reset-button" onClick={() => onDeleteRecords(selectedRecords)}>{__("Delete", "complianz-gdpr")}</button>
 					</div>
 				</div>
 			}

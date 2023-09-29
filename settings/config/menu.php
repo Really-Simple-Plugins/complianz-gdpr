@@ -282,7 +282,8 @@ function cmplz_menu() {
 						[
 							'id'       => 'premiumsupport',
 							'title'    => __( 'Support',  'complianz-gdpr'  ),
-							'intro'    => __( 'You will be redirected to our support form, with the needed information, automatically.',  'complianz-gdpr'  ),
+							'intro'    => __( 'You will be redirected to our support form, with the needed information, automatically.',  'complianz-gdpr'  ) . ' '.
+							              cmplz_sprintf(__( 'If you encounter issues, you can also go to the <a href="%s">support</a> form directly.',  'complianz-gdpr'  ), 'https://complianz.io/support'),
 						],
 						[
 							'id'       => 'debugging',

@@ -1,5 +1,5 @@
 import * as RadioGroupRadix from '@radix-ui/react-radio-group';
-import {memo} from 'react';
+import {memo} from "@wordpress/element";
 
 const RadioGroup = ({ label, id, value, onChange, required, defaultValue, disabled, options = {} }) => {
 	return (

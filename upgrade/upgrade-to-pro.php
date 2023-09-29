@@ -369,8 +369,8 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 							<a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
 								<?php esc_html_e(__("Cancel", "complianz-gdpr")) ?>
 							</a>
-							<div class="rsp-error-message rsp-folder rsp-package rsp-install rsp-activate rsp-hidden"><span><?php esc_html_e(__('An Error Occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Install %sManually%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->instructions.'">','</a>'))?></div>
-							<div class="rsp-error-message rsp-license rsp-hidden"><span><?php esc_html_e(__('An Error Occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Check your %slicense%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->account_url.'">','</a>'))?></div>
+							<div class="rsp-error-message rsp-folder rsp-package rsp-install rsp-activate rsp-hidden"><span><?php esc_html_e(__('An error occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Install %sManually%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->instructions.'">','</a>'))?></div>
+							<div class="rsp-error-message rsp-license rsp-hidden"><span><?php esc_html_e(__('An error occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Check your %slicense%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->account_url.'">','</a>'))?></div>
 						</div>
 					</div>
 				</div>

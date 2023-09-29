@@ -129,8 +129,8 @@ function cmplz_wizard_fields($fields){
 			'default'  => 'generated',
 			'type'     => 'document',
 			'options'  => [
-				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
-				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
+				[ 'label' => __('Generated with Complianz','complianz-gdpr'), 'value'=> 'generated' ],
+				[ 'label' => __('Existing Page','complianz-gdpr'), 'value'=> 'custom' ],
 				[ 'label' => 'URL', 'value'=> 'url' ],
 			],
 			'label'    => __( "Cookie Policy", 'complianz-gdpr' ),

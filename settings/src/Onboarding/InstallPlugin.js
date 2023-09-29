@@ -27,11 +27,11 @@ const InstallPlugin = ({plugin, processing}) => {
 			{plugin.description}&nbsp;
 			{ plugin.status==='not-installed' && <a href="#" onClick={(e) => installPlugin(plugin.slug) }>
 				{!plugin.processing && __("Install", "complianz-gdpr")}
-				{plugin.processing && __("installing...", "complianz-gdpr")}
+				{plugin.processing && __("Installing...", "complianz-gdpr")}
 			</a>}
 			{ plugin.status==='installed' && <a href="#" onClick={(e) => activatePlugin(plugin.slug) }>
 				{!plugin.processing && __("Activate", "complianz-gdpr")}
-				{plugin.processing && __("activating...", "complianz-gdpr")}
+				{plugin.processing && __("Activating...", "complianz-gdpr")}
 			</a>}
 			{ plugin.status==='activated' && __("Installed!", "complianz-gdpr")}
 		</div>

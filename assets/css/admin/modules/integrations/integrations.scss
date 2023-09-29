@@ -14,6 +14,10 @@
   display:flex;
   margin-left:auto;
   gap:20px;
+  select {
+    height: 20px;
+    margin-top: 10px;
+  }
 }
 .cmplz-settings-overlay {
   z-index:99;

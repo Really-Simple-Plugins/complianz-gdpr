@@ -27,6 +27,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 
 	// check if there are more options than the loadmore count
 	let loadMoreEnabled = false;
+
 	if (Object.keys(options).length > loadMoreCount) {
 		loadMoreEnabled = true;
 	}
@@ -65,7 +66,7 @@ const CheckboxGroup = ({ indeterminate, label, value, id, onChange, required, di
 				<div
 					key={key}
 					className={`cmplz-checkbox-group__item${
-						!loadMoreExpanded && i > loadMoreCount ? ' cmplz-hidden' : ''
+						!loadMoreExpanded && i > loadMoreCount-1 ? ' cmplz-hidden' : ''
 					}`}
 				>
 					<Checkbox.Root

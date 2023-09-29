@@ -19,7 +19,6 @@ class cmplz_progress {
 		if ( $action === 'dismiss_task' ) {
 			$data = $this->dismiss_task( $request['id'] );
 		}
-
 		if ( $action === 'get_notices' ) {
 			$data = [
 				'notices' => $this->notices(),

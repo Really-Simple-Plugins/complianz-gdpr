@@ -87,7 +87,7 @@ const Onboarding = () => {
 							</svg>
 						</button>
 					</div>
-					{steps[modalStep] === 'plugins' && <p>{__("Take a quick tour to familiarise yourself with Complianz, or discover on your own pace. If you have any questions, let us know, but for now: ","complianz-gdpr")}
+					{steps[modalStep] === 'plugins' && <p>{__("Take a quick tour to familiarize yourself with Complianz, or discover on your own pace. If you have any questions, let us know, but for now: ","complianz-gdpr")}
 						&nbsp;<a href="https://complianz.io/meet-complianz-7/ref/76/?campaign=onboarding-zero" target="_blank">{__("Meet Complianz 7.0","complianz-gdpr")}</a>
 					</p>}
 					{steps[modalStep] === 'email' && <p>{__("We use email notifications to explain important updates in your plugin settings. Add your email address below.","complianz-gdpr")}</p>}

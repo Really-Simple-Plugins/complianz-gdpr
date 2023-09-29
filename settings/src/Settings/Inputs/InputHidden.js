@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo} from "@wordpress/element";
 
 const InputHidden = ({value}) => {
 			return (

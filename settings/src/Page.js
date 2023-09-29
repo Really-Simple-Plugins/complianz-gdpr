@@ -11,7 +11,8 @@ import SettingsPlaceholder from "./Placeholder/SettingsPlaceholder";
 import UseSyncData from "./Settings/Cookiedatabase/SyncData";
 import useProgress from "./Dashboard/Progress/ProgressData";
 import PreloadFields from "./Settings/Fields/PreloadFields";
-import {setLocaleData} from "@wordpress/i18n";
+import {__, setLocaleData} from "@wordpress/i18n";
+import ErrorBoundary from "./utils/ErrorBoundary";
 
 const Page = () => {
 	const {fetchProgressData} = useProgress();
@@ -137,7 +138,7 @@ const Page = () => {
 						<>
 							{Menu && <Menu/>}
 							{!Menu && <MenuPlaceholder />}
-							{Settings && <Settings />}
+							{Settings && <ErrorBoundary fallback={"Could not load:"+' Settings page'}><Settings /></ErrorBoundary>}
 							{!Settings && <SettingsPlaceholder />}
 						</>
 					}

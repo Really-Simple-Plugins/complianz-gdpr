@@ -1,5 +1,5 @@
 import { ChromePicker } from 'react-color';
-import {memo, useState} from 'react';
+import {memo, useState} from "@wordpress/element";
 
 const ColorPicker = ({colorValue, onChangeComplete}) => {
 	const [color, setColor] = useState(colorValue);
