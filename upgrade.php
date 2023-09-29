@@ -743,7 +743,6 @@ function cmplz_check_upgrade() {
 			$dismissed_warnings[] = $warning_id;
 			update_option('cmplz_dismissed_warnings', $dismissed_warnings );
 			delete_transient('complianz_warnings');
-			delete_transient('complianz_warnings_admin_notices');
 		}
 	}
 
@@ -1021,7 +1020,6 @@ function cmplz_check_upgrade() {
 
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
-	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', $new_version, false );
 }

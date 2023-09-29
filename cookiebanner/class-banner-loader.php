@@ -811,14 +811,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 		public function get_cookies( $settings = array() ) {
 			global $wpdb;
-			$table_exists = wp_cache_get('cmplz_cookie_table_exists', 'complianz');
-			if ( !$table_exists ) {
-				$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}cmplz_cookies'" );
-				wp_cache_set('cmplz_cookie_table_exists', $table_exists, 'complianz');
-			}
-			if ( empty( $table_exists ) ) {
-				return array();
-			}
 			$defaults = array(
 					'ignored'           => 'all',
 					'new'               => false,

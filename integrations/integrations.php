@@ -860,6 +860,11 @@ function cmplz_get_service_by_src( $src ) {
  */
 
 function cmplz_maybe_update_css(){
+
+	if ( !cmplz_is_logged_in_rest() ) {
+		return;
+	}
+
 	$integrations_changed = get_option('cmplz_integrations_changed', false );
 	if ( $integrations_changed ) {
 		cmplz_update_all_banners();

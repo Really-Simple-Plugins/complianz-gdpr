@@ -81,7 +81,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				}
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 				delete_transient('complianz_warnings');
-				delete_transient('complianz_warnings_admin_notices');
 			}
 
 			$out = array(
