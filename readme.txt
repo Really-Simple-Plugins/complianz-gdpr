@@ -186,9 +186,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 
 == Changelog ==
 = 6.5.5 =
-* October 4th, 2023
-* Fix: translatable string in Canadian Privacy Statement
-* Fix: do not enable purpose one by default on TCF cookie policy
+* October 12th, 2023
 * Fix: also clear localstorage & sessionstorage with cookie shredder
 * Fix: With only Canada in opt out mode selected, the question 'will you self host Google Fonts' was not visible
 * Improvement: setting a class on the parent div of a placeholder with height inherit resolves css issues on some themes, props @maxineblack
