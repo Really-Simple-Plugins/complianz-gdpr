@@ -6,7 +6,7 @@ Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.3
-Stable tag: 6.5.4
+Stable tag: 6.5.5
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -185,6 +185,15 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 6.5.5 =
+* October 4th, 2023
+* Fix: translatable string in Canadian Privacy Statement
+* Fix: do not enable purpose one by default on TCF cookie policy
+* Fix: also clear localstorage & sessionstorage with cookie shredder
+* Fix: With only Canada in opt out mode selected, the question 'will you self host Google Fonts' was not visible
+* Improvement: setting a class on the parent div of a placeholder with height inherit resolves css issues on some themes, props @maxineblack
+* Fix: compatibility with WP Rocket when some iframes are lazy loaded, but not all.
+
 = 6.5.4 =
 * September 20th, 2023
 * Improvement: upgrade MPDF version to 8.1.3

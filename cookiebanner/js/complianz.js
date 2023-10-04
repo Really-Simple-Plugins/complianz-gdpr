@@ -2167,10 +2167,10 @@ function cmplz_setup_clean_interval(){
  */
 function cmplz_clear_storage(item){
 	if (typeof (Storage) !== "undefined" ) {
-		if ( localStorage.item ) {
+		if ( localStorage.getItem(item) ) {
 			localStorage.removeItem(item);
 		}
-		if ( sessionStorage.item ) {
+		if ( sessionStorage.getItem(item) ) {
 			sessionStorage.removeItem(item);
 		}
 	}

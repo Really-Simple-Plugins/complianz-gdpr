@@ -706,7 +706,7 @@ $this->fields += array(
 			'help'      => cmplz_sprintf( __( "Your site uses Google Fonts. For best privacy compliance, we recommend to self host Google Fonts. To self host, follow the instructions in %sthis article%s", 'complianz-gdpr' ), '<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>' ),
 			'comment'   => __("If you choose 'No', Complianz will block all known Google Fonts sources.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s why self-hosting Google Fonts is recommended.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/self-hosting-google-fonts-for-wordpress/">', '</a>'),
 			'condition' => array( 'thirdparty_services_on_site' => 'google-fonts' ),
-			'callback_condition' => array( 'regions' => ['eu'] ),
+			'callback_condition' => 'cmplz_uses_optin',
 			'label'     => __( "Will you self-host Google Fonts?", 'complianz-gdpr' ),
 			'comment_status'     => 'warning',
 		),
