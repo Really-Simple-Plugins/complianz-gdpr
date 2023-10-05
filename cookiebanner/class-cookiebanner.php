@@ -4,8 +4,9 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 /**
  * Install cookiebanner table
  * */
-
-add_action( 'plugins_loaded', 'cmplz_install_cookiebanner_table', 10 );
+add_action( 'upgrader_process_complete', 'cmplz_install_cookiebanner_table' );
+add_action( 'cmplz_install_tables', 'cmplz_install_cookiebanner_table' );
+//add_action( 'plugins_loaded', 'cmplz_install_cookiebanner_table', 10 );
 function cmplz_install_cookiebanner_table() {
 	//only load on front-end if it's a cron job
 	if ( !is_admin() && !wp_doing_cron() ) {
@@ -136,6 +137,7 @@ function cmplz_install_cookiebanner_table() {
 				$wpdb->query("ALTER TABLE $table_name DROP COLUMN $column;");
 			}
 		}
+		//not preload false: used to check existence of database table.
 		update_option( 'cmplz_cbdb_version', cmplz_version );
 	}
 }
@@ -224,8 +226,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public $logo_options;
 
         function __construct( $ID = false, $set_defaults = true, $load_wysiwyg_options = false ) {
+	        if ( !get_option('cmplz_cbdb_version') ) {
+		        //table not created yet.
+		        return;
+	        }
 			$this->banner_fields = cmplz_add_cookiebanner_settings([]);
-
 	        $this->translation_id = $this->get_translation_id();
 	        $this->ID             = $ID;
 	        $this->set_defaults   = $set_defaults;
@@ -1251,6 +1256,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
+			$page_links = cmplz_get_transient('page_links');
+			if ( !$page_links ) {
+				$page_links = COMPLIANZ::$document->get_page_links();
+				cmplz_set_transient('page_links', $page_links, 10 * MINUTE_IN_SECONDS);
+			}
 
 			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );
 			$disable_cookiebanner = $this->disable_cookiebanner || is_preview() || cmplz_is_pagebuilder_preview() || isset($_GET["cmplz_safe_mode"]);
@@ -1281,7 +1291,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				'tcf_active'           => cmplz_tcf_active(),
 				'placeholdertext'      => COMPLIANZ::$cookie_blocker->blocked_content_text(),
 				'css_file'             => $css_file . '?v='.$this->banner_version.$script_debug,
-				'page_links'           => COMPLIANZ::$document->get_page_links(),
+				'page_links'           => $page_links,
 				'tm_categories'        => COMPLIANZ::$banner_loader->uses_google_tagmanager() || (cmplz_get_option('compile_statistics', false )==='matomo-tag-manager'),
 				'forceEnableStats'     => !COMPLIANZ::$banner_loader->cookie_warning_required_stats( $region ),
 				'preview'              => false,

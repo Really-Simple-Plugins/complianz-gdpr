@@ -217,7 +217,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region ) {
 				$banner_id = cmplz_get_default_banner_id();
-				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
+				$banner    = cmplz_get_cookiebanner( $banner_id );
 				$settings  = $banner->get_front_end_settings();
 				$settings  += $banner->get_html_settings();
 				$settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );

@@ -29,10 +29,25 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_action( 'wp_ajax_cmplz_dismiss_admin_notice', array( $this, 'dismiss_warning' ) );
 			add_action( 'admin_notices', array( $this, 'show_admin_notice' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'insert_dismiss_admin_notice_script' ) );
+			add_action( 'admin_init', array( $this, 'activation' ) );
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		public function activation(){
+			if ( !cmplz_admin_logged_in() ){
+				return;
+			}
+
+			if ( get_option( 'cmplz_run_activation' ) ) {
+				update_option('cmplz_activation_time', time(), false );
+				cmplz_update_option_no_hooks( 'use_cdb_api', 'yes' );
+				COMPLIANZ::$documents_admin->preload_privacy_info();
+				do_action("cmplz_install_tables");
+				delete_option( 'cmplz_run_activation' );
+			}
 		}
 
 		/**
@@ -81,6 +96,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				}
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 				delete_transient('complianz_warnings');
+				delete_transient('complianz_warnings_admin_notices');
 			}
 
 			$out = array(
@@ -351,7 +367,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			if ( cmplz_is_logged_in_rest() ) {
 				$cache = false;
 			}
-
 			$warnings = $cache ? get_transient( 'complianz_warnings'.$admin_notice ) : false;
 			//re-check if there are no warnings, or if the transient has expired
 			if ( ! $warnings ) {

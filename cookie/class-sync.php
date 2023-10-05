@@ -20,11 +20,16 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 
 			add_action( 'admin_init', array( $this, 'ensure_cookies_in_all_languages' ) );
 			add_action( 'admin_init', array( $this, 'do_sync_batch' ) );
-			add_action( 'cmplz_every_hour_hook', array( $this, 'do_sync_batch' ) );
+			add_action( 'cmplz_every_five_minutes_hook', array( $this, 'do_sync_batch' ) );
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		public function do_sync_batch_rest(){
+			if (!cmplz_is_logged_in_rest()) return;
+			$this->do_sync_batch();
 		}
 
 		/**

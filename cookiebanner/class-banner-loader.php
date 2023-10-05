@@ -1,12 +1,11 @@
+
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 if ( ! class_exists( "cmplz_banner_loader" ) ) {
 	class cmplz_banner_loader {
 		private static $_this;
-		public $position;
 		public $cookies = array();
-		public $cookie_settings = array();
 
 		function __construct() {
 			if ( isset( self::$_this ) ) {
@@ -32,16 +31,16 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				add_action( 'wp_ajax_cmplz_store_console_errors', array( $this, 'store_console_errors' ) );
 			}
 
-            if ( cmplz_admin_logged_in() && !get_option('cmplz_beta_loader_completed') ) {
-                $this->beta_loader();
-	            update_option('cmplz_beta_loader_completed', true, false );
-            }
-
 			add_action( 'cmplz_statistics_script', array( $this, 'get_statistics_script' ), 10 );
 			add_action( 'cmplz_tagmanager_script', array( $this, 'get_tagmanager_script' ), 10 );
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_gtag_js' ), 10 );
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_clicky_js' ), 10 );
 			add_filter( 'cmplz_consenttype', array( $this, 'maybe_filter_consenttype' ), 10, 2 );
+
+			if ( cmplz_admin_logged_in() && !get_option('cmplz_beta_loader_completed') ) {
+				$this->beta_loader();
+				update_option('cmplz_beta_loader_completed', true, false );
+			}
 		}
 
 		static function this() {
@@ -52,26 +51,27 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			return get_option( 'cmplz_wizard_completed_once' );
 		}
 
-        public function beta_loader(): void {
-	        $data        = array(
-		        'url'               => 'https://complianz.io/definition/beta-install/',
-		        'page_id'           => 256699,
-		        'time'              => time(),
-		        'uid'               => 'f-8aa31f3f63c97089fddd29fa94610d8b',
-		        'fingerprint'       => null,
-		        'referrer_url'      => site_url(),
-		        'user_agent'        => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1',
-		        'device_resolution' => null,
-		        'time_on_page'      => 10000,
-	        );
 
-	        wp_remote_post( 'http://complianz.io/burst-statistics-endpoint.php', array(
-		        'method'      => 'POST',
-		        'headers'     => array( "Content-type" => "application/x-www-form-urlencoded" ),
-		        'body'        => json_encode(json_encode($data)),
-		        'sslverify'   => false
-	        ));
-        }
+		public function beta_loader(): void {
+			$data        = array(
+				'url'               => 'https://complianz.io/definition/beta-install/',
+				'page_id'           => 256699,
+				'time'              => time(),
+				'uid'               => 'f-8aa31f3f63c97089fddd29fa94610d8b',
+				'fingerprint'       => null,
+				'referrer_url'      => site_url(),
+				'user_agent'        => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1',
+				'device_resolution' => null,
+				'time_on_page'      => 10000,
+			);
+
+			wp_remote_post( 'http://complianz.io/burst-statistics-endpoint.php', array(
+				'method'      => 'POST',
+				'headers'     => array( "Content-type" => "application/x-www-form-urlencoded" ),
+				'body'        => json_encode(json_encode($data)),
+				'sslverify'   => false
+			));
+		}
 
 		/**
 		 * Front end javascript error detection.
@@ -312,13 +312,13 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 */
 		public function enqueue_assets( ) {
 			$minified = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-			$banner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
+			$banner = cmplz_get_cookiebanner( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
 			$cookiesettings = $banner->get_front_end_settings();
 			$deps = array();
 			if ( cmplz_tcf_active() ) {
 				$deps[] = 'cmplz-tcf';
 			}
-			if ( get_option('cmplz_post_scribe_required') ) {
+			if ( cmplz_uses_thirdparty('instagram') && get_option('cmplz_post_scribe_required') ) {
 				$deps[] = 'cmplz-postscribe';
 				$v = filemtime(cmplz_path . "assets/js/postscribe.min.js");
 				wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), $v, true );
@@ -371,7 +371,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				foreach ( $banner_ids  as $banner_id ) {
 					$temp_banner_html = $banner_template;
 					$temp_manage_consent_html = $manage_consent_template;
-					$banner = new CMPLZ_COOKIEBANNER( $banner_id );
+					$banner = cmplz_get_cookiebanner( $banner_id );
 					$cookie_settings = $banner->get_html_settings();
 					foreach($cookie_settings as $fieldname => $value ) {
 						if ( isset($value['text']) ) $value = $value['text'];
@@ -811,81 +811,101 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 		public function get_cookies( $settings = array() ) {
 			global $wpdb;
+			$cookies = $this->cookies;
+			if ( count($cookies) === 0 ) {
+				$cookies = wp_cache_get( 'cmplz_cookies', 'complianz' );
+				if ( ! $cookies ) {
+					$cookies = [];
+					$table_exists = get_option( 'cmplz_cookietable_version' );
+					if ( $table_exists ) {
+						$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies" );
+					}
+					wp_cache_set( 'cmplz_cookies', $cookies, 'complianz', HOUR_IN_SECONDS );
+				}
+				$this->cookies = $cookies;
+			}
+
 			$defaults = array(
-					'ignored'           => 'all',
-					'new'               => false,
-					'language'          => false,
-					'isMembersOnly'     => false,
-					'hideEmpty'         => false,
-					'showOnPolicy'      => 'all',
-					'lastUpdatedDate'   => false,
-					'deleted'           => false,
-					'isOwnDomainCookie' => 'all',
+				'ignored'           => 'all',
+				'new'               => false,
+				'language'          => false,
+				'isMembersOnly'     => false,
+				'hideEmpty'         => false,
+				'showOnPolicy'      => 'all',
+				'lastUpdatedDate'   => false,
+				'deleted'           => false,
+				'isOwnDomainCookie' => 'all',
 			);
 
 			$settings = wp_parse_args( $settings, $defaults );
-
-			$sql = ' 1=1 ';
-
 			if ( $settings['isMembersOnly'] !== 'all' ) {
-				$sql .= ' AND isMembersOnly = '
-				        . $this->bool_string( $settings['isMembersOnly'] );
+				//filter the $cookies array to only get cookies where isMembersOnly === $settings['isMembersOnly']
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->isMembersOnly == $settings['isMembersOnly'];
+				} );
 			}
 
 			if ( $settings['showOnPolicy'] !== 'all' ) {
-				$sql .= ' AND showOnPolicy = '
-				        . $this->bool_string( $settings['showOnPolicy'] );
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->showOnPolicy == $settings['showOnPolicy'];
+				} );
 			}
 
 			if ( $settings['ignored'] !== 'all' ) {
-				$sql .= ' AND ignored = '
-				        . $this->bool_string( $settings['ignored'] );
+				$cookies = array_filter( $cookies, function ( $cookie ) use ( $settings ) {
+					return $cookie->ignored == $settings['ignored'];
+				} );
 			}
 
 			if ( $settings['isOwnDomainCookie'] !== 'all' ) {
-				$sql .= ' AND isOwnDomainCookie = '
-						. $this->bool_string( $settings['isOwnDomainCookie'] );
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->isOwnDomainCookie == $settings['isOwnDomainCookie'];
+				} );
 			}
-
 			if ( ! $settings['language'] ) {
-				$sql .= ' and isTranslationFrom = false ';
+				$cookies = array_filter( $cookies, static function ( $cookie ) {
+					return $cookie->isTranslationFrom == false;
+				} );
 			} else if ($settings['language']!=='all') {
-				$sql .= $wpdb->prepare( ' and language = %s', $settings['language'] );
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->language === $settings['language'];
+				} );
 			}
 
 			if ( $settings['hideEmpty'] ) {
-				$sql .= " AND name <>'' ";
+				$cookies = array_filter( $cookies, static function ( $cookie ) {
+					return $cookie->name !== '';
+				} );
 			}
 
 			if ( !$settings['deleted'] ) {
-				$sql .= " AND deleted != true ";
+				$cookies = array_filter( $cookies, static function ( $cookie ) {
+					return $cookie->deleted != true;
+				} );
 			}
 
 			if ( isset( $settings['sync'] ) ) {
-				$sql .= ' AND sync = ' . $this->bool_string( $settings['sync'] );
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->sync != $settings['sync'];
+				} );
 			}
 
 			if ( $settings['new'] ) {
-				$sql .= $wpdb->prepare( ' AND firstAddDate > %s ',
-					get_option( 'cmplz_cookie_data_verified_date' ) );
+				$cookies = array_filter( $cookies, static function ( $cookie ) {
+					return $cookie->firstAddDate > get_option( 'cmplz_cookie_data_verified_date' );
+				} );
 			}
 			if ( $settings['lastUpdatedDate'] ) {
-				$sql .= $wpdb->prepare( ' AND (lastUpdatedDate < %s OR lastUpdatedDate=FALSE OR lastUpdatedDate=0)', (int) $settings['lastUpdatedDate'] );
+				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
+					return $cookie->lastUpdatedDate < $settings['lastUpdatedDate'] ||   $cookie->lastUpdatedDate===FALSE || $cookie->lastUpdatedDate===0 ;
+				} );
 			}
 
-			//stringyfy select args.
-			$settings_args = empty($settings) ? 'default' : sanitize_title(json_encode($settings));
-			$cookies = wp_cache_get('cmplz_cookies_'.$settings_args, 'complianz');
-			if ( !$cookies || cmplz_admin_logged_in() ){
-				$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies where " . $sql );
-				wp_cache_set('cmplz_cookies_'.$settings_args, $cookies, 'complianz', HOUR_IN_SECONDS);
-			}
 			//make sure service data is added
 			foreach ( $cookies as $index => $cookie ) {
-				$cookie            = new CMPLZ_COOKIE( $cookie->ID );
+				$cookie            = new CMPLZ_COOKIE( $cookie );
 				$cookies[ $index ] = $cookie;
 			}
-
 			return $cookies;
 		}
 

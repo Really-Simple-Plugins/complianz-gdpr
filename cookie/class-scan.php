@@ -14,8 +14,8 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			if ( cmplz_scan_in_progress() ) {
 				add_action( 'wp_print_footer_scripts', array( $this, 'test_cookies' ), PHP_INT_MAX, 2 );
 			}
-			add_action( 'admin_init', array( $this, 'track_cookie_changes' ) );
 
+			add_action( 'cmplz_every_day_hook', array( $this, 'track_cookie_changes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 			add_action( 'admin_footer', array( $this, 'run_cookie_scan' ) );
 			add_filter( 'cmplz_do_action', array( $this, 'get_scan_progress' ), 10, 3 );
@@ -178,8 +178,12 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		 *
 		 * */
 
-		public function run_cookie_scan() {
+		public function run_cookie_scan(): void {
 			if ( ! cmplz_admin_logged_in() ) {
+				return;
+			}
+
+			if ( get_option('cmplz_activation_time') > strtotime('-30 minutes') ) {
 				return;
 			}
 
@@ -195,9 +199,10 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			$last_scan_date = $this->get_last_cookie_scan_date( true );
 			$scan_interval = apply_filters( 'cmplz_scan_interval', 3 );
 			$one_month_ago = strtotime( "-".$scan_interval." month" );
-			if ( $this->scan_complete()
-			     && ( $one_month_ago > $last_scan_date )
-			     && ! $this->automatic_cookiescan_disabled()
+			if (
+			     ( $one_month_ago > $last_scan_date )
+				 && $this->scan_complete()
+			     && !$this->automatic_cookiescan_disabled()
 			) {
 				$this->reset_pages_list();
 			}

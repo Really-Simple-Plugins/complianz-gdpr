@@ -20,7 +20,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			add_action( 'save_post', array( $this, 'clear_shortcode_transients' ), 10, 1 );
 			add_action( 'save_post', array($this, 'register_document_title_for_translations'), 10, 3);
 			add_action( 'upgrader_process_complete', array( $this, 'preload_privacy_info' ) );
-			add_action( 'activated_plugin', array( $this, 'preload_privacy_info' ) );
+			add_action( 'cmplz_install_tables', array( $this, 'preload_privacy_info' ) );
 			add_action( 'admin_init', array( $this, 'add_privacy_info' ) );
 		}
 
@@ -29,7 +29,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		}
 
 		public function preload_privacy_info(){
-			if (!cmplz_user_can_manage()) {
+			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
 
@@ -688,7 +688,6 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			if ( $menu_id===-1 ) {
 				return false;
 			}
-
 			$page_id = $this->get_page_id_for_generic_document( $page_id );
 			$page    = get_post($page_id);
 			//get only custom links

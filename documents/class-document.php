@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 if ( ! class_exists( "cmplz_document" ) ) {
 	class cmplz_document {
 		private static $_this;
-
+		public $is_complianz_page = [];
 		function __construct() {
 			if ( isset( self::$_this ) ) {
 				wp_die( sprintf( '%s is a singleton class and you cannot create a second instance.',
@@ -671,7 +671,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			$active_cookiebanner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
-			$banner = new CMPLZ_COOKIEBANNER($active_cookiebanner_id);
+			$banner = cmplz_get_cookiebanner($active_cookiebanner_id);
 			//some custom elements
 			$html = str_replace( "[cookie_accept_text]", ( $banner->accept_x ?? ''), $html );
 			$html = str_replace( "[cookie_save_preferences_text]", ($banner->save_preferences_x ?? ''), $html );
@@ -1507,6 +1507,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$shortcode = 'cmplz-document';
 			$block     = 'complianz/document';
 			$cookies_shortcode = 'cmplz-cookies';
+			if (isset($this->is_complianz_page[$post_id])) {
+				return $this->is_complianz_page[$post_id];
+			}
 
 			if ( $post_id ) {
 				$post = get_post( $post_id );
@@ -1514,35 +1517,28 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				global $post;
 				$post_id = $post->ID ?? false;
 			}
-
+			//set default
+			$this->is_complianz_page[$post_id] = false;
 			$post_meta = get_post_meta( $post_id, 'cmplz_shortcode', true );
 			if ( $post_meta ) {
-				return true;
-			}
-
-			if ( $post && isset($post->post_content)) {
+				$this->is_complianz_page[$post_id] = true;
+			} else if ( $post && isset($post->post_content)) {
 				//terms conditions has it's own shortcode.
 				if (strpos($post->post_content, '[cmplz-terms-conditions') !== FALSE ) {
-					return false;
+					$this->is_complianz_page[$post_id] = false;
+				} else if (strpos($post->post_content, '[cmplz-consent-area') !== FALSE ) {
+					$this->is_complianz_page[$post_id] =  false;
+				} else if ( cmplz_uses_gutenberg() && has_block( $block, $post ) ) {
+					$this->is_complianz_page[$post_id] = true;
+				} else if ( has_shortcode( $post->post_content, $shortcode ) ) {
+					$this->is_complianz_page[$post_id] = true;
+				} else if ( has_shortcode( $post->post_content, $cookies_shortcode ) ) {
+					$this->is_complianz_page[$post_id] = true;
+				} else if (strpos($post->post_content, '[cmplz-') !== FALSE ) {
+					$this->is_complianz_page[$post_id] = true;
 				}
-				if (strpos($post->post_content, '[cmplz-consent-area') !== FALSE ) {
-					return false;
-				}
-				if ( cmplz_uses_gutenberg() && has_block( $block, $post ) ) {
-					return true;
-				}
-				if ( has_shortcode( $post->post_content, $shortcode ) ) {
-					return true;
-				}
-				if ( has_shortcode( $post->post_content, $cookies_shortcode ) ) {
-					return true;
-				}
-				if (strpos($post->post_content, '[cmplz-') !== FALSE ) {
-					return true;
-				}
-
 			}
-			return false;
+			return $this->is_complianz_page[$post_id];
 		}
 
 		/**
@@ -1589,7 +1585,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 							$matches )
 					) {
 						if ( $matches[1] === $type_region ) {
-							cmplz_set_transient( "cmplz_shortcode_$type-$region", $page->ID, HOUR_IN_SECONDS );
+							cmplz_set_transient( "cmplz_shortcode_$type-$region", $page->ID, WEEK_IN_SECONDS );
 							return $page->ID;
 						}
 					}

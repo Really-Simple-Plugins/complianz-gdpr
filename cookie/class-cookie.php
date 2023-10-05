@@ -6,6 +6,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 	 */
 	class CMPLZ_COOKIE {
 		public $ID = false;
+		public $object = false;
 		public $name;
 
 		/**
@@ -61,7 +62,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		public $language;
 
 		function __construct( $name = false, $language = 'en', $service_name = false ) {
-			if ( is_numeric( $name ) ) {
+			if ( is_object($name) ){
+				$this->name = $name->name;
+				$this->ID = $name->ID;
+				$this->object = $name;
+			} else if ( is_numeric( $name ) ) {
 				$this->ID = (int) $name;
 			} else {
 				$this->name = $this->sanitize_cookie( $name );
@@ -265,7 +270,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				}
 			}
 
-			if ( $this->ID ) {
+			if ($this->object){
+				$cookie = $this->object;
+			} else if ( $this->ID ) {
 				$cookie = wp_cache_get('cmplz_cookie_'.$this->ID, 'complianz');
 				if ( !$cookie ) {
 					$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ", $this->ID ) );
@@ -621,8 +628,8 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 /**
  * Install cookies table
  * */
-
-add_action( 'plugins_loaded', 'cmplz_install_cookie_table' );
+add_action( 'upgrader_process_complete', 'cmplz_install_cookie_table' );
+add_action( 'cmplz_install_tables', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
 	//only load on front-end if it's a cron job
 	if ( !is_admin() && !wp_doing_cron() ) {
@@ -685,6 +692,7 @@ function cmplz_install_cookie_table() {
                 ) $charset_collate;";
 		dbDelta( $sql );
 
+		//don't set to preload false, as we need this one in the get_cookies function.
 		update_option( 'cmplz_cookietable_version', cmplz_version );
 
 	}

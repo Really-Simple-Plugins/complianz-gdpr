@@ -1,6 +1,7 @@
 <?php
 defined( 'ABSPATH' ) or die();
-add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
+add_action( 'upgrader_process_complete', 'cmplz_check_upgrade', 10, 2 );
+add_action( 'cmplz_install_tables', 'cmplz_check_upgrade', 10, 2 );
 
 /**
  * Run an upgrade procedure if the version has changed
@@ -55,7 +56,7 @@ function cmplz_check_upgrade() {
 		if ( cmplz_has_region( 'eu' ) && cmplz_has_region( 'uk' ) ) {
 			$banners = cmplz_get_cookiebanners();
 			foreach ( $banners as $banner ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
+				$banner = cmplz_get_cookiebanner( $banner->ID );
 				$banner->use_categories_optinstats
 				        = $banner->use_categories;
 				$banner->save();
@@ -214,7 +215,7 @@ function cmplz_check_upgrade() {
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner = cmplz_get_cookiebanner( $banner_item->ID );
 				if ( $banner->banner_width % 2 == 1 ) {
 					$banner->banner_width ++;
 				}
@@ -743,6 +744,7 @@ function cmplz_check_upgrade() {
 			$dismissed_warnings[] = $warning_id;
 			update_option('cmplz_dismissed_warnings', $dismissed_warnings );
 			delete_transient('complianz_warnings');
+			delete_transient('complianz_warnings_admin_notices');
 		}
 	}
 
@@ -1013,6 +1015,10 @@ function cmplz_check_upgrade() {
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 			}
 		}
+
+		update_option('cmplz_upgraded_to_7', true, false);
+		//set an activated time, which is used in the cookie scan and geo ip downloads
+		update_option('cmplz_activation_time', strtotime('-1 week'), false);
 	}
 
 	#regenerate cookie policy snapshot.
@@ -1020,6 +1026,7 @@ function cmplz_check_upgrade() {
 
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
+	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
 	update_option( 'cmplz-current-version', $new_version, false );
 }

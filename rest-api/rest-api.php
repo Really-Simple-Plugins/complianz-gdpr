@@ -62,6 +62,7 @@ function cmplz_rest_consented_content( WP_REST_Request $request ) {
 	$post_id = (int) ($request->get_param('post_id'));
 	$block_id = sanitize_title($request->get_param('block_id'));
 	$post = get_post($post_id);
+
 	if ( !$post ) {
 		return '';
 	}
@@ -139,7 +140,7 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
 	//We need this here because the integrations are not loaded yet, so the filter will return empty, overwriting the loaded data.
 	unset( $data["set_cookies"] );
 	$banner_id              = cmplz_get_default_banner_id();
-	$banner                 = new CMPLZ_COOKIEBANNER( $banner_id );
+	$banner                 = cmplz_get_cookiebanner( $banner_id );
 	$data['banner_version'] = $banner->banner_version;
 	$data                   = apply_filters('cmplz_ajax_loaded_banner_data', $data);
 
@@ -197,7 +198,7 @@ function cmplz_rest_api_manage_consent_html( WP_REST_Request $request )
 		if ( preg_match( '/<!-- categories start -->(.*?)<!-- categories end -->/s', $banner_html,  $matches ) ) {
 			$html      = $matches[0];
 			$banner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
-			$banner = new CMPLZ_COOKIEBANNER(  $banner_id );
+			$banner = cmplz_get_cookiebanner(  $banner_id );
 			$cookie_settings = $banner->get_html_settings();
 
 			foreach($cookie_settings as $fieldname => $value ) {

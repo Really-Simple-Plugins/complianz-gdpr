@@ -15,21 +15,11 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			//callback from settings
 			add_action( 'cmplz_finish_wizard', array( $this, 'finish_wizard' ), 10, 1 );
 			add_action( "cmplz_before_save_options", array($this,"before_save_options"), 10, 5 );
-			add_action( "admin_init", array($this,"activation"), 10);
 		}
 
 		static function this() {
 			return self::$_this;
 		}
-
-		public function activation(){
-			if ( get_option( 'cmplz_run_activation' ) ) {
-				cmplz_update_option_no_hooks( 'use_cdb_api', 'yes' );
-				COMPLIANZ::$documents_admin->preload_privacy_info();
-				delete_option( 'cmplz_run_activation' );
-			}
-		}
-
 
 		/**
 		 * On click finish wizard
@@ -109,7 +99,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 				$banners = cmplz_get_cookiebanners();
 				if ( ! empty( $banners ) ) {
 					foreach ( $banners as $banner ) {
-						$banner                 = new CMPLZ_COOKIEBANNER( $banner->ID );
+						$banner                 = cmplz_get_cookiebanner( $banner->ID );
 						$banner->use_categories = 'view-preferences';
 						$banner->save();
 					}

@@ -16,7 +16,7 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 		$data = $request->get_json_params();
 		$fields = $data['fields'] ?? [];
 		$banner_id = $data['banner_id'] ?? 0;
-		$banner = new CMPLZ_COOKIEBANNER($banner_id);
+		$banner = cmplz_get_cookiebanner($banner_id);
 		foreach ( $banner as $property => $value ) {
 			$field_index = array_search( $property, array_column( $fields, 'id' ), true );
 			if ($field_index!==false) {
@@ -70,7 +70,7 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 		$data = $request->get_json_params();
 		$banner_id = $data['banner_id'] ?? cmplz_get_default_banner_id();
 		$fields = $data['fields'];
-		$banner = new CMPLZ_COOKIEBANNER( (int) $banner_id );
+		$banner = cmplz_get_cookiebanner( (int) $banner_id );
 		foreach ($fields as $field ) {
 			if ( property_exists( $banner, $field['id'] )) {
 				$banner->{$field['id']} = $field['value'];
@@ -109,7 +109,7 @@ function cmplz_banner_adjustments_for_wizard_changes( string $name, $value, $pre
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner = cmplz_get_cookiebanner( $banner_item->ID );
 				$banner->message_optin = $banner_text;
 				$banner->save();
 			}
@@ -144,7 +144,7 @@ if ( ! function_exists( 'cmplz_cookiebanner_should_load' ) ) {
 		$needs_cookie_warning = COMPLIANZ::$banner_loader->site_needs_cookie_warning();
 		if ( $check_banner_disabled ) {
 			$default_banner = cmplz_get_default_banner_id();
-			$banner = new CMPLZ_COOKIEBANNER($default_banner);
+			$banner = cmplz_get_cookiebanner($default_banner);
 			return $wizard_completed && $needs_cookie_warning && !$banner->disable_cookiebanner ;
 		}
 
@@ -162,7 +162,7 @@ if ( !function_exists('cmplz_update_all_banners') ) {
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner = cmplz_get_cookiebanner( $banner_item->ID );
 				$banner->save();
 			}
 		}
@@ -254,7 +254,7 @@ function cmplz_check_minimum_one_banner() {
 	//if we have one (active) banner, but it's not default, make it default
 	if ($added_banner) $cookiebanners = cmplz_get_cookiebanners();
 	if ( count( $cookiebanners ) == 1 && ! $cookiebanners[0]->default ) {
-		$banner = new CMPLZ_COOKIEBANNER( $cookiebanners[0]->ID );
+		$banner = cmplz_get_cookiebanner( $cookiebanners[0]->ID );
 		$banner->enable_default();
 	}
 }

@@ -459,13 +459,13 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              *
              * */
 			$blocked_scripts = cmplz_get_transient('cmplz_blocked_scripts');
-			if ( defined('WP_DEBUG') && WP_DEBUG ) {
+			if ( isset($_GET['cmplz_nocache']) ) {
 				$blocked_scripts = false;
 			}
 
 			if ( !$blocked_scripts ) {
 				$blocked_scripts = $this->blocked_scripts();
-				cmplz_set_transient('cmplz_blocked_scripts', $blocked_scripts, 5 * MINUTE_IN_SECONDS );
+				cmplz_set_transient('cmplz_blocked_scripts', $blocked_scripts, 30 * MINUTE_IN_SECONDS );
 			}
 
 			/**

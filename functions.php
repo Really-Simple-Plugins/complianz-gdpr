@@ -2,6 +2,24 @@
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 require_once plugin_dir_path(__FILE__) . 'functions-legacy.php';
 
+global $cmplz_banner;
+if ( !function_exists('cmplz_get_cookiebanner')) {
+	function cmplz_get_cookiebanner($ID = false, $set_defaults = true, $load_wysiwyg_options = false){
+		global $cmplz_banner;
+
+		//try cached data if defaults are used
+		if ( $ID && $set_defaults && !$load_wysiwyg_options ) {
+			$banner = $cmplz_banner[ $ID ] ?? false;
+			if (!$banner){
+				$banner = new CMPLZ_COOKIEBANNER($ID, $set_defaults, $load_wysiwyg_options);
+				$cmplz_banner[ $ID ] = $banner;
+			}
+		} else {
+			$banner = new CMPLZ_COOKIEBANNER($ID, $set_defaults, $load_wysiwyg_options);
+		}
+		return $banner;
+	}
+}
 if ( ! function_exists( 'cmplz_get_option' ) ) {
 	/**
 	 * Get a Really Simple SSL option by name
@@ -581,7 +599,7 @@ if ( ! function_exists( 'cmplz_site_uses_cookie_warning_cats' ) ) {
 	 * @return bool
 	 */
 	function cmplz_site_uses_cookie_warning_cats() {
-		$cookiebanner = new CMPLZ_COOKIEBANNER( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
+		$cookiebanner = cmplz_get_cookiebanner( apply_filters( 'cmplz_user_banner_id',  cmplz_get_default_banner_id() ) );
 		if ( $cookiebanner->use_categories !== 'no'
 		) {
 			return true;
@@ -1354,6 +1372,7 @@ if (!function_exists('cmplz_set_transient')) {
 	 * @return void
 	 */
 	function cmplz_set_transient( string $name, $value, $expiration ): void {
+
 		$transients = get_option( 'cmplz_transients', array() );
 		if ( ! is_array( $transients ) ) {
 			$transients = array();
@@ -1896,11 +1915,10 @@ if ( ! function_exists( 'cmplz_used_cookies' ) ) {
 		$servicesHTML = '';
 		foreach ( $cookies as $serviceID => $serviceData ) {
 			$service    = new CMPLZ_SERVICE( $serviceID, substr( get_locale(), 0, 2 ) );
-
 			//if google fonts is self hosted, don't include in the cookie policy
 			if ( cmplz_get_option('self_host_google_fonts') === 'yes'
 				 && defined('CMPLZ_SELF_HOSTED_PLUGIN_ACTIVE')
-				 && ($serviceID == $google_fonts->ID || $service->isTranslationFrom == $google_fonts->ID) ) {
+			     && ($serviceID == $google_fonts->ID || $service->isTranslationFrom == $google_fonts->ID) ) {
 				continue;
 			}
 			if ( isset($cookie_list['marketing'][COMPLIANZ::$cookie_blocker->sanitize_service_name($service->name)]) ){
@@ -2550,6 +2568,10 @@ if ( ! function_exists( 'cmplz_get_default_banner_id' ) ) {
 	function cmplz_get_default_banner_id() {
 		$banner_id = cmplz_get_transient('cmplz_default_banner_id');
 		if ( !$banner_id ){
+			if ( !get_option('cmplz_cbdb_version') ) {
+				//table not created yet.
+				return 0;
+			}
 			global $wpdb;
 			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cb where cb.default = true" );
 
