@@ -44,7 +44,7 @@ function cmplz_settings_fields($fields){
 			'menu_id'                 => 'settings-cd',
 			'group_id'                => 'settings-cd',
 			'type'      => 'radio',
-			'required'  => true,
+			'required'  => false,
 			'default'   => 'yes',
 			'options'   => COMPLIANZ::$config->yes_no,
 			'label'     => __( "Do you consent to the use of the cookiedatabase.org API?", 'complianz-gdpr' ),

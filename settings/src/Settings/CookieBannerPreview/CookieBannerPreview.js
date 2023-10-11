@@ -270,7 +270,7 @@ const CookieBannerPreview = () => {
 
 		document.addEventListener('click', e => {
 			if ( e.target.closest('.cmplz-manage-consent' ) ) {
-				if (cmplz_banner) cmplz_banner.style.display = 'block';
+				if (cmplz_banner) cmplz_banner.style.removeProperty('display');
 				if (cmplz_manage_consent) cmplz_manage_consent.style.display = 'none';
 			}
 

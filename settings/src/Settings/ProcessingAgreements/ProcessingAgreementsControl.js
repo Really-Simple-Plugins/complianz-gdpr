@@ -182,25 +182,19 @@ const ProcessingAgreementsControl = () => {
 			grow: 6,
 		},
 		{
-			name: __('Edit',"complianz-gdpr"),
-			selector: row => row.editControl,
-			grow: 2,
-			right: true,
-		},
-		{
 			name: __('Region',"complianz-gdpr"),
 			selector: row => <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} />,
 			sortable: true,
 			grow: 2,
 			right: true,
 		},
-		{
-			name: __('Service',"complianz-gdpr"),
-			selector: row => row.service,
-			sortable: true,
-			grow: 2,
-			right: true,
-		},
+		// {
+		// 	name: __('Service',"complianz-gdpr"),
+		// 	selector: row => row.service,
+		// 	sortable: true,
+		// 	grow: 2,
+		// 	right: true,
+		// },
 		{
 			name: __('Date',"complianz-gdpr"),
 			selector: row => row.date,
@@ -217,7 +211,6 @@ const ProcessingAgreementsControl = () => {
 	filteredDocuments.forEach(document => {
 		let documentCopy = {...document}
 		documentCopy.selectControl = <CheckboxGroup value={selectedDocuments.includes(documentCopy.id)} options={{true: ''}} onChange={(value) => onSelectDocument(value,documentCopy.id)} />
-		documentCopy.editControl = <a href="#" onClick={(e) => editDocument(e, documentCopy.id)}>{__("Edit","complianz-gdpr")}</a>
 		data.push(documentCopy);
 	});
 
@@ -235,6 +228,7 @@ const ProcessingAgreementsControl = () => {
 					{selectedDocuments.length>1 && __("%s items selected", "complianz-gdpr").replace("%s", selectedDocuments.length)}
 					{selectedDocuments.length===1 && __("1 item selected", "complianz-gdpr")}
 					<div className="cmplz-selected-document-controls">
+						<button disabled={btnDisabled || selectedDocuments.length>1} className="button button-default" onClick={(e) => editDocument(selectedDocuments[0])}>{__("Edit","complianz-gdpr")}</button>
 						<button disabled={btnDisabled} className="button button-default cmplz-btn-reset" onClick={() => downloadDocuments()}>
 							{__("Download Processing Agreement", "complianz-gdpr")}
 							{downloading && <Icon name = "loading" color = 'grey' />}

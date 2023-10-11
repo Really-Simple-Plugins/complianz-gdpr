@@ -162,40 +162,47 @@ const DatarequestsControl = () => {
 			name: <CheckboxGroup options={{true: ''}} indeterminate={indeterminate} value={entirePageSelected} onChange={(value) => handleSelectEntirePage(value)} />,
 			selector: row => row.selectControl,
 			orderId:'select',
+			grow: 1,
 		},
-		{
-			name: __('User ID',"complianz-gdpr"),
-			selector: row => row.ID,
-			sortable: true,
-			orderId:'ID',
-		},
-		{
-			name: __('Name',"complianz-gdpr"),
-			selector: row => row.name,
-			sortable: true,
-			orderId:'name',
-		},
+		// {
+		// 	name: __('User ID',"complianz-gdpr"),
+		// 	selector: row => row.ID,
+		// 	sortable: true,
+		// 	orderId:'ID',
+		// },
+		// {
+		// 	name: __('Name',"complianz-gdpr"),
+		// 	selector: row => row.name,
+		// 	sortable: true,
+		// 	orderId:'name',
+		// },
 		{
 			name: __('Email',"complianz-gdpr"),
 			selector: row => row.email,
 			sortable: true,
 			orderId:'email',
+			grow: 3,
 		},
 		{
 			name: __('Status',"complianz-gdpr"),
 			selector: row => row.resolved==1 ? __('Resolved',"complianz-gdpr") : __('Open',"complianz-gdpr"),
 			sortable: true,
 			orderId:'resolved',
+			grow: 1,
+
 		},
 		{
 			name: __('Region',"complianz-gdpr"),
 			selector: row => row.region ? <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} /> : '',
 			sortable: true,
+			grow: 1,
 		},
 		{
 			name: __('Date',"complianz-gdpr"),
 			selector: row => row.request_date,
 			sortable: true,
+			grow: 3,
+
 		},
 		{
 			name: __('Data Request',"complianz-gdpr"),
@@ -203,6 +210,7 @@ const DatarequestsControl = () => {
 			sortable: true,
 			orderId:'resolved',
 			right: true,
+			grow: 3,
 		},
 	];
 	let filteredRecords = [...records];

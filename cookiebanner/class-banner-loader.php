@@ -1,4 +1,3 @@
-
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
@@ -1127,7 +1126,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		}
 
 		public function use_cdb_api() {
-			$use_api = cmplz_get_option( 'use_cdb_api' ) === 'yes';
+			$use_api = cmplz_get_option( 'use_cdb_api' ) !== 'no';
 			return apply_filters( 'cmplz_use_cdb_api', $use_api );
 		}
 

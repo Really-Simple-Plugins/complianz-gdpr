@@ -255,7 +255,7 @@ function cmplz_check_upgrade() {
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
 				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-				$sql    = "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = {$banner_item->ID}";
+				$sql    = $wpdb->prepare("select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", $banner_item->ID);
 				$result = $wpdb->get_row( $sql );
 
 				if ( $result ) {

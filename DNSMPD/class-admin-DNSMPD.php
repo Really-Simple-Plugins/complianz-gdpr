@@ -191,7 +191,7 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 			$orderby = sanitize_title( $orderby );
 			$order   = sanitize_title( $order );
 			$sql .= " ORDER BY " . esc_sql( $orderby ) . " " . esc_sql( $order );
-			$sql .= $limit>0 ? " LIMIT " . $limit . " OFFSET " . (int) $args["offset"] : '';
+			$sql .= $limit>0 ? " LIMIT " . (int) $limit . " OFFSET " . (int) $args["offset"] : '';
 			return $wpdb->get_results( $sql );
 		}
 
@@ -391,8 +391,8 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 		 */
 
 		private function fileurl(){
-			if (file_exists($this->filepath())) {
-				return cmplz_upload_url(get_option('cmplz_datarequest_file_name').".csv");
+			if  ( file_exists($this->filepath() ) ) {
+				return untrailingslashit( cmplz_upload_url( get_option('cmplz_datarequest_file_name').".csv" ) );
 			}
 			return '';
 		}

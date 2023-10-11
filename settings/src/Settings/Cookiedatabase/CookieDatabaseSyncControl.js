@@ -21,7 +21,7 @@ const CookieDatabaseSyncControl = () => {
 
 	useEffect ( () => {
 
-		let useCdbApi = getFieldValue('use_cdb_api')==='yes';
+		let useCdbApi = getFieldValue('use_cdb_api')!=='no';
 		if ( !useCdbApi ) {
 			setDisabled(true) ;
 			let explanation = __("You have opted out of the use of the Cookiedatabase.org synchronization.", "complianz-gdpr");

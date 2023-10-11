@@ -4,11 +4,12 @@
   display:flex;
   background-color:var(--rsp-blue-faded);
   padding:10px;
+  align-items: center;
   &-controls{
 	margin-left:auto;
 	display:flex;
   }
-  button.button.cmplz-reset-button {
+  button.button + button.button {
 	margin-left:20px;
   }
 }

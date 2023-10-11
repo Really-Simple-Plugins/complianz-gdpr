@@ -1,4 +1,4 @@
-import {Button, TextareaControl,} from '@wordpress/components';
+import {TextareaControl,} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import * as cmplz_api from "../utils/api";
 import {useState} from "@wordpress/element";
@@ -37,12 +37,12 @@ const Support = () => {
 				onChange={ ( message ) => onChangeHandler(message) }
 			/>
 			<div>
-				<Button
+				<button className="button button-primary"
 					disabled={disabled}
 					variant="secondary"
 					onClick={ ( e ) => onClickHandler(e) }>
 					{ __( 'Send', 'complianz-gdpr' ) }
-				</Button>
+				</button>
 			</div>
 		</>
 	);

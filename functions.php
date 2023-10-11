@@ -2170,6 +2170,16 @@ if (!function_exists('cmplz_sanitize_category')) {
 	}
 }
 
+if (!function_exists('cmplz_sanitize_consenttype')) {
+	function cmplz_sanitize_consenttype($consenttype){
+		$types = ['optin','optout', 'other', 'optinstats'];//optinstats might be used by wp consent api
+		if ( !in_array( $consenttype, $types, true ) ) {
+			$consenttype = 'other';
+		}
+		return $consenttype;
+	}
+}
+
 /**
  * Show a reference to cookiedatabase if user has accepted the API
  *

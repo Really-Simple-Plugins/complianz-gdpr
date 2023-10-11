@@ -19,8 +19,9 @@ const useDataBreachReportsData = create(( set, get ) => ({
 	resetEditDocumentId: (id) => {
 		set({editDocumentId:false, region:''});
 	},
-	editDocument: async (e, id) => {
-		e.preventDefault();
+	editDocument: async (id) => {
+		console.log(id);
+
 		set({updating:true});
 		await cmplz_api.doAction('load_databreach_report', {id: id}).then((response) => {
 			set({fields:response.fields,region:response.region,updating:false,fileName:response.file_name});

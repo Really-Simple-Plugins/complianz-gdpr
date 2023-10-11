@@ -17,8 +17,7 @@ const useProcessingAgreementsData = create(( set, get ) => ({
 	resetEditDocumentId: (id) => {
 		set({editDocumentId:false, region:'', serviceName:''});
 	},
-	editDocument: async (e, id) => {
-		e.preventDefault();
+	editDocument: async (id) => {
 		set({updating:true});
 		await cmplz_api.doAction('load_processing_agreement', {id: id}).then((response) => {
 			set({fields:response.fields,region:response.region,serviceName:response.serviceName,updating:false, fileName:response.file_name});

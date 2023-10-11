@@ -16,7 +16,7 @@ const CookieDetails = (cookie) => {
 	const [purposesByLanguage, setPurposesByLanguage] = useState([]);
 
 	//allow for both '0'/'1' and false/true.
-	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
+	let useCdbApi = getFieldValue('use_cdb_api')!=='no';
 	let sync = useCdbApi ? cookie.sync==1 : false;
 	let disabled = sync;
 	if (saving) {
