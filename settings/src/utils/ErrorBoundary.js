@@ -12,11 +12,13 @@ class ErrorBoundary extends Component {
 		return { hasError: true };
 	}
 
+
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
 		// You can also log the error to an error reporting service
 		console.log('ErrorBoundary', error, errorInfo);
 	}
+
 
 	resetError() {
 		this.setState({ hasError: false, error: null, errorInfo: null });
@@ -25,12 +27,12 @@ class ErrorBoundary extends Component {
 	render() {
 		if (this.state.hasError) {
 			return (
-				<div>
-					<h1>Something went wrong.</h1>
+				<div className="cmplz-error-boundary">
+					<h3 className="cmplz-h4">Something went wrong.</h3>
 
 					{/* You can render any custom fallback UI */}
 					<p>{this.props.fallback}</p>
-					<button onClick={this.resetError}>Try Again</button>
+					<button className="button button-primary" onClick={(e) => function() {window.location.reload()}} >Try Again</button>
 				</div>
 			);
 		}

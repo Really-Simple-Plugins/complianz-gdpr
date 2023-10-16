@@ -1,7 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die();
-add_action( 'upgrader_process_complete', 'cmplz_check_upgrade', 10, 2 );
-add_action( 'cmplz_install_tables', 'cmplz_check_upgrade', 10, 2 );
+add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
 
 /**
  * Run an upgrade procedure if the version has changed
@@ -18,9 +17,13 @@ function cmplz_check_upgrade() {
 	if ( strpos( $new_version, '#' ) !== false ) {
 		$new_version = substr( $new_version, 0, strpos( $new_version, '#' ) );
 	}
+
 	if ( $prev_version === $new_version ) {
 		return;
 	}
+
+	//trigger table upgrades
+	do_action("cmplz_install_tables");
 
 	/**
 	 * Set a "first version" variable, so we can check if some notices need to be shown
@@ -1015,8 +1018,6 @@ function cmplz_check_upgrade() {
 				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
 			}
 		}
-
-		update_option('cmplz_upgraded_to_7', true, false);
 		//set an activated time, which is used in the cookie scan and geo ip downloads
 		update_option('cmplz_activation_time', strtotime('-1 week'), false);
 	}
@@ -1028,5 +1029,5 @@ function cmplz_check_upgrade() {
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
-	update_option( 'cmplz-current-version', $new_version, false );
+	update_option( 'cmplz-current-version', $new_version );
 }

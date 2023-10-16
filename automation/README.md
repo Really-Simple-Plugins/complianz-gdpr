@@ -51,7 +51,7 @@ This script automates the process of creating a release candidate.
 Navigate to the `/automation/` directory and execute:
 
 ```bash
-./create_rc.sh yourUsername
+./create_rc.sh rlankhorst
 ```
 
 ## Using \`translation_upload.sh\`

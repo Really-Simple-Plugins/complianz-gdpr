@@ -205,7 +205,7 @@ const RecordsOfConsentControl = () => {
 		},
 		{
 			name: __('Region',"complianz-gdpr"),
-			selector: row => row.region!=='' ? <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} /> : '',
+			selector: row => row.region!=='' ? <img alt="region" width="20px" height="20px" src={cmplz_settings.plugin_url+'assets/images/'+row.region+'.svg'} /> : __("Other", "complianz-gdpr"),
 			sortable: true,
 			grow: 2,
 		},
@@ -216,16 +216,10 @@ const RecordsOfConsentControl = () => {
 			grow: 5,
 		},
 		{
-			name: __('Consent',"complianz-gdpr"),
-			selector: row => row.consenttype ? consentLabels[row.consenttype] : '',
-			sortable: true,
-			grow: 3,
-		},
-		{
 			name: __('Categories',"complianz-gdpr"),
 			selector: row => getCategories(row),
 			sortable: true,
-			grow: 6,
+			grow: 7,
 		},
 		{
 			name: __('Date',"complianz-gdpr"),
