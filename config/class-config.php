@@ -703,7 +703,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 					'dismissible' => false,
 				),
 
-				'bf-notice2022' => array(
+				'bf-notice2023' => array(
 					'warning_condition'  => 'admin->is_bf',
 					'plus_one' => true,
 					'open' => __( "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ).'&nbsp;'.'<a target="_blank" href="https://complianz.io/pricing">'.__('Learn more.','complianz-gdpr').'</a>',
