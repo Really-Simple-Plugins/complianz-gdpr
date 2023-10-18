@@ -196,7 +196,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			}
 
 			//if the last cookie scan date is more than a month ago, we re-scan.
-			$last_scan_date = $this->get_last_cookie_scan_date( true );
+			$last_scan_date = COMPLIANZ::$banner_loader->get_last_cookie_scan_date( true );
 			$scan_interval = apply_filters( 'cmplz_scan_interval', 3 );
 			$one_month_ago = strtotime( "-".$scan_interval." month" );
 			if (
@@ -716,32 +716,6 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		}
 
 		/**
-		 * Get the last cookie scan date in unix or human time format
-		 *
-		 * @param bool $unix
-		 *
-		 * @return bool|int|string
-		 */
-
-		public function get_last_cookie_scan_date( $unix = false ) {
-			$last_scan_date = get_option( 'cmplz_last_cookie_scan' );
-
-			if ( $unix ) {
-				return $last_scan_date;
-			}
-
-			if ( $last_scan_date ) {
-				$date = cmplz_localize_date( $last_scan_date );
-				$time = date( get_option( 'time_format' ), $last_scan_date );
-				$date = cmplz_sprintf( __( "%s at %s", 'complianz-gdpr' ), $date, $time );
-			} else {
-				$date = false;
-			}
-
-			return $date;
-		}
-
-		/**
 		 * Update the cookie policy date
 		 */
 
@@ -768,6 +742,10 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			}
 
 			if ( $action === 'get_scan_progress' ) {
+				$timezone_offset = get_option( 'gmt_offset' );
+				$time            = time() + ( 60 * 60 * $timezone_offset );
+				update_option( 'cmplz_last_cookie_scan', $time );
+
 				$next_url = $this->get_next_page_url();
 				if ($next_url==='remote') {
 					do_action('cmplz_remote_cookie_scan');

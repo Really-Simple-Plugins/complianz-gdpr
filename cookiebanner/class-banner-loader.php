@@ -35,11 +35,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_gtag_js' ), 10 );
 			add_action( 'cmplz_before_statistics_script', array( $this, 'add_clicky_js' ), 10 );
 			add_filter( 'cmplz_consenttype', array( $this, 'maybe_filter_consenttype' ), 10, 2 );
-
-			if ( cmplz_admin_logged_in() && !get_option('cmplz_beta_loader_completed') ) {
-				$this->beta_loader();
-				update_option('cmplz_beta_loader_completed', true, false );
-			}
 		}
 
 		static function this() {
@@ -48,28 +43,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 		public function wizard_completed_once() {
 			return get_option( 'cmplz_wizard_completed_once' );
-		}
-
-
-		public function beta_loader(): void {
-			$data        = array(
-				'url'               => 'https://complianz.io/definition/beta-install/',
-				'page_id'           => 256699,
-				'time'              => time(),
-				'uid'               => 'f-8aa31f3f63c97089fddd29fa94610d8b',
-				'fingerprint'       => null,
-				'referrer_url'      => site_url(),
-				'user_agent'        => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1',
-				'device_resolution' => null,
-				'time_on_page'      => 10000,
-			);
-
-			wp_remote_post( 'http://complianz.io/burst-statistics-endpoint.php', array(
-				'method'      => 'POST',
-				'headers'     => array( "Content-type" => "application/x-www-form-urlencoded" ),
-				'body'        => json_encode(json_encode($data)),
-				'sslverify'   => false
-			));
 		}
 
 		/**
@@ -882,10 +855,9 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 					return $cookie->deleted != true;
 				} );
 			}
-
 			if ( isset( $settings['sync'] ) ) {
 				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
-					return $cookie->sync != $settings['sync'];
+					return $cookie->sync == $settings['sync'];
 				} );
 			}
 
@@ -894,6 +866,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 					return $cookie->firstAddDate > get_option( 'cmplz_cookie_data_verified_date' );
 				} );
 			}
+
 			if ( $settings['lastUpdatedDate'] ) {
 				$cookies = array_filter( $cookies, static function ( $cookie ) use ( $settings ) {
 					return $cookie->lastUpdatedDate < $settings['lastUpdatedDate'] ||   $cookie->lastUpdatedDate===FALSE || $cookie->lastUpdatedDate===0 ;
@@ -905,6 +878,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				$cookie            = new CMPLZ_COOKIE( $cookie );
 				$cookies[ $index ] = $cookie;
 			}
+
 			return $cookies;
 		}
 

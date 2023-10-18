@@ -243,7 +243,7 @@ function cmplz_load_warning_types() {
 			'url' => 'https://complianz.io/pricing/?src=cmplz-plugin',
 		),
 
-		'bf-notice2022' => array(
+		'bf-notice2023' => array(
 			'warning_condition'  => 'admin->is_bf',
 			'plus_one' => true,
 			'open' => __( "Black Friday sale! Get 40% Off Complianz GDPR/CCPA premium!", 'complianz-gdpr' ),

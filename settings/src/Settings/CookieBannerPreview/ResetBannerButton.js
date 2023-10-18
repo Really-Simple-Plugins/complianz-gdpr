@@ -24,6 +24,14 @@ const ResetBannerButton = () => {
 		if (!active) setDisabled(false);
 	},[fields]);
 
+	const handleClick = async () => {
+		if (!ConfirmDialog) {
+			await handleConfirm();
+		} else {
+			setIsOpen( true );
+		}
+	}
+
 	const handleConfirm = async () => {
 		setIsOpen( false );
 		setDisabled(true);
@@ -46,15 +54,15 @@ const ResetBannerButton = () => {
 
 	return (
 		<>
-			<ConfirmDialog
-				isOpen={ isOpen }
-				onConfirm={ () => handleConfirm() }
-				onCancel={() => setIsOpen(false) }
-			>
-				{__('Are you sure you want to reset this banner to the default settings?', 'complianz-gdpr')}
-			</ConfirmDialog>
+			{ ConfirmDialog && <ConfirmDialog
+					isOpen={ isOpen }
+					onConfirm={ () => handleConfirm() }
+					onCancel={() => setIsOpen(false) }
+				>
+					{__('Are you sure you want to reset this banner to the default settings?', 'complianz-gdpr')}
+				</ConfirmDialog> }
 			<button disabled={disabled || active}
-					onClick={() => setIsOpen( true )}
+					onClick={() => handleClick(  )}
 					className="button button-default"
 			>
 				{__('Reset', 'complianz-gdpr')}

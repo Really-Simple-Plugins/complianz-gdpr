@@ -11,7 +11,7 @@ class cmplz_integrations {
 
 		add_filter( "cmplz_do_action", array( $this, 'integrations_data' ), 10, 3 );
 		add_filter( "cmplz_warning_types", array( $this, 'notify_of_plugin_integrations' ), 10, 3 );
-		add_filter( "cmplz_after_save_field", array( $this, 'sync_services' ), 10, 4 );
+		add_action( "cmplz_after_save_field", array( $this, 'sync_services' ), 10, 4 );
 		add_filter( 'cmplz_default_value', array($this, 'set_default'), 10, 3 );
 	}
 
@@ -64,6 +64,9 @@ class cmplz_integrations {
 	 * @return void
 	 */
 	public function sync_services($fieldname, $fieldvalue, $prev_value, $type) {
+		if ( !cmplz_user_can_manage() ) {
+			return;
+		}
 		if ($fieldname==='uses_thirdparty_services' || $fieldname==='thirdparty_services_on_site') {
 			$thirdparty_services = COMPLIANZ::$config->thirdparty_services;
 			foreach ( $thirdparty_services as $service => $label ) {

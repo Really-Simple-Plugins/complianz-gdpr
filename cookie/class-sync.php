@@ -18,8 +18,9 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			add_filter( 'cmplz_do_action', array( $this, 'get_sync_data' ), 10, 3 );
 			add_filter( 'cmplz_do_action', array( $this, 'update_cookies_services' ), 10, 3 );
 
-			add_action( 'admin_init', array( $this, 'ensure_cookies_in_all_languages' ) );
-			add_action( 'admin_init', array( $this, 'do_sync_batch' ) );
+			add_action( 'plugins_loaded', array( $this, 'ensure_cookies_in_all_languages' ), 20 );
+
+			add_action( 'plugins_loaded', array( $this, 'do_sync_batch_rest' ), 20 );
 			add_action( 'cmplz_every_five_minutes_hook', array( $this, 'do_sync_batch' ) );
 		}
 
@@ -28,7 +29,9 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		}
 
 		public function do_sync_batch_rest(){
-			if (!cmplz_is_logged_in_rest()) return;
+			if ( !cmplz_is_logged_in_rest() ) {
+				return;
+			}
 			$this->do_sync_batch();
 		}
 
@@ -38,7 +41,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		 * @hooked admin_init
 		 */
 
-		public function ensure_cookies_in_all_languages() {
+		public function ensure_cookies_in_all_languages(): void {
 			if ( ! cmplz_is_logged_in_rest() ) {
 				return;
 			}
@@ -943,7 +946,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			}
 
 			//we only want to start the sync if the sync has been started from the react app at least once.
-			if (!$request_from_sync && !get_option('cmplz_first_sync_started')) {
+			if ( !$request_from_sync && !get_option('cmplz_first_sync_started')) {
 				return '';
 			}
 

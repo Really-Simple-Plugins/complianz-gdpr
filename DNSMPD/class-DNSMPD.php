@@ -78,20 +78,18 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 					'short' => __( 'Limit sensitive data', 'complianz-gdpr' ),
 					'long' => __( 'Limit the use of my sensitive personal information', 'complianz-gdpr' ),
 				],
-
-				//deprecated
 				"request_for_access" => [
-					'slug' => '#',
+					'slug' => 'definition/what-is-the-right-to-access/',
 					'short' => __( 'Request for access', 'complianz-gdpr' ),
 					'long' => __( 'Request for access', 'complianz-gdpr' ),
 				],
 				"right_to_be_forgotten" => [
-					'slug' => '#',
+					'slug' => 'definition/right-to-be-forgotten/',
 					'short' => __( 'Right to be Forgotten', 'complianz-gdpr' ),
 					'long' => __( 'Right to be Forgotten', 'complianz-gdpr' ),
 				],
 				"right_to_data_portability" => [
-					'slug' => '#',
+					'slug' => 'definition/right-to-data-portability/',
 					'short' => __( 'Right to Data Portability', 'complianz-gdpr' ),
 					'long' => __( 'Right to Data Portability', 'complianz-gdpr' ),
 				],
@@ -180,7 +178,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 		 *
 		 * @param WP_REST_Request $request
 		 *
-		 * @return void
+		 * @return array
 		 */
 		public function process_restapi_datarequest( WP_REST_Request $request ) {
 
@@ -249,13 +247,10 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				}
 			}
 
-			$response = json_encode( array(
+			return array(
 					'message' => $message,
 					'success' => ! $error,
-			) );
-			header( "Content-Type: application/json" );
-			echo $response;
-			exit;
+			);
 		}
 
 		/**

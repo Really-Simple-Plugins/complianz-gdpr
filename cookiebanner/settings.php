@@ -93,7 +93,7 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 			[
 				'id'          => 'title',
 				'label'       => __( "Consent banner title", 'complianz-gdpr' ),
-				'placeholder' => __( 'Descriptive title of the cookiebanner' ),
+				'placeholder' => __( 'Descriptive title of the cookiebanner', 'complianz-gdpr' ),
 				'tooltip'     => __( 'For internal use only', 'complianz-gdpr' ),
 				'menu_id'     => 'banner-general',
 				'group_id'    => 'banner-general',

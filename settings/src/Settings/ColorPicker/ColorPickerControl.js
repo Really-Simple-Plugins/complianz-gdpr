@@ -10,13 +10,10 @@ const ColorPickerElement = (props) => {
 	//parse value from field value
 	const [anchorEl, setAnchor] = useState();
 	const colorValue = props.field.value.hasOwnProperty(props.item.fieldname) ? props.field.value[props.item.fieldname] : props.field.default[props.item.fieldname];
-	const colorName = props.item.fieldname;
+	const colorName = props.item.label;
 
 	const handleClick = (e) => {
 		setAnchor(e.currentTarget);
-	}
-	const handleClose = (e) => {
-		setAnchor(null);
 	}
 
 	const handleColorChange = (color, event) => {

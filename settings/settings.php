@@ -158,11 +158,13 @@ function cmplz_get_chunk_translations() {
 		if (strpos($file, '.js') === false) {
 			continue;
 		}
+
 		$chunk_handle = 'cmplz-chunk-'.$file;
 		//temporarily register the script, so we can get a translations object.
 		wp_register_script( $chunk_handle, plugins_url('build/'.$file, __FILE__), [], true );
-		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr' );
-		if (!empty($localeData)){
+		$path = defined('cmplz_premium') ? cmplz_path . 'languages' : false;
+		$localeData = load_script_textdomain( $chunk_handle, 'complianz-gdpr', $path );
+		if ( !empty($localeData) ){
 			$json_translations[] = $localeData;
 		}
 		wp_deregister_script( $chunk_handle );
@@ -503,6 +505,7 @@ function cmplz_reset_settings() {
 
 	COMPLIANZ::$scan->reset_pages_list(false, true);
 	$options = array(
+			'cmplz_first_sync_started',
 			'cmplz_post_scribe_required',
 			'cmplz_activation_time',
 			'cmplz_review_notice_shown',

@@ -23,21 +23,21 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  *
  * @return array
  */
-function cmplz_wp_consent_api_warnings_add_to_any($warnings)
-{
-	if ( !cmplz_consent_api_active() ){
-		$warnings['wp_consent-api'] = array(
-			'plus_one'          => false,
-			'dismissable'       => true,
-			'warning_condition' => '_true_',
-			'open'              => __( 'You have installed the Add To Any plugin that uses the WP Consent API.', 'complianz-gdpr' ),
-			'url'               => 'https://complianz.io/proposal-to-add-a-consent-api-to-wordpress/',
-		);
-	}
-	return $warnings;
-}
-add_filter('cmplz_warning_types', 'cmplz_wp_consent_api_warnings_add_to_any');
-
+//function cmplz_wp_consent_api_warnings_add_to_any($warnings)
+//{
+//	if ( !cmplz_consent_api_active() ){
+//		$warnings['wp_consent-api'] = array(
+//			'plus_one'          => false,
+//			'dismissable'       => true,
+//			'warning_condition' => '_true_',
+//			'open'              => __( 'You have installed the Add To Any plugin that uses the WP Consent API.', 'complianz-gdpr' ),
+//			'url'               => 'https://complianz.io/proposal-to-add-a-consent-api-to-wordpress/',
+//		);
+//	}
+//	return $warnings;
+//}
+//add_filter('cmplz_warning_types', 'cmplz_wp_consent_api_warnings_add_to_any');
+//
 
 /**
  * Add social media to the list of detected items, so it will get set as default, and will be added to the notice about it

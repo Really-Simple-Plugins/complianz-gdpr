@@ -65,7 +65,10 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			if ( is_object($name) ){
 				$this->name = $name->name;
 				$this->ID = $name->ID;
-				$this->object = $name;
+				//after the sync, we are still missing the purpose in the objects. We load the cookie from the database to get the purpose.
+				if ( !empty($name->purpose) ) {
+					$this->object = $name;
+				}
 			} else if ( is_numeric( $name ) ) {
 				$this->ID = (int) $name;
 			} else {

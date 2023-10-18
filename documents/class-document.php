@@ -670,7 +670,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						esc_html( $annex ) ), $html );
 			}
 
-			$active_cookiebanner_id = apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() );
+			$active_cookiebanner_id = cmplz_get_default_banner_id();
 			$banner = cmplz_get_cookiebanner($active_cookiebanner_id);
 			//some custom elements
 			$html = str_replace( "[cookie_accept_text]", ( $banner->accept_x ?? ''), $html );
@@ -1992,8 +1992,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			// Return $data if this is not a Complianz document
 			global $post;
-			if ( !$post || !property_exists($post, 'ID')) {
-				return $content;
+			if ( !$post || !is_object($post) || !property_exists($post, 'ID')) {
+                return $content;
 			}
 
 			if ( !COMPLIANZ::$document->is_complianz_page($post->ID ) ) {
