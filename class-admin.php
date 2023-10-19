@@ -639,25 +639,23 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			$completed = array();
 			$open = array();
 			$urgent = array();
-			if (!empty($warnings)) {
-				foreach ( $warnings as $key => $warning ) {
-					//prevent notices on upgrade to 5.0
-					if ( ! isset( $warning['status'] ) ) {
-						continue;
-					}
+            $bf_notice = array();
 
-					if ( $warning['status'] === 'urgent' ) {
-						$urgent[ $key ] = $warning;
-					} else if ( $warning['status'] === 'open' ) {
-						$open[ $key ] = $warning;
+			if ( ! empty( $warnings ) ) {
+				foreach ( $warnings as $key => $warning ) {
+					if ( $key === 'bf-notice2023' ) {
+						$bf_notice[$key] = $warning;
+					} elseif ( isset($warning['status']) && $warning['status'] === 'urgent' ) {
+						$urgent[$key] = $warning;
+					} elseif ( isset($warning['status']) && $warning['status'] === 'open' ) {
+						$open[$key] = $warning;
 					} else {
-						$completed[ $key ] = $warning;
+						$completed[$key] = $warning;
 					}
 				}
 			}
-			$warnings = $urgent + $open + $completed;
 
-			return $warnings;
+			return $bf_notice + $urgent + $open + $completed;
 		}
 
 		/**
