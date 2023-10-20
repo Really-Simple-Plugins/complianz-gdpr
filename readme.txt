@@ -5,8 +5,8 @@ Tags: GDPR, Cookie, Cookie Notice, DSGVO, CPRA, Consent, RGPD, LGPD, Privacy, PI
 Requires at least: 4.9
 License: GPL2
 Requires PHP: 7.2
-Tested up to: 6.3
-Stable tag: 6.5.5
+Tested up to: 6.2
+Stable tag: 7.0.0
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
 
@@ -31,12 +31,12 @@ https://www.youtube.com/watch?v=JJzOzNAd5Bw&ab_channel=ReallySimplePlugins
 
 * Automatically configures you website based on wizard questions, WordPress scans and dedicated service and plugin integrations.
 * Blocks 3rd party cookies like Google Maps, Facebook, Instagram, AdSense, Hubspot, Recaptcha, Twitter, ActiveCampaign, and many more.
-* Custom integrations for plugins, themes and services are automatically detected.
+* Custom integrations for plugins, themes and services are automatically detected. 
 * Blocks iFrames, like YouTube, Vimeo, Dailymotion embedded videos and Social iFrames e.g. Instagram, Facebook et al.
 * Shows placeholders for blocked iFrames. Stills from videos and individual placeholders per (social) service.
 * Script Center to control scripts, iFrames and plugins per category or service. With dependency functionality and placeholders.
 * Proof of Consent: User consent registration that respects the GDPR data minimization guideline.
-* Periodical Cookie Scan for changes in Cookies, Plugins and 3rd Party services.
+* Periodical Cookie Scan for changes in Cookies, Plugins and 3rd Party services. 
 * Automatically detects if you need a Cookie Notice (also called a Cookie Banner or Pop-Up).
 * Automatically anonymizes personal data for integrated statistics tools if needed.
 
@@ -110,13 +110,13 @@ Simultaneously select USA, Canada, United Kingdom, Australie, South Africa, Braz
 
 = Legal Documents =
 
-* Privacy statements (EU, CA, UK, AU, ZA, BR & USA).
+* Privacy statements (EU, CA, UK, AU, ZA, BR & USA). 
 * Cookie policy (EU, UK, CA, AU, ZA, BR & USA).
 * Impressum (Germany & Austria) & Imprint for world wide use.
 * Disclaimer
 * Terms & Conditions Integration
-* Processing agreements (EU, UK, CA, AU, ZA, BR & USA).
-* Dataleak reporting tools (EU, UK, CA, AU, ZA, BR & USA).
+* Processing agreements (EU, UK, CA, AU, ZA, BR & USA). 
+* Dataleak reporting tools (EU, UK, CA, AU, ZA, BR & USA). 
 * Supports CCPA Consent and Legal documents.
 * COPPA ready with Children's Privacy Policy (USA)
 * Children's Privacy Policy (UK,CA & AU)
@@ -133,18 +133,7 @@ Check out other plugins developed by Really Simple Plugins as well: [Really Simp
 Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr) as well!
 
 IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
-
-Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of the (local) site scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. We collect for research purposes:
-
-* Cookie names
-* Domain that provides the cookie names
-* Plugin list on the domain
-
-For more information:
-
-* Privacy Statement - [Privacy Statement](https://cookiedatabase.org/plugin-use-of-cookiedatabase-org-privacy-terms/) - Cookiedatabase.org
-* Terms and Conditions Database - [Terms of Use](https://cookiedatabase.org/terms-of-use/) - Cookiedatabase.org
-* Terms of Use API - [Terms of Use](https://cookiedatabase.org/terms-of-use-api/) - API - Cookiedatabase.org
+Complianz needs to connect with Cookiedatabase.org to collect and synchronize with the most recent descriptions for cookies and related services. This will ensure that your cookie policy always contains the most up to date cookie descriptions. Cookiedatabase.org is being operated by Complianz BV and the offered service can be used for free within our plugin under the following [Terms of Use](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io). Leave your feature requests [here]().
 
@@ -159,9 +148,9 @@ For more information:
 Complianz maintains a continuously growing knowledgebase about GDPR, including subregions e.g. DSGVO and CNIL, CCPA, PIPEDA, COPPA, POPIA & other specific laws on [complianz.io](https://complianz.io)
 
 = Is my website GDPR, COPPA, CCPA, DSGVO, TTDSG, AVG, CNIL, UK-GDPR, PECR, CASL, LGPD, POPIA and/or PIPEDA compliant with this plugin? =
-We cannot guarantee compliance for your website. A correct configuration of this plugin by a website administrator is always required.
+We cannot guarantee compliance for your website. A correct configuration of this plugin by a website administrator is always required. 
 = When do I need a Cookie Notice? =
-Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on the laws of the region or regions, where most of your visitors come from.
+Complianz | GDPR/CCPA Cookie Consent will determine this automatically based on the laws of the region or regions, where most of your visitors come from. 
 Regarding CCPA/CPRA, you always have to show which cookies you are using but there's no obligation in asking consent.
 = Do I always need a consent checkbox on contact forms? =
 Not always. The Complianz Privacy Suite Premium plugin can determine if you need this, based on your answers in the wizard. It mainly depends on the type of information and the reason why your visitor use the contact form.
@@ -185,48 +174,6 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-= 6.5.5 =
-* October 12th, 2023
-* Fix: also clear localstorage & sessionstorage with cookie shredder
-* Fix: With only Canada in opt out mode selected, the question 'will you self host Google Fonts' was not visible
-* Improvement: setting a class on the parent div of a placeholder with height inherit resolves css issues on some themes, props @maxineblack
-* Fix: compatibility with WP Rocket when some iframes are lazy loaded, but not all.
-
-= 6.5.4 =
-* September 20th, 2023
-* Improvement: upgrade MPDF version to 8.1.3
-* Improvement: prefix 'request' to prevent conflicts with weglot
-* Fix: bug in Divi Recaptcha integration
-* Fix: Block Editor dropping styles when in unsynced mode
-* Fix: Consent Mode moved to banner_loaded hook to ensure loading
-
-= 6.5.3 =
-* 08-08-2023
-* Improvement: Tested up-to WordPress 6.3
-
-= 6.5.2 =
-* 11-07-2023
-* Fix: catch missing $slug when another plugin drops the slug property
-
-= 6.5.1 =
-* 10-07-2023
-* Improvement: restore php 7.2 support in burst installer
-* Improvement: catch server configurations not supporting webp
-* Improvement: catch not existing file when generating webp
-* Improvement: catch not existing $slug property in auto updates check
-* Improvement: catch not existing ID in wordpress $post when checking for summary divs
-
-= 6.5.0 =
-* 04-07-2023
-* New: placeholders converted to wepb, loaded with lazyloading, props @james-feaver, @asafm7
-* Fix: CAOS host analytics locally integration fixed after constant was dropped
-* Fix: DNT caused wp_has_consent to always return false, which should not be the case if consent is given on a service specifically
-* Fix: no rt_ prefix on Tag Manager events
-* Fix: PHP 8.2 warnings of dynamically created properties
-* Fix: When TCF active, in some cases this could cause a cmlz_accept_all not defined error
-* Fix: Fatal error in Wizard when using "Falang", props @chabass
-* Fix: cookies can not able to run in some cases due to missing variable declarations, props @sira1967
-
 = 6.4.7 =
 * June 14th, 2023
 * Fix: WordPress 6.2 version moved the Privacy Policy function to a different file. Added fallback for older versions.
@@ -1395,7 +1342,7 @@ Fix: banner saving when UK and EU both use categories
 
 == Screenshots ==
 1. Complianz Dashboard: Your privacy HUB
-2. The Wizard: Generate a cookie policy and configure consent management to your specific needs.
+2. The Wizard: Generate a cookie policy and configure consent management to your specific needs. 
 3. Automatic Cookie Scan: Weekly scan of your website to keep you up-to-date!
 4. Customize your Cookie Banner: Including template styles and a range of styling options, WCAG conform. Custom CSS available for full control!
 5. Integrations: Dedicated integrations with the most popular plugins, themes and services. Feature requests are possible!
