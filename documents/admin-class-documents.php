@@ -899,6 +899,12 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		 * @return array
 		 */
 		public function add_post_state(array $post_states, WP_Post $post): array {
+
+			if ( ! $post instanceof WP_Post ) {
+				return $post_states;
+			}
+
+			
 			if ( $post && COMPLIANZ::$document->is_complianz_page( $post->ID ) ) {
 				$post_states['page_for_privacy_policy'] = __("Legal Document", "complianz-gdpr");
 			}
@@ -1104,6 +1110,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		public function clear_shortcode_transients(
 			$post_id = false, $post = false
 		) {
+			//clear titles and urls in the banner
+			cmplz_delete_transient('page_links');
 			$regions = cmplz_get_regions();
 			foreach ( $regions as $region ) {
 				foreach (

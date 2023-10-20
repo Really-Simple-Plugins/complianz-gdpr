@@ -130,7 +130,7 @@ function cmplz_wizard_fields($fields){
 			'type'     => 'document',
 			'options'  => [
 				[ 'label' => __('Generated with Complianz','complianz-gdpr'), 'value'=> 'generated' ],
-				[ 'label' => __('Existing Page','complianz-gdpr'), 'value'=> 'custom' ],
+				[ 'label' => __('Existing page','complianz-gdpr'), 'value'=> 'custom' ],
 				[ 'label' => 'URL', 'value'=> 'url' ],
 			],
 			'label'    => __( "Cookie Policy", 'complianz-gdpr' ),
@@ -150,8 +150,8 @@ function cmplz_wizard_fields($fields){
 			'default'  => 'custom',
 			'label'    => __( "Privacy Statement", 'complianz-gdpr' ),
 			'options'  => [
-				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
-				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
+				[ 'label' => __('Generated with Complianz','complianz-gdpr'), 'value'=> 'generated' ],
+				[ 'label' => __('Existing page','complianz-gdpr'), 'value'=> 'custom' ],
 				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
@@ -170,8 +170,8 @@ function cmplz_wizard_fields($fields){
 			'type'     => 'document',
 			'label'    => __( "Imprint", 'complianz-gdpr' ),
 			'options'  => [
-				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
-				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
+				[ 'label' => __('Generated with Complianz','complianz-gdpr'), 'value'=> 'generated' ],
+				[ 'label' => __('Existing page','complianz-gdpr'), 'value'=> 'custom' ],
 				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],
@@ -189,7 +189,7 @@ function cmplz_wizard_fields($fields){
 			'type'     => 'document',
 			'options'  => [
 				[ 'label' => __('Generated','complianz-gdpr'), 'value'=> 'generated' ],
-				[ 'label' => __('Custom','complianz-gdpr'), 'value'=> 'custom' ],
+				[ 'label' => __('Existing page','complianz-gdpr'), 'value'=> 'custom' ],
 				[ 'label' => 'URL', 'value'=> 'url' ],
 				[ 'label' => __('None','complianz-gdpr'), 'value'=> 'none' ],
 			],

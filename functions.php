@@ -1012,7 +1012,9 @@ if ( ! function_exists( 'cmplz_statistics_no_sharing_allowed' ) ) {
 			$thirdparty = $google_analytics
 				? cmplz_get_option( 'compile_statistics_more_info' )
 				: cmplz_get_option( 'compile_statistics_more_info_tag_manager');
-
+			if ( !is_array($thirdparty) ) {
+				$thirdparty = array();
+			}
 			return in_array( 'no-sharing', $thirdparty, true );
 		}
 
@@ -1034,16 +1036,17 @@ if ( ! function_exists( 'cmplz_no_ip_addresses' ) ) {
 			return false;
 		}
 
-		$tagmanager       = ( $statistics === 'google-tag-manager' ) ? true
-			: false;
+		$tagmanager       = ( $statistics === 'google-tag-manager' ) ? true : false;
 		$matomo           = ( $statistics === 'matomo' ) ? true : false;
-		$google_analytics = ( $statistics === 'google-analytics' ) ? true
-			: false;
+		$google_analytics = ( $statistics === 'google-analytics' ) ? true : false;
 
 		if ( $google_analytics || $tagmanager ) {
 			$thirdparty   = $google_analytics
 				? cmplz_get_option( 'compile_statistics_more_info')
 				: cmplz_get_option( 'compile_statistics_more_info_tag_manager');
+			if ( !is_array($thirdparty) ) {
+				$thirdparty = array();
+			}
 			return in_array( 'ip-addresses-blocked', $thirdparty, true );
 		}
 
@@ -1103,6 +1106,9 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 			$thirdparty = $google_analytics
 				? cmplz_get_option( 'compile_statistics_more_info' )
 				: cmplz_get_option( 'compile_statistics_more_info_tag_manager' );
+			if ( !is_array($thirdparty) ) {
+				$thirdparty = array();
+			}
 			return in_array( 'accepted', $thirdparty, true );
 		}
 

@@ -3,16 +3,16 @@ import { __ } from '@wordpress/i18n';
 import Panel from "../Panel";
 import UseSyncData from "./SyncData";
 import useFields from "../../Settings/Fields/FieldsData";
-import {useEffect, useState} from "@wordpress/element";;
+import {memo,useEffect, useState} from "@wordpress/element";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 import SelectInput from "../Inputs/SelectInput";
 
 const CookieDetails = (cookie) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
 	const {language, saving, purposesOptions, services, updateCookie, toggleDeleteCookie, saveCookie} = UseSyncData();
-	const [name, setName] = useState({ID:cookie.ID, value:cookie.name});
-	const [retention, setRetention] = useState({ID:cookie.ID, value:cookie.retention});
-	const [cookieFunction, setCookieFunction] = useState({ID:cookie.ID, value:cookie.cookieFunction});
+	const [name, setName] = useState('');
+	const [retention, setRetention] = useState('');
+	const [cookieFunction, setCookieFunction] = useState('');
 	const [purposesByLanguage, setPurposesByLanguage] = useState([]);
 
 	//allow for both '0'/'1' and false/true.
@@ -29,11 +29,10 @@ const CookieDetails = (cookie) => {
 	}
 
 	useEffect(() => {
-		setRetention({ID:cookie.ID, value:cookie.retention});
-		setCookieFunction({ID:cookie.ID, value:cookie.cookieFunction});
+		if ( cookie && cookie.cookieFunction ) {
+			setCookieFunction(cookie.cookieFunction);
+		}
 	},[cookie]);
-
-
 
 	const onSaveHandler = async (id) => {
 		await saveCookie(id);
@@ -49,8 +48,14 @@ const CookieDetails = (cookie) => {
 	}
 
 	useEffect(() => {
+		if ( cookie && cookie.name ) {
+			setName(cookie.name);
+		}
+	},[cookie.name]);
+
+	useEffect(() => {
 		const typingTimer = setTimeout(() => {
-			updateCookie(name.ID, 'name', name.value);
+			updateCookie(cookie.ID, 'name', name);
 		}, 500);
 
 		return () => {
@@ -58,29 +63,26 @@ const CookieDetails = (cookie) => {
 		};
 	}, [name]);
 
-	const onNameChangeHandler = (e, id, type) => {
-		let obj = {ID:id, value:e.target.value};
-		setName(obj);
-	}
-
 	useEffect(() => {
 		const typingTimer = setTimeout(() => {
-			updateCookie(cookieFunction.ID, 'cookieFunction', cookieFunction.value);
+			updateCookie(cookie.ID, 'cookieFunction', cookieFunction);
 		}, 500);
 
 		return () => {
 			clearTimeout(typingTimer);
 		};
 	}, [cookieFunction]);
-	const onFunctionChangeHandler = (e, id, type) => {
-		let obj = {ID:id, value:e.target.value};
-		setCookieFunction(obj);
-	}
+
+	useEffect(() => {
+		if ( cookie && cookie.retention ) {
+			setRetention(cookie.retention);
+		}
+	},[cookie.retention]);
 
 	useEffect(() => {
 		const typingTimer = setTimeout(() => {
-			updateCookie(retention.ID, 'retention', retention.value);
-		}, 700);
+			updateCookie(cookie.ID, 'retention', retention);
+		}, 500);
 
 		return () => {
 			clearTimeout(typingTimer);
@@ -94,11 +96,6 @@ const CookieDetails = (cookie) => {
 		});
 		setPurposesByLanguage(purposes);
 	},[language, purposesOptions]);
-
-	const onRetentionChangeHandler = (e, id, type) => {
-		let obj = {ID:id, value:e.target.value};
-		setRetention(obj);
-	}
 
 	const onCheckboxChangeHandler = (checked, id, type) => {
 		updateCookie(id, type, checked);
@@ -164,7 +161,10 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Name", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onNameChangeHandler(e, cookie.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={name.value} />
+				<input disabled={disabled}
+					   onChange={ ( e ) =>  setName(e.target.value) }
+					   type="text" placeholder={__("Name", "complianz-gdpr")}
+					   value={name} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Service", "complianz-gdpr")}</label>
@@ -177,11 +177,17 @@ const CookieDetails = (cookie) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Expiration", "complianz-gdpr")}</label>
-				<input disabled={retentionDisabled} onChange={ ( e ) =>  onRetentionChangeHandler(e, cookie.ID, 'retention') } type="text" placeholder={__("1 year", "complianz-gdpr")}  value={retention.value} />
+				<input disabled={retentionDisabled}
+					   onChange={ ( e ) =>  setRetention(e.target.value) }
+					   type="text" placeholder={__("1 year", "complianz-gdpr")}
+					   value={retention} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Cookie function", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onFunctionChangeHandler(e, cookie.ID, 'cookieFunction') } type="text" placeholder={__("e.g. store user ID", "complianz-gdpr")}  value={cookieFunction.value} />
+				<input disabled={disabled}
+					   onChange={ ( e ) =>  setCookieFunction(e.target.value) }
+					   type="text" placeholder={__("e.g. store user ID", "complianz-gdpr")}
+					   value={cookieFunction} />
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Purpose", "complianz-gdpr")}</label>
@@ -255,4 +261,4 @@ const Cookie = ({cookie}) => {
 
 }
 
-export default Cookie
+export default memo(Cookie)

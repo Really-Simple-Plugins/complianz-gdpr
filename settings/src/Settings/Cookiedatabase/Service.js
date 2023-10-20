@@ -6,10 +6,12 @@ import Icon from "../../utils/Icon";
 import useFields from "../../Settings/Fields/FieldsData";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 import SelectInput from "../Inputs/SelectInput";
-import {useEffect, useState} from "@wordpress/element";;
+import {memo, useEffect, useState} from "@wordpress/element";
 
 const ServiceDetails = (service) => {
 	const {getFieldValue, showSavedSettingsNotice} = useFields();
+	const [serviceName, setServiceName] = useState('');
+	const [privacyStatementUrl, setPrivacyStatementUrl] = useState('');
 	const {language, saving, deleteService, serviceTypeOptions, updateService, saveService} = UseSyncData();
 	let useCdbApi = getFieldValue('use_cdb_api')==='yes';
 	const [serviceTypesByLanguage, setServiceTypesByLanguage] = useState([]);
@@ -21,21 +23,6 @@ const ServiceDetails = (service) => {
 		});
 		setServiceTypesByLanguage(serviceTypesByLanguage);
 	},[language, serviceTypeOptions]);
-
-	if (!service) {
-		return null;
-	}
-	//allow for both '0'/'1' and false/true.
-	let sync = useCdbApi ? service.sync==1 : false;
-	let disabled = sync;
-	if (saving) {
-		disabled = true;
-	}
-
-	let cdbLink = false;
-	if ( service.slug.length>0 ) {
-		cdbLink = 'https://cookiedatabase.org/service/' + service.slug;
-	}
 
 	const onSaveHandler = async (id) => {
 		await saveService(id);
@@ -51,6 +38,59 @@ const ServiceDetails = (service) => {
 	}
 	const onCheckboxChangeHandler = (checked, id, type) => {
 		updateService(id, type, checked);
+	}
+
+	useEffect(() => {
+		if ( service && service.name ) {
+			setServiceName(service.name);
+		}
+	},[service]);
+
+	useEffect(() => {
+		if (serviceName.length<5) {
+			return;
+		}
+		const typingTimerServiceName = setTimeout(() => {
+			onChangeHandler(serviceName, service.ID, 'name')
+		}, 400);
+
+		return () => {
+			clearTimeout(typingTimerServiceName);
+		};
+	}, [serviceName]);
+
+	useEffect(() => {
+		if ( service && service.privacyStatementURL ) {
+			setPrivacyStatementUrl(service.privacyStatementURL);
+		}
+	},[service]);
+
+	useEffect(() => {
+		if (privacyStatementUrl.length===0) {
+			return;
+		}
+		const typingTimerPrivacyStatementUrl = setTimeout(() => {
+			onChangeHandler(privacyStatementUrl, service.ID, 'privacyStatementURL')
+		}, 400);
+
+		return () => {
+			clearTimeout(typingTimerPrivacyStatementUrl);
+		};
+	}, [privacyStatementUrl]);
+
+	if (!service) {
+		return null;
+	}
+	//allow for both '0'/'1' and false/true.
+	let sync = useCdbApi ? service.sync==1 : false;
+	let disabled = sync;
+	if (saving) {
+		disabled = true;
+	}
+
+	let cdbLink = false;
+	if ( service.slug.length>0 ) {
+		cdbLink = 'https://cookiedatabase.org/service/' + service.slug;
 	}
 	return (
 		<>
@@ -74,7 +114,11 @@ const ServiceDetails = (service) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Name", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'name') } type="text" placeholder={__("Name", "complianz-gdpr")} value={service.name} />
+				<input disabled={disabled}
+					   onChange={ ( e ) =>  setServiceName(e.target.value) }
+					   type="text"
+					   placeholder={__("Name", "complianz-gdpr")}
+					   value={serviceName} />
 			</div>
 
 			<div className="cmplz-details-row">
@@ -88,7 +132,11 @@ const ServiceDetails = (service) => {
 			</div>
 			<div className="cmplz-details-row">
 				<label>{__("Privacy Statement URL", "complianz-gdpr")}</label>
-				<input disabled={disabled} onChange={ ( e ) =>  onChangeHandler(e.target.value, service.ID, 'privacyStatementURL') } type="text" value={service.privacyStatementURL} />
+				<input
+					disabled={disabled}
+					onChange={ ( e ) =>  setPrivacyStatementUrl(e.target.value) }
+					type="text"
+					value={privacyStatementUrl} />
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">
@@ -162,4 +210,4 @@ const Service = (props) => {
 
 }
 
-export default Service
+export default memo(Service);
