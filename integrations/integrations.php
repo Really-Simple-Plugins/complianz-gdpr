@@ -1,18 +1,9 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
-if ( is_admin() ) {
-	require_once( 'integrations-menu.php' );
+if ( cmplz_admin_logged_in() ) {
+	require_once( 'admin/integrations.php' );
 }
 require_once( trailingslashit(cmplz_path) . 'integrations/forms.php' );
-require_once( trailingslashit(cmplz_path) . 'integrations/settings.php' );
-
-function cmplz_enqueue_integrations_assets( $hook ) {
-	if ( strpos($hook, "cmplz-script-center")===false  ) return;
-
-	wp_register_script( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.min.js', array( "jquery" ), cmplz_version );
-	wp_enqueue_script( ' cmplz-pagify' );
-}
-add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_integrations_assets' );
 
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
@@ -33,6 +24,13 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 //			'label'                => 'hCaptcha for WordPress',
 //			'firstparty_marketing' => false,
 //	),
+
+
+	'wp-consent-api' => array(
+			'constant_or_function' => 'WP_CONSENT_API_VERSION',
+			'label'                => 'WP Consent API',
+			'firstparty_marketing' => false,
+	),
 
 	'omnisend' => array(
 			'constant_or_function' => 'OMNISEND_SETTINGS_PAGE',
@@ -70,21 +68,22 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Lead Forensics',
 			'firstparty_marketing' => false,
 	),
+
 	'mailchimp-woocommerce' => array(
 			'constant_or_function' => 'MAILCHIMP_WOOCOMMERCE_NEWSLETTER_VERSION',
 			'label'                => 'Mailchimp for Woocommerce',
 			'firstparty_marketing' => false,
 	),
+
 	'burst-statistics' => array(
 			'constant_or_function' => 'burst_version',
 			'label'                => 'Burst Statistics',
 			'firstparty_marketing' => false,
 	),
-
 	'beaver-builder' => array(
-			'constant_or_function' => 'FL_BUILDER_VERSION',
-			'label'                => 'Beaver Builder',
-			'firstparty_marketing' => false,
+		'constant_or_function' => 'FL_BUILDER_VERSION',
+		'label'                => 'Beaver Builder',
+		'firstparty_marketing' => false,
 	),
 
 	'theeventscalendar' => array(
@@ -246,6 +245,11 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'Beehive',
 		'firstparty_marketing' => false,
 	),
+	'easy-liveblogs' => array(
+		'constant_or_function' => 'ELB_NAME',
+		'label'                => 'Easy Liveblogs',
+		'firstparty_marketing' => false,
+	),
 
 	'simple-business-directory' => array(
 		'constant_or_function' => 'QCSBD_DIR',
@@ -365,7 +369,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 
 	'jetpack' => array(
 		'constant_or_function' => 'JETPACK__VERSION',
-		'label'                => 'Jetpack',
+		'label'                => 'JetPack',
 		'firstparty_marketing' => false,
 	),
 
@@ -578,91 +582,65 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Buttonizer',
 			'firstparty_marketing' => false,
 	),
-	'easy-liveblogs' => array(
-		'constant_or_function' => 'ELB_NAME',
-		'label'                => 'Easy Liveblogs',
-		'firstparty_marketing' => false,
-	),
 ) );
 
-
-require_once( 'fields.php' );
 
 /**
  * Wordpress, include always
  */
 require_once( 'wordpress/wordpress.php' );
 
-
 foreach ( $cmplz_integrations_list as $plugin => $details ) {
-
 	if ( ! isset( $details['early_load'] ) ) {
 		continue;
 	}
-	if ( ! file_exists( WP_PLUGIN_DIR . "/" . $plugin . "/" . $plugin
-	                    . ".php" )
-	) {
+
+	if ( ! file_exists( WP_PLUGIN_DIR . "/" . $plugin . "/" . $plugin . ".php" ) ) {
 		continue;
 	}
 
 	$early_load = $details['early_load'];
-	$file       = apply_filters( 'cmplz_early_load_path',
-		cmplz_path . "integrations/plugins/$early_load", $details );
+	$file       = apply_filters( 'cmplz_early_load_path', cmplz_path . "integrations/plugins/$early_load", $details );
 
 	if ( file_exists( $file ) ) {
 		require_once( $file );
 	}
 }
 
-
 /**
- * Check if this plugin's integration is enabled
+ * Check if a plugin from the integrations list is active
+ *
+ * @param string $plugin
  *
  * @return bool
  */
-function cmplz_is_integration_enabled( $plugin_name ) {
-	global $cmplz_integrations_list;
-	if ( ! array_key_exists( $plugin_name, $cmplz_integrations_list ) ) {
-		return false;
-	}
-	$fields = get_option( 'complianz_options_integrations' );
-	//default enabled, which means it's enabled when not set.
-	if ( isset( $fields[ $plugin_name ] ) && $fields[ $plugin_name ] != 1 ) {
-		return false;
-	}
-
-	return true;
+function cmplz_integration_plugin_is_enabled( string $plugin ): bool {
+	//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
+	$fields = get_option( 'complianz_options_integrations', [] );
+	$enabled = ! isset( $fields[ $plugin ] ) || $fields[ $plugin ];
+	return cmplz_integration_plugin_is_active( $plugin ) && $enabled;
 }
 
 /**
- * Check if a plugin from the integrations list is active
- * @param $plugin
+ * Check if a plugin from the integrations list is activated
+ *
+ * @param string $plugin
  *
  * @return bool
  */
-function cmplz_integration_plugin_is_active( $plugin ){
+function cmplz_integration_plugin_is_active( string $plugin ): bool {
 	global $cmplz_integrations_list;
 	if ( !isset($cmplz_integrations_list[ $plugin ]) ) {
 		return false;
 	}
-	//because we need a default, we don't use the get_value from complianz. The fields array is not loaded yet, so there are no defaults
-	$fields = get_option( 'complianz_options_integrations' );
 	$details = $cmplz_integrations_list[ $plugin ];
-	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
 	$theme = wp_get_theme();
-
-	if (
-		( defined($details['constant_or_function'])
-		   || function_exists( $details['constant_or_function'] )
-		   || class_exists( $details['constant_or_function'] )
-		   || ( $theme && ($theme->name === $details['constant_or_function']) )
-		   || ( $theme->parent() !== false && trim( $theme->parent()->Name ) === trim( $details['constant_or_function'] ) )
-		)
-		&& $enabled
-	) {
-		return true;
-	}
-	return false;
+	$active = defined( $details['constant_or_function'] )
+	       || function_exists( $details['constant_or_function'] )
+	       || class_exists( $details['constant_or_function'] )
+	       || ( $theme && ( $theme->name === $details['constant_or_function'] ) )
+	       || ( $theme->parent() !== false && trim( $theme->parent()->Name ) === trim( $details['constant_or_function'] ) );
+	return $active;
 }
 
 /**
@@ -673,9 +651,8 @@ function cmplz_integrations() {
 	global $cmplz_integrations_list;
 	$stored_integrations_count = get_option('cmplz_active_integrations', 0 );
 	$actual_integrations_count = 0;
-
 	foreach ( $cmplz_integrations_list as $plugin => $details ) {
-		if ( cmplz_integration_plugin_is_active( $plugin ) ) {
+		if ( cmplz_integration_plugin_is_enabled( $plugin ) ) {
 			$actual_integrations_count++;
 			$file = apply_filters( 'cmplz_integration_path', cmplz_path . "integrations/plugins/$plugin.php", $plugin );
 			if ( file_exists( $file ) ) {
@@ -684,11 +661,11 @@ function cmplz_integrations() {
 		}
 	}
 
+	//cannot be an absolute match.
 	if ( $stored_integrations_count != $actual_integrations_count) {
 		update_option('cmplz_active_integrations',  $actual_integrations_count);
 		update_option('cmplz_integrations_changed', true );
 	}
-
 
 	/**
 	 * Services
@@ -698,9 +675,7 @@ function cmplz_integrations() {
 	$services = array_keys( $services );
 	foreach ( $services as $service ) {
 		if ( cmplz_uses_thirdparty( $service ) ) {
-			if ( file_exists( cmplz_path
-			                  . "integrations/services/$service.php" )
-			) {
+			if ( file_exists( cmplz_path . "integrations/services/$service.php" ) ) {
 				require_once( "services/$service.php" );
 			}
 		}
@@ -708,34 +683,23 @@ function cmplz_integrations() {
 
 	$services = COMPLIANZ::$config->social_media_markers;
 	$services = array_keys( $services );
-
 	foreach ( $services as $service ) {
 		if ( cmplz_uses_thirdparty( $service ) ) {
-			if ( file_exists( cmplz_path
-			                  . "integrations/services/$service.php" )
-			) {
+			if ( file_exists( cmplz_path . "integrations/services/$service.php" ) ) {
 				require_once( "services/$service.php" );
 			}
 		}
 	}
 
 	/**
-	 * advertising
-	 */
-
-	if ( cmplz_get_value( 'uses_ad_cookies' ) === 'yes' ) {
-		require_once( 'services/advertising.php' );
-	}
-
-	/**
 	 * statistics
 	 */
 
-	$statistics = cmplz_get_value( 'compile_statistics' );
+	$statistics = cmplz_get_option( 'compile_statistics' );
 	if ( $statistics === 'google-analytics' ) {
 		require_once( 'statistics/google-analytics.php' );
 	}
-	if ( $statistics === 'matomo' && cmplz_get_value('configuration_by_complianz') !=='yes' ) {
+	if ( $statistics === 'matomo' && cmplz_get_option('configuration_by_complianz') !=='yes' ) {
 		require_once( 'statistics/matomo.php' );
 	}
 }
@@ -752,24 +716,17 @@ add_action( 'plugins_loaded', 'cmplz_integrations', 10 );
  */
 
 function cmplz_uses_thirdparty( $name ) {
-	$thirdparty = ( cmplz_get_value( 'uses_thirdparty_services' ) === 'yes' )
-		? true : false;
-	if ( $thirdparty ) {
-		$thirdparty_types = cmplz_get_value( 'thirdparty_services_on_site' );
-		if ( isset( $thirdparty_types[ $name ] )
-		     && $thirdparty_types[ $name ] == 1
-		) {
+	if ( cmplz_get_option( 'uses_thirdparty_services' ) === 'yes' ) {
+		$thirdparty_types = cmplz_get_option( 'thirdparty_services_on_site' );
+
+		if ( is_array($thirdparty_types) && in_array( $name, $thirdparty_types) ) {
 			return true;
 		}
 	}
 
-	$social_media = ( cmplz_get_value( 'uses_social_media' ) === 'yes' ) ? true
-		: false;
-	if ( $social_media ) {
-		$social_media_types = cmplz_get_value( 'socialmedia_on_site' );
-		if ( isset( $social_media_types[ $name ] )
-		     && $social_media_types[ $name ] == 1
-		) {
+	if ( cmplz_get_option( 'uses_social_media' ) === 'yes' ) {
+		$social_media_types = cmplz_get_option( 'socialmedia_on_site' );
+		if ( is_array($social_media_types) && in_array( $name, $social_media_types) ) {
 			return true;
 		}
 	}
@@ -793,103 +750,22 @@ function cmplz_uses_woocmmerce(){
 	return cmplz_uses_thirdparty('google-maps');
 }
 
-add_action( 'complianz_after_label', 'cmplz_add_placeholder_checkbox', 91, 1 );
-function cmplz_add_placeholder_checkbox( $args ) {
-	if ( ! isset( $args['fieldname'] ) || ! isset( $args["type"] )
-	     || $args["type"] !== 'checkbox'
-	) {
-		return;
-	}
-
-	if ( $args['source'] === 'integrations' ) {
-		$fieldname     = str_replace( "-", "_", sanitize_text_field( $args['fieldname'] ) );
-		$function_name = $fieldname;
-		$has_placeholder = ( function_exists( "cmplz_{$function_name}_placeholder" ) );
-		$disabled_placeholders = get_option( 'cmplz_disabled_placeholders', array() );
-		$value = ! in_array( $fieldname, $disabled_placeholders );
-		$disabled  = ! $has_placeholder;
-		$fieldname = 'cmplz_placeholder_' . $fieldname;
-		if ( ! $has_placeholder ) {
-			?>
-			<label class="cmplz-checkbox-container cmplz-disabled">N/A
-				<input
-						disabled
-						name=""
-						class=""
-						type="checkbox"
-						value="1">
-				<div class="checkmark"></div>
-			</label>
-			<?php
-		} else {
-			?>
-			<label tabindex="0" role="button" aria-pressed="false" class="cmplz-checkbox-container <?php echo $disabled ? 'cmplz-disabled' : '' ?>"><?php _e("Placeholder", "complianz-gdpr") ?>
-				<input
-						name="<?php echo esc_attr( $fieldname ) ?>"
-						type="hidden"
-						value="0"
-						tabindex="-1"
-						<?php if ( $disabled ) {echo 'disabled';} ?>
-				>
-				<input
-						<?php if ( $disabled ) {echo 'disabled';} ?>
-						name="<?php echo esc_attr($fieldname) ?>"
-						type="checkbox"
-						value="1"
-						tabindex="-1"
-						<?php checked( 1, $value, true ) ?>
-				>
-				<div
-						class="checkmark <?php echo $disabled ? 'cmplz-disabled' : '' ?>"
-						<?php checked( 1, $value, true ) ?>
-				><?php echo cmplz_icon('check', 'default', '', 10); ?></div>
-			</label>
-			<?php
-		}
-	}
-}
-
-
-function cmplz_notify_of_plugin_integrations( $warnings ){
-	$fields = COMPLIANZ::$config->fields( 'integrations' );
-	foreach ($fields as $id => $field ) {
-		if ($field['disabled']) continue;
-		$warnings['integration_enabled'] = array(
-			'open' => __('We have enabled integrations for plugins and services, please double-check your configuration.', 'complianz-gdpr' ) . cmplz_read_more("https://complianz.io/enabled-integration"),
-			'include_in_progress' => false,
-		);
-
-		break;
-
-	}
-
-	return $warnings;
-}
-add_filter( 'cmplz_warning_types', 'cmplz_notify_of_plugin_integrations' );
-
-
-
-
-
 /**
  * placeholders that are disabled will be removed by hook here.
  *
  * This only applies to the non iframe placeholders. Other placeholders are blocked using the cmplz_placeholder_disabled function
  */
 
-add_action( "plugins_loaded", 'cmplz_unset_placeholder_hooks' );
-function cmplz_unset_placeholder_hooks() {
-	$disabled_placeholders = get_option( 'cmplz_disabled_placeholders',
-		array() );
-	foreach ( $disabled_placeholders as $service ) {
-		$has_placeholder
-			= ( function_exists( "cmplz_{$service}_placeholder" ) );
-		if ( $has_placeholder ) {
-			remove_filter( 'cmplz_placeholder_markers',
-				"cmplz_{$service}_placeholder" );
-		}
-	}
-}
+//add_action( "plugins_loaded", 'cmplz_unset_placeholder_hooks' );
+//function cmplz_unset_placeholder_hooks() {
+//	$disabled_placeholders = get_option( 'cmplz_disabled_placeholders', array() );
+//	foreach ( $disabled_placeholders as $service ) {
+//		$has_placeholder = ( function_exists( "cmplz_{$service}_placeholder" ) );
+//		if ( $has_placeholder ) {
+//			remove_filter( 'cmplz_placeholder_markers', "cmplz_{$service}_placeholder" );
+//		}
+//	}
+//}
 
 /**
  * check if the placeholder for a service is disabled
@@ -925,7 +801,7 @@ function cmplz_placeholder_disabled( $service ) {
  */
 
 function cmplz_use_placeholder( $src = false ) {
-	if ( cmplz_get_value( 'dont_use_placeholders' ) ) {
+	if ( cmplz_get_option( 'dont_use_placeholders' ) ) {
 		return false;
 	}
 
@@ -971,9 +847,9 @@ function cmplz_get_service_by_src( $src ) {
 	}
 
 	if ( ! $type ) {
-		$type = COMPLIANZ::$cookie_admin->parse_for_social_media( $src, true );
+		$type = COMPLIANZ::$banner_loader->parse_for_social_media( $src, true );
 		if ( ! $type ) {
-			$type = COMPLIANZ::$cookie_admin->parse_for_thirdparty_services( $src, true );
+			$type = COMPLIANZ::$banner_loader->parse_for_thirdparty_services( $src, true );
 		}
 	}
 	return $type ?: 'general';
@@ -984,6 +860,11 @@ function cmplz_get_service_by_src( $src ) {
  */
 
 function cmplz_maybe_update_css(){
+
+	if ( !cmplz_admin_logged_in() ) {
+		return;
+	}
+
 	$integrations_changed = get_option('cmplz_integrations_changed', false );
 	if ( $integrations_changed ) {
 		cmplz_update_all_banners();
@@ -992,15 +873,19 @@ function cmplz_maybe_update_css(){
 }
 add_action('admin_init', 'cmplz_maybe_update_css');
 
-function cmplz_plugins_overview_wizard() {
-	$fields = COMPLIANZ::$config->fields( 'integrations' );
-	echo '<div class="cmplz-cookies-table"><div class="cmplz-cookies-table-body">';
-	if ( count($fields)==0 ) {
-		echo '<span>'.__("No required integrations detected yet.","complianz-gdpr").'</span>';
+/**
+ * Check if this plugin's integration is enabled
+ *
+ * @param string $plugin_name
+ *
+ * @return bool
+ */
+function cmplz_is_integration_enabled( string $plugin_name ): bool {
+	global $cmplz_integrations_list;
+	if ( ! array_key_exists( $plugin_name, $cmplz_integrations_list ) ) {
+		return false;
 	}
-	foreach ( $fields as $field ){
-		echo '<span>'.$field['label'].'</span>';
-	}
-	echo '</div></div>';
+	$fields = get_option( 'complianz_options_integrations' );
+	//default enabled, which means it's enabled when not set.
+	return ! ( isset( $fields[ $plugin_name ] ) && $fields[ $plugin_name ] != 1 );
 }
-add_action('cmplz_plugins_overview_wizard', 'cmplz_plugins_overview_wizard');

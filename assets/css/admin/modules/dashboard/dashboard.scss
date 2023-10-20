@@ -1,0 +1,23 @@
+.border-to-border {
+  .cmplz-grid-item-content {
+	padding: 0;
+
+	& > * {
+	  padding-inline: var(--rsp-spacing-l);
+	  width: 100%;
+	  display: flex;
+	  flex-wrap: wrap;
+	  align-items: center;
+	}
+  }
+}
+
+//hide our preloaded settings fields
+.cmplz-hidden {
+  display:none;
+}
+.cmplz-dashboard{
+	.cmplz-statistics {
+		padding: 0 !important;
+	}
+}

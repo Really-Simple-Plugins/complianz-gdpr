@@ -20,7 +20,7 @@ function cmplz_wpforms_get_plugin_forms( $input_forms ) {
 	if ( is_array( $forms ) ) {
 		$forms = wp_list_pluck( $forms, "post_title", "ID" );
 		foreach ( $forms as $id => $title ) {
-			$input_forms[ 'wpf_' . $id ] = $title . " " . __( '(WP Forms)', 'complianz-gdpr' );
+			$input_forms[ 'wpf_' . $id ] = $title . " " . '(WP Forms)';
 		}
 	}
 
@@ -36,7 +36,7 @@ add_filter( 'cmplz_get_forms', 'cmplz_wpforms_get_plugin_forms', 10, 1 );
 
 add_filter( 'cmplz_dependencies', 'cmplz_wpforms_dependencies' );
 function cmplz_wpforms_dependencies( $tags ) {
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		$site_key   = wpforms_setting( 'recaptcha-site-key', '' );
 		$secret_key = wpforms_setting( 'recaptcha-secret-key', '' );
 

@@ -1,0 +1,190 @@
+.cmplz-confetti {
+  position:absolute;
+  left:50%;
+}
+.cmplz {
+	.cmplz-wizard-settings { // starts with selector
+		.cmplz-helplink {
+			color: var(--rsp-text-color);
+		}
+	  	.cmplz-settings-region {
+			width:25px;
+		}
+
+		.cmplz-grid-item {
+			position: relative; //to ensure the cmplz-lock stays within the div
+			margin-bottom: var(--rsp-grid-gap);
+			// on display animate in
+
+			@media(max-width: $rsp-break-s) {
+				grid-column: span 4;
+			}
+			&-content{
+				animation: cmplz-fade-in 0.2s ease-in;
+				@keyframes cmplz-fade-in {
+					0% {
+						opacity: 0;
+					}
+					100% {
+						opacity: 1;
+					}
+				}
+			}
+		}
+		& > div:nth-last-of-type(2) {
+			margin-bottom: 0;
+			border-radius: var(--rsp-border-radius) var(--rsp-border-radius) 0 0;
+		}
+		&.cmplz-column-2{
+			grid-column: span 2;
+			@media(max-width: $rsp-break-s) {
+				grid-column: span 4;
+			}
+		}
+
+		.cmplz-locked {
+			position: absolute;
+			z-index: 10;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: rgba(255, 255, 255, 0.8);
+			border-radius: var(--rsp-border-radius);
+
+			.cmplz-locked-overlay {
+				z-index: 1;
+				top: calc(100% - 95px);
+				position: relative;
+				display: flex;
+				align-items: center;
+				gap: var(--rsp-spacing-s);
+				background-color: var(--rsp-white);
+				@include cmplz-block-padding;
+				border-radius: var(--rsp-border-radius-input);
+				margin: var(--rsp-spacing-s);
+				box-shadow: var(--rsp-box-shadow);
+
+				.cmplz-open {
+					float: left;
+					margin-right: 12px;
+				}
+
+				.cmplz-progress-status {
+					float: left;
+					margin-right: 20px;
+				}
+			}
+		}
+
+		.cmplz-grid-item-footer-container {
+			position: sticky;
+			bottom: 0;
+			display: flex;
+			flex-direction: column;
+			z-index: 12; //should be above 10, for the text editor, which has 10.
+		}
+		.cmplz-grid-item-footer-scroll-progress-container {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			height: 3px;
+			background-color: var(--rsp-grey-300);
+			overflow: hidden;
+		}
+
+		.cmplz-grid-item-footer-scroll-progress {
+			height: 100%;
+			background-color: var(--rsp-blue);
+		}
+		.cmplz-grid-item-footer {
+			background: var(--rsp-grey-100);
+			@include cmplz-block-padding();
+			box-shadow: var(--rsp-box-shadow);
+			border-radius: 0 0 var(--rsp-border-radius) var(--rsp-border-radius);
+			border-top: 1px solid var(--rsp-grey-300);
+			box-sizing: border-box;
+			align-items: center;
+			gap: var(--rsp-grid-margin);
+			width: 100%;
+			min-height: 20px;
+			justify-content: space-around;
+
+			// last item within the footer
+			& > div:last-of-type {
+				margin-left: auto;
+			}
+
+
+			//&-progress-bar{
+			//	display: flex;
+			//	align-items: center;
+			//	gap: var(--rsp-spacing-s);
+			//	width: 100%;
+			//	background: var(--rsp-grey-400);
+			//	border-radius: var(--rsp-border-radius-xs);
+			//	.cmplz-bar{
+			//		border-radius: var(--rsp-border-radius-xs);
+			//		height: 1rem;
+			//		background-color: var(--rsp-dark-blue);
+			//	}
+			//}
+			&-buttons{
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				gap: var(--rsp-spacing-s);
+			}
+		  	&-upsell-bar {
+			  .button {
+				display:inline-block !important;
+			  }
+			}
+
+			&:empty {
+				display: none;
+			}
+		}
+	}
+}
+.cmplz-cookiebanner-preview-controls{
+	display: flex;
+	justify-content: stretch;
+	flex-wrap: wrap;
+	margin-top: var(--rsp-spacing-l);
+	h6{
+		margin-top: var(--rsp-spacing-s);
+		margin-bottom: var(--rsp-spacing-xxs);
+		width: 100%;
+	}
+	button{
+
+		background: var(--rsp-grey-200);
+		padding: var(--rsp-spacing-xxs) var(--rsp-spacing-xs);
+		border-radius: var(--rsp-border-radius-input);
+		border: 1px solid var(--rsp-grey-300);
+		&:hover{
+			background: var(--rsp-grey-300);
+		}
+		&.active{
+			background: var(--rsp-blue);
+			color: var(--rsp-white);
+			border: 1px solid var(--rsp-blue);
+			&:hover{
+				background: var(--rsp-blue);
+			}
+		}
+	  &.inactive{
+		cursor:pointer;
+	  }
+
+	}
+	&-buttons{
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: center;
+		gap: var(--rsp-spacing-xxs);
+	}
+}

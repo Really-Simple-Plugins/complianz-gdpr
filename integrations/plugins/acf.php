@@ -1,13 +1,13 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
-if ( !cmplz_integration_plugin_is_active( 'google-maps-easy' ) &&
-     !cmplz_integration_plugin_is_active( 'g1-maps' ) &&
-     !cmplz_integration_plugin_is_active( 'generatepress-maps' ) &&
-     !cmplz_integration_plugin_is_active( 'map-multi-marker' ) &&
-     !cmplz_integration_plugin_is_active( 'wp-google-maps' ) &&
-     !cmplz_integration_plugin_is_active( 'avada-maps' ) &&
-     !cmplz_integration_plugin_is_active( 'uncode' ) &&
-     !cmplz_integration_plugin_is_active( 'wp-google-maps-widget' )
+if ( !cmplz_integration_plugin_is_enabled( 'google-maps-easy' ) &&
+     !cmplz_integration_plugin_is_enabled( 'g1-maps' ) &&
+     !cmplz_integration_plugin_is_enabled( 'generatepress-maps' ) &&
+     !cmplz_integration_plugin_is_enabled( 'map-multi-marker' ) &&
+     !cmplz_integration_plugin_is_enabled( 'wp-google-maps' ) &&
+     !cmplz_integration_plugin_is_enabled( 'avada-maps' ) &&
+     !cmplz_integration_plugin_is_enabled( 'uncode' ) &&
+     !cmplz_integration_plugin_is_enabled( 'wp-google-maps-widget' )
 	) {
 
 	add_filter( 'cmplz_known_script_tags', 'cmplz_acf_script' );

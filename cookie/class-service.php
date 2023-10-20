@@ -105,7 +105,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( $service ) {
 				$this->ID                  = $service->ID;
 				$this->name                = $service->name;
-				$this->serviceType         = $service->serviceType;
+				$this->serviceType         = html_entity_decode($service->serviceType);
 				$this->sharesData
 				                           = $service->thirdParty; //legacy, sharesData was first called thirdparty
 				$this->secondParty         = $service->secondParty;
@@ -117,7 +117,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				$this->category            = $service->category;
 				$this->isTranslationFrom   = $service->isTranslationFrom;
 				$this->lastUpdatedDate     = $service->lastUpdatedDate;
-				$this->synced              = $service->lastUpdatedDate > 0 ? true : false;
+				$this->synced              = $this->sync && $service->lastUpdatedDate > 0 ? true : false;
 				$this->slug                = $service->slug;
 
 				$this->complete = ! ( empty( $this->name )
@@ -143,25 +143,27 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				return;
 			}
 
-			if ($forceWizardUpdate) $this->add_to_wizard( $this->name );
+			if ($forceWizardUpdate) {
+				$this->add_to_wizard( $this->name );
+			}
 
 			cmplz_register_translation($this->serviceType, 'service_type');
 
 			$update_array = array(
 				'name'                => sanitize_text_field( $this->name ),
-				'thirdParty'          => boolval( $this->sharesData ),
+				'thirdParty'          => (bool) $this->sharesData,
 				//legacy, sharesData was first called third party.
-				'sharesData'          => boolval( $this->sharesData ),
+				'sharesData'          => (bool) $this->sharesData,
 				//fluid upgrade
-				'secondParty'         => boolval( $this->secondParty ),
-				'sync'                => boolval( $this->sync ),
+				'secondParty'         => (bool) $this->secondParty,
+				'sync'                => (bool) $this->sync,
 				'serviceType'         => sanitize_text_field( $this->serviceType ),
 				'privacyStatementURL' => sanitize_text_field( $this->privacyStatementURL ),
 				'language'            => cmplz_sanitize_language( $this->language ),
 				'category'            => sanitize_text_field( $this->category ),
 				'isTranslationFrom'   => sanitize_text_field( $this->isTranslationFrom ),
-				'lastUpdatedDate'     => intval( $this->lastUpdatedDate ),
-				'slug'                => sanitize_title( $this->slug ),
+				'lastUpdatedDate'     => (int) $this->lastUpdatedDate,
+				'slug'                => empty($this->slug) ? '' : sanitize_title( $this->slug ),
 
 			);
 
@@ -197,7 +199,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 					$translation->save(false, false);
 				}
 			}
-
+			cmplz_delete_transient('cmplz_cookie_shredder_list');
 			wp_cache_delete('cmplz_service_cookies_'.$this->ID, 'complianz');
 			wp_cache_delete('cmplz_service_'.$this->ID, 'complianz');
 		}
@@ -214,12 +216,11 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( ! $this->ID ) {
 				return;
 			}
-
 			//get all related cookies, and delete them.
 			$cookies = $this->get_cookies();
 			foreach ( $cookies as $service_cookie ) {
 				$cookie = new CMPLZ_COOKIE( $service_cookie->ID );
-				$cookie->delete();
+				$cookie->delete(true);
 			}
 
 			$this->drop_from_wizard( $this->name );
@@ -244,20 +245,20 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				return;
 			}
 			$slug            = $this->get_service_slug( $service );
-			$wizard_settings = get_option( 'complianz_options_wizard' );
-			if ( isset( $wizard_settings['thirdparty_services_on_site'][ $slug ] )
-			     && $wizard_settings['thirdparty_services_on_site'][ $slug ]
-			        == 1
-			) {
-				unset( $wizard_settings['thirdparty_services_on_site'][ $slug ] );
-				update_option( 'complianz_options_wizard', $wizard_settings );
+			$services = cmplz_get_option( 'thirdparty_services_on_site' );
+			if (!is_array($services)) $services = array();
+			if ( in_array($slug, $services, true ) ) {
+				$index = array_search($slug, $services, true);
+				unset($services[$index]);
+				cmplz_update_option_no_hooks('thirdparty_services_on_site', $services);
 			}
 
-			if ( isset( $wizard_settings['socialmedia_on_site'][ $slug ] )
-			     && $wizard_settings['socialmedia_on_site'][ $slug ] == 1
-			) {
-				unset( $wizard_settings['socialmedia_on_site'][ $slug ] );
-				update_option( 'complianz_options_wizard', $wizard_settings );
+			$social = cmplz_get_option( 'socialmedia_on_site' );
+			if (!is_array($social)) $social = array();
+			if ( in_array($slug, $social, true ) ) {
+				$index = array_search($slug, $social, true);
+				unset($social[$index]);
+				cmplz_update_option_no_hooks('socialmedia_on_site', $social);
 			}
 
 		}
@@ -272,27 +273,22 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 			if ( !cmplz_user_can_manage() ) {
 				return;
 			}
-			$slug                = $this->get_service_slug( $service );
-			$wizard_settings     = get_option( 'complianz_options_wizard' );
-			$registered_services = COMPLIANZ::$config->thirdparty_services;
 
-			if ( isset( $registered_services[ $slug ] )
-			     && ( ! isset( $wizard_settings['thirdparty_services_on_site'][ $slug ] )
-			          || $wizard_settings['thirdparty_services_on_site'][ $slug ]
-			             != 1 )
-			) {
-				$wizard_settings['thirdparty_services_on_site'][ $slug ] = 1;
-				update_option( 'complianz_options_wizard', $wizard_settings );
+			$slug                = $this->get_service_slug( $service );
+			$registered_services = COMPLIANZ::$config->thirdparty_services;
+			$services = cmplz_get_option('thirdparty_services_on_site');
+			if ( !is_array($services) ) $services = array();
+			if ( isset( $registered_services[ $slug ] ) &&  !in_array($slug, $services, true ) ) {
+				$services[] = $slug;
+				cmplz_update_option_no_hooks( 'thirdparty_services_on_site', $services );
 			}
 
 			$registered_social = COMPLIANZ::$config->thirdparty_socialmedia;
-
-			if ( isset( $registered_social[ $slug ] )
-			     && ( ! isset( $wizard_settings['socialmedia_on_site'][ $slug ] )
-			          || $wizard_settings['socialmedia_on_site'][ $slug ] != 1 )
-			) {
-				$wizard_settings['socialmedia_on_site'][ $slug ] = 1;
-				update_option( 'complianz_options_wizard', $wizard_settings );
+			$social = cmplz_get_option('socialmedia_on_site');
+			if ( !is_array($social) ) $social = array();
+			if ( isset( $registered_social[ $slug ] ) &&  !in_array($slug, $social, true ) ) {
+				$social[] = $slug;
+				cmplz_update_option_no_hooks( 'socialmedia_on_site', $social );
 			}
 		}
 
@@ -375,13 +371,13 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 
 			$parent_ID = $this->ID;
 
-			if ( $return_language == 'en' ) {
+			if ( $return_language === 'en' ) {
 				$return_id = $this->ID;
 			}
 
 			//make sure each language is available
 			foreach ( $this->languages as $language ) {
-				if ( $language == 'en' ) {
+				if ( $language === 'en' ) {
 					continue;
 				}
 

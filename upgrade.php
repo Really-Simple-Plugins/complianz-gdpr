@@ -10,16 +10,26 @@ function cmplz_check_upgrade() {
 	if ( !is_admin() && !wp_doing_cron() ) {
 		return;
 	}
+
 	$prev_version = get_option( 'cmplz-current-version', false );
-	if ( $prev_version === cmplz_version ) {
+	$new_version = cmplz_version;
+	//strip off everything after '#'
+	if ( strpos( $new_version, '#' ) !== false ) {
+		$new_version = substr( $new_version, 0, strpos( $new_version, '#' ) );
+	}
+
+	if ( $prev_version === $new_version ) {
 		return;
 	}
+
+	//trigger table upgrades
+	do_action("cmplz_install_tables");
 
 	/**
 	 * Set a "first version" variable, so we can check if some notices need to be shown
 	 */
 	if ( ! $prev_version ) {
-		update_option( 'cmplz_first_version', cmplz_version, false );
+		update_option( 'cmplz_first_version', $new_version, false );
 	}
 
 	/*
@@ -49,7 +59,7 @@ function cmplz_check_upgrade() {
 		if ( cmplz_has_region( 'eu' ) && cmplz_has_region( 'uk' ) ) {
 			$banners = cmplz_get_cookiebanners();
 			foreach ( $banners as $banner ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner->ID );
+				$banner = cmplz_get_cookiebanner( $banner->ID );
 				$banner->use_categories_optinstats
 				        = $banner->use_categories;
 				$banner->save();
@@ -65,13 +75,13 @@ function cmplz_check_upgrade() {
 	if ( $prev_version
 	     && version_compare( $prev_version, '4.0.4', '<' )
 	) {
-		$selected_stat_service = cmplz_get_value( 'compile_statistics' );
+		$selected_stat_service = cmplz_get_option( 'compile_statistics' );
 		if ( $selected_stat_service === 'google-analytics'
 		     || $selected_stat_service === 'matomo'
 		     || $selected_stat_service === 'google-tag-manager'
 		) {
 			$service_name
-				= COMPLIANZ::$cookie_admin->convert_slug_to_name( $selected_stat_service );
+				= COMPLIANZ::$banner_loader->convert_slug_to_name( $selected_stat_service );
 
 			//check if we have ohter types of this service, to prevent double services here.
 			$service_anonymized = new CMPLZ_SERVICE( $service_name . ' (anonymized)' );
@@ -88,26 +98,6 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	/**
-	 * ask consent for cookiedatabase sync and reference, and start sync and scan
-	 */
-
-	if ( $prev_version
-	     && version_compare( $prev_version, '4.0.4', '<' )
-	) {
-
-		//upgrade option to transient
-		if ( ! get_transient( 'cmplz_processed_pages_list' ) ) {
-			set_transient( 'cmplz_processed_pages_list',
-				get_option( 'cmplz_processed_pages_list' ),
-				MONTH_IN_SECONDS );
-		}
-
-		//reset scan, delayed
-		COMPLIANZ::$cookie_admin->reset_pages_list( true );
-		//initialize a sync
-		update_option( 'cmplz_run_cdb_sync_once', true, false );
-	}
 
 	/**
 	 * upgrade publish date to more generic unix
@@ -136,7 +126,7 @@ function cmplz_check_upgrade() {
 			unset( $wizard_settings["cookie-policy-type"] );
 			//upgrade cookie policy custom url
 			if ( $value === 'custom' ) {
-				$url = cmplz_get_value( 'custom-cookie-policy-url' );
+				$url = cmplz_get_option( 'custom-cookie-policy-url' );
 				update_option( "cmplz_cookie-statement_custom_page", $url );
 				unset( $wizard_settings["custom-cookie-policy-url"] );
 			} else {
@@ -228,7 +218,7 @@ function cmplz_check_upgrade() {
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
-				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner = cmplz_get_cookiebanner( $banner_item->ID );
 				if ( $banner->banner_width % 2 == 1 ) {
 					$banner->banner_width ++;
 				}
@@ -250,13 +240,7 @@ function cmplz_check_upgrade() {
 	     && version_compare( $prev_version, '4.9.6', '<' )
 	) {
 		//this branch aims to revoke consent and clear all cookies. We increase the policy id to do this.
-		COMPLIANZ::$cookie_admin->upgrade_active_policy_id();
-	}
-
-	if ( $prev_version
-	     && version_compare( $prev_version, '4.9.7', '<' )
-	) {
-		update_option( 'cmplz_show_terms_conditions_notice', time(), false );
+		COMPLIANZ::$banner_loader->upgrade_active_policy_id();
 	}
 
 	/**
@@ -274,7 +258,7 @@ function cmplz_check_upgrade() {
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
 				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID, false );
-				$sql    = "select * from {$wpdb->prefix}cmplz_cookiebanners where ID = {$banner_item->ID}";
+				$sql    = $wpdb->prepare("select * from {$wpdb->prefix}cmplz_cookiebanners where ID = %s", $banner_item->ID);
 				$result = $wpdb->get_row( $sql );
 
 				if ( $result ) {
@@ -370,22 +354,6 @@ function cmplz_check_upgrade() {
 		unset( $wizard_settings['thirdparty_iframes'] );
 		update_option( 'complianz_options_custom-scripts', $custom_scripts );
 		update_option( 'complianz_options_wizard', $wizard_settings );
-
-		/**
-		 * we dismiss the integrations enabled notices
-		 */
-
-		$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
-		$fields             = COMPLIANZ::$config->fields( 'integrations' );
-		foreach ( $fields as $warning_id => $field ) {
-			if ( $field['disabled'] ) {
-				continue;
-			}
-			if ( ! in_array( $warning_id, $dismissed_warnings ) ) {
-				$dismissed_warnings[] = $warning_id;
-			}
-		}
-		update_option( 'cmplz_dismissed_warnings', $dismissed_warnings, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '5.1.0', '<' ) ) {
@@ -431,14 +399,6 @@ function cmplz_check_upgrade() {
 					$banner->save();
 				}
 			}
-		}
-	}
-
-	if ( $prev_version
-	     && version_compare( $prev_version, '5.2.6.1', '<' )
-	) {
-		if ( cmplz_tcf_active() ) {
-			delete_option( 'cmplz_vendorlist_downloaded_once' );
 		}
 	}
 
@@ -667,10 +627,6 @@ function cmplz_check_upgrade() {
 		}
 		update_option( 'complianz_options_custom-scripts', $scripts );
 
-		$general_settings                      = get_option( 'complianz_options_settings' );
-		$general_settings['enable_migrate_js'] = true;
-		update_option( 'complianz_options_settings', $general_settings );
-
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
 			foreach ( $banners as $banner_item ) {
@@ -807,9 +763,6 @@ function cmplz_check_upgrade() {
 			}
 		}
 	}
-	if ( $prev_version && version_compare( $prev_version, '6.0.5', '<' ) ) {
-		update_option('complianz_enable_dismissible_premium_warnings', true);
-	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.0.8', '<' ) ) {
 		$banners = cmplz_get_cookiebanners();
@@ -822,10 +775,6 @@ function cmplz_check_upgrade() {
 				}
 			}
 		}
-	}
-
-	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
-		update_option( 'cmplz_vendorlist_downloaded_once', strtotime('-1 week') + HOUR_IN_SECONDS, false );
 	}
 
 	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
@@ -966,49 +915,119 @@ function cmplz_check_upgrade() {
 		update_option( 'complianz_options_settings', $settings );
 	}
 
+	//  regenerate css
+	//	$banners = cmplz_get_cookiebanners();
+	//	if ( $banners ) {
+	//		foreach ( $banners as $banner_item ) {
+	//			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+	//			$banner->save();
+	//		}
+	//	}
 
 	//ensure new capability
 	if ( $prev_version && version_compare( $prev_version, '6.4.1', '<' ) ) {
 		cmplz_add_manage_privacy_capability();
 	}
 
-	//update for TCF GVL 3
-	//regenerate css
-	//set manage consent tab
-	if ( $prev_version && version_compare( $prev_version, '6.5.4', '<' ) ) {
-		update_option('cmplz_completed_upgrade_with_condition', true, false);
-		if ( cmplz_tcf_active() ) {
-			$banners = cmplz_get_cookiebanners();
-			if ( $banners ) {
-				foreach ( $banners as $banner_item ) {
-					$banner                         = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-					$banner->save();
-				}
-			}
+	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
+		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
+		//create new options array
+		$options = get_option( 'cmplz_options', [] );
+		if ( ! is_array( $options ) ) {
+			$options = [];
 		}
-	}
 
-	if ( $prev_version && version_compare( $prev_version, '6.5.4', '=' ) ) {
-		//if the previous update already was executed without the TCF condition, put it back to default.
-		//this is the case for prev_version = 6.5.4 and not free
-		if ( !get_option('cmplz_completed_upgrade_with_condition') && !defined('cmplz_free') && !cmplz_tcf_active() ){
-			$banners = cmplz_get_cookiebanners();
-			if ( $banners ) {
-				foreach ( $banners as $banner_item ) {
-					$banner                         = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-					$banner->manage_consent_options = 'hover-hide-mobile';
-					$banner->save();
+		$default_id = cmplz_get_default_banner_id();
+		$banner     = new CMPLZ_COOKIEBANNER( $default_id );
+		if ( $banner->disable_cookiebanner ) {
+			cmplz_update_option_no_hooks( 'enable_cookie_banner', 'no' );
+		}
+
+		$license = get_site_option( 'cmplz_license_key' );
+		if ( $license && !is_multisite() ) {
+			$options[ 'license' ] = $license;
+		}
+
+		$migrate_js_enabled = false;
+		$old_settings_array = [ 'complianz_options_settings', 'complianz_options_wizard' ];
+		$wiz = get_option('complianz_options_settings');
+		$use_country = $wiz['use_country'] ?? false;
+		foreach ( $old_settings_array as $old_setting ) {
+			$settings = get_option( $old_setting, [] );
+			foreach ( $settings as $id => $value ) {
+				//if type is multicheckbox, change [key1 = 1, key2=1] structure to [key1, key2]
+				$id = strtolower($id);
+				$field = cmplz_get_field( $id );
+				//tcf fields are not loaded yet, because the upgrade is not completed, so iab_enabled will always return false.
+				//as a workaround we check if the id starts with tcf_
+				if ( strpos($id, 'tcf_') !== false ){
+					$field = $id==='tcf_lspact' ? ['type'=>'radio'] : ['type'=>'multicheckbox'];
+				}
+				if ( $field ) {
+					$type = $field['type'];
+					//regions is default radio, but multicheckbox when use_country is enabled
+					if ($id === 'regions' && $use_country) {
+						$type = 'multicheckbox';
+					}
+					if ($type === 'multicheckbox' && is_array( $value )) {
+
+						$value = array_filter( $value, static function ( $item ) {return $item == 1;} );
+						$value = array_keys( $value );
+					}
+					if ($id === 'which_personal_data_secure') {
+						$new = [];
+						if ( isset($value['1']) || isset($value['16']) ) {
+							$new[] = '1';
+						}
+						if ( isset($value['2']) || isset($value['4'])) {
+							$new[] = '2';
+						}
+						if ( isset($value['3']) || isset($value['15']) ) {
+							$new[] = '3';
+						}
+						if ( isset($value['6']) ) {
+							$new[] = '5';
+						}
+						if ( isset($value['5']) ) {
+							$new[] = '7';
+						}
+						if ( isset($value['7']) ) {
+							$new[] = '8';
+						}
+						if ( isset($value['8']) || isset($value['9']) || isset($value['10']) || isset($value['11']) || isset($value['14']) || isset($value['17']) ) {
+							$new[] = '4';
+						}
+						$value = $new;
+					}
+					$options[ $id ] = $value;
+				}
+				if ($id === 'enable_migrate_js' && $value) {
+					$migrate_js_enabled = true;
 				}
 			}
 		}
-		delete_option('cmplz_completed_upgrade_with_condition');
+
+		if ( !empty($options) ){
+			update_option( 'cmplz_options', $options );
+		}
+
+		if ( $migrate_js_enabled ) {
+			$dismissed_warnings = get_option( 'cmplz_dismissed_warnings', array() );
+			if ( ! in_array( 'migrate_js', $dismissed_warnings ) ) {
+				$dismissed_warnings[] = 'migrate_js';
+				update_option('cmplz_dismissed_warnings', $dismissed_warnings, false );
+			}
+		}
+		//set an activated time, which is used in the cookie scan and geo ip downloads
+		update_option('cmplz_activation_time', strtotime('-1 week'), false);
 	}
 
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
+
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');
 	do_action( 'cmplz_upgrade', $prev_version );
-	update_option( 'cmplz-current-version', cmplz_version, false );
+	update_option( 'cmplz-current-version', $new_version );
 }

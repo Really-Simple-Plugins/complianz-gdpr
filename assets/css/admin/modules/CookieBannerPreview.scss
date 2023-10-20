@@ -1,0 +1,161 @@
+
+#complianz {
+	.cmplz-grid.cmplz-banner {
+		margin-bottom:200px;//ensure that there's some space for the bottom banner, so the save button is visible above it.
+	}
+	.cmplz-cookiebanner-preview-controls {
+		.cmplz-hidden {
+			display: none;
+		}
+
+		.cmplz-logo-container {
+			display: flex;
+			gap: 40px;
+		}
+
+		.cmplz-select-group {
+			//min 250px or 100%
+			min-width: max(250px, 100%);
+		}
+
+		margin-left: 10px;
+
+		ul {
+			margin-bottom: 15px;
+
+			li {
+				display: flex;
+				cursor: pointer;
+				margin: 5px;
+
+				.cmplz-icon {
+					margin-right: 10px;
+				}
+
+				&.inactive {
+					text-decoration: underline;
+				}
+
+				&.loading {
+					color: var(--rsp-grey-400);
+				}
+
+			}
+		}
+	}
+
+	.cmplz-banner-reset-button {
+		button.button.button-default {
+			display: flex;
+
+			.cmplz-icon {
+				margin: auto auto auto 10px;
+			}
+		}
+	}
+
+	.cmplz-logo-preview {
+
+		&.cmplz-clickable {
+			cursor: pointer;
+			max-width: 90px;
+			height: inherit;
+		}
+
+		&.cmplz-complianz-logo {
+			padding: 5px;
+
+			svg {
+				height: 90px;
+				width: 90px;
+			}
+		}
+
+		margin-top: 10px;
+		border: 1px black dashed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		float: right;
+
+		&.cmplz-clickable {
+			cursor: pointer;
+			max-width: 90px;
+			height: inherit;
+		}
+
+		&.cmplz-complianz-logo {
+			padding: 5px;
+
+			svg {
+				height: 90px;
+				width: 90px;
+			}
+		}
+	}
+
+	/**
+	Preview to the right
+	 */
+
+
+	#cmplz-cookiebanner-container {
+		.cmplz-cookiebanner.reloading {
+			//opacity: 0.7;
+		}
+
+		.cmplz-cookiebanner.cmplz-bottom {
+			margin-right: 20px;
+			width: calc(100% - 50px);
+			left:20px;
+		}
+
+		.cmplz-cookiebanner.cmplz-bottom-left, .cmplz-cookiebanner.cmplz-bottom-right {
+			left: initial;
+			right: 0;
+
+			@media (max-width: 1800px) {
+				transform: translateX(calc(0.3 * var(--cmplz_banner_width)));
+
+				&:hover {
+					animation: slideBannerIn 1s forwards;
+					animation-delay: 0s;
+				}
+			}
+		}
+
+
+		.cmplz-cookiebanner.cmplz-center {
+			right: 0;
+			left: initial;
+			transform: initial;
+			//this causes issues with the fade in center variant
+			top: initial;
+			bottom: 50px;
+			@media (max-width: 1800px) {
+				transform: translateX(calc(0.3 * var(--cmplz_banner_width)));
+
+				&:hover {
+					animation: slideBannerIn 1s forwards;
+					animation-delay: 0s;
+				}
+			}
+
+		}
+
+
+		@-webkit-keyframes slideBannerIn {
+			100% {
+				transform: inherit;
+			}
+		}
+
+		@keyframes slideBannerIn {
+			100% {
+				transform: inherit;
+			}
+		}
+
+	}
+
+}

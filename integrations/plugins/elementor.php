@@ -176,7 +176,7 @@ add_filter('cmplz_cookie_blocker_output', 'cmplz_elementor_cookieblocker');
 
 add_action( 'cmplz_banner_css', 'cmplz_elementor_css' );
 function cmplz_elementor_css() {
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){ ?>
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){ ?>
 	.cmplz-blocked-content-container.elementor-g-recaptcha  {
 		max-width: initial !important;
 		height: 80px !important;

@@ -86,13 +86,13 @@ if ( ! class_exists( "cmplz_review" ) ) {
 									'</a>' ); ?></p>
 						<i>- Rogier</i>
 						<div class="cmplz-buttons-row">
-							<a class="button button-primary" target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php _e( 'Leave a review', 'complianz-gdpr' ); ?></a>
+							<a class="button button-primary" target="_blank" href="https://wordpress.org/support/plugin/complianz-gdpr/reviews/#new-post"><?php esc_html_e(__( 'Leave a review', 'complianz-gdpr' ) ); ?></a>
 
 							<div class="dashicons dashicons-calendar"></div>
-							<a href="#" id="maybe-later"><?php _e( 'Maybe later', 'complianz-gdpr' ); ?></a>
+							<a href="#" id="maybe-later"><?php esc_html_e(__( 'Maybe later', 'complianz-gdpr' ) ); ?></a>
 
 							<div class="dashicons dashicons-no-alt"></div>
-							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php _e( 'Don\'t show again', 'complianz-gdpr' ); ?></a>
+							<a href="<?php echo add_query_arg(array('page'=>'complianz', 'cmplz_dismiss_review'=>1), admin_url('admin.php') )?>"><?php esc_html_e(__( 'Don\'t show again', 'complianz-gdpr' )); ?></a>
 						</div>
 					</div>
 				</div>
@@ -152,11 +152,7 @@ if ( ! class_exists( "cmplz_review" ) ) {
 		 */
 
 		public function dismiss_review_notice_callback() {
-			$type = $_POST['type'] ?? false;
-			$nonce = $_POST['token'] ?? false;
-			if (!wp_verify_nonce( $nonce, 'cmplz_dismiss_review' ) ) {
-				wp_die( 'Invalid nonce specified' );
-			}
+			$type = isset( $_POST['type'] ) ? $_POST['type'] : false;
 
 			if ( $type === 'dismiss' ) {
 				update_option( 'cmplz_review_notice_shown', true, false );

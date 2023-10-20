@@ -1,0 +1,114 @@
+.cmplz{
+	.cmplz {
+		&-border-input {
+			display: grid;
+			grid-template-columns: repeat(4, min-content) 3rem;
+			grid-template-rows: auto auto;
+			grid-template-areas:
+      "input1 input2 input3 input4 button" /* first row */
+      "label1 label2 label3 label4 ."; /* second row */
+			row-gap: var(--rsp-spacing-xxs);
+		}
+
+		&-border-input {
+			input {
+				width: 8ch;
+				border: 1px solid var(--rsp-input-border-color);
+				margin-right: -1px;
+				border-radius: 0;
+			}
+
+			&-side {
+				&:nth-child(1) {
+					grid-area: input1;
+					border-radius: var(--rsp-border-radius-xs) 0 0 var(--rsp-border-radius-xs);
+				}
+
+				&:nth-child(3) {
+					grid-area: input2;
+				}
+
+				&:nth-child(5) {
+					grid-area: input3;
+				}
+
+				&:nth-child(7) {
+					grid-area: input4;
+				}
+			}
+
+			&-link {
+				background-color: var(--rsp-white);
+				grid-area: button;
+				border: 1px solid var(--rsp-input-border-color);
+				border-radius: 0 var(--rsp-border-radius-xs) var(--rsp-border-radius-xs) 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				line-height: 1;
+
+				svg path {
+					fill: var(--rsp-text-color-light);
+				}
+
+				&.linked {
+					background-color: var(--rsp-blue-faded);
+				}
+			}
+
+			&-side-label {
+				color: var(--rsp-text-color-light);
+				font-size: var(--rsp-fs-100);
+				text-align: center;
+
+				&:nth-child(2) {
+					grid-area: label1;
+				}
+
+				&:nth-child(4) {
+					grid-area: label2;
+				}
+
+				&:nth-child(6) {
+					grid-area: label3;
+				}
+
+				&:nth-child(8) {
+					grid-area: label4;
+				}
+			}
+
+			&-unit{
+				font-size: var(--rsp-fs-100);
+				color: var(--rsp-text-color-light);
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				align-content: center;
+				select{
+					// unset all except for background
+					background:
+						#fff
+						url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+						no-repeat
+						right 0px
+						top 55%;
+					font-size: var(--rsp-fs-100);
+					line-height: 1.5;
+					color: var(--rsp-text-color-light);
+					border-color: unset;
+					border: unset;
+					box-shadow: none;
+					border-radius: unset;
+					padding: 0 16px 0 0;
+					min-height: var(--rsp-fs-100);
+					max-width: 25rem;
+					-webkit-appearance: none;
+					background-size: 16px 16px;
+					cursor: pointer;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+}

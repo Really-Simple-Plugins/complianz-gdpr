@@ -10,13 +10,8 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					get_class( $this ) ) );
 			}
 			self::$_this = $this;
+			add_filter( 'cmplz_do_action', array( $this, 'get_proof_of_consent_data' ), 10, 3 );
 
-			if ( cmplz_get_value('records_of_consent') !== 'yes' || defined('cmplz_free') ) {
-				add_action( 'cmplz_admin_menu', array( $this, 'menu_item' ), 10 );
-				add_action( 'wp_ajax_cmplz_delete_snapshot', array( $this, 'ajax_delete_snapshot' ) );
-			}
-
-			add_action( 'admin_init', array( $this, 'force_snapshot_generation' ) );
 		}
 
 		static function this() {
@@ -34,8 +29,8 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 		public function get_time_stamp_for_date( $year, $month, $type = 'start_date' ){
 			if ( $year != 0 && $month != 0 ) {
 				$day = '1';
-				$month = intval($month);
-				$year = intval($year) ;
+				$month = (int) $month;
+				$year = (int) $year;
 				$t = '00:00:00';
 
 				if ( $type === 'end_date' ) {
@@ -46,14 +41,70 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			return 0;
 		}
 
+
+		/**
+		 * Get a list of processors
+		 * @param array $data
+		 * @param string $action
+		 * @param WP_REST_Request $request
+		 *
+		 * @return []
+		 */
+
+		public function get_proof_of_consent_data($data, $action, $request){
+			if ( ! cmplz_user_can_manage() ) {
+				return [];
+			}
+			if ( $action==='get_proof_of_consent_documents' ){
+				$regions = cmplz_get_regions(false, 'full');
+				//convert key value array to array of objects with id and label
+				$regions = array_map(function($id, $label){
+					return (object) array('value'=>$id, 'label'=>$label);
+				}, array_keys($regions), $regions);
+				$regions[]=['value'=>'', 'label'=>__('Select a region', 'complianz-gdpr')];
+				$documents = $this->get_cookie_snapshot_list();
+
+				//convert unix timestamp to date
+				//convert the array key to an 'id'
+				foreach ($documents as $key => $document) {
+					$document['time'] = date_i18n( get_option( 'date_format' ), $document['time'] );
+					$document['id'] = $key;
+					$documents[$key]=$document;
+				}
+
+				//strip key from the array
+				$documents = empty($documents) ? [] : array_values($documents);
+				$data = [
+					'documents' => $documents,
+					'regions' => $regions,
+					'download_url' => cmplz_upload_url('snapshots'),
+				];
+			} else if ($action==='delete_proof_of_consent_documents') {
+				$documents = $request->get_param('documents');
+				foreach ($documents as $document) {
+					$this->delete_snapshot($document['file']);
+				}
+
+			} else if ($action==='generate_proof_of_consent'){
+				$this->generate_cookie_policy_snapshot(true);
+				$data = [
+					'success' => true,
+				];
+			}
+			return $data;
+		}
+
 		/**
 		 * Get list of cookie statement snapshots
 		 * @param array $args
 		 *
-		 * @return array|false
+		 * @return array
 		 */
 
-		public function get_cookie_snapshot_list( $args = array() ) {
+		public function get_cookie_snapshot_list( $args = array() ): array {
+			if ( ! cmplz_user_can_manage() ) {
+				return [];
+			}
 			$defaults   = array(
 				'number' => 30,
 				'region' => false,
@@ -70,7 +121,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			$index = 0;
 			if ( file_exists( $path ) && $handle = opendir( $path ) ) {
 				while ( false !== ( $file = readdir( $handle ) ) ) {
-					if ( $file != "." && $file != ".." ) {
+					if ( $file !== "." && $file !== ".." ) {
 						$file = $path . $file;
 						$ext  = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
 						if ( is_file( $file ) && in_array( $ext, $extensions ) ) {
@@ -78,6 +129,11 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 							if ( $args['region'] && strpos(basename($file), $args['region'].'-proof-of-consent') === false ) {
 								continue;
 							}
+							//get the region from the file name, e.g. rogier-lankhorst-test-amp-bla-eu-proof-of-consent-1-april-2023.pdf
+							//with a regex, where the regex matches the two character region before '-proof-of-consent'
+							$matches = array();
+							preg_match('/([a-z]{2})-proof-of-consent/', basename($file), $matches);
+							$region = isset($matches[1]) ? $matches[1] : '';
 
 							if ( empty( $args['search'] ) || strpos( $file, $args['search'] ) !== false) {
 								$index++;
@@ -87,8 +143,9 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 									$filelist[filemtime($file).$parsed_index]["url"]  = trailingslashit($url).basename($file);
 									$filelist[filemtime($file).$parsed_index]["file"] = basename($file);
 									$filelist[filemtime($file).$parsed_index]["time"] = filemtime($file);
+									$filelist[filemtime($file).$parsed_index]["region"] = $region;
+									$filelist[filemtime($file).$parsed_index]["consent"] = cmplz_consenttype_nicename(cmplz_get_consenttype_for_region($region));
 								}
-
 							}
 						}
 					}
@@ -102,7 +159,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				ksort( $filelist );
 			}
 			if ( empty( $filelist ) ) {
-				return false;
+				return [];
 			}
 
 			$page       = (int) $args['offset'];
@@ -121,164 +178,29 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			if ( empty( $filelist ) ) {
-				return false;
+				return [];
 			}
 
 			return $filelist;
-
-		}
-
-
-		/**
-		 * Forces generation of a snapshot for today, triggered by the button
-		 *
-		 */
-
-		public function force_snapshot_generation() {
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-
-			if ( isset( $_POST["cmplz_generate_snapshot"] )
-			     && isset( $_POST["cmplz_nonce"] )
-			     && wp_verify_nonce( $_POST['cmplz_nonce'],
-					'cmplz_generate_snapshot' )
-			) {
-				COMPLIANZ::$proof_of_consent->generate_cookie_policy_snapshot( $force = true );
-			}
-		}
-
-		/**
-		 * Delete a snapshot
-		 */
-
-		public function ajax_delete_snapshot() {
-
-			if (!isset($_POST['nonce'])) {
-				return;
-			}
-			if (!wp_verify_nonce($_POST['nonce'], 'complianz_save')) {
-				return;
-			}
-
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-
-			if ( isset( $_POST['snapshot_id'] ) ) {
-				$this->delete_snapshot( $_POST['snapshot_id'] );
-				$response   = json_encode( array(
-					'success' => true,
-				) );
-				header( "Content-Type: application/json" );
-				echo $response;
-				exit;
-			}
 		}
 
 		/**
 		 * @param string $filename
 		 */
 
-		public function delete_snapshot( $filename ){
+		public function delete_snapshot( string $filename ): void {
 			if ( ! cmplz_user_can_manage() ) {
 				return;
 			}
 
 			$path = cmplz_upload_dir('snapshots/');
-			$success    = unlink( $path . sanitize_file_name( $filename ) );
+
+			//don't allow \ and / in the filename, to prevent path traversal, replace them with ''
+			$filename = str_replace( array( '/', '\\' ), '', $filename );
+
+			unlink( $path . sanitize_file_name( $filename ) );
 		}
 
-		/**
-		 * Add submenu items
-		 */
-
-		public function menu_item() {
-			//if (!cmplz_user_can_manage()) return;
-			add_submenu_page(
-				'complianz',
-				__( 'Proof of consent', 'complianz-gdpr' ),
-				__( 'Proof of consent', 'complianz-gdpr' ),
-				apply_filters('cmplz_capability','manage_privacy'),
-				"cmplz-proof-of-consent",
-				array( $this, 'cookie_statement_snapshots' )
-			);
-		}
-
-		/**
-		 * Render proof of consent table
-		 */
-
-		public function cookie_statement_snapshots() {
-			ob_start();
-			include( cmplz_path . 'proof-of-consent/class-cookiestatement-snapshot-table.php' );
-			$snapshots_table = new cmplz_CookieStatement_Snapshots_Table();
-			$snapshots_table->prepare_items();
-			?>
-			<script>
-				jQuery(document).ready(function ($) {
-					$(document).on('click', '.cmplz-delete-snapshot', function (e) {
-
-						e.preventDefault();
-						var btn = $(this);
-						btn.closest('tr').css('background-color', 'red');
-						var delete_snapshot_id = btn.data('id');
-						$.ajax({
-							type: "POST",
-							url: '<?php echo admin_url( 'admin-ajax.php' )?>',
-							dataType: 'json',
-							data: ({
-								action: 'cmplz_delete_snapshot',
-								snapshot_id: delete_snapshot_id,
-								nonce: '<?php echo wp_create_nonce( "complianz_save" )?>'
-							}),
-							success: function (response) {
-								if (response.success) {
-									btn.closest('tr').remove();
-								}
-							}
-						});
-
-					});
-				});
-			</script>
-			<div id="cookie-policy-snapshots" class="cookie-snapshot">
-				<form id="cmplz-cookiestatement-snapshot-generate" method="POST" action="">
-					<h1 class="wp-heading-inline"><?php _e( "Proof of consent", 'complianz-gdpr' ) ?></h1>
-					<?php echo wp_nonce_field( 'cmplz_generate_snapshot',
-						'cmplz_nonce' ); ?>
-					<input type="submit" class="button button-primary cmplz-header-btn"
-					       name="cmplz_generate_snapshot"
-					       value="<?php _e( "Generate now",
-						       "complianz-gdpr" ) ?>"/>
-					<a href="https://complianz.io/definitions/what-is-proof-of-consent/" target="_blank" class="button button-default cmplz-header-btn"><?php _e( "Read more", "complianz-gdpr" ) ?></a>
-				</form>
-				<?php
-				if ( isset( $_POST['cmplz_generate_snapshot_error'] ) ) {
-					cmplz_notice( __( "Proof of consent generation failed. Check your write permissions in the uploads directory",
-							"complianz-gdpr" ), 'warning' );
-				}
-				?>
-				<form id="cmplz-cookiestatement-snapshot-filter" method="get"
-				      action="">
-
-					<?php
-					$snapshots_table->date_select();
-					$snapshots_table->search_box( __( 'Filter', 'complianz-gdpr' ), 'cmplz-cookiesnapshot' );
-					$snapshots_table->display();
-					?>
-					<input type="hidden" name="page" value="cmplz-proof-of-consent"/>
-				</form>
-				<?php do_action( 'cmplz_after_cookiesnapshot_list' ); ?>
-			</div>
-			<?php
-			$content = ob_get_clean();
-			$args = array(
-					'page' => 'proof-of-consent',
-					'content' => $content,
-			);
-			echo cmplz_get_template('admin_wrap.php', $args );
-		}
 
 		/**
 		 * Generate the cookie policy snapshot
@@ -293,9 +215,9 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			$regions = cmplz_get_regions();
-			foreach ( $regions as $region => $label ) {
+			foreach ( $regions as $region ) {
 				$banner_id = cmplz_get_default_banner_id();
-				$banner    = new CMPLZ_COOKIEBANNER( $banner_id );
+				$banner    = cmplz_get_cookiebanner( $banner_id );
 				$settings  = $banner->get_front_end_settings();
 				$settings  += $banner->get_html_settings();
 				$settings['privacy_link_us '] = COMPLIANZ::$document->get_page_url( 'privacy-statement', 'us' );
@@ -354,8 +276,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				}
 
 				$settings_html = '<div><h1>' . __( 'Cookie consent settings', 'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html ) . '</ul></div>';
-				$intro         = '<h1>' . __( "Proof of Consent",
-						"complianz-gdpr" ) . '</h1>
+				$intro         = '<h1>' . __( "Proof of Consent", "complianz-gdpr" ) . '</h1>
                      <p>' . cmplz_sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the Cookie Policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
@@ -366,7 +287,6 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				COMPLIANZ::$document->generate_pdf( 'cookie-statement', $region, false, true, $intro, $settings_html );
 				do_action('cmplz_after_proof_of_consent_generation', get_option( 'cmplz_generate_new_cookiepolicy_snapshot') );
 			}
-
 
 			update_option( 'cmplz_generate_new_cookiepolicy_snapshot', false, false );
 		}

@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 function cmplz_advanced_captcha_nocaptcha_script( $tags ) {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		$tags[] = array(
 				'name' => 'advanced-nocaptcha-recaptcha',
 				'category' => 'marketing',
@@ -38,7 +38,7 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_advanced_captcha_nocaptcha_script'
 function cmplz_advanced_captcha_nocaptcha_css() {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
 
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		?>
 		.anr_captcha_field .cmplz-blocked-content-container {
 			max-width: initial !important;

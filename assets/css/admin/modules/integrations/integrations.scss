@@ -1,0 +1,47 @@
+.cmplz-integrations-placeholder {
+  height:150px;
+  div {
+	background-color:var(--rsp-grey-200);
+	margin:10px 0;
+	height:30px;
+  }
+}
+.cmplz-table-header {
+  display:flex;
+}
+//needs to be outside table header, so we can use the table-header controls class without the parent
+.cmplz-table-header-controls {
+  display:flex;
+  margin-left:auto;
+  gap:20px;
+  select {
+    height: 20px;
+    margin-top: 10px;
+  }
+}
+.cmplz-settings-overlay {
+  z-index:99;
+  display: grid;
+  grid-template-columns: 680px auto;
+  position: absolute;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+
+  .cmplz-settings-overlay-message{
+	position:absolute;
+	width: calc(100% - 70px);
+	bottom: 0;
+	background-color: #fff;
+	padding: 15px;
+	margin:20px;
+	box-shadow: var(--rsp-box-shadow);
+  }
+}
+@media screen and (max-width: 960px) {
+  .cmplz-settings-overlay {
+	right: 0;
+  }
+}

@@ -26,7 +26,7 @@ function cmplz_dailymotion_placeholder( $new_src, $src ) {
 		} else {
 			$daily_motion_id = $matches[2];
 		}
-		$new_src = get_transient( "cmplz_dailymotion_image_$daily_motion_id" );
+		$new_src = cmplz_get_transient( "cmplz_dailymotion_image_$daily_motion_id" );
 		if ( ! $new_src || ! cmplz_file_exists_on_url( $new_src ) ) {
 			//pass thumbnail_60_url (60px height), thumbnail_120_url (120px height), thumbnail_180_url (180px height), thumbnail_240_url (240px height), thumbnail_360_url (360px height), thumbnail_480_url (480px height), thumbnail_720_url (720px height), thumbnail_1080_url (1080px height), for different sizes
 			$thumbnail_large_url = 'https://api.dailymotion.com/video/'
@@ -37,7 +37,7 @@ function cmplz_dailymotion_placeholder( $new_src, $src ) {
 			$new_src             = $arr_dailymotion['thumbnail_1080_url'];
 			$new_src             = cmplz_download_to_site( $new_src,
 				'dailymotion' . $daily_motion_id );
-			set_transient( "cmplz_dailymotion_image_$daily_motion_id", $new_src,
+			cmplz_set_transient( "cmplz_dailymotion_image_$daily_motion_id", $new_src,
 				WEEK_IN_SECONDS );
 		}
 	}

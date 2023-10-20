@@ -11,12 +11,15 @@ function cmplz_schedule_cron() {
 	$useCron = true;
 	if ( $useCron ) {
 		if ( ! wp_next_scheduled( 'cmplz_every_week_hook' ) ) {
-			wp_schedule_event( time(), 'cmplz_weekly',
-				'cmplz_every_week_hook' );
+			wp_schedule_event( time(), 'cmplz_weekly', 'cmplz_every_week_hook' );
 		}
 
 		if ( ! wp_next_scheduled( 'cmplz_every_day_hook' ) ) {
 			wp_schedule_event( time(), 'cmplz_daily', 'cmplz_every_day_hook' );
+		}
+
+		if ( ! wp_next_scheduled( 'cmplz_every_five_minutes_hook' ) ) {
+			wp_schedule_event( time(), 'cmplz_five_minutes', 'cmplz_every_five_minutes_hook' );
 		}
 
 		if ( ! wp_next_scheduled( 'cmplz_every_month_hook' ) ) {
@@ -52,6 +55,11 @@ function cmplz_filter_cron_schedules( $schedules ) {
 	$schedules['cmplz_daily']   = array(
 		'interval' => DAY_IN_SECONDS,
 		'display'  => __( 'Once every day' )
+	);
+
+	$schedules['cmplz_five_minutes']   = array(
+		'interval' => DAY_IN_SECONDS,
+		'display'  => __( 'Once every five minutes' )
 	);
 
 	return $schedules;

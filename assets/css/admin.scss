@@ -1,0 +1,92 @@
+/**
+*
+* Prefix everything
+* Name descriptively
+* Structure radically
+*
+* CSS Structure
+*	css/
+*	├─ admin/
+*	│  ├─ base.scss
+*	│  ├─ layout.scss
+*	│  ├─ modules/
+*	│  │  ├─ modal.scss
+*	│  │  ├─ button.scss
+*	│  │  ├─ modal.scss
+*	│  │  ├─ notices.scss
+*	│  │  ├─ tips-and-tricks.scss
+*	│  │  ├─ etc.....
+*	│  ├─ states.scss
+*	│  ├─ theme.scss
+*	├─ admin.scss
+*	├─ admin.min.css
+*	├─ admin.css
+*	├─ variables.scss
+*
+*/
+
+@import 'variables.scss';
+@import 'admin/base.scss';
+@import 'admin/layout.scss';
+  @import 'admin/modules/modal.scss';
+  @import 'admin/modules/header.scss';
+  @import 'admin/modules/bullets.scss';
+  @import 'admin/modules/icons.scss';
+
+  @import 'admin/modules/onboarding.scss';
+  @import 'admin/modules/progress.scss';
+  @import "admin/modules/placeholder.scss";
+  @import 'admin/modules/other-plugins.scss';
+  @import 'admin/modules/tips-tricks.scss';
+  @import 'admin/modules/dashboard/dashboard.scss';
+  @import 'admin/modules/dashboard/documents.scss';
+  @import 'admin/modules/dashboard/tools.scss';
+  @import 'admin/modules/dashboard/statistics.scss';
+  @import 'admin/modules/wizard.scss';
+  @import 'admin/modules/errorboundary.scss';
+    @import 'admin/modules/wizard/notice.scss';
+    @import 'admin/modules/wizard/borderradius.scss';
+    @import 'admin/modules/wizard/menu.scss';
+    @import 'admin/modules/wizard/fields.scss';
+    @import 'admin/modules/wizard/documents.scss';
+    @import 'admin/modules/wizard/snackbar.scss';
+    @import 'admin/modules/wizard/panel.scss';
+    @import 'admin/modules/wizard/suggested-plugins.scss';
+    @import 'admin/modules/wizard/premium-fields.scss';
+    @import 'admin/modules/wizard/documents-menu.scss';
+    @import 'admin/modules/wizard/editor.scss';
+    @import 'admin/modules/wizard/processors-thirdparties.scss';
+	@import 'admin/modules/toast/main.scss';
+	// inputs
+	@import 'admin/modules/inputs/Input.scss';
+	@import 'admin/modules/inputs/BorderInput.scss';
+	@import 'admin/modules/inputs/CheckboxGroup.scss';
+	@import 'admin/modules/inputs/Buttons.scss';
+	@import 'admin/modules/inputs/RadioGroup.scss';
+	@import 'admin/modules/inputs/SelectInput.scss';
+	@import 'admin/modules/inputs/SwitchInput.scss';
+	@import 'admin/modules/inputs/TextSwitchInput.scss';
+	@import 'admin/modules/inputs/TextAreaInput.scss';
+
+	  @import 'admin/modules/CookieBannerPreview.scss';
+
+  @import 'admin/modules/cookiescan.scss';
+  @import 'admin/modules/notices.scss';
+  @import 'admin/modules/datatables.scss';
+  @import 'admin/modules/new-features.scss';
+  @import 'admin/modules/integrations/integrations.scss';
+  @import 'admin/modules/documents.scss';
+  @import 'admin/modules/shepherd.scss';
+  @import 'admin/modules/date-range.scss';
+  @import 'admin/modules/statistics.scss';
+
+  //@import 'admin/modules/dark-mode.scss';
+
+
+  @import 'admin/modules/animations.scss';
+  @import 'admin/modules/tooltip.scss';
+
+  //@import 'admin/modules/suggested-plugins.scss';
+
+@import 'admin/states.scss';
+@import 'admin/theme.scss';

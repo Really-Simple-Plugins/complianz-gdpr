@@ -8,7 +8,7 @@
 	<div class="cmplz-header">
 		<div class="cmplz-logo">{logo}</div>
 		<div class="cmplz-title" id="cmplz-header-{id}-{consent_type}">{header}</div>
-		<div class="cmplz-close" tabindex="0" role="button" aria-label="close-dialog">
+		<div class="cmplz-close" tabindex="0" role="button" aria-label=" <?php __("close-dialog", "complianz-gdpr" ) ?>">
 			<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 										   value="1"/>
 									<label class="cmplz-label" for="cmplz-functional-{consent_type}" tabindex="0"><span class="screen-reader-text">{category_functional}</span></label>
 								</span>
-								<?php _e("Always active","complianz-gdpr")?>
+								<?php esc_html_e(__("Always active","complianz-gdpr"))?>
 							</span>
 							<span class="cmplz-icon cmplz-open">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"  height="18" ><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
@@ -117,10 +117,10 @@
 	</div>
 
 	<div class="cmplz-links cmplz-information">
-		<a class="cmplz-link cmplz-manage-options cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container"><?php _e("Manage options","complianz-gdpr")?></a>
-		<a class="cmplz-link cmplz-manage-third-parties cookie-statement" href="#" data-relative_url="#cmplz-cookies-overview"><?php _e("Manage services","complianz-gdpr")?></a>
-		<a class="cmplz-link cmplz-manage-vendors tcf cookie-statement" href="#" data-relative_url="#cmplz-tcf-wrapper"><?php printf(__("Manage %s vendors","complianz-gdpr"),'{vendor_count}')?></a>
-		<a class="cmplz-link cmplz-external cmplz-read-more-purposes tcf" target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/tcf/purposes/"><?php _e("Read more about these purposes","complianz-gdpr")?></a>
+		<a class="cmplz-link cmplz-manage-options cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container"><?php esc_html_e(__("Manage options","complianz-gdpr"))?></a>
+		<a class="cmplz-link cmplz-manage-third-parties cookie-statement" href="#" data-relative_url="#cmplz-cookies-overview"><?php esc_html_e(__("Manage services","complianz-gdpr"))?></a>
+		<a class="cmplz-link cmplz-manage-vendors tcf cookie-statement" href="#" data-relative_url="#cmplz-tcf-wrapper"><?php esc_html_e(sprintf(__("Manage %s vendors","complianz-gdpr"),'{vendor_count}'))?></a>
+		<a class="cmplz-link cmplz-external cmplz-read-more-purposes tcf" target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/tcf/purposes/"><?php esc_html_e(__("Read more about these purposes","complianz-gdpr"))?></a>
 		<?php do_action("cmplz_after_links")?>
 	</div>
 

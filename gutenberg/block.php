@@ -31,18 +31,20 @@ function cmplz_editor_assets() {
 	);
 
 	wp_set_script_translations( 'cmplz-block', 'complianz-gdpr' , cmplz_path . '/languages');
-	$load_css = cmplz_get_value('use_document_css');
+	$load_css = cmplz_get_option('use_document_css', true );
 	if ($load_css) {
+		$v = filemtime(cmplz_path . "assets/css/document.min.css");
 		wp_enqueue_style(
 			'cmplz-block', // Handle.
 			cmplz_url . "assets/css/document.min.css",
-			array( 'wp-edit-blocks' ), cmplz_version
+			array( 'wp-edit-blocks' ), $v
 		);
 	} else {
+		$v = filemtime(cmplz_path . "assets/css/document-grid.min.css");
 		wp_enqueue_style(
 			'cmplz-block', // Handle.
 			cmplz_url . "assets/css/document-grid.min.css",
-			array( 'wp-edit-blocks' ), cmplz_version
+			array( 'wp-edit-blocks' ), $v
 		);
 	}
 }

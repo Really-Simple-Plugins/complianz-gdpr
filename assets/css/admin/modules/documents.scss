@@ -1,0 +1,35 @@
+.cmplz-selected-document{
+  margin-top:10px;
+  margin-bottom:10px;
+  display:flex;
+  background-color:var(--rsp-blue-faded);
+  padding:10px;
+  align-items: center;
+  &-controls{
+	margin-left:auto;
+	display:flex;
+  }
+  button.button + button.button {
+	margin-left:20px;
+  }
+}
+
+.cmplz-create-processing-agreements, .cmplz-create-data-breach-reports {
+  .cmplz-table-header {
+	align-items:baseline;
+  }
+  .components-select-control {
+	flex-direction:row;
+  }
+	scroll-margin-top: 150px;
+}
+.cmplz-conclusion {
+  &__check {
+	display:flex;
+	.cmplz-icon{
+	  margin-right:10px;
+	}
+  }
+}
+
+

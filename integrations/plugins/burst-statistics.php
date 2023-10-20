@@ -2,14 +2,27 @@
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 /**
- * Add notice for Burst Statistics
+ * Conditional notices for fields
  *
+ * @param array           $notices
+ *
+ * @return array
  */
+function cmplz_burst_statistics_integration_show_compile_statistics_notice(array $notices): array {
+	if ( ! cmplz_user_can_manage() ) {
+		return [];
+	}
 
-function cmplz_burst_statistics_integration_show_compile_statistics_notice() {
-	cmplz_sidebar_notice( __("Burst Statistics will be configured automatically.", 'complianz-gdpr' ) );
+	$notices[] = [
+			'field_id' => 'install-burst',
+			'label' => 'default',
+			'title' => "Burst Statistics",
+			'text'  => __( "Burst Statistics will be configured automatically.", "complianz-gdpr" ),
+	];
+
+	return $notices;
 }
-add_action( 'cmplz_notice_compile_statistics', 'cmplz_burst_statistics_integration_show_compile_statistics_notice' );
+add_filter( 'cmplz_field_notices', 'cmplz_burst_statistics_integration_show_compile_statistics_notice', 10, 1 );
 
 function cmplz_burst_statistics_activate_burst() {
 	ob_start(); ?>
@@ -95,7 +108,7 @@ add_action( 'wp_enqueue_scripts', 'cmplz_burst_statistics_activate_burst',PHP_IN
  * @return bool
  */
 function cmplz_burst_statistics_privacy_friendly($is_privacy_friendly){
-	$statistics = cmplz_get_value( 'compile_statistics' );
+	$statistics = cmplz_get_option( 'compile_statistics' );
 	if ($statistics==='yes') {
 		$is_privacy_friendly = true;
 	}

@@ -118,7 +118,8 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
+		'content' => 'Please read the privacy statement of these social networks (which can change regularly) to read what they do with your (personal) data which they process using these cookies. The data that is retrieved is anonymized as much as possible.'.' '.
+		             cmplz_sprintf( _n( '%s is located in the United States.', '%s are located in the United States.',  cmplz_count_socialmedia(), 'complianz-gdpr'  ) ,'[comma_socialmedia_on_site]' ),
 		'condition' => array(
 			'uses_social_media' => 'yes',
 			'socialmedia_on_site' => 'NOT EMPTY',
@@ -171,8 +172,8 @@ $this->pages['au']['cookie-statement']['document_elements'] = array(
         'content' => '<span class="cmplz-contact-organisation">[organisation_name]</span><br />
                     <span class="cmplz-contact-address">[address_company]</span><br />
                   <span class="cmplz-contact-country">[country_company]</span><br />
-                    Website: <span class="cmplz-contact-domain">[domain]</span><br />
-                    Email: <span class="cmplz-contact-email">[email_company]</span><br />
+                    ' . _x('Website:', 'Legal document cookie policy', 'complianz-gdpr') . ' <span class="cmplz-contact-domain">[domain]</span><br>
+                    ' . _x('Email:', 'Legal document cookie policy', 'complianz-gdpr') . '  <span class="cmplz-contact-email">[email_company]</span><br>
                     <span class="cmplz-contact-telephone">[telephone_company]</span>',
     ),
 

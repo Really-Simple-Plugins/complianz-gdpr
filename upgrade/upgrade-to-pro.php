@@ -44,20 +44,20 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 						$rsssl_admin_url = is_multisite() ? network_admin_url('settings.php') : admin_url("options-general.php");
 						$this->slug = is_multisite() ? "really-simple-ssl-pro-multisite/really-simple-ssl-pro-multisite.php" :  "really-simple-ssl-pro/really-simple-ssl-pro.php";
 						$this->plugin_name = "Really Simple SSL Pro";
-						$this->plugin_constant = "rsssl_pro";
+						$this->plugin_constant = "rsssl_pro_version";
 						$this->prefix = "rsssl_";
 						$this->api_url = "https://really-simple-ssl.com";
 						$this->dashboard_url = add_query_arg(["page" => "really-simple-security"], $rsssl_admin_url );
 						$this->account_url = 'https://really-simple-ssl.com/account';
 						$this->instructions = 'https://really-simple-ssl.com/knowledge-base/install-really-simple-ssl-pro';
 						break;
-					case "brst_pro":
-						$this->slug = "burst";
+					case "burst_pro":
+						$this->slug = "burst-pro/burst-pro.php";
 						$this->plugin_name = "Burst";
-						$this->plugin_constant = "burst_premium";
+						$this->plugin_constant = "burst_pro";
 						$this->prefix = "burst_";
 						$this->api_url = "https://burst-statistics.com";
-						$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "admin.php" ));
+						$this->dashboard_url = add_query_arg(["page" => "burst"], admin_url( "index.php" ));
 						$this->account_url = 'https://burst-statistics.com/account';
 						$this->instructions = 'https://burst-statistics.com/how-to-install-burst-premium';
 						break;
@@ -145,20 +145,20 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 					'disabled' => '',
 					'button_text' => __("Install", "complianz-gdpr"),
 					'slug' => 'burst-statistics',
-					'description' => __("Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins.", "complianz-gdpr"),
+					'description' => "Get detailed insights into visitors' behavior with Burst Statistics, the privacy-friendly analytics dashboard from Really Simple Plugins.",
 					'install_url' => 'burst%20statistics%20hesseldejong%20%20burst-statistics.com&tab=search&type=term',
 			];
 
-			if ( $plugin_to_be_installed === 'really-simple-ssl' ){
+			if ( $plugin_to_be_installed === 'really-simple-ssl'  || $plugin_to_be_installed === 'burst' ){
 				$suggestion = [
 						'icon_url' => $dir_url.'complianz-gdpr.png',
 						'constant' => 'cmplz_version',
 						'title' => 'Complianz GDPR/CCPA',
-						'description_short' => __('GDPR/CCPA Privacy Suite', "complianz-gdpr"),
+						'description_short' => 'GDPR/CCPA Privacy Suite',
 						'disabled' => '',
 						'button_text' => __("Install", "complianz-gdpr"),
 						'slug' => 'complianz-gdpr',
-						'description' => __('Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "complianz-gdpr"),
+						'description' => __('Configure your Cookie Notice, Cookie Consent and Cookie Policy with our Wizard and Site Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA and PIPEDA.', "complianz-gdpr"),
 						'install_url' => 'complianz+gdpr+POPIA&tab=search&type=term',
 				];
 				if ($current_plugin==='complianz-gdpr') {
@@ -313,7 +313,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				return false;
 			}
 
-			if ( is_admin() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
+			if ( cmplz_admin_logged_in() && isset($_GET['install_pro']) && isset($_GET['license']) && isset($_GET['item_id']) && isset($_GET['plugin']) ) {
 				$dashboard_url = $this->dashboard_url;
 				$plugins_url = admin_url( "plugins.php" );
 				?>
@@ -328,7 +328,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 					</div>
 				</div>
 				<div id="rsp-plugin-suggestion-template">
-					<div class="rsp-recommended"><?php _e("Recommended by Really Simple Plugins","complianz-gdpr")?></div>
+					<div class="rsp-recommended"><?php esc_html_e(__("Recommended by Really Simple Plugins","complianz-gdpr"))?></div>
 					<div class="rsp-plugin-suggestion">
 						<div class="rsp-icon"><img alt="suggested plugin icon" src="<?=$this->get_suggested_plugin('icon_url')?>"></div>
 						<div class="rsp-summary">
@@ -353,7 +353,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 				</div>
 				<div class="rsp-modal-transparent-background">
 					<div class="rsp-install-plugin-modal">
-						<h3><?php echo __("Installing", "complianz-gdpr") . " " . $this->plugin_name ?></h3>
+						<h3><?php esc_html_e(__("Installing", "complianz-gdpr")) . " " . $this->plugin_name ?></h3>
 						<div class="rsp-progress-bar-container">
 							<div class="rsp-progress rsp-grey">
 								<div class="rsp-bar rsp-green" style="width:0%"></div>
@@ -364,13 +364,13 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 						</div>
 						<div class="rsp-footer">
 							<a href="<?php echo $dashboard_url ?>" role="button" class="button-primary rsp-yellow rsp-hidden rsp-btn rsp-visit-dashboard">
-								<?php echo __("Visit Dashboard", "complianz-gdpr") ?>
+								<?php esc_html_e(__("Visit Dashboard", "complianz-gdpr")) ?>
 							</a>
 							<a href="<?php echo $plugins_url ?>" role="button" class="button-primary rsp-red rsp-hidden rsp-btn rsp-cancel">
-								<?php echo __("Cancel", "complianz-gdpr") ?>
+								<?php esc_html_e(__("Cancel", "complianz-gdpr")) ?>
 							</a>
-							<div class="rsp-error-message rsp-folder rsp-package rsp-install rsp-activate rsp-hidden"><span><?php _e('An Error Occurred:',"complianz-gdpr")?></span>&nbsp;<?php printf(__('Install %sManually%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->instructions.'">','</a>')?></div>
-							<div class="rsp-error-message rsp-license rsp-hidden"><span><?php _e('An Error Occurred:',"complianz-gdpr")?></span>&nbsp;<?php printf(__('Check your %slicense%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->account_url.'">','</a>')?></div>
+							<div class="rsp-error-message rsp-folder rsp-package rsp-install rsp-activate rsp-hidden"><span><?php esc_html_e(__('An error occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Install %sManually%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->instructions.'">','</a>'))?></div>
+							<div class="rsp-error-message rsp-license rsp-hidden"><span><?php esc_html_e(__('An error occurred:',"complianz-gdpr"))?></span>&nbsp;<?php esc_html_e(sprintf(__('Check your %slicense%s.',"complianz-gdpr").'&nbsp;', '<a target="_blank" href="'.$this->account_url.'">','</a>'))?></div>
 						</div>
 					</div>
 				</div>
@@ -416,7 +416,7 @@ if ( !class_exists('rsp_upgrade_to_pro') ){
 		{
 			$error = false;
 			$response = [
-				'success' => false,
+					'success' => false,
 			];
 
 			if ( !current_user_can('activate_plugins') ) {

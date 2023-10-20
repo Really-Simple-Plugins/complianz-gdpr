@@ -5,9 +5,10 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 
-$general_settings = get_option('complianz_options_settings');
-if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['clear_data_on_uninstall']) {
+$cmplz_settings = get_option( 'cmplz_options', [] );
+if (isset($cmplz_settings['clear_data_on_uninstall']) && $cmplz_settings['clear_data_on_uninstall']) {
 	$options = array(
+		'cmplz_options',
 		'cmplz_activation_time',
 		'cmplz_review_notice_shown',
 		"cmplz_wizard_completed_once",
@@ -31,7 +32,6 @@ if (isset($general_settings['clear_data_on_uninstall']) && $general_settings['cl
 		'cmplz_sync_services_complete',
 		'cmplz_detected_social_media',
 		'cmplz_detected_thirdparty_services',
-		'cmplz_run_cdb_sync_once',
 		'cmplz_cookietable_version',
 		'cmplz_last_cookie_sync',
 		'cmplz_synced_cookiedatabase_once',

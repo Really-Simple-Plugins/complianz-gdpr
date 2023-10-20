@@ -1,0 +1,119 @@
+/* reset */
+button {
+	all: unset;
+}
+/* Global Variables */
+:root {
+	--button-font-size: var(--rsp-fs-300);
+	--button-font-weight: 300;
+	--button-line-height: 2;
+	--button-letter-spacing: 0.5px;
+	--button-transition: all 0.3s ease;
+	--button-min-height: 30px;
+	--button-padding: 0 10px;
+	--button-border-radius: 4px;
+	--button-accent-color: #2271b1;
+	--button-contrast-color: #000;
+	--button-secondary-bg: #fff;
+}
+
+/* Button Base Styles */
+a.button, button.button, input.button {
+	transition: var(--button-transition);
+	margin: 0;
+	padding: var(--button-padding);
+	border-radius: var(--button-border-radius);
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+
+	&--primary {
+		background: var(--button-accent-color);
+		color: var(--button-secondary-bg);
+		border: 1px solid var(--button-accent-color);
+
+		&:hover {
+			background: var(--button-accent-color);
+			color: var(--button-secondary-bg);
+			border-color: var(--button-accent-color);
+			box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.3);
+		}
+	}
+
+	&--secondary {
+		background: var(--button-secondary-bg);
+		color: var(--button-accent-color);
+		border: 1px solid var(--button-accent-color);
+
+		&:hover {
+			background: var(--rsp-grey-200);
+			color: var(--button-accent-color);
+			border-color: var(--button-accent-color);
+		}
+	}
+
+	&--tertiary {
+		background: var(--rsp-grey-200);
+		color: var(--button-accent-color);
+		border: 1px solid var(--rsp-grey-300);
+
+		&:hover {
+			background: var(--rsp-grey-100);
+			color: var(--button-accent-color);
+			border-color: var(--rsp-grey-400);
+		}
+
+	}
+	&--error {
+		// red button
+		background: var(--rsp-red);
+		color: var(--rsp-text-color-white);
+		border: 1px solid var(--rsp-red);
+		&:hover {
+			background: var(--rsp-red-faded);
+			color: var(--rsp-red);
+			border-color: var(--rsp-red);
+			box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
+		}
+	}
+}
+
+.cmplz-field-wrap {
+	.cmplz-button{
+		margin-left: auto;
+	}
+}
+
+.cmplz-button-icon {
+	background: transparent;
+	background: var(--rsp-grey-300);
+	color: #2271b1;
+	border: 1px solid transparent;
+	border-radius: 50%;
+	width: 1em;
+	height: 1em;
+	padding: 10px;
+	margin: 5px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	cursor: pointer;
+   .cmplz-tooltip-icon {
+	 padding-top:3px;
+   }
+	&:hover {
+		padding: 15px;
+		margin: 0;
+	}
+	&--delete{
+		&:hover{
+			background: var(--rsp-red-faded);
+			svg path{
+				fill: var(--rsp-red);
+			}
+		}
+	}
+}
+
+

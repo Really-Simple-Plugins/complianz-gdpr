@@ -3,14 +3,14 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
 function cmplz_consent_box_required_on_form() {
 	$contact = cmplz_forms_used_on_sites();
-	$permission_needed = ( cmplz_get_value( 'contact_processing_data_lawfull' )
+	$permission_needed = ( cmplz_get_option( 'contact_processing_data_lawfull' )
 	                       === '1' ) ? true : false;
 
 	return ( $contact && $permission_needed );
 }
 
 function cmplz_forms_used_on_sites() {
-	$purpose = cmplz_get_value( 'purpose_personaldata' );
+	$purpose = cmplz_get_option( 'purpose_personaldata' );
 	if ( isset( $purpose['contact'] ) && $purpose['contact'] == 1 ) {
 		return true;
 	}
@@ -40,7 +40,7 @@ function cmplz_forms_maybe_add_consent_checkbox() {
 	$preload_forms = apply_filters( 'cmplz_get_forms', array() );
 	update_option( 'cmplz_detected_forms', $preload_forms, false );
 
-	$forms = cmplz_get_value( 'add_consent_to_forms' );
+	$forms = cmplz_get_option( 'add_consent_to_forms' );
 	if ( ! $forms || ! is_array( $forms ) ) {
 		return;
 	}

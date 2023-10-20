@@ -28,24 +28,24 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return void
 		 */
 		public function load_cookie_data(){
-			if ( cmplz_get_value( 'safe_mode' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
+			if ( cmplz_get_option( 'safe_mode' ) == 1 || cmplz_get_option( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
-			$this->cookie_list = get_transient('cmplz_cookie_shredder_list' );
+			$this->cookie_list = cmplz_get_transient('cmplz_cookie_shredder_list' );
 			if ( !$this->cookie_list ) {
 				$this->cookie_list = [];
-				$cookie_list = COMPLIANZ::$cookie_admin->get_cookies( array(
+				$cookie_list = COMPLIANZ::$banner_loader->get_cookies( array(
 					'ignored'           => false,
 					'hideEmpty'         => false,
 					'language'          => 'en', //only for one language
 					'showOnPolicy'      => true,
 					'deleted'           => false,
-					'isMembersOnly'     => cmplz_get_value( 'wp_admin_access_users' ) === 'yes' ? 'all' : false,
+					'isMembersOnly'     => cmplz_get_option( 'wp_admin_access_users' ) === 'yes' ? 'all' : false,
 				) );
 				$this->get_cookies($cookie_list, 'preferences');
 				$this->get_cookies($cookie_list, 'statistics');
 				$this->get_cookies($cookie_list, 'marketing');
-				set_transient('cmplz_cookie_shredder_list', $this->cookie_list, HOUR_IN_SECONDS);
+				cmplz_set_transient('cmplz_cookie_shredder_list', $this->cookie_list, HOUR_IN_SECONDS);
 			}
 		}
 
@@ -55,7 +55,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return void
 		 */
 		public function create_delete_cookies_list(){
-			if ( cmplz_get_value( 'safe_mode' ) == 1 || cmplz_get_value( 'consent_per_service' ) !== 'yes' ) {
+			if ( cmplz_get_option( 'safe_mode' ) == 1 || cmplz_get_option( 'consent_per_service' ) !== 'yes' ) {
 				return;
 			}
 			if ( is_admin() ) {
@@ -66,6 +66,11 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			$current_cookies = array_keys($_COOKIE);
 			foreach ( $this->cookie_list as $category => $cookies){
 				if ( cmplz_has_consent( $category)) continue;
+
+				if (!is_array($cookies) ) {
+					continue;
+				}
+
 				foreach ($cookies as $service => $cookie_list ) {
 					if (cmplz_has_service_consent($service)) continue;
 					foreach ($current_cookies as $key => $current_cookie ) {
@@ -94,8 +99,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 				$count++;
 				unset($_COOKIE[$name]);
-				setcookie($name, null, -1, COMPLIANZ::$cookie_admin->get_cookie_path() );
-				setcookie($name, null, -1, '/' );
+				setcookie($name, "", -1, COMPLIANZ::$banner_loader->get_cookie_path() );
+				setcookie($name, "", -1, '/' );
 			}
 		}
 
@@ -114,12 +119,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		/**
 		 * Add cookies to list by category
 		 *
-		 * @param array $cookie_list
+		 * @param array  $cookie_list
 		 * @param string $category
 		 *
 		 * @return void
 		 */
-		public function get_cookies($cookie_list, $category) {
+		public function get_cookies( $cookie_list, $category) {
 			if (is_array($cookie_list)) {
 				foreach ( $cookie_list as $cookie ) {
 					if ( stripos( $cookie->purpose, $category ) !== false ) {
@@ -134,12 +139,12 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 * @return string
 		 */
 		public function blocked_content_text(){
-			if (cmplz_get_value( 'consent_per_service' ) === 'yes') {
-				$agree_text = cmplz_get_value( 'agree_text_per_service' );
-				$placeholdertext = cmplz_get_value( 'blocked_content_text_per_service' );
+			if (cmplz_get_option( 'consent_per_service' ) === 'yes') {
+				$agree_text = cmplz_get_option( 'agree_text_per_service' );
+				$placeholdertext = cmplz_get_option( 'blocked_content_text_per_service' );
 				$placeholdertext = '<div class="cmplz-blocked-content-notice-body">'.$placeholdertext.'&nbsp;<div class="cmplz-links"><a href="#" class="cmplz-link cookie-statement">{title}</a></div></div><button class="cmplz-accept-service">'.$agree_text.'</button>';
 			} else {
-				$placeholdertext = cmplz_get_value( 'blocked_content_text' );
+				$placeholdertext = cmplz_get_option( 'blocked_content_text' );
 			}
 
 			return apply_filters('cmplz_accept_cookies_blocked_content', $placeholdertext);
@@ -260,8 +265,6 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 					$formatted_custom_script_tags[$blocked_script['editor']] = $blocked_script;
 				}
 			}
-			//set transient so we can also access this data before the arrays are loaded
-			set_transient('cmplz_blocked_scripts', $formatted_custom_script_tags, HOUR_IN_SECONDS );
 			return $formatted_custom_script_tags;
 		}
 
@@ -274,12 +277,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			if (empty($title)) {
 				return 'general';
 			}
-			$title = preg_replace( '/&.+?;/', '', $title );
-			$title = str_replace( '.', '-', $title );
-			$title = preg_replace( '/[^%a-zA-Z0-9 _-]/', '', $title );
-			$title = preg_replace( '/\s+/', '-', $title );
-			$title = preg_replace( '|-+|', '-', $title );
-			return str_replace(' ', '-', sanitize_text_field(remove_accents($title)));
+			return cmplz_sanitize_title_preserve_uppercase($title);
 		}
 
 		/**
@@ -310,18 +308,17 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			//add script center data. add_script arrays aren't included in the "known_script_tags" function
 			$scripts = get_option("complianz_options_custom-scripts");
 			if ( is_array($scripts) && isset($scripts['add_script']) && is_array($scripts['add_script'] ) ) {
-				$added_scripts = array_filter( $scripts['add_script'], function ( $script ) {
+				$added_scripts = array_filter( $scripts['add_script'], static function ( $script ) {
 					return $script['enable'] == 1;
 				} );
 				if (!empty($added_scripts)) $blocked_scripts = array_merge($blocked_scripts, $added_scripts);
 			}
 
 			//filter out non-iframe and disabled placeholders.
-			//add_script items do not have an iframe
-			$blocked_scripts = array_filter( $blocked_scripts, function($script) {
-				return $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
+			//'add_script' items do not have an iframe
+			return array_filter( $blocked_scripts, static function($script) {
+				return isset($script['enable_placeholder']) && $script['enable_placeholder'] == 1 && (!isset($script['iframe']) || $script['iframe'] == 0) && !empty($script['placeholder_class']);
 			});
-			return $blocked_scripts;
 		}
 
 		/**
@@ -461,14 +458,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
              * Get script tags, including custom user scripts
              *
              * */
-			$blocked_scripts = get_transient('cmplz_blocked_scripts');
-			if ( defined('WP_DEBUG') && WP_DEBUG ) {
+			$blocked_scripts = cmplz_get_transient('cmplz_blocked_scripts');
+			if ( isset($_GET['cmplz_nocache']) ) {
 				$blocked_scripts = false;
 			}
 
 			if ( !$blocked_scripts ) {
 				$blocked_scripts = $this->blocked_scripts();
-				set_transient('cmplz_blocked_scripts', $blocked_scripts, 5 * MINUTE_IN_SECONDS );
+				cmplz_set_transient('cmplz_blocked_scripts', $blocked_scripts, 30 * MINUTE_IN_SECONDS );
 			}
 
 			/**
@@ -794,7 +791,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 
 			//add a marker so we can recognize if this function is active on the front-end
 			$id = 1;
-			if ( cmplz_get_value( 'consent_per_service' ) === 'yes' ) {
+			if ( cmplz_get_option( 'consent_per_service' ) === 'yes' ) {
 				$id = 2;
 			}
 			$output = str_replace( "<body ", "<body data-cmplz=$id ", $output );

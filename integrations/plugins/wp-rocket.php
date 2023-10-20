@@ -57,15 +57,15 @@ function cmplz_wprocket_convert_data_src() {
 	if ( cmplz_wprocket_activate_integration() ) {
 		ob_start();
 		?>
-		<script>
-			document.addEventListener("cmplz_enable_category", function () {
-				document.querySelectorAll('[data-rocket-lazyload]').forEach(obj => {
-					if (obj.hasAttribute('data-lazy-src')) {
-						obj.setAttribute('src', obj.getAttribute('data-lazy-src'));
-					}
-				});
-			});
-		</script>
+        <script>
+            document.addEventListener("cmplz_enable_category", function () {
+                document.querySelectorAll('[data-rocket-lazyload]').forEach(obj => {
+                    if (obj.hasAttribute('data-lazy-src')) {
+                        obj.setAttribute('src', obj.getAttribute('data-lazy-src'));
+                    }
+                });
+            });
+        </script>
 		<?php
 		$script = ob_get_clean();
 		$script = str_replace( array( '<script>', '</script>' ), '', $script );

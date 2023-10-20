@@ -83,7 +83,6 @@ if ( !function_exists('cmplz_divi_map_script')) {
 					cmplz_activated_divi_recaptcha = true;
 				}
 			}
-
 		</script>
 		<?php
 		$script = ob_get_clean();

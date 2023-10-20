@@ -128,7 +128,7 @@ function cmplz_contactform7_dependencies( $tags ) {
 	if (class_exists('IQFix_WPCF7_Deity')) return $tags;
 
 	$service = WPCF7_RECAPTCHA::get_instance();
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		if ( $service->is_active() ) {
 			if (version_compare(WPCF7_VERSION, 5.2, '>=')){
 				$tags['recaptcha/api.js'] = 'modules/recaptcha/script.js';
@@ -145,7 +145,7 @@ function cmplz_contactform7_script( $tags ) {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
 
 	$service = WPCF7_RECAPTCHA::get_instance();
-	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
+	if (cmplz_get_option('block_recaptcha_service') === 'yes'){
 		if ( $service->is_active() ) {
 			$tags[] = 'modules/recaptcha/script.js';
 			$tags[] = 'recaptcha/index.js';
@@ -168,7 +168,7 @@ function cmplz_contactform7_get_plugin_forms( $input_forms ) {
 	$forms = get_posts( array( 'post_type' => 'wpcf7_contact_form' ) );
 	$forms = wp_list_pluck( $forms, "post_title", "ID" );
 	foreach ( $forms as $id => $title ) {
-		$input_forms[ 'cf7_' . $id ] = $title . " " . __( '(Contact form 7)', 'complianz-gdpr' );
+		$input_forms[ 'cf7_' . $id ] = $title . " " . '(Contact form 7)';
 	}
 
 	return $input_forms;
@@ -268,7 +268,8 @@ function cmplz_cf7_warnings_types($warnings)
 	$warnings['contact-form-7'] = array(
 		'plus_one' => true,
 		'warning_condition' => '_true_',
-		'open' => __( 'Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 integration as of CF7 5.4. We have concluded that the only viable solution is for Contact Form 7 to integrate with the WP Consent API.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/why-the-wp-consent-api-is-important-a-case-study-with-cf7-and-recaptcha/'),
+		'open' => __( 'Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 integration as of CF7 5.4. We have concluded that the only viable solution is for Contact Form 7 to integrate with the WP Consent API.', 'complianz-gdpr' ),
+		'url' => 'https://complianz.io/why-the-wp-consent-api-is-important-a-case-study-with-cf7-and-recaptcha/',
 	);
 
 	return $warnings;

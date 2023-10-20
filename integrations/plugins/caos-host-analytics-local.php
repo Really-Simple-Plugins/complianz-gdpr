@@ -24,7 +24,7 @@ function cmplz_caos_script( $tags ) {
  * */
 
 function cmplz_caos_remove_scripts_others() {
-	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$cookie_admin, 'get_statistics_script' ), 10 );
+	remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$banner_loader, 'get_statistics_script' ), 10 );
 }
 
 add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
@@ -39,20 +39,24 @@ add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
  */
 
 function cmplz_caos_filter_fields( $fields ) {
-	unset( $fields['configuration_by_complianz'] );
-	unset( $fields['UA_code'] );
-	unset( $fields['AW_code'] );
-	unset( $fields['consent-mode'] );
-	unset( $fields['compile_statistics_more_info']['help']);
-	return $fields;
+	$index = cmplz_get_field_index('compile_statistics_more_info', $fields);
+	if ($index!==false) unset($fields[$index]['help']);
+	return  cmplz_remove_field( $fields,
+		[
+			'configuration_by_complianz',
+			'ua_code',
+			'aw_code',
+			'consent-mode',
+			'gtm_code',
+		]);
 }
 
-add_filter( 'cmplz_fields', 'cmplz_caos_filter_fields' );
+add_filter( 'cmplz_fields', 'cmplz_caos_filter_fields', 200 );
 
 
-add_filter( 'cmplz_default_value', 'cmplz_caos_set_default', 20, 2 );
-function cmplz_caos_set_default( $value, $fieldname ) {
-	if ( $fieldname == 'compile_statistics' ) {
+add_filter( 'cmplz_default_value', 'cmplz_caos_set_default', 20, 3 );
+function cmplz_caos_set_default( $value, $fieldname, $field ) {
+	if ( $fieldname === 'compile_statistics' ) {
 		return "google-analytics";
 	}
 
@@ -60,29 +64,33 @@ function cmplz_caos_set_default( $value, $fieldname ) {
 }
 
 /**
- * Remove stuff which is not necessary anymore
+ * Remove stats
  *
  * */
+function cmplz_caos_show_compile_statistics_notice($notices) {
+	//find notice with field_id 'compile_statistics' and replace it with our own
+	$found_key = false;
+	foreach ($notices as $key=>$notice) {
+		if ($notice['field_id']==='compile_statistics') {
+			$found_key = $key;
+		}
+	}
 
-function cmplz_caos_remove_actions() {
-	remove_action( 'cmplz_notice_compile_statistics',
-		'cmplz_show_compile_statistics_notice', 10 );
+	$notice = [
+		'field_id' => 'compile_statistics',
+		'label'    => 'default',
+		'title'    => __( "Statistics plugin detected", 'complianz-gdpr' ),
+		'text'     => cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.", 'complianz-gdpr' ), 'CAOS host analytics locally' ),
+	];
+	if ($found_key){
+		$notices[$found_key] = $notice;
+	} else {
+		$notices[] = $notice;
+	}
+	return $notices;
+
 }
-
-add_action( 'admin_init', 'cmplz_caos_remove_actions' );
-
-/**
- * Add notice to tell a user to choose Analytics
- *
- * @param $args
- */
-function cmplz_caos_show_compile_statistics_notice( $args ) {
-	cmplz_sidebar_notice( cmplz_sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
-		'complianz-gdpr' ), 'CAOS host analytics locally' ) );
-}
-
-add_action( 'cmplz_notice_compile_statistics',
-	'cmplz_caos_show_compile_statistics_notice', 10, 1 );
+add_filter( 'cmplz_field_notices', 'cmplz_caos_show_compile_statistics_notice' );
 
 /**
  * Make sure there's no warning about configuring GA anymore
