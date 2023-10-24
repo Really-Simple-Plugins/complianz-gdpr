@@ -47,11 +47,9 @@ const ToolItem = (props) => {
 
 	if ( isPremiumUser ) {
 		if ( !fieldEnabled && item.enableLink ) {
-			linkText = __("Enable","complianz-gdpr");
 			link = item.enableLink;
 		}
 		if ( (!item.field || fieldEnabled) && item.viewLink ) {
-			linkText = __("View","complianz-gdpr");
 			link = item.viewLink;
 		}
 	}

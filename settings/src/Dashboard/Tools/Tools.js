@@ -79,16 +79,19 @@ const Tools = () => {
 			link: cmplz_settings.admin_url+'admin.php?page=wc-settings&tab=account',
 		},
 		{
-			title: __("Multisite", "complianz-gdpr"),
-			link: "#tools/multisite",
-			viewLink: "#tools/multisite",
-		},
-		{
 			title: __("Security", "complianz-gdpr"),
 			link: "#tools/security",
 			viewLink: "#tools/security",
 		},
 	]
+	let multisiteLink = cmplz_settings.is_multisite_plugin ? "#tools/multisite" : "https://complianz.io/complianz-for-wordpress-multisite-installations/";
+	if ( cmplz_settings.is_multisite ) {
+		tools.push({
+			title: __("Multisite", "complianz-gdpr"),
+			link: multisiteLink,
+			viewLink: multisiteLink,
+		})
+	}
 
 	if (consentStatisticsEnabled) {
 		return (

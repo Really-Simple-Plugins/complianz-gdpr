@@ -233,6 +233,8 @@ function cmplz_plugin_admin_scripts() {
 						'menu'              => cmplz_menu(),
 						'regions'           => COMPLIANZ::$config->regions,
 						'user_id'           => get_current_user_id(),
+                        'is_multisite'      => is_multisite(),
+                        'is_multisite_plugin'=> defined('cmplz_premium_multisite'),
 				] )
 		);
 	}

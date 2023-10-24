@@ -364,8 +364,6 @@ function cmplz_wizard_fields($fields){
 				'description' => __( "Do you want to enable Data Request Forms?", 'complianz-gdpr' ),
 			],
 			'label'    => __( "Do you want to enable Data Request Forms?", 'complianz-gdpr' ),
-			'step'     => STEP_COMPANY,
-			'section'  => 11,
 			'type'     => 'radio',
 			'options'  => COMPLIANZ::$config->yes_no,
 			'default'  => 'no',
