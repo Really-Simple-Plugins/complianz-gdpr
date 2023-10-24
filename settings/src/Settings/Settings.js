@@ -25,6 +25,7 @@ const Settings = () => {
 	const [ConfettiExplosion, setConfettiExplosion] = useState(null);
 	const {
 		getFieldNotices,
+		saving,
 		fieldNotices,
 		fieldNoticesLoaded,
 		fieldsLoaded,
@@ -88,14 +89,21 @@ const Settings = () => {
 		setNoticesExpanded(!noticesExpanded);
 	};
 
-	const finish = () => {
+	const finish = async (e) => {
+		e.preventDefault();
 		if (nextButtonDisabled) return;
 		setIsExploding(true);
-		//wait 2 seconds, then run saveData
-		setTimeout(() => {
-			saveData(true, false);
-			setIsExploding(false);
-		}, 2200);
+		//wait 1 seconds, then run saveData
+		setTimeout(async () => {
+            await saveData(true, false);
+			window.location.hash = finishLink;
+
+			setTimeout(async () => {
+				setIsExploding(false);
+			}, 1500);
+
+        }, 1000);
+
 	}
 
 	const saveData = async (finish, showNotice) => {
@@ -257,9 +265,9 @@ const Settings = () => {
 
 							{selectedMainMenuItem === 'wizard' && selectedSubMenuItem ===
 								menuItems[menuItems.length - 1].id &&
-								<a disabled={nextButtonDisabled }
-									 className="button button-primary" href={finishLink}
-									 onClick={(e) => finish()}>
+								<a disabled={nextButtonDisabled || saving }
+									 className="button button-primary" href="#"
+									 onClick={(e) => finish(e)}>
 									{__('Finish', 'complianz-gdpr')}
 								</a>
 							}

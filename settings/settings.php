@@ -10,7 +10,7 @@ require_once( cmplz_path . 'settings/config/menu.php' );
 require_once( cmplz_path . 'settings/config/blocks.php' );
 require_once( cmplz_path . 'settings/wizard.php' );
 require_once( cmplz_path . 'settings/config/fields-notices.php' );
-
+require_once( cmplz_path . 'settings/media/wp_enqueue_media_override.php');
 /**
  * Fix for WPML issue where WPML breaks the rest api by adding a language locale in the url
  *
@@ -198,7 +198,7 @@ function cmplz_plugin_admin_scripts() {
 		$assetFilePath     = $buildDirPath . '/' . $assetFilename;
 		$assetFile         = require( $assetFilePath );
 		$handle            = 'cmplz-settings';
-		wp_enqueue_media();
+		cmplz_wp_enqueue_media();
 		wp_enqueue_script( $handle);
 		wp_enqueue_script(
 				$handle,
@@ -225,7 +225,7 @@ function cmplz_plugin_admin_scripts() {
 						'dashboard_url'     => cmplz_admin_url(),
 						'upgrade_link'      => 'https://complianz.io/pricing',
 						'plugin_url'        => cmplz_url,
-						'network_link'      => network_site_url( 'plugins.php' ),
+						'license_url'      =>  is_multisite() ? cmplz_main_site_url('#settings/license') : '#settings/license',
 						'blocks'            => cmplz_blocks(),
 						'is_premium'        => defined( 'cmplz_premium' ),
 						'nonce'             => wp_create_nonce( 'wp_rest' ),//to authenticate the logged in user
@@ -242,7 +242,7 @@ function cmplz_plugin_admin_scripts() {
  * Get admin url, adjusted for multisite
  * @return string|null
  */
-function cmplz_admin_url(){
+function cmplz_admin_url($path=''){
 	if (is_network_admin()) {
 		switch_to_blog(get_main_site_id());
 	}
@@ -250,7 +250,24 @@ function cmplz_admin_url(){
 	if (is_network_admin()) {
 		restore_current_blog();
 	}
-	return $url;
+	return $url.$path;
+}
+
+/**
+ * Get admin url, adjusted for multisite
+ * @return string|null
+ */
+function cmplz_main_site_url($path=''){
+	$switch_back = false;
+	if ( !is_main_site()) {
+		$switch_back = true;
+		switch_to_blog(get_main_site_id());
+	}
+	$url = add_query_arg(array('page' => 'complianz'), admin_url('admin.php') );
+	if ($switch_back) {
+		restore_current_blog();
+	}
+	return $url.$path;
 }
 
 /**

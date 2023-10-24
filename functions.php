@@ -2278,21 +2278,39 @@ if ( ! function_exists( 'cmplz_get_document_url' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_remote_file_exists' ) ) {
-	function cmplz_remote_file_exists( $url ) {
-		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		// don't download content
-		curl_setopt( $ch, CURLOPT_NOBODY, 1 );
-		curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	/**
+	 * Check if a remote file exists
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
 
-		$result = curl_exec( $ch );
-		curl_close( $ch );
-		if ( $result !== false ) {
-			return true;
-		} else {
+	function cmplz_remote_file_exists( string $url ): bool {
+		//curl doesn't download in this case, which is faster.
+		if ( function_exists('curl_init') ) {
+			$ch = curl_init();
+			curl_setopt( $ch, CURLOPT_URL, $url );
+			// don't download content
+			curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+			curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+			$result = curl_exec( $ch );
+			curl_close( $ch );
+			return $result !== false;
+		}
+
+		//if there's no curl, we use default wordpress.
+		$response = wp_remote_get( $url );
+		if ( is_wp_error( $response ) ) {
 			return false;
 		}
+
+		if ( wp_remote_retrieve_response_code($response) !== 200 ) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

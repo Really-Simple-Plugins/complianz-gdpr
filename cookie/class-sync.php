@@ -945,6 +945,10 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				return '';
 			}
 
+			if ( defined('CMPLZ_DISABLE_SYNC') && CMPLZ_DISABLE_SYNC ) {
+				return '';
+			}
+
 			//we only want to start the sync if the sync has been started from the react app at least once.
 			if ( !$request_from_sync && !get_option('cmplz_first_sync_started')) {
 				return '';
@@ -992,6 +996,10 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		 * @return int
 		 */
 		public function get_sync_progress(): int {
+			if ( defined('CMPLZ_DISABLE_SYNC') && CMPLZ_DISABLE_SYNC ) {
+				return 100;
+			}
+
 			$progress = 5;
 			if ( get_option( 'cmplz_purposes_stored' ) ) {
 				$progress = 20;

@@ -111,7 +111,7 @@ const SettingsGroup = (props) => {
 				<div className="cmplz-locked-overlay">
 					<span className="cmplz-task-status cmplz-premium">{__("Upgrade","complianz-gdpr")}</span>
 					<span>
-						{ cmplz_settings.is_premium && <span>{msg}&nbsp;<a className="cmplz-locked-link" href="#settings/license">{__("Check license", "complianz-gdpr")}</a></span>}
+						{ cmplz_settings.is_premium && <span>{msg}&nbsp;<a className="cmplz-locked-link" href={cmplz_settings.license_url}>{__("Check license", "complianz-gdpr")}</a></span>}
 						{ !cmplz_settings.is_premium && <Hyperlink target="_blank" text={msg} url={upgrade}/> }
 					</span>
 				</div>

@@ -46,7 +46,7 @@ function cmplz_tools_fields( $fields ) {
 			'tooltip'               => __( "When emails are sent, you can choose the sender email address here. Please note that it should have this website's domain as sender domain, otherwise the server might block the email from being sent.", 'complianz-gdpr' ),
 			'help'             => [
 				'label' => 'default',
-				'title' => __( "Responding to a data requests", 'complianz-gdpr' ),
+				'title' => __( "Responding to data requests", 'complianz-gdpr' ),
 				'text'  => __( 'You have an open data requests ready for response? Get started here.', 'complianz-gdpr' ),
 				'url'   => 'https://complianz.io/responding-to-a-data-request/',
 			],
