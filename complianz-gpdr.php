@@ -117,8 +117,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		private function setup_constants() {
 			define( 'CMPLZ_COOKIEDATABASE_URL', 'https://cookiedatabase.org/wp-json/cookiedatabase/' );
 			define( 'CMPLZ_MAIN_MENU_POSITION', 40 );
-			define( 'CMPLZ_PROCESSING_MENU_POSITION', 41 );
-			define( 'CMPLZ_DATALEAK_MENU_POSITION', 42 );
 
 			//default region code
 			if ( ! defined( 'CMPLZ_DEFAULT_REGION' ) ) {
@@ -129,11 +127,6 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 			if ( ! defined( 'CMPLZ_AB_TESTING_DURATION' ) ) {
 				define( 'CMPLZ_AB_TESTING_DURATION', 30 );
 			} //Days
-
-			define( 'STEP_COMPANY', 1 );
-			define( 'STEP_COOKIES', 2 );
-			define( 'STEP_MENU', 3 );
-			define( 'STEP_FINISH', 4 );
 
 			define( 'cmplz_url', plugin_dir_url( __FILE__ ) );
 			define( 'cmplz_path', plugin_dir_path( __FILE__ ) );
@@ -163,7 +156,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		}
 
 		private function includes() {
-			require_once(cmplz_path . 'documents/class-document.php');
+			require_once( cmplz_path . 'documents/class-document.php');
 			require_once( cmplz_path . 'cookie/class-cookie.php' );
 			require_once( cmplz_path . 'cookie/class-service.php' );
 			require_once( cmplz_path . 'integrations/integrations.php' );
