@@ -84,7 +84,7 @@ const Tools = () => {
 			viewLink: "#tools/security",
 		},
 	]
-	let multisiteLink = cmplz_settings.is_multisite_plugin ? "#tools/multisite" : "https://complianz.io/complianz-for-wordpress-multisite-installations/";
+	let multisiteLink = cmplz_settings.is_multisite_plugin ? "#tools/tools-multisite" : "https://complianz.io/complianz-for-wordpress-multisite-installations/";
 	if ( cmplz_settings.is_multisite ) {
 		tools.push({
 			title: __("Multisite", "complianz-gdpr"),

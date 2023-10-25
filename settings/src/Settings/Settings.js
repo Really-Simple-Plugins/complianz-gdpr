@@ -93,16 +93,16 @@ const Settings = () => {
 		e.preventDefault();
 		if (nextButtonDisabled) return;
 		setIsExploding(true);
-		//wait 1 seconds, then run saveData
+		saveData(true, false);
+		//wait a bit, then redirect
 		setTimeout(async () => {
-            await saveData(true, false);
-			window.location.hash = finishLink;
 
+			window.location.hash = finishLink;
 			setTimeout(async () => {
 				setIsExploding(false);
-			}, 1500);
+			}, 500);
 
-        }, 1000);
+        }, 1500);
 
 	}
 

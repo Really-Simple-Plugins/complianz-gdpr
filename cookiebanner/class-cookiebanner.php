@@ -1256,10 +1256,11 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 				}
 			}
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
-			$page_links = cmplz_get_transient('page_links');
+			$locale = get_locale();
+			$page_links = cmplz_get_transient("page_links_$locale");
 			if ( !$page_links ) {
 				$page_links = COMPLIANZ::$document->get_page_links();
-				cmplz_set_transient('page_links', $page_links, 10 * MINUTE_IN_SECONDS);
+				cmplz_set_transient("page_links_$locale", $page_links, 10 * MINUTE_IN_SECONDS);
 			}
 
 			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );
