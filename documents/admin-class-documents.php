@@ -894,17 +894,17 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		 * Add document post state
 		 *
 		 * @param array   $post_states
-		 * @param WP_Post $post
+		 * @param $post //don't specify type here, as some setups will pass an int, while we need a WP_Post
 		 *
 		 * @return array
 		 */
-		public function add_post_state(array $post_states, WP_Post $post): array {
+		public function add_post_state(array $post_states, $post): array {
 
 			if ( ! $post instanceof WP_Post ) {
 				return $post_states;
 			}
 
-			
+
 			if ( $post && COMPLIANZ::$document->is_complianz_page( $post->ID ) ) {
 				$post_states['page_for_privacy_policy'] = __("Legal Document", "complianz-gdpr");
 			}
