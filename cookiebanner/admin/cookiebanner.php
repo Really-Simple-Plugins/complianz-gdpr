@@ -42,9 +42,23 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 		$upload_url = is_ssl() ? str_replace('http://', 'https://', $uploads['baseurl']) : $uploads['baseurl'];
 		//check if the css file exists. if not, use default.
 		$css_file = $upload_url . '/complianz/css/banner-{banner_id}-{type}.css';
+		$ordered_banners = [];
+
+		//first add the default banner to the $ordered_banners array to ensure it is the first.
+		foreach ( $banners as $index => $banner ){
+			if ( $banner->default ) {
+				$ordered_banners[] = $banner;
+				unset($banners[$index]);
+			}
+		}
+		//now add the remaining banners to the $ordered_banners array
+		foreach ( $banners as $banner ){
+			$ordered_banners[] = $banner;
+		}
+
+		//leave only two banners. More are a legacy function, and not supported anymore.
+		$banners = array_slice($ordered_banners, 0, 2);
 		$object_banners = [];
-		usort($banners, static function($a, $b) {return strcmp($a->default, $b->default);});
-		$banners = array_slice($banners, 0, 2);
 		foreach ( $banners as $banner ){
 			$object_banners[] = new CMPLZ_COOKIEBANNER($banner->ID, true, true);
 		}

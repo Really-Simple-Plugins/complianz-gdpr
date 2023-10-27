@@ -367,7 +367,8 @@ function cmplz_check_media_months( $post_id ) {
 		", 'attachment' ) );
 
 	// Simplify by assigning the object to $months
-	$months = array_shift( array_values( $months ) );
+	$month_values = array_values( $months );
+	$months = array_shift( $month_values );
 
 	// Compare the dates of the new, and most recent, attachment
 	if (

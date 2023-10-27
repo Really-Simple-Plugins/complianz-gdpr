@@ -86,9 +86,9 @@ const CookieBannerPreview = () => {
 		fetchBannerData();
 	}, [getFieldValue('a_b_testing_buttons') ])
 
-	useUpdateEffect(()=> {
+	useEffect(()=> {
 		setUpBanner();
-	})
+	}, [document.querySelector('#cmplz-cookiebanner-container')]);
 
 	useEffect ( () => {
 		if ( bannerDataLoaded ) {
@@ -298,7 +298,7 @@ const CookieBannerPreview = () => {
 
 	const setUpBanner = () => {
 		let bannerObject = document.querySelector('#cmplz-cookiebanner-container');
-		if (bannerObject) {
+		if ( bannerObject) {
 			bannerObject.querySelectorAll('.cmplz-links a:not(.cmplz-external), .cmplz-buttons a:not(.cmplz-external)').forEach(docElement => {
 				docElement.classList.add('cmplz-hidden');
 				for (let pageType in pageLinks ) {

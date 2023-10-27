@@ -23,6 +23,7 @@ const Settings = () => {
 	const {saveDocumentsMenu} = UseMenuData();
 	const [CookieBannerPreview, setCookieBannerPreview] = useState(null);
 	const [ConfettiExplosion, setConfettiExplosion] = useState(null);
+	const [finishDisabled, setFinishDisabled] = useState(false);
 	const {
 		getFieldNotices,
 		saving,
@@ -35,6 +36,7 @@ const Settings = () => {
 		fetchAllFieldsCompleted,
 		nextButtonDisabled,
 		isNextButtonDisabled,
+		fetchFieldsData,
 	} = useFields();
 	const {
 		subMenuLoaded,
@@ -92,18 +94,16 @@ const Settings = () => {
 	const finish = async (e) => {
 		e.preventDefault();
 		if (nextButtonDisabled) return;
+		setFinishDisabled(true);
 		setIsExploding(true);
-		saveData(true, false);
+		await saveData(true, false);
+		//if the user switches back from the banner preview page, we need to reload the banner data.
+		setBannerDataLoaded(false);
 		//wait a bit, then redirect
-		setTimeout(async () => {
-
+		// setTimeout(async () => {
+			setFinishDisabled(false);
 			window.location.hash = finishLink;
-			setTimeout(async () => {
-				setIsExploding(false);
-			}, 500);
-
-        }, 1500);
-
+        // }, 500);
 	}
 
 	const saveData = async (finish, showNotice) => {
@@ -265,7 +265,7 @@ const Settings = () => {
 
 							{selectedMainMenuItem === 'wizard' && selectedSubMenuItem ===
 								menuItems[menuItems.length - 1].id &&
-								<a disabled={nextButtonDisabled || saving }
+								<a disabled={nextButtonDisabled || saving || finishDisabled }
 									 className="button button-primary" href="#"
 									 onClick={(e) => finish(e)}>
 									{__('Finish', 'complianz-gdpr')}

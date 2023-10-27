@@ -339,11 +339,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			}
 			$files = [];
 			$regions = cmplz_get_regions();
-			$cookie_policy = cmplz_get_option( 'cookie-statement' ) === 'generated';
 			$privacy_statement = cmplz_get_option( 'privacy-statement' ) === 'generated';
 			$files[] = '/pro/config/documents/documents.php';
 			foreach ($regions as $region) {
-				if ($cookie_policy) $files[] = "/config/documents/cookie-policy-$region.php";
+				$files[] = "/config/documents/cookie-policy-$region.php";
 				if ($privacy_statement) $files[] = "/pro/config/documents/$region/privacy-policy.php";
 				$files[] = "/pro/config/documents/$region/privacy-policy-children.php";
 			}
