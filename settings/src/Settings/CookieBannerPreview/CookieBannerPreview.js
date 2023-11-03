@@ -3,12 +3,14 @@ import UseBannerData from "./CookieBannerData";
 import {useEffect, useState, useRef} from "@wordpress/element";
 import {useUpdateEffect} from 'react-use';
 import {getPurposes, filterArray, concatenateString} from "./tcf";
+import useMenu from "../../Menu/MenuData";
 /**
  * Render a help notice in the sidebar
  */
 const CookieBannerPreview = () => {
+	const {selectedSubMenuItem} = useMenu();
 	const rootRef = useRef(null);
-	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields, fetchFieldsData, fieldsLoaded} = useFields();
+	const {fields, updateField, getFieldValue, getField, setChangedField, changedFields, fetchFieldsData, updateFieldsData, fieldsLoaded} = useFields();
 	const {setBannerContainerClass, bannerContainerClass, cssLoading, cssLoaded, generatePreviewCss, pageLinks, selectedBanner, selectedBannerId, tcfActiveServerside, fetchBannerData, setBannerDataLoaded, bannerDataLoaded, bannerHtml, manageConsentHtml, consentType} = UseBannerData();
 	const [timer, setTimer] = useState(null)
 	const [bannerDataUpdated, setBannerDataUpdated] = useState(0)
@@ -30,24 +32,16 @@ const CookieBannerPreview = () => {
 		setTcfStatusValidated(true);
 	}, [ fieldsLoaded, bannerDataLoaded, getFieldValue('uses_ad_cookies_personalized') ]);
 
-	useEffect (  () => {
-		if ( !bannerDataLoaded ) {
-			fetchBannerData();
-		}
-	}, [bannerDataLoaded])
-
-	useEffect (  () => {
-		if ( !fieldsLoaded ) {
-			fetchFieldsData();
-		}
-	}, [fieldsLoaded])
+	useEffect  (  () => {
+		loadRequiredData();
+	}, [window.location.hash, fieldsLoaded, bannerDataLoaded ])
 
 	//reload fields if tcfActive status has changed
 	useEffect (  () => {
 		if (!tcfStatusValidated) {
 			return;
 		}
-		fetchBannerData();
+		loadRequiredData();
 	}, [tcfActive])
 
 	useEffect (  () => {
@@ -57,12 +51,7 @@ const CookieBannerPreview = () => {
 		if (tcfActive === tcfActiveServerside) {
 			return;
 		}
-		const run = async () => {
-			await fetchBannerData();
-			await fetchFieldsData();
-			setBannerDataUpdated(bannerDataUpdated+1);
-		}
-		run();
+		loadRequiredData();
 	}, [tcfActive, tcfActiveServerside, selectedBanner])
 
 	useEffect (  () => {
@@ -73,32 +62,31 @@ const CookieBannerPreview = () => {
 			return;
 		}
 
-		const run = async () => {
-			await fetchBannerData();
-			setBannerDataUpdated(bannerDataUpdated+1);
-			await fetchFieldsData();
-		}
-		run();
+		loadRequiredData();
 	}, [selectedBanner])
 
 	//also reload if ab testing is enabled, to get the second banner that may have been added just now.
 	useEffect (  () => {
-		fetchBannerData();
-	}, [getFieldValue('a_b_testing_buttons') ])
-
-	useEffect(()=> {
-		setUpBanner();
-	}, [document.querySelector('#cmplz-cookiebanner-container')]);
+		loadRequiredData();
+	}, [ getFieldValue('a_b_testing_buttons') ])
 
 	useEffect ( () => {
 		if ( bannerDataLoaded ) {
+			console.log("consenttype "+consentType)
 			updateField('consent_type', consentType );
 			setChangedField('consent_type', consentType);
 		}
 	}, [consentType])
 
+	useEffect ( () => {
+		updateFieldsData(selectedSubMenuItem);
+	}, [ getFieldValue('consent_type')] )
+
 	//keep consenttype in sync
 	useEffect ( () => {
+		if (consentType === '') {
+			return;
+		}
 		updateField('consent_type', consentType )
 	}, [consentType])
 
@@ -113,25 +101,40 @@ const CookieBannerPreview = () => {
 
 	useEffect (  () => {
 		if ( selectedBannerId>0 ) {
-
 			syncBannerToFields();
 			setBannerDataUpdated(bannerDataUpdated+1);
 		}
 	},[selectedBannerId, consentType, bannerDataLoaded, tcfActive]);
 
+	useEffect(() => {
+		syncBannerToFields();
+	}, [fields]);
+
 	useEffect (  () => {
 
-		//with with generating the preview until we have synced the data at least once.
+		//wait with generating the preview until we have synced the data at least once.
 		if ( selectedBannerId>0 && bannerToFieldsSynced ) {
 			loadBannerPreview();
 		}
 	},	[bannerDataUpdated, selectedBannerId, tcfActive, bannerToFieldsSynced]);
+
+	const loadRequiredData = async () => {
+
+		await fetchBannerData();
+		await fetchFieldsData(selectedSubMenuItem);
+		updateField('consent_type', consentType )
+		setBannerDataUpdated(bannerDataUpdated+1);
+	}
 
 	/**
 	 * Fill fields with data from the selected banner
 	 */
 	const syncBannerToFields = () => {
 		// fill fields with data from selected banner, default the default banner
+		if ( !bannerDataLoaded ) {
+			return;
+		}
+
 		let bannerFields = getBannerFields();
 		for ( const field of bannerFields ) {
 			if ( selectedBanner.hasOwnProperty(field.id) ) {
@@ -143,9 +146,11 @@ const CookieBannerPreview = () => {
 				updateField(field.id, value )
 			}
 		}
+
 		setBannerToFieldsSynced(true);
 		updateField('manage_consent', selectedBanner['revoke'] );
 	}
+
 	/**
 	 * Update selected banner with changed fields data
 	 */
@@ -192,14 +197,13 @@ const CookieBannerPreview = () => {
 				setBannerContainerClass('');
 			}, 4000)
 		}
-		setupClickEvents(true);
 	}
 
 	useEffect(() => {
-		if (!tcfActive) return;
+		if ( !tcfActive ) return;
 
 		const rootElement = rootRef.current;
-		if (!rootRef.current) {
+		if ( !rootRef.current ) {
 			return;
 		}
 
@@ -316,7 +320,8 @@ const CookieBannerPreview = () => {
 	}
 
 	const getBannerFields = () => {
-		return fields.filter( field => field.data_target === 'banner');
+		let bannerFields =  fields.filter( field => field.data_target === 'banner');
+		return bannerFields;
 	}
 
 	const validateBannerWidth = () => {
@@ -404,10 +409,10 @@ const CookieBannerPreview = () => {
 		return fieldId;
 	}
 
-	if ( !bannerDataLoaded ) {
-		return (<></>);
+	let hidePreview = getFieldValue('hide_preview')==1 || getFieldValue('disable_cookiebanner')==1;
+	if ( !bannerDataLoaded  ||  !cssLoaded || hidePreview || !bannerToFieldsSynced ) {
+		return (<></>)
 	}
-
 
 	//render banner with this data
 	let resultHtml = bannerHtml;
@@ -418,7 +423,6 @@ const CookieBannerPreview = () => {
 	let vendorCount = consentType==='optin' ? 643 : '';
 	resultHtml = replace( resultHtml, '{vendor_count}', vendorCount );
 	resultManageConsentHtml = replace( resultManageConsentHtml, '{id}', selectedBanner.ID );
-	let hidePreview = getFieldValue('hide_preview')==1 || getFieldValue('disable_cookiebanner')==1;
 	for ( const field of bannerFields ) {
 		if (field.id==='title') {
 			continue;
@@ -443,10 +447,8 @@ const CookieBannerPreview = () => {
 
 	}
 
-	if ( !cssLoaded || hidePreview ) {
-		return (<></>)
-	}
 
+	setUpBanner();
 	return (
 		<>
 			<div id="cmplz-preview-banner-container" ref={rootRef}>

@@ -778,6 +778,9 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 
 	foreach ( $fields as $field ) {
 		$prev_value = $options[ $field['id'] ] ?? false;
+        if ( isset($field['translatable']) && $field['translatable']) {
+            cmplz_register_translation( $field['value'], $field['id'] );
+        }
         do_action( "cmplz_after_save_field", $field['id'], $field['value'], $prev_value, $field['type'] );
     }
 	do_action('cmplz_after_saved_fields', $fields );

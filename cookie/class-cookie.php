@@ -429,12 +429,14 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
 			 */
 
-			if ( !defined('POLYLANG_VERSION') || !$this->sync ) {
-				cmplz_register_translation( $this->purpose, 'cookie_purpose' );
+			if ( $this->language === 'en' ) {
+				if ( ! defined( 'POLYLANG_VERSION' ) || ! $this->sync ) {
+					cmplz_register_translation( $this->purpose, 'cookie_purpose' );
+				}
+				cmplz_register_translation( $this->retention, 'cookie_retention' );
+				cmplz_register_translation( $this->cookieFunction, 'cookie_function' );
+				cmplz_register_translation( $this->collectedPersonalData, 'cookie_collected_personal_data' );
 			}
-			cmplz_register_translation($this->retention, 'cookie_retention');
-			cmplz_register_translation($this->cookieFunction, 'cookie_function');
-			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
 
 			//update legacy data
 			if ( empty($this->domain) ) {

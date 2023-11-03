@@ -36,7 +36,6 @@ const Settings = () => {
 		fetchAllFieldsCompleted,
 		nextButtonDisabled,
 		isNextButtonDisabled,
-		fetchFieldsData,
 	} = useFields();
 	const {
 		subMenuLoaded,
@@ -64,7 +63,12 @@ const Settings = () => {
 				});
 		}
 	}, [selectedSubMenuItem]);
+
 	useEffect(() => {
+		//banner generation does a lot of fields updates, so it's not a good idea to hit the api each time.
+		if (window.location.hash==='#banner') {
+			return;
+		}
 		getFieldNotices();
 		fetchAllFieldsCompleted();
 	}, [fields]);
@@ -96,14 +100,13 @@ const Settings = () => {
 		if (nextButtonDisabled) return;
 		setFinishDisabled(true);
 		setIsExploding(true);
-		await saveData(true, false);
+		saveData(true, false);
 		//if the user switches back from the banner preview page, we need to reload the banner data.
-		setBannerDataLoaded(false);
-		//wait a bit, then redirect
-		// setTimeout(async () => {
-			setFinishDisabled(false);
-			window.location.hash = finishLink;
-        // }, 500);
+		setFinishDisabled(false);
+		window.location.hash = finishLink;
+		setTimeout(async () => {
+			setIsExploding(false);
+        }, 2000);
 	}
 
 	const saveData = async (finish, showNotice) => {

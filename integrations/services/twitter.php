@@ -38,6 +38,7 @@ function cmplz_add_twitter_js() {
         });
 	}
     ";
+	ob_get_clean();
 	wp_add_inline_script( 'cmplz-cookiebanner', $script);
 }
 add_action( 'wp_enqueue_scripts', 'cmplz_add_twitter_js', PHP_INT_MAX);

@@ -9,12 +9,10 @@ const Editor = ({id, value, onChange }) => {
 
 	useEffect(() => {
 		if (!editorState) {
-			console.log("editor state");
 			return;
 		}
 
 		const typingTimer = setTimeout(() => {
-			console.log("set new editor state");
 			updateField(id, editorState);
 			setChangedField(id, editorState);
 			onChange(editorState);

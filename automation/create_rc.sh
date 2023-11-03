@@ -107,10 +107,9 @@ create_rc_zip() {
 }
 
 download_po_files() {
-	# @todo make sure we are in the right folder
 	# The right folder is the root of the plugin
 	echo "Downloading .po files"
-	scp ${username}@translate.really-simple-plugins.com:/public_html/wp-content/plugins/${plugin_name}/languages/*.po languages/
+	scp ${username}@translate.really-simple-plugins.com:${remote_path}/${plugin_name}/languages/*.po languages
 }
 
 upload_plugin() {
@@ -209,6 +208,7 @@ else
 fi
 
 echo "Step 6: Copy PO files from main language to secondary languages using lang_mappings"
+cd ../${plugin_name} || { echo "Failed to change directory"; exit 1; }
 # Loop through the array and copy files
 for mapping in "${lang_mappings[@]}"; do
   # Split the source and target languages
@@ -224,6 +224,7 @@ done
 
 
 echo "Step 7: Make JSON"
+
 wp i18n make-json languages/
 
 echo "Step 8: Make MO"

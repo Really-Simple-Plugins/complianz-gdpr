@@ -147,7 +147,9 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				$this->add_to_wizard( $this->name );
 			}
 
-			cmplz_register_translation($this->serviceType, 'service_type');
+			if ( $this->language === 'en' ) {
+				cmplz_register_translation( $this->serviceType, 'service_type' );
+			}
 
 			$update_array = array(
 				'name'                => sanitize_text_field( $this->name ),

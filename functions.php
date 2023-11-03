@@ -2210,6 +2210,9 @@ if ( ! function_exists( 'cmplz_cdb_reference_in_policy' ) ) {
 if ( ! function_exists( 'cmplz_register_translation' ) ) {
 
 	function cmplz_register_translation( $string, $fieldname ) {
+		if ( ! is_string( $string ) || !is_string($fieldname) ) {
+			return;
+		}
 		//polylang
 		if ( function_exists( "pll_register_string" ) ) {
 			pll_register_string( $fieldname, $string, 'complianz' );
@@ -2287,30 +2290,25 @@ if ( ! function_exists( 'cmplz_remote_file_exists' ) ) {
 	 */
 
 	function cmplz_remote_file_exists( string $url ): bool {
-		//curl doesn't download in this case, which is faster.
-		if ( function_exists('curl_init') ) {
-			$ch = curl_init();
-			curl_setopt( $ch, CURLOPT_URL, $url );
-			// don't download content
-			curl_setopt( $ch, CURLOPT_NOBODY, 1 );
-			curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			$result = curl_exec( $ch );
-			curl_close( $ch );
-			return $result !== false;
-		}
-
-		//if there's no curl, we use default wordpress.
-		$response = wp_remote_get( $url );
-		if ( is_wp_error( $response ) ) {
+		if ( empty($url) ) {
 			return false;
 		}
 
-		if ( wp_remote_retrieve_response_code($response) !== 200 ) {
-			return false;
+		try {
+			$headers = @get_headers($url);
+			if ($headers === false) {
+				// URL is not accessible or some error occurred
+				return false;
+			}
+
+			// Check if the HTTP status code starts with "200" (indicating success)
+			return strpos($headers[0], '200') !== false;
+
+		} catch (Exception $e) {
+
 		}
 
-		return true;
+		return false;
 	}
 
 }

@@ -72,6 +72,7 @@ const UseBannerData = create(( set, get ) => ({
 		let data = {};
 		data.fields = bannerFields;
 		data.banner_id = banner_id;
+
 		await cmplz_api.doAction('generate_preview_css', data).then(() => {
 			return true;
 		}).catch((error) => {
@@ -79,6 +80,7 @@ const UseBannerData = create(( set, get ) => ({
 		});
 		let cssFile = get().cssFile;
 		let cssIndex = get().cssIndex;
+
 		let link = document.createElement("link");
 		cssFile = cssFile+'?'+Math.random();
 
