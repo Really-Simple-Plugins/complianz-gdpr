@@ -35,7 +35,7 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 		$fields = false;
 		$options = get_option( 'cmplz_options', [] );
 		$value = $options[ $id ] ?? false;
-		if ( $value===false && $load_default ) {
+		if ( $value===false && $load_default && class_exists('COMPLIANZ') ) {
 			$fields = COMPLIANZ::$config->fields ?? [];
 			$keys   = array_keys( array_column( $fields, 'id' ), $id );
 			$key    = reset( $keys );
