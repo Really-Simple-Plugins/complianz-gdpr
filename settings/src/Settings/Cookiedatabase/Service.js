@@ -47,12 +47,15 @@ const ServiceDetails = (service) => {
 	},[service]);
 
 	useEffect(() => {
-		if (serviceName.length<5) {
+		if ( service.name === serviceName ) {
+			return;
+		}
+		if (serviceName.length<2) {
 			return;
 		}
 		const typingTimerServiceName = setTimeout(() => {
 			onChangeHandler(serviceName, service.ID, 'name')
-		}, 400);
+		}, 500);
 
 		return () => {
 			clearTimeout(typingTimerServiceName);
@@ -66,6 +69,9 @@ const ServiceDetails = (service) => {
 	},[service]);
 
 	useEffect(() => {
+		if ( service.privacyStatementURL === privacyStatementUrl ) {
+			return;
+		}
 		if (privacyStatementUrl.length===0) {
 			return;
 		}
@@ -140,7 +146,7 @@ const ServiceDetails = (service) => {
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">
-					<a href={cdbLink} target="_blank">{__( "View service on cookiedatabase.org", "complianz-gdpr" )}</a>
+					<a href={cdbLink} target="_blank" rel="noopener noreferrer">{__( "View service on cookiedatabase.org", "complianz-gdpr" )}</a>
 				</div>
 			}
 			<div className="cmplz-details-row cmplz-details-row__buttons">

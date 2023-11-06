@@ -3,20 +3,23 @@ import { __ } from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import {memo} from "@wordpress/element";
 import useFields from "../Fields/FieldsData";
+import DOMPurify from 'dompurify';
+
 /**
  * Render a help notice in the sidebar
  */
 const SinglePrivacyStatement = (props) => {
 	const {updateField, setChangedField, getFieldValue} = useFields();
 
-	const Details = () =>{
+	const Details = () => {
+
 		return (
 			<>
-				<div className="cmplz-details-row" dangerouslySetInnerHTML={{__html:props.plugin.policy_text}}>
-
+				<div className="cmplz-details-row"
+					 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( props.plugin.policy_text ) } }  > {/* nosemgrep: react-dangerouslysetinnerhtml */}
 				</div>
 			</>
-		);
+		)
 	}
 
 	const addPolicyHandler = (title, text, e) => {

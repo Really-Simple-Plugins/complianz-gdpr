@@ -20,6 +20,9 @@ const NumberInput = ({
 	//because an update on the entire Fields array is costly, we only update after the user has stopped typing
 	useEffect(() => {
 		// skip first render
+		if (value=== inputValue) {
+			return;
+		}
 		const typingTimer = setTimeout(() => {
 			onChange(inputValue);
 		}, 500);

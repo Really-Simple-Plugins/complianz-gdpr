@@ -2,7 +2,7 @@ const Hyperlink = (props) => {
 	let label_pre = '';
 	let label_post = '';
 	let link_text = '';
-	if (props.text.indexOf('%s')!==-1) {
+	if (props.text.indexOf('%s') !== -1) {
 		let parts = props.text.split(/%s/);
 		label_pre = parts[0];
 		link_text = parts[1];
@@ -11,9 +11,19 @@ const Hyperlink = (props) => {
 		link_text = props.text;
 	}
 	let className = props.className ? props.className : 'cmplz-link';
-	return (
-		<>{ label_pre } <a className={className} target={props.target} href={props.url}>{link_text}</a>{label_post}</>
-	)
 
+	return (
+		<>
+			{label_pre}
+			<a
+				className={className}
+				target={props.target}
+				rel={props.rel}
+				href={props.url}>
+				{link_text}
+			</a>
+			{label_post}
+		</>
+	);
 }
 export default Hyperlink;

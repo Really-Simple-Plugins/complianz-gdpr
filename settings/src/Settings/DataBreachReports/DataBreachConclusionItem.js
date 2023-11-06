@@ -1,6 +1,7 @@
 import {useState, useEffect} from "@wordpress/element";
 import Icon from "../../utils/Icon";
 import {memo} from "@wordpress/element";
+import DOMPurify from "dompurify";
 
 const DataBreachConclusionItem = ({conclusion, delay}) => {
 	const [generating, setGenerating] = useState(true);
@@ -30,7 +31,9 @@ const DataBreachConclusionItem = ({conclusion, delay}) => {
 			{!generating &&
 				<li className={"cmplz-conclusion__check icon-"+conclusion.report_status}>
 					<Icon name={conclusion.report_status} color={iconColor}/>
-					<div className="cmplz-conclusion__check--report-text" dangerouslySetInnerHTML={{__html:conclusion.report_text}}></div>
+					<div className="cmplz-conclusion__check--report-text"
+						 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( conclusion.report_text ) } }> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+					</div>
 				</li>
 			}
 		</>

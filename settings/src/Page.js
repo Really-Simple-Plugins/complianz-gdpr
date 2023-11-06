@@ -15,7 +15,7 @@ import {__, setLocaleData} from "@wordpress/i18n";
 import ErrorBoundary from "./utils/ErrorBoundary";
 
 const Page = () => {
-	const {fetchProgressData} = useProgress();
+	const {progressLoaded, fetchProgressData} = useProgress();
 	const {error, fields, changedFields, fetchFieldsData, updateFieldsData, fieldsLoaded, lockedByUser} = useFields();
 	const {fetchMenuData, selectedMainMenuItem, selectedSubMenuItem } = useMenu();
 	const {loading, syncProgress, fetchSyncProgressData} = UseSyncData();
@@ -107,7 +107,9 @@ const Page = () => {
 		const run = async () => {
 			let subMenuItem = getAnchor('menu');
 			await fetchFieldsData(subMenuItem);
-			await fetchProgressData()
+			if (!progressLoaded) {
+				await fetchProgressData()
+			}
 			if (!loading && syncProgress<100){
 				fetchSyncProgressData();
 			}

@@ -13,15 +13,15 @@ const OtherPlugins = () => {
     const otherPluginElement = (plugin, i) => {
         return (
            <div key={i} className={"cmplz-other-plugins-element cmplz-"+plugin.slug}>
-               <a href={plugin.wordpress_url} target="_blank" title={plugin.title}>
+			   <a href={plugin.wordpress_url} target="_blank" rel="noopener noreferrer" title={plugin.title}>
                    <div className="cmplz-bullet"></div>
                    <div className="cmplz-other-plugins-content">{plugin.title}</div>
                </a>
                <div className="cmplz-other-plugin-status">
-                {plugin.pluginAction==='upgrade-to-premium' && <a target="_blank" href={plugin.upgrade_url}>{__("Upgrade", "complianz-gdpr")}</a>}
-                {plugin.pluginAction!=='upgrade-to-premium' && plugin.pluginAction!=='installed' &&
+				   {plugin.pluginAction==='upgrade-to-premium' && <a target="_blank" href={plugin.upgrade_url} rel="noopener noreferrer">{__("Upgrade", "complianz-gdpr")}</a>}
+                	{plugin.pluginAction!=='upgrade-to-premium' && plugin.pluginAction!=='installed' &&
                     <a href="#" onClick={ (e) => pluginActions(plugin.slug, plugin.pluginAction, e) } >{plugin.pluginActionNice}</a>}
-                {plugin.pluginAction==='installed' && __("Installed", "complianz-gdpr")}
+                	{plugin.pluginAction==='installed' && __("Installed", "complianz-gdpr")}
                </div>
            </div>
         )

@@ -206,7 +206,7 @@ const DatarequestsControl = () => {
 		},
 		{
 			name: __('Data Request',"complianz-gdpr"),
-			selector: row => row.type ? <a target="_blank" href={"https://complianz.io/"+row.type.slug}>{row.type.short}</a> : '',
+			selector: row => row.type ? <a target="_blank" rel="noopener noreferrer" href={"https://complianz.io/"+row.type.slug}>{row.type.short}</a> : '',
 			sortable: true,
 			orderId:'resolved',
 			right: true,

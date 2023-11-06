@@ -3,6 +3,7 @@ import UseBannerData from "./CookieBannerData";
 import useFields from "../Fields/FieldsData";
 import { __ } from '@wordpress/i18n';
 import {memo} from "@wordpress/element";
+import DOMPurify from 'dompurify';
 
 const BannerLogoControl = (props) => {
 	const { customizeUrl, selectedBanner, bannerDataLoaded} = UseBannerData();
@@ -84,22 +85,24 @@ const BannerLogoControl = (props) => {
 				value= { props.value }
 				options={ props.options }
 			/>
-			{ props.value==='complianz' &&
+			{ props.value === 'complianz' &&
 				<div className={previewClass}>
-					<div dangerouslySetInnerHTML={{__html:selectedBanner.logo_options[props.value]}} ></div>
+					<img src={DOMPurify.sanitize(selectedBanner.logo_options[props.value])} />
 				</div>
 			}
-			{ props.value==='site' &&
+
+			{ props.value === 'site' &&
 				<div className={previewClass}>
-					<div dangerouslySetInnerHTML={{__html:selectedBanner.logo_options[props.value]}} ></div>
+					<img src={DOMPurify.sanitize(selectedBanner.logo_options[props.value])} />
 					{props.value==='site' && selectedBanner.logo_options[props.value].length===0 && <>
 						<p>{__('No logo found. Please add a logo in the customizer.', 'complianz-gdpr')}</p>
 					</>}
 				</div>
 			}
-			{ props.value==='custom' &&
-				<div className="cmplz-logo-preview cmplz-clickable" onClick={() => runUploader() }>
-					<div className="cmplz-custom-image" dangerouslySetInnerHTML={{__html:selectedBanner.logo_options[props.value]}} ></div>
+			{
+				props.value === 'custom' &&
+				<div className="cmplz-logo-preview cmplz-clickable" onClick={() => runUploader()}>
+					<img src={selectedBanner.logo_options[props.value]} alt="Banner Logo" className="cmplz-custom-image" />
 				</div>
 			}
 

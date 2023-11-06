@@ -7,7 +7,7 @@ const SingleDocument = ({document, index}) => {
 	return (
 
 		<div key={index} className="cmplz-single-document-other-regions">
-				<a href={document.readmore} target="_blank">{document.title}</a>
+			<a href={document.readmore} target="_blank" rel="noopener noreferrer">{document.title}</a>
 				{ regions.map( (region, i)=>
 					<div key={i} className="cmplz-region-indicator">
 						<img alt={region} width="16px" height="16px" src={cmplz_settings.plugin_url + "/assets/images/"+region+".svg"} />
@@ -55,7 +55,7 @@ const OtherRegions = () => {
 	return (
 		<>
 			<div className="cmplz-document-header">
-				<h3 className="cmplz-h4">{__("Other regions")}</h3><a href="https://complianz.io/features/" target="_blank">{__("Read more","complianz-gdpr")}</a>
+				<h3 className="cmplz-h4">{__("Other regions")}</h3><a href="https://complianz.io/features/" target="_blank" rel="noopener noreferrer">{__("Read more","complianz-gdpr")}</a>
 			</div>
 			{ documents.map( (document, i)=> <SingleDocument key={i} index={i} document={document}/> )}
 		</>

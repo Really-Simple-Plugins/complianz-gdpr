@@ -30,6 +30,7 @@ const useFields = create(( set, get ) => ({
 	nextButtonDisabled:false,
 	highLightField: '',
 	lockedByUser: 0,
+	fetchingFieldNotices:false,
 	setDocumentSettingsChanged(changed){
 		set({documentSettingsChanged:changed})
 	},
@@ -209,6 +210,8 @@ const useFields = create(( set, get ) => ({
 		return requiredFields.length > 0;
 	},
 	getFieldNotices: async () => {
+		if (get().fetchingFieldNotices) return;
+		set({fetchingFieldNotices:true});
 		let data = {};
 		const {fieldNotices} = await cmplz_api.doAction('get_field_notices', data).then((response) => {
 			return response;
@@ -216,7 +219,7 @@ const useFields = create(( set, get ) => ({
 			console.error(error);
 		});
 		let notices = Array.isArray(fieldNotices) ? fieldNotices : [];
-		set({fieldNotices:notices, fieldNoticesLoaded:true});
+		set({fieldNotices:notices, fieldNoticesLoaded:true, fetchingFieldNotices:false});
 	},
 	fetchFieldsData: async ( selectedSubMenuItem ) => {
 		const { fields, error, locked_by }   = await fetchFields();

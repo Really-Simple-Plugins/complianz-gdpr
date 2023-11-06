@@ -45,8 +45,13 @@ const Error = (props) => {
 						{message && <li>{__("Server response:", "complianz-gdpr")}&nbsp;{message}</li>}
 					</ul>
 				</div>
-				<Hyperlink className="button button-default" target="_blank" text={__("More information","complianz-gdprl")} url={url}/>
-
+				<Hyperlink
+					className="button button-default"
+					target="_blank"
+					rel="noopener noreferrer"
+					text={__("More information","complianz-gdpr")}
+					url={url}
+				/>
 			</div>}
 		</>
 	)

@@ -54,6 +54,9 @@ const CookieDetails = (cookie) => {
 	},[cookie.name]);
 
 	useEffect(() => {
+		if (cookie.name=== name) {
+			return;
+		}
 		const typingTimer = setTimeout(() => {
 			updateCookie(cookie.ID, 'name', name);
 		}, 500);
@@ -64,6 +67,9 @@ const CookieDetails = (cookie) => {
 	}, [name]);
 
 	useEffect(() => {
+		if ( cookie.cookieFunction === cookieFunction ){
+			return;
+		}
 		const typingTimer = setTimeout(() => {
 			updateCookie(cookie.ID, 'cookieFunction', cookieFunction);
 		}, 500);
@@ -80,6 +86,9 @@ const CookieDetails = (cookie) => {
 	},[cookie.retention]);
 
 	useEffect(() => {
+		if ( cookie.retention === retention ) {
+			return;
+		}
 		const typingTimer = setTimeout(() => {
 			updateCookie(cookie.ID, 'retention', retention);
 		}, 500);
@@ -200,7 +209,7 @@ const CookieDetails = (cookie) => {
 			</div>
 			{cdbLink &&
 				<div className="cmplz-details-row">
-					<a href={cdbLink} target="_blank">{__( "View cookie on cookiedatabase.org", "complianz-gdpr" )}</a>
+					<a href={cdbLink} target="_blank" rel="noopener noreferrer">{__( "View cookie on cookiedatabase.org", "complianz-gdpr" )}</a>
 				</div>
 			}
 			<div className="cmplz-details-row cmplz-details-row__buttons">

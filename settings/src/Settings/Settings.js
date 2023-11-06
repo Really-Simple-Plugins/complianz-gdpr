@@ -69,9 +69,27 @@ const Settings = () => {
 		if (window.location.hash==='#banner') {
 			return;
 		}
-		getFieldNotices();
-		fetchAllFieldsCompleted();
-	}, [fields]);
+        fetchAllFieldsCompleted();
+
+        //filter out all fields that have type text, number or phone.
+		let applicableFields = fields.filter( field =>
+			field.type === 'copy-multisite' ||
+			field.type === 'documents_menu' ||
+			field.type === 'document' ||
+			field.type === 'select' ||
+			field.type === 'radio' ||
+			field.type === 'multicheckbox' ||
+			field.type === 'checkbox'
+		)
+		//cookie, service, editor, email, url
+		//check if the changedFields are listed in the applicable fields
+		let changedFieldsAreApplicable = changedFields.filter( field => {
+			return applicableFields.filter( applicableField => applicableField.id === field.id ).length > 0;
+		});
+		if (changedFieldsAreApplicable.length>0) {
+			getFieldNotices();
+		}
+	}, [changedFields]);
 
 	useEffect(() => {
 		//start an interval to check the disabled state of the next button
@@ -218,7 +236,7 @@ const Settings = () => {
 								{!cmplz_settings.is_premium &&
 									<a className="button button-default"
 										 href="https://complianz.io/pricing"
-										 target="_blank">{__(
+										 target="_blank" rel="noopener noreferrer">{__(
 										'Get Premium', 'complianz-gdpr')}</a>}
 							</div>}
 						<div className={'cmplz-grid-item-footer-buttons'}>

@@ -11,6 +11,7 @@ const { registerBlockType } = wp.blocks;
 const { InspectorControls, BlockControls, useBlockProps} = wp.blockEditor;
 const { PanelBody, PanelRow, SelectControl, TextControl, TextareaControl, ToolbarButton, ToolbarGroup, Icon} = wp.components;
 import {useState, useEffect} from "@wordpress/element";
+import DOMPurify from 'dompurify';
 
 /**
  *  Set custom Complianz Icon
@@ -136,6 +137,9 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 	}
 
 	if ( documentSyncStatus==='sync' ) {
+
+		const sanitizedOutput = DOMPurify.sanitize(output);
+
 		return [
 			!!isSelected && (
 				<InspectorControls key='inspector-document'>
@@ -155,7 +159,9 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 					</PanelBody>
 				</InspectorControls>
 			),
-			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: output}}></div>
+
+			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( output ) }}></div>, {/* nosemgrep: react-dangerouslysetinnerhtml */}
+
 		]
 	} else {
 		let html = documentDataLoaded ? customDocumentHtml : __('Loading...', 'complianz-gdpr');
@@ -181,10 +187,12 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 				</InspectorControls>
 			),
 
-			<div contentEditable={true} onInput={(e)=>onChangeCustomDocument(e.currentTarget.innerHTML)}
-				 dangerouslySetInnerHTML={{__html: customDocumentHtml}}
+			<div contentEditable={true}
+				 onInput={handleInput}
+				 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(customDocumentHtml) }} {/* nosemgrep: react-dangerouslysetinnerhtml */}
 				 className={syncClassName}
 			></div>
+
 		]
 	}
 
@@ -423,13 +431,15 @@ registerBlockType( 'complianz/consent-area', {
 
 				</>}
 				{ !!isPreview && <>
-					{
-						view==='placeholder' &&
-						<div dangerouslySetInnerHTML={{__html: attributes.placeholderContent}}></div>
+					{ view === 'placeholder' &&
+						<div>
+							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.placeholderContent ) } }></div> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+						</div>
 					}
-					{
-						view === 'consented' &&
-						<div dangerouslySetInnerHTML={{__html: attributes.consentedContent}}></div>
+					{ view === 'consented' &&
+						<div>
+							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.consentedContent ) } }></div> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+						</div>
 					}
 
 				</>}

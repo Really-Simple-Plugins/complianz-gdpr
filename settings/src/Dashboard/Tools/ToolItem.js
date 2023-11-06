@@ -34,7 +34,7 @@ const ToolItem = (props) => {
 			<div className="cmplz-tool">
 				<div className="cmplz-tool-title">{item.title}</div>
 				<div className="cmplz-tool-link">
-					<a href={item.link} target="_blank">{<Icon name={'circle-chevron-right'} color="black" size={14} />}</a>
+					<a href={item.link} target="_blank" rel="noopener noreferrer">{<Icon name={'circle-chevron-right'} color="black" size={14} />}</a>
 				</div>
 			</div>
 		)
@@ -63,7 +63,7 @@ const ToolItem = (props) => {
 				{item.plusone && item.plusone }
 			</div>
 			<div className="cmplz-tool-link">
-				<a href={link} target={target}><Icon name={icon} color="black" size={14} /></a>
+				<a href={link} target={target} rel={isExternal ? "noopener noreferrer" : ""}><Icon name={icon} color="black" size={14} /></a>
 			</div>
 		</div>
 	);

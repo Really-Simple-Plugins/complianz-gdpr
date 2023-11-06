@@ -1,7 +1,8 @@
 import useFields from "../../Settings/Fields/FieldsData";
 import UseBannerData from "./CookieBannerData";
 import {useEffect, useState, useRef} from "@wordpress/element";
-import {useUpdateEffect} from 'react-use';
+// import { RE2 } from 're2';
+import DOMPurify from "dompurify";
 import {getPurposes, filterArray, concatenateString} from "./tcf";
 import useMenu from "../../Menu/MenuData";
 /**
@@ -72,7 +73,6 @@ const CookieBannerPreview = () => {
 
 	useEffect ( () => {
 		if ( bannerDataLoaded ) {
-			console.log("consenttype "+consentType)
 			updateField('consent_type', consentType );
 			setChangedField('consent_type', consentType);
 		}
@@ -250,10 +250,17 @@ const CookieBannerPreview = () => {
 		}
 	}, [tcfActive, bannerDataUpdated, bannerDataLoaded, consentType, cssLoading, fields ]);
 
+	// const {RE2} = require('re2-wasm');
 	const replace = (string, find, replace) => {
+		if (string.indexOf(find) === -1) {
+			return string;
+		}
 		let re = new RegExp(find, 'g');
+		// Creating a RE2 regular expression object
+		// let re = new RE2(find, 'g');
+		// Using the RE2 object to perform the replacement
 		return string.replace(re, replace);
-	}
+	};
 
 	const htmlDecode = (input) => {
 		var doc = new DOMParser().parseFromString(input, "text/html");
@@ -452,8 +459,12 @@ const CookieBannerPreview = () => {
 	return (
 		<>
 			<div id="cmplz-preview-banner-container" ref={rootRef}>
-				<div id="cmplz-cookiebanner-container" className={bannerContainerClass} dangerouslySetInnerHTML={{__html:resultHtml}}></div>
-				<div id="cmplz-manage-consent" data-nosnippet="true" dangerouslySetInnerHTML={{__html:resultManageConsentHtml}}></div>
+				<div id="cmplz-cookiebanner-container"
+					 className={bannerContainerClass} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resultHtml) }}>
+				</div> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+				<div id="cmplz-manage-consent" data-nosnippet="true"
+					 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resultManageConsentHtml) }} >{/* nosemgrep: react-dangerouslysetinnerhtml */}
+				</div>
 			</div>
 		</>
 	);

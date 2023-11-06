@@ -6,6 +6,7 @@ import sleeper from "../utils/sleeper";
 import useFields from "../Settings/Fields/FieldsData";
 import useProgress from "./Progress/ProgressData";
 import useMenu from "../Menu/MenuData";
+import DOMPurify from 'dompurify';
 
 const TaskElement = ({notice, index}) => {
 	const {dismissNotice, fetchProgressData} = useProgress();
@@ -46,8 +47,9 @@ const TaskElement = ({notice, index}) => {
 	return(
 		<div key={index} className="cmplz-task-element">
 			<span className={'cmplz-task-status cmplz-' + notice.status}>{ statusNice }</span>
-			<p className="cmplz-task-message" dangerouslySetInnerHTML={{__html: notice.message}}></p>
-			{urlIsExternal && notice.url && <a target="_blank" href={notice.url}>{__("More info", "complianz-gdpr")}</a> }
+			<p className="cmplz-task-message"
+		    	dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(notice.message) }}></p>{/* nosemgrep: react-dangerouslysetinnerhtml */}
+			{urlIsExternal && notice.url && <a target="_blank" href={notice.url} rel="noopener noreferrer">{__("More info", "complianz-gdpr")}</a> }
 			{notice.clear_cache_id && <span className="cmplz-task-enable button button-secondary" onClick={ () => handleClearCache(notice.clear_cache_id ) }>{__("Re-check", "complianz-gdpr")}</span> }
 			{!premium && !urlIsExternal && notice.url && <a className="cmplz-task-enable button button-secondary" href={notice.url}>{__("View", "complianz-gdpr")}</a> }
 			{!premium && notice.highlight_field_id && <span className="cmplz-task-enable button button-secondary" onClick={() => handleClick()}>{__("View", "complianz-gdpr")}</span> }

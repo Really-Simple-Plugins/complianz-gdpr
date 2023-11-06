@@ -15,6 +15,9 @@ const AceEditorControl = (props) => {
 	const [scriptWarning, setScriptWarning] = useState(false);
 	//because an update on the entire Fields array is costly, we only update after the user has stopped typing
 	useEffect(() => {
+		if ( inputValue === props.value){
+			return;
+		}
 		const typingTimer = setTimeout(() => {
 			props.onChange(inputValue);
 		}, 500);

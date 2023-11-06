@@ -72,8 +72,8 @@ class Modal extends Component {
 						) }
                     </div>
                     <div className="cmplz-modal-footer">
-                        { data.edit && <a href={data.edit} target="_blank" className="button button-secondary">{__("Edit", "complianz-gdpr")}</a>}
-                        { data.help && <a href={data.help} target="_blank"  className="button cmplz-button-help">{__("Help", "complianz-gdpr")}</a>}
+                        { data.edit && <a href={data.edit} target="_blank" rel="noopener noreferrer" className="button button-secondary">{__("Edit", "complianz-gdpr")}</a>}
+                        { data.help && <a href={data.help} target="_blank" rel="noopener noreferrer" className="button cmplz-button-help">{__("Help", "complianz-gdpr")}</a>}
                         { (!data.ignored && data.action==='ignore_url') && <button disabled={disabled} className="button button-primary" onClick={ (e) => this.handleFix(e) }>{ __("Ignore", "complianz-gdpr")}</button>}
                         { data.action!=='ignore_url' &&  <button disabled={disabled} className="button button-primary" onClick={ (e) => this.handleFix(e) }>{__("Fix", "complianz-gdpr")}</button> }
                     </div>

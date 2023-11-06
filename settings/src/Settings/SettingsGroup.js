@@ -6,6 +6,7 @@ import {useEffect,useState} from '@wordpress/element';
 import useFields from './Fields/FieldsData';
 import UseBannerData from "./CookieBannerPreview/CookieBannerData";
 import ErrorBoundary from "../utils/ErrorBoundary";
+import DOMPurify from "dompurify";
 /**
  * Render a grouped block of settings
  */
@@ -98,11 +99,18 @@ const SettingsGroup = (props) => {
 				</div>}
 
 				{regions.length===0 && activeGroup.helpLink && <div className="cmplz-grid-item-controls">
-					<Hyperlink target="_blank" className="cmplz-helplink" text={helplinkText} url={activeGroup.helpLink}/>
+					<Hyperlink
+						target="_blank"
+						rel="noopener noreferrer"
+						className="cmplz-helplink"
+						text={helplinkText}
+						url={activeGroup.helpLink}
+					/>
 				</div>}
 			</div>}
 			<div className="cmplz-grid-item-content">
-				{activeGroup.intro && <div className="cmplz-settings-block-intro" dangerouslySetInnerHTML={{__html:activeGroup.intro}}></div>}
+				{activeGroup.intro &&
+					<div className="cmplz-settings-block-intro" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( activeGroup.intro ) } }></div>} {/* nosemgrep: react-dangerouslysetinnerhtml */}
 				{Field && selectedFields.map((field, i) =>
 					<ErrorBoundary key={"field-"+field.id} fallback={"Could not load field "+field.id}><Field key={field.id} field={field} highLightField={highLightField} /></ErrorBoundary>)
 				}
@@ -112,7 +120,14 @@ const SettingsGroup = (props) => {
 					<span className="cmplz-task-status cmplz-premium">{__("Upgrade","complianz-gdpr")}</span>
 					<span>
 						{ cmplz_settings.is_premium && <span>{msg}&nbsp;<a className="cmplz-locked-link" href={cmplz_settings.license_url}>{__("Check license", "complianz-gdpr")}</a></span>}
-						{ !cmplz_settings.is_premium && <Hyperlink target="_blank" text={msg} url={upgrade}/> }
+						{ !cmplz_settings.is_premium &&
+							<Hyperlink
+								target="_blank"
+								rel="noopener noreferrer"
+								text={msg}
+								url={upgrade}
+							/>
+						}
 					</span>
 				</div>
 			</div>}

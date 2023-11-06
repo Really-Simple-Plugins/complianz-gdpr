@@ -91,7 +91,7 @@ const InstallPlugin = ( {field} ) => {
 					</button>
 				}
 				{pluginAction ==='upgrade-to-premium' &&
-					<a target="_blank" href={upgradeUrl} type="button" className="button-secondary cmplz-install-plugin">
+					<a target="_blank" rel="noopener noreferrer" href={upgradeUrl} type="button" className="button-secondary cmplz-install-plugin">
 						{ buttonString }
 					</a>
 				}

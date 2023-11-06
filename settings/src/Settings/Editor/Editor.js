@@ -12,6 +12,10 @@ const Editor = ({id, value, onChange }) => {
 			return;
 		}
 
+		if ( editorState === value) {
+			return;
+		}
+
 		const typingTimer = setTimeout(() => {
 			updateField(id, editorState);
 			setChangedField(id, editorState);

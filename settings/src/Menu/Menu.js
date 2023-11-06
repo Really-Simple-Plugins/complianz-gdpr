@@ -25,7 +25,7 @@ import MenuPlaceholder from "../Placeholder/MenuPlaceholder";
 					})
 					}
 					{ hasPremiumItems && cmplz_settings.is_premium &&
-						<div className="cmplz-premium-menu-item"><a target="_blank" href={cmplz_settings.upgrade_link} className='button button-black'>{__('Go Pro', 'complianz-gdpr')}</a></div>
+						<div className="cmplz-premium-menu-item"><a target="_blank" rel="noopener noreferrer" href={cmplz_settings.upgrade_link} className='button button-black'>{__('Go Pro', 'complianz-gdpr')}</a></div>
 					}
 					{selectedMainMenuItem==='banner' && <CookieBannerControls /> }
 				</div>

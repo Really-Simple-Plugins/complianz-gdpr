@@ -8,6 +8,7 @@ import Icon from "../../utils/Icon";
 import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import Placeholder from "../../Placeholder/Placeholder";
+import {UseDocumentsData} from "../../Settings/CreateDocuments/DocumentsData";
 
 const SingleDocument = (props) => {
 	const {document} = props;
@@ -59,7 +60,7 @@ const SingleDocument = (props) => {
 
 const DocumentsBlock = () => {
 	const {region, documentDataLoaded, getDocuments, documents } = useDocuments();
-	const {documentsChanged} = useFields();
+	const {documentsChanged} = UseDocumentsData();
 
 	const [regionDocuments, setRegionDocuments] = useState([]);
 	const premiumDocuments = [
@@ -80,7 +81,13 @@ const DocumentsBlock = () => {
 	},[]);
 
 	useEffect( () => {
-		getDocuments();
+		//if not loaded yet, wait for the data to be loaded, otherwise it runs twice
+		if (!documentDataLoaded) {
+			return;
+		}
+		if ( documentsChanged ) {
+			getDocuments();
+		}
 	},[documentsChanged]);
 
 	useEffect( () => {

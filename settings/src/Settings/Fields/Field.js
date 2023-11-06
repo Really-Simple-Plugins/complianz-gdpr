@@ -3,7 +3,7 @@ import useFields from '../../Settings/Fields/FieldsData';
 import {__} from '@wordpress/i18n';
 import Icon from "../../utils/Icon";
 import LabelWrapper from "./LabelWrapper";
-
+import DOMPurify from "dompurify";
 import Placeholder from "../../Placeholder/Placeholder";
 
 const COMPONENT_MAP = {
@@ -306,8 +306,8 @@ const Field = ({field, highLightField, isCustomField, customChangeHandler}) => {
 				{field.comment && (
 					<div
 						className={"cmplz-comment "+commentStatusClass}
-						dangerouslySetInnerHTML={{__html: field.comment}}
-					></div>
+						dangerouslySetInnerHTML={ { __html: DOMPurify.sanitize(field.comment) } } >{/* nosemgrep: react-dangerouslysetinnerhtml */}
+					</div>
 				)}
 				{error && (
 					<div className="cmplz-error-text">

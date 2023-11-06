@@ -3,7 +3,6 @@ const TextInput = ({
 	value,
 	onChange,
 	required,
-	defaultValue,
 	disabled,
 	id,
 	name,
@@ -19,6 +18,9 @@ const TextInput = ({
 
 	//because an update on the entire Fields array is costly, we only update after the user has stopped typing
 	useEffect(() => {
+		if (value=== inputValue) {
+			return;
+		}
 		// skip first render
 		const typingTimer = setTimeout(() => {
 			onChange(inputValue);

@@ -14,7 +14,7 @@ const Premium = ({premium, id}) => {
 	url+='?ref='+id;
 	return (
 			<div className="cmplz-premium">
-				<a target="_blank" href={url}>{__("Upgrade", "complianz-gdpr")}</a>
+				<a target="_blank" rel="noopener noreferrer" href={url}>{__("Upgrade", "complianz-gdpr")}</a>
 			</div>
 
 	);
