@@ -792,10 +792,15 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 		ob_clean();
 	}
 	$fields = cmplz_fields(true, $options);
+	$field_notices_data = cmplz_field_notices([], 'get_field_notices', false);
 	return [
             'request_success' => true,
             'fields' => $fields,
-    ];
+            //fields to update the progress bar and notices
+            'notices' => COMPLIANZ::$progress->notices(),
+            'show_cookiebanner' => cmplz_cookiebanner_should_load(true),
+            'field_notices' => $field_notices_data['fieldNotices'],
+	];
 }
 
 /**

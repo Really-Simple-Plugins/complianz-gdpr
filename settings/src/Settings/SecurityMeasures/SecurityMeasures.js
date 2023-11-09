@@ -9,21 +9,13 @@ const SecurityMeasures = () => {
 	const { measuresDataLoaded, measures, has_7, getMeasuresData } = useSecurityMeasuresData();
 	const {statusLoaded, startPluginAction, pluginAction} = useInstallPluginData();
 	const slug = 'really-simple-ssl';
-	useEffect(() => {
-		//get initial data
-		if (!statusLoaded) {
-			startPluginAction(slug);
-		}
-	}, [])
-	//initial
-	useEffect ( () => {
-		if (!measuresDataLoaded) {
-			getMeasuresData();
-		}
-	},[]);
+
 
 	//on update of plugin status
 	useEffect ( () => {
+		if (pluginAction==='status') {
+			return;
+		}
 		getMeasuresData();
 	},[pluginAction]);
 

@@ -78,6 +78,15 @@ const useIntegrations = create(( set, get ) => ({
 	},
 	addScript:(type) => {
 		set({fetching:true});
+		//check if get().scripts has property type. If not, add it.
+		if ( !get().scripts[type] ) {
+			set(
+				produce((state) => {
+					state.scripts[type] = [];
+				})
+			)
+		}
+
 		set(
 			produce((state) => {
 				state.scripts[type].push({'name':'general', 'id':state.scripts[type].length, 'enable':true});
@@ -93,7 +102,13 @@ const useIntegrations = create(( set, get ) => ({
 	},
 	saveScript:(script, type) => {
 		set({fetching:true});
-
+		if ( !get().scripts[type] ) {
+			set(
+				produce((state) => {
+					state.scripts[type] = [];
+				})
+			)
+		}
 		set(
 			produce((state) => {
 				const index = state.scripts[type].findIndex(item => {
@@ -112,6 +127,13 @@ const useIntegrations = create(( set, get ) => ({
 	},
 	deleteScript:(script, type) => {
 		set({fetching:true});
+		if ( !get().scripts[type] ) {
+			set(
+				produce((state) => {
+					state.scripts[type] = [];
+				})
+			)
+		}
 		set(
 			produce((state) => {
 				const index = state.scripts[type].findIndex(item => {

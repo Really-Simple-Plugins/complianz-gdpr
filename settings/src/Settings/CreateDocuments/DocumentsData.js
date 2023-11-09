@@ -4,11 +4,17 @@ import produce from "immer";
 
 export const UseDocumentsData = create(( set, get ) => ({
 	documentsDataLoaded: false,
+	documentsDataLoading: false,
 	saving: false,
 	hasMissingPages: false,
 	requiredPages: [],
 	documentsChanged:false,
 	fetchDocumentsData: async () => {
+		if ( get().documentsDataLoading )  {
+			return;
+		}
+
+		set({documentsDataLoading:true});
 		const response = await fetchDocumentsData(false);
 		let hasMissingPages = false;
 		let requiredPages = response.required_pages;
@@ -21,7 +27,8 @@ export const UseDocumentsData = create(( set, get ) => ({
 		set({
 			documentsDataLoaded:true,
 			hasMissingPages: hasMissingPages,
-			requiredPages:requiredPages
+			requiredPages:requiredPages,
+			documentsDataLoading:false,
 		});
 	},
 	updateDocument: (page_id, title) => {

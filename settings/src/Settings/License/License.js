@@ -26,10 +26,6 @@ const License = (props) => {
 		}
 	}, []);
 
-	useEffect(() => {
-		getLicenseNotices();
-	}, [fields]);
-
 	const onChangeHandler = (fieldValue) => {
 		setChangedField(field.id, fieldValue);
 		updateField(field.id, fieldValue);

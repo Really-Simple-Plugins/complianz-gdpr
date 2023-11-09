@@ -140,10 +140,13 @@ const CookieBannerPreview = () => {
 			if ( selectedBanner.hasOwnProperty(field.id) ) {
 				//load defaults
 				let value = selectedBanner[field.id];
-				if ( value.length===0 || ( value.hasOwnProperty('text') && value['text'].length===0) ) {
+				if ( !value || value.length===0 || ( value.hasOwnProperty('text') && value['text'].length===0) ) {
 					value = field.default;
 				}
-				updateField(field.id, value )
+
+				if ( getFieldValue(field.id)!==value ) {
+					updateField(field.id, value)
+				}
 			}
 		}
 
@@ -158,7 +161,7 @@ const CookieBannerPreview = () => {
 		// fill fields with data from selected banner, default the default banner
 		let bannerFields = getBannerFields();
 		for ( const field of bannerFields ) {
-			if ( selectedBanner.hasOwnProperty(field.id) ) {
+			if ( selectedBanner.hasOwnProperty(field.id) && selectedBanner[field.id] !== field.value ) {
 				selectedBanner[field.id] = field.value;
 			}
 		}

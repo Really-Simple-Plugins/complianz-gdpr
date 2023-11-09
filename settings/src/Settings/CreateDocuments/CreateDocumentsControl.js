@@ -12,12 +12,17 @@ import {memo, useState} from "@wordpress/element";
  */
 const CreateDocumentsControl = () => {
 	const {saveDocuments, saving, documentsChanged, documentsDataLoaded, hasMissingPages, fetchDocumentsData, requiredPages } = UseDocumentsData();
-	const {fields, addHelpNotice, removeHelpNotice, showSavedSettingsNotice, setDocumentSettingsChanged} = useFields();
+	const {fields, fieldsLoaded, changedFields, addHelpNotice, removeHelpNotice, showSavedSettingsNotice, setDocumentSettingsChanged} = useFields();
 	const [hasNoDocumentsNotice, setHasNoDocumentsNotice] = useState(false);
 
 	useEffect (  () => {
+		if ( !fieldsLoaded ) return;
+		//we want to update on load. When the user changes a field, we want to update after save, then the count is zero again.
+		if ( changedFields.length>0 ){
+			return;
+		}
 		fetchDocumentsData();
-	}, [ fields, documentsDataLoaded ])
+	}, [ fields, changedFields ])
 
 	useEffect (  () => {
 		if (!documentsDataLoaded) return;

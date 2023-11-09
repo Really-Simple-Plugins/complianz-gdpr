@@ -582,11 +582,16 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 			'label'                => 'Buttonizer',
 			'firstparty_marketing' => false,
 	),
+	'greenshift' => array(
+		'constant_or_function' => 'GREENSHIFT_DIR_URL',
+		'label'                => 'Greenshift',
+		'firstparty_marketing' => false,
+	),
 ) );
 
 
 /**
- * Wordpress, include always
+ * WordPress, include always
  */
 require_once( 'wordpress/wordpress.php' );
 

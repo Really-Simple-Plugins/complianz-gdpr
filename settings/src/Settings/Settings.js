@@ -70,25 +70,6 @@ const Settings = () => {
 			return;
 		}
         fetchAllFieldsCompleted();
-
-        //filter out all fields that have type text, number or phone.
-		let applicableFields = fields.filter( field =>
-			field.type === 'copy-multisite' ||
-			field.type === 'documents_menu' ||
-			field.type === 'document' ||
-			field.type === 'select' ||
-			field.type === 'radio' ||
-			field.type === 'multicheckbox' ||
-			field.type === 'checkbox'
-		)
-		//cookie, service, editor, email, url
-		//check if the changedFields are listed in the applicable fields
-		let changedFieldsAreApplicable = changedFields.filter( field => {
-			return applicableFields.filter( applicableField => applicableField.id === field.id ).length > 0;
-		});
-		if (changedFieldsAreApplicable.length>0) {
-			getFieldNotices();
-		}
 	}, [changedFields]);
 
 	useEffect(() => {
@@ -142,7 +123,7 @@ const Settings = () => {
 			await saveBanner(fields);
 		} else {
 			await saveFields(selectedSubMenuItem, showNotice, finish);
-			await fetchProgressData();
+			//progress data is updated during saveFields
 		}
 	};
 

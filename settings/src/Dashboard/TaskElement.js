@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import Icon from '../utils/Icon'
 import {dispatch,} from '@wordpress/data';
-import * as rsssl_api from "../utils/api";
+import * as cmplz_api from "../utils/api";
 import sleeper from "../utils/sleeper";
 import useFields from "../Settings/Fields/FieldsData";
 import useProgress from "./Progress/ProgressData";
@@ -22,7 +22,7 @@ const TaskElement = ({notice, index}) => {
 	const handleClearCache = async (cache_id) => {
 		let data = {};
 		data.cache_id = cache_id;
-		rsssl_api.doAction('clear_cache', data).then( async (response) => {
+		cmplz_api.doAction('clear_cache', data).then( async (response) => {
 			const notice = dispatch('core/notices').createNotice(
 				'success',
 				__('Re-started test', 'complianz-gdpr'),

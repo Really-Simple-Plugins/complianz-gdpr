@@ -474,9 +474,15 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 		public function inline_cookie_script() {
 			//based on the script classes, the statistics will get added on consent, or without consent
-			$category                = $this->get_statistics_category();
-			$statistics              = cmplz_get_option( 'compile_statistics' );
-			$aw_code                 = cmplz_get_option( 'aw_code' );
+			$category    = $this->get_statistics_category();
+			$statistics = cmplz_get_option( 'compile_statistics' );
+			$aw_code    = cmplz_get_option( 'aw_code' );
+			$additional_marketing = array_map( 'trim', explode( ',', cmplz_get_option( "additional_gtags_marketing" ) ) );
+            $template = "gtag('config', '{tag}' );";
+            $additional_tags = '';
+			foreach ($additional_marketing as $marketing){
+                $additional_tags .= str_replace( '{tag}', esc_attr($marketing), $template );
+			}
 			$configured_by_complianz = cmplz_get_option( 'configuration_by_complianz' ) === 'yes';
 			do_action( 'cmplz_before_statistics_script' );
 
@@ -512,8 +518,10 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				}
 				if ( ! empty( $aw_code ) && $statistics === 'google-analytics' ) {
 					$script = str_replace( '{aw_code}', $aw_code, cmplz_get_template( "statistics/gtag-remarketing.js" ) );
+                    $script = str_replace( '{additional_tags}', $additional_tags, $script );
 					//remarketing with consent mode should be executed without consent, as consent mode handles the consent
-					if ( cmplz_consent_mode() ) {
+                    //BUT if basic mode is enabled, it should be marketing anyway.
+					if ( cmplz_consent_mode() && cmplz_get_option( "gtag-basic-consent-mode" ) !== 'yes' ) {
 						?>
 						<script data-category="functional"><?php echo $script; ?></script><?php
 					} else {
@@ -617,9 +625,11 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			$script     = '';
 			$statistics = cmplz_get_option( 'compile_statistics' );
 			if ( $statistics === 'google-tag-manager' ) {
-				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
-				$script       = cmplz_get_template( "statistics/google-tag-manager$consent_mode.js" );
-				$script       = str_replace( '{gtm_code}', esc_attr( cmplz_get_option( "gtm_code" ) ), $script );
+				$template = cmplz_get_option('cmplz-tm-template') === 'yes' ? '-template' : '';
+				$consent_mode = cmplz_consent_mode() ? "-consent-mode$template" : '';
+
+				$script = cmplz_get_template( "statistics/google-tag-manager$consent_mode.js" );
+				$script = str_replace( '{gtm_code}', esc_attr( cmplz_get_option( "gtm_code" ) ), $script );
 			} elseif ( $statistics === 'matomo-tag-manager' ) {
 				$script = cmplz_get_template( 'statistics/matomo-tag-manager.js' );
 				$script = str_replace( '{container_id}', esc_attr( cmplz_get_option( 'matomo_container_id' ) ), $script );
@@ -645,18 +655,27 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			$script     = '';
 			if ( $statistics === 'google-analytics' ) {
 				$consent_mode = cmplz_consent_mode() ? '-consent-mode' : '';
+				$consent_mode = $consent_mode !== '' && cmplz_get_option( "gtag-basic-consent-mode" ) === 'yes' ? $consent_mode . '-basic' : $consent_mode;
 				$code         = esc_attr( cmplz_get_option( "ua_code" ) );
+				$template = "gtag('config', '{tag}' );";
+                $additional_stats = array_map( 'trim', explode( ',', cmplz_get_option( "additional_gtags_stats" ) ) );
+				$additional_tags = '';
+				foreach ($additional_stats as $stat){
+					$additional_tags .= str_replace( '{tag}', esc_attr($stat), $template );
+				}
+
 				$anonymize_ip = $this->google_analytics_always_block_ip() ? "'anonymize_ip': true" : "";
 				if ( substr( strtoupper( $code ), 0, 2 ) === 'G-' ) {
 					$anonymize_ip = '';
 				}
 				$enable_tcf_support = cmplz_tcf_active() ? 'true' : 'false';
-				$script             = cmplz_get_template( "statistics/gtag$consent_mode.js" );
-				$script             = str_replace( array(
-					'{G_code}',
-					'{anonymize_ip}',
-					'{enable_tcf_support}'
-				), array( $code, $anonymize_ip, $enable_tcf_support ), $script );
+				$ads_data_redaction = cmplz_get_option( "cmplz-gtag-ads_data_redaction" )==='yes'  ? 'true' : 'false';
+				$urlpassthrough = cmplz_get_option( "cmplz-gtag-urlpassthrough" )==='yes' ? 'true' : 'false';
+				$script       = cmplz_get_template( "statistics/gtag$consent_mode.js" );
+				$script       = str_replace(
+                        array('{G_code}', '{additional_tags}', '{anonymize_ip}', '{enable_tcf_support}', '{ads_data_redaction}', '{url_passthrough}'),
+                        array($code, $additional_tags, $anonymize_ip, $enable_tcf_support, $ads_data_redaction, $urlpassthrough), $script );
+
 			} elseif ( $statistics === 'matomo' ) {
 				$cookieless = ( cmplz_get_option( 'matomo_anonymized' ) === 'yes' ) ? '-cookieless' : '';
 				$script     = cmplz_get_template( "statistics/matomo$cookieless.js" );

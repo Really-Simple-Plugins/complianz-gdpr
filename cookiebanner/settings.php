@@ -536,7 +536,12 @@ function cmplz_add_cookiebanner_settings( $fields ) {
 						'label'     => __( "Inactive", 'complianz-gdpr' ),
 					),
 				),
-				'condition'   => array( 'checkbox_style' => 'slider' ),
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'checkbox_style' => 'slider',
+					]
+				],
 			],
 			[
 				'id'          => 'colorpalette_button_accept',

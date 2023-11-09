@@ -31,6 +31,9 @@ const useProgress = create(( set, get ) => ({
         });
 		set(state => ({ progressLoading:false, notices:notices, percentageCompleted:get().getPercentageCompleted(notices),showCookieBanner:show_cookiebanner,progressLoaded:true}));
     },
+	updateProgressData: async (notices, showCookieBanner) => {
+		set(state => ({ notices:notices, percentageCompleted:get().getPercentageCompleted(notices),showCookieBanner:showCookieBanner,progressLoaded:true}));
+	},
     dismissNotice: async (noticeId) => {
         let notices = get().notices;
         notices = notices.filter(function (notice) {

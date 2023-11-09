@@ -13,7 +13,7 @@ const PhoneInput = ({
 	const [inputValue, setInputValue] = useState('');
 
 	const isValidPhone = (string) => {
-		var res = string.match(/^\+?[\d\-\(\)\s]*$/);
+		var res = string.match(/^\+?[\d\-\(\)\.\s]*$/);
 		return (res !== null)
 	};
 

@@ -78,6 +78,55 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 		}
 
 		/**
+		 * Clean up duplicate cookie names
+		 *
+		 * @return void
+		 */
+		public function clear_double_cookienames() {
+			if ( ! cmplz_user_can_manage() ) {
+				return;
+			}
+			global $wpdb;
+
+			$languages = COMPLIANZ::$banner_loader->get_supported_languages();
+			//first, delete all cookies with a language not in the $languages array
+			$wpdb->query( "DELETE from {$wpdb->prefix}cmplz_cookies where language NOT IN ('" . implode( "','", $languages ) . "')" );
+			foreach ( $languages as $language ) {
+				$settings = array(
+					'language'      => $language,
+					'isMembersOnly' => 'all',
+				);
+				$cookies  = COMPLIANZ::$banner_loader->get_cookies( $settings );
+				foreach ( $cookies as $cookie ) {
+					$same_name_cookies
+						= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s and serviceID = %s ",
+						$cookie->name, $language, $cookie->serviceID ) );
+					if ( count( $same_name_cookies ) > 1 ) {
+						array_shift( $same_name_cookies );
+						$IDS = wp_list_pluck( $same_name_cookies, 'ID' );
+						$sql = implode( ' OR ID =', $IDS );
+						$sql = "DELETE from {$wpdb->prefix}cmplz_cookies where ID=" . $sql;
+						$wpdb->query( $sql );
+					}
+				}
+				$settings = array(
+					'language'      => $language,
+				);
+				$services  = COMPLIANZ::$banner_loader->get_services( $settings );
+				foreach ( $services as $service ) {
+					$same_name_services = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where name = %s and language = %s", $service->name, $language ) );
+					if ( count( $same_name_services ) > 1 ) {
+						array_shift( $same_name_services );
+						$IDS = wp_list_pluck( $same_name_services, 'ID' );
+						$sql = implode( ' OR ID =', $IDS );
+						$sql = "DELETE from {$wpdb->prefix}cmplz_services where ID=" . $sql;
+						$wpdb->query( $sql );
+					}
+				}
+			}
+		}
+
+		/**
 		 * Here we add scripts and styles for the wysywig editor on the backend
 		 * @param string $hook
 		 *
@@ -334,8 +383,7 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 				$pattern = '/(\'|")(GTM-[A-Z]{7})(\'|")/i';
 				preg_match( $pattern, $html, $matches );
 				if ( $matches && isset( $matches[2] ) ) {
-					cmplz_update_option_no_hooks('gtm_code',
-						sanitize_text_field( $matches[2] ) );
+					cmplz_update_option_no_hooks('gtm_code', sanitize_text_field( $matches[2] ) );
 					update_option( 'cmplz_detected_stats_data', true );
 					cmplz_update_option('compile_statistics', 'google-tag-manager' );
 				}
@@ -757,11 +805,8 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 						$this->parse_html($html);
 					}
 				}
-
-				$args = array(
-					'isTranslationFrom' => false,
-				);
-				$cookies  = COMPLIANZ::$banner_loader->get_cookies( $args );
+				$this->clear_double_cookienames();
+				$cookies  = COMPLIANZ::$banner_loader->get_cookies();
 				$progress = $this->get_progress_count();
 				$total = count($cookies);
 				$current = (int) ( $progress / 100 * $total );

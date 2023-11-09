@@ -13,6 +13,48 @@ function cmplz_elementor_whitelist($tags){
 add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_elementor_whitelist');
 
 /**
+ * Add script to remove the placeholders which are left in place when the consent is already given and the popup is opened.
+ * @return void
+ */
+function cmplz_elementor_popup_content_blocking() {
+    ob_start();
+    ?>
+    <script>
+        jQuery( document ).on( 'elementor/popup/show', () => {
+            let rev_cats = cmplz_categories.reverse();
+            for (let key in rev_cats) {
+                if ( rev_cats.hasOwnProperty(key) ) {
+                    let category = cmplz_categories[key];
+                    if ( cmplz_has_consent(category) ) {
+                        document.querySelectorAll('[data-category="' + category + '"]').forEach(obj => {
+                            cmplz_remove_placeholder(obj);
+                        });
+                    }
+                }
+            }
+
+            let services = cmplz_get_services_on_page();
+            for (let key in services) {
+                if ( services.hasOwnProperty(key) ) {
+                    let service = services[key].service;
+                    let category = services[key].category;
+                    if ( cmplz_has_service_consent( service, category )) {
+                        document.querySelectorAll('[data-service="'+service+'"]').forEach(obj => {
+                            cmplz_remove_placeholder(obj);
+                        });
+                    }
+                }
+            }
+        } );
+    </script>
+    <?php
+    $script = ob_get_clean();
+    $script = str_replace(array('<script>', '</script>'), '', $script);
+    wp_add_inline_script( 'cmplz-cookiebanner', $script);
+}
+add_action( 'wp_enqueue_scripts', 'cmplz_elementor_popup_content_blocking', PHP_INT_MAX );
+
+/**
  *
  */
 

@@ -47,6 +47,10 @@ const ServiceDetails = (service) => {
 	},[service]);
 
 	useEffect(() => {
+		if (!service) {
+			return;
+		}
+
 		if ( service.name === serviceName ) {
 			return;
 		}
@@ -69,6 +73,9 @@ const ServiceDetails = (service) => {
 	},[service]);
 
 	useEffect(() => {
+		if ( !service ) {
+			return;
+		}
 		if ( service.privacyStatementURL === privacyStatementUrl ) {
 			return;
 		}

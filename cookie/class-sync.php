@@ -588,50 +588,6 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			update_option( 'cmplz_last_cookie_sync', $time );
 		}
 
-
-		public function clear_double_cookienames() {
-			if ( ! cmplz_user_can_manage() ) {
-				return;
-			}
-
-			$languages = COMPLIANZ::$banner_loader->get_supported_languages();
-			global $wpdb;
-			foreach ( $languages as $language ) {
-				$settings = array(
-					'language'      => $language,
-					'isMembersOnly' => 'all',
-				);
-				$cookies  = COMPLIANZ::$banner_loader->get_cookies( $settings );
-				foreach ( $cookies as $cookie ) {
-					$same_name_cookies
-						= $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s and serviceID = %s ",
-						$cookie->name, $language, $cookie->serviceID ) );
-					if ( count( $same_name_cookies ) > 1 ) {
-						array_shift( $same_name_cookies );
-						$IDS = wp_list_pluck( $same_name_cookies, 'ID' );
-						$sql = implode( ' OR ID =', $IDS );
-						$sql = "DELETE from {$wpdb->prefix}cmplz_cookies where ID=" . $sql;
-						$wpdb->query( $sql );
-					}
-				}
-				$settings = array(
-					'language'      => $language,
-				);
-				$services  = COMPLIANZ::$banner_loader->get_services( $settings );
-				foreach ( $services as $service ) {
-					$same_name_services = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_services where name = %s and language = %s", $service->name, $language ) );
-					if ( count( $same_name_services ) > 1 ) {
-						array_shift( $same_name_services );
-						$IDS = wp_list_pluck( $same_name_services, 'ID' );
-						$sql = implode( ' OR ID =', $IDS );
-						$sql = "DELETE from {$wpdb->prefix}cmplz_services where ID=" . $sql;
-						$wpdb->query( $sql );
-					}
-				}
-			}
-		}
-
-
 		/**
 		 * Helper function to check if a service exists, and if not, add it.
 		 *
@@ -985,7 +941,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			//after adding the cookies, do one more cookies sync
 			if ( 80 <= $progress && $progress < 100 ) {
 				$this->maybe_sync_cookies( true );
-				$this->clear_double_cookienames();
+				COMPLIANZ::$scan->clear_double_cookienames();
 			}
 			cmplz_delete_transient('cmplz_cookie_shredder_list');
 			return $msg;

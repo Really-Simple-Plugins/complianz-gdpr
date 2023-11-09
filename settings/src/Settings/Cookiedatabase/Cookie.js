@@ -54,6 +54,9 @@ const CookieDetails = (cookie) => {
 	},[cookie.name]);
 
 	useEffect(() => {
+		if (!cookie){
+			return;
+		}
 		if (cookie.name=== name) {
 			return;
 		}
@@ -67,6 +70,9 @@ const CookieDetails = (cookie) => {
 	}, [name]);
 
 	useEffect(() => {
+		if ( !cookie ) {
+			return;
+		}
 		if ( cookie.cookieFunction === cookieFunction ){
 			return;
 		}
@@ -86,6 +92,9 @@ const CookieDetails = (cookie) => {
 	},[cookie.retention]);
 
 	useEffect(() => {
+		if ( !cookie ) {
+			return;
+		}
 		if ( cookie.retention === retention ) {
 			return;
 		}

@@ -3,6 +3,7 @@ import produce from 'immer';
 import * as cmplz_api from "../../utils/api";
 import {toast} from 'react-toastify';
 import {__} from '@wordpress/i18n';
+import useProgress from "../../Dashboard/Progress/ProgressData";
 import {updateFieldsListWithConditions} from "../../utils/updateFieldsListWithConditions";
 const fetchFields = () => {
   return cmplz_api.getFields().then((response) => {
@@ -138,17 +139,18 @@ const useFields = create(( set, get ) => ({
 	},
 
 	saveFields: async (selectedSubMenuItem, showSavedNotice = true, finish = false) => {
-		let fields = get().fields.filter(field => field.data_target !== 'banner');
+		let fields = get().fields;
 		set({saving:true})
 		const changedFields = get().changedFields;
 		let saveFields = fields.filter(field => {
 			const fieldIsChanged = changedFields.some(changedField => changedField.id === field.id );
-			// const isRadioOrSelect = field.default && ['radio', 'select', 'document', 'license'].includes(field.type);
 			//check if this field has the current subMenuItem as menu_id: we include all visible fields
 			const fieldIsVisible = field.menu_id && field.menu_id === selectedSubMenuItem;
 			return fieldIsChanged || fieldIsVisible;
 		});
 		if (saveFields.length > 0 || finish) {
+			//filter out banner fields
+			saveFields = saveFields.filter( field => field.data_target !== 'banner');
 			let response = cmplz_api.setFields(saveFields, finish).then((response) => {
 				return response;
 			});
@@ -165,6 +167,18 @@ const useFields = create(( set, get ) => ({
 			}
 			await response.then((response) => {
 				fields = response.fields;
+				let bannerFields = get().fields.filter( field => field.data_target === 'banner');
+				//copy current values from bannerFields to the fields array
+				for (let i = 0; i <fields.length; i++) {
+					let field = fields[i];
+					if (field.data_target === 'banner') {
+						let bannerField = bannerFields.filter( bannerField => bannerField.id === field.id )[0];
+						if (bannerField) {
+							field.value = bannerField.value;
+						}
+					}
+					fields[i] = field;
+				}
 				let fieldsWithPremium = applyPremiumSettings(fields);
 				let conditionallyEnabledFields = updateFieldsListWithConditions(fieldsWithPremium);
 				conditionallyEnabledFields = applyDefaults(conditionallyEnabledFields);
@@ -178,6 +192,9 @@ const useFields = create(( set, get ) => ({
 						state.saving = false;
 					})
 				);
+				const progressStore = useProgress.getState();
+				progressStore.updateProgressData(response.notices, response.show_cookiebanner);
+				set({fieldNotices:response.field_notices, fieldNoticesLoaded:true});
 			});
 		}
 		if (showSavedNotice && saveFields.length === 0) {

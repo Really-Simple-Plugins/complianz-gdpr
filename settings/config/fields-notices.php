@@ -3,13 +3,13 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 /**
  * Conditional notices for fields
  *
- * @param array           $data
- * @param string          $action
- * @param WP_REST_Request $request
+ * @param array                $data
+ * @param string               $action
+ * @param $request
  *
  * @return array
  */
-function cmplz_field_notices(array $data, string $action, WP_REST_Request $request): array {
+function cmplz_field_notices(array $data, string $action,  $request): array {
 	if ( ! cmplz_user_can_manage() ) {
 		return [];
 	}

@@ -15,10 +15,14 @@ const FinishControl = () => {
 	const {getMenuLinkById } = useMenu();
 	const {cookiebannerRequired, getCookieBannerRequired} = useFinishData();
 
-	useEffect ( () => {
-		if (!fieldsLoaded) return;
-		getCookieBannerRequired();
-	},[fieldsLoaded, fields]);
+    useEffect ( () => {
+        if ( !fieldsLoaded ) return;
+        //we want to update on load. When the user changes a field, we want to update after save, then the count is zero again.
+        if ( changedFields.length>0 ){
+            return;
+        }
+        getCookieBannerRequired();
+    },[changedFields]);
 
 	useEffect ( () => {
 		if (!fieldsLoaded) return;

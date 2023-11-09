@@ -139,15 +139,10 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'menu_id'           => 'statistics-configuration',
 				'order'             => 10,
 				'type'              => 'radio',
+				'tooltip'  => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ),
 				'default'           => 'yes',
 				'label'             => __( "Do you want to ask consent for statistics?", 'complianz-gdpr' ),
 				'options'           => COMPLIANZ::$config->yes_no,
-				'help'              => [
-					'label' => 'default',
-					'title' => __( "Consent for statistics", "complianz-gdpr" ),
-					'text'  => __( "In some countries, like Germany, Austria, Belgium or Spain, consent is required for statistics, even if the data is anonymized.", 'complianz-gdpr' ),
-					'url'   => 'https://complianz.io/google-analytics',
-				],
 				'server_conditions' => [
 					'relation' => 'AND',
 					[
@@ -210,9 +205,11 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'default'          => 'no',
 				'premium'          => [
 					'url'     => 'https://complianz.io/pricing',
-					'default' => 'generated',
+					'disabled'         => false,
 				],
 				'label'            => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ),
+				'tooltip'            => __( "Google Consent Mode is still in BETA", 'complianz-gdpr' ),
+				'comment'   => __("Consent Mode is still in BETA and you will need to verify if it's working correctly.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s to make sure Consent Mode is working as expected.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent-mode/">', '</a>'),
 				'options'          => array(
 					'yes' => __( 'Yes', 'complianz-gdpr' ),
 					'no'  => __( 'No', 'complianz-gdpr' ),
@@ -226,9 +223,119 @@ function cmplz_wizard_consent_fields( $fields ) {
 				],
 				'help'             => [
 					'label' => 'default',
-					'title' => "Consent Mode",
-					'text'  => __( 'You can also enable Google Consent Mode.', 'complianz-gdpr' ),
-					'url'   => 'https://complianz.io/consent-mode/',
+					'title' => "About Google Consent Mode",
+					'text'  => __( 'Enabling this feature means all Google tags will be handled by Google Consent Mode. You will need to read the integration manual below, and double-check to see if it works for your setup.', 'complianz-gdpr' ),
+					'url'   => 'https://complianz.io/consent-mode-for-7-0/',
+				],
+			],
+			[
+				'id'               => 'gtag-basic-consent-mode',
+				'menu_id'          => 'statistics-configuration',
+				'type'             => 'radio',
+				'default'          => 'no',
+				'premium'          => [
+					'url'     => 'https://complianz.io/pricing',
+					'disabled'=> false,
+				],
+				'label'            => __( "Do you want to block all Google Tags before consent?", 'complianz-gdpr' ),
+				'help'             => [
+					'label' => 'warning',
+					'title' => __( "Do you want to block all Google Tags before consent?", "complianz-gdpr" ),
+					'text'  => __( 'By default Consent Mode is enabled in Advanced Mode. This means tags are loaded before consent, but depending on user preferences selects the appropriate tracking mechanisms, e.g. cookieless tracking or cookies, automatically. If you answer Yes, Complianz will only apply Consent Mode after consent.', 'complianz-gdpr' ),
+					'url'   => 'https://complianz.io/consent-mode-for-7-0/',
+				],
+				'options'          => array(
+					'yes' => __( 'Yes', 'complianz-gdpr' ),
+					'no'  => __( 'No', 'complianz-gdpr' ),
+				),
+				'disabled'         => true,
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'consent-mode' => 'yes',
+						'compile_statistics' => 'google-analytics',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+			],
+			[
+				'id'               => 'cmplz-gtag-urlpassthrough',
+				'menu_id'          => 'statistics-configuration',
+				'type'             => 'radio',
+				'default'          => 'no',
+				'premium'          => [
+					'url'     => 'https://complianz.io/pricing',
+					'disabled'=> false,
+				],
+				'label'            => __( "Do you want to set a URL passthrough parameter", 'complianz-gdpr' ),
+				'tooltip'          => __( "This can improve conversion accuracy, but can contain personal data like a client ID.", 'complianz-gdpr' ),
+				'options'          => array(
+					'yes' => __( 'Yes', 'complianz-gdpr' ),
+					'no'  => __( 'No', 'complianz-gdpr' ),
+				),
+				'disabled'         => true,
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'consent-mode' => 'yes',
+						'compile_statistics' => 'google-analytics',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+			],
+			[
+				'id'               => 'cmplz-gtag-ads_data_redaction',
+				'menu_id'          => 'statistics-configuration',
+				'type'             => 'radio',
+				'default'          => 'no',
+				'premium'          => [
+					'url'     => 'https://complianz.io/pricing',
+					'disabled'=> false,
+				],
+				'label'            => __( "Deny cookies when advertising is rejected?", 'complianz-gdpr' ),
+				'tooltip'          => __( "When enabled, cookies will no longer be set when ad_storage is denied and identifiers in network requests will be redacted.", 'complianz-gdpr' ),
+				'options'          => array(
+					'yes' => __( 'Yes', 'complianz-gdpr' ),
+					'no'  => __( 'No', 'complianz-gdpr' ),
+				),
+				'disabled'         => true,
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'consent-mode' => 'yes',
+						'compile_statistics' => 'google-analytics',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+			],
+			[
+				'id'               => 'cmplz-tm-template',
+				'menu_id'          => 'statistics-configuration',
+				'type'             => 'radio',
+				'default'          => 'no',
+				'premium'          => [
+					'url'     => 'https://complianz.io/pricing',
+					'disabled'=> false,
+				],
+				'label'            => __( "Will you be using our Tag Manager template?", 'complianz-gdpr' ),
+				'options'          => array(
+					'yes' => __( 'Yes', 'complianz-gdpr' ),
+					'no'  => __( 'No', 'complianz-gdpr' ),
+				),
+				'disabled'         => true,
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'consent-mode' => 'yes',
+						'compile_statistics' => 'google-tag-manager',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+				'help'             => [
+					'label' => 'warning',
+					'title' => __( "Configuring Consent Mode & Tag Manager", "complianz-gdpr" ),
+					'text'  => __( 'You can choose the official Consent Mode template by Complianz from the template gallery, or use local initialization.', 'complianz-gdpr' ),
+					'url'   => 'https://complianz.io/consent-mode-for-7-0/',
 				],
 			],
 			[
@@ -236,14 +343,15 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'menu_id'                 => 'statistics-configuration',
 				'type'                    => 'text',
 				'default'                 => '',
-				'placeholder'             => 'GA_TRACKING_ID',
+				'placeholder'             => 'G_TRACKING_ID',
 				'required'                => false,
 				'revoke_consent_onchange' => true,
-				'label'                   => __( "Enter your tracking ID", 'complianz-gdpr' ),
+				'label'                   => __( "Google Tag - Statistics", 'complianz-gdpr' ),
 				'help' => [
 					'label'    => 'default',
-					'title'    => __( "Configuration by Complianz", 'complianz-gdpr' ),
-					'text'     => __( 'If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking.', 'complianz-gdpr' )
+					'title'    => __( "Tracking ID", 'complianz-gdpr' ),
+					'text'     => __( 'If you add the ID for your Statistics tool here, Complianz will configure your site for statistics tracking.', 'complianz-gdpr' ),
+					'url'   => 'https://complianz.io/consent-mode-for-7-0/',
 				],
 				'react_conditions'        => [
 					'relation' => 'AND',
@@ -253,6 +361,24 @@ function cmplz_wizard_consent_fields( $fields ) {
 					]
 				],
 				'tooltip'                 => __( "For the Google Analytics tracking ID, log in and click Admin and copy the tracking ID.", 'complianz-gdpr' ),
+			],
+			[
+				'id'                      => 'additional_gtags_stats',
+				'menu_id'                 => 'statistics-configuration',
+				'type'                    => 'text',
+				'placeholder'                => 'GT_TRACKING_ID',
+				'required'                => false,
+				'revoke_consent_onchange' => true,
+				'label'                   => __( "Additional Google Tags - Statistics", 'complianz-gdpr' ),
+				'react_conditions'        => [
+					'relation' => 'AND',
+					[
+						'consent-mode' => 'yes',
+						'compile_statistics'         => 'google-analytics',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+				'tooltip'                 => __( "You can add additional tags, comma separated.", 'complianz-gdpr' ),
 			],
 			[
 				'id'                      => 'gtm_code',
@@ -282,11 +408,12 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'source'                  => 'wizard',
 				'type'                    => 'text',
 				'default'                 => '',
-				'placeholder'             => 'AW-CONVERSION_ID',
+				'placeholder'             => 'AW_CONVERSION_ID',
 				'required'                => false,
 				'revoke_consent_onchange' => true,
-				'label'                   => __( "Conversion ID", 'complianz-gdpr' ),
-				'comment'                 => __( "Optional, this will be fired on marketing consent.", 'complianz-gdpr' ),
+				'label'                   => __( "Google Tag - Marketing or Advertising", 'complianz-gdpr' ),
+				'tooltip'                 => __( "This will be fired on marketing consent.", 'complianz-gdpr' ),
+				'Comment'                 => __( "Optional.", 'complianz-gdpr' ),
 				'react_conditions'        => [
 					'relation' => 'AND',
 					[
@@ -294,6 +421,23 @@ function cmplz_wizard_consent_fields( $fields ) {
 						'configuration_by_complianz' => 'yes',
 					]
 				],
+			],
+			[
+				'id'                      => 'additional_gtags_marketing',
+				'menu_id'                 => 'statistics-configuration',
+				'type'                    => 'text',
+				'placeholder'                 => 'DC_FLOODLIGHT_ID',
+				'required'                => false,
+				'revoke_consent_onchange' => true,
+				'label'                   => __( "Additional Google Tags - Marketing or Advertising", 'complianz-gdpr' ),
+				'react_conditions'        => [
+					'relation' => 'AND',
+					[
+						'compile_statistics'         => 'google-analytics',
+						'configuration_by_complianz' => 'yes',
+					]
+				],
+				'tooltip'                 => __( "You can add additional tags, comma separated.", 'complianz-gdpr' ),
 			],
 			/**
 			 * Matomo Classic

@@ -513,7 +513,6 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			}
 
 			return $bf_notice + $urgent + $open + $completed;
-
 		}
 
 		/**

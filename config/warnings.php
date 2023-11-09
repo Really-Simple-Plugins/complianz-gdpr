@@ -264,7 +264,7 @@ function cmplz_load_warning_types() {
 			'premium' => __( 'Learn more about Google Consent Mode.', 'complianz-gdpr' ),
 			'include_in_progress' => false,
 			'dismissible' => false,
-			'url' => 'https://complianz.io/configure-consent-mode/'
+			'url' => 'https://complianz.io/consent-mode-for-7-0/'
 		),
 
 		'targeting-multiple-regions' => array(

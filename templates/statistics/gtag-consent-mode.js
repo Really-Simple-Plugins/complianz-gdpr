@@ -3,6 +3,9 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){
 	dataLayer.push(arguments);
 }
+gtag('set', 'dYWVlZG', true);
+gtag('set', 'ads_data_redaction', {ads_data_redaction});
+gtag('set', 'url_passthrough', {url_passthrough});
 gtag('consent', 'default', {
 	'security_storage': "granted",
 	'functionality_storage': "granted",
@@ -41,9 +44,10 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 });
 
 gtag('js', new Date());
+{additional_tags}
 gtag('config', '{G_code}', {
 	cookie_flags:'secure;samesite=none',
-{anonymize_ip}
+	{anonymize_ip}
 });
 
 document.addEventListener("cmplz_revoke", function (e) {

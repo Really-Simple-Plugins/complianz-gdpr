@@ -6,7 +6,7 @@ import Icon from '../utils/Icon';
 import {UseDocumentsData} from "../Settings/CreateDocuments/DocumentsData";
 
 const useMenuItem = (menuItem, isMain) => {
-	const {hasMissingPages, fetchDocumentsData, documentsDataLoaded } = UseDocumentsData();
+	const {hasMissingPages, fetchDocumentsData, documentsDataLoaded, documentsDataLoading} = UseDocumentsData();
 
 	const {
 		selectedSubMenuItem,
@@ -21,13 +21,13 @@ const useMenuItem = (menuItem, isMain) => {
 	const [completed, setCompleted] = useState(false);
 
 	useEffect (  () => {
-		if (selectedSubMenuItem ==='create-documents' && !documentsDataLoaded) {
+		if (selectedSubMenuItem ==='create-documents' && !documentsDataLoaded && !documentsDataLoading) {
 			fetchDocumentsData();
 		}
 	}, [menuItem.id])
 
 	useEffect(() => {
-		if (fieldsLoaded && !isMain) {
+		if ( fieldsLoaded && !isMain ) {
 			if (menuItem.id ==='create-documents') {
 				setCompleted(!hasMissingPages);
 			} else {

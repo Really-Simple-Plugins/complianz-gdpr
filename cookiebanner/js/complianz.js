@@ -568,7 +568,12 @@ function cmplz_enable_category(category, service) {
 		cmplz_run_tm_event(category);
 	}
 
-
+	let details = {};
+	details.category = category;
+	details.categories = cmplz_accepted_categories();
+	details.region = complianz.region;
+	let event = new CustomEvent('cmplz_before_category', { detail: details });
+	document.dispatchEvent(event);
 
 	service = typeof service !== 'undefined' ? service : 'do_not_match';
 	if ( category === '' ) category = 'do_not_match';
@@ -849,12 +854,22 @@ function cmplz_run_tm_event(category) {
  */
 window.cmplz_accept_all = function(){
 	cmplz_clear_all_service_consents();
+	cmplz_fire_before_categories_consent(cmplz_categories);
+
 	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			cmplz_set_consent(cmplz_categories[key], 'allow');
 		}
 	}
 	cmplz_sync_category_checkboxes();
+}
+
+function cmplz_fire_before_categories_consent(categories){
+	let details = {};
+	details.categories = categories;
+	details.region = complianz.region;
+	let event = new CustomEvent('cmplz_before_categories_consent', { detail: details });
+	document.dispatchEvent(event);
 }
 
 window.conditionally_show_banner = function() {
@@ -877,16 +892,24 @@ window.conditionally_show_banner = function() {
 	if ( complianz.forceEnableStats == 1 && complianz.consenttype === 'optin' ) {
 		cmplz_set_consent('statistics', 'allow');
 	}
-
 	let rev_cats = cmplz_categories.reverse();
+	let consented_categories = [];
 	for (let key in rev_cats) {
 		if ( rev_cats.hasOwnProperty(key) ) {
 			let category = cmplz_categories[key];
 			if ( cmplz_has_consent(category) ) {
-				cmplz_enable_category(category);
+				consented_categories.push(category);
 			}
 		}
 	}
+	cmplz_fire_before_categories_consent(consented_categories);
+	for (let key in consented_categories) {
+		if ( rev_cats.hasOwnProperty(key) ) {
+			let category = consented_categories[key];
+			cmplz_enable_category(category);
+		}
+	}
+
 	if ( cmplz_exists_service_consent() ) {
 		//if any service is enabled, allow the general services also, because some services are partially 'general'
 		cmplz_enable_category('', 'general');
@@ -1571,16 +1594,25 @@ cmplz_add_event('change', '.cmplz-accept-service', function(e){
 cmplz_add_event('click', '.cmplz-save-preferences', function(e){
 	let obj = e.target;
 	cmplz_banner = obj.closest('.cmplz-cookiebanner');
+	let consented_categories = [];
+
 	for (let key in cmplz_categories) {
 		if ( cmplz_categories.hasOwnProperty(key) ) {
 			let category = cmplz_categories[key];
 			let categoryElement = cmplz_banner.querySelector('input.cmplz-' + category);
-			if (categoryElement) {
-				if (categoryElement.checked) {
-					cmplz_set_consent(category, 'allow');
-				} else {
-					cmplz_set_consent(category, 'deny');
-				}
+			if (categoryElement && categoryElement.checked) {
+				consented_categories.push(category);
+			}
+		}
+	}
+	cmplz_fire_before_categories_consent(consented_categories);
+	for (let key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			let category = cmplz_categories[key];
+			if (consented_categories.includes(category)) {
+				cmplz_set_consent(category, 'allow');
+			} else {
+				cmplz_set_consent(category, 'deny');
 			}
 		}
 	}

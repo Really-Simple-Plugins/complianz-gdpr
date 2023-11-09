@@ -15,6 +15,7 @@ const UseInstallPluginData = create(( set, get ) => ({
 		set({apiRequestActive:true});
 		data.pluginAction = typeof action !== 'undefined' ? action : get().pluginAction;
 		data.slug = slug;
+
 		let nextAction = false;
 		if ( data.pluginAction === 'download' ) {
 			nextAction = 'activate';

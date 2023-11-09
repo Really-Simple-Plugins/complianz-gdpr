@@ -1109,6 +1109,7 @@ if ( ! function_exists( 'cmplz_accepted_processing_agreement' ) ) {
 			if ( !is_array($thirdparty) ) {
 				$thirdparty = array();
 			}
+
 			return in_array( 'accepted', $thirdparty, true );
 		}
 

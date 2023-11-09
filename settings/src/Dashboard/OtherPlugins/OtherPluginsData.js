@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import * as rsssl_api from "../../utils/api";
+import * as cmplz_api from "../../utils/api";
 import {__} from "@wordpress/i18n";
 const useOtherPlugins = create(( set, get ) => ({
     error:false,
@@ -24,7 +24,7 @@ const useOtherPlugins = create(( set, get ) => ({
         })[0];
     },
     fetchOtherPluginsData: async () => {
-        const {pluginData, error} = await rsssl_api.doAction('otherpluginsdata').then((response) => {
+        const {pluginData, error} = await cmplz_api.doAction('otherpluginsdata').then((response) => {
             let pluginData = [];
             pluginData = response.plugins;
             let error = response.error;
@@ -58,7 +58,8 @@ const useOtherPlugins = create(( set, get ) => ({
         if (pluginAction==='installed' || pluginAction === 'upgrade-to-premium') {
             return;
         }
-        rsssl_api.doAction('plugin_actions', data).then( ( response ) => {
+
+		cmplz_api.doAction('plugin_actions', data).then( ( response ) => {
             pluginItem = response;
             get().updatePluginData(slug, pluginItem);
             get().pluginActions(slug, pluginItem.pluginAction);
