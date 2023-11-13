@@ -17,9 +17,6 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			self::$_this = $this;
 			add_filter( 'cmplz_do_action', array( $this, 'get_sync_data' ), 10, 3 );
 			add_filter( 'cmplz_do_action', array( $this, 'update_cookies_services' ), 10, 3 );
-
-			add_action( 'plugins_loaded', array( $this, 'ensure_cookies_in_all_languages' ), 20 );
-
 			add_action( 'plugins_loaded', array( $this, 'do_sync_batch_rest' ), 20 );
 			add_action( 'cmplz_every_five_minutes_hook', array( $this, 'do_sync_batch' ) );
 		}
@@ -45,7 +42,6 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 			if ( ! cmplz_is_logged_in_rest() ) {
 				return;
 			}
-
 			$data = $this->get_syncable_cookies( true );
 			//if no syncable cookies are found, exit.
 			if ( $data['count'] == 0 ) {
@@ -348,7 +344,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						//deprecated as of 5.3. Use only if no own domain cookie property has ever been saved
 						if ( !$hasOwnDomainCookies ) {
 							if ( $service->thirdParty || $service->secondParty ) {
-								if (!in_array($cookie->name, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
+								if (! in_array( $cookie->name, $thirdparty_cookies, true ) ) $thirdparty_cookies[] = $cookie->name;
 							}
 						}
 
@@ -367,7 +363,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced onlly with non own domain cookies.
 					if ( $hasOwnDomainCookies ) {
 						if ( !$c->isOwnDomainCookie ) {
-							if (!in_array($cookie, $thirdparty_cookies) ) $thirdparty_cookies[] = $cookie->name;
+							if (! in_array( $cookie, $thirdparty_cookies, true ) ) $thirdparty_cookies[] = $cookie->name;
 						}
 					}
 
@@ -852,6 +848,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 		public function get_sync_data( array $data, string $action, WP_REST_Request $request) {
 			if ( $action === 'sync' ) {
 				$this->reset_cookies_changed();
+				$this->ensure_cookies_in_all_languages();
 				$scan_action = sanitize_title($request->get_param('scan_action'));
 				if ( $scan_action === 'restart') {
 					$this->resync();

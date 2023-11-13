@@ -118,7 +118,9 @@ const CookieDetails = (cookie) => {
 	const onCheckboxChangeHandler = (checked, id, type) => {
 		updateCookie(id, type, checked);
 	}
-
+	if ( !cookie ) {
+		return null;
+	}
 	let retentionDisabled = cookie.name.indexOf('cmplz_')!==-1 ? true:sync;
 	let deletedClass = cookie.deleted!=1 ? 'cmplz-reset-button':'';
 	let servicesOptions = services.map((service, i) => {
@@ -136,12 +138,12 @@ const CookieDetails = (cookie) => {
 			purposeMarketing = purposeMarketing.substring(0, purposeMarketing.indexOf('/'));
 		}
 	});
-	let cookieHasSlash =  cookie.purpose.indexOf('/')!==-1;
-	if (cookieHasSlash){
+	let cookieHasSlash =  cookie.purpose && cookie.purpose.indexOf('/')!==-1;
+	if ( cookieHasSlash ){
 		purposeMarketing = cookie.purpose.substring(0, cookie.purpose.indexOf('/'));
 	}
 
-	if (purposesHasSlash && !cookieHasSlash) {
+	if ( purposesHasSlash && !cookieHasSlash ) {
 		//find the first purpose with a slash in purposeOptions, and change it to purposeMarketing
 		purposesByLanguage.forEach(function(purpose, i) {
 			if (purpose.value && purpose.value.indexOf('/')!==-1){

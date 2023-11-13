@@ -834,16 +834,18 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		public function get_cookies( $settings = array() ) {
 			global $wpdb;
 			$cookies = $this->cookies;
+
 			if ( count( $cookies ) === 0 ) {
-				$cookies = wp_cache_get( 'cmplz_cookies', 'complianz' );
+				$cookies = get_transient( 'cmplz_cookies' );
 				if ( ! $cookies ) {
 					$cookies      = [];
 					$table_exists = get_option( 'cmplz_cookietable_version' );
 					if ( $table_exists ) {
 						$cookies = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookies" );
 					}
-					wp_cache_set( 'cmplz_cookies', $cookies, 'complianz', HOUR_IN_SECONDS );
+					set_transient( 'cmplz_cookies', $cookies, MINUTE_IN_SECONDS );
 				}
+
 				$this->cookies = $cookies;
 			}
 
@@ -1507,7 +1509,6 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			if ( ! $this->statistics_privacy_friendly() ) {
 				return true;
 			}
-
 			$cookies = $this->get_cookies( $args );
 			if ( empty( $cookies ) ) {
 				return false;

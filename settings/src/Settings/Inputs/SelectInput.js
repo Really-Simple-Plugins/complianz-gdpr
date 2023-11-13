@@ -12,7 +12,6 @@ const SelectInput = ({
 	options = {},
 	canBeEmpty = true,
 	label,
-	 innerRef,
 }) => {
 	// convert options to object if array
 	if (Array.isArray(options)) {
@@ -26,7 +25,9 @@ const SelectInput = ({
 	if ( canBeEmpty ) {
 		//only add this if no value is selected yet.
 		let valueIsEmpty = value === '' || value === false || value === 0;
+
 		if (valueIsEmpty) {
+			value = '0';
 			options = {
 				0: __('Select an option', 'complianz-gdpr'),
 				...options,
@@ -38,7 +39,6 @@ const SelectInput = ({
 			value = Object.keys(options)[0];
 		}
 	}
-
 	return (
 		<div className="cmplz-input-group cmplz-select-group" key={label}>
 			<Select.Root

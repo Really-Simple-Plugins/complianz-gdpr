@@ -243,7 +243,6 @@ if ( ! class_exists( "cmplz_scan" ) ) {
 			if ( isset( $_GET['complianz_scan_token'] ) ) {
 				return;
 			}
-
 			//if the last cookie scan date is more than a month ago, we re-scan.
 			$last_scan_date = COMPLIANZ::$banner_loader->get_last_cookie_scan_date( true );
 			$scan_interval = apply_filters( 'cmplz_scan_interval', 3 );

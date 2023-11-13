@@ -219,6 +219,7 @@ if ( ! class_exists( "CMPLZ_SERVICE" ) ) {
 				return;
 			}
 			//get all related cookies, and delete them.
+
 			$cookies = $this->get_cookies();
 			foreach ( $cookies as $service_cookie ) {
 				$cookie = new CMPLZ_COOKIE( $service_cookie->ID );

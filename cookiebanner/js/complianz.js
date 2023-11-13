@@ -1497,10 +1497,12 @@ window.cmplz_deny_all = function(){
  */
 cmplz_add_event('click', '.cmplz-accept', function(e){
 	e.preventDefault();
-	cmplz_accept_all();
-	cmplz_set_banner_status('dismissed');
-	cmplz_fire_categories_event();
-	cmplz_track_status();
+	setTimeout( () => {
+		cmplz_accept_all();
+		cmplz_set_banner_status('dismissed');
+		cmplz_fire_categories_event();
+		cmplz_track_status();
+	},0);
 });
 
 /*
