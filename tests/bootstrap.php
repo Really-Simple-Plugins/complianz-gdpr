@@ -5,6 +5,11 @@
  * @package Complianz_Gdpr
  */
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+ini_set('display_errors', 'Off');
+define('WP_DEBUG', false);
+define('WP_DEBUG_DISPLAY', false);
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 if ( ! $_tests_dir ) {
