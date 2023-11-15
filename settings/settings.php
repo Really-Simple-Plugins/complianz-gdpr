@@ -779,7 +779,21 @@ function cmplz_rest_api_fields_set( WP_REST_Request $request): array {
 	foreach ( $fields as $field ) {
 		$prev_value = $options[ $field['id'] ] ?? false;
         if ( isset($field['translatable']) && $field['translatable']) {
-            cmplz_register_translation( $field['value'], $field['id'] );
+
+			$value = $field['value'];
+			$type = $field['type'];
+			$id = $field['id'];
+			if ( is_array( $value ) && ( $type === 'thirdparties' || $type === 'processors' ) ) {
+				foreach ( $value as $item_key => $item ) {
+					//contains the values of an item
+					foreach ( $item as $key => $key_value ) {
+						cmplz_register_translation( $key_value, $item_key . '_' . $id . "_" . $key );
+					}
+				}
+			} else {
+				cmplz_register_translation( $value, $id );
+			}
+
         }
         do_action( "cmplz_after_save_field", $field['id'], $field['value'], $prev_value, $field['type'] );
     }

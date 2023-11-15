@@ -4,15 +4,21 @@ import useRecordsOfConsentData from "./useRecordsOfConsentData";
 import {memo} from "@wordpress/element";
 import CheckboxGroup from '../Inputs/CheckboxGroup';
 const RecordsOfConsentControl = () => {
-	const paginationPerPage = 10;
-	const [ searchValue, setSearchValue ] = useState( '' );
-	const [ pagination, setPagination] = useState({});
 	const [ indeterminate, setIndeterminate] = useState(false);
 	const [ entirePageSelected, setEntirePageSelected ] = useState( false );
-	const handlePageChange = (page) => {
-		setPagination({ ...pagination, currentPage: page });
-	};
-	const { records, downloadUrl, deleteRecords, recordsLoaded, fetchData} = useRecordsOfConsentData();
+	const [timer, setTimer] = useState(null)
+
+	const {
+		pagination,
+		setPagination,
+		paginationPerPage,
+		orderBy,
+		setOrderBy,
+		totalRecords,
+		order,
+		setOrder,
+		searchValue, setSearchValue,
+		records, downloadUrl, deleteRecords, recordsLoaded, fetchData} = useRecordsOfConsentData();
 	const [ btnDisabled, setBtnDisabled ] = useState( '' );
 	const [ selectedRecords, setSelectedRecords ] = useState( [] );
 	const disabled = !cmplz_settings.is_premium;
@@ -26,7 +32,25 @@ const RecordsOfConsentControl = () => {
 	useEffect(() => {
 		if (!recordsLoaded && cmplz_settings.is_premium) fetchData();
 	}, [recordsLoaded])
+	const handlePageChange = (page) => {
+		setPagination({ ...pagination, currentPage: page });
+		fetchData();
+	};
+	const handleSort = async (orderBy, order) => {
+		setOrderBy(orderBy.orderId);
+		setOrder(order);
+		fetchData();
+	};
+	const handleSearch = (search) => {
+		clearTimeout(timer)
+		setSearchValue(search);
 
+		const newTimer = setTimeout(() => {
+			fetchData(paginationPerPage, 1, orderBy, order);
+		}, 500)
+
+		setTimer(newTimer)
+	}
 	const customStyles = {
 		headCells: {
 			style: {
@@ -249,7 +273,7 @@ const RecordsOfConsentControl = () => {
 			</>}
 			<div className="cmplz-table-header">
 				<div className="cmplz-table-header-controls">
-					<input className="cmplz-datatable-search" type="text" placeholder={__("Search", "complianz-gdpr")} value={searchValue} onChange={ ( e ) => setSearchValue(e.target.value) } />
+					<input className="cmplz-datatable-search" type="text" placeholder={__("Search", "complianz-gdpr")} value={searchValue} onChange={ ( e ) => handleSearch(e.target.value) } />
 				</div>
 			</div>
 
@@ -270,6 +294,8 @@ const RecordsOfConsentControl = () => {
 					data={data}
 					dense
 					pagination
+					paginationTotalRows={totalRecords}
+					paginationServer
 					noDataComponent={<div className="cmplz-no-documents">{__("No records", "complianz-gdpr")}</div>}
 					persistTableHead
 					theme="really-simple-plugins"
@@ -277,6 +303,9 @@ const RecordsOfConsentControl = () => {
 					paginationPerPage={paginationPerPage}
 					onChangePage={handlePageChange}
 					paginationState={pagination}
+					sortServer
+					onSort={handleSort}
+
 				/></>
 			}
 		</>

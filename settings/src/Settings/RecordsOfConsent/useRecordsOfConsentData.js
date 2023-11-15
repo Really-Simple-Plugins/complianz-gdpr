@@ -11,6 +11,16 @@ const useRecordsOfConsentData = create(( set, get ) => ({
 	regions: [],
 	fields: [],
 	noData:false,
+	totalRecords:0,
+	searchValue: '',
+	setSearchValue: (value) => set({searchValue: value}),
+	paginationPerPage: 10,
+	pagination:{ currentPage: 1 },
+	setPagination: (value) => set({pagination: value}),
+	orderBy: 'ID',
+	setOrderBy: (value) => set({orderBy: value}),
+	order: 'DESC',
+	setOrder: (value) => set({order: value}),
 	deleteRecords: async (ids) => {
 		//get array of records to delete
 		let deleteRecords = get().records.filter(record => ids.includes(record.id));
@@ -30,7 +40,12 @@ const useRecordsOfConsentData = create(( set, get ) => ({
 		if (get().fetching) return;
 		set({fetching:true});
 		let data = {}
-		const { records, regions, download_url} = await cmplz_api.doAction('get_records_of_consent', data).then((response) => {
+		data.per_page = get().paginationPerPage;
+		data.page = get().pagination.currentPage;
+		data.order = get().order.toUpperCase();
+		data.orderBy = get().orderBy;
+		data.search = get().searchValue;
+		const { records, totalRecords, regions, download_url} = await cmplz_api.doAction('get_records_of_consent', data).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
@@ -39,6 +54,7 @@ const useRecordsOfConsentData = create(( set, get ) => ({
 			recordsLoaded: true,
 			records: records,
 			regions: regions,
+			totalRecords: totalRecords,
 			downloadUrl: download_url,
 			fetching:false,
 		}));

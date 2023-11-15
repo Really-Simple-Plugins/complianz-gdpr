@@ -49,7 +49,7 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 		 * Translate output
 		 *
 		 * */
-		if ( function_exists('pll__') || function_exists('icl_translate') || defined("WPML_PLUGIN_BASENAME" ) ) {
+		//if ( function_exists('pll__') || function_exists('icl_translate') || defined("WPML_PLUGIN_BASENAME" ) ) {
 			//check if Complianz::$config has property fields
 			$config_fields = COMPLIANZ::$config->fields ?? [];
 			$fields = $fields ?: $config_fields;
@@ -58,7 +58,7 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 			if ( $key !== false ) {
 				$type         = $fields[ $key ]['type'] ?? false;
 				$translatable = $fields[ $key ]['translatable'] ?? false;
-				if ($translatable) {
+				if ( $translatable ) {
 					if ( is_array( $value ) && ( $type === 'thirdparties' || $type === 'processors' ) ) {
 						foreach ( $value as $item_key => $item ) {
 							//contains the values of an item
@@ -84,7 +84,7 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 					}
 				}
 			}
-		}
+		//}
 		return apply_filters("cmplz_option_$id", $value, $id);
 	}
 }

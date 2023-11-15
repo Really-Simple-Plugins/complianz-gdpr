@@ -112,13 +112,13 @@ const DatarequestsControl = () => {
 
 	const handlePageChange = (page) => {
 		setPagination({ ...pagination, currentPage: page });
-		fetchData(paginationPerPage, pagination.currentPage, orderBy, order);
+		fetchData();
 	};
 
 	const handleSort = async (orderBy, order) => {
 		setOrderBy(orderBy.orderId);
 		setOrder(order);
-		fetchData(paginationPerPage, pagination.currentPage, orderBy.orderId, order);
+		fetchData();
 	};
 
 	const onSelectRecord = (selected, id) => {

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-10T13:15:29+00:00\n"
+"POT-Creation-Date: 2023-11-14T18:28:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -51,7 +51,7 @@ msgstr ""
 #: class-admin.php:215
 #: settings/config/menu.php:280
 #: settings/config/menu.php:284
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Header.js:32
 msgid "Support"
 msgstr ""
@@ -1986,8 +1986,8 @@ msgstr ""
 #: pro/processing-agreements/UK/questions.php:70
 #: pro/processing-agreements/US/questions.php:90
 #: pro/processing-agreements/ZA/questions.php:70
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:201
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:225
 msgid "IP Address"
 msgstr ""
 
@@ -2381,8 +2381,8 @@ msgstr ""
 #: cookiebanner/settings.php:884
 #: cookiebanner/settings.php:885
 #: cookiebanner/settings.php:886
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:172
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:196
 msgid "Functional"
 msgstr ""
 
@@ -2391,8 +2391,8 @@ msgstr ""
 #: cookiebanner/settings.php:909
 #: cookiebanner/settings.php:910
 #: gutenberg/build/index.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:173
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:197
 msgid "Preferences"
 msgstr ""
 
@@ -2414,10 +2414,10 @@ msgstr ""
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
 #: settings/build/6885.89410175d033c29840e8.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Dashboard/Tools/ToolsHeader.js:37
 #: settings/src/Settings/Integrations/Category.js:16
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:174
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:198
 msgid "Statistics"
 msgstr ""
 
@@ -2433,10 +2433,10 @@ msgstr ""
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
 #: settings/build/6885.89410175d033c29840e8.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Integrations/Category.js:17
 #: settings/src/Settings/Integrations/Category.js:25
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:175
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:199
 msgid "Marketing"
 msgstr ""
 
@@ -2445,14 +2445,14 @@ msgid "Do Not Track"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner.php:851
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:170
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:194
 msgid "No Choice"
 msgstr ""
 
 #: cookiebanner/class-cookiebanner.php:854
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:171
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:195
 msgid "No Warning"
 msgstr ""
 
@@ -2507,8 +2507,8 @@ msgid "Accept - Deny"
 msgstr ""
 
 #: cookiebanner/settings.php:115
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:219
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:243
 msgid "Categories"
 msgstr ""
 
@@ -2988,17 +2988,17 @@ msgid "Please check the data requests <a href=\"%s\">overview page</a>."
 msgstr ""
 
 #: DNSMPD/class-admin-DNSMPD.php:363
-#: pro/records-of-consent/class-records-of-consent.php:198
+#: pro/records-of-consent/class-records-of-consent.php:211
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:200
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:201
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:199
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:185
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:225
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:249
 msgid "Date"
 msgstr ""
 
@@ -3115,7 +3115,7 @@ msgstr ""
 #: pro/settings/fields/dpo.php:117
 #: pro/settings/fields/dpo.php:191
 #: pro/settings/fields/dpo.php:250
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:180
 msgid "Email"
 msgstr ""
@@ -3273,7 +3273,7 @@ msgstr ""
 #: settings/build/4858.c016b246c67474d6bb51.js:1
 #: settings/build/6937.99837b0e0655b78ccb6a.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPlugins.js:21
 #: settings/src/Settings/InstallPlugin/InstallPlugin.js:60
 #: settings/src/Settings/Premium.js:17
@@ -3305,15 +3305,15 @@ msgid "We use %s for %s."
 msgstr ""
 
 #: functions.php:2502
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:143
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:167
 msgid "Opt-in"
 msgstr ""
 
 #: functions.php:2504
 #: pro/tcf/templates/vendorlist-us.php:13
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:144
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:168
 msgid "Opt-out"
 msgstr ""
 
@@ -3700,7 +3700,7 @@ msgid "Warning"
 msgstr ""
 
 #: pro/class-licensing.php:706
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:188
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:231
 msgid "Open"
@@ -5298,17 +5298,17 @@ msgstr ""
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
 #: settings/build/9363.2c54c4654977d5b3abac.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/CreateDataBreachReport.js:132
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:193
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:195
 #: settings/src/Settings/ProcessingAgreements/CreateProcessingAgreements.js:138
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:185
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:171
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:207
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:231
 msgid "Region"
 msgstr ""
 
@@ -8378,7 +8378,7 @@ msgstr ""
 msgid "The operator may charge additional costs that it incurs in this context."
 msgstr ""
 
-#: pro/records-of-consent/class-records-of-consent.php:41
+#: pro/records-of-consent/class-records-of-consent.php:48
 #: proof-of-consent/class-proof-of-consent.php:64
 msgid "Select a region"
 msgstr ""
@@ -10010,7 +10010,7 @@ msgstr ""
 
 #: settings/config/fields/tools/support.php:40
 #: settings/build/1306.b57b3a963e00734c0382.js:1
-#: settings/build/1689.45c7b0b4dc2034b1a36d.js:1
+#: settings/build/1689.09ac23d13e2bea7fbd12.js:1
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
 #: settings/src/Settings/DataBreachReports/CreateDataBreachReport.js:196
 #: settings/src/Settings/DataRequests/ExportDatarequests.js:42
@@ -10865,8 +10865,8 @@ msgstr ""
 
 #: settings/config/menu.php:124
 #: settings/config/menu.php:227
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:213
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:237
 msgid "Services"
 msgstr ""
 
@@ -11492,7 +11492,7 @@ msgstr ""
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1243.b02307e08f3dc7d9fdc2.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
 #: settings/build/5927.193bae628f67881e6fee.js:1
@@ -11500,7 +11500,7 @@ msgstr ""
 #: settings/build/8111.1efea38fa71dfeae848d.js:1
 #: settings/build/8189.a052c787a97b6037d1d0.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Cookiedatabase/Cookie.js:230
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:250
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:244
@@ -11508,7 +11508,7 @@ msgstr ""
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:237
 #: settings/src/Settings/Processors/ProcessorElement.js:119
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:217
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:263
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:287
 #: settings/src/Settings/ThirdParties/ThirdPartyElement.js:103
 msgid "Delete"
 msgstr ""
@@ -11517,7 +11517,7 @@ msgstr ""
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/3863.e15e492c801f7fb24a98.js:1
 #: settings/build/4783.24053ccc3d7908fec53e.js:1
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
@@ -11525,7 +11525,7 @@ msgstr ""
 #: settings/build/6265.8852ead4a556b7d45c4a.js:1
 #: settings/build/8189.a052c787a97b6037d1d0.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:59
 msgid "No options found"
 msgstr ""
@@ -11534,7 +11534,7 @@ msgstr ""
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/3863.e15e492c801f7fb24a98.js:1
 #: settings/build/4783.24053ccc3d7908fec53e.js:1
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
@@ -11542,7 +11542,7 @@ msgstr ""
 #: settings/build/6265.8852ead4a556b7d45c4a.js:1
 #: settings/build/8189.a052c787a97b6037d1d0.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:92
 msgid "Show more"
 msgstr ""
@@ -11551,7 +11551,7 @@ msgstr ""
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/3863.e15e492c801f7fb24a98.js:1
 #: settings/build/4783.24053ccc3d7908fec53e.js:1
 #: settings/build/5596.8ba3b76d11b3f80acb8b.js:1
@@ -11559,7 +11559,7 @@ msgstr ""
 #: settings/build/6265.8852ead4a556b7d45c4a.js:1
 #: settings/build/8189.a052c787a97b6037d1d0.js:1
 #: settings/build/9808.8805972a5f017555d23f.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:97
 msgid "Show less"
 msgstr ""
@@ -11576,41 +11576,41 @@ msgstr ""
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3086.084bd4fcd66fa15a9032.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9157.014df2c7c1a82914c114.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:232
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:234
 #: settings/src/Settings/Integrations/PluginsControl.js:162
 #: settings/src/Settings/Integrations/ServicesControl.js:245
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:221
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:252
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:276
 msgid "Search"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:239
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:240
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:228
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:213
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:259
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:283
 msgid "%s items selected"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:240
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:241
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:229
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:214
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:260
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:284
 msgid "1 item selected"
 msgstr ""
 
@@ -11699,9 +11699,9 @@ msgid "The A/B tracking period has ended, the best performer will be enabled on 
 msgstr ""
 
 #: settings/build/1143.861682bf034275770597.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:216
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:262
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:286
 msgid "Download Proof of Consent"
 msgstr ""
 
@@ -11747,7 +11747,7 @@ msgid "Validated"
 msgstr ""
 
 #: settings/build/1306.b57b3a963e00734c0382.js:1
-#: settings/build/1689.45c7b0b4dc2034b1a36d.js:1
+#: settings/build/1689.09ac23d13e2bea7fbd12.js:1
 #: settings/src/Settings/DataRequests/ExportDatarequests.js:33
 #: settings/src/Settings/RecordsOfConsent/ExportRecordsOfConsent.js:35
 msgid "Export to CSV"
@@ -11759,7 +11759,7 @@ msgid "Your Data Requests Export has been completed."
 msgstr ""
 
 #: settings/build/1306.b57b3a963e00734c0382.js:1
-#: settings/build/1689.45c7b0b4dc2034b1a36d.js:1
+#: settings/build/1689.09ac23d13e2bea7fbd12.js:1
 #: settings/src/Settings/DataRequests/ExportDatarequests.js:40
 #: settings/src/Settings/RecordsOfConsent/ExportRecordsOfConsent.js:43
 msgid "Your selection does not contain any data."
@@ -11860,7 +11860,7 @@ msgstr ""
 msgid "Clear Cookies"
 msgstr ""
 
-#: settings/build/1689.45c7b0b4dc2034b1a36d.js:1
+#: settings/build/1689.09ac23d13e2bea7fbd12.js:1
 #: settings/src/Settings/RecordsOfConsent/ExportRecordsOfConsent.js:42
 msgid "Your Records Of Consent Export has been completed."
 msgstr ""
@@ -12138,7 +12138,7 @@ msgid "reCaptcha blocking enabled"
 msgstr ""
 
 #: settings/build/3086.084bd4fcd66fa15a9032.js:1
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9157.014df2c7c1a82914c114.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:187
 #: settings/src/Settings/Integrations/PluginsControl.js:107
@@ -12187,7 +12187,7 @@ msgstr ""
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
 #: settings/build/6937.99837b0e0655b78ccb6a.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:58
 #: settings/src/Settings/DocumentsMenu/MenuData.js:93
 #: settings/src/Settings/Fields/FieldsData.js:164
@@ -12311,7 +12311,7 @@ msgstr ""
 #: settings/build/3187.72163b45e3862e2e28a4.js:1
 #: settings/build/3709.597855e34e12df4af47c.js:1
 #: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Dashboard/Tools/Tools.js:68
 #: settings/src/Header.js:28
 msgid "Documentation"
@@ -12324,31 +12324,31 @@ msgstr ""
 msgid "Premium Support"
 msgstr ""
 
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:188
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:232
 msgid "Resolved"
 msgstr ""
 
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:208
 msgid "Data Request"
 msgstr ""
 
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:230
 msgid "All"
 msgstr ""
 
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:243
 msgid "Mark as resolved"
 msgstr ""
 
-#: settings/build/3231.d19da7de5bd72da5aa18.js:1
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
+#: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:257
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:273
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:299
 msgid "No records"
 msgstr ""
 
@@ -13056,31 +13056,31 @@ msgstr ""
 msgid "Add service"
 msgstr ""
 
-#: settings/build/6627.aad6a5a1c19aa7404f78.js:1
+#: settings/build/6627.73624c6467db11f42462.js:1
 #: settings/src/Settings/PluginsPrivacyStatements/PluginsPrivacyStatementsControl.js:38
 msgid "No plugins with suggested statements found."
 msgstr ""
 
-#: settings/build/6627.aad6a5a1c19aa7404f78.js:1
+#: settings/build/6627.73624c6467db11f42462.js:1
 #: settings/src/Settings/PluginsPrivacyStatements/PluginsPrivacyStatementsControl.js:44
 msgid "You have chosen to generate your own Privacy Statement, which means the option to add custom text to it is not applicable."
 msgstr ""
 
-#: settings/build/6627.aad6a5a1c19aa7404f78.js:1
-#: settings/build/9489.67e29d0f32d6bcfe6b11.js:1
-#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:37
+#: settings/build/6627.73624c6467db11f42462.js:1
+#: settings/build/9489.b6e66565ec7ce58f6ff6.js:1
+#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:35
 msgid "Add to annex of Privacy Statement"
 msgstr ""
 
-#: settings/build/6627.aad6a5a1c19aa7404f78.js:1
-#: settings/build/9489.67e29d0f32d6bcfe6b11.js:1
-#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:43
+#: settings/build/6627.73624c6467db11f42462.js:1
+#: settings/build/9489.b6e66565ec7ce58f6ff6.js:1
+#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:41
 msgid "Does not conform with the Consent API"
 msgstr ""
 
-#: settings/build/6627.aad6a5a1c19aa7404f78.js:1
-#: settings/build/9489.67e29d0f32d6bcfe6b11.js:1
-#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:44
+#: settings/build/6627.73624c6467db11f42462.js:1
+#: settings/build/9489.b6e66565ec7ce58f6ff6.js:1
+#: settings/src/Settings/PluginsPrivacyStatements/SinglePrivacyStatement.js:42
 msgid "Conforms to the Consent API"
 msgstr ""
 
@@ -13356,70 +13356,70 @@ msgid ""
 ""
 msgstr ""
 
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:145
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:208
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:169
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:232
 msgid "Other"
 msgstr ""
 
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:195
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:219
 msgid "User ID"
 msgstr ""
 
-#: settings/build/9910.7bdbf2c43ad832fc06cd.js:1
-#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:169
+#: settings/build/9910.8d64f0672c894dde3cea.js:1
+#: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:193
 msgid "DNT/GPC"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Header.js:37
 #: settings/src/Menu/Menu.js:28
 msgid "Go Pro"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Menu/MenuItem.js:79
 msgid "New"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:29
 msgid "The wizard is currently in use by user with ID: "
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:30
 msgid "To prevent conflicts during saving the wizard is temporarily locked."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:31
 msgid "The lock will automatically clear after two minutes."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:56
 msgid "Switch between banners"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:62
 msgid "Banner"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:68
 msgid "Edit consent types"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:56
 #: settings/src/Settings/Fields/FieldsData.js:162
 msgid "Saving settings..."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:57
 #: settings/src/Settings/Fields/FieldsData.js:163
 #: settings/src/Settings/Fields/FieldsData.js:205
@@ -13427,82 +13427,82 @@ msgstr ""
 msgid "Settings saved"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/Field.js:227
 msgid "This field is required"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/Field.js:228
 msgid "Please enter a valid URL"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/Field.js:229
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/Field.js:230
 msgid "Please enter a valid number"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/Field.js:231
 msgid "Please enter a valid phone number"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/Settings/Fields/LabelWrapper.js:14
 msgid "required"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:12
 msgid "Please check if security settings on the server or a plugin is blocking the requests from Really Simple SSL."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:20
 msgid "The Really Simple SSL Rest API is disabled."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:22
 msgid "The Really Simple SSL Rest API returned a not found."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:24
 msgid "The Really Simple SSL Rest API returned a 403 forbidden error."
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:35
 msgid "A problem was detected during the loading of the settings"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:41
 msgid "The request returned the following errors:"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:43
 msgid "Response code:"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:44
 msgid "Status code:"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:45
 msgid "Server response:"
 msgstr ""
 
-#: settings/build/index.b920d2cfd73452358e29.js:1
+#: settings/build/index.475f0aa823efabdcb24a.js:1
 #: settings/src/utils/Error.js:52
 msgid "More information"
 msgstr ""
