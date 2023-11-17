@@ -117,8 +117,11 @@ function cmplz_wc_google_analytics_pro_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
+			'additional_gtags_stats',
+			'additional_gtags_marketing',
 			'consent-mode',
 			'gtm_code',
+			'cmplz-tm-template'
 		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_wc_google_analytics_pro_filter_fields', 200 );
@@ -136,4 +139,3 @@ function cmplz_wc_google_analytics_pro_filter_warnings( $warnings ) {
 	return $warnings;
 }
 add_filter( 'cmplz_warning_types', 'cmplz_wc_google_analytics_pro_filter_warnings' );
-

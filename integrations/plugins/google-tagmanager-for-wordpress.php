@@ -136,10 +136,12 @@ function cmplz_gtm4wp_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
+			'additional_gtags_stats',
+			'additional_gtags_marketing',
 			'gtm_code',
-			'consent-mode'
+			'consent-mode',
+			'cmplz-tm-template'
 		]);
 }
 
 add_filter( 'cmplz_fields', 'cmplz_gtm4wp_filter_fields', 2000, 1 );
-

@@ -104,8 +104,11 @@ function cmplz_beehive_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
+			'additional_gtags_stats',
+			'additional_gtags_marketing',
 			'consent-mode',
 			'gtm_code',
+			'cmplz-tm-template'
 		]);
 }
 

@@ -103,8 +103,11 @@ function cmplz_monsterinsights_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'uw_code',
+			'additional_gtags_stats',
+			'additional_gtags_marketing',
 			'consent-mode',
 			'gtm_code',
+			'cmplz-tm-template'
 		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_monsterinsights_filter_fields', 200 );

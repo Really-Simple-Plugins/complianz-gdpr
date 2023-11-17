@@ -97,6 +97,7 @@ function cmplz_google_site_kit_filter_fields( $fields ) {
 			'ua_code',
 			'aw_code',
 			'gtm_code',
+			'cmplz-tm-template'
 		]);
 }
 add_filter( 'cmplz_fields', 'cmplz_google_site_kit_filter_fields', 200, 1 );

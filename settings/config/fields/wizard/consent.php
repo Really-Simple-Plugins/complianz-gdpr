@@ -161,11 +161,10 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'menu_id'          => 'statistics-configuration',
 				'type'             => 'button',
 				'post_get'         => 'get',
-				'action'           => add_query_arg( array( 'page' => 'cmplz-script-center' ), admin_url( 'admin.php' ) ) . '#custom-scripts',
+				'url'              => '#integrations/integrations-script-center',
 				'default'          => 'yes',
 				'label'            => __( "Controlling your statistics script", 'complianz-gdpr' ),
 				'button_text'      => __( "Script Center", 'complianz-gdpr' ),
-				'options'          => COMPLIANZ::$config->yes_no,
 				'react_conditions' => [
 					'relation' => 'AND',
 					[

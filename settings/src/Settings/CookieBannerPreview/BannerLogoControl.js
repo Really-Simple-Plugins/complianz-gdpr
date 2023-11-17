@@ -87,13 +87,13 @@ const BannerLogoControl = (props) => {
 			/>
 			{ props.value === 'complianz' &&
 				<div className={previewClass}>
-					<img src={DOMPurify.sanitize(selectedBanner.logo_options[props.value])} />
+					<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedBanner.logo_options[props.value]) }} />
 				</div>
 			}
 
 			{ props.value === 'site' &&
 				<div className={previewClass}>
-					<img src={DOMPurify.sanitize(selectedBanner.logo_options[props.value])} />
+					<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedBanner.logo_options[props.value]) }} />
 					{props.value==='site' && selectedBanner.logo_options[props.value].length===0 && <>
 						<p>{__('No logo found. Please add a logo in the customizer.', 'complianz-gdpr')}</p>
 					</>}
@@ -102,7 +102,7 @@ const BannerLogoControl = (props) => {
 			{
 				props.value === 'custom' &&
 				<div className="cmplz-logo-preview cmplz-clickable" onClick={() => runUploader()}>
-					<img src={selectedBanner.logo_options[props.value]} alt="Banner Logo" className="cmplz-custom-image" />
+					<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedBanner.logo_options[props.value]) }} alt="Banner Logo" className="cmplz-custom-image" />
 				</div>
 			}
 

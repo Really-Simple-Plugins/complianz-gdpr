@@ -47,7 +47,10 @@ function cmplz_caos_filter_fields( $fields ) {
 			'ua_code',
 			'aw_code',
 			'consent-mode',
+			'additional_gtags_stats',
+			'additional_gtags_marketing',
 			'gtm_code',
+			'cmplz-tm-template'
 		]);
 }
 

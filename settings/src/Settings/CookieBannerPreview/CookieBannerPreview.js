@@ -80,6 +80,7 @@ const CookieBannerPreview = () => {
 
 	useEffect ( () => {
 		updateFieldsData(selectedSubMenuItem);
+
 	}, [ getFieldValue('consent_type')] )
 
 	//keep consenttype in sync
@@ -108,10 +109,10 @@ const CookieBannerPreview = () => {
 
 	useEffect(() => {
 		syncBannerToFields();
+
 	}, [fields]);
 
 	useEffect (  () => {
-
 		//wait with generating the preview until we have synced the data at least once.
 		if ( selectedBannerId>0 && bannerToFieldsSynced ) {
 			loadBannerPreview();
@@ -119,7 +120,6 @@ const CookieBannerPreview = () => {
 	},	[bannerDataUpdated, selectedBannerId, tcfActive, bannerToFieldsSynced]);
 
 	const loadRequiredData = async () => {
-
 		await fetchBannerData();
 		await fetchFieldsData(selectedSubMenuItem);
 		updateField('consent_type', consentType )
@@ -129,6 +129,7 @@ const CookieBannerPreview = () => {
 	/**
 	 * Fill fields with data from the selected banner
 	 */
+
 	const syncBannerToFields = () => {
 		// fill fields with data from selected banner, default the default banner
 		if ( !bannerDataLoaded ) {
@@ -140,7 +141,8 @@ const CookieBannerPreview = () => {
 			if ( selectedBanner.hasOwnProperty(field.id) ) {
 				//load defaults
 				let value = selectedBanner[field.id];
-				if ( !value || value.length===0 || ( value.hasOwnProperty('text') && value['text'].length===0) ) {
+				//set defaults if empty. Checkboxes are '0' when false.
+				if (  (!value || value.length===0 || (value.hasOwnProperty('text') && value['text'].length===0 ) ) ) {
 					value = field.default;
 				}
 
