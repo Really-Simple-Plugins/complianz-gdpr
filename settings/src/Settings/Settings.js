@@ -25,7 +25,6 @@ const Settings = () => {
 	const [ConfettiExplosion, setConfettiExplosion] = useState(null);
 	const [finishDisabled, setFinishDisabled] = useState(false);
 	const {
-		getFieldNotices,
 		saving,
 		fieldNotices,
 		fieldNoticesLoaded,

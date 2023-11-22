@@ -226,20 +226,9 @@ const useFields = create(( set, get ) => ({
 		set({nextButtonDisabled: requiredFields.length > 0});
 		return requiredFields.length > 0;
 	},
-	getFieldNotices: async () => {
-		if (get().fetchingFieldNotices) return;
-		set({fetchingFieldNotices:true});
-		let data = {};
-		const {fieldNotices} = await cmplz_api.doAction('get_field_notices', data).then((response) => {
-			return response;
-		}).catch((error) => {
-			console.error(error);
-		});
-		let notices = Array.isArray(fieldNotices) ? fieldNotices : [];
-		set({fieldNotices:notices, fieldNoticesLoaded:true, fetchingFieldNotices:false});
-	},
 	fetchFieldsData: async ( selectedSubMenuItem ) => {
-		const { fields, error, locked_by }   = await fetchFields();
+		const { fields, error, locked_by, field_notices }   = await fetchFields();
+		console.log(field_notices);
 		if (!Array.isArray(fields)){
 			set(() => ({
 				fieldsLoaded: true,
@@ -247,8 +236,7 @@ const useFields = create(( set, get ) => ({
 				selectedFields: [],
 				error:error,
 				lockedByUser:locked_by,
-			}));
-			return;
+			}))
 		}
 		let fieldsWithPremium = applyPremiumSettings(fields);
 		let conditionallyEnabledFields = updateFieldsListWithConditions(fieldsWithPremium);
@@ -274,6 +262,8 @@ const useFields = create(( set, get ) => ({
 			error:error,
 			lockedByUser:locked_by,
 			preloadFields:preloadFields,
+			fieldNotices: field_notices,
+			fieldNoticesLoaded:true,
 		}));
 	}
 }));
