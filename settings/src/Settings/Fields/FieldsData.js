@@ -167,6 +167,16 @@ const useFields = create(( set, get ) => ({
 			}
 			await response.then((response) => {
 				fields = response.fields;
+				//if there's no value for fields, set saving to false and exit early.
+				if ( !fields ) {
+					fields = [];
+					set(
+						produce((state) => {
+							state.saving = false;
+						})
+					);
+					return;
+				}
 				let bannerFields = get().fields.filter( field => field.data_target === 'banner');
 				//copy current values from bannerFields to the fields array
 				for (let i = 0; i <fields.length; i++) {

@@ -143,7 +143,7 @@ const Settings = () => {
 	let helpNotices = [];
 
 	//add some notices conditionally for fields
-	if (fieldNoticesLoaded) {
+	if (fieldNoticesLoaded && typeof fieldNotices !== 'undefined') {
 		for (const fieldNotice of fieldNotices) {
 			let noticeFields = selectedFields.filter(
 				field => fieldNotice.field_id === field.id);

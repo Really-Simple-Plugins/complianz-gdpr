@@ -6,7 +6,6 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  * */
 add_action( 'upgrader_process_complete', 'cmplz_install_cookiebanner_table' );
 add_action( 'cmplz_install_tables', 'cmplz_install_cookiebanner_table' );
-//add_action( 'plugins_loaded', 'cmplz_install_cookiebanner_table', 10 );
 function cmplz_install_cookiebanner_table() {
 	//only load on front-end if it's a cron job
 	if ( !is_admin() && !wp_doing_cron() ) {

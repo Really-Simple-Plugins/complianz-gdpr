@@ -1,5 +1,5 @@
 <?php
-use \Elementor\TemplateLibrary\Source_Local;
+use Elementor\TemplateLibrary\Source_Local;
 
 defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 
@@ -112,6 +112,10 @@ class CMPLZ_Elementor_Pro {
 			$post = get_post($post_id);
 			if ( ! $post || $post->post_status === 'trash') {
 				if ( file_exists( cmplz_path . 'integrations/plugins/elementor-pro/legal-hub-template.json' ) ) {
+					if ( !class_exists('Source_Local') ) {
+						return;
+					}
+
 					//create backup. Elementor deletes the file
 					copy( cmplz_path . 'integrations/plugins/elementor-pro/legal-hub-template.json', cmplz_path . 'integrations/plugins/elementor-pro/legal-hub-template-bkp.json' );
 					require_once WP_PLUGIN_DIR . '/elementor/includes/template-library/sources/local.php';

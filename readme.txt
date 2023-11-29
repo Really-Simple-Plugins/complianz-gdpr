@@ -174,6 +174,9 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 7.0.0 =
+* Improvement: INP performance optimisation
+
 = 6.4.7 =
 * June 14th, 2023
 * Fix: WordPress 6.2 version moved the Privacy Policy function to a different file. Added fallback for older versions.
