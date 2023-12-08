@@ -1412,7 +1412,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 			<?php do_action( 'complianz_label_html' , $args );?>
 			<?php do_action( 'complianz_after_label', $args ); ?>
 			<div id="<?php echo esc_html( $fieldname ) ?>editor"
-			     style="height: 290px; width: 100%"><?php echo $value ?></div>
+			     style="height: 290px; width: 100%"><?php echo esc_html($value) ?></div>
 			<?php do_action( 'complianz_after_field', $args ); ?>
 			<script>
 				window.define = ace.define;
@@ -1431,7 +1431,7 @@ if ( ! class_exists( "cmplz_field" ) ) {
 				});
 			</script>
 			<textarea style="display:none"
-			          name="<?php echo esc_html( $fieldname ) ?>"><?php echo $value ?></textarea>
+			          name="<?php echo esc_html( $fieldname ) ?>"><?php echo esc_html($value) ?></textarea>
 			<?php
 		}
 
