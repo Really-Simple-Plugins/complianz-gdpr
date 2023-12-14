@@ -390,7 +390,17 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 */
 
 		public function get_active_policy_id() {
-			return is_multisite() ? get_site_option( 'complianz_active_policy_id', 1 ) : get_option( 'complianz_active_policy_id', 1 );
+			//if !multisite, get normal option
+			if ( !is_multisite() ) {
+				return get_option( 'complianz_active_policy_id', 1 );
+			}
+
+			//multisite. If set_cookies_on_root, get site option, otherwise get normal option
+			if ( cmplz_get_option( 'set_cookies_on_root' ) ) {
+				return get_site_option( 'complianz_active_policy_id', 1 );
+			}
+
+			return get_option( 'complianz_active_policy_id', 1 );
 		}
 
 		/**
@@ -404,7 +414,13 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		public function upgrade_active_policy_id() {
 			$policy_id = $this->get_active_policy_id();
 			$policy_id ++;
-			if ( is_multisite() ) {
+
+			if ( !is_multisite() ) {
+				update_option( 'complianz_active_policy_id', $policy_id );
+			}
+
+			//multisite. If set_cookies_on_root, get site option, otherwise get normal option
+			if ( cmplz_get_option( 'set_cookies_on_root' ) ) {
 				update_site_option( 'complianz_active_policy_id', $policy_id );
 			} else {
 				update_option( 'complianz_active_policy_id', $policy_id );

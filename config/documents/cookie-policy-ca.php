@@ -150,10 +150,6 @@ array(
     'cmplz_tcf_active',
     'cmplz_site_shares_data',
   ),
-  'condition' => array(
-    'sensitive_information_processed' => 'yes'
-  ),
-
 ),
 
 

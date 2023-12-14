@@ -36,7 +36,7 @@ const CookieDetails = (cookie) => {
 
 	const onSaveHandler = async (id) => {
 		await saveCookie(id);
-		showSavedSettingsNotice(__("Saved cookie", "complianz-gd[r"));
+		showSavedSettingsNotice(__("Saved cookie", "complianz-gdpr"));
 	}
 
 	const onDeleteHandler = async (id) => {

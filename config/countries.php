@@ -138,12 +138,12 @@ $this->supported_regions = array(
 );
 
 $this->supported_states = array(
-	'cal' => __( 'California (CPRA)' ),
-	'col' => __( 'Colorado (CPA)' ),
-	'con' => __( 'Connecticut (CTDPA)' ),
-	'nev' => __( 'Nevada (NRS 603A)' ),
-	'uta' => __( 'Utah (UCPA)' ),
-	'vir' => __( 'Virginia (CDPA)'),
+	'cal' => __( 'California (CPRA)', 'complianz-gdpr' ),
+	'col' => __( 'Colorado (CPA)', 'complianz-gdpr' ),
+	'con' => __( 'Connecticut (CTDPA)', 'complianz-gdpr' ),
+	'nev' => __( 'Nevada (NRS 603A)', 'complianz-gdpr' ),
+	'uta' => __( 'Utah (UCPA)', 'complianz-gdpr' ),
+	'vir' => __( 'Virginia (CDPA)', 'complianz-gdpr' ),
 );
 
 $this->cookie_consent_converter = array(

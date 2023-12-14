@@ -238,7 +238,6 @@ const useFields = create(( set, get ) => ({
 	},
 	fetchFieldsData: async ( selectedSubMenuItem ) => {
 		const { fields, error, locked_by, field_notices }   = await fetchFields();
-		console.log(field_notices);
 		if (!Array.isArray(fields)){
 			set(() => ({
 				fieldsLoaded: true,

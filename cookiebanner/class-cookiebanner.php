@@ -1017,6 +1017,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		public function get_html_settings() {
 			$output = array(
 				'id'                        => $this->ID,
+				'title_class'               => strtolower( str_replace(' ' , '-', $this->title) ),
 				'logo'                      => $this->get_banner_logo(),
 				'header'                    => $this->header_x,
 				'accept_optin'              => $this->accept_x,

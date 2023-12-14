@@ -4,7 +4,7 @@
  * If A/B testing is enabled, each banner is rendered per consenttype as well.
  */
 ?>
-<div class="cmplz-cookiebanner cmplz-hidden banner-{id} {consent_type} cmplz-{position} cmplz-categories-type-{use_categories}" aria-modal="true" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-{id}-{consent_type}" aria-describedby="cmplz-message-{id}-{consent_type}">
+<div class="cmplz-cookiebanner cmplz-hidden banner-{id} {title_class} {consent_type} cmplz-{position} cmplz-categories-type-{use_categories}" aria-modal="true" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-{id}-{consent_type}" aria-describedby="cmplz-message-{id}-{consent_type}">
 	<div class="cmplz-header">
 		<div class="cmplz-logo">{logo}</div>
 		<div class="cmplz-title" id="cmplz-header-{id}-{consent_type}">{header}</div>

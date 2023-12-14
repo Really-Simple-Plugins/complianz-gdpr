@@ -1878,6 +1878,8 @@ function cmplz_merge_object(userdata, ajax_data) {
 function cmplz_check_cookie_policy_id() {
 	let user_policy_id = cmplz_get_cookie('policy_id');
 	if (user_policy_id && (parseInt(complianz.current_policy_id) !== parseInt(user_policy_id) ) ) {
+		cmplz_deny_all();
+		cmplz_set_banner_status('show');
 		cmplz_clear_cookies('cmplz');
 	}
 }

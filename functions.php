@@ -1315,7 +1315,6 @@ if ( !function_exists('cmplz_get_transient') ) {
 
 	/**
 	 * We user our own transient, as the wp transient is not always persistent
-	 * Specifically made for license transients, as it stores on network level if multisite.
 	 *
 	 * @param string $name
 	 *
@@ -1348,7 +1347,6 @@ if ( !function_exists('cmplz_get_transient') ) {
 if (!function_exists('cmplz_delete_transient')) {
 	/**
 	 * We user our own transient, as the wp transient is not always persistent
-	 * Specifically made for license transients, as it stores on network level if multisite.
 	 *
 	 * @param string $name
 	 *

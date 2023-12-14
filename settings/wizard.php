@@ -12,7 +12,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
 			}
 
 			self::$_this = $this;
-			//callback from settings
+			//callback from settings.
 			add_action( 'cmplz_finish_wizard', array( $this, 'finish_wizard' ), 10, 1 );
 			add_action( "cmplz_before_save_options", array($this,"before_save_options"), 10, 5 );
 		}

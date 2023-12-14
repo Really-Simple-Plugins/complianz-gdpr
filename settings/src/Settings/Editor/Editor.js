@@ -8,10 +8,6 @@ const Editor = ({id, value, onChange }) => {
 	const {getFieldValue, updateField, setChangedField} = useFields();
 
 	useEffect(() => {
-		if (!editorState) {
-			return;
-		}
-
 		if ( editorState === value) {
 			return;
 		}
