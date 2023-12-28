@@ -105,6 +105,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 				self::$scan               = new cmplz_scan();
 			}
 
+			self::$proof_of_consent   = new cmplz_proof_of_consent();
 			self::$cookie_blocker = new cmplz_cookie_blocker();
 			self::$banner_loader       = new cmplz_banner_loader();
 			self::$document           = new cmplz_document();
