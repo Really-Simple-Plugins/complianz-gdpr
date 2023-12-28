@@ -25,8 +25,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			add_filter( 'cmplz_document_email', array( $this, 'obfuscate_email' ) );
 			add_filter( 'body_class', array( $this, 'add_body_class_for_complianz_documents' ) );
 			add_action( 'wp', array( $this, 'maybe_autoredirect' ) );
+
 			add_filter( 'the_content', array( $this, 'revert_divs_to_summary' ) );
-		}
+
+
+        }
 
 		static function this() {
 			return self::$_this;
@@ -1974,9 +1977,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		/**
 		 * Replace custom summary shortcode back to summary tags
 		 *
-		 * @return string
+		 * @return null|string //type may be null sometimes
 		 */
-		public function revert_divs_to_summary( $content ): string {
+		public function revert_divs_to_summary( $content ) {
 			//only on front-end
 			if ( is_admin() ) {
 				return $content;
@@ -1994,10 +1997,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			global $post;
 			if ( !$post || !is_object($post) || !property_exists($post, 'ID')) {
                 return $content;
-			}
-
-			if ( !COMPLIANZ::$document->is_complianz_page($post->ID ) ) {
-				return $content;
 			}
 
 			// Check if post is unlinked, otherwise return

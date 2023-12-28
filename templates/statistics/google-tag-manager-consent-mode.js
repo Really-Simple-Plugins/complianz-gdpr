@@ -6,6 +6,8 @@ gtag('consent', 'default', {
 	'personalization_storage': "denied",
 	'analytics_storage': 'denied',
 	'ad_storage': "denied",
+	'ad_user_data': 'denied',
+	'ad_personalization': 'denied',
 });
 
 dataLayer.push({
@@ -39,6 +41,8 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 		'personalization_storage': preferences,
 		'analytics_storage': statistics,
 		'ad_storage': marketing,
+		'ad_user_data': marketing,
+		'ad_personalization': marketing,
 	});
 });
 
@@ -57,5 +61,7 @@ document.addEventListener("cmplz_revoke", function (e) {
 		'personalization_storage': "denied",
 		'analytics_storage': 'denied',
 		'ad_storage': "denied",
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
 	});
 });

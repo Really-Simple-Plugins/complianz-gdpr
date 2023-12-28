@@ -46,9 +46,12 @@ function cmplz_caos_filter_fields( $fields ) {
 			'configuration_by_complianz',
 			'ua_code',
 			'aw_code',
-			'consent-mode',
 			'additional_gtags_stats',
 			'additional_gtags_marketing',
+			'consent-mode',
+			'gtag-basic-consent-mode',
+			'cmplz-gtag-urlpassthrough',
+			'cmplz-gtag-ads_data_redaction',
 			'gtm_code',
 			'cmplz-tm-template'
 		]);

@@ -120,6 +120,9 @@ function cmplz_wc_google_analytics_pro_filter_fields( $fields ) {
 			'additional_gtags_stats',
 			'additional_gtags_marketing',
 			'consent-mode',
+			'gtag-basic-consent-mode',
+			'cmplz-gtag-urlpassthrough',
+			'cmplz-gtag-ads_data_redaction',
 			'gtm_code',
 			'cmplz-tm-template'
 		]);

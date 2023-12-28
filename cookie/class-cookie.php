@@ -633,7 +633,6 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 /**
  * Install cookies table
  * */
-add_action( 'upgrader_process_complete', 'cmplz_install_cookie_table' );
 add_action( 'cmplz_install_tables', 'cmplz_install_cookie_table' );
 function cmplz_install_cookie_table() {
 	//only load on front-end if it's a cron job

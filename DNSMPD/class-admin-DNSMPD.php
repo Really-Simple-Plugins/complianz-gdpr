@@ -14,7 +14,6 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 
 			add_filter( 'cmplz_do_action', array( $this, 'get_datarequests_data' ), 10, 3 );
 			add_action( 'cmplz_install_tables', array( $this, 'update_db_check' ), 10, 2 );
-			add_action( 'upgrader_process_complete', array( $this, 'update_db_check' ), 10 );
 			add_filter( 'cmplz_warning_types', array($this, 'new_datarequests_notice') );
 		}
 

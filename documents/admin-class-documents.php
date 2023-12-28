@@ -19,7 +19,6 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			add_filter( 'display_post_states', array( $this, 'add_post_state') , 10, 2);
 			add_action( 'save_post', array( $this, 'clear_shortcode_transients' ), 10, 1 );
 			add_action( 'save_post', array($this, 'register_document_title_for_translations'), 10, 3);
-			add_action( 'upgrader_process_complete', array( $this, 'preload_privacy_info' ) );
 			add_action( 'cmplz_install_tables', array( $this, 'preload_privacy_info' ) );
 			add_action( 'admin_init', array( $this, 'add_privacy_info' ) );
 		}
@@ -893,13 +892,17 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		/**
 		 * Add document post state
 		 *
-		 * @param array   $post_states
+		 * @param $post_states //don't specify array type here, as some setups will pass something else
 		 * @param $post //don't specify type here, as some setups will pass an int, while we need a WP_Post
 		 *
 		 * @return array
 		 */
 
-		public function add_post_state(array $post_states, $post): array {
+		public function add_post_state($post_states, $post): array {
+			if ( !is_array($post_states) ) {
+				$post_states = [];
+			}
+
 			if ( ! $post instanceof WP_Post ) {
 				return $post_states;
 			}
@@ -1092,8 +1095,6 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			add_action( 'save_post', array( $this, 'save_metabox_data' ) );
 		}
 
-
-
 		/**
 		 * clear shortcode transients after page update
 		 *
@@ -1104,30 +1105,10 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 		 *
 		 * @return void
 		 */
-
-
 		public function clear_shortcode_transients(
 			$post_id = false, $post = false
 		) {
-			//clear titles and urls in the banner
-			cmplz_delete_transient('page_links');
-			$regions = cmplz_get_regions();
-			foreach ( $regions as $region ) {
-				foreach (
-					COMPLIANZ::$config->pages[ $region ] as $type => $page
-				) {
-					//if a post id is passed, this is from the save post hook. We only clear the transient for this specific post id.
-					if ( $post_id ) {
-						if ( cmplz_get_transient( "cmplz_shortcode_$type-$region" ) === $post_id
-						) {
-							cmplz_delete_transient( "cmplz_shortcode_$type-$region" );
-						}
-
-					} else {
-						cmplz_delete_transient( "cmplz_shortcode_$type-$region" );
-					}
-				}
-			}
+			delete_option('cmplz_transients');
 		}
 
 		/**

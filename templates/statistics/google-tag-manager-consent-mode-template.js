@@ -31,6 +31,8 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 		'personalization_storage':  cmplz_in_array( 'preferences', consentedCategories ) ? 'granted' : 'denied',
 		'analytics_storage':  cmplz_in_array( 'statistics', consentedCategories ) ? 'granted' : 'denied',
 		'ad_storage': cmplz_in_array( 'marketing', consentedCategories ) ? 'granted' : 'denied',
+		'ad_user_data': cmplz_in_array( 'marketing', consentedCategories ) ? 'granted' : 'denied',
+		'ad_personalization': cmplz_in_array( 'marketing', consentedCategories ) ? 'granted' : 'denied',
 	};
 
 	//don't use automatic prefixing, as the TM template needs to be sure it's cmplz_.
@@ -45,9 +47,3 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 		callback(consent);
 	});
 });
-
-
-
-
-
-

@@ -208,7 +208,8 @@ function cmplz_services_fields( $fields ) {
 				'revoke_consent_onchange' => true,
 				'options'                 => COMPLIANZ::$config->yes_no,
 				'default'                 => 'no',
-				'label'                   => __( "Does your website use cookies for advertising?", 'complianz-gdpr' ),
+				'tooltip'                 => __( "If you show advertising on your website, or place scripts for advertising purposes e.g. Google Shopping or remarketing, please answer with Yes.", 'complianz-gdpr' ),
+				'label'                   => __( "Does your website contain scripts for advertising purposes?", 'complianz-gdpr' ),
 			],
 			[
 				'id'                      => 'uses_ad_cookies_personalized',
@@ -219,7 +220,7 @@ function cmplz_services_fields( $fields ) {
 				],
 				'type'                    => 'radio',
 				'required'                => true,
-				'tooltip'                 => __( "If you're using AdSense, AdManager or AdMob, please choose Google CMP Certified Consent Mode, for other advertising products that don't use Google you can only use TCF.", 'complianz-gdpr' ),
+				'tooltip'                 => __( "If you're using AdSense, AdManager or AdMob, please choose Google CMP Certified Consent Management, for other advertising products that don't use Google you can only use TCF.", 'complianz-gdpr' ),
 				'revoke_consent_onchange' => true,
 				'options'                 => [
 					'no' => __("Don't use an additional framework.", "complianz-gdpr"),
@@ -228,7 +229,7 @@ function cmplz_services_fields( $fields ) {
 					],
 				'default'                 => 'no',
 				'label'                   => __( "Choose the appropriate frameworks needed for your configuration.", 'complianz-gdpr' ),
-				'comment'                 => __( "Google Advertising requires Google CMP Certified Consent Mode.", 'complianz-gdpr' ),
+				'comment'                 => __( "Google Advertising Products requires Google CMP Certified Consent Management. If you don't show ads, but use Google Advertising Products with Google Consent Mode, an additional framework is not required.", 'complianz-gdpr' ),
 				'react_conditions'        => [
 					'relation' => 'AND',
 					[
@@ -241,6 +242,75 @@ function cmplz_services_fields( $fields ) {
 					'tcf'
 				],
 			],
+
+//consent mode v2
+/*
+
+			[
+				'id'                      => 'uses_ad_cookies_consent_mode',
+				'tooltip'                 => __( "If you're using AdSense, AdManager or AdMob, please choose Google CMP Certified Consent Mode, for other advertising products that don't use Google you can only use TCF.", 'complianz-gdpr' ),
+				'menu_id'                 => 'services',
+				'premium' => [
+					'disabled' => false,
+					'url'      => "https://complianz.io/consent-mode-v2-ready-for-2024/",
+				],
+				'type'                    => 'radio',
+				'required'                => false,
+				'tooltip'                 => __( "", 'complianz-gdpr' ),
+				'revoke_consent_onchange' => false,
+				'options'                 => [
+					'yes' =>  	__("Yes, I will designate all Google core plaform services to receive data. (Default)", "complianz-gdpr"),
+					'manual' =>  	__("Yes, but I only allow a subset of Google core platform services to receive data.", "complianz-gdpr"),
+					'no' => 		__("No, I don't share any data with Google core platform services.", "complianz-gdpr"),
+
+					],
+				'default'                 => 'yes',
+				'help'                    => [
+					'label' => 'warning',
+					'title' => __( "The Digital Markets Act", 'complianz-gdpr' ),
+					'text'  => __( "The largest online platforms act as so-called gatekeepers in digital markets. The Digital Markets Act (DMA) aims to ensure that these platforms behave in a fair way online.", 'complianz-gdpr' ),
+					'url'   => 'https://complianz.io/consent-mode-v2-ready-for-2024/',
+				],
+				'label'                   => __( "Do you allow sharing data across Google core plaform services?", 'complianz-gdpr' ),
+				'tooltip'                 => __( "When using Consent Mode and Advertising products by Google, you have the option to minimize sharing data between Google products as required by The Digital Markets Act. This should be designated in the UI of the Google product(s) you're using. Answer below what reflects your choice.", 'complianz-gdpr' ),
+				'comment'                 => __( "Only change from the default answer if you actively configured you Google Advertising Products to reflect this choice, otherwise the default is recommended.", 'complianz-gdpr' ),
+				'react_conditions'        => [
+					'relation' => 'AND',
+					[
+						'uses_ad_cookies_personalized'  => 'no',
+						'consent-mode'  => 'yes',
+					]
+				],
+
+				'disabled' => [
+					'tcf'
+				],
+			],
+
+// gekoppelde accounts, Google Ads?
+
+			[
+				'id'       => 'domain_cps',
+				'menu_id'  => 'services',
+				'type'     => 'text',
+				'default'  => '',
+				'comment'  => __( "Comma separate core platform services.", 'complianz-gdpr' ),
+				'placeholder'  => __( "Link to the privacy policies for each Google product e.g. Google Shopping, YouTube etc", 'complianz-gdpr' ),
+				'tooltip'  => __( "", 'complianz-gdpr' ),
+				'label'    => __( "List the subset of core platform services.", 'complianz-gdpr' ),
+				'react_conditions' => [
+					'relation' => 'AND',
+					[
+						'uses_ad_cookies_consent_mode' => 'manual',
+						'uses_ad_cookies_personalized' => 'no',
+						'consent-mode'  => 'yes',
+					]
+				],
+				'required' => false,
+			],
+*/
+// consent mode v2 end
+
 			[
 				'id'                      => 'uses_wordpress_comments',
 				'menu_id'                 => 'services',

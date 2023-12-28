@@ -67,6 +67,22 @@ $this->pages['eu']['cookie-statement']['document_elements'] = array(
 	    ),
     ),
 
+    // consent mode v2, DMA
+
+    // array(
+    //   'content' => cmplz_sprintf(_x('We also use a subset of Google\'s core platform services, for the purpose of providing online advertising services, personal data of end users using services of third parties that make use of core platform services, limited to %s.', 'Legal document cookie policy', 'complianz-gdpr'), '[domain_cps]'),
+    //   'condition' => array(
+    //     'uses_ad_cookies_consent_mode' => 'manual'
+    //   ),
+    // ),
+    //
+    // array(
+    //   'content' => _x('We use Google\'s services to process, for the purpose of providing online advertising services, personal data of end users using services of third parties that make use of core platform services. These services and their privacy policies are available on policies.google.com/privacy', 'Legal document cookie policy', 'complianz-gdpr'),
+    //   'condition' => array(
+    //     'uses_ad_cookies_consent_mode' => 'yes'
+    //   ),
+    // ),
+
 	array(
 		'subtitle' => _x('Marketing/Tracking cookies', 'cookie policy', 'complianz-gdpr'),
 		'content' => _x('Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.', 'cookie policy', 'complianz-gdpr'),

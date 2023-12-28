@@ -4,17 +4,17 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
 /**
  * Install cookiebanner table
  * */
-add_action( 'upgrader_process_complete', 'cmplz_install_cookiebanner_table' );
 add_action( 'cmplz_install_tables', 'cmplz_install_cookiebanner_table' );
-function cmplz_install_cookiebanner_table() {
+function cmplz_install_cookiebanner_table($force=false) {
 	//only load on front-end if it's a cron job
-	if ( !is_admin() && !wp_doing_cron() ) {
+	if ( !$force && !is_admin() && !wp_doing_cron() ) {
 		return;
 	}
 
-	if (!wp_doing_cron() && !cmplz_user_can_manage() ) {
+	if ( !$force && !wp_doing_cron() && !cmplz_user_can_manage() ) {
 		return;
 	}
+
 	if ( get_option( 'cmplz_cbdb_version' ) !== cmplz_version ) {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		global $wpdb;
@@ -1244,10 +1244,12 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 
 			//check if the css file exists. if not, use default.
 			$css_file = $upload_url . 'css/banner-{banner_id}-{type}.css';
+			$banner_id = $this->ID;
+
 			if ( !$preview ) {
 				$upload_dir = cmplz_upload_dir();
 				$consent_types = cmplz_get_used_consenttypes();
-				$banner_id = $this->ID;
+
 				foreach ( $consent_types as $consent_type ) {
 					$file =  "css/banner-$banner_id-$consent_type.css";
 					if ( ! file_exists( $upload_dir . $file ) ) {
@@ -1257,10 +1259,10 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			}
 			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
 			$locale = get_locale();
-			$page_links = cmplz_get_transient("page_links_$locale");
+			$page_links = cmplz_get_transient( "page_links_{$banner_id}_{$locale}" );
 			if ( !$page_links ) {
 				$page_links = COMPLIANZ::$document->get_page_links();
-				cmplz_set_transient("page_links_$locale", $page_links, 10 * MINUTE_IN_SECONDS);
+				cmplz_set_transient( "page_links_{$banner_id}_{$locale}", $page_links, 10 * MINUTE_IN_SECONDS);
 			}
 
 			$region = apply_filters('cmplz_user_region', COMPLIANZ::$company->get_default_region() );

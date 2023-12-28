@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-14T10:59:25+00:00\n"
+"POT-Creation-Date: 2023-12-21T10:49:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -34,11 +34,11 @@ msgstr ""
 msgid "https://complianz.io"
 msgstr ""
 
-#: class-admin.php:159
+#: class-admin.php:180
 msgid "It is highly recommended that you back up your data before updating to the Beta version. Beta versions are not intended for production environments or critical systems. They are best suited for users who are willing to explore new features and provide feedback."
 msgstr ""
 
-#: class-admin.php:208
+#: class-admin.php:229
 #: cookiebanner/settings.php:612
 #: settings/config/menu.php:244
 #: settings/config/menu.php:306
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: class-admin.php:215
+#: class-admin.php:236
 #: settings/config/menu.php:280
 #: settings/config/menu.php:284
 #: settings/build/index.6e24cf4c3b45ca72313b.js:1
@@ -56,12 +56,12 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: class-admin.php:221
+#: class-admin.php:242
 #: settings/settings.php:352
 msgid "Upgrade to premium"
 msgstr ""
 
-#: class-admin.php:327
+#: class-admin.php:348
 #: functions.php:2009
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
 #: settings/build/3187.72163b45e3862e2e28a4.js:1
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: class-admin.php:331
+#: class-admin.php:352
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/src/Onboarding/Onboarding.js:126
 msgid "Dismiss"
@@ -103,10 +103,10 @@ msgstr ""
 #: pro/tcf/templates/vendor.php:40
 #: settings/config/fields/wizard/consent.php:189
 #: settings/config/fields/wizard/consent.php:213
-#: settings/config/fields/wizard/consent.php:247
-#: settings/config/fields/wizard/consent.php:272
-#: settings/config/fields/wizard/consent.php:297
-#: settings/config/fields/wizard/consent.php:321
+#: settings/config/fields/wizard/consent.php:248
+#: settings/config/fields/wizard/consent.php:273
+#: settings/config/fields/wizard/consent.php:298
+#: settings/config/fields/wizard/consent.php:322
 msgid "Yes"
 msgstr ""
 
@@ -119,10 +119,10 @@ msgstr ""
 #: settings/config/fields/wizard/consent.php:56
 #: settings/config/fields/wizard/consent.php:190
 #: settings/config/fields/wizard/consent.php:214
-#: settings/config/fields/wizard/consent.php:248
-#: settings/config/fields/wizard/consent.php:273
-#: settings/config/fields/wizard/consent.php:298
-#: settings/config/fields/wizard/consent.php:322
+#: settings/config/fields/wizard/consent.php:249
+#: settings/config/fields/wizard/consent.php:274
+#: settings/config/fields/wizard/consent.php:299
+#: settings/config/fields/wizard/consent.php:323
 #: settings/config/fields/wizard/services.php:89
 msgid "No"
 msgstr ""
@@ -153,7 +153,7 @@ msgid "It is necessary to protect the life or physical safety of a person"
 msgstr ""
 
 #: config/class-config.php:286
-#: pro/statistics/class-admin-statistics.php:307
+#: pro/statistics/class-admin-statistics.php:306
 #: settings/config/fields/tools/placeholders.php:108
 #: gutenberg/build/index.js:1
 msgid "Default"
@@ -1305,7 +1305,7 @@ msgstr ""
 #: config/documents/cookie-policy-au.php:122
 #: config/documents/cookie-policy-br.php:102
 #: config/documents/cookie-policy-ca.php:103
-#: config/documents/cookie-policy-eu.php:102
+#: config/documents/cookie-policy-eu.php:118
 #: config/documents/cookie-policy-us.php:137
 #: config/documents/cookie-policy-za.php:98
 msgid "%s is located in the United States."
@@ -1316,7 +1316,7 @@ msgstr[1] ""
 #: config/documents/cookie-policy-au.php:175
 #: config/documents/cookie-policy-br.php:205
 #: config/documents/cookie-policy-ca.php:192
-#: config/documents/cookie-policy-eu.php:195
+#: config/documents/cookie-policy-eu.php:211
 #: config/documents/cookie-policy-za.php:189
 msgctxt "Legal document cookie policy"
 msgid "Website:"
@@ -1325,7 +1325,7 @@ msgstr ""
 #: config/documents/cookie-policy-au.php:176
 #: config/documents/cookie-policy-br.php:206
 #: config/documents/cookie-policy-ca.php:193
-#: config/documents/cookie-policy-eu.php:196
+#: config/documents/cookie-policy-eu.php:212
 #: config/documents/cookie-policy-za.php:190
 msgctxt "Legal document cookie policy"
 msgid "Email:"
@@ -1486,7 +1486,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:71
 #: config/documents/cookie-policy-ca.php:77
-#: config/documents/cookie-policy-eu.php:71
+#: config/documents/cookie-policy-eu.php:87
 #: config/documents/cookie-policy-za.php:75
 msgctxt "cookie policy"
 msgid "Marketing/Tracking cookies"
@@ -1494,14 +1494,14 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:72
 #: config/documents/cookie-policy-ca.php:78
-#: config/documents/cookie-policy-eu.php:72
+#: config/documents/cookie-policy-eu.php:88
 #: config/documents/cookie-policy-za.php:76
 msgctxt "cookie policy"
 msgid "Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes."
 msgstr ""
 
 #: config/documents/cookie-policy-br.php:80
-#: config/documents/cookie-policy-eu.php:80
+#: config/documents/cookie-policy-eu.php:96
 #: config/documents/cookie-policy-za.php:70
 msgctxt "Legal document cookie policy"
 msgid "Because these cookies are marked as tracking cookies, we ask your permission to place these."
@@ -1511,8 +1511,8 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:93
 #: config/documents/cookie-policy-ca.php:86
 #: config/documents/cookie-policy-ca.php:94
-#: config/documents/cookie-policy-eu.php:85
-#: config/documents/cookie-policy-eu.php:93
+#: config/documents/cookie-policy-eu.php:101
+#: config/documents/cookie-policy-eu.php:109
 #: config/documents/cookie-policy-us.php:120
 #: config/documents/cookie-policy-za.php:81
 #: config/documents/cookie-policy-za.php:89
@@ -1522,7 +1522,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:86
 #: config/documents/cookie-policy-ca.php:87
-#: config/documents/cookie-policy-eu.php:86
+#: config/documents/cookie-policy-eu.php:102
 #: config/documents/cookie-policy-us.php:121
 #: config/documents/cookie-policy-za.php:82
 msgctxt "Legal document cookie policy"
@@ -1531,7 +1531,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:94
 #: config/documents/cookie-policy-ca.php:95
-#: config/documents/cookie-policy-eu.php:94
+#: config/documents/cookie-policy-eu.php:110
 #: config/documents/cookie-policy-za.php:90
 msgctxt "Legal document cookie policy"
 msgid "On our website, we have included content from %s to promote web pages (e.g. “like”, “pin”) or share (e.g. “tweet”) on social networks like %s. This content is embedded with code derived from %s and places cookies. This content might store and process certain information for personalized advertising."
@@ -1541,8 +1541,8 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:110
 #: config/documents/cookie-policy-ca.php:103
 #: config/documents/cookie-policy-ca.php:111
-#: config/documents/cookie-policy-eu.php:102
-#: config/documents/cookie-policy-eu.php:110
+#: config/documents/cookie-policy-eu.php:118
+#: config/documents/cookie-policy-eu.php:126
 #: config/documents/cookie-policy-us.php:137
 #: config/documents/cookie-policy-us.php:145
 #: config/documents/cookie-policy-za.php:98
@@ -1552,7 +1552,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:118
 #: config/documents/cookie-policy-ca.php:119
-#: config/documents/cookie-policy-eu.php:118
+#: config/documents/cookie-policy-eu.php:134
 #: config/documents/cookie-policy-za.php:114
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Placed cookies"
@@ -1562,8 +1562,8 @@ msgstr ""
 #: config/documents/cookie-policy-br.php:132
 #: config/documents/cookie-policy-ca.php:124
 #: config/documents/cookie-policy-ca.php:131
-#: config/documents/cookie-policy-eu.php:123
-#: config/documents/cookie-policy-eu.php:132
+#: config/documents/cookie-policy-eu.php:139
+#: config/documents/cookie-policy-eu.php:148
 #: config/documents/cookie-policy-za.php:119
 #: config/documents/cookie-policy-za.php:128
 msgctxt "Legal document cookie policy:paragraph title"
@@ -1572,14 +1572,14 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:124
 #: config/documents/cookie-policy-ca.php:132
-#: config/documents/cookie-policy-eu.php:124
+#: config/documents/cookie-policy-eu.php:140
 #: config/documents/cookie-policy-za.php:120
 msgctxt "Legal document cookie policy"
 msgid "When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on \"%s\", you consent to us using all cookies and plug-ins as described in the pop-up and this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly."
 msgstr ""
 
 #: config/documents/cookie-policy-br.php:133
-#: config/documents/cookie-policy-eu.php:133
+#: config/documents/cookie-policy-eu.php:149
 #: config/documents/cookie-policy-za.php:129
 msgctxt "Legal document cookie policy"
 msgid "When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. As soon as you click on \"%s\", you consent to us using the categories of cookies and plug-ins you selected in the pop-up, as described in this Cookie Policy. You can disable the use of cookies via your browser, but please note that our website may no longer work properly."
@@ -1587,7 +1587,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:141
 #: config/documents/cookie-policy-ca.php:139
-#: config/documents/cookie-policy-eu.php:141
+#: config/documents/cookie-policy-eu.php:157
 #: config/documents/cookie-policy-za.php:138
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Manage your consent settings"
@@ -1595,7 +1595,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:147
 #: config/documents/cookie-policy-ca.php:146
-#: config/documents/cookie-policy-eu.php:149
+#: config/documents/cookie-policy-eu.php:165
 #: config/documents/cookie-policy-za.php:145
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Vendors"
@@ -1603,20 +1603,20 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:154
 #: config/documents/cookie-policy-ca.php:157
-#: config/documents/cookie-policy-eu.php:156
+#: config/documents/cookie-policy-eu.php:172
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Enabling/disabling and deleting cookies"
 msgstr ""
 
 #: config/documents/cookie-policy-br.php:155
-#: config/documents/cookie-policy-eu.php:157
+#: config/documents/cookie-policy-eu.php:173
 msgctxt "Legal document cookie policy"
 msgid "You can use your internet browser to automatically or manually delete cookies. You can also specify that certain cookies may not be placed. Another option is to change the settings of your internet browser so that you receive a message each time a cookie is placed. For more information about these options, please refer to the instructions in the Help section of your browser."
 msgstr ""
 
 #: config/documents/cookie-policy-br.php:159
 #: config/documents/cookie-policy-ca.php:163
-#: config/documents/cookie-policy-eu.php:161
+#: config/documents/cookie-policy-eu.php:177
 #: config/documents/cookie-policy-us.php:191
 #: config/documents/cookie-policy-za.php:156
 msgctxt "Legal document cookie policy"
@@ -1625,7 +1625,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:163
 #: config/documents/cookie-policy-ca.php:167
-#: config/documents/cookie-policy-eu.php:165
+#: config/documents/cookie-policy-eu.php:181
 #: config/documents/cookie-policy-za.php:161
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Your rights with respect to personal data"
@@ -1633,7 +1633,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:165
 #: config/documents/cookie-policy-ca.php:170
-#: config/documents/cookie-policy-eu.php:167
+#: config/documents/cookie-policy-eu.php:183
 #: config/documents/cookie-policy-za.php:163
 msgctxt "Legal document cookie policy"
 msgid "You have the following rights with respect to your personal data:"
@@ -1693,7 +1693,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:198
 #: config/documents/cookie-policy-ca.php:184
-#: config/documents/cookie-policy-eu.php:188
+#: config/documents/cookie-policy-eu.php:204
 #: config/documents/cookie-policy-za.php:182
 msgctxt "Legal document cookie policy:paragraph title"
 msgid "Contact details"
@@ -1701,7 +1701,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:199
 #: config/documents/cookie-policy-ca.php:185
-#: config/documents/cookie-policy-eu.php:189
+#: config/documents/cookie-policy-eu.php:205
 #: config/documents/cookie-policy-za.php:183
 msgctxt "Legal document cookie policy"
 msgid "For questions and/or comments about our Cookie Policy and this statement, please contact us by using the following contact details:"
@@ -1709,7 +1709,7 @@ msgstr ""
 
 #: config/documents/cookie-policy-br.php:211
 #: config/documents/cookie-policy-ca.php:198
-#: config/documents/cookie-policy-eu.php:201
+#: config/documents/cookie-policy-eu.php:217
 #: config/documents/cookie-policy-za.php:195
 msgctxt "Legal document cookie policy"
 msgid "This Cookie Policy was synchronized with %scookiedatabase.org%s on %s."
@@ -1795,42 +1795,42 @@ msgctxt "Legal document cookie policy"
 msgid "This Cookie Policy was last updated on %s and applies to citizens and legal permanent residents of the European Economic Area and Switzerland."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:174
+#: config/documents/cookie-policy-eu.php:190
 #: config/documents/cookie-policy-za.php:169
 msgctxt "Legal document cookie policy"
 msgid "You have the right to know why your personal data is needed, what will happen to it, and how long it will be retained for."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:175
+#: config/documents/cookie-policy-eu.php:191
 #: config/documents/cookie-policy-za.php:170
 msgctxt "Legal document cookie policy"
 msgid "Right of access: You have the right to access your personal data that is known to us."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:176
+#: config/documents/cookie-policy-eu.php:192
 #: config/documents/cookie-policy-za.php:171
 msgctxt "Legal document cookie policy"
 msgid "Right to rectification: you have the right to supplement, correct, have deleted or blocked your personal data whenever you wish."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:177
+#: config/documents/cookie-policy-eu.php:193
 #: config/documents/cookie-policy-za.php:172
 msgctxt "Legal document cookie policy"
 msgid "If you give us your consent to process your data, you have the right to revoke that consent and to have your personal data deleted."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:178
+#: config/documents/cookie-policy-eu.php:194
 msgctxt "Legal document cookie policy"
 msgid "Right to transfer your data: you have the right to request all your personal data from the controller and transfer it in its entirety to another controller."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:179
+#: config/documents/cookie-policy-eu.php:195
 #: config/documents/cookie-policy-za.php:173
 msgctxt "Legal document cookie policy"
 msgid "Right to object: you may object to the processing of your data. We comply with this, unless there are justified grounds for processing."
 msgstr ""
 
-#: config/documents/cookie-policy-eu.php:184
+#: config/documents/cookie-policy-eu.php:200
 msgctxt "Legal document cookie policy"
 msgid "To exercise these rights, please contact us. Please refer to the contact details at the bottom of this Cookie Policy. If you have a complaint about how we handle your data, we would like to hear from you, but you also have the right to submit a complaint to the supervisory authority (the Data Protection Authority)."
 msgstr ""
@@ -2343,22 +2343,22 @@ msgstr ""
 msgid "New cookie"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:118
+#: cookiebanner/admin/cookiebanner.php:121
 #: cookiebanner/settings.php:62
 msgid "We use technologies like cookies to store and/or access device information. We do this to improve browsing experience and to show (non-) personalized ads. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions."
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:134
-#: cookiebanner/admin/cookiebanner.php:259
+#: cookiebanner/admin/cookiebanner.php:137
+#: cookiebanner/admin/cookiebanner.php:263
 msgid "Banner A"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:140
+#: cookiebanner/admin/cookiebanner.php:143
 msgid "Banner B"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:282
-#: cookiebanner/admin/cookiebanner.php:283
+#: cookiebanner/admin/cookiebanner.php:286
+#: cookiebanner/admin/cookiebanner.php:287
 #: settings/config/menu.php:179
 #: settings/build/3187.72163b45e3862e2e28a4.js:1
 #: settings/build/4858.c016b246c67474d6bb51.js:1
@@ -2369,15 +2369,15 @@ msgstr ""
 msgid "Consent Banner"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:300
+#: cookiebanner/admin/cookiebanner.php:304
 msgid "Cookiebanner"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:319
+#: cookiebanner/admin/cookiebanner.php:323
 msgid "Disable Complianz on this page"
 msgstr ""
 
-#: cookiebanner/admin/cookiebanner.php:324
+#: cookiebanner/admin/cookiebanner.php:328
 msgid "On a cookie policy, the banner will be minimized by default"
 msgstr ""
 
@@ -2480,17 +2480,17 @@ msgstr ""
 msgid "No Warning"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1291
+#: cookiebanner/class-cookiebanner.php:1293
 msgctxt "as in: click to accept statistics cookies"
 msgid "statistics"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1291
+#: cookiebanner/class-cookiebanner.php:1293
 msgctxt "as in: click to accept marketing cookies"
 msgid "marketing"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1300
+#: cookiebanner/class-cookiebanner.php:1302
 msgid "Click button to enable {service}"
 msgstr ""
 
@@ -3003,15 +3003,15 @@ msgstr ""
 msgid "Read more about these purposes"
 msgstr ""
 
-#: DNSMPD/class-admin-DNSMPD.php:140
+#: DNSMPD/class-admin-DNSMPD.php:139
 msgid "You have open data requests."
 msgstr ""
 
-#: DNSMPD/class-admin-DNSMPD.php:140
+#: DNSMPD/class-admin-DNSMPD.php:139
 msgid "Please check the data requests <a href=\"%s\">overview page</a>."
 msgstr ""
 
-#: DNSMPD/class-admin-DNSMPD.php:363
+#: DNSMPD/class-admin-DNSMPD.php:362
 #: pro/records-of-consent/class-records-of-consent.php:211
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1143.861682bf034275770597.js:1
@@ -3052,19 +3052,19 @@ msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:83
 #: DNSMPD/class-DNSMPD.php:84
-#: pro/datarequests/class-datarequests.php:58
+#: pro/datarequests/class-datarequests.php:57
 msgid "Request for access"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:88
 #: DNSMPD/class-DNSMPD.php:89
-#: pro/datarequests/class-datarequests.php:63
+#: pro/datarequests/class-datarequests.php:62
 msgid "Right to be Forgotten"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:93
 #: DNSMPD/class-DNSMPD.php:94
-#: pro/datarequests/class-datarequests.php:68
+#: pro/datarequests/class-datarequests.php:67
 msgid "Right to Data Portability"
 msgstr ""
 
@@ -3102,8 +3102,8 @@ msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:272
 #: DNSMPD/class-DNSMPD.php:274
-#: pro/datarequests/class-datarequests.php:167
-#: pro/datarequests/class-datarequests.php:171
+#: pro/datarequests/class-datarequests.php:166
+#: pro/datarequests/class-datarequests.php:170
 #: pro/settings/fields/dpo.php:234
 #: templates/cookiepolicy/cookies_row.php:2
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
@@ -3129,12 +3129,12 @@ msgid "Name"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:275
-#: pro/datarequests/class-datarequests.php:172
+#: pro/datarequests/class-datarequests.php:171
 msgid "Your name"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:278
-#: pro/datarequests/class-datarequests.php:175
+#: pro/datarequests/class-datarequests.php:174
 #: pro/settings/fields/dpo.php:59
 #: pro/settings/fields/dpo.php:117
 #: pro/settings/fields/dpo.php:191
@@ -3145,109 +3145,109 @@ msgid "Email"
 msgstr ""
 
 #: DNSMPD/class-DNSMPD.php:292
-#: pro/datarequests/class-datarequests.php:188
+#: pro/datarequests/class-datarequests.php:187
 #: settings/build/5187.15fc0970ebf88e21b794.js:1
 #: settings/src/Settings/Support.js:44
 msgid "Send"
 msgstr ""
 
-#: documents/admin-class-documents.php:305
+#: documents/admin-class-documents.php:304
 #: pro/settings/fields/financial-incentives.php:45
 #: settings/settings.php:640
 msgid "Terms & Conditions"
 msgstr ""
 
-#: documents/admin-class-documents.php:908
+#: documents/admin-class-documents.php:911
 msgid "Legal Document"
 msgstr ""
 
-#: documents/admin-class-documents.php:931
+#: documents/admin-class-documents.php:934
 msgid "Document status"
 msgstr ""
 
-#: documents/admin-class-documents.php:953
+#: documents/admin-class-documents.php:956
 #: gutenberg/build/index.js:1
 msgid "Synchronize document with Complianz"
 msgstr ""
 
-#: documents/admin-class-documents.php:957
+#: documents/admin-class-documents.php:960
 #: gutenberg/build/index.js:1
 msgid "Edit document and stop synchronization"
 msgstr ""
 
-#: documents/admin-class-documents.php:1142
+#: documents/admin-class-documents.php:1123
 msgid "This website uses the Privacy Suite for WordPress by Complianz to collect and record Browser and Device-based Consent. For this functionality, your IP address is anonymized and stored in our database."
 msgstr ""
 
-#: documents/admin-class-documents.php:1144
+#: documents/admin-class-documents.php:1125
 msgid "This service does not process any personally identifiable information and does not share any data with the service provider."
 msgstr ""
 
-#: documents/admin-class-documents.php:1147
+#: documents/admin-class-documents.php:1128
 #: pro/filters-actions.php:120
 msgid "For more information, see the Complianz %sPrivacy Statement%s."
 msgstr ""
 
-#: documents/class-document.php:420
+#: documents/class-document.php:423
 msgid "Region %s not activated for %s."
 msgstr ""
 
-#: documents/class-document.php:537
+#: documents/class-document.php:540
 msgid "Annex"
 msgstr ""
 
-#: documents/class-document.php:663
+#: documents/class-document.php:666
 msgid "(See paragraph %s)"
 msgstr ""
 
-#: documents/class-document.php:669
+#: documents/class-document.php:672
 msgid "(See annex %s)"
 msgstr ""
 
-#: documents/class-document.php:699
-#: documents/class-document.php:706
+#: documents/class-document.php:702
+#: documents/class-document.php:709
 msgctxt "if phonenumber is entered, this string is part of the sentence \"you may contact %s, via %s or by telephone via %s\""
 msgid "or by telephone on %s"
 msgstr ""
 
-#: documents/class-document.php:780
+#: documents/class-document.php:783
 msgid "and"
 msgstr ""
 
-#: documents/class-document.php:988
+#: documents/class-document.php:991
 msgctxt "Subject in notification email"
 msgid "Your legal documents on %s need to be updated."
 msgstr ""
 
-#: documents/class-document.php:995
+#: documents/class-document.php:998
 msgctxt "notification email"
 msgid "Your legal documents on %s have not been updated in 12 months. Please log in and run the %swizard%s in the Complianz plugin to check if everything is up to date."
 msgstr ""
 
-#: documents/class-document.php:999
+#: documents/class-document.php:1002
 msgid "This message was generated by Complianz GDPR/CCPA."
 msgstr ""
 
-#: documents/class-document.php:1026
+#: documents/class-document.php:1029
 msgctxt "cookie policy"
 msgid "You have loaded the Cookie Policy without javascript support."
 msgstr ""
 
-#: documents/class-document.php:1027
+#: documents/class-document.php:1030
 msgctxt "cookie policy"
 msgid "On AMP, you can use the manage consent button on the bottom of the page."
 msgstr ""
 
-#: documents/class-document.php:1058
+#: documents/class-document.php:1061
 msgid "Click to accept marketing cookies"
 msgstr ""
 
-#: documents/class-document.php:1320
-#: documents/class-document.php:1364
+#: documents/class-document.php:1323
+#: documents/class-document.php:1367
 msgid "Click to accept the cookies for this service"
 msgstr ""
 
-#: documents/class-document.php:1927
+#: documents/class-document.php:1930
 msgid "No title"
 msgstr ""
 
@@ -3378,7 +3378,7 @@ msgid "You have selected you do not share data with third-party networks. Displa
 msgstr ""
 
 #: integrations/plugins/beehive.php:41
-#: integrations/plugins/caos-host-analytics-local.php:85
+#: integrations/plugins/caos-host-analytics-local.php:88
 #: integrations/plugins/google-analytics-dashboard-for-wp.php:71
 #: integrations/plugins/google-tagmanager-for-wordpress.php:38
 #: integrations/plugins/monsterinsights.php:61
@@ -3388,7 +3388,7 @@ msgid "Statistics plugin detected"
 msgstr ""
 
 #: integrations/plugins/beehive.php:42
-#: integrations/plugins/caos-host-analytics-local.php:86
+#: integrations/plugins/caos-host-analytics-local.php:89
 #: integrations/plugins/google-analytics-dashboard-for-wp.php:72
 #: integrations/plugins/monsterinsights.php:62
 #: integrations/plugins/woocommerce-google-analytics-integration.php:79
@@ -5626,27 +5626,27 @@ msgctxt "Legal document dataleak"
 msgid "When did it happen?"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:28
+#: pro/datarequests/class-datarequests.php:27
 msgid "No data reported by WordPress"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:30
+#: pro/datarequests/class-datarequests.php:29
 msgid "Manage personal data"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:44
+#: pro/datarequests/class-datarequests.php:43
 msgid "Reported data"
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:59
+#: pro/datarequests/class-datarequests.php:58
 msgid "Submit a request for access to the data we process about you."
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:64
+#: pro/datarequests/class-datarequests.php:63
 msgid "Submit a request for deletion of the data if it is no longer relevant."
 msgstr ""
 
-#: pro/datarequests/class-datarequests.php:69
+#: pro/datarequests/class-datarequests.php:68
 msgid "Submit a request to receive an export file of the data we process about you."
 msgstr ""
 
@@ -9168,7 +9168,7 @@ msgstr ""
 msgid "For US based companies, you can provide a toll free phone number for inquiries."
 msgstr ""
 
-#: pro/statistics/class-admin-statistics.php:348
+#: pro/statistics/class-admin-statistics.php:347
 msgid "No data for this selection"
 msgstr ""
 
@@ -10210,147 +10210,147 @@ msgstr ""
 msgid "Please read this %sarticle%s to make sure Consent Mode is working as expected."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:226
+#: settings/config/fields/wizard/consent.php:227
 msgid "Enabling this feature means all Google tags will be handled by Google Consent Mode. You will need to read the integration manual below, and double-check to see if it works for your setup."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:239
-#: settings/config/fields/wizard/consent.php:242
+#: settings/config/fields/wizard/consent.php:240
+#: settings/config/fields/wizard/consent.php:243
 msgid "Do you want to block all Google Tags before consent?"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:243
+#: settings/config/fields/wizard/consent.php:244
 msgid "By default Consent Mode is enabled in Advanced Mode. This means tags are loaded before consent, but depending on user preferences selects the appropriate tracking mechanisms, e.g. cookieless tracking or cookies, automatically. If you answer Yes, Complianz will only apply Consent Mode after consent."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:269
+#: settings/config/fields/wizard/consent.php:270
 msgid "Do you want to set a URL passthrough parameter"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:270
+#: settings/config/fields/wizard/consent.php:271
 msgid "This can improve conversion accuracy, but can contain personal data like a client ID."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:294
+#: settings/config/fields/wizard/consent.php:295
 msgid "Deny cookies when advertising is rejected?"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:295
+#: settings/config/fields/wizard/consent.php:296
 msgid "When enabled, cookies will no longer be set when ad_storage is denied and identifiers in network requests will be redacted."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:319
+#: settings/config/fields/wizard/consent.php:320
 msgid "Will you be using our Tag Manager template?"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:335
+#: settings/config/fields/wizard/consent.php:336
 msgid "Configuring Consent Mode & Tag Manager"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:336
+#: settings/config/fields/wizard/consent.php:337
 msgid "You can choose the official Consent Mode template by Complianz from the template gallery, or use local initialization."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:348
+#: settings/config/fields/wizard/consent.php:349
 msgid "Google Tag - Statistics"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:351
+#: settings/config/fields/wizard/consent.php:352
 msgid "Tracking ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:352
+#: settings/config/fields/wizard/consent.php:353
 msgid "If you add the ID for your Statistics tool here, Complianz will configure your site for statistics tracking."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:362
+#: settings/config/fields/wizard/consent.php:363
 msgid "For the Google Analytics tracking ID, log in and click Admin and copy the tracking ID."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:371
+#: settings/config/fields/wizard/consent.php:372
 msgid "Additional Google Tags - Statistics"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:380
-#: settings/config/fields/wizard/consent.php:439
+#: settings/config/fields/wizard/consent.php:381
+#: settings/config/fields/wizard/consent.php:440
 msgid "You can add additional tags, comma separated."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:389
+#: settings/config/fields/wizard/consent.php:390
 msgid "Please enter your GTM container ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:392
-#: settings/config/fields/wizard/consent.php:461
-#: settings/config/fields/wizard/consent.php:483
+#: settings/config/fields/wizard/consent.php:393
+#: settings/config/fields/wizard/consent.php:462
+#: settings/config/fields/wizard/consent.php:484
 msgid "Configuration by Complianz"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:393
-#: settings/config/fields/wizard/consent.php:484
+#: settings/config/fields/wizard/consent.php:394
+#: settings/config/fields/wizard/consent.php:485
 msgid "If you add the ID for your statistics tool here, Complianz will configure your site for statistics tracking."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:402
+#: settings/config/fields/wizard/consent.php:403
 msgid "For the Google Tag Manager code, log in and you will immediatly see your container codes. The one next to your website name is the code you will need to fill in here, the container ID."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:413
+#: settings/config/fields/wizard/consent.php:414
 msgid "Google Tag - Marketing or Advertising"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:414
+#: settings/config/fields/wizard/consent.php:415
 msgid "This will be fired on marketing consent."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:415
+#: settings/config/fields/wizard/consent.php:416
 msgid "Optional."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:431
+#: settings/config/fields/wizard/consent.php:432
 msgid "Additional Google Tags - Marketing or Advertising"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:451
-#: settings/config/fields/wizard/consent.php:498
+#: settings/config/fields/wizard/consent.php:452
+#: settings/config/fields/wizard/consent.php:499
 msgid "Enter the URL of Matomo"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:462
-#: settings/config/fields/wizard/consent.php:509
+#: settings/config/fields/wizard/consent.php:463
+#: settings/config/fields/wizard/consent.php:510
 msgid "The URL depends on your configuration of Matomo."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:470
+#: settings/config/fields/wizard/consent.php:471
 msgid "Enter your Matomo site ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:508
-#: settings/config/fields/wizard/consent.php:547
+#: settings/config/fields/wizard/consent.php:509
+#: settings/config/fields/wizard/consent.php:548
 msgid "Configuration"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:521
+#: settings/config/fields/wizard/consent.php:522
 msgid "Enter your Matomo container ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:537
+#: settings/config/fields/wizard/consent.php:538
 msgid "Enter your Clicky site ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:548
+#: settings/config/fields/wizard/consent.php:549
 msgid "Because Clicky always sets a so-called unique identifier cookie, consent for statistics is always required."
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:559
+#: settings/config/fields/wizard/consent.php:560
 msgid "Enter your Yandex ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:575
+#: settings/config/fields/wizard/consent.php:576
 msgid "Enter your Clarity project ID"
 msgstr ""
 
-#: settings/config/fields/wizard/consent.php:592
+#: settings/config/fields/wizard/consent.php:593
 msgid "Do you want to enable the Yandex ecommerce datalayer?"
 msgstr ""
 
@@ -10737,46 +10737,50 @@ msgid "Complianz cannot automatically block first-party marketing cookies unless
 msgstr ""
 
 #: settings/config/fields/wizard/services.php:211
-msgid "Does your website use cookies for advertising?"
+msgid "If you show advertising on your website, or place scripts for advertising purposes e.g. Google Shopping or remarketing, please answer with Yes."
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:222
-msgid "If you're using AdSense, AdManager or AdMob, please choose Google CMP Certified Consent Mode, for other advertising products that don't use Google you can only use TCF."
+#: settings/config/fields/wizard/services.php:212
+msgid "Does your website contain scripts for advertising purposes?"
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:225
-msgid "Don't use an additional framework."
+#: settings/config/fields/wizard/services.php:223
+msgid "If you're using AdSense, AdManager or AdMob, please choose Google CMP Certified Consent Management, for other advertising products that don't use Google you can only use TCF."
 msgstr ""
 
 #: settings/config/fields/wizard/services.php:226
-msgid "Enable TCF, without support for Google Advertising Products."
+msgid "Don't use an additional framework."
 msgstr ""
 
 #: settings/config/fields/wizard/services.php:227
+msgid "Enable TCF, without support for Google Advertising Products."
+msgstr ""
+
+#: settings/config/fields/wizard/services.php:228
 msgid "Enable TCF & Google CMP Certified Consent Management with support for Google Advertising Products"
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:230
+#: settings/config/fields/wizard/services.php:231
 msgid "Choose the appropriate frameworks needed for your configuration."
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:231
-msgid "Google Advertising requires Google CMP Certified Consent Mode."
+#: settings/config/fields/wizard/services.php:232
+msgid "Google Advertising Products requires Google CMP Certified Consent Management. If you don't show ads, but use Google Advertising Products with Google Consent Mode, an additional framework is not required."
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:252
+#: settings/config/fields/wizard/services.php:322
 msgid "Does your website use WordPress comments?"
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:269
+#: settings/config/fields/wizard/services.php:339
 msgid "Do you want to disable the storage of personal data by the WP comments function and the checkbox?"
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:272
+#: settings/config/fields/wizard/services.php:342
 msgid "WordPress comments"
 msgstr ""
 
-#: settings/config/fields/wizard/services.php:273
+#: settings/config/fields/wizard/services.php:343
 msgid "If you enable this, WordPress will not store personal data with comments and you won't need a consent checkbox for the comment form. The consent box will not be displayed."
 msgstr ""
 

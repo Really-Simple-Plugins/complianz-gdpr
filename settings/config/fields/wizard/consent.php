@@ -218,6 +218,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 					'relation' => 'AND',
 					[
 						'compile_statistics' => [ 'google-analytics', 'google-tag-manager' ],
+						'configuration_by_complianz' => 'yes',
 					]
 				],
 				'help'             => [

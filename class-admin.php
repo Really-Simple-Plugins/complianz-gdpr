@@ -30,10 +30,31 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 			add_action( 'admin_notices', array( $this, 'show_admin_notice' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'insert_dismiss_admin_notice_script' ) );
 			add_action( 'admin_init', array( $this, 'activation' ) );
+			add_action( 'upgrader_process_complete', array( $this, 'run_table_init_hook'), 10, 1);
+			add_action( 'wp_initialize_site', array( $this, 'run_table_init_hook'), 10, 1);
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * On Multisite site creation, run table init hook as well.
+		 * @return void
+		 */
+		public function run_table_init_hook(){
+			do_action( 'cmplz_install_tables' );
+			//we need to run table creation across subsites as well.
+			if ( is_multisite() ) {
+				$sites = get_sites();
+				if (count($sites)>0) {
+					foreach ($sites as $site) {
+						switch_to_blog($site->blog_id);
+						do_action( 'cmplz_install_tables' );
+						restore_current_blog();
+					}
+				}
+			}
 		}
 
 		public function activation(){
@@ -45,7 +66,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				update_option('cmplz_activation_time', time(), false );
 				cmplz_update_option_no_hooks( 'use_cdb_api', 'yes' );
 				COMPLIANZ::$documents_admin->preload_privacy_info();
-				do_action("cmplz_install_tables");
+				$this->run_table_init_hook();
 				delete_option( 'cmplz_run_activation' );
 			}
 		}

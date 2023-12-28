@@ -36,6 +36,9 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 	}
 
 	if ( $action === 'get_banner_data' ) {
+		//ensure table is installed
+		cmplz_install_cookiebanner_table(true);
+
 		cmplz_check_minimum_one_banner();
 		$banners = cmplz_get_cookiebanners();
 		$uploads    = wp_upload_dir();
@@ -250,6 +253,7 @@ function cmplz_check_minimum_one_banner() {
 	if ( !$admin_get_request && !$rest_request ) {
 		return;
 	}
+
 
 	//make sure there's at least one banner
 	$cookiebanners = cmplz_get_cookiebanners();

@@ -13,6 +13,8 @@ gtag('consent', 'default', {
 	'personalization_storage': "denied",
 	'analytics_storage': 'denied',
 	'ad_storage': "denied",
+	'ad_user_data': 'denied',
+	'ad_personalization': 'denied',
 });
 
 
@@ -44,6 +46,8 @@ document.addEventListener("cmplz_before_categories_consent", function (e) {
 		'personalization_storage': preferences,
 		'analytics_storage': statistics,
 		'ad_storage': marketing,
+		'ad_user_data': marketing,
+		'ad_personalization': marketing,
 	});
 
 	if ( statistics==='granted' ) {
@@ -65,5 +69,7 @@ document.addEventListener("cmplz_revoke", function (e) {
 		'personalization_storage': "denied",
 		'analytics_storage': 'denied',
 		'ad_storage': "denied",
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
 	});
 });
