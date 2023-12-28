@@ -9,7 +9,7 @@ const ProofOfConsentControl = () => {
 	const { documents, downloadUrl, deleteDocuments, documentsLoaded, fetchData} = useProofOfConsentData();
 	const [ btnDisabled, setBtnDisabled ] = useState( '' );
 	const [ selectedDocuments, setSelectedDocuments ] = useState( [] );
-	const disabled = !cmplz_settings.is_premium;
+	const disabled = false;//!cmplz_settings.is_premium;
 	const paginationPerPage = 10;
 	const [ pagination, setPagination] = useState({});
 	const [ indeterminate, setIndeterminate] = useState(false);

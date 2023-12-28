@@ -9,9 +9,6 @@ function cmplz_proof_of_consent_fields($fields){
 			'id'                      => 'create-proof_of_consent',
 			'menu_id'                 => 'proof-of-consent',
 			'group_id'                => 'create-proof-of-consent',
-			'premium' => [
-				'disabled' => false,
-			],
 			'type'    => 'create-proof-of-consent',
 			'default' => false,
 //			'label'   => __( "Proof of Consent", 'complianz-gdpr' ),
@@ -26,9 +23,6 @@ function cmplz_proof_of_consent_fields($fields){
 			'id'                      => 'proof_of_consent',
 			'menu_id'                 => 'proof-of-consent',
 			'group_id'                => 'proof-of-consent',
-			'premium' => [
-				'disabled' => false,
-			],
 			'type'    => 'proof-of-consent',
 			'default' => false,
 //			'label'   => __( "Proof of Consent", 'complianz-gdpr' ),
