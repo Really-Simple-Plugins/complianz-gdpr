@@ -206,8 +206,13 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 		}
 
 		private function hooks() {
-			//has to be wp, because of AMP plugin
-			add_action( 'wp', 'cmplz_init_cookie_blocker' );
+			if ( wp_doing_ajax() ) {
+				//using init on ajax calls, as wp is not running.
+				add_action('init', 'cmplz_init_cookie_blocker');
+			} else {
+				//has to be wp for all non ajax calls, because of AMP plugin
+				add_action('wp', 'cmplz_init_cookie_blocker');
+			}
 			load_plugin_textdomain( 'complianz-gdpr' );
 		}
 	}
