@@ -569,7 +569,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 			[
 				'id'                      => 'clarity_id',
 				'menu_id'                 => 'statistics-configuration',
-				'type'                    => 'number',
+				'type'                    => 'text',
 				'default'                 => '',
 				'required'                => true,
 				'revoke_consent_onchange' => true,

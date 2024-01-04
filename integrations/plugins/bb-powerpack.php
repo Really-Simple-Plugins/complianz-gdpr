@@ -35,4 +35,11 @@ if ( cmplz_uses_thirdparty('youtube') ) {
       }
       add_action( 'wp_enqueue_scripts', 'cmplz_bb_powerpack_script',PHP_INT_MAX );
     }
+
+	function cmplz_beaver_builder_powerpack_whitelist( $tags ){
+		$tags[] = 'pp-video-lightbox-content';
+		return $tags;
+	}
+
+	add_filter( 'cmplz_whitelisted_script_tags', 'cmplz_beaver_builder_powerpack_whitelist');
 }

@@ -11,6 +11,7 @@ function cmplz_pixelyoursite_script( $tags ) {
 		'urls' => array(
 			'pixelyoursite/dist',
 			'pys-js-extra',
+			'pysOptions',
 		),
 	);
 	return $tags;

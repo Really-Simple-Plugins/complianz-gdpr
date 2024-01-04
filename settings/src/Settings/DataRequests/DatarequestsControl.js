@@ -2,6 +2,8 @@ import {useState, useEffect} from "@wordpress/element";
 import { __ } from '@wordpress/i18n';
 import useDatarequestsData from "./useDatarequestsData";
 import {memo} from "@wordpress/element";
+import './requests.scss';
+
 import CheckboxGroup from "../Inputs/CheckboxGroup";
 const progressComponent = () => {
 	return (

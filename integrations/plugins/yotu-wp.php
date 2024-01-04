@@ -94,6 +94,7 @@ function cmplz_yotuwp_iframetags( $tags ) {
 		'category' => 'marketing',
 		'urls' => array(
 			'yotuwp-easy-youtube-embed',
+			'yotuwp-pro',
 			'yotuwp.data',
 			'var yotujs',
 		),

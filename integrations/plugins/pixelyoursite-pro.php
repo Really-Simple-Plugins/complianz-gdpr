@@ -5,6 +5,7 @@ add_filter( 'cmplz_known_script_tags', 'cmplz_pixelyoursite_script' );
 function cmplz_pixelyoursite_script( $tags ) {
 	$tags[] = 'pixelyoursite/dist';
 	$tags[] = 'pixelyoursite-pro/dist';
+	$tags[] = 'pysOptions';
 
 	return $tags;
 }
