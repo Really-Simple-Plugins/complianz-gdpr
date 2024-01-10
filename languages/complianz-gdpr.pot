@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-04T15:09:50+00:00\n"
+"POT-Creation-Date: 2024-01-10T08:34:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -51,7 +51,7 @@ msgstr ""
 #: class-admin.php:236
 #: settings/config/menu.php:280
 #: settings/config/menu.php:284
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Header.js:32
 msgid "Support"
 msgstr ""
@@ -3019,7 +3019,7 @@ msgstr ""
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:200
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:201
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:203
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:199
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:185
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:249
@@ -3140,7 +3140,7 @@ msgstr ""
 #: pro/settings/fields/dpo.php:191
 #: pro/settings/fields/dpo.php:250
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:180
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:182
 msgid "Email"
 msgstr ""
 
@@ -3297,7 +3297,7 @@ msgstr ""
 #: settings/build/4858.c016b246c67474d6bb51.js:1
 #: settings/build/6937.1e68a047fba9c9a81c76.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPlugins.js:21
 #: settings/src/Settings/InstallPlugin/InstallPlugin.js:60
 #: settings/src/Settings/Premium.js:17
@@ -3617,140 +3617,140 @@ msgstr ""
 msgid "Empty dataset"
 msgstr ""
 
-#: pro/class-licensing.php:77
+#: pro/class-licensing.php:84
 msgid "Activate your license for automatic updates."
 msgstr ""
 
-#: pro/class-licensing.php:186
+#: pro/class-licensing.php:193
 msgid "Please enter your license key to activate your license."
 msgstr ""
 
-#: pro/class-licensing.php:194
+#: pro/class-licensing.php:201
 msgid "Your license is activated and valid."
 msgstr ""
 
-#: pro/class-licensing.php:200
+#: pro/class-licensing.php:207
 msgid "You have activated the Multisite plugin on a non-Multisite environment. Please download the regular Complianz Premium plugin via your account and install it instead"
 msgstr ""
 
-#: pro/class-licensing.php:208
+#: pro/class-licensing.php:215
 msgid "Please check your license status."
 msgstr ""
 
-#: pro/class-licensing.php:249
-#: pro/class-licensing.php:285
+#: pro/class-licensing.php:256
+#: pro/class-licensing.php:292
 msgid "License"
 msgstr ""
 
-#: pro/class-licensing.php:250
+#: pro/class-licensing.php:257
 msgid "Enter your license below to start with Premium. You can find, and manage, your license in your account on Complianz.io"
 msgstr ""
 
-#: pro/class-licensing.php:277
+#: pro/class-licensing.php:284
 msgid "Beta releases are new major versions of Complianz. Please be aware that it is not adviced for production websites, or installations without back-up."
 msgstr ""
 
-#: pro/class-licensing.php:278
+#: pro/class-licensing.php:285
 msgid "Update to beta versions"
 msgstr ""
 
-#: pro/class-licensing.php:291
+#: pro/class-licensing.php:298
 msgid "Complianz Privacy Suite includes GeoLite2 data created by MaxMind"
 msgstr ""
 
-#: pro/class-licensing.php:588
+#: pro/class-licensing.php:602
 msgid "unlimited"
 msgstr ""
 
-#: pro/class-licensing.php:595
+#: pro/class-licensing.php:609
 msgid "You have a lifetime license."
 msgstr ""
 
-#: pro/class-licensing.php:595
+#: pro/class-licensing.php:609
 msgid "Valid until %s."
 msgstr ""
 
-#: pro/class-licensing.php:601
+#: pro/class-licensing.php:615
 msgid "Upgrade to a 5 sites or Agency license."
 msgstr ""
 
-#: pro/class-licensing.php:604
+#: pro/class-licensing.php:618
 msgid "Upgrade to an Agency license."
 msgstr ""
 
-#: pro/class-licensing.php:607
+#: pro/class-licensing.php:621
 msgid "You can renew your license on your account."
 msgstr ""
 
-#: pro/class-licensing.php:612
+#: pro/class-licensing.php:626
 msgid "Unlimited activations available."
 msgstr ""
 
-#: pro/class-licensing.php:615
-#: pro/class-licensing.php:718
+#: pro/class-licensing.php:629
+#: pro/class-licensing.php:732
 msgid "%s/%s activations available."
 msgstr ""
 
-#: pro/class-licensing.php:632
+#: pro/class-licensing.php:646
 msgid "Valid license for %s."
 msgstr ""
 
-#: pro/class-licensing.php:661
+#: pro/class-licensing.php:675
 msgid "The license information could not be retrieved at this moment. Please try again at a later time."
 msgstr ""
 
-#: pro/class-licensing.php:669
+#: pro/class-licensing.php:683
 msgid "Please enter your license key. Available in your account."
 msgstr ""
 
-#: pro/class-licensing.php:679
+#: pro/class-licensing.php:693
 msgid "Please activate your license key."
 msgstr ""
 
-#: pro/class-licensing.php:686
+#: pro/class-licensing.php:700
 msgid "Your license has been revoked. Please contact support."
 msgstr ""
 
-#: pro/class-licensing.php:694
+#: pro/class-licensing.php:708
 msgid "Your license could not be found in our system. Please contact support."
 msgstr ""
 
-#: pro/class-licensing.php:702
+#: pro/class-licensing.php:716
 msgid "This license is not valid. Find out why on your account."
 msgstr ""
 
-#: pro/class-licensing.php:710
+#: pro/class-licensing.php:724
 msgid "This license is not valid for this product. Find out why on your account."
 msgstr ""
 
-#: pro/class-licensing.php:726
+#: pro/class-licensing.php:740
 msgid "Your license key has expired. Please renew your license key on your account."
 msgstr ""
 
-#: pro/class-licensing.php:733
+#: pro/class-licensing.php:747
 msgid "Warning"
 msgstr ""
 
-#: pro/class-licensing.php:734
+#: pro/class-licensing.php:748
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:188
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:231
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:190
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:233
 msgid "Open"
 msgstr ""
 
-#: pro/class-licensing.php:735
+#: pro/class-licensing.php:749
 msgid "Success"
 msgstr ""
 
-#: pro/class-licensing.php:736
+#: pro/class-licensing.php:750
 msgid "Premium"
 msgstr ""
 
-#: pro/class-licensing.php:769
+#: pro/class-licensing.php:783
 msgid "Your Complianz Premium license hasn't been activated."
 msgstr ""
 
-#: pro/class-licensing.php:770
+#: pro/class-licensing.php:784
 msgid "Your Complianz Premium license is not valid."
 msgstr ""
 
@@ -5336,7 +5336,7 @@ msgstr ""
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/CreateDataBreachReport.js:132
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:193
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:195
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:197
 #: settings/src/Settings/ProcessingAgreements/CreateProcessingAgreements.js:138
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:185
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:171
@@ -11539,7 +11539,7 @@ msgstr ""
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Cookiedatabase/Cookie.js:230
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:250
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:244
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:246
 #: settings/src/Settings/Integrations/ThirdPartyScript.js:102
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:237
 #: settings/src/Settings/Processors/ProcessorElement.js:119
@@ -11616,7 +11616,7 @@ msgstr ""
 #: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:232
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:234
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:236
 #: settings/src/Settings/Integrations/PluginsControl.js:162
 #: settings/src/Settings/Integrations/ServicesControl.js:245
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:221
@@ -11630,7 +11630,7 @@ msgstr ""
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:239
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:240
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:242
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:228
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:213
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:283
@@ -11643,7 +11643,7 @@ msgstr ""
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:240
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:241
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:243
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:229
 #: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:214
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:284
@@ -12176,7 +12176,7 @@ msgstr ""
 #: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:187
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:189
 #: settings/src/Settings/Integrations/PluginsControl.js:107
 #: settings/src/Settings/Integrations/ServicesControl.js:192
 msgid "Status"
@@ -12223,7 +12223,7 @@ msgstr ""
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
 #: settings/build/6937.1e68a047fba9c9a81c76.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:58
 #: settings/src/Settings/DocumentsMenu/MenuData.js:93
 #: settings/src/Settings/Fields/FieldsData.js:164
@@ -12347,7 +12347,7 @@ msgstr ""
 #: settings/build/3187.72163b45e3862e2e28a4.js:1
 #: settings/build/3709.597855e34e12df4af47c.js:1
 #: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Dashboard/Tools/Tools.js:68
 #: settings/src/Header.js:28
 msgid "Documentation"
@@ -12361,29 +12361,29 @@ msgid "Premium Support"
 msgstr ""
 
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:188
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:232
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:190
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:234
 msgid "Resolved"
 msgstr ""
 
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:208
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:210
 msgid "Data Request"
 msgstr ""
 
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:230
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:232
 msgid "All"
 msgstr ""
 
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:243
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:245
 msgid "Mark as resolved"
 msgstr ""
 
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
-#: settings/src/Settings/DataRequests/DatarequestsControl.js:257
+#: settings/src/Settings/DataRequests/DatarequestsControl.js:259
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:299
 msgid "No records"
 msgstr ""
@@ -13415,54 +13415,54 @@ msgstr ""
 msgid "DNT/GPC"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Header.js:37
 #: settings/src/Menu/Menu.js:28
 msgid "Go Pro"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Menu/MenuItem.js:79
 msgid "New"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:29
 msgid "The wizard is currently in use by user with ID: "
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:30
 msgid "To prevent conflicts during saving the wizard is temporarily locked."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:31
 msgid "The lock will automatically clear after two minutes."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:56
 msgid "Switch between banners"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:62
 msgid "Banner"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:68
 msgid "Edit consent types"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:56
 #: settings/src/Settings/Fields/FieldsData.js:162
 msgid "Saving settings..."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:57
 #: settings/src/Settings/Fields/FieldsData.js:163
 #: settings/src/Settings/Fields/FieldsData.js:215
@@ -13470,82 +13470,82 @@ msgstr ""
 msgid "Settings saved"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/Field.js:227
 msgid "This field is required"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/Field.js:228
 msgid "Please enter a valid URL"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/Field.js:229
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/Field.js:230
 msgid "Please enter a valid number"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/Field.js:231
 msgid "Please enter a valid phone number"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/Settings/Fields/LabelWrapper.js:14
 msgid "required"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:12
 msgid "Please check if security settings on the server or a plugin is blocking the requests from Really Simple SSL."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:20
 msgid "The Really Simple SSL Rest API is disabled."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:22
 msgid "The Really Simple SSL Rest API returned a not found."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:24
 msgid "The Really Simple SSL Rest API returned a 403 forbidden error."
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:35
 msgid "A problem was detected during the loading of the settings"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:41
 msgid "The request returned the following errors:"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:43
 msgid "Response code:"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:44
 msgid "Status code:"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:45
 msgid "Server response:"
 msgstr ""
 
-#: settings/build/index.4806b370fa653d86a3ac.js:1
+#: settings/build/index.3b9a1dd167840749303c.js:1
 #: settings/src/utils/Error.js:52
 msgid "More information"
 msgstr ""
