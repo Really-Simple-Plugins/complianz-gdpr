@@ -1241,7 +1241,6 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 			$store_consent = cmplz_ab_testing_enabled() || cmplz_get_option('records_of_consent') === 'yes';
 			$this->dismiss_timeout = $this->dismiss_on_timeout ? 1000 * $this->dismiss_timeout : false;
 			$upload_url = is_ssl() ? str_replace('http://', 'https://', cmplz_upload_url()) : cmplz_upload_url();
-
 			//check if the css file exists. if not, use default.
 			$css_file = $upload_url . 'css/banner-{banner_id}-{type}.css';
 			$banner_id = $this->ID;
@@ -1257,7 +1256,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 					}
 				}
 			}
-			$script_debug = defined('SCRIPT_DEBUG') & SCRIPT_DEBUG ? time() : '';
+			$script_debug = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? time() : '';
 			$locale = get_locale();
 			$page_links = cmplz_get_transient( "page_links_{$banner_id}_{$locale}" );
 			if ( !$page_links ) {

@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 
 const UseBannerData = create(( set, get ) => ({
 	bannerDataLoaded:false,
+	bannerDataLoading:false,
 	setBannerDataLoaded: (bannerDataLoaded) => set({ bannerDataLoaded }),
 	setCssLoading: (cssLoading) => set({ cssLoading }),
 	customizeUrl:'#',
@@ -110,11 +111,17 @@ const UseBannerData = create(( set, get ) => ({
 		}
 	},
 	fetchBannerData: async () => {
+		if ( get().bannerDataLoading ) {
+			return;
+		}
+
+		set( {
+			bannerDataLoading: true,
+		} );
 		const {customize_url, css_file, banner_html, manage_consent_html, consent_types, default_consent_type, banners, page_links, tcf_active} = await cmplz_api.doAction('get_banner_data', {}).then((response) => {
 			return response;
 		}).catch((error) => {
 			console.error(error);
-
 		});
 		let defaultBanners = banners.filter( (banner) => banner.default === "1" );
 		let defaultBanner = defaultBanners.length === 0 ? banners[0] : defaultBanners[0];
@@ -145,6 +152,7 @@ const UseBannerData = create(( set, get ) => ({
 			selectedBannerId: selectedBannerId,
 			selectedBanner: selectedBanner,
 			bannerDataLoaded: true,
+			bannerDataLoading:false,
 			bannerHtml: banner_html,
 			cssFile: css_file,
 			banners: banners,

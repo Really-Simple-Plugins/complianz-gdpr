@@ -1307,6 +1307,10 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
+		if ( cmplz_get_option('uses_ad_cookies') !=='yes' ) {
+			return false;
+		}
+
 		return cmplz_get_option('uses_ad_cookies_personalized') === 'tcf' || cmplz_get_option('uses_ad_cookies_personalized') === 'yes';
 	}
 }

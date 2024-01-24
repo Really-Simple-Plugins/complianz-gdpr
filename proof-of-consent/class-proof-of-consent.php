@@ -105,6 +105,8 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			if ( ! cmplz_user_can_manage() ) {
 				return [];
 			}
+
+
 			$defaults   = array(
 				'number' => 30,
 				'region' => false,
@@ -208,6 +210,10 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 		 */
 
 		public function generate_cookie_policy_snapshot( $force = false ) {
+			if ( defined('CMPLZ_SKIP_SNAPSHOT_GENERATION') && CMPLZ_SKIP_SNAPSHOT_GENERATION ) {
+				return;
+			}
+
 			if ( ! $force
 			     && ! get_option( 'cmplz_generate_new_cookiepolicy_snapshot' )
 			) {
