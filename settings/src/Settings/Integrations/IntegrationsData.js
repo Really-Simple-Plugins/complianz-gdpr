@@ -79,7 +79,7 @@ const useIntegrations = create(( set, get ) => ({
 	addScript:(type) => {
 		set({fetching:true});
 		//check if get().scripts has property type. If not, add it.
-		if ( !get().scripts[type] ) {
+		if ( !get().scripts[type] || !Array.isArray(get().scripts[type]) ) {
 			set(
 				produce((state) => {
 					state.scripts[type] = [];
@@ -102,7 +102,7 @@ const useIntegrations = create(( set, get ) => ({
 	},
 	saveScript:(script, type) => {
 		set({fetching:true});
-		if ( !get().scripts[type] ) {
+		if ( !get().scripts[type] || !Array.isArray(get().scripts[type]) ) {
 			set(
 				produce((state) => {
 					state.scripts[type] = [];
@@ -127,7 +127,7 @@ const useIntegrations = create(( set, get ) => ({
 	},
 	deleteScript:(script, type) => {
 		set({fetching:true});
-		if ( !get().scripts[type] ) {
+		if ( !get().scripts[type] || !Array.isArray(get().scripts[type]) ) {
 			set(
 				produce((state) => {
 					state.scripts[type] = [];

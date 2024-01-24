@@ -1860,7 +1860,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( ! $error) {
-				$mpdf = new Mpdf\Mpdf( array(
+				//use tempDir to override the directory for temporary files in MPDF. Default the mpdf directory.
+				$mpdf = new Mpdf\Mpdf( apply_filters( 'cmplz_mpdf_args', array(
 					'setAutoTopMargin'  => 'stretch',
 					'autoMarginPadding' => 5,
 					'margin_left'       => 20,
@@ -1869,7 +1870,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					'margin_bottom'     => 30,
 					'margin_header'     => 30,
 					'margin_footer'     => 10,
-				) );
+				) ) );
 
 				$mpdf->SetDisplayMode( 'fullpage' );
 				$mpdf->SetTitle( $title );

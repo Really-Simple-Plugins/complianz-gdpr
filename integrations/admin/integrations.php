@@ -277,6 +277,12 @@ class cmplz_integrations {
 				unset($scripts[ $type ][ $key ]['id']);
 			}
 		}
+
+		foreach ( $scripts as $type => $scripts_array ) {
+			//ensure that the keys in $scripts_array start at 0, and are sequential
+			$scripts_array = array_values($scripts_array);
+			$scripts[ $type ] = $scripts_array;
+		}
 		return $scripts;
 	}
 
