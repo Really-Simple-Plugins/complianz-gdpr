@@ -238,11 +238,11 @@ const useStatistics = create(( set, get ) => ({
 		set({consentType:consentType});
 	},
 	statisticsLoading:false,
-	consentTypes:[],
+	consentTypes: [],
 	regions:[],
 	defaultConsentType: 'optin',
 	loaded:false,
-	statisticsData: complianz.is_premium ? defaultData : emptyData,
+	statisticsData: emptyData,
 	emptyStatisticsData: emptyData,
 	bestPerformerEnabled:false,
 	daysLeft:'',
@@ -252,6 +252,22 @@ const useStatistics = create(( set, get ) => ({
 		set({labels:labels});
 	},
 	fetchStatisticsData: async () => {
+		if (!cmplz_settings.is_premium ) {
+			set({
+				saving:false,
+				loaded:true,
+				consentType:'optin',
+				consentTypes:['optin', 'optout'],
+				statisticsData:defaultData,
+				defaultConsentType:'optin',
+				bestPerformerEnabled:false,
+				regions:'eu',
+				daysLeft:11,
+				abTrackingCompleted:false,
+			});
+			return;
+		}
+
 		set({saving:true });
 		let data = {};
 		if (get().loaded) return;
@@ -260,6 +276,7 @@ const useStatistics = create(( set, get ) => ({
 		}).catch((error) => {
 			console.error(error);
 		});
+
 		set({
 			saving:false,
 			loaded:true,

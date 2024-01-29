@@ -38,7 +38,7 @@ const Statistics = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!loaded && abTestingEnabled) {
+		if ( !loaded && abTestingEnabled) {
 			fetchStatisticsData();
 		}
 	},[loaded, abTestingEnabled ]);
@@ -87,7 +87,7 @@ const Statistics = () => {
 				 {consentTypes.map((type, i) =>
 					 <option key={i} value={type.id} >{type.label}</option>)}
 			 </select>}
-			 {data && Bar && <Bar className={`burst-loading-container ${loadingClass}`} options={options} data={data} />}
+			 {data && Bar && <Bar className={`cmplz-loading-container ${loadingClass}`} options={options} data={data} />}
 		 </>
 	);
 };

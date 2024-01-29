@@ -16,8 +16,8 @@ function cmplz_security_fields($fields){
 			],
 			'help' => [
 				'label' => 'default',
-				'title' => "Really Simple SSL",
-				'text'  => __( "5+ million websites are secured with Really Simple SSL", 'complianz-gdpr'),
+				'title' => "Really Simple SSL & Security",
+				'text'  => __( "5+ million websites are secured with Really Simple SSL & Security", 'complianz-gdpr'),
 				'url'   => 'https://really-simple-ssl.com/pro',
 			],
 			'menu_id'  => 'security',

@@ -74,9 +74,15 @@ const SettingsGroup = (props) => {
 		}
 	}
 
-	let disabled = licenseStatus !=='valid' && activeGroup.premium;
-	//but if this is the premium plugin, it's always disabled if the license is not valid. Sorry!
-	disabled = cmplz_settings.is_premium && licenseStatus !=='valid' && activeGroup.id !== 'license';
+	//if free, all premium items are disabled
+	let disabled = false;
+	if ( activeGroup.premium ) {
+		disabled = !cmplz_settings.is_premium;
+		//if this is the premium plugin, it's only disabled if the license is not valid.
+		if (cmplz_settings.is_premium) {
+			disabled = licenseStatus !== 'valid' && activeGroup.id !== 'license';
+		}
+	}
 
 	//if a feature can only be used on networkwide or single site setups, pass that info here.
 	upgrade = activeGroup.upgrade ? activeGroup.upgrade : upgrade;

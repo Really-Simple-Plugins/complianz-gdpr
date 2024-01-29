@@ -9,7 +9,6 @@ const ProofOfConsentControl = () => {
 	const { documents, downloadUrl, deleteDocuments, documentsLoaded, fetchData} = useProofOfConsentData();
 	const [ btnDisabled, setBtnDisabled ] = useState( '' );
 	const [ selectedDocuments, setSelectedDocuments ] = useState( [] );
-	const disabled = false;//!cmplz_settings.is_premium;
 	const paginationPerPage = 10;
 	const [ pagination, setPagination] = useState({});
 	const [ indeterminate, setIndeterminate] = useState(false);
@@ -202,11 +201,6 @@ const ProofOfConsentControl = () => {
 
 	return (
 		<>
-			{ (disabled ) && <>
-				<div className="cmplz-settings-overlay">
-					<div className="cmplz-settings-overlay-message"></div>
-				</div>
-			</>}
 			{
 				selectedDocuments.length>0 &&
 					<div className="cmplz-selected-document">
@@ -218,7 +212,7 @@ const ProofOfConsentControl = () => {
 						</div>
 					</div>
 			}
-			{!disabled && DataTable && <>
+			{DataTable && <>
 				<DataTable
 					className="cmplz-data-table"
 					columns={columns}

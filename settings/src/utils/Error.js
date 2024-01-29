@@ -9,7 +9,7 @@ const Error = (props) => {
 	let description = false;
 	let url = 'https://complianz.io/support';
 
-	let generic_rest_blocked_message = __("Please check if security settings on the server or a plugin is blocking the requests from Really Simple SSL.", "complianz-gdpr");
+	let generic_rest_blocked_message = __("Please check if security settings on the server or a plugin is blocking the requests from Complianz.", "complianz-gdpr");
 	let message = false;
 	if (props.error) {
 		message = props.error.message;
@@ -17,11 +17,11 @@ const Error = (props) => {
 			message = JSON.stringify(message);
 		}
 		if ( props.error.code==='rest_no_route') {
-			description = __("The Really Simple SSL Rest API is disabled.", "complianz-gdpr")+" "+generic_rest_blocked_message
+			description = __("The Complianz Rest API is disabled.", "complianz-gdpr")+" "+generic_rest_blocked_message
 		} else if ( props.error.data.status === '404') {
-			description = __("The Really Simple SSL Rest API returned a not found.", "complianz-gdpr")+" "+generic_rest_blocked_message;
+			description = __("The Complianz Rest API returned a not found.", "complianz-gdpr")+" "+generic_rest_blocked_message;
 		} else if ( props.error.data.status === '403') {
-			description = __("The Really Simple SSL Rest API returned a 403 forbidden error.", "complianz-gdpr")+" "+generic_rest_blocked_message;
+			description = __("The Complianz Rest API returned a 403 forbidden error.", "complianz-gdpr")+" "+generic_rest_blocked_message;
 		}
 		if (message.length>100){
 			message = message.substring(0, 100)+ '...';

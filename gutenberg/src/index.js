@@ -137,9 +137,6 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 	}
 
 	if ( documentSyncStatus==='sync' ) {
-
-		const sanitizedOutput = DOMPurify.sanitize(output);
-
 		return [
 			!!isSelected && (
 				<InspectorControls key='inspector-document'>
@@ -160,7 +157,7 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 				</InspectorControls>
 			),
 
-			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( output ) }}></div>, {/* nosemgrep: react-dangerouslysetinnerhtml */}
+			<div key={attributes.selectedDocument} className={className} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( output ) }}></div>,
 
 		]
 	} else {
@@ -170,13 +167,13 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 			!!isSelected && (
 				<InspectorControls key='inspector-document-settings'>
 					<PanelBody title={ __('Document settings', 'complianz-gdpr' ) } initialOpen={ true } >
-						<PanelRow key="1">
+						<PanelRow>
 							<SelectControl onChange={(e) => onChangeSelectDocument(e) }
 										   value={attributes.selectedDocument}
 										   label={__('Select a document', 'complianz-gdpr')}
 										   options={options}/>
 						</PanelRow>
-						<PanelRow key="2">
+						<PanelRow>
 
 							<SelectControl onChange={ (e) => onChangeSelectDocumentSyncStatus(e) }
 										   value={documentSyncStatus}
@@ -188,8 +185,8 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 			),
 
 			<div contentEditable={true}
-				 onInput={handleInput}
-				 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(customDocumentHtml) }} {/* nosemgrep: react-dangerouslysetinnerhtml */}
+				 onInput={(e)=>onChangeCustomDocument(e.currentTarget.innerHTML)}
+				 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(customDocumentHtml) }}
 				 className={syncClassName}
 			></div>
 
@@ -433,12 +430,12 @@ registerBlockType( 'complianz/consent-area', {
 				{ !!isPreview && <>
 					{ view === 'placeholder' &&
 						<div>
-							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.placeholderContent ) } }></div> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.placeholderContent ) } }></div>
 						</div>
 					}
 					{ view === 'consented' &&
 						<div>
-							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.consentedContent ) } }></div> {/* nosemgrep: react-dangerouslysetinnerhtml */}
+							<div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize( attributes.consentedContent ) } }></div>
 						</div>
 					}
 
