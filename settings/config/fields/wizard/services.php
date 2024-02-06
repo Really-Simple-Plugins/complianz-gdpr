@@ -234,12 +234,12 @@ function cmplz_services_fields( $fields ) {
 					'relation' => 'AND',
 					[
 						'uses_ad_cookies'  => 'yes',
-
 					]
 				],
 
 				'disabled' => [
-					'tcf'
+					'tcf',
+					'yes',
 				],
 			],
 

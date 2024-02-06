@@ -42,12 +42,17 @@ if ( !class_exists('cmplz_installer') ){
 		public function install($step){
 			if ( !current_user_can('install_plugins') ) return;
 
+			ob_start();
+
 			if ( $step === 'download' ) {
 				$this->download_plugin();
 			}
 			if ( $step === 'activate' ) {
 				$this->activate_plugin();
 			}
+
+			ob_get_clean();
+			
 		}
 
 		/**
