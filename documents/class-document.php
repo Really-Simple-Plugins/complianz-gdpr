@@ -170,11 +170,17 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					return;
 				}
 
-				if ( in_array( $new_region, cmplz_get_regions() )
-				     && $current_region !== $new_region
-				) {
+				if ( in_array( $new_region, cmplz_get_regions() ) && $current_region !== $new_region ) {
 					//get the URL of the new document
 					$new_url = COMPLIANZ::$document->get_permalink( $type, $new_region );
+
+					// Extract the anchor from the current URL
+					$anchor = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_FRAGMENT );
+					if ( $anchor ) {
+						$anchor = esc_attr( $anchor );
+						$new_url .= '#' . $anchor;
+					}
+
 					wp_redirect( $new_url );
 					exit;
 				}

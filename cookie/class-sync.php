@@ -850,6 +850,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				$this->reset_cookies_changed();
 				$this->ensure_cookies_in_all_languages();
 				$scan_action = sanitize_title($request->get_param('scan_action'));
+				$language = cmplz_sanitize_language($request->get_param('language'));
 				if ( $scan_action === 'restart') {
 					$this->resync();
 				}
@@ -861,15 +862,16 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 				$languages = COMPLIANZ::$banner_loader->get_supported_languages();
 				$settings = array(
 						'isMembersOnly' => 'all',
-						'language' => 'all',
+						'language' => $language,
 						'deleted' => 'all',
 				);
 				$cookie_objects  = COMPLIANZ::$banner_loader->get_cookies( $settings );
-				$services = COMPLIANZ::$banner_loader->get_services(['language' => 'all']);
+				$services = COMPLIANZ::$banner_loader->get_services(['language' => $language]);
 				$service_objects = [];
 				foreach ($services as $service) {
 					$service_objects[] = new CMPLZ_SERVICE($service->ID);
 				}
+
 				//change into array
 				$data = [
 					"cookies"           => $cookie_objects,

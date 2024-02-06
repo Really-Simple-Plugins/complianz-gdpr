@@ -5,9 +5,10 @@ import { __ } from '@wordpress/i18n';
 import useFields from "../../Settings/Fields/FieldsData";
 import {memo} from "@wordpress/element";
 import CheckboxGroup from "../Inputs/CheckboxGroup";
+import { memoize } from 'lodash';
 
 const CookieDatabaseSyncControl = () => {
-	const {showDeletedCookies, setShowDeletedCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, cookies, cookieCount, addCookie, addService, services, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
+	const { filterAndSort, showDeletedCookies, setShowDeletedCookies, syncDataLoaded, loadingSyncData, language, setLanguage, languages, fCookies, cookieCount, addCookie, addService, fServices, syncProgress, curlExists, hasSyncableData, setSyncProgress, restart, fetchSyncProgressData, errorMessage} = UseSyncData();
 	const {addHelpNotice, removeHelpNotice, getFieldValue} = useFields();
 	const [disabled, setDisabled] = useState(false);
 	const [noCookieNoticeShown, setNoCookieNoticeShown] = useState(false);
@@ -18,6 +19,10 @@ const CookieDatabaseSyncControl = () => {
 			fetchSyncProgressData();
 		}
 	},[syncProgress]);
+
+	useEffect ( () => {
+		fetchSyncProgressData();
+	},[language]);
 
 	useEffect ( () => {
 
@@ -46,7 +51,7 @@ const CookieDatabaseSyncControl = () => {
 				removeHelpNotice('cookiedatabase_sync')
 			}
 		}
-	},[getFieldValue('use_cdb_api'), curlExists, errorMessage, hasSyncableData, servicesAndCookies, syncDataLoaded, cookies ]);
+	},[getFieldValue('use_cdb_api'), curlExists, errorMessage, hasSyncableData, servicesAndCookies, syncDataLoaded, fCookies ]);
 
 	useEffect ( () => {
 		if ( syncProgress<100 && syncProgress>0) {
@@ -54,15 +59,15 @@ const CookieDatabaseSyncControl = () => {
 		}
 	},[syncProgress]);
 
-	useEffect ( () => {
-		let filteredCookies = [...cookies]
-			.filter(cookie => cookie.language === language && (showDeletedCookies || !showDeletedCookies && cookie.deleted != 1))
-			.sort((a, b) => a.name.localeCompare(b.name));
+	useEffect(() => {
+		filterAndSort();
+	}, [showDeletedCookies]);
 
+
+	const buildServicesCookiesArray = memoize(() => {
+		let filteredCookies = [...fCookies];
 		const servicesMap = {};
-		[...services]
-			.filter(service => service.language === language )
-			.sort((a, b) => a.name.localeCompare(b.name))
+		[...fServices]
 			.forEach(function(service) {
 				servicesMap[service.ID] = {
 					id: service.ID,
@@ -71,13 +76,14 @@ const CookieDatabaseSyncControl = () => {
 					cookies: []
 				};
 			});
+
 		filteredCookies.forEach(function(cookie) {
 			let serviceID = cookie.service ? cookie.serviceID : 0;
 			if (!servicesMap[serviceID]) {
 				servicesMap[serviceID] = {
 					id: serviceID,
 					name: !cookie.service ? __("Unknown Service","complianz-gdpr") : cookie.service,
-					service: services.filter(service => service.ID === serviceID)[0],
+					service: fServices.filter(service => service.ID === serviceID)[0],
 					cookies: []
 				};
 			}
@@ -85,8 +91,11 @@ const CookieDatabaseSyncControl = () => {
 		});
 
 		setServicesAndCookies(Object.values(servicesMap) );
+	})
 
-	},[services, cookies, language, showDeletedCookies]);
+	useEffect ( () => {
+		buildServicesCookiesArray();
+	},[ fServices, fCookies ]);
 
 	const onAddServiceHandler = () => {
 		addService();
@@ -107,9 +116,9 @@ const CookieDatabaseSyncControl = () => {
 	return (
 		<>
 			<div className="cmplz-cookiedatabase-controls">
-				<button disabled={disabled} className="button button-default" onClick={ (e) => Start(e) }>{__("Sync","complianz-gdpr")}</button>
+				<button disabled={disabled || loadingSyncData} className="button button-default" onClick={ (e) => Start(e) }>{__("Sync","complianz-gdpr")}</button>
 				{ languages.length > 1 &&
-					<select value={language} onChange={(e) => setLanguage(e.target.value) }>
+					<select disabled={loadingSyncData} value={language} onChange={(e) => setLanguage(e.target.value) }>
 						{languages.map((language, i) => <option key={i} value={language}>{language}</option>)}
 					</select>
 				}

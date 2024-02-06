@@ -128,6 +128,7 @@ const selectDocument = ({ className, isSelected, attributes, setAttributes }) =>
 		});
 	}
 
+
 	//load content
 	if ( attributes.selectedDocument!==0 && documentDataLoaded && attributes.selectedDocument.length>0 ) {
 		const documentData = documents.find((item) => {

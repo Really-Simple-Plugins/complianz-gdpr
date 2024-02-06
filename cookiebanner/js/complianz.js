@@ -2018,7 +2018,9 @@ function cmplz_maybe_auto_redirect() {
 	let redirect = cmplz_get_url_parameter(window.location.href, 'cmplz_region_redirect');
 	let region = cmplz_get_url_parameter(window.location.href, 'cmplz-region');
 	if (redirect && !region) {
-		window.location.href = window.location.href + '&cmplz-region=' + complianz.region;
+		let newUrl = window.location.href.split('#')[0] + '&cmplz-region=' + complianz.region;
+		let hash = window.location.hash;
+		window.location.href = newUrl + hash;
 	}
 }
 

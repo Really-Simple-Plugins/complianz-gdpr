@@ -217,7 +217,7 @@ const Service = (props) => {
 
 	return (
 		<>
-			<Panel summary={props.name} icons={Icons()} details={Details()} />
+			<Panel id={props.id} summary={props.name} icons={Icons()} details={Details()} />
 		</>
 	);
 

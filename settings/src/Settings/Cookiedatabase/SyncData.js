@@ -16,8 +16,10 @@ const UseSyncData = create(( set, get ) => ({
 	serviceTypeOptions:[],
 	syncProgress: 0,
 	cookies: [],
+	fCookies: [],
 	cookieCount: 1,
 	services: [],
+	fServices: [],
 	saving:false,
 	adding:false,
 	servicesAndCookies:[],
@@ -27,7 +29,7 @@ const UseSyncData = create(( set, get ) => ({
 	setLanguage: (language) => set({ language }),
 	fetchSyncProgressData: async () => {
 		set({loadingSyncData:true,syncDataLoaded:false });
-		if (get().cookies.length === 0) {
+		if ( get().cookies.length === 0 ) {
 			//set a placeholder
 			let placeholderCookies = [];
 			let placeholderCookie;
@@ -53,11 +55,10 @@ const UseSyncData = create(( set, get ) => ({
 			}
 			set({cookies:placeholderCookies });
 		}
-		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages} = await fetchSyncProgressData(false);
+		const {syncProgress, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages} = await fetchSyncProgressData(false, get().language);
 
 		let language = get().language ? get().language : defaultLanguage;
 		set({
-			loadingSyncData: false,
 			language: language,
 			languages: languages,
 			purposesOptions: purposesOptions,
@@ -67,8 +68,26 @@ const UseSyncData = create(( set, get ) => ({
 			cookies: cookies,
 			curlExists: curlExists,
 			hasSyncableData: hasSyncableData,
+			loadingSyncData: false,
 			syncDataLoaded:true,
 		});
+
+		get().filterAndSort();
+	},
+	filterAndSort: () => {
+		set(
+			produce((state) => {
+				let services = [...get().services]; // Create a copy of the services array
+				let sortedServices = services.sort((a, b) => a.name.localeCompare(b.name))
+				state.fServices = sortedServices;
+				let cookies = [...get().cookies];
+				let sortedCookies = cookies.filter(
+					cookie => ( get().showDeletedCookies ||
+							(!get().showDeletedCookies && cookie.deleted !== 1 && cookie.deleted !== true ))
+				).sort((a, b) => a.name.localeCompare(b.name));
+				state.fCookies = sortedCookies;
+			})
+		)
 	},
 	restart: async () => {
 		set(() => ({loadingSyncData:true,syncDataLoaded:false }));
@@ -89,6 +108,7 @@ const UseSyncData = create(( set, get ) => ({
 			errorMessage: errorMessage,
 			syncDataLoaded:true,
 		}));
+		get().filterAndSort();
 	},
 	updateCookie: (id, type, value) => {
 		set(
@@ -101,6 +121,7 @@ const UseSyncData = create(( set, get ) => ({
 				}
 			})
 		)
+		get().filterAndSort();
 	},
 	addCookie: async (serviceID, serviceName) => {
 		set({adding:true });
@@ -117,11 +138,14 @@ const UseSyncData = create(( set, get ) => ({
 		set(
 			produce((state) => {
 				cookies.forEach(function(cookie, i) {
-					state.cookies.push(cookie);
+					if ( cookie.language === get().language ) {
+						state.cookies.push(cookie);
+					}
 				});
 			})
 		)
 		set({adding:false });
+		get().filterAndSort();
 
 	},
 	saveCookie: async (id) => {
@@ -152,6 +176,7 @@ const UseSyncData = create(( set, get ) => ({
 			)
 			set({saving: false});
 		}
+		get().filterAndSort();
 	},
 	addService: () => {
 		let addedIds = get().addedIds;
@@ -167,6 +192,7 @@ const UseSyncData = create(( set, get ) => ({
 				state.addedIds = newAddedIds;
 			})
 		)
+		get().filterAndSort();
 	},
 	saveService: async (id) => {
 		set({saving:true });
@@ -200,6 +226,7 @@ const UseSyncData = create(( set, get ) => ({
 				console.error(error);
 			});
 		}
+		get().filterAndSort();
 	},
 	toggleDeleteCookie: async (ID) => {
 		set(
@@ -224,6 +251,7 @@ const UseSyncData = create(( set, get ) => ({
 		}).catch((error) => {
 			console.error(error);
 		});
+		get().filterAndSort();
 	},
 	deleteService: async (ID) => {
 		let data = {};
@@ -245,6 +273,7 @@ const UseSyncData = create(( set, get ) => ({
 				});
 			})
 		)
+		get().filterAndSort();
 	},
 	updateService: (id, type, value) => {
 		set(
@@ -260,13 +289,15 @@ const UseSyncData = create(( set, get ) => ({
 				}
 			})
 		)
+		get().filterAndSort();
 	},
 }));
 export default UseSyncData;
 
-const fetchSyncProgressData = (restart) => {
+const fetchSyncProgressData = (restart, language ) => {
 	let data = {}
 	data.scan_action = 'get_progress';
+	data.language = language;
 	if ( restart ) {
 		data.scan_action = 'restart';
 	}
@@ -275,18 +306,26 @@ const fetchSyncProgressData = (restart) => {
 		let syncProgress = response.progress;
 		let curlExists = response.curl_exists;
 		let cookies = response.cookies;
+		let services = response.services;
 		let errorMessage = response.message;
 
 		//decode strings which can contain encoded characters
 		if (!cookies || cookies.length===0){
 			cookies = [];
 		}
+
+		if ( !Array.isArray(cookies) ) {
+			cookies = Object.values(cookies);
+		}
+		if ( !Array.isArray(services) ) {
+			services = Object.values(services);
+		}
 		cookies.forEach(function(cookie, i) {
 			cookies[i].name = htmlDecode(cookie.name);
 			cookies[i].retention = htmlDecode(cookie.retention);
 			cookies[i].cookieFunction = htmlDecode(cookie.cookieFunction);
 		});
-		let services = response.services;
+
 		let hasSyncableData = response.has_syncable_data;
 		let purposesOptions = response.purposes_options;
 		let serviceTypeOptions = response.serviceType_options;

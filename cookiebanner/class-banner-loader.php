@@ -1320,7 +1320,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				return apply_filters( 'cmplz_cookie_warning_required_stats', true );
 			}
 
-			if ( $region ) {
+			if ( $region & isset( COMPLIANZ::$config->regions[ $region ] ) ) {
 				if ( COMPLIANZ::$config->regions[ $region ]['statistics_consent'] === 'no' ) {
 					return apply_filters( 'cmplz_cookie_warning_required_stats', false );
 				}

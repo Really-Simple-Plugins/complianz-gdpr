@@ -236,7 +236,7 @@ const CookieDetails = (cookie) => {
 /**
  * Render a help notice in the sidebar
  */
-const Cookie = ({cookie}) => {
+const Cookie = ({cookie, id}) => {
 	const Icons = () => {
 		return (
 			<>
@@ -274,7 +274,7 @@ const Cookie = ({cookie}) => {
 	let description = cookie.name
 	return (
 		<>
-			<Panel summary={description} comment={comment} icons={Icons()} details={CookieDetails(cookie)} style={getStyles()}/>
+			<Panel id={id}  summary={description} comment={comment} icons={Icons()} details={CookieDetails(cookie)} style={getStyles()}/>
 		</>
 
 	);

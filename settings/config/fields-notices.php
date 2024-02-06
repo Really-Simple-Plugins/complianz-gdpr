@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  */
 function cmplz_field_notices( ): array {
 	if ( ! cmplz_user_can_manage() ) {
-		error_log("no manage");
 		return [];
 	}
 

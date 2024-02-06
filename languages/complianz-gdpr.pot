@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-08T10:13:58+00:00\n"
+"POT-Creation-Date: 2024-02-06T11:51:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -51,7 +51,7 @@ msgstr ""
 #: class-admin.php:236
 #: settings/config/menu.php:280
 #: settings/config/menu.php:284
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Header.js:32
 msgid "Support"
 msgstr ""
@@ -62,12 +62,12 @@ msgid "Upgrade to premium"
 msgstr ""
 
 #: class-admin.php:348
-#: functions.php:2009
+#: functions.php:2013
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/6057.99042c382765fcd722e7.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/6057.26ec043b22fc48345c3a.js:1
 #: settings/build/9837.c433bef67e665f59fab0.js:1
 #: settings/src/Dashboard/Documents/OtherRegions.js:58
 #: settings/src/Dashboard/Tools/ToolItem.js:45
@@ -156,6 +156,7 @@ msgstr ""
 #: pro/statistics/class-admin-statistics.php:306
 #: settings/config/fields/tools/placeholders.php:108
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:378
 msgid "Default"
 msgstr ""
 
@@ -1852,17 +1853,19 @@ msgstr ""
 #: config/documents/documents.php:6
 #: settings/config/fields/wizard/general.php:136
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:226
 msgid "Cookie Policy"
 msgstr ""
 
 #: config/documents/documents.php:10
 #: integrations/plugins/gravity-forms.php:147
 #: integrations/plugins/gravity-forms.php:186
-#: settings/config/fields-notices.php:130
-#: settings/config/fields-notices.php:137
+#: settings/config/fields-notices.php:129
+#: settings/config/fields-notices.php:136
 #: settings/config/fields/wizard/general.php:151
 #: settings/config/menu.php:467
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:225
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/src/Onboarding/Onboarding.js:117
 msgid "Privacy Statement"
@@ -1874,8 +1877,8 @@ msgstr ""
 
 #: config/documents/documents.php:18
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:72
 msgid "Impressum"
 msgstr ""
@@ -1885,6 +1888,7 @@ msgstr ""
 #: settings/config/fields/wizard/general.php:196
 #: settings/config/menu.php:46
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:227
 msgid "Disclaimer"
 msgstr ""
 
@@ -2220,7 +2224,7 @@ msgid "Not all required pages have been generated."
 msgstr ""
 
 #: config/warnings.php:106
-msgid "Harden your website and quickly detect vulnerabilities with Really Simple SSL"
+msgid "Harden your website and quickly detect vulnerabilities with Really Simple SSL & Security"
 msgstr ""
 
 #: config/warnings.php:116
@@ -2360,8 +2364,8 @@ msgstr ""
 #: cookiebanner/admin/cookiebanner.php:286
 #: cookiebanner/admin/cookiebanner.php:287
 #: settings/config/menu.php:179
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6356.d0bac49fee064ae65046.js:1
 #: settings/build/6854.73ce8789ba86db243ff9.js:1
 #: settings/src/Dashboard/Progress/ProgressFooter.js:42
@@ -2382,7 +2386,7 @@ msgid "On a cookie policy, the banner will be minimized by default"
 msgstr ""
 
 #: cookiebanner/class-banner-loader.php:828
-#: functions.php:2012
+#: functions.php:2016
 msgid "Purpose pending investigation"
 msgstr ""
 
@@ -2415,6 +2419,7 @@ msgstr ""
 #: cookiebanner/settings.php:909
 #: cookiebanner/settings.php:910
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:356
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:197
 msgid "Preferences"
@@ -2432,12 +2437,13 @@ msgstr ""
 #: settings/config/menu.php:438
 #: settings/config/menu.php:449
 #: gutenberg/build/index.js:1
-#: settings/build/938.44b4713c2b709cbbad36.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/6885.89410175d033c29840e8.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: gutenberg/src/index.js:357
+#: settings/build/938.c3987bcd884b66a45dff.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/6885.13089a4f1f014f209c02.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Dashboard/Tools/ToolsHeader.js:37
 #: settings/src/Settings/Integrations/Category.js:16
@@ -2454,9 +2460,10 @@ msgstr ""
 #: pro/templates/cookiebanner-tcf.php:13
 #: pro/templates/tcf-categories.php:14
 #: gutenberg/build/index.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/6885.89410175d033c29840e8.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: gutenberg/src/index.js:358
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/6885.13089a4f1f014f209c02.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Integrations/Category.js:17
 #: settings/src/Settings/Integrations/Category.js:25
@@ -2480,17 +2487,17 @@ msgstr ""
 msgid "No Warning"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1293
+#: cookiebanner/class-cookiebanner.php:1292
 msgctxt "as in: click to accept statistics cookies"
 msgid "statistics"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1293
+#: cookiebanner/class-cookiebanner.php:1292
 msgctxt "as in: click to accept marketing cookies"
 msgid "marketing"
 msgstr ""
 
-#: cookiebanner/class-cookiebanner.php:1302
+#: cookiebanner/class-cookiebanner.php:1301
 msgid "Click button to enable {service}"
 msgstr ""
 
@@ -2789,8 +2796,8 @@ msgstr ""
 #: settings/config/menu.php:403
 #: settings/config/menu.php:421
 #: settings/config/menu.php:442
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6549.20488655f9365155ec77.js:1
 #: settings/src/Dashboard/Documents/DocumentsHeader.js:37
 msgid "General"
@@ -2985,8 +2992,8 @@ msgid "Always active"
 msgstr ""
 
 #: cookiebanner/templates/cookiebanner.php:120
-#: pro/tcf/tcf-admin.php:284
-#: pro/tcf/tcf-admin.php:477
+#: pro/tcf/tcf-admin.php:279
+#: pro/tcf/tcf-admin.php:472
 msgid "Manage options"
 msgstr ""
 
@@ -3014,14 +3021,14 @@ msgstr ""
 #: DNSMPD/class-admin-DNSMPD.php:362
 #: pro/records-of-consent/class-records-of-consent.php:211
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:200
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:203
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:199
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:185
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:184
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:249
 msgid "Date"
 msgstr ""
@@ -3109,12 +3116,12 @@ msgstr ""
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
 #: settings/build/1243.b02307e08f3dc7d9fdc2.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8111.1efea38fa71dfeae848d.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Cookiedatabase/Cookie.js:183
 #: settings/src/Settings/Cookiedatabase/Cookie.js:186
 #: settings/src/Settings/Cookiedatabase/Service.js:129
@@ -3167,11 +3174,13 @@ msgstr ""
 
 #: documents/admin-class-documents.php:956
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:109
 msgid "Synchronize document with Complianz"
 msgstr ""
 
 #: documents/admin-class-documents.php:960
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:110
 msgid "Edit document and stop synchronization"
 msgstr ""
 
@@ -3188,66 +3197,66 @@ msgstr ""
 msgid "For more information, see the Complianz %sPrivacy Statement%s."
 msgstr ""
 
-#: documents/class-document.php:423
+#: documents/class-document.php:429
 msgid "Region %s not activated for %s."
 msgstr ""
 
-#: documents/class-document.php:540
+#: documents/class-document.php:546
 msgid "Annex"
 msgstr ""
 
-#: documents/class-document.php:666
+#: documents/class-document.php:672
 msgid "(See paragraph %s)"
 msgstr ""
 
-#: documents/class-document.php:672
+#: documents/class-document.php:678
 msgid "(See annex %s)"
 msgstr ""
 
-#: documents/class-document.php:702
-#: documents/class-document.php:709
+#: documents/class-document.php:708
+#: documents/class-document.php:715
 msgctxt "if phonenumber is entered, this string is part of the sentence \"you may contact %s, via %s or by telephone via %s\""
 msgid "or by telephone on %s"
 msgstr ""
 
-#: documents/class-document.php:783
+#: documents/class-document.php:789
 msgid "and"
 msgstr ""
 
-#: documents/class-document.php:991
+#: documents/class-document.php:997
 msgctxt "Subject in notification email"
 msgid "Your legal documents on %s need to be updated."
 msgstr ""
 
-#: documents/class-document.php:998
+#: documents/class-document.php:1004
 msgctxt "notification email"
 msgid "Your legal documents on %s have not been updated in 12 months. Please log in and run the %swizard%s in the Complianz plugin to check if everything is up to date."
 msgstr ""
 
-#: documents/class-document.php:1002
+#: documents/class-document.php:1008
 msgid "This message was generated by Complianz GDPR/CCPA."
 msgstr ""
 
-#: documents/class-document.php:1029
+#: documents/class-document.php:1035
 msgctxt "cookie policy"
 msgid "You have loaded the Cookie Policy without javascript support."
 msgstr ""
 
-#: documents/class-document.php:1030
+#: documents/class-document.php:1036
 msgctxt "cookie policy"
 msgid "On AMP, you can use the manage consent button on the bottom of the page."
 msgstr ""
 
-#: documents/class-document.php:1061
+#: documents/class-document.php:1067
 msgid "Click to accept marketing cookies"
 msgstr ""
 
-#: documents/class-document.php:1323
-#: documents/class-document.php:1367
+#: documents/class-document.php:1329
+#: documents/class-document.php:1373
 msgid "Click to accept the cookies for this service"
 msgstr ""
 
-#: documents/class-document.php:1930
+#: documents/class-document.php:1937
 msgid "No title"
 msgstr ""
 
@@ -3290,66 +3299,66 @@ msgstr ""
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1404
+#: functions.php:1408
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/1871.f461fb52998772a87ba7.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/1871.22a3ffd17f9a5f7a47e7.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPlugins.js:21
 #: settings/src/Settings/InstallPlugin/InstallPlugin.js:60
 #: settings/src/Settings/Premium.js:17
-#: settings/src/Settings/SettingsGroup.js:120
+#: settings/src/Settings/SettingsGroup.js:126
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:1980
+#: functions.php:1984
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1987
-#: functions.php:1997
+#: functions.php:1991
+#: functions.php:2001
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1989
-#: functions.php:1994
+#: functions.php:1993
+#: functions.php:1998
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:1999
+#: functions.php:2003
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:2002
+#: functions.php:2006
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2500
+#: functions.php:2504
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:167
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2502
+#: functions.php:2506
 #: pro/tcf/templates/vendorlist-us.php:13
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:168
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2504
+#: functions.php:2508
 msgid "All consent types"
 msgstr ""
 
-#: functions.php:2868
+#: functions.php:2872
 msgid "In September 2023 the Quebec bill 64 will be enforced in Canada. In order to keep your site compliant, %sopt-in must be implemented for Canada%s. Please Navigate to the %sWizard%s and enable opt-in for Canada."
 msgstr ""
 
-#: functions.php:2869
+#: functions.php:2873
 msgid "Please be aware that this will activate opt-in for Canada, altering the banner and blocking non-functional scripts and cookies prior to consent. Please check the front-end of your site after activating opt-in."
 msgstr ""
 
@@ -3360,12 +3369,12 @@ msgstr ""
 msgid "Example"
 msgstr ""
 
-#: integrations/admin/integrations.php:356
+#: integrations/admin/integrations.php:362
 #: settings/config/menu.php:135
 msgid "Advertising"
 msgstr ""
 
-#: integrations/admin/integrations.php:422
+#: integrations/admin/integrations.php:428
 msgid "We have enabled integrations for plugins and services, please double-check your configuration."
 msgstr ""
 
@@ -5318,7 +5327,7 @@ msgstr ""
 #: pro/dataleak/class-dataleak.php:487
 #: pro/processing-agreements/class-processing.php:383
 #: pro/processing-agreements/class-processing.php:384
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:41
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:46
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:51
@@ -5328,7 +5337,7 @@ msgstr ""
 #: pro/dataleak/class-dataleak.php:527
 #: pro/processing-agreements/class-processing.php:423
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
@@ -5339,7 +5348,7 @@ msgstr ""
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:197
 #: settings/src/Settings/ProcessingAgreements/CreateProcessingAgreements.js:138
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:185
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:171
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:170
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:231
 msgid "Region"
 msgstr ""
@@ -8002,9 +8011,9 @@ msgstr ""
 #: pro/processing-agreements/class-processing.php:381
 #: settings/config/menu.php:348
 #: settings/config/menu.php:363
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:53
 msgid "Processing Agreements"
 msgstr ""
@@ -8016,9 +8025,9 @@ msgstr ""
 #: pro/processing-agreements/class-processing.php:385
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/OtherDocuments.js:20
 #: settings/src/Settings/Processors/ProcessorElement.js:103
@@ -9040,7 +9049,7 @@ msgid "Yes, manually"
 msgstr ""
 
 #: pro/settings/fields/security-consent.php:40
-msgid "Yes, based on my configuration of Really Simple SSL"
+msgid "Yes, based on my configuration of Really Simple SSL & Security"
 msgstr ""
 
 #: pro/settings/fields/security-consent.php:54
@@ -9079,7 +9088,7 @@ msgid "Website Hardening/Security Features"
 msgstr ""
 
 #: pro/settings/fields/security-consent.php:85
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:41
 msgid "Vulnerability Detection"
 msgstr ""
@@ -9093,7 +9102,7 @@ msgid "ISO27001/27002 Certification"
 msgstr ""
 
 #: pro/settings/fields/security-consent.php:91
-msgid "Easily secure your website with Really Simple SSL"
+msgid "Easily secure your website with Really Simple SSL & Security"
 msgstr ""
 
 #: pro/settings/fields/security-consent.php:92
@@ -9184,91 +9193,91 @@ msgstr ""
 msgid "Please enable auto updates for Complianz. This is mandatory when TCF is active, to be able to quickly adapt to new requirements by the IAB."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:286
-#: pro/tcf/tcf-admin.php:482
+#: pro/tcf/tcf-admin.php:281
+#: pro/tcf/tcf-admin.php:477
 msgid "Manage your privacy"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:524
+#: pro/tcf/tcf-admin.php:519
 msgid "TCF: Guideline restrictions"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:525
+#: pro/tcf/tcf-admin.php:520
 msgid "Configuring your TCF consent banner is limited due to IAB guidelines."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:544
+#: pro/tcf/tcf-admin.php:539
 msgid "Your site will show vendors with the purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:547
+#: pro/tcf/tcf-admin.php:542
 #: pro/tcf/templates/vendorlist.php:47
 msgid "Vendors"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:548
+#: pro/tcf/tcf-admin.php:543
 msgid "To get a better understanding of vendors, purposes and features please read this definitions guide."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:565
+#: pro/tcf/tcf-admin.php:560
 msgid "Your site will show vendors with the special purposes selected here"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:568
+#: pro/tcf/tcf-admin.php:563
 #: pro/tcf/templates/vendorlist.php:36
 #: pro/templates/cookiebanner-tcf.php:40
 msgid "Special purposes"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:569
+#: pro/tcf/tcf-admin.php:564
 msgid "These special purposes should be enabled for best results. These purposes are set based on legitimate interest of the vendor, one of the legal bases of data processing."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:587
+#: pro/tcf/tcf-admin.php:582
 msgid "Your site will show vendors with the features selected here"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:602
+#: pro/tcf/tcf-admin.php:597
 msgid "Your site will show vendors with the special features selected here"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:617
+#: pro/tcf/tcf-admin.php:612
 msgid "Do you want to share data outside of the EU/UK?"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:618
+#: pro/tcf/tcf-admin.php:613
 msgid "Some vendors will share data outside of the EU/UK. It's disabled by default, but we recommend US based publishers to enable this option."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:635
+#: pro/tcf/tcf-admin.php:630
 msgid "Do you want to share data with advertisers that don't describe their services?"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:636
+#: pro/tcf/tcf-admin.php:631
 msgid "Vendors are required to describe their services. Some vendors list services under 'other' and could be considered to negate transparency."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:652
+#: pro/tcf/tcf-admin.php:647
 msgid "Have you signed the IAB Privacy, LLC’s Limited Service Provider Agreement (LSPA)?"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:663
+#: pro/tcf/tcf-admin.php:658
 msgid "Limited Service Provider Agreement (LSPA)"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:664
+#: pro/tcf/tcf-admin.php:659
 msgid "For California, please read the article about LSPA."
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:742
+#: pro/tcf/tcf-admin.php:737
 msgid "The vendor list can be found at %s"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:803
+#: pro/tcf/tcf-admin.php:798
 msgid "Vendor count"
 msgstr ""
 
-#: pro/tcf/tcf-admin.php:804
+#: pro/tcf/tcf-admin.php:799
 msgid "With your current settings, you have selected %s vendors."
 msgstr ""
 
@@ -9323,8 +9332,8 @@ msgstr ""
 #: pro/tcf/templates/vendor.php:17
 #: pro/tcf/templates/vendorlist.php:13
 #: settings/config/menu.php:101
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:178
+#: settings/build/1143.9baf6b71bb2031884397.js:1
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:177
 msgid "Consent"
 msgstr ""
 
@@ -9434,16 +9443,16 @@ msgstr ""
 msgid "Manage vendors"
 msgstr ""
 
-#: proof-of-consent/class-proof-of-consent.php:278
+#: proof-of-consent/class-proof-of-consent.php:284
 msgid "Cookie consent settings"
 msgstr ""
 
-#: proof-of-consent/class-proof-of-consent.php:279
+#: proof-of-consent/class-proof-of-consent.php:285
 #: settings/config/menu.php:397
 #: settings/config/menu.php:408
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6854.73ce8789ba86db243ff9.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/OtherDocuments.js:22
@@ -9451,7 +9460,7 @@ msgstr ""
 msgid "Proof of Consent"
 msgstr ""
 
-#: proof-of-consent/class-proof-of-consent.php:280
+#: proof-of-consent/class-proof-of-consent.php:286
 msgid ""
 "This document was generated to show efforts made to comply with privacy legislation.\n"
 "                            This document will contain the Cookie Policy and the cookie consent settings to proof consent\n"
@@ -9469,8 +9478,8 @@ msgid "Tips & Tricks"
 msgstr ""
 
 #: settings/config/blocks.php:60
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/9713.59240489b0c4c29525a9.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPluginsHeader.js:6
 msgid "Other Plugins"
@@ -9484,128 +9493,128 @@ msgstr ""
 msgid "With Matomo cookieless tracking, configuration by Complianz is required."
 msgstr ""
 
-#: settings/config/fields-notices.php:19
+#: settings/config/fields-notices.php:18
 msgid "Prefilled field"
 msgstr ""
 
-#: settings/config/fields-notices.php:20
+#: settings/config/fields-notices.php:19
 msgid "Some answers have been been pre-filled by our system detection. Please check before continuing"
 msgstr ""
 
-#: settings/config/fields-notices.php:21
+#: settings/config/fields-notices.php:20
 msgid "Please make sure you remove your current implementation to prevent double statistics tracking."
 msgstr ""
 
-#: settings/config/fields-notices.php:31
+#: settings/config/fields-notices.php:30
 msgid "Detected statistics"
 msgstr ""
 
-#: settings/config/fields-notices.php:32
+#: settings/config/fields-notices.php:31
 msgid "The site scan detected %s on your site, which means the answer to this question should be %s."
 msgstr ""
 
-#: settings/config/fields-notices.php:45
+#: settings/config/fields-notices.php:44
 msgid "Detected social media"
 msgstr ""
 
-#: settings/config/fields-notices.php:46
+#: settings/config/fields-notices.php:45
 msgid "The scan found social media buttons or widgets for %s on your site, which means the answer should be yes"
 msgstr ""
 
-#: settings/config/fields-notices.php:55
+#: settings/config/fields-notices.php:54
 msgid "Detected forms"
 msgstr ""
 
-#: settings/config/fields-notices.php:56
+#: settings/config/fields-notices.php:55
 msgid "The scan found forms on your site, which means answer should probably include \"contact\"."
 msgstr ""
 
-#: settings/config/fields-notices.php:69
+#: settings/config/fields-notices.php:68
 msgid "Detected third-party services"
 msgstr ""
 
-#: settings/config/fields-notices.php:70
+#: settings/config/fields-notices.php:69
 msgid "The scan found third-party services on your website: %s, this means the answer should be yes."
 msgstr ""
 
-#: settings/config/fields-notices.php:79
+#: settings/config/fields-notices.php:78
 msgid "Selling personal data"
 msgstr ""
 
-#: settings/config/fields-notices.php:80
+#: settings/config/fields-notices.php:79
 msgid "The site scan detected cookies from services that share data with Third Parties. According to US privacy laws, your website is considered to sell personal data if it collects and shares any personal data in return for money or services. This includes a service like Google Analytics."
 msgstr ""
 
-#: settings/config/fields-notices.php:88
+#: settings/config/fields-notices.php:87
 msgid "Divi detected"
 msgstr ""
 
-#: settings/config/fields-notices.php:89
+#: settings/config/fields-notices.php:88
 msgid "Your site uses Divi. If you use reCAPTCHA on your site, you may need to disable the reCAPTCHA integration in Complianz. "
 msgstr ""
 
-#: settings/config/fields-notices.php:98
+#: settings/config/fields-notices.php:97
 msgid "Third-party cookies"
 msgstr ""
 
-#: settings/config/fields-notices.php:99
+#: settings/config/fields-notices.php:98
 msgid "The site scan detected cookies from services which share data with Third Parties. If these cookies were also used in the past 12 months, you should at least select the option 'Internet activity...'"
 msgstr ""
 
-#: settings/config/fields-notices.php:108
+#: settings/config/fields-notices.php:107
 msgid "You're using Google Tag Manager. This means you need to configure Tag Manager to use the below categories."
 msgstr ""
 
-#: settings/config/fields-notices.php:117
+#: settings/config/fields-notices.php:116
 msgid "Using categories is mandatory"
 msgstr ""
 
-#: settings/config/fields-notices.php:118
+#: settings/config/fields-notices.php:117
 msgid "Categories are mandatory for your statistics configuration."
 msgstr ""
 
-#: settings/config/fields-notices.php:131
-#: settings/config/fields-notices.php:138
+#: settings/config/fields-notices.php:130
+#: settings/config/fields-notices.php:137
 msgid "It is recommended to select a Privacy Statement."
 msgstr ""
 
-#: settings/config/fields-notices.php:131
+#: settings/config/fields-notices.php:130
 msgid "The link to the Privacy Statement is used in the consent banner and in your Cookie Policy."
 msgstr ""
 
-#: settings/config/fields-notices.php:138
+#: settings/config/fields-notices.php:137
 msgid "The link to the Privacy Statement is used in your Cookie Policy."
 msgstr ""
 
-#: settings/config/fields-notices.php:150
+#: settings/config/fields-notices.php:149
 msgid "First-party marketing cookies"
 msgstr ""
 
-#: settings/config/fields-notices.php:151
+#: settings/config/fields-notices.php:150
 msgid "You use plugins which place first-party marketing cookies. Complianz cannot only block such cookies if the plugin conforms to the WP Consent API, or you have enabled Consent Per Service"
 msgstr ""
 
-#: settings/config/fields-notices.php:160
+#: settings/config/fields-notices.php:159
 msgid "Sensitive & personal data"
 msgstr ""
 
-#: settings/config/fields-notices.php:161
+#: settings/config/fields-notices.php:160
 msgid "You have selected options that indicate your site processes sensitive, personal data. You should select 'Yes'"
 msgstr ""
 
-#: settings/config/fields-notices.php:169
+#: settings/config/fields-notices.php:168
 msgid "TCF not possible with custom Cookie Policy"
 msgstr ""
 
-#: settings/config/fields-notices.php:170
+#: settings/config/fields-notices.php:169
 msgid "You have chosen a custom Cookie Policy. The TCF option is disabled as it can only be used in combination with the Cookie Policy generated by Complianz."
 msgstr ""
 
-#: settings/config/fields-notices.php:178
+#: settings/config/fields-notices.php:177
 msgid "TCF enabled"
 msgstr ""
 
-#: settings/config/fields-notices.php:179
+#: settings/config/fields-notices.php:178
 msgid "You have enabled TCF. This option can only be used in combination with the Cookie Policy generated by Complianz."
 msgstr ""
 
@@ -10017,7 +10026,7 @@ msgid "Records of Consent are required in certain circumstances, you can read ou
 msgstr ""
 
 #: settings/config/fields/tools/security.php:20
-msgid "5+ million websites are secured with Really Simple SSL"
+msgid "5+ million websites are secured with Really Simple SSL & Security"
 msgstr ""
 
 #: settings/config/fields/tools/support.php:18
@@ -10554,9 +10563,9 @@ msgstr ""
 #: settings/config/fields/wizard/general.php:352
 #: settings/config/menu.php:415
 #: settings/config/menu.php:429
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:46
 msgid "Records of Consent"
 msgstr ""
@@ -10648,8 +10657,8 @@ msgstr ""
 
 #: settings/config/fields/wizard/services.php:49
 #: settings/config/menu.php:313
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6356.d0bac49fee064ae65046.js:1
 #: settings/src/Dashboard/Progress/ProgressFooter.js:38
 msgid "Placeholders"
@@ -10807,8 +10816,8 @@ msgstr ""
 #: settings/config/menu.php:153
 #: settings/config/menu.php:157
 #: settings/config/menu.php:328
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6549.20488655f9365155ec77.js:1
 #: settings/src/Dashboard/Documents/DocumentsHeader.js:43
 msgid "Documents"
@@ -10950,7 +10959,7 @@ msgstr ""
 #: settings/config/menu.php:172
 #: settings/build/2619.d513ebd9ab365faf64af.js:1
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/9363.2c54c4654977d5b3abac.js:1
 #: settings/src/Settings/DataBreachReports/CreateDataBreachReport.js:189
 #: settings/src/Settings/Finish/FinishControl.js:62
@@ -10998,9 +11007,9 @@ msgstr ""
 #: settings/config/menu.php:276
 #: settings/settings.php:337
 #: settings/settings.php:338
-#: settings/build/938.44b4713c2b709cbbad36.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/938.c3987bcd884b66a45dff.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/ToolsHeader.js:38
 msgid "Tools"
 msgstr ""
@@ -11019,9 +11028,9 @@ msgstr ""
 
 #: settings/config/menu.php:296
 #: settings/config/menu.php:301
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:38
 msgid "Data Requests"
 msgstr ""
@@ -11082,9 +11091,9 @@ msgid "View and manage Records of Consent with %sComplianz GDPR Premium%s"
 msgstr ""
 
 #: settings/config/menu.php:458
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:82
 msgid "Security"
 msgstr ""
@@ -11094,7 +11103,7 @@ msgid "Improve Security"
 msgstr ""
 
 #: settings/config/menu.php:468
-msgid "Below text is meant for your Privacy Statement, and is created by using Really Simple SSL. In Complianz Premium the text will be automatically added to the Privacy Statement."
+msgid "Below text is meant for your Privacy Statement, and is created by using Really Simple SSL & Security. In Complianz Premium the text will be automatically added to the Privacy Statement."
 msgstr ""
 
 #: settings/config/menu.php:475
@@ -11112,9 +11121,9 @@ msgid "Data"
 msgstr ""
 
 #: settings/config/menu.php:486
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:90
 msgid "Multisite"
 msgstr ""
@@ -11209,9 +11218,9 @@ msgstr ""
 #: upgrade/upgrade-to-pro.php:159
 #: upgrade/upgrade-to-pro.php:176
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/4550.d95d22be032a202446b6.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5070.787b167c94c9131011e8.js:1
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
@@ -11226,17 +11235,17 @@ msgid "Configure your Cookie Notice, Cookie Consent and Cookie Policy with our W
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:174
-msgid "One click SSL optimization"
+msgid "SSL & Security"
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:178
-msgid "Really Simple SSL automatically detects your settings and configures your website to run over HTTPS. To keep it lightweight, we kept the options to a minimum. Your website will move to SSL with one click."
+msgid "Really Simple SSL & Security - Lightweight plugin, heavyweight features."
 msgstr ""
 
 #: upgrade/upgrade-to-pro.php:190
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPlugins.js:24
 #: settings/src/Settings/InstallPlugin/InstallPlugin.js:70
@@ -11319,14 +11328,20 @@ msgid "Your license key has reached its activation limit."
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:216
 msgid "Legal document - Complianz"
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:106
+#: gutenberg/src/index.js:148
+#: gutenberg/src/index.js:174
 msgid "Select a document"
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:107
+#: gutenberg/src/index.js:165
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
 #: settings/build/1234.6cc1053b1babf3247c15.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
@@ -11337,27 +11352,35 @@ msgid "Loading..."
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:114
 msgid "No documents found. Please finish the Complianz Privacy Suite wizard to generate documents"
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:144
+#: gutenberg/src/index.js:170
+#: gutenberg/src/index.js:349
 msgid "Document settings"
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:154
+#: gutenberg/src/index.js:181
 msgid "Document sync status"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/6885.89410175d033c29840e8.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: gutenberg/src/index.js:353
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/6885.13089a4f1f014f209c02.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Category.js:22
 msgid "Category"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: gutenberg/src/index.js:366
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
@@ -11367,11 +11390,12 @@ msgid "Service"
 msgstr ""
 
 #: gutenberg/build/index.js:1
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: gutenberg/src/index.js:377
+#: settings/build/3086.5d01347eed42fe777153.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Placeholder.js:23
 #: settings/src/Settings/Integrations/PluginsControl.js:100
 #: settings/src/Settings/Integrations/ServicesControl.js:185
@@ -11379,73 +11403,84 @@ msgid "Placeholder"
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:407
 msgid "You do not have sufficient permissions to edit this block."
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:413
 msgid "You can add custom HTML to create your own placeholder. This placeholder is visible before consent."
 msgstr ""
 
 #: gutenberg/build/index.js:1
+#: gutenberg/src/index.js:423
 msgid "You can add custom HTML that requires consent. In the right-side bar you will find the options for this custom block. For instructions, please go to complianz.io/gutenberg for more information."
 msgstr ""
 
+#: gutenberg/src/index.js:125
+msgid "Select a document type from the dropdownlist"
+msgstr ""
+
+#: gutenberg/src/index.js:125
+msgid "Click this block to show the options"
+msgstr ""
+
 #: settings/build/70.24d18db86a1ba4a3f726.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlockHeader.js:23
 msgid "Progress"
 msgstr ""
 
 #: settings/build/70.24d18db86a1ba4a3f726.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlockHeader.js:27
 msgid "All tasks"
 msgstr ""
 
 #: settings/build/70.24d18db86a1ba4a3f726.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlockHeader.js:31
 msgid "Remaining tasks"
 msgstr ""
 
 #: settings/build/340.40a13cfe4ae7c44d34d6.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
 #: settings/build/3909.14577f9ae1fdffc9c5ae.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6239.41782debcf481aed2c12.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Dashboard/TaskElement.js:52
 #: settings/src/Settings/Help.js:26
 msgid "More info"
 msgstr ""
 
 #: settings/build/340.40a13cfe4ae7c44d34d6.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
 #: settings/build/3909.14577f9ae1fdffc9c5ae.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/TaskElement.js:28
 msgid "Re-started test"
 msgstr ""
 
 #: settings/build/340.40a13cfe4ae7c44d34d6.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
 #: settings/build/3909.14577f9ae1fdffc9c5ae.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/TaskElement.js:53
 msgid "Re-check"
 msgstr ""
 
 #: settings/build/340.40a13cfe4ae7c44d34d6.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
 #: settings/build/3909.14577f9ae1fdffc9c5ae.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/TaskElement.js:54
 #: settings/src/Dashboard/TaskElement.js:55
 msgid "View"
@@ -11458,9 +11493,9 @@ msgstr ""
 
 #: settings/build/340.40a13cfe4ae7c44d34d6.js:1
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/4550.d95d22be032a202446b6.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5070.787b167c94c9131011e8.js:1
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/build/8970.738292bbd4b0769fdb64.js:1
@@ -11499,17 +11534,17 @@ msgid "Country"
 msgstr ""
 
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
-#: settings/build/938.44b4713c2b709cbbad36.js:1
+#: settings/build/938.c3987bcd884b66a45dff.js:1
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
 #: settings/build/2353.3b4d0dd11e5b4b20b6d5.js:1
 #: settings/build/2588.04e2718a8a4c0f789a25.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/6527.0e2c6c2069b1c5b37204.js:1
@@ -11517,7 +11552,7 @@ msgstr ""
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
 #: settings/build/9363.2c54c4654977d5b3abac.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Inputs/SelectInput.js:32
 #: settings/src/Settings/Processors/ProcessorElement.js:106
 msgid "Select an option"
@@ -11525,17 +11560,17 @@ msgstr ""
 
 #: settings/build/378.7fea77f8dc0eb5b92c99.js:1
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1243.b02307e08f3dc7d9fdc2.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/3287.763529e22a15e898203d.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8111.1efea38fa71dfeae848d.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Cookiedatabase/Cookie.js:230
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:250
@@ -11543,7 +11578,7 @@ msgstr ""
 #: settings/src/Settings/Integrations/ThirdPartyScript.js:102
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:237
 #: settings/src/Settings/Processors/ProcessorElement.js:119
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:217
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:211
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:287
 #: settings/src/Settings/ThirdParties/ThirdPartyElement.js:103
 msgid "Delete"
@@ -11551,16 +11586,16 @@ msgstr ""
 
 #: settings/build/382.d8349ca80a4a572fcf7d.js:1
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:59
 msgid "No options found"
@@ -11568,16 +11603,16 @@ msgstr ""
 
 #: settings/build/382.d8349ca80a4a572fcf7d.js:1
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:92
 msgid "Show more"
@@ -11585,35 +11620,35 @@ msgstr ""
 
 #: settings/build/382.d8349ca80a4a572fcf7d.js:1
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/Inputs/CheckboxGroup.js:97
 msgid "Show less"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:187
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:179
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:165
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:164
 msgid "Document"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:232
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:236
@@ -11625,27 +11660,27 @@ msgid "Search"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:239
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:242
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:228
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:213
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:207
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:283
 msgid "%s items selected"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:240
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:243
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:229
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:214
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:208
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:284
 msgid "1 item selected"
 msgstr ""
@@ -11665,11 +11700,11 @@ msgid "Download Processing Agreement"
 msgstr ""
 
 #: settings/build/404.561d7bca8da022edadc5.js:1
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/1377.b820dd477a5ec9dfe4ec.js:1
 #: settings/src/Settings/DataBreachReports/DataBreachReportsControl.js:264
 #: settings/src/Settings/ProcessingAgreements/ProcessingAgreementsControl.js:248
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:231
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:225
 msgid "No documents"
 msgstr ""
 
@@ -11679,72 +11714,72 @@ msgid "Show"
 msgstr ""
 
 #: settings/build/849.39fcd1af912bd99a4f28.js:1
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5364.c1b8c18e16cecb8159f9.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5364.c756ccd026200033d8f8.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/utils/readMore.js:12
 msgid "For more information, please read this %sarticle%s."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:38
 msgid "The conversion graph shows the ratio for the different choices users have. When a user has made a choice, this will be counted as either a converted user, or a not converted. If no choice is made, the user will be listed in the \"No choice\" category."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:42
 msgid "As you have enabled geoip, there are several regions in which a banner is shown, in different ways. In regions apart from %s no banner is shown at all."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:44
 msgid "Banners in different regions"
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:60
 msgid "The consent banner with the best results has been enabled as default banner."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:64
 msgid "A/B testing is disabled. Previously made progress is saved."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:71
 msgid "A/B is enabled and will end in %s days."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:72
 msgid "A/B is enabled and will end in 1 day."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:73
 msgid "A/B is enabled and will end today."
 msgstr ""
 
-#: settings/build/856.18681d10e6ce7d41ea79.js:1
+#: settings/build/856.be30836c3ccf30fe07b6.js:1
 #: settings/src/Statistics/StatisticsFeedback.js:77
 msgid "The A/B tracking period has ended, the best performer will be enabled on the next scheduled check."
 msgstr ""
 
-#: settings/build/1143.44683e7e42c7ce8d8280.js:1
+#: settings/build/1143.9baf6b71bb2031884397.js:1
 #: settings/build/9910.8d64f0672c894dde3cea.js:1
-#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:216
+#: settings/src/Settings/ProofOfConsent/ProofOfConsentControl.js:210
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:286
 msgid "Download Proof of Consent"
 msgstr ""
 
 #: settings/build/1205.dcea95da9fd64b69fd7f.js:1
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5068.3665bf25e6697bd0a416.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:42
 #: settings/src/Settings/CreateDocuments/CreateDocument.js:30
@@ -11767,16 +11802,16 @@ msgid "Add new Third Party"
 msgstr ""
 
 #: settings/build/1273.adc574d2b782ff23de4b.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsFooter.js:9
 msgid "Synchronized"
 msgstr ""
 
 #: settings/build/1273.adc574d2b782ff23de4b.js:1
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:21
 #: settings/src/Dashboard/Documents/DocumentsFooter.js:13
 msgid "Validated"
@@ -11812,9 +11847,9 @@ msgid "Reporting not required"
 msgstr ""
 
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/4550.d95d22be032a202446b6.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5070.787b167c94c9131011e8.js:1
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPluginsData.js:76
@@ -11823,8 +11858,8 @@ msgid "Activating..."
 msgstr ""
 
 #: settings/build/1424.6501457aee288700bb8c.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/5070.787b167c94c9131011e8.js:1
 #: settings/src/Dashboard/OtherPlugins/OtherPluginsData.js:77
 #: settings/src/Dashboard/OtherPlugins/OtherPluginsData.js:78
@@ -11929,59 +11964,59 @@ msgid "Left"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:19
 msgid "Document is kept up to date by Complianz"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:19
 msgid "Document is not kept up to date by Complianz"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:21
 msgid "Missing document"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:22
 msgid "Click to copy the document shortcode"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:22
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:26
 msgid "Not enabled"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Documents/DocumentsBlock.js:68
 msgid "Privacy Statements"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/OtherDocuments.js:21
 msgid "Data Breach"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6527.0e2c6c2069b1c5b37204.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/SingleDocument.js:61
@@ -11989,8 +12024,8 @@ msgid "Download file"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6527.0e2c6c2069b1c5b37204.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/SingleDocument.js:64
@@ -11998,32 +12033,32 @@ msgid "Go to overview"
 msgstr ""
 
 #: settings/build/1828.a2c457c2c79139ba82e1.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6527.0e2c6c2069b1c5b37204.js:1
 #: settings/build/7980.b83d93722ef668ed45c5.js:1
 #: settings/src/Dashboard/Documents/SingleDocument.js:66
 msgid "Create new"
 msgstr ""
 
-#: settings/build/1871.f461fb52998772a87ba7.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/1871.22a3ffd17f9a5f7a47e7.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/SettingsGroup.js:68
 msgid "Learn more about %sPremium%s"
 msgstr ""
 
-#: settings/build/1871.f461fb52998772a87ba7.js:1
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/1871.22a3ffd17f9a5f7a47e7.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Dashboard/GridBlock.js:49
-#: settings/src/Settings/SettingsGroup.js:83
+#: settings/src/Settings/SettingsGroup.js:89
 msgid "Instructions"
 msgstr ""
 
-#: settings/build/1871.f461fb52998772a87ba7.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
-#: settings/src/Settings/SettingsGroup.js:122
+#: settings/build/1871.22a3ffd17f9a5f7a47e7.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
+#: settings/src/Settings/SettingsGroup.js:128
 msgid "Check license"
 msgstr ""
 
@@ -12147,10 +12182,10 @@ msgstr ""
 msgid "Go to question"
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/build/8079.1b009e160a475b66af49.js:1
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:29
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:20
 #: settings/src/Settings/Integrations/ServicesControl.js:34
@@ -12158,41 +12193,41 @@ msgstr ""
 msgid "Safe Mode enabled. To manage integrations, disable Safe Mode under Tools - Support."
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:41
 msgid "Third-party services and social media are marked as not being used on your website in the wizard."
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:73
 msgid "reCaptcha is connected and will be blocked before consent. To change your settings, disable reCaptcha in the list."
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:73
 msgid "reCaptcha blocking enabled"
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/build/3231.3b3a1f2bc57b294d6dab.js:1
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/DataRequests/DatarequestsControl.js:189
 #: settings/src/Settings/Integrations/PluginsControl.js:107
 #: settings/src/Settings/Integrations/ServicesControl.js:192
 msgid "Status"
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:240
 msgid "Enabled services will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking."
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:251
 msgid "View services"
 msgstr ""
 
-#: settings/build/3086.a7a1f7d47dc7bccc7df3.js:1
+#: settings/build/3086.5d01347eed42fe777153.js:1
 #: settings/src/Settings/Integrations/ServicesControl.js:267
 msgid "No services"
 msgstr ""
@@ -12201,7 +12236,7 @@ msgstr ""
 #: settings/build/3275.958612b47cdc0bd51b9e.js:1
 #: settings/build/5873.7ccdcc69257d128cfc29.js:1
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
 #: settings/src/Settings/DocumentsMenu/MenuData.js:91
 msgid "Saving menu..."
@@ -12211,7 +12246,7 @@ msgstr ""
 #: settings/build/3275.958612b47cdc0bd51b9e.js:1
 #: settings/build/5873.7ccdcc69257d128cfc29.js:1
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
 #: settings/src/Settings/DocumentsMenu/MenuData.js:92
 msgid "Menu saved"
@@ -12221,10 +12256,10 @@ msgstr ""
 #: settings/build/3275.958612b47cdc0bd51b9e.js:1
 #: settings/build/5873.7ccdcc69257d128cfc29.js:1
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
-#: settings/build/index.3b9a1dd167840749303c.js:1
-#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:58
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
+#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:59
 #: settings/src/Settings/DocumentsMenu/MenuData.js:93
 #: settings/src/Settings/Fields/FieldsData.js:164
 msgid "Something went wrong"
@@ -12234,7 +12269,7 @@ msgstr ""
 #: settings/build/3275.958612b47cdc0bd51b9e.js:1
 #: settings/build/5873.7ccdcc69257d128cfc29.js:1
 #: settings/build/6139.3ffad181bd6caa652ff9.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8088.203feaadbaaeebd46eb2.js:1
 #: settings/src/Settings/DocumentsMenu/MenuData.js:97
 msgid "Settings have not been changed"
@@ -12258,104 +12293,104 @@ msgstr ""
 msgid "Link values together"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlock.js:54
 msgid "Not all fields have been entered, or you have not clicked the \"finish\" button yet."
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlock.js:85
 msgid "Consent Management is activated on your site."
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlock.js:86
 msgid "You still have 1 task open."
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlock.js:87
 msgid "You still have %s tasks open."
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
 #: settings/build/3539.4dd045979b4765f15ba4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Progress/ProgressBlock.js:88
 msgid "Well done! Your website is ready for your selected regions."
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6356.d0bac49fee064ae65046.js:1
 #: settings/src/Dashboard/Progress/ProgressFooter.js:31
 msgid "Continue Wizard"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/6356.d0bac49fee064ae65046.js:1
 #: settings/src/Dashboard/Progress/ProgressFooter.js:34
 msgid "Cookie Blocker"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/build/4868.1d882a0af2d61f3bbb03.js:1
 #: settings/src/Dashboard/TipsTricks/TipsTricksFooter.js:7
 msgid "View all"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/7499.f352751d6395eb6876cf.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/7499.e4985e6a281e9a2c8d83.js:1
 #: settings/src/Dashboard/Tools/Statistics.js:100
 msgid "Full Consent"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/7499.f352751d6395eb6876cf.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/7499.e4985e6a281e9a2c8d83.js:1
 #: settings/src/Dashboard/Tools/Statistics.js:105
 msgid "No Consent"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:58
 msgid "Consent Statistics"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:63
 msgid "A/B Testing"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Dashboard/Tools/Tools.js:68
 #: settings/src/Header.js:28
 msgid "Documentation"
 msgstr ""
 
-#: settings/build/3187.72163b45e3862e2e28a4.js:1
-#: settings/build/3709.597855e34e12df4af47c.js:1
-#: settings/build/4858.c016b246c67474d6bb51.js:1
+#: settings/build/3187.d52c238bd211965cd863.js:1
+#: settings/build/3709.c1d5c783652a078fa2d3.js:1
+#: settings/build/4858.c2be354bb9d98e2a1faf.js:1
 #: settings/src/Dashboard/Tools/Tools.js:72
 msgid "Premium Support"
 msgstr ""
@@ -12388,80 +12423,80 @@ msgstr ""
 msgid "No records"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:24
-msgid "Please activate Really Simple SSL to unlock this feature."
+msgid "Please activate Really Simple SSL & Security to unlock this feature."
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:24
-msgid "Please install Really Simple SSL to unlock this feature."
+msgid "Please install Really Simple SSL & Security to unlock this feature."
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:31
 msgid "Not installed"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:42
 msgid "HTTP Strict Transport Security and related security headers"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:43
 msgid "TLS / SSL"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:44
 msgid "Recommended site hardening features"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:60
 msgid "We are committed to the security of personal data. We take appropriate security measures to limit abuse of and unauthorized access to personal data. This ensures that only the necessary persons have access to your data, that access to the data is protected, and that our security measures are regularly reviewed."
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:61
 msgid "The security measures we use consist of, but are not limited to:"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:64
-msgid "No security measures enabled in Really Simple SSL"
+msgid "No security measures enabled in Really Simple SSL & Security"
 msgstr ""
 
-#: settings/build/3762.e4f00c5081e545bb4d9c.js:1
+#: settings/build/3762.bc2c062fa05a77827a0d.js:1
 #: settings/src/Settings/SecurityMeasures/SecurityMeasures.js:65
-msgid "Please upgrade Really Simple SSL to the latest version to unlock this feature."
+msgid "Please upgrade Really Simple SSL & Security to the latest version to unlock this feature."
 msgstr ""
 
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Dependency.js:59
 msgid "Enable dependency"
 msgstr ""
 
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Dependency.js:72
 msgid "waits for: "
 msgstr ""
 
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Dependency.js:73
 msgid "Empty URL"
 msgstr ""
 
-#: settings/build/3863.d396a1093f79d6ef8849.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/3863.b31707a5acfd75148f99.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Dependency.js:76
 msgid "Add a URL to create a dependency between two URLs"
 msgstr ""
@@ -12557,40 +12592,40 @@ msgstr ""
 msgid "Really Simple Security? Install now!"
 msgstr ""
 
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Placeholder.js:29
 msgid "Enable placeholder"
 msgstr ""
 
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Placeholder.js:43
 msgid "The blocked content is an iframe"
 msgstr ""
 
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Placeholder.js:51
 msgid "Enter the div class or ID that should be targeted."
 msgstr ""
 
-#: settings/build/4783.d107b46fac530437291c.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/4783.81b79664d15e0697c72b.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Placeholder.js:61
 msgid "Your CSS class"
 msgstr ""
 
-#: settings/build/5050.61d22cd3e2ded0050cdd.js:1
+#: settings/build/5050.aba207a83b58da01b1e8.js:1
 #: settings/src/Settings/PluginsOverviewControl.js:60
 msgid "We found %s active plugin integrations"
 msgstr ""
 
-#: settings/build/5050.61d22cd3e2ded0050cdd.js:1
+#: settings/build/5050.aba207a83b58da01b1e8.js:1
 #: settings/src/Settings/PluginsOverviewControl.js:61
 msgid "We found %s active service integrations"
 msgstr ""
@@ -12641,8 +12676,8 @@ msgid "Type your question here"
 msgstr ""
 
 #: settings/build/5343.e1ffa794d91306ba0d17.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Editor/AceEditorControl.js:46
 msgid "Write your JavaScript without wrapping it in script tags."
 msgstr ""
@@ -12685,13 +12720,13 @@ msgid "Next"
 msgstr ""
 
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
 #: settings/build/5927.0b2c4a238f6b2e33b883.js:1
 #: settings/build/6265.b0306ba12493551fdb76.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/8189.ad7cde4c36a511904e0d.js:1
 #: settings/build/9363.2c54c4654977d5b3abac.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Cookiedatabase/Cookie.js:227
 #: settings/src/Settings/Cookiedatabase/Service.js:160
 #: settings/src/Settings/DataBreachReports/CreateDataBreachReport.js:150
@@ -12717,7 +12752,7 @@ msgstr ""
 
 #: settings/build/5350.cd0698b9f44a89f958c1.js:1
 #: settings/build/6854.73ce8789ba86db243ff9.js:1
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/build/7372.31c599dad2ff1b247203.js:1
 #: settings/build/9363.2c54c4654977d5b3abac.js:1
 #: settings/src/Onboarding/Onboarding.js:125
@@ -12758,28 +12793,28 @@ msgstr ""
 msgid "Your dataleak report:"
 msgstr ""
 
-#: settings/build/5364.c1b8c18e16cecb8159f9.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/5364.c756ccd026200033d8f8.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Urls.js:42
 msgid "URLs that should be blocked before consent."
 msgstr ""
 
-#: settings/build/5364.c1b8c18e16cecb8159f9.js:1
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/5364.c756ccd026200033d8f8.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/Urls.js:44
 msgid "URLs that should be whitelisted."
 msgstr ""
 
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ThirdPartyScript.js:82
 msgid "This script contains an async attribute."
 msgstr ""
 
-#: settings/build/5596.ceba7fb916837004a473.js:1
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/5596.5454648b2c662579f685.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ThirdPartyScript.js:94
 msgid "Dependency"
 msgstr ""
@@ -13127,6 +13162,11 @@ msgstr ""
 msgid "Conforms to the Consent API"
 msgstr ""
 
+#: settings/build/6702.b933773bf9f4d04168d4.js:1
+#: settings/src/Settings/Editor/Editor.js:66
+msgid "Editor"
+msgstr ""
+
 #: settings/build/6854.73ce8789ba86db243ff9.js:1
 #: settings/src/Tour/Tour.js:36
 msgid "Welcome to Complianz"
@@ -13207,32 +13247,32 @@ msgstr ""
 msgid "Activate your license"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:219
 msgid "Get Premium"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:255
 msgid "Save and Continue"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:261
 msgid "Continue"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:282
 msgid "Notifications"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:285
 msgid "Expand all"
 msgstr ""
 
-#: settings/build/6937.1e68a047fba9c9a81c76.js:1
+#: settings/build/6937.2b770021023e8df96f26.js:1
 #: settings/src/Settings/Settings.js:286
 msgid "Collapse all"
 msgstr ""
@@ -13317,27 +13357,27 @@ msgstr ""
 msgid "%s rating based on %d ratings"
 msgstr ""
 
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:32
 msgid "No active plugins detected in the integrations list."
 msgstr ""
 
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:94
 msgid "Plugin"
 msgstr ""
 
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:155
 msgid "Below you will find the plugins currently detected and integrated with Complianz. Most plugins work by default, but you can also add a plugin to the script center or add it to the integration list."
 msgstr ""
 
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:157
 msgid "Enabled plugins will be blocked on the front-end of your website until the user has given consent (opt-in), or after the user has revoked consent (opt-out). When possible a placeholder is activated. You can also disable or configure the placeholder to your liking."
 msgstr ""
 
-#: settings/build/9157.e6640915b1fb1c7a0ea5.js:1
+#: settings/build/9157.8e29bc2393d59bf4b853.js:1
 #: settings/src/Settings/Integrations/PluginsControl.js:179
 msgid "No plugins"
 msgstr ""
@@ -13377,22 +13417,22 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:30
 msgid "The script center should be used to add and block third-party scripts and iFrames before consent is given, or when consent is revoked. For example Hotjar and embedded video’s."
 msgstr ""
 
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:38
 msgid "Add a third-party script"
 msgstr ""
 
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:43
 msgid "Block a script, iframe or plugin"
 msgstr ""
 
-#: settings/build/9808.2a772bd36278452f1071.js:1
+#: settings/build/9808.6dd1c6152531ca5a3909.js:1
 #: settings/src/Settings/Integrations/ScriptCenterControl.js:48
 msgid ""
 "Whitelist a script, iframe or plugin\n"
@@ -13415,137 +13455,137 @@ msgstr ""
 msgid "DNT/GPC"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Header.js:37
 #: settings/src/Menu/Menu.js:28
 msgid "Go Pro"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Menu/MenuItem.js:79
 msgid "New"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:29
 msgid "The wizard is currently in use by user with ID: "
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:30
 msgid "To prevent conflicts during saving the wizard is temporarily locked."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Placeholder/PagePlaceholder.js:31
 msgid "The lock will automatically clear after two minutes."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:56
 msgid "Switch between banners"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:62
 msgid "Banner"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/CookieBannerPreview/CookieBannerControls.js:68
 msgid "Edit consent types"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
-#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:56
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
+#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:57
 #: settings/src/Settings/Fields/FieldsData.js:162
 msgid "Saving settings..."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
-#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:57
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
+#: settings/src/Settings/CookieBannerPreview/CookieBannerData.js:58
 #: settings/src/Settings/Fields/FieldsData.js:163
 #: settings/src/Settings/Fields/FieldsData.js:215
 #: settings/src/Settings/Fields/FieldsData.js:325
 msgid "Settings saved"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/Field.js:227
 msgid "This field is required"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/Field.js:228
 msgid "Please enter a valid URL"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/Field.js:229
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/Field.js:230
 msgid "Please enter a valid number"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/Field.js:231
 msgid "Please enter a valid phone number"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/Settings/Fields/LabelWrapper.js:14
 msgid "required"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:12
-msgid "Please check if security settings on the server or a plugin is blocking the requests from Really Simple SSL."
+msgid "Please check if security settings on the server or a plugin is blocking the requests from Complianz."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:20
-msgid "The Really Simple SSL Rest API is disabled."
+msgid "The Complianz Rest API is disabled."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:22
-msgid "The Really Simple SSL Rest API returned a not found."
+msgid "The Complianz Rest API returned a not found."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:24
-msgid "The Really Simple SSL Rest API returned a 403 forbidden error."
+msgid "The Complianz Rest API returned a 403 forbidden error."
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:35
 msgid "A problem was detected during the loading of the settings"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:41
 msgid "The request returned the following errors:"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:43
 msgid "Response code:"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:44
 msgid "Status code:"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:45
 msgid "Server response:"
 msgstr ""
 
-#: settings/build/index.3b9a1dd167840749303c.js:1
+#: settings/build/index.f166fcd37a8d47f630b4.js:1
 #: settings/src/utils/Error.js:52
 msgid "More information"
 msgstr ""

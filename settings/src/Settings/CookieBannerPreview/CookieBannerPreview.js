@@ -107,10 +107,10 @@ const CookieBannerPreview = () => {
 		}
 	},[selectedBannerId, consentType, bannerDataLoaded, tcfActive]);
 
+	//when the banner data is loaded, or critical settings have changed, sync the banner to the fields
 	useEffect(() => {
 		syncBannerToFields();
-
-	}, [fields]);
+	}, [bannerDataLoaded, getFieldValue('consent_type'), getFieldValue('uses_ad_cookies_personalized'), getFieldValue('uses_ad_cookies')]);
 
 	useEffect (  () => {
 		//wait with generating the preview until we have synced the data at least once.
@@ -141,10 +141,11 @@ const CookieBannerPreview = () => {
 			if ( selectedBanner.hasOwnProperty(field.id) ) {
 				//load defaults
 				let value = selectedBanner[field.id];
+				//setting defaults does not seem logical, and causes issues when clearing fields
 				//set defaults if empty. Checkboxes are '0' when false.
-				if (  (!value || value.length===0 || (value.hasOwnProperty('text') && value['text'].length===0 ) ) ) {
-					value = field.default;
-				}
+				// if (  (!value || value.length===0 || (value.hasOwnProperty('text') && value['text'].length===0 ) ) ) {
+				// 	value = field.default;
+				// }
 
 				if ( getFieldValue(field.id)!==value ) {
 					updateField(field.id, value)
