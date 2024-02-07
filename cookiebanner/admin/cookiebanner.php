@@ -86,7 +86,7 @@ function cmplz_banner_data(array $data, string $action, WP_REST_Request $request
 	if ( $action === 'generate_preview_css' ) {
 		$data = $request->get_json_params();
 		$banner_id = $data['banner_id'] ?? cmplz_get_default_banner_id();
-		$fields = $data['fields'];
+		$fields = $data['fields'] ?? [];
 		$banner = cmplz_get_cookiebanner( (int) $banner_id );
 		foreach ($fields as $field ) {
 			if ( property_exists( $banner, $field['id'] )) {

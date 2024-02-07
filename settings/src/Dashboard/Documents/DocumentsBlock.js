@@ -63,16 +63,16 @@ const DocumentsBlock = () => {
 	const {documentsChanged} = UseDocumentsData();
 
 	const [regionDocuments, setRegionDocuments] = useState([]);
-	const premiumDocuments = [
-		{
-			title: __("Privacy Statements", 'complianz-gdpr'),
-			readmore: 'https://complianz.io/definition/what-is-a-privacy-statement/',
-		},
-		{
-			title: __("Impressum", 'complianz-gdpr'),
-			readmore: 'https://complianz.io/definition/what-is-an-impressum/',
-		},
-	];
+	// const premiumDocuments = [
+	// 	{
+	// 		title: __("Privacy Statements", 'complianz-gdpr'),
+	// 		readmore: 'https://complianz.io/definition/what-is-a-privacy-statement/',
+	// 	},
+	// 	{
+	// 		title: __("Impressum", 'complianz-gdpr'),
+	// 		readmore: 'https://complianz.io/definition/what-is-an-impressum/',
+	// 	},
+	// ];
 
 	useEffect( () => {
 		if (!documentDataLoaded) {
@@ -94,13 +94,13 @@ const DocumentsBlock = () => {
 		let docs = documents.filter( (document) => document['region'] ===region)[0];
 		if ( docs ) {
 			docs = docs['documents'];
-			if ( !cmplz_settings.is_premium ) {
-				premiumDocuments.forEach((premiumDocument) => {
-					if (!docs.find((doc) => doc.title === premiumDocument.title)){
-						docs.push(premiumDocument);
-					}
-				});
-			}
+			// if ( !cmplz_settings.is_premium ) {
+			// 	premiumDocuments.forEach((premiumDocument) => {
+			// 		if (!docs.find((doc) => doc.title === premiumDocument.title)){
+			// 			docs.push(premiumDocument);
+			// 		}
+			// 	});
+			// }
 			setRegionDocuments(docs);
 		}
 	}, [region, documents] );
