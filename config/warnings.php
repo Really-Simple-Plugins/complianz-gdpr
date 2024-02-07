@@ -261,7 +261,7 @@ function cmplz_load_warning_types() {
 
 		'configure-tag-manager' => array(
 			'warning_condition' => 'cmplz_uses_google_tagmanager_or_analytics',
-			'premium' => __( 'Learn more about Google Consent Mode.', 'complianz-gdpr' ),
+			'premium' => __( 'Learn more about Google Consent Mode V2.', 'complianz-gdpr' ),
 			'include_in_progress' => false,
 			'dismissible' => false,
 			'url' => 'https://complianz.io/consent-mode-for-7-0/'

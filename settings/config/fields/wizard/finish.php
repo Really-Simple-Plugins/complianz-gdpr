@@ -34,13 +34,13 @@ function cmplz_wizard_finish_fields( $fields ) {
 				'label'                   => __( "Show Consent Banner", 'complianz-gdpr' ),
 				'tooltip'                 => __( "If you enable this setting, a consent banner will be enabled, if needed.", 'complianz-gdpr' ),
 				'comment'                 => __( "You can always enable and disable the Consent Banner when styling the Consent Banner, under Consent Banner settings.", 'complianz-gdpr' ),
-				'condition_action'        => 'disable',
-				'react_conditions'        => [
-					'relation' => 'AND',
-					[
-						'cookie_banner_required' => true,
-					]
-				],
+//				'condition_action'        => 'disable',
+//				'react_conditions'        => [
+//					'relation' => 'AND',
+//					[
+//						'cookie_banner_required' => true,
+//					]
+//				],
 			],
 			[
 				'id'                      => 'enable_cookie_blocker',
@@ -59,13 +59,13 @@ function cmplz_wizard_finish_fields( $fields ) {
 					'text'  => __( "If the Cookie Blocker causes an issue, you can enable Safe Mode under settings. Disabling Safe Mode will activate the Cookie Blocker.", 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/debugging-issues/',
 				],
-				'condition_action'        => 'disable',
-				'react_conditions'        => [
-					'relation' => 'AND',
-					[
-						'cookie_banner_required' => true,
-					]
-				],
+//				'condition_action'        => 'disable',
+//				'react_conditions'        => [
+//					'relation' => 'AND',
+//					[
+//						'cookie_banner_required' => true,
+//					]
+//				],
 				'source_id' => 'safe_mode',
 				'source_mapping' => [
 					//source value => target value

@@ -206,7 +206,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 					'url'     => 'https://complianz.io/pricing',
 					'disabled'         => false,
 				],
-				'label'            => __( "Do you want to enable Google Consent Mode?", 'complianz-gdpr' ),
+				'label'            => __( "Do you want to enable Google Consent Mode V2?", 'complianz-gdpr' ),
 				'tooltip'            => __( "Google Consent Mode is still in BETA", 'complianz-gdpr' ),
 				'comment'   => __("Consent Mode is still in BETA and you will need to verify if it's working correctly.", "complianz-gdpr").' '.cmplz_sprintf(__("Please read this %sarticle%s to make sure Consent Mode is working as expected.", "complianz-gdpr"),'<a target="_blank" href="https://complianz.io/consent-mode/">', '</a>'),
 				'options'          => array(
