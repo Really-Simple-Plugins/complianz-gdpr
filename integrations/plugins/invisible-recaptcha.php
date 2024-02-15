@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) or die( "you do not have access to this page!" );
  *
  * @return array
  */
-function cmplz_advanced_captcha_nocaptcha_services( $services ) {
+function cmplz_invisible_captcha_nocaptcha_services( $services ) {
 	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $services;
 
 	if ( ! in_array( 'google-recaptcha', $services ) ) {
@@ -17,4 +17,4 @@ function cmplz_advanced_captcha_nocaptcha_services( $services ) {
 
 	return $services;
 }
-add_filter( 'cmplz_detected_services', 'cmplz_advanced_captcha_nocaptcha_services' );
+add_filter( 'cmplz_detected_services', 'cmplz_invisible_captcha_nocaptcha_services' );

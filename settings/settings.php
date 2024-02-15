@@ -159,7 +159,7 @@ function cmplz_get_chunk_translations() {
 			continue;
 		}
 
-		$chunk_handle = 'cmplz-chunk-'.$file;
+		$chunk_handle = str_replace('.js', '', $file );
 		//temporarily register the script, so we can get a translations object.
 		wp_register_script( $chunk_handle, plugins_url('build/'.$file, __FILE__), [], true );
 		$path = defined('cmplz_premium') ? cmplz_path . 'languages' : false;

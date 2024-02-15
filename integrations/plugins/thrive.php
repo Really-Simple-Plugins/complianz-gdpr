@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) or die();
  *
  * @return mixed|null
  */
-function cmplz_content_views_cookieblocker( $html ) {
+function cmplz_thrive_page_content_cookieblocker( $html ) {
 	if ( ! is_admin() && ! cmplz_is_pagebuilder_preview() ) {
 		$html = COMPLIANZ::$cookie_blocker->replace_tags( $html );
 	}
@@ -15,7 +15,7 @@ function cmplz_content_views_cookieblocker( $html ) {
 	return $html;
 }
 
-add_filter( 'tve_landing_page_content', 'cmplz_content_views_cookieblocker' );
+add_filter( 'tve_landing_page_content', 'cmplz_thrive_page_content_cookieblocker' );
 
 /**
  * Whitelist youtube and video from being blocked, in the text/templates scripts of the Trhive quiz builder

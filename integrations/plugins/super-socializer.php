@@ -16,7 +16,7 @@ function cmplz_super_socializer_script( $tags ) {
  *
  * @return array
  */
-function cmplz_sumo_detected_social_media( $social_media ) {
+function cmplz_super_socializer_detected_social_media( $social_media ) {
 	if ( ! in_array( 'facebook', $social_media ) ) {
 		$social_media[] = 'facebook';
 	}
@@ -30,4 +30,4 @@ function cmplz_sumo_detected_social_media( $social_media ) {
 	return $social_media;
 }
 
-add_filter( 'cmplz_detected_social_media', 'cmplz_sumo_detected_social_media' );
+add_filter( 'cmplz_detected_social_media', 'cmplz_super_socializer_detected_social_media' );

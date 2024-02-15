@@ -1902,6 +1902,32 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$_POST['cmplz_generate_snapshot_error'] = true;
 				unset( $_POST['cmplz_generate_snapshot'] );
 			}
+			//clear files
+			$dir = cmplz_path . '/assets/vendor/mpdf/mpdf/tmp';
+			$this->recursively_clear_directory($dir);
+		}
+
+		/**
+		 * Clear up mdpf directory
+		 * @param $dir
+		 *
+		 * @return bool|void
+		 */
+		private function recursively_clear_directory($dir) {
+			if ( !cmplz_admin_logged_in() ) {
+				return false;
+			}
+
+			//only for mpdf
+			if ( !str_contains($dir, 'assets/vendor/mpdf/mpdf')) {
+				return;
+			}
+
+			$files = array_diff(scandir($dir), array('.','..'));
+			foreach ($files as $file) {
+				(is_dir("$dir/$file") && !is_link("$dir/$file")) ? $this->recursively_clear_directory("$dir/$file") : unlink("$dir/$file");
+			}
+			return rmdir($dir);
 		}
 
 		/**
