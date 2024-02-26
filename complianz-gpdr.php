@@ -230,6 +230,7 @@ if ( ! class_exists( 'COMPLIANZ' ) ) {
 }
 
 if ( ! function_exists( 'cmplz_set_activation_time_stamp' ) ) {
+
 	/**
 	 * Set an activation time stamp
 	 *
@@ -239,9 +240,7 @@ if ( ! function_exists( 'cmplz_set_activation_time_stamp' ) ) {
 		update_option( 'cmplz_activation_time', time() );
 		update_option( 'cmplz_run_activation', true , false );
 		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
-
 	}
-
 	register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp' );
 }
 

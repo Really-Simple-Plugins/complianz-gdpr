@@ -284,6 +284,9 @@ function cmplz_menu() {
 							'title'    => __( 'Support',  'complianz-gdpr'  ),
 							'intro'    => __( 'You will be redirected to our support form, with the needed information, automatically.',  'complianz-gdpr'  ) . ' '.
 							              cmplz_sprintf(__( 'If you encounter issues, you can also go to the <a href="%s">support</a> form directly.',  'complianz-gdpr'  ), 'https://complianz.io/support'),
+							'premium'      => true,
+							'upgrade'     => 'https://complianz.io/pricing',
+							'premium_text' => __( "Get premium support with %sComplianz GDPR Premium%s", 'complianz-gdpr' ),
 						],
 						[
 							'id'       => 'debugging',

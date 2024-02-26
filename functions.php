@@ -1413,14 +1413,7 @@ if (!function_exists('cmplz_upgrade_to_premium')) {
 	}
 }
 
-register_activation_hook( __FILE__, 'cmplz_set_activation_time_stamp' );
-if ( ! function_exists( 'cmplz_set_activation_time_stamp' ) ) {
-	function cmplz_set_activation_time_stamp( $networkwide ) {
-		update_option( 'cmplz_activation_time', time() );
-	}
-}
-
-/*
+/**
  * For all legal documents for the US, privacy statement, dataleaks or processing agreements, the language should always be en_US
  *
  * */
@@ -1428,26 +1421,6 @@ add_filter( 'locale', 'cmplz_set_plugin_language', 19, 1 );
 if ( ! function_exists( 'cmplz_set_plugin_language' ) ) {
 	function cmplz_set_plugin_language( $locale ) {
 		//@todo the region can't be detected here, because the term is not defined yet.
-		//this is a bit of an edge case, as most users wouls require the processing agreement in their own language, which is what
-		//we have by default.
-//        $post_id = false;
-//        if (isset($_GET['post'])) $post_id = $_GET['post'];
-//        if (isset($_GET['post_id'])) $post_id = $_GET['post_id'];
-//        $region = (isset($_GET['region'])) ? $_GET['region'] : false;
-//
-//        if ($post_id) {
-//            if (!$region) {
-//	            $term = wp_get_post_terms( $post_id, 'cmplz-region' );
-//	            if ( ! is_wp_error( $term ) && isset( $term[0] ) ) {
-//		            $region = $term[0]->slug;
-//	            }
-//            }
-//            $post_type = get_post_type($post_id);
-//
-//            if (($region === 'us'|| $region === 'uk') && ($post_type === 'cmplz-dataleak' || $post_type === 'cmplz-processing')) {
-//                $locale = 'en_US';
-//            }
-//        }
 		if ( isset( $_GET['clang'] ) && $_GET['clang'] === 'en' ) {
 			$locale = 'en_US';
 		}
