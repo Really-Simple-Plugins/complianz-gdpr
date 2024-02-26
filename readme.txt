@@ -1,14 +1,14 @@
 === Complianz - GDPR/CCPA Cookie Consent ===
-Contributors: RogierLankhorst, aahulsebos, leonwimmenhoeve, paapst, markwolters, tomeijkelenkamp, hesseldejong, mujuonly, xantek, pierrotevrard, samu-dn, jarnovos
+Contributors: RogierLankhorst, aahulsebos, leonwimmenhoeve, paapst, markwolters, tomeijkelenkamp, hesseldejong, mujuonly, xantek, pierrotevrard, jarnovos
 Donate link: https://paypal.me/complianz
-Tags: GDPR, Cookie, Cookie Notice, DSGVO, CPRA, Consent, RGPD, LGPD, Privacy, PIPEDA, Cookie Policy, Opt-in
-Requires at least: 4.9
+Tags: GDPR, Cookie, Cookie Notice, Consent, Privacy
+Requires at least: 5.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.4
 Stable tag: 7.0.7
 
-Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan. Supports GDPR, DSGVO, TTDSG, LGPD, POPIA, RGPD, CCPA/CPRA and PIPEDA.
+Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan.
 
 == Description ==
 Complianz is a GDPR/CCPA Cookie Consent plugin that supports GDPR, ePrivacy, DSGVO, TTDSG, LGPD, POPIA, APA, RGPD, CCPA/CPRA and PIPEDA with a conditional Cookie Notice and customized Cookie Policy based on the results of the built-in Cookie Scan.
