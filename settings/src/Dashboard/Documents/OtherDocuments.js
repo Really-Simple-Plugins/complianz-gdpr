@@ -16,7 +16,7 @@ const OtherDocuments = () => {
 	const { processingAgreementOptions, dataBreachOptions, proofOfConsentOptions } = useDocuments();
 	return (
 		<>
-			<h3 className="cmplz-h4">{__("Other documents")}</h3>
+			<h3 className="cmplz-h4">{__("Other documents", "complianz-gdpr")}</h3>
 			<SingleDocument type="processing-agreements" link="#tools/processing-agreements" name={__("Processing Agreement","complianz-gdpr")} options={processingAgreementOptions}/>
 			<SingleDocument type="data-breaches" link="#tools/data-breach-reports" name={__("Data Breach","complianz-gdpr")} options={dataBreachOptions}/>
 			<SingleDocument type="proof-of-consent" link={recordsOfConsentEnabled ? "#tools/records-of-consent" : "#tools/proof-of-consent"} name={__("Proof of Consent","complianz-gdpr")} options={proofOfConsentOptions}/>

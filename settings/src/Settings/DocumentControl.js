@@ -124,7 +124,7 @@ const DocumentControl = ({id, value, options, defaultValue, disabled}) => {
                           loadOptions={promisePages}
 						  menuPortalTarget={document.body}
 						  menuPosition={'fixed'}
-						  placeholder={__("Type at least two characters")}
+						  placeholder={__("Type at least two characters", "complianz-gdpr")}
 						  onChange={ ( fieldValue ) => onChangeSelectHandler(fieldValue) }
 						  value= { pageId }
                         />

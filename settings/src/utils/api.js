@@ -185,7 +185,7 @@ const siteUrl = (type) => {
 }
 let errorShown = false;
 const generateError = (response, errorMsg) => {
-	let error = __("Unexpected error", "burst-statistics");
+	let error = __("Unexpected error", "complianz-gdpr");
 	if (response && response.errors) {
 		//get first entry of the errors object.
 		//This is the error message

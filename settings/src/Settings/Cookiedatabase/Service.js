@@ -26,7 +26,7 @@ const ServiceDetails = (service) => {
 
 	const onSaveHandler = async (id) => {
 		await saveService(id);
-		showSavedSettingsNotice(__("Saved service", "complianz-gd[r"));
+		showSavedSettingsNotice(__("Saved service", "complianz-gdpr"));
 	}
 
 	const onDeleteHandler = async (id) => {
