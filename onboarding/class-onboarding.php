@@ -141,7 +141,6 @@ class cmplz_onboarding {
 	 */
 
 	public function maybe_redirect_to_settings_page() {
-		delete_option('cmplz_onboarding_dismissed');
 		if ( get_transient('cmplz_redirect_to_settings_page' ) ) {
 			delete_transient('cmplz_redirect_to_settings_page' );
 			if ( ! get_option('cmplz_onboarding_dismissed') && ! isset( $_GET['onboarding'] ) ) {
