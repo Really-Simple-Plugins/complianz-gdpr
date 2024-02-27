@@ -51,7 +51,11 @@ if ( ! function_exists( 'cmplz_get_option' ) ) {
 		 * */
 		if ( function_exists('pll__') || function_exists('icl_translate') || defined("WPML_PLUGIN_BASENAME" ) ) {
 			//check if Complianz::$config has property fields
-			$config_fields = COMPLIANZ::$config->fields ?? [];
+			if (class_exists('COMPLIANZ')) {
+				$config_fields = COMPLIANZ::$config->fields ?? [];
+			} else {
+				$config_fields = [];
+			}
 			$fields = $fields ?: $config_fields;
 			$keys   = array_keys( array_column( $fields, 'id' ), $id );
 			$key    = reset( $keys );
