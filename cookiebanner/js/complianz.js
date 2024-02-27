@@ -249,7 +249,9 @@ const cmplz_set_category_as_body_class = () => {
 	}
 	const cats = cmplz_accepted_categories();
 	Object.values(cats).forEach(category => {
-		classList.add('cmplz-' + category);
+		if (typeof category === 'string') {
+			classList.add('cmplz-' + category);
+		}
 	});
 	const services = cmplz_get_all_service_consents();
 	Object.entries(services).forEach(([service, consent]) => {
