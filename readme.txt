@@ -176,7 +176,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 = 7.0.2 =
 * February 28th, 2024
-* Fix: force the 'wizard_completed_once' to be true for upgrades to 7.0.2, to prevent issues with banner not showing after upgrade
+* Fix: force the 'wizard_completed_once' to be true for upgrades to 7.0.2, to prevent issues with banner not showing after upgrade, props @cometto, @riroweb2022, @katynen, @julianulmer, @iviadvagency
 
 = 7.0.1 =
 * February 27th, 2024
