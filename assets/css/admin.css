@@ -1001,83 +1001,83 @@ button.button .cmplz-icon.cmplz-icon-loading > div {
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(1) {
-    width: 78%;
+    width: 67%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(2) {
-    width: 89%;
+    width: 84%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line:nth-of-type(3) {
-    width: 86%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(4) {
-    width: 86%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(5) {
-    width: 72%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(6) {
-    width: 64%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(7) {
-    width: 85%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
-    width: 99%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
-    width: 95%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(10) {
-    width: 79%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(11) {
-    width: 92%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(12) {
-    width: 71%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(13) {
-    width: 80%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(14) {
-    width: 81%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(15) {
-    width: 61%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(16) {
-    width: 76%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(17) {
-    width: 79%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(18) {
-    width: 69%;
-}
-
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(19) {
     width: 87%;
 }
 
-.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(20) {
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(4) {
+    width: 61%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(5) {
+    width: 84%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(6) {
+    width: 98%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(7) {
+    width: 94%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(8) {
+    width: 72%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(9) {
+    width: 61%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(10) {
+    width: 85%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(11) {
+    width: 72%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(12) {
+    width: 94%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(13) {
+    width: 85%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(14) {
+    width: 71%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(15) {
+    width: 82%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(16) {
+    width: 65%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(17) {
     width: 93%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(18) {
+    width: 93%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(19) {
+    width: 72%;
+}
+
+.cmplz-placeholder .cmplz-placeholder-line:nth-of-type(20) {
+    width: 77%;
 }
 
 .cmplz-placeholder .cmplz-placeholder-line ~ .cmplz-placeholder-line {

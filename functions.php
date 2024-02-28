@@ -1311,6 +1311,10 @@ if ( ! function_exists( 'cmplz_geoip_enabled' ) ) {
 
 if ( ! function_exists( 'cmplz_tcf_active' ) ) {
 	function cmplz_tcf_active() {
+		if ( !defined('cmplz_premium') ) {
+			return false;
+		}
+
 		if ( cmplz_get_option('uses_ad_cookies') !=='yes' ) {
 			return false;
 		}
