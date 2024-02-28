@@ -14,7 +14,18 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 			self::$_this = $this;
 			if ( ! is_admin() ) {
+				if ( get_option( 'cmplz_wizard_completed_once' )  ) {
+                    error_log("wizard completed once");
+                } else {
+                    error_log("wizard not completed once");
+                }
+				if ( $this->site_needs_cookie_warning() ) {
+                    error_log("site needs cookie warning");
+                } else {
+                    error_log("site does not need cookie warning");
+                }
 				if ( get_option( 'cmplz_wizard_completed_once' ) && $this->site_needs_cookie_warning() ) {
+					error_log("running enqueue_assets");
 					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script' ), PHP_INT_MAX - 50 );
 					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
 					add_filter( 'script_loader_tag', array( $this, 'add_asyncdefer_attribute' ), 10, 2 );
@@ -290,6 +301,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 * @return void
 		 */
 		public function enqueue_assets() {
+            error_log("running enqueue_assets");
 			$minified       = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			$banner         = cmplz_get_cookiebanner( apply_filters( 'cmplz_user_banner_id', cmplz_get_default_banner_id() ) );
 			$cookiesettings = $banner->get_front_end_settings();
@@ -302,7 +314,10 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 				$v      = filemtime( cmplz_path . "assets/js/postscribe.min.js" );
 				wp_enqueue_script( 'cmplz-postscribe', cmplz_url . "assets/js/postscribe.min.js", array( 'jquery' ), $v, true );
 			}
+            error_log("dependencies");
+            error_log(print_r($deps, true));
 			$v = filemtime( cmplz_path . "cookiebanner/js/complianz$minified.js" );
+            error_log("version $v");
 			wp_enqueue_script( 'cmplz-cookiebanner', cmplz_url . "cookiebanner/js/complianz$minified.js", $deps, $v, true );
 			wp_localize_script( 'cmplz-cookiebanner', 'complianz', $cookiesettings );
 		}
