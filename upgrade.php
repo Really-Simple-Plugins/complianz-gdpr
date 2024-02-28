@@ -1022,10 +1022,6 @@ function cmplz_check_upgrade() {
 		update_option('cmplz_activation_time', strtotime('-1 week'), false);
 	}
 
-	if ( $prev_version && version_compare( $prev_version, '7.0.2', '<' ) ) {
-		update_option( 'cmplz_wizard_completed_once', true );
-	}
-
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
 
