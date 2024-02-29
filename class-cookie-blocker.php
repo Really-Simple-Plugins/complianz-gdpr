@@ -99,9 +99,23 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				}
 				$count++;
 				unset($_COOKIE[$name]);
+				$name = $this->sanitize_cookie_name($name);
 				setcookie($name, "", -1, COMPLIANZ::$banner_loader->get_cookie_path() );
 				setcookie($name, "", -1, '/' );
 			}
+		}
+		
+		/**
+		 * Sanitize cookie name. Remove any characters that are not alphanumeric, underscore, or dash to prevent fatal errors in the setcookie function
+		 *
+		 * @param string $name
+		 *
+		 * @return string
+		 */
+
+		public function sanitize_cookie_name(string $name): string {
+			// Remove any characters that are not alphanumeric, underscore, or dash
+			return preg_replace('/[^a-zA-Z0-9_-]/', '', $name);
 		}
 
 		/**
