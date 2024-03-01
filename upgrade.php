@@ -12,7 +12,7 @@ function cmplz_check_upgrade() {
 	}
 
 	$prev_version = get_option( 'cmplz-current-version', false );
-	$force = isset( $_GET['cmplz_force'] ) && cmplz_user_can_manage();
+	$force = isset( $_GET['cmplz_upgrade'] ) && cmplz_user_can_manage();
 	$new_version = cmplz_version;
 	//strip off everything after '#'
 	if ( strpos( $new_version, '#' ) !== false ) {
