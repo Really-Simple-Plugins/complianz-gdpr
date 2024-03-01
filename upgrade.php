@@ -12,13 +12,14 @@ function cmplz_check_upgrade() {
 	}
 
 	$prev_version = get_option( 'cmplz-current-version', false );
+	$force = isset( $_GET['cmplz_force'] ) && cmplz_user_can_manage();
 	$new_version = cmplz_version;
 	//strip off everything after '#'
 	if ( strpos( $new_version, '#' ) !== false ) {
 		$new_version = substr( $new_version, 0, strpos( $new_version, '#' ) );
 	}
 
-	if ( $prev_version === $new_version ) {
+	if ( !$force && $prev_version === $new_version ) {
 		return;
 	}
 
@@ -929,7 +930,7 @@ function cmplz_check_upgrade() {
 		cmplz_add_manage_privacy_capability();
 	}
 
-	if ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) {
+	if ( $force || ( $prev_version && version_compare( $prev_version, '7.0.0', '<' ) ) ) {
 		set_transient('cmplz_redirect_to_settings_page', true, HOUR_IN_SECONDS );
 		//create new options array
 		$options = get_option( 'cmplz_options', [] );
