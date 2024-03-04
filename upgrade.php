@@ -1023,6 +1023,14 @@ function cmplz_check_upgrade() {
 		update_option('cmplz_activation_time', strtotime('-1 week'), false);
 	}
 
+	//disable tcf for free users
+	if ( $prev_version && version_compare( $prev_version, '7.0.3', '<' ) ) {
+		$options = get_option( 'cmplz_options', [] );
+		if ( !defined('cmplz_premium') ) {
+			$options['uses_ad_cookies_personalized'] = 'no';
+			update_option( 'cmplz_options', $options );
+		}
+	}
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
 

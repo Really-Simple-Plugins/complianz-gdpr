@@ -6,7 +6,7 @@ Requires at least: 5.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.4
-Stable tag: 7.0.2
+Stable tag: 7.0.3
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan.
 
