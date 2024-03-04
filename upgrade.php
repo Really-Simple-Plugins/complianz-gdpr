@@ -1031,6 +1031,7 @@ function cmplz_check_upgrade() {
 			update_option( 'cmplz_options', $options );
 		}
 	}
+
 	#regenerate cookie policy snapshot.
 	update_option('cmplz_generate_new_cookiepolicy_snapshot', true, false);
 

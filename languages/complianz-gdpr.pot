@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Complianz Privacy Suite (GDPR/CCPA) premium plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 7.0.7\n"
+"Project-Id-Version: Complianz Privacy Suite (GDPR/CCPA) premium 7.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/complianz-gdpr-premium\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-26T13:29:42+00:00\n"
+"POT-Creation-Date: 2024-03-04T15:06:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: complianz-gdpr\n"
@@ -62,7 +62,7 @@ msgid "Upgrade to premium"
 msgstr ""
 
 #: class-admin.php:348
-#: functions.php:1986
+#: functions.php:1994
 #: settings/build/2824.a852e0b3b03bb65e4f2f.js:1
 #: settings/build/4816.d807cf547060ca8ad5dc.js:1
 #: settings/build/6508.d9c28240127d75626688.js:1
@@ -2382,7 +2382,7 @@ msgid "On a cookie policy, the banner will be minimized by default"
 msgstr ""
 
 #: cookiebanner/class-banner-loader.php:828
-#: functions.php:1989
+#: functions.php:1997
 msgid "Purpose pending investigation"
 msgstr ""
 
@@ -2782,7 +2782,7 @@ msgid "Font size"
 msgstr ""
 
 #: cookiebanner/settings.php:474
-#: functions.php:722
+#: functions.php:726
 #: settings/config/menu.php:21
 #: settings/config/menu.php:183
 #: settings/config/menu.php:196
@@ -2976,7 +2976,7 @@ msgid "Marketing description"
 msgstr ""
 
 #: cookiebanner/templates/cookiebanner.php:11
-msgid "close-dialog"
+msgid "Close dialog"
 msgstr ""
 
 #: cookiebanner/templates/cookiebanner.php:35
@@ -3256,46 +3256,46 @@ msgstr ""
 msgid "No title"
 msgstr ""
 
-#: functions.php:345
+#: functions.php:349
 msgid "Based on your Analytics configuration you should fire Analytics on event cmplz_functional."
 msgstr ""
 
-#: functions.php:347
+#: functions.php:351
 msgid "Based on your Analytics configuration you should fire Analytics on event cmplz_statistics."
 msgstr ""
 
-#: functions.php:421
+#: functions.php:425
 msgid "Not found"
 msgstr ""
 
-#: functions.php:487
+#: functions.php:491
 #: settings/build/5104.cb6d60d9ced05b7efa96.js:1
 #: settings/src/Settings/ChangeStatus.js:4
 msgid "Revoke"
 msgstr ""
 
-#: functions.php:519
-#: functions.php:522
+#: functions.php:523
+#: functions.php:526
 msgid "Current status: %s"
 msgstr ""
 
-#: functions.php:520
+#: functions.php:524
 msgid "Accepted"
 msgstr ""
 
-#: functions.php:523
+#: functions.php:527
 msgid "Denied"
 msgstr ""
 
-#: functions.php:1068
+#: functions.php:1072
 msgid "the page source"
 msgstr ""
 
-#: functions.php:1071
+#: functions.php:1075
 msgid "%s on line %s of %s"
 msgstr ""
 
-#: functions.php:1408
+#: functions.php:1416
 #: settings/build/24.17b6c8ad5b87a258e68e.js:1
 #: settings/build/2540.08bbb91d60be404ac81f.js:1
 #: settings/build/2824.a852e0b3b03bb65e4f2f.js:1
@@ -3310,51 +3310,51 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: functions.php:1957
+#: functions.php:1965
 msgid "Miscellaneous"
 msgstr ""
 
-#: functions.php:1964
-#: functions.php:1974
+#: functions.php:1972
+#: functions.php:1982
 msgid "This data is not shared with third parties."
 msgstr ""
 
-#: functions.php:1966
-#: functions.php:1971
+#: functions.php:1974
+#: functions.php:1979
 msgid "For more information, please read the %s%s Privacy Statement%s."
 msgstr ""
 
-#: functions.php:1976
+#: functions.php:1984
 msgid "Sharing of data is pending investigation"
 msgstr ""
 
-#: functions.php:1979
+#: functions.php:1987
 msgctxt "Legal document cookie policy"
 msgid "We use %s for %s."
 msgstr ""
 
-#: functions.php:2477
+#: functions.php:2485
 #: settings/build/7944.5a7e0e8f288115f88373.js:1
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:167
 msgid "Opt-in"
 msgstr ""
 
-#: functions.php:2479
+#: functions.php:2487
 #: pro/tcf/templates/vendorlist-us.php:13
 #: settings/build/7944.5a7e0e8f288115f88373.js:1
 #: settings/src/Settings/RecordsOfConsent/RecordsOfConsentControl.js:168
 msgid "Opt-out"
 msgstr ""
 
-#: functions.php:2481
+#: functions.php:2489
 msgid "All consent types"
 msgstr ""
 
-#: functions.php:2845
+#: functions.php:2853
 msgid "In September 2023 the Quebec bill 64 will be enforced in Canada. In order to keep your site compliant, %sopt-in must be implemented for Canada%s. Please Navigate to the %sWizard%s and enable opt-in for Canada."
 msgstr ""
 
-#: functions.php:2846
+#: functions.php:2854
 msgid "Please be aware that this will activate opt-in for Canada, altering the banner and blocking non-functional scripts and cookies prior to consent. Please check the front-end of your site after activating opt-in."
 msgstr ""
 

@@ -249,7 +249,9 @@ const cmplz_set_category_as_body_class = () => {
 	}
 	const cats = cmplz_accepted_categories();
 	Object.values(cats).forEach(category => {
-		classList.add('cmplz-' + category);
+		if (typeof category === 'string') {
+			classList.add('cmplz-' + category);
+		}
 	});
 	const services = cmplz_get_all_service_consents();
 	Object.entries(services).forEach(([service, consent]) => {
@@ -872,6 +874,54 @@ function cmplz_fire_before_categories_consent(categories){
 	document.dispatchEvent(event);
 }
 
+/*
+ * Deny all categories, and reload if needed.
+ */
+window.cmplz_deny_all = function(){
+	for (let key in cmplz_categories) {
+		if ( cmplz_categories.hasOwnProperty(key) ) {
+			cmplz_set_consent(cmplz_categories[key], 'deny');
+		}
+	}
+	let consentLevel = cmplz_highest_accepted_category();
+	let reload = false;
+
+	if (consentLevel !== 'functional' || cmplz_exists_service_consent() ) {
+		reload = true;
+	}
+	if ( cmplz_clear_cookies('cmplz_service') ) {
+		reload = true;
+	}
+
+	//has to be after the check if should be reloaded, otherwise that check won't work.
+	cmplz_clear_all_service_consents();
+	cmplz_integrations_revoke();
+	cmplz_fire_categories_event();
+	cmplz_track_status();
+
+	let event = new CustomEvent('cmplz_revoke', { detail: reload });
+	document.dispatchEvent(event);
+
+	//we need to let the iab extension handle the reload, otherwise the consent revoke might not be ready yet.
+	if ( !complianz.tcf_active && reload ) {
+		cmplz_reload_browser_compatible();
+	}
+}
+
+/*
+ * If current cookie policy has changed, reset cookie consent
+ *
+ * */
+
+function cmplz_check_cookie_policy_id() {
+	let user_policy_id = cmplz_get_cookie('policy_id');
+	if (user_policy_id && (parseInt(complianz.current_policy_id) !== parseInt(user_policy_id) ) ) {
+		cmplz_deny_all();
+		cmplz_set_banner_status('show');
+		cmplz_clear_cookies('cmplz');
+	}
+}
+
 window.conditionally_show_banner = function() {
 	//merge userdata with complianz data, in case a b testing is used with user specific cookie banner data
 	//objects are merged so user_data will override data in complianz object
@@ -1458,39 +1508,7 @@ document.addEventListener('cmplz_consent_action', function (e) {
 	cmplz_track_status();
 });
 
-/*
- * Deny all categories, and reload if needed.
- */
-window.cmplz_deny_all = function(){
-	for (let key in cmplz_categories) {
-		if ( cmplz_categories.hasOwnProperty(key) ) {
-			cmplz_set_consent(cmplz_categories[key], 'deny');
-		}
-	}
-	let consentLevel = cmplz_highest_accepted_category();
-	let reload = false;
 
-	if (consentLevel !== 'functional' || cmplz_exists_service_consent() ) {
-		reload = true;
-	}
-	if ( cmplz_clear_cookies('cmplz_service') ) {
-		reload = true;
-	}
-
-	//has to be after the check if should be reloaded, otherwise that check won't work.
-	cmplz_clear_all_service_consents();
-	cmplz_integrations_revoke();
-	cmplz_fire_categories_event();
-	cmplz_track_status();
-
-	let event = new CustomEvent('cmplz_revoke', { detail: reload });
-	document.dispatchEvent(event);
-
-	//we need to let the iab extension handle the reload, otherwise the consent revoke might not be ready yet.
-	if ( !complianz.tcf_active && reload ) {
-		cmplz_reload_browser_compatible();
-	}
-}
 
 /*
  * For both opt-in and opt-out, clicking cmplz-accept should result in accepting all categories
@@ -1868,20 +1886,6 @@ function cmplz_merge_object(userdata, ajax_data) {
 	}
 
 	return output;
-}
-
-/*
- * If current cookie policy has changed, reset cookie consent
- *
- * */
-
-function cmplz_check_cookie_policy_id() {
-	let user_policy_id = cmplz_get_cookie('policy_id');
-	if (user_policy_id && (parseInt(complianz.current_policy_id) !== parseInt(user_policy_id) ) ) {
-		cmplz_deny_all();
-		cmplz_set_banner_status('show');
-		cmplz_clear_cookies('cmplz');
-	}
 }
 
 /*

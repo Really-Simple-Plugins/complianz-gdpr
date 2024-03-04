@@ -66,7 +66,7 @@ const ProofOfConsentControl = () => {
 							let obj = window.URL.createObjectURL(this.response);
 							let element = window.document.createElement('a');
 							element.setAttribute('href',obj);
-							element.setAttribute('download', document.filename);
+							element.setAttribute('download', document.file);
 							window.document.body.appendChild(element);
 							//onClick property
 							element.click();

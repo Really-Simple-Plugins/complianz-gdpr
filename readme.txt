@@ -174,6 +174,15 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 7.0.3 =
+* March 5th, 2024
+* Improvement: clean up MPDF temp directory after pdf generation
+* Improvement: set aria label on x close button from banner
+* Fix: deleting cookies with disallowed cookie names causing fatal error, props @baffled
+* Fix: missing cmplz_deny_all() function for expired cookies with a changed cookie policy id.
+* Fix: cmplz_set_category_as_body_class() also iterating over objects instead of just class names, when parsing the body classes, props @tomnoir
+* Fix: due to changed setting usage, Complianz assumed TCF active in some situations, causing the banner editor not to function properly, props @vania2008, @jeanfrancois7
+
 = 7.0.2 =
 * February 28th, 2024
 * Fix: force the 'wizard_completed_once' to be true for upgrades to 7.0.2, to prevent issues with banner not showing after upgrade, props @cometto, @riroweb2022, @katynen, @julianulmer, @iviadvagency
