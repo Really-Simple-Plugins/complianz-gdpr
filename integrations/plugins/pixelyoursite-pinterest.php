@@ -23,5 +23,4 @@ function cmplz_pixelyoursite_pinterest_detected_social_media( $social_media ) {
 	return $social_media;
 }
 
-add_filter( 'cmplz_detected_social_media',
-	'cmplz_pixelyoursite_detected_social_media' );
+add_filter( 'cmplz_detected_social_media', 'cmplz_pixelyoursite_pinterest_detected_social_media' );
