@@ -313,7 +313,7 @@ function cmplz_wizard_fields($fields){
 			'id'                 => 'purpose_personaldata',
 			'menu_id'            => 'purpose',
 			'type'               => 'multicheckbox',
-			'disabled' 		     => true,
+			'disabled' 		     => false,
 			#In the free version, the purpose is not necessary for EU. In the premium it is necessary if a privacy statement is needed.
 			'premium'            => [
 				'react_conditions' => [
