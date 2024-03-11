@@ -6,7 +6,7 @@ Requires at least: 5.9
 License: GPL2
 Requires PHP: 7.2
 Tested up to: 6.4
-Stable tag: 7.0.3
+Stable tag: 7.0.4
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan.
 
@@ -174,6 +174,10 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
+= 7.0.4 =
+* March 9th, 2024
+* Fix: Purposes were incorrectly set to 'disabled', while there should only be a condition limiting it to the US region only, props @cdhodgdon
+
 = 7.0.3 =
 * March 5th, 2024
 * Improvement: clean up MPDF temp directory after pdf generation
