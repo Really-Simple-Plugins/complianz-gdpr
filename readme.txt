@@ -177,6 +177,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 = 7.0.4 =
 * March 9th, 2024
 * Fix: Purposes were incorrectly set to 'disabled', while there should only be a condition limiting it to the US region only, props @cdhodgdon
+* Fix: Pixelyoursite + pinterest function name incorrect, props @theogk
 
 = 7.0.3 =
 * March 5th, 2024
