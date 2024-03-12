@@ -1253,6 +1253,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
 			 || isset( $_GET['tatsu-footer'] ) //tatsu
+			 || isset( $_GET['ms_get_preview'] ) //meta slider
 			 || strpos( $_SERVER['REQUEST_URI'], 'cornerstone/edit') !== false
 		) {
 			$preview = true;
