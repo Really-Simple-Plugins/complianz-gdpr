@@ -1253,7 +1253,7 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 			 || isset( $_GET['tatsu'] ) //tatsu
 			 || isset( $_GET['tatsu-header'] ) //tatsu
 			 || isset( $_GET['tatsu-footer'] ) //tatsu
-			 || ( isset( $_GET['action'] ) && $_GET['action'] === 'ms_get_preview' ) //meta slider
+	         || ( isset( $_GET['action'] ) && $_GET['action'] === 'ms_get_preview' ) //meta slider
 			 || strpos( $_SERVER['REQUEST_URI'], 'cornerstone/edit') !== false
 		) {
 			$preview = true;
@@ -1268,7 +1268,6 @@ if ( ! function_exists( 'cmplz_is_pagebuilder_preview' ) ) {
 		if (isset($_GET['context']) &&  $_GET['context']==='edit') {
 			return true;
 		}
-
 		return apply_filters( 'cmplz_is_preview', $preview );
 	}
 }
