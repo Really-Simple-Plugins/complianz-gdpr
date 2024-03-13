@@ -422,6 +422,9 @@ if ( ! class_exists( "cmplz_admin_DNSMPD" ) ) {
 				  `global_optout` int(11) NOT NULL,
 				  `cross_context` int(11) NOT NULL,
 				  `limit_sensitive` int(11) NOT NULL,
+				  `request_for_access` int(11) NOT NULL,
+				  `right_to_be_forgotten` int(11) NOT NULL,
+				  `right_to_data_portability` int(11) NOT NULL,
 				  `request_date` int(11) NOT NULL,
 				  `resolved` int(11) NOT NULL,
 				  PRIMARY KEY  (ID)
