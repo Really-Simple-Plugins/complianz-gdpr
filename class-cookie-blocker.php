@@ -104,7 +104,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 				setcookie($name, "", -1, '/' );
 			}
 		}
-		
+
 		/**
 		 * Sanitize cookie name. Remove any characters that are not alphanumeric, underscore, or dash to prevent fatal errors in the setcookie function
 		 *
@@ -878,7 +878,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 
 		private function replace_href( $link ) {
-			return str_replace( 'href=', 'href="#" data-href=', $link );
+			return str_replace( 'href=', 'data-href=', $link );
 		}
 
 		/**
