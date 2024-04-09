@@ -498,7 +498,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'forminator' => array(
 		'constant_or_function' => 'FORMINATOR_VERSION',
 		'label'                => 'Forminator',
-		'early_load'           => 'forminator-addon-registration.php',
+//		'early_load'           => 'forminator-addon-registration.php',
 		'callback_condition'   => array(
 			'regions' => array( 'eu', 'uk', 'za'),
 		),
