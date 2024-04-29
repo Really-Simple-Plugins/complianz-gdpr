@@ -3,11 +3,24 @@ import readMore from "../../utils/readMore";
 import TextInput from "../Inputs/TextInput";
 import Icon from "../../utils/Icon";
 import useIntegrations from "./IntegrationsData";
+import {useEffect, useState} from "react";
 
 const Urls = (props) => {
 	const { setScript, fetching } = useIntegrations();
+	const [hasEmptyUrl, setHasEmptyUrl] = useState(false);
 	const script = props.script;
 	const type = props.type;
+
+	useEffect(() => {
+		//check if one of the URLS is empty. if so, setHasEmptyUrl to true
+		let urls = script.hasOwnProperty('urls') ? Object.values(script.urls) : [''];
+		if (urls.includes('')) {
+			setHasEmptyUrl(true);
+		} else {
+			setHasEmptyUrl(false);
+		}
+
+	}, [script]);
 
 	const onChangeUrlHandler = (index, url) => {
 		let copyScript = {...script};
@@ -17,15 +30,18 @@ const Urls = (props) => {
 		setScript(copyScript, props.type);
 	}
 
+
 	const addUrl = () => {
 		let copyScript = {...script};
-		let curLength = Object.keys(copyScript.urls).length;
-		let urls = {...copyScript.urls};
+		let urls = copyScript.hasOwnProperty('urls') ? {...copyScript.urls} : [''];
+		let curLength = Object.keys(urls).length;
 
 		urls[curLength+1] = '';
 		copyScript.urls = urls;
 		setScript(copyScript, props.type);
 	}
+
+
 
 	const deleteUrl = (key) => {
 		let copyScript = {...script};
@@ -55,7 +71,7 @@ const Urls = (props) => {
 						id={i+"_url"}
 						name={"url"}
 					/>
-					{i===0 && <button className="button button-default" onClick={() => addUrl() }> <Icon name="plus" size={14}/></button>}
+					{i===0 && !hasEmptyUrl && <button className="button button-default" onClick={() => addUrl() }> <Icon name="plus" size={14}/></button>}
 					{i!==0 && <button className="button button-default" onClick={() => deleteUrl(index) }> <Icon name="minus" size={14}/></button>}
 				</div>
 			)}

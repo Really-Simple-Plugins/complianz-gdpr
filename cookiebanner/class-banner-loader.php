@@ -13,7 +13,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			}
 
 			self::$_this = $this;
-			if ( ! is_admin() ) {
+			if ( ! is_admin() && !cmplz_is_pagebuilder_preview() ) {
 				if ( get_option( 'cmplz_wizard_completed_once' ) && $this->site_needs_cookie_warning() ) {
 					add_action( 'wp_print_footer_scripts', array( $this, 'inline_cookie_script' ), PHP_INT_MAX - 50 );
 					add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), PHP_INT_MAX - 50 );
@@ -322,6 +322,8 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		 * Load the cookie banner html for each consenttype
 		 */
 		public function cookiebanner_html() {
+
+
 			global $post;
 			$type = '';
 			if ( $post && ( $post->ID ?? false ) ) {

@@ -213,7 +213,7 @@ const Settings = () => {
 					<div className="cmplz-grid-item-footer">
 						{selectedMainMenuItem !== 'wizard' &&
 							<div className="cmplz-grid-item-footer-upsell-bar">
-								{!cmplz_settings.is_premium &&
+								{ !cmplz_settings.is_premium &&
 									<a className="button button-default"
 										 href="https://complianz.io/pricing"
 										 target="_blank" rel="noopener noreferrer">{__(

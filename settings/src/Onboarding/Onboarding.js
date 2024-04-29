@@ -7,7 +7,7 @@ import useFields from "../Settings/Fields/FieldsData";
 const Onboarding = () => {
 	const { email, setEmail, setIncludeTips, includeTips, sendTestEmail, saveEmail, setSendTestEmail, plugins, loaded, isUpgrade, processing, dismissModal, modalVisible, getRecommendedPluginsStatus} = useOnboardingData();
 	const [modalStep, setModalStep] = useState(0);
-	const {updateField} = useFields();
+	const {updateField, getField} = useFields();
 
 	const [waiting, setWaiting] = useState(true);
 	const [nextDisabled, setNextDisabled] = useState(true);
@@ -38,6 +38,16 @@ const Onboarding = () => {
 		dismissModal();
 		window.location.hash = '#wizard';
 	}
+
+	// Prefill administrator e-mail address
+	useEffect(() => {
+		if (!email) {
+			const defaultEmail = getField('notifications_email_address').default;
+			if (defaultEmail) {
+				setEmail(defaultEmail);
+			}
+		}
+	}, []);
 
 	useEffect ( () => {
 		if (!loaded) {

@@ -91,7 +91,7 @@ function cmplz_settings_fields($fields){
 			'group_id'                => 'settings-general',
 			'type'      => 'email',
 			'required'  => false,
-			'default'   => '',
+			'default'   => get_bloginfo('admin_email'),
 			'label'     => __( "Email address", 'complianz-gdpr' ),
 			'react_conditions' => [
 				'relation' => 'AND',

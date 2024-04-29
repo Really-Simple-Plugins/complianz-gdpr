@@ -95,6 +95,7 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 				],
 
 			];
+
 			return $options;
 		}
 

@@ -121,7 +121,7 @@ class cmplz_onboarding {
 	 */
 	public function signup_for_mailinglist( string $email): void {
 		$license_key = '';
-		if ( defined('rsssl_pro_version') ) {
+		if ( defined('rsssl_pro') ) {
 			$license_key = COMPLIANZ::$license->license_key();
 			$license_key = COMPLIANZ::$license->maybe_decode( $license_key );
 		}
