@@ -756,8 +756,8 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 					if (isset($service_item['serviceType'])) {
 						$service->serviceType = sanitize_text_field($service_item['serviceType']);
 					}
-					if (isset($service_item['thirdParty'])) {
-						$service->thirdParty = (int) $service_item['thirdParty'];
+					if (isset($service_item['sharesData'])) {
+						$service->sharesData = (int) $service_item['sharesData'];
 					}
 					if (isset($service_item['privacyStatementURL'])) {
 						$service->privacyStatementURL = sanitize_text_field($service_item['privacyStatementURL']);

@@ -28,6 +28,9 @@ const UseSyncData = create(( set, get ) => ({
 	setSyncProgress: (syncProgress) => set({ syncProgress }),
 	setLanguage: (language) => set({ language }),
 	fetchSyncProgressData: async () => {
+		if ( get().loadingSyncData ) {
+			return;
+		}
 		set({loadingSyncData:true,syncDataLoaded:false });
 		if ( get().cookies.length === 0 ) {
 			//set a placeholder
@@ -40,7 +43,7 @@ const UseSyncData = create(( set, get ) => ({
 					serviceID:-i,
 					name: '',
 					deleted:0,
-					thirdParty:0,
+					sharesData:0,
 					isMembersOnly:0,
 					showOnPolicy:0,
 					retention:'',
@@ -90,6 +93,9 @@ const UseSyncData = create(( set, get ) => ({
 		)
 	},
 	restart: async () => {
+		if ( get().loadingSyncData ) {
+			return;
+		}
 		set(() => ({loadingSyncData:true,syncDataLoaded:false }));
 		const {syncProgress, cookieCount, cookies, services, curlExists, hasSyncableData, purposesOptions, serviceTypeOptions, defaultLanguage, languages, errorMessage} = await fetchSyncProgressData(true);
 		let language = get().language ? get().language : defaultLanguage;
@@ -149,6 +155,10 @@ const UseSyncData = create(( set, get ) => ({
 
 	},
 	saveCookie: async (id) => {
+		if (get().saving){
+			return;
+		}
+
 		set({saving:true });
 		const cookieIndex = get().cookies.findIndex(cookie => {
 			return cookie.ID===id;
@@ -195,6 +205,9 @@ const UseSyncData = create(( set, get ) => ({
 		get().filterAndSort();
 	},
 	saveService: async (id) => {
+		if (get().saving){
+			return;
+		}
 		set({saving:true });
 		let services = get().services;
 		const serviceIndex = services.findIndex(service => {

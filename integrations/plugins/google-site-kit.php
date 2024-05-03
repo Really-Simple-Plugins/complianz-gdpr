@@ -13,13 +13,17 @@ function cmplz_google_site_kit_show_compile_statistics_notice(array $notices): a
 		return [];
 	}
 
+	//don't run integration if WP Consent API is active
+	if (defined('WP_CONSENT_API_VERSION')) {
+		return [];
+	}
+
 	$notices[] = [
 		'field_id' => 'consent-mode',
 		'label'    => 'warning',
 		'url' => 'https://complianz.io/configuring-google-site-kit/',
 		'title'    => "Google Site Kit",
 		'text'     =>  cmplz_sprintf( __( "Because you're using %s, you can choose which plugin should insert the relevant snippet. If you want to use Google Consent Mode, you can only use the default, advanced mode. You can read more about configuring SiteKit and the different Consent Mode below.", 'complianz-gdpr' ), "Google Site Kit" ),
-
 	];
 
 	return $notices;
@@ -30,13 +34,18 @@ add_filter( 'cmplz_field_notices', 'cmplz_google_site_kit_show_compile_statistic
  * We remove some actions to integrate fully
  * */
 function cmplz_google_site_kit_remove_scripts_others() {
-	if ( cmplz_consent_mode() ) {
+	if ( cmplz_consent_mode() || defined('WP_CONSENT_API_VERSION') ) {
 		remove_action( 'cmplz_statistics_script', array( COMPLIANZ::$banner_loader, 'get_statistics_script' ), 10 );
 	}
 }
 add_action( 'after_setup_theme', 'cmplz_google_site_kit_remove_scripts_others' );
 
 function cmplz_google_sitekit_script() {
+	//don't run integration if WP Consent API is active
+	if (defined('WP_CONSENT_API_VERSION')) {
+		return;
+	}
+
 	if ( ! cmplz_consent_mode() ) {
 		return;
 	}

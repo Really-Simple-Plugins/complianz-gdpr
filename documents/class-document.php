@@ -35,6 +35,114 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			return self::$_this;
 		}
 
+
+		/**
+		 * Get list of all required pages for current setup
+		 *
+		 * @return array $pages
+		 *
+		 *
+		 */
+
+		public function get_required_pages() {
+			$regions  = cmplz_get_regions( $add_all_cat = true );
+			$required = array();
+			foreach ( $regions as $region ) {
+				if ( ! isset( COMPLIANZ::$config->pages[ $region ] ) ) {
+					continue;
+				}
+
+				$pages = COMPLIANZ::$config->pages[ $region ];
+				foreach ( $pages as $type => $page ) {
+					if ( ! $page['public'] ) {
+						continue;
+					}
+					if ( $this->page_required( $page, $region ) ) {
+						$required[ $region ][ $type ] = $page;
+					}
+				}
+			}
+
+
+			return $required;
+		}
+
+		/**
+		 * Check if a page is required. If no condition is set, return true.
+		 * condition is "AND", all conditions need to be met.
+		 *
+		 * @param array|string $page
+		 * @param string       $region
+		 *
+		 * @return bool
+		 */
+
+		public function page_required( $page, $region ) {
+			if ( ! is_array( $page ) ) {
+				if ( ! isset( COMPLIANZ::$config->pages[ $region ][ $page ] ) ) {
+					return false;
+				}
+
+				$page = COMPLIANZ::$config->pages[ $region ][ $page ];
+			}
+
+			//if it's not public, it's not required
+			if ( isset( $page['public'] ) && $page['public'] == false ) {
+				return false;
+			}
+
+			//if there's no condition, we set it as required
+			if ( ! isset( $page['condition'] ) ) {
+				return true;
+			}
+
+			if ( isset( $page['condition'] ) ) {
+				$conditions    = $page['condition'];
+				$condition_met = true;
+				$invert = false;
+				foreach (
+					$conditions as $condition_question => $condition_answer
+				) {
+					$value  = cmplz_get_option( $condition_question );
+					$invert = false;
+					if ( ! is_array( $condition_answer )
+						 && strpos( $condition_answer, 'NOT ' ) !== false
+					) {
+						$condition_answer = str_replace( 'NOT ', '', $condition_answer );
+						$invert           = true;
+					}
+
+					$condition_answer = is_array( $condition_answer ) ? $condition_answer : array( $condition_answer );
+					foreach ( $condition_answer as $answer_item ) {
+						if ( is_array( $value ) ) {
+							if ( !in_array($answer_item, $value ) ) {
+								$condition_met = false;
+							} else {
+								$condition_met = true;
+							}
+						} else {
+							$condition_met = ( $value == $answer_item );
+						}
+
+						//if one condition is met, we break with this condition, so it will return true.
+						if ( $condition_met ) {
+							break;
+						}
+
+					}
+
+					//if one condition is not met, we break with this condition, so it will return false.
+					if ( ! $condition_met ) {
+						break;
+					}
+				}
+				return $invert ? !$condition_met : $condition_met;
+			}
+
+			return false;
+
+		}
+
 		public function get_permalink($type, $region, $auto_redirect_region=false)
 		{
 			$url = "#";
@@ -1561,6 +1669,9 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		 */
 
 		public function get_shortcode_page_id( $type, $region , $cache = true) {
+
+			global $wpdb;
+
 			$shortcode = 'cmplz-document';
 			$page_id   = $cache ? cmplz_get_transient( 'cmplz_shortcode_' . $type . '-' . $region ) : false;
 			if ( $page_id === 'none') {
@@ -1570,11 +1681,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			if ( ! $page_id ) {
 				//ensure a transient, in case none is found. This prevents continuing requests on the page list
 				cmplz_set_transient( "cmplz_shortcode_$type-$region", 'none', HOUR_IN_SECONDS );
-				$pages = get_pages(
-						[
-								'post_status' => ['publish','draft']
-						]
+				$query = $wpdb->prepare(
+					"SELECT * FROM $wpdb->posts WHERE (post_content LIKE %s OR post_content LIKE %s) AND post_status = 'publish'",
+					'%' . '[cmplz-document' . '%',
+					'%' . 'wp:complianz\/document' . '%'
 				);
+
+				$pages = $wpdb->get_results($query);
+				
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
 				/**

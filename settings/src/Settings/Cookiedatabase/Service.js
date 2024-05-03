@@ -109,10 +109,10 @@ const ServiceDetails = (service) => {
 		<>
 			<div className="cmplz-details-row cmplz-details-row__checkbox">
 				<CheckboxGroup
-					id={service.ID+'thirdParty'}
+					id={service.ID+'sharesData'}
 					disabled={disabled}
-					value={service.thirdParty}
-					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'thirdParty')}
+					value={service.sharesData==1}
+					onChange={(value) => onCheckboxChangeHandler(value, service.ID, 'sharesData')}
 					options={{true: __('Data is shared with this service', 'complianz-gdpr')}}
 				/>
 			</div>

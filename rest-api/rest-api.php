@@ -156,7 +156,7 @@ function cmplz_rest_api_banner_data(WP_REST_Request $request){
  * @return array
  */
 function cmplz_rest_api_documents( WP_REST_Request $request ) {
-	$documents = COMPLIANZ::$documents_admin->get_required_pages();
+	$documents = COMPLIANZ::$document->get_required_pages();
 	$output    = array();
 	if ( is_array( $documents ) ) {
 		foreach ( $documents as $region => $region_documents ) {
