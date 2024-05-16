@@ -977,7 +977,7 @@ function cmplz_rest_api_fields_get(): array {
  *
  * @param mixed  $value
  * @param string $type
- * @oaram string $id
+ * @param string $id
  *
  * @return array|bool|int|string|void
  */

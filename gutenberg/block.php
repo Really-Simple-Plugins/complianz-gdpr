@@ -71,10 +71,10 @@ function cmplz_render_consent_area_block($attributes, $content)
 	$service = isset($attributes['service']) ? COMPLIANZ::$cookie_blocker->sanitize_service_name( $attributes['service'] ) : 'general';
 	$post_id = (int)  $attributes['postId'];
 	$block_id = sanitize_title($attributes['blockId']);
-	$placholder_content = $attributes['placeholderContent'] ?? '';
+	$placeholder_content = $attributes['placeholderContent'] ?? '';
 	ob_start();
 	?><div class="cmplz-consent-area cmplz-placeholder" data-post_id="<?php echo esc_attr($post_id)?>" data-block_id="<?php echo esc_attr($block_id)?>" data-category="<?php echo esc_attr($category); ?>" data-service="<?php echo esc_attr($service); ?>">
-		<?php echo wp_kses_post($placholder_content) ?>
+		<?php echo wp_kses_post($placeholder_content) ?>
 	</div><?php
 	return  ob_get_clean();
 }

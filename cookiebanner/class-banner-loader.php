@@ -96,9 +96,9 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 			?>
 			<script>
 				var request = new XMLHttpRequest();
-				var error_ocurred = false;
+				var error_occurred = false;
 				window.onerror = function (msg, url, lineNo, columnNo, error) {
-					error_ocurred = true;
+					error_occurred = true;
 
 					var request = new XMLHttpRequest();
 					request.open('POST', '<?php echo add_query_arg(
@@ -120,7 +120,7 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 
 				//if no error occurred after 3 seconds, send a reset signal
 				setTimeout(function () {
-					if (!error_ocurred) {
+					if (!error_occurred) {
 						var request = new XMLHttpRequest();
 						request.open('POST', '<?php echo add_query_arg(
 							array(

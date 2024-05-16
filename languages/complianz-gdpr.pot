@@ -3652,7 +3652,7 @@ msgid "Enter your license below to start with Premium. You can find, and manage,
 msgstr ""
 
 #: pro/class-licensing.php:284
-msgid "Beta releases are new major versions of Complianz. Please be aware that it is not adviced for production websites, or installations without back-up."
+msgid "Beta releases are new major versions of Complianz. Please be aware that it is not advised for production websites, or installations without back-up."
 msgstr ""
 
 #: pro/class-licensing.php:285
@@ -10297,7 +10297,7 @@ msgid "If you add the ID for your statistics tool here, Complianz will configure
 msgstr ""
 
 #: settings/config/fields/wizard/consent.php:403
-msgid "For the Google Tag Manager code, log in and you will immediatly see your container codes. The one next to your website name is the code you will need to fill in here, the container ID."
+msgid "For the Google Tag Manager code, log in and you will immediately see your container codes. The one next to your website name is the code you will need to fill in here, the container ID."
 msgstr ""
 
 #: settings/config/fields/wizard/consent.php:414

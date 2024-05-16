@@ -517,7 +517,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			 *
 			 * */
 			$image_tags = apply_filters( 'cmplz_image_tags', array() );
-			$image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/s'; //matches multiline with s operater, for FB pixel
+			$image_pattern = '/<img.*?src=[\'|"](\X*?)[\'|"].*?>/s'; //matches multiline with s operator, for FB pixel
 			if ( preg_match_all( $image_pattern, $output, $matches, PREG_PATTERN_ORDER )
 			) {
 				foreach ( $matches[1] as $key => $image_url ) {

@@ -400,7 +400,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 						'configuration_by_complianz' => 'yes',
 					]
 				],
-				'tooltip'                 => __( "For the Google Tag Manager code, log in and you will immediatly see your container codes. The one next to your website name is the code you will need to fill in here, the container ID.", 'complianz-gdpr' ),
+				'tooltip'                 => __( "For the Google Tag Manager code, log in and you will immediately see your container codes. The one next to your website name is the code you will need to fill in here, the container ID.", 'complianz-gdpr' ),
 			],
 			[
 				'id'                      => 'aw_code',

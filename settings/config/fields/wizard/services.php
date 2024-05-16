@@ -259,7 +259,7 @@ function cmplz_services_fields( $fields ) {
 				'tooltip'                 => __( "", 'complianz-gdpr' ),
 				'revoke_consent_onchange' => false,
 				'options'                 => [
-					'yes' =>  	__("Yes, I will designate all Google core plaform services to receive data. (Default)", "complianz-gdpr"),
+					'yes' =>  	__("Yes, I will designate all Google core platform services to receive data. (Default)", "complianz-gdpr"),
 					'manual' =>  	__("Yes, but I only allow a subset of Google core platform services to receive data.", "complianz-gdpr"),
 					'no' => 		__("No, I don't share any data with Google core platform services.", "complianz-gdpr"),
 
@@ -271,7 +271,7 @@ function cmplz_services_fields( $fields ) {
 					'text'  => __( "The largest online platforms act as so-called gatekeepers in digital markets. The Digital Markets Act (DMA) aims to ensure that these platforms behave in a fair way online.", 'complianz-gdpr' ),
 					'url'   => 'https://complianz.io/consent-mode-v2-ready-for-2024/',
 				],
-				'label'                   => __( "Do you allow sharing data across Google core plaform services?", 'complianz-gdpr' ),
+				'label'                   => __( "Do you allow sharing data across Google core platform services?", 'complianz-gdpr' ),
 				'tooltip'                 => __( "When using Consent Mode and Advertising products by Google, you have the option to minimize sharing data between Google products as required by The Digital Markets Act. This should be designated in the UI of the Google product(s) you're using. Answer below what reflects your choice.", 'complianz-gdpr' ),
 				'comment'                 => __( "Only change from the default answer if you actively configured you Google Advertising Products to reflect this choice, otherwise the default is recommended.", 'complianz-gdpr' ),
 				'react_conditions'        => [
