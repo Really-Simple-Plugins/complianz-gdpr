@@ -37,15 +37,20 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
 				if ( file_exists(ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php') ) {
 					require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
-				} else {
+				} elseif ( file_exists(ABSPATH . 'wp-admin/misc.php') ) {
 					require_once( ABSPATH . 'wp-admin/misc.php' );
+				} else {
+					return;
 				}
 			}
-			WP_Privacy_Policy_Content::_policy_page_updated( $policy_page_id );
-			//check again, to update the cache.
-			WP_Privacy_Policy_Content::text_change_check();
-			$data = WP_Privacy_Policy_Content::get_suggested_policy_text();
-			update_option('cmplz_preloaded_privacy_info', $data, false);
+
+			if ( class_exists( 'WP_Privacy_Policy_Content' ) ) {
+				WP_Privacy_Policy_Content::_policy_page_updated( $policy_page_id );
+				//check again, to update the cache.
+				WP_Privacy_Policy_Content::text_change_check();
+				$data = WP_Privacy_Policy_Content::get_suggested_policy_text();
+				update_option( 'cmplz_preloaded_privacy_info', $data, false );
+			}
 		}
 
 
@@ -84,7 +89,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				}
 				//reset the case in case we removed plugins, like wordpress. Otherwise we get an error in react.
 				$data = [
-						'privacyStatements' => empty($data) ? []: array_values($data)
+					'privacyStatements' => empty($data) ? []: array_values($data)
 				];
 			}
 			return $data;
@@ -175,7 +180,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					$document_id = $document['page_id'] ?? false;
 					$menu_id = $document['menu_id'] ?? -1;
 					if (!$menu_id) $menu_id = -1;
- 					//if page_id is a string, it's region redirected.
+					//if page_id is a string, it's region redirected.
 					$this->assign_document_to_menu(sanitize_title($document_id), (int) $menu_id);
 				}
 
@@ -243,9 +248,9 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					} else {
 						//if the page already exists, just update it with the title
 						$data = array(
-								'ID'           => $page_id,
-								'post_title'   => sanitize_text_field($document['title']),
-								'post_type'    => "page",
+							'ID'           => $page_id,
+							'post_title'   => sanitize_text_field($document['title']),
+							'post_type'    => "page",
 						);
 						wp_update_post( $data );
 					}
@@ -253,7 +258,7 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				$this->clear_shortcode_transients();
 			}
 			return [
-					'required_pages' => $this->required_pages_flattened(),
+				'required_pages' => $this->required_pages_flattened(),
 			];
 		}
 
@@ -291,8 +296,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					$docs[] = $page_data;
 				}
 				$documents[] = [
-						'region' =>$region,
-						'documents' =>$docs,
+					'region' =>$region,
+					'documents' =>$docs,
 				];
 			}
 
@@ -314,8 +319,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					$documents[$index]['documents'][] = $page_data;
 				} else {
 					$documents[] = [
-							'region' => 'all',
-							'documents' => [$page_data],
+						'region' => 'all',
+						'documents' => [$page_data],
 					];
 				}
 			}
@@ -330,17 +335,17 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 				$region = substr( $filename, $pos-2, 2 );
 				$filename = strtoupper($region). ' - '.str_replace('-', ' ', substr( $filename, $pos ) );
 				$proofOfConsentDocuments[] = [
-						'label' => $filename,
-						'value' => $doc['url'],
+					'label' => $filename,
+					'value' => $doc['url'],
 				];
 			}
 
 			return [
-					'documents' => $documents,
-					'processingAgreementOptions' => apply_filters('cmplz_tools_processing_agreements', []),
-					'proofOfConsentOptions' => $proofOfConsentDocuments,
-					'dataBreachOptions' => apply_filters('cmplz_tools_databreaches', []),
-				];
+				'documents' => $documents,
+				'processingAgreementOptions' => apply_filters('cmplz_tools_processing_agreements', []),
+				'proofOfConsentOptions' => $proofOfConsentDocuments,
+				'dataBreachOptions' => apply_filters('cmplz_tools_databreaches', []),
+			];
 		}
 
 		/**
@@ -843,16 +848,16 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			global $post;
 			$sync = $this->syncStatus( $post->ID );
 			?>
-			<select name="cmplz_document_status">
-				<option value="sync" <?php echo $sync === 'sync'
+            <select name="cmplz_document_status">
+                <option value="sync" <?php echo $sync === 'sync'
 					? 'selected="selected"'
 					: '' ?>><?php esc_html_e(__( "Synchronize document with Complianz",
 						"complianz-gdpr" )); ?></option>
-				<option value="unlink" <?php echo $sync === 'unlink'
+                <option value="unlink" <?php echo $sync === 'unlink'
 					? 'selected="selected"'
 					: '' ?>><?php esc_html_e(__( "Edit document and stop synchronization",
 						"complianz-gdpr" )); ?></option>
-			</select>
+            </select>
 			<?php
 
 		}
@@ -967,8 +972,8 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 					update_post_meta( $post->ID, 'cmplz_shortcode', $post->post_content );
 					$document_html = COMPLIANZ::$document->get_document_html( $type, $region );
 					$args = array(
-							'post_content' => $this->convert_summary_to_div($document_html, $post->ID),
-							'ID'           => $post->ID,
+						'post_content' => $this->convert_summary_to_div($document_html, $post->ID),
+						'ID'           => $post->ID,
 					);
 					wp_update_post( $args );
 				}
