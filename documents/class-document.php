@@ -1688,7 +1688,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				);
 
 				$pages = $wpdb->get_results($query);
-				
+
 				$type_region = ( $region === 'eu' ) ? $type : $type . '-' . $region;
 
 				/**

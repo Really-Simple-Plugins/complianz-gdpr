@@ -189,6 +189,7 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * May 14th, 2024
 * Improvement: Updated Google Site Kit integration
 * Improvement: Detection of pages with shortcode query improved for sites with a lot of pages
+* Improvement: limit above query to pages only, props @georgestephanis
 * Fix: get_required_pages not existing for documents rest_api endpoint, causing a fatal error
 * Fix: Data is shared with this service not saving in cookies overview
 
