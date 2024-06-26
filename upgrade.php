@@ -84,7 +84,7 @@ function cmplz_check_upgrade() {
 			$service_name
 				= COMPLIANZ::$banner_loader->convert_slug_to_name( $selected_stat_service );
 
-			//check if we have ohter types of this service, to prevent double services here.
+			//check if we have other types of this service, to prevent double services here.
 			$service_anonymized = new CMPLZ_SERVICE( $service_name . ' (anonymized)' );
 			$service            = new CMPLZ_SERVICE( $service_name );
 
