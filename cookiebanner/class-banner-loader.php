@@ -1256,10 +1256,10 @@ if ( ! class_exists( "cmplz_banner_loader" ) ) {
 		/**
 		 * Check if the site needs a cookie banner. Pass a region to check cookie banner requirement for a specific region
 		 *
-		 * @@param string|bool $region
+		 * @param string|bool $region
 		 *
 		 * @return bool
-		 * *@since 1.2
+		 * @since 1.2
 		 *
 		 */
 		public function site_needs_cookie_warning( $region = false ) {
