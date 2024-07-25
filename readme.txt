@@ -5,7 +5,7 @@ Tags: GDPR, Cookie, Cookie Notice, Consent, Privacy
 Requires at least: 5.9
 License: GPL2
 Requires PHP: 7.4
-Tested up to: 6.5
+Tested up to: 6.6
 Stable tag: 7.1.0
 
 Configure your Cookie Banner, Cookie Consent and Cookie Policy with our Wizard and Cookie Scan.
