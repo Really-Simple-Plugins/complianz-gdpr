@@ -37,15 +37,20 @@ if ( ! class_exists( "cmplz_documents_admin" ) ) {
 			if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
 				if ( file_exists(ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php') ) {
 					require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
-				} else {
+				} elseif ( file_exists(ABSPATH . 'wp-admin/misc.php') ) {
 					require_once( ABSPATH . 'wp-admin/misc.php' );
+				} else {
+					return;
 				}
 			}
-			WP_Privacy_Policy_Content::_policy_page_updated( $policy_page_id );
-			//check again, to update the cache.
-			WP_Privacy_Policy_Content::text_change_check();
-			$data = WP_Privacy_Policy_Content::get_suggested_policy_text();
-			update_option('cmplz_preloaded_privacy_info', $data, false);
+
+			if ( class_exists( 'WP_Privacy_Policy_Content' ) ) {
+				WP_Privacy_Policy_Content::_policy_page_updated( $policy_page_id );
+				//check again, to update the cache.
+				WP_Privacy_Policy_Content::text_change_check();
+				$data = WP_Privacy_Policy_Content::get_suggested_policy_text();
+				update_option( 'cmplz_preloaded_privacy_info', $data, false );
+			}
 		}
 
 

@@ -461,6 +461,11 @@ if ( ! class_exists( "cmplz_document" ) ) {
 						continue;
 					}
 					$field = cmplz_get_field($question);
+
+					if ( ! $field ) {
+						continue;
+					}
+
 					$type  = $field['type'];
 					$value = $post_id ? get_post_meta($post_id, $question, true) : cmplz_get_option( $question, $post_id );
 					if ( strpos( $condition_answer, 'NOT ' ) !== false ) {

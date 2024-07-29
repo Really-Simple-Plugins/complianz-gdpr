@@ -127,6 +127,7 @@ const DocumentControl = ({id, value, options, defaultValue, disabled}) => {
 						  placeholder={__("Type at least two characters", "complianz-gdpr")}
 						  onChange={ ( fieldValue ) => onChangeSelectHandler(fieldValue) }
 						  value= { pageId }
+						  styles={{ menuPortal: baseStyles => ({ ...baseStyles, zIndex: 9999 }) }}
                         />
 
 

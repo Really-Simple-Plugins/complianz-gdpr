@@ -126,7 +126,7 @@ add_filter('cmplz_statistics_privacy_friendly', 'cmplz_burst_statistics_privacy_
  */
 function cmplz_burst_script( $tags ) {
 	//if cookieless tracking enabled, do not block.
-	if ( burst_get_value('enable_cookieless_tracking') ) {
+	if ( burst_get_option('enable_cookieless_tracking') ) {
 		return $tags;
 	}
 
@@ -134,8 +134,11 @@ function cmplz_burst_script( $tags ) {
 			'name' => 'burst',
 			'category' => 'statistics',
 			'urls' => array(
-					'assets/js/burst.js',
-					'assets/js/burst.min.js',
+					'assets/js/build/burst.js',
+					'assets/js/build/burst.min.js',
+					'helpers/timeme/timeme.js',
+					'helpers/timeme/timeme.min.js',
+
 			),
 			'enable_placeholder' => '0',
 			'enable_dependency' => '0',
