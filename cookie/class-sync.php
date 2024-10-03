@@ -360,7 +360,7 @@ if ( ! class_exists( "cmplz_sync" ) ) {
 						}
 					}
 
-					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced onlly with non own domain cookies.
+					//use as of 5.3. Each non own domain cookie is added to the "thirdparty" list, which is synced only with non own domain cookies.
 					if ( $hasOwnDomainCookies ) {
 						if ( !$c->isOwnDomainCookie ) {
 							if (! in_array( $cookie, $thirdparty_cookies, true ) ) $thirdparty_cookies[] = $cookie->name;
