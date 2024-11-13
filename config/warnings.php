@@ -103,7 +103,7 @@ function cmplz_load_warning_types() {
 
 		'hardening' => array(
 			'warning_condition' => 'admin->no_security_plugin_active',
-			'open' =>  __( "Harden your website and quickly detect vulnerabilities with Really Simple SSL & Security", 'complianz-gdpr' ),
+			'open' =>  __( "Harden your website and quickly detect vulnerabilities with Really Simple Security", 'complianz-gdpr' ),
 			'include_in_progress' => true,
 			'url' => '#tools/security'
 		),

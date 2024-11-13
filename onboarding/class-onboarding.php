@@ -113,7 +113,7 @@ class cmplz_onboarding {
 	}
 
 	/**
-	 * Signup for Tips & Tricks from Really Simple SSL
+	 * Signup for Tips & Tricks from Really Simple Security
 	 *
 	 * @param string $email
 	 *

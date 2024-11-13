@@ -151,7 +151,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function no_security_plugin_active(){
 			//create switch statement
-			if (defined('rsssl_version')) return false; //really simple ssl
+			if (defined('rsssl_version')) return false; //really simple security
 			if (defined('WORDFENCE_VERSION')) return false; //wordfence
 			if (class_exists('ITSEC_Core')) return false; //ithemes
 			if (class_exists('AIO_WP_Security')) return false; // All in one security

@@ -468,7 +468,7 @@ function cmplz_menu() {
 						[
 							'id'       => 'security-privacy',
 							'title'    => __( 'Privacy Statement',  'complianz-gdpr'  ),
-							'intro'    => __( 'Below text is meant for your Privacy Statement, and is created by using Really Simple SSL & Security. In Complianz Premium the text will be automatically added to the Privacy Statement.',  'complianz-gdpr'  ),
+							'intro'    => __( 'Below text is meant for your Privacy Statement, and is created by using Really Simple Security. In Complianz Premium the text will be automatically added to the Privacy Statement.',  'complianz-gdpr'  ),
 						],
 					],
 				],

@@ -1981,12 +1981,16 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( ! $error ) {
+				// create snapshot directories
+				// cmplz_upload_dir will create the directory if it doesn't exist
+				// and will return the path to the directory
 				$save_dir = cmplz_upload_dir('snapshots');
+				// set a default mpdf temporary dir
+				$mpdf_default_temp_dir = cmplz_upload_dir('snapshots/tmp');
 			}
 
 			if ( ! $error) {
-				//use tempDir to override the directory for temporary files in MPDF. Default the mpdf directory.
-				$mpdf = new Mpdf\Mpdf( apply_filters( 'cmplz_mpdf_args', array(
+				$mpdf_args = apply_filters( 'cmplz_mpdf_args', array(
 					'setAutoTopMargin'  => 'stretch',
 					'autoMarginPadding' => 5,
 					'margin_left'       => 20,
@@ -1995,7 +1999,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					'margin_bottom'     => 30,
 					'margin_header'     => 30,
 					'margin_footer'     => 10,
-				) ) );
+					'tempDir'			=> $mpdf_default_temp_dir
+				) );
+
+				$mpdf = new Mpdf\Mpdf($mpdf_args);
 
 				$mpdf->SetDisplayMode( 'fullpage' );
 				$mpdf->SetTitle( $title );
@@ -2022,8 +2029,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				unset( $_POST['cmplz_generate_snapshot'] );
 			}
 			//clear files
-			$dir = cmplz_path . '/assets/vendor/mpdf/mpdf/tmp';
-			$this->recursively_clear_directory($dir);
+			$mpdf_tempDir = $mpdf_args['tempDir'];
+			$this->recursively_clear_directory($mpdf_tempDir);
+
+			// if the user change/filter the temporary directory, we will clear the default directory created before 'snapshots/tmp'
+			if ($mpdf_default_temp_dir !== $mpdf_tempDir) {
+				$this->recursively_clear_directory($mpdf_default_temp_dir);
+			}
 		}
 
 		/**
@@ -2035,11 +2047,6 @@ if ( ! class_exists( "cmplz_document" ) ) {
 		private function recursively_clear_directory($dir) {
 			if ( !cmplz_admin_logged_in() ) {
 				return false;
-			}
-
-			//only for mpdf
-			if ( !str_contains($dir, 'assets/vendor/mpdf/mpdf')) {
-				return;
 			}
 
 			$files = array_diff(scandir($dir), array('.','..'));

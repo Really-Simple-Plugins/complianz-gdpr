@@ -266,7 +266,7 @@ function cmplz_wizard_fields($fields){
 			'menu_id'  => 'website-information',
 			'type'           => 'phone',
 			'default'        => '',
-			'document_label' => __( 'Phone number', 'complianz-gdpr' ) . ': ',
+			'document_label' => __( 'Phone number:', 'complianz-gdpr' ) . ' ',
 			'label'          => __( "What is the telephone number your visitors can use to contact you about privacy issues?", 'complianz-gdpr' ),
 			'required'       => false,
 			'react_conditions' => [
