@@ -8,7 +8,7 @@ function cmplz_security_fields($fields){
 			'id'       => 'install-really-simple-ssl',
 			'type'     => 'install-plugin',
 			'plugin_data' => [
-				'title' => "Really Simple SSL",
+				'title' => "Really Simple Security",
 				'summary' => __("Lightweight plugin. Heavyweight security features.", 'complianz-gdpr'),
 				'slug' => 'really-simple-ssl',
 				'description' => __("Leverage your SSL certificate to the fullest, with health checks, security headers, hardening, vulnerability detection and more.", 'complianz-gdpr'),
@@ -16,8 +16,8 @@ function cmplz_security_fields($fields){
 			],
 			'help' => [
 				'label' => 'default',
-				'title' => "Really Simple SSL & Security",
-				'text'  => __( "5+ million websites are secured with Really Simple SSL & Security", 'complianz-gdpr'),
+				'title' => "Really Simple Security",
+				'text'  => __( "5+ million websites are secured with Really Simple Security", 'complianz-gdpr'),
 				'url'   => 'https://really-simple-ssl.com/pro',
 			],
 			'menu_id'  => 'security',

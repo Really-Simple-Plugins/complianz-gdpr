@@ -629,7 +629,7 @@ function cmplz_other_plugins_data($slug=false){
 			'constant_premium' => 'rsssl_pro',
 			'wordpress_url' => 'https://wordpress.org/plugins/really-simple-ssl/',
 			'upgrade_url' => 'https://really-simple-ssl.com/pro?src=cmplz-plugin',
-			'title' => "Really Simple SSL & Security - ".__("Lightweight plugin. Heavyweight security features.", "complianz-gdpr" ),
+			'title' => "Really Simple Security - ".__("Simple and performant security.", "complianz-gdpr" ),
 		],
 		[
 			'slug' => 'complianz-terms-conditions',

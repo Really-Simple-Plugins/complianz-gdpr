@@ -141,7 +141,10 @@ $this->supported_states = array(
 	'cal' => __( 'California (CPRA)', 'complianz-gdpr' ),
 	'col' => __( 'Colorado (CPA)', 'complianz-gdpr' ),
 	'con' => __( 'Connecticut (CTDPA)', 'complianz-gdpr' ),
+	'mon' => __( 'Montana (MCDPA)', 'complianz-gdpr' ),
 	'nev' => __( 'Nevada (NRS 603A)', 'complianz-gdpr' ),
+	'ore' => __( 'Oregon (OCPA)', 'complianz-gdpr' ),
+	'tex' => __( 'Texas (TDPSA)', 'complianz-gdpr' ),
 	'uta' => __( 'Utah (UCPA)', 'complianz-gdpr' ),
 	'vir' => __( 'Virginia (CDPA)', 'complianz-gdpr' ),
 );

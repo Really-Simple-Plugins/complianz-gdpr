@@ -21,7 +21,7 @@ const SecurityMeasures = () => {
 
 	let status = statusLoaded ? pluginAction : 'loading';
 	if ( statusLoaded && status!=='installed' && status!=='upgrade-to-premium') {
-		let notice  = status === 'activate' ? __("Please activate Really Simple SSL & Security to unlock this feature.", "complianz-gdpr") : __("Please install Really Simple SSL & Security to unlock this feature.", "complianz-gdpr");
+		let notice  = status === 'activate' ? __("Please activate Really Simple Security to unlock this feature.", "complianz-gdpr") : __("Please install Really Simple Security to unlock this feature.", "complianz-gdpr");
 		if (status === 'loading' ) {
 			notice = '...';
 		}
@@ -61,8 +61,8 @@ const SecurityMeasures = () => {
 				<p>{__("The security measures we use consist of, but are not limited to:",'complianz-gdpr')}</p>
 				{measures.map((measure, index) => <Measure key={index} measure={measure}/>)}
 			</>}
-			{measuresDataLoaded && measures.length===0 && has_7 && __("No security measures enabled in Really Simple SSL & Security",'complianz-gdpr')}
-			{measuresDataLoaded && !has_7 && __("Please upgrade Really Simple SSL & Security to the latest version to unlock this feature.",'complianz-gdpr')}
+			{measuresDataLoaded && measures.length===0 && has_7 && __("No security measures enabled in Really Simple Security",'complianz-gdpr')}
+			{measuresDataLoaded && !has_7 && __("Please upgrade Really Simple Security to the latest version to unlock this feature.",'complianz-gdpr')}
 			{!measuresDataLoaded && <>...</>}
 		</div>
 	)
