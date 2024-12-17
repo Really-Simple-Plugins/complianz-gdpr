@@ -144,7 +144,7 @@ We collect for research purposes:
 * Domain that provides the cookie names
 * Plugin list on the domain
 
-When using the advanced website scan we authenticate and store:
+We ask consent for the below details to authenticate the advanced website scan:
 
 * Email address
 
