@@ -136,7 +136,7 @@ IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance req
 
 = APIs =
 
-Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' (local) website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. 
+Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' (local) website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. The website scan can be initialized after authentication and consent for these services.
 
 We collect for research purposes:
 
@@ -144,17 +144,18 @@ We collect for research purposes:
 * Domain that provides the cookie names
 * Plugin list on the domain
 
-We ask consent for the below details to authenticate the advanced website scan:
+For security purposes, we authenticate the advanced website scan with:
 
 * Email address
 
 For more information:
 
-* Privacy Statement - [Privacy Statement](https://cookiedatabase.org/plugin-use-of-cookiedatabase-org-privacy-terms/) - Cookiedatabase.org
-* Privacy Statement - [Privacy Statement](https://complianz.io/legal/privacy-statement/) - Advanced website scan Complianz.io
-* Terms and Conditions Database - [Terms of Use](https://cookiedatabase.org/terms-of-use/) - Cookiedatabase.org
-* Terms and Conditions API - [Terms of Use](https://complianz.io/legal/terms-conditions/) - Advanced website scan Complianz.io
-* Terms of Use API - [Terms of Use](https://cookiedatabase.org/terms-of-use-api/) - API - Cookiedatabase.org
+* Cookiedatabase.org - [Privacy Statement](https://cookiedatabase.org/plugin-use-of-cookiedatabase-org-privacy-terms/)
+* Cookiedatabase.org - [Terms and Conditions Database](https://cookiedatabase.org/terms-of-use/)
+* Cookiedatabase.org - [Terms of Use API](https://cookiedatabase.org/terms-of-use-api/)
+
+* Advanced website scan Complianz.io - [Privacy Statement](https://complianz.io/legal/privacy-statement/) 
+* Advanced website scan Complianz.io - [Terms and Conditions API](https://complianz.io/legal/terms-conditions/)
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io). Leave your feature requests [here]().
 
