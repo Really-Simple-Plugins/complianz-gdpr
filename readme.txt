@@ -136,7 +136,7 @@ IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance req
 
 = APIs =
 
-Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' (local) website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. The website scan can be initialized after authentication and consent for these services.
+Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' (local) website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. The advanced website scan can be initialized after authentication and consent.
 
 We collect for research purposes:
 
@@ -198,6 +198,10 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 == Changelog ==
 
 = 7.1.5 =
+* December 19th, 2024
+* Improvement: Advanced website scan
+
+= 7.1.5 =
 * November 13th, 2024
 * Fix: update bf dates
 
@@ -210,11 +214,6 @@ With some custom CSS this is possible, but we do not consider a cookie wall to b
 * Fix: Ensure complete data removal on Complianz uninstall.
 * Fix: Update email validation for longer TLDs.
 * Fix: Label adjustment.
-
-= 7.1.1 =
-* August 6th, 2024
-* Tested up to 6.6
-* Several small bug fixes
 
 = 7.1.0 =
 * May 14th, 2024
