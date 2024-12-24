@@ -134,9 +134,7 @@ Complianz is on [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr
 
 IMPORTANT! Complianz | GDPR/CCPA Cookie Consent can help you meet compliance requirements, but the user must ensure that all requirements are met.
 
-= APIs =
-
-Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' (local) website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. The advanced website scan can be initialized after authentication and consent.
+Complianz provides your Cookie Policy with comprehensive cookie descriptions, supplied by cookiedatabase.org, operated by Complianz B.V. The plugin sends the results of Complianz' local or advanced website scan to Cookiedatabase.org, for the sole purpose of providing you with accurate descriptions and keeping them up-to-date on a regular basis. The advanced website scan can be initialized after authentication and consent for security purposes.
 
 We collect for research purposes:
 
@@ -144,20 +142,24 @@ We collect for research purposes:
 * Domain that provides the cookie names
 * Plugin list on the domain
 
-For security purposes, we authenticate the advanced website scan with:
-
-* Email address
-
 For more information:
 
 * Cookiedatabase.org - [Privacy Statement](https://cookiedatabase.org/plugin-use-of-cookiedatabase-org-privacy-terms/)
 * Cookiedatabase.org - [Terms and Conditions Database](https://cookiedatabase.org/terms-of-use/)
 * Cookiedatabase.org - [Terms of Use API](https://cookiedatabase.org/terms-of-use-api/)
 
-* Advanced website scan Complianz.io - [Privacy Statement](https://complianz.io/legal/privacy-statement/) 
-* Advanced website scan Complianz.io - [Terms and Conditions API](https://complianz.io/legal/terms-conditions/)
+For security purposes, we authenticate the advanced website scan with:
 
-[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io). Leave your feature requests [here]().
+* Email address
+
+The advanced website scan collects public data from the user’s site, stores it for one hour, and then discards it without analysis.
+
+For more information:
+
+* Advanced website scan Complianz.io - [Privacy Statement](https://complianz.io/legal/privacy-statement/) 
+* Advanced website scan Complianz.io - [Terms of Use API](https://complianz.io/legal/terms-of-use/
+
+[Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io).
 
 == Installation ==
 * Go to “Plugins” in your WordPress Dashboard, and click “Add new”.
@@ -196,10 +198,6 @@ The Brazilian General Data Protection Law is similar to the GDPR, the UK-GDPR it
 With some custom CSS this is possible, but we do not consider a cookie wall to be GDPR compliant, so it's not actively supported. We do, however, have the option to create a Soft Cookie Wall. Which blocks interaction with the website, but dismissing remains a possibility.
 
 == Changelog ==
-
-= 7.1.5 =
-* December 19th, 2024
-* Improvement: Advanced website scan
 
 = 7.1.5 =
 * November 13th, 2024
