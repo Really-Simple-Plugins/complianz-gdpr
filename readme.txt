@@ -157,7 +157,7 @@ The advanced website scan collects public data from the user’s site, stores it
 For more information:
 
 * Advanced website scan Complianz.io - [Privacy Statement](https://complianz.io/legal/privacy-statement/) 
-* Advanced website scan Complianz.io - [Terms of Use API](https://complianz.io/legal/terms-of-use/
+* Advanced website scan Complianz.io - [Terms of Use API](https://complianz.io/legal/terms-of-use/)
 
 [Contact](https://complianz.io/support/) us if you have any questions, issues, or suggestions. Complianz | GDPR/CCPA Cookie Consent is developed by [Complianz B.V.](https://complianz.io).
 
