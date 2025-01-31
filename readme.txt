@@ -71,7 +71,7 @@ Complianz offers full support on the WordPress.org [Forum](https://wordpress.org
 == Useful Links ==
 
 * [Support Forum](https://wordpress.org/support/plugin/complianz-gdpr/)
-* [Github](https://github.com/Really-Simple-Plugins/complianz-gdpr/)
+* [GitHub](https://github.com/Really-Simple-Plugins/complianz-gdpr/)
 * [MU Plugins](https://github.com/Really-Simple-Plugins/complianz-integrations)
 * [Documentation](https://complianz.io/docs/)
 * [Developer's Guide](https://complianz.io/developers-guide-for-third-party-integrations/)
@@ -165,7 +165,7 @@ For more information:
 * Go to “Plugins” in your WordPress Dashboard, and click “Add new”.
 * Click “Upload”, and select the downloaded zip file.
 * Activate your new plugin.
-* Use our tour to get familar with Complianz.
+* Use our tour to get familiar with Complianz.
 
 == Frequently Asked Questions ==
 = Knowledgebase =

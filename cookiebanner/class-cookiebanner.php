@@ -765,7 +765,7 @@ if ( ! class_exists( "cmplz_cookiebanner" ) ) {
 		}
 
 		/**
-		 * santize the css to remove any commented or empty classes
+		 * sanitize the css to remove any commented or empty classes
 		 *
 		 * @param string $css
 		 *

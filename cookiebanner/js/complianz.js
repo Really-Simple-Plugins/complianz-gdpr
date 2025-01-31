@@ -1742,7 +1742,7 @@ function cmplz_set_up_auto_dismiss() {
 }
 
 /*
- * Fire a event wich passes all consented categories
+ * Fire a event which passes all consented categories
  * Separated from the actual category consent because we want to bundle it in one event
  */
 function cmplz_fire_categories_event(){
@@ -2198,7 +2198,7 @@ function cmplz_equals (array_1, array_2) {
 }
 
 /*
-* Copy all element atributes to the new element
+* Copy all element attributes to the new element
 */
 function cmplzCopyAttributes(source, target) {
 	const excludes = ['type', 'data-service', 'data-category', 'async'];

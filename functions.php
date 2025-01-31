@@ -649,7 +649,7 @@ if ( ! function_exists( 'cmplz_has_region' ) ) {
 
 if ( ! function_exists( 'cmplz_has_state' ) ) {
 	/**
-	 * Check if this website targest a specific state
+	 * Check if this website targets a specific state
 	 *
 	 * @param string $code
 	 *
@@ -2169,7 +2169,7 @@ if ( ! function_exists( 'cmplz_cdb_reference_in_policy' ) ) {
 }
 
 /**
- * Registrer a translation
+ * Register a translation
  *
  * @param $fieldname
  *
@@ -2356,7 +2356,7 @@ if ( ! function_exists( 'cmplz_get_used_consenttypes' ) ) {
 
 if ( ! function_exists( 'cmplz_short_date_format') ) {
 	/**
-	 * Make sure the date formate is always the short version. If "F" (February) is used, replace with "M" (Feb)
+	 * Make sure the date format is always the short version. If "F" (February) is used, replace with "M" (Feb)
 	 * @return string
 	 */
 	function cmplz_short_date_format(){
