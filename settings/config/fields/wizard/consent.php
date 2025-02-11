@@ -13,7 +13,7 @@ function cmplz_wizard_consent_fields( $fields ) {
 				'group_id' => 'cookie-scan',
 				'help'     => [
 					'label' => 'default',
-					'title' => __( "Site scan", 'complianz-gdpr' ),
+					'title' => __( "Website Scan", 'complianz-gdpr' ),
 					'text'  => __( "If you want to clear all cookies from the plugin, you can do so here. If you want to start with a clean slate, you might need to clear your browsercache, to make sure all cookies are removed from your browser as well.",
 						"complianz-gdpr" ),
 					'url'   => 'https://complianz.io/cookie-scan-results/',

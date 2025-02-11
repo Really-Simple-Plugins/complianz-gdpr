@@ -17,28 +17,6 @@ function cmplz_settings_fields($fields){
 			'revoke_consent_onchange' => true,
 			'tooltip'                 => __( 'If enabled, the cookie warning will not show for countries without a cookie law, and will adjust consent management depending on supported privacy laws', 'complianz-gdpr' ),
 		],
-
-		[
-			'id'                      => 'use_hybrid_scan',
-			'menu_id'                 => 'settings-cd',
-			'group_id'                => 'settings-cd',
-			'type'      => 'radio',
-			'required'  => false,
-			'disabled' => true,
-			'premium'                 => [
-				'disabled' => false,
-			],
-			'default'   => 'yes',
-			'options'   => COMPLIANZ::$config->yes_no,
-			'label'     => __( "Do you want to use the hybrid site scan?", 'complianz-gdpr' ),
-			'help'             => [
-				'label' => 'default',
-				'title' => __( "About the hybrid site scan", 'complianz-gdpr' ),
-				'text'  => __( "The hybrid site scan uses advantages of both WordPress focused site scan, unavailable to cloud solutions, and a second external site scan simulating website visits.", 'complianz-gdpr'),
-				'url'   => 'https://cookiedatabase.org/privacy-statement/',
-			],
-		],
-
 		[
 			'id'                      => 'use_cdb_api',
 			'menu_id'                 => 'settings-cd',
@@ -100,8 +78,6 @@ function cmplz_settings_fields($fields){
 				]
 			],
 		],
-
-
 		[
 			'id'       => 'disable_notifications',
 			'menu_id'                 => 'settings-general',

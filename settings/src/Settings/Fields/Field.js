@@ -25,6 +25,9 @@ const COMPONENT_MAP = {
 	'text': {
 		componentPath: 'Settings/Inputs/TextInput',
 	},
+	'password': {
+		componentPath: 'Settings/Inputs/PasswordInput',
+	},
 	'textarea': {
 		componentPath: 'Settings/Inputs/TextAreaInput',
 	},
@@ -174,6 +177,12 @@ const COMPONENT_MAP = {
 	},
 	'copy-multisite': {
 		componentPath: 'Settings/Multisite/CopyMultisite',
+	},
+	'websitescan_status': {
+		componentPath: 'Settings/WebSiteScan/WebSiteScanStatus',
+	},
+	'websitescan_actions': {
+		componentPath: 'Settings/WebSiteScan/WebSiteScanActions',
 	}
 };
 

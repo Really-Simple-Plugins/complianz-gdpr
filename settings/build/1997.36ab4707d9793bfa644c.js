@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcomplianz_gdpr=self.webpackChunkcomplianz_gdpr||[]).push([[1997],{31997:(e,l,r)=>{r.r(l),r.d(l,{default:()=>c});var s=r(51609),a=r(52164),n=r(89737);const c=({isOpen:e,title:l,onClose:r,children:c})=>(0,s.createElement)(a.A,{className:"cmplz-modal",open:e,onClose:r,sx:{borderRadius:"var(--rsp-border-radius)"}},(0,s.createElement)(n.A,null,l),c)}}]);

@@ -23,9 +23,9 @@ const Page = () => {
 	const [DashboardPage, setDashboardPage] = useState(null);
 	const [Menu, setMenu] = useState(null);
 	const [Tour, setTour] = useState(null);
-	const [Onboarding, setOnboarding] = useState(null);
 	const [CookieScanControl, setCookieScanControl] = useState(null);
 	const [ToastContainer, setToastContainer] = useState(null);
+	const [NewOnboarding, setNewOnboarding] = useState(null);
 
 	//load the chunk translations passed to us from the cmplz_settings object
 	//only works in build mode, not in dev mode.
@@ -47,14 +47,14 @@ const Page = () => {
 		}
 	}, [showTour]);
 
-	let showOnboarding = window.location.href.indexOf('onboarding') !==-1;
+	let showNewOnboarding = window.location.href.indexOf('websitescan') !== -1;
 	useEffect ( () => {
-		if (showOnboarding && !Onboarding){
-			import ("./Onboarding/Onboarding").then(({ default: Onboarding }) => {
-				setOnboarding(() => Onboarding);
+		if (showNewOnboarding && !NewOnboarding){
+			import ("./Onboarding/NewOnboarding").then(({ default: NewOnboarding }) => {
+				setNewOnboarding(() => NewOnboarding);
 			});
 		}
-	}, [showOnboarding]);
+	}, [showNewOnboarding]);
 
 	useEffect( () => {
 		if (selectedMainMenuItem !== 'dashboard' && !Settings && !Menu){
@@ -124,7 +124,7 @@ const Page = () => {
 	}
 	if ( parseInt(lockedByUser) !== parseInt(cmplz_settings.user_id) ) {
 		return (
-				<PagePlaceholder lockedByUser={lockedByUser}></PagePlaceholder>
+			<PagePlaceholder lockedByUser={lockedByUser}></PagePlaceholder>
 		)
 	}
 
@@ -133,7 +133,7 @@ const Page = () => {
 			<>
 				<Header/>
 				{ showTour && Tour && <Tour />}
-				{ showOnboarding && Onboarding && <Onboarding />}
+				{ showNewOnboarding && NewOnboarding && <NewOnboarding/>}
 
 				<div className={"cmplz-content-area cmplz-grid cmplz-" + selectedMainMenuItem}>
 					{ selectedMainMenuItem !== 'dashboard' &&
